@@ -1,0 +1,283 @@
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+     <!-- EPA Template version 3.2.1, 28 June 2006 -->
+     <head>
+<title>EPA | Envirofacts Warehouse | Error Notification</title>
+<meta name="DC.title" content="" />
+<meta name="DC.description" content="" />
+<meta name="keywords" content="" />
+<meta name="DC.subject" content="" />
+<meta name="DC.type" content="" />
+<!-- For date metadata, use the format YYYY-MM-DD -->
+<meta name="DC.date.modified" content="2007-06-29" />
+<meta name="DC.date.created" content="" />
+<meta name="DC.date.reviewed" content="" />
+
+<meta name="DC.language" content="en" />
+<meta name="DC.creator" content="" />
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+<link rel="meta" href="http://www.epa.gov/labels.rdf" type="application/rdf+xml" title="ICRA labels" />
+
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<style type="text/css" media="screen">@import "http://www.epa.gov/epafiles/s/epa.css";</style>
+<!--[if lt IE 7]>
+    <link rel="stylesheet" type="text/css" href="http://www.epa.gov/epafiles/s/ie.css" />
+<![endif]-->
+<link rel="stylesheet" type="text/css" media="print" href="http://www.epa.gov/epafiles/s/print.css" />
+<script type="text/javascript" src="http://www.epa.gov/epafiles/js/epa-core.js"></script>
+<script type="text/javascript" src="http://www.epa.gov/epafiles/js/extra.js"></script>
+                                            
+<script type="text/javascript" src="https://cdx.epa.gov/ContentFramework/v2/js/third-party/jquery-1.6.4.js"></script>
+<script>
+                                            
+$(document).ready(function(){
+    if(typeof(Storage)!=="undefined"){
+	  //alert('name: '+sessionStorage.firstName );
+            $('#firstName').val( sessionStorage.firstName );
+            $('#lastName').val( sessionStorage.lastName );
+            $('#areaCode').val( sessionStorage.areaCode );
+            $('#Phone').val( sessionStorage.phoneNumber );
+            $('#email').val( sessionStorage.email );            
+            $('#organization').val( sessionStorage.userOrg );
+            var myText = 'This facility ('+sessionStorage.name+') is located at the wrong address.\n'+
+            'FRS Registry ID: '+sessionStorage.regId + '\n' +
+            'FRS Address: ' + sessionStorage.address + '\n' +
+            'FRS Lat/Long: '+sessionStorage.lat + ', ' + sessionStorage.long + '\n' +
+            'Actual Address: [enter correct address here]';
+            $('#comment').val( myText );
+    }
+    else { alert('fails fancy'); }
+});
+                                            
+</script>
+                                            
+                                            </head>
+
+                                            <body id="sidebarless">
+                                        
+
+                                                                                    <p class="skip"><a name="pagecontents" id="pagecontents"></a><a name="pagetop" id="pagetop"></a></p>
+
+                                                                                    <div id="content"> <!-- BEGIN CONTENT -->
+                                                                                        <!-- EPA SITE-WIDE ANNOUNCEMENTS - DO NOT REMOVE - this code is used for emergency messages -->
+                                                                                        <!-- If this page is a Sub-Office/Sub-Region/Center/Lab/Topic home page, CHANGE "sitewidec" TO "sitewideb" -->
+                                                                                        <p id="sitewidec"></p>
+
+                                                                                        <!-- BEGIN PAGE NAME -->
+
+                                                                                        <!-- END PAGE NAME -->
+
+                                                                                        <!-- BEGIN CONTENT AREA -->
+<h1 class="epaPageName">
+<a href = "http://www.epa.gov/enviro/html/ef_overview.html">
+<img src="http://www.epa.gov/enviro/gif/ef_EF.gif" valign="bottom" align="left" alt="EF/Envirofacts Logo" border = "0"></a>
+Error Notification</h1><br><br><br>
+
+<form name="mainForm" action="ets_grab_error.put_data" method="post">
+
+<a href="ets_grab_error.smart_form#INSTRUCTIONS">Instructions</a>
+<br>
+<b>Submitter Information</b>
+<br>
+You must enter personal identifying information so that we may keep you involved in the error correction process.
+This information is not made available for any other purposes (see <A HREF="ets_grab_error.smart_form#NOTICE_OF_USE">Notice of Use</A>).  EPA will notify you of the progress
+of your reported error and may ask for additional information or documentation, if it is needed. <a href="http://www.epa.gov/enviro/html/error/css_page_3.html">Customer Support Standards</a>.
+<br><br>Required fields are marked with an asterisk (*).<br><IMG SRC="http://www.epa.gov/enviro/html/error/clear.gif" ALT="After entering all the required information, then select one of the following: Send, Clear, Print and Close.">
+
+<div align="left">
+<table cellspacing="0" background=" " title="Register Discrepancy" cols="4" scope="col">
+<!-- <tr><td colspan=3><h3>Submitter Information</h3> </td><td></td><td></td><td></td><td></td></tr>  -->
+<tr >
+   <td align="right" ><label for="firstName">First Name:*</label></td>
+   <td><input name="p_first_name" size="20" MAXLENGTH="20" id="firstName"></td>
+   <td align="right" nowrap><label for="lastName">Last Name:*</label></td>
+   <td><input name="p_last_name" size="25" MAXLENGTH="30" id="lastName"></td>
+</tr>
+<tr >
+    <td align="right"><label for="email">E-mail:</label></td>
+    <td><input name="p_email" size="20" MAXLENGTH="120" id="email"></td>
+    <td align="right" nowrap><label for="Phone">Phone (Area Code):</label></td>
+    <td><input name="p_area_code" size="3" maxlength="3" id="areaCode"> Number:<input name="p_phone" size="8" maxlength="8" id="Phone" ></td>
+</tr>
+<tr >
+    <td></td>
+    <td></td>
+    <td align="right" nowrap><label for="phone extension">Phone Extension:</label></td>
+    <td><input name="p_phone_ext" size="4" maxlength="4" id="phone extension"></td>
+</tr>
+
+<tr>
+    <td  align="left" colspan=4><SPACER TYPE="HORIZONTAL" SIZE=80><label for="contact method">Preferred Contact Method:
+    <!--<td><select name="p_pref_cnt_mthd" id="contact method">
+        <optgroup ="select preferred contact method">
+        <option value="" selected>
+        <option value="">By E-mail
+        <option value="">By Phone</optgroup></select></label></td> -->
+        <label for="radio button for email"><input type="Radio" name="p_pref_cnt_mthd" value="email" id="radio button for email" checked><font face="Arial Narrow" >E-mail</label>
+        <label for="radio button for phone"><input type="Radio" name="p_pref_cnt_mthd" value="phone" id="radio button for phone><font face="Arial Narrow" >Phone </label></td>
+</tr>
+</font>
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+
+ <tr><td align="right"><label for="affiliation">Affiliation:</label></td>
+    <td> <select name="p_affiliation"><option value="" id="affiliation" selected> 
+<option value="COLLEGE/UNIVERSITY AFFILIATE">COLLEGE/UNIVERSITY AFFILIATE
+<option value="CONSULTANTS">CONSULTANTS
+<option value="EPA CONTRACTOR">EPA CONTRACTOR
+<option value="EPA EMPLOYEE">EPA EMPLOYEE
+<option value="GENERAL PUBLIC">GENERAL PUBLIC
+<option value="LEGAL PROFESSIONAL">LEGAL PROFESSIONAL
+<option value="NON PROFIT ORGANIZATION">NON PROFIT ORGANIZATION
+<option value="OTHER GOVERNMENT REPRESENTATIVE">OTHER GOVERNMENT REPRESENTATIVE
+<option value="OWNER/OPERATOR">OWNER/OPERATOR
+<option value="REGULATED FACILITY EMPLOYEE">REGULATED FACILITY EMPLOYEE
+<option value="STATE/LOCAL GOVERNMENT CONTRACTOR">STATE/LOCAL GOVERNMENT CONTRACTOR
+<option value="STATE/LOCAL GOVERNMENT EMPLOYEE">STATE/LOCAL GOVERNMENT EMPLOYEE
+
+        </select></td>
+    <td colspan=2><font size="-1"> Select the affiliation type which best describes your role or interest in this error notification.</font></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+<td align="right"><label for="organization">Organization:</label></td>
+    <td><input name="p_organization" size="25" MAXLENGTH="50" id="organization"></td>
+    <td colspan=2><font size="-1">Enter the organization you are representing</font></td>
+</tr>
+</table>
+</div>
+
+ <!--<b><font size="+1">Error Information:*</font></b><br>-->
+Describe the data error, where you identified the error, and what you believe to be the correct value.
+ See <A HREF="http://www.epa.gov/enviro/html/error/tips.html"> Tips on how to successfully describe an error.</A>
+<table  width="70%" cols="2" scrope="col">
+<tr><!--<td  width="25%" align="left" valign="top"></td>-->
+    <td  align="right" valign="top" nowrap><b>Error Information:*</b></td>
+<!--<td><SPACER TYPE="HORIZONTAL" SIZE=80><label for="Comments"><TEXTAREA cols=50 name="p_comments" id="comments" rows=5 wrap="PHYSICAL"></TEXTAREA></label>-->
+      <td><label for="comment"><TEXTAREA cols=70 id="comment" name="p_comments" MAXLENGTH="2000" rows=7 wrap="PHYSICAL"></TEXTAREA></label>
+<!--<IMG SRC="http://www.epa.gov/enviro/html/error/clear.gif" ALT="Please enter the Error Information here.">-->
+</td></tr>
+
+</table>
+<div align="left"><input type="button" name="Finish" value="Send" OnClick="javascript:check_fields()" onKeyPress="javascript:check_fields()" title="Check Fields">
+<input type="reset" name="Clear" value="Clear">
+<input type="button" name="Print" value="Print" OnClick="javascript:print()" onKeyPress="javascript:print()" title="Print">
+<input type="button" name="Close" value="Close" OnClick="javascript:parent.window.close()" onKeyPress="javascript:parent.window.close()" title="Close Window">
+<!--<IMG SRC="http://www.epa.gov/enviro/html/error/clear.gif" ALT="After entering all the required information, this form has four buttons to select from, Send (to send the entered information), Clear (to clear all the entered information), Print (to print the form)
+and Close (to close the window).">-->
+
+<input type="hidden" name="p_hotlink_url" value="">
+<input type="hidden" name="p_source_nm" value="">
+</div></FORM>
+
+
+<hr>
+
+<A NAME="INSTRUCTIONS"><h3><div align="left">Instructions<br></h3></DIV></A>
+Thank you for participating in the EPA Integrated Error Correction Process.  As part of EPA's ongoing
+efforts to improve the quality of the data it provides to the public, this process enables those outside of the Agency
+to directly notify EPA of a data error.  The error notification is routed to
+the appropriate person, usually in a state environmental agency or EPA regional office who has the authority to make corrections.
+<br><br>
+This process is not intended to replace normal state or EPA error correction procedures.  This is a notification and error tracking effort. <b>It is <u><i>not</i></u> intended to be a data collection
+effort for the regulated community to report to states or EPA. </b>
+<br><br>
+This Error Notification interface allows you to easily report data errors.  You may:
+<br><br>
+<ul>
+<li>Simply highlight the area of the text that you
+    would like to report an error on and use the browser's &quot;COPY&quot;
+    function and then &quot;PASTE&quot; the copied text into the Error
+    Information part of the form. You should then add your own comments at the
+    end of the Pasted text to inform us of the problematic information and how
+    you want that changed.<br>
+Or,
+<li>Type the information directly on the Error Notification interface.  For example, if the street address is incorrect, you
+would enter: <i> The street number should be 1546 Everestt Avenue instead of 156 Evertree Avenue</i>.
+</li>
+</ul>
+Be sure to include a description of where you identified the error and what you believe to be the correct value. <br>
+<br>
+You <i><u>must</u></i> enter identifying information so that we may keep you involved in the error correction process.
+This information is not made available for any other purposes (see <A HREF="ets_grab_error.smart_form#NOTICE_OF_USE"> Notice of Use</A>).  EPA will notify you of the
+progress of your reported error and may ask for additional information or documentation, if they are needed.  EPA does
+<i><u>not</u></i> accept anonymously submitted errors.
+<br><br>
+The Error Notification interface provides ample space for you to type a description of the data error.  Please include
+enough information to allow EPA to identify and evaluate the data in question (if not already captured on the form
+through the highlighting process).<A HREF="http://www.epa.gov/enviro/html/error/tips.html">
+  See Tips on how to successfully describe an error. </A>  Be sure to include a
+description of where you identified the error and what you believe to be the correct value.
+<br><br>
+Alternatively, you may provide the same information via:
+<br><br>
+<ul>
+    <li>E-mail:     ErrorTracker@epa.gov
+    <li>Telephone:  (703) 852-9428
+    <li>FAX:        (703) 506-6776
+    <li>Mailing Address:    <br>INDUS Corporation<br>
+                Error Notification/Correction Center<br>
+                1951 Kidwell Drive, 8th Floor<br>
+                Vienna, VA 22182<br></li>
+</ul>
+
+You have helped EPA to Set the Record Straight!
+<hr>
+
+<A NAME="NOTICE_OF_USE"><h3>Notice of Use</A></H3>
+EPA will use the personal identifying information which you provide only for the expressed purpose
+of responding to your error notification and will not make this information available for other purposes.  The Agency
+does not sell or otherwise transfer personal information to a third party.  EPA will not accept anonymously submitted errors.
+<br><br>
+If you wish to file a complaint about a facility, please use the option <A HREF="http://www.epa.gov/compliance/complaints/index.html">File a Complaint</A>
+ at the EPA's Office of Enforcement and Compliance Assurance website.
+<br><br>
+EPA strives to respond to every submitted error as quickly as possible. A State or EPA representative may contact you if additional
+information or documentation is required.  The error will be routed to a State or EPA staff person who can
+evaluate and resolve the data in question.  <a href="http://www.epa-otis.gov/otis/data_stewards.html">Click here to view a list of the State or EPA
+representatives</a>. You will be informed when and where your
+error is routed.  Most errors will be routed within 2 to 4 working
+days.  It may take a month or longer before data corrections are reflected.  You will
+be informed of the final disposition of the data in question and of any significant delays that may occur.<A HREF="http://www.epa.gov/enviro/html/error/flow_chart.htm"> Click here to view the work flow process chart that shows how error notifications will be handled.</A>
+Feel free to contact the Error Correction Center at any time to check on the status of your error notification.
+<br><br>
+Please bear in mind that the Integrated Error Correction Process is not designed to provide answers to information requests
+regarding EPA policy.  If we receive information that does not fall within the purview of the EPA/State
+Integrated Error Correction Process, we will attempt to refer these requests to the appropriate person or agency.
+<br><br>
+This process is not intended to be a substitution for State or EPA system-specific standard operating procedures.
+This is a notification and error tracking effort. <b>It is <u><i>not</i></u> intended to be a data
+collection effort for the regulated community to report to states or EPA.</b>
+<br><br>
+Thank you for your participation in our program.  You have helped EPA to Set the Record Straight!
+<hr>
+<p id="areafooter"></p>
+        <!-- END AREA FOOTER -->
+        </div> <!-- END CONTENT -->
+
+        <hr class="skip" />
+
+        <div id="footer"> <!-- BEGIN FOOTER -->
+        <ul id="globalfooter">
+        <li><a href="http://www.epa.gov/">EPA Home</a></li>
+        <li><a href="http://www.epa.gov/epafiles/usenotice.htm">Privacy and Security Notice</a></li>
+        <!-- CHANGE link to point to your own contact page -->
+<li class="last"><a href="//www.epa.gov/enviro/html/ef_feedback.html">Contact Us</a></li>
+</ul>
+</div> <!-- END FOOTER -->
+
+<p class="skip"><a id="skipbot" href="#content" title="Jump to main content.">Jump to main content.</a></p>
+
+</body>
+</html>
+</html> 

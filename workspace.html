@@ -1,0 +1,589 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>E-Enterprise Portal  - Workspace</title>
+
+    <!-- Bootstrap -->
+    <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="Content/css/portal.css" rel="stylesheet" />
+	<link href="Content/css/hover-min.css" rel="stylesheet" />
+	<link href="Content/css/bootstrap-select.min.css" rel="stylesheet" />
+	<link href="Content/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="Content/css/calendar.css" rel="stylesheet">
+    <link href="Content/css/termlookup-popup.css" rel="stylesheet" />
+		
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="http://epa.gov">
+			<div class="site-header">
+				<!--<img src="images/earth_logo.png" alt="" class="site-logo" />-->
+				<span class="site-title site-logo">EE Portal</span>
+				<div class="site-title-container">
+					<!--<span class="site-title">EE Portal</span>-->
+					<span class="site-slogan hidden-xs">United States Environmental Protection Agency</span>
+				</div>
+			</div>			
+		  </a>
+        </div>		
+        <div id="navbar" class="navbar-collapse collapse">
+		 <ul role="menu" class="menu">
+			<li class="menu-item "><a title="Go back to portal home page" role="menuitem" href="index.html" class="menu-link">Home</a></li>
+                <li class="menu-item active"><a title="Begin reporting for your business" role="menuitem" href="#" class="menu-link">Workspace</a></li>
+			    <li class="menu-item "><a title="Access law, grant, and technology resources" role="menuitem" href="co-regulation.html" class="menu-link">Co-Regulators</a></li>
+			    <li class="menu-item"><a title="Browse literature, report archives, and resource library" role="menuitem" href="#" class="menu-link">Research</a></li>
+			    <li class="menu-item "><a title="Understand the environment in your own neighborhood" role="menuitem" href="my_backyard.html" class="menu-link">My Backyard</a></li>  
+			<li class="menu-item"><a title="Find answers to any environmental or portal related questions" role="menuitem" href="#" class="menu-link">Help</a></li>			
+		</ul>
+         <ul class="nav navbar-nav navbar-right portal-header-nav">		 
+		  <li class="nav-divider"></li>		  
+		  <li>
+                <span style="color: rgb(255, 255, 255); margin-left: 20px; font-size: 85%;">Welcome, ERIKA.E.ENTERPRISE@GMAIL.COM</span>
+                <a class="btn btn-blue navbar-login" href="/Home/LogOut?returnUrl=http%3A%2F%2Fcgidemo.dyndns.org%2Fe-EnterprisePortal%2FWorkspace">Log Out</a>
+		  </li>
+		 </ul>	
+		
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+	
+	
+	<div class="container">		
+		
+<div class="row workspace-full-page content-container">	
+    <div class="page-header" style="display: none; margin-left: 10px; margin-top: 10px; margin-right: 10px;">
+		<h3>Workspace</h3>
+	</div>
+	<div class="col-sm-3 vertical-nav">		 
+		<div class="portlet-box hidden-md hidden-lg hidden-sm">
+			<a class="horizontal-nav-toggle" href="#"><img src="Content/images/tools.png" style="width: 25px; height: 25px; margin-left: 5px; margin-top: 5px;" /></a>
+		</div>		
+        
+        <div class="vertical-nav-inner">
+            <div class="workspace-tool workspace-tile-box">						
+		        <a href="workbench_content.html" data-content-url="workbench_content.html" data-tool-name="Workbench">
+			        <div class="logo">
+			        <img src="Content/images/web_tools.png"> 
+			        </div>
+			        <div class="description">Workbench</div>			  
+		        </a>
+		        <div class="content">
+			        <p>Examine a summary of your tasks, metrics, and topics of interest.</p>
+		        </div>
+		    </div>
+        	 		  
+		    <div class="workspace-tool workspace-tile-box">						
+		        <a href="facilities_content.html" data-content-url="facilities_content.html" data-tool-name="My Facilities">
+			        <div class="logo">
+			        <img src="Content/images/environment.png"> 
+			        </div>
+			        <div class="description">My Facilities</div>			  
+		        </a>
+		        <div class="content">
+			        <p>Manage businesses associated with your profile and view details.</p>
+		        </div>
+		    </div>
+		  
+		    <div class="workspace-tool workspace-tile-box">						
+		        <a href="todo_list_content.html" data-content-url="todo_list_content.html" data-tool-name="To Do List">
+			        <div class="logo">
+			        <img src="Content/images/clipboard.png"> 
+			        </div>
+			        <div class="description">To Do List</div>			  
+		        </a>
+		        <div class="content">
+			        <p>View and complete tasks associated with your businesses.</p>
+		        </div>
+		    </div>
+				  
+		    <div class="workspace-tool workspace-tile-box">						
+		        <a href="compliance_assistance_content.html" data-content-url="compliance_assistance_content.html" data-tool-name="Compliance Assistance">
+			        <div class="logo">
+			        <img src="Content/images/lightbulb.png"> 
+			        </div>
+			        <div class="description">Compliance Assistance</div>			  
+		        </a>
+		        <div class="content">
+			        <p>Get most recent compliance assistance guidance for regulations relevant to your facility.</p>
+		        </div>
+		    </div>
+				 		  
+		    <div class="workspace-tool workspace-tile-box">						
+		        <a href="environmental_dashboard_content.html" data-tool-name="Environmental Dashboard" data-content-url="environmental_dashboard_content.html">
+			        <div class="logo">
+			        <img src="Content/images/dasboard.png"> 
+			        </div>
+			        <div class="description">Environmental Dashboard</div>			  
+		        </a>
+		        <div class="content">
+			        <p>Analyze charts, graphs, benchmarks, and industry relationships across your facilities.</p>
+		        </div>
+		    </div>
+
+		    <div class="workspace-tool workspace-tile-box">						
+		        <a href="http://www2.epa.gov/newsroom" target="_blank" data-tool-name="Your Newsroom">
+			        <div class="logo">
+			        <img src="Content/images/graph.png"> 
+			        </div>
+			        <div class="description">Subscriptions & Newsroom</div>	  
+		        </a>
+		        <div class="content">
+			        <p>Stay up-to-date on the latest environmental announcements and tailor news to your interests.</p>
+		        </div>
+		    </div>
+		  
+		    <div class="workspace-tool workspace-tile-box">						
+		        <a href="#" data-tool-name="Laws and Regulations">
+			        <div class="logo">
+			        <img src="Content/images/law.png"> 
+			        </div>
+			        <div class="description">Laws & Regulations</div>			  
+		        </a>
+		        <div class="content">
+			        <p>Review laws and regulations that apply to your business.  Examine technical, operational, and legal details to ensure compliance.</p>
+		        </div>
+		    </div>
+		  
+		    <div class="workspace-tool workspace-tile-box">						
+		        <a href="http://www.epa.gov/climatechange/EPAactivities/voluntaryprograms.html" target="_blank" data-tool-name="Voluntary Programs">
+			        <div class="logo">
+			        <img src="Content/images/research.png"> 
+			        </div>
+			        <div class="description">Voluntary Programs</div>			  
+		        </a>
+		        <div class="content">
+			        <p>Learn about developed programs and projects where EPA partners with industry and others to positively impact environmental and human health.</p>
+		        </div>
+		    </div>
+		  
+		    <div class="workspace-tool workspace-tile-box">						
+		        <a href="#" data-tool-name="My Profile">
+			        <div class="logo">
+			        <img src="Content/images/settings.png"> 
+			        </div>
+			        <div class="description">My Profile</div>			  
+		        </a>
+		        <div class="content">
+			        <p>Let us help determine which regulations you need to comply with.</p>
+		        </div>
+		    </div>	 
+        </div> 
+    </div> 
+    <div class="col-sm-9 main-stage" style="position: relative;">	
+		<div style="position: absolute; display:none; width: 100%; top: 50px;" class="pre-loader-container">
+			<h2 class="pre-loader-title" style="text-align: center;"></h2>
+			<div class="pre-loader"></div>
+		</div>
+		<div class="main-stage-inner" id="main-content" style="min-height: 300px;">
+			Placeholder
+		</div>
+	</div>	
+</div>
+
+
+	  <div class="row">
+	  <footer class="main-footer">
+		<div class="row">
+		  <div class="col-sm-5">
+			<ul class="pipeline" style="padding: 0px; margin-left: 25px;">
+              <li><a href="http://www.epa.gov/">EPA Home</a></li>
+              <li><a href="http://www2.epa.gov/home/privacy-and-security-notice">Privacy and Security Notice</a></li>
+              <li><a href="http://www.epa.gov/accessibility/statement.htm">Accessibility</a></li>
+            </ul>
+		  </div>
+		  <div class="col-sm-5 footer-widgets">
+			&nbsp;
+		  </div>
+		  <div class="col-sm-2 footer-logo">
+			&nbsp;
+		  </div>
+		</div>
+	  </footer>
+	  </div>
+	</div><!-- /container -->
+	           
+
+<!-- Modal -->
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		<h4 class="modal-title" id="myModalLabel">Account Provider</h4>
+		</div>
+		<div class="modal-body">
+		<div class="row">
+			<div class="col-sm-6 credential-selection">			
+                <p style="text-align: center;">How would you like to log in?</p>		
+				<div class="credential-type bubble-float-right" data-credential-type="Portal">						
+					<a href="#">
+						
+						<div class="caption">E-Enterprise Account</div>
+					</a>
+				</div>
+				<div class="credential-type bubble-float-right active"  data-credential-type="Epa">						
+					<a href="#">
+						
+						<div class="caption">EPA Account</div>
+					</a>
+				</div>					
+				<div class="credential-type bubble-float-right" data-credential-type="State">						
+					<a href="#">
+						
+						<div class="caption">State/Tribal Account</div>
+					</a>
+				</div>
+                <hr class="hidden-lg hidden-md hidden-sm" />
+			</div>
+			<div class="col-sm-6">
+                <div id="portal-login-form" class="login-form" style="display:none;">
+                    <div class="new-registration">
+                        <a href="/OpenId" class="btn btn-blue" style="display: block; margin: 25px auto; width: 150px;">Enterprise Bridge</a>
+                      
+					    <a href="/Registration?returnUrl=http%3A%2F%2Fcgidemo.dyndns.org%2Fe-EnterprisePortal%2FWorkspace%3FprompAuth%3DTrue" style="display: block; margin: 0px auto; width: 161px;">Create an account today!</a>		
+				    </div>
+                </div>
+                
+                <div id="state-login-form" class="login-form" style="display:none;">
+                    <form class="form-horizontal" role="form" method="POST" action="/Home/LogIn">
+                        <div class="form-group">
+					        <label for="input1" class="col-lg-3 control-label">State/Tribe</label>
+					        <div class="col-lg-9">
+						        <select class="selectpicker">
+						            <option>-Please Select-</option>
+						            <option value="AL">Alabama</option>
+						            <option value="AK">Alaska</option>
+						            <option value="AS">American Samoa</option>
+						            <option value="AZ">Arizona</option>
+						            <option value="AR">Arkansas</option>
+						            <option value="CA">California</option>
+<option value="CN">Chickasaw Nation</option>
+						            <option value="CO">Colorado</option>
+
+<option value="CF">Confederated Tribes of the Umatilla Reservation</option>					            
+<option value="CT">Connecticut</option>
+						            <option value="DE">Delaware</option>
+						            <option value="DN">Delaware Nation</option>
+							    <option value="DC">District of Columbia</option>
+						            <option value="FL">Florida</option>
+						            <option value="GA">Georgia</option>
+						            <option value="HI">Hawaii</option>
+						            <option value="ID">Idaho</option>
+						            <option value="IL">Illinois</option>
+						            <option value="IN">Indiana</option>
+						            <option value="IA">Iowa</option>
+						            <option value="KS">Kansas</option>
+						            <option value="KY">Kentucky</option>
+						            
+<option value="KT">Kootenai Tribe</option>
+<option value="LA">Louisiana</option>
+						            <option value="ME">Maine</option>
+						            <option value="MH">Marshall Islands</option>
+						            <option value="MD">Maryland</option>
+						            <option value="MA">Massachusetts</option>
+						            <option value="MI">Michigan</option>
+						            <option value="MN">Minnesota</option>
+						            <option value="MS">Mississippi</option>
+						            <option value="MO">Missouri</option>
+						            <option value="MT">Montana</option>
+						            
+
+
+
+<option value="NN">Navajo Nation</option>
+						            <option value="NE">Nebraska</option>
+						            <option value="NV">Nevada</option>
+						            <option value="NH">New Hampshire</option>
+						            <option value="NJ">New Jersey</option>
+						            <option value="NM">New Mexico</option>
+						            <option value="NY">New York</option>
+						            <option value="NC">North Carolina</option>
+						            <option value="ND">North Dakota</option>
+						            <option value="MP">Northern Mariana Islands</option>
+						            <option value="OH">Ohio</option>
+						            <option value="OK">Oklahoma</option>
+						            <option value="OR">Oregon</option>
+						            <option value="PA">Pennsylvania</option>
+<option value="PL">Pyramid Lake Paiute Tribe</option>
+						            <option value="RI">Rhode Island</option>
+						            <option value="SC">South Carolina</option>
+						            <option value="SD">South Dakota</option>							
+						            <option value="TN">Tennessee</option>
+						            <option value="TX">Texas</option>
+						            <option value="UT">Utah</option>
+						            <option value="VT">Vermont</option>
+						            <option value="VI">Virgin Islands</option>
+						            <option value="VA">Virginia</option>
+						            <option value="WA">Washington</option>
+						            <option value="WV">West Virginia</option>
+						            <option value="WI">Wisconsin</option>
+						            <option value="WY">Wyoming</option>
+						        </select>
+					        </div>
+					    </div>
+					    <div class="form-group">
+					    <label for="input1" class="col-lg-3 control-label">User ID</label>
+					    <div class="col-lg-9">
+                            <input class="form-control" id="UserId" name="UserId" type="text" value="" />
+					    </div>
+					    </div>
+					    <div class="form-group">
+					    <label for="input2" class="col-lg-3 control-label">Password</label>
+					    <div class="col-lg-9">
+                            <input class="form-control" id="Password" name="Password" type="password" />
+					    </div>
+					    </div>
+                        <input id="ReturnUrl" name="ReturnUrl" type="hidden" value="http://cgidemo.dyndns.org/e-EnterprisePortal/Workspace" />                    
+                        <input id="NavFrom" name="NavFrom" type="hidden" value="http://cgidemo.dyndns.org/e-EnterprisePortal/Workspace" />
+					    <button class="btn btn-blue" type="submit">Sign In</button>
+                    </form>
+                </div>
+
+                <div id="epa-login-form" class="login-form">
+				    <form class="form-horizontal" role="form" method="POST" action="/Home/LogIn">					    
+					    <div class="form-group">
+					    <label for="input1" class="col-lg-3 control-label">User ID</label>
+					    <div class="col-lg-9">
+                            <input class="form-control" id="UserId" name="UserId" type="text" value="" />
+					    </div>
+					    </div>
+					    <div class="form-group">
+					    <label for="input2" class="col-lg-3 control-label">Password</label>
+					    <div class="col-lg-9">
+                            <input class="form-control" id="Password" name="Password" type="password" />
+					    </div>
+					    </div>
+                        <input id="ReturnUrl" name="ReturnUrl" type="hidden" value="http://cgidemo.dyndns.org/e-EnterprisePortal/Workspace" />                    
+                        <input id="NavFrom" name="NavFrom" type="hidden" value="http://cgidemo.dyndns.org/e-EnterprisePortal/Workspace" />
+					    <button class="btn btn-blue" type="submit" style="margin-bottom: 15px;">Sign In</button>
+                        <a href="/Registration?returnUrl=http%3A%2F%2Fcgidemo.dyndns.org%2Fe-EnterprisePortal%2FWorkspace%3FprompAuth%3DTrue" style="display: block; margin: 0px auto; padding-bottom: 10px; width: 161px;">Create an account today!</a>
+				    </form>
+                </div>
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+</div>
+
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="Content/js/jquery-1.11.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="Content/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="Content/js/bootstrap-select-patch.js"></script>
+	<script type="text/javascript" src="Content/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.selectpicker').selectpicker();
+
+            var queryString = getUrlVars();
+            if (queryString.prompAuth == "True") {
+                $('#login-modal').modal('show');
+            }
+
+            $('.credential-type').click(function (e) {
+                $('.credential-type').removeClass('active');
+
+                if ($(this).data('credentialType') == 'Portal') {
+                    $('.login-form').hide();
+                    $('#portal-login-form').show();
+                    $(this).closest('.credential-type').addClass('active');
+                }
+
+                if ($(this).data('credentialType') == 'State') {
+                    $('.login-form').hide();
+                    $('#state-login-form').show();
+                    $(this).closest('.credential-type').addClass('active');
+                }
+
+                if ($(this).data('credentialType') == 'Epa') {
+                    $('.login-form').hide();
+                    $('#epa-login-form').show();
+                    $(this).closest('.credential-type').addClass('active');
+                }
+
+                e.preventDefault();
+                return false;
+            });
+        });
+
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+	</script>
+
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(window).on('hashchange', function () {
+                var hash = decodeURIComponent(window.location.hash.substring(1));
+                if (hash === '') {
+                    loadContent(null);
+                } else {
+                    $('.workspace-tool > a').each(function () {
+                        if ($(this).data('toolName') == hash) {
+                            loadContent($(this));
+                        }
+                    });
+                }
+            });
+
+            $('.workspace-tool > a').each(function () {
+                var hash = decodeURIComponent(window.location.hash.substring(1));
+                if ($(this).data('toolName') == hash) {
+                    loadContent($(this));
+                }
+            });
+
+            $('.selectpicker').selectpicker();
+
+            $('a.horizontal-nav-toggle').click(function (e) {
+                var nav = $(this).closest('.vertical-nav');
+                if ($(nav).hasClass('open')) {
+                    $(nav).removeClass('open');
+                } else {
+                    $(nav).addClass('open');
+                }
+
+                e.preventDefault();
+            });
+
+            function loadContent(context) {
+                triggerDashboardNavigation(context);
+                return false;
+            }
+
+            $('.workspace-tool > a').click(function () {
+                if ($(this).data('contentUrl') === undefined) {
+                    loadContent($(this));
+                } else {
+                    window.location.hash = encodeURIComponent($(this).data('toolName'));
+                }
+                return false;
+            });
+        });
+
+        function triggerDashboardNavigation(context) {
+            if (context != null) {
+                if (context.attr('target') == '_blank') {
+                    window.open(context.attr('href'), '_blank');
+                    window.location.hash = '';
+                    return false;
+                }
+            }
+
+            $('#main-content').hide();
+            setTimeout(function () {
+                $('#main-content').show();
+            }, 2000);
+
+            $('#main-content').html('');
+            $('.workspace-tool').removeClass('active');
+            $(context).closest('.workspace-tool').addClass('active');
+
+            if (context === null) {
+                $('.content-container').addClass('workspace-full-page');
+                return false;
+            }
+
+            var isFullPage = $(context).closest('div.row').hasClass('workspace-full-page');
+            $('.pre-loader-title').text('Loading ' + $(context).data('toolName'));
+
+            var url = $(context).data('contentUrl');
+            if (url === undefined) {
+                url = $(context).attr('href');
+
+                if (url === '#') {
+                    window.location.hash = encodeURIComponent($(context).data('toolName'));
+                    //alert('This link is not yet implemented');					
+                } else {
+                    $('.pre-loader-title').text('Loading ' + $(context).data('toolName'));
+                    $('div.main-stage').addClass('loading-state');
+
+                    if (isFullPage === true) {
+                        $(context).closest('div.row').removeClass('workspace-full-page');
+                    }
+
+                    setTimeout(function () {
+                        location.href = url;
+                    }, 1000);
+                }
+
+                return false;
+            }
+
+            if (isFullPage === true) {
+                $(context).closest('div.row').removeClass('workspace-full-page');
+
+                setTimeout(function () {
+                    $('div.main-stage').addClass('loading-state');
+                    $(context).parent('div').find('a').removeClass('active');
+                }, 1050);
+            } else {
+                $('div.main-stage').addClass('loading-state');
+            }
+
+            loadDashboardContent(url);
+        }
+
+        function loadDashboardContent(url) {
+            var ticks = ((new Date().getTime() * 10000) + 621355968000000000);
+
+            var num = 0;
+            var loadInterval = setInterval(function () { num++; }, 1000);
+
+            $('#main-content').load(url + '?=' + ticks, function (responseText, textStatus, req) {			
+                if (num > 2) {
+                    dashboardLoadComplete();
+                } else {
+                    setTimeout(function () {
+                        dashboardLoadComplete();
+                    }, ((3 - num) * 1000));
+                }
+
+                window.clearInterval(loadInterval);
+            });
+        }
+
+        function dashboardLoadComplete() {
+            $('div.main-stage').removeClass('loading-state');
+        }
+
+
+        
+
+        function myTimer() {
+            var d = new Date();
+            document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+        }
+	</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,164 @@
+﻿  <script type="text/javascript" src="Content/map/js/EsriJS313/dojo/dojo.js" data-dojo-config="async: true"></script>
+  
+  <link rel="stylesheet" href="Content/map/js/EsriJS/dijit/themes/claro/claro.css">
+  <link rel="stylesheet" href="Content/map/js/EsriJS/esri/css/esri.css">
+  <link rel="stylesheet" href="Content/map/css/map.css">
+  <link rel="stylesheet" href="Content/map/fancybox/jquery.fancybox.css">
+  <script src="Content/map/fancybox/jquery.fancybox.js"></script>
+
+ 
+  <script>
+      $(document).ready(function () {
+          function waitForRequireForAsync() {
+              if ("undefined" == typeof require) {
+                  setTimeout(waitForRequireForAsync, 50);
+              } else {
+                  $.getScript("Content/map/js/map.js");
+              }
+          }
+          waitForRequireForAsync();
+          $('.toolbarButtonError').hide();
+          $('#selectButton').hide();
+          $('#filterSubs').hide();
+          $('#addButton').hide();
+          $('#flat').keyup(function () {
+              $('#collectionMethod').val('User keyed');
+          });
+          $('#flong').keyup(function () {
+              $('#collectionMethod').val('User keyed');
+          });
+          $(".fancybox").fancybox();
+      });
+
+      function openForm(url, id) {
+          if (id.length > 0) {
+              console.log(id);
+              if (id == '110000492413') {
+                  url = 'http://epa.versiform.net/Forms/Edit/190502/1946?access_token=cf256b79-883c-40ea-b808-7f666150f1f0';
+              } else if (id == '110000502867') {
+                  url = 'http://epa.versiform.net/Forms/Edit/190505/1946?access_token=8e0af9ae-a35c-4721-9e8d-4ff3e53e0bf5';
+              } else if (id == '110000377164') {
+                  url = 'http://epa.versiform.net/Forms/Edit/190504/1946?access_token=557fc956-9bdf-4bc9-8f4a-67e6c7b67ef9';
+              } else {
+                  url = 'http://epa.versiform.net/Forms/Edit/190503/1946?access_token=6f2cbd23-295c-452e-9c7b-06e923563c75';
+              }
+          }
+          var fbwidth = Math.ceil(($(document).width() * 70) / 100);
+          var fbheight = Math.ceil(($(document).height() * 65) / 100);
+          formWindow = window.open(url, 'form', 'menubar=0,toolbar=0,scrollbars=1,left=100,top=30,height=' + fbheight + ',width=' + fbwidth);
+      };
+  </script>
+   
+
+<h3 style="margin-top: 0px;">My Facilities</h3>
+  <table class="table table-striped" style="margin-bottom: 0px;">
+    <thead>
+      <tr>
+        <th>Facility ID</th>
+        <th>Facility Name</th>
+        <th>Address</th>
+        <th colspan="2">Actions</th>    
+      </tr>
+  </thead>
+    <tbody>
+      <tr>
+        <td><a href='javascript:zoomToFacility(0);'>110000492413</a></td>
+        <td>ABC Corp. Facility 2</td>
+        <td>5000 Richmond St.
+        <br/>
+        Philadelphia, PA 19137</td>
+        <td><a href='javascript:editAddress(0);map.centerAndZoom(facilityGraphics[0].geometry,16);hideSubLayers();'>Edit</a></td>
+        <td><a href='javascript:'>Remove</a></td>
+      </tr>
+      <tr>
+        <td><a href='javascript:zoomToFacility(1);'>110000337029</a></td>
+        <td>ABC Corp. Facility 8</td>
+        <td>2800 Christian St.
+        <br/>
+        Philadelphia, PA 19146</td>
+        <td><a href='javascript:editAddress(1);map.centerAndZoom(facilityGraphics[1].geometry,16);hideSubLayers();'>Edit</a></td>
+        <td><a href='javascript:'>Remove</a></td>
+      </tr>
+      <tr style="background-color: #ECE0EC" >
+        <td><a href='javascript:zoomToFacility(2);'>110000377164</a></td>
+        <td>ABC Corp. Facility 4</td>
+        <td>1001 S. 4th Ave.
+        <br/>
+        Laurel, MS 39440</td>
+        <td><a href='javascript:editAddress(2);map.centerAndZoom(facilityGraphics[2].geometry,16);hideSubLayers();'>Edit</a></td>
+        <td><a href='javascript:'>Remove</a></td>
+      </tr>
+      <tr>
+        <td><a href='javascript:zoomToFacility(3);'>110000502867</a></td>
+        <td>ABC Corp. Facility 11</td>
+        <td>13050 TX Hwy. 185
+        <br/>
+        Port Lavaca, TX 77414</td>
+        <td><a href='javascript:editAddress(3);map.centerAndZoom(facilityGraphics[3].geometry,16);hideSubLayers();'>Edit</a></td>
+        <td><a href='javascript:'>Remove</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <small style="display:block; margin-bottom: 15px;">Purple rows indicate facilities that are not compliant.</small>
+  
+  <div id="mapParentDiv" style="width: 100%; height: 100%; margin-bottom: 1px;">
+    <div class='mapToolbar'>
+      <input type="button" class="toolbarButton" onclick="beginLocate();" value="Show All Facilities"/>
+      <input type="button" id='addButton' class="toolbarButton" onclick="engageAddSubMode();" value="Add Sub Facility"/>
+      <input type="button" id='selectButton' class="toolbarButton" onclick="activateToolbar();" value="Select Sub Facilities"/>
+      <input type="button" class="toolbarButtonError" onclick="multiErrors();" value="Report Errors"/>
+      <select id='filterSubs' onchange='filterSubLayer(this.value);'>
+        <option value='0'>Filter Subfacilities</option>
+        <option value='AIR MAJOR'>Air Major</option>
+        <option value='AIR MINOR'>Air Minor</option>
+        <option value='CRITERIA AND HAZARDOUS AIR POLLUTANT INVENTORY'>Hazardous Air Pollutant</option>
+        <option value='ELECTRIC POWER GENERATOR'>Electric Power Generator</option>
+        <option value='ICIS-NPDES MAJOR'>ICIS-NPDES Major</option>
+        <option value='ICIS-NPDES NON-MAJOR'>ICIS-NPDES Non-Major</option>
+        <option value='LQG'>Large Quantity Generator</option>
+        <option value='NPDES MAJOR'>NPDES Major</option>
+        <option value='NPDES NON-MAJOR'>NPDES Non-Major</option>
+        <option value='RMP REPORTER'>RMP Reported</option>
+        <option value='SQG'>Small Quantity Generator</option>
+        <option value='TRI REPORTER'>TRI Reporter</option>
+      </select>
+    </div>
+      <div id="map" style="position:relative; width:100%; height:400px; border: 1px solid #CCCCCC;">
+      </div>
+    <div class='mapToolbarFlip'>
+      <input id='newLocButton' type='button' class='toolbarButtonFlip' value='Set New Coordinates' onclick='engageAddMode();'/>
+      <input id='html5LocationButton' type='button' class='toolbarButtonFlip' value='Estimate My Location' onclick='getHTML5Location();'/>
+      <input type='button' class='toolbarButtonFlip' value='Locate Below Coordinates' onclick='locateCoords();'/>
+      <input id='locateAddressButton' type='button' class='toolbarButtonFlip' value='Locate Below Address' onclick='locate();'/>
+    </div>
+  <div class='changeAddress' >
+    <div class='label'>Facility ID:</div>
+    <input type='text' id='fid' readonly='readonly'/>
+    <br/>
+    <div class='label'>Name:</div>
+    <input type='text' id='fname' />
+    <br/>
+    <div class='label'>Street:</div>
+    <input type='text' id='fstreet'/>
+    <br/>
+    <div class='label'>City:</div>
+    <input type='text' id='fcity'/>
+    <br/>
+    <div class='label' >State:</div>
+    <input type='text' id='fstate' style="width: 100px"/>
+    <div class='label'>Zip:</div>
+    <input type='text' id='fzip' style="width: 50px"/>
+    <br/>
+    <div class='label'>Latitude:</div>
+    <input type='text' id='flat'/>
+    <br/>
+    <div class='label'>Longitude:</div>
+    <input type='text' id='flong'/>
+    <br/>
+    <div class='label2'>Coordinate Collection Method:</div>
+    <input type='text' id='collectionMethod' readonly='readonly' style='border:0px;background-color:white;' value='FRS coordinates'/>
+    <br/>
+    <input type='button' class='detailsButton' value='Submit to FRS' onclick='alert("We have received your submission. We will follow up as necessary.");'/>
+  </div>
+</div>

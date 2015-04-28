@@ -1,0 +1,200 @@
+#map {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.notransition * { 
+  -webkit-transition: none !important; 
+  -moz-transition: none !important; 
+  -o-transition: none !important; 
+  -ms-transition: none !important; 
+  transition: none !important; 
+} 
+
+.scalebar_bottom-left {
+	box-sizing: content-box !important;
+    bottom: 8px;
+    left: 75px !important;
+}
+
+.esriScalebar {
+	word-wrap: normal;
+    position: absolute;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+    padding: 2px 36px 0px 5px;
+    min-width: 100px;
+    width: auto !important;
+}
+
+.esriPopup .sizer{
+	width: 250px;
+}
+
+.esriPopup .titlePane, .dj_ie7 .esriPopup .titlePane {
+	background-color: #369;
+	color: #ffffff;
+	font-weight: bold;
+}
+.esriPopup .title {
+	width:200px;
+}
+.esriPopup .titlePane {
+	border-bottom: 1px solid #121310;
+}
+.esriPopup a {
+	color: #027ABF;
+}
+
+.esriPopup .contentPane, .esriPopup .actionsPane {
+	border-color: 1px solid #121310;
+	background-color: #ffffff;
+	color: #000000;
+}
+.facilityTable {
+	border: 1px solid #CCCCCC;
+	margin-bottom: 15px;
+}
+.facilityTable thead {
+	border: 1px solid #CCCCCC;
+}
+.facilityTable th {
+	background-color: #F5F6F7 !important;
+	color: black;
+	padding: 3px;
+	font-weight: bold;
+}
+
+.facilityTable tr:nth-child(even) {
+	background-color: #F0F6FA;
+}
+.orgToggle {
+	/*cursor: pointer;*/
+	background-color: #F4F4F4 !important;
+	border: 1px solid #CCCCCC;
+	padding: 6px;
+	font-size: 15pt;
+}
+
+.errorButton {
+	margin-top: 7px;
+	border: 2px solid #D22A19;
+	color: white;
+	background-color: #F05A28;
+	padding: 2px;
+	width: 85px;
+	font-size: 8pt;
+}
+.errorButton:hover {
+	background-color: #F17B28;
+}
+
+.detailsButton {
+	margin-top: 7px;
+	border: 2px solid #027ABF;
+	color: white;
+	background-color: #5598C2;
+	padding: 2px;
+	width: 140px;
+	font-size: 8pt;
+}
+.detailsButton:hover {
+	background-color: #98CAEE;
+}
+
+.editGeocodedResultButton {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	border: 1px solid #366592;
+	color: white;
+	background-color: #366592;
+	padding: 0px;
+	width: 160px;
+	font-size: 10pt;
+	height: 22px;
+	
+}
+#editGeocodedResultButton:hover {
+	background-color: #98CAEE;
+}
+
+#popupEditButton {
+	margin-bottom: 0px; 
+	border-bottom-width: 0px;
+}
+.claro .dijitButtonText {
+				color: #03c;
+				font-family: Arial, Helvetica, sans-serif;
+				font-weight: bold;
+			}
+
+.claro td.dijitMenuItemLabel {
+    color: #03c;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+}
+
+.label {
+	width: 160px;
+	clear: none;
+	display: inline-block;
+	text-align: left;
+	font-weight: bold;
+	padding-bottom: 5px;
+}
+.labelCoordCollect {
+	width: 250px;
+	clear: none;
+	display: inline-block;
+	text-align: left;
+	font-weight: bold;
+}
+.labelWide {
+	width: 160px;
+	clear: none;
+	display: inline-block;
+	text-align: left;
+	font-weight: bold;
+	padding-bottom: 5px;
+}
+
+.locateCoordsButton {
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-right: 5px;
+	padding-left: 5px;
+	background-color: #E9EAEE;
+	border-top: 0px;
+	width: 170px;
+	font-size: 8pt;
+	display: none;
+}
+
+.locateCoordsButton:hover {
+	background-color: #D1CEC8;
+}
+
+.tribalLandsButton {
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-right: 5px;
+	padding-left: 5px;
+	background-color: #76b66c; !important
+	border-top: 0px; 
+	width: 170px;
+	font-size: 8pt;
+	display: none;
+}
+
+.tribalLandsButton:hover {
+	background-color: ##76b66c;
+}
+
+
+    
