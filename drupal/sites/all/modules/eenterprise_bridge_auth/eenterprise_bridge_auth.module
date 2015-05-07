@@ -1,0 +1,223 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations and core functionality.
+ */
+
+define('eenterprise_bridge_auth_TOKEN_TYPE', 'http://schemas.xmlsoap.org/ws/2009/11/swt-token-profile-1.0');
+define('eenterprise_bridge_auth_IDENTITY_PROVIDER_SCHEMA', 'http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider');
+define('eenterprise_bridge_auth_NAME_IDENTIFIER_SCHEMA', 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier');
+define('eenterprise_bridge_auth_IDENTITY_PROVIDER_WINDOWS_LIVE', 'uri:WindowsLiveID');
+define('eenterprise_bridge_auth_IDENTITY_PROVIDER_GOOGLE', 'Google');
+define('eenterprise_bridge_auth_IDENTITY_PROVIDER_GOOGLE_EMAIL_SCHEMA', 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress');
+define('eenterprise_bridge_auth_IDENTITY_PROVIDER_GOOGLE_NAME_SCHEMA', 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name');
+
+
+/**
+ * Hook implementations
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function eenterprise_bridge_auth_menu() {
+  $items = array();
+  $items['eebridge-auth/login/nojs'] = array(
+    'title' => 'E-Enterprise Bridge Authentication',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('eenterprise_bridge_auth_login_form'),
+    'access arguments' => array('access content'),
+    'file' => 'eenterprise_bridge_auth.pages.inc',
+    '#type' => MENU_CALLBACK,
+  );
+  $items['eebridge-auth/login/ajax'] = array(
+    'title' => 'E-Enterprise Bridge Authentication',
+    'page callback' => 'eenterprise_bridge_auth_login',
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => array('access content'),
+    'file' => 'eenterprise_bridge_auth.pages.inc',
+    '#type' => MENU_CALLBACK,
+  );
+  $items['eebridge-auth/authenticate'] = array(
+    'title' => 'E-Enterprise Bridge Authentication',
+    'page callback' => 'eenterprise_bridge_auth_authenticate',
+    'page arguments' => array(FALSE),
+    'access arguments' => array('access content'),
+    'file' => 'eenterprise_bridge_auth.pages.inc',
+    '#type' => MENU_CALLBACK,
+  );
+  $items['eebridge-auth/authenticate/error'] = array(
+    'title' => 'E-Enterprise Bridge Authentication',
+    'page callback' => 'eenterprise_bridge_auth_authenticate',
+    'page arguments' => array(TRUE),
+    'access arguments' => array('access content'),
+    'file' => 'eenterprise_bridge_auth.pages.inc',
+    '#type' => MENU_CALLBACK,
+  );
+  $items['admin/config/people/eebridge-auth'] = array(
+    'title' => 'E-Enterprise Bridge Settings',
+    'description' => 'Manage options for Federated login using E-Enterprise Bridge.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('eenterprise_bridge_auth_settings'),
+    'access arguments' => array('administer azure auth'),
+    'file' => 'eenterprise_bridge_auth.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function eenterprise_bridge_auth_permission() {
+  return array(
+    'administer azure auth' => array(
+      'title' => t('Administer E-Enterprise Bridge Authentication'),
+      'description' => t('Change settings for the E-Enterprise Bridge Authentication module.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_help().
+ */
+function eenterprise_bridge_auth_help($path, $arg) {
+  $output = '';
+  switch ($path) {
+    case 'admin/help#eenterprise_bridge_auth':
+      $output .= '<h3>' . t("Introduction.") . '</h3>';
+      $output .= '<p>' . t("The E-Enterprise Bridge Authentication module allows users to log in to your drupal site using the E-Enterprise Bridge's login system. ") . '</p>';
+      break;
+  }
+  return $output;
+}
+
+/**
+ * Implements hook_user_insert().
+ */
+function eenterprise_bridge_auth_user_insert(&$edit, $account, $category) {
+  if (!variable_get('eenterprise_bridge_auth_settings_valid')) {
+    return;
+  }
+  if (isset($edit['eenterprise_bridge_auth'])) {
+    user_set_authmaps($account, array(
+      'authname_eenterprise_bridge_auth' => $edit['eenterprise_bridge_auth']->getNameIdentifier(),
+    ));
+    unset($_SESSION['eenterprise_bridge_auth']);
+    unset($edit['eenterprise_bridge_auth']);
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function eenterprise_bridge_auth_block_info() {
+  $blocks = array();
+  $blocks['eenterprise_bridge_auth'] = array(
+    'info' => t('User login (E-Enterprise Bridge)'),
+  );
+  return $blocks;
+}
+
+
+/**
+ * Implements hook_block_view().
+ */
+function eenterprise_bridge_auth_block_view($delta = '') {
+  global $user;
+  $block = array();
+  switch ($delta) {
+    case 'eenterprise_bridge_auth':
+      if ($user->uid === 0) {
+        require_once 'eenterprise_bridge_auth.pages.inc';
+        $block['subject'] = t('Log In with E-Enterprise Bridge');
+        $wrap = FALSE;
+        $block['content'] = drupal_get_form('eenterprise_bridge_auth_login_form', $wrap);
+      }
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Form Alter Functions
+ */
+
+/**
+ * Implements hook_form_FORMID_alter().
+ */
+function eenterprise_bridge_auth_form_user_login_alter(&$form, &$form_state) {
+  _eenterprise_bridge_auth_form_user_login_alter($form, $form_state);
+}
+
+/**
+ * Implements hook_form_FORMID_alter().
+ */
+function eenterprise_bridge_auth_form_user_login_block_alter(&$form, &$form_state) {
+  _eenterprise_bridge_auth_form_user_login_alter($form, $form_state);
+}
+
+/**
+ * Adds AJAX link to bottom of user login forms.
+ */
+function _eenterprise_bridge_auth_form_user_login_alter(&$form, &$form_state) {
+  if (!variable_get('eenterprise_bridge_auth_settings_valid')) {
+    return;
+  }
+  if (!variable_get('eenterprise_bridge_auth_alter_login_form')) {
+    return;
+  }
+  drupal_add_library('system', 'drupal.ajax');
+  $link = l(variable_get('eenterprise_bridge_auth_link_text', t('Sign in using E-Enterprise Bridge')), 'eebridge-auth/login/nojs', array('attributes' => array('class' => array('use-ajax'))));
+  $form['eenterprise_bridge_auth'] = array(
+    '#type' => 'markup',
+    '#markup' => '<div id="eenterprise_bridge_auth_container" class="identity-provider-selection">' . $link . '</div>',
+  );
+}
+
+/**
+ * Implements hook_form_FORMID_alter().
+ */
+function eenterprise_bridge_auth_form_user_register_form_alter(&$form, &$form_state) {
+  if (!variable_get('eenterprise_bridge_auth_settings_valid')) {
+    return;
+  }
+  if (isset($_SESSION['eenterprise_bridge_auth'])) {
+    $token = $_SESSION['eenterprise_bridge_auth'];
+    $form['eenterprise_bridge_auth'] = array(
+      '#type' => 'value',
+      '#default_value' => $token,
+    );
+    $form['eenterprise_bridge_auth_message'] = array(
+      '#type' => 'markup',
+      '#weight' => -10,
+      '#markup' => t("You're registering an account on this site using your identity from !provider.", array('!provider' => $token->getProviderName())),
+    );
+
+    if ($name = $token->getClaim(eenterprise_bridge_auth_IDENTITY_PROVIDER_GOOGLE_NAME_SCHEMA)) {
+      $form['account']['name']['#default_value'] = $name;
+    }
+    if ($mail = $token->getClaim(eenterprise_bridge_auth_IDENTITY_PROVIDER_GOOGLE_EMAIL_SCHEMA)) {
+      $form['account']['mail']['#default_value'] = $mail;
+    }
+  }
+}
+
+/**
+ * Utility functions
+ */
+
+/**
+ * Fetches the user id from the database based on the authname.
+ */
+function _eenterprise_bridge_auth_get_authmap($identifier) {
+  $query = db_select('authmap', 'a');
+  $query->addField('a', 'uid');
+  $query->condition('module', 'eenterprise_bridge_auth');
+  $query->condition('authname', $identifier);
+  if ($result = $query->execute()) {
+    return $result->fetchField();
+  }
+  return FALSE;
+}
