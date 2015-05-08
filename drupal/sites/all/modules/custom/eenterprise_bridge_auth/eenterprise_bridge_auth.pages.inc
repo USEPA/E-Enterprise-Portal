@@ -93,8 +93,11 @@ function eenterprise_bridge_auth_authenticate($error) {
     watchdog('eenterprise_bridge_auth', $message, array(), WATCHDOG_ERROR);
     drupal_set_message($message, 'error');
   }
-  if (isset($_POST['wresult'])) {
-
+  if(!isset($_POST['wa']))
+    drupal_set_message("Expected context parameter is not set", "error");
+  else if($_POST['wa'] == 'wsignin1.0') {
+    $adfs = new AdfsBridge();
+    
     // TODO: handle ee bridge response
 
     // try {
