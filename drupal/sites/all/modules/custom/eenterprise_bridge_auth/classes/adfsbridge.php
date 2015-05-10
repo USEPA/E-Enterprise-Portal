@@ -67,7 +67,8 @@ class AdfsBridge {
         // Decrypts the xmlToken if it is encrypted, using the private key specified in the configuration.
         $decryptedToken = '';
         $decryptionFailed = false;
-        $rootElement = $xpath->query('/wst:RequestSecurityTokenResponse/wst:RequestedSecurityToken/xenc:EncryptedData');
+        $rootElement = $xpath->query('/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse');
+        //$rootElement = $xpath->query('/wst:RequestSecurityTokenResponse/wst:RequestedSecurityToken/xenc:EncryptedData');
         $rootElement = $rootElement->item(0);
         if (preg_match('/EncryptedData/i', $rootElement->nodeName) > 0) {
             $topNode = $rootElement->firstChild;
@@ -189,7 +190,8 @@ class AdfsBridge {
             $assertion = $decryptedToken_dom->documentElement;
         } else {
             // Find the saml:Assertion element in the response.
-            $assertions = $xpath->query('/wst:RequestSecurityTokenResponse/wst:RequestedSecurityToken/saml:Assertion');
+            //$assertions = $xpath->query('/wst:RequestSecurityTokenResponse/wst:RequestedSecurityToken/saml:Assertion');
+            $assertions = $xpath->query('/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse/trust:RequestedSecurityToken/saml:Assertion');
             if ($assertions->length === 0) {
                 throw new Exception('Received an ADFS response without an assertion.');
             }
@@ -211,7 +213,8 @@ class AdfsBridge {
         $userDetails = new AdfsUserDetails();
         
 	// Extract the name identifier from the response.
-	$nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:NameIdentifier', $assertion);
+	//$nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:NameIdentifier', $assertion);
+	$nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:SubjectConfirmation/saml:ConfirmationMethod', $assertion);
 	if ($nameid->length === 0) {
             throw new Exception('Could not find the name identifier in the response from the WS-Fed.');
 	}
