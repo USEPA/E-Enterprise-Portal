@@ -96,37 +96,34 @@ function eenterprise_bridge_auth_authenticate($error) {
   if(!isset($_POST['wa']))
     drupal_set_message("Expected context parameter is not set", "error");
   else if($_POST['wa'] == 'wsignin1.0') {
-    $adfs = new AdfsBridge();
-    
-    // TODO: handle ee bridge response
-
-    // try {
-    //   $identity_providers = module_invoke_all('azure_identity_providers');
-    //   drupal_alter('azure_identity_providers', $identity_providers);
-    //   $token = new AzureAuthenticationSWT(
-    //     $_POST['wresult'],
-    //     variable_get('eenterprise_bridge_auth_realm'),
-    //     variable_get('eenterprise_bridge_auth_namespace'),
-    //     variable_get('eenterprise_bridge_auth_key'),
-    //     variable_get('eenterprise_bridge_auth_oldkey'),
-    //     $identity_providers
-    //   );
-    //   if ($token->isValid()) {
-    //     if ($uid = _eenterprise_bridge_auth_get_authmap($token->getNameIdentifier())) {
-    //       $account = user_load($uid);
-    //       drupal_set_message(t('Logged in'));
-    //       $form_state['uid'] = $account->uid;
-    //       user_login_submit(array(), $form_state);
-    //     }
-    //     else {
-    //       $_SESSION['eenterprise_bridge_auth'] = $token;
-    //       drupal_goto('user/register');
-    //     }
-    //   }
-    // }
-    // catch (Exception $e) {
-    //   drupal_set_message($e->getMessage(), 'error');
-    // }
+      $adfs = new AdfsBridge();
+      try{
+          $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $_POST['wa'], $_POST['wresult'], $_POST['wctx']);
+      }
+      catch (Exception $e) {
+          $msg = 'Message: '.$e->getMessage();
+          drupal_set_message($msg, "error");
+          watchdog('eenterprise_bridge_auth', $msg, array(), WATCHDOG_ERROR);
+      }
+      global $user;
+      if($user->uid == 0){
+          //Get user mapping and attempt to login user.
+          $ext_user = user_external_load($userDetails->attributes['namePerson'][0]);
+          if(!$ext_user){
+              user_external_login_register($userDetails->attributes['namePerson'][0], 'eenterprise_bridge_auth');
+              if($user){
+                  //TODO: $roles = get user roles here, an array of roles
+                  //$user_roles = array('roles' => $roles);
+                  //$user = user_save($user, $user_roles);
+              }
+          }
+          else{
+              //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
+              $user = $ext_user;
+              $form_state['uid'] = $user->uid;
+              user_login_submit(array(), $form_state);
+          }
+      }
   }
   drupal_goto('user');
 }
