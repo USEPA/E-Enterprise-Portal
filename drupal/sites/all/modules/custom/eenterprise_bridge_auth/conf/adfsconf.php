@@ -3,8 +3,8 @@
  * Adfs Configuration.
  */
 class AdfsConf {
-    
-    public $adfsUrl = 'https://adfsdemo2.com/adfs/ls/';
+
+    public $adfsUrl = 'https://extauthtest.epacdxnode.net';
     
     public $spIdentifier = 'urn:federation:php.interop.schakra.com-adfsdemo';
        
