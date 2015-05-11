@@ -7,15 +7,23 @@
  */
 
 /* HTML element (SMACSS base) rules */
-@import "normalize.css";
+/* @import "normalize.css"; */
+
+/* One EPA CSS rules */
+@import "typography.css";
+/* @import "lib/jquery.ui.theme.css"; */
+@import "design.css";
+@import "mobile-menu.css";
+@import "drop-down-menu.css";
+@import "lib/colorbox.css";
 
 /* Layout rules */
-@import "layouts/responsive.css";
+/* @import "layouts/responsive.css"; */
 
 /* Component (SMACSS module) rules */
-@import "components/misc.css";
+/* @import "components/misc.css"; */
 /* Optionally, add your own components here. */
-@import "print.css";
+/* @import "print.css"; */
 
 /* SMACSS theme rules */
 /* @import "theme-A.css"; */

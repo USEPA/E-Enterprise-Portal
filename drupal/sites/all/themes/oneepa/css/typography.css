@@ -1,0 +1,401 @@
+/**
+ * @file
+ * Typography styles.
+ *
+ * Baseline Grid: 1.5em (24px)
+ */
+
+/** Generic Screen Typography *************************************************/
+@media screen {
+  body,
+  button,
+  input,
+  select,
+  textarea {
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+  }
+  body,
+  .box.special > .pane-content,
+  .box.special > .pane-content {
+    font-size: 100%;
+    line-height: 1.5;
+  }
+  aside .pane-content,
+  .box > .pane-content {
+    font-size: 87.5%;
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: Consolas, 'Lucida Console', 'Courier New', monospace, sans-serif;
+    font-size: 1em;
+  }
+
+  b,
+  strong {
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, Geneva, sans-serif;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  th,
+  legend,
+  caption {
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, Geneva, sans-serif;
+    font-weight: bold;
+    line-height: 1.1;
+    margin: 0;
+    text-rendering: optimizeLegibility;
+  }
+  h1 a,
+  h2 a,
+  h3 a,
+  h4 a,
+  h5 a,
+  h6 a {
+    text-decoration: none;
+  }
+  h1 {
+    font-size: 200%;
+    padding: 0 0 .25em;
+  }
+  .page-title {
+    padding: .3125em 0 .75em;
+  }
+  h2,
+  .box.special > .pane-content h2,
+  .box.special > .pane-title {
+    font-size: 125%;
+  }
+  h2,
+  .box.special > .pane-content h2 {
+    padding: 0 0 .4em;
+  }
+  h3,
+  .box.special > .pane-content h3,
+  aside.col h2,
+  .box > .pane-content h2,
+  .box > .pane-title,
+  aside.col > .box.special > .pane-title {
+    font-size: 100%;
+  }
+  h3,
+  .box.special > .pane-content h3,
+  aside.col h2,
+  .box > .pane-content h2,
+  aside.col > .box.special > .pane-content h2 {
+    padding: 0 0 .5em;
+  }
+  h4,
+  .box.special > .pane-content h4,
+  aside.col h3,
+  .box > .pane-content h3,
+  aside.col > .box.special > .pane-content h3,
+  aside.col > .box > .pane-title,
+  aside.col > .box > .pane-content h2 {
+    font-size: 87.5%;
+  }
+  h4,
+  .box.special > .pane-content h4,
+  aside.col h3,
+  .box > .pane-content h3,
+  aside.col > .box.special > .pane-content h3,
+  aside.col > .box > .pane-content h2 {
+    padding: 0 0 .5714em;
+  }
+  h5,
+  .box.special > .pane-content h5,
+  aside.col h4,
+  .box > .pane-content h4,
+  aside.col > .box.special > .pane-content h4,
+  aside.col > .box > .pane-content h3 {
+    font-size: 75%;
+    padding: 0 0 .6666em;
+  }
+  h6,
+  aside.col h5,
+  .box > .pane-content h5,
+  aside.col > .box.special > .pane-content h5,
+  aside.col > .box > .pane-content h4 {
+    font-size: 68.75%;
+    padding: 0 0 .7273em;
+  }
+  aside.col h6,
+  .box > .pane-content h6,
+  aside.col > .box > .pane-content h5 {
+    font-size: 62.5%;
+    padding: 0 0 .8em;
+  }
+
+  .field-label,
+  .teaser-title {
+    font-size: 100% !important;
+    padding-bottom: 0.25em !important;
+  }
+
+  dd,
+  ol,
+  p,
+  ul,
+  .fieldset-description,
+  .form-actions,
+  .form-item,
+  .pane-content > .node,
+  .node-teaser,
+  .view-mode-teaser,
+  .view-mode-teaser2,
+  .view-mode-title2,
+  ul.accordion ul {
+    margin: 0;
+    padding-bottom: 1.5em;
+    word-wrap: break-word;
+  }
+  aside.col dd,
+  aside.col ol,
+  aside.col p,
+  aside.col ul,
+  aside.col .fieldset-description,
+  aside.col .form-actions,
+  aside.col .form-item,
+  aside.col .pane-content > .node {
+    padding-bottom: 1.3714em;
+  }
+
+  hr {
+    margin: 0;
+    padding: 0;
+  }
+
+  hr,
+  table,
+  div.links,
+  .box,
+  .panel-pane,
+  .progress,
+  .region-sidebar > .block,
+  .view-mode-title {
+    margin-bottom: 1.5em;
+  }
+  aside.col table,
+  aside.col .box,
+  aside.col .progress,
+  aside.col .panel-pane {
+    margin-bottom: 1.3714em;
+  }
+
+  ul {
+    padding-left: 1.2em; /* LTR */
+  }
+  blockquote,
+  dd,
+  ol {
+    padding-left: 1.5em; /* LTR */
+  }
+  div.indented,
+  p.indented {
+    margin-left: 1.5em;
+  }
+  ol li:last-child p:last-child,
+  ol ol,
+  ol ul,
+  p:empty,
+  ul li:last-child p:last-child,
+  ul ol,
+  ul ul,
+  .form-checkboxes .form-item,
+  .form-radios .form-item,
+  .messages ul:last-child,
+  .pane-content > .view-mode-title > h3,
+  .pane-content > .node > :last-child,
+  .pane-content > :last-child,
+  ul.accordion ul ul {
+    padding-bottom: 0;
+  }
+
+  blockquote {
+    margin: 0;
+    padding-right: 1.5em; /* LTR */
+    word-wrap: break-word;
+  }
+
+  sub,
+  sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  sup {
+    top: -.5em;
+  }
+  sub {
+    bottom: -.25em;
+  }
+
+  fieldset {
+    margin: 0 2px 1.5em;
+    padding: .35em 1em .75em;
+  }
+  .fieldset-wrapper div:last-child {
+    padding-bottom: 0;
+  }
+  .fieldset-description {
+    font-style: italic;
+  }
+
+  th,
+  caption {
+    line-height: 1.1;
+    padding: .45em 1em;
+  }
+  td {
+    line-height: 1.1;
+    padding: .375em 1em;
+  }
+
+  label {
+    display: block;
+    font-weight: bold;
+  }
+  label.option {
+    display: inline;
+    font-weight: normal;
+  }
+
+  figcaption,
+  small,
+  .archive,
+  .block-epa-workflow,
+  .block-user .item-list,
+  .comment-links,
+  .disclaimer,
+  .figcaption,
+  .fileinfo,
+  .filter-help,
+  .form-item .description,
+  .messages,
+  .more-link,
+  .node-links,
+  .pagetop > a,
+  div.password-confirm,
+  .password-strength-text,
+  .password-strength-title,
+  div.password-suggestions,
+  .progress .message,
+  .progress .percentage,
+  .search-results .search-info,
+  .submitted,
+  .vertical-tab-button .summary,
+  #block-pane-epa-web-area-connect,
+  #block-pane-social-sharing,
+  #block-epa-og-footer {
+    font-size: 75%;
+  }
+
+  .messages,
+  .password-suggestions {
+    margin-bottom: 1.5em;
+    padding: .75em .75em .75em 3.5em; /* LTR */
+  }
+
+  .messages li + li {
+    padding-top: .75em;
+  }
+  .messages li .placeholder:first-child,
+  .password-suggestions li .placeholder:first-child {
+    font-weight: bold;
+  }
+
+  .node-links,
+  .comment-links {
+    margin-bottom: 1.5em;
+  }
+}
+
+/** Print Typography **********************************************************/
+@media print {
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    -ms-filter: none !important;
+    filter: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    color: #444 !important;
+    text-decoration: none;
+  }
+  .content a[href]:after {
+    content: ' (' attr(href) ') ';
+    font-size: 10pt;
+    font-weight: normal;
+  }
+
+  /* Uncomment and replace www.example.com with your site's domain. */
+  .content a[href^='/']:after {
+    content: ' (http://epa.gov' attr(href) ') ';
+  }
+
+  a[href^='javascript:']:after,
+  a[href^='#']:after,
+  .user-picture > a[href]:after,
+  a.username[href]:after,
+  .comment-title a[href]:after,
+  .field-type-taxonomy-term-reference a[href]:after {
+    content: '';
+  }
+
+  abbr[title]:after {
+    content: ' (' attr(title) ')';
+  }
+
+  blockquote,
+  pre {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  img,
+  tr {
+    page-break-inside: avoid;
+  }
+
+  h1 a:after,
+  h2 a:after,
+  h3 a:after,
+  h4 a:after,
+  h5 a:after,
+  h6 a:after {
+    display: inline-block;
+  }
+
+  h2,
+  h3,
+  h4,
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  h2,
+  h3,
+  h4 {
+    page-break-after: avoid;
+  }
+
+  #comments {
+    page-break-before: always;
+  }
+}
