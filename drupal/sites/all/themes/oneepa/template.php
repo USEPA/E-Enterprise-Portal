@@ -9,8 +9,8 @@
 
 // @todo - Update epa theme_key to oneepa once all files exist
 if ($GLOBALS['theme_key'] === 'epa') {
-  require_once dirname(__FILE__) . '/inc/process.inc';
-  require_once dirname(__FILE__) . '/inc/theme.inc';
+  require_once dirname(__FILE__) . '/inc/process.inc.php';
+  require_once dirname(__FILE__) . '/inc/theme.inc.php';
 
   // Add tablesorter library.
   libraries_load('tablesorter');
