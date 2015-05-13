@@ -108,9 +108,9 @@ function eenterprise_bridge_auth_authenticate($error) {
       global $user;
       if($user->uid == 0){
           //Get user mapping and attempt to login user.
-          $ext_user = user_external_load($userDetails->attributes['namePerson'][0]);
+          $ext_user = user_external_load($userDetails->attributes['email'][0]);
           if(!$ext_user){
-              user_external_login_register($userDetails->attributes['namePerson'][0], 'eenterprise_bridge_auth');
+              user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
               if($user){
                   //TODO: $roles = get user roles here, an array of roles
                   //$user_roles = array('roles' => $roles);
