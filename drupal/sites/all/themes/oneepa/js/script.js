@@ -25,7 +25,7 @@ Drupal.behaviors.my_custom_behavior = {
 (function ($) {
 
 // Remove no-js class
-Drupal.behaviors.epa = {
+Drupal.behaviors.oneepa = {
   attach: function (context) {
     $('html.no-js', context).removeClass('no-js');
   }
@@ -52,7 +52,7 @@ Drupal.behaviors.skiplinks = {
 };
 
 // Add 'new' class if content is less than 30 days old.
-Drupal.behaviors.epaNew = {
+Drupal.behaviors.oneepaNew = {
   attach: function (context) {
     var now = new Date();
     now = now.getTime();
@@ -71,11 +71,13 @@ Drupal.behaviors.epaNew = {
 };
 
 // Use jQuery tablesorter plugin.
+/*
 Drupal.behaviors.tablesorter = {
   attach: function (context) {
     $('table.tablesorter', context).tablesorter();
   }
 };
+*/
 
 // Add simple accordion behavior.
 Drupal.behaviors.accordion = {

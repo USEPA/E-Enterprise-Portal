@@ -4,6 +4,13 @@
  * Preprocess and process functions.
  */
 
+/* ************************* @todo
+ADD preprocess option to add needed ARIA attributes to menu elements that own a submenu
+
+
+*/
+
+
 /**
  * Override or insert variables into the maintenance page template.
  */
@@ -120,6 +127,7 @@ function oneepa_preprocess_page(&$vars) {
 
   $vars['microsite_name'] = '';
   // Get web area parent.
+/*
   if ( ( $group = og_context() ) && empty($vars['node']->field_searchable_collection['und'][0]['value'])) {
     $web_area = node_load($group['gid']);
     // Check if we're in a Microsite.
@@ -134,6 +142,7 @@ function oneepa_preprocess_page(&$vars) {
       }
     }
   }
+*/
 
   $vars['content_language'] = language_default('language');
   if(!empty($vars['node']->field_language['und'][0]['value'])) {
