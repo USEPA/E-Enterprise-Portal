@@ -22,13 +22,20 @@
 </div></div>
 <?php endif; ?>
 <?php print render($page['alert']); ?>
-<nav class="nav secondary-nav" role="navigation">
-    <h2 class="element-invisible">Secondary menu</h2><ul class="menu secondary-menu pipeline"><li class="menu-1569 menu-item"><a href="http://www.epa.gov/espanol/" title="Spanish" class="menu-link">Español</a></li>
-<li class="menu-item"><a href="http://www2.epa.gov/languages/traditional-chinese" title="Traditional Chinese" class="menu-link">中文: 繁體版</a></li>
-<li class="menu-item"><a href="http://www2.epa.gov/languages/simplified-chinese" title="Simplified Chinese" class="menu-link">中文: 简体版</a></li>
-<li class="menu-item"><a href="http://www2.epa.gov/languages/vietnamese" title="Vietnamese" class="menu-link">Tiếng Việt</a></li>
-<li class="menu-item"><a href="http://www2.epa.gov/languages/korean" title="Korean" class="menu-link">한국어</a></li>
-</ul>  </nav>
+  <?php if ($secondary_menu): ?>
+  <nav class="header__secondary-menu" id="secondary-menu" role="navigation">
+    <?php print theme('links__system_secondary_menu', array(
+      'links' => $secondary_menu,
+      'attributes' => array(
+        'class' => array('links', 'inline', 'clearfix'),
+      ),
+      'heading' => array(
+        'text' => $secondary_menu_heading,
+        'level' => 'h2',
+        'class' => array('element-invisible'),
+      ),
+    )); ?>
+<?php endif; ?>
 <header class="masthead clearfix" role="banner">
   <?php if ($logo): ?>
     <a href="http://www2.epa.gov" title="<?php print t('EPA Home Page'); ?>" rel="home" class="header__logo" id="logo"><img class="site-logo" src="<?php print $logo; ?>" alt="EPA" /></a>
@@ -89,21 +96,6 @@
 	  ),
 	)); ?>
 	</nav>
-	  <?php if ($secondary_menu): ?>
-      <nav class="header__secondary-menu" id="secondary-menu" role="navigation">
-        <?php print theme('links__system_secondary_menu', array(
-          'links' => $secondary_menu,
-          'attributes' => array(
-            'class' => array('links', 'inline', 'clearfix'),
-          ),
-          'heading' => array(
-            'text' => $secondary_menu_heading,
-            'level' => 'h2',
-            'class' => array('element-invisible'),
-          ),
-        )); ?>
-      </nav>
-    <?php endif; ?>
 <?php endif; ?>
 <!-- @todo - Add content_language back in next line - section -->
 <section id="main-content" class="main-content clearfix" role="main" lang="<?php //print $content_language ?>">

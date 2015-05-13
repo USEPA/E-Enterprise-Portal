@@ -8,12 +8,12 @@
  */
 
 // @todo - Update epa theme_key to oneepa once all files exist
-if ($GLOBALS['theme_key'] === 'epa') {
-  require_once dirname(__FILE__) . '/inc/process.inc.php';
-  require_once dirname(__FILE__) . '/inc/theme.inc.php';
+if ($GLOBALS['theme_key'] === 'oneepa') {
+  require_once dirname(__FILE__) . '/inc/process.inc';
+  require_once dirname(__FILE__) . '/inc/theme.inc';
 
   // Add tablesorter library.
-  libraries_load('tablesorter');
+//  libraries_load('tablesorter');
 
   // Add base theme style sheets.
   $base_stylesheets = array(
@@ -310,6 +310,7 @@ function oneepa_css_alter(&$css) {
   }
 }
 
+/*
 function oneepa_menu_link(&$variables) {
   $element = $variables['element'];
   $sub_menu = '';
@@ -343,3 +344,4 @@ function oneepa_preprocess_menu_tree(&$variables) {
 function oneepa_menu_tree(&$variables) {
   return '<ul class="menu ' . $variables['menu_parent'] . '">' . $variables['tree'] . '</ul>';
 }
+*/

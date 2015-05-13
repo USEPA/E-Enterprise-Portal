@@ -93,7 +93,7 @@ function oneepa_links__system_main_menu($vars) {
     return '<h2 class="element-invisible">' . t('Main menu') . '</h2>' . drupal_render($tree);
   }
 
-  return epa_links($vars);
+  return oneepa_links($vars);
 }
 
 /**
@@ -104,7 +104,7 @@ function oneepa_links__comment($vars) {
   // Add pipeline class to comment links.
   $vars['attributes']['class'][] = 'pipeline';
 
-  return epa_links($vars);
+  return oneepa_links($vars);
 }
 
  /**
