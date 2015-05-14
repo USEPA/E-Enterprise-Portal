@@ -22,7 +22,7 @@ regions[help]           = Help
 regions[content]        = Content
 regions[sidebar_first]  = First sidebar
 regions[sidebar_second] = Second sidebar
-regions[footer]         = Footer
+regions[footer]        = Footer
 regions[bottom]         = Page bottom
 
 ; page_top and page_bottom are hidden (and won't show on blocks admin page) but are required for

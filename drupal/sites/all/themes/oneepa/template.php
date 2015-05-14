@@ -310,7 +310,6 @@ function oneepa_css_alter(&$css) {
   }
 }
 
-/*
 function oneepa_menu_link(&$variables) {
   $element = $variables['element'];
   $sub_menu = '';
@@ -327,6 +326,7 @@ function oneepa_menu_link(&$variables) {
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
+/*
 function oneepa_preprocess_menu_tree(&$variables) {
   $tree = new DOMDocument();
   @$tree->loadHTML($variables['tree']);
