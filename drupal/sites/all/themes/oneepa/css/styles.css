@@ -31,6 +31,7 @@
 .view-eenterprise-for-environment .view-content .views-row .node-title{
 	text-align: center;
 	font-size: 200%;
+    padding-top: 0.5em;
 }
 .view-eenterprise-for-environment .view-content .field-items .stay-tuned{
 	text-align: center;
@@ -64,4 +65,7 @@
 	border: 1px solid #CCC;
 	padding: 15px;
 	width: 45%;
+}
+#main-content .microsite-name{
+    display:none;
 }
