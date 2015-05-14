@@ -4,6 +4,12 @@
  * page.tpl.php - Returns the HTML for a single Drupal page.
  */
 ?>
+<?php
+if(drupal_is_front_page()) {
+    drupal_goto("/eenterprise-for-environment");
+    exit;
+}
+?>
 <?php print render($page['alert']); ?>
 <header class="masthead clearfix" role="banner">
   <?php if ($logo): ?>
