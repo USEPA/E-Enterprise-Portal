@@ -4,38 +4,7 @@
  * page.tpl.php - Returns the HTML for a single Drupal page.
  */
 ?>
-<?php if ($main_menu): ?>
-<div id="mobile-nav" class="mobile-nav">
-<div class="mobile-bar clearfix"><a class="mobile-home" href="http://www2.epa.gov" rel="home"><span class="mobile-home-icon">Home</span></a> <a class="menu-button" href="#mobile-links">Menu</a></div><div id="mobile-links" class="mobile-links element-hidden" style="height: 1552px;">
-	<?php print theme('links__system_main_menu', array(
-	  'links' => $main_menu,
-	  'attributes' => array(
-		'class' => array('menu', 'main-menu'),
-		'id' => array('main-menu'),
-	  ),
-	  'heading' => array(
-		'text' => t('Main menu'),
-		'level' => 'h2',
-		'class' => array('element-invisible'),
-	  ),
-	)); ?>	
-</div></div>
-<?php endif; ?>
 <?php print render($page['alert']); ?>
-  <?php if ($secondary_menu): ?>
-  <nav class="header__secondary-menu" id="secondary-menu" role="navigation">
-    <?php print theme('links__system_secondary_menu', array(
-      'links' => $secondary_menu,
-      'attributes' => array(
-        'class' => array('links', 'inline', 'clearfix'),
-      ),
-      'heading' => array(
-        'text' => $secondary_menu_heading,
-        'level' => 'h2',
-        'class' => array('element-invisible'),
-      ),
-    )); ?>
-<?php endif; ?>
 <header class="masthead clearfix" role="banner">
   <?php if ($logo): ?>
     <a href="http://www2.epa.gov" title="<?php print t('EPA Home Page'); ?>" rel="home" class="header__logo" id="logo"><img class="site-logo" src="<?php print $logo; ?>" alt="EPA" /></a>
@@ -78,7 +47,21 @@
   <?php endif; ?>
 
   <?php print $hgroup_close; ?>
-  <?php // INCLUDE UPPER RIGHT MENU HERE? ?>
+<?php if ($secondary_menu): ?>
+  <nav class="nav secondary-nav" id="secondary-nav" role="navigation">
+    <?php print theme('links__system_secondary_menu', array(
+      'links' => $secondary_menu,
+      'attributes' => array(
+        'class' => array('secondary-menu', 'menu', 'pipeline'),
+      ),
+      'heading' => array(
+        'text' => $secondary_menu_heading,
+        'level' => 'h2',
+        'class' => array('element-invisible'),
+      ),
+    )); ?>
+  </nav> 
+<?php endif; ?>
   <?php print render($page['header']); ?>
 </header>
 <?php if ($main_menu): ?>
@@ -148,6 +131,10 @@
   </div>
 </section>
 <footer class="main-footer clearfix" role="contentinfo">
+<?php 
+//	$menu = menu_navigation_links('menu-footer-disclaimers');
+//	print theme('links__menu_footer_disclaimers', array('pipeline' => $menu));
+?>
   <?php print render($page['footer']); ?>
 </footer>
 <?php print render($page['bottom']); ?>
