@@ -23,18 +23,8 @@
 <meta http-equiv="cleartype" content="on" />
 <meta http-equiv="ImageToolbar" content="false" />
 <!--googleon: all--><title><?php echo $page_title;?> - EPA e-Enterprise</title>
-<meta name="DC.description" content="<?php echo $page_description;?>" />
-<!--googleoff: snippet--><meta name="DC.creator" content="US EPA,OEI,OIAA,TRIPD" />
-<meta name="DC.language" content="en" />
-<link rel="shortlink" href="<?php echo $shortlink; ?>" /><!--Example: /node/3149 -->
-<link rel="canonical" href="<?php echo $canonicalurl; ?>" /><!-- Example: /toxics-release-inventory-tri-program-->
-<meta name="DC.Subject.epachannel" content="<?php echo $epachannel; ?>" /><!-- Example: Laws &amp; Regulations -->
-<meta name="DC.type" content="<?php echo $epatype; ?>" /><!-- Example: Laws &amp; Regulations -->
-<meta name="DC.date.reviewed" content="<?php echo $date_review; ?>" /><!-- Example: 2016-04-19 -->
-<meta name="DC.date.modified" content="<?php echo $date_modified; ?>" /><!-- Example: 2015-04-20 -->
-<meta name="DC.date.created" content="<?php echo $date_created; ?>" /><!-- Example: 2013-01-31 -->
-<meta name="keywords" content="<?php echo $keywords; ?>" /><!-- Example: information, reporting, annual, pollution prevention, TRI-MEweb, guidance, international, analysis -->
-<!--googleoff: all-->
+
+
 <link type="text/css" rel="stylesheet" href="http://www2.epa.gov/misc/ui/jquery.ui.autocomplete.css" media="all" />
 <link type="text/css" rel="stylesheet" href="http://www2.epa.gov/sites/all/themes/epa/css/lib/jquery.ui.theme.css" media="all" />
 <link type="text/css" rel="stylesheet" href="http://www2.epa.gov/sites/all/libraries/template/s.css" media="all" />
@@ -43,6 +33,7 @@
 
 <!-----UX / DEVELOPMENT PURPOSES ONLY - START ---->
 <link type="text/css" rel="stylesheet" href="css/syntax.css" media="all" />
+<link type="text/css" rel="stylesheet" href="css/custom.css" media="all" />
 <!-----UX / DEVELOPMENT PURPOSES ONLY - END ---->
 
 
