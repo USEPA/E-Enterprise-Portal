@@ -59,13 +59,25 @@
                 print $rows;
             ?>
 
-        <div class="credential-selection col-md-6 col-sm-5">
-            <h2>Already have an account?</h2>
-            <div><input type="submit" id="edit-e-enterprise-bridge" name="op" value="Log in" class="form-submit"><input type="hidden" name="form_build_id" value="form-n6ttQ7o5peYQAZ78uGxkzYrvdIgH-yAMfoHIW7Wox6E">
-                <input type="hidden" name="form_id" value="eenterprise_bridge_auth_login_form">
-            </div>
+            <div class="credential-selection col-md-6 col-sm-5">
+                <div>
+                    <?php
+                        global $user;
+                        if($user->uid == 0):
+                    ?>
+                    <h2>Already have an account?</h2>
+                        <?php
+                          $block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
+                          print str_replace("E-Enterprise Bridge", "Log In", render($block['content']));
+                        ?>
+                    <?php
+                    else:
+                        print "Welcome <h4>".$user->name."</h4>";
+                    endif;
+                    ?>
+                </div>
 
-            <p>Subscribe to learn first about the launch</p>
+                <br><p>Subscribe to learn first about the launch</p>
             <div>
                 <input type="text" />
                 <input type="button" value="Subscribe" />
