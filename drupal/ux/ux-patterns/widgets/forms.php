@@ -7,7 +7,11 @@
 </ol>
 </p>
 <div class="widget">
-
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-default">Left</button>
+  <button type="button" class="btn btn-default">Middle</button>
+  <button type="button" class="btn btn-default">Right</button>
+</div>
 </div>
 <div class="example">
 <button class="btn-primary clip_button" data-clipboard-target="btn-group-code">Copy</button>
@@ -15,9 +19,9 @@
 <pre>
 <code class="language-markup">
 <div class="btn-group" role="group" aria-label="...">
-  <button type="button" class="btn btn-default">Yuck</button>
-  <button type="button" class="btn btn-default">Check</button>
-  <button type="button" class="btn btn-default">Button</button>
+  <button type="button" class="btn btn-default">Left</button>
+  <button type="button" class="btn btn-default">Middle</button>
+  <button type="button" class="btn btn-default">Right</button>
 </div>
 </code>
 </pre>
