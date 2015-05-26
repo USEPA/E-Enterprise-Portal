@@ -1,0 +1,17 @@
+name = EPA_EE-263_Content_Type_Release-Notes
+description = Release notes
+core = 7.x
+package = Features
+version = 7.x-1.0
+project = epa_ee_263_content_type_release_notes
+dependencies[] = features
+dependencies[] = options
+dependencies[] = taxonomy
+dependencies[] = text
+features[features_api][] = api:2
+features[field_base][] = field_release_status
+features[field_instance][] = node-epa_release_notes-body
+features[field_instance][] = node-epa_release_notes-field_release_status
+features[node][] = epa_release_notes
+features[taxonomy][] = epa_release_status
+features_exclude[dependencies][content_types_may_20_2015] = content_types_may_20_2015
