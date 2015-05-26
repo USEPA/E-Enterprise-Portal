@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the EPA_EE-263_Views_LandingPageReleaseNotes feature.
+ */
+
+include_once 'epa_ee_263_views_landingpagereleasenotes.features.inc';
