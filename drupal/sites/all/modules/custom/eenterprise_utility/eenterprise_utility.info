@@ -1,0 +1,5 @@
+name = E-Enterprise Utility
+description = A module for small utility hooks that cannot fit in one category.
+core = 7.x
+version = "7.x-1.0"
+package = CGI

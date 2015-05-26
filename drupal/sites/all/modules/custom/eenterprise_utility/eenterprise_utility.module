@@ -1,0 +1,52 @@
+<?php
+
+/**
+  * Implements hook_menu().
+  **/
+function eenterprise_utility_menu() {
+    $items = array();
+}
+
+function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
+  if($form['#form_id'] == 'user_profile_form'){
+      hide($form['picture']);
+      hide($form['account']['current_pass']);
+      hide($form['account']['pass']);
+      $form['account']['mail']['#attributes'] = array('readonly' => 'readonly');
+      $form['#validate'][] = 'user_profile_form_custom_validate';
+      $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete Profile');
+      $form['actions']['delete']['#submit'][] = 'profile_delete_action';
+      $form['actions']['delete']['#attributes'] =  array('onclick' => "return confirm('This will delete your entire profile permanently from E-Enterprises and log you out from the system. Are you sure you want to do this?')");
+      //dsm($form);
+  }
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ * Custom validate for zip code.
+ */
+function user_profile_form_custom_validate(&$form, &$form_state) {
+    foreach($form_state['values']['field_zip_code']['und'] as $delta => $field) {
+        if(is_array($field) && is_numeric($delta)) {
+            $zip_val = $form_state['values']['field_zip_code']['und'][$delta]['value'];
+            if(!is_numeric($zip_val) && !empty($zip_val))
+                form_set_error('field_zip_code', t('Zip Code Can only be Number'));
+            else if(strlen($zip_val) != 5 && !empty($zip_val))
+                form_set_error('field_zip_code', t('Zip Code Should be 5 Digits'));
+        }
+    }
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ * Delete user's profile permanently.
+ */
+function profile_delete_action($form, &$form_state) {
+    global $user;
+    if($form_state['clicked_button']['#value'] == 'Delete Profile') {
+        user_delete($user->uid);
+        drupal_goto('/');
+    }
+}
