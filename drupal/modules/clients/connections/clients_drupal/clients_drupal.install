@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * Sets system variables and deletes connections on uninstall
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function clients_drupal_uninstall() {
+  // Delete all of this module's connections.
+  module_load_install('clients');
+  clients_connection_uninstall_connection_delete('clients_drupal');
+
+  // clean up any variables created by module
+  $module_variables = array(
+  );
+  foreach ($module_variables as $module_variable) {
+    variable_del($module_variable);
+  }
+}
+
+

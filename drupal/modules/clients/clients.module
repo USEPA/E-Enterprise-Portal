@@ -1,0 +1,602 @@
+<?php
+/**
+ * @file
+ * Clients module provides a UI, storage, and an API for handling connections
+ * to remote webservices, including those provided by Services module on other
+ * Drupal sites.
+ */
+
+// ========================================== Resource API
+
+/**
+ * Get the resource for a given component.
+ *
+ * Eg, load the resource for the remote block with delta $delta.
+ *
+ * @param $resource_type
+ *  The resource type.
+ * @param $component_name
+ *  The name of the component the resource is needed for.
+ *
+ * @return
+ *  A resource handler entity, or NULL if nothing is found.
+ */
+function clients_resource_get_for_component($resource_type, $component_name) {
+  $result = db_query("SELECT name FROM {clients_resource} WHERE type = :type AND component = :component", array(
+    ':type' => $resource_type,
+    ':component' => $component_name,
+  ));
+  $name = $result->fetchField();
+
+  // During _entity_defaults_rebuild() it's possible for the resource to not
+  // yet exist.
+  if (!empty($name)) {
+    return clients_resource_load($name);
+  }
+}
+
+/**
+ * Load a resource object.
+ *
+ * @param $name
+ *  A connection machine name.
+ * @return
+ *  A fully loaded connection handler object. If there is a problem, such as
+ *  the machine name or connection type not existing, a connection of the class
+ *  defined for broken handlers in hook_entity_info() is returned.
+ */
+function clients_resource_load($name) {
+  return entity_load_single('clients_resource', $name);
+}
+
+/**
+ * Load all resources for a given connection.
+ *
+ * @param $connection_name
+ *  The machine name of a connection.
+ *
+ * @return
+ *  An array of resource objects, keyed by name, or an empty array if none
+ *  found.
+ */
+function clients_resource_load_for_connection($connection_name) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'clients_resource')
+    ->propertyCondition('connection', $connection_name);
+
+  $result = $query->execute();
+
+  if (isset($result['clients_resource'])) {
+    $ids = array_keys($result['clients_resource']);
+    $resources = entity_load_multiple_by_name('clients_resource', $ids);
+
+    return $resources;
+  }
+  return array();
+}
+
+/**
+ * Load all resources.
+ *
+ * @param $type
+ *  (optional) Specify a single type to include. If omitted, all are returned.
+ *
+ * @return
+ *  An array of connection objects, keyed by name.
+ */
+function clients_resource_load_all($type = NULL) {
+  $resources = entity_load_multiple_by_name('clients_resource', FALSE);
+
+  if (isset($type)) {
+    $return = array();
+    foreach ($resources as $name => $resource) {
+      if ($resource->type == $type) {
+        $return[$name] = $resource;
+      }
+    }
+  }
+  else {
+    $return = $resources;
+  }
+
+  // We generally want resources ordered by machine name.
+  ksort($return);
+
+  return $return;
+}
+
+/**
+ * Get a list of all resource types.
+ */
+function clients_get_resource_types() {
+  static $resource_types;
+  if (!isset($resource_types)) {
+    // Invoke hook_clients_resource_type_info().
+    $resource_types = module_invoke_all('clients_resource_type_info');
+  }
+  return $resource_types;
+}
+
+// ========================================== Connection API
+
+/**
+ * Call a remote method on a client.
+ *
+ * This the main API for Client connections that support remote methods, such
+ * as XMLRPC.
+ *
+ * Used thus:
+ *  clients_connection_call('connection_machine_name', 'method_name', $params...);
+ * For example:
+ *  clients_connection_call('my_connection', 'node.load', 1);
+ * will return node 1 loaded from the remote site.
+ *
+ * @param $connection_name
+ *  The connection machine name.
+ * @param $method
+ *  The name of the remote method to call.
+ * @param ...
+ *  All other parameters are passed to the remote method.
+ *
+ * @return
+ *  Whatever is returned from the remote site.
+ *
+ * @throws Exception if the connection is not found or there is an error
+ *  returned from the remote site.
+ */
+function clients_connection_call($connection_name, $method) {
+  $connection = clients_connection_load($connection_name);
+
+  if (!$connection) {
+    throw new Exception(t('Client connection %connection not found.', array(
+      '%connection' => $connection_name,
+    )));
+  }
+
+  // Get all the arguments this function has been passed.
+  $function_args  = func_get_args();
+  // Slice out the ones that are arguments to the method call: everything past
+  // the 2nd argument.
+  $method_args    = array_slice($function_args, 2);
+
+  $return = $connection->callMethodArray($method, $method_args);
+  return $return;
+}
+
+/**
+ * Load a connection object which can then be used to make method calls.
+ *
+ * If the 'environment_name' variable is set, this will try to load a connection
+ * with the environment name appended to the connection name. This allows the
+ * the use of connections to development services on a development site.
+ *
+ * Because of the extra overhead in first trying to load the connection with the
+ * suffix, it is advisable to not set the 'environment_name' variable on a
+ * production site.
+ *
+ * @param $connection_name
+ *  A connection machine name.
+ *
+ * @return
+ *  A fully loaded connection handler object. If there is a problem, such as
+ *  the machine name or connection type not existing, a connection of the class
+ *  defined for broken handlers in hook_entity_info() is returned.
+ */
+function clients_connection_load($connection_name) {
+  // If the the local environment is set and not 'production', we look for an
+  // environment-specific connection.
+  $environment_name = variable_get('environment_name', NULL);
+  if (isset($environment_name) && $environment_name != 'production') {
+    // Append the environment name to the connection name, and try to load
+    // that connection instead.
+    $connection_name_environment = $connection_name . '_' . $environment_name;
+    if ($connection = entity_load_single('clients_connection', $connection_name_environment)) {
+      return $connection;
+    }
+  }
+
+  return entity_load_single('clients_connection', $connection_name);
+}
+
+/**
+ * Get the name of the connection that is being substituted for.
+ *
+ * @param $connection_name
+ *  The name of a connection in use.
+ *
+ * @return
+ *  If the given connection is being used as an environment substitute for
+ *  another, then the name of the inactive connection which is being replaced.
+ *  For example, given 'connection_dev' in the 'dev' environment, this returns
+ *  'connection'. If no connection substitution is occurring, the given name
+ *  is returned unchanged.
+ */
+function clients_connection_get_substituted_name($connection_name) {
+  $environment_name = variable_get('environment_name', NULL);
+  if (substr($connection_name, -1 * strlen($environment_name)) == $environment_name) {
+    $original_connection_name = substr($connection_name, 0, -1 * (strlen($environment_name) + 1));
+    if ($original_connection = entity_load_single('clients_connection', $original_connection_name)) {
+      return $original_connection->name;
+    }
+  }
+  return $connection_name;
+}
+
+/**
+ * Load all connections.
+ *
+ * TODO! @param $types
+ *  (optional) Specify a single type or a list of types to include.
+ *  If omitted, all are returned.
+ * @return
+ *  An array of connection objects, keyed by name.
+ */
+function clients_connection_load_all($types = array()) {
+  $connections = entity_load_multiple_by_name('clients_connection', FALSE);
+
+  // We generally want connections ordered by machine name.
+  ksort($connections);
+
+  return $connections;
+}
+
+/**
+ * Get a list of all connection types.
+ *
+ * @param $type
+ *  (Optional) The name of a single type to return a definition for. If omitted,
+ *  all definitions are returned.
+ *
+ * @return
+ *  An array of connection type definitions, keyed by machine name.
+ *
+ * @see hook_clients_connection_type_info()
+ */
+function clients_get_connection_types($type = NULL) {
+  $connection_types = &drupal_static(__FUNCTION__);
+  if (!isset($connection_types)) {
+    if ($cache = cache_get('clients_connection_type_info')) {
+      $connection_types = $cache->data;
+    }
+    else {
+      // Invoke hook_clients_connection_type_info().
+      $connection_types = module_invoke_all('clients_connection_type_info');
+      drupal_alter('clients_connection_type_info', $connection_types);
+
+      cache_set('clients_connection_type_info', $connection_types);
+    }
+  }
+
+  if (isset($type)) {
+    if (isset($connection_types[$type])) {
+      return $connection_types[$type];
+    }
+  }
+  else {
+    return $connection_types;
+  }
+}
+
+// ========================================== Core hook implementations
+
+/**
+ * Implements hook_help()
+ *
+ * @param $path
+ *   Which path of the site we're displaying help.
+ * @param $arg
+ *   Holds the current path as would be returned from arg() function.
+ * @return
+ *   Help text for the path.
+ */
+function clients_help($path, $arg) {
+  $output = '';
+  switch ($path) {
+    case "admin/help#clients":
+      $output = '<p>' . t("Clients module provides a UI, storage, and an API for handling connections to remote webservices, including those provided by Services module on other Drupal sites.") . '</p>';
+      break;
+    case 'admin/structure/clients':
+      $output = '<p>' . t("The clients module allows you to define connections to remote sites that provide services. ")
+        . t("Use the list below to configure and review the connections defined on your site.")
+        . '</p>';
+      break;
+    case 'admin/structure/clients/connections/%/test':
+      // (For some reason menu loaders don't work in hook_help() it seems.)
+      $output  = '<p>' . t('Use this page to test your connection is set up correctly.') . '</p>';
+      break;
+  }
+  return $output;
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function clients_entity_info() {
+  $return = array(
+    'clients_connection' => array(
+      'label' => t('Clients Connection'),
+      'controller class' => 'ClientsConnectionHandlerEntityController',
+      'base table' => 'clients_connection',
+      'uri callback' => 'clients_connection_uri',
+      'fieldable' => FALSE,
+      'entity keys' => array(
+        'id' => 'cid',
+        'name' => 'name',
+        'label' => 'label',
+      ),
+      // Entity API
+      'module' => 'clients',
+      'exportable' => TRUE,
+      'features controller class' => 'ClientsHandlerEntityFeaturesController',
+      'admin ui' => array(
+        'path' => 'admin/structure/clients/connections',
+        'file' => 'includes/clients.connection.admin.inc',
+        'controller class' => 'ClientsConnectionEntityUIController',
+        // Extras for our controller class.
+        // The user_access() permission for the whole of the UI.
+        'access permission' => 'administer clients connections',
+        // A callback whose keys will be the type names.
+        'types callback' => 'clients_get_connection_types',
+      ),
+      // argh. we are in entity_ui_get_form. this does nada.
+      'form callback' => 'clients_connection_form',
+      'export' => array(
+        'default hook' => 'clients_default_connections',
+      ),
+      // Entity API callbacks for the admin UI.
+      // Our handler controller's stuff.
+      'factory' => array(
+        'class prefix' => 'clients_connection_',
+        'broken class' => 'ClientsHandlerEntityBroken',
+      ),
+    ),
+    'clients_resource' => array(
+      'label' => t('Clients Resource'),
+      'controller class' => 'ClientsHandlerEntityController',
+      'base table' => 'clients_resource',
+      'uri callback' => 'clients_resource_uri',
+      'fieldable' => FALSE,
+      'entity keys' => array(
+        'id' => 'rid',
+        'name' => 'name',
+        'label' => 'label',
+      ),
+      // Entity API
+      'module' => 'clients',
+      'exportable' => TRUE,
+      'features controller class' => 'ClientsHandlerEntityFeaturesController',
+      'admin ui' => array(
+        'path' => 'admin/structure/clients/resources',
+        'file' => 'includes/clients.resource.admin.inc',
+        'controller class' => 'ClientsResourceEntityUIController',
+        // Extras for our controller class.
+        'access permission' => 'administer clients resources',
+        // A callback whose keys will be the type names.
+        'types callback' => 'clients_get_resource_types',
+      ),
+      // argh. we are in entity_ui_get_form. this does nada.
+      'form callback' => 'clients_resource_form',
+      'export' => array(
+        'default hook' => 'clients_default_resources',
+      ),
+      // Entity API callbacks for the admin UI.
+      // Our handler controller's stuff.
+      'factory' => array(
+        'class prefix' => 'clients_resource_',
+        'broken class' => 'ClientsHandlerEntityBroken',
+      ),
+    ),
+  );
+
+  return $return;
+}
+
+/**
+ * Implements hook_permission()
+ */
+function clients_permission() {
+  return array(
+    'administer clients connections' => array(
+      'title' => t('Administer client connections'),
+    ),
+    'administer clients resources' => array(
+      'title' => t('Administer client resources'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu()
+ */
+function clients_menu() {
+  $items = array();
+
+  // Note most of the admin UI is done via EntityAPI UI controllers.
+  // @see ClientsHandlerEntityUIController.
+
+  $items['admin/structure/clients/settings'] = array(
+    'title' => 'Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('clients_admin_cache'),
+    'access arguments' => array('administer clients connections'),
+    'weight' => 10,
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['admin/structure/clients/settings/cache'] = array(
+    'title' => 'Cache',
+    'weight' => -1,
+    'description' => 'cccc connections',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('clients_admin_cache'),
+    'access arguments' => array('administer clients connections'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Form builder for the admin settings form.
+ */
+function clients_admin_cache($form_state) {
+  $form = array();
+
+  $form['clients_cache_time'] = array(
+    '#type' => 'select',
+    '#title' => t('Local cache time'),
+    '#default_value' => variable_get('clients_cache_time', '0'), // change default in production
+    '#options' => array(
+      '0' => t('No cache'),
+      'cron' => t('Refresh on next cron run'),
+      '60' => t('1 hour'),
+      '720' => t('12 hours'),
+      '2880' => t('2 days'),
+    ),
+    '#description' => t("Minimum cache lifetime (if set, content will refresh on the next cron run after this time has elapsed)"),
+    '#required' => TRUE,
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function clients_flush_caches() {
+  return array('cache_clients');
+}
+
+// Entity API callbacks.
+
+/**
+ * Entity URI callback
+ *
+ * TODO: is this ever used?
+ */
+function clients_resource_uri($resource) {
+  return array(
+    'path' => 'admin/structure/clients/resources/manage/' . $resource->name,
+  );
+}
+
+// ================================================ CTools plugins
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+function clients_ctools_plugin_type() {
+  $plugins['clients_credentials_storage'] = array(
+  );
+
+  return $plugins;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function clients_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'clients') {
+    return "plugins/$plugin_type";
+  }
+}
+
+// ================================================ Misc helpers
+
+/**
+ * FormAPI helper to get a list of clients for a select form element.
+ *
+ * @param $types
+ *  (optional) Specify a single type or a list of types to include.
+ *  If omitted, all are returned.
+ * @param $required
+ *  Whether the select element is required.
+ * @return
+ *   Array of options for a FormAPI select element; assumed to be single
+ *   rather than multiple-valued.
+ */
+function clients_connections_select_options($types = array(), $required = TRUE) {
+  $options = array();
+  if ($required) {
+    $options[0] = t('- Please choose -');
+  }
+  else {
+    $options[0] = t('- None selected -');
+  }
+
+  foreach (clients_connection_load_all($types) as $name => $connection) {
+    $options[$name] = $name;
+  }
+
+  return $options;
+}
+
+/**
+ * FormAPI helper to get a list of clients for a checkboxes form element.
+ *
+ * @param $types
+ *  (optional) Specify a single type or a list of types to include.
+ *  If omitted, all are returned.
+ */
+function clients_connections_checkbox_options($types = array()) {
+  $options = array();
+  foreach (clients_connection_load_all($types) as $name => $connection) {
+    $options[$name] = $name;
+  }
+
+  return $options;
+}
+
+/**
+ * Page callback for choosing the type of hander to add.
+ *
+ * @param $entity_type
+ *  The entity type for the handlers.
+ */
+function clients_handler_add_page($entity_type) {
+  $info = entity_get_info($entity_type);
+  $handler_types_callback = $info['admin ui']['types callback'];
+  $handler_types = $handler_types_callback();
+
+  // Because the menu item is a local action, we have to set the page title here.
+  drupal_set_title(t('Add @type', array(
+    '@type' => $info['label'],
+  )));
+
+  if (empty($handler_types)) {
+    return t('No types are available: you need to enable one or more modules that provide them.');
+  }
+
+  $output = '<dl class="handler-type-list">';
+  foreach ($handler_types as $type => $handler_info) {
+    $output .= '<dt>'
+      . l($handler_info['label'], $info['admin ui']['path'] . '/add/' . $type)
+      . '</dt>';
+    if (isset($handler_info['description'])) {
+      $output .= '<dd>'
+        . $handler_info['description']
+        . '</dd>';
+    }
+  }
+  $output .= '</dl>';
+
+  return $output;
+}
+
+/**
+ * Page callback to add a handler entity of a specific bundle.
+ *
+ * @param $entity_type
+ *   The type of the entity.
+ * @param $handler_type
+ *   The handler type machine name.
+ */
+function clients_handler_get_add_form($entity_type, $handler_type) {
+  // Make a stub entity of the right bundle to pass to entity_ui_get_form().
+  $values = array(
+    'type' => $handler_type,
+  );
+  $entity = entity_create($entity_type, $values);
+
+  return entity_ui_get_form($entity_type, $entity, 'add');
+}

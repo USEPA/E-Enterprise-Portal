@@ -1,0 +1,137 @@
+<?php
+/**
+ * @file
+ * Provides connection types for Clients module that connect to remote Drupal
+ * sites running Services module with the XMLRPC server.
+ */
+
+/**
+ * Implements hook_help()
+ *
+ * @param path which path of the site we're displaying help
+ * @param arg array that holds the current path as would be returned from arg() function
+ * @return help text for the path
+ */
+function clients_drupal_help($path, $arg) {
+  $output = '';
+  switch ($path) {
+    case "admin/help#clients_drupal":
+      $output = '<p>' .  t("Provides connection plugins for Clients module that connect to remote Drupal sites running Services module.") . '</p>';
+      break;
+  }
+  return $output;
+}
+
+/**
+ * Implements hook_clients_connection_type_info().
+ *
+ * Define the connection types we provide.
+ */
+function clients_drupal_clients_connection_type_info() {
+  return array(
+    // Key by machine name. Used to determine class names.
+    'drupal_services_5' => array(
+       // Human-readable label.
+      'label'  => t('Drupal XMLRPC Services 5'),
+      // Description for UI.
+      'description' => t('Connects to Drupal sites using Services 5.x-0.92 with XMLRPC endpoints.'),
+      // Test handler classes.
+      'tests' => array(
+        'connect' => 'ClientsConnectionDrupalTestConnect',
+        'login' => 'ClientsConnectionDrupalTestLogin',
+        'node_load' => 'ClientsConnectionDrupalTestNodeLoad5',
+      ),
+    ),
+    'drupal_services_6_2' => array(
+      'label'  => t('Drupal XMLRPC Services 6.x-2.x'),
+      'description' => t('Connects to Drupal sites using Services 6.x-2.x with XMLRPC endpoints.'),
+      'tests' => array(
+        'connect' => 'ClientsConnectionDrupalTestConnect',
+        'login' => 'ClientsConnectionDrupalTestLogin',
+        'node_load' => 'ClientsConnectionDrupalTestNodeLoad6_2',
+      ),
+    ),
+    'drupal_services_7_3' => array(
+      'label'  => t('Drupal XMLRPC Services 7.x-3.x'),
+      'description' => t('Connects to Drupal sites using Services 7.x-3.x with XMLRPC endpoints.'),
+      'tests' => array(
+        'connect' => 'ClientsConnectionDrupalTestConnect',
+        'login' => 'ClientsConnectionDrupalTestLogin',
+        'node_load' => 'ClientsConnectionDrupalTestNodeLoad7_3',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu()
+ */
+function clients_drupal_menu() {
+  $items = array();
+  // Client provider modules may add settings beneath the Settings tab.
+  $items['admin/structure/clients/settings/drupal'] = array(
+     'title' => 'Configure Drupal',
+     'page callback' => 'drupal_get_form',
+     'page arguments' => array('clients_drupal_admin'),
+     'access arguments' => array('administer clients connections'),
+     'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Form builder for the Drupal clients admin settings.
+ */
+function clients_drupal_admin($form, &$form_state) {
+  $form = array();
+  $options = clients_drupal_encryption_methods();
+  $form['clients_drupal_encryption_method'] = array(
+    '#type' => 'select',
+    '#title' => t('Remote password encryption method'),
+    '#default_value' => variable_get('clients_drupal_encryption_method', 'no_encryption'),
+    '#options' => $options,
+    '#required' => TRUE,
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Helper function to retrieve all available encryption methods.
+ */
+function clients_drupal_encryption_methods() {
+  // Invoke hook_clients_drupal_encryption_methods().
+  $options = module_invoke_all('clients_drupal_encryption_methods');
+  $options['no_encryption'] = t('No encryption');
+  return $options;
+}
+
+/**
+ * Encrypt a value with the chosen encryption method.
+ */
+function clients_drupal_encrypt($val) {
+  $encryption_method = variable_get('clients_drupal_encryption_method', 'no_encryption');
+  if ($encryption_method == 'no_encryption') {
+    return $val;
+  }
+  else {
+    // This is brittle: it depends on the thing declared in
+    // hook_clients_drupal_encryption_methods() having the same key
+    // as the providing module.
+    return module_invoke($encryption_method, 'clients_drupal_encrypt', $val);
+  }
+}
+
+/**
+ * Decrypt a value with the chosen encryption method.
+ */
+function clients_drupal_decrypt($val) {
+  $encryption_method = variable_get('clients_drupal_encryption_method', 'no_encryption');
+  if ($encryption_method == 'no_encryption') {
+    return $val;
+  }
+  else {
+    return module_invoke($encryption_method, 'clients_drupal_decrypt', $val);
+  }
+}
