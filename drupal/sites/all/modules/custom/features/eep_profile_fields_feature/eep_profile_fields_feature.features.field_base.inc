@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * eep_profile_field_base_feature.features.field_base.inc
+ * eep_profile_fields_feature.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function eep_profile_field_base_feature_field_default_field_bases() {
+function eep_profile_fields_feature_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'field_profile_favourites'
