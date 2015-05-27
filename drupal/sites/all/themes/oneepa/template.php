@@ -328,6 +328,23 @@ function oneepa_menu_link(&$variables) {
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
+/**
+ * @param $existing
+ * @param $type
+ * @param $theme
+ * @param $path
+ * Hook Theme for oneepa.
+ */
+function oneepa_theme($existing, $type, $theme, $path){
+    $items['user_profile_form'] = array(
+        'render element' => 'form',
+        'template' => 'user_profile_form',
+        'path' => drupal_get_path('theme', 'oneepa') . '/templates/forms',
+    );
+
+    return $items;
+}
+
 /*
 function oneepa_preprocess_menu_tree(&$variables) {
   $tree = new DOMDocument();
