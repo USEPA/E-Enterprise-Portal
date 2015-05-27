@@ -61,6 +61,8 @@ if ($GLOBALS['theme_key'] === 'oneepa') {
     'mobile-menu.css',
     'drop-down-menu.css',
     'lib/colorbox.css',
+    '../inc/bootstrap/css/bootstrap.min.css',
+    'eenterprise.css',
   );
   foreach ($design_stylesheets as $val) {
     drupal_add_css(

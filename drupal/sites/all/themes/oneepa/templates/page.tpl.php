@@ -6,7 +6,7 @@
 ?>
 <?php
 if(drupal_is_front_page()) {
-    drupal_goto("/eenterprise-for-environment");
+    drupal_goto("/welcome");
     exit;
 }
 ?>
@@ -84,6 +84,10 @@ if(drupal_is_front_page()) {
 		'class' => array('element-invisible'),
 	  ),
 	)); ?>
+	<?php 
+	$block = module_invoke('search', 'block_view', 'search');
+	print render($block); 
+ ?>
 	</nav>
 <?php endif; ?>
 <!-- @todo - Add content_language back in next line - section -->

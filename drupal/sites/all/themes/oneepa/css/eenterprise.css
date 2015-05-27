@@ -1,0 +1,60 @@
+/** Reset and Bootstrap Adjustment Styles *********************************************************/
+body {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+	font-size: 16px !important;
+	line-height: 1.42857143 !important;
+	color: 333333;
+	background-color: #fff;
+	 /* s.css override */
+}
+h1, h2, h3, h4, h5, h6, th, legend, caption {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;	 /* s.css override */
+}
+.jumbotron {
+	margin-bottom: 0px;
+    background-image: url('../images/nurturingtree-2.jpg');
+    background-position: 0% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #262626;
+/*     text-shadow: #222222 0.1em 0.1em 0.1em; */
+    text-align: center;
+    
+}
+
+/** Accessibility Helper Styles *********************************************************/
+/*div[id^='block-views-'] */
+
+.element-invisible, .page-welcome .page-title, .page-welcome .article-title {
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+}
+.page-welcome h1 .element-invisible.element-focusable:active,
+.page-welcome h1 .element-invisible.element-focusable:focus {
+  clip: auto;
+  position: static !important;
+}
+
+/** Main OneEPA Template Styles *********************************************************/
+.main-nav {position:relative;}
+#search-block-form {position:absolute;right:1.75em;}
+
+/** Search Styles *********************************************************/
+.search-results h3 {padding-bottom:0.25em;}
+.search-snippet {padding-bottom:0.25em;}
+.search-advanced {top:0;}
+
+/** Functional Styles *********************************************************/
+.messages--status.messages.status {margin-bottom:0;}
+.page-welcome section {padding:0;}
+.page-welcome ul {list-style:none;}
+.page-welcome .row {padding:0.5em 0;}
+.page-welcome .row, .page-welcome .view-footer h3 {margin:1em !important;} /* s.css override */
+.page-welcome .view-footer h3 {text-transform: uppercase;}
+.page-welcome .view-footer li h3 {margin:15px 0 0 !important;text-transform: none;}
+.row.shaded {background-color:#f7f7f9;border:1px solid #e1e1e8;border-width:1px 0;margin:1em 0 !important;padding:0 1em;}
+#benefits li img {display:block;}
+#including li img {display:inline-block;margin-right:10px;max-width:9em;}
+#including li h3, #including li p {display:inline-block;}
+#including li br {display:none;}
+
