@@ -37,7 +37,11 @@
   <?php endif; ?>
   <?php print $scripts; ?>
 </head>
-<body class="<?php print $classes; ?>" <?php print $attributes;?>>
+<body class="<?php print $classes; ?> <?php
+if(!drupal_is_front_page()) {
+    print "wide-template";
+}
+?>" <?php print $attributes;?>>
   <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable"><?php print t('Jump to main content'); ?></a></div>
   <?php print $page_top; ?>
   <?php print $page; ?>

@@ -105,7 +105,8 @@ function oneepa_preprocess_html(&$vars) {
     }
 
     // Find the primary group for this node
-    $context = og_context();
+    /*
+$context = og_context();
 
     if ($context) {
       $primary_group = node_load($context['gid']);
@@ -116,6 +117,7 @@ function oneepa_preprocess_html(&$vars) {
       // Add rss feed for this web area.
       $vars['web_area_feed'] = '<link rel="alternate" type="application/atom+xml" title="' . $primary_group->title . '" href="/feed/' . $context['gid'] . '/rss.xml" />';
     }
+*/
   }
 }
 
