@@ -20,7 +20,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       $form['#validate'][] = 'user_profile_form_custom_validate';
       $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
       $form['actions']['delete']['#submit'][] = 'profile_delete_action';
-      $form['actions']['delete']['#attributes'] =  array('onclick' => "return confirm('This will delete your entire profile permanently from E-Enterprises and log you out from the system. Are you sure you want to do this?')");
+      $form['actions']['delete']['#attributes'] =  array('onclick' => "return confirm('This will delete your entire profile permanently from E-Enterprise Platform and log you out from the system. Are you sure you want to do this?')");
 
       //We are not validating profile picture and password as we do not save and manage these information on the Portal.
       foreach($form['#validate'] as $key => $val){
