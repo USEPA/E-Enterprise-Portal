@@ -56,6 +56,20 @@ h3 {font-size:1.5em;}
 .field-name-field-profile-first-name, .field-name-field-profile-last-name {display:inline-block;}
 #user-profile-form table, #user-profile-form th {border:none;}
 #user-profile-form th {text-transform: none;font-size:1.5em;}
+#user-profile-form .form-text {font-size:100%;}
+#user-profile-form .description {color:#333333}
+#user-profile-form .form-item .form-type-textfield {padding-bottom:0.5em;}
+#user-profile-form .form-type-textfield {margin-right:20px;width:20em;}
+#user-profile-form .form-type-textfield label {font-weight: normal;font-size:0.95em;}
+#user-profile-form .form-type-textfield label, #user-profile-form .form-type-textfield input {display:block;}
+.draggable .handle {font-size:2em;}
+a.tabledrag-handle .handle {margin:-0.25em 0.5em}
+#user-profile-form .field-multiple-table td.field-multiple-drag a.tabledrag-handle {padding-right:0}
+#user-profile-form thead label {padding:1em 1em 0.25em 0.5em;}
+#user-profile-form thead, #user-profile-form th, #user-profile-form tr:nth-of-type(even) {background-color:transparent;}
+#user-profile-form td {border:none;}
+#user-profile-form .form-submit {background-color: #337ab7;padding:0.5em 1em;height:auto;border-color:#337ab7;border-radius:4px;font-size:0.95em;font-weight:normal;margin-left:3em;}
+
 
 /** Functional Styles *********************************************************/
 .messages--status.messages.status {margin-bottom:0;}
