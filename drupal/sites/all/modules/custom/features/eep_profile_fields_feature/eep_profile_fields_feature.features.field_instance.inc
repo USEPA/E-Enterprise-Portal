@@ -78,6 +78,41 @@ function eep_profile_fields_feature_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'user-user-field_profile_interests'
+  $field_instances['user-user-field_profile_interests'] = array(
+    'bundle' => 'user',
+    'default_value' => array(
+      0 => array(
+        'value' => 'RGC',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 4,
+      ),
+    ),
+    'entity_type' => 'user',
+    'field_name' => 'field_profile_interests',
+    'label' => 'Interests',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => 0,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 7,
+    ),
+  );
+
   // Exported field_instance: 'user-user-field_profile_last_name'
   $field_instances['user-user-field_profile_last_name'] = array(
     'bundle' => 'user',
@@ -151,6 +186,7 @@ function eep_profile_fields_feature_field_default_field_instances() {
   t('Enter City or Zip Code');
   t('Favourites');
   t('First Name');
+  t('Interests');
   t('Last Name');
 
   return $field_instances;
