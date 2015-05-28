@@ -134,10 +134,6 @@ if(drupal_is_front_page()) {
   </div>
 </section>
 <footer class="main-footer clearfix" role="contentinfo">
-<?php 
-//	$menu = menu_navigation_links('menu-footer-disclaimers');
-//	print theme('links__menu_footer_disclaimers', array('pipeline' => $menu));
-?>
   <?php print render($page['footer']); ?>
 </footer>
 <?php print render($page['bottom']); ?>
