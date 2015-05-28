@@ -6,7 +6,7 @@
 ?>
 <?php
 if(drupal_is_front_page()) {
-    drupal_goto("/welcome");
+    drupal_goto("/eenterprise-for-environment");
     exit;
 }
 ?>
@@ -30,14 +30,7 @@ if(drupal_is_front_page()) {
     <h1 class="site-name">
 
       <?php
-        $link_open = '';
-        $link_close = '';
-
-        // if (!$is_front) {
-//           $link_open = '<a href="' . $front_page . '" title="' . t('Go to the home page') . '" rel="home">';
-//           $link_close = '</a>';
-//         }
-		$link_open = '<a href="http://www2.epa.gov" title="Go to the home page" rel="home">';
+		$link_open = '<a href="http://www2.epa.gov" title="EPA home page" rel="home">';
 		$link_close = '</a>';
       ?>
 

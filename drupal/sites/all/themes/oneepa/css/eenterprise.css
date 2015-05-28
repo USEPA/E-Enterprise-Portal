@@ -25,7 +25,7 @@ h1, h2, h3, h4, h5, h6, th, legend, caption {
 /** Accessibility Helper Styles *********************************************************/
 /*div[id^='block-views-'] */
 
-.element-invisible, .page-welcome .page-title, .page-welcome .article-title {
+.element-invisible, .page-welcome .page-title, .page-welcome .article-title, .page-eenterprise-for-environment .article-title {
   clip: rect(1px, 1px, 1px, 1px);
   position: absolute !important;
 }
@@ -38,6 +38,9 @@ h1, h2, h3, h4, h5, h6, th, legend, caption {
 /** Main OneEPA Template Styles *********************************************************/
 .main-nav {position:relative;}
 #search-block-form {position:absolute;right:1.75em;}
+.jumbotron p {margin-bottom:0;}
+.well-narrow {max-width:25em;margin:0 auto;}
+.breadcrumb {padding:0;background-color: transparent;border-radius: none;}
 
 /** Search Styles *********************************************************/
 .search-results h3 {padding-bottom:0.25em;}
@@ -46,15 +49,15 @@ h1, h2, h3, h4, h5, h6, th, legend, caption {
 
 /** Functional Styles *********************************************************/
 .messages--status.messages.status {margin-bottom:0;}
-.page-welcome section {padding:0;}
-.page-welcome ul {list-style:none;}
-.page-welcome .row {padding:0.5em 0;}
-.page-welcome .row, .page-welcome .view-footer h3 {margin:1em !important;} /* s.css override */
-.page-welcome .view-footer h3 {text-transform: uppercase;}
-.page-welcome .view-footer li h3 {margin:15px 0 0 !important;text-transform: none;}
+.page-welcome section, .page-eenterprise-for-environment section {padding:0;}
+.page-welcome ul, .page-eenterprise-for-environment ul {list-style:none;}
+.page-welcome .row, .page-eenterprise-for-environment .row {padding:0.5em 0;}
+.page-welcome .row, .page-eenterprise-for-environment .row, .page-welcome .view-footer h3, .page-eenterprise-for-environment .view-footer h3 {margin:1em !important;} /* s.css override */
+.page-welcome .view-footer h3, .page-eenterprise-for-environment .view-footer h3 {text-transform: uppercase;}
+.page-welcome .view-footer li h3, .page-eenterprise-for-environment li h3 {margin:15px 0 0 !important;text-transform: none;}
 .row.shaded {background-color:#f7f7f9;border:1px solid #e1e1e8;border-width:1px 0;margin:1em 0 !important;padding:0 1em;}
 #benefits li img {display:block;}
-#including li img {display:inline-block;margin-right:10px;max-width:9em;}
-#including li h3, #including li p {display:inline-block;}
+#including li img {display:inline-block;vertical-align: top;margin-right:10px;width:3.5em;height:3.5em;}
+#including li div {display:inline-block;vertical-align: top;}
 #including li br {display:none;}
 
