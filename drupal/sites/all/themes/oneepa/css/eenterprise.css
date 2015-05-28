@@ -3,13 +3,15 @@ body {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
 	font-size: 16px !important;
 	line-height: 1.42857143 !important;
-	color: 333333;
-	background-color: #fff;
 	 /* s.css override */
+	 background: #369;
 }
 h1, h2, h3, h4, h5, h6, th, legend, caption {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;	 /* s.css override */
 }
+h2 {font-size:2em;}
+h3 {font-size:1.5em;}
+
 .jumbotron {
 	margin-bottom: 0px;
     background-image: url('../images/nurturingtree-2.jpg');
@@ -21,11 +23,14 @@ h1, h2, h3, h4, h5, h6, th, legend, caption {
     text-align: center;
     
 }
+.page-eenterprise-for-environment .row.shaded br {display:none;}
+
+#edit-e-enterprise-bridge {background-color: #337ab7;padding:1em 3em;height:auto;border-color:#337ab7;border-radius:4px;font-size:1.25em;font-weight:normal;}
 
 /** Accessibility Helper Styles *********************************************************/
 /*div[id^='block-views-'] */
 
-.element-invisible, .page-welcome .page-title, .page-welcome .article-title {
+.element-invisible, .page-welcome .page-title, .page-welcome .article-title, .page-eenterprise-for-environment .article-title {
   clip: rect(1px, 1px, 1px, 1px);
   position: absolute !important;
 }
@@ -38,23 +43,37 @@ h1, h2, h3, h4, h5, h6, th, legend, caption {
 /** Main OneEPA Template Styles *********************************************************/
 .main-nav {position:relative;}
 #search-block-form {position:absolute;right:1.75em;}
+.jumbotron p {margin-bottom:0;}
+.well-narrow {max-width:25em;margin:0 auto;}
+.breadcrumb {padding:0;background-color: transparent;border-radius: none;}
 
 /** Search Styles *********************************************************/
 .search-results h3 {padding-bottom:0.25em;}
 .search-snippet {padding-bottom:0.25em;}
 .search-advanced {top:0;}
 
+/** Profile Styles *********************************************************/
+.field-name-field-profile-first-name, .field-name-field-profile-last-name {display:inline-block;}
+#user-profile-form table, #user-profile-form th {border:none;}
+#user-profile-form th {text-transform: none;font-size:1.5em;}
+
 /** Functional Styles *********************************************************/
 .messages--status.messages.status {margin-bottom:0;}
-.page-welcome section {padding:0;}
-.page-welcome ul {list-style:none;}
-.page-welcome .row {padding:0.5em 0;}
-.page-welcome .row, .page-welcome .view-footer h3 {margin:1em !important;} /* s.css override */
-.page-welcome .view-footer h3 {text-transform: uppercase;}
-.page-welcome .view-footer li h3 {margin:15px 0 0 !important;text-transform: none;}
+.page-welcome section, .page-eenterprise-for-environment section {padding:0;}
+.page-welcome ul, .page-eenterprise-for-environment ul {list-style:none;}
+.page-welcome .row, .page-eenterprise-for-environment .row {padding:0.5em 0;}
+.page-welcome .row, .page-eenterprise-for-environment .row, .page-welcome .view-footer h3, .page-eenterprise-for-environment .view-footer h3 {margin-left:1em !important;} /* s.css override */
+.page-eenterprise-for-environment .view-footer h3 {margin-top:1em;margin-bottom:5px;padding-bottom:0;}
+.page-welcome .view-footer li h3, .page-eenterprise-for-environment .view-footer li h3 {margin:0 !important;}
 .row.shaded {background-color:#f7f7f9;border:1px solid #e1e1e8;border-width:1px 0;margin:1em 0 !important;padding:0 1em;}
 #benefits li img {display:block;}
-#including li img {display:inline-block;margin-right:10px;max-width:9em;}
-#including li h3, #including li p {display:inline-block;}
-#including li br {display:none;}
+#including li img {display:inline-block;vertical-align: top;margin-top:1em;margin-right:10px;width:3.5em;height:3.5em;}
+#including li div {display:inline-block;vertical-align: top;width:85%;margin-left:10px;}
+.page-eenterprise-for-environment h2 {padding-left:30px}
+.page-eenterprise-for-environment li h3 {padding-bottom:0;}
+.page-eenterprise-for-environment li br {display:none;}
+.page-eenterprise-for-environment .view-footer {padding-left:30px;}
+.view-ee-release-note-list ul {border-left:4px solid #aaaaaa;margin-left:1.5em;}
+.view-ee-release-note-list li h3 {font-size:1.15em;}
+.view-ee-release-note-list p {font-size:90%;padding-bottom:10px;line-height:1.6}
 
