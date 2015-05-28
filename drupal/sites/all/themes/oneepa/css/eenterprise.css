@@ -75,6 +75,8 @@ a.tabledrag-handle .handle {margin:-0.25em 0.5em}
 .messages--status.messages.status {margin-bottom:0;}
 .page-welcome section, .page-eenterprise-for-environment section {padding:0;}
 .page-welcome ul, .page-eenterprise-for-environment ul {list-style:none;}
+.page-eenterprise-for-environment .breadcrumb, .page-eenterprise-for-environment .breadcrumb-title {display:none;}
+.breadcrumb {margin-top:20px;}
 .page-welcome .row, .page-eenterprise-for-environment .row {padding:0.5em 0;}
 .page-welcome .row, .page-eenterprise-for-environment .row, .page-welcome .view-footer h3, .page-eenterprise-for-environment .view-footer h3 {margin-left:1em !important;} /* s.css override */
 .page-eenterprise-for-environment .view-footer h3 {margin-top:1em;margin-bottom:5px;padding-bottom:0;}
@@ -90,4 +92,8 @@ a.tabledrag-handle .handle {margin:-0.25em 0.5em}
 .view-ee-release-note-list ul {border-left:4px solid #aaaaaa;margin-left:1.5em;}
 .view-ee-release-note-list li h3 {font-size:1.15em;}
 .view-ee-release-note-list p {font-size:90%;padding-bottom:10px;line-height:1.6}
+.page-workbench .block-views {float:left;}
+.page-workbench .block-views.odd {width:55%;}
+.page-workbench .block-views.even {width:40%;}
+
 
