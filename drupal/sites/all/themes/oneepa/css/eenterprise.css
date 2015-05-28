@@ -52,6 +52,11 @@ h3 {font-size:1.5em;}
 .search-snippet {padding-bottom:0.25em;}
 .search-advanced {top:0;}
 
+/** Profile Styles *********************************************************/
+.field-name-field-profile-first-name, .field-name-field-profile-last-name {display:inline-block;}
+#user-profile-form table, #user-profile-form th {border:none;}
+#user-profile-form th {text-transform: none;font-size:1.5em;}
+
 /** Functional Styles *********************************************************/
 .messages--status.messages.status {margin-bottom:0;}
 .page-welcome section, .page-eenterprise-for-environment section {padding:0;}
