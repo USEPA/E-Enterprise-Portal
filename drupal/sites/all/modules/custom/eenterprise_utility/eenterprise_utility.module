@@ -146,3 +146,14 @@ function profile_delete_action($form, &$form_state) {
         drupal_goto('/');
     }
 }
+
+/**
+ * @param $account
+ * @param $view_mode
+ * @param $langcode
+ * Hook user_view implementation, on user view, if user is logged in, go directly to the edit page, instead of the view page.
+ */
+function eenterprise_utility_user_view($account, $view_mode, $langcode){
+    if($account->uid > 0)
+        drupal_goto("/user/".$account->uid."/edit");
+}
