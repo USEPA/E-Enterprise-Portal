@@ -162,7 +162,7 @@ if(drupal_is_front_page()) {
         <li class="menu-item"><a class="menu-link social-flickr" href="http://www.flickr.com/photos/usepagov">Flickr</a></li>
         <li class="menu-item"><a class="menu-link social-instagram" href="http://instagram.com/epagov">Instagram</a></li>
       </ul>
-      <p class="social-menu-more"><a href="/home/social-media">More social media at&nbsp;EPA&nbsp;»</a></p>
+      <p class="social-menu-more"><a href="/home/social-media">More social media at&nbsp;EPA&nbsp;ï¿½</a></p>
     </div>
   </div>
 </div>  
