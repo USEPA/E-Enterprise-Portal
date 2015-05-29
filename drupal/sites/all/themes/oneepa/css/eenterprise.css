@@ -22,7 +22,7 @@ h3 {font-size:1.5em;}
 /*     text-shadow: #222222 0.1em 0.1em 0.1em; */
     text-align: center;   
 }
-.jumbotron .well {opacity:0.9;margin:0 auto;margin-top:100px;margin-bottom:2em;}
+.jumbotron .well {opacity:0.9;margin:0 auto;margin-top:85px;margin-bottom:2em;}
 .jumbotron .well-narrow {margin-top:30px;}
 .page-eenterprise-for-environment .row.shaded br {display:none;}
 
@@ -86,13 +86,13 @@ a.tabledrag-handle .handle {margin:-0.25em 0.5em}
 .page-eenterprise-for-environment ul {list-style:none;}
 .page-eenterprise-for-environment .breadcrumb, .page-eenterprise-for-environment .breadcrumb-title {display:none;}
 .breadcrumb {margin-top:20px;}
-.page-eenterprise-for-environment .row {padding:0.5em 0;}
+.page-eenterprise-for-environment .row {padding:1em 0;}
 .page-eenterprise-for-environment .row {margin-left:0px !important;margin-right:0px !important;}
 .page-eenterprise-for-environment .view-footer h3 {margin-left:1em !important;} /* s.css override */
 .page-eenterprise-for-environment .view-footer h3 {margin-top:1em;margin-bottom:5px;padding-bottom:0;}
 .page-eenterprise-for-environment .view-footer li h3 {margin:0 !important;}
 .row.shaded {background-color:#f7f7f9;border:1px solid #e1e1e8;border-width:1px 0;margin:1em 0 !important;padding:0 1em;}
-#benefits li img {display:block;}
+#benefits li img {display:block;max-width: 75%; margin: 0 auto;}
 #including li img {display:inline-block;vertical-align: top;margin-top:1em;margin-right:10px;width:3.5em;height:3.5em;}
 #including li div {display:inline-block;vertical-align: top;width:85%;margin-left:10px;}
 .page-eenterprise-for-environment h2 {padding-left:30px}
