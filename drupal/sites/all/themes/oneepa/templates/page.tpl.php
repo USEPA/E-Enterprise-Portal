@@ -6,7 +6,11 @@
 ?>
 <?php
 if(drupal_is_front_page()) {
-    drupal_goto("/eenterprise-for-environment");
+    global $user;
+    if($user->uid == 0)
+        drupal_goto("/eenterprise-for-environment");
+    else
+        drupal_goto("/workbench");
     exit;
 }
 ?>
