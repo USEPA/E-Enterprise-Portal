@@ -4,6 +4,7 @@
   **/
   
 function eenterprise_utility_menu() {
+
   $items =array();
     $items['user_add_favorite_link'] = array(
       'page callback' => 'process_favorite_link',
@@ -53,6 +54,8 @@ function process_favorite_link($url, $action) {
   );
   // save existing user
   user_save($user_data,  $edit);
+   $items = array();
+    return $items;
 
 }
 
@@ -95,13 +98,14 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       hide($form['picture']);
       hide($form['account']['current_pass']);
       hide($form['account']['pass']);
+      //hide($form['field_profile_interests']);
       if(empty($form['account']['mail']['#default_value']))
           $form['account']['mail']['#default_value'] = $form['#user']->name;
       $form['account']['mail']['#attributes'] = array('readonly' => 'readonly');
       $form['#validate'][] = 'user_profile_form_custom_validate';
-      $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete Profile');
+      $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
       $form['actions']['delete']['#submit'][] = 'profile_delete_action';
-      $form['actions']['delete']['#attributes'] =  array('onclick' => "return confirm('This will delete your entire profile permanently from E-Enterprises and log you out from the system. Are you sure you want to do this?')");
+      $form['actions']['delete']['#attributes'] =  array('onclick' => "return confirm('This will delete your entire profile permanently from E-Enterprise Platform and log you out from the system. Are you sure you want to do this?')");
 
       //We are not validating profile picture and password as we do not save and manage these information on the Portal.
       foreach($form['#validate'] as $key => $val){
@@ -122,9 +126,9 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
         if(is_array($field) && is_numeric($delta)) {
             $zip_val = $form_state['values']['field_zip_code']['und'][$delta]['value'];
             if(!is_numeric($zip_val) && !empty($zip_val))
-                form_set_error('field_zip_code', t('Zip Code Can only be Number'));
+                form_set_error('field_zip_code', t('Zip code can only be number'));
             else if(strlen($zip_val) != 5 && !empty($zip_val))
-                form_set_error('field_zip_code', t('Zip Code Should be 5 Digits'));
+                form_set_error('field_zip_code', t('Zip code should be 5 digits'));
         }
     }
 }
@@ -136,7 +140,7 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
  */
 function profile_delete_action($form, &$form_state) {
     global $user;
-    if($form_state['clicked_button']['#value'] == 'Delete Profile') {
+    if($form_state['clicked_button']['#value'] == 'Delete profile') {
         user_delete($user->uid);
         drupal_goto('/');
     }

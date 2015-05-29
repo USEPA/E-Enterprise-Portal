@@ -16,8 +16,8 @@
 <head>
   <?php print $head; ?>
   <!--googleoff: all-->
+    <link type="text/css" rel="stylesheet" href="http://www2.epa.gov/sites/all/libraries/template/s.css" media="all" />
   <?php print $styles; ?>
-  <link type="text/css" rel="stylesheet" href="http://www2.epa.gov/sites/all/libraries/template/s.css" media="all" />
 <link rel="alternate" type="application/atom+xml" title="EPA.gov News" href="http://yosemite.epa.gov/opa/admpress.nsf/RSSRecentNews" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="http://yosemite.epa.gov/opa/admpress.nsf/RSSByLocation?open&location=Headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="http://blog.epa.gov/blog/feed/" />

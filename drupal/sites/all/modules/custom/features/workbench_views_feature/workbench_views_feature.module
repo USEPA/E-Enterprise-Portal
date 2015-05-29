@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Workbench Views Feature feature.
+ */
+
+include_once 'workbench_views_feature.features.inc';

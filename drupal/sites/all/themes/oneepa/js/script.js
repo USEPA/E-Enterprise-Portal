@@ -130,6 +130,26 @@ Drupal.behaviors.shareLinks = {
   }
 };
 
+    Drupal.behaviors.removezipcodes = {
+        attach: function (context) {
+            var x = $('#edit-field-zip-code').find('div.form-type-textfield').find('span.remove-zip').length;
+            if(x == 0)
+                $('#edit-field-zip-code').find('div.form-type-textfield').append("<span class='remove-zip'>&#10006;</span>");
+
+            $('#edit-field-zip-code').find('span.remove-zip').hover(function () {
+                $(this).css('color', 'red');
+                $(this).css('cursor', 'pointer');
+            });
+            $('#edit-field-zip-code').find('span.remove-zip').mouseout(function () {
+                $(this).css('color', 'black');
+            });
+            $('#edit-field-zip-code').find('span.remove-zip').click(function () {
+                $(this).parent('div').find('input.form-text').val('');
+                $(this).parents('tr').css('display','none');
+            });
+        }
+    };
 
 //})(jQuery, Drupal, this, this.document);
 })(jQuery);
+

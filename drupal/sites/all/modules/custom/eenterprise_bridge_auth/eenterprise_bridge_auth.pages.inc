@@ -25,7 +25,7 @@ function eenterprise_bridge_auth_login() {
  *   If true, wrap the identity provider buttons in a fieldset.
  */
 function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
-  $identity_providers = array('Name' => 'E-Enterprise Bridge');
+  $identity_providers = [array('Name' => 'E-Enterprise Bridge')];
   $form = array();
   $form['wrap'] = array(
     '#type' => 'value',
@@ -125,5 +125,5 @@ function eenterprise_bridge_auth_authenticate($error) {
           }
       }
   }
-  drupal_goto('user');
+  drupal_goto('workbench');
 }

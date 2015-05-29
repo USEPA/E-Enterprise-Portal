@@ -53,18 +53,7 @@
 
   <?php if ($rows): ?>
     <div class="view-content">
-			<?php
-                global $user;
-                if($user->uid == 0):               		
-					$block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
-					$loginmsg = str_replace("E-Enterprise Bridge", "Log in now", render($block['content']));
-                else:
-                   	$loginmsg = "<div class=\"well well-narrow\">Welcome, <strong>".$user->name."!</strong><br><a href=\"workbench\">View workbench</a></div>";
-                endif;
-                
-                $rows = str_replace("Log in now", $loginmsg, $rows);
-                print $rows;
-                ?>
+      <?php print $rows; ?>
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
