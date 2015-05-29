@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the eEP Profile Fields Feature feature.
+ */
+
+include_once 'eep_profile_fields_feature.features.inc';

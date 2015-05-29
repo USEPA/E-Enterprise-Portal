@@ -30,14 +30,7 @@ if(drupal_is_front_page()) {
     <h1 class="site-name">
 
       <?php
-        $link_open = '';
-        $link_close = '';
-
-        // if (!$is_front) {
-//           $link_open = '<a href="' . $front_page . '" title="' . t('Go to the home page') . '" rel="home">';
-//           $link_close = '</a>';
-//         }
-		$link_open = '<a href="http://www2.epa.gov" title="Go to the home page" rel="home">';
+		$link_open = '<a href="http://www2.epa.gov" title="EPA home page" rel="home">';
 		$link_close = '</a>';
       ?>
 
@@ -84,6 +77,10 @@ if(drupal_is_front_page()) {
 		'class' => array('element-invisible'),
 	  ),
 	)); ?>
+	<?php 
+	$block = module_invoke('search', 'block_view', 'search');
+	print render($block); 
+ ?>
 	</nav>
 <?php endif; ?>
 <!-- @todo - Add content_language back in next line - section -->
@@ -137,10 +134,39 @@ if(drupal_is_front_page()) {
   </div>
 </section>
 <footer class="main-footer clearfix" role="contentinfo">
-<?php 
-//	$menu = menu_navigation_links('menu-footer-disclaimers');
-//	print theme('links__menu_footer_disclaimers', array('pipeline' => $menu));
-?>
   <?php print render($page['footer']); ?>
+  <div class="region-footer">  <div id="block-pane-epa-global-footer" class="block block-pane">
+    <div class="row cols-2">
+  <div class="col size-2of5">
+    <ul class="pipeline">
+      <li><a href="/">EPA Home</a></li>
+      <li><a href="/home/privacy-and-security-notice">Privacy and Security Notice</a></li>
+      <li><a href="/accessibility">Accessibility</a></li>
+    </ul>
+    <p class="last-updated">Last updated on April 20, 2015</p>
+  </div>
+  <div class="col size-3of5">
+    <ul class="menu epa-menu">
+      <li class="menu-item"><a class="menu-link epa-hotline" href="/home/epa-hotlines">Hotline</a></li>
+      <li class="menu-item"><a class="menu-link epa-news" href="/newsroom">News</a></li>
+      <li class="menu-item"><a class="menu-link epa-blog" href="https://blog.epa.gov/blog/">Blog</a></li>
+      <li class="menu-item"><a class="menu-link epa-apps" href="http://developer.epa.gov/category/apps/">Apps</a></li>
+      <li class="menu-item"><a class="menu-link epa-widgets" href="http://developer.epa.gov/category/widgets/">Widgets</a></li>
+    </ul>
+    <div class="social-menu-wrapper">
+      <div class="social-menu-title">Social sites:</div>
+      <ul class="menu social-menu">
+        <li class="menu-item"><a class="menu-link social-twitter" href="https://twitter.com/epa">Twitter</a></li>
+        <li class="menu-item"><a class="menu-link social-facebook" href="https://www.facebook.com/EPA">Facebook</a></li>
+        <li class="menu-item"><a class="menu-link social-youtube" href="https://www.youtube.com/user/USEPAgov">YouTube</a></li>
+        <li class="menu-item"><a class="menu-link social-flickr" href="http://www.flickr.com/photos/usepagov">Flickr</a></li>
+        <li class="menu-item"><a class="menu-link social-instagram" href="http://instagram.com/epagov">Instagram</a></li>
+      </ul>
+      <p class="social-menu-more"><a href="/home/social-media">More social media at&nbsp;EPA&nbsp;»</a></p>
+    </div>
+  </div>
+</div>  
+</div>
+  </div>
 </footer>
 <?php print render($page['bottom']); ?>

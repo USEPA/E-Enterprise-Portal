@@ -53,36 +53,18 @@
 
   <?php if ($rows): ?>
     <div class="view-content">
-
-            <?php
-                $rows = strip_tags($rows, "<div> <p> <h1> <h2> <ul> <li> <h3> <h4>");
+			<?php
+                global $user;
+                if($user->uid == 0):               		
+					$block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
+					$loginmsg = str_replace("E-Enterprise Bridge", "Log in now", render($block['content']));
+                else:
+                   	$loginmsg = "<div class=\"well well-narrow\">Welcome, <strong>".$user->name."!</strong><br><a href=\"workbench\">View workbench</a></div>";
+                endif;
+                
+                $rows = str_replace("Log in now", $loginmsg, $rows);
                 print $rows;
-            ?>
-
-            <div class="credential-selection col-md-6 col-sm-5">
-                <div>
-                    <?php
-                        global $user;
-                        if($user->uid == 0):
-                    ?>
-                    <h2>Already have an account?</h2>
-                        <?php
-                          $block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
-                          print str_replace("E-Enterprise Bridge", "Log In", render($block['content']));
-                        ?>
-                    <?php
-                    else:
-                        print "Welcome <h4>".$user->name."</h4>";
-                    endif;
-                    ?>
-                </div>
-
-                <br><p>Subscribe to learn first about the launch</p>
-            <div>
-                <input type="text" />
-                <input type="button" value="Subscribe" />
-            </div>
-        </div>
+                ?>
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">

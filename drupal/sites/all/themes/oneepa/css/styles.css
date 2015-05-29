@@ -16,6 +16,8 @@
 @import "mobile-menu.css";
 @import "drop-down-menu.css";
 @import "lib/colorbox.css";
+@import "../inc/bootstrap/css/bootstrap.min.css";
+@import "eenterprise.css";
 
 /* Layout rules */
 /* @import "layouts/responsive.css"; */
@@ -29,43 +31,63 @@
 /* @import "theme-A.css"; */
 /* @import "theme-B.css"; */
 .view-eenterprise-for-environment .view-content .views-row .node-title{
-	text-align: center;
-	font-size: 200%;
+    text-align: center;
+    font-size: 200%;
     padding-top: 0.5em;
 }
 .view-eenterprise-for-environment .view-content .field-items .stay-tuned{
-	text-align: center;
-	color: #369;
-	margin-bottom: 0.8em;
+    text-align: center;
+    color: #369;
+    margin-bottom: 0.8em;
 }
 .view-eenterprise-for-environment .view-content .field-items .rel-notes,
-.view-eenterprise-for-environment .view-content .credential-selection h4{	
-	color: #369;
+.view-eenterprise-for-environment .view-content .credential-selection h4{
+    color: #369;
 }
-.view-eenterprise-for-environment .view-content .field-items h4{	
-	padding:0px 0px 0.5714em;
-}
-
-.view-eenterprise-for-environment .view-content .field-items .release-notes{	
-	list-style-type: none;
-	margin: 0px;
-	padding-left: 0.8em;
-	padding-bottom: 1em;
-	border-left: 5px solid #CCC;
+.view-eenterprise-for-environment .view-content .field-items h4{
+    padding:0px 0px 0.5714em;
 }
 
-.view-eenterprise-for-environment .view-content .feature-container{	
-	width:50%;
-	float:left;
+.view-eenterprise-for-environment .view-content .field-items .release-notes{
+    list-style-type: none;
+    margin: 0px;
+    padding-left: 0.8em;
+    padding-bottom: 1em;
+    border-left: 5px solid #CCC;
+}
+
+.view-eenterprise-for-environment .view-content .feature-container{
+    width:50%;
+    float:left;
 }
 .view-eenterprise-for-environment .view-content .credential-selection{
-	float: right;
-	text-align: center;
-	background: none repeat scroll 0% 0% #FEFEFE;
-	border: 1px solid #CCC;
-	padding: 15px;
-	width: 45%;
+    float: right;
+    text-align: center;
+    background: none repeat scroll 0% 0% #FEFEFE;
+    border: 1px solid #CCC;
+    padding: 15px;
+    width: 45%;
 }
 #main-content .microsite-name{
     display:none;
+}
+
+/*.field-name-field-profile-interests{
+    width:100%;
+}
+.field-name-field-profile-interests #container-for-media,
+.field-name-field-profile-interests #container-for-topic,
+.field-name-field-profile-interests #container-for-region{
+    float:left;
+    margin-left:20px;
+    margin-bottom:30px;
+}
+.clear-element-space{
+    clear:both;
+}*/
+.form-item .tabledrag-toggle-weight-wrapper{
+    display:none;
+}
+.form-type-textfield .remove-zip{
+    position:relative;top:-20px;left:325px;
 }

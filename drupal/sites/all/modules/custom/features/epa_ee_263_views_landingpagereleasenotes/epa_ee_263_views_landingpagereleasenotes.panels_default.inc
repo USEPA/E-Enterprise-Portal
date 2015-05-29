@@ -26,8 +26,14 @@ function epa_ee_263_views_landingpagereleasenotes_default_panels_mini() {
   $display->panel_settings = array(
     'style_settings' => array(
       'default' => NULL,
-      'left' => NULL,
       'right' => NULL,
+      'left' => NULL,
+    ),
+    'left' => array(
+      'style' => 'default',
+    ),
+    'right' => array(
+      'style' => 'default',
     ),
   );
   $display->cache = array();
@@ -43,15 +49,19 @@ function epa_ee_263_views_landingpagereleasenotes_default_panels_mini() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
       'override_title_heading' => 'h2',
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'naked',
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'pipeline',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -66,7 +76,7 @@ function epa_ee_263_views_landingpagereleasenotes_default_panels_mini() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
       'override_title_heading' => 'h2',
     );
@@ -74,7 +84,10 @@ function epa_ee_263_views_landingpagereleasenotes_default_panels_mini() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'epa-menu',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -89,15 +102,18 @@ function epa_ee_263_views_landingpagereleasenotes_default_panels_mini() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
+      'override_title' => 1,
+      'override_title_text' => 'Social sites:',
+      'override_title_heading' => 'div',
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'social-menu',
+    );
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
