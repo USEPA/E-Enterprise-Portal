@@ -12,4 +12,6 @@ print render($user_profile['field_profile_interests'][0]);
 print "<h3>Favorites</h3>";
 print render($user_profile['field_profile_favourites']);
 print "</div>";
+global $user;
+print "<h3><a href='/user/".$user->uid."/edit'>Edit Profile</a></h3>";
 ?>
