@@ -18,7 +18,7 @@ if ($GLOBALS['theme_key'] === 'oneepa') {
   // Add base theme style sheets.
   $base_stylesheets = array(
     'base.css',
-    'typography.css',
+    //'typography.css',
     'drupal.css',
     'layout.css',
   );
