@@ -6,7 +6,7 @@ body {
 	 /* s.css override */
 	 background: #369;
 }
-h1, h2, h3, h4, h5, h6, th, legend, caption {
+h1, h2, h3, h4, h5, h6, th, legend, caption, b, strong {
 	font-family: "Helvetica Neue","Segoe UI", Helvetica,Arial,sans-serif !important;	 /* s.css override */
 }
 h2 {font-size:2em;}
@@ -61,6 +61,10 @@ h3 {font-size:1.5em;}
 #user-profile-form .description {color:#333333}
 #user-profile-form .form-item .form-type-textfield {padding-bottom:0.5em;}
 #user-profile-form .form-type-textfield {margin-right:20px;width:20em;}
+#user-profile-form .form-type-textfield.form-item-mail {clear:left;width:50em;}
+#user-profile-form .form-type-textfield.form-item-mail input {width:20em;border:none;padding:0;margin-bottom:10px;}
+#user-profile-form .field-name-field-zip-code label {font-weight:normal;}
+#user-profile-form .form-type-textfield .description {}
 #user-profile-form .form-type-textfield label {font-weight: normal;font-size:0.95em;}
 #user-profile-form .form-type-textfield label, #user-profile-form .form-type-textfield input {display:block;}
 .draggable .handle {font-size:2em;}
@@ -78,15 +82,15 @@ a.tabledrag-handle .handle {margin:-0.25em 0.5em}
 
 /** Functional Styles *********************************************************/
 .messages--status.messages.status {margin-bottom:0;}
-.page-welcome section, .page-eenterprise-for-environment section {padding:0;}
-.page-welcome ul, .page-eenterprise-for-environment ul {list-style:none;}
+.page-eenterprise-for-environment section {padding:0;}
+.page-eenterprise-for-environment ul {list-style:none;}
 .page-eenterprise-for-environment .breadcrumb, .page-eenterprise-for-environment .breadcrumb-title {display:none;}
 .breadcrumb {margin-top:20px;}
-.page-welcome .row, .page-eenterprise-for-environment .row {padding:0.5em 0;}
+.page-eenterprise-for-environment .row {padding:0.5em 0;}
 .page-eenterprise-for-environment .row {margin-left:0px !important;margin-right:0px !important;}
-.page-welcome .view-footer h3, .page-eenterprise-for-environment .view-footer h3 {margin-left:1em !important;} /* s.css override */
+.page-eenterprise-for-environment .view-footer h3 {margin-left:1em !important;} /* s.css override */
 .page-eenterprise-for-environment .view-footer h3 {margin-top:1em;margin-bottom:5px;padding-bottom:0;}
-.page-welcome .view-footer li h3, .page-eenterprise-for-environment .view-footer li h3 {margin:0 !important;}
+.page-eenterprise-for-environment .view-footer li h3 {margin:0 !important;}
 .row.shaded {background-color:#f7f7f9;border:1px solid #e1e1e8;border-width:1px 0;margin:1em 0 !important;padding:0 1em;}
 #benefits li img {display:block;}
 #including li img {display:inline-block;vertical-align: top;margin-top:1em;margin-right:10px;width:3.5em;height:3.5em;}
