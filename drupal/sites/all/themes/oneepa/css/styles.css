@@ -10,7 +10,7 @@
 /* @import "normalize.css"; */
 
 /* One EPA CSS rules */
-@import "typography.css";
+/* @import "typography.css"; */
 /* @import "lib/jquery.ui.theme.css"; */
 @import "design.css";
 @import "mobile-menu.css";
