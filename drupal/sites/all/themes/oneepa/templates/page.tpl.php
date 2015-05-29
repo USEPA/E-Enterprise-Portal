@@ -6,7 +6,7 @@
 ?>
 <?php
 if(drupal_is_front_page()) {
-    drupal_goto("/workbench");
+    drupal_goto("/eenterprise-for-environment");
     exit;
 }
 ?>
