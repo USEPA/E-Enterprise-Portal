@@ -1,0 +1,41 @@
+<?php
+/**
+  * Implements hook_menu().
+  **/
+
+
+// echo '<script src= "' . drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js"></script>';
+//drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+
+
+function favorite_links_menu() {
+  $items =array();
+    $items['favorite_links'] = array(
+      'title' => 'favorite_links_demo',
+            'access callback' => TRUE,
+               'page callback' => 'favorite_theme',
+                'access arguments' => array('access content'),
+    );
+    return $items;
+} 
+
+ 
+/*
+ * Returns custom content to Drupal
+ */
+function favorite_theme(){
+  // Call theme() function, so that Drupal includes the favorite_theme.tpl.php template
+  return theme('favorite_links');
+}
+   
+/*
+ * Implementation of hook_theme().
+ */
+function favorite_links_theme(){
+  return array(
+    'favorite_links' => array(
+      // template file name will be custom-page.tpl.php
+      'template' => 'favorite_links',
+    ),
+  );
+}
