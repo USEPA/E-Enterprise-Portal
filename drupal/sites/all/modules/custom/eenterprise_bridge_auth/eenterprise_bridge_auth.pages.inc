@@ -125,5 +125,5 @@ function eenterprise_bridge_auth_authenticate($error) {
           }
       }
   }
-  drupal_goto('user');
+  drupal_goto('workbench');
 }
