@@ -72,7 +72,7 @@
     display:none;
 }
 
-.field-name-field-profile-interests{
+/*.field-name-field-profile-interests{
     width:100%;
 }
 .field-name-field-profile-interests #container-for-media,
@@ -84,7 +84,10 @@
 }
 .clear-element-space{
     clear:both;
-}
+}*/
 .form-item .tabledrag-toggle-weight-wrapper{
     display:none;
+}
+.form-type-textfield .remove-zip{
+    position:relative;top:-20px;left:325px;
 }
