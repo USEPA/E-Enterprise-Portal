@@ -9,17 +9,25 @@ Drupal.behaviors.mobileMenu = {
         $mobileBar = $('<div class="mobile-bar clearfix"><a class="mobile-home" href="/" rel="home"><span class="mobile-home-icon">Home</span></a> <a class="menu-button" href="#mobile-links">Menu</a></div>'),
         $mobileLinks = $('<div id="mobile-links" class="mobile-links element-hidden"></div>'),
         $mainNav = $('.simple-main-nav', context),
-        $secondaryNav = $('.simple-secondary-nav', context),
+//        $secondaryNav = $('.simple-secondary-nav', context),
+        $secondaryNav = $('.secondary-nav', context),
         $newMenu = $mainNav.find('> .menu').clone();
+        $newSecondaryMenu = $secondaryNav.find('> .menu').clone();
 
     // Reset menu list class and remove second level menu items.
     $newMenu.attr('class', 'menu').find('ul').each(function() {
       $(this).attr('class', 'menu sub-menu');
     });
     $newMenu.find('ul').remove();
+    
+    $newSecondaryMenu.attr('class', 'menu').find('ul').each(function() {
+      $(this).attr('class', 'menu sub-menu');
+    });
+    $newSecondaryMenu.find('ul').remove();
 
     // Insert the cloned menus into the mobile menu container.
     $newMenu.appendTo($mobileLinks);
+    $newSecondaryMenu.appendTo($mobileLinks);
 
     // Insert the top bar into mobile menu container.
     $mobileBar.prependTo($mobileNav);
