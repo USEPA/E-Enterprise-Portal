@@ -1,0 +1,24 @@
+<?php
+/**
+ * @file clients_drupal_rest.module
+ * Provides connection types for Clients module that connect to remote Drupal
+ * sites running Services module with the REST server.
+ */
+
+/**
+ * Implements hook_clients_connection_type_info().
+ */
+function clients_drupal_rest_clients_connection_type_info() {
+  return array(
+    'drupal_services_rest_7' => array(
+      'label'  => t('Drupal REST Services 7'),
+      'description' => t('Connects to Drupal sites using Services 7.x-3.x with REST endpoints.'),
+      'tests' => array(
+        'login' => 'ClientsConnectionDrupalRESTTestLogin',
+        'node_retrieve' => 'ClientsConnectionDrupalRESTTestNodeRetrieve',
+        'entity_create' => 'ClientsConnectionDrupalRESTTestEntityCreate',
+        'generic' => 'ClientsConnectionDrupalRESTTestGeneric',
+      ),
+    ),
+  );
+}

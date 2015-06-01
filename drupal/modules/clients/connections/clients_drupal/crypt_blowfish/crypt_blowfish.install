@@ -1,0 +1,73 @@
+<?php
+/**
+ * @file
+ * Checks blowfish configuration - directory and password are set
+ * 
+ */
+
+/**
+ * Implements hook_install().
+ */
+function crypt_blowfish_install() {
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function crypt_blowfish_uninstall() {
+  // clean up any variables created by module
+  $module_variables = array(
+    'crypt_blowfish_cryptdir'
+  );
+  foreach ($module_variables as $module_variable) {
+    variable_del($module_variable);
+  }
+}
+
+/**
+ * Implements hook_requirements
+ */
+
+function crypt_blowfish_requirements($phase) {
+    
+  $requirements = array();
+  switch ($phase) {
+  case 'install':
+    break;
+  case 'runtime':    
+    if (!variable_get('crypt_blowfish_cryptdir', FALSE)) {
+      $requirements['crypt_blowfish_cryptdir'] = array(
+        'title' => t('Blowfish'),
+        'value' => t('Path to PEAR Blowfish library not set'),
+        'severity' => REQUIREMENT_ERROR
+      );
+    }
+    else {
+      $requirements['crypt_blowfish_cryptdir'] = array(
+        'title' => t('Blowfish'),
+        'value' => t('Path set to PEAR Blowfish library (%cryptdir)', array('%cryptdir' => variable_get('crypt_blowfish_cryptdir', ''))),
+        'severity' => REQUIREMENT_OK
+      );
+      // @todo fix error if not found
+      if (Drupal_Crypt_Blowfish::getkey() == 'replace this with a strong password') {
+        $requirements['crypt_blowfish_key'] = array(
+          'title' => t('Blowfish'),
+          'value' => t('Blowfish encryption key has not been set. Please edit the file crypt_blowfish_key.inc in %installdir', 
+              array('%installdir' => drupal_get_path('module', 'crypt_blowfish'))),
+          'severity' => REQUIREMENT_ERROR
+        );
+      }
+      else {
+        $requirements['crypt_blowfish_key'] = array(
+          'title' => t('Blowfish'),
+          'value' => t('Blowfish encryption key has been set'),
+          'severity' => REQUIREMENT_OK
+        );
+      }
+    }
+    break;
+  }
+  return $requirements;
+    
+}
+

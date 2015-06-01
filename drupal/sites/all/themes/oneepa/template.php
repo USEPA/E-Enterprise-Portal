@@ -18,7 +18,7 @@ if ($GLOBALS['theme_key'] === 'oneepa') {
   // Add base theme style sheets.
   $base_stylesheets = array(
     'base.css',
-    'typography.css',
+    //'typography.css',
     'drupal.css',
     'layout.css',
   );
@@ -61,6 +61,8 @@ if ($GLOBALS['theme_key'] === 'oneepa') {
     'mobile-menu.css',
     'drop-down-menu.css',
     'lib/colorbox.css',
+    '../inc/bootstrap/css/bootstrap.min.css',
+    'eenterprise.css',
   );
   foreach ($design_stylesheets as $val) {
     drupal_add_css(
@@ -324,6 +326,23 @@ function oneepa_menu_link(&$variables) {
  
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+/**
+ * @param $existing
+ * @param $type
+ * @param $theme
+ * @param $path
+ * Hook Theme for oneepa.
+ */
+function oneepa_theme($existing, $type, $theme, $path){
+    $items['user_profile_form'] = array(
+        'render element' => 'form',
+        'template' => 'user_profile_form',
+        'path' => drupal_get_path('theme', 'oneepa') . '/templates/forms',
+    );
+
+    return $items;
 }
 
 /*

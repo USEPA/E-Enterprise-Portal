@@ -1,0 +1,159 @@
+<?php
+/**
+  * Implements hook_menu().
+  **/
+  
+function eenterprise_utility_menu() {
+
+  $items =array();
+    $items['user_add_favorite_link'] = array(
+      'page callback' => 'process_favorite_link',
+      'access callback' => TRUE,
+      );
+    $items['load_links'] = array(
+      'page callback' => 'load_links',
+      'access callback' => TRUE,
+      );
+    return $items;
+} 
+
+
+function remove_url ($array, $remove_url) {
+  if (is_array($array)) {
+    foreach ($array[LANGUAGE_NONE] as $key => $value) {
+      $url = explode("|", $value['value'])[0];
+      echo $url;
+      echo $remove_url;
+      if ($url == $remove_url) {
+        return $key;
+      }
+    }
+  }
+}
+
+function process_favorite_link($url, $action) {
+  echo $url;
+  echo $action;
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_urls = $user_data->field_profile_favourites;
+  $date =  date('m/d/Y h:i:s a', time());
+  $order_weight = 0;
+  $value = $url . '|' . $date . '|' . $order_weight;
+  switch ($action) {
+    case "add":
+      $user_urls[LANGUAGE_NONE][] = array("value" => $value, "format"=> NULL, "safe_value" => $url);
+      break;
+    case "remove":
+        $remove_url_index = remove_url($user_urls, $url);
+        unset($user_urls[LANGUAGE_NONE][$remove_url_index]);
+      break;
+  }
+  $edit = array(
+    'field_profile_favourites' => $user_urls
+  );
+  // save existing user
+  user_save($user_data,  $edit);
+   $items = array();
+    return $items;
+
+}
+
+function load_links($index) {
+  global $user;
+  $load_count = $index + 20;
+  $user_data = user_load($user->uid);
+  $user_urls = $user_data->field_profile_favourites;
+  $url_data = array();
+  $load_next_elem = false;
+  $amount_loaded = 0;
+  if (isset($user_urls[LANGUAGE_NONE])){ 
+    $html_elem = "<div id='sortable'>";
+   foreach($user_urls[LANGUAGE_NONE] as $key=>$value) {
+     if ($index < $load_count) {
+       if ($key == $index) {
+        $data_array = explode("|", $value['value']);
+        $url = $data_array[0];
+        $date_updated = $data_array[1];
+        $order_weight = $data_array[2];
+        $url_data[$url] = array('order_weight' => $order_weight, 'date_updated' => $date_updated);
+        $index = $index + 1;
+        $amount_loaded = $amount_loaded + 1;
+      }
+     }
+     else if ($index == $load_count) { // Check if next element exists
+             $load_next_elem = true;
+     }
+    }
+  }
+  $results = array('url_data' => $url_data, 'loadNextElem' => $load_next_elem, 'amountLoaded' => $amount_loaded);
+  echo json_encode($results);
+
+}
+
+
+
+function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
+  if($form['#form_id'] == 'user_profile_form'){
+      hide($form['picture']);
+      hide($form['account']['current_pass']);
+      hide($form['account']['pass']);
+      //hide($form['field_profile_interests']);
+      if(empty($form['account']['mail']['#default_value']))
+          $form['account']['mail']['#default_value'] = $form['#user']->name;
+      $form['account']['mail']['#attributes'] = array('readonly' => 'readonly');
+      $form['#validate'][] = 'user_profile_form_custom_validate';
+      $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
+      $form['actions']['delete']['#submit'][] = 'profile_delete_action';
+      $form['actions']['delete']['#attributes'] =  array('onclick' => "return confirm('This will delete your entire profile, including any selected preferences, from the E-Enterprise Platform and will log you out from the system. Are you sure that you want to do this?')");
+      $form['account']['mail']['#description'] = "All emails from the system will be sent to this address. This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).";
+
+      //We are not validating profile picture and password as we do not save and manage these information on the Portal.
+      foreach($form['#validate'] as $key => $val){
+          if($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
+              unset($form['#validate'][$key]);
+      }
+      //dsm($form);
+  }
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ * Custom validate for zip code.
+ */
+function user_profile_form_custom_validate(&$form, &$form_state) {
+    foreach($form_state['values']['field_zip_code']['und'] as $delta => $field) {
+        if(is_array($field) && is_numeric($delta)) {
+            $zip_val = $form_state['values']['field_zip_code']['und'][$delta]['value'];
+            if(!is_numeric($zip_val) && !empty($zip_val))
+                form_set_error('field_zip_code', t('Zip code can only be number'));
+            else if(strlen($zip_val) != 5 && !empty($zip_val))
+                form_set_error('field_zip_code', t('Zip code should be 5 digits'));
+        }
+    }
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ * Delete user's profile permanently.
+ */
+function profile_delete_action($form, &$form_state) {
+    global $user;
+    if($form_state['clicked_button']['#value'] == 'Delete profile') {
+        user_delete($user->uid);
+        drupal_goto('/');
+    }
+}
+
+/**
+ * @param $account
+ * @param $view_mode
+ * @param $langcode
+ * Hook user_view implementation, on user view, if user is logged in, go directly to the edit page, instead of the view page.
+ */
+function eenterprise_utility_user_view($account, $view_mode, $langcode){
+    if($account->uid > 0)
+        drupal_goto("/user/".$account->uid."/edit");
+}

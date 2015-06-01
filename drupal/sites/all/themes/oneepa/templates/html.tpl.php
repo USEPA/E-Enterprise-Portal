@@ -16,8 +16,8 @@
 <head>
   <?php print $head; ?>
   <!--googleoff: all-->
+    <link type="text/css" rel="stylesheet" href="http://www2.epa.gov/sites/all/libraries/template/s.css" media="all" />
   <?php print $styles; ?>
-  <link type="text/css" rel="stylesheet" href="http://www2.epa.gov/sites/all/libraries/template/s.css" media="all" />
 <link rel="alternate" type="application/atom+xml" title="EPA.gov News" href="http://yosemite.epa.gov/opa/admpress.nsf/RSSRecentNews" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="http://yosemite.epa.gov/opa/admpress.nsf/RSSByLocation?open&location=Headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="http://blog.epa.gov/blog/feed/" />
@@ -37,7 +37,11 @@
   <?php endif; ?>
   <?php print $scripts; ?>
 </head>
-<body class="<?php print $classes; ?>" <?php print $attributes;?>>
+<body class="<?php print $classes; ?> <?php
+if(!drupal_is_front_page()) {
+    print "wide-template";
+}
+?>" <?php print $attributes;?>>
   <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable"><?php print t('Jump to main content'); ?></a></div>
   <?php print $page_top; ?>
   <?php print $page; ?>
