@@ -130,7 +130,7 @@ Drupal.behaviors.shareLinks = {
   }
 };
 
-    Drupal.behaviors.removezipcodes = {
+    /*Drupal.behaviors.removezipcodes = {
         attach: function (context) {
             var x = $('#edit-field-zip-code').find('div.form-type-textfield').find('span.remove-zip').length;
             if(x == 0)
@@ -148,7 +148,7 @@ Drupal.behaviors.shareLinks = {
                 $(this).parents('tr').css('display','none');
             });
         }
-    };
+    };*/
 
 //})(jQuery, Drupal, this, this.document);
 })(jQuery);
