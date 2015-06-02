@@ -113,7 +113,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
           if($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
               unset($form['#validate'][$key]);
       }
-      //dsm($form);
+      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#description'] = "Primary/Default Location";
   }
 }
 
