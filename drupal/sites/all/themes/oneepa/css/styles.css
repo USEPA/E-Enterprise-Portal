@@ -95,3 +95,15 @@
 .page-user .pillbox{
     display:none;
 }
+
+#field-zip-code-values .ajax-progress-throbber,
+#field-profile-favourites-values .ajax-progress-throbber{
+    position:relative;
+    top:-43px;
+    left:450px;
+}
+#field-zip-code-values .tabledrag-handle,
+#field-profile-favourites-values .tabledrag-handle{
+    position: relative;
+    top:-30px;
+}
