@@ -6,7 +6,7 @@ print render($form['field_profile_last_name']);
 print render($form['account']['mail']);
 ?>
 <h3>Locations of Interest</h3>
-<p>Add your favorite cities to see environmental maps and information relevant to those areas. We'll use the first location as your primary location.</p>
+<p>Add your locations of interest to see environmental maps and information relevant to those areas. We will use the first location as your primary.</p>
 <?php
 print render($form['field_zip_code']);
 print "<h3>Interests</h3>";
