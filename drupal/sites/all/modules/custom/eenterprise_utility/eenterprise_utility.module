@@ -15,27 +15,9 @@ function eenterprise_utility_menu() {
       'page callback' => 'load_links',
       'access callback' => TRUE,
       );
-    $items['user_form/zip_code/ajax_load_data'] = array(
-    'title' => 'E-Enterprise User Zipcode',
-    'page callback' => 'eenterprise_user_zipcode_ajax',
-    'delivery callback' => 'ajax_deliver',
-    'access arguments' => array('access content'),
-//    'file' => 'eenterprise_bridge_auth.pages.inc',
-    '#type' => MENU_CALLBACK,
-  );
     return $items;
 } 
 
-
-function  eenterprise_user_zipcode_ajax() {
-  $temp_return = 'Temp Return';
-  return array(
-    '#type' => 'ajax',
-    '#commands' => array(
-      ajax_command_html('#zipcode_description', $temp_return),
-    ),
-  );
-}
 
 function remove_url ($array, $remove_url) {
   if (is_array($array)) {
