@@ -3,6 +3,7 @@
   * Implements hook_menu().
   **/
   
+
 function eenterprise_utility_menu() {
 
   $items =array();
@@ -94,6 +95,8 @@ function load_links($index) {
 
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
+
+  
   if($form['#form_id'] == 'user_profile_form'){
       hide($form['picture']);
       hide($form['account']['current_pass']);
@@ -113,9 +116,53 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
           if($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
               unset($form['#validate'][$key]);
       }
-      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#description'] = "Primary/Default Location";
+      
+      $form['field_zip_code']['#prefix'] = "<div id='zipcode_description'>"; 
+      $form['field_zip_code']['#suffix'] = '</div>';
+      for($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+        $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#default_value']; 
+        // overide default if input has been made
+        if (isset($form_state['values'])) {
+          $input_zip = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta];
+          if (isset($input_zip)) {
+            $zip = $input_zip['value'];
+          }
+        }
+        if (isset($zip)) {
+          $description = zipcodeLookUp($zip);
+        }
+        else if ($delta == 0) {
+           $description = "Primary/Default Location";
+        }
+        else {
+          $description = "";
+        }
+        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#description'] =
+          $description;
+        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#ajax'] = array(
+                'callback' => 'field_zip_code_generate',
+                'wrapper' => 'zipcode_description',
+                );
+     }
+        
+  }
+
+}
+
+function zipCodeLookUp($zip) {
+  if (strlen($zip) == 5) {
+  $request = drupal_http_request("http://api.zippopotam.us/us/$zip");
+  $response_array = json_decode($request->data);
+  $zip_places = $response_array->places[0];
+  $zip_string = $zip_places->{'place name'} . ', ' . $zip_places->{'state abbreviation'};
+  return $zip_string;
   }
 }
+
+ function field_zip_code_generate($form, $form_state) {
+    return $form['field_zip_code'];
+}
+
 
 /**
  * @param $form
