@@ -55,8 +55,8 @@ function content_types_may_20_2015_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'node-features_feature_list-field_field_ffl_active_sprint'
-  $field_instances['node-features_feature_list-field_field_ffl_active_sprint'] = array(
+  // 'node-features_feature_list-field_ffl_active_sprint'
+  $field_instances['node-features_feature_list-field_ffl_active_sprint'] = array(
     'bundle' => 'features_feature_list',
     'default_value' => array(
       0 => array(
@@ -71,7 +71,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 3,
+        'weight' => 12,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -81,8 +81,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_ffl_active_sprint',
-    'label' => 'field_ffl_active_sprint',
+    'field_name' => 'field_ffl_active_sprint',
+    'label' => 'Active Sprint',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -94,13 +94,12 @@ function content_types_may_20_2015_field_default_field_instances() {
         'display_label' => 0,
       ),
       'type' => 'options_onoff',
-      'weight' => -1,
+      'weight' => 8,
     ),
   );
 
-  // Exported field_instance:
-  // 'node-features_feature_list-field_field_ffl_description'
-  $field_instances['node-features_feature_list-field_field_ffl_description'] = array(
+  // Exported field_instance: 'node-features_feature_list-field_ffl_description'
+  $field_instances['node-features_feature_list-field_ffl_description'] = array(
     'bundle' => 'features_feature_list',
     'default_value' => NULL,
     'deleted' => 0,
@@ -111,7 +110,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 5,
+        'weight' => 11,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -121,8 +120,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_ffl_description',
-    'label' => 'field_ffl_description',
+    'field_name' => 'field_ffl_description',
+    'label' => 'Description',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -135,13 +134,13 @@ function content_types_may_20_2015_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 1,
+      'weight' => 7,
     ),
   );
 
   // Exported field_instance:
-  // 'node-features_feature_list-field_field_ffl_release_number'
-  $field_instances['node-features_feature_list-field_field_ffl_release_number'] = array(
+  // 'node-features_feature_list-field_ffl_release_number'
+  $field_instances['node-features_feature_list-field_ffl_release_number'] = array(
     'bundle' => 'features_feature_list',
     'default_value' => NULL,
     'deleted' => 0,
@@ -157,7 +156,7 @@ function content_types_may_20_2015_field_default_field_instances() {
           'thousand_separator' => ' ',
         ),
         'type' => 'number_integer',
-        'weight' => 2,
+        'weight' => 9,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -167,8 +166,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_ffl_release_number',
-    'label' => 'field_ffl_release_number',
+    'field_name' => 'field_ffl_release_number',
+    'label' => 'Release Number',
     'required' => 0,
     'settings' => array(
       'max' => '',
@@ -182,12 +181,12 @@ function content_types_may_20_2015_field_default_field_instances() {
       'module' => 'number',
       'settings' => array(),
       'type' => 'number',
-      'weight' => -2,
+      'weight' => 5,
     ),
   );
 
-  // Exported field_instance: 'node-features_feature_list-field_field_ffl_title'
-  $field_instances['node-features_feature_list-field_field_ffl_title'] = array(
+  // Exported field_instance: 'node-features_feature_list-field_ffl_title'
+  $field_instances['node-features_feature_list-field_ffl_title'] = array(
     'bundle' => 'features_feature_list',
     'default_value' => NULL,
     'deleted' => 0,
@@ -198,7 +197,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 10,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -208,8 +207,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_ffl_title',
-    'label' => 'field_ffl_title',
+    'field_name' => 'field_ffl_title',
+    'label' => 'Title',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -222,7 +221,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 0,
+      'weight' => 6,
     ),
   );
 
@@ -271,8 +270,8 @@ function content_types_may_20_2015_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'node-features_get_involved_calls_to_a-field_field_fcta_description'
-  $field_instances['node-features_get_involved_calls_to_a-field_field_fcta_description'] = array(
+  // 'node-features_get_involved_calls_to_a-field_fgi_description'
+  $field_instances['node-features_get_involved_calls_to_a-field_fgi_description'] = array(
     'bundle' => 'features_get_involved_calls_to_a',
     'default_value' => NULL,
     'deleted' => 0,
@@ -283,7 +282,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 17,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -293,8 +292,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_fcta_description',
-    'label' => 'field_fcta_description',
+    'field_name' => 'field_fgi_description',
+    'label' => 'Description',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -307,13 +306,13 @@ function content_types_may_20_2015_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => -2,
+      'weight' => 13,
     ),
   );
 
   // Exported field_instance:
-  // 'node-features_get_involved_calls_to_a-field_field_fcta_endpoint'
-  $field_instances['node-features_get_involved_calls_to_a-field_field_fcta_endpoint'] = array(
+  // 'node-features_get_involved_calls_to_a-field_fgi_endpoint'
+  $field_instances['node-features_get_involved_calls_to_a-field_fgi_endpoint'] = array(
     'bundle' => 'features_get_involved_calls_to_a',
     'default_value' => NULL,
     'deleted' => 0,
@@ -324,7 +323,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 13,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -334,8 +333,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_fcta_endpoint',
-    'label' => 'field_fcta_endpoint',
+    'field_name' => 'field_fgi_endpoint',
+    'label' => 'Endpoint',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -348,13 +347,54 @@ function content_types_may_20_2015_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 0,
+      'weight' => 9,
     ),
   );
 
   // Exported field_instance:
-  // 'node-features_get_involved_calls_to_a-field_field_fcta_geography'
-  $field_instances['node-features_get_involved_calls_to_a-field_field_fcta_geography'] = array(
+  // 'node-features_get_involved_calls_to_a-field_fgi_feature_title'
+  $field_instances['node-features_get_involved_calls_to_a-field_fgi_feature_title'] = array(
+    'bundle' => 'features_get_involved_calls_to_a',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 15,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_fgi_feature_title',
+    'label' => 'Feature Title',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 11,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'node-features_get_involved_calls_to_a-field_fgi_geography'
+  $field_instances['node-features_get_involved_calls_to_a-field_fgi_geography'] = array(
     'bundle' => 'features_get_involved_calls_to_a',
     'default_value' => array(
       0 => array(
@@ -369,7 +409,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 5,
+        'weight' => 16,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -379,8 +419,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_fcta_geography',
-    'label' => 'field_fcta_geography',
+    'field_name' => 'field_fgi_geography',
+    'label' => 'Geography',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -392,13 +432,13 @@ function content_types_may_20_2015_field_default_field_instances() {
         'display_label' => 0,
       ),
       'type' => 'options_onoff',
-      'weight' => 1,
+      'weight' => 12,
     ),
   );
 
   // Exported field_instance:
-  // 'node-features_get_involved_calls_to_a-field_field_fcta_image'
-  $field_instances['node-features_get_involved_calls_to_a-field_field_fcta_image'] = array(
+  // 'node-features_get_involved_calls_to_a-field_fgi_image'
+  $field_instances['node-features_get_involved_calls_to_a-field_fgi_image'] = array(
     'bundle' => 'features_get_involved_calls_to_a',
     'deleted' => 0,
     'description' => '',
@@ -411,7 +451,7 @@ function content_types_may_20_2015_field_default_field_instances() {
           'image_style' => '',
         ),
         'type' => 'image',
-        'weight' => 3,
+        'weight' => 14,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -421,8 +461,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_fcta_image',
-    'label' => 'field_fcta_image',
+    'field_name' => 'field_fgi_image',
+    'label' => 'Image',
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
@@ -443,48 +483,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',
-      'weight' => -1,
-    ),
-  );
-
-  // Exported field_instance:
-  // 'node-features_get_involved_calls_to_a-field_field_fcta_title'
-  $field_instances['node-features_get_involved_calls_to_a-field_field_fcta_title'] = array(
-    'bundle' => 'features_get_involved_calls_to_a',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 1,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_field_fcta_title',
-    'label' => 'field_fcta_title',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => -3,
+      'weight' => 10,
     ),
   );
 
@@ -532,9 +531,8 @@ function content_types_may_20_2015_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'node-general_parent_widget-field_field_gpw_description'
-  $field_instances['node-general_parent_widget-field_field_gpw_description'] = array(
+  // Exported field_instance: 'node-general_parent_widget-field_gpw_description'
+  $field_instances['node-general_parent_widget-field_gpw_description'] = array(
     'bundle' => 'general_parent_widget',
     'default_value' => NULL,
     'deleted' => 0,
@@ -545,7 +543,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -555,8 +553,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_gpw_description',
-    'label' => 'field_gpw_description',
+    'field_name' => 'field_gpw_description',
+    'label' => 'Description',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -569,12 +567,12 @@ function content_types_may_20_2015_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => -1,
+      'weight' => 1,
     ),
   );
 
-  // Exported field_instance: 'node-general_parent_widget-field_field_gpw_title'
-  $field_instances['node-general_parent_widget-field_field_gpw_title'] = array(
+  // Exported field_instance: 'node-general_parent_widget-field_gpw_title'
+  $field_instances['node-general_parent_widget-field_gpw_title'] = array(
     'bundle' => 'general_parent_widget',
     'default_value' => NULL,
     'deleted' => 0,
@@ -585,7 +583,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -595,8 +593,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_gpw_title',
-    'label' => 'field_gpw_title',
+    'field_name' => 'field_gpw_title',
+    'label' => 'Title',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -609,12 +607,12 @@ function content_types_may_20_2015_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => -3,
+      'weight' => 0,
     ),
   );
 
-  // Exported field_instance: 'node-general_parent_widget-field_field_gpw_url'
-  $field_instances['node-general_parent_widget-field_field_gpw_url'] = array(
+  // Exported field_instance: 'node-general_parent_widget-field_gpw_url'
+  $field_instances['node-general_parent_widget-field_gpw_url'] = array(
     'bundle' => 'general_parent_widget',
     'default_value' => NULL,
     'deleted' => 0,
@@ -625,7 +623,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -635,8 +633,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_gpw_url',
-    'label' => 'field_gpw_url',
+    'field_name' => 'field_gpw_url',
+    'label' => 'Url',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -649,7 +647,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => -2,
+      'weight' => 2,
     ),
   );
 
@@ -698,8 +696,8 @@ function content_types_may_20_2015_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'node-resources_bookmarks_quick_links-field_field_rbq_category'
-  $field_instances['node-resources_bookmarks_quick_links-field_field_rbq_category'] = array(
+  // 'node-resources_bookmarks_quick_links-field_rbq_category'
+  $field_instances['node-resources_bookmarks_quick_links-field_rbq_category'] = array(
     'bundle' => 'resources_bookmarks_quick_links',
     'default_value' => NULL,
     'deleted' => 0,
@@ -710,7 +708,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -720,8 +718,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_rbq_category',
-    'label' => 'field_rbq_category',
+    'field_name' => 'field_rbq_category',
+    'label' => 'Category',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -734,13 +732,54 @@ function content_types_may_20_2015_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => -1,
+      'weight' => 3,
     ),
   );
 
   // Exported field_instance:
-  // 'node-resources_bookmarks_quick_links-field_field_rbq_sequence'
-  $field_instances['node-resources_bookmarks_quick_links-field_field_rbq_sequence'] = array(
+  // 'node-resources_bookmarks_quick_links-field_rbq_resource_title'
+  $field_instances['node-resources_bookmarks_quick_links-field_rbq_resource_title'] = array(
+    'bundle' => 'resources_bookmarks_quick_links',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_rbq_resource_title',
+    'label' => 'Resource Title',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 1,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'node-resources_bookmarks_quick_links-field_rbq_sequence'
+  $field_instances['node-resources_bookmarks_quick_links-field_rbq_sequence'] = array(
     'bundle' => 'resources_bookmarks_quick_links',
     'default_value' => NULL,
     'deleted' => 0,
@@ -756,7 +795,7 @@ function content_types_may_20_2015_field_default_field_instances() {
           'thousand_separator' => ' ',
         ),
         'type' => 'number_integer',
-        'weight' => 4,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -766,8 +805,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_rbq_sequence',
-    'label' => 'field_rbq_sequence',
+    'field_name' => 'field_rbq_sequence',
+    'label' => 'Sequence',
     'required' => 0,
     'settings' => array(
       'max' => '',
@@ -781,13 +820,13 @@ function content_types_may_20_2015_field_default_field_instances() {
       'module' => 'number',
       'settings' => array(),
       'type' => 'number',
-      'weight' => 0,
+      'weight' => 2,
     ),
   );
 
   // Exported field_instance:
-  // 'node-resources_bookmarks_quick_links-field_field_rbq_title'
-  $field_instances['node-resources_bookmarks_quick_links-field_field_rbq_title'] = array(
+  // 'node-resources_bookmarks_quick_links-field_rbq_url'
+  $field_instances['node-resources_bookmarks_quick_links-field_rbq_url'] = array(
     'bundle' => 'resources_bookmarks_quick_links',
     'default_value' => NULL,
     'deleted' => 0,
@@ -798,7 +837,7 @@ function content_types_may_20_2015_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 8,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -808,8 +847,8 @@ function content_types_may_20_2015_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_field_rbq_title',
-    'label' => 'field_rbq_title',
+    'field_name' => 'field_rbq_url',
+    'label' => 'Url',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -822,70 +861,25 @@ function content_types_may_20_2015_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => -3,
-    ),
-  );
-
-  // Exported field_instance:
-  // 'node-resources_bookmarks_quick_links-field_field_rbq_url'
-  $field_instances['node-resources_bookmarks_quick_links-field_field_rbq_url'] = array(
-    'bundle' => 'resources_bookmarks_quick_links',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 2,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_field_rbq_url',
-    'label' => 'field_rbq_url',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => -2,
+      'weight' => 4,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Active Sprint');
   t('Body');
-  t('field_fcta_description');
-  t('field_fcta_endpoint');
-  t('field_fcta_geography');
-  t('field_fcta_image');
-  t('field_fcta_title');
-  t('field_ffl_active_sprint');
-  t('field_ffl_description');
-  t('field_ffl_release_number');
-  t('field_ffl_title');
-  t('field_gpw_description');
-  t('field_gpw_title');
-  t('field_gpw_url');
-  t('field_rbq_category');
-  t('field_rbq_sequence');
-  t('field_rbq_title');
-  t('field_rbq_url');
+  t('Category');
+  t('Description');
+  t('Endpoint');
+  t('Feature Title');
+  t('Geography');
+  t('Image');
+  t('Release Number');
+  t('Resource Title');
+  t('Sequence');
+  t('Title');
+  t('Url');
 
   return $field_instances;
 }
