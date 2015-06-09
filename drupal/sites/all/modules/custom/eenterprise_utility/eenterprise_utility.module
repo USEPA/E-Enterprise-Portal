@@ -95,7 +95,7 @@ function load_links($index) {
 
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
-
+  drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
   
   if($form['#form_id'] == 'user_profile_form'){
       hide($form['picture']);
@@ -116,7 +116,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
           if($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
               unset($form['#validate'][$key]);
       }
-      
+         
       $form['field_zip_code']['#prefix'] = "<div id='zipcode_description'>"; 
       $form['field_zip_code']['#suffix'] = '</div>';
       for($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
@@ -129,9 +129,12 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
           }
         }
         if (isset($zip)) {
-          $description = zipcodeLookUp($zip);
+          $field_suffix = zipcodeLookUp($zip);
         }
-        else if ($delta == 0) {
+        else {
+          $field_suffix = "";
+        }
+        if ($delta == 0) {
            $description = "Primary/Default Location";
         }
         else {
@@ -139,6 +142,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         }
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#description'] =
           $description;
+        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#field_suffix'] =
+          $field_suffix;
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#ajax'] = array(
                 'callback' => 'field_zip_code_generate',
                 'wrapper' => 'zipcode_description',
