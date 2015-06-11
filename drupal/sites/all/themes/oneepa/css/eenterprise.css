@@ -65,17 +65,22 @@ button, input[type="button"], input[type="reset"], input[type="submit"], .button
 #user-profile-form .form-item .form-type-textfield {padding-bottom:0.5em;}
 #user-profile-form .form-type-textfield {margin-right:20px;width:20em;}
 #user-profile-form .form-type-textfield.form-item-mail {clear:left;width:50em;}
-#user-profile-form .form-type-textfield.form-item-mail input {width:20em;border:none;padding:0;margin-bottom:10px;}
+#user-profile-form .form-type-textfield.form-item-mail input {width:20em;/*border:none;padding:0;*/margin-bottom:10px;}
 #user-profile-form .field-name-field-zip-code label {font-weight:normal;}
 #user-profile-form .form-type-textfield .description {margin-top:5px;}
 #user-profile-form .form-type-textfield label {font-weight: normal;font-size:0.95em;}
 #user-profile-form .form-type-textfield label, #user-profile-form .form-type-textfield input {display:block;}
 .draggable .handle {font-size:2em;}
+#user-profile-form .eenterprise-utility-form-item-description-p { margin-bottom: .5em; padding-bottom: 0px;}
+#user-profile-form .eenterprise-utility-form-item-description-p.field-title-below { margin-bottom: 1.5em; padding-bottom: 0px;}
+#field-profile-favourites-values thead tr .field-label,
+#edit-field-profile-favourites thead { display:none;}
+.form-item-field-profile-interests-und label:first-child{ display:none;}
 a.tabledrag-handle .handle {margin: 0 0.25em}
 #user-profile-form thead label {padding:1em 1em 0.25em 0.5em;}
 #user-profile-form thead, #user-profile-form th, #user-profile-form tr:nth-of-type(even) {background-color:transparent;}
 #user-profile-form td {border:none;}
-#user-profile-form .form-submit {background-color: #337ab7;padding:0.5em 1em;height:auto;border-color:#337ab7;border-radius:4px;font-size:0.95em;font-weight:normal;margin-left:3em;}
+#user-profile-form .form-submit {background-color: #337ab7;padding:0.5em 1em;height:auto;border-color:#337ab7;border-radius:4px;font-size:0.95em;font-weight:normal;margin-left:30px;}
 .view-user-profile .field-label {
 	clip: rect(1px, 1px, 1px, 1px);
 	position: absolute !important;
@@ -86,9 +91,15 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 .draggable .field-multiple-drag {padding-top: 0.5em;}
 .multiple-fields-remove-button {margin-left:0.25em !important;padding:0.25em 0.5em !important;}
 #field-zip-code-values .tabledrag-handle, #field-profile-favourites-values .tabledrag-handle {top:-10px;}
-
+/*#zipcode_description .field-multiple-table {width: 1000px;}
+#zipcode_description .field-multiple-table .form-item,
+#zipcode_description .field-multiple-table .form-text {width: 320px;}
+#zipcode_description .field-multiple-table .form-text.ajax-processed,
+#zipcode_description .field-multiple-table .form-type-textfield,
+#zipcode_description .zip-code-description {display: inline !important;}*/
 /** Functional Styles *********************************************************/
 .messages--status.messages.status {margin-bottom:0;}
+.messages { font-size: 16px;}
 .page-eenterprise-for-environment section {padding:0;}
 .page-eenterprise-for-environment ul {list-style:none;}
 .page-eenterprise-for-environment .breadcrumb, .page-eenterprise-for-environment .breadcrumb-title {display:none;}
