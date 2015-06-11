@@ -35,6 +35,7 @@ scripts[] = js/script.js
 scripts[] = js/mobile-menu.js
 scripts[] = js/drop-down-menu.js
 scripts[] = js/eenterprise_utility.js
+scripts[] = inc/bootstrap/js/bootstrap.min.js
 
 ; FEATURES
 features[] = logo

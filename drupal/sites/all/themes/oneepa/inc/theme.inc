@@ -179,12 +179,19 @@ function oneepa_breadcrumb($vars) {
     }
 
     if (!empty($breadcrumb)) {
-
       // Add breadcrumb separator.
       $breadcrumb_separator = filter_xss(theme_get_setting('breadcrumb_separator'));
       $output = '<h2 class="breadcrumb-title">' . t('You are here') . ':</h2>';
-      $output .= '<p class="breadcrumb">' . implode($breadcrumb_separator, $breadcrumb);
 
+      // Override breadcrumb trailing from email top 'My Account'
+
+      if (count($breadcrumb) > 1) {
+        $account_string = $breadcrumb[1];
+        preg_match("/href[^>]*/", $account_string, $href_string);
+        $new_breadcrumb = "<a " . $href_string[0] . ">My Account</a>";
+        $breadcrumb[1] = $new_breadcrumb;
+      }
+      $output .= '<p class="breadcrumb">' . implode($breadcrumb_separator, $breadcrumb);
       // Add page title to breadcrumbs.
       if (theme_get_setting('breadcrumb_title')) {
         $output .= ' ' . $breadcrumb_separator . ' ' . drupal_get_title();
