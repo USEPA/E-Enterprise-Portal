@@ -6,13 +6,21 @@ body {
 	 /* s.css override */
 	 background: #369;
 }
+.modal-open {padding-right:0 !important;}
 h1, h2, h3, h4, h5, h6, th, legend, caption, b, strong {
 	font-family: "Helvetica Neue","Segoe UI", Helvetica,Arial,sans-serif !important;	 /* s.css override */
 }
 h2 {font-size:2em;}
 h3 {font-size:1.5em;}
-a:focus {color:#ffffff;} /*Override Bootstrap focus color given EPA background color on focus*/
+button {height:auto;}
+.well a:hover {color:#333333;}
+a:hover, a:focus {color:#ffffff;} /*Override Bootstrap focus color given EPA background color on focus*/
 button, input[type="button"], input[type="reset"], input[type="submit"], .button, #edit-cancel, .addtocal {margin-bottom: 0.5em;}
+.site-slogan {line-height:55px;vertical-align: bottom;}
+#learnmore .modal-content {padding:30px;}
+#learnmore .modal-header, #learnmore .modal-footer {border:none;}
+#learnmore .modal-title {padding-left:0;}
+#learnmore-close {font-size: 1.375em;line-height: 1;position: absolute;top: 0.5em;right: 0.6875em;color: #aaaaaa;font-weight: bold;cursor: pointer;}
 
 .jumbotron {
 	margin-bottom: 0px;
@@ -27,6 +35,8 @@ button, input[type="button"], input[type="reset"], input[type="submit"], .button
 .jumbotron .well {opacity:0.9;margin:0 auto;margin-top:85px;margin-bottom:2em;}
 .jumbotron .well-narrow {margin-top:30px;}
 .page-eenterprise-for-environment .row.shaded br {display:none;}
+#login-group form, #login-group a {display:inline-block;}
+#login-group a {margin-left:20px;padding:5px 15px;}
 
 #edit-e-enterprise-bridge {background-color: #337ab7;padding:1em 3em;height:auto;border-color:#337ab7;border-radius:4px;font-size:1.25em;font-weight:normal;}
 
@@ -45,6 +55,7 @@ button, input[type="button"], input[type="reset"], input[type="submit"], .button
 
 /** Main OneEPA Template Styles *********************************************************/
 .main-nav {position:relative;}
+.secondary-nav {position: absolute;right: 1em;top: 3.25em;}
 #search-block-form {position:absolute;right:1.75em;}
 .jumbotron p {margin-bottom:0;}
 .well-narrow {max-width:25em;margin:0 auto;}
@@ -109,7 +120,7 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 .view-ee-release-note-list li h3 {font-size:1.15em;}
 .view-ee-release-note-list p {font-size:90%;padding-bottom:10px;line-height:1.6}
 .page-workbench .block-views, .section-workbench .block-views {float:left;}
-.page-workbench .block-views.odd, .section-workbench .block-views.odd {width:55%;}
-.page-workbench .block-views.even, .section-workbench .block-views.even {width:40%;}
-
-
+@media screen and (min-width: 45em) {
+	.page-workbench .block-views.odd, .section-workbench .block-views.odd {width:55%;}
+	.page-workbench .block-views.even, .section-workbench .block-views.even {width:40%;}
+}
