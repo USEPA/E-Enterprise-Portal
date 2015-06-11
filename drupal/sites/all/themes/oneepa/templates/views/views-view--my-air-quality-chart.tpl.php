@@ -26,6 +26,10 @@
  *
  * @ingroup views_templates
  */
+drupal_add_js("http://code.jquery.com/jquery-1.8.2.min.js", "file");
+drupal_add_js("http://d3js.org/d3.v2.js", "file");
+drupal_add_js(drupal_get_path('theme', 'oneepa') ."/js/air_now_js.js", "file");
+drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/air_now_styles.css", "file");
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
@@ -53,21 +57,9 @@
 
   <?php if ($rows): ?>
     <div class="view-content">
-			<?php
-                global $user;
-                if($user->uid == 0):               		
-					$block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
-					$loginmsg = "<div id=\"login-group\" class=\"container\">";
-					$loginform = str_replace("E-Enterprise Bridge", "Log in now", render($block['content']));
-					$loginmsg .= $loginform;
-					$loginmsg .= "<a id=\"learnmorelink\" data-toggle=\"modal\" href=\"#learnmore\">Learn more</a></div>";
-                else:
-                   	$loginmsg = "<div class=\"well well-narrow\">Welcome, <strong>".$user->name."!</strong><br><a href=\"workbench\">View workbench</a></div>";
-                endif;
-                
-                $rows = str_replace("Log in now", $loginmsg, $rows);
-                print $rows;
-                ?>
+    	<div id="chart">    		
+		</div>
+      <?php //print $rows; ?>
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
