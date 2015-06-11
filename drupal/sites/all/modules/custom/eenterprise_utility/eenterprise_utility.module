@@ -132,31 +132,43 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
             $zip = $input_zip['value'];
           }
         }
+        $field_suffix = '<span class="move_zip_code"></span>';
         if (isset($zip)) {
-          $field_suffix = zipcodeLookUp($zip);
+
+          $field_suffix = "";//zipcodeLookUp($zip);
         }
         else {
           $field_suffix = "";
+
+
         }
+
         if ($delta == 0) {
-           $description = '<div class="zip-code-description">Primary/Default Location</div>';
+           $description = '<span class="zip-code-description">Primary/Default Location</span>';
         }
         else {
           $description = "";
         }
+
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#description'] =
           $description;
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#field_suffix'] =
-          $field_suffix; //'<div class="zip-code-description>;
-        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#ajax'] = array(
-                'callback' => 'field_zip_code_generate',
-                'wrapper' => 'zipcode_description',
-                );
+          $field_suffix;
+//        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#ajax'] = array(
+//                'callback' => 'field_zip_code_generate',
+//                'wrapper' => 'zipcode_description',
+//                );
+
+          
+
      }
         
   }
 
 }
+
+
+
 
 function zipCodeLookUp($zip) {
   if (strlen($zip) == 5) {
