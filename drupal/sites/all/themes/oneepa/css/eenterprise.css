@@ -80,7 +80,7 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 #user-profile-form thead label {padding:1em 1em 0.25em 0.5em;}
 #user-profile-form thead, #user-profile-form th, #user-profile-form tr:nth-of-type(even) {background-color:transparent;}
 #user-profile-form td {border:none;}
-#user-profile-form .form-submit {background-color: #337ab7;padding:0.5em 1em;height:auto;border-color:#337ab7;border-radius:4px;font-size:0.95em;font-weight:normal;margin-left:30px;}
+#user-profile-form .form-submit {text-transform: capitalize; background-color: #337ab7;padding:0.5em 1em;height:auto;border-color:#337ab7;border-radius:4px;font-size:0.95em;font-weight:normal;margin-left:30px;}
 .view-user-profile .field-label {
 	clip: rect(1px, 1px, 1px, 1px);
 	position: absolute !important;
