@@ -102,10 +102,14 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       hide($form['account']['current_pass']);
       hide($form['account']['pass']);
       //hide($form['field_profile_interests']);
+      
       if(empty($form['account']['mail']['#default_value']))
           $form['account']['mail']['#default_value'] = $form['#user']->name;
       $form['account']['mail']['#attributes'] = array('disabled' => 'disabled');
       $form['account']['mail']['#required'] = false;
+      //if(empty($form['account']['mail']['#default_value']))
+          //$form['account']['mail']['#default_value'] = $form['#user']->name;
+//      $form['account']['mail']['#attributes'] = array('readonly' => 'readonly');
       $form['#validate'][] = 'user_profile_form_custom_validate';
       $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
       $form['actions']['delete']['#submit'][] = 'profile_delete_action';
