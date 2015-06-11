@@ -129,7 +129,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
           }
         }
         if (isset($zip)) {
-          $field_suffix = zipcodeLookUp($zip);
+          $field_suffix = "";//zipcodeLookUp($zip);
         }
         else {
           $field_suffix = "";
@@ -144,10 +144,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
           $description;
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#field_suffix'] =
           $field_suffix;
-        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#ajax'] = array(
-                'callback' => 'field_zip_code_generate',
-                'wrapper' => 'zipcode_description',
-                );
+//        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#ajax'] = array(
+//                'callback' => 'field_zip_code_generate',
+//                'wrapper' => 'zipcode_description',
+//                );
      }
         
   }
