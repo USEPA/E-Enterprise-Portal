@@ -107,3 +107,28 @@
     position: relative;
     top:-30px;
 }
+
+.page-workbench td, .page-workbench th{
+    height: 36px;
+}
+.page-workbench .odd td{
+    border-left:1px solid white;
+    border-right:1px solid white;
+}
+.page-workbench .views-field-counter{
+    width: 36px;
+}
+.page-workbench .pane-views-to-do-block-1{
+    width:90%;
+}
+.page-workbench .views-field-field-todo-lst-item{
+    width:200px;
+}
+
+.page-workbench .views-field-field-todo-lst-domain{
+    width:100px;
+}
+
+.page-workbench .views-field-field-todo-lst-due{
+    width:200px;
+}
