@@ -99,15 +99,15 @@ if(drupal_is_front_page()) {
 	      <?php print render($page['navigation']); ?>
 	    </div><!-- end div:navigation -->
 	<?php endif; ?>
-	<?php print $breadcrumb; ?>	
+	<?php print $breadcrumb;?>	
 	<a id="main-content"></a>
 	<?php print render($page['help']); ?>
     <?php print render($title_prefix); ?>
-    <?php if ($title): ?>
+    <?php //if ($title): ?>
       <!--googleon: all-->
-      <h1 <?php print $title_attributes; ?>><?php print $title; ?></h1>
+      <h1 <?php print $title_attributes; ?>><?php print "Profile"; //$title;?></h1>
       <!--googleoff: all-->
-    <?php endif; ?>
+    <?php// endif; ?>
 	<?php print render($title_suffix); ?>
 	<?php print render($tabs); ?>
 	<?php print $messages; ?>

@@ -21,7 +21,7 @@ function bootstrap_preprocess_breadcrumb(&$variables) {
     $breadcrumb[] = array(
       // If we are on a non-default tab, use the tab's title.
       'data' => !empty($item['tab_parent']) ? check_plain($item['title']) : drupal_get_title(),
-      'class' => array('active'),
+      'class' => array('active', ),
     );
   }
 }
