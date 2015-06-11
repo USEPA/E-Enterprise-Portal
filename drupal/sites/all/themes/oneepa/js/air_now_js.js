@@ -41,8 +41,10 @@ function showPopover(obj, d) {
 
 	$popover.html('<div class="arrow"></div><h3 class="popover-title">'+info.header+'</h3><div class="popover-content">'+info.body+'</div>');
 
-	popover.style("left", (coord[0]) + 50 + "px" );
-	popover.style("top", (coord[1]) - $popover.height() / 2 + "px");
+	//popover.style("left", (coord[0]) + 50 + "px" );
+    popover.style("left", (coord[0]) + "px" );
+	//popover.style("top", (coord[1]) - $popover.height() / 2 + "px");
+    popover.style("top", (coord[1])  + 300 + "px");
 
 	$popover.fadeIn(200);
 }
