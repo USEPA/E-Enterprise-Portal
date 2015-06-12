@@ -107,14 +107,6 @@
     position: relative;
     top:-30px;
 }
-
-.page-workbench td, .page-workbench th{
-    height: 36px;
-}
-.page-workbench .odd td{
-    border-left:1px solid white;
-    border-right:1px solid white;
-}
 .page-workbench .views-field-counter{
     width: 36px;
 }
