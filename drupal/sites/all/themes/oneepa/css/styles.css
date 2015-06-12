@@ -132,3 +132,19 @@
 .page-workbench .views-field-field-todo-lst-due{
     width:200px;
 }
+.page-workbench .panel-col-first .pager{
+    text-align:left;
+    margin-left:180px;
+}
+.page-workbench .views-field-field-prog-tracker-app{
+    width:250px;
+}
+.page-workbench .views-field-field-prog-track-status{
+    width:120px;
+}
+.page-workbench .views-field-field-prog-track-updated{
+    width:120px;
+}
+.page-workbench .views-field-field-prog-track-actions{
+    width:220px;
+}
