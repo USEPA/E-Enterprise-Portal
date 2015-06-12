@@ -68,6 +68,32 @@ button, input[type="button"], input[type="reset"], input[type="submit"], .button
 .search-snippet {padding-bottom:0.25em;}
 .search-advanced {top:0;}
 
+/** General Table Styles *********************************************************/
+table, th, td {
+	border:none;
+}
+tr {
+	border-bottom:1px solid #efefef;
+}
+th, td {
+	padding: 5px 10px;
+	border: none;
+	line-height:1.2;
+}
+th {
+	background-color: #ffffff;
+	text-align: center;
+}
+.views-field-counter {
+	text-align: right;
+}
+td {
+	vertical-align: top;
+}
+tr:nth-of-type(even) {
+	background-color: #f0f0f0;
+}
+
 /** Profile Styles *********************************************************/
 .field-name-field-profile-first-name, .field-name-field-profile-last-name {display:inline-block;}
 #user-profile-form table, #user-profile-form th {border:none;}
