@@ -57,7 +57,10 @@
                 global $user;
                 if($user->uid == 0):               		
 					$block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
-					$loginmsg = str_replace("E-Enterprise Bridge", "Log in now", render($block['content']));
+					$loginmsg = "<div id=\"login-group\" class=\"container\">";
+					$loginform = str_replace("E-Enterprise Bridge", "Log in now", render($block['content']));
+					$loginmsg .= $loginform;
+					$loginmsg .= "<a id=\"learnmorelink\" data-toggle=\"modal\" href=\"#learnmore\">Why log in?</a></div>";
                 else:
                    	$loginmsg = "<div class=\"well well-narrow\">Welcome, <strong>".$user->name."!</strong><br><a href=\"workbench\">View workbench</a></div>";
                 endif;

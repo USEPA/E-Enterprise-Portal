@@ -95,3 +95,48 @@
 .page-user .pillbox{
     display:none;
 }
+
+#field-zip-code-values .ajax-progress-throbber,
+#field-profile-favourites-values .ajax-progress-throbber{
+    position:relative;
+    top:-43px;
+    left:450px;
+}
+#field-zip-code-values .tabledrag-handle,
+#field-profile-favourites-values .tabledrag-handle{
+    position: relative;
+    top:-30px;
+}
+.page-workbench .views-field-counter{
+    width: 36px;
+}
+.page-workbench .pane-views-to-do-block-1{
+    width:90%;
+}
+.page-workbench .views-field-field-todo-lst-item{
+    width:200px;
+}
+
+.page-workbench .views-field-field-todo-lst-domain{
+    width:100px;
+}
+
+.page-workbench .views-field-field-todo-lst-due{
+    width:200px;
+}
+.page-workbench .panel-col-first .pager{
+    text-align:left;
+    margin-left:180px;
+}
+.page-workbench .views-field-field-prog-tracker-app{
+    width:250px;
+}
+.page-workbench .views-field-field-prog-track-status{
+    width:120px;
+}
+.page-workbench .views-field-field-prog-track-updated{
+    width:120px;
+}
+.page-workbench .views-field-field-prog-track-actions{
+    width:220px;
+}
