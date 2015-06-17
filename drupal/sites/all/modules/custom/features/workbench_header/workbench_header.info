@@ -1,0 +1,9 @@
+name = Workbench Header
+description = Header for Workbench
+core = 7.x
+package = Features
+version = 7.x-1.0
+project = workbench_header
+dependencies[] = fe_block
+features[fe_block_boxes][] = workbenchheader
+features[features_api][] = api:2

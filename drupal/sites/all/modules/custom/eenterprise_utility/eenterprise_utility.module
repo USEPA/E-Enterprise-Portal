@@ -225,3 +225,24 @@ function eenterprise_utility_user_view($account, $view_mode, $langcode){
     if($account->uid > 0)
         drupal_goto("/user/".$account->uid."/edit");
 }
+
+/**
+ * @return array
+ * Workbench header data
+ */
+function get_header_variables(){
+    //the value for now is hardcoded not to block front end developers while backend developers investigate API endpoints to get data from CDX
+    //TODO: Call appropriate APIs to get the data for this function.
+    $header_data = array('header_text' => 'New for Your Favorite Cities',
+        'activities' => 7,
+        'reports' => 1,
+        'permits' => 3,
+        'data_sets' => 13,
+        'locations' => array(
+            'primary_location' => 'Austin, TX',
+            'location2' => 'Poughkeepsie, NY',
+            'location3' => 'San Jose, CA'
+        ),
+    );
+    return $header_data;
+}
