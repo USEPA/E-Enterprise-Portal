@@ -1,0 +1,12 @@
+name = Custom add another
+description = "Allows modification of the 'Add another item' button on fields"
+package = Fields
+dependencies[] = field (>=7.8)
+core = 7.x
+
+; Information added by drupal.org packaging script on 2013-06-08
+version = "7.x-1.0-rc3"
+core = "7.x"
+project = "custom_add_another"
+datestamp = "1370714751"
+
