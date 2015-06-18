@@ -95,6 +95,8 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/air_now_styles.css", "f
 
 </div><?php /* class view */ ?>
 <script type="text/javascript">
+    jQuery(document).ready(function () { draw(); });
+    var $jq = jQuery.noConflict();
     var drawChart = function(data) {
 
 // dateStr: yyyy-mm-dd
@@ -132,7 +134,7 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/air_now_styles.css", "f
 
             var info = categoryInfo[getCategoryInfoIndex(d)];
 
-            $popover = $('.popover');
+            $popover = $jq('.popover');
 
             $popover.html('<div class="arrow"></div><h3 class="popover-title">'+info.header+'</h3><div class="popover-content">'+info.body+'</div>');
 
@@ -145,7 +147,7 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/air_now_styles.css", "f
         }
 
         function hidePopover() {
-            $(".popover").fadeOut(200);
+            $jq(".popover").fadeOut(200);
         }
 
         function insertLinebreaks(d) {
