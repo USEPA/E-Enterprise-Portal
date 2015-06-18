@@ -106,8 +106,10 @@ if(drupal_is_front_page()) {
     <?php if ($title): ?>
     <?php
         $exploded_path = explode('/', current_path());
-        if ($exploded_path[0] == 'user' && $exploded_path[2] == 'edit'):
-          $title = 'Profile';
+        if (count($exploded_path) > 2):
+          if ($exploded_path[0] == 'user' && $exploded_path[2] == 'edit'):
+            $title = 'Profile';
+          endif;
         endif;
       ?>
       <!--googleon: all-->
