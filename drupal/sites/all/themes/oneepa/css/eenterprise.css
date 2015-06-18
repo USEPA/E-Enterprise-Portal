@@ -72,9 +72,9 @@ button, input[type="button"], input[type="reset"], input[type="submit"], .button
 table, th, td {
 	border:none;
 }
-tr {
+/*tr {
 	border-bottom:1px solid #efefef;
-}
+}*/
 th, td {
 	padding: 5px 10px;
 	border: none;
@@ -102,7 +102,7 @@ tr:nth-of-type(even) {
 #user-profile-form .description {color:#333333}
 #user-profile-form .form-item .form-type-textfield {padding-bottom:0.5em;}
 #user-profile-form .form-type-textfield {margin-right:20px;width:20em;}
-#user-profile-form .form-type-textfield.form-item-mail {clear:left;width:50em;}
+/*#user-profile-form .form-type-textfield.form-item-mail {clear:left;width:50em;}*/
 #user-profile-form .form-type-textfield.form-item-mail input {width:20em;/*border:none;padding:0;*/margin-bottom:10px;}
 #user-profile-form .field-name-field-zip-code label {font-weight:normal;}
 #user-profile-form .form-type-textfield .description {margin-top:5px;}
@@ -123,8 +123,27 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 	clip: rect(1px, 1px, 1px, 1px);
 	position: absolute !important;
 	}
+#user-profile-form #field-profile-favourites-add-more-wrapper .form-item,
+#user-profile-form #zipcode_description .form-item {
+	padding-bottom: 0px;
+}
+#user-profile-form .panel {
+	min-height: 330px;
+}
+/*#user-profile-form .ajax-progress {
+  float: none;
+  display:inline;
+}*/
+#user-profile-form .add_more_holder {
+	width: 462px;
+}
+#user-profile-form .field-add-more-submit {
+	background-color: green; float:right; width:43px; margin-right:10px;
+}
+
 .view-user-profile .field-name-field-profile-first-name .field-item {margin-right:0.4em;}
-.draggable .multiple-fields-remove-button {display:inline-block;margin-left:0;vertical-align: top;padding: 4px 8px;}
+/*.draggable .multiple-fields-remove-button {display:inline-block;margin-left:0;vertical-align: top;padding: 4px 8px;}*/
+.draggable .multiple-fields-remove-button {float:right;}
 .draggable .form-type-textfield, .draggable .field-multiple-drag  {display:inline-block;}
 .draggable .field-multiple-drag {padding-top: 0.5em;}
 /*.multiple-fields-remove-button {margin-left:0.25em !important;padding:0.25em 0.5em !important;}*/
@@ -133,7 +152,7 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 #user-profile-form .description{ display:inline-block;}
 #user-profile-form .field-suffix,
 #user-profile-form .move-zipcode  { display:inline; float: right !important;}
-#user-profile-form table tbody .ajax-progress  {float: right; display: inline-block; }
+/*#user-profile-form table tbody .ajax-progress  {float: right; display: inline-block; }*/
 
 /** Functional Styles *********************************************************/
 .messages--status.messages.status {margin-bottom:0;}
