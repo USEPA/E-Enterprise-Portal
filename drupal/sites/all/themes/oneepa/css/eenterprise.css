@@ -130,10 +130,11 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 #user-profile-form .panel {
 	min-height: 330px;
 }
-/*#user-profile-form .ajax-progress {
-  float: none;
-  display:inline;
-}*/
+#user-profile-form .ajax-progress {
+
+  display:block !important;
+  position: inherit !important;
+}
 #user-profile-form .add_more_holder {
 	width: 462px;
 }
@@ -152,7 +153,7 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 #user-profile-form .description{ display:inline-block;}
 #user-profile-form .field-suffix,
 #user-profile-form .move-zipcode  { display:inline; float: right !important;}
-/*#user-profile-form table tbody .ajax-progress  {float: right; display: inline-block; }*/
+/*#user-profile-form table tbody .ajax-progress  {float: right; display: block !important; }*/
 
 /** Functional Styles *********************************************************/
 .messages--status.messages.status {margin-bottom:0;}

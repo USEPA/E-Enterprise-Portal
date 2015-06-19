@@ -1,3 +1,4 @@
+
 <div class="edit-user-profile">
 <div class="row">
 	<div class="col-xs-12">
@@ -22,9 +23,13 @@ print render($form['account']['mail']);
 	location by clicking the key icon. <br />	
 	<span class='zip_code_ajax_error'></span>
 </p>
+<div id='zipcode_description' class='form-group'>
 <?php
 print render($form['field_zip_code']);
 ?>
+</div>
+
+<!--<button id="add-field-zip-code" type="button" class="btn btn-success">+</button>-->
 <!--<div class="add_more_holder">
 	<button type="button" id="clear_all_zip_codes" class="btn btn-sm btn-danger">Clear All</button>
 </div>-->
@@ -64,11 +69,14 @@ print render($form['field_profile_interests']);
 </div> <!-- col-->
 
 <div class="col-xs-12">
+
 <?php
 	print drupal_render_children($form);
 ?>
 
 </div> <!--col-->
 </div> <!-- row-->
+
+
 
 </div> <!-- edit user-profile -->
