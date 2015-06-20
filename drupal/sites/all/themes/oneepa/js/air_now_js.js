@@ -2,8 +2,6 @@ jQuery(document).ready(function () { draw(); });
 
 var drawChart = function(data) {
 
-  console.log(Drupal.settings)
-
   // dateStr: yyyy-mm-dd
   function getDate(dateStr) {
 
@@ -39,7 +37,7 @@ var drawChart = function(data) {
 
     var info = categoryInfo[getCategoryInfoIndex(d)];
 
-    $popover = $('.popover');
+    $popover = jQuery('.popover');
 
     $popover.html('<div class="arrow"></div><h3 class="popover-title">'+info.header+'</h3><div class="popover-content">'+info.body+'</div>');
 
@@ -50,7 +48,7 @@ var drawChart = function(data) {
   }
 
   function hidePopover() {
-    $(".popover").hide();
+    jQuery(".popover").hide();
   }
 
   function insertLinebreaks(d) {
@@ -72,33 +70,31 @@ var drawChart = function(data) {
     cssClass: 'section-good'
   }, {
     header: 'Moderate', 
-    body: 'Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people. For example, people who are unusually sensitive to ozone may experience respiratory symptoms. ', 
+    body: 'Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution. ', 
     cssClass: 'section-moderate'
   }, {
     header: 'Unhealthy for sensitive groups', 
-    body: 'Although general public is not likely to be affected at this AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air. ', 
+    body: 'Members of sensitive groups may experience health effects. The general public is not likely to be affected. ', 
     cssClass: 'section-unhealthy-for-sensitive'
   }, {
     header: 'Unhealthy', 
-    body: 'Everyone may begin to experience some adverse health effects, and members of the sensitive groups may experience more serious effects. ', 
+    body: 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects. ', 
     cssClass: 'section-unhealthy'
   }, {
     header: 'Very unhealthy', 
-    body: 'This would trigger a health alert signifying that everyone may experience more serious health effects. ', 
+    body: 'Health warnings of emergency conditions. The entire population is more likely to be affected. ', 
     cssClass: 'section-very-unhealthy'
   }, {
     header: 'Hazardous', 
-    body: 'This would trigger a health warnings of emergency conditions. The entire population is more likely to be affected. ', 
+    body: 'Health alert: everyone may experience more serious health effects. ', 
     cssClass: 'section-hazardous'
   }
   ];
 
   // define dimensions of graph
-  var m = [80, 40, 80, 350]; // margins
+  var m = [20, 40, 80, 350]; // margins
   var w = 550 - m[1] - m[3]; // width
-  var h = 600 - m[0] - m[2]; // height
-
-  var chartTitle = 'My Air Quality';
+  // var h = 600 - m[0] - m[2]; // height
 
   var todayData; // store the data point  which contains today's data; not necessarily defined
 
@@ -108,24 +104,24 @@ var drawChart = function(data) {
 
 
   // get max and min dates - this assumes data is sorted
-  var minDate = getDate(data[0].date),
-  maxDate = getDate(data[data.length-1].date);
+  var minDate = getDate(data[0].DateForecast),
+  maxDate = getDate(data[data.length-1].DateForecast);
 
   // find the maxAQI in the data
   var maxAQI = 0; 
   for(var i in data) {
-    if (maxAQI < data[i].aqi)
-      maxAQI = data[i].aqi;
+    if (maxAQI < data[i].AQI)
+      maxAQI = data[i].AQI;
   }
 
   // Only show the categories for which data is present
-  var reducedCategoryBounds = categoryBounds.slice(0, getCategoryInfoIndex(maxAQI) + 2);
+  var reducedCategoryBounds = categoryBounds.slice(0, Math.max(getCategoryInfoIndex(maxAQI) + 2, 3));
   var maxCategoryBound = reducedCategoryBounds[reducedCategoryBounds.length-1];
 
   var baseHeight = maxCategoryBound + 125;
 
   // reduce height based on data
-  h = baseHeight - m[0] - m[2];
+  var h = baseHeight - m[0] - m[2];
 
   // set x and y scales
   var x = d3.time.scale().domain([minDate, maxDate]).range([0, w]);
@@ -136,15 +132,15 @@ var drawChart = function(data) {
   // assign the X function to plot our line as we wish
   .x(function(d, i) {
   // return the X coordinate where we want to plot this datapoint
-  return x(getDate(d.date)); //x(i);
+  return x(getDate(d.DateForecast)); //x(i);
   })
   .y(function(d) {
   // return the Y coordinate where we want to plot this datapoint
-  return y(d.aqi);
+  return y(d.AQI);
   });
 
-  function xx(e) { return x(getDate(e.date)); };
-  function yy(e) { return y(e.aqi); };
+  function xx(e) { return x(getDate(e.DateForecast)); };
+  function yy(e) { return y(e.AQI); };
 
   // Add an SVG element with the desired dimensions and margin.
   var graph = d3.select("#chart").append("svg:svg")
@@ -152,14 +148,6 @@ var drawChart = function(data) {
   .attr("height", h + m[0] + m[2])
   .append("svg:g")
   .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
-
-  // Add chart title
-  graph.append("text")
-  .attr("x", -m[3])             
-  .attr("y", -m[0]/2)
-  .attr("text-anchor", "left") 
-  .attr("class", "chart-title") 
-  .text(chartTitle);
 
   var area = d3.svg.area()
   .interpolate("basis")
@@ -169,7 +157,7 @@ var drawChart = function(data) {
 
   // Find data point corresponding to today
   for (var i in data) {
-    if (dateDiffInDays(new Date(), getDate(data[i].date)) == 0) {
+    if (dateDiffInDays(new Date(), getDate(data[i].DateForecast)) == 0) {
       todayData = data[i];
       break;
     }
@@ -177,7 +165,7 @@ var drawChart = function(data) {
 
   if (todayData) {
   // Fill category background color based on AQI index for today
-  var activeCategoryIndex = getCategoryInfoIndex(todayData.aqi);
+  var activeCategoryIndex = getCategoryInfoIndex(todayData.AQI);
   var activeCategory = categoryInfo[activeCategoryIndex];
 
   graph.append("path")
@@ -202,7 +190,7 @@ var drawChart = function(data) {
 
   // Add CSS class to highlight today's date label in x-axis
   graph.selectAll('g.x.axis g text').attr("class", function(d, i) { 
-    return (!todayData || dateDiffInDays(d, getDate(todayData.date)) != 0) ? '' : ' active-date-text';
+    return (!todayData || dateDiffInDays(d, getDate(todayData.DateForecast)) != 0) ? '' : ' active-date-text';
   });
 
   // Create yAxis
@@ -221,7 +209,7 @@ var drawChart = function(data) {
   graph.selectAll(".y.axis g").append('text')
   .text(function(cat, i) { return i < reducedCategoryBounds.length - 1 ? categoryInfo[i].header : ''; })
   .attr("transform", "translate(25, -" + ((h + m[0] + m[2] - 125) / 20) + ")")
-  .attr("class", function(cat, i) { return 'category-label' + ( !todayData || i !=  getCategoryInfoIndex(todayData.aqi) ? '' : ' active-category-text') });
+  .attr("class", function(cat, i) { return 'category-label' + ( !todayData || i !=  getCategoryInfoIndex(todayData.AQI) ? '' : ' active-category-text') });
 
   // Add the line by appending an svg:path element with the data line we created above
   graph.append("svg:path").attr("d", line(data));
@@ -234,12 +222,12 @@ var drawChart = function(data) {
   .classed('gnode', true)
 
   gnodes.append("text")
-  .attr("x", function(d) { return x(getDate(d.date)); })
-  .attr("y", function(d) { return y(d.aqi) - 20})
+  .attr("x", function(d) { return x(getDate(d.DateForecast)); })
+  .attr("y", function(d) { return y(d.AQI) - 20})
   // .attr("dy", ".35em")
-  .attr("class", function(d) { return !todayData || d.date != todayData.date ? '' : 'active-category-text' })
+  .attr("class", function(d) { return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text' })
   .attr("text-anchor", "middle")
-  .text(function(d) { return d.aqi; });
+  .text(function(d) { return d.AQI; });
 
   gnodes.append("circle")
   .attr("fill", "#454545")
@@ -249,7 +237,7 @@ var drawChart = function(data) {
   .attr("stroke-opacity", 0)
   .attr("cx", xx)
   .attr("cy", yy)
-  .on("mouseover", function(d) { console.log('over'); showPopover(graph[0][0].parentElement, d.aqi);})
+  .on("mouseover", function(d) { console.log('over'); showPopover(graph[0][0].parentElement, d.AQI);})
   .on("mouseout", function(){ hidePopover();});
 
   // Append popover
@@ -259,21 +247,57 @@ var drawChart = function(data) {
   }
 
   var draw = function() {
-    var endpoint = 'http://www.airnowapi.org/aq/forecast/zipCode/';
+
+    function formatDate(date) {
+      var month = '' + (date.getMonth() + 1),
+          day = '' + date.getDate(),
+          year = date.getFullYear();
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return [year, month, day].join('-');
+    }
+
+  function parseData(responseData) {
+    var data = [];
+
+    // between O3 and PM2.5, use the max AQI for each date
+    for (var i = 0; i < responseData.length; i+=2) {
+      var entry = {
+        DateForecast: responseData[i].DateForecast, 
+        AQI: Math.max(responseData[i].AQI, responseData[i + 1].AQI)
+      };
+      data.push(entry);
+    }
+
+    return data;
+  }
+
+    var endpoint = '/my_air_quality_chart_view/api/forecast/zipCode/';
+
+    // 64172: only one data point
+    // 40202: AQI is always -1
+    // 19060: empty
+    // 19147: moderate AQI
 
     var params = {
       format: 'application/json',
-      zipCode: 20002, // pull from Drupal profile
-      date: '2015-06-11', // new Date()
-      distance: 100,
-      API_KEY: 'C79940FE-7DE3-4388-9A75-F2CAF2940FCD' // pull from Drupal settings
+      zipCode: Drupal.settings.my_air_quality_chart_view.field_zip_code ? Drupal.settings.my_air_quality_chart_view.field_zip_code : '20002',
+      date: formatDate(new Date()),
+      distance: 100
   };
 
-  // won't work since endpoint doesn't include 'Access-Control-Allow-Origin'
-  // need to set up a Drupal endpoint to perform this REST request
-  /*$.getJSON(endpoint, params, function(data) {
-  console.log('data', data);
-  });*/
-  var data = [{'date': "2015-06-18", 'aqi': 288}, {'date': "2015-06-19", 'aqi': 55}, {'date': "2015-06-20", 'aqi': 93}];
-  drawChart(data);
+  jQuery.getJSON(endpoint, params, function(responseData) {
+    var data = parseData(responseData);
+
+    if (data.length > 0)
+      drawChart(data);
+    else {
+      params.zipCode = '20002'; // DC
+      jQuery.getJSON(endpoint, params, function(responseData) {
+        drawChart(data);
+      });
+    }
+  });
 }
