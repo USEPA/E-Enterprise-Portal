@@ -92,16 +92,14 @@ var drawChart = function(data) {
   ];
 
   // define dimensions of graph
-  var m = [20, 40, 80, 350]; // margins
-  var w = 550 - m[1] - m[3]; // width
-  // var h = 600 - m[0] - m[2]; // height
+  var m = [35, 40, 80, 175]; // margins: top, right, bottom, left
+  // var w = 550 - m[1] - m[3]; // width
 
   var todayData; // store the data point  which contains today's data; not necessarily defined
 
   var distanceFromToday = {'-1': 'Yesterday', '0': 'Today', '1': 'Tomorrow'};
 
   var categoryBounds = [0, 51, 101, 151, 201, 301, 500];
-
 
   // get max and min dates - this assumes data is sorted
   var minDate = getDate(data[0].DateForecast),
@@ -119,9 +117,17 @@ var drawChart = function(data) {
   var maxCategoryBound = reducedCategoryBounds[reducedCategoryBounds.length-1];
 
   var baseHeight = maxCategoryBound + 125;
+  var baseWidth = data.length * 50 + m[1] + m[3];
 
-  // reduce height based on data
+  // reduce width and height based on data
+  var w = baseWidth - m[1] - m[3];
   var h = baseHeight - m[0] - m[2];
+
+  // if 'Unhealthy for sensitive groups' category text is visible
+  if (reducedCategoryBounds.length > 3) {
+    m[3] += 150; // add to the left margin to make room for the long category text\
+    console.log('unhealthy')
+  }
 
   // set x and y scales
   var x = d3.time.scale().domain([minDate, maxDate]).range([0, w]);
@@ -270,6 +276,13 @@ var drawChart = function(data) {
       };
       data.push(entry);
     }
+
+    // return [
+      // {'DateForecast': "2015-06-20", 'AQI': 48},
+      // {'DateForecast': "2015-06-21", 'AQI': 100},
+      // {'DateForecast': "2015-06-22", 'AQI': 232},
+      // {'DateForecast': "2015-06-23", 'AQI': 432}
+    // ];
 
     return data;
   }
