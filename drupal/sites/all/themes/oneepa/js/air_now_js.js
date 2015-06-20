@@ -149,7 +149,7 @@ var drawChart = function(data) {
   function yy(e) { return y(e.AQI); };
 
   // Add an SVG element with the desired dimensions and margin.
-  var graph = d3.select("#chart").append("svg:svg")
+  var graph = d3.select("#my-air-quality-chart").append("svg:svg")
   .attr("width", w + m[1] + m[3])
   .attr("height", h + m[0] + m[2])
   .append("svg:g")
@@ -243,27 +243,32 @@ var drawChart = function(data) {
   .attr("stroke-opacity", 0)
   .attr("cx", xx)
   .attr("cy", yy)
-  .on("mouseover", function(d) { console.log('over'); showPopover(graph[0][0].parentElement, d.AQI);})
+  .on("mouseover", function(d) { showPopover(graph[0][0].parentElement, d.AQI);})
   .on("mouseout", function(){ hidePopover();});
 
   // Append popover
-  var tooltip = d3.select('#chart')
+  var tooltip = d3.select('#my-air-quality-chart')
   .append('div')
-  .attr('class', 'popover right');   
+  .attr('class', 'popover right');
+
+  var footer = d3.select('#my-air-quality-chart')
+  .append('small')
+  .text(data[0].ReportingArea);
+
+}
+
+var draw = function() {
+
+  function formatDate(date) {
+    var month = '' + (date.getMonth() + 1),
+        day = '' + date.getDate(),
+        year = date.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
   }
-
-  var draw = function() {
-
-    function formatDate(date) {
-      var month = '' + (date.getMonth() + 1),
-          day = '' + date.getDate(),
-          year = date.getFullYear();
-
-      if (month.length < 2) month = '0' + month;
-      if (day.length < 2) day = '0' + day;
-
-      return [year, month, day].join('-');
-    }
 
   function parseData(responseData) {
     var data = [];
@@ -272,7 +277,8 @@ var drawChart = function(data) {
     for (var i = 0; i < responseData.length; i+=2) {
       var entry = {
         DateForecast: responseData[i].DateForecast, 
-        AQI: Math.max(responseData[i].AQI, responseData[i + 1].AQI)
+        AQI: Math.max(responseData[i].AQI, responseData[i + 1].AQI),
+        ReportingArea: responseData[i].ReportingArea
       };
       data.push(entry);
     }

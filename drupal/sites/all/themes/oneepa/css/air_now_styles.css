@@ -1,13 +1,13 @@
-#chart text {
+#my-air-quality-chart text {
 	font-family: Helvetica Neue,Segoe UI,sans-serif;
 	fill: #454545;
 }
 
-#chart .popover {
+#my-air-quality-chart .popover {
   pointer-events:none;
 }
 
-#chart path {
+#my-air-quality-chart path {
 	stroke: #454545;
 	stroke-width: 2;
 	fill: none;
@@ -20,67 +20,67 @@
 	display:none;
 }
 
-#chart tspan {
+#my-air-quality-chart tspan {
 	margin-bottom: 5px;
 	fill: inherit;
 }
 
-#chart text.chart-title {
+#my-air-quality-chart text.chart-title {
 	font-size: 30px;
 	font-weight: bold;
 }
 
-#chart text.category-label {
+#my-air-quality-chart text.category-label {
 	font-weight: 200;
 	font-size: 18px;
 }
 
-#chart text.active-category-text {
+#my-air-quality-chart text.active-category-text {
 	font-size: 22px;
 	font-weight: bold;
   letter-spacing: -1px;
 }
 
-#chart text.active-date-text {
+#my-air-quality-chart text.active-date-text {
 	font-weight: bold;
 }
 
-#chart .section-good {
+#my-air-quality-chart .section-good {
   /*fill: #00e400;*/
   fill: #73cd93;
   stroke: none;
 }
 
-#chart .section-moderate {
+#my-air-quality-chart .section-moderate {
   /*fill: #ffff00;*/
   fill: #f6f467;
   stroke: none;
 }
 
-#chart .section-unhealthy-for-sensitive {
+#my-air-quality-chart .section-unhealthy-for-sensitive {
   /*fill: #ff7e00;*/
   fill: #f89b63;
   stroke: none;
 }
 
-#chart .section-unhealthy {
+#my-air-quality-chart .section-unhealthy {
   /*fill: #ff0000;*/
   fill: #d84a4a;
   stroke: none;
 }
 
-#chart .section-very-unhealthy {
+#my-air-quality-chart .section-very-unhealthy {
   /*fill: #99004c;*/
   fill: #A53B6C;
   stroke: none;
 }
 
-#chart .section-hazardous {
+#my-air-quality-chart .section-hazardous {
   /*fill: #7e0023;*/
   fill: #84347E;
   stroke: none;
 }
 
-#chart .popover {
+#my-air-quality-chart .popover {
   font-family: Helvetica Neue,Segoe UI,sans-serif;
 }
