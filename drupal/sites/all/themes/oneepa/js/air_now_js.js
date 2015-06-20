@@ -32,8 +32,16 @@ var drawChart = function(data) {
   }
 
   function showPopover(obj, d) {
-    var coord = d3.mouse(obj);
+    // var coord = d3.mouse(obj);
     var popover = d3.select(".popover");
+
+    // console.log(obj.attr('cx'))
+    // glob = obj
+    var bound = obj.getBoundingClientRect();
+    // var cx = parseFloat(d3.select(obj).attr('cx'));
+    // var cy = parseFloat(d3.select(obj).attr('cy'));
+
+    // console.log(bound.left, bound.top)
 
     var info = categoryInfo[getCategoryInfoIndex(d)];
 
@@ -41,8 +49,8 @@ var drawChart = function(data) {
 
     $popover.html('<div class="arrow"></div><h3 class="popover-title">'+info.header+'</h3><div class="popover-content">'+info.body+'</div>');
 
-    popover.style("left", (d3.event.pageX + 25) + "px" );
-    popover.style("top", d3.event.pageY - $popover.height() / 2  + "px");
+    popover.style("left", bound.left + window.scrollX + 25 + "px" );
+    popover.style("top", bound.top + window.scrollY - $popover.height()/2 + "px");
 
     $popover.show();
   }
@@ -119,7 +127,7 @@ var drawChart = function(data) {
   var baseHeight = maxCategoryBound + 125;
   var baseWidth = data.length * 50 + m[1] + m[3];
 
-  // reduce width and height based on data
+  // reduced width and height based on data
   var w = baseWidth - m[1] - m[3];
   var h = baseHeight - m[0] - m[2];
 
@@ -243,7 +251,7 @@ var drawChart = function(data) {
   .attr("stroke-opacity", 0)
   .attr("cx", xx)
   .attr("cy", yy)
-  .on("mouseover", function(d) { showPopover(graph[0][0].parentElement, d.AQI);})
+  .on("mouseover", function(d) { showPopover(this, d.AQI);})
   .on("mouseout", function(){ hidePopover();});
 
   // Append popover
