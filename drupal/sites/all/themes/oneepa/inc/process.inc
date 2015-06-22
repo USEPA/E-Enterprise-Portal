@@ -103,21 +103,6 @@ function oneepa_preprocess_html(&$vars) {
     if (isset($node->type) && ($node->type == 'page' || $node->type == 'regulation') && isset($node->field_wide_template['und']['0']['value']) && $node->field_wide_template['und']['0']['value'] == '1') {
       $vars['classes_array'][] = 'wide-template';
     }
-
-    // Find the primary group for this node
-    /*
-$context = og_context();
-
-    if ($context) {
-      $primary_group = node_load($context['gid']);
-
-      // Add body class for web area type.
-      $vars['classes_array'][] = drupal_html_class($primary_group->field_web_area_type['und'][0]['value']);
-
-      // Add rss feed for this web area.
-      $vars['web_area_feed'] = '<link rel="alternate" type="application/atom+xml" title="' . $primary_group->title . '" href="/feed/' . $context['gid'] . '/rss.xml" />';
-    }
-*/
   }
 }
 
@@ -126,26 +111,7 @@ $context = og_context();
  */
 function oneepa_preprocess_page(&$vars) {
   $vars['title_attributes_array']['class'] = 'page-title';
-
   $vars['microsite_name'] = '';
-  // Get web area parent.
-/*
-  if ( ( $group = og_context() ) && empty($vars['node']->field_searchable_collection['und'][0]['value'])) {
-    $web_area = node_load($group['gid']);
-    // Check if we're in a Microsite.
-    if (isset($web_area->field_web_area_type['und'][0]['value']) && $web_area->field_web_area_type['und'][0]['value'] == 'Microsite') {
-      // Use long name on Microsite home page.
-      if(!empty($vars['node']) && $vars['node']->type == 'web_area') {
-        $vars['microsite_name'] = '<h2 class="microsite-name">' . $vars['node']->field_long_name['und'][0]['safe_value'] . '</h2>';
-      }
-      // Use short name for everything else.
-      else {
-        $vars['microsite_name'] = '<h2 class="microsite-name">' . $web_area->title . '</h2>';
-      }
-    }
-  }
-*/
-
   $vars['content_language'] = language_default('language');
   if(!empty($vars['node']->field_language['und'][0]['value'])) {
     $vars['content_language'] = $vars['node']->field_language['und'][0]['value'];
@@ -187,6 +153,11 @@ function oneepa_preprocess_page(&$vars) {
       }
     }
   }
+  
+  $search_form = drupal_get_form('search_form');
+  $search_form_box = drupal_render($search_form);
+  $vars['search_box'] = $search_form_box;
+ 
 }
 
 /**
@@ -263,56 +234,18 @@ function oneepa_preprocess_comment(&$vars) {
  * Override or insert variables into the block template.
  */
 function oneepa_preprocess_block(&$vars) {
-  if ($vars['block']->module == 'og_menu') {
+  if ($vars['block_html_id'] == 'block-system-main-menu') {
+    $vars['classes_array'][] = 'main-nav clearfix';
     $vars['title_attributes_array']['class'][] = 'element-invisible';
   }
-
-  if ($vars['block_html_id'] == 'block-pane-epa-admin-public-alert-message') {
-    $vars['classes_array'][] = 'block-alert';
-    $vars['title_attributes_array']['class'][] = 'alert-title';
-  }
-
-  if ($vars['block_html_id'] == 'block-epa-workflow-revision-info-block') {
-    $vars['classes_array'][] = 'clearfix';
-  }
 }
-
-/**
- * Override or insert variables into the field template.
- */
-/*
-function oneepa_preprocess_field(&$vars) {
-  $vars['title_attributes_array']['class'][] = 'field-label';
-  $vars['content_attributes_array']['class'][] = 'field-items';
-
-  // Edit classes for taxonomy term reference fields.
-  if ($vars['field_type_css'] == 'taxonomy-term-reference') {
-    $vars['content_attributes_array']['class'][] = 'comma-separated';
-  }
-
-  // Edit classes for web area aside field.
-  if ($vars['field_name_css'] == 'field-aside-block') {
-    $vars['classes_array'] = array('microsite-aside');
-    $vars['content_attributes_array']['class'] = array('microsite-aside-content');
-  }
-}
-*/
-
-/**
- * Override or insert variables into the aggregator feed item template.
- */
-/*
-function oneepa_preprocess_aggregator_item(&$vars) {
-  $item = $vars['item'];
-  $vars['datetime'] = format_date($item->timestamp, 'custom', 'c');
-}
-*/
 
 /**
  * Change the search form to use the "search" input element of HTML5.
  */
 function oneepa_preprocess_search_block_form(&$vars) {
   $vars['search_form'] = str_replace('type="text"', 'type="search"', $vars['search_form']);
+  $vars['classes_array'][] = 'epa-search';  
 }
 
 /**
@@ -329,6 +262,8 @@ function oneepa_preprocess_menu_link(&$vars) {
     'first',
     'last',
     'leaf',
+    'is-leaf',
+    'menu__link',
   );
   foreach ($remove as $val) {
     $remove_key = array_search($val, $item_classes);
@@ -341,64 +276,3 @@ function oneepa_preprocess_menu_link(&$vars) {
   $item_classes[] = 'menu-item';
   $link_classes[] = 'menu-link';
 }
-
-/**
- * Override or insert variables into the views template.
- */
-/*
-function oneepa_preprocess_views_view(&$vars) {
-  // Add variable to output wrapper div.
-  $vars['show_wrapper'] = TRUE;
-
-  // Hide wrapper markup for these views.
-  if (in_array($vars['view']->name, array('oneepa_content_list', 'oneepa_event_list'))) {
-    $vars['show_wrapper'] = FALSE;
-  }
-}
-*/
-
-/**
- * Override or insert variables into the views list template.
- */
-/*
-function oneepa_preprocess_views_view_list(&$vars) {
-  // Only use custom row classes.
-  $vars['classes_array'][0] = $vars['options']['row_class'];
-}
-*/
-
-/**
- * Implements hook_preprocess_HOOK().
- */
-/*
-function oneepa_preprocess_file_entity(&$variables) {
-  $file = $variables['file'];
-
-  if ($file->type == 'image') {
-    // Set alignment.
-    $langcode = field_language('file', $file, 'field_image_alignment');
-    if (isset($file->field_image_alignment[$langcode])) {
-      if ($file->field_image_alignment[$langcode] != 'none' && $file->field_image_alignment[$langcode] != '_none') {
-        $variables['classes_array'][] = $file->field_image_alignment[$langcode];
-        $variables['content']['file']['#attributes']['class'][] = $file->field_image_alignment[$langcode];
-      }
-    }
-
-    // Indicate image should be linked.
-    $link = FALSE;
-    if (isset($file->field_original_image_link[$langcode][0]['value'])) {
-      $link = $file->field_original_image_link[$langcode][0]['value'];
-    }
-    elseif (isset($file->field_original_image_link[$langcode])) {
-      $link = $file->field_original_image_link[$langcode];
-    }
-    if ($link) {
-      $variables['link'] = TRUE;
-    }
-
-    if (isset($file->metadata['width'])) {
-      $variables['attributes_array']['style'][] = 'width:' . $file->metadata['width'] . 'px;';
-    }
-  }
-}
-*/

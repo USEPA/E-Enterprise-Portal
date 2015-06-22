@@ -1,21 +1,23 @@
 /** Reset and Bootstrap Adjustment Styles *********************************************************/
 body {
-	font-family: "Helvetica Neue","Segoe UI", "Lucida Sans Unicode", Helvetica,Arial,sans-serif !important;
-	font-size: 16px !important;
+	font-family: Lato, sans-serif !important;
 	line-height: 1.42857143 !important;
 	 /* s.css override */
-	 background: #369;
+	background: #336699;
 }
 .modal-open {padding-right:0 !important;}
-h1, h2, h3, h4, h5, h6, th, legend, caption, b, strong {
-	font-family: "Helvetica Neue","Segoe UI", Helvetica,Arial,sans-serif !important;	 /* s.css override */
+h1, h2, h3, h4, h5, h6, th, legend, caption, b, strong, select, input, label, textarea, keygen, button {
+	font-family: Lato, sans-serif !important; /* s.css override */
 }
 h2 {font-size:2em;}
 h3 {font-size:1.5em;}
 button {height:auto;}
+a {color: #23527C;}
+a:visited {color: #5588BB}
 .well a:hover {color:#333333;}
 .well a:hover:focus, .mobile-bar a:hover {color:#ffffff;}
 a:focus {color:#ffffff;} /*Override Bootstrap focus color given EPA background color on focus*/
+label {font-weight:normal;margin-bottom:2px;}
 button, input[type="button"], input[type="reset"], input[type="submit"], .button, #edit-cancel, .addtocal {margin-bottom: 0.5em;}
 .site-slogan {line-height:55px;vertical-align: bottom;}
 #learnmore .modal-content {padding:30px;}
@@ -30,7 +32,6 @@ button, input[type="button"], input[type="reset"], input[type="submit"], .button
     background-size: cover;
     background-repeat: no-repeat;
     color: #262626;
-/*     text-shadow: #222222 0.1em 0.1em 0.1em; */
     text-align: center;   
 }
 .jumbotron .well {opacity:0.9;margin:0 auto;margin-top:85px;margin-bottom:2em;}
@@ -55,15 +56,15 @@ button, input[type="button"], input[type="reset"], input[type="submit"], .button
 }
 
 /** Main OneEPA Template Styles *********************************************************/
-.main-nav {position:relative;}
+.main-nav {position:relative;clear:left;}
 .secondary-nav {position: absolute;right: 1em;top: 3.25em;}
-#search-block-form {position:absolute;right:1.75em;}
 .jumbotron p {margin-bottom:0;}
 .well-narrow {max-width:25em;margin:0 auto;}
 .breadcrumb-title, .breadcrumb, .breadcrumb a {padding:5px;}
 .breadcrumb {margin-top:20px;background-color: transparent;border-radius: none;}
 
 /** Search Styles *********************************************************/
+#block-search-form {padding-top: 1em;position: relative;}
 .search-results h3 {padding-bottom:0.25em;}
 .search-snippet {padding-bottom:0.25em;}
 .search-advanced {top:0;}
@@ -83,6 +84,9 @@ th, td {
 th {
 	background-color: #ffffff;
 	text-align: center;
+}
+.field-multiple-table th {
+	text-align: left;
 }
 .views-field-counter {
 	text-align: right;
@@ -104,9 +108,8 @@ tr:nth-of-type(even) {
 #user-profile-form .form-type-textfield {margin-right:20px;width:20em;}
 /*#user-profile-form .form-type-textfield.form-item-mail {clear:left;width:50em;}*/
 #user-profile-form .form-type-textfield.form-item-mail input {width:20em;/*border:none;padding:0;*/margin-bottom:10px;}
-#user-profile-form .field-name-field-zip-code label {font-weight:normal;}
 #user-profile-form .form-type-textfield .description {margin-top:5px;}
-#user-profile-form .form-type-textfield label {font-weight: normal;font-size:0.95em;}
+#user-profile-form .form-type-textfield label {font-size:0.95em;}
 #user-profile-form .form-type-textfield label, #user-profile-form .form-type-textfield input {display:block;}
 .draggable .handle {font-size:2em;}
 #user-profile-form .eenterprise-utility-form-item-description-p { margin-bottom: .5em; padding-bottom: 0px;}
@@ -177,7 +180,82 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 .view-ee-release-note-list li h3 {font-size:1.15em;}
 .view-ee-release-note-list p {font-size:90%;padding-bottom:10px;line-height:1.6}
 .page-workbench .block-views, .section-workbench .block-views {float:left;}
+
+
 @media screen and (min-width: 45em) {
 	.page-workbench .block-views.odd, .section-workbench .block-views.odd {width:55%;}
 	.page-workbench .block-views.even, .section-workbench .block-views.even {width:40%;}
+	.ee-stats-header {width: 36em;}
+	.ee-workbench-top-header li {min-width: 4.5em;}
+	.ee-workbench-header-locations {width:30em;float:right;margin-right:1.25em;}
+	#block-search-form {clear: right;padding-top: 0;float: right;position:initial}
+}
+
+@media screen and (min-width: 60em) {
+	#block-search-form {position:absolute;right:1.75em;top:6em;}
+}
+
+.region-header {
+	/* background-color:#fafafa;color:#494949; */
+	background-color:#26404c;color:#cccccc;
+	margin-left: -15px;
+	margin-right: -16px;
+	padding: 5px 15px;
+}
+.region-header a {
+	color: #ffffff;
+}
+.ee-workbench-top-header {
+	padding:5px 30px;
+}
+.ee-workbench-top-header h3, .ee-workbench-top-header .stats-label {
+	font-size:0.675em;
+}
+.ee-workbench-top-header h3 {
+	width:6em;
+	line-height: 1.4;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight:normal;
+}
+.ee-workbench-top-header h3, .ee-workbench-top-header .stats-label {
+	text-transform: uppercase;
+}
+.ee-workbench-top-header ul {
+    list-style: none;
+    padding-bottom: 10px;margin-bottom:0
+}
+.ee-workbench-top-header h3, .ee-workbench-top-header ul, .ee-workbench-top-header li, .workbench-menu li {
+	float:left;
+}
+.ee-workbench-top-header li, .workbench-menu li {
+	display:block;
+}
+.ee-workbench-header-locations select {
+	margin-bottom:10px;
+}
+.ee-workbench-top-header .stats-count {
+	font-size:2.5em;
+}
+.ee-workbench-top-header .stats-label, .ee-workbench-top-header .stats-label {
+	display:block;
+}
+.ee-workbench-top-header li {
+	margin-right:20px;
+}
+.ee-workbench-header-block {
+	float:left;margin-left:20px;padding:5px 10px;
+}
+.masthead {
+	padding-bottom:0;
+	border-bottom:1px solid #dddddd;
+}
+.ee-workbench-header-block a, .ee-workbench-header-locations label, .ee-workbench-header-locations input {
+	display:block;
+}
+.workbench-menu li {
+	padding:5px 15px;font-size:95%;
+}
+#workbench-toggle {
+	position:absolute;bottom:10px;right:1.75em;
 }

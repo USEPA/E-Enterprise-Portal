@@ -345,7 +345,6 @@ function oneepa_theme($existing, $type, $theme, $path){
     return $items;
 }
 
-/*
 function oneepa_preprocess_menu_tree(&$variables) {
   $tree = new DOMDocument();
   @$tree->loadHTML($variables['tree']);
@@ -359,8 +358,3 @@ function oneepa_preprocess_menu_tree(&$variables) {
  
   $variables['menu_parent'] = $parent;
 }
-
-function oneepa_menu_tree(&$variables) {
-  return '<ul class="menu ' . $variables['menu_parent'] . '">' . $variables['tree'] . '</ul>';
-}
-*/
