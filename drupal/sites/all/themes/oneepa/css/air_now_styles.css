@@ -7,6 +7,14 @@
   pointer-events:none;
 }
 
+#my-air-quality-chart svg {
+  display: block;
+}
+
+img#my-air-quality-map {
+  margin-left: 45px;
+}
+
 #my-air-quality-chart path {
 	stroke: #454545;
 	stroke-width: 2;

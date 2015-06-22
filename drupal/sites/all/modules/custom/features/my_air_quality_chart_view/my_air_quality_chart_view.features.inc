@@ -6,6 +6,8 @@
 
 function my_air_quality_chart_view_init() {
   
+  global $user;
+
   $account = user_load(array('uid'=>$user->uid));
   $zip = $account->field_zip_code['und'][0]['value'];
   $my_variables = array('field_zip_code' => $zip);
@@ -41,8 +43,6 @@ function my_air_quality_chart_view_menu() {
  */
 function my_air_quality_chart_view_forecast_zipcode() {
 
-  global $user;
-  
   $_GET['API_KEY'] = 'C79940FE-7DE3-4388-9A75-F2CAF2940FCD'; // put this in a config field
   $_GET['format'] = 'application/json';
 
