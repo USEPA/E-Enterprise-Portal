@@ -140,3 +140,14 @@
 .page-workbench .views-field-field-prog-track-actions{
     width:220px;
 }
+
+
+.views-field-field-prog-track-updated .date-subscript-text{
+    font-size:8px;
+}
+.views-field-field-prog-tracker-app .item-subscript-text{
+    font-size:8px;
+}
+.views-field-field-prog-tracker-app .modal-content-in-page{
+    display:none;
+}
