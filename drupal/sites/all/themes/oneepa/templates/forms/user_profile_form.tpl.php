@@ -13,7 +13,7 @@ print render($form['account']['mail']);
 </div> <!--panel-body-->
 </div> <!--panel-->
 </div><!-- col-->
-<div class="col-xs-12 col-md-6">
+<div class="col-xs-12 col-md-12">
 	<div class="panel panel-default">
 		<div class="panel-body">
 <h3>Locations of Interest</h3>
@@ -25,6 +25,7 @@ print render($form['account']['mail']);
 </p>
 <div id='zipcode_description' class='form-group'>
 <?php
+	
 print render($form['field_zip_code']);
 ?>
 </div>
@@ -37,15 +38,19 @@ print render($form['field_zip_code']);
 </div> <!--panel-->
 </div> <!-- col-->
 </div>
-<div class="col-xs-12 col-md-6">
+<div class="col-xs-12 col-md-12">
 	<div class="panel panel-default">
 		<div class="panel-body">
 <h3>Favorite Links</h3>
 <p id="user-profile-form" class="eenterprise-utility-form-item-description-p field-title-below">
 		Add and manage your favorite links.</p>
+
+<div id='links_description' class='form-group'>
 <?php
 print render($form['field_profile_favourites']);
 ?>
+</div>
+
 <!--<div class="add_more_holder">
 <button type="button" id="clear_all_favorite_links" class="btn btn-sm btn-danger">Clear All</button>
 </div>-->
