@@ -71,7 +71,7 @@ Drupal.behaviors.mobileMenu = {
 
       // Move main and secondary menus to the top of the page for wide screens.
       $('.masthead').before($secondaryNav);
-      $('.masthead').after($mainNav);
+      $('hgroup').after($mainNav);
     }
 
   }
