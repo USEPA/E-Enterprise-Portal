@@ -130,6 +130,10 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 #user-profile-form #zipcode_description .form-item {
 	padding-bottom: 0px;
 }
+#user-profile-form #zipcode_description table tr:last td:last {
+	width:200px;	
+}
+
 #user-profile-form .panel {
 	min-height: 330px;
 }
@@ -141,22 +145,29 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 #user-profile-form .add_more_holder {
 	width: 462px;
 }
+
+#user-profile-form  #zipcode_description label {
+	float: left;
+}
+
 #user-profile-form .field-add-more-submit {
-	background-color: green; float:right; width:43px; margin-right:10px;
+	background-color: green; height:40px; width:43px; margin: 0px;
+/*	 position:absolute; bottom: 55px; left: 462px;*/
 }
 
 .view-user-profile .field-name-field-profile-first-name .field-item {margin-right:0.4em;}
 /*.draggable .multiple-fields-remove-button {display:inline-block;margin-left:0;vertical-align: top;padding: 4px 8px;}*/
-.draggable .multiple-fields-remove-button {float:right;}
+/*.draggable .multiple-fields-remove-button {float:right;}*/
 .draggable .form-type-textfield, .draggable .field-multiple-drag  {display:inline-block;}
 .draggable .field-multiple-drag {padding-top: 0.5em;}
 /*.multiple-fields-remove-button {margin-left:0.25em !important;padding:0.25em 0.5em !important;}*/
 #field-zip-code-values .tabledrag-handle, #field-profile-favourites-values .tabledrag-handle {top:-10px;}
 
-#user-profile-form .description{ display:inline-block;}
+#user-profile-form .description{ display:table;}
 #user-profile-form .field-suffix,
 #user-profile-form .move-zipcode  { display:inline; float: right !important;}
-/*#user-profile-form table tbody .ajax-progress  {float: right; display: block !important; }*/
+#user-profile-form .last-td { display:flex;}
+ #user-profile-form .last-td .ajax-progress-throbber {margin-left: 2px; margin-top: 13px;}
 
 /** Functional Styles *********************************************************/
 .messages--status.messages.status {margin-bottom:0;}
