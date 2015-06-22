@@ -1,265 +1,372 @@
-jQuery(document).ready(function () { draw(); });
+(function ($) {
+  "use strict";
 
-var drawChart = function(data) {
+  $(document).ready(function () { draw(); });
 
-// dateStr: yyyy-mm-dd
-function getDate(dateStr) {
+  function formatDate(date, delimiter) {
+    var month = '' + (date.getMonth() + 1),
+        day = '' + date.getDate(),
+        year = date.getFullYear();
 
-	dateStr = dateStr.split('-');
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
 
-	return new Date(dateStr[0], parseInt(dateStr[1])-1, dateStr[2]) 
-}
+    return [year, month, day].join(delimiter);
+  }
 
-function dateDiffInDays(a, b) {
+  var drawChart = function(data) {
 
-	var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+    var getMap = function(date) {
+      var mapUrl  = ['http://files.airnowtech.org/airnow/today/forecast_aqi_', date, '_usa.jpg'].join('');
 
-	// Discard the time and time-zone information.
-	var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-	var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+      return mapUrl;
+    }
 
-	return Math.floor((utc2 - utc1) / _MS_PER_DAY);
-}
+    // dateStr: yyyy-mm-dd
+    function getDate(dateStr) {
 
-function getCategoryInfoIndex(aqi) {
-	for (var i = 0; i < categoryBounds.length - 1; i++) {
-		if (aqi >= categoryBounds[i] && aqi < categoryBounds[i+1]) {
-			return i;
-		}
-	}
+      dateStr = dateStr.split('-');
 
-	return categoryBounds.length - 2;
-}
+      return new Date(dateStr[0], parseInt(dateStr[1])-1, dateStr[2]) 
+    }
 
-function showPopover(obj, d) {
-	var coord = d3.mouse(obj);
-	var popover = d3.select(".popover");
+    function dateDiffInDays(a, b) {
 
-	var info = categoryInfo[getCategoryInfoIndex(d)];
+      var _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-	$popover = $('.popover');
+      // Discard the time and time-zone information.
+      var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+      var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
 
-	$popover.html('<div class="arrow"></div><h3 class="popover-title">'+info.header+'</h3><div class="popover-content">'+info.body+'</div>');
+      return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+    }
 
-	//popover.style("left", (coord[0]) + 50 + "px" );
-    popover.style("left", (coord[0]) + "px" );
-	//popover.style("top", (coord[1]) - $popover.height() / 2 + "px");
-    popover.style("top", (coord[1])  + 300 + "px");
+    function getCategoryInfoIndex(aqi) {
+      for (var i = 0; i < categoryBounds.length - 1; i++) {
+        if (aqi >= categoryBounds[i] && aqi < categoryBounds[i+1]) {
+          return i;
+        }
+      }
 
-	$popover.fadeIn(200);
-}
+      return categoryBounds.length - 2;
+    }
 
-function hidePopover() {
-	$(".popover").fadeOut(200);
-}
+    function showPopover(obj, d) {
+      var popover = d3.select(".popover");
+      var $popover = $(popover.node());
+      
+      var bound = obj.getBoundingClientRect();
 
-function insertLinebreaks(d) {
-	// console.log(d)
-    var el = d3.select(this);
-    var words = el.text().split('/');
-    el.text('');
+      var info = categoryInfo[getCategoryInfoIndex(d)];
 
-    for (var i = 0; i < words.length; i++) {
+      popover.html('<div class="arrow"></div><h3 class="popover-title">'
+        +info.header
+        +'</h3><div class="popover-content">'+info.body+'</div>'
+      );
+
+      popover.style("left", bound.left + window.scrollX + 25 + "px" );
+      popover.style("top", bound.top + window.scrollY - $popover.height()/2 + "px");
+
+      $popover.show();
+    }
+
+    function hidePopover() {
+      $(".popover").hide();
+    }
+
+    function insertLinebreaks(d) {
+      var el = d3.select(this);
+      var words = el.text().split('/');
+      el.text('');
+
+      for (var i = 0; i < words.length; i++) {
         var tspan = el.append('tspan').html(words[i]);
         if (i > 0)
-            tspan.attr('x', 0).attr('dy', '20');
+          tspan.attr('x', 0).attr('dy', '18');
+      }
     }
-};
 
-var categoryInfo = [
-	{
-		header: 'Good', 
-		body: 'Air quality is considered satisfactory, and air pollution poses little or no risk. ', 
-		cssClass: 'section-good'
-	}, {
-		header: 'Moderate', 
-		body: 'Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people. For example, people who are unusually sensitive to ozone may experience respiratory symptoms. ', 
-		cssClass: 'section-moderate'
-	}, {
-		header: 'Unhealthy for sensitive groups', 
-		body: 'Although general public is not likely to be affected at this AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air. ', 
-		cssClass: 'section-unhealthy-for-sensitive'
-	}, {
-		header: 'Unhealthy', 
-		body: 'Everyone may begin to experience some adverse health effects, and members of the sensitive groups may experience more serious effects. ', 
-		cssClass: 'section-unhealthy'
-	}, {
-		header: 'Very unhealthy', 
-		body: 'This would trigger a health alert signifying that everyone may experience more serious health effects. ', 
-		cssClass: 'section-very-unhealthy'
-	}, {
-		header: 'Hazardous', 
-		body: 'This would trigger a health warnings of emergency conditions. The entire population is more likely to be affected. ', 
-		cssClass: 'section-hazardous'
-	}
-];
+    var categoryInfo = [
+    {
+      header: 'Good', 
+      body: 'Air quality is considered satisfactory, and air pollution poses little or no risk. ', 
+      cssClass: 'section-good'
+    }, {
+      header: 'Moderate', 
+      body: 'Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution. ', 
+      cssClass: 'section-moderate'
+    }, {
+      header: 'Unhealthy for sensitive groups', 
+      body: 'Members of sensitive groups may experience health effects. The general public is not likely to be affected. ', 
+      cssClass: 'section-unhealthy-for-sensitive'
+    }, {
+      header: 'Unhealthy', 
+      body: 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects. ', 
+      cssClass: 'section-unhealthy'
+    }, {
+      header: 'Very unhealthy', 
+      body: 'Health warnings of emergency conditions. The entire population is more likely to be affected. ', 
+      cssClass: 'section-very-unhealthy'
+    }, {
+      header: 'Hazardous', 
+      body: 'Health alert: everyone may experience more serious health effects. ', 
+      cssClass: 'section-hazardous'
+    }
+    ];
 
-// define dimensions of graph
-var m = [60, 40, 80, 400]; // margins
-var w = 700 - m[1] - m[3]; // width
-var h = 600 - m[0] - m[2]; // height
+    // define dimensions of graph
+    var m = [35, 40, 80, 175]; // margins: top, right, bottom, left
+    // var w = 550 - m[1] - m[3]; // width
 
-var chartTitle = 'My Air Quality';
+    var chartTitle = 'My Air Quality';
 
-var todayData; // store the data point  which contains today's data; not necessarily defined
+    var todayData; // store the data point  which contains today's data; not necessarily defined
 
-var distanceFromToday = {'-1': 'Yesterday', '0': 'Today', '1': 'Tomorrow'};
+    var distanceFromToday = {'-1': 'Yesterday', '0': 'Today', '1': 'Tomorrow'};
 
-var categoryBounds = [0, 51, 101, 151, 201, 301, 500];
+    var categoryBounds = [0, 51, 101, 151, 201, 301, 500];
 
+    // get max and min dates - this assumes data is sorted
+    var minDate = getDate(data[0].DateForecast),
+    maxDate = getDate(data[data.length-1].DateForecast);
 
-// get max and min dates - this assumes data is sorted
-var minDate = getDate(data[0].date),
-maxDate = getDate(data[data.length-1].date);
+    // find the maxAQI in the data
+    var maxAQI = 0; 
+    for(var i in data) {
+      if (maxAQI < data[i].AQI)
+        maxAQI = data[i].AQI;
+    }
 
-// set x and y scales
-var x = d3.time.scale().domain([minDate, maxDate]).range([0, w]);
-var y = d3.scale.linear().domain([0, 500]).range([h, 0]);
+    // Only show the categories for which data is present
+    var reducedCategoryBounds = categoryBounds.slice(0, Math.max(getCategoryInfoIndex(maxAQI) + 2, 5));
+    var maxCategoryBound = reducedCategoryBounds[reducedCategoryBounds.length-1];
 
-// create a line function that can convert data[] into x and y points
-var line = d3.svg.line()
-// assign the X function to plot our line as we wish
-.x(function(d, i) {
-// return the X coordinate where we want to plot this datapoint
-return x(getDate(d.date)); //x(i);
-})
-.y(function(d) {
-// return the Y coordinate where we want to plot this datapoint
-return y(d.aqi);
-});
+    var baseHeight = maxCategoryBound + 125;
+    var baseWidth = data.length * 50 + m[1] + m[3];
 
-function xx(e) { return x(getDate(e.date)); };
-function yy(e) { return y(e.aqi); };
+    // reduced width and height based on data
+    var w = baseWidth - m[1] - m[3];
+    var h = baseHeight - m[0] - m[2];
 
-// Add an SVG element with the desired dimensions and margin.
-var graph = d3.select("#chart").append("svg:svg")
-.attr("width", w + m[1] + m[3])
-.attr("height", h + m[0] + m[2])
-.append("svg:g")
-.attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+    // if 'Unhealthy for sensitive groups' category text is visible
+    if (reducedCategoryBounds.length > 3) {
+      m[3] += 150; // add to the left margin to make room for the long category text\
+    }
 
-// Add chart title
-graph.append("text")
-.attr("x", -m[3])             
-.attr("y", -m[0]/2)
-.attr("text-anchor", "left") 
-.attr("class", "chart-title") 
-.text(chartTitle);
+    // set x and y scales
+    var x = d3.time.scale().domain([minDate, maxDate]).range([0, w]);
+    var y = d3.scale.linear().domain([0, maxCategoryBound]).range([h, 0]);
 
-var area = d3.svg.area()
-.interpolate("basis")
-.y(function(d) { return y(d); })
-.x0(-m[3] + m[1])
-.x1(w + m[1]);
+    // create a line function that can convert data[] into x and y points
+    var line = d3.svg.line()
+    // assign the X function to plot our line as we wish
+    .x(function(d, i) {
+    // return the X coordinate where we want to plot this datapoint
+    return x(getDate(d.DateForecast)); //x(i);
+    })
+    .y(function(d) {
+    // return the Y coordinate where we want to plot this datapoint
+    return y(d.AQI);
+    });
 
-// Find data point corresponding to today
-for (var i in data) {
-	if (dateDiffInDays(new Date(), getDate(data[i].date)) == 0) {
-		todayData = data[i];
-		break;
-	}
-}
+    function xx(e) { return x(getDate(e.DateForecast)); };
+    function yy(e) { return y(e.AQI); };
 
-if (todayData) {
-	// Fill category background color based on AQI index for today
-	var activeCategoryIndex = getCategoryInfoIndex(todayData.aqi);
-	var activeCategory = categoryInfo[activeCategoryIndex];
+    // Add an SVG element with the desired dimensions and margin.
+    var graph = d3.select("#my-air-quality-chart").append("svg:svg")
+    .attr("width", w + m[1] + m[3])
+    .attr("height", h + m[0] + m[2])
+    .attr("aria-labelledby", "my-air-quality-chart-title")
+    .append("svg:g")
+    .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-	graph.append("path")
-	.datum([categoryBounds[activeCategoryIndex], categoryBounds[activeCategoryIndex+1]])
-	.attr("class", activeCategory.cssClass)
-	.attr("d", area);
-}
+    graph.append("title")
+    .attr("id", "my-air-quality-chart-title") 
+    .text(chartTitle);
 
-// Create xAxis
-var xAxis = d3.svg.axis().scale(x).ticks(d3.time.days, 1).tickFormat(function(date){
-	var distanceFromTodayLabel = distanceFromToday[dateDiffInDays(new Date(), date)];
-	return ((distanceFromTodayLabel ? distanceFromTodayLabel : '&nbsp;') + '/' + d3.time.format("%a/%b %d")(date));
-});;
-// Add the x-axis.
-graph.append("svg:g")
-.attr("class", "x axis")
-.attr("transform", "translate(0," + h + ")")
-.call(xAxis);
+    var area = d3.svg.area()
+    .interpolate("basis")
+    .y(function(d) { return y(d); })
+    .x0(-m[3] + m[1])
+    .x1(w + m[1]);
 
-// Add line breaks to x-axis labels
-graph.selectAll('g.x.axis g text').each(insertLinebreaks);
+    // Find data point corresponding to today
+    for (var i in data) {
+      if (dateDiffInDays(new Date(), getDate(data[i].DateForecast)) == 0) {
+        todayData = data[i];
+        break;
+      }
+    }
 
-// Add CSS class to highlight today's date label in x-axis
-graph.selectAll('g.x.axis g text').attr("class", function(d, i) { 
-	return (!todayData || dateDiffInDays(d, getDate(todayData.date)) != 0) ? '' : ' active-date-text';
-});
+    if (todayData) {
+    // Fill category background color based on AQI index for today
+    var activeCategoryIndex = getCategoryInfoIndex(todayData.AQI);
+    var activeCategory = categoryInfo[activeCategoryIndex];
 
-// Create yAxis
-var yAxis = d3.svg.axis().scale(y).tickValues(categoryBounds).orient("left").tickSize(-w - m[3]);
-// Add the y-axis to the left
-graph.append("svg:g")
-.attr("class", "y axis")
-.attr("transform", "translate(-"+(m[3]-m[1]+10)+",0)")
-.call(yAxis);
+    graph.append("path")
+    .datum([categoryBounds[activeCategoryIndex], categoryBounds[activeCategoryIndex+1]])
+    .attr("class", activeCategory.cssClass)
+    .attr("d", area);
+    }
 
-// Translate y-axis ticks to the right
-graph.selectAll('.y.axis line.tick')
-.attr("transform", "translate(10,0)")
+    // Create xAxis
+    var xAxis = d3.svg.axis().scale(x).ticks(d3.time.days, 1).tickFormat(function(date){
+      var distanceFromTodayLabel = distanceFromToday[dateDiffInDays(new Date(), date)];
+      return ((distanceFromTodayLabel ? distanceFromTodayLabel : '&nbsp;') + '/' + d3.time.format("%a/%b %d")(date));
+    });;
+    // Add the x-axis.
+    graph.append("svg:g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + h + ")")
+    .call(xAxis);
 
-// Add category text for the y-axis
-graph.selectAll(".y.axis g").append('text')
-	.text(function(cat, i) { return i < categoryInfo.length ? categoryInfo[i].header : ''; })
-	.attr("transform", "translate(25, -" + ((h - m[0] - m[2]) / 20 - 5) + ")")
-	.attr("class", function(cat, i) { return 'category-label' + ( !todayData || i !=  getCategoryInfoIndex(todayData.aqi) ? '' : ' active-category-text') });
+    // Add line breaks to x-axis labels
+    graph.selectAll('g.x.axis g text').each(insertLinebreaks);
 
-// Add the line by appending an svg:path element with the data line we created above
-graph.append("svg:path").attr("d", line(data));
+    // Add CSS class to highlight today's date label in x-axis
+    graph.selectAll('g.x.axis g text').attr("class", function(d, i) { 
+      return (!todayData || dateDiffInDays(d, getDate(todayData.DateForecast)) != 0) ? '' : ' active-date-text';
+    });
 
-// Add a group consisting of the data point and a text element labeling the point
-var gnodes = graph.selectAll('g.gnode')
-	.data(data)
-	.enter()
-	.append('g')
-	.classed('gnode', true)
+    // Create yAxis
+    var yAxis = d3.svg.axis().scale(y).tickValues(reducedCategoryBounds).orient("left").tickSize(-w - m[3]);
+    // Add the y-axis to the left
+    graph.append("svg:g")
+    .attr("class", "y axis")
+    .attr("transform", "translate(-"+(m[3]-m[1]+10)+",0)")
+    .call(yAxis);
 
-gnodes.append("text")
-    .attr("x", function(d) { return x(getDate(d.date)); })
-    .attr("y", function(d) { return y(d.aqi) - 20})
+    // Translate y-axis ticks to the right
+    graph.selectAll('.y.axis line.tick')
+    .attr("transform", "translate(10,0)")
+
+    // Add category text for the y-axis
+    graph.selectAll(".y.axis g").append('text')
+    .text(function(cat, i) { return i < reducedCategoryBounds.length - 1 ? categoryInfo[i].header : ''; })
+    .attr("transform", function(cat, i) { 
+      // vertical centering
+      var scale = reducedCategoryBounds[reducedCategoryBounds.length - 1] / h;
+      return "translate(25, -"+((categoryBounds[i+1] - categoryBounds[i]) / 2 * scale) +")"
+    }).attr("alignment-baseline", "middle")
+    .attr("class", function(cat, i) { return 'category-label' + ( !todayData || i !=  getCategoryInfoIndex(todayData.AQI) ? '' : ' active-category-text') });
+
+    // Add the line by appending an svg:path element with the data line we created above
+    graph.append("svg:path").attr("d", line(data));
+
+    // Add a group consisting of the data point and a text element labeling the point
+    var gnodes = graph.selectAll('g.gnode')
+    .data(data)
+    .enter()
+    .append('g')
+    .classed('gnode', true)
+
+    gnodes.append("text")
+    .attr("x", function(d) { return x(getDate(d.DateForecast)); })
+    .attr("y", function(d) { return y(d.AQI) - 20})
     // .attr("dy", ".35em")
-    .attr("class", function(d) { return !todayData || d.date != todayData.date ? '' : 'active-category-text' })
+    .attr("class", function(d) { return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text' })
     .attr("text-anchor", "middle")
-    .text(function(d) { return d.aqi; });
+    .text(function(d) { return d.AQI; });
 
-gnodes.append("circle")
-.attr("fill", "#454545")
-.attr("r", 5)
-.attr("stroke", "white")
-.attr("stroke-width", 40)
-.attr("stroke-opacity", 0)
-.attr("cx", xx)
-.attr("cy", yy)
-.on("mouseover", function(d) { showPopover(graph[0][0].parentElement, d.aqi);})
-.on("mouseout", function(){ hidePopover();});
+    gnodes.append("circle")
+    .attr("fill", "#454545")
+    .attr("r", 5)
+    .attr("stroke", "white")
+    .attr("stroke-width", 40)
+    .attr("stroke-opacity", 0)
+    .attr("cx", xx)
+    .attr("cy", yy)
+    .on("mouseover", function(d) { showPopover(this, d.AQI);})
+    .on("mouseout", function(){ hidePopover();});
 
-// Append popover
-var tooltip = d3.select('#chart')
-	.append('div')
-	.attr('class', 'popover right');   
-}
+    // Append reporting area
+    graph.append("text")
+    .attr("x", (w) / 2)
+    .attr("y", -m[0]/2)
+    .attr("text-anchor", "middle") 
+    .attr("class", "small") 
+    .text(data[0].ReportingArea + ', ' + data[0].StateCode);
 
-var draw = function() {
+    // Append popover
+    var tooltip = d3.select('#my-air-quality-chart')
+    .append("div")
+    .attr("class", "popover right");
 
-var endpoint = 'http://www.airnowapi.org/aq/forecast/zipCode/';
+    var map = d3.select("#my-air-quality-chart")
+      .append("img")
+      .attr("src", getMap(formatDate(new Date(), "")))
+      .attr("title", "Today's AQI Forecast")
+      .attr("alt", "Today's AQI Forecast")
+      .attr("id", "my-air-quality-map")
 
-var params = {
-	format: 'application/json',
-	zipCode: 20002, // pull from Drupal profile
-	date: '2015-06-11', // new Date()
-	distance: 100,
-	API_KEY: 'C79940FE-7DE3-4388-9A75-F2CAF2940FCD' // pull from Drupal settings
-};
+  }
 
-// won't work since endpoint doesn't include 'Access-Control-Allow-Origin'
-// need to set up a Drupal endpoint to perform this REST request
-/*$.getJSON(endpoint, params, function(data) {
-	console.log('data', data);
-});*/
-var data = [{'date': "2015-06-11", 'aqi': 38}, {'date': "2015-06-12", 'aqi': 55}, {'date': "2015-06-13", 'aqi': 93}];
-drawChart(data);
-}
+  var draw = function() {
+
+    function parseData(responseData) {
+      var data = [];
+
+      var maxAQI = 0;
+
+      // for each date, find the max component AQI and add it
+      for (var i = 0; i < responseData.length; i ++) {
+        // currentDate = responseData[i].DateForecast;
+        if (responseData[i].AQI > maxAQI)
+          maxAQI = responseData[i].AQI;
+
+        // insert new entry 
+        if (i + 1 == responseData.length || responseData[i].DateForecast != responseData[i+1].DateForecast) { 
+          var entry = {
+            DateForecast: responseData[i].DateForecast, 
+            AQI: maxAQI,
+            ReportingArea: responseData[i].ReportingArea,
+            StateCode: responseData[i].StateCode
+          };
+          data.push(entry);
+          maxAQI = 0;
+        }
+      }
+
+      // return [
+      //   {'DateForecast': "2015-06-20", 'AQI': 48},
+      //   {'DateForecast': "2015-06-21", 'AQI': 100},
+      //   {'DateForecast': "2015-06-22", 'AQI': 232},
+      //   {'DateForecast': "2015-06-23", 'AQI': 432}
+      // ];
+
+      return data;
+    }
+
+      var endpoint = '/my_air_quality_chart_view/api/forecast/zipCode/';
+
+      // 64172: only one data point
+      // 40202: AQI is always -1
+      // 19060: empty
+      // 19147: moderate AQI
+      // 92408: unhealthy for sensitive
+      var yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      var params = {
+        format: 'application/json',
+        zipCode: Drupal.settings.my_air_quality_chart_view.field_zip_code ? Drupal.settings.my_air_quality_chart_view.field_zip_code : '20002',
+        date: formatDate(yesterday, '-'),
+        distance: 100
+    };
+
+    $.getJSON(endpoint, params, function(responseData) {
+      var data = parseData(responseData);
+
+      if (data.length > 0)
+        drawChart(data);
+      else { // use default zip code, DC
+        params.zipCode = '20002'; // DC
+        $.getJSON(endpoint, params, function(responseData) {
+          data = parseData(responseData);
+          if (data.length > 0)
+            drawChart(data);
+        });
+      }
+    });
+  }
+})(jQuery);
