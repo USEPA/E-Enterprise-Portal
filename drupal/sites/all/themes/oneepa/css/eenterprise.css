@@ -105,7 +105,8 @@ tr:nth-of-type(even) {
 #user-profile-form .form-text {font-size:100%;}
 #user-profile-form .description {color:#333333}
 #user-profile-form .form-item .form-type-textfield {padding-bottom:0.5em;}
-#user-profile-form .form-type-textfield {margin-right:20px;width:20em;}
+#user-profile-form .form-type-textfield {margin-right:20px; min-width: 140px; max-width:20em;}
+
 /*#user-profile-form .form-type-textfield.form-item-mail {clear:left;width:50em;}*/
 #user-profile-form .form-type-textfield.form-item-mail input {width:20em;/*border:none;padding:0;*/margin-bottom:10px;}
 #user-profile-form .form-type-textfield .description {margin-top:5px;}
@@ -121,7 +122,7 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 #user-profile-form thead label {padding:1em 1em 0.25em 0.5em;}
 #user-profile-form thead, #user-profile-form th, #user-profile-form tr:nth-of-type(even) {background-color:transparent;}
 #user-profile-form td {border:none;}
-#user-profile-form .form-submit {text-transform: capitalize; background-color: #337ab7;padding:0.5em 1em;height:auto;border-color:#337ab7;border-radius:4px;font-size:0.95em;font-weight:normal;margin-left:30px;}
+#user-profile-form .form-submit {text-transform: capitalize; background-color: #337ab7;padding:0.5em 1em;height:auto;border-color:#337ab7;border-radius:4px;font-size:0.95em;font-weight:normal;}
 .view-user-profile .field-label {
 	clip: rect(1px, 1px, 1px, 1px);
 	position: absolute !important;
@@ -133,6 +134,12 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 #user-profile-form #zipcode_description table tr:last td:last {
 	width:200px;	
 }
+#user-profile-form .form-item table  {
+	/*table-layout: fixed; empty-cells: show;*/
+}
+
+#user-profile-form .last-td { display:flex;} 
+ #user-profile-form .last-td .ajax-progress-throbber {margin-left: 2px; margin-top: 13px;}
 
 #user-profile-form .panel {
 	min-height: 330px;
@@ -142,16 +149,13 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
   display:block !important;
   position: inherit !important;
 }
-#user-profile-form .add_more_holder {
-	width: 462px;
-}
 
 #user-profile-form  #zipcode_description label {
 	float: left;
 }
 
 #user-profile-form .field-add-more-submit {
-	background-color: green; height:40px; width:43px; margin: 0px;
+	background-color: green; height:40px; width:43px; margin: 0px; vertical-align: middle; margin: 0px;
 /*	 position:absolute; bottom: 55px; left: 462px;*/
 }
 
@@ -166,8 +170,13 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 #user-profile-form .description{ display:table;}
 #user-profile-form .field-suffix,
 #user-profile-form .move-zipcode  { display:inline; float: right !important;}
-#user-profile-form .last-td { display:flex;}
- #user-profile-form .last-td .ajax-progress-throbber {margin-left: 2px; margin-top: 13px;}
+/*#user-profile-form #zipcode_description td {height: 60px; vertical-align: middle !important;}*/
+/*#user-profile-form multiple-fields-remove-button { vertical-align: top;}*/
+@media screen and (max-width: 40em) {
+		#user-profile-form .form-type-textfield { width: 150px; }
+		#user-profile-form  .ajax-progress .message { display: none};
+}
+
 
 /** Functional Styles *********************************************************/
 .messages--status.messages.status {margin-bottom:0;}

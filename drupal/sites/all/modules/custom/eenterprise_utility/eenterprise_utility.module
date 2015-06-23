@@ -129,17 +129,15 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
 
       $form['field_zip_code'][LANGUAGE_NONE]['#title'] = 'ZIP Code(s)';
 //      $form['field_zip_code']['#attributes'][] = 'zip_code_inputs';
-      $form['field_zip_code'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-control';
+      $form['field_zip_code'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-group';
       // add more button
       $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
       $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
-      $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
-      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
       //Add more button
+      $form['field_profile_favourites'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-group';
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = '+';
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
-      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
-      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
+
       
 //
 //    $form['field_zip_code']['clear'] = array(
@@ -156,6 +154,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       
       for($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
         $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['title'] = 'Remove';
+        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['value']['#attributes']['class'][] =
+          'form-control';
       }
       
       $lowest_weight = 0;
