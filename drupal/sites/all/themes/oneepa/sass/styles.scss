@@ -28,6 +28,7 @@ $ee-bgfocus-color: $epa-blue;	// change background to blue on focus / hover
 $ee-light-gray:	   #f8f8f8;
 $ee-medium-gray:   #efefef;
 $ee-dark-gray:	   #606060;		// Use for background color for table headings
+$ee-hover-gray:	   #fafafa;
 
 @mixin linear-gradient($gradient-light, $gradient-dark) {
   background-color: $gradient-dark;
@@ -181,7 +182,8 @@ input[type="submit"],
 	color: $ee-hover-color;
 }
 .well a:hover:focus, 
-.mobile-bar a:hover {
+.mobile-bar a:hover,
+.mobile-nav .mobile-links a.active {
 	color: $epa-white;
 }
 .page-eenterprise-for-environment {
@@ -412,6 +414,16 @@ tr.odd, tr.even {
 	border-bottom: 1px solid $ee-medium-gray;
 }
 
+.workbench-menu {
+  display: none;
+}
+
+@media screen and (min-width: 40em) {
+  .workbench-menu {
+    display: block;
+  }
+}
+
 /** Workbench *******************************************************************/
 @media screen and (min-width: 45em) {
 	.wide-template #main-content {
@@ -550,6 +562,12 @@ table.views-table {
 		padding:15px; 
 		font-weight: bold;
 	}
+	td.active,
+	tr:hover,
+	th:hover,
+	td:hover {
+		background-color: $ee-hover-gray;
+	}
 
 }
 
@@ -566,10 +584,20 @@ td.views-field-counter,
 td.views-field-field-prog-track-domain, 
 td.views-field-field-prog-track-status, 
 td.views-field-field-prog-track-updated, 
-td.views-field-field-prog-track-actions {
+td.views-field-field-prog-track-actions,
+td.views-field-field-prog-track-actions-link,
+td.views-field-field-todo-lst-domain, 
+td.views-field-field-todo-lst-due {
 	font-weight:normal;
 }
-th.views-field-counter {
+th.views-field-counter,
+td.views-field-counter, 
+td.views-field-field-prog-track-domain, 
+td.views-field-field-prog-track-status, 
+td.views-field-field-prog-track-updated, 
+td.views-field-field-prog-track-actions,
+td.views-field-field-todo-lst-domain, 
+td.views-field-field-todo-lst-due {
 	text-align: center;
 }
 tr.even {
@@ -588,11 +616,26 @@ tr.even {
 
 
 /** Profile Styles *********************************************************/
+@media screen and (max-width: 40em) {
+	#user-profile-form {
+		.form-type-textfield {
+			width: 150px;
+		}
+	
+		.ajax-progress .message {
+			display: none;
+		}
+	}
+}
+
 .field-name-field-profile-first-name, 
 .field-name-field-profile-last-name {
 	display:inline-block;
 }
 #user-profile-form {
+	label {
+		cursor: pointer;
+	}
 	table, th {
 		border:none;
 	}
@@ -611,7 +654,8 @@ tr.even {
 	}
 	.form-type-textfield {
 		margin-right:20px;
-		width:20em;
+		min-width: 140px; 
+		max-width:20em;
 	}
 	.form-type-textfield.form-item-mail input {
 		width:20em;
@@ -647,10 +691,6 @@ tr.even {
 	  display:block !important;
 	  position: inherit !important;
 	}
-	.add_more_holder {
-		width: 462px;
-	}
-	
 	#zipcode_description label {
 		float: left;
 	}
@@ -660,6 +700,7 @@ tr.even {
 		height:40px; 
 		width:43px; 
 		margin: 0px;
+		vertical-align: middle;
 	}
 	thead label {
 		padding:1em 1em 0.25em 0.5em;
@@ -679,18 +720,11 @@ tr.even {
 		border-radius:4px;
 		font-size:0.95em;
 		font-weight:normal;
-		margin-left:30px;}
+	}
 	.field-suffix, 
 	.move-zipcode  { 
 		display:inline; 
 		float: right !important;
-	}
-	.last-td { 
-		display:flex;
-	}
-	.last-td .ajax-progress-throbber {
-		margin-left: 2px; 
-		margin-top: 13px;
 	}
 	#tags {
 		width: 100%; 
@@ -739,5 +773,10 @@ a.tabledrag-handle .handle {
     font-size:20px;
 }
 
+.ui-widget-content {
+	max-height: 300px; 
+	overflow-y: scroll; 
+	overflow-x: hidden;
+}
 
 
