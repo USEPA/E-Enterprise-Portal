@@ -284,7 +284,7 @@
     .attr("x", (w) / 2)
     .attr("y", -m[0]/2)
     .attr("text-anchor", "middle") 
-    .attr("class", "small") 
+    .attr("class", "aqi-location") 
     .text(data[0].ReportingArea + ', ' + data[0].StateCode);
 
     // Append popover
