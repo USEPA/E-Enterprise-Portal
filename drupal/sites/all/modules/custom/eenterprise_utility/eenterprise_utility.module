@@ -15,7 +15,11 @@ function eenterprise_utility_menu() {
       'page callback' => 'load_links',
       'access callback' => TRUE,
       );
-
+    $items['eenterprise_utility/autocomplete'] = array(
+      'page callback' => 'eenterprise_utility_autocomplete',
+      'access arguments' => array('access content'),
+      'type' => MENU_CALLBACK
+    );
     return $items;
 } 
 
@@ -98,12 +102,40 @@ function load_links($index) {
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
   drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
-  if($form['#form_id'] == 'user_profile_form'){
 
+  if($form['#form_id'] == 'user_profile_form'){
+  // Get proper values for 'allowed_values_function', which is a core setting.
+  $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
+  $options = array();
+  foreach ($vocabularies as $vocabulary) {
+    $options[$vocabulary->machine_name] = $vocabulary->name;
+  }
+  $form['allowed_values'] = array(
+    '#tree' => TRUE,
+  );
+  foreach ($field['settings']['allowed_values'] as $delta => $tree) {
+  $form['allowed_values'][$delta]['vocabulary'] = array(
+    '#type' => 'checkboxes', // <-- Use checkboxes here, instead of 'select'
+    '#title' => t('Vocabulary'),
+    '#default_value' => $tree['vocabulary'],
+    '#options' => $options,
+    '#required' => TRUE,
+    '#description' => t('The vocabulary which supplies the options for this field.'),
+    '#disabled' => $has_data,
+  );
+  $form['allowed_values'][$delta]['parent'] = array(
+    '#type' => 'value',
+    '#value' => $tree['parent'],
+   );
+}
+
+    
       hide($form['picture']);
       hide($form['account']['current_pass']);
       hide($form['account']['pass']);
-      //hide($form['field_profile_interests']);
+      hide($form['field_profile_interests']);
+
+      
       
       if(empty($form['account']['mail']['#default_value']))
           $form['account']['mail']['#default_value'] = $form['#user']->name;
@@ -140,18 +172,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
-      
-//
-//    $form['field_zip_code']['clear'] = array(
-//        '#type' => 'button',
-//		    '#value' => t('Clear'),
-//        '#ajax' => array(
-//           'callback' => 'clear_fields',
-//           'wrapper' => 'zipcode_description',
-//        ),
-//      );
-//
-//  
+
       //create weight array
       
       for($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
@@ -223,10 +244,62 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
 //                );
      }
         
-  }
-    drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+  ///BMATKIN 6/23/2015 AUTCOMPLETE INTERESTS TAXONOMY
+    // $form['autocomplete_field'] = array(
+    //   '#title' => t('Interests'),
+    //   '#type' => 'textfield',
+    //   '#default_value' => t('Start typing...'),
+    //   '#autocomplete_path' => 'eenterprise_utility/autocomplete',
+    // );
+
+      drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+  } // end user form
+
 
 }
+
+
+/**
+ * Menu callback function.
+ *
+ * @param string $string
+ *  The string that will be searched.
+ * @return object
+ *  A JSON object.
+ */
+function eenterprise_utility_autocomplete($string) {  
+
+  $matches = array();
+
+  $query = db_select('node', 'n');
+
+  $query->join('field_data_field_MODULENAME_terms', 'st', 'st.entity_id = n.nid');
+  $query->join('taxonomy_term_data', 'td', 'td.tid = st.field_MODULENAME_terms_tid');
+  
+  $or = db_or();
+  $or->condition('n.title', '%' . db_like($string) . '%', 'LIKE');
+  $or->condition('td.name', '%' . db_like($string) . '%', 'LIKE');
+  
+  $query->fields('n', array('nid', 'title'));
+  $query->condition('n.type', 'programme', '=');
+  $query->condition($or);
+  $query->range(0, 20);
+  
+  $return = $query->execute();
+  
+  foreach ($return as $row) {
+    $matches[drupal_get_path_alias('node/' . $row->nid)] = check_plain($row->title);
+  }
+
+  if (empty($matches)) {
+    $matches['0'] = t('No matches.');
+  }  
+
+  drupal_json_output($matches);
+}
+
+
+
 
 //
 function clear_fields(&$form, &$form_state) {
