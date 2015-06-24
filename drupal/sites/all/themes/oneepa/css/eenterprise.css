@@ -200,9 +200,13 @@ table.views-table thead th a {color:#FFFFFF;}
 table.views-table thead th a img {margin-left: 10px;}
 td.views-field {vertical-align: middle; padding:15px; font-weight: bold;}
 span.date-subscript-text, span.item-subscript-text, .simple-dialog {font-size: 0.9em !important; font-weight: normal; font-variant: small-caps; margin-top:10px; display:inline-block;}
-td.views-field-counter, td.views-field-field-prog-track-domain, td.views-field-field-prog-track-status, td.views-field-field-prog-track-updated, td.views-field-field-prog-track-actions {font-weight:normal;}
+td.views-field-counter, td.views-field-field-prog-track-domain, td.views-field-field-prog-track-status, td.views-field-field-prog-track-updated, td.views-field-field-prog-track-actions {font-weight:normal; text-align: center;}
+td.views-field-field-prog-track-actions-link {font-weight: normal;}
 th.views-field-counter {text-align: center;}
 tr.even {background-color: #f8f8f8;}
+
+/*Task List Styling -(RB)*/
+td.views-field-field-todo-lst-domain, td.views-field-field-todo-lst-due {font-weight: normal; text-align: center;}
 
 
 
