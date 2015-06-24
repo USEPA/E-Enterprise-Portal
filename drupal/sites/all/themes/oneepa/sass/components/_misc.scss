@@ -672,7 +672,7 @@ html.js #user-login-form li.openid-link,
 /**
  * Drupal admin tables.
  */
-form {
+.admin-menu form {
   th {
     text-align: left; /* LTR */
     padding-right: 1em; /* LTR */
@@ -685,13 +685,13 @@ form {
     margin: 0;
   }
 }
-tr.even,
-tr.odd {
+.admin-menu tr.even,
+.admin-menu tr.odd {
   background-color: #eee;
   border-bottom: 1px solid #ccc;
   padding: 0.1em 0.6em;
 }
-tr.even {
+.admin-menu tr.even {
   background-color: #fff;
 }
 @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {

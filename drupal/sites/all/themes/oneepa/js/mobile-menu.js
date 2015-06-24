@@ -11,8 +11,10 @@ Drupal.behaviors.mobileMenu = {
         $mainNav = $('.simple-main-nav', context),
 //        $secondaryNav = $('.simple-secondary-nav', context),
         $secondaryNav = $('.secondary-nav', context),
-        $newMenu = $mainNav.find('> .menu').clone();
+        $eeNav = $('.workbench-menu', context),
+        $newMenu = $mainNav.find('> .menu').clone();	
         $newSecondaryMenu = $secondaryNav.find('> .menu').clone();
+        $newEEMenu = $eeNav.find('> .menu').clone();
 
     // Reset menu list class and remove second level menu items.
     $newMenu.attr('class', 'menu').find('ul').each(function() {
@@ -21,13 +23,19 @@ Drupal.behaviors.mobileMenu = {
     $newMenu.find('ul').remove();
     
     $newSecondaryMenu.attr('class', 'menu').find('ul').each(function() {
-      $(this).attr('class', 'menu sub-menu');
+      $(this).attr('class', 'menu');
     });
     $newSecondaryMenu.find('ul').remove();
+    
+    $newEEMenu.attr('class', 'menu').find('ul').each(function() {
+      $(this).attr('class', 'menu');
+    });
+    $newEEMenu.find('ul').remove();
 
     // Insert the cloned menus into the mobile menu container.
-    $newMenu.appendTo($mobileLinks);
+    $newEEMenu.appendTo($mobileLinks);
     $newSecondaryMenu.appendTo($mobileLinks);
+    $newMenu.appendTo($mobileLinks);
 
     // Insert the top bar into mobile menu container.
     $mobileBar.prependTo($mobileNav);
@@ -65,9 +73,10 @@ Drupal.behaviors.mobileMenu = {
       // Detach original menus and reset classes.
       $mainNav.detach().attr('class', 'nav main-nav clearfix');
       $secondaryNav.detach().attr('class', 'nav secondary-nav');
+      $eeNav.detach().attr('class', 'nav workbench-menu');
 
       // Add pipeline class to secondary menu.
-      $secondaryNav.find('.secondary-menu').addClass('pipeline');
+      $secondaryNav.find('.menu').addClass('pipeline');
 
       // Move main and secondary menus to the top of the page for wide screens.
       $('.masthead').before($secondaryNav);
