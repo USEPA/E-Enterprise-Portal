@@ -134,7 +134,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       hide($form['account']['current_pass']);
       hide($form['account']['pass']);
       hide($form['field_profile_interests']);
-      // hide($form['field_interests2']);
+
       
       
       if(empty($form['account']['mail']['#default_value']))
@@ -252,9 +252,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
     //   '#autocomplete_path' => 'eenterprise_utility/autocomplete',
     // );
 
-  
-  }
-    drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+      drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+  } // end user form
+
 
 }
 
