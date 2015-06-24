@@ -16,6 +16,102 @@
 
   var drawChart = function(data) {
 
+  function drawPopulationsAtRisk() {
+    
+    if (todayData.AQI > 100) {
+
+      var g = graph.append("g")
+        .attr("transform", "translate(-"+(m[3] )+","+(h + m[0] + 65)+")")
+
+      var text = g.append("text");
+      text.append("tspan")
+        .attr("x", 0)
+        .text("Today's At Risk")
+      text.append("tspan")
+        .attr("x", 0)
+        .attr("dy", 18)
+        .text("Populations")
+
+      if (todayData.AQI > 150) { // all populations at risk 
+
+        var cellPosition = (w + m[1] + m[3]) / 2;
+
+        g.append("text")
+          .attr("transform", "translate("+cellPosition+",0)")
+          .attr("class", "at-risk-item")
+          .attr("text-anchor", "middle")
+          .text("Everyone")
+      } else { // [lungs, heart, over 55, under 12] at risk
+
+        var cellWidth = (w + m[1] + m[3]) / 5;
+        var cellPosition = 150;
+
+        var lungsG = g.append("g")
+          .attr("transform", "translate("+cellPosition+", 0)");
+        lungsG.append("text")
+          .attr("class", "at-risk-item")
+          .attr("text-anchor", "middle")
+          .text("Lungs");
+        lungsG.append("image")
+          .attr("class", "at-risk-icon")
+          .attr("transform", "translate(-20, 0)")
+          .attr("xlink:href", "sites/all/themes/oneepa/images/airnow-lungs.png");
+
+          cellPosition += cellWidth;
+
+        var heartG = g.append("g")
+          .attr("transform", "translate("+cellPosition+", 0)")
+        heartG.append("text")
+          .attr("class", "at-risk-item")
+          .attr("text-anchor", "middle")
+          .text("Heart");
+        heartG.append("image")
+          .attr("class", "at-risk-icon")
+          .attr("transform", "translate(-20, 0)")
+          .attr("xlink:href", "sites/all/themes/oneepa/images/airnow-heart.png");
+
+          cellPosition += cellWidth;
+
+        var adultsText = g.append("text")
+          .attr("transform", "translate("+cellPosition+", 0)")
+          .attr("text-anchor", "middle");
+        adultsText.append("tspan")
+          .attr("class", "at-risk-item")
+          .text("Adults")
+        adultsText.append("tspan")
+          .attr("class", "at-risk-item at-risk-item-large")
+          .attr("x", 0)
+          .attr("dy", 40)
+          .text("55")
+        adultsText.append("tspan")
+          .attr("class", "at-risk-item")
+          .attr("x", 0)
+          .attr("dy", 18)
+          .text("and Over");
+
+        cellPosition += cellWidth;
+
+        var childrenText = g.append("text")
+          .attr("transform", "translate("+cellPosition+", 0)")
+          .attr("text-anchor", "middle");
+        childrenText.append("tspan")
+          .attr("class", "at-risk-item")
+          .text("Children")
+        childrenText.append("tspan")
+          .attr("class", "at-risk-item at-risk-item-large")
+          .attr("x", 0)
+          .attr("dy", 40)
+          .text("12")
+        childrenText.append("tspan")
+          .attr("class", "at-risk-item")
+          .attr("x", 0)
+          .attr("dy", 18)
+          .text("and Under")
+        
+      }
+    }
+  }
+
     var getMap = function(date) {
       var mapUrl  = ['http://files.airnowtech.org/airnow/today/forecast_aqi_', date, '_usa.jpg'].join('');
 
@@ -93,15 +189,18 @@
       cssClass: 'section-good'
     }, {
       header: 'Moderate', 
-      body: 'Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution. ', 
+      body: 'Air quality is acceptable; however, for some pollutants there may be a moderate health '
+             +'concern for a very small number of people who are unusually sensitive to air pollution. ', 
       cssClass: 'section-moderate'
     }, {
       header: 'Unhealthy for sensitive groups', 
-      body: 'Members of sensitive groups may experience health effects. The general public is not likely to be affected. ', 
+      body: 'Members of sensitive groups may experience health effects. The general public is not '
+             +'likely to be affected. ', 
       cssClass: 'section-unhealthy-for-sensitive'
     }, {
       header: 'Unhealthy', 
-      body: 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects. ', 
+      body: 'Everyone may begin to experience health effects; members of sensitive groups may '
+            +'experience more serious health effects. ', 
       cssClass: 'section-unhealthy'
     }, {
       header: 'Very unhealthy', 
@@ -137,6 +236,14 @@
         maxAQI = data[i].AQI;
     }
 
+    // Find data point corresponding to today
+    for (var i in data) {
+      if (dateDiffInDays(new Date(), getDate(data[i].DateForecast)) == 0) {
+        todayData = data[i];
+        break;
+      }
+    }
+
     // Only show the categories for which data is present
     var reducedCategoryBounds = categoryBounds.slice(0, Math.max(getCategoryInfoIndex(maxAQI) + 2, 5));
     var maxCategoryBound = reducedCategoryBounds[reducedCategoryBounds.length-1];
@@ -150,7 +257,11 @@
 
     // if 'Unhealthy for sensitive groups' category text is visible
     if (reducedCategoryBounds.length > 3) {
-      m[3] += 150; // add to the left margin to make room for the long category text\
+      m[3] += 150; // add to the left margin to make room for the long category text
+    }
+
+    if (todayData.AQI > 100) {
+      m[2] += 100; // add to the bottom margin to make room for the populations at risk section
     }
 
     // set x and y scales
@@ -174,8 +285,12 @@
 
     // Add an SVG element with the desired dimensions and margin.
     var graph = d3.select("#my-air-quality-chart").append("svg:svg")
-    .attr("width", w + m[1] + m[3])
-    .attr("height", h + m[0] + m[2])
+    // .attr("width", w + m[1] + m[3])
+    // .attr("height", h + m[0] + m[2])
+    .style("width", "100%")
+    .style("max-width", (w + m[1] + m[3]) + "px")
+    .attr("viewBox", "0 0 " + (w + m[1] + m[3]) + " " + (h + m[0] + m[2]))
+    .attr("preserveAspectRatio", "xMidYMid")
     .attr("aria-labelledby", "my-air-quality-chart-title")
     .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
@@ -190,29 +305,25 @@
     .x0(-m[3] + m[1])
     .x1(w + m[1]);
 
-    // Find data point corresponding to today
-    for (var i in data) {
-      if (dateDiffInDays(new Date(), getDate(data[i].DateForecast)) == 0) {
-        todayData = data[i];
-        break;
-      }
-    }
-
     if (todayData) {
-    // Fill category background color based on AQI index for today
-    var activeCategoryIndex = getCategoryInfoIndex(todayData.AQI);
-    var activeCategory = categoryInfo[activeCategoryIndex];
+      // Fill category background color based on AQI index for today
+      var activeCategoryIndex = getCategoryInfoIndex(todayData.AQI);
+      var activeCategory = categoryInfo[activeCategoryIndex];
 
-    graph.append("path")
-    .datum([categoryBounds[activeCategoryIndex], categoryBounds[activeCategoryIndex+1]])
-    .attr("class", activeCategory.cssClass)
-    .attr("d", area);
+      graph.append("path")
+      .datum([categoryBounds[activeCategoryIndex], categoryBounds[activeCategoryIndex+1]])
+      .attr("class", activeCategory.cssClass)
+      .attr("d", area);
+
+      // Draw populations at risk if needed
+      drawPopulationsAtRisk(todayData, graph);
     }
 
     // Create xAxis
     var xAxis = d3.svg.axis().scale(x).ticks(d3.time.days, 1).tickFormat(function(date){
       var distanceFromTodayLabel = distanceFromToday[dateDiffInDays(new Date(), date)];
-      return ((distanceFromTodayLabel ? distanceFromTodayLabel : '&nbsp;') + '/' + d3.time.format("%a/%b %d")(date));
+      return ((distanceFromTodayLabel ? distanceFromTodayLabel : '&nbsp;') 
+             + '/' + d3.time.format("%a/%b %d")(date));
     });;
     // Add the x-axis.
     graph.append("svg:g")
@@ -246,9 +357,13 @@
     .attr("transform", function(cat, i) { 
       // vertical centering
       var scale = reducedCategoryBounds[reducedCategoryBounds.length - 1] / h;
-      return "translate(25, -"+((categoryBounds[i+1] - categoryBounds[i]) / 2 * scale) +")"
+      return i + 1 >= categoryBounds.length ? "" 
+             : "translate(25, -"+((categoryBounds[i+1] - categoryBounds[i]) / 2 * scale) +")"
     }).attr("alignment-baseline", "middle")
-    .attr("class", function(cat, i) { return 'category-label' + ( !todayData || i !=  getCategoryInfoIndex(todayData.AQI) ? '' : ' active-category-text') });
+    .attr("class", function(cat, i) { 
+      return 'category-label' + ( !todayData || i !=  getCategoryInfoIndex(todayData.AQI) ? '' 
+             : ' active-category-text') 
+    });
 
     // Add the line by appending an svg:path element with the data line we created above
     graph.append("svg:path").attr("d", line(data));
@@ -264,7 +379,8 @@
     .attr("x", function(d) { return x(getDate(d.DateForecast)); })
     .attr("y", function(d) { return y(d.AQI) - 20})
     // .attr("dy", ".35em")
-    .attr("class", function(d) { return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text' })
+    .attr("class", function(d) { 
+      return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text' })
     .attr("text-anchor", "middle")
     .text(function(d) { return d.AQI; });
 
@@ -280,12 +396,12 @@
     .on("mouseout", function(){ hidePopover();});
 
     // Append reporting area
-    graph.append("text")
-    .attr("x", (w) / 2)
-    .attr("y", -m[0]/2)
-    .attr("text-anchor", "middle") 
-    .attr("class", "small") 
-    .text(data[0].ReportingArea + ', ' + data[0].StateCode);
+    // graph.append("text")
+    // .attr("x", (w) / 2)
+    // .attr("y", -m[0]/2)
+    // .attr("text-anchor", "middle") 
+    // .attr("class", "small") 
+    // .text(data[0].ReportingArea + ', ' + data[0].StateCode);
 
     // Append popover
     var tooltip = d3.select('#my-air-quality-chart')
@@ -297,7 +413,7 @@
       .attr("src", getMap(formatDate(new Date(), "")))
       .attr("title", "Today's AQI Forecast")
       .attr("alt", "Today's AQI Forecast")
-      .attr("id", "my-air-quality-map")
+      .attr("id", "my-air-quality-map");
 
   }
 
@@ -310,7 +426,7 @@
 
       // for each date, find the max component AQI and add it
       for (var i = 0; i < responseData.length; i ++) {
-        // currentDate = responseData[i].DateForecast;
+        
         if (responseData[i].AQI > maxAQI)
           maxAQI = responseData[i].AQI;
 
@@ -328,28 +444,31 @@
       }
 
       // return [
-      //   {'DateForecast': "2015-06-20", 'AQI': 48},
-      //   {'DateForecast': "2015-06-21", 'AQI': 100},
-      //   {'DateForecast': "2015-06-22", 'AQI': 232},
-      //   {'DateForecast': "2015-06-23", 'AQI': 432}
+      //   {'DateForecast': "2015-06-21", 'AQI': 248},
+      //   {'DateForecast': "2015-06-22", 'AQI': 200},
+      //   {'DateForecast': "2015-06-23", 'AQI': 332},
+      //   {'DateForecast': "2015-06-24", 'AQI': 401}
       // ];
 
       return data;
     }
 
-      var endpoint = '/my_air_quality_chart_view/api/forecast/zipCode/';
+      var endpoint = Drupal.settings.basePath + 'my_air_quality_chart_view/api/forecast/zipCode/';
 
-      // 64172: only one data point
-      // 40202: AQI is always -1
-      // 19060: empty
-      // 19147: moderate AQI
-      // 92408: unhealthy for sensitive
       var yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
 
+      var zipCode = '20002';
+
+      if (Drupal && Drupal.settings && Drupal.settings.my_air_quality_chart_view 
+          &&  Drupal.settings.my_air_quality_chart_view.zip_code) {
+
+        zipCode = Drupal.settings.my_air_quality_chart_view.zip_code;
+      }
+      
       var params = {
         format: 'application/json',
-        zipCode: Drupal.settings.my_air_quality_chart_view.field_zip_code ? Drupal.settings.my_air_quality_chart_view.field_zip_code : '20002',
+        zipCode: zipCode,
         date: formatDate(yesterday, '-'),
         distance: 100
     };
