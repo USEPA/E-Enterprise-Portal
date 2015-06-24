@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 
 <div class="edit-user-profile">
 <div class="row">
@@ -66,12 +68,28 @@ print render($form['field_profile_favourites']);
 <p id="user-profile-form" class="eenterprise-utility-form-item-description-p field-title-below">
 		What topics are you interested in?
 		This information will help us suggest content that is most relevant to you.</p>
+<div class="ui-widget">
+  <input id="tags">
+</div>
 <?php
-print render($form['field_profile_interests']);
+// print render($form['field_profile_interests']);
+	print render($form['field_interests2']);	
 ?>
+
 </div> <!--panel-body-->
 </div> <!--panel-->
 </div> <!-- col-->
+<!--
+<div class="col-xs-12">
+<div class="panel panel-default">
+	<div class="panel-body">
+<?php
+	// print render($form['field_interests2']);	
+?>
+	</div>
+</div>
+	</div>col-->
+
 
 <div class="col-xs-12">
 

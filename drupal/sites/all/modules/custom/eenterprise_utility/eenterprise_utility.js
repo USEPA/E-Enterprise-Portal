@@ -65,6 +65,85 @@
 		placeAddAnotherButton(true, '#field-zip-code-values', '#zipcode_description');
 		placeAddAnotherButton(true, '#field-profile-favourites-values', '#links_description');
 
+	// AUTOCOMPLETE FUNCTIONALITY
+	
+	    var availableTags = [];
+		var initialInterests = {
+			'Environmental Media':
+				['Soils & Land', 'Air', 'Species', 'Water'],
+			'Health':
+				['Food Safety', 'Health Effects', 'Health Risks', 'Special Populations'],
+			'Pollution Prevention' :
+				['Conservation', 'Energy Effienciency', 'Fuel Economy', 'Pollution Prevention', 'Renewable Energy', 'Sustainable Development', 'Waste Reduction'],
+		};
+		
+		var allInitialInterests = ['Conservation', 'Energy Effienciency', 'Fuel Economy', 'Pollution Prevention', 
+			'Renewable Energy', 'Sustainable Development', 'Waste Reduction','Food Safety', 'Health Effects', 'Health Risks', 
+			'Special Populations', 'Soils & Land', 'Air', 'Species', 'Water'];
+	
+	
+	$.each(initialInterests, function(key, value) {
+		
+	});
+	function showValue(checkbox_id) {
+		console.log('called with' + checkbox_id);
+		// $('#' + checkbox_id).show();
+		$('#' + checkbox_id).attr('checked','checked');
+		$('label[for="' + checkbox_id + '"]').show();
+	}
+		
+	// $('.field-name-field-interests2 .form-item').hide();
+	$('.field-name-field-interests2 .form-item .form-type-checkbox').each(function() {
+		var checkbox_text = $(this).find('label').text();
+		checkbox_text = $.trim(checkbox_text.replace(/\-/g, ''));
+		$(this).find('label').text(checkbox_text);
+		var checkbox_id = $(this).find('input').attr('id');
+		
+		
+		availableTags.push({value: checkbox_id, label: checkbox_text});
+
+		if ($.inArray(checkbox_text, allInitialInterests) !== -1) {
+			$(this).find('label').show();
+			$(this).find('input').hide();
+		}
+		else if ($(this).find('input').attr('checked') == 'checked') {
+			$(this).find('label').show();
+			$(this).find('input').hide();
+		}
+		else {
+			$(this).find('label').hide();
+			$(this).find('input').hide();
+		}
+	});
+
+    $( "#tags" ).autocomplete({
+      source: availableTags,
+	  change: function(e) {
+		  e.preventDefault();
+	  },
+	close: function() { console.log('close');},
+	create: function() { console.log('create');},
+	focus:  function(e, v) { console.log('focus');
+		e.preventDefault();},
+	open:  function() { console.log('open');},
+	response:  function() { 
+		//console.log('response');
+		},
+	search:  function(e, v) {
+		//console.log('search');
+				},
+	select:  function(e,selection) { 
+		showValue(selection.item.value);
+		$('.ui-autocomplete-input').val(selection.item.label);
+		e.preventDefault();
+	}
+    });
+
+
+	
+	
+	
+	
 	
   }); // end document ready
   
