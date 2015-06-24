@@ -193,6 +193,18 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 .view-ee-release-note-list p {font-size:90%;padding-bottom:10px;line-height:1.6}
 .page-workbench .block-views, .section-workbench .block-views {float:left;}
 
+/*Progress Tracker Styling -(RB)*/
+table.views-table {border-spacing: 10px;}
+table.views-table thead th {background-color: #606060; color:#FFFFFF; padding:10px 0;}
+table.views-table thead th a {color:#FFFFFF;}
+table.views-table thead th a img {margin-left: 10px;}
+td.views-field {vertical-align: middle; padding:15px; font-weight: bold;}
+span.date-subscript-text, span.item-subscript-text, .simple-dialog {font-size: 0.9em !important; font-weight: normal; font-variant: small-caps; margin-top:10px; display:inline-block;}
+td.views-field-counter, td.views-field-field-prog-track-domain, td.views-field-field-prog-track-status, td.views-field-field-prog-track-updated, td.views-field-field-prog-track-actions {font-weight:normal;}
+th.views-field-counter {text-align: center;}
+tr.even {background-color: #f8f8f8;}
+
+
 
 @media screen and (min-width: 45em) {
 	.page-workbench .block-views.odd, .section-workbench .block-views.odd {width:55%;}
