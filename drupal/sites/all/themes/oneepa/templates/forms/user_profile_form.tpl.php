@@ -62,19 +62,23 @@ print render($form['field_profile_favourites']);
 
 
 <div class="col-xs-12">
-	<div class="panel panel-default">
+	<div class="panel panel-default autocomplete-interests" style="display:none">
 		<div class="panel-body">
 <h3>Topics of Interest</h3>
 <p id="user-profile-form" class="eenterprise-utility-form-item-description-p field-title-below">
 		What topics are you interested in?
 		This information will help us suggest content that is most relevant to you.</p>
 <div class="ui-widget">
-  <input id="tags">
+  <input id="tags"  value="Start typing..." 
+ onblur="this.value = 'Start typing...';"
+ onfocus="if (this.value == 'Start typing...') {this.value = '';}" />
 </div>
+
 <?php
 // print render($form['field_profile_interests']);
 	print render($form['field_interests2']);	
 ?>
+</ul>
 
 </div> <!--panel-body-->
 </div> <!--panel-->

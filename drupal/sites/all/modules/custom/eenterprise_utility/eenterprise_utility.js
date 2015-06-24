@@ -3,7 +3,7 @@
 
   $(document).ready(function(){
 	var last_clicked = "";
-
+	
 	function placeAddAnotherButton(addTd, table_id, parent_id) {
 	 	var table = $(table_id);
 		var input_button = $(parent_id).find('.field-add-more-submit');
@@ -96,7 +96,7 @@
 	$('.field-name-field-interests2 .form-item .form-type-checkbox').each(function() {
 		var checkbox_text = $(this).find('label').text();
 		checkbox_text = $.trim(checkbox_text.replace(/\-/g, ''));
-		$(this).find('label').text(checkbox_text);
+		$(this).find('label').html('<h3><span class="label label-primary full-width">' +checkbox_text + '</span></h3>');
 		var checkbox_id = $(this).find('input').attr('id');
 		
 		
@@ -139,11 +139,16 @@
 	}
     });
 
-
+	
+	$('body').on('click', '.label-primary', function() {
+		$(this).removeClass('label-primary').addClass('label-default');
+	});
+	$('body').on('click', '.label-default', function() {
+		$(this).removeClass('label-default').addClass('label-primary');
+	});
 	
 	
-	
-	
+	$('.autocomplete-interests').show();
 	
   }); // end document ready
   
