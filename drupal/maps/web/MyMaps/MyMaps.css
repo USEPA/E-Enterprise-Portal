@@ -1,0 +1,123 @@
+body {
+    background: #F0EFE7;
+    margin: 0;
+    padding: 0;
+    color: #4E443C;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+h1 {
+    color: #4E443C;
+    font-size: 34px;
+    font-weight: bold;
+}
+
+.wrapper {
+    max-width: 620px;
+    margin: auto;
+}
+
+.jcarousel-wrapper {
+    margin: 5px auto;
+    position: relative;
+}
+
+.jcarousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.jcarousel ul {
+    width: 20000em;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.jcarousel li {
+    float: left;
+    height: 200px;
+    width: 200px !important;
+    margin-right: 5px;
+    border: 1px solid black;
+}
+
+.jcarousel img {
+    max-height: 141px;
+}
+
+.jcarousel .loading {
+    text-align: center;
+    line-height: 90px;
+}
+
+.jcarousel-control-prev,
+.jcarousel-control-next {
+    position: absolute;
+    top: 75px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background: #4E443C;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 0 1px #000;
+    font: 24px/27px Arial, sans-serif;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    -webkit-box-shadow: 0 0 2px #999;
+    -moz-box-shadow: 0 0 2px #999;
+    box-shadow: 0 0 2px #999;
+}
+
+.jcarousel-control-prev {
+    left: -50px;
+}
+
+.jcarousel-control-next {
+    right: -50px;
+}
+
+.jcarousel-control-prev:hover span,
+.jcarousel-control-next:hover span {
+    display: block;
+}
+
+.jcarousel-control-prev.inactive,
+.jcarousel-control-next.inactive {
+    visibility: hidden;
+}
+
+.widgetHeader {
+    text-align: left;
+    margin-bottom: 0px;
+}
+
+.mapAppTitle {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 40px;
+    max-width: 198px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.mapAppDesc {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1px auto !important;
+    max-height: 40px;
+    max-width: 198px;
+    font-size: 12px;
+}
+
+.thumbnailImg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
