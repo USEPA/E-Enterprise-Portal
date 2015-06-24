@@ -159,9 +159,16 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 	width: 100%; height:40px;
 }
 .ui-menu .ui-menu-item a{
-   
     font-size:20px;
 }
+.ui-widget-content {
+	max-height: 300px; overflow-y: scroll; overflow-x: hidden;
+}
+
+#user-profile-form .label {
+	cursor: pointer;
+}
+
 
 .view-user-profile .field-name-field-profile-first-name .field-item {margin-right:0.4em;}
 /*.draggable .multiple-fields-remove-button {display:inline-block;margin-left:0;vertical-align: top;padding: 4px 8px;}*/
