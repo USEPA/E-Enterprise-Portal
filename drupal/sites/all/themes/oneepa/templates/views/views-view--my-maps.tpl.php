@@ -26,10 +26,10 @@
  *
  * @ingroup views_templates
  */
-//drupal_add_js("http://code.jquery.com/jquery-1.10.0.min.js", "file");
-drupal_add_js("http://d3js.org/d3.v2.js", "file");
-drupal_add_js(drupal_get_path('theme', 'oneepa') ."/js/air_now_js.js", "file");
-drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/air_now_styles.css", "file");
+drupal_add_js(drupal_get_path('theme', 'oneepa') ."/js/jquery.dotdotdot.min.js", "file");
+drupal_add_js(drupal_get_path('theme', 'oneepa') ."/js/jquery.jcarousel.min.js", "file");
+drupal_add_js(drupal_get_path('theme', 'oneepa') ."/js/MyMaps.js", "file");
+drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/MyMaps.css", "file");
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
@@ -57,8 +57,18 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/air_now_styles.css", "f
 
   <?php if ($rows): ?>
     <div class="view-content">
-      <div id="my-air-quality-chart"></div>
-      <?php print $rows; ?>
+      <div id="numThumbnails">
+        <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank">  Browse Gallery...</a>
+      </div>
+      <div class="jcarousel-wrapper">
+          <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+          <div class="jcarousel">
+              <!-- Map thumbnails dynamically loaded here -->
+              <div class="loading">Loading items...</div>
+          </div>
+          <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+      </div>
+      <?php //print $rows; ?>
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
