@@ -31,14 +31,10 @@
 		else {
 			parent_id = '#links_description';
 		}
-<<<<<<< HEAD
-		placeAddAnotherButton(true, '#' + table_id, parent_id);
-=======
-		console.log(table_id + ':::' + parent_id);
+
 		if (table_id != '') {
 			placeAddAnotherButton(true, '#' + table_id, parent_id);
 		}
->>>>>>> b416fdab3a7e92ad1d3bbff7e4010f3478dc8f4c
 	});
 
 
