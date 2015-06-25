@@ -58,7 +58,7 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/air_now_styles.css", "f
   <?php if ($rows): ?>
     <div class="view-content">
       <div id="my-air-quality-chart"></div>
-      <?php print $rows; ?>
+      <?php //print $rows; ?>
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
