@@ -9,7 +9,6 @@ Drupal.behaviors.mobileMenu = {
         $mobileBar = $('<div class="mobile-bar clearfix"><a class="mobile-home" href="/" rel="home"><span class="mobile-home-icon">Home</span></a> <a class="menu-button" href="#mobile-links">Menu</a></div>'),
         $mobileLinks = $('<div id="mobile-links" class="mobile-links element-hidden"></div>'),
         $mainNav = $('.simple-main-nav', context),
-//        $secondaryNav = $('.simple-secondary-nav', context),
         $secondaryNav = $('.secondary-nav', context),
         $eeNav = $('.workbench-menu', context),
         $newMenu = $mainNav.find('> .menu').clone();	
@@ -81,6 +80,7 @@ Drupal.behaviors.mobileMenu = {
       // Move main and secondary menus to the top of the page for wide screens.
       $('.masthead').before($secondaryNav);
       $('hgroup').after($mainNav);
+	  $('.block-search').after($eeNav);
     }
 
   }

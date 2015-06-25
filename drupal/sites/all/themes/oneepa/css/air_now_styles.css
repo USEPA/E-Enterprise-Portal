@@ -1,6 +1,11 @@
 #my-air-quality-chart text {
-  font-family: Helvetica Neue,Segoe UI,sans-serif;
-  fill: #454545;
+	font-family: Lato, sans-serif;
+	fill: #454545;
+	font-size: 75%;
+}
+
+#my-air-quality-chart .aqi-location {
+	font-size: 95%;
 }
 
 #my-air-quality-chart .popover {
@@ -41,7 +46,7 @@ img#my-air-quality-map {
 #my-air-quality-chart text.category-label {
   font-weight: normal;
   fill: gray;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 #my-air-quality-chart text.active-category-text {

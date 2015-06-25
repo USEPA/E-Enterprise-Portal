@@ -396,12 +396,12 @@
     .on("mouseout", function(){ hidePopover();});
 
     // Append reporting area
-    // graph.append("text")
-    // .attr("x", (w) / 2)
-    // .attr("y", -m[0]/2)
-    // .attr("text-anchor", "middle") 
-    // .attr("class", "small") 
-    // .text(data[0].ReportingArea + ', ' + data[0].StateCode);
+    graph.append("text")
+    .attr("x", (w) / 2)
+    .attr("y", -m[0]/2)
+    .attr("text-anchor", "middle") 
+    .attr("class", "aqi-location") 
+    .text(data[0].ReportingArea + ', ' + data[0].StateCode);
 
     // Append popover
     var tooltip = d3.select('#my-air-quality-chart')
