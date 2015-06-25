@@ -10,9 +10,9 @@
 
         if (width >= 600) {
           console.log(width);
-          width = (width / 3);
+          width = ((width - 20) / 3);
         } else if (width >= 350) {
-          width = width / 2;
+          width = (width - 20) / 2;
         }
 
         carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
@@ -52,9 +52,11 @@
     function setupGallery(data) {
       var html = '<ul>';
       var numGoodResults = 0;
+      var thumbnailNum = 0;
       //generate each thumbnail and only load it if non-default thumbnail image and a good hyperlink
       $.each(shuffle(data.results), function() {
         if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.url.indexOf('http') > -1) {
+          thumbnailNum += 1
           numGoodResults += 1
           var thumbnailURL = "https://epa.maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
           //Descriptions can contain or not contain HTML markup, to let JQuery's .text() work, we just add the p tags to all descriptions
@@ -62,10 +64,10 @@
           var desc = "<p>" + this.description + "</p>"
           var hyperlinkURL = this.url;
           html += '<li><a href="' + hyperlinkURL + '" target="_blank">'
-          html += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" href="' + hyperlinkURL + '" /></a>';
+          html += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" href="' + hyperlinkURL + '" aria-describedby="thumbnail-desc-' + thumbnailNum +'"/></a>';
           html += '<div class="mapAppTitle ellipsis">' + this.title + '</div>';
           //the description element can contain HTML markup so use .text to un-format the string
-          html += '<div class="mapAppDesc ellipsis">' + $(desc).text() + '</div>';
+          html += '<div class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum +'">' + $(desc).text() + '</div>';
           html += '</li>';
         }
       });
