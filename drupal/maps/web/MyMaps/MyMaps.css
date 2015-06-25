@@ -1,5 +1,6 @@
 body {
-    background: #F0EFE7;
+	font-family: Lato, sans-serif;
+    background: #fafafa;
     margin: 0;
     padding: 0;
     color: #4E443C;
@@ -8,8 +9,13 @@ body {
 
 h1 {
     color: #4E443C;
-    font-size: 34px;
-    font-weight: bold;
+    font-size: 200%;
+    font-weight: normal;
+}
+#numThumbnails {
+	margin-bottom: 10px;
+	margin-top: 5px;
+	font-size: 75%;
 }
 
 .wrapper {
@@ -26,6 +32,19 @@ h1 {
     position: relative;
     overflow: hidden;
     width: 100%;
+	border-width: 12px 12px 12px 0;
+    border-style: solid;
+    -webkit-border-image: 
+      -webkit-gradient(linear, 0 0, 100% 0, from(#fafafa), to(rgba(255, 255, 255, 255))) 1 100%;
+    -webkit-border-image: 
+      -webkit-linear-gradient(left, #fafafa, rgba(255, 255, 255, 255)) 1 100%;
+    -moz-border-image:
+      -moz-linear-gradient(left, #fafafa, rgba(255, 255, 255, 255)) 1 100%; 
+    -o-border-image:
+      -o-linear-gradient(left, #fafafa, rgba(255, 255, 255, 255)) 1 100%;
+    border-image:
+      linear-gradient(to left, #fafafa, rgba(255, 255, 255, 255)) 1 100%;
+      padding:0;     
 }
 
 .jcarousel ul {
@@ -41,11 +60,15 @@ h1 {
     height: 200px;
     width: 200px !important;
     margin-right: 5px;
-    border: 1px solid black;
+	border: 1px solid #dedede;
+    background-color: #fff;
+    padding: 5px;
 }
 
 .jcarousel img {
     max-height: 141px;
+    max-width: 100%;
+    border: 1px solid #efefef;
 }
 
 .jcarousel .loading {
@@ -102,8 +125,10 @@ h1 {
     margin-right: auto;
     max-height: 40px;
     max-width: 198px;
-    font-size: 14px;
+    font-size: 83%;
     font-weight: bold;
+    padding: 5px 5px 2px;
+    line-height: 1.2;
 }
 
 .mapAppDesc {
@@ -113,7 +138,9 @@ h1 {
     margin-top: 1px auto !important;
     max-height: 40px;
     max-width: 198px;
-    font-size: 12px;
+    font-size: 75%;
+    padding: 2px 5px;
+    line-height: 1.2;
 }
 
 .thumbnailImg {
