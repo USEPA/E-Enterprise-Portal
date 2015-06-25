@@ -52,14 +52,14 @@ $base-font-size:   	16px; // The font size set on the root html element.  For EP
 $base-line-height: 	1.5; // This line-height determines the basic unit of vertical rhythm.
 $short-line-height: 1.2;	// For captions and other non-body text
 
-$h1-font-size: 2    * $base-font-size;	// 200% / 32px
-$h2-font-size: 1.5  * $base-font-size;	// 150% / 24px
-$h3-font-size: 1.17 * $base-font-size;	// 117% / 18px
-$h4-font-size: 1    * $base-font-size;	// 100% / 16px
-$h5-font-size: 0.83 * $base-font-size;	//  83% / 13px
-$h6-font-size: 0.67 * $base-font-size;	//  67% / 10px
+$h1-font-size: 200% * 16px/$base-font-size;	// 200% / 32px
+$h2-font-size: 150% * 16px/$base-font-size;	// 150% / 24px
+$h3-font-size: 117% * 16px/$base-font-size;	// 117% / 18px
+$h4-font-size: 100% * 16px/$base-font-size;	// 100% / 16px
+$h5-font-size: 	83% * 16px/$base-font-size;	//  83% / 13px
+$h6-font-size: 	67% * 16px/$base-font-size;	//  67% / 10px
 $subtext-size: $h5-font-size;
-$h0-font-size: 2.5	* $base-font-size;	// 250% / 40px
+$h0-font-size: 250%	* 16px/$base-font-size;	// 250% / 40px
 
 // The following font family declarations are based on the Microsoft core web
 // fonts which are common fonts available on most computer systems. The DejaVu
