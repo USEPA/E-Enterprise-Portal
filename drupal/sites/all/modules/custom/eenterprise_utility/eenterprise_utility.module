@@ -14,11 +14,10 @@ function eenterprise_utility_menu() {
     $items['load_links'] = array(
       'page callback' => 'load_links',
       'access callback' => TRUE,
-      );
-    $items['eenterprise_utility/autocomplete'] = array(
-      'page callback' => 'eenterprise_utility_autocomplete',
-      'access arguments' => array('access content'),
-      'type' => MENU_CALLBACK
+      ); 
+    $items['get_taxonomy_parent_name'] = array(
+      'page callback' => 'get_taxonomy_parent_name',
+      'access callback' => TRUE,
     );
     return $items;
 } 
@@ -29,8 +28,6 @@ function remove_url ($array, $remove_url) {
   if (is_array($array)) {
     foreach ($array[LANGUAGE_NONE] as $key => $value) {
       $url = explode("|", $value['value'])[0];
-      echo $url;
-      echo $remove_url;
       if ($url == $remove_url) {
         return $key;
       }
@@ -39,8 +36,6 @@ function remove_url ($array, $remove_url) {
 }
 
 function process_favorite_link($url, $action) {
-  echo $url;
-  echo $action;
   global $user;
   $user_data = user_load($user->uid);
   $user_urls = $user_data->field_profile_favourites;
@@ -95,7 +90,21 @@ function load_links($index) {
   }
   $results = array('url_data' => $url_data, 'loadNextElem' => $load_next_elem, 'amountLoaded' => $amount_loaded);
   echo json_encode($results);
+}
 
+
+function get_taxonomy_parent_name($tid) {  
+  $data_array = array();
+  $parents_array = array();
+  $vid = '';
+  $parents = taxonomy_get_parents_all($tid);
+  foreach($parents as $key=>$value) {
+   $parents_array[] = [$value->tid, $value->name];
+   $vid = $value->vid;
+  }
+  $data_array['parents'] = $parents_array;
+  $data_array['vid'] = $vid;
+  echo json_encode($data_array);
 }
 
 
@@ -267,36 +276,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
  * @return object
  *  A JSON object.
  */
-function eenterprise_utility_autocomplete($string) {  
+ 
+ 
 
-  $matches = array();
-
-  $query = db_select('node', 'n');
-
-  $query->join('field_data_field_MODULENAME_terms', 'st', 'st.entity_id = n.nid');
-  $query->join('taxonomy_term_data', 'td', 'td.tid = st.field_MODULENAME_terms_tid');
-  
-  $or = db_or();
-  $or->condition('n.title', '%' . db_like($string) . '%', 'LIKE');
-  $or->condition('td.name', '%' . db_like($string) . '%', 'LIKE');
-  
-  $query->fields('n', array('nid', 'title'));
-  $query->condition('n.type', 'programme', '=');
-  $query->condition($or);
-  $query->range(0, 20);
-  
-  $return = $query->execute();
-  
-  foreach ($return as $row) {
-    $matches[drupal_get_path_alias('node/' . $row->nid)] = check_plain($row->title);
-  }
-
-  if (empty($matches)) {
-    $matches['0'] = t('No matches.');
-  }  
-
-  drupal_json_output($matches);
-}
 
 
 
