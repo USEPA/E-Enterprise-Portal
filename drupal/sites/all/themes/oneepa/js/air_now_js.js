@@ -461,9 +461,9 @@
       var zipCode = '20002';
 
       if (Drupal && Drupal.settings && Drupal.settings.my_air_quality_chart_view 
-          &&  Drupal.settings.my_air_quality_chart_view.zip_code) {
+          &&  Drupal.settings.my_air_quality_chart_view.field_zip_code) {
 
-        zipCode = Drupal.settings.my_air_quality_chart_view.zip_code;
+        zipCode = Drupal.settings.my_air_quality_chart_view.field_zip_code;
       }
       
       var params = {
