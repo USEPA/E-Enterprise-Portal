@@ -15782,6 +15782,10 @@ tr.even {
 #user-profile-form label {
   cursor: pointer;
 }
+
+#user-profile-form .label {
+  cursor: pointer;
+}
 /* line 639, ../sass/styles.scss */
 #user-profile-form table, #user-profile-form th {
   border: none;
@@ -15859,14 +15863,8 @@ tr.even {
 #user-profile-form #zipcode_description label {
   float: left;
 }
-/* line 698, ../sass/styles.scss */
-#user-profile-form .field-add-more-submit {
-  background-color: green;
-  height: 40px;
-  width: 43px;
-  margin: 0px;
-  vertical-align: middle;
-}
+
+#user-profile-form .autocomplete-interests ul { list-style-type: none; padding-bottom: 0px;}
 /* line 705, ../sass/styles.scss */
 #user-profile-form thead label {
   padding: 1em 1em 0.25em 0.5em;
@@ -15890,6 +15888,16 @@ tr.even {
   font-size: 0.95em;
   font-weight: normal;
 }
+
+/* line 698, ../sass/styles.scss */
+#user-profile-form .field-add-more-submit {
+  background-color: green;
+  height: 40px;
+  width: 43px;
+  margin: 0px;
+  vertical-align: middle;
+}
+
 /* line 724, ../sass/styles.scss */
 #user-profile-form .field-suffix,
 #user-profile-form .move-zipcode {
