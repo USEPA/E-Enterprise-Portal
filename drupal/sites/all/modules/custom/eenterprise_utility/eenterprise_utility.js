@@ -76,7 +76,7 @@
 				var vocab_list = '<ul><li id="parent-holder-' + current_parent[0] + '"></li><ul>';
 				if (vid > 0 ) { 
 					$('#vocab_holder-' + vid).append(vocab_list);
-					$('#ul_vocab_holder-' + vid).show(); 
+					$('#vocab_holder-' + vid).show(); 
 					vid = -1;
 
 				}
@@ -139,10 +139,10 @@
 		var checkbox_text = $(this).find('label').text();
 		checkbox_text = $.trim(checkbox_text.replace(/\-/g, ''));
 		if ($(this).find('input').attr('checked') == 'checked') {
-			$(this).find('label').html('<h4><span class="label label-primary full-width">' +checkbox_text + '</span></h4>');
+			$(this).find('label').html('<h3><span class="label label-primary full-width">' +checkbox_text + '</span></h3>');
 		}
 		else {
-			$(this).find('label').html('<h4><span class="label label-default full-width">' +checkbox_text + '</span></h4>');
+			$(this).find('label').html('<h3><span class="label label-default full-width">' +checkbox_text + '</span></h3>');
 		}
 		var checkbox_id = $(this).find('input').attr('id');
 		

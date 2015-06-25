@@ -253,13 +253,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
 //                );
      }
         
-  ///BMATKIN 6/23/2015 AUTCOMPLETE INTERESTS TAXONOMY
-    // $form['autocomplete_field'] = array(
-    //   '#title' => t('Interests'),
-    //   '#type' => 'textfield',
-    //   '#default_value' => t('Start typing...'),
-    //   '#autocomplete_path' => 'eenterprise_utility/autocomplete',
-    // );
 
       drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
   } // end user form
