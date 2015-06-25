@@ -45,14 +45,13 @@ img#my-air-quality-map {
 
 #my-air-quality-chart text.category-label {
   font-weight: normal;
-  fill: gray;
-  font-size: 16px;
+  fill: #333;
+  font-size: 75%;
 }
 
 #my-air-quality-chart text.active-category-text {
   font-size: 22px;
   font-weight: bold;
-  letter-spacing: -1.8px;
   fill: #454545;
 }
 

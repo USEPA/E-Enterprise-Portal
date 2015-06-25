@@ -29,6 +29,7 @@ $ee-light-gray:	   #f8f8f8;
 $ee-medium-gray:   #efefef;
 $ee-dark-gray:	   #606060;		// Use for background color for table headings
 $ee-hover-gray:	   #fafafa;
+$ee-active-menu:   #364d5f;
 
 @mixin linear-gradient($gradient-light, $gradient-dark) {
   background-color: $gradient-dark;
@@ -524,6 +525,7 @@ tr.odd, tr.even {
 	}
 	.stats-count {
 		font-size: $h1-font-size;	// 2em / 32px
+		color: $ee-light-gray;
 	}
 }
 
@@ -532,6 +534,13 @@ tr.odd, tr.even {
 	display: 	block;
 	padding:	5px 1em;
 	font-size: 	$h5-font-size;
+	&.active-trail {
+		background-color: $ee-active-menu;
+	}
+	a.active {
+		color: #fff;
+		font-weight:bold;
+	}
 }
 
 .ee-workbench-header-block {
