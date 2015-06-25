@@ -192,38 +192,30 @@
 
 	
 	
-// 	$('body').on('click', '.vocab_holder .label', function() {
-// 	if ($(this).hasClass('label-primary')) {
-// 		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', '');
-// 		$(this).removeClass('label-primary').addClass('label-default');
-// 	}
-// 	else {
-// 		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', 'checked');
-// 		$(this).removeClass('label-default').addClass('label-primary');
-// 	}
-// });
+	$('body').on('click', '.vocab_holder .label', function() {
+	if ($(this).hasClass('label-primary')) {
+		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', '');
+		$(this).removeClass('label-primary').addClass('label-default');
+	}
+	else {
+		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', 'checked');
+		$(this).removeClass('label-default').addClass('label-primary');
+	}
+});
 
 // Handle group edits down the hierarchy
 $('body').on('click', '.label-primary', function() {
 	var children = $(this).closest('ul').find('ul .label.label-primary');
 	if (children.length > 0) {
 		children.removeClass('label-primary').addClass('label-default');
-		// console.log('here1');
-		// $(children.find('label')).each( function() {
-		// 	console.log ('here');
-		// 	var checkbox_id = $(this).attr('for');
-		// 	$('#' + checkbox_id).attr('checked', '');
-		// });
+		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', '');
 	}
 });
 $('body').on('click', '.label-default', function() {
 	var children = $(this).closest('ul').find('ul .label.label-default');
 	if (children.length > 0) {
 		children.removeClass('label-default').addClass('label-primary');
-		// $(children.find('label')).each( function() {
-		// 	var checkbox_id = $(this).attr('for');
-		// 	$('#' + checkbox_id).attr('checked', '');
-		// });
+		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', '');
 	}
 });
 
