@@ -42,6 +42,16 @@ $ee-active-menu:   #364d5f;
   -pie-background: linear-gradient(to bottom, $gradient-light, $gradient-dark);
 }
 
+@mixin box-shadow {
+	-moz-box-shadow: 0 2px 2px #aaa;
+	-webkit-box-shadow: 0 2px 2px #aaa;
+	box-shadow: 0 2px 2px #aaa;
+
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
+	zoom: 1;
+}
+
 /** Adjust Main Font and Styles *********************************************************/
 body {
 	color: $base-text-color;
@@ -63,6 +73,9 @@ a:visited.pager__link {
 /** Adjust Bootstrap Components  *********************************************************/
 .modal-open {
 	padding-right:0 !important;
+}
+.pager {
+	font-size: 75%;
 }
 .pager li>a, 
 .pager li>a:hover {
@@ -132,13 +145,17 @@ input[type="submit"],
 }
 
 .region-header {
-	background-color: #26404d;
-	color: #cccccc;
+	background-color: $ee-light-gray;
+	color: #494949;
 	margin-left: -1em;
 	margin-right: -1em;
 	padding: 5px 1em;
+	@include box-shadow;
 	a {
-		color: $epa-white;;
+		color: #333;
+	}
+	a:hover {
+		text-decoration: underline;
 	}
 }
 
@@ -539,7 +556,7 @@ tr.odd, tr.even {
 	}
 	.stats-count {
 		font-size: $h1-font-size;	// 2em / 32px
-		color: $ee-light-gray;
+		color: $base-text-color;
 	}
 }
 
@@ -549,7 +566,7 @@ tr.odd, tr.even {
 	padding:	5px 1em;
 	font-size: 	$h5-font-size;
 	&.active-trail {
-		background-color: $ee-active-menu;
+		background-color: $ee-dark-gray;
 	}
 	a.active {
 		color: #fff;
@@ -558,7 +575,9 @@ tr.odd, tr.even {
 }
 
 .ee-workbench-header-block {
-	float:left;margin-left:20px;padding:5px 10px;
+	float:left;
+	margin-left:20px;
+	padding:5px 10px;
 }
 
 .ee-workbench-header-locations select {
@@ -575,6 +594,11 @@ tr.odd, tr.even {
 	position:absolute;
 	bottom:10px;
 	right:1.75em;
+	&:focus {
+		background-color: $ee-dark-gray;
+		color: #fff;
+		padding: 3px;
+	}
 }
 
 /** To Do / Progress Tracker Styles 
@@ -736,14 +760,6 @@ tr.even {
 		float: left;
 	}
 	
-	.field-add-more-submit {
-		background-color: green; 
-		height:40px; 
-		width:43px; 
-		margin: 0px;
-		vertical-align: middle;
-
-	}
 	thead label {
 		padding:1em 1em 0.25em 0.5em;
 	}
@@ -751,6 +767,7 @@ tr.even {
 		background-color:transparent;
 	}
 	td {
+		padding: 5px 10px;
 		border:none;
 	}
 	.form-submit {
@@ -762,6 +779,16 @@ tr.even {
 		border-radius:4px;
 		font-size:0.95em;
 		font-weight:normal;
+	}
+	.field-add-more-submit {
+		background-color: green; 
+		height:40px; 
+		width:43px; 
+		margin: 0px;
+		vertical-align: middle;
+	}
+	.multiple-fields-remove-button {
+		vertical-align: top;
 	}
 	.field-suffix, 
 	.move-zipcode  { 
@@ -775,6 +802,8 @@ tr.even {
 	#tags {
 		width: 100%; 
 		height:40px;
+		font-size: 85%;
+		font-family: $base-font-family;
 	}
 
 	.autocomplete-interests ul {
