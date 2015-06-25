@@ -185,12 +185,18 @@ a.tabledrag-handle .handle {margin: 0 0.25em}
 #user-profile-form .description{ display:table;}
 #user-profile-form .field-suffix,
 #user-profile-form .move-zipcode  { display:inline; float: right !important;}
+
+/*#user-profile-form .last-td { display:flex;}
+ #user-profile-form .last-td .ajax-progress-throbber {margin-left: 2px; margin-top: 13px;}
+.autocomplete-interests ul { list-style-type: none; padding-bottom: 0px;}*/
+
 /*#user-profile-form #zipcode_description td {height: 60px; vertical-align: middle !important;}*/
 /*#user-profile-form multiple-fields-remove-button { vertical-align: top;}*/
 @media screen and (max-width: 40em) {
 		#user-profile-form .form-type-textfield { width: 150px; }
 		#user-profile-form  .ajax-progress .message { display: none};
 }
+
 
 
 /** Functional Styles *********************************************************/

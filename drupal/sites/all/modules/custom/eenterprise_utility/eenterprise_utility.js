@@ -31,10 +31,14 @@
 		else {
 			parent_id = '#links_description';
 		}
+<<<<<<< HEAD
+		placeAddAnotherButton(true, '#' + table_id, parent_id);
+=======
 		console.log(table_id + ':::' + parent_id);
 		if (table_id != '') {
 			placeAddAnotherButton(true, '#' + table_id, parent_id);
 		}
+>>>>>>> b416fdab3a7e92ad1d3bbff7e4010f3478dc8f4c
 	});
 
 
@@ -54,7 +58,6 @@
 	
 	
 	function inString(str, substring) {
-		console.log(str + ' ::: ' + substring)
 		if (str.indexOf(substring) >= 0) {
 			return true;
 		}
@@ -69,6 +72,31 @@
 
 	// AUTOCOMPLETE FUNCTIONALITY
 	
+	
+		function generateParents(parents_array, last_parent_id, vid) {
+			if (parents_array.length > 0) {
+				var current_parent = parents_array[parents_array.length - 1];
+				parents_array.splice(-1, 1);
+				var vocab_list = '<ul><li id="parent-holder-' + current_parent[0] + '"></li><ul>';
+				if (vid > 0 ) { 
+					$('#vocab_holder-' + vid).append(vocab_list);
+					vid = -1;
+				}
+				if ($('#parent-holder-' + last_parent_id).length > 0) {
+					$('#parent-holder-' + last_parent_id).append(vocab_list);
+				}
+				else if ($('#parent-holder-' + current_parent[0]).length == 0){
+					$('.vocab-tier-0').append(vocab_list); // highest tier
+				}
+				$('#parent-holder-' + current_parent[0]).append($('label[for="' + 'edit-field-interests2-und-' + current_parent[0] + '"]'));
+				$('label[for="' + 'edit-field-interests2-und-' + current_parent[0] + '"]').show();
+
+				generateParents(parents_array, current_parent[0], vid);
+			}
+		}
+		
+		
+		
 	    var availableTags = [];
 		var initialInterests = {
 			'Environmental Media':
@@ -78,6 +106,7 @@
 			'Pollution Prevention' :
 				['Conservation', 'Energy Effienciency', 'Fuel Economy', 'Pollution Prevention', 'Renewable Energy', 'Sustainable Development', 'Waste Reduction'],
 		};
+		var initialParents = {'Environmental Media': 13, 'Health': 19, 'Pollution Prevention': 25};
 		
 		var allInitialInterests = ['Conservation', 'Energy Effienciency', 'Fuel Economy', 'Pollution Prevention', 
 			'Renewable Energy', 'Sustainable Development', 'Waste Reduction','Food Safety', 'Health Effects', 'Health Risks', 
@@ -88,28 +117,68 @@
 		
 	});
 	function showValue(checkbox_id) {
-		console.log('called with' + checkbox_id);
+		//Grab number from checkbox_id, TID
+		var tid = checkbox_id.split('-');
+		var parent_id;
+		tid = tid[tid.length - 1]; 
+		$.ajax({
+			url: '/get_taxonomy_parent_name/' + tid,
+			method: 'POST',
+			async: false,
+			data: checkbox_id,
+			success: function(data) {
+				var data = $.parseJSON(data);
+				$('#' + checkbox_id).attr('checked','checked');
+				generateParents(data.parents, checkbox_id, data.vid);
+			}
+		});
 		// $('#' + checkbox_id).show();
-		$('#' + checkbox_id).attr('checked','checked');
-		$('label[for="' + checkbox_id + '"]').show();
+
 	}
-		
+
+$('body').on('click', '.vocab_holder .label', function() {
+	if ($(this).hasClass('label-primary')) {
+		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', '');
+		$(this).closest('.vocab_holder').find(' .label-primary').removeClass('label-primary').addClass('label-default');
+	}
+	else {
+		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', 'checked');
+		$(this).closest('.vocab_holder').find('.label-default').removeClass('label-default').addClass('label-primary');
+	}
+});
+
+
+/// FIRST ITERATE THROUGH PARENTS
+	// $.each(initialParents, function(key, value) {
+	// 		// var checkbox_id = $(this).attr('id');
+	// 		var vocab_parent = '<ul><li id="vocab_holder-' + value + '" class="vocab_holder"><h3><span class="label label-primary full-width">' + key + '</span></h3></li></ul>';
+	// 		$('.vocab-tier-0').append(vocab_parent);
+	// 		console.log(vocab_parent);
+	// 	});
 	// $('.field-name-field-interests2 .form-item').hide();
 	$('.field-name-field-interests2 .form-item .form-type-checkbox').each(function() {
 		var checkbox_text = $(this).find('label').text();
 		checkbox_text = $.trim(checkbox_text.replace(/\-/g, ''));
-		$(this).find('label').html('<h3><span class="label label-primary full-width">' +checkbox_text + '</span></h3>');
+		if ($(this).find('input').attr('checked') == 'checked') {
+			$(this).find('label').html('<h4><span class="label label-primary full-width">' +checkbox_text + '</span></h4>');
+		}
+		else {
+			$(this).find('label').html('<h4><span class="label label-default full-width">' +checkbox_text + '</span></h4>');
+		}
 		var checkbox_id = $(this).find('input').attr('id');
 		
 		
 		availableTags.push({value: checkbox_id, label: checkbox_text});
-
 		if ($.inArray(checkbox_text, allInitialInterests) !== -1) {
-			$(this).find('label').show();
+			// var checkbox_id = $(this).attr('id');
+			showValue(checkbox_id);
+			allInitialInterests.splice($.inArray(checkbox_text, allInitialInterests), 1);
+			$(this).find('label').hide();
 			$(this).find('input').hide();
 		}
 		else if ($(this).find('input').attr('checked') == 'checked') {
-			$(this).find('label').show();
+			showValue(checkbox_id);
+			// $(this).find('label').show();
 			$(this).find('input').hide();
 		}
 		else {
@@ -127,7 +196,9 @@
 	create: function() { console.log('create');},
 	focus:  function(e, v) { console.log('focus');
 		e.preventDefault();},
-	open:  function() { console.log('open');},
+	open:  function() { 
+		//console.log('open');
+	},
 	response:  function() { 
 		//console.log('response');
 		},
@@ -136,7 +207,7 @@
 				},
 	select:  function(e,selection) { 
 		showValue(selection.item.value);
-		$('.ui-autocomplete-input').val(selection.item.label);
+		$('.ui-autocomplete-input').val('Start typing...');		
 		e.preventDefault();
 	}
     });

@@ -19,7 +19,7 @@ print render($form['account']['mail']);
 	<div class="panel panel-default">
 		<div class="panel-body">
 <h3>Locations of Interest</h3>
-<p id="user-profile-form" class="eenterprise-utility-form-item-description-p">
+<p class="eenterprise-utility-form-item-description-p">
 	Add your locations of interest to see environmental maps and 
 	information relevant to those areas. Please indicate your default 
 	location by clicking the key icon. <br />	
@@ -44,7 +44,7 @@ print render($form['field_zip_code']);
 	<div class="panel panel-default">
 		<div class="panel-body">
 <h3>Favorite Links</h3>
-<p id="user-profile-form" class="eenterprise-utility-form-item-description-p field-title-below">
+<p class="eenterprise-utility-form-item-description-p field-title-below">
 		Add and manage your favorite links.</p>
 
 <div id='links_description' class='form-group'>
@@ -65,7 +65,7 @@ print render($form['field_profile_favourites']);
 	<div class="panel panel-default autocomplete-interests" style="display:none">
 		<div class="panel-body">
 <h3>Topics of Interest</h3>
-<p id="user-profile-form" class="eenterprise-utility-form-item-description-p field-title-below">
+<p class="eenterprise-utility-form-item-description-p field-title-below">
 		What topics are you interested in?
 		This information will help us suggest content that is most relevant to you.</p>
 <div class="ui-widget">
@@ -73,12 +73,20 @@ print render($form['field_profile_favourites']);
  onblur="this.value = 'Start typing...';"
  onfocus="if (this.value == 'Start typing...') {this.value = '';}" />
 </div>
-
 <?php
 // print render($form['field_profile_interests']);
 	print render($form['field_interests2']);	
 ?>
-</ul>
+
+<?php
+// Generate  parent vocab containers	
+$vocabs = taxonomy_get_vocabularies();
+foreach ($vocabs as $vid=>$value) {
+	print '<ul><li id="vocab_holder-' . $vid . '" class="vocab_holder"><h3><span class="label label-primary full-width">' . $value->name . '</span></h3></li></ul>';
+}	
+
+?>
+
 
 </div> <!--panel-body-->
 </div> <!--panel-->
