@@ -326,11 +326,25 @@ input[type="submit"],
 	float:left;
 }
 .page-workbench {
-	.wide-template #main-content {
+	&.wide-template #main-content {
 		background-color: $ee-light-gray;
 	}
 	.panel-pane {
 		background-color: $epa-white;
+		padding: 10px 30px;
+		margin-top: 10px;
+		border: 1px solid #ededed;
+		border-radius: 4px;
+		-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+	}
+	.pager {
+		font-weight: normal;
+	}
+}
+.page-user {
+	&.wide-template #main-content {
+		background-color: $ee-light-gray;
 	}
 }
 
