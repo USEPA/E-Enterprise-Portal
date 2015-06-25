@@ -76,7 +76,9 @@
 				var vocab_list = '<ul><li id="parent-holder-' + current_parent[0] + '"></li><ul>';
 				if (vid > 0 ) { 
 					$('#vocab_holder-' + vid).append(vocab_list);
+					$('#ul_vocab_holder-' + vid).show(); 
 					vid = -1;
+
 				}
 				if ($('#parent-holder-' + last_parent_id).length > 0) {
 					$('#parent-holder-' + last_parent_id).append(vocab_list);
@@ -94,24 +96,14 @@
 		
 		
 	    var availableTags = [];
-		var initialInterests = {
-			'Environmental Media':
-				['Soils & Land', 'Air', 'Species', 'Water'],
-			'Health':
-				['Food Safety', 'Health Effects', 'Health Risks', 'Special Populations'],
-			'Pollution Prevention' :
-				['Conservation', 'Energy Effienciency', 'Fuel Economy', 'Pollution Prevention', 'Renewable Energy', 'Sustainable Development', 'Waste Reduction'],
-		};
-		var initialParents = {'Environmental Media': 13, 'Health': 19, 'Pollution Prevention': 25};
-		
 		var allInitialInterests = ['Conservation', 'Energy Effienciency', 'Fuel Economy', 'Pollution Prevention', 
 			'Renewable Energy', 'Sustainable Development', 'Waste Reduction','Food Safety', 'Health Effects', 'Health Risks', 
-			'Special Populations', 'Soils & Land', 'Air', 'Species', 'Water'];
+			'Special Populations', 'Soils & Land', 'Air', 'Species', 'Water', 'Compliance & Enforcement', 'Permitting Programs', 'Regulated Facilities',
+			'Regulatory Development', 'Substances Management'];
+
 	
 	
-	$.each(initialInterests, function(key, value) {
-		
-	});
+
 	function showValue(checkbox_id) {
 		//Grab number from checkbox_id, TID
 		var tid = checkbox_id.split('-');
@@ -132,16 +124,7 @@
 
 	}
 
-$('body').on('click', '.vocab_holder .label', function() {
-	if ($(this).hasClass('label-primary')) {
-		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', '');
-		$(this).closest('.vocab_holder').find(' .label-primary').removeClass('label-primary').addClass('label-default');
-	}
-	else {
-		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', 'checked');
-		$(this).closest('.vocab_holder').find('.label-default').removeClass('label-default').addClass('label-primary');
-	}
-});
+
 
 
 /// FIRST ITERATE THROUGH PARENTS
@@ -189,7 +172,6 @@ $('body').on('click', '.vocab_holder .label', function() {
 		  e.preventDefault();
 	  },
 	close: function() { console.log('close');},
-	create: function() { console.log('create');},
 	focus:  function(e, v) { console.log('focus');
 		e.preventDefault();},
 	open:  function() { 
@@ -209,16 +191,45 @@ $('body').on('click', '.vocab_holder .label', function() {
     });
 
 	
-	$('body').on('click', '.label-primary', function() {
+	
+	$('body').on('click', '.vocab_holder .label', function() {
+	if ($(this).hasClass('label-primary')) {
+		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', '');
 		$(this).removeClass('label-primary').addClass('label-default');
-	});
-	$('body').on('click', '.label-default', function() {
+	}
+	else {
+		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', 'checked');
 		$(this).removeClass('label-default').addClass('label-primary');
-	});
-	
-	
+	}
+});
+
+// Handle group edits down the hierarchy
+$('body').on('click', '.label-primary', function() {
+	var children = $(this).closest('ul').find('ul .label.label-primary');
+	if (children.length > 0) {
+		children.removeClass('label-primary').addClass('label-default');
+		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', '');
+	}
+});
+$('body').on('click', '.label-default', function() {
+	var children = $(this).closest('ul').find('ul .label.label-default');
+	if (children.length > 0) {
+		children.removeClass('label-default').addClass('label-primary');
+		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', '');
+	}
+});
+
+
+$('body').on('click', '.glyphicon-chevron-down', function() {
+	$(this).closest('li').find('ul').show();
+	$(this).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+});
+$('body').on('click', '.glyphicon-chevron-up', function() {
+	$(this).closest('li').find('ul').hide();
+	$(this).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+});	
 	$('.autocomplete-interests').show();
-	
+
   }); // end document ready
   
 

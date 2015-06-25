@@ -81,11 +81,22 @@ print render($form['field_profile_favourites']);
 <?php
 // Generate  parent vocab containers	
 $vocabs = taxonomy_get_vocabularies();
+$initialVocabs = array('Environmental Media Topics', 'Health Topics', 'Pollution Prevention Topics', 'Regulatory and Industrial Topics');
+print '<div class="row">';
 foreach ($vocabs as $vid=>$value) {
-	print '<ul><li id="vocab_holder-' . $vid . '" class="vocab_holder"><h3><span class="label label-primary full-width">' . $value->name . '</span></h3></li></ul>';
+	if (in_array($value->name, $initialVocabs)){
+		$style = '';
+	}
+	else {
+		$style = 'display:none';
+	}
+	print '<ul id="ul_vocab_holder-' . $vid . '" style= "' . $style . '"><li id="vocab_holder-' . $vid . '" class="vocab_holder"><h3><span class="label label-primary">'
+	. $value->name . '</span><span class="vocab-arrow glyphicon glyphicon-chevron-up" aria-hidden="true"></span></h3></li></ul>';
 }	
-
+print '</div>';
 ?>
+
+
 
 
 </div> <!--panel-body-->

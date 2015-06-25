@@ -15863,8 +15863,8 @@ tr.even {
 #user-profile-form #zipcode_description label {
   float: left;
 }
-
-#user-profile-form .autocomplete-interests ul { list-style-type: none; padding-bottom: 0px;}
+/* line 734, ../sass/styles.scss */
+#user-profile-form .autocomplete-interests ul { list-style-type: none; padding-bottom: 0px; padding-right: 40px;}
 /* line 705, ../sass/styles.scss */
 #user-profile-form thead label {
   padding: 1em 1em 0.25em 0.5em;
@@ -15877,6 +15877,7 @@ tr.even {
 #user-profile-form td {
   border: none;
 }
+
 /* line 714, ../sass/styles.scss */
 #user-profile-form .form-submit {
   text-transform: capitalize;
@@ -15895,6 +15896,13 @@ tr.even {
   height: 40px;
   width: 43px;
   margin: 0px;
+  vertical-align: middle;
+}
+
+
+#user-profile-form .vocab-arrow {
+  padding-left: 7px;
+  cursor: pointer;
   vertical-align: middle;
 }
 
