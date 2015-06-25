@@ -55,26 +55,21 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/MyMaps.css", "file");
     </div>
   <?php endif; ?>
 
-  <?php if ($rows): ?>
-    <div class="view-content">
-      <div id="numThumbnails">
-        <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank">  Browse Gallery...</a>
-      </div>
-      <div class="jcarousel-wrapper">
-          <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-          <div class="jcarousel">
-              <!-- Map thumbnails dynamically loaded here -->
-              <div class="loading">Loading items...</div>
-          </div>
-          <a href="#" class="jcarousel-control-next">&rsaquo;</a>
-      </div>
-      <?php //print $rows; ?>
+
+  <div class="view-content">
+    <div id="numThumbnails">
+      <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank">  Browse Gallery...</a>
     </div>
-  <?php elseif ($empty): ?>
-    <div class="view-empty">
-      <?php print $empty; ?>
+    <div class="jcarousel-wrapper">
+        <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+        <div class="jcarousel">
+            <!-- Map thumbnails dynamically loaded here -->
+            <div class="loading">Loading items...</div>
+        </div>
+        <a href="#" class="jcarousel-control-next">&rsaquo;</a>
     </div>
-  <?php endif; ?>
+  </div>
+
 
   <?php if ($pager): ?>
     <?php print $pager; ?>
