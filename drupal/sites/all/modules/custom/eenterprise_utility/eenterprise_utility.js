@@ -9,9 +9,9 @@
 		var input_button = $(parent_id).find('.field-add-more-submit');
 		if (addTd){
 			table.find("tr:first").append("<th></th>");
-			table.find("tr").not('tr:first').append("<td></td>");
+			table.find("tr").not('tr:first').append("<td><div class='ajax-new-content'></div></td>");
 		}
-		table.find("tr:last").find('td:last').addClass('last-td').append(input_button);
+		table.find("tr:last").find('td:last').find('.ajax-new-content').append(input_button);
 	};
 	
 	$( document ).ajaxSuccess(function( event, xhr, settings ) {
@@ -31,7 +31,14 @@
 		else {
 			parent_id = '#links_description';
 		}
+<<<<<<< HEAD
 		placeAddAnotherButton(true, '#' + table_id, parent_id);
+=======
+		console.log(table_id + ':::' + parent_id);
+		if (table_id != '') {
+			placeAddAnotherButton(true, '#' + table_id, parent_id);
+		}
+>>>>>>> b416fdab3a7e92ad1d3bbff7e4010f3478dc8f4c
 	});
 
 

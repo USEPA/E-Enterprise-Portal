@@ -5,15 +5,14 @@
  * This file is a slight fork of these original sources:
  * - normalize.css v2.1.2 | MIT License | git.io/normalize
  * - normalize.scss v2.1.2 | MIT/GPLv2 License | bit.ly/normalize-with-compass
- *
- * It's suggested that you read the normalize.scss file and customise it to meet
- * your needs, rather then including the file in your project and overriding the
- * defaults later in your CSS.
- * @see http://nicolasgallagher.com/about-normalize-css/
- *
- * Also: @see http://meiert.com/en/blog/20080419/reset-style-sheets-are-bad/
- *       @see http://snook.ca/archives/html_and_css/no_css_reset/
- */
+ * /
+ // It's suggested that you read the normalize.scss file and customise it to meet
+ // your needs, rather then including the file in your project and overriding the
+ // defaults later in your CSS.
+ // @see http://nicolasgallagher.com/about-normalize-css/
+ //
+ // Also: @see http://meiert.com/en/blog/20080419/reset-style-sheets-are-bad/
+ //       @see http://snook.ca/archives/html_and_css/no_css_reset/
 
 /**
  * HTML5 display definitions
@@ -62,47 +61,15 @@ audio:not([controls]) {
 /**
  * Base
  *
- * Instead of relying on the fonts that are available on a user's computer, you
- * can use web fonts which, like images, are resources downloaded to the user's
- * browser. Because of the bandwidth and rendering resources required, web fonts
- * should be used with care.
- *
- * Numerous resources for web fonts can be found on Google. Here are a few
- * websites where you can find Open Source fonts to download:
- * - http://www.fontsquirrel.com/fontface
- * - http://www.theleagueofmoveabletype.com
- *
- * In order to use these fonts, you will need to convert them into formats
- * suitable for web fonts. We recommend the free-to-use Font Squirrel's
- * Font-Face Generator:
- *   http://www.fontsquirrel.com/fontface/generator
- *
- * The following is an example @font-face declaration. This font can then be
- * used in any ruleset using a property like this:  font-family: Example, serif;
- *
- * Since we're using Sass, you'll need to declare your font faces here, then you
- * can add them to the font variables in the _init.scss partial.
- */
-/*
-@font-face {
-  font-family: 'Example';
-  src: url('../fonts/example.eot');
-  src: url('../fonts/example.eot?iefix') format('eot'),
-    url('../fonts/example.woff') format('woff'),
-    url('../fonts/example.ttf') format('truetype'),
-    url('../fonts/example.svg#webfontOkOndcij') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
 */
 
-/**
- * 1. Set default font family to sans-serif.
- * 2. Prevent iOS text size adjust after orientation change, without disabling
- *    user zoom.
- * 3. Correct text resizing oddly in IE 6/7 when body `font-size` is set using
- *    `em` units.
- */
+//
+// 1. Set default font family to sans-serif.
+// 2. Prevent iOS text size adjust after orientation change, without disabling
+//    user zoom.
+// 3. Correct text resizing oddly in IE 6/7 when body `font-size` is set using
+//    `em` units.
+//
 html {
   font-family: $base-font-family; /* 1 */
   font-size: 100% * ($base-font-size / 16px); /* 3 */
@@ -473,12 +440,11 @@ html input[disabled] {
   cursor: default;
 }
 
-/**
- * 1. Address box sizing set to `content-box` in IE 8/9.
- * 2. Remove excess padding in IE 8/9.
- * 3. Remove excess padding in IE 7.
- *    Known issue: excess padding remains in IE 6.
- */
+// 1. Address box sizing set to `content-box` in IE 8/9.
+// 2. Remove excess padding in IE 8/9.
+// 3. Remove excess padding in IE 7.
+//    Known issue: excess padding remains in IE 6.
+
 input[type="checkbox"],
 input[type="radio"] {
   @include box-sizing(border-box); /* 1 */

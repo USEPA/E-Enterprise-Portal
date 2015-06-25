@@ -152,17 +152,5 @@ Drupal.behaviors.shareLinks = {
 
 //})(jQuery, Drupal, this, this.document);
 
-// Toggle chevron up / down arrows for workbench header
-Drupal.behaviors.workbenchToggleLinks = {
-	attach: function (context) {
-		$('body').on('click', ".glyphicon-chevron-up", function(){
-			$(this).removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
-      });
-     $('body').on('click', '.glyphicon-chevron-down', function(){
-      $(this).removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
-    });
-	}
-};
-
 })(jQuery);
 
