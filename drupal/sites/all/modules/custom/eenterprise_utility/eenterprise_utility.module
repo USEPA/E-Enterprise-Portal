@@ -426,3 +426,11 @@ function get_header_variables(){
     );
     return $header_data;
 }
+
+function eenterprise_utility_node_access($node, $op, $account){
+    //Deny access to content that the user did not create.
+    if(($node->type == 'progress_tracker' && $op == 'view') && $node->name != $account->name)
+        return NODE_ACCESS_DENY;
+    else
+        return NODE_ACCESS_ALLOW;
+}
