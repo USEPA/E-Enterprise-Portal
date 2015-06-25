@@ -324,6 +324,14 @@ input[type="submit"],
 .section-workbench .block-views {
 	float:left;
 }
+.page-workbench {
+	.wide-template #main-content {
+		background-color: $ee-light-gray;
+	}
+	.panel-pane {
+		background-color: $epa-white;
+	}
+}
 
 
 /** Nav and Forms *************************/
@@ -384,7 +392,7 @@ table, th, td {
 	border-bottom:1px solid #efefef;
 }*/
 th, td {
-	padding: 5px 10px;
+	padding: 15px;
 	border: none;
 	line-height:1.2;
 }
@@ -547,6 +555,7 @@ tr.odd, tr.even {
 *********************************************************/
 table.views-table {
 	border-spacing: 10px;
+	font-size: 85%;
 	thead th {
 		background-color: $ee-dark-gray; 
 		padding:10px 0;
@@ -574,11 +583,11 @@ table.views-table {
 span.date-subscript-text, 
 span.item-subscript-text, 
 .simple-dialog {
-	font-size: 0.9em !important; 
-	font-weight: normal; 
-	font-variant: small-caps; 
+	font-weight: normal;  
 	margin-top:10px; 
 	display:inline-block;
+	text-transform: uppercase;
+	font-size: 67.5%;
 }
 td.views-field-counter, 
 td.views-field-field-prog-track-domain, 
@@ -590,12 +599,20 @@ td.views-field-field-todo-lst-domain,
 td.views-field-field-todo-lst-due {
 	font-weight:normal;
 }
+td.views-field views-field-field-todo-lst-item {
+	font-weight: bold;
+}
+td.views-field-field-prog-tracker-app {
+	font-weight: bold;
+	.item-subscript-text {
+		font-weight: normal;
+	}	
+}
 th.views-field-counter,
 td.views-field-counter, 
 td.views-field-field-prog-track-domain, 
 td.views-field-field-prog-track-status, 
 td.views-field-field-prog-track-updated, 
-td.views-field-field-prog-track-actions,
 td.views-field-field-todo-lst-domain, 
 td.views-field-field-todo-lst-due {
 	text-align: center;
@@ -604,11 +621,9 @@ tr.even {
 	background-color: $ee-light-gray;
 }
 
-.views-field-field-prog-track-updated .date-subscript-text{
-    font-size:8px;
-}
-.views-field-field-prog-tracker-app .item-subscript-text{
-    font-size:8px;
+.views-field-field-prog-track-updated .date-subscript-text,
+.views-field-field-prog-tracker-app .item-subscript-text {
+    font-size:67.5%;
 }
 .views-field-field-prog-tracker-app .modal-content-in-page{
     display:none;
