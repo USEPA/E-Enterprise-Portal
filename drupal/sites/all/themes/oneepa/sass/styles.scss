@@ -157,6 +157,11 @@ input[type="submit"],
 	a:hover {
 		text-decoration: underline;
 	}
+	a:focus {
+		background-color: $ee-dark-gray;
+		color: #fff;
+	}
+
 }
 
 .page-eenterprise-for-environment {
