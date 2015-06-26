@@ -163,7 +163,6 @@ function create_progress_tracker($user){
     $response1 = null;
     try {
         $response1 = $client->__soapCall("Authenticate", array($params1));
-        dsm($response1->securityToken);
     } catch(SoapFault $f) {
         drupal_set_message('Cannot Authenticate to get data flow.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot Authenticate to get data flow.", array(), WATCHDOG_ERROR);
