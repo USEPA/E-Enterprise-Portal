@@ -213,7 +213,7 @@ function create_progress_tracker($user){
 
 
 function create_progress_tracker_node($res, $user){
-    $query_res = db_query("select count(nid) from {node} where type in (:node_type) and title = :title", array(':node_type' => array('progress_tracker', 'to_do_list'), ':title' => 'Lead Abatement'))->fetchField();
+    $query_res = db_query("select count(nid) from {node} where type in (:node_type) and title = :title", array(':node_type' => array('progress_tracker', 'to_do_list'), ':title' =>  $res['ActivityDesc']))->fetchField();
     if($query_res < 1) {
         $node = new stdClass();
         $node->title = $res['ActivityDesc'];
@@ -253,6 +253,10 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_track_actions['und'][0]['value'] = $res_action;
             $node->field_prog_track_actions_link['und'][0]['format'] = null;
             $node->field_prog_track_actions_link['und'][0]['safe_value'] = $res_action;
+
+            $node->field_prog_track_actions_link['und'][0]['value'] = '/workbench';
+            $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;
+
 
             $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
             $node->field_prog_track_created_by['und'][0]['format'] = null;
