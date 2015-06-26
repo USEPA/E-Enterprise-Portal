@@ -143,6 +143,14 @@ input[type="submit"],
 	color: $epa-white;
 	font-size: $h5-font-size;
 }
+.not-logged-in {
+	.region-header {
+		padding: 0;
+	}
+	&.page-user section#main-content {
+		padding-bottom: 100px;
+	}
+}
 
 .region-header {
 	background-color: $ee-light-gray;
@@ -360,13 +368,17 @@ input[type="submit"],
 		-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 	}
-	.pager {
+	.pager,
+	.views-exposed-form label {
 		font-weight: normal;
 	}
 }
 .page-user {
 	&.wide-template #main-content {
 		background-color: $ee-light-gray;
+	}
+	.pillbox {
+		display: none;
 	}
 }
 
@@ -712,6 +724,12 @@ tr.even {
 	th {
 		text-transform: none;font-size:1.5em;
 	}
+	th.tabledrag-hide {
+		padding-bottom: 0.25em;
+		margin-bottom: 2px;
+		vertical-align: bottom;
+		font-size: 100%;
+	}
 	.form-text {
 		font-size:100%;
 	}
@@ -801,27 +819,53 @@ tr.even {
 		float: right !important;
 	}
 	.autocomplete-interests ul {
-		list-style-type: none; padding-bottom: 0px;
+		list-style-type: none; 
+		padding-bottom: 0px;
+		padding-left: 20px; 
 	}
-
+	.autocomplete-interests ul ul {
+		margin-left: 10px;
+		padding-left: 0;
+		padding-right: 0;
+	}
 	#tags {
 		width: 100%; 
 		height:40px;
-		font-size: 85%;
-		font-family: $base-font-family;
-	}
-
-	.autocomplete-interests ul {
-		list-style-type: none; 
-		padding-bottom: 0px; 
-		padding-right: 40px;
+		color: #494949;
+		padding-left: 10px;
 	}
 	
+	.vocab_holder {
+		clear: left;
+	}
+	.vocab_holder h2 {
+		font-size: 120%;
+	}
+	
+	.vocab_holder h2 .label, 
+	.vocab_holder h3 .label {
+		font-weight: normal;
+	}
+	.vocab_holder .glyphicon {
+		font-size: 75%;
+	}
+	.vocab_holder ul h3 {
+		margin-top: 10px;
+		margin-bottom: 10px;
+		padding-bottom: 0px;
+		padding-top: 0px;
+		font-size: 100%;
+	}
+	.vocab_holder ul {
+		display:block;
+		padding-left: 20px;
+	}
 	.vocab-arrow {
 	  padding-left: 7px;
 	  cursor: pointer;
 	  vertical-align: middle;
 	}
+
 }
 .view-user-profile {
 	.field-label {
@@ -831,6 +875,26 @@ tr.even {
 	.field-name-field-profile-first-name .field-item {
 		margin-right:0.4em;
 	}
+}
+.page-user {
+	/** jQuery Overrides - Profile Page **/
+	.ui-widget,
+	.ui-menu .ui-menu-item {
+		font-family: $base-font-family !important;
+	}
+	.ui-widget {
+	    font-size: 83% !important;
+	}
+	.ui-state-hover, 
+	.ui-widget-content .ui-state-hover, 
+	.ui-widget-header .ui-state-hover, 
+	.ui-state-focus, 
+	.ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+		border: 1px solid #dedede;
+		background: #f3f3f3;
+	}
+	
+
 }
 .draggable {
 	.handle {
@@ -870,5 +934,3 @@ a.tabledrag-handle .handle {
 	overflow-y: scroll; 
 	overflow-x: hidden;
 }
-
-
