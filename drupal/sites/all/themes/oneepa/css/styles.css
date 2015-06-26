@@ -15852,19 +15852,6 @@ tr.even {
   display: inline-block;
 }
 
-/* line 706, ../sass/styles.scss */
-#user-profile-form label, #user-profile-form .label, #user-profile-form .glyphicon {
-  cursor: pointer;
-}
-
-#user-profile-form .glyphicon{
-     padding-left: 5px;
-     vertical-align: middle;
-}
-#user-profile-form ul{
-  padding-left: 45px;
-}
-
 
 /* line 709, ../sass/styles.scss */
 #user-profile-form table, #user-profile-form th {
