@@ -715,15 +715,8 @@ tr.even {
 	display:inline-block;
 }
 #user-profile-form {
-	label, .label, .glyphicon {
+	label {
 		cursor: pointer;
-	}
-	
-	.glyphicon {
-		padding-left: 5px;
-	}
-	ul {
-		padding-left: 45px;
 	}
 	table, th {
 		border:none;
