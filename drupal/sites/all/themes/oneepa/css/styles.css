@@ -15859,10 +15859,13 @@ tr.even {
 
 #user-profile-form .glyphicon{
      padding-left: 5px;
+     vertical-align: middle;
 }
 #user-profile-form ul{
   padding-left: 45px;
 }
+
+
 /* line 709, ../sass/styles.scss */
 #user-profile-form table, #user-profile-form th {
   border: none;
