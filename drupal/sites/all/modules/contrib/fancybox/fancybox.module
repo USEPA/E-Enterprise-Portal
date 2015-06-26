@@ -1,0 +1,710 @@
+<?php
+
+/**
+ * Provides the fancyBox jQuery plugin, a tool that offers a nice and elegant
+ * way to add zooming functionality for images, html content and multi-media
+ * on your webpages, and an extensive settings page for configuring fancyBox
+ * settings and how fancyBox interacts with your Drupal website.
+ *
+ * Commercial websites must obtain at least a single domain license in order
+ * to use the fancyBox plugin legally. (http://fancyapps.com/fancybox/#license).
+ *
+ * If you find this module useful and would like to donate towards further
+ * development and maintenance, please consider donating to the module
+ * maintainer(s):
+ *  - Daniel Imhoff (d.o: dwieeb, email: dwieeb@gmail.com)
+ *    http://www.danielimhoff.com/donations/
+ *
+ * == BEGIN LICENSE ==
+ *
+ * Licensed under:
+ *  - Creative Commons Attribution-NonCommercial 3.0
+ *    http://creativecommons.org/licenses/by-nc/3.0/
+ *
+ * == END LICENSE ==
+ *
+ * @file
+ * .module file for Drupal fancyBox hooks and functions.
+ */
+
+/**
+ * Implements hook_init().
+ */
+function fancybox_init() {
+  if (fancybox_active()) {
+    $library = libraries_detect('fancybox');
+
+    if ($library['installed']) {
+      libraries_load_files($library);
+
+      $settings = _fancybox_filter_settings(variable_get('fancybox_settings'));
+      $context = array('alterable' => &$settings);
+
+      drupal_alter('fancybox_settings', $settings['options'], $settings['helpers'], $context);
+
+      if (isset($settings['options']['padding']) && !is_numeric($settings['options']['padding'])) {
+        $settings['options']['padding'] = json_decode($settings['options']['padding']);
+      }
+
+      if (isset($settings['options']['margin']) && !is_numeric($settings['options']['margin'])) {
+        $settings['options']['margin'] = json_decode($settings['options']['margin']);
+      }
+
+      if (isset($settings['helpers']['title_enabled']) && $settings['helpers']['title_enabled'] == 0) {
+        $settings['helpers']['title'] = NULL;
+      }
+
+      if (isset($settings['helpers']['overlay_enabled']) && $settings['helpers']['overlay_enabled'] == 0) {
+        $settings['helpers']['overlay'] = NULL;
+      }
+
+      if (empty($settings['options'])) {
+        unset($settings['options']);
+      }
+
+      if (empty($settings['helpers'])) {
+        unset($settings['helpers']);
+      }
+
+      drupal_add_js(array('fancybox' => $settings), 'setting');
+    }
+    else {
+      watchdog('fancybox', $library['error message'], NULL, WATCHDOG_ERROR);
+    }
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function fancybox_menu() {
+  $items['admin/config/user-interface/fancybox'] = array(
+    'title' => 'fancyBox',
+    'description' => 'Configure fancyBox settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('fancybox_admin_settings_form'),
+    'access arguments' => array('administer fancybox'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'fancybox.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_help().
+ */
+function fancybox_help($path, $arg) {
+  $library = libraries_info('fancybox');
+  $output = '';
+
+  switch ($path) {
+    case 'admin/help#fancybox':
+      $output = '<h3>' . t('Installation') . '</h3>';
+      $output .= '<ol>';
+      $output .= '<li>' . t('Install the !libraries module.', array('!libraries' => l(t('Libraries API'), 'http://drupal.org/project/libraries'))) . '</li>';
+      $output .= '<li>' . t('Download the !fancybox and upload the entire folder to %location. When installed correctly, the directory %dir should be available at %dir_location.', array('!fancybox' => l(t('fancyBox plugin'), $library['download url']), '%location' => 'sites/all/libraries/fancybox', '%dir' => 'source/', '%dir_location' => 'sites/all/libraries/fancybox/source/')) . '</li>';
+      $output .= '</ol>';
+      $output .= '<h3>' . t('Configuration') . '</h3>';
+      $output .= '<p>' . t('You may configure fancyBox in the module\'s !page.', array('!page' => l('configuration page', 'admin/config/user-interface/fancybox'))) . '</p>';
+      break;
+  }
+
+  return $output;
+}
+
+/**
+ * Implementation of hook_permission().
+ */
+function fancybox_permission() {
+  return array(
+    'administer fancybox' => array(
+      'title' => t('Administer fancyBox access'),
+      'description' => t('Allow administrators to change fancyBox settings.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function fancybox_libraries_info() {
+  $settings = variable_get('fancybox_settings');
+
+  $libraries['fancybox'] = array(
+    'name' => 'fancyBox',
+    'vendor url' => 'http://fancyapps.com',
+    'download url' => 'http://fancyapps.com/fancybox/#license',
+    'version arguments' => array(
+      'file' => 'source/jquery.fancybox.pack.js',
+      'pattern' => '@^/\*! fancyBox v([\d\.]+) @',
+      'lines' => 1,
+    ),
+    'files' => array(
+      'js' => array(
+        'source/jquery.fancybox.pack.js',
+      ),
+      'css' => array(
+        'source/jquery.fancybox.css',
+      ),
+    ),
+    'integration files' => array(
+      'fancybox' => array(
+        'js' => array(
+          'fancybox.js',
+        ),
+      ),
+    ),
+  );
+
+  if ($settings['options']['mouseWheel']) {
+    if (file_exists(libraries_get_path('fancybox') . '/lib/jquery.mousewheel.pack.js')) {
+      $libraries['fancybox']['files']['js'][] = 'lib/jquery.mousewheel.pack.js';
+    }
+    elseif (file_exists(libraries_get_path('fancybox') . '/lib/jquery.mousewheel-3.0.6.pack.js')) {
+      $libraries['fancybox']['files']['js'][] = 'lib/jquery.mousewheel-3.0.6.pack.js';
+    }
+  }
+
+  if ($settings['helpers']['thumbs_enabled']) {
+    $libraries['fancybox']['files']['js'][] = 'source/helpers/jquery.fancybox-thumbs.js';
+    $libraries['fancybox']['files']['css'][] = 'source/helpers/jquery.fancybox-thumbs.css';
+  }
+
+  if ($settings['helpers']['media_enabled']) {
+    $libraries['fancybox']['files']['js'][] = 'source/helpers/jquery.fancybox-media.js';
+  }
+
+  if ($settings['helpers']['buttons_enabled']) {
+    $libraries['fancybox']['files']['js'][] = 'source/helpers/jquery.fancybox-buttons.js';
+    $libraries['fancybox']['files']['css'][] = 'source/helpers/jquery.fancybox-buttons.css';
+  }
+
+  return $libraries;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function fancybox_theme() {
+  return array(
+    'fancybox_image_formatter' => array(
+      'variables' => array(
+        'item' => NULL,
+        'entity' => NULL,
+        'entity_type' => NULL,
+        'field' => array(),
+        'display_settings' => array(),
+      ),
+      'file' => 'fancybox.theme.inc',
+    ),
+    'fancybox_imagefield' => array(
+      'variables' => array(
+        'image' => array(),
+        'path' => NULL,
+        'caption' => NULL,
+        'group' => NULL,
+      ),
+      'file' => 'fancybox.theme.inc',
+    ),
+    'fancybox_insert_image' => array(
+      'variables' => array(
+        'item' => NULL,
+        'widget' => NULL,
+      ),
+      'template' => 'fancybox-insert-image',
+      'file' => 'fancybox.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function fancybox_field_formatter_info() {
+  return array(
+    'fancybox' => array(
+      'label' => t('fancyBox'),
+      'field types' => array('image'),
+      'settings' => array(
+        'fancybox_image_style_content' => 'thumbnail',
+        'fancybox_image_style_fancybox' => 'large',
+        'fancybox_gallery' => 'post',
+        'fancybox_gallery_custom' => '',
+        'fancybox_caption' => 'auto',
+        'fancybox_caption_custom' => '',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function fancybox_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $image_style_options = image_style_options(FALSE);
+
+  $element['fancybox_image_style_content'] = array(
+    '#type' => 'select',
+    '#title' => t('Content image style'),
+    '#description' => t('The image in the content will be displayed using this image style.'),
+    '#options' => $image_style_options,
+    '#empty_option' => t('None (original image)'),
+    '#default_value' => $settings['fancybox_image_style_content'],
+  );
+
+  $element['fancybox_image_style_fancybox'] = array(
+    '#type' => 'select',
+    '#title' => t('fancyBox image style'),
+    '#description' => t('The image shown in the fancyBox will be displayed using this image style.'),
+    '#options' => $image_style_options,
+    '#empty_option' => t('None (original image)'),
+    '#default_value' => $settings['fancybox_image_style_fancybox'],
+  );
+
+  $element['fancybox_gallery'] = array(
+    '#type' => 'select',
+    '#title' => t('Gallery (image grouping)'),
+    '#description' => t('Group images using this scheme. The <em>data-fancybox-group</em> HTML attribute will be used.'),
+    '#options' => fancybox_field_formatter_grouping_options(),
+    '#default_value' => $settings['fancybox_gallery'],
+  );
+
+  $element['fancybox_gallery_custom'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Custom grouping'),
+    '#description' => t('Every image on the page with this grouping value will be grouped together.<br />The <em>data-fancybox-group</em> HTML attribute will be used.<br /><strong>Note</strong>: Must only contain letters, numbers, hyphens and underscores and it must begin with a letter.'),
+    '#element_validate' => array('fancybox_gallery_custom_validate'),
+    '#default_value' => $settings['fancybox_gallery_custom'],
+    '#states' => array(
+      'visible' => array(
+        ':input[name$="[settings][fancybox_gallery]"]' => array('value' => 'custom'),
+      ),
+    ),
+  );
+
+  $element['fancybox_caption'] = array(
+    '#type' => 'select',
+    '#title' => t('Caption'),
+    '#options' => fancybox_field_formatter_caption_options(),
+    '#default_value' => $settings['fancybox_caption'],
+  );
+
+  $element['fancybox_caption_custom'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Custom caption'),
+    '#default_value' => $settings['fancybox_caption_custom'],
+    '#states' => array(
+      'visible' => array(
+        ':input[name$="[settings][fancybox_caption]"]' => array('value' => 'custom'),
+      ),
+    ),
+  );
+
+  $element['fancybox_caption_custom_tokens_container'] = array(
+    '#type' => 'container',
+    '#states' => array(
+      'visible' => array(
+        ':input[name$="[settings][fancybox_caption]"]' => array('value' => 'custom'),
+      ),
+    ),
+  );
+
+  $element['fancybox_caption_custom_tokens_container']['fancybox_caption_custom_tokens'] = array(
+    '#theme' => 'token_tree',
+    '#token_types' => array($instance['entity_type'], 'file'),
+  );
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function fancybox_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  foreach ($items as $i => $item) {
+    $element[$i] = array(
+      '#theme' => 'fancybox_image_formatter',
+      '#item' => $item,
+      '#entity' => $entity,
+      '#entity_type' => $entity_type,
+      '#field' => $field,
+      '#display_settings' => $display['settings'],
+    );
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function fancybox_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $image_style_options = image_style_options();
+  $grouping_options = fancybox_field_formatter_grouping_options();
+  $caption_options = fancybox_field_formatter_caption_options();
+
+  $summary = t('Content image style: %style', array('%style' => isset($image_style_options[$settings['fancybox_image_style_content']]) ? $image_style_options[$settings['fancybox_image_style_content']] : t('Original image'))) . '<br />';
+  $summary .= t('fancyBox image style: %style', array('%style' => isset($image_style_options[$settings['fancybox_image_style_fancybox']]) ? $image_style_options[$settings['fancybox_image_style_fancybox']] : t('Original image'))) . '<br />';
+  $summary .= t('Grouping options: %option', array('%option' => $settings['fancybox_gallery'] != 'none' ? $grouping_options[$settings['fancybox_gallery']] : t('None'))) . '<br />';
+  $summary .= t('Caption: %option', array('%option' => $settings['fancybox_caption'] != 'none' ? $caption_options[$settings['fancybox_caption']] : t('None')));
+
+  return $summary;
+}
+
+/**
+ * Return an array of available grouping options.
+ */
+function fancybox_field_formatter_grouping_options() {
+  $grouping = array(
+    'none' => t('<none>'),
+    'post' => t('Per post gallery'),
+    'page' => t('Per page gallery'),
+    'field_post' => t('Per field in post gallery'),
+    'field_page' => t('Per field in page gallery'),
+    'custom' => t('Custom'),
+  );
+
+  drupal_alter('fancybox_grouping_options', $grouping);
+
+  return $grouping;
+}
+
+/**
+ * Return an array of available caption options.
+ */
+function fancybox_field_formatter_caption_options() {
+  return array(
+    'none' => t('<none>'),
+    'auto' => t('Automatic'),
+    'title' => t('Title text'),
+    'alt' => t('Alt text'),
+    'content_title' => t('Content title'),
+    'custom' => t('Custom'),
+  );
+}
+
+/**
+ * Custom element validator for the custom grouping value.
+ *
+ * @see fancybox_field_formatter_settings_form().
+ */
+function fancybox_gallery_custom_validate($element, &$form_state, $form) {
+  if ($element['#value'] && !preg_match('/^[A-Za-z]+[A-Za-z0-9-_]*$/', $element['#value'])) {
+    form_error($element, t('The custom grouping value must only contain letters, numbers, hyphens and underscores and it must begin with a letter.'));
+  }
+}
+
+/**
+ * Implements hook_insert_styles().
+ */
+function fancybox_insert_styles() {
+  $insert_styles = array();
+
+  foreach (image_styles() as $key => $style) {
+    $insert_styles['fancybox__' . $key] = array('label' => $style['name'] . ' (fancyBox)');
+  }
+
+  return $insert_styles;
+}
+
+/**
+ * Implements hook_insert_content().
+ */
+function fancybox_insert_content($item, $style, $widget) {
+  list($item['module_name'], $item['style_name']) = explode('__', $style['name'], 2);
+
+  return theme('fancybox_insert_image', array(
+    'item' => $item,
+    'widget' => $widget,
+  ));
+}
+
+/**
+ * Default settings for fancyBox.
+ *
+ * @return array
+ *   An array of defaults.
+ */
+function _fancybox_defaults() {
+  return array(
+    // Module settings
+    'settings' => array(
+      'selectors' => '',
+      'deactivated_pages' => "admin*\r\nimg_assist*\r\nimce*\r\nnode/add*\r\nnode/*/edit",
+    ),
+    // Options that are plugged directly into the fancyBox javascript.
+    'options' => array(
+      'padding' => 15,
+      'margin' => 20,
+      'width' => 800,
+      'height' => 600,
+      'minWidth' => 100,
+      'minHeight' => 100,
+      'maxWidth' => 9999,
+      'maxHeight' => 9999,
+      'autoSize' => 1,
+      'autoHeight' => 0,
+      'autoWidth' => 0,
+      'autoResize' => 1,
+      'autoCenter' => 1,
+      'fitToView' => 1,
+      'aspectRatio' => 0,
+      'topRatio' => 0.5,
+      'leftRatio' => 0.5,
+      'scrolling' => 'auto',
+      'wrapCSS' => '',
+      'arrows' => 1,
+      'closeBtn' => 1,
+      'closeClick' => 0,
+      'nextClick' => 0,
+      'mouseWheel' => 1,
+      'autoPlay' => 0,
+      'playSpeed' => 3000,
+      'preload' => 3,
+      'modal' => 0,
+      'loop' => 1,
+      'openEffect' => 'fade',
+      'closeEffect' => 'fade',
+      'nextEffect' => 'elastic',
+      'prevEffect' => 'elastic',
+      'openSpeed' => 250,
+      'closeSpeed' => 250,
+      'nextSpeed' => 250,
+      'prevSpeed' => 250,
+      'openEasing' => 'swing',
+      'closeEasing' => 'swing',
+      'nextEasing' => 'swing',
+      'prevEasing' => 'swing',
+      'openOpacity' => 1,
+      'closeOpacity' => 1,
+      'openMethod' => 'zoomIn',
+      'closeMethod' => 'zoomOut',
+      'nextMethod' => 'changeIn',
+      'prevMethod' => 'changeOut',
+    ),
+    // Options for helpers. (Helpers are disabled by default).
+    'helpers' => array(
+      'title_enabled' => 1,
+      'overlay_enabled' => 1,
+      'thumbs_enabled' => 0,
+      'media_enabled' => 0,
+      'buttons_enabled' => 0,
+      'title' => array(
+        'type' => 'float',
+        'position' => 'bottom',
+      ),
+      'overlay' => array(
+        'closeClick' => 1,
+        'speedOut' => 200,
+        'showEarly' => 1,
+        'locked' => 1,
+        'fixed' => 1,
+      ),
+      'thumbs' => array(
+        'width' => 50,
+        'height' => 50,
+        'position' => 'bottom',
+      ),
+      'media' => array(),
+      'buttons' => array(
+        'position' => 'top',
+      ),
+    ),
+    // Allow the user to specify callback methods.
+    'callbacks' => array(
+      'onCancel' => '',
+      'beforeLoad' => '',
+      'afterLoad' => '',
+      'beforeShow' => '',
+      'afterShow' => '',
+      'beforeClose' => '',
+      'afterClose' => '',
+      'onUpdate' => '',
+      'onPlayStart' => '',
+      'onPlayEnd' => '',
+    ),
+  );
+}
+
+/**
+ * Determines if the fancyBox plugin should be loaded.
+ *
+ * @param $path string (optional)
+ *   An optional path. If not passed in, will use the current path.
+ *
+ * @return
+ *   TRUE if fancyBox is active, FALSE otherwise.
+ */
+function fancybox_active($path = NULL) {
+  $settings = variable_get('fancybox_settings');
+  $deactivated_pages = $settings['settings']['deactivated_pages'];
+
+  if (!isset($path)) {
+    $path = drupal_get_path_alias($_GET['q']);
+  }
+
+  // Need the library loaded on this page.
+  if ($path == 'admin/config/user-interface/fancybox') {
+    return TRUE;
+  }
+
+  $page_match = drupal_match_path($path, $deactivated_pages);
+
+  if ($path != $_GET['q']) {
+    $page_match = $page_match || drupal_match_path($_GET['q'], $deactivated_pages);
+  }
+
+  return !$page_match;
+}
+
+/**
+ * Filter out default values and format settings before sending to javascript.
+ *
+ * @param $settings array
+ *   The settings array.
+ *
+ * @return array
+ *   A filtered array of only user-modified settings.
+ *
+ * @see _fancybox_defaults().
+ */
+function _fancybox_filter_settings($settings) {
+  $defaults = _fancybox_defaults();
+
+  // Shouldn't set blank options. Doesn't work if you use the module 'out of
+  // the box'.
+  $filtered_settings = _fancybox_array_diff_assoc_recursive($settings, $defaults);
+
+  foreach (array('thumbs', 'media', 'buttons') as $helper) {
+    if ($settings['helpers'][$helper . '_enabled'] && !isset($filtered_settings['helpers'][$helper])) {
+      $filtered_settings['helpers'][$helper] = $defaults['helpers'][$helper];
+      unset($filtered_settings['helpers'][$helper . '_enabled']);
+    }
+  }
+
+  if (isset($filtered_settings['settings']['selectors'])) {
+    $selectors = $filtered_settings['settings']['selectors'];
+    $filtered_settings['selectors'] = explode("\r\n", trim($selectors));
+  }
+
+  // We should only update settings that are explicitly overridden.
+  if (isset($filtered_settings['options'])) {
+    foreach ($filtered_settings['options'] as $name => $value) {
+      if (!isset($value) || $value === '') {
+        unset($filtered_settings['options'][$name]);
+      }
+    }
+  }
+
+  unset($filtered_settings['settings']);
+  return $filtered_settings;
+}
+
+/**
+ * An implementation of a multidimensional array_diff function.
+ *
+ * @param $array1 array
+ *   The array to compare from.
+ * @param $array2 array
+ *   The array to compare against.
+ *
+ * @return array
+ *   An array containing all the entries from array1 that are not in array2.
+ */
+function _fancybox_array_diff_assoc_recursive($array1, $array2) {
+  $return = array();
+
+  if (empty($array1)) {
+    return $array2;
+  }
+
+  foreach ($array1 as $key => $value) {
+    if (array_key_exists($key, $array2)) {
+      if (is_array($value)) {
+        $recursive_diff = _fancybox_array_diff_assoc_recursive($value, $array2[$key]);
+
+        if (sizeof($recursive_diff)) {
+          $return[$key] = $recursive_diff;
+        }
+      }
+      else {
+        if ($value != $array2[$key]) {
+          $return[$key] = $value;
+        }
+      }
+    }
+    else {
+      $return[$key] = $value;
+    }
+  }
+
+  return $return;
+}
+
+function _fancybox_array_replace_recursive($array, $array1) {
+  if (function_exists('array_replace_recursive')) {
+    return array_replace_recursive($array, $array1);
+  }
+
+  function recurse($array, $array1) {
+    foreach ($array1 as $key => $value) {
+      if (!isset($array[$key]) || (isset($array[$key]) && !is_array($array[$key]))) {
+        $array[$key] = array();
+      }
+
+      if (is_array($value)) {
+        $value = recurse($array[$key], $value);
+      }
+
+      $array[$key] = $value;
+    }
+
+    return $array;
+  }
+
+  $args = func_get_args();
+  $array = $args[0];
+
+  if (!is_array($array)) {
+    return $array;
+  }
+
+  for ($i = 1; $i < count($args); $i++) {
+    if (is_array($args[$i])) {
+      $array = recurse($array, $args[$i]);
+    }
+  }
+
+  return $array;
+}
+
+/**
+ * Convert strings into appropriate values for floats/integers/etc.
+ *
+ * @param $item mixed
+ *   The element in the array.
+ * @param $key mixed
+ *   The key of the element.
+ *
+ * @see fancybox_admin_settings_form_submit().
+ */
+function _fancybox_array_walk_convert_string(&$item, &$key) {
+  if (preg_match('/[0-9]+(px|ms)/', $item)) {
+    $item = substr($item, 0, -2);
+  }
+
+  if (is_numeric($item)) {
+    $f = (float) $item;
+    $i = (int) $item;
+    $item = $f == $i ? $i : $f;
+  }
+}

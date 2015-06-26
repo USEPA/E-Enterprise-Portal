@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Workbench Progress Tracker View feature.
+ */
+
+include_once 'workbench_progress_tracker_view.features.inc';

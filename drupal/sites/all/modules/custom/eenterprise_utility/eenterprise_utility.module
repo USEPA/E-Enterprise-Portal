@@ -14,17 +14,20 @@ function eenterprise_utility_menu() {
     $items['load_links'] = array(
       'page callback' => 'load_links',
       'access callback' => TRUE,
-      );
+      ); 
+    $items['get_taxonomy_parent_name'] = array(
+      'page callback' => 'get_taxonomy_parent_name',
+      'access callback' => TRUE,
+    );
     return $items;
 } 
+
 
 
 function remove_url ($array, $remove_url) {
   if (is_array($array)) {
     foreach ($array[LANGUAGE_NONE] as $key => $value) {
       $url = explode("|", $value['value'])[0];
-      echo $url;
-      echo $remove_url;
       if ($url == $remove_url) {
         return $key;
       }
@@ -33,8 +36,6 @@ function remove_url ($array, $remove_url) {
 }
 
 function process_favorite_link($url, $action) {
-  echo $url;
-  echo $action;
   global $user;
   $user_data = user_load($user->uid);
   $user_urls = $user_data->field_profile_favourites;
@@ -89,44 +90,137 @@ function load_links($index) {
   }
   $results = array('url_data' => $url_data, 'loadNextElem' => $load_next_elem, 'amountLoaded' => $amount_loaded);
   echo json_encode($results);
+}
 
+
+function get_taxonomy_parent_name($tid) {  
+  $data_array = array();
+  $parents_array = array();
+  $vid = '';
+  $parents = taxonomy_get_parents_all($tid);
+  foreach($parents as $key=>$value) {
+   $parents_array[] = [$value->tid, $value->name];
+   $vid = $value->vid;
+  }
+  $data_array['parents'] = $parents_array;
+  $data_array['vid'] = $vid;
+  echo json_encode($data_array);
 }
 
 
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
   drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
-  drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+
   if($form['#form_id'] == 'user_profile_form'){
+  // Get proper values for 'allowed_values_function', which is a core setting.
+  $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
+  $options = array();
+  foreach ($vocabularies as $vocabulary) {
+    $options[$vocabulary->machine_name] = $vocabulary->name;
+  }
+  $form['allowed_values'] = array(
+    '#tree' => TRUE,
+  );
+  foreach ($field['settings']['allowed_values'] as $delta => $tree) {
+  $form['allowed_values'][$delta]['vocabulary'] = array(
+    '#type' => 'checkboxes', // <-- Use checkboxes here, instead of 'select'
+    '#title' => t('Vocabulary'),
+    '#default_value' => $tree['vocabulary'],
+    '#options' => $options,
+    '#required' => TRUE,
+    '#description' => t('The vocabulary which supplies the options for this field.'),
+    '#disabled' => $has_data,
+  );
+  $form['allowed_values'][$delta]['parent'] = array(
+    '#type' => 'value',
+    '#value' => $tree['parent'],
+   );
+}
+
+    
       hide($form['picture']);
       hide($form['account']['current_pass']);
       hide($form['account']['pass']);
-      //hide($form['field_profile_interests']);
+      hide($form['field_profile_interests']);
+      
+      $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
       
       if(empty($form['account']['mail']['#default_value']))
           $form['account']['mail']['#default_value'] = $form['#user']->name;
       $form['account']['mail']['#attributes'] = array('disabled' => 'disabled');
       $form['account']['mail']['#required'] = false;
+      $form['account']['mail']['#title'] = 'Email Address';
       //if(empty($form['account']['mail']['#default_value']))
           //$form['account']['mail']['#default_value'] = $form['#user']->name;
 //      $form['account']['mail']['#attributes'] = array('readonly' => 'readonly');
       $form['#validate'][] = 'user_profile_form_custom_validate';
       $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
       $form['actions']['delete']['#submit'][] = 'profile_delete_action';
-      $form['actions']['delete']['#attributes'] =  array('onclick' => "return confirm('This will delete your entire profile, including any selected preferences, from the E-Enterprise Platform and will log you out from the system. Are you sure that you want to do this?')");
+      $form['actions']['delete']['#attributes'] =  array(
+        'onclick' => "fancyConfirm('Are you sure you want to delete?')");
+        //"return confirm('This will delete your entire profile, including any selected preferences, from the E-Enterprise Platform and will log you out from the system. Are you sure that you want to do this?')");
+      $form['actions']['delete']['#attributes']['class'][] = 'imagefield-fancybox';
       $form['account']['mail']['#description'] = "All emails from the system will be sent to this address. This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).";
       //We are not validating profile picture and password as we do not save and manage these information on the Portal.
       foreach($form['#validate'] as $key => $val){
           if($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
               unset($form['#validate'][$key]);
       }
-      $form['field_zip_code']['#prefix'] = "<div id='zipcode_description'>"; 
-      $form['field_zip_code']['#suffix'] = '</div>';
-      $form['field_zip_code'][LANGUAGE_NONE]['#title'] = 'ZIP Code';
+
+      $form['field_zip_code'][LANGUAGE_NONE]['#title'] = 'ZIP Code(s)';
+//      $form['field_zip_code']['#attributes'][] = 'zip_code_inputs';
+      $form['field_zip_code'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-control';
+      // add more button
+      $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
+      $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+      $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
+      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
+      //Add more button
+      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = '+';
+      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
+      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
+
+      //create weight array
+      
+      for($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['title'] = 'Remove';
+      }
+      
+      $lowest_weight = 0;
+
+      if (isset($form_state['input']['field_zip_code'])) {
+        for($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+          $current_weight = intval($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['_weight']);
+          if ($current_weight < $lowest_weight) {
+            $lowest_weight = $current_weight;
+          }
+        }
+      }
+ 
+      $second_zero = false;
       for($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+       // set primary default description location
+        if (isset($form_state['input']['field_zip_code'])) {
+          $current_weight = intval($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['_weight']);
+          if ($current_weight == $lowest_weight && !$second_zero) {
+            $primary = true;
+            $second_zero = true;
+          }
+          else {
+            $primary = false;
+          }
+        }
+        else if ($delta == 0) {
+          $primary = true;
+        }
+        else {
+          $primary = false;
+        }
         $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#default_value']; 
         // overide default if input has been made
-        if (isset($form_state['values'])) {
+        if (isset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta])) {
           $input_zip = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta];
           if (isset($input_zip)) {
             $zip = $input_zip['value'];
@@ -134,43 +228,70 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         }
         $field_suffix = '<span class="move_zip_code"></span>';
         if (isset($zip)) {
-
           $field_suffix = "";//zipcodeLookUp($zip);
         }
         else {
           $field_suffix = "";
-
-
         }
 
-        if ($delta == 0) {
+        if ($primary) {
            $description = '<span class="zip-code-description">Primary/Default Location</span>';
         }
         else {
-          $description = "";
+          $description = '';
         }
-
+        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#attributes']['class'][] =
+          'field_zip_code form-control';
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#description'] =
           $description;
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#field_suffix'] =
           $field_suffix;
+        $form['field_zip_code'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['title'] = 'Remove';
 //        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#ajax'] = array(
 //                'callback' => 'field_zip_code_generate',
 //                'wrapper' => 'zipcode_description',
 //                );
-
-          
-
      }
         
-  }
+
+      drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+  } // end user form
+
 
 }
 
 
+/**
+ * Menu callback function.
+ *
+ * @param string $string
+ *  The string that will be searched.
+ * @return object
+ *  A JSON object.
+ */
+ 
+ 
 
 
-function zipCodeLookUp($zip) {
+
+
+
+//
+function clear_fields(&$form, &$form_state) {
+  $form_state['build_info'][0][0]['cleared'] = true;
+//  for($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+//      unset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]);
+//      unset($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]);
+//        }
+//     $form_state['values']['field_zip_code'][LANGUAGE_NONE][0] = '';
+//     $form['field_zip_code'][LANGUAGE_NONE][0] = '';
+//
+////$form_state['input'] = array();
+////$form_state['rebuild']= TRUE;
+  return $form['field_zip_code'];
+}
+
+function zip_code_lookup($zip) {
   if (strlen($zip) == 5) {
   $request = drupal_http_request("http://api.zippopotam.us/us/$zip");
   $response_array = json_decode($request->data);
@@ -181,25 +302,84 @@ function zipCodeLookUp($zip) {
 }
 
  function field_zip_code_generate($form, $form_state) {
+    $validation = user_profile_zipcode_custom_validate($form, $form_state);
+//    $city_and_state = zip_code_lookup();
+  if (!$validation['passed']) {
+    $arguments = array(
+       'passed' => 'false',
+       'id' => $validation['id'],
+    );
+    $commands[] = ajax_command_invoke(NULL, 'zipCodeValidate', array($arguments));
+    return array('#type' => 'ajax','#commands' => $commands);
+  }
+  else {
+    // field_zip_code prefix and suffix are adding
+
     return $form['field_zip_code'];
+  }
 }
 
 
 /**
  * @param $form
  * @param $form_state
- * Custom validate for zip code.
+ * Custom validation for user information, called when form is submitted.
  */
 function user_profile_form_custom_validate(&$form, &$form_state) {
+   user_profile_zipcode_custom_validate($form, $form_state);
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ * Custom validate for zip code.
+ */
+ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
+  // Validates even if javascript validation failed on form submit
+    $previous_zipcodes = array();
+    $error = false;
+    $error_message = '';
+    $field_id = '';
+   
     foreach($form_state['values']['field_zip_code']['und'] as $delta => $field) {
         if(is_array($field) && is_numeric($delta)) {
             $zip_val = $form_state['values']['field_zip_code']['und'][$delta]['value'];
-            if(!is_numeric($zip_val) && !empty($zip_val))
-                form_set_error('field_zip_code', t('Zip code can only be number'));
-            else if(strlen($zip_val) != 5 && !empty($zip_val))
-                form_set_error('field_zip_code', t('Zip code should be 5 digits'));
+            if(!is_numeric($zip_val) && !empty($zip_val)) {
+              $error_message = 'Zip code can only be number';
+              $error = true;
+            }
+            else if(strlen($zip_val) != 5 && !empty($zip_val)) {
+              $error_message = 'Zip code should be 5 digits';
+              $error = true;
+            }
+            else if (in_array($zip_val, $previous_zipcodes)) {
+              $error_message = 'Duplicate zip codes are not allowed.';
+              $error = true;
+            }
+            else { 
+              if ($zip_val != '') {
+               $previous_zipcodes[] = $zip_val;
+              }
+            }
+            
+            if ($error) {
+              $field_ids[] = '#edit-field-zip-code-und-' . $delta . '-value';
+              break;
+            }
         }
     }
+   if ($error) {
+     if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
+       form_set_error('field_zip_code', t($error_message));
+     return array( 
+       'passed' => false, 
+       'id' => $field_id,
+      );
+     }
+   }
+   else {
+     return array('passed' => true);
+   }
 }
 
 /**
@@ -208,11 +388,11 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
  * Delete user's profile permanently.
  */
 function profile_delete_action($form, &$form_state) {
-    global $user;
-    if($form_state['clicked_button']['#value'] == 'Delete profile') {
-        user_delete($user->uid);
-        drupal_goto('/');
-    }
+//    global $user;
+//    if($form_state['clicked_button']['#value'] == 'Delete profile') {
+//        user_delete($user->uid);
+//        drupal_goto('/');
+//    }
 }
 
 /**
@@ -224,4 +404,33 @@ function profile_delete_action($form, &$form_state) {
 function eenterprise_utility_user_view($account, $view_mode, $langcode){
     if($account->uid > 0)
         drupal_goto("/user/".$account->uid."/edit");
+}
+
+/**
+ * @return array
+ * Workbench header data
+ */
+function get_header_variables(){
+    //the value for now is hardcoded not to block front end developers while backend developers investigate API endpoints to get data from CDX
+    //TODO: Call appropriate APIs to get the data for this function.
+    $header_data = array('header_text' => 'New for Your Favorite Cities',
+        'activities' => 7,
+        'reports' => 1,
+        'permits' => 3,
+        'data_sets' => 13,
+        'locations' => array(
+            'primary_location' => 'Austin, TX',
+            'location2' => 'Poughkeepsie, NY',
+            'location3' => 'San Jose, CA'
+        ),
+    );
+    return $header_data;
+}
+
+function eenterprise_utility_node_access($node, $op, $account){
+    //Deny access to content that the user did not create.
+    if(($node->type == 'progress_tracker' && $op == 'view') && $node->name != $account->name)
+        return NODE_ACCESS_DENY;
+    else
+        return NODE_ACCESS_ALLOW;
 }

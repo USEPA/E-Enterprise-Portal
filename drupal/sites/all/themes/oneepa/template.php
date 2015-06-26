@@ -17,10 +17,10 @@ if ($GLOBALS['theme_key'] === 'oneepa') {
 
   // Add base theme style sheets.
   $base_stylesheets = array(
-    'base.css',
+    //'base.css',
     //'typography.css',
-    'drupal.css',
-    'layout.css',
+    //'drupal.css',
+    //'layout.css',
   );
   foreach ($base_stylesheets as $val) {
     drupal_add_css(
@@ -57,12 +57,11 @@ if ($GLOBALS['theme_key'] === 'oneepa') {
 
   // Add design theme style sheets.
   $design_stylesheets = array(
-    'design.css',
+    //'design.css',
     'mobile-menu.css',
     'drop-down-menu.css',
     'lib/colorbox.css',
-    '../inc/bootstrap/css/bootstrap.min.css',
-    'eenterprise.css',
+    'styles.css',
   );
   foreach ($design_stylesheets as $val) {
     drupal_add_css(
@@ -345,7 +344,6 @@ function oneepa_theme($existing, $type, $theme, $path){
     return $items;
 }
 
-/*
 function oneepa_preprocess_menu_tree(&$variables) {
   $tree = new DOMDocument();
   @$tree->loadHTML($variables['tree']);
@@ -359,8 +357,3 @@ function oneepa_preprocess_menu_tree(&$variables) {
  
   $variables['menu_parent'] = $parent;
 }
-
-function oneepa_menu_tree(&$variables) {
-  return '<ul class="menu ' . $variables['menu_parent'] . '">' . $variables['tree'] . '</ul>';
-}
-*/

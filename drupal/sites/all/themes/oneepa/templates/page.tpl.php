@@ -50,43 +50,8 @@ if(drupal_is_front_page()) {
   <?php endif; ?>
 
   <?php print $hgroup_close; ?>
-<?php if ($secondary_menu): ?>
-  <nav class="nav secondary-nav" id="secondary-nav" role="navigation">
-    <?php print theme('links__system_secondary_menu', array(
-      'links' => $secondary_menu,
-      'attributes' => array(
-        'class' => array('secondary-menu', 'menu', 'pipeline'),
-      ),
-      'heading' => array(
-        'text' => $secondary_menu_heading,
-        'level' => 'h2',
-        'class' => array('element-invisible'),
-      ),
-    )); ?>
-  </nav> 
-<?php endif; ?>
   <?php print render($page['header']); ?>
 </header>
-<?php if ($main_menu): ?>
-	<nav class="nav simple-nav simple-main-nav" role="navigation">
-	<?php print theme('links__system_main_menu', array(
-	  'links' => $main_menu,
-	  'attributes' => array(
-		'class' => array('menu', 'main-menu'),
-		'id' => array('main-menu'),
-	  ),
-	  'heading' => array(
-		'text' => t('Main menu'),
-		'level' => 'h2',
-		'class' => array('element-invisible'),
-	  ),
-	)); ?>
-	<?php 
-	$block = module_invoke('search', 'block_view', 'search');
-	print render($block); 
- ?>
-	</nav>
-<?php endif; ?>
 <!-- @todo - Add content_language back in next line - section -->
 <section id="main-content" class="main-content clearfix" role="main" lang="<?php //print $content_language ?>">
   <h2 class="microsite-name">e-Enterprise</h2>
@@ -106,8 +71,10 @@ if(drupal_is_front_page()) {
     <?php if ($title): ?>
     <?php
         $exploded_path = explode('/', current_path());
-        if ($exploded_path[0] == 'user' && $exploded_path[2] == 'edit'):
-          $title = 'Profile';
+        if (count($exploded_path) > 2):
+          if ($exploded_path[0] == 'user' && $exploded_path[2] == 'edit'):
+            $title = 'Profile';
+          endif;
         endif;
       ?>
       <!--googleon: all-->
@@ -172,7 +139,7 @@ if(drupal_is_front_page()) {
         <li class="menu-item"><a class="menu-link social-flickr" href="http://www.flickr.com/photos/usepagov">Flickr</a></li>
         <li class="menu-item"><a class="menu-link social-instagram" href="http://instagram.com/epagov">Instagram</a></li>
       </ul>
-      <p class="social-menu-more"><a href="/home/social-media">More social media at&nbsp;EPA&nbsp;�</a></p>
+      <p class="social-menu-more"><a href="/home/social-media">More social media at&nbsp;EPA&nbsp;&raquo</a></p>
     </div>
   </div>
 </div>  

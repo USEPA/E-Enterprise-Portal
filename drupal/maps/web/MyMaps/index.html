@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>MyMaps Gallery</title>
+
+        <link rel="stylesheet" type="text/css" href="MyMaps.css">
+
+        <script type="text/javascript" src="../../vendor/jquery/jquery.js"></script>
+        <script type="text/javascript" src="../../vendor/jquery.dotdotdot.min.js"></script>
+        <script type="text/javascript" src="../../dist/jquery.jcarousel.min.js"></script>
+        <script type="text/javascript" src="MyMaps.js"></script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <h1 id="widgetTitle" class="widgetHeader">Interactive Maps</h1>
+              <div id="numThumbnails">
+              <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank">  Browse Gallery...</a>
+              </div>
+            <div class="jcarousel-wrapper">
+                <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+                <div class="jcarousel">
+                    <!-- Map thumbnails dynamically loaded here -->
+                    <div class="loading">Loading items...</div>
+                </div>
+                <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+            </div>
+        </div>
+    </body>
+</html>

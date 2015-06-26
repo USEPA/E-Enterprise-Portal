@@ -6,70 +6,876 @@
  * of these @include files will be combined into a single file.
  */
 
-/* Import Sass mixins, variables, Compass modules, etc. */
-@import "init";
-
-/* HTML element (SMACSS base) rules */
+/* Import Sass mixins, variables, Compass modules, SMACSS normalize rules, print rules, etc. */
+@import "init";		// Includes colors and base fonts, sizes, etc.
 @import "normalize";
-
-/* Layout rules */
-@import "layouts/responsive";
-
-/* Component (SMACSS module) rules */
 @import "components/misc";
-// Optionally, add your own components here.
 @import "print";
+@import "bootstrap";	// Import adjusted Bootstrap styles (not true SCSS - rendered CSS)
+@import "s";		// Import EPA s.css rules via _s.scss
 
-/* SMACSS theme rules */
-/* @import "theme-A"; */
-/* @import "theme-B"; */
+//If update these colors, update in _init.scss also!
+$base-text-color:  #333;
+$epa-blue:         #369;		// background, body link colors      
+$epa-white:		   #fff;
+$epa-headerlinks:  $epa-white;  // white on blue background
+$ee-link-color:	   #23537e;
+$ee-hover-color:   #4083a9;
+$ee-visited-color: #5487ba;
+$ee-focus-color:   #fff;		// link color when user tabs thru
+$ee-subtext-color: #ddd;
+$ee-bgfocus-color: $epa-blue;	// change background to blue on focus / hover
+$ee-light-gray:	   #f8f8f8;
+$ee-medium-gray:   #efefef;
+$ee-dark-gray:	   #606060;		// Use for background color for table headings
+$ee-hover-gray:	   #fafafa;
+$ee-active-menu:   #364d5f;
 
-/** Reset and Bootstrap Adjustment Styles *********************************************************/
+@mixin linear-gradient($gradient-light, $gradient-dark) {
+  background-color: $gradient-dark;
+  background: -webkit-gradient(linear, left top, left bottom, from($gradient-light), to($gradient-dark));
+  background: -webkit-linear-gradient(top, $gradient-light, $gradient-dark);
+  background: -moz-linear-gradient(top, $gradient-light, $gradient-dark);
+  background: -ms-linear-gradient(top, $gradient-light, $gradient-dark);
+  //background: -o-linear-gradient(top, $gradient-light, $gradient-dark);
+  background: linear-gradient(to bottom, $gradient-light, $gradient-dark);
+  -pie-background: linear-gradient(to bottom, $gradient-light, $gradient-dark);
+}
+
+@mixin box-shadow {
+	-moz-box-shadow: 0 2px 2px #aaa;
+	-webkit-box-shadow: 0 2px 2px #aaa;
+	box-shadow: 0 2px 2px #aaa;
+
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
+	zoom: 1;
+}
+
+/** Adjust Main Font and Styles *********************************************************/
 body {
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
-	/* font-size: 16px !important; */
-	line-height: 1.42857143 !important;
-	color: 333333;
-	background-color: #fff;
-	 /* s.css override */
+	color: $base-text-color;
 }
 h1, h2, h3, h4, h5, h6, th, legend, caption {
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;	 /* s.css override */
+	font-family: $base-font-family;
 }
-.jumbotron {
-	margin-bottom: 0px;
-    background-image: url('../images/nurturingtree-2.jpg');
-    background-position: 0% 25%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    color: white;
-/*     text-shadow: #222222 0.1em 0.1em 0.1em; */
-    text-align: center;
-    
+a.pager__link {
+	color: $ee-link-color;
+}
+a:visited, 
+a:visited.pager__link {
+	color: $ee-visited-color;
+}
+.menu-item {
+	letter-spacing: 0.25px;
 }
 
-/** Accessibility Helper Styles *********************************************************/
-/*div[id^='block-views-'] */
+/** Adjust Bootstrap Components  *********************************************************/
+.modal-open {
+	padding-right:0 !important;
+}
+.pager {
+	font-size: 75%;
+}
+.pager li>a, 
+.pager li>a:hover {
+	line-height: 16px;
+	padding: 0 6px 4px;
+	font-size: 1.75em;
+	vertical-align: middle;
+}
 
-.element-invisible, .page-welcome .page-title, .page-welcome .article-title {
+/** Adjust s.css Styles ***********/
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+.button,
+#edit-cancel {
+	height: auto;
+}
+
+label {
+	font-weight: normal;
+	margin-bottom: 2px;
+}
+
+button, 
+input[type="button"], 
+input[type="reset"], 
+input[type="submit"], 
+.button, 
+#edit-cancel, 
+.addtocal {
+	margin-bottom: 0.5em;
+}
+
+.site-slogan {
+	line-height:55px;
+	vertical-align: bottom;
+}
+
+.site-name {
+	margin-top: 20px;
+}
+
+.main-nav > .menu > .menu-item > .menu-link {
+	font-weight: normal;
+}
+
+/** e-Enterprise Landing Page & Beyond ***********/
+.masthead {
+	padding-bottom:0;
+	border-bottom: 1px solid #dddddd;
+	padding-left: 1em;
+}
+
+.breadcrumb, .breadcrumb-title {
+	margin-top:20px;
+}
+
+//Hide breadcrumbs and microsite name for now
+.breadcrumb, .breadcrumb-title, h2.microsite-name {
+	display: none;
+}
+	
+.secondary-nav a {
+	color: $epa-white;
+	font-size: $h5-font-size;
+}
+
+.region-header {
+	background-color: $ee-light-gray;
+	color: #494949;
+	margin-left: -1em;
+	margin-right: -1em;
+	padding: 5px 1em;
+	@include box-shadow;
+	a {
+		color: #333;
+	}
+	a:hover {
+		text-decoration: underline;
+	}
+	a:focus {
+		background-color: $ee-dark-gray;
+		color: #fff;
+	}
+
+}
+
+.page-eenterprise-for-environment {
+	h2.microsite-name {
+		display:none;
+	}
+	.wide-template #main-content {
+		padding: 0 1em;
+	}
+	.jumbotron {
+		margin-bottom: 0px;
+	    background-image: url('../images/nurturingtree-2.jpg');
+	    background-position: 0% 25%;
+	    background-size: cover;
+	    background-repeat: no-repeat;
+	    text-align: center;
+	    margin-left: -1em;
+	    margin-right: -1em;
+    }
+    .jumbotron .container {
+	    width: auto;
+	    max-width: 85%;
+    }
+    .well {
+    	opacity:0.9;
+    	margin:0 auto;
+    	margin-top:85px;
+    	margin-bottom:2em;
+    }
+	.well-narrow {
+		margin-top:30px;
+		max-width:25em;
+		margin:0 auto;
+	}
+	p {
+		margin-bottom: 0;
+	}
+}
+
+.well a:hover {
+	color: $ee-hover-color;
+}
+.well a:hover:focus, 
+.mobile-bar a:hover,
+.mobile-nav .mobile-links a.active {
+	color: $epa-white;
+}
+.page-eenterprise-for-environment {
+	.breadcrumb, .breadcrumb-title {
+		display:none;
+	}
+	section {
+		padding:0;
+	}
+	h2 {
+		padding-left:30px
+	}
+	ul {
+		list-style:none;
+	}
+	li h3 {
+		padding-bottom:0;
+	}
+	li br, .row.shaded br {
+		display:none;
+	}
+	.row {
+		padding:1em 2.5em;
+/*
+		margin-left:0px !important;
+		margin-right:0px !important;
+*/
+	}
+	.view-footer {
+		padding-left:30px;
+	}
+	.view-footer h3 {
+		margin-left:1em !important;
+		margin-top:1em;
+		margin-bottom:5px;
+		padding-bottom:0;
+	}
+	.view-footer li h3 {
+		margin:0 !important;
+	}
+
+}
+#login-group {
+	form, a {
+		display:inline-block;
+	}
+	a {
+		margin-left:20px;
+		padding:5px 15px;
+	}
+}
+
+#edit-e-enterprise-bridge {
+	background-color: #337ab7;
+	padding:1em 3em;
+	height:auto;
+	border-color:#337ab7;
+	border-radius:4px;
+	font-size:1.25em;
+	font-weight:normal;
+}
+
+#learnmore {
+	.modal-content {
+		padding:30px;
+	}
+
+	.modal-header, .modal-footer {
+		border:none;
+	}
+	.modal-title {
+		padding-left:0;
+	}
+}
+
+#learnmore-close {
+	font-size: 1.375em;
+	line-height: 1;
+	position: absolute;
+	top: 0.5em;
+	right: 0.6875em;
+	color: #aaaaaa;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.messages--status.messages.status {
+	margin-bottom:0;
+}
+.messages {
+	font-size: 16px;
+}
+.row.shaded {
+	background-color:#f7f7f9;
+	border:1px solid #e1e1e8;
+	border-width:1px 0;
+	margin-top:	1em;
+	margin-bottom: 1em;
+}
+#benefits li img {
+	display:block;
+	max-width: 75%; 
+	margin: 0 auto;
+}
+#including li img {
+	display:inline-block;
+	vertical-align: top;
+	margin-top:1em;
+	margin-right:10px;
+	width:3.5em;
+	height:3.5em;
+}
+
+#including li div {
+	display:inline-block;
+	vertical-align: top;
+	width:85%;
+	margin-left:10px;
+}
+
+.view-ee-release-note-list ul {
+	border-left:2px solid #fafafa;
+	margin-left:1.25em;
+}
+
+/*
+.view-ee-release-note-list li h3 {
+	font-size:1.15em;
+}
+
+.view-ee-release-note-list p {
+	font-size:90%;
+	padding-bottom:10px;
+	line-height:1.6
+}
+*/
+.page-workbench .block-views, 
+.section-workbench .block-views {
+	float:left;
+}
+.page-workbench {
+	&.wide-template #main-content {
+		background-color: $ee-light-gray;
+	}
+	.panel-pane {
+		background-color: $epa-white;
+		padding: 10px 30px;
+		margin-top: 10px;
+		border: 1px solid #ededed;
+		border-radius: 4px;
+		-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+	}
+	.pager {
+		font-weight: normal;
+	}
+}
+.page-user {
+	&.wide-template #main-content {
+		background-color: $ee-light-gray;
+	}
+}
+
+
+/** Nav and Forms *************************/
+.main-nav {
+	position:relative;
+	clear:left;
+}
+.secondary-nav {
+	position: absolute;
+	right: 1em;
+	top: 3.25em; 
+}
+.admin-menu .secondary-nav {
+	top: 4.25em; //Set top when admin user is logged in
+}
+
+.breadcrumb-title, 
+.breadcrumb, 
+.breadcrumb a {
+	padding:5px;
+}
+.breadcrumb {
+	margin-top:20px;
+	background-color: transparent;
+	border-radius: none;
+}
+
+#block-search-form {
+	padding-top: 1em;
+	position: relative;
+}
+.search-results h3 {
+	padding-bottom:0.25em;
+}
+.search-snippet {
+	padding-bottom:0.25em;
+}
+.search-advanced {
+	top:0;
+}
+.field-add-more-submit {
+	background-color: green; height:40px; width:43px; margin: 0px; vertical-align: middle; margin: 0px;
+}
+
+/** Accessibility Helper Styles ***********/
+.view-eenterprise-for-environment .article-title {
   clip: rect(1px, 1px, 1px, 1px);
   position: absolute !important;
 }
-.page-welcome h1 .element-invisible.element-focusable:active,
-.page-welcome h1 .element-invisible.element-focusable:focus {
+.view-eenterprise-for-environment h1 .element-invisible.element-focusable:active,
+.view-eenterprise-for-environment h1 .element-invisible.element-focusable:focus {
   clip: auto;
   position: static !important;
 }
 
-/** Functional Styles *********************************************************/
-.messages--status.messages.status {margin-bottom:0;}
-.page-welcome section {padding:0;}
-.page-welcome ul {list-style:none;}
-.page-welcome .row {padding:0.5em 0;}
-.page-welcome .row, .page-welcome .view-footer h3 {margin:1em !important;} /* s.css override */
-.page-welcome .view-footer h3 {text-transform: uppercase;}
-.page-welcome .view-footer li h3 {margin:15px 0 0 !important;text-transform: none;}
-.row.shaded {background-color:#f7f7f9;border:1px solid #e1e1e8;border-width:1px 0;margin:1em 0 !important;padding:0 1em;}
-#benefits li img {display:block;}
-#including li img {display:inline-block;margin-right:10px;max-width:9em;}
-#including li h3, #including li p {display:inline-block;}
+/** General Table Styles *********************************************************/
+table, th, td {
+	border:none;
+}
+/*tr {
+	border-bottom:1px solid #efefef;
+}*/
+th, td {
+	padding: 15px;
+	border: none;
+	line-height:1.2;
+}
+th {
+	background-color: $epa-white;
+	text-align: center;
+}
+.field-multiple-table th {
+	text-align: left;
+}
+.views-field-counter {
+	text-align: right;
+}
+td {
+	vertical-align: top;
+}
+tr:nth-of-type(even) {
+	background-color: $ee-light-gray;
+}
+tr.odd {
+	background-color: $epa-white;
+}
+tr.views-row-first {
+	border-top: 1px solid $ee-medium-gray;
+}
+tr.odd, tr.even {
+	border-bottom: 1px solid $ee-medium-gray;
+}
+
+.workbench-menu {
+  display: none;
+}
+
+@media screen and (min-width: 40em) {
+  .workbench-menu {
+    display: block;
+  }
+}
+
+/** Workbench *******************************************************************/
+@media screen and (min-width: 45em) {
+	.wide-template #main-content {
+		padding-left: 3em;
+		padding-right: 3em;
+	}
+	.page-eenterprise-for-environment {
+		h2.microsite-name {
+			display:none;
+		}
+		&.wide-template #main-content {
+			padding: 0 1em;
+		}
+		.region-header {
+			padding:0;
+		}
+	}
+	.site-name-and-slogan {
+		margin-left: 1em;
+	}
+	.page-workbench .block-views.odd, 
+	.section-workbench .block-views.odd {
+		width:55%;
+		}
+	.page-workbench .block-views.even, 
+	.section-workbench .block-views.even {
+		width:40%;
+		}
+	.ee-stats-header {
+		width: 36em;
+		}
+	.ee-workbench-top-header li {
+		min-width: 4.5em;
+		}
+	.ee-workbench-header-locations {
+		width:30em;
+		float:right;
+		margin-right:1.25em;
+		}
+	#block-search-form {
+		clear: right;
+		padding-top: 0;
+		float: right;
+		position:initial
+		}
+}
+@media screen and (min-width: 60em) {
+	#block-search-form {
+		position:absolute;
+		right:1.75em;
+		top: 5.5em;}
+	.wide-template #main-content {
+		padding-left: 3em;
+		padding-right: 3em;
+	}
+	.page-eenterprise-for-environment.wide-template #main-content {
+		padding: 0 1em;
+	}
+}
+
+.ee-workbench-top-header {
+	padding:5px 3em;
+	h3, ul, li, .stats-label, .stats-count {
+		display:block;
+	}
+	h3, ul, li {
+		float:left;
+	}
+	h3, .stats-label {
+		font-size: $h6-font-size;	// 0.675em / 10px
+		text-transform: uppercase;
+	}
+	h3 {
+		width:6em;
+		line-height: 1.4;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		font-weight:normal;
+	}
+	ul {
+	    list-style: none;
+	    padding-bottom: 10px;
+	    margin-bottom:	0;
+	}
+	li {
+		margin-right:	20px;
+	}
+	.stats-count {
+		font-size: $h1-font-size;	// 2em / 32px
+		color: $base-text-color;
+	}
+}
+
+.workbench-menu li {
+	float:		left;
+	display: 	block;
+	padding:	5px 1em;
+	font-size: 	$h5-font-size;
+	&.active-trail {
+		background-color: $ee-dark-gray;
+	}
+	a.active {
+		color: #fff;
+		font-weight:bold;
+	}
+}
+
+.ee-workbench-header-block {
+	float:left;
+	margin-left:20px;
+	padding:5px 10px;
+}
+
+.ee-workbench-header-locations select {
+	margin-bottom:10px;
+	font-size: $h5-font-size;
+}
+.ee-workbench-header-block a, 
+.ee-workbench-header-locations label, 
+.ee-workbench-header-locations input {
+	display:block;
+	font-size: $h5-font-size;
+}
+#workbench-toggle {
+	position:absolute;
+	bottom:10px;
+	right:1.75em;
+	&:focus {
+		background-color: $ee-dark-gray;
+		color: #fff;
+		padding: 3px;
+	}
+}
+
+/** To Do / Progress Tracker Styles 
+*********************************************************/
+table.views-table {
+	border-spacing: 10px;
+	font-size: 85%;
+	thead th {
+		background-color: $ee-dark-gray; 
+		padding:10px 0;
+	}
+	thead th, thead th a {
+		color: $epa-white;
+	}
+	th a img {
+		margin-left: 10px;
+	}
+	thead td.views-field {
+		vertical-align: middle; 
+		padding:15px; 
+		font-weight: bold;
+	}
+	td.active,
+	tr:hover,
+	th:hover,
+	td:hover {
+		background-color: $ee-hover-gray;
+	}
+
+}
+
+span.date-subscript-text, 
+span.item-subscript-text, 
+.simple-dialog {
+	font-weight: normal;  
+	margin-top:10px; 
+	display:inline-block;
+	text-transform: uppercase;
+	font-size: 67.5%;
+}
+td.views-field-counter, 
+td.views-field-field-prog-track-domain, 
+td.views-field-field-prog-track-status, 
+td.views-field-field-prog-track-updated, 
+td.views-field-field-prog-track-actions,
+td.views-field-field-prog-track-actions-link,
+td.views-field-field-todo-lst-domain, 
+td.views-field-field-todo-lst-due {
+	font-weight:normal;
+}
+td.views-field views-field-field-todo-lst-item {
+	font-weight: bold;
+}
+td.views-field-field-prog-tracker-app {
+	font-weight: bold;
+	.item-subscript-text {
+		font-weight: normal;
+	}	
+}
+th.views-field-counter,
+td.views-field-counter, 
+td.views-field-field-prog-track-domain, 
+td.views-field-field-prog-track-status, 
+td.views-field-field-prog-track-updated, 
+td.views-field-field-todo-lst-domain, 
+td.views-field-field-todo-lst-due {
+	text-align: center;
+}
+tr.even {
+	background-color: $ee-light-gray;
+}
+
+.views-field-field-prog-track-updated .date-subscript-text,
+.views-field-field-prog-tracker-app .item-subscript-text {
+    font-size:67.5%;
+}
+.views-field-field-prog-tracker-app .modal-content-in-page{
+    display:none;
+}
+
+
+/** Profile Styles *********************************************************/
+@media screen and (max-width: 40em) {
+	#user-profile-form {
+		.form-type-textfield {
+			width: 150px;
+		}
+	
+		.ajax-progress .message {
+			display: none;
+		}
+	}
+}
+
+.field-name-field-profile-first-name, 
+.field-name-field-profile-last-name {
+	display:inline-block;
+}
+#user-profile-form {
+	label, .label, .glyphicon {
+		cursor: pointer;
+	}
+	
+	.glyphicon {
+		padding-left: 5px;
+	}
+	ul {
+		padding-left: 45px;
+	}
+	table, th {
+		border:none;
+	}
+	th {
+		text-transform: none;font-size:1.5em;
+	}
+	.form-text {
+		font-size:100%;
+	}
+	.description {
+		color:#333333;
+		display:table;
+	}
+	.form-item .form-type-textfield {
+		padding-bottom:0.5em;
+	}
+	.form-type-textfield {
+		margin-right:20px;
+		min-width: 140px; 
+		max-width:20em;
+	}
+	.form-type-textfield.form-item-mail input {
+		width:20em;
+		margin-bottom:10px;
+	}
+	.form-type-textfield .description {
+		margin-top:5px;
+	}
+	.form-type-textfield label {
+		font-size:0.95em;
+	}
+	.form-type-textfield label, .form-type-textfield input {
+		display:block;
+	}
+	.eenterprise-utility-form-item-description-p { 
+		margin-bottom: .5em; padding-bottom: 0px;
+	}
+	.eenterprise-utility-form-item-description-p.field-title-below { 
+		margin-bottom: 1.5em; padding-bottom: 0px;
+	}
+	#field-profile-favourites-add-more-wrapper .form-item,
+	#zipcode_description .form-item {
+		padding-bottom: 0px;
+	}
+	#zipcode_description table tr:last td:last {
+		width:200px;	
+	}
+	
+	.panel {
+		min-height: 330px;
+	}
+	.ajax-progress {
+	  display:block !important;
+	  position: inherit !important;
+	}
+	#zipcode_description label {
+		float: left;
+	}
+	
+	thead label {
+		padding:1em 1em 0.25em 0.5em;
+	}
+	thead, th, tr:nth-of-type(even) {
+		background-color:transparent;
+	}
+	td {
+		padding: 5px 10px;
+		border:none;
+	}
+	.form-submit {
+		text-transform: capitalize; 
+		background-color: #337ab7;
+		padding:0.5em 1em;
+		height:auto;
+		border-color:#337ab7;
+		border-radius:4px;
+		font-size:0.95em;
+		font-weight:normal;
+	}
+	.field-add-more-submit {
+		background-color: green; 
+		height:40px; 
+		width:43px; 
+		margin: 0px;
+		vertical-align: middle;
+	}
+	.multiple-fields-remove-button {
+		vertical-align: top;
+	}
+	.field-suffix, 
+	.move-zipcode  { 
+		display:inline; 
+		float: right !important;
+	}
+	.autocomplete-interests ul {
+		list-style-type: none; padding-bottom: 0px;
+	}
+
+	#tags {
+		width: 100%; 
+		height:40px;
+		font-size: 85%;
+		font-family: $base-font-family;
+	}
+
+	.autocomplete-interests ul {
+		list-style-type: none; 
+		padding-bottom: 0px; 
+		padding-right: 40px;
+	}
+	
+	.vocab-arrow {
+	  padding-left: 7px;
+	  cursor: pointer;
+	  vertical-align: middle;
+	}
+}
+.view-user-profile {
+	.field-label {
+		clip: rect(1px, 1px, 1px, 1px);
+		position: absolute !important;
+	}
+	.field-name-field-profile-first-name .field-item {
+		margin-right:0.4em;
+	}
+}
+.draggable {
+	.handle {
+		font-size:2em;
+	}	
+	.form-type-textfield, 
+	.field-multiple-drag  {
+		display:inline-block;
+	}
+	.field-multiple-drag {
+		padding-top: 0.5em;
+	}
+
+} 
+#field-profile-favourites-values thead tr .field-label,
+#edit-field-profile-favourites thead { 
+	display:none;
+}
+.form-item-field-profile-interests-und label:first-child{ 
+	display:none;
+}
+a.tabledrag-handle .handle {
+	margin: 0 0.25em
+}
+
+#field-zip-code-values .tabledrag-handle, 
+#field-profile-favourites-values .tabledrag-handle {
+	top:-10px;
+}
+
+.ui-menu .ui-menu-item a{   
+    font-size:20px;
+}
+
+.ui-widget-content {
+	max-height: 300px; 
+	overflow-y: scroll; 
+	overflow-x: hidden;
+}
+
+

@@ -1,0 +1,150 @@
+body {
+	font-family: Lato, sans-serif;
+    background: #fafafa;
+    margin: 0;
+    padding: 0;
+    color: #4E443C;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+h1 {
+    color: #4E443C;
+    font-size: 200%;
+    font-weight: normal;
+}
+#numThumbnails {
+	margin-bottom: 10px;
+	margin-top: 5px;
+	font-size: 75%;
+}
+
+.wrapper {
+    max-width: 620px;
+    margin: auto;
+}
+
+.jcarousel-wrapper {
+    margin: 5px auto;
+    position: relative;
+}
+
+.jcarousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+	border-width: 12px 12px 12px 0;
+    border-style: solid;
+    -webkit-border-image: 
+      -webkit-gradient(linear, 0 0, 100% 0, from(#fafafa), to(rgba(255, 255, 255, 255))) 1 100%;
+    -webkit-border-image: 
+      -webkit-linear-gradient(left, #fafafa, rgba(255, 255, 255, 255)) 1 100%;
+    -moz-border-image:
+      -moz-linear-gradient(left, #fafafa, rgba(255, 255, 255, 255)) 1 100%; 
+    -o-border-image:
+      -o-linear-gradient(left, #fafafa, rgba(255, 255, 255, 255)) 1 100%;
+    border-image:
+      linear-gradient(to left, #fafafa, rgba(255, 255, 255, 255)) 1 100%;
+      padding:0;     
+}
+
+.jcarousel ul {
+    width: 20000em;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.jcarousel li {
+    float: left;
+    height: 200px;
+    width: 200px !important;
+    margin-right: 5px;
+	border: 1px solid #dedede;
+    background-color: #fff;
+    padding: 5px;
+}
+
+.jcarousel img {
+    max-height: 141px;
+    max-width: 100%;
+    border: 1px solid #efefef;
+}
+
+.jcarousel .loading {
+    text-align: center;
+    line-height: 90px;
+}
+
+.jcarousel-control-prev,
+.jcarousel-control-next {
+    position: absolute;
+    top: 80px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background: #4E443C;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 0 1px #000;
+    font: 24px/27px Arial, sans-serif;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    -webkit-box-shadow: 0 0 2px #999;
+    -moz-box-shadow: 0 0 2px #999;
+    box-shadow: 0 0 2px #999;
+}
+
+.jcarousel-control-prev {
+    left: -30px;
+}
+
+.jcarousel-control-next {
+    right: -30px;
+}
+
+.jcarousel-control-prev:hover span,
+.jcarousel-control-next:hover span {
+    display: block;
+}
+
+.jcarousel-control-prev.inactive,
+.jcarousel-control-next.inactive {
+    visibility: hidden;
+}
+
+.widgetHeader {
+    text-align: left;
+    margin-bottom: 0px;
+}
+
+.mapAppTitle {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 40px;
+    max-width: 198px;
+    font-size: 83%;
+    font-weight: bold;
+    padding: 5px 5px 2px;
+    line-height: 1.2;
+}
+
+.mapAppDesc {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1px auto !important;
+    max-height: 40px;
+    max-width: 198px;
+    font-size: 75%;
+    padding: 2px 5px;
+    line-height: 1.2;
+}
+
+.thumbnailImg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
