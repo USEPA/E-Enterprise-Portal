@@ -5,6 +5,7 @@
  *
  * Complete documentation for this file is available online.
  * @see https://drupal.org/node/1728208
+ * Tesing for Bamboo build
  */
 ?><!DOCTYPE html>
 <!--[if IEMobile 7]><html class="iem7" <?php print $html_attributes; ?>><![endif]-->
