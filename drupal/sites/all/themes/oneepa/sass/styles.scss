@@ -14,6 +14,7 @@
 @import "bootstrap";	// Import adjusted Bootstrap styles (not true SCSS - rendered CSS)
 @import "s";		// Import EPA s.css rules via _s.scss
 
+$body-font-size:  100%;
 //If update these colors, update in _init.scss also!
 $base-text-color:  #333;
 $epa-blue:         #369;		// background, body link colors      
@@ -805,13 +806,18 @@ tr.even {
 	}
 	.field-add-more-submit {
 		background-color: green; 
-		height:40px; 
-		width:43px; 
+		height: auto; 
+		width: auto; 
 		margin: 0px;
 		vertical-align: middle;
+		padding: 0.25em 0.75em;
 	}
 	.multiple-fields-remove-button {
 		vertical-align: top;
+		padding: 0.20em 0.75em 0.30em;
+		width: auto;
+		height: auto;
+		text-transform: lowercase;
 	}
 	.field-suffix, 
 	.move-zipcode  { 
@@ -893,7 +899,18 @@ tr.even {
 		border: 1px solid #dedede;
 		background: #f3f3f3;
 	}
-	
+	.autocomplete-interests .ui-widget input {
+		min-width: 140px;
+		max-width: 20em;
+		border: 1px solid #bbb;
+		padding: .2143em;
+		font-size: $base-font-size;
+		font-family: $base-font-family;
+		height: auto;
+		border: 1px solid #bbb;
+		border-radius: 4px;
+		line-height: 1.42857;
+	}
 
 }
 .draggable {
@@ -906,6 +923,9 @@ tr.even {
 	}
 	.field-multiple-drag {
 		padding-top: 0.5em;
+	}
+	.form-type-textfield input {
+		line-height: 1.42857;
 	}
 
 } 
