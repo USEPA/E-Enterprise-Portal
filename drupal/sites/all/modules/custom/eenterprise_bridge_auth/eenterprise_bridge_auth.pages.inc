@@ -163,7 +163,6 @@ function create_progress_tracker($user){
     $response1 = null;
     try {
         $response1 = $client->__soapCall("Authenticate", array($params1));
-        dsm($response1->securityToken);
     } catch(SoapFault $f) {
         drupal_set_message('Cannot Authenticate to get data flow.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot Authenticate to get data flow.", array(), WATCHDOG_ERROR);
@@ -213,56 +212,84 @@ function create_progress_tracker($user){
 
 
 function create_progress_tracker_node($res, $user){
-    $query_res = db_query("select count(nid) from {node} where type = :node_type and title = :title", array(':node_type' => 'progress_tracker', ':title' => $res['ActivityDesc']))->fetchField();
+    $query_res = db_query("select count(nid) from {node} where type in (:node_type) and title = :title", array(':node_type' => array('progress_tracker', 'to_do_list'), ':title' =>  $res['ActivityDesc']))->fetchField();
     if($query_res < 1) {
         $node = new stdClass();
         $node->title = $res['ActivityDesc'];
-        if ($res['ActivityType'] == 'TRACKER')
+        if ($res['ActivityType'] == 'TRACKER') {
             $node->type = "progress_tracker";
-        else
+
+            $node->field_prog_tracker_app['und'][0]['value'] = $res['ActivityDesc'];
+            $node->field_prog_tracker_app['und'][0]['format'] = null;
+            $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
+
+            $node->field_prog_track_status['und'][0]['value'] = $res['Status'];
+            $node->field_prog_track_status['und'][0]['format'] = null;
+            $node->field_prog_track_status['und'][0]['safe_value'] = $res['Status'];
+
+            $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
+            $node->field_prog_track_updated['und'][0]['value'] = $st_update;
+            $node->field_prog_track_updated['und'][0]['format'] = null;
+            $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
+
+            $res_domain = $res['PartnerSystemId'];
+            if (strpos($res['PartnerSystemId'], 'lead') !== false)
+                $res_domain = "Lead";
+            $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
+            $node->field_prog_track_domain['und'][0]['format'] = null;
+            $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
+
+
+            $res_action = '';
+            if ($res_domain == 'Lead')
+                if ($res['Status'] == 'APPROVED')
+                    $res_action = "Print Receipt Print Certification";
+                else
+                    $res_action = 'Print Receipt';
+            else if ($res['Status'] == 'Under Review')
+                $res_action = 'View Submission';
+
+            $node->field_prog_track_actions['und'][0]['value'] = $res_action;
+            $node->field_prog_track_actions_link['und'][0]['format'] = null;
+            $node->field_prog_track_actions_link['und'][0]['safe_value'] = $res_action;
+
+            $node->field_prog_track_actions_link['und'][0]['value'] = '/workbench';
+            $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;
+
+
+            $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
+            $node->field_prog_track_created_by['und'][0]['format'] = null;
+            $node->field_prog_track_created_by['und'][0]['safe_value'] = $user->uid;
+        }
+        else if($res['ActivityType'] == 'TASK') {
             $node->type = "to_do_list";
+
+            $node->field_todo_lst_item['und'][0]['value'] = $res['ActivityDesc'];
+            $node->field_todo_lst_item['und'][0]['format'] = null;
+            $node->field_todo_lst_item['und'][0]['safe_value'] = $res['ActivityDesc'];
+
+            $res_domain = $res['PartnerSystemId'];
+            if (strpos($res['PartnerSystemId'], 'lead') !== false)
+                $res_domain = "Lead";
+            $node->field_todo_lst_domain['und'][0]['value'] = $res_domain;
+            $node->field_todo_lst_domain['und'][0]['format'] = null;
+            $node->field_todo_lst_domain['und'][0]['safe_value'] = $res_domain;
+
+            $st_due = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+            $node->field_todo_lst_due['und'][0]['value'] = $st_due;
+            $node->field_todo_lst_due['und'][0]['format'] = null;
+            $node->field_todo_lst_due['und'][0]['safe_value'] = $st_due;
+
+            $node->field_todo_lst_created_by['und'][0]['value'] = $user->uid;
+            $node->field_todo_lst_created_by['und'][0]['format'] = null;
+            $node->field_todo_lst_created_by['und'][0]['safe_value'] = $user->uid;
+        }
         node_object_prepare($node);
         $node->language = LANGUAGE_NONE;
         $node->uid = $user->uid;
         $node->status = 1;
 
-        $node->field_prog_tracker_app['und'][0]['value'] = $res['ActivityDesc'];
-        $node->field_prog_tracker_app['und'][0]['format'] = null;
-        $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
 
-        $node->field_prog_track_status['und'][0]['value'] = $res['Status'];
-        $node->field_prog_track_status['und'][0]['format'] = null;
-        $node->field_prog_track_status['und'][0]['safe_value'] = $res['Status'];
-
-        $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
-        $node->field_prog_track_updated['und'][0]['value'] = $st_update;
-        $node->field_prog_track_updated['und'][0]['format'] = null;
-        $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
-
-        $res_domain = $res['PartnerSystemId'];
-        if (strpos($res['PartnerSystemId'], 'lead') !== false)
-            $res_domain = "Lead";
-        $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
-        $node->field_prog_track_domain['und'][0]['format'] = null;
-        $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
-
-
-        $res_action = '';
-        if ($res_domain == 'Lead')
-            if ($res['Status'] == 'APPROVED')
-                $res_action = "Print Receipt Print Certification";
-            else
-                $res_action = 'Print Receipt';
-        else if ($res['Status'] == 'Under Review')
-            $res_action = 'View Submission';
-
-        $node->field_prog_track_actions['und'][0]['value'] = $res_action;
-        $node->field_prog_track_actions_link['und'][0]['format'] = null;
-        $node->field_prog_track_actions_link['und'][0]['safe_value'] = $res_action;
-
-        $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
-        $node->field_prog_track_created_by['und'][0]['format'] = null;
-        $node->field_prog_track_created_by['und'][0]['safe_value'] = $user->uid;
 
         $node = node_submit($node); // Prepare node for saving
         node_save($node);

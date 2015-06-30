@@ -60,6 +60,16 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/MyMaps.css", "file");
     <div id="numThumbnails">
       <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank">  Browse Gallery...</a>
     </div>
+    <div id="filterList">
+      <ul id="navlist">
+        <li class="farLeft">Filter By </li>
+        <li id="active"><a href="#" id="current"><u>All</u></a></li>
+        <li>Air</li>
+        <li>Water</li>
+        <li>Land</li>
+        <li>Toxics</li>
+      </ul>
+    </div>
     <div class="jcarousel-wrapper">
         <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
         <div class="jcarousel">
@@ -68,6 +78,10 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/MyMaps.css", "file");
         </div>
         <a href="#" class="jcarousel-control-next">&rsaquo;</a>
     </div>
+    <button id="filterMapsByLocationBtn">
+      <img id="filterMapsByLocationImg" src="http://t3.gstatic.com/images?q=tbn:ANd9GcSVYsaaHLMqYWVJPjoR4Um70GVVG4xK-qa1_Gy3zoPCxAjD7Lwn">
+      <div id="mapsNearBtnLbl" style="padding-top: 1px; color: black;">Near My Location</div>
+      </button>
   </div>
 
 

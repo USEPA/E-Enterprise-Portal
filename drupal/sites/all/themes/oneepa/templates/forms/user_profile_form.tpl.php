@@ -62,17 +62,20 @@ print render($form['field_profile_favourites']);
 
 
 <div class="col-xs-12">
-	<div class="panel panel-default autocomplete-interests" style="display:none">
+	<div class="panel panel-default" >
 		<div class="panel-body">
 <h3>Topics of Interest</h3>
 <p class="eenterprise-utility-form-item-description-p field-title-below">
 		What topics are you interested in?
 		This information will help us suggest content that is most relevant to you.</p>
+<div id="loading_interests">Loading interests...</div>
+<div class="autocomplete-interests" style="display:none">
 <div class="ui-widget">
   <input id="tags"  value="Start typing..." 
  onblur="this.value = 'Start typing...';"
  onfocus="if (this.value == 'Start typing...') {this.value = '';}" />
 </div>
+
 <?php
 // print render($form['field_profile_interests']);
 	print render($form['field_interests2']);	
@@ -82,16 +85,21 @@ print render($form['field_profile_favourites']);
 // Generate  parent vocab containers	
 $vocabs = taxonomy_get_vocabularies();
 $initialVocab = array('Environmental Media Topics', 'Health Topics', 'Pollution Prevention Topics', 'Regulatory and Industrial Topics');
+print '<div class="vocab-columns">';
 foreach ($vocabs as $vid=>$value) {
 	if (in_array($value->name, $initialVocab)) {
 		$style = '';
+		$class = '';
 	}
 	else {
 		$style = 'display:none';
+		$class= '';
 	}
-	print '<ul ><li style="' . $style . '" id="vocab_holder-' . $vid . '" class="vocab_holder"><h2><span class="label label-primary full-width">' . $value->name . '</span><span class="glyphicon glyphicon-chevron-up"></span></h2></li></ul>';
+	print '<ul ' . $class . '><li style="' . $style . '" id="vocab_holder-' . $vid . '" class="vocab_holder"><h2><span class="label label-primary full-width">' . $value->name . '</span><span class="glyphicon glyphicon-chevron-up"></span></h2></li></ul>';
 }	
-
+	// print '<ul ><li id="vocab_holder-other" class="vocab_holder"><h2><span class="label label-primary full-width">Other</span><span class="glyphicon glyphicon-chevron-up"></span></h2></li></ul>';
+print '</div>';
+print '</div>';
 ?>
 
 
