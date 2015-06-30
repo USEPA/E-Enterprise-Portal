@@ -110,33 +110,38 @@ function get_taxonomy_parent_name($tid) {
 
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
-  drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
+    drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
+    if($form['#form_id'] == 'user_profile_form'){
+        //remove user_account_form_validate callback. This will remove email address validation because we should allow multiple email addresses as CDX/Bridge allows that.
+        foreach($form['#validate'] as $key => $value)
+            if($value == 'user_account_form_validate')
+                unset($form['#validate'][$key]);
 
-  if($form['#form_id'] == 'user_profile_form'){
-  // Get proper values for 'allowed_values_function', which is a core setting.
-  $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
-  $options = array();
-  foreach ($vocabularies as $vocabulary) {
-    $options[$vocabulary->machine_name] = $vocabulary->name;
-  }
-  $form['allowed_values'] = array(
-    '#tree' => TRUE,
-  );
-  foreach ($field['settings']['allowed_values'] as $delta => $tree) {
-  $form['allowed_values'][$delta]['vocabulary'] = array(
-    '#type' => 'checkboxes', // <-- Use checkboxes here, instead of 'select'
-    '#title' => t('Vocabulary'),
-    '#default_value' => $tree['vocabulary'],
-    '#options' => $options,
-    '#required' => TRUE,
-    '#description' => t('The vocabulary which supplies the options for this field.'),
-    '#disabled' => $has_data,
-  );
-  $form['allowed_values'][$delta]['parent'] = array(
-    '#type' => 'value',
-    '#value' => $tree['parent'],
-   );
-}
+
+        // Get proper values for 'allowed_values_function', which is a core setting.
+        $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
+        $options = array();
+        foreach ($vocabularies as $vocabulary) {
+            $options[$vocabulary->machine_name] = $vocabulary->name;
+        }
+        $form['allowed_values'] = array(
+            '#tree' => TRUE,
+        );
+        foreach ($field['settings']['allowed_values'] as $delta => $tree) {
+            $form['allowed_values'][$delta]['vocabulary'] = array(
+                '#type' => 'checkboxes', // <-- Use checkboxes here, instead of 'select'
+                '#title' => t('Vocabulary'),
+                '#default_value' => $tree['vocabulary'],
+                '#options' => $options,
+                '#required' => TRUE,
+                '#description' => t('The vocabulary which supplies the options for this field.'),
+                '#disabled' => $has_data,
+            );
+            $form['allowed_values'][$delta]['parent'] = array(
+                '#type' => 'value',
+                '#value' => $tree['parent'],
+            );
+        }
 
     
       hide($form['picture']);
