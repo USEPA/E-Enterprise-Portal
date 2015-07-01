@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * my_air_quality_chart_view.features.inc
+ * air_emissions_view.features.inc
  */
 
-function my_air_quality_chart_view_init() {
+function air_emissions_view_init() {
   
   global $user;
 
@@ -12,25 +12,25 @@ function my_air_quality_chart_view_init() {
   $zip = $account->field_zip_code['und'][0]['value'];
   $my_variables = array('field_zip_code' => $zip);
   
-  drupal_add_js(array('my_air_quality_chart_view' => $my_variables), 'setting');
+  drupal_add_js(array('air_emissions_view' => $my_variables), 'setting');
 }
 
 /**
  * Implements hook_views_api().
  */
-function my_air_quality_chart_view_views_api($module = NULL, $api = NULL) {
+function air_emissions_view_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
 /**
  * Implements hook_menu().
  */
-function my_air_quality_chart_view_menu() {
+function air_emissions_view_menu() {
   $items = array();
 
-  $items['my_air_quality_chart_view/api/forecast/zipCode'] = array(
+  $items['air_emissions_view/api/forecast/zipCode'] = array(
     'title' => 'AirNow Forecast By Zip Code', 
-    'page callback' => 'my_air_quality_chart_view_forecast_zipcode',
+    'page callback' => 'air_emissions_view_forecast_zipcode',
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
@@ -41,7 +41,7 @@ function my_air_quality_chart_view_menu() {
 /**
  * Menu callback: View Forecast Zipcode
  */
-function my_air_quality_chart_view_forecast_zipcode() {
+function air_emissions_view_forecast_zipcode() {
 
   $_GET['API_KEY'] = 'C79940FE-7DE3-4388-9A75-F2CAF2940FCD'; // put this in a config field
   $_GET['format'] = 'application/json';
