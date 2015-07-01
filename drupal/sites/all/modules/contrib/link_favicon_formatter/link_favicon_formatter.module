@@ -1,0 +1,457 @@
+<?php
+
+/**
+ * @file
+ * Defines a favicon link formatter for the link module.
+ */
+
+define('LINK_FAVICON_FORMATTER_FAVICON_SAVE_PATH', 'public://link_favicon_formatter_favicons');
+
+/**
+ * Implements hook_menu().
+ */
+function link_favicon_formatter_menu() {
+  $items = array();
+  $items['admin/config/media/favicon_formatter'] = array(
+    'title' => 'Favicons',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('link_favicon_formatter_admin'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Admin page for cache settings and to view/delete cached favicons.
+ */
+function link_favicon_formatter_admin($form, &$form_state) {
+  // Build the form.
+  $form = array();
+  $form['cache_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Favicon cache settings'),
+  );
+  $form['cache_settings']['link_favicon_formatter_lifespan'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Favicon Lifespan (in days)'),
+    '#default_value' => variable_get('link_favicon_formatter_lifespan', ''),
+    '#description' => t('This is how many days an individual favicon will be cached locally before being regenerated. Leave blank to live forever.'),
+  );
+  $form['cached_favicons'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Cached Favicons'),
+    '#description' => t('The selected favicons will be removed from the favicon cache.'),
+  );
+  // Get all the cached favicons to show in cached table.
+  $cached_favicons = link_favicon_formatter_get_all_favicons();
+  $header = array(
+    'favicon' => array('data' => t('Favicon')),
+    'url' => array('data' => t('URL')),
+    'filename' => array('data' => t('Filename')),
+    'age' => array('data' => t('Age')),
+    'mime' => array('data' => t('File mime')),
+  );
+  $options = array();
+  foreach ($cached_favicons as $fav) {
+    $options[$fav->fid] = array(
+      'favicon' => theme('image', array('path' => file_create_url($fav->uri))),
+      'url' => substr(str_replace('_', '.', $fav->filename), 0, -4),
+      'filename' => $fav->filename,
+      'size' => format_size($fav->filesize),
+      'age' => format_interval(time() - $fav->timestamp),
+      'mime' => $fav->filemime,
+    );
+  }
+  $form['cached_favicons']['cached_favicons_table'] = array(
+    '#type' => 'tableselect',
+    '#header' => $header,
+    '#options' => $options,
+    '#prefix' => '<div id="favicon-cache-table">',
+    '#suffix' => '</div>',
+  );
+  $form['#submit'][] = 'link_favicon_formatter_remove_selected';
+  return system_settings_form($form);
+}
+
+/**
+ * Submit handler for admin form to remove favicons when checked in cache table.
+ */
+function link_favicon_formatter_remove_selected($form, &$form_state) {
+  if (isset($form_state['values']['cached_favicons_table'])) {
+    foreach ($form_state['values']['cached_favicons_table'] as $value) {
+      if (!empty($value)) {
+        file_delete(file_load($value));
+      }
+    }
+    $form_state['rebuild'] = TRUE;
+  }
+}
+
+/**
+ * Ajax callback for the admin cache table on the settings page.
+ */
+function link_favicon_formatter_refresh_js($form, $form_state) {
+  return $form['cached_favicons']['cached_favicons_table'];
+}
+
+/**
+ * Implements hook_cron().
+ */
+function link_favicon_formatter_cron() {
+  $lifespan = variable_get('link_favicon_formatter_lifespan', '');
+  // Check if a lidespan for favicons is actually set.
+  if (!empty($lifespan) && is_numeric($lifespan)) {
+    $timestamp = strtotime('-' . $lifespan . 'days');
+    // Get favicon ids from managed_files table that are older than lifespan.
+    $results = db_query('SELECT fid FROM {file_managed} WHERE uri LIKE :pattern AND timestamp < :time ', array(':pattern' => db_like(LINK_FAVICON_FORMATTER_FAVICON_SAVE_PATH) . '%', ':time' => $timestamp));
+    $file_count = 0;
+    while ($result = $results->fetchAssoc()) {
+      file_delete(file_load($result['fid']));
+      $file_count++;
+    }
+    if ($file_count) {
+      watchdog('Link favicon formatter', 'Cleared %count favicons', array('%count' => $file_count), WATCHDOG_NOTICE);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function link_favicon_formatter_field_formatter_info() {
+  $info['link_favicon'] = array(
+    'label' => t('Link with favicon'),
+    'field types' => array('link_field'),
+    'module' => 'link_favicon_formatter',
+    'settings' => array(
+      'format' => '',
+      'service' => '',
+      'restrict_size' => 1,
+    ),
+  );
+  return $info;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function link_favicon_formatter_theme() {
+  return array(
+    'link_favicon_formatter_favicon' => array(
+      'variables' => array('element' => NULL),
+    ),
+  );
+}
+
+/**
+ * Theme function.
+ */
+function theme_link_favicon_formatter_favicon($vars) {
+  if (!$vars['service_link']) {
+    return theme('link_formatter_' . $vars['format'], array('element' => $vars['element'], 'field' => $vars['field']));
+  }
+  $imagearray = array(
+    'path' => $vars['service_url'] . $vars['service_link'],
+    'alt' => $vars['element']['title'],
+  );
+  if ($vars['restrict_size']) {
+    $imagearray['height'] = '16';
+    $imagearray['width'] = '16';
+  }
+  return theme('image', $imagearray) . theme('link_formatter_' . $vars['format'], array('element' => $vars['element'], 'field' => $vars['field']));
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function link_favicon_formatter_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $settings = $display['settings'];
+  // Set default output if favicon format selected, but settings not saved.
+  $settings['format'] = (empty($settings['format'])) ? 'link_default' : $settings['format'];
+  $settings['service'] = (empty($settings['service'])) ? 'local_PHP_based_icon_scrapper' : $settings['service'];
+  $elements = array();
+  $services = link_favicon_formatter_get_services();
+  $selected_service = $services[$settings['service']];
+  foreach ($items as $delta => $item) {
+    $service_link = $item['url'];
+    // Call the service link format function if it exists.
+    if (!empty($item['url']) && !empty($selected_service['link_format_function']) && function_exists($selected_service['link_format_function'])) {
+      $selected_service['link_format_function']($service_link);
+    }
+    $elements[$delta] = array(
+      '#markup' => theme('link_favicon_formatter_favicon', array(
+        'format' => $settings['format'],
+        'service' => $settings['service'],
+        'service_url' => $services[$settings['service']]['url'],
+        'service_link' => $service_link,
+        'restrict_size' => $settings['restrict_size'],
+        'element' => $item,
+        'field' => $instance,
+        )
+      ),
+    );
+  }
+  return $elements;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function link_favicon_formatter_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $summary = '';
+  if ($display['type'] == 'link_favicon') {
+    $summary = t('One of the other formats with a favicon');
+  }
+  return $summary;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function link_favicon_formatter_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $settings = $instance['display'][$view_mode]['settings'];
+  // Get the other types of link formats.
+  $types = link_field_formatter_info();
+  // Get available services/functions that retrieve favicons.
+  $services = link_favicon_formatter_get_services();
+  // Format the link format options for the select in the form.
+  $options = array();
+  foreach ($types as $key => $value) {
+    $options[$key] = $value['label'];
+  }
+  $element['format'] = array(
+    '#title' => t('Format'),
+    '#type' => 'select',
+    '#options' => $options,
+    '#default_value' => $settings['format'],
+    '#required' => TRUE,
+  );
+  // Format the available service for the select in the form.
+  $service_options = array();
+  foreach ($services as $key => $service) {
+    $service_options[$key] = $service['label'];
+  }
+  $element['service'] = array(
+    '#title' => t('Service'),
+    '#type' => 'select',
+    '#options' => $service_options,
+    '#default_value' => $settings['service'],
+    '#required' => TRUE,
+  );
+  $element['restrict_size'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Restrict Size'),
+    '#default_value' => $settings['restrict_size'],
+    '#description' => t('Sometimes favicons are larger than the normal 16x16, select this to set the width and height on the img tag'),
+  );
+  return $element;
+}
+
+/**
+ * Get available favicon services.
+ */
+function link_favicon_formatter_get_services() {
+  $services = array(
+    'local_PHP_based_icon_scrapper' => array(
+      'label' => t('Local PHP based icon scrapper'),
+      'url' => '',
+      'link_format_function' => 'link_favicon_formatter_PHP_scrapper',
+    ),
+    'google_shared_service' => array(
+      'label' => t('Google shared service'),
+      'url' => 'https://www.google.com/s2/favicons?domain=',
+      'link_format_function' => 'link_favicon_formatter_google_service',
+    ),
+    'getfavicon_appspot' => array(
+      'label' => t('getfavicon.appspot'),
+      'url' => 'https://getfavicon.appspot.com/',
+      'link_format_function' => 'link_favicon_formatter_getfavicon_appspot',
+    ),
+  );
+  // TODO: Implement hook for other modules to add services.
+  return $services;
+}
+
+/**
+ * Function to format the link for use with PHP scrapper.
+ */
+function link_favicon_formatter_PHP_scrapper(&$link) {
+  // Get the host domain from link.
+  $link = link_favicon_formatter_get_favicon($link);
+}
+
+/**
+ * Function to format the link for use with google service.
+ */
+function link_favicon_formatter_google_service(&$link) {
+  // Get the host domain from link.
+  $parsed = parse_url($link);
+  $link = $parsed['host'];
+}
+
+/**
+ * Function to format the link for use with getfavicon.appspot.
+ */
+function link_favicon_formatter_getfavicon_appspot(&$link) {
+  // Get the host domain from link.
+  $parsed = parse_url($link);
+  $link = $parsed['scheme'] . '://' . $parsed['host'];
+}
+
+/**
+ * Function using own PHP to get the favicon.
+ */
+function link_favicon_formatter_get_favicon($url) {
+  // Make the URL simpler.
+  $elems = parse_url($url);
+  // Make sure $elems['host'] is defined before going any further.
+  if (empty($elems['host'])) {
+    return FALSE;
+  }
+  $url = $elems['scheme'] . '://' . $elems['host'];
+  // Allowed types.
+  $allowed_types = array(
+    // Suggested by IANA.
+    'application/ico',
+    'application/octet-stream',
+    'image/vnd.microsoft.icon',
+    'image/ico',
+    'image/icon',
+    'image/x-icon',
+    'text/ico',
+    'text/plain',
+    // Suggested by W3C.
+    'image/gif',
+    'image/png',
+  );
+  // Create the local file name from the url.
+  $localname = str_replace('www_', '', str_replace('.', '_', $elems['host']));
+  $localexists = FALSE;
+
+  // Check local managed file exists and put filename into the variable.
+  $result = db_query('SELECT fid FROM {file_managed} WHERE uri LIKE :pattern LIMIT 1', array(':pattern' => db_like(LINK_FAVICON_FORMATTER_FAVICON_SAVE_PATH . '/' . $localname) . '%'))
+    ->fetchAssoc();
+  if (isset($result['fid'])) {
+    $file = file_load($result['fid']);
+    if (is_file($file->uri)) {
+      $localexists = $file->uri;
+    }
+  }
+
+  // If no local copy exists, go and get it.
+  if ($elems['host'] && !$localexists) {
+    // Load site.
+    $data = drupal_http_request($url);
+    // Check there was no error.
+    if (!isset($data->error)) {
+      // Look for the shortcut icon inside the loaded page.
+      if (preg_match('/<link[^>]+rel="(?:shortcut )?icon"[^>]+?href="([^"]+?)"/si', $data->data, $icons)) {
+        if (strpos($icons[1], '://')) {
+          // Absolute path.
+          $data = drupal_http_request($icons[1]);
+        }
+        elseif (strpos($icons[1], '//') === 0) {
+          // Malformatted absolute path (missing protocol).
+          $data = drupal_http_request('http:' . $icons[1]);
+        }
+        elseif (substr($icons[1], 0, 3) == '../') {
+          // Relative path.
+          $path = '';
+          $elements = explode('/', $elems['path']);
+          foreach ($elements as $e) {
+            if (!strpos($e, '.')) {
+              $path .= $e . '/';
+            }
+          }
+          $data = drupal_http_request($elems['scheme'] . '://' . $elems['host'] . $path . $icons[1]);
+        }
+        elseif (substr($icons[1], 0, 1) == '/') {
+          // Relative path.
+          $data = drupal_http_request($elems['scheme'] . '://' . $elems['host'] . $icons[1]);
+        }
+        else {
+          // Get favicon from root.
+          $data = drupal_http_request($elems['scheme'] . '://' . $elems['host'] . '/favicon.ico');
+        }
+      }
+      else {
+        // Get favicon from root.
+        $data = drupal_http_request($elems['scheme'] . '://' . $elems['host'] . '/favicon.ico');
+      }
+      // Check that the favicon was found.
+      if ($data->status_message == 'OK') {
+        // Format the content-type header so it only gets the first part.
+        // Eg. (in case of 'text/plain; charset=utf-8' as on drupal.org)
+        $content_type = explode(';', $data->headers['content-type']);
+        $content_type = trim($content_type[0]);
+        // Check is allowed content type.
+        if (in_array($content_type, $allowed_types)) {
+          // Create local directory if it doesn't yet exist.
+          $savedir = LINK_FAVICON_FORMATTER_FAVICON_SAVE_PATH;
+          if (file_prepare_directory($savedir, FILE_CREATE_DIRECTORY)) {
+            // Save favicon.
+            // Set the correct extension for the file to be saved.
+            switch ($data->headers['content-type']) {
+              case "image/gif":
+                $extension = '.gif';
+                break;
+                
+              case "image/png":
+                $extension = '.png';
+                break;
+                
+              default:
+                $extension = '.ico';
+            }
+            // Check there is actually data returned
+            if (strlen($data->data)) {
+              $file = file_save_data($data->data, LINK_FAVICON_FORMATTER_FAVICON_SAVE_PATH . '/' . $localname . $extension, FILE_EXISTS_REPLACE);
+              // Return the newly created file's path.
+              return file_create_url($file->uri);
+            } else {
+              watchdog('Link favicon formatter', '%url returned a %ext with no data', array('%url' => $url, '%ext' => $extension), WATCHDOG_ERROR);
+            }
+          }
+          else {
+            watchdog('Link favicon formatter', 'Error creating or reading directory %dir', array('%dir' => LINK_FAVICON_FORMATTER_FAVICON_SAVE_PATH), WATCHDOG_ERROR);
+          }
+        }
+        else {
+          watchdog('Link favicon formatter', 'Favicon was not an allowed content type from %url', array('%url' => $url));
+        }
+      }
+      else {
+        watchdog('Link favicon formatter', 'Favicon not found at %url', array('%url' => $url));
+      }
+    }
+    else {
+      watchdog('Link favicon formatter', 'Error contacting url %url. The error message was %error', array('%url' => $url, '%error' => $data->error));
+    }
+  }
+  else {
+    // Return local file path.
+    return file_create_url($localexists);
+  }
+  return FALSE;
+}
+
+/**
+ * Get all the favicon file objects that are cached.
+ */
+function link_favicon_formatter_get_all_favicons() {
+  $favicons = array();
+  // Get the managed files from database.
+  $result = db_query('SELECT fid FROM {file_managed} WHERE uri LIKE :pattern', array(':pattern' => db_like(LINK_FAVICON_FORMATTER_FAVICON_SAVE_PATH) . '%'));
+  while ($record = $result->fetchAssoc()) {
+    if (isset($record['fid'])) {
+      // Check the file actually exists.
+      $file = file_load($record['fid']);
+      if (is_file($file->uri)) {
+        $favicons[$record['fid']] = $file;
+      }
+    }
+  }
+  return $favicons;
+}

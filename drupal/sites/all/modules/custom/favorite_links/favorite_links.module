@@ -24,7 +24,7 @@ function favorite_links_menu() {
  * Returns custom content to Drupal
  */
 function favorite_theme(){
-  // Call theme() function, so that Drupal includes the favorite_theme.tpl.php template
+  // Call theme() function, so that Drupal includes the favorite_links.tpl.php template
   return theme('favorite_links');
 }
    
@@ -34,7 +34,7 @@ function favorite_theme(){
 function favorite_links_theme(){
   return array(
     'favorite_links' => array(
-      // template file name will be custom-page.tpl.php
+      // template file name will be favorite_links.tpl.php
       'template' => 'favorite_links',
     ),
   );
