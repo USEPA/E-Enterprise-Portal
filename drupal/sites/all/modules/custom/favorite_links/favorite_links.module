@@ -8,34 +8,90 @@
 //drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
 
 
-function favorite_links_menu() {
-  $items =array();
-    $items['favorite_links'] = array(
-      'title' => 'favorite_links_demo',
-            'access callback' => TRUE,
-               'page callback' => 'favorite_theme',
-                'access arguments' => array('access content'),
-    );
-    return $items;
-} 
+// function favorite_links_menu() {
+//   $items =array();
+//     $items['favorite_links'] = array(
+//       'title' => 'favorite_links_demo',
+//             'access callback' => TRUE,
+//                'page callback' => 'favorite_theme',
+//                 'access arguments' => array('access content'),
+//     );
+//     return $items;
+// } 
 
  
-/*
- * Returns custom content to Drupal
- */
-function favorite_theme(){
-  // Call theme() function, so that Drupal includes the favorite_links.tpl.php template
-  return theme('favorite_links');
-}
+// /*
+//  * Returns custom content to Drupal
+//  */
+// function favorite_theme(){
+//   // Call theme() function, so that Drupal includes the favorite_links.tpl.php template
+//   return theme('favorite_links');
+// }
    
-/*
- * Implementation of hook_theme().
+// /*
+//  * Implementation of hook_theme().
+//  */
+// function favorite_links_theme(){
+//   return array(
+//     'favorite_links' => array(
+//       // template file name will be favorite_links.tpl.php
+//       'template' => 'favorite_links',
+//     ),
+//   );
+// }
+
+
+/**
+ * Declare what blocks are provided by this module.
+ * Implements hook_block_info().
+ */
+function favorite_links_block_info(){
+    $block['favorite_links'] = array(
+        'info' => t('Favorite Links'),
+        'cache' => DRUPAL_NO_CACHE,
+    );
+    return $block;
+}
+
+/**
+ * Define what our block is going to look like.
+ * Implements hook_block_view().
+ */
+function favorite_links_block_view($block_key){
+    $block = array();
+
+    if($block_key == 'favorite_links'){ //We only want to define the content of OUR block
+        //This is the title of the block.
+        $block['subject'] = t('Favorite Links');
+
+        //Define the block content.
+        $block['content'] ="content";
+
+    }
+
+    return $block;
+}
+
+function favorite_links_block_function_items() {
+       $items = array();
+      return theme('favorite_links_block_function_items', array('items' => $items)); 
+}
+
+/**
+ *
+ * Implementen hook_theme
+ *
  */
 function favorite_links_theme(){
-  return array(
-    'favorite_links' => array(
-      // template file name will be favorite_links.tpl.php
-      'template' => 'favorite_links',
-    ),
+  $module_path = drupal_get_path('module', 'favorite_links');
+  $base = array(
+    'path' => "$module_path/theme",   
   );
+  return array(
+    'favorite_links_block_function_items' => $base + array(
+      'template' => 'favorite_links_block',  //leave off .tpl.php
+      'variables' => array('items' => NULL,),
+    ),   
+  ); 
+
 }
