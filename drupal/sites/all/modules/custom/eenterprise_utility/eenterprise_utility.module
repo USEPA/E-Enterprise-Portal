@@ -97,14 +97,24 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
               unset($form['#validate'][$key]);
       }
 
+      //      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= '';
+      // $form['field_zip_code'][LANGUAGE_NONE]['#title'] = 'ZIP Code(s)';
+      // if ($form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'] == '') {
+      //   $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= 'true';
+      // }
+      // if (isset($form_state['input'])) {
+      //      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= 
+      //       $form_state['input']['field_zip_code'][LANGUAGE_NONE][0]['value'];
+      //   }
+      
+   if ($form_state['triggering_element']['#name'] == 'field_zip_code_und_0_remove_button') {
+           $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
+        }
 
-      $form['field_zip_code'][LANGUAGE_NONE]['#title'] = 'ZIP Code(s)';
-      if ($form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'] == '') {
-        $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= '66952';
-      }
-      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes'] =  array('placeholder' => '66952');
 
-
+           
+           
+           
       $form['field_zip_code'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-control';
       // add more button
       $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
@@ -155,6 +165,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         }
         $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#default_value']; 
         // overide default if input has been made
+     
         if (isset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta])) {
           $input_zip = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta];
           if (isset($input_zip)) {
@@ -182,6 +193,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#field_suffix'] =
           $field_suffix;
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['title'] = 'Remove';
+        $form['field_zip_code'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['name'] = 'remove_field_item_' . $delta;
+        
 //        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#ajax'] = array(
 //                'callback' => 'field_zip_code_generate',
 //                'wrapper' => 'zipcode_description',
@@ -264,6 +277,7 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
    user_profile_zipcode_custom_validate($form, $form_state);
 }
 
+
 /**
  * @param $form
  * @param $form_state
@@ -276,9 +290,14 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
     $error_message = '';
     $field_id = '';
    
-    foreach($form_state['values']['field_zip_code']['und'] as $delta => $field) {
+   // Default value is 66952.
+   // Occurs when all values are blank.
+   $blank_zipcode = true;
+   if (isset($form_state['input']['field_zip_code'])){
+    foreach($form_state['values']['field_zip_code'][LANGUAGE_NONE] as $delta => $field) {
+      
         if(is_array($field) && is_numeric($delta)) {
-            $zip_val = $form_state['values']['field_zip_code']['und'][$delta]['value'];
+            $zip_val = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['value'];
             if(!is_numeric($zip_val) && !empty($zip_val)) {
               $error_message = 'Zip code can only be number';
               $error = true;
@@ -294,6 +313,7 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
             else { 
               if ($zip_val != '') {
                $previous_zipcodes[] = $zip_val;
+               $blank_zipcode = false;
               }
             }
             
@@ -303,6 +323,18 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
             }
         }
     }
+   }
+   else {
+         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 66952;
+   }
+   
+   if ($blank_zipcode) {
+         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 66952;
+   }
+
+    
+   
+    
    if ($error) {
      if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
        form_set_error('field_zip_code', t($error_message));
