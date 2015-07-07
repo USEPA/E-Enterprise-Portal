@@ -97,7 +97,14 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
               unset($form['#validate'][$key]);
       }
 
+
       $form['field_zip_code'][LANGUAGE_NONE]['#title'] = 'ZIP Code(s)';
+      if ($form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'] == '') {
+        $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= '66952';
+      }
+      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes'] =  array('placeholder' => '66952');
+
+            dpm( $form['field_zip_code'][LANGUAGE_NONE]);
 //      $form['field_zip_code']['#attributes'][] = 'zip_code_inputs';
       $form['field_zip_code'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-control';
       // add more button

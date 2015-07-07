@@ -166,6 +166,7 @@ $(document).ready(function(){
                     jQuery.each(Drupal.views.instances, function (i, view) {
 						console.log(i, view);
                         var selector = '.view-dom-id-' + view.settings.view_dom_id;
+						view.settings.view_display_id;
                         if (view.settings.view_display_id == "block") {
                             console.log('1');
                             jQuery(selector).triggerHandler('RefreshView');
