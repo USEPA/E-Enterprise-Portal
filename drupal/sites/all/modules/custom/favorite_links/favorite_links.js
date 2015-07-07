@@ -48,7 +48,6 @@ $(document).ready(function(){
 			var title = $(this).text();
 			var favorite_button = createFavoriteButton(url, title);
 			$(this).after(favorite_button);
-			console.log($(this).next('div'));
 			$(this).qtip({ // Grab some elements to apply the tooltip to
 			    content: {
 			        text: $(this).next('div')
@@ -117,7 +116,6 @@ var path = window.location.pathname;
 	// };
 	
 	function processFavoriteLink(button, action, url, label) {
-		alert(label);
 		url = encodeURIComponent(url);
 		$.ajax({
 			url: '/process_favorite_link',
@@ -129,8 +127,6 @@ var path = window.location.pathname;
 				button.text("Loading");
 			},
 			success: function(data) {
-				// console.log(data);
-				// console.log($.parseJSON(data));
 				if (data == 'success') {
 					button.unbind("click");
 					if (action == 'add') {
@@ -164,49 +160,47 @@ var path = window.location.pathname;
 	});
 	
 
-    Drupal.behaviors.blockRefresh = {
-        attach: function (context, settings) {
-			console.log(context);
-			console.log(settings);
-            jQuery('.pane-views-favorite-sites-block').once().click(function () {
-                    jQuery.each(Drupal.views.instances, function (i, view) {
-						console.log(i, view);
-                        var selector = '.view-dom-id-' + view.settings.view_dom_id;
-						view.settings.view_display_id;
-                        if (view.settings.view_display_id == "block") {
-                            console.log('1');
-                            jQuery(selector).triggerHandler('RefreshView');
-                        }
-                        jQuery(selector).unbind();
-                    });
-                });
+    // Drupal.behaviors.blockRefresh = {
+    //     attach: function (context, settings) {
+    //         jQuery('.pane-views-favorite-sites-block').once().click(function () {
+    //                 jQuery.each(Drupal.views.instances, function (i, view) {
+	// 					console.log(i, view);
+    //                     var selector = '.view-dom-id-' + view.settings.view_dom_id;
+	// 					view.settings.view_display_id;
+    //                     if (view.settings.view_display_id == "block") {
+    //                         console.log('1');
+    //                         jQuery(selector).triggerHandler('RefreshView');
+    //                     }
+    //                     jQuery(selector).unbind();
+    //                 });
+    //             });
 
 
-            jQuery('.pane-views-favorite-sites-block').once().click(function () {
-                    jQuery.each(Drupal.views.instances, function (i, view) {
-                        var selector = '.view-dom-id-' + view.settings.view_dom_id;
-                        if (view.settings.view_display_id == "block_1") {
-                            console.log('2');
-                            jQuery(selector).triggerHandler('RefreshView');
-                        }
-                        jQuery(selector).unbind();
+    //         jQuery('.pane-views-favorite-sites-block').once().click(function () {
+    //                 jQuery.each(Drupal.views.instances, function (i, view) {
+    //                     var selector = '.view-dom-id-' + view.settings.view_dom_id;
+    //                     if (view.settings.view_display_id == "block_1") {
+    //                         console.log('2');
+    //                         jQuery(selector).triggerHandler('RefreshView');
+    //                     }
+    //                     jQuery(selector).unbind();
 
-                    });
-                });
+    //                 });
+    //             });
 
-            jQuery('.pane-views-favorite-sites-block').once().click(function () {
-                    jQuery.each(Drupal.views.instances, function (i, view) {
-                        var selector = '.view-dom-id-' + view.settings.view_dom_id;
-                        if (view.settings.view_display_id == "block_2") {
-                            console.log('3');
-                            jQuery(selector).triggerHandler('RefreshView');
-                        }
-                        jQuery(selector).unbind();
-                    });
-                });
+    //         jQuery('.pane-views-favorite-sites-block').once().click(function () {
+    //                 jQuery.each(Drupal.views.instances, function (i, view) {
+    //                     var selector = '.view-dom-id-' + view.settings.view_dom_id;
+    //                     if (view.settings.view_display_id == "block_2") {
+    //                         console.log('3');
+    //                         jQuery(selector).triggerHandler('RefreshView');
+    //                     }
+    //                     jQuery(selector).unbind();
+    //                 });
+    //             });
 
-        }
-    }
+    //     }
+    // }
 
 
 	
