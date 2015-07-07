@@ -104,8 +104,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       }
       $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes'] =  array('placeholder' => '66952');
 
-            dpm( $form['field_zip_code'][LANGUAGE_NONE]);
-//      $form['field_zip_code']['#attributes'][] = 'zip_code_inputs';
+
       $form['field_zip_code'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-control';
       // add more button
       $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
