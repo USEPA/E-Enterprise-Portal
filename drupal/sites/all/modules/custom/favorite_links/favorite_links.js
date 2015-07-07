@@ -87,20 +87,23 @@ $(document).ready(function(){
 	// 	$(this).hide();	
 	// });
 	
-	$('body').on('click', '.add_link', function(){
-		var string_array = $(this).attr('id').split('|');
-		var url = string_array[0];
-		var label = string_array[1];
-		processFavoriteLink($(this), 'add', url, label );
-	});
-	
-	$('body').on('click', '.remove_link', function() {
-		var string_array = $(this).attr('id').split('|');
-		var url = string_array[0];
-		var label = string_array[1];
-		processFavoriteLink($(this), 'remove', url, label );
-	});
-	
+	var path = window.location.pathname;
+	var page = path.split('/')[1];
+	if (page == 'workbench') {
+		$(document.body).on('click', '.add_link', function(){
+			var string_array = $(this).attr('id').split('|');
+			var url = string_array[0];
+			var label = string_array[1];
+			processFavoriteLink($(this), 'add', url, label );
+		});
+		
+		$(document.body).on('click', '.remove_link', function() {
+			var string_array = $(this).attr('id').split('|');
+			var url = string_array[0];
+			var label = string_array[1];
+			processFavoriteLink($(this), 'remove', url, label );
+		});
+	}
 	// function removeRow(url) {
 	// 	$.ajax({
 	// 		url: '/user_add_favorite_link/' + url + '/remove'
