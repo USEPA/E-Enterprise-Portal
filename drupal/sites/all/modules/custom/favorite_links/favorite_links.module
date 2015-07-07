@@ -21,6 +21,13 @@ function favorite_links_menu() {
       'page callback' => 'load_links',
       'access callback' => TRUE,
       ); 
+      $items['favorite_sites-ajax/%'] = array(
+            'access arguments' => array('access content'),
+            'page callback' => 'favorite_links_ajax_callback',
+            'page arguments' => array(1),
+            'type' => MENU_CALLBACK,
+    );
+
     return $items;
 } 
 
@@ -116,80 +123,30 @@ function load_links() {
   echo json_encode($results);
 }
 
+
+function favorite_links_ajax_callback($js, $node) {
+  
+  // name of view = favorite_sites
+  // If the nojs didn't get changed to ajax, the user has no javascript.
+  // Send them to the regular node page instead.
+  if ($js == 'nojs') {
+    print 'reload';
+  }
+
+  // Get the render array for the node.
+  $build = views_embed_view('favorite_sites', $display_id = 'default');
+  // dpm($build);
+  // $build =  $block['favorite_sites_block'];
+  // Render the node into html.
+  $html = render($build);
+  // print($html);
+  // Prepare an ajax command to insert the node html into our ajax wrapper.
+  $commands = array();
+  $commands[] = ajax_command_html('#favorite_links-ajax-wrapper', $html);
+
+  // Render the commands into JSON and print them.
+  print ajax_render($commands);
+  exit;  // Exit so Drupal doesn't have a chance to build a whole page.
+}
+
  
-// /*
-//  * Returns custom content to Drupal
-//  */
-// function favorite_theme(){
-//   // Call theme() function, so that Drupal includes the favorite_links.tpl.php template
-//   return theme('favorite_links');
-// }
-   
-// /*
-//  * Implementation of hook_theme().
-//  */
-// function favorite_links_theme(){
-//   return array(
-//     'favorite_links' => array(
-//       // template file name will be favorite_links.tpl.php
-//       'template' => 'favorite_links',
-//     ),
-//   );
-// }
-
-
-/**
- * Declare what blocks are provided by this module.
- * Implements hook_block_info().
- */
-// function favorite_links_block_info(){
-//     $block['favorite_links'] = array(
-//         'info' => t('Favorite Links'),
-//         'cache' => DRUPAL_NO_CACHE,
-//     );
-//     return $block;
-// }
-
-/**
- * Define what our block is going to look like.
- * Implements hook_block_view().
- */
-// function favorite_links_block_view($block_key){
-//     $block = array();
-
-//     if($block_key == 'favorite_links'){ //We only want to define the content of OUR block
-//         //This is the title of the block.
-//         $block['subject'] = t('Favorite Links');
-
-//         //Define the block content.
-//         $block['content'] ="content";
-
-//     }
-
-//     return $block;
-// }
-
-// function favorite_links_block_function_items() {
-//        $items = array();
-//       return theme('favorite_links_block_function_items', array('items' => $items)); 
-// }
-
-/**
- *
- * Implementen hook_theme
- *
- */
-// function favorite_links_theme(){
-//   $module_path = drupal_get_path('module', 'favorite_links');
-//   $base = array(
-//     'path' => "$module_path/theme",   
-//   );
-//   return array(
-//     'favorite_links_block_function_items' => $base + array(
-//       'template' => 'favorite_links_block',  //leave off .tpl.php
-//       'variables' => array('items' => NULL,),
-//     ),   
-//   ); 
-
-// }
-

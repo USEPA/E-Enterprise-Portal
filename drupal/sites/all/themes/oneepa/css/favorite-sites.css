@@ -1,0 +1,28 @@
+.field-type-text, .form-text {
+  width: 26em; float: left;
+}
+
+.remove-button {
+  float: right;
+}
+
+.tabledrag-toggle-weight, .form-wrapper legend, .field-type-datetime,
+th.views-field, .field-multiple-table thead{
+  display: none;
+}
+
+td.views-field-field-profile-favourites-editable {
+  padding: 0px;
+}
+
+.form-wrapper, tbody{
+  border: none;
+}
+
+/*.views-row-edit-edit {
+  height: 150px;
+}*/
+
+td, .views-row-edit-edit { 
+  width: 100%;
+}
