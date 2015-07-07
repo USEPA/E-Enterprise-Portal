@@ -85,6 +85,7 @@ function air_emissions_view_top3_zipcode() {
   foreach($rawResponseArr as $rawFac) {
       $facID = $rawFac['FACILITY_ID'];
       $rawEmissionsArr = $rawFac['PUB_FACTS_SUBP_GHG_EMISSION'];
+      $facTotEmissCO2E = 0;
       foreach($rawEmissionsArr as $rawEmissItem) {
         $facEmissPerGas = $rawEmissItem['CO2E_EMISSION']; //Amount per gas
         $facTotEmissCO2E += $facEmissPerGas;
@@ -137,6 +138,7 @@ function air_emissions_view_top3_zipcode() {
 
         //new array to hold emissions per gas for each facility
         $pollutantsPerFac = array();
+        $facTotEmissCO2E = 0;
         foreach($rawEmissionsArr as $rawEmissItem) {
           //array per pollutant (within each facility)
           $outputPollArr = array();
