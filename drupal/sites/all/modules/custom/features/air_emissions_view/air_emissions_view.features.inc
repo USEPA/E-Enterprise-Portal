@@ -46,15 +46,16 @@ function air_emissions_view_top3_zipcode() {
   //zipcode taken from URL that is sent from client side
   $zipCode = $_GET['zipCode'];
 
-  //TODO: Use internal service to fetch lat/long using zip code to get zip centroid lat/long
+  //TODO: Use internal service to fetch lat/long using zip code to get zip centroid lat/long (and validate lat/long given)
   $zipCentroidLat83 = 32.8;
   $zipCentroidLong83 = -96.8;
-  $bufferRadiusMi = 25;
+  $bufferRadiusMi = 10;
 
   $zipCentroidGeoloc = GeoLocation::fromDegrees($zipCentroidLat83, $zipCentroidLong83);
 
-  // get bounding coordinates 50 miles from zip centroid;
+  // get bounding coordinates with buffer radius in miles from zip centroid;
   $boundCoords = $zipCentroidGeoloc->boundingCoordinates($bufferRadiusMi, 3958.762079);
+
 
   $minBBLat = $boundCoords[0]->degLat;
   $minBBLong = $boundCoords[0]->degLon;
@@ -62,30 +63,25 @@ function air_emissions_view_top3_zipcode() {
   $maxBBLong = $boundCoords[1]->degLon;
 
   //http://iaspub.epa.gov/enviro/efservice/PUB_DIM_FACILITY/longitude/>/-97.922211/latitude/>/32.322255/longitude/</-96.802048/latitude/</33.383148/year/2013/PUB_FACTS_SUBP_GHG_EMISSION/PUB_DIM_GHG/XML/rows/1:1
-  $url = 'http://iaspub.epa.gov/enviro/efservice/PUB_DIM_FACILITY/longitude/%3E/'.$minBBLong.'/latitude/%3E/'.$minBBLat.'/longitude/%3C/'.$maxBBLong.'/latitude/%3C/'.$maxBBLat.'/year/2013/PUB_FACTS_SUBP_GHG_EMISSION/PUB_DIM_GHG/JSON/rows/1:10';
-  print $url;
-  //'http://iaspub.epa.gov/enviro/efservice/PUB_DIM_FACILITY/longitude/%3E/-97.922211/latitude/%3E/32.922255/longitude/%3C/-97.802048/latitude/%3C/33.383148/year/2013/PUB_FACTS_SUBP_GHG_EMISSION/PUB_DIM_GHG/JSON';
-  //http://iaspub.epa.gov/enviro/efservice/PUB_DIM_FACILITY/longitude/%3E/-97.922211/latitude/%3E/32.322255/longitude/%3C/-96.802048/latitude/%3C/33.383148/year/2013/PUB_FACTS_SUBP_GHG_EMISSION/PUB_DIM_GHG/JSON
+  $url = 'http://iaspub.epa.gov/enviro/efservice/PUB_DIM_FACILITY/longitude/%3E/'.$minBBLong.'/latitude/%3E/'.$minBBLat.'/longitude/%3C/'.$maxBBLong.'/latitude/%3C/'.$maxBBLat.'/year/2013/PUB_FACTS_SUBP_GHG_EMISSION/PUB_DIM_GHG/JSON';
+  //print $url;
 
+  //send request to EF API
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_HEADER, false);
   curl_setopt($ch, CURLINFO_HEADER_OUT, false);
   curl_setopt($ch, CURLOPT_VERBOSE, false);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_URL, $url);
-
   $rawEFAPIResponse = curl_exec($ch);
-
   curl_close($ch);
 
-  //$json = '[{"FACILITY_ID":1000098,"LATITUDE":33.05631,"LONGITUDE":-97.91332,"CITY":"POOLVILLE","STATE":"TX","ZIP":76487,"COUNTY_FIPS":48367,"COUNTY":"Parker","ADDRESS1":"800 BOONS CREEK LANE","ADDRESS2":null,"FACILITY_NAME":"Wise County Power Company, LLC","STATE_NAME":"Texas","NAICS_CODE":221112,"YEAR":2013,"BAMM_USED_DESC":null,"EMISSION_CLASSIFICATION_CODE":"DEFAULT","PROGRAM_NAME":"Clean Air Markets Division Business Database","PROGRAM_SYS_ID":7175,"FRS_ID":110015743383,"CEMS_USED":null,"CO2_CAPTURED":null,"REPORTED_SUBPARTS":"D","BAMM_APPROVED":null,"EMITTED_CO2_SUPPLIED":null,"TRIBAL_LAND_ID":null,"EGGRT_FACILITY_ID":null,"PUBLIC_HTML":null,"PUBLIC_XML":null,"LOCATION":{"SDO_GTYPE":2001,"SDO_SRID":4326,"SDO_POINT":{"X":-97.91332,"Y":33.05631,"Z":null},"SDO_ELEM_INFO":null,"SDO_ORDINATES":null},"PARENT_COMPANY":"GDF SUEZ North America, Inc. (100%);","PUBLIC_XML_XML":null,"REPORTED_INDUSTRY_TYPES":"D","FACILITY_TYPES":"Direct Emitter","SUBMISSION_ID":86836,"UU_RD_EXEMPT":null,"REPORTING_STATUS":null,"PUB_FACTS_SUBP_GHG_EMISSION":[{"FACILITY_ID":1000098,"SUB_PART_ID":2,"CO2E_EMISSION":5047.226,"GAS_ID":3,"YEAR":2013,"PUB_DIM_GHG":{"PUB_DIM_GHG_ROW":{"GAS_ID":3,"GAS_CODE":"N2O","GAS_NAME":"Nitrous Oxide","GAS_LABEL":"Nitrous Oxide (N%3Csub%3E2%3C/sub%3EO)"}}},{"FACILITY_ID":1000098,"SUB_PART_ID":2,"CO2E_EMISSION":2117,"GAS_ID":2,"YEAR":2013,"PUB_DIM_GHG":{"PUB_DIM_GHG_ROW":{"GAS_ID":2,"GAS_CODE":"CH4","GAS_NAME":"Methane","GAS_LABEL":"Methane (CH%3Csub%3E4%3C/sub%3E)"}}},{"FACILITY_ID":1000098,"SUB_PART_ID":2,"CO2E_EMISSION":1521813.5,"GAS_ID":1,"YEAR":2013,"PUB_DIM_GHG":{"PUB_DIM_GHG_ROW":{"GAS_ID":1,"GAS_CODE":"CO2","GAS_NAME":"Carbon Dioxide","GAS_LABEL":"Carbon Dioxide (CO%3Csub%3E2%3C/sub%3E)"}}}]}]';
-
   $rawResponseArr = json_decode($rawEFAPIResponse, true);
-
   $totEmissPerFacArr = array();
 
+
   //START TOP 3 TOTAL EMISSIONS CHECK
-  //each facility in the JSON response from EnviroFacts API
+  //each facility in the raw JSON response from EnviroFacts API
   foreach($rawResponseArr as $rawFac) {
       $facID = $rawFac['FACILITY_ID'];
       $rawEmissionsArr = $rawFac['PUB_FACTS_SUBP_GHG_EMISSION'];
@@ -93,15 +89,19 @@ function air_emissions_view_top3_zipcode() {
         $facEmissPerGas = $rawEmissItem['CO2E_EMISSION']; //Amount per gas
         $facTotEmissCO2E += $facEmissPerGas;
       }
-      //Add each facility ID with Total Emissions as key-value pairs
+      //Add each facility ID (all of them) with Total Emissions as key-value pairs
       $totEmissPerFacArr[$facID] = $facTotEmissCO2E;
   }
-  //Sort Descending by Total emissions and only keep top 3 Fac IDs
+
+  //Sort Descending by Total emissions (in CO2E) and only keep top 3 Fac IDs
   arsort($totEmissPerFacArr);
-  //Top 3 Emitting Fac IDs
+
+  //Top 3 Emitting Fac IDs stored in this array
   $top3EmitterFacsIDsArr = array(array_keys($totEmissPerFacArr)[0], array_keys($totEmissPerFacArr)[1], array_keys($totEmissPerFacArr)[2]);
   //print_r($top3EmitterFacsIDsArr);
   //END TOP 3 CHECK
+
+
 
   //Array to hold full JSON response to send to client
   $jsonReturn = array();
@@ -165,9 +165,6 @@ function air_emissions_view_top3_zipcode() {
   $jsonReturn['Facilities'] = $allFacsArray;
   print (json_encode($jsonReturn, JSON_PRETTY_PRINT));
 
-
-
-
   /*Template JSON Response to send to client
   {
   "ZipCentLat83": #,
@@ -188,9 +185,10 @@ function air_emissions_view_top3_zipcode() {
   }
   */
 
-
   exit;
 }
+
+
 
 
 
@@ -199,7 +197,8 @@ function air_emissions_view_top3_zipcode() {
 //also allows method to calculate the bounding box to send to the EnviroFacts API
 //based on zip centroid and buffer distance
 //must be used because the EnviroFacts API isn't spatially enabled
-
+//Adopted from https://github.com/anthonymartin/GeoLocation.php
+//Creative Commons License 3.0
 class GeoLocation {
 
   public $radLat;  // latitude in radians
