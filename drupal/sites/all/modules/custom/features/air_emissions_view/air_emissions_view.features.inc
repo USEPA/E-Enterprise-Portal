@@ -157,8 +157,26 @@ function air_emissions_view_top3_zipcode() {
           $facTotEmissCO2E += $facEmissPerGas;
         }
 
+        //have an array of key:value for pollutant:emission, but there can be edge cases
+        //where the exact same pollutant is listed twice due to differing SUB_PART_IDs
+        //so we sum the array by key value to sum total emissions by pollutant with no duplicate pollutants
+        $pollutantsPerFacUniquePollutant = array();
+        foreach ($pollutantsPerFac as $value) {
+          if( ! isset($pollutantsPerFacUniquePollutant[$value['PollutantName']]) ) {
+             $pollutantsPerFacUniquePollutant[$value['PollutantName']] = 0;
+          }
+          $pollutantsPerFacUniquePollutant[$value['PollutantName']] += $value['AmtCO2E'];
+        }
+
+        foreach($pollutantsPerFacUniquePollutant as $key => $value) {
+          $pollutantsPerFacUniquePollutantWithKeyNames[] = array('PollutantName' => $key, 'AmtCO2E' => $value);
+        }
+
+        //var_dump($pollutantsPerFacUniquePollutantWithKeyNames);
+
+
         $outputFacArr['TotEmissCO2E'] = $facTotEmissCO2E;
-        $outputFacArr['Pollutants'] = $pollutantsPerFac;
+        $outputFacArr['Pollutants'] = $pollutantsPerFacUniquePollutantWithKeyNames;
         array_push( $allFacsArray, $outputFacArr);
       }
 
