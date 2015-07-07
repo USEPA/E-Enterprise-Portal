@@ -8,7 +8,7 @@
  */
 
 // @todo - Update epa theme_key to oneepa once all files exist
-if ($GLOBALS['theme_key'] === 'oneepa') {
+if ($GLOBALS['theme_key'] === 'greentrees') {
   require_once dirname(__FILE__) . '/inc/process.inc';
   require_once dirname(__FILE__) . '/inc/theme.inc';
 
@@ -332,13 +332,13 @@ function greentrees_menu_link(&$variables) {
  * @param $type
  * @param $theme
  * @param $path
- * Hook Theme for oneepa.
+ * Hook Theme for greentrees.
  */
 function greentrees_theme($existing, $type, $theme, $path){
     $items['user_profile_form'] = array(
         'render element' => 'form',
         'template' => 'user_profile_form',
-        'path' => drupal_get_path('theme', 'oneepa') . '/templates/forms',
+        'path' => drupal_get_path('theme', 'greentrees') . '/templates/forms',
     );
 
     return $items;
