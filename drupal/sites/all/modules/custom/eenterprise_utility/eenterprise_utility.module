@@ -183,7 +183,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
      }
         
 
-      drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+
   } // end user form
 
 
