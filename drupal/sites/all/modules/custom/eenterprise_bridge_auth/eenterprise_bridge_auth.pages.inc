@@ -338,10 +338,21 @@ function assign_roles_to_user($user_name){
         );
         global $user;
         $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
-        $role_val = $user_roles->Role->type->description;
-        if(!empty($role_val)){
-            $user_role = user_role_load_by_name($role_val);
-            user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+        if(is_array($user_roles->Role)){
+            foreach($user_roles->Role as $k => $v){
+                $role_val = $v->type->description;
+                if(!empty($role_val)){
+                    $user_role = user_role_load_by_name($role_val);
+                    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                }
+            }
+        }
+        else{
+            $role_val = $user_roles->Role->type->description;
+            if(!empty($role_val)){
+                $user_role = user_role_load_by_name($role_val);
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+            }
         }
     } catch(SoapFault $f) {
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);

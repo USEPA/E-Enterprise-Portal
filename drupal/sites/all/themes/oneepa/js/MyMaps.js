@@ -92,7 +92,7 @@
     function api_call(successCallback) {
       $.ajax({
         type: 'GET',
-        url: 'http://epa.maps.arcgis.com/sharing/rest/search',
+        url: 'https://epa.maps.arcgis.com/sharing/rest/search',
         async: false,
         //hardcoded string for EPA  GPO (AGOL) query - hardcoded query for empty string (wildcard) - later to implement tag search or similar for filtering based on dynamic criteria
         data: {
