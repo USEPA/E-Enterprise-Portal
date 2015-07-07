@@ -1,0 +1,45 @@
+<?php
+
+class MultifieldAdministrationTestCase extends DrupalWebTestCase {
+  protected $profile = 'testing';
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Multifield administration',
+      'description' => 'Tests multifield administration and user interfaces.',
+      'group' => 'Multifield',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('multifield', 'field_ui'));
+    $account = $this->drupalCreateUser(array('administer multifield'));
+    $this->drupalLogin($account);
+  }
+
+  public function testMultifield() {
+    // Start by adding a new multifield.
+    $this->drupalGet('admin/structure/multifield');
+    $this->assertText('No multifield types available.');
+    $this->clickLink('Add multifield');
+
+    $values = array(
+      'label' => 'Test label',
+      'machine_name' => drupal_strtolower($this->randomName(129)),
+    );
+    $this->drupalPost(NULL, $values, 'Save');
+    $this->assertText('Machine name cannot be longer than 128 characters but is currently 129 characters long.');
+
+    $values['machine_name'] = drupal_strtolower($this->randomName(128));
+    $this->drupalPost(NULL, $values, 'Save');
+
+  }
+}
+
+//class MultifieldTestCase extends FieldAttachTestCase {
+//}
+
+// Create a text field with:
+//- value1: text
+//- value2: text_long
+//- value3: text_with_summary

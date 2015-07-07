@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file: Demonstration Block for Block Refresh
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function block_refresh_demo_block_info() {
+  return array(
+    'block_refresh_demo' => array(
+      'info' => 'Block Refresh Demonstration Block',
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+      'region' => 'sidebar_first',
+      'status' => 1,
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function block_refresh_demo_block_view($delta = '') {
+  $block = array();
+
+
+  switch ($delta) {
+    case 'block_refresh_demo':
+      $block['subject'] = t('Block Refresh Demonstration');
+      $block['content'] = block_refresh_demo();
+      break;
+  }
+
+
+  return $block;
+}
+
+function block_refresh_demo() {
+  $block['info'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p>The number below is the unix timestamp when this block was generated. If block refresh is set up correctly this number will change when the block is refreshed. By default this will refresh every 10 seconds.</p>',
+  );
+
+  $block['time'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p><strong>' . time() . '</strong></p>',
+  );
+
+
+  return $block;
+}

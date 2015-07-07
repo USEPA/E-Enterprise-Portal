@@ -1,0 +1,18 @@
+.qtip-link {
+  border-bottom: 1px dotted;
+  color: #00F;
+  cursor: default;
+}
+
+.qtip-tooltip {
+  display: none;
+}
+
+form#qtip-configure-instance-form .corners-images {
+  float: right;
+}
+
+form#qtip-configure-instance-form .corners-images .credit {
+  font-size: 10px;
+  text-align: center;
+}

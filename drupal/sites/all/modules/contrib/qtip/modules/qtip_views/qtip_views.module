@@ -1,0 +1,312 @@
+<?php
+
+/**
+ * Implements hook_views_api().
+*/
+function qtip_views_views_api() {
+  return array(
+    'api' => 3,
+  );
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function qtip_views_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id != 'views_ui_config_item_form') return;
+  if ($form_state['type'] != 'field') return;
+  if (strpos($form['#section'], 'qtip_views_field') !== FALSE) return;
+
+  // Handle the label tooltip
+  $form_state['tooltips'] = qtip_views_fetch_label_tooltips($form_state['view']);
+
+  $form['options']['element_label_tooltip_show'] = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('Create a label tooltip'),
+    '#description'   => t('Enable to create a tooltip for this label.'),
+    '#default_value' => @$form_state['tooltips'][$form_state['id']]['show'],
+    '#dependency'    => $form['options']['element_label_colon']['#dependency'],
+    '#weight'        => $form['options']['element_label_colon']['#weight'] + .1,
+  );
+  $form['options']['element_label_tooltip'] = array(
+    '#type'          => 'textarea',
+    '#title'         => t('Tooltip'),
+    '#description'   => t('The text to display for the tooltip of this label. You may include HTML.'),
+    '#default_value' => @$form_state['tooltips'][$form_state['id']]['tooltip'],
+    '#attributes'    => array(
+      'class' => array('dependent-options'),
+    ),
+    '#dependency' => array('edit-options-element-label-tooltip-show' => array(1)),
+    '#weight'     => $form['options']['element_label_tooltip_show']['#weight'] + .01,
+  );
+
+  // Handle the element tooltip
+  $item = $form_state['view']->get_item($form_state['display_id'], 'field', $form_state['id']);
+  $form['options']['element_qtip'] = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('Create a tooltip'),
+    '#description'   => t('Enable to create a tooltip for this field.'),
+    '#default_value' => @$item['element_qtip'],
+  );
+  $form['options']['qtip_title'] = array(
+    '#type'          => 'textfield',
+    '#title'         => t('Title'),
+    '#description'   => t('The title to give the tooltip.'),
+    '#default_value' => @$item['qtip_title'],
+    '#dependency'    => array('edit-options-element-qtip' => array(1)),
+  );
+  $form['options']['qtip_text'] = array(
+    '#type'          => 'textarea',
+    '#title'         => t('Text'),
+    '#description'   => t('The text to display for the tooltip of this field. You may include HTML. You may enter data from this view as per the "Replacement patterns".'),
+    '#default_value' => @$item['qtip_text'],
+    '#dependency'    => array('edit-options-element-qtip' => array(1)),
+  );
+  $form['options']['qtip_instance'] = qtip_fetch_instances_field(@$item['qtip_instance']);
+  $form['options']['qtip_instance']['#dependency'] = array('edit-options-element-qtip' => array(1));
+
+  $form['buttons']['submit']['#submit'][] = 'qtip_views_form_views_ui_config_item_form_submit';
+}
+
+/**
+ * Submit function for views_ui_config_item_form.
+ */
+function qtip_views_form_views_ui_config_item_form_submit($form, &$form_state) {
+  // We need to check for dropdown, it will not exist if the user is on the Master display
+  $display_id = $form_state['values']['override']['dropdown'] ? $form_state['values']['override']['dropdown'] : 'default';
+  $options = $form_state['values']['options'];
+  $tooltips = $form_state['tooltips'];
+  $form_state['view']->set_display($display_id);
+  $id = $form_state['id'];
+
+  // Handle the submission for the label tooltip
+  if ($options['element_label_tooltip_show']
+    && !empty($options['element_label_tooltip'])) {
+    $tooltips[$id]['show'] = $options['element_label_tooltip_show'];
+    $tooltips[$id]['tooltip'] = $options['element_label_tooltip'];
+  }
+  else {
+    unset($tooltips[$id]);
+  }
+  $form_state['view']->display_handler->set_option('qtip_tooltips', $tooltips);
+
+  // Handle the submission for the element tooltip
+  $item = $form_state['view']->get_item($display_id, 'field', $id);
+
+  $item['element_qtip'] = $options['element_qtip'];
+  $item['qtip_title'] = $options['qtip_title'];
+  $item['qtip_text'] = $options['qtip_text'];
+  $item['qtip_hide_if_equal'] = isset($options['qtip_hide_if_equal']) ? $options['qtip_hide_if_equal'] : 0;
+  $item['qtip_instance'] = $options['qtip_instance'];
+
+  $form_state['view']->set_item($display_id, 'field', $id, $item);
+
+  // Write to cache.
+  views_ui_cache_set($form_state['view']);
+}
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function qtip_views_preprocess_views_view(&$vars) {
+  $view = &$vars['view'];
+
+  if ($tooltips = qtip_views_fetch_element_tooltips($view)) {
+    // Theme tooltip and add our element class before rendering.
+    $themed = array();
+    foreach ($view->result as $row => $result) {
+      $i = 0;
+      foreach ($tooltips as $field => $tooltip) {
+        $field_css = drupal_clean_css_identifier($field);
+        $tokens = $view->style_plugin->row_tokens[$row];
+        $qtip_title = str_replace(array_keys($tokens), array_values($tokens), $tooltip['title']);
+        $qtip_text = str_replace(array_keys($tokens), array_values($tokens), $tooltip['text']);
+
+        if (!empty($view->field[$field]) && !empty($view->field[$field]->options['qtip_text'])
+          && empty($view->field[$field]->options['exclude'])) {
+          $themed[$row][$field_css] = theme('qtip_views_tooltip', array(
+            'view'     => $view,
+            'title'    => $qtip_title,
+            'text'     => $qtip_text,
+            'instance' => $tooltip['instance'],
+          ));
+        }
+      }
+      $i++;
+    }
+
+    // Bail early if nothing to do.
+    if (!empty($themed)) {
+      drupal_add_js(drupal_get_path('module', 'qtip_views') . '/js/qtip_views.js');
+      drupal_add_js(array(
+        'qtipViewsTooltip' => array(
+          $view->name => array(
+            $view->current_display => array(
+              'tooltips' => $themed,
+            ),
+          ),
+        ),
+      ), 'setting');
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function qtip_views_views_pre_render(&$view) {
+  // Handle rendering label tooltips
+  if ($tooltips = qtip_views_fetch_label_tooltips($view)) {
+    // Theme tooltip and add our label class before rendering.
+    $themed = array();
+    foreach ($tooltips as $field => $tooltip) {
+      $instance_name = $view->display_handler->get_option('qtip_instance');
+      if (!empty($view->field[$field]) && empty($view->field[$field]->options['exclude']) && isset($tooltip['show']) && $tooltip['show']) {
+        $field_css = drupal_clean_css_identifier($field);
+        $themed[$field_css] = theme('qtip_views_label_tooltip', array(
+          'view'     => $view,
+          'field'    => $field,
+          'tooltip'  => $tooltip['tooltip'],
+          'instance' => $instance_name,
+        ));
+
+        $label_class = &$view->field[$field]->options['element_label_class'];
+        if ($label_class) {
+          $label_class .= ' ';
+        }
+        $label_class .= 'qtip-views-field-' . $field_css . '-label';
+      }
+    }
+
+    // Bail early if nothing to do.
+    if (!empty($themed)) {
+      $instance = qtip_load($instance_name);
+      $instance = qtip_clean_settings($instance, TRUE);
+
+      drupal_add_js(drupal_get_path('module', 'qtip_views') . '/js/qtip_views.js');
+      drupal_add_js(array(
+        'qtipViewsLabelTooltip' => array(
+          $view->name => array(
+            $view->current_display => array(
+              'tooltips' => $themed,
+              'instance' => $instance,
+            ),
+          ),
+        ),
+      ), 'setting');
+    }
+  }
+
+  // Handle rendering element tooltips
+  if ($tooltips = qtip_views_fetch_element_tooltips($view)) {
+    // Theme tooltip and add our element class before rendering.
+    $themed = array();
+    foreach ($tooltips as $field => $tooltip) {
+      if (!empty($view->field[$field]) && empty($view->field[$field]->options['exclude'])) {
+        $field_css = drupal_clean_css_identifier($field);
+        $label_class = &$view->field[$field]->options['element_class'];
+        if ($label_class) {
+          $label_class .= ' ';
+        }
+        $label_class .= 'qtip-views-field-' . $field_css;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function qtip_views_theme() {
+  return array(
+    'qtip_views_label_tooltip' => array(
+      'variables' => array(
+        'view'     => NULL,
+        'field'    => NULL,
+        'tooltip'  => NULL,
+        'instance' => NULL,
+      ),
+    ),
+    'qtip_views_tooltip' => array(
+      'variables' => array(
+        'view'     => NULL,
+        'title'    => NULL,
+        'text'     => NULL,
+        'instance' => NULL,
+      ),
+    ),
+  );
+}
+
+/**
+ * Theme function for qtip_views_label_tooltip.
+ */
+function theme_qtip_views_label_tooltip(&$variables) {
+  $element = theme('image', array(
+    'path'       => drupal_get_path('module', 'qtip_views') . '/images/help.png',
+    'attributes' => array(
+      'class' => array(
+        'qtip-views-' . $variables['view']->name . '-' . $variables['view']->current_display,
+      ),
+    ),
+  ));
+
+  // This MUST be included in any theme overrides for the tooltip to display
+  $element .= theme('qtip_views_tooltip', array(
+    'view'     => $variables['view'],
+    'text'     => $variables['tooltip'],
+    'instance' => $variables['instance'],
+  ));
+
+  return $element;
+}
+
+/**
+ * Theme function for qtip_views_tooltip.
+ */
+function theme_qtip_views_tooltip(&$variables) {
+  return '<span class="qtip-tooltip"' . (isset($variables['title']) ? ' data-qtip-title="' . filter_xss_admin($variables['title']) . '"' : '') . (isset($variables['instance']) ? ' data-qtip-instance="'. $variables['instance'] . '"' : '') . '>' .
+            filter_xss_admin($variables['text']) .
+         '</span>';
+}
+
+/**
+ * Helper function to get label tooltips.
+ */
+function qtip_views_fetch_label_tooltips($view) {
+  if (isset($view->display_handler->display->display_options['fields'])) {
+    // Fields are overridden: use this display's tooltips.
+    return @$view->display_handler->display->display_options['qtip_tooltips'];
+  }
+
+  // Fields are default: use default display's tooltips.
+  return @$view->display['default']->display_options['qtip_tooltips'];
+}
+
+/**
+ * Helper function to get element tooltips.
+ */
+function qtip_views_fetch_element_tooltips($view) {
+  $tooltips = array();
+
+  if (isset($view->display_handler->display->display_options['fields'])) {
+    // Fields are overridden: use this display's tooltips.
+    $elements = @$view->display_handler->display->display_options['fields'];
+  }
+  else {
+    // Fields are default: use default display's tooltips.
+    $elements = @$view->display['default']->display_options['fields'];
+  }
+
+  foreach ($elements as $id => $element) {
+    if (isset($element['element_qtip']) && $element['element_qtip']) {
+      $tooltips[$id] = array(
+        'title'    => $element['qtip_title'],
+        'text'     => $element['qtip_text'],
+        'instance' => $element['qtip_instance'],
+      );
+    }
+  }
+
+  return $tooltips;
+}

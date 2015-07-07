@@ -1,0 +1,13 @@
+name = Block Refresh Demonstration
+description = A demonstration block for the Block Refresh module.
+dependencies[] = block
+dependencies[] = block_refresh
+package = User interface
+core = 7.x
+
+; Information added by Drupal.org packaging script on 2015-02-13
+version = "7.x-2.4"
+core = "7.x"
+project = "block_refresh"
+datestamp = "1423814882"
+
