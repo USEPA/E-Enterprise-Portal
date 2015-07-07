@@ -1,0 +1,13 @@
+name = Link Favicon Formatter
+description = Adds formatters to link fields that display favicons.
+core = 7.x
+configure = admin/config/media/favicon_formatter
+package = Fields
+dependencies[] = link
+
+; Information added by Drupal.org packaging script on 2014-09-30
+version = "7.x-1.6"
+core = "7.x"
+project = "link_favicon_formatter"
+datestamp = "1412058567"
+

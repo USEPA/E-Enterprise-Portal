@@ -1,0 +1,94 @@
+<?php
+
+class MultifieldDevelGenerateTestCase extends DrupalWebTestCase {
+  protected $profile = 'testing';
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Devel Generate integration',
+      'description' => 'Tests multifield integration with the Devel Generate module.',
+      'group' => 'Multifield',
+      'dependencies' => array('devel'),
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('multifield', 'devel_generate', 'image'));
+
+    // Add the test node type.
+    $this->nodeType = $this->drupalCreateContentType();
+
+    // Create the multifield.
+    $multifield = new stdClass();
+    $multifield->machine_name = 'multifield_test';
+    $multifield->label = $this->randomName();
+    $multifield->description = $this->randomName();
+    multifield_save($multifield);
+    $this->multifield = $multifield;
+
+    // Create fields on the multifield.
+    $field_name1 = 'field_text';
+    $field1 = array(
+      'field_name' => $field_name1,
+      'type' => 'text',
+      'cardinality' => 1,
+    );
+    field_create_field($field1);
+    $instance1 = array(
+      'field_name' => $field_name1,
+      'entity_type' => 'multifield',
+      'bundle' => 'multifield_test',
+    );
+    field_create_instance($instance1);
+
+    $field_name2 = 'field_image';
+    $field2 = array(
+      'field_name' => $field_name2,
+      'type' => 'image',
+      'cardinality' => 1,
+    );
+    field_create_field($field2);
+    $instance2 = array(
+      'field_name' => $field_name2,
+      'entity_type' => 'multifield',
+      'bundle' => 'multifield_test',
+    );
+    field_create_instance($instance2);
+
+    $multifield_field = array(
+      'field_name' => 'field_multifield',
+      'type' => 'multifield_test',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    );
+    field_create_field($multifield_field);
+    $multifield_instance = array(
+      'field_name' => 'field_multifield',
+      'entity_type' => 'node',
+      'bundle' => $this->nodeType->type,
+    );
+    field_create_instance($multifield_instance);
+  }
+
+  public function testDevelGenerate() {
+    // Copied from devel_generate_content_add_node()
+    $node = new stdClass();
+    $node->nid = NULL;
+    $node->type = $this->nodeType->type;
+    node_object_prepare($node);
+    $node->uid = 0;
+    $node->title = 'Devel generate test';
+    $node->language = LANGUAGE_NONE;
+
+    module_load_includE('inc', 'devel_generate');
+    module_load_include('inc', 'devel_generate', 'devel_generate.fields');
+    devel_generate_fields($node, 'node', $node->type);
+
+    $items = field_get_items('node', $node, 'field_multifield');
+    $this->assertTrue($items);
+    $this->assertTrue($items[0]['field_text'][LANGUAGE_NONE][0]['value']);
+    $this->assertTrue($items[0]['field_text'][LANGUAGE_NONE][0]['format']);
+    $this->assertTrue($items[0]['field_image'][LANGUAGE_NONE][0]['fid']);
+    $this->assertTrue($items[0]['field_image'][LANGUAGE_NONE][0]['alt']);
+    $this->assertTrue($items[0]['field_image'][LANGUAGE_NONE][0]['title']);
+  }
+}

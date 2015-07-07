@@ -1,0 +1,37 @@
+name = Editable Views Test Feature
+description = Components required for tests for Editable Views.
+core = 7.x
+package = Features
+hidden = TRUE
+dependencies[] = ctools
+dependencies[] = editableviews
+dependencies[] = entityreference
+dependencies[] = features
+dependencies[] = field_sql_storage
+dependencies[] = list
+dependencies[] = node
+dependencies[] = options
+dependencies[] = text
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[field_base][] = field_test_editable_options
+features[field_base][] = field_test_editable_text
+features[field_base][] = field_test_node_reference
+features[field_instance][] = node-editable_views_test_node-field_test_editable_options
+features[field_instance][] = node-editable_views_test_node-field_test_editable_text
+features[field_instance][] = node-editable_views_test_referencing-field_test_node_reference
+features[node][] = editable_views_test_node
+features[node][] = editable_views_test_referencing
+features[views_view][] = test_editable_views_node_fields
+features[views_view][] = test_editable_views_node_properties
+features[views_view][] = test_editable_views_node_referenced_backwards_title
+features[views_view][] = test_editable_views_node_referenced_forwards_title
+features[views_view][] = test_editable_views_node_title
+
+; Information added by Drupal.org packaging script on 2014-08-28
+version = "7.x-1.0-beta9"
+core = "7.x"
+project = "editableviews"
+datestamp = "1409239129"
+

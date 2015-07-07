@@ -1,0 +1,137 @@
+<?php
+
+/**
+ * @file
+ * Provide formatter for ajax add / edition field collection.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ajax_form_entity_field_collection_menu() {
+  $items = array();
+  $items['ajax-form-entity-field-collection-cancel/%'] = array(
+    'page callback' => 'ajax_form_entity_field_collection_cancel',
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ * 
+ * @see ajax_form_entity_field_collection_field_formatter_view()
+ */
+
+function ajax_form_entity_field_collection_field_formatter_info() {
+  return array(
+    // This formatter just displays the hex value in the color indicated.
+    'ajax_field_collection' => array(
+      'label' => t('Field collection edit in place'),
+      'field types' => array(
+        'field_collection'
+      ),
+      'settings' => array('close_form_display' => 0),
+    )
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ * 
+ */
+function ajax_form_entity_field_collection_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  if ($instance['display'][$view_mode]['type'] == 'ajax_field_collection') {
+    $display = $instance['display'][$view_mode];
+    $settings = $display['settings'];
+    $element = array();
+    $element['close_form_display'] = array(
+      '#title' => t('Display close Button at the top of the form'),
+      '#type' => 'select',
+      '#options' => array(
+        0 => t('No'),
+        1 => t('Yes'),
+      ),
+      '#default_value' => $settings['close_form_display'],
+      '#required' => TRUE,
+    );
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * @see ajax_form_entity_field_collection_field_formatter_info()
+ */
+function ajax_form_entity_field_collection_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $form_state = array();
+  form_load_include($form_state, 'inc', 'node', 'field_collection.pages');
+  switch ($display ['type']) {
+    case 'ajax_field_collection':
+      $view_mode = !empty($display ['settings'] ['view_mode']) ? $display ['settings'] ['view_mode'] : 'full';
+      $field_collection = array();
+      foreach ($items as $delta => $item) {
+        if ($field_collection = field_collection_field_get_entity($item)) {
+          $element [$delta] ['entity'] = $field_collection->view($view_mode);
+        }
+      }
+      field_collection_field_formatter_links($element, $entity_type, $entity, $field, $instance, $langcode, $items, $display);
+      break;
+  }
+  // Add form element at the end.
+  if (entity_access('create', $entity_type, $entity)) {
+    if ((count($items) < $field ['cardinality']) || ($field ['cardinality'] == - 1)) {
+
+      // Set global variable.
+      // @see ajax_form_entity_form_alter.
+      global $_ajax_form_entity_field_collection;
+      $_ajax_form_entity_field_collection ['host_entity_type'] = $entity_type;
+      // TODO : have a more general way to do it : it seems we do not have the
+      // bundle here.
+      // For user.
+      if ($entity_type == 'user') {
+        $bundle = 'user';
+      }
+      // For nodes & some other entities.
+      else {
+        $bundle = $entity->type;
+      }
+
+      $host_settings = variable_get('ajax_form_entity_' . $entity_type . '_' . $bundle, NULL);
+      $_ajax_form_entity_field_collection ['host_entity_id'] = $entity->{$host_settings ['id']};
+      // Need to get the title that would be overriden by
+      // field_collection_item_add function.
+      $title = drupal_get_title();
+      $new_form_build = field_collection_item_add($field ['field_name'], $entity_type, $entity->{$host_settings ['id']});
+      if (is_array($new_form_build)) {
+        $form_build_id = $new_form_build ['form_build_id'] ['#value'];
+        //$new_form_build ['#attributes'] ['class'] = '';
+        $new_form_build ['#attributes'] ['class'] [] = 'form-collection';
+        // Add Close button top of the form if settings is Yes(1).
+        if($display['settings']['close_form_display'] !== '0') {
+          $new_form_build['#prefix'] .= l(t('Close'), 'ajax-form-entity-field-collection-cancel/nojs/' . $form_build_id, array('attributes' => array('class' => array('use-ajax button-collection-cancel-top cancel-' . $form_build_id), 'style' => array('display:none'))));
+        }
+        
+        // render add form
+        $element ['#suffix'] .= drupal_render($new_form_build);
+      }
+      // $element[]['#suffix'] .= drupal_render($new_form_build);
+      drupal_set_title($title);
+    }
+  }
+  return $element;
+}
+
+function ajax_form_entity_field_collection_cancel($type = 'ajax') {
+  $commands = array();
+  $form_build_id = arg(2);
+  $commands [] = ajax_command_css('a.cancel-' . $form_build_id, array('display' => 'none'));
+  $commands [] = ajax_command_css('form#' . $form_build_id, array('display' => 'none'));
+  $commands [] = ajax_command_css('a#open-form' . $form_build_id, array('display' => 'block'));
+  $page = array('#type' => 'ajax', '#commands' => $commands);
+  ajax_deliver($page);
+}

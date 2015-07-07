@@ -4,9 +4,6 @@
   **/
 
 
-// echo '<script src= "' . drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js"></script>';
-//drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
-
 
 function favorite_links_menu() {
   $items =array();
@@ -16,26 +13,183 @@ function favorite_links_menu() {
                'page callback' => 'favorite_theme',
                 'access arguments' => array('access content'),
     );
+     $items['process_favorite_link'] = array(
+      'page callback' => 'process_favorite_link',
+      'access callback' => TRUE,
+      );
+    $items['load_links'] = array(
+      'page callback' => 'load_links',
+      'access callback' => TRUE,
+      ); 
     return $items;
 } 
 
- 
-/*
- * Returns custom content to Drupal
- */
-function favorite_theme(){
-  // Call theme() function, so that Drupal includes the favorite_theme.tpl.php template
-  return theme('favorite_links');
+
+
+function remove_url ($array, $remove_url) {
+  
+  if (is_array($array)) {
+    foreach ($array[LANGUAGE_NONE] as $key => $value) {
+      $url = $value['field_url'][LANGUAGE_NONE][0]['value'];
+      if ($url == $remove_url) {
+        return $key;
+      }
+    }
+  }
 }
-   
-/*
- * Implementation of hook_theme().
- */
-function favorite_links_theme(){
-  return array(
-    'favorite_links' => array(
-      // template file name will be custom-page.tpl.php
-      'template' => 'favorite_links',
-    ),
+
+function process_favorite_link() {
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_urls = $user_data->field_profile_favourites;
+  $date =  date('Y-m-d H:i:s', time());
+  $url = urldecode($_POST['url']);
+  $title = $_POST['title'];
+  $action = $_POST['action'];
+
+  // $value = $url . '|' . $date . '|' . $order_weight;
+  switch ($action) {
+    case "add":
+      $multifield_obj = array(
+              'field_title_value' => 'title',
+              'field_title_format' => null,
+              'field_url_value' => $url,
+              'field_url_format' => null,
+              'field_title' => array( 
+                                LANGUAGE_NONE => array( 
+                                   0 => array (
+                                     'value' => $title
+                                   ),
+                                ),
+                            ),
+             'field_url' => array(
+                LANGUAGE_NONE => array( 
+                   0 => array (
+                     'value' => $url
+                   ),
+                ),
+             ),
+             'field_date_updated' => array( 
+               LANGUAGE_NONE => array(
+                 0 => array (
+                   'value' => $date
+                 ),
+               ),
+             ),
+      );
+      $user_urls[LANGUAGE_NONE][] = $multifield_obj;
+      break;
+    case "remove":
+        $remove_url_index = remove_url($user_urls, $url);
+        unset($user_urls[LANGUAGE_NONE][$remove_url_index]);
+      break;
+  }
+  $edit = array(
+    'field_profile_favourites' => $user_urls
   );
+  // save existing user
+   
+  try {
+    user_save($user_data,  $edit);
+  }
+  catch (Exception $e) {
+    echo $e;
+  }
+  echo 'success';
 }
+
+function load_links() {
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_urls = $user_data->field_profile_favourites;
+  $url_data = array();
+
+  if (isset($user_urls[LANGUAGE_NONE])){ 
+   foreach($user_urls[LANGUAGE_NONE] as $key=>$value) {
+     $url_data[] = $value['field_url'][LANGUAGE_NONE][0]['value'];
+    }
+  }
+  else {
+    $url_data = false;
+  }
+  $results = array('urls' => $url_data);
+  echo json_encode($results);
+}
+
+ 
+// /*
+//  * Returns custom content to Drupal
+//  */
+// function favorite_theme(){
+//   // Call theme() function, so that Drupal includes the favorite_links.tpl.php template
+//   return theme('favorite_links');
+// }
+   
+// /*
+//  * Implementation of hook_theme().
+//  */
+// function favorite_links_theme(){
+//   return array(
+//     'favorite_links' => array(
+//       // template file name will be favorite_links.tpl.php
+//       'template' => 'favorite_links',
+//     ),
+//   );
+// }
+
+
+/**
+ * Declare what blocks are provided by this module.
+ * Implements hook_block_info().
+ */
+// function favorite_links_block_info(){
+//     $block['favorite_links'] = array(
+//         'info' => t('Favorite Links'),
+//         'cache' => DRUPAL_NO_CACHE,
+//     );
+//     return $block;
+// }
+
+/**
+ * Define what our block is going to look like.
+ * Implements hook_block_view().
+ */
+// function favorite_links_block_view($block_key){
+//     $block = array();
+
+//     if($block_key == 'favorite_links'){ //We only want to define the content of OUR block
+//         //This is the title of the block.
+//         $block['subject'] = t('Favorite Links');
+
+//         //Define the block content.
+//         $block['content'] ="content";
+
+//     }
+
+//     return $block;
+// }
+
+// function favorite_links_block_function_items() {
+//        $items = array();
+//       return theme('favorite_links_block_function_items', array('items' => $items)); 
+// }
+
+/**
+ *
+ * Implementen hook_theme
+ *
+ */
+// function favorite_links_theme(){
+//   $module_path = drupal_get_path('module', 'favorite_links');
+//   $base = array(
+//     'path' => "$module_path/theme",   
+//   );
+//   return array(
+//     'favorite_links_block_function_items' => $base + array(
+//       'template' => 'favorite_links_block',  //leave off .tpl.php
+//       'variables' => array('items' => NULL,),
+//     ),   
+//   ); 
+
+// }
+
