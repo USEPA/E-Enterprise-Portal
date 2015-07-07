@@ -155,5 +155,54 @@ $(document).ready(function(){
 	}
 	///////////////////////////////////////////
 	});
+	
+
+    Drupal.behaviors.blockRefresh = {
+        attach: function (context, settings) {
+			console.log(context);
+			console.log(settings);
+            jQuery('.pane-views-favorite-sites-block').once().click(function () {
+				alert('clicked');
+                    jQuery.each(Drupal.views.instances, function (i, view) {
+						console.log(i, view);
+                        var selector = '.view-dom-id-' + view.settings.view_dom_id;
+						view.settings.view_display_id;
+                        if (view.settings.view_display_id == "block") {
+                            console.log('1');
+                            jQuery(selector).triggerHandler('RefreshView');
+                        }
+                        jQuery(selector).unbind();
+                    });
+                });
+
+
+            jQuery('.pane-views-favorite-sites-block').once().click(function () {
+                    jQuery.each(Drupal.views.instances, function (i, view) {
+                        var selector = '.view-dom-id-' + view.settings.view_dom_id;
+                        if (view.settings.view_display_id == "block_1") {
+                            console.log('2');
+                            jQuery(selector).triggerHandler('RefreshView');
+                        }
+                        jQuery(selector).unbind();
+
+                    });
+                });
+
+            jQuery('.pane-views-favorite-sites-block').once().click(function () {
+                    jQuery.each(Drupal.views.instances, function (i, view) {
+                        var selector = '.view-dom-id-' + view.settings.view_dom_id;
+                        if (view.settings.view_display_id == "block_2") {
+                            console.log('3');
+                            jQuery(selector).triggerHandler('RefreshView');
+                        }
+                        jQuery(selector).unbind();
+                    });
+                });
+
+        }
+    }
+
+
+	
 
 })(jQuery);
