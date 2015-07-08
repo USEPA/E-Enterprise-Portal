@@ -21,6 +21,11 @@ $(document).ready(function(){
 		});	
 	}
 
+	$('#edit-favorite-links').click(function() {
+		$('#field-profile-favourites-values').show();
+		$('.view-favorite-sites .views-table').hide();
+		$(this).closest('.edit-actions-submit').show();
+	});
 	
 	
 	
@@ -42,7 +47,7 @@ $(document).ready(function(){
 	
 	function processPageAnchors() {
 		// process anchor tags
-		$('#main-content a').each(function () {
+		$('#main-content a:not(.favorites-ignore)').each(function () {
 		if ($(this).text().length > 0 && $(this).attr('href') != '#') {
 			var url = $(this).attr('href');
 			var title = $(this).text();
@@ -150,6 +155,7 @@ var path = window.location.pathname;
 						});
 					}
 				}
+			reloadView();
 			},
 			failure: function() {
 				alert('something went wrong');
@@ -159,49 +165,25 @@ var path = window.location.pathname;
 	///////////////////////////////////////////
 	});
 	
+	function reloadView() {
+				$('#reload_favorite_links').trigger('click');
+		$('#favorite_links-ajax-wrapper').html('<h4>Loading...</h4>');
 
-    // Drupal.behaviors.blockRefresh = {
-    //     attach: function (context, settings) {
-    //         jQuery('.pane-views-favorite-sites-block').once().click(function () {
-    //                 jQuery.each(Drupal.views.instances, function (i, view) {
-	// 					console.log(i, view);
-    //                     var selector = '.view-dom-id-' + view.settings.view_dom_id;
-	// 					view.settings.view_display_id;
-    //                     if (view.settings.view_display_id == "block") {
-    //                         console.log('1');
-    //                         jQuery(selector).triggerHandler('RefreshView');
-    //                     }
-    //                     jQuery(selector).unbind();
-    //                 });
-    //             });
-
-
-    //         jQuery('.pane-views-favorite-sites-block').once().click(function () {
-    //                 jQuery.each(Drupal.views.instances, function (i, view) {
-    //                     var selector = '.view-dom-id-' + view.settings.view_dom_id;
-    //                     if (view.settings.view_display_id == "block_1") {
-    //                         console.log('2');
-    //                         jQuery(selector).triggerHandler('RefreshView');
-    //                     }
-    //                     jQuery(selector).unbind();
-
-    //                 });
-    //             });
-
-    //         jQuery('.pane-views-favorite-sites-block').once().click(function () {
-    //                 jQuery.each(Drupal.views.instances, function (i, view) {
-    //                     var selector = '.view-dom-id-' + view.settings.view_dom_id;
-    //                     if (view.settings.view_display_id == "block_2") {
-    //                         console.log('3');
-    //                         jQuery(selector).triggerHandler('RefreshView');
-    //                     }
-    //                     jQuery(selector).unbind();
-    //                 });
-    //             });
-
-    //     }
-    // }
-
+		// $.ajax({
+		// 	url: 'favorite_sites-ajax/ajax',
+		// 	type: 'POST',
+		// 	beforeSend: function() {
+		// 		$('#favorite_links-ajax-wrapper').html('<h4>Loading...</h4>');
+		// 	},
+		// 	success: function(data){
+		// 		// console.log(data);
+		// 		// if (data != 'reload') {
+		// 		// 	$('#favorite_links-ajax-wrapper').html(data);
+		// 		// };
+		// 	}
+		// });
+	}
+	
 
 	
 

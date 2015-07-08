@@ -4,3 +4,4 @@ core = 7.x
 version = "7.x-1.2"
 package = CGI
 scripts[] = favorite_links.js
+features[views_view][] = favorite_links
