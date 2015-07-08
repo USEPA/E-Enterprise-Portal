@@ -21,6 +21,11 @@ $(document).ready(function(){
 		});	
 	}
 
+	$('#edit-favorite-links').click(function() {
+		$('#field-profile-favourites-values').show();
+		$('.view-favorite-sites .views-table').hide();
+		$(this).closest('.edit-actions-submit').show();
+	});
 	
 	
 	
@@ -42,7 +47,7 @@ $(document).ready(function(){
 	
 	function processPageAnchors() {
 		// process anchor tags
-		$('#main-content a').each(function () {
+		$('#main-content a:not(.favorites-ignore)').each(function () {
 		if ($(this).text().length > 0 && $(this).attr('href') != '#') {
 			var url = $(this).attr('href');
 			var title = $(this).text();

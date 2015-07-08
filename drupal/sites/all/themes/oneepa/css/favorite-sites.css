@@ -7,11 +7,12 @@
 }
 
 .tabledrag-toggle-weight, .form-wrapper legend, .field-type-datetime,
-th.views-field, .field-multiple-table thead{
+th.views-field, .field-multiple-table thead, #field-profile-favourites-values,
+.edit-actions-submit{
   display: none;
 }
 
-td.views-field-field-profile-favourites-editable {
+td.views-field-field-profile-favourites {
   padding: 0px;
 }
 

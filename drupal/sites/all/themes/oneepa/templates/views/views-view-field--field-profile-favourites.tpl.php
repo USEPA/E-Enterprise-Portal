@@ -25,4 +25,17 @@
 
 
 
+<?php 
+
+	foreach ($row->field_field_profile_favourites as $key=>$array) {
+		$url = $array['raw']['field_url'][LANGUAGE_NONE][0]['value'];
+		$title = $array['raw']['field_title'][LANGUAGE_NONE][0]['value'];
+		$date_updated = $array['raw']['field_date_updated'][LANGUAGE_NONE][0]['value'];
+		echo '<tr><td><a class="favorites-link favorites-ignore" target="_blank" href="' . $url . '">' . 
+				$title . '</a></td><td>' . $date_updated . '</td>' .
+				 '<td><button id="' . $url . '|' . $title . '" class="btn btn-danger remove_link">Remove</button></td></tr>';
+	}
+?>
+
+
 
