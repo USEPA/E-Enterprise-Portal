@@ -214,8 +214,8 @@ function create_progress_tracker($user){
 
 
 function create_progress_tracker_node($res, $user){
-    $query_res = db_query("select count(nid) from {node} where type in (:node_type) and title = :title", array(':node_type' => array('progress_tracker', 'to_do_list'), ':title' =>  $res['ActivityDesc']))->fetchField();
-    if($query_res < 1) {
+    $query_res = db_query("select nid, vid from {node} where type in (:node_type) and title = :title", array(':node_type' => array('progress_tracker', 'to_do_list'), ':title' =>  $res['ActivityDesc']))->fetchAssoc();
+    if($query_res['nid'] < 1) {
         $node = new stdClass();
         $node->title = $res['ActivityDesc'];
         if ($res['ActivityType'] == 'TRACKER') {
@@ -295,6 +295,15 @@ function create_progress_tracker_node($res, $user){
 
         $node = node_submit($node); // Prepare node for saving
         node_save($node);
+    }
+    //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
+    else if(true){
+        $expiration_date = strtotime($res['ActivityExpirationDate']);
+        $curr_date =  strtotime(date("Y-m-d H:i:s"));
+        if(($expiration_date - $curr_date) <= 0){
+            db_query("UPDATE {node} SET status = '0' WHERE nid =:nid ;", array(':nid' => $query_res['nid']));
+            db_query("UPDATE {node_revision} SET status = '0' WHERE nid =:nid AND  vid =:vid;", array(':nid' => $query_res['nid'],':vid' => $query_res['vid']));
+        }
     }
 }
 
