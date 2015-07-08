@@ -18,6 +18,7 @@ $body-font-size:  100%;
 //If update these colors, update in _init.scss also!
 $base-text-color:  #333;
 $ee-white:		   #fff;
+$ee-dark-gray:	   #333;
 $epa-headerlinks:  $ee-white;  // white on blue background
 $ee-link-color:	   #23537e;
 $ee-hover-color:   #4083a9;
@@ -84,7 +85,7 @@ body, .main-content {
 }
 footer {
   clear: both;
-  position: relative;
+  position: absolute;
   bottom: 0;
   width: 100%;
   color: #fff;
@@ -101,7 +102,26 @@ footer {
   .menu__item.is-leaf {
 	  list-style: none;
   }
-}
+  #block-menu-menu-footer-disclaimers {
+	  float: right;
+  }
+  #block-block-5, #block-block-5 .block-title, .ee-social-media, .ee-social-media li {
+	  float: left;
+  }
+  #block-block-5 {
+	  h2 {
+		  font-size: 1.5em;
+	  }
+  }
+  .ee-social-media {
+	  padding-bottom: 0;
+	  li {
+		  list-style: none;
+		  display: block;
+		  margin-right: 10px;
+	  }
+	}
+ }
 
 h1, h2, h3, h4, h5, h6, th, legend, caption {
 	font-family: $base-font-family;
@@ -232,7 +252,7 @@ input[type="submit"],
 		float: left;
 	}
 	#block-block-4, #block-eenterprise-bridge-auth-eenterprise-bridge-auth {
-		width:30em;
+		width:18em;
 	}
 	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
 		width:10em;
@@ -319,6 +339,7 @@ input[type="submit"],
 
 }
 #login-group {
+	padding-left: 25%;
 	form, a {
 		display:inline-block;
 	}
@@ -398,12 +419,12 @@ input[type="submit"],
 		@include element-invisible;
 	}
 	.well {
-		position: relative;
-		left: 50%;
-		width: 50%;
+		//position: relative;
+		//left: 50%;
+		//width: 50%;
 		background-color: transparent;
 		border: none;
-		font-size: 3.25em;
+		font-size: 2.5em;
 		color: #fff;
 		text-shadow: 2px 2px 2px #333;
 		font-family: $greentrees;
@@ -444,6 +465,17 @@ input[type="submit"],
 	float:left;
 }
 .page-workbench {
+	background-color: #000;
+	.masthead {
+		display:none;
+	}
+	.region-header {
+		height: 4.25em;
+		padding-left: 4.25em;
+	}
+	#block-block-4 {
+		font-size: 0.5em;
+	}
 	&.wide-template #main-content {
 		background-color: $ee-light-gray;
 	}
@@ -488,6 +520,7 @@ input[type="submit"],
 
 .admin-menu .secondary-nav {
 	top: 50px; //Set top when admin user is logged in
+	right: 2.5em;
 }
 
 .breadcrumb-title, 
@@ -598,6 +631,12 @@ tr.odd, tr.even {
 }
 
 @media screen and (min-width: 40em) {
+	.view-ee-welcome, .page-node-50, .page-node-168 {
+		.well {
+			font-size: 2em;
+			margin-left: 15%;
+		}
+	}
   .workbench-menu {
     display: block;
   }
@@ -651,6 +690,12 @@ tr.odd, tr.even {
 		
 }
 @media screen and (min-width: 60em) {
+	.view-ee-welcome, .page-node-50, .page-node-168 {
+		.well {
+			font-size: 3.25em;
+			margin-left: 30%;
+		}
+	}
 	.wide-template #main-content {
 		padding-left: 3em;
 		padding-right: 3em;

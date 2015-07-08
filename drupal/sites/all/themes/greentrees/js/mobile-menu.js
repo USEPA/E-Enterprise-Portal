@@ -83,8 +83,9 @@ $newMenu.attr('class', 'menu').find('ul').each(function() {
 
       // Move main and secondary menus to the top of the page for wide screens.
       $('.masthead').before($secondaryNav);
+      $('.region-header').add($eeNav);
       //$('hgroup').after($mainNav);
-	  $('.block-search').after($eeNav);
+	  //$('.block-search').after($eeNav);
     }
 
   }
