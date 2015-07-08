@@ -112,6 +112,7 @@ $(document).ready(function(){
 		$.ajax({
 			url: '/process_favorite_link',
 			type: 'POST',
+			async: false,
 			data: {url: url, action: action, title: label},
 			beforeSend: function() {
 				button.removeClass("btn-success").removeClass("btn-danger");
