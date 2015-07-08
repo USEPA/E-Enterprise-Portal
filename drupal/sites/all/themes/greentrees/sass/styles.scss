@@ -21,7 +21,7 @@ $ee-white:		   #fff;
 $epa-headerlinks:  $ee-white;  // white on blue background
 $ee-link-color:	   #23537e;
 $ee-hover-color:   #4083a9;
-$ee-visited-color: #5487ba;		
+$ee-visited-color: #d8d8d8;		
 $ee-focus-color:   #fff;		// link color when user tabs thru
 $ee-subtext-color: #ddd;		// light gray, sublabels
 $ee-bgfocus-color: $ee-dark-gray;	// change background to blue on focus / hover
@@ -79,8 +79,8 @@ body, .main-content {
 	background-color: transparent;
 }
 .masthead {
-	padding-bottom: 0.5em;
-	padding-top: 0.5em;
+	padding-bottom: 10px;
+	padding-top: 10px;
 }
 footer {
   clear: both;
@@ -90,6 +90,8 @@ footer {
   color: #fff;
   padding: 10px 5em;
   font-family: $lato;
+  min-height: 40px;
+  background-color: #000;
   a {
 	  color: #fff;
   }
@@ -114,6 +116,12 @@ a:visited.pager__link {
 .menu-item {
 	letter-spacing: 0.25px;
 }
+
+.region-footer { /* facebook.svg */
+  background: #000 url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCIDQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMTEzLjYyMnB4IiBoZWlnaHQ9IjIxOC43OTVweCIgdmlld0JveD0iMTA4LjY1OCA0My41MTIgMTEzLjYyMiAyMTguNzk1Ig0KCSBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDEwOC42NTggNDMuNTEyIDExMy42MjIgMjE4Ljc5NSIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIDQo8cGF0aCBpZD0iZiIgZmlsbD0iI0ZGRkZGRiIgZD0iTTE4Mi40MDksMjYyLjMwN3YtOTkuODAzaDMzLjQ5OWw1LjAxNi0zOC44OTZoLTM4LjUxNVY5OC43NzdjMC0xMS4yNjEsMy4xMjctMTguOTM1LDE5LjI3NC0xOC45MzUNCglsMjAuNTk3LTAuMDA5VjQ1LjA0NWMtMy41NjItMC40NzQtMTUuNzg4LTEuNTMzLTMwLjAxMy0xLjUzM2MtMjkuNjk0LDAtNTAuMDI0LDE4LjEyNi01MC4wMjQsNTEuNDEzdjI4LjY4NGgtMzMuNTg1djM4Ljg5NmgzMy41ODUNCgl2OTkuODAzSDE4Mi40MDl6Ii8+DQo8L3N2Zz4NCg==") no-repeat;
+  background-position: 50% 100%;
+}
+
 
 /** Adjust Bootstrap Components  *********************************************************/
 .modal-open {
@@ -223,7 +231,7 @@ input[type="submit"],
 	#block-block-4 {
 		float: left;
 	}
-	#block-block-4, block-eenterprise-bridge-auth-eenterprise-bridge-auth {
+	#block-block-4, #block-eenterprise-bridge-auth-eenterprise-bridge-auth {
 		width:30em;
 	}
 	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
@@ -320,16 +328,6 @@ input[type="submit"],
 	}
 }
 
-#edit-e-enterprise-bridge {
-	background-color: #337ab8;
-	padding:1em 3em;
-	height:auto;
-	border-color:#337ab7;
-	border-radius:4px;
-	font-size:1.25em;
-	font-weight:normal;
-}
-
 #learnmore {
 	.modal-content {
 		padding:30px;
@@ -393,8 +391,10 @@ input[type="submit"],
 	margin-left:1.25em;
 }
 
-.view-ee-welcome, .page-node-50 {
-	h2.node-title, h2.block-title {
+.view-ee-welcome, .page-node-50, .page-node-168 {
+// Include page node IDs to see changes when logged in as Administrator and viewing the "View" version of the page
+// 50 - localhost, 169 - Dev
+	h2.node-title, h2.block-title, h1.page-title {
 		@include element-invisible;
 	}
 	.well {
@@ -480,14 +480,14 @@ input[type="submit"],
 .secondary-nav {
 	position: absolute;
 	right: 1em;
-	top: 3.5em; 
+	top: 30px; 
 	.pipeline li {
 		list-style: none;
 	}
 }
 
 .admin-menu .secondary-nav {
-	top: 4.25em; //Set top when admin user is logged in
+	top: 50px; //Set top when admin user is logged in
 }
 
 .breadcrumb-title, 
@@ -648,9 +648,6 @@ tr.odd, tr.even {
 		float: right;
 		position:initial
 		}
-	.region-footer {
-		background-position: 98.5% 50%;	
-	}
 		
 }
 @media screen and (min-width: 60em) {
@@ -660,9 +657,6 @@ tr.odd, tr.even {
 	}
 	.page-eenterprise-for-environment.wide-template #main-content {
 		padding: 0 1em;
-	}
-	.region-footer {
-		background-position: 98.5% 50%;	
 	}
 }
 
