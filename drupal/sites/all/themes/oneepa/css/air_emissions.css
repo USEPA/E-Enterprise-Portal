@@ -1,0 +1,27 @@
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.x.axis path {
+  display: none;
+}
+
+tspan.emissions-watch-donut-small-subtitle {
+  fill:gray;
+  font-size:80%;
+}
+
+.axis { shape-rendering: crispEdges; }
+.y.axis line { stroke: lightgrey; }
+.x.axis .minor { stroke-opacity: .5; }
+.x.axis path { display: none; }
+.y.axis path {
+  display:none;
+}
