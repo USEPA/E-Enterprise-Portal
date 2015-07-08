@@ -39,7 +39,7 @@ function my_air_quality_chart_view_menu() {
 }
 
 /**
- * Menu callback: Term Lookup Get Terms Request
+ * Menu callback: View Forecast Zipcode
  */
 function my_air_quality_chart_view_forecast_zipcode() {
 
