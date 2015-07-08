@@ -9,10 +9,19 @@
     var words = el.text().split('/');
     el.text('');
 
+    var anchor = el.attr('text-anchor');
+    var x = el.attr('x') ? el.attr('x') : 0;
+
+
     for (var i = 0; i < words.length; i++) {
       var tspan = el.append('tspan').html(words[i]);
+      tspan.attr('text-anchor', anchor);
+      tspan.attr('x', x);
       if (i > 0) {
-        tspan.attr('x', 0).attr('dy', '18');
+        tspan
+          .attr('text-anchor', anchor)
+          .attr('x', x)
+          .attr('dy', '18');
         if (smallSubtitles)
           tspan.attr("class", "emissions-watch-donut-small-subtitle");
       }
@@ -58,12 +67,38 @@
         .attr("d", arc)
         .style("fill", function(d) { return color(d.data.TotEmissCO2E); });
 
-    g.append("text")
-        .attr("transform", function(d) { return "translate(" + outerArc.centroid(d) + ")"; })
-        .attr("dy", ".35em")
-        // .attr("class", "donut-label")
-        .style("text-anchor", "middle")
-        .text(function(d) { return d.data.FacName + '/' + (emissionsNumberFormat(d.data.TotEmissCO2E) + ' metric tons CO2E') + '/' + (d.data.FacDistMi + ' miles away'); });
+    // donut labels
+    // g.append("text")
+    //     .attr("transform", function(d) { return "translate(" + outerArc.centroid(d) + ")"; })
+    //     .attr("dy", ".35em")
+    //     .style("text-anchor", "middle")
+    //     .text(function(d) { return d.data.FacName + '/' + (emissionsNumberFormat(d.data.TotEmissCO2E) + ' metric tons CO2E') + '/' + (d.data.FacDistMi + ' miles away'); });
+
+    g.append("text").attr({
+      x: function (d, i) {
+          var centroid = outerArc.centroid(d),
+              midAngle = Math.atan2(centroid[1], centroid[0]),
+              x = Math.cos(midAngle) * radius,
+              sign = (x > 0) ? 1 : -1,
+              labelX = x + (5 * sign);
+          console.log(centroid, midAngle, x, sign, labelX)
+          return labelX;
+      },
+      y: function (d, i) {
+          var centroid = outerArc.centroid(d),
+              midAngle = Math.atan2(centroid[1], centroid[0]),
+              y = Math.sin(midAngle) * radius;
+          return y;
+      },
+      'text-anchor': function (d, i) {
+          var centroid = outerArc.centroid(d),
+              midAngle = Math.atan2(centroid[1], centroid[0]),
+              x = Math.cos(midAngle) * radius;
+          return (x > 0) ? "start" : "end";
+      }
+    }).text(function(d) { 
+      return d.data.FacName + '/' + (emissionsNumberFormat(d.data.TotEmissCO2E) + ' metric tons CO2E') + '/' + (d.data.FacDistMi + ' miles away'); 
+    });
 
     var totalEmissionsText = donut.append("text")
       .attr("text-anchor", "middle")
@@ -112,7 +147,7 @@
 
     // set chart sizes
     var margin = {top: 80, right: 60, bottom: 60, left: 60},
-        width = 500 - margin.left - margin.right,
+        width = 600 - margin.left - margin.right,
         height = 300 - margin.top - margin.bottom;
 
     var donutMargin = {bottom: 20};
@@ -152,24 +187,23 @@
     var graph = svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + (margin.top + donutHeight + donutMargin.bottom) + ")");
 
-    // x-axis labels
+    // x-axis
+    graph.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    // y-axis
+    graph.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+    // bars
     var facility = graph.selectAll(".facility")
       .data(data.Facilities)
       .enter().append("g")
         .attr("class", "g")
         .attr("transform", function(d) { return "translate(" + x(d.FacName) + ",0)" });
-
-      // x-axis
-      graph.append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + height + ")")
-          .call(xAxis);
-
-      // y-axis
-      graph.append("g")
-          .attr("class", "y axis")
-          // .attr("transform", "translate(" + (width) + ", 0)")
-          .call(yAxis);
 
     // bar sections
     facility.selectAll("rect")
@@ -179,10 +213,6 @@
         .attr("y", function(d) { return y(d.y1); })
         .attr("height", function(d) { return y(d.y0) - y(d.y1); })
         .style("fill", function(d) { return colorMap[d.name]; });
-
-    // Translate y-axis ticks to the right
-    // graph.selectAll('.y.axis line.tick')
-    // .attr("transform", "translate(1000,0)")
 
     drawDonut(data, svg, donutWidth, donutHeight, totalWidth);
   }
