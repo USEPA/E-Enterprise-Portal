@@ -273,14 +273,14 @@ function create_progress_tracker_node($res, $user){
                     $res_action = "Print Receipt Print Certification";
                 else
                     $res_action = 'Print Receipt';
-            else if ($res['Status'] == 'Under Review')
+            else if ($res['Status'] == 'Under Review' || $res_domain == 'Cedri')
                 $res_action = 'View Submission';
 
-            $node->field_prog_track_actions_link['und'][0]['value'] = $res_action;
-            $node->field_prog_track_actions_link['und'][0]['format'] = null;
-            $node->field_prog_track_actions_link['und'][0]['safe_value'] = $res_action;
+            $node->field_prog_track_actions['und'][0]['value'] = $res_action;
+            $node->field_prog_track_actions['und'][0]['format'] = null;
+            $node->field_prog_track_actions['und'][0]['safe_value'] = $res_action;
 
-            $node->field_prog_track_actions_link['und'][0]['value'] = '/workbench';
+            $node->field_prog_track_actions_link['und'][0]['value'] = 'http://ec2-52-4-39-127.compute-1.amazonaws.com/workbench';
             $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;
 
 
