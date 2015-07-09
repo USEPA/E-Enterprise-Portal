@@ -260,6 +260,8 @@ function create_progress_tracker_node($res, $user){
             $res_domain = $res['PartnerSystemId'];
             if (strpos($res['PartnerSystemId'], 'lead') !== false)
                 $res_domain = "Lead";
+            if (strpos($res['PartnerSystemId'], 'cedri') !== false)
+                $res_domain = "Cedri";
             $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
             $node->field_prog_track_domain['und'][0]['format'] = null;
             $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
@@ -274,7 +276,7 @@ function create_progress_tracker_node($res, $user){
             else if ($res['Status'] == 'Under Review')
                 $res_action = 'View Submission';
 
-            $node->field_prog_track_actions['und'][0]['value'] = $res_action;
+            $node->field_prog_track_actions_link['und'][0]['value'] = $res_action;
             $node->field_prog_track_actions_link['und'][0]['format'] = null;
             $node->field_prog_track_actions_link['und'][0]['safe_value'] = $res_action;
 
@@ -300,6 +302,8 @@ function create_progress_tracker_node($res, $user){
             $res_domain = $res['PartnerSystemId'];
             if (strpos($res['PartnerSystemId'], 'lead') !== false)
                 $res_domain = "Lead";
+            if (strpos($res['PartnerSystemId'], 'cedri') !== false)
+                $res_domain = "Cedri";
             $node->field_todo_lst_domain['und'][0]['value'] = $res_domain;
             $node->field_todo_lst_domain['und'][0]['format'] = null;
             $node->field_todo_lst_domain['und'][0]['safe_value'] = $res_domain;
