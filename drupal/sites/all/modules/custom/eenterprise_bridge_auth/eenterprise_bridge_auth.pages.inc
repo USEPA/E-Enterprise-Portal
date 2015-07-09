@@ -221,6 +221,10 @@ function create_progress_tracker_node($res, $user){
         if ($res['ActivityType'] == 'TRACKER') {
             $node->type = "progress_tracker";
 
+            $node->field_prog_track_eactivity_id['und'][0]['value'] = $res['EActivityId'];
+            $node->field_prog_track_eactivity_id['und'][0]['format'] = null;
+            $node->field_prog_track_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
+
             $node->field_prog_tracker_app['und'][0]['value'] = $res['ActivityDesc'];
             $node->field_prog_tracker_app['und'][0]['format'] = null;
             $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
@@ -265,6 +269,10 @@ function create_progress_tracker_node($res, $user){
         }
         else if($res['ActivityType'] == 'TASK') {
             $node->type = "to_do_list";
+
+            $node->field_todo_lst_eactivity_id['und'][0]['value'] = $res['EActivityId'];
+            $node->field_todo_lst_eactivity_id['und'][0]['format'] = null;
+            $node->field_todo_lst_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
 
             $node->field_todo_lst_item['und'][0]['value'] = $res['ActivityDesc'];
             $node->field_todo_lst_item['und'][0]['format'] = null;
