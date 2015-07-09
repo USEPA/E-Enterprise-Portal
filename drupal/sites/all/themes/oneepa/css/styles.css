@@ -15931,7 +15931,24 @@ tr.even {
 #user-profile-form .form-text {
   font-size: 100%;
 }
+<<<<<<< HEAD
+
+#user-profile-form .field-profile-favourites-values{
+  width: 51%;
+}
+
+#user-profile-form .field-type-datetime{ 
+	display:none;
+}
+
+#user-profile-form .remove-button .field-profile-favourites-values {
+  float: right;
+}
+
+/* line 736, ../sass/styles.scss */
+=======
 /* line 770, ../sass/styles.scss */
+>>>>>>> FETCH_HEAD
 #user-profile-form .description {
   color: #333333;
   display: table;
@@ -16008,8 +16025,9 @@ tr.even {
   padding: 5px 10px;
   border: none;
 }
-/* line 830, ../sass/styles.scss */
-#user-profile-form .form-submit {
+
+/* line 796, ../sass/styles.scss */
+#user-profile-form .form-submit, #user-profile-form .remove_button {
   text-transform: capitalize;
   background-color: #337ab7;
   padding: 0.5em 1em;
@@ -16030,21 +16048,52 @@ tr.even {
 }
 /* line 849, ../sass/styles.scss */
 #user-profile-form #links_description .form-actions {
-  vertical-align: bottom;
+  vertical-align: middle;
 }
 /* line 852, ../sass/styles.scss */
 #user-profile-form #links_description .field-name-field-url, #user-profile-form #links_description .field-name-field-title, #user-profile-form #links_description .form-actions {
   display: inline-block;
 }
-/* line 856, ../sass/styles.scss */
-#user-profile-form .multiple-fields-remove-button {
+/* line 822, ../sass/styles.scss */
+#user-profile-form .multiple-fields-remove-button, #user-profile-form .remove-button {
   vertical-align: top;
   padding: 0.20em 0.75em 0.30em;
   width: auto;
   height: auto;
   text-transform: lowercase;
 }
+
+#links_description table > tbody > tr > td:nth-child(2) {
+  width: 855px !important;
+}
+#links_description table > tbody > tr > td{
+  vertical-align: middle;
+}
+
+#links_description table .field-type-text {
+  float: left;
+}
+#links_description table .date_updated_contain {
+  padding-top: 26px;
+  position: absolute;
+}
+
+#links_description table .field-multiple-drag {
+  padding-top: 24px !important;
+}
+#links_description table .remove-button {
+   margin-top: 20px !important;
+}
+
+#links_description table .field-add-more-submit {
+  margin-bottom: 10px !important;
+}
+#links_description .form-actions.form-wrapper {
+  float: right;
+}
+
 /* line 863, ../sass/styles.scss */
+
 #user-profile-form .field-suffix,
 #user-profile-form .move-zipcode {
   display: inline;

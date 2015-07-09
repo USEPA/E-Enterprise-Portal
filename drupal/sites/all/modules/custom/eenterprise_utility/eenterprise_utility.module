@@ -35,6 +35,7 @@ function get_taxonomy_parent_name($tid) {
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
     drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
+
     if($form['#form_id'] == 'user_profile_form'){
         //remove user_account_form_validate callback. This will remove email address validation because we should allow multiple email addresses as CDX/Bridge allows that.
         foreach($form['#validate'] as $key => $value)
@@ -117,26 +118,37 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
          $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
       }
         // dpm($form['field_profile_favourites'][LANGUAGE_NONE][0]);
+      // foreach( $form['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
+      //     if (is_numeric($delta)) {
+      //       hide($field['field_date_updated']);// = 'disabled';
+      //   }
+      // }
 
-           
-           
            
       $form['field_zip_code'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-control';
       // add more button
       $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
       $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
       $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
-      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
+      $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
       //Add more button
-      // $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = '+';
+      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = '+';
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
 
+
+   
       //create weight array
-      
+
       for($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
-        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['title'] = 'Remove';
+        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
+        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#title'] = 'Remove';
+        $date_value = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_date_updated'][LANGUAGE_NONE][0]['#default_value']['value'];
+     		$date_updated = date_create($date_value);
+		    $date_updated = date_format($date_updated, 'd/m/Y');
+        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title']['#suffix'] = '<span class="date_updated_contain">' . $date_updated . '</span>';
+        // hide($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_date_updated']); //['#attributes']['disabled'] = 'disabled';
       }
       
       $lowest_weight = 0;
@@ -192,6 +204,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         else {
           $description = '';
         }
+
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#attributes']['class'][] =
           'field_zip_code form-control';
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#description'] =
@@ -297,7 +310,7 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
     $error_messages = array();
     $field_ids = array();
    
-   // Default value is 66952.
+   // Default value is 77001.
    // Occurs when all values are blank.
    $blank_zipcode = true;
    if (isset($form_state['input']['field_zip_code'])){
@@ -333,11 +346,11 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
     }
    }
    else {
-         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 66952;
+         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 77001;
    }
    
    if ($blank_zipcode) {
-         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 66952;
+         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 77001;
    }
 
    // if ($error) {

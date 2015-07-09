@@ -186,6 +186,7 @@ var path = window.location.pathname;
 			url: '/process_favorite_link',
 			type: 'POST',
 			data: {url: url, action: action, title: label, id: id},
+			async: false,
 			beforeSend: function() {
 				if (!old_link) {
 					// button.removeClass("btn-success").removeClass("btn-danger");
@@ -234,7 +235,7 @@ var path = window.location.pathname;
 	
 	function reloadView() {
 		$('#reload_favorite_links').trigger('click');
-		$('#favorite_links-ajax-wrapper').html('<h4>Loading...</h4>');
+		// $('#favorite_links-ajax-wrapper').html('<h4>Loading...</h4>');
 	}
 	
 
