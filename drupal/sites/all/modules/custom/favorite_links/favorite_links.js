@@ -40,13 +40,14 @@ $(document).ready(function(){
 		var favorite_button;
 		if ($.inArray(url, favorite_urls) >= 0) {
 			id = favorite_url_mapping[url];
-	 		favorite_button = "<div class='button_input_holder' style='display:none'><button id='" + id + "|favorite_link' class='btn btn-danger remove_link favorite_hover old_link'>Remove</button>"
-					 + "</div>";	
+	 		favorite_button = 
+			 	"<div class='button_input_holder' style='display:none'><span id='" + id + "|favorite_link' " +
+				 "class=' remove_link favorite_hover old_link glyphicon glyphicon-heart filled' aria-hidden='true'></span></div>";
 		}
 		else {
 			id = url;
-			favorite_button = "<div class='button_input_holder' style='display:none'><button id='" + id+ "|" + text_title + "' class='btn  btn-success add_link favorite_hover new_link'>Add</button>"
-			 + "</div>";	
+			favorite_button = "<div class='button_input_holder' style='display:none'><span id='" + id+ "|" + text_title + "'" +
+				"class='add_link favorite_hover new_link glyphicon glyphicon-plus empty' aria-hidden='true'></span></div>";	
 		}
 	 return favorite_button;
 	} 
@@ -67,7 +68,16 @@ $(document).ready(function(){
 				 hide: {
 	                fixed: true,
 	                delay: 300
-	            	}
+	            	},
+				   position: {
+				        my: 'left center',  // Position my top left...
+				        at: 'right center', // at the bottom right of...
+				        target: $(this) // my target
+				    },
+					style: {
+						classes: 'transparent-qtip',
+						width: 4
+					}
 				});
 			}
 		});
@@ -88,7 +98,16 @@ $(document).ready(function(){
 				 hide: {
 	                fixed: true,
 	                delay: 300
-	            	}
+	            	},
+				   position: {
+				        my: 'right bottom',  // Position my top left...
+				        at: 'right bottom', // at the bottom right of...
+				        target: $(this) // my target
+				    },
+					style: {
+						classes: 'transparent-qtip',
+						width: 4
+					}
 				});
 			}
 		});
@@ -163,16 +182,15 @@ var path = window.location.pathname;
 		else {
 			url = encodeURIComponent(unparsed_url);
 		} 
-		alert(unparsed_url);
 		$.ajax({
 			url: '/process_favorite_link',
 			type: 'POST',
 			data: {url: url, action: action, title: label, id: id},
 			beforeSend: function() {
 				if (!old_link) {
-					button.removeClass("btn-success").removeClass("btn-danger");
-					button.addClass("btn-default");
-					button.text("Loading");
+					// button.removeClass("btn-success").removeClass("btn-danger");
+					// button.addClass("btn-default");
+					// button.text("Loading");
 				}
 			},
 			success: function(data) {
@@ -181,14 +199,13 @@ var path = window.location.pathname;
 					if (action == 'add') {
 						reloadView();
 						load_links(false);
-						button.removeClass('add_link').removeClass('btn-default').removeClass('btn-success').removeClass('new_link').removeClass('old_link');
-						button.text('Remove');
-						button.addClass('remove_link btn-danger old_link');
+						button.removeClass('add_link').removeClass('new_link').removeClass('old_link').removeClass('filled').removeClass('empty');
+						button.removeClass('glyphicon-plus');
+						button.addClass('remove_link old_link glyphicon-heart filled');
 						button.attr('id', favorite_url_mapping[unparsed_url] + '|favorite_link');
 					}
 					else{
 						if (button.hasClass('in-widget')) {
-							alert('in widg');
 							unparsed_url = $(button).closest('tr').find('a').attr('href');
 						}
 						else {
@@ -199,10 +216,10 @@ var path = window.location.pathname;
 						button = $('*[id="' + id + '|favorite_link"]');
 						label = id_label_mapping[id];
 						reloadView();
-						button.attr('id', unparsed_url + '|' + label);
-						button.removeClass('remove_link').removeClass('btn-default').removeClass('btn-danger').removeClass('new_link').removeClass('old_link');
-						button.text('Add');
-						button.addClass('add_link btn-success new_link');
+						button.attr('id', '#' + unparsed_url + '|' + label);
+						button.removeClass('remove_link').removeClass('new_link').removeClass('old_link').removeClass('filled').removeClass('empty');
+						button.removeClass('glyphicon-heart');
+						button.addClass('add_link new_link glyphicon-plus empty ');
 
 					}
 
