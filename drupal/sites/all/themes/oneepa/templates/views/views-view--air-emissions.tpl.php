@@ -26,10 +26,9 @@
  *
  * @ingroup views_templates
  */
-drupal_add_js(drupal_get_path('theme', 'greentrees') ."/js/jquery.dotdotdot.min.js", "file");
-drupal_add_js(drupal_get_path('theme', 'greentrees') ."/js/jquery.jcarousel.min.js", "file");
-drupal_add_js(drupal_get_path('theme', 'greentrees') ."/js/MyMaps.js", "file");
-drupal_add_css(drupal_get_path('theme', 'greentrees') ."/css/MyMaps.css", "file");
+drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", "file");
+drupal_add_js(drupal_get_path('theme', 'oneepa') ."/js/air_emissions.js", "file");
+drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/air_emissions.css", "file");
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
@@ -55,35 +54,10 @@ drupal_add_css(drupal_get_path('theme', 'greentrees') ."/css/MyMaps.css", "file"
     </div>
   <?php endif; ?>
 
-
-  <div class="view-content">
-    <div id="numThumbnails">
-      <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank">  Browse Gallery...</a>
+  
+    <div class="view-content">
+      <div id="air-emissions-chart"></div>
     </div>
-    <div id="filterList">
-      <ul id="navlist">
-        <li class="farLeft">Filter By </li>
-        <li id="active"><a href="#" id="current"><u>All</u></a></li>
-        <li>Air</li>
-        <li>Water</li>
-        <li>Land</li>
-        <li>Toxics</li>
-      </ul>
-    </div>
-    <div class="jcarousel-wrapper">
-        <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-        <div class="jcarousel">
-            <!-- Map thumbnails dynamically loaded here -->
-            <div class="loading">Loading items...</div>
-        </div>
-        <a href="#" class="jcarousel-control-next">&rsaquo;</a>
-    </div>
-    <button id="filterMapsByLocationBtn">
-      <img id="filterMapsByLocationImg" src="http://t3.gstatic.com/images?q=tbn:ANd9GcSVYsaaHLMqYWVJPjoR4Um70GVVG4xK-qa1_Gy3zoPCxAjD7Lwn">
-      <div id="mapsNearBtnLbl" style="padding-top: 1px; color: black;">Near My Location</div>
-      </button>
-  </div>
-
 
   <?php if ($pager): ?>
     <?php print $pager; ?>

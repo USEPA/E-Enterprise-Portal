@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Air Emissions View feature.
+ */
+
+include_once 'air_emissions_view.features.inc';

@@ -62,7 +62,7 @@ settings[zen_html5_respond_meta][] = html5
 settings[zen_html5_respond_meta][] = meta
 settings[zen_rebuild_registry]     = 1
 settings[zen_wireframes]           = 0
-; Following from oneepa and called in template.php
+; Following from greentrees and called in template.php
 settings[use_handheld_friendly] = 1
 settings[use_mobile_optimized] = 1
 settings[use_ios_meta] = 0
