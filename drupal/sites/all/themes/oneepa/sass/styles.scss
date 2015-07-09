@@ -697,6 +697,40 @@ tr.even {
     display:none;
 }
 
+.task-filter ul {
+    list-style-type:none;
+    margin:0 0 1em 0;
+    padding:0;
+    display:inline-block;
+}
+
+.task-filter ul li {
+    float:left;
+    margin: 0 1em 0 0;
+    padding:0.5em 1em;
+    background:#585858;
+    color:#FFFFFF;
+    border-radius: 4px;
+}
+
+.task-filter ul li a {
+    color:#FFFFFF;
+}
+
+.task-filter ul li.active {
+    background:#006545;
+}
+
+.task-filter ul li:hover {
+    background:#006545;
+}
+
+.table-result-count {
+    display:inline-block;
+    margin:0 1em 0 0;
+    text-align:right;
+    width:100%;
+}
 
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {

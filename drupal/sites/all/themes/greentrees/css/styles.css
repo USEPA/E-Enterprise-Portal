@@ -15960,125 +15960,166 @@ tr.even {
   display: none;
 }
 
+/* line 915, ../sass/styles.scss */
+.task-filter ul {
+  list-style-type: none;
+  margin: 0 0 1em 0;
+  padding: 0;
+  display: inline-block;
+}
+
+/* line 922, ../sass/styles.scss */
+.task-filter ul li {
+  float: left;
+  margin: 0 1em 0 0;
+  padding: 0.5em 1em;
+  background: #585858;
+  color: #FFFFFF;
+  border-radius: 4px;
+}
+
+/* line 931, ../sass/styles.scss */
+.task-filter ul li a {
+  color: #FFFFFF;
+}
+
+/* line 935, ../sass/styles.scss */
+.task-filter ul li.active {
+  background: #006545;
+}
+
+/* line 939, ../sass/styles.scss */
+.task-filter ul li:hover {
+  background: #006545;
+}
+
+/* line 943, ../sass/styles.scss */
+.table-result-count {
+  display: inline-block;
+  margin: 0 1em 0 0;
+  text-align: right;
+  width: 100%;
+}
+
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {
-  /* line 919, ../sass/styles.scss */
+  /* line 953, ../sass/styles.scss */
   #user-profile-form .form-type-textfield {
     width: 150px;
   }
-  /* line 923, ../sass/styles.scss */
+  /* line 957, ../sass/styles.scss */
   #user-profile-form .ajax-progress .message {
     display: none;
   }
 }
-/* line 929, ../sass/styles.scss */
+/* line 963, ../sass/styles.scss */
 .field-name-field-profile-first-name,
 .field-name-field-profile-last-name {
   display: inline-block;
 }
 
-/* line 934, ../sass/styles.scss */
+/* line 968, ../sass/styles.scss */
 #user-profile-form label {
   cursor: pointer;
 }
-/* line 937, ../sass/styles.scss */
+/* line 971, ../sass/styles.scss */
 #user-profile-form table, #user-profile-form th {
   border: none;
 }
-/* line 940, ../sass/styles.scss */
+/* line 974, ../sass/styles.scss */
 #user-profile-form th {
   text-transform: none;
   font-size: 1.5em;
 }
-/* line 943, ../sass/styles.scss */
+/* line 977, ../sass/styles.scss */
 #user-profile-form th.tabledrag-hide {
   padding-bottom: 0.25em;
   margin-bottom: 2px;
   vertical-align: bottom;
   font-size: 100%;
 }
-/* line 949, ../sass/styles.scss */
+/* line 983, ../sass/styles.scss */
 #user-profile-form .form-text {
   font-size: 100%;
 }
-/* line 952, ../sass/styles.scss */
+/* line 986, ../sass/styles.scss */
 #user-profile-form .description {
   color: #333333;
   display: table;
 }
-/* line 956, ../sass/styles.scss */
+/* line 990, ../sass/styles.scss */
 #user-profile-form .form-item .form-type-textfield {
   padding-bottom: 0.5em;
 }
-/* line 959, ../sass/styles.scss */
+/* line 993, ../sass/styles.scss */
 #user-profile-form .form-type-textfield {
   margin-right: 20px;
   min-width: 140px;
   max-width: 20em;
 }
-/* line 964, ../sass/styles.scss */
+/* line 998, ../sass/styles.scss */
 #user-profile-form .form-type-textfield.form-item-mail input {
   width: 20em;
   margin-bottom: 10px;
 }
-/* line 968, ../sass/styles.scss */
+/* line 1002, ../sass/styles.scss */
 #user-profile-form .form-type-textfield .description {
   margin-top: 5px;
 }
-/* line 971, ../sass/styles.scss */
+/* line 1005, ../sass/styles.scss */
 #user-profile-form .form-type-textfield label {
   font-size: 0.95em;
 }
-/* line 974, ../sass/styles.scss */
+/* line 1008, ../sass/styles.scss */
 #user-profile-form .form-type-textfield label, #user-profile-form .form-type-textfield input {
   display: block;
 }
-/* line 977, ../sass/styles.scss */
+/* line 1011, ../sass/styles.scss */
 #user-profile-form .eenterprise-utility-form-item-description-p {
   margin-bottom: .5em;
   padding-bottom: 0px;
 }
-/* line 980, ../sass/styles.scss */
+/* line 1014, ../sass/styles.scss */
 #user-profile-form .eenterprise-utility-form-item-description-p.field-title-below {
   margin-bottom: 1.5em;
   padding-bottom: 0px;
 }
-/* line 983, ../sass/styles.scss */
+/* line 1017, ../sass/styles.scss */
 #user-profile-form #field-profile-favourites-add-more-wrapper .form-item,
 #user-profile-form #zipcode_description .form-item {
   padding-bottom: 0px;
 }
-/* line 987, ../sass/styles.scss */
+/* line 1021, ../sass/styles.scss */
 #user-profile-form #zipcode_description table tr:last td:last {
   width: 200px;
 }
-/* line 991, ../sass/styles.scss */
+/* line 1025, ../sass/styles.scss */
 #user-profile-form .panel {
   min-height: 330px;
 }
-/* line 994, ../sass/styles.scss */
+/* line 1028, ../sass/styles.scss */
 #user-profile-form .ajax-progress {
   display: block !important;
   position: inherit !important;
 }
-/* line 998, ../sass/styles.scss */
+/* line 1032, ../sass/styles.scss */
 #user-profile-form #zipcode_description label {
   float: left;
 }
-/* line 1002, ../sass/styles.scss */
+/* line 1036, ../sass/styles.scss */
 #user-profile-form thead label {
   padding: 1em 1em 0.25em 0.5em;
 }
-/* line 1005, ../sass/styles.scss */
+/* line 1039, ../sass/styles.scss */
 #user-profile-form thead, #user-profile-form th, #user-profile-form tr:nth-of-type(even) {
   background-color: transparent;
 }
-/* line 1008, ../sass/styles.scss */
+/* line 1042, ../sass/styles.scss */
 #user-profile-form td {
   padding: 5px 10px;
   border: none;
 }
-/* line 1012, ../sass/styles.scss */
+/* line 1046, ../sass/styles.scss */
 #user-profile-form .form-submit {
   text-transform: capitalize;
   background-color: #337ab7;
@@ -16089,7 +16130,7 @@ tr.even {
   font-size: 0.95em;
   font-weight: normal;
 }
-/* line 1022, ../sass/styles.scss */
+/* line 1056, ../sass/styles.scss */
 #user-profile-form .field-add-more-submit {
   background-color: green;
   height: auto;
@@ -16098,7 +16139,7 @@ tr.even {
   vertical-align: middle;
   padding: 0.25em 0.75em;
 }
-/* line 1030, ../sass/styles.scss */
+/* line 1064, ../sass/styles.scss */
 #user-profile-form .multiple-fields-remove-button {
   vertical-align: top;
   padding: 0.20em 0.75em 0.30em;
@@ -16106,49 +16147,49 @@ tr.even {
   height: auto;
   text-transform: lowercase;
 }
-/* line 1037, ../sass/styles.scss */
+/* line 1071, ../sass/styles.scss */
 #user-profile-form .field-suffix,
 #user-profile-form .move-zipcode {
   display: inline;
   float: right !important;
 }
-/* line 1042, ../sass/styles.scss */
+/* line 1076, ../sass/styles.scss */
 #user-profile-form .autocomplete-interests ul {
   list-style-type: none;
   padding-bottom: 0px;
   padding-left: 20px;
 }
-/* line 1047, ../sass/styles.scss */
+/* line 1081, ../sass/styles.scss */
 #user-profile-form .autocomplete-interests ul ul {
   margin-left: 10px;
   padding-left: 0;
   padding-right: 0;
 }
-/* line 1052, ../sass/styles.scss */
+/* line 1086, ../sass/styles.scss */
 #user-profile-form #tags {
   width: 100%;
   height: 40px;
   color: #494949;
   padding-left: 10px;
 }
-/* line 1059, ../sass/styles.scss */
+/* line 1093, ../sass/styles.scss */
 #user-profile-form .vocab_holder {
   clear: left;
 }
-/* line 1062, ../sass/styles.scss */
+/* line 1096, ../sass/styles.scss */
 #user-profile-form .vocab_holder h2 {
   font-size: 120%;
 }
-/* line 1066, ../sass/styles.scss */
+/* line 1100, ../sass/styles.scss */
 #user-profile-form .vocab_holder h2 .label,
 #user-profile-form .vocab_holder h3 .label {
   font-weight: normal;
 }
-/* line 1070, ../sass/styles.scss */
+/* line 1104, ../sass/styles.scss */
 #user-profile-form .vocab_holder .glyphicon {
   font-size: 75%;
 }
-/* line 1073, ../sass/styles.scss */
+/* line 1107, ../sass/styles.scss */
 #user-profile-form .vocab_holder ul h3 {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -16156,42 +16197,42 @@ tr.even {
   padding-top: 0px;
   font-size: 100%;
 }
-/* line 1080, ../sass/styles.scss */
+/* line 1114, ../sass/styles.scss */
 #user-profile-form .vocab_holder ul {
   display: block;
   padding-left: 20px;
 }
-/* line 1084, ../sass/styles.scss */
+/* line 1118, ../sass/styles.scss */
 #user-profile-form .vocab-arrow {
   padding-left: 7px;
   cursor: pointer;
   vertical-align: middle;
 }
 
-/* line 1092, ../sass/styles.scss */
+/* line 1126, ../sass/styles.scss */
 .view-user-profile .field-label {
   clip: rect(1px, 1px, 1px, 1px);
   position: absolute !important;
 }
-/* line 1096, ../sass/styles.scss */
+/* line 1130, ../sass/styles.scss */
 .view-user-profile .field-name-field-profile-first-name .field-item {
   margin-right: 0.4em;
 }
 
-/* line 1100, ../sass/styles.scss */
+/* line 1134, ../sass/styles.scss */
 .page-user {
   /** jQuery Overrides - Profile Page **/
 }
-/* line 1102, ../sass/styles.scss */
+/* line 1136, ../sass/styles.scss */
 .page-user .ui-widget,
 .page-user .ui-menu .ui-menu-item {
   font-family: Lato, "Source Sans Pro", sans-serif !important;
 }
-/* line 1106, ../sass/styles.scss */
+/* line 1140, ../sass/styles.scss */
 .page-user .ui-widget {
   font-size: 83% !important;
 }
-/* line 1109, ../sass/styles.scss */
+/* line 1143, ../sass/styles.scss */
 .page-user .ui-state-hover,
 .page-user .ui-widget-content .ui-state-hover,
 .page-user .ui-widget-header .ui-state-hover,
@@ -16200,7 +16241,7 @@ tr.even {
   border: 1px solid #dedede;
   background: #f3f3f3;
 }
-/* line 1117, ../sass/styles.scss */
+/* line 1151, ../sass/styles.scss */
 .page-user .autocomplete-interests .ui-widget input {
   min-width: 140px;
   max-width: 20em;
@@ -16214,52 +16255,52 @@ tr.even {
   line-height: 1.42857;
 }
 
-/* line 1132, ../sass/styles.scss */
+/* line 1166, ../sass/styles.scss */
 .draggable .handle {
   font-size: 2em;
 }
-/* line 1135, ../sass/styles.scss */
+/* line 1169, ../sass/styles.scss */
 .draggable .form-type-textfield,
 .draggable .field-multiple-drag {
   display: inline-block;
 }
-/* line 1139, ../sass/styles.scss */
+/* line 1173, ../sass/styles.scss */
 .draggable .field-multiple-drag {
   padding-top: 0.5em;
 }
-/* line 1142, ../sass/styles.scss */
+/* line 1176, ../sass/styles.scss */
 .draggable .form-type-textfield input {
   line-height: 1.42857;
 }
 
-/* line 1147, ../sass/styles.scss */
+/* line 1181, ../sass/styles.scss */
 #field-profile-favourites-values thead tr .field-label,
 #edit-field-profile-favourites thead {
   display: none;
 }
 
-/* line 1151, ../sass/styles.scss */
+/* line 1185, ../sass/styles.scss */
 .form-item-field-profile-interests-und label:first-child {
   display: none;
 }
 
-/* line 1154, ../sass/styles.scss */
+/* line 1188, ../sass/styles.scss */
 a.tabledrag-handle .handle {
   margin: 0 0.25em;
 }
 
-/* line 1158, ../sass/styles.scss */
+/* line 1192, ../sass/styles.scss */
 #field-zip-code-values .tabledrag-handle,
 #field-profile-favourites-values .tabledrag-handle {
   top: -10px;
 }
 
-/* line 1163, ../sass/styles.scss */
+/* line 1197, ../sass/styles.scss */
 .ui-menu .ui-menu-item a {
   font-size: 20px;
 }
 
-/* line 1167, ../sass/styles.scss */
+/* line 1201, ../sass/styles.scss */
 .ui-widget-content {
   max-height: 300px;
   overflow-y: scroll;
