@@ -5,6 +5,9 @@
 .pane-views-favorite-sites-block .remove-button {
   float: right;
 }
+.view-favorite-sites .views-table {
+  width: 100%;
+}
 
 .pane-views-favorite-sites-block .tabledrag-toggle-weight, 
 .pane-views-favorite-sites-block .form-wrapper legend, 
@@ -37,7 +40,7 @@
   overflow-y: auto;
 }
 .pane-views-favorite-sites-block #favorite_links-ajax-wrapper {
-  height: 525px; overflow: hidden;
+  height: 70%; overflow: hidden;
 }
 
 .transparent-qtip .ui-tooltip-wrapper{
