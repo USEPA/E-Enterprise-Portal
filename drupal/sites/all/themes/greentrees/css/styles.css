@@ -14971,11 +14971,11 @@ footer #block-menu-menu-footer-disclaimers {
   margin-top: 5px;
 }
 /* line 110, ../sass/styles.scss */
-footer #block-block-5, footer #block-block-5 .block-title, footer .ee-social-media, footer .ee-social-media li {
+footer .block--ee-social-media, footer .block--ee-social-media .block-title, footer .ee-social-media, footer .ee-social-media li {
   float: left;
 }
 /* line 114, ../sass/styles.scss */
-footer #block-block-5 h2 {
+footer .block--ee-social-media h2 {
   font-size: 1.5em;
   text-transform: lowercase;
   font-family: "Walkway UltraBold", "Century Gothic", "Source Sans Pro", sans-serif;
@@ -15137,17 +15137,17 @@ input[type="submit"],
   color: #fff;
 }
 /* line 249, ../sass/styles.scss */
-.region-header #block-block-4 {
+.region-header .block--greentrees-ee-header {
   float: left;
   font-family: "Walkway UltraBold", "Century Gothic", "Source Sans Pro", sans-serif;
   letter-spacing: 1px;
 }
 /* line 254, ../sass/styles.scss */
-.region-header #block-block-4, .region-header #block-eenterprise-bridge-auth-eenterprise-bridge-auth {
+.region-header .block--greentrees-ee-header, .region-header #block-eenterprise-bridge-auth-eenterprise-bridge-auth {
   width: 18em;
 }
 /* line 257, ../sass/styles.scss */
-.region-header #block-block-6 {
+.region-header .block--ee-header-locations {
   float: right;
   margin: 0;
   padding: 0;
@@ -15155,7 +15155,7 @@ input[type="submit"],
   background: #000 url("../images/stripe2.png") repeat 0 0;
 }
 /* line 264, ../sass/styles.scss */
-.region-header #block-block-6 h2 {
+.region-header .block--ee-header-locations h2 {
   display: none;
 }
 /* line 267, ../sass/styles.scss */
@@ -15421,7 +15421,7 @@ input[type="submit"],
   letter-spacing: 2px;
 }
 /* line 493, ../sass/styles.scss */
-.page-workbench #block-block-4 {
+.page-workbench .block--greentrees-ee-header {
   font-size: 0.5em;
   width: 20em;
 }
