@@ -36,11 +36,11 @@ $(document).ready(function(){
 	function createFavoriteButton(id, text_title) {
 		if ($.inArray(id, favorite_urls) === -1) {
 	 		var favorite_button = "<div class='button_input_holder' style='display:none'><button id='" + id + "|" + text_title + "' class='btn  btn-success add_link favorite_hover'>Add</button>"
-					 + "<input type='text' placeholder='Optional title...'/></div>";	
+					 + "</div>";	
 		}
 		else {
 			var favorite_button = "<div class='button_input_holder' style='display:none'><button id='" + id + "|" + text_title + "' class='btn btn-danger remove_link favorite_hover'>Remove</button>"
-			 + "<input type='text' placeholder='Optional title...'/></div>";	
+			 + "</div>";	
 		}
 	 return favorite_button;
 	} 
@@ -64,6 +64,7 @@ $(document).ready(function(){
 				});
 			}
 		});
+
 		// process img links
 		$('#main-content img').each(function () {
 		if ($(this).attr('href') != '#' && $(this).attr('href')!= '') {
@@ -83,6 +84,7 @@ $(document).ready(function(){
 			}
 		});
 	}
+
 	
 	
 	
@@ -99,12 +101,9 @@ var path = window.location.pathname;
 		$(document.body).on('click', '.add_link', function(){
 			var string_array = $(this).attr('id').split('|');
 			var url = string_array[0];
-			var custom_label = $(this).next('input').val();
 			var label = string_array[1];
-			if (custom_label != '') {
-				label = custom_label;
-			}
 			processFavoriteLink($(this), 'add', url, label);
+			// processPageAnchors();
 		});
 		
 		$(document.body).on('click', '.remove_link', function() {
@@ -112,6 +111,7 @@ var path = window.location.pathname;
 			var url = string_array[0];
 			var label = string_array[1];
 			processFavoriteLink($(this), 'remove', url, label );
+			// processPageAnchors();
 		});
 	}
 	// function removeRow(url) {

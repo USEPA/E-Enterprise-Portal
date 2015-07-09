@@ -1,22 +1,26 @@
-.field-type-text, .form-text {
+.pane-views-favorite-sites-block .field-type-text, .pane-views-favorite-sites-block .form-text {
   width: 26em; float: left;
 }
 
-.remove-button {
+.pane-views-favorite-sites-block .remove-button {
   float: right;
 }
 
-.tabledrag-toggle-weight, .form-wrapper legend, .field-type-datetime,
-th.views-field, .field-multiple-table thead, #field-profile-favourites-values,
+.pane-views-favorite-sites-block .tabledrag-toggle-weight, 
+.pane-views-favorite-sites-block .form-wrapper legend, 
+.pane-views-favorite-sites-block .field-type-datetime,
+.pane-views-favorite-sites-block  th.views-field, 
+.pane-views-favorite-sites-block  .field-multiple-table thead, 
+.pane-views-favorite-sites-block  #field-profile-favourites-values,
 .edit-actions-submit{
   display: none;
 }
 
-td.views-field-field-profile-favourites {
+.pane-views-favorite-sites-block td.views-field-field-profile-favourites {
   padding: 0px;
 }
 
-.form-wrapper, tbody{
+.pane-views-favorite-sites-block .form-wrapper, .pane-views-favorite-sites-block  tbody{
   border: none;
 }
 
@@ -24,6 +28,6 @@ td.views-field-field-profile-favourites {
   height: 150px;
 }*/
 
-td, .views-row-edit-edit { 
+.pane-views-favorite-sites-block td, .pane-views-favorite-sites-block .views-row-edit-edit { 
   width: 100%;
 }
