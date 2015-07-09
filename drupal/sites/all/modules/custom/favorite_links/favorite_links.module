@@ -130,9 +130,11 @@ function load_links() {
   
   if (isset($user_urls[LANGUAGE_NONE])){ 
    foreach($user_urls[LANGUAGE_NONE] as $key=>$value) {
+     if (isset($value['field_url'][LANGUAGE_NONE][0])) {
      $url_data[] = $value['field_url'][LANGUAGE_NONE][0]['value'];
      $url_ids_array[$value['field_url'][LANGUAGE_NONE][0]['value']] = $value['id'];
      $labels_ids_array[$value['id']] = $value['field_title'][LANGUAGE_NONE][0]['value'];
+     }
     }
   }
   else {

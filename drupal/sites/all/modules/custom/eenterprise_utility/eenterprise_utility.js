@@ -48,6 +48,7 @@
 		}
 		else {
 			parent_id = '#links_description';
+			// table_id = '#field-profile-favourites-values';
 		}
 		placeAddAnotherButton(false, table_id, parent_id);
 	};
@@ -192,7 +193,6 @@
 	
 	$('body').on('click', '.vocab_holder .label', function() {
 	if ($(this).hasClass('label-primary')) {
-		console.log($(this));
 		// $(this).closest('.vocab_holder').find('label').each(function() {
 		// 	var checkbox_id = $(this).attr('for');
 		// 	console.log(checkbox_id);
