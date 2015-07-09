@@ -28,10 +28,60 @@
   height: 150px;
 }*/
 
-.pane-views-favorite-sites-block td, .pane-views-favorite-sites-block .views-row-edit-edit { 
-  width: 100%;
-}
+
+
+
 
 .pane-views-favorite-sites-block {
-  height: 300px; overflow-y: auto;
+  height: 525px;
+  overflow-y: auto;
+}
+.pane-views-favorite-sites-block #favorite_links-ajax-wrapper {
+  height: 525px; overflow: hidden;
+}
+
+.transparent-qtip .ui-tooltip-wrapper{
+   background-color: transparent;
+}
+
+.qtip-default {
+  background-color: transparent; border: 0;
+}
+
+.qtip-tip, .qtip-tip canvas{
+  display: none;
+}
+
+.filled {
+  color: #d9534f;
+}
+.filled:hover{
+  color: #c9302c;
+  cursor: pointer;
+}
+.empty {
+  color: #5cb85c;
+  background-color: white;
+  border-radius: 4px;
+  padding:1.5px;
+  height:24px;
+  width:23px;
+  line-height:20px !important;
+}
+.empty:hover{
+  color: #449d44;
+  cursor: pointer;
+    background-color: azure;
+    
+  
+}
+
+.button_input_holder btn, .button_input_holder btn-success, .button_input_holder btn-danger,
+.button_input_holder btn:hover, .button_input_holder btn-success:hover, .button_input_holder btn-danger:hover{
+  background-color: transparent;
+  border:  0;
+}
+
+span.glyphicon-heart, span.glyphicon-plus {
+  font-size: 2.0em;
 }

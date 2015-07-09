@@ -33,9 +33,9 @@
 		$title = $array['raw']['field_title'][LANGUAGE_NONE][0]['value'];
 		$date_updated = $array['raw']['field_date_updated'][LANGUAGE_NONE][0]['value'];
 		$id = $array['raw']['id'];
-		echo '<tr><td><a class="favorites-link favorites-ignore" target="_blank" href="' . $url . '">' . 
-				$title . '</a></td><td>' . $date_updated . '</td>' .
-				 '<td><button id="' . $id . '|favorite_link" class="btn btn-danger remove_link in-widget old_link">Remove</button></td></tr>';
+		echo '<tr>'.'<td><span id="' . $id . '|favorite_link" class=" remove_link in-widget old_link glyphicon glyphicon-heart filled" aria-hidden="true"></span></td>'
+				. '<td><a class="favorites-link favorites-ignore" target="_blank" href="' . $url . '">' . 
+				$title . '</a></td><td>' . $date_updated . '</td></tr>';
 	}
 ?>
 
