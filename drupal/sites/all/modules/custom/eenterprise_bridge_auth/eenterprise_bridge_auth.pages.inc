@@ -213,10 +213,28 @@ function create_progress_tracker($user){
 }
 
 
+function _update_progress_tracker_to_do_item($query_res, $res){
+    $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+    $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res['entity_id']))->fetchField();
+    //If description field is updated...
+    if($res_title != $res['ActivityDesc']){
+        node_delete($query_res['entity_id']);
+        return true;
+    }
+    //if status field is updated...
+    else if($res_status != $res['Status']){
+        node_delete($query_res['entity_id']);
+        return true;
+    }
+    return false;
+}
+
 function create_progress_tracker_node($res, $user){
-    //$query_res = db_query("select nid, vid from {node} where type in (:node_type) and title = :title", array(':node_type' => array('progress_tracker', 'to_do_list'), ':title' =>  $res['ActivityDesc']))->fetchAssoc();
     $query_res = db_query("select entity_id, revision_id from {field_data_field_eactivity_id} where bundle in (:node_type) and field_eactivity_id_value = :eactivityid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':eactivityid' =>  $res['EActivityId']))->fetchAssoc();
-    if($query_res['entity_id'] < 1) {
+    //_update_progress_tracker_to_do_item will check if to-do or progress tracker item is updated and updates them accordingly.
+    $node_deleted = _update_progress_tracker_to_do_item($query_res, $res);
+    if($query_res['entity_id'] || $node_deleted) {
+        //TODO: do not create a node if its expiration date is already passed
         $node = new stdClass();
         $node->title = $res['ActivityDesc'];
         if ($res['ActivityType'] == 'TRACKER') {
