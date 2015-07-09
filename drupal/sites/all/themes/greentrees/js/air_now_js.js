@@ -55,7 +55,7 @@
         lungsG.append("image")
           .attr("class", "at-risk-icon")
           .attr("transform", "translate(-20, 0)")
-          .attr("xlink:href", "sites/all/themes/oneepa/images/airnow-lungs.png");
+          .attr("xlink:href", "sites/all/themes/greentrees/images/airnow-lungs.png");
 
           cellPosition += cellWidth;
 
@@ -68,7 +68,7 @@
         heartG.append("image")
           .attr("class", "at-risk-icon")
           .attr("transform", "translate(-20, 0)")
-          .attr("xlink:href", "sites/all/themes/oneepa/images/airnow-heart.png");
+          .attr("xlink:href", "sites/all/themes/greentrees/images/airnow-heart.png");
 
           cellPosition += cellWidth;
 
