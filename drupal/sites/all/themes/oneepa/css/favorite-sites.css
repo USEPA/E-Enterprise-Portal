@@ -31,3 +31,7 @@
 .pane-views-favorite-sites-block td, .pane-views-favorite-sites-block .views-row-edit-edit { 
   width: 100%;
 }
+
+.pane-views-favorite-sites-block {
+  height: 300px; overflow-y: auto;
+}

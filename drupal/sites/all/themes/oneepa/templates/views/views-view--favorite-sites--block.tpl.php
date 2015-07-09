@@ -30,7 +30,7 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/favorite-sites.css", "f
 ?>
 
 <div id="favorite_links-ajax-wrapper">
-  <a id="reload_favorite_links" style="display:none" href="favorite_sites-ajax/ajax" class='use-ajax'>Reload</a>
+
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
@@ -90,6 +90,7 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/favorite-sites.css", "f
       <?php print $feed_icon; ?>
     </div>
   <?php endif; ?>
-
+  <a style="display:none" id="reload_favorite_links"  href="favorite_sites-ajax/ajax" class='use-ajax'>Reload</a>
 </div><?php /* class view */ ?>
+
 </div>
