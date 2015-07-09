@@ -214,8 +214,9 @@ function create_progress_tracker($user){
 
 
 function create_progress_tracker_node($res, $user){
-    $query_res = db_query("select nid, vid from {node} where type in (:node_type) and title = :title", array(':node_type' => array('progress_tracker', 'to_do_list'), ':title' =>  $res['ActivityDesc']))->fetchAssoc();
-    if($query_res['nid'] < 1) {
+    //$query_res = db_query("select nid, vid from {node} where type in (:node_type) and title = :title", array(':node_type' => array('progress_tracker', 'to_do_list'), ':title' =>  $res['ActivityDesc']))->fetchAssoc();
+    $query_res = db_query("select entity_id, revision_id from {field_data_field_eactivity_id} where bundle in (:node_type) and field_eactivity_id_value = :eactivityid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':eactivityid' =>  $res['EActivityId']))->fetchAssoc();
+    if($query_res['entity_id'] < 1) {
         $node = new stdClass();
         $node->title = $res['ActivityDesc'];
         if ($res['ActivityType'] == 'TRACKER') {
@@ -309,8 +310,8 @@ function create_progress_tracker_node($res, $user){
         $expiration_date = strtotime($res['ActivityExpirationDate']);
         $curr_date =  strtotime(date("Y-m-d H:i:s"));
         if(($expiration_date - $curr_date) <= 0){
-            db_query("UPDATE {node} SET status = '0' WHERE nid =:nid ;", array(':nid' => $query_res['nid']));
-            db_query("UPDATE {node_revision} SET status = '0' WHERE nid =:nid AND  vid =:vid;", array(':nid' => $query_res['nid'],':vid' => $query_res['vid']));
+            db_query("UPDATE {node} SET status = '0' WHERE nid =:nid ;", array(':nid' => $query_res['entity_id']));
+            db_query("UPDATE {node_revision} SET status = '0' WHERE nid =:nid AND  vid =:vid;", array(':nid' => $query_res['nid'],':vid' => $query_res['revision_id']));
         }
     }
 }
