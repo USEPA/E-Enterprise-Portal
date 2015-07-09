@@ -18,7 +18,7 @@
 		// determine which table to place the Add Another buttom
 		var table_id = '';
 		var parent_id = '';
-		$('#field-zip-code-values .field-multiple-table').each(function() {
+		$('.field-multiple-table').each(function() {
 			var table =  $(this);
 			var add_button = table.find('tr:last').find('td:last').find('.field-add-more-submit');
 			if (add_button.length == 0) {
@@ -48,6 +48,7 @@
 		}
 		else {
 			parent_id = '#links_description';
+			// table_id = '#field-profile-favourites-values';
 		}
 		placeAddAnotherButton(false, table_id, parent_id);
 	};

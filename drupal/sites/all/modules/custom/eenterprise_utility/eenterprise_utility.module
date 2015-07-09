@@ -140,7 +140,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
 
    
       //create weight array
-              dpm($form['#validate']);
+
       for($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
         $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
         $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#title'] = 'Remove';

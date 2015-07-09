@@ -16018,32 +16018,32 @@ tr.even {
   height: auto;
   text-transform: lowercase;
 }
-#field-profile-favourites-values > tbody > tr > td:nth-child(2) {
-  width: 855px;
+#links_description table > tbody > tr > td:nth-child(2) {
+  width: 855px !important;
 }
-#field-profile-favourites-values > tbody > tr > td{
+#links_description table > tbody > tr > td{
   vertical-align: middle;
 }
 #user-profile-form .remove-button {
   float: right;
 }
-#field-profile-favourites-values .field-type-text {
+#links_description table .field-type-text {
   float: left;
 }
-#field-profile-favourites-values .date_updated_contain {
+#links_description table .date_updated_contain {
   padding-top: 26px;
   position: absolute;
 }
 
-#field-profile-favourites-values .field-multiple-drag {
-  padding-top: 24px;
+#links_description table .field-multiple-drag {
+  padding-top: 24px !important;
 }
-#field-profile-favourites-values .remove-button {
-   margin-top: 20px;
+#links_description table .remove-button {
+   margin-top: 20px !important;
 }
 
-#field-profile-favourites-values .field-add-more-submit {
-  margin-top: 13px;
+#links_description table .field-add-more-submit {
+  margin-top: 13px !important;
 }
 
 /* line 829, ../sass/styles.scss */
