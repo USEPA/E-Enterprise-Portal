@@ -1,6 +1,6 @@
 /**
  * @file
- * A JavaScript file for the OneEPA theme.
+ * A JavaScript file for the Green Trees theme.
  */
 
 // JavaScript should be made compatible with libraries other than jQuery by
@@ -25,7 +25,7 @@ Drupal.behaviors.my_custom_behavior = {
 (function ($) {
 
 // Remove no-js class
-Drupal.behaviors.oneepa = {
+Drupal.behaviors.greentrees = {
   attach: function (context) {
     $('html.no-js', context).removeClass('no-js');
   }
@@ -52,7 +52,7 @@ Drupal.behaviors.skiplinks = {
 };
 
 // Add 'new' class if content is less than 30 days old.
-Drupal.behaviors.oneepaNew = {
+Drupal.behaviors.greentreesNew = {
   attach: function (context) {
     var now = new Date();
     now = now.getTime();
@@ -69,15 +69,6 @@ Drupal.behaviors.oneepaNew = {
     });
   }
 };
-
-// Use jQuery tablesorter plugin.
-/*
-Drupal.behaviors.tablesorter = {
-  attach: function (context) {
-    $('table.tablesorter', context).tablesorter();
-  }
-};
-*/
 
 // Add simple accordion behavior.
 Drupal.behaviors.accordion = {
@@ -129,41 +120,6 @@ Drupal.behaviors.shareLinks = {
     });
   }
 };
-
-    /*Drupal.behaviors.removezipcodes = {
-        attach: function (context) {
-            var x = $('#edit-field-zip-code').find('div.form-type-textfield').find('span.remove-zip').length;
-            if(x == 0)
-                $('#edit-field-zip-code').find('div.form-type-textfield').append("<span class='remove-zip'>&#10006;</span>");
-
-            $('#edit-field-zip-code').find('span.remove-zip').hover(function () {
-                $(this).css('color', 'red');
-                $(this).css('cursor', 'pointer');
-            });
-            $('#edit-field-zip-code').find('span.remove-zip').mouseout(function () {
-                $(this).css('color', 'black');
-            });
-            $('#edit-field-zip-code').find('span.remove-zip').click(function () {
-                $(this).parent('div').find('input.form-text').val('');
-                $(this).parents('tr').css('display','none');
-            });
-        }
-    };*/
-
-//})(jQuery, Drupal, this, this.document);
-
-// Toggle chevron up / down arrows for workbench header
-Drupal.behaviors.workbenchToggleLinks = {
-	attach: function (context) {
-		$('body').on('click', ".glyphicon-chevron-up", function(){
-			$(this).removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
-      });
-     $('body').on('click', '.glyphicon-chevron-down', function(){
-      $(this).removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
-    });
-	}
-};
-
 
 })(jQuery);
 
