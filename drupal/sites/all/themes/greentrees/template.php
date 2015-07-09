@@ -7,7 +7,7 @@
  * @see https://drupal.org/node/1728096
  */
 
-// @todo - Update epa theme_key to oneepa once all files exist
+// @todo - Update epa theme_key to greentrees once all files exist
 if ($GLOBALS['theme_key'] === 'greentrees') {
   require_once dirname(__FILE__) . '/inc/process.inc';
   require_once dirname(__FILE__) . '/inc/theme.inc';

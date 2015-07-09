@@ -26,10 +26,10 @@
  *
  * @ingroup views_templates
  */
-drupal_add_js(drupal_get_path('theme', 'oneepa') ."/js/jquery.dotdotdot.min.js", "file");
-drupal_add_js(drupal_get_path('theme', 'oneepa') ."/js/jquery.jcarousel.min.js", "file");
-drupal_add_js(drupal_get_path('theme', 'oneepa') ."/js/MyMaps.js", "file");
-drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/MyMaps.css", "file");
+drupal_add_js(drupal_get_path('theme', 'greentrees') ."/js/jquery.dotdotdot.min.js", "file");
+drupal_add_js(drupal_get_path('theme', 'greentrees') ."/js/jquery.jcarousel.min.js", "file");
+drupal_add_js(drupal_get_path('theme', 'greentrees') ."/js/MyMaps.js", "file");
+drupal_add_css(drupal_get_path('theme', 'greentrees') ."/css/MyMaps.css", "file");
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>

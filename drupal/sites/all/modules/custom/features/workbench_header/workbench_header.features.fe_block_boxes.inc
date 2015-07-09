@@ -11,6 +11,35 @@ function workbench_header_default_fe_block_boxes() {
   $export = array();
 
   $fe_block_boxes = new stdClass();
+  $fe_block_boxes->info = 'EE Header Locations';
+  $fe_block_boxes->format = 'php_code';
+  $fe_block_boxes->machine_name = 'ee_header_locations';
+  $fe_block_boxes->body = '<?php
+$header_variables = get_header_variables();
+print "<div class=\'ee-workbench-header-locations\'>";
+print "<div class=\'ee-workbench-header-block ee-workbench-header-setlocation\'>";
+print "<label for=\'favorite-location\'>Set location</label>";
+print "<select for=\'favorite-location\'>";
+print "<option value=\'location1\'>".$header_variables[\'locations\'][\'primary_location\']."</option>";
+print "<option value=\'location2\'>".$header_variables[\'locations\'][\'location2\']."</option>";
+print "<option value=\'location3\'>".$header_variables[\'locations\'][\'location3\']."</option>";
+print "</select>";
+print "<a href=\'/\'>View all favorite cities</a>";
+print "</div>";
+?>
+</div>';
+
+  $export['ee_header_locations'] = $fe_block_boxes;
+
+  $fe_block_boxes = new stdClass();
+  $fe_block_boxes->info = 'EE Social Media - Spread the Word';
+  $fe_block_boxes->format = 'full_html';
+  $fe_block_boxes->machine_name = 'ee_social_media';
+  $fe_block_boxes->body = '<ul class="ee-social-media"><li><img alt="Facebook" src="images/facebook-white.png"></li><li><img alt="Twitter" src="images/twitter-white.png"></li></ul>';
+
+  $export['ee_social_media'] = $fe_block_boxes;
+
+  $fe_block_boxes = new stdClass();
   $fe_block_boxes->info = 'Green Trees - EE Header (e-enterprise for the environment)';
   $fe_block_boxes->format = 'full_html';
   $fe_block_boxes->machine_name = 'greentrees_ee_header';

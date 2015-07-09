@@ -40,14 +40,14 @@
     <?php 
         global $user;
         if($user->uid == 0):               		
-			$block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
-			$block = str_replace("E-Enterprise Bridge", "Login", render($block['content']));
-			print render($block['content']);
-		else:
-            print "<p>Welcome, <strong>".$user->name."!</strong>  <a href=\"workbench\">View workbench</a></p>";
+			$headerlogin = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
+			$loginbutton = str_replace("E-Enterprise Bridge", "Login", render($headerlogin['content']));
+			print $loginbutton;
         endif;
+        
+        $updatedheader = str_replace("E-Enterprise Bridge", "Login", $header);
       ?>		
-      <?php print $header; ?>	
+      <?php print $updatedheader; ?>	
     </div>
   <?php endif; ?>
 

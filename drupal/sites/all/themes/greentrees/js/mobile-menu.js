@@ -12,9 +12,11 @@ Drupal.behaviors.mobileMenu = {
         $secondaryNav = $('.secondary-nav', context),
         $footerNav = $('.region-footer', context),
         $eeNav = $('.workbench-menu', context),
+        $locationsBlock = $('#block-block-6', context),
         //$newMenu = $mainNav.find('> .menu').clone();	
         $newSecondaryMenu = $secondaryNav.find('> .menu').clone();
         $newEEMenu = $eeNav.find('> .menu').clone();
+        $newLocations = $locationsBlock.clone();
 
     // Reset menu list class and remove second level menu items.
     /*
@@ -82,7 +84,8 @@ $newMenu.attr('class', 'menu').find('ul').each(function() {
       $footerNav.find('.menu').addClass('pipeline');
 
       // Move main and secondary menus to the top of the page for wide screens.
-      $('.masthead').before($secondaryNav);
+      $($secondaryNav).insertAfter('#block-block-4');
+      $($eeNav).insertAfter($secondaryNav);
       //$('hgroup').after($mainNav);
 	  $('.block-search').after($eeNav);
     }
