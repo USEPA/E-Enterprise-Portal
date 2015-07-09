@@ -701,12 +701,11 @@ tr.even {
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {
 	#user-profile-form {
-		.form-type-textfield {
-			width: 150px;
-		}
-	
 		.ajax-progress .message {
 			display: none;
+		}
+		#field-zip-code-values .field_zip_code {
+			width: 200px;
 		}
 	}
 }
@@ -811,6 +810,14 @@ tr.even {
 		margin: 0px;
 		vertical-align: middle;
 		padding: 0.25em 0.75em;
+	}
+	#links_description {
+		.form-actions {
+			vertical-align: bottom;
+		}
+		.field-name-field-url, .field-name-field-title, .form-actions {
+			display: inline-block;
+		}
 	}
 	.multiple-fields-remove-button {
 		vertical-align: top;
@@ -933,6 +940,11 @@ tr.even {
 #edit-field-profile-favourites thead { 
 	display:none;
 }
+#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper {
+	display: none;
+}
+
+
 .form-item-field-profile-interests-und label:first-child{ 
 	display:none;
 }
