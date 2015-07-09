@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-
+<?php
+      drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+?>
 <div class="edit-user-profile">
 <div class="row">
 	<div class="col-xs-12">
@@ -20,9 +22,9 @@ print render($form['account']['mail']);
 		<div class="panel-body">
 <h3>Locations of Interest</h3>
 <p class="eenterprise-utility-form-item-description-p">
-	Add your locations of interest to see environmental maps and 
-	information relevant to those areas. Please indicate your default 
-	location by clicking the key icon. <br />	
+	Add your locations of interest to see environmental information relevant to those areas. 
+	Please indicate your default location by clicking on the key icon. 
+	Until a location is specified, the default ZIP code is set to 66952. <br />	
 	<span class='zip_code_ajax_error'></span>
 </p>
 <div id='zipcode_description' class='form-group'>

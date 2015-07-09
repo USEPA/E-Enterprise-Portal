@@ -957,6 +957,9 @@ tr.even {
 		.ajax-progress .message {
 			display: none;
 		}
+		#field-zip-code-values .field_zip_code {
+			width: 200px;
+		}
 	}
 }
 
@@ -983,6 +986,17 @@ tr.even {
 	.form-text {
 		font-size:100%;
 	}
+	
+	.field-profile-favourites-values{
+		width: 51%;
+	}
+	.field-type-datetime{ 
+		display:none;
+	}
+	.remove-button .field-profile-favourites-values {
+		float: right;
+	}
+	
 	.description {
 		color:#333333;
 		display:table;
@@ -1043,7 +1057,7 @@ tr.even {
 		padding: 5px 10px;
 		border:none;
 	}
-	.form-submit {
+	.form-submit, .remove_button {
 		text-transform: capitalize; 
 		background-color: #337ab7;
 		padding:0.5em 1em;
@@ -1053,6 +1067,8 @@ tr.even {
 		font-size:0.95em;
 		font-weight:normal;
 	}
+	
+	
 	.field-add-more-submit {
 		background-color: green; 
 		height: auto; 
@@ -1061,7 +1077,15 @@ tr.even {
 		vertical-align: middle;
 		padding: 0.25em 0.75em;
 	}
-	.multiple-fields-remove-button {
+	#links_description {
+		.form-actions {
+			vertical-align: bottom;
+		}
+		.field-name-field-url, .field-name-field-title, .form-actions {
+			display: inline-block;
+		}
+	}
+	.multiple-fields-remove-button, .remove_button {
 		vertical-align: top;
 		padding: 0.20em 0.75em 0.30em;
 		width: auto;
@@ -1122,6 +1146,36 @@ tr.even {
 	}
 
 }
+
+#field-profile-favourites-values > tbody > tr > td:nth-child(2) {
+  width: 855px;
+}
+#field-profile-favourites-values > tbody > tr > td{
+  vertical-align: middle;
+}
+#user-profile-form .remove-button {
+  float: right;
+}
+#field-profile-favourites-values .field-type-text {
+  float: left;
+}
+#field-profile-favourites-values .date_updated_contain {
+  padding-top: 26px;
+  position: absolute;
+}
+
+#field-profile-favourites-values .field-multiple-drag {
+  padding-top: 24px;
+}
+#field-profile-favourites-values .remove-button {
+   margin-top: 20px;
+}
+
+#field-profile-favourites-values .field-add-more-submit {
+  margin-top: 13px;
+}
+
+
 .view-user-profile {
 	.field-label {
 		clip: rect(1px, 1px, 1px, 1px);
@@ -1182,6 +1236,11 @@ tr.even {
 #edit-field-profile-favourites thead { 
 	display:none;
 }
+#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper {
+	display: none;
+}
+
+
 .form-item-field-profile-interests-und label:first-child{ 
 	display:none;
 }
