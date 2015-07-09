@@ -15890,6 +15890,19 @@ tr.even {
 #user-profile-form .form-text {
   font-size: 100%;
 }
+
+#user-profile-form .field-profile-favourites-values{
+  width: 51%;
+}
+
+#user-profile-form .field-type-datetime{ 
+	display:none;
+}
+
+#user-profile-form .remove-button .field-profile-favourites-values {
+  float: right;
+}
+
 /* line 736, ../sass/styles.scss */
 #user-profile-form .description {
   color: #333333;
@@ -15968,7 +15981,7 @@ tr.even {
   border: none;
 }
 /* line 796, ../sass/styles.scss */
-#user-profile-form .form-submit {
+#user-profile-form .form-submit, #user-profile-form .remove_button {
   text-transform: capitalize;
   background-color: #337ab7;
   padding: 0.5em 1em;
@@ -15978,6 +15991,8 @@ tr.even {
   font-size: 0.95em;
   font-weight: normal;
 }
+
+
 /* line 806, ../sass/styles.scss */
 #user-profile-form .field-add-more-submit {
   background-color: green;
@@ -15989,20 +16004,48 @@ tr.even {
 }
 /* line 815, ../sass/styles.scss */
 #user-profile-form #links_description .form-actions {
-  vertical-align: bottom;
+  vertical-align: middle;
 }
 /* line 818, ../sass/styles.scss */
 #user-profile-form #links_description .field-name-field-url, #user-profile-form #links_description .field-name-field-title {
   display: inline-block;
 }
 /* line 822, ../sass/styles.scss */
-#user-profile-form .multiple-fields-remove-button {
+#user-profile-form .multiple-fields-remove-button, #user-profile-form .remove-button {
   vertical-align: top;
   padding: 0.20em 0.75em 0.30em;
   width: auto;
   height: auto;
   text-transform: lowercase;
 }
+#field-profile-favourites-values > tbody > tr > td:nth-child(2) {
+  width: 855px;
+}
+#field-profile-favourites-values > tbody > tr > td{
+  vertical-align: middle;
+}
+#user-profile-form .remove-button {
+  float: right;
+}
+#field-profile-favourites-values .field-type-text {
+  float: left;
+}
+#field-profile-favourites-values .date_updated_contain {
+  padding-top: 26px;
+  position: absolute;
+}
+
+#field-profile-favourites-values .field-multiple-drag {
+  padding-top: 24px;
+}
+#field-profile-favourites-values .remove-button {
+   margin-top: 20px;
+}
+
+#field-profile-favourites-values .field-add-more-submit {
+  margin-top: 13px;
+}
+
 /* line 829, ../sass/styles.scss */
 #user-profile-form .field-suffix,
 #user-profile-form .move-zipcode {

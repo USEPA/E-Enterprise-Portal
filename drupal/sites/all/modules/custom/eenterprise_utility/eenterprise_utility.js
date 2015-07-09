@@ -18,7 +18,7 @@
 		// determine which table to place the Add Another buttom
 		var table_id = '';
 		var parent_id = '';
-		$('.field-multiple-table').each(function() {
+		$('#field-zip-code-values .field-multiple-table').each(function() {
 			var table =  $(this);
 			var add_button = table.find('tr:last').find('td:last').find('.field-add-more-submit');
 			if (add_button.length == 0) {
@@ -192,7 +192,6 @@
 	
 	$('body').on('click', '.vocab_holder .label', function() {
 	if ($(this).hasClass('label-primary')) {
-		console.log($(this));
 		// $(this).closest('.vocab_holder').find('label').each(function() {
 		// 	var checkbox_id = $(this).attr('for');
 		// 	console.log(checkbox_id);
