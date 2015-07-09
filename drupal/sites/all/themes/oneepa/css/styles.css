@@ -15931,52 +15931,47 @@ tr.even {
 #user-profile-form .form-text {
   font-size: 100%;
 }
-<<<<<<< HEAD
-
-#user-profile-form .field-profile-favourites-values{
+/* line 771, ../sass/styles.scss */
+#user-profile-form .field-profile-favourites-values {
   width: 51%;
 }
-
-#user-profile-form .field-type-datetime{ 
-	display:none;
+/* line 774, ../sass/styles.scss */
+#user-profile-form .field-type-datetime {
+  display: none;
 }
-
+/* line 777, ../sass/styles.scss */
 #user-profile-form .remove-button .field-profile-favourites-values {
   float: right;
 }
-
-/* line 736, ../sass/styles.scss */
-=======
-/* line 770, ../sass/styles.scss */
->>>>>>> FETCH_HEAD
+/* line 781, ../sass/styles.scss */
 #user-profile-form .description {
   color: #333333;
   display: table;
 }
-/* line 774, ../sass/styles.scss */
+/* line 785, ../sass/styles.scss */
 #user-profile-form .form-item .form-type-textfield {
   padding-bottom: 0.5em;
 }
-/* line 777, ../sass/styles.scss */
+/* line 788, ../sass/styles.scss */
 #user-profile-form .form-type-textfield {
   margin-right: 20px;
   min-width: 140px;
   max-width: 20em;
 }
-/* line 782, ../sass/styles.scss */
+/* line 793, ../sass/styles.scss */
 #user-profile-form .form-type-textfield.form-item-mail input {
   width: 20em;
   margin-bottom: 10px;
 }
-/* line 786, ../sass/styles.scss */
+/* line 797, ../sass/styles.scss */
 #user-profile-form .form-type-textfield .description {
   margin-top: 5px;
 }
-/* line 789, ../sass/styles.scss */
+/* line 800, ../sass/styles.scss */
 #user-profile-form .form-type-textfield label {
   font-size: 0.95em;
 }
-/* line 792, ../sass/styles.scss */
+/* line 803, ../sass/styles.scss */
 #user-profile-form .form-type-textfield label, #user-profile-form .form-type-textfield input {
   display: block;
 }
@@ -16025,8 +16020,7 @@ tr.even {
   padding: 5px 10px;
   border: none;
 }
-
-/* line 796, ../sass/styles.scss */
+/* line 841, ../sass/styles.scss */
 #user-profile-form .form-submit, #user-profile-form .remove_button {
   text-transform: capitalize;
   background-color: #337ab7;
@@ -16048,13 +16042,13 @@ tr.even {
 }
 /* line 862, ../sass/styles.scss */
 #user-profile-form #links_description .form-actions {
-  vertical-align: middle;
+  vertical-align: bottom;
 }
 /* line 865, ../sass/styles.scss */
 #user-profile-form #links_description .field-name-field-url, #user-profile-form #links_description .field-name-field-title, #user-profile-form #links_description .form-actions {
   display: inline-block;
 }
-/* line 822, ../sass/styles.scss */
+/* line 869, ../sass/styles.scss */
 #user-profile-form .multiple-fields-remove-button, #user-profile-form .remove-button {
   vertical-align: top;
   padding: 0.20em 0.75em 0.30em;
@@ -16125,44 +16119,44 @@ tr.even {
 }
 
 /* line 931, ../sass/styles.scss */
-#field-profile-favourites-values > tbody > tr > td:nth-child(2) {
-  width: 855px;
+#links_description table > tbody > tr > td:nth-child(2) {
+  width: 855px !important;
 }
 
 /* line 934, ../sass/styles.scss */
-#field-profile-favourites-values > tbody > tr > td {
+#links_description table > tbody > tr > td {
   vertical-align: middle;
 }
 
-/* line 937, ../sass/styles.scss */
-#user-profile-form .remove-button {
-  float: right;
-}
-
-/* line 940, ../sass/styles.scss */
-#field-profile-favourites-values .field-type-text {
+/* line 938, ../sass/styles.scss */
+#links_description table .field-type-text {
   float: left;
 }
 
-/* line 943, ../sass/styles.scss */
-#field-profile-favourites-values .date_updated_contain {
+/* line 941, ../sass/styles.scss */
+#links_description table .date_updated_contain {
   padding-top: 26px;
   position: absolute;
 }
 
-/* line 948, ../sass/styles.scss */
-#field-profile-favourites-values .field-multiple-drag {
-  padding-top: 24px;
+/* line 946, ../sass/styles.scss */
+#links_description table .field-multiple-drag {
+  padding-top: 24px !important;
 }
 
-/* line 951, ../sass/styles.scss */
-#field-profile-favourites-values .remove-button {
-  margin-top: 20px;
+/* line 949, ../sass/styles.scss */
+#links_description table .remove-button {
+  margin-top: 20px !important;
 }
 
-/* line 955, ../sass/styles.scss */
-#field-profile-favourites-values .field-add-more-submit {
-  margin-top: 13px;
+/* line 953, ../sass/styles.scss */
+#links_description table .field-add-more-submit {
+  margin-top: 10px !important;
+}
+
+/* line 956, ../sass/styles.scss */
+#links_description .form-actions.form-wrapper {
+  float: right;
 }
 
 /* line 961, ../sass/styles.scss */
