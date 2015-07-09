@@ -260,7 +260,7 @@ function create_progress_tracker_node($res, $user){
             $res_domain = $res['PartnerSystemId'];
             if (strpos($res['PartnerSystemId'], 'lead') !== false)
                 $res_domain = "Lead";
-            if (strpos($res['PartnerSystemId'], 'cedri') !== false)
+            else if (strpos($res['PartnerSystemId'], 'cedri') !== false)
                 $res_domain = "Cedri";
             $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
             $node->field_prog_track_domain['und'][0]['format'] = null;
