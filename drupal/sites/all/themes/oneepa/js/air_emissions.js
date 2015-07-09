@@ -162,14 +162,14 @@
       .attr("class", "emissions-watch-donut-small-subtitle")
       .text("CO2E");
 
-    var maxLabelHeight = 0;
+    var lowestLabel;
 
     labels.each(function() {
-      if (this.clientHeight > maxLabelHeight)
-        maxLabelHeight = this.clientHeight;
+      if (!lowestLabel || this.getBoundingClientRect().bottom > lowestLabel.getBoundingClientRect().bottom)
+        lowestLabel = this;
     })
 
-    svg.attr("height", height + maxLabelHeight);
+    svg.attr("height", height + lowestLabel.clientHeight);
   }
 
   var drawChart = function(data) {
