@@ -287,6 +287,17 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
             $node->field_prog_track_created_by['und'][0]['format'] = null;
             $node->field_prog_track_created_by['und'][0]['safe_value'] = $user->uid;
+
+            if($res_domain = "Lead") {
+                $node->field_prog_track_date_type['und'][0]['value'] = 'Status Changed Date';
+                $node->field_prog_track_date_type['und'][0]['format'] = null;
+                $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Status Changed Date';
+            }
+            else if($res_domain = "Cedri"){
+                $node->field_prog_track_date_type['und'][0]['value'] = 'Publish Date';
+                $node->field_prog_track_date_type['und'][0]['format'] = null;
+                $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
+            }
         }
         else if($res['ActivityType'] == 'TASK') {
             $node->type = "to_do_list";
