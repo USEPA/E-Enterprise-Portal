@@ -107,10 +107,10 @@ footer {
 	  float: right;
 	  margin-top: 5px;
   }
-  #block-block-5, #block-block-5 .block-title, .ee-social-media, .ee-social-media li {
+  .block--ee-social-media, .block--ee-social-media .block-title, .ee-social-media, .ee-social-media li {
 	  float: left;
   }
-  #block-block-5 {
+  .block--ee-social-media {
 	  h2 {
 		  font-size: 1.5em;
 		  text-transform: lowercase;
@@ -246,22 +246,22 @@ input[type="submit"],
 		background-color: $ee-dark-gray;
 		color: #fff;
 	}
-	#block-block-4 {
+	.block--greentrees-ee-header {
 		float: left;
 		font-family: $greentrees;
 		letter-spacing: 1px;
 	}
-	#block-block-4, #block-eenterprise-bridge-auth-eenterprise-bridge-auth {
+	.block--greentrees-ee-header, #block-eenterprise-bridge-auth-eenterprise-bridge-auth {
 		width:18em;
 	}
-	#block-block-6 {
+	.block--ee-header-locations {
 		float: right;
 		margin: 0;
 		padding: 0;
 		height: auto;
 		background: #000 url("../images/stripe2.png") repeat 0 0;
 	}
-	#block-block-6 h2 {
+	.block--ee-header-locations h2 {
 		display: none;
 	}
 	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
@@ -490,7 +490,7 @@ input[type="submit"],
 			letter-spacing: 2px;
 		}
 	}
-	#block-block-4 {
+	.block--greentrees-ee-header {
 		font-size: 0.5em;
 		width:20em;
 	}
@@ -912,6 +912,40 @@ tr.even {
     display:none;
 }
 
+.task-filter ul {
+    list-style-type:none;
+    margin:0 0 1em 0;
+    padding:0;
+    display:inline-block;
+}
+
+.task-filter ul li {
+    float:left;
+    margin: 0 1em 0 0;
+    padding:0.5em 1em;
+    background:#585858;
+    color:#FFFFFF;
+    border-radius: 4px;
+}
+
+.task-filter ul li a {
+    color:#FFFFFF;
+}
+
+.task-filter ul li.active {
+    background:#006545;
+}
+
+.task-filter ul li:hover {
+    background:#006545;
+}
+
+.table-result-count {
+    display:inline-block;
+    margin:0 1em 0 0;
+    text-align:right;
+    width:100%;
+}
 
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {
