@@ -5,6 +5,8 @@ $(document).ready(function(){
 	///SCRIPT FOR FAVORITE  LINKS BOX
 	//collect urls already favored
 	var favorite_urls;
+	var url_id_mapping;
+	var id_label_mapping;
 	
 	function load_links(index) {
 		$('#load_more').hide();
@@ -15,6 +17,8 @@ $(document).ready(function(){
 				var data = $.parseJSON(data);
 				if (data.url_data != 'false') {
 					favorite_urls = data.urls;
+					url_id_mapping = data.url_mapping;
+					id_label_mapping = data.label_mapping;
 					processPageAnchors();
 				}
 			}
@@ -29,12 +33,12 @@ $(document).ready(function(){
 	///////Script for Attached button functionality to links
 	
 	
-	function createFavoriteButton(id, text_title) {
-		if ($.inArray(id, favorite_urls) === -1) {
-	 		var favorite_button = "<button id='" + id + "|" + text_title + "' class='btn  btn-success add_link favorite_hover' style='display:none'>Add</button>";	
+	function createFavoriteButton(url, text_title) {
+		if ($.inArray(url, favorite_urls) === -1) {
+	 		var favorite_button = "<button id='" + url_id_mapping[url] + "favorite_link' class='btn  btn-success add_link favorite_hover' style='display:none'>Add</button>";	
 		}
 		else {
-			var favorite_button = "<button id='" + id + "|" + text_title + "' class='btn btn-danger remove_link favorite_hover' style='display:none'>Remove</button>";	
+			var favorite_button = "<button id='" + url_id_mapping[url] + "favorite_link' class='btn btn-danger remove_link favorite_hover' style='display:none'>Remove</button>";	
 		}
 	 return favorite_button;
 	} 
@@ -46,7 +50,12 @@ $(document).ready(function(){
 			var url = $(this).attr('href');
 			var title = $(this).text();
 			var favorite_button = createFavoriteButton(url, title);
-			$(this).after(favorite_button);
+			if ($('#' + url_id_mapping[url] + 'favorite_link').length > 0) {
+				$('#' + url_id_mapping[url] + 'favorite_link').html(favorite_button);
+			}
+			else {
+				$(this).after(favorite_button);
+			}
 			$(this).qtip({ // Grab some elements to apply the tooltip to
 			    content: {
 			        text: $(this).next('button')
@@ -64,7 +73,12 @@ $(document).ready(function(){
 			var url = $(this).attr('href');
 			var title = $(this).attr('alt');
 			var favorite_button = createFavoriteButton(url, title);
-			$(this).after(favorite_button);
+			if ($('#' + url_id_mapping[url] + 'favorite_link').length > 0) {
+				$('#' + url_id_mapping[url] + 'favorite_link').html(favorite_button);
+			}
+			else {
+				$(this).after(favorite_button);
+			}
 			$(this).qtip({ // Grab some elements to apply the tooltip to
 			    content: {
 			        text: $(this).next('button')
@@ -128,21 +142,11 @@ $(document).ready(function(){
 						button.removeClass('add_link').removeClass('btn-default').removeClass('btn-success');
 						button.text('Remove');
 						button.addClass('remove_link btn-danger');
-						button.click(function (){
-							var url = $(this).attr('id');
-							var label = $(this).text();
-							processFavoriteLink($(this), 'remove', url, label )
-						});
 					}
 					else{
 						button.removeClass('remove_link').removeClass('btn-default').removeClass('btn-danger');
 						button.text('Add');
 						button.addClass('add_link btn-success');
-						button.click(function () {
-							var url = $(this).attr('id');
-							var label = $(this).text();
-							processFavoriteLink($(this), 'add', url, label );
-						});
 					}
 				}
 			},

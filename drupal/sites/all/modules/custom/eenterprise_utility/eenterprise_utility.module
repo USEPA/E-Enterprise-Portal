@@ -107,10 +107,16 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       //       $form_state['input']['field_zip_code'][LANGUAGE_NONE][0]['value'];
       //   }
       
-   if ($form_state['triggering_element']['#name'] == 'field_zip_code_und_0_remove_button') {
+   if ($form_state['triggering_element']['#name'] == 'field_zip_code_' . LANGUAGE_NONE . '_0_remove_button') {
            $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
         }
 
+       if ($form_state['triggering_element']['#name'] == 'field_profile_favourites_'. LANGUAGE_NONE . '_0_remove_button') {
+
+         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+      }
+        // dpm($form['field_profile_favourites'][LANGUAGE_NONE][0]);
 
            
            
@@ -275,6 +281,7 @@ function zip_code_lookup($zip) {
  */
 function user_profile_form_custom_validate(&$form, &$form_state) {
    user_profile_zipcode_custom_validate($form, $form_state);
+   user_profile_url_custom_validate($form, $form_state);
 }
 
 
@@ -287,8 +294,8 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
   // Validates even if javascript validation failed on form submit
     $previous_zipcodes = array();
     $error = false;
-    $error_message = '';
-    $field_id = '';
+    $error_messages = array();
+    $field_ids = array();
    
    // Default value is 66952.
    // Occurs when all values are blank.
@@ -316,10 +323,11 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
                $blank_zipcode = false;
               }
             }
-            
+
             if ($error) {
-              $field_ids[] = '#edit-field-zip-code-und-' . $delta . '-value';
-              break;
+              if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
+              form_set_error('field_zip_code][' . LANGUAGE_NONE . '][' . $delta, t($error_message));
+              }
             }
         }
     }
@@ -332,22 +340,41 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
          $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 66952;
    }
 
-    
+   // if ($error) {
+    //  if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
+    //    foreach($field_ids as $key=>$field_id) {
+    //      form_set_error($field_id, t($error_messages[$key]));
+    //    }
+    //  }
+   // }
    
-    
-   if ($error) {
-     if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
-       form_set_error('field_zip_code', t($error_message));
-     return array( 
-       'passed' => false, 
-       'id' => $field_id,
-      );
-     }
+
+}
+
+
+ function user_profile_url_custom_validate(&$form, &$form_state) {
+
+   // Validates even if javascript validation failed on form submit
+   // Occurs when all values are blank.
+   $blank_url = true;
+   if (!isset($form_state['input']['field_profile_favourites'])){
+         $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
+         $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value'] = '';
+         $form_state['input']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
+     // dpm( $form_state['values']['field_profile_favourites'][LANGUAGE_NONE]);
+      //     dpm( $form_state['input']['field_profile_favourites'][LANGUAGE_NONE]);
    }
    else {
-     return array('passed' => true);
-   }
+      foreach($form_state['values']['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
+         if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
+           $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][$delta]['value'] = '';
+           $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][$delta]['value'] = '';
+         }
 }
+   }
+ }
+    
+
 
 /**
  * @param $form
