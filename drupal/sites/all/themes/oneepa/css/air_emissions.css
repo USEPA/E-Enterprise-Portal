@@ -37,5 +37,31 @@
 #air-emissions-chart .x.axis line { display:none; }
 
 #air-emissions-chart .y.axis text { 
-  font-size:80%;
+  font-size:64%;
+}
+
+#air-emissions-chart .gas-pfc {
+  fill:#2b0046;
+}
+#air-emissions-chart .gas-hfc {
+  fill:#fe522e;
+}
+#air-emissions-chart .gas-nf3 {
+  fill:#3a2b32;
+}
+#air-emissions-chart .gas-sf6 {
+  fill:#991a4d;
+}
+#air-emissions-chart .gas-n2o {
+  fill:#ffbc02;
+}
+#air-emissions-chart .gas-ch4 {
+  fill:#dfd3af;
+}
+#air-emissions-chart .gas-co2 {
+  fill:#007e87;
+}
+
+#air-emissions-chart .legend text {
+  fill:white;
 }
