@@ -4,14 +4,16 @@
   $(document).ready(function(){
 	var last_clicked = "";
 	
-	function placeAddAnotherButton(addTd, table_id, parent_id) {
+	function placeAddAnotherButton(ajax_content, table_id, parent_id) {
 	 	var table = $(table_id);
 		var input_button = $(parent_id).find('.field-add-more-submit');
-		// if (addTd){
-		// 	table.find("tr:first").append("<th></th>");
-		// 	table.find("tr").not('tr:first').append("<td><div class='ajax-new-content'></div></td>");
-		// }
-		table.find("tr:last").find('td:nth-child(2)').append(input_button);
+		if (!ajax_content){
+			table.find("tr:last").find('td:nth-child(2)').append(input_button);
+			table.find("tr:last").find('td:nth-child(2) .ajax-new-content').append(input_button);
+		}
+		else {
+			table.find("tr:last").find('td:nth-child(2)').append(input_button);
+		}
 	};
 	
 	$( document ).ajaxSuccess(function( event, xhr, settings ) {
@@ -33,7 +35,7 @@
 		}
 
 		if (table_id != '') {
-			placeAddAnotherButton(true, '#' + table_id, parent_id);
+			placeAddAnotherButton(false, '#' + table_id, parent_id);
 		}
 	});
 
