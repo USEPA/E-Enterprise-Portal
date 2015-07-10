@@ -15485,15 +15485,15 @@ tr.odd, tr.even {
 .region-nav-bar {
   background-color: #333;
   height: 2em;
+  border-bottom: 2px solid #404040;
 }
 
-/* line 534, ../sass/styles.scss */
+/* line 535, ../sass/styles.scss */
 .workbench-menu {
   display: none;
   clear: left;
   background-color: #333;
   border-top: 1px solid #3d3d3d;
-  border-bottom: 2px solid #404040;
   background-color: #333;
   width: 60%;
   margin: 0;
