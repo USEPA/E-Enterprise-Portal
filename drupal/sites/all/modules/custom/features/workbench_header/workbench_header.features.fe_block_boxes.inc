@@ -35,7 +35,7 @@ print "</div>";
   $fe_block_boxes->info = 'EE Social Media - Spread the Word';
   $fe_block_boxes->format = 'full_html';
   $fe_block_boxes->machine_name = 'ee_social_media';
-  $fe_block_boxes->body = '<ul class="ee-social-media"><li><img alt="Facebook" src="images/facebook-white.png"></li><li><img alt="Twitter" src="images/twitter-white.png"></li></ul>';
+  $fe_block_boxes->body = '<ul class="ee-social-media"><li><img alt="Facebook" src="/images/facebook-white.png"></li><li><img alt="Twitter" src="/images/twitter-white.png"></li></ul>';
 
   $export['ee_social_media'] = $fe_block_boxes;
 
