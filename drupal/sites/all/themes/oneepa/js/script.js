@@ -29,6 +29,7 @@ Drupal.behaviors.oneepa = {
   attach: function (context) {
     $('html.no-js', context).removeClass('no-js');
     $('.views-field a').addClass('favorites-ignore');
+    $('.pager a').addClass('favorites-ignore');
   }
 };
 
