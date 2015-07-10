@@ -208,6 +208,7 @@ var path = window.location.pathname;
 					else{
 						if (button.hasClass('in-widget')) {
 							unparsed_url = $(button).closest('tr').find('a').attr('href');
+							$(button).closest('tr').remove();
 						}
 						else {
 							var widget_button = $('*[id="' + id + '|favorite_link"].in-widget')

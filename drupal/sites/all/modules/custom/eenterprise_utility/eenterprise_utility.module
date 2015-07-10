@@ -383,6 +383,11 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
            $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][$delta]['value'] = '';
            $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][$delta]['value'] = '';
          }
+         // if title is empty, set it to given url
+         // else if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']) == '' ) {
+          //     $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][$delta]['value'] = 
+          //         $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][$delta]['value'];
+         // }
 }
    }
  }
