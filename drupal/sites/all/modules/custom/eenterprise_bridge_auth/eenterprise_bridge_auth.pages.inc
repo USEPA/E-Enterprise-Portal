@@ -261,7 +261,7 @@ function create_progress_tracker_node($res, $user){
             if (strpos($res['PartnerSystemId'], 'lead') !== false)
                 $res_domain = "Lead";
             else if (strpos($res['PartnerSystemId'], 'cedri') !== false)
-                $res_domain = "Cedri";
+                $res_domain = "CEDRI";
             $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
             $node->field_prog_track_domain['und'][0]['format'] = null;
             $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
@@ -293,7 +293,7 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_date_type['und'][0]['format'] = null;
                 $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Status Changed Date';
             }
-            else if($res_domain == "Cedri"){
+            else if($res_domain == "CEDRI"){
                 $node->field_prog_track_date_type['und'][0]['value'] = 'Publish Date';
                 $node->field_prog_track_date_type['und'][0]['format'] = null;
                 $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
@@ -343,8 +343,8 @@ function create_progress_tracker_node($res, $user){
         $expiration_date = strtotime($res['ActivityExpirationDate']);
         $curr_date =  strtotime(date("Y-m-d H:i:s"));
         if(($expiration_date - $curr_date) <= 0){
-            db_query("UPDATE {node} SET status = '0' WHERE nid =:nid ;", array(':nid' => $query_res['entity_id']));
-            db_query("UPDATE {node_revision} SET status = '0' WHERE nid =:nid AND  vid =:vid;", array(':nid' => $query_res['nid'],':vid' => $query_res['revision_id']));
+            db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res['entity_id']));
+            db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res['entity_id'],':vid' => $query_res['revision_id']));
         }
     }
 }
