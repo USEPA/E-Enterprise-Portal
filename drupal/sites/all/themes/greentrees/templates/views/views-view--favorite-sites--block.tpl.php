@@ -30,12 +30,13 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/favorite-sites.css", "f
 ?>
 
 <div id="favorite_links-ajax-wrapper">
-
+<a class="favorites-ignore" href="/user">Edit Profile</a>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
-    <?php print $title; ?>
+    <?php print  $title; ?>
   <?php endif; ?>
+  
   <?php print render($title_suffix); ?>
   <?php if ($header): ?>
     <div class="view-header">

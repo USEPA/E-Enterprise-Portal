@@ -423,7 +423,11 @@ input[type="submit"],
 	top:0;
 }
 .field-add-more-submit {
-	background-color: green; height:40px; width:43px; margin: 0px; vertical-align: middle; margin: 0px;
+	background-color: green; 
+	height:40px; 
+	width:43px; 
+	margin: 0px; 
+	vertical-align: middle;
 }
 
 /** Accessibility Helper Styles ***********/
@@ -817,7 +821,9 @@ tr.even {
 	#zipcode_description table tr:last td:last {
 		width:200px;	
 	}
-	
+	#zipcode_description .field-add-more-submit { 
+		margin-left: 5px; float: right; 
+	}
 	.panel {
 		min-height: 330px;
 	}
@@ -930,34 +936,44 @@ tr.even {
 }
 
 #links_description table > tbody > tr > td:nth-child(2) {
-  width: 855px !important;
+  width: 900px;
 }
 #links_description table > tbody > tr > td{
   vertical-align: middle;
 }
-
+#user-profile-form .remove-button {
+  float: right;
+}
 #links_description table .field-type-text {
   float: left;
 }
 #links_description table .date_updated_contain {
-  padding-top: 26px;
-  position: absolute;
+  margin-top: 23px;
+  display: block;
+  float: left;
+  margin-right: 10px;
 }
 
 #links_description table .field-multiple-drag {
-  padding-top: 24px !important;
+  padding-top: 24px;
 }
 #links_description table .remove-button {
-   margin-top: 20px !important;
+   margin-top: 16px;
 }
 
 #links_description table .field-add-more-submit {
-  margin-top: 10px !important;
+  margin-top: 16px;
+  float: left;
+  display: block;
 }
 #links_description .form-actions.form-wrapper {
-  float: right;
+  float: left;
+  margin-right: 10px;
 }
-
+#links_description .form-submit {
+	padding: 0.25em 0.75em;
+	text-transform: lowercase;
+}
 .view-user-profile {
 	.field-label {
 		clip: rect(1px, 1px, 1px, 1px);

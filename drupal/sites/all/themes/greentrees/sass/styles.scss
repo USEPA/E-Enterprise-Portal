@@ -224,11 +224,9 @@ input[type="submit"],
 
 .region-header {
 	//height: 4.25em;
-	height: 3.5em;
+	height: 4em;
 	padding-left: 4.25em;
-}
-
-.region-header {
+	padding-top: 0.5em;
 	margin-left: -1em;
 	margin-right: -1em;
 	background-color: $ee-menu-bg;
@@ -435,8 +433,8 @@ input[type="submit"],
 
 .secondary-nav {
 	position: absolute;
-	right: 1em;
-	top: 30px; 
+	right: 2em;
+	top: 10px; 
 	font-size: 0.85em;
 	.pipeline li {
 		list-style: none;
@@ -473,7 +471,11 @@ input[type="submit"],
 	top:0;
 }
 .field-add-more-submit {
-	background-color: green; height:40px; width:43px; margin: 0px; vertical-align: middle; margin: 0px;
+	background-color: green; 
+	height:40px; 
+	width:43px; 
+	vertical-align: middle; 
+	margin: 0px;
 }
 
 /** Accessibility Helper Styles ***********/
@@ -608,7 +610,7 @@ tr.odd, tr.even {
 }
 
 @media screen and (min-width: 40em) {
-	.view-ee-welcome, .page-node-50, .page-node-168 {
+	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
 		.well {
 			font-size: 2em;
 			margin-left: 15%;
@@ -953,7 +955,10 @@ tr.even {
 	#zipcode_description table tr:last td:last {
 		width:200px;	
 	}
-	
+	#zipcode_description .field-add-more-submit {
+		margin-left: 5px;
+		float: right;
+	}
 	.panel {
 		min-height: 330px;
 	}
@@ -1003,7 +1008,7 @@ tr.even {
 			display: inline-block;
 		}
 	}
-	.multiple-fields-remove-button, .remove_button {
+	.multiple-fields-remove-button, .remove-button {
 		vertical-align: top;
 		padding: 0.20em 0.75em 0.30em;
 		width: auto;
@@ -1065,34 +1070,45 @@ tr.even {
 
 }
 
-#field-profile-favourites-values > tbody > tr > td:nth-child(2) {
-  width: 855px;
+#links_description table > tbody > tr > td:nth-child(2) {
+  width: 900px;
 }
-#field-profile-favourites-values > tbody > tr > td{
+#links_description table > tbody > tr > td{
   vertical-align: middle;
 }
 #user-profile-form .remove-button {
   float: right;
 }
-#field-profile-favourites-values .field-type-text {
+#links_description table .field-type-text {
   float: left;
 }
-#field-profile-favourites-values .date_updated_contain {
-  padding-top: 26px;
-  position: absolute;
+#links_description table .date_updated_contain {
+  margin-top: 23px;
+  display: block;
+  float: left;
+  margin-right: 10px;
 }
 
-#field-profile-favourites-values .field-multiple-drag {
+#links_description table .field-multiple-drag {
   padding-top: 24px;
 }
-#field-profile-favourites-values .remove-button {
-   margin-top: 20px;
+#links_description table .remove-button {
+   margin-top: 16px;
 }
 
-#field-profile-favourites-values .field-add-more-submit {
-  margin-top: 13px;
+#links_description table .field-add-more-submit {
+  margin-top: 16px;
+  float: left;
+  display: block;
 }
-
+#links_description .form-actions.form-wrapper {
+  float: left;
+  margin-right: 10px;
+}
+#links_description .form-submit {
+	padding: 0.25em 0.75em;
+	text-transform: lowercase;
+}
 .view-user-profile {
 	.field-label {
 		clip: rect(1px, 1px, 1px, 1px);
