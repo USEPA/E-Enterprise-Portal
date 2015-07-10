@@ -248,9 +248,14 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_tracker_app['und'][0]['format'] = null;
             $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
 
-            $node->field_prog_track_status['und'][0]['value'] = $res['Status'];
+            if($res['Status'] == 'IN_PROGRESS')
+                $res_status = 'In Progress';
+            else
+                $res_status = ucfirst(strtolower($res['Status']));
+
+            $node->field_prog_track_status['und'][0]['value'] = $res_status;
             $node->field_prog_track_status['und'][0]['format'] = null;
-            $node->field_prog_track_status['und'][0]['safe_value'] = $res['Status'];
+            $node->field_prog_track_status['und'][0]['safe_value'] = $res_status;
 
             $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
             $node->field_prog_track_updated['und'][0]['value'] = $st_update;
