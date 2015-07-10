@@ -20,9 +20,8 @@ print render($form['account']['mail']);
 		<div class="panel-body">
 <h3>Locations of Interest</h3>
 <p class="eenterprise-utility-form-item-description-p">
-	Add your locations of interest to see environmental maps and 
-	information relevant to those areas. Please indicate your default 
-	location by clicking the key icon. <br />	
+	Add your locations of interest to see environmental information relevant to those areas. 
+	Until a location is specified, the default location is set to Houston, Texas. <br />	 <br />	
 	<span class='zip_code_ajax_error'></span>
 </p>
 <div id='zipcode_description' class='form-group'>
