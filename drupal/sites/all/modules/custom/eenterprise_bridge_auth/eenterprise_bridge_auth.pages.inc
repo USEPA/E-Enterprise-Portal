@@ -314,7 +314,7 @@ function create_progress_tracker_node($res, $user){
             if (strpos($res['PartnerSystemId'], 'lead') !== false)
                 $res_domain = "Lead";
             if (strpos($res['PartnerSystemId'], 'cedri') !== false)
-                $res_domain = "Cedri";
+                $res_domain = "CEDRI";
             $node->field_todo_lst_domain['und'][0]['value'] = $res_domain;
             $node->field_todo_lst_domain['und'][0]['format'] = null;
             $node->field_todo_lst_domain['und'][0]['safe_value'] = $res_domain;
