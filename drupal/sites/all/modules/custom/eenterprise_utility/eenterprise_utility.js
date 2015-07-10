@@ -7,11 +7,11 @@
 	function placeAddAnotherButton(addTd, table_id, parent_id) {
 	 	var table = $(table_id);
 		var input_button = $(parent_id).find('.field-add-more-submit');
-		if (addTd){
-			table.find("tr:first").append("<th></th>");
-			table.find("tr").not('tr:first').append("<td><div class='ajax-new-content'></div></td>");
-		}
-		table.find("tr:last").find('td:last').find('.ajax-new-content').append(input_button);
+		// if (addTd){
+		// 	table.find("tr:first").append("<th></th>");
+		// 	table.find("tr").not('tr:first').append("<td><div class='ajax-new-content'></div></td>");
+		// }
+		table.find("tr:last").find('td:nth-child(2)').append(input_button);
 	};
 	
 	$( document ).ajaxSuccess(function( event, xhr, settings ) {
@@ -20,7 +20,7 @@
 		var parent_id = '';
 		$('.field-multiple-table').each(function() {
 			var table =  $(this);
-			var add_button = table.find('tr:last').find('td:last').find('.field-add-more-submit');
+			var add_button = table.find('tr:last').find('td:nth-child(2)').find('.field-add-more-submit');
 			if (add_button.length == 0) {
 				table_id = table.attr('id');
 			}
