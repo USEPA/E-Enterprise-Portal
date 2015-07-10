@@ -41,11 +41,11 @@
         global $user;
         if($user->uid == 0):               		
 			$headerlogin = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
-			$loginbutton = str_replace("E-Enterprise Bridge", "Login", render($headerlogin['content']));
+			$loginbutton = str_replace("E-Enterprise Bridge", "Log in", render($headerlogin['content']));
 			print $loginbutton;
         endif;
         
-        $updatedheader = str_replace("E-Enterprise Bridge", "Login", $header);
+        $updatedheader = str_replace("E-Enterprise Bridge", "Log in", $header);
       ?>		
       <?php print $updatedheader; ?>	
     </div>
@@ -70,7 +70,7 @@
                 if($user->uid == 0):               		
 					$block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
 					$loginmsg = "<div id=\"login-group\" class=\"container\">";
-					$loginform = str_replace("E-Enterprise Bridge", "Login", render($block['content']));
+					$loginform = str_replace("E-Enterprise Bridge", "Log in", render($block['content']));
 					$loginmsg .= $loginform;
 					//$loginmsg .= "<a id=\"learnmorelink\" data-toggle=\"modal\" href=\"#learnmore\">Why log in?</a></div>";
                 else:
