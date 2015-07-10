@@ -84,8 +84,8 @@ $newMenu.attr('class', 'menu').find('ul').each(function() {
       $footerNav.find('.menu').addClass('pipeline');
 
       // Move main and secondary menus to the top of the page for wide screens.
-      $($secondaryNav).insertAfter('#block-block-4');
-      $($eeNav).insertAfter($secondaryNav);
+      $($secondaryNav).insertAfter('.block--greentrees-ee-header');
+      $($eeNav).insertBefore('.block--ee-header-locations');
       //$('hgroup').after($mainNav);
 	  $('.block-search').after($eeNav);
     }
