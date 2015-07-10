@@ -83,8 +83,7 @@ body, .main-content {
 	background-color: transparent;
 }
 .masthead {
-	padding-bottom: 10px;
-	padding-top: 10px;
+	display:none;
 }
 footer {
   clear: both;
@@ -224,8 +223,12 @@ input[type="submit"],
 }
 
 .region-header {
-	padding: 15px 3.25em;
-	height: 7em;
+	//height: 4.25em;
+	height: 3.5em;
+	padding-left: 4.25em;
+}
+
+.region-header {
 	margin-left: -1em;
 	margin-right: -1em;
 	background-color: $ee-menu-bg;
@@ -247,22 +250,14 @@ input[type="submit"],
 		color: #fff;
 	}
 	.block--greentrees-ee-header {
+		width: 22em;
 		float: left;
 		font-family: $greentrees;
 		letter-spacing: 1px;
+		font-size: 0.5em;
 	}
-	.block--greentrees-ee-header, #block-eenterprise-bridge-auth-eenterprise-bridge-auth {
-		width:18em;
-	}
-	.block--ee-header-locations {
-		float: right;
-		margin: 0;
-		padding: 0;
-		height: auto;
-		background: #000 url("../images/stripe2.png") repeat 0 0;
-	}
-	.block--ee-header-locations h2 {
-		display: none;
+	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
+		width: 18em;
 	}
 	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
 		width:10em;
@@ -290,12 +285,12 @@ input[type="submit"],
 			font-size: 1.425em;
 			font-weight: normal;
 			font-family: $greentrees;
-			letter-spacing: 2px;
+			letter-spacing: 1px;
 		}
 	}
 	.ee-header-line2 {
 		font-size: 3em;
-		letter-spacing: 3px;
+		letter-spacing: 2px;
 	}
 
 }
@@ -308,46 +303,6 @@ input[type="submit"],
 .mobile-nav .mobile-links a.active {
 	color: $ee-white;
 }
-.page-eenterprise-for-environment {
-	.breadcrumb, .breadcrumb-title {
-		display:none;
-	}
-	section {
-		padding:0;
-	}
-	h2 {
-		padding-left:30px
-	}
-	ul {
-		list-style:none;
-	}
-	li h3 {
-		padding-bottom:0;
-	}
-	li br, .row.shaded br {
-		display:none;
-	}
-	.row {
-		padding:1em 2.5em;
-/*
-		margin-left:0px !important;
-		margin-right:0px !important;
-*/
-	}
-	.view-footer {
-		padding-left:30px;
-	}
-	.view-footer h3 {
-		margin-left:1em !important;
-		margin-top:1em;
-		margin-bottom:5px;
-		padding-bottom:0;
-	}
-	.view-footer li h3 {
-		margin:0 !important;
-	}
-
-}
 #login-group {
 	padding-left: 25%;
 	form, a {
@@ -359,73 +314,39 @@ input[type="submit"],
 	}
 }
 
-#learnmore {
-	.modal-content {
-		padding:30px;
-	}
-
-	.modal-header, .modal-footer {
-		border:none;
-	}
-	.modal-title {
-		padding-left:0;
-	}
-}
-
-#learnmore-close {
-	font-size: 1.375em;
-	line-height: 1;
-	position: absolute;
-	top: 0.5em;
-	right: 0.6875em;
-	color: #aaaaaa;
-	font-weight: bold;
-	cursor: pointer;
-}
-
 .messages--status.messages.status {
 	margin-bottom:0;
 }
 .messages {
 	font-size: 16px;
 }
-.row.shaded {
-	background-color:#f7f7f9;
-	border:1px solid #e1e1e8;
-	border-width:1px 0;
-	margin-top:	1em;
-	margin-bottom: 1em;
-}
-#benefits li img {
-	display:block;
-	max-width: 75%; 
-	margin: 0 auto;
-}
-#including li img {
-	display:inline-block;
-	vertical-align: top;
-	margin-top:1em;
-	margin-right:10px;
-	width:3.5em;
-	height:3.5em;
-}
 
-#including li div {
-	display:inline-block;
-	vertical-align: top;
-	width:85%;
-	margin-left:10px;
-}
-
-.view-ee-release-note-list ul {
-	border-left:2px solid #fafafa;
-	margin-left:1.25em;
-}
-
-.view-ee-welcome, .page-node-50, .page-node-168 {
+.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
 // Include page node IDs to see changes when logged in as Administrator and viewing the "View" version of the page
 // 50 - localhost, 169 - Dev
-	h2.node-title, h2.block-title, h1.page-title {
+	.masthead {
+		display: block;
+		padding-bottom: 10px;
+		padding-top: 10px;
+	}
+	.region-header {
+		padding: 15px 3.25em;
+		height: 7em;
+		.block--greentrees-ee-header {
+			font-size: 1em;
+		}
+		.ee-header-line1 strong {
+			letter-spacing: 1px;
+		}
+		.ee-header-line2 {
+			letter-spacing: 2px;
+		}
+	}
+	footer {
+		position: absolute;
+		bottom: 0;
+	}
+	h2.node-title, h1.page-title, .block-menu-menu-footer-disclaimers h2.block-title {
 		@include element-invisible;
 	}
 	.well {
@@ -476,24 +397,6 @@ input[type="submit"],
 }
 .page-workbench {
 	background-color: #000;
-	.masthead {
-		display:none;
-	}
-	.region-header {
-		//height: 4.25em;
-		height: 5.85em;
-		padding-left: 4.25em;
-		.ee-header-line1 strong {
-			letter-spacing: 1px;
-		}
-		.ee-header-line2 {
-			letter-spacing: 2px;
-		}
-	}
-	.block--greentrees-ee-header {
-		font-size: 0.5em;
-		width:20em;
-	}
 	&.wide-template #main-content {
 		background-color: $ee-light-gray;
 	}
@@ -534,13 +437,14 @@ input[type="submit"],
 	position: absolute;
 	right: 1em;
 	top: 30px; 
+	font-size: 0.85em;
 	.pipeline li {
 		list-style: none;
 	}
 }
 
 .admin-menu .secondary-nav {
-	top: 50px; //Set top when admin user is logged in
+	top: 30px; //Set top when admin user is logged in
 	right: 2.5em;
 }
 
@@ -573,7 +477,7 @@ input[type="submit"],
 }
 
 /** Accessibility Helper Styles ***********/
-.view-eenterprise-for-environment .article-title {
+.view-eenterprise-for-environment .article-title, .view-ee-welcome .article-title, .page-ee-welcome .article-title {
   clip: rect(1px, 1px, 1px, 1px);
   position: absolute !important;
 }
@@ -620,7 +524,10 @@ tr.views-row-first {
 tr.odd, tr.even {
 	border-bottom: 1px solid $ee-medium-gray;
 }
-
+.region-nav-bar {
+	background-color: #333;
+	height: 2em;
+}
 .workbench-menu {
 	display: none;
 	clear: left;
@@ -633,8 +540,41 @@ tr.odd, tr.even {
 	margin: 0;
 	padding: 0;
 	float: left;
-	margin-left: -3.25em;
+	//margin-left: -3.25em;
 	padding-left: 3.25em;
+}
+.block--ee-header-locations {
+	float: right;
+	margin: 0;
+	margin-right: 2.5em;
+	padding: 0;
+	height: auto;
+	width: 24em;
+	background: #000 url("../images/stripe2.png") repeat 0 0;
+	h2 {
+		display: none;
+	}
+	.ee-workbench-header-locations {
+		width:24em;
+		float:right;
+		//margin-right:1.25em;
+		@include future-function;
+		}
+	.ee-workbench-header-setlocation {
+		label, a {
+			background-color: transparent;
+			margin-top: 3px;
+			color: #333;
+		}
+		label, select, a {
+			float: left;
+			margin-right: 5px;
+		}
+		select {
+			margin-bottom:0;
+			margin-top: 5px;
+		}
+	}
 }
 
 
@@ -713,34 +653,11 @@ tr.odd, tr.even {
 	.ee-workbench-top-header li {
 		min-width: 4.5em;
 		}
-	.ee-workbench-header-locations {
-		width:24em;
-		float:right;
-		//margin-right:1.25em;
-		@include future-function;
-		}
-	.ee-workbench-header-setlocation {
-		label, a {
-			background-color: #000;
-			margin-top: 3px;
-		}
-		label, select, a {
-			float: left;
-			margin-right: 5px;
-		}
-		select {
-			margin-bottom:0;
-		}
-	}
 	#block-search-form {
 		clear: right;
 		padding-top: 0;
 		float: right;
 		position:initial
-	}
-	footer {
-		position: absolute;
-		bottom: 0;
 	}
 		
 }
@@ -856,11 +773,12 @@ table.views-table {
 	}
 	td.active,
 	tr:hover,
-	th:hover,
 	td:hover {
 		background-color: $ee-hover-gray;
 	}
-
+	th:hover {
+		background-color: #606060;
+	}
 }
 
 span.date-subscript-text, 
@@ -1175,7 +1093,6 @@ tr.even {
   margin-top: 13px;
 }
 
-
 .view-user-profile {
 	.field-label {
 		clip: rect(1px, 1px, 1px, 1px);
@@ -1236,10 +1153,9 @@ tr.even {
 #edit-field-profile-favourites thead { 
 	display:none;
 }
-#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper {
+#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper, #field-zip-code-add-more-wrapper .tabledrag-toggle-weight-wrapper {
 	display: none;
 }
-
 
 .form-item-field-profile-interests-und label:first-child{ 
 	display:none;

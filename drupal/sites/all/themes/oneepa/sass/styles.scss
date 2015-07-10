@@ -641,11 +641,12 @@ table.views-table {
 	}
 	td.active,
 	tr:hover,
-	th:hover,
 	td:hover {
 		background-color: $ee-hover-gray;
 	}
-
+	th:hover {
+		background-color: #606060;
+	}
 }
 
 span.date-subscript-text, 
@@ -1017,7 +1018,7 @@ tr.even {
 #edit-field-profile-favourites thead { 
 	display:none;
 }
-#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper {
+#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper, #field-zip-code-add-more-wrapper .tabledrag-toggle-weight-wrapper {
 	display: none;
 }
 
