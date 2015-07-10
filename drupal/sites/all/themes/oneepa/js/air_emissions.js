@@ -380,7 +380,7 @@
     // component labels above bars
     var tspans = xAxisLabels.append("tspan")
       .text(function(d) {
-        return data.Facilities[facIDMap[d]].Pollutants.map(
+        return data.Facilities[facIDMap[d]].Pollutants.reverse().map(
           function(pollutant){ 
             return pollutant.PollutantName + ": ";
           }).join('/');
