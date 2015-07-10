@@ -218,7 +218,7 @@ var path = window.location.pathname;
 						button = $('*[id="' + id + '|favorite_link"]');
 						label = id_label_mapping[id];
 						reloadView();
-						button.attr('id', '#' + unparsed_url + '|' + label);
+						button.attr('id', unparsed_url + '|' + label);
 						button.removeClass('remove_link').removeClass('new_link').removeClass('old_link').removeClass('filled').removeClass('empty');
 						button.removeClass('glyphicon-heart');
 						button.addClass('add_link new_link glyphicon-plus empty ');
