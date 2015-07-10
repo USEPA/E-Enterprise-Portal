@@ -29,12 +29,15 @@
 	foreach ($row->field_field_profile_favourites as $key=>$array) {
 		$url = $array['raw']['field_url'][LANGUAGE_NONE][0]['value'];
 		$title = $array['raw']['field_title'][LANGUAGE_NONE][0]['value'];
+		if (trim($title) == '') {
+			$title = $url;
+		}
 		$date_updated = date_create($array['raw']['field_date_updated'][LANGUAGE_NONE][0]['value']);
 		$date_updated = date_format($date_updated, 'd/m/Y h:i a');
 		$id = $array['raw']['id'];
 		echo '<tr>'.'<td><span id="' . $id . '|favorite_link" class=" remove_link in-widget old_link glyphicon glyphicon-heart filled" aria-hidden="true"></span></td>'
 				. '<td><a class="favorites-link favorites-ignore" target="_blank" href="' . $url . '">' . 
-				$title . '</a></td><td>' . $date_updated . '</td></tr>';
+				$title . '</a></td></tr>';
 	}
 
 ?>
