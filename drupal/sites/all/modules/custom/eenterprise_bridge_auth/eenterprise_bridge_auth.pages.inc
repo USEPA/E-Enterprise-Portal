@@ -273,7 +273,7 @@ function create_progress_tracker_node($res, $user){
                     $res_action = "Print Receipt Print Certification";
                 else
                     $res_action = 'Print Receipt';
-            else if ($res['Status'] == 'Under Review' || $res_domain == 'Cedri')
+            else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI')
                 $res_action = 'View Submission';
 
             $node->field_prog_track_actions['und'][0]['value'] = $res_action;
