@@ -251,7 +251,7 @@ function create_progress_tracker_node($res, $user){
             if($res['Status'] == 'IN_PROGRESS')
                 $res_status = 'In Progress';
             else
-                $res_status = ucfirst(strtolower($res['Status']));
+                $res_status = ucwords(strtolower($res['Status']));
 
             $node->field_prog_track_status['und'][0]['value'] = $res_status;
             $node->field_prog_track_status['und'][0]['format'] = null;
