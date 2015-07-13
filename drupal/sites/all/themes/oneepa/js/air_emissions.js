@@ -79,9 +79,9 @@
     });
   }
 
-  var emissionsNumberFormat = d3.format(",.0f");
-
   var drawDonut = function(data, svg, width, height, totalWidth) {
+
+    var emissionsNumberFormat = d3.format(",.0f");
 
     var radius = Math.min(width, height) / 2;
 
@@ -219,6 +219,8 @@
   }
 
   var drawChart = function(data) {
+
+    var emissionsNumberFormat = d3.format(",.0f");
 
     var maxDistance = 0;
     var maxCO2E = 0;
