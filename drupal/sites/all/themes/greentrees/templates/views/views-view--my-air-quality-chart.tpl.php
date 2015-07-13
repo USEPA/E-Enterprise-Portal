@@ -27,9 +27,9 @@
  * @ingroup views_templates
  */
 //drupal_add_js("http://code.jquery.com/jquery-1.10.0.min.js", "file");
-drupal_add_js("http://d3js.org/d3.v2.js", "file");
-drupal_add_js(drupal_get_path('theme', 'greentrees') ."/js/air_now_js.js", "file");
-drupal_add_css(drupal_get_path('theme', 'greentrees') ."/css/air_now_styles.css", "file");
+drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", "file");
+drupal_add_js(drupal_get_path('theme', 'oneepa') ."/js/air_now_js.js", "file");
+drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/air_now_styles.css", "file");
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>

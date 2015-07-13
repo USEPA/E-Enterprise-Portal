@@ -248,9 +248,14 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_tracker_app['und'][0]['format'] = null;
             $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
 
-            $node->field_prog_track_status['und'][0]['value'] = $res['Status'];
+            if($res['Status'] == 'IN_PROGRESS')
+                $res_status = 'In Progress';
+            else
+                $res_status = ucwords(strtolower($res['Status']));
+
+            $node->field_prog_track_status['und'][0]['value'] = $res_status;
             $node->field_prog_track_status['und'][0]['format'] = null;
-            $node->field_prog_track_status['und'][0]['safe_value'] = $res['Status'];
+            $node->field_prog_track_status['und'][0]['safe_value'] = $res_status;
 
             $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
             $node->field_prog_track_updated['und'][0]['value'] = $st_update;
@@ -260,6 +265,8 @@ function create_progress_tracker_node($res, $user){
             $res_domain = $res['PartnerSystemId'];
             if (strpos($res['PartnerSystemId'], 'lead') !== false)
                 $res_domain = "Lead";
+            else if (strpos($res['PartnerSystemId'], 'cedri') !== false)
+                $res_domain = "CEDRI";
             $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
             $node->field_prog_track_domain['und'][0]['format'] = null;
             $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
@@ -271,20 +278,31 @@ function create_progress_tracker_node($res, $user){
                     $res_action = "Print Receipt Print Certification";
                 else
                     $res_action = 'Print Receipt';
-            else if ($res['Status'] == 'Under Review')
+            else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI')
                 $res_action = 'View Submission';
 
             $node->field_prog_track_actions['und'][0]['value'] = $res_action;
-            $node->field_prog_track_actions_link['und'][0]['format'] = null;
-            $node->field_prog_track_actions_link['und'][0]['safe_value'] = $res_action;
+            $node->field_prog_track_actions['und'][0]['format'] = null;
+            $node->field_prog_track_actions['und'][0]['safe_value'] = $res_action;
 
-            $node->field_prog_track_actions_link['und'][0]['value'] = '/workbench';
+            $node->field_prog_track_actions_link['und'][0]['value'] = 'http://ec2-52-4-39-127.compute-1.amazonaws.com/workbench';
             $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;
 
 
             $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
             $node->field_prog_track_created_by['und'][0]['format'] = null;
             $node->field_prog_track_created_by['und'][0]['safe_value'] = $user->uid;
+
+            if($res_domain == "Lead") {
+                $node->field_prog_track_date_type['und'][0]['value'] = 'Status Changed Date';
+                $node->field_prog_track_date_type['und'][0]['format'] = null;
+                $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Status Changed Date';
+            }
+            else if($res_domain == "CEDRI"){
+                $node->field_prog_track_date_type['und'][0]['value'] = 'Publish Date';
+                $node->field_prog_track_date_type['und'][0]['format'] = null;
+                $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
+            }
         }
         else if($res['ActivityType'] == 'TASK') {
             $node->type = "to_do_list";
@@ -300,6 +318,8 @@ function create_progress_tracker_node($res, $user){
             $res_domain = $res['PartnerSystemId'];
             if (strpos($res['PartnerSystemId'], 'lead') !== false)
                 $res_domain = "Lead";
+            if (strpos($res['PartnerSystemId'], 'cedri') !== false)
+                $res_domain = "CEDRI";
             $node->field_todo_lst_domain['und'][0]['value'] = $res_domain;
             $node->field_todo_lst_domain['und'][0]['format'] = null;
             $node->field_todo_lst_domain['und'][0]['safe_value'] = $res_domain;
@@ -328,8 +348,8 @@ function create_progress_tracker_node($res, $user){
         $expiration_date = strtotime($res['ActivityExpirationDate']);
         $curr_date =  strtotime(date("Y-m-d H:i:s"));
         if(($expiration_date - $curr_date) <= 0){
-            db_query("UPDATE {node} SET status = '0' WHERE nid =:nid ;", array(':nid' => $query_res['entity_id']));
-            db_query("UPDATE {node_revision} SET status = '0' WHERE nid =:nid AND  vid =:vid;", array(':nid' => $query_res['nid'],':vid' => $query_res['revision_id']));
+            db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res['entity_id']));
+            db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res['entity_id'],':vid' => $query_res['revision_id']));
         }
     }
 }
