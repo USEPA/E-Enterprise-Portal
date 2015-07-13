@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-
+<?php
+      drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+?>
 <div class="edit-user-profile">
 <div class="row">
 	<div class="col-xs-12">
@@ -21,7 +23,12 @@ print render($form['account']['mail']);
 <h3>Locations of Interest</h3>
 <p class="eenterprise-utility-form-item-description-p">
 	Add your locations of interest to see environmental information relevant to those areas. 
+<<<<<<< HEAD
 	Until a location is specified, the default location is set to Houston, Texas. <br />	 <br />	
+=======
+	Please indicate your default location by clicking on the key icon. 
+	Until a location is specified, the default ZIP code is set to 66952. <br />	
+>>>>>>> 17c9b9834df19e0795c698ded150fd2ccc5f984f
 	<span class='zip_code_ajax_error'></span>
 </p>
 <div id='zipcode_description' class='form-group'>

@@ -408,12 +408,14 @@
     .append("div")
     .attr("class", "popover right");
 
-    var map = d3.select("#my-air-quality-chart")
+    /*
+var map = d3.select("#my-air-quality-chart")
       .append("img")
       .attr("src", getMap(formatDate(new Date(), "")))
       .attr("title", "Today's AQI Forecast")
       .attr("alt", "Today's AQI Forecast")
       .attr("id", "my-air-quality-map");
+*/
 
   }
 

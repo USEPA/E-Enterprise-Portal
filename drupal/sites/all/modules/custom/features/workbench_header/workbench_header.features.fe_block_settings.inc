@@ -36,10 +36,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => 0,
       ),
       'greentrees' => array(
-        'region' => 'header',
+        'region' => 'nav-bar',
         'status' => 1,
         'theme' => 'greentrees',
-        'weight' => 0,
+        'weight' => -21,
       ),
       'oneepa' => array(
         'region' => 'header',
@@ -60,7 +60,7 @@ function workbench_header_default_fe_block_settings() {
         'weight' => 0,
       ),
     ),
-    'title' => 'EE Header Locations',
+    'title' => '',
     'visibility' => 0,
   );
 
@@ -142,7 +142,7 @@ function workbench_header_default_fe_block_settings() {
         'region' => 'header',
         'status' => 1,
         'theme' => 'greentrees',
-        'weight' => -22,
+        'weight' => -23,
       ),
       'oneepa' => array(
         'region' => '',
@@ -195,8 +195,8 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -17,
       ),
       'oneepa' => array(
-        'region' => 'header',
-        'status' => 1,
+        'region' => '',
+        'status' => 0,
         'theme' => 'oneepa',
         'weight' => -17,
       ),
@@ -242,7 +242,7 @@ function workbench_header_default_fe_block_settings() {
         'region' => 'header',
         'status' => 1,
         'theme' => 'greentrees',
-        'weight' => -19,
+        'weight' => -21,
       ),
       'oneepa' => array(
         'region' => '',
@@ -300,10 +300,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => 0,
       ),
       'greentrees' => array(
-        'region' => 'header',
+        'region' => 'nav-bar',
         'status' => 1,
         'theme' => 'greentrees',
-        'weight' => -21,
+        'weight' => -23,
       ),
       'oneepa' => array(
         'region' => 'header',
@@ -352,10 +352,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => 0,
       ),
       'greentrees' => array(
-        'region' => 'header',
+        'region' => 'nav-bar',
         'status' => 1,
         'theme' => 'greentrees',
-        'weight' => -20,
+        'weight' => -22,
       ),
       'oneepa' => array(
         'region' => 'header',

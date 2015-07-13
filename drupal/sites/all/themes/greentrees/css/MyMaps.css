@@ -1,6 +1,6 @@
-#numThumbnails {
-	margin-bottom: 10px;
-	margin-top: 5px;
+.numThumbnails {
+	margin-bottom: 0px;
+	margin-top: 0px;
 	font-size: 75%;
 }
 
@@ -167,7 +167,7 @@
   text-align: left;
 }
 
-#filterMapsByLocationBtn {
+.filterMapsByLocationBtn {
   width: 160px;
   height: 40px;
   margin-top: 1px;
@@ -179,7 +179,7 @@
   border: 1px solid #dedede;
 }
 
-#filterMapsByLocationImg {
+.filterMapsByLocationImg {
   width: 25px;
   height: 25px;
   float: left;
