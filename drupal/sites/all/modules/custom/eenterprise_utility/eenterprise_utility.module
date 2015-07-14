@@ -91,17 +91,17 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         'onclick' => "fancyConfirm('Are you sure you want to delete?')");
         //"return confirm('This will delete your entire profile, including any selected preferences, from the E-Enterprise Platform and will log you out from the system. Are you sure that you want to do this?')");
       $form['actions']['delete']['#attributes']['class'][] = 'imagefield-fancybox';
-      unset($form['account']['mail']['#description']); // = "All emails from the system will be sent to this address. This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).";
+      $form['account']['mail']['#description'] = "All emails from the system will be sent to this address. This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).";
       //We are not validating profile picture and password as we do not save and manage these information on the Portal.
       foreach($form['#validate'] as $key => $val){
           if($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
               unset($form['#validate'][$key]);
       }
-       $form['account']['mail']['#prefix'] = '<br />';
-       $form['account']['mail']['#suffix'] = '<div id="email-description-holder"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>' .
-              '<span style="display:none" id="email-description">All emails from the system will be sent to this address. ' .
-              'This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. ' .
-              'Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).</span></div>';
+       // $form['account']['mail']['#prefix'] = '<br />';
+       // $form['account']['mail']['#suffix'] = '<div id="email-description-holder"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>' .
+        //       '<span style="display:none" id="email-description">All emails from the system will be sent to this address. ' .
+        //       'This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. ' .
+        //       'Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).</span></div>';
 
 
       //      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= '';
