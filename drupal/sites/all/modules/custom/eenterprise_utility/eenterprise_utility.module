@@ -316,7 +316,7 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
     $error_messages = array();
     $field_ids = array();
    
-   // Default value is 77001.
+   // Default value is 27705.
    // Occurs when all values are blank.
    $blank_zipcode = true;
    if (isset($form_state['input']['field_zip_code'])){
@@ -352,11 +352,11 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
     }
    }
    else {
-         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 77001;
+         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 27705;
    }
    
    if ($blank_zipcode) {
-         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 77001;
+         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 27705;
    }
 
    // if ($error) {
