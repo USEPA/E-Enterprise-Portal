@@ -13,6 +13,7 @@
 @import "print";
 @import "bootstrap";	// Import adjusted Bootstrap styles (not true SCSS - rendered CSS)
 @import "s-trimmed";
+//Testing
 
 $body-font-size:  100%;
 //If update these colors, update in _init.scss also!
@@ -529,6 +530,7 @@ tr.odd, tr.even {
 .region-nav-bar {
 	background-color: #333;
 	height: 2em;
+	border-bottom: 2px solid #404040;
 }
 .workbench-menu {
 	display: none;
@@ -536,7 +538,6 @@ tr.odd, tr.even {
 	//padding-left: 2.5em;
 	background-color: #333;
 	border-top: 1px solid #3d3d3d;
-	border-bottom: 2px solid #404040;
 	background-color: #333;
 	width: 60%;
 	margin: 0;

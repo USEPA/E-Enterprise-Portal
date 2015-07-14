@@ -97,6 +97,12 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
           if($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
               unset($form['#validate'][$key]);
       }
+       // $form['account']['mail']['#prefix'] = '<br />';
+       // $form['account']['mail']['#suffix'] = '<div id="email-description-holder"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>' .
+        //       '<span style="display:none" id="email-description">All emails from the system will be sent to this address. ' .
+        //       'This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. ' .
+        //       'Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).</span></div>';
+
 
       //      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= '';
       // $form['field_zip_code'][LANGUAGE_NONE]['#title'] = 'ZIP Code(s)';
