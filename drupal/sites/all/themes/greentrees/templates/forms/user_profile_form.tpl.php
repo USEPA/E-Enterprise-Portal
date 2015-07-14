@@ -23,8 +23,7 @@ print render($form['account']['mail']);
 <h3>Locations of Interest</h3>
 <p class="eenterprise-utility-form-item-description-p">
 	Add your locations of interest to see environmental information relevant to those areas. 
-	Please indicate your default location by clicking on the key icon. 
-	Until a location is specified, the default ZIP code is set to 66952. <br />	
+	Until a location is specified, the default location is set to Houston, Texas. <br />	 <br />	
 	<span class='zip_code_ajax_error'></span>
 </p>
 <div id='zipcode_description' class='form-group'>
