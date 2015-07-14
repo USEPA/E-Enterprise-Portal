@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file install /uninstall functions
+ */
+
+/**
+ * Implements hook_install.
+ */
+function block_refresh_demo_install() {
+  // Add settings for the demo block to refresh automatically.
+  $demo_settings = array (
+    'element' => 'block-block-refresh-demo-block-refresh-demo',
+    'auto' => 1,
+    'manual' => 1,
+    'init' => 1,
+    'arguments' => 1,
+    'panels' => 0,
+    'timer' => '10',
+    'block' =>
+    array (
+      'block' => 'block_refresh_demo',
+      'delta' => 'block_refresh_demo',
+    ),
+    'bypass_page_cache' => 0,
+    'bypass_external_cache' => '',
+  );
+
+  $settings = variable_get('block_refresh_settings',array());
+
+  $settings['block-block-refresh-demo-block-refresh-demo'] = $demo_settings;
+
+  variable_set('block_refresh_settings', $settings);
+
+}
+
+/**
+ * Implements hook_uninstall.
+ */
+function block_refresh_demo_uninstall() {
+  //remove demo block block refresh settings.
+  $settings = variable_get('block_refresh_settings', array());
+  unset($settings['block-block-refresh-demo-block-refresh-demo']);
+  variable_set('block_refresh_settings', $settings);
+}

@@ -64,10 +64,10 @@
           var desc = "<p>" + this.description + "</p>"
           var hyperlinkURL = this.url;
           html += '<li><a href="' + hyperlinkURL + '" target="_blank">'
-          html += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" href="' + hyperlinkURL + '" aria-describedby="thumbnail-desc-' + thumbnailNum +'"/></a>';
-          html += '<div class="mapAppTitle ellipsis">' + this.title + '</div>';
+          html += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" href="' + hyperlinkURL + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
+          html += '<div class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</div>';
           //the description element can contain HTML markup so use .text to un-format the string
-          html += '<div class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum +'">' + $(desc).text() + '</div>';
+          html += '<div class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</div>';
           html += '</li>';
         }
       });
@@ -92,7 +92,7 @@
     function api_call(successCallback) {
       $.ajax({
         type: 'GET',
-        url: 'http://epa.maps.arcgis.com/sharing/rest/search',
+        url: 'https://epa.maps.arcgis.com/sharing/rest/search',
         async: false,
         //hardcoded string for EPA  GPO (AGOL) query - hardcoded query for empty string (wildcard) - later to implement tag search or similar for filtering based on dynamic criteria
         data: {

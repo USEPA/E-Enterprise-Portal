@@ -1,0 +1,15 @@
+name = EPA_EE-340_Favorite-Links-Views-Block
+description = Views Block for Favorite Links
+core = 7.x
+package = Features
+version = 7.x-1.0
+project = epa_ee_340_favorite_links_views_block
+dependencies[] = ctools
+dependencies[] = fe_block
+dependencies[] = multifield
+dependencies[] = views
+features[ctools][] = multifield::
+features[fe_block_settings][] = views-favorite_sites-block
+features[features_api][] = api:2
+features[multifield][] = field_profile_favourites
+project path = sites/all/modules/custom/features

@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function qtip_field_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
+  $settings = isset($form['#instance']['qtip']) ? $form['#instance']['qtip'] : array('text' => 'none', 'instance' => qtip_fetch_default_instance());
+
+  $form['instance']['qtip'] = array(
+    '#type'        => 'fieldset',
+    '#title'       => t('qTip settings'),
+    '#collapsible' => 1,
+    '#collapsed'   => ($settings['text'] != 'none') ? 0 : 1,
+    '#weight'      => $form['instance']['description']['#weight'] + 1,
+  );
+  $form['instance']['qtip']['text'] = array(
+      '#type'        => 'radios',
+      '#title'       => t('How to display qTip'),
+      '#description' => t('Select how to display the tooltip for this instance.'),
+      '#options'     => array(
+        'none'        => t('Do not display'),
+        'description' => t('Use text from help text field above'),
+        'custom'      => t('Custom text'),
+      ),
+      '#default_value' => isset($settings['text']) ? $settings['text'] : 'none',
+      '#weight'        => 0,
+  );
+
+  $form['instance']['qtip']['custom_text'] = array(
+    '#type'          => 'textarea',
+    '#title'         => t('Custom text'),
+    '#description'   => t('Enter the text that will show in the tooltip. Use this option if you would like to have the help text field display normally, but still have text display in a qTip. HTML is allowed.'),
+    '#default_value' => isset($settings['custom_text']) ? $settings['custom_text'] : '',
+    '#states'        => array(
+      'visible' => array(
+        ':input[name="instance[qtip][text]"]' => array('value' => 'custom'),
+      ),
+      'required' => array(
+        ':input[name="instance[qtip][text]"]' => array('value' => 'custom'),
+      ),
+    ),
+    '#weight' => 10,
+  );
+
+  $form['instance']['qtip']['instance'] = qtip_fetch_instances_field($settings['instance'], array('weight' => 20));
+  $form['instance']['qtip']['instance'] += array(
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="instance[qtip][text]"]' => array('value' => 'none'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function qtip_field_field_widget_form_alter(&$element, &$form_state, $context) {
+  if (isset($context['instance']['qtip']) && $context['instance']['qtip']['text'] != 'none') {
+    $element['value']['#attributes']['class'][] = 'qtip-link';
+
+    $tooltip_text = '';
+    // Get the Help text for the tooltip if that is what is supposed to be used
+    switch ($context['instance']['qtip']['text']) {
+      case 'description':
+        if (isset($element['value']['#description'])) {
+          $tooltip_text = $element['value']['#description'];
+          // Remove the description since it will be displaying in the tooltip
+          unset($element['value']['#description']);
+        }
+        break;
+      case 'custom':
+        $tooltip_text = isset($context['instance']['qtip']['custom_text']) ? $context['instance']['qtip']['custom_text'] : '';
+        break;
+    }
+
+    $element['value']['#suffix'] = theme('qtip_form', array('instance' => $context['instance']['qtip']['instance'], 'tooltip' => $tooltip_text));
+  }
+}

@@ -7,14 +7,6 @@
 function eenterprise_utility_menu() {
 
   $items =array();
-    $items['user_add_favorite_link'] = array(
-      'page callback' => 'process_favorite_link',
-      'access callback' => TRUE,
-      );
-    $items['load_links'] = array(
-      'page callback' => 'load_links',
-      'access callback' => TRUE,
-      ); 
     $items['get_taxonomy_parent_name'] = array(
       'page callback' => 'get_taxonomy_parent_name',
       'access callback' => TRUE,
@@ -23,74 +15,6 @@ function eenterprise_utility_menu() {
 } 
 
 
-
-function remove_url ($array, $remove_url) {
-  if (is_array($array)) {
-    foreach ($array[LANGUAGE_NONE] as $key => $value) {
-      $url = explode("|", $value['value'])[0];
-      if ($url == $remove_url) {
-        return $key;
-      }
-    }
-  }
-}
-
-function process_favorite_link($url, $action) {
-  global $user;
-  $user_data = user_load($user->uid);
-  $user_urls = $user_data->field_profile_favourites;
-  $date =  date('m/d/Y h:i:s a', time());
-  $order_weight = 0;
-  $value = $url . '|' . $date . '|' . $order_weight;
-  switch ($action) {
-    case "add":
-      $user_urls[LANGUAGE_NONE][] = array("value" => $value, "format"=> NULL, "safe_value" => $url);
-      break;
-    case "remove":
-        $remove_url_index = remove_url($user_urls, $url);
-        unset($user_urls[LANGUAGE_NONE][$remove_url_index]);
-      break;
-  }
-  $edit = array(
-    'field_profile_favourites' => $user_urls
-  );
-  // save existing user
-  user_save($user_data,  $edit);
-   $items = array();
-    return $items;
-
-}
-
-function load_links($index) {
-  global $user;
-  $load_count = $index + 20;
-  $user_data = user_load($user->uid);
-  $user_urls = $user_data->field_profile_favourites;
-  $url_data = array();
-  $load_next_elem = false;
-  $amount_loaded = 0;
-  if (isset($user_urls[LANGUAGE_NONE])){ 
-    $html_elem = "<div id='sortable'>";
-   foreach($user_urls[LANGUAGE_NONE] as $key=>$value) {
-     if ($index < $load_count) {
-       if ($key == $index) {
-        $data_array = explode("|", $value['value']);
-        $url = $data_array[0];
-        $date_updated = $data_array[1];
-        $order_weight = $data_array[2];
-        $url_data[$url] = array('order_weight' => $order_weight, 'date_updated' => $date_updated);
-        $index = $index + 1;
-        $amount_loaded = $amount_loaded + 1;
-      }
-     }
-     else if ($index == $load_count) { // Check if next element exists
-             $load_next_elem = true;
-     }
-    }
-  }
-  $results = array('url_data' => $url_data, 'loadNextElem' => $load_next_elem, 'amountLoaded' => $amount_loaded);
-  echo json_encode($results);
-}
 
 
 function get_taxonomy_parent_name($tid) {  
@@ -110,33 +34,39 @@ function get_taxonomy_parent_name($tid) {
 
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
-  drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
+    drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
 
-  if($form['#form_id'] == 'user_profile_form'){
-  // Get proper values for 'allowed_values_function', which is a core setting.
-  $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
-  $options = array();
-  foreach ($vocabularies as $vocabulary) {
-    $options[$vocabulary->machine_name] = $vocabulary->name;
-  }
-  $form['allowed_values'] = array(
-    '#tree' => TRUE,
-  );
-  foreach ($field['settings']['allowed_values'] as $delta => $tree) {
-  $form['allowed_values'][$delta]['vocabulary'] = array(
-    '#type' => 'checkboxes', // <-- Use checkboxes here, instead of 'select'
-    '#title' => t('Vocabulary'),
-    '#default_value' => $tree['vocabulary'],
-    '#options' => $options,
-    '#required' => TRUE,
-    '#description' => t('The vocabulary which supplies the options for this field.'),
-    '#disabled' => $has_data,
-  );
-  $form['allowed_values'][$delta]['parent'] = array(
-    '#type' => 'value',
-    '#value' => $tree['parent'],
-   );
-}
+    if($form['#form_id'] == 'user_profile_form'){
+        //remove user_account_form_validate callback. This will remove email address validation because we should allow multiple email addresses as CDX/Bridge allows that.
+        foreach($form['#validate'] as $key => $value)
+            if($value == 'user_account_form_validate')
+                unset($form['#validate'][$key]);
+
+
+        // Get proper values for 'allowed_values_function', which is a core setting.
+        $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
+        $options = array();
+        foreach ($vocabularies as $vocabulary) {
+            $options[$vocabulary->machine_name] = $vocabulary->name;
+        }
+        $form['allowed_values'] = array(
+            '#tree' => TRUE,
+        );
+        foreach ($field['settings']['allowed_values'] as $delta => $tree) {
+            $form['allowed_values'][$delta]['vocabulary'] = array(
+                '#type' => 'checkboxes', // <-- Use checkboxes here, instead of 'select'
+                '#title' => t('Vocabulary'),
+                '#default_value' => $tree['vocabulary'],
+                '#options' => $options,
+                '#required' => TRUE,
+                '#description' => t('The vocabulary which supplies the options for this field.'),
+                '#disabled' => $has_data,
+            );
+            $form['allowed_values'][$delta]['parent'] = array(
+                '#type' => 'value',
+                '#value' => $tree['parent'],
+            );
+        }
 
     
       hide($form['picture']);
@@ -167,25 +97,64 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
           if($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
               unset($form['#validate'][$key]);
       }
+       // $form['account']['mail']['#prefix'] = '<br />';
+       // $form['account']['mail']['#suffix'] = '<div id="email-description-holder"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>' .
+        //       '<span style="display:none" id="email-description">All emails from the system will be sent to this address. ' .
+        //       'This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. ' .
+        //       'Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).</span></div>';
 
-      $form['field_zip_code'][LANGUAGE_NONE]['#title'] = 'ZIP Code(s)';
-//      $form['field_zip_code']['#attributes'][] = 'zip_code_inputs';
+
+      //      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= '';
+      // $form['field_zip_code'][LANGUAGE_NONE]['#title'] = 'ZIP Code(s)';
+      // if ($form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'] == '') {
+      //   $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= 'true';
+      // }
+      // if (isset($form_state['input'])) {
+      //      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= 
+      //       $form_state['input']['field_zip_code'][LANGUAGE_NONE][0]['value'];
+      //   }
+      
+   if ($form_state['triggering_element']['#name'] == 'field_zip_code_' . LANGUAGE_NONE . '_0_remove_button') {
+           $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
+        }
+
+       if ($form_state['triggering_element']['#name'] == 'field_profile_favourites_'. LANGUAGE_NONE . '_0_remove_button') {
+
+         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+      }
+        // dpm($form['field_profile_favourites'][LANGUAGE_NONE][0]);
+      // foreach( $form['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
+      //     if (is_numeric($delta)) {
+      //       hide($field['field_date_updated']);// = 'disabled';
+      //   }
+      // }
+
+           
       $form['field_zip_code'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-control';
       // add more button
       $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
       $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
       $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
-      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
+      $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
       //Add more button
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = '+';
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
       $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
 
+
+   
       //create weight array
-      
+
       for($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
-        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['title'] = 'Remove';
+        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
+        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#title'] = 'Remove';
+        $date_value = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_date_updated'][LANGUAGE_NONE][0]['#default_value']['value'];
+     		$date_updated = date_create($date_value);
+		    $date_updated = date_format($date_updated, 'd/m/Y');
+        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title']['#suffix'] = '<span class="date_updated_contain">' . $date_updated . '</span>';
+        // hide($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_date_updated']); //['#attributes']['disabled'] = 'disabled';
       }
       
       $lowest_weight = 0;
@@ -220,6 +189,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         }
         $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#default_value']; 
         // overide default if input has been made
+     
         if (isset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta])) {
           $input_zip = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta];
           if (isset($input_zip)) {
@@ -240,6 +210,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         else {
           $description = '';
         }
+
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#attributes']['class'][] =
           'field_zip_code form-control';
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#description'] =
@@ -247,6 +218,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#field_suffix'] =
           $field_suffix;
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['title'] = 'Remove';
+        $form['field_zip_code'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['name'] = 'remove_field_item_' . $delta;
+        
 //        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#ajax'] = array(
 //                'callback' => 'field_zip_code_generate',
 //                'wrapper' => 'zipcode_description',
@@ -254,7 +227,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
      }
         
 
-      drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+
   } // end user form
 
 
@@ -327,7 +300,9 @@ function zip_code_lookup($zip) {
  */
 function user_profile_form_custom_validate(&$form, &$form_state) {
    user_profile_zipcode_custom_validate($form, $form_state);
+   user_profile_url_custom_validate($form, $form_state);
 }
+
 
 /**
  * @param $form
@@ -338,12 +313,17 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
   // Validates even if javascript validation failed on form submit
     $previous_zipcodes = array();
     $error = false;
-    $error_message = '';
-    $field_id = '';
+    $error_messages = array();
+    $field_ids = array();
    
-    foreach($form_state['values']['field_zip_code']['und'] as $delta => $field) {
+   // Default value is 77001.
+   // Occurs when all values are blank.
+   $blank_zipcode = true;
+   if (isset($form_state['input']['field_zip_code'])){
+    foreach($form_state['values']['field_zip_code'][LANGUAGE_NONE] as $delta => $field) {
+      
         if(is_array($field) && is_numeric($delta)) {
-            $zip_val = $form_state['values']['field_zip_code']['und'][$delta]['value'];
+            $zip_val = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['value'];
             if(!is_numeric($zip_val) && !empty($zip_val)) {
               $error_message = 'Zip code can only be number';
               $error = true;
@@ -359,28 +339,66 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
             else { 
               if ($zip_val != '') {
                $previous_zipcodes[] = $zip_val;
+               $blank_zipcode = false;
               }
             }
-            
+
             if ($error) {
-              $field_ids[] = '#edit-field-zip-code-und-' . $delta . '-value';
-              break;
+              if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
+              form_set_error('field_zip_code][' . LANGUAGE_NONE . '][' . $delta, t($error_message));
+              }
             }
         }
     }
-   if ($error) {
-     if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
-       form_set_error('field_zip_code', t($error_message));
-     return array( 
-       'passed' => false, 
-       'id' => $field_id,
-      );
-     }
    }
    else {
-     return array('passed' => true);
+         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 77001;
    }
+   
+   if ($blank_zipcode) {
+         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 77001;
+   }
+
+   // if ($error) {
+    //  if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
+    //    foreach($field_ids as $key=>$field_id) {
+    //      form_set_error($field_id, t($error_messages[$key]));
+    //    }
+    //  }
+   // }
+   
+
 }
+
+
+ function user_profile_url_custom_validate(&$form, &$form_state) {
+
+   // Validates even if javascript validation failed on form submit
+   // Occurs when all values are blank.
+   $blank_url = true;
+   if (!isset($form_state['input']['field_profile_favourites'])){
+         $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
+         $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value'] = '';
+         $form_state['input']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
+     // dpm( $form_state['values']['field_profile_favourites'][LANGUAGE_NONE]);
+      //     dpm( $form_state['input']['field_profile_favourites'][LANGUAGE_NONE]);
+   }
+   else {
+      foreach($form_state['values']['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
+         if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
+           $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][$delta]['value'] = '';
+           $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][$delta]['value'] = '';
+         }
+         // if title is empty, set it to given url
+         // else if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']) == '' ) {
+          //     $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][$delta]['value'] = 
+          //         $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][$delta]['value'];
+         // }
+}
+   }
+ }
+    
+
 
 /**
  * @param $form

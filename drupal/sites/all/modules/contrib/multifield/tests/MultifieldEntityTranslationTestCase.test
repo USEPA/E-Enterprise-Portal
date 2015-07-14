@@ -1,0 +1,114 @@
+<?php
+
+class MultifieldEntityTranslationTestCase extends DrupalWebTestCase {
+  protected $profile = 'testing';
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Entity Translation integration',
+      'description' => 'Tests multifield integration with the Entity Translation module.',
+      'group' => 'Multifield',
+      'dependencies' => array('entity_translation'),
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('field_ui', 'multifield', 'locale', 'entity_translation'));
+    $account = $this->drupalCreateUser(array(
+      'administer multifield',
+      'bypass node access',
+      'toggle field translatability',
+      'translate any entity',
+    ));
+    $this->drupalLogin($account);
+
+    // Add the test node type.
+    $this->nodeType = $this->drupalCreateContentType();
+
+    // Add a second language.
+    locale_add_language('es');
+
+    // Enable entity translation for the node type.
+    variable_set('language_content_type_' . $this->nodeType->type, ENTITY_TRANSLATION_ENABLED);
+
+    // Create the multifield.
+    $multifield = new stdClass();
+    $multifield->machine_name = 'multifield_test';
+    $multifield->label = $this->randomName();
+    $multifield->description = $this->randomName();
+    multifield_save($multifield);
+    $this->multifield = $multifield;
+
+    // Create fields on the multifield.
+    $field_name1 = 'field_text1';
+    $field1 = array(
+      'field_name' => $field_name1,
+      'type' => 'text',
+      'cardinality' => 1,
+    );
+    field_create_field($field1);
+    $instance1 = array(
+      'field_name' => $field_name1,
+      'entity_type' => 'multifield',
+      'bundle' => 'multifield_test',
+    );
+    field_create_instance($instance1);
+
+    $field_name2 = 'field_text2';
+    $field2 = array(
+      'field_name' => $field_name2,
+      'type' => 'text',
+      'cardinality' => 1,
+      // Set this field as translatable to ensure that even in a multifield, it
+      // isn't actually translated.
+      'translatable' => TRUE,
+    );
+    field_create_field($field2);
+    $instance2 = array(
+      'field_name' => $field_name2,
+      'entity_type' => 'multifield',
+      'bundle' => 'multifield_test',
+    );
+    field_create_instance($instance2);
+
+    $multifield_field = array(
+      'field_name' => 'field_multifield',
+      'type' => 'multifield_test',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      // Set the multifield to be translated.
+      'translatable' => TRUE,
+    );
+    field_create_field($multifield_field);
+    $multifield_instance = array(
+      'field_name' => 'field_multifield',
+      'entity_type' => 'node',
+      'bundle' => $this->nodeType->type,
+    );
+    field_create_instance($multifield_instance);
+  }
+
+  public function testEntityTranslation() {
+    $this->drupalGet('node/add/' . $this->nodeType->type);
+    $data['title'] = 'Test translated node';
+    $data['field_multifield[und][0][field_text1][und][0][value]'] = 'English1';
+    $data['field_multifield[und][0][field_text2][und][0][value]'] = 'English2';
+    $this->drupalPost(NULL, $data, 'Save');
+    $node = $this->drupalGetNodeByTitle($data['title'], TRUE);
+
+    $this->drupalGet('node/' . $node->nid . '/edit/add/en/es');
+    $data = array();
+    $data['field_multifield[es][0][field_text1][und][0][value]'] = 'Spanish1';
+    $data['field_multifield[es][0][field_text2][und][0][value]'] = 'Spanish2';
+    $this->drupalPost(NULL, $data, 'Save');
+
+    $node = node_load($node->nid, NULL, TRUE);
+    $expected = array();
+    $expected['en'][0]['id'] = '1';
+    $expected['en'][0]['field_text1'][LANGUAGE_NONE][0] = array('value' => 'English1', 'format' => NULL, 'safe_value' => 'English1');
+    $expected['en'][0]['field_text2'][LANGUAGE_NONE][0] = array('value' => 'English2', 'format' => NULL, 'safe_value' => 'English2');
+    $expected['es'][0]['id'] = '1';
+    $expected['es'][0]['field_text1'][LANGUAGE_NONE][0] = array('value' => 'Spanish1', 'format' => NULL, 'safe_value' => 'Spanish1');
+    $expected['es'][0]['field_text2'][LANGUAGE_NONE][0] = array('value' => 'Spanish2', 'format' => NULL, 'safe_value' => 'Spanish2');
+    $this->assertIdentical($node->field_multifield, $expected);
+  }
+}

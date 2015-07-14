@@ -25,7 +25,7 @@ function eenterprise_bridge_auth_login() {
  *   If true, wrap the identity provider buttons in a fieldset.
  */
 function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
-  $identity_providers = [array('Name' => 'E-Enterprise Bridge')];
+  $identity_providers = [array('Name' => 'Log in')];
   $form = array();
   $form['wrap'] = array(
     '#type' => 'value',
@@ -138,6 +138,8 @@ function eenterprise_bridge_auth_authenticate($error) {
                 $user = $ext_user;
                 $form_state['uid'] = $user->uid;
                 user_login_submit(array(), $form_state);
+                //To fix a bug where email address is not updated after users update their email address in CDX and login.
+                user_save($user, array('mail' => $userDetails->attributes['email'][0]));
             }
         }
         create_progress_tracker($user);
@@ -211,21 +213,49 @@ function create_progress_tracker($user){
 }
 
 
+function _update_progress_tracker_to_do_item($query_res, $res){
+    $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+    $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res['entity_id']))->fetchField();
+    //If description field is updated...
+    if($res_title != $res['ActivityDesc']){
+        node_delete($query_res['entity_id']);
+        return true;
+    }
+    //if status field is updated...
+    else if($res_status != $res['Status']){
+        node_delete($query_res['entity_id']);
+        return true;
+    }
+    return false;
+}
+
 function create_progress_tracker_node($res, $user){
-    $query_res = db_query("select count(nid) from {node} where type in (:node_type) and title = :title", array(':node_type' => array('progress_tracker', 'to_do_list'), ':title' =>  $res['ActivityDesc']))->fetchField();
-    if($query_res < 1) {
+    $query_res = db_query("select entity_id, revision_id from {field_data_field_eactivity_id} where bundle in (:node_type) and field_eactivity_id_value = :eactivityid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':eactivityid' =>  $res['EActivityId']))->fetchAssoc();
+    //_update_progress_tracker_to_do_item will check if to-do or progress tracker item is updated and updates them accordingly.
+    $node_deleted = _update_progress_tracker_to_do_item($query_res, $res);
+    if($query_res['entity_id'] < 1 || $node_deleted) {
+        //TODO: do not create a node if its expiration date is already passed
         $node = new stdClass();
         $node->title = $res['ActivityDesc'];
         if ($res['ActivityType'] == 'TRACKER') {
             $node->type = "progress_tracker";
 
+            $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
+            $node->field_eactivity_id['und'][0]['format'] = null;
+            $node->field_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
+
             $node->field_prog_tracker_app['und'][0]['value'] = $res['ActivityDesc'];
             $node->field_prog_tracker_app['und'][0]['format'] = null;
             $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
 
-            $node->field_prog_track_status['und'][0]['value'] = $res['Status'];
+            if($res['Status'] == 'IN_PROGRESS')
+                $res_status = 'In Progress';
+            else
+                $res_status = ucwords(strtolower($res['Status']));
+
+            $node->field_prog_track_status['und'][0]['value'] = $res_status;
             $node->field_prog_track_status['und'][0]['format'] = null;
-            $node->field_prog_track_status['und'][0]['safe_value'] = $res['Status'];
+            $node->field_prog_track_status['und'][0]['safe_value'] = $res_status;
 
             $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
             $node->field_prog_track_updated['und'][0]['value'] = $st_update;
@@ -235,6 +265,8 @@ function create_progress_tracker_node($res, $user){
             $res_domain = $res['PartnerSystemId'];
             if (strpos($res['PartnerSystemId'], 'lead') !== false)
                 $res_domain = "Lead";
+            else if (strpos($res['PartnerSystemId'], 'cedri') !== false)
+                $res_domain = "CEDRI";
             $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
             $node->field_prog_track_domain['und'][0]['format'] = null;
             $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
@@ -246,23 +278,38 @@ function create_progress_tracker_node($res, $user){
                     $res_action = "Print Receipt Print Certification";
                 else
                     $res_action = 'Print Receipt';
-            else if ($res['Status'] == 'Under Review')
+            else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI')
                 $res_action = 'View Submission';
 
             $node->field_prog_track_actions['und'][0]['value'] = $res_action;
-            $node->field_prog_track_actions_link['und'][0]['format'] = null;
-            $node->field_prog_track_actions_link['und'][0]['safe_value'] = $res_action;
+            $node->field_prog_track_actions['und'][0]['format'] = null;
+            $node->field_prog_track_actions['und'][0]['safe_value'] = $res_action;
 
-            $node->field_prog_track_actions_link['und'][0]['value'] = '/workbench';
+            $node->field_prog_track_actions_link['und'][0]['value'] = 'http://ec2-52-4-39-127.compute-1.amazonaws.com/workbench';
             $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;
 
 
             $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
             $node->field_prog_track_created_by['und'][0]['format'] = null;
             $node->field_prog_track_created_by['und'][0]['safe_value'] = $user->uid;
+
+            if($res_domain == "Lead") {
+                $node->field_prog_track_date_type['und'][0]['value'] = 'Status Changed Date';
+                $node->field_prog_track_date_type['und'][0]['format'] = null;
+                $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Status Changed Date';
+            }
+            else if($res_domain == "CEDRI"){
+                $node->field_prog_track_date_type['und'][0]['value'] = 'Publish Date';
+                $node->field_prog_track_date_type['und'][0]['format'] = null;
+                $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
+            }
         }
         else if($res['ActivityType'] == 'TASK') {
             $node->type = "to_do_list";
+
+            $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
+            $node->field_eactivity_id['und'][0]['format'] = null;
+            $node->field_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
 
             $node->field_todo_lst_item['und'][0]['value'] = $res['ActivityDesc'];
             $node->field_todo_lst_item['und'][0]['format'] = null;
@@ -271,6 +318,8 @@ function create_progress_tracker_node($res, $user){
             $res_domain = $res['PartnerSystemId'];
             if (strpos($res['PartnerSystemId'], 'lead') !== false)
                 $res_domain = "Lead";
+            if (strpos($res['PartnerSystemId'], 'cedri') !== false)
+                $res_domain = "CEDRI";
             $node->field_todo_lst_domain['und'][0]['value'] = $res_domain;
             $node->field_todo_lst_domain['und'][0]['format'] = null;
             $node->field_todo_lst_domain['und'][0]['safe_value'] = $res_domain;
@@ -293,6 +342,15 @@ function create_progress_tracker_node($res, $user){
 
         $node = node_submit($node); // Prepare node for saving
         node_save($node);
+    }
+    //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
+    else if(true){
+        $expiration_date = strtotime($res['ActivityExpirationDate']);
+        $curr_date =  strtotime(date("Y-m-d H:i:s"));
+        if(($expiration_date - $curr_date) <= 0){
+            db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res['entity_id']));
+            db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res['entity_id'],':vid' => $query_res['revision_id']));
+        }
     }
 }
 
@@ -336,10 +394,21 @@ function assign_roles_to_user($user_name){
         );
         global $user;
         $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
-        $role_val = $user_roles->Role->type->description;
-        if(!empty($role_val)){
-            $user_role = user_role_load_by_name($role_val);
-            user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+        if(is_array($user_roles->Role)){
+            foreach($user_roles->Role as $k => $v){
+                $role_val = $v->type->description;
+                if(!empty($role_val)){
+                    $user_role = user_role_load_by_name($role_val);
+                    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                }
+            }
+        }
+        else{
+            $role_val = $user_roles->Role->type->description;
+            if(!empty($role_val)){
+                $user_role = user_role_load_by_name($role_val);
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+            }
         }
     } catch(SoapFault $f) {
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);

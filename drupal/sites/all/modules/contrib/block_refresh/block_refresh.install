@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the block_refresh module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function block_refresh_install() {
+  block_refresh_reset_jq();
+  drupal_set_message(st('Be sure to set appropriate permissions for Block Refresh to function properly!'), 'warning');
+}
+
+// Support for block_refresh plugin
+function block_refresh_update_1() {
+  block_refresh_reset_jq();
+}
+
+// Add settings menu item, and change access to /block_refresh
+function block_refresh_update_2() {
+  menu_rebuild();
+}
+
+/**
+ *  Register new plugin with jQ
+ */
+function block_refresh_reset_jq() {
+  cache_clear_all('jq_plugins', 'cache');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function block_refresh_uninstall() {
+  db_query("DELETE FROM {variable} WHERE name LIKE 'block_refresh_%'");
+}

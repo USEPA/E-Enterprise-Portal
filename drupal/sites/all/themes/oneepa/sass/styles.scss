@@ -268,7 +268,7 @@ input[type="submit"],
 	}
 }
 
-#edit-e-enterprise-bridge {
+#edit-e-enterprise-bridge, #edit-login {
 	background-color: #337ab7;
 	padding:1em 3em;
 	height:auto;
@@ -423,7 +423,11 @@ input[type="submit"],
 	top:0;
 }
 .field-add-more-submit {
-	background-color: green; height:40px; width:43px; margin: 0px; vertical-align: middle; margin: 0px;
+	background-color: green; 
+	height:40px; 
+	width:43px; 
+	margin: 0px; 
+	vertical-align: middle;
 }
 
 /** Accessibility Helper Styles ***********/
@@ -641,11 +645,12 @@ table.views-table {
 	}
 	td.active,
 	tr:hover,
-	th:hover,
 	td:hover {
 		background-color: $ee-hover-gray;
 	}
-
+	th:hover {
+		background-color: #606060;
+	}
 }
 
 span.date-subscript-text, 
@@ -697,16 +702,49 @@ tr.even {
     display:none;
 }
 
+.task-filter ul {
+    list-style-type:none;
+    margin:0 0 1em 0;
+    padding:0;
+    display:inline-block;
+}
+
+.task-filter ul li {
+    float:left;
+    margin: 0 1em 0 0;
+    padding:0.5em 1em;
+    background:#585858;
+    color:#FFFFFF;
+    border-radius: 4px;
+}
+
+.task-filter ul li a {
+    color:#FFFFFF;
+}
+
+.task-filter ul li.active {
+    background:#006545;
+}
+
+.task-filter ul li:hover {
+    background:#006545;
+}
+
+.table-result-count {
+    display:inline-block;
+    margin:0 1em 0 0;
+    text-align:right;
+    width:100%;
+}
 
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {
 	#user-profile-form {
-		.form-type-textfield {
-			width: 150px;
-		}
-	
 		.ajax-progress .message {
 			display: none;
+		}
+		#field-zip-code-values .field_zip_code {
+			width: 200px;
 		}
 	}
 }
@@ -734,6 +772,17 @@ tr.even {
 	.form-text {
 		font-size:100%;
 	}
+	
+	.field-profile-favourites-values{
+		width: 51%;
+	}
+	.field-type-datetime{ 
+		display:none;
+	}
+	.remove-button .field-profile-favourites-values {
+		float: right;
+	}
+
 	.description {
 		color:#333333;
 		display:table;
@@ -772,7 +821,9 @@ tr.even {
 	#zipcode_description table tr:last td:last {
 		width:200px;	
 	}
-	
+	#zipcode_description .field-add-more-submit { 
+		margin-left: 5px; float: right; 
+	}
 	.panel {
 		min-height: 330px;
 	}
@@ -794,7 +845,7 @@ tr.even {
 		padding: 5px 10px;
 		border:none;
 	}
-	.form-submit {
+	.form-submit, .remove_button {
 		text-transform: capitalize; 
 		background-color: #337ab7;
 		padding:0.5em 1em;
@@ -804,6 +855,8 @@ tr.even {
 		font-size:0.95em;
 		font-weight:normal;
 	}
+	
+	
 	.field-add-more-submit {
 		background-color: green; 
 		height: auto; 
@@ -812,7 +865,15 @@ tr.even {
 		vertical-align: middle;
 		padding: 0.25em 0.75em;
 	}
-	.multiple-fields-remove-button {
+	#links_description {
+		.form-actions {
+			vertical-align: bottom;
+		}
+		.field-name-field-url, .field-name-field-title, .form-actions {
+			display: inline-block;
+		}
+	}
+	.multiple-fields-remove-button, .remove-button {
 		vertical-align: top;
 		padding: 0.20em 0.75em 0.30em;
 		width: auto;
@@ -872,6 +933,46 @@ tr.even {
 	  vertical-align: middle;
 	}
 
+}
+
+#links_description table > tbody > tr > td:nth-child(2) {
+  width: 900px;
+}
+#links_description table > tbody > tr > td{
+  vertical-align: middle;
+}
+#user-profile-form .remove-button {
+  float: right;
+}
+#links_description table .field-type-text {
+  float: left;
+}
+#links_description table .date_updated_contain {
+  margin-top: 23px;
+  display: block;
+  float: left;
+  margin-right: 10px;
+}
+
+#links_description table .field-multiple-drag {
+  padding-top: 24px;
+}
+#links_description table .remove-button {
+   margin-top: 16px;
+}
+
+#links_description table .field-add-more-submit {
+  margin-top: 16px;
+  float: left;
+  display: block;
+}
+#links_description .form-actions.form-wrapper {
+  float: left;
+  margin-right: 10px;
+}
+#links_description .form-submit {
+	padding: 0.25em 0.75em;
+	text-transform: lowercase;
 }
 .view-user-profile {
 	.field-label {
@@ -933,6 +1034,11 @@ tr.even {
 #edit-field-profile-favourites thead { 
 	display:none;
 }
+#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper, #field-zip-code-add-more-wrapper .tabledrag-toggle-weight-wrapper {
+	display: none;
+}
+
+
 .form-item-field-profile-interests-und label:first-child{ 
 	display:none;
 }

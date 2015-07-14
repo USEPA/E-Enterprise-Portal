@@ -1,0 +1,269 @@
+<?php
+
+define('BLOCK_REFRESH_DEFAULT_AUTOMATIC', FALSE); // autorefresh disabled by default
+define('BLOCK_REFRESH_DEFAULT_MANUAL', FALSE); // manual refresh disabled by default
+define('BLOCK_REFRESH_DEFAULT_INIT', FALSE); // inital refresh disabled by default
+define('BLOCK_REFRESH_DEFAULT_PANELS', FALSE); // panels support disabled by default
+define('BLOCK_REFRESH_DEFAULT_ARGUMENTS', TRUE); // send arguments by default
+define('BLOCK_REFRESH_DEFAULT_BYPASS_PAGE_CACHE', FALSE); // page cache bypass disabled by default
+define('BLOCK_REFRESH_DEFAULT_BYPASS_EXTERNAL_CACHE', ''); // external cache bypass disabled by default
+define('BLOCK_REFRESH_DEFAULT_AUTOMATIC_TIMER', 120);  // default refreshes every two minutes, if enabled
+define('BLOCK_REFRESH_ACCESS_CONTENT_PERMISSION', 'access block refresh content');
+
+/**
+ * Implements hook_init().
+ * Calls the jquery to refresh blocks automatically, but only if the blocks exist on the current page and are enabled
+ */
+function block_refresh_init() {
+  if (user_access(BLOCK_REFRESH_ACCESS_CONTENT_PERMISSION)) {
+    drupal_add_js(drupal_get_path('module', 'block_refresh') . '/js/block_refresh.js', array('scope' => 'footer'));
+    drupal_add_css(drupal_get_path('module', 'block_refresh') . '/css/block_refresh.css');
+    drupal_add_js(array(
+      'block_refresh' => array(
+        'settings' => variable_get('block_refresh_settings', array()),
+        'args' => arg(),
+        'query' => block_refresh_get_query_as_string(),
+      )
+    ), 'setting');
+  }
+}
+
+/**
+ * Implements hook_permission().
+ * Add permission for accessing auto/manually refreshed block content
+ */
+function block_refresh_permission() {
+  return array(
+    BLOCK_REFRESH_ACCESS_CONTENT_PERMISSION => array(
+      'title' => t('Access block refresh content'),
+      'description' => t('Selected roles will see content refreshed in enabled blocks.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_help().
+ */
+function block_refresh_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#block_refresh':
+      $block_refresh_help  = '<div class="form-item">';
+      $block_refresh_help .= t("Ensure that you have !configured for user roles. Adding a permission to %access will allow a block, when configured, to be refreshed automatically and/or manually.", array('%access' => BLOCK_REFRESH_ACCESS_CONTENT_PERMISSION, '!configured' => l(t('configured permissions'), 'admin/user/access', array(), NULL, 'module-block_refresh')));
+      $block_refresh_help .= '</div><div class="form-item">';
+      $block_refresh_help .= t("You will also need to set the appropriate settings for each block that you wish to automatically and/or manually refresh by clicking on the appropriate %configure link(s) on the !admin.", array('%configure' => t('configure'), '!admin' => l(t('blocks administration page'), 'admin/build/block')));
+      $block_refresh_help .= '</div>';
+      return $block_refresh_help;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * Add a 'Block Refresh' settings fieldset to the block admin form
+ */
+function block_refresh_form_block_admin_configure_alter(&$form, $form_state) {
+  $block_id = drupal_html_id('block-' . $form['module']['#value'] . '-' . $form['delta']['#value']);
+  $form = $form + block_refresh_settings_form_elements($block_id);
+  $form['#submit'][] = 'block_refresh_submit';
+}
+
+/**
+ * Generates the form elements for block refresh settings.
+ */
+function block_refresh_settings_form_elements($block_id) {
+  $settings = variable_get('block_refresh_settings', array());
+  $form['block_refresh'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Block refresh settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#weight' => -1,
+  );
+  $form['block_refresh']['block_refresh_auto'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable block to be refreshed automatically'),
+    '#description' => t('If checked, then the content of this block will be refresh automatically every x seconds defined below.'),
+    '#default_value' => isset($settings[$block_id]['auto']) ? $settings[$block_id]['auto'] : variable_get('block_refresh_default_automatic', BLOCK_REFRESH_DEFAULT_AUTOMATIC),
+  );
+  $form['block_refresh']['block_refresh_timer'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Block refresh timer'),
+    '#description' => t('If this block is set to be refreshed automatically (checkbox above is checked), enter the number of <strong>seconds</strong> between each refresh.'),
+    '#default_value' => isset($settings[$block_id]['timer']) ? $settings[$block_id]['timer'] : variable_get('block_refresh_autorefresh_default_timer', BLOCK_REFRESH_DEFAULT_AUTOMATIC_TIMER),
+  );
+  $form['block_refresh']['block_refresh_manual'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable block to be refreshed manually'),
+    '#description' => t('If checked, then the content of this block may be refreshed manually by the user, by clicking on a provided (themeable) button in the block\'s subject header.'),
+    '#default_value' => isset($settings[$block_id]['manual']) ? $settings[$block_id]['manual'] : variable_get('block_refresh_default_manual', BLOCK_REFRESH_DEFAULT_MANUAL),
+  );
+  $form['block_refresh']['block_refresh_init'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable block to be refreshed on page load'),
+    '#description' => t('If checked, then the content of this block will be refreshed when the page loads.'),
+    '#default_value' => isset($settings[$block_id]['init']) ? $settings[$block_id]['init'] : variable_get('block_refresh_default_init', BLOCK_REFRESH_DEFAULT_INIT),
+  );
+  $form['block_refresh']['block_refresh_arguments'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Send page path arguments to block'),
+    '#description' => t('If checked, the block will receive the current page path when called. Uncheck this if the block does not need it for a potential performance boost.'),
+    '#default_value' => isset($settings[$block_id]['arguments']) ? $settings[$block_id]['arguments'] : variable_get('block_refresh_default_arguments', BLOCK_REFRESH_DEFAULT_ARGUMENTS),
+  );
+  $form['block_refresh']['block_refresh_panels'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable block to be used in Panels'),
+    '#description' => t('If checked, then the content of this block will be refreshed when used inside the Panels module.'),
+    '#default_value' => isset($settings[$block_id]['panels']) ? $settings[$block_id]['panels'] : variable_get('block_refresh_default_panels', BLOCK_REFRESH_DEFAULT_PANELS),
+  );
+  $form['block_refresh']['block_refresh_bypass_page_cache'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Bypass Drupal page cache'),
+    '#description' => t('If checked, then the refreshed content of this block will bypass drupal\'s page cache. If stale content is being served to you due to caching, try checking this box. Warning! this can have a performance impact.'),
+    '#default_value' => isset($settings[$block_id]['bypass_page_cache']) ? $settings[$block_id]['bypass_page_cache'] : variable_get('block_refresh_default_bypass_page_cache', BLOCK_REFRESH_DEFAULT_BYPASS_PAGE_CACHE),
+  );
+  $form['block_refresh']['block_refresh_bypass_external_cache'] = array(
+    '#type' => 'textfield',
+    '#title' => t('External cache max age'),
+    '#description' => t('If you wish to override the max age of refreshed data served from an external cache (eg Varnish), enter a value in seconds here. Leave blank to use your sitewide default value.'),
+    '#default_value' => isset($settings[$block_id]['bypass_external_cache']) ? $settings[$block_id]['bypass_external_cache'] : variable_get('block_refresh_default_bypass_external_cache', BLOCK_REFRESH_DEFAULT_BYPASS_EXTERNAL_CACHE),
+  );
+  return $form;
+}
+
+/**
+ *  Submission handler for for block_refresh_menu().
+ *  This handles the submission on both the block configuration page,
+ *  and the panels pane config page.
+ */
+function block_refresh_submit($form, &$form_state) {
+  if ($form['#form_id'] == 'block_admin_configure') {
+    $module = $form_state['values']['module'];
+    $delta = $form_state['values']['delta'];
+    $panels = $form_state['values']['block_refresh_panels'];
+  }
+  else {
+    // The form has been submitted from a panels pane config dialog.
+    list($module,$delta) = explode('-',$form_state['subtype_name']);
+    // As the options have been set in the panels pane, we can
+    // assume that the user wants the block to work in panels.
+    $panels = 1;
+  }
+  $block_id = drupal_html_id('block-' . $module . '-' . $delta);
+  $settings = variable_get('block_refresh_settings', array());
+  // If the auto (enable) checkbox AND the manual checkbox are unchecked, we want to remove the current block from the array
+  if(!$form['block_refresh']['block_refresh_auto']['#checked'] &&
+      !$form['block_refresh']['block_refresh_manual']['#checked'] &&
+      !$form['block_refresh']['block_refresh_init']['#checked']) {
+    unset($settings[$block_id]);
+  }
+  // Otherwise, we need to setup the block to be configured for block refresh
+  else {
+    $settings[$block_id]['element'] = $block_id;
+     $settings[$block_id]['auto'] = $form_state['values']['block_refresh_auto'];
+     $settings[$block_id]['manual'] = $form_state['values']['block_refresh_manual'];
+     $settings[$block_id]['init'] = $form_state['values']['block_refresh_init'];
+     $settings[$block_id]['arguments'] = $form_state['values']['block_refresh_arguments'];
+     $settings[$block_id]['panels'] = $panels;
+     $settings[$block_id]['timer'] = $form_state['values']['block_refresh_timer'];
+     $settings[$block_id]['block'] = array(
+       'block' => $module,
+       'delta' => $delta,
+       );
+     $settings[$block_id]['bypass_page_cache'] = $form_state['values']['block_refresh_bypass_page_cache'];
+     $settings[$block_id]['bypass_external_cache'] = $form_state['values']['block_refresh_bypass_external_cache'];
+  }
+  variable_set('block_refresh_settings', $settings);
+}
+
+/**
+ * Implements hook_menu().
+ */
+function block_refresh_menu() {
+  $items = array();
+  // this will display the contents of a block, if it's configured with Block Refresh
+  $items['block_refresh'] = array(
+    'title' => 'Block refresh block content',
+    'page callback' => 'block_refresh_block_content',
+    'access arguments' => array(BLOCK_REFRESH_ACCESS_CONTENT_PERMISSION),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function block_refresh_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'ctools_block_content_type_edit_form') {
+    $block_id = drupal_html_id('block-' . $form_state['subtype_name']);
+    $form = $form + block_refresh_settings_form_elements($block_id);
+    $form['#submit'][] = 'block_refresh_submit';
+  }
+}
+
+
+/**
+ * PRIVATE FUNCTIONS
+ */
+
+/**
+ *  page callback for /block_refresh/[module]/[delta]
+ *  displays the block content, without any other page information
+ */
+function block_refresh_block_content($module = NULL, $delta = NULL) {
+  // If there is a request directly to /block_refresh...
+  if (!isset($module) || !isset($delta)) {
+    drupal_not_found();
+  }
+
+  $block_id = drupal_html_id('block-' . $module . '-' . $delta);
+  $settings = variable_get('block_refresh_settings', array());
+  // If automatic refresh AND manual refresh are both disabled...
+  if (!$settings[$block_id]['auto'] && !$settings[$block_id]['manual'] &&
+      !$settings[$block_id]['init']) {
+    drupal_not_found();
+  }
+  //Validate args and get referrering page args from end.  Set as path.
+  $args = arg();
+  if(!empty($args[3]) && $args[0] == 'block_refresh' && $args[1] == $module && $args[2] == $delta) {
+    unset($args[0]);
+    unset($args[1]);
+    unset($args[2]);
+    $_GET['q'] = implode('/', $args);
+  } else {
+    $_GET['q'] = '';  $args = arg();
+
+  }
+
+  //Bypass page cache if set
+  if($settings[$block_id]['bypass_page_cache'] == 1) {
+    $GLOBALS['conf']['cache'] = FALSE;
+  }
+
+  //Override external cache max age if set
+  if ($settings[$block_id]['bypass_external_cache'] != '') {
+    drupal_add_http_header('Cache-Control', 'public, max-age=' . intval($settings[$block_id]['bypass_external_cache']));
+  }
+
+  $block  = block_load($module, $delta);
+  $renderable_array = _block_get_renderable_array(_block_render_blocks(array($block)));
+  $output = drupal_render($renderable_array);
+
+   // Print out the content of the proceeding call
+   print $output;
+}
+
+/**
+ *  get all $_GET values, unset q and render, and return as string
+ */
+function block_refresh_get_query_as_string() {
+  $vars = $_GET;
+  if(!empty($vars['q'])) {
+    unset($vars['q']);
+  }
+  if(!empty($vars['render'])) {
+    unset($vars['render']);
+  }
+  if(count($vars) > 0 ) {
+    $querystring = '?' . http_build_query($vars);
+    return $querystring;
+  } else {
+    return '';
+  }
+}

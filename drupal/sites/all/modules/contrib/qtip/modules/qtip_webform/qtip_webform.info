@@ -1,0 +1,15 @@
+name = "qTip: Webform"
+description = "Integrates the qTip library with Webform module."
+package = User interface
+core = 7.x
+
+dependencies[] = qtip
+dependencies[] = webform
+
+
+; Information added by Drupal.org packaging script on 2015-03-14
+version = "7.x-2.0-rc3"
+core = "7.x"
+project = "qtip"
+datestamp = "1426346891"
+

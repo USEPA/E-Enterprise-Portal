@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the qtip module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function qtip_schema() {
+  $schema['qtip'] = array(
+    'description' => 'The qtip table.',
+    'export' => array(
+      'key'          => 'machine_name',
+      'identifier'   => 'qtip',
+      'default hook' => 'qtip_default_qtips',
+      'api'          => array(
+        'owner'           => 'qtip',
+        'api'             => 'qtip_default', // Base name for api include files.
+        'minimum_version' => '1',
+        'current_version' => '1.0',
+      ),
+      'export callback' => 'qtip_export',
+    ),
+    'fields' => array(
+      'machine_name' => array(
+        'description' => 'The primary identifier for a qtip instance.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'name' => array(
+        'description' => 'The human-friendly name of tip qtip instance.',
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+      'settings' => array(
+        'description' => 'A serialized array of the settings for this qtip instance.',
+        'type'        => 'text',
+        'size'        => 'medium',
+        'not null'    => FALSE,
+        'serialize'   => TRUE,
+      ),
+    ),
+    'primary key' => array('machine_name'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function qtip_uninstall() {
+  db_delete('variable')
+    ->condition('name', 'qtip_%', 'LIKE')
+    ->execute();
+}

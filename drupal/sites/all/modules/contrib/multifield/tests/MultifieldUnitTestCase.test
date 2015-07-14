@@ -1,0 +1,543 @@
+<?php
+
+class MultifieldUnitTestCase extends DrupalWebTestCase {
+  protected $profile = 'testing';
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Multifield unit tests',
+      'description' => 'Tests basic-level multifield functionality and APIs.',
+      'group' => 'Multifield',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('field_test', 'multifield'));
+  }
+
+  public function testMultifieldField() {
+    $multifield_field = array(
+      'field_name' => 'test',
+      'type' => 'multifield',
+    );
+    $dbschema = Database::getConnection()->schema();
+
+    $this->assertIdentical(multifield_get_fields(), array());
+    $this->assertIdentical(multifield_type_has_fields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array());
+    $this->assertIdentical(multifield_get_subfields(), array());
+    $this->assertIdentical(multifield_type_has_subfields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array());
+    $this->assertTrue(field_info_field_types('multifield'));
+    $schema = module_invoke('multifield', 'field_schema', $multifield_field);
+    $this->assertIdentical($schema, array());
+    $this->assertFalse($dbschema->tableExists('field_data_test'));
+
+    $multifield_field = field_create_field($multifield_field);
+    $this->assertTrue($multifield_field['id']);
+    $multifield = multifield_load('test');
+    $this->assertFalse(isset($multifield->mfid));
+    $this->assertTrue($multifield->locked);
+
+    $this->assertIdentical(multifield_get_fields(), array('test' => 'test'));
+    $this->assertIdentical(multifield_type_has_fields('test'), TRUE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array('test'));
+    $this->assertIdentical(multifield_get_subfields(), array());
+    $this->assertIdentical(multifield_type_has_subfields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array());
+    //$this->assertFalse(field_info_field_types('test'), NULL);
+    $schema = module_invoke('multifield', 'field_schema', $multifield_field);
+    $this->assertIdentical($schema, array());
+    $this->assertTrue($dbschema->tableExists('field_data_test'));
+    $this->assertFalse($dbschema->fieldExists('field_data_test', 'test_field_test_field_1_value'));
+    $this->assertFalse($dbschema->indexExists('field_data_test', 'test_field_test_field_1_value'));
+    $this->assertFalse($dbschema->fieldExists('field_data_test', 'test_field_test_field_2_value'));
+    $this->assertFalse($dbschema->indexExists('field_data_test', 'test_field_test_field_2_value'));
+
+    $field_name1 = 'field_test_field_1';
+    $field1 = array(
+      'field_name' => $field_name1,
+      'type' => 'test_field',
+      'cardinality' => 4,
+    );
+    $field1 = field_create_field($field1);
+    $instance1 = array(
+      'field_name' => $field_name1,
+      'entity_type' => 'multifield',
+      'bundle' => 'test',
+      'label' => $field_name1 . '_label',
+      'description' => $field_name1 . '_description',
+      'weight' => mt_rand(0, 127),
+      'settings' => array(
+        'test_instance_setting' => $this->randomName(),
+      ),
+      'widget' => array(
+        'type' => 'test_field_widget',
+        'label' => 'Test Field',
+        'settings' => array(
+          'test_widget_setting' => $this->randomName(),
+        ),
+      ),
+    );
+    field_create_instance($instance1);
+
+    $this->assertIdentical(multifield_get_fields(), array('test' => 'test'));
+    $this->assertIdentical(multifield_type_has_fields('test'), TRUE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array('test'));
+    $this->assertIdentical(multifield_get_subfields(), array('test' => array($field_name1)));
+    $this->assertIdentical(multifield_type_has_subfields('test'), TRUE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array($field_name1));
+    //$this->assertTrue(field_info_field_types('test'));
+    $schema = module_invoke('multifield', 'field_schema', $multifield_field);
+    $this->assertIdentical($schema, array(
+      'columns' => array(
+        $field_name1 . '_value' => array(
+          'type' => 'int',
+          'size' => 'medium',
+          'not null' => FALSE,
+        ),
+        'id' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ),
+      ),
+      'indexes' => array(
+        $field_name1 . '_value' => array($field_name1 . '_value'),
+        'id' => array('id'),
+      ),
+    ));
+    $this->assertTrue($dbschema->tableExists('field_data_test'));
+    $this->assertTrue($dbschema->fieldExists('field_data_test', 'test_field_test_field_1_value'));
+    $this->assertTrue($dbschema->indexExists('field_data_test', 'test_field_test_field_1_value'));
+    $this->assertFalse($dbschema->fieldExists('field_data_test', 'test_field_test_field_2_value'));
+    $this->assertFalse($dbschema->indexExists('field_data_test', 'test_field_test_field_2_value'));
+
+    $field_name2 = 'field_test_field_2';
+    $field2 = array(
+      'field_name' => $field_name2,
+      'type' => 'test_field',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    );
+    $field2 = field_create_field($field2);
+    $instance2 = array(
+      'field_name' => $field_name2,
+      'entity_type' => 'multifield',
+      'bundle' => 'test',
+      'label' => $field_name2 . '_label',
+      'description' => $field_name2 . '_description',
+      'weight' => mt_rand(0, 127),
+      'settings' => array(
+        'test_instance_setting' => $this->randomName(),
+      ),
+      'widget' => array(
+        'type' => 'test_field_widget',
+        'label' => 'Test Field',
+        'settings' => array(
+          'test_widget_setting' => $this->randomName(),
+        ),
+      ),
+    );
+    field_create_instance($instance2);
+
+    $this->assertIdentical(multifield_get_fields(), array('test' => 'test'));
+    $this->assertIdentical(multifield_type_has_fields('test'), TRUE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array('test'));
+    $this->assertIdentical(multifield_get_subfields(), array('test' => array($field_name1, $field_name2)));
+    $this->assertIdentical(multifield_type_has_subfields('test'), TRUE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array($field_name1, $field_name2));
+    //$this->assertTrue(field_info_field_types('test'));
+    $schema = module_invoke('multifield', 'field_schema', $multifield_field);
+    $this->assertIdentical($schema, array(
+      'columns' => array(
+        $field_name1 . '_value' => array(
+          'type' => 'int',
+          'size' => 'medium',
+          'not null' => FALSE,
+        ),
+        $field_name2 . '_value' => array(
+          'type' => 'int',
+          'size' => 'medium',
+          'not null' => FALSE,
+        ),
+        'id' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ),
+      ),
+      'indexes' => array(
+        $field_name1 . '_value' => array($field_name1 . '_value'),
+        $field_name2 . '_value' => array($field_name2 . '_value'),
+        'id' => array('id'),
+      ),
+    ));
+    $this->assertTrue($dbschema->tableExists('field_data_test'));
+    $this->assertTrue($dbschema->fieldExists('field_data_test', 'test_field_test_field_1_value'));
+    $this->assertTrue($dbschema->indexExists('field_data_test', 'test_field_test_field_1_value'));
+    $this->assertTrue($dbschema->fieldExists('field_data_test', 'test_field_test_field_2_value'));
+    $this->assertTrue($dbschema->indexExists('field_data_test', 'test_field_test_field_2_value'));
+
+    // Delete the first field from the multifield.
+    field_delete_instance($instance1);
+
+    $this->assertIdentical(multifield_get_fields(), array('test' => 'test'));
+    $this->assertIdentical(multifield_type_has_fields('test'), TRUE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array('test'));
+    $this->assertIdentical(multifield_get_subfields(), array('test' => array($field_name2)));
+    $this->assertIdentical(multifield_type_has_subfields('test'), TRUE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array($field_name2));
+    //$this->assertTrue(field_info_field_types('test'));
+    $schema = module_invoke('multifield', 'field_schema', $multifield_field);
+    $this->assertIdentical($schema, array(
+      'columns' => array(
+        $field_name2 . '_value' => array(
+          'type' => 'int',
+          'size' => 'medium',
+          'not null' => FALSE,
+        ),
+        'id' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ),
+      ),
+      'indexes' => array(
+        $field_name2 . '_value' => array($field_name2 . '_value'),
+        'id' => array('id'),
+      ),
+    ));
+    $this->assertTrue($dbschema->tableExists('field_data_test'));
+    $this->assertFalse($dbschema->fieldExists('field_data_test', 'test_field_test_field_1_value'));
+    $this->assertFalse($dbschema->IndexExists('field_data_test', 'test_field_test_field_1_value'));
+    $this->assertTrue($dbschema->fieldExists('field_data_test', 'test_field_test_field_2_value'));
+    $this->assertTrue($dbschema->indexExists('field_data_test', 'test_field_test_field_2_value'));
+
+    // Delete the multifield.
+    field_delete_field($multifield_field['field_name']);
+
+    $this->assertIdentical(multifield_get_fields(), array());
+    $this->assertIdentical(multifield_type_has_fields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array());
+    $this->assertIdentical(multifield_get_subfields(), array());
+    $this->assertIdentical(multifield_type_has_subfields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array());
+    //$this->assertFalse(field_info_field_types('test'));
+    $schema = module_invoke('multifield', 'field_schema', $multifield_field);
+    $this->assertIdentical($schema, array());
+    $this->assertFalse($dbschema->tableExists('field_data_test'));
+  }
+
+  public function testDeprecatedField() {
+    $schema_field = array('type' => 'test', 'module' => 'multifield');
+    $this->assertIdentical(multifield_get_fields(), array());
+    $this->assertIdentical(multifield_type_has_fields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array());
+    $this->assertIdentical(multifield_get_subfields(), array());
+    $this->assertIdentical(multifield_type_has_subfields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array());
+    $this->assertFalse(field_info_field_types('test'), NULL);
+    $schema = module_invoke('multifield', 'field_schema', $schema_field);
+    $this->assertIdentical($schema, array());
+
+    $multifield = new stdClass();
+    $multifield->machine_name = 'test';
+    $multifield->label = 'Test label';
+    $multifield->description = 'Test description';
+    multifield_save($multifield);
+    $this->assertTrue($multifield->mfid);
+    $this->assertFalse(isset($multifield->locked));
+
+    $this->assertIdentical(multifield_get_fields(), array());
+    $this->assertIdentical(multifield_type_has_fields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array());
+    $this->assertIdentical(multifield_get_subfields(), array());
+    $this->assertIdentical(multifield_type_has_subfields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array());
+    $this->assertFalse(field_info_field_types('test'), NULL);
+    $schema = module_invoke('multifield', 'field_schema', $schema_field);
+    $this->assertIdentical($schema, array());
+
+    $field_name1 = 'field_test_field_1';
+    $field1 = array(
+      'field_name' => $field_name1,
+      'type' => 'test_field',
+      'cardinality' => 4,
+    );
+    $field1 = field_create_field($field1);
+    $instance1 = array(
+      'field_name' => $field_name1,
+      'entity_type' => 'multifield',
+      'bundle' => 'test',
+      'label' => $field_name1 . '_label',
+      'description' => $field_name1 . '_description',
+      'weight' => mt_rand(0, 127),
+      'settings' => array(
+        'test_instance_setting' => $this->randomName(),
+      ),
+      'widget' => array(
+        'type' => 'test_field_widget',
+        'label' => 'Test Field',
+        'settings' => array(
+          'test_widget_setting' => $this->randomName(),
+        ),
+      ),
+    );
+    field_create_instance($instance1);
+
+    $this->assertIdentical(multifield_get_fields(), array());
+    $this->assertIdentical(multifield_type_has_fields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array());
+    $this->assertIdentical(multifield_get_subfields(), array('test' => array($field_name1)));
+    $this->assertIdentical(multifield_type_has_subfields('test'), TRUE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array($field_name1));
+    $this->assertTrue(field_info_field_types('test'));
+    $schema = module_invoke('multifield', 'field_schema', $schema_field);
+    $this->assertIdentical($schema, array(
+      'columns' => array(
+        $field_name1 . '_value' => array(
+          'type' => 'int',
+          'size' => 'medium',
+          'not null' => FALSE,
+        ),
+        'id' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ),
+      ),
+      'indexes' => array(
+        $field_name1 . '_value' => array($field_name1 . '_value'),
+        'id' => array('id'),
+      ),
+    ));
+
+    $field_name2 = 'field_test_field_2';
+    $field2 = array(
+      'field_name' => $field_name2,
+      'type' => 'test_field',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    );
+    $field2 = field_create_field($field2);
+    $instance2 = array(
+      'field_name' => $field_name2,
+      'entity_type' => 'multifield',
+      'bundle' => 'test',
+      'label' => $field_name2 . '_label',
+      'description' => $field_name2 . '_description',
+      'weight' => mt_rand(0, 127),
+      'settings' => array(
+        'test_instance_setting' => $this->randomName(),
+      ),
+      'widget' => array(
+        'type' => 'test_field_widget',
+        'label' => 'Test Field',
+        'settings' => array(
+          'test_widget_setting' => $this->randomName(),
+        ),
+      ),
+    );
+    field_create_instance($instance2);
+
+    $this->assertIdentical(multifield_get_fields(), array());
+    $this->assertIdentical(multifield_type_has_fields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array());
+    $this->assertIdentical(multifield_get_subfields(), array('test' => array($field_name1, $field_name2)));
+    $this->assertIdentical(multifield_type_has_subfields('test'), TRUE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array($field_name1, $field_name2));
+    $this->assertTrue(field_info_field_types('test'));
+    $schema = module_invoke('multifield', 'field_schema', $schema_field);
+    $this->assertIdentical($schema, array(
+      'columns' => array(
+        $field_name1 . '_value' => array(
+          'type' => 'int',
+          'size' => 'medium',
+          'not null' => FALSE,
+        ),
+        $field_name2 . '_value' => array(
+          'type' => 'int',
+          'size' => 'medium',
+          'not null' => FALSE,
+        ),
+        'id' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ),
+      ),
+      'indexes' => array(
+        $field_name1 . '_value' => array($field_name1 . '_value'),
+        $field_name2 . '_value' => array($field_name2 . '_value'),
+        'id' => array('id'),
+      ),
+    ));
+
+    // Delete the first field from the multifield.
+    field_delete_instance($instance1);
+
+    $this->assertIdentical(multifield_get_fields(), array());
+    $this->assertIdentical(multifield_type_has_fields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array());
+    $this->assertIdentical(multifield_get_subfields(), array('test' => array($field_name2)));
+    $this->assertIdentical(multifield_type_has_subfields('test'), TRUE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array($field_name2));
+    $this->assertTrue(field_info_field_types('test'));
+    $schema = module_invoke('multifield', 'field_schema', $schema_field);
+    $this->assertIdentical($schema, array(
+      'columns' => array(
+        $field_name2 . '_value' => array(
+          'type' => 'int',
+          'size' => 'medium',
+          'not null' => FALSE,
+        ),
+        'id' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ),
+      ),
+      'indexes' => array(
+        $field_name2 . '_value' => array($field_name2 . '_value'),
+        'id' => array('id'),
+      ),
+    ));
+
+    // Delete the multifield.
+    multifield_delete($multifield);
+
+    $this->assertIdentical(multifield_get_fields(), array());
+    $this->assertIdentical(multifield_type_has_fields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_fields('test'), array());
+    $this->assertIdentical(multifield_get_subfields(), array());
+    $this->assertIdentical(multifield_type_has_subfields('test'), FALSE);
+    $this->assertIdentical(multifield_type_get_subfields('test'), array());
+    $this->assertFalse(field_info_field_types('test'));
+    $schema = module_invoke('multifield', 'field_schema', $schema_field);
+    $this->assertIdentical($schema, array());
+  }
+
+  public function testEntityLoad() {
+    try {
+      entity_load('multifield', FALSE, array('type' => 'test'));
+      $this->fail("Cannot run entity_load('multifield') with conditions.");
+    }
+    catch (InvalidArgumentException $e) {
+      $this->pass("Cannot run entity_load('multifield') with conditions.");
+    }
+
+    $results = entity_load('multifield', FALSE);
+    $this->assertIdentical($results, array());
+
+    $results = entity_load('multifield', array(1));
+    $this->assertIdentical($results, array());
+
+    // @todo Expand this coverage to actually load real multifield entities.
+  }
+
+  /**
+   * Regression test for https://drupal.org/node/2198697.
+   */
+  public function testDefaultValue() {
+    // Add the test node type.
+    $node_type = $this->drupalCreateContentType();
+
+    // Create the multifield.
+    $multifield = new stdClass();
+    $multifield->machine_name = 'multifield_test';
+    $multifield->label = $this->randomName();
+    $multifield->description = $this->randomName();
+    multifield_save($multifield);
+
+    // Create fields on the multifield.
+    $field_name1 = 'field_text1';
+    $field1 = array(
+      'field_name' => $field_name1,
+      'type' => 'text',
+      'cardinality' => 1,
+    );
+    field_create_field($field1);
+    $instance1 = array(
+      'field_name' => $field_name1,
+      'entity_type' => 'multifield',
+      'bundle' => 'multifield_test',
+    );
+    field_create_instance($instance1);
+
+    $multifield_field = array(
+      'field_name' => 'field_multifield',
+      'type' => 'multifield_test',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    );
+    field_create_field($multifield_field);
+    $multifield_instance = array(
+      'field_name' => 'field_multifield',
+      'entity_type' => 'node',
+      'bundle' => $node_type->type,
+      'default_value' => array(
+        array(
+          'field_text1' => array(
+            LANGUAGE_NONE => array(
+              array(
+                'value' => 'Default value',
+              ),
+            ),
+          ),
+          // Default values should not have an ID.
+          'id' => NULL,
+          // Sometimes forms add in additional values that should be ignored.
+          'actions' => array(
+            'remove_button' => 'Remove',
+          ),
+        ),
+      ),
+    );
+    field_create_instance($multifield_instance);
+
+    $node = new stdClass();
+    $node->type = $node_type->type;
+    $node->uid = 0;
+    $node->status = 1;
+    $node->title = 'Test node';
+    $node->language = LANGUAGE_NONE;
+    node_object_prepare($node);
+    $node = node_submit($node);
+    node_save($node);
+
+    // Check that saving a node object without provide a multifield value used
+    // the default value, but added a proper ID value.
+    $items = field_get_items('node', $node, 'field_multifield');
+    $this->assertIdentical($items[0], array(
+      'field_text1' => array(
+        LANGUAGE_NONE => array(
+          0 => array(
+            'value' => 'Default value',
+            'format' => NULL,
+          ),
+        ),
+      ),
+      'id' => 1,
+      'actions' => array(
+        'remove_button' => 'Remove',
+      ),
+      'field_text1_value' => 'Default value',
+      'field_text1_format' => NULL,
+    ));
+
+    // Check the value after doing a reload.
+    $node = node_load($node->nid, NULL, TRUE);
+    $items = field_get_items('node', $node, 'field_multifield');
+    $this->assertIdentical($items[0], array(
+      // Default value should now have a valid ID.
+      'id' => '1',
+      'field_text1' => array(
+        LANGUAGE_NONE => array(
+          0 => array(
+            'value' => 'Default value',
+            'format' => NULL,
+            'safe_value' => 'Default value',
+          ),
+        ),
+      ),
+    ));
+  }
+}

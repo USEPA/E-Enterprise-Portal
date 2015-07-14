@@ -4,14 +4,16 @@
   $(document).ready(function(){
 	var last_clicked = "";
 	
-	function placeAddAnotherButton(addTd, table_id, parent_id) {
+	function placeAddAnotherButton(ajax_content, table_id, parent_id) {
 	 	var table = $(table_id);
 		var input_button = $(parent_id).find('.field-add-more-submit');
-		if (addTd){
-			table.find("tr:first").append("<th></th>");
-			table.find("tr").not('tr:first').append("<td><div class='ajax-new-content'></div></td>");
+		if (!ajax_content){
+			table.find("tr:last").find('td:nth-child(2)').append(input_button);
+			table.find("tr:last").find('td:nth-child(2) .ajax-new-content').append(input_button);
 		}
-		table.find("tr:last").find('td:last').find('.ajax-new-content').append(input_button);
+		else {
+			table.find("tr:last").find('td:nth-child(2)').append(input_button);
+		}
 	};
 	
 	$( document ).ajaxSuccess(function( event, xhr, settings ) {
@@ -20,7 +22,7 @@
 		var parent_id = '';
 		$('.field-multiple-table').each(function() {
 			var table =  $(this);
-			var add_button = table.find('tr:last').find('td:last').find('.field-add-more-submit');
+			var add_button = table.find('tr:last').find('td:nth-child(2)').find('.field-add-more-submit');
 			if (add_button.length == 0) {
 				table_id = table.attr('id');
 			}
@@ -33,7 +35,7 @@
 		}
 
 		if (table_id != '') {
-			placeAddAnotherButton(true, '#' + table_id, parent_id);
+			placeAddAnotherButton(false, '#' + table_id, parent_id);
 		}
 	});
 
@@ -48,6 +50,7 @@
 		}
 		else {
 			parent_id = '#links_description';
+			// table_id = '#field-profile-favourites-values';
 		}
 		placeAddAnotherButton(false, table_id, parent_id);
 	};
@@ -192,7 +195,6 @@
 	
 	$('body').on('click', '.vocab_holder .label', function() {
 	if ($(this).hasClass('label-primary')) {
-		console.log($(this));
 		// $(this).closest('.vocab_holder').find('label').each(function() {
 		// 	var checkbox_id = $(this).attr('for');
 		// 	console.log(checkbox_id);
