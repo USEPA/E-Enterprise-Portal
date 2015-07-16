@@ -11,11 +11,55 @@ function eenterprise_utility_menu() {
       'page callback' => 'get_taxonomy_parent_name',
       'access callback' => TRUE,
     );
+    $items['load_air_now_us_data'] = array(
+      'page callback' => 'load_air_now_us_data',
+      'access callback' => TRUE,
+    );
     return $items;
 } 
 
 
+function load_air_now_us_data() {
+  // set php.ini max execution to 2000 temporarily for this processing
+  ini_set('max_execution_time', 1500);
+  $start = microtime(true);
 
+  $url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv';
+  $csvData = file_get_contents($url);
+  $lines = explode(PHP_EOL, $csvData);
+  if (count($lines) > 0) {
+    // clear table
+    db_truncate('air_now_city_zip_codes')->execute();
+    // insert new data
+    foreach (array_slice($lines,1) as $line) {
+      // Data returned of format City|State|Zipcode|Latitude|Longitude
+      $data_line = str_getcsv($line, '|');
+     if ($data_line[3] == '') {
+       $data_line[3] = NULL;
+     }
+     if ($data_line[4] == '') {
+       $data_line[4] = NULL;
+     }
+     if ($data_line[0] != '') {
+        db_insert('air_now_city_zip_codes') // Table name no longer needs {}
+          ->fields(array(
+          'City' => $data_line[0],
+          'State' => $data_line[1],
+          'Zipcode' => $data_line[2],
+          'Latitude' => $data_line[3],
+          'Longitude' => $data_line[4],
+          ))->execute();
+      }
+    }
+  }
+  else {
+    ini_set('max_execution_time', 150);
+    exit(); // failed to retrieve data
+  }
+  $time_elapsed_secs = microtime(true) - $start;
+  echo $time_elapsed_secs;
+  ini_set('max_execution_time', 150);
+}
 
 function get_taxonomy_parent_name($tid) {  
   $data_array = array();
