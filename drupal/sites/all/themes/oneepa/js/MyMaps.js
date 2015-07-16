@@ -5,7 +5,6 @@
 
     var jcarousel = $('.jcarousel').jcarousel();
 
-
     jcarousel
       .on('jcarousel:reload jcarousel:create', function() {
         var carousel = $(this),
@@ -23,36 +22,6 @@
         }
 
         carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
-
-        //need to add event listeners after items have been added to the DOM, not on page load
-        /*
-        still testing - another ticket
-        $(".thumb a").on("click", function(e) {
-          e.preventDefault();
-          var iframe = $('<iframe frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>');
-          var dialog = $("<div></div>").append(iframe).appendTo("body").dialog({
-            autoOpen: true,
-            modal: true,
-      resizable: true,
-      width: "100%",
-            height: "100%",
-            close: function() {
-              iframe.attr("src", "");
-            }
-          });
-
-          var src = $(this).attr("href");
-          var title = $(this).attr("title");
-          var width = '100%';
-          var height = '100%';
-          iframe.attr({
-            width: +width,
-            height: +height,
-            src: src
-          });
-          dialog.dialog("option", "title", title).dialog("open");
-        });
-      */
 
       })
       .jcarousel({
@@ -102,7 +71,7 @@
           var desc = "<p>" + this.description + "</p>"
           var hyperlinkURL = this.url;
           html += '<li><div class="item-border">';
-          html += '<a class="" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
+          html += '<a class="thumbhyperlink" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           html += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
           html += '<div class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</div>';
           //the description element can contain HTML markup so use .text to un-format the string
@@ -125,6 +94,8 @@
       //Update DOM with the number of displayed results/thumbnails
       $("#numThumbnails").prepend(numGoodResults.toString() + ' Maps  - ');
 
+
+      addClickListeners();
 
 
     };
@@ -152,6 +123,50 @@
           return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
         }
       });
+
+    }
+
+
+    function addClickListeners() {
+
+
+      $(".thumbhyperlink").on("click", function(e) {
+        console.log('thumbnail click');
+
+        e.preventDefault();
+        //workaround since dialog only accepts pixel size and not percentages for h/w
+        var wWidth = $(window).width();
+        var dWidth = wWidth * 0.8;
+        var wHeight = $(window).height();
+        var dHeight = wHeight * 0.8;
+
+        var iframe = $('<iframe frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>');
+        var dialog = $("<div id='mapiFrame' class='superPowers'></div>").append(iframe).appendTo("body").dialog({
+          autoOpen: false,
+          modal: true,
+          resizable: false,
+          width: dWidth,
+          height: dHeight,
+
+          close: function() {
+            iframe.attr("src", "");
+          }
+        });
+
+        var src = $(this).attr("href");
+        var title = $(this).attr("title");
+        iframe.attr({
+          width: '100%',
+          height: '100%',
+          src: src
+        });
+        dialog.dialog("option", "title", "SourceAgencyPlaceholder - " + title).dialog("open");
+        $('#mapiFrame').removeClass('.ui-widget-content');
+
+      });
+
+      jcarousel
+        .jcarousel('reload');
 
     }
 

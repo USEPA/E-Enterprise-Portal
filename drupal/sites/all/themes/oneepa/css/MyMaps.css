@@ -149,3 +149,26 @@
   height: 195px;
   width: 190px;
 }
+
+
+.superPowers {
+  height: 100% !important;
+  max-height: 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+/* what is this ridiculous jQuery UI default CSS breaking my code */
+.ui-dialog {
+  height: 80% !important;
+  max-height: 80% !important;
+  width: 80% !important;
+  max-width: 80% !important;
+}
+
+.ui-widget-content {
+  height: 80% !important;
+  max-height: 80% !important;
+  width: 80% !important;
+  max-width: 80% !important;
+  overflow-y: hidden !important;
+}
