@@ -11,6 +11,10 @@ function eenterprise_utility_menu() {
       'page callback' => 'get_taxonomy_parent_name',
       'access callback' => TRUE,
     );
+    $items['zip_code_lookup'] = array(
+      'page callback' => 'zip_code_lookup',
+      'access callback' => TRUE,
+    );
     return $items;
 } 
 
@@ -264,13 +268,48 @@ function clear_fields(&$form, &$form_state) {
   return $form['field_zip_code'];
 }
 
-function zip_code_lookup($zip) {
+// Params: zip code integer
+// Returns Assoc Array( city => , state => , latitude => , longitude => )
+// can be called by ajax with url arguments ?zip=_____
+function zip_code_lookup($zip = NULL, $return_data_type = 'php') {
+  $zip_data = array();
+  if (isset($_GET['zip'])) {
+    $zip = $_GET['zip'];
+    $return_data_type = 'json';
+  }
   if (strlen($zip) == 5) {
-  $request = drupal_http_request("http://api.zippopotam.us/us/$zip");
-  $response_array = json_decode($request->data);
-  $zip_places = $response_array->places[0];
-  $zip_string = $zip_places->{'place name'} . ', ' . $zip_places->{'state abbreviation'};
-  return $zip_string;
+      // first try zippopotam resource
+      $request = drupal_http_request("http://api.zippopotam.us/us/$zip");
+      $response_array = json_decode($request->data);
+      if (count($response_array) > 0) { // zippopotam returned result
+          $zip_places = $response_array->places[0];
+          $zip_string = $zip_places->{'place name'} . ', ' . $zip_places->{'state abbreviation'};
+          $zip_data = array(
+            'state' => $zip_places->{'state abbreviation'},
+            'city' => $zip_places->{'place name'},
+            'latitude' => (float) $zip_places->{'latitude'},
+            'longitude' => (float) $zip_places->{'longitude'},
+                );
+      }
+      else { // Query air_now_city_zip_codes with zip code
+        $db_result = db_select('air_now_city_zip_codes', 'n')
+          ->fields('n')
+          ->condition('zipcode', $zip,'=')
+          ->execute()
+          ->fetchAssoc();
+        $zip_data = array(
+          'state' => $db_result['State'],
+          'city' => $db_result['City'],
+          'longitude' => (float) $db_result['Longitude'],
+          'latitude' => (float) $db_result['latitude'],
+        );
+     }
+      if ($return_data_type == 'php') {
+        return $zip_data;
+      }
+      else {
+        print json_encode($zip_data);
+      }
   }
 }
 
@@ -431,16 +470,21 @@ function eenterprise_utility_user_view($account, $view_mode, $langcode){
 function get_header_variables(){
     //the value for now is hardcoded not to block front end developers while backend developers investigate API endpoints to get data from CDX
     //TODO: Call appropriate APIs to get the data for this function.
+    global $user;
+    $user_data = user_load($user->uid);
+    $user_zips = $user_data->field_zip_code;
+    $locations_array = array();
+    foreach($user_zips[LANGUAGE_NONE] as $key=>$value) {
+        $zipcode = $value['value'];
+        $zipcode_data = zip_code_lookup($zipcode);
+        $locations_array[$zipcode] = $zipcode_data['city'] . ', ' . $zipcode_data['state']; 
+    }
     $header_data = array('header_text' => 'New for Your Favorite Cities',
         'activities' => 7,
         'reports' => 1,
         'permits' => 3,
         'data_sets' => 13,
-        'locations' => array(
-            'primary_location' => 'Austin, TX',
-            'location2' => 'Poughkeepsie, NY',
-            'location3' => 'San Jose, CA'
-        ),
+        'locations' => $locations_array,
     );
     return $header_data;
 }
