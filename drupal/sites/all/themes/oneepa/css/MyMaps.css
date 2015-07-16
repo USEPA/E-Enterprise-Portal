@@ -18,19 +18,6 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  border-width: 12px 12px 12px 0;
-  border-style: solid;
-  -webkit-border-image:
-    -webkit-gradient(linear, 0 0, 100% 0, from(#fafafa), to(rgba(255, 255, 255, 255))) 1 100%;
-  -webkit-border-image:
-    -webkit-linear-gradient(left, #fafafa, rgba(255, 255, 255, 255)) 1 100%;
-  -moz-border-image:
-    -moz-linear-gradient(left, #fafafa, rgba(255, 255, 255, 255)) 1 100%;
-  -o-border-image:
-    -o-linear-gradient(left, #fafafa, rgba(255, 255, 255, 255)) 1 100%;
-  border-image:
-    linear-gradient(to left, #fafafa, rgba(255, 255, 255, 255)) 1 100%;
-    padding:0;
 }
 
 .jcarousel ul {
@@ -43,23 +30,26 @@
 
 .jcarousel li {
   float: left;
-  height: 200px;
-  width: 200px !important;
-  margin-right: 5px;
-  border: 1px solid #dedede;
+  /*height: 200px;*/
+  width: 200px;
+  margin-right: 2px;
+  margin-left: 2px;
   background-color: #fff;
   padding: 5px;
 }
 
 .jcarousel img {
-  max-height: 141px;
+  max-height: 121px;
   max-width: 100%;
-  border: 1px solid #efefef;
 }
 
 .jcarousel .loading {
   text-align: center;
   line-height: 90px;
+}
+
+.jcarousellink {
+
 }
 
 .jcarousel-control-prev,
@@ -80,14 +70,15 @@
   -webkit-box-shadow: 0 0 2px #999;
   -moz-box-shadow: 0 0 2px #999;
   box-shadow: 0 0 2px #999;
+  z-index: 10;
 }
 
 .jcarousel-control-prev {
-  left: -30px;
+  left: -25px;
 }
 
 .jcarousel-control-next {
-  right: -30px;
+  right: -25px;
 }
 
 .jcarousel-control-prev:hover span,

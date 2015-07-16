@@ -1,21 +1,59 @@
 (function($) {
+
+
   $(function() {
+
     var jcarousel = $('.jcarousel').jcarousel();
 
-    //add rudimentary responsiveness
+
     jcarousel
       .on('jcarousel:reload jcarousel:create', function() {
         var carousel = $(this),
           width = carousel.innerWidth();
 
-        if (width >= 600) {
-          console.log(width);
-          width = ((width - 20) / 3);
+        //add rudimentary responsiveness
+        if (width >= 1100) {
+          width = (width / 5) - 4;
+        } else if (width >= 850) {
+          width = (width / 4) - 4;
+        } else if (width >= 600) {
+          width = (width / 3) - 4;
         } else if (width >= 350) {
-          width = (width - 20) / 2;
+          width = (width / 2) - 4;
         }
 
         carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
+
+        //need to add event listeners after items have been added to the DOM, not on page load
+        /*
+        still testing - another ticket
+        $(".thumb a").on("click", function(e) {
+          e.preventDefault();
+          var iframe = $('<iframe frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>');
+          var dialog = $("<div></div>").append(iframe).appendTo("body").dialog({
+            autoOpen: true,
+            modal: true,
+      resizable: true,
+      width: "100%",
+            height: "100%",
+            close: function() {
+              iframe.attr("src", "");
+            }
+          });
+
+          var src = $(this).attr("href");
+          var title = $(this).attr("title");
+          var width = '100%';
+          var height = '100%';
+          iframe.attr({
+            width: +width,
+            height: +height,
+            src: src
+          });
+          dialog.dialog("option", "title", title).dialog("open");
+        });
+      */
+
       })
       .jcarousel({
         //could use circular here
@@ -50,7 +88,7 @@
 
     //create the thumbnail gallery from the API query results
     function setupGallery(data) {
-      var html = '<ul>';
+      var html = '<ul class="thumb">';
       var numGoodResults = 0;
       var thumbnailNum = 0;
       //generate each thumbnail and only load it if non-default thumbnail image and a good hyperlink
@@ -63,8 +101,9 @@
           //and all tags are remove with .text(), including descriptions which has no HTML markup which would normally throw an error
           var desc = "<p>" + this.description + "</p>"
           var hyperlinkURL = this.url;
-          html += '<li><a href="' + hyperlinkURL + '" target="_blank">'
-          html += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" href="' + hyperlinkURL + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
+          html += '<li>';
+          html += '<a class="" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
+          html += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
           html += '<div class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</div>';
           //the description element can contain HTML markup so use .text to un-format the string
           html += '<div class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</div>';
@@ -85,6 +124,9 @@
       $(".ellipsis").trigger("update.dot");
       //Update DOM with the number of displayed results/thumbnails
       $("#numThumbnails").prepend(numGoodResults.toString() + ' Maps  - ');
+
+
+
     };
 
 
@@ -93,7 +135,7 @@
       $.ajax({
         type: 'GET',
         url: 'https://epa.maps.arcgis.com/sharing/rest/search',
-        async: false,
+        async: true,
         //hardcoded string for EPA  GPO (AGOL) query - hardcoded query for empty string (wildcard) - later to implement tag search or similar for filtering based on dynamic criteria
         data: {
           q: ' orgid:cJ9YHowT8TU7DUyn orgid:cJ9YHowT8TU7DUyn (type:"Web Mapping Application" OR type:"Mobile Application" OR type:"Application" OR type:"Desktop Application Template" OR type:"Desktop Application" OR type:"Operation View") -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration" -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration"',
