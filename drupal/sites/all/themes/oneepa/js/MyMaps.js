@@ -101,13 +101,13 @@
           //and all tags are remove with .text(), including descriptions which has no HTML markup which would normally throw an error
           var desc = "<p>" + this.description + "</p>"
           var hyperlinkURL = this.url;
-          html += '<li>';
+          html += '<li><div class="item-border">';
           html += '<a class="" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           html += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
           html += '<div class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</div>';
           //the description element can contain HTML markup so use .text to un-format the string
           html += '<div class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</div>';
-          html += '</li>';
+          html += '</div></li>';
         }
       });
       html += '</ul>';
