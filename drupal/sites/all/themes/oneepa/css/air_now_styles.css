@@ -1,11 +1,18 @@
+#my-air-quality-chart div.my-air-quality-chart-container {
+  position:relative;
+  padding:0;
+  padding-bottom: 100%;
+  height:0;
+}
+
 #my-air-quality-chart text {
-	font-family: Lato, sans-serif;
-	fill: #454545;
-	font-size: 75%;
+  font-family: Lato, sans-serif;
+  fill: #454545;
+  font-size: 75%;
 }
 
 #my-air-quality-chart .aqi-location {
-	font-size: 95%;
+  font-size: 95%;
 }
 
 #my-air-quality-chart .popover {

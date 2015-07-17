@@ -147,21 +147,27 @@
       return categoryBounds.length - 2;
     }
 
-    function showPopover(obj, d) {
+    function showPopover(obj, aqi) {
+      showPopoverFromCategoryIndex(obj, getCategoryInfoIndex(aqi));
+    }
+
+    function showPopoverFromCategoryIndex(obj, categoryInfoIndex) {
       var popover = d3.select(".popover");
       var $popover = $(popover.node());
       
       var bound = obj.getBoundingClientRect();
 
-      var info = categoryInfo[getCategoryInfoIndex(d)];
+      var info = categoryInfo[categoryInfoIndex];
 
       popover.html('<div class="arrow"></div><h3 class="popover-title">'
         +info.header
         +'</h3><div class="popover-content">'+info.body+'</div>'
       );
 
-      popover.style("left", bound.left + window.scrollX + 25 + "px" );
-      popover.style("top", bound.top + window.scrollY - $popover.height()/2 + "px");
+      popover.style({
+        "left": bound.left + window.pageXOffset + obj.clientWidth + 40 + "px",
+        "top": bound.top + window.pageYOffset - $popover.height()/2 + "px"
+      });
 
       $popover.show();
     }
@@ -175,10 +181,16 @@
       var words = el.text().split('/');
       el.text('');
 
-      for (var i = 0; i < words.length; i++) {
-        var tspan = el.append('tspan').html(words[i]);
-        if (i > 0)
-          tspan.attr('x', 0).attr('dy', '18');
+      for (var i = 0, j = 0; i < words.length; i++) {
+        if (words[i]) {
+          var tspan = el.append('tspan').text(words[i]);
+          if (j > 0) {
+            tspan.attr('x', 0).attr('dy', '18');
+          }
+          j++;
+        } else {
+          el.attr('y', 27);
+        }
       }
     }
 
@@ -283,15 +295,28 @@
     function xx(e) { return x(getDate(e.DateForecast)); };
     function yy(e) { return y(e.AQI); };
 
+    var container = d3.select("#my-air-quality-chart").append('div').attr('class', 'my-air-quality-chart-container');
+    
+    container.style("padding-bottom", (100 * (h + m[0] + m[2]) / (w + m[1] + m[3])) + "%"); 
+
     // Add an SVG element with the desired dimensions and margin.
-    var graph = d3.select("#my-air-quality-chart").append("svg:svg")
+    var graph = container.append("svg:svg")
     // .attr("width", w + m[1] + m[3])
     // .attr("height", h + m[0] + m[2])
-    .style("width", "100%")
-    .style("max-width", (w + m[1] + m[3]) + "px")
+    .style({
+      "width": "100%",
+      "height": "100%",
+      // "overflow": "visible",
+      // "padding-bottom": "99.99%",
+      "position": "absolute",
+      "left": 0,
+      "top": 0
+    }).style("max-width", (w + m[1] + m[3]) + "px")
+    // .style("max-height", (h + m[0] + m[2]) + "px")
     .attr("viewBox", "0 0 " + (w + m[1] + m[3]) + " " + (h + m[0] + m[2]))
-    .attr("preserveAspectRatio", "xMidYMid")
+    // .attr("preserveAspectRatio", "xMidYMin slice")
     .attr("aria-labelledby", "my-air-quality-chart-title")
+    .attr("version", "1.1")
     .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
@@ -322,9 +347,9 @@
     // Create xAxis
     var xAxis = d3.svg.axis().scale(x).ticks(d3.time.days, 1).tickFormat(function(date){
       var distanceFromTodayLabel = distanceFromToday[dateDiffInDays(new Date(), date)];
-      return ((distanceFromTodayLabel ? distanceFromTodayLabel : '&nbsp;') 
+      return ((distanceFromTodayLabel ? distanceFromTodayLabel : '') 
              + '/' + d3.time.format("%a/%b %d")(date));
-    });;
+    });
     // Add the x-axis.
     graph.append("svg:g")
     .attr("class", "x axis")
@@ -363,7 +388,9 @@
     .attr("class", function(cat, i) { 
       return 'category-label' + ( !todayData || i !=  getCategoryInfoIndex(todayData.AQI) ? '' 
              : ' active-category-text') 
-    });
+    })
+    .on("mouseover", function(d, i) { showPopoverFromCategoryIndex(this, i);})
+    .on("mouseout", function(){ hidePopover();});
 
     // Add the line by appending an svg:path element with the data line we created above
     graph.append("svg:path").attr("d", line(data));
@@ -407,16 +434,10 @@
     var tooltip = d3.select('#my-air-quality-chart')
     .append("div")
     .attr("class", "popover right");
+  }
 
-    /*
-var map = d3.select("#my-air-quality-chart")
-      .append("img")
-      .attr("src", getMap(formatDate(new Date(), "")))
-      .attr("title", "Today's AQI Forecast")
-      .attr("alt", "Today's AQI Forecast")
-      .attr("id", "my-air-quality-map");
-*/
-
+  var drawError = function(msg) {
+    d3.select("#my-air-quality-chart").append('div').text(msg);
   }
 
   var draw = function() {
@@ -480,13 +501,14 @@ var map = d3.select("#my-air-quality-chart")
 
       if (data.length > 0)
         drawChart(data);
-      else { // use default zip code, DC
-        params.zipCode = '20002'; // DC
-        $.getJSON(endpoint, params, function(responseData) {
-          data = parseData(responseData);
-          if (data.length > 0)
-            drawChart(data);
-        });
+      else { // no data; show message
+        drawError('Air quality information is not available for this location.');
+        // params.zipCode = '20002'; // DC
+        // $.getJSON(endpoint, params, function(responseData) {
+          // data = parseData(responseData);
+          // if (data.length > 0)
+            // drawChart(data);
+        // });
       }
     });
   }
