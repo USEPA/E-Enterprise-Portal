@@ -30,23 +30,20 @@ function test_load_air_now_us_data(){
     echo '<h1> Case1: Empty CSV from resource- load from local file, db is empty</h1>';
     db_truncate('air_now_city_zip_codes')->execute();
     load_air_now_us_data('http://www.epa.gov/airnow/today/cityzipcodes.csv', false);
-    echo '<h1> Case2: Empty CSV from resource- load from local file, db is loaded</h1>';
+    echo '<h1> Case2: Empty CSV from resource- load from local file, db has data.</h1>';
     load_air_now_us_data('http://www.epa.gov/airnow/today/cityzipcodes.csv', false);
     echo '<h1> Case3: CSV provided from resource- db has data. </h1>';
     load_air_now_us_data('cityzipcodes.csv', true);
     echo '<h1> Case4: CSV provided from resource- db empty. </h1>';
     db_truncate('air_now_city_zip_codes')->execute();
     load_air_now_us_data('cityzipcodes.csv', true);
-  }
+ }
 
 
-function load_air_now_us_data($url, $url_bool) {
+function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv', $url_bool = false) {
   // set php.ini max execution to 1500 temporarily for this processing
-   ini_set('max_execution_time', 1500);
-
+  ini_set('max_execution_time', 1500);
   $start = microtime(true);
-
-  //$url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv';
   $csvData = file_get_contents($url, $url_bool);
   $lines = explode(PHP_EOL, $csvData);
   if (count($lines) <= 1) {
@@ -69,8 +66,12 @@ function load_air_now_us_data($url, $url_bool) {
     echo '<p> emptying previous results for latest data from resource. </p>';
     db_truncate('air_now_city_zip_codes')->execute();
     // insert new data
+    $first_line = $lines[0];
+    // Check resource column order
+    if ($first_line != 'City|State|Zipcode|Latitude|Longitude,') { 
+      exit();
+    }
     foreach (array_slice($lines,1) as $line) {
-
       // Data returned of format City|State|Zipcode|Latitude|Longitude
       $data_line = str_getcsv($line, '|');
      if ($data_line[3] == '') {
