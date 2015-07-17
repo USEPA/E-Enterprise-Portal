@@ -18,38 +18,57 @@ function eenterprise_utility_menu() {
       'page callback' => 'zip_code_lookup',
       'access callback' => TRUE,
     );
+    $items['test_load_air_now_us_data'] = array(
+      'page callback' => 'test_load_air_now_us_data',
+      'access callback' => TRUE,
+    );
     return $items;
 } 
 
+function test_load_air_now_us_data(){
+    // run testbench
+    echo '<h1> Case1: Empty CSV from resource- load from local file, db is empty</h1>';
+    db_truncate('air_now_city_zip_codes')->execute();
+    load_air_now_us_data('http://www.epa.gov/airnow/today/cityzipcodes.csv', false);
+    echo '<h1> Case2: Empty CSV from resource- load from local file, db is loaded</h1>';
+    load_air_now_us_data('http://www.epa.gov/airnow/today/cityzipcodes.csv', false);
+    echo '<h1> Case3: CSV provided from resource- db has data. </h1>';
+    load_air_now_us_data('cityzipcodes.csv', true);
+    echo '<h1> Case4: CSV provided from resource- db empty. </h1>';
+    db_truncate('air_now_city_zip_codes')->execute();
+    load_air_now_us_data('cityzipcodes.csv', true);
+  }
 
-function load_air_now_us_data() {
-  // set php.ini max execution to 2000 temporarily for this processing
-  ini_set('max_execution_time', 1500);
+
+function load_air_now_us_data($url, $url_bool) {
+  // set php.ini max execution to 1500 temporarily for this processing
+   ini_set('max_execution_time', 1500);
+
   $start = microtime(true);
 
-  $url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv';
-  $csvData = file_get_contents($url);
+  //$url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv';
+  $csvData = file_get_contents($url, $url_bool);
   $lines = explode(PHP_EOL, $csvData);
   if (count($lines) <= 1) {
-      echo '<p> no online resource</p>';
+      echo '<p> There was no data available in online resource</p>';
       //first check if db has been updated, then no changes need to be made
       $results = db_select('air_now_city_zip_codes')->fields(NULL, array('zipcode'))->execute()->fetchAll();
       $count = count($results);
       if ($count == 0) { // no data in db, update from local
-        echo '<p> no db data</p>';
+        echo '<p> There is no Air Now data loaded in the database, loading from local file.</p>';
         $csvData = file_get_contents('cityzipcodes.csv', true);
         $lines = explode(PHP_EOL, $csvData);
       }
       else { //No need to change anything, database has results and nothing from data source
-        echo '<p> db data</p>';
+        echo '<p> There is already Air Now data, no update needed.</p>';
         ini_set('max_execution_time', 150);
         exit();
       }
     }
     // clear table
+    echo '<p> emptying previous results for latest data from resource. </p>';
     db_truncate('air_now_city_zip_codes')->execute();
     // insert new data
-    var_dump(count($lines));
     foreach (array_slice($lines,1) as $line) {
 
       // Data returned of format City|State|Zipcode|Latitude|Longitude
@@ -72,7 +91,10 @@ function load_air_now_us_data() {
       }
     }
     $time_elapsed_secs = microtime(true) - $start;
-    echo $time_elapsed_secs;
+    echo '<p> the database has been updated in' . $time_elapsed_secs . ' seconds';
+     $results = db_select('air_now_city_zip_codes')->fields(NULL, array('zipcode'))->execute()->fetchAll();
+      $count = count($results);
+      echo '<p> Table air_now_city_zip_codes now has ' . $count . ' rows.</p>';
     ini_set('max_execution_time', 150);
 }
 
