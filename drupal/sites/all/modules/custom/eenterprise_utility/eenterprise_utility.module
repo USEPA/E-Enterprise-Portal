@@ -30,15 +30,32 @@ function load_air_now_us_data() {
   $url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv';
   $csvData = file_get_contents($url);
   $lines = explode(PHP_EOL, $csvData);
-  if (count($lines) > 0) {
+  if (count($lines) <= 1) {
+      echo '<p> no online resource</p>';
+      //first check if db has been updated, then no changes need to be made
+      $results = db_select('air_now_city_zip_codes')->fields(NULL, array('zipcode'))->execute()->fetchAll();
+      $count = count($results);
+      if ($count == 0) { // no data in db, update from local
+        echo '<p> no db data</p>';
+        $csvData = file_get_contents('cityzipcodes.csv', true);
+        $lines = explode(PHP_EOL, $csvData);
+      }
+      else { //No need to change anything, database has results and nothing from data source
+        echo '<p> db data</p>';
+        ini_set('max_execution_time', 150);
+        exit();
+      }
+    }
     // clear table
     db_truncate('air_now_city_zip_codes')->execute();
     // insert new data
+    var_dump(count($lines));
     foreach (array_slice($lines,1) as $line) {
+
       // Data returned of format City|State|Zipcode|Latitude|Longitude
       $data_line = str_getcsv($line, '|');
      if ($data_line[3] == '') {
-       $data_line[3] = NULL;
+      $data_line[3] = NULL;
      }
      if ($data_line[4] == '') {
        $data_line[4] = NULL;
@@ -49,19 +66,14 @@ function load_air_now_us_data() {
           'City' => $data_line[0],
           'State' => $data_line[1],
           'Zipcode' => $data_line[2],
-          'Latitude' => $data_line[3],
-          'Longitude' => $data_line[4],
+          'Latitude' => (float) $data_line[3],
+          'Longitude' => (float) $data_line[4],
           ))->execute();
       }
     }
-  }
-  else {
+    $time_elapsed_secs = microtime(true) - $start;
+    echo $time_elapsed_secs;
     ini_set('max_execution_time', 150);
-    exit(); // failed to retrieve data
-  }
-  $time_elapsed_secs = microtime(true) - $start;
-  echo $time_elapsed_secs;
-  ini_set('max_execution_time', 150);
 }
 
 function get_taxonomy_parent_name($tid) {  
@@ -462,21 +474,18 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
          $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
          $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value'] = '';
          $form_state['input']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
-     // dpm( $form_state['values']['field_profile_favourites'][LANGUAGE_NONE]);
-      //     dpm( $form_state['input']['field_profile_favourites'][LANGUAGE_NONE]);
    }
    else {
       foreach($form_state['values']['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
-         if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
-           $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][$delta]['value'] = '';
-           $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][$delta]['value'] = '';
+         if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
+           unset($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]);
          }
          // if title is empty, set it to given url
-         // else if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']) == '' ) {
-          //     $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][$delta]['value'] = 
-          //         $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][$delta]['value'];
-         // }
-}
+         if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']) == '' ) {
+              $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] = 
+                  $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
+         }
+      }
    }
  }
     
