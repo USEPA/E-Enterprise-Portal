@@ -2,11 +2,12 @@
   "use strict";
 
   $(document).ready(function () { 
-    var $select = $('select.location-select');
+    var $select = $('select#location-select');
 
     $select.change(function() {
-      console.log($(this).val(), $(this).text());
-      draw($(this).val(), $(this).text()); 
+      var zip = $(this).val();
+      var locationText = $(this).find('option:selected').text();
+      draw(zip, locationText); 
     });
 
     $select.trigger('change');
@@ -23,7 +24,7 @@
     return [year, month, day].join(delimiter);
   }
 
-  var drawChart = function(data) {
+  var drawChart = function(data, locationText) {
 
   drawMessage('');
 
@@ -439,7 +440,7 @@
     .attr("y", -m[0]/2)
     .attr("text-anchor", "middle") 
     .attr("class", "aqi-location") 
-    .text(data[0].ReportingArea + ', ' + data[0].StateCode);
+    .text(locationText);
 
     // Append popover
     var tooltip = d3.select('#my-air-quality-chart')
@@ -451,7 +452,7 @@
     d3.select("#my-air-quality-chart").html(msg);
   }
 
-  var draw = function(zipCode) {
+  var draw = function(zipCode, locationText) {
 
     function parseData(responseData) {
       var data = [];
@@ -505,9 +506,9 @@
       var data = parseData(responseData);
 
       if (data.length > 0)
-        drawChart(data);
+        drawChart(data, locationText);
       else { // no data; show message
-        drawMessage('Air quality information is not available for this location.');
+        drawMessage('Air quality information is not available for '+locationText+'.');
       }
     });
   }
