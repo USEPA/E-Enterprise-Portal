@@ -1,7 +1,10 @@
 (function ($) {
   "use strict";
 
-  $(document).ready(function () { 
+  $(document).ready(function () {
+
+    $("#my-air-quality-chart-tabs").tabs();
+
     var $select = $('select#location-select');
 
     $select.change(function() {

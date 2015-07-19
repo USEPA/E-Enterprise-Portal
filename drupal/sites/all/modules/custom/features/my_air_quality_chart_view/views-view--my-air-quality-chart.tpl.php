@@ -26,9 +26,12 @@
  *
  * @ingroup views_templates
  */
-//drupal_add_js("http://code.jquery.com/jquery-1.10.0.min.js", "file");
+drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", "file");
 drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", "file");
+drupal_add_js("sites/all/libraries/globalassets/scripts/assets.core.js");
 drupal_add_js(drupal_get_path('module', 'my_air_quality_chart_view') ."/js/air_now_js.js", "file");
+
+drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "file");
 drupal_add_css(drupal_get_path('module', 'my_air_quality_chart_view') ."/css/air_now_styles.css", "file");
 ?>
 <div class="<?php print $classes; ?>">
@@ -57,7 +60,16 @@ drupal_add_css(drupal_get_path('module', 'my_air_quality_chart_view') ."/css/air
 
   <?php if ($rows): ?>
     <div class="view-content">
-      <div id="my-air-quality-chart"></div>
+      <div id="my-air-quality-chart-tabs">
+        <ul>
+          <li><a href="#my-air-quality-chart">Air Quality</a></li>
+          <li><a href="#tabs-2">AirNow Maps</a></li>
+        </ul>
+        <div id="my-air-quality-chart">
+        </div>
+        <div id="tabs-2">
+        </div>
+      </div>
       <?php //print $rows; ?>
     </div>
   <?php elseif ($empty): ?>
