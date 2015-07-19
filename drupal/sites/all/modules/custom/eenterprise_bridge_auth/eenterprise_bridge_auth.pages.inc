@@ -216,13 +216,16 @@ function create_progress_tracker($user){
 function _update_progress_tracker_to_do_item($query_res, $res){
     $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
     $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res['entity_id']))->fetchField();
+
+    $cdx_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
+
     //If description field is updated...
     if($res_title != $res['ActivityDesc']){
         node_delete($query_res['entity_id']);
         return true;
     }
     //if status field is updated...
-    else if($res_status != $res['Status']){
+    else if(!empty($res_status) && ($res_status != $cdx_status)){
         node_delete($query_res['entity_id']);
         return true;
     }
@@ -248,10 +251,7 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_tracker_app['und'][0]['format'] = null;
             $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
 
-            if($res['Status'] == 'IN_PROGRESS')
-                $res_status = 'In Progress';
-            else
-                $res_status = ucwords(strtolower($res['Status']));
+            $res_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
 
             $node->field_prog_track_status['und'][0]['value'] = $res_status;
             $node->field_prog_track_status['und'][0]['format'] = null;
