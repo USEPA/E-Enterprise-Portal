@@ -8,7 +8,7 @@ function air_emissions_view_init() {
 
   global $user;
 
-  $account = user_load(array('uid'=>$user->uid));
+  $account = user_load($user->uid);
   $zip = $account->field_zip_code['und'][0]['value'];
   $my_variables = array('field_zip_code' => $zip);
 

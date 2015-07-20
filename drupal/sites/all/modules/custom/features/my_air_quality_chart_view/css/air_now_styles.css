@@ -1,0 +1,142 @@
+#my-air-quality-air-now-map-container { 
+  width:100%;
+  height:300px;
+}
+
+#my-air-quality-chart div.my-air-quality-chart-container {
+  position:relative;
+  padding:0;
+  padding-bottom: 100%;
+  height:0;
+}
+
+#my-air-quality-chart text {
+	font-family: Lato, sans-serif;
+	fill: #454545;
+	font-size: 75%;
+}
+
+#my-air-quality-chart .aqi-location {
+	font-size: 95%;
+}
+
+#my-air-quality-chart .popover {
+  pointer-events:none;
+}
+
+#my-air-quality-chart svg {
+  display: block;
+}
+
+#my-air-quality-chart path {
+  stroke: #454545;
+  stroke-width: 2;
+  fill: none;
+}
+.axis { shape-rendering: crispEdges; }
+.y.axis line { stroke: lightgrey; }
+.x.axis .minor { stroke-opacity: .5; }
+.x.axis path { display: none; }
+.y.axis path {
+  display:none;
+}
+
+#my-air-quality-chart tspan {
+  margin-bottom: 5px;
+  fill: inherit;
+}
+
+#my-air-quality-chart text.chart-title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#my-air-quality-chart text.category-label {
+  font-weight: normal;
+  fill: #333;
+  font-size: 75%;
+}
+
+#my-air-quality-chart text.active-category-text {
+  font-size: 115%;
+  font-weight: bold;
+  fill: #333;
+}
+
+#my-air-quality-chart text.active-date-text {
+  font-weight: bold;
+}
+
+#my-air-quality-chart .section-good {
+  /*fill: #00e400;*/
+  fill: #73cd93;
+  stroke: none;
+}
+
+#my-air-quality-chart .section-moderate {
+  /*fill: #ffff00;*/
+  fill: #f6f467;
+  stroke: none;
+}
+
+#my-air-quality-chart .section-unhealthy-for-sensitive {
+  /*fill: #ff7e00;*/
+  fill: #f89b63;
+  stroke: none;
+}
+
+#my-air-quality-chart .section-unhealthy {
+  /*fill: #ff0000;*/
+  fill: #d84a4a;
+  stroke: none;
+}
+
+#my-air-quality-chart .section-very-unhealthy {
+  /*fill: #99004c;*/
+  fill: #A53B6C;
+  stroke: none;
+}
+
+#my-air-quality-chart .section-hazardous {
+  /*fill: #7e0023;*/
+  fill: #84347E;
+  stroke: none;
+}
+
+#my-air-quality-chart .popover {
+  font-family: Helvetica Neue,Segoe UI,sans-serif;
+}
+
+#my-air-quality-chart table.at-risk-populations {
+  width: 100%;
+}
+
+#my-air-quality-chart table.at-risk-populations th {
+  text-align: left;
+  font-weight: normal;
+  width: 30%;
+}
+
+#my-air-quality-chart table.at-risk-populations td {
+  text-align: center;
+  padding: 5px;
+}
+
+#my-air-quality-chart image.at-risk-icon {
+  height: 40px;
+  width: 40px;
+  margin:5px;
+}
+
+#my-air-quality-chart text.at-risk-item,
+#my-air-quality-chart tspan.at-risk-item {
+  font-size:12px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+#my-air-quality-chart text.at-risk-item-large,
+#my-air-quality-chart tspan.at-risk-item-large {
+  font-size:40px;
+  display:block;
+}

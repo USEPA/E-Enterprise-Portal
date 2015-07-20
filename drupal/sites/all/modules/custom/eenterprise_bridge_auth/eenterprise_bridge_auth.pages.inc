@@ -118,6 +118,7 @@ function eenterprise_bridge_auth_authenticate($error) {
             else{
                 $uname = $username;
             }
+            trusted_user_check($uname);
             $ext_user = user_external_load($uname);
             if(!$ext_user){
                 //user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
@@ -147,6 +148,20 @@ function eenterprise_bridge_auth_authenticate($error) {
     drupal_goto('workbench');
 }
 
+/*
+ * Implement a function to filter users to deny authentication from a predefined list. The list maintained in
+ * trusted_user content type.
+ */
+function trusted_user_check($uname){
+    $trusted_users = db_query("select nid, title from {node} where type = :node_type", array(":node_type" => "trusted_user"))->fetchAllKeyed();
+    if(in_array(strtolower($uname), $trusted_users) || in_array(strtoupper($uname), $trusted_users))
+        ;  //if user is trusted Do Nothing, authentication will resume.
+    else{
+        drupal_set_message(t("Sorry, you are not authorized to access this application."), "error");
+        drupal_goto("/");
+        return;
+    }
+}
 
 function create_progress_tracker($user){
     try {
@@ -216,13 +231,16 @@ function create_progress_tracker($user){
 function _update_progress_tracker_to_do_item($query_res, $res){
     $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
     $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res['entity_id']))->fetchField();
+
+    $cdx_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
+
     //If description field is updated...
     if($res_title != $res['ActivityDesc']){
         node_delete($query_res['entity_id']);
         return true;
     }
     //if status field is updated...
-    else if($res_status != $res['Status']){
+    else if(!empty($res_status) && ($res_status != $cdx_status)){
         node_delete($query_res['entity_id']);
         return true;
     }
@@ -248,10 +266,7 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_tracker_app['und'][0]['format'] = null;
             $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
 
-            if($res['Status'] == 'IN_PROGRESS')
-                $res_status = 'In Progress';
-            else
-                $res_status = ucwords(strtolower($res['Status']));
+            $res_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
 
             $node->field_prog_track_status['und'][0]['value'] = $res_status;
             $node->field_prog_track_status['und'][0]['format'] = null;

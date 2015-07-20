@@ -5,21 +5,127 @@
   
 
 function eenterprise_utility_menu() {
-
   $items =array();
     $items['get_taxonomy_parent_name'] = array(
       'page callback' => 'get_taxonomy_parent_name',
+      'access callback' => TRUE,
+    );
+    $items['load_air_now_us_data'] = array(
+      'page callback' => 'load_air_now_us_data',
       'access callback' => TRUE,
     );
     $items['zip_code_lookup'] = array(
       'page callback' => 'zip_code_lookup',
       'access callback' => TRUE,
     );
+
+    $items['test_load_air_now_us_data'] = array(
+      'page callback' => 'test_load_air_now_us_data',
+      'access callback' => TRUE,
+     );
+    $items['guest_login'] = array(
+        'page callback' => 'guest_login_action',
+        'access callback' => TRUE,
+    );
     return $items;
 } 
 
+function test_load_air_now_us_data(){
+    // run testbench
+    echo '<h1> Case1: Empty CSV from resource- load from local file, db is empty</h1>';
+    db_truncate('air_now_city_zip_codes')->execute();
+    load_air_now_us_data('http://www.epa.gov/airnow/today/cityzipcodes.csv', false);
+    echo '<h1> Case2: Empty CSV from resource- load from local file, db has data.</h1>';
+    load_air_now_us_data('http://www.epa.gov/airnow/today/cityzipcodes.csv', false);
+    echo '<h1> Case3: CSV provided from resource- db has data. </h1>';
+    load_air_now_us_data('cityzipcodes.csv', true);
+    echo '<h1> Case4: CSV provided from resource- db empty. </h1>';
+    db_truncate('air_now_city_zip_codes')->execute();
+    load_air_now_us_data('cityzipcodes.csv', true);
+ }
 
 
+
+/*
+ * A function that implements guest login capability. Login a guest using a pre-defined username, role and password
+ * The role will restrict the user from accessing parts of the portal guests are not supposed to access.
+ */
+function guest_login_action(){
+    global $user;
+    if($user->uid != 0)
+        drupal_goto("/");
+    else{
+        $uid = user_authenticate("guest-user", "Gu35t_u53r!!");
+        $user = user_load($uid);
+        watchdog('guest_user', 'Session opened for %name.', array('%name' => $user->name));
+        $user->login = REQUEST_TIME;
+        db_update('users')
+            ->fields(array('login' => $user->login))
+            ->condition('uid', $user->uid)
+            ->execute();
+        drupal_session_regenerate();
+        drupal_goto("/");
+    }
+}
+
+function load_air_now_us_data() {
+  // set php.ini max execution to 1500 temporarily for this processing
+  ini_set('max_execution_time', 1500);
+  $start = microtime(true);
+  $csvData = file_get_contents($url, $url_bool);
+  $lines = explode(PHP_EOL, $csvData);
+  if (count($lines) <= 1) {
+      echo '<p> There was no data available in online resource</p>';
+      //first check if db has been updated, then no changes need to be made
+      $results = db_select('air_now_city_zip_codes')->fields(NULL, array('zipcode'))->execute()->fetchAll();
+      $count = count($results);
+      if ($count == 0) { // no data in db, update from local
+        echo '<p> There is no Air Now data loaded in the database, loading from local file.</p>';
+        $csvData = file_get_contents('cityzipcodes.csv', true);
+        $lines = explode(PHP_EOL, $csvData);
+      }
+      else { //No need to change anything, database has results and nothing from data source
+        echo '<p> There is already Air Now data, no update needed.</p>';
+        ini_set('max_execution_time', 150);
+        exit();
+      }
+    }
+    // clear table
+    echo '<p> emptying previous results for latest data from resource. </p>';
+    db_truncate('air_now_city_zip_codes')->execute();
+    // insert new data
+    $first_line = $lines[0];
+    // Check resource column order
+    if ($first_line != 'City|State|Zipcode|Latitude|Longitude,') { 
+      exit();
+    }
+    foreach (array_slice($lines,1) as $line) {
+      // Data returned of format City|State|Zipcode|Latitude|Longitude
+      $data_line = str_getcsv($line, '|');
+     if ($data_line[3] == '') {
+      $data_line[3] = NULL;
+     }
+     if ($data_line[4] == '') {
+       $data_line[4] = NULL;
+     }
+     if ($data_line[0] != '') {
+        db_insert('air_now_city_zip_codes') // Table name no longer needs {}
+          ->fields(array(
+          'City' => $data_line[0],
+          'State' => $data_line[1],
+          'Zipcode' => $data_line[2],
+          'Latitude' => (float) $data_line[3],
+          'Longitude' => (float) $data_line[4],
+          ))->execute();
+      }
+    }
+    $time_elapsed_secs = microtime(true) - $start;
+    echo '<p> the database has been updated in' . $time_elapsed_secs . ' seconds';
+     $results = db_select('air_now_city_zip_codes')->fields(NULL, array('zipcode'))->execute()->fetchAll();
+      $count = count($results);
+      echo '<p> Table air_now_city_zip_codes now has ' . $count . ' rows.</p>';
+    ini_set('max_execution_time', 150);
+}
 
 function get_taxonomy_parent_name($tid) {  
   $data_array = array();
@@ -38,6 +144,10 @@ function get_taxonomy_parent_name($tid) {
 
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
+    //Prevent guest user from accessing account edit page.
+    if(($form['#form_id'] == 'user_profile_form') && ($form['#user']->name == 'guest-user')){
+        drupal_goto("/");
+    }
     drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
 
     if($form['#form_id'] == 'user_profile_form'){
@@ -419,21 +529,18 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
          $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
          $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value'] = '';
          $form_state['input']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
-     // dpm( $form_state['values']['field_profile_favourites'][LANGUAGE_NONE]);
-      //     dpm( $form_state['input']['field_profile_favourites'][LANGUAGE_NONE]);
    }
    else {
       foreach($form_state['values']['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
-         if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
-           $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][$delta]['value'] = '';
-           $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][$delta]['value'] = '';
+         if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
+           unset($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]);
          }
          // if title is empty, set it to given url
-         // else if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']) == '' ) {
-          //     $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][$delta]['value'] = 
-          //         $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][$delta]['value'];
-         // }
-}
+         if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']) == '' ) {
+              $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] = 
+                  $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
+         }
+      }
    }
  }
     
@@ -459,7 +566,9 @@ function profile_delete_action($form, &$form_state) {
  * Hook user_view implementation, on user view, if user is logged in, go directly to the edit page, instead of the view page.
  */
 function eenterprise_utility_user_view($account, $view_mode, $langcode){
-    if($account->uid > 0)
+    if($account->name == 'guest-user')
+        drupal_goto("/");
+    else if($account->uid > 0)
         drupal_goto("/user/".$account->uid."/edit");
 }
 
@@ -496,3 +605,11 @@ function eenterprise_utility_node_access($node, $op, $account){
     else
         return NODE_ACCESS_ALLOW;
 }
+
+
+function eenterprise_utility_node_presave($node){
+    if($node->type == 'trusted_user')
+        $node->title = strtolower($node->title);
+}
+
+
