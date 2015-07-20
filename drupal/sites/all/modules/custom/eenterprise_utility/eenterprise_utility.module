@@ -18,9 +18,15 @@ function eenterprise_utility_menu() {
       'page callback' => 'zip_code_lookup',
       'access callback' => TRUE,
     );
+<<<<<<< HEAD
     $items['test_load_air_now_us_data'] = array(
       'page callback' => 'test_load_air_now_us_data',
       'access callback' => TRUE,
+=======
+    $items['guest_login'] = array(
+        'page callback' => 'guest_login_action',
+        'access callback' => TRUE,
+>>>>>>> FETCH_HEAD
     );
     return $items;
 } 
@@ -40,7 +46,30 @@ function test_load_air_now_us_data(){
  }
 
 
-function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv', $url_bool = false) {
+
+/*
+ * A function that implements guest login capability. Login a guest using a pre-defined username, role and password
+ * The role will restrict the user from accessing parts of the portal guests are not supposed to access.
+ */
+function guest_login_action(){
+    global $user;
+    if($user->uid != 0)
+        drupal_goto("/");
+    else{
+        $uid = user_authenticate("guest-user", "Gu35t_u53r!!");
+        $user = user_load($uid);
+        watchdog('guest_user', 'Session opened for %name.', array('%name' => $user->name));
+        $user->login = REQUEST_TIME;
+        db_update('users')
+            ->fields(array('login' => $user->login))
+            ->condition('uid', $user->uid)
+            ->execute();
+        drupal_session_regenerate();
+        drupal_goto("/");
+    }
+}
+
+function load_air_now_us_data() {
   // set php.ini max execution to 1500 temporarily for this processing
   ini_set('max_execution_time', 1500);
   $start = microtime(true);
@@ -116,6 +145,10 @@ function get_taxonomy_parent_name($tid) {
 
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
+    //Prevent guest user from accessing account edit page.
+    if(($form['#form_id'] == 'user_profile_form') && ($form['#user']->name == 'guest-user')){
+        drupal_goto("/");
+    }
     drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
 
     if($form['#form_id'] == 'user_profile_form'){
@@ -534,7 +567,9 @@ function profile_delete_action($form, &$form_state) {
  * Hook user_view implementation, on user view, if user is logged in, go directly to the edit page, instead of the view page.
  */
 function eenterprise_utility_user_view($account, $view_mode, $langcode){
-    if($account->uid > 0)
+    if($account->name == 'guest-user')
+        drupal_goto("/");
+    else if($account->uid > 0)
         drupal_goto("/user/".$account->uid."/edit");
 }
 
@@ -571,3 +606,11 @@ function eenterprise_utility_node_access($node, $op, $account){
     else
         return NODE_ACCESS_ALLOW;
 }
+
+
+function eenterprise_utility_node_presave($node){
+    if($node->type == 'trusted_user')
+        $node->title = strtolower($node->title);
+}
+
+

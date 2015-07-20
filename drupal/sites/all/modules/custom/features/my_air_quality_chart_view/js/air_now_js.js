@@ -1,7 +1,16 @@
 (function ($) {
   "use strict";
 
-  $(document).ready(function () { draw(); });
+  $(document).ready(function () { 
+    var $select = $('select.location-select');
+
+    $select.change(function() {
+      console.log($(this).val(), $(this).text());
+      draw($(this).val(), $(this).text()); 
+    });
+
+    $select.trigger('change');
+  });
 
   function formatDate(date, delimiter) {
     var month = '' + (date.getMonth() + 1),
@@ -15,6 +24,8 @@
   }
 
   var drawChart = function(data) {
+
+  drawMessage('');
 
   function drawPopulationsAtRisk() {
     
@@ -436,11 +447,11 @@
     .attr("class", "popover right");
   }
 
-  var drawError = function(msg) {
-    d3.select("#my-air-quality-chart").append('div').text(msg);
+  var drawMessage = function(msg) {
+    d3.select("#my-air-quality-chart").html(msg);
   }
 
-  var draw = function() {
+  var draw = function(zipCode) {
 
     function parseData(responseData) {
       var data = [];
@@ -476,24 +487,18 @@
       return data;
     }
 
-      var endpoint = Drupal.settings.basePath + 'my_air_quality_chart_view/api/forecast/zipCode/';
+    drawMessage('Loading...');
 
-      var yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
+    var endpoint = Drupal.settings.basePath + 'my_air_quality_chart_view/api/forecast/zipCode/';
 
-      var zipCode = '20002';
+    var yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
 
-      if (Drupal && Drupal.settings && Drupal.settings.my_air_quality_chart_view 
-          &&  Drupal.settings.my_air_quality_chart_view.field_zip_code) {
-
-        zipCode = Drupal.settings.my_air_quality_chart_view.field_zip_code;
-      }
-      
-      var params = {
-        format: 'application/json',
-        zipCode: zipCode,
-        date: formatDate(yesterday, '-'),
-        distance: 100
+    var params = {
+      format: 'application/json',
+      zipCode: zipCode,
+      date: formatDate(yesterday, '-'),
+      distance: 100
     };
 
     $.getJSON(endpoint, params, function(responseData) {
@@ -502,13 +507,7 @@
       if (data.length > 0)
         drawChart(data);
       else { // no data; show message
-        drawError('Air quality information is not available for this location.');
-        // params.zipCode = '20002'; // DC
-        // $.getJSON(endpoint, params, function(responseData) {
-          // data = parseData(responseData);
-          // if (data.length > 0)
-            // drawChart(data);
-        // });
+        drawMessage('Air quality information is not available for this location.');
       }
     });
   }
