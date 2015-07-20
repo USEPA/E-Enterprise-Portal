@@ -118,6 +118,7 @@ function eenterprise_bridge_auth_authenticate($error) {
             else{
                 $uname = $username;
             }
+            trusted_user_check($uname);
             $ext_user = user_external_load($uname);
             if(!$ext_user){
                 //user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
@@ -147,6 +148,20 @@ function eenterprise_bridge_auth_authenticate($error) {
     drupal_goto('workbench');
 }
 
+/*
+ * Implement a function to filter users to deny authentication from a predefined list. The list maintained in
+ * trusted_user content type.
+ */
+function trusted_user_check($uname){
+    $trusted_users = db_query("select nid, title from {node} where type = :node_type", array(":node_type" => "trusted_user"))->fetchAllKeyed();
+    if(in_array(strtolower($uname), $trusted_users) || in_array(strtoupper($uname), $trusted_users))
+        ;  //if user is trusted Do Nothing, authentication will resume.
+    else{
+        drupal_set_message(t("Sorry, you are not authorized to access this application."), "error");
+        drupal_goto("/");
+        return;
+    }
+}
 
 function create_progress_tracker($user){
     try {
