@@ -103,6 +103,7 @@
         success: function(data, status, xhr) {
           var resultJson = JSON.parse(data);
           setupGallery(resultJson);
+          processPageAnchors('pane-views-my-maps-block-1');
         }
       }).fail(function(xhr, status) {
         if (status == "error") {
