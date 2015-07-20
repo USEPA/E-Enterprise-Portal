@@ -1,16 +1,57 @@
 (function ($) {
   "use strict";
 
-  $(document).ready(function () { 
-    var $select = $('select.location-select');
+  $(document).ready(function () {
+
+    var $tabs = $("#my-air-quality-chart-tabs");
+
+    var map = loadMap();
+
+    $tabs.tabs({
+      activate: function(e, ui) {
+        console.log('ui', ui)
+        if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {// map tab activated
+          console.log('map')
+          map._onResize(); 
+        }
+      }
+    });
+
+    var $select = $('select#location-select');
 
     $select.change(function() {
-      console.log($(this).val(), $(this).text());
-      draw($(this).val(), $(this).text()); 
+      var zip = $(this).val();
+      var locationText = $(this).find('option:selected').text();
+      draw(zip, locationText); 
     });
 
     $select.trigger('change');
+
+    
+
+
   });
+
+  function loadMap() {
+      var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 4);
+
+      L.esri.basemapLayer("GrayLabels").addTo(map);
+
+      // var govUnits = L.esri.dynamicMapLayer({
+      //         url: 'http://services.nationalmap.gov/arcgis/rest/services/govunits/MapServer',
+      //         opacity: 0.9
+      //     }).addTo(map);
+
+
+      var aqiLayer = L.esri.dynamicMapLayer({
+        url: "http://gisstg.rtpnc.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
+        opacity: 0.5
+      }).addTo(map);
+
+      aqiLayer.bringToBack();
+
+      return map;
+  }
 
   function formatDate(date, delimiter) {
     var month = '' + (date.getMonth() + 1),
@@ -23,7 +64,7 @@
     return [year, month, day].join(delimiter);
   }
 
-  var drawChart = function(data) {
+  var drawChart = function(data, locationText) {
 
   drawMessage('');
 
@@ -439,7 +480,7 @@
     .attr("y", -m[0]/2)
     .attr("text-anchor", "middle") 
     .attr("class", "aqi-location") 
-    .text(data[0].ReportingArea + ', ' + data[0].StateCode);
+    .text(locationText);
 
     // Append popover
     var tooltip = d3.select('#my-air-quality-chart')
@@ -451,7 +492,7 @@
     d3.select("#my-air-quality-chart").html(msg);
   }
 
-  var draw = function(zipCode) {
+  var draw = function(zipCode, locationText) {
 
     function parseData(responseData) {
       var data = [];
@@ -505,9 +546,9 @@
       var data = parseData(responseData);
 
       if (data.length > 0)
-        drawChart(data);
+        drawChart(data, locationText);
       else { // no data; show message
-        drawMessage('Air quality information is not available for this location.');
+        drawMessage('Air quality information is not available for '+locationText+'.');
       }
     });
   }
