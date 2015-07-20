@@ -27,6 +27,11 @@ function eenterprise_utility_menu() {
         'page callback' => 'guest_login_action',
         'access callback' => TRUE,
     );
+     $items['default_location_zip'] = array(
+        'page callback' => 'default_location_zip',
+        'access callback' => TRUE,
+    );
+    
     return $items;
 } 
 
@@ -44,6 +49,17 @@ function test_load_air_now_us_data(){
     load_air_now_us_data('cityzipcodes.csv', true);
  }
 
+
+/*
+ * A function that simple sets a session variable so the user's default location or selected location is remembered
+ */
+ 
+ function default_location_zip() {
+   unset($_SESSION['default_location_zip']);
+   unset($_SESSION['default_location_name']);
+   $_SESSION['default_location_zip'] =  $_POST['zip'];
+   $_SESSION['default_location_name'] = $_POST['name'];
+ }
 
 
 /*

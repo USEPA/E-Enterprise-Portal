@@ -254,7 +254,9 @@ $('body').on('click', '.glyphicon-chevron-up', function() {
 
 
   }); // end document ready
-  
+  // On location change, save session
+
+
 
 	
 })(jQuery);
