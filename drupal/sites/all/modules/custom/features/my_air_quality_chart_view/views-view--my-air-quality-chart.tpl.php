@@ -26,82 +26,32 @@
  *
  * @ingroup views_templates
  */
+
+drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "file");
+drupal_add_css("//cdn.jsdelivr.net/leaflet/0.7.3/leaflet.css", "external");
+drupal_add_css(drupal_get_path('module', 'my_air_quality_chart_view') ."/css/air_now_styles.css", "file");
+
+
 drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", "file");
 drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", "file");
 drupal_add_js("sites/all/libraries/globalassets/scripts/assets.core.js");
+
+drupal_add_js("//cdn.jsdelivr.net/leaflet/0.7.3/leaflet.js", "file");
+drupal_add_js("//cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js", "file");
+
 drupal_add_js(drupal_get_path('module', 'my_air_quality_chart_view') ."/js/air_now_js.js", "file");
-
-drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "file");
-drupal_add_css(drupal_get_path('module', 'my_air_quality_chart_view') ."/css/air_now_styles.css", "file");
 ?>
-<div class="<?php print $classes; ?>">
-  <?php print render($title_prefix); ?>
-  <?php if ($title): ?>
-    <?php print $title; ?>
-  <?php endif; ?>
-  <?php print render($title_suffix); ?>
-  <?php if ($header): ?>
-    <div class="view-header">
-      <?php print $header; ?>
+
+<div class="view-content">
+  <div id="my-air-quality-chart-tabs">
+    <ul>
+      <li><a href="#my-air-quality-chart">Air Quality</a></li>
+      <li><a href="#my-air-quality-air-now-maps">AirNow Maps</a></li>
+    </ul>
+    <div id="my-air-quality-chart">
     </div>
-  <?php endif; ?>
-
-  <?php if ($exposed): ?>
-    <div class="view-filters">
-      <?php print $exposed; ?>
+    <div id="my-air-quality-air-now-maps" style="padding:0">
+      <div id="my-air-quality-air-now-map-container"></div>
     </div>
-  <?php endif; ?>
-
-  <?php if ($attachment_before): ?>
-    <div class="attachment attachment-before">
-      <?php print $attachment_before; ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($rows): ?>
-    <div class="view-content">
-      <div id="my-air-quality-chart-tabs">
-        <ul>
-          <li><a href="#my-air-quality-chart">Air Quality</a></li>
-          <li><a href="#tabs-2">AirNow Maps</a></li>
-        </ul>
-        <div id="my-air-quality-chart">
-        </div>
-        <div id="tabs-2">
-        </div>
-      </div>
-      <?php //print $rows; ?>
-    </div>
-  <?php elseif ($empty): ?>
-    <div class="view-empty">
-      <?php print $empty; ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($pager): ?>
-    <?php print $pager; ?>
-  <?php endif; ?>
-
-  <?php if ($attachment_after): ?>
-    <div class="attachment attachment-after">
-      <?php print $attachment_after; ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($more): ?>
-    <?php print $more; ?>
-  <?php endif; ?>
-
-  <?php if ($footer): ?>
-    <div class="view-footer">
-      <?php print $footer; ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($feed_icon): ?>
-    <div class="feed-icon">
-      <?php print $feed_icon; ?>
-    </div>
-  <?php endif; ?>
-
-</div><?php /* class view */ ?>
+  </div>
+</div>

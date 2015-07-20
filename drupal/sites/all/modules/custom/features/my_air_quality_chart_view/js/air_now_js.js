@@ -3,7 +3,19 @@
 
   $(document).ready(function () {
 
-    $("#my-air-quality-chart-tabs").tabs();
+    var $tabs = $("#my-air-quality-chart-tabs");
+
+    var map = loadMap();
+
+    $tabs.tabs({
+      activate: function(e, ui) {
+        console.log('ui', ui)
+        if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {// map tab activated
+          console.log('map')
+          map._onResize(); 
+        }
+      }
+    });
 
     var $select = $('select#location-select');
 
@@ -14,7 +26,32 @@
     });
 
     $select.trigger('change');
+
+    
+
+
   });
+
+  function loadMap() {
+      var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 4);
+
+      L.esri.basemapLayer("GrayLabels").addTo(map);
+
+      // var govUnits = L.esri.dynamicMapLayer({
+      //         url: 'http://services.nationalmap.gov/arcgis/rest/services/govunits/MapServer',
+      //         opacity: 0.9
+      //     }).addTo(map);
+
+
+      var aqiLayer = L.esri.dynamicMapLayer({
+        url: "http://gisstg.rtpnc.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
+        opacity: 0.5
+      }).addTo(map);
+
+      aqiLayer.bringToBack();
+
+      return map;
+  }
 
   function formatDate(date, delimiter) {
     var month = '' + (date.getMonth() + 1),
