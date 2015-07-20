@@ -1,10 +1,18 @@
 
 .ui-widget-content.locations-modal, .ui-widget-content.locations-modal .ui-dialog-buttonpane{
   max-height: none;
+  min-width:300px;
   overflow-y: hidden;
   overflow-x: hidden;
 }
-.locations-modal .ui-dialog-titlebar {display: none;}
+
 
 .radio-options-holder input[type=radio], .radio-options-holder input.radio { margin-right: 5px; }
 
+.locations-modal .ui-dialog-titlebar-close {
+  display:none;
+}
+
+.locations-modal .ui-dialog-buttonpane {
+  border: none;
+}
