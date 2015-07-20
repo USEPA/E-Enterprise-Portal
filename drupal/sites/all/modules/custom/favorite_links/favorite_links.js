@@ -84,8 +84,8 @@ $(document).ready(function(){
 
 		// process img links
 		$('#main-content img').each(function () {
-		if ($(this).attr('href') != '#' && $(this).attr('href')!= '') {
-			var url = $(this).attr('href');
+		if ($(this).closest('a').attr('href') != '#' && $(this).closest('a').attr('href')!= '') {
+			var url = $(this).closest('a').attr('href');
 			var encodedURI = encodeURIComponent(url);
 			var title = $(this).attr('alt');
 			var favorite_button = createFavoriteButton(url, title);
