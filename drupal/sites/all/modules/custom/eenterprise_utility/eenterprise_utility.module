@@ -580,3 +580,11 @@ function eenterprise_utility_node_access($node, $op, $account){
     else
         return NODE_ACCESS_ALLOW;
 }
+
+
+function eenterprise_utility_node_presave($node){
+    if($node->type == 'trusted_user')
+        $node->title = strtolower($node->title);
+}
+
+
