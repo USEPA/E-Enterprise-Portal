@@ -401,11 +401,18 @@ function assign_roles_to_user($user_name){
             "user" => $user_obj->User,
         );
 
+        $org_val = null;
         $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
+
+        if(is_array($user_orgs->Organization))
+            $org_val = $user_orgs->Organization[0];
+        else
+            $org_val = $user_orgs->Organization;
+
         $user_sec_org_bundle = array(
             "securityToken" => $response1->securityToken,
             "user" => $user_obj->User,
-            "org" => $user_orgs->Organization,
+            "org" => $org_val,
         );
         global $user;
         $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
@@ -414,6 +421,11 @@ function assign_roles_to_user($user_name){
                 $role_val = $v->type->description;
                 if(!empty($role_val)){
                     $user_role = user_role_load_by_name($role_val);
+                    if($user_role === FALSE){
+                        $user_role = new stdClass();
+                        $user_role->name = $role_val;
+                        user_role_save($user_role);
+                    }
                     user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
                 }
             }
@@ -422,6 +434,11 @@ function assign_roles_to_user($user_name){
             $role_val = $user_roles->Role->type->description;
             if(!empty($role_val)){
                 $user_role = user_role_load_by_name($role_val);
+                if($user_role === FALSE){
+                    $user_role = new stdClass();
+                    $user_role->name = $role_val;
+                    user_role_save($user_role);
+                }
                 user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
             }
         }
