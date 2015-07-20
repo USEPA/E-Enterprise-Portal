@@ -18,15 +18,14 @@ function eenterprise_utility_menu() {
       'page callback' => 'zip_code_lookup',
       'access callback' => TRUE,
     );
-<<<<<<< HEAD
+
     $items['test_load_air_now_us_data'] = array(
       'page callback' => 'test_load_air_now_us_data',
       'access callback' => TRUE,
-=======
+     );
     $items['guest_login'] = array(
         'page callback' => 'guest_login_action',
         'access callback' => TRUE,
->>>>>>> FETCH_HEAD
     );
     return $items;
 } 
