@@ -1195,6 +1195,9 @@ a.tabledrag-handle .handle {
 	top:-10px;
 }
 
+.ui-widget {
+	font-family: $lato !important;
+}
 .ui-menu .ui-menu-item a{   
     font-size:20px;
 }
@@ -1205,7 +1208,7 @@ a.tabledrag-handle .handle {
 	overflow-x: hidden;
 }
 .ui-widget-header {
-	background: transparent;
+	background: transparent !important;
 	border: none;
 	border-bottom: 1px solid #efefef;
 }
@@ -1223,4 +1226,12 @@ a.tabledrag-handle .handle {
 }
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-tl, .ui-corner-tr, .ui-corner-br, .ui-corner-bl {
 	border: none;
+	border-radius: 0 !important;
+}
+.ui-dialog .ui-dialog-title {
+	font-weight: normal !important;
+}
+.ui-dialog-titlebar-close {
+	background-color: transparent !important;
+	border: none !important;
 }
