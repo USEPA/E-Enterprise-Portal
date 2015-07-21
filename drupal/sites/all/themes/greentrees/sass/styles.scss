@@ -365,6 +365,14 @@ input[type="submit"],
 			padding-bottom: 10px;
 		}
 	}
+	.well .well {
+		background-color: #ffffff;
+		opacity: 0.5;
+		font-size: 0.5em;
+		color: #000;
+		text-shadow: 1px 1px 1px #fff;
+		
+	}
 	input[type="submit"] {
 		font-family: $greentrees;
 		font-size: 0.5em;
@@ -376,6 +384,7 @@ input[type="submit"],
 		margin-left: 0;
 		background-color: #26551f;
 		border: 1px solid #275620;
+		font-weight: normal;
 	}
 }
 
@@ -1194,4 +1203,24 @@ a.tabledrag-handle .handle {
 	max-height: 300px; 
 	overflow-y: scroll; 
 	overflow-x: hidden;
+}
+.ui-widget-header {
+	background: transparent;
+	border: none;
+	border-bottom: 1px solid #efefef;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	background:transparent;
+	border: none;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+	border-bottom: 2px solid #000000;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+	font-weight: bold;
+	background: transparent;
+	border: none;
+}
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-tl, .ui-corner-tr, .ui-corner-br, .ui-corner-bl {
+	border: none;
 }
