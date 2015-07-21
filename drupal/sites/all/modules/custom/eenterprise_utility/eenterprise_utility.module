@@ -55,8 +55,6 @@ function test_load_air_now_us_data(){
  */
  
  function default_location_zip() {
-   unset($_SESSION['default_location_zip']);
-   unset($_SESSION['default_location_name']);
    $_SESSION['default_location_zip'] =  $_POST['zip'];
    $_SESSION['default_location_name'] = $_POST['name'];
  }
@@ -328,7 +326,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         }
         $field_suffix = '<span class="move_zip_code"></span>';
         if (isset($zip)) {
-          $field_suffix = "";//zipcodeLookUp($zip);
+          $zip_data = zip_code_lookup($zip);
+          $field_suffix = $zip_data['city'] . ', ' . $zip_data['state'];
         }
         else {
           $field_suffix = "";
@@ -359,8 +358,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
 
 
   } // end user form
-
-
 }
 
 
@@ -373,26 +370,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
  *  A JSON object.
  */
  
- 
 
 
-
-
-
-//
-function clear_fields(&$form, &$form_state) {
-  $form_state['build_info'][0][0]['cleared'] = true;
-//  for($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
-//      unset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]);
-//      unset($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]);
-//        }
-//     $form_state['values']['field_zip_code'][LANGUAGE_NONE][0] = '';
-//     $form['field_zip_code'][LANGUAGE_NONE][0] = '';
-//
-////$form_state['input'] = array();
-////$form_state['rebuild']= TRUE;
-  return $form['field_zip_code'];
-}
 
 // Params: zip code integer
 // Returns Assoc Array( city => , state => , latitude => , longitude => )
@@ -439,23 +418,6 @@ function zip_code_lookup($zip = NULL, $return_data_type = 'php') {
   }
 }
 
- function field_zip_code_generate($form, $form_state) {
-    $validation = user_profile_zipcode_custom_validate($form, $form_state);
-//    $city_and_state = zip_code_lookup();
-  if (!$validation['passed']) {
-    $arguments = array(
-       'passed' => 'false',
-       'id' => $validation['id'],
-    );
-    $commands[] = ajax_command_invoke(NULL, 'zipCodeValidate', array($arguments));
-    return array('#type' => 'ajax','#commands' => $commands);
-  }
-  else {
-    // field_zip_code prefix and suffix are adding
-
-    return $form['field_zip_code'];
-  }
-}
 
 
 /**
