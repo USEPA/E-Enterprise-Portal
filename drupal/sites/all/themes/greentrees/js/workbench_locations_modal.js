@@ -1,6 +1,10 @@
 (function ($) {
 
 $(document).ready(function(){
+	// Instantiate previous with primary location
+	var previous_selection = $('#location-select').val();
+	$('input[type=radio]#' + previous_selection).attr('checked', true);
+		
 	if ($('#locations-modal').length > 0) {
 		$('#dialog-all-locations').dialog({
 			modal: true,
@@ -8,19 +12,27 @@ $(document).ready(function(){
 			width: 'auto',
 			height: 'auto',
 			dialogClass: "locations-modal",
-			buttons: {
-				'View': function() {
-					var selection_array = $(':radio[name=location-radio]:checked').val().split('|');
-					var selection_value = selection_array[0];
-					var selection_name = selection_array[1];
-					locationSelect(selection_value, selection_name);
-					$('#dialog-all-locations').dialog('close');
-					$(':radio[name=location-radio]:checked').attr('checked', false);
+			buttons: [
+				{
+					text: 'View',
+					class: ' ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only',
+					click: function() {
+						var selection_array = $(':radio[name=location-radio]:checked').val().split('|');
+						var selection_value = selection_array[0];
+						var selection_name = selection_array[1];
+						locationSelect(selection_value, selection_name);
+						$('#dialog-all-locations').dialog('close');
+						// $(':radio[name=location-radio]:checked').attr('checked', false);
+					}
 				},
-				'Cancel': function() {
-					$('#dialog-all-locations').dialog('close');
+				{	text : "Cancel",
+					class: ' ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only',
+					click: function() {
+						$('#location-select').val(previous_selection);
+						$('#dialog-all-locations').dialog('close');
+					}	
 				}
-			}
+			]
 		});
 		$('#locations-modal').click(function() {
 			$('#dialog-all-locations').dialog('open');
@@ -48,7 +60,8 @@ $(document).ready(function(){
 			$('#locations-modal').trigger('click');
 		}
 		else {
-
+			previous_selection = $(this).val();
+			$('input[type=radio]#' + previous_selection).attr('checked', true); // Update modal with selected values
 			$.post("/default_location_zip", {zip: $(this).val(), name: $(this).find('option:selected').text()});
 		}
 	});
