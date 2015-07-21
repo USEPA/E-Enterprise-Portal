@@ -304,6 +304,10 @@ input[type="submit"],
 }
 #login-group {
 	padding-left: 25%;
+    float: left;
+    width: auto;
+    margin-right: 10px;
+
 	form, a {
 		display:inline-block;
 	}
@@ -311,6 +315,16 @@ input[type="submit"],
 		margin-left:20px;
 		padding:5px 15px;
 	}
+}
+
+.guest-login {
+	width: 7em;
+    float: left;
+    a {
+	    font-size: 0.5em;
+		color: $ee-white;
+		letter-spacing: 1px;
+    }
 }
 
 .messages--status.messages.status {
