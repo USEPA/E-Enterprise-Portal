@@ -776,6 +776,25 @@ input.error:focus {
   color: #333;
 }
 
+/** Gradients *****************************************************************/
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+.button,
+.skip-link,
+.password-indicator div,
+.pillbox > .menu-item > .menu-link,
+.progress .filled,
+.tabs > li > a,
+#edit-cancel {
+  background-image: -moz-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+  background-image: -ms-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+  background-image: -o-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+  background-image: -webkit-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+  background-image: linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+}
+
 /** Forms *********************************************************************/
 #edit-date .form-item {
   padding-bottom: 0;
