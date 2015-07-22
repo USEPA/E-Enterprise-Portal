@@ -267,12 +267,12 @@
           htmlLiItem += '<li><div class="thumbitem-border">';
           htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
-          htmlLiItem += '<div class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</div>';
+          htmlLiItem += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
           //htmlLiItem += '<div class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</div>';
-          htmlLiItem += '<div class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + "" + '">' + "" + '</div>';
-          htmlLiItem += '</div>'
-          htmlLiItem += '<div class="mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</div>';
+          htmlLiItem += '<p class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + "" + '">' + "" + '</p>';
+          htmlLiItem += '<p class="mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
+          htmlLiItem += '</div>';
           htmlLiItem += '</li>';
 
           //Append items one at a time to carousel
@@ -348,12 +348,12 @@
           htmlLiItem += '<li><div class="thumbitem-border">';
           htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
-          htmlLiItem += '<div class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</div>';
+          htmlLiItem += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
           //Omaha has no descriptions in their publicly shared WMAs
-          htmlLiItem += '<div class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</div>';
-          htmlLiItem += '</div>'
-          htmlLiItem += '<div class="mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</div>';
+          htmlLiItem += '<p class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
+          htmlLiItem += '<p class="mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
+          htmlLiItem += '</div>';
           htmlLiItem += '</li>';
 
           // Append items one at a time to carousel
