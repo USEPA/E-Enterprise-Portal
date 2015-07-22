@@ -6,6 +6,7 @@
     var $tabs = $("#my-air-quality-chart-tabs");
 
     var map = loadMap();
+    var markers;
 
     $tabs.tabs({
       activate: function(e, ui) {
@@ -19,16 +20,22 @@
 
     $select.change(function() {
       var zip = $(this).val();
+
       if (zip != 'view_more') {
         var locationText = $(this).find('option:selected').text();
         draw(zip, locationText);
-      } 
+        
+        if (markers) {
+          map.removeLayer(markers);
+        }
+
+        markers = new L.FeatureGroup();
+        map.addLayer(markers)
+        setMarker(markers, zip, locationText);
+      }
     });
 
     $select.trigger('change');
-
-    
-
 
   });
 
@@ -44,9 +51,6 @@
 
       map.fitBounds(govUnits._map.getBounds());
 
-      // glob = govUnits._map.;
-
-
       var aqiLayer = L.esri.dynamicMapLayer({
         url: "http://gisstg.rtpnc.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
         opacity: 0.5
@@ -55,6 +59,13 @@
       aqiLayer.bringToBack();
 
       return map;
+  }
+
+  function setMarker(markers, zip, locationText) {
+    $.getJSON('/zip_code_lookup?zip='+zip, function(data) {
+      var marker = L.marker([data.latitude, data.longitude]).addTo(markers);
+      marker.bindPopup("<b>"+ locationText +"</b>");
+    });
   }
 
   function formatDate(date, delimiter) {
