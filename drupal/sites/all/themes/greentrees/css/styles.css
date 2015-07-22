@@ -16181,23 +16181,23 @@ tr.even {
   /** jQuery Overrides - Profile Page **/
 }
 /* line 1124, ../sass/styles.scss */
-.page-user .ui-widget,
+/*.page-user .ui-widget,
 .page-user .ui-menu .ui-menu-item {
   font-family: Lato, "Source Sans Pro", sans-serif !important;
-}
+}*/
 /* line 1128, ../sass/styles.scss */
-.page-user .ui-widget {
+/*.page-user .ui-widget {
   font-size: 83% !important;
-}
+}*/
 /* line 1131, ../sass/styles.scss */
-.page-user .ui-state-hover,
+/*.page-user .ui-state-hover,
 .page-user .ui-widget-content .ui-state-hover,
 .page-user .ui-widget-header .ui-state-hover,
 .page-user .ui-state-focus,
 .page-user .ui-widget-content .ui-state-focus, .page-user .ui-widget-header .ui-state-focus {
   border: 1px solid #dedede;
   background: #f3f3f3;
-}
+}*/
 /* line 1139, ../sass/styles.scss */
 .page-user .autocomplete-interests .ui-widget input {
   min-width: 140px;

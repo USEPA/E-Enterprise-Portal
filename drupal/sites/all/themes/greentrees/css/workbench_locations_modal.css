@@ -1,37 +1,42 @@
 
-.ui-widget-content.locations-modal, .ui-widget-content.locations-modal .ui-dialog-buttonpane{
+.ui-widget-content.locations-modal{
   max-height: none;
+  height: 380px;
   min-width:300px;
   overflow-y: hidden;
   overflow-x: hidden;
 }
 
-.ui-widget.locations-modal,
+.ui-widget-content.locations-modal .ui-dialog-buttonpane {
+  overflow-y: hidden;
+}
+
+/*.ui-widget.locations-modal,
 .ui-widget.locations-modal .ui-menu .ui-menu-item {
   font-family: Lato, "Source Sans Pro", sans-serif !important;
-}
+}*/
 
 
-.ui-widget-content.locations-modal, .ui-widget-content.locations-modal button {
+/*.ui-widget-content.locations-modal, .ui-widget-content.locations-modal button {
   font-size: 83% !important;
-}
+}*/
 
-.page-workbench .ui-widget-content.locations-modal button {
+/*.page-workbench .ui-widget-content.locations-modal button {
   padding: .4em 1em;
     font-family: Lato, "Source Sans Pro", sans-serif !important;
-}
+}*/
 
 
 /* line 1131, ../sass/styles.scss */
-.ui-widget.locations-modal .ui-state-hover,
+/*.ui-widget.locations-modal .ui-state-hover,
  .ui-widget-content.locations-modal .ui-state-hover,
  .ui-widget.locations-modal .ui-widget-header .ui-state-hover,
  .ui-widget.locations-modal .ui-state-focus,
  .ui-widget-content.locations-modal .ui-state-focus, .ui-widget-content.locations-modal .ui-widget-header .ui-state-focus {
   border: 1px solid #dedede;
   background: #f3f3f3;
-}
-.ui-widget-overlay
+}*/
+
 
 .radio-options-holder input[type=radio], .radio-options-holder input.radio { margin-right: 5px; }
 
@@ -43,14 +48,14 @@
   border: none;
 }
 
-.ui-widget-overlay {
+/*.ui-widget-overlay {
      opacity: 0.9 !important; 
-}
+}*/
 
- .locations-modal button:hover{
+ /*.locations-modal button:hover{
   border: 1px solid #dedede;
   background: #f3f3f3;
-}
+}*/
 
 .ee-workbench-header-block.ee-workbench-header-setlocation {
     float: left;
@@ -65,5 +70,8 @@
     white-space:nowrap;
     -ms-text-overflow:ellipsis;
     text-overflow:ellipsis;
+}
 
+.locations-modal-ul{
+  padding-bottom: 0;
 }

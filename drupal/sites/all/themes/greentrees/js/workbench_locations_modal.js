@@ -10,7 +10,7 @@ $(document).ready(function(){
 			modal: true,
 			autoOpen: false,
 			width: 'auto',
-			height: 'auto',
+			height: 400,
 			dialogClass: "locations-modal",
 			buttons: [
 				{
