@@ -180,7 +180,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         $form['allowed_values'] = array(
             '#tree' => TRUE,
         );
-        foreach ($field['settings']['allowed_values'] as $delta => $tree) {
+        //Code block has error. Commented it out. Ben said it will never be executed. Ben please remove this code if it's not going to be used.
+        /*foreach ($field['settings']['allowed_values'] as $delta => $tree) {
             $form['allowed_values'][$delta]['vocabulary'] = array(
                 '#type' => 'checkboxes', // <-- Use checkboxes here, instead of 'select'
                 '#title' => t('Vocabulary'),
@@ -194,7 +195,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
                 '#type' => 'value',
                 '#value' => $tree['parent'],
             );
-        }
+        }*/
 
     
       hide($form['picture']);
@@ -699,4 +700,28 @@ function eenterprise_utility_node_presave($node){
         $node->title = strtolower($node->title);
 }
 
+function eenterprise_utility_views_query_alter(&$view, &$query) {
+    if($view->name == 'progress_tracker'){
+        //Remove the natural behavior of the second filter on progress tracker.
+        unset($query->table_queue['field_data_field_prog_track_rep_type_filter']);
+        unset($query->tables['node']['field_data_field_prog_track_rep_type_filter']);
+
+        foreach($query->where[1]['conditions'] as $key => $value)
+            if($value['field'] == 'field_data_field_prog_track_rep_type_filter.field_prog_track_rep_type_filter_value')
+                unset($query->where[1]['conditions'][$key]);
+        //get allowed values for field filter.
+        $field_info = field_info_field('field_prog_track_rep_type_filter');
+        $allowed_values = $field_info['settings']['allowed_values'];
+        if(isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] != 'All') {
+            if(in_array($allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']], array('Firm Abatement', 'Firm RRP', 'Firm Combination'))){
+                $res_val = explode(" ", $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']]);
+                $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $res_val[1] . '%', 'LIKE');
+            }
+            else
+                $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']] . '%', 'LIKE');
+        }
+        else if(isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] == 'All')
+            $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value','% %','LIKE');
+    }
+}
 
