@@ -20,16 +20,19 @@
 
     $select.change(function() {
       var zip = $(this).val();
-      var locationText = $(this).find('option:selected').text();
-      draw(zip, locationText);
-      
-      if (markers) {
-        map.removeLayer(markers);
-      }
 
-      markers = new L.FeatureGroup();
-      map.addLayer(markers)
-      setMarker(markers, zip, locationText);
+      if (zip != 'view_more') {
+        var locationText = $(this).find('option:selected').text();
+        draw(zip, locationText);
+        
+        if (markers) {
+          map.removeLayer(markers);
+        }
+
+        markers = new L.FeatureGroup();
+        map.addLayer(markers)
+        setMarker(markers, zip, locationText);
+      }
     });
 
     $select.trigger('change');
