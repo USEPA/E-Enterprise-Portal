@@ -180,21 +180,21 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         $form['allowed_values'] = array(
             '#tree' => TRUE,
         );
-        foreach ($field['settings']['allowed_values'] as $delta => $tree) {
-            $form['allowed_values'][$delta]['vocabulary'] = array(
-                '#type' => 'checkboxes', // <-- Use checkboxes here, instead of 'select'
-                '#title' => t('Vocabulary'),
-                '#default_value' => $tree['vocabulary'],
-                '#options' => $options,
-                '#required' => TRUE,
-                '#description' => t('The vocabulary which supplies the options for this field.'),
-                '#disabled' => $has_data,
-            );
-            $form['allowed_values'][$delta]['parent'] = array(
-                '#type' => 'value',
-                '#value' => $tree['parent'],
-            );
-        }
+        // foreach ($field['settings']['allowed_values'] as $delta => $tree) {
+        //     $form['allowed_values'][$delta]['vocabulary'] = array(
+        //         '#type' => 'checkboxes', // <-- Use checkboxes here, instead of 'select'
+        //         '#title' => t('Vocabulary'),
+        //         '#default_value' => $tree['vocabulary'],
+        //         '#options' => $options,
+        //         '#required' => TRUE,
+        //         '#description' => t('The vocabulary which supplies the options for this field.'),
+        //         '#disabled' => $has_data,
+        //     );
+        //     $form['allowed_values'][$delta]['parent'] = array(
+        //         '#type' => 'value',
+        //         '#value' => $tree['parent'],
+        //     );
+        // }
 
     
       hide($form['picture']);
@@ -239,12 +239,14 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       //       $form_state['input']['field_zip_code'][LANGUAGE_NONE][0]['value'];
       //   }
       
-      if ($form_state['triggering_element']['#name'] == 'field_zip_code_' . LANGUAGE_NONE . '_0_remove_button') {
-           $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
-        } 
-       if ($form_state['triggering_element']['#name'] == 'field_profile_favourites_'. LANGUAGE_NONE . '_0_remove_button') {
-         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
-         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+      if (isset($form_state['triggering_element'])) {
+        if ($form_state['triggering_element']['#name'] == 'field_zip_code_' . LANGUAGE_NONE . '_0_remove_button') {
+             $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
+          } 
+         if ($form_state['triggering_element']['#name'] == 'field_profile_favourites_'. LANGUAGE_NONE . '_0_remove_button') {
+           $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+           $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+        }
       }
            
       $form['field_zip_code'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-control';
