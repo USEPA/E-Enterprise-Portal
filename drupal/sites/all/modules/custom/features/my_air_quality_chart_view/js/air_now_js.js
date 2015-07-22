@@ -21,8 +21,10 @@
 
     $select.change(function() {
       var zip = $(this).val();
-      var locationText = $(this).find('option:selected').text();
-      draw(zip, locationText); 
+      if (zip != 'view_more') {
+        var locationText = $(this).find('option:selected').text();
+        draw(zip, locationText);
+      } 
     });
 
     $select.trigger('change');
