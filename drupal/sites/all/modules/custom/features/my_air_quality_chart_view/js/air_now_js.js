@@ -6,12 +6,11 @@
     var $tabs = $("#my-air-quality-chart-tabs");
 
     var map = loadMap();
+    var markers;
 
     $tabs.tabs({
       activate: function(e, ui) {
-        console.log('ui', ui)
         if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {// map tab activated
-          console.log('map')
           map._onResize(); 
         }
       }
@@ -21,29 +20,36 @@
 
     $select.change(function() {
       var zip = $(this).val();
+
       if (zip != 'view_more') {
         var locationText = $(this).find('option:selected').text();
         draw(zip, locationText);
-      } 
+        
+        if (markers) {
+          map.removeLayer(markers);
+        }
+
+        markers = new L.FeatureGroup();
+        map.addLayer(markers)
+        setMarker(markers, zip, locationText);
+      }
     });
 
     $select.trigger('change');
-
-    
-
 
   });
 
   function loadMap() {
       var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 4);
 
-      L.esri.basemapLayer("GrayLabels").addTo(map);
+      L.esri.basemapLayer("Gray").addTo(map);
 
-      // var govUnits = L.esri.dynamicMapLayer({
-      //         url: 'http://services.nationalmap.gov/arcgis/rest/services/govunits/MapServer',
-      //         opacity: 0.9
-      //     }).addTo(map);
+      var govUnits = L.esri.dynamicMapLayer({
+              url: 'http://services.nationalmap.gov/arcgis/rest/services/govunits/MapServer',
+              opacity: 0.9
+          }).addTo(map);
 
+      map.fitBounds(govUnits._map.getBounds());
 
       var aqiLayer = L.esri.dynamicMapLayer({
         url: "http://gisstg.rtpnc.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
@@ -53,6 +59,13 @@
       aqiLayer.bringToBack();
 
       return map;
+  }
+
+  function setMarker(markers, zip, locationText) {
+    $.getJSON('/zip_code_lookup?zip='+zip, function(data) {
+      var marker = L.marker([data.latitude, data.longitude]).addTo(markers);
+      marker.bindPopup("<b>"+ locationText +"</b>");
+    });
   }
 
   function formatDate(date, delimiter) {
@@ -72,96 +85,98 @@
 
   function drawPopulationsAtRisk() {
     
-    if (todayData.AQI > 100) {
+    if (todayData) {
+      if (todayData.AQI > 100) {
 
-      var g = graph.append("g")
-        .attr("transform", "translate(-"+(m[3] )+","+(h + m[0] + 65)+")")
+        var g = graph.append("g")
+          .attr("transform", "translate(-"+(m[3] )+","+(h + m[0] + 65)+")")
 
-      var text = g.append("text");
-      text.append("tspan")
-        .attr("x", 0)
-        .text("Today's At Risk")
-      text.append("tspan")
-        .attr("x", 0)
-        .attr("dy", 18)
-        .text("Populations")
+        var text = g.append("text");
+        text.append("tspan")
+          .attr("x", 0)
+          .text("Today's At Risk")
+        text.append("tspan")
+          .attr("x", 0)
+          .attr("dy", 18)
+          .text("Populations")
 
-      if (todayData.AQI > 150) { // all populations at risk 
+        if (todayData.AQI > 150) { // all populations at risk 
 
-        var cellPosition = (w + m[1] + m[3]) / 2;
+          var cellPosition = (w + m[1] + m[3]) / 2;
 
-        g.append("text")
-          .attr("transform", "translate("+cellPosition+",0)")
-          .attr("class", "at-risk-item")
-          .attr("text-anchor", "middle")
-          .text("Everyone")
-      } else { // [lungs, heart, over 55, under 12] at risk
+          g.append("text")
+            .attr("transform", "translate("+cellPosition+",0)")
+            .attr("class", "at-risk-item")
+            .attr("text-anchor", "middle")
+            .text("Everyone")
+        } else { // [lungs, heart, over 55, under 12] at risk
 
-        var cellWidth = (w + m[1] + m[3]) / 5;
-        var cellPosition = 150;
+          var cellWidth = (w + m[1] + m[3]) / 5;
+          var cellPosition = 150;
 
-        var lungsG = g.append("g")
-          .attr("transform", "translate("+cellPosition+", 0)");
-        lungsG.append("text")
-          .attr("class", "at-risk-item")
-          .attr("text-anchor", "middle")
-          .text("Lungs");
-        lungsG.append("image")
-          .attr("class", "at-risk-icon")
-          .attr("transform", "translate(-20, 0)")
-          .attr("xlink:href", "sites/all/themes/oneepa/images/airnow-lungs.png");
+          var lungsG = g.append("g")
+            .attr("transform", "translate("+cellPosition+", 0)");
+          lungsG.append("text")
+            .attr("class", "at-risk-item")
+            .attr("text-anchor", "middle")
+            .text("Lungs");
+          lungsG.append("image")
+            .attr("class", "at-risk-icon")
+            .attr("transform", "translate(-20, 0)")
+            .attr("xlink:href", "sites/all/themes/oneepa/images/airnow-lungs.png");
+
+            cellPosition += cellWidth;
+
+          var heartG = g.append("g")
+            .attr("transform", "translate("+cellPosition+", 0)")
+          heartG.append("text")
+            .attr("class", "at-risk-item")
+            .attr("text-anchor", "middle")
+            .text("Heart");
+          heartG.append("image")
+            .attr("class", "at-risk-icon")
+            .attr("transform", "translate(-20, 0)")
+            .attr("xlink:href", "sites/all/themes/oneepa/images/airnow-heart.png");
+
+            cellPosition += cellWidth;
+
+          var adultsText = g.append("text")
+            .attr("transform", "translate("+cellPosition+", 0)")
+            .attr("text-anchor", "middle");
+          adultsText.append("tspan")
+            .attr("class", "at-risk-item")
+            .text("Adults")
+          adultsText.append("tspan")
+            .attr("class", "at-risk-item at-risk-item-large")
+            .attr("x", 0)
+            .attr("dy", 40)
+            .text("55")
+          adultsText.append("tspan")
+            .attr("class", "at-risk-item")
+            .attr("x", 0)
+            .attr("dy", 18)
+            .text("and Over");
 
           cellPosition += cellWidth;
 
-        var heartG = g.append("g")
-          .attr("transform", "translate("+cellPosition+", 0)")
-        heartG.append("text")
-          .attr("class", "at-risk-item")
-          .attr("text-anchor", "middle")
-          .text("Heart");
-        heartG.append("image")
-          .attr("class", "at-risk-icon")
-          .attr("transform", "translate(-20, 0)")
-          .attr("xlink:href", "sites/all/themes/oneepa/images/airnow-heart.png");
-
-          cellPosition += cellWidth;
-
-        var adultsText = g.append("text")
-          .attr("transform", "translate("+cellPosition+", 0)")
-          .attr("text-anchor", "middle");
-        adultsText.append("tspan")
-          .attr("class", "at-risk-item")
-          .text("Adults")
-        adultsText.append("tspan")
-          .attr("class", "at-risk-item at-risk-item-large")
-          .attr("x", 0)
-          .attr("dy", 40)
-          .text("55")
-        adultsText.append("tspan")
-          .attr("class", "at-risk-item")
-          .attr("x", 0)
-          .attr("dy", 18)
-          .text("and Over");
-
-        cellPosition += cellWidth;
-
-        var childrenText = g.append("text")
-          .attr("transform", "translate("+cellPosition+", 0)")
-          .attr("text-anchor", "middle");
-        childrenText.append("tspan")
-          .attr("class", "at-risk-item")
-          .text("Children")
-        childrenText.append("tspan")
-          .attr("class", "at-risk-item at-risk-item-large")
-          .attr("x", 0)
-          .attr("dy", 40)
-          .text("12")
-        childrenText.append("tspan")
-          .attr("class", "at-risk-item")
-          .attr("x", 0)
-          .attr("dy", 18)
-          .text("and Under")
-        
+          var childrenText = g.append("text")
+            .attr("transform", "translate("+cellPosition+", 0)")
+            .attr("text-anchor", "middle");
+          childrenText.append("tspan")
+            .attr("class", "at-risk-item")
+            .text("Children")
+          childrenText.append("tspan")
+            .attr("class", "at-risk-item at-risk-item-large")
+            .attr("x", 0)
+            .attr("dy", 40)
+            .text("12")
+          childrenText.append("tspan")
+            .attr("class", "at-risk-item")
+            .attr("x", 0)
+            .attr("dy", 18)
+            .text("and Under")
+          
+        }
       }
     }
   }
@@ -219,8 +234,8 @@
       );
 
       popover.style({
-        "left": bound.left + window.pageXOffset + obj.clientWidth + 40 + "px",
-        "top": bound.top + window.pageYOffset - $popover.height()/2 + "px"
+        "left": bound.left + obj.clientWidth + 40 + "px",
+        "top": bound.top - $popover.height()/2 + "px"
       });
 
       $popover.show();
@@ -246,6 +261,15 @@
           el.attr('y', 27);
         }
       }
+    }
+
+    function computeVisualAQI(aqi) {
+      if (aqi < 200)
+        return aqi;
+      else if (aqi < 300)
+        return (aqi - 200) * 0.5 + 200;
+      else
+        return (aqi - 300) * .25 + 250;
     }
 
     var categoryInfo = [
@@ -289,17 +313,20 @@
 
     var distanceFromToday = {'-1': 'Yesterday', '0': 'Today', '1': 'Tomorrow'};
 
-    var categoryBounds = [0, 51, 101, 151, 201, 301, 500];
+    var categoryBounds = [0, 51, 101, 151, 201, 251, 301];
+    var categoryBoundLabels = [0, 51, 101, 151, 201, 301, 500];
 
     // get max and min dates - this assumes data is sorted
     var minDate = getDate(data[0].DateForecast),
     maxDate = getDate(data[data.length-1].DateForecast);
 
     // find the maxAQI in the data
+    // compute visualAQI
     var maxAQI = 0; 
     for(var i in data) {
       if (maxAQI < data[i].AQI)
         maxAQI = data[i].AQI;
+      data[i].visualAQI = computeVisualAQI(data[i].AQI);
     }
 
     // Find data point corresponding to today
@@ -311,7 +338,8 @@
     }
 
     // Only show the categories for which data is present
-    var reducedCategoryBounds = categoryBounds.slice(0, Math.max(getCategoryInfoIndex(maxAQI) + 2, 5));
+    // var reducedCategoryBounds = categoryBounds.slice(0, Math.max(getCategoryInfoIndex(maxAQI) + 2, 5));
+    var reducedCategoryBounds = categoryBounds;
     var maxCategoryBound = reducedCategoryBounds[reducedCategoryBounds.length-1];
 
     var baseHeight = maxCategoryBound + 125;
@@ -326,7 +354,7 @@
       m[3] += 150; // add to the left margin to make room for the long category text
     }
 
-    if (todayData.AQI > 100) {
+    if (todayData && todayData.AQI > 100) {
       m[2] += 100; // add to the bottom margin to make room for the populations at risk section
     }
 
@@ -343,11 +371,11 @@
     })
     .y(function(d) {
     // return the Y coordinate where we want to plot this datapoint
-    return y(d.AQI);
+    return y(d.visualAQI);
     });
 
     function xx(e) { return x(getDate(e.DateForecast)); };
-    function yy(e) { return y(e.AQI); };
+    function yy(e) { return y(e.visualAQI); };
 
     var container = d3.select("#my-air-quality-chart").append('div').attr('class', 'my-air-quality-chart-container');
     
@@ -391,6 +419,7 @@
 
       graph.append("path")
       .datum([categoryBounds[activeCategoryIndex], categoryBounds[activeCategoryIndex+1]])
+      .attr("transform", "translate(-10,0)")
       .attr("class", activeCategory.cssClass)
       .attr("d", area);
 
@@ -405,7 +434,7 @@
              + '/' + d3.time.format("%a/%b %d")(date));
     });
     // Add the x-axis.
-    graph.append("svg:g")
+    var xAxisGroup = graph.append("svg:g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + h + ")")
     .call(xAxis);
@@ -419,12 +448,37 @@
     });
 
     // Create yAxis
-    var yAxis = d3.svg.axis().scale(y).tickValues(reducedCategoryBounds).orient("left").tickSize(-w - m[3]);
+    var yAxis = d3.svg.axis().scale(y).tickValues(categoryBounds).orient("left").tickSize(-w - m[3]).tickFormat(function(d, i) { return categoryBoundLabels[i]; });
+
     // Add the y-axis to the left
-    graph.append("svg:g")
+    var yAxisGroup = graph.append("svg:g")
     .attr("class", "y axis")
     .attr("transform", "translate(-"+(m[3]-m[1]+10)+",0)")
     .call(yAxis);
+
+    yAxisGroup.append("text")
+      .attr("y", h + m[0] + 20)
+      .style("font-size", "70%")
+      .text("Note: Graph is not drawn to scale.");
+
+    // add grid lines to show scale
+    var gridLineIndex = 250;
+
+    var gridLines = yAxisGroup.insert("g")
+      .attr("transform", "translate("+(m[3] - m[1] * 2)+", 0)");
+
+    while (gridLineIndex < 500) {
+      if (gridLineIndex != 300) {
+        gridLines.insert("g")
+          .attr("transform", "translate(0, "+(y(computeVisualAQI(gridLineIndex)))+")")
+          .append("line")
+          .attr("x2",w + m[1] * 2)
+          .attr("y2", 0)
+          .style({"stroke": "black", "opacity": 0.1})
+      }
+
+      gridLineIndex += 50;
+    }
 
     // Translate y-axis ticks to the right
     graph.selectAll('.y.axis line.tick')
@@ -458,7 +512,7 @@
 
     gnodes.append("text")
     .attr("x", function(d) { return x(getDate(d.DateForecast)); })
-    .attr("y", function(d) { return y(d.AQI) - 20})
+    .attr("y", function(d) { return y(d.visualAQI) - 20})
     // .attr("dy", ".35em")
     .attr("class", function(d) { 
       return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text' })
@@ -486,8 +540,10 @@
 
     // Append popover
     var tooltip = d3.select('#my-air-quality-chart')
+    .style("max-width", w + m[1] + m[3] + "px")
     .append("div")
-    .attr("class", "popover right");
+    .attr("class", "popover right")
+    .style("position", "fixed");
   }
 
   var drawMessage = function(msg) {
@@ -521,10 +577,10 @@
       }
 
       // return [
-      //   {'DateForecast': "2015-06-21", 'AQI': 248},
-      //   {'DateForecast': "2015-06-22", 'AQI': 200},
-      //   {'DateForecast': "2015-06-23", 'AQI': 332},
-      //   {'DateForecast': "2015-06-24", 'AQI': 401}
+      //   {'DateForecast': "2015-07-20", 'AQI': 248},
+      //   {'DateForecast': "2015-07-21", 'AQI': 200},
+      //   {'DateForecast': "2015-07-22", 'AQI': 332},
+      //   {'DateForecast': "2015-07-23", 'AQI': 401}
       // ];
 
       return data;
