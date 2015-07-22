@@ -596,7 +596,7 @@ tr.odd, tr.even {
 		width:24em;
 		float:right;
 		//margin-right:1.25em;
-		@include future-function;
+		//@include future-function;
 		}
 	.ee-workbench-header-setlocation {
 		label, a {
