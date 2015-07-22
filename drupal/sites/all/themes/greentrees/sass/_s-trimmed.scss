@@ -597,7 +597,7 @@ object {
 .filter-help a:before,
 .js fieldset.collapsible .fieldset-title:before,
 .tree li:before {
-  background: url(../../themes/epa/img/icons.png) no-repeat;
+  background: url(../images/icons.png) no-repeat;
 }
 
 .status { /* check.svg */
@@ -774,6 +774,25 @@ input.error:focus {
 }
 .error p.error {
   color: #333;
+}
+
+/** Gradients *****************************************************************/
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+.button,
+.skip-link,
+.password-indicator div,
+.pillbox > .menu-item > .menu-link,
+.progress .filled,
+.tabs > li > a,
+#edit-cancel {
+  background-image: -moz-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+  background-image: -ms-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+  background-image: -o-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+  background-image: -webkit-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+  background-image: linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
 }
 
 /** Forms *********************************************************************/
