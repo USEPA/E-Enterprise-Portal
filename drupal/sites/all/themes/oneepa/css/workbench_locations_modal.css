@@ -9,11 +9,16 @@
 
 .ui-widget-content.locations-modal .ui-dialog-buttonpane {
   overflow-y: hidden;
+  height: 40px;
 }
 
 .ui-widget-content.locations-modal button:hover {
     border: 1px solid #dedede;
     background: #f3f3f3;
+}
+
+#dialog-all-locations{
+  height: 350px;
 }
 
 .page-workbench .ui-widget-content.locations-modal button {
