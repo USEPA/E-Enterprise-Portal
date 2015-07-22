@@ -16340,36 +16340,41 @@ a.tabledrag-handle .handle {
 }
 
 /* line 1247, ../sass/styles.scss */
+.ui-tabs a:focus {
+  background-color: #fafafa;
+}
+
+/* line 1250, ../sass/styles.scss */
 .ui-tabs .ui-tabs-nav li.ui-tabs-active {
   border-bottom: 2px solid #000000;
 }
 
-/* line 1250, ../sass/styles.scss */
+/* line 1253, ../sass/styles.scss */
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
   font-weight: bold;
   background: transparent;
   border: none;
 }
 
-/* line 1255, ../sass/styles.scss */
+/* line 1258, ../sass/styles.scss */
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-tl, .ui-corner-tr, .ui-corner-br, .ui-corner-bl {
   border: none;
   border-radius: 0 !important;
 }
 
-/* line 1259, ../sass/styles.scss */
+/* line 1262, ../sass/styles.scss */
 .ui-dialog .ui-dialog-title {
   font-weight: normal !important;
 }
 
-/* line 1262, ../sass/styles.scss */
+/* line 1265, ../sass/styles.scss */
 .ui-dialog-titlebar-close {
   background-color: transparent !important;
   border: none !important;
 }
 
 /** Admin *********************************************************/
-/* line 1269, ../sass/styles.scss */
+/* line 1272, ../sass/styles.scss */
 #user-login input[type="submit"] {
   color: #fff;
   background-color: #337ab7;
@@ -16379,7 +16384,7 @@ a.tabledrag-handle .handle {
   padding: 5px 8px;
 }
 
-/* line 1277, ../sass/styles.scss */
+/* line 1280, ../sass/styles.scss */
 #user-login input[type="submit"]:active, #user-login input[type="submit"]:hover, #user-login input[type="submit"]:focus {
   color: #fff;
   background-color: #286090;

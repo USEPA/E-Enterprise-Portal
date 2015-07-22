@@ -1244,6 +1244,9 @@ a.tabledrag-handle .handle {
 	background:transparent;
 	border: none;
 }
+.ui-tabs a:focus {
+	background-color: #fafafa;
+}
 .ui-tabs .ui-tabs-nav li.ui-tabs-active {
 	border-bottom: 2px solid #000000;
 }
