@@ -15550,7 +15550,7 @@ tr.odd, tr.even {
 .block--ee-header-locations .ee-workbench-header-setlocation label, .block--ee-header-locations .ee-workbench-header-setlocation a {
   background-color: transparent;
   margin-top: 3px;
-  color: #333;
+  color: #ffffff;
 }
 /* line 607, ../sass/styles.scss */
 .block--ee-header-locations .ee-workbench-header-setlocation label, .block--ee-header-locations .ee-workbench-header-setlocation select, .block--ee-header-locations .ee-workbench-header-setlocation a {
