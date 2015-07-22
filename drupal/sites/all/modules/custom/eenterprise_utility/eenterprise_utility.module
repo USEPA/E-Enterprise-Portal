@@ -665,28 +665,29 @@ function generate_location_select() {
      $city_name_count[$value] = 1;
    }
   }
-  
   print "<label for='favorite-location'>Set location</label>";
   print "<select for='favorite-location' id='location-select'>";
    
   $count = 0;
-  $selected = '';
   foreach($header_data['locations'] as $key=>$value) {
-    if ($value == $default_zip) {
+
+    if (intval($key) == intval($default_zip)) {
       $selected = 'selected';
+    }
+    else {
+      $selected = '';
     }
     if ($count == 10) {
       print "<option value='view_more' >Show More...</option>";
       break;
     }
     if ($city_name_count[$value] > 1) {
-      print "<option value='" . $key . "'" . $selected . " >" . $value . " (" . $key . " )</option>";
+      print "<option value='" . $key . "' " . $selected . " >" . $value . " (" . $key . " )</option>";
     }
     else {
-      print "<option value='" . $key . "'" . $selected . " >" . $value . "</option>";
+      print "<option value='" . $key . "' " . $selected . " >" . $value . "</option>";
     }
     $count = $count + 1;
-    $selected = '';
   }
   print "</select>";  
   
