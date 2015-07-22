@@ -2,7 +2,6 @@
 
 
   $(document).ready(function(){
-	var last_clicked = "";
 	
 	function placeAddAnotherButton(ajax_content, table_id, parent_id) {
 	 	var table = $(table_id);
@@ -179,18 +178,8 @@
 	  change: function(e) {
 		  e.preventDefault();
 	  },
-	close: function() { console.log('close');},
-	focus:  function(e, v) { console.log('focus');
+	focus:  function(e, v) { 
 		e.preventDefault();},
-	open:  function() { 
-		//console.log('open');
-	},
-	response:  function() { 
-		//console.log('response');
-		},
-	search:  function(e, v) {
-		//console.log('search');
-				},
 	select:  function(e,selection) { 
 		showValue(selection.item.value, false);
 		$('.ui-autocomplete-input').val('Start typing...');		
