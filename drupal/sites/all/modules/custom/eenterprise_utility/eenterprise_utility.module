@@ -330,13 +330,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
           $field_suffix = "";
         }
 
-        if ($primary) {
-           $description = '<span class="zip-code-description">Primary/Default Location</span>';
-        }
-        else {
-          $description = '';
-        }
-
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#attributes']['class'][] =
           'field_zip_code form-control';
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#description'] =
@@ -442,6 +435,7 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
     $previous_zipcodes = array();
     $error = false;
     $error_messages = array();
+    $error_deltas = array();
     $field_ids = array();
    
    // Default value is 27705.
@@ -450,7 +444,6 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
 
    if (isset($form_state['input']['field_zip_code'])){
     foreach($form_state['values']['field_zip_code'][LANGUAGE_NONE] as $delta => $field) {
-      
         if(is_array($field) && is_numeric($delta)) {
             $zip_val = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['value'];
             if (strlen($zip_val) > 0){
@@ -458,7 +451,29 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
                if ($valid_zip['error']) {
                  $error = true;
                  $error_message = $valid_zip['error'];
+                 // Clear city details from field
+                 unset($form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#field_suffix']);
+                 if (!in_array($error_message, $error_messages)) {
+                   $error_messages[] = $error_message;
+                 }
+                  if (!in_array($delta, $error_deltas)) {
+                   $error_deltas[] = $delta;
+                 }
                }
+               else if (in_array($zip_val, $previous_zipcodes)) {
+                  $error_message = 'Duplicate zip codes are not allowed.';
+                  $error = true;
+                  if (!in_array($error_message, $error_messages)) {
+                    $error_messages[] = $error_message;
+                  }
+                  if (!in_array($delta, $error_deltas)) {
+                   $error_deltas[] = $delta;
+                 }
+                }
+               else {
+                 $error = false;
+               }
+              $previous_zipcodes[] = $zip_val;
             }
             // if(!is_numeric($zip_val) && !empty($zip_val)) {
             //   $error_message = 'Zip code can only be number';
@@ -468,10 +483,7 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
             //   $error_message = 'Zip code should be 5 digits';
             //   $error = true;
             // }
-            // else if (in_array($zip_val, $previous_zipcodes)) {
-            //   $error_message = 'Duplicate zip codes are not allowed.';
-            //   $error = true;
-            // }
+           
             // else { 
             //   if ($zip_val != '') {
             //    $previous_zipcodes[] = $zip_val;
@@ -479,13 +491,19 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
             //   }
             // }
 
-            if ($error) {
-              if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
-              form_set_error('field_zip_code][' . LANGUAGE_NONE . '][' . $delta, t($error_message));
-              }
-            }
+            // }
         }
     }
+   if ($error) {
+    // if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
+      foreach($error_messages as $delta=>$message) {
+          form_set_error('field_zip_code][' . LANGUAGE_NONE . '][' . $error_deltas[$delta], t($message));
+      }
+      foreach($error_deltas as $delta) {
+          form_set_error('field_zip_code][' . LANGUAGE_NONE . '][' . $delta);
+      }
+    }
+    
    }
    else {
          $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 27705;
