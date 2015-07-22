@@ -561,19 +561,100 @@ function get_header_variables(){
     $user_data = user_load($user->uid);
     $user_zips = $user_data->field_zip_code;
     $locations_array = array();
+    $count = 0;
     foreach($user_zips[LANGUAGE_NONE] as $key=>$value) {
         $zipcode = $value['value'];
+        if ($count == 0) {
+          $primary_zip = $zipcode;
+          $count = 1;
+        }
         $zipcode_data = zip_code_lookup($zipcode);
         $locations_array[$zipcode] = $zipcode_data['city'] . ', ' . $zipcode_data['state']; 
     }
+    asort($locations_array);
     $header_data = array('header_text' => 'New for Your Favorite Cities',
         'activities' => 7,
         'reports' => 1,
         'permits' => 3,
         'data_sets' => 13,
         'locations' => $locations_array,
+        'primary_zip' => $primary_zip,
     );
+
     return $header_data;
+}
+
+
+function get_modal_data($locations, $city_name_count) {
+  print "<a id='locations-modal' href='#'>View all favorite cities</a>";
+  print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
+  print "<div class='radio-options-holder'>";
+  foreach($locations as $key=>$value) {
+    if ($city_name_count[$value] > 1) {
+      if ($duplicate_city_count == 0) {
+        print "<label for='" . $key . "'>". $value . "</label><ul class='locations-modal-ul'>";
+      }
+      print "<li>";
+      print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key ."|" . $value . "' />" . $key . "</label>" ;
+      print "</li>";
+      ++$duplicate_city_count;
+      if ($duplicate_city_count == $city_name_count[$value]) {
+        print "</ul>";
+      }
+    }
+    else {
+      print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key ."|" . $value . "' />" . $value . "</label>" ;
+    }
+  }
+  print "</div></div>";
+ }
+
+function generate_location_select() {
+   $used_locations = array();
+
+  $header_data = get_header_variables();
+  $city_name_count = array();
+  $default_zip = $header_data['primary_zip'];
+  if (isset($_SESSION['default_location_zip']) && isset($_SESSION['default_location_name'])) {
+    $default_zip = $_SESSION['default_location_zip'];
+  }
+  
+  foreach($header_data['locations'] as $key=>$value) {
+   if (isset($city_name_count[$value])) {
+     ++$city_name_count[$value];
+   } 
+   else {
+     $city_name_count[$value] = 1;
+   }
+  }
+  
+  print "<label for='favorite-location'>Set location</label>";
+  print "<select for='favorite-location' id='location-select'>";
+   
+  $count = 0;
+  $selected = '';
+  foreach($header_data['locations'] as $key=>$value) {
+    if ($value == $default_zip) {
+      $selected = 'selected';
+    }
+    if ($count == 10) {
+      print "<option value='view_more' >Show More...</option>";
+      break;
+    }
+    if ($city_name_count[$value] > 1) {
+      print "<option value='" . $key . "'" . $selected . " >" . $value . " (" . $key . " )</option>";
+    }
+    else {
+      print "<option value='" . $key . "'" . $selected . " >" . $value . "</option>";
+    }
+    $count = $count + 1;
+    $selected = '';
+  }
+  print "</select>";  
+  
+  if (count($header_data['locations']) > 10) {
+    get_modal_data($header_data['locations'], $city_name_count);
+  }
 }
 
 function eenterprise_utility_node_access($node, $op, $account){
