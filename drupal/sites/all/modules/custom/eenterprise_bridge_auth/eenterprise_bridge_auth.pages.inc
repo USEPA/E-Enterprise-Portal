@@ -154,6 +154,7 @@ function eenterprise_bridge_auth_authenticate($error) {
  */
 function trusted_user_check($uname){
     $trusted_users = db_query("select nid, title from {node} where type = :node_type", array(":node_type" => "trusted_user"))->fetchAllKeyed();
+    $uname = trim($uname,'"');     //gmail usernames are sent with quotes before and after the username.
     if(in_array(strtolower($uname), $trusted_users) || in_array(strtoupper($uname), $trusted_users))
         ;  //if user is trusted Do Nothing, authentication will resume.
     else{
