@@ -86,6 +86,10 @@ body, .main-content {
 .masthead {
 	display:none;
 }
+.ee-wrapper {
+	min-height: 100%;
+	position:relative;
+}
 footer {
   clear: both;
   width: 100%;
@@ -94,6 +98,7 @@ footer {
   font-family: $lato;
   min-height: 50px;
   background-color: #000;
+  position: static;
   a {
 	  color: #fff;
   }
@@ -325,6 +330,9 @@ input[type="submit"],
 		color: $ee-white;
 		letter-spacing: 1px;
     }
+    a:hover, a:focus, a:active {
+	    color: $ee-light-gray;
+    }
 }
 
 .messages--status.messages.status {
@@ -355,12 +363,12 @@ input[type="submit"],
 			letter-spacing: 2px;
 		}
 	}
+	h2.node-title, h1.page-title, .block-menu-menu-footer-disclaimers h2.block-title {
+		@include element-invisible;
+	}
 	footer {
 		position: absolute;
 		bottom: 0;
-	}
-	h2.node-title, h1.page-title, .block-menu-menu-footer-disclaimers h2.block-title {
-		@include element-invisible;
 	}
 	.well {
 		//position: relative;
@@ -435,9 +443,7 @@ input[type="submit"],
 	.views-exposed-form label {
 		font-weight: normal;
 	}
-	footer {
-		position:static;
-	}
+
 }
 .page-user {
 	&.wide-template #main-content {
@@ -1157,6 +1163,15 @@ tr.even {
 	.ui-widget {
 	    font-size: 83% !important;
 	}
+	.ui-menu .ui-menu-item a{   
+	    font-size:20px;
+	}
+	
+	.ui-widget-content {
+		max-height: 300px; 
+		overflow-y: scroll; 
+		overflow-x: hidden;
+	}
 	.ui-state-hover, 
 	.ui-widget-content .ui-state-hover, 
 	.ui-widget-header .ui-state-hover, 
@@ -1215,18 +1230,11 @@ a.tabledrag-handle .handle {
 	top:-10px;
 }
 
+/** jQuery Overrides - General, affects modals, tabs, etc. *********************************************************/
 .ui-widget {
 	font-family: $lato !important;
 }
-.ui-menu .ui-menu-item a{   
-    font-size:20px;
-}
 
-.ui-widget-content {
-	max-height: 300px; 
-	overflow-y: scroll; 
-	overflow-x: hidden;
-}
 .ui-widget-header {
 	background: transparent !important;
 	border: none;
@@ -1255,3 +1263,20 @@ a.tabledrag-handle .handle {
 	background-color: transparent !important;
 	border: none !important;
 }
+
+
+/** Admin *********************************************************/
+#user-login input[type="submit"] {
+	color: #fff;
+	background-color: #337ab7;
+	border: 1px solid #2e6da4;
+	font-size: 87.5%;
+	font-weight: bold;
+	padding: 5px 8px;
+}
+#user-login input[type="submit"]:active, #user-login input[type="submit"]:hover, #user-login input[type="submit"]:focus {
+	color: #fff;
+	background-color: #286090;
+	border-color: #204d74;
+}
+

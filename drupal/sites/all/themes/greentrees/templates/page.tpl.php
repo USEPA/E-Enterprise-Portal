@@ -97,8 +97,6 @@ if(drupal_is_front_page()) {
     <?php print render($page['content']); ?>
     <!--googleoff: all-->
     <?php print $feed_icons; ?>
-
-	</div>
     
     <?php
       // Render the sidebars to see if there's anything in them.
