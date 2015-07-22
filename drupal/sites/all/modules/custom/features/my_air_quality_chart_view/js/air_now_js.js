@@ -31,7 +31,7 @@
 
         markers = new L.FeatureGroup();
         map.addLayer(markers)
-        setMarker(markers, zip, locationText);
+        setMarker(map, markers, zip, locationText);
       }
     });
 
@@ -44,12 +44,12 @@
 
       L.esri.basemapLayer("Gray").addTo(map);
 
-      var govUnits = L.esri.dynamicMapLayer({
-              url: 'http://services.nationalmap.gov/arcgis/rest/services/govunits/MapServer',
-              opacity: 0.9
-          }).addTo(map);
+      // var govUnits = L.esri.dynamicMapLayer({
+      //         url: 'http://services.nationalmap.gov/arcgis/rest/services/govunits/MapServer',
+      //         opacity: 0.9
+      //     }).addTo(map);
 
-      map.fitBounds(govUnits._map.getBounds());
+      // map.fitBounds(govUnits._map.getBounds());
 
       var aqiLayer = L.esri.dynamicMapLayer({
         url: "http://gisstg.rtpnc.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
@@ -61,10 +61,17 @@
       return map;
   }
 
-  function setMarker(markers, zip, locationText) {
+  function setMarker(map, markers, zip, locationText) {
     $.getJSON('/zip_code_lookup?zip='+zip, function(data) {
-      var marker = L.marker([data.latitude, data.longitude]).addTo(markers);
+
+      var latlng = [data.latitude, data.longitude];
+
+      var marker = L.marker(latlng).addTo(markers);
       marker.bindPopup("<b>"+ locationText +"</b>");
+      console.log(markers.getBounds());
+
+      // map.fitBounds(markers.getBounds());
+      map.setView(latlng);
     });
   }
 
@@ -86,7 +93,7 @@
   function drawPopulationsAtRisk() {
     
     if (todayData) {
-      if (todayData.AQI > 100) {
+      if (todayData.AQI > 50) {
 
         var g = graph.append("g")
           .attr("transform", "translate(-"+(m[3] )+","+(h + m[0] + 65)+")")
@@ -109,7 +116,7 @@
             .attr("class", "at-risk-item")
             .attr("text-anchor", "middle")
             .text("Everyone")
-        } else { // [lungs, heart, over 55, under 12] at risk
+        } else if (todayData.AQI > 100) { // [lungs, heart, over 55, under 12] at risk
 
           var cellWidth = (w + m[1] + m[3]) / 5;
           var cellPosition = 150;
@@ -176,6 +183,17 @@
             .attr("dy", 18)
             .text("and Under")
           
+        } else {
+
+          console.log(todayData.AQI)
+
+          var cellPosition = (w + m[1] + m[3]) / 2;
+
+          g.append("text")
+            .attr("transform", "translate("+cellPosition+",0)")
+            .attr("class", "at-risk-item")
+            .attr("text-anchor", "middle")
+            .text("Groups unusually sensitive to ozone")
         }
       }
     }
@@ -354,7 +372,7 @@
       m[3] += 150; // add to the left margin to make room for the long category text
     }
 
-    if (todayData && todayData.AQI > 100) {
+    if (todayData && todayData.AQI > 50) {
       m[2] += 100; // add to the bottom margin to make room for the populations at risk section
     }
 
@@ -576,12 +594,12 @@
         }
       }
 
-      // return [
-      //   {'DateForecast': "2015-07-20", 'AQI': 248},
-      //   {'DateForecast': "2015-07-21", 'AQI': 200},
-      //   {'DateForecast': "2015-07-22", 'AQI': 332},
-      //   {'DateForecast': "2015-07-23", 'AQI': 401}
-      // ];
+      return [
+        {'DateForecast': "2015-07-20", 'AQI': 248},
+        {'DateForecast': "2015-07-21", 'AQI': 200},
+        {'DateForecast': "2015-07-22", 'AQI': 82},
+        {'DateForecast': "2015-07-23", 'AQI': 401}
+      ];
 
       return data;
     }
