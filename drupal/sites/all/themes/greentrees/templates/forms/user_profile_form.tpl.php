@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <?php
       drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
