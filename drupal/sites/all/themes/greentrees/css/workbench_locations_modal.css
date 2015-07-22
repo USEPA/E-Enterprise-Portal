@@ -1,10 +1,14 @@
 
 .ui-widget-content.locations-modal{
-  max-height: none;
+  max-height: none !important;
   height: 380px;
   min-width:300px;
-  overflow-y: hidden;
+  overflow-y: hidden !important;
   overflow-x: hidden;
+}
+
+#dialog-all-locations.ui-widget-content {
+  overflow-y: auto !important;
 }
 
 .ui-widget-content.locations-modal .ui-dialog-buttonpane {
