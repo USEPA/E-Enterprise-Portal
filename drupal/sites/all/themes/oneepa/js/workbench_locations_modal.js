@@ -60,6 +60,7 @@ $(document).ready(function(){
 			$('#locations-modal').trigger('click');
 		}
 		else {
+			console.log('here');
 			previous_selection = $(this).val();
 			$('input[type=radio]#' + previous_selection).attr('checked', true); // Update modal with selected values
 			$.post("/default_location_zip", {zip: $(this).val(), name: $(this).find('option:selected').text()});

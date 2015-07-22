@@ -29,7 +29,6 @@ $(document).ready(function(){
 					class: ' ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only',
 					click: function() {
 						$('#location-select').val(previous_selection);
-						$('#location-select').trigger('change');
 						$('#dialog-all-locations').dialog('close');
 					}	
 				}
