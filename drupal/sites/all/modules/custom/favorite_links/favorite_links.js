@@ -19,11 +19,10 @@ $(document).ready(function(){
 				if (data.url_data != 'false') {
 					favorite_urls = data.urls;
 					favorite_url_mapping = data.url_mapping;
-					console.log(data)
 					id_label_mapping = data.label_mapping;
-					if (process_page_anchors) {
-						processPageAnchors();
-					}
+					// if (process_page_anchors) {
+					// 	processPageAnchors();
+					// }
 				}
 			}
 		});	
@@ -84,8 +83,8 @@ $(document).ready(function(){
 
 		// process img links
 		$('#main-content img').each(function () {
-		if ($(this).attr('href') != '#' && $(this).attr('href')!= '') {
-			var url = $(this).attr('href');
+		if ($(this).closest('a').attr('href') != '#' && $(this).closest('a').attr('href')!= '') {
+			var url = $(this).closest('a').attr('href');
 			var encodedURI = encodeURIComponent(url);
 			var title = $(this).attr('alt');
 			var favorite_button = createFavoriteButton(url, title);
@@ -162,14 +161,17 @@ var path = window.location.pathname;
 			// processPageAnchors();
 		});
 		
+
+		$( document ).ajaxSuccess(function( event, xhr, settings ) {
+			processPageAnchors();
+		});
+			
+
+
+		
 	
 	}
-	// function removeRow(url) {
-	// 	$.ajax({
-	// 		url: '/user_add_favorite_link/' + url + '/remove'
-	// 		});
-	// };
-	
+
 	function processFavoriteLink(button, action, unparsed_url, label) {
 		var id;
 		var old_link = false;

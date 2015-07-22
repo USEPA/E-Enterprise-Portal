@@ -123,5 +123,29 @@ Drupal.behaviors.shareLinks = {
   }
 };
 
+Drupal.behaviors.filterItems = {
+    attach: function (context) {
+        if($("#edit-field-prog-track-category-value").val() == 'CEDRI') {
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+            var cedri_list = ["Notification Report", "Notification of Compliance Status", "Air Emissions Report", "- Any -"];
+            $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
+                return $.inArray(this.innerHTML, cedri_list) == -1
+            }).remove();
+        }
+        if($("#edit-field-prog-track-category-value").val() == 'LEAD') {
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+
+            var lead_list = ["Firm Abatement", "Firm RRP", "Firm Combination", "- Any -"];
+            $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
+                return $.inArray(this.innerHTML, lead_list) == -1
+            }).remove();
+        }
+        if($("#edit-field-prog-track-category-value").val() == 'All') {
+            //$("edit-field-prog-track-rep-type-filter-value").val("All");
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
+        }
+    }
+};
+
 })(jQuery);
 

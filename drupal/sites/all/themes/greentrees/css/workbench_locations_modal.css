@@ -1,0 +1,79 @@
+
+.ui-widget-content.locations-modal{
+  max-height: none !important;
+  height: 380px;
+  min-width:300px;
+  overflow-y: hidden !important;
+  overflow-x: hidden;
+}
+
+#dialog-all-locations.ui-widget-content {
+  overflow-y: auto !important;
+}
+
+.ui-widget-content.locations-modal .ui-dialog-buttonpane {
+  overflow-y: hidden;
+  height: 40px;
+}
+
+.ui-widget-content.locations-modal button:hover {
+    border: 1px solid #dedede;
+    background: #f3f3f3;
+}
+
+#dialog-all-locations{
+  height: 350px;
+}
+
+.page-workbench .ui-widget-content.locations-modal button {
+  padding: .4em 1em;
+}
+
+/* line 1124, ../sass/styles.scss */
+.ui-widget.locations-modal,
+ .locations-modal .ui-menu .ui-menu-item {
+  font-family: Lato, "Source Sans Pro", sans-serif !important;
+}
+/* line 1128, ../sass/styles.scss */
+.ui-widget.locations-modal, .ui-widget.locations-modal button {
+  font-size: 83% !important;
+}
+
+
+.radio-options-holder input[type=radio], .radio-options-holder input.radio { margin-right: 5px; }
+
+.locations-modal .ui-dialog-titlebar-close {
+  display:none;
+}
+
+.locations-modal .ui-dialog-buttonpane {
+  border: none;
+}
+
+.ui-widget-overlay {
+     opacity: 0.9 !important; 
+}
+
+ /*.locations-modal button:hover{
+  border: 1px solid #dedede;
+  background: #f3f3f3;
+}*/
+
+.ee-workbench-header-block.ee-workbench-header-setlocation {
+    float: left;
+    margin-left:0px;
+  padding: 5px 10px 5px;
+}
+
+.block--ee-header-locations .ee-workbench-header-setlocation select{
+  max-width: 150px;
+  width: auto;
+  overflow:hidden; 
+    white-space:nowrap;
+    -ms-text-overflow:ellipsis;
+    text-overflow:ellipsis;
+}
+
+.locations-modal-ul{
+  padding-bottom: 0;
+}

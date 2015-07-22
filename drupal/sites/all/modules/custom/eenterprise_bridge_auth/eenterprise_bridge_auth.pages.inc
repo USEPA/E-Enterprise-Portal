@@ -118,6 +118,7 @@ function eenterprise_bridge_auth_authenticate($error) {
             else{
                 $uname = $username;
             }
+            trusted_user_check($uname);
             $ext_user = user_external_load($uname);
             if(!$ext_user){
                 //user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
@@ -147,6 +148,21 @@ function eenterprise_bridge_auth_authenticate($error) {
     drupal_goto('workbench');
 }
 
+/*
+ * Implement a function to filter users to deny authentication from a predefined list. The list maintained in
+ * trusted_user content type.
+ */
+function trusted_user_check($uname){
+    $trusted_users = db_query("select nid, title from {node} where type = :node_type", array(":node_type" => "trusted_user"))->fetchAllKeyed();
+    $uname = trim($uname,'"');     //gmail usernames are sent with quotes before and after the username.
+    if(in_array(strtolower($uname), $trusted_users) || in_array(strtoupper($uname), $trusted_users))
+        ;  //if user is trusted Do Nothing, authentication will resume.
+    else{
+        $_SESSION['trusted_login'] = 'NO';
+        drupal_goto("/");
+        return;
+    }
+}
 
 function create_progress_tracker($user){
     try {
@@ -216,13 +232,16 @@ function create_progress_tracker($user){
 function _update_progress_tracker_to_do_item($query_res, $res){
     $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
     $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res['entity_id']))->fetchField();
+
+    $cdx_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
+
     //If description field is updated...
     if($res_title != $res['ActivityDesc']){
         node_delete($query_res['entity_id']);
         return true;
     }
     //if status field is updated...
-    else if($res_status != $res['Status']){
+    else if(!empty($res_status) && ($res_status != $cdx_status)){
         node_delete($query_res['entity_id']);
         return true;
     }
@@ -248,10 +267,7 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_tracker_app['und'][0]['format'] = null;
             $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
 
-            if($res['Status'] == 'IN_PROGRESS')
-                $res_status = 'In Progress';
-            else
-                $res_status = ucwords(strtolower($res['Status']));
+            $res_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
 
             $node->field_prog_track_status['und'][0]['value'] = $res_status;
             $node->field_prog_track_status['und'][0]['format'] = null;
@@ -386,11 +402,18 @@ function assign_roles_to_user($user_name){
             "user" => $user_obj->User,
         );
 
+        $org_val = null;
         $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
+
+        if(is_array($user_orgs->Organization))
+            $org_val = $user_orgs->Organization[0];
+        else
+            $org_val = $user_orgs->Organization;
+
         $user_sec_org_bundle = array(
             "securityToken" => $response1->securityToken,
             "user" => $user_obj->User,
-            "org" => $user_orgs->Organization,
+            "org" => $org_val,
         );
         global $user;
         $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
@@ -399,6 +422,11 @@ function assign_roles_to_user($user_name){
                 $role_val = $v->type->description;
                 if(!empty($role_val)){
                     $user_role = user_role_load_by_name($role_val);
+                    if($user_role === FALSE){
+                        $user_role = new stdClass();
+                        $user_role->name = $role_val;
+                        user_role_save($user_role);
+                    }
                     user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
                 }
             }
@@ -407,6 +435,11 @@ function assign_roles_to_user($user_name){
             $role_val = $user_roles->Role->type->description;
             if(!empty($role_val)){
                 $user_role = user_role_load_by_name($role_val);
+                if($user_role === FALSE){
+                    $user_role = new stdClass();
+                    $user_role->name = $role_val;
+                    user_role_save($user_role);
+                }
                 user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
             }
         }
