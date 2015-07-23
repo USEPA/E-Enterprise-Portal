@@ -15917,7 +15917,8 @@ tr.even {
 }
 
 /* line 883, ../sass/styles.scss */
-.views-field-field-prog-tracker-app .modal-content-in-page {
+.views-field-field-prog-tracker-app .modal-content-in-page,
+.views-field-field-todo-lst-item .modal-content-in-page{
   display: none;
 }
 
