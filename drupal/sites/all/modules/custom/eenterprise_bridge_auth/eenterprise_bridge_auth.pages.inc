@@ -359,6 +359,10 @@ function create_progress_tracker_node($res, $user){
             $node->field_todo_lst_facility_name['und'][0]['format'] = null;
             $node->field_todo_lst_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
 
+            $node->field_todo_lst_activ_source_url['und'][0]['value'] = $res['ActivitySourceURL'];
+            $node->field_todo_lst_activ_source_url['und'][0]['format'] = null;
+            $node->field_todo_lst_activ_source_url['und'][0]['safe_value'] = $res['ActivitySourceURL'];
+
             $node->field_todo_lst_created_by['und'][0]['value'] = $user->uid;
             $node->field_todo_lst_created_by['und'][0]['format'] = null;
             $node->field_todo_lst_created_by['und'][0]['safe_value'] = $user->uid;
