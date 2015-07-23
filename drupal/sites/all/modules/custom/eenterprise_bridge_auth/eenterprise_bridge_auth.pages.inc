@@ -218,6 +218,10 @@ function create_progress_tracker($user){
                 "RoleIdSubject " => (string)$activity->RoleIdSubject ,
                 "Attributes " => (string)$activity->Attributes ,
                 "Documents " => (string)$activity->Documents ,);
+            foreach($activity->Attributes->Attribute as $child){
+                if((string)($child->attributes()) == 'facilityName')
+                    $res['FacilityName'] = $child->__toString();
+            }
             create_progress_tracker_node($res, $user);
         }
     }
@@ -350,6 +354,10 @@ function create_progress_tracker_node($res, $user){
             $node->field_todo_lst_due['und'][0]['value'] = $st_due;
             $node->field_todo_lst_due['und'][0]['format'] = null;
             $node->field_todo_lst_due['und'][0]['safe_value'] = $st_due;
+
+            $node->field_todo_lst_facility_name['und'][0]['value'] = $res['FacilityName'];
+            $node->field_todo_lst_facility_name['und'][0]['format'] = null;
+            $node->field_todo_lst_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
 
             $node->field_todo_lst_created_by['und'][0]['value'] = $user->uid;
             $node->field_todo_lst_created_by['und'][0]['format'] = null;
