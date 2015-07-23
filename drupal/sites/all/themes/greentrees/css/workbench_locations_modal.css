@@ -77,3 +77,8 @@
 .locations-modal-ul{
   padding-bottom: 0;
 }
+
+
+.locations-modal-ul li {
+  list-style: none;
+}

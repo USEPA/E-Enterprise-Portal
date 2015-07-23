@@ -633,7 +633,7 @@ function get_modal_data($locations, $city_name_count) {
   foreach($locations as $key=>$value) {
     if ($city_name_count[$value] > 1) {
       if ($duplicate_city_count == 0) {
-        print "<label for='" . $key . "'>". $value . "</label><ul class='locations-modal-ul'>";
+        print  $value . "<ul class='locations-modal-ul'>";
       }
       print "<li>";
       print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key ."|" . $value . "' />" . $key . "</label>" ;
