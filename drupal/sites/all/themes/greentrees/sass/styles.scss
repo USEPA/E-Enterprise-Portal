@@ -154,6 +154,9 @@ a:visited.pager__link {
         color: #efefef;
     }
 }
+a:focus {
+	outline: 2px dotted #fff;
+}
 
 .menu-item {
 	letter-spacing: 0.25px;
@@ -341,6 +344,7 @@ input[type="submit"],
 	    font-size: 0.5em;
 		color: $ee-white;
 		letter-spacing: 1px;
+		padding: 4px;
     }
     a:hover, a:focus, a:active {
 	    color: $ee-light-gray;
