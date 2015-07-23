@@ -45,7 +45,7 @@ $(document).ready(function(){
 		}
 		else {
 			id = url;
-			favorite_button = "<div class='button_input_holder' style='display:none'><span id='" + id+ "|" + text_title + "'" +
+			favorite_button = '<div class="button_input_holder" style="display:none"><span id="' + id+ '|' + text_title + '"' +
 				"class='add_link favorite_hover new_link glyphicon glyphicon-plus empty' aria-hidden='true'></span></div>";	
 		}
 	 return favorite_button;
