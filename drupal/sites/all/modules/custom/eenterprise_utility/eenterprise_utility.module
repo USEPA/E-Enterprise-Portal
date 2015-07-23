@@ -90,6 +90,7 @@ function guest_login_action(){
  * Logout a guest user.
  */
 function guest_logout_action(){
+    module_load_include('pages.inc', 'user');
     user_logout();
     drupal_goto("/ee-welcome");
 }
