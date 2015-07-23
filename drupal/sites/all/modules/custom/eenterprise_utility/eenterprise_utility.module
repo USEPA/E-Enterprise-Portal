@@ -604,6 +604,7 @@ function get_modal_data($locations, $city_name_count) {
       ++$duplicate_city_count;
       if ($duplicate_city_count == $city_name_count[$value]) {
         print "</ul>";
+        $duplicate_city_count= 0;
       }
     }
     else {
