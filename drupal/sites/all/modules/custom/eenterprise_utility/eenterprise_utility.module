@@ -170,6 +170,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
             if($value == 'user_account_form_validate')
                 unset($form['#validate'][$key]);
 
+        //Removed more than a thousand taxonomy hierarchy from bottom of admin profile page, it was giving me lots of misery.
+        global $user;
+        if($user->uid == 1)
+            unset($form['field_interests2']);
 
         // Get proper values for 'allowed_values_function', which is a core setting.
         $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
