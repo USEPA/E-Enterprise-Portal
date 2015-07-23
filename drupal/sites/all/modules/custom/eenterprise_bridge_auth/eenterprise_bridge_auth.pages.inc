@@ -222,6 +222,16 @@ function create_progress_tracker($user){
             foreach($activity->Attributes->Attribute as $child){
                 if((string)($child->attributes()) == 'facilityName')
                     $res['FacilityName'] = $child->__toString();
+                else if((string)($child->attributes()) == 'partCode')
+                    $res['partCode'] = $child->__toString();
+                else if((string)($child->attributes()) == 'partName')
+                    $res['partName'] = $child->__toString();
+                else if((string)($child->attributes()) == 'subPartCode')
+                    $res['subPartCode'] = $child->__toString();
+                else if((string)($child->attributes()) == 'subPartName')
+                    $res['subPartName'] = $child->__toString();
+                else if((string)($child->attributes()) == 'facilityRegistryIdentifier')
+                    $res['facilityRegistryIdentifier'] = $child->__toString();
             }
             create_progress_tracker_node($res, $user);
         }
@@ -359,6 +369,26 @@ function create_progress_tracker_node($res, $user){
             $node->field_todo_lst_facility_name['und'][0]['value'] = $res['FacilityName'];
             $node->field_todo_lst_facility_name['und'][0]['format'] = null;
             $node->field_todo_lst_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
+
+            $node->field_todo_lst_part_code['und'][0]['value'] = $res['partCode'];
+            $node->field_todo_lst_part_code['und'][0]['format'] = null;
+            $node->field_todo_lst_part_code['und'][0]['safe_value'] = $res['partCode'];
+
+            $node->field_todo_lst_part_name['und'][0]['value'] = $res['partName'];
+            $node->field_todo_lst_part_name['und'][0]['format'] = null;
+            $node->field_todo_lst_part_name['und'][0]['safe_value'] = $res['partName'];
+
+            $node->field_todo_lst_sub_part_code['und'][0]['value'] = $res['subPartCode'];
+            $node->field_todo_lst_sub_part_code['und'][0]['format'] = null;
+            $node->field_todo_lst_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
+
+            $node->field_todo_lst_sub_part_name['und'][0]['value'] = $res['subPartName'];
+            $node->field_todo_lst_sub_part_name['und'][0]['format'] = null;
+            $node->field_todo_lst_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
+
+            $node->field_todo_lst_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
+            $node->field_todo_lst_facility_reg_id['und'][0]['format'] = null;
+            $node->field_todo_lst_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
 
             $node->field_todo_lst_activ_source_url['und'][0]['value'] = $res['ActivitySourceURL'];
             $node->field_todo_lst_activ_source_url['und'][0]['format'] = null;
