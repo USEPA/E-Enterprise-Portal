@@ -52,64 +52,73 @@ $(document).ready(function(){
 	} 
 	
 	function processPageAnchors() {
-		// process anchor tags
-		$('#main-content a:not(.favorites-ignore)').each(function () {
-		if ($(this).text().length > 0 && $(this).attr('href') != '#' && $(this).attr('href') != '/') {
-			var url = $(this).attr('href');
-			var encodedURI = encodeURIComponent(url);
-			var title = $(this).text();
-			var favorite_button = createFavoriteButton(url, title);
-			$(this).after(favorite_button);
-			$(this).qtip({ // Grab some elements to apply the tooltip to
-			    content: {
-			        text: $(this).next('div')
-			    },
-				 hide: {
-	                fixed: true,
-	                delay: 300
-	            	},
-				   position: {
-				        my: 'left center',  // Position my top left...
-				        at: 'right center', // at the bottom right of...
-				        target: $(this) // my target
-				    },
-					style: {
-						classes: 'transparent-qtip',
-						width: 4
-					}
-				});
-			}
-		});
+
 
 		// process img links
 		$('#main-content img').each(function () {
 		if ($(this).closest('a').attr('href') != '#' && $(this).closest('a').attr('href')!= '') {
-			var url = $(this).closest('a').attr('href');
-			var encodedURI = encodeURIComponent(url);
-			var title = $(this).attr('alt');
-			var favorite_button = createFavoriteButton(url, title);
-			$(this).after(favorite_button);
-
-			$(this).qtip({ // Grab some elements to apply the tooltip to
-			    content: {
-			        text: $(this).next('div')
-			    },
-				 hide: {
-	                fixed: true,
-	                delay: 300
-	            	},
-				   position: {
-				        my: 'right bottom',  // Position my top left...
-				        at: 'right bottom', // at the bottom right of...
-				        target: $(this) // my target
+			if (!$(this).closest('a').hasClass('processed-favorite')) {
+				$(this).closest('a').addClass('processed-favorite');
+				var url = $(this).closest('a').attr('href');
+				var encodedURI = encodeURIComponent(url);
+				var title = $(this).attr('alt');
+				var favorite_button = createFavoriteButton(url, title);
+				$(this).after(favorite_button);
+	
+				$(this).qtip({ // Grab some elements to apply the tooltip to
+				    content: {
+				        text: $(this).next('div')
 				    },
-					style: {
-						classes: 'transparent-qtip',
-						width: 4
-					}
-				});
+					 hide: {
+		                fixed: true,
+		                delay: 300
+		            	},
+					   position: {
+					        my: 'right bottom',  // Position my top left...
+					        at: 'right bottom', // at the bottom right of...
+					        target: $(this) // my target
+					    },
+						style: {
+							classes: 'transparent-qtip',
+							width: 4
+						}
+					});
+				}
 			}
 		});
+			// process anchor tags
+		$('#main-content a:not(.favorites-ignore)').each(function () {
+		if ($(this).text().length > 0 && $(this).attr('href') != '#' && $(this).attr('href') != '/') {
+				if (!$(this).hasClass('processed-favorite')) {
+				var url = $(this).attr('href');
+				var encodedURI = encodeURIComponent(url);
+				var title = $(this).text();
+				var favorite_button = createFavoriteButton(url, title);
+				$(this).after(favorite_button);
+				$(this).qtip({ // Grab some elements to apply the tooltip to
+				    content: {
+				        text: $(this).next('div')
+				    },
+					 hide: {
+		                fixed: true,
+		                delay: 300
+		            	},
+					   position: {
+					        my: 'left center',  // Position my top left...
+					        at: 'right center', // at the bottom right of...
+					        target: $(this) // my target
+					    },
+						style: {
+							classes: 'transparent-qtip',
+							width: 4
+						}
+					});
+					$(this).addClass('processed-favorite');
+				}
+			}
+		});
+	
+	
 	}
 
 	
