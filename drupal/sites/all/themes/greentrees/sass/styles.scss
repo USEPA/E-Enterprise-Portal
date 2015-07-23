@@ -80,7 +80,7 @@ html {
 body {
 	height: 100%;
 }
-body, .main-content {
+body {
 	background-color: transparent;
 }
 .masthead {
@@ -90,6 +90,9 @@ body, .main-content {
 	min-height: 100%;
 	position:relative;
 	background-color: #000;
+}
+.main-content {
+	background-color: #fff;
 }
 footer {
   clear: both;
@@ -368,6 +371,9 @@ input[type="submit"],
 		display: block;
 		padding-bottom: 10px;
 		padding-top: 10px;
+	}
+	.main-content {
+		background-color: transparent;
 	}
 	.region-header {
 		padding: 15px 3.25em;
