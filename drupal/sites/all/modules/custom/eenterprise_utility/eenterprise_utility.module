@@ -27,6 +27,10 @@ function eenterprise_utility_menu() {
         'page callback' => 'guest_login_action',
         'access callback' => TRUE,
     );
+    $items['guest_logout'] = array(
+        'page callback' => 'guest_logout_action',
+        'access callback' => TRUE,
+    );
      $items['default_location_zip'] = array(
         'page callback' => 'default_location_zip',
         'access callback' => TRUE,
@@ -80,6 +84,14 @@ function guest_login_action(){
         drupal_session_regenerate();
         drupal_goto("/");
     }
+}
+
+/*
+ * Logout a guest user.
+ */
+function guest_logout_action(){
+    user_logout();
+    drupal_goto("/ee-welcome");
 }
 
 function load_air_now_us_data() {
