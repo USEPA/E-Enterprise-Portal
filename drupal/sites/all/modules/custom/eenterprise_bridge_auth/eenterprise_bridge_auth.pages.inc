@@ -273,11 +273,6 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_track_status['und'][0]['format'] = null;
             $node->field_prog_track_status['und'][0]['safe_value'] = $res_status;
 
-            $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
-            $node->field_prog_track_updated['und'][0]['value'] = $st_update;
-            $node->field_prog_track_updated['und'][0]['format'] = null;
-            $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
-
             $res_domain = $res['PartnerSystemId'];
             if (strpos($res['PartnerSystemId'], 'lead') !== false)
                 $res_domain = "Lead";
@@ -287,7 +282,18 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_track_domain['und'][0]['format'] = null;
             $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
 
-
+            if($res_domain == 'Lead'){
+                $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
+                $node->field_prog_track_updated['und'][0]['value'] = $st_update;
+                $node->field_prog_track_updated['und'][0]['format'] = null;
+                $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
+            }
+            else if($res_domain == 'CEDRI'){
+                $exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+                $node->field_prog_track_updated['und'][0]['value'] = $exp_date;
+                $node->field_prog_track_updated['und'][0]['format'] = null;
+                $node->field_prog_track_updated['und'][0]['safe_value'] = $exp_date;
+            }
             $res_action = '';
             if ($res_domain == 'Lead')
                 if ($res['Status'] == 'APPROVED')
