@@ -1,17 +1,22 @@
 (function ($) {
   "use strict";
 
+  var map; 
+  var markers;
+  var currentZip;
+  var currentLocation;
+  var todayAQI;
+
   $(document).ready(function () {
 
     var $tabs = $("#my-air-quality-chart-tabs");
 
-    var map = loadMap();
-    var markers;
+    map = loadMap();
 
     $tabs.tabs({
       activate: function(e, ui) {
         if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {// map tab activated
-          map._onResize();
+          updateMarker();
         }
       }
     });
@@ -19,11 +24,11 @@
     var $select = $('select#location-select');
 
     $select.change(function() {
-      var zip = $(this).val();
+      currentZip = $(this).val();
 
-      if (zip != 'view_more') {
-        var locationText = $(this).find('option:selected').text();
-        draw(zip, locationText);
+      if (currentZip != 'view_more') {
+        currentLocation = $(this).find('option:selected').text();
+        draw(currentZip, currentLocation);
         
         if (markers) {
           map.removeLayer(markers);
@@ -31,7 +36,7 @@
 
         markers = new L.FeatureGroup();
         map.addLayer(markers)
-        setMarker(map, markers, zip, locationText);
+        updateMarker();
       }
     });
 
@@ -42,9 +47,16 @@
   function loadMap() {
       var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 4);
 
-      // ($('a', map.getContainer())).addClass('favorites-ignore');
+      $('a', map.getContainer()).addClass('favorites-ignore');
 
       L.esri.basemapLayer("Gray").addTo(map);
+
+      var govUnits = L.esri.dynamicMapLayer({
+              url: 'http://services.nationalmap.gov/arcgis/rest/services/govunits/MapServer',
+              opacity: 0.9
+          }).addTo(map);
+
+      map.fitBounds(govUnits._map.getBounds());
 
       var aqiLayer = L.esri.dynamicMapLayer({
         url: "https://gispub.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
@@ -55,16 +67,22 @@
       return map;
   }
 
-  function setMarker(map, markers, zip, locationText) {
-    $.getJSON('/zip_code_lookup?zip='+zip, function(data) {
+  function updateMarker() {
+    if (currentZip) {
+      $.getJSON('/zip_code_lookup?zip='+currentZip, function(data) {
 
-      var latlng = [data.latitude, data.longitude];
+        var latlng = [data.latitude, data.longitude];
 
-      var marker = L.marker(latlng).addTo(markers);
-      marker.bindPopup("<b>"+ locationText +"</b>");
+        var marker = L.marker(latlng).addTo(markers);
+        marker.bindPopup("<b>"+ currentLocation +"</b>"+ (todayAQI ? ("<br/>Today's Air Quality: "+todayAQI) : ""), {
+          minWidth: 150,
+          maxWidth: 500,
+          className: 'favorites-ignore'
+        }).openPopup();
 
-      map.setView(latlng);
-    });
+        map.setView(latlng);
+      });
+    }
   }
 
   function formatDate(date, delimiter) {
@@ -342,6 +360,8 @@
     for (var i in data) {
       if (dateDiffInDays(new Date(), getDate(data[i].DateForecast)) == 0) {
         todayData = data[i];
+        todayAQI = todayData.AQI;
+        updateMarker();
         break;
       }
     }

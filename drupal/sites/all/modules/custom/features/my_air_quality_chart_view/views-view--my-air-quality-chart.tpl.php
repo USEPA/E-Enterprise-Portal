@@ -52,6 +52,7 @@ drupal_add_js(drupal_get_path('module', 'my_air_quality_chart_view') ."/js/air_n
     </div>
     <div id="my-air-quality-air-now-maps" style="padding:0">
       <div id="my-air-quality-air-now-map-container"></div>
+      <img src="<?php echo drupal_get_path('module', 'my_air_quality_chart_view') ."/css/airnow-map-legend.png"; ?>" alt="AirNow Maps Legend"/>
     </div>
   </div>
 </div>
