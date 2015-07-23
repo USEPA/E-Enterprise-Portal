@@ -63,20 +63,11 @@
   cursor: pointer;
 }
 .empty {
-  color: #5cb85c;
-  background-color: white;
-  border-radius: 4px;
-  padding:1.5px;
-  height:24px;
-  width:23px;
-  line-height:20px !important;
+  color: grey;
 }
 .empty:hover{
-  color: #449d44;
+  color: darkslategray;
   cursor: pointer;
-    background-color: azure;
-    
-  
 }
 
 .button_input_holder btn, .button_input_holder btn-success, .button_input_holder btn-danger,

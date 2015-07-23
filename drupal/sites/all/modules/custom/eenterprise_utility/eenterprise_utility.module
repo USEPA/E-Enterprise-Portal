@@ -474,7 +474,7 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
                  }
                }
                else if (in_array($zip_val, $previous_zipcodes)) {
-                  $error_message = 'Duplicate zip codes are not allowed.';
+                  $error_message = 'Duplicate ZIP codes are not allowed.';
                   $error = true;
                   if (!in_array($error_message, $error_messages)) {
                     $error_messages[] = $error_message;
@@ -641,6 +641,7 @@ function get_modal_data($locations, $city_name_count) {
       ++$duplicate_city_count;
       if ($duplicate_city_count == $city_name_count[$value]) {
         print "</ul>";
+        $duplicate_city_count= 0;
       }
     }
     else {
