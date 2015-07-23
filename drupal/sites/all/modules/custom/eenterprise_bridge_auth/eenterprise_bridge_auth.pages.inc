@@ -118,7 +118,8 @@ function eenterprise_bridge_auth_authenticate($error) {
             else{
                 $uname = $username;
             }
-            trusted_user_check($uname);
+            if(variable_get('trusted_users_list_used') == 'Yes')
+                trusted_user_check($uname);
             $ext_user = user_external_load($uname);
             if(!$ext_user){
                 //user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
