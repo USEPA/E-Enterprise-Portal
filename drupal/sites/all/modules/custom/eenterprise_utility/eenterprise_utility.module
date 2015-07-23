@@ -163,7 +163,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         drupal_goto("/");
     }
     drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
-
+    // dpm($form_state['input']);
     if($form['#form_id'] == 'user_profile_form'){
         //remove user_account_form_validate callback. This will remove email address validation because we should allow multiple email addresses as CDX/Bridge allows that.
         foreach($form['#validate'] as $key => $value)
@@ -180,24 +180,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         $form['allowed_values'] = array(
             '#tree' => TRUE,
         );
-        //Code block has error. Commented it out. Ben said it will never be executed. Ben please remove this code if it's not going to be used.
-        /*foreach ($field['settings']['allowed_values'] as $delta => $tree) {
-            $form['allowed_values'][$delta]['vocabulary'] = array(
-                '#type' => 'checkboxes', // <-- Use checkboxes here, instead of 'select'
-                '#title' => t('Vocabulary'),
-                '#default_value' => $tree['vocabulary'],
-                '#options' => $options,
-                '#required' => TRUE,
-                '#description' => t('The vocabulary which supplies the options for this field.'),
-                '#disabled' => $has_data,
-            );
-            $form['allowed_values'][$delta]['parent'] = array(
-                '#type' => 'value',
-                '#value' => $tree['parent'],
-            );
-        }*/
-
-    
+        
       hide($form['picture']);
       hide($form['account']['current_pass']);
       hide($form['account']['pass']);
@@ -240,22 +223,15 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       //       $form_state['input']['field_zip_code'][LANGUAGE_NONE][0]['value'];
       //   }
       
-   if ($form_state['triggering_element']['#name'] == 'field_zip_code_' . LANGUAGE_NONE . '_0_remove_button') {
-           $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
+      if (isset($form_state['triggering_element'])) {
+        if ($form_state['triggering_element']['#name'] == 'field_zip_code_' . LANGUAGE_NONE . '_0_remove_button') {
+             $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
+          } 
+         if ($form_state['triggering_element']['#name'] == 'field_profile_favourites_'. LANGUAGE_NONE . '_0_remove_button') {
+           $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+           $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
         }
-
-       if ($form_state['triggering_element']['#name'] == 'field_profile_favourites_'. LANGUAGE_NONE . '_0_remove_button') {
-
-         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
-         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
       }
-        // dpm($form['field_profile_favourites'][LANGUAGE_NONE][0]);
-      // foreach( $form['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
-      //     if (is_numeric($delta)) {
-      //       hide($field['field_date_updated']);// = 'disabled';
-      //   }
-      // }
-
            
       $form['field_zip_code'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-control';
       // add more button
@@ -272,7 +248,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
 
    
       //create weight array
-
+        // dpm($form_state['input']);
+        // dpm($form_state['values']);
       for($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
         $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
         $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#title'] = 'Remove';
@@ -283,47 +260,45 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         // hide($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_date_updated']); //['#attributes']['disabled'] = 'disabled';
       }
       
-      $lowest_weight = 0;
+      // $lowest_weight = 0;
 
-      if (isset($form_state['input']['field_zip_code'])) {
-        for($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
-          $current_weight = intval($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['_weight']);
-          if ($current_weight < $lowest_weight) {
-            $lowest_weight = $current_weight;
-          }
-        }
-      }
+      // if (isset($form_state['input']['field_zip_code'])) {
+      //   for($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+      //     $current_weight = intval($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['_weight']);
+      //     if ($current_weight < $lowest_weight) {
+      //       $lowest_weight = $current_weight;
+      //     }
+      //   }
+      // }
  
       $second_zero = false;
       for($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
        // set primary default description location
-        if (isset($form_state['input']['field_zip_code'])) {
-          $current_weight = intval($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['_weight']);
-          if ($current_weight == $lowest_weight && !$second_zero) {
-            $primary = true;
-            $second_zero = true;
-          }
-          else {
-            $primary = false;
-          }
-        }
-        else if ($delta == 0) {
-          $primary = true;
-        }
-        else {
-          $primary = false;
-        }
+        // if (isset($form_state['input']['field_zip_code'])) {
+        //   $current_weight = intval($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['_weight']);
+        //   if ($current_weight == $lowest_weight && !$second_zero) {
+        //     $primary = true;
+        //     $second_zero = true;
+        //   }
+        //   else {
+        //     $primary = false;
+        //   }
+        // }
+        // else if ($delta == 0) {
+        //   $primary = true;
+        // }
+        // else {
+        //   $primary = false;
+        // }
         $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#default_value']; 
         // overide default if input has been made
-     
-        if (isset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta])) {
-          $input_zip = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta];
-          if (isset($input_zip)) {
+
+        if (isset($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta])) {
+          $input_zip = $form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta];
             $zip = $input_zip['value'];
-          }
         }
         $field_suffix = '<span class="move_zip_code"></span>';
-        if (isset($zip)) {
+        if (isset($zip) && $zip != '') {
           $zip_data = zip_code_lookup($zip);
           $field_suffix = $zip_data['city'] . ', ' . $zip_data['state'];
         }
@@ -333,12 +308,12 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
 
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#attributes']['class'][] =
           'field_zip_code form-control';
-        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#description'] =
-          $description;
+        // $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#description'] =
+        //   $description;
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#field_suffix'] =
           $field_suffix;
         $form['field_zip_code'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['title'] = 'Remove';
-        $form['field_zip_code'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['name'] = 'remove_field_item_' . $delta;
+        // $form['field_zip_code'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['name'] = 'remove_field_item_' . $delta;
         
 //        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#ajax'] = array(
 //                'callback' => 'field_zip_code_generate',
@@ -438,7 +413,7 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
     $error_messages = array();
     $error_deltas = array();
     $field_ids = array();
-   
+
    // Default value is 27705.
    // Occurs when all values are blank.
    $blank_zipcode = true;
@@ -617,6 +592,7 @@ function get_modal_data($locations, $city_name_count) {
   print "<a id='locations-modal' href='#'>View all favorite cities</a>";
   print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
   print "<div class='radio-options-holder'>";
+  $duplicate_city_count = 0;
   foreach($locations as $key=>$value) {
     if ($city_name_count[$value] > 1) {
       if ($duplicate_city_count == 0) {
