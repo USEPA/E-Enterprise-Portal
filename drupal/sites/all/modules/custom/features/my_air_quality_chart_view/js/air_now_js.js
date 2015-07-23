@@ -11,7 +11,7 @@
     $tabs.tabs({
       activate: function(e, ui) {
         if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {// map tab activated
-          map._onResize(); 
+          map._onResize();
         }
       }
     });
@@ -42,21 +42,15 @@
   function loadMap() {
       var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 4);
 
+      // ($('a', map.getContainer())).addClass('favorites-ignore');
+
       L.esri.basemapLayer("Gray").addTo(map);
 
-      // var govUnits = L.esri.dynamicMapLayer({
-      //         url: 'http://services.nationalmap.gov/arcgis/rest/services/govunits/MapServer',
-      //         opacity: 0.9
-      //     }).addTo(map);
-
-      // map.fitBounds(govUnits._map.getBounds());
-
       var aqiLayer = L.esri.dynamicMapLayer({
-        url: "http://gisstg.rtpnc.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
-        opacity: 0.5
+        url: "https://gispub.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
+        opacity: 0.5,
+        userCors: false
       }).addTo(map);
-
-      aqiLayer.bringToBack();
 
       return map;
   }
@@ -68,9 +62,7 @@
 
       var marker = L.marker(latlng).addTo(markers);
       marker.bindPopup("<b>"+ locationText +"</b>");
-      console.log(markers.getBounds());
 
-      // map.fitBounds(markers.getBounds());
       map.setView(latlng);
     });
   }
@@ -185,7 +177,6 @@
           
         } else {
 
-          console.log(todayData.AQI)
 
           var cellPosition = (w + m[1] + m[3]) / 2;
 
@@ -594,12 +585,12 @@
         }
       }
 
-      return [
-        {'DateForecast': "2015-07-20", 'AQI': 248},
-        {'DateForecast': "2015-07-21", 'AQI': 200},
-        {'DateForecast': "2015-07-22", 'AQI': 82},
-        {'DateForecast': "2015-07-23", 'AQI': 401}
-      ];
+      // return [
+      //   {'DateForecast': "2015-07-20", 'AQI': 248},
+      //   {'DateForecast': "2015-07-21", 'AQI': 200},
+      //   {'DateForecast': "2015-07-22", 'AQI': 82},
+      //   {'DateForecast': "2015-07-23", 'AQI': 401}
+      // ];
 
       return data;
     }
