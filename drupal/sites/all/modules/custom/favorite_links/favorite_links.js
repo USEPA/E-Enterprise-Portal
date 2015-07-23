@@ -40,76 +40,84 @@ $(document).ready(function(){
 		if ($.inArray(url, favorite_urls) >= 0) {
 			id = favorite_url_mapping[url];
 	 		favorite_button = 
-			 	"<div class='button_input_holder' style='display:none'><span id='" + id + "|favorite_link' " +
+			 	"<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + id + "|favorite_link' " +
 				 "class=' remove_link favorite_hover old_link glyphicon glyphicon-heart filled' aria-hidden='true'></span></div>";
 		}
 		else {
 			id = url;
-			favorite_button = "<div class='button_input_holder' style='display:none'><span id='" + id+ "|" + text_title + "'" +
-				"class='add_link favorite_hover new_link glyphicon glyphicon-plus empty' aria-hidden='true'></span></div>";	
+			favorite_button = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + id+ '|' + text_title + '"' +
+				"class='add_link favorite_hover new_link glyphicon glyphicon-heart empty' aria-hidden='true'></span></div>";	
 		}
 	 return favorite_button;
 	} 
 	
 	function processPageAnchors() {
-		// process anchor tags
-		$('#main-content a:not(.favorites-ignore)').each(function () {
-		if ($(this).text().length > 0 && $(this).attr('href') != '#' && $(this).attr('href') != '/') {
-			var url = $(this).attr('href');
-			var encodedURI = encodeURIComponent(url);
-			var title = $(this).text();
-			var favorite_button = createFavoriteButton(url, title);
-			$(this).after(favorite_button);
-			$(this).qtip({ // Grab some elements to apply the tooltip to
-			    content: {
-			        text: $(this).next('div')
-			    },
-				 hide: {
-	                fixed: true,
-	                delay: 300
-	            	},
-				   position: {
-				        my: 'left center',  // Position my top left...
-				        at: 'right center', // at the bottom right of...
-				        target: $(this) // my target
-				    },
-					style: {
-						classes: 'transparent-qtip',
-						width: 4
-					}
-				});
-			}
-		});
 
 		// process img links
-		$('#main-content img').each(function () {
+		$('#main-content .panel-pane:not(.pane-views-my-air-quality-chart-block-1) img').each(function () {
 		if ($(this).closest('a').attr('href') != '#' && $(this).closest('a').attr('href')!= '') {
-			var url = $(this).closest('a').attr('href');
-			var encodedURI = encodeURIComponent(url);
-			var title = $(this).attr('alt');
-			var favorite_button = createFavoriteButton(url, title);
-			$(this).after(favorite_button);
-
-			$(this).qtip({ // Grab some elements to apply the tooltip to
-			    content: {
-			        text: $(this).next('div')
-			    },
-				 hide: {
-	                fixed: true,
-	                delay: 300
-	            	},
-				   position: {
-				        my: 'right bottom',  // Position my top left...
-				        at: 'right bottom', // at the bottom right of...
-				        target: $(this) // my target
+			if (!$(this).closest('a').hasClass('processed-favorite')) {
+				$(this).closest('a').addClass('processed-favorite');
+				var url = $(this).closest('a').attr('href');
+				var encodedURI = encodeURIComponent(url);
+				var title = $(this).attr('alt');
+				var favorite_button = createFavoriteButton(url, title);
+				$(this).after(favorite_button);
+	
+				$(this).qtip({ // Grab some elements to apply the tooltip to
+				    content: {
+				        text: $(this).next('div')
 				    },
-					style: {
-						classes: 'transparent-qtip',
-						width: 4
-					}
-				});
+					 hide: {
+		                fixed: true,
+		                delay: 300
+		            	},
+					   position: {
+					        my: 'right bottom',  // Position my top left...
+					        at: 'right bottom', // at the bottom right of...
+					        target: $(this) // my target
+					    },
+						style: {
+							classes: 'transparent-qtip',
+							width: 4
+						}
+					});
+				}
 			}
 		});
+			// process anchor tags
+		$('#main-content .panel-pane:not(.pane-views-my-air-quality-chart-block-1) a:not(.favorites-ignore)').each(function () {
+		if ($(this).text().length > 0 && $(this).attr('href') != '#' && $(this).attr('href') != '/') {
+				if (!$(this).hasClass('processed-favorite')) {
+				var url = $(this).attr('href');
+				var encodedURI = encodeURIComponent(url);
+				var title = $(this).text();
+				var favorite_button = createFavoriteButton(url, title);
+				$(this).after(favorite_button);
+				$(this).qtip({ // Grab some elements to apply the tooltip to
+				    content: {
+				        text: $(this).next('div')
+				    },
+					 hide: {
+		                fixed: true,
+		                delay: 300
+		            	},
+					   position: {
+					        my: 'left center',  // Position my top left...
+					        at: 'right center', // at the bottom right of...
+					        target: $(this) // my target
+					    },
+						style: {
+							classes: 'transparent-qtip',
+							width: 4
+						}
+					});
+					$(this).addClass('processed-favorite');
+				}
+			}
+		});
+	
+	
 	}
 
 	
@@ -202,9 +210,9 @@ var path = window.location.pathname;
 					if (action == 'add') {
 						reloadView();
 						load_links(false);
-						button.removeClass('add_link').removeClass('new_link').removeClass('old_link').removeClass('filled').removeClass('empty');
-						button.removeClass('glyphicon-plus');
-						button.addClass('remove_link old_link glyphicon-heart filled');
+						button.removeClass('add_link').removeClass('new_link').removeClass('old_link').removeClass('filled');
+						button.removeClass('empty');
+						button.addClass('remove_link old_link filled');
 						button.attr('id', favorite_url_mapping[unparsed_url] + '|favorite_link');
 					}
 					else{
@@ -222,8 +230,7 @@ var path = window.location.pathname;
 						reloadView();
 						button.attr('id', unparsed_url + '|' + label);
 						button.removeClass('remove_link').removeClass('new_link').removeClass('old_link').removeClass('filled').removeClass('empty');
-						button.removeClass('glyphicon-heart');
-						button.addClass('add_link new_link glyphicon-plus empty ');
+						button.addClass('add_link new_link empty ');
 
 					}
 

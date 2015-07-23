@@ -474,7 +474,7 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
                  }
                }
                else if (in_array($zip_val, $previous_zipcodes)) {
-                  $error_message = 'Duplicate zip codes are not allowed.';
+                  $error_message = 'Duplicate ZIP codes are not allowed.';
                   $error = true;
                   if (!in_array($error_message, $error_messages)) {
                     $error_messages[] = $error_message;
@@ -633,7 +633,7 @@ function get_modal_data($locations, $city_name_count) {
   foreach($locations as $key=>$value) {
     if ($city_name_count[$value] > 1) {
       if ($duplicate_city_count == 0) {
-        print "<label for='" . $key . "'>". $value . "</label><ul class='locations-modal-ul'>";
+        print  $value . "<ul class='locations-modal-ul'>";
       }
       print "<li>";
       print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key ."|" . $value . "' />" . $key . "</label>" ;
@@ -641,6 +641,7 @@ function get_modal_data($locations, $city_name_count) {
       ++$duplicate_city_count;
       if ($duplicate_city_count == $city_name_count[$value]) {
         print "</ul>";
+        $duplicate_city_count= 0;
       }
     }
     else {

@@ -14900,7 +14900,7 @@ body {
 }
 
 /* line 83, ../sass/styles.scss */
-body, .main-content {
+body {
   background-color: transparent;
 }
 
@@ -14917,6 +14917,11 @@ body, .main-content {
 }
 
 /* line 94, ../sass/styles.scss */
+.main-content {
+  background-color: #fff;
+}
+
+/* line 97, ../sass/styles.scss */
 footer {
   clear: both;
   width: 100%;
@@ -14941,7 +14946,8 @@ footer .menu__item.is-leaf {
 }
 /* line 112, ../sass/styles.scss */
 footer #block-menu-menu-footer-disclaimers {
-  float: right;
+  float: none;
+  clear: left;
   margin-top: 5px;
 }
 /* line 116, ../sass/styles.scss */
@@ -14992,7 +14998,12 @@ a:visited.pager__link {
   color: #efefef;
 }
 
-/* line 158, ../sass/styles.scss */
+/* line 160, ../sass/styles.scss */
+a:focus {
+  outline: 2px dotted #fff;
+}
+
+/* line 164, ../sass/styles.scss */
 .menu-item {
   letter-spacing: 0.25px;
 }
@@ -15184,10 +15195,10 @@ input[type="submit"],
 
 /* line 322, ../sass/styles.scss */
 #login-group {
-  padding-left: 25%;
+  padding-left: 10%;
   float: left;
   width: auto;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 /* line 328, ../sass/styles.scss */
 #login-group form, #login-group a {
@@ -15201,7 +15212,7 @@ input[type="submit"],
 
 /* line 337, ../sass/styles.scss */
 .guest-login {
-  width: 7em;
+  width: 5em;
   float: left;
 }
 /* line 340, ../sass/styles.scss */
@@ -15235,10 +15246,20 @@ input[type="submit"],
   padding-bottom: 10px;
   padding-top: 10px;
 }
+/* line 375, ../sass/styles.scss */
+.page-ee-welcome .main-content, .view-ee-welcome .main-content, .page-node-50 .main-content, .page-node-168 .main-content {
+  background-color: transparent;
+}
+
+/* line 369, ../sass/styles.scss */
+.page-ee-welcome .mobile-bar, .view-ee-welcome .mobile-bar, .page-node-50 .mobile-bar, .page-node-168 .mobile-bar {
+  display: none;
+}
 /* line 368, ../sass/styles.scss */
 .page-ee-welcome .region-header, .view-ee-welcome .region-header, .page-node-50 .region-header, .page-node-168 .region-header {
   padding: 15px 3.25em;
   height: 7em;
+  font-size: 0.75em;
 }
 /* line 371, ../sass/styles.scss */
 .page-ee-welcome .region-header .block--greentrees-ee-header, .view-ee-welcome .region-header .block--greentrees-ee-header, .page-node-50 .region-header .block--greentrees-ee-header, .page-node-168 .region-header .block--greentrees-ee-header {
@@ -15272,7 +15293,6 @@ input[type="submit"],
   font-family: "Walkway UltraBold", "Century Gothic", "Source Sans Pro", sans-serif;
   box-shadow: none;
   line-height: 1.2;
-  margin-top: 1em;
 }
 /* line 401, ../sass/styles.scss */
 .page-ee-welcome .well p, .view-ee-welcome .well p, .page-node-50 .well p, .page-node-168 .well p {
@@ -15562,7 +15582,18 @@ tr.odd, tr.even {
 }
 
 @media screen and (min-width: 30em) {
-  /* line 641, ../sass/styles.scss */
+  /* line 642, ../sass/styles.scss */
+  footer div, footer .block--ee-social-media {
+    float: left;
+  }
+  /* line 645, ../sass/styles.scss */
+  footer #block-menu-menu-footer-disclaimers {
+    float: right;
+    margin-top: 5px;
+    clear: none;
+  }
+
+  /* line 651, ../sass/styles.scss */
   .pillbox > .menu-item,
   .tabs > li {
     float: left;
@@ -15593,16 +15624,21 @@ tr.odd, tr.even {
     /* LTR */
   }
 
-  /* line 659, ../sass/styles.scss */
-  .region-footer div {
+  /* line 670, ../sass/styles.scss */
+  footer div {
     float: none;
   }
 }
 @media screen and (min-width: 40em) {
-  /* line 666, ../sass/styles.scss */
+  /* line 678, ../sass/styles.scss */
+  .page-ee-welcome .region-header, .view-ee-welcome .region-header, .page-node-50 .region-header, .page-node-168 .region-header {
+    font-size: 1em;
+  }
+  /* line 681, ../sass/styles.scss */
   .page-ee-welcome .well, .view-ee-welcome .well, .page-node-50 .well, .page-node-168 .well {
     font-size: 2em;
-    margin-left: 15%;
+    float: right;
+    width: 75%;
   }
 
   /* line 671, ../sass/styles.scss */
@@ -15636,7 +15672,17 @@ tr.odd, tr.even {
     margin-left: 1em;
   }
 
-  /* line 696, ../sass/styles.scss */
+  /* line 713, ../sass/styles.scss */
+  .page-ee-welcome .region-header, .view-ee-welcome .region-header, .page-node-50 .region-header, .page-node-168 .region-header {
+    font-size: 1em;
+  }
+  /* line 716, ../sass/styles.scss */
+  .page-ee-welcome .well, .view-ee-welcome .well, .page-node-50 .well, .page-node-168 .well {
+    font-size: 2.5em;
+    margin-top: 1em;
+  }
+
+  /* line 721, ../sass/styles.scss */
   .page-workbench .block-views.odd,
   .section-workbench .block-views.odd {
     width: 55%;
@@ -15669,8 +15715,7 @@ tr.odd, tr.even {
 @media screen and (min-width: 60em) {
   /* line 720, ../sass/styles.scss */
   .view-ee-welcome .well, .page-node-50 .well, .page-node-168 .well {
-    font-size: 3.25em;
-    margin-left: 30%;
+    font-size: 3em;
   }
 
   /* line 725, ../sass/styles.scss */

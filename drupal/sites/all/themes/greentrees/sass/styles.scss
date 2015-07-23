@@ -80,7 +80,7 @@ html {
 body {
 	height: 100%;
 }
-body, .main-content {
+body {
 	background-color: transparent;
 }
 .masthead {
@@ -90,6 +90,9 @@ body, .main-content {
 	min-height: 100%;
 	position:relative;
 	background-color: #000;
+}
+.main-content {
+	background-color: #fff;
 }
 footer {
   clear: both;
@@ -110,7 +113,8 @@ footer {
 	  list-style: none;
   }
   #block-menu-menu-footer-disclaimers {
-	  float: right;
+	  float: none;
+	  clear: left;
 	  margin-top: 5px;
   }
   .block--ee-social-media, .block--ee-social-media .block-title, .ee-social-media, .ee-social-media li {
@@ -153,6 +157,9 @@ a:visited.pager__link {
     a:hover, a:focus {
         color: #efefef;
     }
+}
+a:focus {
+	outline: 2px dotted #fff;
 }
 
 .menu-item {
@@ -320,10 +327,10 @@ input[type="submit"],
 	color: $ee-white;
 }
 #login-group {
-	padding-left: 25%;
+	padding-left: 10%;
     float: left;
     width: auto;
-    margin-right: 10px;
+    margin-right: 20px;
 
 	form, a {
 		display:inline-block;
@@ -335,12 +342,13 @@ input[type="submit"],
 }
 
 .guest-login {
-	width: 7em;
+	width: 5em;
     float: left;
     a {
 	    font-size: 0.5em;
 		color: $ee-white;
 		letter-spacing: 1px;
+		padding: 4px;
     }
     a:hover, a:focus, a:active {
 	    color: $ee-light-gray;
@@ -365,9 +373,18 @@ input[type="submit"],
 		padding-bottom: 10px;
 		padding-top: 10px;
 	}
+	.main-content {
+		background-color: transparent;
+	}
+
+	.mobile-bar {
+		display: none;
+		//Removes mobile navigation menu on welcome page as no options are available
+	}
 	.region-header {
 		padding: 15px 3.25em;
 		height: 7em;
+		font-size: 0.75em;
 		.block--greentrees-ee-header {
 			font-size: 1em;
 		}
@@ -386,18 +403,14 @@ input[type="submit"],
 		bottom: 0;
 	}
 	.well {
-		//position: relative;
-		//left: 50%;
-		//width: 50%;
 		background-color: transparent;
 		border: none;
-		font-size: 2.5em;
+		font-size: 1.5em;
 		color: #fff;
 		text-shadow: 2px 2px 2px #333;
 		font-family: $greentrees;
 		box-shadow: none;
 		line-height: 1.2;
-		margin-top: 1em;
 		p {
 			padding-bottom: 10px;
 		}
@@ -405,7 +418,8 @@ input[type="submit"],
 	.well .well {
 		background-color: #ffffff;
 		opacity: 0.5;
-		font-size: 0.5em;
+		//font-size: 0.5em;
+		font-size: 1em;
 		color: #000;
 		text-shadow: 1px 1px 1px #fff;
 		
@@ -579,7 +593,6 @@ tr.odd, tr.even {
 .workbench-menu {
 	display: none;
 	clear: left;
-	//padding-left: 2.5em;
 	background-color: #333;
 	border-top: 1px solid #3d3d3d;
 	background-color: #333;
@@ -587,8 +600,6 @@ tr.odd, tr.even {
 	margin: 0;
 	padding: 0;
 	float: left;
-	//margin-left: -3.25em;
-	//padding-left: 3.25em;
 	padding-left: 60px;
 	a, a:visited {
         color: #ffffff;
@@ -638,34 +649,50 @@ tr.odd, tr.even {
 }
 
 @media screen and (min-width: 30em) {
-  .pillbox > .menu-item,
-  .tabs > li {
-    float: left; /* LTR */
-  }
-
-  .pipeline > li {
-    border-right: 1px solid #777; /* LTR */
-    float: left; /* LTR */
-    margin-bottom: .5em;
-    margin-right: 1em; /* LTR */
-    padding-right: 1em; /* LTR */
-    list-style: none;
-  }
-  .pipeline > li:last-child {
-    border-right: 0; /* LTR */
-    margin-right: 0; /* LTR */
-    padding-right: 0; /* LTR */
-  }
-  .region-footer div {
-	  float: none
-  }
+	footer {
+		div, .block--ee-social-media {
+			float: left;
+		}
+		#block-menu-menu-footer-disclaimers {
+		  float: right;
+		  margin-top: 5px;
+		  clear: none;
+		 }
+	}
+	.pillbox > .menu-item,
+	.tabs > li {
+		float: left; /* LTR */
+	}
+	
+	.pipeline > li {
+		border-right: 1px solid #777; /* LTR */
+		float: left; /* LTR */
+		margin-bottom: .5em;
+		margin-right: 1em; /* LTR */
+		padding-right: 1em; /* LTR */
+		list-style: none;
+	}
+	.pipeline > li:last-child {
+		border-right: 0; /* LTR */
+		margin-right: 0; /* LTR */
+		padding-right: 0; /* LTR */
+	}
+	footer {
+		div {
+			float: none;
+		}
+	}
 }
 
 @media screen and (min-width: 40em) {
 	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
+		.region-header {
+			font-size: 1em;
+		}
 		.well {
 			font-size: 2em;
-			margin-left: 15%;
+			float: right;
+			width: 75%;
 		}
 	}
 	.workbench-menu {
@@ -693,6 +720,15 @@ tr.odd, tr.even {
 	.site-name-and-slogan {
 		margin-left: 1em;
 	}
+	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
+		.region-header {
+			font-size: 1em;
+		}
+		.well {
+			font-size: 2.5em;
+			margin-top: 1em;
+		}
+	}
 	.page-workbench .block-views.odd, 
 	.section-workbench .block-views.odd {
 		width:55%;
@@ -718,8 +754,8 @@ tr.odd, tr.even {
 @media screen and (min-width: 60em) {
 	.view-ee-welcome, .page-node-50, .page-node-168 {
 		.well {
-			font-size: 3.25em;
-			margin-left: 30%;
+			font-size: 3em;
+			//margin-left: 30%;
 		}
 	}
 	.wide-template #main-content {
