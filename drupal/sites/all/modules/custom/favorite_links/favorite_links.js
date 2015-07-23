@@ -55,7 +55,7 @@ $(document).ready(function(){
 
 
 		// process img links
-		$('#main-content img').each(function () {
+		$('#main-content .panel-pane:not(.pane-views-my-air-quality-chart-block-1) img').each(function () {
 		if ($(this).closest('a').attr('href') != '#' && $(this).closest('a').attr('href')!= '') {
 			if (!$(this).closest('a').hasClass('processed-favorite')) {
 				$(this).closest('a').addClass('processed-favorite');
@@ -87,7 +87,7 @@ $(document).ready(function(){
 			}
 		});
 			// process anchor tags
-		$('#main-content a:not(.favorites-ignore)').each(function () {
+		$('#main-content .panel-pane:not(.pane-views-my-air-quality-chart-block-1) a:not(.favorites-ignore)').each(function () {
 		if ($(this).text().length > 0 && $(this).attr('href') != '#' && $(this).attr('href') != '/') {
 				if (!$(this).hasClass('processed-favorite')) {
 				var url = $(this).attr('href');
