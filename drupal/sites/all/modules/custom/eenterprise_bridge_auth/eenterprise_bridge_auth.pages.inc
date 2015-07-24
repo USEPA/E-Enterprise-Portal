@@ -339,6 +339,10 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_date_type['und'][0]['value'] = 'Publish Date';
                 $node->field_prog_track_date_type['und'][0]['format'] = null;
                 $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
+
+                $node->field_prog_track_facility_name['und'][0]['value'] = $res['FacilityName'];;
+                $node->field_prog_track_facility_name['und'][0]['format'] = null;
+                $node->field_prog_track_facility_name['und'][0]['safe_value'] = $res['FacilityName'];;
             }
         }
         else if($res['ActivityType'] == 'TASK') {
