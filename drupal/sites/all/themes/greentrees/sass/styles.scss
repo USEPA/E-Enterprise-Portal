@@ -91,6 +91,16 @@ body, .main-content {
 	position:relative;
 	background-color: #000;
 }
+.main-content {
+	background-color: #fff;
+}
+.panel-2col {
+	.panel-col-first, .panel-col-last {
+		width: 100%;
+		float: none;
+	}
+}		
+
 footer {
   clear: both;
   width: 100%;
@@ -342,6 +352,7 @@ input[type="submit"],
 	    font-size: 0.5em;
 		color: $ee-white;
 		letter-spacing: 1px;
+		padding: 4px;
     }
     a:hover, a:focus, a:active {
 	    color: $ee-light-gray;
@@ -366,6 +377,10 @@ input[type="submit"],
 		padding-bottom: 10px;
 		padding-top: 10px;
 	}
+	.main-content {
+		background-color: transparent;
+	}
+
 	.mobile-bar {
 		display: none;
 		//Removes mobile navigation menu on welcome page as no options are available
@@ -574,6 +589,7 @@ tr.views-row-first {
 tr.odd, tr.even {
 	border-bottom: 1px solid $ee-medium-gray;
 }
+
 .region-nav-bar {
 	background-color: #333;
 	height: 2em;
@@ -590,6 +606,7 @@ tr.odd, tr.even {
 	padding: 0;
 	float: left;
 	padding-left: 60px;
+	width: auto;
 	a, a:visited {
         color: #ffffff;
     }
@@ -691,6 +708,23 @@ tr.odd, tr.even {
 
 /** Workbench *******************************************************************/
 @media screen and (min-width: 45em) {
+	th.views-field {
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	.views-field-field-todo-lst-item, .views-field-field-todo-lst-domain, .views-field-field-prog-tracker-app, .views-field-field-prog-track-domain {
+		display: block;
+	}
+	td.views-field-field-todo-lst-item, td.views-field-field-todo-lst-domain, td.views-field-field-prog-tracker-app, td.views-field-field-prog-track-domain {
+		text-align: left;
+	}
+	table.views-table td.active {
+		background-color: #ffffff;
+	}
+	.views-field-field-todo-lst-item a.simple-dialog {
+		margin-top: 0
+	}
+	
 	.wide-template #main-content {
 		padding-left: 60px;
 		padding-right: 60px;
@@ -741,19 +775,47 @@ tr.odd, tr.even {
 		
 }
 @media screen and (min-width: 60em) {
+	.wide-template #main-content {
+		padding-left: 30px;
+		padding-right: 30px;
+	}
 	.view-ee-welcome, .page-node-50, .page-node-168 {
 		.well {
 			font-size: 3em;
 			//margin-left: 30%;
 		}
 	}
-	.wide-template #main-content {
-		padding-left: 60px;
-		padding-right: 60px;
-	}
 	.page-eenterprise-for-environment.wide-template #main-content {
 		padding: 0 1em;
 	}
+	.panel-2col {
+		.panel-col-first, .panel-col-last {
+			width:50%;
+			float: left;
+			min-width: 440px;
+		}
+	}
+
+}
+
+@media screen and (min-width: 75em) {
+	.wide-template #main-content {
+		padding-left: 60px;
+		padding-right: 60px;
+	}	
+	th.views-field {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+
+	.views-field-field-todo-lst-item, .views-field-field-todo-lst-domain, .views-field-field-prog-tracker-app, .views-field-field-prog-track-domain {
+		display: table-cell;
+	}
+	
+	table.views-table td.active {
+		background-color: $ee-hover-gray;
+	}
+	
 }
 
 .ee-workbench-top-header {
@@ -1327,4 +1389,13 @@ a.tabledrag-handle .handle {
 
 .section-user-agreement #main-content {
 	background-color: #fff;
+}
+
+
+/** AQI / Popup Description Tweaks *********************************************************/
+.popover-title {
+	font-weight: bold;
+}
+.popover-content {
+	font-family: $lato;
 }
