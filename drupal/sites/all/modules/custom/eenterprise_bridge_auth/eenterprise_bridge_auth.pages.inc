@@ -410,7 +410,8 @@ function create_progress_tracker_node($res, $user){
     }
     //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
     else if(true){
-        $expiration_date = strtotime($res['ActivityExpirationDate']);
+        //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
+        $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
         $curr_date =  strtotime(date("Y-m-d H:i:s"));
         if(($expiration_date - $curr_date) <= 0){
             db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res['entity_id']));
