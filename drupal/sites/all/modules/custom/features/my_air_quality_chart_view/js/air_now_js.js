@@ -60,7 +60,7 @@
 
       var aqiLayer = L.esri.dynamicMapLayer({
         url: "https://gispub.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
-        opacity: 0.5,
+        opacity: 1.0,
         userCors: false
       }).addTo(map);
 
@@ -334,7 +334,7 @@
     var m = [35, 40, 80, 175]; // margins: top, right, bottom, left
     // var w = 550 - m[1] - m[3]; // width
 
-    var chartTitle = 'My Air Quality';
+    var chartTitle = 'My Air';
 
     var todayData; // store the data point  which contains today's data; not necessarily defined
 
@@ -490,6 +490,7 @@
       .style("font-size", "70%")
       .text("Note: Graph is not drawn to scale.");
 
+/*
     // add grid lines to show scale
     var gridLineIndex = 250;
 
@@ -508,6 +509,7 @@
 
       gridLineIndex += 50;
     }
+*/
 
     // Translate y-axis ticks to the right
     graph.selectAll('.y.axis line.tick')

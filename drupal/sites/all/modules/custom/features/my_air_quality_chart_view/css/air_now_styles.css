@@ -15,7 +15,7 @@ div#my-air-quality-chart {
 }
 
 #my-air-quality-chart text {
-	font-family: Lato, sans-serif;
+	font-family: Lato, 'Source Sans Pro', sans-serif;
 	fill: #454545;
 	font-size: 75%;
 }
@@ -72,43 +72,43 @@ div#my-air-quality-chart {
 }
 
 #my-air-quality-chart .section-good {
-  /*fill: #00e400;*/
-  fill: #73cd93;
+  fill: #00e400;
+  /* fill: #73cd93; */
   stroke: none;
 }
 
 #my-air-quality-chart .section-moderate {
-  /*fill: #ffff00;*/
-  fill: #f6f467;
+  fill: #ffff00;
+  /* fill: #f6f467; */
   stroke: none;
 }
 
 #my-air-quality-chart .section-unhealthy-for-sensitive {
-  /*fill: #ff7e00;*/
-  fill: #f89b63;
+  fill: #ff7e00;
+  /* fill: #f89b63; */
   stroke: none;
 }
 
 #my-air-quality-chart .section-unhealthy {
-  /*fill: #ff0000;*/
-  fill: #d84a4a;
+  fill: #ff0000;
+  /* fill: #d84a4a; */
   stroke: none;
 }
 
 #my-air-quality-chart .section-very-unhealthy {
-  /*fill: #99004c;*/
-  fill: #A53B6C;
+  fill: #99004c;
+  /* fill: #A53B6C; */
   stroke: none;
 }
 
 #my-air-quality-chart .section-hazardous {
-  /*fill: #7e0023;*/
-  fill: #84347E;
+  fill: #7e0023;
+  /* fill: #84347E; */
   stroke: none;
 }
 
 #my-air-quality-chart .popover {
-  font-family: Helvetica Neue,Segoe UI,sans-serif;
+  font-family: Lato, 'Source Sans Pro', sans-serif;
 }
 
 #my-air-quality-chart table.at-risk-populations {
@@ -143,4 +143,7 @@ div#my-air-quality-chart {
 #my-air-quality-chart tspan.at-risk-item-large {
   font-size:40px;
   display:block;
+}
+.leaflet-top, .leaflet-bottom {
+	z-index: 50;
 }
