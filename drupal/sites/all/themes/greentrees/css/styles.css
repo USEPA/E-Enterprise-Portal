@@ -14985,13 +14985,13 @@ h1, h2, h3, h4, h5, h6, th, legend, caption {
 }
 
 /* line 152, ../sass/styles.scss */
-a.pager__link {
+a, .ui-widget-content a, a.pager__link {
   color: #23537e;
 }
 
 /* line 155, ../sass/styles.scss */
 a:visited,
-a:visited.pager__link {
+a:visited.pager__link, .ui-widget-content a:visited, .ui-widget-content a:visited.pager__link {
   color: #175c99;
 }
 
@@ -16441,36 +16441,41 @@ a.tabledrag-handle .handle {
 }
 
 /* line 1354, ../sass/styles.scss */
+.ui-tabs .ui-tabs-nav li, label {
+  font-size: 0.85em;
+}
+
+/* line 1357, ../sass/styles.scss */
 .ui-tabs .ui-tabs-nav li.ui-tabs-active {
   border-bottom: 2px solid #000000;
 }
 
-/* line 1357, ../sass/styles.scss */
+/* line 1360, ../sass/styles.scss */
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
   font-weight: bold;
   background: transparent;
   border: none;
 }
 
-/* line 1362, ../sass/styles.scss */
+/* line 1365, ../sass/styles.scss */
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-tl, .ui-corner-tr, .ui-corner-br, .ui-corner-bl {
   border: none;
   border-radius: 0 !important;
 }
 
-/* line 1366, ../sass/styles.scss */
+/* line 1369, ../sass/styles.scss */
 .ui-dialog .ui-dialog-title {
   font-weight: normal !important;
 }
 
-/* line 1369, ../sass/styles.scss */
+/* line 1372, ../sass/styles.scss */
 .ui-dialog-titlebar-close {
   background-color: transparent !important;
   border: none !important;
 }
 
 /** Admin *********************************************************/
-/* line 1376, ../sass/styles.scss */
+/* line 1379, ../sass/styles.scss */
 #user-login input[type="submit"] {
   color: #fff;
   background-color: #337ab7;
@@ -16480,25 +16485,25 @@ a.tabledrag-handle .handle {
   padding: 5px 8px;
 }
 
-/* line 1384, ../sass/styles.scss */
+/* line 1387, ../sass/styles.scss */
 #user-login input[type="submit"]:active, #user-login input[type="submit"]:hover, #user-login input[type="submit"]:focus {
   color: #fff;
   background-color: #286090;
   border-color: #204d74;
 }
 
-/* line 1391, ../sass/styles.scss */
+/* line 1394, ../sass/styles.scss */
 .section-user-agreement #main-content {
   background-color: #fff;
 }
 
 /** AQI / Popup Description Tweaks *********************************************************/
-/* line 1397, ../sass/styles.scss */
+/* line 1400, ../sass/styles.scss */
 .popover-title {
   font-weight: bold;
 }
 
-/* line 1400, ../sass/styles.scss */
+/* line 1403, ../sass/styles.scss */
 .popover-content {
   font-family: Lato, "Source Sans Pro", sans-serif;
 }
