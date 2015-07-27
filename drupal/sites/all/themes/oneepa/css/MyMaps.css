@@ -30,7 +30,7 @@
 
 .jcarousel li {
   float: left;
-  height: 220px;
+  height: 230px;
   /*width: 200px;*/
   margin-right: 2px;
   margin-left: 2px;
@@ -41,7 +41,7 @@
 .thumbitem-border {
   padding: 2px;
   border: 1px solid #efefef;
-  height: 13em;
+  height: 220px;
   width: 190px;
   margin: auto;
 }
