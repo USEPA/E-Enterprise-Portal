@@ -112,7 +112,7 @@ function guest_login_action(){
 function guest_logout_action(){
     module_load_include('pages.inc', 'user');
     user_logout();
-    drupal_goto("/ee-welcome");
+    drupal_goto("/");
 }
 
 function load_air_now_us_data() {
