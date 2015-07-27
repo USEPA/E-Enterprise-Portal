@@ -155,5 +155,16 @@ Drupal.behaviors.filterItems = {
     }
 };
 
+Drupal.behaviors.guestLogin = {
+    attach: function (context) {
+        $(document).ready(function () {
+            var lastInd = (document.referrer).lastIndexOf('/');
+            var rfr = (document.referrer).substring(lastInd + 1);
+            if ($(".page-ee-welcome #edit-log-in").length == 1 && rfr == 'workbench')
+                $("#edit-log-in").click();
+        });
+    }
+};
+
 })(jQuery);
 
