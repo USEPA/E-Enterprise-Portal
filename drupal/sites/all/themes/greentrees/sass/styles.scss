@@ -149,11 +149,11 @@ footer {
 h1, h2, h3, h4, h5, h6, th, legend, caption {
 	font-family: $base-font-family;
 }
-a.pager__link {
+a, .ui-widget-content a, a.pager__link {
 	color: $ee-link-color;
 }
 a:visited, 
-a:visited.pager__link {
+a:visited.pager__link, .ui-widget-content a:visited, .ui-widget-content a:visited.pager__link {
 	color: $ee-visited-color;
 }
 
@@ -1350,6 +1350,9 @@ a.tabledrag-handle .handle {
 }
 .ui-tabs a:focus {
 	background-color: #fafafa;
+}
+.ui-tabs .ui-tabs-nav li, label {
+	font-size: 0.85em;
 }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active {
 	border-bottom: 2px solid #000000;
