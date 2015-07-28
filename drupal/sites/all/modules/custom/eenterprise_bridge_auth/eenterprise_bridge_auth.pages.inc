@@ -280,8 +280,12 @@ function create_progress_tracker_node($res, $user){
     $query_res = db_query("select entity_id, revision_id from {field_data_field_eactivity_id} where bundle in (:node_type) and field_eactivity_id_value = :eactivityid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':eactivityid' =>  $res['EActivityId']))->fetchAssoc();
     //_update_progress_tracker_to_do_item will check if to-do or progress tracker item is updated and updates them accordingly.
     $node_deleted = _update_progress_tracker_to_do_item($query_res, $res);
-    if($query_res['entity_id'] < 1 || $node_deleted) {
-        //TODO: do not create a node if its expiration date is already passed
+
+    //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
+    $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
+    $curr_date =  strtotime(date("Y-m-d H:i:s"));
+    //do not create a node if its expiration date is already passed
+    if(($query_res['entity_id'] < 1 || $node_deleted) && ($expiration_date - $curr_date) > 0) {
         $node = new stdClass();
         $node->title = $res['ActivityDesc'];
         if ($res['ActivityType'] == 'TRACKER') {
