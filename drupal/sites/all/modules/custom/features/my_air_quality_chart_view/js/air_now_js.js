@@ -52,7 +52,7 @@
       L.esri.basemapLayer("Gray").addTo(map);
 
       var govUnits = L.esri.dynamicMapLayer({
-              url: 'http://services.nationalmap.gov/arcgis/rest/services/govunits/MapServer',
+              url: 'https://services.nationalmap.gov/arcgis/rest/services/govunits/MapServer',
               opacity: 0.9
           }).addTo(map);
 
