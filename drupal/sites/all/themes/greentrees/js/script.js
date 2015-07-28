@@ -160,7 +160,7 @@ Drupal.behaviors.guestLogin = {
         $(document).ready(function () {
             var lastInd = (document.referrer).lastIndexOf('/');
             var rfr = (document.referrer).substring(lastInd + 1);
-            if ($(".page-ee-welcome #edit-log-in").length == 1 && rfr == 'workbench')
+            if ($(".page-ee-welcome #edit-log-in").length == 1 && rfr == 'workbench?dest=guest_login')
                 $("#edit-log-in").click();
         });
     }
