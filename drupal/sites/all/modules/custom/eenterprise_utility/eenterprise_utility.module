@@ -102,7 +102,7 @@ function guest_login_action(){
             ->condition('uid', $user->uid)
             ->execute();
         drupal_session_regenerate();
-        drupal_goto("/");
+        drupal_goto('/workbench', array('query' => array('dest' => 'guest_login')));
     }
 }
 
