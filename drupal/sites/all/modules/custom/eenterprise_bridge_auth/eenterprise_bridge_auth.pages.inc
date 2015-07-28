@@ -245,6 +245,20 @@ function create_progress_tracker($user){
 
 
 function _update_progress_tracker_to_do_item($query_res, $res){
+
+    //For CEDRI to-do, if source url or expiration date is updated, update progress tracker item.
+    if ($res['ActivityType'] == 'TASK' && $res['PartnerSystemId'] == 'cdx-cedri') {
+        $db_exp_date = db_query("select field_todo_lst_due_value from {field_data_field_todo_lst_due} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+        $res_exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+
+        $db_src_url = db_query("select field_todo_lst_activ_source_url_value from {field_data_field_todo_lst_activ_source_url} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+
+        if($db_exp_date != $res_exp_date || $db_src_url != $res['ActivitySourceURL']){
+            node_delete($query_res['entity_id']);
+            return true;
+        }
+    }
+
     //For CEDRI progress tracker, if source url or expiration date is updated, update progress tracker item.
     if ($res['ActivityType'] == 'TRACKER' && $res['PartnerSystemId'] == 'cdx-cedri') {
         $db_exp_date = db_query("select field_prog_track_updated_value from {field_data_field_prog_track_updated} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
