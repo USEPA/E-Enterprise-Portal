@@ -14,16 +14,16 @@
 
 	function sortZipCodesbyCity() {
 		// Sort rows alphabetically
-	    var table  = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
-	    var rows   = table.find('tbody > tr'); // cache rows from target table body
-	    rows.sort(function(a, b) {
-	        var keyA = $('td:nth-child(2)',a).find('.field-suffix').text();
-	        var keyB = $('td:nth-child(2)',b).find('.field-suffix').text();
-			if (keyA != '' && keyB != '') {
-	            return (keyA > keyB) ? 1 : 0;  // A bigger than B, sorting ascending
-			}
-		});
-		    table.find('tbody').html(rows);
+	    // var table  = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
+	    // var rows   = table.find('tbody > tr'); // cache rows from target table body
+	    // rows.sort(function(a, b) {
+	    //     var keyA = $('td:nth-child(2)',a).find('.field-suffix').text();
+	    //     var keyB = $('td:nth-child(2)',b).find('.field-suffix').text();
+		// 	if (keyA != '' && keyB != '') {
+	    //         return (keyA > keyB) ? 1 : 0;  // A bigger than B, sorting ascending
+		// 	}
+		// });
+		//     table.find('tbody').html(rows);
 	}
 
 	function processPrimaryFields() {
@@ -54,7 +54,7 @@
 	if (page == 'user') {
 		$( document ).ajaxSuccess(function( event, xhr, settings ) {
 				console.log(settings.url);
-				var target_url = settings.url;
+				var target_url = settings.url; 
 				// determine which table to place the Add Another buttom
 				if (target_url == '/system/ajax' || target_url == '/multifield/field-remove-item/ajax') {
 					var table_id = '';
@@ -75,8 +75,9 @@
 					}
 			
 					if (table_id != '') {
+						console.log('sorting with', table_id, parent_id);
+						// throw new Error('break');
 						placeAddAnotherButton(false, '#' + table_id, parent_id);
-				
 					}
 				}
 		});
