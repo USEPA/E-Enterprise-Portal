@@ -155,7 +155,7 @@ Drupal.behaviors.filterItems = {
     }
 };
 
-Drupal.behaviors.guestLogin = {
+/*Drupal.behaviors.guestLogin = {
     attach: function (context) {
         $(document).ready(function () {
             var lastInd = (document.referrer).lastIndexOf('/');
@@ -164,7 +164,7 @@ Drupal.behaviors.guestLogin = {
                 $("#edit-log-in").click();
         });
     }
-};
+};*/
 
 })(jQuery);
 
