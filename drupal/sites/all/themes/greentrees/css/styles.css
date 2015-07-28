@@ -16028,16 +16028,89 @@ tr.even {
 #user-profile-form #field-profile-favourites-add-more-wrapper .form-item,
 #user-profile-form #zipcode_description .form-item {
   padding-bottom: 0px;
+  display: inline-block;
+  float: left;
 }
+
+#user-profile-form #zipcode_description .field-multiple-table {
+  width: 700px;
+}
+
+#user-profile-form #zipcode_description .field-name-field-field-zip-code {
+  display: inline-block;
+  float: left;
+}
+
+
+
 /* line 991, ../sass/styles.scss */
 #user-profile-form #zipcode_description table tr:last td:last {
   width: 200px;
 }
+
+#user-profile-form #zipcode_description .form-wrapper {
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+}
+
+
+#user-profile-form #zipcode_description table tr td:first-child {
+  display:none;
+
+}
+
+#user-profile-form #zipcode_description .zip-code-primary-select {
+    color: grey;
+    cursor: pointer;
+    /*display:none;*/
+      
+}
+
+#user-profile-form #zipcode_description .ajax-new-content {
+  float: left;
+  display:inline-block;
+}
+
+#user-profile-form #zipcode_description .form-type-checkbox {
+      margin-right: 10px;
+}
+
+#user-profile-form #zipcode_description .zip-code-primary-select.selected {
+    color: red;
+   
+    /*display:none;*/
+}
+#user-profile-form #zipcode_description .form-item .form-type-textfield label {
+  display: none;
+}
+
+#user-profile-form #zipcode_description .form-checkbox {
+  display:none;
+}
+
+#user-profile-form #zipcode_description .zip-code-primary-holder {
+  margin-top: 8px;
+  display:inline-block;
+  float: right;
+  width: 20px;
+}
+
 /* line 994, ../sass/styles.scss */
 #user-profile-form #zipcode_description .field-add-more-submit {
-  margin-left: 5px;
-  float: right;
+  float: left;
+  display: inline-block;
+  /*margin-top: 19px;*/
 }
+
+#user-profile-form #zipcode_description .multiple-fields-remove-button {
+  float: left; display: inline-block; 
+}
+
+/*#user-profile-form #zipcode_description td {
+  cursor: pointer;
+}*/
+
 /* line 998, ../sass/styles.scss */
 #user-profile-form .panel {
   min-height: 330px;
@@ -16046,6 +16119,13 @@ tr.even {
 #user-profile-form .ajax-progress {
   display: block !important;
   position: inherit !important;
+}
+#user-profile-form #zipcode_description {
+  display:none;
+}
+
+#user-profile-form .ajax-progress .message {
+  display:none;
 }
 /* line 1005, ../sass/styles.scss */
 #user-profile-form #zipcode_description label {
@@ -16300,7 +16380,8 @@ tr.even {
 }
 
 /* line 1217, ../sass/styles.scss */
-#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper, #field-zip-code-add-more-wrapper .tabledrag-toggle-weight-wrapper {
+#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper, #field-zip-code-add-more-wrapper .tabledrag-toggle-weight-wrapper,
+#zipcode_description .tabledrag-toggle-weight-wrapper {
   display: none;
 }
 

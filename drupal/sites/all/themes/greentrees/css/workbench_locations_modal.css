@@ -1,4 +1,7 @@
 
+.block--ee-header-locations {
+  width: 18em !important;
+}
 .ui-widget-content.locations-modal{
   max-height: none !important;
   height: 380px;

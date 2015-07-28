@@ -65,8 +65,9 @@ function process_favorite_link() {
   $url = urldecode($_POST['url']);
   $title = $_POST['title'];
   $action = $_POST['action'];
-  $id = $_POST['id'];
-  
+  if (isset($_POST['id'])) {
+    $id = $_POST['id'];
+  }
 
   // $value = $url . '|' . $date . '|' . $order_weight;
   switch ($action) {
