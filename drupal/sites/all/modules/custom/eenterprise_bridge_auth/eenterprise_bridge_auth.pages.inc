@@ -245,6 +245,19 @@ function create_progress_tracker($user){
 
 
 function _update_progress_tracker_to_do_item($query_res, $res){
+    //For CEDRI progress tracker, if source url or expiration date is updated, update progress tracker item.
+    if ($res['ActivityType'] == 'TRACKER' && $res['PartnerSystemId'] == 'cdx-cedri') {
+        $db_exp_date = db_query("select field_prog_track_updated_value from {field_data_field_prog_track_updated} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+        $res_exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+
+        $db_src_url = db_query("select field_prog_track_actions_link_value from {field_data_field_prog_track_actions_link} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+
+        if($db_exp_date != $res_exp_date || $db_src_url != $res['ActivitySourceURL']){
+            node_delete($query_res['entity_id']);
+            return true;
+        }
+    }
+
     $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
     $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res['entity_id']))->fetchField();
 
@@ -322,7 +335,7 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_track_actions['und'][0]['format'] = null;
             $node->field_prog_track_actions['und'][0]['safe_value'] = $res_action;
 
-            $node->field_prog_track_actions_link['und'][0]['value'] = 'http://ec2-52-4-39-127.compute-1.amazonaws.com/workbench';
+            $node->field_prog_track_actions_link['und'][0]['value'] = $res['ActivitySourceURL'];
             $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;
 
 
