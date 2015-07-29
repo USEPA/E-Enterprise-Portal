@@ -31,7 +31,6 @@ function eenterprise_utility_menu() {
         'page callback' => 'default_location_zip',
         'access callback' => TRUE,
     );
-    
     return $items;
 } 
 
