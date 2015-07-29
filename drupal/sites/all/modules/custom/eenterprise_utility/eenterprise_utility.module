@@ -27,12 +27,39 @@ function eenterprise_utility_menu() {
         'page callback' => 'guest_login_action',
         'access callback' => TRUE,
     );
-     $items['default_location_zip'] = array(
+    $items['guest_bye'] = array(
+        'page callback' => 'guest_logout_action',
+        'access callback' => TRUE,
+    );
+
+
+    $items['default_location_zip'] = array(
         'page callback' => 'default_location_zip',
         'access callback' => TRUE,
     );
+    $items['admin/config/people/trusted-users'] = array(
+        'title' => 'Trusted Users List Settings',
+        'description' => 'Manage A Trusted Users List, Switch between using and not using trusted list.',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('trusted_users_list_settings'),
+        'access arguments' => array('administer trusted list'),
+        'file' => 'eenterprise_utility_trusted_users.admin.inc',
+    );
     return $items;
-} 
+}
+
+
+/**
+ * Implements hook_permission().
+ */
+function eenterprise_utility_permission() {
+    return array(
+        'administer trusted list' => array(
+            'title' => t('Administer Trusted Users List'),
+            'description' => t('Change settings for enabling and disabling the usage of trusted users list for authentication.'),
+        ),
+    );
+}
 
 function test_load_air_now_us_data(){
     // run testbench
@@ -77,8 +104,18 @@ function guest_login_action(){
             ->condition('uid', $user->uid)
             ->execute();
         drupal_session_regenerate();
+        //drupal_goto('/workbench', array('query' => array('dest' => 'guest_login')));
         drupal_goto("/");
     }
+}
+
+/*
+ * Logout a guest user.
+ */
+function guest_logout_action(){
+    module_load_include('pages.inc', 'user');
+    user_logout();
+    drupal_goto("/");
 }
 
 function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv', $url_bool = false) {
@@ -169,6 +206,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
             if($value == 'user_account_form_validate')
                 unset($form['#validate'][$key]);
 
+        //Removed more than a thousand taxonomy hierarchy from bottom of admin profile page, it was giving me lots of misery.
+        global $user;
+        if($user->uid == 1)
+            unset($form['field_interests2']);
 
         // Get proper values for 'allowed_values_function', which is a core setting.
         $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
