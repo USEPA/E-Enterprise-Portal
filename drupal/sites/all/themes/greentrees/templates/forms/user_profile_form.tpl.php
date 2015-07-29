@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <?php
       drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
@@ -23,7 +22,7 @@ print render($form['account']['mail']);
 <h3>Locations of Interest</h3>
 <p class="eenterprise-utility-form-item-description-p">
 	Add your locations of interest to see environmental information relevant to those areas. 
-	Until a location is specified, the default location is set to Houston, Texas. <br />	 <br />	
+	Until a location is specified, the default location is set to Durham, North Carolina. <br />	 <br />	
 	<span class='zip_code_ajax_error'></span>
 </p>
 <div id='zipcode_description' class='form-group'>

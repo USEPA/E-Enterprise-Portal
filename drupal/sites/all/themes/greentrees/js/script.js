@@ -123,5 +123,48 @@ Drupal.behaviors.shareLinks = {
   }
 };
 
+Drupal.behaviors.filterItems = {
+    attach: function (context) {
+        if ($("#simple-dialog-container").is(':visible')) {
+            if ($("#simple-dialog-container").text() == '') {
+                var invisibleItem = $(".simpleDialogProcessed").attr('name');
+                invisibleItem = $("#" + invisibleItem).html();
+                $("#simple-dialog-container").prepend('<div class="modal-content-in-page">'+ invisibleItem +'</div>');
+            }
+        }
+
+        if($("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+            var cedri_list = ["Notification Report", "Notification of Compliance Status", "Air Emissions Report", "- Any -"];
+            $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
+                return $.inArray(this.innerHTML, cedri_list) == -1
+            }).remove();
+        }
+        if($("#edit-field-prog-track-domain-value").val() == 'LEAD') {
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+
+            var lead_list = ["Firm Abatement", "Firm RRP", "Firm Combination", "- Any -"];
+            $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
+                return $.inArray(this.innerHTML, lead_list) == -1
+            }).remove();
+        }
+        if($("#edit-field-prog-track-domain-value").val() == 'All') {
+            //$("edit-field-prog-track-rep-type-filter-value").val("All");
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
+        }
+    }
+};
+
+/*Drupal.behaviors.guestLogin = {
+    attach: function (context) {
+        $(document).ready(function () {
+            var lastInd = (document.referrer).lastIndexOf('/');
+            var rfr = (document.referrer).substring(lastInd + 1);
+            if ($(".page-ee-welcome #edit-log-in").length == 1 && rfr == 'workbench?dest=guest_login')
+                $("#edit-log-in").click();
+        });
+    }
+};*/
+
 })(jQuery);
 

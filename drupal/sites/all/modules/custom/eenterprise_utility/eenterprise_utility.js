@@ -2,7 +2,6 @@
 
 
   $(document).ready(function(){
-	var last_clicked = "";
 	
 	function placeAddAnotherButton(ajax_content, table_id, parent_id) {
 	 	var table = $(table_id);
@@ -16,44 +15,51 @@
 		}
 	};
 	
-	$( document ).ajaxSuccess(function( event, xhr, settings ) {
-		// determine which table to place the Add Another buttom
-		var table_id = '';
-		var parent_id = '';
-		$('.field-multiple-table').each(function() {
-			var table =  $(this);
-			var add_button = table.find('tr:last').find('td:nth-child(2)').find('.field-add-more-submit');
-			if (add_button.length == 0) {
-				table_id = table.attr('id');
-			}
+	
+	var path = window.location.pathname;
+	var page = path.split('/')[1];
+	if (page == 'user') {
+		$( document ).ajaxSuccess(function( event, xhr, settings ) {
+			
+				// determine which table to place the Add Another buttom
+				var table_id = '';
+				var parent_id = '';
+				$('.field-multiple-table').each(function() {
+					var table =  $(this);
+					var add_button = table.find('tr:last').find('td:nth-child(2)').find('.field-add-more-submit');
+					if (add_button.length == 0) {
+						table_id = table.attr('id');
+					}
+				});
+				if (inString(table_id, 'zip-code')) {
+					parent_id = '#zipcode_description';
+				}
+				else {
+					parent_id = '#links_description';
+				}
+		
+				if (table_id != '') {
+					placeAddAnotherButton(false, '#' + table_id, parent_id);
+				}
 		});
-		if (inString(table_id, 'zip-code')) {
-			parent_id = '#zipcode_description';
-		}
-		else {
-			parent_id = '#links_description';
-		}
-
-		if (table_id != '') {
-			placeAddAnotherButton(false, '#' + table_id, parent_id);
-		}
-	});
-
-
-
-	Drupal.tableDrag.prototype.row.prototype.onSwap = function(swappedRow) {
-		var table = $(swappedRow).closest('table');
-		var table_id = '#' + table.attr('id');
-		var parent_id = '';
-		if (inString(table_id, 'zip-code')) {
-			parent_id = '#zipcode_description';
-		}
-		else {
-			parent_id = '#links_description';
-			// table_id = '#field-profile-favourites-values';
-		}
-		placeAddAnotherButton(false, table_id, parent_id);
-	};
+	
+	
+	
+		Drupal.tableDrag.prototype.row.prototype.onSwap = function(swappedRow) {
+			var table = $(swappedRow).closest('table');
+			var table_id = '#' + table.attr('id');
+			var parent_id = '';
+			if (inString(table_id, 'zip-code')) {
+				parent_id = '#zipcode_description';
+			}
+			else {
+				parent_id = '#links_description';
+				// table_id = '#field-profile-favourites-values';
+			}
+			placeAddAnotherButton(false, table_id, parent_id);
+		};
+	
+  }
 	
 	
 	function inString(str, substring) {
@@ -172,18 +178,8 @@
 	  change: function(e) {
 		  e.preventDefault();
 	  },
-	close: function() { console.log('close');},
-	focus:  function(e, v) { console.log('focus');
+	focus:  function(e, v) { 
 		e.preventDefault();},
-	open:  function() { 
-		//console.log('open');
-	},
-	response:  function() { 
-		//console.log('response');
-		},
-	search:  function(e, v) {
-		//console.log('search');
-				},
 	select:  function(e,selection) { 
 		showValue(selection.item.value, false);
 		$('.ui-autocomplete-input').val('Start typing...');		
@@ -247,7 +243,9 @@ $('body').on('click', '.glyphicon-chevron-up', function() {
 
 
   }); // end document ready
-  
+  // On location change, save session
+
+
 
 	
 })(jQuery);
