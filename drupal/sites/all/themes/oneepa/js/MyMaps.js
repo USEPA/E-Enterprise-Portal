@@ -415,7 +415,7 @@
           //workaround for using jQ UI and Bootstrap - close button won't show up in top right of dialog
           open: function() {
             var closeBtn = $('.ui-dialog-titlebar-close');
-            closeBtn.append('<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>');
+            //closeBtn.append('<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>');
           }
         });
 

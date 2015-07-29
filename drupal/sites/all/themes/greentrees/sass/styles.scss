@@ -1338,14 +1338,19 @@ a.tabledrag-handle .handle {
 .ui-widget {
 	font-family: $lato !important;
 }
+.ui-widget-overlay {
+	opacity: 0.7 !important;
+	background-color: #000000;
+	background-image: none;
+}
 
 .ui-widget-header {
-	background: transparent !important;
+	background: none !important;
 	border: none;
 	border-bottom: 1px solid #efefef;
 }
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-	background:transparent;
+	background: none;
 	border: none;
 }
 .ui-tabs a:focus {
@@ -1366,14 +1371,24 @@ a.tabledrag-handle .handle {
 	border: none;
 	border-radius: 0 !important;
 }
-.ui-dialog .ui-dialog-title {
-	font-weight: normal !important;
+.ui-dialog {
+	.ui-dialog-title {
+		font-weight: normal !important;
+		font-size: 1.25em;
+	}
+	.ui-dialog-titlebar {
+		background-color: #fafafa !important;
+		border-bottom: 1px solid #f0f0f0;
+	}
+	.ui-dialog-titlebar-close {
+		background: transparent url('../images/close-titlebar-32px.png') no-repeat 0 0 !important;
+		border: none !important;
+		height: 32px;
+		width: 32px;
+		right: 30px;
+		margin-top: -15px;
+	}
 }
-.ui-dialog-titlebar-close {
-	background-color: transparent !important;
-	border: none !important;
-}
-
 
 /** Admin *********************************************************/
 #user-login input[type="submit"] {
