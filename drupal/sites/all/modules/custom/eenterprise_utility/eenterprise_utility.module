@@ -81,7 +81,7 @@ function guest_login_action(){
     }
 }
 
-function load_air_now_us_data() {
+function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv', $url_bool = false) {
   // set php.ini max execution to 1500 temporarily for this processing
   ini_set('max_execution_time', 1500);
   $start = microtime(true);
@@ -533,6 +533,7 @@ function get_header_variables(){
     $user_data = user_load($user->uid);
     $user_zips = $user_data->field_zip_code;
     $locations_array = array();
+    $primary_zip = '';
     $count = 0;
     foreach($user_zips[LANGUAGE_NONE] as $key=>$value) {
         $primary = $value['field_field_primary'][LANGUAGE_NONE][0]['value'];
