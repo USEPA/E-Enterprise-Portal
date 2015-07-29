@@ -23,8 +23,8 @@
  */
 ?>
 <?php print $output;
-if(!empty($view->result[$view->row_index]->field_field_prog_track_item_desc))
-    print "<br><span class='item-subscript-text'>".$view->result[$view->row_index]->field_field_prog_track_item_desc[0]['rendered']['#markup']."</span>";
+if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name))
+    print "<br><span class='item-subscript-text'>".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']."</span>";
 if(!empty($view->result[$view->row_index]->field_field_prog_track_item_details)) {
     print "<div id='modal-page-details-" . $view->row_index . "' class='modal-content-in-page'>".$view->result[$view->row_index]->field_field_prog_track_item_details[0]['rendered']['#markup']."</div>";
     print "<br><a href='.' class='simple-dialog' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-" . $view->row_index . "' title='Item Details'>Details</a>";

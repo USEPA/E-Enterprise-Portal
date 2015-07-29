@@ -118,7 +118,8 @@ function eenterprise_bridge_auth_authenticate($error) {
             else{
                 $uname = $username;
             }
-            trusted_user_check($uname);
+            if(variable_get('trusted_users_list_used') == 'Yes')
+                trusted_user_check($uname);
             $ext_user = user_external_load($uname);
             if(!$ext_user){
                 //user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
@@ -218,6 +219,20 @@ function create_progress_tracker($user){
                 "RoleIdSubject " => (string)$activity->RoleIdSubject ,
                 "Attributes " => (string)$activity->Attributes ,
                 "Documents " => (string)$activity->Documents ,);
+            foreach($activity->Attributes->Attribute as $child){
+                if((string)($child->attributes()) == 'facilityName')
+                    $res['FacilityName'] = $child->__toString();
+                else if((string)($child->attributes()) == 'partCode')
+                    $res['partCode'] = $child->__toString();
+                else if((string)($child->attributes()) == 'partName')
+                    $res['partName'] = $child->__toString();
+                else if((string)($child->attributes()) == 'subPartCode')
+                    $res['subPartCode'] = $child->__toString();
+                else if((string)($child->attributes()) == 'subPartName')
+                    $res['subPartName'] = $child->__toString();
+                else if((string)($child->attributes()) == 'facilityRegistryIdentifier')
+                    $res['facilityRegistryIdentifier'] = $child->__toString();
+            }
             create_progress_tracker_node($res, $user);
         }
     }
@@ -230,6 +245,33 @@ function create_progress_tracker($user){
 
 
 function _update_progress_tracker_to_do_item($query_res, $res){
+
+    //For CEDRI to-do, if source url or expiration date is updated, update progress tracker item.
+    if ($res['ActivityType'] == 'TASK' && $res['PartnerSystemId'] == 'cdx-cedri') {
+        $db_exp_date = db_query("select field_todo_lst_due_value from {field_data_field_todo_lst_due} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+        $res_exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+
+        $db_src_url = db_query("select field_todo_lst_activ_source_url_value from {field_data_field_todo_lst_activ_source_url} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+
+        if($db_exp_date != $res_exp_date || $db_src_url != $res['ActivitySourceURL']){
+            node_delete($query_res['entity_id']);
+            return true;
+        }
+    }
+
+    //For CEDRI progress tracker, if source url or expiration date is updated, update progress tracker item.
+    if ($res['ActivityType'] == 'TRACKER' && $res['PartnerSystemId'] == 'cdx-cedri') {
+        $db_exp_date = db_query("select field_prog_track_updated_value from {field_data_field_prog_track_updated} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+        $res_exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+
+        $db_src_url = db_query("select field_prog_track_actions_link_value from {field_data_field_prog_track_actions_link} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+
+        if($db_exp_date != $res_exp_date || $db_src_url != $res['ActivitySourceURL']){
+            node_delete($query_res['entity_id']);
+            return true;
+        }
+    }
+
     $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
     $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res['entity_id']))->fetchField();
 
@@ -252,8 +294,12 @@ function create_progress_tracker_node($res, $user){
     $query_res = db_query("select entity_id, revision_id from {field_data_field_eactivity_id} where bundle in (:node_type) and field_eactivity_id_value = :eactivityid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':eactivityid' =>  $res['EActivityId']))->fetchAssoc();
     //_update_progress_tracker_to_do_item will check if to-do or progress tracker item is updated and updates them accordingly.
     $node_deleted = _update_progress_tracker_to_do_item($query_res, $res);
-    if($query_res['entity_id'] < 1 || $node_deleted) {
-        //TODO: do not create a node if its expiration date is already passed
+
+    //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
+    $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
+    $curr_date =  strtotime(date("Y-m-d H:i:s"));
+    //do not create a node if its expiration date is already passed
+    if(($query_res['entity_id'] < 1 || $node_deleted) && ($expiration_date - $curr_date) > 0) {
         $node = new stdClass();
         $node->title = $res['ActivityDesc'];
         if ($res['ActivityType'] == 'TRACKER') {
@@ -273,11 +319,6 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_track_status['und'][0]['format'] = null;
             $node->field_prog_track_status['und'][0]['safe_value'] = $res_status;
 
-            $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
-            $node->field_prog_track_updated['und'][0]['value'] = $st_update;
-            $node->field_prog_track_updated['und'][0]['format'] = null;
-            $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
-
             $res_domain = $res['PartnerSystemId'];
             if (strpos($res['PartnerSystemId'], 'lead') !== false)
                 $res_domain = "Lead";
@@ -287,7 +328,18 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_track_domain['und'][0]['format'] = null;
             $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
 
-
+            if($res_domain == 'Lead'){
+                $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
+                $node->field_prog_track_updated['und'][0]['value'] = $st_update;
+                $node->field_prog_track_updated['und'][0]['format'] = null;
+                $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
+            }
+            else if($res_domain == 'CEDRI'){
+                $exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+                $node->field_prog_track_updated['und'][0]['value'] = $exp_date;
+                $node->field_prog_track_updated['und'][0]['format'] = null;
+                $node->field_prog_track_updated['und'][0]['safe_value'] = $exp_date;
+            }
             $res_action = '';
             if ($res_domain == 'Lead')
                 if ($res['Status'] == 'APPROVED')
@@ -301,7 +353,7 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_track_actions['und'][0]['format'] = null;
             $node->field_prog_track_actions['und'][0]['safe_value'] = $res_action;
 
-            $node->field_prog_track_actions_link['und'][0]['value'] = 'http://ec2-52-4-39-127.compute-1.amazonaws.com/workbench';
+            $node->field_prog_track_actions_link['und'][0]['value'] = $res['ActivitySourceURL'];
             $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;
 
 
@@ -318,6 +370,10 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_date_type['und'][0]['value'] = 'Publish Date';
                 $node->field_prog_track_date_type['und'][0]['format'] = null;
                 $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
+
+                $node->field_prog_track_facility_name['und'][0]['value'] = $res['FacilityName'];;
+                $node->field_prog_track_facility_name['und'][0]['format'] = null;
+                $node->field_prog_track_facility_name['und'][0]['safe_value'] = $res['FacilityName'];;
             }
         }
         else if($res['ActivityType'] == 'TASK') {
@@ -345,6 +401,34 @@ function create_progress_tracker_node($res, $user){
             $node->field_todo_lst_due['und'][0]['format'] = null;
             $node->field_todo_lst_due['und'][0]['safe_value'] = $st_due;
 
+            $node->field_todo_lst_facility_name['und'][0]['value'] = $res['FacilityName'];
+            $node->field_todo_lst_facility_name['und'][0]['format'] = null;
+            $node->field_todo_lst_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
+
+            $node->field_todo_lst_part_code['und'][0]['value'] = $res['partCode'];
+            $node->field_todo_lst_part_code['und'][0]['format'] = null;
+            $node->field_todo_lst_part_code['und'][0]['safe_value'] = $res['partCode'];
+
+            $node->field_todo_lst_part_name['und'][0]['value'] = $res['partName'];
+            $node->field_todo_lst_part_name['und'][0]['format'] = null;
+            $node->field_todo_lst_part_name['und'][0]['safe_value'] = $res['partName'];
+
+            $node->field_todo_lst_sub_part_code['und'][0]['value'] = $res['subPartCode'];
+            $node->field_todo_lst_sub_part_code['und'][0]['format'] = null;
+            $node->field_todo_lst_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
+
+            $node->field_todo_lst_sub_part_name['und'][0]['value'] = $res['subPartName'];
+            $node->field_todo_lst_sub_part_name['und'][0]['format'] = null;
+            $node->field_todo_lst_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
+
+            $node->field_todo_lst_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
+            $node->field_todo_lst_facility_reg_id['und'][0]['format'] = null;
+            $node->field_todo_lst_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
+
+            $node->field_todo_lst_activ_source_url['und'][0]['value'] = $res['ActivitySourceURL'];
+            $node->field_todo_lst_activ_source_url['und'][0]['format'] = null;
+            $node->field_todo_lst_activ_source_url['und'][0]['safe_value'] = $res['ActivitySourceURL'];
+
             $node->field_todo_lst_created_by['und'][0]['value'] = $user->uid;
             $node->field_todo_lst_created_by['und'][0]['format'] = null;
             $node->field_todo_lst_created_by['und'][0]['safe_value'] = $user->uid;
@@ -361,7 +445,8 @@ function create_progress_tracker_node($res, $user){
     }
     //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
     else if(true){
-        $expiration_date = strtotime($res['ActivityExpirationDate']);
+        //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
+        $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
         $curr_date =  strtotime(date("Y-m-d H:i:s"));
         if(($expiration_date - $curr_date) <= 0){
             db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res['entity_id']));

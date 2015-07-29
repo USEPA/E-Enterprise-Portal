@@ -45,13 +45,16 @@ drupal_add_js(drupal_get_path('module', 'my_air_quality_chart_view') ."/js/air_n
 <div class="view-content">
   <div id="my-air-quality-chart-tabs">
     <ul>
-      <li><a class="favorites-ignore" href="#my-air-quality-chart">Air Quality</a></li>
+      <li><a class="favorites-ignore" href="#my-air-quality-chart">Air Quality Index</a></li>
       <li><a class="favorites-ignore" href="#my-air-quality-air-now-maps">AirNow Maps</a></li>
     </ul>
     <div id="my-air-quality-chart">
+      <p>Source: <a href="http://airnow.gov/" rel="external">AirNow.gov</a></p>
     </div>
     <div id="my-air-quality-air-now-maps" style="padding:0">
+      <p>Source: <a href="http://airnow.gov/" rel="external">AirNow.gov</a></p>
       <div id="my-air-quality-air-now-map-container"></div>
+      <img src="<?php echo drupal_get_path('module', 'my_air_quality_chart_view') ."/css/airnow-map-legend.png"; ?>" alt="AirNow Maps Legend"/>
     </div>
   </div>
 </div>

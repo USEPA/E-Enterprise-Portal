@@ -2290,50 +2290,7 @@ fieldset legend {
   }
   .main-column,
   .region-highlighted {
-    clear: left;
-  }
-}
-
-.region-preface {
-  margin: 0 -1em;
-  padding: 0 1em;
-}
-.resource-directory .region-preface {
-  border-bottom: 1px solid #ddd;
-}
-.node-type-web-area .region-preface {
-  border-bottom: 0;
-}
-
-#block-pane-epa-web-area-connect {
-  padding-bottom: .66667em;
-}
-#block-pane-epa-web-area-connect > .menu > .menu-item {
-  float: left;
-  margin-left: 1.5em;
-}
-#block-pane-epa-web-area-connect > .menu > .menu-item:first-child {
-  margin-left: 0;
-}
-#block-pane-epa-web-area-connect > .menu > .menu-item >.menu-link {
-  display: block;
-  margin: 0 -.3333em;
-  padding: 0 .3333em;
-  text-decoration: none;
-}
-#block-pane-epa-web-area-connect > .menu > .menu-item >.menu-link:focus,
-#block-pane-epa-web-area-connect > .menu > .menu-item >.menu-link:hover {
-  text-decoration: underline;
-}
-@media screen and (min-width: 30em) {
-  #block-pane-epa-web-area-connect {
-    float: right;
-    padding-left: 2em;
-    padding-top: .66667em;
-  }
-
-  #block-views-hublinks-block {
-    float: left;
+    clear: both;
   }
 }
 

@@ -1,17 +1,22 @@
 (function ($) {
   "use strict";
 
+  var map; 
+  var markers;
+  var currentZip;
+  var currentLocation;
+  var todayAQI;
+
   $(document).ready(function () {
 
     var $tabs = $("#my-air-quality-chart-tabs");
 
-    var map = loadMap();
-    var markers;
+    map = loadMap();
 
     $tabs.tabs({
       activate: function(e, ui) {
         if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {// map tab activated
-          map._onResize(); 
+          updateMarker();
         }
       }
     });
@@ -19,11 +24,11 @@
     var $select = $('select#location-select');
 
     $select.change(function() {
-      var zip = $(this).val();
+      currentZip = $(this).val();
 
-      if (zip != 'view_more') {
-        var locationText = $(this).find('option:selected').text();
-        draw(zip, locationText);
+      if (currentZip != 'view_more') {
+        currentLocation = $(this).find('option:selected').text();
+        draw(currentZip, currentLocation);
         
         if (markers) {
           map.removeLayer(markers);
@@ -31,7 +36,7 @@
 
         markers = new L.FeatureGroup();
         map.addLayer(markers)
-        setMarker(markers, zip, locationText);
+        updateMarker();
       }
     });
 
@@ -41,6 +46,8 @@
 
   function loadMap() {
       var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 4);
+
+      $('a', map.getContainer()).addClass('favorites-ignore');
 
       L.esri.basemapLayer("Gray").addTo(map);
 
@@ -52,20 +59,30 @@
       map.fitBounds(govUnits._map.getBounds());
 
       var aqiLayer = L.esri.dynamicMapLayer({
-        url: "http://gisstg.rtpnc.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
-        opacity: 0.5
+        url: "https://gispub.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
+        opacity: 1.0,
+        userCors: false
       }).addTo(map);
-
-      aqiLayer.bringToBack();
 
       return map;
   }
 
-  function setMarker(markers, zip, locationText) {
-    $.getJSON('/zip_code_lookup?zip='+zip, function(data) {
-      var marker = L.marker([data.latitude, data.longitude]).addTo(markers);
-      marker.bindPopup("<b>"+ locationText +"</b>");
-    });
+  function updateMarker() {
+    if (currentZip) {
+      $.getJSON('/zip_code_lookup?zip='+currentZip, function(data) {
+
+        var latlng = [data.latitude, data.longitude];
+
+        var marker = L.marker(latlng).addTo(markers);
+        marker.bindPopup("<b>"+ currentLocation +"</b>"+ (todayAQI ? ("<br/>Today's Air Quality: "+todayAQI) : ""), {
+          minWidth: 150,
+          maxWidth: 500,
+          className: 'favorites-ignore'
+        }).openPopup();
+
+        map.setView(latlng);
+      });
+    }
   }
 
   function formatDate(date, delimiter) {
@@ -86,7 +103,7 @@
   function drawPopulationsAtRisk() {
     
     if (todayData) {
-      if (todayData.AQI > 100) {
+      if (todayData.AQI > 50) {
 
         var g = graph.append("g")
           .attr("transform", "translate(-"+(m[3] )+","+(h + m[0] + 65)+")")
@@ -109,7 +126,7 @@
             .attr("class", "at-risk-item")
             .attr("text-anchor", "middle")
             .text("Everyone")
-        } else { // [lungs, heart, over 55, under 12] at risk
+        } else if (todayData.AQI > 100) { // [lungs, heart, over 55, under 12] at risk
 
           var cellWidth = (w + m[1] + m[3]) / 5;
           var cellPosition = 150;
@@ -176,6 +193,16 @@
             .attr("dy", 18)
             .text("and Under")
           
+        } else {
+
+
+          var cellPosition = (w + m[1] + m[3]) / 2;
+
+          g.append("text")
+            .attr("transform", "translate("+cellPosition+",0)")
+            .attr("class", "at-risk-item")
+            .attr("text-anchor", "middle")
+            .text("Groups unusually sensitive to ozone")
         }
       }
     }
@@ -307,7 +334,7 @@
     var m = [35, 40, 80, 175]; // margins: top, right, bottom, left
     // var w = 550 - m[1] - m[3]; // width
 
-    var chartTitle = 'My Air Quality';
+    var chartTitle = 'My Air';
 
     var todayData; // store the data point  which contains today's data; not necessarily defined
 
@@ -333,6 +360,8 @@
     for (var i in data) {
       if (dateDiffInDays(new Date(), getDate(data[i].DateForecast)) == 0) {
         todayData = data[i];
+        todayAQI = todayData.AQI;
+        updateMarker();
         break;
       }
     }
@@ -354,7 +383,7 @@
       m[3] += 150; // add to the left margin to make room for the long category text
     }
 
-    if (todayData && todayData.AQI > 100) {
+    if (todayData && todayData.AQI > 50) {
       m[2] += 100; // add to the bottom margin to make room for the populations at risk section
     }
 
@@ -461,6 +490,7 @@
       .style("font-size", "70%")
       .text("Note: Graph is not drawn to scale.");
 
+/*
     // add grid lines to show scale
     var gridLineIndex = 250;
 
@@ -479,6 +509,7 @@
 
       gridLineIndex += 50;
     }
+*/
 
     // Translate y-axis ticks to the right
     graph.selectAll('.y.axis line.tick')
@@ -579,7 +610,7 @@
       // return [
       //   {'DateForecast': "2015-07-20", 'AQI': 248},
       //   {'DateForecast': "2015-07-21", 'AQI': 200},
-      //   {'DateForecast': "2015-07-22", 'AQI': 332},
+      //   {'DateForecast': "2015-07-22", 'AQI': 82},
       //   {'DateForecast': "2015-07-23", 'AQI': 401}
       // ];
 
