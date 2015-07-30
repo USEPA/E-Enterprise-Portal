@@ -1,6 +1,7 @@
 (function ($) {
 
 
+
   $(document).ready(function(){
 	
 	function placeAddAnotherButton(ajax_content, table_id, parent_id) {
@@ -8,38 +9,77 @@
 		var input_button = $(parent_id).find('.field-add-more-submit');
 		if (!ajax_content){
 			table.find("tr:last").find('td:nth-child(2)').append(input_button);
-			table.find("tr:last").find('td:nth-child(2) .ajax-new-content').append(input_button);
 		}
-		else {
-			table.find("tr:last").find('td:nth-child(2)').append(input_button);
-		}
-	};
+	}
+
+	function sortZipCodesbyCity() {
+		// Sort rows alphabetically
+	    // var table  = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
+	    // var rows   = table.find('tbody > tr'); // cache rows from target table body
+	    // rows.sort(function(a, b) {
+	    //     var keyA = $('td:nth-child(2)',a).find('.field-suffix').text();
+	    //     var keyB = $('td:nth-child(2)',b).find('.field-suffix').text();
+		// 	if (keyA != '' && keyB != '') {
+	    //         return (keyA > keyB) ? 1 : 0;  // A bigger than B, sorting ascending
+		// 	}
+		// });
+		//     table.find('tbody').html(rows);
+	}
+
+	function processPrimaryFields() {
+	    var table  = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
+		var  checkboxes = table.find('input[type=checkbox]');
+		var selection = table.find('input[type=checkbox]:checked');
+		checkboxes.after('<div class="zip-code-primary-holder"><span class="glyphicon glyphicon-flag zip-code-primary-select" aria-hidden="true"></span></div>');
+		var primary_indicator = selection.next('.zip-code-primary-holder').find('.zip-code-primary-select');
+		primary_indicator.addClass('selected');
+	}
+
+      $('body').on('click', '.zip-code-primary-select', function() {
+          $('.zip-code-primary-select.selected').removeClass('selected');
+          $('.zip-code-primary-select').closest('td').find('input[type=checkbox]:checked').prop('checked', false);
+          var selected_icon = $(this);
+          selected_icon.addClass('selected');
+          selected_icon.closest('td').find('input[type=checkbox]').prop('checked', true);
+      });
+      $('body').on('click', '.zip-code-primary-select.selected', function() {
+          var selected_icon = $(this);
+          selected_icon.removeClass('selected');
+          selected_icon.closest('td').find('input[type=checkbox]').prop('checked', false);
+      });
+
 	
 	
 	var path = window.location.pathname;
 	var page = path.split('/')[1];
 	if (page == 'user') {
 		$( document ).ajaxSuccess(function( event, xhr, settings ) {
-			
+				console.log(settings.url);
+				var target_url = settings.url; 
 				// determine which table to place the Add Another buttom
-				var table_id = '';
-				var parent_id = '';
-				$('.field-multiple-table').each(function() {
-					var table =  $(this);
-					var add_button = table.find('tr:last').find('td:nth-child(2)').find('.field-add-more-submit');
-					if (add_button.length == 0) {
-						table_id = table.attr('id');
+				if (target_url == '/system/ajax' || target_url == '/multifield/field-remove-item/ajax') {
+					var table_id = '';
+					var parent_id = '';
+					$('.field-multiple-table').each(function() {
+						var table =  $(this);
+						var add_button = table.find('tr:last').find('td:nth-child(2)').find('.field-add-more-submit');
+						if (add_button.length == 0) {
+							table_id = table.attr('id');
+						}
+					});
+					if (inString(table_id, 'zip-code')) {
+						processPrimaryFields();
+						parent_id = '#zipcode_description';
 					}
-				});
-				if (inString(table_id, 'zip-code')) {
-					parent_id = '#zipcode_description';
-				}
-				else {
-					parent_id = '#links_description';
-				}
-		
-				if (table_id != '') {
-					placeAddAnotherButton(false, '#' + table_id, parent_id);
+					else {
+						parent_id = '#links_description';
+					}
+			
+					if (table_id != '') {
+						console.log('sorting with', table_id, parent_id);
+						// throw new Error('break');
+						placeAddAnotherButton(false, '#' + table_id, parent_id);
+					}
 				}
 		});
 	
@@ -63,23 +103,21 @@
 	
 	
 	function inString(str, substring) {
-		if (str.indexOf(substring) >= 0) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return str.indexOf(substring) >= 0;
 		
 	}
-	
-		placeAddAnotherButton(true, '#field-zip-code-values', '#zipcode_description');
-		placeAddAnotherButton(true, '#field-profile-favourites-values', '#links_description');
 
+
+
+		sortZipCodesbyCity();
+		processPrimaryFields();
+		placeAddAnotherButton(false, '#field-zip-code-values', '#zipcode_description');
+		placeAddAnotherButton(false, '#field-profile-favourites-values', '#links_description');
+		$('#zipcode_description').show();
 	// AUTOCOMPLETE FUNCTIONALITY
 	
 	
 		function generateParents(parents_array, last_parent_id, vid, initial) {
-			var parents_array = parents_array;
 			if (parents_array.length > 0) {
 				var current_parent = parents_array[parents_array.length - 1];
 				parents_array.splice(-1, 1);
@@ -120,7 +158,6 @@
 		return $.ajax({
 			url: '/get_taxonomy_parent_name/' + tid,
 			method: 'POST',
-			// async: false,
 			data: checkbox_id,
 			success: function(data) {
 				var data = $.parseJSON(data);
@@ -140,7 +177,7 @@
 	// 		$('.vocab-tier-0').append(vocab_parent);
 	// 		console.log(vocab_parent);
 	// 	});
-	// $('.field-name-field-interests2 .form-item').hide();
+	$('.field-name-field-interests2 .form-item').hide();
 	
 	$('.field-name-field-interests2 .form-item .form-type-checkbox').hide();
 	function processCheckboxes() {
@@ -191,18 +228,9 @@
 	
 	$('body').on('click', '.vocab_holder .label', function() {
 	if ($(this).hasClass('label-primary')) {
-		// $(this).closest('.vocab_holder').find('label').each(function() {
-		// 	var checkbox_id = $(this).attr('for');
-		// 	console.log(checkbox_id);
-		// 	$('#' + checkbox_id).attr('checked', true);
-		// });
 		$(this).removeClass('label-primary').addClass('label-default');
 	}
 	else {
-		// $(this).closest('.vocab_holder').find('label').each(function() {
-		// 	var checkbox_id = $(this).attr('for');
-		// 	$('#' + checkbox_id).attr('checked', false);
-		// });
 		$(this).removeClass('label-default').addClass('label-primary');
 	}
 });
@@ -236,7 +264,7 @@ $('body').on('click', '.glyphicon-chevron-up', function() {
 	var promises = processCheckboxes();
 	$.when.apply(null, promises).done(function(){
 		$('#loading_interests').hide();
-		$('.glyphicon').trigger('click');
+		$('.vocab-columns .glyphicon').trigger('click');
 		$('.autocomplete-interests').show();
 	});
 

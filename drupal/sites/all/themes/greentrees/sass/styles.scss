@@ -600,7 +600,6 @@ tr.odd, tr.even {
 	clear: left;
 	background-color: #333;
 	border-top: 1px solid #3d3d3d;
-	background-color: #333;
 	width: 60%;
 	margin: 0;
 	padding: 0;
@@ -1009,7 +1008,7 @@ tr.even {
 
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {
-	#user-profile-form {
+  form[id^='user-profile-form'] {
 		.form-type-textfield {
 			width: 150px;
 		}
@@ -1027,7 +1026,10 @@ tr.even {
 .field-name-field-profile-last-name {
 	display:inline-block;
 }
-#user-profile-form {
+form[id^='user-profile-form'] {
+    .ajax-progress .message {
+      display: none;
+    }
 	label {
 		cursor: pointer;
 	}
@@ -1088,27 +1090,77 @@ tr.even {
 	.eenterprise-utility-form-item-description-p.field-title-below { 
 		margin-bottom: 1.5em; padding-bottom: 0px;
 	}
-	#field-profile-favourites-add-more-wrapper .form-item,
-	#zipcode_description .form-item {
-		padding-bottom: 0px;
-	}
-	#zipcode_description table tr:last td:last {
-		width:200px;	
-	}
-	#zipcode_description .field-add-more-submit {
-		margin-left: 5px;
-		float: right;
-	}
-	.panel {
+
+  #zipcode_description {
+      display:none;
+      .form-item {
+        display: inline-block;
+        float: left;
+        padding-bottom: 0px;
+      }
+    .field-multiple-table {
+      width: 700px;
+    }
+    .field-name-field-field-zip-code {
+      display: inline-block;
+      float: left;
+    }
+    .field-add-more-submit {
+      float: left;
+      display: inline-block;
+    }
+      .multiple-fields-remove-button {
+        float: left; display: inline-block;
+      }
+    table tr:last td:last {
+      width:200px;
+    }
+    .form-wrapper {
+      display: inline-block;
+      float: left;
+      margin-right: 10px;
+    }
+    table tr td:first-child, .tabledrag-toggle-weight-wrapper,
+    .form-item .form-type-textfield label, .form-checkbox{
+      display:none;
+    }
+    label {
+      float: left;
+    }
+    .zip-code-primary-select {
+      color: grey;
+      cursor: pointer;
+      /*display:none;*/
+
+    }
+      .ajax-new-content {
+        float: left;
+        display:inline-block;
+      }
+      .form-type-checkbox {
+        margin-right: 10px;
+      }
+      .zip-code-primary-select.selected {
+        color: red;
+      }
+
+      .zip-code-primary-holder {
+        margin-top: 8px;
+        display:inline-block;
+        float: right;
+        width: 20px;
+      }
+
+    }
+
+  .panel {
 		min-height: 330px;
 	}
 	.ajax-progress {
 	  display:block !important;
 	  position: inherit !important;
 	}
-	#zipcode_description label {
-		float: left;
-	}
+
 	
 	thead label {
 		padding:1em 1em 0.25em 0.5em;
@@ -1121,7 +1173,7 @@ tr.even {
 		border:none;
 	}
 	.form-submit, .remove_button {
-		text-transform: capitalize; 
+		text-transform: capitalize;
 		background-color: #337ab7;
 		padding:0.5em 1em;
 		height:auto;
@@ -1136,7 +1188,7 @@ tr.even {
 		background-color: green; 
 		height: auto; 
 		width: auto; 
-		margin: 0px;
+		margin: 0;
 		vertical-align: middle;
 		padding: 0.25em 0.75em;
 	}
@@ -1216,7 +1268,7 @@ tr.even {
 #links_description table > tbody > tr > td{
   vertical-align: middle;
 }
-#user-profile-form .remove-button {
+form[id^='user-profile-form'] .remove-button {
   float: right;
 }
 #links_description table .field-type-text {
@@ -1292,7 +1344,6 @@ tr.even {
 		font-size: $base-font-size;
 		font-family: $base-font-family;
 		height: auto;
-		border: 1px solid #bbb;
 		border-radius: 4px;
 		line-height: 1.42857;
 	}

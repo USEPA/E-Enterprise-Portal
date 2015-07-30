@@ -21,13 +21,13 @@ print render($form['account']['mail']);
 		<div class="panel-body">
 <h3>Locations of Interest</h3>
 <p class="eenterprise-utility-form-item-description-p">
-	Add your locations of interest to see environmental information relevant to those areas. 
+	Add your locations of interest to see environmental information relevant to those areas. Select your primary location
+	by clicking  <span class="glyphicon glyphicon-flag zip-code-primary-select" aria-hidden="true"></span>. <br />
 	Until a location is specified, the default location is set to Durham, North Carolina. <br />	 <br />	
 	<span class='zip_code_ajax_error'></span>
 </p>
 <div id='zipcode_description' class='form-group'>
 <?php
-	
 print render($form['field_zip_code']);
 ?>
 </div>
