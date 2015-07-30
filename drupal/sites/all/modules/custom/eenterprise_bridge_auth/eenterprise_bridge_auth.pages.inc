@@ -216,9 +216,8 @@ function create_progress_tracker($user){
                 "StatusUpdateDate" => (string)$activity->StatusUpdateDate,
                 "UserId" => (string)$activity->UserId,
                 "RoleId" => (string)$activity->RoleId,
-                "RoleIdSubject " => (string)$activity->RoleIdSubject ,
-                "Attributes " => (string)$activity->Attributes ,
-                "Documents " => (string)$activity->Documents ,);
+                "RoleIdSubject" => (string)$activity->RoleIdSubject ,
+                "Attributes" => (string)$activity->Attributes ,);
             foreach($activity->Attributes->Attribute as $child){
                 if((string)($child->attributes()) == 'facilityName')
                     $res['FacilityName'] = $child->__toString();
@@ -232,6 +231,39 @@ function create_progress_tracker($user){
                     $res['subPartName'] = $child->__toString();
                 else if((string)($child->attributes()) == 'facilityRegistryIdentifier')
                     $res['facilityRegistryIdentifier'] = $child->__toString();
+            }
+            $i=0;
+            foreach ($activity->Documents->Document as $child) {
+                $res['Documents'][$i]['id'] = $child->Id->__toString();
+                $res['Documents'][$i]['name'] = 'sites/default/files/'.$child->Name->__toString();
+                $res['Documents'][$i]['typeId'] = $child->TypeId->__toString();
+                $res['Documents'][$i]['size'] = $child->Size->__toString();
+                $res['Documents'][$i]['createDate'] = $child->CreateDate->__toString();
+                $res['Documents'][$i]['transactionId'] = $child->TransactionId->__toString();
+                $i++;
+
+                $param_attch_type = array("_" => $child->Id->__toString(),
+                    "contentType" => array($child->TypeId->__toString()));
+                $param_doc_id = $child->Id->__toString();
+
+                $param_doc = array(
+                    "documentName" => $child->Name->__toString(),
+                    "documentFormat" => array($child->TypeId->__toString()),
+                    "documentContent" => $param_attch_type,
+                    "documentId" => $param_doc_id,
+                );
+
+                $param_dl1 = array(
+                    "securityToken" => $response1->securityToken,
+                    "dataflow" => "E-ACTIVITY",
+                    "transactionId" => $child->TransactionId->__toString(),
+                    "documents" => $param_doc,
+                );
+                $resp_dl = $client2->__soapCall("Download", array($param_dl1));
+
+                $INPUT = $resp_dl->documents->documentContent->_;
+                $file = 'sites/default/files/'.$child->Name->__toString();
+                file_put_contents($file, $INPUT);
             }
             create_progress_tracker_node($res, $user);
         }
@@ -341,20 +373,29 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_updated['und'][0]['safe_value'] = $exp_date;
             }
             $res_action = '';
-            if ($res_domain == 'Lead')
-                if ($res['Status'] == 'APPROVED')
-                    $res_action = "Print Receipt Print Certification";
-                else
-                    $res_action = 'Print Receipt';
+            if ($res_domain == 'Lead'){
+                foreach($res['Documents'] as $ky => $vl){
+                    if(strpos($vl['name'],'Receipt') !== false)
+                        $res_action .= "<a href='/".$vl['name']."'>Print Receipt</a><br/>";
+                    if(strpos($vl['name'],'Certificate') !== false)
+                        $res_action .= "<a href='/".$vl['name']."'>Print Certificate</a><br/>";
+                }
+                if(empty($res_action))
+                    $res_action = "N/A";
+            }
             else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI')
                 $res_action = 'View Submission';
 
-            $node->field_prog_track_actions['und'][0]['value'] = $res_action;
+            $node->field_prog_track_actions_dnload['und'][0]['value'] = $res_action;
+            $node->field_prog_track_actions_dnload['und'][0]['format'] = 'full_html';
+            $node->field_prog_track_actions_dnload['und'][0]['safe_value'] = $res_action;
+
+            /*$node->field_prog_track_actions['und'][0]['value'] = $res_action;
             $node->field_prog_track_actions['und'][0]['format'] = null;
             $node->field_prog_track_actions['und'][0]['safe_value'] = $res_action;
 
             $node->field_prog_track_actions_link['und'][0]['value'] = $res['ActivitySourceURL'];
-            $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;
+            $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;*/
 
 
             $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
