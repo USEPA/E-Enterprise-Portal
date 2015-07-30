@@ -224,8 +224,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       hide($form['account']['current_pass']);
       hide($form['account']['pass']);
       hide($form['field_profile_interests']);
-      
-      $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
+        hide($form['field_first_time_user']);
+
+        $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
       $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter ZIP Code";
       if(empty($form['account']['mail']['#default_value']))
           $form['account']['mail']['#default_value'] = $form['#user']->name;
