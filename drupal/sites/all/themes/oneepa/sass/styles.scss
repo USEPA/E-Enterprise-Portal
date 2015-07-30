@@ -12,7 +12,7 @@
 @import "components/misc";
 @import "print";
 @import "bootstrap";	// Import adjusted Bootstrap styles (not true SCSS - rendered CSS)
-@import "s";		// Import EPA s.css rules via _s.scss
+@import "s-trimmed";		// Import EPA s.css rules via _s.scss
 
 $body-font-size:  100%;
 //If update these colors, update in _init.scss also!
@@ -24,6 +24,7 @@ $ee-link-color:	   #23537e;
 $ee-hover-color:   #4083a9;
 $ee-visited-color: #5487ba;
 $ee-focus-color:   #fff;		// link color when user tabs thru
+$ee-white:		   #fff;
 $ee-subtext-color: #ddd;
 $ee-bgfocus-color: $epa-blue;	// change background to blue on focus / hover
 $ee-light-gray:	   #f8f8f8;
@@ -44,21 +45,32 @@ $ee-active-menu:   #364d5f;
 }
 
 @mixin box-shadow {
-	-moz-box-shadow: 0 2px 2px #aaa;
-	-webkit-box-shadow: 0 2px 2px #aaa;
+	-moz-box-shadow: 0 2px 2px #ddd;
+	-webkit-box-shadow: 0 2px 2px #ddd;
 	box-shadow: 0 2px 2px #aaa;
-
 	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30);
 	-ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
 	zoom: 1;
 }
 
+@mixin element-invisible {
+	clip: rect(1px,1px,1px,1px);
+	position:absolute;
+}
+
 /** Adjust Main Font and Styles *********************************************************/
+html {
+	background-color: transparent;
+}
 body {
-	color: $base-text-color;
+	color: $ee-dark-gray;
+	background-color: $ee-light-gray;
 }
 h1, h2, h3, h4, h5, h6, th, legend, caption {
 	font-family: $base-font-family;
+}
+.site-logo {
+	display: block;
 }
 a.pager__link {
 	color: $ee-link-color;
@@ -70,6 +82,56 @@ a:visited.pager__link {
 .menu-item {
 	letter-spacing: 0.25px;
 }
+
+header #block-eenterprise-bridge-auth-eenterprise-bridge-auth h2.block-title {
+	@include element-invisible;
+}
+
+footer {
+  clear: both;
+  width: 100%;
+  color: $ee-white;
+  padding: 10px 60px;
+  font-family: $lato;
+  min-height: 50px;
+  background-color: $ee-dark-gray;
+  position: static;
+  a {
+	  color: #fff;
+  }
+  #block-menu-menu-footer-disclaimers h2.block-title {
+	  display: none;
+  }
+  .menu__item.is-leaf {
+	  list-style: none;
+  }
+  #block-menu-menu-footer-disclaimers {
+	  float: none;
+	  clear: left;
+	  margin-top: 5px;
+  }
+  .block--ee-social-media, .block--ee-social-media .block-title, .ee-social-media, .ee-social-media li {
+	  float: left;
+  }
+  .block--ee-social-media {
+	  h2 {
+		  font-size: 1.5em;
+		  text-transform: lowercase;
+		  font-family: $lato;
+		  padding-top:5px;
+		  letter-spacing: 1px;
+	  }
+  }
+  .ee-social-media {
+	  padding-bottom: 0;
+	  li {
+		  list-style: none;
+		  display: block;
+		  margin-right: 5px;
+	  }
+	}
+ }
+
 
 /** Adjust Bootstrap Components  *********************************************************/
 .modal-open {
@@ -114,10 +176,16 @@ input[type="submit"],
 .site-slogan {
 	line-height:55px;
 	vertical-align: bottom;
+	color: $ee-dark-gray;
 }
 
 .site-name {
 	margin-top: 20px;
+	height: auto;
+	width: auto;
+	span {
+		background: transparent url('../images/ee-logo.png') no-repeat 0 0;
+	}
 }
 
 .main-nav > .menu > .menu-item > .menu-link {
@@ -127,8 +195,9 @@ input[type="submit"],
 /** e-Enterprise Landing Page & Beyond ***********/
 .masthead {
 	padding-bottom:0;
-	border-bottom: 1px solid #dddddd;
-	padding-left: 1em;
+	border-bottom: none;
+	padding-left: 60px;
+	padding-right: 60px;
 }
 
 .breadcrumb, .breadcrumb-title {
@@ -141,7 +210,7 @@ input[type="submit"],
 }
 	
 .secondary-nav a {
-	color: $epa-white;
+	color: $ee-dark-gray;
 	font-size: $h5-font-size;
 }
 .not-logged-in {
@@ -153,12 +222,19 @@ input[type="submit"],
 	}
 }
 
-.region-header {
-	background-color: $ee-light-gray;
+header #block-eenterprise-bridge-auth-eenterprise-bridge-auth {
+	float: right;
+	margin-top: 20px;
+}
+
+header {
+	//background-color: $ee-light-gray;
+	@include linear-gradient($ee-light-gray, $ee-hover-gray);
+	//background-color: #5487ba;
 	color: #494949;
-	margin-left: -1em;
-	margin-right: -1em;
-	padding: 5px 1em;
+	//margin-left: -1em;
+	//margin-right: -1em;
+	//padding: 5px 1em;
 	@include box-shadow;
 	a {
 		color: #333;
@@ -239,10 +315,6 @@ input[type="submit"],
 	}
 	.row {
 		padding:1em 2.5em;
-/*
-		margin-left:0px !important;
-		margin-right:0px !important;
-*/
 	}
 	.view-footer {
 		padding-left:30px;
@@ -268,7 +340,7 @@ input[type="submit"],
 	}
 }
 
-#edit-e-enterprise-bridge, #edit-login {
+#edit-e-enterprise-bridge, #edit-login, #edit-log-in, #edit-log-in--2 {
 	background-color: #337ab7;
 	padding:1em 3em;
 	height:auto;
@@ -276,6 +348,9 @@ input[type="submit"],
 	border-radius:4px;
 	font-size:1.25em;
 	font-weight:normal;
+}
+header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
+	padding: 0.5em 1em;
 }
 
 #learnmore {
@@ -341,22 +416,14 @@ input[type="submit"],
 	margin-left:1.25em;
 }
 
-/*
-.view-ee-release-note-list li h3 {
-	font-size:1.15em;
-}
-
-.view-ee-release-note-list p {
-	font-size:90%;
-	padding-bottom:10px;
-	line-height:1.6
-}
-*/
 .page-workbench .block-views, 
 .section-workbench .block-views {
 	float:left;
 }
 .page-workbench {
+	header {
+		background-color: #fff;
+	}
 	&.wide-template #main-content {
 		background-color: $ee-light-gray;
 	}
@@ -441,59 +508,85 @@ input[type="submit"],
   position: static !important;
 }
 
-/** General Table Styles *********************************************************/
-table, th, td {
+.tabs, .tabs-primary__tab, .tabs-primary__tab.is-active {
 	border:none;
-}
-/*tr {
-	border-bottom:1px solid #efefef;
-}*/
-th, td {
-	padding: 15px;
-	border: none;
-	line-height:1.2;
-}
-th {
-	background-color: $epa-white;
-	text-align: center;
-}
-.field-multiple-table th {
-	text-align: left;
-}
-.views-field-counter {
-	text-align: right;
-}
-td {
-	vertical-align: top;
-}
-tr:nth-of-type(even) {
-	background-color: $ee-light-gray;
-}
-tr.odd {
-	background-color: $epa-white;
-}
-tr.views-row-first {
-	border-top: 1px solid $ee-medium-gray;
-}
-tr.odd, tr.even {
-	border-bottom: 1px solid $ee-medium-gray;
+	background-image: none;
 }
 
-.workbench-menu {
-  display: none;
+@media screen and (min-width: 30em) {
+	footer {
+		div, .block--ee-social-media {
+			float: left;
+		}
+		#block-menu-menu-footer-disclaimers {
+		  float: right;
+		  margin-top: 5px;
+		  clear: none;
+		 }
+	}
+	.pillbox > .menu-item,
+	.tabs > li {
+		float: left; /* LTR */
+	}
+	
+	.pipeline > li {
+		border-right: 1px solid #777; /* LTR */
+		float: left; /* LTR */
+		margin-bottom: .5em;
+		margin-right: 1em; /* LTR */
+		padding-right: 1em; /* LTR */
+		list-style: none;
+	}
+	.pipeline > li:last-child {
+		border-right: 0; /* LTR */
+		margin-right: 0; /* LTR */
+		padding-right: 0; /* LTR */
+	}
+	footer {
+		div {
+			float: none;
+		}
+	}
 }
 
 @media screen and (min-width: 40em) {
-  .workbench-menu {
-    display: block;
-  }
+	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
+		.region-header {
+			font-size: 1em;
+		}
+		.well {
+			font-size: 2em;
+			float: right;
+			width: 75%;
+		}
+	}
+	.workbench-menu {
+    	display: block;
+    }
 }
 
 /** Workbench *******************************************************************/
 @media screen and (min-width: 45em) {
+	th.views-field {
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	.views-field-field-todo-lst-item, .views-field-field-todo-lst-domain, .views-field-field-prog-tracker-app, .views-field-field-prog-track-domain {
+		display: block;
+	}
+	td.views-field-field-todo-lst-item, td.views-field-field-todo-lst-domain, td.views-field-field-prog-tracker-app, td.views-field-field-prog-track-domain {
+		text-align: left;
+	}
+	table.views-table td.active {
+		background-color: #ffffff;
+	}
+	.views-field-field-todo-lst-item a.simple-dialog {
+		margin-top: 0
+	}
+	
 	.wide-template #main-content {
-		padding-left: 3em;
-		padding-right: 3em;
+		padding-left: 60px;
+		padding-right: 60px;
 	}
 	.page-eenterprise-for-environment {
 		h2.microsite-name {
@@ -509,6 +602,15 @@ tr.odd, tr.even {
 	.site-name-and-slogan {
 		margin-left: 1em;
 	}
+	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
+		.region-header {
+			font-size: 1em;
+		}
+		.well {
+			font-size: 2.5em;
+			margin-top: 1em;
+		}
+	}
 	.page-workbench .block-views.odd, 
 	.section-workbench .block-views.odd {
 		width:55%;
@@ -523,30 +625,56 @@ tr.odd, tr.even {
 	.ee-workbench-top-header li {
 		min-width: 4.5em;
 		}
-	.ee-workbench-header-locations {
-		width:30em;
-		float:right;
-		margin-right:1.25em;
-		}
 	#block-search-form {
 		clear: right;
 		padding-top: 0;
 		float: right;
 		position:initial
-		}
+	}
+		
 }
 @media screen and (min-width: 60em) {
-	#block-search-form {
-		position:absolute;
-		right:1.75em;
-		top: 5.5em;}
 	.wide-template #main-content {
-		padding-left: 3em;
-		padding-right: 3em;
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+	.view-ee-welcome, .page-node-50, .page-node-168 {
+		.well {
+			font-size: 3em;
+			//margin-left: 30%;
+		}
 	}
 	.page-eenterprise-for-environment.wide-template #main-content {
 		padding: 0 1em;
 	}
+	.panel-2col {
+		.panel-col-first, .panel-col-last {
+			width:50%;
+			float: left;
+			min-width: 440px;
+		}
+	}
+
+}
+
+@media screen and (min-width: 75em) {
+	.wide-template #main-content {
+		padding-left: 60px;
+		padding-right: 60px;
+	}	
+	th.views-field {
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+
+	.views-field-field-todo-lst-item, .views-field-field-todo-lst-domain, .views-field-field-prog-tracker-app, .views-field-field-prog-track-domain {
+		display: table-cell;
+	}
+	
+	table.views-table td.active {
+		background-color: $ee-hover-gray;
+	}
+	
 }
 
 .ee-workbench-top-header {
@@ -599,11 +727,11 @@ tr.odd, tr.even {
 .ee-workbench-header-block {
 	float:left;
 	margin-left:20px;
-	padding:5px 10px;
+	padding: 4px 10px 3px;
 }
 
 .ee-workbench-header-locations select {
-	margin-bottom:10px;
+	//margin-bottom:10px;
 	font-size: $h5-font-size;
 }
 .ee-workbench-header-block a, 
@@ -623,6 +751,9 @@ tr.odd, tr.even {
 	}
 }
 
+
+
+
 /** To Do / Progress Tracker Styles 
 *********************************************************/
 table.views-table {
@@ -633,7 +764,7 @@ table.views-table {
 		padding:10px 0;
 	}
 	thead th, thead th a {
-		color: $epa-white;
+		color: $ee-white;
 	}
 	th a img {
 		margin-left: 10px;
@@ -698,7 +829,8 @@ tr.even {
 .views-field-field-prog-tracker-app .item-subscript-text {
     font-size:67.5%;
 }
-.views-field-field-prog-tracker-app .modal-content-in-page{
+.views-field-field-prog-tracker-app .modal-content-in-page,
+.views-field-field-todo-lst-item .modal-content-in-page {
     display:none;
 }
 
@@ -740,6 +872,10 @@ tr.even {
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {
 	#user-profile-form {
+		.form-type-textfield {
+			width: 150px;
+		}
+	
 		.ajax-progress .message {
 			display: none;
 		}
@@ -782,7 +918,7 @@ tr.even {
 	.remove-button .field-profile-favourites-values {
 		float: right;
 	}
-
+	
 	.description {
 		color:#333333;
 		display:table;
@@ -821,8 +957,9 @@ tr.even {
 	#zipcode_description table tr:last td:last {
 		width:200px;	
 	}
-	#zipcode_description .field-add-more-submit { 
-		margin-left: 5px; float: right; 
+	#zipcode_description .field-add-more-submit {
+		margin-left: 5px;
+		float: right;
 	}
 	.panel {
 		min-height: 330px;
@@ -987,10 +1124,19 @@ tr.even {
 	/** jQuery Overrides - Profile Page **/
 	.ui-widget,
 	.ui-menu .ui-menu-item {
-		font-family: $base-font-family !important;
+		font-family: $lato !important;
 	}
 	.ui-widget {
 	    font-size: 83% !important;
+	}
+	.ui-menu .ui-menu-item a{   
+	    font-size:20px;
+	}
+	
+	.ui-widget-content {
+		max-height: 300px; 
+		overflow-y: scroll; 
+		overflow-x: hidden;
 	}
 	.ui-state-hover, 
 	.ui-widget-content .ui-state-hover, 
@@ -1038,7 +1184,6 @@ tr.even {
 	display: none;
 }
 
-
 .form-item-field-profile-interests-und label:first-child{ 
 	display:none;
 }
@@ -1051,12 +1196,87 @@ a.tabledrag-handle .handle {
 	top:-10px;
 }
 
-.ui-menu .ui-menu-item a{   
-    font-size:20px;
+/** jQuery Overrides - General, affects modals, tabs, etc. *********************************************************/
+.ui-widget {
+	font-family: $lato !important;
+}
+.ui-widget-overlay {
+	opacity: 0.7 !important;
+	background-color: #000000;
+	background-image: none;
 }
 
-.ui-widget-content {
-	max-height: 300px; 
-	overflow-y: scroll; 
-	overflow-x: hidden;
+.ui-widget-header {
+	background: none !important;
+	border: none;
+	border-bottom: 1px solid #efefef;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	background: none;
+	border: none;
+}
+.ui-tabs a:focus {
+	background-color: #fafafa;
+}
+.ui-tabs .ui-tabs-nav li, label {
+	font-size: 0.85em;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+	border-bottom: 2px solid #000000;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+	font-weight: bold;
+	background: transparent;
+	border: none;
+}
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-tl, .ui-corner-tr, .ui-corner-br, .ui-corner-bl {
+	border: none;
+	border-radius: 0 !important;
+}
+.ui-dialog {
+	.ui-dialog-title {
+		font-weight: normal !important;
+		font-size: 1.25em;
+	}
+	.ui-dialog-titlebar {
+		background-color: #fafafa !important;
+		border-bottom: 1px solid #f0f0f0;
+	}
+	.ui-dialog-titlebar-close {
+		background: transparent url('../images/close-titlebar-32px.png') no-repeat 0 0 !important;
+		border: none !important;
+		height: 32px;
+		width: 32px;
+		right: 30px;
+		margin-top: -15px;
+	}
+}
+
+/** Admin *********************************************************/
+#user-login input[type="submit"] {
+	color: #fff;
+	background-color: #337ab7;
+	border: 1px solid #2e6da4;
+	font-size: 87.5%;
+	font-weight: bold;
+	padding: 5px 8px;
+}
+#user-login input[type="submit"]:active, #user-login input[type="submit"]:hover, #user-login input[type="submit"]:focus {
+	color: #fff;
+	background-color: #286090;
+	border-color: #204d74;
+}
+
+
+.section-user-agreement #main-content {
+	background-color: #fff;
+}
+
+
+/** AQI / Popup Description Tweaks *********************************************************/
+.popover-title {
+	font-weight: bold;
+}
+.popover-content {
+	font-family: $lato;
 }
