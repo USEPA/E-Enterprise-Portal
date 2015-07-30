@@ -50,8 +50,10 @@ if(drupal_is_front_page()) {
   <?php endif; ?>
 
   <?php print $hgroup_close; ?>
-  <?php print render($page['header']); ?>
+  <?php print render($page['top_header']); ?>
 </header>
+<?php print render($page['header']); ?>
+<?php print render($page['nav-bar']); ?>
 <!-- @todo - Add content_language back in next line - section -->
 <section id="main-content" class="main-content clearfix" role="main" lang="<?php //print $content_language ?>">
   <h2 class="microsite-name">e-Enterprise</h2>
@@ -110,40 +112,5 @@ if(drupal_is_front_page()) {
 
   </div>
 </section>
-<footer class="main-footer clearfix" role="contentinfo">
-  <?php print render($page['footer']); ?>
-  <div class="region-footer">  <div id="block-pane-epa-global-footer" class="block block-pane">
-    <div class="row cols-2">
-  <div class="col size-2of5">
-    <ul class="pipeline">
-      <li><a href="/">EPA Home</a></li>
-      <li><a href="/home/privacy-and-security-notice">Privacy and Security Notice</a></li>
-      <li><a href="/accessibility">Accessibility</a></li>
-    </ul>
-    <p class="last-updated">Last updated on April 20, 2015</p>
-  </div>
-  <div class="col size-3of5">
-    <ul class="menu epa-menu">
-      <li class="menu-item"><a class="menu-link epa-hotline" href="/home/epa-hotlines">Hotline</a></li>
-      <li class="menu-item"><a class="menu-link epa-news" href="/newsroom">News</a></li>
-      <li class="menu-item"><a class="menu-link epa-blog" href="https://blog.epa.gov/blog/">Blog</a></li>
-      <li class="menu-item"><a class="menu-link epa-apps" href="http://developer.epa.gov/category/apps/">Apps</a></li>
-      <li class="menu-item"><a class="menu-link epa-widgets" href="http://developer.epa.gov/category/widgets/">Widgets</a></li>
-    </ul>
-    <div class="social-menu-wrapper">
-      <div class="social-menu-title">Social sites:</div>
-      <ul class="menu social-menu">
-        <li class="menu-item"><a class="menu-link social-twitter" href="https://twitter.com/epa">Twitter</a></li>
-        <li class="menu-item"><a class="menu-link social-facebook" href="https://www.facebook.com/EPA">Facebook</a></li>
-        <li class="menu-item"><a class="menu-link social-youtube" href="https://www.youtube.com/user/USEPAgov">YouTube</a></li>
-        <li class="menu-item"><a class="menu-link social-flickr" href="http://www.flickr.com/photos/usepagov">Flickr</a></li>
-        <li class="menu-item"><a class="menu-link social-instagram" href="http://instagram.com/epagov">Instagram</a></li>
-      </ul>
-      <p class="social-menu-more"><a href="/home/social-media">More social media at&nbsp;EPA&nbsp;&raquo</a></p>
-    </div>
-  </div>
-</div>  
-</div>
-  </div>
-</footer>
+<?php print render($page['footer']); ?>
 <?php print render($page['bottom']); ?>

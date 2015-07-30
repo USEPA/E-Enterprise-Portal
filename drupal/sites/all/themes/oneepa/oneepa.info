@@ -15,7 +15,9 @@ stylesheets[all][] = system.theme.css
 stylesheets[all][] = css/styles.css
 
 ; REGIONS
+regions[top_header]		= Top Header
 regions[header]         = Header
+regions[nav-bar]        = Top navigation
 regions[navigation]     = Navigation bar
 regions[highlighted]    = Highlighted
 regions[help]           = Help
