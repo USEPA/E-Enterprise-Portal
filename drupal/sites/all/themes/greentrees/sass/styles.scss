@@ -1008,7 +1008,7 @@ tr.even {
 
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {
-	#user-profile-form {
+  form[id^='user-profile-form'] {
 		.form-type-textfield {
 			width: 150px;
 		}
@@ -1026,7 +1026,7 @@ tr.even {
 .field-name-field-profile-last-name {
 	display:inline-block;
 }
-#user-profile-form {
+form[id^='user-profile-form'] {
     .ajax-progress .message {
       display: none;
     }
@@ -1268,7 +1268,7 @@ tr.even {
 #links_description table > tbody > tr > td{
   vertical-align: middle;
 }
-#user-profile-form .remove-button {
+form[id^='user-profile-form'] .remove-button {
   float: right;
 }
 #links_description table .field-type-text {

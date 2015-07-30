@@ -10,7 +10,7 @@
 		if (!ajax_content){
 			table.find("tr:last").find('td:nth-child(2)').append(input_button);
 		}
-	};
+	}
 
 	function sortZipCodesbyCity() {
 		// Sort rows alphabetically
@@ -33,20 +33,21 @@
 		checkboxes.after('<div class="zip-code-primary-holder"><span class="glyphicon glyphicon-flag zip-code-primary-select" aria-hidden="true"></span></div>');
 		var primary_indicator = selection.next('.zip-code-primary-holder').find('.zip-code-primary-select');
 		primary_indicator.addClass('selected');
-		$('body').on('click', '.zip-code-primary-select', function() {
-			$('.zip-code-primary-select.selected').removeClass('selected');
-			$('.zip-code-primary-select').closest('td').find('input[type=checkbox]:checked').prop('checked', false);
-			var selected_icon = $(this);
-			selected_icon.addClass('selected');
-			selected_icon.closest('td').find('input[type=checkbox]').prop('checked', true);
-		});
-		$('body').on('click', '.zip-code-primary-select.selected', function() {
-			var selected_icon = $(this);
-			selected_icon.removeClass('selected');
-			selected_icon.closest('td').find('input[type=checkbox]').prop('checked', false);
-		});
 	}
-	
+
+      $('body').on('click', '.zip-code-primary-select', function() {
+          $('.zip-code-primary-select.selected').removeClass('selected');
+          $('.zip-code-primary-select').closest('td').find('input[type=checkbox]:checked').prop('checked', false);
+          var selected_icon = $(this);
+          selected_icon.addClass('selected');
+          selected_icon.closest('td').find('input[type=checkbox]').prop('checked', true);
+      });
+      $('body').on('click', '.zip-code-primary-select.selected', function() {
+          var selected_icon = $(this);
+          selected_icon.removeClass('selected');
+          selected_icon.closest('td').find('input[type=checkbox]').prop('checked', false);
+      });
+
 	
 	
 	var path = window.location.pathname;
@@ -102,12 +103,7 @@
 	
 	
 	function inString(str, substring) {
-		if (str.indexOf(substring) >= 0) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return str.indexOf(substring) >= 0;
 		
 	}
 
@@ -122,7 +118,6 @@
 	
 	
 		function generateParents(parents_array, last_parent_id, vid, initial) {
-			var parents_array = parents_array;
 			if (parents_array.length > 0) {
 				var current_parent = parents_array[parents_array.length - 1];
 				parents_array.splice(-1, 1);
@@ -269,7 +264,7 @@ $('body').on('click', '.glyphicon-chevron-up', function() {
 	var promises = processCheckboxes();
 	$.when.apply(null, promises).done(function(){
 		$('#loading_interests').hide();
-		$('.glyphicon').trigger('click');
+		$('.vocab-columns .glyphicon').trigger('click');
 		$('.autocomplete-interests').show();
 	});
 

@@ -28,7 +28,6 @@ print render($form['account']['mail']);
 </p>
 <div id='zipcode_description' class='form-group'>
 <?php
-	
 print render($form['field_zip_code']);
 ?>
 </div>
