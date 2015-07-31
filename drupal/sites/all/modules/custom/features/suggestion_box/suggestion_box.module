@@ -1,0 +1,174 @@
+<?php
+
+/**
+* Implements hook_init().
+*/
+
+/**
+* Implements hook_menu().
+*/
+function suggestion_box_menu() {
+  $items = array();
+  
+  $items['suggestion_box/%ctools_js'] = array(
+    'page callback' => 'suggestion_box_callback',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/people/suggestion_box'] = array(
+    'title' => 'Suggestion Box Settings',
+    'description' => 'Manage options for the suggestion box.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('suggestion_box_settings'),
+    'access arguments' => array('administer suggestion_box'),
+    'file' => 'suggestion_box.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Ajax menu callback.
+ */
+function suggestion_box_callback($ajax) {
+  if ($ajax) {
+    ctools_include('ajax');
+    ctools_include('modal');
+
+    $form_state = array(
+      'ajax' => TRUE,
+      'title' => t('Suggestion Box'),
+    );
+
+    // Use ctools to generate ajax instructions for the browser to create
+    // a form in a modal popup.
+    $output = ctools_modal_form_wrapper('suggestion_box_form', $form_state);
+
+    // If the form has been submitted, there may be additional instructions
+    // such as dismissing the modal popup.
+    if (!empty($form_state['ajax_commands'])) {
+      $output = $form_state['ajax_commands'];
+    }
+
+    // Return the ajax instructions to the browser via ajax_render().
+    print ajax_render($output);
+    drupal_exit();
+  }
+  else {
+    return drupal_get_form('suggestion_box_form');
+  }
+}
+
+function suggestion_box_form($form, &$form_state) {
+
+  global $user;
+
+  $form['email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email'),
+    '#required' => TRUE,
+    '#size' => 60,
+    '#default_value' => $user->mail,
+    '#disabled' => TRUE,
+    '#description' => t('Your email'),
+  );
+
+  // prepare categories for select options
+  $categories = unserialize(variable_get('suggestion_box_categories'));
+  $category_options = array();
+
+  foreach ($categories as $category) {
+  	$category_options[$category] = $category;
+  }
+
+  $form['category'] = array(
+    '#type' => 'select',
+    '#title' => t('Category'),
+    '#required' => TRUE,
+    '#options' => $category_options,
+    '#description' => t('Suggestion category'),
+  );
+
+  $form['body'] = array(
+    '#title' => t('Body'),
+    '#type' => 'textarea',
+    '#required' => TRUE,
+    '#description' => t('Body'),
+  );
+
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  
+  return $form;
+}
+
+function suggestion_box_form_submit($form, &$form_state) {
+  $email = variable_get('suggestion_box_email');
+  drupal_mail('suggestion_box', 'notice', $email, language_default(), $form_state['values']);
+}
+
+function suggestion_box_mail($key, &$message, $params) {
+  // $data['user'] = $params['account'];
+  $options['language'] = $message['language'];
+  user_mail_tokens($variables, $data, $options);
+  switch($key) {
+    case 'notice':
+      $langcode = $message['language']->language;
+      $message['subject'] = t('[!category] Suggestion', array('!category' => $params['category']), array('langcode' => $langcode));
+      $message['body'][] = t("!body", array('!body' => $params['body']), array('langcode' => $langcode));
+      break;
+  }
+}
+
+function suggestion_box_admin() {
+
+}
+
+/**
+ * Helper function to make a link.
+ */
+function _suggestion_box_make_link($link_text = '') {
+
+  // Load the modal library and add the modal javascript.
+  ctools_include('modal');
+  ctools_modal_add_js();
+  
+  // Set a default value if no text in supplied.
+  if (empty($link_text)) {
+    $link_text = 'Magical Modal';
+  }
+
+  return '<div id="magical-modal-link">' . l($link_text, 'suggestion_box/nojs', array('attributes' => array('class' => 'ctools-use-modal'))) . '</div>';
+}
+
+
+// /**
+//  * Implements hook_block_info().
+//  */
+// function suggestion_box_block_info() {
+//   $blocks = array();
+//   $blocks['suggestion_box'] = array(
+//     'info' => t('Suggestion Box'),
+//   );
+//   return $blocks;
+// }
+
+// /**
+//  * Implements hook_block_view().
+//  */
+// function suggestion_box_block_view($delta = '') {
+//   global $user;
+//   $block = array();
+//   switch ($delta) {
+//     case 'suggestion_box':
+//       $block['subject'] = t('Suggestion Box');
+//       $wrap = FALSE;
+//       $block['content'] = drupal_get_form('suggestion_box_form', $wrap);
+//       break;
+//   }
+//   return $block;
+// }
