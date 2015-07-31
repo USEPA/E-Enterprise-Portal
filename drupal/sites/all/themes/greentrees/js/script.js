@@ -152,6 +152,9 @@ Drupal.behaviors.filterItems = {
             //$("edit-field-prog-track-rep-type-filter-value").val("All");
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
         }
+        $('#edit-field-prog-track-domain-value').change(function(){
+            $('#edit-field-prog-track-rep-type-filter-value').val('All');
+        });
     }
 };
 
