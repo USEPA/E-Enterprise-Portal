@@ -412,9 +412,29 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_date_type['und'][0]['format'] = null;
                 $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
 
-                $node->field_prog_track_facility_name['und'][0]['value'] = $res['FacilityName'];;
+                $node->field_prog_track_facility_name['und'][0]['value'] = $res['FacilityName'];
                 $node->field_prog_track_facility_name['und'][0]['format'] = null;
-                $node->field_prog_track_facility_name['und'][0]['safe_value'] = $res['FacilityName'];;
+                $node->field_prog_track_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
+
+                $node->field_prog_track_part_code['und'][0]['value'] = $res['partCode'];
+                $node->field_prog_track_part_code['und'][0]['format'] = null;
+                $node->field_prog_track_part_code['und'][0]['safe_value'] = $res['partCode'];
+
+                $node->field_prog_track_part_name['und'][0]['value'] = $res['partName'];
+                $node->field_prog_track_part_name['und'][0]['format'] = null;
+                $node->field_prog_track_part_name['und'][0]['safe_value'] = $res['partName'];
+
+                $node->field_prog_track_sub_part_code['und'][0]['value'] = $res['subPartCode'];
+                $node->field_prog_track_sub_part_code['und'][0]['format'] = null;
+                $node->field_prog_track_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
+
+                $node->field_prog_track_sub_part_name['und'][0]['value'] = $res['subPartName'];
+                $node->field_prog_track_sub_part_name['und'][0]['format'] = null;
+                $node->field_prog_track_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
+
+                $node->field_prog_track_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
+                $node->field_prog_track_facility_reg_id['und'][0]['format'] = null;
+                $node->field_prog_track_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
             }
         }
         else if($res['ActivityType'] == 'TASK') {
