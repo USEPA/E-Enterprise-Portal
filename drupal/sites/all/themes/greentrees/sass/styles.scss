@@ -1027,6 +1027,10 @@ tr.even {
 	display:inline-block;
 }
 form[id^='user-profile-form'] {
+
+    .description-key {
+      margin-left: 5px;
+    }
     .ajax-progress .message {
       display: none;
     }
