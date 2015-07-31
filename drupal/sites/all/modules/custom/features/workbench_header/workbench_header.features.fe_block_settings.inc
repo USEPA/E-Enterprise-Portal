@@ -42,10 +42,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -21,
       ),
       'oneepa' => array(
-        'region' => 'header',
+        'region' => 'nav-bar',
         'status' => 1,
         'theme' => 'oneepa',
-        'weight' => 0,
+        'weight' => -21,
       ),
       'seven' => array(
         'region' => '',
@@ -92,8 +92,8 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -22,
       ),
       'oneepa' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'footer',
+        'status' => 1,
         'theme' => 'oneepa',
         'weight' => 0,
       ),
@@ -245,10 +245,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -21,
       ),
       'oneepa' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'header',
+        'status' => 1,
         'theme' => 'oneepa',
-        'weight' => 3,
+        'weight' => -24,
       ),
       'seven' => array(
         'region' => '',
@@ -306,10 +306,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -23,
       ),
       'oneepa' => array(
-        'region' => 'header',
+        'region' => 'nav-bar',
         'status' => 1,
         'theme' => 'oneepa',
-        'weight' => -19,
+        'weight' => -23,
       ),
       'seven' => array(
         'region' => '',
@@ -358,10 +358,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -22,
       ),
       'oneepa' => array(
-        'region' => 'header',
+        'region' => 'nav-bar',
         'status' => 1,
         'theme' => 'oneepa',
-        'weight' => -18,
+        'weight' => -22,
       ),
       'seven' => array(
         'region' => '',
@@ -408,8 +408,8 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -21,
       ),
       'oneepa' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'footer',
+        'status' => 1,
         'theme' => 'oneepa',
         'weight' => -10,
       ),
@@ -458,8 +458,8 @@ function workbench_header_default_fe_block_settings() {
         'weight' => 4,
       ),
       'oneepa' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'top_header',
+        'status' => 1,
         'theme' => 'oneepa',
         'weight' => 4,
       ),

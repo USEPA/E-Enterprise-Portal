@@ -26,6 +26,7 @@ $ee-visited-color: #5487ba;
 $ee-focus-color:   #fff;		// link color when user tabs thru
 $ee-white:		   #fff;
 $ee-subtext-color: #ddd;
+$ee-darker-gray:   $ee-subtext-color;
 $ee-bgfocus-color: $epa-blue;	// change background to blue on focus / hover
 $ee-light-gray:	   #f8f8f8;
 $ee-medium-gray:   #efefef;
@@ -229,13 +230,13 @@ header #block-eenterprise-bridge-auth-eenterprise-bridge-auth {
 
 header {
 	//background-color: $ee-light-gray;
-	@include linear-gradient($ee-light-gray, $ee-hover-gray);
+	//@include linear-gradient($ee-light-gray, $ee-hover-gray);
+	@include linear-gradient(#428ACA, #347EBC);
 	//background-color: #5487ba;
 	color: #494949;
 	//margin-left: -1em;
 	//margin-right: -1em;
 	//padding: 5px 1em;
-	@include box-shadow;
 	a {
 		color: #333;
 	}
@@ -506,6 +507,66 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 .view-eenterprise-for-environment h1 .element-invisible.element-focusable:focus {
   clip: auto;
   position: static !important;
+}
+
+.view-eenterprise-for-environment .region-nav-bar, .page-eenterprise-for-environment .region-nav-bar {
+	display: none;
+}
+
+.region-nav-bar {
+	background-color: $ee-darker-gray;
+	height: 2em;
+	@include box-shadow;
+}
+.workbench-menu {
+	display: none;
+	clear: left;
+	background-color: $ee-darker-gray;
+	width: 60%;
+	margin: 0;
+	padding: 0;
+	float: left;
+	padding-left: 60px;
+	width: auto;
+	a, a:visited {
+        color: #333;
+    }
+    a:hover, a:focus {
+        color: #000;
+    }
+
+}
+.block--ee-header-locations {
+	float: right;
+	margin: 0;
+	margin-right: 2.5em;
+	padding: 0;
+	height: auto;
+	width: 24em;
+	h2 {
+		display: none;
+	}
+	.ee-workbench-header-locations {
+		width:24em;
+		float:right;
+		//margin-right:1.25em;
+		//@include future-function;
+		}
+	.ee-workbench-header-setlocation {
+		label, a {
+			background-color: transparent;
+			margin-top: 3px;
+			color: #333;
+		}
+		label, select, a {
+			float: left;
+			margin-right: 5px;
+		}
+		select {
+			margin-bottom:0;
+			margin-top: 5px;
+		}
+	}
 }
 
 .tabs, .tabs-primary__tab, .tabs-primary__tab.is-active {
