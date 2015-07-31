@@ -1,6 +1,8 @@
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <?php
       drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', 'external');
+
 ?>
 <div class="edit-user-profile">
 <div class="row">
@@ -22,7 +24,7 @@ print render($form['account']['mail']);
 <h3>Locations of Interest</h3>
 <p class="eenterprise-utility-form-item-description-p">
 	Add your locations of interest to see environmental information relevant to those areas. Select your primary location
-	by clicking  <span class="glyphicon glyphicon-flag zip-code-primary-select" aria-hidden="true"></span>. <br />
+	by clicking <i class="fa fa-key description-key"></i>. <br />
 	Until a location is specified, the default location is set to Durham, North Carolina. <br />	 <br />	
 	<span class='zip_code_ajax_error'></span>
 </p>
