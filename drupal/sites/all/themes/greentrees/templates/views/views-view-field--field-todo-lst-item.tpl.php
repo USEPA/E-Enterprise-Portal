@@ -36,6 +36,7 @@ if(!empty($view->result[$view->row_index]->field_field_todo_lst_facility_name))
 if(!empty($view->result[$view->row_index]->field_field_todo_lst_part_code)) {
     $unique_id = $view->query->pager->current_page.'-'.$view->row_index;
     print "<div id='modal-page-details-" . $unique_id . "' class='modal-content-in-page'>
+             <b>Facility Name:</b> ".$view->result[$view->row_index]->field_field_todo_lst_facility_name[0]['rendered']['#markup']."<br>
              <b>Part Code:</b> ".$view->result[$view->row_index]->field_field_todo_lst_part_code[0]['rendered']['#markup']."<br>
              <b>Part Name:</b> ".$view->result[$view->row_index]->field_field_todo_lst_part_name[0]['rendered']['#markup']."<br>
              <b>Subpart Code:</b> ".$view->result[$view->row_index]->field_field_todo_lst_sub_part_code[0]['rendered']['#markup']."<br>
