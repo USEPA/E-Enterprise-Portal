@@ -65,14 +65,36 @@ function suggestion_box_form($form, &$form_state) {
 
   global $user;
 
+  $form['#attached']['js'] = array(
+    drupal_get_path('module', 'suggestion_box') . '/js/suggestion_box_modal.js',
+  );
+
+  $form['#attached']['css'] = array(
+    drupal_get_path('module', 'suggestion_box') . '/css/suggestion_box_modal.css',
+  );
+
   $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
-    '#required' => TRUE,
+    // '#required' => TRUE,
     '#size' => 60,
     '#default_value' => $user->mail,
     '#disabled' => TRUE,
-    '#description' => t('Your email'),
+    // '#description' => t('Your email'),
+    '#id' => 'suggestion-box-email',
+  );
+
+  $form['exclude_email'] = array(
+    '#type' => 'checkbox', 
+    '#title' => t('Don\'t include my email address.'),
+    '#id' => 'suggestion-box-exclude-email',
+  );
+
+  $form['phone'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Phone'),
+    '#size' => 30,
+    // '#description' => t('Your phone number'),
   );
 
   // prepare categories for select options
@@ -88,14 +110,14 @@ function suggestion_box_form($form, &$form_state) {
     '#title' => t('Category'),
     '#required' => TRUE,
     '#options' => $category_options,
-    '#description' => t('Suggestion category'),
+    // '#description' => t('Suggestion category'),
   );
 
   $form['body'] = array(
     '#title' => t('Body'),
     '#type' => 'textarea',
     '#required' => TRUE,
-    '#description' => t('Body'),
+    // '#description' => t('Body'),
   );
 
   $form['submit_button'] = array(
@@ -107,19 +129,40 @@ function suggestion_box_form($form, &$form_state) {
 }
 
 function suggestion_box_form_submit($form, &$form_state) {
+
+  global $user;
+
   $email = variable_get('suggestion_box_email');
-  drupal_mail('suggestion_box', 'notice', $email, language_default(), $form_state['values']);
+  $from = NULL;
+
+  if (!$form_state['values']['exclude_email']) {
+    $from = $user->mail;
+  }
+
+  drupal_mail('suggestion_box', 'notice', $email, language_default(), $form_state['values'], $from);
 }
 
 function suggestion_box_mail($key, &$message, $params) {
-  // $data['user'] = $params['account'];
+  
+  global $user;
+  $email = $user->mail;
+
+  $msgBody = "Phone: !phone\r\nCategory: !category\r\nBody: !body";
+
   $options['language'] = $message['language'];
   user_mail_tokens($variables, $data, $options);
   switch($key) {
     case 'notice':
+
+      if (!$params['exclude_email']) {
+        $msgBody = "Email: !email\r\n" . $msgBody;
+      }
+
       $langcode = $message['language']->language;
       $message['subject'] = t('[!category] Suggestion', array('!category' => $params['category']), array('langcode' => $langcode));
-      $message['body'][] = t("!body", array('!body' => $params['body']), array('langcode' => $langcode));
+      $message['body'][] = t($msgBody, 
+        array('!email' => $email, '!phone' => $params['phone'], '!category' => $params['category'], '!body' => $params['body']), 
+        array('langcode' => $langcode));
       break;
   }
 }
@@ -144,31 +187,3 @@ function _suggestion_box_make_link($link_text = '') {
 
   return '<div id="magical-modal-link">' . l($link_text, 'suggestion_box/nojs', array('attributes' => array('class' => 'ctools-use-modal'))) . '</div>';
 }
-
-
-// /**
-//  * Implements hook_block_info().
-//  */
-// function suggestion_box_block_info() {
-//   $blocks = array();
-//   $blocks['suggestion_box'] = array(
-//     'info' => t('Suggestion Box'),
-//   );
-//   return $blocks;
-// }
-
-// /**
-//  * Implements hook_block_view().
-//  */
-// function suggestion_box_block_view($delta = '') {
-//   global $user;
-//   $block = array();
-//   switch ($delta) {
-//     case 'suggestion_box':
-//       $block['subject'] = t('Suggestion Box');
-//       $wrap = FALSE;
-//       $block['content'] = drupal_get_form('suggestion_box_form', $wrap);
-//       break;
-//   }
-//   return $block;
-// }
