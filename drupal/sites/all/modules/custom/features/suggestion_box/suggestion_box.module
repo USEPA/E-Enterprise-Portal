@@ -120,6 +120,29 @@ function suggestion_box_form($form, &$form_state) {
     // '#description' => t('Body'),
   );
 
+
+  // guest user
+  if($user->name === 'guest-user') {
+    // captcha for guests only
+    $form['my_captcha_element'] = array(
+      '#type' => 'captcha',
+      // '#captcha_type' => 'captcha/Math',
+    );
+
+    // email required for guests only?
+    $form['email']['#required'] = TRUE;
+
+    // guests need to be able to edit the email field
+    $form['email']['#disabled'] = FALSE;
+
+    $form['email']['#default_value'] = '';
+
+    // guests can't choose to hide their email?
+    $form['exclude_email']['#access'] = FALSE;
+
+
+  }
+
   $form['submit_button'] = array(
     '#type' => 'submit',
     '#value' => t('Submit'),
