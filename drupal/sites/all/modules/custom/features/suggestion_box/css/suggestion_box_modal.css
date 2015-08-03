@@ -1,0 +1,11 @@
+.form-textarea-wrapper textarea {
+  width: auto !important;
+}
+
+div.ctools-modal-content .resizable-textarea {
+  margin:0 !important;
+}
+
+.resizable-textarea .grippie {
+  visibility: hidden;
+}
