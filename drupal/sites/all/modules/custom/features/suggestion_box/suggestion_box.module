@@ -236,8 +236,6 @@ function _suggestion_box_make_link($link_text = '') {
  */
 function suggestion_box_theme($existing, $type, $theme, $path) {
 
-  dpm('theme');
-
   $themes = array(
     'suggestion_box_settings_table_drag_components' => array(
       'render element' => 'element'
