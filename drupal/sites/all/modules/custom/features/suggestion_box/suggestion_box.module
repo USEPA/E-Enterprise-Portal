@@ -229,3 +229,50 @@ function _suggestion_box_make_link($link_text = '') {
 
   return l($link_text, 'suggestion_box/nojs', array('attributes' => array('class' => 'ctools-use-modal menu-link')));
 }
+
+
+/**
+ * Implements hook_theme().
+ */
+function suggestion_box_theme($existing, $type, $theme, $path) {
+
+  dpm('theme');
+
+  $themes = array(
+    'suggestion_box_settings_table_drag_components' => array(
+      'render element' => 'element'
+    ),
+  );
+  return $themes;
+}
+
+// Custom theme output.
+function theme_suggestion_box_settings_table_drag_components($vars) {
+  $element = $vars['element'];
+  drupal_add_tabledrag('categories-table', 'order', 'sibling', 'item-row-weight');
+ 
+  $header = array(
+    'categories' => t('Category'), 
+    'delete_categories' => t('Delete'),
+    'weight' => t('Weight'),
+  );
+ 
+  $rows = array();
+  foreach (element_children($element) as $key) {
+    $row = array();
+    $row['data'] = array();
+    foreach ($header as $fieldname => $title) {
+      $row['data'][] = drupal_render($element[$key][$fieldname]);
+      if ($element[$key]['add_category_button'])
+        $add_category_button = $element[$key]['add_category_button'];
+      $row['class'] = array('draggable');
+    }
+    $rows[] = $row;
+  }
+ 
+  return theme('table', array(
+    'header' => $header, 
+    'rows' => $rows,
+    'attributes' => array('id' => 'categories-table'),
+  )) . drupal_render($add_category_button);
+}
