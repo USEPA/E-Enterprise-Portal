@@ -206,9 +206,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
                 unset($form['#validate'][$key]);
 
         //Removed more than a thousand taxonomy hierarchy from bottom of admin profile page, it was giving me lots of misery.
-        global $user;
-        if($user->uid == 1)
-            unset($form['field_interests2']);
+//        global $user;
+//        if($user->uid == 1)
+//            unset($form['field_interests2']);
 
         // Get proper values for 'allowed_values_function', which is a core setting.
         $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
@@ -224,7 +224,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       hide($form['account']['current_pass']);
       hide($form['account']['pass']);
       hide($form['field_profile_interests']);
-        hide($form['field_first_time_user']);
+//        hide($form['field_first_time_user']);
 
         $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
       $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter ZIP Code";
@@ -355,34 +355,46 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php') {
    $validation = postal_code_validation_validate($unparsed_zip, 'US');
    if (!$validation['error']) {
       $zip = substr($validation['postal_code'], 0, 5);
-      // first try zippopotam resource
-      $request = drupal_http_request("http://api.zippopotam.us/us/$zip");
-      $response_array = json_decode($request->data);
-      if (count($response_array) > 0) { // zippopotam returned result
-          $zip_places = $response_array->places[0];
-          $zip_data = array(
-            'state' => $zip_places->{'state abbreviation'},
-            'city' => $zip_places->{'place name'},
-            'latitude' => (float) $zip_places->{'latitude'},
-            'longitude' => (float) $zip_places->{'longitude'},
-                );
-      }
-      else { // Query air_now_city_zip_codes with zip code
-        $db_result = db_select('air_now_city_zip_codes', 'n')
-          ->fields('n')
-          ->condition('zipcode', $zip,'=')
-          ->execute()
-          ->fetchAssoc();
-        $zip_data = array(
-          'state' => $db_result['State'],
-          'city' => $db_result['City'],
-          'longitude' => (float) $db_result['Longitude'],
-          'latitude' => (float) $db_result['latitude'],
-        );
-     }
+       $frs_return = frs_zip_code_to_city_state($zip);
+       if (isset($frs_return->latitude)) {       // first try FRS resource
+           $zip_data = array(
+               'state' => $frs_return->state,
+               'city' => $frs_return->city,
+               'latitude' => $frs_return->latitude,
+               'longitude' => $frs_return->longitude,
+               'zip' => $zip,
+           );
+       }
+       else {
+           $request = drupal_http_request("http://api.zippopotam.us/us/$zip");
+           $response_array = json_decode($request->data);
+           if (count($response_array) > 0) { // zippopotam returned result
+               $zip_places = $response_array->places[0];
+               $zip_data = array(
+                   'state' => $zip_places->{'state abbreviation'},
+                   'city' => $zip_places->{'place name'},
+                   'latitude' => (float)$zip_places->{'latitude'},
+                   'longitude' => (float)$zip_places->{'longitude'},
+                   'zip' => $zip,
+               );
+           } else { // Query air_now_city_zip_codes with zip code
+               $db_result = db_select('air_now_city_zip_codes', 'n')
+                   ->fields('n')
+                   ->condition('zipcode', $zip, '=')
+                   ->execute()
+                   ->fetchAssoc();
+               $zip_data = array(
+                   'state' => $db_result['State'],
+                   'city' => $db_result['City'],
+                   'longitude' => (float)$db_result['Longitude'],
+                   'latitude' => (float)$db_result['latitude'],
+                   'zip' => $zip
+               );
+           }
+       }
      // Create readable string for across site
      if (strlen($zip_data['city']) != 0) {
-       $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
+       $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'] ;
      }
      else if (strlen($zip_data['state']) != 0) {
        $readable_string .= $zip_data['state'] . '(' . $zip . ')';

@@ -31,45 +31,74 @@
 <?php
 
 drupal_add_js(drupal_get_path('module', 'first_time_user_profile_block') . "/js/first_time_user_profile.js", "file");
+drupal_add_css(drupal_get_path('module', 'first_time_user_profile_block') . "/css/first_time_user_profile.css", "file");
+
 ?>
+<div id="first-time-user-profile">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-xs-12">
+                <h2>GETTING STARTED</h2>
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="col-xs-12">
-            <h2>GETTING STARTED</h2>
+                <h1>What matters to you?</h1>
 
-            <h1>What matters to you?</h1>
-
-            <h3>So many resources and we'll be adding more. To show you things that interest you, we
-                have a few questions below. You can adjust these later in 'My account' too.</h3>
-
-            <h2>Locations that interest you</h2>
-        </div>
-        <div class="col-xs-12">
-            <div class="col-xs-3">
-                Your location* <br/> Based on your service provider's location
-                <i class="fa fa-key"></i>
-                <i class="icon-twitter"></i>
-                <font-awesome class=“fa fa-smile-o></font-awesome>
-                <i class="fa fa-twitter-square"></i>
-
+                <h3>So many resources and we'll be adding more. To show you things that interest you, we
+                    have a few questions below. You can adjust these later in 'My account' too.</h3>
             </div>
-            <div id="zip_container">
+            <div id="locations-holder" class="col-xs-12">
 
-                <div class="col-xs-9">
+
+                <h2>Locations that interest you</h2>
+
+                <div id="zip_container">
+                    <div class="col-xs-4">
+                        <div id="location-description-geo">
+                            We do not know your service provider's location. We have started your profile with a default of Durham, North Carolina. Feel free to change the zip code here.
+                        </div>
+                        <div id="location-description-user">
+                            <span id="locations-from-input-text">Your location from input</span> <br/> <a href="#" id="revert-to-geo-location">Revert to service provider's location </a>
+                        </div>
+                    </div>
                     <div class="col-xs-4">
                         <div id="nearest-location">No Location found</div>
                     </div>
                     <div class="col-xs-4">
                         <a href="#" id="change-location">Change Location</a>
                     </div>
-                    <div class="col-xs-4">
-                        <button id="add-zip-code" class="btn btn-success">+</button>
+                    <!--                    <div class="col-xs-4">-->
+                    <!--                        <button id="add-zip-code" class="btn btn-success">+</button>-->
+                    <!--                    </div>-->
+                </div>
+                <div class="col-xs-6">
+
+                    <div style="display:none" id="new-location">
+                        <div class="col-xs-6"><label for="new-location-input">Enter City, State or ZIP code</label> <input
+                                id="new-location-input"/>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-default btn-sm" id="add-location">Enter</button>
+                        </div>
                     </div>
                 </div>
+                <div class="col-xs-6">
+                    <div style="display:none" id="choose-zip-holder">
+                        <div class="col-xs-6"> Select your ZIP code. <span id="choose-zip"></span>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-default btn-sm" id="confirm-zip-select">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <button style="display: none" class="btn btn-danger btn-sm pull-right" id="cancel-zip-select">Cancel</button>
+                </div>
             </div>
-            <div style="display:none" id="new-location">Enter City, State or ZIP code- <input id="new-location-input"/>
-                <button class="btn btn-default" id="add-location">Add</button><button class="btn btn-default" id="location-back-btn">Cancel</button></div>
+        </div>
+        <div class="col-xs-12">
+            <h2>Topics that matter</h2>
+
+            <h3>Select a few high-level topics that interest you.</h3>
+            <?php high_level_taxonomy_checkboxes(); ?>
         </div>
         <div class="col-xs-12">
             <div class="pull-right">
@@ -77,7 +106,7 @@ drupal_add_js(drupal_get_path('module', 'first_time_user_profile_block') . "/js/
                 <a href="#" id="skip-preferences">Skip this</a>
             </div>
         </div>
+
     </div>
 </div>
-
 

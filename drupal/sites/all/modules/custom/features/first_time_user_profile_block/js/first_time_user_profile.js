@@ -1,7 +1,11 @@
 (function ($) {
 
-    $(document).ready(function() {
-        console.log('here');
+    $(document).ready(function () {
+        var selected_zip_code = '27705';
+        var selected_city = 'Durham';
+        var selected_state = 'NC';
+
+        $('#nearest-location').text(selected_city + ', ' +  selected_state + ' (' + selected_zip_code + ')');
 
         function getLocation() {
             if (navigator.geolocation) {
@@ -12,51 +16,177 @@
         }
 
         function showPosition(position) {
-            console.log(position);
-            console.log("Latitude: " + position.coords.latitude +
-            "<br>Longitude: " + position.coords.longitude);
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            $('#location-description-geo').html("Your location* <br/> Based on your service provider's location.");
+            geolocation_settings_changed = true;
+            lookupAndProcessCityState(latitude, longitude);
+        }
+
+
+        function lookupAndProcessCityState(latitude, longitude) {
+            var location_data;
+            $.ajax({
+                url: '/return_location_data_lat_long',
+                type: 'GET',
+                async: false,
+                data: {latitude: latitude, longitude: longitude},
+                success: function (location_data) {
+                    location_data = $.parseJSON(location_data);
+                    console.log(location_data);
+                    if (!location_data.error) {
+                        nearest_city = location_data.city;
+                        nearest_state = location_data.state;
+                        nearest_zip = location_data.zip;
+                        $('#nearest-location').text(nearest_city + ', ' +  nearest_state + ' (' + nearest_zip + ')');
+                    }
+                    selected_zip_code = nearest_zip;
+                    selected_state = nearest_state;
+                    selected_city = nearest_city;
+                    return location_data;
+                },
+                failure: function () {
+                    alert('Unable to connect to service');
+                }
+            });
+            return location_data;
         }
 
         getLocation();
 
 
-        $('body').on('click', '#add-zip-code', function () {
-            $(this).hide();
-            $('#zip_container').append(newZipRow());
-        });
+        //$('body').on('click', '#add-zip-code', function () {
+        //    $(this).hide();
+        //    $('#zip_container').append(newZipRow());
+        //});
 
-        $('#change-location, #location-back-btn').click(function() {
+        $('#change-location, #location-back-btn').click(function () {
             $('#zip_container').toggle();
             $('#new-location').toggle();
+            $('#cancel-zip-select').toggle();
+
         });
 
-        $('#add-location').click(function() {
+        $('#confirm-zip-select').click(function() {
+            var selected_zip = $('#city-state-lookup-zips').val();
+            var selected_location = $('#new-location-input').val();
+            $('#nearest-location').text(selected_location + ' (' + selected_zip + ')');
+            $('#new-location').hide();
+            $('#zip_container').toggle();
+            $('#choose-zip-holder').toggle();
+            $('#cancel-zip-select').toggle();
+        });
+
+        $('#revert-to-geo-location').click(function() {
+            $('#location-description-user').hide();
+            $('#location-description-geo').show();
+
+            $('#nearest-location').text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
+        });
+
+        $('#cancel-zip-select').click(function() {
+            $('#zip_container').show();
+            $('#new-location').hide();
+            $('#choose-zip-holder').hide();
+            $(this).hide();
+        });
+        $('#add-location').click(function () {
             var location = $('#new-location-input').val();
             $.ajax({
                 url: '/return_location_data',
                 type: 'POST',
                 data: {location: location},
-                success: function(data) {
+                //async: false,
+                success: function (data) {
                     var parsed_data = $.parseJSON(data);
-                    $('#nearest-location').text(parsed_data.string);
-                    $('#zip_container').toggle();
-                    $('#new-location').toggle();
+                    if (parsed_data.name_city_state) { // zip code entered, returned city/state
+                        var parsed_zip = parsed_data.zip;
+                        $('#nearest-location').text(parsed_data.city + ', ' + parsed_data.state + ' (' + parsed_zip + ')');
+                        selected_zip_code = parsed_zip;
+                        selected_city = parsed_data.city;
+                        selected_state = parsed_data.state;
+                        $('#zip_container').toggle();
+                        $('#new-location').toggle();
+                        $('#location-description-user').show();
+                        $('#location-description-geo').hide();
+                        $('#cancel-zip-select').toggle();
+                    }
+                    else {
+                        var zip_select  = '<select id="city-state-lookup-zips">';
+                        $.each(parsed_data.zip_array, function(index, zip_code) {
+                           zip_select = zip_select + '<option value="' + zip_code + '">' + zip_code + '</option>';
+                        });
+                        zip_select = zip_select + '</select>';
+                        $('#new-location-input').val(parsed_data.city +  ', ' + parsed_data.state);
+                        selected_city = parsed_data.city;
+                        selected_state = parsed_data.state;
+
+                        $('#choose-zip').html(zip_select);
+                        //$('#new-location').hide();
+                        $('#typed-in-city-state').text(location);
+                        $('#choose-zip-holder').show();
+                    }
                 },
-                failure: function() {
+                failure: function () {
                     alert('Was unable to connect to service');
+                }
+            });
+        });
+
+
+        $('#skip-preferences').click(function () {
+            $.ajax({
+                url: '/save_first_time_user_preferences',
+                type: 'GET',
+                data: {skip: 1, zip: ''},
+                success: function () {
+                    $('#location-select').append('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + '</option>').trigger('change');
+                    $('.pane-views-first-time-user-profile-block').dialog('close');
+                }
+            });
+        });
+
+        $('#save-preferences').click(function () {
+            //var zip_values = [];
+            var term_names = [];
+            //
+            //$('.new_zip').each(function() {
+            //    zip_values.push($(this).val());
+            //});
+            $('.term-name-checkboxes:checked').each(function () {
+                term_names.push($(this).val());
+            });
+
+            $.ajax({
+                url: '/save_first_time_user_preferences',
+                type: 'GET',
+                data: {skip: 0, zip: selected_zip_code, term_names: term_names},
+                success: function (msg) {
+                    console.log(msg);
+                    var parsed_msg = $.parseJSON(msg);
+                    if (parsed_msg.success) {
+                        $('#location-select').append('<option value="' + selected_zip_code + '" selected>' + selected_city + ', ' + selected_state + '</option>').trigger('change');
+                        $('.pane-views-first-time-user-profile-block').dialog('close');
+                    }
+                    else {
+                        console.log(parsed_msg.error_msg);
+                    }
                 }
             })
         });
 
-
-        $('#save-preferences').click(function() {
-            var zip_values = [];
-
-            $('.new_zip').each(function() {
-                zip_values.push($(this).val());
+        // If first time user, show modal for profile saving options
+        var first_time_user_block = $('#first-time-user-block');
+        if (first_time_user_block.length > 0) {
+            first_time_user_block.dialog({
+                modal: true,
+                autoOpen: true,
+                width: 1100,
+                height: 750,
+                dialogClass: 'first-time-user-dialog'
             });
-            console.log(zip_values);
-        });
+        }
+
         //function newZipRow() {
         //    var zip_row;
         //    zip_row = '<div class="col-xs-9"><div class="col-xs-4"><input class="new_zip"/></div>' +
@@ -64,8 +194,6 @@
         //    '<div class="col-xs-4"><button id="add-zip-code" class="btn btn-success">+</button></div></div>';
         //    return zip_row;
         //}
-
-
 
 
     });
