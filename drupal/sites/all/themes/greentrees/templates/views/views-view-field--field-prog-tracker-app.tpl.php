@@ -28,7 +28,7 @@ if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)
 if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)) {
     //print "<div id='modal-page-details-" . $view->row_index . "' class='modal-content-in-page'>".$view->result[$view->row_index]->field_field_prog_track_item_details[0]['rendered']['#markup']."</div>";
     $unique_id = $view->query->pager->current_page.'-'.$view->row_index;
-    print "<div id='modal-page-details-" . $unique_id . "' class='modal-content-in-page'>
+    print "<div id='modal-page-details-prog-track-" . $unique_id . "' class='modal-content-in-page'>
              <b>Facility Name:</b> ".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']."<br>
              <b>Facility Registry ID:</b> ".$view->result[$view->row_index]->field_field_prog_track_facility_reg_id[0]['rendered']['#markup']."<br>
              <b>Part Code:</b> ".$view->result[$view->row_index]->field_field_prog_track_part_code[0]['rendered']['#markup']."<br>
@@ -36,13 +36,13 @@ if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)
              <b>Subpart Code:</b> ".$view->result[$view->row_index]->field_field_prog_track_sub_part_code[0]['rendered']['#markup']."<br>
              <b>Subpart Name:</b> ".$view->result[$view->row_index]->field_field_prog_track_sub_part_name[0]['rendered']['#markup']."<br>
              </div>";
-    print "<br><a href='.' class='simple-dialog' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-" . $unique_id . "' title='Item Details'>Details</a>";
+    print "<br><a href='.' class='simple-dialog' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Item Details'>Details</a>";
 }
 else if(!empty($view->result[$view->row_index]->field_field_prog_track_status_note)) {
     $unique_id = $view->query->pager->current_page.'-'.$view->row_index;
-    print "<div id='modal-page-details-" . $unique_id . "' class='modal-content-in-page'>
+    print "<div id='modal-page-details-prog-track-" . $unique_id . "' class='modal-content-in-page'>
              <b>Status Note:</b> ".$view->result[$view->row_index]->field_field_prog_track_status_note[0]['rendered']['#markup']."<br>
              </div>";
-    print "<br><a href='.' class='simple-dialog' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-" . $unique_id . "' title='Status Note'>Details</a>";
+    print "<br><a href='.' class='simple-dialog' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Status Note'>Details</a>";
 }
 ?>
