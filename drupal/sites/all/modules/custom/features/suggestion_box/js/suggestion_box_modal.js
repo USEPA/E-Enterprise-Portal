@@ -6,14 +6,19 @@
       var email;
       var $emailInput = $('#suggestion-box-email');
 
-      $('#suggestion-box-exclude-email').change(function() {
+      var $excludeEmailCheckbox = $('#suggestion-box-exclude-email');
+
+      $excludeEmailCheckbox.change(function() {
         if ($(this).is(':checked')) {
           email = $emailInput.val();
           $emailInput.val('');
-        } else {
+        } else if (email) {
           $emailInput.val(email);
         }
       });
+
+      $excludeEmailCheckbox.trigger('change');
+
     }
   }
 })(jQuery);

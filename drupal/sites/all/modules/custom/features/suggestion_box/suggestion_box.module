@@ -126,11 +126,8 @@ function suggestion_box_form($form, &$form_state) {
     // captcha for guests only
     $form['my_captcha_element'] = array(
       '#type' => 'captcha',
-      // '#captcha_type' => 'captcha/Math',
+      '#captcha_type' => 'captcha/Math',
     );
-
-    // email required for guests only?
-    $form['email']['#required'] = TRUE;
 
     // guests need to be able to edit the email field
     $form['email']['#disabled'] = FALSE;
@@ -139,14 +136,23 @@ function suggestion_box_form($form, &$form_state) {
 
     // guests can't choose to hide their email?
     $form['exclude_email']['#access'] = FALSE;
-
-
   }
+
+  $form['#submit'][] = 'suggestion_box_form_submit';
+  $form['#validate'][] = 'suggestion_box_form_validation';
 
   $form['submit_button'] = array(
     '#type' => 'submit',
     '#value' => t('Submit'),
   );
+
+  if ($form_state['submitted']){
+    drupal_set_message(t("Thank you for your feedback."), "status");
+    $commands[] = ctools_modal_command_dismiss();
+    $commands[] = ajax_command_prepend('#main-content', theme('status_messages'));
+    print ajax_render($commands);
+    exit;
+  }
   
   return $form;
 }
@@ -155,20 +161,33 @@ function suggestion_box_form_submit($form, &$form_state) {
 
   global $user;
 
-  $email = variable_get('suggestion_box_email');
+  $to = variable_get('suggestion_box_email');
   $from = NULL;
 
-  if (!$form_state['values']['exclude_email']) {
+  if (!$form_state['values']['exclude_email'] && $user->name != 'guest-user') {
     $from = $user->mail;
+  } else if (!empty($form_state['values']['email'])) {
+    $from = $form_state['values']['email'];
   }
 
-  drupal_mail('suggestion_box', 'notice', $email, language_default(), $form_state['values'], $from);
+  drupal_mail('suggestion_box', 'notice', $to, language_default(), $form_state['values'], $from);
+
+  $form_state['rebuild'] = TRUE;
+}
+
+function suggestion_box_form_validation($form, &$form_state) {
+  $mail = $form_state['values']['email'];
+  if (!empty($mail) && !valid_email_address($mail)) {
+    form_set_error('email', t('Please enter a valid email address, not '.$mail));
+  }
 }
 
 function suggestion_box_mail($key, &$message, $params) {
   
   global $user;
   $email = $user->mail;
+  if ($user->name == 'guest-user')
+    $email = $params['email'];
 
   $msgBody = "Phone: !phone\r\nCategory: !category\r\nBody: !body";
 
@@ -205,8 +224,8 @@ function _suggestion_box_make_link($link_text = '') {
   
   // Set a default value if no text in supplied.
   if (empty($link_text)) {
-    $link_text = 'Magical Modal';
+    $link_text = 'Modal';
   }
 
-  return '<div id="magical-modal-link">' . l($link_text, 'suggestion_box/nojs', array('attributes' => array('class' => 'ctools-use-modal'))) . '</div>';
+  return l($link_text, 'suggestion_box/nojs', array('attributes' => array('class' => 'ctools-use-modal menu-link')));
 }
