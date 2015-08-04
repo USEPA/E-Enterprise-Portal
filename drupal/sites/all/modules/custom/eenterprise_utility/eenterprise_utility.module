@@ -323,7 +323,13 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
 
       }
 
-
+      // Field specific settings for Terms of Use Agreed Date
+      
+      $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#theme'] = 'eenterprise_utility_terms_of_use_agreed_date_display';
+      // for($delta = 0; $delta <= intval($form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+        // $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE][$delta]['#disabled'] = TRUE;
+        // $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE][$delta]['remove_button']['#access'] = FALSE;
+      // }
 
   } // end user form
 }
@@ -704,3 +710,41 @@ function eenterprise_utility_views_query_alter(&$view, &$query) {
     }
 }
 
+/**
+ * Implements hook_theme().
+ */
+function eenterprise_utility_theme($existing, $type, $theme, $path) {
+
+  $themes = array(
+    'eenterprise_utility_terms_of_use_agreed_date_display' => array(
+      'render element' => 'element'
+    ),
+  );
+  return $themes;
+}
+
+// Custom theme output.
+function theme_eenterprise_utterms_of_use_agreed_date_display($vars) {
+  $element = $vars['element'];
+ 
+  $header = array(
+    'field_terms_of_use_agreed_date' => t('Terms of Use Agreed Date'), 
+  );
+ 
+  $rows = array();
+  dpm($element);
+  for($delta = 0; $delta < $element['#max_delta']; $delta++) {
+    if (!empty($element[$delta]['#date_items']['value'])) {
+      $row = array();
+      $row['data'] = array();
+      $row['data'][] = format_date($element[$delta]['#date_items']['value'], 'long');
+      $rows[] = $row;
+    }
+  }
+ 
+  return theme('table', array(
+    'header' => $header, 
+    'rows' => $rows,
+    'attributes' => array('id' => 'categories-table'),
+  ));
+}
