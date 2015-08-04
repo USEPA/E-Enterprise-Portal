@@ -224,7 +224,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
       hide($form['account']['current_pass']);
       hide($form['account']['pass']);
       hide($form['field_profile_interests']);
-        hide($form['field_first_time_user']);
+//        hide($form['field_first_time_user']);
 
         $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
       $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter ZIP Code";
@@ -518,7 +518,6 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
 
  function user_profile_url_custom_validate(&$form, &$form_state) {
    // Occurs when all values are blank. 
-   $blank_url = true;
    if (!isset($form_state['input']['field_profile_favourites'])){
          $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
          $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value'] = '';
@@ -579,7 +578,6 @@ function get_header_variables(){
     $user_zips = $user_data->field_zip_code;
     $locations_array = array();
     $primary_zip = '';
-    $count = 0;
     foreach($user_zips[LANGUAGE_NONE] as $key=>$value) {
         $primary = $value['field_field_primary'][LANGUAGE_NONE][0]['value'];
         $zipcode = $value['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
@@ -629,7 +627,6 @@ function get_modal_data($locations, $city_name_count) {
  }
 
 function generate_location_select() {
-   $used_locations = array();
 
   $header_data = get_header_variables();
   $city_name_count = array();
