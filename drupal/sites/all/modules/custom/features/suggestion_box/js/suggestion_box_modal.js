@@ -18,7 +18,6 @@
       });
 
       $excludeEmailCheckbox.trigger('change');
-
     }
   }
 })(jQuery);
