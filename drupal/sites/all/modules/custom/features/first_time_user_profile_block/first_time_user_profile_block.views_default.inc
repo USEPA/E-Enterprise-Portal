@@ -7,6 +7,8 @@
 /**
  * Implements hook_views_default_views().
  */
+
+
 function first_time_user_profile_block_views_default_views() {
   $export = array();
 
@@ -24,45 +26,21 @@ function first_time_user_profile_block_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'First Time User Profile';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['access']['perm'] = 'access user profiles';
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    2 => '2',
+  );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['style_plugin'] = 'editableviews_table';
-  $handler->display->display_options['style_options']['columns'] = array(
-    'field_zip_code_editable' => 'field_zip_code_editable',
-  );
-  $handler->display->display_options['style_options']['default'] = '-1';
-  $handler->display->display_options['style_options']['info'] = array(
-    'field_zip_code_editable' => array(
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-  );
-  /* Field: User: Zip Code (editable) */
-  $handler->display->display_options['fields']['field_zip_code_editable']['id'] = 'field_zip_code_editable';
-  $handler->display->display_options['fields']['field_zip_code_editable']['table'] = 'field_data_field_zip_code';
-  $handler->display->display_options['fields']['field_zip_code_editable']['field'] = 'field_zip_code_editable';
-  $handler->display->display_options['fields']['field_zip_code_editable']['click_sort_column'] = 'field_field_primary_value';
-  $handler->display->display_options['fields']['field_zip_code_editable']['settings'] = array(
-    'view_mode' => 'default',
-  );
-  $handler->display->display_options['fields']['field_zip_code_editable']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_zip_code_editable']['widget_type'] = '0';
-  $handler->display->display_options['fields']['field_zip_code_editable']['suppress_label'] = 0;
-  $handler->display->display_options['fields']['field_zip_code_editable']['suppress_description'] = 0;
-  /* Field: User: Interests (editable) */
-  $handler->display->display_options['fields']['field_profile_interests_editable']['id'] = 'field_profile_interests_editable';
-  $handler->display->display_options['fields']['field_profile_interests_editable']['table'] = 'field_data_field_profile_interests';
-  $handler->display->display_options['fields']['field_profile_interests_editable']['field'] = 'field_profile_interests_editable';
-  $handler->display->display_options['fields']['field_profile_interests_editable']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_profile_interests_editable']['widget_type'] = '0';
-  $handler->display->display_options['fields']['field_profile_interests_editable']['suppress_label'] = 0;
-  $handler->display->display_options['fields']['field_profile_interests_editable']['suppress_description'] = 0;
+  $handler->display->display_options['style_plugin'] = 'list';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Field: User: First Time User */
+  $handler->display->display_options['fields']['field_first_time_user']['id'] = 'field_first_time_user';
+  $handler->display->display_options['fields']['field_first_time_user']['table'] = 'field_data_field_first_time_user';
+  $handler->display->display_options['fields']['field_first_time_user']['field'] = 'field_first_time_user';
   /* Sort criterion: User: Created date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'users';
