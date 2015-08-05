@@ -59,6 +59,15 @@ $ee-active-menu:   #364d5f;
 	position:absolute;
 }
 
+@mixin button {
+	color: #fff;
+	background-color: #337ab7;
+	border: 1px solid #2e6da4;
+	font-size: 87.5%;
+	font-weight: bold;
+	padding: 5px 8px;
+}
+
 /** Adjust Main Font and Styles *********************************************************/
 html {
 	background-color: transparent;
@@ -555,7 +564,6 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	.ee-workbench-header-setlocation {
 		label, a {
 			background-color: transparent;
-			margin-top: 3px;
 			color: #333;
 		}
 		label, select, a {
@@ -564,7 +572,6 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		}
 		select {
 			margin-bottom:0;
-			margin-top: 5px;
 		}
 	}
 }
@@ -1257,20 +1264,22 @@ a.tabledrag-handle .handle {
 	top:-10px;
 }
 
-/** jQuery Overrides - General, affects modals, tabs, etc. *********************************************************/
+/** jQuery & Bootstrap Overrides - General, affects modals, tabs, etc. *********************************************************/
 .ui-widget {
 	font-family: $lato !important;
 }
-.ui-widget-overlay {
+.ui-widget-overlay, #modalBackdrop {
 	opacity: 0.7 !important;
 	background-color: #000000;
 	background-image: none;
 }
-
-.ui-widget-header {
+.ui-widget-header, div.ctools-modal-content .modal-header {
 	background: none !important;
 	border: none;
 	border-bottom: 1px solid #efefef;
+}
+div.ctools-modal-content .modal-content {
+	box-shadow: none;
 }
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
 	background: none;
@@ -1312,6 +1321,38 @@ a.tabledrag-handle .handle {
 		margin-top: -15px;
 	}
 }
+div.ctools-modal-content {
+	.modal-header {
+		padding: 0.4em 2em;
+		background-color: #fafafa !important;
+		border-bottom: 1px solid #f0f0f0;
+	}
+	.modal-title {
+		font-weight: normal !important;
+		font-size: 1.25em;
+		color: #333333;
+	}
+	.modal-content {
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		border: none;
+		padding: 1em 2em 0 2em;
+	}
+	.form-item {
+		padding-bottom: 1em;
+	}
+	.form-item label {
+		float: none;
+		padding-bottom: 0;
+	}
+	.form-item-email {
+		padding-bottom: 0.1em;
+	}
+	#edit-submit-button {
+		@include button;
+	}
+}
+
 
 /** Admin *********************************************************/
 #user-login input[type="submit"] {
