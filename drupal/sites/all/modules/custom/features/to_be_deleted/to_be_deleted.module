@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the To Be Deleted feature.
- */
-
-include_once 'to_be_deleted.features.inc';
