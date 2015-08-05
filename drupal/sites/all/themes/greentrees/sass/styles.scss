@@ -280,6 +280,7 @@ input[type="submit"],
 	font-weight: normal;
 	line-height: 1;
 	vertical-align: middle;
+	position: relative;
 	h2, input[type="submit"] {
 		font-family: $greentrees;
 	}
@@ -299,6 +300,10 @@ input[type="submit"],
 		font-family: $greentrees;
 		letter-spacing: 1px;
 		font-size: 0.5em;
+	}
+	.block--login-from-guest-page {
+		position: relative;
+		top: 20px;
 	}
 	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
 		width: 18em;
@@ -1465,6 +1470,9 @@ div.ctools-modal-content {
 		padding: 0.4em 2em;
 		background-color: #fafafa !important;
 		border-bottom: 1px solid #f0f0f0;
+	}
+	.close {
+		opacity: 1.0;
 	}
 	.modal-title {
 		font-weight: normal !important;
