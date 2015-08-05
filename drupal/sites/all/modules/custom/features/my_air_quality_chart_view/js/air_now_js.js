@@ -615,8 +615,8 @@
         if (responseData[i].AQI > maxAQI)
           maxAQI = responseData[i].AQI;
 
-        // insert new entry
-        if (i + 1 == responseData.length || responseData[i].DateForecast != responseData[i + 1].DateForecast) {
+        // insert new entry 
+        if ((i + 1 == responseData.length || responseData[i].DateForecast != responseData[i+1].DateForecast) && maxAQI > 0) { 
           var entry = {
             DateForecast: responseData[i].DateForecast,
             AQI: maxAQI,
