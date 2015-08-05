@@ -595,13 +595,14 @@
           maxAQI = responseData[i].AQI;
 
         // insert new entry 
-        if (i + 1 == responseData.length || responseData[i].DateForecast != responseData[i+1].DateForecast) { 
+        if ((i + 1 == responseData.length || responseData[i].DateForecast != responseData[i+1].DateForecast) && maxAQI > 0) { 
           var entry = {
             DateForecast: responseData[i].DateForecast, 
             AQI: maxAQI,
             ReportingArea: responseData[i].ReportingArea,
             StateCode: responseData[i].StateCode
           };
+          console.log('entry',entry)
           data.push(entry);
           maxAQI = 0;
         }
