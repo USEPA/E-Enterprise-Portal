@@ -602,7 +602,6 @@
             ReportingArea: responseData[i].ReportingArea,
             StateCode: responseData[i].StateCode
           };
-          console.log('entry',entry)
           data.push(entry);
           maxAQI = 0;
         }
