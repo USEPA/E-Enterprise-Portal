@@ -355,7 +355,7 @@
           var hyperlinkURL = this.url;
           var htmlLiItem = '';
           htmlLiItem += '<li><div class="thumbitem-border">';
-          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
+          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
           htmlLiItem += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
