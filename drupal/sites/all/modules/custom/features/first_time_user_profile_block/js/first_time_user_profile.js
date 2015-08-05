@@ -4,6 +4,10 @@
         var selected_zip_code = '27705';
         var selected_city = 'Durham';
         var selected_state = 'NC';
+        var nearest_zip = '27705';
+        var nearest_city = 'Durham';
+        var nearest_state = 'NC';
+        var geolocation_used = false;
 
         $('#nearest-location').text(selected_city + ', ' +  selected_state + ' (' + selected_zip_code + ')');
 
@@ -19,7 +23,6 @@
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
             $('#location-description-geo').html("Your location* <br/> Based on your service provider's location.");
-            geolocation_settings_changed = true;
             lookupAndProcessCityState(latitude, longitude);
         }
 
@@ -33,16 +36,16 @@
                 data: {latitude: latitude, longitude: longitude},
                 success: function (location_data) {
                     location_data = $.parseJSON(location_data);
-                    console.log(location_data);
                     if (!location_data.error) {
                         nearest_city = location_data.city;
                         nearest_state = location_data.state;
                         nearest_zip = location_data.zip;
                         $('#nearest-location').text(nearest_city + ', ' +  nearest_state + ' (' + nearest_zip + ')');
+                        selected_zip_code = nearest_zip;
+                        selected_state = nearest_state;
+                        selected_city = nearest_city;
+                        geolocation_used = true;
                     }
-                    selected_zip_code = nearest_zip;
-                    selected_state = nearest_state;
-                    selected_city = nearest_city;
                     return location_data;
                 },
                 failure: function () {
@@ -80,7 +83,6 @@
         $('#revert-to-geo-location').click(function() {
             $('#location-description-user').hide();
             $('#location-description-geo').show();
-
             $('#nearest-location').text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
         });
 
@@ -138,7 +140,7 @@
             $.ajax({
                 url: '/save_first_time_user_preferences',
                 type: 'GET',
-                data: {skip: 1, zip: ''},
+                data: {skip: 1, zip: '', geolocation_used: geolocation_used, geolocation_zip: nearest_zip},
                 success: function () {
                     $('#location-select').append('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + '</option>').trigger('change');
                     $('.pane-views-first-time-user-profile-block').dialog('close');
@@ -160,7 +162,7 @@
             $.ajax({
                 url: '/save_first_time_user_preferences',
                 type: 'GET',
-                data: {skip: 0, zip: selected_zip_code, term_names: term_names},
+                data: {skip: 0, zip: selected_zip_code, term_names: term_names, geolocation_used: geolocation_used, geolocation_zip: nearest_zip},
                 success: function (msg) {
                     console.log(msg);
                     var parsed_msg = $.parseJSON(msg);
