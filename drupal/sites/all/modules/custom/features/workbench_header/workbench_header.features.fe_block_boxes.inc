@@ -15,19 +15,19 @@ function workbench_header_default_fe_block_boxes() {
   $fe_block_boxes->format = 'php_code';
   $fe_block_boxes->machine_name = 'ee_header_locations';
   $fe_block_boxes->body = '<?php
-$header_variables = get_header_variables();
+ global $theme_key;
+$zip_code_mapping = array();
+drupal_add_js(drupal_get_path(\'theme\',  $theme_key) ."/js/workbench_locations_modal.js", "file");
+drupal_add_css(drupal_get_path(\'theme\',  $theme_key) ."/css/workbench_locations_modal.css", "file");
 print "<div class=\'ee-workbench-header-locations\'>";
 print "<div class=\'ee-workbench-header-block ee-workbench-header-setlocation\'>";
-print "<label for=\'favorite-location\'>Set location</label>";
-print "<select for=\'favorite-location\'>";
-print "<option value=\'location1\'>".$header_variables[\'locations\'][\'primary_location\']."</option>";
-print "<option value=\'location2\'>".$header_variables[\'locations\'][\'location2\']."</option>";
-print "<option value=\'location3\'>".$header_variables[\'locations\'][\'location3\']."</option>";
-print "</select>";
-print "<a href=\'/\'>View all favorite cities</a>";
+generate_location_select();
 print "</div>";
-?>
-</div>';
+print "<div class=\'ee-workbench-header-block ee-feedback\'>";
+print _suggestion_box_make_link(\'Questions?\');
+print "</div><!-- end feedback -->";
+print "</div><!-- end header locations feedback block -->";
+?>';
 
   $export['ee_header_locations'] = $fe_block_boxes;
 
@@ -46,6 +46,14 @@ print "</div>";
   $fe_block_boxes->body = '<p><span class="ee-header-line1"><strong>e-enterprise</strong> for the&nbsp;</span><span class="ee-header-line2">environment</span></p>';
 
   $export['greentrees_ee_header'] = $fe_block_boxes;
+
+  $fe_block_boxes = new stdClass();
+  $fe_block_boxes->info = 'Login link from Guest Page';
+  $fe_block_boxes->format = 'full_html';
+  $fe_block_boxes->machine_name = 'login_from_guest_page';
+  $fe_block_boxes->body = '<div style="float:right;margin-right:50px;"><a class="favorite-ignore" href="/guest_bye" id="guest-login">Log in</a></div>';
+
+  $export['login_from_guest_page'] = $fe_block_boxes;
 
   $fe_block_boxes = new stdClass();
   $fe_block_boxes->info = 'Header for all Workbenchs';
