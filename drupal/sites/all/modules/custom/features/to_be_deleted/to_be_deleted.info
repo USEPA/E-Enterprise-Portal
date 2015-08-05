@@ -1,0 +1,11 @@
+name = To Be Deleted
+description = to delete
+core = 7.x
+package = Features
+version = 7.x-1.0
+project = to_be_deleted
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = to_do
+features_exclude[dependencies][views] = views
+project path = sites/all/modules/custom/features

@@ -71,9 +71,9 @@
         });
 
         $('#confirm-zip-select').click(function() {
-            var selected_zip = $('#city-state-lookup-zips').val();
+            selected_zip_code = $('#city-state-lookup-zips').val();
             var selected_location = $('#new-location-input').val();
-            $('#nearest-location').text(selected_location + ' (' + selected_zip + ')');
+            $('#nearest-location').text(selected_location + ' (' + selected_zip_code + ')');
             $('#new-location').hide();
             $('#zip_container').toggle();
             $('#choose-zip-holder').toggle();
@@ -101,12 +101,12 @@
                 //async: false,
                 success: function (data) {
                     var parsed_data = $.parseJSON(data);
+                    selected_city = parsed_data.city;
+                    selected_state = parsed_data.state;
                     if (parsed_data.name_city_state) { // zip code entered, returned city/state
                         var parsed_zip = parsed_data.zip;
                         $('#nearest-location').text(parsed_data.city + ', ' + parsed_data.state + ' (' + parsed_zip + ')');
                         selected_zip_code = parsed_zip;
-                        selected_city = parsed_data.city;
-                        selected_state = parsed_data.state;
                         $('#zip_container').toggle();
                         $('#new-location').toggle();
                         $('#location-description-user').show();
@@ -120,9 +120,6 @@
                         });
                         zip_select = zip_select + '</select>';
                         $('#new-location-input').val(parsed_data.city +  ', ' + parsed_data.state);
-                        selected_city = parsed_data.city;
-                        selected_state = parsed_data.state;
-
                         $('#choose-zip').html(zip_select);
                         //$('#new-location').hide();
                         $('#typed-in-city-state').text(location);
@@ -158,7 +155,6 @@
             $('.term-name-checkboxes:checked').each(function () {
                 term_names.push($(this).val());
             });
-
             $.ajax({
                 url: '/save_first_time_user_preferences',
                 type: 'GET',

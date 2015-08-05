@@ -442,7 +442,7 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
     // overrides if user has save geolocation zip
 
     if (isset($_SESSION['geolocation_used'])) {
-        if ($_SESSION['geolocation_used']) {
+        if ($_SESSION['geolocation_used'] == 'true') {
             $site_default_zip = $_SESSION['geolocation_zip'];
         }
     }
