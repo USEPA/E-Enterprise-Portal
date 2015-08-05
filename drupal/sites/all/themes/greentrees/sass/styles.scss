@@ -65,6 +65,23 @@ $greentrees:	  'Walkway UltraBold', 'Century Gothic', 'Source Sans Pro', sans-se
 @mixin future-function {
 	background: #000 url('../images/stripe2.png') repeat 0 0;
 }
+@mixin greentrees-button {
+	font-size: 1.5em;
+	letter-spacing: 2px;
+	height:auto;
+	padding: 5px 10px;
+	border-radius: 0;
+	background-color: #26551f;
+	border: 1px solid #275620;
+}
+@mixin button {
+	color: #fff;
+	background-color: #337ab7;
+	border: 1px solid #2e6da4;
+	font-size: 87.5%;
+	font-weight: bold;
+	padding: 5px 8px;
+}
 
 /** Adjust Main Font and Styles *********************************************************/
 html {
@@ -263,6 +280,7 @@ input[type="submit"],
 	font-weight: normal;
 	line-height: 1;
 	vertical-align: middle;
+	position: relative;
 	h2, input[type="submit"] {
 		font-family: $greentrees;
 	}
@@ -283,6 +301,10 @@ input[type="submit"],
 		letter-spacing: 1px;
 		font-size: 0.5em;
 	}
+	.block--login-from-guest-page {
+		position: relative;
+		top: 20px;
+	}
 	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
 		width: 18em;
 	}
@@ -300,7 +322,7 @@ input[type="submit"],
 			height:auto;
 			padding: 5px 10px;
 			border-radius: 0;
-			background-color: #26551f;
+			background-color: #25551e;
 			border: 1px solid #275620;
 		}
 	}
@@ -624,25 +646,25 @@ tr.odd, tr.even {
 	h2 {
 		display: none;
 	}
+	a {
+		color: #ffffff;
+	}
 	.ee-workbench-header-locations {
 		width:24em;
 		float:right;
 		//margin-right:1.25em;
 		//@include future-function;
-		}
+	}
 	.ee-workbench-header-setlocation {
 		label, a {
 			background-color: transparent;
-			margin-top: 3px;
 			color: #ffffff;
 		}
 		label, select, a {
 			float: left;
-			margin-right: 5px;
 		}
 		select {
 			margin-bottom:0;
-			margin-top: 5px;
 		}
 	}
 }
@@ -1393,12 +1415,11 @@ a.tabledrag-handle .handle {
 .ui-widget {
 	font-family: $lato !important;
 }
-.ui-widget-overlay {
+.ui-widget-overlay, #modalBackdrop {
 	opacity: 0.7 !important;
-	background-color: #000000;
+	background-color: #000000 !important;
 	background-image: none;
 }
-
 .ui-widget-header {
 	background: none !important;
 	border: none;
@@ -1442,6 +1463,40 @@ a.tabledrag-handle .handle {
 		width: 32px;
 		right: 30px;
 		margin-top: -15px;
+	}
+}
+div.ctools-modal-content {
+	.modal-header {
+		padding: 0.4em 2em;
+		background-color: #fafafa !important;
+		border-bottom: 1px solid #f0f0f0;
+	}
+	.close {
+		opacity: 1.0;
+	}
+	.modal-title {
+		font-weight: normal !important;
+		font-size: 1.25em;
+		color: #333333;
+	}
+	.modal-content {
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		border: none;
+		padding: 1em 2em 0 2em;
+	}
+	.form-item {
+		padding-bottom: 1em;
+	}
+	.form-item label {
+		float: none;
+		padding-bottom: 0;
+	}
+	.form-item-email {
+		padding-bottom: 0.1em;
+	}
+	#edit-submit-button {
+		@include button;
 	}
 }
 
