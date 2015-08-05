@@ -36,13 +36,13 @@ if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)
              <b>Subpart Code:</b> ".$view->result[$view->row_index]->field_field_prog_track_sub_part_code[0]['rendered']['#markup']."<br>
              <b>Subpart Name:</b> ".$view->result[$view->row_index]->field_field_prog_track_sub_part_name[0]['rendered']['#markup']."<br>
              </div>";
-    print "<br><a href='.' class='simple-dialog' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Item Details'>Details</a>";
+    print "<br><a href='.' class='simple-dialog' id='details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Item Details'>Details</a>";
 }
 else if(!empty($view->result[$view->row_index]->field_field_prog_track_status_note)) {
     $unique_id = $view->query->pager->current_page.'-'.$view->row_index;
     print "<div id='modal-page-details-prog-track-" . $unique_id . "' class='modal-content-in-page'>
              <b>Status Note:</b> ".$view->result[$view->row_index]->field_field_prog_track_status_note[0]['rendered']['#markup']."<br>
              </div>";
-    print "<br><a href='.' class='simple-dialog' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Status Note'>Details</a>";
+    print "<br><a href='.' class='simple-dialog' id='details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Status Note'>Details</a>";
 }
 ?>
