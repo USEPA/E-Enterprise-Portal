@@ -166,7 +166,6 @@
   padding-top: 1px;
 }
 
-/*important indeed*/
 .mapiFrame {
   height: 100% !important;
   max-height: 100% !important;
@@ -175,7 +174,7 @@
   padding-left: 0px !important;
   padding-right: 0px !important;
   padding-top: 0px !important;
-  padding-bottom: 55px !important;
+  padding-bottom: 60px !important;
   margin-bottom: 0px;
   overflow-y: hidden !important;
   overflow-x: hidden !important;

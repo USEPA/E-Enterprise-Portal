@@ -65,6 +65,16 @@ function suggestion_box_form($form, &$form_state) {
 
   global $user;
 
+  // drupal_add_js(array(
+  //   'suggestion-box-modal-style' => array(
+  //     'modalSize' => array(
+  //       'type' => 'fixed',
+  //       'width' => 250,
+  //       'height' => 250,
+  //     ),
+  //   ),
+  // ), 'setting');
+
   $form['#attached']['js'] = array(
     drupal_get_path('module', 'suggestion_box') . '/js/suggestion_box_modal.js',
   );
@@ -88,13 +98,6 @@ function suggestion_box_form($form, &$form_state) {
     '#type' => 'checkbox', 
     '#title' => t('Don\'t include my email address.'),
     '#id' => 'suggestion-box-exclude-email',
-  );
-
-  $form['phone'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Phone'),
-    '#size' => 30,
-    // '#description' => t('Your phone number'),
   );
 
   // prepare categories for select options
@@ -189,7 +192,7 @@ function suggestion_box_mail($key, &$message, $params) {
   if ($user->name == 'guest-user')
     $email = $params['email'];
 
-  $msgBody = "Phone: !phone\r\nCategory: !category\r\nBody: !body";
+  $msgBody = "Category: !category\r\nBody: !body";
 
   $options['language'] = $message['language'];
   user_mail_tokens($variables, $data, $options);
@@ -203,7 +206,7 @@ function suggestion_box_mail($key, &$message, $params) {
       $langcode = $message['language']->language;
       $message['subject'] = t('[!category] Suggestion', array('!category' => $params['category']), array('langcode' => $langcode));
       $message['body'][] = t($msgBody, 
-        array('!email' => $email, '!phone' => $params['phone'], '!category' => $params['category'], '!body' => $params['body']), 
+        array('!email' => $email, '!category' => $params['category'], '!body' => $params['body']), 
         array('langcode' => $langcode));
       break;
   }
@@ -218,16 +221,15 @@ function suggestion_box_admin() {
  */
 function _suggestion_box_make_link($link_text = '') {
 
-  // Load the modal library and add the modal javascript.
-  ctools_include('modal');
-  ctools_modal_add_js();
+  configure_ctools_popup();
   
   // Set a default value if no text in supplied.
   if (empty($link_text)) {
     $link_text = 'Modal';
   }
 
-  return l($link_text, 'suggestion_box/nojs', array('attributes' => array('class' => 'ctools-use-modal menu-link')));
+  // return l($link_text, 'suggestion_box/nojs', array('attributes' => array('class' => 'ctools-use-modal menu-link')));
+  return ctools_modal_text_button($link_text, 'suggestion_box/nojs', $link_text, 'ctools-modal-ee-ctools-popup-style');
 }
 
 
@@ -273,4 +275,41 @@ function theme_suggestion_box_settings_table_drag_components($vars) {
     'rows' => $rows,
     'attributes' => array('id' => 'categories-table'),
   )) . drupal_render($add_category_button);
+}
+
+/**
+* Ctools popup settings function.
+*/
+function configure_ctools_popup() {
+   static $added = FALSE;
+   if ($added == FALSE) {
+       $added = TRUE;
+       // Adding the necessary libraries
+       ctools_include('modal');
+       ctools_include('ajax');
+       ctools_modal_add_js();
+       // Setting up the preferences for the popup
+       $popup_style = array(
+           'ee-ctools-popup-style' => array(
+               'modalSize' => array(
+                   'type' => 'fixed', // Popup type.
+                   'width' => 475, // Width
+                   'height' => 'auto', // Height
+                   'addHeight' => 700, // Maximum height
+               ),
+               'modalOptions' => array(
+                   'opacity' => (float) 0.8, // Backgroung opacity
+                   'background-color' => '#084b57', // Background color
+               ),
+               'closeText' => '', // Text for the close button
+               'closeImage' => '<img typeof="foaf:Image" src="'. drupal_get_path('theme', 'greentrees') .'/images/close-titlebar-32px.png" alt="Close window" title="Close window" />', // Image for the close button
+               'loadingText' => '', // Text with the popup downloading
+               'animation' => 'fadeIn', // Animation type
+               'modalTheme' => 'ee_ctools_popup_theme', // Name of theme to be added
+               'animationSpeed' => 'fast', // Popup animation speed
+           ),
+       );
+       drupal_add_js($popup_style, 'setting'); // Adding the preferences
+       ctools_add_js('ee_ctools_popup_style', 'suggestion_box'); // Adding the theme
+   }
 }
