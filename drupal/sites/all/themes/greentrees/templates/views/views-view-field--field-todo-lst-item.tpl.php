@@ -40,6 +40,6 @@ if(!empty($view->result[$view->row_index]->field_field_todo_lst_part_code)) {
              <p><b>Part Information:</b><br/> ".$view->result[$view->row_index]->field_field_todo_lst_part_code[0]['rendered']['#markup']." - ".$view->result[$view->row_index]->field_field_todo_lst_part_name[0]['rendered']['#markup']."</p>
              <p><b>Subpart Information:</b> ".$view->result[$view->row_index]->field_field_todo_lst_sub_part_code[0]['rendered']['#markup']." - ".$view->result[$view->row_index]->field_field_todo_lst_sub_part_name[0]['rendered']['#markup']."</p>
              </div>";
-    print "<br><a href='.' class='simple-dialog' id='details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-todo-" . $unique_id . "' title='Item Details'>Details</a>";
+    print "<br><a href='.' class='simple-dialog' id='to-do-details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-todo-" . $unique_id . "' title='Item Details'>Details</a>";
 }
 ?>
