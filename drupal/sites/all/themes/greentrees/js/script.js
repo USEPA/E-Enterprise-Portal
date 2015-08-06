@@ -154,7 +154,7 @@ Drupal.behaviors.filterItems = {
                 return $.inArray(this.innerHTML, cedri_list) == -1
             }).remove();
         }
-        if($("#edit-field-prog-track-domain-value").val() == 'LEAD') {
+        if($("#edit-field-prog-track-domain-value").val() == 'Lead') {
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
 
             var lead_list = ["Firm Abatement", "Firm RRP", "Firm Combination", "- Any -"];
