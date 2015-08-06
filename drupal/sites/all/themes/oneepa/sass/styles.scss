@@ -33,6 +33,8 @@ $ee-medium-gray:   #efefef;
 $ee-dark-gray:	   #606060;		// Use for background color for table headings
 $ee-hover-gray:	   #fafafa;
 $ee-active-menu:   #364d5f;
+$ee-menu-bg:	   #007ac6;
+$lato:            Lato, 'Source Sans Pro', sans-serif;
 
 @mixin linear-gradient($gradient-light, $gradient-dark) {
   background-color: $gradient-dark;
@@ -96,34 +98,40 @@ a:visited.pager__link {
 header #block-eenterprise-bridge-auth-eenterprise-bridge-auth h2.block-title {
 	@include element-invisible;
 }
+.panel-2col {
+	.panel-col-first, .panel-col-last {
+		width: 100%;
+		float: none;
+	}
+}		
 
 footer {
-  clear: both;
-  width: 100%;
-  color: $ee-white;
-  padding: 10px 60px;
-  font-family: $lato;
-  min-height: 50px;
-  background-color: $ee-dark-gray;
-  position: static;
-  a {
-	  color: #fff;
-  }
-  #block-menu-menu-footer-disclaimers h2.block-title {
-	  display: none;
-  }
-  .menu__item.is-leaf {
-	  list-style: none;
-  }
-  #block-menu-menu-footer-disclaimers {
-	  float: none;
-	  clear: left;
-	  margin-top: 5px;
-  }
-  .block--ee-social-media, .block--ee-social-media .block-title, .ee-social-media, .ee-social-media li {
+	clear: both;
+	width: 100%;
+	color: $ee-white;
+	padding: 10px 60px;
+	font-family: $lato;
+	min-height: 50px;
+	background-color: $ee-menu-bg;
+	position: static;
+	a {
+		color: #fff;
+	}
+	#block-menu-menu-footer-disclaimers h2.block-title {
+		display: none;
+	}
+	.menu__item.is-leaf {
+		list-style: none;
+	}
+	#block-menu-menu-footer-disclaimers {
+		float: none;
+		clear: left;
+		margin-top: 5px;
+	}
+	.block--ee-social-media, .block--ee-social-media .block-title, .ee-social-media, .ee-social-media li {
 	  float: left;
-  }
-  .block--ee-social-media {
+	}
+	.block--ee-social-media {
 	  h2 {
 		  font-size: 1.5em;
 		  text-transform: lowercase;
@@ -131,8 +139,8 @@ footer {
 		  padding-top:5px;
 		  letter-spacing: 1px;
 	  }
-  }
-  .ee-social-media {
+	}
+	.ee-social-media {
 	  padding-bottom: 0;
 	  li {
 		  list-style: none;
@@ -140,8 +148,34 @@ footer {
 		  margin-right: 5px;
 	  }
 	}
- }
+}
 
+h1, h2, h3, h4, h5, h6, th, legend, caption {
+	font-family: $base-font-family;
+}
+a, .ui-widget-content a, a.pager__link {
+	color: $ee-link-color;
+}
+a:visited, 
+a:visited.pager__link, .ui-widget-content a:visited, .ui-widget-content a:visited.pager__link {
+	color: $ee-visited-color;
+}
+a:hover, a:focus {
+    background-color: $ee-light-gray;
+}
+
+.pipeline {
+	a, a:visited {
+        color: #ffffff;
+    }
+    a:hover, a:focus {
+        color: #efefef;
+    }
+}
+
+.menu-item {
+	letter-spacing: 0.25px;
+}
 
 /** Adjust Bootstrap Components  *********************************************************/
 .modal-open {
@@ -184,18 +218,14 @@ input[type="submit"],
 }
 
 .site-slogan {
-	line-height:55px;
+	line-height: 1em;
+	padding-top: 30px;
 	vertical-align: bottom;
 	color: $ee-dark-gray;
 }
 
 .site-name {
 	margin-top: 20px;
-	height: auto;
-	width: auto;
-	span {
-		background: transparent url('../images/ee-logo.png') no-repeat 0 0;
-	}
 }
 
 .main-nav > .menu > .menu-item > .menu-link {
@@ -232,20 +262,10 @@ input[type="submit"],
 	}
 }
 
-header #block-eenterprise-bridge-auth-eenterprise-bridge-auth {
-	float: right;
-	margin-top: 20px;
-}
-
 header {
-	//background-color: $ee-light-gray;
-	//@include linear-gradient($ee-light-gray, $ee-hover-gray);
-	@include linear-gradient(#428ACA, #347EBC);
-	//background-color: #5487ba;
-	color: #494949;
-	//margin-left: -1em;
-	//margin-right: -1em;
-	//padding: 5px 1em;
+	background-image: none;
+	background-color: $ee-white;
+	color: #333;
 	a {
 		color: #333;
 	}
@@ -256,7 +276,33 @@ header {
 		background-color: $ee-dark-gray;
 		color: #fff;
 	}
-
+	.block--login-from-guest-page {
+		position: relative;
+		top: 20px;
+	}
+	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
+		width: 7em;
+		float: right;
+		margin-top: 1.5em;
+		margin-right: 4em;
+		h2.block-title {
+			clip: rect(1px,1px,1px,1px);
+			position:absolute;
+		}
+		input[type="submit"] {
+			font-size: 1.5em;
+			letter-spacing: 2px;
+			height:auto;
+			padding: 5px 10px;
+			border-radius: 0;
+			background-color: $ee-menu-bg;
+			border: 1px solid #0072bb;	//Darker bright blue
+		}
+	}
+	.block--login-from-guest-page {
+		position: relative;
+		top: 20px;
+	}
 }
 
 .page-eenterprise-for-environment {
@@ -294,15 +340,22 @@ header {
 	p {
 		margin-bottom: 0;
 	}
+	.mobile-bar {
+		display: none;
+		//Removes mobile navigation menu on welcome page as no options are available
+	}
 }
-
 .well a:hover {
 	color: $ee-hover-color;
-}
-.well a:hover:focus, 
+} 
 .mobile-bar a:hover,
 .mobile-nav .mobile-links a.active {
 	color: $epa-white;
+}
+.logged-in.page-eenterprise-forenvironment {
+	.guest-login {
+		display: none;
+	}
 }
 .page-eenterprise-for-environment {
 	.breadcrumb, .breadcrumb-title {
@@ -349,7 +402,19 @@ header {
 		padding:5px 15px;
 	}
 }
-
+.guest-login {
+	width: 5em;
+    float: left;
+    a {
+	    font-size: 0.5em;
+		color: #333333;
+		letter-spacing: 1px;
+		padding: 4px;
+    }
+    a:hover, a:focus, a:active {
+	    color: #000000;
+    }
+}
 #edit-e-enterprise-bridge, #edit-login, #edit-log-in, #edit-log-in--2 {
 	background-color: #337ab7;
 	padding:1em 3em;
@@ -446,10 +511,18 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 	}
+	.ui-dialog .panel-pane {
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		border: none;
+		padding: 0 30px;
+		margin-bottom: 0;
+	}
 	.pager,
 	.views-exposed-form label {
 		font-weight: normal;
 	}
+
 }
 .page-user {
 	&.wide-template #main-content {
@@ -468,11 +541,17 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 }
 .secondary-nav {
 	position: absolute;
-	right: 1em;
-	top: 3.25em; 
+	right: 2em;
+	top: 10px; 
+	font-size: 0.85em;
+	.pipeline li {
+		list-style: none;
+	}
 }
+
 .admin-menu .secondary-nav {
-	top: 4.25em; //Set top when admin user is logged in
+	top: 30px; //Set top when admin user is logged in
+	right: 2.5em;
 }
 
 .breadcrumb-title, 
@@ -503,12 +582,12 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	background-color: green; 
 	height:40px; 
 	width:43px; 
-	margin: 0px; 
-	vertical-align: middle;
+	vertical-align: middle; 
+	margin: 0px;
 }
 
 /** Accessibility Helper Styles ***********/
-.view-eenterprise-for-environment .article-title {
+.view-eenterprise-for-environment .article-title, .view-ee-welcome .article-title, .page-ee-welcome .article-title {
   clip: rect(1px, 1px, 1px, 1px);
   position: absolute !important;
 }
@@ -522,15 +601,56 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	display: none;
 }
 
+/** General Table Styles *********************************************************/
+table, th, td {
+	border:none;
+}
+/*tr {
+	border-bottom:1px solid #efefef;
+}*/
+th, td {
+	padding: 15px;
+	border: none;
+	line-height:1.2;
+}
+th {
+	background-color: $ee-white;
+	text-align: center;
+}
+.field-multiple-table th {
+	text-align: left;
+}
+.views-field-counter {
+	text-align: right;
+}
+td {
+	vertical-align: top;
+}
+tr:nth-of-type(even) {
+	background-color: $ee-light-gray;
+}
+tr.odd {
+	background-color: $ee-white;
+}
+tr.views-row-first {
+	border-top: 1px solid $ee-medium-gray;
+}
+tr.odd, tr.even {
+	border-bottom: 1px solid $ee-medium-gray;
+}
 .region-nav-bar {
-	background-color: $ee-darker-gray;
+	background-color: $ee-menu-bg;
 	height: 2em;
 	@include box-shadow;
+	a {
+		color: #fff;
+	}
+	
 }
 .workbench-menu {
 	display: none;
 	clear: left;
-	background-color: $ee-darker-gray;
+	background-color: transparent;
 	width: 60%;
 	margin: 0;
 	padding: 0;
@@ -538,10 +658,11 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	padding-left: 60px;
 	width: auto;
 	a, a:visited {
-        color: #333;
+        color: #ffffff;
     }
     a:hover, a:focus {
-        color: #000;
+        color: #fafafa;
+        background-color: $ee-dark-gray;
     }
 
 }
@@ -555,16 +676,22 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	h2 {
 		display: none;
 	}
+	a {
+		color: #ffffff;
+	}
 	.ee-workbench-header-locations {
 		width:24em;
 		float:right;
 		//margin-right:1.25em;
 		//@include future-function;
-		}
+	}
 	.ee-workbench-header-setlocation {
+		label {
+			margin-right: 10px;
+		}
 		label, a {
 			background-color: transparent;
-			color: #333;
+			color: #ffffff;
 		}
 		label, select, a {
 			float: left;
@@ -572,6 +699,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		}
 		select {
 			margin-bottom:0;
+			min-width: 7em;
 		}
 	}
 }
@@ -631,6 +759,20 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	.workbench-menu {
     	display: block;
     }
+    #zip_container {
+		span {
+			float: left;
+			margin-right: 30px;
+		}
+		#nearest-location {
+			font-weight: bold;
+		}
+	}
+	#location-add-new {
+		span, button {
+			display: inline-block;
+		}
+	}
 }
 
 /** Workbench *******************************************************************/
@@ -781,7 +923,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 .workbench-menu li {
 	float:		left;
 	display: 	block;
-	padding:	5px 1em;
+	padding:	0.5em 1em;
 	font-size: 	$h5-font-size;
 	&.active-trail {
 		background-color: $ee-dark-gray;
@@ -818,9 +960,6 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		padding: 3px;
 	}
 }
-
-
-
 
 /** To Do / Progress Tracker Styles 
 *********************************************************/
@@ -939,7 +1078,7 @@ tr.even {
 
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {
-	#user-profile-form {
+  form[id^='user-profile-form'] {
 		.form-type-textfield {
 			width: 150px;
 		}
@@ -957,7 +1096,14 @@ tr.even {
 .field-name-field-profile-last-name {
 	display:inline-block;
 }
-#user-profile-form {
+form[id^='user-profile-form'] {
+
+    .description-key {
+      margin-left: 5px;
+    }
+    .ajax-progress .message {
+      display: none;
+    }
 	label {
 		cursor: pointer;
 	}
@@ -1018,27 +1164,77 @@ tr.even {
 	.eenterprise-utility-form-item-description-p.field-title-below { 
 		margin-bottom: 1.5em; padding-bottom: 0px;
 	}
-	#field-profile-favourites-add-more-wrapper .form-item,
-	#zipcode_description .form-item {
-		padding-bottom: 0px;
-	}
-	#zipcode_description table tr:last td:last {
-		width:200px;	
-	}
-	#zipcode_description .field-add-more-submit {
-		margin-left: 5px;
-		float: right;
-	}
-	.panel {
+
+  #zipcode_description {
+      display:none;
+      .form-item {
+        display: inline-block;
+        float: left;
+        padding-bottom: 0px;
+      }
+    .field-multiple-table {
+      width: 700px;
+    }
+    .field-name-field-field-zip-code {
+      display: inline-block;
+      float: left;
+    }
+    .field-add-more-submit {
+      float: left;
+      display: inline-block;
+    }
+      .multiple-fields-remove-button {
+        float: left; display: inline-block;
+      }
+    table tr:last td:last {
+      width:200px;
+    }
+    .form-wrapper {
+      display: inline-block;
+      float: left;
+      margin-right: 10px;
+    }
+    table tr td:first-child, .tabledrag-toggle-weight-wrapper,
+    .form-item .form-type-textfield label, .form-checkbox{
+      display:none;
+    }
+    label {
+      float: left;
+    }
+    .zip-code-primary-select {
+      color: grey;
+      cursor: pointer;
+      /*display:none;*/
+
+    }
+      .ajax-new-content {
+        float: left;
+        display:inline-block;
+      }
+      .form-type-checkbox {
+        margin-right: 10px;
+      }
+      .zip-code-primary-select.selected {
+        color: red;
+      }
+
+      .zip-code-primary-holder {
+        margin-top: 8px;
+        display:inline-block;
+        float: right;
+        width: 20px;
+      }
+
+    }
+
+  .panel {
 		min-height: 330px;
 	}
 	.ajax-progress {
 	  display:block !important;
 	  position: inherit !important;
 	}
-	#zipcode_description label {
-		float: left;
-	}
+
 	
 	thead label {
 		padding:1em 1em 0.25em 0.5em;
@@ -1051,7 +1247,7 @@ tr.even {
 		border:none;
 	}
 	.form-submit, .remove_button {
-		text-transform: capitalize; 
+		text-transform: capitalize;
 		background-color: #337ab7;
 		padding:0.5em 1em;
 		height:auto;
@@ -1066,7 +1262,7 @@ tr.even {
 		background-color: green; 
 		height: auto; 
 		width: auto; 
-		margin: 0px;
+		margin: 0;
 		vertical-align: middle;
 		padding: 0.25em 0.75em;
 	}
@@ -1146,7 +1342,7 @@ tr.even {
 #links_description table > tbody > tr > td{
   vertical-align: middle;
 }
-#user-profile-form .remove-button {
+form[id^='user-profile-form'] .remove-button {
   float: right;
 }
 #links_description table .field-type-text {
@@ -1264,22 +1460,117 @@ a.tabledrag-handle .handle {
 	top:-10px;
 }
 
-/** jQuery & Bootstrap Overrides - General, affects modals, tabs, etc. *********************************************************/
-.ui-widget {
+#first-time-user-profile {
+	padding-bottom: 10px;
+	h2 {
+		padding: 0;
+	}
+	h2 span {
+		display: block;
+	    text-transform: uppercase;
+	    font-size: 0.5em;
+	    color: #999;
+	    margin-bottom: 5px;
+	}
+	h3 {
+		padding-bottom: 0;
+		margin-top: 2em;
+	}
+	p {
+		padding-bottom: 0;
+	}
+	label {
+		font-size: 1em;
+	}
+    #zip_container {
+		span {
+			float: none;
+			margin-right: 0;
+		}
+	}	
+	#location-add-new {
+		margin-top: 10px;
+		label {
+			margin-bottom: 0;
+		}
+		#new-location {
+			width: 18em;
+		}
+		#choose-zip-holder {
+			width: 15em;
+		}
+		select {
+			padding-top: 4px;
+			padding-bottom: 4px;
+			margin-left: -2px;
+		}
+	}
+	#location-add-new button {
+		margin-top: -3px;
+		margin-left: 10px;
+		font-size: 0.75em;
+	}
+	#choose-zip-holder {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	#cancel-zip-select {
+		margin-left: 20px;
+	}
+	#location-description-user {
+		span {
+			margin-right: 30px;
+		}
+	}
+	#high-level-interests {
+		margin-top:20px;
+		height:8em;
+	}
+}
+.pane-views-first-time-user-profile-block 	.modal-footer {
+		.btn-primary {margin-right: 30px;}
+		a {vertical-align: middle;}
+}
+.ck-button {
+    margin:4px;
+    background-color:#fafafa;
+    border-radius:4px;
+    border:1px solid #D0D0D0;
+    overflow:auto;
+    float:left;
+    width:auto;
+	span {
+	    text-align:center;
+	    padding:5px 8px;
+	    display:block;
+	    border: 1px solid #fafafa;
+	}
+	input {
+	    position:absolute;
+	    top:-20px;
+	}	
+	input:checked + span {
+		color: #fff;
+		background-color: #337ab7;
+		border: 1px solid #2e6ca3;
+		padding: 5px 8px;
+	}
+}
+
+/** jQuery Overrides - General, affects modals, tabs, etc. *********************************************************/
+.ui-widget, .ui-widget input {
 	font-family: $lato !important;
+	font-size: 1em;
 }
 .ui-widget-overlay, #modalBackdrop {
 	opacity: 0.7 !important;
-	background-color: #000000;
+	background-color: #000000 !important;
 	background-image: none;
 }
-.ui-widget-header, div.ctools-modal-content .modal-header {
+.ui-widget-header {
 	background: none !important;
 	border: none;
 	border-bottom: 1px solid #efefef;
-}
-div.ctools-modal-content .modal-content {
-	box-shadow: none;
 }
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
 	background: none;
@@ -1327,6 +1618,9 @@ div.ctools-modal-content {
 		background-color: #fafafa !important;
 		border-bottom: 1px solid #f0f0f0;
 	}
+	.close {
+		opacity: 1.0;
+	}
 	.modal-title {
 		font-weight: normal !important;
 		font-size: 1.25em;
@@ -1352,7 +1646,6 @@ div.ctools-modal-content {
 		@include button;
 	}
 }
-
 
 /** Admin *********************************************************/
 #user-login input[type="submit"] {

@@ -25,18 +25,16 @@
  * - $more: A link to view more, if any
  *
  * @ingroup views_templates
- */
-drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/favorite-sites.css", "file");
+ *
+*drupal_add_css(drupal_get_path('module', 'my_environment_mapper') ."/css/myEnvMapper.css", "file");
+*/
+drupal_add_js(drupal_get_path('module', 'my_environment_mapper') ."/js/myEnvironmentMapper.js", "file");
 ?>
-
-<div id="favorite_links-ajax-wrapper">
-<a class="favorites-ignore" href="/user">Edit Profile</a>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
-    <?php print  $title; ?>
+    <?php print $title; ?>
   <?php endif; ?>
-  
   <?php print render($title_suffix); ?>
   <?php if ($header): ?>
     <div class="view-header">
@@ -56,15 +54,11 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/favorite-sites.css", "f
     </div>
   <?php endif; ?>
 
-  <?php if ($rows): ?>
-    <div class="view-content">
-      <?php print $rows; ?>
+
+    <div class="myEnvMapperWrapper">
+        <iframe id="myEnviFrame" height='500' width='640' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://www.epa.gov/myenvmap/mainmap.html?mW=630&mH=500'></iframe>
     </div>
-  <?php elseif ($empty): ?>
-    <div class="view-empty">
-      <?php print $empty; ?>
-    </div>
-  <?php endif; ?>
+
 
   <?php if ($pager): ?>
     <?php print $pager; ?>
@@ -91,7 +85,9 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/favorite-sites.css", "f
       <?php print $feed_icon; ?>
     </div>
   <?php endif; ?>
-  <a style="display:none" id="reload_favorite_links"  href="favorite_sites-ajax/ajax" class='use-ajax'>Reload</a>
+
 </div><?php /* class view */ ?>
 
-</div>
+
+
+
