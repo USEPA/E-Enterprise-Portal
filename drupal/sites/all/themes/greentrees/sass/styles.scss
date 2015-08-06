@@ -184,6 +184,10 @@ a:visited,
 a:visited.pager__link, .ui-widget-content a:visited, .ui-widget-content a:visited.pager__link {
 	color: $ee-visited-color;
 }
+a.jcarousel-control-prev, a.jcarousel-control-next,
+a:visited.jcarousel-control-prev, a:visited.jcarousel-control-next {
+	color: #ffffff;
+}
 a:hover, a:focus {
     background-color: $ee-light-gray;
 }

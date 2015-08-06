@@ -53,6 +53,14 @@ $lato:            Lato, 'Source Sans Pro', sans-serif;
 	box-shadow: 0 2px 2px #aaa;
 	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30);
 	-ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
+	zoom: 1; 
+}
+@mixin special-box-shadow($hshadow,$vshadow,$blur, $color) {
+	-moz-box-shadow: $hshadow $vshadow $blur $color;
+	-webkit-box-shadow: $hshadow $vshadow $blur $color;
+	box-shadow: $hshadow $vshadow $blur $color;
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
 	zoom: 1;
 }
 
@@ -159,6 +167,10 @@ a, .ui-widget-content a, a.pager__link {
 a:visited, 
 a:visited.pager__link, .ui-widget-content a:visited, .ui-widget-content a:visited.pager__link {
 	color: $ee-visited-color;
+}
+a.jcarousel-control-prev, a.jcarousel-control-next,
+a:visited.jcarousel-control-prev, a:visited.jcarousel-control-next {
+	color: #ffffff;
 }
 a:hover, a:focus {
     background-color: $ee-light-gray;
