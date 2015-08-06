@@ -27,9 +27,10 @@
  * @ingroup views_templates
  *
 *drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", "file");
-*drupal_add_js(drupal_get_path('theme', 'oneepa') ."/js/air_emissions.js", "file");
 *drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/air_emissions.css", "file");
 */
+drupal_add_js(drupal_get_path('module', 'my_environment_mapper') ."/js/myEnvironmentMapper.js", "file");
+drupal_add_css(drupal_get_path('module', 'my_environment_mapper') ."/css/myEnvMapper.css", "file");
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
@@ -56,8 +57,8 @@
   <?php endif; ?>
 
 
-    <div class="view-content">
-      <div id="air-emissions-chart"></div>
+    <div class="myEnvMapperWrapper2">
+        <iframe id="myEnviFrame" height='640' width='640' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://www.epa.gov/myenvmap/mainmap.html?mW=640&mH=640&pTheme=all&embed=true&mode=r&pQuery=&pLayers=afs,triair,pcs,triwater,npl,rcra,triland,energycoal,tsca&ve=11,38.959,-77.22479'></iframe>
     </div>
 
   <?php if ($pager): ?>
@@ -87,3 +88,7 @@
   <?php endif; ?>
 
 </div><?php /* class view */ ?>
+
+
+
+
