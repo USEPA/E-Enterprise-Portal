@@ -218,35 +218,10 @@ function high_level_taxonomy_checkboxes()
 // http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.15
 function frs_lat_long_to_zip_code($lat, $long)
 {
-    $production_used = false;
 
-    $prod_url =  'https://ofmext.epa.gov/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=1&p_token=1&p_latitude=' . $lat .
-        '&p_longitude=' . $long;
-
-    $options = array(
-        'headers' => array(
-            'Content-Type' => 'application/json',
-        ),
-        'method' => 'GET',
-//        'data' => $data
-    );
-    $response = drupal_http_request($prod_url, $options);
-//    dpm($response);
-//    $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
-//    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=1&p_token=1&p_latitude=' . $lat .
+//    $prod_url =  'https://ofmext.epa.gov/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=1&p_token=1&p_latitude=' . $lat .
 //        '&p_longitude=' . $long;
-////    echo $base_url . '<br />';
-////    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_token=1&p_ip_address=1&p_latitude=42.916952&p_longitude=-71.37567';
-////    echo $base_url . '<br />';
-//    $encoded_base_url = urlencode($base_url);
-//    $request_url = $test_domain . $encoded_base_url;
-//    $data = array(
-//        'p_token' => 1,
-//        'p_ip_address' => 1,
-//        'p_latitude' => $lat,
-//        'p_longitude' => $long,
-//    );
-//    $data = drupal_json_encode($data);
+//
 //    $options = array(
 //        'headers' => array(
 //            'Content-Type' => 'application/json',
@@ -254,7 +229,32 @@ function frs_lat_long_to_zip_code($lat, $long)
 //        'method' => 'GET',
 ////        'data' => $data
 //    );
-//    $response = drupal_http_request($request_url, $options);
+//    $response = drupal_http_request($prod_url, $options);
+//    $data = json_decode($response->data);
+//    $results = $data->Results;
+    $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
+    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=1&p_token=1&p_latitude=' . $lat .
+        '&p_longitude=' . $long;
+//    echo $base_url . '<br />';
+//    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_token=1&p_ip_address=1&p_latitude=42.916952&p_longitude=-71.37567';
+//    echo $base_url . '<br />';
+    $encoded_base_url = urlencode($base_url);
+    $request_url = $test_domain . $encoded_base_url;
+//    $data = array(
+//        'p_token' => 1,
+//        'p_ip_address' => 1,
+//        'p_latitude' => $lat,
+//        'p_longitude' => $long,
+//    );
+//    $data = drupal_json_encode($data);
+    $options = array(
+        'headers' => array(
+            'Content-Type' => 'application/json',
+        ),
+        'method' => 'GET',
+//        'data' => $data
+    );
+    $response = drupal_http_request($request_url, $options);
     $data = json_decode($response->data);
     $results = $data->Results;
     $formatted_city = ucwords(strtolower($results->derivedCity));
@@ -263,7 +263,6 @@ function frs_lat_long_to_zip_code($lat, $long)
         'zip' => $results->derivedZip,
         'city' => $formatted_city,
         'state' => $results->derivedState,
-        'production_used' => $production_used,
     );
     return $return;
 }

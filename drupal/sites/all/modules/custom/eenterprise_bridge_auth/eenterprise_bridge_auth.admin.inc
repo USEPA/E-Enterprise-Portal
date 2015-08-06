@@ -55,4 +55,3 @@ function eenterprise_bridge_auth_settings_validate($form, &$form_state) {
 function eenterprise_bridge_auth_settings_submit($form, &$form_state) {
   variable_set('eenterprise_bridge_auth_settings_valid', TRUE);
 }
-    
