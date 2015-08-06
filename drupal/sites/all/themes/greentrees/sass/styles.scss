@@ -756,6 +756,11 @@ tr.odd, tr.even {
 			font-weight: bold;
 		}
 	}
+	#location-add-new {
+		span, button {
+			display: inline-block;
+		}
+	}
 }
 
 /** Workbench *******************************************************************/
@@ -1472,6 +1477,20 @@ a.tabledrag-handle .handle {
 	}	
 	#location-add-new {
 		margin-top: 10px;
+		label {
+			margin-bottom: 0;
+		}
+		#new-location {
+			width: 18em;
+		}
+		#choose-zip-holder {
+			width: 15em;
+		}
+		select {
+			padding-top: 4px;
+			padding-bottom: 4px;
+			margin-left: -2px;
+		}
 	}
 	#location-add-new button {
 		margin-top: -3px;
