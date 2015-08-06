@@ -209,7 +209,7 @@ function high_level_taxonomy_checkboxes()
     );
     foreach ($high_level_taxonomy_names as $term_name) {
         //    $tid = taxonomy_get_term_by_name($term_name);
-        print '<label><input class="term-name-checkboxes" type="checkbox"  name="' . $term_name . '" value="' . $term_name . '"/>' . $term_name . '</label>';
+        print '<label class="ck-button"><input class="term-name-checkboxes" type="checkbox"  name="' . $term_name . '" value="' . $term_name . '"/><span>' . $term_name . '</span></label>';
     }
 
 }

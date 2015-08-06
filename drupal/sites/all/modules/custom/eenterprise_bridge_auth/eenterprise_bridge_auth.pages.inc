@@ -187,7 +187,7 @@ function create_progress_tracker($user){
         watchdog('eenterprise_bridge_auth',"Error: Cannot Authenticate to get data flow.", array(), WATCHDOG_ERROR);
         return;
     }
-    $client2 = new SoapClient("http://devngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM?wsdl", array('soap_version'   => SOAP_1_2));
+    $client2 = new SoapClient("https://devngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM?wsdl", array('soap_version'   => SOAP_1_2));
     $params2 = array(
         "securityToken" => $response1->securityToken,
         "dataflow" => "E-ACTIVITY",

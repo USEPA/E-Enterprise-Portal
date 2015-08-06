@@ -22,7 +22,7 @@ class AdfsConf {
      */
     public $encryptionCertPath = '';
     
-    public $encryptionCertPassword = '';   
+    public $encryptionCertCred = '';
     
     protected static $_instance = NULL;
     /**

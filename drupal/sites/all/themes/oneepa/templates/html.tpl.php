@@ -20,11 +20,11 @@
   <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,900,400italic,700italic' rel='stylesheet' type='text/css'>
   <?php print $styles; ?>
   <?php //print $web_area_feed; ?>
-  <?php if ($add_html5_shim and !$add_respond_js): ?>
+  <?php if ($add_html5_shim && !$add_respond_js): ?>
     <!--[if lt IE 9]>
     <script src="<?php print $base_path . $path_to_zen; ?>/js/html5.js"></script>
     <![endif]-->
-  <?php elseif ($add_html5_shim and $add_respond_js): ?>
+  <?php elseif ($add_html5_shim && $add_respond_js): ?>
     <!--[if lt IE 9]>
     <script src="<?php print $base_path . $path_to_zen; ?>/js/html5-respond.js"></script>
     <![endif]-->

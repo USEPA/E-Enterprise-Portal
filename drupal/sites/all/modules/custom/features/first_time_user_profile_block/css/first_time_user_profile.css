@@ -20,10 +20,16 @@
 #revert-to-geo-location {
     font-size: 68%;
 }
+
+#new-location-input .input-error {
+    border-color: #ff0000;
+}
+/*
 #location-description-user {
     display:none;
     line-height: 1em;
 }
+*/
 #locations-from-input-text {
     padding-bottom: 0;
 }

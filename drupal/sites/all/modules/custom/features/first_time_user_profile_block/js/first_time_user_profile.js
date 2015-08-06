@@ -8,8 +8,14 @@
         var nearest_city = 'Durham';
         var nearest_state = 'NC';
         var geolocation_used = false;
+<<<<<<< HEAD
 
         $('#nearest-location').text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
+=======
+        //$('#location-description-na').show();
+		$('#location-description-user').show();
+        $('#nearest-location').text(selected_city + ', ' +  selected_state + ' (' + selected_zip_code + ')');
+>>>>>>> 5ae0cea8c050ff4f49df46952355386eca247396
 
         function getLocation() {
             if (navigator.geolocation) {
@@ -22,7 +28,7 @@
         function showPosition(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
-            $('#location-description-geo').html("Your location* <br/> Based on your service provider's location.");
+            $('#location-description-user').show();
             lookupAndProcessCityState(latitude, longitude);
         }
 
@@ -40,7 +46,12 @@
                         nearest_city = location_data.city;
                         nearest_state = location_data.state;
                         nearest_zip = location_data.zip;
+<<<<<<< HEAD
                         $('#nearest-location').text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
+=======
+                        $('#nearest-location').text(nearest_city + ', ' +  nearest_state + ' (' + nearest_zip + ')');
+                        $('#location-description-na').hide();
+>>>>>>> 5ae0cea8c050ff4f49df46952355386eca247396
                         selected_zip_code = nearest_zip;
                         selected_state = nearest_state;
                         selected_city = nearest_city;
@@ -58,40 +69,45 @@
         getLocation();
 
 
-        //$('body').on('click', '#add-zip-code', function () {
-        //    $(this).hide();
-        //    $('#zip_container').append(newZipRow());
-        //});
-
         $('#change-location, #location-back-btn').click(function () {
-            $('#zip_container').toggle();
-            $('#new-location').toggle();
-            $('#cancel-zip-select').toggle();
-
+        	//$('#location-description-na').hide();
+            $('#zip_container').hide();
+			$('#new-location-input').val('');    
+            $('#location-add-new').show();                    
+            $('#choose-zip-holder').hide();
+            $('#cancel-zip-select').show();
         });
 
         $('#confirm-zip-select').click(function () {
             selected_zip_code = $('#city-state-lookup-zips').val();
             var selected_location = $('#new-location-input').val();
+            $('#location-description-na').hide();
+            $('#location-description-user').show();
             $('#nearest-location').text(selected_location + ' (' + selected_zip_code + ')');
-            $('#new-location').hide();
-            $('#zip_container').toggle();
-            $('#choose-zip-holder').toggle();
-            $('#cancel-zip-select').toggle();
+            $('#zip_container').show();
+            $('#location-add-new').hide();
+
         });
 
+<<<<<<< HEAD
         $('#revert-to-geo-location').click(function () {
+=======
+        $('#revert-to-geo-location').click(function() {
+/*
+>>>>>>> 5ae0cea8c050ff4f49df46952355386eca247396
             $('#location-description-user').hide();
             $('#location-description-geo').show();
+*/
             $('#nearest-location').text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
             selected_zip_code = nearest_zip;
             selected_state = nearest_state;
             selected_city = nearest_city;
         });
 
-        $('#cancel-zip-select').click(function () {
+        $('#cancel-zip-select').click(function() {
+        	//$('#location-description-na').show();
             $('#zip_container').show();
-            $('#new-location').hide();
+            $('#location-add-new').hide();
             $('#choose-zip-holder').hide();
             $(this).hide();
         });
@@ -101,7 +117,6 @@
             var is_valid_zip = /(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/.test(location);
             // regex for city, state code
             var is_city_state = /^[\w\s]+,\s*\w{2}$/.test(location);
-            console.log(is_city_state);
             if (!is_city_state || !is_valid_zip) {
                 location_input.addClass('input-error');
 
@@ -119,12 +134,12 @@
                     if (parsed_data.name_city_state) { // zip code entered, returned city/state
                         var parsed_zip = parsed_data.zip;
                         $('#nearest-location').text(parsed_data.city + ', ' + parsed_data.state + ' (' + parsed_zip + ')');
-                        selected_zip_code = parsed_zip;
-                        $('#zip_container').toggle();
-                        $('#new-location').toggle();
-                        $('#location-description-user').show();
-                        $('#location-description-geo').hide();
-                        $('#cancel-zip-select').toggle();
+                        selected_zip_code = parsed_zip;                        
+                        $('#zip_container').show();
+                        $('#location-add-new').hide();
+                        $('#choose-zip-holder').hide();
+                        $('#location-description-na').hide();
+
                     }
                     else {
                         var zip_select = '<select id="city-state-lookup-zips">';
@@ -134,7 +149,6 @@
                         zip_select = zip_select + '</select>';
                         $('#new-location-input').val(parsed_data.city + ', ' + parsed_data.state);
                         $('#choose-zip').html(zip_select);
-                        //$('#new-location').hide();
                         $('#typed-in-city-state').text(location);
                         $('#choose-zip-holder').show();
                     }
@@ -196,6 +210,7 @@
         var first_time_user_block = $('#first-time-user-block');
         if (first_time_user_block.length > 0) {
             first_time_user_block.dialog({
+            	title: '<span>Getting Started</span>What matters to you?',
                 modal: true,
                 autoOpen: true,
                 width: 1100,
