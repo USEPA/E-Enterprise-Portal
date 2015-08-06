@@ -53,7 +53,6 @@ function ee_disclaimer_form($form, &$form_state) {
 
   global $user;
   $user_data = user_load($user->uid);
-  dpm($user_data);
 
   $form['agree'] = array(
     '#type' => 'checkbox',
@@ -81,7 +80,6 @@ function ee_disclaimer_form_submit($form, &$form_state) {
 
   $edit = array('field_terms_of_use_agreed_date' => $agreed_date);
 
-  dpm($edit);
   user_save($user_data, $edit);
 }
 
