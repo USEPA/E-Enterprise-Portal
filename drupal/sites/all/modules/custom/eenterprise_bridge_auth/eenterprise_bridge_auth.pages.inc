@@ -365,7 +365,7 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_updated['und'][0]['value'] = $st_update;
                 $node->field_prog_track_updated['und'][0]['format'] = null;
                 $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
-                if($res['Status'] != 'INCOMPLETE') {
+                if($res['Status'] == 'INCOMPLETE') {
                     $node->field_prog_track_status_note['und'][0]['value'] = $res['StatusNote'];
                     $node->field_prog_track_status_note['und'][0]['format'] = null;
                     $node->field_prog_track_status_note['und'][0]['safe_value'] = $res['StatusNote'];
