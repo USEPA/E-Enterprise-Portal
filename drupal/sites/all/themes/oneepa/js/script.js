@@ -1,6 +1,6 @@
 /**
  * @file
- * A JavaScript file for the OneEPA theme.
+ * A JavaScript file for the Green Trees theme.
  */
 
 // JavaScript should be made compatible with libraries other than jQuery by
@@ -25,7 +25,7 @@ Drupal.behaviors.my_custom_behavior = {
 (function ($) {
 
 // Remove no-js class
-Drupal.behaviors.oneepa = {
+Drupal.behaviors.greentrees = {
   attach: function (context) {
     $('html.no-js', context).removeClass('no-js');
     $('.views-field a').addClass('favorites-ignore');
@@ -54,7 +54,7 @@ Drupal.behaviors.skiplinks = {
 };
 
 // Add 'new' class if content is less than 30 days old.
-Drupal.behaviors.oneepaNew = {
+Drupal.behaviors.greentreesNew = {
   attach: function (context) {
     var now = new Date();
     now = now.getTime();
@@ -71,15 +71,6 @@ Drupal.behaviors.oneepaNew = {
     });
   }
 };
-
-// Use jQuery tablesorter plugin.
-/*
-Drupal.behaviors.tablesorter = {
-  attach: function (context) {
-    $('table.tablesorter', context).tablesorter();
-  }
-};
-*/
 
 // Add simple accordion behavior.
 Drupal.behaviors.accordion = {
@@ -132,40 +123,65 @@ Drupal.behaviors.shareLinks = {
   }
 };
 
-    /*Drupal.behaviors.removezipcodes = {
-        attach: function (context) {
-            var x = $('#edit-field-zip-code').find('div.form-type-textfield').find('span.remove-zip').length;
-            if(x == 0)
-                $('#edit-field-zip-code').find('div.form-type-textfield').append("<span class='remove-zip'>&#10006;</span>");
+Drupal.behaviors.filterItems = {
+    attach: function (context) {
+        $("a").click(function(event) {
+            clicked_link_id = event.target.id;
+        });
 
-            $('#edit-field-zip-code').find('span.remove-zip').hover(function () {
-                $(this).css('color', 'red');
-                $(this).css('cursor', 'pointer');
-            });
-            $('#edit-field-zip-code').find('span.remove-zip').mouseout(function () {
-                $(this).css('color', 'black');
-            });
-            $('#edit-field-zip-code').find('span.remove-zip').click(function () {
-                $(this).parent('div').find('input.form-text').val('');
-                $(this).parents('tr').css('display','none');
-            });
+        if ($("#simple-dialog-container").is(':visible')) {
+            if ($("#simple-dialog-container").text() == '') {
+                //var invisibleItem = $(".simpleDialogProcessed").attr('name');
+                var invisibleItem = $("#" + clicked_link_id).attr('name');
+                invisibleItem = $("#" + invisibleItem).html();
+                $("#simple-dialog-container").prepend('<div class="modal-content-in-page">'+ invisibleItem +'</div>');
+            }
+            else {
+                //This condition is added because when sorting is applied the id's get mixed up and what's seen on the modal is not related to
+                //the actual clicked row. So by adding id to each link, this problem is solved.
+                $("#simple-dialog-container").empty();
+                var invisibleItem = $("#" + clicked_link_id).attr('name');
+                invisibleItem = $("#" + invisibleItem).html();
+                $("#simple-dialog-container").prepend('<div class="modal-content-in-page">'+ invisibleItem +'</div>');
+            }
         }
-    };*/
 
-//})(jQuery, Drupal, this, this.document);
 
-// Toggle chevron up / down arrows for workbench header
-Drupal.behaviors.workbenchToggleLinks = {
-	attach: function (context) {
-		$('body').on('click', ".glyphicon-chevron-up", function(){
-			$(this).removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
-      });
-     $('body').on('click', '.glyphicon-chevron-down', function(){
-      $(this).removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
-    });
-	}
+        if($("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+            var cedri_list = ["Notification Report", "Notification of Compliance Status", "Air Emissions Report", "- Any -"];
+            $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
+                return $.inArray(this.innerHTML, cedri_list) == -1
+            }).remove();
+        }
+        if($("#edit-field-prog-track-domain-value").val() == 'LEAD') {
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+
+            var lead_list = ["Firm Abatement", "Firm RRP", "Firm Combination", "- Any -"];
+            $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
+                return $.inArray(this.innerHTML, lead_list) == -1
+            }).remove();
+        }
+        if($("#edit-field-prog-track-domain-value").val() == 'All') {
+            //$("edit-field-prog-track-rep-type-filter-value").val("All");
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
+        }
+        $('#edit-field-prog-track-domain-value').change(function(){
+            $('#edit-field-prog-track-rep-type-filter-value').val('All');
+        });
+    }
 };
 
+/*Drupal.behaviors.guestLogin = {
+    attach: function (context) {
+        $(document).ready(function () {
+            var lastInd = (document.referrer).lastIndexOf('/');
+            var rfr = (document.referrer).substring(lastInd + 1);
+            if ($(".page-ee-welcome #edit-log-in").length == 1 && rfr == 'workbench?dest=guest_login')
+                $("#edit-log-in").click();
+        });
+    }
+};*/
 
 })(jQuery);
 
