@@ -210,12 +210,6 @@
       }
     }
 
-    var getMap = function(date) {
-      var mapUrl = ['http://files.airnowtech.org/airnow/today/forecast_aqi_', date, '_usa.jpg'].join('');
-
-      return mapUrl;
-    }
-
     // dateStr: yyyy-mm-dd
     function getDate(dateStr) {
 
