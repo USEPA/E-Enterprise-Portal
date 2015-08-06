@@ -9,7 +9,7 @@
         var nearest_state = 'NC';
         var geolocation_used = false;
 
-        $('#nearest-location').text(selected_city + ', ' +  selected_state + ' (' + selected_zip_code + ')');
+        $('#nearest-location').text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
 
         function getLocation() {
             if (navigator.geolocation) {
@@ -40,7 +40,7 @@
                         nearest_city = location_data.city;
                         nearest_state = location_data.state;
                         nearest_zip = location_data.zip;
-                        $('#nearest-location').text(nearest_city + ', ' +  nearest_state + ' (' + nearest_zip + ')');
+                        $('#nearest-location').text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
                         selected_zip_code = nearest_zip;
                         selected_state = nearest_state;
                         selected_city = nearest_city;
@@ -70,7 +70,7 @@
 
         });
 
-        $('#confirm-zip-select').click(function() {
+        $('#confirm-zip-select').click(function () {
             selected_zip_code = $('#city-state-lookup-zips').val();
             var selected_location = $('#new-location-input').val();
             $('#nearest-location').text(selected_location + ' (' + selected_zip_code + ')');
@@ -80,20 +80,33 @@
             $('#cancel-zip-select').toggle();
         });
 
-        $('#revert-to-geo-location').click(function() {
+        $('#revert-to-geo-location').click(function () {
             $('#location-description-user').hide();
             $('#location-description-geo').show();
             $('#nearest-location').text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
+            selected_zip_code = nearest_zip;
+            selected_state = nearest_state;
+            selected_city = nearest_city;
         });
 
-        $('#cancel-zip-select').click(function() {
+        $('#cancel-zip-select').click(function () {
             $('#zip_container').show();
             $('#new-location').hide();
             $('#choose-zip-holder').hide();
             $(this).hide();
         });
         $('#add-location').click(function () {
-            var location = $('#new-location-input').val();
+            var location_input =  $('#new-location-input');
+            var location = location_input.val();
+            var is_valid_zip = /(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/.test(location);
+            // regex for city, state code
+            var is_city_state = /^[\w\s]+,\s*\w{2}$/.test(location);
+            console.log(is_city_state);
+            if (!is_city_state || !is_valid_zip) {
+                location_input.addClass('input-error');
+
+            }//console.log(isValidZip);
+            throw new Error();
             $.ajax({
                 url: '/return_location_data',
                 type: 'POST',
@@ -114,12 +127,12 @@
                         $('#cancel-zip-select').toggle();
                     }
                     else {
-                        var zip_select  = '<select id="city-state-lookup-zips">';
-                        $.each(parsed_data.zip_array, function(index, zip_code) {
-                           zip_select = zip_select + '<option value="' + zip_code + '">' + zip_code + '</option>';
+                        var zip_select = '<select id="city-state-lookup-zips">';
+                        $.each(parsed_data.zip_array, function (index, zip_code) {
+                            zip_select = zip_select + '<option value="' + zip_code + '">' + zip_code + '</option>';
                         });
                         zip_select = zip_select + '</select>';
-                        $('#new-location-input').val(parsed_data.city +  ', ' + parsed_data.state);
+                        $('#new-location-input').val(parsed_data.city + ', ' + parsed_data.state);
                         $('#choose-zip').html(zip_select);
                         //$('#new-location').hide();
                         $('#typed-in-city-state').text(location);
@@ -158,7 +171,13 @@
             $.ajax({
                 url: '/save_first_time_user_preferences',
                 type: 'GET',
-                data: {skip: 0, zip: selected_zip_code, term_names: term_names, geolocation_used: geolocation_used, geolocation_zip: nearest_zip},
+                data: {
+                    skip: 0,
+                    zip: selected_zip_code,
+                    term_names: term_names,
+                    geolocation_used: geolocation_used,
+                    geolocation_zip: nearest_zip
+                },
                 success: function (msg) {
                     console.log(msg);
                     var parsed_msg = $.parseJSON(msg);
