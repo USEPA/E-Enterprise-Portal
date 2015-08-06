@@ -36,6 +36,7 @@
                 data: {latitude: latitude, longitude: longitude},
                 success: function (location_data) {
                     location_data = $.parseJSON(location_data);
+                    console.log(location_data);
                     if (!location_data.error) {
                         nearest_city = location_data.city;
                         nearest_state = location_data.state;
@@ -103,7 +104,7 @@
             if (!is_city_state && !is_valid_zip) {
                 location_input.addClass('input-error');
                 $('#location-error-message').remove();
-                var error_message = '<span id="location-error-message">Please input a valid ZIP code or a City and State Code seperated by a comma. (Durham, NC)</span>';
+                var error_message = '<span id="location-error-message">Please input a valid ZIP code or a city and state code separated by a comma (e.g., Durham, NC)</span>';
                 $('#location-add-new').append(error_message);
             }
             //throw new Error();
