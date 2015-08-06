@@ -8,7 +8,8 @@
         var nearest_city = 'Durham';
         var nearest_state = 'NC';
         var geolocation_used = false;
-
+        //$('#location-description-na').show();
+		$('#location-description-user').show();
         $('#nearest-location').text(selected_city + ', ' +  selected_state + ' (' + selected_zip_code + ')');
 
         function getLocation() {
@@ -22,7 +23,7 @@
         function showPosition(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
-            $('#location-description-geo').html("Your location* <br/> Based on your service provider's location.");
+            $('#location-description-user').show();
             lookupAndProcessCityState(latitude, longitude);
         }
 
@@ -58,12 +59,8 @@
         getLocation();
 
 
-        //$('body').on('click', '#add-zip-code', function () {
-        //    $(this).hide();
-        //    $('#zip_container').append(newZipRow());
-        //});
-
         $('#change-location, #location-back-btn').click(function () {
+        	//$('#location-description-na').hide();
             $('#zip_container').toggle();
             $('#new-location').toggle();
             $('#cancel-zip-select').toggle();
@@ -73,6 +70,8 @@
         $('#confirm-zip-select').click(function() {
             selected_zip_code = $('#city-state-lookup-zips').val();
             var selected_location = $('#new-location-input').val();
+            //$('#location-description-na').hide();
+            $('#location-description-user').show();
             $('#nearest-location').text(selected_location + ' (' + selected_zip_code + ')');
             $('#new-location').hide();
             $('#zip_container').toggle();
@@ -81,12 +80,15 @@
         });
 
         $('#revert-to-geo-location').click(function() {
+/*
             $('#location-description-user').hide();
             $('#location-description-geo').show();
+*/
             $('#nearest-location').text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
         });
 
         $('#cancel-zip-select').click(function() {
+        	//$('#location-description-na').show();
             $('#zip_container').show();
             $('#new-location').hide();
             $('#choose-zip-holder').hide();
@@ -106,11 +108,11 @@
                     if (parsed_data.name_city_state) { // zip code entered, returned city/state
                         var parsed_zip = parsed_data.zip;
                         $('#nearest-location').text(parsed_data.city + ', ' + parsed_data.state + ' (' + parsed_zip + ')');
-                        selected_zip_code = parsed_zip;
+                        selected_zip_code = parsed_zip;                        
                         $('#zip_container').toggle();
+                        $('#location-add-new').toggle();
                         $('#new-location').toggle();
                         $('#location-description-user').show();
-                        $('#location-description-geo').hide();
                         $('#cancel-zip-select').toggle();
                     }
                     else {
@@ -177,6 +179,7 @@
         var first_time_user_block = $('#first-time-user-block');
         if (first_time_user_block.length > 0) {
             first_time_user_block.dialog({
+            	title: '<span>Getting Started</span>What matters to you?',
                 modal: true,
                 autoOpen: true,
                 width: 1100,

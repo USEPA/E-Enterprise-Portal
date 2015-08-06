@@ -83,6 +83,18 @@ $greentrees:	  'Walkway UltraBold', 'Century Gothic', 'Source Sans Pro', sans-se
 	padding: 5px 8px;
 }
 
+@mixin flexbox {
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+
+	align-items: center;
+}
+
 /** Adjust Main Font and Styles *********************************************************/
 html {
 	color: $base-text-color;
@@ -172,6 +184,9 @@ a, .ui-widget-content a, a.pager__link {
 a:visited, 
 a:visited.pager__link, .ui-widget-content a:visited, .ui-widget-content a:visited.pager__link {
 	color: $ee-visited-color;
+}
+a:hover, a:focus {
+    background-color: $ee-light-gray;
 }
 
 .pipeline {
@@ -494,6 +509,13 @@ input[type="submit"],
 		-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 	}
+	.ui-dialog .panel-pane {
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		border: none;
+		padding: 0 30px;
+		margin-bottom: 0;
+	}
 	.pager,
 	.views-exposed-form label {
 		font-weight: normal;
@@ -725,6 +747,15 @@ tr.odd, tr.even {
 	.workbench-menu {
     	display: block;
     }
+    #zip_container {
+		span {
+			float: left;
+			margin-right: 30px;
+		}
+		#nearest-location {
+			font-weight: bold;
+		}
+	}
 }
 
 /** Workbench *******************************************************************/
@@ -1411,9 +1442,93 @@ a.tabledrag-handle .handle {
 	top:-10px;
 }
 
+#first-time-user-profile {
+	padding-bottom: 10px;
+	h2 {
+		padding: 0;
+	}
+	h2 span {
+		display: block;
+	    text-transform: uppercase;
+	    font-size: 0.5em;
+	    color: #999;
+	    margin-bottom: 5px;
+	}
+	h3 {
+		padding-bottom: 0;
+		margin-top: 2em;
+	}
+	p {
+		padding-bottom: 0;
+	}
+	label {
+		font-size: 1em;
+	}
+    #zip_container {
+		span {
+			float: none;
+			margin-right: 0;
+		}
+	}	
+	#location-add-new {
+		margin-top: 10px;
+	}
+	#location-add-new button {
+		margin-top: -3px;
+		margin-left: 10px;
+		font-size: 0.75em;
+	}
+	#choose-zip-holder {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	#cancel-zip-select {
+		margin-left: 20px;
+	}
+	#location-description-user {
+		span {
+			margin-right: 30px;
+		}
+	}
+	#high-level-interests {
+		margin-top:20px;
+		height:8em;
+	}
+}
+.pane-views-first-time-user-profile-block 	.modal-footer {
+		.btn-primary {margin-right: 30px;}
+		a {vertical-align: middle;}
+}
+.ck-button {
+    margin:4px;
+    background-color:#fafafa;
+    border-radius:4px;
+    border:1px solid #D0D0D0;
+    overflow:auto;
+    float:left;
+    width:auto;
+	span {
+	    text-align:center;
+	    padding:5px 8px;
+	    display:block;
+	    border: 1px solid #fafafa;
+	}
+	input {
+	    position:absolute;
+	    top:-20px;
+	}	
+	input:checked + span {
+		color: #fff;
+		background-color: #337ab7;
+		border: 1px solid #2e6ca3;
+		padding: 5px 8px;
+	}
+}
+
 /** jQuery Overrides - General, affects modals, tabs, etc. *********************************************************/
-.ui-widget {
+.ui-widget, .ui-widget input {
 	font-family: $lato !important;
+	font-size: 1em;
 }
 .ui-widget-overlay, #modalBackdrop {
 	opacity: 0.7 !important;
