@@ -56,7 +56,7 @@ drupal_add_js(drupal_get_path('module', 'my_environment_mapper') ."/js/myEnviron
 
 
     <div class="myEnvMapperWrapper">
-        <iframe id="myEnviFrame" height='500' width='640' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://www.epa.gov/myenvmap/mainmap.html?mW=630&mH=500'></iframe>
+        <iframe id="myEnviFrame" height='500' width='500' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src=''></iframe>
     </div>
 
 
