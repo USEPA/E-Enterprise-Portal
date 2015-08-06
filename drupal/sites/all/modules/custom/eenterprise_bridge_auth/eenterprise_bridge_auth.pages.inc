@@ -365,10 +365,11 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_updated['und'][0]['value'] = $st_update;
                 $node->field_prog_track_updated['und'][0]['format'] = null;
                 $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
-
-                $node->field_prog_track_status_note['und'][0]['value'] = $res['StatusNote'];
-                $node->field_prog_track_status_note['und'][0]['format'] = null;
-                $node->field_prog_track_status_note['und'][0]['safe_value'] = $res['StatusNote'];
+                if($res['Status'] != 'INCOMPLETE') {
+                    $node->field_prog_track_status_note['und'][0]['value'] = $res['StatusNote'];
+                    $node->field_prog_track_status_note['und'][0]['format'] = null;
+                    $node->field_prog_track_status_note['und'][0]['safe_value'] = $res['StatusNote'];
+                }
             }
             else if($res_domain == 'CEDRI'){
                 $exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
