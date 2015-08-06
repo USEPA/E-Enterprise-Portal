@@ -335,6 +335,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         if (!user_access('administer site configuration')) {
           $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#access'] = FALSE;
         }
+
+        // Field specific settings for First Time User
+        $form['field_first_time_user'][LANGUAGE_NONE]['#access'] = FALSE;
   } // end user form
 }
 
