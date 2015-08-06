@@ -187,7 +187,7 @@ function create_progress_tracker($user){
         watchdog('eenterprise_bridge_auth',"Error: Cannot Authenticate to get data flow.", array(), WATCHDOG_ERROR);
         return;
     }
-    $client2 = new SoapClient("http://devngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM?wsdl", array('soap_version'   => SOAP_1_2));
+    $client2 = new SoapClient("https://devngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM?wsdl", array('soap_version'   => SOAP_1_2));
     $params2 = array(
         "securityToken" => $response1->securityToken,
         "dataflow" => "E-ACTIVITY",
@@ -365,10 +365,11 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_updated['und'][0]['value'] = $st_update;
                 $node->field_prog_track_updated['und'][0]['format'] = null;
                 $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
-
-                $node->field_prog_track_status_note['und'][0]['value'] = $res['StatusNote'];
-                $node->field_prog_track_status_note['und'][0]['format'] = null;
-                $node->field_prog_track_status_note['und'][0]['safe_value'] = $res['StatusNote'];
+                if($res['Status'] == 'INCOMPLETE') {
+                    $node->field_prog_track_status_note['und'][0]['value'] = $res['StatusNote'];
+                    $node->field_prog_track_status_note['und'][0]['format'] = null;
+                    $node->field_prog_track_status_note['und'][0]['safe_value'] = $res['StatusNote'];
+                }
             }
             else if($res_domain == 'CEDRI'){
                 $exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));

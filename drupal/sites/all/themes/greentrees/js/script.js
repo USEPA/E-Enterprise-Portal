@@ -125,13 +125,27 @@ Drupal.behaviors.shareLinks = {
 
 Drupal.behaviors.filterItems = {
     attach: function (context) {
+        $("a").click(function(event) {
+            clicked_link_id = event.target.id;
+        });
+
         if ($("#simple-dialog-container").is(':visible')) {
             if ($("#simple-dialog-container").text() == '') {
-                var invisibleItem = $(".simpleDialogProcessed").attr('name');
+                //var invisibleItem = $(".simpleDialogProcessed").attr('name');
+                var invisibleItem = $("#" + clicked_link_id).attr('name');
+                invisibleItem = $("#" + invisibleItem).html();
+                $("#simple-dialog-container").prepend('<div class="modal-content-in-page">'+ invisibleItem +'</div>');
+            }
+            else {
+                //This condition is added because when sorting is applied the id's get mixed up and what's seen on the modal is not related to
+                //the actual clicked row. So by adding id to each link, this problem is solved.
+                $("#simple-dialog-container").empty();
+                var invisibleItem = $("#" + clicked_link_id).attr('name');
                 invisibleItem = $("#" + invisibleItem).html();
                 $("#simple-dialog-container").prepend('<div class="modal-content-in-page">'+ invisibleItem +'</div>');
             }
         }
+
 
         if($("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
@@ -140,7 +154,7 @@ Drupal.behaviors.filterItems = {
                 return $.inArray(this.innerHTML, cedri_list) == -1
             }).remove();
         }
-        if($("#edit-field-prog-track-domain-value").val() == 'LEAD') {
+        if($("#edit-field-prog-track-domain-value").val() == 'Lead') {
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
 
             var lead_list = ["Firm Abatement", "Firm RRP", "Firm Combination", "- Any -"];

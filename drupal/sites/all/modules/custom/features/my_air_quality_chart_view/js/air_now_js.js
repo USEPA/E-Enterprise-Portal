@@ -54,7 +54,7 @@
     var aqiLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
       opacity: 0.9,
-      position: 'back'
+      position: ''
     }).addTo(map);
 
     var stateBoundaries = L.esri.dynamicMapLayer({
@@ -609,8 +609,8 @@
         if (responseData[i].AQI > maxAQI)
           maxAQI = responseData[i].AQI;
 
-        // insert new entry
-        if (i + 1 == responseData.length || responseData[i].DateForecast != responseData[i + 1].DateForecast) {
+        // insert new entry 
+        if ((i + 1 == responseData.length || responseData[i].DateForecast != responseData[i+1].DateForecast) && maxAQI > 0) { 
           var entry = {
             DateForecast: responseData[i].DateForecast,
             AQI: maxAQI,

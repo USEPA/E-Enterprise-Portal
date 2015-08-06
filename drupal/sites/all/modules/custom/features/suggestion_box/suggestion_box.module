@@ -117,7 +117,7 @@ function suggestion_box_form($form, &$form_state) {
   );
 
   $form['body'] = array(
-    '#title' => t('Body'),
+    '#title' => t('Message'),
     '#type' => 'textarea',
     '#required' => TRUE,
     // '#description' => t('Body'),
@@ -298,8 +298,8 @@ function configure_ctools_popup() {
                    'addHeight' => 700, // Maximum height
                ),
                'modalOptions' => array(
-                   'opacity' => (float) 0.8, // Backgroung opacity
-                   'background-color' => '#084b57', // Background color
+                   'opacity' => (float) 0.7, // Backgroung opacity
+                   'background-color' => '#000000', // Background color
                ),
                'closeText' => '', // Text for the close button
                'closeImage' => '<img typeof="foaf:Image" src="'. drupal_get_path('theme', 'greentrees') .'/images/close-titlebar-32px.png" alt="Close window" title="Close window" />', // Image for the close button

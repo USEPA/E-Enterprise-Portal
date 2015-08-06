@@ -7,18 +7,19 @@
 /**
  * Implements hook_views_api().
  */
-function first_time_user_profile_block_views_api($module = NULL, $api = NULL) {
-  return array("api" => "3.0");
+function first_time_user_profile_block_views_api($module = NULL, $api = NULL)
+{
+    return array("api" => "3.0");
 }
-
 
 
 /**
  * Implements hook_menu().
  **/
 
-function first_time_user_profile_block_menu() {
-    $items =array();
+function first_time_user_profile_block_menu()
+{
+    $items = array();
     $items['save_first_time_user_preferences'] = array(
         'page callback' => 'save_first_time_user_preferences',
         'access callback' => TRUE,
@@ -46,7 +47,8 @@ function first_time_user_profile_block_menu() {
 /**
  * Implements hook_theme_registry_alter().
  */
-function first_time_user_profile_block_theme_registry_alter(&$theme_registry) {
+function first_time_user_profile_block_theme_registry_alter(&$theme_registry)
+{
     // Defined path to the current module.
     $module_path = drupal_get_path('module', 'first_time_user_profile_block');
     // Find all .tpl.php files in this module's folder recursively.
@@ -78,8 +80,11 @@ function save_first_time_user_preferences()
     $skip = $_GET['skip'];
     $zip = $_GET['zip'];
     $term_names = $_GET['term_names'];
+    $geolocation_used = $_GET['geolocation_used'];
+    $geolocation_zip = $_GET['geolocation_zip'];
 
     $user_zip_codes = $user_data->field_zip_code;
+    unset($user_zip_codes);
     $first_time_user = $user_data->field_first_time_user;
     $user_interests = $user_data->field_interests2;
 
@@ -110,47 +115,49 @@ function save_first_time_user_preferences()
         foreach ($term_names as $term_name) { //Save interests
             $term_array = taxonomy_get_term_by_name($term_name);
             $term = reset($term_array); # get the first element of the array which is our term object
-            $tid =  $term->tid;
+            $tid = $term->tid;
             $interest_obj = array(
                 'target_id' => (string)$tid,
             );
             $user_interests[LANGUAGE_NONE][] = $interest_obj;
         }
-
-
-        // Set first_time_user boolean to false
-        $first_time_user[LANGUAGE_NONE][0] = array('value' => '0');
-
-        $edit = array(
-            'field_zip_code' => $user_zip_codes,
-            'field_first_time_user' => $first_time_user,
-            'field_interests2' => $user_interests,
-        );
-
-        $return_msg = array();
-        try {
-            user_save($user_data, $edit);
-        }
-        catch (Exception $e) {
-            $return_msg['error_msg'] = $e;
-            $return_msg['success']= false;
-            print json_encode($e);
-            exit();
-        }
-        $return_msg['success'] = true;
-        print json_encode($return_msg);
     }
+
+    // Set first_time_user boolean to false
+    $first_time_user[LANGUAGE_NONE][0] = array('value' => '0');
+
+    $edit = array(
+        'field_zip_code' => $user_zip_codes,
+        'field_first_time_user' => $first_time_user,
+        'field_interests2' => $user_interests,
+    );
+
+    $return_msg = array();
+
+    try {
+        $_SESSION['geolocation_used'] = $geolocation_used;
+        $_SESSION['geolocation_zip'] = $geolocation_zip;
+        user_save($user_data, $edit);
+    } catch (Exception $e) {
+        $return_msg['error_msg'] = $e;
+        $return_msg['success'] = false;
+        print json_encode($e);
+        exit();
+    }
+    $return_msg['success'] = true;
+    print json_encode($return_msg);
+
 }
 
-function return_location_data_lat_long() {
+function return_location_data_lat_long()
+{
     $results = array();
     if (isset($_GET['longitude']) && isset($_GET['latitude'])) {
         $longitude = $_GET['longitude'];
         $latitude = $_GET['latitude'];
         $results = frs_lat_long_to_zip_code($latitude, $longitude);
         $results['error'] = false;
-    }
-    else {
+    } else {
         $results['error'] = true;
     }
     print json_encode($results);
@@ -158,14 +165,13 @@ function return_location_data_lat_long() {
 
 
 //
-function return_location_data() {
+function return_location_data()
+{
     if (isset($_POST['location'])) {
         $location = $_POST['location'];
-    }
-    else if (isset($_GET['location'])) {
+    } else if (isset($_GET['location'])) {
         $location = $_GET['location'];
-    }
-    else {
+    } else {
         exit();
     }
     // First check $location with postal code validation
@@ -181,8 +187,7 @@ function return_location_data() {
         $zips = frs_city_state_to_zip_code($city, $state);
         $zips['name_city_state'] = false;
         echo json_encode($zips);
-    }
-    else {
+    } else {
         $zip_lookup = zip_code_lookup($validation['postal_code']);
         $zip_lookup['name_city_state'] = true;
 
@@ -192,7 +197,8 @@ function return_location_data() {
 }
 
 
-function high_level_taxonomy_checkboxes() {
+function high_level_taxonomy_checkboxes()
+{
     $high_level_taxonomy_names = array(
         'Air',
         'Energy', 'Endangered Species', 'Environmental Justice',
@@ -201,19 +207,33 @@ function high_level_taxonomy_checkboxes() {
         'Pollution Prevention & Control', 'Regulated Facilities', 'Services for Citizens',
         'Soils & Land', 'Water',
     );
-    foreach($high_level_taxonomy_names as $term_name) {
+    foreach ($high_level_taxonomy_names as $term_name) {
         //    $tid = taxonomy_get_term_by_name($term_name);
-        print '<label><input class="term-name-checkboxes" type="checkbox"  name="' .$term_name  . '" value="' .$term_name  . '"/>' . $term_name . '</label>';
+        print '<label class="ck-button"><input class="term-name-checkboxes" type="checkbox"  name="' . $term_name . '" value="' . $term_name . '"/><span>' . $term_name . '</span></label>';
     }
 
 }
 
 
-
 // http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.15
-function frs_lat_long_to_zip_code($lat, $long) {
+function frs_lat_long_to_zip_code($lat, $long)
+{
+
+//    $prod_url =  'https://ofmext.epa.gov/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=1&p_token=1&p_latitude=' . $lat .
+//        '&p_longitude=' . $long;
+//
+//    $options = array(
+//        'headers' => array(
+//            'Content-Type' => 'application/json',
+//        ),
+//        'method' => 'GET',
+////        'data' => $data
+//    );
+//    $response = drupal_http_request($prod_url, $options);
+//    $data = json_decode($response->data);
+//    $results = $data->Results;
     $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
-    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=1&p_token=1&p_latitude=' .$lat .
+    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=1&p_token=1&p_latitude=' . $lat .
         '&p_longitude=' . $long;
 //    echo $base_url . '<br />';
 //    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_token=1&p_ip_address=1&p_latitude=42.916952&p_longitude=-71.37567';
@@ -248,7 +268,8 @@ function frs_lat_long_to_zip_code($lat, $long) {
 }
 
 // http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.14
-function frs_city_state_to_zip_code($city, $state) {
+function frs_city_state_to_zip_code($city, $state)
+{
     $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
     $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_zip_by_city_state?p_ip_address=1&p_token=1&p_city_name='
         . $city . '&p_state_abbr=' . $state;
@@ -299,7 +320,8 @@ function frs_city_state_to_zip_code($city, $state) {
 }
 
 // http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.13
-function frs_zip_code_to_city_state($zip) {
+function frs_zip_code_to_city_state($zip)
+{
     /// TESTING:
 //    $zip = $_GET['zip'];
     $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
@@ -326,8 +348,7 @@ function frs_zip_code_to_city_state($zip) {
     $formatted_city = ucwords(strtolower($results->cityName));
     if ($formatted_city != '') {
         $error = false;
-    }
-    else {
+    } else {
         $error = true;
     }
     $return = array(
