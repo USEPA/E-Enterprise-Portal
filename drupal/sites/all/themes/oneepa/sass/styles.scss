@@ -653,7 +653,8 @@ tr.odd, tr.even {
 .region-nav-bar {
 	background-color: $ee-menu-bg;
 	height: 2em;
-	@include box-shadow;
+	@include special-box-shadow(0px, 1px, 5px, #999999);
+	margin-bottom: 5px;
 	a {
 		color: #fff;
 	}
@@ -1591,11 +1592,16 @@ a.tabledrag-handle .handle {
 .ui-tabs a:focus {
 	background-color: #fafafa;
 }
+.ui-tabs {
+	.ui-tabs-nav {
+		border-bottom: 1px solid #fafafa;
+	}
+}
 .ui-tabs .ui-tabs-nav li, label {
 	font-size: 0.85em;
 }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active {
-	border-bottom: 2px solid #000000;
+	border-bottom: 3px solid #007AC6;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
 	font-weight: bold;
