@@ -110,6 +110,8 @@
                         $('#zip_container').show();
                         $('#location-add-new').hide();
                         $('#choose-zip-holder').hide();
+                        $('#location-description-na').hide();
+
                     }
                     else {
                         var zip_select  = '<select id="city-state-lookup-zips">';
