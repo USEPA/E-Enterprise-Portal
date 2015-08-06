@@ -21,8 +21,13 @@
     font-size: 68%;
 }
 
-#new-location-input .input-error {
-    border-color: #ff0000;
+#new-location-input.input-error {
+    border: solid 1px #d9534f;
+}
+#location-error-message {
+    margin-left: 30px;
+    width: 400px;
+    color: #d9534f;
 }
 /*
 #location-description-user {
