@@ -42,6 +42,7 @@
                         nearest_state = location_data.state;
                         nearest_zip = location_data.zip;
                         $('#nearest-location').text(nearest_city + ', ' +  nearest_state + ' (' + nearest_zip + ')');
+                        $('#location-description-na').hide();
                         selected_zip_code = nearest_zip;
                         selected_state = nearest_state;
                         selected_city = nearest_city;
@@ -62,7 +63,9 @@
         $('#change-location, #location-back-btn').click(function () {
         	//$('#location-description-na').hide();
             $('#zip_container').hide();
-            $('#location-add-new').show();
+			$('#new-location-input').val('');    
+            $('#location-add-new').show();                    
+            $('#choose-zip-holder').hide();
             $('#cancel-zip-select').show();
         });
 

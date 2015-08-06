@@ -678,6 +678,9 @@ tr.odd, tr.even {
 		//@include future-function;
 	}
 	.ee-workbench-header-setlocation {
+		label {
+			margin-right: 10px;
+		}
 		label, a {
 			background-color: transparent;
 			color: #ffffff;
@@ -687,6 +690,7 @@ tr.odd, tr.even {
 		}
 		select {
 			margin-bottom:0;
+			min-width: 7em;
 		}
 	}
 }
