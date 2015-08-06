@@ -18,7 +18,7 @@ if(drupal_is_front_page()) {
 <?php print render($page['alert']); ?>
 <header class="masthead clearfix" role="banner">
   <?php if ($logo): ?>
-    <a href="http://www2.epa.gov" title="<?php print t('EPA Home Page'); ?>" rel="home" class="header__logo" id="logo"><img class="site-logo" src="<?php print $logo; ?>" alt="EPA" /></a>
+    <a href="/" title="<?php print t('e-Enterprise for the Environment Home Page'); ?>" rel="home" class="header__logo" id="logo"><img class="site-logo" src="<?php print $logo; ?>" alt="e-Enterprise for the Environment" /></a>
   <?php endif; ?>
   <?php 
   	$hgroup_open = '';
@@ -35,7 +35,7 @@ if(drupal_is_front_page()) {
     <h1 class="site-name">
 
       <?php
-		$link_open = '<a href="http://www2.epa.gov" title="EPA home page" rel="home">';
+		$link_open = '<a href="/" title="e-Enterprise for the Environment home page" rel="home">';
 		$link_close = '</a>';
       ?>
 
