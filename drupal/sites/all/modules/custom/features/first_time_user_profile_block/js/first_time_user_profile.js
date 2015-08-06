@@ -159,6 +159,7 @@
                     $('.pane-views-first-time-user-profile-block').dialog('close');
                 }
             });
+            return false;
         });
 
         $('#save-preferences').click(function () {
