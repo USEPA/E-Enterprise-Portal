@@ -1,0 +1,199 @@
+<?php
+
+/**
+* Implements hook_init().
+*/
+
+/**
+* Implements hook_menu().
+*/
+function ee_disclaimer_menu() {
+  $items = array();
+  
+  $items['ee_disclaimer/page'] = array(
+    'page callback' => 'ee_disclaimer_callback',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function ee_disclaimer_menu_alter(&$items) {
+  $items['workbench']['page arguments'] = array($items['workbench']['page callback'], $items['workbench']['page arguments']);
+  $items['workbench']['page callback'] = 'ee_disclaimer_workbench_page_callback';
+}
+
+// wrap workbench page callback to see if disclaimer needs to be shown instead
+function ee_disclaimer_workbench_page_callback($original_page_callback, $original_page_arguments) {
+
+  global $user;
+  $user_data = user_load($user->uid);
+
+  $disclaimer_last_modified = _ee_disclaimer_last_modified();
+  $user_agreed_date = end($user_data->field_terms_of_use_agreed_date[LANGUAGE_NONE])['value'];
+
+  if ($disclaimer_last_modified > $user_agreed_date) { // need to show disclaimer
+    return ee_disclaimer_callback();
+  } else {
+    return call_user_func($original_page_callback, $original_page_arguments[0]);
+  }
+}
+
+/**
+ * Ajax menu callback.
+ */
+function ee_disclaimer_callback() {
+  $block = views_embed_view('ee_user_agreement', 'block');
+  return $block . render(drupal_get_form('ee_disclaimer_form'));
+}
+
+function ee_disclaimer_form($form, &$form_state) {
+
+  global $user;
+  $user_data = user_load($user->uid);
+  dpm($user_data);
+
+  $form['agree'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('I agree to these terms of use'),
+  );
+
+  $form['#submit'][] = 'ee_disclaimer_form_submit';
+  $form['#validate'][] = 'ee_disclaimer_form_validation';
+
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Continue'),
+  );
+  
+  return $form;
+}
+
+function ee_disclaimer_form_submit($form, &$form_state) {
+
+  global $user;
+  $user_data = user_load($user->uid);
+
+  $agreed_date = $user_data->field_terms_of_use_agreed_date;
+  $agreed_date[LANGUAGE_NONE][] = array('value' => time());
+
+  $edit = array('field_terms_of_use_agreed_date' => $agreed_date);
+
+  dpm($edit);
+  user_save($user_data, $edit);
+}
+
+function ee_disclaimer_form_validation($form, &$form_state) {
+  $agree = $form_state['values']['agree'];
+  if (empty($agree)) {
+    form_set_error('email', t('You must agree to continue.'));
+  }
+}
+
+function ee_disclaimer_mail($key, &$message, $params) {
+  
+  global $user;
+  $email = $user->mail;
+  if ($user->name == 'guest-user')
+    $email = $params['email'];
+
+  $msgBody = "Phone: !phone\r\nCategory: !category\r\nBody: !body";
+
+  $options['language'] = $message['language'];
+  user_mail_tokens($variables, $data, $options);
+  switch($key) {
+    case 'notice':
+
+      if (!$params['exclude_email']) {
+        $msgBody = "Email: !email\r\n" . $msgBody;
+      }
+
+      $langcode = $message['language']->language;
+      $message['subject'] = t('[!category] Suggestion', array('!category' => $params['category']), array('langcode' => $langcode));
+      $message['body'][] = t($msgBody, 
+        array('!email' => $email, '!phone' => $params['phone'], '!category' => $params['category'], '!body' => $params['body']), 
+        array('langcode' => $langcode));
+      break;
+  }
+}
+
+function ee_disclaimer_admin() {
+
+}
+
+/**
+ * Helper function to make a link.
+ */
+function _ee_disclaimer_make_link($link_text = '') {
+
+  // Load the modal library and add the modal javascript.
+  ctools_include('modal');
+  ctools_modal_add_js();
+  
+  // Set a default value if no text in supplied.
+  if (empty($link_text)) {
+    $link_text = 'Modal';
+  }
+
+  return l($link_text, 'ee_disclaimer/nojs', array('attributes' => array('class' => 'ctools-use-modal menu-link')));
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function ee_disclaimer_theme($existing, $type, $theme, $path) {
+
+  $themes = array(
+    'ee_disclaimer_settings_table_drag_components' => array(
+      'render element' => 'element'
+    ),
+  );
+  return $themes;
+}
+
+// Custom theme output.
+function theme_ee_disclaimer_settings_table_drag_components($vars) {
+  $element = $vars['element'];
+  drupal_add_tabledrag('categories-table', 'order', 'sibling', 'item-row-weight');
+ 
+  $header = array(
+    'categories' => t('Category'), 
+    'delete_categories' => t('Delete'),
+    'weight' => t('Weight'),
+  );
+ 
+  $rows = array();
+  foreach (element_children($element) as $key) {
+    $row = array();
+    $row['data'] = array();
+    foreach ($header as $fieldname => $title) {
+      $row['data'][] = drupal_render($element[$key][$fieldname]);
+      if ($element[$key]['add_category_button'])
+        $add_category_button = $element[$key]['add_category_button'];
+      $row['class'] = array('draggable');
+    }
+    $rows[] = $row;
+  }
+ 
+  return theme('table', array(
+    'header' => $header, 
+    'rows' => $rows,
+    'attributes' => array('id' => 'categories-table'),
+  )) . drupal_render($add_category_button);
+}
+
+function _ee_disclaimer_last_modified() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+  ->entityCondition('bundle', 'ee_user_agreement')
+  ->propertyCondition('status', 1)
+  ->propertyOrderBy('created', 'DESC')
+  ->range(0, 1);
+
+  $result = $query->execute();
+
+  return node_load(end($result['node'])->nid)->changed;
+}
