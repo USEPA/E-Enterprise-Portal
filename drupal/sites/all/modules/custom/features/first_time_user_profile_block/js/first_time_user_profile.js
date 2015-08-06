@@ -61,22 +61,20 @@
 
         $('#change-location, #location-back-btn').click(function () {
         	//$('#location-description-na').hide();
-            $('#zip_container').toggle();
-            $('#new-location').toggle();
-            $('#cancel-zip-select').toggle();
-
+            $('#zip_container').hide();
+            $('#location-add-new').show();
+            $('#cancel-zip-select').show();
         });
 
         $('#confirm-zip-select').click(function() {
             selected_zip_code = $('#city-state-lookup-zips').val();
             var selected_location = $('#new-location-input').val();
-            //$('#location-description-na').hide();
+            $('#location-description-na').hide();
             $('#location-description-user').show();
             $('#nearest-location').text(selected_location + ' (' + selected_zip_code + ')');
-            $('#new-location').hide();
-            $('#zip_container').toggle();
-            $('#choose-zip-holder').toggle();
-            $('#cancel-zip-select').toggle();
+            $('#zip_container').show();
+            $('#location-add-new').hide();
+
         });
 
         $('#revert-to-geo-location').click(function() {
@@ -90,7 +88,7 @@
         $('#cancel-zip-select').click(function() {
         	//$('#location-description-na').show();
             $('#zip_container').show();
-            $('#new-location').hide();
+            $('#location-add-new').hide();
             $('#choose-zip-holder').hide();
             $(this).hide();
         });
@@ -109,11 +107,9 @@
                         var parsed_zip = parsed_data.zip;
                         $('#nearest-location').text(parsed_data.city + ', ' + parsed_data.state + ' (' + parsed_zip + ')');
                         selected_zip_code = parsed_zip;                        
-                        $('#zip_container').toggle();
-                        $('#location-add-new').toggle();
-                        $('#new-location').toggle();
-                        $('#location-description-user').show();
-                        $('#cancel-zip-select').toggle();
+                        $('#zip_container').show();
+                        $('#location-add-new').hide();
+                        $('#choose-zip-holder').hide();
                     }
                     else {
                         var zip_select  = '<select id="city-state-lookup-zips">';
@@ -123,7 +119,6 @@
                         zip_select = zip_select + '</select>';
                         $('#new-location-input').val(parsed_data.city +  ', ' + parsed_data.state);
                         $('#choose-zip').html(zip_select);
-                        //$('#new-location').hide();
                         $('#typed-in-city-state').text(location);
                         $('#choose-zip-holder').show();
                     }
