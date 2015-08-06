@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the My Environment Mapper feature.
+ */
+
+include_once 'my_environment_mapper.features.inc';
