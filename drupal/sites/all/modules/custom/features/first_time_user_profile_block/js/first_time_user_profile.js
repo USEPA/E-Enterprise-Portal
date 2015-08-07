@@ -51,7 +51,7 @@
                             else if (types[0] == "administrative_area_level_1" ) {
                                 nearest_state = value.short_name;
                             }
-                            else if (types[0] == 'postal code') {
+                            else if (types[0] == 'postal_code') {
                                 nearest_zip = value.long_name;
                             }
                         });
