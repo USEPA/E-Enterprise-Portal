@@ -35,11 +35,29 @@
                 async: false,
                 data: {latitude: latitude, longitude: longitude},
                 success: function (location_data) {
+                    console.log(location_data);
                     location_data = $.parseJSON(location_data);
+                    console.log(location_data);
+
                     if (!location_data.error) {
-                        nearest_city = location_data[3].long_name;
-                        nearest_state = location_data[6].long_name;
-                        nearest_zip = location_data[8].long_name;
+
+                        $.each(location_data, function(key, value) {
+                            console.log(key);
+                            console.log(value);
+                            var types = value.types;
+                            if (types[0] == 'locality') {
+                                nearest_city = value.long_name;
+                            }
+                            else if (types[0] == "administrative_area_level_1" ) {
+                                nearest_state = value.short_name;
+                            }
+                            else if (types[0] == 'postal code') {
+                                nearest_zip = value.long_name;
+                            }
+                        });
+                        //nearest_city = location_data[2].long_name;
+                        //nearest_state = location_data[3].long_name;
+                        //nearest_zip = location_data[8].long_name;
                         $('#nearest-location').text(nearest_city + ', ' +  nearest_state + ' (' + nearest_zip + ')');
 //                        $('#location-description-na').hide();
                         selected_zip_code = nearest_zip;
