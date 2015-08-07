@@ -16723,59 +16723,58 @@ a.tabledrag-handle .handle {
 }
 /* line 1621, ../sass/styles.scss */
 .ui-dialog .ui-dialog-titlebar-close {
-  background: transparent url("../images/close-modal.png") no-repeat 0 0 !important;
+  background: transparent url("../images/close-titlebar.png") no-repeat 0 0 !important;
   border: none !important;
-  position: relative;
-  width: 36px;
-  height: 36px;
-  right: -45px;
-  top: -15px;
+  height: 20px;
+  width: 20px;
+  right: 30px;
+  margin-top: -15px;
 }
 
-/* line 1632, ../sass/styles.scss */
+/* line 1633, ../sass/styles.scss */
 div.ctools-modal-content .modal-header {
   padding: 0.4em 2em;
   background-color: #fafafa !important;
   border-bottom: 1px solid #f0f0f0;
 }
-/* line 1637, ../sass/styles.scss */
+/* line 1638, ../sass/styles.scss */
 div.ctools-modal-content .close {
   opacity: 1.0;
 }
-/* line 1640, ../sass/styles.scss */
+/* line 1641, ../sass/styles.scss */
 div.ctools-modal-content a.close img {
-  width: 36px;
-  height: 36px;
-  right: -45px;
-  top: -15px;
+  width: 20px;
+  height: 20px;
+  right: -15px;
+  top: 5px;
 }
-/* line 1646, ../sass/styles.scss */
+/* line 1649, ../sass/styles.scss */
 div.ctools-modal-content .modal-title {
   font-weight: normal !important;
   font-size: 1.25em;
   color: #333333;
 }
-/* line 1651, ../sass/styles.scss */
+/* line 1654, ../sass/styles.scss */
 div.ctools-modal-content .modal-content {
   -webkit-box-shadow: none;
   box-shadow: none;
   border: none;
   padding: 1em 2em 0 2em;
 }
-/* line 1657, ../sass/styles.scss */
+/* line 1660, ../sass/styles.scss */
 div.ctools-modal-content .form-item {
   padding-bottom: 1em;
 }
-/* line 1660, ../sass/styles.scss */
+/* line 1663, ../sass/styles.scss */
 div.ctools-modal-content .form-item label {
   float: none;
   padding-bottom: 0;
 }
-/* line 1664, ../sass/styles.scss */
+/* line 1667, ../sass/styles.scss */
 div.ctools-modal-content .form-item-email {
   padding-bottom: 0.1em;
 }
-/* line 1667, ../sass/styles.scss */
+/* line 1670, ../sass/styles.scss */
 div.ctools-modal-content #edit-submit-button {
   color: #fff;
   background-color: #337ab7;
@@ -16786,7 +16785,7 @@ div.ctools-modal-content #edit-submit-button {
 }
 
 /** Admin *********************************************************/
-/* line 1673, ../sass/styles.scss */
+/* line 1676, ../sass/styles.scss */
 #user-login input[type="submit"] {
   color: #fff;
   background-color: #337ab7;
@@ -16796,25 +16795,25 @@ div.ctools-modal-content #edit-submit-button {
   padding: 5px 8px;
 }
 
-/* line 1681, ../sass/styles.scss */
+/* line 1684, ../sass/styles.scss */
 #user-login input[type="submit"]:active, #user-login input[type="submit"]:hover, #user-login input[type="submit"]:focus {
   color: #fff;
   background-color: #286090;
   border-color: #204d74;
 }
 
-/* line 1688, ../sass/styles.scss */
+/* line 1691, ../sass/styles.scss */
 .section-user-agreement #main-content {
   background-color: #fff;
 }
 
 /** AQI / Popup Description Tweaks *********************************************************/
-/* line 1694, ../sass/styles.scss */
+/* line 1697, ../sass/styles.scss */
 .popover-title {
   font-weight: bold;
 }
 
-/* line 1697, ../sass/styles.scss */
+/* line 1700, ../sass/styles.scss */
 .popover-content {
   font-family: Lato, "Source Sans Pro", sans-serif;
 }

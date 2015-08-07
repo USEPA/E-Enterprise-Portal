@@ -21,7 +21,7 @@ drupal_add_css(drupal_get_path('module', 'first_time_user_profile_block') . "/cs
 ?>
 <div id="first-time-user-profile">
     <h2><span>Getting Started</span>What matters to you?</h2>
-    <p>So many resources and we'll be adding more. To show you things that interest you, we
+    <p>We have many resources and will be adding more. To show you things that interest you, we
 have a few questions below. You can adjust these later in 'My account' too.</p>
     <h3>Locations that interest you</h3>
     <p id="location-description-intro">Pick a location to see environmental information for that area.   <span id="location-description-na">Until you choose a location, the default location will be Durham, <abbr title="North Carolina">NC</abbr>.</span></p>
