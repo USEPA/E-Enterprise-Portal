@@ -48,10 +48,8 @@ have a few questions below. You can adjust these later in 'My account' too.</p>
     <div id="high-level-interests">
     <?php high_level_taxonomy_checkboxes(); ?>
     </div>
-    </div><!-- @end first-time-user-profile-->
-    <div class="modal-footer">
-		<button  class="btn btn-md btn-primary" id="save-preferences">Save preferences</button>
-        <a href="#" id="skip-preferences">Skip this</a>
-	</div>
-</div>
-
+</div><!-- @end first-time-user-profile-->
+<div class="modal-footer">
+	<button  class="btn btn-md btn-primary" id="save-preferences">Save preferences</button>
+    <a href="#" id="skip-preferences">Skip this</a>
+</div><!-- @end modal-footer-->

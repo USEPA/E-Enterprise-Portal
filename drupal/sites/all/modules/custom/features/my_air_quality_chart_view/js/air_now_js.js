@@ -54,7 +54,7 @@
     var aqiLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
       opacity: 0.9,
-      position: 'back'
+      position: ''
     }).addTo(map);
 
     var stateBoundaries = L.esri.dynamicMapLayer({
@@ -208,12 +208,6 @@
           }
         }
       }
-    }
-
-    var getMap = function(date) {
-      var mapUrl = ['http://files.airnowtech.org/airnow/today/forecast_aqi_', date, '_usa.jpg'].join('');
-
-      return mapUrl;
     }
 
     // dateStr: yyyy-mm-dd

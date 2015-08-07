@@ -167,10 +167,12 @@ function suggestion_box_form_submit($form, &$form_state) {
   $to = variable_get('suggestion_box_email');
   $from = NULL;
 
-  if (!$form_state['values']['exclude_email'] && $user->name != 'guest-user') {
-    $from = $user->mail;
-  } else if (!empty($form_state['values']['email'])) {
-    $from = $form_state['values']['email'];
+  if (!$form_state['values']['exclude_email']) { // show email
+    if ($user->name != 'guest-user') {
+      $from = $user->mail; // retrieve email from user profile
+    } else {
+      $from = $form_state['values']['email']; // use email from form for guests
+    }
   }
 
   drupal_mail('suggestion_box', 'notice', $to, language_default(), $form_state['values'], $from);
@@ -250,7 +252,7 @@ function suggestion_box_theme($existing, $type, $theme, $path) {
 function theme_suggestion_box_settings_table_drag_components($vars) {
   $element = $vars['element'];
   drupal_add_tabledrag('categories-table', 'order', 'sibling', 'item-row-weight');
- 
+
   $header = array(
     'categories' => t('Category'), 
     'delete_categories' => t('Delete'),

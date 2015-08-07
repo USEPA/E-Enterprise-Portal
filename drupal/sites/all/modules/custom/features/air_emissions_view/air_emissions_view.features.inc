@@ -63,7 +63,7 @@ function air_emissions_view_top3_zipcode() {
   $maxBBLong = $boundCoords[1]->degLon;
 
   //http://iaspub.epa.gov/enviro/efservice/PUB_DIM_FACILITY/longitude/>/-97.922211/latitude/>/32.322255/longitude/</-96.802048/latitude/</33.383148/year/2013/PUB_FACTS_SUBP_GHG_EMISSION/PUB_DIM_GHG/XML/rows/1:1
-  $url = 'http://iaspub.epa.gov/enviro/efservice/PUB_DIM_FACILITY/longitude/%3E/'.$minBBLong.'/latitude/%3E/'.$minBBLat.'/longitude/%3C/'.$maxBBLong.'/latitude/%3C/'.$maxBBLat.'/year/2013/PUB_FACTS_SUBP_GHG_EMISSION/PUB_DIM_GHG/JSON';
+  $url = 'https://iaspub.epa.gov/enviro/efservice/PUB_DIM_FACILITY/longitude/%3E/'.$minBBLong.'/latitude/%3E/'.$minBBLat.'/longitude/%3C/'.$maxBBLong.'/latitude/%3C/'.$maxBBLat.'/year/2013/PUB_FACTS_SUBP_GHG_EMISSION/PUB_DIM_GHG/JSON';
   //print $url;
 
   //send request to EF API
@@ -325,8 +325,7 @@ class GeoLocation {
    * by this GeoLocation instance that is less or equal to the distance
    * argument.</p>
    * <p>For more information about the formulae used in this method visit
-   * <a href="http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates">
-   * http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates</a>.</p>
+   * </p>
    * @param distance the distance from the point represented by this
    * GeoLocation instance. Must me measured in the same unit as the radius
    * argument.

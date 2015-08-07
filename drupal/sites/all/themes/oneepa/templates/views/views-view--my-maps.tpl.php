@@ -57,7 +57,9 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/MyMaps.css", "file");
 
 
   <div class="view-content">
-    <div id="numThumbnails" class="numThumbnails"></div>
+    <div id="numThumbnails" class="numThumbnails">
+      <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank">  Browse Gallery...</a>
+    </div>
     <!--
     <div id="filterList">
       <ul id="navlist">
@@ -75,10 +77,6 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/MyMaps.css", "file");
         <div class="jcarousel">
             <!-- Map thumbnails dynamically loaded here -->
             <div class="loading">Loading items...</div>
-            <ul>
-            <div id="epathumbs"></div>
-            <div id="mcnathumbs"></div>
-            </ul>
         </div>
         <a href="#" class="jcarousel-control-next">&rsaquo;</a>
     </div>
