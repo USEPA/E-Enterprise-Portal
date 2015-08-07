@@ -330,10 +330,11 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 
         // Field specific settings for Terms of Use Agreed Date
         $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#theme'] = 'eenterprise_utility_terms_of_use_agreed_date_display';
+        $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#disabled'] = TRUE;
 
         // only admins see the Terms of Use Agreed Date field
         if (!user_access('administer site configuration')) {
-          $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#access'] = FALSE;
+          hide($form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]);
         }
   } // end user form
 }
@@ -751,22 +752,23 @@ function eenterprise_utility_theme($existing, $type, $theme, $path) {
 // Custom theme output.
 function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
   $element = $vars['element'];
- 
+
   $header = array(
     'field_terms_of_use_agreed_date' => t('Terms of Use Agreed Date'), 
   );
  
   $rows = array();
 
-  for($delta = 0; $delta < $element['#max_delta']; $delta++) {
-    if (!empty($element[$delta]['#date_items']['value'])) {
-      $row = array();
-      $row['data'] = array();
-      $row['data'][] = format_date($element[$delta]['#date_items']['value'], 'long');
+  foreach (element_children($element) as $key) {
+    $row = array();
+    $row['data'] = array();
+    $value = $element[$key]['value']['#value'];
+    if (!empty($value)) {
+      $row['data'][] = format_date($element[$key]['value']['#value'], 'long');
       $rows[] = $row;
     }
   }
- 
+
   return theme('table', array(
     'header' => $header, 
     'rows' => $rows,
