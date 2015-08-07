@@ -335,6 +335,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         // only admins see the Terms of Use Agreed Date field
         if (!user_access('administer site configuration')) {
           hide($form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]);
+          hide($form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]);
         }
   } // end user form
 }
