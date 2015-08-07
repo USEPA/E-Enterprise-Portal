@@ -252,7 +252,7 @@ function suggestion_box_theme($existing, $type, $theme, $path) {
 function theme_suggestion_box_settings_table_drag_components($vars) {
   $element = $vars['element'];
   drupal_add_tabledrag('categories-table', 'order', 'sibling', 'item-row-weight');
- 
+
   $header = array(
     'categories' => t('Category'), 
     'delete_categories' => t('Delete'),

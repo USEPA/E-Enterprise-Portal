@@ -51,9 +51,6 @@ function ee_disclaimer_callback() {
 
 function ee_disclaimer_form($form, &$form_state) {
 
-  global $user;
-  $user_data = user_load($user->uid);
-
   $form['agree'] = array(
     '#type' => 'checkbox',
     '#title' => t('I agree to these terms of use'),
@@ -88,99 +85,6 @@ function ee_disclaimer_form_validation($form, &$form_state) {
   if (empty($agree)) {
     form_set_error('email', t('You must agree to continue.'));
   }
-}
-
-function ee_disclaimer_mail($key, &$message, $params) {
-  
-  global $user;
-  $email = $user->mail;
-  if ($user->name == 'guest-user')
-    $email = $params['email'];
-
-  $msgBody = "Phone: !phone\r\nCategory: !category\r\nBody: !body";
-
-  $options['language'] = $message['language'];
-  user_mail_tokens($variables, $data, $options);
-  switch($key) {
-    case 'notice':
-
-      if (!$params['exclude_email']) {
-        $msgBody = "Email: !email\r\n" . $msgBody;
-      }
-
-      $langcode = $message['language']->language;
-      $message['subject'] = t('[!category] Suggestion', array('!category' => $params['category']), array('langcode' => $langcode));
-      $message['body'][] = t($msgBody, 
-        array('!email' => $email, '!phone' => $params['phone'], '!category' => $params['category'], '!body' => $params['body']), 
-        array('langcode' => $langcode));
-      break;
-  }
-}
-
-function ee_disclaimer_admin() {
-
-}
-
-/**
- * Helper function to make a link.
- */
-function _ee_disclaimer_make_link($link_text = '') {
-
-  // Load the modal library and add the modal javascript.
-  ctools_include('modal');
-  ctools_modal_add_js();
-  
-  // Set a default value if no text in supplied.
-  if (empty($link_text)) {
-    $link_text = 'Modal';
-  }
-
-  return l($link_text, 'ee_disclaimer/nojs', array('attributes' => array('class' => 'ctools-use-modal menu-link')));
-}
-
-
-/**
- * Implements hook_theme().
- */
-function ee_disclaimer_theme($existing, $type, $theme, $path) {
-
-  $themes = array(
-    'ee_disclaimer_settings_table_drag_components' => array(
-      'render element' => 'element'
-    ),
-  );
-  return $themes;
-}
-
-// Custom theme output.
-function theme_ee_disclaimer_settings_table_drag_components($vars) {
-  $element = $vars['element'];
-  drupal_add_tabledrag('categories-table', 'order', 'sibling', 'item-row-weight');
- 
-  $header = array(
-    'categories' => t('Category'), 
-    'delete_categories' => t('Delete'),
-    'weight' => t('Weight'),
-  );
- 
-  $rows = array();
-  foreach (element_children($element) as $key) {
-    $row = array();
-    $row['data'] = array();
-    foreach ($header as $fieldname => $title) {
-      $row['data'][] = drupal_render($element[$key][$fieldname]);
-      if ($element[$key]['add_category_button'])
-        $add_category_button = $element[$key]['add_category_button'];
-      $row['class'] = array('draggable');
-    }
-    $rows[] = $row;
-  }
- 
-  return theme('table', array(
-    'header' => $header, 
-    'rows' => $rows,
-    'attributes' => array('id' => 'categories-table'),
-  )) . drupal_render($add_category_button);
 }
 
 function _ee_disclaimer_last_modified() {
