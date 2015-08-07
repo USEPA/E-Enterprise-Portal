@@ -229,17 +229,17 @@ input[type="submit"],
 	margin-bottom: 0.5em;
 }
 
+.site-name {
+	margin-top: 0px;
+	width: auto;
+	height: auto;
+}
 .site-slogan {
 	line-height: 1em;
-	padding-top: 30px;
+	padding-top: 45px;
 	vertical-align: bottom;
 	color: $ee-dark-gray;
 }
-
-.site-name {
-	margin-top: 20px;
-}
-
 .main-nav > .menu > .menu-item > .menu-link {
 	font-weight: normal;
 }
@@ -259,11 +259,6 @@ input[type="submit"],
 //Hide breadcrumbs and microsite name for now
 .breadcrumb, .breadcrumb-title, h2.microsite-name {
 	display: none;
-}
-	
-.secondary-nav a {
-	color: $ee-dark-gray;
-	font-size: $h5-font-size;
 }
 .not-logged-in {
 	.region-header {
@@ -552,18 +547,20 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	clear:left;
 }
 .secondary-nav {
-	position: absolute;
-	right: 2em;
+	position: relative;
 	top: 10px; 
 	font-size: 0.85em;
 	.pipeline li {
 		list-style: none;
 	}
+	a, .pipeline a, .pipeline a:visited {
+		color: $ee-dark-gray;
+		font-size: $h5-font-size;
+	}
 }
 
 .admin-menu .secondary-nav {
-	top: 30px; //Set top when admin user is logged in
-	right: 2.5em;
+	top: 10px; //Set top when admin user is logged in
 }
 
 .breadcrumb-title, 
@@ -1622,12 +1619,13 @@ a.tabledrag-handle .handle {
 		border-bottom: 1px solid #f0f0f0;
 	}
 	.ui-dialog-titlebar-close {
-		background: transparent url('../images/close-titlebar-32px.png') no-repeat 0 0 !important;
+		background: transparent url('../images/close-modal.png') no-repeat 0 0 !important;
 		border: none !important;
-		height: 32px;
-		width: 32px;
-		right: 30px;
-		margin-top: -15px;
+		position: relative;
+		width: 36px;
+	    height: 36px;
+	    right: -45px;
+	    top: -15px;
 	}
 }
 div.ctools-modal-content {
@@ -1638,6 +1636,12 @@ div.ctools-modal-content {
 	}
 	.close {
 		opacity: 1.0;
+	}
+	a.close img {
+		width: 36px;
+	    height: 36px;
+	    right: -45px;
+	    top: -15px;
 	}
 	.modal-title {
 		font-weight: normal !important;
