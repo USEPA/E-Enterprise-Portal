@@ -46,6 +46,14 @@ function eenterprise_utility_menu()
         'access arguments' => array('administer trusted list'),
         'file' => 'eenterprise_utility_trusted_users.admin.inc',
     );
+    $items['admin/config/system/eactivity-dataflow'] = array(
+        'title' => 'E-Activity Webservice Endpoint Settings',
+        'description' => 'Manage E-Activity Webservice Endpoint Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('eactivity_dataflow_list_settings'),
+        'access arguments' => array('administer eactivity dataflow'),
+        'file' => 'eenterprise_utility_eactivity_dataflow.admin.inc',
+    );
     return $items;
 }
 
@@ -59,6 +67,10 @@ function eenterprise_utility_permission()
         'administer trusted list' => array(
             'title' => t('Administer Trusted Users List'),
             'description' => t('Change settings for enabling and disabling the usage of trusted users list for authentication.'),
+        ),
+        'administer eactivity dataflow' => array(
+            'title' => t('Administer E-Activity Dataflow Settings'),
+            'description' => t('Change E-Activity Webservice Endpoint Settings.'),
         ),
     );
 }
