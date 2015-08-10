@@ -177,7 +177,10 @@ a.jcarousel-control-prev, a.jcarousel-control-next,
 a.jcarousel-control-prev:visited, a.jcarousel-control-next:visited {
 	color: #ffffff;
 }
-a:hover, a:focus {
+a:hover, a:focus,
+.ui-widget-content a:hover, 
+.ui-widget-content a:focus,
+.ui-widget-content a:active {
     background-color: $ee-dark-gray;
     color: #ffffff;
 }
@@ -213,6 +216,11 @@ footer .pipeline {
 	padding: 0 6px 4px;
 	font-size: 1.75em;
 	vertical-align: middle;
+}
+.pager li>a:hover,
+.pager li>a:focus,
+.pager li>a:active {
+	background-color: $ee-dark-gray;
 }
 
 /** Adjust s.css Styles ***********/

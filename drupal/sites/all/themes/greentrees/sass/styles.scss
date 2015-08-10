@@ -203,10 +203,14 @@ a.jcarousel-control-prev:focus, a.jcarousel-control-next:focus,
 a.jcarousel-control-prev:active, a.jcarousel-control-next:active {
 	background-color: $ee-dark-gray;
 }
-a:hover, a:focus {
+a:hover, a:focus,
+.ui-widget-content a:hover, 
+.ui-widget-content a:focus,
+.ui-widget-content a:active {
 	background-color: $ee-dark-gray;
 	color: #ffffff;
 }
+
 .pipeline {
 	a, a:visited {
         color: #ffffff;
@@ -238,6 +242,11 @@ a:hover, a:focus {
 	padding: 0 6px 4px;
 	font-size: 1.75em;
 	vertical-align: middle;
+}
+.pager li>a:hover,
+.pager li>a:focus,
+.pager li>a:active {
+	background-color: $ee-dark-gray;
 }
 
 /** Adjust s.css Styles ***********/
@@ -570,7 +579,7 @@ input[type="submit"],
 }
 
 .admin-menu .secondary-nav {
-	top: 30px; //Set top when admin user is logged in
+	top: 10px; //Set top when admin user is logged in
 	right: 2.5em;
 }
 
