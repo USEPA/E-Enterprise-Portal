@@ -60,7 +60,7 @@
 					$loginmsg = "<div id=\"login-group\" class=\"container\">";
 					$loginform = str_replace("E-Enterprise Bridge", "Log in now", render($block['content']));
 					$loginmsg .= $loginform;
-					$loginmsg .= "<a id=\"learnmorelink\" data-toggle=\"modal\" href=\"#learnmore\">Why log in?</a></div>";
+					$loginmsg .= "<div class='guest-login'><a href='/guest_login'>Browse As Guest</a></div><br><a id=\"learnmorelink\" data-toggle=\"modal\" href=\"#learnmore\">Why log in?</a></div>";
                 else:
                    	$loginmsg = "<div class=\"well well-narrow\">Welcome, <strong>".$user->name."!</strong><br><a href=\"workbench\">View workbench</a></div>";
                 endif;

@@ -1,6 +1,6 @@
 (function($) {
   $(function() {
-    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank">  Browse Gallery...</a>';
+    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank">  Browse gallery...</a>';
     var totThumbnails = 0;
     var jcarousel = $('.jcarousel').jcarousel();
 

@@ -102,6 +102,9 @@ a:visited.pager__link {
 .menu-item {
 	letter-spacing: 0.25px;
 }
+#ee-disclaimer-form #edit-submit-button {
+	@include button;
+}
 
 header #block-eenterprise-bridge-auth-eenterprise-bridge-auth h2.block-title {
 	@include element-invisible;
@@ -165,23 +168,31 @@ a, .ui-widget-content a, a.pager__link {
 	color: $ee-link-color;
 }
 a:visited, 
-a:visited.pager__link, .ui-widget-content a:visited, .ui-widget-content a:visited.pager__link {
+a:visited.pager__link, 
+.ui-widget-content a:visited, 
+.ui-widget-content a:visited.pager__link {
 	color: $ee-visited-color;
 }
 a.jcarousel-control-prev, a.jcarousel-control-next,
-a:visited.jcarousel-control-prev, a:visited.jcarousel-control-next {
+a.jcarousel-control-prev:visited, a.jcarousel-control-next:visited {
 	color: #ffffff;
 }
 a:hover, a:focus {
-    background-color: $ee-light-gray;
+    background-color: $ee-dark-gray;
+    color: #ffffff;
 }
-
-.pipeline {
+a.jcarousel-control-prev:hover, a.jcarousel-control-next:hover,
+a.jcarousel-control-prev:focus, a.jcarousel-control-next:focus,
+a.jcarousel-control-prev:active, a.jcarousel-control-next:active {
+	background-color: $ee-dark-gray;
+}
+footer .pipeline {
 	a, a:visited {
         color: #ffffff;
     }
-    a:hover, a:focus {
+    a:hover, a:focus, a:active {
         color: #efefef;
+        background-color: transparent;
     }
 }
 
@@ -279,7 +290,7 @@ header {
 	a:hover {
 		text-decoration: underline;
 	}
-	a:focus {
+	a:focus, a:active {
 		background-color: $ee-dark-gray;
 		color: #fff;
 	}
@@ -410,12 +421,10 @@ header {
 	}
 }
 .guest-login {
-	width: 5em;
-    float: left;
+	width: auto;
+    display: inline-block;
     a {
-	    font-size: 0.5em;
-		color: #333333;
-		letter-spacing: 1px;
+	    font-size: 1em;
 		padding: 4px;
     }
     a:hover, a:focus, a:active {
@@ -553,9 +562,15 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	.pipeline li {
 		list-style: none;
 	}
-	a, .pipeline a, .pipeline a:visited {
+	a, a:visited {
+		margin: -0.3333em;
+		padding: 0.3333em;
 		color: $ee-dark-gray;
 		font-size: $h5-font-size;
+	}
+	a:hover, a:focus, a:active {
+		color: #ffffff;
+		background-color: $ee-dark-gray;
 	}
 }
 
@@ -655,7 +670,6 @@ tr.odd, tr.even {
 	a {
 		color: #fff;
 	}
-	
 }
 .workbench-menu {
 	display: none;
@@ -670,11 +684,24 @@ tr.odd, tr.even {
 	a, a:visited {
         color: #ffffff;
     }
-    a:hover, a:focus {
-        color: #fafafa;
-        background-color: $ee-dark-gray;
-    }
-
+    a:hover, a:focus, a:active, a.active {
+		color: #ffffff;
+		background-color: $ee-dark-gray;
+	}
+	li {
+		float:		left;
+		display: 	block;
+		padding:	0.5em 1em;
+		font-size: 	$h5-font-size;
+		height: 32px;
+		&.active-trail {
+			background-color: $ee-dark-gray;
+			color: #fff;
+		}
+	}
+	a.active {
+		font-weight:bold;
+	}
 }
 .block--ee-header-locations {
 	float: right;
@@ -687,6 +714,10 @@ tr.odd, tr.even {
 		display: none;
 	}
 	a {
+		color: #ffffff;
+	}
+	a:hover, a:focus, a:active {
+		background-color: $ee-dark-gray;
 		color: #ffffff;
 	}
 	.ee-workbench-header-locations {
@@ -927,20 +958,6 @@ tr.odd, tr.even {
 	.stats-count {
 		font-size: $h1-font-size;	// 2em / 32px
 		color: $base-text-color;
-	}
-}
-
-.workbench-menu li {
-	float:		left;
-	display: 	block;
-	padding:	0.5em 1em;
-	font-size: 	$h5-font-size;
-	&.active-trail {
-		background-color: $ee-dark-gray;
-	}
-	a.active {
-		color: #fff;
-		font-weight:bold;
 	}
 }
 
@@ -1635,10 +1652,8 @@ div.ctools-modal-content {
 		background-color: #fafafa !important;
 		border-bottom: 1px solid #f0f0f0;
 	}
-	.close {
+	a.close {
 		opacity: 1.0;
-	}
-	a.close img {
 		width: 20px;
 	    height: 20px;
 	    right: -15px;

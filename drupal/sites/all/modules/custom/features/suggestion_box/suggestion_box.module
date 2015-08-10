@@ -18,8 +18,8 @@ function suggestion_box_menu() {
   );
 
   $items['admin/config/people/suggestion_box'] = array(
-    'title' => 'Suggestion Box Settings',
-    'description' => 'Manage options for the suggestion box.',
+    'title' => 'Questions or Suggestion Box Settings',
+    'description' => 'Manage options for the questions or suggestion box submissions.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('suggestion_box_settings'),
     'access arguments' => array('administer suggestion_box'),
@@ -39,7 +39,7 @@ function suggestion_box_callback($ajax) {
 
     $form_state = array(
       'ajax' => TRUE,
-      'title' => t('Suggestion Box'),
+      'title' => t('Questions?'),
     );
 
     // Use ctools to generate ajax instructions for the browser to create
