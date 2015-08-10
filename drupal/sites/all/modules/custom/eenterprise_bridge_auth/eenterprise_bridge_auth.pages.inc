@@ -167,17 +167,17 @@ function trusted_user_check($uname){
 
 function create_progress_tracker($user){
     try {
-        $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+        $client = new SoapClient(variable_get('eactivity_auth_reg_wsdl'), array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
         drupal_set_message('Cannot connect to Registration Service.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService.", array(), WATCHDOG_ERROR);
         return;
     }
     $params1 = array(
-        "userId" => "registration.test@cgifederal.com",
-        "credential" => "Testregistration1",
-        "domain" => "default",
-        "authenticationMethod" => "password",
+        "userId" => variable_get('eactivity_auth_reg_username'),
+        "credential" => variable_get('eactivity_auth_reg_password'),
+        "domain" => variable_get('eactivity_auth_reg_domain'),
+        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
     );
     $response1 = null;
     try {
@@ -187,7 +187,7 @@ function create_progress_tracker($user){
         watchdog('eenterprise_bridge_auth',"Error: Cannot Authenticate to get data flow.", array(), WATCHDOG_ERROR);
         return;
     }
-    $client2 = new SoapClient("https://devngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM?wsdl", array('soap_version'   => SOAP_1_2));
+    $client2 = new SoapClient(variable_get('eactivity_dataflow_wsdl'), array('soap_version'   => SOAP_1_2));
     $params2 = array(
         "securityToken" => $response1->securityToken,
         "dataflow" => "E-ACTIVITY",
