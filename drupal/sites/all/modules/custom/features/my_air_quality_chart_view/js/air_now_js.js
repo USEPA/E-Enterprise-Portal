@@ -82,7 +82,7 @@
           className: 'favorites-ignore'
         }).openPopup();
 
-        //map.setView(latlng);
+        map.setView(latlng);
       });
     }
   }
