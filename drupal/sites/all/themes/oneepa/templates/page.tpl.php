@@ -36,7 +36,7 @@ if(drupal_is_front_page()) {
       ?>
 
       <?php print $link_open; ?>
-      <span><?php print $site_name; ?></span>
+	  <img class="site-logo" src="sites/all/themes/oneepa/images/placeholder-image.png" alt="e-Enterprise for the Environment" />
       <?php print $link_close; ?>
 
     </h1>

@@ -53,6 +53,14 @@ $lato:            Lato, 'Source Sans Pro', sans-serif;
 	box-shadow: 0 2px 2px #aaa;
 	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30);
 	-ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
+	zoom: 1; 
+}
+@mixin special-box-shadow($hshadow,$vshadow,$blur, $color) {
+	-moz-box-shadow: $hshadow $vshadow $blur $color;
+	-webkit-box-shadow: $hshadow $vshadow $blur $color;
+	box-shadow: $hshadow $vshadow $blur $color;
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
 	zoom: 1;
 }
 
@@ -160,6 +168,10 @@ a:visited,
 a:visited.pager__link, .ui-widget-content a:visited, .ui-widget-content a:visited.pager__link {
 	color: $ee-visited-color;
 }
+a.jcarousel-control-prev, a.jcarousel-control-next,
+a:visited.jcarousel-control-prev, a:visited.jcarousel-control-next {
+	color: #ffffff;
+}
 a:hover, a:focus {
     background-color: $ee-light-gray;
 }
@@ -217,17 +229,17 @@ input[type="submit"],
 	margin-bottom: 0.5em;
 }
 
+.site-name {
+	margin-top: 0px;
+	width: auto;
+	height: auto;
+}
 .site-slogan {
 	line-height: 1em;
-	padding-top: 30px;
+	padding-top: 45px;
 	vertical-align: bottom;
 	color: $ee-dark-gray;
 }
-
-.site-name {
-	margin-top: 20px;
-}
-
 .main-nav > .menu > .menu-item > .menu-link {
 	font-weight: normal;
 }
@@ -247,11 +259,6 @@ input[type="submit"],
 //Hide breadcrumbs and microsite name for now
 .breadcrumb, .breadcrumb-title, h2.microsite-name {
 	display: none;
-}
-	
-.secondary-nav a {
-	color: $ee-dark-gray;
-	font-size: $h5-font-size;
 }
 .not-logged-in {
 	.region-header {
@@ -540,18 +547,20 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	clear:left;
 }
 .secondary-nav {
-	position: absolute;
-	right: 2em;
+	position: relative;
 	top: 10px; 
 	font-size: 0.85em;
 	.pipeline li {
 		list-style: none;
 	}
+	a, .pipeline a, .pipeline a:visited {
+		color: $ee-dark-gray;
+		font-size: $h5-font-size;
+	}
 }
 
 .admin-menu .secondary-nav {
-	top: 30px; //Set top when admin user is logged in
-	right: 2.5em;
+	top: 10px; //Set top when admin user is logged in
 }
 
 .breadcrumb-title, 
@@ -641,7 +650,8 @@ tr.odd, tr.even {
 .region-nav-bar {
 	background-color: $ee-menu-bg;
 	height: 2em;
-	@include box-shadow;
+	@include special-box-shadow(0px, 1px, 5px, #999999);
+	margin-bottom: 5px;
 	a {
 		color: #fff;
 	}
@@ -1579,11 +1589,16 @@ a.tabledrag-handle .handle {
 .ui-tabs a:focus {
 	background-color: #fafafa;
 }
+.ui-tabs {
+	.ui-tabs-nav {
+		border-bottom: 1px solid #fafafa;
+	}
+}
 .ui-tabs .ui-tabs-nav li, label {
 	font-size: 0.85em;
 }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active {
-	border-bottom: 2px solid #000000;
+	border-bottom: 3px solid #007AC6;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
 	font-weight: bold;
@@ -1604,12 +1619,14 @@ a.tabledrag-handle .handle {
 		border-bottom: 1px solid #f0f0f0;
 	}
 	.ui-dialog-titlebar-close {
-		background: transparent url('../images/close-titlebar-32px.png') no-repeat 0 0 !important;
+		background: transparent url('../images/close-titlebar.png') no-repeat 0 0 !important;
 		border: none !important;
-		height: 32px;
-		width: 32px;
+		height: 20px;
+		width: 20px;
 		right: 30px;
 		margin-top: -15px;
+	    //right: -45px;
+	    //top: -15px;
 	}
 }
 div.ctools-modal-content {
@@ -1620,6 +1637,14 @@ div.ctools-modal-content {
 	}
 	.close {
 		opacity: 1.0;
+	}
+	a.close img {
+		width: 20px;
+	    height: 20px;
+	    right: -15px;
+	    top: 5px;
+	    //right: -45px;
+	    //top: -15px;
 	}
 	.modal-title {
 		font-weight: normal !important;

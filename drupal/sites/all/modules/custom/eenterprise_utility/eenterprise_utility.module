@@ -232,7 +232,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['account']['pass']);
         hide($form['field_profile_interests']);
 //        hide($form['field_first_time_user']);
-
+        $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
         $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
         $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter ZIP Code";
         if (empty($form['account']['mail']['#default_value']))
@@ -328,8 +328,15 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 
         }
 
+        // Field specific settings for Terms of Use Agreed Date
+        $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#theme'] = 'eenterprise_utility_terms_of_use_agreed_date_display';
+        $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#disabled'] = TRUE;
 
-    } // end user form
+        // only admins see the Terms of Use Agreed Date field
+        if (!user_access('administer site configuration')) {
+          hide($form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]);
+        }
+  } // end user form
 }
 
 
@@ -729,3 +736,42 @@ function eenterprise_utility_views_query_alter(&$view, &$query)
     }
 }
 
+/**
+ * Implements hook_theme().
+ */
+function eenterprise_utility_theme($existing, $type, $theme, $path) {
+
+  $themes = array(
+    'eenterprise_utility_terms_of_use_agreed_date_display' => array(
+      'render element' => 'element'
+    ),
+  );
+  return $themes;
+}
+
+// Custom theme output.
+function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
+  $element = $vars['element'];
+
+  $header = array(
+    'field_terms_of_use_agreed_date' => t('Terms of Use Agreed Date'), 
+  );
+ 
+  $rows = array();
+
+  foreach (element_children($element) as $key) {
+    $row = array();
+    $row['data'] = array();
+    $value = $element[$key]['value']['#value'];
+    if (!empty($value)) {
+      $row['data'][] = format_date($element[$key]['value']['#value'], 'long');
+      $rows[] = $row;
+    }
+  }
+
+  return theme('table', array(
+    'header' => $header, 
+    'rows' => $rows,
+    'attributes' => array('id' => 'categories-table'),
+  ));
+}

@@ -140,10 +140,10 @@
 		
 		
 	    var availableTags = [];
-		var allInitialInterests = ['Conservation', 'Energy Effienciency', 'Fuel Economy', 'Pollution Prevention', 
+		var allInitialInterests = []; /*['Conservation', 'Energy Effienciency', 'Fuel Economy', 'Pollution Prevention',
 			'Renewable Energy', 'Sustainable Development', 'Waste Reduction','Food Safety', 'Health Effects', 'Health Risks', 
 			'Special Populations', 'Soils & Land', 'Air', 'Species', 'Water', 'Compliance & Enforcement', 'Permitting Programs', 'Regulated Facilities',
-			'Regulatory Development', 'Substances Management'];
+			'Regulatory Development', 'Substances Management']; */
 		var otherInterests = ['Coop & Assistance', 'EPA General', 'EPA Operational', 'Emergencies & Cleanup', 'Environmental Laws, Regulations, & Treaties',
 						'Research, Analysis, & Technologies', 'Substances'];
 	
