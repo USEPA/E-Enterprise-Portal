@@ -52,8 +52,7 @@ if(drupal_is_front_page()) {
 <?php print render($page['header']); ?>
 <?php print render($page['nav-bar']); ?>
 <!-- @todo - Add content_language back in next line - section -->
-<section id="main-content" class="main-content clearfix" role="main" lang="<?php //print $content_language ?>">
-  <h2 class="microsite-name">e-Enterprise</h2>
+<section class="main-content clearfix" role="main" lang="<?php //print $content_language ?>">
   <?php print render($page['preface']); ?>
   <?php print render($page['highlighted']); ?>
 
@@ -63,7 +62,6 @@ if(drupal_is_front_page()) {
 	      <?php print render($page['navigation']); ?>
 	    </div><!-- end div:navigation -->
 	<?php endif; ?>
-	<?php print $breadcrumb;?>	
 	<a id="main-content"></a>
 	<?php print render($page['help']); ?>
     <?php print render($title_prefix); ?>

@@ -669,7 +669,7 @@ function generate_location_select()
         }
     }
 //    if (count($header_data['locations']) > 1) {
-        print "<label for='favorite-location'>Set location</label>";
+        print "<label for='location-select'>Set location</label>";
         print "<select for='favorite-location' id='location-select'>";
 
         $count = 0;
