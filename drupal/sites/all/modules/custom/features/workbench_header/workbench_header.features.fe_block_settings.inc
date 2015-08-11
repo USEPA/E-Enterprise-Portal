@@ -42,10 +42,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -21,
       ),
       'oneepa' => array(
-        'region' => 'header',
+        'region' => 'nav-bar',
         'status' => 1,
         'theme' => 'oneepa',
-        'weight' => 0,
+        'weight' => -21,
       ),
       'seven' => array(
         'region' => '',
@@ -92,8 +92,8 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -22,
       ),
       'oneepa' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'footer',
+        'status' => 1,
         'theme' => 'oneepa',
         'weight' => 0,
       ),
@@ -149,6 +149,59 @@ function workbench_header_default_fe_block_settings() {
         'status' => 0,
         'theme' => 'oneepa',
         'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['block-login_from_guest_page'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'machine_name' => 'login_from_guest_page',
+    'module' => 'block',
+    'node_types' => array(),
+    'pages' => 'eenterprise-for-environment
+ee-welcome',
+    'roles' => array(
+      'Guest User' => 20,
+    ),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'bootstrap' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bootstrap',
+        'weight' => 0,
+      ),
+      'greentrees' => array(
+        'region' => 'header',
+        'status' => 1,
+        'theme' => 'greentrees',
+        'weight' => -22,
+      ),
+      'oneepa' => array(
+        'region' => 'header',
+        'status' => 1,
+        'theme' => 'oneepa',
+        'weight' => -23,
       ),
       'seven' => array(
         'region' => '',
@@ -223,8 +276,11 @@ function workbench_header_default_fe_block_settings() {
     'delta' => 'eenterprise_bridge_auth',
     'module' => 'eenterprise_bridge_auth',
     'node_types' => array(),
-    'pages' => '',
-    'roles' => array(),
+    'pages' => 'eenterprise-for-environment
+ee-welcome',
+    'roles' => array(
+      'anonymous user' => 1,
+    ),
     'themes' => array(
       'bartik' => array(
         'region' => '',
@@ -245,10 +301,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -21,
       ),
       'oneepa' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'top_header',
+        'status' => 1,
         'theme' => 'oneepa',
-        'weight' => 3,
+        'weight' => -23,
       ),
       'seven' => array(
         'region' => '',
@@ -306,10 +362,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -23,
       ),
       'oneepa' => array(
-        'region' => 'header',
+        'region' => 'nav-bar',
         'status' => 1,
         'theme' => 'oneepa',
-        'weight' => -19,
+        'weight' => -23,
       ),
       'seven' => array(
         'region' => '',
@@ -358,10 +414,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -22,
       ),
       'oneepa' => array(
-        'region' => 'header',
+        'region' => 'nav-bar',
         'status' => 1,
         'theme' => 'oneepa',
-        'weight' => -18,
+        'weight' => -22,
       ),
       'seven' => array(
         'region' => '',
@@ -408,8 +464,8 @@ function workbench_header_default_fe_block_settings() {
         'weight' => -21,
       ),
       'oneepa' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'footer',
+        'status' => 1,
         'theme' => 'oneepa',
         'weight' => -10,
       ),
@@ -458,10 +514,10 @@ function workbench_header_default_fe_block_settings() {
         'weight' => 4,
       ),
       'oneepa' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'top_header',
+        'status' => 1,
         'theme' => 'oneepa',
-        'weight' => 4,
+        'weight' => -24,
       ),
       'seven' => array(
         'region' => '',

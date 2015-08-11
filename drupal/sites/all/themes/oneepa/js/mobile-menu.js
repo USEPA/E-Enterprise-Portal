@@ -8,18 +8,23 @@ Drupal.behaviors.mobileMenu = {
     var $mobileNav = $('<div id="mobile-nav" class="mobile-nav"></div>'),
         $mobileBar = $('<div class="mobile-bar clearfix"><a class="mobile-home" href="/" rel="home"><span class="mobile-home-icon">Home</span></a> <a class="menu-button" href="#mobile-links">Menu</a></div>'),
         $mobileLinks = $('<div id="mobile-links" class="mobile-links element-hidden"></div>'),
-        $mainNav = $('.simple-main-nav', context),
+        //$mainNav = $('.simple-main-nav', context),
         $secondaryNav = $('.secondary-nav', context),
+        $footerNav = $('.region-footer', context),
         $eeNav = $('.workbench-menu', context),
-        $newMenu = $mainNav.find('> .menu').clone();	
+        $locationsBlock = $('#block-block-6', context),
+        //$newMenu = $mainNav.find('> .menu').clone();	
         $newSecondaryMenu = $secondaryNav.find('> .menu').clone();
         $newEEMenu = $eeNav.find('> .menu').clone();
+        $newLocations = $locationsBlock.clone();
 
     // Reset menu list class and remove second level menu items.
-    $newMenu.attr('class', 'menu').find('ul').each(function() {
+    /*
+$newMenu.attr('class', 'menu').find('ul').each(function() {
       $(this).attr('class', 'menu sub-menu');
     });
     $newMenu.find('ul').remove();
+*/
     
     $newSecondaryMenu.attr('class', 'menu').find('ul').each(function() {
       $(this).attr('class', 'menu');
@@ -34,7 +39,7 @@ Drupal.behaviors.mobileMenu = {
     // Insert the cloned menus into the mobile menu container.
     $newEEMenu.appendTo($mobileLinks);
     $newSecondaryMenu.appendTo($mobileLinks);
-    $newMenu.appendTo($mobileLinks);
+    //$newMenu.appendTo($mobileLinks);
 
     // Insert the top bar into mobile menu container.
     $mobileBar.prependTo($mobileNav);
@@ -70,16 +75,18 @@ Drupal.behaviors.mobileMenu = {
     if (document.documentElement.clientWidth >= breakpoint) {
 
       // Detach original menus and reset classes.
-      $mainNav.detach().attr('class', 'nav main-nav clearfix');
+      //$mainNav.detach().attr('class', 'nav main-nav clearfix');
       $secondaryNav.detach().attr('class', 'nav secondary-nav');
       $eeNav.detach().attr('class', 'nav workbench-menu');
 
       // Add pipeline class to secondary menu.
       $secondaryNav.find('.menu').addClass('pipeline');
+      $footerNav.find('.menu').addClass('pipeline');
 
       // Move main and secondary menus to the top of the page for wide screens.
-      $('.masthead').before($secondaryNav);
-      $('hgroup').after($mainNav);
+      $($secondaryNav).insertAfter('.site-name-and-slogan');
+      $($eeNav).insertBefore('.block--ee-header-locations');
+      //$('hgroup').after($mainNav);
 	  $('.block-search').after($eeNav);
     }
 

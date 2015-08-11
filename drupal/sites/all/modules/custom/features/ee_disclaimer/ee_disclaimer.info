@@ -1,0 +1,6 @@
+name = E-Enterprise Disclaimer
+description = Allows management of E-Enterprise disclaimer message contents.
+core = 7.x
+
+dependencies[] = ctools
+configure = admin/config/people/ee_disclaimer

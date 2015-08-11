@@ -13,7 +13,6 @@
 @import "print";
 @import "bootstrap";	// Import adjusted Bootstrap styles (not true SCSS - rendered CSS)
 @import "s-trimmed";
-//Testing
 
 $body-font-size:  100%;
 //If update these colors, update in _init.scss also!
@@ -21,18 +20,19 @@ $base-text-color:  #333;
 $ee-white:		   #fff;
 $ee-dark-gray:	   #333;
 $epa-headerlinks:  $ee-white;  // white on blue background
-$ee-link-color:	   #23537e;
-$ee-hover-color:   #4083a9;
-$ee-visited-color: #175c99;		
+$ee-link-color:	   #23537e; 	// darker blue, rgb(35,83,126)
+$ee-hover-color:   #4083a9;		// slate blue, rgb(64,131,169)
+$ee-visited-color: #175c99;		// even dark blue, rgb(23,92,153)
 $ee-focus-color:   #fff;		// link color when user tabs thru
 $ee-subtext-color: #ddd;		// light gray, sublabels
 $ee-bgfocus-color: $ee-dark-gray;	// change background to blue on focus / hover
 $text-shadow:      0px 1px 0px rgba(255,255,255,.3), 0px -1px 0px rgba(0,0,0,.7);
 $ee-light-gray:	   #f8f8f8;
+$ee-hover-gray:	   #fafafa;
 $ee-medium-gray:   #efefef;
 $ee-dark-gray:	   #606060;		// Use for background color for table headings
-$ee-hover-gray:	   #fafafa;
-$ee-active-menu:   #364d5f;
+$ee-darker-gray:   $ee-subtext-color;
+$ee-active-menu:   #364d5f;		// dark slate blue, rgb(54,77,95)
 $ee-menu-bg:	   #000;
 $lato:            Lato, 'Source Sans Pro', sans-serif;
 $greentrees:	  'Walkway UltraBold', 'Century Gothic', 'Source Sans Pro', sans-serif;	
@@ -52,7 +52,6 @@ $greentrees:	  'Walkway UltraBold', 'Century Gothic', 'Source Sans Pro', sans-se
 	-moz-box-shadow: 0 2px 2px #aaa;
 	-webkit-box-shadow: 0 2px 2px #aaa;
 	box-shadow: 0 2px 2px #aaa;
-
 	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30);
 	-ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
 	zoom: 1;
@@ -64,6 +63,35 @@ $greentrees:	  'Walkway UltraBold', 'Century Gothic', 'Source Sans Pro', sans-se
 }
 @mixin future-function {
 	background: #000 url('../images/stripe2.png') repeat 0 0;
+}
+@mixin greentrees-button {
+	font-size: 1.5em;
+	letter-spacing: 2px;
+	height:auto;
+	padding: 5px 10px;
+	border-radius: 0;
+	background-color: #26551f;
+	border: 1px solid #275620;
+}
+@mixin button {
+	color: #fff;
+	background-color: #337ab7;
+	border: 1px solid #2e6da4;
+	font-size: 87.5%;
+	font-weight: bold;
+	padding: 5px 8px;
+}
+
+@mixin flexbox {
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+
+	align-items: center;
 }
 
 /** Adjust Main Font and Styles *********************************************************/
@@ -102,32 +130,32 @@ body {
 }		
 
 footer {
-  clear: both;
-  width: 100%;
-  color: #fff;
-  padding: 10px 60px;
-  font-family: $lato;
-  min-height: 50px;
-  background-color: #000;
-  position: static;
-  a {
-	  color: #fff;
-  }
-  #block-menu-menu-footer-disclaimers h2.block-title {
-	  display: none;
-  }
-  .menu__item.is-leaf {
-	  list-style: none;
-  }
-  #block-menu-menu-footer-disclaimers {
-	  float: none;
-	  clear: left;
-	  margin-top: 5px;
-  }
-  .block--ee-social-media, .block--ee-social-media .block-title, .ee-social-media, .ee-social-media li {
-	  float: left;
-  }
-  .block--ee-social-media {
+	clear: both;
+	width: 100%;
+	color: #fff;
+	padding: 10px 60px;
+	font-family: $lato;
+	min-height: 50px;
+	background-color: #000;
+	position: static;
+	a {
+		color: #fff;
+	}
+	#block-menu-menu-footer-disclaimers h2.block-title {
+		display: none;
+	}
+	.menu__item.is-leaf {
+		list-style: none;
+	}
+	#block-menu-menu-footer-disclaimers {
+		float: none;
+		clear: left;
+		margin-top: 5px;
+	}
+	.block--ee-social-media, .block--ee-social-media .block-title, .ee-social-media, .ee-social-media li {
+		float: left;
+	}
+	.block--ee-social-media {
 	  h2 {
 		  font-size: 1.5em;
 		  text-transform: lowercase;
@@ -135,16 +163,16 @@ footer {
 		  padding-top:5px;
 		  letter-spacing: 1px;
 	  }
-  }
-  .ee-social-media {
-	  padding-bottom: 0;
-	  li {
+	}
+	.ee-social-media {
+		padding-bottom: 0;
+		li {
 		  list-style: none;
 		  display: block;
 		  margin-right: 5px;
-	  }
+		}
 	}
- }
+}
 
 h1, h2, h3, h4, h5, h6, th, legend, caption {
 	font-family: $base-font-family;
@@ -152,22 +180,53 @@ h1, h2, h3, h4, h5, h6, th, legend, caption {
 a, .ui-widget-content a, a.pager__link {
 	color: $ee-link-color;
 }
+.block--ee-header-locations a:hover, .block--ee-header-locations a:focus {
+	background-color: #606060;
+}
 a:visited, 
-a:visited.pager__link, .ui-widget-content a:visited, .ui-widget-content a:visited.pager__link {
+a:visited.pager__link, 
+.ui-widget-content a:visited, 
+.ui-widget-content a:visited.pager__link {
 	color: $ee-visited-color;
+}
+a.jcarousel-control-prev, a.jcarousel-control-next,
+a.jcarousel-control-prev:link, a.jcarousel-control-next:link,
+a.jcarousel-control-prev:visited, a.jcarousel-control-next:visited,
+a.jcarousel-control-prev:hover, a.jcarousel-control-next:hover,
+a.jcarousel-control-prev:focus, a.jcarousel-control-next:focus,
+a.jcarousel-control-prev:active, a.jcarousel-control-next:active {
+	color: #ffffff;
+}
+a.jcarousel-control-prev:visited, a.jcarousel-control-next:visited,
+a.jcarousel-control-prev:hover, a.jcarousel-control-next:hover,
+a.jcarousel-control-prev:focus, a.jcarousel-control-next:focus,
+a.jcarousel-control-prev:active, a.jcarousel-control-next:active {
+	background-color: $ee-dark-gray;
+}
+a:hover, a:focus,
+.ui-widget-content a:hover, 
+.ui-widget-content a:focus,
+.ui-widget-content a:active {
+	background-color: $ee-dark-gray;
+	color: #ffffff;
 }
 
 .pipeline {
 	a, a:visited {
         color: #ffffff;
     }
-    a:hover, a:focus {
+    a:hover, a:focus, a:active {
         color: #efefef;
+        background-color: #606060;
     }
 }
 
 .menu-item {
 	letter-spacing: 0.25px;
+}
+
+#ee-disclaimer-form #edit-submit-button {
+	@include button;
 }
 
 /** Adjust Bootstrap Components  *********************************************************/
@@ -183,6 +242,11 @@ a:visited.pager__link, .ui-widget-content a:visited, .ui-widget-content a:visite
 	padding: 0 6px 4px;
 	font-size: 1.75em;
 	vertical-align: middle;
+}
+.pager li>a:hover,
+.pager li>a:focus,
+.pager li>a:active {
+	background-color: $ee-dark-gray;
 }
 
 /** Adjust s.css Styles ***********/
@@ -214,11 +278,14 @@ input[type="submit"],
 	line-height: 1em;
 	padding-top: 30px;
 	vertical-align: bottom;
-	font-family: Arial;
+	font-family: $lato;
 }
 
 .site-name {
 	margin-top: 20px;
+	>a:hover, > a:focus, > a:active {
+		background-color: #333333;
+	}
 }
 
 .main-nav > .menu > .menu-item > .menu-link {
@@ -235,9 +302,7 @@ input[type="submit"],
 .breadcrumb, .breadcrumb-title, h2.microsite-name {
 	display: none;
 }
-	
 .secondary-nav a {
-	color: $ee-white;
 	font-size: $h5-font-size;
 }
 .not-logged-in {
@@ -251,18 +316,15 @@ input[type="submit"],
 }
 
 .region-header {
-	//height: 4.25em;
 	height: 4em;
-	//padding-left: 4.25em;
 	padding-left: 60px;
 	padding-top: 0.5em;
-	//margin-left: -1em;
-	//margin-right: -1em;
 	background-color: $ee-menu-bg;
 	color: $ee-white;
 	font-weight: normal;
 	line-height: 1;
 	vertical-align: middle;
+	position: relative;
 	h2, input[type="submit"] {
 		font-family: $greentrees;
 	}
@@ -272,7 +334,7 @@ input[type="submit"],
 	a:hover {
 		text-decoration: underline;
 	}
-	a:focus {
+	a:focus, a:active {
 		background-color: $ee-dark-gray;
 		color: #fff;
 	}
@@ -283,8 +345,9 @@ input[type="submit"],
 		letter-spacing: 1px;
 		font-size: 0.5em;
 	}
-	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
-		width: 18em;
+	.block--login-from-guest-page {
+		position: relative;
+		top: 20px;
 	}
 	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
 		width:10em;
@@ -300,7 +363,7 @@ input[type="submit"],
 			height:auto;
 			padding: 5px 10px;
 			border-radius: 0;
-			background-color: #26551f;
+			background-color: #25551e;
 			border: 1px solid #275620;
 		}
 	}
@@ -321,21 +384,25 @@ input[type="submit"],
 	}
 
 }
-
-.well a:hover {
-	color: $ee-hover-color;
+.well a:hover, .well a:focus, .well a:active {
+	color: $ee-white;
+	background-color: #333333;
 }
-.well a:hover:focus, 
+.well a, .well a:hover:focus, 
 .mobile-bar a:hover,
 .mobile-nav .mobile-links a.active {
 	color: $ee-white;
+}
+.logged-in.page-ee-welcome {
+	.guest-login {
+		display: none;
+	}
 }
 #login-group {
 	padding-left: 10%;
     float: left;
     width: auto;
     margin-right: 20px;
-
 	form, a {
 		display:inline-block;
 	}
@@ -356,6 +423,7 @@ input[type="submit"],
     }
     a:hover, a:focus, a:active {
 	    color: $ee-light-gray;
+	    background-color: #333333;
     }
 }
 
@@ -472,6 +540,13 @@ input[type="submit"],
 		-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 	}
+	.ui-dialog .panel-pane {
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		border: none;
+		padding: 0 30px;
+		margin-bottom: 0;
+	}
 	.pager,
 	.views-exposed-form label {
 		font-weight: normal;
@@ -493,7 +568,6 @@ input[type="submit"],
 	position:relative;
 	clear:left;
 }
-
 .secondary-nav {
 	position: absolute;
 	right: 2em;
@@ -505,7 +579,7 @@ input[type="submit"],
 }
 
 .admin-menu .secondary-nav {
-	top: 30px; //Set top when admin user is logged in
+	top: 10px; //Set top when admin user is logged in
 	right: 2.5em;
 }
 
@@ -600,7 +674,6 @@ tr.odd, tr.even {
 	clear: left;
 	background-color: #333;
 	border-top: 1px solid #3d3d3d;
-	background-color: #333;
 	width: 60%;
 	margin: 0;
 	padding: 0;
@@ -625,29 +698,35 @@ tr.odd, tr.even {
 	h2 {
 		display: none;
 	}
+	a {
+		color: #ffffff;
+	}
+	a:hover, a:focus {
+		
+	}
 	.ee-workbench-header-locations {
 		width:24em;
 		float:right;
 		//margin-right:1.25em;
 		//@include future-function;
-		}
+	}
 	.ee-workbench-header-setlocation {
+		label {
+			margin-right: 10px;
+		}
 		label, a {
 			background-color: transparent;
-			margin-top: 3px;
 			color: #ffffff;
 		}
 		label, select, a {
 			float: left;
-			margin-right: 5px;
 		}
 		select {
 			margin-bottom:0;
-			margin-top: 5px;
+			min-width: 7em;
 		}
 	}
 }
-
 
 .tabs, .tabs-primary__tab, .tabs-primary__tab.is-active {
 	border:none;
@@ -704,6 +783,20 @@ tr.odd, tr.even {
 	.workbench-menu {
     	display: block;
     }
+    #zip_container {
+		span {
+			float: left;
+			margin-right: 30px;
+		}
+		#nearest-location {
+			font-weight: bold;
+		}
+	}
+	#location-add-new {
+		span, button {
+			display: inline-block;
+		}
+	}
 }
 
 /** Workbench *******************************************************************/
@@ -1009,7 +1102,7 @@ tr.even {
 
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {
-	#user-profile-form {
+  form[id^='user-profile-form'] {
 		.form-type-textfield {
 			width: 150px;
 		}
@@ -1027,7 +1120,14 @@ tr.even {
 .field-name-field-profile-last-name {
 	display:inline-block;
 }
-#user-profile-form {
+form[id^='user-profile-form'] {
+
+    .description-key {
+      margin-left: 5px;
+    }
+    .ajax-progress .message {
+      display: none;
+    }
 	label {
 		cursor: pointer;
 	}
@@ -1088,27 +1188,77 @@ tr.even {
 	.eenterprise-utility-form-item-description-p.field-title-below { 
 		margin-bottom: 1.5em; padding-bottom: 0px;
 	}
-	#field-profile-favourites-add-more-wrapper .form-item,
-	#zipcode_description .form-item {
-		padding-bottom: 0px;
-	}
-	#zipcode_description table tr:last td:last {
-		width:200px;	
-	}
-	#zipcode_description .field-add-more-submit {
-		margin-left: 5px;
-		float: right;
-	}
-	.panel {
+
+  #zipcode_description {
+      display:none;
+      .form-item {
+        display: inline-block;
+        float: left;
+        padding-bottom: 0px;
+      }
+    .field-multiple-table {
+      width: 700px;
+    }
+    .field-name-field-field-zip-code {
+      display: inline-block;
+      float: left;
+    }
+    .field-add-more-submit {
+      float: left;
+      display: inline-block;
+    }
+      .multiple-fields-remove-button {
+        float: left; display: inline-block;
+      }
+    table tr:last td:last {
+      width:200px;
+    }
+    .form-wrapper {
+      display: inline-block;
+      float: left;
+      margin-right: 10px;
+    }
+    table tr td:first-child, .tabledrag-toggle-weight-wrapper,
+    .form-item .form-type-textfield label, .form-checkbox{
+      display:none;
+    }
+    label {
+      float: left;
+    }
+    .zip-code-primary-select {
+      color: grey;
+      cursor: pointer;
+      /*display:none;*/
+
+    }
+      .ajax-new-content {
+        float: left;
+        display:inline-block;
+      }
+      .form-type-checkbox {
+        margin-right: 10px;
+      }
+      .zip-code-primary-select.selected {
+        color: red;
+      }
+
+      .zip-code-primary-holder {
+        margin-top: 8px;
+        display:inline-block;
+        float: right;
+        width: 20px;
+      }
+
+    }
+
+  .panel {
 		min-height: 330px;
 	}
 	.ajax-progress {
 	  display:block !important;
 	  position: inherit !important;
 	}
-	#zipcode_description label {
-		float: left;
-	}
+
 	
 	thead label {
 		padding:1em 1em 0.25em 0.5em;
@@ -1121,7 +1271,7 @@ tr.even {
 		border:none;
 	}
 	.form-submit, .remove_button {
-		text-transform: capitalize; 
+		text-transform: capitalize;
 		background-color: #337ab7;
 		padding:0.5em 1em;
 		height:auto;
@@ -1136,7 +1286,7 @@ tr.even {
 		background-color: green; 
 		height: auto; 
 		width: auto; 
-		margin: 0px;
+		margin: 0;
 		vertical-align: middle;
 		padding: 0.25em 0.75em;
 	}
@@ -1216,7 +1366,7 @@ tr.even {
 #links_description table > tbody > tr > td{
   vertical-align: middle;
 }
-#user-profile-form .remove-button {
+form[id^='user-profile-form'] .remove-button {
   float: right;
 }
 #links_description table .field-type-text {
@@ -1292,7 +1442,6 @@ tr.even {
 		font-size: $base-font-size;
 		font-family: $base-font-family;
 		height: auto;
-		border: 1px solid #bbb;
 		border-radius: 4px;
 		line-height: 1.42857;
 	}
@@ -1334,16 +1483,113 @@ a.tabledrag-handle .handle {
 	top:-10px;
 }
 
-/** jQuery Overrides - General, affects modals, tabs, etc. *********************************************************/
-.ui-widget {
-	font-family: $lato !important;
+#first-time-user-profile {
+	padding-bottom: 10px;
+	h2 {
+		padding: 0;
+	}
+	h2 span {
+		display: block;
+	    text-transform: uppercase;
+	    font-size: 0.5em;
+	    color: #999;
+	    margin-bottom: 5px;
+	}
+	h3 {
+		padding-bottom: 0;
+		margin-top: 2em;
+	}
+	p {
+		padding-bottom: 0;
+	}
+	label {
+		font-size: 1em;
+	}
+    #zip_container {
+		span {
+			float: none;
+			margin-right: 0;
+		}
+	}	
+	#location-add-new {
+		margin-top: 10px;
+		label {
+			margin-bottom: 0;
+		}
+		#new-location {
+			width: 18em;
+		}
+		#choose-zip-holder {
+			width: 15em;
+		}
+		select {
+			padding-top: 4px;
+			padding-bottom: 4px;
+			margin-left: -2px;
+		}
+	}
+	#location-add-new button {
+		margin-top: -3px;
+		margin-left: 10px;
+		font-size: 0.75em;
+	}
+	#choose-zip-holder {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	#cancel-zip-select {
+		margin-left: 20px;
+	}
+	#location-description-user {
+		span {
+			margin-right: 30px;
+		}
+	}
+	#high-level-interests {
+		margin-top:20px;
+		height:8em;
+	}
 }
-.ui-widget-overlay {
-	opacity: 0.7 !important;
-	background-color: #000000;
-	background-image: none;
+.pane-views-first-time-user-profile-block 	.modal-footer {
+		.btn-primary {margin-right: 30px;}
+		a {vertical-align: middle;}
+}
+.ck-button {
+    margin:4px;
+    background-color:#fafafa;
+    border-radius:4px;
+    border:1px solid #D0D0D0;
+    overflow:auto;
+    float:left;
+    width:auto;
+	span {
+	    text-align:center;
+	    padding:5px 8px;
+	    display:block;
+	    border: 1px solid #fafafa;
+	}
+	input {
+	    position:absolute;
+	    top:-20px;
+	}	
+	input:checked + span {
+		color: #fff;
+		background-color: #337ab7;
+		border: 1px solid #2e6ca3;
+		padding: 5px 8px;
+	}
 }
 
+/** jQuery Overrides - General, affects modals, tabs, etc. *********************************************************/
+.ui-widget, .ui-widget input {
+	font-family: $lato !important;
+	font-size: 1em;
+}
+.ui-widget-overlay, #modalBackdrop {
+	opacity: 0.7 !important;
+	background-color: #000000 !important;
+	background-image: none;
+}
 .ui-widget-header {
 	background: none !important;
 	border: none;
@@ -1353,11 +1599,14 @@ a.tabledrag-handle .handle {
 	background: none;
 	border: none;
 }
-.ui-tabs a:focus {
+.ui-tabs li a:focus {
 	background-color: #fafafa;
 }
 .ui-tabs .ui-tabs-nav li, label {
 	font-size: 0.85em;
+}
+.ui-tabs .ui-tabs-nav {
+	border-bottom: 1px solid #fafafa;
 }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active {
 	border-bottom: 2px solid #000000;
@@ -1381,12 +1630,55 @@ a.tabledrag-handle .handle {
 		border-bottom: 1px solid #f0f0f0;
 	}
 	.ui-dialog-titlebar-close {
-		background: transparent url('../images/close-titlebar-32px.png') no-repeat 0 0 !important;
+		background: transparent url('../images/close-titlebar.png') no-repeat 0 0 !important;
 		border: none !important;
-		height: 32px;
-		width: 32px;
+		height: 20px;
+		width: 20px;
 		right: 30px;
 		margin-top: -15px;
+	}
+}
+div.ctools-modal-content {
+	.modal-header {
+		padding: 0.4em 2em;
+		background-color: #fafafa !important;
+		border-bottom: 1px solid #f0f0f0;
+	}
+	a.close {
+		opacity: 1.0;
+		width: 20px;
+	    height: 20px;
+	    right: -15px;
+	    top: 5px;
+	    //right: -45px;
+	    //top: -15px;
+	}
+	a.close:hover, a.focus:hover, a.active:hover {
+		background-color: transparent;
+	}
+	.modal-title {
+		font-weight: normal !important;
+		font-size: 1.25em;
+		color: #333333;
+	}
+	.modal-content {
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		border: none;
+		padding: 1em 2em 0 2em;
+	}
+	.form-item {
+		padding-bottom: 1em;
+	}
+	.form-item label {
+		float: none;
+		padding-bottom: 0;
+	}
+	.form-item-email {
+		padding-bottom: 0.1em;
+	}
+	#edit-submit-button {
+		@include button;
 	}
 }
 

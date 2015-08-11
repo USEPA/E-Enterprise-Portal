@@ -113,7 +113,7 @@ class AdfsBridge {
                                     $cipherValueNode = $cipherValueNodes->item(0);
                                     $keyWrapCipher = $cipherValueNode->nodeValue;
                                     $keyWrapCipher = base64_decode($keyWrapCipher);
-                                    $private_key=openssl_pkey_get_private($encryptionCertData, $adfsConf->encryptionCertPassword);
+                                    $private_key=openssl_pkey_get_private($encryptionCertData, $adfsConf->encryptionCertCred);
                                     if (!$private_key) {
                                         throw new Exception("Unable to load private key for decryption.");
                                     } else {

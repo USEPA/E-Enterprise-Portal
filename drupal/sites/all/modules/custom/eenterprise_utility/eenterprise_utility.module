@@ -1,28 +1,29 @@
 <?php
 /**
-  * Implements hook_menu().
-  **/
-  
+ * Implements hook_menu().
+ **/
 
-function eenterprise_utility_menu() {
-  $items =array();
+
+function eenterprise_utility_menu()
+{
+    $items = array();
     $items['get_taxonomy_parent_name'] = array(
-      'page callback' => 'get_taxonomy_parent_name',
-      'access callback' => TRUE,
+        'page callback' => 'get_taxonomy_parent_name',
+        'access callback' => TRUE,
     );
     $items['load_air_now_us_data'] = array(
-      'page callback' => 'load_air_now_us_data',
-      'access callback' => TRUE,
+        'page callback' => 'load_air_now_us_data',
+        'access callback' => TRUE,
     );
     $items['zip_code_lookup'] = array(
-      'page callback' => 'zip_code_lookup',
-      'access callback' => TRUE,
+        'page callback' => 'zip_code_lookup',
+        'access callback' => TRUE,
     );
 
     $items['test_load_air_now_us_data'] = array(
-      'page callback' => 'test_load_air_now_us_data',
-      'access callback' => TRUE,
-     );
+        'page callback' => 'test_load_air_now_us_data',
+        'access callback' => TRUE,
+    );
     $items['guest_login'] = array(
         'page callback' => 'guest_login_action',
         'access callback' => TRUE,
@@ -31,6 +32,8 @@ function eenterprise_utility_menu() {
         'page callback' => 'guest_logout_action',
         'access callback' => TRUE,
     );
+
+
     $items['default_location_zip'] = array(
         'page callback' => 'default_location_zip',
         'access callback' => TRUE,
@@ -43,23 +46,37 @@ function eenterprise_utility_menu() {
         'access arguments' => array('administer trusted list'),
         'file' => 'eenterprise_utility_trusted_users.admin.inc',
     );
-    
+    $items['admin/config/system/eactivity-dataflow'] = array(
+        'title' => 'E-Activity Webservice Endpoint Settings',
+        'description' => 'Manage E-Activity Webservice Endpoint Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('eactivity_dataflow_list_settings'),
+        'access arguments' => array('administer eactivity dataflow'),
+        'file' => 'eenterprise_utility_eactivity_dataflow.admin.inc',
+    );
     return $items;
 }
+
 
 /**
  * Implements hook_permission().
  */
-function eenterprise_utility_permission() {
+function eenterprise_utility_permission()
+{
     return array(
         'administer trusted list' => array(
             'title' => t('Administer Trusted Users List'),
             'description' => t('Change settings for enabling and disabling the usage of trusted users list for authentication.'),
         ),
+        'administer eactivity dataflow' => array(
+            'title' => t('Administer E-Activity Dataflow Settings'),
+            'description' => t('Change E-Activity Webservice Endpoint Settings.'),
+        ),
     );
 }
 
-function test_load_air_now_us_data(){
+function test_load_air_now_us_data()
+{
     // run testbench
     echo '<h1> Case1: Empty CSV from resource- load from local file, db is empty</h1>';
     db_truncate('air_now_city_zip_codes')->execute();
@@ -71,28 +88,30 @@ function test_load_air_now_us_data(){
     echo '<h1> Case4: CSV provided from resource- db empty. </h1>';
     db_truncate('air_now_city_zip_codes')->execute();
     load_air_now_us_data('cityzipcodes.csv', true);
- }
+}
 
 
 /*
  * A function that simple sets a session variable so the user's default location or selected location is remembered
  */
- 
- function default_location_zip() {
-   $_SESSION['default_location_zip'] =  $_POST['zip'];
-   $_SESSION['default_location_name'] = $_POST['name'];
- }
+
+function default_location_zip()
+{
+    $_SESSION['default_location_zip'] = $_POST['zip'];
+    $_SESSION['default_location_name'] = $_POST['name'];
+}
 
 
 /*
  * A function that implements guest login capability. Login a guest using a pre-defined username, role and password
  * The role will restrict the user from accessing parts of the portal guests are not supposed to access.
  */
-function guest_login_action(){
+function guest_login_action()
+{
     global $user;
-    if($user->uid != 0)
+    if ($user->uid != 0)
         drupal_goto("/");
-    else{
+    else {
         $uid = user_authenticate("guest-user", "Gu35t_u53r!!");
         $user = user_load($uid);
         watchdog('guest_user', 'Session opened for %name.', array('%name' => $user->name));
@@ -103,40 +122,41 @@ function guest_login_action(){
             ->execute();
         drupal_session_regenerate();
         //drupal_goto('/workbench', array('query' => array('dest' => 'guest_login')));
-        drupal_goto('/');
+        drupal_goto("/");
     }
 }
 
 /*
  * Logout a guest user.
  */
-function guest_logout_action(){
+function guest_logout_action()
+{
     module_load_include('pages.inc', 'user');
     user_logout();
     drupal_goto("/");
 }
 
-function load_air_now_us_data() {
-  // set php.ini max execution to 1500 temporarily for this processing
-  ini_set('max_execution_time', 1500);
-  $start = microtime(true);
-  $csvData = file_get_contents($url, $url_bool);
-  $lines = explode(PHP_EOL, $csvData);
-  if (count($lines) <= 1) {
-      echo '<p> There was no data available in online resource</p>';
-      //first check if db has been updated, then no changes need to be made
-      $results = db_select('air_now_city_zip_codes')->fields(NULL, array('zipcode'))->execute()->fetchAll();
-      $count = count($results);
-      if ($count == 0) { // no data in db, update from local
-        echo '<p> There is no Air Now data loaded in the database, loading from local file.</p>';
-        $csvData = file_get_contents('cityzipcodes.csv', true);
-        $lines = explode(PHP_EOL, $csvData);
-      }
-      else { //No need to change anything, database has results and nothing from data source
-        echo '<p> There is already Air Now data, no update needed.</p>';
-        ini_set('max_execution_time', 150);
-        exit();
-      }
+function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv', $url_bool = false)
+{
+    // set php.ini max execution to 1500 temporarily for this processing
+    ini_set('max_execution_time', 1500);
+    $start = microtime(true);
+    $csvData = file_get_contents($url, $url_bool);
+    $lines = explode(PHP_EOL, $csvData);
+    if (count($lines) <= 1) {
+        echo '<p> There was no data available in online resource</p>';
+        //first check if db has been updated, then no changes need to be made
+        $results = db_select('air_now_city_zip_codes')->fields(NULL, array('zipcode'))->execute()->fetchAll();
+        $count = count($results);
+        if ($count == 0) { // no data in db, update from local
+            echo '<p> There is no Air Now data loaded in the database, loading from local file.</p>';
+            $csvData = file_get_contents('cityzipcodes.csv', true);
+            $lines = explode(PHP_EOL, $csvData);
+        } else { //No need to change anything, database has results and nothing from data source
+            echo '<p> There is already Air Now data, no update needed.</p>';
+            ini_set('max_execution_time', 150);
+            exit();
+        }
     }
     // clear table
     echo '<p> emptying previous results for latest data from resource. </p>';
@@ -144,69 +164,69 @@ function load_air_now_us_data() {
     // insert new data
     $first_line = $lines[0];
     // Check resource column order
-    if ($first_line != 'City|State|Zipcode|Latitude|Longitude,') { 
-      exit();
+    if ($first_line != 'City|State|Zipcode|Latitude|Longitude,') {
+        exit();
     }
-    foreach (array_slice($lines,1) as $line) {
-      // Data returned of format City|State|Zipcode|Latitude|Longitude
-      $data_line = str_getcsv($line, '|');
-     if ($data_line[3] == '') {
-      $data_line[3] = NULL;
-     }
-     if ($data_line[4] == '') {
-       $data_line[4] = NULL;
-     }
-     if ($data_line[0] != '') {
-        db_insert('air_now_city_zip_codes') // Table name no longer needs {}
-          ->fields(array(
-          'City' => $data_line[0],
-          'State' => $data_line[1],
-          'Zipcode' => $data_line[2],
-          'Latitude' => (float) $data_line[3],
-          'Longitude' => (float) $data_line[4],
-          ))->execute();
-      }
+    foreach (array_slice($lines, 1) as $line) {
+        // Data returned of format City|State|Zipcode|Latitude|Longitude
+        $data_line = str_getcsv($line, '|');
+        if ($data_line[3] == '') {
+            $data_line[3] = NULL;
+        }
+        if ($data_line[4] == '') {
+            $data_line[4] = NULL;
+        }
+        if ($data_line[0] != '') {
+            db_insert('air_now_city_zip_codes')// Table name no longer needs {}
+            ->fields(array(
+                'City' => $data_line[0],
+                'State' => $data_line[1],
+                'Zipcode' => $data_line[2],
+                'Latitude' => (float)$data_line[3],
+                'Longitude' => (float)$data_line[4],
+            ))->execute();
+        }
     }
     $time_elapsed_secs = microtime(true) - $start;
     echo '<p> the database has been updated in' . $time_elapsed_secs . ' seconds';
-     $results = db_select('air_now_city_zip_codes')->fields(NULL, array('zipcode'))->execute()->fetchAll();
-      $count = count($results);
-      echo '<p> Table air_now_city_zip_codes now has ' . $count . ' rows.</p>';
+    $results = db_select('air_now_city_zip_codes')->fields(NULL, array('zipcode'))->execute()->fetchAll();
+    $count = count($results);
+    echo '<p> Table air_now_city_zip_codes now has ' . $count . ' rows.</p>';
     ini_set('max_execution_time', 150);
 }
 
-function get_taxonomy_parent_name($tid) {  
-  $data_array = array();
-  $parents_array = array();
-  $vid = '';
-  $parents = taxonomy_get_parents_all($tid);
-  foreach($parents as $key=>$value) {
-   $parents_array[] = [$value->tid, $value->name];
-   $vid = $value->vid;
-  }
-  $data_array['parents'] = $parents_array;
-  $data_array['vid'] = $vid;
-  echo json_encode($data_array);
+function get_taxonomy_parent_name($tid)
+{
+    $data_array = array();
+    $parents_array = array();
+    $vid = '';
+    $parents = taxonomy_get_parents_all($tid);
+    foreach ($parents as $key => $value) {
+        $parents_array[] = [$value->tid, $value->name];
+        $vid = $value->vid;
+    }
+    $data_array['parents'] = $parents_array;
+    $data_array['vid'] = $vid;
+    echo json_encode($data_array);
 }
 
 
-
-function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
+function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
+{
     //Prevent guest user from accessing account edit page.
-    if(($form['#form_id'] == 'user_profile_form') && ($form['#user']->name == 'guest-user')){
+    if (($form['#form_id'] == 'user_profile_form') && ($form['#user']->name == 'guest-user')) {
         drupal_goto("/");
     }
     drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
-    // dpm($form_state['input']);
-    if($form['#form_id'] == 'user_profile_form'){
+    if ($form['#form_id'] == 'user_profile_form') {
         //remove user_account_form_validate callback. This will remove email address validation because we should allow multiple email addresses as CDX/Bridge allows that.
-        foreach($form['#validate'] as $key => $value)
-            if($value == 'user_account_form_validate')
+        foreach ($form['#validate'] as $key => $value)
+            if ($value == 'user_account_form_validate')
                 unset($form['#validate'][$key]);
 
         //Removed more than a thousand taxonomy hierarchy from bottom of admin profile page, it was giving me lots of misery.
         global $user;
-        if($user->uid == 1)
+        if ($user->uid == 1)
             unset($form['field_interests2']);
 
         // Get proper values for 'allowed_values_function', which is a core setting.
@@ -218,149 +238,116 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
         $form['allowed_values'] = array(
             '#tree' => TRUE,
         );
-        
-      hide($form['picture']);
-      hide($form['account']['current_pass']);
-      hide($form['account']['pass']);
-      hide($form['field_profile_interests']);
-      
-      $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
-      
-      if(empty($form['account']['mail']['#default_value']))
-          $form['account']['mail']['#default_value'] = $form['#user']->name;
-      $form['account']['mail']['#attributes'] = array('disabled' => 'disabled');
-      $form['account']['mail']['#required'] = false;
-      $form['account']['mail']['#title'] = 'Email Address';
-      $form['#validate'][] = 'user_profile_form_custom_validate';
-      $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
-      $form['actions']['delete']['#submit'][] = 'profile_delete_action';
-      $form['actions']['delete']['#attributes'] =  array(
-        'onclick' => "fancyConfirm('Are you sure you want to delete?')");
+
+        hide($form['picture']);
+        hide($form['account']['current_pass']);
+        hide($form['account']['pass']);
+        hide($form['field_profile_interests']);
+//        hide($form['field_first_time_user']);
+        $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
+        $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
+        $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter ZIP Code";
+        if (empty($form['account']['mail']['#default_value']))
+            $form['account']['mail']['#default_value'] = $form['#user']->name;
+        $form['account']['mail']['#attributes'] = array('disabled' => 'disabled');
+        $form['account']['mail']['#required'] = false;
+        $form['account']['mail']['#title'] = 'Email Address';
+        $form['#validate'][] = 'user_profile_form_custom_validate';
+        $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
+        $form['actions']['delete']['#submit'][] = 'profile_delete_action';
+        // $form['actions']['delete']['#attributes'] =  array(
+        //   'onclick' => "fancyConfirm('Are you sure you want to delete?')");
         //"return confirm('This will delete your entire profile, including any selected preferences, from the E-Enterprise Platform and will log you out from the system. Are you sure that you want to do this?')");
-      $form['actions']['delete']['#attributes']['class'][] = 'imagefield-fancybox';
-      $form['account']['mail']['#description'] = "All emails from the system will be sent to this address. This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).";
-      //We are not validating profile picture and password as we do not save and manage these information on the Portal.
-      foreach($form['#validate'] as $key => $val){
-          if($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
-              unset($form['#validate'][$key]);
-      }
-       // $form['account']['mail']['#prefix'] = '<br />';
-       // $form['account']['mail']['#suffix'] = '<div id="email-description-holder"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>' .
-        //       '<span style="display:none" id="email-description">All emails from the system will be sent to this address. ' .
-        //       'This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. ' .
-        //       'Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).</span></div>';
-
-
-      //      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= '';
-      // $form['field_zip_code'][LANGUAGE_NONE]['#title'] = 'ZIP Code(s)';
-      // if ($form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'] == '') {
-      //   $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= 'true';
-      // }
-      // if (isset($form_state['input'])) {
-      //      $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']= 
-      //       $form_state['input']['field_zip_code'][LANGUAGE_NONE][0]['value'];
-      //   }
-      
-      if (isset($form_state['triggering_element'])) {
-        if ($form_state['triggering_element']['#name'] == 'field_zip_code_' . LANGUAGE_NONE . '_0_remove_button') {
-             $form['field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
-          } 
-         if ($form_state['triggering_element']['#name'] == 'field_profile_favourites_'. LANGUAGE_NONE . '_0_remove_button') {
-           $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
-           $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
-        }
-      }
-           
-      $form['field_zip_code'][LANGUAGE_NONE]['#attributes']['class'][] = 'form-control';
-      // add more button
-      $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
-      $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
-      $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
-      $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
-      //Add more button
-      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = '+';
-      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
-      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
-      $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
-
-
-   
-      //create weight array
-        // dpm($form_state['input']);
-        // dpm($form_state['values']);
-      for($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
-        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
-        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#title'] = 'Remove';
-        $date_value = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_date_updated'][LANGUAGE_NONE][0]['#default_value']['value'];
-     		$date_updated = date_create($date_value);
-		    $date_updated = date_format($date_updated, 'd/m/Y');
-        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title']['#suffix'] = '<span class="date_updated_contain">' . $date_updated . '</span>';
-        // hide($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_date_updated']); //['#attributes']['disabled'] = 'disabled';
-      }
-      
-      // $lowest_weight = 0;
-
-      // if (isset($form_state['input']['field_zip_code'])) {
-      //   for($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
-      //     $current_weight = intval($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['_weight']);
-      //     if ($current_weight < $lowest_weight) {
-      //       $lowest_weight = $current_weight;
-      //     }
-      //   }
-      // }
- 
-      $second_zero = false;
-      for($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
-       // set primary default description location
-        // if (isset($form_state['input']['field_zip_code'])) {
-        //   $current_weight = intval($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['_weight']);
-        //   if ($current_weight == $lowest_weight && !$second_zero) {
-        //     $primary = true;
-        //     $second_zero = true;
-        //   }
-        //   else {
-        //     $primary = false;
-        //   }
-        // }
-        // else if ($delta == 0) {
-        //   $primary = true;
-        // }
-        // else {
-        //   $primary = false;
-        // }
-        $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#default_value']; 
-        // overide default if input has been made
-
-        if (isset($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta])) {
-          $input_zip = $form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta];
-            $zip = $input_zip['value'];
-        }
-        $field_suffix = '<span class="move_zip_code"></span>';
-        if (isset($zip) && $zip != '') {
-          $zip_data = zip_code_lookup($zip);
-          $field_suffix = $zip_data['city'] . ', ' . $zip_data['state'];
-        }
-        else {
-          $field_suffix = "";
+        // $form['actions']['delete']['#attributes']['class'][] = 'imagefield-fancybox';
+        $form['account']['mail']['#description'] = "All emails from the system will be sent to this address. This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).";
+        //We are not validating profile picture and password as we do not save and manage these information on the Portal.
+        foreach ($form['#validate'] as $key => $val) {
+            if ($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
+                unset($form['#validate'][$key]);
         }
 
-        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#attributes']['class'][] =
-          'field_zip_code form-control';
-        // $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#description'] =
-        //   $description;
-        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#field_suffix'] =
-          $field_suffix;
-        $form['field_zip_code'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['title'] = 'Remove';
-        // $form['field_zip_code'][LANGUAGE_NONE][$delta]['remove_button']['#attributes']['name'] = 'remove_field_item_' . $delta;
-        
-//        $form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#ajax'] = array(
-//                'callback' => 'field_zip_code_generate',
-//                'wrapper' => 'zipcode_description',
-//                );
-     }
-        
+        // When use deletes last zip code or url, do not repopulate with previous saved zip
+        if (isset($form_state['triggering_element'])) {
+            $trigger_string = $form_state['triggering_element']['#name'];
+            $trigger_array = explode('_', $trigger_string);
 
+            if (in_array('zip', $trigger_array)) {
+                $delta = $trigger_array[4];
+                if ($trigger_array[5] == 'remove') {
+                    if ($delta == 0) { // If first value clear out the input
+//               $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
+//                  $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_primary'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
+                        unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE]);
+                    } else {
+                        unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE]);
+                    }
+                }
+            }
+            if ($trigger_string == 'field_profile_favourites_' . LANGUAGE_NONE . '_0_remove_button') {
+                $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+                $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+            }
+        }
 
+        // add more button for zip codes
+        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
+        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
+        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
+
+        //Add more button for urls
+        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = '+';
+        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
+        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
+
+        // Field specific settings for  URLs
+        for ($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+            $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
+            $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
+            $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#title'] = 'Remove';
+            $date_value = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_date_updated'][LANGUAGE_NONE][0]['#default_value']['value'];
+            $date_updated = date_create($date_value);
+            $date_updated = date_format($date_updated, 'm/d/Y');
+            $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title']['#suffix'] = '<span class="date_updated_contain">' . $date_updated . '</span>';
+        }
+
+        // Field specific settings for Zip codes
+        for ($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+            $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'];
+            // overide default if input has been made
+            if (isset($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta])) {
+                $input_zip = $form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0];
+                $zip = $input_zip['value'];
+            }
+            // $field_suffix = city name and state name
+            if (isset($zip) && $zip != '') {
+                $zip_data = zip_code_lookup($zip);
+                $field_suffix = $zip_data['string'];
+            } else {
+                $field_suffix = '';
+            }
+            // Remove button
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['remove_button']['#attributes']['title'] = 'Remove';
+
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['class'][] =
+                'field_zip_code';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_suffix'] =
+                $field_suffix;
+            hide($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['#title']);
+
+        }
+
+        // Field specific settings for Terms of Use Agreed Date
+        $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#theme'] = 'eenterprise_utility_terms_of_use_agreed_date_display';
+        $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#disabled'] = TRUE;
+
+        // only admins see the Terms of Use Agreed Date field
+        if (!user_access('administer site configuration')) {
+          hide($form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]);
+        }
   } // end user form
 }
 
@@ -373,59 +360,75 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id){
  * @return object
  *  A JSON object.
  */
- 
-
 
 
 // Params: zip code integer
 // Returns Assoc Array( city => , state => , latitude => , longitude => )
 // can be called by ajax with url arguments ?zip=_____
-function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php') {
-  $zip_data = array();
-  
-  if (isset($_GET['zip'])) {
-    $unparsed_zip = $_GET['zip'];
-    $return_data_type = 'json';
-  }
- 
-   $validation = postal_code_validation_validate($unparsed_zip, 'US');
-   if (!$validation['error']) {
-      $zip = substr($validation['postal_code'], 0, 5);
-      // first try zippopotam resource
-      $request = drupal_http_request("http://api.zippopotam.us/us/$zip");
-      $response_array = json_decode($request->data);
-      if (count($response_array) > 0) { // zippopotam returned result
-          $zip_places = $response_array->places[0];
-          $zip_string = $zip_places->{'place name'} . ', ' . $zip_places->{'state abbreviation'};
-          $zip_data = array(
-            'state' => $zip_places->{'state abbreviation'},
-            'city' => $zip_places->{'place name'},
-            'latitude' => (float) $zip_places->{'latitude'},
-            'longitude' => (float) $zip_places->{'longitude'},
-                );
-      }
-      else { // Query air_now_city_zip_codes with zip code
-        $db_result = db_select('air_now_city_zip_codes', 'n')
-          ->fields('n')
-          ->condition('zipcode', $zip,'=')
-          ->execute()
-          ->fetchAssoc();
-        $zip_data = array(
-          'state' => $db_result['State'],
-          'city' => $db_result['City'],
-          'longitude' => (float) $db_result['Longitude'],
-          'latitude' => (float) $db_result['latitude'],
-        );
-     }
-      if ($return_data_type == 'php') {
-        return $zip_data;
-      }
-      else {
-        print json_encode($zip_data);
-      }
-  }
-}
+function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
+{
+    $readable_string = '';
 
+    if (isset($_GET['zip'])) {
+        $unparsed_zip = $_GET['zip'];
+        $return_data_type = 'json';
+    }
+
+    $validation = postal_code_validation_validate($unparsed_zip, 'US');
+    if (!$validation['error']) {
+        $zip = substr($validation['postal_code'], 0, 5);
+        $frs_return = frs_zip_code_to_city_state($zip);
+        if (isset($frs_return->latitude)) {       // first try FRS resource
+            $zip_data = array(
+                'state' => $frs_return->state,
+                'city' => $frs_return->city,
+                'latitude' => $frs_return->latitude,
+                'longitude' => $frs_return->longitude,
+                'zip' => $zip,
+            );
+        } else {
+            $request = drupal_http_request("http://api.zippopotam.us/us/$zip");
+            $response_array = json_decode($request->data);
+            if (count($response_array) > 0) { // zippopotam returned result
+                $zip_places = $response_array->places[0];
+                $zip_data = array(
+                    'state' => $zip_places->{'state abbreviation'},
+                    'city' => $zip_places->{'place name'},
+                    'latitude' => (float)$zip_places->{'latitude'},
+                    'longitude' => (float)$zip_places->{'longitude'},
+                    'zip' => $zip,
+                );
+            } else { // Query air_now_city_zip_codes with zip code
+                $db_result = db_select('air_now_city_zip_codes', 'n')
+                    ->fields('n')
+                    ->condition('zipcode', $zip, '=')
+                    ->execute()
+                    ->fetchAssoc();
+                $zip_data = array(
+                    'state' => $db_result['State'],
+                    'city' => $db_result['City'],
+                    'longitude' => (float)$db_result['Longitude'],
+                    'latitude' => (float)$db_result['latitude'],
+                    'zip' => $zip
+                );
+            }
+        }
+        // Create readable string for across site
+        if (strlen($zip_data['city']) != 0) {
+            $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
+        } else if (strlen($zip_data['state']) != 0) {
+            $readable_string .= $zip_data['state'] . '(' . $zip . ')';
+        } else {
+            $readable_string .= $zip;
+        }
+        $zip_data['string'] = $readable_string;
+        if ($return_data_type == 'php') {
+            return $zip_data;
+        } else {
+            print json_encode($zip_data);
+        }
+    }
+}
 
 
 /**
@@ -433,9 +436,10 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php') {
  * @param $form_state
  * Custom validation for user information, called when form is submitted.
  */
-function user_profile_form_custom_validate(&$form, &$form_state) {
-   user_profile_zipcode_custom_validate($form, $form_state);
-   user_profile_url_custom_validate($form, $form_state);
+function user_profile_form_custom_validate(&$form, &$form_state)
+{
+    user_profile_zipcode_custom_validate($form, $form_state);
+    user_profile_url_custom_validate($form, $form_state);
 }
 
 
@@ -444,125 +448,116 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
  * @param $form_state
  * Custom validate for zip code.
  */
- function user_profile_zipcode_custom_validate(&$form, &$form_state) {
-  // Validates even if javascript validation failed on form submit
+function user_profile_zipcode_custom_validate(&$form, &$form_state)
+{
+    // Validates even if javascript validation failed on form submit
     $previous_zipcodes = array();
     $error = false;
     $error_messages = array();
     $error_deltas = array();
-    $field_ids = array();
+    $site_default_zip = 27705;
 
-   // Default value is 27705.
-   // Occurs when all values are blank.
-   $blank_zipcode = true;
+    // Site default zip Occurs when all values are blank.
+    // overrides if user has save geolocation zip
 
-   if (isset($form_state['input']['field_zip_code'])){
-    foreach($form_state['values']['field_zip_code'][LANGUAGE_NONE] as $delta => $field) {
-        if(is_array($field) && is_numeric($delta)) {
-            $zip_val = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['value'];
-            if (strlen($zip_val) > 0){
-               $valid_zip = postal_code_validation_validate($zip_val, 'US'); 
-               if ($valid_zip['error']) {
-                 $error = true;
-                 $error_message = $valid_zip['error'];
-                 // Clear city details from field
-                 unset($form['field_zip_code'][LANGUAGE_NONE][$delta]['value']['#field_suffix']);
-                 if (!in_array($error_message, $error_messages)) {
-                   $error_messages[] = $error_message;
-                 }
-                  if (!in_array($delta, $error_deltas)) {
-                   $error_deltas[] = $delta;
-                 }
-               }
-               else if (in_array($zip_val, $previous_zipcodes)) {
-                  $error_message = 'Duplicate ZIP codes are not allowed.';
-                  $error = true;
-                  if (!in_array($error_message, $error_messages)) {
-                    $error_messages[] = $error_message;
-                  }
-                  if (!in_array($delta, $error_deltas)) {
-                   $error_deltas[] = $delta;
-                 }
-                }
-               else {
-                 $error = false;
-               }
-              $previous_zipcodes[] = $zip_val;
-            }
-            // if(!is_numeric($zip_val) && !empty($zip_val)) {
-            //   $error_message = 'Zip code can only be number';
-            //   $error = true;
-            // }
-            // else if(strlen($zip_val) != 5 && !empty($zip_val)) {
-            //   $error_message = 'Zip code should be 5 digits';
-            //   $error = true;
-            // }
-           
-            // else { 
-            //   if ($zip_val != '') {
-            //    $previous_zipcodes[] = $zip_val;
-            //    $blank_zipcode = false;
-            //   }
-            // }
-
-            // }
+    if (isset($_SESSION['geolocation_used'])) {
+        if ($_SESSION['geolocation_used'] == 'true') {
+            $site_default_zip = $_SESSION['geolocation_zip'];
         }
     }
-   if ($error) {
-    // if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
-      foreach($error_messages as $delta=>$message) {
-          form_set_error('field_zip_code][' . LANGUAGE_NONE . '][' . $error_deltas[$delta], t($message));
-      }
-      foreach($error_deltas as $delta) {
-          form_set_error('field_zip_code][' . LANGUAGE_NONE . '][' . $delta);
-      }
+
+    $blank_zipcode = true;
+    if (isset($form_state['input']['field_zip_code'])) {
+        foreach ($form_state['values']['field_zip_code'][LANGUAGE_NONE] as $delta => $field) {
+            if (is_array($field) && is_numeric($delta)) {
+                if (trim($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']) == '') {
+                    unset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]);
+                    unset($form['field_zip_code'][LANGUAGE_NONE][$delta]);
+                } else if (trim($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']) == '') {
+                    unset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]);
+                    unset($form['field_zip_code'][LANGUAGE_NONE][$delta]);
+                } else {
+                    $blank_zipcode = false;
+                    $zip_val = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
+                    if (strlen($zip_val) > 0) {
+                        $valid_zip = postal_code_validation_validate($zip_val, 'US');
+                        if ($valid_zip['error']) {
+                            $error = true;
+                            $error_message = "Invalid ZIP code. Please enter a United States ZIP code in one of the following formats, '99999,' '99999-9999,' or '99999-999999.'";
+                            // Clear city details from field
+                            unset($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE]['value']['#field_suffix']);
+                            // Do not duplicate error messages to user
+                            if (!in_array($error_message, $error_messages)) {
+                                $error_messages[] = $error_message;
+                            }
+                            // Save deltas to know which fields to highlight for errors
+                            if (!in_array($delta, $error_deltas)) {
+                                $error_deltas[] = $delta;
+                            }
+                        } // Check if user has entered duplicate zip codes
+                        else if (in_array($zip_val, $previous_zipcodes)) {
+                            $error_message = 'Duplicate ZIP codes are not allowed.';
+                            $error = true;
+                            if (!in_array($error_message, $error_messages)) {
+                                $error_messages[] = $error_message;
+                            }
+                            if (!in_array($delta, $error_deltas)) {
+                                $error_deltas[] = $delta;
+                            }
+                        } else {
+                            // Set session to primary zip value
+                            if ($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_primary'][LANGUAGE_NONE][0]['value'] == 1) {
+                                $_SESSION['default_location_zip'] = substr($valid_zip['postal_code'], 0, 5);
+                            }
+                            $error = false;
+                        }
+                        $previous_zipcodes[] = $zip_val;
+                    }
+                }
+            }
+        }
+        if ($error) {
+            // Write all error messages and highlight fields
+            foreach ($error_messages as $delta => $message) {
+                form_set_error('field_zip_code][' . LANGUAGE_NONE . '][' . $error_deltas[$delta] . '][field_field_zip_code', t($message));
+            }
+            // High light all fields with no additional messages
+            foreach ($error_deltas as $delta) {
+                form_set_error('field_zip_code][' . LANGUAGE_NONE . '][' . $delta);
+            }
+        }
+    } // if no zipcodes entered, use default
+    else {
+        $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'] = $site_default_zip;
     }
-    
-   }
-   else {
-         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 27705;
-   }
-   
-   if ($blank_zipcode) {
-         $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['value'] = 27705;
-   }
-
-   // if ($error) {
-    //  if ($form_state['clicked_button']['#value'] == 'Save') { //only write alert if submitted
-    //    foreach($field_ids as $key=>$field_id) {
-    //      form_set_error($field_id, t($error_messages[$key]));
-    //    }
-    //  }
-   // }
-   
-
+    // if only blank inputs, use default
+    if ($blank_zipcode) {
+        $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'] = $site_default_zip;
+    }
 }
 
 
- function user_profile_url_custom_validate(&$form, &$form_state) {
+function user_profile_url_custom_validate(&$form, &$form_state)
+{
+    // Occurs when all values are blank.
+    if (!isset($form_state['input']['field_profile_favourites'])) {
+        $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
+        $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value'] = '';
+        $form_state['input']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
+    } else {
+        foreach ($form_state['values']['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
+            if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
+                unset($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]);
 
-   // Validates even if javascript validation failed on form submit
-   // Occurs when all values are blank.
-   $blank_url = true;
-   if (!isset($form_state['input']['field_profile_favourites'])){
-         $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
-         $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value'] = '';
-         $form_state['input']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
-   }
-   else {
-      foreach($form_state['values']['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
-         if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
-           unset($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]);
-         }
-         // if title is empty, set it to given url
-         if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']) == '' ) {
-              $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] = 
-                  $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
-         }
-      }
-   }
- }
-    
+            }
+            // if title is empty, set it to given url
+            if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']) == '') {
+                $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] =
+                    $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
+            }
+        }
+    }
+}
 
 
 /**
@@ -570,7 +565,8 @@ function user_profile_form_custom_validate(&$form, &$form_state) {
  * @param $form_state
  * Delete user's profile permanently.
  */
-function profile_delete_action($form, &$form_state) {
+function profile_delete_action($form, &$form_state)
+{
 //    global $user;
 //    if($form_state['clicked_button']['#value'] == 'Delete profile') {
 //        user_delete($user->uid);
@@ -584,33 +580,35 @@ function profile_delete_action($form, &$form_state) {
  * @param $langcode
  * Hook user_view implementation, on user view, if user is logged in, go directly to the edit page, instead of the view page.
  */
-function eenterprise_utility_user_view($account, $view_mode, $langcode){
-    if($account->name == 'guest-user')
+function eenterprise_utility_user_view($account, $view_mode, $langcode)
+{
+    if ($account->name == 'guest-user')
         drupal_goto("/");
-    else if($account->uid > 0)
-        drupal_goto("/user/".$account->uid."/edit");
+    else if ($account->uid > 0)
+        drupal_goto("/user/" . $account->uid . "/edit");
 }
 
 /**
  * @return array
  * Workbench header data
  */
-function get_header_variables(){
+function get_header_variables()
+{
     //the value for now is hardcoded not to block front end developers while backend developers investigate API endpoints to get data from CDX
     //TODO: Call appropriate APIs to get the data for this function.
     global $user;
     $user_data = user_load($user->uid);
     $user_zips = $user_data->field_zip_code;
     $locations_array = array();
-    $count = 0;
-    foreach($user_zips[LANGUAGE_NONE] as $key=>$value) {
-        $zipcode = $value['value'];
-        if ($count == 0) {
-          $primary_zip = $zipcode;
-          $count = 1;
+    $primary_zip = '';
+    foreach ($user_zips[LANGUAGE_NONE] as $key => $value) {
+        $primary = $value['field_field_primary'][LANGUAGE_NONE][0]['value'];
+        $zipcode = $value['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
+        if ($primary == 1) {
+            $primary_zip = $zipcode;
         }
         $zipcode_data = zip_code_lookup($zipcode);
-        $locations_array[$zipcode] = $zipcode_data['city'] . ', ' . $zipcode_data['state']; 
+        $locations_array[$zipcode] = $zipcode_data['string'];
     }
     asort($locations_array);
     $header_data = array('header_text' => 'New for Your Favorite Cities',
@@ -621,122 +619,171 @@ function get_header_variables(){
         'locations' => $locations_array,
         'primary_zip' => $primary_zip,
     );
-
     return $header_data;
 }
 
 
-function get_modal_data($locations, $city_name_count) {
-  print "<a id='locations-modal' href='#'>View all favorite cities</a>";
-  print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
-  print "<div class='radio-options-holder'>";
-  $duplicate_city_count = 0;
-  foreach($locations as $key=>$value) {
-    if ($city_name_count[$value] > 1) {
-      if ($duplicate_city_count == 0) {
-        print  $value . "<ul class='locations-modal-ul'>";
-      }
-      print "<li>";
-      print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key ."|" . $value . "' />" . $key . "</label>" ;
-      print "</li>";
-      ++$duplicate_city_count;
-      if ($duplicate_city_count == $city_name_count[$value]) {
-        print "</ul>";
-        $duplicate_city_count= 0;
-      }
+function get_modal_data($locations, $city_name_count)
+{
+    print "<a id='locations-modal' href='#'>View all favorite cities</a>";
+    print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
+    print "<div class='radio-options-holder'>";
+    $duplicate_city_count = 0;
+    foreach ($locations as $key => $value) {
+        if ($city_name_count[$value] > 1) {
+            if ($duplicate_city_count == 0) {
+                print  $value . "<ul class='locations-modal-ul'>";
+            }
+            print "<li>";
+            print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' />" . $key . "</label>";
+            print "</li>";
+            ++$duplicate_city_count;
+            if ($duplicate_city_count == $city_name_count[$value]) {
+                print "</ul>";
+                $duplicate_city_count = 0;
+            }
+        } else {
+            print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' />" . $value . "</label>";
+        }
     }
-    else {
-      print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key ."|" . $value . "' />" . $value . "</label>" ;
-    }
-  }
-  print "</div></div>";
- }
-
-function generate_location_select() {
-   $used_locations = array();
-
-  $header_data = get_header_variables();
-  $city_name_count = array();
-  $default_zip = $header_data['primary_zip'];
-  if (isset($_SESSION['default_location_zip']) && isset($_SESSION['default_location_name'])) {
-    $default_zip = $_SESSION['default_location_zip'];
-  }
-  
-  foreach($header_data['locations'] as $key=>$value) {
-   if (isset($city_name_count[$value])) {
-     ++$city_name_count[$value];
-   } 
-   else {
-     $city_name_count[$value] = 1;
-   }
-  }
-  print "<label for='favorite-location'>Set location</label>";
-  print "<select for='favorite-location' id='location-select'>";
-   
-  $count = 0;
-  foreach($header_data['locations'] as $key=>$value) {
-
-    if (intval($key) == intval($default_zip)) {
-      $selected = 'selected';
-    }
-    else {
-      $selected = '';
-    }
-    if ($count == 10) {
-      print "<option value='view_more' >Show More...</option>";
-      break;
-    }
-    if ($city_name_count[$value] > 1) {
-      print "<option value='" . $key . "' " . $selected . " >" . $value . " (" . $key . " )</option>";
-    }
-    else {
-      print "<option value='" . $key . "' " . $selected . " >" . $value . "</option>";
-    }
-    $count = $count + 1;
-  }
-  print "</select>";  
-  
-  if (count($header_data['locations']) > 10) {
-    get_modal_data($header_data['locations'], $city_name_count);
-  }
+    print "</div></div>";
 }
 
-function eenterprise_utility_node_access($node, $op, $account){
+function generate_location_select()
+{
+    $default_zip_used = false;
+    $header_data = get_header_variables();
+    $city_name_count = array();
+    $default_zip = $header_data['primary_zip'];
+    if (isset($_SESSION['default_location_zip']) && isset($_SESSION['default_location_name'])) {
+        $default_zip = $_SESSION['default_location_zip'];
+        $default_name = $_SESSION['default_location_name'];
+    }
+
+
+    foreach ($header_data['locations'] as $key => $value) {
+        if (isset($city_name_count[$value])) {
+            ++$city_name_count[$value];
+        } else {
+            $city_name_count[$value] = 1;
+        }
+    }
+//    if (count($header_data['locations']) > 1) {
+        print "<label for='location-select'>Set location</label>";
+        print "<select for='favorite-location' id='location-select'>";
+
+        $count = 0;
+        foreach ($header_data['locations'] as $key => $value) {
+
+            if (intval($key) == intval($default_zip)) {
+                $selected = 'selected';
+                $default_zip_used = true;
+            } else {
+                $selected = '';
+            }
+            if ($count == 10) {
+                print "<option value='view_more' >Show More...</option>";
+                break;
+            }
+            if ($city_name_count[$value] > 1) {
+                print "<option value='" . $key . "' " . $selected . " >" . $value . " (" . $key . " )</option>";
+            } else {
+                print "<option value='" . $key . "' " . $selected . " >" . $value . "</option>";
+            }
+            $count = $count + 1;
+        }
+
+        // Check if saved default_zip was used. If not, it is a session variable that has not been saved yet.
+        // Add the value to the location selection
+        if ($default_zip_used == false) {
+            print "<option value='" . $default_zip . "' selected>" . $default_name . "</option>";
+        }
+
+
+        print "</select>";
+
+        if (count($header_data['locations']) > 10) {
+            get_modal_data($header_data['locations'], $city_name_count);
+        }
+//    }
+}
+
+function eenterprise_utility_node_access($node, $op, $account)
+{
     //Deny access to content that the user did not create.
-    if(($node->type == 'progress_tracker' && $op == 'view') && $node->name != $account->name)
+    if (($node->type == 'progress_tracker' && $op == 'view') && $node->name != $account->name)
         return NODE_ACCESS_DENY;
     else
         return NODE_ACCESS_ALLOW;
 }
 
 
-function eenterprise_utility_node_presave($node){
-    if($node->type == 'trusted_user')
+function eenterprise_utility_node_presave($node)
+{
+    if ($node->type == 'trusted_user')
         $node->title = strtolower($node->title);
 }
 
-function eenterprise_utility_views_query_alter(&$view, &$query) {
-    if($view->name == 'progress_tracker'){
+function eenterprise_utility_views_query_alter(&$view, &$query)
+{
+    if ($view->name == 'progress_tracker') {
         //Remove the natural behavior of the second filter on progress tracker.
         unset($query->table_queue['field_data_field_prog_track_rep_type_filter']);
         unset($query->tables['node']['field_data_field_prog_track_rep_type_filter']);
 
-        foreach($query->where[1]['conditions'] as $key => $value)
-            if($value['field'] == 'field_data_field_prog_track_rep_type_filter.field_prog_track_rep_type_filter_value')
+        foreach ($query->where[1]['conditions'] as $key => $value)
+            if ($value['field'] == 'field_data_field_prog_track_rep_type_filter.field_prog_track_rep_type_filter_value')
                 unset($query->where[1]['conditions'][$key]);
         //get allowed values for field filter.
         $field_info = field_info_field('field_prog_track_rep_type_filter');
         $allowed_values = $field_info['settings']['allowed_values'];
-        if(isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] != 'All') {
-            if(in_array($allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']], array('Firm Abatement', 'Firm RRP', 'Firm Combination'))){
+        if (isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] != 'All') {
+            if (in_array($allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']], array('Firm Abatement', 'Firm RRP', 'Firm Combination'))) {
                 $res_val = explode(" ", $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']]);
                 $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $res_val[1] . '%', 'LIKE');
-            }
-            else
+            } else
                 $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']] . '%', 'LIKE');
-        }
-        else if(isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] == 'All')
-            $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value','% %','LIKE');
+        } else if (isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] == 'All')
+            $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '% %', 'LIKE');
     }
 }
 
+/**
+ * Implements hook_theme().
+ */
+function eenterprise_utility_theme($existing, $type, $theme, $path) {
+
+  $themes = array(
+    'eenterprise_utility_terms_of_use_agreed_date_display' => array(
+      'render element' => 'element'
+    ),
+  );
+  return $themes;
+}
+
+// Custom theme output.
+function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
+  $element = $vars['element'];
+
+  $header = array(
+    'field_terms_of_use_agreed_date' => t('Terms of Use Agreed Date'), 
+  );
+ 
+  $rows = array();
+
+  foreach (element_children($element) as $key) {
+    $row = array();
+    $row['data'] = array();
+    $value = $element[$key]['value']['#value'];
+    if (!empty($value)) {
+      $row['data'][] = format_date($element[$key]['value']['#value'], 'long');
+      $rows[] = $row;
+    }
+  }
+
+  return theme('table', array(
+    'header' => $header, 
+    'rows' => $rows,
+    'attributes' => array('id' => 'categories-table'),
+  ));
+}

@@ -167,17 +167,17 @@ function trusted_user_check($uname){
 
 function create_progress_tracker($user){
     try {
-        $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+        $client = new SoapClient(variable_get('eactivity_auth_reg_wsdl'), array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
         drupal_set_message('Cannot connect to Registration Service.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService.", array(), WATCHDOG_ERROR);
         return;
     }
     $params1 = array(
-        "userId" => "registration.test@cgifederal.com",
-        "credential" => "Testregistration1",
-        "domain" => "default",
-        "authenticationMethod" => "password",
+        "userId" => variable_get('eactivity_auth_reg_username'),
+        "credential" => variable_get('eactivity_auth_reg_password'),
+        "domain" => variable_get('eactivity_auth_reg_domain'),
+        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
     );
     $response1 = null;
     try {
@@ -187,7 +187,7 @@ function create_progress_tracker($user){
         watchdog('eenterprise_bridge_auth',"Error: Cannot Authenticate to get data flow.", array(), WATCHDOG_ERROR);
         return;
     }
-    $client2 = new SoapClient("http://devngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM?wsdl", array('soap_version'   => SOAP_1_2));
+    $client2 = new SoapClient(variable_get('eactivity_dataflow_wsdl'), array('soap_version'   => SOAP_1_2));
     $params2 = array(
         "securityToken" => $response1->securityToken,
         "dataflow" => "E-ACTIVITY",
@@ -216,9 +216,8 @@ function create_progress_tracker($user){
                 "StatusUpdateDate" => (string)$activity->StatusUpdateDate,
                 "UserId" => (string)$activity->UserId,
                 "RoleId" => (string)$activity->RoleId,
-                "RoleIdSubject " => (string)$activity->RoleIdSubject ,
-                "Attributes " => (string)$activity->Attributes ,
-                "Documents " => (string)$activity->Documents ,);
+                "RoleIdSubject" => (string)$activity->RoleIdSubject ,
+                "Attributes" => (string)$activity->Attributes ,);
             foreach($activity->Attributes->Attribute as $child){
                 if((string)($child->attributes()) == 'facilityName')
                     $res['FacilityName'] = $child->__toString();
@@ -232,6 +231,39 @@ function create_progress_tracker($user){
                     $res['subPartName'] = $child->__toString();
                 else if((string)($child->attributes()) == 'facilityRegistryIdentifier')
                     $res['facilityRegistryIdentifier'] = $child->__toString();
+            }
+            $i=0;
+            foreach ($activity->Documents->Document as $child) {
+                $res['Documents'][$i]['id'] = $child->Id->__toString();
+                $res['Documents'][$i]['name'] = 'sites/default/files/'.$child->Name->__toString();
+                $res['Documents'][$i]['typeId'] = $child->TypeId->__toString();
+                $res['Documents'][$i]['size'] = $child->Size->__toString();
+                $res['Documents'][$i]['createDate'] = $child->CreateDate->__toString();
+                $res['Documents'][$i]['transactionId'] = $child->TransactionId->__toString();
+                $i++;
+
+                $param_attch_type = array("_" => $child->Id->__toString(),
+                    "contentType" => array($child->TypeId->__toString()));
+                $param_doc_id = $child->Id->__toString();
+
+                $param_doc = array(
+                    "documentName" => $child->Name->__toString(),
+                    "documentFormat" => array($child->TypeId->__toString()),
+                    "documentContent" => $param_attch_type,
+                    "documentId" => $param_doc_id,
+                );
+
+                $param_dl1 = array(
+                    "securityToken" => $response1->securityToken,
+                    "dataflow" => "E-ACTIVITY",
+                    "transactionId" => $child->TransactionId->__toString(),
+                    "documents" => $param_doc,
+                );
+                $resp_dl = $client2->__soapCall("Download", array($param_dl1));
+
+                $INPUT = $resp_dl->documents->documentContent->_;
+                $file = 'sites/default/files/'.$child->Name->__toString();
+                file_put_contents($file, $INPUT);
             }
             create_progress_tracker_node($res, $user);
         }
@@ -333,6 +365,11 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_updated['und'][0]['value'] = $st_update;
                 $node->field_prog_track_updated['und'][0]['format'] = null;
                 $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
+                if($res['Status'] == 'INCOMPLETE') {
+                    $node->field_prog_track_status_note['und'][0]['value'] = $res['StatusNote'];
+                    $node->field_prog_track_status_note['und'][0]['format'] = null;
+                    $node->field_prog_track_status_note['und'][0]['safe_value'] = $res['StatusNote'];
+                }
             }
             else if($res_domain == 'CEDRI'){
                 $exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
@@ -341,20 +378,29 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_updated['und'][0]['safe_value'] = $exp_date;
             }
             $res_action = '';
-            if ($res_domain == 'Lead')
-                if ($res['Status'] == 'APPROVED')
-                    $res_action = "Print Receipt Print Certification";
-                else
-                    $res_action = 'Print Receipt';
+            if ($res_domain == 'Lead'){
+                foreach($res['Documents'] as $ky => $vl){
+                    if(strpos($vl['name'],'Receipt') !== false)
+                        $res_action .= "<a href='/".$vl['name']."' target='_blank'>View Receipt</a><br/>";
+                    if(strpos($vl['name'],'Certificate') !== false)
+                        $res_action .= "<a href='/".$vl['name']."' target='_blank'>View Certificate</a><br/>";
+                }
+                if(empty($res_action))
+                    $res_action = "N/A";
+            }
             else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI')
-                $res_action = 'View Submission';
+                $res_action .= "<a href='".$res['ActivitySourceURL']."'>View Submission</a>";
 
-            $node->field_prog_track_actions['und'][0]['value'] = $res_action;
+            $node->field_prog_track_actions_dnload['und'][0]['value'] = $res_action;
+            $node->field_prog_track_actions_dnload['und'][0]['format'] = 'full_html';
+            $node->field_prog_track_actions_dnload['und'][0]['safe_value'] = $res_action;
+
+            /*$node->field_prog_track_actions['und'][0]['value'] = $res_action;
             $node->field_prog_track_actions['und'][0]['format'] = null;
             $node->field_prog_track_actions['und'][0]['safe_value'] = $res_action;
 
             $node->field_prog_track_actions_link['und'][0]['value'] = $res['ActivitySourceURL'];
-            $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;
+            $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;*/
 
 
             $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
@@ -371,9 +417,29 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_date_type['und'][0]['format'] = null;
                 $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
 
-                $node->field_prog_track_facility_name['und'][0]['value'] = $res['FacilityName'];;
+                $node->field_prog_track_facility_name['und'][0]['value'] = $res['FacilityName'];
                 $node->field_prog_track_facility_name['und'][0]['format'] = null;
-                $node->field_prog_track_facility_name['und'][0]['safe_value'] = $res['FacilityName'];;
+                $node->field_prog_track_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
+
+                $node->field_prog_track_part_code['und'][0]['value'] = $res['partCode'];
+                $node->field_prog_track_part_code['und'][0]['format'] = null;
+                $node->field_prog_track_part_code['und'][0]['safe_value'] = $res['partCode'];
+
+                $node->field_prog_track_part_name['und'][0]['value'] = $res['partName'];
+                $node->field_prog_track_part_name['und'][0]['format'] = null;
+                $node->field_prog_track_part_name['und'][0]['safe_value'] = $res['partName'];
+
+                $node->field_prog_track_sub_part_code['und'][0]['value'] = $res['subPartCode'];
+                $node->field_prog_track_sub_part_code['und'][0]['format'] = null;
+                $node->field_prog_track_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
+
+                $node->field_prog_track_sub_part_name['und'][0]['value'] = $res['subPartName'];
+                $node->field_prog_track_sub_part_name['und'][0]['format'] = null;
+                $node->field_prog_track_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
+
+                $node->field_prog_track_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
+                $node->field_prog_track_facility_reg_id['und'][0]['format'] = null;
+                $node->field_prog_track_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
             }
         }
         else if($res['ActivityType'] == 'TASK') {

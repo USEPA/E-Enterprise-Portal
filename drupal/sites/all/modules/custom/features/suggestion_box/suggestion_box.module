@@ -1,0 +1,317 @@
+<?php
+
+/**
+* Implements hook_init().
+*/
+
+/**
+* Implements hook_menu().
+*/
+function suggestion_box_menu() {
+  $items = array();
+  
+  $items['suggestion_box/%ctools_js'] = array(
+    'page callback' => 'suggestion_box_callback',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/people/suggestion_box'] = array(
+    'title' => 'Questions or Suggestion Box Settings',
+    'description' => 'Manage options for the questions or suggestion box submissions.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('suggestion_box_settings'),
+    'access arguments' => array('administer suggestion_box'),
+    'file' => 'suggestion_box.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Ajax menu callback.
+ */
+function suggestion_box_callback($ajax) {
+  if ($ajax) {
+    ctools_include('ajax');
+    ctools_include('modal');
+
+    $form_state = array(
+      'ajax' => TRUE,
+      'title' => t('Questions?'),
+    );
+
+    // Use ctools to generate ajax instructions for the browser to create
+    // a form in a modal popup.
+    $output = ctools_modal_form_wrapper('suggestion_box_form', $form_state);
+
+    // If the form has been submitted, there may be additional instructions
+    // such as dismissing the modal popup.
+    if (!empty($form_state['ajax_commands'])) {
+      $output = $form_state['ajax_commands'];
+    }
+
+    // Return the ajax instructions to the browser via ajax_render().
+    print ajax_render($output);
+    drupal_exit();
+  }
+  else {
+    return drupal_get_form('suggestion_box_form');
+  }
+}
+
+function suggestion_box_form($form, &$form_state) {
+
+  global $user;
+
+  // drupal_add_js(array(
+  //   'suggestion-box-modal-style' => array(
+  //     'modalSize' => array(
+  //       'type' => 'fixed',
+  //       'width' => 250,
+  //       'height' => 250,
+  //     ),
+  //   ),
+  // ), 'setting');
+
+  $form['#attached']['js'] = array(
+    drupal_get_path('module', 'suggestion_box') . '/js/suggestion_box_modal.js',
+  );
+
+  $form['#attached']['css'] = array(
+    drupal_get_path('module', 'suggestion_box') . '/css/suggestion_box_modal.css',
+  );
+
+  $form['email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email'),
+    // '#required' => TRUE,
+    '#size' => 60,
+    '#default_value' => $user->mail,
+    '#disabled' => TRUE,
+    // '#description' => t('Your email'),
+    '#id' => 'suggestion-box-email',
+  );
+
+  $form['exclude_email'] = array(
+    '#type' => 'checkbox', 
+    '#title' => t('Don\'t include my email address.'),
+    '#id' => 'suggestion-box-exclude-email',
+  );
+
+  // prepare categories for select options
+  $categories = unserialize(variable_get('suggestion_box_categories'));
+  $category_options = array();
+
+  foreach ($categories as $category) {
+  	$category_options[$category] = $category;
+  }
+
+  $form['category'] = array(
+    '#type' => 'select',
+    '#title' => t('Category'),
+    '#required' => TRUE,
+    '#options' => $category_options,
+    // '#description' => t('Suggestion category'),
+  );
+
+  $form['body'] = array(
+    '#title' => t('Message'),
+    '#type' => 'textarea',
+    '#required' => TRUE,
+    // '#description' => t('Body'),
+  );
+
+
+  // guest user
+  if($user->name === 'guest-user') {
+    // captcha for guests only
+    $form['my_captcha_element'] = array(
+      '#type' => 'captcha',
+      '#captcha_type' => 'captcha/Math',
+    );
+
+    // guests need to be able to edit the email field
+    $form['email']['#disabled'] = FALSE;
+
+    $form['email']['#default_value'] = '';
+
+    // guests can't choose to hide their email?
+    $form['exclude_email']['#access'] = FALSE;
+  }
+
+  $form['#submit'][] = 'suggestion_box_form_submit';
+  $form['#validate'][] = 'suggestion_box_form_validation';
+
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+
+  if ($form_state['submitted']){
+    drupal_set_message(t("Thank you for your feedback."), "status");
+    $commands[] = ctools_modal_command_dismiss();
+    $commands[] = ajax_command_prepend('#main-content', theme('status_messages'));
+    print ajax_render($commands);
+    exit;
+  }
+  
+  return $form;
+}
+
+function suggestion_box_form_submit($form, &$form_state) {
+
+  global $user;
+
+  $to = variable_get('suggestion_box_email');
+  $from = NULL;
+
+  if (!$form_state['values']['exclude_email']) { // show email
+    if ($user->name != 'guest-user') {
+      $from = $user->mail; // retrieve email from user profile
+    } else {
+      $from = $form_state['values']['email']; // use email from form for guests
+    }
+  }
+
+  drupal_mail('suggestion_box', 'notice', $to, language_default(), $form_state['values'], $from);
+
+  $form_state['rebuild'] = TRUE;
+}
+
+function suggestion_box_form_validation($form, &$form_state) {
+  $mail = $form_state['values']['email'];
+  if (!empty($mail) && !valid_email_address($mail)) {
+    form_set_error('email', t('Please enter a valid email address, not '.$mail));
+  }
+}
+
+function suggestion_box_mail($key, &$message, $params) {
+  
+  global $user;
+  $email = $user->mail;
+  if ($user->name == 'guest-user')
+    $email = $params['email'];
+
+  $msgBody = "Category: !category\r\nBody: !body";
+
+  $options['language'] = $message['language'];
+  user_mail_tokens($variables, $data, $options);
+  switch($key) {
+    case 'notice':
+
+      if (!$params['exclude_email']) {
+        $msgBody = "Email: !email\r\n" . $msgBody;
+      }
+
+      $langcode = $message['language']->language;
+      $message['subject'] = t('[!category] Suggestion', array('!category' => $params['category']), array('langcode' => $langcode));
+      $message['body'][] = t($msgBody, 
+        array('!email' => $email, '!category' => $params['category'], '!body' => $params['body']), 
+        array('langcode' => $langcode));
+      break;
+  }
+}
+
+function suggestion_box_admin() {
+
+}
+
+/**
+ * Helper function to make a link.
+ */
+function _suggestion_box_make_link($link_text = '') {
+
+  configure_ctools_popup();
+  
+  // Set a default value if no text in supplied.
+  if (empty($link_text)) {
+    $link_text = 'Modal';
+  }
+
+  // return l($link_text, 'suggestion_box/nojs', array('attributes' => array('class' => 'ctools-use-modal menu-link')));
+  return ctools_modal_text_button($link_text, 'suggestion_box/nojs', $link_text, 'ctools-modal-ee-ctools-popup-style');
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function suggestion_box_theme($existing, $type, $theme, $path) {
+
+  $themes = array(
+    'suggestion_box_settings_table_drag_components' => array(
+      'render element' => 'element'
+    ),
+  );
+  return $themes;
+}
+
+// Custom theme output.
+function theme_suggestion_box_settings_table_drag_components($vars) {
+  $element = $vars['element'];
+  drupal_add_tabledrag('categories-table', 'order', 'sibling', 'item-row-weight');
+
+  $header = array(
+    'categories' => t('Category'), 
+    'delete_categories' => t('Delete'),
+    'weight' => t('Weight'),
+  );
+ 
+  $rows = array();
+  foreach (element_children($element) as $key) {
+    $row = array();
+    $row['data'] = array();
+    foreach ($header as $fieldname => $title) {
+      $row['data'][] = drupal_render($element[$key][$fieldname]);
+      if ($element[$key]['add_category_button'])
+        $add_category_button = $element[$key]['add_category_button'];
+      $row['class'] = array('draggable');
+    }
+    $rows[] = $row;
+  }
+ 
+  return theme('table', array(
+    'header' => $header, 
+    'rows' => $rows,
+    'attributes' => array('id' => 'categories-table'),
+  )) . drupal_render($add_category_button);
+}
+
+/**
+* Ctools popup settings function.
+*/
+function configure_ctools_popup() {
+   static $added = FALSE;
+   if ($added == FALSE) {
+       $added = TRUE;
+       // Adding the necessary libraries
+       ctools_include('modal');
+       ctools_include('ajax');
+       ctools_modal_add_js();
+       // Setting up the preferences for the popup
+       $popup_style = array(
+           'ee-ctools-popup-style' => array(
+               'modalSize' => array(
+                   'type' => 'fixed', // Popup type.
+                   'width' => 475, // Width
+                   'height' => 'auto', // Height
+                   'addHeight' => 700, // Maximum height
+               ),
+               'modalOptions' => array(
+                   'opacity' => (float) 0.7, // Backgroung opacity
+                   'background-color' => '#000000', // Background color
+               ),
+               'closeText' => '', // Text for the close button
+               'closeImage' => '<img typeof="foaf:Image" src="/'. drupal_get_path('theme', 'greentrees') .'/images/close-titlebar.png" alt="Close window" title="Close window" />', // Image for the close button
+               'loadingText' => '', // Text with the popup downloading
+               'animation' => 'fadeIn', // Animation type
+               'modalTheme' => 'ee_ctools_popup_theme', // Name of theme to be added
+               'animationSpeed' => 'fast', // Popup animation speed
+           ),
+       );
+       drupal_add_js($popup_style, 'setting'); // Adding the preferences
+       ctools_add_js('ee_ctools_popup_style', 'suggestion_box'); // Adding the theme
+   }
+}

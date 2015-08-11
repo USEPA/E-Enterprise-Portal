@@ -12,23 +12,6 @@ if ($GLOBALS['theme_key'] === 'oneepa') {
   require_once dirname(__FILE__) . '/inc/process.inc';
   require_once dirname(__FILE__) . '/inc/theme.inc';
 
-  // Add tablesorter library.
-//  libraries_load('tablesorter');
-
-  // Add base theme style sheets.
-  $base_stylesheets = array(
-    //'base.css',
-    //'typography.css',
-    //'drupal.css',
-    //'layout.css',
-  );
-  foreach ($base_stylesheets as $val) {
-    drupal_add_css(
-      drupal_get_path('theme', $GLOBALS['theme_key']) . '/css/' . $val,
-      array('group' => CSS_THEME, 'every_page' => TRUE)
-    );
-  }
-
   // Add style sheet overrides.
   if (module_exists('contextual')) {
     drupal_add_css(
@@ -57,7 +40,6 @@ if ($GLOBALS['theme_key'] === 'oneepa') {
 
   // Add design theme style sheets.
   $design_stylesheets = array(
-    //'design.css',
     'mobile-menu.css',
     'drop-down-menu.css',
     'lib/colorbox.css',

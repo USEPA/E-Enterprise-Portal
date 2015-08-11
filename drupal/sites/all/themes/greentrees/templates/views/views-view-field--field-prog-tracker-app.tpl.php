@@ -23,10 +23,26 @@
  */
 ?>
 <?php print $output;
-if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name))
-    print "<br><span class='item-subscript-text'>".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']."</span>";
-if(!empty($view->result[$view->row_index]->field_field_prog_track_item_details)) {
-    print "<div id='modal-page-details-" . $view->row_index . "' class='modal-content-in-page'>".$view->result[$view->row_index]->field_field_prog_track_item_details[0]['rendered']['#markup']."</div>";
-    print "<br><a href='.' class='simple-dialog' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-" . $view->row_index . "' title='Item Details'>Details</a>";
+if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)){
+    print "<br><span class='item-subscript-text>'".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']."</span>";
+}
+
+if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)) {
+    //print "<div id='modal-page-details-" . $view->row_index . "' class='modal-content-in-page'>".$view->result[$view->row_index]->field_field_prog_track_item_details[0]['rendered']['#markup']."</div>";
+    $unique_id = $view->query->pager->current_page.'-'.$view->row_index;
+    print "<div id='modal-page-details-prog-track-" . $unique_id . "' class='modal-content-in-page'>
+            <p><b>Reporting Facility</b><br/> ".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']." (".$view->result[$view->row_index]->field_field_prog_track_facility_reg_id[0]['rendered']['#markup'].")</p>
+            <p><b>Report will be published on</b><br/> " . $view->result[$view->row_index]->field_field_prog_track_updated[0]['rendered']['#markup']."</p>
+            <p><b>Other Information</b><br/> ".$view->result[$view->row_index]->field_field_prog_track_part_code[0]['rendered']['#markup']." - ".$view->result[$view->row_index]->field_field_prog_track_part_name[0]['rendered']['#markup']."<br/>".$view->result[$view->row_index]->field_field_prog_track_sub_part_code[0]['rendered']['#markup']." - ".$view->result[$view->row_index]->field_field_prog_track_sub_part_name[0]['rendered']['#markup']."</div>";
+    print "<br><a href='.' class='simple-dialog' id='details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Item Details'>Details</a>";
+}
+else if(!empty($view->result[$view->row_index]->field_field_prog_track_status_note)) {
+    $unique_id = $view->query->pager->current_page.'-'.$view->row_index;
+    print "<div id='modal-page-details-prog-track-" . $unique_id . "' class='modal-content-in-page'>
+            <p><b>Application Information</b><br/>" . $view->result[$view->row_index]->field_field_prog_tracker_app[0]['rendered']['#markup']."</p>
+            <p><b>Status</b><br/> " . $view->result[$view->row_index]->field_field_prog_track_status[0]['rendered']['#markup']."</p>
+            <p><b>Status Note</b><br/> ".$view->result[$view->row_index]->field_field_prog_track_status_note[0]['rendered']['#markup']."</p><p>Please <a href='http://www2.epa.gov/lead/forms/contact-us' target='_blank'>contact the Lead Help Desk</a> if you have any questions about the status of your application.</p>
+          </div>";
+    print "<br><a href='.' class='simple-dialog' id='details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Status Note'>Details</a>";
 }
 ?>
