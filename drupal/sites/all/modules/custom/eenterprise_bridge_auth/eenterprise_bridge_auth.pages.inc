@@ -304,6 +304,16 @@ function _update_progress_tracker_to_do_item($query_res, $res){
         }
     }
 
+    //For Lead progress tracker, if status note is updated, update progress tracker item.
+    if ($res['ActivityType'] == 'TRACKER' && $res['PartnerSystemId'] == 'cdx-lead') {
+        $db_status_note = db_query("select field_prog_track_status_note_value from {field_data_field_prog_track_status_note} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+
+        if($db_status_note != $res['StatusNote']){
+            node_delete($query_res['entity_id']);
+            return true;
+        }
+    }
+
     $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
     $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res['entity_id']))->fetchField();
 
