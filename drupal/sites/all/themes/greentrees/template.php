@@ -12,23 +12,6 @@ if ($GLOBALS['theme_key'] === 'greentrees') {
   require_once dirname(__FILE__) . '/inc/process.inc';
   require_once dirname(__FILE__) . '/inc/theme.inc';
 
-  // Add tablesorter library.
-//  libraries_load('tablesorter');
-
-  // Add base theme style sheets.
-  $base_stylesheets = array(
-    //'base.css',
-    //'typography.css',
-    //'drupal.css',
-    //'layout.css',
-  );
-  foreach ($base_stylesheets as $val) {
-    drupal_add_css(
-      drupal_get_path('theme', $GLOBALS['theme_key']) . '/css/' . $val,
-      array('group' => CSS_THEME, 'every_page' => TRUE)
-    );
-  }
-
   // Add style sheet overrides.
   if (module_exists('contextual')) {
     drupal_add_css(
@@ -57,7 +40,6 @@ if ($GLOBALS['theme_key'] === 'greentrees') {
 
   // Add design theme style sheets.
   $design_stylesheets = array(
-    //'design.css',
     'mobile-menu.css',
     'drop-down-menu.css',
     'lib/colorbox.css',
@@ -93,30 +75,26 @@ if ($GLOBALS['theme_key'] === 'greentrees') {
   }
 }
 
-function greentrees_html_head_alter(&$head_elements) {
-	  // Add title.
-  $head_title = 'E-Enterprise for the Environment';
-  if (!empty($head_elements['metatag_DC.title']['#value'])) {
-    $head_title = $head_elements['metatag_DC.title']['#value'];
-
-    // If we're on a child page of a web area, add web area title to the title.
-    if ($node = menu_get_object()) {
-      if ($group = og_context()) {
-        if (og_is_member('node', $group['gid'], 'node', $node)) {
-          $wrapper = entity_metadata_wrapper('node', $group['gid']);
-          $head_title .= ' | '. $wrapper->field_long_name->value(array('sanitize' => TRUE));
-        }
-      }
-    }
+function greentrees_html_head_alter(&$head_elements, &$page) {
+  $page_title = drupal_get_title($page);
+  $path = $_GET['q'];
+  if ((strpos($path,'user') !== false) && (strpos($path,'edit') !== false)) {
+	  $path = 'user';
   }
   // Use a custom title if we're on the log in page.
-  else if ($_GET['q'] == 'user') {
-    $head_title = 'e-Enterprise Log In';
+  if ($path == 'ee-welcome') {
+	  $page_title = 'Welcome';
+  }
+  else if ($path == 'user') {
+	  $page_title = 'My Account';
+  }
+  else {
+	  $page_title = "Workbench";
   }
   $head_elements['head_title'] = array(
-    '#type' => 'markup',
-    '#markup' => "<title>$head_title | E-Enterprise for the Environment</title>",
-    '#weight' => -4,
+	'#type' => 'markup',
+	'#markup' => "<title>$page_title | E-Enterprise for the Environment</title>",
+	'#weight' => -4,
   );
 
   // Add weights to EPA metatags.

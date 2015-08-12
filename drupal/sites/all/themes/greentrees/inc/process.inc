@@ -110,6 +110,7 @@ function greentrees_preprocess_html(&$vars) {
  * Override or insert variables into the page template.
  */
 function greentrees_preprocess_page(&$vars) {
+
   $vars['title_attributes_array']['class'] = 'page-title';
   $vars['microsite_name'] = '';
   $vars['content_language'] = language_default('language');
@@ -140,18 +141,6 @@ function greentrees_preprocess_page(&$vars) {
     $vars['page']['content']['system_main']['#attributes']['class'] = 'col size-1of3';
     $vars['page']['content']['#prefix'] = "<div class='cols-2 row'>";
     $vars['page']['content']['#suffix'] = '</div>';
-  }
-
-  // If it's a web area, set the long title to display as the title.
-  if (!empty($vars['node']) && $vars['node']->type == 'web_area') {
-    $items = field_get_items('node', $vars['node'], 'field_long_name');
-    if (!empty($items)) {
-      drupal_set_title($items[0]['value']);
-      // Hide title on Microsite home pages.
-      if (isset($vars['node']->field_web_area_type['und'][0]['value']) && $vars['node']->field_web_area_type['und'][0]['value'] == 'Microsite') {
-        $vars['title_attributes_array']['class'] .= ' element-invisible';
-      }
-    }
   }
   
   $search_form = drupal_get_form('search_form');
