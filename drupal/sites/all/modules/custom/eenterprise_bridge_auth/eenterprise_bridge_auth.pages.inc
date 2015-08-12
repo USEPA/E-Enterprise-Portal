@@ -1,4 +1,5 @@
 <?php
+define("TYPE","#type");
 
 /**
  * @file
@@ -28,7 +29,7 @@ function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
   $identity_providers = [array('Name' => 'Log in')];
   $form = array();
   $form['wrap'] = array(
-    '#type' => 'value',
+    TYPE => 'value',
     '#value' => $wrap,
   );
   if (!$identity_providers) {
@@ -36,12 +37,12 @@ function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
   }
   $temp = array();
   $temp['identity_providers'] = array(
-    '#type' => 'value',
+    TYPE => 'value',
     '#value' => $identity_providers,
   );
   foreach ($identity_providers as $identity_provider) {
     $temp[$identity_provider['Name']] = array(
-      '#type' => 'submit',
+      TYPE => 'submit',
       '#default_value' => $identity_provider['Name'],
     );
   }
