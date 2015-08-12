@@ -54,6 +54,14 @@ function eenterprise_utility_menu()
         'access arguments' => array('administer eactivity dataflow'),
         'file' => 'eenterprise_utility_eactivity_dataflow.admin.inc',
     );
+    $items['admin/config/system/frs-naas'] = array(
+        'title' => 'FRS NAAS Authentication',
+        'description' => 'FRS NAAS Token generate and Zip code lookup Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('frs_naas_auth_settings'),
+        'access arguments' => array('administer frs naas'),
+        'file' => 'eenterprise_utility_frs_naas.admin.inc',
+    );
     return $items;
 }
 
@@ -71,6 +79,10 @@ function eenterprise_utility_permission()
         'administer eactivity dataflow' => array(
             'title' => t('Administer E-Activity Dataflow Settings'),
             'description' => t('Change E-Activity Webservice Endpoint Settings.'),
+        ),
+        'administer frs naas' => array(
+            'title' => t('Administer FRS NAAS Settings'),
+            'description' => t('Change FRS NAAS Settings.'),
         ),
     );
 }
@@ -764,9 +776,6 @@ function eenterprise_utility_theme($existing, $type, $theme, $path) {
 // Custom theme output.
 function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
     $element = $vars['element'];
-
-    dpm($element);
-
     $header = array(
         'field_date_signed' => t('User Agreement Signed'),
         'field_agreement_node_id' => t('Agreement Version'),
@@ -781,14 +790,10 @@ function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
         $nid = $element[$i]['field_agreement_node_id'][LANGUAGE_NONE][0]['value']['#value'];
 
         if (!empty($timestamp)) {
-
             $node = node_load($nid);
-            dpm($node);
-
             $row['data'][] = format_date($timestamp, 'long');
             $row['data'][] = l($node->title . ' (Last modified: ' . format_date($node->changed) . ')', '/node/' . $nid);
             $rows[] = $row;
-            dpm($row);
         }
     }
 
