@@ -20,7 +20,7 @@ if(drupal_is_front_page()) {
 	<?php
 		$hgroup_open = '';
 		$hgroup_close = '';
-	    if ($site_name || $site_slogan):
+	    if ($site_name || $site_slogan) {
 			$hgroup_open = '<hgroup class="site-name-and-slogan">';
 			$hgroup_close = '';
 		}
