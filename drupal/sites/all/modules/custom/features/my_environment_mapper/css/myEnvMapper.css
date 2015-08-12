@@ -1,9 +1,11 @@
-.myEnvMapperWrapperNotUsed  {
+.embedMyEnv-container {
   position: relative;
-  padding-bottom: 0px;
-  padding-top: 0px;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
 }
-.myEnvMapperWrapperNotUsed iframe {
+.embedMyEnv-container iframe, .embedMyEnv-container object, .embedMyEnv-container embed {
   position: absolute;
   top: 0;
   left: 0;
