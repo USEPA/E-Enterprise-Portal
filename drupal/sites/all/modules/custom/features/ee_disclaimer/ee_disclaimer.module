@@ -1,21 +1,21 @@
 <?php
 
 /**
-* Implements hook_init().
-*/
+ * Implements hook_init().
+ */
 
 /**
-* Implements hook_menu().
-*/
+ * Implements hook_menu().
+ */
 function ee_disclaimer_menu() {
   $items = array();
 
   $items['ee_disclaimer'] = array(
-    'page callback' => 'ee_disclaimer_callback',
-    'page arguments' => array(1),
-    'access callback' => TRUE,
-    'type' => MENU_CALLBACK,
-    'title' => 'User Agreement',
+      'page callback' => 'ee_disclaimer_callback',
+      'page arguments' => array(1),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+      'title' => 'User Agreement',
   );
 
   return $items;
@@ -52,18 +52,18 @@ function ee_disclaimer_callback() {
 function ee_disclaimer_form($form, &$form_state) {
 
   $form['agree'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('I agree to these terms of use'),
+      '#type' => 'checkbox',
+      '#title' => t('I agree to these terms of use'),
   );
 
   $form['#submit'][] = 'ee_disclaimer_form_submit';
   $form['#validate'][] = 'ee_disclaimer_form_validation';
 
   $form['submit_button'] = array(
-    '#type' => 'submit',
-    '#value' => t('Continue'),
+      '#type' => 'submit',
+      '#value' => t('Continue'),
   );
-  
+
   return $form;
 }
 
@@ -76,10 +76,21 @@ function ee_disclaimer_form_submit($form, &$form_state) {
   } else {
     $user_data = user_load($user->uid);
 
-    $agreed_date = $user_data->field_terms_of_use_agreed_date;
-    $agreed_date[LANGUAGE_NONE][] = array('value' => time());
+    $agreed = $user_data->field_terms_of_use_agreed;
+    $agreed[LANGUAGE_NONE][] = array(
+        'field_date_signed' => array(
+            LANGUAGE_NONE => array(
+                0 => array('value' => time())
+            )
+        ),
+        'field_agreement_node_id' => array(
+            LANGUAGE_NONE => array(
+                0 => array('value' => _ee_disclaimer_latest_node()->nid)
+            )
+        ),
+    );
 
-    $edit = array('field_terms_of_use_agreed_date' => $agreed_date);
+    $edit = array('field_terms_of_use_agreed' => $agreed);
 
     user_save($user_data, $edit);
   }
@@ -94,13 +105,26 @@ function ee_disclaimer_form_validation($form, &$form_state) {
   }
 }
 
+function _ee_disclaimer_latest_node() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'ee_user_agreement')
+      ->propertyCondition('status', 1)
+      ->propertyOrderBy('created', 'DESC')
+      ->range(0, 1);
+
+  $result = $query->execute();
+
+  return node_load(end($result['node'])->nid);
+}
+
 function _ee_disclaimer_last_modified() {
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
-  ->entityCondition('bundle', 'ee_user_agreement')
-  ->propertyCondition('status', 1)
-  ->propertyOrderBy('created', 'DESC')
-  ->range(0, 1);
+      ->entityCondition('bundle', 'ee_user_agreement')
+      ->propertyCondition('status', 1)
+      ->propertyOrderBy('created', 'DESC')
+      ->range(0, 1);
 
   $result = $query->execute();
 
@@ -127,6 +151,10 @@ function ee_disclaimer_theme_registry_alter(&$theme_registry) {
   }
 }
 
+/**
+ * Returns whether or not the disclaimer needs to be shown.
+ * @return bool
+ */
 function _show_ee_disclaimer() {
   global $user;
   $user_data = user_load($user->uid);
@@ -137,7 +165,7 @@ function _show_ee_disclaimer() {
   }
 
   $disclaimer_last_modified = _ee_disclaimer_last_modified();
-  $user_agreed_date = end($user_data->field_terms_of_use_agreed_date[LANGUAGE_NONE])['value'];
+  $user_agreed_date = end($user_data->field_terms_of_use_agreed[LANGUAGE_NONE])['field_date_signed'][LANGUAGE_NONE][0]['value'];
 
   return $disclaimer_last_modified > $user_agreed_date ;
 }
