@@ -223,8 +223,9 @@ function high_level_taxonomy_checkboxes()
 // http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.15
 function frs_lat_long_to_zip_code($lat, $long)
 {
+    $ip = variable_get('frs_api_lookup_ip');
     $token = frs_naas_autentication();
-    $prod_url =  'https://ofmext.epa.gov/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=134.67.241.61&p_token=' . $token . '&p_latitude=' . $lat .
+    $prod_url =  variable_get('frs_api_lookup_url'). '.get_spatial_data_by_latlong84?p_ip_address=' . $ip . '&p_token=' . $token . '&p_latitude=' . $lat .
         '&p_longitude=' . $long;
 //
     $options = array(
@@ -255,9 +256,10 @@ function frs_lat_long_to_zip_code($lat, $long)
 function frs_city_state_to_zip_code($city, $state)
 {
     $token = frs_naas_autentication();
-    $ip = '134.67.241.61';
-    $prod_url = 'https://ofmext.epa.gov/fiicdx/FRS_API_LOOKUP_SERVICES.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
-        . $city . '&p_state_abbr=' . $state;
+    $ip = variable_get('frs_api_lookup_ip');
+    $encoded_city = urlencode($city);
+    $prod_url = variable_get('frs_api_lookup_url'). '.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
+        . $encoded_city . '&p_state_abbr=' . $state;
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
@@ -268,7 +270,6 @@ function frs_city_state_to_zip_code($city, $state)
 
     $results = json_decode($response->data);
     $formatted_city = ucwords(strtolower($city));
-
     $return = array(
         'zip_array' => $results->postalCodes,
         'state' => $state,
@@ -283,7 +284,7 @@ function frs_zip_code_to_city_state($zip)
 {
     $token = frs_naas_autentication();
     $ip = variable_get('frs_api_lookup_ip');
-    $prod_url = variable_get('frs_api_lookup_url').'?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
+    $prod_url = variable_get('frs_api_lookup_url').'.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
