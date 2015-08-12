@@ -11,10 +11,14 @@
  * @ingroup views_templates
  */
 drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', 'external');
+drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/custom_js.js", "file");
+
 ?>
 <!-- Site must incorporate these files to use FacilityWidget -->
-<script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery-1.10.2.min.js"></script>
-<script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery-ui-1.10.4/js/jquery-ui-1.10.4.min.js"> </script>
+<!--<script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery-1.10.2.min.js"></script>-->
+<!--<script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery-ui-1.10.4/js/jquery-ui-1.10.4.min.js"> </script>-->
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+
 <script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery.validate1.12.0.min.js"></script>
 
 <script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.js"></script>
@@ -39,13 +43,16 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
 <script src="https://dev.epacdx.net/FrsPhase2/Content/v3/FRS%20Widget/src/FacilityManagementTemplates.js"> </script>
 <script src="https://dev.epacdx.net/FrsPhase2/Content/v3/js/common.js"></script>
 <!--<script src="../src/TablePagination.js"></script>	-->
-<script src="https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/dist/FacilityManagementWidget.min.js"></script>
+<script src="https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/temp/concat.js"></script>
 
 <body style="background: rgb(240, 240, 240);">
 <p>Widget Should spawn below</p>
 <div id="facility-widget" style="max-width:1363px;"></div>
 <script>
     $.initFacilityManagementWidget({
+        autoScroll : false,
+        repositionFancyBoxes : true,
+        widgetDisplayType : "Edit My Facilities",
         RetrieveWidgetData : 'https://dev.epacdx.net/FrsPhase2/FrsFacilitiesScripts/RetrieveWidgetData',
         frsGetManagedFacilities : 'https://dev.epacdx.net/FrsPhase2/FrsFacilitiesScripts/GetFacilitiesByUserRole',
         frsGetEditingFacility : 'https://dev.epacdx.net/FrsPhase2/FrsFacilitiesScripts/GetFrsFacility',
@@ -59,7 +66,6 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
         frsAddFacilities : 'https://dev.epacdx.net/FrsPhase2/FrsFacilitiesScripts/AddFacilityToRole',
         ImagesFolderPath: "https://dev.epacdx.net/FrsPhase2/content/v3/FRS%20Widget/images", //static
         userRoleId: 80172,
-
         isRegistration: false, //static
         loadFromSession: false, //static
         NASSToken : "Mary Cheat Token - FIX ASAP!!!!!!",
