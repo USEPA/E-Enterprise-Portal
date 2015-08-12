@@ -282,8 +282,8 @@ function frs_city_state_to_zip_code($city, $state)
 function frs_zip_code_to_city_state($zip)
 {
     $token = frs_naas_autentication();
-    $ip = '134.67.241.61';
-    $prod_url = 'https://ofmext.epa.gov/fiicdx/FRS_API_LOOKUP_SERVICES.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
+    $ip = variable_get('frs_api_lookup_ip');
+    $prod_url = variable_get('frs_api_lookup_url').'?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
@@ -310,22 +310,22 @@ function frs_zip_code_to_city_state($zip)
 
 
 function frs_naas_autentication() {
-    $wsdl = 'https://cdxnodenaas.epa.gov/xml/SecurityToken_v30.wsdl';
-    $email = 'enterprise.portal.frs.admin@epa.gov';
-    $password = 'Prodfrsenterprise01';
+    $wsdl = variable_get('cdx_node_token_wsdl');
+    $email = variable_get('cdx_node_token_email');
+    $password = variable_get('cdx_node_token_password');
     try {
         $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
-        drupal_set_message('Cannot connect to Registration Service.', 'error');
+        drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
         return;
     }
     $params1 = array(
         "userId" => $email,
         "credential" => $password,
-        "domain" => "default",
-        "authMethod" => "password",
+        "domain" => variable_get('cdx_node_token_domain'),
+        "authMethod" => variable_get('cdx_node_token_auth_method'),
         "trustee" => $email,
-            "ip" => "134.67.241.61",
+            "ip" => variable_get('frs_api_lookup_ip'),
             "subjectData" => "tbd",
             "subject" => "tbd",
             "issuer" => "EEP",
@@ -337,8 +337,7 @@ function frs_naas_autentication() {
         $response1 = $client->__soapCall("CreateSecurityToken", array($params1));
         $token = $response1->return;
     } catch(SoapFault $f) {
-        drupal_set_message('Cannot Authenticate to get data flow.', 'error');
-        var_dump($f);
+        drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
         return;
     }
     return $token;
