@@ -16,38 +16,31 @@ if(drupal_is_front_page()) {
 ?>
 <?php print render($page['alert']); ?>
 <header class="masthead clearfix" role="banner">
-  <?php 
-  	$hgroup_open = '';
-    $hgroup_close = '';
-
-  	if ($site_name || $site_slogan) {
-      $hgroup_open = '<hgroup class="site-name-and-slogan">';
-      $hgroup_close = '</hgroup>';
-    }  
-  ?>
-  
-  <?php print $hgroup_open; ?>
-  <?php if ($site_name): ?>
-    <h1 class="site-name">
-
-      <?php
-		$link_open = '<a href="/" title="E-Enterprise for the Environment" rel="home">';
-		$link_close = '</a>';
-      ?>
-
-      <?php print $link_open; ?>
-	  <img class="site-logo" src="sites/all/themes/oneepa/images/placeholder-image.png" alt="e-Enterprise for the Environment" />
-      <?php print $link_close; ?>
-
-    </h1>
-  <?php endif; ?>
-
-  <?php if ($site_slogan): ?>
-    <div class="site-slogan"><?php print $site_slogan; ?></div>
-  <?php endif; ?>
-
-  <?php print $hgroup_close; ?>
-  <?php print render($page['top_header']); ?>
+	<?php
+		$hgroup_open = '';
+		$hgroup_close = '';
+	    if ($site_name || $site_slogan) {
+			$hgroup_open = '<hgroup class="site-name-and-slogan">';
+			$hgroup_close = '';
+		}
+	?>
+	<?php print $hgroup_open; ?>
+	<?php if ($site_name): ?>
+		<h1 class="site-name" id="site-name">
+			<a href="<?php print $front_page; ?>" title="<?php print t('Home - '.$site_name); ?>" rel="home">
+			<?php if ($logo): ?>
+				<img src="<?php print $logo; ?>" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />
+			<?php else: ?>
+				<img src="./sites/all/themes/oneepa/images/placeholder-logo.png" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />			
+			<?php endif; ?>
+			</a>
+		</h1>
+	<?php endif; ?>
+	<?php if ($site_slogan): ?>
+		<div class="site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
+	<?php endif; ?>
+	<?php print $hgroup_close; ?>
+	<?php print render($page['top_header']); ?>
 </header>
 <?php print render($page['header']); ?>
 <?php print render($page['nav-bar']); ?>

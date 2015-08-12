@@ -280,9 +280,12 @@ input[type="submit"],
 	vertical-align: bottom;
 	font-family: $lato;
 }
-
+.site-logo {
+	display: block;
+}
 .site-name {
-	margin-top: 20px;
+	height: auto;
+	width: auto;
 	>a:hover, > a:focus, > a:active {
 		background-color: #333333;
 	}
@@ -452,6 +455,9 @@ input[type="submit"],
 	.mobile-bar {
 		display: none;
 		//Removes mobile navigation menu on welcome page as no options are available
+	}
+	.site-name-and-slogan {
+		margin-left: 2em;
 	}
 	.region-header {
 		padding: 15px 3.25em;
@@ -734,6 +740,13 @@ tr.odd, tr.even {
 }
 
 @media screen and (min-width: 30em) {
+	.site-name-and-slogan {
+		position: relative;
+	}
+	.site-slogan {
+		position: relative;
+		top: 36px;
+	}
 	footer {
 		div, .block--ee-social-media {
 			float: left;
@@ -771,6 +784,9 @@ tr.odd, tr.even {
 
 @media screen and (min-width: 40em) {
 	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
+		.site-name-and-slogan {
+			margin-left: 2em;
+		}
 		.region-header {
 			font-size: 1em;
 		}
@@ -832,9 +848,6 @@ tr.odd, tr.even {
 		.region-header {
 			padding:0;
 		}
-	}
-	.site-name-and-slogan {
-		margin-left: 1em;
 	}
 	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
 		.region-header {

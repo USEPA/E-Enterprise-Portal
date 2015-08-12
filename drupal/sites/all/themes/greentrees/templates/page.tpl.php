@@ -17,43 +17,31 @@ if(drupal_is_front_page()) {
 ?>
 <?php print render($page['alert']); ?>
 <header class="masthead clearfix" role="banner">
-  <?php if ($logo): ?>
-    <a href="/" title="<?php print t('e-Enterprise for the Environment Home Page'); ?>" rel="home" class="header__logo" id="logo"><img class="site-logo" src="<?php print $logo; ?>" alt="e-Enterprise for the Environment" /></a>
-  <?php endif; ?>
-  <?php 
-  	$hgroup_open = '';
-    $hgroup_close = '';
-
-  	if ($site_name || $site_slogan) {
-      $hgroup_open = '<hgroup class="site-name-and-slogan">';
-      $hgroup_close = '</hgroup>';
-    }  
-  ?>
-  
-  <?php print $hgroup_open; ?>
-  <?php if ($site_name): ?>
-    <h1 class="site-name">
-
-      <?php
-		$link_open = '<a href="/" title="e-Enterprise for the Environment home page" rel="home">';
-		$link_close = '</a>';
-      ?>
-
-      <?php print $link_open; ?>
-      <span><?php print $site_name; ?></span>
-      <?php print $link_close; ?>
-
-    </h1>
-  <?php endif; ?>
-
-  <?php if ($site_slogan): 
-	   $site_slogan = str_replace("United States", "United States<br>",$site_slogan);
-  ?>
-    <div class="site-slogan"><?php print $site_slogan; ?></div>
-  <?php endif; ?>
-
-  <?php print $hgroup_close; ?>
-  <?php print render($page['top_header']); ?>
+	<?php
+		$hgroup_open = '';
+		$hgroup_close = '';
+	    if ($site_name || $site_slogan):
+			$hgroup_open = '<hgroup class="site-name-and-slogan">';
+			$hgroup_close = '';
+		}
+	?>
+	<?php print $hgroup_open; ?>
+	<?php if ($site_name): ?>
+		<h1 class="site-name" id="site-name">
+			<a href="<?php print $front_page; ?>" title="<?php print t('Home - '.$site_name); ?>" rel="home">
+			<?php if ($logo): ?>
+				<img src="<?php print $logo; ?>" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />
+			<?php else: ?>
+				<img src="./sites/all/themes/oneepa/images/placeholder-logo.png" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />			
+			<?php endif; ?>
+			</a>
+		</h1>
+	<?php endif; ?>
+	<?php if ($site_slogan): ?>
+		<div class="site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
+	<?php endif; ?>
+	<?php print $hgroup_close; ?>
+	<?php print render($page['top_header']); ?>
 </header>
 <?php print render($page['header']); ?>
 <?php print render($page['nav-bar']); ?>
