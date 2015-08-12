@@ -14,10 +14,8 @@
 ?>
 
 <?php
-
 drupal_add_js(drupal_get_path('module', 'first_time_user_profile_block') . "/js/first_time_user_profile.js", "file");
 drupal_add_css(drupal_get_path('module', 'first_time_user_profile_block') . "/css/first_time_user_profile.css", "file");
-
 ?>
 <div id="first-time-user-profile">
     <h2><span>Getting Started</span>What matters to you?</h2>
