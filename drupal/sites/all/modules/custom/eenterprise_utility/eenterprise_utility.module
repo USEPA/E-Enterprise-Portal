@@ -353,12 +353,12 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         }
 
         // Field specific settings for Terms of Use Agreed Date
-        $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#theme'] = 'eenterprise_utility_terms_of_use_agreed_date_display';
-        $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#disabled'] = TRUE;
+        $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#theme'] = 'eenterprise_utility_terms_of_use_agreed_date_display';
+        $form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]['#disabled'] = TRUE;
 
         // only admins see the Terms of Use Agreed Date field
         if (!user_access('administer site configuration')) {
-            hide($form['field_terms_of_use_agreed'][LANGUAGE_NONE]);
+            hide($form['field_terms_of_use_agreed_date'][LANGUAGE_NONE]);
         }
     } // end user form
 }
@@ -776,23 +776,19 @@ function eenterprise_utility_theme($existing, $type, $theme, $path) {
 // Custom theme output.
 function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
     $element = $vars['element'];
+
     $header = array(
-        'field_date_signed' => t('User Agreement Signed'),
-        'field_agreement_node_id' => t('Agreement Version'),
+        'field_terms_of_use_agreed_date' => t('Terms of Use Agreed Date'),
     );
 
     $rows = array();
-    for($i = 0; $i <= $element['#max_delta']; $i++) {
+
+    foreach (element_children($element) as $key) {
         $row = array();
         $row['data'] = array();
-
-        $timestamp = $element[$i]['field_date_signed'][LANGUAGE_NONE][0]['value']['#value'];
-        $nid = $element[$i]['field_agreement_node_id'][LANGUAGE_NONE][0]['value']['#value'];
-
-        if (!empty($timestamp)) {
-            $node = node_load($nid);
-            $row['data'][] = format_date($timestamp, 'long');
-            $row['data'][] = l($node->title . ' (Last modified: ' . format_date($node->changed) . ')', '/node/' . $nid);
+        $value = $element[$key]['value']['#value'];
+        if (!empty($value)) {
+            $row['data'][] = format_date($element[$key]['value']['#value'], 'long');
             $rows[] = $row;
         }
     }
@@ -800,5 +796,6 @@ function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
     return theme('table', array(
         'header' => $header,
         'rows' => $rows,
+        'attributes' => array('id' => 'categories-table'),
     ));
 }
