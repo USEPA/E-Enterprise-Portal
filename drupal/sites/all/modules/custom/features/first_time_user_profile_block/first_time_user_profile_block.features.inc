@@ -40,6 +40,10 @@ function first_time_user_profile_block_menu()
         'page callback' => 'frs_zip_code_to_city_state',
         'access callback' => TRUE,
     );
+    $items['frs_naas_autentication'] = array(
+        'page callback' => 'frs_naas_autentication',
+        'access callback' => TRUE,
+    );
     return $items;
 }
 
@@ -151,6 +155,8 @@ function save_first_time_user_preferences()
 
 function return_location_data_lat_long()
 {
+    //30.212147800000004
+    //92.028346
     $results = array();
     if (isset($_GET['longitude']) && isset($_GET['latitude'])) {
         $longitude = $_GET['longitude'];
@@ -185,12 +191,11 @@ function return_location_data()
         $city = trim($location_array[0]);
         $state = trim($location_array[1]);
         $zips = frs_city_state_to_zip_code($city, $state);
-        $zips['name_city_state'] = false;
+//        $zips['name_city_state'] = false;
         echo json_encode($zips);
     } else {
         $zip_lookup = zip_code_lookup($validation['postal_code']);
         $zip_lookup['name_city_state'] = true;
-
         echo json_encode($zip_lookup);
     }
 
@@ -218,8 +223,8 @@ function high_level_taxonomy_checkboxes()
 // http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.15
 function frs_lat_long_to_zip_code($lat, $long)
 {
-
-    $prod_url =  'https://ofmext.epa.gov/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=1&p_token=1&p_latitude=' . $lat .
+    $token = frs_naas_autentication();
+    $prod_url =  'https://ofmext.epa.gov/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=134.67.241.61&p_token=' . $token . '&p_latitude=' . $lat .
         '&p_longitude=' . $long;
 //
     $options = array(
@@ -229,120 +234,56 @@ function frs_lat_long_to_zip_code($lat, $long)
         'method' => 'GET',
 //        'data' => $data
     );
-    $response = drupal_http_request($prod_url, $options);
+    try {
+        $response = drupal_http_request($prod_url, $options);
+    }
+    catch (Exception $e) {
+        var_dump($e);
+    }
     $data = json_decode($response->data);
-//    $results = $data->Results;
-//
-//    $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
-//    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=1&p_token=1&p_latitude=' . $lat .
-//        '&p_longitude=' . $long;
-////    echo $base_url . '<br />';
-////    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_token=1&p_ip_address=1&p_latitude=42.916952&p_longitude=-71.37567';
-////    echo $base_url . '<br />';
-//    $encoded_base_url = urlencode($base_url);
-//    $request_url = $test_domain . $encoded_base_url;
-
-    $request_url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $lat . ',' . $long . '&sensor=true';
-//    $data = array(
-//        'p_token' => 1,
-//        'p_ip_address' => 1,
-//        'p_latitude' => $lat,
-//        'p_longitude' => $long,
-//    );
-//    $data = drupal_json_encode($data);
-    $options = array(
-        'headers' => array(
-            'Content-Type' => 'application/json',
-        ),
-        'method' => 'GET',
-//        'data' => $data
+    $results = $data->Results;
+    $formatted_city = ucwords(strtolower($results->derivedCity));
+    $return = array(
+        'zip' => $results->derivedZip,
+        'city' => $formatted_city,
+        'state' => $results->derivedState,
     );
-    $response = drupal_http_request($request_url, $options);
-    $data = json_decode($response->data);
-    $return = $data->results[0]->address_components;
-//    $results = $data->Results;
-//    $formatted_city = ucwords(strtolower($results->derivedCity));
-//
-//    $return = array(
-//        'zip' => $results->derivedZip,
-//        'city' => $formatted_city,
-//        'state' => $results->derivedState,
-//        'request_url' => $request_url
-//    );
     return $return;
 }
 
 // http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.14
 function frs_city_state_to_zip_code($city, $state)
 {
-    $auth_id = 'a740dd63-56d1-464c-bbd4-1257cbee810b';
-    $auth_token = 'kgymwzaj3778mkj47rvQ';
-    $request_url = 'https://api.smartystreets.com/zipcode?auth-id=' . $auth_id . '&auth-token=' . kgymwzaj3778mkj47rvQ . '&city=' . $city . '&state=' . $state;
-//    $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
-//    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_zip_by_city_state?p_ip_address=1&p_token=1&p_city_name='
-//        . $city . '&p_state_abbr=' . $state;
-//    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_zip_by_city_state?p_token=1&p_ip_address=1&p_city_name=FALLS CHURCH&p_state_abbr=VA';
-//    echo $base_url . '<br />';
-//    $encoded_base_url = urlencode($base_url);
-//    $request_url = $test_domain . $encoded_base_url;
-//    $data = array(
-//        'p_token' => 1,
-//        'p_ip_address' => 1,
-//        'p_postal_code' => $zip,
-//    );
-//    $data = array( 'url' => $encoded_base_url);
-//    $data = drupal_json_encode($data);
+    $token = frs_naas_autentication();
+    $ip = '134.67.241.61';
+    $prod_url = 'https://ofmext.epa.gov/fiicdx/FRS_API_LOOKUP_SERVICES.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
+        . $city . '&p_state_abbr=' . $state;
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
         ),
         'method' => 'GET',
-//        'data' => $data
     );
-    $response = drupal_http_request($request_url, $options);
-//
-//    $data = array(
-//        'p_token' => 1,
-//        'p_ip_address' => 1,
-//        'p_city_name' => $city,
-//        'p_state_abbr' => $state,
-//    );
-//    $data = drupal_json_encode($data);
-//    $options = array(
-//        'headers' => array(
-//            'Content-Type' => 'application/json',
-//        ),
-//        'method' => 'GET',
-//        'data' => $data
-//    );
-//    $response = drupal_http_request($base_url, $options);
-    $return = json_decode($response->data);
-//    $formatted_city = ucwords(strtolower($city));
+    $response = drupal_http_request($prod_url, $options);
 
-//    $return = array(
-//        'zip_array' => $results->postalCodes,
-//        'state' => $state,
-//        'city' => $formatted_city,
-//    );
+    $results = json_decode($response->data);
+    $formatted_city = ucwords(strtolower($city));
+
+    $return = array(
+        'zip_array' => $results->postalCodes,
+        'state' => $state,
+        'city' => $formatted_city,
+    );
     return $return;
 }
 
-// http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.13
+
+//// http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.13
 function frs_zip_code_to_city_state($zip)
 {
-    /// TESTING:
-//    $zip = $_GET['zip'];
-    $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
-    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_city_state_by_zip?p_ip_address=1&p_postal_code=' . $zip . '&p_token=1';
-    $encoded_base_url = urlencode($base_url);
-    $request_url = $test_domain . $encoded_base_url;
-//    $data = array(
-//        'p_token' => 1,
-//        'p_ip_address' => 1,
-//        'p_postal_code' => $zip,
-//    );
-//    $data = array( 'url' => $encoded_base_url);
-//    $data = drupal_json_encode($data);
+    $token = frs_naas_autentication();
+    $ip = '134.67.241.61';
+    $prod_url = 'https://ofmext.epa.gov/fiicdx/FRS_API_LOOKUP_SERVICES.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
@@ -350,7 +291,7 @@ function frs_zip_code_to_city_state($zip)
         'method' => 'GET',
 //        'data' => $data
     );
-    $response = drupal_http_request($request_url, $options);
+    $response = drupal_http_request($prod_url, $options);
     $data = json_decode($response->data);
     $results = $data->Results;
     $formatted_city = ucwords(strtolower($results->cityName));
@@ -366,3 +307,39 @@ function frs_zip_code_to_city_state($zip)
     );
     return $return;
 }
+
+
+function frs_naas_autentication() {
+    $wsdl = 'https://cdxnodenaas.epa.gov/xml/SecurityToken_v30.wsdl';
+    $email = 'enterprise.portal.frs.admin@epa.gov';
+    $password = 'Prodfrsenterprise01';
+    try {
+        $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
+    } catch(SoapFault $f) {
+        drupal_set_message('Cannot connect to Registration Service.', 'error');
+        return;
+    }
+    $params1 = array(
+        "userId" => $email,
+        "credential" => $password,
+        "domain" => "default",
+        "authMethod" => "password",
+        "trustee" => $email,
+            "ip" => "134.67.241.61",
+            "subjectData" => "tbd",
+            "subject" => "tbd",
+            "issuer" => "EEP",
+        "tokenType" => 'csm',
+    );
+
+    $token = null;
+    try {
+        $response1 = $client->__soapCall("CreateSecurityToken", array($params1));
+        $token = $response1->return;
+    } catch(SoapFault $f) {
+        drupal_set_message('Cannot Authenticate to get data flow.', 'error');
+        var_dump($f);
+        return;
+    }
+    return $token;
+};
