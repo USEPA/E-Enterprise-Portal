@@ -68,7 +68,6 @@ class AdfsBridge {
         $decryptedToken = '';
         $decryptionFailed = false;
         $rootElement = $xpath->query('/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse');
-        //$rootElement = $xpath->query('/wst:RequestSecurityTokenResponse/wst:RequestedSecurityToken/xenc:EncryptedData');
         $rootElement = $rootElement->item(0);
         if (preg_match('/EncryptedData/i', $rootElement->nodeName) > 0) {
             $topNode = $rootElement->firstChild;
@@ -87,7 +86,6 @@ class AdfsBridge {
                             break;
                         default:
                             throw new Exception("Unknown encryption blockAlgorithm: ".$blockAlgorithm.".");
-                            break;
                     }
                     
                     # Alg. has been determined, check to make sure an error hasn't been thrown, and proceed.
@@ -106,7 +104,6 @@ class AdfsBridge {
                                     break;
                                 default:
                                     throw new Exception("Unrecognized keyWrapAlgorithm: ".$keyWrapAlgorithm.".");
-                                    break;
                             }
                             if ($decryptionFailed == false) {
                                 if ($cipherValueNodes = $topNode->getElementsByTagname("CipherValue") ) {
@@ -174,7 +171,6 @@ class AdfsBridge {
         }
         // Get saml:Assertion element
         if ($decryptedToken != '') {
-            //set_error_handler('HandleXmlError');
             $decryptedToken_dom = new DOMDocument();
             $decryptedToken = str_replace('\"', '"', $decryptedToken);
             $decryptedToken = str_replace ("\r", "", $decryptedToken);   
@@ -190,7 +186,6 @@ class AdfsBridge {
             $assertion = $decryptedToken_dom->documentElement;
         } else {
             // Find the saml:Assertion element in the response.
-            //$assertions = $xpath->query('/wst:RequestSecurityTokenResponse/wst:RequestedSecurityToken/saml:Assertion');
             $assertions = $xpath->query('/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse/trust:RequestedSecurityToken/saml:Assertion');
             if ($assertions->length === 0) {
                 throw new Exception('Received an ADFS response without an assertion.');
@@ -213,7 +208,6 @@ class AdfsBridge {
         $userDetails = new AdfsUserDetails();
         
 	// Extract the name identifier from the response.
-	//$nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:NameIdentifier', $assertion);
 	$nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:SubjectConfirmation/saml:ConfirmationMethod', $assertion);
 	if ($nameid->length === 0) {
             throw new Exception('Could not find the name identifier in the response from the WS-Fed.');

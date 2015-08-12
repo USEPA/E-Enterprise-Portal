@@ -23,12 +23,11 @@
  */
 ?>
 <?php print $output;
-if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)){
+if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)) {
     print "<br><span class='item-subscript-text>'".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']."</span>";
 }
 
 if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)) {
-    //print "<div id='modal-page-details-" . $view->row_index . "' class='modal-content-in-page'>".$view->result[$view->row_index]->field_field_prog_track_item_details[0]['rendered']['#markup']."</div>";
     $unique_id = $view->query->pager->current_page.'-'.$view->row_index;
     print "<div id='modal-page-details-prog-track-" . $unique_id . "' class='modal-content-in-page'>
             <p><b>Reporting Facility</b><br/> ".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']." (".$view->result[$view->row_index]->field_field_prog_track_facility_reg_id[0]['rendered']['#markup'].")</p>

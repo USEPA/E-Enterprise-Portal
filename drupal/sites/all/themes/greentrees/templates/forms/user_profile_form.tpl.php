@@ -91,7 +91,6 @@ print render($form['field_profile_favourites']);
 </div>
 
 <?php
-// print render($form['field_profile_interests']);
 	print render($form['field_interests2']);	
 ?>
 
@@ -111,7 +110,7 @@ foreach ($vocabs as $vid=>$value) {
 	}
 	print '<ul ' . $class . '><li style="' . $style . '" id="vocab_holder-' . $vid . '" class="vocab_holder"><h2><span class="label label-primary full-width">' . $value->name . '</span><span class="glyphicon glyphicon-chevron-up"></span></h2></li></ul>';
 }	
-	// print '<ul ><li id="vocab_holder-other" class="vocab_holder"><h2><span class="label label-primary full-width">Other</span><span class="glyphicon glyphicon-chevron-up"></span></h2></li></ul>';
+
 print '</div>';
 print '</div>';
 ?>
@@ -120,16 +119,8 @@ print '</div>';
 </div> <!--panel-body-->
 </div> <!--panel-->
 </div> <!-- col-->
-<!--
-<div class="col-xs-12">
-<div class="panel panel-default">
-	<div class="panel-body">
-<?php
-	// print render($form['field_interests2']);	
-?>
-	</div>
-</div>
-	</div>col-->
+
+  <!--Unused code block removed check git history-->
 
 
 <div class="col-xs-12">

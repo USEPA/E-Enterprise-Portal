@@ -38,7 +38,6 @@ function greentrees_links($vars) {
 
     $output .= '<ul' . drupal_attributes($attributes) . '>';
 
-    $num_links = count($links);
     $i = 1;
 
     foreach ($links as $key => $link) {
@@ -412,7 +411,7 @@ function greentrees_table($vars) {
   // Format the table rows:
   if (count($rows)) {
     $output .= "<tbody>\n";
-    foreach ($rows as $number => $row) {
+    foreach ($rows as $row) {
       $attributes = array();
 
       // Check if we're dealing with a simple or complex row

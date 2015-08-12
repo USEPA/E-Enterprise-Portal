@@ -72,7 +72,6 @@
 					$loginmsg = "<div id=\"login-group\" class=\"container\">";
 					$loginform = str_replace("E-Enterprise Bridge", "Log in", render($block['content']));
 					$loginmsg .= $loginform;
-					//$loginmsg .= "<a id=\"learnmorelink\" data-toggle=\"modal\" href=\"#learnmore\">Why log in?</a></div>";
                 else:
                    	$loginmsg = "<p>Welcome, <strong>".$user->name."!</strong><br><a href=\"workbench\">View workbench</a></p>";
                 endif;

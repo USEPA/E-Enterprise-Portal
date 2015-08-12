@@ -12,9 +12,6 @@ if ($GLOBALS['theme_key'] === 'greentrees') {
   require_once dirname(__FILE__) . '/inc/process.inc';
   require_once dirname(__FILE__) . '/inc/theme.inc';
 
-  // Add tablesorter library.
-//  libraries_load('tablesorter');
-
   // Add base theme style sheets.
   $base_stylesheets = array(
     //'base.css',
