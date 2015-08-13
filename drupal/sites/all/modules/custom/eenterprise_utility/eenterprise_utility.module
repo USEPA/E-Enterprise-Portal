@@ -777,8 +777,6 @@ function eenterprise_utility_theme($existing, $type, $theme, $path) {
 function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
     $element = $vars['element'];
 
-    dpm($element);
-
     $header = array(
         'field_date_signed' => t('User Agreement Signed'),
         'field_agreement_node_id' => t('Agreement Version'),
@@ -795,12 +793,10 @@ function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
         if (!empty($timestamp)) {
 
             $node = node_load($nid);
-            dpm($node);
 
             $row['data'][] = format_date($timestamp, 'long');
             $row['data'][] = l($node->title . ' (Last modified: ' . format_date($node->changed) . ')', '/node/' . $nid);
             $rows[] = $row;
-            dpm($row);
         }
     }
 
