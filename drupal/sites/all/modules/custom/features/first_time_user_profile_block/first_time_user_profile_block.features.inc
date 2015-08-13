@@ -248,7 +248,7 @@ function frs_lat_long_to_zip_code($lat, $long)
         $response = drupal_http_request($prod_url, $options);
     }
     catch (Exception $e) {
-        var_dump($e);
+        dpm($e);
     }
     $data = json_decode($response->data);
     $results = $data->Results;
@@ -278,7 +278,7 @@ function frs_city_state_to_zip_code($city, $state)
         'method' => 'GET',
     );
     $response = drupal_http_request($prod_url, $options);
-    var_dump($response);
+    dpm($response);
     $results = json_decode($response->data);
     $formatted_city = ucwords(strtolower($city));
     $return = array(
@@ -340,7 +340,7 @@ function frs_naas_autentication() {
         return;
     }
 //    print '<h1>Client</h1>';
-//    var_dump($client);
+    dpm($client);
     $params1 = array(
         "userId" => $email,
         "credential" => $password,
