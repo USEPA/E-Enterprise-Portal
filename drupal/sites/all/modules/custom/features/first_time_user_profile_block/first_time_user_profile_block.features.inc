@@ -291,7 +291,6 @@ function frs_zip_code_to_city_state($zip)
             'Content-Type' => 'application/json',
         ),
         'method' => 'GET',
-//        'data' => $data
     );
     $response = drupal_http_request($prod_url, $options);
     $data = json_decode($response->data);
@@ -317,8 +316,6 @@ function frs_naas_autentication() {
     $password = variable_get('cdx_node_token_password');
     $soap_options = array(
         'soap_version' => SOAP_1_2,
-//        'login' => 'lgentrycgi',
-//        'password' => 'Massive16',
     );
     try {
         $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
@@ -328,7 +325,7 @@ function frs_naas_autentication() {
         drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
         return;
     }
-//    print '<h1>Client</h1>';
+
     dpm($client);
     $domain = variable_get('cdx_node_token_domain');
     if ($domain == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
@@ -367,13 +364,10 @@ function frs_naas_autentication() {
         $token = $response1->return;
         dpm($token);
     } catch(SoapFault $f) {
-//        print '<h1> Soap fault</h1>';
-//        echo json_encode($f);//var_dump($f);
         dpm($f);
         drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
         return;
     }
     dpm($response1);
-//    $token = 'csm:IiKaBeCRDqJlYZsoKi9--uEHbAOnxttNqWXAHunnLMAzg0G4ENWZimKZALJaA2YH.ZIFdjBMkZhzkrBQBy8tgK39F4d9120-xM_klggl-0u9k5OLVLkoRRB-FeB1_xGnA.irqvifejlpdb-qu12SN9QWi5VtQlRQ4WSw2lj6FKCp_5c2W4G4Tc-w,,.';
     return $token;
 };
