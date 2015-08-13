@@ -70,6 +70,8 @@ function first_time_user_profile_block_theme_registry_alter(&$theme_registry)
 }
 
 
+
+
 /**
  * Params: array of zip codes, array of taxonomy ids for interests, skip boolean
  * Changes user's first_time_user to false
@@ -223,6 +225,13 @@ function high_level_taxonomy_checkboxes()
 // http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.15
 function frs_lat_long_to_zip_code($lat, $long)
 {
+
+//    $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
+//    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=1&p_token=1&p_latitude=' . $lat .
+//        '&p_longitude=' . $long;
+//    $encoded_base_url = urlencode($base_url);
+//    $request_url = $test_domain . $encoded_base_url;
+//    echo $request_url . '<br />';
     $ip = variable_get('frs_api_lookup_ip');
     $token = frs_naas_autentication();
     $prod_url =  variable_get('frs_api_lookup_url'). '.get_spatial_data_by_latlong84?p_ip_address=' . $ip . '&p_token=' . $token . '&p_latitude=' . $lat .
@@ -239,7 +248,7 @@ function frs_lat_long_to_zip_code($lat, $long)
         $response = drupal_http_request($prod_url, $options);
     }
     catch (Exception $e) {
-        var_dump($e);
+        dpm($e);
     }
     $data = json_decode($response->data);
     $results = $data->Results;
@@ -260,6 +269,8 @@ function frs_city_state_to_zip_code($city, $state)
     $encoded_city = urlencode($city);
     $prod_url = variable_get('frs_api_lookup_url'). '.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
         . $encoded_city . '&p_state_abbr=' . $state;
+    echo '<br />' . $prod_url . '<br />';
+
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
@@ -267,7 +278,7 @@ function frs_city_state_to_zip_code($city, $state)
         'method' => 'GET',
     );
     $response = drupal_http_request($prod_url, $options);
-
+    dpm($response);
     $results = json_decode($response->data);
     $formatted_city = ucwords(strtolower($city));
     $return = array(
@@ -282,9 +293,11 @@ function frs_city_state_to_zip_code($city, $state)
 //// http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.13
 function frs_zip_code_to_city_state($zip)
 {
+    echo 'here';
     $token = frs_naas_autentication();
     $ip = variable_get('frs_api_lookup_ip');
     $prod_url = variable_get('frs_api_lookup_url').'.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
+    echo '<br />' . $prod_url . '<br />';
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
@@ -314,12 +327,20 @@ function frs_naas_autentication() {
     $wsdl = variable_get('cdx_node_token_wsdl');
     $email = variable_get('cdx_node_token_email');
     $password = variable_get('cdx_node_token_password');
+    $soap_options = array(
+        'soap_version' => SOAP_1_2,
+//        'login' => 'lgentrycgi',
+//        'password' => 'Massive16',
+    );
     try {
-        $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
+        $client = new SoapClient($wsdl, $soap_options);
     } catch(SoapFault $f) {
+        dpm($f);
         drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
         return;
     }
+//    print '<h1>Client</h1>';
+    dpm($client);
     $params1 = array(
         "userId" => $email,
         "credential" => $password,
@@ -333,13 +354,21 @@ function frs_naas_autentication() {
         "tokenType" => 'csm',
     );
 
+    dpm($params1);
+
     $token = null;
     try {
         $response1 = $client->__soapCall("CreateSecurityToken", array($params1));
         $token = $response1->return;
+        dpm($token);
     } catch(SoapFault $f) {
+//        print '<h1> Soap fault</h1>';
+//        echo json_encode($f);//var_dump($f);
+        dpm($f);
         drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
         return;
     }
+    dpm($response1);
+//    $token = 'csm:IiKaBeCRDqJlYZsoKi9--uEHbAOnxttNqWXAHunnLMAzg0G4ENWZimKZALJaA2YH.ZIFdjBMkZhzkrBQBy8tgK39F4d9120-xM_klggl-0u9k5OLVLkoRRB-FeB1_xGnA.irqvifejlpdb-qu12SN9QWi5VtQlRQ4WSw2lj6FKCp_5c2W4G4Tc-w,,.';
     return $token;
 };
