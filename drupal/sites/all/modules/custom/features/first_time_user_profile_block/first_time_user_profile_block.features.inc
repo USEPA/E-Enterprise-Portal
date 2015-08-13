@@ -329,24 +329,36 @@ function frs_naas_autentication() {
     }
 //    print '<h1>Client</h1>';
     dpm($client);
-    $params1 = array(
+    $params = array(
         "userId" => $email,
         "credential" => $password,
         "domain" => variable_get('cdx_node_token_domain'),
-        "authMethod" => variable_get('cdx_node_token_auth_method'),
-        "trustee" => $email,
-        "ip" => variable_get('frs_api_lookup_ip'),
-        "subjectData" => "tbd",
-        "subject" => "tbd",
-        "issuer" => "EEP",
-        "tokenType" => 'csm',
+        "authenticationMethod" => variable_get('cdx_node_token_auth_method'),
+        "clientIp" => variable_get('frs_api_lookup_ip'),
+        'resourceURI' => ''
     );
+    $soap_type = 'CentralAuth';
 
-    dpm($params1);
+//    $params = array(
+//        "userId" => $email,
+//        "credential" => $password,
+//        "domain" => variable_get('cdx_node_token_domain'),
+//        "authMethod" => variable_get('cdx_node_token_auth_method'),
+//        "trustee" => $email,
+//        "ip" => variable_get('frs_api_lookup_ip'),
+//        "subjectData" => "tbd",
+//        "subject" => "tbd",
+//        "issuer" => "EEP",
+//        "tokenType" => 'csm',
+//    );
+//        $soap_type = 'CreateSecurityToken';
+
+
+    dpm($params);
 
     $token = null;
     try {
-        $response1 = $client->__soapCall("CreateSecurityToken", array($params1));
+        $response1 = $client->__soapCall($soap_type, array($params));
         $token = $response1->return;
         dpm($token);
     } catch(SoapFault $f) {
