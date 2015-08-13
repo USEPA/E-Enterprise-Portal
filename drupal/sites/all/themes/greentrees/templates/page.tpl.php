@@ -7,13 +7,12 @@
 <?php
 if(drupal_is_front_page()) {
     global $user;
-    if($user->uid == 0) {
+    if($user->uid == 0)
+      //drupal_goto("/eenterprise-for-environment");
       drupal_goto("/ee-welcome");
-    }
-    else {
+    else
       drupal_goto("/workbench");
-      exit;
-    }
+    exit;
 }
 ?>
 <?php print render($page['alert']); ?>

@@ -38,7 +38,7 @@ class AdfsBridge {
             '&wctx='. $context;
     }
     
-    function getAdfsSignInResponse($adfsConf, $wa, $wresult, $wctx) {
+    function getAdfsSignInResponse($adfsConf, $wresult) {
         // TODO: Validate input
         
         // Validate configuration
@@ -74,12 +74,7 @@ class AdfsBridge {
             if (preg_match('/EncryptionMethod/i', $topNode->nodeName) > 0) {
                 if ($blockAlgorithm=$topNode->getAttribute("Algorithm") ) {
                     switch ($blockAlgorithm) {
-                        case "http://www.w3.org/2001/04/xmlenc#aes256-cbc":
-                            $mcrypt_cipher = MCRYPT_RIJNDAEL_128;
-                            $mcrypt_mode = MCRYPT_MODE_CBC;
-                            $iv_length = 16;
-                            break;
-                        case "http://www.w3.org/2001/04/xmlenc#aes128-cbc":
+                        case "http://www.w3.org/2001/04/xmlenc#aes256-cbc" || "http://www.w3.org/2001/04/xmlenc#aes128-cbc":
                             $mcrypt_cipher = MCRYPT_RIJNDAEL_128;
                             $mcrypt_mode = MCRYPT_MODE_CBC;
                             $iv_length = 16;
@@ -228,7 +223,7 @@ class AdfsBridge {
         
         return $userDetails;
     }
-    function handleXmlError($errno, $errstr, $errfile, $errline) {
+    function handleXmlError($errno, $errstr) {
         if ($errno==E_WARNING && (substr_count($errstr,"DOMDocument::loadXML()")>0)) {
             throw new DOMException($errstr);
         } else {
