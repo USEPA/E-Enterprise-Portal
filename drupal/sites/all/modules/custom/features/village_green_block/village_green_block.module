@@ -1,5 +1,3 @@
 <?php
-/**
- * @file
- * Drupal needs this blank file.
- */
+
+include_once 'village_green_block.features.inc';
