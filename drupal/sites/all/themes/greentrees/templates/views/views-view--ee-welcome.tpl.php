@@ -31,7 +31,7 @@
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
     <?php 
-		print $title; 
+        print $title;
     ?>
   <?php endif; ?>
   <?php print render($title_suffix); ?>
@@ -39,15 +39,15 @@
     <div class="view-header">
     <?php 
         global $user;
-        if($user->uid == 0):               		
-			$headerlogin = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
-			$loginbutton = str_replace("E-Enterprise Bridge", "Log in", render($headerlogin['content']));
-			print $loginbutton;
+        if($user->uid == 0):
+            $headerlogin = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
+            $loginbutton = str_replace("E-Enterprise Bridge", "Log in", render($headerlogin['content']));
+            print $loginbutton;
         endif;
         
         $updatedheader = str_replace("E-Enterprise Bridge", "Log in", $header);
-      ?>		
-      <?php print $updatedheader; ?>	
+      ?>
+      <?php print $updatedheader; ?>
     </div>
   <?php endif; ?>
 
@@ -65,15 +65,15 @@
 
   <?php if ($rows): ?>
     <div class="view-content">
-			<?php
+            <?php
                 global $user;
-                if($user->uid == 0):               		
-					$block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
-					$loginmsg = "<div id=\"login-group\" class=\"container\">";
-					$loginform = str_replace("E-Enterprise Bridge", "Log in", render($block['content']));
-					$loginmsg .= $loginform;
+                if($user->uid == 0):
+                    $block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
+                    $loginmsg = "<div id=\"login-group\" class=\"container\">";
+                    $loginform = str_replace("E-Enterprise Bridge", "Log in", render($block['content']));
+                    $loginmsg .= $loginform;
                 else:
-                   	$loginmsg = "<p>Welcome, <strong>".$user->name."!</strong><br><a href=\"workbench\">View workbench</a></p>";
+                    $loginmsg = "<p>Welcome, <strong>".$user->name."!</strong><br><a href=\"workbench\">View workbench</a></p>";
                 endif;
                 
                 $rows = str_replace("Login", $loginmsg, $rows);

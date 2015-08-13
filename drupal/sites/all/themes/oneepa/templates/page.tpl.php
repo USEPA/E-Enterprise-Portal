@@ -7,20 +7,22 @@
 <?php
 if(drupal_is_front_page()) {
     global $user;
-    if($user->uid == 0)
-        drupal_goto("/eenterprise-for-environment");
-    else
-        drupal_goto("/workbench");
+    if($user->uid == 0) {
+      drupal_goto("/eenterprise-for-environment");
+    }
+    else {
+      drupal_goto("/workbench");
+    }
     exit;
 }
 ?>
 <?php print render($page['alert']); ?>
 <header class="masthead clearfix" role="banner">
   <?php 
-  	$hgroup_open = '';
+    $hgroup_open = '';
     $hgroup_close = '';
 
-  	if ($site_name || $site_slogan) {
+    if ($site_name || $site_slogan) {
       $hgroup_open = '<hgroup class="site-name-and-slogan">';
       $hgroup_close = '</hgroup>';
     }  
@@ -31,12 +33,12 @@ if(drupal_is_front_page()) {
     <h1 class="site-name">
 
       <?php
-		$link_open = '<a href="/" title="E-Enterprise for the Environment" rel="home">';
-		$link_close = '</a>';
+        $link_open = '<a href="/" title="E-Enterprise for the Environment" rel="home">';
+        $link_close = '</a>';
       ?>
 
       <?php print $link_open; ?>
-	  <img class="site-logo" src="sites/all/themes/oneepa/images/placeholder-image.png" alt="e-Enterprise for the Environment" />
+      <img class="site-logo" src="sites/all/themes/oneepa/images/placeholder-image.png" alt="e-Enterprise for the Environment" />
       <?php print $link_close; ?>
 
     </h1>
@@ -57,13 +59,13 @@ if(drupal_is_front_page()) {
   <?php print render($page['highlighted']); ?>
 
   <div id="content" class="main-column column clearfix" role="main">
-  	<?php if($page['navigation']): ?>
-		<div id="navigation">
-	      <?php print render($page['navigation']); ?>
-	    </div><!-- end div:navigation -->
-	<?php endif; ?>
-	<a id="main-content"></a>
-	<?php print render($page['help']); ?>
+    <?php if($page['navigation']): ?>
+        <div id="navigation">
+          <?php print render($page['navigation']); ?>
+        </div><!-- end div:navigation -->
+    <?php endif; ?>
+    <a id="main-content"></a>
+    <?php print render($page['help']); ?>
     <?php print render($title_prefix); ?>
     <?php if ($title): ?>
     <?php
@@ -78,19 +80,19 @@ if(drupal_is_front_page()) {
       <h1 <?php print $title_attributes; ?>><?php print $title;?></h1>
       <!--googleoff: all-->
     <?php endif; ?>
-	<?php print render($title_suffix); ?>
-	<?php print render($tabs); ?>
-	<?php print $messages; ?>
-	<?php if ($action_links = render($action_links)): ?>
-		<ul class="action-links"><?php print render($action_links); ?></ul>
-	<?php endif; ?>
-	
+    <?php print render($title_suffix); ?>
+    <?php print render($tabs); ?>
+    <?php print $messages; ?>
+    <?php if ($action_links = render($action_links)): ?>
+        <ul class="action-links"><?php print render($action_links); ?></ul>
+    <?php endif; ?>
+
     <!--googleon: all-->
     <?php print render($page['content']); ?>
     <!--googleoff: all-->
     <?php print $feed_icons; ?>
 
-	</div>
+    </div>
     
     <?php
       // Render the sidebars to see if there's anything in them.

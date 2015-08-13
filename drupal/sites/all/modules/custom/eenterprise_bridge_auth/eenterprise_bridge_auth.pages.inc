@@ -1,5 +1,9 @@
 <?php
 define("TYPE","#type");
+define("ENTITY_ID", "entity_id");
+define("ACTIVITY_TYPE","ActivityType");
+define("STATUS_NOTE","StatusNote");
+define("PARTNER_SYSTEM_ID", "PartnerSystemId");
 
 /**
  * @file
@@ -115,9 +119,10 @@ function eenterprise_bridge_auth_authenticate($error) {
             $username = end($username_raw);
             $uname = "";
 
-            if($pos === FALSE || $username === FALSE)
+            if($pos === FALSE || $username === FALSE) {
                 $uname = $userDetails->attributes['email'][0];
-            else{
+            }
+            else {
                 $uname = $username;
             }
             if(variable_get('trusted_users_list_used') == 'Yes') {
@@ -158,9 +163,13 @@ function eenterprise_bridge_auth_authenticate($error) {
  */
 function trusted_user_check($uname){
     $trusted_users = db_query("select nid, title from {node} where type = :node_type", array(":node_type" => "trusted_user"))->fetchAllKeyed();
-    $uname = trim($uname,'"');     //gmail usernames are sent with quotes before and after the username.
+
+    //gmail usernames are sent with quotes before and after the username.
+    $uname = trim($uname,'"');
+
     if(in_array(strtolower($uname), $trusted_users) || in_array(strtoupper($uname), $trusted_users))
-        ;  //if user is trusted Do Nothing, authentication will resume.
+        //if user is trusted Do Nothing, authentication will resume.
+      ;
     else{
         $_SESSION['trusted_login'] = 'NO';
         drupal_goto("/");
@@ -206,16 +215,16 @@ function create_progress_tracker($user){
         foreach($resp->children('http://www.exchangenetwork.net/schema/eact/1') as $activity)
         {
             $res = array("EActivityId" => (string)$activity->EActivityId,
-                "PartnerSystemId" => (string)$activity->PartnerSystemId,
+                PARTNER_SYSTEM_ID => (string)$activity->PartnerSystemId,
                 "PartnerExternalId" => (string)$activity->PartnerExternalId,
                 "PartnerSystemReportType" => (string)$activity->PartnerSystemReportType,
-                "ActivityType" => (string)$activity->ActivityType,
+                ACTIVITY_TYPE => (string)$activity->ActivityType,
                 "ActivityDesc" => (string)$activity->ActivityDesc,
                 "ActivityCreateDate" => (string)$activity->ActivityCreateDate,
                 "ActivitySourceURL" => (string)$activity->ActivitySourceURL,
                 "ActivityExpirationDate" => (string)$activity->ActivityExpirationDate,
                 "Status" => (string)$activity->Status,
-                "StatusNote" => (string)$activity->StatusNote,
+                STATUS_NOTE => (string)$activity->StatusNote,
                 "StatusUpdateDate" => (string)$activity->StatusUpdateDate,
                 "UserId" => (string)$activity->UserId,
                 "RoleId" => (string)$activity->RoleId,
@@ -288,55 +297,50 @@ function create_progress_tracker($user){
 function _update_progress_tracker_to_do_item($query_res, $res){
 
     //For CEDRI to-do, if source url or expiration date is updated, update progress tracker item.
-    if ($res['ActivityType'] == 'TASK' && $res['PartnerSystemId'] == 'cdx-cedri') {
-        $db_exp_date = db_query("select field_todo_lst_due_value from {field_data_field_todo_lst_due} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+    if ($res[ACTIVITY_TYPE] == 'TASK' && $res[PARTNER_SYSTEM_ID] == 'cdx-cedri') {
+        $db_exp_date = db_query("select field_todo_lst_due_value from {field_data_field_todo_lst_due} where entity_id = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
         $res_exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
 
-        $db_src_url = db_query("select field_todo_lst_activ_source_url_value from {field_data_field_todo_lst_activ_source_url} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+        $db_src_url = db_query("select field_todo_lst_activ_source_url_value from {field_data_field_todo_lst_activ_source_url} where entity_id = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
 
         if($db_exp_date != $res_exp_date || $db_src_url != $res['ActivitySourceURL']){
-            node_delete($query_res['entity_id']);
+            node_delete($query_res[ENTITY_ID]);
             return true;
         }
     }
 
     //For CEDRI progress tracker, if source url or expiration date is updated, update progress tracker item.
-    if ($res['ActivityType'] == 'TRACKER' && $res['PartnerSystemId'] == 'cdx-cedri') {
-        $db_exp_date = db_query("select field_prog_track_updated_value from {field_data_field_prog_track_updated} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+    if ($res[ACTIVITY_TYPE] == 'TRACKER' && $res[PARTNER_SYSTEM_ID] == 'cdx-cedri') {
+        $db_exp_date = db_query("select field_prog_track_updated_value from {field_data_field_prog_track_updated} where entity_id = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
         $res_exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
 
-        $db_src_url = db_query("select field_prog_track_actions_link_value from {field_data_field_prog_track_actions_link} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+        $db_src_url = db_query("select field_prog_track_actions_link_value from {field_data_field_prog_track_actions_link} where entity_id = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
 
         if($db_exp_date != $res_exp_date || $db_src_url != $res['ActivitySourceURL']){
-            node_delete($query_res['entity_id']);
+            node_delete($query_res[ENTITY_ID]);
             return true;
         }
     }
 
     //For Lead progress tracker, if status note is updated, update progress tracker item.
-    if ($res['ActivityType'] == 'TRACKER' && $res['PartnerSystemId'] == 'cdx-lead') {
-        $db_status_note = db_query("select field_prog_track_status_note_value from {field_data_field_prog_track_status_note} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+    if ($res[ACTIVITY_TYPE] == 'TRACKER' && $res[PARTNER_SYSTEM_ID] == 'cdx-lead') {
+        $db_status_note = db_query("select field_prog_track_status_note_value from {field_data_field_prog_track_status_note} where entity_id = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
 
-        if($db_status_note != $res['StatusNote']){
-            node_delete($query_res['entity_id']);
+        if($db_status_note != $res[STATUS_NOTE]){
+            node_delete($query_res[ENTITY_ID]);
             return true;
         }
     }
 
-    $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
-    $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res['entity_id']))->fetchField();
+    $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
+    $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res[ENTITY_ID]))->fetchField();
 
     $cdx_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
 
-    //If description field is updated...
-    if($res_title != $res['ActivityDesc']){
-        node_delete($query_res['entity_id']);
-        return true;
-    }
-    //if status field is updated...
-    else if(!empty($res_status) && ($res_status != $cdx_status)){
-        node_delete($query_res['entity_id']);
-        return true;
+    //If description field is updated OR if status field is updated...
+    if($res_title != $res['ActivityDesc'] || !empty($res_status) && ($res_status != $cdx_status)) {
+      node_delete($query_res[ENTITY_ID]);
+      return TRUE;
     }
     return false;
 }
@@ -350,10 +354,10 @@ function create_progress_tracker_node($res, $user){
     $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
     $curr_date =  strtotime(date("Y-m-d H:i:s"));
     //do not create a node if its expiration date is already passed
-    if(($query_res['entity_id'] < 1 || $node_deleted) && ($expiration_date - $curr_date) > 0) {
+    if(($query_res[ENTITY_ID] < 1 || $node_deleted) && ($expiration_date - $curr_date) > 0) {
         $node = new stdClass();
         $node->title = $res['ActivityDesc'];
-        if ($res['ActivityType'] == 'TRACKER') {
+        if ($res[ACTIVITY_TYPE] == 'TRACKER') {
             $node->type = "progress_tracker";
 
             $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
@@ -370,11 +374,11 @@ function create_progress_tracker_node($res, $user){
             $node->field_prog_track_status['und'][0]['format'] = null;
             $node->field_prog_track_status['und'][0]['safe_value'] = $res_status;
 
-            $res_domain = $res['PartnerSystemId'];
-            if (strpos($res['PartnerSystemId'], 'lead') !== false) {
+            $res_domain = $res[PARTNER_SYSTEM_ID];
+            if (strpos($res[PARTNER_SYSTEM_ID], 'lead') !== false) {
               $res_domain = "Lead";
             }
-            else if (strpos($res['PartnerSystemId'], 'cedri') !== false) {
+            else if (strpos($res[PARTNER_SYSTEM_ID], 'cedri') !== false) {
               $res_domain = "CEDRI";
             }
             $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
@@ -387,9 +391,9 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_updated['und'][0]['format'] = null;
                 $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
                 if($res['Status'] == 'INCOMPLETE') {
-                    $node->field_prog_track_status_note['und'][0]['value'] = $res['StatusNote'];
+                    $node->field_prog_track_status_note['und'][0]['value'] = $res[STATUS_NOTE];
                     $node->field_prog_track_status_note['und'][0]['format'] = null;
-                    $node->field_prog_track_status_note['und'][0]['safe_value'] = $res['StatusNote'];
+                    $node->field_prog_track_status_note['und'][0]['safe_value'] = $res[STATUS_NOTE];
                 }
             }
             else if($res_domain == 'CEDRI'){
@@ -458,7 +462,7 @@ function create_progress_tracker_node($res, $user){
                 $node->field_prog_track_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
             }
         }
-        else if($res['ActivityType'] == 'TASK') {
+        else if($res[ACTIVITY_TYPE] == 'TASK') {
             $node->type = "to_do_list";
 
             $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
@@ -469,11 +473,11 @@ function create_progress_tracker_node($res, $user){
             $node->field_todo_lst_item['und'][0]['format'] = null;
             $node->field_todo_lst_item['und'][0]['safe_value'] = $res['ActivityDesc'];
 
-            $res_domain = $res['PartnerSystemId'];
-            if (strpos($res['PartnerSystemId'], 'lead') !== false) {
+            $res_domain = $res[PARTNER_SYSTEM_ID];
+            if (strpos($res[PARTNER_SYSTEM_ID], 'lead') !== false) {
               $res_domain = "Lead";
             }
-            if (strpos($res['PartnerSystemId'], 'cedri') !== false) {
+            if (strpos($res[PARTNER_SYSTEM_ID], 'cedri') !== false) {
               $res_domain = "CEDRI";
             }
             $node->field_todo_lst_domain['und'][0]['value'] = $res_domain;
@@ -523,8 +527,8 @@ function create_progress_tracker_node($res, $user){
         $node->status = 1;
 
 
-
-        $node = node_submit($node); // Prepare node for saving
+        // Prepare node for saving
+        $node = node_submit($node);
         node_save($node);
     }
     //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
@@ -533,8 +537,8 @@ function create_progress_tracker_node($res, $user){
         $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
         $curr_date =  strtotime(date("Y-m-d H:i:s"));
         if(($expiration_date - $curr_date) <= 0){
-            db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res['entity_id']));
-            db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res['entity_id'],':vid' => $query_res['revision_id']));
+            db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res[ENTITY_ID]));
+            db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res[ENTITY_ID],':vid' => $query_res['revision_id']));
         }
     }
 }
@@ -618,4 +622,3 @@ function assign_roles_to_user($user_name){
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }
-

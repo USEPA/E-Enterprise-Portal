@@ -7,12 +7,13 @@
 <?php
 if(drupal_is_front_page()) {
     global $user;
-    if($user->uid == 0)
-        //drupal_goto("/eenterprise-for-environment");
-        drupal_goto("/ee-welcome");
-    else
-        drupal_goto("/workbench");
-    exit;
+    if($user->uid == 0) {
+      drupal_goto("/ee-welcome");
+    }
+    else {
+      drupal_goto("/workbench");
+      exit;
+    }
 }
 ?>
 <?php print render($page['alert']); ?>
@@ -21,10 +22,10 @@ if(drupal_is_front_page()) {
     <a href="/" title="<?php print t('e-Enterprise for the Environment Home Page'); ?>" rel="home" class="header__logo" id="logo"><img class="site-logo" src="<?php print $logo; ?>" alt="e-Enterprise for the Environment" /></a>
   <?php endif; ?>
   <?php 
-  	$hgroup_open = '';
+    $hgroup_open = '';
     $hgroup_close = '';
 
-  	if ($site_name || $site_slogan) {
+    if ($site_name || $site_slogan) {
       $hgroup_open = '<hgroup class="site-name-and-slogan">';
       $hgroup_close = '</hgroup>';
     }  
@@ -35,8 +36,8 @@ if(drupal_is_front_page()) {
     <h1 class="site-name">
 
       <?php
-		$link_open = '<a href="/" title="e-Enterprise for the Environment home page" rel="home">';
-		$link_close = '</a>';
+       $link_open = '<a href="/" title="e-Enterprise for the Environment home page" rel="home">';
+       $link_close = '</a>';
       ?>
 
       <?php print $link_open; ?>
@@ -47,7 +48,7 @@ if(drupal_is_front_page()) {
   <?php endif; ?>
 
   <?php if ($site_slogan): 
-	   $site_slogan = str_replace("United States", "United States<br>",$site_slogan);
+     $site_slogan = str_replace("United States", "United States<br>",$site_slogan);
   ?>
     <div class="site-slogan"><?php print $site_slogan; ?></div>
   <?php endif; ?>
@@ -64,35 +65,33 @@ if(drupal_is_front_page()) {
   <?php print render($page['highlighted']); ?>
 
   <div id="content" class="main-column column clearfix" role="main">
-  	<?php if($page['navigation']): ?>
-		<div id="navigation">
-	      <?php print render($page['navigation']); ?>
-	    </div><!-- end div:navigation -->
-	<?php endif; ?>
-	<?php print $breadcrumb;?>	
-	<a id="main-content"></a>
-	<?php print render($page['help']); ?>
+    <?php if($page['navigation']): ?>
+        <div id="navigation">
+          <?php print render($page['navigation']); ?>
+        </div><!-- end div:navigation -->
+    <?php endif; ?>
+    <?php print $breadcrumb;?>
+        <a id="main-content"></a>
+    <?php print render($page['help']); ?>
     <?php print render($title_prefix); ?>
     <?php if ($title): ?>
     <?php
         $exploded_path = explode('/', current_path());
-        if (count($exploded_path) > 2):
-          if ($exploded_path[0] == 'user' && $exploded_path[2] == 'edit'):
-            $title = 'Profile';
-          endif;
-        endif;
+        if (count($exploded_path) > 2 && $exploded_path[0] == 'user' && $exploded_path[2] == 'edit') {
+          $title = 'Profile';
+        }
       ?>
       <!--googleon: all-->
       <h1 <?php print $title_attributes; ?>><?php print $title;?></h1>
       <!--googleoff: all-->
     <?php endif; ?>
-	<?php print render($title_suffix); ?>
-	<?php print render($tabs); ?>
-	<?php print $messages; ?>
-	<?php if ($action_links = render($action_links)): ?>
-		<ul class="action-links"><?php print render($action_links); ?></ul>
-	<?php endif; ?>
-	
+    <?php print render($title_suffix); ?>
+    <?php print render($tabs); ?>
+    <?php print $messages; ?>
+    <?php if ($action_links = render($action_links)): ?>
+        <ul class="action-links"><?php print render($action_links); ?></ul>
+    <?php endif; ?>
+
     <!--googleon: all-->
     <?php print render($page['content']); ?>
     <!--googleoff: all-->

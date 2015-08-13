@@ -23,6 +23,7 @@
  */
 ?>
 <?php print $output;
-if(!empty($view->result[$view->row_index]->field_field_prog_track_date_type))
-    print "<br><span class='date-subscript-text'>".$view->result[$view->row_index]->field_field_prog_track_date_type[0]['rendered']['#markup']."</span>";
+if(!empty($view->result[$view->row_index]->field_field_prog_track_date_type)) {
+  print "<br><span class='date-subscript-text'>" . $view->result[$view->row_index]->field_field_prog_track_date_type[0]['rendered']['#markup'] . "</span>";
+}
 ?>

@@ -91,7 +91,7 @@ if ($GLOBALS['theme_key'] === 'greentrees') {
 }
 
 function greentrees_html_head_alter(&$head_elements) {
-	  // Add title.
+      // Add title.
   $head_title = 'E-Enterprise for the Environment';
   if (!empty($head_elements['metatag_DC.title']['#value'])) {
     $head_title = $head_elements['metatag_DC.title']['#value'];

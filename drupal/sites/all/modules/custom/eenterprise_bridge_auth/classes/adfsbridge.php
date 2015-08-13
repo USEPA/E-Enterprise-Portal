@@ -53,15 +53,15 @@ class AdfsBridge {
         } else {
             $encryptionCertData = $adfsConf->encryptionCertData;
         }
-	// Accommodate for MS-ADFS escaped quotes
-	$wresult = str_replace('\"', '"', $wresult);
-	
+    // Accommodate for MS-ADFS escaped quotes
+    $wresult = str_replace('\"', '"', $wresult);
+
         // Load and parse the XML.
-	$dom = new DOMDocument();
+    $dom = new DOMDocument();
         $dom->loadXML(str_replace ("\r", "", $wresult));
-	$xpath = new DOMXpath($dom);
-	$xpath->registerNamespace('wst', 'http://schemas.xmlsoap.org/ws/2005/02/trust');
-	$xpath->registerNamespace('saml', 'urn:oasis:names:tc:SAML:1.0:assertion');
+    $xpath = new DOMXpath($dom);
+    $xpath->registerNamespace('wst', 'http://schemas.xmlsoap.org/ws/2005/02/trust');
+    $xpath->registerNamespace('saml', 'urn:oasis:names:tc:SAML:1.0:assertion');
         $xpath->registerNamespace('xenc', 'http://www.w3.org/2001/04/xmlenc#');
        
         // Decrypts the xmlToken if it is encrypted, using the private key specified in the configuration.
@@ -193,38 +193,38 @@ class AdfsBridge {
             if ($assertions->length > 1) {
                 throw new Exception('The WS-Fed PRP handler currently only supports a single assertion in a response.');
             }
-            $assertion = $assertions->item(0);	
+            $assertion = $assertions->item(0);
         }
         
-	// Check time constraints of contitions (if present).
-	foreach($xpath->query('./saml:Conditions', $assertion) as $condition) {
+    // Check time constraints of contitions (if present).
+    foreach($xpath->query('./saml:Conditions', $assertion) as $condition) {
             $notBefore = $condition->getAttribute('NotBefore');
             $notOnOrAfter = $condition->getAttribute('NotOnOrAfter');
             if(!$this->checkCurrentTime($notBefore, $notOnOrAfter)) {
                 throw new Exception('The WS-Fed response has expired.');
             }
-	}
+    }
         // Create the user details response object.
         $userDetails = new AdfsUserDetails();
         
-	// Extract the name identifier from the response.
-	$nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:SubjectConfirmation/saml:ConfirmationMethod', $assertion);
-	if ($nameid->length === 0) {
+    // Extract the name identifier from the response.
+    $nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:SubjectConfirmation/saml:ConfirmationMethod', $assertion);
+    if ($nameid->length === 0) {
             throw new Exception('Could not find the name identifier in the response from the WS-Fed.');
-	}
+    }
         $userDetails->nameIdentifier = $nameid->item(0)->textContent;
         $userDetails->nameIdentifierFormat = $nameid->item(0)->getAttribute('Format');
-	//*/ Extract the attributes from the response.
-	$userDetails->attributes = array();
-	$attributeValues = $xpath->query('./saml:AttributeStatement/saml:Attribute/saml:AttributeValue', $assertion);
-	foreach($attributeValues as $attribute) {
+    //*/ Extract the attributes from the response.
+    $userDetails->attributes = array();
+    $attributeValues = $xpath->query('./saml:AttributeStatement/saml:Attribute/saml:AttributeValue', $assertion);
+    foreach($attributeValues as $attribute) {
             $name = $attribute->parentNode->getAttribute('AttributeName');
             $value = $attribute->textContent;
             if(!array_key_exists($name, $userDetails->attributes)) {
                 $userDetails->attributes[$name] = array();
             }
             array_push($userDetails->attributes[$name], $value);
-	}
+    }
         
         return $userDetails;
     }
