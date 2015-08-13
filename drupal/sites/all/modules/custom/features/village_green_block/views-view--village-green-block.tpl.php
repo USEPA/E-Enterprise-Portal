@@ -118,3 +118,7 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
     </div>
 </div>
 <div style="clear:both"></div>
+<div class="marginBottom-10 col-xs-11 col-sm-11 col-md-12 col-lg-12">
+    Source: <a target="_blank" href="http://villagegreen.airnowtech.org" class="village-green-external-link">villagegreen.airnowtech.org</a>
+</div>
+<div style="clear:both"></div>
