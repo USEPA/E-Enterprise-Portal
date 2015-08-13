@@ -225,8 +225,10 @@ function frs_lat_long_to_zip_code($lat, $long)
 {
     $ip = variable_get('frs_api_lookup_ip');
     $token = frs_naas_autentication();
+    echo $token;
     $prod_url =  variable_get('frs_api_lookup_url'). '.get_spatial_data_by_latlong84?p_ip_address=' . $ip . '&p_token=' . $token . '&p_latitude=' . $lat .
         '&p_longitude=' . $long;
+    echo $prod_url;
 //
     $options = array(
         'headers' => array(
@@ -239,7 +241,7 @@ function frs_lat_long_to_zip_code($lat, $long)
         $response = drupal_http_request($prod_url, $options);
     }
     catch (Exception $e) {
-        dpm($e);
+        echo($e);
     }
     $data = json_decode($response->data);
     $results = $data->Results;
@@ -258,7 +260,7 @@ function frs_city_state_to_zip_code($city, $state)
     $token = frs_naas_autentication();
     $ip = variable_get('frs_api_lookup_ip');
     $encoded_city = urlencode($city);
-    $prod_url = variable_get('frs_api_lookup_url'). '.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
+    $frs_request_url = variable_get('frs_api_lookup_url'). '.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
         . $encoded_city . '&p_state_abbr=' . $state;
     $options = array(
         'headers' => array(
@@ -266,8 +268,7 @@ function frs_city_state_to_zip_code($city, $state)
         ),
         'method' => 'GET',
     );
-    $response = drupal_http_request($prod_url, $options);
-    dpm($response);
+    $response = drupal_http_request($frs_request_url, $options);
     $results = json_decode($response->data);
     $formatted_city = ucwords(strtolower($city));
     $return = array(
@@ -329,29 +330,33 @@ function frs_naas_autentication() {
     }
 //    print '<h1>Client</h1>';
     dpm($client);
-    $params = array(
-        "userId" => $email,
-        "credential" => $password,
-        "domain" => variable_get('cdx_node_token_domain'),
-        "authenticationMethod" => variable_get('cdx_node_token_auth_method'),
-        "clientIp" => variable_get('frs_api_lookup_ip'),
-        'resourceURI' => ''
-    );
-    $soap_type = 'CentralAuth';
-
-//    $params = array(
-//        "userId" => $email,
-//        "credential" => $password,
-//        "domain" => variable_get('cdx_node_token_domain'),
-//        "authMethod" => variable_get('cdx_node_token_auth_method'),
-//        "trustee" => $email,
-//        "ip" => variable_get('frs_api_lookup_ip'),
-//        "subjectData" => "tbd",
-//        "subject" => "tbd",
-//        "issuer" => "EEP",
-//        "tokenType" => 'csm',
-//    );
-//        $soap_type = 'CreateSecurityToken';
+    $domain = variable_get('cdx_node_token_domain');
+    if ($domain == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
+        $params = array(
+            "userId" => $email,
+            "credential" => $password,
+            "domain" => variable_get('cdx_node_token_domain'),
+            "authenticationMethod" => variable_get('cdx_node_token_auth_method'),
+            "clientIp" => variable_get('frs_api_lookup_ip'),
+            'resourceURI' => ''
+        );
+        $soap_type = 'CentralAuth';
+    }
+    else {
+        $params = array(
+            "userId" => $email,
+            "credential" => $password,
+            "domain" => variable_get('cdx_node_token_domain'),
+            "authMethod" => variable_get('cdx_node_token_auth_method'),
+            "trustee" => $email,
+            "ip" => variable_get('frs_api_lookup_ip'),
+            "subjectData" => "tbd",
+            "subject" => "tbd",
+            "issuer" => "EEP",
+            "tokenType" => 'csm',
+        );
+        $soap_type = 'CreateSecurityToken';
+    }
 
 
     dpm($params);
