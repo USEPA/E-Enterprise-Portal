@@ -368,7 +368,7 @@ function frs_naas_autentication() {
         drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
         return;
     }
-//    var_dump($response1);
+    dpm($response1);
 //    $token = 'csm:IiKaBeCRDqJlYZsoKi9--uEHbAOnxttNqWXAHunnLMAzg0G4ENWZimKZALJaA2YH.ZIFdjBMkZhzkrBQBy8tgK39F4d9120-xM_klggl-0u9k5OLVLkoRRB-FeB1_xGnA.irqvifejlpdb-qu12SN9QWi5VtQlRQ4WSw2lj6FKCp_5c2W4G4Tc-w,,.';
     return $token;
 };
