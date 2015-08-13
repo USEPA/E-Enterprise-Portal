@@ -297,11 +297,9 @@ function frs_city_state_to_zip_code($city, $state)
 //// http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.13
 function frs_zip_code_to_city_state($zip)
 {
-    echo 'here';
     $token = frs_naas_autentication();
     $ip = variable_get('frs_api_lookup_ip');
     $prod_url = variable_get('frs_api_lookup_url').'.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
-    echo '<br />' . $prod_url . '<br />';
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
