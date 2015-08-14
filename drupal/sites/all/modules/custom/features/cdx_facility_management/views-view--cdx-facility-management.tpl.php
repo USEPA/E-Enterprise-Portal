@@ -41,7 +41,7 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
       href="https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/dist/FacilityManagementStyles.css">
 <!--[if IE 8]>
 <link rel="stylesheet" href="../../ContentFramework/v3/css/FacilityManagementStyles-ie8.css"> <![endif]-->
-<script src="https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/dist/FacilityManagementTemplates.js"></script>
+<script src="https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/dist/FacilityManagementTemplates.min.js"></script>
 <script src="https://dev.epacdx.net/FrsPhase2/Content/v3/js/common.js"></script>
 <!--<script src="../src/TablePagination.js"></script>	-->
 <script src="https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/temp/concat.js"></script>
