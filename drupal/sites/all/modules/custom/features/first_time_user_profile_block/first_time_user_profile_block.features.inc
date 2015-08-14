@@ -291,6 +291,26 @@ function frs_city_state_to_zip_code($city, $state)
     return $return;
 }
 
+function frs_zip_code_to_lat_long($zip) {
+    $token = frs_naas_autentication();
+    $ip = variable_get('frs_api_lookup_ip');
+    $prod_url = variable_get('frs_api_lookup_url').'.derive_lat_long_by_zip?p_ip_address=' . $ip . '&p_zip=' . $zip . '&p_token=' . $token;
+    $options = array(
+        'headers' => array(
+            'Content-Type' => 'application/json',
+        ),
+        'method' => 'GET',
+    );
+    $response = drupal_http_request($prod_url, $options);
+    $data = json_decode($response->data);
+    $results = $data->Results;
+    $return = array(
+        'lat' => $results->Longitude83,
+        'long' => $results->Latitude83,
+    );
+    return $return;
+
+}
 
 //// http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.13
 function frs_zip_code_to_city_state($zip)

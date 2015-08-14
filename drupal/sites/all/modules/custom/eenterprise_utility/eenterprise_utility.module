@@ -389,41 +389,29 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
     $validation = postal_code_validation_validate($unparsed_zip, 'US');
     if (!$validation['error']) {
         $zip = substr($validation['postal_code'], 0, 5);
-        $frs_return = frs_zip_code_to_city_state($zip);
-        if (isset($frs_return->latitude)) {       // first try FRS resource
+        $frs_city_state_return = frs_zip_code_to_city_state($zip);
+        $frs_lat_long_return = frs_zip_code_to_lat_long($zip);
+        if (isset($frs_lat_long_return->lat) && isset($frs_city_state_return->state)) {       // first try FRS resource
             $zip_data = array(
-                'state' => $frs_return->state,
-                'city' => $frs_return->city,
-                'latitude' => $frs_return->latitude,
-                'longitude' => $frs_return->longitude,
+                'state' => $frs_city_state_return->state,
+                'city' => $frs_city_state_return->city,
+                'latitude' => $frs_lat_long_return->lat,
+                'longitude' => $frs_lat_long_return->long,
                 'zip' => $zip,
             );
         } else {
-//            $request = drupal_http_request("http://api.zippopotam.us/us/$zip");
-//            $response_array = json_decode($request->data);
-//            if (count($response_array) > 0) { // zippopotam returned result
-//                $zip_places = $response_array->places[0];
-//                $zip_data = array(
-//                    'state' => $zip_places->{'state abbreviation'},
-//                    'city' => $zip_places->{'place name'},
-//                    'latitude' => (float)$zip_places->{'latitude'},
-//                    'longitude' => (float)$zip_places->{'longitude'},
-//                    'zip' => $zip,
-//                );
-//            } else { // Query air_now_city_zip_codes with zip code
-                $db_result = db_select('air_now_city_zip_codes', 'n')
-                    ->fields('n')
-                    ->condition('zipcode', $zip, '=')
-                    ->execute()
-                    ->fetchAssoc();
-                $zip_data = array(
-                    'state' => $db_result['State'],
-                    'city' => $db_result['City'],
-                    'longitude' => (float)$db_result['Longitude'],
-                    'latitude' => (float)$db_result['latitude'],
-                    'zip' => $zip
-                );
-//            }
+            $db_result = db_select('air_now_city_zip_codes', 'n')
+                ->fields('n')
+                ->condition('zipcode', $zip, '=')
+                ->execute()
+                ->fetchAssoc();
+            $zip_data = array(
+                'state' => $db_result['State'],
+                'city' => $db_result['City'],
+                'longitude' => (float)$db_result['Longitude'],
+                'latitude' => (float)$db_result['latitude'],
+                'zip' => $zip
+            );
         }
         // Create readable string for across site
         if (strlen($zip_data['city']) != 0) {
@@ -763,7 +751,8 @@ function eenterprise_utility_views_query_alter(&$view, &$query)
 /**
  * Implements hook_theme().
  */
-function eenterprise_utility_theme($existing, $type, $theme, $path) {
+function eenterprise_utility_theme($existing, $type, $theme, $path)
+{
 
     $themes = array(
         'eenterprise_utility_terms_of_use_agreed_date_display' => array(
@@ -774,7 +763,8 @@ function eenterprise_utility_theme($existing, $type, $theme, $path) {
 }
 
 // Custom theme output.
-function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
+function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars)
+{
     $element = $vars['element'];
 
     $header = array(
@@ -783,7 +773,7 @@ function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
     );
 
     $rows = array();
-    for($i = 0; $i <= $element['#max_delta']; $i++) {
+    for ($i = 0; $i <= $element['#max_delta']; $i++) {
         $row = array();
         $row['data'] = array();
 
