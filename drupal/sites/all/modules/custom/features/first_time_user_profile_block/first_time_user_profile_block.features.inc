@@ -225,11 +225,9 @@ function frs_lat_long_to_zip_code($lat, $long)
 {
     $ip = variable_get('frs_api_lookup_ip');
     $token = frs_naas_autentication();
-    echo $token;
     $prod_url =  variable_get('frs_api_lookup_url'). '.get_spatial_data_by_latlong84?p_ip_address=' . $ip . '&p_token=' . $token . '&p_latitude=' . $lat .
         '&p_longitude=' . $long;
-    echo $prod_url;
-//
+
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
@@ -241,7 +239,7 @@ function frs_lat_long_to_zip_code($lat, $long)
         $response = drupal_http_request($prod_url, $options);
     }
     catch (Exception $e) {
-        echo($e);
+        dpm($e);
     }
     $data = json_decode($response->data);
     $results = $data->Results;
@@ -326,7 +324,6 @@ function frs_naas_autentication() {
         return;
     }
 
-    dpm($client);
     if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
         $params = array(
             "userId" => $email,
@@ -355,18 +352,15 @@ function frs_naas_autentication() {
     }
 
 
-    dpm($params);
 
     $token = null;
     try {
         $response1 = $client->__soapCall($soap_type, array($params));
         $token = $response1->return;
-        dpm($token);
     } catch(SoapFault $f) {
         dpm($f);
         drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
         return;
     }
-    dpm($response1);
     return $token;
 };
