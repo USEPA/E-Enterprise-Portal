@@ -234,11 +234,9 @@ function frs_lat_long_to_zip_code($lat, $long)
 //    echo $request_url . '<br />';
     $ip = variable_get('frs_api_lookup_ip');
     $token = frs_naas_autentication();
-    echo $token;
     $prod_url =  variable_get('frs_api_lookup_url'). '.get_spatial_data_by_latlong84?p_ip_address=' . $ip . '&p_token=' . $token . '&p_latitude=' . $lat .
         '&p_longitude=' . $long;
-    echo $prod_url;
-//
+
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
@@ -335,9 +333,10 @@ function frs_naas_autentication() {
     } catch(SoapFault $f) {
         dpm($f);
         drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
+        return;
     }
+
     if (isset($client)) {
-        dpm($client);
         if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
             $params = array(
                 "userId" => $email,
@@ -365,14 +364,10 @@ function frs_naas_autentication() {
         }
 
 
-        dpm($params);
-
         $token = null;
         try {
             $response1 = $client->__soapCall($soap_type, array($params));
             $token = $response1->return;
-            dpm($token);
-            dpm($response1);
         } catch (SoapFault $f) {
             dpm($f);
             $token = '';
@@ -381,6 +376,6 @@ function frs_naas_autentication() {
     }
     else {
         $token = '';
-    }
+        }
     return $token;
 };
