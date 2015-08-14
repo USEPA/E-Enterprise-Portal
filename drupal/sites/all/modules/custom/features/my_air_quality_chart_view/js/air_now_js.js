@@ -57,13 +57,34 @@
       position: ''
     }).addTo(map);
 
+    var AQSMonitorLayer = L.esri.dynamicMapLayer({
+      url: "https://gispub.epa.gov/arcgis/rest/services/OEI/FRS_AQSTemp/MapServer",
+      opacity: 1.0,
+      minZoom: 10
+    });
+
+    AQSMonitorLayer.on("load", function() {});
+
+    map.addLayer(AQSMonitorLayer);
+
+    var AQSpopupTemplate = "<h3>AQS ID: {PGM_SYS_ID}</h3><br><small><small>";
+
+    AQSMonitorLayer.bindPopup(function(error, featureCollection) {
+      if (error || featureCollection.features.length === 0) {
+        return false;
+      } else {
+        return 'AQS Monitor ID: ' + featureCollection.features[0].properties.PGM_SYS_ID;
+      }
+    });
+
+
     var stateBoundaries = L.esri.dynamicMapLayer({
       url: 'https://gispub.epa.gov/arcgis/rest/services/ORD/ROE_StateBoundaries/MapServer',
       opacity: 0.9,
       position: 'front'
     }).addTo(map);
 
-    map.fitBounds(stateBoundaries._map.getBounds());
+    //map.fitBounds(stateBoundaries._map.getBounds());
 
 
     return map;
@@ -80,9 +101,11 @@
           minWidth: 150,
           maxWidth: 500,
           className: 'favorites-ignore'
-        }).openPopup();
+        });
 
         map.setView(latlng);
+        marker.openPopup();
+
       });
     }
   }
@@ -215,7 +238,7 @@
 
       dateStr = dateStr.split('-');
 
-      return new Date(dateStr[0], parseInt(dateStr[1]) - 1, dateStr[2])
+      return new Date(dateStr[0], parseInt(dateStr[1]) - 1, dateStr[2]);
     }
 
     function dateDiffInDays(a, b) {
@@ -289,7 +312,7 @@
       else if (aqi < 300)
         return (aqi - 200) * 0.5 + 200;
       else
-        return (aqi - 300) * .25 + 250;
+        return (aqi - 300) * 0.25 + 250;
     }
 
     var categoryInfo = [{
@@ -609,8 +632,8 @@
         if (responseData[i].AQI > maxAQI)
           maxAQI = responseData[i].AQI;
 
-        // insert new entry 
-        if ((i + 1 == responseData.length || responseData[i].DateForecast != responseData[i+1].DateForecast) && maxAQI > 0) { 
+        // insert new entry
+        if ((i + 1 == responseData.length || responseData[i].DateForecast != responseData[i + 1].DateForecast) && maxAQI > 0) {
           var entry = {
             DateForecast: responseData[i].DateForecast,
             AQI: maxAQI,
@@ -655,5 +678,5 @@
         drawMessage('Air quality information is not available for ' + locationText + '.');
       }
     });
-  }
+  };
 })(jQuery);
