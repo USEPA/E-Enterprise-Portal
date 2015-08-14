@@ -291,6 +291,7 @@ function frs_zip_code_to_city_state($zip)
         'method' => 'GET',
     );
     $response = drupal_http_request($prod_url, $options);
+
     $data = json_decode($response->data);
     $results = $data->Results;
     $formatted_city = ucwords(strtolower($results->cityName));
@@ -300,7 +301,7 @@ function frs_zip_code_to_city_state($zip)
         $error = true;
     }
     $return = array(
-        'city' => $results->cityName,
+        'city' => $formatted_city,
         'state' => $results->stateCode,
         'error' => $error,
     );

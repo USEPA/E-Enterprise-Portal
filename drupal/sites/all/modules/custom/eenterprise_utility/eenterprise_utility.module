@@ -391,28 +391,31 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
         $zip = substr($validation['postal_code'], 0, 5);
         $frs_city_state_return = frs_zip_code_to_city_state($zip);
         $frs_lat_long_return = frs_zip_code_to_lat_long($zip);
-        if (isset($frs_lat_long_return->lat) && isset($frs_city_state_return->state)) {       // first try FRS resource
+        if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {       // first try FRS resource
             $zip_data = array(
-                'state' => $frs_city_state_return->state,
-                'city' => $frs_city_state_return->city,
-                'latitude' => $frs_lat_long_return->lat,
-                'longitude' => $frs_lat_long_return->long,
+                'state' => $frs_city_state_return['state'],
+                'city' => $frs_city_state_return['city'],
+                'latitude' => $frs_lat_long_return['lat'],
+                'longitude' => $frs_lat_long_return['long'],
                 'zip' => $zip,
             );
-        } else {
-            $db_result = db_select('air_now_city_zip_codes', 'n')
-                ->fields('n')
-                ->condition('zipcode', $zip, '=')
-                ->execute()
-                ->fetchAssoc();
-            $zip_data = array(
-                'state' => $db_result['State'],
-                'city' => $db_result['City'],
-                'longitude' => (float)$db_result['Longitude'],
-                'latitude' => (float)$db_result['latitude'],
-                'zip' => $zip
-            );
+        }else {
+            $zip_data = array();
         }
+//        } else {
+//            $db_result = db_select('air_now_city_zip_codes', 'n')
+//                ->fields('n')
+//                ->condition('zipcode', $zip, '=')
+//                ->execute()
+//                ->fetchAssoc();
+//            $zip_data = array(
+//                'state' => $db_result['State'],
+//                'city' => $db_result['City'],
+//                'longitude' => (float)$db_result['Longitude'],
+//                'latitude' => (float)$db_result['latitude'],
+//                'zip' => $zip
+//            );
+//        }
         // Create readable string for across site
         if (strlen($zip_data['city']) != 0) {
             $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
