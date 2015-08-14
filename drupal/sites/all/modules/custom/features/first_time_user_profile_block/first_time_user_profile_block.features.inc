@@ -234,8 +234,10 @@ function frs_lat_long_to_zip_code($lat, $long)
 //    echo $request_url . '<br />';
     $ip = variable_get('frs_api_lookup_ip');
     $token = frs_naas_autentication();
+    echo $token;
     $prod_url =  variable_get('frs_api_lookup_url'). '.get_spatial_data_by_latlong84?p_ip_address=' . $ip . '&p_token=' . $token . '&p_latitude=' . $lat .
         '&p_longitude=' . $long;
+    echo $prod_url;
 //
     $options = array(
         'headers' => array(
@@ -250,14 +252,19 @@ function frs_lat_long_to_zip_code($lat, $long)
     catch (Exception $e) {
         dpm($e);
     }
-    $data = json_decode($response->data);
-    $results = $data->Results;
-    $formatted_city = ucwords(strtolower($results->derivedCity));
-    $return = array(
-        'zip' => $results->derivedZip,
-        'city' => $formatted_city,
-        'state' => $results->derivedState,
-    );
+    if (isset($response)) {
+        $data = json_decode($response->data);
+        $results = $data->Results;
+        $formatted_city = ucwords(strtolower($results->derivedCity));
+        $return = array(
+            'zip' => $results->derivedZip,
+            'city' => $formatted_city,
+            'state' => $results->derivedState,
+        );
+    }
+    else {
+        $return = array();
+    }
     return $return;
 }
 
@@ -267,18 +274,15 @@ function frs_city_state_to_zip_code($city, $state)
     $token = frs_naas_autentication();
     $ip = variable_get('frs_api_lookup_ip');
     $encoded_city = urlencode($city);
-    $prod_url = variable_get('frs_api_lookup_url'). '.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
+    $frs_request_url = variable_get('frs_api_lookup_url'). '.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
         . $encoded_city . '&p_state_abbr=' . $state;
-    echo '<br />' . $prod_url . '<br />';
-
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
         ),
         'method' => 'GET',
     );
-    $response = drupal_http_request($prod_url, $options);
-    dpm($response);
+    $response = drupal_http_request($frs_request_url, $options);
     $results = json_decode($response->data);
     $formatted_city = ucwords(strtolower($city));
     $return = array(
@@ -293,17 +297,14 @@ function frs_city_state_to_zip_code($city, $state)
 //// http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.13
 function frs_zip_code_to_city_state($zip)
 {
-    echo 'here';
     $token = frs_naas_autentication();
     $ip = variable_get('frs_api_lookup_ip');
     $prod_url = variable_get('frs_api_lookup_url').'.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
-    echo '<br />' . $prod_url . '<br />';
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
         ),
         'method' => 'GET',
-//        'data' => $data
     );
     $response = drupal_http_request($prod_url, $options);
     $data = json_decode($response->data);
@@ -327,48 +328,59 @@ function frs_naas_autentication() {
     $wsdl = variable_get('cdx_node_token_wsdl');
     $email = variable_get('cdx_node_token_email');
     $password = variable_get('cdx_node_token_password');
-    $soap_options = array(
-        'soap_version' => SOAP_1_2,
-//        'login' => 'lgentrycgi',
-//        'password' => 'Massive16',
-    );
+
+
     try {
-        $client = new SoapClient($wsdl, $soap_options);
+        $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
         dpm($f);
         drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
-        return;
     }
-//    print '<h1>Client</h1>';
-    dpm($client);
-    $params1 = array(
-        "userId" => $email,
-        "credential" => $password,
-        "domain" => variable_get('cdx_node_token_domain'),
-        "authMethod" => variable_get('cdx_node_token_auth_method'),
-        "trustee" => $email,
-            "ip" => variable_get('frs_api_lookup_ip'),
-            "subjectData" => "tbd",
-            "subject" => "tbd",
-            "issuer" => "EEP",
-        "tokenType" => 'csm',
-    );
+    if (isset($client)) {
+        dpm($client);
+        if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
+            $params = array(
+                "userId" => $email,
+                "credential" => $password,
+                "domain" => variable_get('cdx_node_token_domain'),
+                "authenticationMethod" => variable_get('cdx_node_token_auth_method'),
+                "clientIp" => variable_get('frs_api_lookup_ip'),
+                'resourceURI' => ''
+            );
+            $soap_type = 'CentralAuth';
+        } else {
+            $params = array(
+                "userId" => $email,
+                "credential" => $password,
+                "domain" => variable_get('cdx_node_token_domain'),
+                "authMethod" => variable_get('cdx_node_token_auth_method'),
+                "trustee" => $email,
+                "ip" => variable_get('frs_api_lookup_ip'),
+                "subjectData" => "tbd",
+                "subject" => "tbd",
+                "issuer" => "EEP",
+                "tokenType" => 'csm',
+            );
+            $soap_type = 'CreateSecurityToken';
+        }
 
-    dpm($params1);
 
-    $token = null;
-    try {
-        $response1 = $client->__soapCall("CreateSecurityToken", array($params1));
-        $token = $response1->return;
-        dpm($token);
-    } catch(SoapFault $f) {
-//        print '<h1> Soap fault</h1>';
-//        echo json_encode($f);//var_dump($f);
-        dpm($f);
-        drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
-        return;
+        dpm($params);
+
+        $token = null;
+        try {
+            $response1 = $client->__soapCall($soap_type, array($params));
+            $token = $response1->return;
+            dpm($token);
+            dpm($response1);
+        } catch (SoapFault $f) {
+            dpm($f);
+            $token = '';
+            drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
+        }
     }
-    dpm($response1);
-//    $token = 'csm:IiKaBeCRDqJlYZsoKi9--uEHbAOnxttNqWXAHunnLMAzg0G4ENWZimKZALJaA2YH.ZIFdjBMkZhzkrBQBy8tgK39F4d9120-xM_klggl-0u9k5OLVLkoRRB-FeB1_xGnA.irqvifejlpdb-qu12SN9QWi5VtQlRQ4WSw2lj6FKCp_5c2W4G4Tc-w,,.';
+    else {
+        $token = '';
+    }
     return $token;
 };
