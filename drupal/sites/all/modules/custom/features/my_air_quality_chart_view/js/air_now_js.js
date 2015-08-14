@@ -59,8 +59,7 @@
 
     var AQSMonitorLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OEI/FRS_AQSTemp/MapServer",
-      opacity: 1.0,
-      minZoom: 10
+      opacity: 1.0
     });
 
     AQSMonitorLayer.on("load", function() {});
@@ -84,7 +83,7 @@
       position: 'front'
     }).addTo(map);
 
-    //map.fitBounds(stateBoundaries._map.getBounds());
+    map.fitBounds(stateBoundaries._map.getBounds());
 
 
     return map;
@@ -103,7 +102,7 @@
           className: 'favorites-ignore'
         });
 
-        map.setView(latlng);
+        //map.setView(latlng);
         marker.openPopup();
 
       });
