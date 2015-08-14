@@ -114,9 +114,14 @@
 
     $(document).ready(function() {
 
-        $("#currentSiteID").on('change', function(evt, siteID) {
+        $("#currentSiteID").on('change', function(evt) {
+
+            var siteID = $("#currentSiteID").val();
+
+            $("a.village-green-external-link").attr("href", "http://villagegreen.airnowtech.org/welcome?siteID="+siteID);
+
             // On load, populate the data sections
-            VillageGreenDAL.getDataForCurrentMinuteWelcomePage($("#currentSiteID").val(), function(response) {
+            VillageGreenDAL.getDataForCurrentMinuteWelcomePage(siteID, function(response) {
                 PageController.renderCurrentDataTable(response.responseJSON);
             });
 
