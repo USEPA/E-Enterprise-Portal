@@ -531,18 +531,16 @@ function create_progress_tracker_node($res, $user){
         $node = node_submit($node);
         node_save($node);
     }
+
     //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
-    else if(true){
-        //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
-        $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
-        $curr_date =  strtotime(date("Y-m-d H:i:s"));
-        if(($expiration_date - $curr_date) <= 0){
-            db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res[ENTITY_ID]));
-            db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res[ENTITY_ID],':vid' => $query_res['revision_id']));
-        }
+    //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
+    $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
+    $curr_date =  strtotime(date("Y-m-d H:i:s"));
+    if(($expiration_date - $curr_date) <= 0){
+        db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res[ENTITY_ID]));
+        db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res[ENTITY_ID],':vid' => $query_res['revision_id']));
     }
 }
-
 
 function assign_roles_to_user($user_name){
     try {

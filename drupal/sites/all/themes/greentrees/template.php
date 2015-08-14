@@ -331,7 +331,7 @@ function greentrees_menu_link(&$variables) {
  * @param $path
  * Hook Theme for greentrees.
  */
-function greentrees_theme($existing, $type, $theme, $path){
+function greentrees_theme(){
     $items['user_profile_form'] = array(
         'render element' => 'form',
         'template' => 'user_profile_form',

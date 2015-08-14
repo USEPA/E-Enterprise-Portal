@@ -433,7 +433,8 @@ function oneepa_table($vars) {
         $output .= ' <tr' . drupal_attributes($attributes) . '>';
         $i = 0;
         foreach ($cells as $cell) {
-          $cell = tablesort_cell($cell, $header, $ts, $i++);
+          $i++;
+          $cell = tablesort_cell($cell, $header, $ts, $i);
           $output .= _theme_table_cell($cell);
         }
         $output .= " </tr>\n";
@@ -701,7 +702,7 @@ function oneepa_pager_link($vars) {
 /**
  * Overrides HTML for a marker for required form elements.
  */
-function oneepa_form_required_marker($variables) {
+function oneepa_form_required_marker() {
   $attributes = array(
     'class' => 'form-required',
     'title' => t('This field is required.'),
@@ -787,6 +788,10 @@ function oneepa_webform_element($variables) {
         $output .= ' <div class="description">' . $element['#description'] . "</div>\n";
       }
       $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
+      break;
+
+    default:
+      // don't manipulate output variable
       break;
   }
 

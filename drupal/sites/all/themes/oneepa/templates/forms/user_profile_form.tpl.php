@@ -26,16 +26,18 @@ print render($form['account']['mail']);
 <?php
     $location_description = "Add your locations of interest to see environmental information relevant to those areas. Select your primary location
     by clicking the <i class='fa fa-key description-key'></i> icon. <br />";
+
 $geolocation = false;
-if (isset($_SESSION['geolocation_used'])) {
-    if ($_SESSION['geolocation_used'] == 'true') {
-        $geolocation = true;
-        $location_description .=  'Until a location is specified, the location detected upon your initial login will be set as the default.';
-    }
+
+if (isset($_SESSION['geolocation_used']) && $_SESSION['geolocation_used'] == 'true') {
+    $geolocation = true;
+    $location_description .=  'Until a location is specified, the location detected upon your initial login will be set as the default.';
 }
+
 if ($geolocation == false) {
     $location_description  .=  'Until a location is specified, the default location is set to Durham, North Carolina.';
 }
+
 print $location_description;
 ?>
     <span class='zip_code_ajax_error'></span>
