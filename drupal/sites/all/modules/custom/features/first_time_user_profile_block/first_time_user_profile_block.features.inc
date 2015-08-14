@@ -397,8 +397,8 @@ function frs_zip_code_to_lat_long($zip) {
     $data = json_decode($response->data);
     $results = $data->Results;
     $return = array(
-        'lat' => $results->Longitude83,
-        'long' => $results->Latitude83,
+        'long' => $results->Longitude83,
+        'lat' => $results->Latitude83,
     );
     return $return;
 
