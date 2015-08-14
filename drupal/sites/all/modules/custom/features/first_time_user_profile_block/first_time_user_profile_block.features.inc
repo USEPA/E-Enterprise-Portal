@@ -338,8 +338,7 @@ function frs_naas_autentication() {
     }
     if (isset($client)) {
         dpm($client);
-        $domain = variable_get('cdx_node_token_domain');
-        if ($domain == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
+        if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
             $params = array(
                 "userId" => $email,
                 "credential" => $password,
