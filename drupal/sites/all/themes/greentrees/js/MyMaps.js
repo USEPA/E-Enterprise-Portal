@@ -111,7 +111,6 @@
           return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
         }
       });
-
     }
 
     //Fisher-Yates shuffle just to randomize thumbnail order,
