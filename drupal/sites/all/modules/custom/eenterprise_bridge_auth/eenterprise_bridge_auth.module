@@ -63,6 +63,13 @@ function eenterprise_bridge_auth_menu() {
     'access arguments' => array('administer azure auth'),
     'file' => 'eenterprise_bridge_auth.admin.inc',
   );
+  $items['eebridge-auth/logout'] = array(
+    'title' => 'E-Enterprise Bridge Logout',
+    'page callback' => 'eenterprise_bridge_auth_logout',
+    'access callback' => 'user_is_logged_in',
+    'file' => 'eenterprise_bridge_auth.pages.inc',
+    '#type' => MENU_CALLBACK,
+  );
 
   return $items;
 }

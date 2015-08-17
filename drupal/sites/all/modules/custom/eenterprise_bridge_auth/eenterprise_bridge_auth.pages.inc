@@ -610,3 +610,27 @@ function assign_roles_to_user($user_name){
     }
 }
 
+function eenterprise_bridge_auth_logout() {
+
+  $idParams = array('wa'=>'wsignout1.0',
+    'wreply'=>variable_get('eenterprise_bridge_auth_realm'));
+
+  $paramString = http_build_query($idParams);
+  $url = variable_get('eenterprise_bridge_auth_issuer') . "?" . $paramString;
+
+  //open connection
+  $ch = curl_init();
+
+  //set the url, number of POST vars, POST data
+  curl_setopt($ch,CURLOPT_URL, $url);
+  curl_setopt($ch,CURLOPT_POSTFIELDS, $paramString);
+
+  //execute post
+  $result = curl_exec($ch);
+
+  //close connection
+  curl_close($ch);
+
+  print $result;
+  exit;
+}
