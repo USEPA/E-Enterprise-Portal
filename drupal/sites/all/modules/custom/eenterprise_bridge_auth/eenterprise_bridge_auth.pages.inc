@@ -556,6 +556,7 @@ function assign_roles_to_user($user_name){
         "securityToken" => $response1->securityToken,
         "userId" => $user_name
     );
+
     try {
         $user_obj = $client->__soapCall("RetrieveUser", array($params2));
         $user_sec_bundle = array(

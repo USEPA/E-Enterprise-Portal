@@ -1,39 +1,30 @@
 (function ($) {
 
     $(document).ready( function() {
-        var wWidth = $(window).width();
-        var dWidth = wWidth * 0.8;
-        var wHeight = $(window).height();
-        var dHeight = wHeight * 0.8;
 
-        $('#view-facility-iframe').click(function () {
-            var iframe = $('<span class="ui-helper-hidden-accessible"><input type="text"/></span><iframe class="WMAiframe" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>');
-            //var iframeFooter = $("<div id='mapiFrameFooter' class='mapiFrameFooter'>Map Source: " + WMAorgalias + " - <a href='mailto:" + contactEmail + "'>Contact Map Owner</a> </div>");
-            var dialog = $("<div id='mapiFrame' class='mapiFrame'></div>").append(iframe).appendTo("body").dialog({  //.append(iframeFooter).appendTo("body").dialog({
-                autoOpen: false,
+        var cdx_facility_management_block = $('#facility-widget');
+        if (cdx_facility_management_block.length > 0) {
+            cdx_facility_management_block.dialog({
+                //title: '<span>Getting Started</span>What matters to you?',
                 modal: true,
-                resizable: false,
-                width: dWidth,
-                height: dHeight,
-                dialogClass: 'mapDialog',
-                close: function () {
-                    iframe.attr("src", "");
-                },
-                //workaround for using jQ UI and Bootstrap - close button won't show up in top right of dialog
-                open: function () {
-                    var closeBtn = $('.ui-dialog-titlebar-close');
-                    //closeBtn.append('<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>');
-                }
+                autoOpen: false,
+                width: 'auto',
+                height: 'auto',
+                dialogClass: 'cdx_facility_management_block',
+                resizable: false
             });
+        }
 
-            var src = '/cdx_facility_management_iframe';
-            iframe.attr({
-                width: '100%',
-                height: '100%',
-                src: src
-            });
-            console.log(dialog);
-            dialog.dialog("open");
+        $('#view-facility-iframe').click( function() {
+            cdx_facility_management_block.dialog('open');
         });
+
+        $(window).resize(function(){
+            cdx_facility_management_block.dialog( "option", "position", { my: "center", at: "center", of: window } );
+        });
+        $(window).scroll(function(){
+            cdx_facility_management_block.dialog( "option", "position", { my: "center", at: "center", of: window } );
+        });
+
     });
 })(jQuery);
