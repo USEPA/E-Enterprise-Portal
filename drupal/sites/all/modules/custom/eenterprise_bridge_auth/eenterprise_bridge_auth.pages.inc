@@ -131,17 +131,7 @@ function eenterprise_bridge_auth_authenticate($error) {
             $ext_user = user_external_load($uname);
             if(!$ext_user){
                 user_external_login_register($uname, 'eenterprise_bridge_auth');
-                if($user){
-                    user_save($user, array('mail' => $userDetails->attributes['email'][0]));
-                    //if user is public user
-                    if($pos === FALSE){
-                        $user_role = user_role_load_by_name('Public User');
-                        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-                    }
-                    else {
-                      assign_roles_to_user($uname);
-                    }
-                }
+                define_user_role($user_role, $user, $uname, $userDetails, $pos);
             }
             else{
                 //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
@@ -404,14 +394,8 @@ function create_progress_tracker_node($res, $user){
             }
             $res_action = '';
             if ($res_domain == 'Lead'){
-                foreach($res['Documents'] as $vl){
-                    if(strpos($vl['name'],'Receipt') !== false) {
-                        $res_action .= "<a href='/".$vl['name']."' target='_blank'>View Receipt</a><br/>";
-                    }
-                    if(strpos($vl['name'],'Certificate') !== false) {
-                        $res_action .= "<a href='/".$vl['name']."' target='_blank'>View Certificate</a><br/>";
-                    }
-                }
+                add_receipt_and_certificate_link($res_action, $res);
+
                 if(empty($res_action)) {
                   $res_action = "N/A";
                 }
@@ -591,20 +575,9 @@ function assign_roles_to_user($user_name){
         global $user;
         $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
         if(is_array($user_roles->Role)){
-            foreach($user_roles->Role as $v){
-                $role_val = $v->type->description;
-                if(!empty($role_val)){
-                    $user_role = user_role_load_by_name($role_val);
-                    if($user_role === FALSE){
-                        $user_role = new stdClass();
-                        $user_role->name = $role_val;
-                        user_role_save($user_role);
-                    }
-                    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-                }
-            }
+            add_user_role($user_roles);
         }
-        else{
+        else {
             $role_val = $user_roles->Role->type->description;
             if(!empty($role_val)){
                 $user_role = user_role_load_by_name($role_val);
@@ -619,4 +592,54 @@ function assign_roles_to_user($user_name){
     } catch(SoapFault $f) {
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
+}
+
+
+//TODO: What is $res? Can we come up with a better function name?
+function add_receipt_and_certificate_link(&$res_action, $res){
+
+  foreach($res['Documents'] as $vl){
+    if(strpos($vl['name'],'Receipt') !== false) {
+      $res_action .= "<a href='/".$vl['name']."' target='_blank'>View Receipt</a><br/>";
+    }
+    if(strpos($vl['name'],'Certificate') !== false) {
+      $res_action .= "<a href='/".$vl['name']."' target='_blank'>View Certificate</a><br/>";
+    }
+  }
+
+}
+
+//TODO: Can we come up with a better name for this function if necessary?
+function define_user_role(&$user_role, $user, $uname, $userDetails, $pos){
+
+  if($user){
+    user_save($user, array('mail' => $userDetails->attributes['email'][0]));
+    //if user is public user
+    if($pos === FALSE){
+      $user_role = user_role_load_by_name('Public User');
+      user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+    }
+    else {
+      assign_roles_to_user($uname);
+    }
+  }
+
+}
+
+//TODO: Can we come up with a better name for this function if necessary?
+function add_user_role($user_roles){
+
+  foreach($user_roles->Role as $v){
+    $role_val = $v->type->description;
+    if(!empty($role_val)){
+      $user_role = user_role_load_by_name($role_val);
+      if($user_role === FALSE){
+        $user_role = new stdClass();
+        $user_role->name = $role_val;
+        user_role_save($user_role);
+      }
+      user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+    }
+  }
+
 }
