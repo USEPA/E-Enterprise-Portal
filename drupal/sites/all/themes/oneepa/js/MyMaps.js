@@ -79,6 +79,7 @@
     function setupMyMapsGalleryWithEPAthumbs(data) {
       var orgAlias = "USEPA GeoPlatform Online";
       var orgContactEmail = "epageoplatform@epa.gov";
+      var orgAGOLacronym = 'epa';
 
       //Opening UL only created in init of gallery
       var html = '<ul class="thumb">';
@@ -87,15 +88,39 @@
 
       //generate each thumbnail and only load it if non-default thumbnail image and a good hyperlink
       $.each(shuffle(data.results), function() {
-        //Added filter for user 'jquacken_EPA' because all of that user's WMAs are not maps - they are how-to guides for C-FERST
-        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.url.indexOf('http') > -1 && this.description !== null && this.owner != 'jquacken_EPA') {
+        //Added filter for user 'jquacken_EPA' because all of that user's WMAs are not maps - they are how-to guides
+        //Check for hyperlinks to most likely apps that are internal only (non default ports of 80, 443)
+        var hyperlinkValid;
+        if (this.url.indexOf('http') > -1 && this.url !== null) {
+          var linkArr = (this.url.split("://"));
+          //checks if hyperlink contains port designator
+          if ((linkArr[1].indexOf(':') > -1)) {
+            hyperlinkValid = false;
+          } else {
+            hyperlinkValid = true;
+          }
+        } else {
+          hyperlinkValid = false;
+        }
+
+        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.description !== null && this.owner != 'jquacken_EPA' && hyperlinkValid === true) {
           thumbnailNum += 1;
           numGoodResults += 1;
-          var thumbnailURL = "https://epa.maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
+          var thumbnailURL = "https://" + orgAGOLacronym + ".maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
           //Descriptions can contain or not contain HTML markup, to let JQuery's .text() work, we just add the p tags to all descriptions
           //and all tags are remove with .text(), including descriptions which has no HTML markup which would normally throw an error
           var desc = "<p>" + this.description + "</p>";
-          var hyperlinkURL = this.url;
+          //check if hyperlink is hosted on maps.arcgis.com, if it is, switch URL to HTTPS
+          var origURL = this.url;
+          var hyperlinkURL;
+          if ((origURL.indexOf('http://') > -1) && (origURL.indexOf('maps.arcgis.com') > -1)) {
+            //replace with HTTPS since we know maps.arcgis.com support SSL/TLS
+            hyperlinkURL = origURL.replace('http://', 'https://');
+          } else {
+            hyperlinkURL = origURL;
+          }
+
+
           html += '<li><div class="thumbitem-border">';
           html += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           html += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
@@ -174,7 +199,21 @@
       var thumbnailNum = 0;
       //generate each thumbnail and only load it if non-default thumbnail image and a good hyperlink
       $.each(shuffle(data.results), function() {
-        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.url.indexOf('http') > -1 && this.description !== null) {
+        //Check for hyperlinks to most likely apps that are internal only (non default ports of 80, 443)
+        var hyperlinkValid;
+        if (this.url.indexOf('http') > -1 && this.url !== null) {
+          var linkArr = (this.url.split("://"));
+          //checks if hyperlink contains port designator
+          if ((linkArr[1].indexOf(':') > -1)) {
+            hyperlinkValid = false;
+          } else {
+            hyperlinkValid = true;
+          }
+        } else {
+          hyperlinkValid = false;
+        }
+
+        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.description !== null && hyperlinkValid === true) {
           thumbnailNum += 1;
           numGoodResults += 1;
           var thumbnailURL = "https://mpca.maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
@@ -261,7 +300,21 @@
       //generate each thumbnail and only load it if non-default thumbnail image and a good hyperlink and a description
       //removed && this.description !== null
       $.each(shuffle(data.results), function() {
-        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.url.indexOf('http') > -1) {
+        //Check for hyperlinks to most likely apps that are internal only (non default ports of 80, 443)
+        var hyperlinkValid;
+        if (this.url.indexOf('http') > -1 && this.url !== null) {
+          var linkArr = (this.url.split("://"));
+          //checks if hyperlink contains port designator
+          if ((linkArr[1].indexOf(':') > -1)) {
+            hyperlinkValid = false;
+          } else {
+            hyperlinkValid = true;
+          }
+        } else {
+          hyperlinkValid = false;
+        }
+
+        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.description !== null && hyperlinkValid === true) {
           thumbnailNum += 1;
           numGoodResults += 1;
           var thumbnailURL = "https://omaha.maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
@@ -345,7 +398,21 @@
       var thumbnailNum = 0;
       //generate each thumbnail and only load it if non-default thumbnail image and a good hyperlink
       $.each(shuffle(data.results), function() {
-        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.url.indexOf('http') > -1 && this.description !== null) {
+        //Check for hyperlinks to most likely apps that are internal only (non default ports of 80, 443)
+        var hyperlinkValid;
+        if (this.url.indexOf('http') > -1 && this.url !== null) {
+          var linkArr = (this.url.split("://"));
+          //checks if hyperlink contains port designator
+          if ((linkArr[1].indexOf(':') > -1)) {
+            hyperlinkValid = false;
+          } else {
+            hyperlinkValid = true;
+          }
+        } else {
+          hyperlinkValid = false;
+        }
+
+        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.description !== null && hyperlinkValid === true) {
           thumbnailNum += 1;
           numGoodResults += 1;
           var thumbnailURL = "https://noaa.maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
