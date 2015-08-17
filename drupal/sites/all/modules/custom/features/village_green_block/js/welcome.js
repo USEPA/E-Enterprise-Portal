@@ -95,8 +95,8 @@
                         $(".countdownContainer").html("Updating in " + currentInterval);
                         if(currentInterval <= 3 && currentInterval > 0) {
                             //var opacity = currentInterval / 10;
-                            $('.curOzoneReading').css("color" , "#54c9f1");
-                            $('.curPMReading').css("color" , "#54c9f1");
+                            //$('.curOzoneReading').css("color" , "#54c9f1");
+                            //$('.curPMReading').css("color" , "#54c9f1");
                         }
                     } else {
                         $(".countdownContainer").html("");   
