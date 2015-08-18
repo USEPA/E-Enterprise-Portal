@@ -55,9 +55,9 @@
             $(".curHumidReading").html(data.curHumValue);
             $(".curTempReading").html(data.curTempValue);
             $(".curWDReading").html(PageController.getWindDirection(data.curWDValue));           
-                                
+
             var currentDateString = data.currentDateTime;
-            currentDateString = 'observed ' + currentDateString + ' ' + data.timezone;            
+            currentDateString = currentDateString + ' ' + data.timezone;
             
             $(".currentObsDate").html(currentDateString);  
 
@@ -91,18 +91,11 @@
                  
                 }
 
-                if(currentInterval <= 10 && currentInterval > 0) {
-                        $(".countdownContainer").html("Updating in " + currentInterval);
-                        if(currentInterval <= 3 && currentInterval > 0) {
-                            //var opacity = currentInterval / 10;
-                            //$('.curOzoneReading').css("color" , "#54c9f1");
-                            //$('.curPMReading').css("color" , "#54c9f1");
-                        }
-                    } else {
-                        $(".countdownContainer").html("");   
-                        //$('.curOzoneReading').css("color" , "#ffffff");
-                        //$('.curPMReading').css("color" , "#ffffff");
-                    }
+
+                var percentProgress = (60 - currentInterval)/60 * 100;
+
+                $(".countdownContainer").html(currentInterval);
+                $(".village-green-countdown").css("width", percentProgress + "%").attr({"aria-valuenow": percentProgress});
 
                     if (currentInterval <= 0) {
                         currentInterval = 60;
