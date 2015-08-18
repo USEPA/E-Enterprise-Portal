@@ -1,7 +1,7 @@
 .numThumbnails {
-	margin-bottom: 0px;
-	margin-top: 0px;
-	font-size: 90%;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  font-size: 90%;
 }
 
 .wrapper {
@@ -204,4 +204,45 @@
 /*override default jQ UI CSS per Designer's input */
 .ui-widget-overlay {
   opacity: 0.9;
+}
+
+
+#myMapsFilterList {
+  display: table;
+  height: 25px;
+  width: 100%;
+  border: 1px solid black;
+  font-size: 18px;
+  padding-bottom: 5px;
+}
+
+#myMapsFilterList li {
+  display: table-cell;
+  height: 25px;
+  width: 16.6%;  /* (100 / numItems)% */
+  line-height: 25px;
+  white-space: nowrap;
+}​
+
+@media (max-width: 767px) {
+  #myMapsFilterList li {
+    display: block;
+    width: 100%;
+  }
+}
+
+.farLeft {
+  position: relative;
+  top: 0px;
+  right: 15px;
+  text-align: left;
+}
+
+.active-mymaps-filter {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.myMapFilterTerm {
+  text-decoration: none !important;
 }
