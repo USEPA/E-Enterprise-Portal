@@ -213,7 +213,7 @@
   width: 100%;
   border: 1px solid black;
   font-size: 18px;
-  padding-bottom: 5px;
+  padding-bottom: 0px;
 }
 
 #myMapsFilterList li {
@@ -240,9 +240,9 @@
 
 .active-mymaps-filter {
   font-weight: bold;
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
 
 .myMapFilterTerm {
-  text-decoration: none !important;
+  text-decoration: none;
 }

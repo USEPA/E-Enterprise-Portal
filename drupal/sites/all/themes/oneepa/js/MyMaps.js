@@ -52,6 +52,7 @@
       var filterType = $(this).attr('id');
       $('.myMapFilterTerm').removeClass('active-mymaps-filter');
       $(this).addClass('active-mymaps-filter');
+      $(this).blur();
       filterMyMapsGallery(filterType);
     });
 
@@ -83,7 +84,7 @@
 
             break;
           case 'mapsLand':
-            if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1) {
+            if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1 && itemTags.indexOf('enviroatlas') == -1) {
               $(this).hide();
             } else {}
             break;
