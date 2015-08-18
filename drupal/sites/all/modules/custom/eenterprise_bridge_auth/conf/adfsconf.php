@@ -38,11 +38,11 @@ class AdfsConf {
      * @return Singleton
      */
     final public static function getInstance(){
-        if(null !== static::$_instance){
-            return static::$_instance;
+        if(null !== self::$_instance){
+            return self::$_instance;
         }
-        static::$_instance = new AdfsConf();
-        return static::$_instance;
+        self::$_instance = new AdfsConf();
+        return self::$_instance;
     }
 }
 ?>

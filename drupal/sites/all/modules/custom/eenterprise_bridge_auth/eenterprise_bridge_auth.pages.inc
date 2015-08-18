@@ -119,6 +119,7 @@ function eenterprise_bridge_auth_authenticate($error) {
             $username = end($username_raw);
             $uname = "";
 
+            //If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
             if($pos === FALSE || $username === FALSE) {
                 $uname = $userDetails->attributes['email'][0];
             }
@@ -157,9 +158,10 @@ function trusted_user_check($uname){
     //gmail usernames are sent with quotes before and after the username.
     $uname = trim($uname,'"');
 
-    if(in_array(strtolower($uname), $trusted_users) || in_array(strtoupper($uname), $trusted_users))
-        //if user is trusted Do Nothing, authentication will resume.
+    if(in_array(strtolower($uname), $trusted_users) || in_array(strtoupper($uname), $trusted_users)) {
+      //if user is trusted Do Nothing, authentication will resume.
       ;
+    }
     else{
         $_SESSION['trusted_login'] = 'NO';
         drupal_goto("/");
@@ -515,14 +517,15 @@ function create_progress_tracker_node($res, $user){
         $node = node_submit($node);
         node_save($node);
     }
-
+    else{
     //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
     //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
     $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
     $curr_date =  strtotime(date("Y-m-d H:i:s"));
-    if(($expiration_date - $curr_date) <= 0){
-        db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res[ENTITY_ID]));
-        db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res[ENTITY_ID],':vid' => $query_res['revision_id']));
+      if(($expiration_date - $curr_date) <= 0){
+          db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res[ENTITY_ID]));
+          db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res[ENTITY_ID],':vid' => $query_res['revision_id']));
+      }
     }
 }
 

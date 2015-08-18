@@ -47,7 +47,7 @@ class AdfsBridge {
             if ($adfsConf->encryptionCertPath != '') {
                 $encryptionCertData = file_get_contents($adfsConf->encryptionCertPath);
                 if($encryptionCertData === FALSE) {
-                    throw new Exception('Unable to load certificate file \'' . $adfsConf->encryptionCertPath . '\'.');
+                    throw new certificate_handler_exception('Unable to load certificate file \'' . $adfsConf->encryptionCertPath . '\'.');
                 }
             }
         } else {
@@ -80,7 +80,7 @@ class AdfsBridge {
                             $iv_length = 16;
                             break;
                         default:
-                            throw new Exception("Unknown encryption blockAlgorithm: ".$blockAlgorithm.".");
+                            throw new unknown_encryption_exception("Unknown encryption blockAlgorithm: ".$blockAlgorithm.".");
                     }
                     
                     # Alg. has been determined, check to make sure an error hasn't been thrown, and proceed.
@@ -98,7 +98,7 @@ class AdfsBridge {
                                     $ssl_padding = OPENSSL_NO_PADDING;
                                     break;
                                 default:
-                                    throw new Exception("Unrecognized keyWrapAlgorithm: ".$keyWrapAlgorithm.".");
+                                    throw new keyWrap_algorithm_exception("Unrecognized keyWrapAlgorithm: ".$keyWrapAlgorithm.".");
                             }
                             if ($decryptionFailed == false) {
                                 if ($cipherValueNodes = $topNode->getElementsByTagname("CipherValue") ) {
@@ -107,7 +107,7 @@ class AdfsBridge {
                                     $keyWrapCipher = base64_decode($keyWrapCipher);
                                     $private_key=openssl_pkey_get_private($encryptionCertData, $adfsConf->encryptionCertCred);
                                     if (!$private_key) {
-                                        throw new Exception("Unable to load private key for decryption.");
+                                        throw new private_key_load_exception("Unable to load private key for decryption.");
                                     } else {
                                         if (openssl_private_decrypt($keyWrapCipher, $blockCipherKey, $private_key, $ssl_padding) ) {
                                             openssl_free_key($private_key);
@@ -123,7 +123,7 @@ class AdfsBridge {
                                             $topNode = $topNode->nextSibling;
                                             if (preg_match('/CipherData/i', $topNode->nodeName) > 0) {
                                                 if (!$cipherValueNodes = $topNode->getElementsByTagname("CipherValue")) {
-                                                    throw new Exception("No block cipher data found.");
+                                                    throw new block_cipher_exception("No block cipher data found.");
                                                 } else {
                                                     $cipherValueNode = $cipherValueNodes->item(0);
                                                     $blockCipher = $cipherValueNode->nodeValue;
@@ -135,33 +135,33 @@ class AdfsBridge {
                                                     // Decrypt and get the token.
                                                     $decryptedToken = mcrypt_decrypt($mcrypt_cipher, $blockCipherKey, $blockCipher, $mcrypt_mode, $mcrypt_iv);
                                                     if (!$decryptedToken) {
-                                                        throw new Exception("Decryption of token failed.");
+                                                        throw new decryption_failure_exception("Decryption of token failed.");
                                                     }
                                                 }
                                             } else {
-                                                throw new Exception("Unable to locate cipher data.");
+                                                throw new unfound_cipher_exception("Unable to locate cipher data.");
                                             }
                                         } else {
-                                            throw new Exception("Unable to decrypt token, check private key configuration.");
+                                            throw new private_key_config_exception("Unable to decrypt token, check private key configuration.");
                                         }
                                     }
                                 } else {
-                                    throw new Exception("No wrapping cipher found.");
+                                    throw new wrapping_cipher_exception("No wrapping cipher found.");
                                 }
                             }
                         } else {
-                            throw new Exception("Unable to continue, keyInfo is not present.");
+                            throw new keyInfo_exception("Unable to continue, keyInfo is not present.");
                         }
                     }
                 } else {
-                    throw new Exception("Encryption method BlockAlgorithm not specified.");
+                    throw new blockAlgorithm_specification_exception("Encryption method BlockAlgorithm not specified.");
                 }
             } else {
-                throw new Exception("Unable to determine Encryption method.");
+                throw new encryption_determination_exception("Unable to determine Encryption method.");
             }
         } else {
             if(isset($encryptionCertData)) {
-                throw new Exception("Unable to find encrypted data.");
+                throw new unfound_data_exception("Unable to find encrypted data.");
             }
         }
         // Get saml:Assertion element
@@ -183,10 +183,10 @@ class AdfsBridge {
             // Find the saml:Assertion element in the response.
             $assertions = $xpath->query('/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse/trust:RequestedSecurityToken/saml:Assertion');
             if ($assertions->length === 0) {
-                throw new Exception('Received an ADFS response without an assertion.');
+                throw new adfs_assertion_exception('Received an ADFS response without an assertion.');
             }
             if ($assertions->length > 1) {
-                throw new Exception('The WS-Fed PRP handler currently only supports a single assertion in a response.');
+                throw new adfs_response_exception('The WS-Fed PRP handler currently only supports a single assertion in a response.');
             }
             $assertion = $assertions->item(0);
         }
@@ -196,7 +196,7 @@ class AdfsBridge {
             $notBefore = $condition->getAttribute('NotBefore');
             $notOnOrAfter = $condition->getAttribute('NotOnOrAfter');
             if(!$this->checkCurrentTime($notBefore, $notOnOrAfter)) {
-                throw new Exception('The WS-Fed response has expired.');
+                throw new expired_response_exception('The WS-Fed response has expired.');
             }
     }
         // Create the user details response object.
@@ -205,7 +205,7 @@ class AdfsBridge {
     // Extract the name identifier from the response.
     $nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:SubjectConfirmation/saml:ConfirmationMethod', $assertion);
     if ($nameid->length === 0) {
-            throw new Exception('Could not find the name identifier in the response from the WS-Fed.');
+            throw new unfound_identifier_exception('Could not find the name identifier in the response from the WS-Fed.');
     }
         $userDetails->nameIdentifier = $nameid->item(0)->textContent;
         $userDetails->nameIdentifierFormat = $nameid->item(0)->getAttribute('Format');
@@ -281,7 +281,7 @@ class AdfsBridge {
         if (preg_match('/^(\\d\\d\\d\\d)-(\\d\\d)-(\\d\\d)' .
                       'T(\\d\\d):(\\d\\d):(\\d\\d)(?:\\.\\d+)?Z$/D',
                       $time, $matches) == 0) {
-        throw new Exception(
+        throw new invalid_timestamp_exception(
                 'Invalid SAML2 timestamp passed to' .
                 ' parseSAML2Time: ' . $time);
         }
@@ -301,5 +301,134 @@ class AdfsBridge {
         $ts = gmmktime($hour, $minute, $second, $month, $day, $year);
         return $ts;
     }
+
+
 }
+
+class certificate_handler_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class unknown_encryption_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class keyWrap_algorithm_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class private_key_load_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class block_cipher_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class decryption_failure_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class unfound_cipher_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class private_key_config_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class wrapping_cipher_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class keyInfo_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class blockAlgorithm_specification_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class encryption_determination_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class unfound_data_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class adfs_assertion_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class adfs_response_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class expired_response_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class unfound_identifier_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
+class invalid_timestamp_exception extends Exception {
+
+  public function Error($error){
+    return $error;
+  }
+}
+
 ?>

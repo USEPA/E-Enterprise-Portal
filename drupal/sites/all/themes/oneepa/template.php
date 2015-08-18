@@ -316,7 +316,7 @@ function oneepa_menu_link(&$variables) {
  * @param $path
  * Hook Theme for oneepa.
  */
-function oneepa_theme(){
+function oneepa_theme($existing, $type, $theme, $path){
     $items['user_profile_form'] = array(
         'render element' => 'form',
         'template' => 'user_profile_form',

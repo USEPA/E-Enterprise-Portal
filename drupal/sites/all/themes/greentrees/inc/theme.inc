@@ -681,7 +681,7 @@ function greentrees_pager_link($vars) {
 /**
  * Overrides HTML for a marker for required form elements.
  */
-function greentrees_form_required_marker() {
+function greentrees_form_required_marker($variables) {
   $attributes = array(
     'class' => 'form-required',
     'title' => t('This field is required.'),
@@ -808,7 +808,7 @@ function check_row_complexity($row, &$attributes, &$cells){
 }
 
 //TODO: Can we come up with a better name for this function if necessary?
-function check_item_value(&$key, &$value, &$data, &$children, &$attributes){
+function check_item_value($key, $value, &$data, &$children, &$attributes){
 
   if ($key == 'data') {
     $data = $value;
