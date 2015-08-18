@@ -57,7 +57,6 @@
     });
 
     function filterMyMapsGallery(filterType) {
-      console.log("Filter My Maps Gallery for: ", filterType);
       var listItems = $('.jcarousel ul li');
       listItems.each(function(li) {
         //reset gallery to show all items before applying filter
@@ -594,7 +593,6 @@
 
     function updateTotalNumberOfMapsShowing() {
       var numItemsVisible = $('.thumb > li:visible').length;
-      console.log(numItemsVisible);
       $("#numThumbnails").html(numItemsVisible.toString() + ' Maps  - ' + galleryLink);
     }
 
