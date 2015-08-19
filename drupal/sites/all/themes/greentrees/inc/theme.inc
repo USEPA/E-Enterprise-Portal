@@ -412,8 +412,8 @@ function greentrees_table($vars) {
         $output .= ' <tr' . drupal_attributes($attributes) . '>';
         $i = 0;
         foreach ($cells as $cell) {
-          $i++;
           $cell = tablesort_cell($cell, $header, $ts, $i);
+          $i++;
           $output .= _theme_table_cell($cell);
         }
         $output .= " </tr>\n";
