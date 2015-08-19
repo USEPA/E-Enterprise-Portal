@@ -1,0 +1,136 @@
+<?php
+
+/**
+ * @file
+ * Module for deleting all links in a menu.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function menu_delete_all_links_menu() {
+  $items = array();
+
+  $items['admin/structure/menu/manage/%menu/delete_all'] = array(
+    'title' => 'Delete all links from a menu',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('menu_delete_all_links_form', 4),
+    'access arguments' => array('administer menu'),
+  );
+
+  return $items;
+}
+
+/**
+ * Form builder function for confirmation of deletion.
+ */
+function menu_delete_all_links_form($form, &$form_state, $menu) {
+  $form['#menu'] = $menu;
+  $question = t('Are you sure you want to permanently delete all links from menu %menu?', array('%menu' => check_plain($menu['title'])));
+  $path = 'admin/structure/menu/manage/' . $menu['menu_name'];
+  $description = t('This will permanently delete all links in this menu.');
+  $yes = t('Remove');
+  return confirm_form($form, $question, $path, $description, $yes);
+}
+
+/**
+ * Confirmation form submit handler.
+ */
+function menu_delete_all_links_form_submit($form, &$form_state) {
+  $menu = $form['#menu'];
+
+  // The order by clause selects child items first, trying to prevent cascading
+  // deletes during the batch process.
+  $query = "
+    SELECT mlid
+    FROM {menu_links}
+    WHERE menu_name = :menu_name
+    ORDER BY
+      p9 DESC,
+      p8 DESC,
+      p7 DESC,
+      p6 DESC,
+      p5 DESC,
+      p4 DESC,
+      p3 DESC,
+      p2 DESC,
+      p1 DESC
+  ";
+
+  $result = db_query($query, array(':menu_name' => $menu['menu_name']));
+
+  $mlids = array();
+  foreach ($result as $record) {
+    $mlids[] = $record->mlid;
+  }
+
+  if (!count($mlids)) {
+    drupal_set_message(t('No links to delete in menu @menu.', array('@menu' => check_plain($menu['title']))));
+    drupal_goto('admin/structure/menu/manage/' . $menu['menu_name']);
+  }
+
+  $chunks = array_chunk($mlids, 10);
+
+  $operations = array();
+  foreach ($chunks as $chunk) {
+    $operations[] = array('menu_delete_all_links_processor', array($chunk));
+  }
+
+  $batch = array(
+    'operations' => $operations,
+    'finished' => 'menu_delete_all_links_finished',
+    'title' => 'Deleting all menu links in chunks of 10',
+  );
+
+  batch_set($batch);
+
+  $form_state['redirect'] = 'admin/structure/menu/manage/' . $menu['menu_name'];
+}
+
+/**
+ * The batch processor function.
+ */
+function menu_delete_all_links_processor($chunk, &$context) {
+  foreach ($chunk as $mlid) {
+    menu_link_delete($mlid);
+  }
+}
+
+/**
+ * Batch 'finished' callback.
+ */
+function menu_delete_all_links_finished($success, $results, $operations) {
+  if ($success) {
+    drupal_set_message(t('Deleted all links in menu.'));
+  }
+  else {
+    // An error occurred. $operations contains the operations that remained
+    // unprocessed.
+    $error_operation = reset($operations);
+    drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array(
+      '@operation' => $error_operation[0],
+      '@args' => print_r($error_operation[0], TRUE),
+    )));
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function menu_delete_all_links_form_menu_edit_menu_alter(&$form, &$form_state, $form_id) {
+  if (arg(3) != 'add') {
+    $form['actions']['delete_all'] = array(
+      '#type' => 'submit',
+      '#value' => 'Delete all links',
+      '#weight' => 10,
+      '#submit' => array('menu_delete_all_links_menu_edit_menu_submit'),
+    );
+  }
+}
+
+/**
+ * Custom submit handler for vocabulary edit form.
+ */
+function menu_delete_all_links_menu_edit_menu_submit($form, &$form_state) {
+  $form_state['redirect'] = 'admin/structure/menu/manage/' . $form_state['values']['menu_name'] . '/delete_all';
+}
