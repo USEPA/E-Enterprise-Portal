@@ -780,6 +780,7 @@ tr.odd, tr.even {
 			float: none;
 		}
 	}
+
 }
 
 @media screen and (min-width: 40em) {
@@ -813,6 +814,7 @@ tr.odd, tr.even {
 			display: inline-block;
 		}
 	}
+
 }
 
 /** Workbench *******************************************************************/
@@ -1722,4 +1724,250 @@ div.ctools-modal-content {
 }
 .popover-content {
 	font-family: $lato;
+}
+
+
+/** Responsive Tracker and To Do List Tables***********************/
+.responsive-table tr.even {padding:0; color:inherit;}
+
+@media (min-width: 75em) {
+
+.responsive-table {
+  width: 100%;
+  margin-bottom: 1.5em;
+}
+}
+
+
+@media (min-width: 60em) {
+  .responsive-table {
+    font-size: 1em;
+    width: 100%;
+  }
+}
+.responsive-table thead {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+@media (min-width: 48em) {
+  .responsive-table thead {
+    position: relative;
+    clip: auto;
+    height: auto;
+    width: auto;
+    overflow: auto;
+  }
+}
+.responsive-table thead th {
+  background-color: #1d96b2;
+
+  font-weight: normal;
+  text-align: center;
+  color: white;
+}
+
+.responsive-table tbody,
+.responsive-table tr,
+.responsive-table th,
+.responsive-table td {
+  display: block;
+  padding: 0;
+  text-align: left;
+  white-space: normal;
+}
+@media (min-width: 48em) {
+  .responsive-table tr {
+    display: table-row;
+  }
+}
+.responsive-table th,
+.responsive-table td {
+  padding: .5em;
+  vertical-align: middle;
+}
+@media (min-width: 30em) {
+  .responsive-table th,
+  .responsive-table td {
+    padding: .75em .5em;
+    border-bottom: 1px solid $ee-medium-gray;
+  }
+}
+@media (min-width: 48em) {
+  .responsive-table th,
+  .responsive-table td {
+    display: table-cell;
+    padding: .5em;
+  }
+}
+@media (min-width: 62em) {
+  .responsive-table th,
+  .responsive-table td {
+    padding: .75em .5em;
+  }
+}
+@media (min-width: 75em) {
+  .responsive-table th,
+  .responsive-table td {
+    padding: .75em;
+  }
+}
+.responsive-table caption {
+  margin-bottom: 1em;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+}
+@media (min-width: 48em) {
+  .responsive-table caption {
+    font-size: 1.5em;
+  }
+}
+.responsive-table tfoot {
+  font-size: .8em;
+  font-style: italic;
+}
+@media (min-width: 62em) {
+  .responsive-table tfoot {
+    font-size: .9em;
+  }
+}
+@media (min-width: 48em) {
+  .responsive-table tbody {
+    display: table-row-group;
+  }
+
+.responsive-table tbody tr {
+  margin-bottom: 1em;
+
+}
+}
+@media (min-width: 48em) {
+  .responsive-table tbody tr {
+    display: table-row;
+    border-width: 1px;
+  }
+}
+.responsive-table tbody tr:last-of-type {
+  margin-bottom: 0;
+}
+
+.responsive-table tbody th[scope="row"] {
+  background-color: #333333;
+  color: white;
+}
+@media (min-width: 48em) {
+  .responsive-table tbody th[scope="row"] {
+    background-color: transparent;
+    color: #151515;
+    text-align: left;
+  }
+}
+.responsive-table tbody td {
+  text-align: left;
+}
+@media (min-width: 30em) {
+  .responsive-table tbody td {
+
+  }
+}
+@media (min-width: 48em) {
+  .responsive-table tbody td {
+    text-align: inherit;
+  }
+
+.responsive-table tbody td[data-type=currency] {
+  text-align: right;
+}}
+.responsive-table tbody td[data-title]:before {
+  width:11em;
+  content: attr(data-title);
+  float: left;
+  font-size: .8em;
+  color: rgba(94, 93, 82, 0.75);
+}
+@media (min-width: 30em) {
+  .responsive-table tr, .responsive-table tr.even {
+    border-bottom: 2px solid #606060;
+    margin-bottom:2em;
+  }
+
+  .responsive-table tbody td[data-title="Item"]:before {
+    font-size: .9em;
+    content: '';
+  }
+
+  .responsive-table tbody td[data-title="Item"]{
+    text-align:left;
+    color:#fff;
+  }
+
+  .responsive-table a.simple-dialog {color:#fff;}
+  .views-field-field-prog-track-actions-dnload a:link, .views-field-field-prog-track-actions-dnload a:visited {color:#23537e;}
+  .views-field-field-prog-track-actions-dnload a:hover {color:#fff;}
+  th.responsive-to-do-link a {color:#fff; text-decoration: underline;}
+
+  .responsive-table tbody th[scope="row"] {
+    background-color: #606060;
+    color: white;
+  }
+}
+
+@media (min-width: 45em) {
+  .responsive-table tr, .responsive-table tr.even {
+    border-bottom: none;
+    margin-bottom:2em;
+  }
+
+  .responsive-table th,
+  .responsive-table td {
+    padding: .75em .5em;
+    border:none;
+  }
+  th.responsive-to-do-link a {color:$ee-link-color; text-decoration: none;}
+  th.responsive-to-do-link a:hover {color:#ffffff; background-color: #606060}
+  .responsive-table tbody th[scope="row"] {
+    background-color: transparent;
+    color: #151515;
+  }
+}
+
+@media (min-width: 48em) {
+  .responsive-table tbody td[data-title]:before {
+    content: none;
+  }
+}
+
+
+@media (min-width: 30em) {
+  .responsive-table {
+    font-size: .9em;
+    width: 100%;
+  }
+
+  .responsive-table td.views-field-counter {display:none;}
+  .responsive-table a.simple-dialog {color:#fff;}
+}
+
+@media (min-width: 45em) {
+  .responsive-table td.views-field-counter {display:none;}
+
+  .responsive-table tbody td[data-title="Item"]{
+    text-align:left;
+    background:inherit;
+    color:inherit;
+  }
+
+  .responsive-table a.simple-dialog {color:#175c99;}
+
+}
+
+@media (min-width: 60em) {
+  .responsive-table td.views-field-counter {display:block;}
 }
