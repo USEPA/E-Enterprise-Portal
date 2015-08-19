@@ -530,9 +530,6 @@ function create_progress_tracker_node($res, $user){
         }
     }
 }
-
-
-function assign_roles_to_user($user_name){
     try {
         $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
@@ -607,6 +604,5 @@ function assign_roles_to_user($user_name){
         }
     } catch(SoapFault $f) {
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
-    }
 }
 

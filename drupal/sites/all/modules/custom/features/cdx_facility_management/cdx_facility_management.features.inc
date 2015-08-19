@@ -7,8 +7,9 @@
 /**
  * Implements hook_views_api().
  */
-function cdx_facility_management_views_api($module = NULL, $api = NULL) {
-  return array("api" => "3.0");
+function cdx_facility_management_views_api($module = NULL, $api = NULL)
+{
+    return array("api" => "3.0");
 }
 
 
@@ -46,6 +47,14 @@ function  cdx_facility_management_menu()
         'page callback' => 'cdx_facility_management_iframe',
         'access callback' => TRUE,
     );
+    $items['cdx_soap_test'] = array(
+        'page callback' => 'cdx_soap_test',
+        'access callback' => TRUE,
+    );
+    $items['return_cdx_security_token'] = array(
+        'page callback' => 'return_cdx_security_token',
+        'access callback' => TRUE,
+    );
     return $items;
 }
 
@@ -53,41 +62,191 @@ function  cdx_facility_management_menu()
 /*
 * Page callback sets up and returns the content for cdx-facility-management-iframe page
 */
-function cdx_facility_management_iframe() {
-//    drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', 'external');
-////drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/custom_js.js", "file");
-//    drupal_add_js('https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery-1.10.2.min.js', "external");
-//    drupal_add_js('https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery-ui-1.10.4/js/jquery-ui-1.10.4.min.js', "external");
-//    drupal_add_js("//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js", 'external');
-//    drupal_add_js("https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery.validate1.12.0.min.js", 'external');
-//    drupal_add_js("https://dev.epacdx.net/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.js", 'external');
-//    drupal_add_js("https://dev.epacdx.net/ContentFramework/v3/js/ElementGroupDisplay.js", 'external');
-//
-//    drupal_add_css('https://dev.epacdx.net/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.css', 'external');
-//    drupal_add_css('https://dev.epacdx.net/ContentFramework/v3/css/font-awesome-4.0.3/css/font-awesome.min.css', 'external');
-//
-//    drupal_add_js("https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery.blockUI.1.7.js", 'external');
-//    drupal_add_js("https://dev.epacdx.net/ContentFramework/v3/js/third-party/HandleBars/handlebars-v3.0.3.js", 'external');
-//
-//    //Mapping
-//    drupal_add_css('//js.arcgis.com/3.13/esri/css/esri.css', 'external');
-//    drupal_add_js("//js.arcgis.com/3.13/", 'external');
-//
-//    drupal_add_css('https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/dist/FacilityManagementStyles.css', 'external');
-//    print '<!--[if IE 8]> <link rel="stylesheet" href="../../ContentFramework/v3/css/FacilityManagementStyles-ie8.css"> <![endif]-->';
-//    drupal_add_js('https://dev.epacdx.net/FrsPhase2/Content/v3/FRS%20Widget/src/FacilityManagementTemplates.js', 'external');
-//    drupal_add_js('https://dev.epacdx.net/FrsPhase2/Content/v3/js/common.js', 'external');
-//    drupal_add_js('https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/temp/concat.js', 'external');
-//
-//    print '<div id="facility-widget" style="max-width:1363px;"></div>';
-//
-//    drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management_creation.js", "file");
+function cdx_facility_management_iframe()
+{
     try {
         $build = views_embed_view('cdx_facility_management', $display_id = 'default');
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         $build = '';
         echo $e;
     }
     print render($build);
+}
+
+function cdx_soap_test()
+{
+    $json_return = array();
+    $user_id = "MATKIN.BENJAMIN";
+    try {
+        $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+    } catch(SoapFault $f) {
+        var_dump($f);
+        drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
+        watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user", array(), WATCHDOG_ERROR);
+        return;
+    }
+    $params1 = array(
+        "userId" => "registration.test@cgifederal.com",
+        "credential" => "Testregistration1",
+        "domain" => "default",
+        "authenticationMethod" => "password",
+    );
+    try {
+        //Authenticate to CDX
+        $response1 = $client->__soapCall("Authenticate", array($params1));
+    } catch(SoapFault $f) {
+        var_dump($f);
+        watchdog('eenterprise_bridge_auth',"Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
+    }
+    $_SESSION['cdx_security_token'] = $response1->securityToken;
+    var_dump($_SESSION['cdx_security_token']);
+    $params2 = array(
+        "securityToken" => $response1->securityToken,   
+        "userId" => $user_id,
+    );
+    try {
+        $user_obj = $client->__soapCall("RetrieveUser", array($params2));
+        dpm($user_obj);
+        $user_sec_bundle = array(
+            "securityToken" => $response1->securityToken,
+            "user" => $user_obj->User,
+        );
+
+        $org_val = null;
+        $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
+        dpm($user_orgs);
+        if(is_array($user_orgs->Organization))
+            $org_val = $user_orgs->Organization[0];
+        else
+            $org_val = $user_orgs->Organization;
+
+        $user_sec_org_bundle = array(
+            "securityToken" => $response1->securityToken,
+            "user" => $user_obj->User,
+            "org" => $org_val,
+        );
+        global $user;
+        $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
+        dpm($user_roles);
+        if(is_array($user_roles->Role)){
+            foreach($user_roles->Role as $k => $v){
+                $role_val = $v->type->description;
+                if(!empty($role_val)){
+                    $user_role = user_role_load_by_name($role_val);
+                    if($user_role === FALSE){
+                        $user_role = new stdClass();
+                        $user_role->name = $role_val;
+                        user_role_save($user_role);
+                    }
+                }
+            }
+        }
+        else{
+            $role_val = $user_roles->Role->type->description;
+            if(!empty($role_val)){
+                $user_role = user_role_load_by_name($role_val);
+                if($user_role === FALSE){
+                    $user_role = new stdClass();
+                    $user_role->name = $role_val;
+                    user_role_save($user_role);
+                }
+            }
+        }
+    } catch(SoapFault $f) {
+        var_dump($f);
+        watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
+    }
+}
+
+  function assign_roles_to_user($user_name){
+    try {
+        $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+    } catch(SoapFault $f) {
+        var_dump($f);
+        drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
+        watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user", array(), WATCHDOG_ERROR);
+        return;
+    }
+    $params1 = array(
+        "userId" => "registration.test@cgifederal.com",
+        "credential" => "Testregistration1",
+        "domain" => "default",
+        "authenticationMethod" => "password",
+    );
+    try {
+        //Authenticate to CDX
+        $response1 = $client->__soapCall("Authenticate", array($params1));
+    } catch(SoapFault $f) {
+        var_dump($f);
+        watchdog('eenterprise_bridge_auth',"Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
+    }
+      var_dump($_SESSION['cdx_security_token']);
+    $params2 = array(
+        "securityToken" => $response1->securityToken,
+        "userId" => $user_name
+    );
+      var_dump(params2);
+              exit();
+    try {
+        $user_obj = $client->__soapCall("RetrieveUser", array($params2));
+        $user_sec_bundle = array(
+            "securityToken" => $response1->securityToken,
+            "user" => $user_obj->User,
+        );
+
+        $org_val = null;
+        $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
+
+        if(is_array($user_orgs->Organization))
+            $org_val = $user_orgs->Organization[0];
+        else
+            $org_val = $user_orgs->Organization;
+
+        $user_sec_org_bundle = array(
+            "securityToken" => $response1->securityToken,
+            "user" => $user_obj->User,
+            "org" => $org_val,
+        );
+        global $user;
+        $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
+        if(is_array($user_roles->Role)){
+            foreach($user_roles->Role as $k => $v){
+                $role_val = $v->type->description;
+                if(!empty($role_val)){
+                    $user_role = user_role_load_by_name($role_val);
+                    if($user_role === FALSE){
+                        $user_role = new stdClass();
+                        $user_role->name = $role_val;
+                        user_role_save($user_role);
+                    }
+                    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                }
+            }
+        }
+        else{
+            $role_val = $user_roles->Role->type->description;
+            if(!empty($role_val)){
+                $user_role = user_role_load_by_name($role_val);
+                if($user_role === FALSE){
+                    $user_role = new stdClass();
+                    $user_role->name = $role_val;
+                    user_role_save($user_role);
+                }
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+            }
+        }
+    } catch(SoapFault $f) {
+        watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
+    }
+}
+
+
+function return_cdx_security_token(){
+    if (isset($_SESSION['cdx_security_token'])) {
+        $security_token = $_SESSION['cdx_security_token'];
+    }
+    else {
+        $security_token = generate_cdx_security_token();
+    }
+    print json_encode($security_token);
 }
