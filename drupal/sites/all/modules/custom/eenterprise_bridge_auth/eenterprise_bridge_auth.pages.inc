@@ -345,187 +345,15 @@ function create_progress_tracker_node($res, $user){
     //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
     $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
     $curr_date =  strtotime(date("Y-m-d H:i:s"));
+
     //do not create a node if its expiration date is already passed
     if(($query_res[ENTITY_ID] < 1 || $node_deleted) && ($expiration_date - $curr_date) > 0) {
-        $node = new stdClass();
-        $node->title = $res['ActivityDesc'];
-        if ($res[ACTIVITY_TYPE] == 'TRACKER') {
-            $node->type = "progress_tracker";
-
-            $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
-            $node->field_eactivity_id['und'][0]['format'] = null;
-            $node->field_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
-
-            $node->field_prog_tracker_app['und'][0]['value'] = $res['ActivityDesc'];
-            $node->field_prog_tracker_app['und'][0]['format'] = null;
-            $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
-
-            $res_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
-
-            $node->field_prog_track_status['und'][0]['value'] = $res_status;
-            $node->field_prog_track_status['und'][0]['format'] = null;
-            $node->field_prog_track_status['und'][0]['safe_value'] = $res_status;
-
-            $res_domain = $res[PARTNER_SYSTEM_ID];
-            if (strpos($res[PARTNER_SYSTEM_ID], 'lead') !== false) {
-              $res_domain = "Lead";
-            }
-            else if (strpos($res[PARTNER_SYSTEM_ID], 'cedri') !== false) {
-              $res_domain = "CEDRI";
-            }
-            $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
-            $node->field_prog_track_domain['und'][0]['format'] = null;
-            $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
-
-            if($res_domain == 'Lead'){
-                $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
-                $node->field_prog_track_updated['und'][0]['value'] = $st_update;
-                $node->field_prog_track_updated['und'][0]['format'] = null;
-                $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
-                if($res['Status'] == 'INCOMPLETE') {
-                    $node->field_prog_track_status_note['und'][0]['value'] = $res[STATUS_NOTE];
-                    $node->field_prog_track_status_note['und'][0]['format'] = null;
-                    $node->field_prog_track_status_note['und'][0]['safe_value'] = $res[STATUS_NOTE];
-                }
-            }
-            else if($res_domain == 'CEDRI'){
-                $exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
-                $node->field_prog_track_updated['und'][0]['value'] = $exp_date;
-                $node->field_prog_track_updated['und'][0]['format'] = null;
-                $node->field_prog_track_updated['und'][0]['safe_value'] = $exp_date;
-            }
-            $res_action = '';
-            if ($res_domain == 'Lead'){
-                add_receipt_and_certificate_link($res_action, $res);
-
-                if(empty($res_action)) {
-                  $res_action = "N/A";
-                }
-            }
-            else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI') {
-              $res_action .= "<a href='" . $res['ActivitySourceURL'] . "'>View Submission</a>";
-            }
-            $node->field_prog_track_actions_dnload['und'][0]['value'] = $res_action;
-            $node->field_prog_track_actions_dnload['und'][0]['format'] = 'full_html';
-            $node->field_prog_track_actions_dnload['und'][0]['safe_value'] = $res_action;
-
-            $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
-            $node->field_prog_track_created_by['und'][0]['format'] = null;
-            $node->field_prog_track_created_by['und'][0]['safe_value'] = $user->uid;
-
-            if($res_domain == "Lead") {
-                $node->field_prog_track_date_type['und'][0]['value'] = 'Status Changed Date';
-                $node->field_prog_track_date_type['und'][0]['format'] = null;
-                $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Status Changed Date';
-            }
-            else if($res_domain == "CEDRI"){
-                $node->field_prog_track_date_type['und'][0]['value'] = 'Publish Date';
-                $node->field_prog_track_date_type['und'][0]['format'] = null;
-                $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
-
-                $node->field_prog_track_facility_name['und'][0]['value'] = $res['FacilityName'];
-                $node->field_prog_track_facility_name['und'][0]['format'] = null;
-                $node->field_prog_track_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
-
-                $node->field_prog_track_part_code['und'][0]['value'] = $res['partCode'];
-                $node->field_prog_track_part_code['und'][0]['format'] = null;
-                $node->field_prog_track_part_code['und'][0]['safe_value'] = $res['partCode'];
-
-                $node->field_prog_track_part_name['und'][0]['value'] = $res['partName'];
-                $node->field_prog_track_part_name['und'][0]['format'] = null;
-                $node->field_prog_track_part_name['und'][0]['safe_value'] = $res['partName'];
-
-                $node->field_prog_track_sub_part_code['und'][0]['value'] = $res['subPartCode'];
-                $node->field_prog_track_sub_part_code['und'][0]['format'] = null;
-                $node->field_prog_track_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
-
-                $node->field_prog_track_sub_part_name['und'][0]['value'] = $res['subPartName'];
-                $node->field_prog_track_sub_part_name['und'][0]['format'] = null;
-                $node->field_prog_track_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
-
-                $node->field_prog_track_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
-                $node->field_prog_track_facility_reg_id['und'][0]['format'] = null;
-                $node->field_prog_track_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
-            }
-        }
-        else if($res[ACTIVITY_TYPE] == 'TASK') {
-            $node->type = "to_do_list";
-
-            $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
-            $node->field_eactivity_id['und'][0]['format'] = null;
-            $node->field_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
-
-            $node->field_todo_lst_item['und'][0]['value'] = $res['ActivityDesc'];
-            $node->field_todo_lst_item['und'][0]['format'] = null;
-            $node->field_todo_lst_item['und'][0]['safe_value'] = $res['ActivityDesc'];
-
-            $res_domain = $res[PARTNER_SYSTEM_ID];
-            if (strpos($res[PARTNER_SYSTEM_ID], 'lead') !== false) {
-              $res_domain = "Lead";
-            }
-            if (strpos($res[PARTNER_SYSTEM_ID], 'cedri') !== false) {
-              $res_domain = "CEDRI";
-            }
-            $node->field_todo_lst_domain['und'][0]['value'] = $res_domain;
-            $node->field_todo_lst_domain['und'][0]['format'] = null;
-            $node->field_todo_lst_domain['und'][0]['safe_value'] = $res_domain;
-
-            $st_due = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
-            $node->field_todo_lst_due['und'][0]['value'] = $st_due;
-            $node->field_todo_lst_due['und'][0]['format'] = null;
-            $node->field_todo_lst_due['und'][0]['safe_value'] = $st_due;
-
-            $node->field_todo_lst_facility_name['und'][0]['value'] = $res['FacilityName'];
-            $node->field_todo_lst_facility_name['und'][0]['format'] = null;
-            $node->field_todo_lst_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
-
-            $node->field_todo_lst_part_code['und'][0]['value'] = $res['partCode'];
-            $node->field_todo_lst_part_code['und'][0]['format'] = null;
-            $node->field_todo_lst_part_code['und'][0]['safe_value'] = $res['partCode'];
-
-            $node->field_todo_lst_part_name['und'][0]['value'] = $res['partName'];
-            $node->field_todo_lst_part_name['und'][0]['format'] = null;
-            $node->field_todo_lst_part_name['und'][0]['safe_value'] = $res['partName'];
-
-            $node->field_todo_lst_sub_part_code['und'][0]['value'] = $res['subPartCode'];
-            $node->field_todo_lst_sub_part_code['und'][0]['format'] = null;
-            $node->field_todo_lst_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
-
-            $node->field_todo_lst_sub_part_name['und'][0]['value'] = $res['subPartName'];
-            $node->field_todo_lst_sub_part_name['und'][0]['format'] = null;
-            $node->field_todo_lst_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
-
-            $node->field_todo_lst_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
-            $node->field_todo_lst_facility_reg_id['und'][0]['format'] = null;
-            $node->field_todo_lst_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
-
-            $node->field_todo_lst_activ_source_url['und'][0]['value'] = $res['ActivitySourceURL'];
-            $node->field_todo_lst_activ_source_url['und'][0]['format'] = null;
-            $node->field_todo_lst_activ_source_url['und'][0]['safe_value'] = $res['ActivitySourceURL'];
-
-            $node->field_todo_lst_created_by['und'][0]['value'] = $user->uid;
-            $node->field_todo_lst_created_by['und'][0]['format'] = null;
-            $node->field_todo_lst_created_by['und'][0]['safe_value'] = $user->uid;
-        }
-        node_object_prepare($node);
-        $node->language = LANGUAGE_NONE;
-        $node->uid = $user->uid;
-        $node->status = 1;
-
-
-        // Prepare node for saving
-        $node = node_submit($node);
-        node_save($node);
+      create_item($user, $res);
     }
-    else{
-    //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
-    //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
-    $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
-    $curr_date =  strtotime(date("Y-m-d H:i:s"));
-      if(($expiration_date - $curr_date) <= 0){
-          db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res[ENTITY_ID]));
-          db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res[ENTITY_ID],':vid' => $query_res['revision_id']));
-      }
+    else {
+      //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
+      //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
+      drop_item($query_res);
     }
 }
 
@@ -578,7 +406,7 @@ function assign_roles_to_user($user_name){
         global $user;
         $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
         if(is_array($user_roles->Role)){
-            add_user_role($user_roles);
+            add_user_role($user_roles, $user);
         }
         else {
             $role_val = $user_roles->Role->type->description;
@@ -609,7 +437,6 @@ function add_receipt_and_certificate_link(&$res_action, $res){
       $res_action .= "<a href='/".$vl['name']."' target='_blank'>View Certificate</a><br/>";
     }
   }
-
 }
 
 //TODO: Can we come up with a better name for this function if necessary?
@@ -626,11 +453,10 @@ function define_user_role(&$user_role, $user, $uname, $userDetails, $pos){
       assign_roles_to_user($uname);
     }
   }
-
 }
 
 //TODO: Can we come up with a better name for this function if necessary?
-function add_user_role($user_roles){
+function add_user_role($user_roles, $user){
 
   foreach($user_roles->Role as $v){
     $role_val = $v->type->description;
@@ -644,5 +470,204 @@ function add_user_role($user_roles){
       user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
     }
   }
+}
 
+//TODO: Can we come up with a better name for this function if necessary?
+
+function create_item($user, $res) {
+
+  $node = new stdClass();
+  $node->title = $res['ActivityDesc'];
+  if ($res[ACTIVITY_TYPE] == 'TRACKER') {
+    progress_tracker($node);
+  }
+  else if($res[ACTIVITY_TYPE] == 'TASK') {
+    to_do_list($node, $user, $res);
+  }
+  node_object_prepare($node);
+  $node->language = LANGUAGE_NONE;
+  $node->uid = $user->uid;
+  $node->status = 1;
+
+
+  // Prepare node for saving
+  $node = node_submit($node);
+  node_save($node);
+}
+
+//TODO: Can we come up with a better name for this function if necessary?
+//If the item is already existing, implement logic to drop this item 6 months after the last status update date.
+//86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
+function drop_item($query_res) {
+
+  $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
+  $curr_date =  strtotime(date("Y-m-d H:i:s"));
+  if(($expiration_date - $curr_date) <= 0){
+    db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res[ENTITY_ID]));
+    db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res[ENTITY_ID],':vid' => $query_res['revision_id']));
+  }
+}
+
+//TODO: Can we come up with a better name for this function if necessary?
+function progress_tracker($node){
+
+  $node->type = "progress_tracker";
+
+  $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
+  $node->field_eactivity_id['und'][0]['format'] = null;
+  $node->field_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
+
+  $node->field_prog_tracker_app['und'][0]['value'] = $res['ActivityDesc'];
+  $node->field_prog_tracker_app['und'][0]['format'] = null;
+  $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
+
+  $res_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
+
+  $node->field_prog_track_status['und'][0]['value'] = $res_status;
+  $node->field_prog_track_status['und'][0]['format'] = null;
+  $node->field_prog_track_status['und'][0]['safe_value'] = $res_status;
+
+  $res_domain = $res[PARTNER_SYSTEM_ID];
+  if (strpos($res[PARTNER_SYSTEM_ID], 'lead') !== false) {
+    $res_domain = "Lead";
+  }
+  else if (strpos($res[PARTNER_SYSTEM_ID], 'cedri') !== false) {
+    $res_domain = "CEDRI";
+  }
+  $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
+  $node->field_prog_track_domain['und'][0]['format'] = null;
+  $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
+
+  if($res_domain == 'Lead'){
+    $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
+    $node->field_prog_track_updated['und'][0]['value'] = $st_update;
+    $node->field_prog_track_updated['und'][0]['format'] = null;
+    $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
+    if($res['Status'] == 'INCOMPLETE') {
+      $node->field_prog_track_status_note['und'][0]['value'] = $res[STATUS_NOTE];
+      $node->field_prog_track_status_note['und'][0]['format'] = null;
+      $node->field_prog_track_status_note['und'][0]['safe_value'] = $res[STATUS_NOTE];
+    }
+  }
+  else if($res_domain == 'CEDRI'){
+    $exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+    $node->field_prog_track_updated['und'][0]['value'] = $exp_date;
+    $node->field_prog_track_updated['und'][0]['format'] = null;
+    $node->field_prog_track_updated['und'][0]['safe_value'] = $exp_date;
+  }
+  $res_action = '';
+  if ($res_domain == 'Lead'){
+    add_receipt_and_certificate_link($res_action, $res);
+
+    if(empty($res_action)) {
+      $res_action = "N/A";
+    }
+  }
+  else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI') {
+    $res_action .= "<a href='" . $res['ActivitySourceURL'] . "'>View Submission</a>";
+  }
+  $node->field_prog_track_actions_dnload['und'][0]['value'] = $res_action;
+  $node->field_prog_track_actions_dnload['und'][0]['format'] = 'full_html';
+  $node->field_prog_track_actions_dnload['und'][0]['safe_value'] = $res_action;
+
+  $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
+  $node->field_prog_track_created_by['und'][0]['format'] = null;
+  $node->field_prog_track_created_by['und'][0]['safe_value'] = $user->uid;
+
+  if($res_domain == "Lead") {
+    $node->field_prog_track_date_type['und'][0]['value'] = 'Status Changed Date';
+    $node->field_prog_track_date_type['und'][0]['format'] = null;
+    $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Status Changed Date';
+  }
+  else if($res_domain == "CEDRI"){
+    $node->field_prog_track_date_type['und'][0]['value'] = 'Publish Date';
+    $node->field_prog_track_date_type['und'][0]['format'] = null;
+    $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
+
+    $node->field_prog_track_facility_name['und'][0]['value'] = $res['FacilityName'];
+    $node->field_prog_track_facility_name['und'][0]['format'] = null;
+    $node->field_prog_track_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
+
+    $node->field_prog_track_part_code['und'][0]['value'] = $res['partCode'];
+    $node->field_prog_track_part_code['und'][0]['format'] = null;
+    $node->field_prog_track_part_code['und'][0]['safe_value'] = $res['partCode'];
+
+    $node->field_prog_track_part_name['und'][0]['value'] = $res['partName'];
+    $node->field_prog_track_part_name['und'][0]['format'] = null;
+    $node->field_prog_track_part_name['und'][0]['safe_value'] = $res['partName'];
+
+    $node->field_prog_track_sub_part_code['und'][0]['value'] = $res['subPartCode'];
+    $node->field_prog_track_sub_part_code['und'][0]['format'] = null;
+    $node->field_prog_track_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
+
+    $node->field_prog_track_sub_part_name['und'][0]['value'] = $res['subPartName'];
+    $node->field_prog_track_sub_part_name['und'][0]['format'] = null;
+    $node->field_prog_track_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
+
+    $node->field_prog_track_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
+    $node->field_prog_track_facility_reg_id['und'][0]['format'] = null;
+    $node->field_prog_track_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
+  }
+}
+
+//TODO: Can we come up with a better name for this function if necessary?
+function to_do_list($node, $user, $res){
+
+  $node->type = "to_do_list";
+
+  $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
+  $node->field_eactivity_id['und'][0]['format'] = null;
+  $node->field_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
+
+  $node->field_todo_lst_item['und'][0]['value'] = $res['ActivityDesc'];
+  $node->field_todo_lst_item['und'][0]['format'] = null;
+  $node->field_todo_lst_item['und'][0]['safe_value'] = $res['ActivityDesc'];
+
+  $res_domain = $res[PARTNER_SYSTEM_ID];
+  if (strpos($res[PARTNER_SYSTEM_ID], 'lead') !== false) {
+    $res_domain = "Lead";
+  }
+  if (strpos($res[PARTNER_SYSTEM_ID], 'cedri') !== false) {
+    $res_domain = "CEDRI";
+  }
+  $node->field_todo_lst_domain['und'][0]['value'] = $res_domain;
+  $node->field_todo_lst_domain['und'][0]['format'] = null;
+  $node->field_todo_lst_domain['und'][0]['safe_value'] = $res_domain;
+
+  $st_due = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+  $node->field_todo_lst_due['und'][0]['value'] = $st_due;
+  $node->field_todo_lst_due['und'][0]['format'] = null;
+  $node->field_todo_lst_due['und'][0]['safe_value'] = $st_due;
+
+  $node->field_todo_lst_facility_name['und'][0]['value'] = $res['FacilityName'];
+  $node->field_todo_lst_facility_name['und'][0]['format'] = null;
+  $node->field_todo_lst_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
+
+  $node->field_todo_lst_part_code['und'][0]['value'] = $res['partCode'];
+  $node->field_todo_lst_part_code['und'][0]['format'] = null;
+  $node->field_todo_lst_part_code['und'][0]['safe_value'] = $res['partCode'];
+
+  $node->field_todo_lst_part_name['und'][0]['value'] = $res['partName'];
+  $node->field_todo_lst_part_name['und'][0]['format'] = null;
+  $node->field_todo_lst_part_name['und'][0]['safe_value'] = $res['partName'];
+
+  $node->field_todo_lst_sub_part_code['und'][0]['value'] = $res['subPartCode'];
+  $node->field_todo_lst_sub_part_code['und'][0]['format'] = null;
+  $node->field_todo_lst_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
+
+  $node->field_todo_lst_sub_part_name['und'][0]['value'] = $res['subPartName'];
+  $node->field_todo_lst_sub_part_name['und'][0]['format'] = null;
+  $node->field_todo_lst_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
+
+  $node->field_todo_lst_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
+  $node->field_todo_lst_facility_reg_id['und'][0]['format'] = null;
+  $node->field_todo_lst_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
+
+  $node->field_todo_lst_activ_source_url['und'][0]['value'] = $res['ActivitySourceURL'];
+  $node->field_todo_lst_activ_source_url['und'][0]['format'] = null;
+  $node->field_todo_lst_activ_source_url['und'][0]['safe_value'] = $res['ActivitySourceURL'];
+
+  $node->field_todo_lst_created_by['und'][0]['value'] = $user->uid;
+  $node->field_todo_lst_created_by['und'][0]['format'] = null;
+  $node->field_todo_lst_created_by['und'][0]['safe_value'] = $user->uid;
 }
