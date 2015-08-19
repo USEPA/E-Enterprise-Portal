@@ -64,7 +64,7 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/MyMaps.css", "file");
     <div id="myMapsFiltering">
       <ul id="myMapsFilterList">
         <li class="farLeft">Filter By </li>
-        <li id="myMapsFilterAll"><a id="mapsAll" class="myMapFilterTerm favorites-ignore" href="javascript:void(0)">All</a></li>
+        <li id="myMapsFilterAll"><a id="mapsAll" class="myMapFilterTerm active-mymaps-filter favorites-ignore" href="javascript:void(0)">All</a></li>
         <li id="myMapsFilterAir"><a id="mapsAir" class="myMapFilterTerm favorites-ignore" href="javascript:void(0)">Air</a></li>
         <li id="myMapsFilterWater"><a id="mapsWater" class="myMapFilterTerm favorites-ignore" href="javascript:void(0)">Water</a></li>
         <li id="myMapsFilterLand"><a id="mapsLand" class="myMapFilterTerm favorites-ignore" href="javascript:void(0)">Land</a></li>
