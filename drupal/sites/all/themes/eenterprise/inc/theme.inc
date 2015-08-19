@@ -7,7 +7,7 @@
 /**
  * Override HTML for link lists.
  */
-function oneepa_links($vars) {
+function eenterprise_links($vars) {
   $links = $vars['links'];
   $attributes = $vars['attributes'];
   $heading = $vars['heading'];
@@ -83,7 +83,7 @@ function oneepa_links($vars) {
 /**
  * Override HTML for main menu links.
  */
-function oneepa_links__system_main_menu($vars) {
+function eenterprise_links__system_main_menu($vars) {
 
   // Display the main menu as a drop-down menu.
   if (theme_get_setting('use_dropdowns')) {
@@ -93,31 +93,20 @@ function oneepa_links__system_main_menu($vars) {
     return '<h2 class="element-invisible">' . t('Main menu') . '</h2>' . drupal_render($tree);
   }
 
-  return oneepa_links($vars);
-}
-
-/**
- * Override HTML for comment links.
- */
-function oneepa_links__comment($vars) {
-
-  // Add pipeline class to comment links.
-  $vars['attributes']['class'][] = 'pipeline';
-
-  return oneepa_links($vars);
+  return eenterprise_links($vars);
 }
 
  /**
   * Override HTML for menu trees.
   */
-function oneepa_menu_tree($vars) {
+function eenterprise_menu_tree($vars) {
   return '<ul class="menu">' . $vars['tree'] . '</ul>';
 }
 
 /**
  * Override HTML for primary and secondary local tasks.
  */
-function oneepa_menu_local_tasks($vars) {
+function eenterprise_menu_local_tasks($vars) {
   $output = '';
 
   if (!empty($vars['primary'])) {
@@ -140,7 +129,7 @@ function oneepa_menu_local_tasks($vars) {
 /**
  * Override HTML for individual primary and secondary local task.
  */
-function oneepa_menu_local_task($vars) {
+function eenterprise_menu_local_task($vars) {
   $link = $vars['element']['#link'];
   $link_text = $link['title'];
 
@@ -163,64 +152,11 @@ function oneepa_menu_local_task($vars) {
   return '<li class="menu-item' . (!empty($vars['element']['#active']) ? ' active' : '') . '">' . l($link_text, $link['href'], $link['localized_options']) . "</li>\n";
 }
 
-/**
- * Override HTML for breadcrumb trail.
- */
-function oneepa_breadcrumb($vars) {
-  $breadcrumb = $vars['breadcrumb'];
-  $breadcrumb_display = theme_get_setting('breadcrumb_display');
-
-  // Check theme setting to display breadcrumbs.
-  if ($breadcrumb_display == 'yes' || $breadcrumb_display == 'admin' && arg(0) == 'admin') {
-
-    // Remove the Home link.
-    if (!theme_get_setting('breadcrumb_home')) {
-      array_shift($breadcrumb);
-    }
-
-    if (!empty($breadcrumb)) {
-      // Add breadcrumb separator.
-      $breadcrumb_separator = filter_xss(theme_get_setting('breadcrumb_separator'));
-      $output = '<h2 class="breadcrumb-title">' . t('You are here') . ':</h2>';
-
-      // Override breadcrumb trailing from email top 'My Account'
-
-      if (count($breadcrumb) > 1) {
-        $account_string = $breadcrumb[1];
-        preg_match("/href[^>]*/", $account_string, $href_string);
-        $new_breadcrumb = "<a " . $href_string[0] . ">My Account</a>";
-        $breadcrumb[1] = $new_breadcrumb;
-      }
-      $output .= '<p class="breadcrumb">' . implode($breadcrumb_separator, $breadcrumb);
-      // Add page title to breadcrumbs.
-      if (theme_get_setting('breadcrumb_title')) {
-        $output .= ' ' . $breadcrumb_separator . ' ' . drupal_get_title();
-      }
-
-      // Add a trailing separator.
-      if (theme_get_setting('breadcrumb_trailing')) {
-        $output .= ' ' . $breadcrumb_separator;
-      }
-
-      $output .= '</p>';
-      return $output;
-    }
-  }
-  return '';
-}
-
-/**
- * Override HTML for RSS feed icon.
- */
-function oneepa_feed_icon($vars) {
-  $text = t('Subscribe to @feed-title', array('@feed-title' => $vars['title']));
-  return l($text, $vars['url'], array('html' => TRUE, 'attributes' => array('class' => array('feed-icon'))));
-}
 
 /**
  * Override HTML for item lists.
  */
-function oneepa_item_list($vars) {
+function eenterprise_item_list($vars) {
   $items = $vars['items'];
   $title = $vars['title'];
   $type = $vars['type'];
@@ -272,42 +208,9 @@ function oneepa_item_list($vars) {
 }
 
 /**
- * Override HTML for boxes.
- */
-function oneepa_boxes_box($vars) {
-  $block = $vars['block'];
-  $empty = '';
-
-  // If the box is empty, add a class and show something if the user has
-  // permission to edit it.
-  if ((empty($block['title']) || ($block['title'] == '<none>')) && empty($block['content'])) {
-    $empty = ' box-empty';
-    if (boxes_access_edit()) {
-      $block['content'] = t('This box appears empty when displayed on this page. This is simply placeholder text.');
-    }
-    else {
-      return;
-    }
-  }
-
-  $output = "<div id='boxes-box-" . $block['delta'] . "' class='boxes-box" . (!empty($block['editing']) ? ' boxes-box-editing' : '') . $empty . "'>";
-  $output .= $block['content'];
-  if (!empty($block['controls'])) {
-    $output .= '<div class="boxes-box-controls">';
-    $output .= $block['controls'];
-    $output .= '</div>';
-  }
-  if (!empty($block['editing'])) {
-    $output .= '<div class="box-editor">' . drupal_render($block['editing']) . '</div>';
-  }
-  $output .= '</div>';
-  return $output;
-}
-
-/**
  * Override HTML for default panel regions.
  */
-function oneepa_panels_default_style_render_region($vars) {
+function eenterprise_panels_default_style_render_region($vars) {
   $output = implode('', $vars['panes']);
   return $output;
 }
@@ -315,7 +218,7 @@ function oneepa_panels_default_style_render_region($vars) {
 /**
  * Override HTML for default tables.
  */
-function oneepa_table($vars) {
+function eenterprise_table($vars) {
   $header = $vars['header'];
   $rows = $vars['rows'];
   $attributes = $vars['attributes'];
@@ -452,7 +355,7 @@ function oneepa_table($vars) {
  * Override HTML for file links.
  * We don't use icon images.
  */
-function oneepa_file_link($vars) {
+function eenterprise_file_link($vars) {
   $file = $vars['file'];
 
   $url = file_create_url($file->uri);
@@ -487,7 +390,7 @@ function oneepa_file_link($vars) {
 /**
  * Returns HTML for a query pager.
  */
-function oneepa_pager($vars) {
+function eenterprise_pager($vars) {
   $tags = $vars['tags'];
   $element = $vars['element'];
   $parameters = $vars['parameters'];
@@ -627,7 +530,7 @@ function oneepa_pager($vars) {
 /**
  * Returns HTML for a link to a specific query result page.
  */
-function oneepa_pager_link($vars) {
+function eenterprise_pager_link($vars) {
   $text = $vars['text'];
   $page_new = $vars['page_new'];
   $element = $vars['element'];
@@ -702,96 +605,10 @@ function oneepa_pager_link($vars) {
 /**
  * Overrides HTML for a marker for required form elements.
  */
-function oneepa_form_required_marker($variables) {
+function eenterprise_form_required_marker($variables) {
   $attributes = array(
     'class' => 'form-required',
     'title' => t('This field is required.'),
   );
   return '<span' . drupal_attributes($attributes) . '>' .t('*') . '</span>';
-}
-
-/**
- * Overrides webform's override of theme_form_element.
- */
-function oneepa_webform_element($variables) {
-  // Ensure defaults.
-  $variables['element'] += array(
-    '#title_display' => 'before',
-  );
-
-  $element = $variables['element'];
-
-  // All elements using this for display only are given the "display" type.
-  if (isset($element['#format']) && $element['#format'] == 'html') {
-    $type = 'display';
-  }
-  else {
-    $type = ($element['#webform_component']['type'] == 'select' && isset($element['#type'])) ? $element['#type'] : $element['#webform_component']['type'];
-  }
-
-  // Convert the parents array into a string, excluding the "submitted" wrapper.
-  $nested_level = $element['#parents'][0] == 'submitted' ? 1 : 0;
-  $parents = str_replace('_', '-', implode('--', array_slice($element['#parents'], $nested_level)));
-
-  $wrapper_attributes = isset($element['#wrapper_attributes']) ? $element['#wrapper_attributes'] : array('class' => array());
-  $wrapper_classes = array(
-    'form-item',
-    'webform-component',
-    'webform-component-' . str_replace('_', '-', $type),
-    'webform-component--' . $parents,
-  );
-  if (isset($element['#title_display']) && strcmp($element['#title_display'], 'inline') === 0) {
-    $wrapper_classes[] = 'webform-container-inline';
-  }
-  $wrapper_attributes['class'] = array_merge($wrapper_classes, $wrapper_attributes['class']);
-  $output = '<div ' . drupal_attributes($wrapper_attributes) . '>' . "\n";
-
-  // If #title_display is none, set it to invisible instead - none only used if
-  // we have no title at all to use.
-  if ($element['#title_display'] == 'none') {
-    $variables['element']['#title_display'] = 'invisible';
-    $element['#title_display'] = 'invisible';
-    if (empty($element['#attributes']['title']) && !empty($element['#title'])) {
-      $element['#attributes']['title'] = $element['#title'];
-    }
-  }
-  // If #title is not set, we don't display any label or required marker.
-  if (!isset($element['#title'])) {
-    $element['#title_display'] = 'none';
-  }
-  $prefix = isset($element['#field_prefix']) ? '<span class="field-prefix">' . webform_filter_xss($element['#field_prefix']) . '</span> ' : '';
-  $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . webform_filter_xss($element['#field_suffix']) . '</span>' : '';
-
-  switch ($element['#title_display']) {
-    case 'inline':
-    case 'before':
-    case 'invisible':
-      $output .= ' ' . theme('form_element_label', $variables);
-      if (!empty($element['#description'])) {
-        $output .= ' <div class="description">' . $element['#description'] . "</div>\n";
-      }
-      $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
-      break;
-
-    case 'after':
-      $output .= ' ' . $prefix . $element['#children'] . $suffix;
-      $output .= ' ' . theme('form_element_label', $variables) . "\n";
-      if (!empty($element['#description'])) {
-        $output .= ' <div class="description">' . $element['#description'] . "</div>\n";
-      }
-      break;
-
-    case 'none':
-    case 'attribute':
-      // Output no label and no required marker, only the children.
-      if (!empty($element['#description'])) {
-        $output .= ' <div class="description">' . $element['#description'] . "</div>\n";
-      }
-      $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
-      break;
-  }
-
-  $output .= "</div>\n";
-
-  return $output;
 }

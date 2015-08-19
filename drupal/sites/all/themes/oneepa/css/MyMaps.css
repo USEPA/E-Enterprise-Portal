@@ -116,7 +116,7 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1px auto !important;
+  margin-top: auto !important;
   max-height: 40px;
   max-width: 198px;
   font-size: 75%;
