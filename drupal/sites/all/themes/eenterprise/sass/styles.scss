@@ -117,8 +117,12 @@ header #block-eenterprise-bridge-auth-eenterprise-bridge-auth h2.block-title {
 		width: 100%;
 		float: none;
 	}
-}		
+}	
+#block-system-main {
+	margin-bottom: 0;
+}	
 footer {
+	font-size: 0.85em;
 	clear: both;
 	width: 100%;
 	color: $ee-white;
@@ -145,21 +149,22 @@ footer {
 	  float: left;
 	}
 	.block--ee-social-media {
-	  h2 {
+		h2 {
 		  font-size: 1.5em;
 		  text-transform: lowercase;
 		  font-family: $lato;
 		  padding-top:5px;
 		  letter-spacing: 1px;
-	  }
+		  display: inline-block;
+		}
 	}
 	.ee-social-media {
-	  padding-bottom: 0;
-	  li {
-		  list-style: none;
-		  display: block;
-		  margin-right: 5px;
-	  }
+		padding-bottom: 0;
+		li {
+			list-style: none;
+			display: block;
+			margin-right: 5px;
+		}
 	}
 }
 
@@ -273,6 +278,10 @@ input[type="submit"],
 	font-weight: normal;
 }
 
+nav ul {
+	list-style: none;
+}
+
 /** e-Enterprise Landing Page & Beyond ***********/
 .breadcrumb, .breadcrumb-title {
 	margin-top:20px;
@@ -329,7 +338,7 @@ header {
 		top: 20px;
 	}
 }
-.region-bottom {
+.region-footer {
 	background-color: #333;	
 	padding: 20px 2em;
 	height: 4em;
@@ -352,10 +361,10 @@ header {
 			font-size: 1em;
 		}
 	}
-	#block-menu-menu-footer-disclaimers {
+	#block-menu-menu-footer-disclaimers, .menu-footer-disclaimers {
 		float: right;
 		margin-top: 0.5em;
-		.block-title {
+		.block-title, h2 {
 			@include element-invisible;
 		}	
 	}
@@ -382,7 +391,7 @@ header {
 	}
 	.jumbotron {
 		margin-bottom: 0px;
-	    background-image: url('../images/nurturingtree-2.jpg');
+	    background-image: url('../images/Depositphotos_47194641_original.jpg');
 	    background-position: 0% 25%;
 	    background-size: cover;
 	    background-repeat: no-repeat;
@@ -452,7 +461,7 @@ header {
 		padding-bottom:0;
 	}
 	li br, .row.shaded br {
-		//display:none;
+		display:none;
 	}
 	.row {
 		padding:1em 2.5em;
@@ -575,7 +584,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		margin-right: 2px;
 		width: 33%;
 		min-width: 7em;		
-		background-color: #444;
+		background-color: #666;
 		text-align: center;
 		float: left;
 		font-size: 1.25em;
@@ -605,8 +614,8 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		padding: 10px 20px;
 	}
 	h3 {
-		font-weight: bold;
-		font-size: 0.75em;
+		font-weight: 200;
+		font-size: 1em;
 		text-transform: uppercase;
 		color: #666;
 	}
@@ -625,7 +634,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		margin-bottom: 30px;
 	}
 	li {
-		margin-bottom: 30px;
+		min-height: 7em;
 	}
 	li img {
 		display:inline-block;
@@ -699,8 +708,9 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	clear:left;
 }
 .secondary-nav {
-	position: relative;
-	top: 10px; 
+	float: right;
+	margin-top: 20px;
+	margin-right: 1em;
 	font-size: 0.85em;
 	.pipeline li {
 		list-style: none;
@@ -764,7 +774,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
   position: static !important;
 }
 
-.view-eenterprise-for-environment .region-nav-bar, .page-eenterprise-for-environment .region-nav-bar {
+.view-eenterprise-for-environment .region-nav-bar, .page-eenterprise-for-environment .region-nav-bar, .page-eenterprise-new .region-navigation {
 	display: none;
 }
 
@@ -805,13 +815,14 @@ tr.views-row-first {
 tr.odd, tr.even {
 	border-bottom: 1px solid $ee-medium-gray;
 }
-.region-nav-bar {
+.region-nav-bar, .region-navigation {
 	background-color: $ee-menu-bg;
 	height: 2em;
 	@include special-box-shadow(0px, 1px, 5px, #999999);
 	margin-bottom: 5px;
 	a {
 		color: #fff;
+		text-decoration: none;
 	}
 }
 .workbench-menu {
@@ -941,8 +952,11 @@ tr.odd, tr.even {
 			width: 75%;
 		}
 	}
-	.workbench-menu {
+	.workbench-menu, .simple-main-nav {
     	display: block;
+    	float: left;
+    	font-size: 0.85em;
+    	padding-top: 3px;
     }
     #zip_container {
 		span {
@@ -1139,6 +1153,7 @@ tr.odd, tr.even {
 
 .ee-workbench-header-locations select {
 	//margin-bottom:10px;
+	margin-top: 3px;
 	font-size: $h5-font-size;
 }
 .ee-workbench-header-block a, 
@@ -1985,7 +2000,7 @@ input[type="submit"],
 }
 
 .mobile-bar {
-  background-color: #efefef;
+  background-color: #000;
   background-image: -moz-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.2) 100%);
   background-image: -ms-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.2) 100%);
   background-image: -o-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.2) 100%);

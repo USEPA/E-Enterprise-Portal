@@ -182,14 +182,6 @@ function eenterprise_preprocess_block(&$vars) {
     $vars['classes_array'][] = 'main-nav clearfix';
     $vars['title_attributes_array']['class'][] = 'element-invisible';
   }
-  if ($vars['block_html_id'] == 'block-system-user-menu') {
-    $vars['classes_array'][] = 'user-nav pipeline';
-    $vars['title_attributes_array']['class'][] = 'element-invisible';
-  }
-  if ($vars['block_html_id'] == 'block-eenterprise-bridge-auth-eenterprise-bridge-auth') {
-    $vars['title_attributes_array']['class'][] = 'element-invisible';
-  }
-    
   // Add class for feature machine name  
   if (module_exists('fe_block') && $vars['elements']['#block']->module == 'block') {    
     $machine_name = db_query("SELECT machine_name FROM {fe_block_boxes} WHERE bid = :bid", array('bid' => $vars['elements']['#block']->delta))->fetchField();

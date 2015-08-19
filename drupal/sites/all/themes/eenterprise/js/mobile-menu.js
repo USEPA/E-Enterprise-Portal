@@ -11,8 +11,8 @@ Drupal.behaviors.mobileMenu = {
         //$mainNav = $('.simple-main-nav', context),
         $secondaryNav = $('.secondary-nav', context),
         $footerNav = $('.region-footer', context),
-        $eeNav = $('.workbench-menu', context),
-        $locationsBlock = $('#block-block-6', context),
+        $eeNav = $('.simple-main-nav', context),
+        $locationsBlock = $('.block--ee-header-locations', context),
         //$newMenu = $mainNav.find('> .menu').clone();	
         $newSecondaryMenu = $secondaryNav.find('> .menu').clone();
         $newEEMenu = $eeNav.find('> .menu').clone();
@@ -77,7 +77,7 @@ $newMenu.attr('class', 'menu').find('ul').each(function() {
       // Detach original menus and reset classes.
       //$mainNav.detach().attr('class', 'nav main-nav clearfix');
       $secondaryNav.detach().attr('class', 'nav secondary-nav');
-      $eeNav.detach().attr('class', 'nav workbench-menu');
+      $eeNav.detach().attr('class', 'nav simple-main-nav');
 
       // Add pipeline class to secondary menu.
       $secondaryNav.find('.menu').addClass('pipeline');
