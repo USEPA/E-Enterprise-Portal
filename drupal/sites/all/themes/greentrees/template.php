@@ -60,7 +60,14 @@ if ($GLOBALS['theme_key'] === 'greentrees') {
         );
     }
 
-    // Add IE conditional style sheet.
+  // Add design theme style sheets.
+  $design_stylesheets = array(
+    'mobile-menu.css',
+    'drop-down-menu.css',
+    'lib/colorbox.css',
+    'styles.css',
+  );
+  foreach ($design_stylesheets as $val) {
     drupal_add_css(
         drupal_get_path('theme', $GLOBALS['theme_key']) . '/css/ie.css',
         array(

@@ -280,9 +280,12 @@ input[type="submit"],
 	vertical-align: bottom;
 	font-family: $lato;
 }
-
+.site-logo {
+	display: block;
+}
 .site-name {
-	margin-top: 20px;
+	height: auto;
+	width: auto;
 	>a:hover, > a:focus, > a:active {
 		background-color: #333333;
 	}
@@ -452,6 +455,9 @@ input[type="submit"],
 	.mobile-bar {
 		display: none;
 		//Removes mobile navigation menu on welcome page as no options are available
+	}
+	.site-name-and-slogan {
+		margin-left: 2em;
 	}
 	.region-header {
 		padding: 15px 3.25em;
@@ -734,6 +740,13 @@ tr.odd, tr.even {
 }
 
 @media screen and (min-width: 30em) {
+	.site-name-and-slogan {
+		position: relative;
+	}
+	.site-slogan {
+		position: relative;
+		top: 36px;
+	}
 	footer {
 		div, .block--ee-social-media {
 			float: left;
@@ -767,10 +780,14 @@ tr.odd, tr.even {
 			float: none;
 		}
 	}
+
 }
 
 @media screen and (min-width: 40em) {
 	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
+		.site-name-and-slogan {
+			margin-left: 2em;
+		}
 		.region-header {
 			font-size: 1em;
 		}
@@ -797,6 +814,7 @@ tr.odd, tr.even {
 			display: inline-block;
 		}
 	}
+
 }
 
 /** Workbench *******************************************************************/
@@ -832,9 +850,6 @@ tr.odd, tr.even {
 		.region-header {
 			padding:0;
 		}
-	}
-	.site-name-and-slogan {
-		margin-left: 1em;
 	}
 	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
 		.region-header {
@@ -1710,3 +1725,275 @@ div.ctools-modal-content {
 .popover-content {
 	font-family: $lato;
 }
+
+
+/*********** Responsive Progress Tracker and To Do List Tables ***********/
+
+/*********** Default Styling ***********/
+.responsive-table tr.even {
+  padding:0;
+  color:inherit;
+}
+
+.responsive-table thead {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+.responsive-table thead th {
+  background-color: #1d96b2;
+
+  font-weight: normal;
+  text-align: center;
+  color: white;
+}
+
+.responsive-table tbody,
+.responsive-table tr,
+.responsive-table th,
+.responsive-table td {
+  display: block;
+  padding: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+.responsive-table th,
+.responsive-table td {
+  padding: .5em;
+  vertical-align: middle;
+}
+
+
+.responsive-table caption {
+  margin-bottom: 1em;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+}
+  .responsive-table tfoot {
+    font-size: .8em;
+    font-style: italic;
+  }
+
+  .responsive-table tbody tr:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .responsive-table tbody th[scope="row"] {
+    background-color: #333333;
+    color: white;
+  }
+
+  .responsive-table tbody td {
+    text-align: left;
+  }
+
+  .responsive-table tbody td[data-title]:before {
+    width: 11em;
+    content: attr(data-title);
+    float: left;
+    font-size: .8em;
+    color: rgba(94, 93, 82, 0.75);
+  }
+
+  /*********** iPhone, some Android Portrait @ 320px***********/
+  @media screen and (min-width: 20em) {
+    .responsive-table {
+      font-size: .9em;
+      width: 100%;
+    }
+
+    .responsive-table th,
+    .responsive-table td {
+      padding: .75em .5em;
+      border-bottom: 1px solid $ee-medium-gray;
+    }
+
+    .responsive-table tr,
+    .responsive-table tr.even {
+      border-bottom: 2px solid #606060;
+      margin-bottom: 2em;
+    }
+
+    .responsive-table tbody td[data-title="Item"]:before {
+      font-size: .9em;
+      content: '';
+    }
+
+    .responsive-table tbody td[data-title="Item"] {
+      text-align: left;
+      color: #fff;
+    }
+
+    .views-field-field-prog-track-actions-dnload a:link,
+    .views-field-field-prog-track-actions-dnload a:visited {
+      color: #23537e;
+    }
+
+    .views-field-field-prog-track-actions-dnload a:hover {
+      color: #fff;
+    }
+
+    th.responsive-to-do-link a {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .responsive-table tbody th[scope="row"] {
+      background-color: #606060;
+      color: white;
+    }
+
+    .responsive-table {
+      font-size: .9em;
+      width: 100%;
+    }
+
+    .responsive-table td.views-field-counter {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width:20em) and (max-width:959.99999px) {
+    .responsive-table a.simple-dialog {
+      color: #fff;
+    }
+  }
+  /*********** Tablet, iPad Landscape @ 768px ***********/
+  @media screen and (min-width: 48em) {
+    .responsive-table {
+      width: 100%;
+      margin-bottom: 1.5em;
+      font-size: 1em;
+    }
+
+    .responsive-table thead {
+      position: relative;
+      clip: auto;
+      height: auto;
+      width: auto;
+      overflow: auto;
+    }
+
+    .responsive-table tr {
+      display: table-row;
+    }
+
+    .responsive-table th,
+    .responsive-table td {
+      display: table-cell;
+      padding: .5em;
+    }
+
+    .responsive-table caption {
+      font-size: 1.5em;
+    }
+
+    .responsive-table tbody {
+      display: table-row-group;
+    }
+
+    .responsive-table tbody tr {
+      margin-bottom: 1em;
+
+    }
+
+    .responsive-table tbody tr {
+      display: table-row;
+      border-width: 1px;
+    }
+
+    .responsive-table tbody th[scope="row"] {
+      background-color: transparent;
+      color: #151515;
+      text-align: left;
+    }
+
+    .responsive-table tbody td {
+      text-align: inherit;
+    }
+
+    .responsive-table tbody td[data-type=currency] {
+      text-align: right;
+    }
+
+    .responsive-table tbody td[data-title]:before {
+      content: none;
+    }
+
+    .responsive-table tr, .responsive-table tr.even {
+      border-bottom: none;
+      margin-bottom: 2em;
+    }
+
+    .responsive-table th,
+    .responsive-table td {
+      padding: .75em .5em;
+      border: none;
+    }
+
+    th.responsive-to-do-link a {
+      color: $ee-link-color;
+      text-decoration: none;
+    }
+
+    th.responsive-to-do-link a:hover {
+      color: #ffffff;
+      background-color: #606060;
+    }
+
+    .responsive-table tbody th[scope="row"] {
+      background-color: transparent;
+      color: #151515;
+    }
+
+    .responsive-table td.views-field-counter {
+      display: none;
+    }
+
+    .responsive-table tbody td[data-title="Item"] {
+      text-align: left;
+      background: inherit;
+      color: inherit;
+    }
+  }
+
+  /*********** iPad Portrait and up @ 960px ***********/
+  @media screen and (min-width: 60em) {
+    .responsive-table {
+      width: 100%;
+      margin-bottom: 1.5em;
+      font-size: 1em;
+    }
+
+    .responsive-table th,
+    .responsive-table td {
+      padding: .75em;
+    }
+
+    .responsive-table td.views-field-counter {
+      display: block;
+    }
+
+    .responsive-table th,
+    .responsive-table td {
+      padding: .75em .5em;
+    }
+
+    .responsive-table tfoot {
+      font-size: .9em;
+    }
+  }
+
+
+
+
+

@@ -1,0 +1,74 @@
+name        = E-Enterprise
+description = E-Enterprise theme using Zen as a starter theme.
+core        = 7.x 
+screenshot  = screenshot.png
+base theme  = zen
+
+; STYLESHEETS - Remove some system ones
+; First we remove the system's menu and message styling since Zen has its own.
+stylesheets[all][] = system.menus.css
+stylesheets[all][] = system.messages.css
+stylesheets[all][] = system.theme.css
+
+; Then we add our own stylesheet.
+stylesheets[all][] = css/styles.css
+
+; REGIONS
+regions[header]         = Header
+regions[navigation]     = Navigation bar
+regions[highlighted]    = Highlighted
+regions[help]           = Help
+regions[content]        = Content
+regions[sidebar_first]  = First sidebar
+regions[sidebar_second] = Second sidebar
+regions[footer]         = Footer
+regions[bottom]         = Page bottom
+
+; The page_top and page_bottom regions are hidden, which means they will not
+; show up on the blocks administration page. But they are required in order for
+; the html.tpl.php to work properly, so do not delete them.
+
+regions[page_top]       = Page top
+regions[page_bottom]    = Page bottom
+
+; SCRIPTS
+scripts[] = js/script.js
+scripts[] = js/mobile-menu.js
+scripts[] = js/drop-down-menu.js
+scripts[] = js/eenterprise_utility.js
+scripts[] = ../../libraries/jqueryui/jquery-ui.js
+;scripts[] = inc/bootstrap/js/bootstrap.min.js
+
+; FEATURES
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = comment_user_verification
+features[] = favicon
+features[] = main_menu
+features[] = secondary_menu
+
+; SETTINGS - default settings for theme-settings.php form
+settings[eenterprise_breadcrumb]           = no
+settings[eenterprise_breadcrumb_separator] = ' » '
+settings[eenterprise_breadcrumb_home]      = 1
+settings[eenterprise_breadcrumb_trailing]  = 0
+settings[eenterprise_breadcrumb_title]     = 0
+settings[eenterprise_skip_link_anchor]     = main-content
+settings[eenterprise_skip_link_text]       = Skip to Content
+settings[eenterprise_html5_respond_meta][] = respond
+settings[eenterprise_html5_respond_meta][] = html5
+settings[eenterprise_html5_respond_meta][] = meta
+settings[eenterprise_rebuild_registry]     = 1
+settings[eenterprise_wireframes]           = 0
+
+; To make this sub-theme an admin theme with shortcut links next to titles,
+; uncomment the line below.
+
+;settings[shortcut_module_link]    = 1
+
+; To add a Panels layout (which can also be used by Display Suite), uncomment
+; the line below and see the documentation at: https://drupal.org/node/495654
+;plugins[panels][layouts] = panels-layouts

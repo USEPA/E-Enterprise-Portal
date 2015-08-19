@@ -26,9 +26,10 @@
  *
  * @ingroup views_templates
  *
-*drupal_add_css(drupal_get_path('module', 'my_environment_mapper') ."/css/myEnvMapper.css", "file");
+*
 */
 drupal_add_js(drupal_get_path('module', 'my_environment_mapper') ."/js/myEnvironmentMapper.js", "file");
+drupal_add_css(drupal_get_path('module', 'my_environment_mapper') ."/css/myEnvMapper.css", "file");
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
@@ -54,11 +55,9 @@ drupal_add_js(drupal_get_path('module', 'my_environment_mapper') ."/js/myEnviron
     </div>
   <?php endif; ?>
 
-
-    <div class="myEnvMapperWrapper">
-        <iframe id="myEnviFrame" height='500' width='500' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src=''></iframe>
+    <div class="embedMyEnv-container">
+        <iframe id="myEnviFrame" src='' width='800' height='500' frameborder='0' style='border:0'></iframe>
     </div>
-
 
   <?php if ($pager): ?>
     <?php print $pager; ?>

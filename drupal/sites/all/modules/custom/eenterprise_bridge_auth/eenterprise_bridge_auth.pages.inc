@@ -381,6 +381,7 @@ function assign_roles_to_user($user_name){
         "securityToken" => $response1->securityToken,
         "userId" => $user_name
     );
+
     try {
         $user_obj = $client->__soapCall("RetrieveUser", array($params2));
         $user_sec_bundle = array(
@@ -424,7 +425,6 @@ function assign_roles_to_user($user_name){
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }
-
 
 //TODO: What is $res? Can we come up with a better function name?
 function add_receipt_and_certificate_link(&$res_action, $res){
@@ -670,4 +670,29 @@ function to_do_list($node, $user, $res){
   $node->field_todo_lst_created_by['und'][0]['value'] = $user->uid;
   $node->field_todo_lst_created_by['und'][0]['format'] = null;
   $node->field_todo_lst_created_by['und'][0]['safe_value'] = $user->uid;
+}
+
+function eenterprise_bridge_auth_logout() {
+
+  $idParams = array('wa'=>'wsignout1.0',
+    'wreply'=>variable_get('eenterprise_bridge_auth_realm'));
+
+  $paramString = http_build_query($idParams);
+  $url = variable_get('eenterprise_bridge_auth_issuer') . "?" . $paramString;
+
+  //open connection
+  $ch = curl_init();
+
+  //set the url, number of POST vars, POST data
+  curl_setopt($ch,CURLOPT_URL, $url);
+  curl_setopt($ch,CURLOPT_POSTFIELDS, $paramString);
+
+  //execute post
+  $result = curl_exec($ch);
+
+  //close connection
+  curl_close($ch);
+
+  print $result;
+  exit;
 }

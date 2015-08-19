@@ -523,7 +523,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	header {
 		background-color: #fff;
 	}
-	&.wide-template #main-content {
+	&.wide-template .main-content {
 		background-color: $ee-light-gray;
 	}
 	.panel-pane {
@@ -857,9 +857,6 @@ tr.odd, tr.even {
 		.region-header {
 			padding:0;
 		}
-	}
-	.site-name-and-slogan {
-		margin-left: 1em;
 	}
 	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
 		.region-header {

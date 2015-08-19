@@ -91,55 +91,42 @@ function oneepa_preprocess_html(&$vars) {
  * Override or insert variables into the page template.
  */
 function oneepa_preprocess_page(&$vars) {
-  $vars['title_attributes_array']['class'] = 'page-title';
-  $vars['microsite_name'] = '';
-  $vars['content_language'] = language_default('language');
-  if(!empty($vars['node']->field_language['und'][0]['value'])) {
-    $vars['content_language'] = $vars['node']->field_language['und'][0]['value'];
-  }
 
-  // Test for anonymous user on login page
-  if (user_is_anonymous() && arg(0) == 'user' && (arg(1) == '' || arg(1) == 'login')) {
-    $vars['classes_array'][] = ' user-login';
+	$vars['title_attributes_array']['class'] = 'page-title';
+	$vars['microsite_name'] = '';
+	$vars['content_language'] = language_default('language');
+	if(!empty($vars['node']->field_language['und'][0]['value'])) {
+		$vars['content_language'] = $vars['node']->field_language['und'][0]['value'];
+	}
 
-    $warning_message = variable_get('oneepa_login_warning');
-
-    // Add warning message to content section
-    $vars['page']['content']['user_warning'] = array(
-      '#tag' => 'div',
-      '#attributes' => array(
-        'id' => 'user-login-warning',
-        'class' => 'col size-2of3',
-      ),
-      '#value' => $warning_message,
-      '#weight' => 10,
-      '#theme' => 'html_tag',
-    );
-
-	// @todo - Adjust these grid classes to match Drupal OneEPA theme
-    // Add css grid classes
-    $vars['page']['content']['system_main']['#attributes']['class'] = 'col size-1of3';
-    $vars['page']['content']['#prefix'] = "<div class='cols-2 row'>";
-    $vars['page']['content']['#suffix'] = '</div>';
-  }
-
-  // If it's a web area, set the long title to display as the title.
-  if (!empty($vars['node']) && $vars['node']->type == 'web_area') {
-    $items = field_get_items('node', $vars['node'], 'field_long_name');
-    if (!empty($items)) {
-      drupal_set_title($items[0]['value']);
-      // Hide title on Microsite home pages.
-      if (isset($vars['node']->field_web_area_type['und'][0]['value']) && $vars['node']->field_web_area_type['und'][0]['value'] == 'Microsite') {
-        $vars['title_attributes_array']['class'] .= ' element-invisible';
-      }
-    }
-  }
-  
-  $search_form = drupal_get_form('search_form');
-  $search_form_box = drupal_render($search_form);
-  $vars['search_box'] = $search_form_box;
- 
-}
+	// Test for anonymous user on login page
+	if (user_is_anonymous() && arg(0) == 'user' && (arg(1) == '' || arg(1) == 'login')) {
+		$vars['classes_array'][] = ' user-login';		
+		$warning_message = variable_get('oneepa_login_warning');
+		
+		// Add warning message to content section
+		$vars['page']['content']['user_warning'] = array(
+			'#tag' => 'div',
+			'#attributes' => array(
+			'id' => 'user-login-warning',
+			'class' => 'col size-2of3',
+		),
+		'#value' => $warning_message,
+		'#weight' => 10,
+		'#theme' => 'html_tag',
+		);
+		
+		// @todo - Adjust these grid classes to match Drupal OneEPA theme
+		// Add css grid classes
+		$vars['page']['content']['system_main']['#attributes']['class'] = 'col size-1of3';
+		$vars['page']['content']['#prefix'] = "<div class='cols-2 row'>";
+		$vars['page']['content']['#suffix'] = '</div>';
+		}
+		$search_form = drupal_get_form('search_form');
+		$search_form_box = drupal_render($search_form);
+		$vars['search_box'] = $search_form_box;
+	
+	}
 
 /**
  * Override or insert variables into the node template.
