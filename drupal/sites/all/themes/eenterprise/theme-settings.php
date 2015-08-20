@@ -12,6 +12,12 @@ function eenterprise_form_system_theme_settings_alter(&$form, $form_state, $form
   if (isset($form_id)) {
     return;
   }
+  
+  create_form($form);
+}
+
+function create_form($form) {
+
 
   // Create the form using Forms API
   $form['breadcrumb'] = array(

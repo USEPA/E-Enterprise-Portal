@@ -8,9 +8,9 @@
 if(drupal_is_front_page()) {
     global $user;
     if($user->uid == 0)
-        drupal_goto("/eenterprise-new");
+      drupal_goto("/eenterprise-new");
     else
-        drupal_goto("/workbench");
+      drupal_goto("/workbench");
     exit;
 }
 ?>
@@ -54,11 +54,9 @@ if(drupal_is_front_page()) {
     <?php if ($title): ?>
     <?php
         $exploded_path = explode('/', current_path());
-        if (count($exploded_path) > 2):
-          if ($exploded_path[0] == 'user' && $exploded_path[2] == 'edit'):
-            $title = 'Profile';
-          endif;
-        endif;
+        if (count($exploded_path) > 2 && $exploded_path[0] == 'user' && $exploded_path[2] == 'edit') {
+          $title = 'Profile';
+        }
       ?>
       <!--googleon: all-->
       <h1 <?php print $title_attributes; ?>><?php print $title;?></h1>

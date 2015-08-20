@@ -18,17 +18,20 @@
  *   field id, then row number. This matches the index in $rows.
  * @ingroup views_templates
  */
+
+$dataTitle = array();
 ?>
-<table <?php if ($classes) { print 'class="'. $classes . '" '; } ?><?php print $attributes; ?>>
+<table <?php if ($classes) { print 'class="'. $classes . ' ' . 'responsive-table"'; } ?><?php print $attributes; ?>>
    <?php if (!empty($title) || !empty($caption)) : ?>
      <caption><?php print $caption . $title; ?></caption>
   <?php endif; ?>
   <?php if (!empty($header)) : ?>
     <thead>
       <tr>
-        <?php foreach ($header as $field => $label): ?>
-          <th <?php if ($header_classes[$field]) { print 'class="'. $header_classes[$field] . '" '; } ?>>
-            <?php print $label; ?>
+        <?php
+        foreach ($header as $field => $label): ?>
+          <th scope="col" <?php if ($header_classes[$field]) { print 'class="'. $header_classes[$field] . '" '; } ?>>
+            <?php print $label; $dataTitle[] = $label; ?>
           </th>
         <?php endforeach; ?>
       </tr>
@@ -37,11 +40,22 @@
   <tbody>
     <?php foreach ($rows as $row_count => $row): ?>
       <tr <?php if ($row_classes[$row_count]) { print 'class="' . implode(' ', $row_classes[$row_count]) .'"';  } ?>>
+        <?php $i=0; ?>
         <?php foreach ($row as $field => $content): ?>
-          <td att_name="some_stuff" <?php if ($field_classes[$field][$row_count]) { print 'class="'. $field_classes[$field][$row_count] . '" '; } ?><?php print drupal_attributes($field_attributes[$field][$row_count]); ?>>
-            <?php print $content; ?>
-          </td>
+          <?php if ($i !== 1) {?>
+            <?php $attribute = strip_tags($dataTitle[$i]); ?>
+              <td data-title="<?php print $attribute; ?>" <?php if ($field_classes[$field][$row_count]) { print 'class="'. $field_classes[$field][$row_count] . '" '; } ?><?php print drupal_attributes($field_attributes[$field][$row_count]); ?>>
+                <?php print $content; ?>
+              </td>
+          <?php } else {?>
+                <?php $attribute = strip_tags($dataTitle[$i]); ?>
+                <th scope="row" <?php if ($field_classes[$field][$row_count]) { print 'class="'. $field_classes[$field][$row_count] . ' ' . 'responsive-to-do-link" '; } ?><?php print drupal_attributes($field_attributes[$field][$row_count]); ?>>
+                    <?php print $content; ?>
+                </th>
+            <?php }?>
+        <?php $i++; ?>
         <?php endforeach; ?>
+
       </tr>
     <?php endforeach; ?>
   </tbody>
