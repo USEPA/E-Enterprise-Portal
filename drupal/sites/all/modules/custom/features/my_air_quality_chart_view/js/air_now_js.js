@@ -513,25 +513,25 @@
       .text("Note: Graph is not drawn to scale.");
 
     /*
-    // add grid lines to show scale
-    var gridLineIndex = 250;
+     // add grid lines to show scale
+     var gridLineIndex = 250;
 
-    var gridLines = yAxisGroup.insert("g")
-      .attr("transform", "translate("+(m[3] - m[1] * 2)+", 0)");
+     var gridLines = yAxisGroup.insert("g")
+     .attr("transform", "translate("+(m[3] - m[1] * 2)+", 0)");
 
-    while (gridLineIndex < 500) {
-      if (gridLineIndex != 300) {
-        gridLines.insert("g")
-          .attr("transform", "translate(0, "+(y(computeVisualAQI(gridLineIndex)))+")")
-          .append("line")
-          .attr("x2",w + m[1] * 2)
-          .attr("y2", 0)
-          .style({"stroke": "black", "opacity": 0.1})
-      }
+     while (gridLineIndex < 500) {
+     if (gridLineIndex != 300) {
+     gridLines.insert("g")
+     .attr("transform", "translate(0, "+(y(computeVisualAQI(gridLineIndex)))+")")
+     .append("line")
+     .attr("x2",w + m[1] * 2)
+     .attr("y2", 0)
+     .style({"stroke": "black", "opacity": 0.1})
+     }
 
-      gridLineIndex += 50;
-    }
-*/
+     gridLineIndex += 50;
+     }
+     */
 
     // Translate y-axis ticks to the right
     graph.selectAll('.y.axis line.tick')
@@ -574,13 +574,13 @@
       .attr("y", function(d) {
         return y(d.visualAQI) - 20
       })
-    // .attr("dy", ".35em")
-    .attr("class", function(d) {
-      return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text'
-    })
+      // .attr("dy", ".35em")
+      .attr("class", function(d) {
+        return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text'
+      })
       .attr("text-anchor", "middle")
       .text(function(d) {
-        return d.AQI;
+        return d.ShowAQILabel ? d.AQI : '';
       });
 
     gnodes.append("circle")
@@ -620,10 +620,12 @@
 
   var draw = function(zipCode, locationText) {
 
+    var categoryToMidAQI = {1: 25, 2: 75, 3: 125, 4: 175, 5: 250, 6: 400};
+
     function parseData(responseData) {
       var data = [];
 
-      var maxAQI = 0;
+      var maxAQI = -1;
 
       // for each date, find the max component AQI and add it
       for (var i = 0; i < responseData.length; i++) {
@@ -632,15 +634,22 @@
           maxAQI = responseData[i].AQI;
 
         // insert new entry
-        if ((i + 1 == responseData.length || responseData[i].DateForecast != responseData[i + 1].DateForecast) && maxAQI > 0) {
+        if ((i + 1 == responseData.length || responseData[i].DateForecast != responseData[i + 1].DateForecast)) {
+          var showAQILabel = maxAQI != -1;
+
+          if (maxAQI == -1) {
+            maxAQI = categoryToMidAQI[responseData[i].Category.Number];
+          }
+
           var entry = {
             DateForecast: responseData[i].DateForecast,
             AQI: maxAQI,
             ReportingArea: responseData[i].ReportingArea,
-            StateCode: responseData[i].StateCode
+            StateCode: responseData[i].StateCode,
+            ShowAQILabel: showAQILabel
           };
           data.push(entry);
-          maxAQI = 0;
+          maxAQI = -1;
         }
       }
 
