@@ -63,9 +63,32 @@ function eenterprise_bridge_auth_menu() {
     'access arguments' => array('administer azure auth'),
     'file' => 'eenterprise_bridge_auth.admin.inc',
   );
+  $items['eebridge-auth/logout'] = array(
+    'title' => 'E-Enterprise Logout',
+    'page callback' => 'eenterprise_bridge_auth_logout',
+    'access callback' => 'user_is_logged_in',
+    'file' => 'eenterprise_bridge_auth.pages.inc',
+    '#type' => MENU_CALLBACK,
+  );
 
   return $items;
 }
+
+function eenterprise_bridge_auth_menu_alter(&$items) {
+  $items['user/logout']['page arguments'] = array($items['user/logout']['page callback'], $items['user/logout']['page arguments']);
+  $items['user/logout']['page callback'] = 'enterprise_bridge_auth_logout_page_callback';
+}
+
+function enterprise_bridge_auth_logout_page_callback($original_page_callback, $original_page_arguments) {
+
+  if ($_GET['bridge'] !== '1') { // try bridge logout
+    drupal_goto('/eebridge-auth/logout');
+  } else {
+    return call_user_func($original_page_callback, $original_page_arguments[0]);
+  }
+}
+
+/**
 
 /**
  * Implements hook_permission().

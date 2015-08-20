@@ -49,76 +49,51 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
     </script>
 
 <div class="view-content">
+<small class="village-green-updated-every-minute">Updated every minute via <a target="_blank" href="http://villagegreen.airnowtech.org/">Village Green</a></small>
     <div>
         <div class="paddedSubContainer">
+            <div class="marginBottom-10 col-xs-12 col-sm-4 col-md-4 col-lg-4" style="padding:0">
+                <label for="currentSiteID">
+                  Air monitoring station
+                </label>
+                <select id="currentSiteID">
+                    <option value="24292">Philadelphia, PA</option>
+                    <option value="24293">Washington, DC</option>
+                    <option value="24294">Kansas City, KS</option>
+                    <option value="24290">Durham, NC</option>
+                </select>
 
-            <select id="currentSiteID">
-                <option value="24292">Philadelphia, PA</option>
-                <option value="24293">Washington, DC</option>
-                <option value="24294">Kansas City, KS</option>
-                <option value="24290">Durham, NC</option>
-            </select>
-
-            <div class="row-fluid center-block">
-                <div id="curLeftReading" class="marginBottom-10 col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <table id="currentReadingLeftTbl">
-                        <tbody>
-                            <tr>
-                                <td class="topCol"><span class="curOzoneReading">36</span></td>
-                                <td>
-                                    <span class="paramDisplayName">Ozone</span> <br>
-                                    <span id="currentTempUnit">ppb</span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="topCol"><span class="curPMReading">8</span></td>
-                                <td>
-                                    <span class="paramDisplayName">PM<sub>2.5</sub></span> <br>
-                                        &mu;g/m<sup>3</sup>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="curRightReading" class="marginBottom-10 col-xs-12 col-sm-12 col-md-6 col-lg-6">
-
-                    <table id="currentReadingRightTbl">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <span class="curTempReading">88</span>
-                                    <span class="paramUnitCell">&deg;F</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="curHumidReading">30.9</span><span class="paramUnitCell">%</span> <br>
-                                    <span>humidity</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="curWSReading">3.8</span>
-                                    <span>mph</span>
-                                    <span class="curWDReading">W</span><br>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
-            <div class="marginBottom-10 col-xs-13 col-sm-13 col-md-7 col-lg-7">
-                <span class="currentObsDate">observed Thu 2:43 PM EDT</span>
+            <div class="marginBottom-10 col-xs-12 col-sm-8 col-md-8 col-lg-8" style="padding:0">
+
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <label>Last update</label>
+                    <span class="currentObsDate"></span>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <label>Update in</label>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-success progress-bar-striped active village-green-countdown" role="progressbar" aria-valuenow="0"
+                      aria-valuemin="0" aria-valuemax="100">
+                      <span class="countdownContainer"></span>
+                  </div>
+                </div>
+                </div>
+
             </div>
-            <div class="marginBottom-10 col-xs-11 col-sm-11 col-md-5 col-lg-5" style="text-align: right;">
-                <span class="countdownContainer">Updating in 9</span>
+            <div style="clear:both"></div>
+            <div class="vg-numbers-container">
+              <ul class="vg-numbers">
+                  <li><h4 id="temp-label" aria-labelledby="">Temp</h4><p aria-labelledby="temp-label"><span class="curTempReading">0</span> <span class="vg-units" id="temp-units"><abbr title="Degrees fahrenheit">&deg; F</abbr></span></p></li>
+                  <li><h4 id="humid-label" aria-labelledby="">Humidity</h4><p aria-labelledby="humid-label"><span class="curHumidReading">0</span> <span class="vg-units" id="humid-units">%</span></p></li>
+                  <li><h4 id="wind-label" aria-labelledby="">Wind</h4><p aria-labelledby="wind-label"><span class="curWSReading">0</span> <span class="vg-units" id="wind-units"><abbr title="Miles per hour">mph</abbr> <span class="curWDReading"></span></span></p></li>
+                  <li><h4 id="ozone-label" aria-labelledby="">Ozone</h4><p aria-labelledby="ozone-label"><span class="curOzoneReading">0</span> <span class="vg-units" id="ozone-units"><abbr title="Parts per billion">ppb</abbr></span></p></li>
+                  <li><h4 id="pm-label">PM<sub>2.5<sub></h4><p aria-labelledby="pm-label"><span class="curPMReading">0</span><span class="vg-units" id="pm-units"><abbr title="Micrograms per cubic meter">&mu;g/m<sup>3</sup></abbr></span></p></li>
+              </ul>
+              <div style="clear:both"></div>
             </div>
         </div>
     </div>
 </div>
 <div style="clear:both"></div>
-<div class="marginBottom-10 col-xs-11 col-sm-11 col-md-12 col-lg-12">
-    Source: <a target="_blank" href="http://villagegreen.airnowtech.org" class="village-green-external-link">villagegreen.airnowtech.org</a>
-</div>
-<div style="clear:both"></div>
+<small class="village-green-source"><a target="_blank" href="http://villagegreen.airnowtech.org" class="village-green-external-link"></a></small>

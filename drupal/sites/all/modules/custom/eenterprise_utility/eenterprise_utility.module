@@ -360,9 +360,21 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         if (!user_access('administer site configuration')) {
             hide($form['field_terms_of_use_agreed'][LANGUAGE_NONE]);
         }
+
+      $form['#submit'][] = 'eenterprise_utility_profile_form_submit';
     } // end user form
 }
 
+function eenterprise_utility_profile_form_submit($form, &$form_state) {
+  // if Reset User as First Time Login for Testing is checked, clear user agreement signed as well
+  if ($form_state['values']['field_first_time_user'][LANGUAGE_NONE][0]['value'] === 1) {
+    global $user;
+    $user_data = user_load($user->uid);
+    $agreed = array();
+    $edit = array('field_terms_of_use_agreed' => $agreed);
+    user_save($user_data, $edit);
+  }
+}
 
 /**
  * Menu callback function.

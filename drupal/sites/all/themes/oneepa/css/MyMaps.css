@@ -1,7 +1,7 @@
 .numThumbnails {
-	margin-bottom: 0px;
-	margin-top: 0px;
-	font-size: 90%;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  font-size: 0.85em;
 }
 
 .wrapper {
@@ -45,7 +45,9 @@
   width: 190px;
   margin: auto;
 }
-
+.thumbitem-border p {
+	margin-bottom: 0;
+}
 .jcarousel img {
   max-height: 121px;
   max-width: 100%;
@@ -116,7 +118,7 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1px auto !important;
+  margin-top: auto !important;
   max-height: 40px;
   max-width: 198px;
   font-size: 75%;
@@ -203,5 +205,49 @@
 
 /*override default jQ UI CSS per Designer's input */
 .ui-widget-overlay {
-  opacity: 0.9;
+	opacity: 0.9;
+}
+
+#myMapsFilterList {
+	list-style: none;
+	line-height: 1.4;
+	width: 100%;
+	font-size: 0.85em;
+	padding-bottom: 0px;
+	margin-top: 10px;
+}
+
+#myMapsFilterList li {
+	display: inline-block;
+	padding-left: 10px;
+	padding-right: 10px;
+	line-height: 1.4;
+	white-space: nowrap;
+	border-bottom: 1px solid #fafafa;
+}​
+#myMapsFilterList li a {
+	padding-bottom: 5px;
+}
+@media (max-width: 767px) {
+  #myMapsFilterList li {
+    display: block;
+    width: 100%;
+  }
+}
+
+#myMapsFilterList .farLeft {
+	text-align: left;
+	margin-right: 10px;
+	border-bottom: none;
+	padding-left: 0;
+}
+
+.active-mymaps-filter, #myMapsFilterList li.active-mymaps-filter {
+	color: #000;
+	font-weight: bold;
+	border-bottom: 3px solid #007AC6;
+}
+
+.myMapFilterTerm {
+	text-decoration: none;
 }

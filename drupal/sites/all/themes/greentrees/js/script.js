@@ -131,7 +131,6 @@ Drupal.behaviors.filterItems = {
 
         if ($("#simple-dialog-container").is(':visible')) {
             if ($("#simple-dialog-container").text() == '') {
-                //var invisibleItem = $(".simpleDialogProcessed").attr('name');
                 var invisibleItem = $("#" + clicked_link_id).attr('name');
                 invisibleItem = $("#" + invisibleItem).html();
                 $("#simple-dialog-container").prepend('<div class="modal-content-in-page">'+ invisibleItem +'</div>');
@@ -146,9 +145,9 @@ Drupal.behaviors.filterItems = {
             }
         }
 
-
         if($("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+            $('#edit-field-prog-track-part-code-value-wrapper').show();
             var cedri_list = ["Notification Report", "Notification of Compliance Status", "Air Emissions Report", "- Any -"];
             $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
                 return $.inArray(this.innerHTML, cedri_list) == -1
@@ -156,18 +155,44 @@ Drupal.behaviors.filterItems = {
         }
         if($("#edit-field-prog-track-domain-value").val() == 'Lead') {
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+            $('#edit-field-prog-track-part-code-value-wrapper').show();
+            $('#edit-field-prog-track-part-code-value-wrapper').hide();
 
             var lead_list = ["Firm Abatement", "Firm RRP", "Firm Combination", "- Any -"];
             $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
                 return $.inArray(this.innerHTML, lead_list) == -1
             }).remove();
         }
+
+        if($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 60') {
+            $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
+            var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc","Subpart III", "Subpart JJJJ", "Subpart A" , "- Any -"];
+            $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
+                return $.inArray(this.innerHTML, part_60_list) == -1
+            }).remove();
+        }
+        if($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 63') {
+            $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
+            var part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
+            $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
+                return $.inArray(this.innerHTML, part_63_list) == -1
+            }).remove();
+        }
         if($("#edit-field-prog-track-domain-value").val() == 'All') {
-            //$("edit-field-prog-track-rep-type-filter-value").val("All");
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
+            $('#edit-field-prog-track-part-code-value-wrapper').hide();
+            $('#edit-field-prog-track-sub-part-code-value-wrapper').hide();
+        }
+        if($("#edit-field-prog-track-part-code-value").val() == 'All') {
+            $('#edit-field-prog-track-sub-part-code-value-wrapper').hide();
         }
         $('#edit-field-prog-track-domain-value').change(function(){
             $('#edit-field-prog-track-rep-type-filter-value').val('All');
+            $('#edit-field-prog-track-sub-part-code-value').val('All');
+            $('#edit-field-prog-track-part-code-value').val('All');
+        });
+        $('#edit-field-prog-track-part-code-value').change(function(){
+            $('#edit-field-prog-track-sub-part-code-value').val('All');
         });
     }
 };

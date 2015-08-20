@@ -113,10 +113,13 @@ function eenterprise_bridge_auth_authenticate($error) {
             $username = end($username_raw);
             $uname = "";
             //If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
-            if($pos === FALSE || $username === FALSE)
+            if($pos === FALSE || $username === FALSE) {
                 $uname = $userDetails->attributes['email'][0];
+                variable_set('cdx_user_type','public');
+            }
             else{
                 $uname = $username;
+                variable_set('cdx_user_type','cdx');
             }
             if(variable_get('trusted_users_list_used') == 'Yes')
                 trusted_user_check($uname);
@@ -607,3 +610,22 @@ function create_progress_tracker_node($res, $user){
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
 }
 
+function eenterprise_bridge_auth_logout() {
+
+  drupal_add_js(drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js");
+//  print drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js";
+  return array (
+    'bridge_logout' => array (
+      '#type' => 'markup',
+      '#markup' => '<img style="display:none" src="https://extauthtest.epacdxnode.net/?wa=wsignout1.0&wtrealm=http%3A%2F%2Fec2-52-4-39-127.compute-1.amazonaws.com&wctx=rm%3D0&wreply=http%3A%2F%2Fec2-52-4-39-127.compute-1.amazonaws.com">',
+    ),
+    'naas_logout' => array (
+      '#type' => 'markup',
+      '#markup' => '<img style="display:none" src="https://nodeweb.epacdxnode.net/NAASOpenIdProvider/?__LASTFOCUS=&__EVENTTARGET=ctl00%24Main%24ctl00%24ctl00&__EVENTARGUMENT=&__VIEWSTATE=%2FwEPDwUKLTY3MTkwMzczNGQYAgUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDEFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDMFFGN0bDAwJE1haW4kbG9naW5WaWV3Dw9kAgFkemUzLl2FQAiPPrwmNS1FeE1TJ0u58ubm4drgn1Lh7yg%3D&__VIEWSTATEGENERATOR=5C4DFC33&__EVENTVALIDATION=%2FwEdAARJ2dy5U8AGYwCawJzvYQYXAtZ3XqH851BlP3gJphgKdFaF7W7BI5KtmmOFt4CsYAe7T4%2B6Hxo9bQsFkfZ6fAuTj5FwqLIrW5hFXXuZ3d6Z3PpVm1OcdFKYufMQCJGJ2AE%3D&ctl00%24Main%24loginView%24relyingPartySite=">',
+    ),
+    'body' => array (
+      '#type' => 'markup',
+      '#markup' => 'Logging out...',
+    ),
+  );
+}

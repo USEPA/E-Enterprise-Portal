@@ -16,7 +16,7 @@ function village_green_block_views_default_views() {
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'Most Recent Observations';
+  $view->human_name = 'Current Conditions';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -59,15 +59,10 @@ function village_green_block_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'page' => 'page',
   );
-  /* Filter criterion: Content: Title */
-  $handler->display->display_options['filters']['title']['id'] = 'title';
-  $handler->display->display_options['filters']['title']['table'] = 'node';
-  $handler->display->display_options['filters']['title']['field'] = 'title';
-  $handler->display->display_options['filters']['title']['value'] = 'Most Recent Observations';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'most-recent-observations';
+  $handler->display->display_options['path'] = 'current-conditions';
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
