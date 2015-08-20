@@ -7,10 +7,12 @@
 <?php
 if(drupal_is_front_page()) {
     global $user;
-    if($user->uid == 0)
-        drupal_goto("/eenterprise-new");
-    else
-        drupal_goto("/workbench");
+    if($user->uid == 0) {
+      drupal_goto("/eenterprise-new");
+    }
+    else {
+      drupal_goto("/workbench");
+    }
     exit;
 }
 ?>

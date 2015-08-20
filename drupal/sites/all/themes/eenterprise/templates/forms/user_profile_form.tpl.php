@@ -27,11 +27,9 @@ print render($form['account']['mail']);
     $location_description = "Add your locations of interest to see environmental information relevant to those areas. Select your primary location
 	by clicking the <i class='fa fa-key description-key'></i> icon. <br />";
 $geolocation = false;
-if (isset($_SESSION['geolocation_used'])) {
-    if ($_SESSION['geolocation_used'] == 'true') {
+if (isset($_SESSION['geolocation_used']) && $_SESSION['geolocation_used'] == 'true') {
         $geolocation = true;
         $location_description .=  'Until a location is specified, the location detected upon your initial login will be set as the default.';
-    }
 }
 if ($geolocation == false) {
     $location_description  .=  'Until a location is specified, the default location is set to Durham, North Carolina.';
@@ -91,7 +89,6 @@ print render($form['field_profile_favourites']);
 </div>
 
 <?php
-// print render($form['field_profile_interests']);
 	print render($form['field_interests2']);	
 ?>
 
@@ -111,7 +108,7 @@ foreach ($vocabs as $vid=>$value) {
 	}
 	print '<ul ' . $class . '><li style="' . $style . '" id="vocab_holder-' . $vid . '" class="vocab_holder"><h2><span class="label label-primary full-width">' . $value->name . '</span><span class="glyphicon glyphicon-chevron-up"></span></h2></li></ul>';
 }	
-	// print '<ul ><li id="vocab_holder-other" class="vocab_holder"><h2><span class="label label-primary full-width">Other</span><span class="glyphicon glyphicon-chevron-up"></span></h2></li></ul>';
+
 print '</div>';
 print '</div>';
 ?>
@@ -124,13 +121,10 @@ print '</div>';
 <div class="col-xs-12">
 <div class="panel panel-default">
 	<div class="panel-body">
-<?php
-	// print render($form['field_interests2']);	
-?>
+
 	</div>
 </div>
-	</div>col-->
-
+</div>col-->
 
 <div class="col-xs-12">
 
