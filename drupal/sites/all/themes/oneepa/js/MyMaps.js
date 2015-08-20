@@ -50,8 +50,9 @@
     $('.myMapFilterTerm').click(function() {
       //options from the DOM (id) are mapsAll, mapsAir, mapsWater, or mapsLand
       var filterType = $(this).attr('id');
-      $('.myMapFilterTerm').removeClass('active-mymaps-filter');
-      $(this).addClass('active-mymaps-filter');
+      $('.myMapFilterTerm').parent('li').removeClass('active-mymaps-filter');
+      $('.myMapFilterTerm').parent('li').removeClass('active-mymaps-filter');
+      $(this).parent('li').addClass('active-mymaps-filter');
       $(this).blur();
       filterMyMapsGallery(filterType);
     });

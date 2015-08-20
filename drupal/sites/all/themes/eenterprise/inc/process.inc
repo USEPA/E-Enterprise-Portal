@@ -1,4 +1,8 @@
 <?php
+define("CREATED","created");
+define("CUSTOM","custom");
+
+
 /**
  * @file
  * Preprocess and process functions.
@@ -126,14 +130,16 @@ function eenterprise_preprocess_page(&$vars) {
  */
 function eenterprise_preprocess_node(&$vars) {
   // Set title any time we're viewing a node (need to do this to make it work for revision viewing pages)
-  if($vars['page']) drupal_set_title($vars['title'], PASS_THROUGH);
+  if($vars['page']) {
+    drupal_set_title($vars['title'], PASS_THROUGH);
+  }
 
   $vars['classes_array'][] = 'clearfix';
   $vars['attributes_array']['role'][] = 'article';
   $vars['title_attributes_array']['class'][] = 'article-title';
   $vars['content_attributes_array']['class'][] = 'article-content';
-  $vars['datetime'] = format_date($vars['created'], 'custom', 'c');
-  $vars['date'] = format_date($vars['created'], 'custom', 'F j, Y');
+  $vars['datetime'] = format_date($vars[CREATED], CUSTOM, 'c');
+  $vars['date'] = format_date($vars[CREATED], CUSTOM, 'F j, Y');
   if (variable_get('node_submitted_' . $vars['node']->type, TRUE)) {
     $vars['submitted'] = t('!datetime by !username',
       array(
@@ -203,8 +209,6 @@ function eenterprise_preprocess_search_block_form(&$vars) {
  * Override or insert variables into the menu link theme function.
  */
 function eenterprise_preprocess_menu_link(&$vars) {
-  $menu = $vars['element']['#original_link']['menu_name'];
-  $mlid = $vars['element']['#original_link']['mlid'];
   $item_classes = &$vars['element']['#attributes']['class'];
   $link_classes = &$vars['element']['#localized_options']['attributes']['class'];
 
