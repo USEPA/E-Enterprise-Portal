@@ -32,6 +32,8 @@ function eenterprise_preprocess_maintenance_page(&$vars) {
  */
 function eenterprise_preprocess_html(&$vars) {
   $vars['web_area_feed'] = '';
+  $vars['base_path'] = base_path();
+  $vars['path_to_eenterprise'] = drupal_get_path('theme', 'eenterprise');
 
   // Modify RDF output.
   $vars['rdf'] = new stdClass();

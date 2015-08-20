@@ -103,6 +103,20 @@ Drupal.behaviors.filterItems = {
                 return $.inArray(this.innerHTML, lead_list) == -1
             }).remove();
         }
+        if($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 60') {
+            $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
+            var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc","Subpart III", "Subpart JJJJ", "Subpart A" , "- Any -"];
+            $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
+                return $.inArray(this.innerHTML, part_60_list) == -1
+            }).remove();
+        }
+        if($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 63') {
+            $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
+            var part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
+            $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
+                return $.inArray(this.innerHTML, part_63_list) == -1
+            }).remove();
+        }
         if($("#edit-field-prog-track-domain-value").val() == 'All') {
             //$("edit-field-prog-track-rep-type-filter-value").val("All");
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
@@ -113,5 +127,78 @@ Drupal.behaviors.filterItems = {
     }
 };
 
+Drupal.behaviors.filterToDoList = {
+    attach: function (context) {
+        $(".view-content button.todo_filter_button").click(function(event) {
+            //$(".filter-applied").removeClass("filter-applied");
+            //$(this).addClass("filter-applied");
+        });
+        $("#this-week").click(function(event) {
+            var date_today = get_server_date();
+            date_today = JSON.parse(date_today);
+            var vmonth = date_today.fmonth;
+            vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
+            var vdate = date_today.fdate;
+            vdate = vdate < 10 ? '0' + vdate : vdate;
+            var vyear = date_today.fyear;
+            var vhour = date_today.fhour;
+            var vmin = date_today.fminute;
+            var vsec = date_today.fsecond
+
+            var date_var = vyear + '-'+ vmonth + '-' + vdate + ' ' + vhour + ':' + vmin + ':' + vsec;
+            $("#edit-field-todo-lst-due-value").val(date_var);
+            $("#edit-submit-to-do").trigger("click");
+        });
+        $("#next-week").click(function(event) {
+            var currDate = get_server_date();
+            currDate = JSON.parse(currDate);
+            var fday = currDate.fday == 7 ? 0 : currDate.fday;
+            var nextSunday= new Date(currDate.fyear,currDate.fmonth-1,currDate.fdate+(7 - fday));
+
+            var vmonth = nextSunday.getMonth() + 1;
+            vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
+
+            var vdate = nextSunday.getDate();
+            vdate = vdate < 10 ? '0' + vdate : vdate;
+
+            var date_var = nextSunday.getFullYear() + '-'+ vmonth + '-' + vdate + ' ' + '00:00:01';
+            $("#edit-field-todo-lst-due-value").val(date_var);
+            $("#edit-submit-to-do").trigger("click");
+        });
+        $("#beyond-next-week").click(function(event) {
+            var currDate = get_server_date();
+            currDate = JSON.parse(currDate);
+            var fday = currDate.fday == 7 ? 0 : currDate.fday;
+            var nextSunday= new Date(currDate.fyear,currDate.fmonth-1,currDate.fdate+(7 - fday));
+            var sunAfterNextSun = new Date(nextSunday.getFullYear(),nextSunday.getMonth(),nextSunday.getDate()+(7 - nextSunday.getDay()));
+
+            var vmonth = sunAfterNextSun.getMonth() + 1;
+            vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
+
+            var vdate = sunAfterNextSun.getDate();
+            vdate = vdate < 10 ? '0' + vdate : vdate;
+
+            var date_var = nextSunday.getFullYear() + '-'+ vmonth + '-' + vdate + ' ' + '00:00:01';
+            $("#edit-field-todo-lst-due-value").val(date_var);
+            $("#edit-submit-to-do").trigger("click");
+        });
+
+
+
+        $("#all-time").click(function(event) {
+            $("#edit-field-todo-lst-due-value").val('0000-00-00');
+            $("#edit-submit-to-do").trigger("click");
+        });
+
+        function get_server_date(){
+            var time_url = "http://local.epa/drupal/server_time.php?tz=America/New_York";
+            var httpreq = new XMLHttpRequest(); // a new request
+
+            httpreq.open("GET",time_url,false);
+            httpreq.send(null);
+            return httpreq.responseText;
+        }
+    }
+};
 
 })(jQuery);

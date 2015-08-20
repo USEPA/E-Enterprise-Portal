@@ -97,6 +97,9 @@ h1, h2, h3, h4, h5, h6, th, legend, caption {
 	font-weight: normal;
 	margin: 0.5em 0;
 }
+button, input, select, textarea, option {
+	font-family: $base-font-family;
+}
 menu, ol, ul {
 	padding: 0;
 }
@@ -188,6 +191,7 @@ a:visited.pager__link,
 .ui-widget-content a:visited.pager__link {
 	color: $ee-visited-color;
 }
+.simple-main-nav .menu a.active,
 a.jcarousel-control-prev, a.jcarousel-control-next,
 a.jcarousel-control-prev:visited, a.jcarousel-control-next:visited {
 	color: #ffffff;
@@ -895,10 +899,8 @@ tr.odd, tr.even {
 		color: #ffffff;
 	}
 	.ee-workbench-header-locations {
-		width:24em;
+		width:auto;
 		float:right;
-		//margin-right:1.25em;
-		//@include future-function;
 	}
 	.ee-workbench-header-setlocation {
 		label {
@@ -1888,6 +1890,7 @@ div.ctools-modal-content {
 	}
 	.form-item {
 		padding-bottom: 1em;
+		margin: 0.75em 0;
 	}
 	.form-item label {
 		float: none;
@@ -1898,6 +1901,7 @@ div.ctools-modal-content {
 	}
 	#edit-submit-button {
 		@include button;
+		margin-bottom: 2em;
 	}
 }
 
@@ -2020,6 +2024,34 @@ input[type="submit"],
 }
 .pillbox > .active.menu-item > .menu-link:active {
   background-color: #f93;
+}
+
+/* Skip Links *****************************************************************/
+.skip-links {
+  font-size: 16px;
+  left: 50%;
+  margin-left: -7em;
+  position: absolute;
+  width: 14em;
+  z-index: 9999;
+}
+.skip-link,
+.skip-link:visited,
+.skip-link:focus {
+  background-color: #333;
+  border: 2px solid #eee;
+  border-top: 0;
+  box-shadow: 0 0 6px rgba(0,0,0,.5);
+  color: #eee;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1.5;
+  margin: 0;
+  outline: 0;
+  text-align: center;
+  text-decoration: none;
+  width: 14em;
+  z-index: 9999;
 }
 
 /*********** Responsive Progress Tracker and To Do List Tables ***********/
