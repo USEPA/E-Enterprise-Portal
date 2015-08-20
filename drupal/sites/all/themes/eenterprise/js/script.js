@@ -90,6 +90,7 @@ Drupal.behaviors.filterItems = {
 
         if($("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+            $('#edit-field-prog-track-part-code-value-wrapper').show();
             var cedri_list = ["Notification Report", "Notification of Compliance Status", "Air Emissions Report", "- Any -"];
             $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
                 return $.inArray(this.innerHTML, cedri_list) == -1
@@ -97,6 +98,8 @@ Drupal.behaviors.filterItems = {
         }
         if($("#edit-field-prog-track-domain-value").val() == 'Lead') {
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+            $('#edit-field-prog-track-sub-part-code-value-wrapper').hide();
+            $('#edit-field-prog-track-part-code-value-wrapper').hide();
 
             var lead_list = ["Firm Abatement", "Firm RRP", "Firm Combination", "- Any -"];
             $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
@@ -118,11 +121,20 @@ Drupal.behaviors.filterItems = {
             }).remove();
         }
         if($("#edit-field-prog-track-domain-value").val() == 'All') {
-            //$("edit-field-prog-track-rep-type-filter-value").val("All");
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
+            $('#edit-field-prog-track-part-code-value-wrapper').hide();
+            $('#edit-field-prog-track-sub-part-code-value-wrapper').hide();
+        }
+        if($("#edit-field-prog-track-part-code-value").val() == 'All') {
+            $('#edit-field-prog-track-sub-part-code-value-wrapper').hide();
         }
         $('#edit-field-prog-track-domain-value').change(function(){
             $('#edit-field-prog-track-rep-type-filter-value').val('All');
+            $('#edit-field-prog-track-sub-part-code-value').val('All');
+            $('#edit-field-prog-track-part-code-value').val('All');
+        });
+        $('#edit-field-prog-track-part-code-value').change(function(){
+            $('#edit-field-prog-track-sub-part-code-value').val('All');
         });
     }
 };
