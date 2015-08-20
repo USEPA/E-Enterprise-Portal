@@ -172,7 +172,7 @@ function return_cdx_facility_management_token()
         //Authenticate to CDX
         $response = $client->__soapCall("Authenticate", array($params));
         $token = $response->securityToken;
-        $server_ip = $_SERVER['SERVER_ADDR'];
+        $server_ip = variable_get('frs_api_lookup_ip');
         $json_return = array(
             'token' => $token,
             'server_ip' => $server_ip,
