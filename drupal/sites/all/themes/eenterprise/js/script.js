@@ -191,7 +191,7 @@ Drupal.behaviors.filterToDoList = {
         });
 
         function get_server_date(){
-            var time_url = "http://local.epa/drupal/server_time.php?tz=America/New_York";
+            var time_url = window.location.origin + "/server_time.php?tz=America/New_York";
             var httpreq = new XMLHttpRequest(); // a new request
 
             httpreq.open("GET",time_url,false);
