@@ -113,10 +113,13 @@ function eenterprise_bridge_auth_authenticate($error) {
             $username = end($username_raw);
             $uname = "";
             //If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
-            if($pos === FALSE || $username === FALSE)
+            if($pos === FALSE || $username === FALSE) {
                 $uname = $userDetails->attributes['email'][0];
+                variable_set('cdx_user_type','public');
+            }
             else{
                 $uname = $username;
+                variable_set('cdx_user_type','cdx');
             }
             if(variable_get('trusted_users_list_used') == 'Yes')
                 trusted_user_check($uname);
