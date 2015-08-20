@@ -304,7 +304,7 @@ function configure_ctools_popup() {
                    'background-color' => '#000000', // Background color
                ),
                'closeText' => '', // Text for the close button
-               'closeImage' => '<img typeof="foaf:Image" src="/'. drupal_get_path('theme', 'greentrees') .'/images/close-titlebar.png" alt="Close window" title="Close window" />', // Image for the close button
+               'closeImage' => '<img typeof="foaf:Image" src="'. base_path(). drupal_get_path('theme', 'eenterprise') .'/images/close-titlebar.png" alt="Close window" title="Close window" />', // Image for the close button
                'loadingText' => '', // Text with the popup downloading
                'animation' => 'fadeIn', // Animation type
                'modalTheme' => 'ee_ctools_popup_theme', // Name of theme to be added
