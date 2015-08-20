@@ -49,12 +49,12 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
     </script>
 
 <div class="view-content">
-<small class="village-green-updated-every-minute">Updated every minute</small>
+<small class="village-green-updated-every-minute">Updated every minute via <a target="_blank" href="http://villagegreen.airnowtech.org/">Village Green</a></small>
     <div>
         <div class="paddedSubContainer">
             <div class="marginBottom-10 col-xs-12 col-sm-4 col-md-4 col-lg-4" style="padding:0">
                 <label for="currentSiteID">
-                  City
+                  Air monitoring station
                 </label>
                 <select id="currentSiteID">
                     <option value="24292">Philadelphia, PA</option>
@@ -96,4 +96,4 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
     </div>
 </div>
 <div style="clear:both"></div>
-<small class="village-green-source">Source: <a target="_blank" href="http://villagegreen.airnowtech.org" class="village-green-external-link">Village Green</a></small>
+<small class="village-green-source"><a target="_blank" href="http://villagegreen.airnowtech.org" class="village-green-external-link"></a></small>
