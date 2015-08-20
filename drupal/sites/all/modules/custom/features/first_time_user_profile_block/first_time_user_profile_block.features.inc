@@ -70,8 +70,6 @@ function first_time_user_profile_block_theme_registry_alter(&$theme_registry)
 }
 
 
-
-
 /**
  * Params: array of zip codes, array of taxonomy ids for interests, skip boolean
  * Changes user's first_time_user to false
@@ -235,9 +233,8 @@ function frs_lat_long_to_zip_code($lat, $long)
             '&p_longitude=' . $long;
         $encoded_base_url = urlencode($base_url);
         $request_url = $test_domain . $encoded_base_url;
-    }
-    else {
-        $request_url =  $frs_domain . '.get_spatial_data_by_latlong84?p_ip_address=' . $ip . '&p_token=' . $token . '&p_latitude=' . $lat .
+    } else {
+        $request_url = $frs_domain . '.get_spatial_data_by_latlong84?p_ip_address=' . $ip . '&p_token=' . $token . '&p_latitude=' . $lat .
             '&p_longitude=' . $long;
     }
 
@@ -251,8 +248,7 @@ function frs_lat_long_to_zip_code($lat, $long)
     );
     try {
         $response = drupal_http_request($request_url, $options);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         dpm($e);
     }
     if (isset($response)) {
@@ -264,8 +260,7 @@ function frs_lat_long_to_zip_code($lat, $long)
             'city' => $formatted_city,
             'state' => $results->derivedState,
         );
-    }
-    else {
+    } else {
         $return = array();
     }
     return $return;
@@ -284,10 +279,9 @@ function frs_city_state_to_zip_code($city, $state)
             . $encoded_city . '&p_state_abbr=' . $state;
         $encoded_base_url = urlencode($base_url);
         $request_url = $test_domain . $encoded_base_url;
-    }
-    else {
+    } else {
         $request_url = $frs_domain . '.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
-        . $encoded_city . '&p_state_abbr=' . $state;
+            . $encoded_city . '&p_state_abbr=' . $state;
     }
 
 //    $frs_request_url = variable_get('frs_api_lookup_url'). '.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
@@ -310,7 +304,6 @@ function frs_city_state_to_zip_code($city, $state)
 }
 
 
-
 //// http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.13
 function frs_zip_code_to_city_state($zip)
 {
@@ -322,9 +315,8 @@ function frs_zip_code_to_city_state($zip)
         $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_city_state_by_zip?p_ip_address=' . variable_get('frs_api_lookup_ip') . '&p_postal_code=' . $zip . '&p_token=' . $token;
         $encoded_base_url = urlencode($base_url);
         $request_url = $test_domain . $encoded_base_url;
-    }
-    else {
-        $request_url = variable_get('frs_api_lookup_url').'.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
+    } else {
+        $request_url = variable_get('frs_api_lookup_url') . '.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
     }
     $options = array(
         'headers' => array(
@@ -350,7 +342,8 @@ function frs_zip_code_to_city_state($zip)
 }
 
 
-function frs_naas_autentication() {
+function frs_naas_autentication()
+{
     $wsdl = variable_get('cdx_node_token_wsdl');
     $email = variable_get('cdx_node_token_email');
     $password = variable_get('cdx_node_token_password');
@@ -358,7 +351,7 @@ function frs_naas_autentication() {
 
     try {
         $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
-    } catch(SoapFault $f) {
+    } catch (SoapFault $f) {
         dpm($f);
         drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
         return;
@@ -401,15 +394,23 @@ function frs_naas_autentication() {
             $token = '';
             drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
         }
-    }
-    else {
+    } else {
         $token = '';
-        }
-    return $token;
+    }
+    if (isset($_GET['json'])) {
+        print json_encode( array(
+            'ip'=> variable_get('frs_api_lookup_ip'),
+            'token' => $token,
+        ));
+        exit();
+    } else {
+        return $token;
+    }
 };
 
 
-function frs_zip_code_to_lat_long($zip) {
+function frs_zip_code_to_lat_long($zip)
+{
     $token = frs_naas_autentication();
     $ip = variable_get('frs_api_lookup_ip');
     $frs_domain = variable_get('frs_api_lookup_url');
@@ -418,8 +419,7 @@ function frs_zip_code_to_lat_long($zip) {
         $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.derive_lat_long_by_zip?p_ip_address=' . $ip . '&p_zip=' . $zip . '&p_token=' . $token;
         $encoded_base_url = urlencode($base_url);
         $request_url = $test_domain . $encoded_base_url;
-    }
-    else {
+    } else {
         $request_url = $frs_domain . '.derive_lat_long_by_zip?p_ip_address=' . $ip . '&p_zip=' . $zip . '&p_token=' . $token;
     }
     $options = array(

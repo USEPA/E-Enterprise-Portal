@@ -1369,7 +1369,7 @@ tr.selected td {
 /* line 805, ../sass/components/_misc.scss */
 .progress .filled {
   background-color: #0072b9;
-  background-image: url('../images/progress.gif?1431115763');
+  background-image: url('../images/progress.gif?1435085676');
 }
 
 /**
@@ -1622,7 +1622,7 @@ select,
 textarea {
   margin: 0;
   font: inherit;
-  color: inherit;
+  color: #ffffff;
 }
 
 /* line 121, ../sass/_bootstrap.scss */

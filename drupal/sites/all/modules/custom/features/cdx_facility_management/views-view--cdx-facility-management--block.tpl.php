@@ -2,7 +2,6 @@
 drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/custom_js.js", "file");
 drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", "file");
 ?>
-<button id="view-facility-iframe">Open CDX Facility Management</button>
 
 
 
@@ -21,15 +20,17 @@ drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_fa
  */
 drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', 'external');
 //drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/custom_js.js", "file");
+drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/cdx_facility_management.css", "file");
+
+drupal_add_library('system', 'ui.accordion');
 
 ?>
 <!-- Site must incorporate these files to use FacilityWidget -->
-<script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery-ui-1.10.4/js/jquery-ui-1.11.2.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+<!--<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>-->
 
 <script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery.validate1.12.0.min.js"></script>
 
-<script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.js"></script>
+<!--<script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.js"></script>-->
 <script type="text/javascript" src="https://dev.epacdx.net/ContentFramework/v3/js/ElementGroupDisplay.js"></script>
 <!--<link rel="stylesheet" href="../libs/jquery-ui-1.11.4.custom/jquery-ui.min.css" />-->
 <link rel="stylesheet" href="https://dev.epacdx.net/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.css"/>
@@ -55,17 +56,10 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
 <script src="https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/temp/concat.js"></script>
 
 <div id="facility-widget" style="max-width:1363px;"></div>
+<button id="view-facility-iframe">Open CDX Facility Management</button>
+<label for="fmw-organization-select">Organization</label><select name="fmw-organization-select" id="fmw-organization-select"></select>
+<label for="fmw-program-select">Program</label><select name="fmw-program-select" id="fmw-program-select"></select>
 
-<script>
-    $.initFacilityManagementWidget({
-        autoScroll: false,
-        widgetDisplayType: "Edit My Facilities",
-        baseServiceUrl : 'https://dev.epacdx.net/FrsPhase2',
-        ImagesFolderPath: "https://dev.epacdx.net/FrsPhase2/content/v3/FRS%20Widget/images", //static
-        userRoleId: 80172,
-        isRegistration: false, //static
-        loadFromSession: false, //static
-        NASSToken: "Mary Cheat Token - FIX ASAP!!!!!!",
-        NAASip: "65.248.159.78"
-    });
-</script>
+<table id="facility-management-initial-data">
+</table>
+
