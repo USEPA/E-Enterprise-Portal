@@ -411,8 +411,8 @@ function oneepa_table($vars) {
         $output .= ' <tr' . drupal_attributes($attributes) . '>';
         $i = 0;
         foreach ($cells as $cell) {
-          $i++;
           $cell = tablesort_cell($cell, $header, $ts, $i);
+          $i++;
           $output .= _theme_table_cell($cell);
         }
         $output .= " </tr>\n";
@@ -680,7 +680,7 @@ function oneepa_pager_link($vars) {
 /**
  * Overrides HTML for a marker for required form elements.
  */
-function oneepa_form_required_marker() {
+function oneepa_form_required_marker($variables) {
   $attributes = array(
     'class' => 'form-required',
     'title' => t('This field is required.'),
@@ -807,7 +807,7 @@ function check_row_complexity($row, &$attributes, &$cells){
 }
 
 //TODO: Can we come up with a better name for this function if necessary?
-function check_item_value(&$key, &$value, &$data, &$children, &$attributes){
+function check_item_value($key, $value, &$data, &$children, &$attributes){
 
   if ($key == 'data') {
     $data = $value;

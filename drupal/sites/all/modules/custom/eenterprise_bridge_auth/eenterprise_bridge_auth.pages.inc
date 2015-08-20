@@ -330,7 +330,7 @@ function _update_progress_tracker_to_do_item($query_res, $res){
     $cdx_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
 
     //If description field is updated OR if status field is updated...
-    if($res_title != $res['ActivityDesc'] || !empty($res_status) && ($res_status != $cdx_status)) {
+    if($res_title != $res['ActivityDesc'] || (!empty($res_status) && ($res_status != $cdx_status))) {
       node_delete($query_res[ENTITY_ID]);
       return TRUE;
     }
@@ -353,7 +353,7 @@ function create_progress_tracker_node($res, $user){
     else {
       //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
       //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
-      drop_item($query_res);
+      drop_item($query_res, $res);
     }
 }
 
@@ -440,7 +440,7 @@ function add_receipt_and_certificate_link(&$res_action, $res){
 }
 
 //TODO: Can we come up with a better name for this function if necessary?
-function define_user_role(&$user_role, $user, $uname, $userDetails, $pos){
+function define_user_role($user_role, $user, $uname, $userDetails, $pos){
 
   if($user){
     user_save($user, array('mail' => $userDetails->attributes['email'][0]));
@@ -479,7 +479,7 @@ function create_item($user, $res) {
   $node = new stdClass();
   $node->title = $res['ActivityDesc'];
   if ($res[ACTIVITY_TYPE] == 'TRACKER') {
-    progress_tracker($node);
+    progress_tracker($node, $user, $res);
   }
   else if($res[ACTIVITY_TYPE] == 'TASK') {
     to_do_list($node, $user, $res);
@@ -498,7 +498,7 @@ function create_item($user, $res) {
 //TODO: Can we come up with a better name for this function if necessary?
 //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
 //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
-function drop_item($query_res) {
+function drop_item($query_res, $res) {
 
   $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
   $curr_date =  strtotime(date("Y-m-d H:i:s"));
@@ -509,7 +509,7 @@ function drop_item($query_res) {
 }
 
 //TODO: Can we come up with a better name for this function if necessary?
-function progress_tracker($node){
+function progress_tracker($node, $user, $res){
 
   $node->type = "progress_tracker";
 

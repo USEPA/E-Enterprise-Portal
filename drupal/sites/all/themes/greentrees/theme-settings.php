@@ -16,7 +16,7 @@ function greentrees_form_system_theme_settings_alter(&$form, &$form_state, $form
   create_form($form);
 }
 
-function create_form($form) {
+function create_form(&$form) {
   // Create the form using Forms API: http://api.drupal.org/api/7
   $form['theme_settings']['toggle_logo']['#description'] = t('This logo will only be displayed when a user prints the page.');
   $form['javascript'] = array(
