@@ -164,14 +164,14 @@ Drupal.behaviors.filterItems = {
             }).remove();
         }
 
-        if($("#edit-field-prog-track-part-code-value").val().trim() == 'Part 60') {
+        if($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 60') {
             $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
             var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc","Subpart III", "Subpart JJJJ", "Subpart A" , "- Any -"];
             $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
                 return $.inArray(this.innerHTML, part_60_list) == -1
             }).remove();
         }
-        if($("#edit-field-prog-track-part-code-value").val().trim() == 'Part 63') {
+        if($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 63') {
             $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
             var part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
             $('#edit-field-prog-track-sub-part-code-value option').filter(function () {

@@ -68,14 +68,19 @@ $lato:            Lato, 'Source Sans Pro', sans-serif;
 }
 
 @mixin button {
-/*
+	background-image: -moz-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+	background-image: -ms-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+	background-image: -o-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+	background-image: -webkit-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+	background-image: linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
 	color: #fff;
-	//background-color: #337ab7;
-	//border: 1px solid #2e6da4;
+	background-color: #337ab7;
+	border: 1px solid #2e6da4;
 	font-size: 87.5%;
 	font-weight: bold;
 	padding: 5px 8px;
-*/
+	border-radius: 4px;
+	margin-right: 10px;
 }
 
 /** Adjust Main Font and Styles *********************************************************/
@@ -91,6 +96,9 @@ h1, h2, h3, h4, h5, h6, th, legend, caption {
 	font-family: $base-font-family;
 	font-weight: normal;
 	margin: 0.5em 0;
+}
+menu, ol, ul {
+	padding: 0;
 }
 .site-logo {
 	display: block;
@@ -230,21 +238,16 @@ footer .pipeline {
 	background-color: $ee-dark-gray;
 }
 
-/** Adjust s.css Styles ***********/
+/** Button Styles ***********/
 button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"],
 .button,
 #edit-cancel {
+	@include button;
 	height: auto;
 }
-
-label {
-	font-weight: normal;
-	margin-bottom: 2px;
-}
-
 button, 
 input[type="button"], 
 input[type="reset"], 
@@ -253,6 +256,11 @@ input[type="submit"],
 #edit-cancel, 
 .addtocal {
 	margin-bottom: 0.5em;
+}
+label {
+	font-weight: normal;
+	margin-bottom: 2px;
+	display: block;
 }
 .site-name-and-slogan {
 	float: left;
@@ -297,11 +305,16 @@ nav ul {
 	}
 	&.page-user section.main-content {
 		padding-bottom: 100px;
+		padding-left: 1em;
+		padding-right: 1em;
+		.cols-2 {
+			margin-left: 1em;
+		}
 	}
 }
 
 header {
-	padding: 10px 2em;
+	padding: 10px 2em 5px;
 	margin: 0 auto;
 	background-image: none;
 	background-color: $ee-white;
@@ -321,8 +334,11 @@ header {
 		top: 20px;
 	}
 	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
-		width: 7em;
+		width: auto;
 		float: right;
+		margin-bottom: 0;
+		margin-top: 20px;
+		margin-right: 1em;
 		h2.block-title {
 			clip: rect(1px,1px,1px,1px);
 			position:absolute;
@@ -391,8 +407,8 @@ header {
 	}
 	.jumbotron {
 		margin-bottom: 0px;
-	    background-image: url('../images/Depositphotos_47194641_original.jpg');
-	    background-position: 0% 25%;
+	    background-image: url('../images/nurturing-hands.jpg');
+	    background-position: 0% 50%;
 	    background-size: cover;
 	    background-repeat: no-repeat;
 	    text-align: left;
@@ -403,15 +419,15 @@ header {
     .jumbotron .container {
 	    width: auto;
 	    max-width: 50%;
-	    margin-left: 1em;
+	    margin-left: 0;
 	    margin-right: 0;
 	    padding: 0;
     }
     .well {
     	opacity:0.9;
     	margin:0 auto;
-    	margin-top:85px;
-    	margin-bottom:2em;
+    	margin-top:250px;
+    	margin-bottom:-1em;
     	margin-left: 2em;
     	h1 {
 	    	font-size: 1.5em;
@@ -433,6 +449,16 @@ header {
 	.mobile-bar {
 		display: none;
 		//Removes mobile navigation menu on welcome page as no options are available
+	}
+	.row {
+		padding: 2em;
+	}
+	.row.shaded {
+		background-color:#f7f7f9;
+		border:1px solid #e1e1e8;
+		border-width:1px 0;
+		padding-top: 1em;
+		padding-bottom: 1em;
 	}
 }
 .well a:hover {
@@ -482,26 +508,25 @@ header {
 }
 #login-group {
 	position: absolute;
-	top: 50%;
+	top: 70%;
 	left: 60%;
 	form, a {
 		display:inline-block;
 	}
-	a {
-		margin-left:20px;
-		padding:5px 15px;
+	.guest-login {
+		width: auto;
+	    display: inline-block;
+	    background-color: #fff;
+	    opacity: 0.8;
+	    a {
+		    font-size: 1em;
+			margin-left: 0;
+			padding: 5px 15px;
+	    }
+	    a:hover, a:focus, a:active {
+		    color: #000000;
+	    }
 	}
-}
-.guest-login {
-	width: auto;
-    display: inline-block;
-    a {
-	    font-size: 1em;
-		padding: 4px;
-    }
-    a:hover, a:focus, a:active {
-	    color: #000000;
-    }
 }
 #edit-e-enterprise-bridge, #edit-login, #edit-log-in, #edit-log-in--2 {
 	background-color: #337ab7;
@@ -547,16 +572,6 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 .messages {
 	font-size: 16px;
 }
-.row {
-	padding: 2em;
-}
-.row.shaded {
-	background-color:#f7f7f9;
-	border:1px solid #e1e1e8;
-	border-width:1px 0;
-	padding-top: 1em;
-	padding-bottom: 1em;
-}
 #benefits ul, #including ul {
 	list-style: none;
 	background-color: transparent !important;
@@ -582,7 +597,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	}
 	li {
 		margin-right: 2px;
-		width: 33%;
+		width: 100%;
 		min-width: 7em;		
 		background-color: #666;
 		text-align: center;
@@ -606,11 +621,11 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	div {
 		clear: left;
 		height: 250px;
-		padding: 1em 3em 1em 2em;
+		padding: 0em 3em 1em 2em;
 	}
 	div span {
-		float: left;
-		width: 50%;
+		float: none;
+		width: 100%;
 		padding: 10px 20px;
 	}
 	h3 {
@@ -623,7 +638,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		margin-top: 10px;
 	}
 	img {
-		max-width: 35%; 
+		max-width: 50%; 
 		margin: 0 auto;
 		float: right;
 	}
@@ -695,6 +710,11 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 .page-user {
 	&.wide-template .main-content {
 		background-color: $ee-light-gray;
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+	.main-content h1 {
+		padding-left: 0.5em;
 	}
 	.pillbox {
 		display: none;
@@ -863,7 +883,7 @@ tr.odd, tr.even {
 	margin-right: 2.5em;
 	padding: 0;
 	height: auto;
-	width: 24em;
+	width: auto;
 	h2 {
 		display: none;
 	}
@@ -957,6 +977,7 @@ tr.odd, tr.even {
     	float: left;
     	font-size: 0.85em;
     	padding-top: 3px;
+    	padding-left: 2.5em;
     }
     #zip_container {
 		span {
@@ -976,6 +997,21 @@ tr.odd, tr.even {
 
 /** Workbench *******************************************************************/
 @media screen and (min-width: 45em) {
+	#benefits {
+		li {
+			width: 33%;
+		}
+		div {
+			padding-top: 1em;
+		}
+		div span {
+			float: left;
+			width: 50%;
+		}
+		img {
+			max-width: 35%;
+		}
+	}
 	th.views-field {
 		padding-top: 5px;
 		padding-bottom: 5px;
@@ -1308,8 +1344,10 @@ tr.even {
 .field-name-field-profile-last-name {
 	display:inline-block;
 }
+form tbody {
+	border-top: none;
+}
 form[id^='user-profile-form'] {
-
     .description-key {
       margin-left: 5px;
     }
@@ -1344,10 +1382,12 @@ form[id^='user-profile-form'] {
 	.remove-button .field-profile-favourites-values {
 		float: right;
 	}
-	
 	.description {
 		color:#333333;
 		display:table;
+	}
+	.form-item {
+		margin-top: 0;
 	}
 	.form-item .form-type-textfield {
 		padding-bottom:0.5em;
@@ -1376,78 +1416,70 @@ form[id^='user-profile-form'] {
 	.eenterprise-utility-form-item-description-p.field-title-below { 
 		margin-bottom: 1.5em; padding-bottom: 0px;
 	}
-
-  #zipcode_description {
-      display:none;
-      .form-item {
-        display: inline-block;
-        float: left;
-        padding-bottom: 0px;
-      }
-    .field-multiple-table {
-      width: 700px;
-    }
-    .field-name-field-field-zip-code {
-      display: inline-block;
-      float: left;
-    }
-    .field-add-more-submit {
-      float: left;
-      display: inline-block;
-    }
-      .multiple-fields-remove-button {
-        float: left; display: inline-block;
-      }
-    table tr:last td:last {
-      width:200px;
-    }
-    .form-wrapper {
-      display: inline-block;
-      float: left;
-      margin-right: 10px;
-    }
-    table tr td:first-child, .tabledrag-toggle-weight-wrapper,
-    .form-item .form-type-textfield label, .form-checkbox{
-      display:none;
-    }
-    label {
-      float: left;
-    }
-    .zip-code-primary-select {
-      color: grey;
-      cursor: pointer;
-      /*display:none;*/
-
-    }
-      .ajax-new-content {
-        float: left;
-        display:inline-block;
-      }
-      .form-type-checkbox {
-        margin-right: 10px;
-      }
-      .zip-code-primary-select.selected {
-        color: red;
-      }
-
-      .zip-code-primary-holder {
-        margin-top: 8px;
-        display:inline-block;
-        float: right;
-        width: 20px;
-      }
-
-    }
-
-  .panel {
+	#zipcode_description {
+		display:none;
+		.form-item {
+			display: inline-block;
+			float: left;
+			padding-bottom: 0px;
+		}
+		.field-multiple-table {
+			width: 700px;
+		}
+		.field-name-field-field-zip-code {
+			display: inline-block;
+			float: left;
+		}
+		.field-add-more-submit {
+			float: left;
+			display: inline-block;
+		}
+		.multiple-fields-remove-button {
+			float: left; display: inline-block;
+		}
+		table tr:last td:last {
+			width:200px;
+		}
+		.form-wrapper {
+			display: inline-block;
+			float: left;
+			margin-right: 10px;
+		}
+		table tr td:first-child, .tabledrag-toggle-weight-wrapper,
+		.form-item .form-type-textfield label, .form-checkbox{
+			display: none;
+		}
+		label {
+			float: left;
+		}
+		.zip-code-primary-select {
+			color: grey;
+			cursor: pointer;		
+		}
+		.ajax-new-content {
+			float: left;
+			display:inline-block;
+		}
+		.form-type-checkbox {
+			margin-right: 10px;
+		}
+		.zip-code-primary-select.selected {
+			color: red;
+		}
+		.zip-code-primary-holder {
+			margin-top: 8px;
+			display:inline-block;
+			float: right;
+			width: 20px;
+		}
+	}
+	.panel {
 		min-height: 330px;
 	}
 	.ajax-progress {
 	  display:block !important;
 	  position: inherit !important;
 	}
-
-	
 	thead label {
 		padding:1em 1em 0.25em 0.5em;
 	}
@@ -1460,16 +1492,12 @@ form[id^='user-profile-form'] {
 	}
 	.form-submit, .remove_button {
 		text-transform: capitalize;
-		//background-color: #337ab7;
 		padding:0.5em 1em;
 		height:auto;
-		//border-color:#337ab7;
 		border-radius:4px;
 		font-size:0.95em;
 		font-weight:normal;
 	}
-	
-	
 	.field-add-more-submit {
 		background-color: green; 
 		height: auto; 
@@ -1513,15 +1541,13 @@ form[id^='user-profile-form'] {
 		height:40px;
 		color: #494949;
 		padding-left: 10px;
-	}
-	
+	}	
 	.vocab_holder {
 		clear: left;
 	}
 	.vocab_holder h2 {
 		font-size: 120%;
-	}
-	
+	}	
 	.vocab_holder h2 .label, 
 	.vocab_holder h3 .label {
 		font-weight: normal;
@@ -1545,48 +1571,49 @@ form[id^='user-profile-form'] {
 	  cursor: pointer;
 	  vertical-align: middle;
 	}
-
 }
 
-#links_description table > tbody > tr > td:nth-child(2) {
-  width: 900px;
-}
-#links_description table > tbody > tr > td{
-  vertical-align: middle;
+#links_description {
+	table > tbody > tr > td:nth-child(2) {
+		width: 900px;
+	}
+	table > tbody > tr > td {
+	  vertical-align: middle;
+	}
+	table .field-type-text {
+	  float: left;
+	}
+	table .date_updated_contain {
+	  margin-top: 23px;
+	  display: block;
+	  float: left;
+	  margin-right: 10px;
+	}
+	table .field-multiple-drag {
+	  padding-top: 24px;
+	}
+	table .remove-button {
+	   margin-top: 16px;
+	}
+	table .field-add-more-submit {
+	  margin-top: 16px;
+	  float: left;
+	  display: block;
+	}
+	.form-actions.form-wrapper {
+	  float: left;
+	  margin-right: 10px;
+	}
+	.form-submit {
+		padding: 0.25em 0.75em;
+		text-transform: lowercase;
+	}
+
 }
 form[id^='user-profile-form'] .remove-button {
   float: right;
 }
-#links_description table .field-type-text {
-  float: left;
-}
-#links_description table .date_updated_contain {
-  margin-top: 23px;
-  display: block;
-  float: left;
-  margin-right: 10px;
-}
 
-#links_description table .field-multiple-drag {
-  padding-top: 24px;
-}
-#links_description table .remove-button {
-   margin-top: 16px;
-}
-
-#links_description table .field-add-more-submit {
-  margin-top: 16px;
-  float: left;
-  display: block;
-}
-#links_description .form-actions.form-wrapper {
-  float: left;
-  margin-right: 10px;
-}
-#links_description .form-submit {
-	padding: 0.25em 0.75em;
-	text-transform: lowercase;
-}
 .view-user-profile {
 	.field-label {
 		clip: rect(1px, 1px, 1px, 1px);
@@ -1887,9 +1914,19 @@ div.ctools-modal-content {
 	border-color: #204d74;
 }
 
-
-.section-user-agreement .main-content {
+.section-user-agreement .main-content, .page-ee-disclaimer .main-content {
 	background-color: #fff;
+	padding-left: 2em;
+	padding-right: 2em;
+	header {
+		padding: 0;
+		font-size: 0.85em;
+	}
+	.form-item-agree label.option {
+		font-size: 1em;
+		margin-left: 10px;
+		font-weight: bold;
+	}
 }
 
 
@@ -1983,12 +2020,271 @@ input[type="submit"],
   background-color: #f93;
 }
 
+/*********** Responsive Progress Tracker and To Do List Tables ***********/
 
-/** Mobile Nav *********************************************************/
-.mobile-nav {
-  font-size: 16px;
+/*********** Default Styling ***********/
+.responsive-table tr.even {
+  padding:0;
+  color:inherit;
+}
+sponsive-table thead {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
 }
 
+.responsive-table thead th {
+  background-color: #1d96b2;
+
+  font-weight: normal;
+  text-align: center;
+  color: white;
+}
+
+.responsive-table tbody,
+.responsive-table tr,
+.responsive-table th,
+.responsive-table td {
+  display: block;
+  padding: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+.responsive-table th,
+.responsive-table td {
+  padding: .5em;
+  vertical-align: middle;
+}
+
+
+.responsive-table caption {
+  margin-bottom: 1em;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+}
+.responsive-table tfoot {
+	font-size: .8em;
+	font-style: italic;
+}
+
+.responsive-table tbody tr:last-of-type {
+	margin-bottom: 0;
+}
+
+.responsive-table tbody th[scope="row"] {
+	background-color: #333333;
+	color: white;
+}
+
+.responsive-table tbody td {
+	text-align: left;
+}
+
+.responsive-table tbody td[data-title]:before {
+	width: 11em;
+	content: attr(data-title);
+	float: left;
+	font-size: .8em;
+	color: rgba(94, 93, 82, 0.75);
+}
+
+/*********** iPhone, some Android Portrait @ 320px***********/
+@media screen and (min-width: 20em) {
+	.responsive-table {
+	  font-size: .9em;
+	  width: 100%;
+	}
+
+	.responsive-table th,
+	.responsive-table td {
+	  padding: .75em .5em;
+	  border-bottom: 1px solid $ee-medium-gray;
+	}
+
+	.responsive-table tr,
+	.responsive-table tr.even {
+	  border-bottom: 2px solid #606060;
+	  margin-bottom: 2em;
+	}
+
+	.responsive-table tbody td[data-title="Item"]:before {
+	  font-size: .9em;
+	  content: '';
+	}
+
+	.responsive-table tbody td[data-title="Item"] {
+	  text-align: left;
+	  color: #fff;
+	}
+
+	.views-field-field-prog-track-actions-dnload a:link,
+	.views-field-field-prog-track-actions-dnload a:visited {
+	  color: #23537e;
+	}
+
+	.views-field-field-prog-track-actions-dnload a:hover {
+	  color: #fff;
+	}
+
+	th.responsive-to-do-link a {
+	  color: #fff;
+	  text-decoration: underline;
+	}
+
+	.responsive-table tbody th[scope="row"] {
+	  background-color: #606060;
+	  color: white;
+	}
+
+	.responsive-table {
+	  font-size: .9em;
+	  width: 100%;
+	}
+
+	.responsive-table td.views-field-counter {
+	  display: none;
+	}
+}
+
+@media screen and (min-width:20em) and (max-width:959.99999px) {
+	.responsive-table a.simple-dialog {
+	  color: #fff;
+	}
+}
+/*********** Tablet, iPad Landscape @ 768px ***********/
+@media screen and (min-width: 48em) {
+	.responsive-table {
+	  width: 100%;
+	  margin-bottom: 1.5em;
+	  font-size: 1em;
+	}
+
+	.responsive-table thead {
+	  position: relative;
+	  clip: auto;
+	  height: auto;
+	  width: auto;
+	  overflow: auto;
+	}
+
+	.responsive-table tr {
+	  display: table-row;
+	}
+
+	.responsive-table th,
+	.responsive-table td {
+	  display: table-cell;
+	  padding: .5em;
+	}
+
+	.responsive-table caption {
+	  font-size: 1.5em;
+	}
+
+	.responsive-table tbody {
+	  display: table-row-group;
+	}
+
+	.responsive-table tbody tr {
+	  margin-bottom: 1em;
+
+	}
+
+	.responsive-table tbody tr {
+	  display: table-row;
+	  border-width: 1px;
+	}
+
+	.responsive-table tbody th[scope="row"] {
+	  background-color: transparent;
+	  color: #151515;
+	  text-align: left;
+	}
+
+	.responsive-table tbody td {
+	  text-align: inherit;
+	}
+
+	.responsive-table tbody td[data-type=currency] {
+	  text-align: right;
+	}
+
+	.responsive-table tbody td[data-title]:before {
+	  content: none;
+	}
+
+	.responsive-table tr, .responsive-table tr.even {
+	  border-bottom: none;
+	  margin-bottom: 2em;
+	}
+
+	.responsive-table th,
+	.responsive-table td {
+	  padding: .75em .5em;
+	  border: none;
+	}
+
+	th.responsive-to-do-link a {
+	  color: $ee-link-color;
+	  text-decoration: none;
+	}
+
+	th.responsive-to-do-link a:hover {
+	  color: #ffffff;
+	  background-color: #606060;
+	}
+
+	.responsive-table tbody th[scope="row"] {
+	  background-color: transparent;
+	  color: #151515;
+	}
+
+	.responsive-table td.views-field-counter {
+	  display: none;
+	}
+
+	.responsive-table tbody td[data-title="Item"] {
+	  text-align: left;
+	  background: inherit;
+	  color: inherit;
+	}
+}
+
+/*********** iPad Portrait and up @ 960px ***********/
+@media screen and (min-width: 60em) {
+	.responsive-table {
+	  width: 100%;
+	  margin-bottom: 1.5em;
+	  font-size: 1em;
+	}
+
+	.responsive-table th,
+	.responsive-table td {
+	  padding: .75em;
+	}
+
+	.responsive-table td.views-field-counter {
+	  display: block;
+	}
+
+	.responsive-table th,
+	.responsive-table td {
+	  padding: .75em .5em;
+	}
+
+	.responsive-table tfoot {
+	  font-size: .9em;
+	}
+}
+  
 .mobile-nav a {
   border: 2px solid transparent;
   border-radius: 4px;

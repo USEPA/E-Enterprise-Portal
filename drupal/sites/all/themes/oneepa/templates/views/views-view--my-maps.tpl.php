@@ -57,26 +57,25 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/MyMaps.css", "file");
 
 
   <div class="view-content">
-    <div id="numThumbnails" class="numThumbnails">
-      <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank">  Browse Gallery...</a>
+    <div id="numThumbnails" class="numThumbnails favorites-ignore">
+      <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse Gallery...</a>
     </div>
-    <!--
-    <div id="filterList">
-      <ul id="navlist">
+
+    <div id="myMapsFiltering">
+      <ul id="myMapsFilterList">
         <li class="farLeft">Filter By </li>
-        <li id="active"><a href="#" id="current"><u>All</u></a></li>
-        <li>Air</li>
-        <li>Water</li>
-        <li>Land</li>
-        <li>Toxics</li>
+        <li id="myMapsFilterAll" class="active-mymaps-filter"><a id="mapsAll" class="myMapFilterTerm favorites-ignore" href="javascript:void(0)">All</a></li>
+        <li id="myMapsFilterAir"><a id="mapsAir" class="myMapFilterTerm favorites-ignore" href="javascript:void(0)">Air</a></li>
+        <li id="myMapsFilterWater"><a id="mapsWater" class="myMapFilterTerm favorites-ignore" href="javascript:void(0)">Water</a></li>
+        <li id="myMapsFilterLand"><a id="mapsLand" class="myMapFilterTerm favorites-ignore" href="javascript:void(0)">Land</a></li>
       </ul>
     </div>
-    -->
+
     <div class="jcarousel-wrapper">
         <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
         <div class="jcarousel">
             <!-- Map thumbnails dynamically loaded here -->
-            <div class="loading">Loading items...</div>
+            <div class="loading">Loading maps...</div>
         </div>
         <a href="#" class="jcarousel-control-next">&rsaquo;</a>
     </div>

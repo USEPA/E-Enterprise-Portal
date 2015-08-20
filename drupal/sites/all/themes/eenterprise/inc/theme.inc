@@ -37,8 +37,6 @@ function eenterprise_links($vars) {
     }
 
     $output .= '<ul' . drupal_attributes($attributes) . '>';
-
-    $num_links = count($links);
     $i = 1;
 
     foreach ($links as $key => $link) {
@@ -176,15 +174,7 @@ function eenterprise_item_list($vars) {
       $data = '';
       if (is_array($item)) {
         foreach ($item as $key => $value) {
-          if ($key == 'data') {
-            $data = $value;
-          }
-          elseif ($key == 'children') {
-            $children = $value;
-          }
-          else {
-            $attributes[$key] = $value;
-          }
+          check_item_value($key, $value, $data, $children, $attributes);
         }
       }
       else {
@@ -248,14 +238,7 @@ function eenterprise_table($vars) {
 
       // Check if we're dealing with a simple or complex column
       if (isset($colgroup['data'])) {
-        foreach ($colgroup as $key => $value) {
-          if ($key == 'data') {
-            $cols = $value;
-          }
-          else {
-            $attributes[$key] = $value;
-          }
-        }
+        check_column_complexity($colgroup, $attributes, $cols);
       }
       else {
         $cols = $colgroup;
@@ -315,29 +298,24 @@ function eenterprise_table($vars) {
   // Format the table rows:
   if (count($rows)) {
     $output .= "<tbody>\n";
-    foreach ($rows as $number => $row) {
+    foreach ($rows as $row) {
       $attributes = array();
 
       // Check if we're dealing with a simple or complex row
       if (isset($row['data'])) {
-        foreach ($row as $key => $value) {
-          if ($key == 'data') {
-            $cells = $value;
-          }
-          else {
-            $attributes[$key] = $value;
-          }
-        }
+        check_row_complexity($row, $attributes, $cells);
       }
       else {
         $cells = $row;
       }
+      
       if (count($cells)) {
         // Build row
         $output .= ' <tr' . drupal_attributes($attributes) . '>';
         $i = 0;
         foreach ($cells as $cell) {
-          $cell = tablesort_cell($cell, $header, $ts, $i++);
+          $cell = tablesort_cell($cell, $header, $ts, $i);
+		  $i++;
           $output .= _theme_table_cell($cell);
         }
         $output .= " </tr>\n";
@@ -611,4 +589,47 @@ function eenterprise_form_required_marker($variables) {
     'title' => t('This field is required.'),
   );
   return '<span' . drupal_attributes($attributes) . '>' .t('*') . '</span>';
+}
+
+//TODO: Can we come up with a better name for this function if necessary?
+function check_column_complexity($colgroup, &$attributes, &$cols){
+
+  foreach ($colgroup as $key => $value) {
+    if ($key == 'data') {
+      $cols = $value;
+    }
+    else {
+      $attributes[$key] = $value;
+    }
+  }
+
+}
+
+//TODO: Can we come up with a better name for this function if necessary?
+function check_row_complexity($row, &$attributes, &$cells){
+
+  foreach ($row as $key => $value) {
+    if ($key == 'data') {
+      $cells = $value;
+    }
+    else {
+      $attributes[$key] = $value;
+    }
+  }
+
+}
+
+//TODO: Can we come up with a better name for this function if necessary?
+function check_item_value($key, $value, &$data, &$children, &$attributes){
+
+  if ($key == 'data') {
+    $data = $value;
+  }
+  elseif ($key == 'children') {
+    $children = $value;
+  }
+  else {
+    $attributes[$key] = $value;
+  }
+
 }
