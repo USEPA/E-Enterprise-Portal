@@ -11047,7 +11047,7 @@ tr.odd, tr.even {
 }
 /* line 901, ../sass/styles.scss */
 .block--ee-header-locations .ee-workbench-header-locations {
-  width: 24em;
+  width: auto;
   float: right;
 }
 /* line 908, ../sass/styles.scss */
