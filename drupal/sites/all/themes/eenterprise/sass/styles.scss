@@ -314,7 +314,7 @@ nav ul {
 }
 
 header {
-	padding: 10px 2em;
+	padding: 10px 2em 5px;
 	margin: 0 auto;
 	background-image: none;
 	background-color: $ee-white;
@@ -334,8 +334,11 @@ header {
 		top: 20px;
 	}
 	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
-		width: 7em;
+		width: auto;
 		float: right;
+		margin-bottom: 0;
+		margin-top: 20px;
+		margin-right: 1em;
 		h2.block-title {
 			clip: rect(1px,1px,1px,1px);
 			position:absolute;
@@ -404,7 +407,7 @@ header {
 	}
 	.jumbotron {
 		margin-bottom: 0px;
-	    background-image: url('../images/Depositphotos_47194641_original.jpg');
+	    background-image: url('../images/nurturing-hands.jpg');
 	    background-position: 0% 50%;
 	    background-size: cover;
 	    background-repeat: no-repeat;
@@ -594,7 +597,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	}
 	li {
 		margin-right: 2px;
-		width: 33%;
+		width: 100%;
 		min-width: 7em;		
 		background-color: #666;
 		text-align: center;
@@ -618,11 +621,11 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	div {
 		clear: left;
 		height: 250px;
-		padding: 1em 3em 1em 2em;
+		padding: 0em 3em 1em 2em;
 	}
 	div span {
-		float: left;
-		width: 50%;
+		float: none;
+		width: 100%;
 		padding: 10px 20px;
 	}
 	h3 {
@@ -635,7 +638,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		margin-top: 10px;
 	}
 	img {
-		max-width: 35%; 
+		max-width: 50%; 
 		margin: 0 auto;
 		float: right;
 	}
@@ -994,6 +997,21 @@ tr.odd, tr.even {
 
 /** Workbench *******************************************************************/
 @media screen and (min-width: 45em) {
+	#benefits {
+		li {
+			width: 33%;
+		}
+		div {
+			padding-top: 1em;
+		}
+		div span {
+			float: left;
+			width: 50%;
+		}
+		img {
+			max-width: 35%;
+		}
+	}
 	th.views-field {
 		padding-top: 5px;
 		padding-bottom: 5px;
@@ -1896,9 +1914,19 @@ div.ctools-modal-content {
 	border-color: #204d74;
 }
 
-
-.section-user-agreement .main-content {
+.section-user-agreement .main-content, .page-ee-disclaimer .main-content {
 	background-color: #fff;
+	padding-left: 2em;
+	padding-right: 2em;
+	header {
+		padding: 0;
+		font-size: 0.85em;
+	}
+	.form-item-agree label.option {
+		font-size: 1em;
+		margin-left: 10px;
+		font-weight: bold;
+	}
 }
 
 
