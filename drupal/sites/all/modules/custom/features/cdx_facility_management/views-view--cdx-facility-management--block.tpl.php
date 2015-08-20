@@ -2,7 +2,6 @@
 drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/custom_js.js", "file");
 drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", "file");
 ?>
-<button id="view-facility-iframe">Open CDX Facility Management</button>
 
 
 
@@ -57,4 +56,10 @@ drupal_add_library('system', 'ui.accordion');
 <script src="https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/temp/concat.js"></script>
 
 <div id="facility-widget" style="max-width:1363px;"></div>
+<button id="view-facility-iframe">Open CDX Facility Management</button>
+<label for="fmw-organization-select">Organization</label><select name="fmw-organization-select" id="fmw-organization-select"></select>
+<label for="fmw-program-select">Program</label><select name="fmw-program-select" id="fmw-program-select"></select>
+
+<table id="facility-management-initial-data">
+</table>
 

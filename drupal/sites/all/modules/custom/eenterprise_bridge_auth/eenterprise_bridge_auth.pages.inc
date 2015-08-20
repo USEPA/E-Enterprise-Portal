@@ -202,6 +202,7 @@ function create_progress_tracker($user){
         $resp = simplexml_load_string($resp);
         foreach($resp->children('http://www.exchangenetwork.net/schema/eact/1') as $activity)
         {
+
             $res = array("EActivityId" => (string)$activity->EActivityId,
                 "PartnerSystemId" => (string)$activity->PartnerSystemId,
                 "PartnerExternalId" => (string)$activity->PartnerExternalId,
