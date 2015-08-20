@@ -75,7 +75,7 @@ class AdfsBridge {
                         }
 
                         # Alg. has been determined, check to make sure an error hasn't been thrown, and proceed.
-                        if($decryptionFailed == false) {
+                        if(!$decryptionFailed) {
                             $topNode = $topNode->nextSibling;
                             if(preg_match('/KeyInfo/i', $topNode->nodeName) > 0) {
                                 $encryptionMethods = $topNode->getElementsByTagname("EncryptionMethod");
@@ -91,7 +91,7 @@ class AdfsBridge {
                                     default:
                                         throw new keyWrap_algorithm_exception("Unrecognized keyWrapAlgorithm: ".$keyWrapAlgorithm.".");
                                 }
-                                if ($decryptionFailed == false) {
+                                if (!$decryptionFailed) {
                                     if ($cipherValueNodes = $topNode->getElementsByTagname("CipherValue") ) {
                                         $cipherValueNode = $cipherValueNodes->item(0);
                                         $keyWrapCipher = $cipherValueNode->nodeValue;
@@ -102,14 +102,10 @@ class AdfsBridge {
                                         } else {
                                             if (openssl_private_decrypt($keyWrapCipher, $blockCipherKey, $private_key, $ssl_padding) ) {
                                                 openssl_free_key($private_key);
-                                                switch ($keyWrapAlgorithm) {
-                                                    case "http://www.w3.org/2001/04/xmlenc#rsa-1_5":
+                                                if($keyWrapAlgorithm == "http://www.w3.org/2001/04/xmlenc#rsa-1_5") {
                                                         $blockCipherKey = substr($blockCipherKey, 2);
                                                         $keystart = strpos($blockCipherKey, 0) + 1;
                                                         $blockCipherKey = substr($blockCipherKey, $keystart);
-                                                        break;
-                                                    default:
-                                                        break;
                                                 }
                                                 $topNode = $topNode->nextSibling;
                                                 if (preg_match('/CipherData/i', $topNode->nodeName) > 0) {
@@ -265,8 +261,7 @@ class AdfsBridge {
         /* We use gmmktime because the timestamp will always be given
          * in UTC.
          */
-        $ts = gmmktime($hour, $minute, $second, $month, $day, $year);
-        return $ts;
+        return gmmktime($hour, $minute, $second, $month, $day, $year);
     }
 
 

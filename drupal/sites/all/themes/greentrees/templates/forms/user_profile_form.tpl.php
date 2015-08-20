@@ -31,7 +31,7 @@ if (isset($_SESSION['geolocation_used']) && $_SESSION['geolocation_used'] == 'tr
     $geolocation = true;
     $location_description .=  'Until a location is specified, the location detected upon your initial login will be set as the default.';
 }
-if ($geolocation == false) {
+if (!$geolocation) {
     $location_description  .=  'Until a location is specified, the default location is set to Durham, North Carolina.';
 }
 print $location_description;

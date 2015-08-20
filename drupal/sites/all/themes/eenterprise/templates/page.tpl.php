@@ -17,32 +17,31 @@ if(drupal_is_front_page()) {
 }
 ?>
 <?php print render($page['alert']); ?>
-<header class="masthead clearfix" role="banner">
-	<?php
-		$hgroup_open = '';
-		$hgroup_close = '';
-	    if ($site_name || $site_slogan) {
-			$hgroup_open = '<hgroup class="site-name-and-slogan">';
-			$hgroup_close = '</hgroup>';
-		}
-	?>
-	<?php print $hgroup_open; ?>
-	<?php if ($site_name): ?>
-		<h1 class="site-name" id="site-name">
-			<a href="<?php print $front_page; ?>" title="<?php print t('Home - '.$site_name); ?>" rel="home">
-			<?php if ($logo): ?>
-				<img src="<?php print $logo; ?>" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />
-			<?php else: ?>
-				<img src="./sites/all/themes/oneepa/images/placeholder-logo.png" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />			
-			<?php endif; ?>
-			</a>
-		</h1>
-	<?php endif; ?>
-	<?php if ($site_slogan): ?>
-		<div class="site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
-	<?php endif; ?>
-	<?php print $hgroup_close; ?>
-	<?php print render($page['header']); ?>
+<header class="masthead clearfix" role="banner"><?php
+        $hgroup_open = '';
+        $hgroup_close = '';
+        if ($site_name || $site_slogan) {
+            $hgroup_open = '<hgroup class="site-name-and-slogan">';
+            $hgroup_close = '</hgroup>';
+        }
+    ?>
+    <?php print $hgroup_open; ?>
+<?php if ($site_name): ?>
+        <h1 class="site-name" id="site-name">
+            <a href="<?php print $front_page; ?>" title="<?php print t('Home - '.$site_name); ?>" rel="home">
+            <?php if ($logo): ?>
+                <img src="<?php print $logo; ?>" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />
+            <?php else: ?>
+                <img src="./sites/all/themes/oneepa/images/placeholder-logo.png" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />
+            <?php endif; ?>
+            </a>
+        </h1>
+    <?php endif; ?>
+    <?php if ($site_slogan): ?>
+        <div class="site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
+    <?php endif; ?>
+    <?php print $hgroup_close; ?>
+    <?php print render($page['header']); ?>
 </header>
 <?php print render($page['navigation']); ?>
 <!-- @todo - Add content_language back in next line - section -->
@@ -50,8 +49,8 @@ if(drupal_is_front_page()) {
   <?php print render($page['preface']); ?>
   <?php print render($page['highlighted']); ?>
   <div id="content" class="main-column column clearfix" role="main">
-	<a id="main-content"></a>
-	<?php print render($page['help']); ?>
+    <a id="main-content"></a>
+    <?php print render($page['help']); ?>
     <?php print render($title_prefix); ?>
     <?php if ($title): ?>
     <?php
@@ -64,19 +63,19 @@ if(drupal_is_front_page()) {
       <h1 <?php print $title_attributes; ?>><?php print $title;?></h1>
       <!--googleoff: all-->
     <?php endif; ?>
-	<?php print render($title_suffix); ?>
-	<?php print render($tabs); ?>
-	<?php print $messages; ?>
-	<?php if ($action_links = render($action_links)): ?>
-		<ul class="action-links"><?php print render($action_links); ?></ul>
-	<?php endif; ?>
-	
+    <?php print render($title_suffix); ?>
+    <?php print render($tabs); ?>
+    <?php print $messages; ?>
+    <?php if ($action_links = render($action_links)): ?>
+        <ul class="action-links"><?php print render($action_links); ?></ul>
+    <?php endif; ?>
+
     <!--googleon: all-->
     <?php print render($page['content']); ?>
     <!--googleoff: all-->
     <?php print $feed_icons; ?>
 
-	</div>
+    </div>
     
     <?php
       // Render the sidebars to see if there's anything in them.

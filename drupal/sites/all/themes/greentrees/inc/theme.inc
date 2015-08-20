@@ -201,8 +201,7 @@ function greentrees_breadcrumb($vars) {
         $output .= ' ' . $breadcrumb_separator;
       }
 
-      $output .= '</p>';
-      return $output;
+      return $output . '</p>';
     }
   }
   return '';
@@ -291,16 +290,14 @@ function greentrees_boxes_box($vars) {
   if (!empty($block['editing'])) {
     $output .= '<div class="box-editor">' . drupal_render($block['editing']) . '</div>';
   }
-  $output .= '</div>';
-  return $output;
+  return $output . '</div>';
 }
 
 /**
  * Override HTML for default panel regions.
  */
 function greentrees_panels_default_style_render_region($vars) {
-  $output = implode('', $vars['panes']);
-  return $output;
+  return implode('', $vars['panes']);
 }
 
 /**
@@ -422,8 +419,7 @@ function greentrees_table($vars) {
     $output .= "</tbody>\n";
   }
 
-  $output .= "</table>\n";
-  return $output;
+  return $output . "</table>\n";
 }
 
 
@@ -774,9 +770,7 @@ function greentrees_webform_element($variables) {
       break;
   }
 
-  $output .= "</div>\n";
-
-  return $output;
+  return $output . "</div>\n";
 }
 
 //TODO: Can we come up with a better name for this function if necessary?

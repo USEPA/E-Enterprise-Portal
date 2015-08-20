@@ -677,7 +677,7 @@ function to_do_list($node, $user, $res){
 function eenterprise_bridge_auth_logout() {
 
   drupal_add_js(drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js");
-//  print drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js";
+
   return array (
     'bridge_logout' => array (
       '#type' => 'markup',
