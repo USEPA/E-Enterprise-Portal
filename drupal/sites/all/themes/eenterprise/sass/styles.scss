@@ -1258,9 +1258,7 @@ td.views-field-field-todo-lst-domain,
 td.views-field-field-todo-lst-due {
 	font-weight:normal;
 }
-td.views-field views-field-field-todo-lst-item {
-	font-weight: bold;
-}
+
 td.views-field-field-prog-tracker-app {
 	font-weight: bold;
 	.item-subscript-text {
@@ -1287,6 +1285,10 @@ tr.even {
 .views-field-field-prog-tracker-app .modal-content-in-page,
 .views-field-field-todo-lst-item .modal-content-in-page {
     display:none;
+}
+
+.modal-content-in-page span.modal-label {
+  color: $ee-dark-gray;
 }
 
 .task-filter ul {
@@ -2027,7 +2029,7 @@ input[type="submit"],
   padding:0;
   color:inherit;
 }
-sponsive-table thead {
+.responsive-table thead {
   position: absolute;
   clip: rect(1px 1px 1px 1px);
   /* IE6, IE7 */
@@ -2158,6 +2160,14 @@ sponsive-table thead {
 	.responsive-table a.simple-dialog {
 	  color: #fff;
 	}
+
+    .responsive-table thead {
+      display:none;
+    }
+
+    .responsive-table tbody th[scope="row"] {
+    margin:0;
+    }
 }
 /*********** Tablet, iPad Landscape @ 768px ***********/
 @media screen and (min-width: 48em) {
