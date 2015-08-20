@@ -899,10 +899,8 @@ tr.odd, tr.even {
 		color: #ffffff;
 	}
 	.ee-workbench-header-locations {
-		width:24em;
+		width:auto;
 		float:right;
-		//margin-right:1.25em;
-		//@include future-function;
 	}
 	.ee-workbench-header-setlocation {
 		label {
