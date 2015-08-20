@@ -385,7 +385,7 @@
     var reducedCategoryBounds = categoryBounds;
     var maxCategoryBound = reducedCategoryBounds[reducedCategoryBounds.length - 1];
 
-    var baseHeight = maxCategoryBound + 125;
+    var baseHeight = maxCategoryBound + 25;
     var baseWidth = data.length * 50 + m[1] + m[3];
 
     // reduced width and height based on data
@@ -545,7 +545,7 @@
       .attr("transform", function(cat, i) {
         // vertical centering
         var scale = reducedCategoryBounds[reducedCategoryBounds.length - 1] / h;
-        return i + 1 >= categoryBounds.length ? "" : "translate(25, -" + ((categoryBounds[i + 1] - categoryBounds[i]) / 2 * scale) + ")"
+        return i + 1 >= categoryBounds.length ? "" : "translate(25, -" + ((categoryBounds[i + 1] - categoryBounds[i]) / 2 * scale - 20) + ")"
       }).attr("alignment-baseline", "middle")
       .attr("class", function(cat, i) {
         return 'category-label' + (!todayData || i != getCategoryInfoIndex(todayData.AQI) ? '' : ' active-category-text')
@@ -653,12 +653,12 @@
         }
       }
 
-      // return [
-      //   {'DateForecast': "2015-07-20", 'AQI': 248},
-      //   {'DateForecast': "2015-07-21", 'AQI': 200},
-      //   {'DateForecast': "2015-07-22", 'AQI': 82},
-      //   {'DateForecast': "2015-07-23", 'AQI': 401}
-      // ];
+       //return [
+       //  {'DateForecast': "2015-08-20", 'AQI': 148},
+       //  {'DateForecast': "2015-08-21", 'AQI': 200},
+       //  {'DateForecast': "2015-08-22", 'AQI': 82},
+       //  {'DateForecast': "2015-08-23", 'AQI': 401}
+       //];
 
       return data;
     }
