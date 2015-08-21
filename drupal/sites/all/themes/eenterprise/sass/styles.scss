@@ -2161,11 +2161,6 @@ input[type="submit"],
 	margin-bottom: 0;
 }
 
-.responsive-table tbody th[scope="row"] {
-	background-color: #333333;
-	color: white;
-}
-
 .responsive-table tbody td[data-title]:before {
 	width: 11em;
 	content: attr(data-title);
@@ -2233,7 +2228,8 @@ input[type="submit"],
 }
 
 @media screen and (min-width:20em) and (max-width:959.99999px) {
-	.responsive-table a.simple-dialog {
+	.responsive-table a.simple-dialog,
+    td.responsive-to-do-link a{
 	  color: #fff;
 	}
 
@@ -2241,9 +2237,11 @@ input[type="submit"],
       display:none;
     }
 
-    .responsive-table tbody th[scope="row"] {
+    .responsive-table tbody td[scope="row"] {
       margin:0;
       text-align: left;
+      color:#FFFFFF;
+      background-color:$ee-dark-gray;
     }
 
     .responsive-table tbody td {
