@@ -42,7 +42,7 @@ $dataTitle = array();
         }
         ?>
         <ul>
-            <li id="all-time" class="todo_filter_button <?php if(!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) print 'filter-applied';?>">All Items</li>
+            <li id="all-time" class="todo_filter_button <?php if(!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) { print 'filter-applied'; } ?>">All Items</li>
             <li id="this-week" class="todo_filter_button <?php print $this_week;?>">This Week</li>
             <li id="next-week" class="todo_filter_button <?php print $next_week;?>">Next Week</li>
             <li id="beyond-next-week" class="todo_filter_button <?php print $beyond_next_week;?>">Beyond</li>

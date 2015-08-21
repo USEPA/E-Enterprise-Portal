@@ -121,10 +121,9 @@ print '</div>';
 <div class="col-xs-12">
 <div class="panel panel-default">
     <div class="panel-body">
-
     </div>
 </div>
-</div>col-->
+    </div>col-->
 
 <div class="col-xs-12">
 
