@@ -22,7 +22,6 @@
                 url: '/retrieve_cdx_user_data',
                 success: function (json) {
                     var parsed_json = $.parseJSON(json);
-
                     if (!parsed_json.error) {
                         console.log(parsed_json);
                         var organizations = parsed_json.organizations;
