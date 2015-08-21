@@ -1316,6 +1316,7 @@ tr.even {
 
 .modal-content-in-page span.modal-label {
   color: $ee-dark-gray;
+  font-size:0.9em;
 }
 
 .task-filter ul {
@@ -2522,6 +2523,6 @@ th.views-field-field-prog-tracker-app {
   }
 }
 
-.ui-dialog-titlebar.ui-button-text {
+.ui-dialog-titlebar .ui-button-text {
   padding: 0;
 }

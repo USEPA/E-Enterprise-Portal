@@ -1080,6 +1080,11 @@ tr.even {
     display:none;
 }
 
+.modal-content-in-page span.modal-label {
+  color: $ee-dark-gray;
+  font-size:0.9em;
+}
+
 .task-filter ul {
     list-style-type:none;
     margin:0 0 1em 0;
@@ -1995,7 +2000,7 @@ th.views-field-field-prog-tracker-app {
   }
 }
 
-.ui-dialog-titlebar.ui-button-text {
+.ui-dialog-titlebar .ui-button-text {
   padding: 0;
 }
 
