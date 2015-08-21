@@ -193,7 +193,6 @@ function return_cdx_facility_management_token()
         $json_return = array(
             'token' => $token,
             'server_ip' => $server_ip,
-            'bens_data' => variable_get('bens_data')
         );
 
     print json_encode($json_return);
