@@ -98,10 +98,7 @@ function eenterprise_bridge_auth_authenticate($error) {
     else if($_POST['wa'] == 'wsignin1.0') {
         $adfs = new AdfsBridge();
         try{
-            dpm('getAdfsSignInResponse');
             $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $_POST['wa'], $_POST['wresult'], $_POST['wctx']);
-            dpm($_POST['wresult']);
-            dpm($userDetails);
         }
         catch (Exception $e) {
             $msg = 'Message: '.$e->getMessage();
@@ -147,7 +144,7 @@ function eenterprise_bridge_auth_authenticate($error) {
                 //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
                 $user = $ext_user;
                 $form_state['uid'] = $user->uid;
-                variable_set('cdx_user_id', $user->uid);
+                variable_set('cdx_user_id', $user);
 
                 user_login_submit(array(), $form_state);
                 //To fix a bug where email address is not updated after users update their email address in CDX and login.

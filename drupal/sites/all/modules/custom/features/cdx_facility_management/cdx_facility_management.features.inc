@@ -203,10 +203,11 @@ function retrieve_cdx_user_data()
 {
     global $user;
     $user_data = user_load($user->uid);
-    $user_id =     variable_get('cdx_user_id');
+    $user_id =     variable_get('user_details');
 
     $allowed_program_roles = ['CEDRI', 'CSPP'];
-
+    print json_encode($user_id);
+    exit();
 // Generate token as administrator to get user data
     $admin_id = 'registration.dev@cgifederal.com';
     $password = 'Devregistration1';
