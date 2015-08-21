@@ -2194,20 +2194,20 @@ input[type="submit"],
   text-align: center;
 }
 .responsive-table tfoot {
-	font-size: .8em;
-	font-style: italic;
+  font-size: .8em;
+  font-style: italic;
 }
 
 .responsive-table tbody tr:last-of-type {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .responsive-table tbody td[data-title]:before {
-	width: 11em;
-	content: attr(data-title);
-	float: left;
-	font-size: .8em;
-	color: rgba(94, 93, 82, 0.75);
+  width: 11em;
+  content: attr(data-title);
+  float: left;
+  font-size: .8em;
+  color: rgba(94, 93, 82, 0.75);
 }
 
 th.views-field-field-prog-tracker-app {
@@ -2215,206 +2215,192 @@ th.views-field-field-prog-tracker-app {
 }
 
 
-  /*********** iPhone, some Android Portrait @ 320px***********/
+/*********** iPhone, some Android Portrait @ 320px***********/
 @media screen and (min-width: 20em) {
-	.responsive-table {
-	  font-size: .9em;
-	  width: 100%;
-	}
+  .responsive-table {
+    font-size: .9em;
+    width: 100%;
+  }
 
-	.responsive-table th,
-	.responsive-table td {
-	  padding: .75em .5em;
-	  border-bottom: 1px solid $ee-medium-gray;
-	}
+  .responsive-table th,
+  .responsive-table td {
+    padding: .75em .5em;
+    border-bottom: 1px solid $ee-medium-gray;
+  }
 
-	.responsive-table tr,
-	.responsive-table tr.even {
-	  border-bottom: 2px solid #606060;
-	  margin-bottom: 2em;
-	}
+  .responsive-table tr,
+  .responsive-table tr.even {
+    border-bottom: 2px solid #606060;
+    margin-bottom: 2em;
+  }
 
-	.responsive-table tbody td[data-title="Item"]:before {
-	  font-size: .9em;
-	  content: '';
-	}
+  .responsive-table tbody td[data-title="Item"]:before {
+    font-size: .9em;
+    content: '';
+  }
 
-	.responsive-table tbody td[data-title="Item"] {
-	  text-align: left;
-	  color: #fff;
-	}
+  .responsive-table tbody td[data-title="Item"] {
+    text-align: left;
+    color: #fff;
+  }
 
-	.views-field-field-prog-track-actions-dnload a:link,
-	.views-field-field-prog-track-actions-dnload a:visited {
-	  color: #23537e;
-	}
+  .views-field-field-prog-track-actions-dnload a:link,
+  .views-field-field-prog-track-actions-dnload a:visited {
+    color: #23537e;
+  }
 
-	.views-field-field-prog-track-actions-dnload a:hover,
-	.views-field-field-prog-track-actions-dnload a:focus {
-	  color: #fff;
-	}
+  .views-field-field-prog-track-actions-dnload a:hover {
+    color: #fff;
+  }
 
-	th.responsive-to-do-link a {
-	  color: #fff;
-	  text-decoration: underline;
-	}
-
-	.responsive-table tbody th[scope="row"] {
-	  background-color: #606060;
-	  color: white;
-	}
-
-	.responsive-table {
-	  font-size: .9em;
-	  width: 100%;
-	}
-
-	.responsive-table td.views-field-counter {
-	  display: none;
-	}
+  .responsive-table td.views-field-counter {
+    display: none;
+  }
 }
 
 @media screen and (min-width:20em) and (max-width:959.99999px) {
-	.responsive-table a.simple-dialog,
-    td.responsive-to-do-link a{
-	  color: #fff;
-	}
+  .responsive-table a.simple-dialog,
+  td.responsive-to-do-link a{
+    color: #fff;
+    text-decoration: underline;
+  }
 
-    .responsive-table thead {
-      display:none;
-    }
+  .responsive-table thead {
+    display:none;
+  }
 
-    .responsive-table tbody td[scope="row"] {
-      margin:0;
-      text-align: left;
-      color:#FFFFFF;
-      background-color:$ee-dark-gray;
-    }
+  .responsive-table tbody td[scope="row"] {
+    margin:0;
+    text-align: left;
+    color:#FFFFFF;
+    background-color:$ee-dark-gray;
+  }
 
-    .responsive-table tbody td {
-      text-align: left;
-    }
+  .responsive-table tbody td {
+    text-align: left;
+  }
 }
 /*********** Tablet, iPad Landscape @ 768px ***********/
 @media screen and (min-width: 48em) {
-	.responsive-table {
-	  width: 100%;
-	  margin-bottom: 1.5em;
-	  font-size: 1em;
-	}
+  .responsive-table {
+    width: 100%;
+    margin-bottom: 1.5em;
+    font-size: 1em;
+  }
 
-	.responsive-table thead {
-	  position: relative;
-	  clip: auto;
-	  height: auto;
-	  width: auto;
-	  overflow: auto;
-	}
+  .responsive-table thead {
+    position: relative;
+    clip: auto;
+    height: auto;
+    width: auto;
+    overflow: auto;
+  }
 
-	.responsive-table tr {
-	  display: table-row;
-	}
+  .responsive-table tr {
+    display: table-row;
+  }
 
-	.responsive-table th,
-	.responsive-table td {
-	  display: table-cell;
-	  padding: .5em;
-	}
+  .responsive-table th,
+  .responsive-table td {
+    display: table-cell;
+    padding: .5em;
+  }
 
-	.responsive-table caption {
-	  font-size: 1.5em;
-	}
+  .responsive-table caption {
+    font-size: 1.5em;
+  }
 
-	.responsive-table tbody {
-	  display: table-row-group;
-	}
+  .responsive-table tbody {
+    display: table-row-group;
+  }
 
-	.responsive-table tbody tr {
-	  margin-bottom: 1em;
+  .responsive-table tbody tr {
+    margin-bottom: 1em;
 
-	}
+  }
 
-	.responsive-table tbody tr {
-	  display: table-row;
-	  border-width: 1px;
-	}
+  .responsive-table tbody tr {
+    display: table-row;
+    border-width: 1px;
+  }
 
-	.responsive-table tbody th[scope="row"] {
-	  background-color: transparent;
-	  color: #151515;
-	  text-align: left;
-	}
+  .responsive-table tbody th[scope="row"] {
+    background-color: transparent;
+    color: #151515;
+    text-align: left;
+  }
 
-	.responsive-table tbody td[data-type=currency] {
-	  text-align: right;
-	}
+  .responsive-table tbody td[data-type=currency] {
+    text-align: right;
+  }
 
-	.responsive-table tbody td[data-title]:before {
-	  content: none;
-	}
+  .responsive-table tbody td[data-title]:before {
+    content: none;
+  }
 
-	.responsive-table tr, .responsive-table tr.even {
-	  border-bottom: none;
-	  margin-bottom: 2em;
-	}
+  .responsive-table tr, .responsive-table tr.even {
+    border-bottom: none;
+    margin-bottom: 2em;
+  }
 
-	.responsive-table th,
-	.responsive-table td {
-	  padding: .75em .5em;
-	  border: none;
-	}
+  .responsive-table th,
+  .responsive-table td {
+    padding: .75em .5em;
+    border: none;
+  }
 
-	th.responsive-to-do-link a {
-	  color: $ee-link-color;
-	  text-decoration: none;
-	}
+  td.responsive-to-do-link a,
+  td.views-field-field-prog-track-actions-dnload a {
+    color: $ee-link-color;
+    text-decoration: none;
+  }
 
-	th.responsive-to-do-link a:hover, th.responsive-to-do-link a:focus {
-	  color: #ffffff;
-	  background-color: #606060;
-	}
+  td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
+    color: #ffffff;
+    background-color: #606060;
+  }
 
-	.responsive-table tbody th[scope="row"] {
-	  background-color: transparent;
-	  color: #151515;
-	}
+  .responsive-table tbody th[scope="row"] {
+    background-color: transparent;
+    color: #151515;
+  }
 
-	.responsive-table td.views-field-counter {
-	  display: none;
-	}
+  .responsive-table td.views-field-counter {
+    display: none;
+  }
 
-	.responsive-table tbody td[data-title="Item"] {
-	  text-align: left;
-	  background: inherit;
-	  color: inherit;
-	}
+  .responsive-table tbody td[data-title="Item"] {
+    text-align: left;
+    background: inherit;
+    color: inherit;
+  }
 }
 
 /*********** iPad Portrait and up @ 960px ***********/
 @media screen and (min-width: 60em) {
-	.responsive-table {
-	  width: 100%;
-	  margin-bottom: 1.5em;
-	  font-size: 1em;
-	}
+  .responsive-table {
+    width: 100%;
+    margin-bottom: 1.5em;
+    font-size: 1em;
+  }
 
-	.responsive-table th,
-	.responsive-table td {
-	  padding: .75em;
-	}
+  .responsive-table th,
+  .responsive-table td {
+    padding: .75em;
+  }
 
-	.responsive-table td.views-field-counter {
-	  display: block;
-	}
+  .responsive-table td.views-field-counter {
+    display: block;
+  }
 
-	.responsive-table th,
-	.responsive-table td {
-	  padding: .75em .5em;
-	}
+  .responsive-table th,
+  .responsive-table td {
+    padding: .75em .5em;
+  }
 
-	.responsive-table tfoot {
-	  font-size: .9em;
-	}
+  .responsive-table tfoot {
+    font-size: .9em;
+  }
 }
   
 .mobile-nav a {
@@ -2534,4 +2520,8 @@ th.views-field-field-prog-tracker-app {
   .secondary-nav {
     display: block;
   }
+}
+
+.ui-dialog-titlebar.ui-button-text {
+  padding: 0;
 }

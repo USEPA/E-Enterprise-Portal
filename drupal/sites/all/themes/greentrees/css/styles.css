@@ -16817,7 +16817,7 @@ div.ctools-modal-content #edit-submit-button {
   color: inherit;
 }
 
-/* line 1738, ../sass/styles.scss */
+/* line 1737, ../sass/styles.scss */
 .responsive-table thead {
   position: absolute;
   clip: rect(1px 1px 1px 1px);
@@ -16830,7 +16830,7 @@ div.ctools-modal-content #edit-submit-button {
   overflow: hidden;
 }
 
-/* line 1750, ../sass/styles.scss */
+/* line 1749, ../sass/styles.scss */
 .responsive-table thead th {
   background-color: #1d96b2;
   font-weight: normal;
@@ -16838,25 +16838,24 @@ div.ctools-modal-content #edit-submit-button {
   color: white;
 }
 
-/* line 1758, ../sass/styles.scss */
+/* line 1757, ../sass/styles.scss */
 .responsive-table tbody,
 .responsive-table tr,
 .responsive-table th,
 .responsive-table td {
   display: block;
   padding: 0;
-  text-align: left;
   white-space: normal;
 }
 
-/* line 1768, ../sass/styles.scss */
+/* line 1766, ../sass/styles.scss */
 .responsive-table th,
 .responsive-table td {
   padding: .5em;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
-/* line 1775, ../sass/styles.scss */
+/* line 1773, ../sass/styles.scss */
 .responsive-table caption {
   margin-bottom: 1em;
   font-size: 1em;
@@ -16864,29 +16863,18 @@ div.ctools-modal-content #edit-submit-button {
   text-align: center;
 }
 
-/* line 1781, ../sass/styles.scss */
+/* line 1779, ../sass/styles.scss */
 .responsive-table tfoot {
   font-size: .8em;
   font-style: italic;
 }
 
-/* line 1786, ../sass/styles.scss */
+/* line 1784, ../sass/styles.scss */
 .responsive-table tbody tr:last-of-type {
   margin-bottom: 0;
 }
 
-/* line 1790, ../sass/styles.scss */
-.responsive-table tbody th[scope="row"] {
-  background-color: #333333;
-  color: white;
-}
-
-/* line 1795, ../sass/styles.scss */
-.responsive-table tbody td {
-  text-align: left;
-}
-
-/* line 1799, ../sass/styles.scss */
+/* line 1788, ../sass/styles.scss */
 .responsive-table tbody td[data-title]:before {
   width: 11em;
   content: attr(data-title);
@@ -16895,90 +16883,109 @@ div.ctools-modal-content #edit-submit-button {
   color: rgba(94, 93, 82, 0.75);
 }
 
+/* line 1796, ../sass/styles.scss */
+th.views-field-field-prog-tracker-app {
+  width: 150px;
+}
+
 /*********** iPhone, some Android Portrait @ 320px***********/
 @media screen and (min-width: 20em) {
-  /* line 1809, ../sass/styles.scss */
+  /* line 1803, ../sass/styles.scss */
   .responsive-table {
     font-size: .9em;
     width: 100%;
   }
 
-  /* line 1814, ../sass/styles.scss */
+  /* line 1808, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em .5em;
     border-bottom: 1px solid #efefef;
   }
 
-  /* line 1820, ../sass/styles.scss */
+  /* line 1814, ../sass/styles.scss */
   .responsive-table tr,
   .responsive-table tr.even {
     border-bottom: 2px solid #606060;
     margin-bottom: 2em;
   }
 
-  /* line 1826, ../sass/styles.scss */
+  /* line 1820, ../sass/styles.scss */
   .responsive-table tbody td[data-title="Item"]:before {
     font-size: .9em;
     content: '';
   }
 
-  /* line 1831, ../sass/styles.scss */
+  /* line 1825, ../sass/styles.scss */
   .responsive-table tbody td[data-title="Item"] {
     text-align: left;
     color: #fff;
   }
 
-  /* line 1836, ../sass/styles.scss */
+  /* line 1830, ../sass/styles.scss */
   .views-field-field-prog-track-actions-dnload a:link,
   .views-field-field-prog-track-actions-dnload a:visited {
     color: #23537e;
   }
 
-  /* line 1841, ../sass/styles.scss */
+  /* line 1835, ../sass/styles.scss */
   .views-field-field-prog-track-actions-dnload a:hover {
     color: #fff;
   }
 
-  /* line 1845, ../sass/styles.scss */
+  /* line 1839, ../sass/styles.scss */
   th.responsive-to-do-link a {
     color: #fff;
     text-decoration: underline;
   }
 
-  /* line 1850, ../sass/styles.scss */
-  .responsive-table tbody th[scope="row"] {
-    background-color: #606060;
-    color: white;
-  }
-
-  /* line 1855, ../sass/styles.scss */
+  /* line 1844, ../sass/styles.scss */
   .responsive-table {
     font-size: .9em;
     width: 100%;
   }
 
-  /* line 1860, ../sass/styles.scss */
+  /* line 1849, ../sass/styles.scss */
   .responsive-table td.views-field-counter {
     display: none;
   }
 }
 @media screen and (min-width: 20em) and (max-width: 959.99999px) {
-  /* line 1866, ../sass/styles.scss */
-  .responsive-table a.simple-dialog {
+  /* line 1855, ../sass/styles.scss */
+  .responsive-table a.simple-dialog,
+  td.responsive-to-do-link a {
     color: #fff;
+    text-decoration: underline;
+  }
+
+  /* line 1861, ../sass/styles.scss */
+  .responsive-table thead {
+    display: none;
+  }
+
+  /* line 1865, ../sass/styles.scss */
+  .responsive-table tbody td[scope="row"] {
+    margin: 0;
+    text-align: left;
+    color: #FFFFFF;
+    background-color: #606060;
+  }
+
+  /* line 1872, ../sass/styles.scss */
+  .responsive-table tbody td {
+    text-align: left;
   }
 }
 /*********** Tablet, iPad Landscape @ 768px ***********/
 @media screen and (min-width: 48em) {
-  /* line 1872, ../sass/styles.scss */
+  /* line 1878, ../sass/styles.scss */
   .responsive-table {
     width: 100%;
     margin-bottom: 1.5em;
     font-size: 1em;
   }
 
-  /* line 1878, ../sass/styles.scss */
+  /* line 1884, ../sass/styles.scss */
   .responsive-table thead {
     position: relative;
     clip: auto;
@@ -16987,98 +16994,93 @@ div.ctools-modal-content #edit-submit-button {
     overflow: auto;
   }
 
-  /* line 1886, ../sass/styles.scss */
+  /* line 1892, ../sass/styles.scss */
   .responsive-table tr {
     display: table-row;
   }
 
-  /* line 1890, ../sass/styles.scss */
+  /* line 1896, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     display: table-cell;
     padding: .5em;
   }
 
-  /* line 1896, ../sass/styles.scss */
+  /* line 1902, ../sass/styles.scss */
   .responsive-table caption {
     font-size: 1.5em;
   }
 
-  /* line 1900, ../sass/styles.scss */
+  /* line 1906, ../sass/styles.scss */
   .responsive-table tbody {
     display: table-row-group;
   }
 
-  /* line 1904, ../sass/styles.scss */
+  /* line 1910, ../sass/styles.scss */
   .responsive-table tbody tr {
     margin-bottom: 1em;
   }
 
-  /* line 1909, ../sass/styles.scss */
+  /* line 1915, ../sass/styles.scss */
   .responsive-table tbody tr {
     display: table-row;
     border-width: 1px;
   }
 
-  /* line 1914, ../sass/styles.scss */
+  /* line 1920, ../sass/styles.scss */
   .responsive-table tbody th[scope="row"] {
     background-color: transparent;
     color: #151515;
     text-align: left;
   }
 
-  /* line 1920, ../sass/styles.scss */
-  .responsive-table tbody td {
-    text-align: inherit;
-  }
-
-  /* line 1924, ../sass/styles.scss */
+  /* line 1926, ../sass/styles.scss */
   .responsive-table tbody td[data-type=currency] {
     text-align: right;
   }
 
-  /* line 1928, ../sass/styles.scss */
+  /* line 1930, ../sass/styles.scss */
   .responsive-table tbody td[data-title]:before {
     content: none;
   }
 
-  /* line 1932, ../sass/styles.scss */
+  /* line 1934, ../sass/styles.scss */
   .responsive-table tr, .responsive-table tr.even {
     border-bottom: none;
     margin-bottom: 2em;
   }
 
-  /* line 1937, ../sass/styles.scss */
+  /* line 1939, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em .5em;
     border: none;
   }
 
-  /* line 1943, ../sass/styles.scss */
+  /* line 1945, ../sass/styles.scss */
   th.responsive-to-do-link a {
     color: #23537e;
     text-decoration: none;
   }
 
-  /* line 1948, ../sass/styles.scss */
-  th.responsive-to-do-link a:hover {
+  /* line 1950, ../sass/styles.scss */
+  th.responsive-to-do-link a:hover, th.responsive-to-do-link a:focus {
     color: #ffffff;
     background-color: #606060;
   }
 
-  /* line 1953, ../sass/styles.scss */
+  /* line 1955, ../sass/styles.scss */
   .responsive-table tbody th[scope="row"] {
     background-color: transparent;
     color: #151515;
   }
 
-  /* line 1958, ../sass/styles.scss */
+  /* line 1960, ../sass/styles.scss */
   .responsive-table td.views-field-counter {
     display: none;
   }
 
-  /* line 1962, ../sass/styles.scss */
+  /* line 1964, ../sass/styles.scss */
   .responsive-table tbody td[data-title="Item"] {
     text-align: left;
     background: inherit;
@@ -17087,32 +17089,36 @@ div.ctools-modal-content #edit-submit-button {
 }
 /*********** iPad Portrait and up @ 960px ***********/
 @media screen and (min-width: 60em) {
-  /* line 1971, ../sass/styles.scss */
+  /* line 1973, ../sass/styles.scss */
   .responsive-table {
     width: 100%;
     margin-bottom: 1.5em;
     font-size: 1em;
   }
 
-  /* line 1977, ../sass/styles.scss */
+  /* line 1979, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em;
   }
 
-  /* line 1982, ../sass/styles.scss */
+  /* line 1984, ../sass/styles.scss */
   .responsive-table td.views-field-counter {
     display: block;
   }
 
-  /* line 1986, ../sass/styles.scss */
+  /* line 1988, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em .5em;
   }
 
-  /* line 1991, ../sass/styles.scss */
+  /* line 1993, ../sass/styles.scss */
   .responsive-table tfoot {
     font-size: .9em;
   }
+}
+/* line 1998, ../sass/styles.scss */
+.ui-dialog-titlebar.ui-button-text {
+  padding: 0;
 }
