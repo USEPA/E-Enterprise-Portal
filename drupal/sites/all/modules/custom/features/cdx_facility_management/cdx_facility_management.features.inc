@@ -211,7 +211,6 @@ function retrieve_cdx_user_data()
     $admin_id = 'registration.dev@cgifederal.com';
     $password = 'Devregistration1';
     $json_return = array();
-    $initial_connection = array();
     try {
         //$client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
         $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
