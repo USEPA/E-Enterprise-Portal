@@ -17,7 +17,8 @@ if(drupal_is_front_page()) {
 }
 ?>
 <?php print render($page['alert']); ?>
-<header class="masthead clearfix" role="banner"><?php
+<header class="masthead clearfix" role="banner">
+    <?php
         $hgroup_open = '';
         $hgroup_close = '';
         if ($site_name || $site_slogan) {
@@ -26,13 +27,13 @@ if(drupal_is_front_page()) {
         }
     ?>
     <?php print $hgroup_open; ?>
-<?php if ($site_name): ?>
+    <?php if ($site_name): ?>
         <h1 class="site-name" id="site-name">
             <a href="<?php print $front_page; ?>" title="<?php print t('Home - '.$site_name); ?>" rel="home">
             <?php if ($logo): ?>
                 <img src="<?php print $logo; ?>" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />
             <?php else: ?>
-                <img src="./sites/all/themes/oneepa/images/placeholder-logo.png" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />
+                <img src="/sites/all/themes/eenterprise/images/placeholder-logo.png" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />
             <?php endif; ?>
             </a>
         </h1>

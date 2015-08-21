@@ -111,7 +111,9 @@
 
             var siteID = $("#currentSiteID").val();
 
-            $("a.village-green-external-link").attr("href", "http://villagegreen.airnowtech.org/welcome?siteID="+siteID);
+            $("a.village-green-external-link")
+                .attr("href", "http://villagegreen.airnowtech.org/welcome?siteID="+siteID)
+                .text("View more data for " + $("#currentSiteID option:selected").text());
 
             // On load, populate the data sections
             VillageGreenDAL.getDataForCurrentMinuteWelcomePage(siteID, function(response) {

@@ -208,6 +208,7 @@ function create_progress_tracker($user){
         $resp = simplexml_load_string($resp);
         foreach($resp->children('http://www.exchangenetwork.net/schema/eact/1') as $activity)
         {
+            
             $res = array("EActivityId" => (string)$activity->EActivityId,
                 PARTNER_SYSTEM_ID => (string)$activity->PartnerSystemId,
                 "PartnerExternalId" => (string)$activity->PartnerExternalId,
@@ -334,12 +335,12 @@ function _update_progress_tracker_to_do_item($query_res, $res){
     //If description field is updated OR if status field is updated...
     if($res_title != $res['ActivityDesc'] || (!empty($res_status) && ($res_status != $cdx_status))) {
       node_delete($query_res[ENTITY_ID]);
-      return TRUE;
+      return true;
     }
     return false;
 }
 
-function create_progress_tracker_node($res, $user){
+function create_progress_tracker_node($res, $user) {
     $query_res = db_query("select entity_id, revision_id from {field_data_field_eactivity_id} where bundle in (:node_type) and field_eactivity_id_value = :eactivityid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':eactivityid' =>  $res['EActivityId']))->fetchAssoc();
     //_update_progress_tracker_to_do_item will check if to-do or progress tracker item is updated and updates them accordingly.
     $node_deleted = _update_progress_tracker_to_do_item($query_res, $res);
@@ -359,7 +360,7 @@ function create_progress_tracker_node($res, $user){
     }
 }
 
-function assign_roles_to_user($user_name){
+function assign_roles_to_user($user_name) {
     try {
         $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
