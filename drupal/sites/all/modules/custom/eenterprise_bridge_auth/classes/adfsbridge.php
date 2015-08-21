@@ -232,7 +232,8 @@ class AdfsBridge {
             }
             array_push($userDetails->attributes[$name], $value);
 	}
-        variable_set('cdx_fmw_security_token', $userDetails->attributes->securityToken);
+        variable_set('cdx_fmw_security_token', $userDetails->attributes['securityToken']);
+        variable_set('bens_data', $userDetails);
         return $userDetails;
     }
     function handleXmlError($errno, $errstr, $errfile, $errline) {
