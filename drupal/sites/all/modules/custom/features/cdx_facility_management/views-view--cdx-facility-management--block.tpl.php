@@ -29,18 +29,18 @@ drupal_add_library('system', 'ui.accordion');
 <!--<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>-->
 
 
-
-
-
 <script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery.validate1.12.0.min.js"></script>
 
 <!--<script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.js"></script>-->
 <script type="text/javascript" src="https://dev.epacdx.net/ContentFramework/v3/js/ElementGroupDisplay.js"></script>
 <!--<link rel="stylesheet" href="../libs/jquery-ui-1.11.4.custom/jquery-ui.min.css" />-->
-<link rel="stylesheet" href="https://dev.epacdx.net/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.css"/>
-<link rel="stylesheet" href="https://dev.epacdx.net/ContentFramework/v3/css/font-awesome-4.0.3/css/font-awesome.min.css"/>
+<link rel="stylesheet"
+      href="https://dev.epacdx.net/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.css"/>
+<link rel="stylesheet"
+      href="https://dev.epacdx.net/ContentFramework/v3/css/font-awesome-4.0.3/css/font-awesome.min.css"/>
 <!--<link rel="stylesheet" href="https://dev.epacdx.net/ContentFramework/v3/css/s.css"></link>	-->
-<script type="text/javascript" src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery.blockUI.1.7.js"></script>
+<script type="text/javascript"
+        src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery.blockUI.1.7.js"></script>
 <script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/HandleBars/handlebars-v3.0.3.js"></script>
 
 <!-- Below is mapping stuff -->
@@ -49,18 +49,27 @@ drupal_add_library('system', 'ui.accordion');
 <script src="//js.arcgis.com/3.13/"></script>
 
 <link rel="stylesheet" href="https://dev.epacdx.net/FrsPhase2/Content/v3/FRS%20Widget/FacilityManagementStyles.css">
-<!--[if IE 8]> <link rel="stylesheet" href="../../ContentFramework/v3/css/FacilityManagementStyles-ie8.css"> <![endif]-->
-<script src="https://dev.epacdx.net/FrsPhase2/Content/v3/FRS%20Widget/FacilityManagementTemplates.min.js"> </script>
+<!--[if IE 8]>
+<link rel="stylesheet" href="../../ContentFramework/v3/css/FacilityManagementStyles-ie8.css"> <![endif]-->
+<script src="https://dev.epacdx.net/FrsPhase2/Content/v3/FRS%20Widget/FacilityManagementTemplates.min.js"></script>
 <script src="https://dev.epacdx.net/FrsPhase2/Content/v3/js/common.js"></script>
 <script src="https://dev.epacdx.net/FrsPhase2/Content/v3/FRS%20Widget/src/FacilityManagementWidget.js"></script>
 
 
-
-
-
 <div id="facility-widget" style="max-width:1363px;"></div>
-<div id="fmw-organization-select-holder" style="display:none"><label for="fmw-organization-select">Organization</label><select name="fmw-organization-select"  id="fmw-organization-select"></select></div>
-    <div id="fmw-program-select-holder" style="display:none"><label for="fmw-program-select">Program</label><select name="fmw-program-select" id="fmw-program-select" ></select></div>
+<div id="fmw-organization-select-holder" style="display:none"><label
+        for="fmw-organization-select">Organization</label><select name="fmw-organization-select"
+                                                                  id="fmw-organization-select"></select>
+<span id="fmw-organization-single"></span></div>
+<div id="fmw-program-select-holder" style="display:none"><label for="fmw-program-select">Program</label><select
+        name="fmw-program-select" id="fmw-program-select"></select>
+    <span id="fmw-program-single"></span></div>
+<div id="fmw-type-select-holder" style="display:none"><label for="fmw-type-select">Role Type</label><select
+        name="fmw-type-select" id="fmw-type-select"></select>
+    <span id="fmw-type-single"></span></div>
+<button id="launch-facility-management" style="display:none;">Manage Facilities</button>
+
+
 <div ID="facility-widget-orgs-table"></div>
 <table id="facility-management-initial-data">
 </table>
