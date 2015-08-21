@@ -201,13 +201,10 @@ function return_cdx_facility_management_token()
 
 function retrieve_cdx_user_data()
 {
-    global $user;
-    $user_data = user_load($user->uid);
-    $user_id =     variable_get('user_details');
+    $user_id =     variable_get('userId');
+    $user_details =     variable_get('user_details');
 
     $allowed_program_roles = ['CEDRI', 'CSPP'];
-    print json_encode($user_id);
-    exit();
 // Generate token as administrator to get user data
     $admin_id = 'registration.dev@cgifederal.com';
     $password = 'Devregistration1';
@@ -336,7 +333,7 @@ function retrieve_cdx_user_data()
         print json_encode($json_return);
     } catch (SoapFault $f) {
         dpm($f);
-        print json_encode((array('error' => 'true', 'fault' => $f, 'user'=> $user_id)));
+        print json_encode((array('error' => 'true', 'fault' => $f, 'user'=> $user_id, 'user_details' => $user_details)));
         watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }
