@@ -157,7 +157,7 @@ function return_cdx_facility_management_token()
 //    }
     global $user;
     $user_data = user_load($user->uid);
-    $user_id = 'MATKIN.BENJAMIN'; //$user_data->mail;
+    $user_id = 'GREENOLIVE'; //$user_data->mail;
     $password = 'EEP15fun';
     try {
         // $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
@@ -187,6 +187,8 @@ function return_cdx_facility_management_token()
         var_dump($f);
         watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
     }
+    $wresult = variable_get('bens_wresult');
+    $json_return['wresult'] = $wresult;
     print json_encode($json_return);
 //    retrieve_cdx_user_data($user_id, $client);
 }
