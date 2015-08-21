@@ -89,7 +89,7 @@ html {
 }
 body {
 	color: $base-text-color;
-	background-color: $ee-light-gray;
+	background-color: #fff;
 }
 h1, h2, h3, h4, h5, h6, th, legend, caption {
 	color: #333;
@@ -132,6 +132,10 @@ header #block-eenterprise-bridge-auth-eenterprise-bridge-auth h2.block-title {
 #block-system-main {
 	margin-bottom: 0;
 }	
+.main-content {
+	padding-left: 2em;
+	padding-right: 2em;
+}
 footer {
 	font-size: 0.85em;
 	clear: both;
@@ -683,11 +687,16 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 .page-workbench {
 	padding-left: 1em;
 	padding-right: 1em;
+	background-color: $ee-light-gray;
 	header {
 		background-color: #fff;
 	}
-	&.wide-template .main-content {
+	.main-content {
 		background-color: $ee-light-gray;
+		margin-left: 0;
+		margin-right: 0;
+		padding-left: 0;
+		padding-right: 0;
 	}
 	.panel-pane {
 		background-color: $epa-white;
@@ -712,10 +721,8 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 
 }
 .page-user {
-	&.wide-template .main-content {
+	.main-content {
 		background-color: $ee-light-gray;
-		padding-left: 1em;
-		padding-right: 1em;
 	}
 	.main-content h1 {
 		padding-left: 0.5em;
@@ -1818,7 +1825,7 @@ a.tabledrag-handle .handle {
 	border: none;
 }
 .ui-tabs a:focus {
-	background-color: #fafafa;
+	background-color: #606060;
 }
 .ui-tabs {
 	.ui-tabs-nav {
