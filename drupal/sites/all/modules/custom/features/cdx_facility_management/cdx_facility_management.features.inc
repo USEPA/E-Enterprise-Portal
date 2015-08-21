@@ -156,8 +156,8 @@ function return_cdx_facility_management_token()
 //        exit();
 ////    }
 //    global $user;
-////    $user_data = user_load($user->uid);
-////    $user_id = $user_data->mail;
+//////    $user_data = user_load($user->uid);
+//////    $user_id = $user_data->mail;
 //    $user_id = 'Franklipman';
 //    $password = 'Cville77';
 //    try {
@@ -277,7 +277,6 @@ function retrieve_cdx_user_data()
                         foreach ($user_roles->Role as $index=>$role) {
                             if (in_array($role->dataflow, $allowed_program_roles)) {
                                 $org_contains_role = true;
-
                                 $json_return['organizations_to_roles'][$org_id][] = $role;
                             }
                         }
