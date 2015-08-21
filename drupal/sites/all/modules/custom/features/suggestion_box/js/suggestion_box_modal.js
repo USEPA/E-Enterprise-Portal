@@ -3,6 +3,13 @@
 
   Drupal.behaviors.suggestionBox = {
     attach: function(context, settings) {
+
+      // focus modal
+      var form = $('div.ctools-modal-content button,div.ctools-modal-content select,div.ctools-modal-content input:enabled')[0];
+      if (form) {
+        form.focus();
+      }
+
       var email;
       var $emailInput = $('#suggestion-box-email');
 

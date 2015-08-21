@@ -24,7 +24,7 @@
 ?>
 <?php print $output;
 if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)){
-    print "<br><span class='item-subscript-text>'".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']."</span>";
+    print "<br><span class='item-subscript-text'>".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']."</span>";
 }
 
 if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)) {

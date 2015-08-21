@@ -296,8 +296,8 @@ function configure_ctools_popup() {
                'modalSize' => array(
                    'type' => 'fixed', // Popup type.
                    'width' => 475, // Width
-                   'height' => 'auto', // Height
-                   'addHeight' => 700, // Maximum height
+                   'height' => 475, // Height
+//                   'addHeight' => 700, // Maximum height
                ),
                'modalOptions' => array(
                    'opacity' => (float) 0.7, // Backgroung opacity

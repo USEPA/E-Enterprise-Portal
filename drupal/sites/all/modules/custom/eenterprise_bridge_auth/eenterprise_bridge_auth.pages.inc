@@ -127,6 +127,7 @@ function eenterprise_bridge_auth_authenticate($error) {
             else {
                 $uname = $username;
                 variable_set('cdx_user_type','cdx');
+
             }
             if(variable_get('trusted_users_list_used') == 'Yes') {
               trusted_user_check($uname);
@@ -140,6 +141,7 @@ function eenterprise_bridge_auth_authenticate($error) {
                 //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
                 $user = $ext_user;
                 $form_state['uid'] = $user->uid;
+
                 user_login_submit(array(), $form_state);
                 //To fix a bug where email address is not updated after users update their email address in CDX and login.
                 user_save($user, array('mail' => $userDetails->attributes['email'][0]));

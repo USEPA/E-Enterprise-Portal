@@ -44,9 +44,7 @@
             return "";
         },
         
-        renderCurrentDataTable : function(data) {           
-
-            console.log(data);
+        renderCurrentDataTable : function(data) {
 
             $(".curPMReading").html(data.curPmValue);
         

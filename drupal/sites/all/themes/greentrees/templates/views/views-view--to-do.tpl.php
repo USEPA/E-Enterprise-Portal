@@ -26,17 +26,12 @@
  *
  * @ingroup views_templates
  */
-drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/favorite-sites.css", "file");
 ?>
-
-<div id="favorite_links-ajax-wrapper">
-<a id="favorites-edit-profile" class="favorites-ignore" href="/user">Edit Profile</a>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
-    <?php print  $title; ?>
+    <?php print $title; ?>
   <?php endif; ?>
-  
   <?php print render($title_suffix); ?>
   <?php if ($header): ?>
     <div class="view-header">
@@ -44,7 +39,31 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/favorite-sites.css", "f
     </div>
   <?php endif; ?>
 
-  <?php if ($exposed): ?>
+    <div class="todo-filter-by-week">
+        <?php
+        $this_week = '';
+        $beyond_next_week = '';
+        if(isset($view->args['week_filter_val'])){
+            if(substr($view->args['week_filter_val'], 0,10) == date("Y-m-d")){
+                $this_week = 'filter-applied';
+            }
+            else if((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)){
+                $beyond_next_week = 'filter-applied';
+            }
+            else if(date('D', strtotime($view->args['week_filter_val'])) == 'Sun'){
+                $next_week = 'filter-applied';
+            }
+        }
+        ?>
+        <ul>
+            <li id="all-time" class="todo_filter_button <?php if(!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) print 'filter-applied';?>"><a href="javascript:void(0)">All Items</a></li>
+            <li id="this-week" class="todo_filter_button <?php print $this_week;?>"><a href="javascript:void(0)">This Week</a></li>
+            <li id="next-week" class="todo_filter_button <?php print $next_week;?>"><a href="javascript:void(0)">Next Week</a></li>
+            <li id="beyond-next-week" class="todo_filter_button <?php print $beyond_next_week;?>"><a href="javascript:void(0)">Beyond</a></li>
+        </ul>
+    </div>
+
+    <?php if ($exposed): ?>
     <div class="view-filters">
       <?php print $exposed; ?>
     </div>
@@ -91,7 +110,5 @@ drupal_add_css(drupal_get_path('theme', 'oneepa') ."/css/favorite-sites.css", "f
       <?php print $feed_icon; ?>
     </div>
   <?php endif; ?>
-  <a style="display:none" id="reload_favorite_links"  href="favorite_sites-ajax/ajax" class='use-ajax'>Reload</a>
-</div><?php /* class view */ ?>
 
-</div>
+</div><?php /* class view */ ?>
