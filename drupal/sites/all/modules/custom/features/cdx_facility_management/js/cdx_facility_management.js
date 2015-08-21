@@ -6,6 +6,8 @@
         var naas_token;// = 'Mary Cheat Token - FIX ASAP!!!!!!';
         var naas_ip;// = '65.248.159.78';
 
+        // Look up functionality for session expiring. On expired session, recreate token, reinitialize widget.
+
         $.ajax({
             url: '/return_cdx_facility_management_token',
             success: function (json) {

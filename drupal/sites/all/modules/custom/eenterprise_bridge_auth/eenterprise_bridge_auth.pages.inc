@@ -9,13 +9,13 @@
  * Provides AJAX EE Bridge login form.
  */
 function eenterprise_bridge_auth_login() {
-    $form = drupal_render(drupal_get_form('eenterprise_bridge_auth_login_form'));
-    return array(
-        '#type' => 'ajax',
-        '#commands' => array(
-            ajax_command_html('#eenterprise_bridge_auth_container', $form),
-        ),
-    );
+  $form = drupal_render(drupal_get_form('eenterprise_bridge_auth_login_form'));
+  return array(
+    '#type' => 'ajax',
+    '#commands' => array(
+      ajax_command_html('#eenterprise_bridge_auth_container', $form),
+    ),
+  );
 }
 
 /**
@@ -25,60 +25,60 @@ function eenterprise_bridge_auth_login() {
  *   If true, wrap the identity provider buttons in a fieldset.
  */
 function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
-    $identity_providers = [array('Name' => 'Log in')];
-    $form = array();
-    $form['wrap'] = array(
-        '#type' => 'value',
-        '#value' => $wrap,
-    );
-    if (!$identity_providers) {
-        return $form;
-    }
-    $temp = array();
-    $temp['identity_providers'] = array(
-        '#type' => 'value',
-        '#value' => $identity_providers,
-    );
-    foreach ($identity_providers as $identity_provider) {
-        $temp[$identity_provider['Name']] = array(
-            '#type' => 'submit',
-            '#default_value' => $identity_provider['Name'],
-        );
-    }
-    if ($wrap) {
-        $form['eenterprise_bridge_auth'] = array(
-            '#type' => 'fieldset',
-            '#title' => variable_get('eenterprise_bridge_auth_link_text', t('Sign in using E-Enterprise Bridge')),
-        );
-        $form['eenterprise_bridge_auth'] = array_merge($form['eenterprise_bridge_auth'], $temp);
-    }
-    else {
-        $form = array_merge($form, $temp);
-    }
+  $identity_providers = [array('Name' => 'Log in')];
+  $form = array();
+  $form['wrap'] = array(
+    '#type' => 'value',
+    '#value' => $wrap,
+  );
+  if (!$identity_providers) {
     return $form;
+  }
+  $temp = array();
+  $temp['identity_providers'] = array(
+    '#type' => 'value',
+    '#value' => $identity_providers,
+  );
+  foreach ($identity_providers as $identity_provider) {
+    $temp[$identity_provider['Name']] = array(
+      '#type' => 'submit',
+      '#default_value' => $identity_provider['Name'],
+    );
+  }
+  if ($wrap) {
+    $form['eenterprise_bridge_auth'] = array(
+      '#type' => 'fieldset',
+      '#title' => variable_get('eenterprise_bridge_auth_link_text', t('Sign in using E-Enterprise Bridge')),
+    );
+    $form['eenterprise_bridge_auth'] = array_merge($form['eenterprise_bridge_auth'], $temp);
+  }
+  else {
+    $form = array_merge($form, $temp);
+  }
+  return $form;
 }
 
 /**
  * Submit callback.
  */
 function eenterprise_bridge_auth_login_form_submit($form, &$form_state) {
-    $fields = $form_state['values']['wrap'] ? $form['eenterprise_bridge_auth'] : $form;
+  $fields = $form_state['values']['wrap'] ? $form['eenterprise_bridge_auth'] : $form;
 
-    foreach ($fields['identity_providers']['#value'] as $identity_provider) {
-        if ($form_state['clicked_button']['#default_value'] == $identity_provider['Name']) {
-            //Creates complex array using handoff settings values
-            $idParams = array('wa'=>'wsignin1.0',
-                'wtrealm'=>variable_get('eenterprise_bridge_auth_realm'),
-                'wctx'=>'rm=0',
-                'wreply'=>variable_get('eenterprise_bridge_auth_reply'));
+  foreach ($fields['identity_providers']['#value'] as $identity_provider) {
+    if ($form_state['clicked_button']['#default_value'] == $identity_provider['Name']) {
+      //Creates complex array using handoff settings values
+      $idParams = array('wa'=>'wsignin1.0',
+                        'wtrealm'=>variable_get('eenterprise_bridge_auth_realm'),
+                        'wctx'=>'rm=0',
+                        'wreply'=>variable_get('eenterprise_bridge_auth_reply'));
 
-            //Builds URL for handing off the Open ID Bridge
-            $idBridgeUrl = variable_get('eenterprise_bridge_auth_issuer')."?".http_build_query($idParams)."\n";
+      //Builds URL for handing off the Open ID Bridge
+      $idBridgeUrl = variable_get('eenterprise_bridge_auth_issuer')."?".http_build_query($idParams)."\n";
 
-            //Auto redirects to the Open ID Bridge
-            $form_state['redirect'] = $idBridgeUrl;
-        }
+      //Auto redirects to the Open ID Bridge
+      $form_state['redirect'] = $idBridgeUrl;
     }
+  }
 }
 
 /**
@@ -98,7 +98,10 @@ function eenterprise_bridge_auth_authenticate($error) {
     else if($_POST['wa'] == 'wsignin1.0') {
         $adfs = new AdfsBridge();
         try{
+            dpm('getAdfsSignInResponse');
             $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $_POST['wa'], $_POST['wresult'], $_POST['wctx']);
+            dpm($_POST['wresult']);
+            dpm($userDetails);
         }
         catch (Exception $e) {
             $msg = 'Message: '.$e->getMessage();
@@ -205,6 +208,7 @@ function create_progress_tracker($user){
         $resp = simplexml_load_string($resp);
         foreach($resp->children('http://www.exchangenetwork.net/schema/eact/1') as $activity)
         {
+
             $res = array("EActivityId" => (string)$activity->EActivityId,
                 "PartnerSystemId" => (string)$activity->PartnerSystemId,
                 "PartnerExternalId" => (string)$activity->PartnerExternalId,
@@ -533,9 +537,6 @@ function create_progress_tracker_node($res, $user){
         }
     }
 }
-
-
-function assign_roles_to_user($user_name){
     try {
         $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
@@ -610,25 +611,24 @@ function assign_roles_to_user($user_name){
         }
     } catch(SoapFault $f) {
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
-    }
 }
 
 function eenterprise_bridge_auth_logout() {
 
-    drupal_add_js(drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js");
+  drupal_add_js(drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js");
 //  print drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js";
-    return array (
-        'bridge_logout' => array (
-            '#type' => 'markup',
-            '#markup' => '<img style="display:none" src="https://extauthtest.epacdxnode.net/?wa=wsignout1.0&wtrealm=http%3A%2F%2Fec2-52-4-39-127.compute-1.amazonaws.com&wctx=rm%3D0&wreply=http%3A%2F%2Fec2-52-4-39-127.compute-1.amazonaws.com">',
-        ),
-        'naas_logout' => array (
-            '#type' => 'markup',
-            '#markup' => '<img style="display:none" src="https://nodeweb.epacdxnode.net/NAASOpenIdProvider/?__LASTFOCUS=&__EVENTTARGET=ctl00%24Main%24ctl00%24ctl00&__EVENTARGUMENT=&__VIEWSTATE=%2FwEPDwUKLTY3MTkwMzczNGQYAgUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDEFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDMFFGN0bDAwJE1haW4kbG9naW5WaWV3Dw9kAgFkemUzLl2FQAiPPrwmNS1FeE1TJ0u58ubm4drgn1Lh7yg%3D&__VIEWSTATEGENERATOR=5C4DFC33&__EVENTVALIDATION=%2FwEdAARJ2dy5U8AGYwCawJzvYQYXAtZ3XqH851BlP3gJphgKdFaF7W7BI5KtmmOFt4CsYAe7T4%2B6Hxo9bQsFkfZ6fAuTj5FwqLIrW5hFXXuZ3d6Z3PpVm1OcdFKYufMQCJGJ2AE%3D&ctl00%24Main%24loginView%24relyingPartySite=">',
-        ),
-        'body' => array (
-            '#type' => 'markup',
-            '#markup' => 'Logging out...',
-        ),
-    );
+  return array (
+    'bridge_logout' => array (
+      '#type' => 'markup',
+      '#markup' => '<img style="display:none" src="https://extauthtest.epacdxnode.net/?wa=wsignout1.0&wtrealm=http%3A%2F%2Fec2-52-4-39-127.compute-1.amazonaws.com&wctx=rm%3D0&wreply=http%3A%2F%2Fec2-52-4-39-127.compute-1.amazonaws.com">',
+    ),
+    'naas_logout' => array (
+      '#type' => 'markup',
+      '#markup' => '<img style="display:none" src="https://nodeweb.epacdxnode.net/NAASOpenIdProvider/?__LASTFOCUS=&__EVENTTARGET=ctl00%24Main%24ctl00%24ctl00&__EVENTARGUMENT=&__VIEWSTATE=%2FwEPDwUKLTY3MTkwMzczNGQYAgUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDEFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDMFFGN0bDAwJE1haW4kbG9naW5WaWV3Dw9kAgFkemUzLl2FQAiPPrwmNS1FeE1TJ0u58ubm4drgn1Lh7yg%3D&__VIEWSTATEGENERATOR=5C4DFC33&__EVENTVALIDATION=%2FwEdAARJ2dy5U8AGYwCawJzvYQYXAtZ3XqH851BlP3gJphgKdFaF7W7BI5KtmmOFt4CsYAe7T4%2B6Hxo9bQsFkfZ6fAuTj5FwqLIrW5hFXXuZ3d6Z3PpVm1OcdFKYufMQCJGJ2AE%3D&ctl00%24Main%24loginView%24relyingPartySite=">',
+    ),
+    'body' => array (
+      '#type' => 'markup',
+      '#markup' => 'Logging out...',
+    ),
+  );
 }
