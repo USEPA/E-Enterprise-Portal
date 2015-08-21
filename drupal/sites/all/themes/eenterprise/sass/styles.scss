@@ -2164,7 +2164,7 @@ input[type="submit"],
 .responsive-table th,
 .responsive-table td {
   padding: .5em;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 
@@ -2191,7 +2191,12 @@ input[type="submit"],
 	color: rgba(94, 93, 82, 0.75);
 }
 
-/*********** iPhone, some Android Portrait @ 320px***********/
+th.views-field-field-prog-tracker-app {
+  width: 150px;
+}
+
+
+  /*********** iPhone, some Android Portrait @ 320px***********/
 @media screen and (min-width: 20em) {
 	.responsive-table {
 	  font-size: .9em;
