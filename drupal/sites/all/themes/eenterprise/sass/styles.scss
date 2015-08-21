@@ -738,6 +738,12 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	position:relative;
 	clear:left;
 }
+/*
+.dj_gecko .secondary-nav li a {
+	margin: 0;
+	padding: 0;
+}
+*/
 .secondary-nav {
 	float: right;
 	margin-top: 20px;
@@ -745,10 +751,11 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	font-size: 0.85em;
 	.pipeline li {
 		list-style: none;
+		margin: -0.5em 0;
+		padding: 0.5em 10px;
+		line-height: 1;
 	}
 	a, a:visited {
-		margin: -0.3333em;
-		padding: 0.3333em;
 		color: $ee-dark-gray;
 		font-size: $h5-font-size;
 	}
@@ -933,6 +940,10 @@ tr.odd, tr.even {
 	background-image: none;
 }
 
+.view-to-do .views-exposed-form {
+    display:none;
+}
+
 @media screen and (min-width: 30em) {
 	footer {
 		div, .block--ee-social-media {
@@ -951,7 +962,7 @@ tr.odd, tr.even {
 	}
 	
 	.pipeline > li {
-		border-right: 1px solid #777; /* LTR */
+		border-right: 1px solid #aaa; /* LTR */
 		float: left; /* LTR */
 		margin-bottom: .5em;
 		margin-right: 1em; /* LTR */
@@ -1914,6 +1925,34 @@ div.ctools-modal-content {
 		margin-bottom: 2em;
 	}
 }
+//Override Facilities Management jQuery rules
+.main-content {
+	.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+		color: #000;
+	}
+	// Fix tab hover colors
+	.ui-state-default a:hover, .ui-state-default a:focus, .ui-state-default a:active {
+		color: #fff;
+	}
+}
+// Fix facility management modal options in upper right on hover / focus / active
+.facility-widget-form .toggle-list-map-header {
+	font-weight: normal;
+	font-size: 0.85em;
+}
+.facility-widget-form .toggle-list-map-header a:hover, 
+.facility-widget-form .toggle-list-map-header a:focus, 
+.facility-widget-form .toggle-list-map-header a:active {
+	color: #fff !important;
+}
+#facility-widget {
+	.ui-widget, .facility-widget-form .tab-content-heading, .facility-widget-form {
+		font-family: $base-font-family;
+	}
+	.facility-widget-form .manage-facilities-tab, .facility-widget-form .facility-widget-background {
+		border-width: 0 !important;
+	}
+}
 
 /** Admin *********************************************************/
 #user-login input[type="submit"] {
@@ -2285,7 +2324,7 @@ input[type="submit"],
 	  text-decoration: none;
 	}
 
-	th.responsive-to-do-link a:hover {
+	th.responsive-to-do-link a:hover, th.responsive-to-do-link a:focus {
 	  color: #ffffff;
 	  background-color: #606060;
 	}
