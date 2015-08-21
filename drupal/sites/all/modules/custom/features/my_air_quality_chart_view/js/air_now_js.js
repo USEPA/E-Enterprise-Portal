@@ -45,7 +45,7 @@
   });
 
   function loadMap() {
-    var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 4);
+    var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 10);
 
     $('a', map.getContainer()).addClass('favorites-ignore');
 
