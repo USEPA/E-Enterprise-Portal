@@ -40,6 +40,15 @@
                         var orgs_num = organizations.length;
                         var management_button =  $('#launch-facility-management');
 
+                        // First connect to widget initially to start CDX session;
+                        var temp = 0;
+                        $.each(org_to_roles, function(key, value) {
+                            if ($temp == 0) {
+                                var initial_user_role_id = value[0].userRoleId;
+                                updateWidget(initial_user_role_id, naas_token, naas_ip);
+                                $temp = 1;
+                            }
+                        });
 
                         // Only allow org filtering if there's more than one org
                         if (orgs_num > 1) {
@@ -235,10 +244,6 @@
         $(window).resize(function () {
             cdx_facility_management_block.dialog("option", "position", {my: "center", at: "center", of: window});
         });
-        //$(window).scroll(function(){
-        //    cdx_facility_management_block.dialog( "option", "position", { my: "center", at: "center", of: window } );
-        //});
-        //updateWidget(user_role_id, naas_token, naas_ip);
 
         function updateWidget(user_role_id, naas_token, naas_ip) {
             console.log(user_role_id);
@@ -250,14 +255,16 @@
                 widgetDisplayType: "Edit My Facilities",
                 baseServiceUrl: 'https://dev.epacdx.net/FrsPhase2',
                 ImagesFolderPath: "https://dev.epacdx.net/FrsPhase2/content/v3/FRS%20Widget/images", //static
-                // Hard coded to Chris' CEDRI role currently. Have to find user CDX role ID's and pass one at a time here on selection.
                 userRoleId: user_role_id,
                 NASSToken: naas_token,
                 NAASip: naas_ip,
                 onInvalidSession: function() {
+                    alert('CDX Session ended.')
                     window.location.href = '/user/logout';
-s                }
+               }
             });
+            //cdx_facility_management_block.dialog("option", "position", {my: "center", at: "center", of: window});
+
         }
 
         generateUserData();
