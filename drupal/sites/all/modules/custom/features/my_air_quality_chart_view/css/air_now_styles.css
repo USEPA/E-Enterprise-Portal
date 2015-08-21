@@ -37,7 +37,7 @@ div#my-air-quality-chart {
   stroke-width: 2;
   fill: none;
 }
-.axis { shape-rendering: crispEdges; }
+.axis { shape-rendering: auto; }
 .y.axis line { 
   stroke: lightgrey; 
   vector-effect: non-scaling-stroke;
