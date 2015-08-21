@@ -25,29 +25,7 @@ $dataTitle = array();
    <?php if (!empty($title) || !empty($caption)) : ?>
      <caption><?php print $caption . $title; ?></caption>
   <?php endif; ?>
-    <div class="todo-filter-by-week">
-        <?php
-        $this_week = '';
-        $beyond_next_week = '';
-        if(isset($view->args['week_filter_val'])){
-            if(substr($view->args['week_filter_val'], 0,10) == date("Y-m-d")){
-                $this_week = 'filter-applied';
-            }
-            else if((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)){
-                $beyond_next_week = 'filter-applied';
-            }
-            else if(date('D', strtotime($view->args['week_filter_val'])) == 'Sun'){
-                $next_week = 'filter-applied';
-            }
-        }
-        ?>
-        <ul>
-            <li id="all-time" class="todo_filter_button <?php if(!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) print 'filter-applied';?>">All Items</li>
-            <li id="this-week" class="todo_filter_button <?php print $this_week;?>">This Week</li>
-            <li id="next-week" class="todo_filter_button <?php print $next_week;?>">Next Week</li>
-            <li id="beyond-next-week" class="todo_filter_button <?php print $beyond_next_week;?>">Beyond</li>
-        </ul>
-    </div>
+
   <?php if (!empty($header)) : ?>
     <thead>
       <tr>
