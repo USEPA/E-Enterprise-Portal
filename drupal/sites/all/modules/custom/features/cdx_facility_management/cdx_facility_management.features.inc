@@ -158,9 +158,7 @@ function return_cdx_facility_management_token()
     global $user;
     $user_data = user_load($user->uid);
     $user_id = 'MATKIN.BENJAMIN'; //$user_data->mail;
-    $password = $user_data->pass;
-    var_dump($user_data);
-    var_dump($password);
+    $password = 'EEP15fun';
     try {
         // $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
         $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
@@ -248,8 +246,6 @@ function retrieve_cdx_user_data()
             "securityToken" => $token,
             "user" => $user_obj->User,
         );
-        var_dump($user_obj);
-        exit();
         $org_val = null;
         $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
         // CDX returns object if single return and array if multiple
