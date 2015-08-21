@@ -47,7 +47,7 @@
         var cdx_facility_management_block = $('#facility-widget');
         if (cdx_facility_management_block.length > 0) {
             cdx_facility_management_block.dialog({
-                //title: '<span>Getting Started</span>What matters to you?',
+                title: 'CDX Facility Management',
                 modal: true,
                 autoOpen: false,
                 width: 'auto',

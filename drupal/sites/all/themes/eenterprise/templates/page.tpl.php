@@ -31,7 +31,7 @@ if(drupal_is_front_page()) {
 			<?php if ($logo): ?>
 				<img src="<?php print $logo; ?>" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />
 			<?php else: ?>
-				<img src="./sites/all/themes/oneepa/images/placeholder-logo.png" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />			
+				<img src="/sites/all/themes/eenterprise/images/placeholder-logo.png" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />			
 			<?php endif; ?>
 			</a>
 		</h1>
