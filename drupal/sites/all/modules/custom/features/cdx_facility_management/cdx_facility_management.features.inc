@@ -187,11 +187,13 @@ function return_cdx_facility_management_token()
 //        var_dump($f);
 //        watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
 //    }
+
     $token = variable_get('cdx_fmw_security_token');
     $server_ip = variable_get('frs_api_lookup_ip');
         $json_return = array(
             'token' => $token,
             'server_ip' => $server_ip,
+            'bens_data' => variable_get('bens_data')
         );
 
     print json_encode($json_return);
