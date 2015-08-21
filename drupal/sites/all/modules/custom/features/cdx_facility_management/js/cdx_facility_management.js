@@ -43,10 +43,10 @@
                         // First connect to widget initially to start CDX session;
                         var temp = 0;
                         $.each(org_to_roles, function(key, value) {
-                            if ($temp == 0) {
+                            if (temp == 0) {
                                 var initial_user_role_id = value[0].userRoleId;
                                 updateWidget(initial_user_role_id, naas_token, naas_ip);
-                                $temp = 1;
+                                temp = 1;
                             }
                         });
 
