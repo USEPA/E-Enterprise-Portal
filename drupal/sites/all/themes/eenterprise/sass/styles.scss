@@ -111,7 +111,7 @@ a.pager__link {
 }
 a:visited, 
 a:visited.pager__link {
-	color: $ee-visited-color;
+	color: $ee-link-color;
 }
 .menu-item {
 	letter-spacing: 0.25px;
@@ -193,7 +193,7 @@ a:visited,
 a:visited.pager__link, 
 .ui-widget-content a:visited, 
 .ui-widget-content a:visited.pager__link {
-	color: $ee-visited-color;
+	color: $ee-link-color;
 }
 .simple-main-nav .menu a.active,
 a.jcarousel-control-prev, a.jcarousel-control-next,
@@ -1372,6 +1372,9 @@ tr.even {
 form tbody {
 	border-top: none;
 }
+.glyphicon-star.star-example {
+	color: #f00;
+}
 form[id^='user-profile-form'] {
     .description-key {
       margin-left: 5px;
@@ -1848,10 +1851,29 @@ a.tabledrag-handle .handle {
 		border-bottom: 1px solid #fafafa;
 	}
 }
-.ui-tabs .ui-tabs-nav li, label {
+.view-empty p {
 	font-size: 0.85em;
 }
-.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+.todo-filter-by-week {
+	ul {
+		list-style: none;
+		border-bottom: 1px solid #fafafa;
+	}
+	li {
+		display: inline-block;
+		padding: 0 5px;
+	}
+	li a {
+		padding: 0.5em 1em;
+	}
+}
+#myMapsFilterList .ui-widget-content a {
+	color: #000;
+}
+.ui-tabs .ui-tabs-nav li, label, .todo-filter-by-week li {
+	font-size: 0.85em;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-active, .todo-filter-by-week li.filter-applied {
 	border-bottom: 3px solid #007AC6;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
