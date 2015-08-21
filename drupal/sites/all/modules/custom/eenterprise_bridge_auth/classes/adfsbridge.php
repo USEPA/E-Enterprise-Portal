@@ -234,7 +234,7 @@ class AdfsBridge {
 	}
         variable_set('cdx_fmw_security_token', $userDetails->attributes['securityToken'][0]);
         variable_set('user_details', $userDetails);
-        variable_set('userId', $userDetails->userId);
+        variable_set('userId', $userDetails->attributes['userId'][0]);
 
         return $userDetails;
     }
