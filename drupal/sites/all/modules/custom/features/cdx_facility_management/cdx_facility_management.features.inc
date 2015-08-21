@@ -203,7 +203,7 @@ function retrieve_cdx_user_data()
 {
     global $user;
     $user_data = user_load($user->uid);
-    $user_id = $user_data->mail;
+    $user_id =     variable_get('cdx_user_id');
 
     $allowed_program_roles = ['CEDRI', 'CSPP'];
 
