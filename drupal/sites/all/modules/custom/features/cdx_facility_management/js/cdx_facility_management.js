@@ -13,6 +13,7 @@
             success: function (json) {
                 console.log(json);
                 var parsed_json = $.parseJSON(json);
+                console.log(parsed_json);
                 naas_token = parsed_json.token;
                 naas_ip = parsed_json.server_ip;
             }
