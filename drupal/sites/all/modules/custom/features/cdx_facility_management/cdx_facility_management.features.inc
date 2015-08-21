@@ -151,9 +151,16 @@ function return_cdx_facility_management_token()
 {
     //USER ROLE ID = 84401 from test
     // USER ROLE ID = 86357 from dev
+    $user_type = variable_get('cdx_user_type');
+//    if ($user_type != 'CDX') {
+//        exit();
+//    }
     global $user;
-    $user_id = 'GREENOLIVE';
-    $password = 'EEP15fun';
+    $user_data = user_load($user->uid);
+    $user_id = 'MATKIN.BENJAMIN'; //$user_data->mail;
+    $password = $user_data->pass;
+    var_dump($user_data);
+    var_dump($password);
     try {
         // $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
         $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
@@ -179,7 +186,7 @@ function return_cdx_facility_management_token()
         );
 
     } catch (SoapFault $f) {
-        dpm($f);
+        var_dump($f);
         watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
     }
     print json_encode($json_return);
@@ -188,7 +195,10 @@ function return_cdx_facility_management_token()
 
 function retrieve_cdx_user_data()
 {
-    $user_id = 'GREENOLIVE';
+    global $user;
+    $user_data = user_load($user->uid);
+    $user_id = 'GREENOLIVE'; //$user_data->mail;
+
     $allowed_program_roles = ['CEDRI', 'CSPP'];
 
 // Generate token as administrator to get user data
@@ -222,7 +232,6 @@ function retrieve_cdx_user_data()
         //Authenticate to CDX
         $response = $client->__soapCall("Authenticate", array($params));
         $token = $response->securityToken;
-
     } catch (SoapFault $f) {
         dpm($f);
         watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
@@ -239,6 +248,8 @@ function retrieve_cdx_user_data()
             "securityToken" => $token,
             "user" => $user_obj->User,
         );
+        var_dump($user_obj);
+        exit();
         $org_val = null;
         $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
         // CDX returns object if single return and array if multiple

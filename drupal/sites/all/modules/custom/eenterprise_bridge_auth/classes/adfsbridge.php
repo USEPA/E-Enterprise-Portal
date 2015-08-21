@@ -55,7 +55,9 @@ class AdfsBridge {
         }
 	// Accommodate for MS-ADFS escaped quotes
 	$wresult = str_replace('\"', '"', $wresult);
-	
+        dpm('wresult');
+        dpm($wresult);
+
         // Load and parse the XML.
 	$dom = new DOMDocument();
         $dom->loadXML(str_replace ("\r", "", $wresult));
@@ -68,6 +70,8 @@ class AdfsBridge {
         $decryptedToken = '';
         $decryptionFailed = false;
         $rootElement = $xpath->query('/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse');
+        dpm('$rootElement');
+        dpm($rootElement);
         //$rootElement = $xpath->query('/wst:RequestSecurityTokenResponse/wst:RequestedSecurityToken/xenc:EncryptedData');
         $rootElement = $rootElement->item(0);
         if (preg_match('/EncryptedData/i', $rootElement->nodeName) > 0) {
