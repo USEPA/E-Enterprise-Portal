@@ -100,6 +100,9 @@ h1, h2, h3, h4, h5, h6, th, legend, caption {
 button, input, select, textarea, option {
 	font-family: $base-font-family;
 }
+select {
+	font-size: 0.85em;
+}
 menu, ol, ul {
 	padding: 0;
 }
@@ -203,7 +206,10 @@ a.jcarousel-control-prev:visited, a.jcarousel-control-next:visited {
 a:hover, a:focus,
 .ui-widget-content a:hover, 
 .ui-widget-content a:focus,
-.ui-widget-content a:active {
+.ui-widget-content a:active,
+#myMapsFilterList a:hover,
+#myMapsFilterList a:focus,
+#myMapsFilterList a:active {
     background-color: $ee-dark-gray;
     color: #ffffff;
 }
@@ -1209,11 +1215,9 @@ tr.odd, tr.even {
 	margin-left:20px;
 	padding: 4px 10px 3px;
 }
-
 .ee-workbench-header-locations select {
 	//margin-bottom:10px;
 	margin-top: 3px;
-	font-size: $h5-font-size;
 }
 .ee-workbench-header-block a, 
 .ee-workbench-header-locations label, 
@@ -1862,13 +1866,25 @@ a.tabledrag-handle .handle {
 	li {
 		display: inline-block;
 		padding: 0 5px;
+		a {
+			padding: 0.5em 1em;
+			text-decoration: none;
+			color: #000;
+		}
+		a:hover, a:focus, a:active {
+			color: #fff;
+		}
 	}
-	li a {
-		padding: 0.5em 1em;
-	}
+	
 }
-#myMapsFilterList .ui-widget-content a {
-	color: #000;
+#myMapsFilterList {
+	li {
+		padding: 0;
+	}
+	a {
+		padding: 5px 15px;
+		color: #000;
+	}
 }
 .ui-tabs .ui-tabs-nav li, label, .todo-filter-by-week li {
 	font-size: 0.85em;
@@ -1903,6 +1919,9 @@ a.tabledrag-handle .handle {
 		margin-top: -15px;
 	    //right: -45px;
 	    //top: -15px;
+	}
+	.ui-dialog-titlebar-close .ui-icon {
+		background: none;
 	}
 }
 div.ctools-modal-content {
@@ -2230,7 +2249,8 @@ th.views-field-field-prog-tracker-app {
 	  color: #23537e;
 	}
 
-	.views-field-field-prog-track-actions-dnload a:hover {
+	.views-field-field-prog-track-actions-dnload a:hover,
+	.views-field-field-prog-track-actions-dnload a:focus {
 	  color: #fff;
 	}
 
