@@ -151,13 +151,13 @@ function return_cdx_facility_management_token()
 {
     //USER ROLE ID = 84401 from test
     // USER ROLE ID = 86357 from dev
-    $user_type = variable_get('cdx_user_type');
+//    $user_type = variable_get('cdx_user_type');
 //    if ($user_type != 'CDX') {
 //        exit();
 //    }
 //    global $user;
 //    $user_data = user_load($user->uid);
-//    $user_id = 'GREENOLIVE'; //$user_data->mail;
+//    $user_id = $user_data->mail;
 //    $password = 'EEP15fun';
 //    try {
 //        // $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
@@ -203,7 +203,7 @@ function retrieve_cdx_user_data()
 {
     global $user;
     $user_data = user_load($user->uid);
-    $user_id = 'GREENOLIVE'; //$user_data->mail;
+    $user_id =     variable_get('cdx_user_id');
 
     $allowed_program_roles = ['CEDRI', 'CSPP'];
 
@@ -335,7 +335,7 @@ function retrieve_cdx_user_data()
         print json_encode($json_return);
     } catch (SoapFault $f) {
         dpm($f);
-        print json_encode((array('error' => 'true')));
+        print json_encode((array('error' => 'true', 'fault' => $f, 'user'=> $user_id)));
         watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }

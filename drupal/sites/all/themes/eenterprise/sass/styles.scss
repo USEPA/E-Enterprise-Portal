@@ -100,6 +100,9 @@ h1, h2, h3, h4, h5, h6, th, legend, caption {
 button, input, select, textarea, option {
 	font-family: $base-font-family;
 }
+select {
+	font-size: 0.85em;
+}
 menu, ol, ul {
 	padding: 0;
 }
@@ -111,7 +114,7 @@ a.pager__link {
 }
 a:visited, 
 a:visited.pager__link {
-	color: $ee-visited-color;
+	color: $ee-link-color;
 }
 .menu-item {
 	letter-spacing: 0.25px;
@@ -193,7 +196,7 @@ a:visited,
 a:visited.pager__link, 
 .ui-widget-content a:visited, 
 .ui-widget-content a:visited.pager__link {
-	color: $ee-visited-color;
+	color: $ee-link-color;
 }
 .simple-main-nav .menu a.active,
 a.jcarousel-control-prev, a.jcarousel-control-next,
@@ -203,7 +206,10 @@ a.jcarousel-control-prev:visited, a.jcarousel-control-next:visited {
 a:hover, a:focus,
 .ui-widget-content a:hover, 
 .ui-widget-content a:focus,
-.ui-widget-content a:active {
+.ui-widget-content a:active,
+#myMapsFilterList a:hover,
+#myMapsFilterList a:focus,
+#myMapsFilterList a:active {
     background-color: $ee-dark-gray;
     color: #ffffff;
 }
@@ -1209,11 +1215,9 @@ tr.odd, tr.even {
 	margin-left:20px;
 	padding: 4px 10px 3px;
 }
-
 .ee-workbench-header-locations select {
 	//margin-bottom:10px;
 	margin-top: 3px;
-	font-size: $h5-font-size;
 }
 .ee-workbench-header-block a, 
 .ee-workbench-header-locations label, 
@@ -1371,6 +1375,9 @@ tr.even {
 }
 form tbody {
 	border-top: none;
+}
+.glyphicon-star.star-example {
+	color: #f00;
 }
 form[id^='user-profile-form'] {
     .description-key {
@@ -1848,10 +1855,41 @@ a.tabledrag-handle .handle {
 		border-bottom: 1px solid #fafafa;
 	}
 }
-.ui-tabs .ui-tabs-nav li, label {
+.view-empty p {
 	font-size: 0.85em;
 }
-.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+.todo-filter-by-week {
+	ul {
+		list-style: none;
+		border-bottom: 1px solid #fafafa;
+	}
+	li {
+		display: inline-block;
+		padding: 0 5px;
+		a {
+			padding: 0.5em 1em;
+			text-decoration: none;
+			color: #000;
+		}
+		a:hover, a:focus, a:active {
+			color: #fff;
+		}
+	}
+	
+}
+#myMapsFilterList {
+	li {
+		padding: 0;
+	}
+	a {
+		padding: 5px 15px;
+		color: #000;
+	}
+}
+.ui-tabs .ui-tabs-nav li, label, .todo-filter-by-week li {
+	font-size: 0.85em;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-active, .todo-filter-by-week li.filter-applied {
 	border-bottom: 3px solid #007AC6;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
@@ -1881,6 +1919,9 @@ a.tabledrag-handle .handle {
 		margin-top: -15px;
 	    //right: -45px;
 	    //top: -15px;
+	}
+	.ui-dialog-titlebar-close .ui-icon {
+		background: none;
 	}
 }
 div.ctools-modal-content {
@@ -2142,7 +2183,7 @@ input[type="submit"],
 .responsive-table th,
 .responsive-table td {
   padding: .5em;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 
@@ -2169,7 +2210,12 @@ input[type="submit"],
 	color: rgba(94, 93, 82, 0.75);
 }
 
-/*********** iPhone, some Android Portrait @ 320px***********/
+th.views-field-field-prog-tracker-app {
+  width: 150px;
+}
+
+
+  /*********** iPhone, some Android Portrait @ 320px***********/
 @media screen and (min-width: 20em) {
 	.responsive-table {
 	  font-size: .9em;
@@ -2203,7 +2249,8 @@ input[type="submit"],
 	  color: #23537e;
 	}
 
-	.views-field-field-prog-track-actions-dnload a:hover {
+	.views-field-field-prog-track-actions-dnload a:hover,
+	.views-field-field-prog-track-actions-dnload a:focus {
 	  color: #fff;
 	}
 

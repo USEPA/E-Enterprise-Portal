@@ -28,6 +28,10 @@ drupal_add_library('system', 'ui.accordion');
 <!-- Site must incorporate these files to use FacilityWidget -->
 <!--<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>-->
 
+
+
+
+
 <script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery.validate1.12.0.min.js"></script>
 
 <!--<script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.js"></script>-->
@@ -44,22 +48,20 @@ drupal_add_library('system', 'ui.accordion');
 <link rel="stylesheet" href="//js.arcgis.com/3.13/esri/css/esri.css"/>
 <script src="//js.arcgis.com/3.13/"></script>
 
-
-<!--<script src="../dist/FacilityManagementWidget.min.js"> </script>-->
-<link rel="stylesheet"
-      href="https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/dist/FacilityManagementStyles.css">
-<!--[if IE 8]>
-<link rel="stylesheet" href="../../ContentFramework/v3/css/FacilityManagementStyles-ie8.css"> <![endif]-->
-<script src="https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/dist/FacilityManagementTemplates.min.js"></script>
+<link rel="stylesheet" href="https://dev.epacdx.net/FrsPhase2/Content/v3/FRS%20Widget/FacilityManagementStyles.css">
+<!--[if IE 8]> <link rel="stylesheet" href="../../ContentFramework/v3/css/FacilityManagementStyles-ie8.css"> <![endif]-->
+<script src="https://dev.epacdx.net/FrsPhase2/Content/v3/FRS%20Widget/FacilityManagementTemplates.min.js"> </script>
 <script src="https://dev.epacdx.net/FrsPhase2/Content/v3/js/common.js"></script>
-<!--<script src="../src/TablePagination.js"></script>	-->
-<script src="https://dev.epacdx.net/CDXRewriteMockups/FRSPhase2/FRS%20Widget/temp/concat.js"></script>
+<script src="https://dev.epacdx.net/FrsPhase2/Content/v3/FRS%20Widget/src/FacilityManagementWidget.js"></script>
+
+
+
+
 
 <div id="facility-widget" style="max-width:1363px;"></div>
-<button id="view-facility-iframe">Open CDX Facility Management</button>
-<label for="fmw-organization-select">Organization</label><select name="fmw-organization-select" id="fmw-organization-select"></select>
-<label for="fmw-program-select">Program</label><select name="fmw-program-select" id="fmw-program-select"></select>
-
+<div id="fmw-organization-select-holder" style="display:none"><label for="fmw-organization-select">Organization</label><select name="fmw-organization-select"  id="fmw-organization-select"></select></div>
+    <div id="fmw-program-select-holder" style="display:none"><label for="fmw-program-select">Program</label><select name="fmw-program-select" id="fmw-program-select" ></select></div>
+<div ID="facility-widget-orgs-table"></div>
 <table id="facility-management-initial-data">
 </table>
 
