@@ -335,7 +335,7 @@ function retrieve_cdx_user_data()
         print json_encode($json_return);
     } catch (SoapFault $f) {
         dpm($f);
-        print json_encode((array('error' => 'true')));
+        print json_encode((array('error' => 'true', 'fault' => $f, 'user'=> $user_id)));
         watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }
