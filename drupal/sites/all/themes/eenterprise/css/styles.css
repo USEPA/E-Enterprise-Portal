@@ -13019,3 +13019,7 @@ th.views-field-field-prog-tracker-app {
     display: block;
   }
 }
+/* line 2525, ../sass/styles.scss */
+.ui-dialog-titlebar .ui-button-text {
+  padding: 0;
+}

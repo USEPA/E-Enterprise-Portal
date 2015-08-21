@@ -17118,3 +17118,7 @@ th.views-field-field-prog-tracker-app {
     font-size: .9em;
   }
 }
+/* line 1998, ../sass/styles.scss */
+.ui-dialog-titlebar.ui-button-text {
+  padding: 0;
+}
