@@ -255,6 +255,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['account']['current_pass']);
         hide($form['account']['pass']);
         hide($form['field_profile_interests']);
+        hide($form['field_profile_last_name']);
+//        dpm($form);
 //        hide($form['field_first_time_user']);
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
         $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
