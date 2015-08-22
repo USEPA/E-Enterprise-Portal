@@ -269,9 +269,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         $form['#validate'][] = 'user_profile_form_custom_validate';
         $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
         $form['actions']['delete']['#submit'][] = 'profile_delete_action';
-        // $form['actions']['delete']['#attributes'] =  array(
-        //   'onclick' => "fancyConfirm('Are you sure you want to delete?')");
-        //"return confirm('This will delete your entire profile, including any selected preferences, from the E-Enterprise Platform and will log you out from the system. Are you sure that you want to do this?')");
+         $form['actions']['delete']['#attributes'] =  array(
+           'onclick' =>         "return confirm('This will delete your entire profile, including any selected preferences, from the E-Enterprise Platform and will log you out from the system. Are you sure that you want to do this?')");
+             // "fancyConfirm('Are you sure you want to delete?')");
         // $form['actions']['delete']['#attributes']['class'][] = 'imagefield-fancybox';
         $form['account']['mail']['#description'] = "All emails from the system will be sent to this address. This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX).";
         //We are not validating profile picture and password as we do not save and manage these information on the Portal.
@@ -434,11 +434,8 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
         // Create readable string for across site
         if (strlen($zip_data['city']) != 0) {
             $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
-        } else if (strlen($zip_data['state']) != 0) {
-            $readable_string .= $zip_data['state'] . '(' . $zip . ')';
-        } else {
-            $readable_string .= $zip;
         }
+
         $zip_data['string'] = $readable_string;
         if ($return_data_type == 'php') {
             return $zip_data;
@@ -523,7 +520,19 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
                             if (!in_array($delta, $error_deltas)) {
                                 $error_deltas[] = $delta;
                             }
-                        } else {
+                        }
+                        else if ( zip_code_lookup($zip_val)->city == ''){
+                            $error = true;
+                            $error_message = 'The ZIP code you entered could not be found';
+                            if (!in_array($error_message, $error_messages)) {
+                                $error_messages[] = $error_message;
+                            }
+                            if (!in_array($delta, $error_deltas)) {
+                                $error_deltas[] = $delta;
+                            }
+                        }
+                        else
+                         {
                             // Set session to primary zip value
                             if ($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_primary'][LANGUAGE_NONE][0]['value'] == 1) {
                                 $_SESSION['default_location_zip'] = substr($valid_zip['postal_code'], 0, 5);
@@ -586,11 +595,11 @@ function user_profile_url_custom_validate(&$form, &$form_state)
  */
 function profile_delete_action($form, &$form_state)
 {
-//    global $user;
-//    if($form_state['clicked_button']['#value'] == 'Delete profile') {
-//        user_delete($user->uid);
-//        drupal_goto('/');
-//    }
+    global $user;
+    if($form_state['clicked_button']['#value'] == 'Delete profile') {
+        user_delete($user->uid);
+        drupal_goto('/');
+    }
 }
 
 /**
