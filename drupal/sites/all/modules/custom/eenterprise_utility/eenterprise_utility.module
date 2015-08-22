@@ -679,6 +679,15 @@ function get_modal_data($locations, $city_name_count)
 
 function generate_location_select()
 {
+
+    // show an input box instead of a select for guest users
+    global $user;
+
+    if ($user->name == 'guest-user') {
+        generate_location_input_for_guests();
+        return;
+    }
+
     $default_zip_used = false;
     $header_data = get_header_variables();
     $city_name_count = array();
@@ -735,6 +744,13 @@ function generate_location_select()
     }
 //    }
 }
+
+function generate_location_input_for_guests() {
+    print '<input type="text" id="location-input-guests"/>';
+}
+
+
+
 
 function eenterprise_utility_node_access($node, $op, $account)
 {
