@@ -3,8 +3,8 @@
 
   var map;
   var markers;
-  var currentZip;
-  var currentLocation;
+  var currentZipData;
+  //var currentLocation;
   var todayAQI;
 
   $(document).ready(function() {
@@ -21,31 +21,23 @@
       }
     });
 
-    var $select = $('select#location-select');
+    $(document).on("ee:zipCodeQueried", function(evt, data) {
+      currentZipData = data;
 
-    $select.change(function() {
-      currentZip = $(this).val();
+      draw(currentZipData.zip, currentZipData.string);
 
-      if (currentZip != 'view_more') {
-        currentLocation = $(this).find('option:selected').text();
-        draw(currentZip, currentLocation);
-
-        if (markers) {
-          map.removeLayer(markers);
-        }
-
-        markers = new L.FeatureGroup();
-        map.addLayer(markers);
-        updateMarker();
+      if (markers) {
+        map.removeLayer(markers);
       }
+
+      markers = new L.FeatureGroup();
+      map.addLayer(markers);
+      updateMarker();
     });
-
-    $select.trigger('change');
-
   });
 
   function loadMap() {
-    var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 4);
+    var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 10);
 
     $('a', map.getContainer()).addClass('favorites-ignore');
 
@@ -90,13 +82,13 @@
   }
 
   function updateMarker() {
-    if (currentZip) {
-      $.getJSON('/zip_code_lookup?zip=' + currentZip, function(data) {
+    if (currentZipData) {
+      //$.getJSON('/zip_code_lookup?zip=' + currentZip, function(data) {
 
-        var latlng = [data.latitude, data.longitude];
+        var latlng = [currentZipData.latitude, currentZipData.longitude];
 
         var marker = L.marker(latlng).addTo(markers);
-        marker.bindPopup("<b>" + currentLocation + "</b>" + (todayAQI ? ("<br/>Today's Air Quality: " + todayAQI) : ""), {
+        marker.bindPopup("<b>" + currentZipData.string + "</b>" + (todayAQI ? ("<br/>Today's Air Quality: " + todayAQI) : ""), {
           minWidth: 150,
           maxWidth: 500,
           className: 'favorites-ignore'
@@ -105,7 +97,7 @@
         //map.setView(latlng);
         marker.openPopup();
 
-      });
+      //});
     }
   }
 
@@ -653,12 +645,12 @@
         }
       }
 
-       //return [
-       //  {'DateForecast': "2015-08-20", 'AQI': 148},
-       //  {'DateForecast': "2015-08-21", 'AQI': 200},
-       //  {'DateForecast': "2015-08-22", 'AQI': 82},
-       //  {'DateForecast': "2015-08-23", 'AQI': 401}
-       //];
+      //return [
+      //  {'DateForecast': "2015-08-20", 'AQI': 148},
+      //  {'DateForecast': "2015-08-21", 'AQI': 200},
+      //  {'DateForecast': "2015-08-22", 'AQI': 82},
+      //  {'DateForecast': "2015-08-23", 'AQI': 401}
+      //];
 
       return data;
     }

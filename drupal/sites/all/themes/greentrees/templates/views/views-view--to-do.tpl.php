@@ -39,7 +39,31 @@
     </div>
   <?php endif; ?>
 
-  <?php if ($exposed): ?>
+    <div class="todo-filter-by-week">
+        <?php
+        $this_week = '';
+        $beyond_next_week = '';
+        if(isset($view->args['week_filter_val'])){
+            if(substr($view->args['week_filter_val'], 0,10) == date("Y-m-d")){
+                $this_week = 'filter-applied';
+            }
+            else if((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)){
+                $beyond_next_week = 'filter-applied';
+            }
+            else if(date('D', strtotime($view->args['week_filter_val'])) == 'Sun'){
+                $next_week = 'filter-applied';
+            }
+        }
+        ?>
+        <ul>
+            <li id="all-time" class="todo_filter_button <?php if(!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) print 'filter-applied';?>"><a href="javascript:void(0)">All Items</a></li>
+            <li id="this-week" class="todo_filter_button <?php print $this_week;?>"><a href="javascript:void(0)">This Week</a></li>
+            <li id="next-week" class="todo_filter_button <?php print $next_week;?>"><a href="javascript:void(0)">Next Week</a></li>
+            <li id="beyond-next-week" class="todo_filter_button <?php print $beyond_next_week;?>"><a href="javascript:void(0)">Beyond</a></li>
+        </ul>
+    </div>
+
+    <?php if ($exposed): ?>
     <div class="view-filters">
       <?php print $exposed; ?>
     </div>
@@ -53,21 +77,7 @@
 
   <?php if ($rows): ?>
     <div class="view-content">
-			<?php
-                global $user;
-                if($user->uid == 0):               		
-					$block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
-					$loginmsg = "<div id=\"login-group\" class=\"container\">";
-					$loginform = str_replace("E-Enterprise Bridge", "Log in now", render($block['content']));
-					$loginmsg .= $loginform;
-					$loginmsg .= "<div class='guest-login'><a href='/guest_login'>Browse as Guest</a></div><br><a id=\"learnmorelink\" data-toggle=\"modal\" href=\"#learnmore\">Why log in?</a></div>";
-                else:
-                   	$loginmsg = "<div class=\"well well-narrow\">Welcome, <strong>".$user->name."!</strong><br><a href=\"workbench\">View workbench</a></div>";
-                endif;
-                
-                $rows = str_replace("Log in now", $loginmsg, $rows);
-                print $rows;
-                ?>
+      <?php print $rows; ?>
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
