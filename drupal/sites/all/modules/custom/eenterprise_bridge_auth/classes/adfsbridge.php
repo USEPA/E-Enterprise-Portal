@@ -176,14 +176,18 @@ class AdfsBridge {
         $userDetails->attributes = array();
         $attributeValues = $xpath->query('./saml:AttributeStatement/saml:Attribute/saml:AttributeValue', $assertion);
         foreach($attributeValues as $attribute) {
-                $name = $attribute->parentNode->getAttribute('AttributeName');
-                $value = $attribute->textContent;
-                if(!array_key_exists($name, $userDetails->attributes)) {
-                    $userDetails->attributes[$name] = array();
-                }
-                array_push($userDetails->attributes[$name], $value);
-        }
-            return $userDetails;
+            $name = $attribute->parentNode->getAttribute('AttributeName');
+            $value = $attribute->textContent;
+            if(!array_key_exists($name, $userDetails->attributes)) {
+                $userDetails->attributes[$name] = array();
+            }
+            array_push($userDetails->attributes[$name], $value);
+	}
+        variable_set('cdx_fmw_security_token', $userDetails->attributes['securityToken'][0]);
+        variable_set('user_details', $userDetails);
+        variable_set('userId', $userDetails->userId);
+
+        return $userDetails;
     }
 
     function handleXmlError($errno, $errstr) {
