@@ -186,7 +186,7 @@
                 type: 'GET',
                 data: {skip: 1, zip: '', geolocation_used: geolocation_used, geolocation_zip: nearest_zip},
                 success: function () {
-                    $('#location-select').append('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + '</option>').trigger('change');
+                    $('#location-select').html('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + '</option>').trigger('change');
                     $('.pane-views-first-time-user-profile-block').dialog('close');
                 }
             });
@@ -217,7 +217,7 @@
                     //console.log(msg);
                     var parsed_msg = $.parseJSON(msg);
                     if (parsed_msg.success) {
-                        $('#location-select').append('<option value="' + selected_zip_code + '" selected>' + selected_city + ', ' + selected_state + '</option>').trigger('change');
+                        $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + selected_city + ', ' + selected_state + '</option>').trigger('change');
                         $('.pane-views-first-time-user-profile-block').dialog('close');
                     }
                     else {
