@@ -242,7 +242,7 @@ class AdfsBridge {
      * @param string $time  The time to convert in SAML2 format
      * @return string  $time converted to a unix timestamp.
      */
-    function parseSAML2Time($time) {
+function parseSAML2Time($time) {
         $matches = array();
         /* We use a very strict regex to parse the timestamp. */
         if (preg_match('/^(\\d\\d\\d\\d)-(\\d\\d)-(\\d\\d)' .
@@ -267,8 +267,6 @@ class AdfsBridge {
          */
         return gmmktime($hour, $minute, $second, $month, $day, $year);
     }
-
-
 }
 
 // Validate configuration. If certificate content is provided, don't try to load from file.
