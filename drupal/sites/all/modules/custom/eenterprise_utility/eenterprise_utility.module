@@ -128,6 +128,7 @@ function guest_login_action()
         $user = user_load($uid);
         watchdog('guest_user', 'Session opened for %name.', array('%name' => $user->name));
         $user->login = REQUEST_TIME;
+        variable_set('cdx_user_type', 'public');
         db_update('users')
             ->fields(array('login' => $user->login))
             ->condition('uid', $user->uid)
