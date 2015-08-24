@@ -154,17 +154,18 @@ function return_cdx_facility_management_token()
 //    $user_type = variable_get('cdx_user_type');
 //    if ($user_type != 'CDX') {
 //        exit();
-//    }
+////    }
 //    global $user;
-//    $user_data = user_load($user->uid);
-//    $user_id = $user_data->mail;
-//    $password = 'EEP15fun';
+//////    $user_data = user_load($user->uid);
+//////    $user_id = $user_data->mail;
+//    $user_id = 'Franklipman';
+//    $password = 'Cville77';
 //    try {
 //        // $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
 //        $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
 //        https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl
 //    } catch (SoapFault $f) {
-//        dpm($f);
+//        var_dump($f);
 //        return;
 //    }
 //    $params = array(
@@ -202,8 +203,9 @@ function return_cdx_facility_management_token()
 function retrieve_cdx_user_data()
 {
     $user_id =     variable_get('userId');
-    $user_details =     variable_get('user_details');
+//    $user_details =     variable_get('user_details');
 
+//    $user_id = 'Franklipman';
     $allowed_program_roles = ['CEDRI', 'CSPP'];
 // Generate token as administrator to get user data
     $admin_id = 'registration.dev@cgifederal.com';
@@ -275,7 +277,6 @@ function retrieve_cdx_user_data()
                         foreach ($user_roles->Role as $index=>$role) {
                             if (in_array($role->dataflow, $allowed_program_roles)) {
                                 $org_contains_role = true;
-
                                 $json_return['organizations_to_roles'][$org_id][] = $role;
                             }
                         }
@@ -333,7 +334,7 @@ function retrieve_cdx_user_data()
         print json_encode($json_return);
     } catch (SoapFault $f) {
         dpm($f);
-        print json_encode((array('error' => 'true', 'fault' => $f, 'user'=> $user_id, 'user_details' => $user_details)));
+        print json_encode((array('error' => 'true', 'fault' => $f, 'user'=> $user_id)));
         watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }

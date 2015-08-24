@@ -5,30 +5,23 @@
   var previousZip;
 
   $(document).ready(function() {
-    //user location dropdown
-    var $select = $('select#location-select');
-    $select.change(function() {
-      currentZip = $(this).val();
+    $(document).on('ee:zipCodeQueried', function(evt, data) {
+      currentZip = data.zip;
       if (currentZip !== '' && currentZip !== previousZip) {
-        updateMyEnvMapperLoc();
+        updateMyEnvMapperLoc(data);
       }
       previousZip = currentZip;
-    });
-
-    $select.trigger('change');
-
+    })
   });
 
-  function updateMyEnvMapperLoc() {
+  function updateMyEnvMapperLoc(data) {
     if (currentZip) {
-      $.getJSON('/zip_code_lookup?zip=' + currentZip, function(data) {
-        if (data.latitude > 0 && data.latitude < 90) {
-          var zipCentLat = String(data.latitude);
-          var zipCentLon = String(data.longitude);
-          //console.log("MyEnv map with lat/long: " + zipCentLat + " " + zipCentLon);
-          setiFrameNewURL(zipCentLat, zipCentLon);
-        }
-      });
+      if (data.latitude > 0 && data.latitude < 90) {
+        var zipCentLat = String(data.latitude);
+        var zipCentLon = String(data.longitude);
+        //console.log("MyEnv map with lat/long: " + zipCentLat + " " + zipCentLon);
+        setiFrameNewURL(zipCentLat, zipCentLon);
+      }
     }
   }
 

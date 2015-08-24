@@ -8,6 +8,12 @@
 /*max-width: 1400px;*/
 /*}*/
 
+#fmw-type-select-holder, #fmw-organization-select-holder, #fmw-program-select-holder, #launch-facility-management {
+    display: inline-block;
+    margin:20px;
+
+}
+
 @media (min-width: 1200px) {
     .cdx_facility_management_block {
         min-width: 1200px;

@@ -127,7 +127,6 @@ function eenterprise_bridge_auth_authenticate($error) {
             else {
                 $uname = $username;
                 variable_set('cdx_user_type','cdx');
-
             }
             if(variable_get('trusted_users_list_used') == 'Yes') {
               trusted_user_check($uname);
