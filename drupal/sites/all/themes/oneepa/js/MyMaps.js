@@ -65,11 +65,10 @@
         var itemTags = $(this).find('a').data('tags').toLowerCase();
         switch (filterType) {
           case 'mapsAll':
-            //showAllItemsInMyMapsGallery();
-            //$(this).show();
+            //nothing to do because all items are showing
             break;
           case 'mapsAir':
-            if (itemTags.indexOf('air') == -1 && itemTags.indexOf('oaqps') == -1) {
+            if ((itemTags.indexOf('air') == -1 && itemTags.indexOf('oaqps') == -1) || (itemTags.indexOf('impair') > -1)) {
               $(this).hide();
             } else {
 
@@ -84,7 +83,7 @@
 
             break;
           case 'mapsLand':
-            if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1 && itemTags.indexOf('enviroatlas') == -1) {
+            if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1) {
               $(this).hide();
             } else {}
             break;
@@ -108,7 +107,7 @@
         async: true,
         //hardcoded string for EPA  GPO (AGOL) query - hardcoded query for empty string (wildcard) - later to implement tag search or similar for filtering based on dynamic criteria
         data: {
-          q: ' orgid:cJ9YHowT8TU7DUyn orgid:cJ9YHowT8TU7DUyn (type:"Web Mapping Application" OR type:"Mobile Application") -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration" -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration"',
+          q: ' orgid:cJ9YHowT8TU7DUyn orgid:cJ9YHowT8TU7DUyn (type:"Web Mapping Application" OR type:"Mobile Application") -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In"',
           f: 'json',
           num: '100'
         },

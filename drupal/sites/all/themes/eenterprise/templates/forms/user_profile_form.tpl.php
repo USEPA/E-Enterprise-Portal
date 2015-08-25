@@ -12,7 +12,6 @@
 <h3>User Information</h3>
 <?php
 print render($form['field_profile_first_name']);
-print render($form['field_profile_last_name']);
 print render($form['account']['mail']);
 ?>
 </div> <!--panel-body-->
