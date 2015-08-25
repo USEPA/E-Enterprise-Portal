@@ -611,6 +611,84 @@ function create_progress_tracker_node($res, $user){
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
 }
 
+function assign_roles_to_user($user_name){
+    try {
+        $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+    } catch(SoapFault $f) {
+        drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
+        watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user", array(), WATCHDOG_ERROR);
+        return;
+    }
+    $params1 = array(
+        "userId" => "registration.test@cgifederal.com",
+        "credential" => "Testregistration1",
+        "domain" => "default",
+        "authenticationMethod" => "password",
+    );
+    try {
+        //Authenticate to CDX
+        $response1 = $client->__soapCall("Authenticate", array($params1));
+    } catch(SoapFault $f) {
+        watchdog('eenterprise_bridge_auth',"Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
+    }
+    $params2 = array(
+        "securityToken" => $response1->securityToken,
+        "userId" => $user_name
+    );
+
+    try {
+        $user_obj = $client->__soapCall("RetrieveUser", array($params2));
+        $user_sec_bundle = array(
+            "securityToken" => $response1->securityToken,
+            "user" => $user_obj->User,
+        );
+
+        $org_val = null;
+        $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
+
+        if(is_array($user_orgs->Organization))
+            $org_val = $user_orgs->Organization[0];
+        else
+            $org_val = $user_orgs->Organization;
+
+        $user_sec_org_bundle = array(
+            "securityToken" => $response1->securityToken,
+            "user" => $user_obj->User,
+            "org" => $org_val,
+        );
+        global $user;
+        $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
+        if(is_array($user_roles->Role)){
+            foreach($user_roles->Role as $k => $v){
+                $role_val = $v->type->description;
+                if(!empty($role_val)){
+                    $user_role = user_role_load_by_name($role_val);
+                    if($user_role === FALSE){
+                        $user_role = new stdClass();
+                        $user_role->name = $role_val;
+                        user_role_save($user_role);
+                    }
+                    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                }
+            }
+        }
+        else{
+            $role_val = $user_roles->Role->type->description;
+            if(!empty($role_val)){
+                $user_role = user_role_load_by_name($role_val);
+                if($user_role === FALSE){
+                    $user_role = new stdClass();
+                    $user_role->name = $role_val;
+                    user_role_save($user_role);
+                }
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+            }
+        }
+    } catch(SoapFault $f) {
+        watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
+    }
+}
+
 function eenterprise_bridge_auth_logout() {
 
   drupal_add_js(drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js");
