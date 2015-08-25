@@ -8,6 +8,12 @@
 .view-favorite-sites .views-table {
   width: 100%;
 }
+.view-favorite-sites th, .view-favorite-sites td {
+	padding: 5px;
+}
+.view-favorite-sites td:first-child {
+	text-align:center;
+}
 
 .pane-views-favorite-sites-block .tabledrag-toggle-weight, 
 .pane-views-favorite-sites-block .form-wrapper legend, 
@@ -31,10 +37,6 @@
   height: 150px;
 }*/
 
-
-
-
-
 .pane-views-favorite-sites-block {
   height: 525px;
   overflow-y: auto;
@@ -42,7 +44,9 @@
 .pane-views-favorite-sites-block #favorite_links-ajax-wrapper {
   height: 70%; overflow: hidden;
 }
-
+#favorites-edit-profile {
+	font-size: 0.85em;
+}
 .transparent-qtip .ui-tooltip-wrapper{
    background-color: transparent;
 }
@@ -79,5 +83,5 @@
 }
 
 span.glyphicon-heart, span.glyphicon-plus {
-  font-size: 2.0em;
+  font-size: 1.5em;
 }

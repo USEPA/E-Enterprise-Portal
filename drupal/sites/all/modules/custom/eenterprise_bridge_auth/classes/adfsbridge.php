@@ -55,7 +55,7 @@ class AdfsBridge {
         }
 	// Accommodate for MS-ADFS escaped quotes
 	$wresult = str_replace('\"', '"', $wresult);
-	
+
         // Load and parse the XML.
 	$dom = new DOMDocument();
         $dom->loadXML(str_replace ("\r", "", $wresult));
@@ -211,7 +211,6 @@ class AdfsBridge {
 	}
         // Create the user details response object.
         $userDetails = new AdfsUserDetails();
-        
 	// Extract the name identifier from the response.
 	//$nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:NameIdentifier', $assertion);
 	$nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:SubjectConfirmation/saml:ConfirmationMethod', $assertion);
@@ -223,7 +222,9 @@ class AdfsBridge {
 	//*/ Extract the attributes from the response.
 	$userDetails->attributes = array();
 	$attributeValues = $xpath->query('./saml:AttributeStatement/saml:Attribute/saml:AttributeValue', $assertion);
-	foreach($attributeValues as $attribute) {
+
+
+        foreach($attributeValues as $attribute) {
             $name = $attribute->parentNode->getAttribute('AttributeName');
             $value = $attribute->textContent;
             if(!array_key_exists($name, $userDetails->attributes)) {
@@ -231,7 +232,10 @@ class AdfsBridge {
             }
             array_push($userDetails->attributes[$name], $value);
 	}
-        
+        variable_set('cdx_fmw_security_token', $userDetails->attributes['securityToken'][0]);
+        variable_set('user_details', $userDetails);
+        variable_set('userId', $userDetails->attributes['userId'][0]);
+
         return $userDetails;
     }
     function handleXmlError($errno, $errstr, $errfile, $errline) {

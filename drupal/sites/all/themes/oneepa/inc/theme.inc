@@ -707,7 +707,7 @@ function oneepa_form_required_marker($variables) {
     'class' => 'form-required',
     'title' => t('This field is required.'),
   );
-  return '<span' . drupal_attributes($attributes) . '>(' .t('Required') . ')</span>';
+  return '<span' . drupal_attributes($attributes) . '>' .t('*') . '</span>';
 }
 
 /**

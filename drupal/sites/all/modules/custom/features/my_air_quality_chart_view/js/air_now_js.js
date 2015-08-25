@@ -3,8 +3,8 @@
 
   var map;
   var markers;
-  var currentZip;
-  var currentLocation;
+  var currentZipData;
+  //var currentLocation;
   var todayAQI;
 
   $(document).ready(function() {
@@ -21,31 +21,23 @@
       }
     });
 
-    var $select = $('select#location-select');
+    $(document).on("ee:zipCodeQueried", function(evt, data) {
+      currentZipData = data;
 
-    $select.change(function() {
-      currentZip = $(this).val();
+      draw(currentZipData.zip, currentZipData.string);
 
-      if (currentZip != 'view_more') {
-        currentLocation = $(this).find('option:selected').text();
-        draw(currentZip, currentLocation);
-
-        if (markers) {
-          map.removeLayer(markers);
-        }
-
-        markers = new L.FeatureGroup();
-        map.addLayer(markers);
-        updateMarker();
+      if (markers) {
+        map.removeLayer(markers);
       }
+
+      markers = new L.FeatureGroup();
+      map.addLayer(markers);
+      updateMarker();
     });
-
-    $select.trigger('change');
-
   });
 
   function loadMap() {
-    var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 4);
+    var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 10);
 
     $('a', map.getContainer()).addClass('favorites-ignore');
 
@@ -56,6 +48,26 @@
       opacity: 0.9,
       position: ''
     }).addTo(map);
+
+    var AQSMonitorLayer = L.esri.dynamicMapLayer({
+      url: "https://gispub.epa.gov/arcgis/rest/services/OEI/FRS_AQSTemp/MapServer",
+      opacity: 1.0
+    });
+
+    AQSMonitorLayer.on("load", function() {});
+
+    map.addLayer(AQSMonitorLayer);
+
+    var AQSpopupTemplate = "<h3>AQS ID: {PGM_SYS_ID}</h3><br><small><small>";
+
+    AQSMonitorLayer.bindPopup(function(error, featureCollection) {
+      if (error || featureCollection.features.length === 0) {
+        return false;
+      } else {
+        return 'AQS Monitor ID: ' + featureCollection.features[0].properties.PGM_SYS_ID;
+      }
+    });
+
 
     var stateBoundaries = L.esri.dynamicMapLayer({
       url: 'https://gispub.epa.gov/arcgis/rest/services/ORD/ROE_StateBoundaries/MapServer',
@@ -70,20 +82,22 @@
   }
 
   function updateMarker() {
-    if (currentZip) {
-      $.getJSON('/zip_code_lookup?zip=' + currentZip, function(data) {
+    if (currentZipData) {
+      //$.getJSON('/zip_code_lookup?zip=' + currentZip, function(data) {
 
-        var latlng = [data.latitude, data.longitude];
+        var latlng = [currentZipData.latitude, currentZipData.longitude];
 
         var marker = L.marker(latlng).addTo(markers);
-        marker.bindPopup("<b>" + currentLocation + "</b>" + (todayAQI ? ("<br/>Today's Air Quality: " + todayAQI) : ""), {
+        marker.bindPopup("<b>" + currentZipData.string + "</b>" + (todayAQI ? ("<br/>Today's Air Quality: " + todayAQI) : ""), {
           minWidth: 150,
           maxWidth: 500,
           className: 'favorites-ignore'
-        }).openPopup();
+        });
 
-        map.setView(latlng);
-      });
+        //map.setView(latlng);
+        marker.openPopup();
+
+      //});
     }
   }
 
@@ -215,7 +229,7 @@
 
       dateStr = dateStr.split('-');
 
-      return new Date(dateStr[0], parseInt(dateStr[1]) - 1, dateStr[2])
+      return new Date(dateStr[0], parseInt(dateStr[1]) - 1, dateStr[2]);
     }
 
     function dateDiffInDays(a, b) {
@@ -289,7 +303,7 @@
       else if (aqi < 300)
         return (aqi - 200) * 0.5 + 200;
       else
-        return (aqi - 300) * .25 + 250;
+        return (aqi - 300) * 0.25 + 250;
     }
 
     var categoryInfo = [{
@@ -363,7 +377,7 @@
     var reducedCategoryBounds = categoryBounds;
     var maxCategoryBound = reducedCategoryBounds[reducedCategoryBounds.length - 1];
 
-    var baseHeight = maxCategoryBound + 125;
+    var baseHeight = maxCategoryBound + 25;
     var baseWidth = data.length * 50 + m[1] + m[3];
 
     // reduced width and height based on data
@@ -491,25 +505,25 @@
       .text("Note: Graph is not drawn to scale.");
 
     /*
-    // add grid lines to show scale
-    var gridLineIndex = 250;
+     // add grid lines to show scale
+     var gridLineIndex = 250;
 
-    var gridLines = yAxisGroup.insert("g")
-      .attr("transform", "translate("+(m[3] - m[1] * 2)+", 0)");
+     var gridLines = yAxisGroup.insert("g")
+     .attr("transform", "translate("+(m[3] - m[1] * 2)+", 0)");
 
-    while (gridLineIndex < 500) {
-      if (gridLineIndex != 300) {
-        gridLines.insert("g")
-          .attr("transform", "translate(0, "+(y(computeVisualAQI(gridLineIndex)))+")")
-          .append("line")
-          .attr("x2",w + m[1] * 2)
-          .attr("y2", 0)
-          .style({"stroke": "black", "opacity": 0.1})
-      }
+     while (gridLineIndex < 500) {
+     if (gridLineIndex != 300) {
+     gridLines.insert("g")
+     .attr("transform", "translate(0, "+(y(computeVisualAQI(gridLineIndex)))+")")
+     .append("line")
+     .attr("x2",w + m[1] * 2)
+     .attr("y2", 0)
+     .style({"stroke": "black", "opacity": 0.1})
+     }
 
-      gridLineIndex += 50;
-    }
-*/
+     gridLineIndex += 50;
+     }
+     */
 
     // Translate y-axis ticks to the right
     graph.selectAll('.y.axis line.tick')
@@ -523,7 +537,7 @@
       .attr("transform", function(cat, i) {
         // vertical centering
         var scale = reducedCategoryBounds[reducedCategoryBounds.length - 1] / h;
-        return i + 1 >= categoryBounds.length ? "" : "translate(25, -" + ((categoryBounds[i + 1] - categoryBounds[i]) / 2 * scale) + ")"
+        return i + 1 >= categoryBounds.length ? "" : "translate(25, -" + ((categoryBounds[i + 1] - categoryBounds[i]) / 2 * scale - 20) + ")"
       }).attr("alignment-baseline", "middle")
       .attr("class", function(cat, i) {
         return 'category-label' + (!todayData || i != getCategoryInfoIndex(todayData.AQI) ? '' : ' active-category-text')
@@ -552,13 +566,13 @@
       .attr("y", function(d) {
         return y(d.visualAQI) - 20
       })
-    // .attr("dy", ".35em")
-    .attr("class", function(d) {
-      return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text'
-    })
+      // .attr("dy", ".35em")
+      .attr("class", function(d) {
+        return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text'
+      })
       .attr("text-anchor", "middle")
       .text(function(d) {
-        return d.AQI;
+        return d.ShowAQILabel ? d.AQI : '';
       });
 
     gnodes.append("circle")
@@ -598,10 +612,12 @@
 
   var draw = function(zipCode, locationText) {
 
+    var categoryToMidAQI = {1: 25, 2: 75, 3: 125, 4: 175, 5: 250, 6: 400};
+
     function parseData(responseData) {
       var data = [];
 
-      var maxAQI = 0;
+      var maxAQI = -1;
 
       // for each date, find the max component AQI and add it
       for (var i = 0; i < responseData.length; i++) {
@@ -609,25 +625,32 @@
         if (responseData[i].AQI > maxAQI)
           maxAQI = responseData[i].AQI;
 
-        // insert new entry 
-        if ((i + 1 == responseData.length || responseData[i].DateForecast != responseData[i+1].DateForecast) && maxAQI > 0) { 
+        // insert new entry
+        if ((i + 1 == responseData.length || responseData[i].DateForecast != responseData[i + 1].DateForecast)) {
+          var showAQILabel = maxAQI != -1;
+
+          if (maxAQI == -1) {
+            maxAQI = categoryToMidAQI[responseData[i].Category.Number];
+          }
+
           var entry = {
             DateForecast: responseData[i].DateForecast,
             AQI: maxAQI,
             ReportingArea: responseData[i].ReportingArea,
-            StateCode: responseData[i].StateCode
+            StateCode: responseData[i].StateCode,
+            ShowAQILabel: showAQILabel
           };
           data.push(entry);
-          maxAQI = 0;
+          maxAQI = -1;
         }
       }
 
-      // return [
-      //   {'DateForecast': "2015-07-20", 'AQI': 248},
-      //   {'DateForecast': "2015-07-21", 'AQI': 200},
-      //   {'DateForecast': "2015-07-22", 'AQI': 82},
-      //   {'DateForecast': "2015-07-23", 'AQI': 401}
-      // ];
+      //return [
+      //  {'DateForecast': "2015-08-20", 'AQI': 148},
+      //  {'DateForecast': "2015-08-21", 'AQI': 200},
+      //  {'DateForecast': "2015-08-22", 'AQI': 82},
+      //  {'DateForecast': "2015-08-23", 'AQI': 401}
+      //];
 
       return data;
     }
@@ -655,5 +678,5 @@
         drawMessage('Air quality information is not available for ' + locationText + '.');
       }
     });
-  }
+  };
 })(jQuery);

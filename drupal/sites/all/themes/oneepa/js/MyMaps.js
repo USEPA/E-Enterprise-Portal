@@ -1,6 +1,6 @@
 (function($) {
   $(function() {
-    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank">  Browse gallery...</a>';
+    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse gallery...</a>';
     var totThumbnails = 0;
     var jcarousel = $('.jcarousel').jcarousel();
 
@@ -47,8 +47,56 @@
         target: '+=1'
       });
 
+    $('.myMapFilterTerm').click(function() {
+      //options from the DOM (id) are mapsAll, mapsAir, mapsWater, or mapsLand
+      var filterType = $(this).attr('id');
+      $('.myMapFilterTerm').parent('li').removeClass('active-mymaps-filter');
+      $('.myMapFilterTerm').parent('li').removeClass('active-mymaps-filter');
+      $(this).parent('li').addClass('active-mymaps-filter');
+      $(this).blur();
+      filterMyMapsGallery(filterType);
+    });
+
+    function filterMyMapsGallery(filterType) {
+      var listItems = $('.jcarousel ul li');
+      listItems.each(function(li) {
+        //reset gallery to show all items before applying filter
+        $(this).show();
+        var itemTags = $(this).find('a').data('tags').toLowerCase();
+        switch (filterType) {
+          case 'mapsAll':
+            //nothing to do because all items are showing
+            break;
+          case 'mapsAir':
+            if ((itemTags.indexOf('air') == -1 && itemTags.indexOf('oaqps') == -1) || (itemTags.indexOf('impair') > -1)) {
+              $(this).hide();
+            } else {
+
+            }
+            break;
+          case 'mapsWater':
+            if (itemTags.indexOf('water') == -1 && itemTags.indexOf('ocean') == -1) {
+              $(this).hide();
+            } else {
+
+            }
+
+            break;
+          case 'mapsLand':
+            if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1) {
+              $(this).hide();
+            } else {}
+            break;
+        }
+
+      });
+      updateTotalNumberOfMapsShowing();
+      jcarousel.jcarousel('reload');
+      $('.jcarousel').jcarousel('scroll', 0);
 
 
+
+    }
 
 
     //query the EPA AGOL/GPO REST API for publicly shared web mapping applications
@@ -59,7 +107,7 @@
         async: true,
         //hardcoded string for EPA  GPO (AGOL) query - hardcoded query for empty string (wildcard) - later to implement tag search or similar for filtering based on dynamic criteria
         data: {
-          q: ' orgid:cJ9YHowT8TU7DUyn orgid:cJ9YHowT8TU7DUyn (type:"Web Mapping Application" OR type:"Mobile Application") -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration" -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration"',
+          q: ' orgid:cJ9YHowT8TU7DUyn orgid:cJ9YHowT8TU7DUyn (type:"Web Mapping Application" OR type:"Mobile Application") -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In"',
           f: 'json',
           num: '100'
         },
@@ -79,6 +127,7 @@
     function setupMyMapsGalleryWithEPAthumbs(data) {
       var orgAlias = "USEPA GeoPlatform Online";
       var orgContactEmail = "epageoplatform@epa.gov";
+      var orgAGOLacronym = 'epa';
 
       //Opening UL only created in init of gallery
       var html = '<ul class="thumb">';
@@ -87,24 +136,52 @@
 
       //generate each thumbnail and only load it if non-default thumbnail image and a good hyperlink
       $.each(shuffle(data.results), function() {
-        //Added filter for user 'jquacken_EPA' because all of that user's WMAs are not maps - they are how-to guides for C-FERST
-        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.url.indexOf('http') > -1 && this.description !== null && this.owner != 'jquacken_EPA') {
+        //Added filter for user 'jquacken_EPA' because all of that user's WMAs are not maps - they are how-to guides
+        //Check for hyperlinks to most likely apps that are internal only (non default ports of 80, 443)
+        var hyperlinkValid;
+        if (this.url.indexOf('http') > -1 && this.url !== null) {
+          var linkArr = (this.url.split("://"));
+          //checks if hyperlink contains port designator
+          if ((linkArr[1].indexOf(':') > -1)) {
+            hyperlinkValid = false;
+          } else {
+            hyperlinkValid = true;
+          }
+        } else {
+          hyperlinkValid = false;
+        }
+
+        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.description !== null && this.owner != 'jquacken_EPA' && hyperlinkValid === true) {
+          var itemTags = this.tags.toString();
           thumbnailNum += 1;
           numGoodResults += 1;
-          var thumbnailURL = "https://epa.maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
+          var thumbnailURL = "https://" + orgAGOLacronym + ".maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
           //Descriptions can contain or not contain HTML markup, to let JQuery's .text() work, we just add the p tags to all descriptions
           //and all tags are remove with .text(), including descriptions which has no HTML markup which would normally throw an error
           var desc = "<p>" + this.description + "</p>";
-          var hyperlinkURL = this.url;
-          html += '<li><div class="thumbitem-border">';
-          html += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
-          html += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
-          html += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
+          //check if hyperlink is hosted on maps.arcgis.com, if it is, switch URL to HTTPS
+          var origURL = this.url;
+          var hyperlinkURL;
+          if ((origURL.indexOf('http://') > -1) && (origURL.indexOf('maps.arcgis.com') > -1)) {
+            //replace with HTTPS since we know maps.arcgis.com support SSL/TLS
+            hyperlinkURL = origURL.replace('http://', 'https://');
+          } else {
+            hyperlinkURL = origURL;
+          }
+
+          var htmlLiItem = '';
+          htmlLiItem += '<li><div class="thumbitem-border">';
+          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '"data-tags="' + itemTags + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
+          htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
+          htmlLiItem += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
-          html += '<p class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
-          html += '<p class="mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
-          html += '</div>';
-          html += '</li>';
+          //Omaha has no descriptions in their publicly shared WMAs
+          htmlLiItem += '<p class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
+          htmlLiItem += '<p class="mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
+          htmlLiItem += '</div>';
+          htmlLiItem += '</li>';
+
+          html += htmlLiItem;
         }
       });
 
@@ -128,10 +205,9 @@
       });
       $(".ellipsis").trigger("update.dot");
 
-      //Update DOM with the number of displayed results/thumbnails
-      $("#numThumbnails").html(totThumbnails.toString() + ' Maps  - ' + galleryLink);
+      updateTotalNumberOfMapsShowing();
 
-      addClickListeners();
+      addMapThumbnailClickListeners();
 
     }
 
@@ -169,22 +245,47 @@
     function appendMPCAToMyMapsGallery(data) {
       var orgAlias = "Minnesota Pollution Control Agency";
       var orgContactEmail = "webteam.pca@state.mn.us";
+      var orgAGOLacronym = "mpca";
 
       var numGoodResults = 0;
       var thumbnailNum = 0;
       //generate each thumbnail and only load it if non-default thumbnail image and a good hyperlink
       $.each(shuffle(data.results), function() {
-        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.url.indexOf('http') > -1 && this.description !== null) {
+        //Check for hyperlinks to most likely apps that are internal only (non default ports of 80, 443)
+        var hyperlinkValid;
+        if (this.url.indexOf('http') > -1 && this.url !== null) {
+          var linkArr = (this.url.split("://"));
+          //checks if hyperlink contains port designator
+          if ((linkArr[1].indexOf(':') > -1)) {
+            hyperlinkValid = false;
+          } else {
+            hyperlinkValid = true;
+          }
+        } else {
+          hyperlinkValid = false;
+        }
+
+        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.description !== null && hyperlinkValid === true) {
+          var itemTags = this.tags.toString();
           thumbnailNum += 1;
           numGoodResults += 1;
-          var thumbnailURL = "https://mpca.maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
+          var thumbnailURL = "https://" + orgAGOLacronym + ".maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
           //Descriptions can contain or not contain HTML markup, to let JQuery's .text() work, we just add the p tags to all descriptions
           //and all tags are remove with .text(), including descriptions which has no HTML markup which would normally throw an error
           var desc = "<p>" + this.description + "</p>";
-          var hyperlinkURL = this.url;
+          //check if hyperlink is hosted on maps.arcgis.com, if it is, switch URL to HTTPS
+          var origURL = this.url;
+          var hyperlinkURL;
+          if ((origURL.indexOf('http://') > -1) && (origURL.indexOf('maps.arcgis.com') > -1)) {
+            //replace with HTTPS since we know maps.arcgis.com support SSL/TLS
+            hyperlinkURL = origURL.replace('http://', 'https://');
+          } else {
+            hyperlinkURL = origURL;
+          }
+
           var htmlLiItem = '';
           htmlLiItem += '<li><div class="thumbitem-border">';
-          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
+          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '"data-tags="' + itemTags + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
           htmlLiItem += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
@@ -212,10 +313,9 @@
       });
       $(".ellipsis").trigger("update.dot");
 
-      //Update DOM with the number of displayed results/thumbnails
-      $("#numThumbnails").html(totThumbnails.toString() + ' Maps  - ' + galleryLink);
+      updateTotalNumberOfMapsShowing();
 
-      addClickListeners();
+      addMapThumbnailClickListeners();
     }
 
 
@@ -253,30 +353,56 @@
     }
 
     function appendOmahaNEToMyMapsGallery(data) {
+
       var orgAlias = "City of Omaha, Nebraska";
       var orgContactEmail = "gis@douglascounty-ne.gov";
+      var orgAGOLacronym = "omaha";
 
       var numGoodResults = 0;
       var thumbnailNum = 0;
       //generate each thumbnail and only load it if non-default thumbnail image and a good hyperlink and a description
       //removed && this.description !== null
       $.each(shuffle(data.results), function() {
-        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.url.indexOf('http') > -1) {
+        //Check for hyperlinks to most likely apps that are internal only (non default ports of 80, 443)
+        var hyperlinkValid;
+        if (this.url.indexOf('http') > -1 && this.url !== null) {
+          var linkArr = (this.url.split("://"));
+          //checks if hyperlink contains port designator
+          if ((linkArr[1].indexOf(':') > -1)) {
+            hyperlinkValid = false;
+          } else {
+            hyperlinkValid = true;
+          }
+        } else {
+          hyperlinkValid = false;
+        }
+
+        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.description !== null && hyperlinkValid === true) {
+          var itemTags = this.tags.toString();
           thumbnailNum += 1;
           numGoodResults += 1;
-          var thumbnailURL = "https://omaha.maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
+          var thumbnailURL = "https://" + orgAGOLacronym + ".maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
           //Descriptions can contain or not contain HTML markup, to let JQuery's .text() work, we just add the p tags to all descriptions
           //and all tags are remove with .text(), including descriptions which has no HTML markup which would normally throw an error
           var desc = "<p>" + this.description + "</p>";
-          var hyperlinkURL = this.url;
+          //check if hyperlink is hosted on maps.arcgis.com, if it is, switch URL to HTTPS
+          var origURL = this.url;
+          var hyperlinkURL;
+          if ((origURL.indexOf('http://') > -1) && (origURL.indexOf('maps.arcgis.com') > -1)) {
+            //replace with HTTPS since we know maps.arcgis.com support SSL/TLS
+            hyperlinkURL = origURL.replace('http://', 'https://');
+          } else {
+            hyperlinkURL = origURL;
+          }
+
           var htmlLiItem = '';
           htmlLiItem += '<li><div class="thumbitem-border">';
-          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
+          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '"data-tags="' + itemTags + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
           htmlLiItem += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
-          //htmlLiItem += '<div class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</div>';
-          htmlLiItem += '<p class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + "" + '">' + "" + '</p>';
+          //Omaha has no descriptions in their publicly shared WMAs
+          htmlLiItem += '<p class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
           htmlLiItem += '<p class="mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
           htmlLiItem += '</div>';
           htmlLiItem += '</li>';
@@ -298,11 +424,11 @@
       });
       $(".ellipsis").trigger("update.dot");
 
-      //Update DOM with the number of displayed results/thumbnails
-      $("#numThumbnails").html(totThumbnails.toString() + ' Maps  - ' + galleryLink);
+      updateTotalNumberOfMapsShowing();
 
-      addClickListeners();
+      addMapThumbnailClickListeners();
     }
+
 
 
 
@@ -340,22 +466,48 @@
     function appendNOAAToMyMapsGallery(data) {
       var orgAlias = "NOAA";
       var orgContactEmail = "gis.community@noaa.gov";
+      var orgAGOLacronym = "noaa";
 
       var numGoodResults = 0;
       var thumbnailNum = 0;
       //generate each thumbnail and only load it if non-default thumbnail image and a good hyperlink
       $.each(shuffle(data.results), function() {
-        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.url.indexOf('http') > -1 && this.description !== null) {
+        //Check for hyperlinks to most likely apps that are internal only (non default ports of 80, 443)
+        var hyperlinkValid;
+        if (this.url.indexOf('http') > -1 && this.url !== null) {
+          var linkArr = (this.url.split("://"));
+          //checks if hyperlink contains port designator
+          if ((linkArr[1].indexOf(':') > -1)) {
+            hyperlinkValid = false;
+          } else {
+            hyperlinkValid = true;
+          }
+        } else {
+          hyperlinkValid = false;
+        }
+
+        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.description !== null && hyperlinkValid === true) {
+          var itemTags = this.tags.toString();
+
           thumbnailNum += 1;
           numGoodResults += 1;
-          var thumbnailURL = "https://noaa.maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
+          var thumbnailURL = "https://" + orgAGOLacronym + ".maps.arcgis.com/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
           //Descriptions can contain or not contain HTML markup, to let JQuery's .text() work, we just add the p tags to all descriptions
           //and all tags are remove with .text(), including descriptions which has no HTML markup which would normally throw an error
           var desc = "<p>" + this.description + "</p>";
-          var hyperlinkURL = this.url;
+          //check if hyperlink is hosted on maps.arcgis.com, if it is, switch URL to HTTPS
+          var origURL = this.url;
+          var hyperlinkURL;
+          if ((origURL.indexOf('http://') > -1) && (origURL.indexOf('maps.arcgis.com') > -1)) {
+            //replace with HTTPS since we know maps.arcgis.com support SSL/TLS
+            hyperlinkURL = origURL.replace('http://', 'https://');
+          } else {
+            hyperlinkURL = origURL;
+          }
+
           var htmlLiItem = '';
           htmlLiItem += '<li><div class="thumbitem-border">';
-          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
+          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '"data-tags="' + itemTags + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
           htmlLiItem += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
@@ -382,21 +534,14 @@
       });
       $(".ellipsis").trigger("update.dot");
 
-      //Update DOM with the number of displayed results/thumbnails
-      $("#numThumbnails").html(totThumbnails.toString() + ' Maps  - ' + galleryLink);
+      updateTotalNumberOfMapsShowing();
 
-      addClickListeners();
+      addMapThumbnailClickListeners();
     }
 
 
 
-
-
-
-
-
-
-    function addClickListeners() {
+    function addMapThumbnailClickListeners() {
       //remove any previous click listeners
       $(".thumbhyperlink").off("click");
       $(".thumbhyperlink").on("click", function(e) {
@@ -444,6 +589,11 @@
 
       jcarousel.jcarousel('reload');
 
+    }
+
+    function updateTotalNumberOfMapsShowing() {
+      var numItemsVisible = $('.thumb > li:visible').length;
+      $("#numThumbnails").html(numItemsVisible.toString() + ' Maps  - ' + galleryLink);
     }
 
     //mix content from different sources in the MyMaps Gallery

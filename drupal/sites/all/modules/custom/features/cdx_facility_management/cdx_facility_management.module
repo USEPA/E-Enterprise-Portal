@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the CDX Facility Management feature.
+ */
+
+include_once 'cdx_facility_management.features.inc';
