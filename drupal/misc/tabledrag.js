@@ -539,7 +539,7 @@ Drupal.tableDrag.prototype.dropRow = function (event, self) {
 
       self.rowObject.markChanged();
       if (self.changed == false) {
-//        $(Drupal.theme('tableDragChangedWarning')).insertBefore(self.table).hide().fadeIn('slow');
+        $(Drupal.theme('tableDragChangedWarning')).insertBefore(self.table).hide().fadeIn('slow');
         self.changed = true;
       }
     }
@@ -860,7 +860,6 @@ Drupal.tableDrag.prototype.restripeTable = function () {
  * Stub function. Allows a custom handler when a row begins dragging.
  */
 Drupal.tableDrag.prototype.onDrag = function () {
-  // Table has zipcodes, make sure Field description only on first input
   return null;
 };
 
@@ -868,17 +867,6 @@ Drupal.tableDrag.prototype.onDrag = function () {
  * Stub function. Allows a custom handler when a row is dropped.
  */
 Drupal.tableDrag.prototype.onDrop = function () {
-//
-//  var elem = $(this);
-//  var table = $(elem[0].table);
-//  console.log(table);
-//  if (table.attr('id').indexOf('field-zip-code-values') == 0 ) {
-//    var description = table.find('.draggable odd drag-previous').find('.field-suffix').first();
-//    console.log(description);
-//    table.find('tbody').find('.form-text' ).first().after(description);
-//
-//  }
-
   return null;
 };
 
@@ -1174,7 +1162,7 @@ Drupal.tableDrag.prototype.row.prototype.onSwap = function (swappedRow) {
 };
 
 Drupal.theme.prototype.tableDragChangedMarker = function () {
-  return '';//<span class="warning tabledrag-changed">*</span>';
+  return '<span class="warning tabledrag-changed">*</span>';
 };
 
 Drupal.theme.prototype.tableDragIndentation = function () {
@@ -1182,7 +1170,7 @@ Drupal.theme.prototype.tableDragIndentation = function () {
 };
 
 Drupal.theme.prototype.tableDragChangedWarning = function () {
-  return '';//<div class="tabledrag-changed-warning messages warning">' + Drupal.theme('tableDragChangedMarker') + ' ' + Drupal.t('Changes made in this table will not be saved until the form is submitted.') + '</div>';
+  return '<div class="tabledrag-changed-warning messages warning">' + Drupal.theme('tableDragChangedMarker') + ' ' + Drupal.t('Changes made in this table will not be saved until the form is submitted.') + '</div>';
 };
 
 })(jQuery);
