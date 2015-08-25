@@ -619,7 +619,7 @@ function eenterprise_bridge_auth_logout() {
   return array (
     'bridge_logout' => array (
       '#type' => 'markup',
-      '#markup' => '<img style="display:none" src="https://extauthtest.epacdxnode.net/?wa=wsignout1.0&wtrealm=http%3A%2F%2Fec2-52-4-39-127.compute-1.amazonaws.com&wctx=rm%3D0&wreply=http%3A%2F%2Fec2-52-4-39-127.compute-1.amazonaws.com">',
+      '#markup' => '<img style="display:none" src="' . variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wctx=rm%3D0&wreply=' . urlencode(variable_get('eenterprise_bridge_auth_realm')) . '">',
     ),
     'naas_logout' => array (
       '#type' => 'markup',
