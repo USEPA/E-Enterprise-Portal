@@ -38,7 +38,7 @@ Drupal.behaviors.zipCodeChangeEvent = {
     $locationSelect.trigger('change');
 
     // for guests users, request location
-    if ($locationInput) {
+    if ($locationInput.size() > 0) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           $.ajax({
