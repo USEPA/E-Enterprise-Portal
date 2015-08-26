@@ -10,70 +10,76 @@
 Drupal.behaviors.zipCodeChangeEvent = {
   attach: function(context) {
 
-    // for logged in users
-    var $locationSelect = $('select#location-select');
-    $locationSelect.change(function() {
-      var currentZip = $(this).val();
-      if (currentZip != 'view_more') {
-        $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
-      }
-    });
+    var $locationSelect = $('select#location-select', context);
+    var $locationInput = $('input#location-input-guests', context);
 
-    // for guests
-    var $locationInput = $('input#location-input-guests');
-    $locationInput.change(function() {
-      var currentZip = $(this).val();
-      if (currentZip.match(/^\d{5}$/)) {
-        $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
-      }
-    });
+    $locationSelect.add($locationInput).once(function() {
 
-    // get latlng info for new zip
-    $(document).on("ee:zipCodeChanged", function(evt, data) {
-      $.getJSON('/zip_code_lookup?zip=' + data.zip, function(queryResponse) {
-        $(document).trigger('ee:zipCodeQueried', queryResponse);
+      // for logged in users
+      $locationSelect.change(function() {
+        var currentZip = $(this).val();
+        console.log("change:", currentZip);
+        if (currentZip != 'view_more') {
+          $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
+        }
       });
-    });
 
-    $locationSelect.trigger('change');
+      // for guests
+      $locationInput.change(function() {
+        var currentZip = $(this).val();
+        console.log("change:", currentZip);
+        if (currentZip.match(/^\d{5}$/)) {
+          $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
+        }
+      });
 
-    // for guests users, request location
-    if ($locationInput.size() > 0) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          $.ajax({
-            url: '/return_location_data_lat_long',
-            type: 'GET',
-            data: {latitude: position.coords.latitude, longitude: position.coords.longitude},
-            success: function (location_data) {
-              console.log(location_data);
-              location_data = $.parseJSON(location_data);
-              console.log(location_data);
-
-              if (!location_data.error) {
-
-                $locationInput.val(location_data.zip);
-
-                var zipData = {
-                  state: location_data.state,
-                  city: location_data.city,
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude,
-                  zip: location_data.zip,
-                  string: location_data.city + ', ' + location_data.state
-                };
-
-                $(document).trigger("ee:zipCodeQueried", zipData);
-              }
-              return location_data;
-            },
-            failure: function () {
-              alert('Unable to connect to service');
-            }
-          });
+      // get latlng info for new zip
+      $(document).on("ee:zipCodeChanged", function(evt, data) {
+        $.getJSON('/zip_code_lookup?zip=' + data.zip, function(queryResponse) {
+          $(document).trigger('ee:zipCodeQueried', queryResponse);
         });
+      });
+
+      $locationSelect.trigger('change');
+
+      // for guests users, request location
+      if ($locationInput.size() > 0) {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            $.ajax({
+              url: '/return_location_data_lat_long',
+              type: 'GET',
+              data: {latitude: position.coords.latitude, longitude: position.coords.longitude},
+              success: function (location_data) {
+                console.log(location_data);
+                location_data = $.parseJSON(location_data);
+                console.log(location_data);
+
+                if (!location_data.error) {
+
+                  $locationInput.val(location_data.zip);
+
+                  var zipData = {
+                    state: location_data.state,
+                    city: location_data.city,
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    zip: location_data.zip,
+                    string: location_data.city + ', ' + location_data.state
+                  };
+
+                  $(document).trigger("ee:zipCodeQueried", zipData);
+                }
+                return location_data;
+              },
+              failure: function () {
+                alert('Unable to connect to service');
+              }
+            });
+          });
+        }
       }
-    }
+    });
   }
 };
 
