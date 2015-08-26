@@ -734,7 +734,7 @@ function generate_location_select()
 
     // Check if saved default_zip was used. If not, it is a session variable that has not been saved yet.
     // Add the value to the location selection
-    if ($default_zip_used == false) {
+    if ($default_zip_used == false && isset($default_zip)) {
         print "<option value='" . $default_zip . "' selected>" . $default_name . "</option>";
     }
 
