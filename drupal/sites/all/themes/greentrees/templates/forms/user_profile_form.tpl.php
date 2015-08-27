@@ -28,6 +28,7 @@ print render($form['account']['mail']);
 	by clicking the <i class='fa fa-key description-key'></i> icon. <br />";
 $geolocation = false;
 if (isset($_SESSION['geolocation_used'])) {
+
     if ($_SESSION['geolocation_used'] == 'true') {
         $geolocation = true;
         $location_description .=  'Until a location is specified, the location detected upon your initial login will be set as the default.';
