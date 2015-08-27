@@ -9,13 +9,13 @@
  * Provides AJAX EE Bridge login form.
  */
 function eenterprise_bridge_auth_login() {
-  $form = drupal_render(drupal_get_form('eenterprise_bridge_auth_login_form'));
-  return array(
-    '#type' => 'ajax',
-    '#commands' => array(
-      ajax_command_html('#eenterprise_bridge_auth_container', $form),
-    ),
-  );
+    $form = drupal_render(drupal_get_form('eenterprise_bridge_auth_login_form'));
+    return array(
+        '#type' => 'ajax',
+        '#commands' => array(
+            ajax_command_html('#eenterprise_bridge_auth_container', $form),
+        ),
+    );
 }
 
 /**
@@ -25,60 +25,60 @@ function eenterprise_bridge_auth_login() {
  *   If true, wrap the identity provider buttons in a fieldset.
  */
 function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
-  $identity_providers = [array('Name' => 'Log in')];
-  $form = array();
-  $form['wrap'] = array(
-    '#type' => 'value',
-    '#value' => $wrap,
-  );
-  if (!$identity_providers) {
+    $identity_providers = [array('Name' => 'Log in')];
+    $form = array();
+    $form['wrap'] = array(
+        '#type' => 'value',
+        '#value' => $wrap,
+    );
+    if (!$identity_providers) {
+        return $form;
+    }
+    $temp = array();
+    $temp['identity_providers'] = array(
+        '#type' => 'value',
+        '#value' => $identity_providers,
+    );
+    foreach ($identity_providers as $identity_provider) {
+        $temp[$identity_provider['Name']] = array(
+            '#type' => 'submit',
+            '#default_value' => $identity_provider['Name'],
+        );
+    }
+    if ($wrap) {
+        $form['eenterprise_bridge_auth'] = array(
+            '#type' => 'fieldset',
+            '#title' => variable_get('eenterprise_bridge_auth_link_text', t('Sign in using E-Enterprise Bridge')),
+        );
+        $form['eenterprise_bridge_auth'] = array_merge($form['eenterprise_bridge_auth'], $temp);
+    }
+    else {
+        $form = array_merge($form, $temp);
+    }
     return $form;
-  }
-  $temp = array();
-  $temp['identity_providers'] = array(
-    '#type' => 'value',
-    '#value' => $identity_providers,
-  );
-  foreach ($identity_providers as $identity_provider) {
-    $temp[$identity_provider['Name']] = array(
-      '#type' => 'submit',
-      '#default_value' => $identity_provider['Name'],
-    );
-  }
-  if ($wrap) {
-    $form['eenterprise_bridge_auth'] = array(
-      '#type' => 'fieldset',
-      '#title' => variable_get('eenterprise_bridge_auth_link_text', t('Sign in using E-Enterprise Bridge')),
-    );
-    $form['eenterprise_bridge_auth'] = array_merge($form['eenterprise_bridge_auth'], $temp);
-  }
-  else {
-    $form = array_merge($form, $temp);
-  }
-  return $form;
 }
 
 /**
  * Submit callback.
  */
 function eenterprise_bridge_auth_login_form_submit($form, &$form_state) {
-  $fields = $form_state['values']['wrap'] ? $form['eenterprise_bridge_auth'] : $form;
+    $fields = $form_state['values']['wrap'] ? $form['eenterprise_bridge_auth'] : $form;
 
-  foreach ($fields['identity_providers']['#value'] as $identity_provider) {
-    if ($form_state['clicked_button']['#default_value'] == $identity_provider['Name']) {
-      //Creates complex array using handoff settings values
-      $idParams = array('wa'=>'wsignin1.0',
-                        'wtrealm'=>variable_get('eenterprise_bridge_auth_realm'),
-                        'wctx'=>'rm=0',
-                        'wreply'=>variable_get('eenterprise_bridge_auth_reply'));
+    foreach ($fields['identity_providers']['#value'] as $identity_provider) {
+        if ($form_state['clicked_button']['#default_value'] == $identity_provider['Name']) {
+            //Creates complex array using handoff settings values
+            $idParams = array('wa'=>'wsignin1.0',
+                'wtrealm'=>variable_get('eenterprise_bridge_auth_realm'),
+                'wctx'=>'rm=0',
+                'wreply'=>variable_get('eenterprise_bridge_auth_reply'));
 
-      //Builds URL for handing off the Open ID Bridge
-      $idBridgeUrl = variable_get('eenterprise_bridge_auth_issuer')."?".http_build_query($idParams)."\n";
+            //Builds URL for handing off the Open ID Bridge
+            $idBridgeUrl = variable_get('eenterprise_bridge_auth_issuer')."?".http_build_query($idParams)."\n";
 
-      //Auto redirects to the Open ID Bridge
-      $form_state['redirect'] = $idBridgeUrl;
+            //Auto redirects to the Open ID Bridge
+            $form_state['redirect'] = $idBridgeUrl;
+        }
     }
-  }
 }
 
 /**
@@ -191,7 +191,18 @@ function create_progress_tracker($user){
         watchdog('eenterprise_bridge_auth',"Error: Cannot Authenticate to get data flow.", array(), WATCHDOG_ERROR);
         return;
     }
-    $client2 = new SoapClient(variable_get('eactivity_dataflow_wsdl'), array('soap_version'   => SOAP_1_2));
+    // bmatkin 8-27
+    // Adding local wsdl configurations
+
+    $local = variable_get('eactivity_dataflow_local');
+    $wsdl = variable_get('eactivity_dataflow_wsdl');
+    if ($local) {
+        $client2 = new SoapClient(dirname(__FILE__) . '/' . $wsdl, array('soap_version' => SOAP_1_2));
+    }
+    else {
+        $client2 = new SoapClient($wsdl, array('soap_version'   => SOAP_1_2));
+    }
+
     $params2 = array(
         "securityToken" => $response1->securityToken,
         "dataflow" => "E-ACTIVITY",
@@ -535,68 +546,55 @@ function create_progress_tracker_node($res, $user){
         }
     }
 }
-    try {
-        $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
-    } catch(SoapFault $f) {
-        drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
-        watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user", array(), WATCHDOG_ERROR);
-        return;
-    } //Devregistration1
-    $params1 = array(
-        "userId" => "registration.test@cgifederal.com",
-        "credential" => "Testregistration1",
-        "domain" => "default",
-        "authenticationMethod" => "password",
-    );
-    try {
-        //Authenticate to CDX
-        $response1 = $client->__soapCall("Authenticate", array($params1));
-    } catch(SoapFault $f) {
-        watchdog('eenterprise_bridge_auth',"Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
-    }
-    $params2 = array(
+try {
+    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+} catch(SoapFault $f) {
+    drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
+    watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user", array(), WATCHDOG_ERROR);
+    return;
+}
+$params1 = array(
+    "userId" => "registration.test@cgifederal.com",
+    "credential" => "Testregistration1",
+    "domain" => "default",
+    "authenticationMethod" => "password",
+);
+try {
+    //Authenticate to CDX
+    $response1 = $client->__soapCall("Authenticate", array($params1));
+} catch(SoapFault $f) {
+    watchdog('eenterprise_bridge_auth',"Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
+}
+$params2 = array(
+    "securityToken" => $response1->securityToken,
+    "userId" => $user_name
+);
+
+try {
+    $user_obj = $client->__soapCall("RetrieveUser", array($params2));
+    $user_sec_bundle = array(
         "securityToken" => $response1->securityToken,
-        "userId" => $user_name
+        "user" => $user_obj->User,
     );
 
-    try {
-        $user_obj = $client->__soapCall("RetrieveUser", array($params2));
-        $user_sec_bundle = array(
-            "securityToken" => $response1->securityToken,
-            "user" => $user_obj->User,
-        );
+    $org_val = null;
+    $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
 
-        $org_val = null;
-        $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
+    if(is_array($user_orgs->Organization))
+        $org_val = $user_orgs->Organization[0];
+    else
+        $org_val = $user_orgs->Organization;
 
-        if(is_array($user_orgs->Organization))
-            $org_val = $user_orgs->Organization[0];
-        else
-            $org_val = $user_orgs->Organization;
-
-        $user_sec_org_bundle = array(
-            "securityToken" => $response1->securityToken,
-            "user" => $user_obj->User,
-            "org" => $org_val,
-        );
-        global $user;
-        $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
-        if(is_array($user_roles->Role)){
-            foreach($user_roles->Role as $k => $v){
-                $role_val = $v->type->description;
-                if(!empty($role_val)){
-                    $user_role = user_role_load_by_name($role_val);
-                    if($user_role === FALSE){
-                        $user_role = new stdClass();
-                        $user_role->name = $role_val;
-                        user_role_save($user_role);
-                    }
-                    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-                }
-            }
-        }
-        else{
-            $role_val = $user_roles->Role->type->description;
+    $user_sec_org_bundle = array(
+        "securityToken" => $response1->securityToken,
+        "user" => $user_obj->User,
+        "org" => $org_val,
+    );
+    global $user;
+    $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
+    if(is_array($user_roles->Role)){
+        foreach($user_roles->Role as $k => $v){
+            $role_val = $v->type->description;
             if(!empty($role_val)){
                 $user_role = user_role_load_by_name($role_val);
                 if($user_role === FALSE){
@@ -607,23 +605,38 @@ function create_progress_tracker_node($res, $user){
                 user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
             }
         }
-    } catch(SoapFault $f) {
-        watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
+    }
+    else{
+        $role_val = $user_roles->Role->type->description;
+        if(!empty($role_val)){
+            $user_role = user_role_load_by_name($role_val);
+            if($user_role === FALSE){
+                $user_role = new stdClass();
+                $user_role->name = $role_val;
+                user_role_save($user_role);
+            }
+            user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+        }
+    }
+} catch(SoapFault $f) {
+    watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
 }
 
 function assign_roles_to_user($user_name){
     try {
-        $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+        $wsdl = variable_get('eactivity_auth_reg_wsdl');
+    //    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+        $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
         drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user", array(), WATCHDOG_ERROR);
         return;
     }
     $params1 = array(
-        "userId" => "registration.test@cgifederal.com",
-        "credential" => "Testregistration1",
-        "domain" => "default",
-        "authenticationMethod" => "password",
+        "userId" => variable_get('eactivity_auth_reg_username'),
+        "credential" => variable_get('eactivity_auth_reg_password'),
+        "domain" => variable_get('eactivity_auth_reg_domain'),
+        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
     );
     try {
         //Authenticate to CDX
@@ -691,20 +704,20 @@ function assign_roles_to_user($user_name){
 
 function eenterprise_bridge_auth_logout() {
 
-  drupal_add_js(drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js");
+    drupal_add_js(drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js");
 //  print drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js";
-  return array (
-    'bridge_logout' => array (
-      '#type' => 'markup',
-      '#markup' => '<img style="display:none" src="' . variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wctx=rm%3D0&wreply=' . urlencode(variable_get('eenterprise_bridge_auth_realm')) . '">',
-    ),
-    'naas_logout' => array (
-      '#type' => 'markup',
-      '#markup' => '<img style="display:none" src="https://nodeweb.epacdxnode.net/NAASOpenIdProvider/?__LASTFOCUS=&__EVENTTARGET=ctl00%24Main%24ctl00%24ctl00&__EVENTARGUMENT=&__VIEWSTATE=%2FwEPDwUKLTY3MTkwMzczNGQYAgUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDEFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDMFFGN0bDAwJE1haW4kbG9naW5WaWV3Dw9kAgFkemUzLl2FQAiPPrwmNS1FeE1TJ0u58ubm4drgn1Lh7yg%3D&__VIEWSTATEGENERATOR=5C4DFC33&__EVENTVALIDATION=%2FwEdAARJ2dy5U8AGYwCawJzvYQYXAtZ3XqH851BlP3gJphgKdFaF7W7BI5KtmmOFt4CsYAe7T4%2B6Hxo9bQsFkfZ6fAuTj5FwqLIrW5hFXXuZ3d6Z3PpVm1OcdFKYufMQCJGJ2AE%3D&ctl00%24Main%24loginView%24relyingPartySite=">',
-    ),
-    'body' => array (
-      '#type' => 'markup',
-      '#markup' => 'Logging out...',
-    ),
-  );
+    return array (
+        'bridge_logout' => array (
+            '#type' => 'markup',
+            '#markup' => '<img style="display:none" src="' . variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wctx=rm%3D0&wreply=' . urlencode(variable_get('eenterprise_bridge_auth_realm')) . '">',
+        ),
+        'naas_logout' => array (
+            '#type' => 'markup',
+            '#markup' => '<img style="display:none" src="https://nodeweb.epacdxnode.net/NAASOpenIdProvider/?__LASTFOCUS=&__EVENTTARGET=ctl00%24Main%24ctl00%24ctl00&__EVENTARGUMENT=&__VIEWSTATE=%2FwEPDwUKLTY3MTkwMzczNGQYAgUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDEFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDMFFGN0bDAwJE1haW4kbG9naW5WaWV3Dw9kAgFkemUzLl2FQAiPPrwmNS1FeE1TJ0u58ubm4drgn1Lh7yg%3D&__VIEWSTATEGENERATOR=5C4DFC33&__EVENTVALIDATION=%2FwEdAARJ2dy5U8AGYwCawJzvYQYXAtZ3XqH851BlP3gJphgKdFaF7W7BI5KtmmOFt4CsYAe7T4%2B6Hxo9bQsFkfZ6fAuTj5FwqLIrW5hFXXuZ3d6Z3PpVm1OcdFKYufMQCJGJ2AE%3D&ctl00%24Main%24loginView%24relyingPartySite=">',
+        ),
+        'body' => array (
+            '#type' => 'markup',
+            '#markup' => 'Logging out...',
+        ),
+    );
 }
