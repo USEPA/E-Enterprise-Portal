@@ -14,6 +14,7 @@
                 elementFormDefault="qualified">
 
 
+
             <attribute name="contentType">
                 <simpleType>
                     <xsd:restriction base="xsd:string">
@@ -146,10 +147,10 @@
                 </complexType>
             </element>
 
-            <complexType name="AttachmentType" typens:expectedContentTypes="*/*">
+            <complexType name="AttachmentType" xmime:expectedContentTypes="*/*">
                 <simpleContent>
                     <extension base="xsd:base64Binary">
-                        <attribute ref="typens:contentType" use ="required" />
+                        <attribute ref="xmime:contentType" use ="required" />
                     </extension>
                 </simpleContent>
             </complexType>
@@ -631,7 +632,7 @@
         <documentation>Network Node 2.0 definitions for the Environmental Information Exchange Network</documentation>
         <port name="NetworkNodePort2" binding="tns:NetworkNodeBinding2" >
 
-            <soap12:address location="http://testngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM" />
+            <soap12:address location="http://devngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM" />
         </port>
     </service>
 

@@ -13,8 +13,6 @@
                 xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
                 elementFormDefault="qualified">
 
-
-
             <attribute name="contentType">
                 <simpleType>
                     <xsd:restriction base="xsd:string">
@@ -147,10 +145,10 @@
                 </complexType>
             </element>
 
-            <complexType name="AttachmentType" xmime:expectedContentTypes="*/*">
+            <complexType name="AttachmentType" typens:expectedContentTypes="*/*">
                 <simpleContent>
                     <extension base="xsd:base64Binary">
-                        <attribute ref="xmime:contentType" use ="required" />
+                        <attribute ref="typens:contentType" use ="required" />
                     </extension>
                 </simpleContent>
             </complexType>

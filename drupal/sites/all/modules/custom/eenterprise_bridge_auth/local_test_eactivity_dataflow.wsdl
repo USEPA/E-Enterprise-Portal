@@ -146,10 +146,10 @@
                 </complexType>
             </element>
 
-            <complexType name="AttachmentType" typens:expectedContentTypes="*/*">
+            <complexType name="AttachmentType" xmime:expectedContentTypes="*/*">
                 <simpleContent>
                     <extension base="xsd:base64Binary">
-                        <attribute ref="typens:contentType" use ="required" />
+                        <attribute ref="xmime:contentType" use ="required" />
                     </extension>
                 </simpleContent>
             </complexType>
