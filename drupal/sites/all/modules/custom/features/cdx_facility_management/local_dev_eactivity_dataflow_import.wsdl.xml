@@ -12,31 +12,8 @@
                 xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
                 xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
                 elementFormDefault="qualified">
-
-
-
-            <attribute name="contentType">
-                <simpleType>
-                    <xsd:restriction base="xsd:string">
-                        <minLength value="3"/>
-                    </xsd:restriction>
-                </simpleType>
-            </attribute>
-            <attribute name="expectedContentTypes" type="xsd:string"/>
-            <complexType name="base64Binary">
-                <simpleContent>
-                    <extension base="xsd:base64Binary">
-                        <attribute ref="typens:contentType"/>
-                    </extension>
-                </simpleContent>
-            </complexType>
-            <complexType name="hexBinary">
-                <simpleContent>
-                    <extension base="xsd:hexBinary">
-                        <attribute ref="typens:contentType"/>
-                    </extension>
-                </simpleContent>
-            </complexType>
+            <import namespace="http://www.w3.org/2005/05/xmlmime"
+                    schemaLocation="http://www.w3.org/2005/05/xmlmime"/>
 
             <simpleType name="DocumentFormatType">
                 <xsd:restriction base="xsd:string">
@@ -632,7 +609,7 @@
         <documentation>Network Node 2.0 definitions for the Environmental Information Exchange Network</documentation>
         <port name="NetworkNodePort2" binding="tns:NetworkNodeBinding2" >
 
-            <soap12:address location="http://devngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM" />
+            <soap12:address location="https://devngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM" />
         </port>
     </service>
 
