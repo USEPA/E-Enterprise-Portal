@@ -173,6 +173,7 @@ function create_progress_tracker($user){
     try {
         $client = new SoapClient(variable_get('eactivity_auth_reg_wsdl'), array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
+        dpm($f);
         drupal_set_message('Cannot connect to Registration Service.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService.", array(), WATCHDOG_ERROR);
         return;
@@ -187,6 +188,7 @@ function create_progress_tracker($user){
     try {
         $response1 = $client->__soapCall("Authenticate", array($params1));
     } catch(SoapFault $f) {
+        dpm($f);
         drupal_set_message('Cannot Authenticate to get data flow.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot Authenticate to get data flow.", array(), WATCHDOG_ERROR);
         return;
@@ -285,6 +287,7 @@ function create_progress_tracker($user){
         }
     }
     catch(SoapFault $f){
+        dpm($f);
         drupal_set_message('Cannot query.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot query.", array(), WATCHDOG_ERROR);
         return;
@@ -547,17 +550,19 @@ function create_progress_tracker_node($res, $user){
     }
 }
 try {
-    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+    $wsdl = variable_get('eactivity_auth_reg_wsdl');
+    $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
 } catch(SoapFault $f) {
+    dpm($f);
     drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
     watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user", array(), WATCHDOG_ERROR);
     return;
 }
 $params1 = array(
-    "userId" => "registration.test@cgifederal.com",
-    "credential" => "Testregistration1",
-    "domain" => "default",
-    "authenticationMethod" => "password",
+    "userId" => variable_get('eactivity_auth_reg_username'),
+    "credential" => variable_get('eactivity_auth_reg_password'),
+    "domain" => variable_get('eactivity_auth_reg_domain'),
+    "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
 );
 try {
     //Authenticate to CDX
@@ -698,6 +703,7 @@ function assign_roles_to_user($user_name){
             }
         }
     } catch(SoapFault $f) {
+        dpm($f);
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }
