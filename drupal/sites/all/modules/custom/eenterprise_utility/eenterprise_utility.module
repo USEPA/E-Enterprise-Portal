@@ -748,7 +748,14 @@ function generate_location_select()
 }
 
 function generate_location_input_for_guests() {
-    print '<input type="text" id="location-input-guests"/>';
+  print '<form class="form-inline">';
+  print '<div class="form-group has-feedback">';
+  print '<label class="control-label" for="location-input-guests">Enter zip code</label>';
+  print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error" style="height:23px;vertical-align: top">';
+  print '<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" style="top:-2px"></span>';
+//  print '<span id="location-input-guests-error" class="sr-only">(success)</span>';
+  print '</div>';
+  print '</form>';
 }
 
 

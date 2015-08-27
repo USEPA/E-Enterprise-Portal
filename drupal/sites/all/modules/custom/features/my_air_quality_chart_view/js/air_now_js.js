@@ -82,9 +82,7 @@
   }
 
   function updateMarker() {
-    if (currentZipData) {
-      //$.getJSON('/zip_code_lookup?zip=' + currentZip, function(data) {
-
+    if (currentZipData && currentZipData.latitude && currentZipData.longitude) {
         var latlng = [currentZipData.latitude, currentZipData.longitude];
 
         var marker = L.marker(latlng).addTo(markers);
@@ -94,10 +92,7 @@
           className: 'favorites-ignore'
         });
 
-        //map.setView(latlng);
         marker.openPopup();
-
-      //});
     }
   }
 
