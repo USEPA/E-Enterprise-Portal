@@ -104,8 +104,8 @@ function suggestion_box_form($form, &$form_state) {
   $categories = unserialize(variable_get('suggestion_box_categories'));
   $category_options = array();
 
-  foreach ($categories as $category) {
-  	$category_options[$category] = $category;
+  foreach ($categories as $row) {
+  	$category_options[$row['categories']] = $row['categories'];
   }
 
   $form['category'] = array(
@@ -129,7 +129,7 @@ function suggestion_box_form($form, &$form_state) {
     // captcha for guests only
     $form['my_captcha_element'] = array(
       '#type' => 'captcha',
-      '#captcha_type' => 'captcha/Math',
+      '#captcha_type' => 'image_captcha/Image',
     );
 
     // guests need to be able to edit the email field
@@ -164,7 +164,7 @@ function suggestion_box_form_submit($form, &$form_state) {
 
   global $user;
 
-  $to = variable_get('suggestion_box_email');
+  $to = _suggestion_box_get_category_inbox($form_state['values']['category']);
   $from = NULL;
 
   if (!$form_state['values']['exclude_email']) { // show email
@@ -254,7 +254,8 @@ function theme_suggestion_box_settings_table_drag_components($vars) {
   drupal_add_tabledrag('categories-table', 'order', 'sibling', 'item-row-weight');
 
   $header = array(
-    'categories' => t('Category'), 
+    'categories' => t('Category'),
+    'email_to' => t('Email to'),
     'delete_categories' => t('Delete'),
     'weight' => t('Weight'),
   );
@@ -280,6 +281,22 @@ function theme_suggestion_box_settings_table_drag_components($vars) {
 }
 
 /**
+ * Given the suggestion category, find the email inbox associated with this category
+ * from the suggestion box settings, or FALSE if the category is not found.
+ * @param $category
+ * @return bool
+ */
+function _suggestion_box_get_category_inbox($category) {
+  $categories = unserialize(variable_get('suggestion_box_categories'));
+  foreach ($categories as $row) {
+    if ($category === $row['categories'])
+      return $row['email_to'];
+  }
+
+  return FALSE;
+}
+
+/**
 * Ctools popup settings function.
 */
 function configure_ctools_popup() {
@@ -295,8 +312,8 @@ function configure_ctools_popup() {
            'ee-ctools-popup-style' => array(
                'modalSize' => array(
                    'type' => 'fixed', // Popup type.
-                   'width' => 475, // Width
-                   'height' => 475, // Height
+                   'width' => 550, // Width
+                   'height' => 700, // Height
 //                   'addHeight' => 700, // Maximum height
                ),
                'modalOptions' => array(

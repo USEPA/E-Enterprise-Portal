@@ -21,12 +21,6 @@ function suggestion_box_settings($form, &$form_state) {
     '#title' => t('Suggestion Box Settings'),
     '#description' => t("Configure the suggestion box here."),
   );
-  $form['suggestion_box_settings']['suggestion_box_email'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Email to'),
-    '#default_value' => variable_get('suggestion_box_email'),
-    '#required' => TRUE,
-  );
 
     // --------------- Add more text box starts  ------------------------------
 
@@ -51,9 +45,15 @@ function suggestion_box_settings($form, &$form_state) {
           '#type' => 'textfield',
           '#title' => '',
           '#size' => 22,
-          '#default_value' => $saved_categories[$i],
+          '#default_value' => $saved_categories[$i]['categories'],
       );
 
+      $form['suggestion_box_settings']['categories_fieldset'][$i]['email_to'] = array(
+        '#type' => 'textfield',
+        '#title' => '',
+        '#size' => 22,
+        '#default_value' => $saved_categories[$i]['email_to'],
+      );
 
       $form['suggestion_box_settings']['categories_fieldset'][$i]['weight'] = array(
         '#type' => 'textfield',
@@ -137,12 +137,12 @@ function categories_callback($form, $form_state) {
 }
 
 function suggestion_box_settings_submit($form, &$form_state) {
-  variable_set('suggestion_box_email', $form_state['values']['suggestion_box_settings']['suggestion_box_email']);
+
   $keys = array();
   $category_map = array();
   foreach($form_state['values']['suggestion_box_settings']['categories_fieldset'] as $row) {
     if (!empty($row['categories'])) {
-      $category_map[$row['weight']] = $row['categories'];
+      $category_map[$row['weight']] = $row;
       $keys[] = $row['weight'];
     }
   }
