@@ -251,6 +251,7 @@
             success: function(json) {
                 var configs = $.parseJSON(json);
                 cdx_resource_url = configs.url;
+                console.log(cdx_resource_url);
             }
         });
 
@@ -263,12 +264,12 @@
                 autoScroll: false,
                 widgetDisplayType: "Edit My Facilities",
                 baseServiceUrl: cdx_resource_url,
-                ImagesFolderPath: cdx_resource_url + '/content/v3/FRS%20Widget/images', //static
+                ImagesFolderPath: cdx_resource_url + '/ContentFramework/FRS%20Widget/images', //static
                 userRoleId: user_role_id,
                 NASSToken: naas_token,
                 NAASip: naas_ip,
                 onInvalidSession: function() {
-                    alert('CDX Session ended.')
+                    alert('CDX Session ended.');
                     window.location.href = '/user/logout';
                }
             });

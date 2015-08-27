@@ -3,9 +3,6 @@ drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/custom_js
 drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", "file");
 ?>
 
-
-
-
 <?php
 /**
  * @file
@@ -50,13 +47,14 @@ $cdx_facility_source = variable_get('cdx_facility_resource_url');
 <link rel="stylesheet" href="//js.arcgis.com/3.13/esri/css/esri.css"/>
 <script src="//js.arcgis.com/3.13/"></script>
 
-<?php echo '<link rel="stylesheet" href="' . $cdx_facility_source .  '/Content/v3/FRS%20Widget/FacilityManagementStyles.css">';?>
+<?php echo '<link rel="stylesheet" href="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/FacilityManagementStyles.css">';?>
 
 <!--[if IE 8]>
-<link rel="stylesheet" href="../../ContentFramework/v3/css/FacilityManagementStyles-ie8.css"> <![endif]-->
-<?php echo '<script src="' . $cdx_facility_source .  '/Content/v3/FRS%20Widget/FacilityManagementTemplates.min.js"></script>';?>
-<?php echo '<script src="' . $cdx_facility_source .  '/Content/v3/js/common.js"></script>';?>
-<?php echo '<script src="' . $cdx_facility_source .  '/Content/v3/FRS%20Widget/src/FacilityManagementWidget.js"></script>';?>
+<?php echo '<link rel="stylesheet" href="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/FacilityManagementStyles-ie8.css">';?>
+<![endif]-->
+
+<?php echo '<script src="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/FacilityManagementTemplates.min.js"></script>';?>
+<?php echo '<script src="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js"></script>';?>
 
 <div id="facility-widget" style="max-width:1363px;"></div>
 <div id="fmw-organization-select-holder" style="display:none"><label
