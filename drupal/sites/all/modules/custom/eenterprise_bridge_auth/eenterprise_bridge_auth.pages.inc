@@ -541,7 +541,7 @@ function create_progress_tracker_node($res, $user){
         drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user", array(), WATCHDOG_ERROR);
         return;
-    }
+    } //Devregistration1
     $params1 = array(
         "userId" => "registration.test@cgifederal.com",
         "credential" => "Testregistration1",
