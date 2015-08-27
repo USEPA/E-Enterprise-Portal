@@ -133,7 +133,7 @@ function return_cdx_facility_management_token()
 
 function retrieve_cdx_user_data()
 {
-    
+
     $user_id = variable_get('userId');
 
     $allowed_program_roles = ['CEDRI', 'CSPP'];
