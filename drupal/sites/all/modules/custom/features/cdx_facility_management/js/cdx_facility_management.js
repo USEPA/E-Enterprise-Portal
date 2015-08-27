@@ -5,6 +5,7 @@
         var user_role_id = 86357; //user role id for Green olive
         var naas_token;// = 'Mary Cheat Token - FIX ASAP!!!!!!';
         var naas_ip;// = '65.248.159.78';
+        var cdx_resource_url;
         // Look up functionality for session expiring. On expired session, recreate token, reinitialize widget.
 
         $.ajax({
@@ -245,6 +246,14 @@
             cdx_facility_management_block.dialog("option", "position", {my: "center", at: "center", of: window});
         });
 
+        $.ajax({
+            url: '/cdx_facility_configurations',
+            success: function(json) {
+                var configs = $.parseJSON(json);
+                cdx_resource_url = configs.url;
+            }
+        });
+
         function updateWidget(user_role_id, naas_token, naas_ip) {
             console.log(user_role_id);
             console.log(naas_token);
@@ -253,8 +262,8 @@
             $.initFacilityManagementWidget({
                 autoScroll: false,
                 widgetDisplayType: "Edit My Facilities",
-                baseServiceUrl: 'https://dev.epacdx.net/FrsPhase2',
-                ImagesFolderPath: "https://dev.epacdx.net/FrsPhase2/content/v3/FRS%20Widget/images", //static
+                baseServiceUrl: cdx_resource_url,
+                ImagesFolderPath: cdx_resource_url + '/content/v3/FRS%20Widget/images', //static
                 userRoleId: user_role_id,
                 NASSToken: naas_token,
                 NAASip: naas_ip,

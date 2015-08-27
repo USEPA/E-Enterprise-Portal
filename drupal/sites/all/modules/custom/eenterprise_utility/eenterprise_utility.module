@@ -62,6 +62,16 @@ function eenterprise_utility_menu()
         'access arguments' => array('administer frs naas'),
         'file' => 'eenterprise_utility_frs_naas.admin.inc',
     );
+    $items['admin/config/system/cdx-facility-widget'] = array(
+        'title' => 'CDX Facility Widget',
+        'description' => 'CDX Facility Management Widget Resource Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('cdx_facility_widget_settings'),
+        'access arguments' => array('administer cdx facility widget'),
+        'file' => 'eenterprise_utility_cdx_facility_widget.admin.inc',
+    );
+
+
     return $items;
 }
 
@@ -83,6 +93,10 @@ function eenterprise_utility_permission()
         'administer frs naas' => array(
             'title' => t('Administer FRS NAAS Settings'),
             'description' => t('Change FRS NAAS Settings.'),
+        ),
+        'administer cdx facility widget' => array(
+            'title' => t('Administer CDX Facility Widget Settings'),
+            'description' => t('Change CDX Facility Widget Settings.'),
         ),
     );
 }

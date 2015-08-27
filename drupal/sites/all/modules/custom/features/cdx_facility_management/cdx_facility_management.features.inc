@@ -63,6 +63,11 @@ function  cdx_facility_management_menu()
         'page callback' => 'retrieve_cdx_user_data',
         'access callback' => TRUE,
     );
+    $items['cdx_facility_configurations'] = array(
+        'page callback' => 'cdx_facility_configurations',
+        'access callback' => TRUE,
+    );
+
     return $items;
 }
 
@@ -256,4 +261,13 @@ function retrieve_cdx_user_data()
         print json_encode((array('error' => 'true', 'fault' => $f, 'user' => $user_id)));
         watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
+}
+
+// Returns json for use in jquery of configs for CDX Facility Management Widget
+function cdx_facility_configurations() {
+    $url = variable_get('cdx_facility_resource_url');
+    $configs = array();
+    $configs['url'] = $url;
+    echo json_encode($configs);
+    exit();
 }
