@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- Version 2.0 Official Exchange Network Node WSDL -->
 <definitions  name ="NetworkNode2"   targetNamespace = "http://www.exchangenetwork.net/wsdl/node/2"
@@ -9,8 +10,10 @@
     <types>
         <schema targetNamespace="http://www.exchangenetwork.net/schema/node/2"
                 xmlns="http://www.w3.org/2001/XMLSchema"
+                xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
                 xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
                 elementFormDefault="qualified">
+
 
             <attribute name="contentType">
                 <simpleType>
@@ -144,10 +147,10 @@
                 </complexType>
             </element>
 
-            <complexType name="AttachmentType" expectedContentTypes="*/*">
+            <complexType name="AttachmentType" xmime:expectedContentTypes="*/*">
                 <simpleContent>
                     <extension base="xsd:base64Binary">
-                        <attribute ref="typens:contentType" use ="required" />
+                        <attribute ref="xmime:contentType" use ="required" />
                     </extension>
                 </simpleContent>
             </complexType>
@@ -629,7 +632,7 @@
         <documentation>Network Node 2.0 definitions for the Environmental Information Exchange Network</documentation>
         <port name="NetworkNodePort2" binding="tns:NetworkNodeBinding2" >
 
-            <soap12:address location="https://testngn.epacdxnode.net/ngn-enws20/services/NetworkNode2Service" />
+            <soap12:address location="http://testngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM" />
         </port>
     </service>
 
