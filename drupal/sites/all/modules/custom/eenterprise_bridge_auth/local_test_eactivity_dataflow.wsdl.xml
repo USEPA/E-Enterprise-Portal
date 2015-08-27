@@ -18,7 +18,7 @@
                         <minLength value="3"/>
                     </xsd:restriction>
                 </simpleType>
-            </attribute>a
+            </attribute>
             <attribute name="expectedContentTypes" type="xsd:string"/>
             <complexType name="base64Binary">
                 <simpleContent>
