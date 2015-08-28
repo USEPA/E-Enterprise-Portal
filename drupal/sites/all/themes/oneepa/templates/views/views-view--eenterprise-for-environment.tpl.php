@@ -53,7 +53,7 @@
 
   <?php if ($rows): ?>
     <div class="view-content">
-			<?php
+            <?php
                 global $user;
                 if($user->uid == 0):               		
 					$block = module_invoke('eenterprise_bridge_auth', 'block_view', 'eenterprise_bridge_auth');
@@ -62,7 +62,7 @@
 					$loginmsg .= $loginform;
 					$loginmsg .= "<div class='guest-login'><a href='/guest_login'>Browse as Guest</a></div><br><a id=\"learnmorelink\" data-toggle=\"modal\" href=\"#learnmore\">Why log in?</a></div>";
                 else:
-                   	$loginmsg = "<div class=\"well well-narrow\">Welcome, <strong>".$user->name."!</strong><br><a href=\"workbench\">View workbench</a></div>";
+                    $loginmsg = "<div class=\"well well-narrow\">Welcome, <strong>".$user->name."!</strong><br><a href=\"workbench\">View workbench</a></div>";
                 endif;
                 
                 $rows = str_replace("Log in now", $loginmsg, $rows);

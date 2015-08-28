@@ -38,7 +38,6 @@ function greentrees_links($vars) {
 
     $output .= '<ul' . drupal_attributes($attributes) . '>';
 
-    $num_links = count($links);
     $i = 1;
 
     foreach ($links as $key => $link) {
@@ -202,8 +201,7 @@ function greentrees_breadcrumb($vars) {
         $output .= ' ' . $breadcrumb_separator;
       }
 
-      $output .= '</p>';
-      return $output;
+      return $output . '</p>';
     }
   }
   return '';
@@ -240,15 +238,7 @@ function greentrees_item_list($vars) {
       $data = '';
       if (is_array($item)) {
         foreach ($item as $key => $value) {
-          if ($key == 'data') {
-            $data = $value;
-          }
-          elseif ($key == 'children') {
-            $children = $value;
-          }
-          else {
-            $attributes[$key] = $value;
-          }
+          check_item_value($key, $value, $data, $children, $attributes);
         }
       }
       else {
@@ -300,16 +290,14 @@ function greentrees_boxes_box($vars) {
   if (!empty($block['editing'])) {
     $output .= '<div class="box-editor">' . drupal_render($block['editing']) . '</div>';
   }
-  $output .= '</div>';
-  return $output;
+  return $output . '</div>';
 }
 
 /**
  * Override HTML for default panel regions.
  */
 function greentrees_panels_default_style_render_region($vars) {
-  $output = implode('', $vars['panes']);
-  return $output;
+  return implode('', $vars['panes']);
 }
 
 /**
@@ -345,14 +333,7 @@ function greentrees_table($vars) {
 
       // Check if we're dealing with a simple or complex column
       if (isset($colgroup['data'])) {
-        foreach ($colgroup as $key => $value) {
-          if ($key == 'data') {
-            $cols = $value;
-          }
-          else {
-            $attributes[$key] = $value;
-          }
-        }
+        check_column_complexity($colgroup, $attributes, $cols);
       }
       else {
         $cols = $colgroup;
@@ -412,29 +393,24 @@ function greentrees_table($vars) {
   // Format the table rows:
   if (count($rows)) {
     $output .= "<tbody>\n";
-    foreach ($rows as $number => $row) {
+    foreach ($rows as $row) {
       $attributes = array();
 
       // Check if we're dealing with a simple or complex row
       if (isset($row['data'])) {
-        foreach ($row as $key => $value) {
-          if ($key == 'data') {
-            $cells = $value;
-          }
-          else {
-            $attributes[$key] = $value;
-          }
-        }
+        check_row_complexity($row, $attributes, $cells);
       }
       else {
         $cells = $row;
       }
+
       if (count($cells)) {
         // Build row
         $output .= ' <tr' . drupal_attributes($attributes) . '>';
         $i = 0;
         foreach ($cells as $cell) {
-          $cell = tablesort_cell($cell, $header, $ts, $i++);
+          $cell = tablesort_cell($cell, $header, $ts, $i);
+          $i++;
           $output .= _theme_table_cell($cell);
         }
         $output .= " </tr>\n";
@@ -443,8 +419,7 @@ function greentrees_table($vars) {
     $output .= "</tbody>\n";
   }
 
-  $output .= "</table>\n";
-  return $output;
+  return $output . "</table>\n";
 }
 
 
@@ -789,9 +764,54 @@ function greentrees_webform_element($variables) {
       }
       $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
       break;
+
+    default:
+      // don't manipulate output variable
+      break;
   }
 
-  $output .= "</div>\n";
+  return $output . "</div>\n";
+}
 
-  return $output;
+//TODO: Can we come up with a better name for this function if necessary?
+function check_column_complexity($colgroup, &$attributes, &$cols){
+
+  foreach ($colgroup as $key => $value) {
+    if ($key == 'data') {
+      $cols = $value;
+    }
+    else {
+      $attributes[$key] = $value;
+    }
+  }
+
+}
+
+//TODO: Can we come up with a better name for this function if necessary?
+function check_row_complexity($row, &$attributes, &$cells){
+
+  foreach ($row as $key => $value) {
+    if ($key == 'data') {
+      $cells = $value;
+    }
+    else {
+      $attributes[$key] = $value;
+    }
+  }
+
+}
+
+//TODO: Can we come up with a better name for this function if necessary?
+function check_item_value($key, $value, &$data, &$children, &$attributes){
+
+  if ($key == 'data') {
+    $data = $value;
+  }
+  elseif ($key == 'children') {
+    $children = $value;
+  }
+  else {
+    $attributes[$key] = $value;
+  }
+
 }

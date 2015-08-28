@@ -23,7 +23,6 @@
  */
 ?>
 <?php
-//dsm($view);
 $src_link='';
 if(!empty($view->result[$view->row_index]->field_field_todo_lst_activ_source_url))
     $src_link = $view->result[$view->row_index]->field_field_todo_lst_activ_source_url[0]['raw']['safe_value'];
