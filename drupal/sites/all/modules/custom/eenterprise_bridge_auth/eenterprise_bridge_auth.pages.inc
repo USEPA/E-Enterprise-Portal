@@ -244,18 +244,24 @@ function create_progress_tracker($user){
                 "RoleIdSubject" => (string)$activity->RoleIdSubject ,
                 "Attributes" => (string)$activity->Attributes ,);
             foreach($activity->Attributes->Attribute as $child){
-                if((string)($child->attributes()) == 'facilityName')
+                if((string)($child->attributes()) == 'facilityName') {
                     $res['FacilityName'] = $child->__toString();
-                else if((string)($child->attributes()) == 'partCode')
+                }
+                else if((string)($child->attributes()) == 'partCode') {
                     $res['partCode'] = $child->__toString();
-                else if((string)($child->attributes()) == 'partName')
+                }
+                else if((string)($child->attributes()) == 'partName') {
                     $res['partName'] = $child->__toString();
-                else if((string)($child->attributes()) == 'subPartCode')
+                }
+                else if((string)($child->attributes()) == 'subPartCode') {
                     $res['subPartCode'] = $child->__toString();
-                else if((string)($child->attributes()) == 'subPartName')
+                }
+                else if((string)($child->attributes()) == 'subPartName') {
                     $res['subPartName'] = $child->__toString();
-                else if((string)($child->attributes()) == 'facilityRegistryIdentifier')
+                }
+                else if((string)($child->attributes()) == 'facilityRegistryIdentifier') {
                     $res['facilityRegistryIdentifier'] = $child->__toString();
+                }
             }
             $i=0;
             foreach ($activity->Documents->Document as $child) {
@@ -345,16 +351,12 @@ function _update_progress_tracker_to_do_item($query_res, $res){
 
     $cdx_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
 
-    //If description field is updated...
-    if($res_title != $res['ActivityDesc']){
+    //If description field is updated... or if status field is updated...
+    if($res_title != $res['ActivityDesc'] || (!empty($res_status) && ($res_status != $cdx_status))){
         node_delete($query_res['entity_id']);
         return true;
     }
-    //if status field is updated...
-    else if(!empty($res_status) && ($res_status != $cdx_status)){
-        node_delete($query_res['entity_id']);
-        return true;
-    }
+
     return false;
 }
 
