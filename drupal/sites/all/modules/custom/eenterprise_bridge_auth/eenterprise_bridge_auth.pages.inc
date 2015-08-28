@@ -99,8 +99,9 @@ function eenterprise_bridge_auth_authenticate($error) {
         watchdog('eenterprise_bridge_auth', $message, array(), WATCHDOG_ERROR);
         drupal_set_message($message, 'error');
     }
-    if(!isset($_POST['wa']))
+    if(!isset($_POST['wa'])) {
         drupal_set_message("Expected context parameter is not set", "error");
+    }
     else if($_POST['wa'] == 'wsignin1.0') {
         $adfs = new AdfsBridge();
         try{
@@ -127,11 +128,11 @@ function eenterprise_bridge_auth_authenticate($error) {
                 $uname = $username;
                 variable_set('cdx_user_type','cdx');
             }
-            if(variable_get('trusted_users_list_used') == 'Yes')
+            if(variable_get('trusted_users_list_used') == 'Yes') {
                 trusted_user_check($uname);
+            }
             $ext_user = user_external_load($uname);
             if(!$ext_user){
-                //user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
                 user_external_login_register($uname, 'eenterprise_bridge_auth');
                 if($user){
                     user_save($user, array('mail' => $userDetails->attributes['email'][0]));
@@ -140,8 +141,9 @@ function eenterprise_bridge_auth_authenticate($error) {
                         $user_role = user_role_load_by_name('Public User');
                         user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
                     }
-                    else
+                    else {
                         assign_roles_to_user($uname);
+                    }
                 }
             }
             else{
