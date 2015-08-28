@@ -639,7 +639,6 @@ try {
 function assign_roles_to_user($user_name){
     try {
         $wsdl = variable_get('eactivity_auth_reg_wsdl');
-    //    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
         $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
         drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
@@ -673,11 +672,12 @@ function assign_roles_to_user($user_name){
         $org_val = null;
         $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
 
-        if(is_array($user_orgs->Organization))
+        if (is_array($user_orgs->Organization)){
             $org_val = $user_orgs->Organization[0];
-        else
+        }
+        else {
             $org_val = $user_orgs->Organization;
-
+        }
         $user_sec_org_bundle = array(
             "securityToken" => $response1->securityToken,
             "user" => $user_obj->User,
@@ -718,9 +718,7 @@ function assign_roles_to_user($user_name){
 }
 
 function eenterprise_bridge_auth_logout() {
-
     drupal_add_js(drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js");
-//  print drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js";
     return array (
         'bridge_logout' => array (
             '#type' => 'markup',
