@@ -5,13 +5,19 @@
  * Menu callbacks and related functions.
  */
 
+define("TYPE","#type");
+define("ENTITY_ID", "entity_id");
+define("ACTIVITY_TYPE","ActivityType");
+define("STATUS_NOTE","StatusNote");
+define("PARTNER_SYSTEM_ID", "PartnerSystemId");
+
 /**
  * Provides AJAX EE Bridge login form.
  */
 function eenterprise_bridge_auth_login() {
     $form = drupal_render(drupal_get_form('eenterprise_bridge_auth_login_form'));
     return array(
-        '#type' => 'ajax',
+        TYPE => 'ajax',
         '#commands' => array(
             ajax_command_html('#eenterprise_bridge_auth_container', $form),
         ),
@@ -28,7 +34,7 @@ function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
     $identity_providers = [array('Name' => 'Log in')];
     $form = array();
     $form['wrap'] = array(
-        '#type' => 'value',
+        TYPE => 'value',
         '#value' => $wrap,
     );
     if (!$identity_providers) {
@@ -36,18 +42,18 @@ function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
     }
     $temp = array();
     $temp['identity_providers'] = array(
-        '#type' => 'value',
+        TYPE => 'value',
         '#value' => $identity_providers,
     );
     foreach ($identity_providers as $identity_provider) {
         $temp[$identity_provider['Name']] = array(
-            '#type' => 'submit',
+            TYPE => 'submit',
             '#default_value' => $identity_provider['Name'],
         );
     }
     if ($wrap) {
         $form['eenterprise_bridge_auth'] = array(
-            '#type' => 'fieldset',
+            TYPE => 'fieldset',
             '#title' => variable_get('eenterprise_bridge_auth_link_text', t('Sign in using E-Enterprise Bridge')),
         );
         $form['eenterprise_bridge_auth'] = array_merge($form['eenterprise_bridge_auth'], $temp);
@@ -173,7 +179,6 @@ function create_progress_tracker($user){
     try {
         $client = new SoapClient(variable_get('eactivity_auth_reg_wsdl'), array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
-        dpm($f);
         drupal_set_message('Cannot connect to Registration Service.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService.", array(), WATCHDOG_ERROR);
         return;
