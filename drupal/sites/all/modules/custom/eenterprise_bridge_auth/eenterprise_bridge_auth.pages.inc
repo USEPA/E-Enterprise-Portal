@@ -630,7 +630,7 @@ try {
 function assign_roles_to_user($user_name){
     try {
         $wsdl = variable_get('eactivity_auth_reg_wsdl');
-        //    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+    //    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
         $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
         drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
