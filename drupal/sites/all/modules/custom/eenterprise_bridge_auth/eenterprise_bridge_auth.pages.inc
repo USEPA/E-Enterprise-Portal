@@ -33,7 +33,7 @@ function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
   $identity_providers = [array('Name' => 'Log in')];
   $form = array();
   $form['wrap'] = array(
-    TYPE => 'value',
+    '#type' => 'value',
     '#value' => $wrap,
   );
   if (!$identity_providers) {
@@ -41,18 +41,18 @@ function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
   }
   $temp = array();
   $temp['identity_providers'] = array(
-    TYPE => 'value',
+    '#type' => 'value',
     '#value' => $identity_providers,
   );
   foreach ($identity_providers as $identity_provider) {
     $temp[$identity_provider['Name']] = array(
-      TYPE => 'submit',
+      '#type' => 'submit',
       '#default_value' => $identity_provider['Name'],
     );
   }
   if ($wrap) {
     $form['eenterprise_bridge_auth'] = array(
-      TYPE => 'fieldset',
+      '#type' => 'fieldset',
       '#title' => variable_get('eenterprise_bridge_auth_link_text', t('Sign in using E-Enterprise Bridge')),
     );
     $form['eenterprise_bridge_auth'] = array_merge($form['eenterprise_bridge_auth'], $temp);
