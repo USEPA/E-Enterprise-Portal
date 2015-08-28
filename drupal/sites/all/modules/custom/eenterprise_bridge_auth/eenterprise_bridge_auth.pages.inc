@@ -1,9 +1,4 @@
 <?php
-define("TYPE","#type");
-define("ENTITY_ID", "entity_id");
-define("ACTIVITY_TYPE","ActivityType");
-define("STATUS_NOTE","StatusNote");
-define("PARTNER_SYSTEM_ID", "PartnerSystemId");
 
 /**
  * @file
@@ -14,13 +9,13 @@ define("PARTNER_SYSTEM_ID", "PartnerSystemId");
  * Provides AJAX EE Bridge login form.
  */
 function eenterprise_bridge_auth_login() {
-  $form = drupal_render(drupal_get_form('eenterprise_bridge_auth_login_form'));
-  return array(
-    '#type' => 'ajax',
-    '#commands' => array(
-      ajax_command_html('#eenterprise_bridge_auth_container', $form),
-    ),
-  );
+    $form = drupal_render(drupal_get_form('eenterprise_bridge_auth_login_form'));
+    return array(
+        '#type' => 'ajax',
+        '#commands' => array(
+            ajax_command_html('#eenterprise_bridge_auth_container', $form),
+        ),
+    );
 }
 
 /**
@@ -30,60 +25,60 @@ function eenterprise_bridge_auth_login() {
  *   If true, wrap the identity provider buttons in a fieldset.
  */
 function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
-  $identity_providers = [array('Name' => 'Log in')];
-  $form = array();
-  $form['wrap'] = array(
-    '#type' => 'value',
-    '#value' => $wrap,
-  );
-  if (!$identity_providers) {
+    $identity_providers = [array('Name' => 'Log in')];
+    $form = array();
+    $form['wrap'] = array(
+        '#type' => 'value',
+        '#value' => $wrap,
+    );
+    if (!$identity_providers) {
+        return $form;
+    }
+    $temp = array();
+    $temp['identity_providers'] = array(
+        '#type' => 'value',
+        '#value' => $identity_providers,
+    );
+    foreach ($identity_providers as $identity_provider) {
+        $temp[$identity_provider['Name']] = array(
+            '#type' => 'submit',
+            '#default_value' => $identity_provider['Name'],
+        );
+    }
+    if ($wrap) {
+        $form['eenterprise_bridge_auth'] = array(
+            '#type' => 'fieldset',
+            '#title' => variable_get('eenterprise_bridge_auth_link_text', t('Sign in using E-Enterprise Bridge')),
+        );
+        $form['eenterprise_bridge_auth'] = array_merge($form['eenterprise_bridge_auth'], $temp);
+    }
+    else {
+        $form = array_merge($form, $temp);
+    }
     return $form;
-  }
-  $temp = array();
-  $temp['identity_providers'] = array(
-    '#type' => 'value',
-    '#value' => $identity_providers,
-  );
-  foreach ($identity_providers as $identity_provider) {
-    $temp[$identity_provider['Name']] = array(
-      '#type' => 'submit',
-      '#default_value' => $identity_provider['Name'],
-    );
-  }
-  if ($wrap) {
-    $form['eenterprise_bridge_auth'] = array(
-      '#type' => 'fieldset',
-      '#title' => variable_get('eenterprise_bridge_auth_link_text', t('Sign in using E-Enterprise Bridge')),
-    );
-    $form['eenterprise_bridge_auth'] = array_merge($form['eenterprise_bridge_auth'], $temp);
-  }
-  else {
-    $form = array_merge($form, $temp);
-  }
-  return $form;
 }
 
 /**
  * Submit callback.
  */
 function eenterprise_bridge_auth_login_form_submit($form, &$form_state) {
-  $fields = $form_state['values']['wrap'] ? $form['eenterprise_bridge_auth'] : $form;
+    $fields = $form_state['values']['wrap'] ? $form['eenterprise_bridge_auth'] : $form;
 
-  foreach ($fields['identity_providers']['#value'] as $identity_provider) {
-    if ($form_state['clicked_button']['#default_value'] == $identity_provider['Name']) {
-      //Creates complex array using handoff settings values
-      $idParams = array('wa'=>'wsignin1.0',
-                        'wtrealm'=>variable_get('eenterprise_bridge_auth_realm'),
-                        'wctx'=>'rm=0',
-                        'wreply'=>variable_get('eenterprise_bridge_auth_reply'));
+    foreach ($fields['identity_providers']['#value'] as $identity_provider) {
+        if ($form_state['clicked_button']['#default_value'] == $identity_provider['Name']) {
+            //Creates complex array using handoff settings values
+            $idParams = array('wa'=>'wsignin1.0',
+                'wtrealm'=>variable_get('eenterprise_bridge_auth_realm'),
+                'wctx'=>'rm=0',
+                'wreply'=>variable_get('eenterprise_bridge_auth_reply'));
 
-      //Builds URL for handing off the Open ID Bridge
-      $idBridgeUrl = variable_get('eenterprise_bridge_auth_issuer')."?".http_build_query($idParams)."\n";
+            //Builds URL for handing off the Open ID Bridge
+            $idBridgeUrl = variable_get('eenterprise_bridge_auth_issuer')."?".http_build_query($idParams)."\n";
 
-      //Auto redirects to the Open ID Bridge
-      $form_state['redirect'] = $idBridgeUrl;
+            //Auto redirects to the Open ID Bridge
+            $form_state['redirect'] = $idBridgeUrl;
+        }
     }
-  }
 }
 
 /**
@@ -98,9 +93,8 @@ function eenterprise_bridge_auth_authenticate($error) {
         watchdog('eenterprise_bridge_auth', $message, array(), WATCHDOG_ERROR);
         drupal_set_message($message, 'error');
     }
-    if(!isset($_POST['wa'])) {
-      drupal_set_message("Expected context parameter is not set", "error");
-    }
+    if(!isset($_POST['wa']))
+        drupal_set_message("Expected context parameter is not set", "error");
     else if($_POST['wa'] == 'wsignin1.0') {
         $adfs = new AdfsBridge();
         try{
@@ -118,23 +112,31 @@ function eenterprise_bridge_auth_authenticate($error) {
             $username_raw = explode('/',$userDetails->attributes['name'][0]);
             $username = end($username_raw);
             $uname = "";
-
             //If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
             if($pos === FALSE || $username === FALSE) {
                 $uname = $userDetails->attributes['email'][0];
                 variable_set('cdx_user_type','public');
             }
-            else {
+            else{
                 $uname = $username;
                 variable_set('cdx_user_type','cdx');
             }
-            if(variable_get('trusted_users_list_used') == 'Yes') {
-              trusted_user_check($uname);
-            }
+            if(variable_get('trusted_users_list_used') == 'Yes')
+                trusted_user_check($uname);
             $ext_user = user_external_load($uname);
             if(!$ext_user){
+                //user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
                 user_external_login_register($uname, 'eenterprise_bridge_auth');
-                define_user_role($user_role, $user, $uname, $userDetails, $pos);
+                if($user){
+                    user_save($user, array('mail' => $userDetails->attributes['email'][0]));
+                    //if user is public user
+                    if($pos === FALSE){
+                        $user_role = user_role_load_by_name('Public User');
+                        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                    }
+                    else
+                        assign_roles_to_user($uname);
+                }
             }
             else{
                 //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
@@ -157,14 +159,9 @@ function eenterprise_bridge_auth_authenticate($error) {
  */
 function trusted_user_check($uname){
     $trusted_users = db_query("select nid, title from {node} where type = :node_type", array(":node_type" => "trusted_user"))->fetchAllKeyed();
-
-    //gmail usernames are sent with quotes before and after the username.
-    $uname = trim($uname,'"');
-
-    if(in_array(strtolower($uname), $trusted_users) || in_array(strtoupper($uname), $trusted_users)) {
-      //if user is trusted Do Nothing, authentication will resume.
-      ;
-    }
+    $uname = trim($uname,'"');     //gmail usernames are sent with quotes before and after the username.
+    if(in_array(strtolower($uname), $trusted_users) || in_array(strtoupper($uname), $trusted_users))
+        ;  //if user is trusted Do Nothing, authentication will resume.
     else{
         $_SESSION['trusted_login'] = 'NO';
         drupal_goto("/");
@@ -176,6 +173,7 @@ function create_progress_tracker($user){
     try {
         $client = new SoapClient(variable_get('eactivity_auth_reg_wsdl'), array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
+        dpm($f);
         drupal_set_message('Cannot connect to Registration Service.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService.", array(), WATCHDOG_ERROR);
         return;
@@ -190,11 +188,23 @@ function create_progress_tracker($user){
     try {
         $response1 = $client->__soapCall("Authenticate", array($params1));
     } catch(SoapFault $f) {
+        dpm($f);
         drupal_set_message('Cannot Authenticate to get data flow.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot Authenticate to get data flow.", array(), WATCHDOG_ERROR);
         return;
     }
-    $client2 = new SoapClient(variable_get('eactivity_dataflow_wsdl'), array('soap_version'   => SOAP_1_2));
+    // bmatkin 8-27
+    // Adding local wsdl configurations
+
+    $local = variable_get('eactivity_dataflow_local');
+    $wsdl = variable_get('eactivity_dataflow_wsdl');
+    if ($local) {
+        $client2 = new SoapClient(dirname(__FILE__) . '/' . $wsdl, array('soap_version' => SOAP_1_2));
+    }
+    else {
+        $client2 = new SoapClient($wsdl, array('soap_version'   => SOAP_1_2));
+    }
+
     $params2 = array(
         "securityToken" => $response1->securityToken,
         "dataflow" => "E-ACTIVITY",
@@ -209,42 +219,36 @@ function create_progress_tracker($user){
         $resp = simplexml_load_string($resp);
         foreach($resp->children('http://www.exchangenetwork.net/schema/eact/1') as $activity)
         {
-            
+
             $res = array("EActivityId" => (string)$activity->EActivityId,
-                PARTNER_SYSTEM_ID => (string)$activity->PartnerSystemId,
+                "PartnerSystemId" => (string)$activity->PartnerSystemId,
                 "PartnerExternalId" => (string)$activity->PartnerExternalId,
                 "PartnerSystemReportType" => (string)$activity->PartnerSystemReportType,
-                ACTIVITY_TYPE => (string)$activity->ActivityType,
+                "ActivityType" => (string)$activity->ActivityType,
                 "ActivityDesc" => (string)$activity->ActivityDesc,
                 "ActivityCreateDate" => (string)$activity->ActivityCreateDate,
                 "ActivitySourceURL" => (string)$activity->ActivitySourceURL,
                 "ActivityExpirationDate" => (string)$activity->ActivityExpirationDate,
                 "Status" => (string)$activity->Status,
-                STATUS_NOTE => (string)$activity->StatusNote,
+                "StatusNote" => (string)$activity->StatusNote,
                 "StatusUpdateDate" => (string)$activity->StatusUpdateDate,
                 "UserId" => (string)$activity->UserId,
                 "RoleId" => (string)$activity->RoleId,
                 "RoleIdSubject" => (string)$activity->RoleIdSubject ,
                 "Attributes" => (string)$activity->Attributes ,);
             foreach($activity->Attributes->Attribute as $child){
-                if((string)($child->attributes()) == 'facilityName') {
+                if((string)($child->attributes()) == 'facilityName')
                     $res['FacilityName'] = $child->__toString();
-                }
-                else if((string)($child->attributes()) == 'partCode') {
-                  $res['partCode'] = $child->__toString();
-                }
-                else if((string)($child->attributes()) == 'partName') {
-                  $res['partName'] = $child->__toString();
-                }
-                else if((string)($child->attributes()) == 'subPartCode') {
-                  $res['subPartCode'] = $child->__toString();
-                }
-                else if((string)($child->attributes()) == 'subPartName') {
-                  $res['subPartName'] = $child->__toString();
-                }
-                else if((string)($child->attributes()) == 'facilityRegistryIdentifier') {
-                  $res['facilityRegistryIdentifier'] = $child->__toString();
-                }
+                else if((string)($child->attributes()) == 'partCode')
+                    $res['partCode'] = $child->__toString();
+                else if((string)($child->attributes()) == 'partName')
+                    $res['partName'] = $child->__toString();
+                else if((string)($child->attributes()) == 'subPartCode')
+                    $res['subPartCode'] = $child->__toString();
+                else if((string)($child->attributes()) == 'subPartName')
+                    $res['subPartName'] = $child->__toString();
+                else if((string)($child->attributes()) == 'facilityRegistryIdentifier')
+                    $res['facilityRegistryIdentifier'] = $child->__toString();
             }
             $i=0;
             foreach ($activity->Documents->Document as $child) {
@@ -283,6 +287,7 @@ function create_progress_tracker($user){
         }
     }
     catch(SoapFault $f){
+        dpm($f);
         drupal_set_message('Cannot query.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot query.", array(), WATCHDOG_ERROR);
         return;
@@ -293,55 +298,60 @@ function create_progress_tracker($user){
 function _update_progress_tracker_to_do_item($query_res, $res){
 
     //For CEDRI to-do, if source url or expiration date is updated, update progress tracker item.
-    if ($res[ACTIVITY_TYPE] == 'TASK' && $res[PARTNER_SYSTEM_ID] == 'cdx-cedri') {
-        $db_exp_date = db_query("select field_todo_lst_due_value from {field_data_field_todo_lst_due} where entity_id = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
+    if ($res['ActivityType'] == 'TASK' && $res['PartnerSystemId'] == 'cdx-cedri') {
+        $db_exp_date = db_query("select field_todo_lst_due_value from {field_data_field_todo_lst_due} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
         $res_exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
 
-        $db_src_url = db_query("select field_todo_lst_activ_source_url_value from {field_data_field_todo_lst_activ_source_url} where entity_id = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
+        $db_src_url = db_query("select field_todo_lst_activ_source_url_value from {field_data_field_todo_lst_activ_source_url} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
 
         if($db_exp_date != $res_exp_date || $db_src_url != $res['ActivitySourceURL']){
-            node_delete($query_res[ENTITY_ID]);
+            node_delete($query_res['entity_id']);
             return true;
         }
     }
 
     //For CEDRI progress tracker, if source url or expiration date is updated, update progress tracker item.
-    if ($res[ACTIVITY_TYPE] == 'TRACKER' && $res[PARTNER_SYSTEM_ID] == 'cdx-cedri') {
-        $db_exp_date = db_query("select field_prog_track_updated_value from {field_data_field_prog_track_updated} where entity_id = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
+    if ($res['ActivityType'] == 'TRACKER' && $res['PartnerSystemId'] == 'cdx-cedri') {
+        $db_exp_date = db_query("select field_prog_track_updated_value from {field_data_field_prog_track_updated} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
         $res_exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
 
-        $db_src_url = db_query("select field_prog_track_actions_link_value from {field_data_field_prog_track_actions_link} where entity_id = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
+        $db_src_url = db_query("select field_prog_track_actions_link_value from {field_data_field_prog_track_actions_link} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
 
         if($db_exp_date != $res_exp_date || $db_src_url != $res['ActivitySourceURL']){
-            node_delete($query_res[ENTITY_ID]);
+            node_delete($query_res['entity_id']);
             return true;
         }
     }
 
     //For Lead progress tracker, if status note is updated, update progress tracker item.
-    if ($res[ACTIVITY_TYPE] == 'TRACKER' && $res[PARTNER_SYSTEM_ID] == 'cdx-lead') {
-        $db_status_note = db_query("select field_prog_track_status_note_value from {field_data_field_prog_track_status_note} where entity_id = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
+    if ($res['ActivityType'] == 'TRACKER' && $res['PartnerSystemId'] == 'cdx-lead') {
+        $db_status_note = db_query("select field_prog_track_status_note_value from {field_data_field_prog_track_status_note} where entity_id = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
 
-        if($db_status_note != $res[STATUS_NOTE]){
-            node_delete($query_res[ENTITY_ID]);
+        if($db_status_note != $res['StatusNote']){
+            node_delete($query_res['entity_id']);
             return true;
         }
     }
 
-    $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res[ENTITY_ID]))->fetchField();
-    $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res[ENTITY_ID]))->fetchField();
+    $res_title = db_query("select title from {node} where nid = :nid", array(':nid' => $query_res['entity_id']))->fetchField();
+    $res_status = db_query("select field_prog_track_status_value from {field_data_field_prog_track_status} where entity_id = :nid",  array(':nid' => $query_res['entity_id']))->fetchField();
 
     $cdx_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
 
-    //If description field is updated OR if status field is updated...
-    if($res_title != $res['ActivityDesc'] || (!empty($res_status) && ($res_status != $cdx_status))) {
-      node_delete($query_res[ENTITY_ID]);
-      return true;
+    //If description field is updated...
+    if($res_title != $res['ActivityDesc']){
+        node_delete($query_res['entity_id']);
+        return true;
+    }
+    //if status field is updated...
+    else if(!empty($res_status) && ($res_status != $cdx_status)){
+        node_delete($query_res['entity_id']);
+        return true;
     }
     return false;
 }
 
-function create_progress_tracker_node($res, $user) {
+function create_progress_tracker_node($res, $user){
     $query_res = db_query("select entity_id, revision_id from {field_data_field_eactivity_id} where bundle in (:node_type) and field_eactivity_id_value = :eactivityid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':eactivityid' =>  $res['EActivityId']))->fetchAssoc();
     //_update_progress_tracker_to_do_item will check if to-do or progress tracker item is updated and updates them accordingly.
     $node_deleted = _update_progress_tracker_to_do_item($query_res, $res);
@@ -349,31 +359,289 @@ function create_progress_tracker_node($res, $user) {
     //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
     $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
     $curr_date =  strtotime(date("Y-m-d H:i:s"));
-
     //do not create a node if its expiration date is already passed
-    if(($query_res[ENTITY_ID] < 1 || $node_deleted) && ($expiration_date - $curr_date) > 0) {
-      create_item($user, $res);
+    if(($query_res['entity_id'] < 1 || $node_deleted) && ($expiration_date - $curr_date) > 0) {
+        $node = new stdClass();
+        $node->title = $res['ActivityDesc'];
+        if ($res['ActivityType'] == 'TRACKER') {
+            $node->type = "progress_tracker";
+
+            $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
+            $node->field_eactivity_id['und'][0]['format'] = null;
+            $node->field_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
+
+            $node->field_prog_tracker_app['und'][0]['value'] = $res['ActivityDesc'];
+            $node->field_prog_tracker_app['und'][0]['format'] = null;
+            $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
+
+            $res_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
+
+            $node->field_prog_track_status['und'][0]['value'] = $res_status;
+            $node->field_prog_track_status['und'][0]['format'] = null;
+            $node->field_prog_track_status['und'][0]['safe_value'] = $res_status;
+
+            $res_domain = $res['PartnerSystemId'];
+            if (strpos($res['PartnerSystemId'], 'lead') !== false)
+                $res_domain = "Lead";
+            else if (strpos($res['PartnerSystemId'], 'cedri') !== false)
+                $res_domain = "CEDRI";
+            $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
+            $node->field_prog_track_domain['und'][0]['format'] = null;
+            $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
+
+            if($res_domain == 'Lead'){
+                $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
+                $node->field_prog_track_updated['und'][0]['value'] = $st_update;
+                $node->field_prog_track_updated['und'][0]['format'] = null;
+                $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
+                if($res['Status'] == 'INCOMPLETE') {
+                    $node->field_prog_track_status_note['und'][0]['value'] = $res['StatusNote'];
+                    $node->field_prog_track_status_note['und'][0]['format'] = null;
+                    $node->field_prog_track_status_note['und'][0]['safe_value'] = $res['StatusNote'];
+                }
+            }
+            else if($res_domain == 'CEDRI'){
+                $exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+                $node->field_prog_track_updated['und'][0]['value'] = $exp_date;
+                $node->field_prog_track_updated['und'][0]['format'] = null;
+                $node->field_prog_track_updated['und'][0]['safe_value'] = $exp_date;
+            }
+            $res_action = '';
+            if ($res_domain == 'Lead'){
+                foreach($res['Documents'] as $ky => $vl){
+                    if(strpos($vl['name'],'Receipt') !== false)
+                        $res_action .= "<a href='/".$vl['name']."' target='_blank'>View Receipt</a><br/>";
+                    if(strpos($vl['name'],'Certificate') !== false)
+                        $res_action .= "<a href='/".$vl['name']."' target='_blank'>View Certificate</a><br/>";
+                }
+                if(empty($res_action))
+                    $res_action = "N/A";
+            }
+            else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI')
+                $res_action .= "<a href='".$res['ActivitySourceURL']."'>View Submission</a>";
+
+            $node->field_prog_track_actions_dnload['und'][0]['value'] = $res_action;
+            $node->field_prog_track_actions_dnload['und'][0]['format'] = 'full_html';
+            $node->field_prog_track_actions_dnload['und'][0]['safe_value'] = $res_action;
+
+            /*$node->field_prog_track_actions['und'][0]['value'] = $res_action;
+            $node->field_prog_track_actions['und'][0]['format'] = null;
+            $node->field_prog_track_actions['und'][0]['safe_value'] = $res_action;
+
+            $node->field_prog_track_actions_link['und'][0]['value'] = $res['ActivitySourceURL'];
+            $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;*/
+
+
+            $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
+            $node->field_prog_track_created_by['und'][0]['format'] = null;
+            $node->field_prog_track_created_by['und'][0]['safe_value'] = $user->uid;
+
+            if($res_domain == "Lead") {
+                $node->field_prog_track_date_type['und'][0]['value'] = 'Status Changed Date';
+                $node->field_prog_track_date_type['und'][0]['format'] = null;
+                $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Status Changed Date';
+            }
+            else if($res_domain == "CEDRI"){
+                $node->field_prog_track_date_type['und'][0]['value'] = 'Publish Date';
+                $node->field_prog_track_date_type['und'][0]['format'] = null;
+                $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
+
+                $node->field_prog_track_facility_name['und'][0]['value'] = $res['FacilityName'];
+                $node->field_prog_track_facility_name['und'][0]['format'] = null;
+                $node->field_prog_track_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
+
+                $node->field_prog_track_part_code['und'][0]['value'] = $res['partCode'];
+                $node->field_prog_track_part_code['und'][0]['format'] = null;
+                $node->field_prog_track_part_code['und'][0]['safe_value'] = $res['partCode'];
+
+                $node->field_prog_track_part_name['und'][0]['value'] = $res['partName'];
+                $node->field_prog_track_part_name['und'][0]['format'] = null;
+                $node->field_prog_track_part_name['und'][0]['safe_value'] = $res['partName'];
+
+                $node->field_prog_track_sub_part_code['und'][0]['value'] = $res['subPartCode'];
+                $node->field_prog_track_sub_part_code['und'][0]['format'] = null;
+                $node->field_prog_track_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
+
+                $node->field_prog_track_sub_part_name['und'][0]['value'] = $res['subPartName'];
+                $node->field_prog_track_sub_part_name['und'][0]['format'] = null;
+                $node->field_prog_track_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
+
+                $node->field_prog_track_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
+                $node->field_prog_track_facility_reg_id['und'][0]['format'] = null;
+                $node->field_prog_track_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
+            }
+        }
+        else if($res['ActivityType'] == 'TASK') {
+            $node->type = "to_do_list";
+
+            $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
+            $node->field_eactivity_id['und'][0]['format'] = null;
+            $node->field_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
+
+            $node->field_todo_lst_item['und'][0]['value'] = $res['ActivityDesc'];
+            $node->field_todo_lst_item['und'][0]['format'] = null;
+            $node->field_todo_lst_item['und'][0]['safe_value'] = $res['ActivityDesc'];
+
+            $res_domain = $res['PartnerSystemId'];
+            if (strpos($res['PartnerSystemId'], 'lead') !== false)
+                $res_domain = "Lead";
+            if (strpos($res['PartnerSystemId'], 'cedri') !== false)
+                $res_domain = "CEDRI";
+            $node->field_todo_lst_domain['und'][0]['value'] = $res_domain;
+            $node->field_todo_lst_domain['und'][0]['format'] = null;
+            $node->field_todo_lst_domain['und'][0]['safe_value'] = $res_domain;
+
+            $st_due = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+            $node->field_todo_lst_due['und'][0]['value'] = $st_due;
+            $node->field_todo_lst_due['und'][0]['format'] = null;
+            $node->field_todo_lst_due['und'][0]['safe_value'] = $st_due;
+
+            $node->field_todo_lst_facility_name['und'][0]['value'] = $res['FacilityName'];
+            $node->field_todo_lst_facility_name['und'][0]['format'] = null;
+            $node->field_todo_lst_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
+
+            $node->field_todo_lst_part_code['und'][0]['value'] = $res['partCode'];
+            $node->field_todo_lst_part_code['und'][0]['format'] = null;
+            $node->field_todo_lst_part_code['und'][0]['safe_value'] = $res['partCode'];
+
+            $node->field_todo_lst_part_name['und'][0]['value'] = $res['partName'];
+            $node->field_todo_lst_part_name['und'][0]['format'] = null;
+            $node->field_todo_lst_part_name['und'][0]['safe_value'] = $res['partName'];
+
+            $node->field_todo_lst_sub_part_code['und'][0]['value'] = $res['subPartCode'];
+            $node->field_todo_lst_sub_part_code['und'][0]['format'] = null;
+            $node->field_todo_lst_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
+
+            $node->field_todo_lst_sub_part_name['und'][0]['value'] = $res['subPartName'];
+            $node->field_todo_lst_sub_part_name['und'][0]['format'] = null;
+            $node->field_todo_lst_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
+
+            $node->field_todo_lst_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
+            $node->field_todo_lst_facility_reg_id['und'][0]['format'] = null;
+            $node->field_todo_lst_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
+
+            $node->field_todo_lst_activ_source_url['und'][0]['value'] = $res['ActivitySourceURL'];
+            $node->field_todo_lst_activ_source_url['und'][0]['format'] = null;
+            $node->field_todo_lst_activ_source_url['und'][0]['safe_value'] = $res['ActivitySourceURL'];
+
+            $node->field_todo_lst_created_by['und'][0]['value'] = $user->uid;
+            $node->field_todo_lst_created_by['und'][0]['format'] = null;
+            $node->field_todo_lst_created_by['und'][0]['safe_value'] = $user->uid;
+        }
+        node_object_prepare($node);
+        $node->language = LANGUAGE_NONE;
+        $node->uid = $user->uid;
+        $node->status = 1;
+
+
+
+        $node = node_submit($node); // Prepare node for saving
+        node_save($node);
     }
-    else {
-      //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
-      //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
-      drop_item($query_res, $res);
+    //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
+    else if(true){
+        //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
+        $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
+        $curr_date =  strtotime(date("Y-m-d H:i:s"));
+        if(($expiration_date - $curr_date) <= 0){
+            db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res['entity_id']));
+            db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res['entity_id'],':vid' => $query_res['revision_id']));
+        }
     }
 }
+try {
+    $wsdl = variable_get('eactivity_auth_reg_wsdl');
+    $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
+} catch(SoapFault $f) {
+    dpm($f);
+    drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
+    watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user", array(), WATCHDOG_ERROR);
+    return;
+}
+$params1 = array(
+    "userId" => variable_get('eactivity_auth_reg_username'),
+    "credential" => variable_get('eactivity_auth_reg_password'),
+    "domain" => variable_get('eactivity_auth_reg_domain'),
+    "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
+);
+try {
+    //Authenticate to CDX
+    $response1 = $client->__soapCall("Authenticate", array($params1));
+} catch(SoapFault $f) {
+    watchdog('eenterprise_bridge_auth',"Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
+}
+$params2 = array(
+    "securityToken" => $response1->securityToken,
+    "userId" => $user_name
+);
 
-function assign_roles_to_user($user_name) {
+try {
+    $user_obj = $client->__soapCall("RetrieveUser", array($params2));
+    $user_sec_bundle = array(
+        "securityToken" => $response1->securityToken,
+        "user" => $user_obj->User,
+    );
+
+    $org_val = null;
+    $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
+
+    if(is_array($user_orgs->Organization))
+        $org_val = $user_orgs->Organization[0];
+    else
+        $org_val = $user_orgs->Organization;
+
+    $user_sec_org_bundle = array(
+        "securityToken" => $response1->securityToken,
+        "user" => $user_obj->User,
+        "org" => $org_val,
+    );
+    global $user;
+    $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
+    if(is_array($user_roles->Role)){
+        foreach($user_roles->Role as $k => $v){
+            $role_val = $v->type->description;
+            if(!empty($role_val)){
+                $user_role = user_role_load_by_name($role_val);
+                if($user_role === FALSE){
+                    $user_role = new stdClass();
+                    $user_role->name = $role_val;
+                    user_role_save($user_role);
+                }
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+            }
+        }
+    }
+    else{
+        $role_val = $user_roles->Role->type->description;
+        if(!empty($role_val)){
+            $user_role = user_role_load_by_name($role_val);
+            if($user_role === FALSE){
+                $user_role = new stdClass();
+                $user_role->name = $role_val;
+                user_role_save($user_role);
+            }
+            user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+        }
+    }
+} catch(SoapFault $f) {
+    watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
+}
+
+function assign_roles_to_user($user_name){
     try {
-        $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+        $wsdl = variable_get('eactivity_auth_reg_wsdl');
+        //    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+        $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
         drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user", array(), WATCHDOG_ERROR);
         return;
     }
     $params1 = array(
-        "userId" => "registration.test@cgifederal.com",
-        "credential" => "Testregistration1",
-        "domain" => "default",
-        "authenticationMethod" => "password",
+        "userId" => variable_get('eactivity_auth_reg_username'),
+        "credential" => variable_get('eactivity_auth_reg_password'),
+        "domain" => variable_get('eactivity_auth_reg_domain'),
+        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
     );
     try {
         //Authenticate to CDX
@@ -396,12 +664,10 @@ function assign_roles_to_user($user_name) {
         $org_val = null;
         $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
 
-        if(is_array($user_orgs->Organization)) {
-          $org_val = $user_orgs->Organization[0];
-        }
-        else{
+        if(is_array($user_orgs->Organization))
+            $org_val = $user_orgs->Organization[0];
+        else
             $org_val = $user_orgs->Organization;
-        }
 
         $user_sec_org_bundle = array(
             "securityToken" => $response1->securityToken,
@@ -411,9 +677,20 @@ function assign_roles_to_user($user_name) {
         global $user;
         $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
         if(is_array($user_roles->Role)){
-            add_user_role($user_roles, $user);
+            foreach($user_roles->Role as $k => $v){
+                $role_val = $v->type->description;
+                if(!empty($role_val)){
+                    $user_role = user_role_load_by_name($role_val);
+                    if($user_role === FALSE){
+                        $user_role = new stdClass();
+                        $user_role->name = $role_val;
+                        user_role_save($user_role);
+                    }
+                    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                }
+            }
         }
-        else {
+        else{
             $role_val = $user_roles->Role->type->description;
             if(!empty($role_val)){
                 $user_role = user_role_load_by_name($role_val);
@@ -426,272 +703,27 @@ function assign_roles_to_user($user_name) {
             }
         }
     } catch(SoapFault $f) {
+        dpm($f);
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }
 
-//TODO: What is $res? Can we come up with a better function name?
-function add_receipt_and_certificate_link(&$res_action, $res){
-
-  foreach($res['Documents'] as $vl){
-    if(strpos($vl['name'],'Receipt') !== false) {
-      $res_action .= "<a href='/".$vl['name']."' target='_blank'>View Receipt</a><br/>";
-    }
-    if(strpos($vl['name'],'Certificate') !== false) {
-      $res_action .= "<a href='/".$vl['name']."' target='_blank'>View Certificate</a><br/>";
-    }
-  }
-}
-
-//TODO: Can we come up with a better name for this function if necessary?
-function define_user_role($user_role, $user, $uname, $userDetails, $pos){
-
-  if($user){
-    user_save($user, array('mail' => $userDetails->attributes['email'][0]));
-    //if user is public user
-    if($pos === FALSE){
-      $user_role = user_role_load_by_name('Public User');
-      user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-    }
-    else {
-      assign_roles_to_user($uname);
-    }
-  }
-}
-
-//TODO: Can we come up with a better name for this function if necessary?
-function add_user_role($user_roles, $user){
-
-  foreach($user_roles->Role as $v){
-    $role_val = $v->type->description;
-    if(!empty($role_val)){
-      $user_role = user_role_load_by_name($role_val);
-      if($user_role === FALSE){
-        $user_role = new stdClass();
-        $user_role->name = $role_val;
-        user_role_save($user_role);
-      }
-      user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-    }
-  }
-}
-
-//TODO: Can we come up with a better name for this function if necessary?
-
-function create_item($user, $res) {
-
-  $node = new stdClass();
-  $node->title = $res['ActivityDesc'];
-  if ($res[ACTIVITY_TYPE] == 'TRACKER') {
-    progress_tracker($node, $user, $res);
-  }
-  else if($res[ACTIVITY_TYPE] == 'TASK') {
-    to_do_list($node, $user, $res);
-  }
-  node_object_prepare($node);
-  $node->language = LANGUAGE_NONE;
-  $node->uid = $user->uid;
-  $node->status = 1;
-
-
-  // Prepare node for saving
-  $node = node_submit($node);
-  node_save($node);
-}
-
-//TODO: Can we come up with a better name for this function if necessary?
-//If the item is already existing, implement logic to drop this item 6 months after the last status update date.
-//86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
-function drop_item($query_res, $res) {
-
-  $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
-  $curr_date =  strtotime(date("Y-m-d H:i:s"));
-  if(($expiration_date - $curr_date) <= 0){
-    db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res[ENTITY_ID]));
-    db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res[ENTITY_ID],':vid' => $query_res['revision_id']));
-  }
-}
-
-//TODO: Can we come up with a better name for this function if necessary?
-function progress_tracker($node, $user, $res){
-
-  $node->type = "progress_tracker";
-
-  $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
-  $node->field_eactivity_id['und'][0]['format'] = null;
-  $node->field_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
-
-  $node->field_prog_tracker_app['und'][0]['value'] = $res['ActivityDesc'];
-  $node->field_prog_tracker_app['und'][0]['format'] = null;
-  $node->field_prog_tracker_app['und'][0]['safe_value'] = $res['ActivityDesc'];
-
-  $res_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
-
-  $node->field_prog_track_status['und'][0]['value'] = $res_status;
-  $node->field_prog_track_status['und'][0]['format'] = null;
-  $node->field_prog_track_status['und'][0]['safe_value'] = $res_status;
-
-  $res_domain = $res[PARTNER_SYSTEM_ID];
-  if (strpos($res[PARTNER_SYSTEM_ID], 'lead') !== false) {
-    $res_domain = "Lead";
-  }
-  else if (strpos($res[PARTNER_SYSTEM_ID], 'cedri') !== false) {
-    $res_domain = "CEDRI";
-  }
-  $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
-  $node->field_prog_track_domain['und'][0]['format'] = null;
-  $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
-
-  if($res_domain == 'Lead'){
-    $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
-    $node->field_prog_track_updated['und'][0]['value'] = $st_update;
-    $node->field_prog_track_updated['und'][0]['format'] = null;
-    $node->field_prog_track_updated['und'][0]['safe_value'] = $st_update;
-    if($res['Status'] == 'INCOMPLETE') {
-      $node->field_prog_track_status_note['und'][0]['value'] = $res[STATUS_NOTE];
-      $node->field_prog_track_status_note['und'][0]['format'] = null;
-      $node->field_prog_track_status_note['und'][0]['safe_value'] = $res[STATUS_NOTE];
-    }
-  }
-  else if($res_domain == 'CEDRI'){
-    $exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
-    $node->field_prog_track_updated['und'][0]['value'] = $exp_date;
-    $node->field_prog_track_updated['und'][0]['format'] = null;
-    $node->field_prog_track_updated['und'][0]['safe_value'] = $exp_date;
-  }
-  $res_action = '';
-  if ($res_domain == 'Lead'){
-    add_receipt_and_certificate_link($res_action, $res);
-
-    if(empty($res_action)) {
-      $res_action = "N/A";
-    }
-  }
-  else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI') {
-    $res_action .= "<a href='" . $res['ActivitySourceURL'] . "'>View Submission</a>";
-  }
-  $node->field_prog_track_actions_dnload['und'][0]['value'] = $res_action;
-  $node->field_prog_track_actions_dnload['und'][0]['format'] = 'full_html';
-  $node->field_prog_track_actions_dnload['und'][0]['safe_value'] = $res_action;
-
-  $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
-  $node->field_prog_track_created_by['und'][0]['format'] = null;
-  $node->field_prog_track_created_by['und'][0]['safe_value'] = $user->uid;
-
-  if($res_domain == "Lead") {
-    $node->field_prog_track_date_type['und'][0]['value'] = 'Status Changed Date';
-    $node->field_prog_track_date_type['und'][0]['format'] = null;
-    $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Status Changed Date';
-  }
-  else if($res_domain == "CEDRI"){
-    $node->field_prog_track_date_type['und'][0]['value'] = 'Publish Date';
-    $node->field_prog_track_date_type['und'][0]['format'] = null;
-    $node->field_prog_track_date_type['und'][0]['safe_value'] = 'Publish Date';
-
-    $node->field_prog_track_facility_name['und'][0]['value'] = $res['FacilityName'];
-    $node->field_prog_track_facility_name['und'][0]['format'] = null;
-    $node->field_prog_track_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
-
-    $node->field_prog_track_part_code['und'][0]['value'] = $res['partCode'];
-    $node->field_prog_track_part_code['und'][0]['format'] = null;
-    $node->field_prog_track_part_code['und'][0]['safe_value'] = $res['partCode'];
-
-    $node->field_prog_track_part_name['und'][0]['value'] = $res['partName'];
-    $node->field_prog_track_part_name['und'][0]['format'] = null;
-    $node->field_prog_track_part_name['und'][0]['safe_value'] = $res['partName'];
-
-    $node->field_prog_track_sub_part_code['und'][0]['value'] = $res['subPartCode'];
-    $node->field_prog_track_sub_part_code['und'][0]['format'] = null;
-    $node->field_prog_track_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
-
-    $node->field_prog_track_sub_part_name['und'][0]['value'] = $res['subPartName'];
-    $node->field_prog_track_sub_part_name['und'][0]['format'] = null;
-    $node->field_prog_track_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
-
-    $node->field_prog_track_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
-    $node->field_prog_track_facility_reg_id['und'][0]['format'] = null;
-    $node->field_prog_track_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
-  }
-}
-
-//TODO: Can we come up with a better name for this function if necessary?
-function to_do_list($node, $user, $res){
-
-  $node->type = "to_do_list";
-
-  $node->field_eactivity_id['und'][0]['value'] = $res['EActivityId'];
-  $node->field_eactivity_id['und'][0]['format'] = null;
-  $node->field_eactivity_id['und'][0]['safe_value'] = $res['EActivityId'];
-
-  $node->field_todo_lst_item['und'][0]['value'] = $res['ActivityDesc'];
-  $node->field_todo_lst_item['und'][0]['format'] = null;
-  $node->field_todo_lst_item['und'][0]['safe_value'] = $res['ActivityDesc'];
-
-  $res_domain = $res[PARTNER_SYSTEM_ID];
-  if (strpos($res[PARTNER_SYSTEM_ID], 'lead') !== false) {
-    $res_domain = "Lead";
-  }
-  if (strpos($res[PARTNER_SYSTEM_ID], 'cedri') !== false) {
-    $res_domain = "CEDRI";
-  }
-  $node->field_todo_lst_domain['und'][0]['value'] = $res_domain;
-  $node->field_todo_lst_domain['und'][0]['format'] = null;
-  $node->field_todo_lst_domain['und'][0]['safe_value'] = $res_domain;
-
-  $st_due = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
-  $node->field_todo_lst_due['und'][0]['value'] = $st_due;
-  $node->field_todo_lst_due['und'][0]['format'] = null;
-  $node->field_todo_lst_due['und'][0]['safe_value'] = $st_due;
-
-  $node->field_todo_lst_facility_name['und'][0]['value'] = $res['FacilityName'];
-  $node->field_todo_lst_facility_name['und'][0]['format'] = null;
-  $node->field_todo_lst_facility_name['und'][0]['safe_value'] = $res['FacilityName'];
-
-  $node->field_todo_lst_part_code['und'][0]['value'] = $res['partCode'];
-  $node->field_todo_lst_part_code['und'][0]['format'] = null;
-  $node->field_todo_lst_part_code['und'][0]['safe_value'] = $res['partCode'];
-
-  $node->field_todo_lst_part_name['und'][0]['value'] = $res['partName'];
-  $node->field_todo_lst_part_name['und'][0]['format'] = null;
-  $node->field_todo_lst_part_name['und'][0]['safe_value'] = $res['partName'];
-
-  $node->field_todo_lst_sub_part_code['und'][0]['value'] = $res['subPartCode'];
-  $node->field_todo_lst_sub_part_code['und'][0]['format'] = null;
-  $node->field_todo_lst_sub_part_code['und'][0]['safe_value'] = $res['subPartCode'];
-
-  $node->field_todo_lst_sub_part_name['und'][0]['value'] = $res['subPartName'];
-  $node->field_todo_lst_sub_part_name['und'][0]['format'] = null;
-  $node->field_todo_lst_sub_part_name['und'][0]['safe_value'] = $res['subPartName'];
-
-  $node->field_todo_lst_facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
-  $node->field_todo_lst_facility_reg_id['und'][0]['format'] = null;
-  $node->field_todo_lst_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
-
-  $node->field_todo_lst_activ_source_url['und'][0]['value'] = $res['ActivitySourceURL'];
-  $node->field_todo_lst_activ_source_url['und'][0]['format'] = null;
-  $node->field_todo_lst_activ_source_url['und'][0]['safe_value'] = $res['ActivitySourceURL'];
-
-  $node->field_todo_lst_created_by['und'][0]['value'] = $user->uid;
-  $node->field_todo_lst_created_by['und'][0]['format'] = null;
-  $node->field_todo_lst_created_by['und'][0]['safe_value'] = $user->uid;
-}
-
 function eenterprise_bridge_auth_logout() {
 
-  drupal_add_js(drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js");
-
-  return array (
-    'bridge_logout' => array (
-      '#type' => 'markup',
-      '#markup' => '<img style="display:none" src="https://extauthtest.epacdxnode.net/?wa=wsignout1.0&wtrealm=http%3A%2F%2Fec2-52-4-39-127.compute-1.amazonaws.com&wctx=rm%3D0&wreply=http%3A%2F%2Fec2-52-4-39-127.compute-1.amazonaws.com">',
-    ),
-    'naas_logout' => array (
-      '#type' => 'markup',
-      '#markup' => '<img style="display:none" src="https://nodeweb.epacdxnode.net/NAASOpenIdProvider/?__LASTFOCUS=&__EVENTTARGET=ctl00%24Main%24ctl00%24ctl00&__EVENTARGUMENT=&__VIEWSTATE=%2FwEPDwUKLTY3MTkwMzczNGQYAgUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDEFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDMFFGN0bDAwJE1haW4kbG9naW5WaWV3Dw9kAgFkemUzLl2FQAiPPrwmNS1FeE1TJ0u58ubm4drgn1Lh7yg%3D&__VIEWSTATEGENERATOR=5C4DFC33&__EVENTVALIDATION=%2FwEdAARJ2dy5U8AGYwCawJzvYQYXAtZ3XqH851BlP3gJphgKdFaF7W7BI5KtmmOFt4CsYAe7T4%2B6Hxo9bQsFkfZ6fAuTj5FwqLIrW5hFXXuZ3d6Z3PpVm1OcdFKYufMQCJGJ2AE%3D&ctl00%24Main%24loginView%24relyingPartySite=">',
-    ),
-    'body' => array (
-      '#type' => 'markup',
-      '#markup' => 'Logging out...',
-    ),
-  );
+    drupal_add_js(drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js");
+//  print drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js";
+    return array (
+        'bridge_logout' => array (
+            '#type' => 'markup',
+            '#markup' => '<img style="display:none" src="' . variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wctx=rm%3D0&wreply=' . urlencode(variable_get('eenterprise_bridge_auth_realm')) . '">',
+        ),
+        'naas_logout' => array (
+            '#type' => 'markup',
+            '#markup' => '<img style="display:none" src="https://nodeweb.epacdxnode.net/NAASOpenIdProvider/?__LASTFOCUS=&__EVENTTARGET=ctl00%24Main%24ctl00%24ctl00&__EVENTARGUMENT=&__VIEWSTATE=%2FwEPDwUKLTY3MTkwMzczNGQYAgUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDEFFmN0bDAwJE1haW4kY3RsMDAkY3RsMDMFFGN0bDAwJE1haW4kbG9naW5WaWV3Dw9kAgFkemUzLl2FQAiPPrwmNS1FeE1TJ0u58ubm4drgn1Lh7yg%3D&__VIEWSTATEGENERATOR=5C4DFC33&__EVENTVALIDATION=%2FwEdAARJ2dy5U8AGYwCawJzvYQYXAtZ3XqH851BlP3gJphgKdFaF7W7BI5KtmmOFt4CsYAe7T4%2B6Hxo9bQsFkfZ6fAuTj5FwqLIrW5hFXXuZ3d6Z3PpVm1OcdFKYufMQCJGJ2AE%3D&ctl00%24Main%24loginView%24relyingPartySite=">',
+        ),
+        'body' => array (
+            '#type' => 'markup',
+            '#markup' => 'Logging out...',
+        ),
+    );
 }
