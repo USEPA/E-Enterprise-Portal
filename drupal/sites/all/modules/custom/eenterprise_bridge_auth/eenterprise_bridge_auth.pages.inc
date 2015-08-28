@@ -16,7 +16,7 @@ define("PARTNER_SYSTEM_ID", "PartnerSystemId");
 function eenterprise_bridge_auth_login() {
   $form = drupal_render(drupal_get_form('eenterprise_bridge_auth_login_form'));
   return array(
-    TYPE => 'ajax',
+    '#type' => 'ajax',
     '#commands' => array(
       ajax_command_html('#eenterprise_bridge_auth_container', $form),
     ),
