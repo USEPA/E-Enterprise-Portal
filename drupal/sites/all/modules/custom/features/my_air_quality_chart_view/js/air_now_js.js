@@ -4,7 +4,6 @@
   var map;
   var markers;
   var currentZipData;
-  //var currentLocation;
   var todayAQI;
 
   $(document).ready(function() {
@@ -15,7 +14,9 @@
 
     $tabs.tabs({
       activate: function(e, ui) {
-        if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') { // map tab activated
+        //map tab activated
+        if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {
+          console.log("map tab activated");
           updateMarker();
         }
       }
@@ -23,21 +24,30 @@
 
     $(document).on("ee:zipCodeQueried", function(evt, data) {
       currentZipData = data;
-
       draw(currentZipData.zip, currentZipData.string);
-
+      //if markers exist then it's not the original map load
       if (markers) {
         map.removeLayer(markers);
-      }
+        markers = new L.FeatureGroup();
+        map.addLayer(markers);
+        updateMarker();
 
-      markers = new L.FeatureGroup();
-      map.addLayer(markers);
-      updateMarker();
+      }
+      //original map load so markers are added via other method in map creation
+      else {
+        markers = new L.FeatureGroup();
+        map.addLayer(markers);
+      }
     });
   });
 
   function loadMap() {
-    var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 10);
+    var map = L.map('my-air-quality-air-now-map-container');
+    map.on('load', function(e) {
+      //console.log('map loaded');
+    });
+    //this extent is not actually used (but is needed), since map should be panned to the marker after being created
+    map.setView([32.505, -96.09], 13);
 
     $('a', map.getContainer()).addClass('favorites-ignore');
 
@@ -45,8 +55,7 @@
 
     var aqiLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
-      opacity: 0.9,
-      position: ''
+      opacity: 0.5
     }).addTo(map);
 
     var AQSMonitorLayer = L.esri.dynamicMapLayer({
@@ -54,7 +63,7 @@
       opacity: 1.0
     });
 
-    AQSMonitorLayer.on("load", function() {});
+    //AQSMonitorLayer.on("load", function() {});
 
     map.addLayer(AQSMonitorLayer);
 
@@ -83,16 +92,21 @@
 
   function updateMarker() {
     if (currentZipData && currentZipData.latitude && currentZipData.longitude) {
-        var latlng = [currentZipData.latitude, currentZipData.longitude];
+      map.invalidateSize();
+      var latlng = [currentZipData.latitude, currentZipData.longitude];
 
-        var marker = L.marker(latlng).addTo(markers);
-        marker.bindPopup("<b>" + currentZipData.string + "</b>" + (todayAQI ? ("<br/>Today's Air Quality: " + todayAQI) : ""), {
-          minWidth: 150,
-          maxWidth: 500,
-          className: 'favorites-ignore'
-        });
+      var marker = L.marker(latlng).addTo(markers);
+      marker.bindPopup("<b>" + currentZipData.string + "</b>" + (todayAQI ? ("<br/>Today's Air Quality: " + todayAQI) : ""), {
+        minWidth: 150,
+        maxWidth: 500,
+        className: 'favorites-ignore'
+      });
 
-        marker.openPopup();
+      marker.openPopup();
+      console.log(currentZipData.latitude);
+      console.log(currentZipData.longitude);
+
+      map.panTo(new L.LatLng(currentZipData.latitude, currentZipData.longitude));
     }
   }
 
@@ -362,7 +376,6 @@
       if (dateDiffInDays(new Date(), getDate(data[i].DateForecast)) == 0) {
         todayData = data[i];
         todayAQI = todayData.AQI;
-        updateMarker();
         break;
       }
     }
@@ -561,10 +574,10 @@
       .attr("y", function(d) {
         return y(d.visualAQI) - 20
       })
-      // .attr("dy", ".35em")
-      .attr("class", function(d) {
-        return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text'
-      })
+    // .attr("dy", ".35em")
+    .attr("class", function(d) {
+      return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text'
+    })
       .attr("text-anchor", "middle")
       .text(function(d) {
         return d.ShowAQILabel ? d.AQI : '';
@@ -607,7 +620,14 @@
 
   var draw = function(zipCode, locationText) {
 
-    var categoryToMidAQI = {1: 25, 2: 75, 3: 125, 4: 175, 5: 250, 6: 400};
+    var categoryToMidAQI = {
+      1: 25,
+      2: 75,
+      3: 125,
+      4: 175,
+      5: 250,
+      6: 400
+    };
 
     function parseData(responseData) {
       var data = [];
