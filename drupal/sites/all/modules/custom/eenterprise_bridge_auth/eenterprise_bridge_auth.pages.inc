@@ -570,9 +570,14 @@ try {
 } catch(SoapFault $f) {
     watchdog('eenterprise_bridge_auth',"Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
 }
+$user_name = variable_get('userId');
+
+if (!isset($user_name)) {
+    $user_name = 'GREENOLIVE'; //FOR TESTING 8/31 MUST REMOVE 8/31
+}
 $params2 = array(
     "securityToken" => $response1->securityToken,
-    "userId" => variable_get('userId'),
+    "userId" => $user_name,
 );
 
 try {
@@ -624,7 +629,7 @@ try {
         }
     }
 } catch(SoapFault $f) {
-
+    variable_set('error_632', $f);
     watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
 }
 
@@ -648,7 +653,7 @@ function assign_roles_to_user($user_name){
         //Authenticate to CDX
         $response1 = $client->__soapCall("Authenticate", array($params1));
     } catch(SoapFault $f) {
-        watchdog('eenterprise_bridge_auth',"Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
+        watchdog('eenterprise_bridge_auth',"Error: Cannot authentic ate user to retrieve role information", array(), WATCHDOG_ERROR);
     }
     $params2 = array(
         "securityToken" => $response1->securityToken,
@@ -704,7 +709,7 @@ function assign_roles_to_user($user_name){
             }
         }
     } catch(SoapFault $f) {
-        dpm($f);
+        variable_set('error_712', $f);
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }
