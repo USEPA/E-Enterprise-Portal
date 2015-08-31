@@ -13024,3 +13024,9 @@ th.views-field-field-prog-tracker-app {
 .ui-dialog-titlebar .ui-button-text {
   padding: 0;
 }
+
+/** Additional Styling for Responsive Grid Layout**/
+/* line 2532, ../sass/styles.scss */
+.panel-grid {
+  margin-top: 1em;
+}
