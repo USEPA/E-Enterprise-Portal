@@ -10,10 +10,25 @@
 Drupal.behaviors.zipCodeChangeEvent = {
   attach: function(context) {
 
+    function showError($locationInputFormGroup, $locationInputErrorIcon) {
+      $locationInputFormGroup.addClass('has-error');
+      $locationInputErrorIcon.show();
+    }
+
+    function hideError($locationInputFormGroup, $locationInputErrorIcon) {
+      $locationInputFormGroup.removeClass('has-error');
+      $locationInputErrorIcon.hide();
+    }
+
     var $locationSelect = $('select#location-select', context);
     var $locationInput = $('input#location-input-guests', context);
 
+    var defaultZip = 27705; // Durham
+
     $locationSelect.add($locationInput).once(function() {
+
+      var $locationInputFormGroup = $locationInput.closest('.form-group');
+      var $locationInputErrorIcon = $locationInput.next('.form-control-feedback');
 
       // for logged in users
       $locationSelect.change(function() {
@@ -30,13 +45,25 @@ Drupal.behaviors.zipCodeChangeEvent = {
         console.log("change:", currentZip);
         if (currentZip.match(/^\d{5}$/)) {
           $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
+        } else { // invalid zip code
+          //$locationInputFormGroup.addClass('has-error has-feedback');
+          showError($locationInputFormGroup, $locationInputErrorIcon);
         }
       });
 
       // get latlng info for new zip
       $(document).on("ee:zipCodeChanged", function(evt, data) {
         $.getJSON('/zip_code_lookup?zip=' + data.zip, function(queryResponse) {
-          $(document).trigger('ee:zipCodeQueried', queryResponse);
+          if (queryResponse.string === '') { // invalid zip code
+            //alert("invalid zip!");
+            //$locationInputFormGroup.addClass('has-error has-feedback');
+            showError($locationInputFormGroup, $locationInputErrorIcon);
+
+          } else {
+            //$locationInputFormGroup.removeClass('has-error has-feedback');
+            hideError($locationInputFormGroup, $locationInputErrorIcon);
+            $(document).trigger('ee:zipCodeQueried', queryResponse);
+          }
         });
       });
 
@@ -76,6 +103,9 @@ Drupal.behaviors.zipCodeChangeEvent = {
                 alert('Unable to connect to service');
               }
             });
+          }, function() {
+            $locationInput.val(defaultZip);
+            $(document).trigger("ee:zipCodeChanged", {zip: defaultZip});
           });
         }
       }

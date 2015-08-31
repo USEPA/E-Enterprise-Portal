@@ -54,7 +54,7 @@ $cdx_facility_source = variable_get('cdx_facility_resource_url');
 <![endif]-->
 
 <?php echo '<script src="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/FacilityManagementTemplates.min.js"></script>';?>
-<?php echo '<script src="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js"></script>';?>
+<?php echo '<script src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) .  '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js"></script>';?>
 
 <div id="facility-widget" style="max-width:1363px;"></div>
 <div id="fmw-organization-select-holder" style="display:none"><label
