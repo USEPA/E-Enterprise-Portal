@@ -10,70 +10,106 @@
 Drupal.behaviors.zipCodeChangeEvent = {
   attach: function(context) {
 
-    // for logged in users
-    var $locationSelect = $('select#location-select');
-    $locationSelect.change(function() {
-      var currentZip = $(this).val();
-      if (currentZip != 'view_more') {
-        $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
-      }
-    });
-
-    // for guests
-    var $locationInput = $('input#location-input-guests');
-    $locationInput.change(function() {
-      var currentZip = $(this).val();
-      if (currentZip.match(/^\d{5}$/)) {
-        $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
-      }
-    });
-
-    // get latlng info for new zip
-    $(document).on("ee:zipCodeChanged", function(evt, data) {
-      $.getJSON('/zip_code_lookup?zip=' + data.zip, function(queryResponse) {
-        $(document).trigger('ee:zipCodeQueried', queryResponse);
-      });
-    });
-
-    $locationSelect.trigger('change');
-
-    // for guests users, request location
-    if ($locationInput.size() > 0) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          $.ajax({
-            url: '/return_location_data_lat_long',
-            type: 'GET',
-            data: {latitude: position.coords.latitude, longitude: position.coords.longitude},
-            success: function (location_data) {
-              console.log(location_data);
-              location_data = $.parseJSON(location_data);
-              console.log(location_data);
-
-              if (!location_data.error) {
-
-                $locationInput.val(location_data.zip);
-
-                var zipData = {
-                  state: location_data.state,
-                  city: location_data.city,
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude,
-                  zip: location_data.zip,
-                  string: location_data.city + ', ' + location_data.state
-                };
-
-                $(document).trigger("ee:zipCodeQueried", zipData);
-              }
-              return location_data;
-            },
-            failure: function () {
-              alert('Unable to connect to service');
-            }
-          });
-        });
-      }
+    function showError($locationInputFormGroup, $locationInputErrorIcon) {
+      $locationInputFormGroup.addClass('has-error');
+      $locationInputErrorIcon.show();
     }
+
+    function hideError($locationInputFormGroup, $locationInputErrorIcon) {
+      $locationInputFormGroup.removeClass('has-error');
+      $locationInputErrorIcon.hide();
+    }
+
+    var $locationSelect = $('select#location-select', context);
+    var $locationInput = $('input#location-input-guests', context);
+
+    var defaultZip = 27705; // Durham
+
+    $locationSelect.add($locationInput).once(function() {
+
+      var $locationInputFormGroup = $locationInput.closest('.form-group');
+      var $locationInputErrorIcon = $locationInput.next('.form-control-feedback');
+
+      // for logged in users
+      $locationSelect.change(function() {
+        var currentZip = $(this).val();
+        console.log("change:", currentZip);
+        if (currentZip != 'view_more') {
+          $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
+        }
+      });
+
+      // for guests
+      $locationInput.change(function() {
+        var currentZip = $(this).val();
+        console.log("change:", currentZip);
+        if (currentZip.match(/^\d{5}$/)) {
+          $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
+        } else { // invalid zip code
+          //$locationInputFormGroup.addClass('has-error has-feedback');
+          showError($locationInputFormGroup, $locationInputErrorIcon);
+        }
+      });
+
+      // get latlng info for new zip
+      $(document).on("ee:zipCodeChanged", function(evt, data) {
+        $.getJSON('/zip_code_lookup?zip=' + data.zip, function(queryResponse) {
+          if (queryResponse.string === '') { // invalid zip code
+            //alert("invalid zip!");
+            //$locationInputFormGroup.addClass('has-error has-feedback');
+            showError($locationInputFormGroup, $locationInputErrorIcon);
+
+          } else {
+            //$locationInputFormGroup.removeClass('has-error has-feedback');
+            hideError($locationInputFormGroup, $locationInputErrorIcon);
+            $(document).trigger('ee:zipCodeQueried', queryResponse);
+          }
+        });
+      });
+
+      $locationSelect.trigger('change');
+
+      // for guests users, request location
+      if ($locationInput.size() > 0) {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            $.ajax({
+              url: '/return_location_data_lat_long',
+              type: 'GET',
+              data: {latitude: position.coords.latitude, longitude: position.coords.longitude},
+              success: function (location_data) {
+                console.log(location_data);
+                location_data = $.parseJSON(location_data);
+                console.log(location_data);
+
+                if (!location_data.error) {
+
+                  $locationInput.val(location_data.zip);
+
+                  var zipData = {
+                    state: location_data.state,
+                    city: location_data.city,
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    zip: location_data.zip,
+                    string: location_data.city + ', ' + location_data.state
+                  };
+
+                  $(document).trigger("ee:zipCodeQueried", zipData);
+                }
+                return location_data;
+              },
+              failure: function () {
+                alert('Unable to connect to service');
+              }
+            });
+          }, function() {
+            $locationInput.val(defaultZip);
+            $(document).trigger("ee:zipCodeChanged", {zip: defaultZip});
+          });
+        }
+      }
+    });
   }
 };
 
@@ -211,74 +247,82 @@ Drupal.behaviors.filterItems = {
 
 Drupal.behaviors.filterToDoList = {
     attach: function (context) {
-        $(".view-content button.todo_filter_button").click(function(event) {
-            //$(".filter-applied").removeClass("filter-applied");
-            //$(this).addClass("filter-applied");
-        });
         $("#this-week").click(function(event) {
-            var date_today = get_server_date();
-            date_today = JSON.parse(date_today);
-            var vmonth = date_today.fmonth;
-            vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
-            var vdate = date_today.fdate;
-            vdate = vdate < 10 ? '0' + vdate : vdate;
-            var vyear = date_today.fyear;
-            var vhour = date_today.fhour;
-            var vmin = date_today.fminute;
-            var vsec = date_today.fsecond
-
-            var date_var = vyear + '-'+ vmonth + '-' + vdate + ' ' + vhour + ':' + vmin + ':' + vsec;
-            $("#edit-field-todo-lst-due-value").val(date_var);
-            $("#edit-submit-to-do").trigger("click");
+            get_server_date(event);
         });
         $("#next-week").click(function(event) {
-            var currDate = get_server_date();
-            currDate = JSON.parse(currDate);
-            var fday = currDate.fday == 7 ? 0 : currDate.fday;
-            var nextSunday= new Date(currDate.fyear,currDate.fmonth-1,currDate.fdate+(7 - fday));
-
-            var vmonth = nextSunday.getMonth() + 1;
-            vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
-
-            var vdate = nextSunday.getDate();
-            vdate = vdate < 10 ? '0' + vdate : vdate;
-
-            var date_var = nextSunday.getFullYear() + '-'+ vmonth + '-' + vdate + ' ' + '00:00:01';
-            $("#edit-field-todo-lst-due-value").val(date_var);
-            $("#edit-submit-to-do").trigger("click");
+            get_server_date(event);
         });
         $("#beyond-next-week").click(function(event) {
-            var currDate = get_server_date();
-            currDate = JSON.parse(currDate);
-            var fday = currDate.fday == 7 ? 0 : currDate.fday;
-            var nextSunday= new Date(currDate.fyear,currDate.fmonth-1,currDate.fdate+(7 - fday));
-            var sunAfterNextSun = new Date(nextSunday.getFullYear(),nextSunday.getMonth(),nextSunday.getDate()+(7 - nextSunday.getDay()));
-
-            var vmonth = sunAfterNextSun.getMonth() + 1;
-            vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
-
-            var vdate = sunAfterNextSun.getDate();
-            vdate = vdate < 10 ? '0' + vdate : vdate;
-
-            var date_var = nextSunday.getFullYear() + '-'+ vmonth + '-' + vdate + ' ' + '00:00:01';
-            $("#edit-field-todo-lst-due-value").val(date_var);
-            $("#edit-submit-to-do").trigger("click");
+            get_server_date(event);
         });
-
-
-
         $("#all-time").click(function(event) {
             $("#edit-field-todo-lst-due-value").val('0000-00-00');
             $("#edit-submit-to-do").trigger("click");
         });
 
-        function get_server_date(){
+        function get_server_date(evt){
             var time_url = window.location.origin + "/server_time.php?tz=America/New_York";
             var httpreq = new XMLHttpRequest(); // a new request
 
-            httpreq.open("GET",time_url,false);
-            httpreq.send(null);
-            return httpreq.responseText;
+            httpreq.onreadystatechange=function()
+            {
+                if (httpreq.readyState==4 && httpreq.status==200)
+                {
+                    if(evt.target.innerHTML == 'This Week'){
+                        var date_today =  httpreq.responseText;
+                        date_today = JSON.parse(date_today);
+                        var vmonth = date_today.fmonth;
+                        vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
+                        var vdate = date_today.fdate;
+                        vdate = vdate < 10 ? '0' + vdate : vdate;
+                        var vyear = date_today.fyear;
+                        var vhour = date_today.fhour;
+                        var vmin = date_today.fminute;
+                        var vsec = date_today.fsecond
+
+                        var date_var = vyear + '-'+ vmonth + '-' + vdate + ' ' + '00:00:00';
+                        $("#edit-field-todo-lst-due-value").val(date_var);
+                        $("#edit-submit-to-do").trigger("click");
+                    }
+                    else if(evt.target.innerHTML == 'Next Week'){
+                        var currDate =  httpreq.responseText;
+                        currDate = JSON.parse(currDate);
+                        var fday = currDate.fday == 7 ? 0 : currDate.fday;
+                        var nextSunday= new Date(currDate.fyear,currDate.fmonth-1,currDate.fdate+(7 - fday));
+
+                        var vmonth = nextSunday.getMonth() + 1;
+                        vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
+
+                        var vdate = nextSunday.getDate();
+                        vdate = vdate < 10 ? '0' + vdate : vdate;
+
+                        var date_var = nextSunday.getFullYear() + '-'+ vmonth + '-' + vdate + ' ' + '00:00:01';
+                        $("#edit-field-todo-lst-due-value").val(date_var);
+                        $("#edit-submit-to-do").trigger("click");
+                    }
+                    else if(evt.target.innerHTML == 'Beyond'){
+                        var currDate =  httpreq.responseText;
+                        currDate = JSON.parse(currDate);
+                        var fday = currDate.fday == 7 ? 0 : currDate.fday;
+                        var nextSunday= new Date(currDate.fyear,currDate.fmonth-1,currDate.fdate+(7 - fday));
+                        var sunAfterNextSun = new Date(nextSunday.getFullYear(),nextSunday.getMonth(),nextSunday.getDate()+(7 - nextSunday.getDay()));
+
+                        var vmonth = sunAfterNextSun.getMonth() + 1;
+                        vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
+
+                        var vdate = sunAfterNextSun.getDate();
+                        vdate = vdate < 10 ? '0' + vdate : vdate;
+
+                        var date_var = nextSunday.getFullYear() + '-'+ vmonth + '-' + vdate + ' ' + '00:00:01';
+                        $("#edit-field-todo-lst-due-value").val(date_var);
+                        $("#edit-submit-to-do").trigger("click");
+                    }
+
+                }
+            }
+            httpreq.open("GET",time_url,true);
+            httpreq.send();
         }
     }
 };

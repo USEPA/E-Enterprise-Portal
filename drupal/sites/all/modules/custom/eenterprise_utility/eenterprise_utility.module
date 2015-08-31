@@ -748,7 +748,7 @@ function generate_location_select()
 
     // Check if saved default_zip was used. If not, it is a session variable that has not been saved yet.
     // Add the value to the location selection
-    if ($default_zip_used == false) {
+    if ($default_zip_used == false && !empty($default_zip)) {
         print "<option value='" . $default_zip . "' selected>" . $default_name . "</option>";
     }
 
@@ -762,7 +762,14 @@ function generate_location_select()
 }
 
 function generate_location_input_for_guests() {
-    print '<input type="text" id="location-input-guests"/>';
+  print '<form class="form-inline">';
+  print '<div class="form-group has-feedback">';
+  print '<label class="control-label" for="location-input-guests">Enter zip code</label>';
+  print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error" style="height:23px;vertical-align: top">';
+  print '<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" style="top:-2px"></span>';
+//  print '<span id="location-input-guests-error" class="sr-only">(success)</span>';
+  print '</div>';
+  print '</form>';
 }
 
 
@@ -787,7 +794,7 @@ function eenterprise_utility_node_presave($node)
 function eenterprise_utility_views_query_alter(&$view, &$query){
     if ($view->name == 'to_do') {
         if(isset($view->exposed_raw_input) && $view->exposed_raw_input['field_todo_lst_due_value'] != ''){
-            $view->query->where[1]['conditions'][2]['operator'] = '>';
+            $view->query->where[1]['conditions'][2]['operator'] = '>=';
             $view->args['week_filter_val'] = $view->exposed_raw_input['field_todo_lst_due_value'];
             date_default_timezone_set('America/New_York');
             if(substr($view->exposed_raw_input['field_todo_lst_due_value'], 0,10) == date("Y-m-d")) {
