@@ -63,6 +63,11 @@ function  cdx_facility_management_menu()
         'page callback' => 'retrieve_cdx_user_data',
         'access callback' => TRUE,
     );
+    $items['cdx_facility_configurations'] = array(
+        'page callback' => 'cdx_facility_configurations',
+        'access callback' => TRUE,
+    );
+
     return $items;
 }
 
@@ -81,71 +86,6 @@ function cdx_facility_management_iframe()
     print render($build);
 }
 
-/**
- * Use user id to generate token for CDX Facility Management widget
- * Params: CDX valid user id
- */
-function cdx_soap_test($user_id = 'GREENOLIVE')
-{
-    $client2 = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
-    $params2 = array(
-        "securityToken" => $response1->securityToken,
-        "userId" => $user_id,
-    );
-    try {
-        $user_obj = $client2->__soapCall("RetrieveUser", array($params2));
-        dpm($user_obj);
-        exit();
-        $user_sec_bundle = array(
-            "securityToken" => $response1->securityToken,
-            "user" => $user_obj->User,
-        );
-
-        $org_val = null;
-        $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
-        dpm($user_orgs);
-        if (is_array($user_orgs->Organization))
-            $org_val = $user_orgs->Organization[0];
-        else
-            $org_val = $user_orgs->Organization;
-
-        $user_sec_org_bundle = array(
-            "securityToken" => $response1->securityToken,
-            "user" => $user_obj->User,
-            "org" => $org_val,
-        );
-        global $user;
-        $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
-        dpm($user_roles);
-        if (is_array($user_roles->Role)) {
-            foreach ($user_roles->Role as $k => $v) {
-                $role_val = $v->type->description;
-                if (!empty($role_val)) {
-                    $user_role = user_role_load_by_name($role_val);
-                    if ($user_role === FALSE) {
-                        $user_role = new stdClass();
-                        $user_role->name = $role_val;
-                        user_role_save($user_role);
-                    }
-                }
-            }
-        } else {
-            $role_val = $user_roles->Role->type->description;
-            if (!empty($role_val)) {
-                $user_role = user_role_load_by_name($role_val);
-                if ($user_role === FALSE) {
-                    $user_role = new stdClass();
-                    $user_role->name = $role_val;
-                    user_role_save($user_role);
-                }
-            }
-        }
-    } catch (SoapFault $f) {
-        dpm($f);
-        watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
-    }
-}
-
 
 function return_cdx_facility_management_token()
 {
@@ -156,10 +96,8 @@ function return_cdx_facility_management_token()
 //        exit();
 ////    }
 //    global $user;
-//////    $user_data = user_load($user->uid);
-//////    $user_id = $user_data->mail;
-//    $user_id = 'Franklipman';
-//    $password = 'Cville77';
+////    $user_data = user_load($user->uid);
+////    $user_id = $user_data->mail;
 //    try {
 //        // $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
 //        $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
@@ -189,50 +127,37 @@ function return_cdx_facility_management_token()
 //        watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
 //    }
 
-    $token = variable_get('cdx_fmw_security_token');
+    $token = variable_get('cdx_fmw_security_token'); // retrieved from bridge
     $server_ip = variable_get('frs_api_lookup_ip');
-        $json_return = array(
-            'token' => $token,
-            'server_ip' => $server_ip,
-        );
-
+    $json_return = array(
+        'token' => $token,
+        'server_ip' => $server_ip,
+    );
     print json_encode($json_return);
-//    retrieve_cdx_user_data($user_id, $client);
 }
 
 function retrieve_cdx_user_data()
 {
-    $user_id =     variable_get('userId');
-//    $user_details =     variable_get('user_details');
 
-//    $user_id = 'Franklipman';
+    $user_id = variable_get('userId');
+
     $allowed_program_roles = ['CEDRI', 'CSPP'];
 // Generate token as administrator to get user data
-    $admin_id = 'registration.dev@cgifederal.com';
-    $password = 'Devregistration1';
     $json_return = array();
     try {
+        $wsdl = variable_get('eactivity_auth_reg_wsdl');
         //$client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
-        $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
+        $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
     } catch (SoapFault $f) {
         dpm($f);
         return;
     }
     $params = array(
-        "userId" => $admin_id,
-        "credential" => $password,
-        "domain" => "default",
-        "authenticationMethod" => "password",
+        "userId" => variable_get('eactivity_auth_reg_username'),
+        "credential" => variable_get('eactivity_auth_reg_password'),
+        "domain" => variable_get('eactivity_auth_reg_domain'),
+        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
     );
-
-    try {
-        //    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
-        $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
-
-    } catch (SoapFault $f) {
-        dpm($f);
-        return;
-    }
 
     try {
         //Authenticate to CDX
@@ -258,6 +183,7 @@ function retrieve_cdx_user_data()
         $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
         // CDX returns object if single return and array if multiple
         $json_return['organizations'] = array();
+        $org_contains_role = false; // does organization have any roles assigned to it?
         if (is_array($user_orgs->Organization)) {
             foreach ($user_orgs->Organization as $index => $obj) {
                 $org_val = $obj;
@@ -270,11 +196,10 @@ function retrieve_cdx_user_data()
                 );
                 $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
                 // Check if roles are assigned to organization
-                $org_contains_role = false;
                 if (isset($user_roles->Role)) {
                     // Check if multiple roles or single role
-                        if (is_array($user_roles->Role)) {
-                        foreach ($user_roles->Role as $index=>$role) {
+                    if (is_array($user_roles->Role)) {
+                        foreach ($user_roles->Role as $index => $role) {
                             if (in_array($role->dataflow, $allowed_program_roles)) {
                                 $org_contains_role = true;
                                 $json_return['organizations_to_roles'][$org_id][] = $role;
@@ -290,8 +215,7 @@ function retrieve_cdx_user_data()
                 }
                 if ($org_contains_role) {
                     $json_return['organizations'][] = $org_val;
-                }
-                else {
+                } else {
                     unset($json_return['organizations_to_roles'][$org_id]);
                 }
 
@@ -308,7 +232,7 @@ function retrieve_cdx_user_data()
             $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
             if (isset($user_roles->Role)) {
                 if (is_array($user_roles->Role)) {
-                    foreach ($user_roles->Role as $index=>$role) {
+                    foreach ($user_roles->Role as $index => $role) {
                         if (in_array($role->dataflow, $allowed_program_roles)) {
                             $org_contains_role = true;
                             $json_return['organizations_to_roles'][$org_id][] = $role;
@@ -320,11 +244,11 @@ function retrieve_cdx_user_data()
                         $org_contains_role = true;
                         $json_return['organizations_to_roles'][$org_id][] = $role;
                     }
-                }            }
+                }
+            }
             if ($org_contains_role) {
                 $json_return['organizations'][] = $org_val;
-            }
-            else {
+            } else {
                 unset($json_return['organizations_to_roles'][$org_id]);
             }
 
@@ -334,7 +258,16 @@ function retrieve_cdx_user_data()
         print json_encode($json_return);
     } catch (SoapFault $f) {
         dpm($f);
-        print json_encode((array('error' => 'true', 'fault' => $f, 'user'=> $user_id)));
+        print json_encode((array('error' => 'true', 'fault' => $f, 'user' => $user_id)));
         watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
+}
+
+// Returns json for use in jquery of configs for CDX Facility Management Widget
+function cdx_facility_configurations() {
+    $url = variable_get('cdx_facility_resource_url');
+    $configs = array();
+    $configs['url'] = $url;
+    echo json_encode($configs);
+    exit();
 }
