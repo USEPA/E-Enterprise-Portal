@@ -573,6 +573,15 @@ $params1 = array(
     "domain" => variable_get('eactivity_auth_reg_domain'),
     "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
 );
+
+$user_name = variable_get('userId');
+
+if (!isset($user_name)) {
+    $user_name = 'GREENOLIVE'; //FOR TESTING 8/31 MUST REMOVE 8/31
+}
+
+
+
 try {
     //Authenticate to CDX
     $response1 = $client->__soapCall("Authenticate", array($params1));
@@ -633,6 +642,8 @@ try {
         }
     }
 } catch(SoapFault $f) {
+    variable_set('error_632', $f);
+
     watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
 }
 
@@ -641,6 +652,8 @@ function assign_roles_to_user($user_name){
         $wsdl = variable_get('eactivity_auth_reg_wsdl');
         $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
+        variable_set('error_655', $f);
+
         drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user", array(), WATCHDOG_ERROR);
         return;
@@ -655,6 +668,8 @@ function assign_roles_to_user($user_name){
         //Authenticate to CDX
         $response1 = $client->__soapCall("Authenticate", array($params1));
     } catch(SoapFault $f) {
+        variable_set('error_671', $f);
+
         watchdog('eenterprise_bridge_auth',"Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
     }
     $params2 = array(
@@ -712,6 +727,8 @@ function assign_roles_to_user($user_name){
             }
         }
     } catch(SoapFault $f) {
+        variable_set('error_730', $f);
+
         dpm($f);
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
