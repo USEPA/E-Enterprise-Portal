@@ -624,7 +624,8 @@ try {
         }
     }
 } catch(SoapFault $f) {
-    watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
+
+    watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information" . $f, array(), WATCHDOG_ERROR);
 }
 
 function assign_roles_to_user($user_name){
