@@ -572,7 +572,7 @@ try {
 }
 $params2 = array(
     "securityToken" => $response1->securityToken,
-    "userId" => $user_name
+    "userId" => variable_get('userId'),
 );
 
 try {
