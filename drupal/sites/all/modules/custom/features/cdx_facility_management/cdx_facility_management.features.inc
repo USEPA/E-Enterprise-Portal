@@ -96,36 +96,37 @@ function return_cdx_facility_management_token()
 //        exit();
 ////    }
 //    global $user;
-////    $user_data = user_load($user->uid);
-////    $user_id = $user_data->mail;
-//    try {
-//        // $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
-//        $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
-//        https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl
-//    } catch (SoapFault $f) {
-//        var_dump($f);
-//        return;
-//    }
-//    $params = array(
-//        "userId" => $user_id,
-//        "credential" => $password,
-//        "domain" => "default",
-//        "authenticationMethod" => "password",
-//    );
-//    try {
-//        //Authenticate to CDX
-//        $response = $client->__soapCall("Authenticate", array($params));
-//        $token = $response->securityToken;
-//        $server_ip = variable_get('frs_api_lookup_ip');
-//        $json_return = array(
-//            'token' => $token,
-//            'server_ip' => $server_ip,
-//        );
-//
-//    } catch (SoapFault $f) {
-//        var_dump($f);
-//        watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
-//    }
+//    $user_data = user_load($user->uid);
+//    $user_id = $user_data->mail;
+
+    $user_id = 'GREENOLIVE';
+    $password = 'EEP15fun';
+    try {
+        // $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
+        $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
+    } catch (SoapFault $f) {
+        var_dump($f);
+        return;
+    }
+    $params = array(
+        "userId" => $user_id,
+        "credential" => $password,
+        "domain" => "default",
+        "authenticationMethod" => "password",
+    );
+    try {
+        //Authenticate to CDX
+        $response = $client->__soapCall("Authenticate", array($params));
+        $token = $response->securityToken;
+        $server_ip = variable_get('frs_api_lookup_ip');
+        $json_return = array(
+            'token' => $token,
+            'server_ip' => $server_ip,
+        );
+
+    } catch (SoapFault $f) {
+        var_dump($f);
+    }
 
     $token = variable_get('cdx_fmw_security_token'); // retrieved from bridge
     $server_ip = variable_get('frs_api_lookup_ip');
@@ -140,6 +141,7 @@ function retrieve_cdx_user_data()
 {
 
     $user_id = variable_get('userId');
+    $user_id = 'GREENOLIVE';
 
     $allowed_program_roles = ['CEDRI', 'CSPP'];
 // Generate token as administrator to get user data

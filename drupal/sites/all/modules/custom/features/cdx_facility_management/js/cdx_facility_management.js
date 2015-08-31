@@ -41,7 +41,7 @@
                         var orgs_num = organizations.length;
                         var management_button =  $('#launch-facility-management');
 
-                        // First connect to widget initially to start CDX session;
+                        // First connect to widget initially to start CDX session; Updates widget with firs availble user role id
                         var temp = 0;
                         $.each(org_to_roles, function(key, value) {
                             if (temp == 0) {
@@ -166,58 +166,57 @@
         }
 
 
-        /*
-         Takes users CDX organizations and the mapping to user roles and creates table
-         */
-        function createCDXFacilityTable(organizations, org_to_roles, filters) {
-            var table = '<table id="cdx_facility_management_organizations"><thead><th>Organization</th><th>Address</th><th>Phone</th><th>Status</th><th>Program</th><th>Subject</th></thead>';
-            var allow_all_orgs = false;
-            var allow_all_roles = false;
-            $.each(organizations, function (index, org) {
-                if (index == 0) {
-                    table = table + '<tbody>';
-                }
-                // check if org is selected
-                if (filters.organization == '') { // zero filters applied
-                    allow_all_orgs = true;
-                }
-                if (filters.program == '') {
-                    allow_all_roles = true;
-                }
-                console.log('FILTERS', filters);
-                if (org.userOrganizationId == filters.organization || allow_all_orgs) {
-                    var org_roles = org_to_roles[org.userOrganizationId];
-                    $.each(org_roles, function (index, role) {
-                        if (role.userRoleId == filters.program || allow_all_roles) {
-                            table = table + '<tr><td>' + org.organizationName + '</td><td>' + org.mailingAddress1 + ' ' +
-                            org.mailingAddress2 + ', ' + org.city + ', ' + org.state.code + ', ' + org.zip + '</td>';
-                            table = table + '<td>' + org.phone + '</td><td>' + org.cdxEsaStatus + '</td>';
-                            table = table + '<td>' + role.dataflow + '</td><td>' + role.subject + '</td>';
-                            table = table + '<td><button id=' + role.userRoleId + ' class="manage_facilities_button">Manage Facilities</button></td></tr>';
-                        }
-                    });
-                }
-            });
-
-            table = table + '</tbody></table>';
-            console.log(table);
-            $('#facility-widget-orgs-table').html(table);
-
-
-            var tablePaginationObj =
-            {
-                table: $('#facility-widget-orgs-table'),
-                numPerPage: 5,
-                showTopPageNumbers: false,
-                showBottomPageNumbers: true,
-                limitPagesShown: true,
-                numPagesShown: 5,
-                isSortable: true,
-                ignoreColumns: [1] //Check box column
-            };
-            buildPagination(tablePaginationObj);
-
-        }
+        ///*
+        // Takes users CDX organizations and the mapping to user roles and creates table
+        // */
+        //function createCDXFacilityTable(organizations, org_to_roles, filters) {
+        //    var table = '<table id="cdx_facility_management_organizations"><thead><th>Organization</th><th>Address</th><th>Phone</th><th>Status</th><th>Program</th><th>Subject</th></thead>';
+        //    var allow_all_orgs = false;
+        //    var allow_all_roles = false;
+        //    $.each(organizations, function (index, org) {
+        //        if (index == 0) {
+        //            table = table + '<tbody>';
+        //        }
+        //        // check if org is selected
+        //        if (filters.organization == '') { // zero filters applied
+        //            allow_all_orgs = true;
+        //        }
+        //        if (filters.program == '') {
+        //            allow_all_roles = true;
+        //        }
+        //        console.log('FILTERS', filters);
+        //        if (org.userOrganizationId == filters.organization || allow_all_orgs) {
+        //            var org_roles = org_to_roles[org.userOrganizationId];
+        //            $.each(org_roles, function (index, role) {
+        //                if (role.userRoleId == filters.program || allow_all_roles) {
+        //                    table = table + '<tr><td>' + org.organizationName + '</td><td>' + org.mailingAddress1 + ' ' +
+        //                    org.mailingAddress2 + ', ' + org.city + ', ' + org.state.code + ', ' + org.zip + '</td>';
+        //                    table = table + '<td>' + org.phone + '</td><td>' + org.cdxEsaStatus + '</td>';
+        //                    table = table + '<td>' + role.dataflow + '</td><td>' + role.subject + '</td>';
+        //                    table = table + '<td><button id=' + role.userRoleId + ' class="manage_facilities_button">Manage Facilities</button></td></tr>';
+        //                }
+        //            });
+        //        }
+        //    });
+        //
+        //    table = table + '</tbody></table>';
+        //    $('#facility-widget-orgs-table').html(table);
+        //
+        //
+        //    var tablePaginationObj =
+        //    {
+        //        table: $('#facility-widget-orgs-table'),
+        //        numPerPage: 5,
+        //        showTopPageNumbers: false,
+        //        showBottomPageNumbers: true,
+        //        limitPagesShown: true,
+        //        numPagesShown: 5,
+        //        isSortable: true,
+        //        ignoreColumns: [1] //Check box column
+        //    };
+        //    buildPagination(tablePaginationObj);
+        //
+        //}
 
 
         var cdx_facility_management_block = $('#facility-widget');
@@ -234,7 +233,6 @@
                 resizable: false,
                 position: {my: "center", at: "center", of: window}
             });
-
         }
 
         $('body').on('click', '#facility-widget input, #facility-widget a, #facility-widget button, #facility-widget .ui-accordion-header', function () {
@@ -251,7 +249,6 @@
             success: function(json) {
                 var configs = $.parseJSON(json);
                 cdx_resource_url = configs.url;
-                console.log(cdx_resource_url);
             }
         });
 
