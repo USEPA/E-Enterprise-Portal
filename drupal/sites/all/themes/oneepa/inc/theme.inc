@@ -38,6 +38,7 @@ function oneepa_links($vars) {
 
     $output .= '<ul' . drupal_attributes($attributes) . '>';
 
+    $num_links = count($links);
     $i = 1;
 
     foreach ($links as $key => $link) {
@@ -201,7 +202,8 @@ function oneepa_breadcrumb($vars) {
         $output .= ' ' . $breadcrumb_separator;
       }
 
-      return $output . '</p>';
+      $output .= '</p>';
+      return $output;
     }
   }
   return '';
@@ -238,7 +240,15 @@ function oneepa_item_list($vars) {
       $data = '';
       if (is_array($item)) {
         foreach ($item as $key => $value) {
-          check_item_value($key, $value, $data, $children, $attributes);
+          if ($key == 'data') {
+            $data = $value;
+          }
+          elseif ($key == 'children') {
+            $children = $value;
+          }
+          else {
+            $attributes[$key] = $value;
+          }
         }
       }
       else {
@@ -290,14 +300,16 @@ function oneepa_boxes_box($vars) {
   if (!empty($block['editing'])) {
     $output .= '<div class="box-editor">' . drupal_render($block['editing']) . '</div>';
   }
-  return $output . '</div>';
+  $output .= '</div>';
+  return $output;
 }
 
 /**
  * Override HTML for default panel regions.
  */
 function oneepa_panels_default_style_render_region($vars) {
-  return implode('', $vars['panes']);
+  $output = implode('', $vars['panes']);
+  return $output;
 }
 
 /**
@@ -333,7 +345,14 @@ function oneepa_table($vars) {
 
       // Check if we're dealing with a simple or complex column
       if (isset($colgroup['data'])) {
-        check_column_complexity($colgroup, $attributes, $cols);
+        foreach ($colgroup as $key => $value) {
+          if ($key == 'data') {
+            $cols = $value;
+          }
+          else {
+            $attributes[$key] = $value;
+          }
+        }
       }
       else {
         $cols = $colgroup;
@@ -393,12 +412,19 @@ function oneepa_table($vars) {
   // Format the table rows:
   if (count($rows)) {
     $output .= "<tbody>\n";
-    foreach ($rows as $row) {
+    foreach ($rows as $number => $row) {
       $attributes = array();
 
       // Check if we're dealing with a simple or complex row
       if (isset($row['data'])) {
-        check_row_complexity($row, $attributes, $cells);
+        foreach ($row as $key => $value) {
+          if ($key == 'data') {
+            $cells = $value;
+          }
+          else {
+            $attributes[$key] = $value;
+          }
+        }
       }
       else {
         $cells = $row;
@@ -408,8 +434,7 @@ function oneepa_table($vars) {
         $output .= ' <tr' . drupal_attributes($attributes) . '>';
         $i = 0;
         foreach ($cells as $cell) {
-          $cell = tablesort_cell($cell, $header, $ts, $i);
-          $i++;
+          $cell = tablesort_cell($cell, $header, $ts, $i++);
           $output .= _theme_table_cell($cell);
         }
         $output .= " </tr>\n";
@@ -418,7 +443,8 @@ function oneepa_table($vars) {
     $output .= "</tbody>\n";
   }
 
-  return $output . "</table>\n";
+  $output .= "</table>\n";
+  return $output;
 }
 
 
@@ -763,54 +789,9 @@ function oneepa_webform_element($variables) {
       }
       $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
       break;
-
-    default:
-      // don't manipulate output variable
-      break;
   }
 
-  return $output . "</div>\n";
-}
+  $output .= "</div>\n";
 
-//TODO: Can we come up with a better name for this function if necessary?
-function check_column_complexity($colgroup, &$attributes, &$cols){
-
-  foreach ($colgroup as $key => $value) {
-    if ($key == 'data') {
-      $cols = $value;
-    }
-    else {
-      $attributes[$key] = $value;
-    }
-  }
-
-}
-
-//TODO: Can we come up with a better name for this function if necessary?
-function check_row_complexity($row, &$attributes, &$cells){
-
-  foreach ($row as $key => $value) {
-    if ($key == 'data') {
-      $cells = $value;
-    }
-    else {
-      $attributes[$key] = $value;
-    }
-  }
-
-}
-
-//TODO: Can we come up with a better name for this function if necessary?
-function check_item_value($key, $value, &$data, &$children, &$attributes){
-
-  if ($key == 'data') {
-    $data = $value;
-  }
-  elseif ($key == 'children') {
-    $children = $value;
-  }
-  else {
-    $attributes[$key] = $value;
-  }
-
+  return $output;
 }

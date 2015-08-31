@@ -76,26 +76,26 @@ if ($GLOBALS['theme_key'] === 'oneepa') {
 }
 
 function oneepa_html_head_alter(&$head_elements, &$page) {
-    // Add title.
+	// Add title.
   $page_title = drupal_get_title($page);
   $path = $_GET['q'];
   if ((strpos($path,'user') !== false) && (strpos($path,'edit') !== false)) {
-      $path = 'user';
+	  $path = 'user';
   }
   // Use a custom title if we're on the log in page.
   if ($path == 'eenterprise-for-environment') {
-      $page_title = 'Welcome';
+	  $page_title = 'Welcome';
   }
   else if ($path == 'user') {
-      $page_title = 'My Account';
+	  $page_title = 'My Account';
   }
   else {
-      $page_title = "Workbench";
+	  $page_title = "Workbench";
   }
   $head_elements['head_title'] = array(
-    '#type' => 'markup',
-    '#markup' => "<title>$page_title | E-Enterprise for the Environment</title>",
-    '#weight' => -4,
+	'#type' => 'markup',
+	'#markup' => "<title>$page_title | E-Enterprise for the Environment</title>",
+	'#weight' => -4,
   );
 
   // Add weights to EPA metatags.

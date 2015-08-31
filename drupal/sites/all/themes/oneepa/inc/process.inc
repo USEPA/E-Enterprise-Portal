@@ -47,8 +47,27 @@ function oneepa_preprocess_html(&$vars) {
 
 // @todo Check these next items - believe Zen adds them
   // Add HTML5 Shiv if not using Modernizr.
+/*
+  $vars['shiv'] = '<!--[if lt IE 9]><script src="' . base_path() . drupal_get_path('theme', $GLOBALS['theme_key']) . '/js/html5.js"></script><![endif]-->';
+  if (module_exists('modernizr')) {
+    $vars['shiv'] = '';
+  }
 
-  //Unused code block removed check git history
+  // Add Selectivizr.
+  $vars['selectivizr'] = '';
+  if (theme_get_setting('use_selectivizr')) {
+    $vars['selectivizr'] = '<!--[if (lt IE 9) & (!IEMobile)]><script src="http://cdnjs.cloudflare.com/ajax/libs/selectivizr/1.0.2/selectivizr-min.js"></script><![endif]-->';
+  }
+
+  // Add IE-specific scripts.
+  $vars['ie_scripts'] = '<!--[if lt IE 9]><script src="' . base_path() . drupal_get_path('theme', $GLOBALS['theme_key']) . '/js/ie.js"></script><![endif]-->';
+
+  // Urge IE6 users to upgrade.
+  $vars['warn_ie6'] = '';
+  if (theme_get_setting('warn_ie6')) {
+    $vars['warn_ie6'] = '<!--[if lt IE 7]><p class="ie6-warning">Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->';
+  }
+*/
 
   // Add language body class.
   if (function_exists('locale')) {
@@ -92,49 +111,48 @@ function oneepa_preprocess_html(&$vars) {
  */
 function oneepa_preprocess_page(&$vars) {
 
-    $vars['title_attributes_array']['class'] = 'page-title';
-    $vars['microsite_name'] = '';
-    $vars['content_language'] = language_default('language');
-    if(!empty($vars['node']->field_language['und'][0]['value'])) {
-        $vars['content_language'] = $vars['node']->field_language['und'][0]['value'];
-    }
+	$vars['title_attributes_array']['class'] = 'page-title';
+	$vars['microsite_name'] = '';
+	$vars['content_language'] = language_default('language');
+	if(!empty($vars['node']->field_language['und'][0]['value'])) {
+		$vars['content_language'] = $vars['node']->field_language['und'][0]['value'];
+	}
 
-    // Test for anonymous user on login page
-    if (user_is_anonymous() && arg(0) == 'user' && (arg(1) == '' || arg(1) == 'login')) {
-        $vars['classes_array'][] = ' user-login';
-        $warning_message = variable_get('oneepa_login_warning');
-
-        // Add warning message to content section
-        $vars['page']['content']['user_warning'] = array(
-            '#tag' => 'div',
-            '#attributes' => array(
-            'id' => 'user-login-warning',
-            'class' => 'col size-2of3',
-        ),
-        '#value' => $warning_message,
-        '#weight' => 10,
-        '#theme' => 'html_tag',
-        );
-
-        // @todo - Adjust these grid classes to match Drupal OneEPA theme
-        // Add css grid classes
-        $vars['page']['content']['system_main']['#attributes']['class'] = 'col size-1of3';
-        $vars['page']['content']['#prefix'] = "<div class='cols-2 row'>";
-        $vars['page']['content']['#suffix'] = '</div>';
-        }
-        $search_form = drupal_get_form('search_form');
-        $search_form_box = drupal_render($search_form);
-        $vars['search_box'] = $search_form_box;
-}
+	// Test for anonymous user on login page
+	if (user_is_anonymous() && arg(0) == 'user' && (arg(1) == '' || arg(1) == 'login')) {
+		$vars['classes_array'][] = ' user-login';		
+		$warning_message = variable_get('oneepa_login_warning');
+		
+		// Add warning message to content section
+		$vars['page']['content']['user_warning'] = array(
+			'#tag' => 'div',
+			'#attributes' => array(
+			'id' => 'user-login-warning',
+			'class' => 'col size-2of3',
+		),
+		'#value' => $warning_message,
+		'#weight' => 10,
+		'#theme' => 'html_tag',
+		);
+		
+		// @todo - Adjust these grid classes to match Drupal OneEPA theme
+		// Add css grid classes
+		$vars['page']['content']['system_main']['#attributes']['class'] = 'col size-1of3';
+		$vars['page']['content']['#prefix'] = "<div class='cols-2 row'>";
+		$vars['page']['content']['#suffix'] = '</div>';
+		}
+		$search_form = drupal_get_form('search_form');
+		$search_form_box = drupal_render($search_form);
+		$vars['search_box'] = $search_form_box;
+	
+	}
 
 /**
  * Override or insert variables into the node template.
  */
 function oneepa_preprocess_node(&$vars) {
   // Set title any time we're viewing a node (need to do this to make it work for revision viewing pages)
-  if($vars['page']) {
-    drupal_set_title($vars['title'], PASS_THROUGH);
-  }
+  if($vars['page']) drupal_set_title($vars['title'], PASS_THROUGH);
 
   $vars['classes_array'][] = 'clearfix';
   $vars['attributes_array']['role'][] = 'article';
@@ -228,6 +246,8 @@ function oneepa_preprocess_search_block_form(&$vars) {
  * Override or insert variables into the menu link theme function.
  */
 function oneepa_preprocess_menu_link(&$vars) {
+  $menu = $vars['element']['#original_link']['menu_name'];
+  $mlid = $vars['element']['#original_link']['mlid'];
   $item_classes = &$vars['element']['#attributes']['class'];
   $link_classes = &$vars['element']['#localized_options']['attributes']['class'];
 

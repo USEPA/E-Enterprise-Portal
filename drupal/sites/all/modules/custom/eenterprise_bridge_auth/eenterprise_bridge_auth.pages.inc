@@ -5,19 +5,13 @@
  * Menu callbacks and related functions.
  */
 
-define("TYPE","#type");
-define("ENTITY_ID", "entity_id");
-define("ACTIVITY_TYPE","ActivityType");
-define("STATUS_NOTE","StatusNote");
-define("PARTNER_SYSTEM_ID", "PartnerSystemId");
-
 /**
  * Provides AJAX EE Bridge login form.
  */
 function eenterprise_bridge_auth_login() {
     $form = drupal_render(drupal_get_form('eenterprise_bridge_auth_login_form'));
     return array(
-        TYPE => 'ajax',
+        '#type' => 'ajax',
         '#commands' => array(
             ajax_command_html('#eenterprise_bridge_auth_container', $form),
         ),
@@ -34,7 +28,7 @@ function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
     $identity_providers = [array('Name' => 'Log in')];
     $form = array();
     $form['wrap'] = array(
-        TYPE => 'value',
+        '#type' => 'value',
         '#value' => $wrap,
     );
     if (!$identity_providers) {
@@ -42,18 +36,18 @@ function eenterprise_bridge_auth_login_form($form, $form_state, $wrap = TRUE) {
     }
     $temp = array();
     $temp['identity_providers'] = array(
-        TYPE => 'value',
+        '#type' => 'value',
         '#value' => $identity_providers,
     );
     foreach ($identity_providers as $identity_provider) {
         $temp[$identity_provider['Name']] = array(
-            TYPE => 'submit',
+            '#type' => 'submit',
             '#default_value' => $identity_provider['Name'],
         );
     }
     if ($wrap) {
         $form['eenterprise_bridge_auth'] = array(
-            TYPE => 'fieldset',
+            '#type' => 'fieldset',
             '#title' => variable_get('eenterprise_bridge_auth_link_text', t('Sign in using E-Enterprise Bridge')),
         );
         $form['eenterprise_bridge_auth'] = array_merge($form['eenterprise_bridge_auth'], $temp);
@@ -99,9 +93,8 @@ function eenterprise_bridge_auth_authenticate($error) {
         watchdog('eenterprise_bridge_auth', $message, array(), WATCHDOG_ERROR);
         drupal_set_message($message, 'error');
     }
-    if(!isset($_POST['wa'])) {
+    if(!isset($_POST['wa']))
         drupal_set_message("Expected context parameter is not set", "error");
-    }
     else if($_POST['wa'] == 'wsignin1.0') {
         $adfs = new AdfsBridge();
         try{
@@ -128,11 +121,11 @@ function eenterprise_bridge_auth_authenticate($error) {
                 $uname = $username;
                 variable_set('cdx_user_type','cdx');
             }
-            if(variable_get('trusted_users_list_used') == 'Yes') {
+            if(variable_get('trusted_users_list_used') == 'Yes')
                 trusted_user_check($uname);
-            }
             $ext_user = user_external_load($uname);
             if(!$ext_user){
+                //user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
                 user_external_login_register($uname, 'eenterprise_bridge_auth');
                 if($user){
                     user_save($user, array('mail' => $userDetails->attributes['email'][0]));
@@ -141,9 +134,8 @@ function eenterprise_bridge_auth_authenticate($error) {
                         $user_role = user_role_load_by_name('Public User');
                         user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
                     }
-                    else {
+                    else
                         assign_roles_to_user($uname);
-                    }
                 }
             }
             else{
@@ -181,6 +173,7 @@ function create_progress_tracker($user){
     try {
         $client = new SoapClient(variable_get('eactivity_auth_reg_wsdl'), array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
+        dpm($f);
         drupal_set_message('Cannot connect to Registration Service.', 'error');
         watchdog('eenterprise_bridge_auth',"Error: Cannot connect to CDX RegisterService.", array(), WATCHDOG_ERROR);
         return;
@@ -244,24 +237,18 @@ function create_progress_tracker($user){
                 "RoleIdSubject" => (string)$activity->RoleIdSubject ,
                 "Attributes" => (string)$activity->Attributes ,);
             foreach($activity->Attributes->Attribute as $child){
-                if((string)($child->attributes()) == 'facilityName') {
+                if((string)($child->attributes()) == 'facilityName')
                     $res['FacilityName'] = $child->__toString();
-                }
-                else if((string)($child->attributes()) == 'partCode') {
+                else if((string)($child->attributes()) == 'partCode')
                     $res['partCode'] = $child->__toString();
-                }
-                else if((string)($child->attributes()) == 'partName') {
+                else if((string)($child->attributes()) == 'partName')
                     $res['partName'] = $child->__toString();
-                }
-                else if((string)($child->attributes()) == 'subPartCode') {
+                else if((string)($child->attributes()) == 'subPartCode')
                     $res['subPartCode'] = $child->__toString();
-                }
-                else if((string)($child->attributes()) == 'subPartName') {
+                else if((string)($child->attributes()) == 'subPartName')
                     $res['subPartName'] = $child->__toString();
-                }
-                else if((string)($child->attributes()) == 'facilityRegistryIdentifier') {
+                else if((string)($child->attributes()) == 'facilityRegistryIdentifier')
                     $res['facilityRegistryIdentifier'] = $child->__toString();
-                }
             }
             $i=0;
             foreach ($activity->Documents->Document as $child) {
@@ -351,12 +338,16 @@ function _update_progress_tracker_to_do_item($query_res, $res){
 
     $cdx_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
 
-    //If description field is updated... or if status field is updated...
-    if($res_title != $res['ActivityDesc'] || (!empty($res_status) && ($res_status != $cdx_status))){
+    //If description field is updated...
+    if($res_title != $res['ActivityDesc']){
         node_delete($query_res['entity_id']);
         return true;
     }
-
+    //if status field is updated...
+    else if(!empty($res_status) && ($res_status != $cdx_status)){
+        node_delete($query_res['entity_id']);
+        return true;
+    }
     return false;
 }
 
@@ -633,13 +624,13 @@ try {
         }
     }
 } catch(SoapFault $f) {
-    var_dump($f);
     watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
 }
 
 function assign_roles_to_user($user_name){
     try {
         $wsdl = variable_get('eactivity_auth_reg_wsdl');
+    //    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
         $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
     } catch(SoapFault $f) {
         drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
@@ -673,12 +664,11 @@ function assign_roles_to_user($user_name){
         $org_val = null;
         $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
 
-        if (is_array($user_orgs->Organization)){
+        if(is_array($user_orgs->Organization))
             $org_val = $user_orgs->Organization[0];
-        }
-        else {
+        else
             $org_val = $user_orgs->Organization;
-        }
+
         $user_sec_org_bundle = array(
             "securityToken" => $response1->securityToken,
             "user" => $user_obj->User,
@@ -713,13 +703,15 @@ function assign_roles_to_user($user_name){
             }
         }
     } catch(SoapFault $f) {
-        var_dump($f);
+        dpm($f);
         watchdog('eenterprise_bridge_auth',"Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }
 
 function eenterprise_bridge_auth_logout() {
+
     drupal_add_js(drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js");
+//  print drupal_get_path('module', 'eenterprise_bridge_auth') . "/js/eenterprise_bridge_auth.js";
     return array (
         'bridge_logout' => array (
             '#type' => 'markup',

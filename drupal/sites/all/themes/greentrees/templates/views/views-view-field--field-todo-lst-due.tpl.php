@@ -24,7 +24,6 @@
 ?>
 <?php
 print $output;
-if(!empty($view->result[$view->row_index]->field_field_todo_lst_date_type)) {
-  print "<br><span class='date-subscript-text'>" . $view->result[$view->row_index]->field_field_todo_lst_date_type[0]['rendered']['#markup'] . "</span>";
-}
+if(!empty($view->result[$view->row_index]->field_field_todo_lst_date_type))
+    print "<br><span class='date-subscript-text'>".$view->result[$view->row_index]->field_field_todo_lst_date_type[0]['rendered']['#markup']."</span>";
 ?>

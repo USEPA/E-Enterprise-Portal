@@ -19,6 +19,7 @@
   <!--googleoff: all-->
   <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,900,400italic,700italic' rel='stylesheet' type='text/css'>
   <?php print $styles; ?>
+  <?php //print $web_area_feed; ?>
   <?php if ($add_html5_shim && !$add_respond_js): ?>
     <!--[if lt IE 9]>
     <script src="<?php print $base_path . $path_to_zen; ?>/js/html5.js"></script>
@@ -43,5 +44,7 @@ if(!drupal_is_front_page()) {
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
+  <?php //print $selectivizr; ?>
+  <?php //print $ie_scripts; ?>
 </body>
 </html>
