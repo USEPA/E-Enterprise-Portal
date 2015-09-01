@@ -16,7 +16,7 @@
       activate: function(e, ui) {
         //map tab activated
         if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {
-          console.log("map tab activated");
+          //console.log("map tab activated");
           updateMarker();
         }
       }
@@ -55,12 +55,14 @@
 
     var aqiLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
-      opacity: 0.5
+      opacity: 0.5,
+      position: 'back'
     }).addTo(map);
 
     var AQSMonitorLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OEI/FRS_AQSTemp/MapServer",
-      opacity: 1.0
+      opacity: 1.0,
+      position: 'front'
     });
 
     //AQSMonitorLayer.on("load", function() {});
@@ -69,13 +71,17 @@
 
     var AQSpopupTemplate = "<h3>AQS ID: {PGM_SYS_ID}</h3><br><small><small>";
 
+    /* */
     AQSMonitorLayer.bindPopup(function(error, featureCollection) {
+
       if (error || featureCollection.features.length === 0) {
         return false;
       } else {
+        //console.log(e.latlng);
         return 'AQS Monitor ID: ' + featureCollection.features[0].properties.PGM_SYS_ID;
       }
     });
+
 
 
     var stateBoundaries = L.esri.dynamicMapLayer({
@@ -85,6 +91,28 @@
     }).addTo(map);
 
     map.fitBounds(stateBoundaries._map.getBounds());
+
+
+    //alternate popup method
+    /*
+    map.on('click', function(e) {
+      AQSMonitorLayer.identify().on(map).at(e.latlng).run(function(error, featureCollection) {
+        console.log(e.latlng);
+        if (featureCollection.features.length > 0) {
+          identifiedFeature = L.geoJson(featureCollection.features[0], {
+            style: function() {
+              return {
+                color: '#5C7DB8',
+                weight: 2
+              };
+            }
+          }).addTo(map);
+          console.log(identifiedFeature);
+          //pane.innerHTML = featureCollection.features[0].properties.NAME1;
+        }
+      });
+    });
+    */
 
 
     return map;
@@ -103,8 +131,8 @@
       });
 
       marker.openPopup();
-      console.log(currentZipData.latitude);
-      console.log(currentZipData.longitude);
+      //console.log(currentZipData.latitude);
+      //console.log(currentZipData.longitude);
 
       map.panTo(new L.LatLng(currentZipData.latitude, currentZipData.longitude));
     }
