@@ -793,23 +793,39 @@ function eenterprise_utility_node_presave($node)
 
 function eenterprise_utility_views_query_alter(&$view, &$query){
     if ($view->name == 'to_do') {
-        if(isset($view->exposed_raw_input) && $view->exposed_raw_input['field_todo_lst_due_value'] != ''){
+        if (isset($view->exposed_raw_input) && $view->exposed_raw_input['field_todo_lst_due_value'] != '') {
             $view->query->where[1]['conditions'][2]['operator'] = '>=';
             $view->args['week_filter_val'] = $view->exposed_raw_input['field_todo_lst_due_value'];
             date_default_timezone_set('America/New_York');
-            if(substr($view->exposed_raw_input['field_todo_lst_due_value'], 0,10) == date("Y-m-d")) {
+            if (substr($view->exposed_raw_input['field_todo_lst_due_value'], 0, 10) == date("Y-m-d")) {
                 $view->query->add_where(1, 'field_data_field_todo_lst_due.field_todo_lst_due_value', date("Y-m-d 23:59:59", strtotime("next saturday", time())), '<');
-            }
-            //if the difference between beyond next week and now is more than 7 days
-            else if((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)){
+            } //if the difference between beyond next week and now is more than 7 days
+            else if ((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)) {
                 ;
                 //here, there is no need to add a second where clause because the filter is beyond next week.
-            }
-            else if(date('D', strtotime($view->exposed_raw_input['field_todo_lst_due_value'])) == 'Sun'){
+            } else if (date('D', strtotime($view->exposed_raw_input['field_todo_lst_due_value'])) == 'Sun') {
                 $next_week = time() + 7 * 24 * 60 * 60;
                 $view->query->add_where(1, 'field_data_field_todo_lst_due.field_todo_lst_due_value', date("Y-m-d 23:59:59", strtotime("next saturday", $next_week)), '<');
             }
 
+        }
+
+        if(isset($query->table_queue['field_data_field_todo_lst_rprt_type_filter'])) {
+            unset($query->table_queue['field_data_field_todo_lst_rprt_type_filter']);
+            unset($query->tables['node']['field_data_field_todo_lst_rprt_type_filter']);
+        }
+        foreach ($query->where[1]['conditions'] as $key => $value)
+            if ($value['field'] == 'field_data_field_todo_lst_rprt_type_filter.field_todo_lst_rprt_type_filter_value')
+                unset($query->where[1]['conditions'][$key]);
+        $field_info = field_info_field('field_todo_lst_rprt_type_filter');
+        $allowed_values = $field_info['settings']['allowed_values'];
+        if (isset($view->exposed_raw_input['field_todo_lst_rprt_type_filter_value']) && $view->exposed_raw_input['field_todo_lst_rprt_type_filter_value'] != 'All') {
+            $query->add_table('field_data_field_todo_lst_item');
+            $query->add_where(1, 'field_data_field_todo_lst_item.field_todo_lst_item_value', '%' . $allowed_values[$view->exposed_raw_input['field_todo_lst_rprt_type_filter_value']] . '%', 'LIKE');
+        }
+        else if (isset($view->exposed_raw_input['field_todo_lst_rprt_type_filter_value']) && $view->exposed_raw_input['field_todo_lst_rprt_type_filter_value'] == 'All'){
+            $query->add_table('field_data_field_todo_lst_item');
+            $query->add_where(1, 'field_data_field_todo_lst_item.field_todo_lst_item_value', '% %', 'LIKE');
         }
     }
     if ($view->name == 'progress_tracker') {
