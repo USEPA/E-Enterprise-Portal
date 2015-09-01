@@ -127,7 +127,8 @@ function return_cdx_facility_management_token()
 //        watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
 //    }
 
-    $token = variable_get('cdx_fmw_security_token'); // retrieved from bridge
+    global $user;
+    $token = $user->cdx_fmw_security_token; //variable_get('cdx_fmw_security_token'); // retrieved from bridge
     $server_ip = variable_get('frs_api_lookup_ip');
     $json_return = array(
         'token' => $token,
@@ -138,8 +139,8 @@ function return_cdx_facility_management_token()
 
 function retrieve_cdx_user_data()
 {
-
-    $user_id = variable_get('userId');
+    global $user;
+    $user_id = $user->userId;
 
     $allowed_program_roles = ['CEDRI', 'CSPP'];
 // Generate token as administrator to get user data
@@ -168,36 +169,70 @@ function retrieve_cdx_user_data()
         watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
     }
 
-    $user_params = array(
-        "securityToken" => $token,
-        "userId" => $user_id,
-    );
-    try {
-        $user_obj = $client->__soapCall("RetrieveUser", array($user_params));
-        $json_return['user_data'] = $user_obj->User;
-        $user_sec_bundle = array(
+    if (isset($token)) {
+        $user_params = array(
             "securityToken" => $token,
-            "user" => $user_obj->User,
+            "userId" => $user_id,
         );
-        $org_val = null;
-        $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
-        // CDX returns object if single return and array if multiple
-        $json_return['organizations'] = array();
-        $org_contains_role = false; // does organization have any roles assigned to it?
-        if (is_array($user_orgs->Organization)) {
-            foreach ($user_orgs->Organization as $index => $obj) {
-                $org_val = $obj;
+        try {
+            $user_obj = $client->__soapCall("RetrieveUser", array($user_params));
+            $json_return['user_data'] = $user_obj->User;
+            $user_sec_bundle = array(
+                "securityToken" => $token,
+                "user" => $user_obj->User,
+            );
+            $org_val = null;
+            $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
+            // CDX returns object if single return and array if multiple
+            $json_return['organizations'] = array();
+            $org_contains_role = false; // does organization have any roles assigned to it?
+            if (is_array($user_orgs->Organization)) {
+                foreach ($user_orgs->Organization as $index => $obj) {
+                    $org_val = $obj;
+                    $org_id = $org_val->userOrganizationId;
+                    $json_return['organizations_to_roles'][$org_id] = array();
+                    $user_sec_org_bundle = array(
+                        "securityToken" => $token,
+                        "user" => $user_obj->User,
+                        "org" => $org_val,
+                    );
+                    $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
+                    // Check if roles are assigned to organization
+                    if (isset($user_roles->Role)) {
+                        // Check if multiple roles or single role
+                        if (is_array($user_roles->Role)) {
+                            foreach ($user_roles->Role as $index => $role) {
+                                if (in_array($role->dataflow, $allowed_program_roles)) {
+                                    $org_contains_role = true;
+                                    $json_return['organizations_to_roles'][$org_id][] = $role;
+                                }
+                            }
+                        } else {
+                            $role = $user_roles->Role;
+                            if (in_array($role->dataflow, $allowed_program_roles)) {
+                                $org_contains_role = true;
+                                $json_return['organizations_to_roles'][$org_id][] = $role;
+                            }
+                        }
+                    }
+                    if ($org_contains_role) {
+                        $json_return['organizations'][] = $org_val;
+                    } else {
+                        unset($json_return['organizations_to_roles'][$org_id]);
+                    }
+
+                }
+            } else {
+                $org_val = $user_orgs->Organization;
                 $org_id = $org_val->userOrganizationId;
-                $json_return['organizations_to_roles'][$org_id] = array();
+                $json_return['organizations_to_roles'][$org_val->userOrganizationId]['roles'] = array();
                 $user_sec_org_bundle = array(
                     "securityToken" => $token,
                     "user" => $user_obj->User,
                     "org" => $org_val,
                 );
                 $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
-                // Check if roles are assigned to organization
                 if (isset($user_roles->Role)) {
-                    // Check if multiple roles or single role
                     if (is_array($user_roles->Role)) {
                         foreach ($user_roles->Role as $index => $role) {
                             if (in_array($role->dataflow, $allowed_program_roles)) {
@@ -220,51 +255,23 @@ function retrieve_cdx_user_data()
                 }
 
             }
-        } else {
-            $org_val = $user_orgs->Organization;
-            $org_id = $org_val->userOrganizationId;
-            $json_return['organizations_to_roles'][$org_val->userOrganizationId]['roles'] = array();
-            $user_sec_org_bundle = array(
-                "securityToken" => $token,
-                "user" => $user_obj->User,
-                "org" => $org_val,
-            );
-            $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
-            if (isset($user_roles->Role)) {
-                if (is_array($user_roles->Role)) {
-                    foreach ($user_roles->Role as $index => $role) {
-                        if (in_array($role->dataflow, $allowed_program_roles)) {
-                            $org_contains_role = true;
-                            $json_return['organizations_to_roles'][$org_id][] = $role;
-                        }
-                    }
-                } else {
-                    $role = $user_roles->Role;
-                    if (in_array($role->dataflow, $allowed_program_roles)) {
-                        $org_contains_role = true;
-                        $json_return['organizations_to_roles'][$org_id][] = $role;
-                    }
-                }
-            }
-            if ($org_contains_role) {
-                $json_return['organizations'][] = $org_val;
-            } else {
-                unset($json_return['organizations_to_roles'][$org_id]);
-            }
 
+            $json_return['error'] = false;
+            print json_encode($json_return);
+        } catch (SoapFault $f) {
+            dpm($f);
+            print json_encode((array('error' => 'true', 'fault' => $f, 'user' => $user_id)));
+            watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
         }
-
-        $json_return['error'] = false;
-        print json_encode($json_return);
-    } catch (SoapFault $f) {
-        dpm($f);
-        print json_encode((array('error' => 'true', 'fault' => $f, 'user' => $user_id)));
-        watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
+    } else {
+        dpm("Token not set");
     }
+
 }
 
 // Returns json for use in jquery of configs for CDX Facility Management Widget
-function cdx_facility_configurations() {
+function cdx_facility_configurations()
+{
     $url = variable_get('cdx_facility_resource_url');
     $configs = array();
     $configs['url'] = $url;

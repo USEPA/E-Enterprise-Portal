@@ -2,9 +2,9 @@
 
     $(document).ready(function () {
         // Chris user_role_id 80172
-        var user_role_id = 86357; //user role id for Green olive
-        var naas_token;// = 'Mary Cheat Token - FIX ASAP!!!!!!';
-        var naas_ip;// = '65.248.159.78';
+        var user_role_id;
+        var naas_token;
+        var naas_ip;
         var cdx_resource_url;
         // Look up functionality for session expiring. On expired session, recreate token, reinitialize widget.
 
@@ -246,6 +246,7 @@
             cdx_facility_management_block.dialog("option", "position", {my: "center", at: "center", of: window});
         });
 
+        // Pull in user NAAS Token
         $.ajax({
             url: '/cdx_facility_configurations',
             success: function(json) {
