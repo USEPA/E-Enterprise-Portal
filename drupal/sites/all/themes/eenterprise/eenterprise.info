@@ -12,6 +12,7 @@ stylesheets[all][] = system.theme.css
 
 ; Then we add our own stylesheet.
 stylesheets[all][] = css/styles.css
+stylesheets[all][] = css/gridstack.css
 
 ; REGIONS
 regions[header]         = Header
@@ -37,6 +38,9 @@ scripts[] = js/mobile-menu.js
 scripts[] = js/drop-down-menu.js
 scripts[] = js/eenterprise_utility.js
 scripts[] = ../../libraries/jqueryui/jquery-ui.js
+scripts[] = js/lodash.min.js
+scripts[] = js/gridstack.js
+scripts[] = js/grid-launch.js
 ;scripts[] = inc/bootstrap/js/bootstrap.min.js
 
 ; FEATURES
@@ -72,3 +76,4 @@ settings[eenterprise_wireframes]           = 0
 ; To add a Panels layout (which can also be used by Display Suite), uncomment
 ; the line below and see the documentation at: https://drupal.org/node/495654
 ;plugins[panels][layouts] = panels-layouts
+plugins[panels][layouts] = layouts
