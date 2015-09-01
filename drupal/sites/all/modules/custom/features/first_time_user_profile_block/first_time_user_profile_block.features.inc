@@ -342,61 +342,70 @@ function frs_zip_code_to_city_state($zip)
 }
 
 
-function frs_naas_autentication() {
+function frs_naas_autentication()
+{
     $wsdl = variable_get('cdx_node_token_wsdl');
     $email = variable_get('cdx_node_token_email');
     $password = variable_get('cdx_node_token_password');
-    $soap_options = array(
-        'soap_version' => SOAP_1_2,
-    );
+
+
     try {
         $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
-        $client = new SoapClient($wsdl, $soap_options);
-    } catch(SoapFault $f) {
+    } catch (SoapFault $f) {
         dpm($f);
         drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
         return;
     }
 
-//    if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
-    $params = array(
-        "userId" => $email,
-        "credential" => $password,
-        "domain" => variable_get('cdx_node_token_domain'),
-        "authenticationMethod" => variable_get('cdx_node_token_auth_method'),
-        "clientIp" => variable_get('frs_api_lookup_ip'),
-        'resourceURI' => ''
-    );
-    $soap_type = 'CentralAuth';
-//    }
-//    else {
-//        $params = array(
-//            "userId" => $email,
-//            "credential" => $password,
-//            "domain" => variable_get('cdx_node_token_domain'),
-//            "authMethod" => variable_get('cdx_node_token_auth_method'),
-//            "trustee" => $email,
-//            "ip" => variable_get('frs_api_lookup_ip'),
-//            "subjectData" => "tbd",
-//            "subject" => "tbd",
-//            "issuer" => "EEP",
-//            "tokenType" => 'csm',
-//        );
-//        $soap_type = 'CreateSecurityToken';
-//    }
+    if (isset($client)) {
+//        if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
+            $params = array(
+                "userId" => $email,
+                "credential" => $password,
+                "domain" => variable_get('cdx_node_token_domain'),
+                "authenticationMethod" => variable_get('cdx_node_token_auth_method'),
+                "clientIp" => variable_get('frs_api_lookup_ip'),
+                'resourceURI' => ''
+            );
+            $soap_type = 'CentralAuth';
+//        } else {
+//            $params = array(
+//                "userId" => $email,
+//                "credential" => $password,
+//                "domain" => variable_get('cdx_node_token_domain'),
+//                "authMethod" => variable_get('cdx_node_token_auth_method'),
+//                "trustee" => $email,
+//                "ip" => variable_get('frs_api_lookup_ip'),
+//                "subjectData" => "tbd",
+//                "subject" => "tbd",
+//                "issuer" => "EEP",
+//                "tokenType" => 'csm',
+//            );
+//            $soap_type = 'CreateSecurityToken';
+//        }
 
 
-
-    $token = null;
-    try {
-        $response1 = $client->__soapCall($soap_type, array($params));
-        $token = $response1->return;
-    } catch(SoapFault $f) {
-        dpm($f);
-        drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
-        return;
+        $token = null;
+        try {
+            $response1 = $client->__soapCall($soap_type, array($params));
+            $token = $response1->return;
+        } catch (SoapFault $f) {
+            dpm($f);
+            $token = '';
+            drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
+        }
+    } else {
+        $token = '';
     }
-    return $token;
+    if (isset($_GET['json'])) {
+        print json_encode( array(
+            'ip'=> variable_get('frs_api_lookup_ip'),
+            'token' => $token,
+        ));
+        exit();
+    } else {
+        return $token;
+    }
 };
 
 

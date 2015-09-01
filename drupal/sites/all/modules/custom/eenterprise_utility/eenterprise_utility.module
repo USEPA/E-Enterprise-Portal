@@ -748,7 +748,7 @@ function generate_location_select()
 
     // Check if saved default_zip was used. If not, it is a session variable that has not been saved yet.
     // Add the value to the location selection
-    if ($default_zip_used == false && !empty($default_zip)) {
+    if ($default_zip_used == false) {
         print "<option value='" . $default_zip . "' selected>" . $default_name . "</option>";
     }
 
@@ -794,7 +794,7 @@ function eenterprise_utility_node_presave($node)
 function eenterprise_utility_views_query_alter(&$view, &$query){
     if ($view->name == 'to_do') {
         if(isset($view->exposed_raw_input) && $view->exposed_raw_input['field_todo_lst_due_value'] != ''){
-            $view->query->where[1]['conditions'][2]['operator'] = '>=';
+            $view->query->where[1]['conditions'][2]['operator'] = '>';
             $view->args['week_filter_val'] = $view->exposed_raw_input['field_todo_lst_due_value'];
             date_default_timezone_set('America/New_York');
             if(substr($view->exposed_raw_input['field_todo_lst_due_value'], 0,10) == date("Y-m-d")) {

@@ -201,7 +201,8 @@ function eenterprise_item_list($vars) {
  * Override HTML for default panel regions.
  */
 function eenterprise_panels_default_style_render_region($vars) {
-  return implode('', $vars['panes']);
+  $output = implode('', $vars['panes']);
+  return $output;
 }
 
 /**
@@ -232,7 +233,7 @@ function eenterprise_table($vars) {
 
   // Format the table columns:
   if (count($colgroups)) {
-    foreach ($colgroups as $colgroup) {
+    foreach ($colgroups as $number => $colgroup) {
       $attributes = array();
 
       // Check if we're dealing with a simple or complex column
@@ -314,7 +315,7 @@ function eenterprise_table($vars) {
         $i = 0;
         foreach ($cells as $cell) {
           $cell = tablesort_cell($cell, $header, $ts, $i);
-          $i++;
+		  $i++;
           $output .= _theme_table_cell($cell);
         }
         $output .= " </tr>\n";
@@ -323,7 +324,8 @@ function eenterprise_table($vars) {
     $output .= "</tbody>\n";
   }
 
-  return $output . "</table>\n";
+  $output .= "</table>\n";
+  return $output;
 }
 
 

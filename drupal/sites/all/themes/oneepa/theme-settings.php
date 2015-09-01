@@ -7,16 +7,12 @@
  * @param $form_state
  *   A keyed array containing the current state of the form.
  */
-function oneepa_form_system_theme_settings_alter(&$form, &$form_state, $form_id = NULL) {
+function oneepa_form_system_theme_settings_alter(&$form, &$form_state, $form_id = NULL)  {
   // Work-around for a core bug affecting admin themes. See issue #943212.
   if (isset($form_id)) {
     return;
   }
 
-  create_form($form);
-}
-
-function create_form(&$form) {
   // Create the form using Forms API: http://api.drupal.org/api/7
   $form['theme_settings']['toggle_logo']['#description'] = t('This logo will only be displayed when a user prints the page.');
   $form['javascript'] = array(

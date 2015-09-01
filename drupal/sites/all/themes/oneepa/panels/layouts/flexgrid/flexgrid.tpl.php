@@ -10,25 +10,51 @@ foreach ($content as $key => $value) {
   if (!empty($value)) {
     switch ($key) {
       case 'a1':
+        $cols[0]++;
+        break;
+
       case 'a2':
+        $cols[0]++;
+        break;
+
       case 'a3':
+        $cols[0]++;
+        break;
+
       case 'a4':
         $cols[0]++;
         break;
+
       case 'b1':
+        $cols[1]++;
+        break;
+
       case 'b2':
+        $cols[1]++;
+        break;
+
       case 'b3':
+        $cols[1]++;
+        break;
+
       case 'b4':
         $cols[1]++;
         break;
+
       case 'c1':
-      case 'c2':
-      case 'c3':
-      case 'c4':
         $cols[2]++;
         break;
-      default:
-        // don't increment cols
+
+      case 'c2':
+        $cols[2]++;
+        break;
+
+      case 'c3':
+        $cols[2]++;
+        break;
+
+      case 'c4':
+        $cols[2]++;
         break;
     }
   }
