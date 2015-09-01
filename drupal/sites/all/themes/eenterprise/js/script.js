@@ -10,14 +10,21 @@
 Drupal.behaviors.zipCodeChangeEvent = {
   attach: function(context) {
 
+    function clearErrorMessage() {
+      $('div.workbench-zipcode-error').remove();
+    }
+
     function showError($locationInputFormGroup, $locationInputErrorIcon) {
       $locationInputFormGroup.addClass('has-error');
       $locationInputErrorIcon.show();
+      clearErrorMessage();
+      $('div#content').before($('<div>', {'class': 'messages--error messages error workbench-zipcode-error', 'text': 'Please enter a valid zip code.'}));
     }
 
     function hideError($locationInputFormGroup, $locationInputErrorIcon) {
       $locationInputFormGroup.removeClass('has-error');
       $locationInputErrorIcon.hide();
+      clearErrorMessage();
     }
 
     var $locationSelect = $('select#location-select', context);
