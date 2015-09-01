@@ -202,9 +202,9 @@ Drupal.behaviors.filterItems = {
 
 
         if($("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
-            $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+            //$('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
             $('#edit-field-prog-track-part-code-value-wrapper').show();
-            var cedri_list = ["Notification Report", "Notification of Compliance Status", "Air Emissions Report", "- Any -"];
+            var cedri_list = ["Notification Report", "Notification of Compliance Status", "Air Emissions Report", "Performance Test Report", "- Any -"];
             $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
                 return $.inArray(this.innerHTML, cedri_list) == -1
             }).remove();
@@ -219,27 +219,58 @@ Drupal.behaviors.filterItems = {
                 return $.inArray(this.innerHTML, lead_list) == -1
             }).remove();
         }
+        var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc","Subpart III", "Subpart JJJJ", "- Any -"];
         if($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 60') {
             $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
-            var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc","Subpart III", "Subpart JJJJ", "Subpart A" , "- Any -"];
             $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
                 return $.inArray(this.innerHTML, part_60_list) == -1
             }).remove();
         }
+        var part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
         if($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 63') {
             $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
-            var part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
             $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
                 return $.inArray(this.innerHTML, part_63_list) == -1
             }).remove();
         }
+
+
+        if($("#edit-field-prog-track-sub-part-code-value").length && jQuery.inArray( $("#edit-field-prog-track-sub-part-code-value").val().trim(), part_60_list ) != -1) {
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+            var report_type_60 = ["Air Emissions Report", "Performance Test Report", "- Any -"];
+            $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
+                return $.inArray(this.innerHTML, report_type_60) == -1
+            }).remove();
+        }
+
+        if($("#edit-field-prog-track-sub-part-code-value").length && $("#edit-field-prog-track-sub-part-code-value").val().trim() == "Subpart JJJJJJ"){
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+            var report_type_63_jjjjjj = ["Performance Test Report", "Notification of Compliance Status", "- Any -"];
+            $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
+                return $.inArray(this.innerHTML, report_type_63_jjjjjj) == -1
+            }).remove();
+        }
+        else if($("#edit-field-prog-track-sub-part-code-value").length && jQuery.inArray( $("#edit-field-prog-track-sub-part-code-value").val().trim(), part_63_list ) != -1) {
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+            var report_type_63 = ["Air Emissions Report", "Notification Report", "Performance Test Report", "- Any -"];
+            $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
+                return $.inArray(this.innerHTML, report_type_63) == -1
+            }).remove();
+        }
+
+
+
         if($("#edit-field-prog-track-domain-value").val() == 'All') {
             $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
             $('#edit-field-prog-track-part-code-value-wrapper').hide();
             $('#edit-field-prog-track-sub-part-code-value-wrapper').hide();
         }
-        if($("#edit-field-prog-track-part-code-value").val() == 'All') {
+        if($("#edit-field-prog-track-part-code-value").val() == 'All' && $("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
             $('#edit-field-prog-track-sub-part-code-value-wrapper').hide();
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
+        }
+        if($("#edit-field-prog-track-sub-part-code-value").val() == 'All' && $("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
+            $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
         }
         $('#edit-field-prog-track-domain-value').change(function(){
             $('#edit-field-prog-track-rep-type-filter-value').val('All');
@@ -248,6 +279,10 @@ Drupal.behaviors.filterItems = {
         });
         $('#edit-field-prog-track-part-code-value').change(function(){
             $('#edit-field-prog-track-sub-part-code-value').val('All');
+            $('#edit-field-prog-track-rep-type-filter-value').val('All');
+        });
+        $('#edit-field-prog-track-sub-part-code-value').change(function(){
+            $('#edit-field-prog-track-rep-type-filter-value').val('All');
         });
     }
 };
@@ -331,6 +366,65 @@ Drupal.behaviors.filterToDoList = {
             httpreq.open("GET",time_url,true);
             httpreq.send();
         }
+
+
+        $("#edit-field-todo-lst-domain-value").prop('disabled','true');
+        if($("#edit-field-todo-lst-domain-value").val() == 'CEDRI') {
+            $('#edit-field-todo-lst-part-code-value-wrapper').show();
+        }
+
+        var todo_part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc","Subpart III", "Subpart JJJJ", "- Any -"];
+        if($("#edit-field-todo-lst-part-code-value").length && $("#edit-field-todo-lst-part-code-value").val().trim() == 'Part 60') {
+            $('#edit-field-todo-lst-sub-part-code-value-wrapper').show();
+            $('#edit-field-todo-lst-sub-part-code-value option').filter(function () {
+                return $.inArray(this.innerHTML, todo_part_60_list) == -1
+            }).remove();
+        }
+
+        var todo_part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
+        if($("#edit-field-todo-lst-part-code-value").length && $("#edit-field-todo-lst-part-code-value").val().trim() == 'Part 63') {
+            $('#edit-field-todo-lst-sub-part-code-value-wrapper').show();
+            $('#edit-field-todo-lst-sub-part-code-value option').filter(function () {
+                return $.inArray(this.innerHTML, todo_part_63_list) == -1
+            }).remove();
+        }
+
+        if($("#edit-field-todo-lst-sub-part-code-value").length && jQuery.inArray( $("#edit-field-todo-lst-sub-part-code-value").val().trim(), todo_part_60_list ) != -1) {
+            $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').show();
+            var report_type_60 = ["Air Emissions Report", "Performance Test Report", "- Any -"];
+            $('#edit-field-todo-lst-rprt-type-filter-value option').filter(function () {
+                return $.inArray(this.innerHTML, report_type_60) == -1
+            }).remove();
+        }
+
+        if($("#edit-field-todo-lst-sub-part-code-value").length && $("#edit-field-todo-lst-sub-part-code-value").val().trim() == "Subpart JJJJJJ"){
+            $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').show();
+            var report_type_63_jjjjjj = ["Performance Test Report", "Notification of Compliance Status", "- Any -"];
+            $('#edit-field-todo-lst-rprt-type-filter-value option').filter(function (){
+                return $.inArray(this.innerHTML, report_type_63_jjjjjj) == -1
+            }).remove();
+        }
+        else if($("#edit-field-todo-lst-sub-part-code-value").length && jQuery.inArray( $("#edit-field-todo-lst-sub-part-code-value").val().trim(), todo_part_63_list ) != -1) {
+            $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').show();
+            var report_type_63 = ["Air Emissions Report", "Notification Report", "Performance Test Report", "- Any -"];
+            $('#edit-field-todo-lst-rprt-type-filter-value option').filter(function () {
+                return $.inArray(this.innerHTML, report_type_63) == -1
+            }).remove();
+        }
+
+
+
+        if($("#edit-field-todo-lst-sub-part-code-value").val() == 'All') {
+            $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').hide();
+        }
+        if($("#edit-field-todo-lst-part-code-value").val() == 'All') {
+            $('#edit-field-todo-lst-sub-part-code-value-wrapper').hide();
+            $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').hide();
+        }
+        $('#edit-field-todo-lst-part-code-value').change(function(){
+            $('#edit-field-todo-lst-sub-part-code-value').val('All');
+            $('#edit-field-todo-lst-rprt-type-filter-value').val('All');
+        });
     }
 };
 
