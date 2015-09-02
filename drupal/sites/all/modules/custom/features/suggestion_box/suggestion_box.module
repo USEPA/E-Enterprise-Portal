@@ -313,7 +313,7 @@ function configure_ctools_popup() {
                'modalSize' => array(
                    'type' => 'fixed', // Popup type.
                    'width' => 550, // Width
-                   'height' => 700, // Height
+                   'height' => 500, // Height
 //                   'addHeight' => 700, // Maximum height
                ),
                'modalOptions' => array(

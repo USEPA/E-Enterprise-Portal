@@ -28,7 +28,7 @@
 
 	function processPrimaryFields() {
 	    var table  = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
-		var  checkboxes = table.find('input[type=checkbox]');
+		var checkboxes = table.find('input[type=checkbox]');
 		var selection = table.find('input[type=checkbox]:checked');
 		checkboxes.after('<div class="zip-code-primary-holder"><i class="fa fa-key zip-code-primary-select"></i></div>');
 		var primary_indicator = selection.next('.zip-code-primary-holder').find('.zip-code-primary-select');

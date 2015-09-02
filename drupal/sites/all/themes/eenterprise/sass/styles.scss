@@ -1902,7 +1902,12 @@ a.tabledrag-handle .handle {
 	border: none;
 	border-radius: 0 !important;
 }
-.ui-dialog {
+#modalContent {
+	.ui-dialog-titlebar {
+		position: relative;
+	}
+}
+.ui-dialog, #modalContent {
 	.ui-dialog-title {
 		font-weight: normal !important;
 		font-size: 1.25em;

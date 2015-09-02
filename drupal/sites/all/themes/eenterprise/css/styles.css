@@ -12280,25 +12280,30 @@ a.tabledrag-handle .handle {
 }
 
 /* line 1906, ../sass/styles.scss */
-.ui-dialog .ui-dialog-title {
+#modalContent .ui-dialog-titlebar {
+  position: relative;
+}
+
+/* line 1911, ../sass/styles.scss */
+.ui-dialog .ui-dialog-title, #modalContent .ui-dialog-title {
   font-weight: normal !important;
   font-size: 1.25em;
 }
-/* line 1910, ../sass/styles.scss */
-.ui-dialog .ui-dialog-titlebar {
+/* line 1915, ../sass/styles.scss */
+.ui-dialog .ui-dialog-titlebar, #modalContent .ui-dialog-titlebar {
   background-color: #fafafa !important;
   border-bottom: 1px solid #f0f0f0;
 }
-/* line 1914, ../sass/styles.scss */
-.ui-dialog .ui-dialog-titlebar-close {
+/* line 1919, ../sass/styles.scss */
+.ui-dialog .ui-dialog-titlebar-close, #modalContent .ui-dialog-titlebar-close {
   position: absolute;
   right: 1em;
   top: 0.5em;
   width: 20px;
   margin: 0;
 }
-/* line 1921, ../sass/styles.scss */
-.ui-dialog .ui-dialog-titlebar-close .ui-icon {
+/* line 1926, ../sass/styles.scss */
+.ui-dialog .ui-dialog-titlebar-close .ui-icon, #modalContent .ui-dialog-titlebar-close .ui-icon {
   background: transparent url("../images/close-titlebar.png") no-repeat 0 0 !important;
   height: 20px;
   width: 20px;
@@ -12308,13 +12313,13 @@ a.tabledrag-handle .handle {
   margin-top: 0;
 }
 
-/* line 1932, ../sass/styles.scss */
+/* line 1937, ../sass/styles.scss */
 div.ctools-modal-content .modal-header {
   padding: 0.4em 2em;
   background-color: #fafafa !important;
   border-bottom: 1px solid #f0f0f0;
 }
-/* line 1938, ../sass/styles.scss */
+/* line 1943, ../sass/styles.scss */
 div.ctools-modal-content a.close {
   opacity: 1.0;
   height: 24px;
@@ -12324,47 +12329,47 @@ div.ctools-modal-content a.close {
   top: 4px;
   text-decoration: none;
 }
-/* line 1946, ../sass/styles.scss */
+/* line 1951, ../sass/styles.scss */
 div.ctools-modal-content a.close img {
   vertical-align: baseline;
   margin-top: 0;
   top: auto;
   position: static;
 }
-/* line 1953, ../sass/styles.scss */
+/* line 1958, ../sass/styles.scss */
 div.ctools-modal-content a.close:hover, div.ctools-modal-content a.close:focus, div.ctools-modal-content a.close:active {
   background-color: #f0f0f0;
   border-bottom: none;
   text-decoration: none;
 }
-/* line 1958, ../sass/styles.scss */
+/* line 1963, ../sass/styles.scss */
 div.ctools-modal-content .modal-title {
   font-weight: normal !important;
   font-size: 1.25em;
   color: #333333;
 }
-/* line 1963, ../sass/styles.scss */
+/* line 1968, ../sass/styles.scss */
 div.ctools-modal-content .modal-content {
   -webkit-box-shadow: none;
   box-shadow: none;
   border: none;
   padding: 1em 2em 0 2em;
 }
-/* line 1969, ../sass/styles.scss */
+/* line 1974, ../sass/styles.scss */
 div.ctools-modal-content .form-item {
   padding-bottom: 1em;
   margin: 0.75em 0;
 }
-/* line 1973, ../sass/styles.scss */
+/* line 1978, ../sass/styles.scss */
 div.ctools-modal-content .form-item label {
   float: none;
   padding-bottom: 0;
 }
-/* line 1977, ../sass/styles.scss */
+/* line 1982, ../sass/styles.scss */
 div.ctools-modal-content .form-item-email {
   padding-bottom: 0.1em;
 }
-/* line 1980, ../sass/styles.scss */
+/* line 1985, ../sass/styles.scss */
 div.ctools-modal-content #edit-submit-button {
   background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.15) 100%);
   background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.15) 100%);
@@ -12382,39 +12387,39 @@ div.ctools-modal-content #edit-submit-button {
   margin-bottom: 2em;
 }
 
-/* line 1987, ../sass/styles.scss */
+/* line 1992, ../sass/styles.scss */
 .main-content .ui-state-default a, .main-content .ui-state-default a:link, .main-content .ui-state-default a:visited {
   color: #000;
 }
-/* line 1991, ../sass/styles.scss */
+/* line 1996, ../sass/styles.scss */
 .main-content .ui-state-default a:hover, .main-content .ui-state-default a:focus, .main-content .ui-state-default a:active {
   color: #fff;
 }
 
-/* line 1996, ../sass/styles.scss */
+/* line 2001, ../sass/styles.scss */
 .facility-widget-form .toggle-list-map-header {
   font-weight: normal;
   font-size: 0.85em;
 }
 
-/* line 2000, ../sass/styles.scss */
+/* line 2005, ../sass/styles.scss */
 .facility-widget-form .toggle-list-map-header a:hover,
 .facility-widget-form .toggle-list-map-header a:focus,
 .facility-widget-form .toggle-list-map-header a:active {
   color: #fff !important;
 }
 
-/* line 2006, ../sass/styles.scss */
+/* line 2011, ../sass/styles.scss */
 #facility-widget .ui-widget, #facility-widget .facility-widget-form .tab-content-heading, #facility-widget .facility-widget-form {
   font-family: Lato, "Source Sans Pro", sans-serif;
 }
-/* line 2009, ../sass/styles.scss */
+/* line 2014, ../sass/styles.scss */
 #facility-widget .facility-widget-form .manage-facilities-tab, #facility-widget .facility-widget-form .facility-widget-background {
   border-width: 0 !important;
 }
 
 /** Admin *********************************************************/
-/* line 2015, ../sass/styles.scss */
+/* line 2020, ../sass/styles.scss */
 #user-login input[type="submit"] {
   color: #fff;
   background-color: #337ab7;
@@ -12424,25 +12429,25 @@ div.ctools-modal-content #edit-submit-button {
   padding: 5px 8px;
 }
 
-/* line 2023, ../sass/styles.scss */
+/* line 2028, ../sass/styles.scss */
 #user-login input[type="submit"]:active, #user-login input[type="submit"]:hover, #user-login input[type="submit"]:focus {
   color: #fff;
   background-color: #286090;
   border-color: #204d74;
 }
 
-/* line 2029, ../sass/styles.scss */
+/* line 2034, ../sass/styles.scss */
 .section-user-agreement .main-content, .page-ee-disclaimer .main-content {
   background-color: #fff;
   padding-left: 2em;
   padding-right: 2em;
 }
-/* line 2033, ../sass/styles.scss */
+/* line 2038, ../sass/styles.scss */
 .section-user-agreement .main-content header, .page-ee-disclaimer .main-content header {
   padding: 0;
   font-size: 0.85em;
 }
-/* line 2037, ../sass/styles.scss */
+/* line 2042, ../sass/styles.scss */
 .section-user-agreement .main-content .form-item-agree label.option, .page-ee-disclaimer .main-content .form-item-agree label.option {
   font-size: 1em;
   margin-left: 10px;
@@ -12450,18 +12455,18 @@ div.ctools-modal-content #edit-submit-button {
 }
 
 /** AQI / Popup Description Tweaks *********************************************************/
-/* line 2046, ../sass/styles.scss */
+/* line 2051, ../sass/styles.scss */
 .popover-title {
   font-weight: bold;
 }
 
-/* line 2049, ../sass/styles.scss */
+/* line 2054, ../sass/styles.scss */
 .popover-content {
   font-family: Lato, "Source Sans Pro", sans-serif;
 }
 
 /** Gradients *****************************************************************/
-/* line 2054, ../sass/styles.scss */
+/* line 2059, ../sass/styles.scss */
 button,
 input[type="button"],
 input[type="reset"],
@@ -12481,13 +12486,13 @@ input[type="submit"],
 }
 
 /** Menus *********************************************************************/
-/* line 2073, ../sass/styles.scss */
+/* line 2078, ../sass/styles.scss */
 .pillbox {
   padding: 0 0 1.5em;
   list-style: none;
 }
 
-/* line 2077, ../sass/styles.scss */
+/* line 2082, ../sass/styles.scss */
 .pillbox > .menu-item > .menu-link,
 .pillbox > .menu-item > .menu-link:visited {
   background-color: #f9f9f9;
@@ -12502,31 +12507,31 @@ input[type="submit"],
 }
 
 @media screen and (min-width: 30em) {
-  /* line 2090, ../sass/styles.scss */
+  /* line 2095, ../sass/styles.scss */
   .pillbox {
     padding: 0 0 1em;
   }
 
-  /* line 2093, ../sass/styles.scss */
+  /* line 2098, ../sass/styles.scss */
   .pillbox > .menu-item:first-child > .menu-link {
     border-radius: 4px 0 0 4px;
     /* LTR */
   }
 
-  /* line 2096, ../sass/styles.scss */
+  /* line 2101, ../sass/styles.scss */
   .pillbox > .menu-item:last-child > .menu-link {
     border-radius: 0 4px 4px 0;
     /* LTR */
   }
 }
 @media screen and (min-width: 45em) {
-  /* line 2101, ../sass/styles.scss */
+  /* line 2106, ../sass/styles.scss */
   .pillbox > .menu-item > .menu-link,
   .pillbox > .menu-item > .menu-link:visited {
     padding: .25em .5em;
   }
 }
-/* line 2106, ../sass/styles.scss */
+/* line 2111, ../sass/styles.scss */
 .pillbox > .active.menu-item > .menu-link {
   background-color: #337ab7;
   border: 1px solid #337ab7;
@@ -12534,7 +12539,7 @@ input[type="submit"],
   font-weight: bold;
 }
 
-/* line 2112, ../sass/styles.scss */
+/* line 2117, ../sass/styles.scss */
 .pillbox > .menu-item > .menu-link:hover,
 .pillbox > .menu-item > .menu-link:focus {
   background-color: #fc9;
@@ -12544,30 +12549,30 @@ input[type="submit"],
   text-decoration: none;
 }
 
-/* line 2120, ../sass/styles.scss */
+/* line 2125, ../sass/styles.scss */
 .pillbox > .menu-item > .menu-link:active {
   background-color: #ffb266;
   border-color: #cc8f52;
   text-decoration: none;
 }
 
-/* line 2125, ../sass/styles.scss */
+/* line 2130, ../sass/styles.scss */
 .pillbox > .active.menu-item > .menu-link:focus {
   background-color: #fa4;
 }
 
-/* line 2128, ../sass/styles.scss */
+/* line 2133, ../sass/styles.scss */
 .pillbox > .active.menu-item > .menu-link:hover {
   cursor: default;
 }
 
-/* line 2131, ../sass/styles.scss */
+/* line 2136, ../sass/styles.scss */
 .pillbox > .active.menu-item > .menu-link:active {
   background-color: #f93;
 }
 
 /* Skip Links *****************************************************************/
-/* line 2136, ../sass/styles.scss */
+/* line 2141, ../sass/styles.scss */
 .skip-links {
   font-size: 16px;
   left: 50%;
@@ -12577,7 +12582,7 @@ input[type="submit"],
   z-index: 9999;
 }
 
-/* line 2144, ../sass/styles.scss */
+/* line 2149, ../sass/styles.scss */
 .skip-link,
 .skip-link:visited,
 .skip-link:focus {
@@ -12599,13 +12604,13 @@ input[type="submit"],
 
 /*********** Responsive Progress Tracker and To Do List Tables ***********/
 /*********** Default Styling ***********/
-/* line 2166, ../sass/styles.scss */
+/* line 2171, ../sass/styles.scss */
 .responsive-table tr.even {
   padding: 0;
   color: inherit;
 }
 
-/* line 2170, ../sass/styles.scss */
+/* line 2175, ../sass/styles.scss */
 .responsive-table thead {
   position: absolute;
   clip: rect(1px 1px 1px 1px);
@@ -12618,7 +12623,7 @@ input[type="submit"],
   overflow: hidden;
 }
 
-/* line 2182, ../sass/styles.scss */
+/* line 2187, ../sass/styles.scss */
 .responsive-table thead th {
   background-color: #1d96b2;
   font-weight: normal;
@@ -12626,7 +12631,7 @@ input[type="submit"],
   color: white;
 }
 
-/* line 2190, ../sass/styles.scss */
+/* line 2195, ../sass/styles.scss */
 .responsive-table tbody,
 .responsive-table tr,
 .responsive-table th,
@@ -12636,14 +12641,14 @@ input[type="submit"],
   white-space: normal;
 }
 
-/* line 2199, ../sass/styles.scss */
+/* line 2204, ../sass/styles.scss */
 .responsive-table th,
 .responsive-table td {
   padding: .5em;
   vertical-align: top;
 }
 
-/* line 2206, ../sass/styles.scss */
+/* line 2211, ../sass/styles.scss */
 .responsive-table caption {
   margin-bottom: 1em;
   font-size: 1em;
@@ -12651,18 +12656,18 @@ input[type="submit"],
   text-align: center;
 }
 
-/* line 2212, ../sass/styles.scss */
+/* line 2217, ../sass/styles.scss */
 .responsive-table tfoot {
   font-size: .8em;
   font-style: italic;
 }
 
-/* line 2217, ../sass/styles.scss */
+/* line 2222, ../sass/styles.scss */
 .responsive-table tbody tr:last-of-type {
   margin-bottom: 0;
 }
 
-/* line 2221, ../sass/styles.scss */
+/* line 2226, ../sass/styles.scss */
 .responsive-table tbody td[data-title]:before {
   width: 11em;
   content: attr(data-title);
@@ -12671,75 +12676,75 @@ input[type="submit"],
   color: rgba(94, 93, 82, 0.75);
 }
 
-/* line 2229, ../sass/styles.scss */
+/* line 2234, ../sass/styles.scss */
 th.views-field-field-prog-tracker-app {
   width: 150px;
 }
 
 /*********** iPhone, some Android Portrait @ 320px***********/
 @media screen and (min-width: 20em) {
-  /* line 2236, ../sass/styles.scss */
+  /* line 2241, ../sass/styles.scss */
   .responsive-table {
     font-size: .9em;
     width: 100%;
   }
 
-  /* line 2241, ../sass/styles.scss */
+  /* line 2246, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em .5em;
     border-bottom: 1px solid #efefef;
   }
 
-  /* line 2247, ../sass/styles.scss */
+  /* line 2252, ../sass/styles.scss */
   .responsive-table tr,
   .responsive-table tr.even {
     border-bottom: 2px solid #606060;
     margin-bottom: 2em;
   }
 
-  /* line 2253, ../sass/styles.scss */
+  /* line 2258, ../sass/styles.scss */
   .responsive-table tbody td[data-title="Item"]:before {
     font-size: .9em;
     content: '';
   }
 
-  /* line 2258, ../sass/styles.scss */
+  /* line 2263, ../sass/styles.scss */
   .responsive-table tbody td[data-title="Item"] {
     text-align: left;
     color: #fff;
   }
 
-  /* line 2263, ../sass/styles.scss */
+  /* line 2268, ../sass/styles.scss */
   .views-field-field-prog-track-actions-dnload a:link,
   .views-field-field-prog-track-actions-dnload a:visited {
     color: #23537e;
   }
 
-  /* line 2268, ../sass/styles.scss */
+  /* line 2273, ../sass/styles.scss */
   .views-field-field-prog-track-actions-dnload a:hover {
     color: #fff;
   }
 
-  /* line 2272, ../sass/styles.scss */
+  /* line 2277, ../sass/styles.scss */
   .responsive-table td.views-field-counter {
     display: none;
   }
 }
 @media screen and (min-width: 20em) and (max-width: 959.99999px) {
-  /* line 2278, ../sass/styles.scss */
+  /* line 2283, ../sass/styles.scss */
   .responsive-table a.simple-dialog,
   td.responsive-to-do-link a {
     color: #fff;
     text-decoration: underline;
   }
 
-  /* line 2284, ../sass/styles.scss */
+  /* line 2289, ../sass/styles.scss */
   .responsive-table thead {
     display: none;
   }
 
-  /* line 2288, ../sass/styles.scss */
+  /* line 2293, ../sass/styles.scss */
   .responsive-table tbody td[scope="row"] {
     margin: 0;
     text-align: left;
@@ -12747,21 +12752,21 @@ th.views-field-field-prog-tracker-app {
     background-color: #606060;
   }
 
-  /* line 2295, ../sass/styles.scss */
+  /* line 2300, ../sass/styles.scss */
   .responsive-table tbody td {
     text-align: left;
   }
 }
 /*********** Tablet, iPad Landscape @ 768px ***********/
 @media screen and (min-width: 48em) {
-  /* line 2301, ../sass/styles.scss */
+  /* line 2306, ../sass/styles.scss */
   .responsive-table {
     width: 100%;
     margin-bottom: 1.5em;
     font-size: 1em;
   }
 
-  /* line 2307, ../sass/styles.scss */
+  /* line 2312, ../sass/styles.scss */
   .responsive-table thead {
     position: relative;
     clip: auto;
@@ -12770,94 +12775,94 @@ th.views-field-field-prog-tracker-app {
     overflow: auto;
   }
 
-  /* line 2315, ../sass/styles.scss */
+  /* line 2320, ../sass/styles.scss */
   .responsive-table tr {
     display: table-row;
   }
 
-  /* line 2319, ../sass/styles.scss */
+  /* line 2324, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     display: table-cell;
     padding: .5em;
   }
 
-  /* line 2325, ../sass/styles.scss */
+  /* line 2330, ../sass/styles.scss */
   .responsive-table caption {
     font-size: 1.5em;
   }
 
-  /* line 2329, ../sass/styles.scss */
+  /* line 2334, ../sass/styles.scss */
   .responsive-table tbody {
     display: table-row-group;
   }
 
-  /* line 2333, ../sass/styles.scss */
+  /* line 2338, ../sass/styles.scss */
   .responsive-table tbody tr {
     margin-bottom: 1em;
   }
 
-  /* line 2338, ../sass/styles.scss */
+  /* line 2343, ../sass/styles.scss */
   .responsive-table tbody tr {
     display: table-row;
     border-width: 1px;
   }
 
-  /* line 2343, ../sass/styles.scss */
+  /* line 2348, ../sass/styles.scss */
   .responsive-table tbody th[scope="row"] {
     background-color: transparent;
     color: #151515;
     text-align: left;
   }
 
-  /* line 2349, ../sass/styles.scss */
+  /* line 2354, ../sass/styles.scss */
   .responsive-table tbody td[data-type=currency] {
     text-align: right;
   }
 
-  /* line 2353, ../sass/styles.scss */
+  /* line 2358, ../sass/styles.scss */
   .responsive-table tbody td[data-title]:before {
     content: none;
   }
 
-  /* line 2357, ../sass/styles.scss */
+  /* line 2362, ../sass/styles.scss */
   .responsive-table tr, .responsive-table tr.even {
     border-bottom: none;
     margin-bottom: 2em;
   }
 
-  /* line 2362, ../sass/styles.scss */
+  /* line 2367, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em .5em;
     border: none;
   }
 
-  /* line 2368, ../sass/styles.scss */
+  /* line 2373, ../sass/styles.scss */
   td.responsive-to-do-link a,
   td.views-field-field-prog-track-actions-dnload a {
     color: #23537e;
     text-decoration: none;
   }
 
-  /* line 2374, ../sass/styles.scss */
+  /* line 2379, ../sass/styles.scss */
   td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
     color: #ffffff;
     background-color: #606060;
   }
 
-  /* line 2379, ../sass/styles.scss */
+  /* line 2384, ../sass/styles.scss */
   .responsive-table tbody th[scope="row"] {
     background-color: transparent;
     color: #151515;
   }
 
-  /* line 2384, ../sass/styles.scss */
+  /* line 2389, ../sass/styles.scss */
   .responsive-table td.views-field-counter {
     display: none;
   }
 
-  /* line 2388, ../sass/styles.scss */
+  /* line 2393, ../sass/styles.scss */
   .responsive-table tbody td[data-title="Item"] {
     text-align: left;
     background: inherit;
@@ -12866,36 +12871,36 @@ th.views-field-field-prog-tracker-app {
 }
 /*********** iPad Portrait and up @ 960px ***********/
 @media screen and (min-width: 60em) {
-  /* line 2397, ../sass/styles.scss */
+  /* line 2402, ../sass/styles.scss */
   .responsive-table {
     width: 100%;
     margin-bottom: 1.5em;
     font-size: 1em;
   }
 
-  /* line 2403, ../sass/styles.scss */
+  /* line 2408, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em;
   }
 
-  /* line 2408, ../sass/styles.scss */
+  /* line 2413, ../sass/styles.scss */
   .responsive-table td.views-field-counter {
     display: block;
   }
 
-  /* line 2412, ../sass/styles.scss */
+  /* line 2417, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em .5em;
   }
 
-  /* line 2417, ../sass/styles.scss */
+  /* line 2422, ../sass/styles.scss */
   .responsive-table tfoot {
     font-size: .9em;
   }
 }
-/* line 2422, ../sass/styles.scss */
+/* line 2427, ../sass/styles.scss */
 .mobile-nav a {
   border: 2px solid transparent;
   border-radius: 4px;
@@ -12906,7 +12911,7 @@ th.views-field-field-prog-tracker-app {
   text-decoration: none;
 }
 
-/* line 2432, ../sass/styles.scss */
+/* line 2437, ../sass/styles.scss */
 .mobile-bar {
   background-color: #000;
   background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
@@ -12918,7 +12923,7 @@ th.views-field-field-prog-tracker-app {
   height: 3.375em;
 }
 
-/* line 2442, ../sass/styles.scss */
+/* line 2447, ../sass/styles.scss */
 .mobile-bar > a {
   background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 45%, rgba(0, 0, 0, 0.05) 55%, rgba(0, 0, 0, 0.1) 100%);
   background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 45%, rgba(0, 0, 0, 0.05) 55%, rgba(0, 0, 0, 0.1) 100%);
@@ -12933,31 +12938,31 @@ th.views-field-field-prog-tracker-app {
   padding: 0 1em;
 }
 
-/* line 2455, ../sass/styles.scss */
+/* line 2460, ../sass/styles.scss */
 .mobile-bar > a:focus,
 .mobile-bar > a:hover {
   background-color: #777;
   outline: 0;
 }
 
-/* line 2460, ../sass/styles.scss */
+/* line 2465, ../sass/styles.scss */
 .mobile-bar > a:focus {
   border-color: #ccc;
 }
 
-/* line 2463, ../sass/styles.scss */
+/* line 2468, ../sass/styles.scss */
 .mobile-bar > a:active,
 .mobile-bar > a.menu-button-active {
   background-color: #369;
 }
 
-/* line 2468, ../sass/styles.scss */
+/* line 2473, ../sass/styles.scss */
 .mobile-bar > .mobile-home {
   height: 44px;
   padding: 0;
 }
 
-/* line 2472, ../sass/styles.scss */
+/* line 2477, ../sass/styles.scss */
 .mobile-home-icon {
   background: url("../images/icons.png") no-repeat 0 -52px;
   color: transparent;
@@ -12968,14 +12973,14 @@ th.views-field-field-prog-tracker-app {
   width: 44px;
 }
 
-/* line 2482, ../sass/styles.scss */
+/* line 2487, ../sass/styles.scss */
 .menu-button {
   font-weight: bold;
   padding: 0 1em;
   text-decoration: none;
 }
 
-/* line 2488, ../sass/styles.scss */
+/* line 2493, ../sass/styles.scss */
 .mobile-nav .mobile-links {
   background: #000;
   border: 0;
@@ -12986,7 +12991,7 @@ th.views-field-field-prog-tracker-app {
   z-index: 100;
 }
 
-/* line 2498, ../sass/styles.scss */
+/* line 2503, ../sass/styles.scss */
 .mobile-nav .mobile-links a {
   background: transparent;
   font-weight: bold;
@@ -12995,7 +13000,7 @@ th.views-field-field-prog-tracker-app {
   padding: 0 1em;
 }
 
-/* line 2505, ../sass/styles.scss */
+/* line 2510, ../sass/styles.scss */
 .mobile-nav .mobile-links a:focus,
 .mobile-nav .mobile-links a:hover,
 .mobile-nav .mobile-links a:active {
@@ -13003,24 +13008,24 @@ th.views-field-field-prog-tracker-app {
   color: #fff;
 }
 
-/* line 2511, ../sass/styles.scss */
+/* line 2516, ../sass/styles.scss */
 .mobile-nav .mobile-links a:focus {
   border-color: #ddd;
   outline: 0;
 }
 
-/* line 2516, ../sass/styles.scss */
+/* line 2521, ../sass/styles.scss */
 .mobile-nav .mobile-links a:after {
   content: '>';
   float: right;
 }
 
-/* line 2521, ../sass/styles.scss */
+/* line 2526, ../sass/styles.scss */
 .mobile-nav .sub-menu {
   padding-left: 1em;
 }
 
-/* line 2525, ../sass/styles.scss */
+/* line 2530, ../sass/styles.scss */
 .js .simple-nav,
 .main-nav,
 .secondary-nav {
@@ -13028,19 +13033,19 @@ th.views-field-field-prog-tracker-app {
 }
 
 @media screen and (min-width: 40em) {
-  /* line 2531, ../sass/styles.scss */
+  /* line 2536, ../sass/styles.scss */
   #mobile-nav {
     display: none;
   }
 
-  /* line 2534, ../sass/styles.scss */
+  /* line 2539, ../sass/styles.scss */
   .js .simple-nav,
   .main-nav,
   .secondary-nav {
     display: block;
   }
 }
-/* line 2541, ../sass/styles.scss */
+/* line 2546, ../sass/styles.scss */
 .ui-dialog-titlebar .ui-button-text {
   padding: 0;
   clip: rect(1px, 1px, 1px, 1px);
@@ -13048,7 +13053,7 @@ th.views-field-field-prog-tracker-app {
 }
 
 /** Additional Styling for Responsive Grid Layout**/
-/* line 2547, ../sass/styles.scss */
+/* line 2552, ../sass/styles.scss */
 .panel-grid {
   margin-top: 1em;
 }
