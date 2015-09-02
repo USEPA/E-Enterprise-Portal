@@ -65,24 +65,6 @@ function suggestion_box_form($form, &$form_state) {
 
   global $user;
 
-  // drupal_add_js(array(
-  //   'suggestion-box-modal-style' => array(
-  //     'modalSize' => array(
-  //       'type' => 'fixed',
-  //       'width' => 250,
-  //       'height' => 250,
-  //     ),
-  //   ),
-  // ), 'setting');
-
-  $form['#attached']['js'] = array(
-    drupal_get_path('module', 'suggestion_box') . '/js/suggestion_box_modal.js',
-  );
-
-  $form['#attached']['css'] = array(
-    drupal_get_path('module', 'suggestion_box') . '/css/suggestion_box_modal.css',
-  );
-
   $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
@@ -330,5 +312,8 @@ function configure_ctools_popup() {
        );
        drupal_add_js($popup_style, 'setting'); // Adding the preferences
        ctools_add_js('ee_ctools_popup_style', 'suggestion_box'); // Adding the theme
+
+       drupal_add_js(drupal_get_path('module', 'suggestion_box') . '/js/suggestion_box_modal.js');
+       drupal_add_css(drupal_get_path('module', 'suggestion_box') . '/css/suggestion_box_modal.css');
    }
 }
