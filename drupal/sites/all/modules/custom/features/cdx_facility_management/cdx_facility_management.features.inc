@@ -89,54 +89,7 @@ function cdx_facility_management_iframe()
 
 function return_cdx_facility_management_token()
 {
-    //USER ROLE ID = 84401 from test
-    // USER ROLE ID = 86357 from dev
-//    $user_type = variable_get('cdx_user_type');
-//    if ($user_type != 'CDX') {
-//        exit();
-////    }
-
-//
-//    global $user;
-//    $_SESSION['userId'] = 'Franklipman';
-//    $_SESSION['cdx_user_type'] = 'cdx';
-//
-//    $user_id = 'Franklipman';
-//    try {
-//        // $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
-//        $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
-//        https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl
-//    } catch (SoapFault $f) {
-//        var_dump($f);
-//        return;
-//    }
-//    $params = array(
-//        "userId" => $user_id,
-//        "credential" => 'Cville77',
-//        "domain" => "default",
-//        "authenticationMethod" => "password",
-//    );
-//    try {
-//        //Authenticate to CDX
-//        $response = $client->__soapCall("Authenticate", array($params));
-//        $token = $response->securityToken;
-//        $server_ip = variable_get('frs_api_lookup_ip');
-//        $json_return = array(
-//            'token' => $token,
-//            'server_ip' => $server_ip,
-//        );
-//
-//    } catch (SoapFault $f) {
-//        var_dump($f);
-//        watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
-//    }
-//    user_save($user, array('cdx_fmw_security_token' => $token));
-
-
-
-//    global $user;
     $token = $_SESSION['cdx_fmw_security_token'];
-//    $token = $user->cdx_fmw_security_token; //variable_get('cdx_fmw_security_token'); // retrieved from bridge
     $server_ip = variable_get('frs_api_lookup_ip');
     $json_return = array(
         'token' => $token,
@@ -227,7 +180,7 @@ function addCDXRole($json_return, $role, $org_id) {
 function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, $allowed_program_roles) {
     $org_id = $org_val->userOrganizationId;
     $org_name = $org_val->organizationName;
-
+    $org_contains_role = false;
     $json_return['organizations_to_roles'][$org_id] = array('name' => $org_name);
     $user_sec_org_bundle = array(
         "securityToken" => $token,
