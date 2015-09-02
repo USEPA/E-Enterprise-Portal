@@ -16,7 +16,8 @@
 
 @media (min-width: 1200px) {
     .cdx_facility_management_block {
-        min-width: 1200px;
+        min-width: 1000px;
+        max-width: 1000px;
     }
 }
 

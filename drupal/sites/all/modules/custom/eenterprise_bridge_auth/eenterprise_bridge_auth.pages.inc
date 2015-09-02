@@ -136,10 +136,13 @@ function eenterprise_bridge_auth_authenticate($error)
                         user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
                     } else {
                         assign_roles_to_user($uname);
-                        user_save($user, array('cdx_fmw_security_token' => $userDetails->attributes['securityToken'][0]));
-                        user_save($user, array('userId' => $userDetails->attributes['userId'][0]));
+                        $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
+                        $_SESSION['userId'] =  $userDetails->attributes['userId'][0];
+//                        user_save($user, array('cdx_fmw_security_token' => $userDetails->attributes['securityToken'][0]));
+//                        user_save($user, array('userId' => $userDetails->attributes['userId'][0]));
                     }
-                    user_save($user, array('cdx_user_type' => $public_or_cdx));
+//                    user_save($user, array('cdx_user_type' => $public_or_cdx));
+                    $_SESSION['cdx_user_type'] = $public_or_cdx;
                 }
             } else {
                 //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
@@ -151,8 +154,11 @@ function eenterprise_bridge_auth_authenticate($error)
                 user_save($user, array('mail' => $userDetails->attributes['email'][0]));
                 try {
                     if ($public_or_cdx == 'cdx') {
-                        user_save($user, array('cdx_fmw_security_token' => $userDetails->attributes['securityToken'][0]));
-                        user_save($user, array('userId' => $userDetails->attributes['userId'][0]));
+//                        user_save($user, array('cdx_fmw_security_token' => $userDetails->attributes['securityToken'][0]));
+//                        user_save($user, array('userId' => $userDetails->attributes['userId'][0]));
+                        $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
+                        $_SESSION['userId'] =  $userDetails->attributes['userId'][0];
+
                     }
                 } catch (Exception $e) {
                     dpm($e);
