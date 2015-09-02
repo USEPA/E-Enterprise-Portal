@@ -23,8 +23,7 @@ print render($form['account']['mail']);
 <h3>Locations of Interest</h3>
 <p class="eenterprise-utility-form-item-description-p">
 <?php
-    $location_description = "Add your locations of interest to see environmental information relevant to those areas. Select your primary location
-	by clicking the <i class='fa fa-key description-key'></i> icon. <br />";
+    $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon next to a location to make it your default location.</strong> <br />";
 $geolocation = false;
 if (isset($_SESSION['geolocation_used'])) {
     if ($_SESSION['geolocation_used'] == 'true') {
