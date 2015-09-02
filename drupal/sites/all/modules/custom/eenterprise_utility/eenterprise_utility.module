@@ -537,7 +537,7 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
                             }
                         }
                         else if ( zip_code_lookup($zip_val)['city'] == ''){
-                           // dpm($form);
+                            // dpm($form);
                             $error = true;
                             $error_message = 'The ZIP code you entered could not be found';
                             if (!in_array($error_message, $error_messages)) {
@@ -748,7 +748,7 @@ function generate_location_select()
 
     // Check if saved default_zip was used. If not, it is a session variable that has not been saved yet.
     // Add the value to the location selection
-    if ($default_zip_used == false) {
+    if ($default_zip_used == false && !empty($default_zip)) {
         print "<option value='" . $default_zip . "' selected>" . $default_name . "</option>";
     }
 
@@ -762,14 +762,14 @@ function generate_location_select()
 }
 
 function generate_location_input_for_guests() {
-  print '<div class="form-inline">';
-  print '<div class="form-group has-feedback">';
-  print '<label class="control-label" for="location-input-guests">Enter zip code</label>';
-  print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error" style="height:23px;vertical-align: top">';
-  print '<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" style="top:-2px"></span>';
+    print '<div class="form-inline">';
+    print '<div class="form-group has-feedback">';
+    print '<label class="control-label" for="location-input-guests">Enter zip code</label>';
+    print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error" style="height:23px;vertical-align: top">';
+    print '<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" style="top:-2px"></span>';
 //  print '<span id="location-input-guests-error" class="sr-only">(success)</span>';
-  print '</div>';
-  print '</div>';
+    print '</div>';
+    print '</div>';
 }
 
 
@@ -793,13 +793,12 @@ function eenterprise_utility_node_presave($node)
 
 function eenterprise_utility_views_query_alter(&$view, &$query){
     if ($view->name == 'to_do') {
-<<<<<<< HEAD
-        if(isset($view->exposed_raw_input) && $view->exposed_raw_input['field_todo_lst_due_value'] != ''){
-            $view->query->where[1]['conditions'][2]['operator'] = '>';
-=======
         if (isset($view->exposed_raw_input) && $view->exposed_raw_input['field_todo_lst_due_value'] != '') {
-            $view->query->where[1]['conditions'][2]['operator'] = '>=';
->>>>>>> da22322058e67623d6d6571bf0a446110febf9f6
+            foreach($query->where[1]['conditions'] as $key => $value){
+                if($value['field'] == 'field_data_field_todo_lst_due.field_todo_lst_due_value'){
+                    $view->query->where[1]['conditions'][$key]['operator'] = '>=';
+                }
+            }
             $view->args['week_filter_val'] = $view->exposed_raw_input['field_todo_lst_due_value'];
             date_default_timezone_set('America/New_York');
             if (substr($view->exposed_raw_input['field_todo_lst_due_value'], 0, 10) == date("Y-m-d")) {
@@ -838,9 +837,11 @@ function eenterprise_utility_views_query_alter(&$view, &$query){
         unset($query->table_queue['field_data_field_prog_track_rep_type_filter']);
         unset($query->tables['node']['field_data_field_prog_track_rep_type_filter']);
 
-        foreach ($query->where[1]['conditions'] as $key => $value)
-            if ($value['field'] == 'field_data_field_prog_track_rep_type_filter.field_prog_track_rep_type_filter_value')
+        foreach ($query->where[1]['conditions'] as $key => $value){
+            if ($value['field'] == 'field_data_field_prog_track_rep_type_filter.field_prog_track_rep_type_filter_value') {
                 unset($query->where[1]['conditions'][$key]);
+            }
+        }
         //get allowed values for field filter.
         $field_info = field_info_field('field_prog_track_rep_type_filter');
         $allowed_values = $field_info['settings']['allowed_values'];
@@ -848,10 +849,15 @@ function eenterprise_utility_views_query_alter(&$view, &$query){
             if (in_array($allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']], array('Firm Abatement', 'Firm RRP', 'Firm Combination'))) {
                 $res_val = explode(" ", $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']]);
                 $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $res_val[1] . '%', 'LIKE');
-            } else
+            }
+            else {
                 $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']] . '%', 'LIKE');
-        } else if (isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] == 'All')
+            }
+        }
+        else if (isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] == 'All') {
+            $query->add_table('field_data_field_prog_tracker_app');
             $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '% %', 'LIKE');
+        }
     }
 }
 
