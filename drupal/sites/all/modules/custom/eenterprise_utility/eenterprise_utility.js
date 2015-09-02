@@ -30,21 +30,31 @@
 	    var table  = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
 		var checkboxes = table.find('input[type=checkbox]');
 		var selection = table.find('input[type=checkbox]:checked');
-		checkboxes.after('<div class="zip-code-primary-holder"><i class="fa fa-key zip-code-primary-select"></i></div>');
+		checkboxes.after('<div class="zip-code-primary-holder"><i class="glyphicon glyphicon-star-empty zip-code-primary-select" title="Set to default location"></i></div>');
 		var primary_indicator = selection.next('.zip-code-primary-holder').find('.zip-code-primary-select');
 		primary_indicator.addClass('selected');
+		primary_indicator.removeClass('glyphicon-star-empty');
+		primary_indicator.addClass('glyphicon-star');
+		primary_indicator.prop('title', 'Default location');
 	}
 
       $('body').on('click', '.zip-code-primary-select', function() {
           $('.zip-code-primary-select.selected').removeClass('selected');
+          $('.zip-code-primary-select.glyphicon-star').removeClass('glyphicon-star');
           $('.zip-code-primary-select').closest('td').find('input[type=checkbox]:checked').prop('checked', false);
           var selected_icon = $(this);
           selected_icon.addClass('selected');
+          selected_icon.removeClass('glyphicon-star-empty');
+          selected_icon.addClass('glyphicon-star');
+          selected_icon.prop('title', 'Default location');
           selected_icon.closest('td').find('input[type=checkbox]').prop('checked', true);
       });
       $('body').on('click', '.zip-code-primary-select.selected', function() {
           var selected_icon = $(this);
           selected_icon.removeClass('selected');
+          selected_icon.removeClass('glyphicon-star');
+          selected_icon.addClass('glyphicon-star-empty');
+          selected_icon.prop('title', 'Set to default location');
           selected_icon.closest('td').find('input[type=checkbox]').prop('checked', false);
       });
 
