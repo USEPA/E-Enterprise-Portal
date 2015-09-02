@@ -149,8 +149,9 @@ function eenterprise_bridge_auth_authenticate($error)
                 //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
                 $user = $ext_user;
                 $form_state['uid'] = $user->uid;
+                    $_SESSION['cdx_user_type'] = $public_or_cdx;
 
-                user_login_submit(array(), $form_state);
+                    user_login_submit(array(), $form_state);
                 //To fix a bug where email address is not updated after users update their email address in CDX and login.
                 user_save($user, array('mail' => $userDetails->attributes['email'][0]));
                 try {
@@ -159,7 +160,6 @@ function eenterprise_bridge_auth_authenticate($error)
 //                        user_save($user, array('userId' => $userDetails->attributes['userId'][0]));
                         $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
                         $_SESSION['userId'] =  $userDetails->attributes['userId'][0];
-                        $_SESSION['cdx_user_type'] = $public_or_cdx;
                     }
 
                 } catch (Exception $e) {
