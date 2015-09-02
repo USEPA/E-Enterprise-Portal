@@ -160,6 +160,8 @@ function eenterprise_bridge_auth_authenticate($error)
                         $_SESSION['userId'] = $userDetails->attributes['userId'][0];
 
                     }
+                    $_SESSION['cdx_user_type'] = $public_or_cdx;
+
                 } catch (Exception $e) {
                     dpm($e);
                 }
@@ -722,8 +724,13 @@ function assign_roles_to_user($user_name)
 
 
 function eenterprise_bridge_auth_logout() {
+    if (isset($_SESSION['cdx_fmw_security_token'])) {
+        $_SESSION['cdx_fmw_security_token'] = '';
+    }
+    if (isset($_SESSION['userId'])) {
+        $_SESSION['userId'] = '';
+    }
     $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?bridge=1';
     $logout = variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($wreply);
-
     header("Location:$logout");
 }
