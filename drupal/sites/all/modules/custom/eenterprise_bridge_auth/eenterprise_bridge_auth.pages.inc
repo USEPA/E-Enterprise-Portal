@@ -734,3 +734,10 @@ function eenterprise_bridge_auth_logout() {
     $logout = variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($wreply);
     header("Location:$logout");
 }
+
+function refresh_todo_list(){
+    global $user;
+    create_progress_tracker($user);
+    drupal_set_message("To Do and Progress Tracker Data refreshed successfully");
+    drupal_goto('/workbench');
+}
