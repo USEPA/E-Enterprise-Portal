@@ -2188,11 +2188,8 @@ input[type="submit"],
 }
 
 .responsive-table thead th {
-  background-color: #1d96b2;
-
   font-weight: normal;
   text-align: center;
-  color: white;
 }
 
 .responsive-table tbody,
@@ -2277,9 +2274,6 @@ th.views-field-field-prog-tracker-app {
     color: #fff;
   }
 
-  .responsive-table td.views-field-counter {
-    display: none;
-  }
 }
 
 @media screen and (min-width:20em) and (max-width:959.99999px) {
@@ -2302,6 +2296,11 @@ th.views-field-field-prog-tracker-app {
 
   .responsive-table tbody td {
     text-align: left;
+  }
+
+
+  .responsive-table td.views-field-counter {
+    display: none;
   }
 }
 /*********** Tablet, iPad Landscape @ 768px ***********/
@@ -2389,10 +2388,6 @@ th.views-field-field-prog-tracker-app {
     color: #151515;
   }
 
-  .responsive-table td.views-field-counter {
-    display: none;
-  }
-
   .responsive-table tbody td[data-title="Item"] {
     text-align: left;
     background: inherit;
@@ -2411,10 +2406,6 @@ th.views-field-field-prog-tracker-app {
   .responsive-table th,
   .responsive-table td {
     padding: .75em;
-  }
-
-  .responsive-table td.views-field-counter {
-    display: block;
   }
 
   .responsive-table th,
@@ -2554,4 +2545,10 @@ th.views-field-field-prog-tracker-app {
 /** Additional Styling for Responsive Grid Layout**/
 .panel-grid {
   margin-top:1em;
+}
+
+/** Additional Styling for Global Changes**/
+h2.pane-title {
+  margin-top:10px;
+  margin-bottom: 0;
 }
