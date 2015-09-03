@@ -191,7 +191,6 @@ function return_location_data()
         $city = trim($location_array[0]);
         $state = trim($location_array[1]);
         $zips = frs_city_state_to_zip_code($city, $state);
-//        $zips['name_city_state'] = false;
         echo json_encode($zips);
     } else {
         $zip_lookup = zip_code_lookup($validation['postal_code']);
@@ -368,21 +367,6 @@ function frs_naas_autentication()
                 'resourceURI' => ''
             );
             $soap_type = 'CentralAuth';
-//        } else {
-//            $params = array(
-//                "userId" => $email,
-//                "credential" => $password,
-//                "domain" => variable_get('cdx_node_token_domain'),
-//                "authMethod" => variable_get('cdx_node_token_auth_method'),
-//                "trustee" => $email,
-//                "ip" => variable_get('frs_api_lookup_ip'),
-//                "subjectData" => "tbd",
-//                "subject" => "tbd",
-//                "issuer" => "EEP",
-//                "tokenType" => 'csm',
-//            );
-//            $soap_type = 'CreateSecurityToken';
-//        }
 
 
         $token = null;

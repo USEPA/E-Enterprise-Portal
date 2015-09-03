@@ -304,8 +304,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                 $delta = $trigger_array[4];
                 if ($trigger_array[5] == 'remove') {
                     if ($delta == 0) { // If first value clear out the input
-//               $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
-//                  $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_primary'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
                         unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE]);
                     } else {
                         unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE]);
@@ -432,20 +430,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
         }else {
             $zip_data = array();
         }
-//        } else {
-//            $db_result = db_select('air_now_city_zip_codes', 'n')
-//                ->fields('n')
-//                ->condition('zipcode', $zip, '=')
-//                ->execute()
-//                ->fetchAssoc();
-//            $zip_data = array(
-//                'state' => $db_result['State'],
-//                'city' => $db_result['City'],
-//                'longitude' => (float)$db_result['Longitude'],
-//                'latitude' => (float)$db_result['latitude'],
-//                'zip' => $zip
-//            );
-//        }
+
         // Create readable string for across site
         if (strlen($zip_data['city']) != 0) {
             $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
