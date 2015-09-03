@@ -110,7 +110,8 @@
 			}
 			placeAddAnotherButton(false, table_id, parent_id);
 		};
-	
+
+    $('#profile-tabs').tabs();
   }
 	
 	
