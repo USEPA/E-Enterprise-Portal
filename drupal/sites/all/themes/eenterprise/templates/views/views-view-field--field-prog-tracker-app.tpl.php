@@ -21,6 +21,7 @@
  * regardless of any changes in the aliasing that might happen if
  * the view is modified.
  */
+//dsm($view);
 ?>
 <?php print $output;
 if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)){
@@ -34,7 +35,9 @@ if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)
             <p><span class='modal-label'>Reporting Facility</span><br/> ".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']." (".$view->result[$view->row_index]->field_field_prog_track_facility_reg_id[0]['rendered']['#markup'].")</p>
             <p><span class='modal-label'>Report will be published on</span><br/><strong> " . $view->result[$view->row_index]->field_field_prog_track_updated[0]['rendered']['#markup']."</strong></p>
             <p><span class='modal-label'>Other Information</span><br/> ".$view->result[$view->row_index]->field_field_prog_track_part_code[0]['rendered']['#markup']." - ".$view->result[$view->row_index]->field_field_prog_track_part_name[0]['rendered']['#markup']."<br/>".$view->result[$view->row_index]->field_field_prog_track_sub_part_code[0]['rendered']['#markup']." - ".$view->result[$view->row_index]->field_field_prog_track_sub_part_name[0]['rendered']['#markup']."</div>";
-    print "<br><a href='.' class='simple-dialog' id='details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Item Details'>Details</a>";
+
+    $title_value = $view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup'];
+    print "<br><a href='.' class='simple-dialog' id='details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Details for ".$title_value."'>Details</a>";
 }
 else if(!empty($view->result[$view->row_index]->field_field_prog_track_status_note)) {
     $unique_id = $view->query->pager->current_page.'-'.$view->row_index;
@@ -43,6 +46,7 @@ else if(!empty($view->result[$view->row_index]->field_field_prog_track_status_no
             <p><span class='modal-label'>Status</span><br/><strong> " . $view->result[$view->row_index]->field_field_prog_track_status[0]['rendered']['#markup']."</strong></p>
             <p><span class='modal-label'>Status Note</span><br/> ".$view->result[$view->row_index]->field_field_prog_track_status_note[0]['rendered']['#markup']."</p><br/><p>Please contact the Lead Hotline at 1-800-424-LEAD [5323] if you have any questions about the status of your application.</p>
           </div>";
-    print "<br/><a href='.' class='simple-dialog' id='details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Status Note'>Details</a>";
+    $title_value = $view->result[$view->row_index]->field_field_prog_tracker_app[0]['rendered']['#markup'];
+    print "<br/><a href='.' class='simple-dialog' id='details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-prog-track-" . $unique_id . "' title='Details for ".$title_value."'>Details</a>";
 }
 ?>

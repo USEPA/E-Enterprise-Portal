@@ -9934,7 +9934,7 @@ tr.selected td {
 /* line 803, ../sass/components/_misc.scss */
 .progress .filled {
   background-color: #0072b9;
-  background-image: url('../images/progress.gif?1440173543');
+  background-image: url('../images/progress.gif?1440091738');
 }
 
 /**
@@ -12673,13 +12673,11 @@ input[type="submit"],
 
 /* line 2198, ../sass/styles.scss */
 .responsive-table thead th {
-  background-color: #1d96b2;
   font-weight: normal;
   text-align: center;
-  color: white;
 }
 
-/* line 2206, ../sass/styles.scss */
+/* line 2203, ../sass/styles.scss */
 .responsive-table tbody,
 .responsive-table tr,
 .responsive-table th,
@@ -12689,14 +12687,14 @@ input[type="submit"],
   white-space: normal;
 }
 
-/* line 2215, ../sass/styles.scss */
+/* line 2212, ../sass/styles.scss */
 .responsive-table th,
 .responsive-table td {
   padding: .5em;
   vertical-align: top;
 }
 
-/* line 2222, ../sass/styles.scss */
+/* line 2219, ../sass/styles.scss */
 .responsive-table caption {
   margin-bottom: 1em;
   font-size: 1em;
@@ -12704,18 +12702,18 @@ input[type="submit"],
   text-align: center;
 }
 
-/* line 2228, ../sass/styles.scss */
+/* line 2225, ../sass/styles.scss */
 .responsive-table tfoot {
   font-size: .8em;
   font-style: italic;
 }
 
-/* line 2233, ../sass/styles.scss */
+/* line 2230, ../sass/styles.scss */
 .responsive-table tbody tr:last-of-type {
   margin-bottom: 0;
 }
 
-/* line 2237, ../sass/styles.scss */
+/* line 2234, ../sass/styles.scss */
 .responsive-table tbody td[data-title]:before {
   width: 11em;
   content: attr(data-title);
@@ -12724,75 +12722,70 @@ input[type="submit"],
   color: rgba(94, 93, 82, 0.75);
 }
 
-/* line 2245, ../sass/styles.scss */
+/* line 2242, ../sass/styles.scss */
 th.views-field-field-prog-tracker-app {
   width: 150px;
 }
 
 /*********** iPhone, some Android Portrait @ 320px***********/
 @media screen and (min-width: 20em) {
-  /* line 2252, ../sass/styles.scss */
+  /* line 2249, ../sass/styles.scss */
   .responsive-table {
     font-size: .9em;
     width: 100%;
   }
 
-  /* line 2257, ../sass/styles.scss */
+  /* line 2254, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em .5em;
     border-bottom: 1px solid #efefef;
   }
 
-  /* line 2263, ../sass/styles.scss */
+  /* line 2260, ../sass/styles.scss */
   .responsive-table tr,
   .responsive-table tr.even {
     border-bottom: 2px solid #606060;
     margin-bottom: 2em;
   }
 
-  /* line 2269, ../sass/styles.scss */
+  /* line 2266, ../sass/styles.scss */
   .responsive-table tbody td[data-title="Item"]:before {
     font-size: .9em;
     content: '';
   }
 
-  /* line 2274, ../sass/styles.scss */
+  /* line 2271, ../sass/styles.scss */
   .responsive-table tbody td[data-title="Item"] {
     text-align: left;
     color: #fff;
   }
 
-  /* line 2279, ../sass/styles.scss */
+  /* line 2276, ../sass/styles.scss */
   .views-field-field-prog-track-actions-dnload a:link,
   .views-field-field-prog-track-actions-dnload a:visited {
     color: #23537e;
   }
 
-  /* line 2284, ../sass/styles.scss */
+  /* line 2281, ../sass/styles.scss */
   .views-field-field-prog-track-actions-dnload a:hover {
     color: #fff;
   }
-
-  /* line 2288, ../sass/styles.scss */
-  .responsive-table td.views-field-counter {
-    display: none;
-  }
 }
 @media screen and (min-width: 20em) and (max-width: 959.99999px) {
-  /* line 2294, ../sass/styles.scss */
+  /* line 2288, ../sass/styles.scss */
   .responsive-table a.simple-dialog,
   td.responsive-to-do-link a {
     color: #fff;
     text-decoration: underline;
   }
 
-  /* line 2300, ../sass/styles.scss */
+  /* line 2294, ../sass/styles.scss */
   .responsive-table thead {
     display: none;
   }
 
-  /* line 2304, ../sass/styles.scss */
+  /* line 2298, ../sass/styles.scss */
   .responsive-table tbody td[scope="row"] {
     margin: 0;
     text-align: left;
@@ -12800,21 +12793,26 @@ th.views-field-field-prog-tracker-app {
     background-color: #606060;
   }
 
-  /* line 2311, ../sass/styles.scss */
+  /* line 2305, ../sass/styles.scss */
   .responsive-table tbody td {
     text-align: left;
+  }
+
+  /* line 2310, ../sass/styles.scss */
+  .responsive-table td.views-field-counter {
+    display: none;
   }
 }
 /*********** Tablet, iPad Landscape @ 768px ***********/
 @media screen and (min-width: 48em) {
-  /* line 2317, ../sass/styles.scss */
+  /* line 2316, ../sass/styles.scss */
   .responsive-table {
     width: 100%;
     margin-bottom: 1.5em;
     font-size: 1em;
   }
 
-  /* line 2323, ../sass/styles.scss */
+  /* line 2322, ../sass/styles.scss */
   .responsive-table thead {
     position: relative;
     clip: auto;
@@ -12823,94 +12821,89 @@ th.views-field-field-prog-tracker-app {
     overflow: auto;
   }
 
-  /* line 2331, ../sass/styles.scss */
+  /* line 2330, ../sass/styles.scss */
   .responsive-table tr {
     display: table-row;
   }
 
-  /* line 2335, ../sass/styles.scss */
+  /* line 2334, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     display: table-cell;
     padding: .5em;
   }
 
-  /* line 2341, ../sass/styles.scss */
+  /* line 2340, ../sass/styles.scss */
   .responsive-table caption {
     font-size: 1.5em;
   }
 
-  /* line 2345, ../sass/styles.scss */
+  /* line 2344, ../sass/styles.scss */
   .responsive-table tbody {
     display: table-row-group;
   }
 
-  /* line 2349, ../sass/styles.scss */
+  /* line 2348, ../sass/styles.scss */
   .responsive-table tbody tr {
     margin-bottom: 1em;
   }
 
-  /* line 2354, ../sass/styles.scss */
+  /* line 2353, ../sass/styles.scss */
   .responsive-table tbody tr {
     display: table-row;
     border-width: 1px;
   }
 
-  /* line 2359, ../sass/styles.scss */
+  /* line 2358, ../sass/styles.scss */
   .responsive-table tbody th[scope="row"] {
     background-color: transparent;
     color: #151515;
     text-align: left;
   }
 
-  /* line 2365, ../sass/styles.scss */
+  /* line 2364, ../sass/styles.scss */
   .responsive-table tbody td[data-type=currency] {
     text-align: right;
   }
 
-  /* line 2369, ../sass/styles.scss */
+  /* line 2368, ../sass/styles.scss */
   .responsive-table tbody td[data-title]:before {
     content: none;
   }
 
-  /* line 2373, ../sass/styles.scss */
+  /* line 2372, ../sass/styles.scss */
   .responsive-table tr, .responsive-table tr.even {
     border-bottom: none;
     margin-bottom: 2em;
   }
 
-  /* line 2378, ../sass/styles.scss */
+  /* line 2377, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em .5em;
     border: none;
   }
 
-  /* line 2384, ../sass/styles.scss */
+  /* line 2383, ../sass/styles.scss */
   td.responsive-to-do-link a,
   td.views-field-field-prog-track-actions-dnload a {
     color: #23537e;
     text-decoration: none;
   }
 
-  /* line 2390, ../sass/styles.scss */
+  /* line 2389, ../sass/styles.scss */
   td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
     color: #ffffff;
     background-color: #606060;
   }
 
-  /* line 2395, ../sass/styles.scss */
+  /* line 2394, ../sass/styles.scss */
   .responsive-table tbody th[scope="row"] {
     background-color: transparent;
     color: #151515;
   }
 
-  /* line 2400, ../sass/styles.scss */
-  .responsive-table td.views-field-counter {
-    display: none;
-  }
-
-  /* line 2404, ../sass/styles.scss */
+  /* line 2399, ../sass/styles.scss */
   .responsive-table tbody td[data-title="Item"] {
     text-align: left;
     background: inherit;
@@ -12919,36 +12912,31 @@ th.views-field-field-prog-tracker-app {
 }
 /*********** iPad Portrait and up @ 960px ***********/
 @media screen and (min-width: 60em) {
-  /* line 2413, ../sass/styles.scss */
+  /* line 2408, ../sass/styles.scss */
   .responsive-table {
     width: 100%;
     margin-bottom: 1.5em;
     font-size: 1em;
   }
 
-  /* line 2419, ../sass/styles.scss */
+  /* line 2414, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em;
   }
 
-  /* line 2424, ../sass/styles.scss */
-  .responsive-table td.views-field-counter {
-    display: block;
-  }
-
-  /* line 2428, ../sass/styles.scss */
+  /* line 2419, ../sass/styles.scss */
   .responsive-table th,
   .responsive-table td {
     padding: .75em .5em;
   }
 
-  /* line 2433, ../sass/styles.scss */
+  /* line 2424, ../sass/styles.scss */
   .responsive-table tfoot {
     font-size: .9em;
   }
 }
-/* line 2438, ../sass/styles.scss */
+/* line 2429, ../sass/styles.scss */
 .mobile-nav a {
   border: 2px solid transparent;
   border-radius: 4px;
@@ -12959,7 +12947,7 @@ th.views-field-field-prog-tracker-app {
   text-decoration: none;
 }
 
-/* line 2448, ../sass/styles.scss */
+/* line 2439, ../sass/styles.scss */
 .mobile-bar {
   background-color: #000;
   background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
@@ -12971,7 +12959,7 @@ th.views-field-field-prog-tracker-app {
   height: 3.375em;
 }
 
-/* line 2458, ../sass/styles.scss */
+/* line 2449, ../sass/styles.scss */
 .mobile-bar > a {
   background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 45%, rgba(0, 0, 0, 0.05) 55%, rgba(0, 0, 0, 0.1) 100%);
   background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 45%, rgba(0, 0, 0, 0.05) 55%, rgba(0, 0, 0, 0.1) 100%);
@@ -12986,31 +12974,31 @@ th.views-field-field-prog-tracker-app {
   padding: 0 1em;
 }
 
-/* line 2471, ../sass/styles.scss */
+/* line 2462, ../sass/styles.scss */
 .mobile-bar > a:focus,
 .mobile-bar > a:hover {
   background-color: #777;
   outline: 0;
 }
 
-/* line 2476, ../sass/styles.scss */
+/* line 2467, ../sass/styles.scss */
 .mobile-bar > a:focus {
   border-color: #ccc;
 }
 
-/* line 2479, ../sass/styles.scss */
+/* line 2470, ../sass/styles.scss */
 .mobile-bar > a:active,
 .mobile-bar > a.menu-button-active {
   background-color: #369;
 }
 
-/* line 2484, ../sass/styles.scss */
+/* line 2475, ../sass/styles.scss */
 .mobile-bar > .mobile-home {
   height: 44px;
   padding: 0;
 }
 
-/* line 2488, ../sass/styles.scss */
+/* line 2479, ../sass/styles.scss */
 .mobile-home-icon {
   background: url("../images/icons.png") no-repeat 0 -52px;
   color: transparent;
@@ -13021,14 +13009,14 @@ th.views-field-field-prog-tracker-app {
   width: 44px;
 }
 
-/* line 2498, ../sass/styles.scss */
+/* line 2489, ../sass/styles.scss */
 .menu-button {
   font-weight: bold;
   padding: 0 1em;
   text-decoration: none;
 }
 
-/* line 2504, ../sass/styles.scss */
+/* line 2495, ../sass/styles.scss */
 .mobile-nav .mobile-links {
   background: #000;
   border: 0;
@@ -13039,7 +13027,7 @@ th.views-field-field-prog-tracker-app {
   z-index: 100;
 }
 
-/* line 2514, ../sass/styles.scss */
+/* line 2505, ../sass/styles.scss */
 .mobile-nav .mobile-links a {
   background: transparent;
   font-weight: bold;
@@ -13048,7 +13036,7 @@ th.views-field-field-prog-tracker-app {
   padding: 0 1em;
 }
 
-/* line 2521, ../sass/styles.scss */
+/* line 2512, ../sass/styles.scss */
 .mobile-nav .mobile-links a:focus,
 .mobile-nav .mobile-links a:hover,
 .mobile-nav .mobile-links a:active {
@@ -13056,24 +13044,24 @@ th.views-field-field-prog-tracker-app {
   color: #fff;
 }
 
-/* line 2527, ../sass/styles.scss */
+/* line 2518, ../sass/styles.scss */
 .mobile-nav .mobile-links a:focus {
   border-color: #ddd;
   outline: 0;
 }
 
-/* line 2532, ../sass/styles.scss */
+/* line 2523, ../sass/styles.scss */
 .mobile-nav .mobile-links a:after {
   content: '>';
   float: right;
 }
 
-/* line 2537, ../sass/styles.scss */
+/* line 2528, ../sass/styles.scss */
 .mobile-nav .sub-menu {
   padding-left: 1em;
 }
 
-/* line 2541, ../sass/styles.scss */
+/* line 2532, ../sass/styles.scss */
 .js .simple-nav,
 .main-nav,
 .secondary-nav {
@@ -13081,19 +13069,19 @@ th.views-field-field-prog-tracker-app {
 }
 
 @media screen and (min-width: 40em) {
-  /* line 2547, ../sass/styles.scss */
+  /* line 2538, ../sass/styles.scss */
   #mobile-nav {
     display: none;
   }
 
-  /* line 2550, ../sass/styles.scss */
+  /* line 2541, ../sass/styles.scss */
   .js .simple-nav,
   .main-nav,
   .secondary-nav {
     display: block;
   }
 }
-/* line 2557, ../sass/styles.scss */
+/* line 2548, ../sass/styles.scss */
 .ui-dialog-titlebar .ui-button-text {
   padding: 0;
   clip: rect(1px, 1px, 1px, 1px);
@@ -13101,7 +13089,14 @@ th.views-field-field-prog-tracker-app {
 }
 
 /** Additional Styling for Responsive Grid Layout**/
-/* line 2563, ../sass/styles.scss */
+/* line 2554, ../sass/styles.scss */
 .panel-grid {
   margin-top: 1em;
+}
+
+/** Additional Styling for Global Changes**/
+/* line 2559, ../sass/styles.scss */
+h2.pane-title {
+  margin-top: 10px;
+  margin-bottom: 0;
 }
