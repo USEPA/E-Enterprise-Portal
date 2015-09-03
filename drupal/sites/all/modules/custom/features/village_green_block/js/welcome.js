@@ -3,7 +3,19 @@
     var VillageGreen = STI.namespace('VillageGreen');
     var VillageGreenDAL = VillageGreen.VillageGreenDAL;    
     var currentInterval = 60;
-    var currentIntervalID; 
+    var currentIntervalID;
+
+    var windDirectionMap = {
+        N: "North",
+        S: "South",
+        E: "East",
+        W: "West",
+        NE: "Northeast",
+        SE: "Southeast",
+        NW: "Northwest",
+        SW: "Southwest",
+        "": ""
+    }
   
     var PageController = {
         initializeMap : function() {
@@ -52,7 +64,11 @@
             $(".curWSReading").html(data.curWSValue);
             $(".curHumidReading").html(data.curHumValue);
             $(".curTempReading").html(data.curTempValue);
-            $(".curWDReading").html(PageController.getWindDirection(data.curWDValue));           
+
+            var windDirection = PageController.getWindDirection(data.curWDValue);
+
+            $(".curWDReading").html(windDirection);
+            $(".curWDReading").attr("title", windDirectionMap[windDirection]);
 
             var currentDateString = data.currentDateTime;
             currentDateString = currentDateString + ' ' + data.timezone;
