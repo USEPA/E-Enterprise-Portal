@@ -234,7 +234,7 @@
                     return $.inArray(this.innerHTML, lead_list) == -1
                 }).remove();
             }
-            var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc","Subpart III", "Subpart JJJJ", "- Any -"];
+            var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc","Subpart IIII", "Subpart JJJJ", "- Any -"];
             if($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 60') {
                 $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
                 $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
@@ -388,7 +388,7 @@
                 $('#edit-field-todo-lst-part-code-value-wrapper').show();
             }
 
-            var todo_part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc","Subpart III", "Subpart JJJJ", "- Any -"];
+            var todo_part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc","Subpart IIII", "Subpart JJJJ", "- Any -"];
             if($("#edit-field-todo-lst-part-code-value").length && $("#edit-field-todo-lst-part-code-value").val().trim() == 'Part 60') {
                 $('#edit-field-todo-lst-sub-part-code-value-wrapper').show();
                 $('#edit-field-todo-lst-sub-part-code-value option').filter(function () {
