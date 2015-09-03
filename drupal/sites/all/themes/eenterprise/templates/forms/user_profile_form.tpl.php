@@ -46,6 +46,7 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
         print render($form['field_zip_code']);
         ?>
       </div>
+      <div style="clear:both"></div>
     </div>
     <div id="profile-favorites">
       <h3>Favorite Links</h3>
