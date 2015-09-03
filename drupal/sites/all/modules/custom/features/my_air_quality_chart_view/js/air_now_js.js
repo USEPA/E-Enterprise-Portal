@@ -16,7 +16,7 @@
       activate: function(e, ui) {
         //map tab activated
         if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {
-          console.log("map tab activated");
+          //console.log("map tab activated");
           updateMarker();
         }
       }
@@ -31,7 +31,6 @@
         markers = new L.FeatureGroup();
         map.addLayer(markers);
         updateMarker();
-
       }
       //original map load so markers are added via other method in map creation
       else {
@@ -55,28 +54,31 @@
 
     var aqiLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
-      opacity: 0.5
+      opacity: 0.5,
+      position: 'back'
     }).addTo(map);
 
     var AQSMonitorLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OEI/FRS_AQSTemp/MapServer",
-      opacity: 1.0
+      opacity: 1.0,
+      position: 'front'
     });
 
     //AQSMonitorLayer.on("load", function() {});
 
     map.addLayer(AQSMonitorLayer);
 
-    var AQSpopupTemplate = "<h3>AQS ID: {PGM_SYS_ID}</h3><br><small><small>";
-
     AQSMonitorLayer.bindPopup(function(error, featureCollection) {
       if (error || featureCollection.features.length === 0) {
         return false;
       } else {
-        return 'AQS Monitor ID: ' + featureCollection.features[0].properties.PGM_SYS_ID;
+        var clickedFeatureProps = featureCollection.features[0].properties;
+        return 'Air Monitor Popup Placeholder';
+        //console.log(clickedFeatureProps);
+        //console.log(queryForAirMonPopup(clickedFeatureProps.LATITUDE, clickedFeatureProps.LONGITUDE));
+        //return queryForAirMonPopup(clickedFeatureProps.LATITUDE, clickedFeatureProps.LONGITUDE);
       }
     });
-
 
     var stateBoundaries = L.esri.dynamicMapLayer({
       url: 'https://gispub.epa.gov/arcgis/rest/services/ORD/ROE_StateBoundaries/MapServer',
@@ -86,9 +88,75 @@
 
     map.fitBounds(stateBoundaries._map.getBounds());
 
+    //alternate popup method
+    /*
+    map.on('click', function(e) {
+      AQSMonitorLayer.identify().on(map).at(e.latlng).run(function(error, featureCollection) {
+        console.log(e.latlng);
+        if (featureCollection.features.length > 0) {
+          identifiedFeature = L.geoJson(featureCollection.features[0], {
+            style: function() {
+              return {
+                color: '#5C7DB8',
+                weight: 2
+              };
+            }
+          }).addTo(map);
+          console.log(identifiedFeature);
+          //pane.innerHTML = featureCollection.features[0].properties.NAME1;
+        }
+      });
+    });
+    */
+
 
     return map;
   }
+
+  function queryForAirMonPopup(popupLat, popupLon) {
+    //query the public AirNow API using the lat/long of the Air Monitor location
+    $.ajax({
+      type: 'GET',
+      url: '/my_air_quality_map_view/api/current/latLong/',
+      async: false,
+      data: {
+        format: 'application/json',
+        latitude: '32.6460',
+        longitude: '-97.4248',
+        date: '2015-09-03',
+        distance: '50'
+      },
+      success: function(data, status, xhr) {
+        var resultJson = JSON.parse(data);
+        return populateAirMonPopup(resultJson);
+      }
+    }).fail(function(xhr, status) {
+      if (status == "error") {
+        console.log("Error in AirNow API request.");
+        return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
+      }
+    });
+
+  }
+
+  function populateAirMonPopup(airnowAPIResultData) {
+    console.log(airnowAPIResultData);
+    var AQSpopupContent = '<table>';
+    for (var i = 0; i < airnowAPIResultData.length; i++) {
+      console.log(airnowAPIResultData[i].ParameterName);
+      console.log(airnowAPIResultData[i].Category.Name);
+      var paramName = airnowAPIResultData[i].ParameterName;
+      var AQICategoryName = airnowAPIResultData[i].Category.Name;
+      var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
+      AQSpopupContent += row;
+    }
+    AQSpopupContent += '</table>';
+    console.log(AQSpopupContent);
+
+    return AQSpopupContent;
+  }
+
+
 
   function updateMarker() {
     if (currentZipData && currentZipData.latitude && currentZipData.longitude) {
@@ -103,8 +171,8 @@
       });
 
       marker.openPopup();
-      console.log(currentZipData.latitude);
-      console.log(currentZipData.longitude);
+      //console.log(currentZipData.latitude);
+      //console.log(currentZipData.longitude);
 
       map.panTo(new L.LatLng(currentZipData.latitude, currentZipData.longitude));
     }
