@@ -81,7 +81,14 @@
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
-      <?php print $empty; ?>
+      <?php
+        if(isset($_GET['field_todo_lst_due_value'])) {
+            print "You have no tasks matching the selected criteria.";
+        }
+        else {
+            print $empty;
+        }
+      ?>
     </div>
   <?php endif; ?>
 
