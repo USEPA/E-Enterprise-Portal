@@ -68,18 +68,15 @@
 
     map.addLayer(AQSMonitorLayer);
 
-    var AQSpopupTemplate = "<h3>AQS ID: {PGM_SYS_ID}</h3><br><small><small>";
-
-
     AQSMonitorLayer.bindPopup(function(error, featureCollection) {
-
       if (error || featureCollection.features.length === 0) {
         return false;
       } else {
         var clickedFeatureProps = featureCollection.features[0].properties;
-        queryForAirMonPopup(clickedFeatureProps.LATITUDE, clickedFeatureProps.LONGITUDE)
-        //
-        return 'AQS Monitor ID: ' + featureCollection.features[0].properties.PGM_SYS_ID;
+        return 'Air Monitor Popup Placeholder';
+        //console.log(clickedFeatureProps);
+        //console.log(queryForAirMonPopup(clickedFeatureProps.LATITUDE, clickedFeatureProps.LONGITUDE));
+        //return queryForAirMonPopup(clickedFeatureProps.LATITUDE, clickedFeatureProps.LONGITUDE);
       }
     });
 
@@ -118,31 +115,45 @@
 
   function queryForAirMonPopup(popupLat, popupLon) {
     //query the public AirNow API using the lat/long of the Air Monitor location
-    function queryAirNowAPIByLatLong(successCallback) {
-      $.ajax({
-        type: 'GET',
-        url: 'http://airnowapi.org/search/*',
-        async: true,
-        data: {
-          q: ' ',
-          f: 'json',
-          num: '100'
-        },
-        success: function(data, status, xhr) {
-          var resultJson = JSON.parse(data);
-          populateAirMonPopup(resultJson);
-        }
-      }).fail(function(xhr, status) {
-        if (status == "error") {
-          console.log("Error in AirNow API request.");
-          return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
-        }
-      });
-    }
+    $.ajax({
+      type: 'GET',
+      url: '/my_air_quality_map_view/api/current/latLong/',
+      async: false,
+      data: {
+        format: 'application/json',
+        latitude: '32.6460',
+        longitude: '-97.4248',
+        date: '2015-09-03',
+        distance: '50'
+      },
+      success: function(data, status, xhr) {
+        var resultJson = JSON.parse(data);
+        return populateAirMonPopup(resultJson);
+      }
+    }).fail(function(xhr, status) {
+      if (status == "error") {
+        console.log("Error in AirNow API request.");
+        return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
+      }
+    });
+
   }
 
   function populateAirMonPopup(airnowAPIResultData) {
+    console.log(airnowAPIResultData);
+    var AQSpopupContent = '<table>';
+    for (var i = 0; i < airnowAPIResultData.length; i++) {
+      console.log(airnowAPIResultData[i].ParameterName);
+      console.log(airnowAPIResultData[i].Category.Name);
+      var paramName = airnowAPIResultData[i].ParameterName;
+      var AQICategoryName = airnowAPIResultData[i].Category.Name;
+      var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
+      AQSpopupContent += row;
+    }
+    AQSpopupContent += '</table>';
+    console.log(AQSpopupContent);
 
+    return AQSpopupContent;
   }
 
 

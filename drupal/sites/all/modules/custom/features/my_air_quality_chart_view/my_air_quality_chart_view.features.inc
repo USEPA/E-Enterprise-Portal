@@ -38,8 +38,15 @@ function my_air_quality_chart_view_menu() {
   $items = array();
 
   $items['my_air_quality_chart_view/api/forecast/zipCode'] = array(
-    'title' => 'AirNow Forecast By Zip Code', 
+    'title' => 'AirNow Forecast By Zip Code',
     'page callback' => 'my_air_quality_chart_view_forecast_zipcode',
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['my_air_quality_map_view/api/current/latLong'] = array(
+    'title' => 'AirNow Current Conditions By Lat/Long',
+    'page callback' => 'my_air_quality_map_view_current_latlong',
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
@@ -58,7 +65,7 @@ function my_air_quality_chart_view_forecast_zipcode() {
   $url = 'http://www.airnowapi.org/aq/forecast/zipCode/?'.http_build_query($_GET);
 
   $ch = curl_init();
-  curl_setopt($ch, CURLOPT_HEADER, false); 
+  curl_setopt($ch, CURLOPT_HEADER, false);
   curl_setopt($ch, CURLINFO_HEADER_OUT, false);
   curl_setopt($ch, CURLOPT_VERBOSE, false);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -72,3 +79,31 @@ function my_air_quality_chart_view_forecast_zipcode() {
   print $response;
   exit;
 }
+
+
+/**
+ * Menu callback: View Current Conditions at Lat/Long from Air monitor location
+ */
+function my_air_quality_map_view_current_latlong() {
+
+  $_GET['API_KEY'] = 'C79940FE-7DE3-4388-9A75-F2CAF2940FCD'; // put this in a config field
+  $_GET['format'] = 'application/json';
+
+  $url = 'http://www.airnowapi.org/aq/observation/latLong/current/?'.http_build_query($_GET);
+
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_HEADER, false);
+  curl_setopt($ch, CURLINFO_HEADER_OUT, false);
+  curl_setopt($ch, CURLOPT_VERBOSE, false);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+  curl_setopt($ch, CURLOPT_URL, $url);
+
+  $response = curl_exec($ch);
+
+  curl_close($ch);
+
+  print $response;
+  exit;
+}
+
