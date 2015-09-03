@@ -5,6 +5,41 @@
  * When you turn on CSS aggregation at admin/config/development/performance, all
  * of these @include files will be combined into a single file.
  */
+@font-face {
+  font-family: Lato;
+  font-weight: 100;
+  font-style: normal;
+  src: url("../fonts/Lato/Lato-Thin.eot");
+  src: url("../fonts/Lato/Lato-Thin.woff2") format("woff2"), url("../fonts/Lato/Lato-Thin.woff") format("woff"), url("../fonts/Lato/Lato-Thin.ttf") format("truetype"), url("../fonts/Lato/Lato-Thin.svg#Lato") format("svg");
+}
+@font-face {
+  font-family: Lato;
+  font-weight: 200;
+  font-style: normal;
+  src: url("../fonts/Lato/Lato-Light.eot");
+  src: url("fonts/Lato-Light.woff2") format("woff2"), url("../fonts/Lato/Lato-Light.woff") format("woff"), url("../fonts/Lato/Lato-Light.ttf") format("truetype"), url("../fonts/Lato/Lato-Light.svg#Lato") format("svg");
+}
+@font-face {
+  font-family: Lato;
+  font-weight: 300;
+  font-style: normal;
+  src: url("../fonts/Lato/Lato-Regular.eot");
+  src: url("../fonts/Lato/Lato-Regular.woff2") format("woff2"), url("../fonts/Lato/Lato-Regular.woff") format("woff"), url("../fonts/Lato/Lato-Regular.ttf") format("truetype"), url("../fonts/Lato/Lato-Regular.svg#Lato") format("svg");
+}
+@font-face {
+  font-family: Lato;
+  font-weight: 400;
+  font-style: normal;
+  src: url("../fonts/Lato/Lato-Medium.eot");
+  src: url("../fonts/Lato/Lato-Medium.woff2") format("woff2"), url("../fonts/Lato/Lato-Medium.woff") format("woff"), url("../fonts/Lato/Lato-Medium.ttf") format("truetype"), url("../fonts/Lato/Lato-Medium.svg#Lato") format("svg");
+}
+@font-face {
+  font-family: Lato;
+  font-weight: 600;
+  font-style: normal;
+  src: url("../fonts/Lato/Lato-Bold.eot");
+  src: url("../fonts/Lato/Lato-Bold.woff2") format("woff2"), url("../fonts/Lato/Lato-Bold.woff") format("woff"), url("../fonts/Lato/Lato-Bold.ttf") format("truetype"), url("../fonts/Lato/Lato-Bold.svg#Lato") format("svg");
+}
 /**
  * @file
  * Normalize.css is intended to be used as an alternative to CSS resets.
@@ -11101,12 +11136,8 @@ tr.odd, tr.even {
 }
 
 /* line 949, ../sass/styles.scss */
-.view-to-do .views-exposed-form .views-widget-filter-field_todo_lst_due_value{
-    display:none !important;
-}
-
-.view-to-do .views-exposed-form .views-widget-filter-field_todo_lst_part_code_value{
-    display:block;
+.view-to-do .views-exposed-form {
+  display: none;
 }
 
 @media screen and (min-width: 30em) {
