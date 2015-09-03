@@ -851,9 +851,11 @@ function eenterprise_utility_views_query_alter(&$view, &$query){
         if (isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] != 'All') {
             if (in_array($allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']], array('Firm Abatement', 'Firm RRP', 'Firm Combination'))) {
                 $res_val = explode(" ", $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']]);
+                $query->add_table('field_data_field_prog_tracker_app');
                 $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $res_val[1] . '%', 'LIKE');
             }
             else {
+                $query->add_table('field_data_field_prog_tracker_app');
                 $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']] . '%', 'LIKE');
             }
         }
