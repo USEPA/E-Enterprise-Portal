@@ -1078,6 +1078,15 @@ tr.odd, tr.even {
   content: "\00BB|";
 }
 
+.pane-views-cdx-facility-management-block {
+	p {
+		font-size: 0.85em;
+	}
+	#fmw-organization-select-holder, #fmw-program-select-holder, #fmw-type-select-holder {
+		margin: 0 15px 10px 0;
+	}
+}
+
 @media screen and (min-width: 45em) {
 	#benefits {
 		li {
