@@ -67,7 +67,7 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
             <div class="marginBottom-10 col-xs-12 col-sm-8 col-md-8 col-lg-8" style="padding:0">
 
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <label>Last update</label>
+                <label>Latest reading</label>
                     <span class="currentObsDate"></span>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
