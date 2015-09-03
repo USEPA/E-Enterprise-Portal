@@ -78,8 +78,18 @@
 
                 // for guests users, request location
                 if ($locationInput.size() > 0) {
+
+                    var waitTime = 10000;
+                    var accepted = false;
+
+                    function setDefaultZip() {
+                        $locationInput.val(defaultZip);
+                        $(document).trigger("ee:zipCodeChanged", {zip: defaultZip });
+                    }
+
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(function(position) {
+                            accepted = true;
                             $.ajax({
                                 url: '/return_location_data_lat_long',
                                 type: 'GET',
@@ -111,10 +121,15 @@
                                 }
                             });
                         }, function() {
-                            $locationInput.val(defaultZip);
-                            $(document).trigger("ee:zipCodeChanged", {zip: defaultZip});
+                            setDefaultZip();
                         });
                     }
+
+                    var t = setTimeout(function() {
+                        if (!accepted) {
+                            setDefaultZip();
+                        }
+                    }, waitTime);
                 }
             });
         }
