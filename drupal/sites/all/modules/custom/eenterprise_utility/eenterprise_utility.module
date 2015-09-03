@@ -893,3 +893,27 @@ function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars)
         'rows' => $rows,
     ));
 }
+
+/*
+ * Provides logic for generating default zip statement in user  profile. Inform the user wheter their default location
+ * is their current location (if allowed), Durham, NC.
+ */
+//
+//function default_location_information_statement() {
+//    $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon next to a location to make it your default location.</strong> <br />";
+//    $geolocation = false;
+//
+//    // This is only set on first time user login
+//    if (isset($_SESSION['geolocation_used'])) {
+//        if ($_SESSION['initial_geolocation_used'] == 'true') {
+//            $geolocation = true;
+//            $location_description .=  '<span id="message-holder"></span>';
+//        }
+//    }
+//    if ($geolocation == false) {
+//        $location_description  .=  '<span id="message-holder">Until a location is specified, the default location is set to Durham, North Carolina.</span>';
+//    }
+//    print $location_description;
+//
+//
+//}

@@ -1429,9 +1429,17 @@ form[id^='user-profile-form'] {
 	}
 	.form-type-textfield {
 		margin-right:20px;
-		min-width: 140px;
+		min-width: 330px;
 		max-width:20em;
 	}
+
+  .field-suffix.error {
+    color: red;
+  }
+
+  .city-state-lookup-zips {
+    float: left;
+  }
 	.form-type-textfield.form-item-mail input {
 		width:20em;
 		margin-bottom:10px;

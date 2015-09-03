@@ -66,8 +66,9 @@
             var add_button = input.closest('td').find('.field-add-more-submit');
             var remove_button = input.closest('td').find('.remove-button');
             var primary_indicator = input.closest('td').find('.zip-code-primary-holder');
-            field_suffix.html('Loading...');
 
+            field_suffix.html('Loading...');
+            field_suffix.removeClass('error');
             if ($.trim(input.val()) == '') {
                 field_suffix.html('');
             }
@@ -75,7 +76,7 @@
                 var location_data = lookUpLocation(input.val());
                 if (location_data.error) {
                     // Print error message
-                    field_suffix.html(location_data.error_message);
+                    field_suffix.addClass('error').html(location_data.error_message);
                 }
                 else if (location_data.zip_codes) {
                     // replace input with select list of zip codes.
@@ -120,6 +121,57 @@
                 }
             }
         });
+
+
+
+        //function getLocation() {
+        //    if (navigator.geolocation) {
+        //        navigator.geolocation.getCurrentPosition(showPosition);
+        //    } else {
+        //        alert("Geolocation is not supported by this browser.");
+        //    }
+        //}
+        //
+        //function showPosition(position) {
+        //    var latitude = position.coords.latitude;
+        //    var longitude = position.coords.longitude;
+        //    console.log(position.coords);
+        //    $('#location-description-user').show();
+        //    lookupAndProcessCityState(latitude, longitude);
+        //}
+
+
+        //function lookupAndProcessCityState(latitude, longitude) {
+        //    var location_data;
+        //    var default_message = 'Until a location is specified, the default location is set to Durham, North Carolina.';
+        //    var message_holder = $('#message-holder');
+        //    $.ajax({
+        //        url: '/return_location_data_lat_long',
+        //        type: 'GET',
+        //        async: false,
+        //        data: {latitude: latitude, longitude: longitude},
+        //        success: function (location_data) {
+        //            location_data = $.parseJSON(location_data);
+        //            if (!location_data.error) {
+        //                default_message = 'Until a location is specified, the default location is set to ' + location_data.city + ', ' + location_data.state;
+        //            }
+        //            else {
+        //                default_message = 'Until a location is specified, the default location is set to ' + location_data.city + ', ' + location_data.state;
+        //
+        //            }
+        //
+        //            return location_data;
+        //        },
+        //        failure: function () {
+        //            alert('Unable to connect to service');
+        //        }
+        //    });
+        //    return location_data;
+        //}
+
+        //getLocation();
+
+
 
 
         var path = window.location.pathname;

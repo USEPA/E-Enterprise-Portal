@@ -73,7 +73,8 @@ function first_time_user_profile_block_theme_registry_alter(&$theme_registry)
 /**
  * Params: array of zip codes, array of taxonomy ids for interests, skip boolean
  * Changes user's first_time_user to false
- * If skip boolean, only first_time_user is set to false
+ * If skip boolean, zip code is saved if user allowed geolocation
+ *  If not- no zip code saved.
  */
 
 function save_first_time_user_preferences()
@@ -92,8 +93,12 @@ function save_first_time_user_preferences()
     $first_time_user = $user_data->field_first_time_user;
     $user_interests = $user_data->field_interests2;
 
-    if (!$skip) {
+    if (!$skip || $geolocation_used) {
 //        foreach($zip_codes as $zip) { //Save locations
+        // save users zip code if they allowed geolocation and skipped
+        if ($skip) {
+            $zip = $geolocation_zip;
+        }
         $multifield_zip_obj = array(
             'field_field_primary_value' => 1,
             'field_field_primary_format' => null,
@@ -115,15 +120,17 @@ function save_first_time_user_preferences()
             ),
         );
         $user_zip_codes[LANGUAGE_NONE][] = $multifield_zip_obj;
+        if (!$skip) {
 
-        foreach ($term_names as $term_name) { //Save interests
-            $term_array = taxonomy_get_term_by_name($term_name);
-            $term = reset($term_array); # get the first element of the array which is our term object
-            $tid = $term->tid;
-            $interest_obj = array(
-                'target_id' => (string)$tid,
-            );
-            $user_interests[LANGUAGE_NONE][] = $interest_obj;
+            foreach ($term_names as $term_name) { //Save interests
+                $term_array = taxonomy_get_term_by_name($term_name);
+                $term = reset($term_array); # get the first element of the array which is our term object
+                $tid = $term->tid;
+                $interest_obj = array(
+                    'target_id' => (string)$tid,
+                );
+                $user_interests[LANGUAGE_NONE][] = $interest_obj;
+            }
         }
     }
 
