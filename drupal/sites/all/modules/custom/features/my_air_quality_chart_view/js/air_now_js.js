@@ -510,7 +510,8 @@
     yAxisGroup.append("text")
       .attr("y", h + m[0] + 20)
       .style("font-size", "70%")
-      .text("Note: Graph is not drawn to scale.");
+      .text("Note: These are forecasted values./Graph is not drawn to scale.")
+      .each(insertLinebreaks);
 
     /*
      // add grid lines to show scale
