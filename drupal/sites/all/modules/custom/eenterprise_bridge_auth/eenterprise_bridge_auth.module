@@ -70,6 +70,11 @@ function eenterprise_bridge_auth_menu() {
     'file' => 'eenterprise_bridge_auth.pages.inc',
     '#type' => MENU_CALLBACK,
   );
+  $items['todo/refresh'] = array(
+    'page callback' => 'refresh_todo_list',
+    'access callback' => 'user_is_logged_in',
+    'file' => 'eenterprise_bridge_auth.pages.inc',
+  );
 
   return $items;
 }

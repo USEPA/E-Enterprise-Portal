@@ -358,7 +358,7 @@ function frs_naas_autentication()
     }
 
     if (isset($client)) {
-        if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
+//        if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
             $params = array(
                 "userId" => $email,
                 "credential" => $password,
@@ -368,21 +368,21 @@ function frs_naas_autentication()
                 'resourceURI' => ''
             );
             $soap_type = 'CentralAuth';
-        } else {
-            $params = array(
-                "userId" => $email,
-                "credential" => $password,
-                "domain" => variable_get('cdx_node_token_domain'),
-                "authMethod" => variable_get('cdx_node_token_auth_method'),
-                "trustee" => $email,
-                "ip" => variable_get('frs_api_lookup_ip'),
-                "subjectData" => "tbd",
-                "subject" => "tbd",
-                "issuer" => "EEP",
-                "tokenType" => 'csm',
-            );
-            $soap_type = 'CreateSecurityToken';
-        }
+//        } else {
+//            $params = array(
+//                "userId" => $email,
+//                "credential" => $password,
+//                "domain" => variable_get('cdx_node_token_domain'),
+//                "authMethod" => variable_get('cdx_node_token_auth_method'),
+//                "trustee" => $email,
+//                "ip" => variable_get('frs_api_lookup_ip'),
+//                "subjectData" => "tbd",
+//                "subject" => "tbd",
+//                "issuer" => "EEP",
+//                "tokenType" => 'csm',
+//            );
+//            $soap_type = 'CreateSecurityToken';
+//        }
 
 
         $token = null;

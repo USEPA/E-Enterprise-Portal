@@ -18,7 +18,6 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <!--googleoff: all-->
-  <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,900,400italic,700italic' rel='stylesheet' type='text/css'>
   <?php print $styles; ?>
   <?php if ($add_html5_shim && !$add_respond_js): ?>
     <!--[if lt IE 9]>

@@ -45,10 +45,18 @@ function eactivity_dataflow_list_settings($form, $form_state) {
     $form['eactivity_settings']['eactivity_dataflow_wsdl'] = array(
         '#type' => 'textfield',
         '#size' => 120,
-        '#title' => t('E-Activity Dataflow WSDL'),
+        '#title' => t('E-Activity Dataflow WSDL (put test/dev/prod if using local wsdl source)'),
         '#default_value' => variable_get('eactivity_dataflow_wsdl'),
         '#required' => TRUE,
     );
+
+    $form['eactivity_settings']['eactivity_dataflow_local'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Local eactivity dataflow source?'),
+        '#default_value' => variable_get('eactivity_dataflow_local'),
+        '#required' => FALSE,
+    );
+
 
     $form['#submit'][] = 'eactivity_dataflow_settings_form_submit';
     return system_settings_form($form);

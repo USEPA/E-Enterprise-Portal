@@ -9,3 +9,10 @@ div.ctools-modal-content .resizable-textarea {
 .resizable-textarea .grippie {
   visibility: hidden;
 }
+
+/* Override inline dom styles from modal.js */
+#modalContent {
+    position: fixed !important;
+    top: 12% !important;
+    bottom: 12% !important;
+}
