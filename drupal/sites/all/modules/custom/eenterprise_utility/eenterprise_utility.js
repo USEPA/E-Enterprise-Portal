@@ -40,7 +40,9 @@
 
       $('body').on('click', '.zip-code-primary-select', function() {
           $('.zip-code-primary-select.selected').removeClass('selected');
+          $('.zip-code-primary-select.glyphicon-star').addClass('glyphicon-star-empty');
           $('.zip-code-primary-select.glyphicon-star').removeClass('glyphicon-star');
+          $('.zip-code-primary-select.glyphicon-star').prop('title','Set to default location');
           $('.zip-code-primary-select').closest('td').find('input[type=checkbox]:checked').prop('checked', false);
           var selected_icon = $(this);
           selected_icon.addClass('selected');
