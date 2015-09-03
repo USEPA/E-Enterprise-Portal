@@ -440,6 +440,9 @@
                 $('#edit-field-todo-lst-sub-part-code-value').val('All');
                 $('#edit-field-todo-lst-rprt-type-filter-value').val('All');
             });
+            $('#edit-field-todo-lst-sub-part-code-value').change(function(){
+                $('#edit-field-todo-lst-rprt-type-filter-value').val('All');
+            });
         }
     };
 
