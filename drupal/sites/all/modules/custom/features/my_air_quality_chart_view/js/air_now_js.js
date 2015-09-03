@@ -31,7 +31,6 @@
         markers = new L.FeatureGroup();
         map.addLayer(markers);
         updateMarker();
-
       }
       //original map load so markers are added via other method in map creation
       else {
@@ -71,18 +70,18 @@
 
     var AQSpopupTemplate = "<h3>AQS ID: {PGM_SYS_ID}</h3><br><small><small>";
 
-    /* */
+
     AQSMonitorLayer.bindPopup(function(error, featureCollection) {
 
       if (error || featureCollection.features.length === 0) {
         return false;
       } else {
-        //console.log(e.latlng);
+        var clickedFeatureProps = featureCollection.features[0].properties;
+        queryForAirMonPopup(clickedFeatureProps.LATITUDE, clickedFeatureProps.LONGITUDE)
+        //
         return 'AQS Monitor ID: ' + featureCollection.features[0].properties.PGM_SYS_ID;
       }
     });
-
-
 
     var stateBoundaries = L.esri.dynamicMapLayer({
       url: 'https://gispub.epa.gov/arcgis/rest/services/ORD/ROE_StateBoundaries/MapServer',
@@ -91,7 +90,6 @@
     }).addTo(map);
 
     map.fitBounds(stateBoundaries._map.getBounds());
-
 
     //alternate popup method
     /*
@@ -117,6 +115,37 @@
 
     return map;
   }
+
+  function queryForAirMonPopup(popupLat, popupLon) {
+    //query the public AirNow API using the lat/long of the Air Monitor location
+    function queryAirNowAPIByLatLong(successCallback) {
+      $.ajax({
+        type: 'GET',
+        url: 'http://airnowapi.org/search/*',
+        async: true,
+        data: {
+          q: ' ',
+          f: 'json',
+          num: '100'
+        },
+        success: function(data, status, xhr) {
+          var resultJson = JSON.parse(data);
+          populateAirMonPopup(resultJson);
+        }
+      }).fail(function(xhr, status) {
+        if (status == "error") {
+          console.log("Error in AirNow API request.");
+          return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
+        }
+      });
+    }
+  }
+
+  function populateAirMonPopup(airnowAPIResultData) {
+
+  }
+
+
 
   function updateMarker() {
     if (currentZipData && currentZipData.latitude && currentZipData.longitude) {
