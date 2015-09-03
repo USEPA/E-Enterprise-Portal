@@ -38,7 +38,7 @@
             <?php print $header; ?>
         </div>
     <?php endif; ?>
-
+    <a href="todo/refresh" class="favorites-ignore" style="float:right;">Refresh</a>
     <?php if ($exposed): ?>
         <div class="view-filters">
             <?php print $exposed; ?>
