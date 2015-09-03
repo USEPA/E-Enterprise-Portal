@@ -946,8 +946,12 @@ tr.odd, tr.even {
 	background-image: none;
 }
 
-.view-to-do .views-exposed-form {
-    display:none;
+.view-to-do .views-exposed-form .views-widget-filter-field_todo_lst_due_value{
+  display:none !important;
+}
+
+.view-to-do .views-exposed-form .views-widget-filter-field_todo_lst_part_code_value{
+  display:block;
 }
 
 @media screen and (min-width: 30em) {
