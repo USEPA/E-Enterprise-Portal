@@ -946,8 +946,12 @@ tr.odd, tr.even {
 	background-image: none;
 }
 
-.view-to-do .views-exposed-form {
-    display:none;
+.view-to-do .views-exposed-form .views-widget-filter-field_todo_lst_due_value{
+  display:none !important;
+}
+
+.view-to-do .views-exposed-form .views-widget-filter-field_todo_lst_part_code_value{
+  display:block;
 }
 
 @media screen and (min-width: 30em) {
@@ -1072,6 +1076,15 @@ tr.odd, tr.even {
 }
 .pager__link--last:before {
   content: "\00BB|";
+}
+
+.pane-views-cdx-facility-management-block {
+	p {
+		font-size: 0.85em;
+	}
+	#fmw-organization-select-holder, #fmw-program-select-holder, #fmw-type-select-holder {
+		margin: 0 15px 10px 0;
+	}
 }
 
 @media screen and (min-width: 45em) {
@@ -1671,12 +1684,7 @@ form[id^='user-profile-form'] .remove-button {
 	.ui-menu .ui-menu-item a{   
 	    font-size:20px;
 	}
-	
-	.ui-widget-content {
-		max-height: 300px; 
-		overflow-y: scroll; 
-		overflow-x: hidden;
-	}
+
 	.ui-state-hover, 
 	.ui-widget-content .ui-state-hover, 
 	.ui-widget-header .ui-state-hover, 

@@ -51,9 +51,8 @@
       //options from the DOM (id) are mapsAll, mapsAir, mapsWater, or mapsLand
       var filterType = $(this).attr('id');
       $('.myMapFilterTerm').parent('li').removeClass('active-mymaps-filter');
-      $('.myMapFilterTerm').parent('li').removeClass('active-mymaps-filter');
       $(this).parent('li').addClass('active-mymaps-filter');
-      $(this).blur();
+      //$(this).blur(); //was used as workaround to holding focus after click, but broke tab focus and caused 508 issues
       filterMyMapsGallery(filterType);
     });
 
