@@ -62,7 +62,7 @@
             <li id="beyond-next-week" class="todo_filter_button <?php print $beyond_next_week;?>"><a href="javascript:void(0)" class="favorites-ignore">Beyond</a></li>
         </ul>
     </div>
-
+    <a href="todo/refresh" class="favorites-ignore" style="float:right;">Refresh</a>
     <?php if ($exposed): ?>
     <div class="view-filters">
       <?php print $exposed; ?>
