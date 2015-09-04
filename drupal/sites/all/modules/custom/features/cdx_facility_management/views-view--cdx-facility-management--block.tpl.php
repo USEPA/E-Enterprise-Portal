@@ -59,7 +59,7 @@ $cdx_facility_source = variable_get('cdx_facility_resource_url');
 <div id="facility-widget" style="max-width:1363px;"></div>
 <p>Use of facility widget is subject to CDX terms and conditions.</p>
 <div id="fmw-organization-select-holder"><label
-        for="fmw-organization-select">Organization</label><select name="fmw-organization-select"
+        for="fmw-organization-select">Organization</label><select style="display:none" name="fmw-organization-select"
                                                                   id="fmw-organization-select"></select>
 <span id="fmw-organization-single"></span></div>
 <div id="fmw-program-select-holder" style="display:none"><label for="fmw-program-select">Program</label><select

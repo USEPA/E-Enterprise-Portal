@@ -89,19 +89,50 @@ function cdx_facility_management_iframe()
 
 function return_cdx_facility_management_token()
 {
-    $token = $_SESSION['cdx_fmw_security_token'];
-    $server_ip = variable_get('frs_api_lookup_ip');
-    $json_return = array(
-        'token' => $token,
-        'server_ip' => $server_ip,
+
+
+    try {
+        // $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
+        $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
+        https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl
+    } catch (SoapFault $f) {
+        var_dump($f);
+        return;
+    }
+    $params = array(
+        "userId" => 'GREENOLIVE',
+        "credential" => 'EEP15fun',
+        "domain" => "default",
+        "authenticationMethod" => "password",
     );
-    print json_encode($json_return);
+    try {
+        //Authenticate to CDX
+        $response = $client->__soapCall("Authenticate", array($params));
+        $token = $response->securityToken;
+        $server_ip = variable_get('frs_api_lookup_ip');
+        $json_return = array(
+            'token' => $token,
+            'server_ip' => $server_ip,
+        );
+
+    } catch (SoapFault $f) {
+        var_dump($f);
+        watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
+    }
+//    $token = $_SESSION['cdx_fmw_security_token'];
+//    $server_ip = variable_get('frs_api_lookup_ip');
+//    $json_return = array(
+//        'token' => $token,
+//        'server_ip' => $server_ip,
+//    );
+//    print json_encode($json_return);
 }
 
 function retrieve_cdx_user_data()
 {
 
-    $user_id = $_SESSION['userId'];
+    $user_id= 'LaurenD15';
+//    $user_id = $_SESSION['userId'];
     $allowed_program_roles = ['CEDRI', 'CSPP', 'eDisclosure'];
     $json_return = array();
 
@@ -167,13 +198,23 @@ function retrieve_cdx_user_data()
 
 
 function addCDXRole($json_return, $role, $org_id) {
+    $disallowed_types = ['State Reviewer', 'Primary Support', 'Secondary Support'];
     $role_obj = array();
-    $role_obj['type'] = $role->type->description;
-    $role_obj['userRoleId'] = $role->userRoleId;
-    if (!isset($json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow])) {
-        $json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow] = array();
+    $role_type = $role->type->description;
+    if (in_array($role_type, $disallowed_types)) {
+        // not allowed to show this user type
+        $json_return['invalid_cdx_role'] = true;
     }
-    $json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow][] = $role_obj;
+    else {
+        $role_obj['type'] = $role_type;
+        $role_obj['userRoleId'] = $role->userRoleId;
+        if (!isset($json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow])) {
+            $json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow] = array();
+        }
+        $json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow][] = $role_obj;
+        $json_return['invalid_cdx_role'] = false;
+
+    }
     return $json_return;
 }
 
@@ -196,15 +237,18 @@ function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, 
             foreach ($user_roles->Role as $key=>$role) {
                 if (in_array($role->dataflow, $allowed_program_roles)) {
                     $json_return = addCDXRole($json_return, $role, $org_id);
+                    if (!$json_return['invalid_cdx_role']) {
                     $org_contains_role = true;
+                    }
                 }
             }
         } else {
             $role = $user_roles->Role;
             if (in_array($role->dataflow, $allowed_program_roles)) {
                 $json_return = addCDXRole($json_return, $role, $org_id);
-                $org_contains_role = true;
-            }
+                if (!$json_return['invalid_cdx_role']) {
+                    $org_contains_role = true;
+                }            }
         }
     }
     if (!$org_contains_role) {
