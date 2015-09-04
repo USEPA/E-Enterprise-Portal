@@ -8,7 +8,7 @@
       $('.grid-stack-item.ui-draggable').each(function(){
         var contentHeight = $(this).find('.pane-title').outerHeight(true)
           + Math.ceil($(this).find('.pane-content').outerHeight(true))
-          + 26
+          + 30
           + verticalMargin;
 
         var $pager = $(this).find('.pager');
@@ -40,11 +40,12 @@
     $('.grid-stack').gridstack(options);
     var grid = $('.grid-stack').data('gridstack');
 
-    // todo: find a way to recalculate widget heights less often
-    $(document).ajaxComplete(function(){
+    new ResizeSensor(jQuery('.grid-stack-item'), function() {
       recalculateWidgetHeights(grid);
     });
 
-    $( window ).resize( _.debounce( function(){ recalculateWidgetHeights(grid) }, 150 ) );
+    new ResizeSensor(jQuery('.view-content'), function() {
+      recalculateWidgetHeights(grid);
+    });
   });
 })(jQuery);
