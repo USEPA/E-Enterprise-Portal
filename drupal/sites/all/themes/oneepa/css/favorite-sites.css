@@ -38,7 +38,6 @@
 }*/
 
 .pane-views-favorite-sites-block {
-  height: 525px;
   overflow-y: auto;
 }
 .pane-views-favorite-sites-block #favorite_links-ajax-wrapper {
