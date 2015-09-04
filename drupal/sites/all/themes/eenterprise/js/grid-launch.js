@@ -13,8 +13,9 @@
         var y = Math.floor(count / 2) * 6;
         //grid.move($(this), x, y);
         $(this).attr({'data-gs-x': x, 'data-gs-y': y});
-        console.log($(this), x, y, $(this).attr('data-gs-x'), $(this).attr('data-gs-y'));
+        //console.log($(this), x, y, $(this).attr('data-gs-x'), $(this).attr('data-gs-y'));
         count++;
+        $(this).find('.grid-stack-item-content').css('overflow-y', 'hidden');
       });
     }
 
