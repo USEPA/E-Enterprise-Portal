@@ -5,6 +5,7 @@
   var markers;
   var currentZipData;
   var todayAQI;
+  var AQSMonitorLayer;
 
   $(document).ready(function() {
 
@@ -41,6 +42,7 @@
   });
 
   function loadMap() {
+
     var map = L.map('my-air-quality-air-now-map-container');
     map.on('load', function(e) {
       //console.log('map loaded');
@@ -58,7 +60,7 @@
       position: 'back'
     }).addTo(map);
 
-    var AQSMonitorLayer = L.esri.dynamicMapLayer({
+    AQSMonitorLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OEI/FRS_AQSTemp/MapServer",
       opacity: 1.0,
       position: 'front'
@@ -68,17 +70,54 @@
 
     map.addLayer(AQSMonitorLayer);
 
+    /*
     AQSMonitorLayer.bindPopup(function(error, featureCollection) {
       if (error || featureCollection.features.length === 0) {
         return false;
       } else {
-        var clickedFeatureProps = featureCollection.features[0].properties;
-        return 'Air Monitor Popup Placeholder';
-        //console.log(clickedFeatureProps);
-        //console.log(queryForAirMonPopup(clickedFeatureProps.LATITUDE, clickedFeatureProps.LONGITUDE));
-        //return queryForAirMonPopup(clickedFeatureProps.LATITUDE, clickedFeatureProps.LONGITUDE);
+        console.log("Bind popup");
+        $.ajax({
+          type: 'GET',
+          url: '/my_air_quality_map_view/api/current/latLong/',
+          async: true,
+          data: {
+            format: 'application/json',
+            latitude: '32.6460',
+            longitude: '-97.4248',
+            date: '2015-09-03',
+            distance: '50'
+          },
+          success: function(data, status, xhr) {
+            var airnowAPIResultData = JSON.parse(data);
+            var AQSpopupContent = '<table>';
+            for (var i = 0; i < airnowAPIResultData.length; i++) {
+              console.log(airnowAPIResultData[i].ParameterName);
+              console.log(airnowAPIResultData[i].Category.Name);
+              var paramName = airnowAPIResultData[i].ParameterName;
+              var AQICategoryName = airnowAPIResultData[i].Category.Name;
+              var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
+              AQSpopupContent += row;
+            }
+            AQSpopupContent += '</table>';
+            console.log(AQSpopupContent);
+            return AQSpopupContent;
+            //return AQSpopupContent;
+          }
+        }).fail(function(xhr, status) {
+          if (status == "error") {
+            console.log("Error in AirNow API request.");
+            return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
+          }
+        });
+
+        //var clickedFeatureProps = featureCollection.features[0].properties;
+        //return 'Air Monitor Popup Placeholder';
+        //console.log(featureCollection.features[0]);
+
+        //return queryForAirMonPopup('', '');
       }
     });
+  */
 
     var stateBoundaries = L.esri.dynamicMapLayer({
       url: 'https://gispub.epa.gov/arcgis/rest/services/ORD/ROE_StateBoundaries/MapServer',
@@ -87,6 +126,71 @@
     }).addTo(map);
 
     map.fitBounds(stateBoundaries._map.getBounds());
+
+    //calc a date string for AirNow API call for a map click on air monitor event
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    //'2015-09-03' format for AirNow API
+    var todayDate = yyyy + '-' + mm + '-' + dd;
+
+    map.on("click", function(e) {
+      $('html, body').css("cursor", "wait");
+      AQSMonitorLayer.identify().on(map).at(e.latlng).run(function(error, featureCollection) {
+        if (featureCollection.features.length > 0) {
+          var lon83 = featureCollection.features[0].properties.LONGITUDE83;
+          var lat83 = featureCollection.features[0].properties.LATITUDE83;
+          var cityName = featureCollection.features[0].properties.CITY_NAME;
+          var stateAbbrev = featureCollection.features[0].properties.STATE_CODE;
+
+          $.ajax({
+            type: 'GET',
+            url: '/my_air_quality_map_view/api/current/latLong/',
+            async: true,
+            data: {
+              format: 'application/json',
+              latitude: lat83,
+              longitude: lon83,
+              date: todayDate,
+              distance: '50'
+            },
+            success: function(data, status, xhr) {
+              //console.log("success");
+              var airnowAPIResultData = JSON.parse(data);
+              var AQSpopupContent = cityName + ', ' + stateAbbrev + '</br>Current Air Quality<table><tbody><tr><td><b>Parameter</b></td><td><b>Category</b></td></tr>';
+              for (var i = 0; i < airnowAPIResultData.length; i++) {
+                var paramName = airnowAPIResultData[i].ParameterName;
+                var AQICategoryName = airnowAPIResultData[i].Category.Name;
+                var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
+                AQSpopupContent += row;
+              }
+              AQSpopupContent += '</tbody></table>';
+              var popup = L.popup()
+                .setLatLng(e.latlng)
+                .setContent(AQSpopupContent)
+                .openOn(map);
+              $('html, body').css("cursor", "auto");
+            }
+          }).fail(function(xhr, status) {
+            if (status == "error") {
+              $('html, body').css("cursor", "auto");
+              console.log("Error in AirNow API request.");
+              return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
+            }
+          });
+        } else {
+          $('html, body').css("cursor", "auto");
+        }
+      });
+
+    });
 
     //alternate popup method
     /*
@@ -115,10 +219,11 @@
 
   function queryForAirMonPopup(popupLat, popupLon) {
     //query the public AirNow API using the lat/long of the Air Monitor location
+    var resultJson;
     $.ajax({
       type: 'GET',
       url: '/my_air_quality_map_view/api/current/latLong/',
-      async: false,
+      async: true,
       data: {
         format: 'application/json',
         latitude: '32.6460',
@@ -127,8 +232,20 @@
         distance: '50'
       },
       success: function(data, status, xhr) {
-        var resultJson = JSON.parse(data);
-        return populateAirMonPopup(resultJson);
+        var airnowAPIResultData = JSON.parse(data);
+        var AQSpopupContent = '<table>';
+        for (var i = 0; i < airnowAPIResultData.length; i++) {
+          console.log(airnowAPIResultData[i].ParameterName);
+          console.log(airnowAPIResultData[i].Category.Name);
+          var paramName = airnowAPIResultData[i].ParameterName;
+          var AQICategoryName = airnowAPIResultData[i].Category.Name;
+          var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
+          AQSpopupContent += row;
+        }
+        AQSpopupContent += '</table>';
+        console.log(AQSpopupContent);
+        AQSMonitorLayer.bindPopup('test');
+        //return AQSpopupContent;
       }
     }).fail(function(xhr, status) {
       if (status == "error") {
@@ -137,23 +254,6 @@
       }
     });
 
-  }
-
-  function populateAirMonPopup(airnowAPIResultData) {
-    console.log(airnowAPIResultData);
-    var AQSpopupContent = '<table>';
-    for (var i = 0; i < airnowAPIResultData.length; i++) {
-      console.log(airnowAPIResultData[i].ParameterName);
-      console.log(airnowAPIResultData[i].Category.Name);
-      var paramName = airnowAPIResultData[i].ParameterName;
-      var AQICategoryName = airnowAPIResultData[i].Category.Name;
-      var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
-      AQSpopupContent += row;
-    }
-    AQSpopupContent += '</table>';
-    console.log(AQSpopupContent);
-
-    return AQSpopupContent;
   }
 
 
