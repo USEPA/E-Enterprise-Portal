@@ -11747,7 +11747,7 @@ form[id^='user-profile-form'] .form-item .form-type-textfield, form[id^='user-pr
 /* line 1446, ../sass/styles.scss */
 form[id^='user-profile-form'] .form-type-textfield {
   margin-right: 20px;
-  min-width: 330px;
+  min-width: 140px;
   max-width: 20em;
 }
 /* line 1452, ../sass/styles.scss */
