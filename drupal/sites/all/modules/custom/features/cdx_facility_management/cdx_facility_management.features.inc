@@ -91,48 +91,19 @@ function return_cdx_facility_management_token()
 {
 
 
-    try {
-        // $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
-        $client = new SoapClient("https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2)); //variable_get('autenticate_cdx_token');
-        https://devngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl
-    } catch (SoapFault $f) {
-        var_dump($f);
-        return;
-    }
-    $params = array(
-        "userId" => 'GREENOLIVE',
-        "credential" => 'EEP15fun',
-        "domain" => "default",
-        "authenticationMethod" => "password",
+    $token = $_SESSION['cdx_fmw_security_token'];
+    $server_ip = variable_get('frs_api_lookup_ip');
+    $json_return = array(
+        'token' => $token,
+        'server_ip' => $server_ip,
     );
-    try {
-        //Authenticate to CDX
-        $response = $client->__soapCall("Authenticate", array($params));
-        $token = $response->securityToken;
-        $server_ip = variable_get('frs_api_lookup_ip');
-        $json_return = array(
-            'token' => $token,
-            'server_ip' => $server_ip,
-        );
-
-    } catch (SoapFault $f) {
-        var_dump($f);
-        watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
-    }
-//    $token = $_SESSION['cdx_fmw_security_token'];
-//    $server_ip = variable_get('frs_api_lookup_ip');
-//    $json_return = array(
-//        'token' => $token,
-//        'server_ip' => $server_ip,
-//    );
-//    print json_encode($json_return);
+    print json_encode($json_return);
 }
 
 function retrieve_cdx_user_data()
 {
 
-    $user_id= 'LaurenD15';
-//    $user_id = $_SESSION['userId'];
+    $user_id = $_SESSION['userId'];
     $allowed_program_roles = ['CEDRI', 'CSPP', 'eDisclosure'];
     $json_return = array();
 
@@ -172,7 +143,6 @@ function retrieve_cdx_user_data()
             );
             $org_val = null;
             $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
-            dpm($user_orgs);
             // CDX returns object if single return and array if multiple
             if (is_array($user_orgs->Organization)) {
                 foreach ($user_orgs->Organization as $index => $org_val) {
@@ -201,7 +171,9 @@ function addCDXRole($json_return, $role, $org_id) {
     $disallowed_types = ['State Reviewer', 'Primary Support', 'Secondary Support'];
     $role_obj = array();
     $role_type = $role->type->description;
-    if (in_array($role_type, $disallowed_types)) {
+    $status = $role->status->code;
+
+    if (in_array($role_type, $disallowed_types) || $status == 'Inactive') {
         // not allowed to show this user type
         $json_return['invalid_cdx_role'] = true;
     }
