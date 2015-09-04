@@ -22,7 +22,7 @@ drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ResizeSensor.js", "f
 <?php if ($pane_prefix): ?>
   <?php print $pane_prefix; ?>
 <?php endif; ?>
-<div class="grid-stack-item" data-gs-width="6" data-gs-height="6" data-gs-no-resize="true" data-gs-no-move="true" style="opacity:1.0">
+<div class="grid-stack-item" data-gs-width="6" data-gs-height="30" data-gs-no-resize="true" data-gs-no-move="true" style="opacity:1.0">
     <div class="<?php print $classes; ?>" <?php print $id; ?> <?php print $attributes; ?>>
       <?php if ($admin_links): ?>
         <?php print $admin_links; ?>
