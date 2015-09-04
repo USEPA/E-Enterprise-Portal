@@ -10,7 +10,7 @@
 
 #fmw-type-select-holder, #fmw-organization-select-holder, #fmw-program-select-holder, #launch-facility-management {
     display: inline-block;
-    margin:20px;
+    margin:10px 20px;
 
 }
 
