@@ -3,6 +3,9 @@
 
     $(document).ready(function () {
 
+
+
+
         function placeAddAnotherButton(ajax_content, table_id, parent_id) {
             var table = $(table_id);
             var input_button = $(parent_id).find('.field-add-more-submit');
