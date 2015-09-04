@@ -28,8 +28,8 @@ print render($form['account']['mail']);
     $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon next to a location to make it your default location.</strong> <br />";
 $geolocation = false;
 
-
-if (isset($_SESSION['initial_set_up'])) {
+var_dump($_SESSION['geolocation_used']);
+if (isset($_SESSION['geolocation_used'])) {
     if ($_SESSION['geolocation_used'] == 'true') {
         $geolocation = true;
         $location_description .=  'Until a location is specified, the location detected upon your initial login will be set as the default.';
@@ -41,10 +41,8 @@ if ($geolocation == false) {
 
 //global $user;
 $num_zip_codes = count(user_load($user->uid)->field_zip_code[LANGUAGE_NONE]);
-
-if ($num_zip_codes > 0) {
+if ($num_zip_codes > 0 && !$geolocation) {
     $location_description = "Add a location of interest to see environmental information relevant to that area. <strong>Select your primary location by clicking the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon.</strong>";
-
 }
 print $location_description;
 ?>
