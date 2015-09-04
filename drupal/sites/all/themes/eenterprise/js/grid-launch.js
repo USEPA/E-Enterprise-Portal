@@ -1,13 +1,14 @@
 (function ($) {
   $(document).ready(function(){
 
-    var cellHeight = 70;
+    var cellHeight = 10;
     var verticalMargin = 10;
 
     function recalculateWidgetHeights(grid) {
-      $('.grid-stack-item').each(function(){
-        var contentHeight = $(this).find('.pane-title').outerHeight() + $(this).find('.pane-content').outerHeight() + verticalMargin * 2;
-        var gsHeight = Math.round((contentHeight + verticalMargin * 2) / cellHeight);
+      $('.grid-stack-item.ui-draggable').each(function(){
+
+        var contentHeight = $(this).find('.panel-pane')[0].scrollHeight + verticalMargin + 2;
+        var gsHeight = Math.ceil(contentHeight / (cellHeight + verticalMargin));
         grid.resize(this, null, gsHeight);
       });
     }
@@ -36,10 +37,6 @@
       recalculateWidgetHeights(grid);
     });
 
-    //$('.grid-stack').on('resizestop', function (e, items) {
-    //  console.log("?");
-      //recalculateWidgetHeights(grid);
-    //});
     $( window ).resize( _.debounce( function(){ recalculateWidgetHeights(grid) }, 150 ) );
   });
 })(jQuery);
