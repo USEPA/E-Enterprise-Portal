@@ -16,6 +16,8 @@
  * - $display: The complete panels display object containing all kinds of
  *   data including the contexts and all of the other panes being displayed.
  */
+drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ElementQueries.js", "file");
+drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ResizeSensor.js", "file");
 ?>
 <?php if ($pane_prefix): ?>
   <?php print $pane_prefix; ?>

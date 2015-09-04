@@ -1,13 +1,22 @@
 (function ($) {
   $(document).ready(function(){
 
-    var cellHeight = 70;
+    var cellHeight = 10;
     var verticalMargin = 10;
 
     function recalculateWidgetHeights(grid) {
-      $('.grid-stack-item').each(function(){
-        var contentHeight = $(this).find('.pane-title').outerHeight() + $(this).find('.pane-content').outerHeight() + verticalMargin * 2;
-        var gsHeight = Math.round((contentHeight + verticalMargin * 2) / cellHeight);
+      $('.grid-stack-item.ui-draggable').each(function(){
+        var contentHeight = $(this).find('.pane-title').outerHeight(true)
+          + Math.ceil($(this).find('.pane-content').outerHeight(true))
+          + 26
+          + verticalMargin;
+
+        var $pager = $(this).find('.pager');
+        if ($pager.size() > 0) {
+          contentHeight += parseInt($pager.css('marginBottom'));
+        }
+
+        var gsHeight = Math.ceil(contentHeight / (cellHeight + verticalMargin));
         grid.resize(this, null, gsHeight);
       });
     }
@@ -31,15 +40,12 @@
     $('.grid-stack').gridstack(options);
     var grid = $('.grid-stack').data('gridstack');
 
-    // todo: find a way to recalculate widget heights less often
-    $(document).ajaxComplete(function(){
+    new ResizeSensor(jQuery('.grid-stack-item'), function() {
       recalculateWidgetHeights(grid);
     });
 
-    //$('.grid-stack').on('resizestop', function (e, items) {
-    //  console.log("?");
-      //recalculateWidgetHeights(grid);
-    //});
-    $( window ).resize( _.debounce( function(){ recalculateWidgetHeights(grid) }, 150 ) );
+    new ResizeSensor(jQuery('.view-content'), function() {
+      recalculateWidgetHeights(grid);
+    });
   });
 })(jQuery);
