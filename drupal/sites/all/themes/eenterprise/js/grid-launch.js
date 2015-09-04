@@ -6,8 +6,16 @@
 
     function recalculateWidgetHeights(grid) {
       $('.grid-stack-item.ui-draggable').each(function(){
+        var contentHeight = $(this).find('.pane-title').outerHeight(true)
+          + Math.ceil($(this).find('.pane-content').outerHeight(true))
+          + 26
+          + verticalMargin;
 
-        var contentHeight = $(this).find('.panel-pane')[0].scrollHeight + verticalMargin + 2;
+        var $pager = $(this).find('.pager');
+        if ($pager.size() > 0) {
+          contentHeight += parseInt($pager.css('marginBottom'));
+        }
+
         var gsHeight = Math.ceil(contentHeight / (cellHeight + verticalMargin));
         grid.resize(this, null, gsHeight);
       });
