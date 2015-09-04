@@ -81,7 +81,6 @@ function save_first_time_user_preferences()
 {
     global $user;
     $user_data = user_load($user->uid);
-    dpm($_GET);
     $skip = $_GET['skip'];
     $zip = $_GET['zip'];
     $term_names = $_GET['term_names'];
@@ -179,8 +178,6 @@ function save_first_time_user_preferences()
 //        $_SESSION['geolocation_zip'] = $geolocation_zip;
         user_save($user_data, $edit);
     } catch (Exception $e) {
-        dpm($e);
-        dpm($geolocation_used);
         $return_msg['error_msg'] = $e;
         $return_msg['success'] = false;
         $return_msg['geo'] = $geolocation_used;

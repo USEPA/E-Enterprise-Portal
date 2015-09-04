@@ -271,6 +271,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['account']['pass']);
         hide($form['field_profile_interests']);
         hide($form['field_profile_last_name']);
+        hide($form['field_initial_log_in']);
 //        dpm($form);
 //        hide($form['field_first_time_user']);
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
@@ -475,10 +476,15 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
 
     // Site default zip Occurs when all values are blank.
     // overrides if user has save geolocation zip
+    global $user;
+    $user_data = user_load($user->uid);
+    $user_initial_login = $user_data->field_initial_log_in;
+    $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+    $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
 
-    if (isset($_SESSION['geolocation_used'])) {
-        if ($_SESSION['geolocation_used'] == 'true') {
-            $site_default_zip = $_SESSION['geolocation_zip'];
+    if (isset($geolocation_used)) {
+        if ($geolocation_used) {
+            $site_default_zip = $initial_zip;
         }
     }
 
@@ -899,21 +905,31 @@ function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars)
  * is their current location (if allowed), Durham, NC.
  */
 //
-//function default_location_information_statement() {
-//    $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon next to a location to make it your default location.</strong> <br />";
-//    $geolocation = false;
-//
-//    // This is only set on first time user login
-//    if (isset($_SESSION['geolocation_used'])) {
-//        if ($_SESSION['initial_geolocation_used'] == 'true') {
-//            $geolocation = true;
-//            $location_description .=  '<span id="message-holder"></span>';
-//        }
-//    }
-//    if ($geolocation == false) {
-//        $location_description  .=  '<span id="message-holder">Until a location is specified, the default location is set to Durham, North Carolina.</span>';
-//    }
-//    print $location_description;
-//
-//
-//}
+function location_description() {
+global $user;
+$user_data = user_load($user->uid);
+$num_zip_codes = count($user_data->field_zip_code[LANGUAGE_NONE]);
+if ($num_zip_codes > 0) {
+    $location_description = "Add a location of interest to see environmental information relevant to that area. <strong>Select your primary location by clicking the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon.</strong>";
+} else {
+    $geolocation = true;
+
+    $user_initial_login = $user_data->field_initial_log_in;
+    $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+    $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
+
+    $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon next to a location to make it your default location.</strong> <br />";
+
+    if (isset($geolocation_used)) {
+        if ($geolocation_used) {
+            $location_description .= 'Until a location is specified, the location detected upon your initial login will be set as the default.';
+            $geolocation = true;
+        }
+    }
+    if ($geolocation == false) {
+        $location_description .= 'Until a location is specified, the default location is set to Durham, North Carolina.';
+    }
+}
+
+return $location_description;
+}
