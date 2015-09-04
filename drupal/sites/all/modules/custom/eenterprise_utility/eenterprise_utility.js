@@ -43,9 +43,6 @@
             $('.zip-code-primary-select.glyphicon-star').removeClass('glyphicon-star');
             $('.zip-code-primary-select.glyphicon-star').prop('title','Set to default location');
             $('.zip-code-primary-select').closest('td').find('input[type=checkbox]:checked').prop('checked', false);
-
-            $('.zip-code-primary-select.glyphicon-star').removeClass('glyphicon-star');
-            $('.zip-code-primary-select').closest('td').find('input[type=checkbox]:checked').prop('checked', false);
             var selected_icon = $(this);
             selected_icon.addClass('selected');
             selected_icon.removeClass('glyphicon-star-empty');
