@@ -271,6 +271,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['account']['pass']);
         hide($form['field_profile_interests']);
         hide($form['field_profile_last_name']);
+        hide($form['field_initial_log_in']);
+        hide($form['field_interests2']);
+
 //        dpm($form);
 //        hide($form['field_first_time_user']);
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
@@ -307,8 +310,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                 $delta = $trigger_array[4];
                 if ($trigger_array[5] == 'remove') {
                     if ($delta == 0) { // If first value clear out the input
-//               $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
-//                  $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_primary'][LANGUAGE_NONE][0]['value']['#default_value']=  '';
                         unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE]);
                     } else {
                         unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE]);
@@ -435,20 +436,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
         }else {
             $zip_data = array();
         }
-//        } else {
-//            $db_result = db_select('air_now_city_zip_codes', 'n')
-//                ->fields('n')
-//                ->condition('zipcode', $zip, '=')
-//                ->execute()
-//                ->fetchAssoc();
-//            $zip_data = array(
-//                'state' => $db_result['State'],
-//                'city' => $db_result['City'],
-//                'longitude' => (float)$db_result['Longitude'],
-//                'latitude' => (float)$db_result['latitude'],
-//                'zip' => $zip
-//            );
-//        }
+
         // Create readable string for across site
         if (strlen($zip_data['city']) != 0) {
             $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
@@ -493,10 +481,15 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
 
     // Site default zip Occurs when all values are blank.
     // overrides if user has save geolocation zip
+    global $user;
+    $user_data = user_load($user->uid);
+    $user_initial_login = $user_data->field_initial_log_in;
+    $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+    $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
 
-    if (isset($_SESSION['geolocation_used'])) {
-        if ($_SESSION['geolocation_used'] == 'true') {
-            $site_default_zip = $_SESSION['geolocation_zip'];
+    if (isset($geolocation_used)) {
+        if ($geolocation_used) {
+            $site_default_zip = $initial_zip;
         }
     }
 
@@ -912,4 +905,38 @@ function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars)
         'header' => $header,
         'rows' => $rows,
     ));
+}
+
+/*
+ * Provides logic for generating default zip statement in user  profile. Inform the user wheter their default location
+ * is their current location (if allowed), Durham, NC.
+ */
+//
+function location_description() {
+global $user;
+$user_data = user_load($user->uid);
+$num_zip_codes = count($user_data->field_zip_code[LANGUAGE_NONE]);
+if ($num_zip_codes > 0) {
+    $location_description = "Add a location of interest to see environmental information relevant to that area. <strong>Select your primary location by clicking the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon.</strong>";
+} else {
+    $geolocation = true;
+
+    $user_initial_login = $user_data->field_initial_log_in;
+    $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+    $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
+
+    $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon next to a location to make it your default location.</strong> <br />";
+
+    if (isset($geolocation_used)) {
+        if ($geolocation_used) {
+            $location_description .= 'Until a location is specified, the location detected upon your initial login will be set as the default.';
+            $geolocation = true;
+        }
+    }
+    if ($geolocation == false) {
+        $location_description .= 'Until a location is specified, the default location is set to Durham, North Carolina.';
+    }
+}
+
+return $location_description;
 }

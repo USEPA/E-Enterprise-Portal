@@ -1372,7 +1372,9 @@ tr.even {
   form[id^='user-profile-form'] {
 		.form-type-textfield {
 			width: 150px;
+          min-width: 140px;
 		}
+
 	
 		.ajax-progress .message {
 			display: none;
@@ -1438,14 +1440,22 @@ form[id^='user-profile-form'] {
 	.form-item {
 		margin-top: 0;
 	}
-	.form-item .form-type-textfield {
+	.form-item .form-type-textfield, .city-state-lookup-zips {
 		padding-bottom:0.5em;
 	}
 	.form-type-textfield {
 		margin-right:20px;
-		min-width: 140px; 
+		min-width: 140px;
 		max-width:20em;
 	}
+
+  .field-suffix.error {
+    color: red;
+  }
+
+  .city-state-lookup-zips {
+    float: left;
+  }
 	.form-type-textfield.form-item-mail input {
 		width:20em;
 		margin-bottom:10px;
@@ -1456,7 +1466,7 @@ form[id^='user-profile-form'] {
 	.form-type-textfield label {
 		font-size:0.95em;
 	}
-	.form-type-textfield label, .form-type-textfield input {
+	.form-type-textfield label, .form-type-textfield input, .city-state-lookup-zips {
 		display:block;
 	}
 	.eenterprise-utility-form-item-description-p { 
@@ -1498,6 +1508,10 @@ form[id^='user-profile-form'] {
 		.form-item .form-type-textfield label, .form-checkbox{
 			display: none;
 		}
+
+      #user-profile-select-zip, #user-profile-back-zip {
+        display: inline-block;
+      }
 		label {
 			float: left;
 		}

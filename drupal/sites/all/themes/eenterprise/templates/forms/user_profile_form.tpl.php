@@ -1,12 +1,10 @@
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <?php
-
+drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_input_engine.js');
 drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "file");
 drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", "file");
-
 drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
 drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', 'external');
-
 ?>
 <div class="edit-user-profile">
   <div id="profile-tabs">
@@ -26,18 +24,7 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
       <h3>Locations of Interest</h3>
       <p class="eenterprise-utility-form-item-description-p">
         <?php
-        $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon next to a location to make it your default location.</strong> <br />";
-        $geolocation = false;
-        if (isset($_SESSION['geolocation_used'])) {
-          if ($_SESSION['geolocation_used'] == 'true') {
-            $geolocation = true;
-            $location_description .=  'Until a location is specified, the location detected upon your initial login will be set as the default.';
-          }
-        }
-        if ($geolocation == false) {
-          $location_description  .=  'Until a location is specified, the default location is set to Durham, North Carolina.';
-        }
-        print $location_description;
+        print location_description();
         ?>
         <span class='zip_code_ajax_error'></span>
       </p>
