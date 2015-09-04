@@ -8,12 +8,8 @@
       $('.grid-stack-item.ui-draggable').each(function(){
 
         var contentHeight = $(this).find('.panel-pane')[0].scrollHeight + verticalMargin + 2;
-
-        console.log(contentHeight);
-
         var gsHeight = Math.ceil(contentHeight / (cellHeight + verticalMargin));
         grid.resize(this, null, gsHeight);
-        console.log(contentHeight, gsHeight, grid.cell_height());
       });
     }
 
