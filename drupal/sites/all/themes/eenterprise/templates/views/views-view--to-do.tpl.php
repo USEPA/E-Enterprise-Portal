@@ -62,7 +62,7 @@
             <li id="beyond-next-week" class="todo_filter_button <?php print $beyond_next_week;?>"><a href="javascript:void(0)" class="favorites-ignore">Beyond</a></li>
         </ul>
     </div>
-
+    <a href="todo/refresh" class="favorites-ignore" style="float:right;">Refresh</a>
     <?php if ($exposed): ?>
     <div class="view-filters">
       <?php print $exposed; ?>
@@ -81,7 +81,14 @@
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
-      <?php print $empty; ?>
+      <?php
+        if(isset($_GET['field_todo_lst_due_value'])) {
+            print "You have no tasks matching the selected criteria.";
+        }
+        else {
+            print $empty;
+        }
+      ?>
     </div>
   <?php endif; ?>
 

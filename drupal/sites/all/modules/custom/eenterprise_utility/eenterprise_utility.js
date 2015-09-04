@@ -62,7 +62,7 @@
 
         $('body').on('change', '.field_zip_code', function () {
             var input = $(this);
-            var  field_suffix = input.next('.field-suffix');
+            var field_suffix = input.next('.field-suffix');
             var add_button = input.closest('td').find('.field-add-more-submit');
             var remove_button = input.closest('td').find('.remove-button');
             var primary_indicator = input.closest('td').find('.zip-code-primary-holder');
@@ -101,7 +101,6 @@
                         primary_indicator.show();
 
 
-
                     });
                     confirm.click(function () {
                         back.remove();
@@ -121,57 +120,6 @@
                 }
             }
         });
-
-
-
-        //function getLocation() {
-        //    if (navigator.geolocation) {
-        //        navigator.geolocation.getCurrentPosition(showPosition);
-        //    } else {
-        //        alert("Geolocation is not supported by this browser.");
-        //    }
-        //}
-        //
-        //function showPosition(position) {
-        //    var latitude = position.coords.latitude;
-        //    var longitude = position.coords.longitude;
-        //    console.log(position.coords);
-        //    $('#location-description-user').show();
-        //    lookupAndProcessCityState(latitude, longitude);
-        //}
-
-
-        //function lookupAndProcessCityState(latitude, longitude) {
-        //    var location_data;
-        //    var default_message = 'Until a location is specified, the default location is set to Durham, North Carolina.';
-        //    var message_holder = $('#message-holder');
-        //    $.ajax({
-        //        url: '/return_location_data_lat_long',
-        //        type: 'GET',
-        //        async: false,
-        //        data: {latitude: latitude, longitude: longitude},
-        //        success: function (location_data) {
-        //            location_data = $.parseJSON(location_data);
-        //            if (!location_data.error) {
-        //                default_message = 'Until a location is specified, the default location is set to ' + location_data.city + ', ' + location_data.state;
-        //            }
-        //            else {
-        //                default_message = 'Until a location is specified, the default location is set to ' + location_data.city + ', ' + location_data.state;
-        //
-        //            }
-        //
-        //            return location_data;
-        //        },
-        //        failure: function () {
-        //            alert('Unable to connect to service');
-        //        }
-        //    });
-        //    return location_data;
-        //}
-
-        //getLocation();
-
-
 
 
         var path = window.location.pathname;
@@ -236,165 +184,7 @@
         placeAddAnotherButton(false, '#field-zip-code-values', '#zipcode_description');
         placeAddAnotherButton(false, '#field-profile-favourites-values', '#links_description');
         $('#zipcode_description').show();
-        // AUTOCOMPLETE FUNCTIONALITY
 
-//
-//		function generateParents(parents_array, last_parent_id, vid, initial) {
-//			if (parents_array.length > 0) {
-//				var current_parent = parents_array[parents_array.length - 1];
-//				parents_array.splice(-1, 1);
-//				var vocab_list = '<ul><li id="parent-holder-' + current_parent[0] + '"></li><ul>';
-//				if (vid > 0 ) {
-//					$('#vocab_holder-' + vid).append(vocab_list);
-//					$('#vocab_holder-' + vid).show();
-//					vid = -1;
-//				}
-//				if ($('#parent-holder-' + last_parent_id).length > 0) {
-//					$('#parent-holder-' + last_parent_id).append(vocab_list);
-//				}
-//				$('#parent-holder-' + current_parent[0]).append($('label[for="' + 'edit-field-interests2-und-' + current_parent[0] + '"]'));
-//				$('label[for="' + 'edit-field-interests2-und-' + current_parent[0] + '"]').show();
-//
-//				generateParents(parents_array, current_parent[0], vid);
-//			}
-//		}
-//
-//
-//
-//	    var availableTags = [];
-//		var allInitialInterests = []; /*['Conservation', 'Energy Effienciency', 'Fuel Economy', 'Pollution Prevention',
-//			'Renewable Energy', 'Sustainable Development', 'Waste Reduction','Food Safety', 'Health Effects', 'Health Risks',
-//			'Special Populations', 'Soils & Land', 'Air', 'Species', 'Water', 'Compliance & Enforcement', 'Permitting Programs', 'Regulated Facilities',
-//			'Regulatory Development', 'Substances Management']; */
-//		var otherInterests = ['Coop & Assistance', 'EPA General', 'EPA Operational', 'Emergencies & Cleanup', 'Environmental Laws, Regulations, & Treaties',
-//						'Research, Analysis, & Technologies', 'Substances'];
-//
-//
-//
-//	function showValue(checkbox_id, initial) {
-//		//Grab number from checkbox_id, TID
-//		var tid = checkbox_id.split('-');
-//		var parent_id;
-//		tid = tid[tid.length - 1];
-//		var ul_id;
-//		return $.ajax({
-//			url: '/get_taxonomy_parent_name/' + tid,
-//			method: 'POST',
-//			data: checkbox_id,
-//			success: function(data) {
-//				var data = $.parseJSON(data);
-//				$('#' + checkbox_id).attr('checked', true);
-//				generateParents(data.parents, checkbox_id, data.vid, initial);
-//			}
-//		});
-//	}
-//
-//
-//
-//
-///// FIRST ITERATE THROUGH PARENTS
-//	// $.each(initialParents, function(key, value) {
-//	// 		// var checkbox_id = $(this).attr('id');
-//	// 		var vocab_parent = '<ul><li id="vocab_holder-' + value + '" class="vocab_holder"><h3><span class="label label-primary full-width">' + key + '</span></h3></li></ul>';
-//	// 		$('.vocab-tier-0').append(vocab_parent);
-//	// 		console.log(vocab_parent);
-//	// 	});
-//	$('.field-name-field-interests2 .form-item').hide();
-//
-//	$('.field-name-field-interests2 .form-item .form-type-checkbox').hide();
-//	function processCheckboxes() {
-//		var promises = [];
-//
-//	$('.field-name-field-interests2 .form-item .form-type-checkbox').each(function() {
-//		var checkbox_text = $(this).find('label').text();
-//		var request;
-//		checkbox_text = $.trim(checkbox_text.replace(/\-/g, ''));
-//		if ($(this).find('input').attr('checked') == 'checked') {
-//			$(this).find('label').html('<h3><span class="label label-primary">' +checkbox_text + '</span></h3>');
-//		}
-//		else {
-//			$(this).find('label').html('<h3><span class="label label-default">' +checkbox_text + '</span></h3>');
-//		}
-//		var checkbox_id = $(this).find('input').attr('id');
-//		// load elements for autocomplete
-//		availableTags.push({value: checkbox_id, label: checkbox_text});
-//		if ($.inArray(checkbox_text, allInitialInterests) !== -1) {
-//			request = showValue(checkbox_id, true);
-//			// remove element from initial interests
-//			allInitialInterests.splice($.inArray(checkbox_text, allInitialInterests), 1);
-//		}
-//		else if ($(this).find('input').attr('checked') == 'checked') {
-//			request = showValue(checkbox_id, true);
-//		}
-//		promises.push(request);
-//	});
-//	return promises;
-//	}
-//
-//
-//    $( "#tags" ).autocomplete({
-//      source: availableTags,
-//	  change: function(e) {
-//		  e.preventDefault();
-//	  },
-//	focus:  function(e, v) {
-//		e.preventDefault();},
-//	select:  function(e,selection) {
-//		showValue(selection.item.value, false);
-//		$('.ui-autocomplete-input').val('Start typing...');
-//		e.preventDefault();
-//	}
-//    });
-//
-//
-//
-//	$('body').on('click', '.vocab_holder .label', function() {
-//	if ($(this).hasClass('label-primary')) {
-//		$(this).removeClass('label-primary').addClass('label-default');
-//	}
-//	else {
-//		$(this).removeClass('label-default').addClass('label-primary');
-//	}
-//});
-//
-//// Handle group edits down the hierarchy
-//$('body').on('click', '.label-primary', function() {
-//	var children = $(this).closest('ul').find('ul .label.label-primary');
-//	if (children.length > 0) {
-//		children.removeClass('label-primary').addClass('label-default');
-//		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', false);
-//	}
-//});
-//$('body').on('click', '.label-default', function() {
-//	var children = $(this).closest('ul').find('ul .label.label-default');
-//	if (children.length > 0) {
-//		children.removeClass('label-default').addClass('label-primary');
-//		$(this).closest('.vocab_holder').find('checkboxes').attr('checked', true);
-//	}
-//});
-//
-//
-//$('body').on('click', '.glyphicon-chevron-down', function() {
-//	$(this).closest('li').find('ul').show();
-//	$(this).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-//});
-//$('body').on('click', '.glyphicon-chevron-up', function() {
-//	$(this).closest('li').find('ul').hide();
-//	$(this).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-//});
-//
-//	var promises = processCheckboxes();
-//	$.when.apply(null, promises).done(function(){
-//		$('#loading_interests').hide();
-//		$('.vocab-columns .glyphicon').trigger('click');
-//		$('.autocomplete-interests').show();
-//	});
-//
-//
-//
-    }); // end document ready
-    // On location change, save session
-
-
+    });
 })(jQuery);
 
