@@ -108,8 +108,7 @@
                         //initialize filters object
                         var org_filter_select_holder = $('#fmw-organization-select-holder');
                         var org_filter_select = $('#fmw-organization-select');
-                        var org_single = $('#fmw-org-single');
-                        var orgs_num = org_to_roles.length;
+                        var org_single = $('#fmw-organization-single');
                         var management_button = $('#launch-facility-management');
 
                         var type_filter_select_holder = $('#fmw-type-select-holder');
@@ -130,22 +129,39 @@
                         });
 
                         org_filter_select.append('<option value="">Select an Organization</option>');
+                        var count = 0;
+                        var first_org_id;
+                        var first_org_name;
                         $.each(org_to_roles, function (org_id, org_obj) {
                             org_filter_select.append('<option value="' + org_id + '" >' + org_obj.name + '</option>');
+                            count = count + 1;
+                            first_org_id = org_id; // unused if count > 1
+                            first_org_name = org_obj.name;
+
                         });
+
+                        if (count == 1) {
+                            org_filter_select.val(first_org_id).hide();
+                            org_single.html(first_org_name).show();
+                            createProgramSelect(org_to_roles[first_org_id].roles);
+                        }
+                        else {
+                            org_filter_select.show();
+                        }
+
 
                         org_filter_select.change(function () {
                             var selected_org = $(this).val();
-                                program_filter_select_holder.hide()
-                                type_filter_select_holder.hide();
-                                management_button.hide();
-                                if (selected_org != '') {
-                                    createProgramSelect(org_to_roles[selected_org].roles);
-                                }
+                            program_filter_select_holder.hide()
+                            type_filter_select_holder.hide();
+                            management_button.hide();
+                            if (selected_org != '') {
+                                createProgramSelect(org_to_roles[selected_org].roles);
+                            }
                         });
 
-                    }
-                    else {
+
+                    } else {
                         alert('unable to recieve user data');
                     }
 

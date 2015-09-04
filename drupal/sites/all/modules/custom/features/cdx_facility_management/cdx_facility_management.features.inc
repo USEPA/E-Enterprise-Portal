@@ -89,6 +89,8 @@ function cdx_facility_management_iframe()
 
 function return_cdx_facility_management_token()
 {
+
+
     $token = $_SESSION['cdx_fmw_security_token'];
     $server_ip = variable_get('frs_api_lookup_ip');
     $json_return = array(
@@ -141,7 +143,6 @@ function retrieve_cdx_user_data()
             );
             $org_val = null;
             $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
-            dpm($user_orgs);
             // CDX returns object if single return and array if multiple
             if (is_array($user_orgs->Organization)) {
                 foreach ($user_orgs->Organization as $index => $org_val) {
@@ -167,13 +168,25 @@ function retrieve_cdx_user_data()
 
 
 function addCDXRole($json_return, $role, $org_id) {
+    $disallowed_types = ['State Reviewer', 'Primary Support', 'Secondary Support'];
     $role_obj = array();
-    $role_obj['type'] = $role->type->description;
-    $role_obj['userRoleId'] = $role->userRoleId;
-    if (!isset($json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow])) {
-        $json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow] = array();
+    $role_type = $role->type->description;
+    $status = $role->status->code;
+
+    if (in_array($role_type, $disallowed_types) || $status == 'Inactive') {
+        // not allowed to show this user type
+        $json_return['invalid_cdx_role'] = true;
     }
-    $json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow][] = $role_obj;
+    else {
+        $role_obj['type'] = $role_type;
+        $role_obj['userRoleId'] = $role->userRoleId;
+        if (!isset($json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow])) {
+            $json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow] = array();
+        }
+        $json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow][] = $role_obj;
+        $json_return['invalid_cdx_role'] = false;
+
+    }
     return $json_return;
 }
 
@@ -196,15 +209,18 @@ function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, 
             foreach ($user_roles->Role as $key=>$role) {
                 if (in_array($role->dataflow, $allowed_program_roles)) {
                     $json_return = addCDXRole($json_return, $role, $org_id);
+                    if (!$json_return['invalid_cdx_role']) {
                     $org_contains_role = true;
+                    }
                 }
             }
         } else {
             $role = $user_roles->Role;
             if (in_array($role->dataflow, $allowed_program_roles)) {
                 $json_return = addCDXRole($json_return, $role, $org_id);
-                $org_contains_role = true;
-            }
+                if (!$json_return['invalid_cdx_role']) {
+                    $org_contains_role = true;
+                }            }
         }
     }
     if (!$org_contains_role) {
