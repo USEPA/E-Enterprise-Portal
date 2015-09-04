@@ -70,54 +70,15 @@
 
     map.addLayer(AQSMonitorLayer);
 
-    /*
+
     AQSMonitorLayer.bindPopup(function(error, featureCollection) {
       if (error || featureCollection.features.length === 0) {
         return false;
       } else {
-        console.log("Bind popup");
-        $.ajax({
-          type: 'GET',
-          url: '/my_air_quality_map_view/api/current/latLong/',
-          async: true,
-          data: {
-            format: 'application/json',
-            latitude: '32.6460',
-            longitude: '-97.4248',
-            date: '2015-09-03',
-            distance: '50'
-          },
-          success: function(data, status, xhr) {
-            var airnowAPIResultData = JSON.parse(data);
-            var AQSpopupContent = '<table>';
-            for (var i = 0; i < airnowAPIResultData.length; i++) {
-              console.log(airnowAPIResultData[i].ParameterName);
-              console.log(airnowAPIResultData[i].Category.Name);
-              var paramName = airnowAPIResultData[i].ParameterName;
-              var AQICategoryName = airnowAPIResultData[i].Category.Name;
-              var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
-              AQSpopupContent += row;
-            }
-            AQSpopupContent += '</table>';
-            console.log(AQSpopupContent);
-            return AQSpopupContent;
-            //return AQSpopupContent;
-          }
-        }).fail(function(xhr, status) {
-          if (status == "error") {
-            console.log("Error in AirNow API request.");
-            return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
-          }
-        });
-
-        //var clickedFeatureProps = featureCollection.features[0].properties;
-        //return 'Air Monitor Popup Placeholder';
-        //console.log(featureCollection.features[0]);
-
-        //return queryForAirMonPopup('', '');
+        return 'Querying Current Air Quality - Please Wait.';
       }
     });
-  */
+
 
     var stateBoundaries = L.esri.dynamicMapLayer({
       url: 'https://gispub.epa.gov/arcgis/rest/services/ORD/ROE_StateBoundaries/MapServer',
@@ -164,6 +125,9 @@
             success: function(data, status, xhr) {
               //console.log("success");
               var airnowAPIResultData = JSON.parse(data);
+              if (cityName == "NOT IN A CITY") {
+                cityName = "RURAL AREA";
+              }
               var AQSpopupContent = cityName + ', ' + stateAbbrev + '</br>Current Air Quality<table><tbody><tr><td><b>Parameter</b></td><td><b>Category</b></td></tr>';
               for (var i = 0; i < airnowAPIResultData.length; i++) {
                 var paramName = airnowAPIResultData[i].ParameterName;
