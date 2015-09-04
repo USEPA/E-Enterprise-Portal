@@ -40,12 +40,11 @@
     $('.grid-stack').gridstack(options);
     var grid = $('.grid-stack').data('gridstack');
 
-    new ResizeSensor(jQuery('.grid-stack-item'), function() {
+    // todo: find a way to recalculate widget heights less often
+    $(document).ajaxComplete(function(){
       recalculateWidgetHeights(grid);
     });
 
-    new ResizeSensor(jQuery('.view-content'), function() {
-      recalculateWidgetHeights(grid);
-    });
+    $( window ).resize( _.debounce( function(){ recalculateWidgetHeights(grid) }, 150 ) );
   });
 })(jQuery);
