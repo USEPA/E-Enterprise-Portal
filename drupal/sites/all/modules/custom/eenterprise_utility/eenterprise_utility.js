@@ -4,7 +4,7 @@
     $(document).ready(function () {
 
 
-       
+
 
         function placeAddAnotherButton(ajax_content, table_id, parent_id) {
             var table = $(table_id);
