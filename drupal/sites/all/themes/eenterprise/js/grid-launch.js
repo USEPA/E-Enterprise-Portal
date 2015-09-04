@@ -8,9 +8,9 @@
       // assign x and y values to widgets
       // todo: load saved x and y values from user profile
       var count = 0;
-      $($(".grid-stack-item").get().reverse()).each(function(){
-        var x = (count+1) % 2 * 6;
-        var y = Math.floor(count / 2) * 6;
+      $(".grid-stack-item").each(function(){
+        var x = count % 2 * 6;
+        var y = Math.floor(count / 2) * 30;
         //grid.move($(this), x, y);
         $(this).attr({'data-gs-x': x, 'data-gs-y': y});
         //console.log($(this), x, y, $(this).attr('data-gs-x'), $(this).attr('data-gs-y'));
