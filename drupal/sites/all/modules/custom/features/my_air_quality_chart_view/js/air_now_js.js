@@ -102,10 +102,12 @@
     //'2015-09-03' format for AirNow API
     var todayDate = yyyy + '-' + mm + '-' + dd;
 
+
+
     map.on("click", function(e) {
       $('html, body').css("cursor", "wait");
       AQSMonitorLayer.identify().on(map).at(e.latlng).run(function(error, featureCollection) {
-        if (featureCollection.features.length > 0) {
+        if (featureCollection.features.length > 0 && map.getZoom() > 9) {
           var lon83 = featureCollection.features[0].properties.LONGITUDE83;
           var lat83 = featureCollection.features[0].properties.LATITUDE83;
           var cityName = featureCollection.features[0].properties.CITY_NAME;
