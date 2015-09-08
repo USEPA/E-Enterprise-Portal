@@ -37,9 +37,12 @@ drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", "file");
 drupal_add_js("sites/all/libraries/globalassets/scripts/assets.core.js");
 
 drupal_add_js("//cdn.jsdelivr.net/leaflet/0.7.3/leaflet.js", "file");
+/*
 drupal_add_js("//cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js", "file");
-
+*/
 drupal_add_js(drupal_get_path('module', 'my_air_quality_chart_view') ."/js/air_now_js.js", "file");
+drupal_add_js(drupal_get_path('module', 'my_air_quality_chart_view') ."/js/esri.leaflet.1.0.0.customCGI.js", "file");
+
 ?>
 
 <div class="view-content">

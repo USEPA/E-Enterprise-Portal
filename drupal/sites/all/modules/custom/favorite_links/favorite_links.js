@@ -52,9 +52,10 @@ $(document).ready(function(){
 	} 
 	
 	function processPageAnchors() {
-        var ignore_panels = ['.pane-views-my-air-quality-chart-block-1', '.pane-views-cdx-facility-management-block'];
+        var ignore_panels = ['.pane-views-my-air-quality-chart-block-1', '.pane-views-cdx-facility-management-block', '.pane-views-progress-tracker-block-1', '.pane-views-to-do-block-1'];
 		// process img links
-		$('#main-content .panel-pane:not(' + ignore_panels.join(',') + ') img').each(function () {
+        $('.panel-pane:not(' + ignore_panels.join(',') + ') img').each(function () {
+
 		if ($(this).closest('a').attr('href') != '#' && $(this).closest('a').attr('href')!= '') {
 			if (!$(this).closest('a').hasClass('processed-favorite')) {
 				$(this).closest('a').addClass('processed-favorite');
@@ -86,7 +87,7 @@ $(document).ready(function(){
 			}
 		});
 			// process anchor tags
-		$('#main-content .panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore)').each(function () {
+		$('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore)').each(function () {
 		if ($(this).text().length > 0 && $(this).attr('href') != '#' && $(this).attr('href') != '/') {
 				if (!$(this).hasClass('processed-favorite')) {
 				var url = $(this).attr('href');

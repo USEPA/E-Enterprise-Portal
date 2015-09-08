@@ -73,27 +73,61 @@ function first_time_user_profile_block_theme_registry_alter(&$theme_registry)
 /**
  * Params: array of zip codes, array of taxonomy ids for interests, skip boolean
  * Changes user's first_time_user to false
- * If skip boolean, only first_time_user is set to false
+ * If skip boolean, zip code is saved if user allowed geolocation
+ *  If not- no zip code saved.
  */
 
 function save_first_time_user_preferences()
 {
     global $user;
     $user_data = user_load($user->uid);
-
     $skip = $_GET['skip'];
     $zip = $_GET['zip'];
     $term_names = $_GET['term_names'];
     $geolocation_used = $_GET['geolocation_used'];
     $geolocation_zip = $_GET['geolocation_zip'];
+    if ($geolocation_used == 'true') {
+        $geolocation_used = 1;
+    }
+    else {
+        $geolocation_used = 0;
+    }
 
     $user_zip_codes = $user_data->field_zip_code;
     unset($user_zip_codes);
+    $user_initial_login = $user_data->field_initial_log_in;
     $first_time_user = $user_data->field_first_time_user;
-    $user_interests = $user_data->field_interests2;
+//    $user_interests = $user_data->field_interests2;
 
+    // Store users geolocation
+    if ($skip && $geolocation_used) {
+        $zip = $geolocation_zip;
+    }
+
+    //Capture inital user settings for default zip
+        $multifield_initial_zip_obj = array (
+            'field_default_zip_code_value' => 1,
+            'field_default_zip_code_format' => null,
+            'field_geolocation_value' => $zip,
+            'field_geolocation_value_format' => null,
+            'field_geolocation' => array(
+                LANGUAGE_NONE => array(
+                    0 => array(
+                        'value' => $geolocation_used
+                    ),
+                ),
+            ),
+            'field_default_zip_code' => array(
+                LANGUAGE_NONE => array(
+                    0 => array(
+                        'value' => $zip
+                    ),
+                ),
+            ),
+        );
+
+    $user_initial_login[LANGUAGE_NONE][0] = $multifield_initial_zip_obj;
     if (!$skip) {
-//        foreach($zip_codes as $zip) { //Save locations
         $multifield_zip_obj = array(
             'field_field_primary_value' => 1,
             'field_field_primary_format' => null,
@@ -116,15 +150,15 @@ function save_first_time_user_preferences()
         );
         $user_zip_codes[LANGUAGE_NONE][] = $multifield_zip_obj;
 
-        foreach ($term_names as $term_name) { //Save interests
-            $term_array = taxonomy_get_term_by_name($term_name);
-            $term = reset($term_array); # get the first element of the array which is our term object
-            $tid = $term->tid;
-            $interest_obj = array(
-                'target_id' => (string)$tid,
-            );
-            $user_interests[LANGUAGE_NONE][] = $interest_obj;
-        }
+//            foreach ($term_names as $term_name) { //Save interests
+//                $term_array = taxonomy_get_term_by_name($term_name);
+//                $term = reset($term_array); # get the first element of the array which is our term object
+//                $tid = $term->tid;
+//                $interest_obj = array(
+//                    'target_id' => (string)$tid,
+//                );
+//                $user_interests[LANGUAGE_NONE][] = $interest_obj;
+//            }
     }
 
     // Set first_time_user boolean to false
@@ -133,18 +167,20 @@ function save_first_time_user_preferences()
     $edit = array(
         'field_zip_code' => $user_zip_codes,
         'field_first_time_user' => $first_time_user,
-        'field_interests2' => $user_interests,
+//        'field_interests2' => $user_interests,
+        'field_initial_log_in' => $user_initial_login,
     );
 
     $return_msg = array();
 
     try {
-        $_SESSION['geolocation_used'] = $geolocation_used;
-        $_SESSION['geolocation_zip'] = $geolocation_zip;
+//        $_SESSION['geolocation_used'] = $geolocation_used;
+//        $_SESSION['geolocation_zip'] = $geolocation_zip;
         user_save($user_data, $edit);
     } catch (Exception $e) {
         $return_msg['error_msg'] = $e;
         $return_msg['success'] = false;
+        $return_msg['geo'] = $geolocation_used;
         print json_encode($e);
         exit();
     }
@@ -191,7 +227,6 @@ function return_location_data()
         $city = trim($location_array[0]);
         $state = trim($location_array[1]);
         $zips = frs_city_state_to_zip_code($city, $state);
-//        $zips['name_city_state'] = false;
         echo json_encode($zips);
     } else {
         $zip_lookup = zip_code_lookup($validation['postal_code']);
@@ -358,7 +393,7 @@ function frs_naas_autentication()
     }
 
     if (isset($client)) {
-        if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
+//        if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
             $params = array(
                 "userId" => $email,
                 "credential" => $password,
@@ -368,21 +403,6 @@ function frs_naas_autentication()
                 'resourceURI' => ''
             );
             $soap_type = 'CentralAuth';
-        } else {
-            $params = array(
-                "userId" => $email,
-                "credential" => $password,
-                "domain" => variable_get('cdx_node_token_domain'),
-                "authMethod" => variable_get('cdx_node_token_auth_method'),
-                "trustee" => $email,
-                "ip" => variable_get('frs_api_lookup_ip'),
-                "subjectData" => "tbd",
-                "subject" => "tbd",
-                "issuer" => "EEP",
-                "tokenType" => 'csm',
-            );
-            $soap_type = 'CreateSecurityToken';
-        }
 
 
         $token = null;

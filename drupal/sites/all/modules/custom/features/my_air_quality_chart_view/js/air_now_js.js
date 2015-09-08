@@ -4,8 +4,8 @@
   var map;
   var markers;
   var currentZipData;
-  //var currentLocation;
   var todayAQI;
+  var AQSMonitorLayer;
 
   $(document).ready(function() {
 
@@ -15,7 +15,9 @@
 
     $tabs.tabs({
       activate: function(e, ui) {
-        if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') { // map tab activated
+        //map tab activated
+        if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {
+          //console.log("map tab activated");
           updateMarker();
         }
       }
@@ -23,21 +25,30 @@
 
     $(document).on("ee:zipCodeQueried", function(evt, data) {
       currentZipData = data;
-
       draw(currentZipData.zip, currentZipData.string);
-
+      //if markers exist then it's not the original map load
       if (markers) {
         map.removeLayer(markers);
+        markers = new L.FeatureGroup();
+        map.addLayer(markers);
+        updateMarker();
       }
-
-      markers = new L.FeatureGroup();
-      map.addLayer(markers);
-      updateMarker();
+      //original map load so markers are added via other method in map creation
+      else {
+        markers = new L.FeatureGroup();
+        map.addLayer(markers);
+      }
     });
   });
 
   function loadMap() {
-    var map = L.map('my-air-quality-air-now-map-container').setView([39.025, -95.203], 10);
+
+    var map = L.map('my-air-quality-air-now-map-container');
+    map.on('load', function(e) {
+      //console.log('map loaded');
+    });
+    //this extent is not actually used (but is needed), since map should be panned to the marker after being created
+    map.setView([32.505, -96.09], 13);
 
     $('a', map.getContainer()).addClass('favorites-ignore');
 
@@ -45,26 +56,26 @@
 
     var aqiLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
-      opacity: 0.9,
-      position: ''
+      opacity: 0.5,
+      position: 'back'
     }).addTo(map);
 
-    var AQSMonitorLayer = L.esri.dynamicMapLayer({
+    AQSMonitorLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OEI/FRS_AQSTemp/MapServer",
-      opacity: 1.0
+      opacity: 1.0,
+      position: 'front'
     });
 
-    AQSMonitorLayer.on("load", function() {});
+    //AQSMonitorLayer.on("load", function() {});
 
     map.addLayer(AQSMonitorLayer);
 
-    var AQSpopupTemplate = "<h3>AQS ID: {PGM_SYS_ID}</h3><br><small><small>";
 
     AQSMonitorLayer.bindPopup(function(error, featureCollection) {
       if (error || featureCollection.features.length === 0) {
         return false;
       } else {
-        return 'AQS Monitor ID: ' + featureCollection.features[0].properties.PGM_SYS_ID;
+        return 'Querying Current Air Quality - Please Wait.';
       }
     });
 
@@ -77,27 +88,159 @@
 
     map.fitBounds(stateBoundaries._map.getBounds());
 
+    //calc a date string for AirNow API call for a map click on air monitor event
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    //'2015-09-03' format for AirNow API
+    var todayDate = yyyy + '-' + mm + '-' + dd;
+
+
+
+    map.on("click", function(e) {
+      $('html, body').css("cursor", "wait");
+      AQSMonitorLayer.identify().on(map).at(e.latlng).run(function(error, featureCollection) {
+        if (featureCollection.features.length > 0 && map.getZoom() > 9) {
+          var lon83 = featureCollection.features[0].properties.LONGITUDE83;
+          var lat83 = featureCollection.features[0].properties.LATITUDE83;
+          var cityName = featureCollection.features[0].properties.CITY_NAME;
+          var stateAbbrev = featureCollection.features[0].properties.STATE_CODE;
+
+          $.ajax({
+            type: 'GET',
+            url: '/my_air_quality_map_view/api/current/latLong/',
+            async: true,
+            data: {
+              format: 'application/json',
+              latitude: lat83,
+              longitude: lon83,
+              date: todayDate,
+              distance: '50'
+            },
+            success: function(data, status, xhr) {
+              //console.log("success");
+              var airnowAPIResultData = JSON.parse(data);
+              if (cityName == "NOT IN A CITY") {
+                cityName = "RURAL AREA";
+              }
+              var AQSpopupContent = cityName + ', ' + stateAbbrev + '</br>Current Air Quality<table><tbody><tr><td><b>Parameter</b></td><td><b>Category</b></td></tr>';
+              for (var i = 0; i < airnowAPIResultData.length; i++) {
+                var paramName = airnowAPIResultData[i].ParameterName;
+                var AQICategoryName = airnowAPIResultData[i].Category.Name;
+                var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
+                AQSpopupContent += row;
+              }
+              AQSpopupContent += '</tbody></table>';
+              var popup = L.popup()
+                .setLatLng(e.latlng)
+                .setContent(AQSpopupContent)
+                .openOn(map);
+              $('html, body').css("cursor", "auto");
+            }
+          }).fail(function(xhr, status) {
+            if (status == "error") {
+              $('html, body').css("cursor", "auto");
+              console.log("Error in AirNow API request.");
+              return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
+            }
+          });
+        } else {
+          $('html, body').css("cursor", "auto");
+        }
+      });
+
+    });
+
+    //alternate popup method
+    /*
+    map.on('click', function(e) {
+      AQSMonitorLayer.identify().on(map).at(e.latlng).run(function(error, featureCollection) {
+        console.log(e.latlng);
+        if (featureCollection.features.length > 0) {
+          identifiedFeature = L.geoJson(featureCollection.features[0], {
+            style: function() {
+              return {
+                color: '#5C7DB8',
+                weight: 2
+              };
+            }
+          }).addTo(map);
+          console.log(identifiedFeature);
+          //pane.innerHTML = featureCollection.features[0].properties.NAME1;
+        }
+      });
+    });
+    */
+
 
     return map;
   }
 
+  function queryForAirMonPopup(popupLat, popupLon) {
+    //query the public AirNow API using the lat/long of the Air Monitor location
+    var resultJson;
+    $.ajax({
+      type: 'GET',
+      url: '/my_air_quality_map_view/api/current/latLong/',
+      async: true,
+      data: {
+        format: 'application/json',
+        latitude: '32.6460',
+        longitude: '-97.4248',
+        date: '2015-09-03',
+        distance: '50'
+      },
+      success: function(data, status, xhr) {
+        var airnowAPIResultData = JSON.parse(data);
+        var AQSpopupContent = '<table>';
+        for (var i = 0; i < airnowAPIResultData.length; i++) {
+          console.log(airnowAPIResultData[i].ParameterName);
+          console.log(airnowAPIResultData[i].Category.Name);
+          var paramName = airnowAPIResultData[i].ParameterName;
+          var AQICategoryName = airnowAPIResultData[i].Category.Name;
+          var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
+          AQSpopupContent += row;
+        }
+        AQSpopupContent += '</table>';
+        console.log(AQSpopupContent);
+        AQSMonitorLayer.bindPopup('test');
+        //return AQSpopupContent;
+      }
+    }).fail(function(xhr, status) {
+      if (status == "error") {
+        console.log("Error in AirNow API request.");
+        return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
+      }
+    });
+
+  }
+
+
+
   function updateMarker() {
-    if (currentZipData) {
-      //$.getJSON('/zip_code_lookup?zip=' + currentZip, function(data) {
+    if (currentZipData && currentZipData.latitude && currentZipData.longitude) {
+      map.invalidateSize();
+      var latlng = [currentZipData.latitude, currentZipData.longitude];
 
-        var latlng = [currentZipData.latitude, currentZipData.longitude];
+      var marker = L.marker(latlng).addTo(markers);
+      marker.bindPopup("<b>" + currentZipData.string + "</b>" + (todayAQI ? ("<br/>Today's Air Quality: " + todayAQI) : ""), {
+        minWidth: 150,
+        maxWidth: 500,
+        className: 'favorites-ignore'
+      });
 
-        var marker = L.marker(latlng).addTo(markers);
-        marker.bindPopup("<b>" + currentZipData.string + "</b>" + (todayAQI ? ("<br/>Today's Air Quality: " + todayAQI) : ""), {
-          minWidth: 150,
-          maxWidth: 500,
-          className: 'favorites-ignore'
-        });
+      marker.openPopup();
+      //console.log(currentZipData.latitude);
+      //console.log(currentZipData.longitude);
 
-        //map.setView(latlng);
-        marker.openPopup();
-
-      //});
+      map.panTo(new L.LatLng(currentZipData.latitude, currentZipData.longitude));
     }
   }
 
@@ -367,7 +510,6 @@
       if (dateDiffInDays(new Date(), getDate(data[i].DateForecast)) == 0) {
         todayData = data[i];
         todayAQI = todayData.AQI;
-        updateMarker();
         break;
       }
     }
@@ -502,7 +644,8 @@
     yAxisGroup.append("text")
       .attr("y", h + m[0] + 20)
       .style("font-size", "70%")
-      .text("Note: Graph is not drawn to scale.");
+      .text("Note: These are forecasted values./Graph is not drawn to scale.")
+      .each(insertLinebreaks);
 
     /*
      // add grid lines to show scale
@@ -566,10 +709,10 @@
       .attr("y", function(d) {
         return y(d.visualAQI) - 20
       })
-      // .attr("dy", ".35em")
-      .attr("class", function(d) {
-        return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text'
-      })
+    // .attr("dy", ".35em")
+    .attr("class", function(d) {
+      return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text'
+    })
       .attr("text-anchor", "middle")
       .text(function(d) {
         return d.ShowAQILabel ? d.AQI : '';
@@ -612,7 +755,14 @@
 
   var draw = function(zipCode, locationText) {
 
-    var categoryToMidAQI = {1: 25, 2: 75, 3: 125, 4: 175, 5: 250, 6: 400};
+    var categoryToMidAQI = {
+      1: 25,
+      2: 75,
+      3: 125,
+      4: 175,
+      5: 250,
+      6: 400
+    };
 
     function parseData(responseData) {
       var data = [];

@@ -67,7 +67,7 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
             <div class="marginBottom-10 col-xs-12 col-sm-8 col-md-8 col-lg-8" style="padding:0">
 
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <label>Last update</label>
+                <label>Latest reading</label>
                     <span class="currentObsDate"></span>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -86,7 +86,7 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
               <ul class="vg-numbers">
                   <li><h4 id="temp-label" aria-labelledby="">Temp</h4><p aria-labelledby="temp-label"><span class="curTempReading">0</span> <span class="vg-units" id="temp-units"><abbr title="Degrees fahrenheit">&deg; F</abbr></span></p></li>
                   <li><h4 id="humid-label" aria-labelledby="">Humidity</h4><p aria-labelledby="humid-label"><span class="curHumidReading">0</span> <span class="vg-units" id="humid-units">%</span></p></li>
-                  <li><h4 id="wind-label" aria-labelledby="">Wind</h4><p aria-labelledby="wind-label"><span class="curWSReading">0</span> <span class="vg-units" id="wind-units"><abbr title="Miles per hour">mph</abbr> <span class="curWDReading"></span></span></p></li>
+                  <li><h4 id="wind-label" aria-labelledby="">Wind</h4><p aria-labelledby="wind-label"><span class="curWSReading">0</span> <abbr class="curWDReading"></abbr><span class="vg-units" id="wind-units"><abbr title="Miles per hour">mph</abbr></span></p></li>
                   <li><h4 id="ozone-label" aria-labelledby="">Ozone</h4><p aria-labelledby="ozone-label"><span class="curOzoneReading">0</span> <span class="vg-units" id="ozone-units"><abbr title="Parts per billion">ppb</abbr></span></p></li>
                   <li><h4 id="pm-label">PM<sub>2.5<sub></h4><p aria-labelledby="pm-label"><span class="curPMReading">0</span><span class="vg-units" id="pm-units"><abbr title="Micrograms per cubic meter">&mu;g/m<sup>3</sup></abbr></span></p></li>
               </ul>

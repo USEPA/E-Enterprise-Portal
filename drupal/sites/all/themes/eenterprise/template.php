@@ -19,6 +19,7 @@ function eenterprise_js_alter(&$js) {
   // Unwanted scripts.
   $remove[] = drupal_get_path('module', 'panels') . '/js/panels.js';
 
+
   // Remove unwanted scripts.
   foreach ($remove as $val) {
     unset($js[$val]);
@@ -140,4 +141,11 @@ function eenterprise_preprocess_menu_tree(&$variables) {
   }
  
   $variables['menu_parent'] = $parent;
+}
+
+function eenterprise_preprocess_panels_pane(&$vars) {
+    if ($vars['pane']->type == 'node_title') {
+        $vars['template_files'][] = 'panels-pane';
+    }
+
 }

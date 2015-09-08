@@ -1,6 +1,6 @@
 (function($) {
   $(function() {
-    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse gallery...</a>';
+    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse EPA gallery...</a>';
     var totThumbnails = 0;
     var jcarousel = $('.jcarousel').jcarousel();
 
@@ -51,9 +51,8 @@
       //options from the DOM (id) are mapsAll, mapsAir, mapsWater, or mapsLand
       var filterType = $(this).attr('id');
       $('.myMapFilterTerm').parent('li').removeClass('active-mymaps-filter');
-      $('.myMapFilterTerm').parent('li').removeClass('active-mymaps-filter');
       $(this).parent('li').addClass('active-mymaps-filter');
-      $(this).blur();
+      //$(this).blur(); //was used as workaround to holding focus after click, but broke tab focus and caused 508 issues
       filterMyMapsGallery(filterType);
     });
 

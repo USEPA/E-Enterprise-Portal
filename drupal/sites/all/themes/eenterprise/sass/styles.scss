@@ -946,8 +946,12 @@ tr.odd, tr.even {
 	background-image: none;
 }
 
-.view-to-do .views-exposed-form {
-    display:none;
+.view-to-do .views-exposed-form .views-widget-filter-field_todo_lst_due_value{
+  display:none !important;
+}
+
+.view-to-do .views-exposed-form .views-widget-filter-field_todo_lst_part_code_value{
+  display:block;
 }
 
 @media screen and (min-width: 30em) {
@@ -1072,6 +1076,15 @@ tr.odd, tr.even {
 }
 .pager__link--last:before {
   content: "\00BB|";
+}
+
+.pane-views-cdx-facility-management-block {
+	p {
+		font-size: 0.85em;
+	}
+	#fmw-organization-select-holder, #fmw-program-select-holder, #fmw-type-select-holder {
+		margin: 0 15px 10px 0;
+	}
 }
 
 @media screen and (min-width: 45em) {
@@ -1359,7 +1372,9 @@ tr.even {
   form[id^='user-profile-form'] {
 		.form-type-textfield {
 			width: 150px;
+          min-width: 140px;
 		}
+
 	
 		.ajax-progress .message {
 			display: none;
@@ -1379,6 +1394,9 @@ form tbody {
 }
 .glyphicon-star.star-example {
 	color: #f00;
+}
+.glyphicon-info-sign {
+	color: #337ab7;
 }
 form[id^='user-profile-form'] {
     .description-key {
@@ -1422,14 +1440,26 @@ form[id^='user-profile-form'] {
 	.form-item {
 		margin-top: 0;
 	}
-	.form-item .form-type-textfield {
+	.form-item .form-type-textfield, .city-state-lookup-zips {
 		padding-bottom:0.5em;
 	}
 	.form-type-textfield {
 		margin-right:20px;
-		min-width: 140px; 
+		min-width: 140px;
 		max-width:20em;
 	}
+
+  #profile-tabs li {
+    font-size: 1.2em;
+  }
+
+  .field-suffix.error {
+    color: red;
+  }
+
+  .city-state-lookup-zips {
+    float: left;
+  }
 	.form-type-textfield.form-item-mail input {
 		width:20em;
 		margin-bottom:10px;
@@ -1440,7 +1470,7 @@ form[id^='user-profile-form'] {
 	.form-type-textfield label {
 		font-size:0.95em;
 	}
-	.form-type-textfield label, .form-type-textfield input {
+	.form-type-textfield label, .form-type-textfield input, .city-state-lookup-zips {
 		display:block;
 	}
 	.eenterprise-utility-form-item-description-p { 
@@ -1482,6 +1512,10 @@ form[id^='user-profile-form'] {
 		.form-item .form-type-textfield label, .form-checkbox{
 			display: none;
 		}
+
+      #user-profile-select-zip, #user-profile-back-zip {
+        display: inline-block;
+      }
 		label {
 			float: left;
 		}
@@ -1668,12 +1702,7 @@ form[id^='user-profile-form'] .remove-button {
 	.ui-menu .ui-menu-item a{   
 	    font-size:20px;
 	}
-	
-	.ui-widget-content {
-		max-height: 300px; 
-		overflow-y: scroll; 
-		overflow-x: hidden;
-	}
+
 	.ui-state-hover, 
 	.ui-widget-content .ui-state-hover, 
 	.ui-widget-header .ui-state-hover, 
@@ -1902,7 +1931,12 @@ a.tabledrag-handle .handle {
 	border: none;
 	border-radius: 0 !important;
 }
-.ui-dialog {
+#modalContent {
+	.ui-dialog-titlebar {
+		position: relative;
+	}
+}
+.ui-dialog, #modalContent {
 	.ui-dialog-title {
 		font-weight: normal !important;
 		font-size: 1.25em;
@@ -1912,17 +1946,20 @@ a.tabledrag-handle .handle {
 		border-bottom: 1px solid #f0f0f0;
 	}
 	.ui-dialog-titlebar-close {
-		background: transparent url('../images/close-titlebar.png') no-repeat 0 0 !important;
-		border: none !important;
-		height: 20px;
+		position: absolute;
+		right: 1em;
+		top: 0.5em;
 		width: 20px;
-		right: 30px;
-		margin-top: -15px;
-	    //right: -45px;
-	    //top: -15px;
+		margin: 0;
 	}
 	.ui-dialog-titlebar-close .ui-icon {
-		background: none;
+		background: transparent url('../images/close-titlebar.png') no-repeat 0 0 !important;
+		height: 20px;
+		width: 20px;
+		margin-left: 0;
+		left: auto;
+		top: 0;
+		margin-top: 0;
 	}
 }
 div.ctools-modal-content {
@@ -1931,14 +1968,26 @@ div.ctools-modal-content {
 		background-color: #fafafa !important;
 		border-bottom: 1px solid #f0f0f0;
 	}
+
 	a.close {
 		opacity: 1.0;
-		width: 20px;
-	    height: 20px;
-	    right: -15px;
-	    top: 5px;
-	    //right: -45px;
-	    //top: -15px;
+	    height: 24px;
+	    width: 24px;
+	    padding: 2px;
+	    position: relative;
+	    top: 4px;
+	    text-decoration: none;
+	    img {
+		    vertical-align: baseline;
+			margin-top: 0;
+			top: auto;
+			position: static;
+	    }
+	}
+	a.close:hover, a.close:focus, a.close:active {
+		background-color: #f0f0f0;
+		border-bottom: none;
+		text-decoration: none;
 	}
 	.modal-title {
 		font-weight: normal !important;
@@ -2165,11 +2214,8 @@ input[type="submit"],
 }
 
 .responsive-table thead th {
-  background-color: #1d96b2;
-
   font-weight: normal;
   text-align: center;
-  color: white;
 }
 
 .responsive-table tbody,
@@ -2254,9 +2300,6 @@ th.views-field-field-prog-tracker-app {
     color: #fff;
   }
 
-  .responsive-table td.views-field-counter {
-    display: none;
-  }
 }
 
 @media screen and (min-width:20em) and (max-width:959.99999px) {
@@ -2279,6 +2322,11 @@ th.views-field-field-prog-tracker-app {
 
   .responsive-table tbody td {
     text-align: left;
+  }
+
+
+  .responsive-table td.views-field-counter {
+    display: none;
   }
 }
 /*********** Tablet, iPad Landscape @ 768px ***********/
@@ -2366,10 +2414,6 @@ th.views-field-field-prog-tracker-app {
     color: #151515;
   }
 
-  .responsive-table td.views-field-counter {
-    display: none;
-  }
-
   .responsive-table tbody td[data-title="Item"] {
     text-align: left;
     background: inherit;
@@ -2388,10 +2432,6 @@ th.views-field-field-prog-tracker-app {
   .responsive-table th,
   .responsive-table td {
     padding: .75em;
-  }
-
-  .responsive-table td.views-field-counter {
-    display: block;
   }
 
   .responsive-table th,
@@ -2525,4 +2565,16 @@ th.views-field-field-prog-tracker-app {
 
 .ui-dialog-titlebar .ui-button-text {
   padding: 0;
+  @include element-invisible;
+}
+
+/** Additional Styling for Responsive Grid Layout**/
+.panel-grid {
+  margin-top:1em;
+}
+
+/** Additional Styling for Global Changes**/
+h2.pane-title {
+  margin-top:10px;
+  margin-bottom:0;
 }

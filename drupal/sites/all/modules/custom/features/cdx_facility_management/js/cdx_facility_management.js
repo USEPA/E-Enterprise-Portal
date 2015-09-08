@@ -2,161 +2,172 @@
 
     $(document).ready(function () {
         // Chris user_role_id 80172
-        var user_role_id = 86357; //user role id for Green olive
-        var naas_token;// = 'Mary Cheat Token - FIX ASAP!!!!!!';
-        var naas_ip;// = '65.248.159.78';
+        var user_role_id;
+        var naas_token;
+        var naas_ip;
+        var cdx_resource_url;
         // Look up functionality for session expiring. On expired session, recreate token, reinitialize widget.
 
         $.ajax({
             url: '/return_cdx_facility_management_token',
             success: function (json) {
                 var parsed_json = $.parseJSON(json);
-                console.log(parsed_json);
                 naas_token = parsed_json.token;
                 naas_ip = parsed_json.server_ip;
             }
         });
+
+
+        function createProgramSelect(roles_obj) {
+            var program_filter_select = $('#fmw-program-select');
+            var program_filter_select_holder = $('#fmw-program-select-holder');
+            var program_single = $('#fmw-program-single');
+            var type_filter_select_holder = $('#fmw-type-select-holder');
+            var management_button = $('#launch-facility-management');
+
+
+            var first_name;
+            var count = 0;
+            program_filter_select.html('<option value="">Select a Dataflow</option>');
+            $.each(roles_obj, function (name, roles) {
+                program_filter_select.append('<option value="' + name + '" >' + name + '</option>');
+                count = count + 1;
+                first_name = name; // unused if count > 1
+            });
+            if (count > 1) {
+                program_filter_select.show();
+                program_single.hide();
+            }
+            else {
+                program_filter_select.val(first_name).hide();
+                program_single.html(first_name).show();
+                createFilterSelect(roles_obj[first_name]);
+            }
+            program_filter_select_holder.show();
+
+            program_filter_select.unbind('change').change(function () {
+                var selected_program = $(this).val();
+                management_button.hide();
+                type_filter_select_holder.hide();
+                if (selected_program != '') {
+                    createFilterSelect(roles_obj[selected_program]);
+                }
+            });
+        }
+
+        function createFilterSelect(type_obj) {
+            var type_filter_select = $('#fmw-type-select');
+            var type_single = $('#fmw-type-single');
+            var type_filter_select_holder = $('#fmw-type-select-holder');
+            var count = 0;
+            var first_userRoleId;
+            var first_type;
+            var management_button = $('#launch-facility-management');
+
+            type_filter_select.html('<option value="">Select a Role Type</option>');
+
+            $.each(type_obj, function (index, type_array) {
+                type_filter_select.append('<option value="' + type_array.userRoleId + '" >' + type_array.type + '</option>');
+                count = count + 1;
+                first_userRoleId = type_array.userRoleId;
+                first_type = type_array.type;
+            });
+
+            if (count > 1) {
+                type_filter_select.show();
+                type_single.hide();
+            }
+            else {
+                type_filter_select.val(first_userRoleId).hide();
+                type_single.html(first_type).show();
+                management_button.show();
+            }
+
+            type_filter_select.unbind('change').change(function () {
+                if ($(this).val() == '') {
+                    management_button.hide();
+                }
+                else {
+                    management_button.show();
+                }
+            });
+            type_filter_select_holder.show();
+
+        }
+
 
         function generateUserData() {
             $.ajax({
                 url: '/retrieve_cdx_user_data',
                 success: function (json) {
                     var parsed_json = $.parseJSON(json);
+                    console.log(parsed_json);
                     if (!parsed_json.error) {
                         console.log(parsed_json);
-                        var organizations = parsed_json.organizations;
                         var org_to_roles = parsed_json.organizations_to_roles;
-                        var roles_to_types;
                         //initialize filters object
                         var org_filter_select_holder = $('#fmw-organization-select-holder');
-                        var program_filter_select_holder = $('#fmw-program-select-holder');
-                        var type_filter_select_holder = $('#fmw-type-select-holder');
                         var org_filter_select = $('#fmw-organization-select');
-                        var org_single = $('#fmw-org-single');
-                        var program_filter_select = $('#fmw-program-select');
-                        var program_single = $('#fmw-program-single');
-                        var type_filter_select = $('#fmw-type-select');
-                        var type_single = $('#fmw-type-single');
-                        var orgs_num = organizations.length;
-                        var management_button =  $('#launch-facility-management');
+                        var org_single = $('#fmw-organization-single');
+                        var management_button = $('#launch-facility-management');
+
+                        var type_filter_select_holder = $('#fmw-type-select-holder');
+
+                        var program_filter_select_holder = $('#fmw-program-select-holder');
+
 
                         // First connect to widget initially to start CDX session;
                         var temp = 0;
-                        $.each(org_to_roles, function(key, value) {
-                            if (temp == 0) {
-                                var initial_user_role_id = value[0].userRoleId;
-                                updateWidget(initial_user_role_id, naas_token, naas_ip);
-                                temp = 1;
-                            }
+                        $.each(org_to_roles, function (org_id, role_object) {
+                            $.each(role_object.roles, function (dataflow, role_array) {
+                                if (temp == 0) {
+                                    var initial_user_role_id = role_array[0].userRoleId;
+                                    updateWidget(initial_user_role_id, naas_token, naas_ip);
+                                    temp = 1;
+                                }
+                            });
                         });
 
-                        // Only allow org filtering if there's more than one org
-                        if (orgs_num > 1) {
-                            org_filter_select.append('<option value=""></option>').show();
-                        }
-                        // populate organizations select
-                        $.each(organizations, function (key, value) {
-                            org_filter_select.append('<option value="' + value.userOrganizationId + '" >' + value.organizationName + '</option>');
+                        org_filter_select.append('<option value="">Select an Organization</option>');
+                        var count = 0;
+                        var first_org_id;
+                        var first_org_name;
+                        $.each(org_to_roles, function (org_id, org_obj) {
+                            org_filter_select.append('<option value="' + org_id + '" >' + org_obj.name + '</option>');
+                            count = count + 1;
+                            first_org_id = org_id; // unused if count > 1
+                            first_org_name = org_obj.name;
+
                         });
+
+                        if (count == 1) {
+                            org_filter_select.val(first_org_id).hide();
+                            org_single.html(first_org_name).show();
+                            createProgramSelect(org_to_roles[first_org_id].roles);
+                        }
+                        else {
+                            org_filter_select.show();
+                        }
+
 
                         org_filter_select.change(function () {
                             var selected_org = $(this).val();
-                            if (selected_org == '') {
-                                program_filter_select_holder.hide();
-                                program_filter_select.val('');
-                                type_filter_select_holder.hide();
-                                type_filter_select.val('');
-                                management_button.hide();
-                            }
-                            else {
-                                // recreate program select with org programs (roles)
-                                type_filter_select_holder.hide();
-                                type_filter_select.val('');
-                                var roles = org_to_roles[selected_org];
-                                program_filter_select.html('').append('<option value=""></option>');
-                                var used_roles = [];
-                                $.each(roles, function (index, value) {
-                                    if ($.inArray(value.dataflow, used_roles) < 0) {
-                                        program_filter_select.append('<option value="' + value.dataflow + '">' + value.dataflow + '</option>');
-                                        used_roles.push(value.dataflow);
-                                    }
-                                });
-                                if (used_roles.length == 1) {
-                                    program_filter_select.val(used_roles[0]);
-                                    program_filter_select.hide().trigger('change');
-                                    program_single.html(used_roles[0]);
-                                }
-                                else {
-                                    program_filter_select.show();
-                                    program_single.html('');
-                                }
-                                program_filter_select_holder.show();
-
-                            }
-
-                            //createCDXFacilityTable(organizations, org_to_roles, filters);
-                        });
-
-                        program_filter_select.change(function () {
-
-                            var selected_dataflow = $(this).val();
-                            var roles = org_to_roles[org_filter_select.val()];
-                            if (selected_dataflow == '') {
-                                type_filter_select_holder.hide();
-                                type_filter_select.val('');
-                                management_button.hide();
-                            }
-                            else {
-                                // recreate type select with org programs (roles)
-                                //var types = org_to_roles[selected_org];
-                                type_filter_select.html('').append('<option value=""></option>');
-                                var used_types = [];
-                                var initialize_count = 0;
-                                $.each(roles, function (index, value) {
-                                    if (value.dataflow = selected_dataflow) {
-                                        type_filter_select.append('<option value="' + value.userRoleId + '">' + value.type.description + '</option>');
-                                        used_types.push(value.type.description);
-                                    }
-                                });
-                                if (used_types.length == 1) {
-                                    type_filter_select.trigger('change').hide();
-                                    type_single.html(used_types[0]);
-                                }
-                                else {
-                                    type_single.html('');
-                                    type_filter_select.show();
-                                }
-                                type_filter_select_holder.show();
-                            }
-
-                        });
-
-
-                        type_filter_select.change(function() {
-                            var user_role_id = $(this).val();
-                            if (user_role_id == '') {
-                                management_button.hide();
-                            }
-                            else {
-                                updateWidget(user_role_id, naas_token, naas_ip);
-                                management_button.show();
+                            program_filter_select_holder.hide()
+                            type_filter_select_holder.hide();
+                            management_button.hide();
+                            if (selected_org != '') {
+                                createProgramSelect(org_to_roles[selected_org].roles);
                             }
                         });
-                        // Write text if not configuration possible
-                        if (orgs_num == 1) {
-                            org_filter_select.trigger('change').hide();
-                            org_single.html(org_filter_select.text());
-                        }
-                        else {
-                            org_single.html('');
-                            org_filter_select_holder.show();
-                        }
-                    }
-                    else {
+
+
+                    } else {
                         alert('unable to recieve user data');
                     }
 
-                    management_button.click(function() {
+                    management_button.click(function () {
+                        var user_role_id = $('#fmw-type-select').val();
+                        updateWidget(user_role_id, naas_token, naas_ip);
                         cdx_facility_management_block.dialog('open');
                     });
 
@@ -222,13 +233,13 @@
         var cdx_facility_management_block = $('#facility-widget');
         if (cdx_facility_management_block.length > 0) {
             cdx_facility_management_block.dialog({
-                title: 'CDX Facility Management',
+                title: 'My Facility Manager',
                 modal: true,
                 autoOpen: false,
                 width: 'auto',
                 height: 'auto',
-                maxWidth: 1400,
-                minWidth: '1400px',
+                maxWidth: '1000px',
+                minWidth: '1000px',
                 dialogClass: 'cdx_facility_management_block',
                 resizable: false,
                 position: {my: "center", at: "center", of: window}
@@ -245,6 +256,15 @@
             cdx_facility_management_block.dialog("option", "position", {my: "center", at: "center", of: window});
         });
 
+        // Pull in user NAAS Token
+        $.ajax({
+            url: '/cdx_facility_configurations',
+            success: function (json) {
+                var configs = $.parseJSON(json);
+                cdx_resource_url = configs.url;
+            }
+        });
+
         function updateWidget(user_role_id, naas_token, naas_ip) {
             console.log(user_role_id);
             console.log(naas_token);
@@ -253,15 +273,22 @@
             $.initFacilityManagementWidget({
                 autoScroll: false,
                 widgetDisplayType: "Edit My Facilities",
-                baseServiceUrl: 'https://dev.epacdx.net/FrsPhase2',
-                ImagesFolderPath: "https://dev.epacdx.net/FrsPhase2/content/v3/FRS%20Widget/images", //static
+                baseServiceUrl: cdx_resource_url,
+                ImagesFolderPath: cdx_resource_url + '/ContentFramework/FRS%20Widget/images', //static
                 userRoleId: user_role_id,
                 NASSToken: naas_token,
                 NAASip: naas_ip,
-                onInvalidSession: function() {
-                    alert('CDX Session ended.')
+                onInvalidSession: function () {
+                    alert('CDX Session ended.');
                     window.location.href = '/user/logout';
-               }
+                },
+                onServiceCall: function () {
+                    cdx_facility_management_block.dialog("option", "position", {
+                        my: "center",
+                        at: "center",
+                        of: window
+                    });
+                }
             });
             //cdx_facility_management_block.dialog("option", "position", {my: "center", at: "center", of: window});
 

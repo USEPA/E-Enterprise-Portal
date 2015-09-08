@@ -40,6 +40,8 @@ if(!empty($view->result[$view->row_index]->field_field_todo_lst_part_code)) {
              <p><span class='modal-label'>Due Date</span><br/><strong> ".$view->result[$view->row_index]->field_field_todo_lst_due[0]['rendered']['#markup']."</strong></p>
              <p><span class='modal-label'>Other Information</span><br/> ".$view->result[$view->row_index]->field_field_todo_lst_part_code[0]['rendered']['#markup']." - ".$view->result[$view->row_index]->field_field_todo_lst_part_name[0]['rendered']['#markup']."<br/> ".$view->result[$view->row_index]->field_field_todo_lst_sub_part_code[0]['rendered']['#markup']." - ".$view->result[$view->row_index]->field_field_todo_lst_sub_part_name[0]['rendered']['#markup']."</p>
              </div>";
-    print "<br><a href='.' class='simple-dialog' id='to-do-details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-todo-" . $unique_id . "' title='Item Details'>Details</a>";
+    $title_value = $view->result[$view->row_index]->field_field_todo_lst_facility_name[0]['rendered']['#markup'];
+
+    print "<br><a href='.' class='simple-dialog' id='to-do-details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-todo-" . $unique_id . "' title='Details for ".$title_value."'>Details</a>";
 }
 ?>
