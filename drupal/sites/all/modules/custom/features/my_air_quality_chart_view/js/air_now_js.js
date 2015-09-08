@@ -103,12 +103,6 @@
     var todayDate = yyyy + '-' + mm + '-' + dd;
 
 
-    map.on('zoomend', function() {
-      console.log("zoomend");
-      console.log(map.getZoom());
-    });
-
-
 
     map.on("click", function(e) {
       $('html, body').css("cursor", "wait");
