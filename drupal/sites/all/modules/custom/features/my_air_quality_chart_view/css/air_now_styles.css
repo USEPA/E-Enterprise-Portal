@@ -202,3 +202,7 @@ svg.my-air-quality-map-legend-icon {
     line-height: 1.2;
     padding: 8px;
 }
+
+.leaflet-container a.leaflet-popup-close-button {
+  padding: 0px 0px 0px 0px !important;
+}
