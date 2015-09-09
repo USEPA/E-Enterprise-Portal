@@ -741,3 +741,17 @@ function refresh_todo_list(){
     drupal_set_message("To Do and Progress Tracker Data refreshed successfully");
     drupal_goto('/workbench');
 }
+
+function eenterprise_bridge_auth_redirect() {
+  $idParams = array('wa' => 'wsignin1.0',
+    'wtrealm' => variable_get('eenterprise_bridge_auth_realm'),
+    'wctx' => 'rm=0',
+    'wreply' => variable_get('eenterprise_bridge_auth_reply'),
+    'whr' => $_GET['whr'],
+  );
+
+  //Builds URL for handing off the Open ID Bridge
+  $idBridgeUrl = variable_get('eenterprise_bridge_auth_issuer') . "?" . http_build_query($idParams);
+
+  header("Location:$idBridgeUrl");
+}
