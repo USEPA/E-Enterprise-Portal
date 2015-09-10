@@ -563,7 +563,7 @@ function create_progress_tracker_node($res, $user)
     }
 }
 
-try {
+/*try {
     $wsdl = variable_get('eactivity_auth_reg_wsdl');
     $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
 } catch (SoapFault $f) {
@@ -639,7 +639,7 @@ try {
     }
 } catch (SoapFault $f) {
     watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
-}
+}*/
 
 function assign_roles_to_user($user_name)
 {
@@ -702,6 +702,8 @@ function assign_roles_to_user($user_name)
                         user_role_save($user_role);
                     }
                     user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                    view_allow_access_role('progress_tracker',$user_role->rid);
+                    view_allow_access_role('to_do',$user_role->rid);
                 }
             }
         } else {
@@ -714,6 +716,8 @@ function assign_roles_to_user($user_name)
                     user_role_save($user_role);
                 }
                 user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                view_allow_access_role('progress_tracker',$user_role->rid);
+                view_allow_access_role('to_do',$user_role->rid);
             }
         }
     } catch (SoapFault $f) {
@@ -754,4 +758,15 @@ function eenterprise_bridge_auth_redirect() {
   $idBridgeUrl = variable_get('eenterprise_bridge_auth_issuer') . "?" . http_build_query($idParams);
 
   header("Location:$idBridgeUrl");
+}
+
+/*
+ * Function to allow a new user with CDX role get access to progress tracker and to-do views
+ * automatically.
+ */
+function view_allow_access_role($view_name, $role_id){
+    $result_view = views_get_view($view_name);
+    $result_view->set_display('default');
+    $result_view->display_handler->display->display_options['access']['role'][$role_id] = $role_id;
+    $result_view->save();
 }
