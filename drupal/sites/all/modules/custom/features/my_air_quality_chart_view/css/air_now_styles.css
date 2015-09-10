@@ -156,7 +156,7 @@ div#my-air-quality-chart {
 .leaflet-top, .leaflet-bottom {
   z-index: 50;
 }
-#my-air-quality-chart p, #my-air-quality-air-now-maps p {
+#my-air-quality-index p, #my-air-quality-air-now-maps p {
     padding: 0;
     font-size: 0.85em;
     margin-left: -16px;
@@ -206,4 +206,8 @@ svg.my-air-quality-map-legend-icon {
 
 .leaflet-container a.leaflet-popup-close-button {
   padding: 0px 0px 0px 0px !important;
+}
+
+div.arrow, div.popover-content {
+    z-index:100;
 }
