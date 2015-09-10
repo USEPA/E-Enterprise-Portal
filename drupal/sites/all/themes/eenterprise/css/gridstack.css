@@ -29,7 +29,7 @@
   right: 0px;
   bottom: 0;
   width: auto;
-  z-index: 0 !important;
+  /*z-index: 0 !important;*/
   overflow-x: hidden;
   overflow-y: auto;
 }
