@@ -106,20 +106,21 @@ function eenterprise_menu_tree($vars) {
  */
 function eenterprise_menu_local_tasks($vars) {
   $output = '';
-
-  if (!empty($vars['primary'])) {
-    $vars['primary']['#prefix'] = '<h2 class="element-invisible">' . t('Primary tasks') . '</h2>';
-    $vars['primary']['#prefix'] .= '<ul class="menu pillbox">';
-    $vars['primary']['#suffix'] = '</ul>';
-    $output .= drupal_render($vars['primary']);
-  }
-
-  if (!empty($vars['secondary'])) {
-    $vars['secondary']['#prefix'] = '<h2 class="element-invisible">' . t('Secondary tasks') . '</h2>';
-    $vars['secondary']['#prefix'] .= '<ul class="menu pipeline">';
-    $vars['secondary']['#suffix'] = '</ul>';
-    $output .= drupal_render($vars['secondary']);
-  }
+ 
+ 
+	  if (!empty($vars['primary'])) {
+	    $vars['primary']['#prefix'] = '<h2 class="element-invisible">' . t('Primary tasks') . '</h2>';
+	    $vars['primary']['#prefix'] .= '<ul class="menu pillbox">';
+	    $vars['primary']['#suffix'] = '</ul>';
+	    $output .= drupal_render($vars['primary']);
+	  }
+	
+	  if (!empty($vars['secondary'])) {
+	    $vars['secondary']['#prefix'] = '<h2 class="element-invisible">' . t('Secondary tasks') . '</h2>';
+	    $vars['secondary']['#prefix'] .= '<ul class="menu pipeline">';
+	    $vars['secondary']['#suffix'] = '</ul>';
+	    $output .= drupal_render($vars['secondary']);
+	  }
 
   return $output;
 }

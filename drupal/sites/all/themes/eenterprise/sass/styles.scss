@@ -117,10 +117,11 @@ menu, ol, ul {
 		font-weight: 200;
 		color: #333;
 		letter-spacing: 1.5;
-		line-height: 1;
+		line-height: 1.2;
 		margin-bottom: 10px;
 		margin-right: 20px;
 		display: inline-block;
+		font-size:1.5em;
 	}
 	.ee-header-line1 {
 		display:block;
@@ -132,6 +133,13 @@ menu, ol, ul {
 		.logo-sublabel {
 			font-size: 0.5em;
 		}
+	}
+	.logoless {
+		text-decoration: none;
+		color: #333;
+	}
+	a:visited.logoless, a:hover.logoless, a:focus.logoless, a:active.logoless {
+		color: #000;
 	}
 } 
 
@@ -145,8 +153,13 @@ a:visited.pager__link {
 .menu-item {
 	letter-spacing: 0.25px;
 }
-#ee-disclaimer-form #edit-submit-button {
+#ee-disclaimer-form #edit-submit-button, #guest-login {
 	@include button;
+	padding: 10px 20px;
+}
+#guest-login {
+	padding: 8px 16px;
+	text-decoration: none;
 }
 
 header #block-eenterprise-bridge-auth-eenterprise-bridge-auth h2.block-title {
@@ -316,7 +329,7 @@ label {
 }
 .site-slogan {
 	display: inline-block;
-	font-weight: 100;
+	font-weight: 200;
 	line-height: 1.2;
 	margin-bottom: 10px;
 	vertical-align: bottom;
@@ -752,7 +765,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	}
 
 }
-.page-user {
+.page-user, .page-bridge-landing {
 	.main-content {
 		background-color: $ee-light-gray;
 	}
@@ -796,9 +809,10 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		background-color: $ee-dark-gray;
 	}
 }
-
-.admin-menu .secondary-nav {
-	top: 10px; //Set top when admin user is logged in
+a#guest-login {
+	float: right;
+	margin-top: 20px;
+	margin-right: 1em;
 }
 
 .breadcrumb-title, 
@@ -2088,18 +2102,26 @@ div.ctools-modal-content {
 	border-color: #204d74;
 }
 
-.section-user-agreement .main-content, .page-ee-disclaimer .main-content {
-	background-color: #fff;
-	padding-left: 2em;
-	padding-right: 2em;
-	header {
-		padding: 0;
-		font-size: 0.85em;
+.section-user-agreement, .page-ee-disclaimer {
+	.main-content {
+		background-color: #fff;
+		padding-left: 2em;
+		padding-right: 2em;
+		header {
+			padding: 0;
+			font-size: 0.85em;
+		}
+		.form-item-agree label.option {
+			font-size: 1em;
+			margin-left: 10px;
+			font-weight: bold;
+		}
 	}
-	.form-item-agree label.option {
-		font-size: 1em;
-		margin-left: 10px;
-		font-weight: bold;
+	ol {
+		margin-left: 40px;
+		li {
+			margin-bottom:10px;
+		}
 	}
 }
 
@@ -2654,6 +2676,9 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
       font-size: 1.8em;
     }
   }
+  &:visited{
+	  color: #fff;
+  }
 }
 
 .btn-social-icon {
@@ -2743,7 +2768,12 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 .btn-instagram     { @include btn-social(#3f729b); }
 .btn-linkedin      { @include btn-social(#007bb6); }
 /* .btn-microsoft     { @include btn-social(#2672ec); } */
-.btn-microsoft     { @include btn-social(#e6e6e6); color: #000;}
+.btn-microsoft     { @include btn-social(#e6e6e6); 
+	color: #000;
+	&:visited{
+	  color: #333;
+	}
+}
 .btn-openid        { @include btn-social(#f7931e); }
 .btn-pinterest     { @include btn-social(#cb2027); }
 .btn-twitter       { @include btn-social(#55acee); }

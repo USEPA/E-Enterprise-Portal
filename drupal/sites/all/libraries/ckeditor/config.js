@@ -8,4 +8,7 @@ CKEDITOR.editorConfig = function( config )
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
+	
+	// allow i tags to be empty (for font awesome) - Used on bridge-landing page
+	CKEDITOR.dtd.$removeEmpty['i'] = false
 };
