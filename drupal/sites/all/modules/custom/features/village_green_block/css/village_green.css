@@ -37,3 +37,7 @@ div.vg-numbers-container {
 small.village-green-updated-every-minute {
 	margin-top: -1em; margin-bottom: 1.2em; display:block;
 }
+
+span.countdownContainer {
+    white-space:nowrap;
+}
