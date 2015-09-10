@@ -12,14 +12,19 @@ function eenterprise_form_system_theme_settings_alter(&$form, $form_state, $form
   if (isset($form_id)) {
     return;
   }
-  
-  create_form($form);
-}
-
-function create_form($form) {
-
 
   // Create the form using Forms API
+  $form['eelogoless'] = array(
+    '#type'          => 'fieldset',
+    '#title'         => t('E-Enterprise Logoless Settings'),
+  );
+  $form['eelogoless']['eenterprise_logoless'] = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('Use logo placeholder'),
+    '#default_value' => theme_get_setting('eenterprise_logoless'),
+    '#description'   => t('Shows text placeholder while logo pending'),
+  );
+  
   $form['breadcrumb'] = array(
     '#type'          => 'fieldset',
     '#title'         => t('Breadcrumb settings'),

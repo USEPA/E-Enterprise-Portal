@@ -27,10 +27,19 @@ if(drupal_is_front_page()) {
 	<?php print $hgroup_open; ?>
 	<?php if ($site_name): ?>
 		<h1 class="site-name" id="site-name">
-			<a href="<?php print $front_page; ?>" title="<?php print t('Home - '.$site_name); ?>" rel="home">
-			<?php if ($logo): ?>
+			<?php 
+			$logoless = theme_get_setting('eenterprise_logoless');
+			
+			if ($logoless): ?>
+			<a class="logoless" href="<?php print $front_page; ?>" title="<?php print t('Home - '.$site_name); ?>" rel="home">
+			<?	$placeholder = "<span class=\"ee-header-line1\">E-Enterprise <span class=\"logo-sublabel\">for the </span></span><span class=\"ee-header-line2\">Environment</span>";
+				print $placeholder;
+			?>		
+			<?php elseif ($logo): ?>
+				<a href="<?php print $front_page; ?>" title="<?php print t('Home - '.$site_name); ?>" rel="home">
 				<img src="<?php print $logo; ?>" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />
 			<?php else: ?>
+				<a href="<?php print $front_page; ?>" title="<?php print t('Home - '.$site_name); ?>" rel="home">
 				<img src="/sites/all/themes/eenterprise/images/placeholder-logo.png" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />			
 			<?php endif; ?>
 			</a>
