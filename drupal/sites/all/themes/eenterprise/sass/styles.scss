@@ -121,7 +121,7 @@ menu, ol, ul {
 		margin-bottom: 10px;
 		margin-right: 20px;
 		display: inline-block;
-		font-size:1.5em;
+		font-size: 2em;
 	}
 	.ee-header-line1 {
 		display:block;
@@ -363,6 +363,9 @@ nav ul {
 		.cols-2 {
 			margin-left: 1em;
 		}
+	}
+	.pillbox {
+		display: none;
 	}
 }
 
@@ -2778,11 +2781,37 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 .btn-pinterest     { @include btn-social(#cb2027); }
 .btn-twitter       { @include btn-social(#55acee); }
 .btn-yahoo         { @include btn-social(#720e9e); }
+
 .btn-exchangenetwork {
 	@include btn-social(#80a3d8);
 	color: #fff;
 	.exchangenetwork:before {
 		content: url('../images/exchange-network-x-sm.png');
+	}	
+}
+
+.btn-envlinfoexchangenetwork {
+	@include btn-social(#80a3d8);
+	color: #fff;
+	.envlinfoexchangenetwork:before {
+		content: url('../images/exchange-network-logo-sm.png');
+	}	
+}
+.btn-envlinfoexchangenetwork {
+	@include button-variant(#ffffff, #80a3d8, rgba(0, 0, 0, 0.2));
+	text-align: right;
+	padding-right: 50px;
+	.envlinfoexchangenetwork {
+		border-right: none;
+	}
+	.envlinfoexchangenetwork:after {
+		content: url('../images/exchange-network-logo-sm.png');
+		position: static;
+		left: auto;
+		top: auto;
+		width: 63px;
+		margin-left: 20px;
+		margin-right: 20px;
 	}	
 }
 
