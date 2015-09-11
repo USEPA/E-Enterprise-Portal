@@ -129,7 +129,7 @@ function eenterprise_bridge_auth_authenticate($error)
                 //user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
                 user_external_login_register($uname, 'eenterprise_bridge_auth');
                 if ($user) {
-                    user_save($user, array('mail' => $userDetails->attributes['email'][0]));
+                    user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
                     //if user is public user
                     if ($pos === FALSE) {
                         $user_role = user_role_load_by_name('Public User');
@@ -151,7 +151,7 @@ function eenterprise_bridge_auth_authenticate($error)
 
                 user_login_submit(array(), $form_state);
                 //To fix a bug where email address is not updated after users update their email address in CDX and login.
-                user_save($user, array('mail' => $userDetails->attributes['email'][0]));
+                user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
                 try {
                     if ($public_or_cdx == 'cdx') {
 //                        user_save($user, array('cdx_fmw_security_token' => $userDetails->attributes['securityToken'][0]));
