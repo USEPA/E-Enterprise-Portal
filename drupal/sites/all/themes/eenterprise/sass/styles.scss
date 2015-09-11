@@ -137,9 +137,11 @@ menu, ol, ul {
 	.logoless {
 		text-decoration: none;
 		color: #333;
+		display: block;
 	}
 	a:visited.logoless, a:hover.logoless, a:focus.logoless, a:active.logoless {
 		color: #000;
+		background-color: #f0f0f0;
 	}
 } 
 
@@ -317,7 +319,7 @@ label {
 }
 .site-name-and-slogan {
 	float: left;
-	width: 50%;
+	width: auto;
 }
 .site-name {
 	display: inline-block;
@@ -611,6 +613,7 @@ header {
 	font-size:1.25em;
 	font-weight:normal;
 	color: #ffffff;
+	text-decoration: none;
 }
 header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	padding: 0.5em 1em;
@@ -1809,7 +1812,24 @@ form[id^='user-profile-form'] .remove-button {
 		border-radius: 4px;
 		line-height: 1.42857;
 	}
-
+}
+#my-air-quality-chart-tabs {
+	.ui-state-default a:focus {
+		//Click and after arrow keys - want this to be dark gray
+		background-color: $ee-dark-gray;
+		color: #fff;
+	}
+	.ui-tabs-active.ui-state-active.ui-state-focus:focus a {
+		background-color: #fff;
+		color: #000 !important;
+		outline: none;
+	}
+	.ui-tabs-active.ui-state-active.ui-state-focus a:focus {
+		//Remains after clicking - this is the one to fix!!!
+		background-color: #fff;
+		color: #000 !important;
+		outline: none;
+	}
 }
 .draggable {
 	.handle {
@@ -2356,6 +2376,23 @@ th.views-field-field-prog-tracker-app {
   width: 150px;
 }
 
+td.responsive-to-do-link a,
+td.views-field-field-prog-track-actions-dnload a {
+	color: $ee-link-color;
+	text-decoration: none;
+	padding-bottom:1px;
+	padding-top: 1px;
+}
+td.responsive-to-do-link a:focus,
+td.views-field-field-prog-track-actions-dnload a:focus {
+	color: #fff;
+	text-decoration: none;
+}
+td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
+	color: #ffffff;
+	background-color: #606060;
+}
+
 
 /*********** iPhone, some Android Portrait @ 320px***********/
 @media screen and (min-width: 20em) {
@@ -2492,18 +2529,6 @@ th.views-field-field-prog-tracker-app {
     padding: .75em .5em;
     border: none;
   }
-
-  td.responsive-to-do-link a,
-  td.views-field-field-prog-track-actions-dnload a {
-    color: $ee-link-color;
-    text-decoration: none;
-  }
-
-  td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
-    color: #ffffff;
-    background-color: #606060;
-  }
-
   .responsive-table tbody th[scope="row"] {
     background-color: transparent;
     color: #151515;
@@ -2856,7 +2881,16 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 		margin-right: 20px;
 	}	
 }
-
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
 .fa {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
@@ -2889,7 +2923,14 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 	content: "\f17a";
 	color: #42adee;
 }
+.fa-refresh {
+	color: #0e8200 !important;
+}
+.fa-refresh:before {
+  content: "\f021";
+  color: #0e8200 !important;
 
+}
 .login-options {
 	li {
 		vertical-align: top;
@@ -2897,6 +2938,16 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 			width: 18em;
 			display: block;
 		}
+	}
+}
+.section-new-users {
+	ul {
+		margin-left:40px;
+	}
+	.login-options li {
+		vertical-align: top;
+		width: 18em;
+		display: block;
 	}
 }
 
