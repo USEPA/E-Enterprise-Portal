@@ -41,7 +41,7 @@ scripts[] = ../../libraries/jqueryui/jquery-ui.js
 scripts[] = js/lodash.min.js
 scripts[] = js/gridstack.js
 scripts[] = js/grid-launch.js
-;scripts[] = inc/bootstrap/js/bootstrap.min.js
+scripts[] = js/bootstrap.tooltip.js
 
 ; FEATURES
 features[] = logo
