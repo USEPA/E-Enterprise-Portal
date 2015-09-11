@@ -30,7 +30,7 @@ if(drupal_is_front_page()) {
 			<?php $logoless = theme_get_setting('eenterprise_logoless'); ?>
 			<?php if ($logoless): ?>
 				<a class="logoless" href="<?php print $front_page; ?>" title="<?php print t('Home - '.$site_name); ?>" rel="home">
-				<span class=\"ee-header-line1\">E-Enterprise <span class=\"logo-sublabel\">for the </span></span><span class=\"ee-header-line2\">Environment</span>
+				<span class="ee-header-line1">E-Enterprise <span class="logo-sublabel">for the </span></span><span class="ee-header-line2">Environment</span>
 			<?php elseif ($logo): ?>
 				<a href="<?php print $front_page; ?>" title="<?php print t('Home - '.$site_name); ?>" rel="home">
 				<img src="<?php print $logo; ?>" alt="<?php print t('Home - '.$site_name); ?>" class="site-logo" />
