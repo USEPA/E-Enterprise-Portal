@@ -16,7 +16,8 @@
           $('body').tooltip({
             selector: '.ee-bootstrap-tooltip',
             delay: 200,
-            trigger: 'click hover focus'
+            trigger: 'click hover focus',
+            container: 'body'
           });
         });
 
