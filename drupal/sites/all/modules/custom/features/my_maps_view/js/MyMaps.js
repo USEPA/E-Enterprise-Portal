@@ -1,6 +1,6 @@
 (function($) {
   $(function() {
-    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse gallery...</a>';
+    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse EPA gallery...</a>';
     var totThumbnails = 0;
     var jcarousel = $('.jcarousel').jcarousel();
 
@@ -50,9 +50,9 @@
     $('.myMapFilterTerm').click(function() {
       //options from the DOM (id) are mapsAll, mapsAir, mapsWater, or mapsLand
       var filterType = $(this).attr('id');
-      $('.myMapFilterTerm').removeClass('active-mymaps-filter');
-      $(this).addClass('active-mymaps-filter');
-      $(this).blur();
+      $('.myMapFilterTerm').parent('li').removeClass('active-mymaps-filter');
+      $(this).parent('li').addClass('active-mymaps-filter');
+      //$(this).blur(); //was used as workaround to holding focus after click, but broke tab focus and caused 508 issues
       filterMyMapsGallery(filterType);
     });
 
@@ -64,11 +64,10 @@
         var itemTags = $(this).find('a').data('tags').toLowerCase();
         switch (filterType) {
           case 'mapsAll':
-            //showAllItemsInMyMapsGallery();
-            //$(this).show();
+            //nothing to do because all items are showing
             break;
           case 'mapsAir':
-            if (itemTags.indexOf('air') == -1 && itemTags.indexOf('oaqps') == -1) {
+            if ((itemTags.indexOf('air') == -1 && itemTags.indexOf('oaqps') == -1) || (itemTags.indexOf('impair') > -1)) {
               $(this).hide();
             } else {
 
@@ -83,7 +82,7 @@
 
             break;
           case 'mapsLand':
-            if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1 && itemTags.indexOf('enviroatlas') == -1) {
+            if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1) {
               $(this).hide();
             } else {}
             break;
@@ -107,7 +106,7 @@
         async: true,
         //hardcoded string for EPA  GPO (AGOL) query - hardcoded query for empty string (wildcard) - later to implement tag search or similar for filtering based on dynamic criteria
         data: {
-          q: ' orgid:cJ9YHowT8TU7DUyn orgid:cJ9YHowT8TU7DUyn (type:"Web Mapping Application" OR type:"Mobile Application") -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration" -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration"',
+          q: ' orgid:cJ9YHowT8TU7DUyn orgid:cJ9YHowT8TU7DUyn (type:"Web Mapping Application" OR type:"Mobile Application") -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In"',
           f: 'json',
           num: '100'
         },
@@ -173,11 +172,11 @@
           htmlLiItem += '<li><div class="thumbitem-border">';
           htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '"data-tags="' + itemTags + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
-          htmlLiItem += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
           //Omaha has no descriptions in their publicly shared WMAs
-          htmlLiItem += '<p class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
-          htmlLiItem += '<p class="mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
           htmlLiItem += '</div>';
           htmlLiItem += '</li>';
 
@@ -287,11 +286,11 @@
           htmlLiItem += '<li><div class="thumbitem-border">';
           htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '"data-tags="' + itemTags + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
-          htmlLiItem += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
           //Omaha has no descriptions in their publicly shared WMAs
-          htmlLiItem += '<p class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
-          htmlLiItem += '<p class="mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
           htmlLiItem += '</div>';
           htmlLiItem += '</li>';
 
@@ -509,11 +508,11 @@
           htmlLiItem += '<li><div class="thumbitem-border">';
           htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '"data-tags="' + itemTags + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
           htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
-          htmlLiItem += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom "class="ee-bootstrap-tooltip mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
           //Omaha has no descriptions in their publicly shared WMAs
-          htmlLiItem += '<p class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
-          htmlLiItem += '<p class="mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom "class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom "class="ee-bootstrap-tooltip mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
           htmlLiItem += '</div>';
           htmlLiItem += '</li>';
 
@@ -605,6 +604,7 @@
       });
       return this;
     };
+
 
     //Fisher-Yates shuffle just to randomize thumbnail order,
     //Makes it less boring on page relaod until we implement tag filtering, recommendation engine, etc.

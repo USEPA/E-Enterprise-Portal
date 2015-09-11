@@ -13,7 +13,8 @@
 
 
         $('body').once(function() {
-          $('[data-toggle="tooltip"]').tooltip({
+          $('body').tooltip({
+            selector: '.ee-bootstrap-tooltip',
             delay: 200,
             trigger: 'click hover focus'
           });
