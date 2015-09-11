@@ -12,10 +12,11 @@
       console.log("initializeTooltips: entering", $('[data-toggle="tooltip"]'));
 
 
-      $('body').once(function() {
-        $('[data-toggle="tooltip"]').tooltip({
-          delay: 200,
-          trigger: 'click hover focus'
+        $('body').once(function() {
+          $('[data-toggle="tooltip"]').tooltip({
+            delay: 200,
+            trigger: 'click hover focus'
+          });
         });
       });
 

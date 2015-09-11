@@ -286,7 +286,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         	'aria-describedby' => 'email-helptext'
         	);
         $form['account']['mail']['#required'] = false;
-        $form['account']['mail']['#title'] = 'Email Address <span data-toggle="tooltip" data-placement="bottom" aria-hidden="true" id="email-helptext" class="glyphicon glyphicon-info-sign" title="A valid e-mail address. All e-mails from the system will be sent to this address. The e-mail address is not made public and will only be used if you wish to receive a new password or wish to receive certain news or notifications by e-mail."> </span>';
+        $form['account']['mail']['#title'] = 'Email Address <span data-toggle="tooltip" data-placement="bottom" aria-hidden="true" id="email-helptext" class="glyphicon glyphicon-info-sign ee-bootstrap-tooltip" title="A valid e-mail address. All e-mails from the system will be sent to this address. The e-mail address is not made public and will only be used if you wish to receive a new password or wish to receive certain news or notifications by e-mail."> </span>';
         $form['#validate'][] = 'user_profile_form_custom_validate';
         $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
         $form['actions']['delete']['#submit'][] = 'profile_delete_action';

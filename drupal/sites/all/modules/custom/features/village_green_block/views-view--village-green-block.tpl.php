@@ -84,11 +84,11 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
             <div style="clear:both"></div>
             <div class="vg-numbers-container">
               <ul class="vg-numbers">
-                  <li><h4 id="temp-label" aria-labelledby="">Temp</h4><p aria-labelledby="temp-label"><span class="curTempReading">0</span> <span class="vg-units" id="temp-units"><abbr data-toggle="tooltip" data-placement="bottom" title="Degrees fahrenheit">&deg; F</abbr></span></p></li>
+                  <li><h4 id="temp-label" aria-labelledby="">Temp</h4><p aria-labelledby="temp-label"><span class="curTempReading">0</span> <span class="vg-units" id="temp-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Degrees fahrenheit">&deg; F</abbr></span></p></li>
                   <li><h4 id="humid-label" aria-labelledby="">Humidity</h4><p aria-labelledby="humid-label"><span class="curHumidReading">0</span> <span class="vg-units" id="humid-units">%</span></p></li>
-                  <li><h4 id="wind-label" aria-labelledby="">Wind</h4><p aria-labelledby="wind-label"><span class="curWSReading">0</span> <abbr data-toggle="tooltip" data-placement="bottom" title="Wind Direction" class="curWDReading">x</abbr><span class="vg-units" id="wind-units"><abbr data-toggle="tooltip" data-placement="bottom" title="Miles per hour">mph</abbr></span></p></li>
-                  <li><h4 id="ozone-label" aria-labelledby="">Ozone</h4><p aria-labelledby="ozone-label"><span class="curOzoneReading">0</span> <span class="vg-units" id="ozone-units"><abbr data-toggle="tooltip" data-placement="bottom" title="Parts per billion">ppb</abbr></span></p></li>
-                  <li><h4 id="pm-label">PM<sub>2.5<sub></h4><p aria-labelledby="pm-label"><span class="curPMReading">0</span><span class="vg-units" id="pm-units"><abbr data-toggle="tooltip" data-placement="bottom" title="Micrograms per cubic meter">&mu;g/m<sup>3</sup></abbr></span></p></li>
+                  <li><h4 id="wind-label" aria-labelledby="">Wind</h4><p aria-labelledby="wind-label"><span class="curWSReading">0</span> <abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Wind Direction" class="curWDReading"></abbr><span class="vg-units" id="wind-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Miles per hour">mph</abbr></span></p></li>
+                  <li><h4 id="ozone-label" aria-labelledby="">Ozone</h4><p aria-labelledby="ozone-label"><span class="curOzoneReading">0</span> <span class="vg-units" id="ozone-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Parts per billion">ppb</abbr></span></p></li>
+                  <li><h4 id="pm-label">PM<sub>2.5<sub></h4><p aria-labelledby="pm-label"><span class="curPMReading">0</span><span class="vg-units" id="pm-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Micrograms per cubic meter">&mu;g/m<sup>3</sup></abbr></span></p></li>
               </ul>
               <div style="clear:both"></div>
             </div>
