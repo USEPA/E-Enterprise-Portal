@@ -386,10 +386,9 @@ header {
 		color: #fff;
 	}
 	.block--login-from-guest-page {
-		position: relative;
-		top: 20px;
+		margin-bottom: 0;
 	}
-	#block-eenterprise-bridge-auth-eenterprise-bridge-auth {
+	#block--ee-bridge-login {
 		width: auto;
 		float: right;
 		margin-bottom: 0;
@@ -399,15 +398,12 @@ header {
 			clip: rect(1px,1px,1px,1px);
 			position:absolute;
 		}
-		input[type="submit"] {
+		a {
 			font-size: 1em;
 			height:auto;
 			padding: 5px 10px;
+			display: block;
 		}
-	}
-	.block--login-from-guest-page {
-		position: relative;
-		top: 20px;
 	}
 }
 .region-footer {
@@ -516,6 +512,12 @@ header {
 		padding-top: 1em;
 		padding-bottom: 1em;
 	}
+	.login-options {
+		li {
+			width: 18em;
+			display: block;
+		}
+	}
 }
 .well a:hover {
 	color: $ee-hover-color;
@@ -524,12 +526,12 @@ header {
 .mobile-nav .mobile-links a.active {
 	color: $epa-white;
 }
-.logged-in.page-eenterprise-new {
+.logged-in.page-eenterprise-new, .logged-in.section-eenterprise-new {
 	.guest-login {
 		display: none;
 	}
 }
-.page-eenterprise-new {
+.page-eenterprise-new, .section-eenterprise-new {
 	section {
 		padding:0;
 	}
@@ -574,12 +576,28 @@ header {
 	    display: inline-block;
 	    background-color: #fff;
 	    opacity: 0.8;
+	    margin-left: 10px;
 	    a {
 		    font-size: 1em;
 			margin-left: 0;
 			padding: 5px 15px;
 	    }
 	    a:hover, a:focus, a:active {
+		    color: #000000;
+	    }
+	}
+	#new-toeenterprise {
+		margin: 0 auto;
+		width: 10.75em;
+		background-color: #fff;
+		opacity: 0.8;
+		display: block;
+		a {
+			display: block;
+			padding: 5px 10px;
+			margin:10px auto 0;
+		}
+		a:hover, a:focus, a:active {
 		    color: #000000;
 	    }
 	}
@@ -602,13 +620,30 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	.modal-content {
 		padding:30px;
 	}
-
+	.modal-header {
+		padding: 5px 15px;
+	}
 	.modal-header, .modal-footer {
 		border:none;
 	}
 	.modal-title {
 		padding-left:0;
+		font-size: 1.5em;
 	}
+	.ee-available-widgets {
+		padding-left: 20px;
+		li {
+			list-style-type: square;
+		}
+	}
+	.login-options {
+		padding-left: 40px;
+		margin-top: 20px;
+		li {
+			width: 12em;
+			display: inline-block;
+		}
+	}	
 }
 
 #learnmore-close {
@@ -779,6 +814,9 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		display: none;
 	}
 }
+.section-bridge-landing .pillbox {
+	display: none;
+}
 
 
 /** Nav and Forms *************************/
@@ -861,7 +899,7 @@ a#guest-login {
   position: static !important;
 }
 
-.view-eenterprise-for-environment .region-nav-bar, .page-eenterprise-for-environment .region-nav-bar, .page-eenterprise-new .region-navigation {
+.view-eenterprise-for-environment .region-nav-bar, .page-eenterprise-for-environment .region-nav-bar, .page-eenterprise-new .region-navigation, .section-eenterprise-new .region-navigation {
 	display: none;
 }
 
@@ -982,6 +1020,9 @@ tr.odd, tr.even {
 			min-width: 7em;
 		}
 	}
+}
+.section-bridge-landing .ee-workbench-header-setlocation {
+	display: none;
 }
 
 .tabs, .tabs-primary__tab, .tabs-primary__tab.is-active {
@@ -1165,7 +1206,7 @@ tr.odd, tr.even {
 		margin-top: 0
 	}
 	
-	.page-eenterprise-new {
+	.page-eenterprise-new, .section-eenterprise-new {
 		.region-header {
 			padding:0;
 		}
