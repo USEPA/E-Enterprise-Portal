@@ -9934,7 +9934,7 @@ tr.selected td {
 /* line 803, ../sass/components/_misc.scss */
 .progress .filled {
   background-color: #0072b9;
-  background-image: url('../images/progress.gif?1439992036');
+  background-image: url('../images/progress.gif?1440173543');
 }
 
 /**
@@ -13878,4 +13878,150 @@ h2.pane-title {
     margin-right: 20px;
     vertical-align: top;
   }
+}
+/** =============== bootstrap tooltip styles ================== */
+/* line 2812, ../sass/styles.scss */
+.tooltip {
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-break: auto;
+  line-height: 1.42857143;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  white-space: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  font-size: 12px;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+/* line 2835, ../sass/styles.scss */
+.tooltip.in {
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
+
+/* line 2839, ../sass/styles.scss */
+.tooltip.top {
+  margin-top: -3px;
+  padding: 5px 0;
+}
+
+/* line 2843, ../sass/styles.scss */
+.tooltip.right {
+  margin-left: 3px;
+  padding: 0 5px;
+}
+
+/* line 2847, ../sass/styles.scss */
+.tooltip.bottom {
+  margin-top: 3px;
+  padding: 5px 0;
+}
+
+/* line 2851, ../sass/styles.scss */
+.tooltip.left {
+  margin-left: -3px;
+  padding: 0 5px;
+}
+
+/* line 2855, ../sass/styles.scss */
+.tooltip-inner {
+  max-width: 200px;
+  padding: 3px 8px;
+  color: #ffffff;
+  text-align: center;
+  background-color: #000000;
+  border-radius: 4px;
+}
+
+/* line 2863, ../sass/styles.scss */
+.tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+
+/* line 2870, ../sass/styles.scss */
+.tooltip.top .tooltip-arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000000;
+}
+
+/* line 2877, ../sass/styles.scss */
+.tooltip.top-left .tooltip-arrow {
+  bottom: 0;
+  right: 5px;
+  margin-bottom: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000000;
+}
+
+/* line 2884, ../sass/styles.scss */
+.tooltip.top-right .tooltip-arrow {
+  bottom: 0;
+  left: 5px;
+  margin-bottom: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000000;
+}
+
+/* line 2891, ../sass/styles.scss */
+.tooltip.right .tooltip-arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  border-width: 5px 5px 5px 0;
+  border-right-color: #000000;
+}
+
+/* line 2898, ../sass/styles.scss */
+.tooltip.left .tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #000000;
+}
+
+/* line 2905, ../sass/styles.scss */
+.tooltip.bottom .tooltip-arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000000;
+}
+
+/* line 2912, ../sass/styles.scss */
+.tooltip.bottom-left .tooltip-arrow {
+  top: 0;
+  right: 5px;
+  margin-top: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000000;
+}
+
+/* line 2919, ../sass/styles.scss */
+.tooltip.bottom-right .tooltip-arrow {
+  top: 0;
+  left: 5px;
+  margin-top: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000000;
 }

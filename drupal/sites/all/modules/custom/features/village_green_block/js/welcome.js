@@ -68,7 +68,7 @@
             var windDirection = PageController.getWindDirection(data.curWDValue);
 
             $(".curWDReading").html(windDirection);
-            $(".curWDReading").attr("title", windDirectionMap[windDirection]);
+            $(".curWDReading").attr("data-original-title", windDirectionMap[windDirection]);
 
             var currentDateString = data.currentDateTime;
             currentDateString = currentDateString + ' ' + data.timezone;

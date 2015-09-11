@@ -1,4 +1,3 @@
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <?php
 drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_input_engine.js');
 drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "file");
