@@ -9,17 +9,14 @@
 
   Drupal.behaviors.initalizeTooltips = {
     attach: function (context) {
-      console.log("initializeTooltips: entering", $('[data-toggle="tooltip"]'));
-
-
-        $('body').once(function() {
-          $('[data-toggle="tooltip"]').tooltip({
-            delay: 200,
-            trigger: 'click hover focus'
-          });
-        });
+      $('body').once(function() {
+        $('body').tooltip({
+          selector: '.ee-bootstrap-tooltip',
+          delay: 200,
+          trigger: 'click hover focus',
+          container: 'body'
+        })
       });
-
     }
   };
 
