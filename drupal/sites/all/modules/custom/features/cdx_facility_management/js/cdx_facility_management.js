@@ -164,12 +164,11 @@
                     } else {
                         alert('unable to recieve user data');
                     }
-
-                    management_button.click(function () {
-                        var user_role_id = $('#fmw-type-select').val();
-                        updateWidget(user_role_id, naas_token, naas_ip);
-                        cdx_facility_management_block.dialog('open');
-                    });
+                        management_button.click(function () {
+                            var user_role_id = $('#fmw-type-select').val();
+                            updateWidget(user_role_id, naas_token, naas_ip);
+                            cdx_facility_management_block.dialog('open');
+                        });
 
                 }
             });
