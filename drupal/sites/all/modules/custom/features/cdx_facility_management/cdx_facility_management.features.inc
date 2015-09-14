@@ -90,20 +90,88 @@ function cdx_facility_management_iframe()
 function return_cdx_facility_management_token()
 {
 
+//     $wsdl = 'https://naasdev.epacdxnode.net/xml/SecurityToken_v30.wsdl';
+//    $wsdl = 'https://cdxnodenaas.epa.gov/xml/SecurityToken_v30.wsdl';
+    $wsdl = 'naasdev.epacdxnode.net_xml_SecurityToken_v30.wsdl';
+    $email = variable_get('cdx_node_token_email');
+    $password = variable_get('cdx_node_token_password');
+    $ip = variable_get('frs_api_lookup_ip');
 
-    $token = $_SESSION['cdx_fmw_security_token'];
-    $server_ip = variable_get('frs_api_lookup_ip');
-    $json_return = array(
-        'token' => $token,
-        'server_ip' => $server_ip,
+
+
+    try {
+        $client = new SoapClient(dirname(__FILE__) . '/' . $wsdl, array('soap_version' => SOAP_1_2));
+    } catch (SoapFault $f) {
+        var_dump($f);
+        return;
+    }
+
+            $params = array(
+                "userId" => 'GREENOLIVE',
+                "credential" => 'Devfrsenterprise01',
+                "domain" => variable_get('cdx_node_token_domain'),
+                "authMethod" => variable_get('eactivity_auth_reg_auth_method'),
+                "trustee" => $email,
+                "ip" => $ip,
+                "subjectData" => 'uid',
+                "subject" => "GREENOLIVE",
+                "issuer" => "EEP",
+                "tokenType" => 'csm',
+            );
+
+    try {
+        //Authenticate to CDX
+        $response = $client->__soapCall("CreateSecurityToken", array($params));
+        $token = $response->return;
+        $server_ip = variable_get('frs_api_lookup_ip');
+        $json_return = array(
+            'token' => $token,
+            'server_ip' => $server_ip,
+            'params' => $params,
+        );
+
+    } catch (SoapFault $f) {
+        dpm($f);
+        watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
+    }
+
+
+    $params_for_renewal = array(
+        "userId" => $email,
+        "password" => 'Devfrsenterprise01',
+        "domain" => variable_get('cdx_node_token_domain'),
+        "securityToken" => $token,
+        "expiration" => "4000000"
     );
+
+    try {
+        //Authenticate to CDX
+        $response = $client->__soapCall("RenewSecurityToken", array($params_for_renewal));
+        $new_token = $response->return;
+        var_dump($response);
+
+    } catch (SoapFault $f) {
+        dpm($f);
+        watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
+    }
+
+//
+//
+//    $token = $_SESSION['cdx_fmw_security_token'];
+//    $server_ip = variable_get('frs_api_lookup_ip');
+//    $json_return = array(
+//        'token' => $token,
+//        'server_ip' => $server_ip,
+//    );
+    exit();
     print json_encode($json_return);
 }
 
 function retrieve_cdx_user_data()
 {
 
-    $user_id = $_SESSION['userId'];
+//    $user_id = $_SESSION['userId'];
+    $user_id = 'GREENOLIVE';
     $allowed_program_roles = ['CEDRI', 'CSPP', 'eDisclosure'];
     $json_return = array();
 
@@ -226,6 +294,7 @@ function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, 
     if (!$org_contains_role) {
         unset($json_return['organizations_to_roles'][$org_id]);
     }
+
     return $json_return;
 }
 

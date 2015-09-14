@@ -14,6 +14,7 @@
                 var parsed_json = $.parseJSON(json);
                 naas_token = parsed_json.token;
                 naas_ip = parsed_json.server_ip;
+                console.log(parsed_json);
             }
         });
 
@@ -280,7 +281,7 @@
                 NAASip: naas_ip,
                 onInvalidSession: function () {
                     alert('CDX Session ended.');
-                    window.location.href = '/user/logout';
+                    //window.location.href = '/user/logout';
                 },
                 onServiceCall: function () {
                     cdx_facility_management_block.dialog("option", "position", {
