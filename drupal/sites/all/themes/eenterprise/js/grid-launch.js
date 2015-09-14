@@ -47,12 +47,10 @@
     $('.grid-stack').gridstack(options);
     var grid = $('.grid-stack').data('gridstack');
 
-    new ResizeSensor(jQuery('.grid-stack-item'), function() {
-      recalculateWidgetHeights(grid);
-    });
-
-    new ResizeSensor(jQuery('.view-content'), function() {
-      recalculateWidgetHeights(grid);
-    });
+    if (typeof ResizeSensor !== 'undefined') {
+      new ResizeSensor(jQuery('.grid-stack-item'), _.debounce( function(){ console.log('grid-stack-item: debounce'); recalculateWidgetHeights(grid) }, 150 ));
+      new ResizeSensor(jQuery('.view-content'), _.debounce( function(){ console.log('view-content: debounce'); recalculateWidgetHeights(grid) }, 150 ));
+    }
+    $(document).ajaxComplete(_.debounce( function(){ console.log('ajaxComplete: debounce'); recalculateWidgetHeights(grid) }, 150 ));
   });
 })(jQuery);

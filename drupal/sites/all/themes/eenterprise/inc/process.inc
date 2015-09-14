@@ -143,12 +143,28 @@ function eenterprise_preprocess_node(&$vars) {
   $vars['datetime'] = format_date($vars[CREATED], CUSTOM, 'c');
   $vars['date'] = format_date($vars[CREATED], CUSTOM, 'F j, Y');
   if (variable_get('node_submitted_' . $vars['node']->type, TRUE)) {
+/*
     $vars['submitted'] = t('!datetime by !username',
       array(
         '!datetime' => '<time class="node-date" datetime="' . $vars['datetime'] . '" pubdate="pubdate">' . $vars['date'] . '</time>',
         '!username' => $vars['name'],
       )
     );
+*/
+	if ($vars['node']->type == 'ee_user_agreement') {
+		$vars['submitted'] = t('Last revised: !datetime',
+	      array(
+	        '!datetime' => '<time class="node-date" datetime="' . $vars['datetime'] . '" pubdate="pubdate">' . $vars['date'] . '</time>'
+	      )
+	    );
+	}
+	else {
+		$vars['submitted'] = t('Last updated: !datetime',
+	      array(
+	        '!datetime' => '<time class="node-date" datetime="' . $vars['datetime'] . '" pubdate="pubdate">' . $vars['date'] . '</time>'
+	      )
+	    );
+	}
   }
   else {
     $vars['submitted'] = '';
@@ -195,6 +211,7 @@ function eenterprise_preprocess_block(&$vars) {
     $machine_name = db_query("SELECT machine_name FROM {fe_block_boxes} WHERE bid = :bid", array('bid' => $vars['elements']['#block']->delta))->fetchField();
     if (!empty($machine_name)) {
       $vars['classes_array'][] = 'block--' . str_replace('_', '-', $machine_name);    
+      $vars['title_attributes_array']['class'][] = 'element-invisible';
     }  
   }
 }

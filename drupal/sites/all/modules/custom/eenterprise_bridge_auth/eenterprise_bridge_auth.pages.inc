@@ -129,7 +129,7 @@ function eenterprise_bridge_auth_authenticate($error)
                 //user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
                 user_external_login_register($uname, 'eenterprise_bridge_auth');
                 if ($user) {
-                    user_save($user, array('mail' => $userDetails->attributes['email'][0]));
+                    user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
                     //if user is public user
                     if ($pos === FALSE) {
                         $user_role = user_role_load_by_name('Public User');
@@ -151,7 +151,7 @@ function eenterprise_bridge_auth_authenticate($error)
 
                 user_login_submit(array(), $form_state);
                 //To fix a bug where email address is not updated after users update their email address in CDX and login.
-                user_save($user, array('mail' => $userDetails->attributes['email'][0]));
+                user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
                 try {
                     if ($public_or_cdx == 'cdx') {
 //                        user_save($user, array('cdx_fmw_security_token' => $userDetails->attributes['securityToken'][0]));
@@ -563,7 +563,7 @@ function create_progress_tracker_node($res, $user)
     }
 }
 
-try {
+/*try {
     $wsdl = variable_get('eactivity_auth_reg_wsdl');
     $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
 } catch (SoapFault $f) {
@@ -639,7 +639,7 @@ try {
     }
 } catch (SoapFault $f) {
     watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
-}
+}*/
 
 function assign_roles_to_user($user_name)
 {
@@ -702,6 +702,8 @@ function assign_roles_to_user($user_name)
                         user_role_save($user_role);
                     }
                     user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                    view_allow_access_role('progress_tracker',$user_role->rid);
+                    view_allow_access_role('to_do',$user_role->rid);
                 }
             }
         } else {
@@ -714,6 +716,8 @@ function assign_roles_to_user($user_name)
                     user_role_save($user_role);
                 }
                 user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                view_allow_access_role('progress_tracker',$user_role->rid);
+                view_allow_access_role('to_do',$user_role->rid);
             }
         }
     } catch (SoapFault $f) {
@@ -740,4 +744,29 @@ function refresh_todo_list(){
     create_progress_tracker($user);
     drupal_set_message("To Do and Progress Tracker Data refreshed successfully");
     drupal_goto('/workbench');
+}
+
+function eenterprise_bridge_auth_redirect() {
+  $idParams = array('wa' => 'wsignin1.0',
+    'wtrealm' => variable_get('eenterprise_bridge_auth_realm'),
+    'wctx' => 'rm=0',
+    'wreply' => variable_get('eenterprise_bridge_auth_reply'),
+    'whr' => $_GET['whr'],
+  );
+
+  //Builds URL for handing off the Open ID Bridge
+  $idBridgeUrl = variable_get('eenterprise_bridge_auth_issuer') . "?" . http_build_query($idParams);
+
+  header("Location:$idBridgeUrl");
+}
+
+/*
+ * Function to allow a new user with CDX role get access to progress tracker and to-do views
+ * automatically.
+ */
+function view_allow_access_role($view_name, $role_id){
+    $result_view = views_get_view($view_name);
+    $result_view->set_display('default');
+    $result_view->display_handler->display->display_options['access']['role'][$role_id] = $role_id;
+    $result_view->save();
 }

@@ -68,7 +68,7 @@
             var windDirection = PageController.getWindDirection(data.curWDValue);
 
             $(".curWDReading").html(windDirection);
-            $(".curWDReading").attr("title", windDirectionMap[windDirection]);
+            $(".curWDReading").attr("data-original-title", windDirectionMap[windDirection]);
 
             var currentDateString = data.currentDateTime;
             currentDateString = currentDateString + ' ' + data.timezone;
@@ -108,7 +108,7 @@
 
                 var percentProgress = (60 - currentInterval)/60 * 100;
 
-                $(".countdownContainer").html(currentInterval);
+                $(".countdownContainer").html(currentInterval + " seconds");
                 $(".village-green-countdown").css("width", percentProgress + "%").attr({"aria-valuenow": percentProgress});
 
                     if (currentInterval <= 0) {

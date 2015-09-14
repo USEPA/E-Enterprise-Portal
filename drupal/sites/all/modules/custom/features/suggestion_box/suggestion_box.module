@@ -70,7 +70,7 @@ function suggestion_box_form($form, &$form_state) {
     '#title' => t('Email'),
     // '#required' => TRUE,
     '#size' => 60,
-    '#default_value' => $user->mail,
+    '#default_value' => trim($user->mail, '"'),
     '#disabled' => TRUE,
     // '#description' => t('Your email'),
     '#id' => 'suggestion-box-email',

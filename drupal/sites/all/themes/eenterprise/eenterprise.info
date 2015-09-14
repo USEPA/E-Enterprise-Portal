@@ -41,7 +41,7 @@ scripts[] = ../../libraries/jqueryui/jquery-ui.js
 scripts[] = js/lodash.min.js
 scripts[] = js/gridstack.js
 scripts[] = js/grid-launch.js
-;scripts[] = inc/bootstrap/js/bootstrap.min.js
+scripts[] = js/bootstrap.tooltip.js
 
 ; FEATURES
 features[] = logo
@@ -55,6 +55,7 @@ features[] = main_menu
 features[] = secondary_menu
 
 ; SETTINGS - default settings for theme-settings.php form
+settings[eenterprise_logoless] = 1
 settings[eenterprise_breadcrumb]           = no
 settings[eenterprise_breadcrumb_separator] = ' » '
 settings[eenterprise_breadcrumb_home]      = 1
