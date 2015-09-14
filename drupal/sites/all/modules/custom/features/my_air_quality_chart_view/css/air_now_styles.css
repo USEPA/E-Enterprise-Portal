@@ -74,45 +74,68 @@ div#my-air-quality-chart {
   font-weight: bold;
 }
 
-#my-air-quality-chart .section-good,
-#my-air-quality-air-now-maps .section-good{
+#my-air-quality-chart .section-good{
   fill: #00e400;
-  /* fill: #73cd93; */
   stroke: none;
 }
 
-#my-air-quality-chart .section-moderate,
-#my-air-quality-air-now-maps .section-moderate{
+#my-air-quality-chart .section-moderate{
   fill: #ffff00;
-  /* fill: #f6f467; */
   stroke: none;
 }
 
-#my-air-quality-chart .section-unhealthy-for-sensitive,
+#my-air-quality-chart .section-unhealthy-for-sensitive{
+  fill: #ff7e00;
+  stroke: none;
+}
+
+#my-air-quality-chart .section-unhealthy{
+  fill: #ff0000;
+  stroke: none;
+}
+
+#my-air-quality-chart .section-very-unhealthy{
+  fill: #99004c;
+  stroke: none;
+}
+
+#my-air-quality-chart .section-hazardous{
+  fill: #7e0023;
+  stroke: none;
+}
+
+
+#my-air-quality-air-now-maps .section-good{
+  fill: #bfe9bf;
+  stroke: none;
+}
+
+#my-air-quality-air-now-maps .section-moderate{
+  fill: #f4f4bf;
+  stroke: none;
+}
+
 #my-air-quality-air-now-maps .section-unhealthy-for-sensitive{
   fill: #ff7e00;
-  /* fill: #f89b63; */
+  opacity: 0.4;
   stroke: none;
 }
 
-#my-air-quality-chart .section-unhealthy,
 #my-air-quality-air-now-maps .section-unhealthy{
   fill: #ff0000;
-  /* fill: #d84a4a; */
+  opacity: 0.4;
   stroke: none;
 }
 
-#my-air-quality-chart .section-very-unhealthy,
 #my-air-quality-air-now-maps .section-very-unhealthy{
   fill: #99004c;
-  /* fill: #A53B6C; */
+  opacity: 0.5;
   stroke: none;
 }
 
-#my-air-quality-chart .section-hazardous,
 #my-air-quality-air-now-maps .section-hazardous{
   fill: #7e0023;
-  /* fill: #84347E; */
+  opacity: 0.5;
   stroke: none;
 }
 
