@@ -56,6 +56,7 @@ $cdx_facility_source = variable_get('cdx_facility_resource_url');
 <?php echo '<script src="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/FacilityManagementTemplates.min.js"></script>';?>
 <?php echo '<script src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) .  '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js"></script>';?>
 
+<div id="cdx-logged-in-options">
 <div id="facility-widget" style="max-width:1363px;"></div>
 <p>Use of facility widget is subject to CDX terms and conditions.</p>
 <div id="fmw-organization-select-holder"><label
@@ -69,6 +70,10 @@ $cdx_facility_source = variable_get('cdx_facility_resource_url');
         name="fmw-type-select" id="fmw-type-select"></select>
     <span id="fmw-type-single"></span></div>
 <button id="launch-facility-management" style="display:none;">Manage Facilities</button>
+</div>
+<div id="cdx-logged-out-options" style="display:none;">
+    <p>Your secure connection to CDX Facility Management services has expired. Please log out and log back in again to access these services.</p><button id="cdx-logged-out-log-out" type="button" class="btn btn-sm btn-danger">Log Out</button>
+</div>
 
 
 <div ID="facility-widget-orgs-table"></div>

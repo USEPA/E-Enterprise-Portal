@@ -16,6 +16,14 @@ function cdx_facility_widget_settings($form, $form_state) {
         '#default_value' => variable_get('cdx_facility_resource_url'),
         '#required' => TRUE,
     );
+    $form['cdx_facility_widget_settings']['cdx_facility_user_logout_session'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Time (minutes) user is allowed to be logged in before CDX no longer accepts token'),
+        '#default_value' => variable_get('cdx_facility_user_logout_session'),
+        '#element_validate' => array('element_validate_number'),
+        '#required' => TRUE,
+    );
+
     $form['cdx_facility_widget_settings']['cdx_facility_token_expiration'] = array(
         '#type' => 'textfield',
         '#title' => t('Time (seconds) before NAAS token for CDX widget expires'),
@@ -23,6 +31,7 @@ function cdx_facility_widget_settings($form, $form_state) {
         '#element_validate' => array('element_validate_number'),
         '#required' => TRUE,
     );
+
     $form['cdx_facility_widget_settings']['cdx_facility_naas_wsdl'] = array(
         '#type' => 'textfield',
         '#title' => t('CDX Facility WSDL'),
@@ -49,6 +58,7 @@ function cdx_facility_widget_settings($form, $form_state) {
         '#default_value' => variable_get('temp_create_new_token'),
         '#required' => FALSE,
     );
+
 
 
 
