@@ -393,7 +393,6 @@ function frs_naas_autentication()
     }
 
     if (isset($client)) {
-//        if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
             $params = array(
                 "userId" => $email,
                 "credential" => $password,

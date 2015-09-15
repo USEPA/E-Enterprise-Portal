@@ -89,89 +89,102 @@ function cdx_facility_management_iframe()
 
 function return_cdx_facility_management_token()
 {
-
-//     $wsdl = 'https://naasdev.epacdxnode.net/xml/SecurityToken_v30.wsdl';
-//    $wsdl = 'https://cdxnodenaas.epa.gov/xml/SecurityToken_v30.wsdl';
-    $wsdl = 'naasdev.epacdxnode.net_xml_SecurityToken_v30.wsdl';
+    $user_id = $_SESSION['userId'];
+    $frs_password = variable_get('cdx_facility_password');
     $email = variable_get('cdx_node_token_email');
-    $password = variable_get('cdx_node_token_password');
-    $ip = variable_get('frs_api_lookup_ip');
+    $domain = variable_get('cdx_node_token_domain');
+    $server_ip = variable_get('frs_api_lookup_ip');
+    $local = variable_get('cdx_facility_local');
+    $wsdl = variable_get('cdx_facility_naas_wsdl');
+    $token_expiration = variable_get('cdx_facility_token_expiration');
+    $auth_method = variable_get('eactivity_auth_reg_auth_method');
+    $json_return = array();
 
+    //Temp for testing on aws
+    $create_new_token_initially = variable_get('temp_create_new_token');
 
-
-    try {
+    //Connect to wsdl
+    if ($local) {
         $client = new SoapClient(dirname(__FILE__) . '/' . $wsdl, array('soap_version' => SOAP_1_2));
-    } catch (SoapFault $f) {
-        var_dump($f);
-        return;
+    } else {
+        $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
     }
 
-            $params = array(
-                "userId" => 'GREENOLIVE',
-                "credential" => 'Devfrsenterprise01',
-                "domain" => variable_get('cdx_node_token_domain'),
-                "authMethod" => variable_get('eactivity_auth_reg_auth_method'),
-                "trustee" => $email,
-                "ip" => $ip,
-                "subjectData" => 'uid',
-                "subject" => "GREENOLIVE",
-                "issuer" => "EEP",
-                "tokenType" => 'csm',
-            );
+    // Create new token- not using token from bridge
+    if ($create_new_token_initially) {
+        // Create new token with CDX's user id
+        $params_for_creation = array(
+            "userId" => $user_id,
+            "credential" => $frs_password,
+            "domain" => $domain,
+            "authMethod" => $auth_method,
+            "trustee" => $email,
+            "ip" => $server_ip,
+            "subjectData" => 'tbd=tbd',
+            "subject" => $user_id,
+            "issuer" => "EEP",
+            "tokenType" => 'csm',
+            'expiration' => $token_expiration,
+        );
+        $json_return = createNewToken($client, $params_for_creation);
+    } else {
+        // Use token from bridge and renew
+        $token = $_SESSION['cdx_fmw_security_token'];
+        $params_for_renewal = array(
+            "userId" => $email,
+            "password" => $frs_password,
+            "domain" => $domain,
+            "securityToken" => $token,
+            "expiration" => $token_expiration,
+        );
+        // Immediately renew the NAAS token received from Bridge or newly created
+        $json_return = renewToken($client, $params_for_renewal, $json_return);
+    }
 
+    print json_encode($json_return);
+}
+
+function createNewToken($client, $params_for_creation)
+{
     try {
         //Authenticate to CDX
-        $response = $client->__soapCall("CreateSecurityToken", array($params));
+        $response = $client->__soapCall("CreateSecurityToken", array($params_for_creation));
         $token = $response->return;
         $server_ip = variable_get('frs_api_lookup_ip');
         $json_return = array(
             'token' => $token,
             'server_ip' => $server_ip,
-            'params' => $params,
+            'error' => false,
         );
-
     } catch (SoapFault $f) {
         dpm($f);
+        $json_return = array('token' => '', 'error' => $f);
         watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
     }
+    return $json_return;
+}
 
-
-    $params_for_renewal = array(
-        "userId" => $email,
-        "password" => 'Devfrsenterprise01',
-        "domain" => variable_get('cdx_node_token_domain'),
-        "securityToken" => $token,
-        "expiration" => "4000000"
-    );
-
+function renewToken($client, $params_for_renewal, $json_return)
+{
     try {
         //Authenticate to CDX
         $response = $client->__soapCall("RenewSecurityToken", array($params_for_renewal));
         $new_token = $response->return;
-        var_dump($response);
+        $json_return['token'] = $new_token;
 
     } catch (SoapFault $f) {
         dpm($f);
-        watchdog('eenterprise_bridge_auth', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
+        $json_return['error'] = $f;
+        watchdog('CDX Facility Management', "Error: Cannot authenticate user to retrieve role information", array(), WATCHDOG_ERROR);
     }
-
-//
-//
-//    $token = $_SESSION['cdx_fmw_security_token'];
-//    $server_ip = variable_get('frs_api_lookup_ip');
-//    $json_return = array(
-//        'token' => $token,
-//        'server_ip' => $server_ip,
-//    );
-    exit();
-    print json_encode($json_return);
+    return $json_return;
 }
+
 
 function retrieve_cdx_user_data()
 {
 
-//    $user_id = $_SESSION['userId'];
-    $user_id = 'GREENOLIVE';
+    $user_id = $_SESSION['userId'];
     $allowed_program_roles = ['CEDRI', 'CSPP', 'eDisclosure'];
     $json_return = array();
 
@@ -235,7 +248,8 @@ function retrieve_cdx_user_data()
 }
 
 
-function addCDXRole($json_return, $role, $org_id) {
+function addCDXRole($json_return, $role, $org_id)
+{
     $disallowed_types = ['State Reviewer', 'Primary Support', 'Secondary Support'];
     $role_obj = array();
     $role_type = $role->type->description;
@@ -244,8 +258,7 @@ function addCDXRole($json_return, $role, $org_id) {
     if (in_array($role_type, $disallowed_types) || $status == 'Inactive') {
         // not allowed to show this user type
         $json_return['invalid_cdx_role'] = true;
-    }
-    else {
+    } else {
         $role_obj['type'] = $role_type;
         $role_obj['userRoleId'] = $role->userRoleId;
         if (!isset($json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow])) {
@@ -258,7 +271,8 @@ function addCDXRole($json_return, $role, $org_id) {
     return $json_return;
 }
 
-function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, $allowed_program_roles) {
+function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, $allowed_program_roles)
+{
     $org_id = $org_val->userOrganizationId;
     $org_name = $org_val->organizationName;
     $org_contains_role = false;
@@ -274,11 +288,11 @@ function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, 
     if (isset($user_roles->Role)) {
         // Check if multiple roles or single role
         if (is_array($user_roles->Role)) {
-            foreach ($user_roles->Role as $key=>$role) {
+            foreach ($user_roles->Role as $key => $role) {
                 if (in_array($role->dataflow, $allowed_program_roles)) {
                     $json_return = addCDXRole($json_return, $role, $org_id);
                     if (!$json_return['invalid_cdx_role']) {
-                    $org_contains_role = true;
+                        $org_contains_role = true;
                     }
                 }
             }
@@ -288,7 +302,8 @@ function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, 
                 $json_return = addCDXRole($json_return, $role, $org_id);
                 if (!$json_return['invalid_cdx_role']) {
                     $org_contains_role = true;
-                }            }
+                }
+            }
         }
     }
     if (!$org_contains_role) {
