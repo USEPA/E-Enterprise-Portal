@@ -624,6 +624,7 @@ function assign_roles_to_user($user_name)
                         user_role_save($user_role);
                     }
                     user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                    allow_user_menu_access($user_role->rid);
                     if($role_val != 'Public') {
                         view_allow_access_role('progress_tracker', $user_role->rid);
                         view_allow_access_role('to_do', $user_role->rid);
@@ -640,6 +641,7 @@ function assign_roles_to_user($user_name)
                     user_role_save($user_role);
                 }
                 user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                allow_user_menu_access($user_role->rid);
                 if($role_val != 'Public') {
                     view_allow_access_role('progress_tracker', $user_role->rid);
                     view_allow_access_role('to_do', $user_role->rid);
@@ -652,6 +654,20 @@ function assign_roles_to_user($user_name)
     }
 }
 
+/*
+ * function that allow roles access to the user-menu block. That is the block containing My Account and Log out links.
+ */
+
+function allow_user_menu_access($role_id){
+    $query = db_insert('block_role')->fields(array('rid', 'module', 'delta'));
+    $query->values(array(
+        'rid' => $role_id,
+        'module' => 'system',
+        'delta' => 'user-menu',
+    ));
+    $query->execute();
+    cache_clear_all();
+}
 
 function eenterprise_bridge_auth_logout() {
     if (isset($_SESSION['cdx_fmw_security_token'])) {
