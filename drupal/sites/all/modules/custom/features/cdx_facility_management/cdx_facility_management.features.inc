@@ -104,7 +104,6 @@ function userMustLogOut($user_session_logout, $user_login_time) {
 function return_cdx_facility_management_token()
 {
 
-    $_SESSION['userId']= 'GREENOLIVE';
     $user_id = $_SESSION['userId'];
     $json_return = array();
     $user_session_logout = (int) variable_get('cdx_facility_user_logout_session');
