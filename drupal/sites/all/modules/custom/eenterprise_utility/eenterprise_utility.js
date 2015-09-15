@@ -170,10 +170,27 @@
     }
 
 
-    $('#edit-delete').click(function(e) {
-        openDelete();
-        e.preventDefault();
-    })
+      $('#edit-delete').click(function(e) {
+          var delete_button = $(this);
+          var fancybox =    $.fancybox({
+              content:  $('#delete-holder'),
+              width: '400px',
+              height: '400px'
+          });
+
+          // If confirmed delete, unbind prevent default and trigger click to continue action
+          $('#confirm-delete-profile').unbind('click').click(function() {
+              delete_button.unbind('click');
+              delete_button.trigger('click');
+          });
+
+          $('#cancel-delete-profile').unbind('click').click(function() {
+              $.fancybox.close();
+          });
+
+          e.preventDefault();
+      })
+
 
     processPrimaryFields();
     placeAddAnotherButton(false, '#field-zip-code-values', '#zipcode_description');
