@@ -157,6 +157,7 @@ function eenterprise_bridge_auth_authenticate($error)
 //                        user_save($user, array('userId' => $userDetails->attributes['userId'][0]));
                         $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
                         $_SESSION['userId'] = $userDetails->attributes['userId'][0];
+                        $_SESSION['login_timestamp'] = time();
 
                     }
                     $_SESSION['cdx_user_type'] = $public_or_cdx;
