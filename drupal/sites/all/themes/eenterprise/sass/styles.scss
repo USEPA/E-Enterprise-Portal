@@ -821,6 +821,67 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	display: none;
 }
 
+@media screen and (min-width:20em) and (max-width:747.99999px) {
+  #benefits.ui-tabs .ui-tabs-nav li.ui-tabs-active:after {
+    border: none;
+  }
+
+  .ui-corner-top {
+    border-top-left-radius:0;
+    border-top-right-radius:0;
+  }
+
+  #benefits img {
+    display:none;
+  }
+
+}
+
+@media screen and (min-width:20em) and (max-width:959.99999px) {
+
+  #login-group {
+    position:relative;
+    text-align:center;
+    margin-top: 2em;
+    top:0;
+    left:0;
+  }
+
+  #login-group .guest-login,
+  #login-group #new-toeenterprise{
+    opacity: 1;
+    margin-top:1em;
+  }
+
+  .page-eenterprise-new .jumbotron .container,
+  .section-eenterprise-new .jumbotron .container {
+    max-width:100%;
+  }
+
+  .page-eenterprise-new .jumbotron,
+  .section-eenterprise-new .jumbotron {
+    margin-left:0em;
+    margin-right:0em;
+  }
+
+  .page-eenterprise-new .well,
+  .section-eenterprise-new .well {
+    margin-left:0em;
+  }
+
+  #benefits li {
+    font-size: 1em;
+  }
+
+  .section-eenterprise-new .well {
+    margin-top:10px;
+  }
+
+  #benefits img {
+    width:50%;
+  }
+
+}
 
 /** Nav and Forms *************************/
 .main-nav {
@@ -1023,6 +1084,23 @@ tr.odd, tr.even {
 			min-width: 7em;
 		}
 	}
+}
+
+@media screen and (min-width:20em) and (max-width:755.99999px) {
+  .block--ee-header-locations {
+    float:none;
+
+    .ee-workbench-header-locations {
+      float:none;
+    }
+
+  }
+}
+
+@media screen and (min-width:48em) and (max-width:959.99999px) {
+  .block--ee-header-locations {
+    margin-right: none;
+  }
 }
 .section-bridge-landing .ee-workbench-header-setlocation {
 	display: none;
@@ -3094,6 +3172,14 @@ input#location-input-guests::-ms-clear {
 @-webkit-keyframes spin2 {
   from { -webkit-transform: rotate(0deg); }
   to { -webkit-transform: rotate(360deg); }
+}
+
+@media screen and (min-width:20em) and (max-width:959.99999px) {
+  .region-navigation {
+    display:inline-table;
+    width:100%;
+  }
+
 }
 
 .ui-autocomplete {

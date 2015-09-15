@@ -14,6 +14,7 @@
                 var parsed_json = $.parseJSON(json);
                 naas_token = parsed_json.token;
                 naas_ip = parsed_json.server_ip;
+                console.log(parsed_json);
             }
         });
 
@@ -164,12 +165,11 @@
                     } else {
                         alert('unable to recieve user data');
                     }
-
-                    management_button.click(function () {
-                        var user_role_id = $('#fmw-type-select').val();
-                        updateWidget(user_role_id, naas_token, naas_ip);
-                        cdx_facility_management_block.dialog('open');
-                    });
+                        management_button.click(function () {
+                            var user_role_id = $('#fmw-type-select').val();
+                            updateWidget(user_role_id, naas_token, naas_ip);
+                            cdx_facility_management_block.dialog('open');
+                        });
 
                 }
             });
@@ -278,10 +278,10 @@
                 userRoleId: user_role_id,
                 NASSToken: naas_token,
                 NAASip: naas_ip,
-                onInvalidSession: function () {
-                    alert('CDX Session ended.');
-                    window.location.href = '/user/logout';
-                },
+                //onInvalidSession: function () {
+                //    alert('CDX Session ended.');
+                //    //window.location.href = '/user/logout';
+                //},
                 onServiceCall: function () {
                     cdx_facility_management_block.dialog("option", "position", {
                         my: "center",

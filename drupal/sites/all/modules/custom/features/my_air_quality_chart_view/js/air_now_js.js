@@ -56,7 +56,7 @@
 
     var aqiLayer = L.esri.dynamicMapLayer({
       url: "https://gispub.epa.gov/arcgis/rest/services/OAR_OAQPS/AirNowNationalAQI/MapServer",
-      opacity: 0.5,
+      opacity: 0.3,
       position: 'back'
     }).addTo(map);
 
@@ -105,56 +105,58 @@
 
 
     map.on("click", function(e) {
-      $('html, body').css("cursor", "wait");
-      AQSMonitorLayer.identify().on(map).at(e.latlng).run(function(error, featureCollection) {
-        if (featureCollection.features.length > 0 && map.getZoom() > 9) {
-          var lon83 = featureCollection.features[0].properties.LONGITUDE83;
-          var lat83 = featureCollection.features[0].properties.LATITUDE83;
-          var cityName = featureCollection.features[0].properties.CITY_NAME;
-          var stateAbbrev = featureCollection.features[0].properties.STATE_CODE;
+      if (map.getZoom() > 9) {
+        AQSMonitorLayer.identify().on(map).at(e.latlng).run(function(error, featureCollection) {
+          if (featureCollection.features.length > 0) {
+            var lon83 = featureCollection.features[0].properties.LONGITUDE83;
+            var lat83 = featureCollection.features[0].properties.LATITUDE83;
+            var cityName = featureCollection.features[0].properties.CITY_NAME;
+            var stateAbbrev = featureCollection.features[0].properties.STATE_CODE;
 
-          $.ajax({
-            type: 'GET',
-            url: '/my_air_quality_map_view/api/current/latLong/',
-            async: true,
-            data: {
-              format: 'application/json',
-              latitude: lat83,
-              longitude: lon83,
-              date: todayDate,
-              distance: '50'
-            },
-            success: function(data, status, xhr) {
-              //console.log("success");
-              var airnowAPIResultData = JSON.parse(data);
-              if (cityName == "NOT IN A CITY") {
-                cityName = "RURAL AREA";
+            $.ajax({
+              type: 'GET',
+              url: '/my_air_quality_map_view/api/current/latLong/',
+              async: true,
+              data: {
+                format: 'application/json',
+                latitude: lat83,
+                longitude: lon83,
+                date: todayDate,
+                distance: '50'
+              },
+              success: function(data, status, xhr) {
+                //console.log("success");
+                var airnowAPIResultData = JSON.parse(data);
+                if (cityName == "NOT IN A CITY") {
+                  cityName = "RURAL AREA";
+                }
+                var AQSpopupContent = cityName + ', ' + stateAbbrev + '</br>Current Air Quality<table><tbody><tr><td><b>Parameter</b></td><td><b>Category</b></td></tr>';
+                for (var i = 0; i < airnowAPIResultData.length; i++) {
+                  var paramName = airnowAPIResultData[i].ParameterName;
+                  var AQICategoryName = airnowAPIResultData[i].Category.Name;
+                  var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
+                  AQSpopupContent += row;
+                }
+                AQSpopupContent += '</tbody></table>';
+                var popup = L.popup()
+                  .setLatLng(e.latlng)
+                  .setContent(AQSpopupContent)
+                  .openOn(map);
+                $('html, body').css("cursor", "auto");
               }
-              var AQSpopupContent = cityName + ', ' + stateAbbrev + '</br>Current Air Quality<table><tbody><tr><td><b>Parameter</b></td><td><b>Category</b></td></tr>';
-              for (var i = 0; i < airnowAPIResultData.length; i++) {
-                var paramName = airnowAPIResultData[i].ParameterName;
-                var AQICategoryName = airnowAPIResultData[i].Category.Name;
-                var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
-                AQSpopupContent += row;
+            }).fail(function(xhr, status) {
+              if (status == "error") {
+                $('html, body').css("cursor", "auto");
+                console.log("Error in AirNow API request.");
+                return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
               }
-              AQSpopupContent += '</tbody></table>';
-              var popup = L.popup()
-                .setLatLng(e.latlng)
-                .setContent(AQSpopupContent)
-                .openOn(map);
-              $('html, body').css("cursor", "auto");
-            }
-          }).fail(function(xhr, status) {
-            if (status == "error") {
-              $('html, body').css("cursor", "auto");
-              console.log("Error in AirNow API request.");
-              return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
-            }
-          });
-        } else {
-          $('html, body').css("cursor", "auto");
-        }
-      });
+            });
+          } else {
+            $('html, body').css("cursor", "auto");
+          }
+        });
+      }
+
 
     });
 

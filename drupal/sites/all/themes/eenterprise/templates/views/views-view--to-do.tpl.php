@@ -38,8 +38,9 @@
       <?php print $header; ?>
     </div>
   <?php endif; ?>
-
+    <a href="todo/refresh"><i class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh To Do List" style="position:absolute;top:30px; right:30px;"></i> <span class="sr-only">Refresh</span></a>
     <div class="todo-filter-by-week">
+
         <?php
         $this_week = '';
         $beyond_next_week = '';
@@ -62,7 +63,6 @@
             <li id="beyond-next-week" class="todo_filter_button <?php print $beyond_next_week;?>"><a href="javascript:void(0)" class="favorites-ignore">Beyond</a></li>
         </ul>
     </div>
-    <a href="todo/refresh" class="favorites-ignore" style="float:right;">Refresh</a>
     <?php if ($exposed): ?>
     <div class="view-filters">
       <?php print $exposed; ?>
