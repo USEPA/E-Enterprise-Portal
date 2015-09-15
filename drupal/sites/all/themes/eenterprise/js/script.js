@@ -7,22 +7,27 @@
  */
 (function ($) {
 
-    Drupal.behaviors.initalizeTooltips = {
-      attach: function (context) {
-        console.log("initializeTooltips: entering", $('[data-toggle="tooltip"]'));
+  Drupal.behaviors.initalizeTooltips = {
+    attach: function (context) {
+      $('body').once(function() {
 
-
-        $('body').once(function() {
-          $('body').tooltip({
-            selector: '.ee-bootstrap-tooltip',
-            delay: 200,
-            trigger: 'click hover focus',
-            container: 'body'
-          });
+        // initialize all tooltips in page
+        $('body').tooltip({
+          selector: '.ee-bootstrap-tooltip',
+          delay: 400,
+          trigger: 'click hover focus',
+          container: 'body',
+          placement: 'auto left',
         });
 
-      }
-    };
+        // destroy all tooltips when clicking anywhere
+        $('body').click(function(e){
+          // but don't destroy the tooltip that was just created
+          $('.ee-bootstrap-tooltip').not(e.target).tooltip('hide');
+        })
+      });
+    }
+  };
 
     Drupal.behaviors.zipCodeChangeEvent = {
         attach: function(context) {

@@ -1,5 +1,22 @@
 (function($) {
   $(function() {
+
+    function truncate(text, maxLength) {
+      if (text.length <= maxLength) {
+        return text;
+      }
+
+      var truncated = text.substr(0, maxLength);
+
+      var spaceIndex = truncated.lastIndexOf(' ');
+
+      if (spaceIndex === -1) {
+        return truncated + '...';
+      }
+
+      return truncated.substring(0, spaceIndex) + '...';
+    }
+
     var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse EPA gallery...</a>';
     var totThumbnails = 0;
     var jcarousel = $('.jcarousel').jcarousel();
@@ -175,7 +192,7 @@
           htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
           //Omaha has no descriptions in their publicly shared WMAs
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + truncate($(desc).text(), 1000) + '">' + $(desc).text() + '</p>';
           htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
           htmlLiItem += '</div>';
           htmlLiItem += '</li>';
@@ -289,7 +306,7 @@
           htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
           //Omaha has no descriptions in their publicly shared WMAs
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + truncate($(desc).text(), 1000) + '">' + $(desc).text() + '</p>';
           htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
           htmlLiItem += '</div>';
           htmlLiItem += '</li>';
@@ -511,7 +528,7 @@
           htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom "class="ee-bootstrap-tooltip mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
           //the description element can contain HTML markup so use .text to un-format the string
           //Omaha has no descriptions in their publicly shared WMAs
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom "class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
+          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom "class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + truncate($(desc).text(), 1000) + '">' + $(desc).text() + '</p>';
           htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom "class="ee-bootstrap-tooltip mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
           htmlLiItem += '</div>';
           htmlLiItem += '</li>';
