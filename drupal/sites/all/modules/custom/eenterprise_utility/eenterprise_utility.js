@@ -14,19 +14,6 @@
       }
     }
 
-    function sortZipCodesbyCity() {
-      // Sort rows alphabetically
-      // var table  = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
-      // var rows   = table.find('tbody > tr'); // cache rows from target table body
-      // rows.sort(function(a, b) {
-      //     var keyA = $('td:nth-child(2)',a).find('.field-suffix').text();
-      //     var keyB = $('td:nth-child(2)',b).find('.field-suffix').text();
-      // 	if (keyA != '' && keyB != '') {
-      //         return (keyA > keyB) ? 1 : 0;  // A bigger than B, sorting ascending
-      // 	}
-      // });
-      //     table.find('tbody').html(rows);
-    }
 
     function processPrimaryFields() {
       var table = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
@@ -183,7 +170,11 @@
     }
 
 
-    sortZipCodesbyCity();
+    $('#edit-delete').click(function(e) {
+        openDelete();
+        e.preventDefault();
+    })
+
     processPrimaryFields();
     placeAddAnotherButton(false, '#field-zip-code-values', '#zipcode_description');
     placeAddAnotherButton(false, '#field-profile-favourites-values', '#links_description');
