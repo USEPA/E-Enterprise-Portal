@@ -403,17 +403,17 @@
             if(evt.target.innerHTML == 'This Week'){
               var date_today =  httpreq.responseText;
               date_today = JSON.parse(date_today);
-              var vmonth = date_today.fmonth;
+              /*var vmonth = date_today.fmonth;
               vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
               var vdate = date_today.fdate;
               vdate = vdate < 10 ? '0' + vdate : vdate;
               var vyear = date_today.fyear;
               var vhour = date_today.fhour;
               var vmin = date_today.fminute;
-              var vsec = date_today.fsecond
+              var vsec = date_today.fsecond;
 
-              var date_var = vyear + '-'+ vmonth + '-' + vdate + ' ' + '00:00:00';
-              $("#edit-field-todo-lst-due-value").val(date_var);
+              var date_var = vyear + '-'+ vmonth + '-' + vdate + ' ' + '00:00:00';*/
+              $("#edit-field-todo-lst-due-value").val(date_today.flastsunday);
               $("#edit-submit-to-do").trigger("click");
             }
             else if(evt.target.innerHTML == 'Next Week'){
