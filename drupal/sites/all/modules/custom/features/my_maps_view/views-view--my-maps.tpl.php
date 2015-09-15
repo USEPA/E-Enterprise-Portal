@@ -72,12 +72,12 @@ drupal_add_css(drupal_get_path('module', 'my_maps_view') ."/css/MyMaps.css", "fi
     </div>
 
     <div class="jcarousel-wrapper">
-        <a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+        <a href="#" class="jcarousel-control-prev"><span class="sr-only">Previous maps</span>&lsaquo;</a>
         <div class="jcarousel">
             <!-- Map thumbnails dynamically loaded here -->
             <div class="loading">Loading maps...</div>
         </div>
-        <a href="#" class="jcarousel-control-next">&rsaquo;</a>
+        <a href="#" class="jcarousel-control-next"><span class="sr-only">Next maps</span>&rsaquo;</a>
     </div>
     <!--
     <button id="filterMapsByLocationBtn" class-"filterMapsByLocationBtn">
