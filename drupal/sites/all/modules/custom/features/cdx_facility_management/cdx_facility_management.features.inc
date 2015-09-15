@@ -140,7 +140,6 @@ function return_cdx_facility_management_token()
         // Immediately renew the NAAS token received from Bridge or newly created
         $json_return = renewToken($client, $params_for_renewal, $json_return);
     }
-
     print json_encode($json_return);
 }
 

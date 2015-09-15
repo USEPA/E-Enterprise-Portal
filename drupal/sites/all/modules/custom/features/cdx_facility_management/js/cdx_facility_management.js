@@ -1,7 +1,6 @@
 (function ($) {
 
     $(document).ready(function () {
-        // Chris user_role_id 80172
         var user_role_id;
         var naas_token;
         var naas_ip;
@@ -278,10 +277,9 @@
                 userRoleId: user_role_id,
                 NASSToken: naas_token,
                 NAASip: naas_ip,
-                //onInvalidSession: function () {
-                //    alert('CDX Session ended.');
-                //    //window.location.href = '/user/logout';
-                //},
+                onInvalidSession: function () {
+                    userMustLogin();
+                },
                 onServiceCall: function () {
                     cdx_facility_management_block.dialog("option", "position", {
                         my: "center",
@@ -296,5 +294,16 @@
 
         generateUserData();
     });
+
+    function userMustLogin() {
+        var logged_in_view = $('#cdx-logged-in-options');
+        var logged_out_view = $('#cdx-logged-out-options');
+        var logged_out_view_button = $('#cdx-logged-out-log-out');
+        logged_in_view.remove();
+        logged_out_view.show();
+        logged_out_view_button.click(function() {
+           window.location.href = '/user/logout';
+        });
+    }
 })
 (jQuery);
