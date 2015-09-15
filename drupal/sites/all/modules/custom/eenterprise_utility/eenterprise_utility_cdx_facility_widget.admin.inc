@@ -16,6 +16,40 @@ function cdx_facility_widget_settings($form, $form_state) {
         '#default_value' => variable_get('cdx_facility_resource_url'),
         '#required' => TRUE,
     );
+    $form['cdx_facility_widget_settings']['cdx_facility_token_expiration'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Time (seconds) before NAAS token for CDX widget expires'),
+        '#default_value' => variable_get('cdx_facility_token_expiration'),
+        '#element_validate' => array('element_validate_number'),
+        '#required' => TRUE,
+    );
+    $form['cdx_facility_widget_settings']['cdx_facility_naas_wsdl'] = array(
+        '#type' => 'textfield',
+        '#title' => t('CDX Facility WSDL'),
+        '#default_value' => variable_get('cdx_facility_naas_wsdl'),
+        '#required' => TRUE,
+    );
+    $form['cdx_facility_widget_settings']['cdx_facility_password'] = array(
+        '#type' => 'password',
+        '#title' => t('WSDL Password- same as FRS settings password.'),
+        '#default_value' => variable_get('cdx_facility_password'),
+        '#required' => TRUE,
+    );
+    $form['cdx_facility_widget_settings']['cdx_facility_local'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Local?'),
+        '#default_value' => variable_get('cdx_facility_local'),
+        '#required' => FALSE,
+    );
+
+    // temp for testing on aws
+    $form['cdx_facility_widget_settings']['temp_create_new_token'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Create new token (instead of using one from bridge)?'),
+        '#default_value' => variable_get('temp_create_new_token'),
+        '#required' => FALSE,
+    );
+
 
 
     $form['#submit'][] = 'cdx_facility_widget_auth_settings_form_submit';
