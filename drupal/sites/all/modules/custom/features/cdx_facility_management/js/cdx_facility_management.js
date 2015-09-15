@@ -293,7 +293,6 @@
             time_logged_in = time_logged_in * 1000;
             // Find time diff in minutes (millisecond * 1000 = seconds * 60 = minutes);
             var time_diff = Math.abs((current_time - time_logged_in) / (60*1000));
-            alert(time_diff);
             if (time_diff  < time_threshold ) {
                 $.initFacilityManagementWidget({
                     autoScroll: false,
