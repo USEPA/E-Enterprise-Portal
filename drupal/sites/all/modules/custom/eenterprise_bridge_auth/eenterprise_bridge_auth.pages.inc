@@ -138,8 +138,7 @@ function eenterprise_bridge_auth_authenticate($error)
                         assign_roles_to_user($uname);
                         $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
                         $_SESSION['userId'] = $userDetails->attributes['userId'][0];
-//                        user_save($user, array('cdx_fmw_security_token' => $userDetails->attributes['securityToken'][0]));
-//                        user_save($user, array('userId' => $userDetails->attributes['userId'][0]));
+                        $_SESSION['login_timestamp'] = time();
                     }
 //                    user_save($user, array('cdx_user_type' => $public_or_cdx));
                     $_SESSION['cdx_user_type'] = $public_or_cdx;

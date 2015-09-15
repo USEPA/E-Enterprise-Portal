@@ -87,59 +87,93 @@ function cdx_facility_management_iframe()
 }
 
 
+function userMustLogOut($user_session_logout, $user_login_time) {
+    // user timeout in minutes
+    $return = true;
+    if (isset($user_login_time)) {
+        $current_timestamp = time();
+        $diff_hours = abs($current_timestamp - $user_login_time)/(60);
+        if ($diff_hours < $user_session_logout) {
+            $return = false;
+        }
+    }
+    return $return;
+}
+
+
 function return_cdx_facility_management_token()
 {
+
+    $_SESSION['userId']= 'GREENOLIVE';
     $user_id = $_SESSION['userId'];
-    $frs_password = variable_get('cdx_facility_password');
-    $email = variable_get('cdx_node_token_email');
-    $domain = variable_get('cdx_node_token_domain');
-    $server_ip = variable_get('frs_api_lookup_ip');
-    $local = variable_get('cdx_facility_local');
-    $wsdl = variable_get('cdx_facility_naas_wsdl');
-    $token_expiration = variable_get('cdx_facility_token_expiration');
-    $auth_method = variable_get('eactivity_auth_reg_auth_method');
     $json_return = array();
-
-    //Temp for testing on aws
-    $create_new_token_initially = variable_get('temp_create_new_token');
-
-    //Connect to wsdl
-    if ($local) {
-        $client = new SoapClient(dirname(__FILE__) . '/' . $wsdl, array('soap_version' => SOAP_1_2));
-    } else {
-        $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
+    $user_session_logout = (int) variable_get('cdx_facility_user_logout_session');
+    $user_login_time = $_SESSION['login_timestamp'];
+    // Check if user should be logged out to generate token
+    if (userMustLogOut($user_session_logout, $user_login_time)) {
+        $json_return['expired'] = true;
     }
+    else {
+        // Configurations
+        $frs_password = variable_get('cdx_facility_password');
+        $email = variable_get('cdx_node_token_email');
+        $domain = variable_get('cdx_node_token_domain');
+        $server_ip = variable_get('frs_api_lookup_ip');
+        $local = variable_get('cdx_facility_local');
+        $wsdl = variable_get('cdx_facility_naas_wsdl');
+        $token_expiration = variable_get('cdx_facility_token_expiration');
+        $auth_method = variable_get('eactivity_auth_reg_auth_method');
+        $cdx_resource_url = variable_get('cdx_facility_resource_url');
 
-    // Create new token- not using token from bridge
-    if ($create_new_token_initially) {
-        // Create new token with CDX's user id
-        $params_for_creation = array(
-            "userId" => $user_id,
-            "credential" => $frs_password,
-            "domain" => $domain,
-            "authMethod" => $auth_method,
-            "trustee" => $email,
-            "ip" => $server_ip,
-            "subjectData" => 'tbd=tbd',
-            "subject" => $user_id,
-            "issuer" => "EEP",
-            "tokenType" => 'csm',
-            'expiration' => $token_expiration,
-        );
-        $json_return = createNewToken($client, $params_for_creation);
-    } else {
-        // Use token from bridge and renew
-        $token = $_SESSION['cdx_fmw_security_token'];
-        $params_for_renewal = array(
-            "userId" => $email,
-            "password" => $frs_password,
-            "domain" => $domain,
-            "securityToken" => $token,
-            "expiration" => $token_expiration,
-        );
-        // Immediately renew the NAAS token received from Bridge or newly created
-        $json_return = renewToken($client, $params_for_renewal, $json_return);
+
+        //Temp for testing on aws
+        $create_new_token_initially = variable_get('temp_create_new_token');
+
+
+        //Connect to wsdl
+        if ($local) {
+            $client = new SoapClient(dirname(__FILE__) . '/' . $wsdl, array('soap_version' => SOAP_1_2));
+        } else {
+            $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
+        }
+
+        // Create new token- not using token from bridge
+        if ($create_new_token_initially) {
+            // Create new token with CDX's user id
+            $params_for_creation = array(
+                "userId" => $user_id,
+                "credential" => $frs_password,
+                "domain" => $domain,
+                "authMethod" => $auth_method,
+                "trustee" => $email,
+                "ip" => $server_ip,
+                "subjectData" => 'tbd=tbd',
+                "subject" => $user_id,
+                "issuer" => "EEP",
+                "tokenType" => 'csm',
+                'expiration' => $token_expiration,
+            );
+            $json_return = createNewToken($client, $params_for_creation);
+        } else {
+            // Use token from bridge and renew
+            $token = $_SESSION['cdx_fmw_security_token'];
+            $params_for_renewal = array(
+                "userId" => $email,
+                "password" => $frs_password,
+                "domain" => $domain,
+                "securityToken" => $token,
+                "expiration" => $token_expiration,
+            );
+            // Immediately renew the NAAS token received from Bridge or newly created
+            $json_return = renewToken($client, $params_for_renewal, $json_return);
+        }
+        $json_return['url'] = $cdx_resource_url;
+        $json_return['user_session_logout'] = $user_session_logout;
+        $json_return['user_login_time'] = $user_login_time;
+
+
     }
+    dpm($json_return);
     print json_encode($json_return);
 }
 
