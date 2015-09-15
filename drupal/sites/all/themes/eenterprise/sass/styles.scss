@@ -366,9 +366,13 @@ nav ul {
 			margin-left: 1em;
 		}
 	}
-	.pillbox {
-		display: none;
-	}
+}
+
+.pillbox {
+	display: none;
+}
+.admin-menu .pillbox {
+	display: block;
 }
 
 header {
@@ -1891,7 +1895,7 @@ form[id^='user-profile-form'] .remove-button {
 		line-height: 1.42857;
 	}
 }
-#my-air-quality-chart-tabs {
+#my-air-quality-chart-tabs, .page-user {
 	.ui-state-default a:focus {
 		//Click and after arrow keys - want this to be dark gray
 		background-color: $ee-dark-gray;
