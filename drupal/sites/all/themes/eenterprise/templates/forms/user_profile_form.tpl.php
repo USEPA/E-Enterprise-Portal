@@ -50,5 +50,11 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
     <?php
     print drupal_render_children($form);
     ?>
+      <div id="delete-holder" style="display:none">
+          <div>This will delete your entire profile, including any selected preferences, from the E-Enterprise Platform and will log you out from the system. Are you sure that you want to do this?</div>
+          <div class="pull-right"><button id="cancel-delete-profile" class="btn btn-default" type="button">Back</button> <button id="confirm-delete-profile" type="button" class="btn btn-danger">Delete Profile</button></div>
+      </div>
+
   </div> <!--col-->
+
 </div> <!-- edit user-profile -->

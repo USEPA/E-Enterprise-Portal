@@ -14,19 +14,6 @@
       }
     }
 
-    function sortZipCodesbyCity() {
-      // Sort rows alphabetically
-      // var table  = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
-      // var rows   = table.find('tbody > tr'); // cache rows from target table body
-      // rows.sort(function(a, b) {
-      //     var keyA = $('td:nth-child(2)',a).find('.field-suffix').text();
-      //     var keyB = $('td:nth-child(2)',b).find('.field-suffix').text();
-      // 	if (keyA != '' && keyB != '') {
-      //         return (keyA > keyB) ? 1 : 0;  // A bigger than B, sorting ascending
-      // 	}
-      // });
-      //     table.find('tbody').html(rows);
-    }
 
     function processPrimaryFields() {
       var table = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
@@ -183,7 +170,29 @@
     }
 
 
-    sortZipCodesbyCity();
+      $('#edit-delete').click(function(e) {
+          var delete_button = $(this);
+          var fancybox =    $.fancybox({
+              content:  $('#delete-holder'),
+            'width': 400,
+                  'height':150,
+                  'autoSize' : false,
+      });
+
+          // If confirmed delete, unbind prevent default and trigger click to continue action
+          $('#confirm-delete-profile').unbind('click').click(function() {
+              delete_button.unbind('click');
+              delete_button.trigger('click');
+          });
+
+          $('#cancel-delete-profile').unbind('click').click(function() {
+              $.fancybox.close();
+          });
+
+          e.preventDefault();
+      })
+
+
     processPrimaryFields();
     placeAddAnotherButton(false, '#field-zip-code-values', '#zipcode_description');
     placeAddAnotherButton(false, '#field-profile-favourites-values', '#links_description');

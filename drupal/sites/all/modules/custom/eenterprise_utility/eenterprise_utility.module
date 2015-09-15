@@ -290,10 +290,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         $form['#validate'][] = 'user_profile_form_custom_validate';
         $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
         $form['actions']['delete']['#submit'][] = 'profile_delete_action';
-        $form['actions']['delete']['#attributes'] =  array(
-            'onclick' =>         "return confirm('This will delete your entire profile, including any selected preferences, from the E-Enterprise Platform and will log you out from the system. Are you sure that you want to do this?')");
-        // "fancyConfirm('Are you sure you want to delete?')");
-        // $form['actions']['delete']['#attributes']['class'][] = 'imagefield-fancybox';
 
         //We are not validating profile picture and password as we do not save and manage these information on the Portal.
         foreach ($form['#validate'] as $key => $val) {
@@ -611,7 +607,9 @@ function profile_delete_action($form, &$form_state)
     global $user;
     if($form_state['clicked_button']['#value'] == 'Delete profile') {
         user_delete($user->uid);
+        session_destroy();
         drupal_goto('/');
+
     }
 }
 
