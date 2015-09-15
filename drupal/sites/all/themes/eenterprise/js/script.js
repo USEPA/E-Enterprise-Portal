@@ -23,35 +23,6 @@
   Drupal.behaviors.zipCodeChangeEvent = {
     attach: function(context) {
 
-      function clearErrorMessage() {
-        $('div.workbench-zipcode-error').remove();
-      }
-
-      function showError($locationInputFormGroup, $locationInputIcon) {
-        $locationInputFormGroup.addClass('has-error');
-        $locationInputIcon.attr('class', 'glyphicon glyphicon-remove form-control-feedback');
-        $locationInputIcon.show();
-        clearErrorMessage();
-        $('div#content').before($('<div>', {'class': 'messages--error messages error workbench-zipcode-error', 'text': 'Please enter a valid zip code.'}));
-      }
-
-      function hideError($locationInputFormGroup, $locationInputIcon) {
-        $locationInputFormGroup.removeClass('has-error');
-        $locationInputIcon.hide();
-        $locationInputIcon.removeClass('spinning');
-        clearErrorMessage();
-      }
-
-      function showLoading($locationInputFormGroup, $locationInputIcon) {
-        $locationInputIcon.attr('class', 'glyphicon glyphicon-refresh form-control-feedback spinning');
-        $locationInputIcon.show();
-
-      }
-
-      function doneLoading($locationInputFormGroup, $locationInputIcon) {
-        $locationInputIcon.hide();
-      }
-
       var $locationSelect = $('select#location-select', context);
       var $locationInput = $('input#location-input-guests', context);
 
@@ -62,8 +33,8 @@
         var $locationInputFormGroup = $locationInput.closest('.form-group');
         var $locationInputIcon = $locationInput.next('.form-control-feedback');
 
-        // for logged in users
-        $locationSelect.change(function() {
+        // for logged in users ----------------------------------------------
+        $('body').on('change', 'select#location-select', function() {
           var currentZip = $(this).val();
           console.log("change:", currentZip);
           if (currentZip != 'view_more') {
@@ -71,101 +42,159 @@
           }
         });
 
-        // for guests
-        $locationInput.change(function() {
-          var currentZip = $(this).val();
-          console.log("change:", currentZip);
-          if (currentZip.match(/^\d{5}$/)) {
-            $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
-          } else { // invalid zip code
-            //$locationInputFormGroup.addClass('has-error has-feedback');
-            showError($locationInputFormGroup, $locationInputIcon);
+        // for guests ------------------------------------------------------
+        if (Drupal.settings.locationInputEngine) {
+          function clearErrorMessage() {
+            $('div.workbench-zipcode-error').remove();
           }
-        });
 
-        // IE hack: if user presses enter, blur and focus input to trigger change event
-        $locationInput.keydown(function(e) {
-          if (e.which == 13) {
-            this.blur();
-            this.focus();
+          function showError(msg) {
+            $locationInputFormGroup.addClass('has-error');
+            $locationInputIcon.attr('class', 'glyphicon glyphicon-remove form-control-feedback');
+            $locationInputIcon.show();
+            clearErrorMessage();
+            $('div#content').before($('<div>', {'class': 'messages--error messages error workbench-zipcode-error', 'text': msg}));
           }
-        });
 
-        // get latlng info for new zip
-        $(document).on("ee:zipCodeChanged", function(evt, data) {
-          hideError($locationInputFormGroup, $locationInputIcon);
-          showLoading($locationInputFormGroup, $locationInputIcon);
-          $.getJSON('/zip_code_lookup?zip=' + data.zip, function(queryResponse) {
-            doneLoading($locationInputFormGroup, $locationInputIcon);
-            if (queryResponse.string === '') { // invalid zip code
-              //alert("invalid zip!");
-              //$locationInputFormGroup.addClass('has-error has-feedback');
-              showError($locationInputFormGroup, $locationInputIcon);
+          function hideError() {
+            $locationInputFormGroup.removeClass('has-error');
+            $locationInputIcon.hide();
+            $locationInputIcon.removeClass('spinning');
+            clearErrorMessage();
+          }
 
-            } else {
-              //$locationInputFormGroup.removeClass('has-error has-feedback');
-              hideError($locationInputFormGroup, $locationInputIcon);
-              $(document).trigger('ee:zipCodeQueried', queryResponse);
+          function showLoading() {
+            $locationInputIcon.attr('class', 'glyphicon glyphicon-refresh form-control-feedback spinning');
+            $locationInputIcon.show();
+
+          }
+
+          function doneLoading() {
+            $locationInputIcon.hide();
+          }
+
+          var autocompleteEnabled = false;
+
+          function inputChangeHandler(e) {
+            autocompleteEnabled = true;
+            $locationInput.autocomplete("option", "searchEnabled", true);
+            setTimeout(function(){
+              $locationInput.autocomplete("search");
+            }, 0);
+          }
+
+          $locationInput.autocomplete({
+            source: function(request, respond){
+              if ($locationInput.autocomplete("option", "searchEnabled") === true) {
+                $locationInput.autocomplete("option", "searchEnabled", false);
+                hideError();
+                showLoading();
+                Drupal.settings.locationInputEngine.lookUpLocation(request.term).done(function(location_data) {
+                  doneLoading();
+                  console.log(location_data, location_data.zip_codes, location_data.zip_codes === true);
+                  if (location_data.zip_codes === true) { // user entered city/state; show zip code drop down
+                    respond(location_data.zip_array);
+                  } else { // user entered zip
+                    $(document).trigger("ee:zipCodeChanged", {zip: request.term});
+                  }
+                }).fail(function(location_data){
+                  showError(location_data.error_message);
+                });
+              } else {
+                respond([]);
+              }
+            },
+            select: function(event, ui) {
+              console.log("autocomplete selected: "+ui.item.value);
+              event.preventDefault();
+              $locationInput.val(ui.item.value);
+              $(document).trigger("ee:zipCodeChanged", {zip: ui.item.value});
+            },
+            searchEnabled: false
+          });
+
+          $locationInput.change(inputChangeHandler);
+
+          // IE hack: since pressing enter doesn't trigger change in IE only, handle enter with keydown event
+          $locationInput.keydown(function(e) {
+            if (e.which == 13) {
+              e.preventDefault();
+              inputChangeHandler(e);
             }
           });
-        });
 
-        $locationSelect.trigger('change');
-
-        // for guests users, request location
-        if ($locationInput.size() > 0) {
-
-          var waitTime = 10000;
-          var accepted = false;
-
-          function setDefaultZip() {
-            $locationInput.val(defaultZip);
-            $(document).trigger("ee:zipCodeChanged", {zip: defaultZip });
-          }
-
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-              accepted = true;
-              $.ajax({
-                url: '/return_location_data_lat_long',
-                type: 'GET',
-                data: {latitude: position.coords.latitude, longitude: position.coords.longitude},
-                success: function (location_data) {
-                  console.log(location_data);
-                  location_data = $.parseJSON(location_data);
-                  console.log(location_data);
-
-                  if (!location_data.error) {
-
-                    $locationInput.val(location_data.zip);
-
-                    var zipData = {
-                      state: location_data.state,
-                      city: location_data.city,
-                      latitude: position.coords.latitude,
-                      longitude: position.coords.longitude,
-                      zip: location_data.zip,
-                      string: location_data.city + ', ' + location_data.state
-                    };
-
-                    $(document).trigger("ee:zipCodeQueried", zipData);
-                  }
-                  return location_data;
-                },
-                failure: function () {
-                  alert('Unable to connect to service');
-                }
-              });
-            }, function() {
-              setDefaultZip();
+          // get latlng info for new zip
+          $(document).on("ee:zipCodeChanged", function(evt, data) {
+            hideError();
+            showLoading();
+            $.getJSON('/zip_code_lookup?zip=' + data.zip, function(queryResponse) {
+              doneLoading();
+              if (queryResponse.string === '') { // invalid zip code
+                showError();
+              } else {
+                hideError();
+                $(document).trigger('ee:zipCodeQueried', queryResponse);
+              }
             });
-          }
+          });
 
-          var t = setTimeout(function() {
-            if (!accepted) {
-              setDefaultZip();
+          $locationSelect.trigger('change');
+
+          // for guests users, request location
+          if ($locationInput.size() > 0) {
+
+            var waitTime = 10000;
+            var accepted = false;
+
+            function setDefaultZip() {
+              $locationInput.val(defaultZip);
+              $(document).trigger("ee:zipCodeChanged", {zip: defaultZip });
             }
-          }, waitTime);
+
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(position) {
+                accepted = true;
+                $.ajax({
+                  url: '/return_location_data_lat_long',
+                  type: 'GET',
+                  data: {latitude: position.coords.latitude, longitude: position.coords.longitude},
+                  success: function (location_data) {
+                    console.log(location_data);
+                    location_data = $.parseJSON(location_data);
+                    console.log(location_data);
+
+                    if (!location_data.error) {
+
+                      $locationInput.val(location_data.zip);
+
+                      var zipData = {
+                        state: location_data.state,
+                        city: location_data.city,
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        zip: location_data.zip,
+                        string: location_data.city + ', ' + location_data.state
+                      };
+
+                      $(document).trigger("ee:zipCodeQueried", zipData);
+                    }
+                    return location_data;
+                  },
+                  failure: function () {
+                    alert('Unable to connect to service');
+                  }
+                });
+              }, function() {
+                setDefaultZip();
+              });
+            }
+
+            var t = setTimeout(function() {
+              if (!accepted) {
+                setDefaultZip();
+              }
+            }, waitTime);
+          }
         }
       });
     }
