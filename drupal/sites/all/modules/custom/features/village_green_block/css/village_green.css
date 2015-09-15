@@ -4,7 +4,10 @@
 .vg-numbers li {
 	display: block;
 	float:left;
-	width: 17.5%;
+    width:auto;
+    max-width: 36%;
+    min-width:25%;
+    margin-bottom: 1em;
 	position:relative;
 	text-align: center;
 	background-color:#f8f8f8;
@@ -12,6 +15,7 @@
 	margin-right:10px;
 	padding: 10px 5px;
 }
+
 .vg-numbers h4 {
 	font-weight:200;
 	margin-bottom:0;
