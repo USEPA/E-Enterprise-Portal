@@ -146,7 +146,7 @@
       var orgAGOLacronym = 'epa';
 
       //Opening UL only created in init of gallery
-      var html = '<ul class="thumb">';
+      var $ul = $('<ul>', {'class': 'thumb'});
       var numGoodResults = 0;
       var thumbnailNum = 0;
 
@@ -185,29 +185,28 @@
             hyperlinkURL = origURL;
           }
 
-          var htmlLiItem = '';
-          htmlLiItem += '<li><div class="thumbitem-border">';
-          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '"data-tags="' + itemTags + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
-          htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
-          //the description element can contain HTML markup so use .text to un-format the string
-          //Omaha has no descriptions in their publicly shared WMAs
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + truncate($(desc).text(), 1000) + '">' + $(desc).text() + '</p>';
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
-          htmlLiItem += '</div>';
-          htmlLiItem += '</li>';
+          var $li = $('<li>').append(
+            $('<div>', {'class': 'thumbitem-border'}).append(
+              $('<a>', {'class': 'thumbhyperlink', 'data-accessinfo': orgAlias, 'data-conactemail': orgContactEmail, 'data-tags': itemTags, 'href': hyperlinkURL, 'title': this.title, 'target': '_blank'}).append(
+                $('<img>', {'class': 'thumbnailImg', 'src': thumbnailURL, 'alt': this.title, 'title': this.title, 'aria-describedby': 'thumbnail-desc-' + thumbnailNum})
+              ),
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis', 'title': this.title, 'html': this.title}),
+              //the description element can contain HTML markup so use .text to un-format the string
+              //Omaha has no descriptions in their publicly shared WMAs
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis', 'id': 'thumbnail-desc-' + thumbnailNum, 'title': truncate($(desc).text(), 1000), 'html':  $(desc).text()}),
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppSource ellipsis', id: 'thumbnail-source-' + thumbnailNum, 'title': orgAlias, 'html': orgAlias})
+            )
+          );
 
-          html += htmlLiItem;
+          $ul.append($li);
         }
       });
-
-      html += '</ul>';
 
       totThumbnails += numGoodResults;
       //console.log("Added " + String(numGoodResults) + " " + orgAlias + " maps to MyMaps Gallery");
 
       //set the content of the carousel with the newly generated html
-      jcarousel.html(html);
+      jcarousel.html($ul);
       jcarousel.jcarousel('reload');
 
       //Don't load other orgs until after EPA items are loaded
@@ -299,20 +298,21 @@
             hyperlinkURL = origURL;
           }
 
-          var htmlLiItem = '';
-          htmlLiItem += '<li><div class="thumbitem-border">';
-          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '"data-tags="' + itemTags + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
-          htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
-          //the description element can contain HTML markup so use .text to un-format the string
-          //Omaha has no descriptions in their publicly shared WMAs
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + truncate($(desc).text(), 1000) + '">' + $(desc).text() + '</p>';
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom" class="ee-bootstrap-tooltip mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
-          htmlLiItem += '</div>';
-          htmlLiItem += '</li>';
+          var $li = $('<li>').append(
+            $('<div>', {'class': 'thumbitem-border'}).append(
+              $('<a>', {'class': 'thumbhyperlink', 'data-accessinfo': orgAlias, 'data-conactemail': orgContactEmail, 'data-tags': itemTags, 'href': hyperlinkURL, 'title': this.title, 'target': '_blank'}).append(
+                $('<img>', {'class': 'thumbnailImg', 'src': thumbnailURL, 'alt': this.title, 'title': this.title, 'aria-describedby': 'thumbnail-desc-' + thumbnailNum})
+              ),
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis', 'title': this.title, 'html': this.title}),
+              //the description element can contain HTML markup so use .text to un-format the string
+              //Omaha has no descriptions in their publicly shared WMAs
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis', 'id': 'thumbnail-desc-' + thumbnailNum, 'title': truncate($(desc).text(), 1000), 'html':  $(desc).text()}),
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppSource ellipsis', id: 'thumbnail-source-' + thumbnailNum, 'title': orgAlias, 'html': orgAlias})
+            )
+          );
 
           // Append items one at a time to carousel
-          $('.jcarousel ul').append(htmlLiItem);
+          $('.jcarousel ul').append($li);
         }
       });
 
@@ -411,20 +411,21 @@
             hyperlinkURL = origURL;
           }
 
-          var htmlLiItem = '';
-          htmlLiItem += '<li><div class="thumbitem-border">';
-          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '"data-tags="' + itemTags + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
-          htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
-          htmlLiItem += '<p class="mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
-          //the description element can contain HTML markup so use .text to un-format the string
-          //Omaha has no descriptions in their publicly shared WMAs
-          htmlLiItem += '<p class="mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + $(desc).text() + '">' + $(desc).text() + '</p>';
-          htmlLiItem += '<p class="mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
-          htmlLiItem += '</div>';
-          htmlLiItem += '</li>';
+          var $li = $('<li>').append(
+            $('<div>', {'class': 'thumbitem-border'}).append(
+              $('<a>', {'class': 'thumbhyperlink', 'data-accessinfo': orgAlias, 'data-conactemail': orgContactEmail, 'data-tags': itemTags, 'href': hyperlinkURL, 'title': this.title, 'target': '_blank'}).append(
+                $('<img>', {'class': 'thumbnailImg', 'src': thumbnailURL, 'alt': this.title, 'title': this.title, 'aria-describedby': 'thumbnail-desc-' + thumbnailNum})
+              ),
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis', 'title': this.title, 'html': this.title}),
+              //the description element can contain HTML markup so use .text to un-format the string
+              //Omaha has no descriptions in their publicly shared WMAs
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis', 'id': 'thumbnail-desc-' + thumbnailNum, 'title': truncate($(desc).text(), 1000), 'html':  $(desc).text()}),
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppSource ellipsis', id: 'thumbnail-source-' + thumbnailNum, 'title': orgAlias, 'html': orgAlias})
+            )
+          );
 
           //Append items one at a time to carousel
-          $('.jcarousel ul').append(htmlLiItem);
+          $('.jcarousel ul').append($li);
         }
       });
 
@@ -521,20 +522,21 @@
             hyperlinkURL = origURL;
           }
 
-          var htmlLiItem = '';
-          htmlLiItem += '<li><div class="thumbitem-border">';
-          htmlLiItem += '<a class="thumbhyperlink" data-accessinfo="' + orgAlias + '" data-contactemail="' + orgContactEmail + '"data-tags="' + itemTags + '" href="' + hyperlinkURL + '" title="' + this.title + '" target="_blank">';
-          htmlLiItem += '<img class="thumbnailImg" src="' + thumbnailURL + '" alt="' + this.title + '" title="' + this.title + '" aria-describedby="thumbnail-desc-' + thumbnailNum + '"/></a>';
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom "class="ee-bootstrap-tooltip mapAppTitle ellipsis" title="' + this.title + '">' + this.title + '</p>';
-          //the description element can contain HTML markup so use .text to un-format the string
-          //Omaha has no descriptions in their publicly shared WMAs
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom "class="ee-bootstrap-tooltip mapAppDesc ellipsis" id="thumbnail-desc-' + thumbnailNum + '" title="' + truncate($(desc).text(), 1000) + '">' + $(desc).text() + '</p>';
-          htmlLiItem += '<p data-toggle="tooltip" data-placement="bottom "class="ee-bootstrap-tooltip mapAppSource ellipsis" id="thumbnail-source-' + thumbnailNum + '" title="' + orgAlias + '">' + orgAlias + '</p>';
-          htmlLiItem += '</div>';
-          htmlLiItem += '</li>';
+          var $li = $('<li>').append(
+            $('<div>', {'class': 'thumbitem-border'}).append(
+              $('<a>', {'class': 'thumbhyperlink', 'data-accessinfo': orgAlias, 'data-conactemail': orgContactEmail, 'data-tags': itemTags, 'href': hyperlinkURL, 'title': this.title, 'target': '_blank'}).append(
+                $('<img>', {'class': 'thumbnailImg', 'src': thumbnailURL, 'alt': this.title, 'title': this.title, 'aria-describedby': 'thumbnail-desc-' + thumbnailNum})
+              ),
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis', 'title': this.title, 'html': this.title}),
+              //the description element can contain HTML markup so use .text to un-format the string
+              //Omaha has no descriptions in their publicly shared WMAs
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis', 'id': 'thumbnail-desc-' + thumbnailNum, 'title': truncate($(desc).text(), 1000), 'html':  $(desc).text()}),
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppSource ellipsis', id: 'thumbnail-source-' + thumbnailNum, 'title': orgAlias, 'html': orgAlias})
+            )
+          );
 
           // Append items one at a time to carousel
-          $('.jcarousel ul').append(htmlLiItem);
+          $('.jcarousel ul').append($li);
         }
       });
 
