@@ -301,13 +301,13 @@
           var $li = $('<li>').append(
             $('<div>', {'class': 'thumbitem-border'}).append(
               $('<a>', {'class': 'thumbhyperlink', 'data-accessinfo': orgAlias, 'data-conactemail': orgContactEmail, 'data-tags': itemTags, 'href': hyperlinkURL, 'title': this.title, 'target': '_blank'}).append(
-                $('<img>', {'class': 'thumbnailImg', 'src': thumbnailURL, 'alt': this.title, 'title': this.title, 'aria-describedby': 'thumbnail-desc-' + thumbnailNum})
+                $('<img>', {'class': 'thumbnailImg', 'src': thumbnailURL, 'alt': this.title, 'title': this.title, 'aria-describedby': 'thumbnail-desc-MPCA-' + thumbnailNum})
               ),
               $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis', 'title': this.title, 'html': this.title}),
               //the description element can contain HTML markup so use .text to un-format the string
               //Omaha has no descriptions in their publicly shared WMAs
-              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis', 'id': 'thumbnail-desc-' + thumbnailNum, 'title': truncate($(desc).text(), 1000), 'html':  $(desc).text()}),
-              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppSource ellipsis', id: 'thumbnail-source-' + thumbnailNum, 'title': orgAlias, 'html': orgAlias})
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis', 'id': 'thumbnail-desc-MPCA-' + thumbnailNum, 'title': truncate($(desc).text(), 1000), 'html':  $(desc).text()}),
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppSource ellipsis', id: 'thumbnail-source-MPCA-' + thumbnailNum, 'title': orgAlias, 'html': orgAlias})
             )
           );
 
@@ -414,13 +414,13 @@
           var $li = $('<li>').append(
             $('<div>', {'class': 'thumbitem-border'}).append(
               $('<a>', {'class': 'thumbhyperlink', 'data-accessinfo': orgAlias, 'data-conactemail': orgContactEmail, 'data-tags': itemTags, 'href': hyperlinkURL, 'title': this.title, 'target': '_blank'}).append(
-                $('<img>', {'class': 'thumbnailImg', 'src': thumbnailURL, 'alt': this.title, 'title': this.title, 'aria-describedby': 'thumbnail-desc-' + thumbnailNum})
+                $('<img>', {'class': 'thumbnailImg', 'src': thumbnailURL, 'alt': this.title, 'title': this.title, 'aria-describedby': 'thumbnail-desc-omahane-' + thumbnailNum})
               ),
               $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis', 'title': this.title, 'html': this.title}),
               //the description element can contain HTML markup so use .text to un-format the string
               //Omaha has no descriptions in their publicly shared WMAs
-              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis', 'id': 'thumbnail-desc-' + thumbnailNum, 'title': truncate($(desc).text(), 1000), 'html':  $(desc).text()}),
-              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppSource ellipsis', id: 'thumbnail-source-' + thumbnailNum, 'title': orgAlias, 'html': orgAlias})
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis', 'id': 'thumbnail-desc-omahane-' + thumbnailNum, 'title': truncate($(desc).text(), 1000), 'html':  $(desc).text()}),
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppSource ellipsis', id: 'thumbnail-source-omahane-' + thumbnailNum, 'title': orgAlias, 'html': orgAlias})
             )
           );
 
@@ -525,13 +525,13 @@
           var $li = $('<li>').append(
             $('<div>', {'class': 'thumbitem-border'}).append(
               $('<a>', {'class': 'thumbhyperlink', 'data-accessinfo': orgAlias, 'data-conactemail': orgContactEmail, 'data-tags': itemTags, 'href': hyperlinkURL, 'title': this.title, 'target': '_blank'}).append(
-                $('<img>', {'class': 'thumbnailImg', 'src': thumbnailURL, 'alt': this.title, 'title': this.title, 'aria-describedby': 'thumbnail-desc-' + thumbnailNum})
+                $('<img>', {'class': 'thumbnailImg', 'src': thumbnailURL, 'alt': this.title, 'title': this.title, 'aria-describedby': 'thumbnail-desc-noaa-' + thumbnailNum})
               ),
               $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis', 'title': this.title, 'html': this.title}),
               //the description element can contain HTML markup so use .text to un-format the string
               //Omaha has no descriptions in their publicly shared WMAs
-              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis', 'id': 'thumbnail-desc-' + thumbnailNum, 'title': truncate($(desc).text(), 1000), 'html':  $(desc).text()}),
-              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppSource ellipsis', id: 'thumbnail-source-' + thumbnailNum, 'title': orgAlias, 'html': orgAlias})
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis', 'id': 'thumbnail-desc-noaa-' + thumbnailNum, 'title': truncate($(desc).text(), 1000), 'html':  $(desc).text()}),
+              $('<p>', {'data-toggle': 'tooltip', 'class': 'ee-bootstrap-tooltip mapAppSource ellipsis', id: 'thumbnail-source-noaa-' + thumbnailNum, 'title': orgAlias, 'html': orgAlias})
             )
           );
 
