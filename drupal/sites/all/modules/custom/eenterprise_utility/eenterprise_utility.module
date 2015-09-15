@@ -606,8 +606,10 @@ function profile_delete_action($form, &$form_state)
 {
     global $user;
     if($form_state['clicked_button']['#value'] == 'Delete profile') {
-//        user_delete($user->uid);
+        user_delete($user->uid);
+        session_destroy();
         drupal_goto('/');
+
     }
 }
 

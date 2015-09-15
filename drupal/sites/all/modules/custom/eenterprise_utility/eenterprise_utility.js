@@ -174,9 +174,10 @@
           var delete_button = $(this);
           var fancybox =    $.fancybox({
               content:  $('#delete-holder'),
-              width: '400px',
-              height: '400px'
-          });
+            'width': 400,
+                  'height':150,
+                  'autoSize' : false,
+      });
 
           // If confirmed delete, unbind prevent default and trigger click to continue action
           $('#confirm-delete-profile').unbind('click').click(function() {
