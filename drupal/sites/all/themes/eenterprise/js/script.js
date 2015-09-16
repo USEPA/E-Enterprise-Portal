@@ -7,6 +7,34 @@
  */
 (function ($) {
 
+  Drupal.behaviors.initializeSkipLinks = {
+    attach: function(context) {
+      $('body').once(function() {
+
+        function findNextWidgetTitle($currentWidget) {
+          var $nextWidget = $currentWidget.parent().parent().next(':visible');
+
+          if ($nextWidget.size() == 0) { // if there is no $nextWidget, use the first widget
+            $nextWidget = $('.panel-pane').first();
+          }
+
+          return $nextWidget.find('h2');
+        }
+
+        // set the skip widget text to include the title of the next widget
+        $('a.skip-widget').text(function(){
+          var $nextWidgetTitle = findNextWidgetTitle($(this));
+          $(this).text('Skip to '+$nextWidgetTitle.text() + ' widget');
+        });
+
+        $('body').on('click', 'a.skip-widget', function(e) {
+          var $nextWidgetTitle = findNextWidgetTitle($(this));
+          $nextWidgetTitle.focus();
+        });
+      });
+    }
+  };
+
   Drupal.behaviors.initalizeTooltips = {
     attach: function (context) {
       $('body').once(function() {
