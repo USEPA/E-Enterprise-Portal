@@ -605,11 +605,13 @@ function user_profile_url_custom_validate(&$form, &$form_state)
 function profile_delete_action($form, &$form_state)
 {
     global $user;
-    if($form_state['clicked_button']['#value'] == 'Delete profile') {
-        user_delete($user->uid);
-        session_destroy();
-        drupal_goto('/');
+    if ($user->uid != 0) {
+        if ($form_state['clicked_button']['#value'] == 'Delete profile') {
+            user_delete($user->uid);
+            session_destroy();
+            drupal_goto('/');
 
+        }
     }
 }
 
