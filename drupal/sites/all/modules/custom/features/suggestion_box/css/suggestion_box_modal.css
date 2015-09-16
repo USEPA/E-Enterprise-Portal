@@ -13,6 +13,6 @@ div.ctools-modal-content .resizable-textarea {
 /* Override inline dom styles from modal.js */
 #modalContent {
     position: fixed !important;
-    top: 12% !important;
+    top: 0% !important;
     bottom: 12% !important;
 }

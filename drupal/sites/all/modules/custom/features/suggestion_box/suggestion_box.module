@@ -157,15 +157,22 @@ function suggestion_box_form_submit($form, &$form_state) {
     }
   }
 
+  dpm("$from; $to");
+
   drupal_mail('suggestion_box', 'notice', $to, language_default(), $form_state['values'], $from);
 
   $form_state['rebuild'] = TRUE;
 }
 
 function suggestion_box_form_validation($form, &$form_state) {
+
+  global $user;
+
   $mail = $form_state['values']['email'];
-  if (!empty($mail) && !valid_email_address($mail)) {
-    form_set_error('email', t('Please enter a valid email address, not '.$mail));
+
+  // only need to validate guest users. for logged in users, we'll use their profile email
+  if ($user->name == 'guest-user' && !empty($mail) && !valid_email_address($mail)) {
+    form_set_error('email', t('Please enter a valid email address'));
   }
 }
 
@@ -296,7 +303,7 @@ function configure_ctools_popup() {
                    'type' => 'fixed', // Popup type.
                    'width' => 550, // Width
                    'height' => 'auto', // Height
-                   'addHeight' => 700, // Maximum height
+                   'addHeight' => 600, // Maximum height
                ),
                'modalOptions' => array(
                    'opacity' => (float) 0.7, // Backgroung opacity
