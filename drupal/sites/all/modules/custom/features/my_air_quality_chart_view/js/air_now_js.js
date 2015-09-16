@@ -156,31 +156,7 @@
           }
         });
       }
-
-
     });
-
-    //alternate popup method
-    /*
-    map.on('click', function(e) {
-      AQSMonitorLayer.identify().on(map).at(e.latlng).run(function(error, featureCollection) {
-        console.log(e.latlng);
-        if (featureCollection.features.length > 0) {
-          identifiedFeature = L.geoJson(featureCollection.features[0], {
-            style: function() {
-              return {
-                color: '#5C7DB8',
-                weight: 2
-              };
-            }
-          }).addTo(map);
-          console.log(identifiedFeature);
-          //pane.innerHTML = featureCollection.features[0].properties.NAME1;
-        }
-      });
-    });
-    */
-
 
     return map;
   }
@@ -237,12 +213,9 @@
         maxWidth: 500,
         className: 'favorites-ignore'
       });
-
+      //use setview instead of pan to avoid x undefined errors
+      map.setView(new L.LatLng(Number(currentZipData.latitude), Number(currentZipData.longitude)), 14);
       marker.openPopup();
-      //console.log(currentZipData.latitude);
-      //console.log(currentZipData.longitude);
-
-      map.panTo(new L.LatLng(currentZipData.latitude, currentZipData.longitude));
     }
   }
 
