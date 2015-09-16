@@ -163,7 +163,7 @@ function eenterprise_bridge_auth_authenticate($error)
                     $_SESSION['cdx_user_type'] = $public_or_cdx;
 
                 } catch (Exception $e) {
-                    dpm($e);
+                    watchdog('eenterprise_bridge_auth', "Error 0004: General Exception, SESSION.", array(), WATCHDOG_ERROR);
                 }
             }
         }
@@ -303,9 +303,8 @@ function create_progress_tracker($user)
             create_progress_tracker_node($res, $user);
         }
     } catch (SoapFault $f) {
-        dpm($f);
         drupal_set_message('Cannot query.', 'error');
-        watchdog('eenterprise_bridge_auth', "Error: Cannot query.", array(), WATCHDOG_ERROR);
+        watchdog('eenterprise_bridge_auth', "Error 0005: Cannot query.", array(), WATCHDOG_ERROR);
         return;
     }
 }
@@ -647,8 +646,7 @@ function assign_roles_to_user($user_name)
             }
         }
     } catch (SoapFault $f) {
-        dpm($f);
-        watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
+        watchdog('eenterprise_bridge_auth', "Error 0003: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }
 
@@ -657,12 +655,7 @@ function assign_roles_to_user($user_name)
  */
 
 function allow_user_menu_access($role_id){
-    $query = db_insert('block_role')->fields(array('rid', 'module', 'delta'));
-    $query->values(array(
-        'rid' => $role_id,
-        'module' => 'system',
-        'delta' => 'user-menu',
-    ));
+    $query = db_merge('block_role')->key(array('rid' => $role_id, 'module' => 'system', 'delta' => 'user-menu'));
     $query->execute();
     cache_clear_all();
 }
