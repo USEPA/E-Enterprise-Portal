@@ -38,8 +38,6 @@ drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_inpu
 
       <?php print render($title_suffix); ?>
 
-      <a class="skip-widget element-invisible element-focusable" href="javascript:void(0)">Skip to next widget</a>
-
       <?php if ($feeds): ?>
         <div class="feed">
           <?php print $feeds; ?>

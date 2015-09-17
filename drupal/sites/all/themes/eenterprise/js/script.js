@@ -11,21 +11,25 @@
     attach: function(context) {
       $('body').once(function() {
 
-        function findNextWidgetTitle($currentWidget) {
-          var $nextWidget = $currentWidget.parent().parent().next(':visible');
+        function findNextWidgetTitle(skipWidgetLink) {
+          var $nextWidget = skipWidgetLink.parent().parent().next('.grid-stack-item:visible').find('.grid-stack-item-content:not(.no-widget-skip-link)');
 
           if ($nextWidget.size() == 0) { // if there is no $nextWidget, use the first widget
-            $nextWidget = $('.panel-pane').first();
+            $nextWidget = $('.panel-pane:not(.no-widget-skip-link)').first();
           }
 
           return $nextWidget.find('h2');
         }
 
-        // set the skip widget text to include the title of the next widget
-        $('a.skip-widget').text(function(){
-          var $nextWidgetTitle = findNextWidgetTitle($(this));
-          $(this).text('Skip to '+$nextWidgetTitle.text() + ' widget');
-        });
+        $('.grid-stack-item-content:not(.no-skip-widget-link)').find('h2').after($('<a>', {
+          'class': 'skip-widget element-invisible element-focusable',
+          'href': 'javascript:void(0)',
+          text: 'Skip to next widget',
+          focus: function(e) {
+            var $nextWidgetTitle = findNextWidgetTitle($(this));
+            $(this).text('Skip to '+$nextWidgetTitle.text() + ' widget');
+          }
+        }));
 
         $('body').on('click', 'a.skip-widget', function(e) {
           var $nextWidgetTitle = findNextWidgetTitle($(this));
@@ -34,6 +38,64 @@
       });
     }
   };
+
+  Drupal.behaviors.initializeGridstack = {
+    attach: function(context) {
+      $('body').once(function() {
+        var cellHeight = 10;
+        var verticalMargin = 10;
+
+        function initializeIndices() {
+          // assign x and y values to widgets
+          // todo: load saved x and y values from user profile
+          var count = 0;
+          $(".grid-stack-item").each(function(){
+            var x = count % 2 * 6;
+            var y = Math.floor(count / 2) * 30;
+            //grid.move($(this), x, y);
+            $(this).attr({'data-gs-x': x, 'data-gs-y': y});
+            //console.log($(this), x, y, $(this).attr('data-gs-x'), $(this).attr('data-gs-y'));
+            count++;
+            $(this).find('.grid-stack-item-content').css('overflow-y', 'hidden');
+          });
+        }
+
+        function recalculateWidgetHeights(grid) {
+          $('.grid-stack-item.ui-draggable').each(function(){
+            var contentHeight = $(this).find('.pane-title').outerHeight(true)
+              + Math.ceil($(this).find('.pane-content').outerHeight(true))
+              + 30
+              + verticalMargin;
+
+            var $pager = $(this).find('.pager');
+            if ($pager.size() > 0) {
+              contentHeight += parseInt($pager.css('marginBottom'));
+            }
+
+            var gsHeight = Math.ceil(contentHeight / (cellHeight + verticalMargin));
+            grid.resize(this, null, gsHeight);
+          });
+        }
+
+        initializeIndices();
+
+        var options = {
+          static_grid: true,
+          vertical_margin: verticalMargin,
+          cell_height: cellHeight
+        };
+
+        $('.grid-stack').gridstack(options);
+        var grid = $('.grid-stack').data('gridstack');
+
+        if (typeof ResizeSensor !== 'undefined') {
+          new ResizeSensor(jQuery('.grid-stack-item'), _.debounce( function(){ console.log('grid-stack-item: debounce'); recalculateWidgetHeights(grid) }, 150 ));
+          new ResizeSensor(jQuery('.view-content'), _.debounce( function(){ console.log('view-content: debounce'); recalculateWidgetHeights(grid) }, 150 ));
+        }
+        $(document).ajaxComplete(_.debounce( function(){ console.log('ajaxComplete: debounce'); recalculateWidgetHeights(grid) }, 150 ));
+      });
+    }
+  }
 
   Drupal.behaviors.initalizeTooltips = {
     attach: function (context) {

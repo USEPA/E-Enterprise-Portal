@@ -40,7 +40,6 @@ scripts[] = js/eenterprise_utility.js
 scripts[] = ../../libraries/jqueryui/jquery-ui.js
 scripts[] = js/lodash.min.js
 scripts[] = js/gridstack.js
-scripts[] = js/grid-launch.js
 scripts[] = js/bootstrap.tooltip.js
 
 ; FEATURES
