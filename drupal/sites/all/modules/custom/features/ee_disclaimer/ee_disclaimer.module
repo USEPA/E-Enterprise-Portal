@@ -160,6 +160,9 @@ function ee_disclaimer_theme_registry_alter(&$theme_registry) {
  */
 function _show_ee_disclaimer() {
     global $user;
+    if($user->uid == 0) {
+        return FALSE;
+    }
     $user_data = user_load($user->uid);
 
     if ($user->name === 'guest-user') {
