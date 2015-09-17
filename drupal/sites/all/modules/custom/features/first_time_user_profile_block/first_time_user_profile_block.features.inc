@@ -260,7 +260,7 @@ function frs_lat_long_to_zip_code($lat, $long)
 {
 
     $token = frs_naas_autentication();
-    $ip = variable_get('frs_api_lookup_ip');
+    $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     $frs_domain = variable_get('frs_api_lookup_url');
     if ($frs_domain == 'test_proxy') {
         $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
@@ -305,7 +305,7 @@ function frs_lat_long_to_zip_code($lat, $long)
 function frs_city_state_to_zip_code($city, $state)
 {
     $token = frs_naas_autentication();
-    $ip = variable_get('frs_api_lookup_ip');
+    $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     $encoded_city = urlencode($city);
     $frs_domain = variable_get('frs_api_lookup_url');
     if ($frs_domain == 'test_proxy') {
