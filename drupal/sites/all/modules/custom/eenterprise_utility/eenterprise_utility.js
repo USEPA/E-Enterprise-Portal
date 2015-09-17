@@ -68,37 +68,47 @@
         //var location_data = Drupal.settings.locationInputEngine.lookUpLocation(input.val());
         Drupal.settings.locationInputEngine.lookUpLocation(input.val()).done(function(location_data) {
           if (location_data.zip_codes) {
-            // replace input with select list of zip codes.
-            add_button.hide();
-            remove_button.hide();
-            primary_indicator.hide();
 
-            var select = $(location_data.zip_select);
-            select.addClass('city-state-lookup-zips');
-            var confirm = $('<button type="button" class="btn btn-default btn-sm" id ="user-profile-select-zip">Select</button>');
-            var back = $('<button type="button" class="btn btn-default btn-sm" id="user-profile-back-zip">Back</button>');
-            input.replaceWith(select);
+              // IF only one zip code, automatically input into input
+              var count_zips_returned = location_data.zip_array.length;
+              if (count_zips_returned > 1) {
 
-            field_suffix.html(back);
-            field_suffix.append(confirm);
+                  // replace input with select list of zip codes.
+                  add_button.hide();
+                  remove_button.hide();
+                  primary_indicator.hide();
 
-            back.click(function () {
-              field_suffix.html('');
-              select.replaceWith(input);
-              add_button.show();
-              remove_button.show();
-              primary_indicator.show();
-            });
-            confirm.click(function () {
-              back.remove();
-              confirm.remove();
-              input.val(select.val());
-              field_suffix.html(location_data.city + ', ' + location_data.state);
-              select.replaceWith(input);
-              add_button.show();
-              remove_button.show();
-              primary_indicator.show();
-            });
+                  var select = $(location_data.zip_select);
+                  select.addClass('city-state-lookup-zips');
+                  var confirm = $('<button type="button" class="btn btn-default btn-sm" id ="user-profile-select-zip">Select</button>');
+                  var back = $('<button type="button" class="btn btn-default btn-sm" id="user-profile-back-zip">Back</button>');
+                  input.replaceWith(select);
+
+                  field_suffix.html(back);
+                  field_suffix.append(confirm);
+
+                  back.click(function () {
+                      field_suffix.html('');
+                      select.replaceWith(input);
+                      add_button.show();
+                      remove_button.show();
+                      primary_indicator.show();
+                  });
+                  confirm.click(function () {
+                      back.remove();
+                      confirm.remove();
+                      input.val(select.val());
+                      field_suffix.html(location_data.city + ', ' + location_data.state);
+                      select.replaceWith(input);
+                      add_button.show();
+                      remove_button.show();
+                      primary_indicator.show();
+                  });
+              }
+              else {
+                  input.val(location_data.zip_array[0]);
+                  field_suffix.html(location_data.city + ', ' + location_data.state);
+              }
           }
           else {
             // add city and state data to field suffix
