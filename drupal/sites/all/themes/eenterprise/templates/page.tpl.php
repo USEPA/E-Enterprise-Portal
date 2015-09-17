@@ -13,6 +13,10 @@ if(drupal_is_front_page()) {
       drupal_goto("/workbench");
     exit;
 }
+if(arg(0) == 'workbench' && $user->uid == 0){
+    drupal_goto("/");
+}
+
 ?>
 <?php print render($page['alert']); ?>
 <header class="masthead clearfix" role="banner">
