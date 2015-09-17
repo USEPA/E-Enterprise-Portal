@@ -71,7 +71,10 @@ function ee_disclaimer_form_submit($form, &$form_state) {
 
     global $user;
 
-    if ($user->name == 'guest-user') {
+    if($user->uid == 0) {
+        drupal_goto('/');
+    }
+    else if ($user->name == 'guest-user') {
         $_SESSION['guest-user-signed-agreement'] = TRUE;
     } else {
         $user_data = user_load($user->uid);
