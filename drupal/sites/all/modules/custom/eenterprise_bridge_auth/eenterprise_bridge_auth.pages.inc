@@ -622,6 +622,8 @@ function assign_roles_to_user($user_name)
                     }
                     user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
                     allow_user_menu_access($user_role->rid);
+                    //Allow favorites view access to all CDX users.
+                    view_allow_access_role('favorite_sites', $user_role->rid);
                     if($role_val != 'Public') {
                         view_allow_access_role('cdx_facility_management', $user_role->rid);
                         view_allow_access_role('progress_tracker', $user_role->rid);
@@ -640,6 +642,8 @@ function assign_roles_to_user($user_name)
                 }
                 user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
                 allow_user_menu_access($user_role->rid);
+                //Allow favorites view access to all CDX users.
+                view_allow_access_role('favorite_sites', $user_role->rid);
                 if($role_val != 'Public') {
                     view_allow_access_role('cdx_facility_management', $user_role->rid);
                     view_allow_access_role('progress_tracker', $user_role->rid);
