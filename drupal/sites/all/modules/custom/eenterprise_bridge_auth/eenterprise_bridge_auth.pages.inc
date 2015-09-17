@@ -154,8 +154,7 @@ function eenterprise_bridge_auth_authenticate($error)
                 user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
                 try {
                     if ($public_or_cdx == 'cdx') {
-//                        user_save($user, array('cdx_fmw_security_token' => $userDetails->attributes['securityToken'][0]));
-//                        user_save($user, array('userId' => $userDetails->attributes['userId'][0]));
+                        assign_roles_to_user($uname);
                         $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
                         $_SESSION['userId'] = $userDetails->attributes['userId'][0];
                         $_SESSION['login_timestamp'] = time();
