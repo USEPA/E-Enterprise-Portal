@@ -12,24 +12,25 @@
       $('body').once(function() {
 
         function findNextWidgetTitle(skipWidgetLink) {
-          var $nextWidget = skipWidgetLink.parent().parent().next('.grid-stack-item:visible').find('.grid-stack-item-content:not(.no-widget-skip-link)');
+          var $nextWidgetSkipLink = skipWidgetLink.parent().parent().nextAll().find('.skip-widget').first();
 
-          if ($nextWidget.size() == 0) { // if there is no $nextWidget, use the first widget
-            $nextWidget = $('.panel-pane:not(.no-widget-skip-link)').first();
+          if ($nextWidgetSkipLink.size() == 0) { // if there is no $nextWidgetSkipLink, use the first widget
+            $nextWidgetSkipLink = $('.skip-widget').first();
           }
 
-          return $nextWidget.find('h2');
+          return $nextWidgetSkipLink.prev('h2');
         }
 
         $('.grid-stack-item-content:not(.no-skip-widget-link)').find('h2').after($('<a>', {
           'class': 'skip-widget element-invisible element-focusable',
           'href': 'javascript:void(0)',
           text: 'Skip to next widget',
-          focus: function(e) {
-            var $nextWidgetTitle = findNextWidgetTitle($(this));
-            $(this).text('Skip to '+$nextWidgetTitle.text() + ' widget');
-          }
         }));
+
+        $('a.skip-widget').text(function(e) {
+          var $nextWidgetTitle = findNextWidgetTitle($(this));
+          $(this).text('Skip to '+$nextWidgetTitle.text() + ' widget');
+        })
 
         $('body').on('click', 'a.skip-widget', function(e) {
           var $nextWidgetTitle = findNextWidgetTitle($(this));
