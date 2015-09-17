@@ -163,7 +163,7 @@ function eenterprise_bridge_auth_authenticate($error)
                     $_SESSION['cdx_user_type'] = $public_or_cdx;
 
                 } catch (Exception $e) {
-                    dpm($e);
+                    watchdog('eenterprise_bridge_auth', "Error 0004: General Exception, SESSION.", array(), WATCHDOG_ERROR);
                 }
             }
         }
@@ -194,9 +194,8 @@ function create_progress_tracker($user)
     try {
         $client = new SoapClient(variable_get('eactivity_auth_reg_wsdl'), array('soap_version' => SOAP_1_2));
     } catch (SoapFault $f) {
-        dpm($f);
         drupal_set_message('Cannot connect to Registration Service.', 'error');
-        watchdog('eenterprise_bridge_auth', "Error: Cannot connect to CDX RegisterService.", array(), WATCHDOG_ERROR);
+        watchdog('eenterprise_bridge_auth', "Error 0001: Cannot connect to CDX RegisterService.", array(), WATCHDOG_ERROR);
         return;
     }
     $params1 = array(
@@ -209,9 +208,8 @@ function create_progress_tracker($user)
     try {
         $response1 = $client->__soapCall("Authenticate", array($params1));
     } catch (SoapFault $f) {
-        dpm($f);
         drupal_set_message('Cannot Authenticate to get data flow.', 'error');
-        watchdog('eenterprise_bridge_auth', "Error: Cannot Authenticate to get data flow.", array(), WATCHDOG_ERROR);
+        watchdog('eenterprise_bridge_auth', "Error 0002: Cannot Authenticate to get data flow.", array(), WATCHDOG_ERROR);
         return;
     }
     // bmatkin 8-27
@@ -305,9 +303,8 @@ function create_progress_tracker($user)
             create_progress_tracker_node($res, $user);
         }
     } catch (SoapFault $f) {
-        dpm($f);
         drupal_set_message('Cannot query.', 'error');
-        watchdog('eenterprise_bridge_auth', "Error: Cannot query.", array(), WATCHDOG_ERROR);
+        watchdog('eenterprise_bridge_auth', "Error 0005: Cannot query.", array(), WATCHDOG_ERROR);
         return;
     }
 }
@@ -649,8 +646,7 @@ function assign_roles_to_user($user_name)
             }
         }
     } catch (SoapFault $f) {
-        dpm($f);
-        watchdog('eenterprise_bridge_auth', "Error: Cannot retrieve role information", array(), WATCHDOG_ERROR);
+        watchdog('eenterprise_bridge_auth', "Error 0003: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }
 
@@ -659,12 +655,7 @@ function assign_roles_to_user($user_name)
  */
 
 function allow_user_menu_access($role_id){
-    $query = db_insert('block_role')->fields(array('rid', 'module', 'delta'));
-    $query->values(array(
-        'rid' => $role_id,
-        'module' => 'system',
-        'delta' => 'user-menu',
-    ));
+    $query = db_merge('block_role')->key(array('rid' => $role_id, 'module' => 'system', 'delta' => 'user-menu'));
     $query->execute();
     cache_clear_all();
 }
@@ -683,6 +674,10 @@ function eenterprise_bridge_auth_logout() {
 
 function refresh_todo_list(){
     global $user;
+    $query_res = db_query("select nid from {node} where type in (:node_type) and uid = :uid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':uid' => $user->uid))->fetchAll(PDO::FETCH_ASSOC);
+    foreach($query_res as $key => $value){
+        node_delete($value['nid']);
+    }
     create_progress_tracker($user);
     drupal_set_message("To Do and Progress Tracker Data refreshed successfully");
     drupal_goto('/workbench');

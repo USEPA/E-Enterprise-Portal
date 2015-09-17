@@ -7,6 +7,34 @@
  */
 (function ($) {
 
+  Drupal.behaviors.initializeSkipLinks = {
+    attach: function(context) {
+      $('body').once(function() {
+
+        function findNextWidgetTitle($currentWidget) {
+          var $nextWidget = $currentWidget.parent().parent().next(':visible');
+
+          if ($nextWidget.size() == 0) { // if there is no $nextWidget, use the first widget
+            $nextWidget = $('.panel-pane').first();
+          }
+
+          return $nextWidget.find('h2');
+        }
+
+        // set the skip widget text to include the title of the next widget
+        $('a.skip-widget').text(function(){
+          var $nextWidgetTitle = findNextWidgetTitle($(this));
+          $(this).text('Skip to '+$nextWidgetTitle.text() + ' widget');
+        });
+
+        $('body').on('click', 'a.skip-widget', function(e) {
+          var $nextWidgetTitle = findNextWidgetTitle($(this));
+          $nextWidgetTitle.focus();
+        });
+      });
+    }
+  };
+
   Drupal.behaviors.initalizeTooltips = {
     attach: function (context) {
       $('body').once(function() {
@@ -403,17 +431,17 @@
             if(evt.target.innerHTML == 'This Week'){
               var date_today =  httpreq.responseText;
               date_today = JSON.parse(date_today);
-              var vmonth = date_today.fmonth;
+              /*var vmonth = date_today.fmonth;
               vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
               var vdate = date_today.fdate;
               vdate = vdate < 10 ? '0' + vdate : vdate;
               var vyear = date_today.fyear;
               var vhour = date_today.fhour;
               var vmin = date_today.fminute;
-              var vsec = date_today.fsecond
+              var vsec = date_today.fsecond;
 
-              var date_var = vyear + '-'+ vmonth + '-' + vdate + ' ' + '00:00:00';
-              $("#edit-field-todo-lst-due-value").val(date_var);
+              var date_var = vyear + '-'+ vmonth + '-' + vdate + ' ' + '00:00:00';*/
+              $("#edit-field-todo-lst-due-value").val(date_today.flastsunday);
               $("#edit-submit-to-do").trigger("click");
             }
             else if(evt.target.innerHTML == 'Next Week'){

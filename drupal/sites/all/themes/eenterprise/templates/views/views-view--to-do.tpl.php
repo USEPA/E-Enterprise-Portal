@@ -45,7 +45,7 @@
         $this_week = '';
         $beyond_next_week = '';
         if(isset($view->args['week_filter_val'])){
-            if(substr($view->args['week_filter_val'], 0,10) == date("Y-m-d")){
+            if(substr($view->args['week_filter_val'], 0,10) == date('Y-m-d',strtotime('last sunday'))){
                 $this_week = 'filter-applied';
             }
             else if((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)){

@@ -25,5 +25,6 @@ date_default_timezone_set($tz);
  "fhour": <?php echo date('G'); ?>,
  "fsecond": <?php echo intval(date('s')); ?>,
  "error": "<?php echo $error; ?>",
- "fminute": <?php echo intval(date('i')); ?>
+ "fminute": <?php echo intval(date('i')); ?>,
+ "flastsunday": "<?php echo date('Y-m-d 00:00:00',strtotime('last sunday')); ?>"
 }
