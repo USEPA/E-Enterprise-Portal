@@ -271,9 +271,9 @@
 
         }
 
-        $('body').on('click', '#facility-widget input, #facility-widget a, #facility-widget button, #facility-widget .ui-accordion-header', function () {
-            cdx_facility_management_block.dialog("option", "position", {my: "center", at: "center", of: window});
-        });
+        //$('body').on('click', '#facility-widget input, #facility-widget a, #facility-widget button, #facility-widget .ui-accordion-header', function () {
+        //    cdx_facility_management_block.dialog("option", "position", {my: "center", at: "center", of: window});
+        //});
 
 
         $(window).resize(function () {
