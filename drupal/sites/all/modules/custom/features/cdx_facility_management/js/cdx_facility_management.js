@@ -11,7 +11,6 @@
                 async: false,
                 success: function (json) {
                     var parsed_json = $.parseJSON(json);
-                    console.log(parsed_json);
                     if (parsed_json.expired) {
                         token_data.expired = true;
                     }
@@ -26,7 +25,6 @@
                 }
             });
             // Set global naas token instance
-            console.log(token_data);
             return token_data;
         }
 
@@ -114,82 +112,87 @@
                 url: '/retrieve_cdx_user_data',
                 success: function (json) {
                     var parsed_json = $.parseJSON(json);
-                    console.log(parsed_json);
                     if (!parsed_json.error) {
-                        console.log(parsed_json);
                         var org_to_roles = parsed_json.organizations_to_roles;
-                        //initialize filters object
-                        var org_filter_select_holder = $('#fmw-organization-select-holder');
-                        var org_filter_select = $('#fmw-organization-select');
-                        var org_single = $('#fmw-organization-single');
-                        var management_button = $('#launch-facility-management');
-
-                        var type_filter_select_holder = $('#fmw-type-select-holder');
-
-                        var program_filter_select_holder = $('#fmw-program-select-holder');
-                        var token_data = createNewToken();
-                        console.log(token_data);
-                        if (!token_data.expired) {
-                            var token = token_data.token;
-                            var naas_ip = token_data.ip;
-                            var resource_url = token_data.url;
-                            var time_logged_in = token_data.user_login_time;
-                            var time_threshold = token_data.user_session_logout;
-                            // First connect to widget initially to start CDX session;
-                            var temp = 0;
-                            $.each(org_to_roles, function (org_id, role_object) {
-                                $.each(role_object.roles, function (dataflow, role_array) {
-                                    if (temp == 0) {
-                                        var initial_user_role_id = role_array[0].userRoleId;
-                                        updateWidget(initial_user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold);
-                                        temp = 1;
-                                    }
-                                });
-                            });
-
-                            org_filter_select.append('<option value="">Select an Organization</option>');
-                            var count = 0;
-                            var first_org_id;
-                            var first_org_name;
-                            $.each(org_to_roles, function (org_id, org_obj) {
-                                org_filter_select.append('<option value="' + org_id + '" >' + org_obj.name + '</option>');
-                                count = count + 1;
-                                first_org_id = org_id; // unused if count > 1
-                                first_org_name = org_obj.name;
-
-                            });
-
-                            if (count == 1) {
-                                org_filter_select.val(first_org_id).hide();
-                                org_single.html(first_org_name).show();
-                                createProgramSelect(org_to_roles[first_org_id].roles);
-                            }
-                            else {
-                                org_filter_select.show();
-                            }
-
-
-                            org_filter_select.change(function () {
-                                var selected_org = $(this).val();
-                                program_filter_select_holder.hide()
-                                type_filter_select_holder.hide();
-                                management_button.hide();
-                                if (selected_org != '') {
-                                    createProgramSelect(org_to_roles[selected_org].roles);
-                                }
-                            });
-
-                            management_button.click(function () {
-                                var user_role_id = $('#fmw-type-select').val();
-                                updateWidget(user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold);
-                                if ($('#facility-widget').length > 0) {
-                                    cdx_facility_management_block.dialog('open');
-                                }
-                            });
-
+                        if (org_to_roles.length == 0) {
+                            // User does not manage any facilities
+                            var zero_facilities_msg = "You do not manage any CDX facilities.";
+                            $('#cdx-logged-in-options').text(zero_facilities_msg);
                         }
                         else {
-                            userMustLogin();
+
+                            //initialize filters object
+                            var org_filter_select_holder = $('#fmw-organization-select-holder');
+                            var org_filter_select = $('#fmw-organization-select');
+                            var org_single = $('#fmw-organization-single');
+                            var management_button = $('#launch-facility-management');
+
+                            var type_filter_select_holder = $('#fmw-type-select-holder');
+
+                            var program_filter_select_holder = $('#fmw-program-select-holder');
+                            var token_data = createNewToken();
+                            if (!token_data.expired) {
+                                var token = token_data.token;
+                                var naas_ip = token_data.ip;
+                                var resource_url = token_data.url;
+                                var time_logged_in = token_data.user_login_time;
+                                var time_threshold = token_data.user_session_logout;
+                                // First connect to widget initially to start CDX session;
+                                var temp = 0;
+                                $.each(org_to_roles, function (org_id, role_object) {
+                                    $.each(role_object.roles, function (dataflow, role_array) {
+                                        if (temp == 0) {
+                                            var initial_user_role_id = role_array[0].userRoleId;
+                                            updateWidget(initial_user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold);
+                                            temp = 1;
+                                        }
+                                    });
+                                });
+
+                                org_filter_select.append('<option value="">Select an Organization</option>');
+                                var count = 0;
+                                var first_org_id;
+                                var first_org_name;
+                                $.each(org_to_roles, function (org_id, org_obj) {
+                                    org_filter_select.append('<option value="' + org_id + '" >' + org_obj.name + '</option>');
+                                    count = count + 1;
+                                    first_org_id = org_id; // unused if count > 1
+                                    first_org_name = org_obj.name;
+
+                                });
+
+                                if (count == 1) {
+                                    org_filter_select.val(first_org_id).hide();
+                                    org_single.html(first_org_name).show();
+                                    createProgramSelect(org_to_roles[first_org_id].roles);
+                                }
+                                else {
+                                    org_filter_select.show();
+                                }
+
+
+                                org_filter_select.change(function () {
+                                    var selected_org = $(this).val();
+                                    program_filter_select_holder.hide()
+                                    type_filter_select_holder.hide();
+                                    management_button.hide();
+                                    if (selected_org != '') {
+                                        createProgramSelect(org_to_roles[selected_org].roles);
+                                    }
+                                });
+
+                                management_button.click(function () {
+                                    var user_role_id = $('#fmw-type-select').val();
+                                    updateWidget(user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold);
+                                    if ($('#facility-widget').length > 0) {
+                                        cdx_facility_management_block.dialog('open');
+                                    }
+                                });
+
+                            }
+                            else {
+                                userMustLogin();
+                            }
                         }
                     } else {
                         alert('unable to recieve user data');
