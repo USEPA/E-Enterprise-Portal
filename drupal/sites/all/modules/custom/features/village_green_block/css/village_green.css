@@ -5,8 +5,12 @@
 	display: block;
 	float:left;
     width:auto;
+/*
     max-width: 36%;
     min-width:25%;
+*/
+	width: 17.5%;
+	min-width: 5em;
     margin-bottom: 1em;
 	position:relative;
 	text-align: center;
@@ -44,4 +48,9 @@ small.village-green-updated-every-minute {
 
 span.countdownContainer {
     white-space:nowrap;
+}
+
+@media screen and (min-width: 48em) and (max-width:59.4em) {
+	.vg-numbers li {min-width: 4.5em;max-width: 5em;}
+	.vg-numbers li h4 {font-size: 0.95em;}
 }

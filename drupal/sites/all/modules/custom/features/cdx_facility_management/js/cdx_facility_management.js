@@ -39,7 +39,7 @@
 
             var first_name;
             var count = 0;
-            program_filter_select.html('<option value="">Select a Dataflow</option>');
+            program_filter_select.html('<option value="">Select&hellip;</option>');
             $.each(roles_obj, function (name, roles) {
                 program_filter_select.append('<option value="' + name + '" >' + name + '</option>');
                 count = count + 1;

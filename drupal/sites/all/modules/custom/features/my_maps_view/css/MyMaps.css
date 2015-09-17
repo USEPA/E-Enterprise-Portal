@@ -228,12 +228,6 @@
 #myMapsFilterList li a {
 	padding-bottom: 5px;
 }
-@media (max-width: 767px) {
-  #myMapsFilterList li {
-    display: block;
-    width: 100%;
-  }
-}
 
 #myMapsFilterList .farLeft {
 	text-align: left;
@@ -250,4 +244,18 @@
 
 .myMapFilterTerm {
 	text-decoration: none;
+}
+
+/* 767px */
+@media screen and (max-width: 48em) {
+	#myMapsFilterList .farLeft {
+		font-size: 0.75em;
+		display:block;
+	}
+	#myMapsFilterList li {
+		display: inline-block;
+		width: 8em;
+		padding-top: 5px;
+		padding-bottom: 5px; /* Provide more tap space */
+	}
 }
