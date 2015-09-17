@@ -116,7 +116,6 @@ menu, ol, ul {
 		width: 7.5em;
 		font-weight: 200;
 		color: #333;
-		letter-spacing: 1.5;
 		line-height: 1.2;
 		margin-bottom: 10px;
 		margin-right: 20px;
@@ -1156,6 +1155,7 @@ tr.odd, tr.even {
 	}
 }
 
+
 @media screen and (min-width: 40em) {
 	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
 		.region-header {
@@ -2087,7 +2087,6 @@ a.tabledrag-handle .handle {
 			color: #fff;
 		}
 	}
-	
 }
 #myMapsFilterList {
 	li {
@@ -2097,6 +2096,14 @@ a.tabledrag-handle .handle {
 		padding: 5px 15px;
 		color: #000;
 	}
+}
+@media screen and (max-width: 48em) {
+  .todo-filter-by-week li {
+    display: block;
+    width: 50%;
+    padding-top: 5px;
+    padding-bottom: 5px;	//Provide more tap space
+  }
 }
 .ui-tabs .ui-tabs-nav li, label, .todo-filter-by-week li {
 	font-size: 0.85em;
@@ -2261,7 +2268,9 @@ div.ctools-modal-content {
 	ol {
 		margin-left: 40px;
 		li {
+			font-size: 1em;
 			margin-bottom:10px;
+			line-height: 1.4;
 		}
 	}
 }
@@ -2470,6 +2479,25 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 }
 
 /*********** iPhone, some Android Portrait @ 320px***********/
+@media screen and (max-width: 20em) {
+	.masthead {
+		h1.site-name {
+			font-size: 1.5em;	
+		    margin-bottom: 5px;
+		    height: auto;
+	    }
+	    .page-user .main-content h1, .page-bridge-landing .main-content h1 {
+		    font-size: 1.5em;
+	    }
+	    form[id^='user-profile-form'] #zipcode_description .field-add-more-submit {
+		    margin-left: -10px;
+	    }
+	}
+	.page-user .main-content {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+}
 @media screen and (max-width: 26em) {
 	#benefits div {
 		padding-left: 1em;
@@ -2590,6 +2618,12 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 }
 /*********** Tablet, iPad Landscape @ 768px ***********/
 @media screen and (min-width: 48em) {
+	.login-options li {
+		display: inline-block;
+		width: 40%;
+		margin-right: 20px;	
+		vertical-align: top;	
+	}
   .responsive-table {
     width: 100%;
     margin-bottom: 1.5em;
@@ -2666,6 +2700,7 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
     background: inherit;
     color: inherit;
   }
+  
 }
 
 /*********** iPad Portrait and up @ 960px ***********/
@@ -2689,6 +2724,12 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
   .responsive-table tfoot {
     font-size: .9em;
   }
+}
+
+
+.simple-main-nav {
+	// Hide simple-main-nav at widths below 40em, when mobile-nav shows
+	display: none;	
 }
   
 .mobile-nav a {
@@ -3083,15 +3124,6 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 	}
 }
 
-@media screen and (min-width: 30em) {
-	.login-options li {
-		display: inline-block;
-		width: 40%;
-		margin-right: 20px;	
-		vertical-align: top;	
-	}
-}
-
 /** =============== bootstrap tooltip styles ================== */
 .tooltip {
   position: absolute;
@@ -3143,6 +3175,7 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
   text-align: center;
   background-color: #000000;
   border-radius: 4px;
+  font-family: $base-font-family;
 }
 .tooltip-arrow {
   position: absolute;
