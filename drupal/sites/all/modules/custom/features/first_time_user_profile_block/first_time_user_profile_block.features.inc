@@ -342,10 +342,10 @@ function frs_zip_code_to_city_state($zip)
 {
     $token = frs_naas_autentication();
     $frs_domain = variable_get('frs_api_lookup_url');
-    $ip = variable_get('frs_api_lookup_ip');
+    $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     if ($frs_domain == 'test_proxy') {
         $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
-        $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_city_state_by_zip?p_ip_address=' . variable_get('frs_api_lookup_ip') . '&p_postal_code=' . $zip . '&p_token=' . $token;
+        $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
         $encoded_base_url = urlencode($base_url);
         $request_url = $test_domain . $encoded_base_url;
     } else {
@@ -396,7 +396,7 @@ function frs_naas_autentication()
                 "credential" => $password,
                 "domain" => variable_get('cdx_node_token_domain'),
                 "authenticationMethod" => variable_get('cdx_node_token_auth_method'),
-                "clientIp" => variable_get('frs_api_lookup_ip'),
+                "clientIp" => $_SERVER['SERVER_ADDR'], //variable_get('frs_api_lookup_ip'),
                 'resourceURI' => ''
             );
             $soap_type = 'CentralAuth';
@@ -416,7 +416,7 @@ function frs_naas_autentication()
     }
     if (isset($_GET['json'])) {
         print json_encode( array(
-            'ip'=> variable_get('frs_api_lookup_ip'),
+            'ip'=> $_SERVER['SERVER_ADDR'], //variable_get('frs_api_lookup_ip'),
             'token' => $token,
         ));
         exit();
@@ -429,7 +429,7 @@ function frs_naas_autentication()
 function frs_zip_code_to_lat_long($zip)
 {
     $token = frs_naas_autentication();
-    $ip = variable_get('frs_api_lookup_ip');
+    $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     $frs_domain = variable_get('frs_api_lookup_url');
     if ($frs_domain == 'test_proxy') {
         $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";

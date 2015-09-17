@@ -117,7 +117,7 @@ function return_cdx_facility_management_token()
         $frs_password = variable_get('cdx_facility_password');
         $email = variable_get('cdx_node_token_email');
         $domain = variable_get('cdx_node_token_domain');
-        $server_ip = variable_get('frs_api_lookup_ip');
+        $server_ip = $_SERVER['SERVER_ADDR']; // variable_get('frs_api_lookup_ip');
         $local = variable_get('cdx_facility_local');
         $wsdl = variable_get('cdx_facility_naas_wsdl');
         $token_expiration = variable_get('cdx_facility_token_expiration');
@@ -182,7 +182,7 @@ function createNewToken($client, $params_for_creation)
         //Authenticate to CDX
         $response = $client->__soapCall("CreateSecurityToken", array($params_for_creation));
         $token = $response->return;
-        $server_ip = variable_get('frs_api_lookup_ip');
+        $server_ip =  $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
         $json_return = array(
             'token' => $token,
             'server_ip' => $server_ip,

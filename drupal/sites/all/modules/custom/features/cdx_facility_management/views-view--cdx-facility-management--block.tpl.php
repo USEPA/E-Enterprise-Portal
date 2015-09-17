@@ -58,7 +58,7 @@ $cdx_facility_source = variable_get('cdx_facility_resource_url');
 
 <div id="cdx-logged-in-options">
 <div id="facility-widget" style="max-width:1363px;"></div>
-<p>Use of facility widget is subject to CDX terms and conditions.</p>
+<p>Use of facility widget is subject to CDX <a href="https://cdx.epa.gov/Registration/Terms">terms and conditions</a>. </p>
 <div id="fmw-organization-select-holder"><label
         for="fmw-organization-select">Organization</label><select style="display:none" name="fmw-organization-select"
                                                                   id="fmw-organization-select"></select>
