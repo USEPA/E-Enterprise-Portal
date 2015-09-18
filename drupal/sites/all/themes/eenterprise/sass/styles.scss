@@ -3136,6 +3136,15 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 		width: 18em;
 		display: block;
 	}
+	li#exchange-cdx a {
+		margin-bottom:0;
+	}
+	#exchange-subtext {
+		display: block;
+		font-size: 0.75em;
+		margin-bottom: 20px;
+		text-align:center;
+	}
 }
 
 /** =============== bootstrap tooltip styles ================== */
