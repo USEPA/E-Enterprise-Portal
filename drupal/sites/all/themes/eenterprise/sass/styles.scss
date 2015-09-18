@@ -472,6 +472,8 @@ header {
 	    margin-left: -1em;
 	    margin-right: -1em;
 	    position: relative;
+	    padding-left: 0;
+	    padding-right: 0;
     }
     .jumbotron .container {
 	    width: auto;
@@ -483,18 +485,62 @@ header {
     	background-color: transparent;
     	border: none;
     	margin:0 auto;
-    	margin-top:250px;
+    	margin-top: 15%;
     	margin-bottom:-1em;
-    	margin-left: 2em;
-    	.welcome-message {
-			display: inline-block;
-			width: 50%;
+    	padding: 19px 2.5em;
+    	width: 100%;
+		.welcome-message {
+			display: block;
+			width: 100%;
 			border:1px solid #fff;
 			background-color: #fefefe;
 			opacity: 0.9;
-			padding: 24px 32px 32px; 
-			border-radius:3px;
-    	}
+			padding: 18px 2em 27px; 
+			border-radius: 3px 3px 0 0;
+		}		
+		#login-group {
+			display: block;
+			width: 100%;
+			background-color:#fefefe;
+			text-align:center;
+			opacity: 0.9;
+			padding: 16px;
+			margin-top: 0;
+			border-radius: 0 0 3px 3px;
+			form, a {
+				display:inline-block;
+			}
+			.guest-login {
+				display: block;
+				margin-top: 10px;
+				width: auto;
+			    a {
+				    font-size: 1em;
+					margin-left: 0;
+					padding: 5px 15px;
+					font-weight: 200;
+			    }
+			    a:hover, a:focus, a:active {
+				    color: #ffffff;
+			    }
+			}
+			#new-toeenterprise {
+				margin: 0 auto;
+				display: block;
+				a {
+					display: block;
+					padding: 5px 10px;
+					margin:10px auto 0;
+					font-weight: 200;
+				}
+				a:hover, a:focus, a:active {
+				    color: #ffffff;
+			    }
+			}
+			.guest-login, #new-toeenterprise {
+				line-height: 1.2;
+			}
+		}    	
     	h1 {
 	    	font-size: 1.5em;
 	    	line-height: 1.4;
@@ -578,52 +624,7 @@ header {
 	}
 
 }
-#login-group {
-	background-color:#fefefe;
-	opacity: 0.9;
-	padding: 16px;
-	border-radius: 3px;
-	position: static;
-	display: inline-block;
-	width: 18em;
-	left: auto;
-	top: auto;
-	text-align:center;
-	margin-left: 20%;
-	form, a {
-		display:inline-block;
-	}
-	.guest-login {
-		display: block;
-		margin-top: 10px;
-		width: auto;
-	    a {
-		    font-size: 1em;
-			margin-left: 0;
-			padding: 5px 15px;
-			font-weight: 200;
-	    }
-	    a:hover, a:focus, a:active {
-		    color: #ffffff;
-	    }
-	}
-	#new-toeenterprise {
-		margin: 0 auto;
-		display: block;
-		a {
-			display: block;
-			padding: 5px 10px;
-			margin:10px auto 0;
-			font-weight: 200;
-		}
-		a:hover, a:focus, a:active {
-		    color: #ffffff;
-	    }
-	}
-	.guest-login, #new-toeenterprise {
-		line-height: 1.2;
-	}
-}
+
 #edit-e-enterprise-bridge, #edit-login, #edit-log-in, #edit-log-in--2 {
 	background-color: #337ab7;
 	padding:1em 3em;
@@ -836,31 +837,21 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 }
 
 @media screen and (min-width:20em) and (max-width:747.99999px) {
-  #benefits.ui-tabs .ui-tabs-nav li.ui-tabs-active:after {
-    border: none;
-  }
-
-  .ui-corner-top {
-    border-top-left-radius:0;
-    border-top-right-radius:0;
-  }
-
-  #benefits img {
-    display:none;
-  }
-
+	#benefits.ui-tabs .ui-tabs-nav li.ui-tabs-active:after {
+		border: none;
+	}
+	
+	.ui-corner-top {
+		border-top-left-radius:0;
+		border-top-right-radius:0;
+	}
+	
+	#benefits img {
+		display:none;
+	}
 }
 
 @media screen and (min-width:20em) and (max-width:959.99999px) {
-
-  #login-group {
-    position:relative;
-    text-align:center;
-    margin-top: 2em;
-    top:0;
-    left:0;
-  }
-
   #login-group .guest-login,
   #login-group #new-toeenterprise{
     opacity: 1;
@@ -872,23 +863,8 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
     max-width:100%;
   }
 
-  .page-eenterprise-new .jumbotron,
-  .section-eenterprise-new .jumbotron {
-    margin-left:0em;
-    margin-right:0em;
-  }
-
-  .page-eenterprise-new .well,
-  .section-eenterprise-new .well {
-    margin-left:0em;
-  }
-
   #benefits li {
     font-size: 1em;
-  }
-
-  .section-eenterprise-new .well {
-    margin-top:10px;
   }
 
   #benefits img {
@@ -1337,8 +1313,34 @@ tr.odd, tr.even {
 		float: right;
 		position:initial
 	}
-		
+	.page-eenterprise-new .well, .section-eenterprise-new .well {
+		padding: 19px 0;
+		position: relative;
+		.welcome-message, .welcome-message {
+			width: 50%;
+			border-radius:3px;
+			display: inline-block;
+			position: relative;
+			left: 3.5em;
+		}
+		#login-group {
+			border-radius: 3px;
+			width: 16em;
+			display: inline-block;
+			margin-left: 2.5%;
+			position: absolute;
+			bottom: 19px;
+			right: 4em;
+		}
+	}	
 }
+
+@media screen and (min-width: 47em) {
+	.page-eenterprise-new  .well #login-group {
+		
+	}
+}
+
 @media screen and (min-width: 60em) {
 	.view-ee-welcome, .page-node-50, .page-node-168 {
 		.well {
@@ -1356,6 +1358,16 @@ tr.odd, tr.even {
 
 }
 
+@media screen and (min-width: 65em) {
+	.page-eenterprise-new .well, .section-eenterprise-new .well {
+		padding: 2%;
+		#login-group {
+			right: 7em;
+			bottom: 22px;
+		}
+	}
+}
+
 @media screen and (min-width: 75em) {
 	th.views-field {
 		padding-top: 10px;
@@ -1370,6 +1382,18 @@ tr.odd, tr.even {
 		background-color: $ee-hover-gray;
 	}
 	
+}
+
+@media screen and (min-width: 90em) {
+	.page-eenterprise-new .well, .section-eenterprise-new .well {
+		.welcome-message {
+			left: 5em;
+		}
+		#login-group {
+			right: 10em;
+			bottom: 29px;
+		}
+	}
 }
 
 .ee-workbench-top-header {
