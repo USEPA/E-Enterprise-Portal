@@ -507,10 +507,10 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
                     unset($form['field_zip_code'][LANGUAGE_NONE][$delta]);
                 } else if (trim($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']) == '') {
                     unset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]);
+                    $blank_zipcode = false;
                     unset($form['field_zip_code'][LANGUAGE_NONE][$delta]);
                 } else {
                     // Zip code is not blank
-                    $blank_zipcode = false;
                     $zip_val = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
                     if (strlen($zip_val) > 0) {
                         // Check if valid format
@@ -661,6 +661,7 @@ function get_header_variables()
     $user_zips = $user_data->field_zip_code;
     $locations_array = array();
     $primary_zip = '';
+    $user_has_zip = false;
     foreach ($user_zips[LANGUAGE_NONE] as $key => $value) {
         $primary = $value['field_field_primary'][LANGUAGE_NONE][0]['value'];
         $zipcode = $value['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
@@ -669,6 +670,15 @@ function get_header_variables()
         }
         $zipcode_data = zip_code_lookup($zipcode);
         $locations_array[$zipcode] = $zipcode_data['string'];
+        $user_has_zip = true;
+    }
+    if (!$user_has_zip) {
+        // Use initial loging information
+        $user_initial_login = $user_data->field_initial_log_in;
+        $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
+        $zipcode_data = zip_code_lookup($initial_zip);
+        $primary_zip = $initial_zip;
+        $locations_array[$initial_zip] = $zipcode_data['string'];
     }
     asort($locations_array);
     $header_data = array('header_text' => 'New for Your Favorite Cities',
@@ -938,8 +948,10 @@ $user_data = user_load($user->uid);
 $num_zip_codes = count($user_data->field_zip_code[LANGUAGE_NONE]);
 if ($num_zip_codes > 0) {
     $location_description = "Add a location of interest to see environmental information relevant to that area. <strong>Select your primary location by clicking the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon.</strong>";
+    $first_zip_code = $user_data->field_zip_code[LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
 } else {
     $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon next to a location to make it your default location.</strong> <br />";
+    $first_zip_code = '';
 }
 
     $geolocation = false;
@@ -952,9 +964,12 @@ if ($num_zip_codes > 0) {
             $geolocation = true;
         }
     }
-    if ($geolocation == false) {
-        $location_description .= '<br /> Until a location is specified, the default location is set to Durham, North Carolina.';
-    }
+    if ($geolocation == false && $num_zip_codes < 2) {
+        // Check if they have already saved values
+        if ($first_zip_code == '27705' || $first_zip_code == '') {
+            $location_description .= '<br /> Until a location is specified, the default location is set to Durham, North Carolina.';
+        }
+        }
 
 return $location_description;
 }
