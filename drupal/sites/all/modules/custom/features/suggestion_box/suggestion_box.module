@@ -192,6 +192,7 @@ function suggestion_box_mail($key, &$message, $params) {
 
   dpm($params);
   dpm($from);
+  dpm($message);
 
   $msgBody = "Category: !category\r\nBody: !body";
 
