@@ -475,20 +475,29 @@ header {
     }
     .jumbotron .container {
 	    width: auto;
-	    max-width: 50%;
 	    margin-left: 0;
 	    margin-right: 0;
 	    padding: 0;
     }
     .well {
-    	opacity:0.9;
+    	background-color: transparent;
+    	border: none;
     	margin:0 auto;
     	margin-top:250px;
     	margin-bottom:-1em;
     	margin-left: 2em;
+    	.welcome-message {
+			display: inline-block;
+			width: 50%;
+			border:1px solid #fff;
+			background-color: #fefefe;
+			opacity: 0.9;
+			padding: 24px 32px 32px; 
+			border-radius:3px;
+    	}
     	h1 {
 	    	font-size: 1.5em;
-	    	line-height: 1;
+	    	line-height: 1.4;
     	}
     	p {
 	    	font-size: 1.25em;
@@ -570,41 +579,49 @@ header {
 
 }
 #login-group {
-	position: absolute;
-	top: 70%;
-	left: 60%;
+	background-color:#fefefe;
+	opacity: 0.9;
+	padding: 16px;
+	border-radius: 3px;
+	position: static;
+	display: inline-block;
+	width: 18em;
+	left: auto;
+	top: auto;
+	text-align:center;
+	margin-left: 20%;
 	form, a {
 		display:inline-block;
 	}
 	.guest-login {
+		display: block;
+		margin-top: 10px;
 		width: auto;
-	    display: inline-block;
-	    background-color: #fff;
-	    opacity: 0.8;
-	    margin-left: 10px;
 	    a {
 		    font-size: 1em;
 			margin-left: 0;
 			padding: 5px 15px;
+			font-weight: 200;
 	    }
 	    a:hover, a:focus, a:active {
-		    color: #000000;
+		    color: #ffffff;
 	    }
 	}
 	#new-toeenterprise {
 		margin: 0 auto;
-		width: 10.75em;
-		background-color: #fff;
-		opacity: 0.8;
 		display: block;
 		a {
 			display: block;
 			padding: 5px 10px;
 			margin:10px auto 0;
+			font-weight: 200;
 		}
 		a:hover, a:focus, a:active {
-		    color: #000000;
+		    color: #ffffff;
 	    }
+	}
+	.guest-login, #new-toeenterprise {
+		line-height: 1.2;
 	}
 }
 #edit-e-enterprise-bridge, #edit-login, #edit-log-in, #edit-log-in--2 {
@@ -3118,6 +3135,15 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 		vertical-align: top;
 		width: 18em;
 		display: block;
+	}
+	li#exchange-cdx a {
+		margin-bottom:0;
+	}
+	#exchange-subtext {
+		display: block;
+		font-size: 0.75em;
+		margin-bottom: 20px;
+		text-align:center;
 	}
 }
 
