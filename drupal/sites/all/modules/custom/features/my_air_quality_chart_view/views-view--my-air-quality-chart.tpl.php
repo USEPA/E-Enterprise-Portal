@@ -51,7 +51,7 @@ drupal_add_js(drupal_get_path('module', 'my_air_quality_chart_view') ."/js/esri.
       <li><a class="favorites-ignore" href="#my-air-quality-index">Air Quality Index</a></li>
       <li><a class="favorites-ignore" href="#my-air-quality-air-now-maps">AirNow Maps</a></li>
     </ul>
-    <div id="my-air-quality-index">
+    <div id="my-air-quality-index" style="padding:0">
       <p>Source: <a target="_blank" href="http://airnow.gov/" rel="external">AirNow.gov</a></p>
       <div id="my-air-quality-chart">
       </div>
