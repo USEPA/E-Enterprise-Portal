@@ -145,19 +145,15 @@ function suggestion_box_form($form, &$form_state) {
 function suggestion_box_form_submit($form, &$form_state) {
 
   $to = _suggestion_box_get_category_inbox($form_state['values']['category']);
-  dpm('to');
-  dpm($to);
 
   $mail = drupal_mail('suggestion_box', 'notice', $to, language_default(), $form_state['values']);
 
   $form_state['rebuild'] = TRUE;
 
   if($mail['result']) {
-//    return TRUE;
   } else {
     $error_msg = 'Failed to send the email.';
     watchdog('suggestion_box', $error_msg, array(), WATCHDOG_ALERT);
-//    return FALSE;
   }
 }
 
@@ -189,10 +185,6 @@ function suggestion_box_mail($key, &$message, $params) {
       $from = $params['email']; // use email from form for guests
     }
   }
-
-  dpm($params);
-  dpm($from);
-  dpm($message);
 
   $msgBody = "Category: !category\r\nBody: !body";
 
