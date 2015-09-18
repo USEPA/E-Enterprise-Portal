@@ -1534,13 +1534,15 @@ tr.even {
 
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {
-  form[id^='user-profile-form'] {
+	.simple-main-nav {
+	// Hide simple-main-nav at widths below 40em, when mobile-nav shows
+	display: none;	
+	}
+	form[id^='user-profile-form'] {
 		.form-type-textfield {
 			width: 150px;
-          min-width: 140px;
+			min-width: 140px;
 		}
-
-	
 		.ajax-progress .message {
 			display: none;
 		}
@@ -2078,8 +2080,9 @@ a.tabledrag-handle .handle {
 	li {
 		display: inline-block;
 		padding: 0 5px;
+		text-align: center;
 		a {
-			padding: 0.5em 1em;
+			padding: 5px 10px;
 			text-decoration: none;
 			color: #000;
 		}
@@ -2098,12 +2101,12 @@ a.tabledrag-handle .handle {
 	}
 }
 @media screen and (max-width: 48em) {
-  .todo-filter-by-week li {
-    display: block;
-    width: 50%;
-    padding-top: 5px;
-    padding-bottom: 5px;	//Provide more tap space
-  }
+	.todo-filter-by-week li {
+		display: inline-block;
+		width: 8em;
+		padding-top: 5px;
+		padding-bottom: 5px;	//Provide more tap space
+	}
 }
 .ui-tabs .ui-tabs-nav li, label, .todo-filter-by-week li {
 	font-size: 0.85em;
@@ -2724,12 +2727,6 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
   .responsive-table tfoot {
     font-size: .9em;
   }
-}
-
-
-.simple-main-nav {
-	// Hide simple-main-nav at widths below 40em, when mobile-nav shows
-	display: none;	
 }
   
 .mobile-nav a {
