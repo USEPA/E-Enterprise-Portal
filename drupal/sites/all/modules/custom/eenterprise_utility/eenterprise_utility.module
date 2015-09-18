@@ -508,6 +508,9 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
                 } else if (trim($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']) == '') {
                     unset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]);
                     $blank_zipcode = false;
+                    unset($form['field_zip_code'][LANGUAGE_NONE][$delta]);
+                } else {
+                    // Zip code is not blank
                     $zip_val = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
                     if (strlen($zip_val) > 0) {
                         // Check if valid format
