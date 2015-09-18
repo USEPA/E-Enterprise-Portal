@@ -593,10 +593,9 @@ header {
 	form, a {
 		display:inline-block;
 	}
-	#edit-log-in {
-		margin-bottom:10px;
-	}
 	.guest-login {
+		display: block;
+		margin-top: 10px;
 		width: auto;
 	    a {
 		    font-size: 1em;
@@ -610,7 +609,6 @@ header {
 	}
 	#new-toeenterprise {
 		margin: 0 auto;
-		width: 10.75em;
 		display: block;
 		a {
 			display: block;
@@ -621,6 +619,9 @@ header {
 		a:hover, a:focus, a:active {
 		    color: #ffffff;
 	    }
+	}
+	.guest-login, #new-toeenterprise {
+		line-height: 1.2;
 	}
 }
 #edit-e-enterprise-bridge, #edit-login, #edit-log-in, #edit-log-in--2 {
