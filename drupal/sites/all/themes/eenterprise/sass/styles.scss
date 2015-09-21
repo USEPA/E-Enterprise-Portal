@@ -483,6 +483,7 @@ header {
     }
     .well {
     	background-color: transparent;
+    	box-shadow: none;
     	border: none;
     	margin:0 auto;
     	margin-top: 15%;
@@ -777,7 +778,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	li div {
 		display:inline-block;
 		vertical-align: top;
-		width:85%;
+		width:80%;
 		margin-left:10px;
 	}
 }
@@ -2530,6 +2531,13 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 
 /*********** iPhone, some Android Portrait @ 320px***********/
 @media screen and (max-width: 20em) {
+	#including li div {
+		width: 9.5em;
+	}
+}
+
+/*********** iPhone, some Android Portrait @ 320px, iphone 6 @ 375px ***********/
+@media screen and (max-width: 24em) {
 	.masthead {
 		h1.site-name {
 			font-size: 1.5em;	
@@ -2549,11 +2557,22 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 	.page-user .main-content h1, .page-bridge-landing .main-content h1 {
 	    font-size: 1.5em;
 	}
+	.page-user .main-content {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+}
+@media screen and (min-width: 20.1em) and (max-width: 24em) {
+	#including li div {
+		width: 13em;
+	}
+}
+@media screen and (max-width: 26em) {
+	#benefits div {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
 	form[id^='user-profile-form'] {
-		.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
-			padding-left: 0;
-			padding-right: 0;
-		}
 		#zipcode_description {
 			th {
 				padding: 5px 0;
@@ -2564,8 +2583,14 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 			td {
 				padding: 0;			
 			}
+			.field-multiple-table {
+				width: 100%;
+			}
 			.field-add-more-submit {
 			    margin-left: -10px;
+			}
+			.form-type-checkbox {
+				margin-right: 0;
 			}
 			.form-wrapper {
 				margin-right: 0;
@@ -2584,16 +2609,7 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 			}
 		}
 	}
-	.page-user .main-content {
-		padding-left: 1em;
-		padding-right: 1em;
-	}
-}
-@media screen and (max-width: 26em) {
-	#benefits div {
-		padding-left: 1em;
-		padding-right: 1em;
-	}
+
 	.page-eenterprise-new .row.shaded, .section-eenterprise-new .row.shaded {
 		padding-top: 10px;
 		padding-left: 2em;
@@ -2610,12 +2626,17 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 				height: auto;
 				margin-top: 0.5em;
 			}
-			div {
-				width: 9.5em
-			}
 			h3 {
 				margin-bottom: 5px;
 			}
+		}
+	}
+	#profile-tabs li {
+		padding-left: 0;
+		padding-right: 0;
+		a {
+			padding-left: 0.75em;
+			padding-right: 0.75em;
 		}
 	}
 	.btn-social {
@@ -2637,23 +2658,6 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 			padding: 10px 10px;
 		}
 	}
-
-	form[id^='user-profile-form'] {
-		.ui-tabs .ui-tabs-nav li {
-			padding-left: 0.75em;
-			padding-right: 0.75em;
-		}
-		#zipcode_description .field-multiple-table {
-			width: 100%;
-		}
-		#zipcode_description .form-type-checkbox {
-			margin-right: 0;
-		}
-		#zipcode_description .field-add-more-submit {
-			margin-left: 220px;
-		}
-	}
-
 }
 
 /*********** iPhone, some Android Portrait @ 320px***********/
