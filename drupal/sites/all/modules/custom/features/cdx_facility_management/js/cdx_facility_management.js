@@ -116,7 +116,7 @@
                         var org_to_roles = parsed_json.organizations_to_roles;
                         if (org_to_roles.length == 0) {
                             // User does not manage any facilities
-                            var zero_facilities_msg = "<p>You do not currently manage any facilities in CDX.</p>";
+                            var zero_facilities_msg = "<p>You do not have any facilities to manage in CDX through this widget at this time.</p>";
                             $('#fmw-organization-select-holder').html(zero_facilities_msg);
                         }
                         else {

@@ -72,7 +72,7 @@ $cdx_facility_source = variable_get('cdx_facility_resource_url');
 <button id="launch-facility-management" style="display:none;">Manage Facilities</button>
 </div>
 <div id="cdx-logged-out-options" style="display:none;">
-    <p>Your secure connection to CDX Facility Management services has expired. Please log out and log back in again to access these services.</p><button id="cdx-logged-out-log-out" type="button" class="btn btn-sm btn-danger">Log Out</button>
+    <p>Your secure connection to CDX Facility Management services has expired. You must log back in again to access this widget.</p><button id="cdx-logged-out-log-out" type="button" class="btn btn-sm btn-danger">Log in</button>
 </div>
 
 

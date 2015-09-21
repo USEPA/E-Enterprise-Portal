@@ -1985,7 +1985,10 @@ a.tabledrag-handle .handle {
 #field-profile-favourites-values .tabledrag-handle {
 	top:-10px;
 }
-
+.ui-widget-content.first-time-user-dialog {
+	width: 1100px !important;
+	max-width: 95% !important;
+}
 #first-time-user-profile {
 	padding-bottom: 10px;
 	h2 {
@@ -2052,8 +2055,11 @@ a.tabledrag-handle .handle {
 		margin-top:20px;
 		height:8em;
 	}
+	#skip-preferences {
+		font-size: 0.875em;
+	}
 }
-.pane-views-first-time-user-profile-block 	.modal-footer {
+.pane-views-first-time-user-profile-block .modal-footer {
 		.btn-primary {margin-right: 30px;}
 		a {vertical-align: middle;}
 }
@@ -2530,12 +2536,53 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 		    margin-bottom: 5px;
 		    height: auto;
 	    }
-	    .page-user .main-content h1, .page-bridge-landing .main-content h1 {
-		    font-size: 1.5em;
-	    }
-	    form[id^='user-profile-form'] #zipcode_description .field-add-more-submit {
-		    margin-left: -10px;
-	    }
+	}
+	#first-time-user-block {
+		h2 {
+			line-height: 1.4;
+		}
+		.modal-footer {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+	.page-user .main-content h1, .page-bridge-landing .main-content h1 {
+	    font-size: 1.5em;
+	}
+	form[id^='user-profile-form'] {
+		.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+			padding-left: 0;
+			padding-right: 0;
+		}
+		#zipcode_description {
+			th {
+				padding: 5px 0;
+			}
+			thead label {
+				padding: 10px 0;
+			}
+			td {
+				padding: 0;			
+			}
+			.field-add-more-submit {
+			    margin-left: -10px;
+			}
+			.form-wrapper {
+				margin-right: 0;
+			}
+			.form-type-textfield {
+				margin-right: 10px;
+			}
+			.field-add-more-submit {
+				clear: left;
+				margin-left: 200px;
+				display: block;
+			}
+			.zip-code-primary-holder {
+				margin-left: 10px;
+				margin-right: 10px;
+			}
+		}
 	}
 	.page-user .main-content {
 		padding-left: 1em;
@@ -2588,6 +2635,22 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 		li {
 			margin: 10px 0;
 			padding: 10px 10px;
+		}
+	}
+
+	form[id^='user-profile-form'] {
+		.ui-tabs .ui-tabs-nav li {
+			padding-left: 0.75em;
+			padding-right: 0.75em;
+		}
+		#zipcode_description .field-multiple-table {
+			width: 100%;
+		}
+		#zipcode_description .form-type-checkbox {
+			margin-right: 0;
+		}
+		#zipcode_description .field-add-more-submit {
+			margin-left: 220px;
 		}
 	}
 
@@ -3152,7 +3215,7 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 	}
 }
 .section-new-users {
-	ul {
+	article ul {
 		margin-left:40px;
 	}
 	.login-options li {
