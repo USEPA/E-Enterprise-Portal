@@ -260,7 +260,8 @@
                 modal: true,
                 autoOpen: true,
                 width: 1100,
-                height: 625,
+                height: 525,
+                //height: auto,
                 dialogClass: 'first-time-user-dialog'
             });
 
