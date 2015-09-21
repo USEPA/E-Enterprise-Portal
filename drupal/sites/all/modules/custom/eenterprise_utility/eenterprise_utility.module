@@ -275,7 +275,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_interests2']);
 
 //        dpm($form);
-//        hide($form['field_first_time_user']);
+        hide($form['field_first_time_user']);
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
         $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
         $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter ZIP Code or City, State";
