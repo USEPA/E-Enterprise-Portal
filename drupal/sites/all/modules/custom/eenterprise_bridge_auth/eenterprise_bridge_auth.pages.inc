@@ -111,11 +111,12 @@ function eenterprise_bridge_auth_authenticate($error)
         if ($user->uid == 0) {
             //Get user mapping and attempt to login user.
             $pos = strpos($userDetails->attributes['name'][0], "NAASOpenId");
+            $openid_position = strpos($userDetails->attributes['name'][0], "ENOpenId");
             $username_raw = explode('/', $userDetails->attributes['name'][0]);
             $username = end($username_raw);
             $uname = "";
             //If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
-            if ($pos === FALSE || $username === FALSE) {
+            if (($pos === FALSE && $openid_position === FALSE) || $username === FALSE) {
                 $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
                 $uname = $userDetails->attributes['email'][0];
                 $public_or_cdx = 'public';
