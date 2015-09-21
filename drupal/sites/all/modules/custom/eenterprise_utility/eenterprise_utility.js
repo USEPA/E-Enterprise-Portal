@@ -304,6 +304,30 @@
         placeAddAnotherButton(false, '#field-profile-favourites-values', '#links_description');
         $('#zipcode_description').show();
 
+
+
+     /// Make prog-track and to do list dialogs responsive
+        if (page == 'workbench') {
+
+            jQuery.fn.center = function () {
+                this.css("position","absolute");
+                this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
+                $(window).scrollTop()) + "px");
+                this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
+                $(window).scrollLeft()) + "px");                 return this;
+            }
+            $(window).resize(function () {
+                $('.ui-dialog').center();
+                console.log($(window).width());
+                if($(window).width() < 900) {
+                    $('.ui-dialog').css('width', 'auto');
+                }
+                else {
+                    $('.ui-dialog').css('width', 900);
+                }
+            });
+
+        }
     });
 })(jQuery);
 
