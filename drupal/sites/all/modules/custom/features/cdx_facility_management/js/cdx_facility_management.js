@@ -237,7 +237,6 @@
             });
 
             table = table + '</tbody></table>';
-            console.log(table);
             $('#facility-widget-orgs-table').html(table);
 
 

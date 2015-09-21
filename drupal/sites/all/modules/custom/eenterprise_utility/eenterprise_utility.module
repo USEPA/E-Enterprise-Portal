@@ -354,7 +354,12 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             // $field_suffix = city name and state name
             if (isset($zip) && $zip != '') {
                 $zip_data = zip_code_lookup($zip);
-                $field_suffix = $zip_data['string'];
+                if ($zip_data['error']) {
+                    $field_suffix = '<span class="field-suffix error">' . $zip_data['string'] . '</span>';
+                }
+                else {
+                    $field_suffix = $zip_data['string'];
+                }
             } else {
                 $field_suffix = '';
             }
@@ -414,42 +419,61 @@ function eenterprise_utility_profile_form_submit($form, &$form_state) {
 function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
 {
     $readable_string = '';
-
     if (isset($_GET['zip'])) {
         $unparsed_zip = $_GET['zip'];
         $return_data_type = 'json';
     }
 
-    $validation = postal_code_validation_validate($unparsed_zip, 'US');
-    if (!$validation['error']) {
-        $zip = substr($validation['postal_code'], 0, 5);
-        $frs_city_state_return = frs_zip_code_to_city_state($zip);
-        $frs_lat_long_return = frs_zip_code_to_lat_long($zip);
+    $error_message = '';
+    $error = true;
+    $is_zip_code = preg_match("/(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/", $unparsed_zip);
+    $is_city_state = preg_match("/^[\w\s]+,\s*\w{2}$/", $unparsed_zip);
+    $zip_data = array();
+    if ( $is_zip_code === 0 && $is_city_state === 0) {
+        $error_message = 'Please input a valid ZIP code or a city and state code separated by a comma (e.g., Durham, NC)';
+        $zip_data = array(
+            'state' => '',
+            'city' => '',
+            'latitude' => '',
+            'longitude' => '',
+            'zip' => '',
+            'string' => $error_message,
+            'error' => $error
+    );
+    }
+    else {
+        $validation = postal_code_validation_validate($unparsed_zip, 'US');
+        if (!$validation['error']) {
+            $zip = substr($validation['postal_code'], 0, 5);
+            $frs_city_state_return = frs_zip_code_to_city_state($zip);
+            $frs_lat_long_return = frs_zip_code_to_lat_long($zip);
 
-        if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {       // first try FRS resource
-            $zip_data = array(
-                'state' => $frs_city_state_return['state'],
-                'city' => $frs_city_state_return['city'],
-                'latitude' => $frs_lat_long_return['lat'],
-                'longitude' => $frs_lat_long_return['long'],
-                'zip' => $zip,
-            );
-        }else {
-            $zip_data = array();
-        }
+            if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {       // first try FRS resource
+                $zip_data = array(
+                    'state' => $frs_city_state_return['state'],
+                    'city' => $frs_city_state_return['city'],
+                    'latitude' => $frs_lat_long_return['lat'],
+                    'longitude' => $frs_lat_long_return['long'],
+                    'zip' => $zip,
+                );
+            }
 
-        // Create readable string for across site
-        if (strlen($zip_data['city']) != 0) {
-            $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
-        }
+            // Create readable string for across site
+            if (strlen($zip_data['city']) != 0) {
+                $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
+                $error = false;
+            }
 
-        $zip_data['string'] = $readable_string;
-        if ($return_data_type == 'php') {
-            return $zip_data;
-        } else {
-            print json_encode($zip_data);
+            $zip_data['string'] = $readable_string;
+            $zip_data['error'] = $error;
         }
     }
+    if ($return_data_type == 'php') {
+        return $zip_data;
+    } else {
+        print json_encode($zip_data);
+    }
+
 }
 
 
@@ -518,7 +542,7 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
                         if ($valid_zip['error']) {
                             // Zip code not valid
                             $error = true;
-                            $error_message = "Invalid ZIP code. Please enter a United States ZIP code in one of the following formats, '99999,' '99999-9999,' or '99999-999999.'";
+                            $error_message = "Invalid ZIP code. Please enter a United States ZIP code in one of the following formats, '99999,' '99999-9999,' or '99999-999999,' or a city and state code separated by a comma (e.g., Durham, NC).'";
                             // Clear city details from field
                             unset($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE]['value']['#field_suffix']);
                             // Do not duplicate error messages to user
