@@ -676,6 +676,14 @@ function eenterprise_bridge_auth_logout() {
     }
     $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?bridge=1';
     $logout = variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($wreply);
+    global $user;
+    if(isset($_SESSION['form_origin_btn']) && $_SESSION['form_origin_btn'] == 'Delete profile'){
+        unset($_SESSION['form_origin_btn']);
+        user_delete($user->uid);
+        session_destroy();
+        $wreply = variable_get('eenterprise_bridge_auth_realm') . '/eenterprise-new?bridge=1';
+        $logout = variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($wreply);
+    }
     header("Location:$logout");
 }
 
