@@ -11,13 +11,15 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
       <li><a class="favorites-ignore" href="#profile-account">Account</a></li>
       <li><a class="favorites-ignore" href="#profile-locations">Locations</a></li>
       <li><a class="favorites-ignore" href="#profile-favorites">Favorites</a></li>
+
     </ul>
     <div id="profile-account">
       <h3>User Information</h3>
-      <?php
+        <?php
       print render($form['field_profile_first_name']);
       print render($form['account']['mail']);
       ?>
+        <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
     </div>
     <div id="profile-locations">
       <h3>Locations of Interest</h3>
@@ -33,6 +35,8 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
         ?>
       </div>
       <div style="clear:both"></div>
+        <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
+
     </div>
     <div id="profile-favorites">
       <h3>Favorite Links</h3>
@@ -44,6 +48,8 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
         print render($form['field_profile_favourites']);
         ?>
       </div>
+        <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
+
     </div>
   </div>
   <div class="col-xs-12">
