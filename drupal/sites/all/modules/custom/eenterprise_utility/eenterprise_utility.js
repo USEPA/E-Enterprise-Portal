@@ -65,44 +65,26 @@
         // Lock save and add as to not submite faulty data before processed
         $('body').on('keyup paste', '.field_zip_code', function (e) {
             if ($(this).val() != '') {
-                var button = $('#edit-field-zip-code .field-add-more-submit').last();
-                var save = $('#edit-submit');
-                if (!button.hasClass('new-button-unusable')) {
-                    old_button = button;
-                    new_button = old_button.clone().addClass('new-button-unusable');
-                    // Replace drupal button with fake temporarily
-                    if ($(old_button).is(":visible")) {
-                        new_button.unbind('click').attr("type", "button");
-                        old_button.hide().after(new_button);
-                    }
-                }
-                if (!save.hasClass('new-button-unusable')) {
-                    save_submit = save;
-                    new_save_submit = save_submit.clone().addClass('new-button-unusable');;
-                    // Replace drupal button with fake temporarily
-                    if ($(save_submit).is(":visible")) {
-                        new_save_submit.unbind('click').attr("type", "button");
-                        save_submit.hide().after(new_save_submit);
-                    }
-                }
+                hideButtons();
             }
         });
 
         // Functionality to allow city,state input into zip codes
         $('body').on('change', '.field_zip_code', function (e) {
 
+            // This is an override of the drupal add and save to allow the zip code data to process before saving.
             var clicked_id = mouse_click[0].id;
             var input = $(this);
             var field_suffix = input.next('.field-suffix');
             var add_button = input.closest('td').find('.field-add-more-submit');
             var remove_button = input.closest('td').find('.remove-button');
             var primary_indicator = input.closest('td').find('.zip-code-primary-holder');
-            var trigger_clicked = false;
+            var button_clicked = false;
             if (new_button != '' && new_button.attr('id') == clicked_id) {
-                trigger_clicked = 'add';
+                button_clicked = 'add';
             }
             else if (new_save_submit != '' &&  new_save_submit.attr('id') == clicked_id) {
-                trigger_clicked = 'save';
+                button_clicked = 'save';
             }
             field_suffix.html('Loading...');
             field_suffix.removeClass('error');
@@ -148,17 +130,7 @@
                                 remove_button.show();
                                 primary_indicator.show();
                                 if (!existingLocationErrors()) {
-                                    new_button.remove();
-                                    old_button.show();
-                                    $('#edit-submit.new-button-unusable').remove();
-                                    save_submit.show();
-                                    if (trigger_clicked == 'add') {
-                                        old_button.trigger('mousedown');
-                                    }
-                                    if (trigger_clicked == 'save') {
-                                        save_submit.trigger('mousedown');
-                                    }
-
+                                    resetButtons(button_clicked);
                                 }
 
                             });
@@ -167,17 +139,7 @@
                             input.val(location_data.zip_array[0]);
                             field_suffix.html(location_data.city + ', ' + location_data.state);
                             if (!existingLocationErrors()) {
-                                new_button.remove();
-                                old_button.show();
-                                $('#edit-submit.new-button-unusable').remove();
-                                save_submit.show();
-                                if (trigger_clicked == 'add') {
-                                    old_button.trigger('mousedown');
-                                }
-                                if (trigger_clicked == 'save') {
-                                    save_submit.trigger('mousedown');
-                                }
-
+                                resetButtons(button_clicked);
                             }
                         }
                     }
@@ -185,19 +147,8 @@
                         // add city and state data to field suffix
                         field_suffix.html(location_data.city + ', ' + location_data.state);
                         if (!existingLocationErrors()) {
-                            new_button.remove();
-                            old_button.show();
-                            $('#edit-submit.new-button-unusable').remove();
-                            save_submit.show();
-                            if (trigger_clicked == 'add') {
-                                old_button.trigger('mousedown');
-                            }
-                            if (trigger_clicked == 'save') {
-                                save_submit.trigger('mousedown');
-                            }
-
+                            resetButtons(button_clicked);
                         }
-
                     }
                 }).fail(function (location_data) {
                     // Print error message
@@ -206,6 +157,44 @@
                 });
             }
         });
+
+        // Check if there are any errors. If no errors, make sure Save button / plus button are enabled
+        function resetButtons(button_clicked){
+                new_button.remove();
+                old_button.show();
+                $('#edit-submit.new-button-unusable').remove();
+                save_submit.show();
+                if (button_clicked == 'add') {
+                    old_button.trigger('mousedown');
+                }
+                if (button_clicked == 'save') {
+                    save_submit.trigger('click');
+                }
+        }
+
+        // On an Drupal Ajax call- if there is an error, hide the actual Save and +
+        function hideButtons() {
+            var button = $('#edit-field-zip-code .field-add-more-submit').last();
+            var save = $('#edit-submit');
+            if (!button.hasClass('new-button-unusable')) {
+                old_button = button;
+                new_button = old_button.clone().addClass('new-button-unusable');
+                // Replace drupal button with fake temporarily
+                if ($(old_button).is(":visible")) {
+                    new_button.unbind('click').attr("type", "button");
+                    old_button.hide().after(new_button);
+                }
+            }
+            if (!save.hasClass('new-button-unusable')) {
+                save_submit = save;
+                new_save_submit = save_submit.clone().addClass('new-button-unusable');;
+                // Replace drupal button with fake temporarily
+                if ($(save_submit).is(":visible")) {
+                    new_save_submit.unbind('click').attr("type", "button");
+                    save_submit.hide().after(new_save_submit);
+                }
+            }
+        }
 
 
         function existingLocationErrors() {
@@ -222,8 +211,15 @@
         var page = path.split('/')[1];
         if (page == 'user') {
             $(document).ajaxSuccess(function (event, xhr, settings) {
-                console.log(settings.url);
                 var target_url = settings.url;
+                if (target_url == '/multifield/field-remove-item/ajax') {
+                    if (existingLocationErrors()) {
+                        hideButtons();
+                    }
+                    else {
+                        resetButtons(false);
+                    }
+                }
                 // determine which table to place the Add Another buttom
                 if (target_url == '/system/ajax' || target_url == '/multifield/field-remove-item/ajax') {
                     var table_id = '';
@@ -246,6 +242,7 @@
                     if (table_id != '') {
                         placeAddAnotherButton(false, '#' + table_id, parent_id);
                     }
+
                 }
             });
 
@@ -270,8 +267,9 @@
 
         function inString(str, substring) {
             return str.indexOf(substring) >= 0;
-
         }
+
+
 
 
         $('#edit-delete').click(function (e) {
@@ -280,7 +278,7 @@
                 content: $('#delete-holder'),
                 'width': 400,
                 'height': 150,
-                'autoSize': false,
+                'autoSize': false
             });
 
             // If confirmed delete, unbind prevent default and trigger click to continue action
