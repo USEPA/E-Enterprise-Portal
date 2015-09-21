@@ -376,7 +376,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_suffix'] =
                 $field_suffix;
             hide($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['#title']);
-
         }
 
         // Field specific settings for Terms of Use Agreed Date
@@ -542,7 +541,7 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
                         if ($valid_zip['error']) {
                             // Zip code not valid
                             $error = true;
-                            $error_message = "Invalid ZIP code. Please enter a United States ZIP code in one of the following formats, '99999,' '99999-9999,' or '99999-999999,' or a city and state code separated by a comma (e.g., Durham, NC).'";
+                            $error_message = "Invalid ZIP code. Please enter a United States ZIP code in one of the following formats, '99999,' '99999-9999,' or '99999-999999,' or a city and state code separated by a comma (e.g., Durham, NC).";
                             // Clear city details from field
                             unset($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE]['value']['#field_suffix']);
                             // Do not duplicate error messages to user
@@ -587,6 +586,7 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
                                 $_SESSION['default_location_zip'] = substr($valid_zip['postal_code'], 0, 5);
                             }
                             $error = false;
+                            $blank_zipcode = false;
                         }
                         $previous_zipcodes[] = $zip_val;
                     }

@@ -160,10 +160,14 @@
 
         // Check if there are any errors. If no errors, make sure Save button / plus button are enabled
         function resetButtons(button_clicked){
+            if (new_button.length > 0) {
                 new_button.remove();
                 old_button.show();
+            }
+            if (save_submit.length > 0) {
                 $('#edit-submit.new-button-unusable').remove();
                 save_submit.show();
+            }
                 if (button_clicked == 'add') {
                     old_button.trigger('mousedown');
                 }
