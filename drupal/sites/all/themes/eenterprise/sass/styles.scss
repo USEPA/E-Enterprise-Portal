@@ -452,6 +452,13 @@ header {
 	}
 }
 
+article {
+	margin-bottom: 30px;
+	header {
+		padding-left: 0;
+	}
+}
+
 .page-eenterprise-new, .section-eenterprise-new {
 	.page-title, .article-title {
 		display: none;
@@ -910,10 +917,14 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		background-color: $ee-dark-gray;
 	}
 }
-a#guest-login {
+.block--login-from-guest-page {
 	float: right;
 	margin-top: 20px;
 	margin-right: 1em;
+	a#faqs-link {
+		font-size: 0.875em;
+		margin-right: 20px;
+	}
 }
 
 .breadcrumb-title, 
