@@ -349,7 +349,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             // overide default if input has been made
             if (isset($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta])) {
                 $input_zip = $form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0];
-                $zip = $input_zip['value'];
+                $zip = xssafe($input_zip['value']);
             }
             // $field_suffix = city name and state name
             if (isset($zip) && $zip != '') {

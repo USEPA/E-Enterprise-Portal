@@ -100,7 +100,6 @@
                         // IF only one zip code, automatically input into input
                         var count_zips_returned = location_data.zip_array.length;
                         if (count_zips_returned > 1) {
-
                             // replace input with select list of zip codes.
                             add_button.hide();
                             remove_button.hide();
