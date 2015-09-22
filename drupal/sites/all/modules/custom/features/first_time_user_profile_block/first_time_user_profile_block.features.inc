@@ -191,19 +191,27 @@ function save_first_time_user_preferences()
 
 function return_location_data_lat_long()
 {
-    //30.212147800000004
-    //92.028346
     $results = array();
     if (isset($_GET['longitude']) && isset($_GET['latitude'])) {
         $longitude = $_GET['longitude'];
         $latitude = $_GET['latitude'];
         $results = frs_lat_long_to_zip_code($latitude, $longitude);
-//        $results['error'] = false;
     } else {
         $results['error'] = true;
     }
     print json_encode($results);
 }
+
+
+//xss mitigation functions
+function xssafe($data,$encoding='UTF-8')
+{
+    return htmlspecialchars($data,ENT_QUOTES | ENT_HTML401,$encoding);
+}
+//function xecho($data)
+//{
+//    echo xssafe($data);
+//}
 
 
 //
@@ -216,8 +224,14 @@ function return_location_data()
     } else {
         exit();
     }
+    // Sanitize inputs
+
+
+
+
     // First check $location with postal code validation
     $validation = postal_code_validation_validate($location, 'US');
+    $location = xssafe($location);
     if ($validation['error']) {
         // Make location upper case for FRS
         $location = strtoupper($location);
@@ -454,3 +468,5 @@ function frs_zip_code_to_lat_long($zip)
     );
     return $return;
 }
+
+?>
