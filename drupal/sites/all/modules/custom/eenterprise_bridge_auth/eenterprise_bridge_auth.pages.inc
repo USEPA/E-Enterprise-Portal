@@ -133,7 +133,7 @@ function eenterprise_bridge_auth_authenticate($error)
                 if ($user) {
                     user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
                     //if user is public user
-                    if ($pos === FALSE) {
+                    if ($pos === FALSE && $openid_position === FALSE) {
                         $user_role = user_role_load_by_name('Public User');
                         user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
                     } else {
