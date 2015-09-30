@@ -653,6 +653,19 @@ function assign_roles_to_user($user_name)
             }
         }
     } catch (SoapFault $f) {
+        global $user;
+        $role_val = 'Public';
+        $user_role = user_role_load_by_name($role_val);
+        if ($user_role === FALSE) {
+            $user_role = new stdClass();
+            $user_role->name = $role_val;
+            user_role_save($user_role);
+        }
+        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+        allow_user_menu_access($user_role->rid);
+        //Allow favorites view access to all CDX users.
+        view_allow_access_role('favorite_sites', $user_role->rid);
+
         watchdog('eenterprise_bridge_auth', "Error 0003: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
 }
