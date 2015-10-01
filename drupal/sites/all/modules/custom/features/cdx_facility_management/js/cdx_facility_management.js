@@ -305,7 +305,6 @@
                     NASSToken: naas_token,
                     NAASip: naas_ip,
                     onInvalidSession: function () {
-                        alert('error');
                         var new_token_return = createNewToken();
                         if (new_token_return.expired) {
                             userMustLogin();
