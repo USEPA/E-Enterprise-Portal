@@ -292,9 +292,9 @@
             }
             var current_time = Date.now();
             // convert php timestamp to miliseconds
-            time_logged_in = time_logged_in * 1000;
+            var time_logged_in_mili = time_logged_in * 1000;
             // Find time diff in minutes (millisecond * 1000 = seconds * 60 = minutes);
-            var time_diff = Math.abs((current_time - time_logged_in) / (60*1000));
+            var time_diff = Math.abs((current_time - time_logged_in_mili) / (60*1000));
             if (time_diff  < time_threshold ) {
                 $.initFacilityManagementWidget({
                     autoScroll: false,
@@ -311,7 +311,7 @@
                         }
                         else {
                             var new_naas_token = new_token_return.token;
-                            updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold);
+                            updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in_mili, time_threshold);
                         }
                     },
                     onServiceCall: function () {
