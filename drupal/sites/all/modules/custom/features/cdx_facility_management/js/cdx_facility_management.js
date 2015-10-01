@@ -305,13 +305,14 @@
                     NASSToken: naas_token,
                     NAASip: naas_ip,
                     onInvalidSession: function () {
+                        alert('error');
                         var new_token_return = createNewToken();
                         if (new_token_return.expired) {
                             userMustLogin();
                         }
                         else {
-                            naas_token = new_token_return.token;
-                            updateWidget(user_role_id, token, naas_ip, resource_url);
+                            var new_naas_token = new_token_return.token;
+                            updateWidget(user_role_id, new_naas_token, naas_ip, resource_url);
                         }
                     },
                     onServiceCall: function () {
