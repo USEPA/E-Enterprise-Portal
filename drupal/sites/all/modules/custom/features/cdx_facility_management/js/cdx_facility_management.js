@@ -310,8 +310,8 @@
                             userMustLogin();
                         }
                         else {
-                            naas_token = new_token_return.token;
-                            updateWidget(user_role_id, token, naas_ip, resource_url);
+                            var new_naas_token = new_token_return.token;
+                            updateWidget(user_role_id, new_naas_token, naas_ip, resource_url);
                         }
                     },
                     onServiceCall: function () {

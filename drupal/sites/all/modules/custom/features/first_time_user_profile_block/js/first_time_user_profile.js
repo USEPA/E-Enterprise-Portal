@@ -18,13 +18,17 @@
             // Initialize  location with default information
             $('#nearest-location').text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
 
-            // After 5 seconds of inactivity from geolocation show the default
-            var timeout = setTimeout(
-                function () {
-                    showDefaultData();
-                }, 1000);
+            // Used if user did not allow geolocation
+            function showDefaultData() {
+                // show default data previously set
+                $('#location-description-user').show();
+                $('#location-description-na').show();
+                $('#loading-user-location').hide();
+            }
+
+
+
             // Try to get local settings via gelocation
-            getLocation();
 
 
             function getLocation() {
@@ -83,13 +87,6 @@
                 $('#loading-user-location').hide();
             }
 
-            // Used if user did not allow geolocation
-            function showDefaultData() {
-                // show default data previously set
-                $('#location-description-user').show();
-                $('#location-description-na').show();
-                $('#loading-user-location').hide();
-            }
 
 
             // Show zip selection options
@@ -269,6 +266,16 @@
             $(window).resize(function () {
                 first_time_user_block.dialog("option", "position", {my: "center", at: "center", of: window});
             });
+
+
+            // After 5 seconds of inactivity from geolocation show the default
+            var timeout = setTimeout(
+                function () {
+                    showDefaultData();
+                }, 1000);
+
+            getLocation();
+
         }
     });
 })(jQuery);
