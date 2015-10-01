@@ -311,7 +311,7 @@
                         }
                         else {
                             var new_naas_token = new_token_return.token;
-                            updateWidget(user_role_id, new_naas_token, naas_ip, resource_url);
+                            updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold);
                         }
                     },
                     onServiceCall: function () {
