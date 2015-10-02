@@ -22,7 +22,13 @@ class EEnterpriseUtilityTests extends PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals(eenterprise_utility_node_access($node, 'view', $account), NODE_ACCESS_ALLOW);
 	}
+
+    /**
+     * Unit Test the function _eenterprise_bridge_auth_get_authmap in
+     * sites\all\modules\custom\eenterprise_bridge_auth\eenterprise_bridge_auth.module
+     */
     public function test_auth_get_authmap(){
-        $this->assertEquals((5+3), 8);
+        $result = db_query("select authname, uid from {authmap} limit 1")->fetchAll();
+        $this->assertEquals(_eenterprise_bridge_auth_get_authmap($identifier = $result[0]->authname), $result[0]->uid);
     }
 }
