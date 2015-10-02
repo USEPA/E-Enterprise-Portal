@@ -27,12 +27,7 @@
             }
 
 
-            // After 5 seconds of inactivity from geolocation show the default
-            var timeout = setTimeout(
-                function () {
-                    showDefaultData();
-                }, 1000);
-            // Try to get local settings via gelocation
+
 
 
             function getLocation() {
@@ -51,7 +46,6 @@
                 lookupAndProcessCityState(latitude, longitude);
             }
 
-            getLocation();
 
             function lookupAndProcessCityState(latitude, longitude) {
                 $.ajax({
@@ -270,6 +264,16 @@
             $(window).resize(function () {
                 first_time_user_block.dialog("option", "position", {my: "center", at: "center", of: window});
             });
+
+            // After 5 seconds of inactivity from geolocation show the default
+            var timeout = setTimeout(
+                function () {
+                    showDefaultData();
+                }, 1000);
+            // Try to get local settings via gelocation
+            getLocation();
+
+
         }
     });
 })(jQuery);
