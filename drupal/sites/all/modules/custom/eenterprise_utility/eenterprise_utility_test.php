@@ -31,4 +31,13 @@ class EEnterpriseUtilityTests extends PHPUnit_Framework_TestCase {
         $result = db_query("select authname, uid from {authmap} limit 1")->fetchAll();
         $this->assertEquals(_eenterprise_bridge_auth_get_authmap($identifier = $result[0]->authname), $result[0]->uid);
     }
+
+    /**
+     * Unit Test the function _eenterprise_bridge_auth_get_authmap in
+     * sites\all\modules\custom\eenterprise_bridge_auth\eenterprise_bridge_auth.module
+     * Test the FALSE Scenario.
+     */
+    public function test_auth_get_authmap_false(){
+        $this->assertFalse(_eenterprise_bridge_auth_get_authmap('_A username that does not exist_'), FALSE);
+    }
 }
