@@ -9,7 +9,10 @@ function air_emissions_view_init() {
   global $user;
 
   $account = user_load($user->uid);
-  $zip = $account->field_zip_code['und'][0]['value'];
+  if(!empty($account->field_zip_code))
+      $zip = $account->field_zip_code['und'][0]['field_field_zip_code']['und'][0]['value'];
+  else
+      $zip = '27701';
   $my_variables = array('field_zip_code' => $zip);
 
   drupal_add_js(array('air_emissions_view' => $my_variables), 'setting');
