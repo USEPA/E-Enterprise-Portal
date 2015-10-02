@@ -22,4 +22,7 @@ class EEnterpriseUtilityTests extends PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals(eenterprise_utility_node_access($node, 'view', $account), NODE_ACCESS_ALLOW);
 	}
+    public function test_auth_get_authmap(){
+        $this->assertEquals((5+3), 8);
+    }
 }
