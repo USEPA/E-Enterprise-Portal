@@ -57,7 +57,7 @@
         }
         ?>
         <ul>
-            <li id="all-time" class="todo_filter_button <?php if(!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) print 'filter-applied';?>"><a href="javascript:void(0)" class="favorites-ignore">All Items</a></li>
+            <li id="all-time" class="todo_filter_button <?php if(!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) { print 'filter-applied'; }?>"><a href="javascript:void(0)" class="favorites-ignore">All Items</a></li>
             <li id="this-week" class="todo_filter_button <?php print $this_week;?>"><a href="javascript:void(0)" class="favorites-ignore">This Week</a></li>
             <li id="next-week" class="todo_filter_button <?php print $next_week;?>"><a href="javascript:void(0)" class="favorites-ignore">Next Week</a></li>
             <li id="beyond-next-week" class="todo_filter_button <?php print $beyond_next_week;?>"><a href="javascript:void(0)" class="favorites-ignore">Beyond</a></li>
