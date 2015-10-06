@@ -320,7 +320,6 @@ function format_table_cols($colgroups, $output){
             // Build colgroup
             if (is_array($cols) && count($cols)) {
                 $output .= ' <colgroup' . drupal_attributes($attributes) . '>';
-                $i = 0;
                 foreach ($cols as $col) {
                     $output .= ' <col' . drupal_attributes($col) . ' />';
                 }
