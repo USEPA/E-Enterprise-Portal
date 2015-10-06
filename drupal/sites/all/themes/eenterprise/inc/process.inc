@@ -70,13 +70,6 @@ function eenterprise_preprocess_html(&$vars) {
   if (is_null(drupal_get_http_header('X-UA-Compatible'))) {
     drupal_add_http_header('X-UA-Compatible', 'IE=edge,chrome=1');
   }
-/*
-
-  // Add language body class.
-  if (function_exists('locale')) {
-    $vars['classes_array'][] = 'lang-' . $vars['language']->language;
-  }
-*/
 
   // Add body classes for each page and section.
   if (!$vars['is_front']) {
@@ -183,14 +176,6 @@ function eenterprise_preprocess_node(&$vars) {
   $vars['datetime'] = format_date($vars[CREATED], CUSTOM, 'c');
   $vars['date'] = format_date($vars[CREATED], CUSTOM, 'F j, Y');
   if (variable_get('node_submitted_' . $vars['node']->type, TRUE)) {
-/*
-    $vars['submitted'] = t('!datetime by !username',
-      array(
-        '!datetime' => '<time class="node-date" datetime="' . $vars['datetime'] . '" pubdate="pubdate">' . $vars['date'] . '</time>',
-        '!username' => $vars['name'],
-      )
-    );
-*/
 	if ($vars['node']->type == 'ee_user_agreement') {
 		$vars['submitted'] = t('Last revised: !datetime',
 	      array(
