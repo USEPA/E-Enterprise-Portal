@@ -96,8 +96,9 @@ function eenterprise_bridge_auth_authenticate($error)
         watchdog('eenterprise_bridge_auth', $message, array(), WATCHDOG_ERROR);
         drupal_set_message($message, 'error');
     }
-    if (!isset($_POST['wa']))
+    if (!isset($_POST['wa'])) {
         drupal_set_message("Expected context parameter is not set", "error");
+    }
     else if ($_POST['wa'] == 'wsignin1.0') {
         $adfs = new AdfsBridge();
         try {
@@ -124,11 +125,11 @@ function eenterprise_bridge_auth_authenticate($error)
                 $uname = $username;
                 $public_or_cdx = 'cdx';
             }
-            if (variable_get('trusted_users_list_used') == 'Yes')
+            if (variable_get('trusted_users_list_used') == 'Yes') {
                 trusted_user_check($uname);
+            }
             $ext_user = user_external_load($uname);
             if (!$ext_user) {
-                //user_external_login_register($userDetails->attributes['email'][0], 'eenterprise_bridge_auth');
                 user_external_login_register($uname, 'eenterprise_bridge_auth');
                 if ($user) {
                     user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
@@ -142,7 +143,6 @@ function eenterprise_bridge_auth_authenticate($error)
                         $_SESSION['userId'] = $userDetails->attributes['userId'][0];
                         $_SESSION['login_timestamp'] = time();
                     }
-//                    user_save($user, array('cdx_user_type' => $public_or_cdx));
                     $_SESSION['cdx_user_type'] = $public_or_cdx;
                 }
             } else {
@@ -255,18 +255,24 @@ function create_progress_tracker($user)
                 "RoleIdSubject" => (string)$activity->RoleIdSubject,
                 "Attributes" => (string)$activity->Attributes,);
             foreach ($activity->Attributes->Attribute as $child) {
-                if ((string)($child->attributes()) == 'facilityName')
+                if ((string)($child->attributes()) == 'facilityName') {
                     $res['FacilityName'] = $child->__toString();
-                else if ((string)($child->attributes()) == 'partCode')
+                }
+                else if ((string)($child->attributes()) == 'partCode') {
                     $res['partCode'] = $child->__toString();
-                else if ((string)($child->attributes()) == 'partName')
+                }
+                else if ((string)($child->attributes()) == 'partName') {
                     $res['partName'] = $child->__toString();
-                else if ((string)($child->attributes()) == 'subPartCode')
+                }
+                else if ((string)($child->attributes()) == 'subPartCode') {
                     $res['subPartCode'] = $child->__toString();
-                else if ((string)($child->attributes()) == 'subPartName')
+                }
+                else if ((string)($child->attributes()) == 'subPartName') {
                     $res['subPartName'] = $child->__toString();
-                else if ((string)($child->attributes()) == 'facilityRegistryIdentifier')
+                }
+                else if ((string)($child->attributes()) == 'facilityRegistryIdentifier') {
                     $res['facilityRegistryIdentifier'] = $child->__toString();
+                }
             }
             $i = 0;
             foreach ($activity->Documents->Document as $child) {
@@ -398,10 +404,12 @@ function create_progress_tracker_node($res, $user)
             $node->field_prog_track_status['und'][0]['safe_value'] = $res_status;
 
             $res_domain = $res['PartnerSystemId'];
-            if (strpos($res['PartnerSystemId'], 'lead') !== false)
+            if (strpos($res['PartnerSystemId'], 'lead') !== false) {
                 $res_domain = "Lead";
-            else if (strpos($res['PartnerSystemId'], 'cedri') !== false)
+            }
+            else if (strpos($res['PartnerSystemId'], 'cedri') !== false) {
                 $res_domain = "CEDRI";
+            }
             $node->field_prog_track_domain['und'][0]['value'] = $res_domain;
             $node->field_prog_track_domain['und'][0]['format'] = null;
             $node->field_prog_track_domain['und'][0]['safe_value'] = $res_domain;
@@ -425,27 +433,23 @@ function create_progress_tracker_node($res, $user)
             $res_action = '';
             if ($res_domain == 'Lead') {
                 foreach ($res['Documents'] as $ky => $vl) {
-                    if (strpos($vl['name'], 'Receipt') !== false)
+                    if (strpos($vl['name'], 'Receipt') !== false) {
                         $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Receipt</a><br/>";
-                    if (strpos($vl['name'], 'Certificate') !== false)
+                    }
+                    if (strpos($vl['name'], 'Certificate') !== false) {
                         $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Certificate</a><br/>";
+                    }
                 }
-                if (empty($res_action))
+                if (empty($res_action)) {
                     $res_action = "N/A";
-            } else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI')
+                }
+            } else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI') {
                 $res_action .= "<a href='" . $res['ActivitySourceURL'] . "'>View Submission</a>";
+            }
 
             $node->field_prog_track_actions_dnload['und'][0]['value'] = $res_action;
             $node->field_prog_track_actions_dnload['und'][0]['format'] = 'full_html';
             $node->field_prog_track_actions_dnload['und'][0]['safe_value'] = $res_action;
-
-            /*$node->field_prog_track_actions['und'][0]['value'] = $res_action;
-            $node->field_prog_track_actions['und'][0]['format'] = null;
-            $node->field_prog_track_actions['und'][0]['safe_value'] = $res_action;
-
-            $node->field_prog_track_actions_link['und'][0]['value'] = $res['ActivitySourceURL'];
-            $node->field_prog_track_actions_link['und'][0]['title'] = $res_action;*/
-
 
             $node->field_prog_track_created_by['und'][0]['value'] = $user->uid;
             $node->field_prog_track_created_by['und'][0]['format'] = null;
@@ -496,10 +500,12 @@ function create_progress_tracker_node($res, $user)
             $node->field_todo_lst_item['und'][0]['safe_value'] = $res['ActivityDesc'];
 
             $res_domain = $res['PartnerSystemId'];
-            if (strpos($res['PartnerSystemId'], 'lead') !== false)
+            if (strpos($res['PartnerSystemId'], 'lead') !== false) {
                 $res_domain = "Lead";
-            if (strpos($res['PartnerSystemId'], 'cedri') !== false)
+            }
+            if (strpos($res['PartnerSystemId'], 'cedri') !== false) {
                 $res_domain = "CEDRI";
+            }
             $node->field_todo_lst_domain['und'][0]['value'] = $res_domain;
             $node->field_todo_lst_domain['und'][0]['format'] = null;
             $node->field_todo_lst_domain['und'][0]['safe_value'] = $res_domain;
@@ -550,7 +556,7 @@ function create_progress_tracker_node($res, $user)
         $node = node_submit($node); // Prepare node for saving
         node_save($node);
     } //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
-    else if (true) {
+
         //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
         $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
         $curr_date = strtotime(date("Y-m-d H:i:s"));
@@ -558,14 +564,13 @@ function create_progress_tracker_node($res, $user)
             db_query("UPDATE {node} SET status = 0 WHERE nid =:nid", array(':nid' => $query_res['entity_id']));
             db_query("UPDATE {node_revision} SET status = 0 WHERE nid =:nid AND  vid =:vid", array(':nid' => $query_res['entity_id'], ':vid' => $query_res['revision_id']));
         }
-    }
+
 }
 
 function assign_roles_to_user($user_name)
 {
     try {
         $wsdl = variable_get('eactivity_auth_reg_wsdl');
-        //    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
         $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
     } catch (SoapFault $f) {
         drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
@@ -599,11 +604,12 @@ function assign_roles_to_user($user_name)
         $org_val = null;
         $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
 
-        if (is_array($user_orgs->Organization))
+        if (is_array($user_orgs->Organization)) {
             $org_val = $user_orgs->Organization[0];
-        else
+        }
+        else {
             $org_val = $user_orgs->Organization;
-
+        }
         $user_sec_org_bundle = array(
             "securityToken" => $response1->securityToken,
             "user" => $user_obj->User,
