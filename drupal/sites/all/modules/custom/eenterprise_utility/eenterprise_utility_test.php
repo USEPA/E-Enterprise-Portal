@@ -29,7 +29,7 @@ class EEnterpriseUtilityTests extends PHPUnit_Framework_TestCase {
      */
     public function test_auth_get_authmap(){
         $result = db_query("select authname, uid from {authmap} limit 1")->fetchAll();
-        $this->assertEquals(_eenterprise_bridge_auth_get_authmap($identifier = $result[0]->authname), $result[0]->uid);
+        $this->assertEquals(_eenterprise_bridge_auth_get_authmap($result[0]->authname), $result[0]->uid);
     }
 
     /**
