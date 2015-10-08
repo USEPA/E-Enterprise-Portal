@@ -102,7 +102,7 @@ function eenterprise_bridge_auth_authenticate($error)
     else if ($_POST['wa'] == 'wsignin1.0') {
         $adfs = new AdfsBridge();
         try {
-            $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $_POST['wa'], $_POST['wresult'], $_POST['wctx']);
+            $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $_POST['wresult']);
         } catch (Exception $e) {
             $msg = 'Message: ' . $e->getMessage();
             drupal_set_message($msg, "error");
