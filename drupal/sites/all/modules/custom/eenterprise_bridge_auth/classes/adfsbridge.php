@@ -246,7 +246,6 @@ class AdfsBridge
         // Create the user details response object.
         $userDetails = new AdfsUserDetails();
         // Extract the name identifier from the response.
-        //$nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:NameIdentifier', $assertion);
         $nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:SubjectConfirmation/saml:ConfirmationMethod', $assertion);
         if ($nameid->length === 0) {
             $exception_msg = 'Could not find the name identifier in the response from the WS-Fed.';
