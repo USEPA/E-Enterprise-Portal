@@ -40,4 +40,13 @@ class EEnterpriseUtilityTests extends PHPUnit_Framework_TestCase {
     public function test_auth_get_authmap_false(){
         $this->assertFalse(_eenterprise_bridge_auth_get_authmap('_A username that does not exist_'), FALSE);
     }
+
+    /**
+     * Unit Test the function handleXmlError in
+     * sites\all\modules\custom\eenterprise_bridge_auth\classes\adfsbridge.php
+     */
+    public function test_handleXmlError(){
+        $adfs = new AdfsBridge();
+        $this->assertFalse($adfs->handleXmlError(E_ERROR, "Error") , FALSE);
+    }
 }
