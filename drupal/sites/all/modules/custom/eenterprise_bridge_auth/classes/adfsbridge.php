@@ -44,9 +44,9 @@ class AdfsBridge
             '&wctx=' . $context;
     }
 
-    function getAdfsSignInResponse($adfsConf, $wa, $wresult, $wctx)
+    function getAdfsSignInResponse($adfsConf, $wresult)
     {
-        // TODO: Validate input
+        //Validate input here
 
         // Validate configuration
         // If certificate content is provided, don't try to load from file.
