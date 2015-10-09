@@ -49,4 +49,21 @@ class EEnterpriseUtilityTests extends PHPUnit_Framework_TestCase {
         $adfs = new AdfsBridge();
         $this->assertFalse($adfs->handleXmlError(E_ERROR, "Error") , FALSE);
     }
+
+    /**
+     * Unit Test the function _suggestion_box_get_category_inbox in
+     * sites\all\modules\custom\features\suggestion_box\suggestion_box.module
+     */
+    public function test_suggestion_box_get_category_inbox(){
+        $this->assertContains("@", _suggestion_box_get_category_inbox("Data Integrity"));
+    }
+
+    /**
+     * Unit Test the function _suggestion_box_get_category_inbox in
+     * sites\all\modules\custom\features\suggestion_box\suggestion_box.module
+     * for false case
+     */
+    public function test_suggestion_box_get_category_inbox_false(){
+        $this->assertFalse(_suggestion_box_get_category_inbox("False Case"), FALSE);
+    }
 }
