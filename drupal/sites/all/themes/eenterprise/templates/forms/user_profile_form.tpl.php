@@ -1,4 +1,3 @@
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <?php
 drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_input_engine.js');
 drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "file");
@@ -12,13 +11,15 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
       <li><a class="favorites-ignore" href="#profile-account">Account</a></li>
       <li><a class="favorites-ignore" href="#profile-locations">Locations</a></li>
       <li><a class="favorites-ignore" href="#profile-favorites">Favorites</a></li>
+
     </ul>
     <div id="profile-account">
       <h3>User Information</h3>
-      <?php
+        <?php
       print render($form['field_profile_first_name']);
       print render($form['account']['mail']);
       ?>
+        <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
     </div>
     <div id="profile-locations">
       <h3>Locations of Interest</h3>
@@ -34,6 +35,8 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
         ?>
       </div>
       <div style="clear:both"></div>
+        <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
+
     </div>
     <div id="profile-favorites">
       <h3>Favorite Links</h3>
@@ -45,11 +48,19 @@ drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awes
         print render($form['field_profile_favourites']);
         ?>
       </div>
+        <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
+
     </div>
   </div>
   <div class="col-xs-12">
     <?php
     print drupal_render_children($form);
     ?>
+      <div id="delete-holder" style="display:none">
+          <div>This will delete your entire profile, including any selected preferences, from the E-Enterprise Platform and will log you out from the system. Are you sure that you want to do this?</div>
+          <div class="pull-right"><button id="cancel-delete-profile" class="btn btn-default" type="button">Back</button> <button id="confirm-delete-profile" type="button" class="btn btn-danger">Delete Profile</button></div>
+      </div>
+
   </div> <!--col-->
+
 </div> <!-- edit user-profile -->

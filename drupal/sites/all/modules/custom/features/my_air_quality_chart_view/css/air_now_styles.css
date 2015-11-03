@@ -74,45 +74,68 @@ div#my-air-quality-chart {
   font-weight: bold;
 }
 
-#my-air-quality-chart .section-good,
-#my-air-quality-air-now-maps .section-good{
+#my-air-quality-chart .section-good{
   fill: #00e400;
-  /* fill: #73cd93; */
   stroke: none;
 }
 
-#my-air-quality-chart .section-moderate,
-#my-air-quality-air-now-maps .section-moderate{
+#my-air-quality-chart .section-moderate{
   fill: #ffff00;
-  /* fill: #f6f467; */
   stroke: none;
 }
 
-#my-air-quality-chart .section-unhealthy-for-sensitive,
+#my-air-quality-chart .section-unhealthy-for-sensitive{
+  fill: #ff7e00;
+  stroke: none;
+}
+
+#my-air-quality-chart .section-unhealthy{
+  fill: #ff0000;
+  stroke: none;
+}
+
+#my-air-quality-chart .section-very-unhealthy{
+  fill: #99004c;
+  stroke: none;
+}
+
+#my-air-quality-chart .section-hazardous{
+  fill: #7e0023;
+  stroke: none;
+}
+
+
+#my-air-quality-air-now-maps .section-good{
+  fill: #bfe9bf;
+  stroke: none;
+}
+
+#my-air-quality-air-now-maps .section-moderate{
+  fill: #f4f4bf;
+  stroke: none;
+}
+
 #my-air-quality-air-now-maps .section-unhealthy-for-sensitive{
   fill: #ff7e00;
-  /* fill: #f89b63; */
+  opacity: 0.4;
   stroke: none;
 }
 
-#my-air-quality-chart .section-unhealthy,
 #my-air-quality-air-now-maps .section-unhealthy{
   fill: #ff0000;
-  /* fill: #d84a4a; */
+  opacity: 0.4;
   stroke: none;
 }
 
-#my-air-quality-chart .section-very-unhealthy,
 #my-air-quality-air-now-maps .section-very-unhealthy{
   fill: #99004c;
-  /* fill: #A53B6C; */
+  opacity: 0.5;
   stroke: none;
 }
 
-#my-air-quality-chart .section-hazardous,
 #my-air-quality-air-now-maps .section-hazardous{
   fill: #7e0023;
-  /* fill: #84347E; */
+  opacity: 0.5;
   stroke: none;
 }
 
@@ -156,21 +179,17 @@ div#my-air-quality-chart {
 .leaflet-top, .leaflet-bottom {
   z-index: 50;
 }
-#my-air-quality-chart p, #my-air-quality-air-now-maps p {
-    padding: 0;
-    font-size: 0.85em;
-    margin-left: -16px;
-}
-#my-air-quality-air-now-maps p {
+#my-air-quality-index p, #my-air-quality-air-now-maps p {
     padding: 1.18em 1.65em;
+    font-size: 0.85em;
 }
 
 svg.my-air-quality-map-legend-icon {
   width:16px;
   height:12px;
-    -webkit-box-shadow: 2px 2px 8px rgba(0,0,0,.2);
-    -moz-box-shadow: 2px 2px 8px rgba(0,0,0,.2);
-    box-shadow: 2px 2px 8px rgba(0,0,0,.2);
+    -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 1px 1px 2px rgba(0,0,0,.2);
+    box-shadow: 1px 1px 2px rgba(0,0,0,.2);
   margin-right:2px;
 }
 
@@ -184,6 +203,8 @@ svg.my-air-quality-map-legend-icon {
     display: inline-block;
     padding-right: 5px;
     padding-left: 5px;
+    font-size: 0.85em;
+    color: #444;
 }
 
 
@@ -206,4 +227,8 @@ svg.my-air-quality-map-legend-icon {
 
 .leaflet-container a.leaflet-popup-close-button {
   padding: 0px 0px 0px 0px !important;
+}
+
+div.arrow, div.popover-content {
+    z-index:100;
 }

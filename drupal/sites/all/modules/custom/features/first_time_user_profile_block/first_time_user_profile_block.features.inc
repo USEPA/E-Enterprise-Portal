@@ -191,19 +191,27 @@ function save_first_time_user_preferences()
 
 function return_location_data_lat_long()
 {
-    //30.212147800000004
-    //92.028346
     $results = array();
     if (isset($_GET['longitude']) && isset($_GET['latitude'])) {
         $longitude = $_GET['longitude'];
         $latitude = $_GET['latitude'];
         $results = frs_lat_long_to_zip_code($latitude, $longitude);
-//        $results['error'] = false;
     } else {
         $results['error'] = true;
     }
     print json_encode($results);
 }
+
+
+//xss mitigation functions
+function xssafe($data,$encoding='UTF-8')
+{
+    return htmlspecialchars($data,ENT_QUOTES | ENT_HTML401,$encoding);
+}
+//function xecho($data)
+//{
+//    echo xssafe($data);
+//}
 
 
 //
@@ -216,8 +224,14 @@ function return_location_data()
     } else {
         exit();
     }
+    // Sanitize inputs
+
+
+
+
     // First check $location with postal code validation
     $validation = postal_code_validation_validate($location, 'US');
+    $location = xssafe($location);
     if ($validation['error']) {
         // Make location upper case for FRS
         $location = strtoupper($location);
@@ -260,7 +274,7 @@ function frs_lat_long_to_zip_code($lat, $long)
 {
 
     $token = frs_naas_autentication();
-    $ip = variable_get('frs_api_lookup_ip');
+    $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     $frs_domain = variable_get('frs_api_lookup_url');
     if ($frs_domain == 'test_proxy') {
         $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
@@ -305,7 +319,7 @@ function frs_lat_long_to_zip_code($lat, $long)
 function frs_city_state_to_zip_code($city, $state)
 {
     $token = frs_naas_autentication();
-    $ip = variable_get('frs_api_lookup_ip');
+    $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     $encoded_city = urlencode($city);
     $frs_domain = variable_get('frs_api_lookup_url');
     if ($frs_domain == 'test_proxy') {
@@ -319,8 +333,6 @@ function frs_city_state_to_zip_code($city, $state)
             . $encoded_city . '&p_state_abbr=' . $state;
     }
 
-//    $frs_request_url = variable_get('frs_api_lookup_url'). '.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
-//        . $encoded_city . '&p_state_abbr=' . $state;
     $options = array(
         'headers' => array(
             'Content-Type' => 'application/json',
@@ -344,10 +356,10 @@ function frs_zip_code_to_city_state($zip)
 {
     $token = frs_naas_autentication();
     $frs_domain = variable_get('frs_api_lookup_url');
-    $ip = variable_get('frs_api_lookup_ip');
+    $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     if ($frs_domain == 'test_proxy') {
         $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
-        $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_city_state_by_zip?p_ip_address=' . variable_get('frs_api_lookup_ip') . '&p_postal_code=' . $zip . '&p_token=' . $token;
+        $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
         $encoded_base_url = urlencode($base_url);
         $request_url = $test_domain . $encoded_base_url;
     } else {
@@ -393,13 +405,12 @@ function frs_naas_autentication()
     }
 
     if (isset($client)) {
-//        if ($wsdl == 'https://naasdev.epacdxnode.net/xml/auth_v30.wsdl') {
             $params = array(
                 "userId" => $email,
                 "credential" => $password,
                 "domain" => variable_get('cdx_node_token_domain'),
                 "authenticationMethod" => variable_get('cdx_node_token_auth_method'),
-                "clientIp" => variable_get('frs_api_lookup_ip'),
+                "clientIp" => $_SERVER['SERVER_ADDR'], //variable_get('frs_api_lookup_ip'),
                 'resourceURI' => ''
             );
             $soap_type = 'CentralAuth';
@@ -419,7 +430,7 @@ function frs_naas_autentication()
     }
     if (isset($_GET['json'])) {
         print json_encode( array(
-            'ip'=> variable_get('frs_api_lookup_ip'),
+            'ip'=> $_SERVER['SERVER_ADDR'], //variable_get('frs_api_lookup_ip'),
             'token' => $token,
         ));
         exit();
@@ -432,7 +443,7 @@ function frs_naas_autentication()
 function frs_zip_code_to_lat_long($zip)
 {
     $token = frs_naas_autentication();
-    $ip = variable_get('frs_api_lookup_ip');
+    $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     $frs_domain = variable_get('frs_api_lookup_url');
     if ($frs_domain == 'test_proxy') {
         $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
@@ -457,3 +468,5 @@ function frs_zip_code_to_lat_long($zip)
     );
     return $return;
 }
+
+?>

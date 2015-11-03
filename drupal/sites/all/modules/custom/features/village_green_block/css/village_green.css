@@ -4,7 +4,14 @@
 .vg-numbers li {
 	display: block;
 	float:left;
+    width:auto;
+/*
+    max-width: 36%;
+    min-width:25%;
+*/
 	width: 17.5%;
+	min-width: 5em;
+    margin-bottom: 1em;
 	position:relative;
 	text-align: center;
 	background-color:#f8f8f8;
@@ -12,6 +19,7 @@
 	margin-right:10px;
 	padding: 10px 5px;
 }
+
 .vg-numbers h4 {
 	font-weight:200;
 	margin-bottom:0;
@@ -36,4 +44,13 @@ div.vg-numbers-container {
 }
 small.village-green-updated-every-minute {
 	margin-top: -1em; margin-bottom: 1.2em; display:block;
+}
+
+span.countdownContainer {
+    white-space:nowrap;
+}
+
+@media screen and (min-width: 48em) and (max-width:59.4em) {
+	.vg-numbers li {min-width: 4.5em;max-width: 5em;}
+	.vg-numbers li h4 {font-size: 0.95em;}
 }

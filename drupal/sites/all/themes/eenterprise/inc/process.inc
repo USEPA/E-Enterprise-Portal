@@ -35,6 +35,13 @@ function eenterprise_preprocess_html(&$vars) {
   $vars['base_path'] = base_path();
   $vars['path_to_eenterprise'] = drupal_get_path('theme', 'eenterprise');
 
+  // Get settings for HTML5 and responsive support. array_filter() removes
+  // items from the array that have been disabled.
+  $html5_respond_meta = array_filter((array) theme_get_setting('eenterprise_html5_respond_meta'));
+  $vars['add_respond_js']          = in_array('respond', $html5_respond_meta);
+  $vars['add_html5_shim']          = in_array('html5', $html5_respond_meta);
+  $vars['default_mobile_metatags'] = in_array('meta', $html5_respond_meta);
+
   // Modify RDF output.
   $vars['rdf'] = new stdClass();
   if (module_exists('rdf') && isset($vars['rdf_namespaces'])) {
@@ -50,9 +57,18 @@ function eenterprise_preprocess_html(&$vars) {
     $vars['rdf']->profile = '';
   }
 
-  // Add language body class.
-  if (function_exists('locale')) {
-    $vars['classes_array'][] = 'lang-' . $vars['language']->language;
+  // Attributes for html element.
+  $vars['html_attributes_array'] = array(
+    'lang' => $vars['language']->language,
+    'dir' => $vars['language']->dir,
+  );
+
+  // Send X-UA-Compatible HTTP header to force IE to use the most recent
+  // rendering engine or use Chrome's frame rendering engine if available.
+  // This also prevents the IE compatibility mode button to appear when using
+  // conditional classes on the html tag.
+  if (is_null(drupal_get_http_header('X-UA-Compatible'))) {
+    drupal_add_http_header('X-UA-Compatible', 'IE=edge,chrome=1');
   }
 
   // Add body classes for each page and section.
@@ -83,6 +99,23 @@ function eenterprise_preprocess_html(&$vars) {
     // Add body class for wide template.
     if (isset($node->type) && ($node->type == 'page' || $node->type == 'regulation') && isset($node->field_wide_template['und']['0']['value']) && $node->field_wide_template['und']['0']['value'] == '1') {
       $vars['classes_array'][] = 'wide-template';
+    }
+  }
+}
+
+/**
+ * Override or insert variables in the html_tag theme function.
+ */
+function eenterprise_process_html_tag(&$vars) {
+  $tag = &$vars['element'];
+
+  if ($tag['#tag'] == 'style' || $tag['#tag'] == 'script') {
+    // Remove redundant type attribute and CDATA comments.
+    unset($tag['#attributes']['type'], $tag['#value_prefix'], $tag['#value_suffix']);
+
+    // Remove media="all" but leave others unaffected.
+    if (isset($tag['#attributes']['media']) && $tag['#attributes']['media'] === 'all') {
+      unset($tag['#attributes']['media']);
     }
   }
 }
@@ -143,12 +176,20 @@ function eenterprise_preprocess_node(&$vars) {
   $vars['datetime'] = format_date($vars[CREATED], CUSTOM, 'c');
   $vars['date'] = format_date($vars[CREATED], CUSTOM, 'F j, Y');
   if (variable_get('node_submitted_' . $vars['node']->type, TRUE)) {
-    $vars['submitted'] = t('!datetime by !username',
-      array(
-        '!datetime' => '<time class="node-date" datetime="' . $vars['datetime'] . '" pubdate="pubdate">' . $vars['date'] . '</time>',
-        '!username' => $vars['name'],
-      )
-    );
+	if ($vars['node']->type == 'ee_user_agreement') {
+		$vars['submitted'] = t('Last revised: !datetime',
+	      array(
+	        '!datetime' => '<time class="node-date" datetime="' . $vars['datetime'] . '" pubdate="pubdate">' . $vars['date'] . '</time>'
+	      )
+	    );
+	}
+	else {
+		$vars['submitted'] = t('Last updated: !datetime',
+	      array(
+	        '!datetime' => '<time class="node-date" datetime="' . $vars['datetime'] . '" pubdate="pubdate">' . $vars['date'] . '</time>'
+	      )
+	    );
+	}
   }
   else {
     $vars['submitted'] = '';
@@ -195,6 +236,7 @@ function eenterprise_preprocess_block(&$vars) {
     $machine_name = db_query("SELECT machine_name FROM {fe_block_boxes} WHERE bid = :bid", array('bid' => $vars['elements']['#block']->delta))->fetchField();
     if (!empty($machine_name)) {
       $vars['classes_array'][] = 'block--' . str_replace('_', '-', $machine_name);    
+      $vars['title_attributes_array']['class'][] = 'element-invisible';
     }  
   }
 }

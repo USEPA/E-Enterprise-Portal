@@ -71,7 +71,10 @@ function ee_disclaimer_form_submit($form, &$form_state) {
 
     global $user;
 
-    if ($user->name == 'guest-user') {
+    if($user->uid == 0) {
+        drupal_goto('/');
+    }
+    else if ($user->name == 'guest-user') {
         $_SESSION['guest-user-signed-agreement'] = TRUE;
     } else {
         $user_data = user_load($user->uid);
@@ -157,6 +160,9 @@ function ee_disclaimer_theme_registry_alter(&$theme_registry) {
  */
 function _show_ee_disclaimer() {
     global $user;
+    if($user->uid == 0) {
+        return FALSE;
+    }
     $user_data = user_load($user->uid);
 
     if ($user->name === 'guest-user') {

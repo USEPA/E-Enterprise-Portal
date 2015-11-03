@@ -38,13 +38,14 @@
       <?php print $header; ?>
     </div>
   <?php endif; ?>
-
+    <a href="todo/refresh"><i class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh To Do List" style="position:absolute;top:30px; right:30px;"></i> <span class="sr-only">Refresh</span></a>
     <div class="todo-filter-by-week">
+
         <?php
         $this_week = '';
         $beyond_next_week = '';
         if(isset($view->args['week_filter_val'])){
-            if(substr($view->args['week_filter_val'], 0,10) == date("Y-m-d")){
+            if(substr($view->args['week_filter_val'], 0,10) == date('Y-m-d',strtotime('last sunday'))){
                 $this_week = 'filter-applied';
             }
             else if((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)){
@@ -56,13 +57,12 @@
         }
         ?>
         <ul>
-            <li id="all-time" class="todo_filter_button <?php if(!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) print 'filter-applied';?>"><a href="javascript:void(0)" class="favorites-ignore">All Items</a></li>
+            <li id="all-time" class="todo_filter_button <?php if(!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) { print 'filter-applied'; }?>"><a href="javascript:void(0)" class="favorites-ignore">All Items</a></li>
             <li id="this-week" class="todo_filter_button <?php print $this_week;?>"><a href="javascript:void(0)" class="favorites-ignore">This Week</a></li>
             <li id="next-week" class="todo_filter_button <?php print $next_week;?>"><a href="javascript:void(0)" class="favorites-ignore">Next Week</a></li>
             <li id="beyond-next-week" class="todo_filter_button <?php print $beyond_next_week;?>"><a href="javascript:void(0)" class="favorites-ignore">Beyond</a></li>
         </ul>
     </div>
-    <a href="todo/refresh" class="favorites-ignore" style="float:right;">Refresh</a>
     <?php if ($exposed): ?>
     <div class="view-filters">
       <?php print $exposed; ?>
