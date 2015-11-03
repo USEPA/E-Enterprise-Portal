@@ -469,6 +469,12 @@
 
   Drupal.behaviors.filterToDoList = {
     attach: function (context) {
+      if($(".view-to-do div").hasClass("view-content")){
+          $(".view-to-do .todo-filter-by-week").show();
+      }
+      else{
+          $(".view-to-do .todo-filter-by-week").hide();
+      }
       $("#this-week").click(function(event) {
         get_server_date(event);
       });
