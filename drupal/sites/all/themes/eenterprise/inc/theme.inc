@@ -233,32 +233,7 @@ function eenterprise_table($vars) {
   }
 
   // Format the table columns:
-  if (count($colgroups)) {
-    foreach ($colgroups as $number => $colgroup) {
-      $attributes = array();
-
-      // Check if we're dealing with a simple or complex column
-      if (isset($colgroup['data'])) {
-        check_column_complexity($colgroup, $attributes, $cols);
-      }
-      else {
-        $cols = $colgroup;
-      }
-
-      // Build colgroup
-      if (is_array($cols) && count($cols)) {
-        $output .= ' <colgroup' . drupal_attributes($attributes) . '>';
-        $i = 0;
-        foreach ($cols as $col) {
-          $output .= ' <col' . drupal_attributes($col) . ' />';
-        }
-        $output .= " </colgroup>\n";
-      }
-      else {
-        $output .= ' <colgroup' . drupal_attributes($attributes) . " />\n";
-      }
-    }
-  }
+  $output = format_table_cols($colgroups, $output);
 
   // Add the 'empty' row message if available.
   if (!count($rows) && $empty) {
@@ -327,6 +302,35 @@ function eenterprise_table($vars) {
 
   $output .= "</table>\n";
   return $output;
+}
+
+function format_table_cols($colgroups, $output){
+    if (count($colgroups)) {
+        foreach ($colgroups as $number => $colgroup) {
+            $attributes = array();
+
+            // Check if we're dealing with a simple or complex column
+            if (isset($colgroup['data'])) {
+                check_column_complexity($colgroup, $attributes, $cols);
+            }
+            else {
+                $cols = $colgroup;
+            }
+
+            // Build colgroup
+            if (is_array($cols) && count($cols)) {
+                $output .= ' <colgroup' . drupal_attributes($attributes) . '>';
+                foreach ($cols as $col) {
+                    $output .= ' <col' . drupal_attributes($col) . ' />';
+                }
+                $output .= " </colgroup>\n";
+            }
+            else {
+                $output .= ' <colgroup' . drupal_attributes($attributes) . " />\n";
+            }
+        }
+    }
+    return $output;
 }
 
 
