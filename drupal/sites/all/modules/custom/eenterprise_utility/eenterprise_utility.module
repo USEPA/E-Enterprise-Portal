@@ -101,6 +101,20 @@ function eenterprise_utility_permission()
     );
 }
 
+/**
+ * @param $view
+ * Implementation of hook_views_pre_render
+ * Hide filters when views result is empty.
+ */
+function eenterprise_utility_views_pre_render(&$view){
+    if ($view->name == 'progress_tracker' || $view->name == 'to_do'){
+        if (empty($view->result) && empty($view->exposed_input)) {
+            $view->exposed_widgets = NULL;
+        }
+    }
+}
+
+
 function test_load_air_now_us_data()
 {
     // run testbench
