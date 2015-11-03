@@ -24,7 +24,7 @@
         $('.grid-stack-item-content:not(.no-skip-widget-link)').find('h2').after($('<a>', {
           'class': 'skip-widget element-invisible element-focusable',
           'href': 'javascript:void(0)',
-          text: 'Skip to next widget',
+          text: 'Skip to next widget'
         }));
 
         $('a.skip-widget').text(function(e) {
@@ -108,7 +108,7 @@
           delay: 400,
           trigger: 'click hover focus',
           container: 'body',
-          placement: 'auto left',
+          placement: 'auto left'
         });
 
         // destroy all tooltips when clicking anywhere
