@@ -57,10 +57,11 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
                   Air monitoring station
                 </label>
                 <select id="currentSiteID">
+                    <option value="24290">Durham, NC</option>
+                    <option value="24294">Kansas City, KS</option>
+                    <option value="24291">Oklahoma City, OK</option>
                     <option value="24292">Philadelphia, PA</option>
                     <option value="24293">Washington, DC</option>
-                    <option value="24294">Kansas City, KS</option>
-                    <option value="24290">Durham, NC</option>
                 </select>
 
             </div>
