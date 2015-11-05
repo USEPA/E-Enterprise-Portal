@@ -64,8 +64,7 @@ function suggestion_box_callback($ajax) {
 function suggestion_box_form($form, &$form_state) {
 
   global $user;
-
-  $form['email'] = array(
+    $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
     // '#required' => TRUE,
@@ -144,7 +143,9 @@ function suggestion_box_form($form, &$form_state) {
 
 function suggestion_box_form_submit($form, &$form_state) {
 
+
   $to = _suggestion_box_get_category_inbox($form_state['values']['category']);
+
 
   $mail = drupal_mail('suggestion_box', 'notice', $to, language_default(), $form_state['values']);
 
@@ -185,8 +186,9 @@ function suggestion_box_mail($key, &$message, $params) {
       $from = $params['email']; // use email from form for guests
     }
   }
-
-  $msgBody = "Category: !category\r\nBody: !body";
+    // release_number in EEnterprise Utility returns latest release number
+    $release_number = release_number();
+  $msgBody = "Category: !category\r\nBody: !body \n\n\n\n" . $release_number;
 
   $options['language'] = $message['language'];
   user_mail_tokens($variables, $data, $options);
