@@ -265,7 +265,7 @@ function eenterprise_preprocess_menu_link(&$vars) {
 				//If the user is logged in either as a guest user or another user, Home link should be labeled Workbench
 				//In other words, if the user is NOT logged in AND the user is not a guest user viewing the Disclaimer page, then Home should say Workbench
         //$new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path != 'ee_disclaimer') || ($path != 'new-users'))) ? 'Workbench' : 'Home';
-	        $new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path != 'ee_disclaimer') || ($path != 'new-users'))) ? 'Workbench' : 'Home';
+	        $new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path == 'ee_disclaimer' || $path == 'new-users' || $path == 'bridge-landing'))) ? 'Workbench' : 'Home';
         
         //If ther user is viewing the Disclaimer page and is not logged in, 
 				if (($path == 'ee_disclaimer' || $path == 'new-users' || $path == 'bridge-landing') && ($user->uid == 0 || $user->name == 'guest-user')) {
