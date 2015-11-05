@@ -64,7 +64,6 @@ function suggestion_box_callback($ajax) {
 function suggestion_box_form($form, &$form_state) {
 
   global $user;
-    dpm(release_number());
     $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
@@ -147,7 +146,6 @@ function suggestion_box_form_submit($form, &$form_state) {
 
   $to = _suggestion_box_get_category_inbox($form_state['values']['category']);
 
-    dpm($form_state['values']);
 
   $mail = drupal_mail('suggestion_box', 'notice', $to, language_default(), $form_state['values']);
 
