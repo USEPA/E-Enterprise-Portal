@@ -34,15 +34,23 @@ if(arg(0) == 'workbench' && $user->uid == 0){
     <?php print $hgroup_open; ?>
     <?php if ($site_name): ?>
         <h1 class="site-name" id="site-name">
-            <?php $logoless = theme_get_setting('eenterprise_logoless'); ?>
+            <?php $logoless = theme_get_setting('eenterprise_logoless'); 
+	            		$path	= drupal_get_path_alias();
+	            		if ($path == 'ee_disclaimer' || $path == 'new-users' || $path == 'bridge-landing') {
+		            		$logolink = 'eenterprise-new';
+	            		}
+	            		else {
+		            		$logolink = $front_page; 
+	            		}
+            ?>
             <?php if ($logoless): ?>
-                <a class="logoless" href="<?php print $front_page; ?>" title="<?php print t(HOME_PAGE.' - '.$site_name); ?>" rel="home">
+                <a class="logoless" href="<?php print $logolink; ?>" title="<?php print t(HOME_PAGE.' - '.$site_name); ?>" rel="home">
                 <span class="ee-header-line1">E-Enterprise <span class="logo-sublabel">for the </span></span><span class="ee-header-line2">Environment</span>
             <?php elseif ($logo): ?>
-                <a href="<?php print $front_page; ?>" title="<?php print t(HOME_PAGE.' - '.$site_name); ?>" rel="home">
+                <a href="<?php print $logolink; ?>" title="<?php print t(HOME_PAGE.' - '.$site_name); ?>" rel="home">
                 <img src="<?php print $logo; ?>" alt="<?php print t(HOME_PAGE.' - '.$site_name); ?>" class="site-logo" />
             <?php else: ?>
-                <a href="<?php print $front_page; ?>" title="<?php print t(HOME_PAGE.' - '.$site_name); ?>" rel="home">
+                <a href="<?php print $logolink; ?>" title="<?php print t(HOME_PAGE.' - '.$site_name); ?>" rel="home">
                 <img src="/sites/all/themes/eenterprise/images/placeholder-logo.png" alt="<?php print t(HOME_PAGE.' - '.$site_name); ?>" class="site-logo" />
             <?php endif; ?>
             </a>
