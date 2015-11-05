@@ -1008,3 +1008,34 @@ if ($num_zip_codes > 0) {
 
 return $location_description;
 }
+
+
+
+/**
+ *
+ * Function to return latest release number. If recent session variable forgoes the db query and returns the session
+ *
+ */
+function release_number(){
+
+//    if (isset($_SESSION['release_number'])) {
+//        $release_number = $_SESSION['release_number'];
+//    }
+//    else {
+        $query = new EntityFieldQuery;
+        $query->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'release_number')
+            ->propertyCondition('status', 1);
+
+        $results = $query->execute();
+        if (isset($results['node'])) {
+            $nodes = node_load(max(array_keys($results['node']))); // Get the highest nodie id
+            $release_number = $nodes->title;
+            $_SESSION['release_number'] = $release_number;
+        }
+        else {
+            $release_number = '';
+        }
+//    }
+    return $release_number;
+}
