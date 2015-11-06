@@ -188,7 +188,7 @@ function suggestion_box_mail($key, &$message, $params) {
   }
     // release_number in EEnterprise Utility returns latest release number
     $release_number = release_number();
-  $msgBody = "Category: !category\r\nBody: !body \n\n\n\n" . $release_number;
+  $msgBody = "Category: !category\r\nBody: !body \n\n\n\nRelease - " . $release_number;
 
   $options['language'] = $message['language'];
   user_mail_tokens($variables, $data, $options);
@@ -324,6 +324,8 @@ function configure_ctools_popup() {
            ),
        );
        drupal_add_js($popup_style, 'setting'); // Adding the preferences
+       drupal_add_js(array('release_number' => release_number()), 'setting'); // Adding release number
+
        ctools_add_js('ee_ctools_popup_style', 'suggestion_box'); // Adding the theme
 
        drupal_add_js(drupal_get_path('module', 'suggestion_box') . '/js/suggestion_box_modal.js');
