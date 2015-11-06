@@ -18,5 +18,3 @@ Drupal.theme.prototype.ee_ctools_popup_theme = function () {
 
   return html;
 }
-
-console.log(Drupal);
