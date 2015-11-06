@@ -446,7 +446,7 @@ header {
 	}
 	li {
 		display: inline-block;
-		padding: 5px 10px;
+		padding: 2px 10px 2px 0;
 		margin: -5px 0;
 		border-right: 1px solid #ddd;
 	}
@@ -463,8 +463,11 @@ article {
 	.page-title, .article-title {
 		display: none;
 	}
-	article header {
-		padding: 0;
+	article {
+		margin-bottom: 0;
+		header {
+			padding: 0;
+		}
 	}
 	h2.microsite-name {
 		display:none;
@@ -604,7 +607,7 @@ article {
 		padding:0;
 	}
 	h2 {
-		padding-left:30px
+		padding-left:15px;
 	}
 	ul {
 		list-style:none;
@@ -630,7 +633,11 @@ article {
 	.view-footer li h3 {
 		margin:0 !important;
 	}
-
+	#including > p {
+		padding-top: 15px;
+		padding-left: 15px;
+		clear: left;
+	}
 }
 
 #edit-e-enterprise-bridge, #edit-login, #edit-log-in, #edit-log-in--2 {
@@ -768,6 +775,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 }
 #including {
 	clear: left;
+	padding-bottom: 30px;
 	ul {
 		margin-bottom: 30px;
 	}

@@ -72,7 +72,7 @@ function suggestion_box_form($form, &$form_state) {
     '#size' => 60,
     '#default_value' => trim($user->mail, '"'),
     '#disabled' => TRUE,
-    // '#description' => t('Your email'),
+    '#description' => t('If you would like a response, please provide an email address.'),
     '#id' => 'suggestion-box-email',
   );
 
@@ -102,7 +102,7 @@ function suggestion_box_form($form, &$form_state) {
     '#title' => t('Message'),
     '#type' => 'textarea',
     '#required' => TRUE,
-    // '#description' => t('Body'),
+    '#description' => t('If you you would like a response, please provide an email address above or a phone number in your message.'),
   );
 
 
