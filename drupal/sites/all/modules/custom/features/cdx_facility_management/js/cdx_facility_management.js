@@ -279,6 +279,10 @@
 
 
         $(window).resize(function () {
+            var accordion = $('.accordian-map-legend');
+            var map =  $('#map_gc');
+            accordion.css('width', map.width());
+
             cdx_facility_management_block.dialog("option", "position", {my: "center", at: "center", of: window});
         });
 
