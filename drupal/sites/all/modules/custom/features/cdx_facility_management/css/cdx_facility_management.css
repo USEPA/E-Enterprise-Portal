@@ -18,6 +18,11 @@
     width: 100%;
 }
 
+.accordian-map-legend {
+    max-width: 100%;
+    min-width: 100%;
+}
+
 
 @media (min-width: 1200px) {
     .cdx_facility_management_block {
