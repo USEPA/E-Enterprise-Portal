@@ -282,6 +282,14 @@
             cdx_facility_management_block.dialog("option", "position", {my: "center", at: "center", of: window});
         });
 
+        // Temp fix of resizing accordion
+        $('body').on('click', '.accordian-map-legend', function() {
+            var accordion = $('.accordian-map-legend');
+            var map =  $('#map_gc');
+            accordion.css('width', map.width());
+
+        });
+
 
         function updateWidget(user_role_id, naas_token, naas_ip, resource_url, time_logged_in, time_threshold) {
             $('#facility-widget').html('');
