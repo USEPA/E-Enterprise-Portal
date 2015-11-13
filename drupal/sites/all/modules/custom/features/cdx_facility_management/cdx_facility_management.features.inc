@@ -103,11 +103,14 @@ function userMustLogOut($user_session_logout, $user_login_time) {
 
 function return_cdx_facility_management_token()
 {
+    $_SESSION['userId'] = 'GREENOLIVE';
+    $_SESSION['login_timestamp'] = time();
 
     $user_id = $_SESSION['userId'];
     $json_return = array();
     $user_session_logout = (int) variable_get('cdx_facility_user_logout_session');
     $user_login_time = $_SESSION['login_timestamp'];
+
     // Check if user should be logged out to generate token
     if (userMustLogOut($user_session_logout, $user_login_time)) {
         $json_return['expired'] = true;
@@ -124,10 +127,8 @@ function return_cdx_facility_management_token()
         $auth_method = variable_get('eactivity_auth_reg_auth_method');
         $cdx_resource_url = variable_get('cdx_facility_resource_url');
 
-
         //Temp for testing on aws
         $create_new_token_initially = variable_get('temp_create_new_token');
-
 
         //Connect to wsdl
         if ($local) {
@@ -169,15 +170,13 @@ function return_cdx_facility_management_token()
         $json_return['url'] = $cdx_resource_url;
         $json_return['user_session_logout'] = $user_session_logout;
         $json_return['user_login_time'] = $user_login_time;
-
-
     }
-    dpm($json_return);
     print json_encode($json_return);
 }
 
 function createNewToken($client, $params_for_creation)
 {
+
     try {
         //Authenticate to CDX
         $response = $client->__soapCall("CreateSecurityToken", array($params_for_creation));
@@ -216,6 +215,7 @@ function renewToken($client, $params_for_renewal, $json_return)
 function retrieve_cdx_user_data()
 {
 
+    $_SESSION['userId'] = "GREENOLIVE";
     $user_id = $_SESSION['userId'];
     $allowed_program_roles = ['CEDRI', 'CSPP', 'eDisclosure'];
     $json_return = array();
@@ -315,7 +315,6 @@ function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, 
         "org" => $org_val,
     );
     $user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
-    dpm($user_roles);
     // Check if roles are assigned to organization
     if (isset($user_roles->Role)) {
         // Check if multiple roles or single role

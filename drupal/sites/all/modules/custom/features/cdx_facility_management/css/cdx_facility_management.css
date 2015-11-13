@@ -3,6 +3,9 @@
     background: inherit;
 }
 
+.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.cdx_facility_management_block.ui-draggable {
+    width: 90%  !important;
+}
 
 /*#facility-widget{*/
 /*max-width: 1400px;*/
