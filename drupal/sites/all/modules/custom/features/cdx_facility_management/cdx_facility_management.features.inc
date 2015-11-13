@@ -103,8 +103,6 @@ function userMustLogOut($user_session_logout, $user_login_time) {
 
 function return_cdx_facility_management_token()
 {
-    $_SESSION['userId'] = 'GREENOLIVE';
-    $_SESSION['login_timestamp'] = time();
 
     $user_id = $_SESSION['userId'];
     $json_return = array();
@@ -215,7 +213,6 @@ function renewToken($client, $params_for_renewal, $json_return)
 function retrieve_cdx_user_data()
 {
 
-    $_SESSION['userId'] = "GREENOLIVE";
     $user_id = $_SESSION['userId'];
     $allowed_program_roles = ['CEDRI', 'CSPP', 'eDisclosure'];
     $json_return = array();
