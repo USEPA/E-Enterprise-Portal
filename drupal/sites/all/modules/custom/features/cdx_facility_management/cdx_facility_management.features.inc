@@ -174,7 +174,6 @@ function return_cdx_facility_management_token()
 
 function createNewToken($client, $params_for_creation)
 {
-
     try {
         //Authenticate to CDX
         $response = $client->__soapCall("CreateSecurityToken", array($params_for_creation));
@@ -200,7 +199,6 @@ function renewToken($client, $params_for_renewal, $json_return)
         $response = $client->__soapCall("RenewSecurityToken", array($params_for_renewal));
         $new_token = $response->return;
         $json_return['token'] = $new_token;
-
     } catch (SoapFault $f) {
         dpm($f);
         $json_return['error'] = $f;
