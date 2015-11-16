@@ -375,7 +375,6 @@ function frs_zip_code_to_city_state($zip)
     $data = json_decode($response->data);
     $results = $data->Results;
     $formatted_city = ucwords(strtolower($results->cityName));
-    var_dump($response);
     if ($formatted_city != '') {
         $error = false;
     } else {
