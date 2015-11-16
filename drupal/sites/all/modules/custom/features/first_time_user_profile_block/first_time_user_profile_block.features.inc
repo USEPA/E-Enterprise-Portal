@@ -379,6 +379,7 @@ function frs_zip_code_to_city_state($zip)
         $error = false;
     } else {
         $error = true;
+        dpm($response);
     }
     $return = array(
         'city' => $formatted_city,
