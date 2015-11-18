@@ -5,6 +5,7 @@
 
 .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.cdx_facility_management_block.ui-draggable {
     width: 80%  !important;
+    max-width: 1370px;
 }
 
 /*#facility-widget{*/
