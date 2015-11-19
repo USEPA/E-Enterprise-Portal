@@ -754,6 +754,18 @@ function get_modal_data($locations, $city_name_count)
     print "</div></div>";
 }
 
+function return_users_default_zip() {
+    global $user;
+
+
+    if (isset($_SESSION['default_location_zip']) && isset($_SESSION['default_location_name'])) {
+        $default_zip = $_SESSION['default_location_zip'];
+        $default_name = $_SESSION['default_location_name'];
+    }
+
+}
+
+
 function generate_location_select()
 {
 
