@@ -11867,6 +11867,7 @@ tr.even {
 
 /* line 1569, ../sass/styles.scss */
 .views-field-field-prog-tracker-app .modal-content-in-page,
+.views-field-field-prog-track-status .modal-content-in-page,
 .views-field-field-todo-lst-item .modal-content-in-page {
   display: none;
 }
@@ -14713,4 +14714,14 @@ input#location-input-guests::-ms-clear {
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   background-image: none;
+}
+
+
+.views-field-field-prog-track-status .simple-dialog{
+    font-weight: normal;
+    margin-top: 0px;
+    display: inline-block;
+    text-transform: capitalize;
+    font-size: 100%;
+    text-decoration: none;
 }
