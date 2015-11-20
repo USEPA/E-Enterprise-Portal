@@ -64,10 +64,10 @@ if(arg(0) == 'workbench' && $user->uid == 0){
 </header>
 <?php print render($page['navigation']); ?>
 <!-- @todo - Add content_language back in next line - section -->
-<section class="main-content clearfix" role="main" lang="<?php //print $content_language ?>">
+<section class="main-content clearfix" role="main">
   <?php print render($page['preface']); ?>
   <?php print render($page['highlighted']); ?>
-  <div id="content" class="main-column column clearfix" role="main">
+  <div id="content" class="main-column column clearfix">
     <a id="main-content"></a>
     <?php print render($page['help']); ?>
     <?php print render($title_prefix); ?>

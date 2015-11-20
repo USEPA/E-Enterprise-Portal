@@ -56,7 +56,7 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
                 <label for="currentSiteID">
                   Air monitoring station
                 </label>
-                <select id="currentSiteID">
+                <select id="currentSiteID" aria-controls="vg-city-numbers">
                     <option value="24290">Durham, NC</option>
                     <option value="24294">Kansas City, KS</option>
                     <option value="24291">Oklahoma City, OK</option>
@@ -84,7 +84,7 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
             </div>
             <div style="clear:both"></div>
             <div class="vg-numbers-container">
-              <ul class="vg-numbers">
+              <ul class="vg-numbers" id="vg-city-numbers" aria-live="polite">
                   <li><h4 id="temp-label" aria-labelledby="">Temp</h4><p aria-labelledby="temp-label"><span class="curTempReading">0</span> <span class="vg-units" id="temp-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Degrees fahrenheit">&deg; F</abbr></span></p></li>
                   <li><h4 id="humid-label" aria-labelledby="">Humidity</h4><p aria-labelledby="humid-label"><span class="curHumidReading">0</span> <span class="vg-units" id="humid-units">%</span></p></li>
                   <li><h4 id="wind-label" aria-labelledby="">Wind</h4><p aria-labelledby="wind-label"><span class="curWSReading">0</span> <abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Wind Direction" class="curWDReading"></abbr><span class="vg-units" id="wind-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Miles per hour">mph</abbr></span></p></li>

@@ -1,7 +1,7 @@
 Drupal.theme.prototype.ee_ctools_popup_theme = function () {
   var html = '';
   html += '  <div id="ctools-modal ui-dialog">'
-  html += '    <div class="ctools-modal-content">' // panels-modal-content
+  html += '    <div class="ctools-modal-content" role="dialog">' // panels-modal-content
   html += '      <div class="modal-header ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">';
   html += '        <span id="modal-title" class="modal-title ui-dialog-title"> </span>';
   html += '          <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close ctools-close-modal" role="button" aria-disabled="false" title="close">';
