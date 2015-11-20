@@ -1567,6 +1567,7 @@ tr.even {
     font-size:67.5%;
 }
 .views-field-field-prog-tracker-app .modal-content-in-page,
+.views-field-field-prog-track-status .modal-content-in-page,
 .views-field-field-todo-lst-item .modal-content-in-page {
     display:none;
 }
@@ -3468,4 +3469,13 @@ input#location-input-guests::-ms-clear {
       background-image: none;
     }
   }
+}
+
+.views-field-field-prog-track-status .simple-dialog{
+  font-weight: normal;
+  margin-top: 0px;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 100%;
+  text-decoration: none;
 }
