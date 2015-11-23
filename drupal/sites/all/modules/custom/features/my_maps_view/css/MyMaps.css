@@ -207,6 +207,12 @@
 	opacity: 0.9;
 }
 
+#myMapsFiltering div.farLeft {
+	width: 5em;
+	font-size: 0.85em;
+	display: inline-block;
+}
+
 #myMapsFilterList {
 	list-style: none;
 	line-height: 1.4;
@@ -214,6 +220,7 @@
 	font-size: 0.85em;
 	padding-bottom: 0px;
 	margin-top: 10px;
+	display: inline;
 }
 
 #myMapsFilterList li {
@@ -227,13 +234,7 @@
 }​
 #myMapsFilterList li a {
 	padding-bottom: 5px;
-}
-
-#myMapsFilterList .farLeft {
-	text-align: left;
-	margin-right: 10px;
-	border-bottom: none;
-	padding-left: 0;
+	text-align: center;
 }
 
 .active-mymaps-filter, #myMapsFilterList li.active-mymaps-filter {
@@ -248,7 +249,7 @@
 
 /* 767px */
 @media screen and (max-width: 48em) {
-	#myMapsFilterList .farLeft {
+	#myMapsFiltering div.farLeft {
 		font-size: 0.75em;
 		display:block;
 	}

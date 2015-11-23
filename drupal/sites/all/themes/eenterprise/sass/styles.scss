@@ -234,9 +234,10 @@ footer {
 }
 
 #modal-release-number {
-  float:right;
-  padding:5px;
-  font-size:.75em;
+  float: right;
+  padding: 5px;
+  font-size: 0.75em;
+  margin-right: 10px;
 }
 
 h1, h2, h3, h4, h5, h6, th, legend, caption {
@@ -324,10 +325,11 @@ input[type="submit"],
 .addtocal {
 	margin-bottom: 0.5em;
 }
-label {
+label, .aria-label {
 	font-weight: normal;
 	margin-bottom: 2px;
 	display: block;
+	line-height: 1.2;
 }
 .site-name-and-slogan {
 	float: left;
@@ -925,9 +927,12 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	font-size: 0.85em;
 	.pipeline li {
 		list-style: none;
-		margin: -0.5em 0;
-		padding: 0.5em 10px;
+		margin: -5px 0;
+		padding: 0;
 		line-height: 1;
+		a {
+			padding: 5px 10px;
+		}
 	}
 	a, a:visited {
 		color: $ee-dark-gray;
@@ -1097,6 +1102,7 @@ tr.odd, tr.even {
 	}
 	.ee-workbench-header-setlocation {
 		label {
+			margin-top: 5px;
 			margin-right: 10px;
 		}
 		label, a {
@@ -1759,10 +1765,9 @@ form[id^='user-profile-form'] {
 		.form-item .form-type-textfield label, .form-checkbox{
 			display: none;
 		}
-
-      #user-profile-select-zip, #user-profile-back-zip {
-        display: inline-block;
-      }
+		#user-profile-select-zip, #user-profile-back-zip {
+		  display: inline-block;
+		}
 		label {
 			float: left;
 		}
@@ -2194,7 +2199,7 @@ a.tabledrag-handle .handle {
 		padding-bottom: 5px;	//Provide more tap space
 	}
 }
-.ui-tabs .ui-tabs-nav li, label, .todo-filter-by-week li {
+label, .aria-label, .ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
 	font-size: 0.85em;
 }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active, .todo-filter-by-week li.filter-applied {
@@ -2283,7 +2288,7 @@ div.ctools-modal-content {
 		padding-bottom: 1em;
 		margin: 0.75em 0;
 	}
-	.form-item label {
+	.form-item label, .aria-label {
 		float: none;
 		padding-bottom: 0;
 	}

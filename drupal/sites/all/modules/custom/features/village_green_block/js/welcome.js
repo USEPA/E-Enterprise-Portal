@@ -108,7 +108,12 @@
 
                 var percentProgress = (60 - currentInterval)/60 * 100;
 
-                $(".countdownContainer").html(currentInterval + " seconds");
+								if (currentInterval == 1) {
+									$(".countdownContainer").html(currentInterval + " second");
+								}
+                else {
+                	$(".countdownContainer").html(currentInterval + " seconds");
+                }
                 $(".village-green-countdown").css("width", percentProgress + "%").attr({"aria-valuenow": percentProgress});
 
                     if (currentInterval <= 0) {
