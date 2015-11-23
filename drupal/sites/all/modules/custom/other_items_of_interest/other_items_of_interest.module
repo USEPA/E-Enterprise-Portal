@@ -2,7 +2,20 @@
 /**
  * Implements hook_menu().
  **/
+function other_items_of_interest_menu()
+{
+    $items = array();
+    $items['generateFavoriteAreasOfInterestTable'] = array(
+        'page callback' => 'generateFavoriteAreasOfInterestTable',
+        'access callback' => TRUE,
+    );
+    $items['generateAllAreasOfInterestTable'] = array(
+        'page callback' => 'generateAllAreasOfInterestTable',
+        'access callback' => TRUE,
+    );
 
+    return $items;
+}
 
 /**
  * Implements hook_theme_registry_alter().
@@ -41,21 +54,69 @@ function other_items_of_interest_theme_registry_alter(&$theme_registry)
  }
 
 
-function generateAreasOfInterestTable($data) {
-    echo "<table id='other-areas-of-interest-table'>" .
-        "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
-    "<tbody>";
-    foreach ($data as $nid => $nid_data) {
-        $state = $nid_data->title;
-        $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-        $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-        $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
+function loadUserStates() {
+    $states = array();
+    global $user;
+    $user_data = user_load($user->uid);
+    $zip_codes = $user_data->field_zip_code[LANGUAGE_NONE];
+    if (count($zip_codes) > 0) {
+        foreach($zip_codes as $elem) {
+            $zip = $elem['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
+            $state = zip_code_lookup($zip)['state'];
+            $states[] = $state;
+        }
+    }
+    if ( isset($_SESSION['default_location_zip'])) {
+        // add default state
+        $state = zip_code_lookup($_SESSION['default_location_zip'])['state'];
+        $states[] = $state;
+    }
+    return $states;
+}
+
+function generateAllAreasOfInterestTable() {
+        $state_resources = loadStateResources();
+        echo "<table id='other-areas-of-interest-table'>" .
+            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
+            "<tbody>";
+        foreach ($state_resources as $nid => $nid_data) {
+            $state = $nid_data->title;
+            $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
+            $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
+            $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
+            echo "<tr><td>$state</td>" .
+                "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
+                "<br /><div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
+                "<td>$topic</td></tr>";
+
+        }
+
+        echo "</tbody> </table>";
+
+}
+
+
+function generateFavoriteAreasOfInterestTable() {
+    $state_resources = loadStateResources();
+        echo "<table id='other-areas-of-interest-table'>" .
+            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
+            "<tbody>";
+        $users_favorite_states = loadUserStates();
+        dpm($users_favorite_states);
+        foreach ($state_resources as $nid => $nid_data) {
+            $state = $nid_data->title;
+            dpm($state);
+            if (in_array($state, $users_favorite_states)) {
+                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
+                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
+                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
                 echo "<tr><td>$state</td>" .
-                      "<td><a href='" . $url . "' target='_blank'>$source</a> <br /> $url</td>" .
+                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
+                    "<br /><div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
                     "<td>$topic</td></tr>";
 
-    }
+            }
+        }
 
-    echo "</tbody> </table>";
-
+        echo "</tbody> </table>";
 }
