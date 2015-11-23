@@ -63,7 +63,6 @@ if(arg(0) == 'workbench' && $user->uid == 0){
     <?php print render($page['header']); ?>
 </header>
 <?php print render($page['navigation']); ?>
-<!-- @todo - Add content_language back in next line - section -->
 <section class="main-content clearfix" role="main" lang="<?php //print $content_language ?>">
   <?php print render($page['preface']); ?>
   <?php print render($page['highlighted']); ?>

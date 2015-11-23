@@ -234,9 +234,10 @@ footer {
 }
 
 #modal-release-number {
-  float:right;
-  padding:5px;
-  font-size:.75em;
+  float: right;
+  padding: 5px;
+  font-size: 0.75em;
+  margin-right: 10px;
 }
 
 h1, h2, h3, h4, h5, h6, th, legend, caption {
@@ -926,9 +927,12 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	font-size: 0.85em;
 	.pipeline li {
 		list-style: none;
-		margin: -0.5em 0;
-		padding: 0.5em 10px;
+		margin: -5px 0;
+		padding: 0;
 		line-height: 1;
+		a {
+			padding: 5px 10px;
+		}
 	}
 	a, a:visited {
 		color: $ee-dark-gray;
@@ -1098,6 +1102,7 @@ tr.odd, tr.even {
 	}
 	.ee-workbench-header-setlocation {
 		label {
+			margin-top: 5px;
 			margin-right: 10px;
 		}
 		label, a {
