@@ -13,7 +13,7 @@ Drupal.theme.prototype.ee_ctools_popup_theme = function () {
   html += '<span id="modal-release-number">' + Drupal.settings.release_number + '</span>';
   html += '<div style="clear: both;"></div>';
   html += '    </div>  ';
-	html += '  </div>';
+  html += '  </div>';
 
   return html;
 }

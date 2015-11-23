@@ -83,6 +83,22 @@ $lato:            Lato, 'Source Sans Pro', sans-serif;
 	margin-right: 10px;
 }
 
+@mixin button-gray {
+	background-image: -moz-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+	background-image: -ms-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+	background-image: -o-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+	background-image: -webkit-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+	background-image: linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
+	color: #fff;
+	background-color: #f4f4f4;
+	border: 1px solid #f0f0f0;
+	font-size: 87.5%;
+	font-weight: bold;
+	padding: 5px 8px;
+	border-radius: 4px;
+	margin-right: 10px;
+}
+
 /** Adjust Main Font and Styles *********************************************************/
 html {
 	background-color: transparent;
@@ -316,6 +332,12 @@ input[type="submit"],
 	@include button;
 	height: auto;
 }
+input[type="text"]:disabled {
+	background-color: #eee;
+	border: 1px solid #ccc;
+	padding: 2px;
+}
+
 button,
 input[type="button"],
 input[type="reset"],
@@ -327,6 +349,7 @@ input[type="submit"],
 }
 label, .aria-label {
 	font-weight: normal;
+	margin-top: 5px;
 	margin-bottom: 2px;
 	display: block;
 	line-height: 1.2;
@@ -998,6 +1021,12 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 
 .view-eenterprise-for-environment .region-nav-bar, .page-eenterprise-for-environment .region-nav-bar, .page-eenterprise-new .region-navigation, .section-eenterprise-new .region-navigation {
 	display: none;
+}
+
+.village-green-countdown .progress-bar {
+	// Adjust font color to provide sufficient contrast
+	color: #444;
+	margin-left: 10px;
 }
 
 /** General Table Styles *********************************************************/
@@ -1974,6 +2003,10 @@ form[id^='user-profile-form'] .remove-button {
 		border: 1px solid #bbb;
 		border-radius: 4px;
 		line-height: 1.42857;
+	}
+	#edit-actions {
+		margin-top: 20px;
+		margin-bottom: 20px;
 	}
 }
 #my-air-quality-chart-tabs, .page-user {
@@ -3244,13 +3277,28 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 	color: #42adee;
 }
 .fa-refresh {
-	color: #0e8200 !important;
+	//color: #0e8200 !important;
+	color: #0e8200;
 }
 .fa-refresh:before {
   content: "\f021";
-  color: #0e8200 !important;
-
+  //color: #0e8200 !important;
 }
+a {
+	&.refresh {
+		//@include button-gray;
+		//@include button-variant(#0e8200, #f4f4f4, rgba(0, 0, 0, 0.2));
+		//padding-top: 2px;
+		//padding-bottom: 2px;
+		padding: 2px 4px;
+		position: absolute;
+		top: 30px;
+		right: 30px;	
+	}
+	&:focus .fa-refresh, &:focus .fa-refresh:before {
+			color: #fff;
+	}
+}	
 .login-options {
 	list-style: none;
 	li {
@@ -3476,7 +3524,7 @@ input#location-input-guests::-ms-clear {
   }
 }
 
-.views-field-field-prog-track-status .simple-dialog{
+.views-field-field-prog-track-status .simple-dialog {
   font-weight: normal;
   margin-top: 0px;
   display: inline-block;
