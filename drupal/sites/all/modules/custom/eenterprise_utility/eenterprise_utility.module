@@ -300,7 +300,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         	'aria-describedby' => 'email-helptext'
         	);
         $form['account']['mail']['#required'] = false;
-        $form['account']['mail']['#title'] = 'Email Address <span data-toggle="tooltip" data-placement="bottom" aria-hidden="true" id="email-helptext" class="glyphicon glyphicon-info-sign ee-bootstrap-tooltip"
+        $form['account']['mail']['#title'] = 'Email Address <span tabindex="0" data-toggle="tooltip" data-placement="bottom" aria-hidden="true" id="email-helptext" class="glyphicon glyphicon-info-sign ee-bootstrap-tooltip"
             title="All emails from the system will be sent to this address. This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX)."> </span>';
 
 
@@ -757,7 +757,6 @@ function get_modal_data($locations, $city_name_count)
 function return_users_default_zip() {
     global $user;
 
-
     if (isset($_SESSION['default_location_zip']) && isset($_SESSION['default_location_name'])) {
         $default_zip = $_SESSION['default_location_zip'];
         $default_name = $_SESSION['default_location_name'];
@@ -994,10 +993,10 @@ global $user;
 $user_data = user_load($user->uid);
 $num_zip_codes = count($user_data->field_zip_code[LANGUAGE_NONE]);
 if ($num_zip_codes > 0) {
-    $location_description = "Add a location of interest to see environmental information relevant to that area. <strong>Select your primary location by clicking the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon.</strong>";
+    $location_description = "Add a location of interest to see environmental information relevant to that area. <strong>Select your primary location by clicking the <span class='sr-only'>Set primary location</span><i class='glyphicon glyphicon-star-empty star-example description-key selected' aria-hidden='true' title='Set primary location'></i> icon.</strong>";
     $first_zip_code = $user_data->field_zip_code[LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
 } else {
-    $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <i class='glyphicon glyphicon-star-empty star-example description-key selected'></i> icon next to a location to make it your default location.</strong> <br />";
+    $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <span class='sr-only'>Set primary location</span><i class='glyphicon glyphicon-star-empty star-example description-key selected' aria-hidden='true' title='Set primary location'></i> icon next to a location to make it your default location.</strong> <br />";
     $first_zip_code = '';
 }
 
