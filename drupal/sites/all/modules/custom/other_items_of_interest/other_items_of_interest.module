@@ -113,7 +113,16 @@ function loadUserStates() {
         $state = zip_code_lookup($_SESSION['default_location_zip'])['state'];
         $states[] = $state;
     }
-    return $states;
+
+    /// Add users admin state if applicable
+    if (in_array('state_admin', $user->roles)) {
+        if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
+            $admin_state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
+            $states[] = $admin_state;
+        }
+    }
+
+        return $states;
 }
 
 function generateAllAreasOfInterestTable() {
