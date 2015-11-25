@@ -38,9 +38,7 @@ function other_items_of_interest_theme_registry_alter(&$theme_registry)
     }
 }
 
-/**
- * Implements hook_form_alter().
- */
+
 /**
  * Implements hook_form_alter().
  */
@@ -48,22 +46,37 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
 {
     global $user;
     if ($form_id == 'state_resource_node_form') {
+        $form_state['rebuild'] = TRUE;
+
+        // Check if user is not admin
         if ($user->uid > 1) {
+            $user_data = user_load($user->uid);
+            $state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
             hide($form['additional_settings']);
-
+            hide($form['actions']['preview']);
+            $form['title']['#value'] = $state;
+            $form['title'];
+            $form['title']['#attributes'] = array(
+                'disabled' => 'disabled');
         }
-        $form['link'] = array('#markup' => l(t('Back'),'/state-resource-editor'));
-
-        $form['#submit'][] = 'custom_form_submit';
-
+        $form['link'] = array('#markup' => l(t('Back'), '/state-resource-editor'));
+        $form['actions']['submit']['#submit'][] = 'new_state_form_redirect';
     }
-
 }
 
+/**
+ * Hook_node_presave
+ */
+function other_items_of_interest_node_presave($node) {
+    global $user;
+   // Ensure custom content type is assigned to correct author
+    if($node->type === 'state_resource') {
+        $node->uid = $user->uid;
+    }
+}
 
-function custom_form_submit($form, &$form_state) {
-    // only redirect if node_form_submit() has successfully saved the node
-    drupal_goto('/state-resource-editor');
+function new_state_form_redirect($form, &$form_state) {
+        drupal_goto('/state-resource-editor');
 }
 
 
@@ -100,7 +113,16 @@ function loadUserStates() {
         $state = zip_code_lookup($_SESSION['default_location_zip'])['state'];
         $states[] = $state;
     }
-    return $states;
+
+    /// Add users admin state if applicable
+    if (in_array('state_admin', $user->roles)) {
+        if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
+            $admin_state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
+            $states[] = $admin_state;
+        }
+    }
+
+        return $states;
 }
 
 function generateAllAreasOfInterestTable() {
