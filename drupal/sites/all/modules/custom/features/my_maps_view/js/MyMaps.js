@@ -49,6 +49,10 @@
       .on('jcarouselcontrol:inactive', function() {
         $(this).addClass('inactive');
       })
+      .click(function() {
+        // If user clicks previous, make sure those thumbs are visible.
+        turnOnVisibleThumbs();        
+      })
       .jcarouselControl({
         target: '-=1'
       });
@@ -59,6 +63,10 @@
       })
       .on('jcarouselcontrol:inactive', function() {
         $(this).addClass('inactive');
+      })
+      .click(function() {
+        // If user clicks next, make sure those thumbs are visible.
+        turnOnVisibleThumbs();        
       })
       .jcarouselControl({
         target: '+=1'
@@ -72,6 +80,24 @@
       //$(this).blur(); //was used as workaround to holding focus after click, but broke tab focus and caused 508 issues
       filterMyMapsGallery(filterType);
     });
+
+    function turnOnVisibleThumbs() {
+      // Function to turn on thumbnail image sources for visible jcarousel entries.
+
+      // jcarousel's "visible" list doesn't actually include the last visible item, so we need to build our own list
+      // Find start of visible list
+      start = $.inArray(jcarousel.jcarousel('visible')[0], $(".thumb").find("li").not(":hidden"));
+      // Max number of visible items in our carousel is 5, so set ending point to offset 6
+      end = start + 6;
+      // Slide the full list of entries to just those 5 we are interested in (all possible visible & not filtered/hidden)
+      $(".thumb").find("li").not(":hidden").slice(start, end).each(function() {
+        // If the img source is not already turned on
+        if(!$(this).find(".thumbnailImg").attr("src")) {
+          // Set image source from temporary source.
+          $(this).find(".thumbnailImg").attr("src", $(this).find(".thumbnailImg").attr("tsrc"));
+        }
+      })
+    }
 
     function filterMyMapsGallery(filterType) {
       var listItems = $('.jcarousel ul li');
@@ -109,6 +135,7 @@
       updateTotalNumberOfMapsShowing();
       jcarousel.jcarousel('reload');
       $('.jcarousel').jcarousel('scroll', 0);
+      turnOnVisibleThumbs();
 
 
 
@@ -202,7 +229,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'src': thumbnailURL,
+                  'tsrc': thumbnailURL,     // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-' + thumbnailNum
@@ -348,7 +375,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'src': thumbnailURL,
+                  'tsrc': thumbnailURL,     // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-MPCA-' + thumbnailNum
@@ -388,8 +415,8 @@
       //console.log("Added " + String(numGoodResults) + " " + orgAlias + " maps to MyMaps Gallery");
       $('.thumb').randomize('li');
 
-      jcarousel.jcarousel('reload');
-      $('.jcarousel').jcarousel('scroll', 0);
+      //jcarousel.jcarousel('reload');
+      //$('.jcarousel').jcarousel('scroll', 0);
 
 
       $(".ellipsis").dotdotdot({
@@ -494,7 +521,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'src': thumbnailURL,
+                  'tsrc': thumbnailURL,     // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-omahane-' + thumbnailNum
@@ -534,8 +561,8 @@
       //console.log("Added " + String(numGoodResults) + " " + orgAlias + " maps to MyMaps Gallery");
 
       $('.thumb').randomize('li');
-      jcarousel.jcarousel('reload');
-      $('.jcarousel').jcarousel('scroll', 0);
+      //jcarousel.jcarousel('reload');
+      //$('.jcarousel').jcarousel('scroll', 0);
 
       $(".ellipsis").dotdotdot({
         watch: "window"
@@ -638,7 +665,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'src': thumbnailURL,
+                  'tsrc': thumbnailURL,     // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-noaa-' + thumbnailNum
@@ -689,6 +716,9 @@
       updateTotalNumberOfMapsShowing();
 
       addMapThumbnailClickListeners();
+
+      // Need to wait until all sources loaded before turning on visible thumbnails due to randomization.
+      turnOnVisibleThumbs();
     }
 
 

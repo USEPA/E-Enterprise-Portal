@@ -40,7 +40,7 @@
   <?php endif; ?>
   <?php print $scripts; ?>
 </head>
-<body class="<?php print $classes; ?> <?php
+<body lang="en" class="<?php print $classes; ?> <?php
 if(!drupal_is_front_page()) {
     print "wide-template";
 }

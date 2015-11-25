@@ -62,16 +62,16 @@ drupal_add_css(drupal_get_path('module', 'my_maps_view') ."/css/MyMaps.css", "fi
     </div>
 
     <div id="myMapsFiltering">
+    	<div class="farLeft">Filter by:</div>
       <ul id="myMapsFilterList">
-        <li class="farLeft">Filter By </li>
-        <li id="myMapsFilterAll" class="active-mymaps-filter"><a id="mapsAll" class="myMapFilterTerm favorites-ignore">All</a></li>
-        <li id="myMapsFilterAir"><a id="mapsAir" class="myMapFilterTerm favorites-ignore">Air</a></li>
-        <li id="myMapsFilterWater"><a id="mapsWater" class="myMapFilterTerm favorites-ignore">Water</a></li>
-        <li id="myMapsFilterLand"><a id="mapsLand" class="myMapFilterTerm favorites-ignore">Land</a></li>
+        <li id="myMapsFilterAll" class="active-mymaps-filter"><a aria-controls="interactive-maps-carousel" id="mapsAll" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>All</a><span class="sr-only"> maps</span></li>
+        <li id="myMapsFilterAir"><a aria-controls="interactive-maps-carousel" id="mapsAir" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Air</a><span class="sr-only"> maps only</span></li>
+        <li id="myMapsFilterWater"><a aria-controls="interactive-maps-carousel" id="mapsWater" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Water<span class="sr-only"> maps only</span></a></li>
+        <li id="myMapsFilterLand"><a aria-controls="interactive-maps-carousel" id="mapsLand" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Land<span class="sr-only"> maps only</span></a></li>
       </ul>
     </div>
 
-    <div class="jcarousel-wrapper">
+    <div class="jcarousel-wrapper" aria-live="polite" id="interactive-maps-carousel">
         <a href="#" class="jcarousel-control-prev"><span class="sr-only">Previous maps</span>&lsaquo;</a>
         <div class="jcarousel">
             <!-- Map thumbnails dynamically loaded here -->

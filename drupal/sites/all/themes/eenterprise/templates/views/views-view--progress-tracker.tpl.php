@@ -38,7 +38,7 @@
             <?php print $header; ?>
         </div>
     <?php endif; ?>
-    <a href="todo/refresh"><i class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh Progress Tracker" style="position:absolute;top:30px; right:30px;"></i> <span class="sr-only">Refresh</span></a>
+    <a href="todo/refresh" class="refresh"><span class="sr-only">Refresh Progress Tracker</span><i class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh Progress Tracker"></i></a>
     <?php if ($exposed): ?>
         <div class="view-filters">
             <?php print $exposed; ?>
