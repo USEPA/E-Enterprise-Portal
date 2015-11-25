@@ -288,6 +288,12 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_initial_log_in']);
         hide($form['field_interests2']);
 
+
+        // Check if the user has the 'state_admin' role.
+        if (!in_array('state_admin', $user->roles)) {
+            hide($form['field_admin_state']);
+        }
+
 //        dpm($form);
         hide($form['field_first_time_user']);
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
