@@ -1,41 +1,53 @@
-(function($) {
+ (function($) {
 
     $(document).ready(function() {
-        var favorites_table;
-        var all_states_table;
         var favorite_cached = false;
         var all_states_cached = false;
-        var datatable_options = {
-            "bPaginate": true,
-            "sPaginationType": "full_numbers",
-            "iDisplayLength": 3,
-            "fnDrawCallback": function () {
-                if ($('#other-areas-of-interest-table_wrapper .paginate_button').length < 6) {
-                    $('#other-areas-of-interest-table_wrapper .dataTables_paginate')[0].style.display = "none";
-                    $('#other-areas-of-interest-table_length')[0].style.display = "none";
+        var $favorite_state_wrapper = $("#favorite-state-resources");
+        var $all_state_resources_wrapper = $("#all-state-resources");
+        var datatable_options = function($table_wrapper) {
+            return {
+                "sPaginationType": "full_numbers",
+                "oLanguage": {
+                    "oPaginate": {
+                        sLast: ">>",
+                        sNext: ">",
+                        sFirst: "<<",
+                        sPrevious: "<"
+                    }
+                },
+                "bLengthChange": false,
+                "sPageButton": "favorites-ignore",
+                "iDisplayLength": 4,
+                "fnDrawCallback": function () {
+                    if ($table_wrapper.find('.paginate_button').length < 6) {
+                        $table_wrapper.find('.dataTables_paginate')[0].style.display = "none";
+                    }
                 }
-            }
-        };
+            };
+        }
+
 
         function generateAllAreas() {
             if (!all_states_cached) {
                 $.ajax({
                     beforeSend:  function() {
-                        $('#other-items-table-wrapper').html('Loading...');
+                        $all_state_resources_wrapper.show();
+                        $all_state_resources_wrapper.html('Loading...');
                     },
                     url:'generateAllAreasOfInterestTable',
                     success: function (table) {
-                        $('#other-items-table-wrapper').html(table);
-                        $('#other-areas-of-interest-table').DataTable(datatable_options);
-                        all_states_table = $('#other-items-table-wrapper').html();
-                        all_states_table = table;
+                        $all_state_resources_wrapper.html(table);
+                        var $table = $all_state_resources_wrapper.find('table');
+                        $table.DataTable(datatable_options($all_state_resources_wrapper));
                         all_states_cached = true;
+                        $favorite_state_wrapper.hide();
                     }
                 });
             }
             else {
-                $('#other-items-table-wrapper').html(all_states_table);
-                $('#other-areas-of-interest-table').DataTable(datatable_options);
+                $all_state_resources_wrapper.show();
+                $favorite_state_wrapper.hide();
             }
         }
 
@@ -43,26 +55,36 @@
             if (!favorite_cached) {
                 $.ajax({
                     beforeSend:  function() {
-                        $('#other-items-table-wrapper').html('Loading...');
+                        $favorite_state_wrapper.show();
+                        $favorite_state_wrapper.html('Loading...');
                     },                    url: 'generateFavoriteAreasOfInterestTable',
                     success: function (table) {
-                        $('#other-items-table-wrapper').html(table);
-                        $('#other-areas-of-interest-table').DataTable(datatable_options);
-                        favorites_table = table;
+                        $favorite_state_wrapper.html(table);
+                        var $table = $favorite_state_wrapper.find('table');
+                        $table.DataTable(datatable_options($favorite_state_wrapper));
                         favorite_cached = true;
+                        $all_state_resources_wrapper.hide();
                     }
                 });
             }
             else {
-                $('#other-items-table-wrapper').html(favorites_table);
-                $('#other-areas-of-interest-table').DataTable(datatable_options);
+                $favorite_state_wrapper.show();
+                $all_state_resources_wrapper.hide();
             }
         }
 
         $('#restrict-to-states-button').click(function() {
+            if ($(this).hasClass('inactive')){
+                $(this).removeClass('inactive');
+                $("#all-states-button").addClass('inactive');
+            }
            generateFavoriteAreas();
         });
         $("#all-states-button").click(function() {
+            if ($(this).hasClass('inactive')){
+                $(this).removeClass('inactive');
+                $('#restrict-to-states-button').addClass('inactive');
+            }
             generateAllAreas();
         });
         generateFavoriteAreas();

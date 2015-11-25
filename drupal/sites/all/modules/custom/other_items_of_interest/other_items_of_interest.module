@@ -38,6 +38,35 @@ function other_items_of_interest_theme_registry_alter(&$theme_registry)
     }
 }
 
+/**
+ * Implements hook_form_alter().
+ */
+/**
+ * Implements hook_form_alter().
+ */
+function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
+{
+    global $user;
+    if ($form_id == 'state_resource_node_form') {
+        if ($user->uid > 1) {
+            hide($form['additional_settings']);
+
+        }
+        $form['link'] = array('#markup' => l(t('Back'),'/state-resource-editor'));
+
+        $form['#submit'][] = 'custom_form_submit';
+
+    }
+
+}
+
+
+function custom_form_submit($form, &$form_state) {
+    // only redirect if node_form_submit() has successfully saved the node
+    drupal_goto('/state-resource-editor');
+}
+
+
  function loadStateResources() {
      $state_resources = array();
      $query = new EntityFieldQuery;
@@ -118,3 +147,6 @@ function generateFavoriteAreasOfInterestTable() {
 
         echo "</tbody> </table>";
 }
+
+
+
