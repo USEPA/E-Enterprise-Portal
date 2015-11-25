@@ -29,7 +29,7 @@
       carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
       //don't want to fire this every time on reload since the order gets shuffled each time, only for the last org that is loaded
       //Firefox doesn't scroll to 0 like it should, so this is a temp workaround
-      console.log(reloadAndCreateCounter);
+      //console.log(reloadAndCreateCounter);
       if (reloadAndCreateCounter > totalNumOrgs) {
         turnOnVisibleThumbs();
       }
