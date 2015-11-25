@@ -140,6 +140,7 @@
             });
 
             PageController.setIntervalTimerForCurrentData();
+            currentInterval = 61;
         });
 
         $("#currentSiteID").trigger('change');
