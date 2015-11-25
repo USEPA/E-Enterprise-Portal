@@ -1,28 +1,16 @@
 (function($) {
   $(function() {
 
-    function truncate(text, maxLength) {
-      if (text.length <= maxLength) {
-        return text;
-      }
-
-      var truncated = text.substr(0, maxLength);
-
-      var spaceIndex = truncated.lastIndexOf(' ');
-
-      if (spaceIndex === -1) {
-        return truncated + '...';
-      }
-
-      return truncated.substring(0, spaceIndex) + '...';
-    }
-
     var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse EPA gallery...</a>';
     var totThumbnails = 0;
     var jcarousel = $('.jcarousel').jcarousel();
+    var reloadAndCreateCounter = 0;
+
+    //dynamically calculate this val during re-factor for dynamic input
+    //hardcoded for EPA, NOAA, Minnesota, and Omaha
+    var totalNumOrgs = 4;
 
     queryEPA_AGOL();
-
 
     jcarousel.on('jcarousel:reload jcarousel:create', function() {
       var carousel = $(this),
@@ -39,7 +27,13 @@
       }
 
       carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
-
+      //don't want to fire this every time on reload since the order gets shuffled each time, only for the last org that is loaded
+      //Firefox doesn't scroll to 0 like it should, so this is a temp workaround
+      //console.log(reloadAndCreateCounter);
+      if (reloadAndCreateCounter > totalNumOrgs) {
+        turnOnVisibleThumbs();
+      }
+      reloadAndCreateCounter++;
     });
 
     $('.jcarousel-control-prev')
@@ -51,7 +45,7 @@
       })
       .click(function() {
         // If user clicks previous, make sure those thumbs are visible.
-        turnOnVisibleThumbs();        
+        turnOnVisibleThumbs();
       })
       .jcarouselControl({
         target: '-=1'
@@ -66,7 +60,7 @@
       })
       .click(function() {
         // If user clicks next, make sure those thumbs are visible.
-        turnOnVisibleThumbs();        
+        turnOnVisibleThumbs();
       })
       .jcarouselControl({
         target: '+=1'
@@ -92,7 +86,7 @@
       // Slide the full list of entries to just those 5 we are interested in (all possible visible & not filtered/hidden)
       $(".thumb").find("li").not(":hidden").slice(start, end).each(function() {
         // If the img source is not already turned on
-        if(!$(this).find(".thumbnailImg").attr("src")) {
+        if (!$(this).find(".thumbnailImg").attr("src")) {
           // Set image source from temporary source.
           $(this).find(".thumbnailImg").attr("src", $(this).find(".thumbnailImg").attr("tsrc"));
         }
@@ -229,7 +223,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'tsrc': thumbnailURL,     // Use temporary source as placeholder so all thumbs are not loaded at once.
+                  'tsrc': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-' + thumbnailNum
@@ -375,7 +369,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'tsrc': thumbnailURL,     // Use temporary source as placeholder so all thumbs are not loaded at once.
+                  'tsrc': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-MPCA-' + thumbnailNum
@@ -521,7 +515,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'tsrc': thumbnailURL,     // Use temporary source as placeholder so all thumbs are not loaded at once.
+                  'tsrc': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-omahane-' + thumbnailNum
@@ -579,7 +573,7 @@
 
 
     //TODO: Need to refactor into array of other orgs after adding any further orgs
-    //all 3rd partty orgs should call same function with diff. input args (eg. orgID, orgName, orgAlias, orgRootURL)
+    //all 3rd party orgs should call same function with diff. input args (eg. orgID, orgName, orgAlias, orgRootURL)
 
     //National Oceanic and Atmospheric Administration
 
@@ -665,7 +659,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'tsrc': thumbnailURL,     // Use temporary source as placeholder so all thumbs are not loaded at once.
+                  'tsrc': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-noaa-' + thumbnailNum
@@ -792,7 +786,7 @@
 
 
     //Fisher-Yates shuffle just to randomize thumbnail order,
-    //Makes it less boring on page relaod until we implement tag filtering, recommendation engine, etc.
+    //Makes it less boring on page reload until we implement tag filtering, recommendation engine, etc.
     function shuffle(array) {
       var currentIndex = array.length,
         temporaryValue, randomIndex;
@@ -805,6 +799,21 @@
       }
       return array;
     }
+
+
+
+    function truncate(text, maxLength) {
+      if (text.length <= maxLength) {
+        return text;
+      }
+      var truncated = text.substr(0, maxLength);
+      var spaceIndex = truncated.lastIndexOf(' ');
+      if (spaceIndex === -1) {
+        return truncated + '...';
+      }
+      return truncated.substring(0, spaceIndex) + '...';
+    }
+
 
 
     //better beyboard accessibility, allow keyboard left and right arrows to navigate gallery
