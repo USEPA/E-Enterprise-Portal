@@ -8,7 +8,9 @@
 
 ?>
     <button id="restrict-to-states-button" type="button">Favorite Locations</button>
-        <button id="all-states-button" type="button">All Locations</button>
-        <div id="other-items-table-wrapper"></div>
+        <button id="all-states-button" type="button" class="inactive">All Locations</button>
+    <a href="/state-resource-editor" class="favorites-ignore">Edit</a>
+<div id="all-state-resources"></div>
+<div id="favorite-state-resources"></div>
 
 

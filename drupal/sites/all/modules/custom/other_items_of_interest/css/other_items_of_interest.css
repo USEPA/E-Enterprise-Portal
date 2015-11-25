@@ -1,7 +1,22 @@
+.paginate_button {
+    padding : .75em !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    border: 0px;
+}
+
+
 .interests-url-hyperlink, .interests-url-text {
     word-wrap: break-word;
     white-space: normal;
 }
+
+#restrict-to-states-button.inactive, #all-states-button.inactive {
+    background-color: white;
+    color: black;
+
+}
+
 
 
 
