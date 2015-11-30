@@ -78,16 +78,20 @@ if(arg(0) == 'workbench' && $user->uid == 0){
         }
       ?>
       <!--googleon: all-->
-      <h1 <?php print $title_attributes; ?>><?php print $title;?></h1>
+      <?php if ($exploded_path[0] == 'eenterprise-new'): ?>
+	    	<h1 class="element-invisible" <?php print $title_attributes; ?>><?php print $title;?></h1>
+			<?php else: ?>
+				<h1 <?php print $title_attributes; ?>><?php print $title;?></h1>
+				<?php print render($title_suffix); ?>
+		    <?php print render($tabs); ?>
+		    <?php print $messages; ?>
+		    <?php if ($action_links = render($action_links)): ?>
+		        <ul class="action-links"><?php print render($action_links); ?></ul>
+		    <?php endif; ?>
+
+			<?php endif; ?>
       <!--googleoff: all-->
     <?php endif; ?>
-    <?php print render($title_suffix); ?>
-    <?php print render($tabs); ?>
-    <?php print $messages; ?>
-    <?php if ($action_links = render($action_links)): ?>
-        <ul class="action-links"><?php print render($action_links); ?></ul>
-    <?php endif; ?>
-    
     <!--googleon: all-->
     <?php print render($page['content']); ?>
     <!--googleoff: all-->

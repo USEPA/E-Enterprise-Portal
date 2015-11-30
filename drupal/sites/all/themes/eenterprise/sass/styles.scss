@@ -431,6 +431,15 @@ header {
 	.block--login-from-guest-page {
 		margin-bottom: 0;
 	}
+	.header__region {
+		float: right;
+		clear: none;
+		margin-top: 30px;
+		#faqs-link {
+			margin-right: 20px;
+			font-size: 87.5%;
+		}
+	}
 	#block--ee-bridge-login {
 		width: auto;
 		float: right;
@@ -1234,11 +1243,14 @@ tr.odd, tr.even {
 		}
 	}
 	.workbench-menu, .simple-main-nav {
-    	display: block;
     	float: left;
     	font-size: 0.85em;
     	padding-top: 3px;
     	padding-left: 2.5em;
+    	li {
+	    	display: inline-block;
+	    	margin-right: 20px;
+    	}
     }
     #zip_container {
 		span {
