@@ -1,7 +1,7 @@
 (function($) {
   $(function() {
 
-    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse EPA gallery...</a>';
+    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse EPA gallery...</a> | <a href="node/add/ee-map-set">Add a mapset</a>';
     var totThumbnails = 0;
     var jcarousel = $('.jcarousel').jcarousel();
     var reloadAndCreateCounter = 0;
