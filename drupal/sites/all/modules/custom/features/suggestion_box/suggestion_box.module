@@ -224,6 +224,9 @@ function _suggestion_box_make_link($link_text = '') {
   if (empty($link_text)) {
     $link_text = 'Modal';
   }
+  else {
+	  $link_text = '<span aria-controls="modalContent">'.$link_text.'</span>';
+  }
 
   // return l($link_text, 'suggestion_box/nojs', array('attributes' => array('class' => 'ctools-use-modal menu-link')));
   return ctools_modal_text_button($link_text, 'suggestion_box/nojs', $link_text, 'ctools-modal-ee-ctools-popup-style');

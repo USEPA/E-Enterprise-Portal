@@ -1,28 +1,16 @@
 (function($) {
   $(function() {
 
-    function truncate(text, maxLength) {
-      if (text.length <= maxLength) {
-        return text;
-      }
-
-      var truncated = text.substr(0, maxLength);
-
-      var spaceIndex = truncated.lastIndexOf(' ');
-
-      if (spaceIndex === -1) {
-        return truncated + '...';
-      }
-
-      return truncated.substring(0, spaceIndex) + '...';
-    }
-
-    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse EPA gallery...</a>';
+    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse EPA gallery...</a> | <a href="node/add/ee-map-set">Add a mapset</a>';
     var totThumbnails = 0;
     var jcarousel = $('.jcarousel').jcarousel();
+    var reloadAndCreateCounter = 0;
+
+    //dynamically calculate this val during re-factor for dynamic input
+    //hardcoded for EPA, NOAA, Minnesota, and Omaha
+    var totalNumOrgs = 4;
 
     queryEPA_AGOL();
-
 
     jcarousel.on('jcarousel:reload jcarousel:create', function() {
       var carousel = $(this),
@@ -39,7 +27,13 @@
       }
 
       carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
-
+      //don't want to fire this every time on reload since the order gets shuffled each time, only for the last org that is loaded
+      //Firefox doesn't scroll to 0 like it should, so this is a temp workaround
+      //console.log(reloadAndCreateCounter);
+      if (reloadAndCreateCounter > totalNumOrgs) {
+        turnOnVisibleThumbs();
+      }
+      reloadAndCreateCounter++;
     });
 
     $('.jcarousel-control-prev')
@@ -48,6 +42,10 @@
       })
       .on('jcarouselcontrol:inactive', function() {
         $(this).addClass('inactive');
+      })
+      .click(function() {
+        // If user clicks previous, make sure those thumbs are visible.
+        turnOnVisibleThumbs();
       })
       .jcarouselControl({
         target: '-=1'
@@ -59,6 +57,10 @@
       })
       .on('jcarouselcontrol:inactive', function() {
         $(this).addClass('inactive');
+      })
+      .click(function() {
+        // If user clicks next, make sure those thumbs are visible.
+        turnOnVisibleThumbs();
       })
       .jcarouselControl({
         target: '+=1'
@@ -72,6 +74,24 @@
       //$(this).blur(); //was used as workaround to holding focus after click, but broke tab focus and caused 508 issues
       filterMyMapsGallery(filterType);
     });
+
+    function turnOnVisibleThumbs() {
+      // Function to turn on thumbnail image sources for visible jcarousel entries.
+
+      // jcarousel's "visible" list doesn't actually include the last visible item, so we need to build our own list
+      // Find start of visible list
+      start = $.inArray(jcarousel.jcarousel('visible')[0], $(".thumb").find("li").not(":hidden"));
+      // Max number of visible items in our carousel is 5, so set ending point to offset 6
+      end = start + 6;
+      // Slide the full list of entries to just those 5 we are interested in (all possible visible & not filtered/hidden)
+      $(".thumb").find("li").not(":hidden").slice(start, end).each(function() {
+        // If the img source is not already turned on
+        if (!$(this).find(".thumbnailImg").attr("src")) {
+          // Set image source from temporary source.
+          $(this).find(".thumbnailImg").attr("src", $(this).find(".thumbnailImg").attr("tsrc"));
+        }
+      })
+    }
 
     function filterMyMapsGallery(filterType) {
       var listItems = $('.jcarousel ul li');
@@ -109,6 +129,7 @@
       updateTotalNumberOfMapsShowing();
       jcarousel.jcarousel('reload');
       $('.jcarousel').jcarousel('scroll', 0);
+      turnOnVisibleThumbs();
 
 
 
@@ -202,7 +223,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'src': thumbnailURL,
+                  'tsrc': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-' + thumbnailNum
@@ -348,7 +369,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'src': thumbnailURL,
+                  'tsrc': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-MPCA-' + thumbnailNum
@@ -388,8 +409,8 @@
       //console.log("Added " + String(numGoodResults) + " " + orgAlias + " maps to MyMaps Gallery");
       $('.thumb').randomize('li');
 
-      jcarousel.jcarousel('reload');
-      $('.jcarousel').jcarousel('scroll', 0);
+      //jcarousel.jcarousel('reload');
+      //$('.jcarousel').jcarousel('scroll', 0);
 
 
       $(".ellipsis").dotdotdot({
@@ -494,7 +515,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'src': thumbnailURL,
+                  'tsrc': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-omahane-' + thumbnailNum
@@ -534,8 +555,8 @@
       //console.log("Added " + String(numGoodResults) + " " + orgAlias + " maps to MyMaps Gallery");
 
       $('.thumb').randomize('li');
-      jcarousel.jcarousel('reload');
-      $('.jcarousel').jcarousel('scroll', 0);
+      //jcarousel.jcarousel('reload');
+      //$('.jcarousel').jcarousel('scroll', 0);
 
       $(".ellipsis").dotdotdot({
         watch: "window"
@@ -552,7 +573,7 @@
 
 
     //TODO: Need to refactor into array of other orgs after adding any further orgs
-    //all 3rd partty orgs should call same function with diff. input args (eg. orgID, orgName, orgAlias, orgRootURL)
+    //all 3rd party orgs should call same function with diff. input args (eg. orgID, orgName, orgAlias, orgRootURL)
 
     //National Oceanic and Atmospheric Administration
 
@@ -638,7 +659,7 @@
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
-                  'src': thumbnailURL,
+                  'tsrc': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
                   'alt': this.title,
                   'title': this.title,
                   'aria-describedby': 'thumbnail-desc-noaa-' + thumbnailNum
@@ -689,6 +710,9 @@
       updateTotalNumberOfMapsShowing();
 
       addMapThumbnailClickListeners();
+
+      // Need to wait until all sources loaded before turning on visible thumbnails due to randomization.
+      turnOnVisibleThumbs();
     }
 
 
@@ -762,7 +786,7 @@
 
 
     //Fisher-Yates shuffle just to randomize thumbnail order,
-    //Makes it less boring on page relaod until we implement tag filtering, recommendation engine, etc.
+    //Makes it less boring on page reload until we implement tag filtering, recommendation engine, etc.
     function shuffle(array) {
       var currentIndex = array.length,
         temporaryValue, randomIndex;
@@ -775,6 +799,21 @@
       }
       return array;
     }
+
+
+
+    function truncate(text, maxLength) {
+      if (text.length <= maxLength) {
+        return text;
+      }
+      var truncated = text.substr(0, maxLength);
+      var spaceIndex = truncated.lastIndexOf(' ');
+      if (spaceIndex === -1) {
+        return truncated + '...';
+      }
+      return truncated.substring(0, spaceIndex) + '...';
+    }
+
 
 
     //better beyboard accessibility, allow keyboard left and right arrows to navigate gallery

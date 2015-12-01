@@ -264,9 +264,11 @@
                 placeAddAnotherButton(false, table_id, parent_id);
             };
             $('#profile-tabs').tabs();
-
         }
-
+        
+        if (page == 'app-connect') {
+					$('#app-connect-tabs').tabs();
+        }
 
         function inString(str, substring) {
             return str.indexOf(substring) >= 0;

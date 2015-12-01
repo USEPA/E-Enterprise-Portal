@@ -63,11 +63,10 @@ if(arg(0) == 'workbench' && $user->uid == 0){
     <?php print render($page['header']); ?>
 </header>
 <?php print render($page['navigation']); ?>
-<!-- @todo - Add content_language back in next line - section -->
-<section class="main-content clearfix" role="main" lang="<?php //print $content_language ?>">
+<section class="main-content clearfix" role="main">
   <?php print render($page['preface']); ?>
   <?php print render($page['highlighted']); ?>
-  <div id="content" class="main-column column clearfix" role="main">
+  <div id="content" class="main-column column clearfix">
     <a id="main-content"></a>
     <?php print render($page['help']); ?>
     <?php print render($title_prefix); ?>
@@ -79,16 +78,20 @@ if(arg(0) == 'workbench' && $user->uid == 0){
         }
       ?>
       <!--googleon: all-->
-      <h1 <?php print $title_attributes; ?>><?php print $title;?></h1>
+      <?php if ($exploded_path[0] == 'eenterprise-new'): ?>
+	    	<h1 class="element-invisible" <?php print $title_attributes; ?>><?php print $title;?></h1>
+			<?php else: ?>
+				<h1 <?php print $title_attributes; ?>><?php print $title;?></h1>
+				<?php print render($title_suffix); ?>
+		    <?php print render($tabs); ?>
+		    <?php print $messages; ?>
+		    <?php if ($action_links = render($action_links)): ?>
+		        <ul class="action-links"><?php print render($action_links); ?></ul>
+		    <?php endif; ?>
+
+			<?php endif; ?>
       <!--googleoff: all-->
     <?php endif; ?>
-    <?php print render($title_suffix); ?>
-    <?php print render($tabs); ?>
-    <?php print $messages; ?>
-    <?php if ($action_links = render($action_links)): ?>
-        <ul class="action-links"><?php print render($action_links); ?></ul>
-    <?php endif; ?>
-    
     <!--googleon: all-->
     <?php print render($page['content']); ?>
     <!--googleoff: all-->

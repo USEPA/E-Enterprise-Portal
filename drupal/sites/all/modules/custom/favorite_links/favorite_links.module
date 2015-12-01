@@ -27,7 +27,6 @@ function favorite_links_menu() {
             'page arguments' => array(1),
             'type' => MENU_CALLBACK,
     );
-
     return $items;
 } 
 
@@ -77,7 +76,7 @@ function process_favorite_link() {
               'field_title_format' => null,
               'field_url_value' => $url,
               'field_url_format' => null,
-              'field_title' => array( 
+              'field_title' => array(
                                 LANGUAGE_NONE => array( 
                                    0 => array (
                                      'value' => $title
@@ -141,7 +140,7 @@ function load_links() {
   else {
     $url_data = false;
   }
-  $results = array('urls' => $url_data, 'url_mapping' => $url_ids_array, 'label_mapping' => $labels_ids_array);
+  $results = array('urls' => $url_data, 'url_mapping' => $url_ids_array, 'label_mapping' => $labels_ids_array, 'full_data' => $user_urls[LANGUAGE_NONE]);
   echo json_encode($results);
 }
 

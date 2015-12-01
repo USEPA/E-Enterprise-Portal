@@ -1,5 +1,34 @@
 (function ($) {
 
+    //var LinkHeart = function (id) {
+    //    this.id = id;
+    //    this.unfavor = function() {
+    //        // function to unfavor button
+    //    }
+    //    this.favor = function() {
+    //        //function to favor button
+    //    }
+    //    this.favorite_html =       "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + this.id + "|favorite_link' " +
+    //        "class=' remove_link favorite_hover old_link glyphicon glyphicon-heart filled' aria-hidden='true'></span></div>";
+    //    this.non_favorite_html = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + this.id + '|' + text_title + '"' +
+    //    "class='add_link favorite_hover new_link glyphicon glyphicon-heart empty' aria-hidden='true'></span></div>";
+    //}
+    //
+    //var LinkGroups = function() {
+    //
+    //    this.link_hearts = [];
+    //    this.add_link_heart = function(link_heart) {
+    //        this.link_hearts[]''
+    //    }
+    //
+    //
+    //    this.favor = function(id) {
+    //
+    //    }
+    //
+    //}
+
+
     $(document).ready(function () {
 
         // Only run on workbench
@@ -27,12 +56,10 @@
                         success: function (data) {
                             var data = $.parseJSON(data);
                             if (data.url_data != 'false') {
+                                console.log(data);
                                 favorite_urls = data.urls;
                                 favorite_url_mapping = data.url_mapping;
                                 id_label_mapping = data.label_mapping;
-                                // if (process_page_anchors) {
-                                // 	processPageAnchors();
-                                // }
                             }
                         }
                     });
@@ -95,7 +122,7 @@
                         }
                     });
                     // process anchor tags
-                    $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore)').each(function () {
+                    $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .paginate_button)').each(function () {
                         if ($(this).text().length > 0 && $(this).attr('href') != '#' && $(this).attr('href') != '/') {
                             if (!$(this).hasClass('processed-favorite')) {
                                 var url = $(this).attr('href');
@@ -130,27 +157,21 @@
                 }
 
 
-                // $('.favorite_hover').mouseover(function() {
-                // 	$(this).show();
-                // });
-                // $('.favorite_hover:not(.btn-default)').mouseout(function(	// $('.favorite_hover:not(.btn-dfault)').mouseout(function() {
-                // 	$(this).hide();
-                // });
-
                 load_links(true);
 
                 $(document.body).on('click', '.old_link', function () {
                     var string_array = $(this).attr('id').split('|');
                     var id = string_array[0];
                     var action;
-                    if ($(this).hasClass('add_link')) {
+                    var $this = $(this);
+                    if ($this.hasClass('add_link')) {
                         action = 'add';
                     }
                     else {
                         action = 'remove';
                     }
-                    processFavoriteLink($(this), action, id, '');
-                    if ($(this).hasClass('.in-widget')) {
+                    processFavoriteLink($this, action, id, '');
+                    if ($this.hasClass('.in-widget')) {
                         load_links(true);
                     }
                     // processPageAnchors();
@@ -161,14 +182,15 @@
                     var url = string_array[0];
                     var label = string_array[1];
                     var action;
-                    if ($(this).hasClass('add_link')) {
+                    var $this = $(this);
+                    if ($this.hasClass('add_link')) {
                         action = 'add';
                     }
                     else {
                         action = 'remove';
                     }
-                    processFavoriteLink($(this), action, url, label);
-                    if ($(this).hasClass('.in-widget')) {
+                    processFavoriteLink($this, action, url, label);
+                    if ($this.hasClass('.in-widget')) {
                         load_links(true);
                     }
                     // processPageAnchors();
