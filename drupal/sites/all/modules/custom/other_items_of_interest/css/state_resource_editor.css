@@ -1,0 +1,7 @@
+#editableviews-entity-form-state-resource-editor #edit-actions-submit, .view-id-state_resource_editor .new-state-resource {
+    float: left;
+}
+
+.view-id-state_resource_editor .back-state-resource{
+    float: right;
+  }

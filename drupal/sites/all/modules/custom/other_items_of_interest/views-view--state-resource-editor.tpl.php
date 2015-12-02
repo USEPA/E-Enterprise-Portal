@@ -96,7 +96,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/favorite-sites.cs
         </div>
     <?php endif; ?>
 
-    <a href="/new-state-resource" class="new-state-resource">New</a>
     <a href="/#favorite-state-resources" class="back-state-resource">Back</a>
+    <a href="/new-state-resource" class="new-state-resource">New</a>
 
 </div><?php /* class view */ ?>

@@ -12294,18 +12294,6 @@ form[id^='user-profile-form'] .vocab-arrow {
   vertical-align: middle;
 }
 
-/***
-CSS for Editable Table for State Resources, BMATKIN
-***/
-/* line 1941, ../sass/styles.scss */
-#editableviews-entity-form-state-resource-editor #edit-actions-submit, .view-id-state_resource_editor .new-state-resource {
-  float: left;
-}
-
-/* line 1945, ../sass/styles.scss */
-.view-id-state_resource_editor .back-state-resource {
-  float: right;
-}
 
 /* line 1952, ../sass/styles.scss */
 #links_description table > tbody > tr > td:nth-child(2) {
