@@ -7,45 +7,52 @@
                 'alias': 'USEPA GeoPlatform Online',
                 'contactemail': 'epageoplatform@epa.gov',
                 'url': 'https://epa.maps.arcgis.com',
-                'q': 'orgid:cJ9YHowT8TU7DUyn (type:"Web Mapping Application" OR type:"Mobile Application") -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In"'
+                'orgid': 'orgid:cJ9YHowT8TU7DUyn'
             }, {
                 'id': 'MPCA',
                 'alias': 'Minnesota Pollution Control Agency',
                 'contactemail': 'webteam.pca@state.mn.us',
                 'url': 'https://mpca.maps.arcgis.com',
-                'q': '(group:"5ef8204969ca4aebb247b9013acebe02")  -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration"  (type:"Web Mapping Application")'
+                'orgid': 'orgid:7QMLozViUIV7KGFq'
             }, {
                 'id': 'Omaha',
                 'alias': 'City of Omaha, Nebraska',
                 'contactemail': 'gis@douglascounty-ne.gov',
                 'url': 'https://omaha.maps.arcgis.com',
-                'q': 'orgid:tIBLyYZX96jUntYm  -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration"  (type:"Web Mapping Application")'
+                'orgid': 'orgid:tIBLyYZX96jUntYm'
             }, {
                 'id': 'NOAA',
                 'alias': 'NOAA',
                 'contactemail': 'gis.community@noaa.gov',
                 'url': 'https://noaa.maps.arcgis.com',
-                'q': 'orgid:C8EMgrsFcRFL6LrL  -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration"  (type:"Web Mapping Application" AND tags:"oceans")'
+                'orgid': 'orgid:C8EMgrsFcRFL6LrL tags:"oceans"'
             }]
         };
+        
 
+        //Direct link to EPA maps
         var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse EPA gallery...</a> | <a href="node/add/ee-map-set">Add a mapset</a>';
-        var totThumbnails = 0;
         var jcarousel = $('.jcarousel').jcarousel();
-        var reloadAndCreateCounter = 0;
-        var last_reload = -1;
-
-        var totalNumOrgs = mapsets.mapsets.length;
-
         //Opening UL only created in init of gallery    
         var $ul = $('<ul>', {'class': 'thumb'});
         jcarousel.html($ul);
 
+        var totThumbnails = 0;
+        //Counter for keeping track of agency mapset insertion-induced reloads
+        var reloadCounter = 0;
+        //Track the last reload to trigger the reloadend event
+        var last_reload = -1;
+
+        var totalNumOrgs = mapsets.mapsets.length;
+
+        //Query all AGOL endpoints given from mapsets JSON
         query_AGOL(mapsets);
 
 
-        /***********************jcarousel event listeners*******************************/
+        /********************jcarousel event listeners***********************/
         jcarousel.on('jcarousel:reload jcarousel:create', function () {
+            //Set max number of items displayed to be 5, with less
+            //visible based on current browser width
             var carousel = $(this),
                 width = carousel.innerWidth();
 
@@ -58,23 +65,22 @@
             } else if (width >= 350) {
                 width = (width / 2) - 4;
             }
-
             carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
         });
 
         jcarousel.on('jcarousel:reloadend', function () {
-            if (last_reload != reloadAndCreateCounter) {
+            //Event listener for carousel reloads
+            if (last_reload != reloadCounter) {
+                //Only contintue if reload was generated from a mapset insertion
                 var carousel = $(this);
-                var numItemsVisible = $('.thumb > li:visible').length;
-                console.log("scrolling " + reloadAndCreateCounter + " " + numItemsVisible);
-                //don't want to fire this every time on reload since the order gets shuffled each time, only for the last org that is loaded
-                //Firefox doesn't scroll to 0 like it should, so this is a temp workaround
-                //console.log(reloadAndCreateCounter);
-                if (reloadAndCreateCounter == totalNumOrgs) {
+                //don't want to fire this every time on reload since the
+                //order gets shuffled each time, only for the last org
+                //that is loaded
+                if (reloadCounter == totalNumOrgs) {
                     carousel.jcarousel('scroll', 0);
                     turnOnVisibleThumbs();
                 }
-                last_reload = reloadAndCreateCounter;
+                last_reload = reloadCounter;
             }
         });
 
@@ -113,21 +119,24 @@
             var filterType = $(this).attr('id');
             $('.myMapFilterTerm').parent('li').removeClass('active-mymaps-filter');
             $(this).parent('li').addClass('active-mymaps-filter');
-            //$(this).blur(); //was used as workaround to holding focus after click, but broke tab focus and caused 508 issues
             filterMyMapsGallery(filterType);
         });
 
 
-        /**********************************functions**********************************/
+        /*****************************functions******************************/
         function turnOnVisibleThumbs() {
-            // Function to turn on thumbnail image sources for visible jcarousel entries.
+            //Function to turn on thumbnail image sources for visible
+            //jcarousel entries.
 
-            // jcarousel's "visible" list doesn't actually include the last visible item, so we need to build our own list
-            // Find start of visible list
+            //jcarousel's "visible" list doesn't actually include the
+            //last visible item, so we need to build our own list
+            //Find start of visible list
             start = $.inArray(jcarousel.jcarousel('visible')[0], $(".thumb").find("li").not(":hidden"));
-            // Max number of visible items in our carousel is 5, so set ending point to offset 6
+            //Max number of visible items in our carousel is 5,
+            //so set ending point to offset 6
             end = start + 6;
-            // Slide the full list of entries to just those 5 we are interested in (all possible visible & not filtered/hidden)
+            //Slide the full list of entries to just those 5 we are
+            //interested in (all possible visible & not filtered/hidden)
             $(".thumb").find("li").not(":hidden").slice(start, end).each(function () {
                 // If the img source is not already turned on
                 if (!$(this).find(".thumbnailImg").attr("src")) {
@@ -179,9 +188,10 @@
                     type: 'GET',
                     url: mapset.url + '/sharing/rest/search',
                     async: true,
-                    //hardcoded string for EPA  GPO (AGOL) query - hardcoded query for empty string (wildcard) - later to implement tag search or similar for filtering based on dynamic criteria
+                    //later to implement tag search or similar for
+                    //filtering based on dynamic criteria
                     data: {
-                        q: mapset.q,
+                        q: mapset.orgid + ' -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration" (type:"Web Mapping Application" OR type:"Mobile Application")',
                         f: 'json',
                         num: '100'
                     },
@@ -201,10 +211,6 @@
 
         //create the MyMaps thumbnail gallery from the AGOL API query results
         function setupMyMapsGalleryWithThumbs(data, mapset) {
-            //Opening UL only created in init of gallery
-            var $ul = $('<ul>', {
-                'class': 'thumb'
-            });
             var numGoodResults = 0;
             var thumbnailNum = 0;
 
@@ -298,7 +304,7 @@
 
             $('.thumb').randomize('li');
             console.log("reload" + mapset.id)
-            reloadAndCreateCounter++;
+            reloadCounter++;
             jcarousel.jcarousel('reload');
 
             $(".ellipsis").dotdotdot({
@@ -345,7 +351,5 @@
                 $('.jcarousel').jcarousel('scroll', '+=1');
             }
         });
-
-
     });
 })(jQuery);
