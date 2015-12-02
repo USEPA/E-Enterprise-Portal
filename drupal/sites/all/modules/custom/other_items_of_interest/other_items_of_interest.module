@@ -47,6 +47,7 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
     global $user;
     if ($form_id == 'state_resource_node_form') {
         $form_state['rebuild'] = TRUE;
+        $form['#validate'][] = 'other_items_of_interest_form_validate';
 
         // Check if user is not admin
         if ($user->uid > 1) {
@@ -59,8 +60,18 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
             $form['title']['#attributes'] = array(
                 'disabled' => 'disabled');
         }
+
+
         $form['link'] = array('#markup' => l(t('Back'), '/state-resource-editor'));
         $form['actions']['submit']['#submit'][] = 'new_state_form_redirect';
+    }
+}
+
+function other_items_of_interest_form_validate($form, &$form_state){
+    $url = $form_state['values']['field_source_url'][LANGUAGE_NONE][0]['value'];
+    if (!valid_url($url, TRUE)) {
+        $message = "Invalid Web URL";
+        form_set_error('url', $message);
     }
 }
 

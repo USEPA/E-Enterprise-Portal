@@ -40,6 +40,7 @@
                         $all_state_resources_wrapper.html(table);
                         var $table = $all_state_resources_wrapper.find('table');
                         $table.DataTable(datatable_options($all_state_resources_wrapper));
+                        $table.removeClass("dataTable no-footer").addClass('views-table cols-3 responsive-table');
                         all_states_cached = true;
                         $favorite_state_wrapper.hide();
                     }
@@ -62,6 +63,7 @@
                         $favorite_state_wrapper.html(table);
                         var $table = $favorite_state_wrapper.find('table');
                         $table.DataTable(datatable_options($favorite_state_wrapper));
+                        $table.removeClass("dataTable no-footer").addClass('views-table cols-3 responsive-table');
                         favorite_cached = true;
                         $all_state_resources_wrapper.hide();
                     }
