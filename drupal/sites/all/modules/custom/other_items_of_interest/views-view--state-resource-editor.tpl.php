@@ -32,7 +32,7 @@
 // Add js for qtipping a preview for the urls
 $module_name = "other_items_of_interest";
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/preview_urls.js", "file");
-drupal_add_css(drupal_get_path('module', $module_name) . "/css/favorite-sites.css", "file");
+drupal_add_css(drupal_get_path('module', $module_name) . "/css/state_resource_editor.css", "file");
 
 ?>
 
