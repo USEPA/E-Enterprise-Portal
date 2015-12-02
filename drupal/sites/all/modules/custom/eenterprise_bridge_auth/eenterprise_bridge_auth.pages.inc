@@ -311,7 +311,7 @@ function create_progress_tracker($user)
         }
     } catch (SoapFault $f) {
         drupal_set_message('Cannot query.', 'error');
-        watchdog('eenterprise_bridge_auth', "Error 0005: Cannot query.", array(), WATCHDOG_ERROR);
+        watchdog('eenterprise_bridge_auth', "Error 0005: Cannot query. ".$f->faultstring, array(), WATCHDOG_ERROR);
         return;
     }
 }
