@@ -69,7 +69,6 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
 
 function other_items_of_interest_form_validate($form, &$form_state){
     $url = $form_state['values']['field_source_url'][LANGUAGE_NONE][0]['value'];
-    dpm($url);
     if (!valid_url($url, TRUE)) {
         $message = "Invalid Web URL";
         form_set_error('url', $message);
