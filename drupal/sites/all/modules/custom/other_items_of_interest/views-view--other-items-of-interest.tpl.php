@@ -7,8 +7,9 @@
 
 
 ?>
-    <button id="restrict-to-states-button" type="button">Favorite Locations</button>
-        <button id="all-states-button" type="button" class="inactive">All Locations</button>
+<button id="restrict-to-current-button" type="button"></button>
+    <button id="restrict-to-states-button" type="button" class="inactive">Favorites</button>
+        <button id="all-states-button" type="button" class="inactive">All</button>
 <?php
 // Load the currently logged in user.
 global $user;
@@ -21,7 +22,8 @@ if (in_array('state_admin', $user->roles)) {
 <?php
 }
 ?>
-<div id="all-state-resources"></div>
+<div id="current-state-resources"></div>
 <div id="favorite-state-resources"></div>
+<div id="all-state-resources"></div>
 
 
