@@ -288,9 +288,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_initial_log_in']);
         hide($form['field_interests2']);
 
-
-        // Check if the user has the 'state_admin' role.
-        if (!in_array('state_admin', $user->roles)) {
+        // If user is admin allow to edit state admin STATE.
+        if ($user->uid > 1) {
             hide($form['field_admin_state']);
         }
 
