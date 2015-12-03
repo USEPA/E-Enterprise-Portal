@@ -13,6 +13,11 @@ function other_items_of_interest_menu()
         'page callback' => 'generateAllAreasOfInterestTable',
         'access callback' => TRUE,
     );
+    $items['generateCurrentAreaOfInterestTable'] = array(
+                'page callback' => 'generateCurrentAreaOfInterestTable',
+        'access callback' => TRUE,
+
+    );
 
     return $items;
 }
@@ -97,7 +102,6 @@ function new_state_form_redirect($form, &$form_state) {
      $query->entityCondition('entity_type', 'node')
          ->entityCondition('bundle', 'state_resource')
          ->propertyCondition('status', 1);
-
      $results = $query->execute();
      if (isset($results['node'])) {
          $nids = array_keys($results['node']);
@@ -178,6 +182,30 @@ function generateFavoriteAreasOfInterestTable() {
             }
         }
 
+        echo "</tbody> </table>";
+}
+
+// Takes state code for filtering
+function generateCurrentAreaOfInterestTable() {
+        $state_resources = loadStateResources();
+        echo "<table id='other-areas-of-interest-table'>" .
+            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
+            "<tbody>";
+    if (isset($_POST['state'])) {
+        $user_selected_state = $_POST['state'];
+        foreach ($state_resources as $nid => $nid_data) {
+            $state = $nid_data->title;
+            if ($state == $user_selected_state) {
+                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
+                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
+                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
+                echo "<tr><td>$state</td>" .
+                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
+                    "<br /><div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
+                    "<td>$topic</td></tr>";
+            }
+        }
+    }
         echo "</tbody> </table>";
 }
 

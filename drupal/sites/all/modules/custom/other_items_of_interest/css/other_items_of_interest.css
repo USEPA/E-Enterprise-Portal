@@ -11,7 +11,7 @@
     white-space: normal;
 }
 
-#restrict-to-states-button.inactive, #all-states-button.inactive {
+#restrict-to-states-button.inactive, #all-states-button.inactive, #restrict-to-current-button.inactive {
     background-color: white;
     color: black;
 
