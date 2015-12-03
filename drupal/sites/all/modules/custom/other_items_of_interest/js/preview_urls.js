@@ -4,9 +4,19 @@
 
     function previewButton(elem) {
         var url = elem.text();
+        var htt = url.split(':')[0];
         var button = $("<button class='preview_button'>Preview</button>");
         button.click(function() {
-            openDialog(url);
+            if (htt == 'https') {
+                openDialog(url);
+            }
+            else {
+                window.open(
+                   url,
+                    '_blank' // <- This is what makes it open in a new window.
+                );
+
+            }
         });
         return button;
 
