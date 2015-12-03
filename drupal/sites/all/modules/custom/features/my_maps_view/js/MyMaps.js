@@ -1,7 +1,13 @@
 (function($) {
   $(function() {
 
-    var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse EPA gallery...</a> | <a href="node/add/ee-map-set">Add a mapset</a>';
+		//If user is a state_admin, then show the "Add agency maps" link
+    if (Drupal.settings.userrole == 'state_admin') {
+    	var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>     <a href="/node/add/ee-map-set" class="favorites-ignore last">Add agency maps</a>';
+		}
+    else {
+	  	var galleryLink = '<a class="first" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>';
+	  }
     var totThumbnails = 0;
     var jcarousel = $('.jcarousel').jcarousel();
     var reloadAndCreateCounter = 0;

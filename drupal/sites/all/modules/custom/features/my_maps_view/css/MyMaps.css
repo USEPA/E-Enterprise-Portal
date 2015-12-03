@@ -3,7 +3,17 @@
   margin-top: 0px;
   font-size: 0.85em;
 }
-
+#numThumbnails a {
+	border-right: 1px solid #aaa;
+	padding-right: 5px;
+}
+#numThumbnails a.first {
+	border-right: none;
+}
+#numThumbnails a.last {
+	padding-left: 3px;
+	border-right: none;
+}
 .wrapper {
   max-width: 620px;
   margin: auto;
