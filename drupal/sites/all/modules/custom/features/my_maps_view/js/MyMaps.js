@@ -1,6 +1,7 @@
 (function ($) {
     $(function () {
 
+        // Temporary JSON - to be replaced with backend from ticket #764
         var mapsets = {
             'mapsets': [{
                 'id': 'EPA',
@@ -50,7 +51,21 @@
 
 
         /********************jcarousel event listeners***********************/
-        jcarousel.on('jcarousel:reload jcarousel:create', function () {
+        jcarousel.on('jcarousel:reloadend', function () {
+            //Event listener for carousel reloads
+            if (last_reload != reloadCounter) {
+                //Only contintue if reload was generated from a mapset insertion
+                var carousel = $(this);
+                //don't want to fire this every time on reload since the
+                //order gets shuffled each time, only for the last org
+                //that is loaded
+                if (reloadCounter == totalNumOrgs) {
+                    carousel.jcarousel('scroll', 0);
+                    turnOnVisibleThumbs();
+                }
+                last_reload = reloadCounter;
+            }
+
             //Set max number of items displayed to be 5, with less
             //visible based on current browser width
             var carousel = $(this),
@@ -66,22 +81,6 @@
                 width = (width / 2) - 4;
             }
             carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
-        });
-
-        jcarousel.on('jcarousel:reloadend', function () {
-            //Event listener for carousel reloads
-            if (last_reload != reloadCounter) {
-                //Only contintue if reload was generated from a mapset insertion
-                var carousel = $(this);
-                //don't want to fire this every time on reload since the
-                //order gets shuffled each time, only for the last org
-                //that is loaded
-                if (reloadCounter == totalNumOrgs) {
-                    carousel.jcarousel('scroll', 0);
-                    turnOnVisibleThumbs();
-                }
-                last_reload = reloadCounter;
-            }
         });
 
         $('.jcarousel-control-prev')
