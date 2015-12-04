@@ -3232,6 +3232,22 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 			padding: 5px 20px;
 		}
 	}
+	#edit-actions {
+		width: 27em;
+		a {
+			right: auto;
+			left: 6em;
+		}
+		#edit-delete {
+			@include button-gray;
+			position: absolute;
+			right: 0;
+			font-weight: normal;
+			padding: 5px 20px;
+			border: 1px solid #aaa;
+			color: #000;
+		}
+	}
 }
 
 
