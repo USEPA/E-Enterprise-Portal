@@ -1,2 +1,11 @@
 #Ignore all sass-cache
 .sass-cache
+drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.fe_block_settings.inc
+drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.field_base.inc
+drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.field_instance.inc
+drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.inc
+drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.taxonomy.inc
+drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.user_permission.inc
+drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.info
+drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.module
+drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.views_default.inc
