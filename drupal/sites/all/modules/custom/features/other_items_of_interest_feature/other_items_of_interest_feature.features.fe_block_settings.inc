@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * other_items_of_interest_.features.fe_block_settings.inc
+ * other_items_of_interest_feature.features.fe_block_settings.inc
  */
 
 /**
  * Implements hook_default_fe_block_settings().
  */
-function other_items_of_interest__default_fe_block_settings() {
+function other_items_of_interest_feature_default_fe_block_settings() {
   $export = array();
 
   $export['version'] = '2.0';

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * other_items_of_interest_.features.field_instance.inc
+ * other_items_of_interest_feature.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function other_items_of_interest__field_default_field_instances() {
+function other_items_of_interest_feature_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-state_resource-field_source'

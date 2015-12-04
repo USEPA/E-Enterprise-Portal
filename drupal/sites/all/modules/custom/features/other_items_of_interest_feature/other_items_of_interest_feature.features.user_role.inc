@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * other_items_of_interest_.features.user_role.inc
+ * other_items_of_interest_feature.features.user_role.inc
  */
 
 /**
  * Implements hook_user_default_roles().
  */
-function other_items_of_interest__user_default_roles() {
+function other_items_of_interest_feature_user_default_roles() {
   $roles = array();
 
   // Exported role: state_admin.

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * other_items_of_interest_.views_default.inc
+ * other_items_of_interest_feature.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function other_items_of_interest__views_default_views() {
+function other_items_of_interest_feature_views_default_views() {
   $export = array();
 
   $view = new view();
@@ -233,8 +233,8 @@ function other_items_of_interest__views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'Actions';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a href=\'[edit_node]\'><i class="fa fa-pencil-square-o"></i></a> <br />
-<a href=\'[delete_node]\'><i class="fa fa-ban"></i></a>
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '[edit_node] <br />
+[delete_node]
 ';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';

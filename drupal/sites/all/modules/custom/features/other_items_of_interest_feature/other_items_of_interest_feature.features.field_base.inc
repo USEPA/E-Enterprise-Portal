@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * other_items_of_interest_.features.field_base.inc
+ * other_items_of_interest_feature.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function other_items_of_interest__field_default_field_bases() {
+function other_items_of_interest_feature_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'field_source'

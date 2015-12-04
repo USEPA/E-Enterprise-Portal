@@ -1,9 +1,9 @@
-name = Other Items of Interest 
-description = Content types and views for Other Items of Interest feature
+name = Other Items of Interest Feature
+description = Provides content type and views for other items of interest
 core = 7.x
 package = Features
 version = 7.x-1.0
-project = other_items_of_interest_
+project = other_items_of_interest_feature
 dependencies[] = fe_block
 dependencies[] = list
 dependencies[] = other_items_of_interest
