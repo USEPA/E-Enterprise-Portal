@@ -3,12 +3,10 @@
 
   var currentZip;
   var previousZip;
-  var testZip = 60660;
 
   $(document).ready(function() {
   	  $(document).on('ee:zipCodeQueried', function(evt, data) {
       currentZip = data.zip;
-      console.log("current zip is:", currentZip);
       if (currentZip !== '' && currentZip !== previousZip) {
         updateMyEnvMapperLoc(data);
       }
