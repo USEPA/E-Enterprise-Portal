@@ -261,7 +261,7 @@
               }),
               $('<p>', {
                 'data-toggle': 'tooltip',
-                'class': 'ee-bootstrap-tooltip mapAppContact ellipsis',
+                'class': 'mapAppContact',
                 id: 'thumbnail-contact-' + thumbnailNum,
                 'title': orgContactEmail,
                 'html': orgContactEmail
@@ -416,7 +416,7 @@
               }),
               $('<p>', {
                 'data-toggle': 'tooltip',
-                'class': 'ee-bootstrap-tooltip mapAppContact ellipsis',
+                'class': 'mapAppContact',
                 id: 'thumbnail-contact-' + thumbnailNum,
                 'title': orgContactEmail,
                 'html': orgContactEmail
@@ -571,7 +571,7 @@
               }),
               $('<p>', {
                 'data-toggle': 'tooltip',
-                'class': 'ee-bootstrap-tooltip mapAppContact ellipsis',
+                'class': 'mapAppContact',
                 id: 'thumbnail-contact-' + thumbnailNum,
                 'title': orgContactEmail,
                 'html': orgContactEmail
@@ -724,7 +724,7 @@
               }),
 							$('<p>', {
                 'data-toggle': 'tooltip',
-                'class': 'ee-bootstrap-tooltip mapAppContact ellipsis',
+                'class': 'mapAppContact',
                 id: 'thumbnail-contact-' + thumbnailNum,
                 'title': orgContactEmail,
                 'html': orgContactEmail
