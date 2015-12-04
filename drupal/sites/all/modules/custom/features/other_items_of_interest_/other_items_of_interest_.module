@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Other Items of Interest  feature.
+ */
+
+include_once 'other_items_of_interest_.features.inc';
