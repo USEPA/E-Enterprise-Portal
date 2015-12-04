@@ -81,8 +81,6 @@
         var $tabs = $("#other-areas-tabs");
         $tabs.tabs();
 
-        var $tabs = $("#other-areas-tabs");
-        $tabs.tabs();
 
         var $location_select  = $('#location-select');
         var location = $('#location-select option:selected').text();
@@ -130,7 +128,7 @@
 
         $location_select.change(function() {
             var location = $('#location-select option:selected').text();
-            $('#restrict-to-current-button').text(location);
+            $('#restrict-to-current-button a').text(location);
             current_state_table.update_current_location(location);
             current_state_table.ajax_request();
         });
