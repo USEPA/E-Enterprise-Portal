@@ -19,7 +19,7 @@ global $user;
 // Check if the user has the 'editor' role.
 if (in_array('state_admin', $user->roles)) {
     ?>
-    <div class="action-links"><a class="favorites-ignore first" href="/new-state-resource">Add state resource</a> <a href="/state-resource-editor" class="favorites-ignore last">Edit</a>
+    <div class="action-links"><a class="favorites-ignore first" href="/new-state-resource">Add state resource</a> <a href="/state-resource-editor" class="favorites-ignore last">Edit</a></div>
 <?php
 }
 ?>
