@@ -221,11 +221,11 @@
               $('<a>', {
                 'class': 'thumbhyperlink',
                 'data-accessinfo': orgAlias,
-                'data-conactemail': orgContactEmail,
+                'data-contactemail': orgContactEmail,
                 'data-tags': itemTags,
                 'href': hyperlinkURL,
                 'title': this.title,
-                'target': '_blank'
+                'target': '_blank',
               }).append(
                 $('<img>', {
                   'class': 'thumbnailImg',
@@ -239,7 +239,8 @@
                 'data-toggle': 'tooltip',
                 'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis',
                 'title': this.title,
-                'html': this.title
+                'html': this.title,
+                'aria-describedby': 'thumbnail-desc-noaa-' + thumbnailNum + ' ' + 'thumbnail-source-noaa-' + thumbnailNum + ' ' + 'thumbnail-contact-' + thumbnailNum,                
               }),
               //the description element can contain HTML markup so use .text to un-format the string
               //Omaha has no descriptions in their publicly shared WMAs
@@ -248,7 +249,8 @@
                 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis',
                 'id': 'thumbnail-desc-' + thumbnailNum,
                 'title': truncate($(desc).text(), 1000),
-                'html': $(desc).text()
+                'html': $(desc).text(),
+                'tabindex': '0',                
               }),
               $('<p>', {
                 'data-toggle': 'tooltip',
@@ -256,6 +258,13 @@
                 id: 'thumbnail-source-' + thumbnailNum,
                 'title': orgAlias,
                 'html': orgAlias
+              }),
+              $('<p>', {
+                'data-toggle': 'tooltip',
+                'class': 'ee-bootstrap-tooltip mapAppContact ellipsis',
+                id: 'thumbnail-contact-' + thumbnailNum,
+                'title': orgContactEmail,
+                'html': orgContactEmail
               })
             )
           );
@@ -367,7 +376,7 @@
               $('<a>', {
                 'class': 'thumbhyperlink',
                 'data-accessinfo': orgAlias,
-                'data-conactemail': orgContactEmail,
+                'data-contactemail': orgContactEmail,
                 'data-tags': itemTags,
                 'href': hyperlinkURL,
                 'title': this.title,
@@ -385,7 +394,8 @@
                 'data-toggle': 'tooltip',
                 'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis',
                 'title': this.title,
-                'html': this.title
+                'html': this.title,
+                'aria-describedby': 'thumbnail-desc-noaa-' + thumbnailNum + ' ' + 'thumbnail-source-noaa-' + thumbnailNum + ' ' + 'thumbnail-contact-' + thumbnailNum,                                
               }),
               //the description element can contain HTML markup so use .text to un-format the string
               //Omaha has no descriptions in their publicly shared WMAs
@@ -394,7 +404,8 @@
                 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis',
                 'id': 'thumbnail-desc-MPCA-' + thumbnailNum,
                 'title': truncate($(desc).text(), 1000),
-                'html': $(desc).text()
+                'html': $(desc).text(),
+                'tabindex': '0',                
               }),
               $('<p>', {
                 'data-toggle': 'tooltip',
@@ -402,7 +413,14 @@
                 id: 'thumbnail-source-MPCA-' + thumbnailNum,
                 'title': orgAlias,
                 'html': orgAlias
-              })
+              }),
+              $('<p>', {
+                'data-toggle': 'tooltip',
+                'class': 'ee-bootstrap-tooltip mapAppContact ellipsis',
+                id: 'thumbnail-contact-' + thumbnailNum,
+                'title': orgContactEmail,
+                'html': orgContactEmail
+              })              
             )
           );
 
@@ -513,7 +531,7 @@
               $('<a>', {
                 'class': 'thumbhyperlink',
                 'data-accessinfo': orgAlias,
-                'data-conactemail': orgContactEmail,
+                'data-contactemail': orgContactEmail,
                 'data-tags': itemTags,
                 'href': hyperlinkURL,
                 'title': this.title,
@@ -531,7 +549,8 @@
                 'data-toggle': 'tooltip',
                 'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis',
                 'title': this.title,
-                'html': this.title
+                'html': this.title,
+                'aria-describedby': 'thumbnail-desc-noaa-' + thumbnailNum + ' ' + 'thumbnail-source-noaa-' + thumbnailNum + ' ' + 'thumbnail-contact-' + thumbnailNum,                                
               }),
               //the description element can contain HTML markup so use .text to un-format the string
               //Omaha has no descriptions in their publicly shared WMAs
@@ -540,7 +559,8 @@
                 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis',
                 'id': 'thumbnail-desc-omahane-' + thumbnailNum,
                 'title': truncate($(desc).text(), 1000),
-                'html': $(desc).text()
+                'html': $(desc).text(),
+                'tabindex': '0',                
               }),
               $('<p>', {
                 'data-toggle': 'tooltip',
@@ -548,7 +568,14 @@
                 id: 'thumbnail-source-omahane-' + thumbnailNum,
                 'title': orgAlias,
                 'html': orgAlias
-              })
+              }),
+              $('<p>', {
+                'data-toggle': 'tooltip',
+                'class': 'ee-bootstrap-tooltip mapAppContact ellipsis',
+                id: 'thumbnail-contact-' + thumbnailNum,
+                'title': orgContactEmail,
+                'html': orgContactEmail
+              })              
             )
           );
 
@@ -657,7 +684,7 @@
               $('<a>', {
                 'class': 'thumbhyperlink',
                 'data-accessinfo': orgAlias,
-                'data-conactemail': orgContactEmail,
+                'data-contactemail': orgContactEmail,
                 'data-tags': itemTags,
                 'href': hyperlinkURL,
                 'title': this.title,
@@ -675,7 +702,8 @@
                 'data-toggle': 'tooltip',
                 'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis',
                 'title': this.title,
-                'html': this.title
+                'html': this.title,
+                'aria-describedby': 'thumbnail-desc-noaa-' + thumbnailNum + ' ' + 'thumbnail-source-noaa-' + thumbnailNum + ' ' + 'thumbnail-contact-' + thumbnailNum,                 
               }),
               //the description element can contain HTML markup so use .text to un-format the string
               //Omaha has no descriptions in their publicly shared WMAs
@@ -684,7 +712,8 @@
                 'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis',
                 'id': 'thumbnail-desc-noaa-' + thumbnailNum,
                 'title': truncate($(desc).text(), 1000),
-                'html': $(desc).text()
+                'html': $(desc).text(),
+                'tabindex': '0',                
               }),
               $('<p>', {
                 'data-toggle': 'tooltip',
@@ -692,7 +721,14 @@
                 id: 'thumbnail-source-noaa-' + thumbnailNum,
                 'title': orgAlias,
                 'html': orgAlias
-              })
+              }),
+							$('<p>', {
+                'data-toggle': 'tooltip',
+                'class': 'ee-bootstrap-tooltip mapAppContact ellipsis',
+                id: 'thumbnail-contact-' + thumbnailNum,
+                'title': orgContactEmail,
+                'html': orgContactEmail
+              })              
             )
           );
 
