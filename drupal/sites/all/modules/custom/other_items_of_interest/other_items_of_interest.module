@@ -137,7 +137,7 @@ function generateAllAreasOfInterestTable() {
             $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
             echo "<tr><td>$state</td>" .
                 "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-                "<br /><div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
+                "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
                 "<td>$topic</td></tr>";
 
         }
@@ -161,7 +161,7 @@ function generateFavoriteAreasOfInterestTable() {
                 $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
                 echo "<tr><td>$state</td>" .
                     "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-                    "<br /><div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
+                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
                     "<td>$topic</td></tr>";
 
             }

@@ -1,6 +1,9 @@
  (function($) {
 
     $(document).ready(function() {
+    
+        var $tabs = $("#other-areas-tabs");
+        $tabs.tabs();
         var favorite_cached = false;
         var all_states_cached = false;
         var $favorite_state_wrapper = $("#favorite-state-resources");
@@ -72,6 +75,8 @@
                 $all_state_resources_wrapper.hide();
             }
         }
+
+        // $('#restrict-to-current-button a').text(location);
 
         $('#restrict-to-states-button').click(function() {
             if ($(this).hasClass('inactive')){
