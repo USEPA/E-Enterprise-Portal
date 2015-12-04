@@ -54,11 +54,10 @@ drupal_add_css(drupal_get_path('module', 'my_environment_mapper') ."/css/myEnvMa
       <?php print $attachment_before; ?>
     </div>
   <?php endif; ?>
-
+		<p class="my-enviro-more-info">For more information, visit <a href='' id="myEnvMoreInfo" rel="external">MyEnvironment</a>.</p>
     <div class="embedMyEnv-container">
         <iframe id="myEnviFrame" src='' title='My EnviroMapper map from EPA.gov' width='800' height='500' frameborder='0' style='border:0'></iframe>
     </div>
-
   <?php if ($pager): ?>
     <?php print $pager; ?>
   <?php endif; ?>
