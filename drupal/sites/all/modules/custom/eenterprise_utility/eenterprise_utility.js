@@ -62,7 +62,7 @@
 
 
 
-        // Lock save and add as to not submite faulty data before processed
+        // Lock save and add as to not submit faulty data before processed
         $('body').on('keyup paste', '.field_zip_code', function (e) {
             if ($(this).val() != '') {
                 hideButtons();
@@ -223,7 +223,7 @@
                         resetButtons(false);
                     }
                 }
-                // determine which table to place the Add Another buttom
+                // determine which table to place the Add Another button
                 if (target_url == '/system/ajax' || target_url == '/multifield/field-remove-item/ajax') {
                     var table_id = '';
                     var parent_id = '';

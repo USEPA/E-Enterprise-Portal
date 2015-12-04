@@ -2,3 +2,6 @@
 	margin-left: 5px;
 }
 
+input[type="submit"] {
+    font-family: FontAwesome;
+}
