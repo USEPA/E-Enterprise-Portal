@@ -6,10 +6,11 @@
     drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_interest.css", "file");
 
 
+
 ?>
 <button id="restrict-to-current-button" type="button"></button>
-    <button id="restrict-to-states-button" type="button" class="inactive">Favorites</button>
-        <button id="all-states-button" type="button" class="inactive">All</button>
+    <button id="restrict-to-states-button" type="button" class="inactive">Favorite Locations</button>
+        <button id="all-states-button" type="button" class="inactive">All Locations</button>
 <?php
 // Load the currently logged in user.
 global $user;
