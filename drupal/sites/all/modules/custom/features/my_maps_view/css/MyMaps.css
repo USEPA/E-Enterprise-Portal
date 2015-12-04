@@ -40,7 +40,9 @@
 
 .jcarousel li {
   float: left;
-  height: 230px;
+/*   height: 250px; */
+	height: 15.25em;
+	min-height: 240px;
   /*width: 200px;*/
   margin-right: 2px;
   margin-left: 2px;
@@ -51,7 +53,9 @@
 .thumbitem-border {
   padding: 2px;
   border: 1px solid #efefef;
-  height: 220px;
+/* 	height: 240px; */
+  height: 14.75em;
+  min-height: 220px;
   width: 190px;
   margin: auto;
 }
@@ -132,9 +136,8 @@
   max-height: 40px;
   max-width: 198px;
   font-size: 75%;
-  padding: 2px 5px;
+  padding: 2px 5px 2px;
   line-height: 1.2;
-  padding-bottom: 2px;
 }
 
 .mapAppSource {
@@ -145,9 +148,15 @@
   max-height: 40px;
   max-width: 198px;
   font-size: 65%;
-  padding: 2px 5px;
+  padding: 2px 5px 2px;
   line-height: 1.2;
-  padding-bottom: 2px;
+  font-weight:bold;
+}
+.mapAppContact {
+	padding: 2px 5px;
+	font-size: 65%;
+	margin: 1px auto 0;
+	line-height: normal;
 }
 
 .thumbnailImg {
