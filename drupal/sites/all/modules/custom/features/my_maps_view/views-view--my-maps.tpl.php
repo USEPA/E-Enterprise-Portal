@@ -26,10 +26,21 @@
  *
  * @ingroup views_templates
  */
-drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.dotdotdot.min.js", "file");
-drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.jcarousel.min.js", "file");
-drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/MyMaps.js", "file");
-drupal_add_css(drupal_get_path('module', 'my_maps_view') ."/css/MyMaps.css", "file");
+  // If user is a state admin, pass role to MyMaps.js to render Add agency maps link
+	global $user;
+	if (in_array('state_admin', $user->roles) || in_array('admin', $user->roles)) {
+	  drupal_add_js(array('userrole' => 'state_admin'), 'setting');
+	}
+	else {
+		drupal_add_js(array('userrole' => 'nonadmin'), 'setting');
+	}
+	
+ 	// Pass state admin role to provide additional options to MyMaps.js file
+	drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.dotdotdot.min.js", "file");
+	drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.jcarousel.min.js", "file");
+	drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/MyMaps.js", "file");
+	drupal_add_css(drupal_get_path('module', 'my_maps_view') ."/css/MyMaps.css", "file");
+
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
@@ -55,10 +66,9 @@ drupal_add_css(drupal_get_path('module', 'my_maps_view') ."/css/MyMaps.css", "fi
     </div>
   <?php endif; ?>
 
-
   <div class="view-content">
     <div id="numThumbnails" class="numThumbnails favorites-ignore">
-      <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">  Browse Gallery...</a>
+      <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse Gallery...</a>
     </div>
 
     <div id="myMapsFiltering">

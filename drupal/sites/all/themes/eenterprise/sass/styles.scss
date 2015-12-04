@@ -170,9 +170,14 @@ a:visited.pager__link {
 .menu-item {
 	letter-spacing: 0.25px;
 }
-#ee-disclaimer-form #edit-submit-button, #guest-login {
+#ee-disclaimer-form #edit-submit-button, #guest-login, .button.primary-action {
 	@include button;
 	padding: 10px 20px;
+}
+.button.primary-action {
+	text-decoration: none;
+	-moz-appearance: none;
+	-webkit-appearance: none; 
 }
 #guest-login {
 	padding: 8px 16px;
@@ -3194,6 +3199,41 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
     background-color: $color;
   }
 }
+#agency-map-node-form {
+	fieldset {
+		legend {
+			font-size: 0.85em;
+			border-bottom: none;
+			font-weight: bold;
+			margin-bottom: 0;
+		}
+		.fieldset-wrapper {
+			position: relative;
+		}
+		.fieldset-description {
+			position: absolute;
+			top: 100%;
+		}
+		.field-value-url {
+			margin-top: -20px; 
+		}
+	}
+	.fieldset-description, .description {
+			font-size: 0.75em;
+	}
+	.form-actions {
+		position: relative;
+		width: 9em;
+		a {
+			position: absolute;
+			right: 0;
+		}
+		input {
+			padding: 5px 20px;
+		}
+	}
+}
+
 
 @mixin btn-social($color-bg, $color: #fff) {
   background-color: $color-bg;

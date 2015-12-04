@@ -1,0 +1,5 @@
+name = Agency Map List
+description = A module to support state, tribal, and local admins adding their own map subscriptions
+core = 7.x
+version = "7.x-1.1"
+package = CGI
