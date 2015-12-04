@@ -3,7 +3,7 @@
 
 		//If user is a state_admin, then show the "Add agency maps" link
     if (Drupal.settings.userrole == 'state_admin') {
-    	var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>     <a href="/new-agency-map" class="favorites-ignore last">Add agency maps</a>';
+    	var galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>     <a href="/new-agency-map" class="favorites-ignore last">Add agency map collection</a>';
 		}
     else {
 	  	var galleryLink = '<a class="first" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>';
