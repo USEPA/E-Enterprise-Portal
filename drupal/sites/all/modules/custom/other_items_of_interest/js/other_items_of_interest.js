@@ -77,6 +77,10 @@
      }
 
     $(document).ready(function() {
+    
+	    var $tabs = $("#other-areas-tabs");
+	    $tabs.tabs();
+    
         var $location_select  = $('#location-select');
         var location = $('#location-select option:selected').text();
 
@@ -118,9 +122,8 @@
             }
         });
 
-
         // Dynamically set button text for currently selected location
-        $('#restrict-to-current-button').text(location);
+        $('#restrict-to-current-button a').text(location);
 
         $location_select.change(function() {
             var location = $('#location-select option:selected').text();

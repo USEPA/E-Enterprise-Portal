@@ -227,7 +227,7 @@
           $(document).on("ee:zipCodeChanged", function(evt, data) {
             hideError();
             showLoading();
-            $.getJSON('/zip_code_lookup?zip=' + data.zip, function(queryResponse) {
+            $.getJSON('zip_code_lookup?zip=' + data.zip, function(queryResponse) {
               doneLoading();
               if (queryResponse.string === '') { // invalid zip code
                 showError();
