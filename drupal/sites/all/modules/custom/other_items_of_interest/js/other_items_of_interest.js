@@ -1,86 +1,87 @@
 (function($) {
 
-     var ItemsOfInterestTable = function($wrapper, ajax_url, location) {
+    var ItemsOfInterestTable = function($wrapper, ajax_url, location) {
 
-         $wrapper.hide();
+        $wrapper.hide();
 
-         var datatable_options =  {
-             "sPaginationType": "full_numbers",
-             "oLanguage": {
-                 "oPaginate": {
-                     sLast: ">>",
-                     sNext: ">",
-                     sFirst: "<<",
-                     sPrevious: "<"
-                 }
-             },
-             "bLengthChange": false,
-             "sPageButton": "favorites-ignore",
-             "iDisplayLength": 3,
-             "fnDrawCallback": function () {
-                 if ($wrapper.find('.paginate_button').length < 6) {
-                     $wrapper.find('.dataTables_paginate')[0].style.display = "none";
-                 }
-             }
-         };
+        var datatable_options =  {
+            "sPaginationType": "full_numbers",
+            "oLanguage": {
+                "oPaginate": {
+                    sLast: ">>",
+                    sNext: ">",
+                    sFirst: "<<",
+                    sPrevious: "<"
+                }
+            },
+            "bLengthChange": false,
+            "sPageButton": "favorites-ignore",
+            "iDisplayLength": 3,
+            "fnDrawCallback": function () {
+                if ($wrapper.find('.paginate_button').length < 6) {
+                    $wrapper.find('.dataTables_paginate')[0].style.display = "none";
+                }
+            }
+        };
 
-         var cached = false;
-         this.wrapper = $wrapper;
-         this.ajax_url = ajax_url;
+        var cached = false;
+        this.wrapper = $wrapper;
+        this.ajax_url = ajax_url;
 
-         if (location) {
-             // Grab current state code
-             this.state_code = $.trim(location.split(',')[1]);
-         }
-         else {
-             this.state_code  = false;
-         }
+        if (location) {
+            // Grab current state code
+            this.state_code = $.trim(location.split(',')[1]);
+        }
+        else {
+            this.state_code  = false;
+        }
 
 
-         this.hideTable = function() {
-             $wrapper.hide();
-         }
+        this.hideTable = function() {
+            $wrapper.hide();
+        }
 
-         this.update_current_location = function(location) {
-             this.state_code = $.trim(location.split(',')[1]);
-             this.ajax_request();
-         }
+        this.update_current_location = function(location) {
+            this.state_code = $.trim(location.split(',')[1]);
+            this.ajax_request();
+        }
 
-         this.ajax_request = function() {
-             $.ajax({
-                 beforeSend:  function() {
-                     $wrapper.html('Loading...');
-                 },
-                 url: ajax_url,
-                 method: "POST",
-                 data: {state: this.state_code},
-                 success: function (table) {
-                     $wrapper.html(table);
-                     var $table = $wrapper.find('table');
-                     $table.DataTable(datatable_options);
-                     $table.removeClass("dataTable no-footer").addClass('views-table cols-3 responsive-table');
-                     cached = true;
-                 }
-             });
-         }
+        this.ajax_request = function() {
+            $.ajax({
+                beforeSend:  function() {
+                    $wrapper.html('Loading...');
+                },
+                url: ajax_url,
+                method: "POST",
+                data: {state: this.state_code},
+                success: function (table) {
+                    $wrapper.html(table);
+                    var $table = $wrapper.find('table');
+                    $table.DataTable(datatable_options);
+                    $table.removeClass("dataTable no-footer").addClass('views-table cols-3 responsive-table');
+                    cached = true;
+                }
+            });
+        }
 
-         this.showTable = function() {
-             if (cached) {
-                 $wrapper.show();
-             }
-             else {
-                 this.ajax_request();
-                 $wrapper.show();
-             }
-         }
+        this.showTable = function() {
+            if (cached) {
+                $wrapper.show();
+            }
+            else {
+                this.ajax_request();
+                $wrapper.show();
+            }
+        }
 
-     }
+    }
 
     $(document).ready(function() {
-    
-	    var $tabs = $("#other-areas-tabs");
-	    $tabs.tabs();
-    
+
+        var $tabs = $("#other-areas-tabs");
+        $tabs.tabs();
+
+
         var $location_select  = $('#location-select');
         var location = $('#location-select option:selected').text();
 
@@ -127,7 +128,7 @@
 
         $location_select.change(function() {
             var location = $('#location-select option:selected').text();
-            $('#restrict-to-current-button').text(location);
+            $('#restrict-to-current-button a').text(location);
             current_state_table.update_current_location(location);
             current_state_table.ajax_request();
         });

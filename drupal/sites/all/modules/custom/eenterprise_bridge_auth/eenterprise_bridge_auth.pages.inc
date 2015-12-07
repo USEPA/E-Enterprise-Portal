@@ -118,9 +118,19 @@ function eenterprise_bridge_auth_authenticate($error)
             $uname = "";
             //If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
             if (($pos === FALSE && $openid_position === FALSE) || $username === FALSE) {
-                $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
-                $uname = $userDetails->attributes['email'][0];
-                $public_or_cdx = 'public';
+                if(isset($userDetails->attributes['email'])) {
+                    $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
+                    $uname = $userDetails->attributes['email'][0];
+                    $public_or_cdx = 'public';
+                }
+                else{
+                    $userDetails->attributes['name'][0] = trim($userDetails->attributes['name'][0], '"');
+                    $uname = $userDetails->attributes['name'][0];
+                    $uname = str_replace(" ", "_", $uname);
+                    if(isset($userDetails->attributes['followers_count']))
+                        $uname = $uname."_".$userDetails->attributes['id'][0]."_twitter.com";
+                    $public_or_cdx = 'public';
+                }
             } else {
                 $uname = $username;
                 $public_or_cdx = 'cdx';
