@@ -27,14 +27,13 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_in
     ?>
 
 
-        <ul>
-            <li id="restrict-to-current-button"><a class="favorites-ignore" href="#current-state-resources"></a></li>
-            <li id="restrict-to-states-button"><a class="favorites-ignore" href="#favorite-state-resources">My locations</a></li>
-            <li id="all-states-button"><a class="favorites-ignore" href="#all-state-resources">All</a></li>
-        </ul>
+    <ul>
+        <li id="restrict-to-current-button"><a class="favorites-ignore" href="#current-state-resources"></a></li>
+        <li id="restrict-to-states-button"><a class="favorites-ignore" href="#favorite-state-resources">My locations</a></li>
+        <li id="all-states-button"><a class="favorites-ignore" href="#all-state-resources">All</a></li>
+    </ul>
 
     <div id="current-state-resources"></div>
     <div id="favorite-state-resources"></div>
     <div id="all-state-resources"></div>
 </div>
-

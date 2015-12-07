@@ -254,6 +254,12 @@ function get_taxonomy_parent_name($tid)
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 {
+    //Hide title from Map Set form
+    if($form['#form_id'] == 'ee_map_set_node_form'){
+        $form['title']['#default_value'] = t('Map Set Value');
+        hide($form['title']);
+    }
+
     //Prevent guest user from accessing account edit page.
     if (($form['#form_id'] == 'user_profile_form') && ($form['#user']->name == 'guest-user')) {
         drupal_goto("/");
