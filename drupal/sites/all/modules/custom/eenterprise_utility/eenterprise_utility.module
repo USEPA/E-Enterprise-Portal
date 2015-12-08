@@ -95,6 +95,7 @@ function map_dataset(){
         $temp_dataset['alias'] = $dataset->field_field_ee_agency_map_agency[0]['rendered']['#title'];
         $temp_dataset['contactemail'] = $dataset->field_field_ee_agency_map_email[0]['rendered']['#markup'];
         $temp_dataset['url'] = $dataset->field_field_ee_agency_map_url[0]['rendered']['#title'];
+        $temp_dataset['orgid'] = 'orgid:cJ9YHowT8TU7DUyn';
         array_push($mapset, $temp_dataset);
     }
     $mapset = array('mapsets' => $mapset);
