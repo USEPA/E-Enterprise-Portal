@@ -71,7 +71,6 @@ function agency_map_collections_views_default_views() {
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['text'] = '<p class="agency-map-title"><a href="[field_ee_agency_map_url_1]">[title]</a></p><p class="agency-map--description">[field_ee_agency_map_description]</p><p class="agency-map-email"><a href="mailto:[field_ee_agency_map_email]">[field_ee_agency_map_email]</a>';
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Agency map URL */
