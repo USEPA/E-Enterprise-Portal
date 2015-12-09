@@ -44,181 +44,181 @@
   Drupal.behaviors.initializeGridstack = {
     attach: function(context) {
 
+        var page_name = window.location.pathname.split('/')[1];
+        if (page_name == "workbench") {
+            $('body').once(function () {
+                var cellHeight = 10;
+                var verticalMargin = 10;
+                var $grid_container = $('.grid-stack');
+                var options = {
+                    vertical_margin: verticalMargin,
+                    cell_height: cellHeight,
+                    'data-gs-width': 2
+                };
+                $grid_container.gridstack(options);
+                var grid = $grid_container.data('gridstack');
+                var previous_grid_settings;
 
-      $('body').once(function() {
-          var cellHeight = 10;
-          var verticalMargin = 10;
-          var $grid_container = $('.grid-stack');
-          var options = {
-              vertical_margin: verticalMargin,
-              cell_height: cellHeight,
-              'data-gs-width': 2
-          };
-          $grid_container.gridstack(options);
-          var grid = $grid_container.data('gridstack');
-          var previous_grid_settings;
+                // Track coordinates of grid being moved. If the item does not change coordinates on dragstop, do nothing.
+                var moving_coordinates = [];
+                var dragged = false;
 
-          // Track coordinates of grid being moved. If the item does not change coordinates on dragstop, do nothing.
-          var moving_coordinates = [];
-          var dragged = false;
+                var save_grid_changes = '<button id="save-grid-changes">Save Changes to Layout</button>';
+                var revert_grid_changes = '<button   id="revert-grid-changes">Revert Changes to Layout</button>'
+                var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
 
-          var save_grid_changes = '<button id="save-grid-changes">Save Changes to Layout</button>';
-          var revert_grid_changes = '<button   id="revert-grid-changes">Revert Changes to Layout</button>'
-          var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
-
-          $('body').prepend($grid_change_options);
-          var $revert_button = $('#revert-grid-changes');
-          var $save_button = $('#save-grid-changes');
-          var is_saving = false;
-
-
-
-          $grid_container.on('dragstop', function (event, ui) {
-              $grid_change_options.show();
-          });
+                $('body').prepend($grid_change_options);
+                var $revert_button = $('#revert-grid-changes');
+                var $save_button = $('#save-grid-changes');
+                var is_saving = false;
 
 
-          $save_button.click(function (e) {
-              if (is_saving) {
-                  e.preventDefault();
-              }
-              else {
-                  // Save changes
-                  var data = serialized_data();
-                  updateUserIndices(data);
-              }
-          });
-          $revert_button.click(function () {
-              // Revert changes
-              initializeIndices(previous_grid_settings);
-              $(".grid-changes").fadeOut();
-          });
+                $grid_container.on('dragstop', function (event, ui) {
+                    $grid_change_options.show();
+                });
 
 
-
-          function recalculateWidgetHeights(grid) {
-              $('.grid-stack-item.ui-draggable').each(function () {
-                  var contentHeight = $(this).find('.pane-title').outerHeight(true)
-                      + Math.ceil($(this).find('.pane-content').outerHeight(true))
-                      + 30
-                      + verticalMargin;
-
-                  var $pager = $(this).find('.pager');
-                  if ($pager.size() > 0) {
-                      contentHeight += parseInt($pager.css('marginBottom'));
-                  }
-
-                  var gsHeight = Math.ceil(contentHeight / (cellHeight + verticalMargin));
-                  grid.resize(this, null, gsHeight);
-              });
-          }
-
-          function initializeIndices(serialization) {
-              // assign x and y values to widgets
-              if (serialization.length > 0) {
-                  $.each(serialization, function (key, pane_data) {
-                      console.log(pane_data);
-                      var $grid_item = $("#" + pane_data.id).parent();
-                      var x = pane_data.x;
-                      var y = pane_data.y;
-                      grid.update($grid_item, x, y);
-                      $grid_item.find('.grid-stack-item-content').css('overflow-y', 'hidden');
-                  });
-              }
-              else {
-                  var count = 0;
-                  $(".grid-stack-item").each(function () {
-                      var x = count % 2;
-                      var y = Math.floor(count / 2) * 30;
-                      grid.update($(this), x, y);
-                      count++;
-                      $(this).find('.grid-stack-item-content').css('overflow-y', 'hidden');
-                  });
-              }
-              $grid_container = $('.grid-stack');
-              var options = {
-                  vertical_margin: verticalMargin,
-                  cell_height: cellHeight,
-                  'data-gs-width': 2
-              };
-              $grid_container.gridstack(options);
-              grid = $grid_container.data('gridstack');
-              previous_grid_settings = serialized_data();
-          }
+                $save_button.click(function (e) {
+                    if (is_saving) {
+                        e.preventDefault();
+                    }
+                    else {
+                        // Save changes
+                        var data = serialized_data();
+                        updateUserIndices(data);
+                    }
+                });
+                $revert_button.click(function () {
+                    // Revert changes
+                    initializeIndices(previous_grid_settings);
+                    $(".grid-changes").fadeOut();
+                });
 
 
-          function loadUserIndices() {
-              var serialization;
-              $.ajax({
-                  url: 'load_user_gridstack_data',
-                  success: function (data) {
-                      var data = $.parseJSON(data);
-                      serialization = GridStackUI.Utils.sort(data);
-                      initializeIndices(serialization);
-                  }
-              });
-          }
+                function recalculateWidgetHeights(grid) {
+                    $('.grid-stack-item.ui-draggable').each(function () {
+                        var contentHeight = $(this).find('.pane-title').outerHeight(true)
+                            + Math.ceil($(this).find('.pane-content').outerHeight(true))
+                            + 30
+                            + verticalMargin;
 
-          function updateUserIndices(grid_data) {
-              $.ajax({
-                  url: 'update_user_gridstack_data',
-                  data: {grid_data: grid_data},
-                  method: "POST",
-                  beforeSend: function() {
-                      $save_button.html('Saving Changes <i class="fa fa-spinner fa-pulse"></i>').addClass("btn btn-default").prop('disabled', true);
-                      $revert_button.hide();
-                      is_saving = true;
-                  },
-                  success: function (data) {
-                      $save_button.html("Changes to Layout Saved");
-                      setTimeout(function() {
-                          $(".grid-changes").fadeOut();
-                      }, 1000);
-                      setTimeout(function() {
-                          $save_button.html("Save Changes to Layout").removeClass('btn btn-default').prop('disabled', false);
-                          $revert_button.show();
-                      }, 2000);
-                      previous_grid_settings = grid_data;
-                      is_saving = false;
-                  }
-              });
-          }
+                        var $pager = $(this).find('.pager');
+                        if ($pager.size() > 0) {
+                            contentHeight += parseInt($pager.css('marginBottom'));
+                        }
 
-          function serialized_data() {
-              var grid = $('.grid-stack').data('gridstack');
-              return _.map($('.grid-stack > .grid-stack-item:visible'), function (el) {
-                  el = $(el);
-                  var node = el.data('_gridstack_node');
-                  return {
-                      x: node.x,
-                      y: node.y,
-                      width: node.width,
-                      height: node.height,
-                      id: el.find(".grid-stack-item-content").attr("id")
-                  };
-              }, grid);
-          }
+                        var gsHeight = Math.ceil(contentHeight / (cellHeight + verticalMargin));
+                        grid.resize(this, null, gsHeight);
+                    });
+                }
+
+                function initializeIndices(serialization) {
+                    // assign x and y values to widgets
+                    if (serialization.length > 0) {
+                        $.each(serialization, function (key, pane_data) {
+                            console.log(pane_data);
+                            var $grid_item = $("#" + pane_data.id).parent();
+                            var x = pane_data.x;
+                            var y = pane_data.y;
+                            grid.update($grid_item, x, y);
+                            $grid_item.find('.grid-stack-item-content').css('overflow-y', 'hidden');
+                        });
+                    }
+                    else {
+                        var count = 0;
+                        $(".grid-stack-item").each(function () {
+                            var x = count % 2;
+                            var y = Math.floor(count / 2) * 30;
+                            grid.update($(this), x, y);
+                            count++;
+                            $(this).find('.grid-stack-item-content').css('overflow-y', 'hidden');
+                        });
+                    }
+                    $grid_container = $('.grid-stack');
+                    var options = {
+                        vertical_margin: verticalMargin,
+                        cell_height: cellHeight,
+                        'data-gs-width': 2
+                    };
+                    $grid_container.gridstack(options);
+                    grid = $grid_container.data('gridstack');
+                    previous_grid_settings = serialized_data();
+                }
 
 
-          grid.resizable('.grid-stack-item', false);
-          if (typeof ResizeSensor !== 'undefined') {
-              new ResizeSensor(jQuery('.grid-stack-item'), _.debounce(function () {
-                  recalculateWidgetHeights(grid)
-              }, 150));
-              new ResizeSensor(jQuery('.view-content'), _.debounce(function () {
-                  recalculateWidgetHeights(grid)
-              }, 150));
-              $(document).ajaxComplete(_.debounce(function () {
-                  recalculateWidgetHeights(grid)
-              }, 150));
+                function loadUserIndices() {
+                    var serialization;
+                    $.ajax({
+                        url: 'load_user_gridstack_data',
+                        success: function (data) {
+                            var data = $.parseJSON(data);
+                            serialization = GridStackUI.Utils.sort(data);
+                            initializeIndices(serialization);
+                        }
+                    });
+                }
 
-          }
+                function updateUserIndices(grid_data) {
+                    $.ajax({
+                        url: 'update_user_gridstack_data',
+                        data: {grid_data: grid_data},
+                        method: "POST",
+                        beforeSend: function () {
+                            $save_button.html('Saving Changes <i class="fa fa-spinner fa-pulse"></i>').addClass("btn btn-default").prop('disabled', true);
+                            $revert_button.hide();
+                            is_saving = true;
+                        },
+                        success: function (data) {
+                            $save_button.html("Changes to Layout Saved");
+                            setTimeout(function () {
+                                $(".grid-changes").fadeOut();
+                            }, 1000);
+                            setTimeout(function () {
+                                $save_button.html("Save Changes to Layout").removeClass('btn btn-default').prop('disabled', false);
+                                $revert_button.show();
+                            }, 2000);
+                            previous_grid_settings = grid_data;
+                            is_saving = false;
+                        }
+                    });
+                }
+
+                function serialized_data() {
+                    var grid = $('.grid-stack').data('gridstack');
+                    return _.map($('.grid-stack > .grid-stack-item:visible'), function (el) {
+                        el = $(el);
+                        var node = el.data('_gridstack_node');
+                        return {
+                            x: node.x,
+                            y: node.y,
+                            width: node.width,
+                            height: node.height,
+                            id: el.find(".grid-stack-item-content").attr("id")
+                        };
+                    }, grid);
+                }
 
 
-          loadUserIndices();
+                grid.resizable('.grid-stack-item', false);
+                if (typeof ResizeSensor !== 'undefined') {
+                    new ResizeSensor(jQuery('.grid-stack-item'), _.debounce(function () {
+                        recalculateWidgetHeights(grid)
+                    }, 150));
+                    new ResizeSensor(jQuery('.view-content'), _.debounce(function () {
+                        recalculateWidgetHeights(grid)
+                    }, 150));
+                    $(document).ajaxComplete(_.debounce(function () {
+                        recalculateWidgetHeights(grid)
+                    }, 150));
+
+                }
 
 
-      });
+                loadUserIndices();
+
+
+            });
+        }
 
     }
   }
