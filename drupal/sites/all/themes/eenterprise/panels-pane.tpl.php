@@ -24,7 +24,7 @@ drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_inpu
   <?php print $pane_prefix; ?>
 <?php endif; ?>
 <div class="grid-stack-item"  data-gs-height="30" style="opacity:1.0">
-    <div class="<?php print $classes;?>" id="<?php echo "gridstack-pane-" . $pane->pid; ?>" <?php print $attributes; ?>>
+    <div class="<?php print $classes;?>" id="<?php echo "gridstack-pane-" . $pane->subtype; ?>" <?php print $attributes; ?>>
       <?php if ($admin_links): ?>
         <?php print $admin_links; ?>
       <?php endif; ?>
@@ -32,6 +32,7 @@ drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_inpu
 
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>
+      
         <<?php print $title_heading; ?><?php print $title_attributes; ?> tabindex="0">
         <?php print $title; ?>
         </<?php print $title_heading; ?>>
