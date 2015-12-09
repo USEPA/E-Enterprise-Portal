@@ -2,27 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3fc65bad-ce40-43f2-ad74-380d5c066cac" name="Default" comment="Fixed merge co">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/agency_map_list/css/add_map_set.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/agency_map_list/agency_map_list.info" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/agency_map_list/agency_map_list.module" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/agency_map_list/views-view--agency-map-list.tpl.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/agency_map_list/views-view--new-agency-map.tpl.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_maps_view/css/MyMaps.css" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_maps_view/css/MyMaps.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_maps_view/js/MyMaps.js" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_maps_view/js/MyMaps.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_bridge_auth/eenterprise_bridge_auth.pages.inc" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_bridge_auth/eenterprise_bridge_auth.pages.inc" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.module" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.module" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_environment_mapper/css/myEnvMapper.css" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_environment_mapper/css/myEnvMapper.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_environment_mapper/js/myEnvironmentMapper.js" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_environment_mapper/js/myEnvironmentMapper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/css/other_items_of_interest.css" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/css/other_items_of_interest.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/js/other_items_of_interest.js" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/js/other_items_of_interest.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/other_items_of_interest.module" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/other_items_of_interest.module" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/first_time_user_profile_block/first_time_user_profile_block.features.inc" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/first_time_user_profile_block/first_time_user_profile_block.features.inc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.css" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.tpl.php" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.tpl.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/css/gridstack.css" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/css/gridstack.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/panels-pane.tpl.php" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/panels-pane.tpl.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/script.js" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/script.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/css/styles.css" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/css/styles.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/sass/styles.scss" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/sass/styles.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_environment_mapper/views-view--my-environment-mapper.tpl.php" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_environment_mapper/views-view--my-environment-mapper.tpl.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_maps_view/views-view--my-maps.tpl.php" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_maps_view/views-view--my-maps.tpl.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/views-view--other-items-of-interest.tpl.php" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/views-view--other-items-of-interest.tpl.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="e-enterprise.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,75 +40,84 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views-view--other-items-of-interest.tpl.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/views-view--other-items-of-interest.tpl.php">
+      <file leaf-file-name="eenterprise_utility.module" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.module">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.961538" vertical-offset="0" max-vertical-offset="765">
-              <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
-              <folding />
+            <state vertical-scroll-proportion="-49.333332" vertical-offset="16063" max-vertical-offset="19584">
+              <caret line="1121" column="34" selection-start-line="1121" selection-start-column="34" selection-end-line="1121" selection-end-column="34" />
+              <folding>
+                <marker date="1449668967094" expanded="true" signature="12574:12938" placeholder="..." />
+                <marker date="1449668967094" expanded="true" signature="37720:37786" placeholder="..." />
+                <marker date="1449668967094" expanded="true" signature="37864:37886" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views-view--new-state-resource.tpl.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/views-view--new-state-resource.tpl.php">
+      <file leaf-file-name="grid.inc" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.inc">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
+            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="306">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="other_items_of_interest.module" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/other_items_of_interest.module">
+      <file leaf-file-name="grid.tpl.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.tpl.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-43.153847" vertical-offset="0" max-vertical-offset="3723">
-              <caret line="66" column="9" selection-start-line="66" selection-start-column="9" selection-end-line="66" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="eenterprise_utility.module" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.module">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.730769" vertical-offset="4454" max-vertical-offset="18122">
-              <caret line="285" column="28" selection-start-line="285" selection-start-column="28" selection-end-line="285" selection-end-column="28" />
+            <state vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="289">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding>
-                <marker date="1449515473397" expanded="true" signature="12263:12627" placeholder="..." />
-                <marker date="1449515473397" expanded="true" signature="37409:37475" placeholder="..." />
-                <marker date="1449515473397" expanded="true" signature="37553:37575" placeholder="..." />
+                <element signature="e#6#411#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="other_items_of_interest.css" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/css/other_items_of_interest.css">
+      <file leaf-file-name="grid.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="template.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/template.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.6543624" vertical-offset="0" max-vertical-offset="1581">
-              <caret line="87" column="1" selection-start-line="87" selection-start-column="1" selection-end-line="87" selection-end-column="1" />
+            <state vertical-scroll-proportion="64.15385" vertical-offset="1668" max-vertical-offset="2584">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="eenterprise_utility.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.css">
+      <file leaf-file-name="page.tpl.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/templates/page.tpl.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="153">
-              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="2057">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="other_items_of_interest.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/js/other_items_of_interest.js">
+      <file leaf-file-name="html.tpl.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/templates/html.tpl.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="755" max-vertical-offset="2533">
-              <caret line="143" column="11" selection-start-line="143" selection-start-column="11" selection-end-line="143" selection-end-column="11" />
+            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="884">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/script.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7698324" vertical-offset="1045" max-vertical-offset="13294">
+              <caret line="102" column="13" selection-start-line="102" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -130,28 +126,18 @@
       <file leaf-file-name="views-view--state-resource-editor.tpl.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/views-view--state-resource-editor.tpl.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="529" max-vertical-offset="1445">
-              <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
+            <state vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="1445">
+              <caret line="38" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user_profile_form.tpl.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/templates/forms/user_profile_form.tpl.php">
+      <file leaf-file-name="grid.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="338" max-vertical-offset="1241">
-              <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="eenterprise_utility.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="5423">
-              <caret line="24" column="64" selection-start-line="24" selection-start-column="64" selection-end-line="24" selection-end-column="64" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="850">
+              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -166,12 +152,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_bridge_auth/local_dev_eactivity_dataflow.wsdl.xml" />
-        <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_bridge_auth/classes/adfsbridge.php" />
-        <option value="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/script.js" />
-        <option value="$PROJECT_DIR$/drupal/sites/all/themes/greentrees/js/script.js" />
-        <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/first_time_user_profile_block/js/location_input_engine.js" />
-        <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/location_input_engine.js" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_bridge_auth/local_test_eactivity_dataflow.wsdl.xml" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_bridge_auth/local_test_eactivity_dataflow.wsdl" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/cdx_facility_management/naasdev.epacdxnode.net_xml_SecurityToken_v30.wsdl" />
@@ -200,7 +180,6 @@
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/favorite_links/favorite_links.js" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/village_green_block/js/welcome.js" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/views-view--new-state-resource.tpl.php" />
-        <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/first_time_user_profile_block/first_time_user_profile_block.features.inc" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/css/favorite-sites.css" />
         <option value="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/sass/styles.scss" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/css/state-resource-editor.css" />
@@ -213,10 +192,17 @@
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.js" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.css" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/other_items_of_interest.module" />
-        <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.module" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/views-view--other-items-of-interest.tpl.php" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/js/other_items_of_interest.js" />
         <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/css/other_items_of_interest.css" />
+        <option value="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/grid-launch.js" />
+        <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/first_time_user_profile_block/first_time_user_profile_block.features.inc" />
+        <option value="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/css/gridstack.css" />
+        <option value="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/panels-pane.tpl.php" />
+        <option value="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.module" />
+        <option value="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.tpl.php" />
+        <option value="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.css" />
+        <option value="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/script.js" />
       </list>
     </option>
   </component>
@@ -226,9 +212,9 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-9" />
-    <option name="y" value="-9" />
+    <option name="y" value="-1089" />
     <option name="width" value="1938" />
-    <option name="height" value="1050" />
+    <option name="height" value="1098" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -423,37 +409,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
+              <option name="myItemId" value="layouts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="forms" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-enterprise" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-enterprise" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="drupal" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sites" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="all" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
+              <option name="myItemId" value="grid" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -479,49 +439,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
+              <option name="myItemId" value="themes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="custom" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="other_items_of_interest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-enterprise" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="e-enterprise" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="drupal" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sites" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="all" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="custom" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="other_items_of_interest" />
+              <option name="myItemId" value="eenterprise" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -551,6 +473,66 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eenterprise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="e-enterprise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="e-enterprise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drupal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sites" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="all" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="e-enterprise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="e-enterprise" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drupal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sites" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="all" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -560,10 +542,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="other_items_of_interest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -653,7 +631,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="libraries" />
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="custom" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eenterprise_utility" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -676,14 +662,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="all" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="font-awesome-4.5.0" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -748,6 +726,9 @@
       <BehatRunner />
       <method />
     </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server" server_id="b9db459c-d172-4fc8-85db-470826d5f8d2" server_name="EPortal">
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
@@ -755,9 +736,6 @@
       <arguments />
       <pass-parent-envs>true</pass-parent-envs>
       <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server" server_id="b9db459c-d172-4fc8-85db-470826d5f8d2" server_name="EPortal">
       <method />
     </configuration>
     <list size="0" />
@@ -783,7 +761,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
+    <frame x="-9" y="-1089" width="1938" height="1098" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -793,48 +771,23 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21979167" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38020834" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42718446" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923076" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32686085" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923076" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42718446" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
-      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32901832" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32901832" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-    </layout>
-    <layout-to-restore>
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32820514" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32686085" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923076" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923076" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923076" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.321875" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40683573" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42718446" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32901832" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32901832" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
+      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32901832" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+    </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -863,126 +816,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/templates/views/views-view-table--progress-tracker.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="867">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/templates/block--system--main-menu.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="874">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/templates/block--system--user-menu.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="874">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/suggestion_box/suggestion_box.admin.inc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.866667" vertical-offset="138" max-vertical-offset="1020">
-          <caret line="152" column="40" selection-start-line="152" selection-start-column="40" selection-end-line="152" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/suggestion_box/suggestion_box.info">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="894">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/air_emissions_view/air_emissions_view.features.inc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="238" max-vertical-offset="6647">
-          <caret line="17" column="32" selection-start-line="17" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/suggestion_box/css/suggestion_box_modal.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="816">
-          <caret line="42" column="1" selection-start-line="42" selection-start-column="1" selection-end-line="42" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/cdx_facility_management/views-view--cdx-facility-management--block.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="357" max-vertical-offset="1496">
-          <caret line="21" column="45" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/cdx_facility_management/views-view--cdx-facility-management.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1190">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_bridge_auth/eenterprise_bridge_auth.module">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4420">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/village_green_block/views-view--village-green-block.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="49" max-vertical-offset="1360">
-          <caret line="30" column="26" selection-start-line="30" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_bridge_auth/eenterprise_bridge_auth.info">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="942">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_bridge_auth/eenterprise_bridge_auth.pages.inc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.961538" vertical-offset="6137" max-vertical-offset="12665">
-          <caret line="393" column="34" selection-start-line="393" selection-start-column="34" selection-end-line="393" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_bridge_auth/eenterprise_bridge_auth.admin.inc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="1020">
-          <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
-          <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/cdx_facility_management/js/cdx_facility_management.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4733" max-vertical-offset="6154">
-          <caret line="308" column="35" selection-start-line="308" selection-start-column="35" selection-end-line="308" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/cdx_facility_management/cdx_facility_management.features.inc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1207" max-vertical-offset="6001">
-          <caret line="145" column="36" selection-start-line="145" selection-start-column="36" selection-end-line="145" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/cdx_facility_management/css/cdx_facility_management.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5055928" vertical-offset="41" max-vertical-offset="935">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="47" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/favorite_links/favorite_links.module">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.516667" vertical-offset="714" max-vertical-offset="3026">
@@ -1029,13 +862,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="221">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/first_time_user_profile_block/first_time_user_profile_block.features.inc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="183.07692" vertical-offset="5100" max-vertical-offset="8092">
-          <caret line="23" column="62" selection-start-line="22" selection-start-column="55" selection-end-line="23" selection-end-column="62" />
         </state>
       </provider>
     </entry>
@@ -1155,7 +981,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="338" max-vertical-offset="1241">
           <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1163,15 +988,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="5423">
           <caret line="24" column="64" selection-start-line="24" selection-start-column="64" selection-end-line="24" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/views-view--state-resource-editor.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="529" max-vertical-offset="1445">
-          <caret line="47" column="33" selection-start-line="47" selection-start-column="33" selection-end-line="47" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1179,7 +995,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="153">
           <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1187,19 +1002,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="942">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.module">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.730769" vertical-offset="4454" max-vertical-offset="18122">
-          <caret line="285" column="28" selection-start-line="285" selection-start-column="28" selection-end-line="285" selection-end-column="28" />
-          <folding>
-            <marker date="1449515473397" expanded="true" signature="12263:12627" placeholder="..." />
-            <marker date="1449515473397" expanded="true" signature="37409:37475" placeholder="..." />
-            <marker date="1449515473397" expanded="true" signature="37553:37575" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1215,7 +1017,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-43.153847" vertical-offset="0" max-vertical-offset="3723">
           <caret line="66" column="9" selection-start-line="66" selection-start-column="9" selection-end-line="66" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1223,14 +1024,177 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="755" max-vertical-offset="2533">
           <caret line="143" column="11" selection-start-line="143" selection-start-column="11" selection-end-line="143" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/css/other_items_of_interest.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.6543624" vertical-offset="0" max-vertical-offset="1581">
-          <caret line="87" column="1" selection-start-line="87" selection-start-column="1" selection-end-line="87" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1581">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/ResizeSensor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="2771">
+          <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/grid-launch.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="894">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="289">
+          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/lodash.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/theme-settings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2431">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/my_maps_view/views-view--my-maps.tpl.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1819">
+          <caret line="34" column="66" selection-start-line="34" selection-start-column="66" selection-end-line="34" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/gridstack.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="14875">
+          <caret line="22" column="48" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/panels-pane.tpl.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.88435376" vertical-offset="359" max-vertical-offset="1258">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/css/gridstack.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-21.32353" vertical-offset="4596" max-vertical-offset="5797">
+          <caret line="313" column="34" selection-start-line="313" selection-start-column="34" selection-end-line="313" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/features/first_time_user_profile_block/first_time_user_profile_block.features.inc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7640967" vertical-offset="2413" max-vertical-offset="7990">
+          <caret line="184" column="0" selection-start-line="175" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.module">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-49.333332" vertical-offset="16063" max-vertical-offset="19584">
+          <caret line="1121" column="34" selection-start-line="1121" selection-start-column="34" selection-end-line="1121" selection-end-column="34" />
+          <folding>
+            <marker date="1449668967094" expanded="true" signature="12574:12938" placeholder="..." />
+            <marker date="1449668967094" expanded="true" signature="37720:37786" placeholder="..." />
+            <marker date="1449668967094" expanded="true" signature="37864:37886" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/modules/custom/other_items_of_interest/views-view--state-resource-editor.tpl.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="1445">
+          <caret line="38" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/templates/html.tpl.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="942">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/template.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="64.15385" vertical-offset="1668" max-vertical-offset="2584">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/templates/page.tpl.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="2057">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.inc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="942">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.tpl.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="289">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="e#6#411#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="850">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7698324" vertical-offset="1045" max-vertical-offset="13294">
+          <caret line="102" column="13" selection-start-line="102" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
           <folding />
         </state>
       </provider>
