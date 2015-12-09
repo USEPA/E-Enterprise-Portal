@@ -32,7 +32,7 @@ drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_inpu
 
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>
-      
+
         <<?php print $title_heading; ?><?php print $title_attributes; ?> tabindex="0">
         <?php print $title; ?>
         </<?php print $title_heading; ?>>
