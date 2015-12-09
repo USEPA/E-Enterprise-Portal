@@ -80,10 +80,37 @@ function eenterprise_utility_menu()
         'page callback' => 'load_user_gridstack_data',
         'access callback' => TRUE,
     );
+    $items['map_dataset'] = array(
+        'title' => 'Map Dataset',
+        'page callback' => 'map_dataset',
+        'access callback' => 'user_is_logged_in',
+        '#type' => MENU_CALLBACK,
+    );
+
 
     return $items;
 }
 
+
+/**
+ * returns a map Dataset, formated as JSON.
+ */
+function map_dataset(){
+    $agency_map_datasets = views_get_view_result("agency_map_list");
+    $mapset = array();
+    foreach($agency_map_datasets as $dataset){
+        $temp_dataset = array();
+        $temp_dataset['id'] = $dataset->field_field_id[0]['rendered']['#markup'];
+        $temp_dataset['alias'] = $dataset->field_field_ee_agency_map_agency[0]['rendered']['#title'];
+        $temp_dataset['contactemail'] = $dataset->field_field_ee_agency_map_email[0]['rendered']['#markup'];
+        $temp_dataset['url'] = $dataset->field_field_ee_agency_map_url[0]['rendered']['#title'];
+        $temp_dataset['orgid'] = $dataset->field_field_orgid[0]['rendered']['#markup'];
+        array_push($mapset, $temp_dataset);
+    }
+    $mapset = array('mapsets' => $mapset);
+    drupal_add_http_header('Content-Type', 'application/json');
+    echo drupal_json_encode($mapset);
+}
 
 /**
  * Implements hook_permission().

@@ -37,6 +37,15 @@ function agency_map_list_theme_registry_alter(&$theme_registry) {
 function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
     global $user;
     if ($form_id == 'agency_map_node_form') {
+
+        // Hide title field
+        $form['title']['#default_value'] = t('Map Set Value');
+        hide($form['title']);
+
+        // Hide backend variables
+        hide($form['field_id']);
+        hide($form['field_orgid']);
+
         $form_state['rebuild'] = TRUE;
         //$form_state['redirect'] = '/agency-map-list';
         $form['#validate'][] = 'agency_map_form_validate';
@@ -68,7 +77,31 @@ function agency_map_form_validate($form, &$form_state){
     if (!valid_url($url, TRUE)) {
         $message = "Please provide a valid URL.";
         form_set_error('url', $message);
+    } elseif (preg_match('/(https?\:\/\/)(.*)(\.maps.arcgis.com)/', $url, $matches)) {
+    // Regex match of AGOL url
+        // Get AGOL organization name and store it as "id"
+        $form_state['values']['field_id'][LANGUAGE_NONE][0]['value']['#value'] = $matches[2];
+        // Get only the domain name and ignore anything after it (e.g. /rest/sharing)
+        $url = $matches[1] . $matches[2] . $matches[3];
+        form_set_value($form['field_ee_agency_map_url'], array('und' => array(0 => array('value' => $url))), $form_state);
+        // Get the AGOL metadata JSON
+        $json_file = file_get_contents($url . '/sharing/rest/portals/self?culture=en&f=pjson');
+        $result = json_decode($json_file);
+        // Make sure it's a valid AGOL site
+        if (!empty($result->id)) {
+            // Extract the organizational ID and store it as "orgid"
+            $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value']['#value'] = $result->id;
+        } else {
+            // If URL doesn't match AGOL type, throw error
+            $message = "Please provide a valid ArcGIS Online URL.";
+            form_set_error('url', $message);
+        }
+    } else {
+        // If URL doesn't match AGOL type, throw error
+        $message = "Please provide a valid URL.";
+        form_set_error('url', $message);
     }
+
 }
 
 /**
