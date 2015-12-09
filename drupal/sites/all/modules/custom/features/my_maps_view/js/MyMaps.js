@@ -281,7 +281,7 @@
                                     'class': 'mapAppContact',
                                     id: 'thumbnail-contact-' + mapset.id + '-' + thumbnailNum,
                                     'title': mapset.contactemail,
-                                    'html': mapset.contactemail
+                                    'html': '<a href="mailto:' + mapset.contactemail + '">' + mapset.contactemail + '</a>'
                                 })
                             )
                         );

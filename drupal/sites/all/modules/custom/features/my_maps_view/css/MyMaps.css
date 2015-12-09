@@ -41,7 +41,7 @@
 .jcarousel li {
   float: left;
 /*   height: 250px; */
-	height: 15.25em;
+	height: 16em;
 	min-height: 240px;
   /*width: 200px;*/
   margin-right: 2px;
@@ -54,7 +54,7 @@
   padding: 2px;
   border: 1px solid #efefef;
 /* 	height: 240px; */
-  height: 14.75em;
+  height: 15.5em;
   min-height: 220px;
   width: 190px;
   margin: auto;
@@ -147,14 +147,14 @@
   margin-top: 1px auto !important;
   max-height: 40px;
   max-width: 198px;
-  font-size: 65%;
+  font-size: 75%;
   padding: 2px 5px 2px;
   line-height: 1.2;
   font-weight:bold;
 }
 .mapAppContact {
 	padding: 2px 5px;
-	font-size: 65%;
+	font-size: 75%;
 	margin: 1px auto 0;
 	line-height: normal;
 }
