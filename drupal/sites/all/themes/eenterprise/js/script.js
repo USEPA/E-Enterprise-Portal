@@ -71,40 +71,10 @@
           var $save_button = $('#save-grid-changes');
           var is_saving = false;
 
-          //$grid_container.on('dragstart', function (event, ui) {
-          //    var x = $(event.target).data('gs-x');
-          //    var y = $(event.target).data('gs-y');
-          // //   console.log($(event.target).find(".grid-stack-item-content"));
-          //    var id = $(event.target).find(".grid-stack-item-content").attr('id')
-          //
-          //});
 
-          //$('.grid-stack').on('change', function (event, items) {
-          //    if (dragged == true) {
-          //        // check for position changes
-          //        $.each(items, function(key, value) {
-          //            if ($(value.el).find(".grid-stack-item-content").attr("id") == moving_coordinates[2]) {
-          //              console.log($(value.el).find(".grid-stack-item-content").data('gs-x'));
-          //                console.log($(value.el).find(".grid-stack-item-content").data('gs-y'));
-          //
-          //                var x = $(event.target).data('gs-x');
-          //                var y = $(event.target).data('gs-y');
-          //                console.log(x);
-          //            }
-          //            //console.log(x, y);
-          //            //console.log(key);
-          //            //console.log(value);
-          //        });
-          //        dragged = false;
-          //    }
-          //});
 
           $grid_container.on('dragstop', function (event, ui) {
               $grid_change_options.show();
-          //    console.log(grid.get_cell_from_pixel(ui.position));
-            //  console.log(ui);
-              //position - the position of the pixel to resolve in absolute coordinates, as an object with top and leftproperties
-              //Returns an object with properties x and y i.e. the column and row in the grid.
           });
 
 
@@ -119,7 +89,7 @@
               }
           });
           $revert_button.click(function () {
-              // Save changes
+              // Revert changes
               initializeIndices(previous_grid_settings);
               $(".grid-changes").fadeOut();
           });

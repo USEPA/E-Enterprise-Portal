@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3fc65bad-ce40-43f2-ad74-380d5c066cac" name="Default" comment="Fixed merge co">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.module" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/eenterprise_utility/eenterprise_utility.module" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/first_time_user_profile_block/first_time_user_profile_block.features.inc" afterPath="$PROJECT_DIR$/drupal/sites/all/modules/custom/features/first_time_user_profile_block/first_time_user_profile_block.features.inc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.css" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.tpl.php" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/layouts/grid/grid.tpl.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/css/gridstack.css" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/css/gridstack.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/panels-pane.tpl.php" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/panels-pane.tpl.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/script.js" afterPath="$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/script.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="e-enterprise.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -116,8 +109,8 @@
       <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7698324" vertical-offset="1045" max-vertical-offset="13294">
-              <caret line="102" column="13" selection-start-line="102" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+            <state vertical-scroll-proportion="-1.775419" vertical-offset="3136" max-vertical-offset="12784">
+              <caret line="91" column="23" selection-start-line="91" selection-start-column="23" selection-end-line="91" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -1193,8 +1186,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/drupal/sites/all/themes/eenterprise/js/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7698324" vertical-offset="1045" max-vertical-offset="13294">
-          <caret line="102" column="13" selection-start-line="102" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+        <state vertical-scroll-proportion="-1.775419" vertical-offset="3136" max-vertical-offset="12784">
+          <caret line="91" column="23" selection-start-line="91" selection-start-column="23" selection-end-line="91" selection-end-column="23" />
           <folding />
         </state>
       </provider>
