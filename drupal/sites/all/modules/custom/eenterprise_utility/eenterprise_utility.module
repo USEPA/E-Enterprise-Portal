@@ -922,7 +922,9 @@ function eenterprise_utility_views_query_alter(&$view, &$query){
             }
             $view->args['week_filter_val'] = $view->exposed_raw_input['field_todo_lst_due_value'];
             date_default_timezone_set('America/New_York');
-            if (substr($view->exposed_raw_input['field_todo_lst_due_value'], 0, 10) == date("Y-m-d")) {
+            $time_diff = time() - strtotime($view->exposed_raw_input['field_todo_lst_due_value']);
+            if ($time_diff < (7 * 24 * 60 * 60) && $time_diff > 0) {
+            //if (substr($view->exposed_raw_input['field_todo_lst_due_value'], 0, 10) == date("Y-m-d")) {
                 $view->query->add_where(1, 'field_data_field_todo_lst_due.field_todo_lst_due_value', date("Y-m-d 23:59:59", strtotime("next saturday", time())), '<');
             } //if the difference between beyond next week and now is more than 7 days
             else if ((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)) {
