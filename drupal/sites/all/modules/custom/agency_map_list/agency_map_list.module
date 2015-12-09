@@ -87,8 +87,15 @@ function agency_map_form_validate($form, &$form_state){
         // Get the AGOL metadata JSON
         $json_file = file_get_contents($url . '/sharing/rest/portals/self?culture=en&f=pjson');
         $result = json_decode($json_file);
-        // Extract the organizational ID and store it as "orgid"
-        $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value']['#value'] = $result->id;
+        // Make sure it's a valid AGOL site
+        if (!empty($result->id)) {
+            // Extract the organizational ID and store it as "orgid"
+            $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value']['#value'] = $result->id;
+        } else {
+            // If URL doesn't match AGOL type, throw error
+            $message = "Please provide a valid ArcGIS Online URL.";
+            form_set_error('url', $message);
+        }
     } else {
         // If URL doesn't match AGOL type, throw error
         $message = "Please provide a valid URL.";
