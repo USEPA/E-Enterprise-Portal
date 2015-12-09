@@ -30,7 +30,7 @@
         $('a.skip-widget').text(function(e) {
           var $nextWidgetTitle = findNextWidgetTitle($(this));
           $(this).text('Skip to '+$nextWidgetTitle.text() + ' widget');
-        })
+        });
 
         $('body').on('click', 'a.skip-widget', function(e) {
           var $nextWidgetTitle = findNextWidgetTitle($(this));
@@ -40,61 +40,186 @@
     }
   };
 
+
   Drupal.behaviors.initializeGridstack = {
     attach: function(context) {
+
+
       $('body').once(function() {
-        var cellHeight = 10;
-        var verticalMargin = 10;
+          var cellHeight = 10;
+          var verticalMargin = 10;
+          var $grid_container = $('.grid-stack');
+          var options = {
+              vertical_margin: verticalMargin,
+              cell_height: cellHeight,
+              'data-gs-width': 2
+          };
+          $grid_container.gridstack(options);
+          var grid = $grid_container.data('gridstack');
+          var previous_grid_settings;
 
-        function initializeIndices() {
-          // assign x and y values to widgets
-          // todo: load saved x and y values from user profile
-          var count = 0;
-          $(".grid-stack-item").each(function(){
-            var x = count % 2 * 6;
-            var y = Math.floor(count / 2) * 30;
-            //grid.move($(this), x, y);
-            $(this).attr({'data-gs-x': x, 'data-gs-y': y});
-            //console.log($(this), x, y, $(this).attr('data-gs-x'), $(this).attr('data-gs-y'));
-            count++;
-            $(this).find('.grid-stack-item-content').css('overflow-y', 'hidden');
+          // Track coordinates of grid being moved. If the item does not change coordinates on dragstop, do nothing.
+          var moving_coordinates = [];
+          var dragged = false;
+
+          var save_grid_changes = '<button id="save-grid-changes">Save Changes to Layout</button>';
+          var revert_grid_changes = '<button   id="revert-grid-changes">Revert Changes to Layout</button>'
+          var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
+
+          $('body').prepend($grid_change_options);
+          var $revert_button = $('#revert-grid-changes');
+          var $save_button = $('#save-grid-changes');
+          var is_saving = false;
+
+
+
+          $grid_container.on('dragstop', function (event, ui) {
+              $grid_change_options.show();
           });
-        }
 
-        function recalculateWidgetHeights(grid) {
-          $('.grid-stack-item.ui-draggable').each(function(){
-            var contentHeight = $(this).find('.pane-title').outerHeight(true)
-              + Math.ceil($(this).find('.pane-content').outerHeight(true))
-              + 30
-              + verticalMargin;
 
-            var $pager = $(this).find('.pager');
-            if ($pager.size() > 0) {
-              contentHeight += parseInt($pager.css('marginBottom'));
-            }
-
-            var gsHeight = Math.ceil(contentHeight / (cellHeight + verticalMargin));
-            grid.resize(this, null, gsHeight);
+          $save_button.click(function (e) {
+              if (is_saving) {
+                  e.preventDefault();
+              }
+              else {
+                  // Save changes
+                  var data = serialized_data();
+                  updateUserIndices(data);
+              }
           });
-        }
+          $revert_button.click(function () {
+              // Revert changes
+              initializeIndices(previous_grid_settings);
+              $(".grid-changes").fadeOut();
+          });
 
-        initializeIndices();
 
-        var options = {
-          static_grid: true,
-          vertical_margin: verticalMargin,
-          cell_height: cellHeight
-        };
 
-        $('.grid-stack').gridstack(options);
-        var grid = $('.grid-stack').data('gridstack');
+          function recalculateWidgetHeights(grid) {
+              $('.grid-stack-item.ui-draggable').each(function () {
+                  var contentHeight = $(this).find('.pane-title').outerHeight(true)
+                      + Math.ceil($(this).find('.pane-content').outerHeight(true))
+                      + 30
+                      + verticalMargin;
 
-        if (typeof ResizeSensor !== 'undefined') {
-          new ResizeSensor(jQuery('.grid-stack-item'), _.debounce( function(){ console.log('grid-stack-item: debounce'); recalculateWidgetHeights(grid) }, 150 ));
-          new ResizeSensor(jQuery('.view-content'), _.debounce( function(){ console.log('view-content: debounce'); recalculateWidgetHeights(grid) }, 150 ));
-        }
-        $(document).ajaxComplete(_.debounce( function(){ console.log('ajaxComplete: debounce'); recalculateWidgetHeights(grid) }, 150 ));
+                  var $pager = $(this).find('.pager');
+                  if ($pager.size() > 0) {
+                      contentHeight += parseInt($pager.css('marginBottom'));
+                  }
+
+                  var gsHeight = Math.ceil(contentHeight / (cellHeight + verticalMargin));
+                  grid.resize(this, null, gsHeight);
+              });
+          }
+
+          function initializeIndices(serialization) {
+              // assign x and y values to widgets
+              if (serialization.length > 0) {
+                  $.each(serialization, function (key, pane_data) {
+                      console.log(pane_data);
+                      var $grid_item = $("#" + pane_data.id).parent();
+                      var x = pane_data.x;
+                      var y = pane_data.y;
+                      grid.update($grid_item, x, y);
+                      $grid_item.find('.grid-stack-item-content').css('overflow-y', 'hidden');
+                  });
+              }
+              else {
+                  var count = 0;
+                  $(".grid-stack-item").each(function () {
+                      var x = count % 2;
+                      var y = Math.floor(count / 2) * 30;
+                      grid.update($(this), x, y);
+                      count++;
+                      $(this).find('.grid-stack-item-content').css('overflow-y', 'hidden');
+                  });
+              }
+              $grid_container = $('.grid-stack');
+              var options = {
+                  vertical_margin: verticalMargin,
+                  cell_height: cellHeight,
+                  'data-gs-width': 2
+              };
+              $grid_container.gridstack(options);
+              grid = $grid_container.data('gridstack');
+              previous_grid_settings = serialized_data();
+          }
+
+
+          function loadUserIndices() {
+              var serialization;
+              $.ajax({
+                  url: 'load_user_gridstack_data',
+                  success: function (data) {
+                      var data = $.parseJSON(data);
+                      serialization = GridStackUI.Utils.sort(data);
+                      initializeIndices(serialization);
+                  }
+              });
+          }
+
+          function updateUserIndices(grid_data) {
+              $.ajax({
+                  url: 'update_user_gridstack_data',
+                  data: {grid_data: grid_data},
+                  method: "POST",
+                  beforeSend: function() {
+                      $save_button.html('Saving Changes <i class="fa fa-spinner fa-pulse"></i>').addClass("btn btn-default").prop('disabled', true);
+                      $revert_button.hide();
+                      is_saving = true;
+                  },
+                  success: function (data) {
+                      $save_button.html("Changes to Layout Saved");
+                      setTimeout(function() {
+                          $(".grid-changes").fadeOut();
+                      }, 1000);
+                      setTimeout(function() {
+                          $save_button.html("Save Changes to Layout").removeClass('btn btn-default').prop('disabled', false);
+                          $revert_button.show();
+                      }, 2000);
+                      previous_grid_settings = grid_data;
+                      is_saving = false;
+                  }
+              });
+          }
+
+          function serialized_data() {
+              var grid = $('.grid-stack').data('gridstack');
+              return _.map($('.grid-stack > .grid-stack-item:visible'), function (el) {
+                  el = $(el);
+                  var node = el.data('_gridstack_node');
+                  return {
+                      x: node.x,
+                      y: node.y,
+                      width: node.width,
+                      height: node.height,
+                      id: el.find(".grid-stack-item-content").attr("id")
+                  };
+              }, grid);
+          }
+
+
+          grid.resizable('.grid-stack-item', false);
+          if (typeof ResizeSensor !== 'undefined') {
+              new ResizeSensor(jQuery('.grid-stack-item'), _.debounce(function () {
+                  recalculateWidgetHeights(grid)
+              }, 150));
+              new ResizeSensor(jQuery('.view-content'), _.debounce(function () {
+                  recalculateWidgetHeights(grid)
+              }, 150));
+              $(document).ajaxComplete(_.debounce(function () {
+                  recalculateWidgetHeights(grid)
+              }, 150));
+
+          }
+
+
+          loadUserIndices();
+
+
       });
+
     }
   }
 

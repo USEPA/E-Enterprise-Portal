@@ -174,8 +174,6 @@ function save_first_time_user_preferences()
     $return_msg = array();
 
     try {
-//        $_SESSION['geolocation_used'] = $geolocation_used;
-//        $_SESSION['geolocation_zip'] = $geolocation_zip;
         user_save($user_data, $edit);
     } catch (Exception $e) {
         $return_msg['error_msg'] = $e;
@@ -208,10 +206,6 @@ function xssafe($data,$encoding='UTF-8')
 {
     return htmlspecialchars($data,ENT_QUOTES | ENT_HTML401,$encoding);
 }
-//function xecho($data)
-//{
-//    echo xssafe($data);
-//}
 
 
 //

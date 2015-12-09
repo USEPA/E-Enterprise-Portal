@@ -71,6 +71,15 @@ function eenterprise_utility_menu()
         'file' => 'eenterprise_utility_cdx_facility_widget.admin.inc',
     );
 
+        $items['update_user_gridstack_data'] = array(
+            'page callback' => 'update_user_gridstack_data',
+            'access callback' => TRUE,
+        );
+
+    $items['load_user_gridstack_data'] = array(
+        'page callback' => 'load_user_gridstack_data',
+        'access callback' => TRUE,
+    );
     $items['map_dataset'] = array(
         'title' => 'Map Dataset',
         'page callback' => 'map_dataset',
@@ -1067,10 +1076,7 @@ return $location_description;
  */
 function release_number(){
 
-//    if (isset($_SESSION['release_number'])) {
-//        $release_number = $_SESSION['release_number'];
-//    }
-//    else {
+
         $query = new EntityFieldQuery;
         $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'release_number')
@@ -1085,6 +1091,86 @@ function release_number(){
         else {
             $release_number = '';
         }
-//    }
     return $release_number;
+}
+
+
+function update_user_gridstack_data() {
+    global $user;
+    $user_data = user_load($user->uid);
+  //  var_dump($user_data->field_gridstack_settings);
+    echo json_encode($_POST['grid_data']);
+    if (isset($_POST['grid_data'])) {
+        $user_grid_data = $user_data->field_gridstack_settings;
+        unset($user_grid_data);
+        foreach($_POST['grid_data'] as $index=>$obj) {
+            $pane_id = $obj['id'];
+            $x_coor = $obj['x'];
+            $y_coor = $obj['y'];
+
+            $multifield_gridstack_obj = array (
+                'field_pane_id_value' => $pane_id,
+                'field_pane_id_value_format' => null,
+                'field_x_coordinate_value' => $x_coor,
+                'field_x_coordinate_value_format' => null,
+                'field_y_coordinate_value' => $y_coor,
+                'field_y_coordinate_value_format' => null,
+                'field_pane_id' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $pane_id
+                        ),
+                    ),
+                ),
+                'field_x_coordinate' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $x_coor
+                        ),
+                    ),
+                ),
+                'field_y_coordinate' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $y_coor
+                        ),
+                    ),
+                ),
+            );
+            $user_grid_data[LANGUAGE_NONE][$index] = $multifield_gridstack_obj;
+        }
+        $edit = array(
+            'field_gridstack_settings' => $user_grid_data
+        );
+        try {
+            user_save($user_data, $edit);
+            print "success";
+        } catch (Exception $e) {
+            print json_encode($e);
+            exit();
+        }
+
+
+
+    }
+
+}
+
+
+function load_user_gridstack_data()
+{
+    // Format of gridstack data     {x: 2, y: 5, width: 1, height: 1}
+    $return_array = array();
+    global $user;
+    $user_data = user_load($user->uid);
+    if (isset($user_data->field_gridstack_settings[LANGUAGE_NONE][1])) {
+        foreach ($user_data->field_gridstack_settings[LANGUAGE_NONE] as $key => $value) {
+            $pane_id = $value["field_pane_id"][LANGUAGE_NONE][0]["safe_value"];
+            $x_coordinate = intval($value["field_x_coordinate"][LANGUAGE_NONE][0]["value"]);
+            $y_coordinate = intval($value["field_y_coordinate"][LANGUAGE_NONE][0]["value"]);
+            $return_array[] = array('x' => $x_coordinate, 'y' => $y_coordinate, 'width' => 5, 'height' => 1, 'id' => $pane_id);
+        }
+    }
+    echo json_encode($return_array);
+    exit();
 }

@@ -136,8 +136,14 @@
 .grid-stack > .grid-stack-item[data-gs-width='1'] {
   width: 8.33333333%;
 }
+
+/* BEN's EDIT 12/8/2015
+    Forcing an override elsewhere disables the dragging animation.
+    Changing left from  8.33333333%; to 50% for specific Eportal Workbench.
+    If copied code for another app, revert to  8.33333333%;
+*/
 .grid-stack > .grid-stack-item[data-gs-x='1'] {
-  left: 8.33333333%;
+  left:50%;
 }
 .grid-stack > .grid-stack-item[data-gs-min-width='1'] {
   min-width: 8.33333333%;
@@ -300,6 +306,9 @@
     @include vendor(transform, rotate(180deg));
 }
 */
+
+
+
 @media (max-width: 768px) {
   .grid-stack-item {
     position: relative !important;
