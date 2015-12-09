@@ -68,7 +68,7 @@
 
   <div class="view-content">
     <div id="numThumbnails" class="numThumbnails favorites-ignore">
-      <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse Gallery...</a>
+      <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore last">Browse Gallery...</a>
     </div>
 
     <div id="myMapsFiltering">

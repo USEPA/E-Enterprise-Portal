@@ -14794,7 +14794,7 @@ input#location-input-guests::-ms-clear {
     width: 100%;
   }
 }
-/* line 3549, ../sass/styles.scss */
+/* line 3548, ../sass/styles.scss */
 .ui-autocomplete {
   position: absolute;
   top: 100%;
@@ -14824,7 +14824,7 @@ input#location-input-guests::-ms-clear {
   *border-right-width: 2px;
   *border-bottom-width: 2px;
 }
-/* line 3578, ../sass/styles.scss */
+/* line 3577, ../sass/styles.scss */
 .ui-autocomplete .ui-menu-item > a.ui-corner-all {
   display: block;
   padding: 3px 15px;
@@ -14834,7 +14834,7 @@ input#location-input-guests::-ms-clear {
   color: #555555;
   white-space: nowrap;
 }
-/* line 3587, ../sass/styles.scss */
+/* line 3586, ../sass/styles.scss */
 .ui-autocomplete .ui-menu-item > a.ui-corner-all.ui-state-hover, .ui-autocomplete .ui-menu-item > a.ui-corner-all.ui-state-active {
   color: #ffffff;
   text-decoration: none;
@@ -14845,7 +14845,7 @@ input#location-input-guests::-ms-clear {
   background-image: none;
 }
 
-/* line 3599, ../sass/styles.scss */
+/* line 3598, ../sass/styles.scss */
 .views-field-field-prog-track-status .simple-dialog {
   font-weight: normal;
   margin-top: 0px;
@@ -14853,4 +14853,35 @@ input#location-input-guests::-ms-clear {
   text-transform: capitalize;
   font-size: 100%;
   text-decoration: none;
+}
+
+/* line 3606, ../sass/styles.scss */
+.page-new-agency-map p {
+  font-size: 0.85em;
+  margin-bottom: 5px;
+}
+
+/* line 3610, ../sass/styles.scss */
+ul.bulleted {
+  list-style: none;
+  margin-bottom: 5px;
+}
+
+/* line 3614, ../sass/styles.scss */
+ul.bulleted li {
+  padding-left: 1.2em;
+  font-size: 0.85em;
+}
+
+/* line 3618, ../sass/styles.scss */
+ul.bulleted li:before {
+  content: '\f054';
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-size: 0.5em;
+  display: inline-block;
+  width: 1.2em;
+  margin-left: -1.2em;
+  color: #999;
+  vertical-align: middle;
 }

@@ -3543,7 +3543,6 @@ input#location-input-guests::-ms-clear {
     display:inline-table;
     width:100%;
   }
-
 }
 
 .ui-autocomplete {
@@ -3603,4 +3602,27 @@ input#location-input-guests::-ms-clear {
   text-transform: capitalize;
   font-size: 100%;
   text-decoration: none;
+}
+.page-new-agency-map p {
+	font-size: 0.85em;
+	margin-bottom: 5px;
+}
+ul.bulleted {
+	list-style: none;
+	margin-bottom: 5px;
+}
+ul.bulleted li {
+  padding-left: 1.2em;
+  font-size: 0.85em;
+}
+ul.bulleted li:before {
+  content: '\f054';
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-size: 0.5em;
+  display: inline-block;
+  width: 1.2em;
+  margin-left: -1.2em;
+  color:#999;
+  vertical-align: middle;
 }
