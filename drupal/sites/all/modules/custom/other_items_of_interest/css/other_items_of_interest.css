@@ -17,6 +17,9 @@
     margin-top: 2px;
 }
 
+.action-links {
+	font-size: 0.85em;
+}
 .action-links .first {
     border-right: 1px solid #aaa;
     padding-right: 10px;

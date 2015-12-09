@@ -12,7 +12,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_in
 
 ?>
 
-<div id="other-areas-tabs">
+<div id="other-areas-tabs" class="view-content">
     <?php
     // Load the currently logged in user.
     global $user;
@@ -20,8 +20,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_in
     // Check if the user has the 'editor' role.
     if (in_array('state_admin', $user->roles)) {
         ?>
-
-        <div class="action-links"><a class="favorites-ignore first" href="/new-state-resource">Add state resource</a> <a href="/state-resource-editor" class="favorites-ignore last">Edit</a></div>
+        <div class="action-links"><a class="favorites-ignore first" href="/new-state-resource">Add state resource</a> <a href="/state-resource-editor" class="favorites-ignore last">Edit <span class="sr-only">state resources</span></a></div>
     <?php
     }
     ?>
