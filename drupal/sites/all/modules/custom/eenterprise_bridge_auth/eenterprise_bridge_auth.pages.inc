@@ -129,6 +129,8 @@ function eenterprise_bridge_auth_authenticate($error)
                     $uname = str_replace(" ", "_", $uname);
                     if(isset($userDetails->attributes['followers_count']))
                         $uname = $uname."_".$userDetails->attributes['id'][0]."_twitter.com";
+                    else if(isset($userDetails->attributes['link']) && strpos($userDetails->attributes['link'][0], 'facebook') !== FALSE)
+                        $uname = $uname."_".$userDetails->attributes['id'][0]."_facebook.com";
                     $public_or_cdx = 'public';
                 }
             } else {
