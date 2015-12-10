@@ -47,52 +47,76 @@
         var page_name = window.location.pathname.split('/')[1];
         if (page_name == "workbench") {
             $('body').once(function () {
+                var previous_grid_settings;
                 var cellHeight = 10;
                 var verticalMargin = 10;
-                var $grid_container = $('.grid-stack');
-                var options = {
-                    vertical_margin: verticalMargin,
-                    cell_height: cellHeight,
-                    'data-gs-width': 2
-                };
-                $grid_container.gridstack(options);
-                var grid = $grid_container.data('gridstack');
-                var previous_grid_settings;
-
-                // Track coordinates of grid being moved. If the item does not change coordinates on dragstop, do nothing.
-                var moving_coordinates = [];
-                var dragged = false;
-
-                var save_grid_changes = '<button id="save-grid-changes">Save Changes to Layout</button>';
-                var revert_grid_changes = '<button   id="revert-grid-changes">Revert Changes to Layout</button>'
-                var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
-
-                $('body').prepend($grid_change_options);
-                var $revert_button = $('#revert-grid-changes');
-                var $save_button = $('#save-grid-changes');
                 var is_saving = false;
 
+                function createGrid() {
+                    var $grid_container = $('.grid-stack');
+                    var options = {
+                        vertical_margin: verticalMargin,
+                        cell_height: cellHeight,
+                        'data-gs-width': 2
+                    };
+                    $grid_container.gridstack(options);
+                    var grid = $grid_container.data('gridstack');
 
-                $grid_container.on('dragstop', function (event, ui) {
-                    $grid_change_options.show();
-                });
+                    var save_grid_changes = '<button id="save-grid-changes">Save Changes to Layout</button>';
+                    var revert_grid_changes = '<button   id="revert-grid-changes">Revert Changes to Layout</button>'
+                    var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
+
+                    $('body').prepend($grid_change_options);
+                    var $revert_button = $('#revert-grid-changes');
+                    var $save_button = $('#save-grid-changes');
+
+                    addDragListeners($grid_container, $grid_change_options);
+                    addSaveListeners(grid, $save_button, $revert_button);
+                    loadUserIndices(grid);
+                    addResizeSensors(grid, verticalMargin, cellHeight);
+                    grid.resizable('.grid-stack-item', false);
 
 
-                $save_button.click(function (e) {
-                    if (is_saving) {
-                        e.preventDefault();
+                }
+
+                function addDragListeners($grid_container, $grid_change_options) {
+                    $grid_container.on('dragstop', function (event, ui) {
+                        $grid_change_options.show();
+                    });
+                }
+
+                function addSaveListeners(grid, $save_button, $revert_button) {
+                    $save_button.click(function (e) {
+                        if (is_saving) {
+                            e.preventDefault();
+                        }
+                        else {
+                            // Save changes
+                            var data = serialized_data(grid);
+                            updateUserIndices(data, $save_button, $revert_button);
+                        }
+                    });
+                    $revert_button.click(function () {
+                        // Revert changes
+                        initializeIndices(grid, previous_grid_settings);
+                        $(".grid-changes").fadeOut();
+                    });
+                }
+
+
+                function addResizeSensors(grid) {
+                    if (typeof ResizeSensor !== 'undefined') {
+                        new ResizeSensor(jQuery('.grid-stack-item'), _.debounce(function () {
+                            recalculateWidgetHeights(grid)
+                        }, 150));
+                        new ResizeSensor(jQuery('.view-content'), _.debounce(function () {
+                            recalculateWidgetHeights(grid)
+                        }, 150));
+                        $(document).ajaxComplete(_.debounce(function () {
+                            recalculateWidgetHeights(grid)
+                        }, 150));
                     }
-                    else {
-                        // Save changes
-                        var data = serialized_data();
-                        updateUserIndices(data);
-                    }
-                });
-                $revert_button.click(function () {
-                    // Revert changes
-                    initializeIndices(previous_grid_settings);
-                    $(".grid-changes").fadeOut();
-                });
+                }
 
 
                 function recalculateWidgetHeights(grid) {
@@ -112,7 +136,7 @@
                     });
                 }
 
-                function initializeIndices(serialization) {
+                function initializeIndices(grid, serialization) {
                     // assign x and y values to widgets
                     if (serialization.length > 0) {
                         $.each(serialization, function (key, pane_data) {
@@ -134,31 +158,23 @@
                             $(this).find('.grid-stack-item-content').css('overflow-y', 'hidden');
                         });
                     }
-                    $grid_container = $('.grid-stack');
-                    var options = {
-                        vertical_margin: verticalMargin,
-                        cell_height: cellHeight,
-                        'data-gs-width': 2
-                    };
-                    $grid_container.gridstack(options);
-                    grid = $grid_container.data('gridstack');
-                    previous_grid_settings = serialized_data();
+                    previous_grid_settings = serialized_data(grid);
                 }
 
 
-                function loadUserIndices() {
+                function loadUserIndices(grid) {
                     var serialization;
                     $.ajax({
                         url: 'load_user_gridstack_data',
                         success: function (data) {
                             var data = $.parseJSON(data);
                             serialization = GridStackUI.Utils.sort(data);
-                            initializeIndices(serialization);
+                            initializeIndices(grid, serialization);
                         }
                     });
                 }
 
-                function updateUserIndices(grid_data) {
+                function updateUserIndices(grid_data, $save_button, $revert_button) {
                     $.ajax({
                         url: 'update_user_gridstack_data',
                         data: {grid_data: grid_data},
@@ -183,8 +199,7 @@
                     });
                 }
 
-                function serialized_data() {
-                    var grid = $('.grid-stack').data('gridstack');
+                function serialized_data(grid) {
                     return _.map($('.grid-stack > .grid-stack-item:visible'), function (el) {
                         el = $(el);
                         var node = el.data('_gridstack_node');
@@ -198,23 +213,7 @@
                     }, grid);
                 }
 
-
-                grid.resizable('.grid-stack-item', false);
-                if (typeof ResizeSensor !== 'undefined') {
-                    new ResizeSensor(jQuery('.grid-stack-item'), _.debounce(function () {
-                        recalculateWidgetHeights(grid)
-                    }, 150));
-                    new ResizeSensor(jQuery('.view-content'), _.debounce(function () {
-                        recalculateWidgetHeights(grid)
-                    }, 150));
-                    $(document).ajaxComplete(_.debounce(function () {
-                        recalculateWidgetHeights(grid)
-                    }, 150));
-
-                }
-
-
-                loadUserIndices();
+                createGrid();
 
 
             });
