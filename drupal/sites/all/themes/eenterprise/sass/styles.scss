@@ -3607,6 +3607,45 @@ input#location-input-guests::-ms-clear {
 	font-size: 0.85em;
 	margin-bottom: 5px;
 }
+.page-faqs {
+	.view-header {
+		background-color: #fafafa;
+		padding: 5px 20px;
+		margin-left: -20px;
+		margin-right: -20px;
+	}
+	h2 {
+		font-weight: bold;
+		font-size: 1em;
+		margin-bottom: 0;
+	}
+	h3 {
+		font-weight: bold;
+		margin-top: 20px;
+	}
+	ul {
+		list-style: none;
+	}
+	.views-field-title, .views-field-field-faq-category, .views-field-field-faq-category div {
+		font-weight: bold;
+		display: inline;
+	}
+	ul.bulleted li:before {
+		margin-left: -1.5em !important;
+	}
+	li {
+		margin-bottom: 10px;
+	}
+	p {
+		margin: 10px 0 0;
+	}
+	.view-id-faqs {
+		margin-bottom:20px;
+		li {
+			margin-bottom: 0;
+		}
+	}
+}
 ul.bulleted {
 	list-style: none;
 	margin-bottom: 5px;

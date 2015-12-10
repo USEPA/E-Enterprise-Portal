@@ -14861,19 +14861,67 @@ input#location-input-guests::-ms-clear {
   margin-bottom: 5px;
 }
 
-/* line 3610, ../sass/styles.scss */
+/* line 3611, ../sass/styles.scss */
+.page-faqs .view-header {
+  background-color: #fafafa;
+  padding: 5px 20px;
+  margin-left: -20px;
+  margin-right: -20px;
+}
+/* line 3617, ../sass/styles.scss */
+.page-faqs h2 {
+  font-weight: bold;
+  font-size: 1em;
+  margin-bottom: 0;
+}
+/* line 3622, ../sass/styles.scss */
+.page-faqs h3 {
+  font-weight: bold;
+  margin-top: 20px;
+}
+/* line 3626, ../sass/styles.scss */
+.page-faqs ul {
+  list-style: none;
+}
+/* line 3629, ../sass/styles.scss */
+.page-faqs .views-field-title, .page-faqs .views-field-field-faq-category, .page-faqs .views-field-field-faq-category div {
+  font-weight: bold;
+  display: inline;
+}
+/* line 3633, ../sass/styles.scss */
+.page-faqs ul.bulleted li:before {
+  margin-left: -1.5em !important;
+}
+/* line 3636, ../sass/styles.scss */
+.page-faqs li {
+  margin-bottom: 10px;
+}
+/* line 3639, ../sass/styles.scss */
+.page-faqs p {
+  margin: 10px 0 0;
+}
+/* line 3642, ../sass/styles.scss */
+.page-faqs .view-id-faqs {
+  margin-bottom: 20px;
+}
+/* line 3644, ../sass/styles.scss */
+.page-faqs .view-id-faqs li {
+  margin-bottom: 0;
+}
+
+/* line 3649, ../sass/styles.scss */
 ul.bulleted {
   list-style: none;
   margin-bottom: 5px;
 }
 
-/* line 3614, ../sass/styles.scss */
+/* line 3653, ../sass/styles.scss */
 ul.bulleted li {
   padding-left: 1.2em;
   font-size: 0.85em;
 }
 
-/* line 3618, ../sass/styles.scss */
+/* line 3657, ../sass/styles.scss */
 ul.bulleted li:before {
   content: '\f054';
   font-family: FontAwesome;
