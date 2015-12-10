@@ -329,8 +329,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_profile_last_name']);
         hide($form['field_initial_log_in']);
         hide($form['field_interests2']);
-        hide($form['field_gridstack_settings']);
 
+       if ($user->uid > 1) {
+           hide($form['field_gridstack_settings']);
+       }
 
         // If user is admin allow to edit state admin STATE.
         if ($user->uid > 1) {
