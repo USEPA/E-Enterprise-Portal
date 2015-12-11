@@ -62,8 +62,8 @@
                     $grid_container.gridstack(options);
                     var grid = $grid_container.data('gridstack');
 
-                    var save_grid_changes = '<button id="save-grid-changes">Save Changes to Layout</button>';
-                    var revert_grid_changes = '<button   id="revert-grid-changes">Revert Changes to Layout</button>'
+                    var save_grid_changes = '<button id="save-grid-changes">Save Changes</button>';
+                    var revert_grid_changes = '<button   id="revert-grid-changes">Cancel</button>'
                     var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
 
                     $('body').prepend($grid_change_options);
