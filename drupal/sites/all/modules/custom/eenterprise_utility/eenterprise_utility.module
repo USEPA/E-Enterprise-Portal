@@ -1113,6 +1113,8 @@ function update_user_gridstack_data() {
             $pane_id = $obj['id'];
             $x_coor = $obj['x'];
             $y_coor = $obj['y'];
+            $width = $obj['width'];
+            $height = $obj['width'];
 
             $multifield_gridstack_obj = array (
                 'field_pane_id_value' => $pane_id,
@@ -1142,6 +1144,20 @@ function update_user_gridstack_data() {
                         ),
                     ),
                 ),
+                'field_grid_width' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $width
+                        ),
+                    ),
+                ),
+                'field_grid_height' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $height
+                        ),
+                    ),
+                ),
             );
             $user_grid_data[LANGUAGE_NONE][$index] = $multifield_gridstack_obj;
         }
@@ -1150,7 +1166,6 @@ function update_user_gridstack_data() {
         );
         try {
             user_save($user_data, $edit);
-            print "success";
         } catch (Exception $e) {
             print json_encode($e);
             exit();
@@ -1161,6 +1176,23 @@ function update_user_gridstack_data() {
     }
 
 }
+function loadPaneData($pane_id)
+{
+    global $user;
+    $user_data = user_load($user->uid);
+
+    if (isset($user_data->field_gridstack_settings[LANGUAGE_NONE][0])) {
+        foreach ($user_data->field_gridstack_settings[LANGUAGE_NONE] as $key => $value) {
+            $users_pane_id = $value["field_pane_id"][LANGUAGE_NONE][0]["safe_value"];
+            if ($pane_id == $users_pane_id) {
+                $x_coordinate = intval($value["field_x_coordinate"][LANGUAGE_NONE][0]["value"]);
+                $y_coordinate = intval($value["field_y_coordinate"][LANGUAGE_NONE][0]["value"]);
+                return array($x_coordinate, $y_coordinate);
+            }
+        }
+    }
+    return false;
+}
 
 
 function load_user_gridstack_data()
@@ -1169,7 +1201,7 @@ function load_user_gridstack_data()
     $return_array = array();
     global $user;
     $user_data = user_load($user->uid);
-    if (isset($user_data->field_gridstack_settings[LANGUAGE_NONE][1])) {
+    if (isset($user_data->field_gridstack_settings[LANGUAGE_NONE][0])) {
         foreach ($user_data->field_gridstack_settings[LANGUAGE_NONE] as $key => $value) {
             $pane_id = $value["field_pane_id"][LANGUAGE_NONE][0]["safe_value"];
             $x_coordinate = intval($value["field_x_coordinate"][LANGUAGE_NONE][0]["value"]);

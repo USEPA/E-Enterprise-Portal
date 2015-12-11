@@ -11,6 +11,96 @@ function gridstack_field_settings_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance:
+  // 'multifield-field_gridstack_settings-field_grid_height'
+  $field_instances['multifield-field_gridstack_settings-field_grid_height'] = array(
+    'bundle' => 'field_gridstack_settings',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_integer',
+        'weight' => 2,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_grid_height',
+    'label' => 'Grid Height',
+    'required' => 0,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'multifield-field_gridstack_settings-field_grid_width'
+  $field_instances['multifield-field_gridstack_settings-field_grid_width'] = array(
+    'bundle' => 'field_gridstack_settings',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_integer',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'multifield',
+    'field_name' => 'field_grid_width',
+    'label' => 'Grid Width',
+    'required' => 0,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance:
   // 'multifield-field_gridstack_settings-field_pane_id'
   $field_instances['multifield-field_gridstack_settings-field_pane_id'] = array(
     'bundle' => 'field_gridstack_settings',
@@ -178,6 +268,8 @@ function gridstack_field_settings_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Grid Height');
+  t('Grid Width');
   t('Gridstack Settings');
   t('Pane ID');
   t('X Coordinate');

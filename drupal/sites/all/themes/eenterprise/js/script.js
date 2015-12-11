@@ -75,8 +75,6 @@
                     loadUserIndices(grid);
                     addResizeSensors(grid, verticalMargin, cellHeight);
                     grid.resizable('.grid-stack-item', false);
-
-
                 }
 
                 function addDragListeners($grid_container, $grid_change_options) {
@@ -140,11 +138,13 @@
                     // assign x and y values to widgets
                     if (serialization.length > 0) {
                         $.each(serialization, function (key, pane_data) {
-                            console.log(pane_data);
                             var $grid_item = $("#" + pane_data.id).parent();
                             var x = pane_data.x;
                             var y = pane_data.y;
-                            grid.update($grid_item, x, y);
+                            var width = 1; //pane_data.width;
+                            var height = 1; //pane_data.height;
+                            console.log($grid_item, x, y, width, height);
+                            grid.update($grid_item, x, y, width, height);
                             $grid_item.find('.grid-stack-item-content').css('overflow-y', 'hidden');
                         });
                     }
@@ -213,7 +213,7 @@
                     }, grid);
                 }
 
-                createGrid();
+               createGrid();
 
 
             });
