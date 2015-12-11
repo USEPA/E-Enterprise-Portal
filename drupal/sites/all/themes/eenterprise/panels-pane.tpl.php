@@ -19,6 +19,15 @@
 drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ElementQueries.js", "file");
 drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ResizeSensor.js", "file");
 drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_input_engine.js');
+global $user;
+$user_data = user_load($user->uid);
+if ($user->name == 'guest-user') {
+    drupal_add_js(array('is_guest' => true), 'setting'); // Adding check for guest
+}
+else {
+    drupal_add_js(array('is_guest' => true), 'setting');
+
+}
 ?>
 
 
