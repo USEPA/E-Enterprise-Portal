@@ -12,5 +12,8 @@ $node_form->type = 'agency_map';
 $node_form->language = LANGUAGE_NONE;
 // Name of content type + _node_form
 $form = drupal_get_form('agency_map_node_form', $node_form);
+$commands[] = ajax_command_invoke(NULL, 'alert', array('HELLO'));
+drupal_add_js(drupal_get_path('module', 'agency_map_list') . '/js/preview_maps.js');
+drupal_add_css(drupal_get_path('module', 'agency_map_list') . "/css/map_preview.css", "file");
 print $instructions;
 print drupal_render($form);

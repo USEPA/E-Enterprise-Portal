@@ -29,6 +29,38 @@ function agency_map_list_theme_registry_alter(&$theme_registry) {
             $theme_registry[$key]['type'] = 'module';
         }
     }
+
+    // Provide a hook for this module's custom Preview function
+    $theme_registry['node_preview']['file'] = 'agency_map_list.module';
+    $theme_registry['node_preview']['theme path'] = $module_path;
+    $theme_registry['node_preview']['function'] = 'agency_map_list_node_preview';
+    $theme_registry['node_preview']['includes'] = array($path . '/agency_map_list.module');
+}
+
+/**
+ * Overrides theme preview function.
+ */
+function agency_map_list_node_preview($variables) {
+    $node = $variables['node'];
+
+    $output = '<div class="preview">';
+    $elements = node_view($node, 'full');
+    $full = drupal_render($elements);
+
+    $url = $elements['field_ee_agency_map_url']['#items'][0]['value'];
+    $orgid = $elements['field_orgid']['#items'][0]['value']['#value'];
+    $output .= $full;
+
+    // If orgid exists, then call the JS function with supplied parameters.
+    if (!empty($orgid)) {
+        drupal_add_js(array(
+            'agency_map_list' => array(
+                'url' => $url,
+                'orgid' => $orgid
+                ),
+            ), 'setting');;
+    }
+  return $output;
 }
 
 /**
@@ -37,9 +69,8 @@ function agency_map_list_theme_registry_alter(&$theme_registry) {
 function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
     global $user;
     if ($form_id == 'agency_map_node_form') {
-
         // Hide title field
-        $form['title']['#default_value'] = t('Map Set Value');
+        $form['title']['#default_value'] = t('Map Collection Input Parameters');
         hide($form['title']);
 
         // Hide backend variables
@@ -50,6 +81,11 @@ function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
         //$form_state['redirect'] = '/agency-map-list';
         $form['#validate'][] = 'agency_map_form_validate';
 
+        // Rename drupal "preview" button to be "Validate", since we have our own preview functionality
+        $form['actions']['preview']['#value'] = 'Validate';
+
+        $form['field_ee_agency_map_url'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a id='url_preview' href='#' onclick='jQuery(\"#edit-preview\").click();'>Preview</a>";
+
         // Check if user is not admin
         if ($user->uid > 1) {
             $user_data = user_load($user->uid);
@@ -57,14 +93,7 @@ function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
             hide($form['additional_settings']);
             hide($form['actions']['preview']);
         }
-        //$form['actions'] = array('#type' => 'actions');
-/*
-			  $form['actions']['submit'] = array(
-			    '#type' => 'submit',
-			    '#value' => t('Save'),
-			    '#submit' => 'new_agency_map_form_redirect',
-			  );
-*/
+
         $form['actions']['submit']['#submit'][] = 'new_agency_map_form_redirect';
         $form['actions']['cancel'] = array(
 			    '#markup' => l(t('Cancel'), '/workbench'),
@@ -72,6 +101,9 @@ function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
     }
 }
 
+/**
+ * Form validation
+ */
 function agency_map_form_validate($form, &$form_state){
     $url = $form_state['values']['field_ee_agency_map_url'][LANGUAGE_NONE][0]['value'];
     if (!valid_url($url, TRUE)) {
