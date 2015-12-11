@@ -7,6 +7,7 @@
  * @ingroup views_templates
  */
 ?>
+
 <?php if (!empty($title)): ?>
 	<?php 
 			$title_machine_name = preg_replace('@[^a-z0-9-]+@','-', strtolower($title));
