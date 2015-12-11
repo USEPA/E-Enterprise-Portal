@@ -43,7 +43,7 @@
 
   Drupal.behaviors.initializeGridstack = {
     attach: function(context) {
-
+        console.log(Drupal.settings);
         var page_name = window.location.pathname.split('/')[1];
         if (page_name == "workbench") {
             $('body').once(function () {
@@ -53,11 +53,13 @@
                 var is_saving = false;
 
                 function createGrid() {
+
+
                     var $grid_container = $('.grid-stack');
                     var options = {
                         vertical_margin: verticalMargin,
                         cell_height: cellHeight,
-                        'data-gs-width': 2
+                        'data-gs-width': 2,
                     };
                     $grid_container.gridstack(options);
                     var grid = $grid_container.data('gridstack');
@@ -75,7 +77,10 @@
                     loadUserIndices(grid);
                     addResizeSensors(grid, verticalMargin, cellHeight);
                     grid.resizable('.grid-stack-item', false);
-                }
+                    if (Drupal.settings.is_guest) {
+                        grid.movable('.grid-stack-item', false);
+                    }
+                    }
 
                 function addDragListeners($grid_container, $grid_change_options) {
                     $grid_container.on('dragstop', function (event, ui) {
@@ -136,14 +141,13 @@
 
                 function initializeIndices(grid, serialization) {
                     // assign x and y values to widgets
-                    if (serialization.length > 0) {
+                    if (serialization.length > 0 && !Drupal.settings.is_guest) {
                         $.each(serialization, function (key, pane_data) {
                             var $grid_item = $("#" + pane_data.id).parent();
                             var x = pane_data.x;
                             var y = pane_data.y;
                             var width = 1; //pane_data.width;
                             var height = 1; //pane_data.height;
-                            console.log($grid_item, x, y, width, height);
                             grid.update($grid_item, x, y, width, height);
                             $grid_item.find('.grid-stack-item-content').css('overflow-y', 'hidden');
                         });
@@ -212,8 +216,7 @@
                         };
                     }, grid);
                 }
-
-               createGrid();
+                    createGrid();
 
 
             });
