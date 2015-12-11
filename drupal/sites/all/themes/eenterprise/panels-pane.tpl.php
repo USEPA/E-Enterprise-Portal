@@ -33,7 +33,6 @@ else {
 
 <?php if ($pane_prefix): ?>
   <?php print $pane_prefix; ?>;
-    $user->name == 'guest-user'
 <?php endif; ?>
 <div class="grid-stack-item"  data-gs-height="30" style="opacity:1.0">
     <div class="<?php print $classes;?>" id="<?php echo "gridstack-pane-" . $pane->subtype; ?>" <?php print $attributes; ?>>
