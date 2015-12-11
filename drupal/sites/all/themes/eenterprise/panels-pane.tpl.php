@@ -20,6 +20,8 @@ drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ElementQueries.js", 
 drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ResizeSensor.js", "file");
 drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_input_engine.js');
 ?>
+
+
 <?php if ($pane_prefix): ?>
   <?php print $pane_prefix; ?>
 <?php endif; ?>
