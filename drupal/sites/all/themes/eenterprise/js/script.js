@@ -43,7 +43,6 @@
 
   Drupal.behaviors.initializeGridstack = {
     attach: function(context) {
-        console.log(Drupal.settings);
         var page_name = window.location.pathname.split('/')[1];
         if (page_name == "workbench") {
             $('body').once(function () {
@@ -77,7 +76,7 @@
                     loadUserIndices(grid);
                     addResizeSensors(grid, verticalMargin, cellHeight);
                     grid.resizable('.grid-stack-item', false);
-                    if (Drupal.settings.is_guest) {
+                    if (Drupal.settings.is_guest == 'true') {
                         grid.movable('.grid-stack-item', false);
                     }
                     }
@@ -141,7 +140,7 @@
 
                 function initializeIndices(grid, serialization) {
                     // assign x and y values to widgets
-                    if (serialization.length > 0 && !Drupal.settings.is_guest) {
+                    if (serialization.length > 0 && !(Drupal.settings.is_guest == 'false')) {
                         $.each(serialization, function (key, pane_data) {
                             var $grid_item = $("#" + pane_data.id).parent();
                             var x = pane_data.x;
