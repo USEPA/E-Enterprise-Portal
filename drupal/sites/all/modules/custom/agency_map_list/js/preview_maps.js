@@ -2,11 +2,12 @@
 
     Drupal.behaviors.agency_map_list = {
         attach: function(context, settings) {
-            $(document).ready(function() {
-                if(settings.agency_map_list) {
-                    // Listen for Drupal callback and passed URL & orgid parameters
-                    query_AGOL(settings.agency_map_list.url, settings.agency_map_list.orgid);
-                }
+            if(settings.agency_map_list) {
+                // Listen for Drupal callback and passed URL & orgid parameters
+                query_AGOL(settings.agency_map_list.url, settings.agency_map_list.orgid);
+            }
+            $('#url_preview', context).click(function () {
+                $("#edit-preview").click();
             });
         }
     };
