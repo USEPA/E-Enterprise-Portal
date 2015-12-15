@@ -1,0 +1,46 @@
+
+.transparent-qtip .ui-tooltip-wrapper{
+    background-color: transparent;
+}
+
+.qtip-default {
+    background-color: transparent; border: 0;
+}
+
+.qtip-tip, .qtip-tip canvas{
+    display: none;
+}
+
+.filled {
+    color: #d9534f;
+}
+.filled:hover{
+    color: #c9302c;
+    cursor: pointer;
+}
+.empty {
+    color: grey;
+}
+.empty:hover{
+    color: darkslategray;
+    cursor: pointer;
+}
+
+.button_input_holder .btn, .button_input_holder .btn-success, .button_input_holder .btn-danger,
+.button_input_holder .btn:hover, .button_input_holder .btn-success:hover, .button_input_holder .btn-danger:hover{
+    background-color: transparent;
+    border:  0;
+}
+
+.qtip .qtip-default {
+    width: auto;
+}
+
+.modal-iframe {
+    width: 100%;
+    height: 90%;
+}
+
+.ui-dialog, .ui-dialog-content {
+    height: 90% !important;
+}

@@ -13,6 +13,11 @@ function other_items_of_interest_menu()
         'page callback' => 'generateAllAreasOfInterestTable',
         'access callback' => TRUE,
     );
+    $items['generateCurrentAreaOfInterestTable'] = array(
+                'page callback' => 'generateCurrentAreaOfInterestTable',
+        'access callback' => TRUE,
+
+    );
 
     return $items;
 }
@@ -46,21 +51,38 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
 {
     global $user;
     if ($form_id == 'state_resource_node_form') {
+        drupal_add_js(drupal_get_path('module', 'other_items_of_interest') . "/js/preview_url_form.js", "file");
+        drupal_add_css(drupal_get_path('module', 'other_items_of_interest') . "/css/state_resource_editor.css", "file");
+
         $form_state['rebuild'] = TRUE;
+        $form['#validate'][] = 'other_items_of_interest_form_validate';
 
         // Check if user is not admin
-        if ($user->uid > 1) {
+     //   if ($user->uid > 1) {
             $user_data = user_load($user->uid);
             $state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
             hide($form['additional_settings']);
-            hide($form['actions']['preview']);
             $form['title']['#value'] = $state;
             $form['title'];
             $form['title']['#attributes'] = array(
                 'disabled' => 'disabled');
-        }
-        $form['link'] = array('#markup' => l(t('Back'), '/state-resource-editor'));
+    //    }
+        $form['field_source_url'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a id='new-state-url-preview' href='#'>Preview</a>";
+
+
+        hide($form['actions']['preview']);
+
         $form['actions']['submit']['#submit'][] = 'new_state_form_redirect';
+        $form['link'] = array('#markup' => l(t('Cancel'), '/workbench'));
+
+    }
+}
+
+function other_items_of_interest_form_validate($form, &$form_state){
+    $url = $form_state['values']['field_source_url'][LANGUAGE_NONE][0]['value'];
+    if (!valid_url($url, TRUE)) {
+        $message = "Invalid Web URL";
+        form_set_error('url', $message);
     }
 }
 
@@ -86,7 +108,6 @@ function new_state_form_redirect($form, &$form_state) {
      $query->entityCondition('entity_type', 'node')
          ->entityCondition('bundle', 'state_resource')
          ->propertyCondition('status', 1);
-
      $results = $query->execute();
      if (isset($results['node'])) {
          $nids = array_keys($results['node']);
@@ -137,7 +158,7 @@ function generateAllAreasOfInterestTable() {
             $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
             echo "<tr><td>$state</td>" .
                 "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-                "<br /><div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
+                "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
                 "<td>$topic</td></tr>";
 
         }
@@ -161,12 +182,36 @@ function generateFavoriteAreasOfInterestTable() {
                 $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
                 echo "<tr><td>$state</td>" .
                     "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-                    "<br /><div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
+                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
                     "<td>$topic</td></tr>";
 
             }
         }
 
+        echo "</tbody> </table>";
+}
+
+// Takes state code for filtering
+function generateCurrentAreaOfInterestTable() {
+        $state_resources = loadStateResources();
+        echo "<table id='other-areas-of-interest-table'>" .
+            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
+            "<tbody>";
+    if (isset($_POST['state'])) {
+        $user_selected_state = $_POST['state'];
+        foreach ($state_resources as $nid => $nid_data) {
+            $state = $nid_data->title;
+            if ($state == $user_selected_state) {
+                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
+                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
+                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
+                echo "<tr><td>$state</td>" .
+                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
+                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
+                    "<td>$topic</td></tr>";
+            }
+        }
+    }
         echo "</tbody> </table>";
 }
 

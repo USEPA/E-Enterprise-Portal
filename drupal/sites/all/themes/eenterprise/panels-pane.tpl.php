@@ -19,18 +19,31 @@
 drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ElementQueries.js", "file");
 drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ResizeSensor.js", "file");
 drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_input_engine.js');
+global $user;
+$user_data = user_load($user->uid);
+if ($user->name == 'guest-user') {
+    drupal_add_js(array('is_guest' => true), 'setting'); // Adding check for guest
+}
+else {
+    drupal_add_js(array('is_guest' => true), 'setting');
+
+}
 ?>
+
+
 <?php if ($pane_prefix): ?>
   <?php print $pane_prefix; ?>
 <?php endif; ?>
-<div class="grid-stack-item" data-gs-width="6" data-gs-height="30" data-gs-no-resize="true" data-gs-no-move="true" style="opacity:1.0">
-    <div class="<?php print $classes; ?>" <?php print $id; ?> <?php print $attributes; ?>>
+<div class="grid-stack-item"  data-gs-height="30" style="opacity:1.0">
+    <div class="<?php print $classes;?>" id="<?php echo "gridstack-pane-" . $pane->subtype; ?>" <?php print $attributes; ?>>
       <?php if ($admin_links): ?>
         <?php print $admin_links; ?>
       <?php endif; ?>
 
+
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>
+
         <<?php print $title_heading; ?><?php print $title_attributes; ?> tabindex="0">
         <?php print $title; ?>
         </<?php print $title_heading; ?>>
@@ -64,3 +77,4 @@ drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_inpu
 <?php if ($pane_suffix): ?>
   <?php print $pane_suffix; ?>
 <?php endif; ?>
+

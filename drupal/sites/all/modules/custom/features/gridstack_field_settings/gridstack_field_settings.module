@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Gridstack Field Settings feature.
+ */
+
+include_once 'gridstack_field_settings.features.inc';

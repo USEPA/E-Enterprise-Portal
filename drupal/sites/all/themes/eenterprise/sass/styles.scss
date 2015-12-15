@@ -170,9 +170,14 @@ a:visited.pager__link {
 .menu-item {
 	letter-spacing: 0.25px;
 }
-#ee-disclaimer-form #edit-submit-button, #guest-login {
+#ee-disclaimer-form #edit-submit-button, #guest-login, .button.primary-action {
 	@include button;
 	padding: 10px 20px;
+}
+.button.primary-action {
+	text-decoration: none;
+	-moz-appearance: none;
+	-webkit-appearance: none; 
 }
 #guest-login {
 	padding: 8px 16px;
@@ -1934,17 +1939,6 @@ form[id^='user-profile-form'] {
 }
 
 
-/***
-CSS for Editable Table for State Resources, BMATKIN
-***/
-
-#editableviews-entity-form-state-resource-editor #edit-actions-submit, .view-id-state_resource_editor .new-state-resource {
-  float:left;
-}
-
-.view-id-state_resource_editor .back-state-resource{
-  float: right;
-}
 
 
 
@@ -3205,6 +3199,57 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
     background-color: $color;
   }
 }
+#agency-map-node-form {
+	fieldset {
+		legend {
+			font-size: 0.85em;
+			border-bottom: none;
+			font-weight: bold;
+			margin-bottom: 0;
+		}
+		.fieldset-wrapper {
+			position: relative;
+		}
+		.fieldset-description {
+			position: absolute;
+			top: 100%;
+		}
+		.field-value-url {
+			margin-top: -20px; 
+		}
+	}
+	.fieldset-description, .description {
+			font-size: 0.75em;
+	}
+	.form-actions {
+		position: relative;
+		width: 9em;
+		a {
+			position: absolute;
+			right: 0;
+		}
+		input {
+			padding: 5px 20px;
+		}
+	}
+	#edit-actions {
+		width: 27em;
+		a {
+			right: auto;
+			left: 6em;
+		}
+		#edit-delete {
+			@include button-gray;
+			position: absolute;
+			right: 0;
+			font-weight: normal;
+			padding: 5px 20px;
+			border: 1px solid #aaa;
+			color: #000;
+		}
+	}
+}
+
 
 @mixin btn-social($color-bg, $color: #fff) {
   background-color: $color-bg;
@@ -3498,7 +3543,6 @@ input#location-input-guests::-ms-clear {
     display:inline-table;
     width:100%;
   }
-
 }
 
 .ui-autocomplete {
@@ -3558,4 +3602,66 @@ input#location-input-guests::-ms-clear {
   text-transform: capitalize;
   font-size: 100%;
   text-decoration: none;
+}
+.page-new-agency-map p {
+	font-size: 0.85em;
+	margin-bottom: 5px;
+}
+.page-faqs {
+	.view-header {
+		background-color: #fafafa;
+		padding: 5px 20px;
+		margin-left: -20px;
+		margin-right: -20px;
+	}
+	h2 {
+		font-weight: bold;
+		font-size: 1em;
+		margin-bottom: 0;
+	}
+	h3 {
+		font-weight: bold;
+		margin-top: 20px;
+	}
+	ul {
+		list-style: none;
+	}
+	.views-field-title, .views-field-field-faq-category, .views-field-field-faq-category div {
+		font-weight: bold;
+		display: inline;
+	}
+	ul.bulleted li:before {
+		margin-left: -1.5em !important;
+	}
+	li {
+		margin-bottom: 10px;
+	}
+	p {
+		margin: 10px 0 0;
+	}
+	.view-id-faqs {
+		margin-bottom:20px;
+		li {
+			margin-bottom: 0;
+		}
+	}
+}
+ul.bulleted {
+	list-style: none;
+	margin-bottom: 5px;
+}
+ul.bulleted li {
+  padding-left: 1.2em;
+  font-size: 0.85em;
+}
+ul.bulleted li:before {
+  content: '\f054';
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-size: 0.5em;
+  display: inline-block;
+  width: 1.2em;
+  margin-left: -1.2em;
+  color:#999;
+  vertical-align: middle;
 }

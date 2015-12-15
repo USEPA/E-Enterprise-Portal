@@ -71,10 +71,46 @@ function eenterprise_utility_menu()
         'file' => 'eenterprise_utility_cdx_facility_widget.admin.inc',
     );
 
+        $items['update_user_gridstack_data'] = array(
+            'page callback' => 'update_user_gridstack_data',
+            'access callback' => TRUE,
+        );
+
+    $items['load_user_gridstack_data'] = array(
+        'page callback' => 'load_user_gridstack_data',
+        'access callback' => TRUE,
+    );
+    $items['map_dataset'] = array(
+        'title' => 'Map Dataset',
+        'page callback' => 'map_dataset',
+        'access callback' => 'user_is_logged_in',
+        '#type' => MENU_CALLBACK,
+    );
+
 
     return $items;
 }
 
+
+/**
+ * returns a map Dataset, formated as JSON.
+ */
+function map_dataset(){
+    $agency_map_datasets = views_get_view_result("agency_map_list");
+    $mapset = array();
+    foreach($agency_map_datasets as $dataset){
+        $temp_dataset = array();
+        $temp_dataset['id'] = $dataset->field_field_id[0]['rendered']['#markup'];
+        $temp_dataset['alias'] = $dataset->field_field_ee_agency_map_agency[0]['rendered']['#title'];
+        $temp_dataset['contactemail'] = $dataset->field_field_ee_agency_map_email[0]['rendered']['#markup'];
+        $temp_dataset['url'] = $dataset->field_field_ee_agency_map_url[0]['rendered']['#title'];
+        $temp_dataset['orgid'] = $dataset->field_field_orgid[0]['rendered']['#markup'];
+        array_push($mapset, $temp_dataset);
+    }
+    $mapset = array('mapsets' => $mapset);
+    drupal_add_http_header('Content-Type', 'application/json');
+    echo drupal_json_encode($mapset);
+}
 
 /**
  * Implements hook_permission().
@@ -254,6 +290,12 @@ function get_taxonomy_parent_name($tid)
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 {
+    //Hide title from Map Set form
+    if($form['#form_id'] == 'ee_map_set_node_form'){
+        $form['title']['#default_value'] = t('Map Set Value');
+        hide($form['title']);
+    }
+
     //Prevent guest user from accessing account edit page.
     if (($form['#form_id'] == 'user_profile_form') && ($form['#user']->name == 'guest-user')) {
         drupal_goto("/");
@@ -288,9 +330,12 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_initial_log_in']);
         hide($form['field_interests2']);
 
+       if ($user->uid > 1) {
+           hide($form['field_gridstack_settings']);
+       }
 
-        // Check if the user has the 'state_admin' role.
-        if (!in_array('state_admin', $user->roles)) {
+        // If user is admin allow to edit state admin STATE.
+        if ($user->uid > 1) {
             hide($form['field_admin_state']);
         }
 
@@ -879,7 +924,9 @@ function eenterprise_utility_views_query_alter(&$view, &$query){
             }
             $view->args['week_filter_val'] = $view->exposed_raw_input['field_todo_lst_due_value'];
             date_default_timezone_set('America/New_York');
-            if (substr($view->exposed_raw_input['field_todo_lst_due_value'], 0, 10) == date("Y-m-d")) {
+            $time_diff = time() - strtotime($view->exposed_raw_input['field_todo_lst_due_value']);
+            if ($time_diff < (7 * 24 * 60 * 60) && $time_diff > 0) {
+            //if (substr($view->exposed_raw_input['field_todo_lst_due_value'], 0, 10) == date("Y-m-d")) {
                 $view->query->add_where(1, 'field_data_field_todo_lst_due.field_todo_lst_due_value', date("Y-m-d 23:59:59", strtotime("next saturday", time())), '<');
             } //if the difference between beyond next week and now is more than 7 days
             else if ((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)) {
@@ -1035,10 +1082,7 @@ return $location_description;
  */
 function release_number(){
 
-//    if (isset($_SESSION['release_number'])) {
-//        $release_number = $_SESSION['release_number'];
-//    }
-//    else {
+
         $query = new EntityFieldQuery;
         $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', 'release_number')
@@ -1053,6 +1097,118 @@ function release_number(){
         else {
             $release_number = '';
         }
-//    }
     return $release_number;
+}
+
+
+function update_user_gridstack_data() {
+    global $user;
+    $user_data = user_load($user->uid);
+  //  var_dump($user_data->field_gridstack_settings);
+    echo json_encode($_POST['grid_data']);
+    if (isset($_POST['grid_data'])) {
+        $user_grid_data = $user_data->field_gridstack_settings;
+        unset($user_grid_data);
+        foreach($_POST['grid_data'] as $index=>$obj) {
+            $pane_id = $obj['id'];
+            $x_coor = $obj['x'];
+            $y_coor = $obj['y'];
+            $width = $obj['width'];
+            $height = $obj['width'];
+
+            $multifield_gridstack_obj = array (
+                'field_pane_id_value' => $pane_id,
+                'field_pane_id_value_format' => null,
+                'field_x_coordinate_value' => $x_coor,
+                'field_x_coordinate_value_format' => null,
+                'field_y_coordinate_value' => $y_coor,
+                'field_y_coordinate_value_format' => null,
+                'field_pane_id' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $pane_id
+                        ),
+                    ),
+                ),
+                'field_x_coordinate' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $x_coor
+                        ),
+                    ),
+                ),
+                'field_y_coordinate' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $y_coor
+                        ),
+                    ),
+                ),
+                'field_grid_width' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $width
+                        ),
+                    ),
+                ),
+                'field_grid_height' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $height
+                        ),
+                    ),
+                ),
+            );
+            $user_grid_data[LANGUAGE_NONE][$index] = $multifield_gridstack_obj;
+        }
+        $edit = array(
+            'field_gridstack_settings' => $user_grid_data
+        );
+        try {
+            user_save($user_data, $edit);
+        } catch (Exception $e) {
+            print json_encode($e);
+            exit();
+        }
+
+
+
+    }
+
+}
+function loadPaneData($pane_id)
+{
+    global $user;
+    $user_data = user_load($user->uid);
+
+    if (isset($user_data->field_gridstack_settings[LANGUAGE_NONE][0])) {
+        foreach ($user_data->field_gridstack_settings[LANGUAGE_NONE] as $key => $value) {
+            $users_pane_id = $value["field_pane_id"][LANGUAGE_NONE][0]["safe_value"];
+            if ($pane_id == $users_pane_id) {
+                $x_coordinate = intval($value["field_x_coordinate"][LANGUAGE_NONE][0]["value"]);
+                $y_coordinate = intval($value["field_y_coordinate"][LANGUAGE_NONE][0]["value"]);
+                return array($x_coordinate, $y_coordinate);
+            }
+        }
+    }
+    return false;
+}
+
+
+function load_user_gridstack_data()
+{
+    // Format of gridstack data     {x: 2, y: 5, width: 1, height: 1}
+    $return_array = array();
+    global $user;
+    $user_data = user_load($user->uid);
+    if (isset($user_data->field_gridstack_settings[LANGUAGE_NONE][0])) {
+        foreach ($user_data->field_gridstack_settings[LANGUAGE_NONE] as $key => $value) {
+            $pane_id = $value["field_pane_id"][LANGUAGE_NONE][0]["safe_value"];
+            $x_coordinate = intval($value["field_x_coordinate"][LANGUAGE_NONE][0]["value"]);
+            $y_coordinate = intval($value["field_y_coordinate"][LANGUAGE_NONE][0]["value"]);
+            $return_array[] = array('x' => $x_coordinate, 'y' => $y_coordinate, 'width' => 5, 'height' => 1, 'id' => $pane_id);
+        }
+    }
+    echo json_encode($return_array);
+    exit();
 }
