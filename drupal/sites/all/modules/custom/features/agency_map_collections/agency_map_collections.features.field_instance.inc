@@ -150,50 +150,6 @@ function agency_map_collections_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-agency_map-field_id'
-  $field_instances['node-agency_map-field_id'] = array(
-    'bundle' => 'agency_map',
-    'custom_add_another' => '',
-    'custom_remove' => '',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => 'Agency abbreviation',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 5,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_id',
-    'label' => 'id',
-    'required' => 0,
-    'settings' => array(
-      'custom_add_another' => '',
-      'custom_remove' => '',
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 5,
-    ),
-  );
-
   // Exported field_instance: 'node-agency_map-field_orgid'
   $field_instances['node-agency_map-field_orgid'] = array(
     'bundle' => 'agency_map',
@@ -235,6 +191,50 @@ function agency_map_collections_field_default_field_instances() {
       ),
       'type' => 'text_textfield',
       'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'node-agency_map-field_owner'
+  $field_instances['node-agency_map-field_owner'] = array(
+    'bundle' => 'agency_map',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_owner',
+    'label' => 'owner',
+    'required' => 0,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 7,
     ),
   );
 
@@ -289,14 +289,13 @@ function agency_map_collections_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Agency');
-  t('Agency abbreviation');
   t('Agency contact email');
   t('Agency map URL');
   t('Email address for agency map contact');
   t('For back-end storage of AGOL organizational ID');
   t('Website address for AGOL map subscription, such as https://agencyname.maps.arcgis.com/');
-  t('id');
   t('orgid');
+  t('owner');
 
   return $field_instances;
 }

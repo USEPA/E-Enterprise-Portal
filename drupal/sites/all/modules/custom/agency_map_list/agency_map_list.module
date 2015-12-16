@@ -47,8 +47,13 @@ function agency_map_list_node_preview($variables) {
     $elements = node_view($node, 'full');
     $full = drupal_render($elements);
 
+    $node_form = new stdClass;
+
     $url = $elements['field_ee_agency_map_url']['#items'][0]['value'];
-    $orgid = $elements['field_orgid']['#items'][0]['value']['#value'];
+    $orgid = $elements['field_orgid']['#items'][0]['value'];
+    if (is_array($orgid)) {
+        $orgid = $elements['field_orgid']['#items'][0]['value']['#value'];
+    }
     $output .= $full;
 
     // If orgid exists, then call the JS function with supplied parameters.
@@ -69,13 +74,26 @@ function agency_map_list_node_preview($variables) {
 function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
     global $user;
     if ($form_id == 'agency_map_node_form') {
+        drupal_add_js(drupal_get_path('module', 'agency_map_list') . '/js/preview_maps.js');
+        drupal_add_css(drupal_get_path('module', 'agency_map_list') . "/css/map_preview.css", "file");
+
+        $form['instructions']['#markup'] = "<p><strong>Please note:</strong> Maps must meet the following criteria in order to be published to the \"Interactive Maps\" widget:</p><ul class=\"bulleted\">
+            <li>Publicly-visible ArcGIS Online Web Mapping Application (not just a web map or a feature service)</li>
+            <li>Meaningful item description</li>
+            <li>Relevant item tags for use in filtering</li>
+            <li>Use a unique and intuitive thumbnail image (i.e. not the default thumbnail)</li>
+        </ul>";
+
         // Hide title field
-        $form['title']['#default_value'] = t('Map Collection Input Parameters');
+        $form['title']['#default_value'] = " ";
         hide($form['title']);
 
+        // Store username as owner
+        $form["field_owner"][LANGUAGE_NONE][0]['value']['#default_value'] = $user->name;
+
         // Hide backend variables
-        hide($form['field_id']);
         hide($form['field_orgid']);
+        hide($form['field_owner']);
 
         $form_state['rebuild'] = TRUE;
         //$form_state['redirect'] = '/agency-map-list';
@@ -84,19 +102,18 @@ function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
         // Rename drupal "preview" button to be "Validate", since we have our own preview functionality
         $form['actions']['preview']['#value'] = 'Validate';
 
-        $form['field_ee_agency_map_url'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a id='url_preview' href='#' onclick='jQuery(\"#edit-preview\").click();'>Preview</a>";
+        $form['field_ee_agency_map_url'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a id='url_preview' href='#');'>Preview</a>";
 
         // Check if user is not admin
         if ($user->uid > 1) {
             $user_data = user_load($user->uid);
             //$state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
             hide($form['additional_settings']);
-            hide($form['actions']['preview']);
         }
 
         $form['actions']['submit']['#submit'][] = 'new_agency_map_form_redirect';
         $form['actions']['cancel'] = array(
-			    '#markup' => l(t('Cancel'), '/workbench'),
+			    '#markup' => l(t('Cancel'), '/agency-map-list'),
 			  );
     }
 }
@@ -111,8 +128,11 @@ function agency_map_form_validate($form, &$form_state){
         form_set_error('url', $message);
     } elseif (preg_match('/(https?\:\/\/)(.*)(\.maps.arcgis.com)/', $url, $matches)) {
     // Regex match of AGOL url
-        // Get AGOL organization name and store it as "id"
-        $form_state['values']['field_id'][LANGUAGE_NONE][0]['value']['#value'] = $matches[2];
+        $edit_form = FALSE; 
+        // Check to see if this is the node edit page
+        if (!empty($form_state['values']['delete'])) {
+            $edit_form = TRUE;
+        }
         // Get only the domain name and ignore anything after it (e.g. /rest/sharing)
         $url = $matches[1] . $matches[2] . $matches[3];
         form_set_value($form['field_ee_agency_map_url'], array('und' => array(0 => array('value' => $url))), $form_state);
@@ -122,7 +142,11 @@ function agency_map_form_validate($form, &$form_state){
         // Make sure it's a valid AGOL site
         if (!empty($result->id)) {
             // Extract the organizational ID and store it as "orgid"
-            $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value']['#value'] = $result->id;
+            if ($edit_form) {
+                $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value'] = $result->id;
+            } else {
+                $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value']['#value'] = $result->id;
+            }
         } else {
             // If URL doesn't match AGOL type, throw error
             $message = "Please provide a valid ArcGIS Online URL.";

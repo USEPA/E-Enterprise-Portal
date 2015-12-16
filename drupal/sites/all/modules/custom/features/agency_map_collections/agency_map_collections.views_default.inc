@@ -23,6 +23,7 @@ function agency_map_collections_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Agency Map Collections';
+  $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -67,12 +68,6 @@ function agency_map_collections_views_default_views() {
   $handler->display->display_options['fields']['field_ee_agency_map_agency']['id'] = 'field_ee_agency_map_agency';
   $handler->display->display_options['fields']['field_ee_agency_map_agency']['table'] = 'field_data_field_ee_agency_map_agency';
   $handler->display->display_options['fields']['field_ee_agency_map_agency']['field'] = 'field_ee_agency_map_agency';
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['alter']['text'] = '<p class="agency-map-title"><a href="[field_ee_agency_map_url_1]">[title]</a></p><p class="agency-map--description">[field_ee_agency_map_description]</p><p class="agency-map-email"><a href="mailto:[field_ee_agency_map_email]">[field_ee_agency_map_email]</a>';
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Agency map URL */
   $handler->display->display_options['fields']['field_ee_agency_map_url']['id'] = 'field_ee_agency_map_url';
   $handler->display->display_options['fields']['field_ee_agency_map_url']['table'] = 'field_data_field_ee_agency_map_url';
@@ -86,6 +81,20 @@ function agency_map_collections_views_default_views() {
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
   $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  /* Field: Content: orgid */
+  $handler->display->display_options['fields']['field_orgid']['id'] = 'field_orgid';
+  $handler->display->display_options['fields']['field_orgid']['table'] = 'field_data_field_orgid';
+  $handler->display->display_options['fields']['field_orgid']['field'] = 'field_orgid';
+  $handler->display->display_options['fields']['field_orgid']['exclude'] = TRUE;
+  /* Field: Content: Agency contact email */
+  $handler->display->display_options['fields']['field_ee_agency_map_email']['id'] = 'field_ee_agency_map_email';
+  $handler->display->display_options['fields']['field_ee_agency_map_email']['table'] = 'field_data_field_ee_agency_map_email';
+  $handler->display->display_options['fields']['field_ee_agency_map_email']['field'] = 'field_ee_agency_map_email';
+  /* Field: Content: owner */
+  $handler->display->display_options['fields']['field_owner']['id'] = 'field_owner';
+  $handler->display->display_options['fields']['field_owner']['table'] = 'field_data_field_owner';
+  $handler->display->display_options['fields']['field_owner']['field'] = 'field_owner';
+  $handler->display->display_options['fields']['field_owner']['label'] = 'Owner';
   /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
@@ -94,18 +103,6 @@ function agency_map_collections_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['edit_node']['alter']['text'] = 'Edit';
   $handler->display->display_options['fields']['edit_node']['alter']['make_link'] = TRUE;
-  /* Field: Content: id */
-  $handler->display->display_options['fields']['field_id']['id'] = 'field_id';
-  $handler->display->display_options['fields']['field_id']['table'] = 'field_data_field_id';
-  $handler->display->display_options['fields']['field_id']['field'] = 'field_id';
-  /* Field: Content: orgid */
-  $handler->display->display_options['fields']['field_orgid']['id'] = 'field_orgid';
-  $handler->display->display_options['fields']['field_orgid']['table'] = 'field_data_field_orgid';
-  $handler->display->display_options['fields']['field_orgid']['field'] = 'field_orgid';
-  /* Field: Content: Agency contact email */
-  $handler->display->display_options['fields']['field_ee_agency_map_email']['id'] = 'field_ee_agency_map_email';
-  $handler->display->display_options['fields']['field_ee_agency_map_email']['table'] = 'field_data_field_ee_agency_map_email';
-  $handler->display->display_options['fields']['field_ee_agency_map_email']['field'] = 'field_ee_agency_map_email';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
