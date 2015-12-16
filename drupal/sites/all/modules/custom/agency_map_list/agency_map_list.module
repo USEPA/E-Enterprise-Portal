@@ -34,7 +34,7 @@ function agency_map_list_theme_registry_alter(&$theme_registry) {
     $theme_registry['node_preview']['file'] = 'agency_map_list.module';
     $theme_registry['node_preview']['theme path'] = $module_path;
     $theme_registry['node_preview']['function'] = 'agency_map_list_node_preview';
-    $theme_registry['node_preview']['includes'] = array($path . '/agency_map_list.module');
+    $theme_registry['node_preview']['includes'] = array($module_path . '/agency_map_list.module');
 }
 
 /**
