@@ -7,7 +7,7 @@
             // Put agency-specific filtering tags here
             var noaatag = 'tags:"oceans"';
 
-						var galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>';
+			var galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>';
             //Direct link to EPA maps
             //If user is a state_admin, then show the "Add agency maps" link
             if (Drupal.settings.userrole == 'state_admin') {
@@ -28,6 +28,7 @@
 
             //Query all AGOL endpoints given from mapsets JSON
             query_AGOL(mapsets);
+            updateTotalNumberOfMapsShowing();
 
 
             /********************jcarousel event listeners***********************/
@@ -164,6 +165,7 @@
             function query_AGOL(mapsets) {
                 $.each(mapsets, function (index, mapset) {
                     var agency_specific_tags = "";
+                    mapset.id = mapset.url.match(/\/\/(.*).maps.arcgis.com/)[1];
                     if (mapset.id == "noaa") {
                         agency_specific_tags = noaatag;
                     }
