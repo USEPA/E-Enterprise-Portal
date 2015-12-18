@@ -10,3 +10,7 @@
 .ui-dialog, .ui-dialog-content {
     height: 90% !important;
 }
+
+#edit-actions, .agency-map-list-cancel-link {
+    float: left;
+}
