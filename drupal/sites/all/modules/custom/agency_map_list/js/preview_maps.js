@@ -2,12 +2,31 @@
 
     Drupal.behaviors.agency_map_list = {
         attach: function(context, settings) {
-            if(settings.agency_map_list) {
-                // Listen for Drupal callback and passed URL & orgid parameters
-                query_AGOL(settings.agency_map_list.url, settings.agency_map_list.orgid);
-            }
+            var $field_messages = $('.form-field-type-url .fieldset-description');
+
             $('#url_preview', context).click(function () {
-                $("#edit-preview").click();
+                var url = $('#edit-field-ee-agency-map-url-und-0-value').val();
+                var original_text = $field_messages.text();
+                $.ajax({
+                    url: '/ajax_map_form_validate',
+                    data: {url: url},
+                    method: 'POST',
+                    beforeSend: function() {
+                        $field_messages.text('Loading...');
+                    },
+                    success: function(response) {
+                        var response = $.parseJSON(response);
+                        if (response.error) {
+                            $field_messages.html('<span class="field-suffix error">' + response.message + '</span>');
+                            console.log(response.console_message);
+                        }
+                        else {
+                            $field_messages.text(original_text);
+                            query_AGOL(response.url, response.orgid);
+                        }
+                    }
+
+                });
             });
         }
     };
