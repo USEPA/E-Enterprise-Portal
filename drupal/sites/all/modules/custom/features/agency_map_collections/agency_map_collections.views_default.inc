@@ -95,6 +95,11 @@ function agency_map_collections_views_default_views() {
   $handler->display->display_options['fields']['field_owner']['table'] = 'field_data_field_owner';
   $handler->display->display_options['fields']['field_owner']['field'] = 'field_owner';
   $handler->display->display_options['fields']['field_owner']['label'] = 'Owner';
+  /* Field: Content: state */
+  $handler->display->display_options['fields']['field_state']['id'] = 'field_state';
+  $handler->display->display_options['fields']['field_state']['table'] = 'field_data_field_state';
+  $handler->display->display_options['fields']['field_state']['field'] = 'field_state';
+  $handler->display->display_options['fields']['field_state']['label'] = 'State';
   /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
@@ -122,6 +127,30 @@ function agency_map_collections_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'agency_map' => 'agency_map',
   );
+  /* Filter criterion: Global: PHP */
+  $handler->display->display_options['filters']['php']['id'] = 'php';
+  $handler->display->display_options['filters']['php']['table'] = 'views';
+  $handler->display->display_options['filters']['php']['field'] = 'php';
+  $handler->display->display_options['filters']['php']['use_php_setup'] = 0;
+  $handler->display->display_options['filters']['php']['php_filter'] = 'global $user;
+
+if ($user->uid > 1) {
+    if (in_array(\'state_admin\', $user->roles)) {
+        $user_data = user_load($user->uid);
+        $user_state = $user_data->field_admin_state[LANGUAGE_NONE][0][\'safe_value\'];
+        $thisData = node_load($data->nid);
+        $row_state = $thisData->field_state[LANGUAGE_NONE][0][\'safe_value\'];
+        if ($row_state === $user_state) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    } else {
+        return TRUE;
+    }
+} else {
+    return FALSE;
+}';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
