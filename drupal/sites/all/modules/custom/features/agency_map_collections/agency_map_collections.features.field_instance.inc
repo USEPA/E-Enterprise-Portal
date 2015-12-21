@@ -238,6 +238,50 @@ function agency_map_collections_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-agency_map-field_state'
+  $field_instances['node-agency_map-field_state'] = array(
+    'bundle' => 'agency_map',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_state',
+    'label' => 'state',
+    'required' => 0,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 8,
+    ),
+  );
+
   // Exported field_instance: 'node-ee_map_set-field_ee_map_agency'
   $field_instances['node-ee_map_set-field_ee_map_agency'] = array(
     'bundle' => 'ee_map_set',
@@ -296,6 +340,7 @@ function agency_map_collections_field_default_field_instances() {
   t('Website address for AGOL map subscription, such as https://agencyname.maps.arcgis.com/');
   t('orgid');
   t('owner');
+  t('state');
 
   return $field_instances;
 }

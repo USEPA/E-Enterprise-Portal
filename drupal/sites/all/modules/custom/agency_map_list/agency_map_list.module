@@ -98,6 +98,7 @@ function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
         // Hide backend variables
         hide($form['field_orgid']);
         hide($form['field_owner']);
+        hide($form['field_state']);
 
         $form_state['rebuild'] = TRUE;
         //$form_state['redirect'] = '/agency-map-list';
@@ -170,7 +171,7 @@ function ajax_map_form_validate() {
  * Form validation
  */
 function agency_map_form_validate($form, &$form_state){
-
+    global $user;
     $url = $form_state['values']['field_ee_agency_map_url'][LANGUAGE_NONE][0]['value'];
     if (!valid_url($url, TRUE)) {
         $message = "Please provide a valid URL.";
@@ -190,11 +191,17 @@ function agency_map_form_validate($form, &$form_state){
         $result = json_decode($json_file);
         // Make sure it's a valid AGOL site
         if (!empty($result->id)) {
-            // Extract the organizational ID and store it as "orgid"
+            $user_data = user_load($user->uid);
+            $state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
             if ($edit_form) {
+                // Extract the organizational ID and store it as "orgid"
                 $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value'] = $result->id;
+                // Extract state admin info and store
+                $form_state['values']['field_state'][LANGUAGE_NONE][0]['value'] = $state;
             } else {
                 $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value']['#value'] = $result->id;
+                // Extract state admin info and store
+                $form_state['values']['field_state'][LANGUAGE_NONE][0]['value']['#value'] = $state;
             }
         } else {
             // If URL doesn't match AGOL type, throw error
