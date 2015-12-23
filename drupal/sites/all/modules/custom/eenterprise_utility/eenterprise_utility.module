@@ -124,7 +124,10 @@ function sso_cdx_portal(){
         if(isset($validate_response->return)){
             parse_str($validate_response->return, $return_output);
             perform_user_login($return_output);//authenticate user and login to drupal
-            drupal_goto("/".$_GET['destination']);
+            if(isset($_GET['destination']))
+                drupal_goto("/".$_GET['destination']);
+            else
+                drupal_goto("/");
         }
     }
     catch(SoapFault $f){
