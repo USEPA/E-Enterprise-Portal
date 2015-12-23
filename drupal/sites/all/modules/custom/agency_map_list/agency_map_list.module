@@ -136,7 +136,7 @@ function ajax_map_form_validate() {
             $message = "Please provide a valid URL, such as https://agencyname.maps.arcgis.com/.";
         } elseif (preg_match('/(https?\:\/\/)(.*)(\.maps.arcgis.com)/', $url, $matches)) {
         // Get only the domain name and ignore anything after it (e.g. /rest/sharing)
-        $url = $matches[1] . $matches[2] . $matches[3];
+        $url = "https://" . $matches[2] . $matches[3];
         // Get the AGOL metadata JSON
         $json_file = file_get_contents($url . '/sharing/rest/portals/self?culture=en&f=pjson');
         $result = json_decode($json_file);
@@ -184,30 +184,39 @@ function agency_map_form_validate($form, &$form_state){
             $edit_form = TRUE;
         }
         // Get only the domain name and ignore anything after it (e.g. /rest/sharing)
-        $url = $matches[1] . $matches[2] . $matches[3];
-        form_set_value($form['field_ee_agency_map_url'], array('und' => array(0 => array('value' => $url))), $form_state);
-        // Get the AGOL metadata JSON
-        $json_file = file_get_contents($url . '/sharing/rest/portals/self?culture=en&f=pjson');
-        $result = json_decode($json_file);
-        // Make sure it's a valid AGOL site
-        if (!empty($result->id)) {
-            $user_data = user_load($user->uid);
-            $state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
-            if ($edit_form) {
-                // Extract the organizational ID and store it as "orgid"
-                $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value'] = $result->id;
-                // Extract state admin info and store
-                $form_state['values']['field_state'][LANGUAGE_NONE][0]['value'] = $state;
-            } else {
-                $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value']['#value'] = $result->id;
-                // Extract state admin info and store
-                $form_state['values']['field_state'][LANGUAGE_NONE][0]['value']['#value'] = $state;
-            }
-        } else {
-            // If URL doesn't match AGOL type, throw error
-            $message = "Please provide a valid ArcGIS Online URL.";
+        $url = "https://" . $matches[2] . $matches[3];
+
+        // Check to see if the formatted URL is already in the database
+        if (db_query("SELECT COUNT(*) FROM {field_data_field_ee_agency_map_url} WHERE field_ee_agency_map_url_value = :url;", array(':url' => $url))->fetchField() && !$edit_form) {
+            // If it is, give an error
+            $message = "This map collection has already been added. Please enter another.";
             form_set_error('url', $message);
+        } else {
+            form_set_value($form['field_ee_agency_map_url'], array('und' => array(0 => array('value' => $url))), $form_state);
+            // Get the AGOL metadata JSON
+            $json_file = file_get_contents($url . '/sharing/rest/portals/self?culture=en&f=pjson');
+            $result = json_decode($json_file);
+            // Make sure it's a valid AGOL site
+            if (!empty($result->id)) {
+                $user_data = user_load($user->uid);
+                $state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
+                if ($edit_form) {
+                    // Extract the organizational ID and store it as "orgid"
+                    $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value'] = $result->id;
+                    // Extract state admin info and store
+                    $form_state['values']['field_state'][LANGUAGE_NONE][0]['value'] = $state;
+                } else {
+                    $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value']['#value'] = $result->id;
+                    // Extract state admin info and store
+                    $form_state['values']['field_state'][LANGUAGE_NONE][0]['value']['#value'] = $state;
+                }
+            } else {
+                // If URL doesn't match AGOL type, throw error
+                $message = "Please provide a valid ArcGIS Online URL.";
+                form_set_error('url', $message);
+            }
         }
+
     } else {
         // If URL doesn't match AGOL type, throw error
         $message = "Please provide a valid URL.";
