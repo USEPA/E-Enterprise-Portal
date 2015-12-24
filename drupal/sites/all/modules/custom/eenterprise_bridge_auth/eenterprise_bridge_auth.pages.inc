@@ -124,13 +124,13 @@ function eenterprise_bridge_auth_authenticate($error)
                     $public_or_cdx = 'public';
                 }
                 else{
-                    $userDetails->attributes['name'][0] = trim($userDetails->attributes['name'][0], '"');
-                    $uname = $userDetails->attributes['name'][0];
-                    $uname = str_replace(" ", "_", $uname);
+                    //$userDetails->attributes['name'][0] = trim($userDetails->attributes['name'][0], '"');
+                    //$uname = $userDetails->attributes['name'][0];
+                    //$uname = str_replace(" ", "_", $uname);
                     if(isset($userDetails->attributes['followers_count']))
-                        $uname = $uname."_".$userDetails->attributes['id'][0]."_twitter.com";
+                        $uname = $userDetails->attributes['id'][0]."@twitter.com";
                     else if(isset($userDetails->attributes['link']) && strpos($userDetails->attributes['link'][0], 'facebook') !== FALSE)
-                        $uname = $uname."_".$userDetails->attributes['id'][0]."_facebook.com";
+                        $uname = $userDetails->attributes['id'][0]."@facebook.com";
                     $public_or_cdx = 'public';
                 }
             } else {
