@@ -170,6 +170,9 @@ a:visited.pager__link {
 .menu-item {
 	letter-spacing: 0.25px;
 }
+.menu-item:hover {
+	background-color: darken($ee-menu-bg, 10%);
+}
 #ee-disclaimer-form #edit-submit-button, #guest-login, .button.primary-action {
 	@include button;
 	padding: 10px 20px;
