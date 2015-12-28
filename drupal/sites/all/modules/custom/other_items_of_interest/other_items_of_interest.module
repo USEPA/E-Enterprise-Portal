@@ -18,11 +18,7 @@ function other_items_of_interest_menu()
         'access callback' => TRUE,
 
     );
-    $items['other_items_of_interest_ajax_validation'] = array(
-        'page callback' => 'other_items_of_interest_ajax_validation',
-        'access callback' => TRUE,
 
-    );
     return $items;
 }
 
@@ -65,6 +61,7 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
         hide($form['additional_settings']);
         hide($form['actions']['preview']);
 
+        // Make sure resource is marked as published
         $form['options']['status'] = array(
             '#type' => 'value',
             '#value' => 1
@@ -107,21 +104,6 @@ function other_items_of_interest_form_validate($form, &$form_state){
 }
 
 
-function other_items_of_interest_ajax_validation(){
-    $error = false;
-    $message = "";
-    if (isset($_POST['url'])) {
-        $url = $_POST['url'];
-        if (!valid_url($url, TRUE)) {
-            $message = "Invalid Web URL";
-            $error = true;
-        }
-    }
-    $return =  array("error" => $error, "message" => $message);
-    echo json_encode($return);
-}
-
-
 /**
  * Hook_node_presave
  */
@@ -134,8 +116,6 @@ function other_items_of_interest_node_presave($node) {
 }
 
 function new_state_form_redirect($form, &$form_state) {
-        $form['options']['#type'] = 'container';
-        $form['options']['#title'] = '';
         drupal_goto('/resource-editor');
 }
 
