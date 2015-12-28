@@ -21,10 +21,6 @@
 
     }
 
-    function setURLError(message) {
-
-    }
-
     function validateAndPreviewURL(url) {
         $field_description = $('#edit-field-source-url .description');
         // reg ex for url with http or https
@@ -32,8 +28,7 @@
         var regex = new RegExp(expression);
         if (url.match(regex) )
         {
-            $field_description.text('Website address for resource.').removeClass('error'); //css({color: 'black'});
-
+            $field_description.text('Website address for resource.').removeClass('error');
             var htt = url.split(':')[0];
                         if (htt == 'https') {
                             openDialog(url);
@@ -44,7 +39,7 @@
                                 '_blank');// <- This is what makes it open in a new window.
                         }
         } else {
-            $field_description.text('Invalid Web URL (include http or https prefix).').addClass('error'); // css({color: 'red', backgroundColor: '#fef5f1'});
+            $field_description.text('Invalid Web URL (include http or https prefix).').addClass('error');
         }
     }
 

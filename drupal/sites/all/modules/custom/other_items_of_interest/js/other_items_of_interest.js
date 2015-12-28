@@ -52,7 +52,6 @@
         }
 
         this.ajax_request = function() {
-            console.log("REQUEST", this.state_code, ajax_url);
             $.ajax({
                 beforeSend:  function() {
                     $wrapper.html('Loading...');
