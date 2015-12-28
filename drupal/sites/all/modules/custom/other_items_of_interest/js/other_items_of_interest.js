@@ -29,8 +29,13 @@
         this.ajax_url = ajax_url;
 
         if (location) {
-            // Grab current state code
-            this.state_code = $.trim(location.split(',')[1]);
+            if (location != 'EPA') {
+                // Grab current state code
+                this.state_code = $.trim(location.split(',')[1]);
+            }
+            else {
+                this.state_code = location;
+            }
         }
         else {
             this.state_code  = false;
@@ -47,6 +52,7 @@
         }
 
         this.ajax_request = function() {
+            console.log("REQUEST", this.state_code, ajax_url);
             $.ajax({
                 beforeSend:  function() {
                     $wrapper.html('Loading...');
@@ -88,6 +94,8 @@
         var current_state_table = new ItemsOfInterestTable($("#current-state-resources"),'generateCurrentAreaOfInterestTable', location);
         var favorite_states_table = new ItemsOfInterestTable($("#favorite-state-resources"),'generateFavoriteAreasOfInterestTable')
         var all_states_resource_table = new ItemsOfInterestTable($("#all-state-resources"), 'generateAllAreasOfInterestTable');
+        // Generating EPA by using current location as EPA
+        var epa_table = new ItemsOfInterestTable($("#epa-resources"), 'generateCurrentAreaOfInterestTable', 'EPA');
 
 
         $('#restrict-to-states-button').click(function() {
@@ -95,8 +103,10 @@
                 $(this).removeClass('inactive');
                 $("#all-states-button").addClass('inactive');
                 $('#restrict-to-current-button').addClass('inactive');
+                $("#epa-button").addClass('inactive');
                 all_states_resource_table.hideTable();
                 current_state_table.hideTable();
+                epa_table.hideTable();
                 favorite_states_table.showTable();
             }
         });
@@ -106,9 +116,12 @@
                 $(this).removeClass('inactive');
                 $('#restrict-to-states-button').addClass('inactive');
                 $('#restrict-to-current-button').addClass('inactive');
+                $("#epa-button").addClass('inactive');
+
                 all_states_resource_table.showTable();
                 current_state_table.hideTable();
                 favorite_states_table.hideTable();
+                epa_table.hideTable();
             }
         });
 
@@ -117,11 +130,27 @@
                 $(this).removeClass('inactive');
                 $('#restrict-to-states-button').addClass('inactive');
                 $("#all-states-button").addClass('inactive');
+                $("#epa-button").addClass('inactive');
                 current_state_table.showTable();
                 favorite_states_table.hideTable();
                 all_states_resource_table.hideTable();
+                epa_table.hideTable();
             }
         });
+
+        $('#epa-button').click(function() {
+            if ($(this).hasClass('inactive')){
+                $(this).removeClass('inactive');
+                $('#restrict-to-states-button').addClass('inactive');
+                $('#restrict-to-current-button').addClass('inactive');
+                $("#all-states-button").addClass('inactive');
+                current_state_table.hideTable();
+                favorite_states_table.hideTable();
+                all_states_resource_table.hideTable();
+                epa_table.showTable();
+            }
+        });
+
 
         // Dynamically set button text for currently selected location
         $('#restrict-to-current-button a').text(location);
@@ -137,6 +166,8 @@
         current_state_table.showTable();
         favorite_states_table.ajax_request();
         all_states_resource_table.ajax_request();
+        epa_table.ajax_request();
+
 
     } );
 

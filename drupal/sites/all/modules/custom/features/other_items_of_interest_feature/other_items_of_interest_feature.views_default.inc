@@ -22,7 +22,7 @@ function other_items_of_interest_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'New State Resource';
+  $handler->display->display_options['title'] = 'New Resource';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -54,7 +54,7 @@ function other_items_of_interest_feature_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'new-state-resource';
+  $handler->display->display_options['path'] = 'new-resource';
   $export['new_state_resource'] = $view;
 
   $view = new view();
@@ -69,7 +69,7 @@ function other_items_of_interest_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Other Items of Interest';
+  $handler->display->display_options['title'] = 'Additional Resources';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -128,12 +128,9 @@ function other_items_of_interest_feature_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'State Resource Editor';
+  $handler->display->display_options['title'] = 'Resource Editor';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'role';
-  $handler->display->display_options['access']['role'] = array(
-    54 => '54',
-  );
+  $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -185,6 +182,19 @@ function other_items_of_interest_feature_views_default_views() {
       'empty_column' => 0,
     ),
   );
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
+  $handler->display->display_options['header']['area']['content'] = '<a href="/new-resource" class="button primary-action">Add a resource</a>';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
+  /* Footer: Global: Text area */
+  $handler->display->display_options['footer']['area']['id'] = 'area';
+  $handler->display->display_options['footer']['area']['table'] = 'views';
+  $handler->display->display_options['footer']['area']['field'] = 'area';
+  $handler->display->display_options['footer']['area']['content'] = '<a href="/new-resource" class="button primary-action">Add a resource</a>';
+  $handler->display->display_options['footer']['area']['format'] = 'full_html';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
@@ -196,10 +206,11 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Source */
+  /* Field: Content: Resource */
   $handler->display->display_options['fields']['field_source']['id'] = 'field_source';
   $handler->display->display_options['fields']['field_source']['table'] = 'field_data_field_source';
   $handler->display->display_options['fields']['field_source']['field'] = 'field_source';
+  $handler->display->display_options['fields']['field_source']['label'] = 'Source';
   /* Field: Content: Topic */
   $handler->display->display_options['fields']['field_topic']['id'] = 'field_topic';
   $handler->display->display_options['fields']['field_topic']['table'] = 'field_data_field_topic';
@@ -216,26 +227,8 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
-  $handler->display->display_options['fields']['edit_node']['label'] = '';
-  $handler->display->display_options['fields']['edit_node']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
-  /* Field: Content: Delete link */
-  $handler->display->display_options['fields']['delete_node']['id'] = 'delete_node';
-  $handler->display->display_options['fields']['delete_node']['table'] = 'views_entity_node';
-  $handler->display->display_options['fields']['delete_node']['field'] = 'delete_node';
-  $handler->display->display_options['fields']['delete_node']['label'] = '';
-  $handler->display->display_options['fields']['delete_node']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['delete_node']['alter']['text'] = '[edit_node] <br />
-[delete_node]';
-  $handler->display->display_options['fields']['delete_node']['element_label_colon'] = FALSE;
-  /* Field: Global: Custom text */
-  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['label'] = 'Actions';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '[edit_node] <br />
-[delete_node]
-';
+  $handler->display->display_options['fields']['edit_node']['label'] = 'Actions';
+  $handler->display->display_options['fields']['edit_node']['text'] = 'Edit';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -252,10 +245,31 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
   $handler->display->display_options['filters']['uid_current']['relationship'] = 'uid';
   $handler->display->display_options['filters']['uid_current']['value'] = '1';
+  /* Filter criterion: Global: PHP */
+  $handler->display->display_options['filters']['php']['id'] = 'php';
+  $handler->display->display_options['filters']['php']['table'] = 'views';
+  $handler->display->display_options['filters']['php']['field'] = 'php';
+  $handler->display->display_options['filters']['php']['use_php_setup'] = 0;
+  $handler->display->display_options['filters']['php']['php_filter'] = 'global $user;
+if ($user->uid > 1) {
+ if (in_array(\'state_admin\', $user->roles)) {
+            $user_data = user_load($user->uid);
+            $state = $user_data->field_admin_state[LANGUAGE_NONE][0][\'safe_value\'];
+            if ($row->title == $state) {
+              return FALSE;
+             }
+}
+else {
+return TRUE;
+}
+}
+else {
+return  FALSE;
+}';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'state-resource-editor';
+  $handler->display->display_options['path'] = 'resource-editor';
   $export['state_resource_editor'] = $view;
 
   return $export;

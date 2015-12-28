@@ -20,7 +20,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_in
     // Check if the user has the 'editor' role.
     if (in_array('state_admin', $user->roles)) {
         ?>
-        <div class="action-links"><a class="favorites-ignore first" href="/new-state-resource">Add state resource</a> <a href="/state-resource-editor" class="favorites-ignore last">Edit <span class="sr-only">state resources</span></a></div>
+        <div class="action-links"><a href="/resource-editor" class="favorites-ignore">Manage Resources</a></div>
     <?php
     }
     ?>
@@ -30,9 +30,12 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_in
         <li id="restrict-to-current-button"><a class="favorites-ignore" href="#current-state-resources"></a></li>
         <li id="restrict-to-states-button"><a class="favorites-ignore" href="#favorite-state-resources">My locations</a></li>
         <li id="all-states-button"><a class="favorites-ignore" href="#all-state-resources">All</a></li>
+        <li id="epa-button"><a class="favorites-ignore" href="#epa-resources">EPA</a></li>
+
     </ul>
 
     <div id="current-state-resources"></div>
     <div id="favorite-state-resources"></div>
     <div id="all-state-resources"></div>
+    <div id="epa-resources"></div>
 </div>
