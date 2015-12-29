@@ -53,7 +53,6 @@
                     var verticalMargin = 10;
                     var is_saving = false;
                     var allowed_drag = false;
-                    var is_initializing = true;
 
                     function createGrid() {
                         var $grid_container = $('.grid-stack');
@@ -66,7 +65,7 @@
                         var grid = $grid_container.data('gridstack');
 
                         var save_grid_changes = '<button id="save-grid-changes">Save Changes</button>';
-                        var revert_grid_changes = '<button   id="revert-grid-changes">Cancel</button>'
+                        var revert_grid_changes = '<button   id="revert-grid-changes">Cancel</button>';
                         var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
 
                         $('body').prepend($grid_change_options);
@@ -78,43 +77,17 @@
                         loadUserIndices(grid);
                         addResizeSensors(grid, verticalMargin, cellHeight);
                         grid.resizable('.grid-stack-item', false);
-                        if (Drupal.settings.is_guest == 'true') {
+                        if (Drupal.settings.is_guest) {
                             grid.movable('.grid-stack-item', false);
                         }
-                        is_initializing = false;
 
                     }
 
                     function addDragListeners($grid_container, $grid_change_options) {
-                        var vector_distance;
-                        var prev_x;
-                        var prev_y;
-
-                        //$grid_container.on('change', function (event, items) {
-                        //    if (!is_initializing && items.length > 0) {
-                        //        console.log(items, items.length, is_initializing);
-                        //        $grid_change_options.show();
-                        //    }
-                        //});
-
-                        $grid_container.on('dragstop', function (event, ui) {
-                            //vector_distance = Math.sqrt(Math.pow((event.pageX - prev_x), 2) + Math.pow((event.pageY - prev_y), 2));
-                            //if (vector_distance > 50) {
-                           // $grid_change_options.show();
-                            //}
-                            console.log(ui);
-                        });
                         $('body').on('swapped_grid', function() {
                             $grid_change_options.show();
                         });
 
-                        $grid_container.on('dragstart', function (event, items) {
-                            prev_x = event.pageX;
-                            prev_y = event.pageY;
-                            console.log(items);
-                            console.log(event.pageX, event.pageY);
-                            //    $grid_change_options.show();
-                        });
                     }
 
                     function addSaveListeners(grid, $save_button, $revert_button) {
