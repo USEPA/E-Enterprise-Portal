@@ -97,7 +97,5 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
         </div>
     <?php endif; ?>
 
-    <a href="/#favorite-state-resources" class="back-state-resource">Back</a>
-    <a href="/new-state-resource" class="new-state-resource">New</a>
 
 </div><?php /* class view */ ?>
