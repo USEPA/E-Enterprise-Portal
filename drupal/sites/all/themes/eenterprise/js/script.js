@@ -64,7 +64,7 @@
                         $grid_container.gridstack(options);
                         var grid = $grid_container.data('gridstack');
 
-                        var save_grid_changes = '<button id="save-grid-changes">Save Changes</button>';
+                        var save_grid_changes = '<button id="save-grid-changes">Save Layout</button>';
                         var revert_grid_changes = '<button   id="revert-grid-changes">Cancel</button>';
                         var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
 
@@ -77,6 +77,7 @@
                         loadUserIndices(grid);
                         addResizeSensors(grid, verticalMargin, cellHeight);
                         grid.resizable('.grid-stack-item', false);
+                        console.log(Drupal.settings.is_guest);
                         if (Drupal.settings.is_guest) {
                             grid.movable('.grid-stack-item', false);
                         }
@@ -143,7 +144,7 @@
 
                     function initializeIndices(grid, serialization) {
                         // assign x and y values to widgets
-                        if (serialization.length > 0 && !(Drupal.settings.is_guest == 'false')) {
+                        if (serialization.length > 0 && !Drupal.settings.is_guest) {
                             $.each(serialization, function (key, pane_data) {
                                 var $grid_item = $("#" + pane_data.id).parent();
                                 var x = pane_data.x;

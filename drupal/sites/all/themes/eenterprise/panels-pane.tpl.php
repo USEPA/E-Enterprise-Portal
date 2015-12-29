@@ -25,7 +25,7 @@ if ($user->name == 'guest-user') {
     drupal_add_js(array('is_guest' => true), 'setting'); // Adding check for guest
 }
 else {
-    drupal_add_js(array('is_guest' => true), 'setting');
+    drupal_add_js(array('is_guest' => false), 'setting');
 
 }
 ?>
