@@ -6,6 +6,7 @@
   var currentZipData;
   var todayAQI;
   var AQSMonitorLayer;
+	var srTodayAQI;
 
   $(document).ready(function() {
 
@@ -42,7 +43,6 @@
   });
 
   function loadMap() {
-
     var map = L.map('my-air-quality-air-now-map-container');
     map.on('load', function(e) {
       //console.log('map loaded');
@@ -367,8 +367,17 @@
           return i;
         }
       }
-
       return categoryBounds.length - 2;
+    }
+    
+    function addAQICategoryToSR(aqi) {
+    	for (var i = 0; i < categoryBoundLabels.length - 1; i++) {
+        if (aqi >= categoryBounds[i] && aqi < categoryBounds[i + 1]) {
+          return "<abbr class='ee-bootstrap-tooltip' title='" + categoryInfo[i].body + "'>" + categoryInfo[i].header + "</abbr>";
+        }
+      }
+
+      return "No AQI is available";      
     }
 
     function showPopover(obj, aqi) {
@@ -423,6 +432,10 @@
       else
         return (aqi - 300) * 0.25 + 250;
     }
+    
+    function addAQItoSR(aqi) {
+      srTodayAQI = srTodayAQI + " " + aqi;
+    }
 
     var categoryInfo = [{
       header: 'Good',
@@ -471,14 +484,42 @@
     var minDate = getDate(data[0].DateForecast),
       maxDate = getDate(data[data.length - 1].DateForecast);
 
+		var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+		var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+		var srDate = new Date();
+		var srDay;
+		var srDateDay;
+		var srDayOfWeek;
+		var srMonthIndex;
+		var srMonth;		
+		var srYear;
+		var srLongDate;
+		var srAQI;
+		var srAQICategory;
+
     // find the maxAQI in the data
     // compute visualAQI
     var maxAQI = 0;
+    var srAQIString = "<p class='sr-only'>";
     for (var i in data) {
       if (maxAQI < data[i].AQI)
         maxAQI = data[i].AQI;
       data[i].visualAQI = computeVisualAQI(data[i].AQI);
+      
+      srDay = getDate(data[i].DateForecast);
+      srDayOfWeek = days[srDay.getDay()];
+      srDateDay = srDay.getDate();
+			srMonthIndex = srDay.getMonth();
+			srMonth = monthNames[srMonthIndex];
+			srYear = srDay.getFullYear();
+			srLongDate = srDayOfWeek + ", " + srMonth + " " + srDateDay + ", " + srYear;
+			
+			srAQI = data[i].AQI;
+			srAQICategory = addAQICategoryToSR(srAQI);
+      srAQIString = srAQIString + "The AQI for " + srLongDate + " is " + srAQI + " in the " + srAQICategory + " range.  ";
     }
+    srAQIString = srAQIString + "</p>";
 
     // Find data point corresponding to today
     for (var i in data) {
@@ -562,6 +603,10 @@
     graph.append("title")
       .attr("id", "my-air-quality-chart-title")
       .text(chartTitle);
+      
+    graph.append("desc")
+    	.attr("id", "my-air-quality-chart-description")
+    	.text(srTodayAQI);
 
     var area = d3.svg.area()
       .interpolate("basis")
@@ -663,6 +708,12 @@
       .on("mouseover", function(d, i) {
         showPopoverFromCategoryIndex(this, i);
       })
+      .on("focus", function(d, i) {
+        showPopoverFromCategoryIndex(this, i);
+      })
+      .on("focusout", function() {
+        hidePopover();
+      })
       .on("mouseout", function() {
         hidePopover();
       });
@@ -688,11 +739,19 @@
     .attr("class", function(d) {
       return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text'
     })
+    	.attr("tabindex", "0")
       .attr("text-anchor", "middle")
+			.on("focus", function(d, i) {
+        showPopover(this, d.AQI);
+      })
+      .on("focusout", function() {
+        hidePopover();
+      })
+
       .text(function(d) {
         return d.ShowAQILabel ? d.AQI : '';
       });
-
+    
     gnodes.append("circle")
       .attr("fill", "#454545")
       .attr("r", 5)
@@ -712,6 +771,7 @@
     graph.append("text")
       .attr("x", (w) / 2)
       .attr("y", -m[0] / 2)
+      .attr("tabindex", "0")
       .attr("text-anchor", "middle")
       .attr("class", "aqi-location")
       .text(locationText);
@@ -722,6 +782,10 @@
       .append("div")
       .attr("class", "popover right")
       .style("position", "fixed");
+               
+    $('#sr-aqi-svg').html(srAQIString);
+
+    
   }
 
   var drawMessage = function(msg) {
@@ -753,6 +817,7 @@
         // insert new entry
         if ((i + 1 == responseData.length || responseData[i].DateForecast != responseData[i + 1].DateForecast)) {
           var showAQILabel = maxAQI != -1;
+          srTodayAQI = srTodayAQI + showAQILabel;
 
           if (maxAQI == -1) {
             maxAQI = categoryToMidAQI[responseData[i].Category.Number];
@@ -797,8 +862,10 @@
     $.getJSON(endpoint, params, function(responseData) {
       var data = parseData(responseData);
 
-      if (data.length > 0)
-        drawChart(data, locationText);
+      if (data.length > 0) {
+      	drawChart(data, locationText);
+      	//TO DOsrTodayAQI = srTodayAQI + 
+      }
       else { // no data; show message
         drawMessage('Air quality information is not available for ' + locationText + '.');
       }
