@@ -169,7 +169,6 @@ function perform_user_login($response_output){
         user_save($user, array('mail' => trim($response_output['email'], '"')));
         try {
             if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS') {
-                assign_roles_to_user($username);
                 $_SESSION['cdx_fmw_security_token'] = $_POST['securitytoken'];
                 $_SESSION['userId'] = $username;
                 $_SESSION['login_timestamp'] = time();
