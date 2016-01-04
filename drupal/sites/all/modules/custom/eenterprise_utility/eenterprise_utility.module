@@ -424,18 +424,15 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_profile_last_name']);
         hide($form['field_initial_log_in']);
         hide($form['field_interests2']);
+        hide($form['field_gridstack_settings']);
+        hide($form['field_first_time_user']);
 
-       if ($user->uid > 1) {
-           hide($form['field_gridstack_settings']);
-       }
-
-        // If user is admin allow to edit state admin STATE.
+        // If user is admin allow to edit state admin STATE and toggle user's first time status
         if ($user->uid > 1) {
             hide($form['field_admin_state']);
+            hide($form['field_first_time_user']);
         }
 
-//        dpm($form);
-        hide($form['field_first_time_user']);
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
         $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
         $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter ZIP Code or City, State";

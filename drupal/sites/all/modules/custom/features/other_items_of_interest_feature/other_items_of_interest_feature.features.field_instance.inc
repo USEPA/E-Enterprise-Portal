@@ -17,7 +17,7 @@ function other_items_of_interest_feature_field_default_field_instances() {
     'custom_remove' => '',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Title of resource.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -35,8 +35,8 @@ function other_items_of_interest_feature_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_source',
-    'label' => 'Source',
-    'required' => 0,
+    'label' => 'Resource',
+    'required' => 1,
     'settings' => array(
       'custom_add_another' => '',
       'custom_remove' => '',
@@ -61,7 +61,7 @@ function other_items_of_interest_feature_field_default_field_instances() {
     'custom_remove' => '',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Website address for resource.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -80,7 +80,7 @@ function other_items_of_interest_feature_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_source_url',
     'label' => 'URL',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'custom_add_another' => '',
       'custom_remove' => '',
@@ -124,7 +124,7 @@ function other_items_of_interest_feature_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_topic',
     'label' => 'Topic',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'custom_add_another' => '',
       'custom_remove' => '',
@@ -141,9 +141,11 @@ function other_items_of_interest_feature_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Source');
+  t('Resource');
+  t('Title of resource.');
   t('Topic');
   t('URL');
+  t('Website address for resource.');
 
   return $field_instances;
 }

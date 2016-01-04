@@ -64,16 +64,28 @@ function suggestion_box_callback($ajax) {
 function suggestion_box_form($form, &$form_state) {
 
   global $user;
-    $form['email'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Email'),
-    // '#required' => TRUE,
-    '#size' => 60,
-    '#default_value' => trim($user->mail, '"'),
-    '#disabled' => TRUE,
-    '#description' => t('If you would like a response, please provide an email address.'),
-    '#id' => 'suggestion-box-email',
-  );
+    if(in_array('Public', $user->roles) || in_array('Public User', $user->roles)){
+        $form['email'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Email'),
+            '#size' => 60,
+            '#default_value' => trim($user->mail, '"'),
+            '#disabled' => FALSE,
+            '#description' => t('If you would like a response, please provide an email address.'),
+            '#id' => 'suggestion-box-email',
+        );
+    }
+    else{
+        $form['email'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Email'),
+            '#size' => 60,
+            '#default_value' => trim($user->mail, '"'),
+            '#disabled' => TRUE,
+            '#description' => t('If you would like a response, please provide an email address.'),
+            '#id' => 'suggestion-box-email',
+        );
+    }
 
   $form['exclude_email'] = array(
     '#type' => 'checkbox', 
