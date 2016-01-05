@@ -122,7 +122,7 @@
                         }
                     });
                     // process anchor tags
-                    $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .paginate_button)').each(function () {
+                    $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .paginate_button,[href^=mailto])').each(function () {
                         if ($(this).text().length > 0 && $(this).attr('href') != '#' && $(this).attr('href') != '/') {
                             if (!$(this).hasClass('processed-favorite')) {
                                 var url = $(this).attr('href');
