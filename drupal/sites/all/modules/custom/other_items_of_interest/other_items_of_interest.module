@@ -101,6 +101,12 @@ function other_items_of_interest_form_validate($form, &$form_state){
         $message = "Invalid Web URL (include http or https prefix).";
         form_set_error('url', $message);
     }
+
+    // Check for duplicate url
+    $node = node_type_load('state_resource');
+    dpm($node);
+    $items = field_get_items('node', $node, 'field_source_url');
+    dpm($items);
 }
 
 
