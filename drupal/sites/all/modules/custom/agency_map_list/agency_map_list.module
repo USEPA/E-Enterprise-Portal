@@ -148,6 +148,10 @@ function ajax_map_form_validate() {
             // If URL doesn't match AGOL type, throw error
             $message = "Please provide a valid ArcGIS Online URL, such as https://agencyname.maps.arcgis.com/.";     
         }
+        if ($result->access !== "public") {
+            // If not a public site, throw error
+            $message = "This ArcGIS Online site is not configured for public access.";
+        }
     } else {
         // If URL doesn't match AGOL type, throw error
         $message = "Please provide a valid URL, such as https://agencyname.maps.arcgis.com/.";
@@ -212,7 +216,12 @@ function agency_map_form_validate($form, &$form_state){
                 }
             } else {
                 // If URL doesn't match AGOL type, throw error
-                $message = "Please provide a valid ArcGIS Online URL.";
+                $message = "Please provide a valid public ArcGIS Online URL.";
+                form_set_error('url', $message);
+            }
+            if ($result->access !== "public") {
+                // If not a public site, throw error
+                $message = "This ArcGIS Online site is not configured for public access.";
                 form_set_error('url', $message);
             }
         }
