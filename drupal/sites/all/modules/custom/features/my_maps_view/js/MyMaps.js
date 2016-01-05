@@ -280,7 +280,7 @@
                                 }),
                                 $('<p>', {
                                     'data-toggle': 'tooltip',
-                                    'class': 'mapAppContact',
+                                    'class': 'mapAppContact favorites-ignore',
                                     id: 'thumbnail-contact-' + mapset.id + '-' + thumbnailNum,
                                     'title': mapset.contactemail,
                                     'html': '<a href="mailto:' + mapset.contactemail + '">' + mapset.contactemail + '</a>'
