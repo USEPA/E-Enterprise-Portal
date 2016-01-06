@@ -598,6 +598,20 @@
             $('#edit-field-prog-track-sub-part-code-value').change(function () {
                 $('#edit-field-prog-track-rep-type-filter-value').val('All');
             });
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    if($("#edit-field-prog-track-rep-type-filter-value").is(":visible"))
+                        $('#edit-field-prog-track-rep-type-filter-value').focus();
+                    else if ($("#edit-field-prog-track-sub-part-code-value").is(":visible"))
+                        $('#edit-field-prog-track-sub-part-code-value').focus();
+                    else if ($("#edit-field-prog-track-part-code-value").is(":visible"))
+                        $('#edit-field-prog-track-part-code-value').focus();
+                }
+            }
+            xmlhttp.open("GET", "README.txt", true);
+            xmlhttp.send();
         }
     };
 
@@ -747,6 +761,71 @@
             $('#edit-field-todo-lst-sub-part-code-value').change(function () {
                 $('#edit-field-todo-lst-rprt-type-filter-value').val('All');
             });
+
+
+            $("#all-time a").focus(function() {
+                $( "#all-time a" ).keydown(function(e) {
+                    if(e.which === 40){
+                        $( "#all-time a").click();
+                    }else if(e.which === 39){
+                        $('#this-week a').click();
+                    }
+                });
+            });
+            $("#this-week a").focus(function() {
+                $( "#this-week a" ).keydown(function(e) {
+                    if(e.which === 40){
+                        $( "#this-week a").click();
+                    }else if(e.which === 39){
+                        $('#next-week a').click();
+                    }
+                    else if(e.which === 37){
+                        $('#all-time a').click();
+                    }
+                });
+            });
+            $("#next-week a").focus(function() {
+                $( "#next-week a" ).keydown(function(e) {
+                    if(e.which === 40){
+                        $( "#next-week a").click();
+                    }else if(e.which === 39){
+                        $('#beyond-next-week a').click();
+                    }
+                    else if(e.which === 37){
+                        $('#this-week a').click();
+                    }
+                });
+            });
+            $("#beyond-next-week a").focus(function() {
+                $( "#beyond-next-week a" ).keydown(function(e) {
+                    if(e.which === 40){
+                        $( "#beyond-next-week a").click();
+                    }
+                    else if(e.which === 37){
+                        $('#next-week a').click();
+                    }
+                });
+            });
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    if ($("#this-week").hasClass("filter-applied"))
+                        $('#this-week a').focus();
+                    else if ($("#next-week").hasClass("filter-applied"))
+                        $('#next-week a').focus();
+                    else if ($("#beyond-next-week").hasClass("filter-applied"))
+                        $('#beyond-next-week a').focus();
+
+
+                    if ($("#edit-field-todo-lst-rprt-type-filter-value").is(":visible"))
+                        $('#edit-field-todo-lst-rprt-type-filter-value').focus();
+                    else if ($("#edit-field-todo-lst-sub-part-code-value").is(":visible"))
+                        $('#edit-field-todo-lst-sub-part-code-value').focus();
+                }
+            }
+            xmlhttp.open("GET", "README.txt", true);
+            xmlhttp.send();
         }
     };
 
