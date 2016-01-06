@@ -546,6 +546,11 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 
         $form['#submit'][] = 'eenterprise_utility_profile_form_submit';
     } // end user form
+    global $user;
+    if($form['#form_id'] == 'user_profile_form' && (in_array('Public User',$user->roles) && count($user->roles) == 2)){
+        hide($form['account']['mail']);
+        $form['account']['mail']['#access'] = FALSE;
+    }
 }
 
 function eenterprise_utility_profile_form_submit($form, &$form_state) {
