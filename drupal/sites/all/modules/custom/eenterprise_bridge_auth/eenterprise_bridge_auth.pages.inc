@@ -456,7 +456,7 @@ function create_progress_tracker_node($res, $user)
                     $res_action = "N/A";
                 }
             } else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI') {
-                $res_action .= "<a href='" . $res['ActivitySourceURL'] . "'>View Submission</a>";
+                $res_action .= "<a href='" . $res['ActivitySourceURL'] . "' target='_blank'>View Submission</a>";
             }
 
             $node->field_prog_track_actions_dnload['und'][0]['value'] = $res_action;
