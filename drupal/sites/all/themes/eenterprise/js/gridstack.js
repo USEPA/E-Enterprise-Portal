@@ -598,6 +598,10 @@
 
         var on_end_moving = function (event, ui) {
             var o = $(this);
+
+            /// Ben Matkin's custom swap listener to determin if a swap was actually made 12/29/2015
+            var orig_x = o.attr('data-gs-x');
+            var orig_y = o.attr('data-gs-y');
             node.el = o;
             self.placeholder.hide();
             o
@@ -606,6 +610,10 @@
                 .attr('data-gs-width', node.width)
                 .attr('data-gs-height', node.height)
                 .removeAttr('style');
+
+            if (node.x != orig_x  || node.y != orig_y) {
+                $('body').trigger('swapped_grid');
+            }
             self._update_container_height();
             self.container.trigger('change', [self.grid.get_dirty_nodes()]);
 

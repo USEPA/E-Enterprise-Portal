@@ -8,6 +8,10 @@ function agency_map_list_menu() {
         'page callback' => 'generateAgencyMapsTable',
         'access callback' => TRUE,
     );
+    $items['ajax_map_form_validate'] = array(
+        'page callback' => 'ajax_map_form_validate',
+        'access callback' => TRUE,
+    );
     return $items;
 }
 
@@ -94,13 +98,12 @@ function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
         // Hide backend variables
         hide($form['field_orgid']);
         hide($form['field_owner']);
+        hide($form['field_state']);
 
         $form_state['rebuild'] = TRUE;
         //$form_state['redirect'] = '/agency-map-list';
         $form['#validate'][] = 'agency_map_form_validate';
-
-        // Rename drupal "preview" button to be "Validate", since we have our own preview functionality
-        $form['actions']['preview']['#value'] = 'Validate';
+        hide($form['actions']['preview']);
 
         $form['field_ee_agency_map_url'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a id='url_preview' href='#');'>Preview</a>";
 
@@ -112,16 +115,67 @@ function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
         }
 
         $form['actions']['submit']['#submit'][] = 'new_agency_map_form_redirect';
-        $form['actions']['cancel'] = array(
-			    '#markup' => l(t('Cancel'), '/agency-map-list'),
-			  );
+        $form['actions']['submit']['#suffix'] = "<div class='agency-map-list-cancel-link'>" . l(t('Cancel'), '/agency-map-list', array('attributes' => array('class' => 'link'))) . "</div>";
     }
+}
+
+/**
+ * Ajax function to check URL entry and return org ID to preview.
+ */
+function ajax_map_form_validate() {
+    $error = true;
+    $message = '';
+    $orgid = '';
+    $url = '';
+    $console_message = '';
+
+    if (isset($_POST['url'])) {
+        $url = $_POST['url'];
+
+        if (!valid_url($url, TRUE)) {
+            $message = "Please provide a valid URL, such as https://agencyname.maps.arcgis.com/.";
+        } elseif (preg_match('/(https?\:\/\/)(.*)(\.maps.arcgis.com)/', $url, $matches)) {
+        // Get only the domain name and ignore anything after it (e.g. /rest/sharing)
+        $url = "https://" . $matches[2] . $matches[3];
+        // Get the AGOL metadata JSON
+        $json_file = file_get_contents($url . '/sharing/rest/portals/self?culture=en&f=pjson');
+        $result = json_decode($json_file);
+        // Make sure it's a valid AGOL site
+        if (!empty($result->id)) {
+            $orgid = $result->id;
+            $error = false;
+        } else {
+            // If URL doesn't match AGOL type, throw error
+            $message = "Please provide a valid ArcGIS Online URL, such as https://agencyname.maps.arcgis.com/.";     
+        }
+        if ($result->access !== "public") {
+            // If not a public site, throw error
+            $message = "This ArcGIS Online site is not configured for public access.";
+        }
+    } else {
+        // If URL doesn't match AGOL type, throw error
+        $message = "Please provide a valid URL, such as https://agencyname.maps.arcgis.com/.";
+    }
+    }
+    else {
+        $console_message = "Please provide url parameter";
+    }
+
+    $return = array(
+        'error' => $error,
+        'console_message' => $console_message,
+        'message' => $message, 
+        'orgid' => $orgid,
+        'url' => $url,
+        );
+    echo json_encode($return);
 }
 
 /**
  * Form validation
  */
 function agency_map_form_validate($form, &$form_state){
+    global $user;
     $url = $form_state['values']['field_ee_agency_map_url'][LANGUAGE_NONE][0]['value'];
     if (!valid_url($url, TRUE)) {
         $message = "Please provide a valid URL.";
@@ -134,24 +188,44 @@ function agency_map_form_validate($form, &$form_state){
             $edit_form = TRUE;
         }
         // Get only the domain name and ignore anything after it (e.g. /rest/sharing)
-        $url = $matches[1] . $matches[2] . $matches[3];
-        form_set_value($form['field_ee_agency_map_url'], array('und' => array(0 => array('value' => $url))), $form_state);
-        // Get the AGOL metadata JSON
-        $json_file = file_get_contents($url . '/sharing/rest/portals/self?culture=en&f=pjson');
-        $result = json_decode($json_file);
-        // Make sure it's a valid AGOL site
-        if (!empty($result->id)) {
-            // Extract the organizational ID and store it as "orgid"
-            if ($edit_form) {
-                $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value'] = $result->id;
-            } else {
-                $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value']['#value'] = $result->id;
-            }
-        } else {
-            // If URL doesn't match AGOL type, throw error
-            $message = "Please provide a valid ArcGIS Online URL.";
+        $url = "https://" . $matches[2] . $matches[3];
+
+        // Check to see if the formatted URL is already in the database
+        if (db_query("SELECT COUNT(*) FROM {field_data_field_ee_agency_map_url} WHERE field_ee_agency_map_url_value = :url;", array(':url' => $url))->fetchField() && !$edit_form) {
+            // If it is, give an error
+            $message = "This map collection has already been added. Please enter another.";
             form_set_error('url', $message);
+        } else {
+            form_set_value($form['field_ee_agency_map_url'], array('und' => array(0 => array('value' => $url))), $form_state);
+            // Get the AGOL metadata JSON
+            $json_file = file_get_contents($url . '/sharing/rest/portals/self?culture=en&f=pjson');
+            $result = json_decode($json_file);
+            // Make sure it's a valid AGOL site
+            if (!empty($result->id)) {
+                $user_data = user_load($user->uid);
+                $state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
+                if ($edit_form) {
+                    // Extract the organizational ID and store it as "orgid"
+                    $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value'] = $result->id;
+                    // Extract state admin info and store
+                    $form_state['values']['field_state'][LANGUAGE_NONE][0]['value'] = $state;
+                } else {
+                    $form_state['values']['field_orgid'][LANGUAGE_NONE][0]['value']['#value'] = $result->id;
+                    // Extract state admin info and store
+                    $form_state['values']['field_state'][LANGUAGE_NONE][0]['value']['#value'] = $state;
+                }
+            } else {
+                // If URL doesn't match AGOL type, throw error
+                $message = "Please provide a valid public ArcGIS Online URL.";
+                form_set_error('url', $message);
+            }
+            if ($result->access !== "public") {
+                // If not a public site, throw error
+                $message = "This ArcGIS Online site is not configured for public access.";
+                form_set_error('url', $message);
+            }
         }
+
     } else {
         // If URL doesn't match AGOL type, throw error
         $message = "Please provide a valid URL.";

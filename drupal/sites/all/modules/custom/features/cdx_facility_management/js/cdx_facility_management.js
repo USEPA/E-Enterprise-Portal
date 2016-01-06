@@ -143,7 +143,7 @@
                                     $.each(role_object.roles, function (dataflow, role_array) {
                                         if (temp == 0) {
                                             var initial_user_role_id = role_array[0].userRoleId;
-                                            updateWidget(initial_user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold);
+                                            updateWidget(initial_user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold, 0);
                                             temp = 1;
                                         }
                                     });
@@ -183,7 +183,7 @@
 
                                 management_button.click(function () {
                                     var user_role_id = $('#fmw-type-select').val();
-                                    updateWidget(user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold);
+                                    updateWidget(user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold, 0);
                                     if ($('#facility-widget').length > 0) {
                                         cdx_facility_management_block.dialog('open');
                                     }
@@ -293,7 +293,7 @@
         //});
 
 
-        function updateWidget(user_role_id, naas_token, naas_ip, resource_url, time_logged_in, time_threshold) {
+        function updateWidget(user_role_id, naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts) {
             $('#facility-widget').html('');
 
             // For IE8 and below
@@ -321,8 +321,16 @@
                         }
                         else {
                             var new_naas_token = new_token_return.token;
-                            updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold);
-                        }
+                            if (new_naas_token == '') {
+                                unableToConnectWidget("CDX Facility- Blank Token");
+                            }
+                            else if (number_attempts > 2) {
+                                unableToConnectWidget("CDX Facility- Max attempts.");
+                            }
+                            else {
+                                updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts + 1);
+                            }
+                            }
                     },
                     onServiceCall: function () {
                         cdx_facility_management_block.dialog("option", "position", {
@@ -348,6 +356,16 @@
                 window.location.href = '/user/logout';
             });
         }
+
+        function unableToConnectWidget(error) {
+            console.log(error)
+            var logged_in_view = $('#cdx-logged-in-options');
+            var error_view = $('#cdx-unable-to-load');
+            logged_in_view.remove();
+            error_view.show();
+
+        }
+
         generateUserData();
     });
 

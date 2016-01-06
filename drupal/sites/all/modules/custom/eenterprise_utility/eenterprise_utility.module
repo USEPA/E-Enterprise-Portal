@@ -86,11 +86,106 @@ function eenterprise_utility_menu()
         'access callback' => 'user_is_logged_in',
         '#type' => MENU_CALLBACK,
     );
-
+    $items['sso-cdx-portal'] = array(
+        'title' => 'Single Sign on From CDX to Portal',
+        'page callback' => 'sso_cdx_portal',
+        'access callback' => TRUE,
+        '#type' => MENU_CALLBACK,
+    );
 
     return $items;
 }
 
+
+function sso_cdx_portal(){
+    if(!isset($_POST['securitytoken']) || !isset($_POST['clientip'])){
+        drupal_goto('/');
+    }
+    $frs_password = variable_get('cdx_facility_password');
+    $email = variable_get('cdx_node_token_email');
+    $domain = variable_get('cdx_node_token_domain');
+    $server_ip = $_POST['clientip'];  //$_SERVER['SERVER_ADDR'];
+    $wsdl = variable_get('cdx_facility_naas_wsdl');
+    $cdx_resource_url = variable_get('cdx_facility_resource_url');
+    $validate_client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
+
+    $validate_parameters = array(
+        "userId" => $email,
+        "credential" => $frs_password,
+        "domain" => $domain,
+        "securityToken" => $_POST['securitytoken'],
+        "clientIp" => $server_ip,
+        "resourceURI" => $cdx_resource_url,
+        "applicationId" => "",
+        "userProperties" => "",
+    );
+    try{
+        $validate_response = $validate_client->__soapCall("Validate", array($validate_parameters));
+        if(isset($validate_response->return)){
+            parse_str($validate_response->return, $return_output);
+            perform_user_login($return_output);//authenticate user and login to drupal
+            if(isset($_GET['destination']))
+                drupal_goto("/".$_GET['destination']);
+            else
+                drupal_goto("/");
+        }
+    }
+    catch(SoapFault $f){
+        $message = "Error: ".$f->faultstring.' Error Message: '.$f->detail->faultdetails->message;
+        watchdog('eenterprise_utility', $message, array(), WATCHDOG_ERROR);
+        drupal_goto("/");
+    }
+}
+
+function perform_user_login($response_output){
+    global $user;
+    $username = $response_output['userId'];
+    $ext_user = user_external_load($username);
+    if (!$ext_user) {
+        user_external_login_register($username, 'eenterprise_utility');
+        if ($user) {
+            user_save($user, array('mail' => trim($response_output['email'], '"')));
+            //if user is public user
+            if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS') {
+                //assign_roles_to_user($username);
+                $_SESSION['cdx_fmw_security_token'] = $_POST['securitytoken'];
+                $_SESSION['userId'] = $username;
+                $_SESSION['login_timestamp'] = time();
+                $public_or_cdx = 'cdx';
+            } else {
+                $user_role = user_role_load_by_name('Public User');
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                $public_or_cdx = 'public';
+            }
+            $_SESSION['cdx_user_type'] = $public_or_cdx;
+        }
+    } else {
+        //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
+        $user = $ext_user;
+        $form_state['uid'] = $user->uid;
+
+        user_login_submit(array(), $form_state);
+        //To fix a bug where email address is not updated after users update their email address in CDX and login.
+        user_save($user, array('mail' => trim($response_output['email'], '"')));
+        try {
+            if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS') {
+                $_SESSION['cdx_fmw_security_token'] = $_POST['securitytoken'];
+                $_SESSION['userId'] = $username;
+                $_SESSION['login_timestamp'] = time();
+                $public_or_cdx = 'cdx';
+            }
+            else {
+                $user_role = user_role_load_by_name('Public User');
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                $public_or_cdx = 'public';
+            }
+            $_SESSION['cdx_user_type'] = $public_or_cdx;
+
+        } catch (Exception $e) {
+            watchdog('eenterprise_utility', "Error 0014: General Exception", array(), WATCHDOG_ERROR);
+        }
+    }
+}
 
 /**
  * returns a map Dataset, formated as JSON.
@@ -332,9 +427,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_gridstack_settings']);
         hide($form['field_first_time_user']);
 
-        // If user is admin allow to edit state admin STATE.
+        // If user is admin allow to edit state admin STATE and toggle user's first time status
         if ($user->uid > 1) {
             hide($form['field_admin_state']);
+            hide($form['field_first_time_user']);
         }
 
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
@@ -450,6 +546,11 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 
         $form['#submit'][] = 'eenterprise_utility_profile_form_submit';
     } // end user form
+    global $user;
+    if($form['#form_id'] == 'user_profile_form' && (in_array('Public User',$user->roles) && count($user->roles) == 2)){
+        hide($form['account']['mail']);
+        $form['account']['mail']['#access'] = FALSE;
+    }
 }
 
 function eenterprise_utility_profile_form_submit($form, &$form_state) {
