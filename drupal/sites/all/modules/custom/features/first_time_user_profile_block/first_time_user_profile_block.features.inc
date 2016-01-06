@@ -40,8 +40,8 @@ function first_time_user_profile_block_menu()
         'page callback' => 'frs_zip_code_to_city_state',
         'access callback' => TRUE,
     );
-    $items['frs_naas_autentication'] = array(
-        'page callback' => 'frs_naas_autentication',
+    $items['frs_naas_authentication'] = array(
+        'page callback' => 'frs_naas_authentication',
         'access callback' => TRUE,
     );
     return $items;
@@ -267,7 +267,7 @@ function high_level_taxonomy_checkboxes()
 function frs_lat_long_to_zip_code($lat, $long)
 {
 
-    $token = frs_naas_autentication();
+    $token = frs_naas_authentication();
     $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     $frs_domain = variable_get('frs_api_lookup_url');
     if ($frs_domain == 'test_proxy') {
@@ -312,7 +312,7 @@ function frs_lat_long_to_zip_code($lat, $long)
 // http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.14
 function frs_city_state_to_zip_code($city, $state)
 {
-    $token = frs_naas_autentication();
+    $token = frs_naas_authentication();
     $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     $encoded_city = urlencode($city);
     $frs_domain = variable_get('frs_api_lookup_url');
@@ -348,7 +348,7 @@ function frs_city_state_to_zip_code($city, $state)
 //// http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.13
 function frs_zip_code_to_city_state($zip)
 {
-    $token = frs_naas_autentication();
+    $token = frs_naas_authentication();
     $frs_domain = variable_get('frs_api_lookup_url');
     $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     if ($frs_domain == 'test_proxy') {
@@ -384,22 +384,38 @@ function frs_zip_code_to_city_state($zip)
 }
 
 
-function frs_naas_autentication()
+function frs_naas_authentication()
 {
-    $wsdl = variable_get('cdx_node_token_wsdl');
-    $email = variable_get('cdx_node_token_email');
-    $password = variable_get('cdx_node_token_password');
 
-
-    try {
-        $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
-    } catch (SoapFault $f) {
-        dpm($f);
-        drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
-        return;
+    $create_new_token = true;
+    /// First check if there is already a token that was created
+    if (isset($_SESSION['frs_naas_token']) && isset($_SESSION['frs_naas_token_creation_time'])) {
+        // Check to see if it was created within the pass 5 minutes
+        $time_stamp = $_SESSION['frs_naas_token_creation_time'];
+        $current_timestamp = time();
+        $diff_hours = abs($current_timestamp - $time_stamp)/(60);
+        if ($diff_hours <= 5) {
+            //return the previously created token
+            $create_new_token = false;
+            return $_SESSION['frs_naas_token'];
+        }
     }
 
-    if (isset($client)) {
+    if ($create_new_token) {
+        $wsdl = variable_get('cdx_node_token_wsdl');
+        $email = variable_get('cdx_node_token_email');
+        $password = variable_get('cdx_node_token_password');
+
+
+        try {
+            $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
+        } catch (SoapFault $f) {
+            dpm($f);
+            drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
+            return;
+        }
+
+        if (isset($client)) {
             $params = array(
                 "userId" => $email,
                 "credential" => $password,
@@ -411,33 +427,39 @@ function frs_naas_autentication()
             $soap_type = 'CentralAuth';
 
 
-        $token = null;
-        try {
-            $response1 = $client->__soapCall($soap_type, array($params));
-            $token = $response1->return;
-        } catch (SoapFault $f) {
-            dpm($f);
+            $token = null;
+            try {
+                $response1 = $client->__soapCall($soap_type, array($params));
+                $token = $response1->return;
+            } catch (SoapFault $f) {
+                dpm($f);
+                $token = '';
+                drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
+            }
+        } else {
             $token = '';
-            drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
         }
-    } else {
-        $token = '';
+        if (isset($_GET['json'])) {
+            $_SESSION['frs_naas_token'] = $token;
+            $_SESSION['frs_naas_token_creation_time'] = time();
+            print json_encode(array(
+                'ip' => $_SERVER['SERVER_ADDR'], //variable_get('frs_api_lookup_ip'),
+                'token' => $token,
+            ));
+            exit();
+        } else {
+            // Capture token and time to reduce calls to FRS
+            $_SESSION['frs_naas_token'] = $token;
+            $_SESSION['frs_naas_token_creation_time'] = time();
+            return $token;
+        }
     }
-    if (isset($_GET['json'])) {
-        print json_encode( array(
-            'ip'=> $_SERVER['SERVER_ADDR'], //variable_get('frs_api_lookup_ip'),
-            'token' => $token,
-        ));
-        exit();
-    } else {
-        return $token;
-    }
-};
+}
 
 
 function frs_zip_code_to_lat_long($zip)
 {
-    $token = frs_naas_autentication();
+    $token = frs_naas_authentication();
     $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
     $frs_domain = variable_get('frs_api_lookup_url');
     if ($frs_domain == 'test_proxy') {

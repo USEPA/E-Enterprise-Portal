@@ -46,7 +46,7 @@ function cdx_facility_widget_settings($form, $form_state) {
     );
     $form['cdx_facility_widget_settings']['cdx_facility_local'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Local?'),
+        '#title' => t('Load WSDL from server instead of service endpoint.'),
         '#default_value' => variable_get('cdx_facility_local'),
         '#required' => FALSE,
     );
@@ -56,6 +56,20 @@ function cdx_facility_widget_settings($form, $form_state) {
         '#type' => 'checkbox',
         '#title' => t('Create new token (instead of using one from bridge)?'),
         '#default_value' => variable_get('temp_create_new_token'),
+        '#required' => FALSE,
+    );
+    $form['cdx_facility_widget_settings']['local_testing'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Local testing?'),
+        '#default_value' => variable_get('local_testing'),
+        '#description' => t('Only use for local development environments.'),
+        '#required' => FALSE,
+    );
+    $form['cdx_facility_widget_settings']['local_testing_user_id'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Testing User ID '),
+        '#default_value' => variable_get('local_testing_user_id'),
+        '#description' => t('Only for local development environments or for admin. This user id will be used for the widget.'),
         '#required' => FALSE,
     );
 
