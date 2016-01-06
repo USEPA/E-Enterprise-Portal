@@ -15,6 +15,7 @@ stylesheets[all][] = css/styles.css
 stylesheets[all][] = css/gridstack.css
 
 ; REGIONS
+regions[disclaimer]         = Disclaimer Area
 regions[header]         = Header
 regions[navigation]     = Navigation bar
 regions[highlighted]    = Highlighted

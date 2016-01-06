@@ -419,6 +419,15 @@ nav ul {
 .admin-menu .pillbox {
 	display: block;
 }
+.region-disclaimer {
+	background-color: #000;
+	.block {
+		margin-bottom: 0;
+		text-align: center;
+		color: #fff;
+		font-size: 0.75em;
+	}
+}
 
 header {
 	padding: 10px 2em 5px;
@@ -1002,6 +1011,12 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	margin-top:20px;
 	background-color: transparent;
 	border-radius: none;
+}
+
+a:focus.remove_link, a:focus.add_link {
+	height: 22px;
+  width: 21px;
+  display: inline-block;
 }
 
 #block-search-form {
