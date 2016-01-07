@@ -21,11 +21,11 @@ function favorite_links_menu() {
       'page callback' => 'load_links',
       'access callback' => TRUE,
       ); 
-      $items['favorite_sites-ajax/%'] = array(
-            'access arguments' => array('access content'),
-            'page callback' => 'favorite_links_ajax_callback',
-            'page arguments' => array(1),
-            'type' => MENU_CALLBACK,
+    $items['favorite_sites-ajax/%'] = array(
+      'access arguments' => array('access content'),
+      'page callback' => 'favorite_links_ajax_callback',
+      'page arguments' => array(1),
+      'type' => MENU_CALLBACK,
     );
     return $items;
 } 

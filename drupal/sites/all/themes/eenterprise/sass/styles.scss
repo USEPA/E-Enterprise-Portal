@@ -1004,6 +1004,12 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	border-radius: none;
 }
 
+a:focus.remove_link, a:focus.add_link {
+	height: 22px;
+  width: 21px;
+  display: inline-block;
+}
+
 #block-search-form {
 	padding-top: 1em;
 	position: relative;
@@ -1820,7 +1826,7 @@ form[id^='user-profile-form'] {
 		label {
 			float: left;
 		}
-		.zip-code-primary-select {
+		.zip-code-primary-select .glyphicon {
 			color: grey;
 			cursor: pointer;
 		}
@@ -1831,7 +1837,7 @@ form[id^='user-profile-form'] {
 		.form-type-checkbox {
 			margin-right: 10px;
 		}
-		.zip-code-primary-select.selected {
+		.zip-code-primary-select.selected .glyphicon{
 			color: red;
 		}
 		.zip-code-primary-holder {
@@ -2033,7 +2039,7 @@ form[id^='user-profile-form'] .remove-button {
 		margin-bottom: 20px;
 	}
 }
-#my-air-quality-chart-tabs, .page-user {
+#my-air-quality-chart-tabs, .page-user, #myMapsFiltering {
 	.ui-state-default a:focus {
 		//Click and after arrow keys - want this to be dark gray
 		background-color: $ee-dark-gray;

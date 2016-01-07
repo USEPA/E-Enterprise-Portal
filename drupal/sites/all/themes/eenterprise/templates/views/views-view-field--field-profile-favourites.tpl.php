@@ -35,7 +35,7 @@
 		$date_updated = date_create($array['raw']['field_date_updated'][LANGUAGE_NONE][0]['value']);
 		$date_updated = date_format($date_updated, 'd/m/Y h:i a');
 		$id = $array['raw']['id'];
-		echo '<tr>'.'<td><span title="Remove Favorite" id="' . $id . '|favorite_link" class=" remove_link in-widget old_link glyphicon glyphicon-heart filled" aria-hidden="true"></span></td>'
+		echo '<tr><td class="favorites-holder"><a href="javascript:void(0)" title="Remove favorite" id="' . $id . '__favorite_link" class="favorites-ignore remove_link in-widget old_link"><span class="sr-only">Remove favorite '.$title.'</span><span class="glyphicon glyphicon-heart filled" aria-hidden="true"></span></a></td>'
 				. '<td><a class="favorites-link favorites-ignore" target="_blank" href="' . $url . '">' . 
 				$title . '</a></td></tr>';
 	}
