@@ -197,10 +197,23 @@
 
 
                 $(document).ajaxSuccess(function (event, xhr, settings) {
+	                if (settings.url == 'favorite_sites-ajax/ajax') {
+		                refocusLink(focus_link_id);
+	  							}
+               		else {
                     processPageAnchors();
+                  }
                 });
 
-
+								function refocusLink(focus_link_id) {
+									if (focus_link_id != "") {
+										$('#favorite_links-ajax-wrapper').find(focus_link_id).focus();	
+									}
+									else {
+										$('#favorite_links-ajax-wrapper').find('.favorites-ignore').focus();
+									}
+								}
+								
                 function processFavoriteLink(button, action, unparsed_url, label) {
                     var id;
                     var old_link = false;
@@ -243,17 +256,18 @@
                                     var row_num = row[0].rowIndex - 1;
                                     //Count # rows in table, subtract for first row that's a holder
 																		var row_total = $('#favorite_links-ajax-wrapper').find('table').find('tbody').children('tr').length - 1;
-                                    
-                                    //If the current row isn't the last one, grab the next row and focus that
+																		
+																		//If current row isn't last row, focus next row favorite
                                     if (row_num < row_total) {
                                     	var next_link = row.next().find('a');
 																			focus_link_id = "#" + next_link[0].id;
                                     }
-                                    //If not, grab the previous row and focus that
-                                    else if (row_num => row_total && row_total > 1) {
+                                    //If no next rows, focus previous row favorite
+                                    else if (row_num == row_total && row_total != 1) {
                                    		var previous_link = row.prev().find('a');
-																	 		focus_link_id = "#" + previous_link[0].id + "";
+																	 		focus_link_id = "#" + previous_link[0].id;
 																		}
+																		//If only row left, focus Edit Profile link
 																		else {
 																	 		focus_link_id = "";
 																		}
@@ -270,12 +284,7 @@
                                 button.attr('id', unparsed_url + '-' + label);
                                 button.removeClass('remove_link').removeClass('new_link').removeClass('old_link').removeClass('filled').removeClass('empty');
                                 button.addClass('add_link new_link empty ');
-																if (focus_link_id != "") {
-																	$('#favorite_links-ajax-wrapper').find(focus_link_id).focus();	
-																}
-																else {
-																	$('#favorite_links-ajax-wrapper').find('.favorites-ignore').focus();
-																}
+                                
                             }
 
                         },
