@@ -144,7 +144,7 @@ DataTable.defaults = {
 	 *      } );
 	 *    } );
 	 */
-	"aLengthMenu": [ 10, 25, 50, 100 ],
+	"aLengthMenu": [ 3, 10, 25 ],
 
 
 	/**

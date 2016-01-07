@@ -7909,7 +7909,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"aLengthMenu": [ 10, 25, 50, 100 ],
+        "aLengthMenu": [ 3, 10, 25 ],
 	
 	
 		/**
@@ -11208,7 +11208,7 @@
 		 *  @type array
 		 *  @default []
 		 */
-		"aLengthMenu": null,
+		"aLengthMenu": [3, 10, 25, 50],
 		
 		/**
 		 * Counter for the draws that the table does. Also used as a tracker for

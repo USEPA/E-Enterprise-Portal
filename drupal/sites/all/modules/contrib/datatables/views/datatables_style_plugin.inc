@@ -148,8 +148,8 @@ class datatables_style_plugin extends views_plugin_style_table {
     $form['pages']['display_length'] = array(
       '#type' => 'select',
       '#title' => t('Default Page Length'),
-      '#default_value' => isset($this->options['pages']['display_length']) ? $this->options['pages']['display_length'] : 10,
-      '#options' => array(10 => 10, 25 => 25, 50 => 50, 100 => 100),
+      '#default_value' => isset($this->options['pages']['display_length']) ? $this->options['pages']['display_length'] : 3,
+      '#options' => array(3 => 3, 10 => 10, 25 => 25, 50 => 50, 100 => 100),
       '#description' => t('Default number of records to show per page. May be adjusted by users if Length Selection is enabled'),
     );
 

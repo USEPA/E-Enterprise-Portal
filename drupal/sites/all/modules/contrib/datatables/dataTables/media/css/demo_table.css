@@ -93,7 +93,8 @@
 
 .paginate_disabled_previous,
 .paginate_disabled_next {
-	color: #666 !important;
+	/*color: #666 !important;*/
+    display:none;
 }
 .paginate_disabled_previous, .paginate_enabled_previous {
 	padding-left: 23px;
