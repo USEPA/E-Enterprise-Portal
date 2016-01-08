@@ -2,8 +2,6 @@
  * Created by bmatkin on 1/7/2016.
  */
 
-
-
 (function($) {
     $.widget("ui.combobox", {
         _create: function() {
@@ -121,10 +119,11 @@
         }
     });
 
+// new code
+$(document).ready(function () {
+
+        $(".combobox").combobox();
+
+    });
 })(jQuery);
 
-// new code
-$(function() {
-    $(".combobox").combobox();
-
-});
