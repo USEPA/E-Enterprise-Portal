@@ -249,6 +249,19 @@
                 }
             });
 
+            //Add hide and show functionality for the local government user options
+            $org_select = $('#edit-field-organization select');
+
+            $org_select.change(function() {
+               $local_gov_opts =  $('.local-government-options');
+               if($(this).find('option:selected').text() == 'Local government') {
+                   $local_gov_opts.show();
+               }
+                else {
+                   $local_gov_opts.hide();
+               }
+            });
+
 
             Drupal.tableDrag.prototype.row.prototype.onSwap = function (swappedRow) {
                 var table = $(swappedRow).closest('table');
