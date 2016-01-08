@@ -33,6 +33,12 @@ function first_time_user_profile_block_default_fe_block_settings() {
         'theme' => 'bootstrap',
         'weight' => 0,
       ),
+      'eenterprise' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'eenterprise',
+        'weight' => 0,
+      ),
       'greentrees' => array(
         'region' => '',
         'status' => 0,

@@ -7,8 +7,6 @@
 /**
  * Implements hook_views_default_views().
  */
-
-
 function first_time_user_profile_block_views_default_views() {
   $export = array();
 
@@ -25,10 +23,12 @@ function first_time_user_profile_block_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'First Time User Profile';
+  $handler->display->display_options['css_class'] = 'first-time-user-modal';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
     2 => '2',
+    13 => '13',
   );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';

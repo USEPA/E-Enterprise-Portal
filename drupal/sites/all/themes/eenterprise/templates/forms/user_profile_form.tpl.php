@@ -11,7 +11,8 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
     <ul>
       <li><a class="favorites-ignore" href="#profile-account">Account</a></li>
       <li><a class="favorites-ignore" href="#profile-locations">Locations</a></li>
-      <li><a class="favorites-ignore" href="#profile-favorites">Favorites</a></li>
+        <li><a class="favorites-ignore" href="#profile-interests">Interests</a></li>
+        <li><a class="favorites-ignore" href="#profile-favorites">Favorites</a></li>
 
     </ul>
     <div id="profile-account">
@@ -39,7 +40,34 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
         <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
 
     </div>
-    <div id="profile-favorites">
+      <div id="profile-interests">
+          <h3>Interests</h3>
+          <div id='links_description' class='form-group'>
+              <?php
+              print render($form['field_organization']);
+              print render($form['field_role']);
+
+              if ($form['field_organization'][LANGUAGE_NONE]['#default_value'][0] != '172730') {
+                  $style = "style='display:none;'";
+              }
+              else {
+                  $style = '';
+              }
+
+              ?>
+              <div class="local-government-options" <?php echo $style; ?>>
+              <?php
+                  print render($form['field_community_type']);
+                  print render($form['field_community_size']);
+              ?>
+              </div>
+
+          </div>
+          <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
+
+      </div>
+
+      <div id="profile-favorites">
       <h3>Favorite Links</h3>
       <p class="eenterprise-utility-form-item-description-p field-title-below">
         Add and manage your favorite links.</p>
