@@ -159,7 +159,10 @@ function save_first_time_user_preferences()
 
         // add role data
             $role = xssafe($_POST['role']);
-            if (!is_numeric($role)) {
+            if ($role == 'Select role') {
+                $role = '';
+            }
+            else if (!is_numeric($role)) {
                 $role = custom_create_taxonomy_term($role,taxonomy_vocabulary_machine_name_load('roles')->vid );
             }
             $org = xssafe($_POST['org']);
@@ -171,8 +174,9 @@ function save_first_time_user_preferences()
             $user_comm_type = $user_data->field_community_type;
             $user_comm_size = $user_data->field_community_size;
 
-
-            $user_role[LANGUAGE_NONE][0]['tid'] =  $role;
+            if ($role != '') {
+                $user_role[LANGUAGE_NONE][0]['tid'] = $role;
+            }
             $user_org[LANGUAGE_NONE][0]['tid'] = $org;
             $user_comm_type[LANGUAGE_NONE][0] = array('value' => $comm_type);
             $user_comm_size[LANGUAGE_NONE][0]['tid'] = $comm_size;

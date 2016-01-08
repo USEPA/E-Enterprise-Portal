@@ -46,8 +46,9 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
               <?php
               print render($form['field_organization']);
               print render($form['field_role']);
-
-              if ($form['field_organization'][LANGUAGE_NONE]['#default_value'][0] != '172730') {
+              $term = taxonomy_term_load($form['field_organization'][LANGUAGE_NONE]['#default_value'][0]);
+              $name = $term->name;
+              if ($name != 'Local government') {
                   $style = "style='display:none;'";
               }
               else {

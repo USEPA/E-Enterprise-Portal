@@ -277,7 +277,7 @@
                         else {
                             console.log(parsed_msg.error_msg);
                         }
-                      //  first_time_user_block.dialog('close');
+                       first_time_user_block.dialog('close');
 
                     }
                 })
