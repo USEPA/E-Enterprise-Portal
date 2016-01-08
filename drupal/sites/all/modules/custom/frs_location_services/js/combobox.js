@@ -120,7 +120,8 @@
     });
 
 // new code
-    $(function() {
+$(document).ready(function () {
+
         $(".combobox").combobox();
 
     });
