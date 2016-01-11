@@ -7,6 +7,7 @@
 /**
  * Override HTML for link lists.
  */
+/*
 function eenterprise_links($vars) {
   $links = $vars['links'];
   $attributes = $vars['attributes'];
@@ -77,6 +78,103 @@ function eenterprise_links($vars) {
 
   return $output;
 }
+*/
+
+function eenterprise_menu_link(&$vars) {
+	global $user;
+	$name = $user->name;
+	$path	= drupal_get_path_alias();
+	$element = $vars['element'];
+  $sub_menu = '';
+  $childdepth = $element['#original_link']['depth'];
+  $parentdepth = $childdepth - 1;
+ 
+	if ($childdepth > 1) {
+	  $element['#attributes']['data-menu-parent'] = $element['#original_link']['menu_name'] . '-' . $parentdepth;
+	  $element['#localized_options']['attributes']['class'][] = $element['#original_link']['menu_name'] . '-' . $element['#original_link']['depth'];
+		$element['#localized_options']['attributes']['class'][] = 'menu-item';
+	}
+	
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+	
+	// Change Home link label to Workbench as appropriate
+  if (isset($element['#original_link']['menu_name'])
+        && $element['#original_link']['menu_name'] == 'main-menu') {
+        if ($element['#title'] == 'Home') {
+					//If the user is logged in either as a guest user or another user, Home link should be labeled Workbench
+					//In other words, if the user is NOT logged in AND the user is not a guest user viewing the Disclaimer page, then Home should say Workbench
+	        //$new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path != 'ee_disclaimer') || ($path != 'new-users'))) ? 'Workbench' : 'Home';
+		        $new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path == 'ee_disclaimer' || $path == 'new-users' || $path == 'bridge-landing' || $path == 'faqs' || $path == 'release-notes'))) ? 'Workbench' : 'Home';
+	        
+	        //If the user is viewing the Disclaimer page and is not logged in, 
+					if (($path == 'ee_disclaimer' || $path == 'new-users' || $path == 'bridge-landing' || $path == 'faqs' || $path == 'release-notes') && ($user->uid == 0 || $user->name == 'guest-user')) {
+						$element['#href'] = 'eenterprise-new';	
+					}
+					else {
+						$element['#href'] = 'workbench';
+					}
+	        $element['#title'] = $new_title;
+        }
+			else if ($element['#title'] != 'Home') {
+				//If the user is viewing the Disclaimer page hide other main menu items
+				if ($path == 'ee_disclaimer') {
+					return null;
+				}
+			}
+  }  
+  
+  if (isset($element['#original_link']['menu_name'])
+      && $element['#original_link']['menu_name'] == 'user-menu'
+      && $element['#title'] == 'My account') {
+			//If the user is viewing the Disclaimer page and is not logged in, 
+			if ($path == 'ee_disclaimer') {
+				return null;
+			}
+	}
+  
+  //set the parent active when child is currently selected
+  if(in_array("active-trail", $element['#attributes']['class'])){
+      $element['#attributes']['class'][] = 'active';
+  }
+  // On primary navigation menu, class 'active' is not set on active menu item.
+  // @see https://drupal.org/node/1896674
+  if (($element['#href'] == current_path() || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
+      $element['#attributes']['class'][] = 'active';
+  }
+  
+  $item_classes = &$element['#attributes']['class'];
+  $link_classes = &$element['#localized_options']['attributes']['class'];
+
+  // Remove uneccessary item classes.
+  $remove = array(
+    'first',
+    'last',
+    'leaf',
+    'is-leaf',
+    'menu__link',
+  );
+  
+  foreach ($remove as $val) {
+    $remove_key = array_search($val, $item_classes);
+    if (!is_null($remove_key)) {
+      unset($item_classes[$remove_key]);
+      unset($link_classes[$remove_key]);
+    }
+  }
+  $remove_key = array_search('menu-item', $link_classes);
+    if (!is_null($remove_key)) {
+			unset($link_classes[$remove_key]);
+    }
+
+  // Add global classes to all menu links.
+  $item_classes[] = 'menu-item';
+  $link_classes[] = 'menu-link';
+  
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
 
 /**
  * Override HTML for main menu links.
@@ -98,6 +196,7 @@ function eenterprise_links__system_main_menu($vars) {
   * Override HTML for menu trees.
   */
 function eenterprise_menu_tree($vars) {
+
   return '<ul class="menu">' . $vars['tree'] . '</ul>';
 }
 

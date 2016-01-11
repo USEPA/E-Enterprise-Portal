@@ -15,6 +15,8 @@
             var nearest_state = 'NC';
             var geolocation_used = false;
 
+            var $org_select = $('#select-organization');
+
             // Initialize  location with default information
             $('#nearest-location').text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
 
@@ -214,6 +216,20 @@
                 $('#location-error-message').remove();
             }
 
+
+            $org_select.change(function() {
+                var val = $(this).find('option:selected').text();
+
+                $local_govern_opts = $('#local-government-options');
+                if (val == 'Local government') {
+                    $local_govern_opts.show();
+                }
+                else {
+                    $local_govern_opts.hide();
+                }
+
+            });
+
             $('#skip-preferences').click(function () {
                 $.ajax({
                     url: '/save_first_time_user_preferences',
@@ -228,14 +244,30 @@
             });
 
             $('#save-preferences').click(function () {
+                var org_val = $org_select.val();
+                var org_text = $org_select.find('option:selected').text();
+                var role_val = $('#select-role').val();
+                var typed_role_val = $('.combo-input').val();
+                if (role_val == '' || typed_role_val != role_val) {
+                    role_val = typed_role_val;}
+                var comm_size_val = false;
+                var comm_type_val = false;
+                if (org_text == 'Local government') {
+                    comm_size_val = $('#community-size').val();
+                    comm_type_val = $('input[name=community-type]:checked').val();
+                }
                 $.ajax({
                     url: '/save_first_time_user_preferences',
-                    type: 'GET',
+                    type: 'POST',
                     data: {
                         skip: 0,
                         zip: selected_zip_code,
                         geolocation_used: geolocation_used,
-                        geolocation_zip: nearest_zip
+                        geolocation_zip: nearest_zip,
+                        org: org_val,
+                        role: role_val,
+                        comm_size: comm_size_val,
+                        comm_type: comm_type_val
                     },
                     success: function (msg) {
                         var parsed_msg = $.parseJSON(msg);
@@ -245,7 +277,7 @@
                         else {
                             console.log(parsed_msg.error_msg);
                         }
-                        first_time_user_block.dialog('close');
+                       first_time_user_block.dialog('close');
 
                     }
                 })

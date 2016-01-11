@@ -817,8 +817,11 @@
                     else if ($("#beyond-next-week").hasClass("filter-applied"))
                         $('#beyond-next-week a').focus();
 
-
-                    if ($("#edit-field-todo-lst-rprt-type-filter-value").is(":visible"))
+                    if($('#edit-field-prog-track-domain-value').val() != 'All' && !$("#edit-field-prog-track-rep-type-filter-value").is(":visible"))
+                        $('#edit-field-prog-track-domain-value').focus();
+                    else if(!$('#edit-field-prog-track-part-code-value').is(":visible") && $('#edit-field-prog-track-domain-value').val() != 'All')
+                        $('#edit-field-prog-track-domain-value').focus();
+                    else if ($("#edit-field-todo-lst-rprt-type-filter-value").is(":visible"))
                         $('#edit-field-todo-lst-rprt-type-filter-value').focus();
                     else if ($("#edit-field-todo-lst-sub-part-code-value").is(":visible"))
                         $('#edit-field-todo-lst-sub-part-code-value').focus();

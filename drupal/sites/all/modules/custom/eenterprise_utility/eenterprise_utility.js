@@ -1,9 +1,6 @@
 (function ($) {
 
-
     $(document).ready(function () {
-
-
         function placeAddAnotherButton(ajax_content, table_id, parent_id) {
             var table = $(table_id);
             var input_button = $(parent_id).find('.field-add-more-submit');
@@ -12,17 +9,19 @@
             }
         }
 
-
         function processPrimaryFields() {
             var table = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
             var checkboxes = table.find('input[type=checkbox]');
             var selection = table.find('input[type=checkbox]:checked');
-            checkboxes.after('<div class="zip-code-primary-holder"><i class="glyphicon glyphicon-star-empty zip-code-primary-select" title="Set to default location"></i></div>');
+            checkboxes.after('<div class="zip-code-primary-holder"><a href="javascript:void(0)" title="Set to default location" class="zip-code-primary-select"><i class="glyphicon glyphicon-star-empty" aria-hidden="true"></i><span class="sr-only">Set to default location</span></a></div>');
             var primary_indicator = selection.next('.zip-code-primary-holder').find('.zip-code-primary-select');
             primary_indicator.addClass('selected');
-            primary_indicator.removeClass('glyphicon-star-empty');
-            primary_indicator.addClass('glyphicon-star');
             primary_indicator.prop('title', 'Default location');
+            var primary_indicator_star = primary_indicator.find('i');
+            primary_indicator_star.removeClass('glyphicon-star-empty');
+            primary_indicator_star.addClass('glyphicon-star');
+            var screenreader_indicator = primary_indicator.find('.sr-only');
+            screenreader_indicator.text("Default location");
         }
 
         var old_button = '';
@@ -37,30 +36,34 @@
             mouse_click = $(e.target);
         });
 
-
         $('body').on('click', '.zip-code-primary-select', function () {
             $('.zip-code-primary-select.selected').removeClass('selected');
-            $('.zip-code-primary-select.glyphicon-star').addClass('glyphicon-star-empty');
-            $('.zip-code-primary-select.glyphicon-star').removeClass('glyphicon-star');
-            $('.zip-code-primary-select.glyphicon-star').prop('title', 'Set to default location');
+            $('.zip-code-primary-select').prop('title', 'Set to default location');
             $('.zip-code-primary-select').closest('td').find('input[type=checkbox]:checked').prop('checked', false);
+            var original_star = $('.zip-code-primary-select').find('i')
+            original_star.addClass('glyphicon-star-empty');
+            original_star.removeClass('glyphicon-star');
             var selected_icon = $(this);
             selected_icon.addClass('selected');
-            selected_icon.removeClass('glyphicon-star-empty');
-            selected_icon.addClass('glyphicon-star');
             selected_icon.prop('title', 'Default location');
-            selected_icon.closest('td').find('input[type=checkbox]').prop('checked', true);
+            var selected_icon_star = selected_icon.find('i');
+            selected_icon_star.removeClass('glyphicon-star-empty');
+            selected_icon_star.addClass('glyphicon-star');
+            selected_icon_star.closest('td').find('input[type=checkbox]').prop('checked', true);
+            var screenreader_indicator = $(this).find('.sr-only');
+        		screenreader_indicator.text('Default location');
+            
         });
         $('body').on('click', '.zip-code-primary-select.selected', function () {
-            var selected_icon = $(this);
-            selected_icon.removeClass('selected');
+        		$(this).removeClass('selected');
+        		$(this).prop('title', 'Set to default location');
+            var selected_icon = $(this).find('i');
             selected_icon.removeClass('glyphicon-star');
             selected_icon.addClass('glyphicon-star-empty');
-            selected_icon.prop('title', 'Set to default location');
             selected_icon.closest('td').find('input[type=checkbox]').prop('checked', false);
+            var screenreader_indicator = $(this).find('.sr-only');
+        		screenreader_indicator.text('Set to default location');
         });
-
-
 
         // Lock save and add as to not submit faulty data before processed
         $('body').on('keyup paste', '.field_zip_code', function (e) {
@@ -249,6 +252,19 @@
                 }
             });
 
+            //Add hide and show functionality for the local government user options
+            $org_select = $('#edit-field-organization select');
+
+            $org_select.change(function() {
+               $local_gov_opts =  $('.local-government-options');
+               if($(this).find('option:selected').text() == 'Local government') {
+                   $local_gov_opts.show();
+               }
+                else {
+                   $local_gov_opts.hide();
+               }
+            });
+
 
             Drupal.tableDrag.prototype.row.prototype.onSwap = function (swappedRow) {
                 var table = $(swappedRow).closest('table');
@@ -273,9 +289,6 @@
         function inString(str, substring) {
             return str.indexOf(substring) >= 0;
         }
-
-
-
 
         $('#edit-delete').click(function (e) {
             var delete_button = $(this);
@@ -304,9 +317,6 @@
         placeAddAnotherButton(false, '#field-zip-code-values', '#zipcode_description');
         placeAddAnotherButton(false, '#field-profile-favourites-values', '#links_description');
         $('#zipcode_description').show();
-
-
-
 
     });
 })(jQuery);

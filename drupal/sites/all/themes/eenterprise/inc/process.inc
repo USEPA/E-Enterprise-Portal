@@ -8,12 +8,6 @@ define("CUSTOM","custom");
  * Preprocess and process functions.
  */
 
-/* ************************* @todo
-ADD preprocess option to add needed ARIA attributes to menu elements that own a submenu
-
-
-*/
-
 /**
  * Override or insert variables into the maintenance page template.
  */
@@ -130,6 +124,16 @@ function eenterprise_preprocess_page(&$vars) {
 	if(!empty($vars['node']->field_language['und'][0]['value'])) {
 		$vars['content_language'] = $vars['node']->field_language['und'][0]['value'];
 	}
+	
+	if(!empty($vars['node'])){
+		switch ($vars['node']->type) {
+			case 'page':
+				$menu_trail = menu_set_active_trail();
+				$active_primary_title = $menu_trail[1]['link_title'];
+				break;
+		}
+	}
+	
 
 	// Test for anonymous user on login page
 	if (user_is_anonymous() && arg(0) == 'user' && (arg(1) == '' || arg(1) == 'login')) {
@@ -247,52 +251,4 @@ function eenterprise_preprocess_block(&$vars) {
 function eenterprise_preprocess_search_block_form(&$vars) {
   $vars['search_form'] = str_replace('type="text"', 'type="search"', $vars['search_form']);
   $vars['classes_array'][] = 'epa-search';  
-}
-
-/**
- * Override or insert variables into the menu link theme function.
- */
-function eenterprise_preprocess_menu_link(&$vars) {
-	global $user;
-	$name = $user->name;
-	$path	= drupal_get_path_alias();
-	
-	// Change Home link label to Workbench as appropriate
-  if (isset($vars['element']['#original_link']['menu_name'])
-        && $vars['element']['#original_link']['menu_name'] == 'main-menu'
-        && $vars['element']['#title'] == 'Home') {
-
-				//If the user is logged in either as a guest user or another user, Home link should be labeled Workbench
-				//In other words, if the user is NOT logged in AND the user is not a guest user viewing the Disclaimer page, then Home should say Workbench
-        //$new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path != 'ee_disclaimer') || ($path != 'new-users'))) ? 'Workbench' : 'Home';
-	        $new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path == 'ee_disclaimer' || $path == 'new-users' || $path == 'bridge-landing' || $path == 'faqs' || $path == 'release-notes'))) ? 'Workbench' : 'Home';
-        
-        //If ther user is viewing the Disclaimer page and is not logged in, 
-				if (($path == 'ee_disclaimer' || $path == 'new-users' || $path == 'bridge-landing' || $path == 'faqs' || $path == 'release-notes') && ($user->uid == 0 || $user->name == 'guest-user')) {
-					$vars['element']['#href'] = '/eenterprise-new';	
-				}
-        $vars['element']['#title'] = $new_title;
-  }
-	
-  $item_classes = &$vars['element']['#attributes']['class'];
-  $link_classes = &$vars['element']['#localized_options']['attributes']['class'];
-
-  // Remove uneccessary item classes.
-  $remove = array(
-    'first',
-    'last',
-    'leaf',
-    'is-leaf',
-    'menu__link',
-  );
-  foreach ($remove as $val) {
-    $remove_key = array_search($val, $item_classes);
-    if (!is_null($remove_key)) {
-      unset($item_classes[$remove_key]);
-    }
-  }
-
-  // Add global classes to all menu links.
-  $item_classes[] = 'menu-item';
-  $link_classes[] = 'menu-link';
 }

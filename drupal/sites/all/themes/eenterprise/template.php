@@ -96,22 +96,6 @@ function eenterprise_css_alter(&$css) {
   }
 }
 
-function eenterprise_menu_link(&$variables) {
-  $element = $variables['element'];
-  $sub_menu = '';
- 
-  $element['#attributes']['data-menu-parent'] = $element['#original_link']['menu_name'] . '-' . $element['#original_link']['depth'];
-  $element['#localized_options']['attributes']['class'][] = $element['#original_link']['menu_name'] . '-' . $element['#original_link']['depth'];
-  $element['#localized_options']['attributes']['class'][] = 'menu-item';
- 
-  if ($element['#below']) {
-    $sub_menu = drupal_render($element['#below']);
-  }
- 
-  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
-}
-
 /**
  * @param $existing
  * @param $type
@@ -127,20 +111,6 @@ function eenterprise_theme($existing, $type, $theme, $path){
     );
 
     return $items;
-}
-
-function eenterprise_preprocess_menu_tree(&$variables) {
-  $tree = new DOMDocument();
-  @$tree->loadHTML($variables['tree']);
-  $links = $tree->getElementsByTagname('li');
-  $parent = '';
- 
-  foreach ($links as $link) {
-    $parent = $link->getAttribute('data-menu-parent');
-    break;
-  }
- 
-  $variables['menu_parent'] = $parent;
 }
 
 function eenterprise_preprocess_panels_pane(&$vars) {

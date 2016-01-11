@@ -126,7 +126,7 @@ menu, ol, ul {
 	display: block;
 }
 
-/* --------- Logo Less ------- */
+/** --------- Logo Less ------- **/
 .masthead {
 	h1 {
 		width: 7.5em;
@@ -169,9 +169,6 @@ a:visited.pager__link {
 }
 .menu-item {
 	letter-spacing: 0.25px;
-}
-.menu-item:hover {
-	background-color: darken($ee-menu-bg, 10%);
 }
 #ee-disclaimer-form #edit-submit-button, #guest-login, .button.primary-action {
 	@include button;
@@ -1103,9 +1100,32 @@ tr.odd, tr.even {
 	height: 2em;
 	@include special-box-shadow(0px, 1px, 5px, #999999);
 	margin-bottom: 5px;
+	padding: 0;
+	.menu-item:first-child {
+		border-left: 1px solid darken($ee-menu-bg, 3%);
+	}
+	.menu-item {
+		border-right: 1px solid darken($ee-menu-bg, 3%);
+		margin-right: 0;
+		line-height: 2.35em;
+		padding: 0 15px;
+		.menu-item {
+			border-right: 0;
+			border-left: 0;
+		}
+	}
+	.menu-item:hover, .menu-item.active, .menu-item:focus {
+		background-color: darken($ee-menu-bg, 15%);
+	}
 	a {
 		color: #fff;
 		text-decoration: none;
+	}
+	a.ctools-use-modal {
+		padding: 0;
+	}
+	a:hover, a:focus {
+		background-color: transparent;
 	}
 }
 .workbench-menu {
@@ -1268,10 +1288,9 @@ tr.odd, tr.even {
 	.workbench-menu, .simple-main-nav {
     	float: left;
     	font-size: 0.85em;
-    	padding-top: 3px;
     	padding-left: 2.5em;
     	li {
-	    	display: inline-block;
+	    	float: left;
 	    	margin-right: 20px;
     	}
     }
@@ -1702,6 +1721,10 @@ tr.even {
 	}
 }
 
+#favorites-edit-profile {
+	font-size: 0.85em;
+}
+
 .field-name-field-profile-first-name,
 .field-name-field-profile-last-name {
 	display:inline-block;
@@ -1835,7 +1858,7 @@ form[id^='user-profile-form'] {
 		label {
 			float: left;
 		}
-		.zip-code-primary-select {
+		.zip-code-primary-select .glyphicon {
 			color: grey;
 			cursor: pointer;
 		}
@@ -1846,7 +1869,7 @@ form[id^='user-profile-form'] {
 		.form-type-checkbox {
 			margin-right: 10px;
 		}
-		.zip-code-primary-select.selected {
+		.zip-code-primary-select.selected .glyphicon{
 			color: red;
 		}
 		.zip-code-primary-holder {
@@ -2048,7 +2071,7 @@ form[id^='user-profile-form'] .remove-button {
 		margin-bottom: 20px;
 	}
 }
-#my-air-quality-chart-tabs, .page-user {
+#my-air-quality-chart-tabs, .page-user, #myMapsFiltering {
 	.ui-state-default a:focus {
 		//Click and after arrow keys - want this to be dark gray
 		background-color: $ee-dark-gray;
@@ -2461,7 +2484,8 @@ input[type="submit"],
 .pillbox > .menu-item > .menu-link,
 .progress .filled,
 .tabs > li > a,
-#edit-cancel {
+#edit-cancel,
+.region-navigation {
   background-image: -moz-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
   background-image: -ms-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
   background-image: -o-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);

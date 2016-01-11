@@ -2,7 +2,9 @@
     height: 200px;
 }
 
-.first-time-user-dialog .ui-dialog-titlebar {
+
+
+.first-time-user-dialog .ui-dialog-titlebar, #local-government-options {
     display:none;
 }
 
@@ -13,12 +15,40 @@
     overflow-y: hidden !important;
     overflow-x: hidden;
 }
+#first-time-user-profile {
+    height: 500px;
+}
 
 .pane-views-first-time-user-profile-block {
     border: 0 !important;
 }
 #revert-to-geo-location {
     font-size: 68%;
+}
+
+#user-profile-addition-info, #local-government-options {
+    margin-top: 1em;
+    width:75%;
+    float: left;
+}
+
+.org-select-grouping, .role-select-grouping{
+    float:left;
+    width: 50%;
+}
+
+.community-type-grouping, .community-select-grouping {
+    float:left;
+    width: 50%
+}
+
+.community-type-grouping input[type="radio"]{
+    margin-right: .5em;
+    margin-left: 1em;
+}
+
+#roles-show-all-items {
+    display:none;
 }
 
 #new-location-input.input-error {

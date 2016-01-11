@@ -232,6 +232,7 @@
 	display: inline-block;
 }
 
+/*
 #myMapsFilterList {
 	list-style: none;
 	line-height: 1.4;
@@ -255,12 +256,15 @@
 	padding-bottom: 5px;
 	text-align: center;
 }
+*/
 
+/*
 .active-mymaps-filter, #myMapsFilterList li.active-mymaps-filter {
 	color: #000;
 	font-weight: bold;
 	border-bottom: 3px solid #007AC6;
 }
+*/
 
 .myMapFilterTerm {
 	text-decoration: none;

@@ -8,9 +8,9 @@
     //    this.favor = function() {
     //        //function to favor button
     //    }
-    //    this.favorite_html =       "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + this.id + "|favorite_link' " +
+    //    this.favorite_html =       "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + this.id + "__favorite_link' " +
     //        "class=' remove_link favorite_hover old_link glyphicon glyphicon-heart filled' aria-hidden='true'></span></div>";
-    //    this.non_favorite_html = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + this.id + '|' + text_title + '"' +
+    //    this.non_favorite_html = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + this.id + '-' + text_title + '"' +
     //    "class='add_link favorite_hover new_link glyphicon glyphicon-heart empty' aria-hidden='true'></span></div>";
     //}
     //
@@ -34,6 +34,8 @@
         // Only run on workbench
         var path = window.location.pathname;
         var page = path.split('/')[1];
+        var focus_link_id;
+        
         if (page == 'workbench') {
 
             // Only run if favorite links module is active
@@ -56,7 +58,7 @@
                         success: function (data) {
                             var data = $.parseJSON(data);
                             if (data.url_data != 'false') {
-                                console.log(data);
+                                //console.log(data);
                                 favorite_urls = data.urls;
                                 favorite_url_mapping = data.url_mapping;
                                 id_label_mapping = data.label_mapping;
@@ -64,23 +66,20 @@
                         }
                     });
                 }
-
-
-                ///////Script for Attached button functionality to links
-
-
-                function createFavoriteButton(url, text_title) {
+								
+								///////Script for Attached button functionality to links
+								function createFavoriteButton(url, text_title) {
                     var id;
                     var favorite_button;
                     if ($.inArray(url, favorite_urls) >= 0) {
                         id = favorite_url_mapping[url];
                         favorite_button =
-                            "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + id + "|favorite_link' " +
+                            "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + id + "__favorite_link' " +
                             "class=' remove_link favorite_hover old_link glyphicon glyphicon-heart filled' aria-hidden='true'></span></div>";
                     }
                     else {
                         id = url;
-                        favorite_button = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + id + '|' + text_title + '"' +
+                        favorite_button = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + id + '__' + text_title + '"' +
                         "class='add_link favorite_hover new_link glyphicon glyphicon-heart empty' aria-hidden='true'></span></div>";
                     }
                     return favorite_button;
@@ -122,7 +121,7 @@
                         }
                     });
                     // process anchor tags
-                    $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .paginate_button,[href^=mailto])').each(function () {
+                    $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .paginate_button,[href^=mailto], [href^=javascript])').each(function () {
                         if ($(this).text().length > 0 && $(this).attr('href') != '#' && $(this).attr('href') != '/') {
                             if (!$(this).hasClass('processed-favorite')) {
                                 var url = $(this).attr('href');
@@ -160,7 +159,7 @@
                 load_links(true);
 
                 $(document.body).on('click', '.old_link', function () {
-                    var string_array = $(this).attr('id').split('|');
+                    var string_array = $(this).attr('id').split('__');
                     var id = string_array[0];
                     var action;
                     var $this = $(this);
@@ -178,7 +177,7 @@
                 });
 
                 $(document.body).on('click', '.new_link', function () {
-                    var string_array = $(this).attr('id').split('|');
+                    var string_array = $(this).attr('id').split('__');
                     var url = string_array[0];
                     var label = string_array[1];
                     var action;
@@ -198,10 +197,23 @@
 
 
                 $(document).ajaxSuccess(function (event, xhr, settings) {
+	                if (settings.url == 'favorite_sites-ajax/ajax') {
+		                refocusLink(focus_link_id);
+	  							}
+               		else {
                     processPageAnchors();
+                  }
                 });
 
-
+								function refocusLink(focus_link_id) {
+									if (focus_link_id != "") {
+										$('#favorite_links-ajax-wrapper').find(focus_link_id).focus();	
+									}
+									else {
+										$('#favorite_links-ajax-wrapper').find('.favorites-ignore').focus();
+									}
+								}
+								
                 function processFavoriteLink(button, action, unparsed_url, label) {
                     var id;
                     var old_link = false;
@@ -235,25 +247,44 @@
                                 button.removeClass('add_link').removeClass('new_link').removeClass('old_link').removeClass('filled');
                                 button.removeClass('empty');
                                 button.addClass('remove_link old_link filled');
-                                button.attr('id', favorite_url_mapping[unparsed_url] + '|favorite_link');
+                                button.attr('id', favorite_url_mapping[unparsed_url] + '__favorite_link');
                             }
                             else {
                                 if (button.hasClass('in-widget')) {
                                     unparsed_url = $(button).closest('tr').find('a').attr('href');
-                                    $(button).closest('tr').remove();
+                                    var row = $(button).closest('tr');
+                                    var row_num = row[0].rowIndex - 1;
+                                    //Count # rows in table, subtract for first row that's a holder
+																		var row_total = $('#favorite_links-ajax-wrapper').find('table').find('tbody').children('tr').length - 1;
+																		
+																		//If current row isn't last row, focus next row favorite
+                                    if (row_num < row_total) {
+                                    	var next_link = row.next().find('a');
+																			focus_link_id = "#" + next_link[0].id;
+                                    }
+                                    //If no next rows, focus previous row favorite
+                                    else if (row_num == row_total && row_total != 1) {
+                                   		var previous_link = row.prev().find('a');
+																	 		focus_link_id = "#" + previous_link[0].id;
+																		}
+																		//If only row left, focus Edit Profile link
+																		else {
+																	 		focus_link_id = "";
+																		}
+																		$(button).closest('tr').remove();                           
                                 }
                                 else {
-                                    var widget_button = $('*[id="' + id + '|favorite_link"].in-widget')
+                                    var widget_button = $('*[id="' + id + '__favorite_link"].in-widget')
                                     unparsed_url = $(widget_button).closest('tr').find('a').attr('href');
                                 }
 
-                                button = $('*[id="' + id + '|favorite_link"]');
+                                button = $('*[id="' + id + '__favorite_link"]');
                                 label = id_label_mapping[id];
                                 reloadView();
-                                button.attr('id', unparsed_url + '|' + label);
+                                button.attr('id', unparsed_url + '-' + label);
                                 button.removeClass('remove_link').removeClass('new_link').removeClass('old_link').removeClass('filled').removeClass('empty');
                                 button.addClass('add_link new_link empty ');
-
+                                
                             }
 
                         },
