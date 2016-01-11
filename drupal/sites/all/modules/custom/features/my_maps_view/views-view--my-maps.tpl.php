@@ -41,6 +41,7 @@
 	drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/MyMaps.js", "file");
 	drupal_add_css(drupal_get_path('module', 'my_maps_view') ."/css/MyMaps.css", "file");
 
+
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
@@ -66,29 +67,33 @@
     </div>
   <?php endif; ?>
 
-  <div class="view-content">
-    <div id="numThumbnails" class="numThumbnails favorites-ignore">
+  <div class="view-content" id="interactive-maps-actions">
+  	<div id="numThumbnails" class="numThumbnails favorites-ignore">
       <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore last">Browse Gallery...</a>
-    </div>
-
+			</div>
     <div id="myMapsFiltering">
-    	<div class="farLeft">Filter by:</div>
       <ul id="myMapsFilterList">
-        <li id="myMapsFilterAll" class="active-mymaps-filter"><a aria-controls="interactive-maps-carousel" id="mapsAll" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>All</a><span class="sr-only"> maps</span></li>
-        <li id="myMapsFilterAir"><a aria-controls="interactive-maps-carousel" id="mapsAir" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Air</a><span class="sr-only"> maps only</span></li>
-        <li id="myMapsFilterWater"><a aria-controls="interactive-maps-carousel" id="mapsWater" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Water<span class="sr-only"> maps only</span></a></li>
-        <li id="myMapsFilterLand"><a aria-controls="interactive-maps-carousel" id="mapsLand" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Land<span class="sr-only"> maps only</span></a></li>
+        <li id="myMapsFilterAll"><a href="#interactive-maps-control" aria-controls="interactive-maps-carousel" id="mapsAll" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>All</a><span class="sr-only"> maps</span></li>
+        <li id="myMapsFilterAir"><a href="#interactive-maps-control2" aria-controls="interactive-maps-carousel2" id="mapsAir" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Air</a><span class="sr-only"> maps only</span></li>
+        <li id="myMapsFilterWater"><a href="#interactive-maps-control3" aria-controls="interactive-maps-carousel3" id="mapsWater" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Water<span class="sr-only"> maps only</span></a></li>
+        <li id="myMapsFilterLand"><a href="#interactive-maps-control4" aria-controls="interactive-maps-carousel4" id="mapsLand" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Land<span class="sr-only"> maps only</span></a></li>
       </ul>
-    </div>
-
-    <div class="jcarousel-wrapper" aria-live="polite" id="interactive-maps-carousel">
+    <div class="jcarousel-wrapper" id="interactive-maps-carousel">
         <a href="#" class="jcarousel-control-prev"><span class="sr-only">Previous maps</span>&lsaquo;</a>
-        <div class="jcarousel">
+        <div class="jcarousel" id="all-maps-carousel" tabindex="0">
             <!-- Map thumbnails dynamically loaded here -->
-            <div class="loading">Loading maps...</div>
+            <div class="loading">Loading <b>all</b> maps...</div>
         </div>
         <a href="#" class="jcarousel-control-next"><span class="sr-only">Next maps</span>&rsaquo;</a>
     </div>
+    <div class="jcarousel-wrapper" id="interactive-maps-control2">
+    </div>
+    <div class="jcarousel-wrapper" id="interactive-maps-control3">
+    </div>
+    <div class="jcarousel-wrapper" id="interactive-maps-control4">
+    </div>
+    </div>
+    
     <!--
     <button id="filterMapsByLocationBtn" class-"filterMapsByLocationBtn">
       <img id="filterMapsByLocationImg" class="filterMapsByLocationImg" src="//t3.gstatic.com/images?q=tbn:ANd9GcSVYsaaHLMqYWVJPjoR4Um70GVVG4xK-qa1_Gy3zoPCxAjD7Lwn">

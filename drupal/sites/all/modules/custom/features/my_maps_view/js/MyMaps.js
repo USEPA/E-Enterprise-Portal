@@ -1,17 +1,25 @@
 (function ($) {
     $(function () {
+    $( "#myMapsFiltering" ).tabs();
         $.getJSON( "./map_dataset", function( data ) {
             // Get map collections from JSON
             var mapsets = data.mapsets;
-
+            var filterType = "mapsAll";
+						var countThese = "all";
+						var activeTab = "myMapsFilterAll";
             // Put agency-specific filtering tags here
             var noaatag = 'tags:"oceans"';
+            var countScrolls = 0;
+           	var focusThumb = 0;
+           	var numItemsVisible = 0;
+           	var numThumbs = 0;
+           	var stopAtScrolls = 0;
 
-			var galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>';
+						var galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>';
             //Direct link to EPA maps
             //If user is a state_admin, then show the "Add agency maps" link
             if (Drupal.settings.userrole == 'state_admin') {
-                galleryLink = '<a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore first">Browse EPA gallery...</a>     <a href="/agency-map-list" class="favorites-ignore last">Manage agency map collections</a>';
+                galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>		<a href="/agency-map-list" class="favorites-ignore last">Manage agency map collections</a>';
             }
             var jcarousel = $('.jcarousel').jcarousel();
             //Opening UL only created in init of gallery    
@@ -28,14 +36,13 @@
 
             //Query all AGOL endpoints given from mapsets JSON
             query_AGOL(mapsets);
-            updateTotalNumberOfMapsShowing();
-
+            updateTotalNumberOfMapsShowing(countThese);
 
             /********************jcarousel event listeners***********************/
             jcarousel.on('jcarousel:reloadend', function () {
                 //Event listener for carousel reloads
                 if (last_reload != reloadCounter) {
-                    //Only contintue if reload was generated from a mapset insertion
+                    //Only continue if reload was generated from a mapset insertion
                     var carousel = $(this);
                     //don't want to fire this every time on reload since the
                     //order gets shuffled each time, only for the last org
@@ -54,12 +61,17 @@
 
                 if (width >= 1100) {
                     width = (width / 5) - 4;
+                    numThumbs = 5;
+                    
                 } else if (width >= 850) {
                     width = (width / 4) - 4;
+                    numThumbs = 4;
                 } else if (width >= 600) {
                     width = (width / 3) - 4;
+                    numThumbs = 3;
                 } else if (width >= 350) {
                     width = (width / 2) - 4;
+                    numThumbs = 2;
                 }
                 carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
             });
@@ -94,14 +106,12 @@
                     target: '+=1'
                 });
 
-            $('.myMapFilterTerm').click(function () {
-                //options from the DOM (id) are mapsAll, mapsAir, mapsWater, or mapsLand
-                var filterType = $(this).attr('id');
-                $('.myMapFilterTerm').parent('li').removeClass('active-mymaps-filter');
-                $(this).parent('li').addClass('active-mymaps-filter');
+						$("#myMapsFiltering").on("tabsbeforeactivate", function (event, tab) {
+								countScrolls = 0;
+								activeTab = tab.newTab.attr('id');
+								filterType = tab.newTab.find('a').attr('id');
                 filterMyMapsGallery(filterType);
-            });
-
+						});
 
             /*****************************functions******************************/
             function turnOnVisibleThumbs() {
@@ -121,7 +131,7 @@
                     // If the img source is not already turned on
                     if (!$(this).find(".thumbnailImg").attr("src")) {
                         // Set image source from temporary source.
-                        $(this).find(".thumbnailImg").attr("src", $(this).find(".thumbnailImg").attr("tsrc"));
+                        $(this).find(".thumbnailImg").attr("src", $(this).find(".thumbnailImg").attr("src"));
                     }
                 });
             }
@@ -130,30 +140,42 @@
                 var listItems = $('.jcarousel ul li');
                 listItems.each(function (li) {
                     //reset gallery to show all items before applying filter
+                    $(this).addClass('show-thumbnail');
                     $(this).show();
                     var itemTags = $(this).find('a').data('tags').toLowerCase();
                     switch (filterType) {
                     case 'mapsAll':
+                    		$('.jcarousel li').filter(':visible').addClass('show-thumbnail');
+                    		var countThese = 'all';
                         //nothing to do because all items are showing
                         break;
                     case 'mapsAir':
+                    	  var countThese = 'air';
                         if ((itemTags.indexOf('air') == -1 && itemTags.indexOf('oaqps') == -1) || (itemTags.indexOf('impair') > -1)) {
+                        		$(this).removeClass('show-thumbnail');
                             $(this).hide();
                         }
+												$('.jcarousel li').filter(':visible').addClass('show-thumbnail');
                         break;
                     case 'mapsWater':
+                   		 var countThese = 'water';
                         if (itemTags.indexOf('water') == -1 && itemTags.indexOf('ocean') == -1) {
-                            $(this).hide();
-                        } 
-                        break;
-                    case 'mapsLand':
-                        if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1) {
+                        		$(this).removeClass('show-thumbnail');
                             $(this).hide();
                         }
+												$('.jcarousel li').filter(':visible').addClass('show-thumbnail');
+                        break;
+                    case 'mapsLand':
+                    		var countThese = 'land';
+                        if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1) {
+                        		$(this).removeClass('show-thumbnail');
+                            $(this).hide();
+                        }
+												$('.jcarousel li').filter(':visible').addClass('show-thumbnail');               
                         break;
                     }
                 });
-                updateTotalNumberOfMapsShowing();
+                updateTotalNumberOfMapsShowing(countThese);
                 jcarousel.jcarousel('reload');
                 // Scroll to beginning of filtered list
                 $('.jcarousel').jcarousel('scroll', 0);
@@ -249,7 +271,7 @@
                                 }).append(
                                     $('<img>', {
                                         'class': 'thumbnailImg',
-                                        'tsrc': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
+                                        'src': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
                                         'alt': this.title,
                                         'title': this.title,
                                         'aria-describedby': 'thumbnail-desc-' + mapset.id + '-' + thumbnailNum + ' ' + 'thumbnail-source-' + mapset.id + '-' + thumbnailNum + ' ' + 'thumbnail-contact-' + thumbnailNum
@@ -293,7 +315,6 @@
                 });
 
                 totThumbnails += numGoodResults;
-                //console.log("Added " + String(numGoodResults) + " " + orgAlias + " maps to MyMaps Gallery");
 
                 $('.thumb').randomize('li');
                 console.log("reload" + mapset.id)
@@ -305,11 +326,14 @@
                 });
                 $(".ellipsis").trigger("update.dot");
 
-                updateTotalNumberOfMapsShowing();
+								$('.jcarousel').find('li').addClass('show-thumbnail');
+								var countThese = 'all';
+                updateTotalNumberOfMapsShowing(countThese);
             }
 
-            function updateTotalNumberOfMapsShowing() {
-                var numItemsVisible = $('.thumb > li:visible').length;
+            function updateTotalNumberOfMapsShowing(countThese) {
+            		var carouselToCount = '#' + countThese + '-maps-carousel .thumb > li:visible';
+                numItemsVisible = $(carouselToCount).length;
                 $("#numThumbnails").html(numItemsVisible.toString() + ' Maps  - ' + galleryLink);
             }
 
@@ -336,18 +360,63 @@
             }
 
             //better beyboard accessibility, allow keyboard left and right arrows to navigate gallery
-            $(document).on('keyup', function (e) {
-                var key = e.which || e.keyChar || e.keyCode;
-                if (key == 37) {
-                    $('.jcarousel').jcarousel('scroll', '-=1');
-                } else if (key == 39) {
-                    $('.jcarousel').jcarousel('scroll', '+=1');
-                }
+           	 $(".jcarousel").focus(function() {
+                $( ".jcarousel" ).keyup(function(e) {
+                		var key = e.which || e.keyChar || e.keyCode;
+                		stopAtScrolls = numItemsVisible - 1;
+										if (key == 37) {
+												if (countScrolls => 0) {
+	                        $('.jcarousel').jcarousel('scroll', '-=1');
+	                        if (countScrolls == 0) {
+													 	focusThumb = 0;
+												 	}
+	                        else if (countScrolls => 1 && (countScrolls < stopAtScrolls)) {
+	                        	countScrolls = countScrolls - 1;
+	                        	focusThumb = countScrolls;
+												 	}
+												 	else {
+												 		countScrolls = stopAtScrolls;
+													 	focusThumb = countScrolls;
+												 	}
+													var thumbToShow = 'li.show-thumbnail:eq(' + focusThumb + ')';
+													var thumbToShowA = $(thumbToShow).find('.thumbhyperlink')[0];
+													$(thumbToShowA).focus();
+                        }
+                    } else if (key == 39){
+                    		if (countScrolls <= stopAtScrolls) {
+	                        $('.jcarousel').jcarousel('scroll', '+=1');
+													if (countScrolls == 0) {
+													 	focusThumb = 0;
+													 	countScrolls = countScrolls + 1;
+												 	}
+	                        if (countScrolls => 1 && (countScrolls < stopAtScrolls)) {
+														focusThumb = countScrolls;
+														countScrolls = countScrolls + 1;
+												 	}
+												 	else {
+												 		focusThumb = countScrolls;
+												 	}
+													var thumbToShow = 'li.show-thumbnail:eq(' + focusThumb + ')';
+													var thumbToShowA = $(thumbToShow).find('.thumbhyperlink')[0];
+													$(thumbToShowA).focus();
+												}
+                    } else if (key == 27) {
+	                   		var focusTab = '#' + activeTab;
+                    		countScrolls = 0;
+	                   		$(focusTab).focus();
+                    }
+                });
+            });
+            $(".jcarousel .thumb li a").focus(function() {
+                $( ".jcarousel" ).keyup(function(e) {
+                		var key = e.which || e.keyChar || e.keyCode;
+										if (key == 27) {
+                    		countScrolls = 0;
+	                   		$('.jcarousel').focus();
+                    }
+                });
             });
 
-
-        });
-
-
+			});
     });
 })(jQuery);
