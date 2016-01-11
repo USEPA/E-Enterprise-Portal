@@ -131,7 +131,7 @@
                     // If the img source is not already turned on
                     if (!$(this).find(".thumbnailImg").attr("src")) {
                         // Set image source from temporary source.
-                        $(this).find(".thumbnailImg").attr("src", $(this).find(".thumbnailImg").attr("src"));
+                        $(this).find(".thumbnailImg").attr("src", $(this).find(".thumbnailImg").attr("tsrc"));
                     }
                 });
             }
@@ -271,7 +271,7 @@
                                 }).append(
                                     $('<img>', {
                                         'class': 'thumbnailImg',
-                                        'src': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
+                                        'tsrc': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
                                         'alt': this.title,
                                         'title': this.title,
                                         'aria-describedby': 'thumbnail-desc-' + mapset.id + '-' + thumbnailNum + ' ' + 'thumbnail-source-' + mapset.id + '-' + thumbnailNum + ' ' + 'thumbnail-contact-' + thumbnailNum
