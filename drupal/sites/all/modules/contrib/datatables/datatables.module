@@ -1,0 +1,391 @@
+<?php
+
+/**
+ * @file
+ * Provides integration of the jQuery DataTables plugin
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function datatables_theme() {
+  return array(
+    'datatable' => array(
+      'variables' => array(
+        'header' => NULL,
+        'rows' => NULL,
+        'attributes' => NULL,
+        'caption' => NULL,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_library().
+ */
+function datatables_library() {
+  $libraries = array();
+
+  $lib_path = _datatables_get_path();
+
+  // Make sure we have a valid library path before returning library load info.
+  if (!empty($lib_path)) {
+    $libraries['datatables'] = array(
+      'title' => 'DataTables',
+      'website' => 'http://http://datatables.net/',
+      'version' => '1.9',
+      'js' => array(
+        $lib_path . '/media/js/jquery.dataTables.js' => array(),
+        drupal_get_path('module', 'datatables') . '/js/datatables.js' => array(),
+      ),
+      'css' => array(
+        $lib_path . '/media/css/demo_table.css' => array(),
+      ),
+    );
+
+    $libraries['datatables-tabletools'] = array(
+      'title' => 'Tabletools plugin for DataTables',
+      'website' => 'http://www.datatables.net/extras/tabletools/',
+      'version' => '1.1.4',
+      'js' => array(
+        $lib_path . '/extras/TableTools/media/js/ZeroClipboard.js' => array(),
+        $lib_path . '/extras/TableTools/media/js/TableTools.js' => array(),
+      ),
+      'css' => array(
+        $lib_path . '/extras/TableTools/media/css/TableTools.css' => array(),
+      ),
+      'dependencies' => array(
+        array('datatables', 'datatables'),
+      ),
+    );
+  }
+
+  return $libraries;
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function datatables_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module', 'datatables') . '/views',
+  );
+}
+
+/**
+ * Return a themed DataTable.
+ *
+ * This function takes the same parameters as theme_table, but also allows the
+ * inclusion of DataTable specific information in the $header and $attributes
+ * parameters in order to configure a DataTable.  If an id is not set in the
+ * $attributes paramater, a unique one is generated.
+ *
+ * To set features and options for the DataTable, add
+ * $parameters['datatable_options'] as an associative array.
+ * For example:
+ * @code
+ *   $parameters['datatables_options'] = array(
+ *     'bFilter'   => FALSE,  // Disable filtering of data.
+ *     'bInfo'     => TRUE,   // Show the table information display.
+ *     'aaSorting' => array(  // Sort by 3rd column first, and then 4th column.
+ *        array(2, 'asc'),
+ *        array(3, 'desc'),
+ *      ),
+ *   );
+ * @endcode
+ * See http://datatables.net/usage/features and
+ * http://datatables.net/usage/options for a full list of features and options.
+ *
+ * To enable column specific options, set the datatable_options for each of the
+ * columns in the $header parameter.
+ * For example:
+ * @code
+ *   $header = array(
+ *     array(
+ *       'data' => t('Column 1'),
+ *       'datatable_options' => array(
+ *        'bSortable' => TRUE,  // Enable sorting on this column.
+ *       ),
+ *     ),
+ *     array(
+ *       'data' => t('Column 2'),
+ *       'datatable_options' => array(
+ *         'bSearchable' => FALSE, // Disable filtering on this column.
+ *       ),
+ *     ),
+ *   );
+ * @endcode
+ * Note: if the aaColumns option is enabled in $parameters['datatable_options'],
+ * then all datatable_options in the $header parameter will be ignored, since
+ * the parameters will override column options.  See
+ * http://datatables.net/usage/columns for a full list of column options.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - header: An array containing the table headers. Each element of the array
+ *     can be either a localized string or an associative array with the
+ *     following keys:
+ *     - "data": The localized title of the table column.
+ *     - "field": The database field represented in the table column (required
+ *       if user is to be able to sort on this column).
+ *     - "sort": A default sort order for this column ("asc" or "desc").
+ *     - Any HTML attributes, such as "colspan", to apply to the column header
+ *       cell.
+ *     - "datatable_options": An associative array containing DataTable column
+ *       specific features/options.
+ *   - rows: An array of table rows. Every row is an array of cells, or an
+ *     associative array with the following keys:
+ *     - "data": an array of cells
+ *     - Any HTML attributes, such as "class", to apply to the table row.
+ *     - "no_striping": a boolean indicating that the row should receive no
+ *       'even / odd' styling. Defaults to FALSE.
+ *     Each cell can be either a string or an associative array with the
+ *     following keys:
+ *     - "data": The string to display in the table cell.
+ *     - "header": Indicates this cell is a header.
+ *     - Any HTML attributes, such as "colspan", to apply to the table cell.
+ *     Here's an example for $rows:
+ *     @code
+ *     $rows = array(
+ *       // Simple row
+ *       array(
+ *         'Cell 1', 'Cell 2', 'Cell 3'
+ *       ),
+ *       // Row with attributes on the row and some of its cells.
+ *       array(
+ *         'data' => array('Cell 1', array('data' => 'Cell 2', 'colspan' => 2)),
+ *         'class' => array('funky')
+ *       )
+ *     );
+ *     @endcode
+ *   - attributes: An array of HTML attributes to apply to the table tag.
+ *   - caption: A localized string to use for the <caption> tag.
+ *   - colgroups: An array of column groups. Each element of the array can be
+ *     either:
+ *     - An array of columns, each of which is an associative array of HTML
+ *       attributes applied to the COL element.
+ *     - An array of attributes applied to the COLGROUP element, which must
+ *       include a "data" attribute. To add attributes to COL elements, set the
+ *       "data" attribute with an array of columns, each of which is an
+ *       associative array of HTML attributes.
+ *     Here's an example for $colgroup:
+ *     @code
+ *     $colgroup = array(
+ *       // COLGROUP with one COL element.
+ *       array(
+ *         array(
+ *           'class' => array('funky'), // Attribute for the COL element.
+ *         ),
+ *       ),
+ *       // Colgroup with attributes and inner COL elements.
+ *       array(
+ *         'data' => array(
+ *           array(
+ *             'class' => array('funky'), // Attribute for the COL element.
+ *           ),
+ *         ),
+ *         'class' => array('jazzy'), // Attribute for the COLGROUP element.
+ *       ),
+ *     );
+ *     @endcode
+ *     These optional tags are used to group and set properties on columns
+ *     within a table. For example, one may easily group three columns and
+ *     apply same background style to all.
+ *   - sticky: Use a "sticky" table header.
+ *   - empty: The message to display in an extra row if table does not have any
+ *     rows.
+ *  - attributes: An array of HTML attributes to apply to the table tag.  If the
+ *   datatable_options is set, then those options are passed to the dataTable
+ *   constructor.
+ *  - caption: A localized string to use for the <caption> tag.
+ *
+ * @return string
+ *   An HTML string representing the table.
+ * @see theme_table()
+ */
+function theme_datatable($variables) {
+  $header =& $variables['header'];
+  $attributes =& $variables['attributes'];
+
+  if (isset($variables['rows'])) {
+    $datatable_options = !empty($attributes['datatable_options']) ? $attributes['datatable_options'] : array();
+
+    // Column settings can either be set with the global options
+    // or in each header definition.
+    if (!isset($datatable_options['aoColumns'])) {
+      foreach ($header as $key => $cell) {
+        if (isset($cell['datatable_options'])) {
+          $datatable_options['aoColumns'][] = $cell['datatable_options'];
+          unset($header[$key]['datatable_options']);
+        }
+      }
+    }
+
+    // Set unique id.
+    if (!isset($attributes['id'])) {
+      $attributes['id'] = _datatables_get_id();
+    }
+
+    drupal_add_library('datatables', 'datatables');
+    drupal_add_js(array('datatables' => array('#' . $attributes['id'] => $datatable_options)), 'setting');
+    unset($attributes['datatable_options']);
+  }
+
+  return theme('table', $variables);
+}
+
+/**
+ * Display a view as a DataTable style.
+ */
+function template_preprocess_datatables_view(&$vars) {
+  // Run views table preprocess function to handle putting rows in columns,
+  // classes, etc.
+  template_preprocess_views_view_table($vars);
+
+  // No need to add anything if there are no rows.
+  if (!$vars['rows']) {
+    return;
+  }
+
+  $view     = $vars['view'];
+
+  $options  = $view->style_plugin->options;
+  $handler  = $view->style_plugin;
+
+  $fields   = &$view->field;
+  $columns  = $handler->sanitize_columns($options['columns'], $fields);
+
+  $position = 0;
+  foreach ($columns as $field => $column) {
+    $column_options = NULL;
+
+    if (isset($options['hidden_columns'][$field])) {
+      switch ($options['hidden_columns'][$field]) {
+        case 'expandable':
+          $datatable_options['bExpandable'] = TRUE;
+          // ... and fall through, since expandable columns are also hidden.
+        case 'hidden':
+          // Hidden or expandable columns get the bVisible init option set to
+          // false.
+          $column_options['bVisible'] = FALSE;
+      }
+    }
+
+    // Render the header labels.
+    if ($field == $column && empty($fields[$field]->options['exclude'])) {
+      // Overrides clicksort head defined in
+      // template_preprocess_views_view_table().
+      $vars['header'][$field] = check_plain(!empty($fields[$field]) ? $fields[$field]->label() : '');
+
+      if (empty($options['info'][$field]['sortable']) || !$fields[$field]->click_sortable()) {
+        $column_options['bSortable'] = FALSE;
+      }
+      else {
+        // Attempt to autodetect the type of field in order to handle sorting
+        // correctly.
+        if (drupal_strlen($fields[$field]->last_render) != drupal_strlen(strip_tags($fields[$field]->last_render))) {
+          $column_options['sType'] = 'html';
+        }
+        elseif (is_numeric($fields[$field]->last_render)) {
+          $column_options['sType'] = 'numeric';
+        }
+        elseif ($fields[$field] instanceof views_handler_field_date) {
+          $column_options['sType'] = 'date';
+        }
+        $column_options['bSortable'] = TRUE;
+      }
+      $datatable_options['aoColumns'][] = $column_options;
+      $datatable_options['aoColumnHeaders'][] = $vars['header'][$field];
+    }
+
+    // Set default sort order.
+    if ($options['default'] == $field) {
+      $datatable_options['aaSorting'] = array(array($position, $options['order']));
+    }
+
+    $position++;
+  }
+
+  // Enable table info display, if necessary.
+  $datatable_options['bInfo'] = $options['elements']['table_info'];
+  $datatable_options['bFilter'] = $options['elements']['search_box'];
+  $datatable_options['bStateSave'] = $options['elements']['save_state'];
+
+  $datatable_options['bLengthChange'] = $options['pages']['length_change'];
+  $datatable_options['iDisplayLength'] = (int) $options['pages']['display_length'];
+
+  // Enable ThemeRoller support, if necessary.
+  if ($options['layout']['themeroller']) {
+    $datatable_options['bJQueryUI'] = TRUE;
+  }
+
+  // Pass the sDOM parameter, if one is specified.
+  if ($options['layout']['sdom']) {
+    $datatable_options['sDom'] = $options['layout']['sdom'];
+  }
+
+  $datatable_options['bAutoWidth'] = $options['layout']['autowidth'];
+
+  // Enable full_numbers pagination if selected.
+  switch ($options['pages']['pagination_style']) {
+    case 'full_numbers':
+      $datatable_options['sPaginationType'] = 'full_numbers';
+      break;
+
+    case 'no_pagination':
+      $datatable_options['bPaginate'] = FALSE;
+      break;
+
+    default:
+      // Do nothing. No parameters need to be sent for the default (two-button)
+      // style.
+      break;
+  }
+
+  // Enable TableTools plugin support, if necessary.
+  if ($options['elements']['table_tools']) {
+    $datatable_options['oTableTools'] = array(
+      'sSwfPath' => base_path() . _datatables_get_path() . '/extras/TableTools/media/swf/copy_csv_xls_pdf.swf',
+    );
+
+    // If a custom sDom is passed, assume that "T" is added, otherwise add it
+    // manually.
+    if (!$options['layout']['sdom']) {
+      $datatable_options['sDom'] = 'T<"clear">lfrtip';
+    }
+
+    drupal_add_library('datatables', 'datatables-tabletools');
+  }
+
+  $vars['id'] = _datatables_get_id();
+  $vars['classes_array'][] = 'display';
+
+  drupal_add_library('datatables', 'datatables');
+  drupal_add_js(array('datatables' => array('#' . $vars['id'] => $datatable_options)), array('type' => 'setting', 'scope' => JS_DEFAULT));
+}
+
+/**
+ * Returns an unique DataTable id
+ */
+function _datatables_get_id() {
+  static $datatable_id;
+  return 'datatable-' . ++$datatable_id;
+}
+
+/**
+ * Returns path to datatables library.
+ */
+function _datatables_get_path() {
+  $lib_path = NULL;
+
+  if (module_exists('libraries') && file_exists(libraries_get_path('datatables') . '/media/js/jquery.dataTables.js')) {
+    $lib_path = libraries_get_path('datatables');
+  }
+  elseif (file_exists(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js')) {
+    $lib_path = drupal_get_path('module', 'datatables') . '/dataTables';
+  }
+
+  return $lib_path;
+}
