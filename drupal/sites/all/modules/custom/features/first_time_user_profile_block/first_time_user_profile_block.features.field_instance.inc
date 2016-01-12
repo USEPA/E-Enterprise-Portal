@@ -10,76 +10,6 @@
 function first_time_user_profile_block_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'user-user-field_community_size'
-  $field_instances['user-user-field_community_size'] = array(
-    'bundle' => 'user',
-    'custom_add_another' => '',
-    'custom_remove' => '',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 17,
-      ),
-    ),
-    'entity_type' => 'user',
-    'field_name' => 'field_community_size',
-    'label' => 'Community Size',
-    'required' => 0,
-    'settings' => array(
-      'custom_add_another' => '',
-      'custom_remove' => '',
-      'user_register_form' => 0,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 20,
-    ),
-  );
-
-  // Exported field_instance: 'user-user-field_community_type'
-  $field_instances['user-user-field_community_type'] = array(
-    'bundle' => 'user',
-    'custom_add_another' => '',
-    'custom_remove' => '',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 18,
-      ),
-    ),
-    'entity_type' => 'user',
-    'field_name' => 'field_community_type',
-    'label' => 'Community Type',
-    'required' => 0,
-    'settings' => array(
-      'custom_add_another' => '',
-      'custom_remove' => '',
-      'user_register_form' => 0,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 21,
-    ),
-  );
-
   // Exported field_instance: 'user-user-field_organization'
   $field_instances['user-user-field_organization'] = array(
     'bundle' => 'user',
@@ -155,8 +85,6 @@ function first_time_user_profile_block_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Community Size');
-  t('Community Type');
   t('Organization');
   t('Role');
 
