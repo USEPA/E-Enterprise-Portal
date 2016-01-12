@@ -31,7 +31,7 @@
         var mouse_click;
         var are_there_errors;
 
-        $(document).mousedown(function (e) {
+        $(document).click(function (e) {
             // The latest element clicked
             mouse_click = $(e.target);
         });
@@ -248,7 +248,10 @@
                     if (table_id != '') {
                         placeAddAnotherButton(false, '#' + table_id, parent_id);
                     }
-
+										processPrimaryFields();
+                }
+                else {
+	                processPrimaryFields();
                 }
             });
 
