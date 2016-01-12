@@ -189,7 +189,7 @@ function save_first_time_user_preferences()
     }
 
 // Set first_time_user boolean to false
-  //  $first_time_user[LANGUAGE_NONE][0] = array('value' => '0');
+    $first_time_user[LANGUAGE_NONE][0] = array('value' => '0');
 
         $edit = array(
             'field_zip_code' => $user_zip_codes,
