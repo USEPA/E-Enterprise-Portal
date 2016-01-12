@@ -1,0 +1,17 @@
+name = EE Link Checker
+description = E-Enterprise link checker configuration settings
+core = 7.x
+package = CGI
+version = 7.x-1.0
+project = ee_link_checker
+dependencies[] = features
+dependencies[] = linkchecker
+dependencies[] = menu
+features[features_api][] = api:2
+features[menu_custom][] = management
+features[menu_links][] = management_broken-links:admin/reports/linkchecker
+features[menu_links][] = management_link-checker:admin/config/content/linkchecker
+features[user_permission][] = access broken links report
+features[user_permission][] = access own broken links report
+features[user_permission][] = administer linkchecker
+features[user_permission][] = edit link settings

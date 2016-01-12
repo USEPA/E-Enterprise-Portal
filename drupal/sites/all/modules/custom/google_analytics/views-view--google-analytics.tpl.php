@@ -7,24 +7,24 @@
     })(window,document,"script","dataLayer","GTM-L8ZB");
 
 
-
-    //// Add custom event listeners
-
-    (function($) {
-
-        $(document).ready(function() {
-            var page_name = window.location.pathname.split('/')[1];
-            if (page_name == "workbench") {
-                // Not pager link
-                $('.view-progress-tracker .views-field a:not(.pager__link), .view-to-do .views-field a:not(.pager__link)').click(function() {
-                    var label = $(this).text();
-                    var href = $(this).attr('href');
-                    ga("EPA.send", "event", "Eportal -" + label, "Click", href);
-                    ga("GSA.send", "event", "Eportal -" + label, "Click", href);
-                });
-            }
-        });
-
-    }(jQuery));
+//
+//    //// Add custom event listeners
+//
+//    (function($) {
+//
+//        $(document).ready(function() {
+//            var page_name = window.location.pathname.split('/')[1];
+//            if (page_name == "workbench") {
+//                // Not pager link
+//                $('.view-progress-tracker .views-field a:not(.pager__link), .view-to-do .views-field a:not(.pager__link)').click(function() {
+//                    var label = $(this).text();
+//                    var href = $(this).attr('href');
+//                    ga("EPA.send", "event", "Eportal -" + label, "Click", href);
+//                    ga("GSA.send", "event", "Eportal -" + label, "Click", href);
+//                });
+//            }
+//        });
+//
+//    }(jQuery));
 
 </script>

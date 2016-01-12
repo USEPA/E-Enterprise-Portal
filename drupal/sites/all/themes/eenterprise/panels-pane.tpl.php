@@ -25,7 +25,7 @@ if ($user->name == 'guest-user') {
     drupal_add_js(array('is_guest' => true), 'setting'); // Adding check for guest
 }
 else {
-    drupal_add_js(array('is_guest' => true), 'setting');
+    drupal_add_js(array('is_guest' => false), 'setting');
 
 }
 ?>
@@ -34,8 +34,18 @@ else {
 <?php if ($pane_prefix): ?>
   <?php print $pane_prefix; ?>
 <?php endif; ?>
-<div class="grid-stack-item"  data-gs-height="30" style="opacity:1.0">
-    <div class="<?php print $classes;?>" id="<?php echo "gridstack-pane-" . $pane->subtype; ?>" <?php print $attributes; ?>>
+<?php if ($pane->css['css_id'] != 'first-time-user-block'):?>
+    <div class="grid-stack-item"  data-gs-height="30" style="opacity:1.0">
+<?php endif; ?>
+
+<div class="<?php print $classes;?>"
+     <?php if ($pane->css['css_id'] != 'first-time-user-block'):?>
+     id="<?php echo "gridstack-pane-" . $pane->subtype; ?>"
+    <?php else:?>
+     id="<?php echo $pane->css['css_id']; ?>"
+    <?php endif; ?>
+    <?php print $attributes; ?>>
+
       <?php if ($admin_links): ?>
         <?php print $admin_links; ?>
       <?php endif; ?>
@@ -72,7 +82,9 @@ else {
           <?php print $more; ?>
         </div>
       <?php endif; ?>
+<?php if ($pane->css['css_id'] != 'first-time-user-block'): ?>
     </div>
+<?php endif;   ?>
 </div>
 <?php if ($pane_suffix): ?>
   <?php print $pane_suffix; ?>

@@ -103,13 +103,13 @@ function agency_map_collections_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_id'
-  $field_bases['field_id'] = array(
+  // Exported field_base: 'field_orgid'
+  $field_bases['field_orgid'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_id',
+    'field_name' => 'field_orgid',
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -125,13 +125,35 @@ function agency_map_collections_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_orgid'
-  $field_bases['field_orgid'] = array(
+  // Exported field_base: 'field_owner'
+  $field_bases['field_owner'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_orgid',
+    'field_name' => 'field_owner',
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 255,
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'text',
+  );
+
+  // Exported field_base: 'field_state'
+  $field_bases['field_state'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_state',
     'indexes' => array(
       'format' => array(
         0 => 'format',

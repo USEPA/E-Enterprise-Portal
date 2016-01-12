@@ -5,6 +5,15 @@
  */
 
 /**
+ * Implements hook_ctools_plugin_api().
+ */
+function other_items_of_interest_feature_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "page_manager" && $api == "pages_default") {
+    return array("version" => "1");
+  }
+}
+
+/**
  * Implements hook_views_api().
  */
 function other_items_of_interest_feature_views_api($module = NULL, $api = NULL) {
@@ -17,12 +26,12 @@ function other_items_of_interest_feature_views_api($module = NULL, $api = NULL) 
 function other_items_of_interest_feature_node_info() {
   $items = array(
     'state_resource' => array(
-      'name' => t('State Resource'),
+      'name' => t('Resource'),
       'base' => 'node_content',
       'description' => '',
       'has_title' => '1',
-      'title_label' => t('Resource'),
-      'help' => '',
+      'title_label' => t('Source'),
+      'help' => t('Help instructions.'),
     ),
   );
   drupal_alter('node_info', $items);

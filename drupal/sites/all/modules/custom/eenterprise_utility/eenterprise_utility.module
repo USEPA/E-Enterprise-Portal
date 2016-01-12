@@ -86,11 +86,106 @@ function eenterprise_utility_menu()
         'access callback' => 'user_is_logged_in',
         '#type' => MENU_CALLBACK,
     );
-
+    $items['sso-cdx-portal'] = array(
+        'title' => 'Single Sign on From CDX to Portal',
+        'page callback' => 'sso_cdx_portal',
+        'access callback' => TRUE,
+        '#type' => MENU_CALLBACK,
+    );
 
     return $items;
 }
 
+
+function sso_cdx_portal(){
+    if(!isset($_POST['securitytoken']) || !isset($_POST['clientip'])){
+        drupal_goto('/');
+    }
+    $frs_password = variable_get('cdx_facility_password');
+    $email = variable_get('cdx_node_token_email');
+    $domain = variable_get('cdx_node_token_domain');
+    $server_ip = $_POST['clientip'];  //$_SERVER['SERVER_ADDR'];
+    $wsdl = variable_get('cdx_facility_naas_wsdl');
+    $cdx_resource_url = variable_get('cdx_facility_resource_url');
+    $validate_client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
+
+    $validate_parameters = array(
+        "userId" => $email,
+        "credential" => $frs_password,
+        "domain" => $domain,
+        "securityToken" => $_POST['securitytoken'],
+        "clientIp" => $server_ip,
+        "resourceURI" => $cdx_resource_url,
+        "applicationId" => "",
+        "userProperties" => "",
+    );
+    try{
+        $validate_response = $validate_client->__soapCall("Validate", array($validate_parameters));
+        if(isset($validate_response->return)){
+            parse_str($validate_response->return, $return_output);
+            perform_user_login($return_output);//authenticate user and login to drupal
+            if(isset($_GET['destination']))
+                drupal_goto("/".$_GET['destination']);
+            else
+                drupal_goto("/");
+        }
+    }
+    catch(SoapFault $f){
+        $message = "Error: ".$f->faultstring.' Error Message: '.$f->detail->faultdetails->message;
+        watchdog('eenterprise_utility', $message, array(), WATCHDOG_ERROR);
+        drupal_goto("/");
+    }
+}
+
+function perform_user_login($response_output){
+    global $user;
+    $username = $response_output['userId'];
+    $ext_user = user_external_load($username);
+    if (!$ext_user) {
+        user_external_login_register($username, 'eenterprise_utility');
+        if ($user) {
+            user_save($user, array('mail' => trim($response_output['email'], '"')));
+            //if user is public user
+            if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS') {
+                //assign_roles_to_user($username);
+                $_SESSION['cdx_fmw_security_token'] = $_POST['securitytoken'];
+                $_SESSION['userId'] = $username;
+                $_SESSION['login_timestamp'] = time();
+                $public_or_cdx = 'cdx';
+            } else {
+                $user_role = user_role_load_by_name('Public User');
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                $public_or_cdx = 'public';
+            }
+            $_SESSION['cdx_user_type'] = $public_or_cdx;
+        }
+    } else {
+        //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
+        $user = $ext_user;
+        $form_state['uid'] = $user->uid;
+
+        user_login_submit(array(), $form_state);
+        //To fix a bug where email address is not updated after users update their email address in CDX and login.
+        user_save($user, array('mail' => trim($response_output['email'], '"')));
+        try {
+            if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS') {
+                $_SESSION['cdx_fmw_security_token'] = $_POST['securitytoken'];
+                $_SESSION['userId'] = $username;
+                $_SESSION['login_timestamp'] = time();
+                $public_or_cdx = 'cdx';
+            }
+            else {
+                $user_role = user_role_load_by_name('Public User');
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                $public_or_cdx = 'public';
+            }
+            $_SESSION['cdx_user_type'] = $public_or_cdx;
+
+        } catch (Exception $e) {
+            watchdog('eenterprise_utility', "Error 0014: General Exception", array(), WATCHDOG_ERROR);
+        }
+    }
+}
 
 /**
  * returns a map Dataset, formated as JSON.
@@ -329,18 +424,19 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_profile_last_name']);
         hide($form['field_initial_log_in']);
         hide($form['field_interests2']);
+        hide($form['field_gridstack_settings']);
+//        if ($form['field_organization'][LANGUAGE_NONE]['#default_value'][0] != '172730') {
+//            hide($form['field_community_size']);
+//            hide($form['field_community_type']);
+//        }
+//        if ($form['field_organization'][LANGUAGE_NONE][0]['value'] == 'Loca')
 
-       if ($user->uid > 1) {
-           hide($form['field_gridstack_settings']);
-       }
-
-        // If user is admin allow to edit state admin STATE.
+        // If user is admin allow to edit state admin STATE and toggle user's first time status
         if ($user->uid > 1) {
             hide($form['field_admin_state']);
+            hide($form['field_first_time_user']);
         }
 
-//        dpm($form);
-        hide($form['field_first_time_user']);
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
         $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
         $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter ZIP Code or City, State";
@@ -401,7 +497,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         for ($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
             $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
             $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
-            $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#title'] = 'Remove';
+            $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['title'] = 'Remove favorite';
             $date_value = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_date_updated'][LANGUAGE_NONE][0]['#default_value']['value'];
             $date_updated = date_create($date_value);
             $date_updated = date_format($date_updated, 'm/d/Y');
@@ -432,10 +528,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['placeholder'] = 'Enter ZIP code or city, state';
             // Remove button
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['title'] = 'Remove ' . $zip . ' ' . $field_suffix . ' from locations';
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_prefix'] = '<label class="element-invisible">' . $zip  . '</label>';
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['remove_button']['#attributes']['title'] = 'Remove';
-
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['class'][] =
                 'field_zip_code';
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_suffix'] =
@@ -454,6 +550,11 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 
         $form['#submit'][] = 'eenterprise_utility_profile_form_submit';
     } // end user form
+    global $user;
+    if($form['#form_id'] == 'user_profile_form' && (in_array('Public User',$user->roles) && count($user->roles) == 2)){
+        hide($form['account']['mail']);
+        $form['account']['mail']['#access'] = FALSE;
+    }
 }
 
 function eenterprise_utility_profile_form_submit($form, &$form_state) {
@@ -692,7 +793,6 @@ function user_profile_url_custom_validate(&$form, &$form_state)
         foreach ($form_state['values']['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
             if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
                 unset($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]);
-
             }
             // if title is empty, set it to given url
             if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']) == '') {
