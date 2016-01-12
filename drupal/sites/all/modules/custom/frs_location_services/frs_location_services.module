@@ -91,9 +91,13 @@ function save_first_time_user_preferences()
     }
 
     $user_zip_codes = $user_data->field_zip_code;
-    unset($user_zip_codes);
     $user_initial_login = $user_data->field_initial_log_in;
     $first_time_user = $user_data->field_first_time_user;
+    $user_role = $user_data->field_role;
+    $user_org = $user_data->field_organization;
+    $user_comm_type = $user_data->field_community_type;
+    $user_comm_size = $user_data->field_community_size;
+
 
 
 // Store users geolocation
@@ -157,34 +161,35 @@ function save_first_time_user_preferences()
 //                $user_interests[LANGUAGE_NONE][] = $interest_obj;
 //            }
 
+
         // add role data
             $role = xssafe($_POST['role']);
-            if ($role == 'Select role') {
-                $role = '';
-            }
-            else if (!is_numeric($role)) {
+            // Check if role is a new input from user and add to vocabulary
+            if (!is_numeric($role)) {
                 $role = custom_create_taxonomy_term($role,taxonomy_vocabulary_machine_name_load('roles')->vid );
             }
             $org = xssafe($_POST['org']);
             $comm_type = xssafe($_POST['comm_type']);
             $comm_size = xssafe($_POST['comm_size']);
 
-            $user_role = $user_data->field_role;
-            $user_org = $user_data->field_organization;
-            $user_comm_type = $user_data->field_community_type;
-            $user_comm_size = $user_data->field_community_size;
-
-            if ($role != '') {
+            if ($role != '' && is_numeric($role)) {
                 $user_role[LANGUAGE_NONE][0]['tid'] = $role;
             }
-            $user_org[LANGUAGE_NONE][0]['tid'] = $org;
-            $user_comm_type[LANGUAGE_NONE][0] = array('value' => $comm_type);
-            $user_comm_size[LANGUAGE_NONE][0]['tid'] = $comm_size;
+            if (is_numeric($org)) {
+                $user_org[LANGUAGE_NONE][0]['tid'] = $org;
+            }
+            if ($comm_type) {
+                $user_comm_type[LANGUAGE_NONE][0] = array('value' => $comm_type);
+            }
+            if ($comm_size && is_numeric($comm_size)) {
+                $user_comm_size[LANGUAGE_NONE][0]['tid'] = $comm_size;
+                $edit['field_community_size'] = $user_comm_size;
+            }
 
     }
 
 // Set first_time_user boolean to false
-    $first_time_user[LANGUAGE_NONE][0] = array('value' => '0');
+  //  $first_time_user[LANGUAGE_NONE][0] = array('value' => '0');
 
         $edit = array(
             'field_zip_code' => $user_zip_codes,
@@ -229,7 +234,12 @@ function return_location_data_lat_long()
 //xss mitigation functions
 function xssafe($data, $encoding = 'UTF-8')
 {
-    return htmlspecialchars($data, ENT_QUOTES | ENT_HTML401, $encoding);
+    if (isset($data)) {
+        return htmlspecialchars($data, ENT_QUOTES | ENT_HTML401, $encoding);
+    }
+    else {
+        return false;
+    }
 }
 
 
