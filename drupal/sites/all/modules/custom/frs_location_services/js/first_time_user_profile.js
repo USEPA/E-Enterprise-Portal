@@ -233,11 +233,11 @@
             $('#skip-preferences').click(function () {
                 $.ajax({
                     url: '/save_first_time_user_preferences',
-                    type: 'GET',
+                    type: 'POST',
                     data: {skip: 1, zip: '', geolocation_used: geolocation_used, geolocation_zip: nearest_zip},
                     success: function () {
                         $('#location-select').html('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + '</option>').trigger('change');
-                        $('.pane-views-first-time-user-profile-block').dialog('close');
+                       $('.pane-views-first-time-user-profile-block').dialog('close');
                     }
                 });
                 return false;
@@ -248,13 +248,20 @@
                 var org_text = $org_select.find('option:selected').text();
                 var role_val = $('#select-role').val();
                 var typed_role_val = $('.combo-input').val();
-                if (role_val == '' || typed_role_val != role_val) {
-                    role_val = typed_role_val;}
-                var comm_size_val = false;
-                var comm_type_val = false;
+                if ((role_val == '' || typed_role_val != role_val) && typed_role_val != 'Select role') {
+                    role_val = typed_role_val;
+                }
+                var comm_size_val = 0;
+                var comm_type_val = 0;
                 if (org_text == 'Local government') {
-                    comm_size_val = $('#community-size').val();
-                    comm_type_val = $('input[name=community-type]:checked').val();
+                    var selected_size = $('#community-size').val();
+                    var type_checkboxes = $('input[name=community-type]:checked');
+                    if  (selected_size != '') {
+                        comm_size_val = selected_size;
+                    }
+                    if (type_checkboxes.length > 0) {
+                        comm_type_val = type_checkboxes.val();
+                    }
                 }
                 $.ajax({
                     url: '/save_first_time_user_preferences',
