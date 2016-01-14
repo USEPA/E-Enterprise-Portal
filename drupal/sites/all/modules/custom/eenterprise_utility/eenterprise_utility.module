@@ -1312,3 +1312,18 @@ function load_user_gridstack_data()
     echo json_encode($return_array);
     exit();
 }
+
+/*
+ * To change user profile page title.
+ * */
+function eenterprise_menu_alter(&$items) {
+    $items['user/%user']['title callback'] = eenterprise_user_page_title;
+}
+
+/*
+ * Callback function to hook_menu_alter.
+ * */
+function eenterprise_user_page_title() {
+    $output = "Profile";
+    return $output;
+}
