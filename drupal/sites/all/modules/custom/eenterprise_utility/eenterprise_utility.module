@@ -434,7 +434,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         // If user is admin allow to edit state admin STATE and toggle user's first time status
         if ($user->uid > 1) {
             hide($form['field_admin_state']);
-         //   hide($form['field_first_time_user']);
+            hide($form['field_first_time_user']);
         }
 
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
