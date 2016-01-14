@@ -829,11 +829,6 @@
             }
             xmlhttp.open("GET", "README.txt", true);
             xmlhttp.send();
-
-            if ($('#modalContent').is(':visible')) {
-                $('#modalContent #suggestion-box-email').attr("aria-describedby","email-description");
-                $('#modalContent .description').attr("id","email-description");
-            }
         }
     };
 
