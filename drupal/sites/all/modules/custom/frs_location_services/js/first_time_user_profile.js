@@ -13,19 +13,28 @@
             var nearest_zip = '27705';
             var nearest_city = 'Durham';
             var nearest_state = 'NC';
-            var geolocation_used = false;
+            var geolocation_used = 0;
 
             var $org_select = $('#select-organization');
+            var $zip_select =  $('#zip_container');
+            var $nearest_location = $('#nearest-location');
+            var $location_desc_user = $('#location-description-user');
+            var $location_desc_na =  $('#location-description-na');
+            var $loading_user_loc = $('#loading-user-location');
+            var $new_loc_input = $('#new-location-input');
+            var $loc_add_new = $('#location-add-new');
+            var $choose_zip_holder =   $('#choose-zip-holder');
+            var $cancel_zip = $('#cancel-zip-select');
 
             // Initialize  location with default information
-            $('#nearest-location').text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
+            $zip_select.text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
 
             // Used if user did not allow geolocation
             function showDefaultData() {
                 // show default data previously set
-                $('#location-description-user').show();
-                $('#location-description-na').show();
-                $('#loading-user-location').hide();
+                $location_desc_user.show();
+                $location_desc_na.show();
+                $loading_user_loc.hide();
             }
 
 
@@ -74,59 +83,59 @@
 
             function showUserLocalData(location_data) {
                 // Reset nearest/selected to user's location data
-                $('#location-description-na').text('Until you choose a location, the default location will be the location detected by the browser.').show();
+                $location_desc_na.text('Until you choose a location, the default location will be the location detected by the browser.').show();
                 nearest_city = location_data.city;
                 nearest_state = location_data.state;
                 nearest_zip = location_data.zip;
-                $('#nearest-location').text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
-//                        $('#location-description-na').hide();
+                $nearest_location.text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
+//                        $location_desc_na.hide();
                 selected_zip_code = nearest_zip;
                 selected_state = nearest_state;
                 selected_city = nearest_city;
-                geolocation_used = true;
-                $('#location-description-user').show();
-                $('#loading-user-location').hide();
+                geolocation_used = 1;
+                $location_desc_user.show();
+                $loading_user_loc.hide();
             }
 
 
 
             // Show zip selection options
             $('#change-location').click(function () {
-                $('#zip_container').hide();
-                $('#new-location-input').val('');
-                $('#location-add-new').show();
-                $('#choose-zip-holder').hide();
-                $('#cancel-zip-select').show();
+                $zip_select.hide();
+                $new_loc_input.val('');
+                $loc_add_new.show();
+                $choose_zip_holder.hide();
+                $cancel_zip.show();
                 return false;
             });
 
             // User has found zip they want, show in selected/nearest data
             $('#confirm-zip-select').click(function () {
                 selected_zip_code = $('#city-state-lookup-zips').val();
-                var selected_location = $('#new-location-input').val();
-                $('#location-description-user').show();
-                $('#nearest-location').text(selected_location + ' (' + selected_zip_code + ')');
-                $('#zip_container').show();
-                $('#location-add-new').hide();
+                var selected_location = $new_loc_input.val();
+                $location_desc_user.show();
+                $nearest_location.text(selected_location + ' (' + selected_zip_code + ')');
+                $zip_select.show();
+                $loc_add_new.hide();
             });
 
             //$('#revert-to-geo-location').click(function () {
-            //    $('#nearest-location').text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
+            //    $nearest_location.text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
             //    selected_zip_code = nearest_zip;
             //    selected_state = nearest_state;
             //    selected_city = nearest_city;
             //});
 
             //Hide Zip selection options
-            $('#cancel-zip-select').click(function () {
-                $('#zip_container').show();
-                $('#location-add-new').hide();
-                $('#choose-zip-holder').hide();
+            $cancel_zip.click(function () {
+                $zip_select.show();
+                $loc_add_new.hide();
+                $choose_zip_holder.hide();
                 clear_city_state_error();
-                $(this).hide();
+                $cancel_zip.hide();
             });
             $('#add-location').click(function () {
-                var location_input = $('#new-location-input');
+                var location_input = $new_loc_input;
                 var location = location_input.val();
                 var is_valid_zip = /(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/.test(location);
                 // regex for city, state code
@@ -135,7 +144,7 @@
                     location_input.addClass('input-error');
                     $('#location-error-message').remove();
                     var error_message = '<span id="location-error-message">Please input a valid ZIP code or a city and state code separated by a comma (e.g., Durham, NC)</span>';
-                    $('#location-add-new').append(error_message);
+                    $loc_add_new.append(error_message);
                 }
                 //throw new Error();
                 else {
@@ -160,17 +169,17 @@
                             selected_city = parsed_data.city;
                             if (selected_city == '') { //Unable to find data for that zip
                                 error_message = '<span id="location-error-message">The ZIP code you entered could not be found.</span>';
-                                $('#location-add-new').append(error_message);
+                                $loc_add_new.append(error_message);
                                 location_input.addClass('input-error');
                             }
                             else {
                                 selected_state = parsed_data.state;
                                 var parsed_zip = parsed_data.zip;
-                                $('#nearest-location').text(parsed_data.city + ', ' + parsed_data.state + ' (' + parsed_zip + ')');
+                                $nearest_location.text(parsed_data.city + ', ' + parsed_data.state + ' (' + parsed_zip + ')');
                                 selected_zip_code = parsed_zip;
-                                $('#zip_container').show();
-                                $('#location-add-new').hide();
-                                $('#choose-zip-holder').hide();
+                                $zip_select.show();
+                                $loc_add_new.hide();
+                                $choose_zip_holder.hide();
                             }
                         }
                         else {
@@ -178,17 +187,17 @@
                             var zip_count = zip_array.length;
                             if (zip_count == 0) {
                                 error_message = '<span id="location-error-message">No ZIP codes returned. Are you sure the city and state code were entered correctly? (e.g., Durham, NC)</span>';
-                                $('#location-add-new').append(error_message);
+                                $loc_add_new.append(error_message);
                             }
                             else if (zip_count == 1) {
                                 selected_city = parsed_data.city;
                                 selected_state = parsed_data.state;
                                 selected_zip_code = zip_array[0];
-                                $('#location-description-user').show();
-                                $('#nearest-location').text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
-                                $('#zip_container').show();
-                                $('#location-add-new').hide();
-                                $('#new-location-input').val('');
+                                $location_desc_user.show();
+                                $nearest_location.text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
+                                $zip_select.show();
+                                $loc_add_new.hide();
+                                $new_loc_input.val('');
                             }
                             else {
                                 selected_city = parsed_data.city;
@@ -198,10 +207,10 @@
                                     zip_select = zip_select + '<option value="' + zip_code + '">' + zip_code + '</option>';
                                 });
                                 zip_select = zip_select + '</select>';
-                                $('#new-location-input').val(selected_city + ', ' + selected_state);
+                                $new_loc_input.val(selected_city + ', ' + selected_state);
                                 $('#choose-zip').html(zip_select);
                                 $('#typed-in-city-state').text(location);
-                                $('#choose-zip-holder').show();
+                                $choose_zip_holder.show();
                             }
                         }
                     },
@@ -212,7 +221,7 @@
             }
 
             function clear_city_state_error() {
-                $('#new-location-input').removeClass('input-error');
+                $new_loc_input.removeClass('input-error');
                 $('#location-error-message').remove();
             }
 
