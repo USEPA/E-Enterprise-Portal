@@ -15,11 +15,11 @@
            	var numThumbs = 0;
            	var stopAtScrolls = 0;
 
-						var galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>';
+						var galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse US EPA gallery...</a>';
             //Direct link to EPA maps
             //If user is a state_admin, then show the "Add agency maps" link
             if (Drupal.settings.userrole == 'state_admin') {
-                galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>		<a href="/agency-map-list" class="favorites-ignore last">Manage agency map collections</a>';
+                galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse US EPA gallery...</a>		<a href="/agency-map-list" class="favorites-ignore last">Manage agency map collections</a>';
             }
             var jcarousel = $('.jcarousel').jcarousel();
             //Opening UL only created in init of gallery    
