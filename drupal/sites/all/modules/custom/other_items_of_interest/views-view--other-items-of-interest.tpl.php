@@ -35,7 +35,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_in
         <?php
         }
         ?>
-        <li id="epa-button"><a class="favorites-ignore" href="#epa-resources">EPA</a></li>
+        <li id="epa-button"><a class="favorites-ignore" href="#epa-resources">US EPA</a></li>
         <li id="all-states-button"><a class="favorites-ignore" href="#all-state-resources">All</a></li>
 
     </ul>
