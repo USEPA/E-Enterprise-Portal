@@ -1829,31 +1829,33 @@ form[id^='user-profile-form'] {
 		.field-multiple-table {
 			width: 700px;
 		}
-		.field-name-field-field-zip-code {
+		.field-name-field-field-zip-code, .field-add-more-submit, .multiple-fields-remove-button, .form-wrapper {
+			float: left; 
 			display: inline-block;
-			float: left;
-		}
-		.field-add-more-submit {
-			float: left;
-			display: inline-block;
-		}
-		.multiple-fields-remove-button {
-			float: left; display: inline-block;
 		}
 		table tr:last td:last {
 			width:200px;
 		}
 		.form-wrapper {
-			display: inline-block;
-			float: left;
 			margin-right: 10px;
 		}
-		table tr td:first-child, .tabledrag-toggle-weight-wrapper,
-		.form-item .form-type-textfield label, .form-checkbox{
+		table tr td:first-child, .tabledrag-toggle-weight-wrapper, .form-checkbox{
 			display: none;
+		}
+		.form-item .form-type-textfield label {
+			@include element-invisible;
+		}
+		.form-item .form-type-textfield label#zip-label {
+			clip: auto;
+		  position: static;
+		  margin-right: 5px;
 		}
 		#user-profile-select-zip, #user-profile-back-zip {
 		  display: inline-block;
+		  @include button-gray;
+		  border-color: #aaa;
+		  font-weight: normal;
+		  color: #000;
 		}
 		label {
 			float: left;
@@ -1877,6 +1879,9 @@ form[id^='user-profile-form'] {
 			display:inline-block;
 			float: right;
 			width: 20px;
+		}
+		#zip-label {
+			margin-top: 10px;
 		}
 	}
 	.panel {
@@ -1911,6 +1916,9 @@ form[id^='user-profile-form'] {
 		margin: 0;
 		vertical-align: middle;
 		padding: 0.25em 0.75em;
+	}
+	.form-submit:disabled, .remove_button:disabled, .field-add-more-submit:disabled {
+		opacity: 0.5;
 	}
 	#links_description {
 		.form-actions {
