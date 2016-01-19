@@ -255,3 +255,14 @@ function _eenterprise_bridge_auth_get_authmap($identifier) {
   }
   return FALSE;
 }
+
+/*
+ * Implementation of hook_auth_views_ajax_data_alter
+ * */
+
+function eenterprise_bridge_auth_views_ajax_data_alter(&$commands, $view){
+    if ($view->name == 'to_do' || $view->name == 'progress_tracker') {
+        $val = module_load_include('inc', 'eenterprise_bridge_auth', 'eenterprise_bridge_auth.pages');
+        refresh_todo_list();
+    }
+}
