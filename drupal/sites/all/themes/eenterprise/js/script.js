@@ -829,6 +829,29 @@
             }
             xmlhttp.open("GET", "README.txt", true);
             xmlhttp.send();
+
+            $( ".view-to-do .refresh" ).click(function(e) {
+                $(Drupal.settings.views.ajaxViews).each(function(){
+                    for(var key in this){
+                        if(this[key]['view_name'] == 'to_do'){
+                            var selector = '.view-dom-id-' + this[key]['view_dom_id'];
+                            $(selector).triggerHandler('RefreshView');
+                        }
+                    }
+                });
+            });
+
+            $( ".view-progress-tracker .refresh" ).click(function(e) {
+                $(Drupal.settings.views.ajaxViews).each(function(){
+                    for(var key in this){
+                        if(this[key]['view_name'] == 'progress_tracker'){
+                            var selector = '.view-dom-id-' + this[key]['view_dom_id'];
+                            $(selector).triggerHandler('RefreshView');
+                        }
+                    }
+                });
+            });
+
         }
     };
 
