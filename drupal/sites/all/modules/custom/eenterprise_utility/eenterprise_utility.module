@@ -1327,3 +1327,13 @@ function eenterprise_user_page_title() {
     $output = "Profile";
     return $output;
 }
+
+/**
+ * Implementation of hook_form_user_profile_form_alter
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function eenterprise_utility_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+    $form['account']['submit'] = $form['actions']['submit'];
+}
