@@ -389,6 +389,8 @@
         placeAddAnotherButton(false, '#field-zip-code-values', '#zipcode_description');
         placeAddAnotherButton(false, '#field-profile-favourites-values', '#links_description');
         $('#zipcode_description').show();
+
+        $("#edit-submit").prependTo($("#user-profile-form .edit-user-profile"));
     });
 })(jQuery);
 
