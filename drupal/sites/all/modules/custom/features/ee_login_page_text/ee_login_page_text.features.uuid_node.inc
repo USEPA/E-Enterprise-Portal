@@ -12,7 +12,7 @@ function ee_login_page_text_uuid_features_default_content() {
 
   $nodes[] = array(
   'title' => 'New to E-Enterprise?',
-  'log' => 'Change \'Other providers coming soon\' to \'Other providers may be available in the future\'',
+  'log' => 'Adds Twitter button to this page',
   'status' => 1,
   'comment' => 0,
   'promote' => 0,
@@ -26,7 +26,7 @@ function ee_login_page_text_uuid_features_default_content() {
   'body' => array(
     'und' => array(
       0 => array(
-        'value' => '<p>You can use our <strong><a href="/guest_login">Browse as Guest</a></strong> option to see environmental information in your area as well as explore other tools like:</p><ul><li>My Air</li><li>My Maps</li><li>My Environment Mapper</li></ul><p>If you\'d like to save your preferences and see more, you can use an account you may have already like:</p><ul class="login-options"><li id="exchange-cdx"><a aria-describedby="exchange-subtext" class="btn btn-block btn-social btn-exchangenetwork" href="/eebridge-auth/redirect?whr=urn:ENNAAS"><i class="exchangenetwork" aria-hidden="true"></i>Exchange Network</a><span id="exchange-subtext">(Use your CDX or Exchange Network account)</span></li><li><a class="btn btn-block btn-social btn-facebook" href="/eebridge-auth/redirect?whr=urn:Facebook"><i class="fa fa-facebook" aria-hidden="true"></i>Facebook</a></li><li><span id="exchange-subtext">Other providers may be available in the future</span></li></ul><p>Or if you\'d prefer, you can <strong><a href="http://test.epacdx.net/RegistrationRequest?DataflowRole=111010">create a free CDX account</a></strong> within the Exchange Network . You only need to provide some basic information.</p>',
+        'value' => '<p>You can use our <strong><a href="/guest_login">Browse as Guest</a></strong> option to see environmental information in your area as well as explore other tools like:</p><ul><li>My Air</li><li>My Maps</li><li>My Environment Mapper</li></ul><p>If you\'d like to save your preferences and see more, you can use an account you may have already like:</p><ul class="login-options"><li id="exchange-cdx"><a aria-describedby="exchange-subtext" class="btn btn-block btn-social btn-exchangenetwork" href="/eebridge-auth/redirect?whr=urn:ENNAAS"><i class="exchangenetwork" aria-hidden="true"></i>Exchange Network</a><span id="exchange-subtext">(Use your CDX or Exchange Network account)</span></li><li><a class="btn btn-block btn-social btn-facebook" href="/eebridge-auth/redirect?whr=urn:Facebook"><i class="fa fa-facebook" aria-hidden="true"></i>Facebook</a></li><li><a class="btn btn-block btn-social btn-twitter" href="/eebridge-auth/redirect?whr=urn:Twitter"><i class="fa fa-twitter" aria-hidden="true"></i>Twitter</a></li><li><span id="exchange-subtext">Other providers may be available in the future</span></li></ul><p>Or if you\'d prefer, you can <strong><a href="http://test.epacdx.net/RegistrationRequest?DataflowRole=111010">create a free CDX account</a></strong> within the Exchange Network . You only need to provide some basic information.</p>',
         'summary' => '',
         'format' => 'full_html',
         'safe_summary' => '',
