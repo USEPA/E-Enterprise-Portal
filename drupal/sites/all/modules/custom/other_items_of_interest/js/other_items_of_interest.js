@@ -68,7 +68,7 @@
                         $table.removeClass("dataTable no-footer").addClass('views-table cols-3 responsive-table');
                     }
                     else {
-                        $wrapper.html('No resources found for ' + state_code + '.');
+               //         $wrapper.html('No resources found for ' + state_code + '.');
                     }
                     cached = true;
                 }
