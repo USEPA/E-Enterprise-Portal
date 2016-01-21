@@ -15,11 +15,11 @@
            	var numThumbs = 0;
            	var stopAtScrolls = 0;
 
-						var galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>';
+						var galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse US EPA gallery...</a>';
             //Direct link to EPA maps
             //If user is a state_admin, then show the "Add agency maps" link
             if (Drupal.settings.userrole == 'state_admin') {
-                galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse EPA gallery...</a>		<a href="/agency-map-list" class="favorites-ignore last">Manage agency map collections</a>';
+                galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse US EPA gallery...</a>		<a href="/agency-map-list" class="favorites-ignore last">Manage agency map collections</a>';
             }
             var jcarousel = $('.jcarousel').jcarousel();
             //Opening UL only created in init of gallery    
@@ -110,7 +110,7 @@
 								countScrolls = 0;
 								activeTab = tab.newTab.attr('id');
 								filterType = tab.newTab.find('a').attr('id');
-                filterMyMapsGallery(filterType);
+								filterMyMapsGallery(filterType);
 						});
 
             /*****************************functions******************************/
@@ -121,19 +121,36 @@
                 //jcarousel's "visible" list doesn't actually include the
                 //last visible item, so we need to build our own list
                 //Find start of visible list
-                start = $.inArray(jcarousel.jcarousel('visible')[0], $(".thumb").find("li").not(":hidden"));
+                try {
+                	start = $.inArray(jcarousel.jcarousel('visible')[0], $(".thumb").find("li").not(":hidden"));
+								}
+								catch(err) {
+								}
                 //Max number of visible items in our carousel is 5,
                 //so set ending point to offset 6
-                end = start + 6;
+                try {
+                	end = start + 6;
+								}
+								catch(err2) {
+								}                
                 //Slide the full list of entries to just those 5 we are
                 //interested in (all possible visible & not filtered/hidden)
-                $(".thumb").find("li").not(":hidden").slice(start, end).each(function () {
+                var notHiddenThumbs = $(".thumb").find("li").not(":hidden");
+                try {
+                	notHiddenThumbs.slice(start, end).each(function () {
                     // If the img source is not already turned on
-                    if (!$(this).find(".thumbnailImg").attr("src")) {
+                    var thumbnailSrcExists = $(this).find(".thumbnailImg").attr("src");
+                    if (!thumbnailSrcExists) {
                         // Set image source from temporary source.
+                        var thumbnailTSrc = $(this).find(".thumbnailImg").attr("tsrc");
                         $(this).find(".thumbnailImg").attr("src", $(this).find(".thumbnailImg").attr("tsrc"));
                     }
-                });
+                    else {
+                    }
+									});
+                }
+								catch(err3) {
+								}
             }
 
             function filterMyMapsGallery(filterType) {
@@ -178,6 +195,7 @@
                 updateTotalNumberOfMapsShowing(countThese);
                 jcarousel.jcarousel('reload');
                 // Scroll to beginning of filtered list
+                //var scrollTo = $('.thumb').find('.show-thumbnail').index();
                 $('.jcarousel').jcarousel('scroll', 0);
                 // Ensure thumbs are visible
                 turnOnVisibleThumbs();
@@ -209,7 +227,6 @@
                         }
                     }).fail(function (xhr, status) {
                         if (status == "error") {
-                            console.log("Error in " + mapset.id + " AGOL API request.");
                             return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
                         }
                     });
@@ -315,9 +332,8 @@
                 });
 
                 totThumbnails += numGoodResults;
-
                 $('.thumb').randomize('li');
-                console.log("reload" + mapset.id)
+                //console.log("reload" + mapset.id)
                 reloadCounter++;
                 jcarousel.jcarousel('reload');
 
@@ -362,45 +378,56 @@
             //better beyboard accessibility, allow keyboard left and right arrows to navigate gallery
            	 $(".jcarousel").focus(function() {
                 $( ".jcarousel" ).keyup(function(e) {
+                		e.stopImmediatePropagation();
                 		var key = e.which || e.keyChar || e.keyCode;
                 		stopAtScrolls = numItemsVisible - 1;
 										if (key == 37) {
-												if (countScrolls => 0) {
-	                        $('.jcarousel').jcarousel('scroll', '-=1');
-	                        if (countScrolls == 0) {
-													 	focusThumb = 0;
-												 	}
-	                        else if (countScrolls => 1 && (countScrolls < stopAtScrolls)) {
-	                        	countScrolls = countScrolls - 1;
-	                        	focusThumb = countScrolls;
-												 	}
-												 	else {
-												 		countScrolls = stopAtScrolls;
-													 	focusThumb = countScrolls;
-												 	}
-													var thumbToShow = 'li.show-thumbnail:eq(' + focusThumb + ')';
-													var thumbToShowA = $(thumbToShow).find('.thumbhyperlink')[0];
-													$(thumbToShowA).focus();
-                        }
+												// If count scrolls is 0, do not scroll left/previous, do not subtract
+												// If count scrolls is > 0, then scroll left/previous
+	                      if(!$('.jcarousel-control-prev').hasClass('inactive')) {
+													if (countScrolls => 0) {
+														$('.jcarousel-control-prev').trigger('click');													
+		                        if (countScrolls == 0) {
+														 	focusThumb = 0;
+													 	}
+		                        else if (countScrolls => 1 && (countScrolls < stopAtScrolls)) {
+		                        	countScrolls = countScrolls - 1;
+		                        	focusThumb = countScrolls;
+													 	}
+													 	else {
+													 		countScrolls = stopAtScrolls;
+														 	focusThumb = countScrolls;
+													 	}
+														var thumbToShow = 'li.show-thumbnail:eq(' + focusThumb + ')';
+														var thumbToShowA = $(thumbToShow).find('.thumbhyperlink')[0];
+														$('.jcarousel').jcarousel('scroll', thumbToShow);
+														$(thumbToShowA).focus();
+	                        }
+												}                    
                     } else if (key == 39){
-                    		if (countScrolls <= stopAtScrolls) {
-	                        $('.jcarousel').jcarousel('scroll', '+=1');
-													if (countScrolls == 0) {
-													 	focusThumb = 0;
-													 	countScrolls = countScrolls + 1;
-												 	}
-	                        if (countScrolls => 1 && (countScrolls < stopAtScrolls)) {
-														focusThumb = countScrolls;
-														countScrolls = countScrolls + 1;
-												 	}
-												 	else {
-												 		focusThumb = countScrolls;
-												 	}
-													var thumbToShow = 'li.show-thumbnail:eq(' + focusThumb + ')';
-													var thumbToShowA = $(thumbToShow).find('.thumbhyperlink')[0];
-													$(thumbToShowA).focus();
+                    		// If count scrolls is less than the max # of scrolls, scroll right/next
+												// If count scrolls is > 0, then scroll to previous thumbnails
+	                      if(!$('.jcarousel-control-next').hasClass('inactive')) {
+	                    		if (countScrolls <= stopAtScrolls) {
+														$('.jcarousel-control-next').trigger('click');                   	                          														if (countScrolls == 0) {
+															focusThumb = 1;
+														 	countScrolls = countScrolls + 1;
+													 	}
+		                        else if (countScrolls => 1 && (countScrolls < stopAtScrolls)) {
+															countScrolls = countScrolls + 1;
+															focusThumb = countScrolls;
+													 	}
+													 	else {
+													 		focusThumb = countScrolls;
+													 		countScrolls = stopAtScrolls;
+													 	}
+														var thumbToShow = 'li.show-thumbnail:eq(' + focusThumb + ')';
+														var thumbToShowA = $(thumbToShow).find('.thumbhyperlink')[0];
+														$('.jcarousel').jcarousel('scroll', thumbToShow);
+														$(thumbToShowA).focus();
+													}
 												}
-                    } else if (key == 27) {
+                    } else if (key == 27) {                   
 	                   		var focusTab = '#' + activeTab;
                     		countScrolls = 0;
 	                   		$(focusTab).focus();

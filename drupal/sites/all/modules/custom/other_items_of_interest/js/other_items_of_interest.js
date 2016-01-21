@@ -29,7 +29,7 @@
         this.ajax_url = ajax_url;
 
         if (location) {
-            if (location != 'EPA') {
+            if (location != 'US EPA') {
                 // Grab current state code
                 this.state_code = $.trim(location.split(',')[1]);
             }
@@ -129,7 +129,7 @@
        }
         var all_states_resource_table = new ItemsOfInterestTable($("#all-state-resources"), 'generateAllAreasOfInterestTable');
         // Generating EPA by using current location as EPA
-        var epa_table = new ItemsOfInterestTable($("#epa-resources"), 'generateCurrentAreaOfInterestTable', 'EPA');
+        var epa_table = new ItemsOfInterestTable($("#epa-resources"), 'generateCurrentAreaOfInterestTable', 'US EPA');
 
 
         if (!guest_user) {

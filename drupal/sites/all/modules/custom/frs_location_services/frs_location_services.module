@@ -84,11 +84,6 @@ function save_first_time_user_preferences()
 
     $geolocation_used = xssafe($_POST['geolocation_used']);
     $geolocation_zip = xssafe($_POST['geolocation_zip']);
-    if ($geolocation_used == 'true') {
-        $geolocation_used = 1;
-    } else {
-        $geolocation_used = 0;
-    }
 
     $user_zip_codes = $user_data->field_zip_code;
     $user_initial_login = $user_data->field_initial_log_in;
@@ -98,6 +93,8 @@ function save_first_time_user_preferences()
     $user_comm_type = $user_data->field_community_type;
     $user_comm_size = $user_data->field_community_size;
 
+    // Clear any previous zip code values (used for testing)
+    unset($user_zip_codes[LANGUAGE_NONE]);
 
 
 // Store users geolocation
@@ -128,6 +125,7 @@ function save_first_time_user_preferences()
     );
 
     $user_initial_login[LANGUAGE_NONE][0] = $multifield_initial_zip_obj;
+
     if (!$skip) {
         $multifield_zip_obj = array(
             'field_field_primary_value' => 1,
@@ -149,17 +147,7 @@ function save_first_time_user_preferences()
                 ),
             ),
         );
-        $user_zip_codes[LANGUAGE_NONE][] = $multifield_zip_obj;
-
-//            foreach ($term_names as $term_name) { //Save interests
-//                $term_array = taxonomy_get_term_by_name($term_name);
-//                $term = reset($term_array); # get the first element of the array which is our term object
-//                $tid = $term->tid;
-//                $interest_obj = array(
-//                    'target_id' => (string)$tid,
-//                );
-//                $user_interests[LANGUAGE_NONE][] = $interest_obj;
-//            }
+        $user_zip_codes[LANGUAGE_NONE][0] = $multifield_zip_obj;
 
 
         // add role data
@@ -234,12 +222,7 @@ function return_location_data_lat_long()
 //xss mitigation functions
 function xssafe($data, $encoding = 'UTF-8')
 {
-    if (isset($data)) {
         return htmlspecialchars($data, ENT_QUOTES | ENT_HTML401, $encoding);
-    }
-    else {
-        return false;
-    }
 }
 
 
