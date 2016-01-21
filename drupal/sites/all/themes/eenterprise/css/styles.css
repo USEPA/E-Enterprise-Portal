@@ -15008,3 +15008,9 @@ ul.bulleted li:before {
   color: #999;
   vertical-align: middle;
 }
+
+/* line 3718, ../sass/styles.scss */
+#edit-field-prog-tracker-app-value-wrapper{
+    display:none;
+}
+
