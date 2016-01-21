@@ -5,6 +5,9 @@
     border: 0px;
 }
 
+.paginate_disabled_next, .paginate_disabled_prev {
+    display:none !important;
+}
 
 .interests-url-hyperlink, .interests-url-text {
     word-wrap: break-word;

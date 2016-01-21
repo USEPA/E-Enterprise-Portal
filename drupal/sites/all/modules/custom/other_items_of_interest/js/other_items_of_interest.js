@@ -5,15 +5,15 @@
         $wrapper.hide();
 
         var datatable_options =  {
-            "sPaginationType": "full_numbers",
-            "oLanguage": {
-                "oPaginate": {
-                    sLast: ">>",
-                    sNext: ">",
-                    sFirst: "<<",
-                    sPrevious: "<"
-                }
-            },
+            //"sPaginationType": "full_numbers",
+            //"oLanguage": {
+            //    "oPaginate": {
+            //        sLast: ">>",
+            //        sNext: ">",
+            //        sFirst: "<<",
+            //        sPrevious: "<"
+            //    }
+            //},
             "bLengthChange": false,
             "sPageButton": "favorites-ignore",
             "iDisplayLength": 3,
@@ -52,18 +52,24 @@
         }
 
         this.ajax_request = function() {
+            var state_code = this.state_code;
             $.ajax({
                 beforeSend:  function() {
                     $wrapper.html('Loading...');
                 },
                 url: ajax_url,
                 method: "POST",
-                data: {state: this.state_code},
+                data: {state: state_code},
                 success: function (table) {
                     $wrapper.html(table);
                     var $table = $wrapper.find('table');
-                    $table.DataTable(datatable_options);
-                    $table.removeClass("dataTable no-footer").addClass('views-table cols-3 responsive-table');
+                    if ($table.length > 0) {
+                        $table.DataTable(datatable_options);
+                        $table.removeClass("dataTable no-footer").addClass('views-table cols-3 responsive-table');
+                    }
+                    else {
+               //         $wrapper.html('No resources found for ' + state_code + '.');
+                    }
                     cached = true;
                 }
             });
