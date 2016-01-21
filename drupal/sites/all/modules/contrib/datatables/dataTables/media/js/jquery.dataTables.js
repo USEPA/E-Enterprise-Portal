@@ -2481,7 +2481,7 @@
 				iMax = oSettings.fnRecordsTotal(),
 				iTotal = oSettings.fnRecordsDisplay(),
 				sOut;
-			
+
 			if ( iTotal === 0 && iTotal == iMax )
 			{
 				/* Empty record set */
@@ -2532,19 +2532,29 @@
 				sTotal = oSettings.fnFormatNumber( iTotal ),
 				iMax = oSettings.fnRecordsTotal(),
 				sMax = oSettings.fnFormatNumber( iMax );
-		
-			// When infinite scrolling, we are always starting at 1. _iDisplayStart is used only
+            var iPages = Math.ceil((oSettings.fnRecordsDisplay()) / oSettings._iDisplayLength);
+            var iCurrentPage = Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength) + 1;
+
+
+            // When infinite scrolling, we are always starting at 1. _iDisplayStart is used only
 			// internally
 			if ( oSettings.oScroll.bInfinite )
 			{
 				sStart = oSettings.fnFormatNumber( 1 );
 			}
 		
-			return str.
-				replace('_START_', sStart).
-				replace('_END_',   sEnd).
-				replace('_TOTAL_', sTotal).
-				replace('_MAX_',   sMax);
+			//return str.
+			//	replace('_START_', sStart).
+			//	replace('_END_',   sEnd).
+			//	replace('_TOTAL_', sTotal).
+			//	replace('_MAX_',   sMax);
+            return str.
+                replace('_START_', iCurrentPage).
+                replace('_END_', iPages).
+            	replace('_START_', sStart).
+            	replace('_END_',   sEnd).
+            	replace('_TOTAL_', sTotal).
+            	replace('_MAX_',   sMax);
 		}
 		
 		
@@ -2842,8 +2852,8 @@
 				return null;
 			}
 			
-			var nPaginate = document.createElement( 'div' );
-			nPaginate.className = oSettings.oClasses.sPaging+oSettings.sPaginationType;
+			var nPaginate = document.createElement( 'ul' );
+			nPaginate.className = oSettings.oClasses.sPaging; //+oSettings.sPaginationType;
 			
 			DataTable.ext.oPagination[ oSettings.sPaginationType ].fnInit( oSettings, nPaginate, 
 				function( oSettings ) {
@@ -7909,7 +7919,7 @@
 		 *      } );
 		 *    } );
 		 */
-        "aLengthMenu": [ 3, 10, 25 ],
+        "aLengthMenu": [ 5, 10, 25 ],
 	
 	
 		/**
@@ -9166,7 +9176,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sNext": "Next",
+				"sNext": "",
 			
 			
 				/**
@@ -9187,7 +9197,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sPrevious": "Previous"
+				"sPrevious": ""
 			},
 		
 			/**
@@ -9229,7 +9239,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+			"sInfo": "_START_ of _END_",
 		
 		
 			/**
@@ -9609,7 +9619,7 @@
 		 *      } );
 		 *    } );
 		 */
-		"sDom": "lfrtip",
+		"sDom": "ilfrtp",
 	
 	
 		/**
@@ -11431,9 +11441,11 @@
 		"sTable": "dataTable",
 	
 		/* Two buttons buttons */
-		"sPagePrevEnabled": "paginate_enabled_previous",
-		"sPagePrevDisabled": "paginate_disabled_previous",
-		"sPageNextEnabled": "paginate_enabled_next",
+        "sPagePrevLi": "pager-previous first",
+        "sPagePrevEnabled": "pager__link pager__link--previous favorites-ignore",
+		"sPagePrevDisabled": "paginate_disabled_prev",
+        "sPageNextLi": "pager-next last",
+		"sPageNextEnabled": "pager__link pager__link--next favorites-ignore",
 		"sPageNextDisabled": "paginate_disabled_next",
 		"sPageJUINext": "",
 		"sPageJUIPrev": "",
@@ -11457,8 +11469,8 @@
 		/* Features */
 		"sWrapper": "dataTables_wrapper",
 		"sFilter": "dataTables_filter",
-		"sInfo": "dataTables_info",
-		"sPaging": "dataTables_paginate paging_", /* Note that the type is postfixed */
+		"sInfo": "pager-current hidden",
+		"sPaging": "pager", /* Note that the type is postfixed */
 		"sLength": "dataTables_length",
 		"sProcessing": "dataTables_processing",
 		
@@ -11569,10 +11581,10 @@
 						fnCallbackDraw( oSettings );
 					}
 				};
-	
-				var sAppend = (!oSettings.bJUI) ?
-					'<a class="'+oSettings.oClasses.sPagePrevDisabled+'" tabindex="'+oSettings.iTabIndex+'" role="button">'+oLang.sPrevious+'</a>'+
-					'<a class="'+oSettings.oClasses.sPageNextDisabled+'" tabindex="'+oSettings.iTabIndex+'" role="button">'+oLang.sNext+'</a>'
+
+                var sAppend = (!oSettings.bJUI) ?
+					'<li class="' + oSettings.oClasses.sPagePrevLi + '"><a class="' + oSettings.oClasses.sPagePrevEnabled + '" tabindex="'+oSettings.iTabIndex+'" role="button">'+oLang.sPrevious+'</a></li>'+
+                    '<li class="' + oSettings.oClasses.sPageNextLi + '"><a class="'+oSettings.oClasses.sPageNextEnabled+'" tabindex="'+oSettings.iTabIndex+'" role="button">'+oLang.sNext+'</a></li>'
 					:
 					'<a class="'+oSettings.oClasses.sPagePrevDisabled+'" tabindex="'+oSettings.iTabIndex+'" role="button"><span class="'+oSettings.oClasses.sPageJUIPrev+'"></span></a>'+
 					'<a class="'+oSettings.oClasses.sPageNextDisabled+'" tabindex="'+oSettings.iTabIndex+'" role="button"><span class="'+oSettings.oClasses.sPageJUINext+'"></span></a>';
@@ -11613,17 +11625,18 @@
 				
 				var oClasses = oSettings.oClasses;
 				var an = oSettings.aanFeatures.p;
-	
+
 				/* Loop over each instance of the pager */
 				for ( var i=0, iLen=an.length ; i<iLen ; i++ )
 				{
 					if ( an[i].childNodes.length !== 0 )
 					{
-						an[i].childNodes[0].className = ( oSettings._iDisplayStart === 0 ) ? 
-							oClasses.sPagePrevDisabled : oClasses.sPagePrevEnabled;
-						
-						an[i].childNodes[1].className = ( oSettings.fnDisplayEnd() == oSettings.fnRecordsDisplay() ) ? 
-							oClasses.sPageNextDisabled : oClasses.sPageNextEnabled;
+						an[i].childNodes[0].className =  ( oSettings._iDisplayStart === 0 ) ?
+                             oClasses.sPagePrevDisabled : oClasses.sPagePrevLi;
+
+						an[i].childNodes[1].className = ( oSettings.fnDisplayEnd() == oSettings.fnRecordsDisplay() ) ?
+                            oClasses.sPageNextDisabled : oClasses.sPageNextLi;
+
 					}
 				}
 			}

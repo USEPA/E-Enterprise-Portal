@@ -2,7 +2,7 @@
 /**
  * Implements hook_menu().
  **/
-function other_items_of_interest_menu()
+function recommended_resources_menu()
 {
     $items = array();
     $items['generateFavoriteAreasOfInterestTable'] = array(
@@ -25,10 +25,10 @@ function other_items_of_interest_menu()
 /**
  * Implements hook_theme_registry_alter().
  */
-function other_items_of_interest_theme_registry_alter(&$theme_registry)
+function recommended_resources_theme_registry_alter(&$theme_registry)
 {
     // Defined path to the current module.
-    $module_path = drupal_get_path('module', 'other_items_of_interest');
+    $module_path = drupal_get_path('module', 'recommended_resources');
     // Find all .tpl.php files in this module's folder recursively.
     $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
     // Iterate through all found template file objects.
@@ -48,15 +48,15 @@ function other_items_of_interest_theme_registry_alter(&$theme_registry)
 /**
  * Implements hook_form_alter().
  */
-function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
+function recommended_resources_form_alter(&$form, &$form_state, $form_id)
 {
 
 
     global $user;
     if ($form_id == 'state_resource_node_form') {
 
-        drupal_add_js(drupal_get_path('module', 'other_items_of_interest') . "/js/preview_url_form.js", "file");
-        drupal_add_css(drupal_get_path('module', 'other_items_of_interest') . "/css/state_resource_editor.css", "file");
+        drupal_add_js(drupal_get_path('module', 'recommended_resources') . "/js/preview_url_form.js", "file");
+        drupal_add_css(drupal_get_path('module', 'recommended_resources') . "/css/state_resource_editor.css", "file");
 
         hide($form['additional_settings']);
         hide($form['actions']['preview']);
@@ -71,7 +71,7 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
 
         $form_state['rebuild'] = TRUE;
 
-        $form['#validate'][] = 'other_items_of_interest_form_validate';
+        $form['#validate'][] = 'recommended_resources_form_validate';
         // Allow admin to edit the Source
         if ($user->uid > 1) {
             $form['title']['#attributes'] = array(
@@ -95,7 +95,7 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
 
 
 
-function other_items_of_interest_form_validate($form, &$form_state){
+function recommended_resources_form_validate($form, &$form_state){
     $url = $form_state['values']['field_source_url'][LANGUAGE_NONE][0]['value'];
     if (!valid_url($url, TRUE)) {
         $message = "Invalid Web URL (include http or https prefix).";
@@ -114,7 +114,7 @@ function other_items_of_interest_form_validate($form, &$form_state){
 /**
  * Hook_node_presave
  */
-function other_items_of_interest_node_presave($node) {
+function recommended_resources_node_presave($node) {
     global $user;
    // Ensure custom content type is assigned to correct author
     if($node->type === 'state_resource') {
@@ -122,61 +122,58 @@ function other_items_of_interest_node_presave($node) {
     }
 }
 
-function new_state_form_redirect($form, &$form_state) {
-        drupal_goto('/resource-editor');
-}
+//function new_state_form_redirect($form, &$form_state) {
+//        drupal_goto('/resource-editor');
+//}
 
 
- function loadStateResources() {
-     $state_resources = array();
-     $query = new EntityFieldQuery;
-     $query->entityCondition('entity_type', 'node')
-         ->entityCondition('bundle', 'state_resource')
-         ->propertyCondition('status', 1);
-     $results = $query->execute();
-     if (isset($results['node'])) {
-         $nids = array_keys($results['node']);
-         $state_resources = entity_load('node', $nids);
-     }
-    return $state_resources;
-}
-
-
-function loadUserStates() {
-    $states = array();
-    global $user;
-    $user_data = user_load($user->uid);
-    $zip_codes = $user_data->field_zip_code[LANGUAGE_NONE];
-    if (count($zip_codes) > 0) {
-        foreach($zip_codes as $elem) {
-            $zip = $elem['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
-            $state = zip_code_lookup($zip)['state'];
-            $states[] = $state;
-        }
-    }
-    if ( isset($_SESSION['default_location_zip'])) {
-        // add default state
-        $state = zip_code_lookup($_SESSION['default_location_zip'])['state'];
-        $states[] = $state;
-    }
-
-    /// Add users admin state if applicable
-    if (in_array('state_admin', $user->roles)) {
-        if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
-            $admin_state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
-            // Reserve EPA for EPA tab
-            if ($admin_state != 'EPA') {
-                $states[] = $admin_state;
-            }
-        }
-    }
-    return $states;
-}
-
-function generateAllAreasOfInterestTable() {
-    $table =  views_embed_view('additional_resources_all', 'block');
-    print $table;
-
+// function loadStateResources() {
+//     $state_resources = array();
+//     $query = new EntityFieldQuery;
+//     $query->entityCondition('entity_type', 'node')
+//         ->entityCondition('bundle', 'state_resource')
+//         ->propertyCondition('status', 1);
+//     $results = $query->execute();
+//     if (isset($results['node'])) {
+//         $nids = array_keys($results['node']);
+//         $state_resources = entity_load('node', $nids);
+//     }
+//    return $state_resources;
+//}
+//
+//
+//function loadUserStates() {
+//    $states = array();
+//    global $user;
+//    $user_data = user_load($user->uid);
+//    $zip_codes = $user_data->field_zip_code[LANGUAGE_NONE];
+//    if (count($zip_codes) > 0) {
+//        foreach($zip_codes as $elem) {
+//            $zip = $elem['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
+//            $state = zip_code_lookup($zip)['state'];
+//            $states[] = $state;
+//        }
+//    }
+//    if ( isset($_SESSION['default_location_zip'])) {
+//        // add default state
+//        $state = zip_code_lookup($_SESSION['default_location_zip'])['state'];
+//        $states[] = $state;
+//    }
+//
+//    /// Add users admin state if applicable
+//    if (in_array('state_admin', $user->roles)) {
+//        if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
+//            $admin_state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
+//            // Reserve EPA for EPA tab
+//            if ($admin_state != 'EPA') {
+//                $states[] = $admin_state;
+//            }
+//        }
+//    }
+//    return $states;
+//}
+//
+//function generateAllAreasOfInterestTable() {
 //        $state_resources = loadStateResources();
 //        echo "<table id='other-areas-of-interest-table'>" .
 //            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
@@ -192,45 +189,34 @@ function generateAllAreasOfInterestTable() {
 //                    "<td>$topic</td></tr>";
 //        }
 //        echo "</tbody> </table>";
-
-}
-
-
-function generateFavoriteAreasOfInterestTable() {
-    $state_resources = loadStateResources();
-        echo "<table id='other-areas-of-interest-table'>" .
-            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
-            "<tbody>";
-        $users_favorite_states = loadUserStates();
-        foreach ($state_resources as $nid => $nid_data) {
-            $state = $nid_data->title;
-            if (in_array($state, $users_favorite_states)) {
-                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
-                echo "<tr><td>$state</td>" .
-                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
-                    "<td>$topic</td></tr>";
-
-            }
-        }
-        echo "</tbody> </table>";
-}
-
-// Takes state code for filtering
-function generateCurrentAreaOfInterestTable() {
-    if (isset($_POST['state'])) {
-        $user_selected_state = xssafe($_POST['state']);
-        $table = views_embed_view('additional_resources_all', 'block', $user_selected_state);
-        if ($table == '') {
-            echo 'No saved resources for ' . $user_selected_state;
-        }
-        else {
-            print $table;
-        }
-    }
 //
+//}
+//
+//
+//function generateFavoriteAreasOfInterestTable() {
+//    $state_resources = loadStateResources();
+//        echo "<table id='other-areas-of-interest-table'>" .
+//            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
+//            "<tbody>";
+//        $users_favorite_states = loadUserStates();
+//        foreach ($state_resources as $nid => $nid_data) {
+//            $state = $nid_data->title;
+//            if (in_array($state, $users_favorite_states)) {
+//                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
+//                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
+//                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
+//                echo "<tr><td>$state</td>" .
+//                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
+//                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
+//                    "<td>$topic</td></tr>";
+//
+//            }
+//        }
+//        echo "</tbody> </table>";
+//}
+//
+//// Takes state code for filtering
+//function generateCurrentAreaOfInterestTable() {
 //    $state_resources = loadStateResources();
 //    echo "<table id='other-areas-of-interest-table'>" .
 //        "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
@@ -251,7 +237,7 @@ function generateCurrentAreaOfInterestTable() {
 //        }
 //    }
 //    echo "</tbody> </table>";
-}
+//}
 
 
 
