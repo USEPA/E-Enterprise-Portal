@@ -590,6 +590,7 @@
                 $('#edit-field-prog-track-rep-type-filter-value').val('All');
                 $('#edit-field-prog-track-sub-part-code-value').val('All');
                 $('#edit-field-prog-track-part-code-value').val('All');
+                $("#edit-field-prog-tracker-app-value").val("");
             });
             $('#edit-field-prog-track-part-code-value').change(function () {
                 $('#edit-field-prog-track-sub-part-code-value').val('All');
@@ -831,26 +832,20 @@
             xmlhttp.send();
 
             $( ".view-to-do .refresh" ).click(function(e) {
-                $(Drupal.settings.views.ajaxViews).each(function(){
-                    for(var key in this){
-                        if(this[key]['view_name'] == 'to_do'){
-                            var selector = '.view-dom-id-' + this[key]['view_dom_id'];
-                            $(selector).triggerHandler('RefreshView');
-                        }
-                    }
-                });
+                $(".view-to-do #all-time a").click();
             });
 
             $( ".view-progress-tracker .refresh" ).click(function(e) {
-                $(Drupal.settings.views.ajaxViews).each(function(){
-                    for(var key in this){
-                        if(this[key]['view_name'] == 'progress_tracker'){
-                            var selector = '.view-dom-id-' + this[key]['view_dom_id'];
-                            $(selector).triggerHandler('RefreshView');
-                        }
-                    }
-                });
+                $("#edit-field-prog-tracker-app-value").val(" ");
+                $("#edit-field-prog-tracker-app-value").change();
             });
+            $(".view-progress-tracker .pager-next a").click(function(e){
+                $("#edit-field-prog-tracker-app-value").val("");
+            });
+            $(".view-progress_tracker .pager-previous a").click(function(e){
+                $("#edit-field-prog-tracker-app-value").val("");
+            });
+
 
         }
     };
