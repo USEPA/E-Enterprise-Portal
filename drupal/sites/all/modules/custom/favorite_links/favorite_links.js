@@ -75,12 +75,12 @@
                         id = favorite_url_mapping[url];
                         favorite_button =
                             "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + id + "__favorite_link' " +
-                            "class=' remove_link favorite_hover old_link glyphicon glyphicon-heart filled' aria-hidden='true'></span></div>";
+                            " class=' remove_link favorite_hover old_link glyphicon glyphicon-heart filled' aria-hidden='true'></span><span class='sr-only'>Favorited. To remove favorite, press Ctrl + D</span></div>";
                     }
                     else {
                         id = url;
                         favorite_button = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + id + '__' + text_title + '"' +
-                        "class='add_link favorite_hover new_link glyphicon glyphicon-heart empty' aria-hidden='true'></span></div>";
+                        " class='add_link favorite_hover new_link glyphicon glyphicon-heart empty' aria-hidden='true'></span><span class='sr-only'>To favorite, press Ctrl + D</span></div>";
                     }
                     return favorite_button;
                 }
@@ -98,7 +98,6 @@
                                 var title = $(this).attr('alt');
                                 var favorite_button = createFavoriteButton(url, title);
                                 $(this).after(favorite_button);
-
                                 $(this).qtip({ // Grab some elements to apply the tooltip to
                                     content: {
                                         text: $(this).next('div')
@@ -121,7 +120,7 @@
                         }
                     });
                     // process anchor tags
-                    $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .paginate_button,[href^=mailto], [href^=javascript])').each(function () {
+                    $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .menu-link, .skip-link, .paginate_button,[href^=mailto], [href^=javascript])').each(function () {
                         if ($(this).text().length > 0 && $(this).attr('href') != '#' && $(this).attr('href') != '/') {
                             if (!$(this).hasClass('processed-favorite')) {
                                 var url = $(this).attr('href');
@@ -286,7 +285,7 @@
                                 button.addClass('add_link new_link empty ');
                                 
                             }
-
+														refocusLink(focus_link_id);
                         },
                         failure: function () {
                             alert('something went wrong');
@@ -303,7 +302,76 @@
 
             }
         }
+        
+                        // Show tooltip on <a> element, but only when
+							  // focused and Shift key pressed.
+							  var findLink;
+							  var findQtip;
+							  var hideQtip;
+							  
+							  function triggerQtip(findLink, hideQtip) {
+							  	try {
+							    	if (hideQtip == true) {
+							    		$(findLink).trigger('mouseover');
+							    		findQtip = '#' + $(findLink).attr('aria-describedby');
+							    		return findQtip;
+							      }
+							      else {
+							        $(findLink).trigger('mouseout');
+							      }
+							    }
+							    catch(err) {
+							    	//console.log("Error on triggerQtip: " + err);
+							    }
+							  }
+							  
+							  // If a link that's favorite-able is focused, watch for key presses
+							  // Shift (16) triggers qTip
+							  // Escape (27) or blur hide qTip
+							  // Ctrl + D (68) toggles the favorite and shows the qTip
+							  $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", "[href^=mailto]", "[href^=javascript]").focus(function() {
+							    $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", "[href^=mailto]", "[href^=javascript]").keydown(function(event) {
+							    	try {
+							        if (event.which == 16) {
+												if (event.which == 9) {
+													event.stopImmediatePropagation();
+							            // Ignore shift + tab (9)
+							            return false;
+							          } else {
+								          var linkQtip = $(this).attr('data-hasqtip');
+								          var imgQtip = $(this).find('img').attr('data-hasqtip');
+							            if (linkQtip > 0 ) {
+							            	event.stopImmediatePropagation();
+								            findLink = $(this);
+								            triggerQtip(findLink, true);
+							            }	else if (imgQtip > 0) {
+														event.stopImmediatePropagation();
+														findLink = $(this).find('img');
+								            triggerQtip(findLink, true);
+													}
+							            return false;
+							          }
+							        }
+							        else if (event.which == 68 && event.ctrlKey) {
+							          event.stopImmediatePropagation();
+							          var linkQtip = $(this).attr('data-hasqtip');
+						            if (linkQtip > 0 ) {
+							            findLink = $(this);
+						            }	else {
+													findLink = $(this).find('img');
+												}
+												triggerQtip(findLink, true);
+							          var qTipSpan = findQtip + ' .favorite_hover';
+							          $(qTipSpan).trigger('click');
+							          triggerQtip(findLink, true);
+							          $(this).unbind("click");
+							          return false;
+							        } else {
+							        }
+							      } catch (e) {
+							      }
+							    }); //End keyup function
+							  }); //End focus function
     });
-
 
 })(jQuery);
