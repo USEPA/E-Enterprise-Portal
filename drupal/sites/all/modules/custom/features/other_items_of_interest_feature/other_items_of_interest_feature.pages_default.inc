@@ -89,7 +89,7 @@ function other_items_of_interest_feature_default_page_manager_pages() {
     $pane->panel = 'middle';
     $pane->type = 'block';
     $pane->subtype = 'views-cdx_facility_management-block';
-    $pane->shown = FALSE;
+    $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(),
     );
@@ -366,6 +366,29 @@ function other_items_of_interest_feature_default_page_manager_pages() {
     $pane->uuid = 'b25d7660-677c-45f5-b075-cd1150af3868';
     $display->content['new-b25d7660-677c-45f5-b075-cd1150af3868'] = $pane;
     $display->panels['middle'][10] = 'new-b25d7660-677c-45f5-b075-cd1150af3868';
+    $pane = new stdClass();
+    $pane->pid = 'new-5fd232de-43bc-42a2-a1a0-9c43d58cfee1';
+    $pane->panel = 'middle';
+    $pane->type = 'block';
+    $pane->subtype = 'views-recommended_resources-block';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 11;
+    $pane->locks = array();
+    $pane->uuid = '5fd232de-43bc-42a2-a1a0-9c43d58cfee1';
+    $display->content['new-5fd232de-43bc-42a2-a1a0-9c43d58cfee1'] = $pane;
+    $display->panels['middle'][11] = 'new-5fd232de-43bc-42a2-a1a0-9c43d58cfee1';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
