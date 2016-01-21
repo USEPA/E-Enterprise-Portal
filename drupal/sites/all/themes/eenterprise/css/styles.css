@@ -15014,3 +15014,8 @@ ul.bulleted li:before {
     display:none;
 }
 
+/* line 3721, ../sass/styles.scss */
+.edit-user-profile #edit-submit{
+    margin-left: 15px;
+}
+
