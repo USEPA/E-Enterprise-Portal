@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * recommended_resources_and_other_items.feeds_importer_default.inc
+ * recommended_resources_feature.feeds_importer_default.inc
  */
 
 /**
  * Implements hook_feeds_importer_default().
  */
-function recommended_resources_and_other_items_feeds_importer_default() {
+function recommended_resources_feature_feeds_importer_default() {
   $export = array();
 
   $feeds_importer = new stdClass();

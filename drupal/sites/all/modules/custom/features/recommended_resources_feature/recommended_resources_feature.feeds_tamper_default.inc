@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * recommended_resources_and_other_items.feeds_tamper_default.inc
+ * recommended_resources_feature.feeds_tamper_default.inc
  */
 
 /**
  * Implements hook_feeds_tamper_default().
  */
-function recommended_resources_and_other_items_feeds_tamper_default() {
+function recommended_resources_feature_feeds_tamper_default() {
   $export = array();
 
   $feeds_tamper = new stdClass();

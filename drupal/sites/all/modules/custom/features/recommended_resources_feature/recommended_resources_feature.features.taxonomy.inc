@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * recommended_resources_and_other_items.features.taxonomy.inc
+ * recommended_resources_feature.features.taxonomy.inc
  */
 
 /**
  * Implements hook_taxonomy_default_vocabularies().
  */
-function recommended_resources_and_other_items_taxonomy_default_vocabularies() {
+function recommended_resources_feature_taxonomy_default_vocabularies() {
   return array(
     'lgc_audiences' => array(
       'name' => 'LGC Audiences',

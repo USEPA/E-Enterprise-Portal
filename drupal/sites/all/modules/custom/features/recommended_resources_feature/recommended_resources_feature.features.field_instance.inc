@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * recommended_resources_and_other_items.features.field_instance.inc
+ * recommended_resources_feature.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function recommended_resources_and_other_items_field_default_field_instances() {
+function recommended_resources_feature_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-lgc_resource-field_lgc_availability'

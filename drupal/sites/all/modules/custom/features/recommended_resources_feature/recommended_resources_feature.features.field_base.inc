@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * recommended_resources_and_other_items.features.field_base.inc
+ * recommended_resources_feature.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function recommended_resources_and_other_items_field_default_field_bases() {
+function recommended_resources_feature_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'field_lgc_availability'
