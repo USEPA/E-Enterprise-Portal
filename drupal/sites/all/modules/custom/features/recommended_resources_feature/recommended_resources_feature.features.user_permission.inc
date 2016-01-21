@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * recommended_resources_and_other_items.features.user_permission.inc
+ * recommended_resources_feature.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function recommended_resources_and_other_items_user_default_permissions() {
+function recommended_resources_feature_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: 'clear lgc feeds'.

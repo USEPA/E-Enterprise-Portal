@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * recommended_resources_and_other_items.features.inc
+ * recommended_resources_feature.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function recommended_resources_and_other_items_ctools_plugin_api($module = NULL, $api = NULL) {
+function recommended_resources_feature_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "feeds" && $api == "feeds_importer_default") {
     return array("version" => "1");
   }
@@ -22,14 +22,14 @@ function recommended_resources_and_other_items_ctools_plugin_api($module = NULL,
 /**
  * Implements hook_views_api().
  */
-function recommended_resources_and_other_items_views_api($module = NULL, $api = NULL) {
+function recommended_resources_feature_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
 /**
  * Implements hook_node_info().
  */
-function recommended_resources_and_other_items_node_info() {
+function recommended_resources_feature_node_info() {
   $items = array(
     'lgc_resource' => array(
       'name' => t('LGC Resource'),
