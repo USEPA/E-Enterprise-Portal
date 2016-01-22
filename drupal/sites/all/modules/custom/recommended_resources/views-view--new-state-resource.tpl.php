@@ -1,4 +1,4 @@
-?php
+<?php
 module_load_include('inc', 'node', 'node.pages');
 $node_form = new stdClass;
 // Whatever you named content type
