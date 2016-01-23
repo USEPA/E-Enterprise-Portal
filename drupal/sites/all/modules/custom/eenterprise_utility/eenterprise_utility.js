@@ -26,24 +26,36 @@
         }
 
         function processPrimaryFields() {
-    		$('body').find('.field-multiple-table').removeClass('sticky-enabled');
-    		$('#profile-locations').find('.sticky-header').remove();        
-            var table = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
-            var checkboxes = table.find('input[type=checkbox]');
-            var selection = table.find('input[type=checkbox]:checked');
-            var starsSpot = checkboxes.next('div');
-            if (!$(starsSpot).hasClass('zip-code-primary-holder')) {
-	            checkboxes.after('<div class="zip-code-primary-holder"><a href="javascript:void(0)" title="Set to default location" class="zip-code-primary-select"><i class="glyphicon glyphicon-star-empty" aria-hidden="true"></i><span class="sr-only">Set to default location</span></a></div>');
-	            var primary_indicator = selection.next('.zip-code-primary-holder').find('.zip-code-primary-select');
-	            primary_indicator.addClass('selected');
-	            primary_indicator.prop('title', 'Default location');
-	            var primary_indicator_star = primary_indicator.find('i');
-	            primary_indicator_star.removeClass('glyphicon-star-empty');
-	            primary_indicator_star.addClass('glyphicon-star');
-	            var screenreader_indicator = primary_indicator.find('.sr-only');
-	            screenreader_indicator.text("Default location");
-            }
-            table.find("tr:last").find('.field_zip_code').focus();
+    			$('body').find('.field-multiple-table').removeClass('sticky-enabled');
+					$('#profile-locations').find('.sticky-header').remove();        
+          var table = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
+          var checkboxes = table.find('input[type=checkbox]');
+          var starsSpot = checkboxes.next('div');
+          
+          var selection = table.find('input[type=checkbox]:checked');
+          
+          if (!$(starsSpot).hasClass('zip-code-primary-holder')) {
+            checkboxes.after('<div class="zip-code-primary-holder"><a href="javascript:void(0)" title="Set to default location" class="zip-code-primary-select"><i class="glyphicon glyphicon-star-empty" aria-hidden="true"></i><span class="sr-only">Set to default location</span></a></div>');
+						var primary_indicator = selection.next('.zip-code-primary-holder').find('.zip-code-primary-select');
+            primary_indicator.addClass('selected');
+            primary_indicator.prop('title', 'Default location');
+            var primary_indicator_star = primary_indicator.find('i');
+            primary_indicator_star.removeClass('glyphicon-star-empty');
+            primary_indicator_star.addClass('glyphicon-star');
+            var screenreader_indicator = primary_indicator.find('.sr-only');
+            screenreader_indicator.text("Default location");
+          }
+          
+          // If no default location exists, set the first row to be the default
+          if (table.find('input[type=checkbox]:checked').length == 0) {
+						setPrimaryZip();
+          }
+
+          table.find("tr:last").find('.field_zip_code').focus();
+        }
+        
+        function setPrimaryZip() {
+						$('#zipcode_description .field-multiple-table').find('tr:nth-child(1)').find('.zip-code-primary-select').click();
         }
 
         var old_button = '';
@@ -103,6 +115,7 @@
         $('body').on('click', '.form-submit', function(e) {
           mouse_click = $(e.target);
 	        checkLocation(mouse_click, "button");
+	        
         });
         
         $('body').on('click', 'button', function(e) {
@@ -245,6 +258,7 @@
                 save_submit.trigger('click');
             }
             if (button_clicked == 'remove') {
+
             }
         }
 
@@ -272,7 +286,6 @@
                 }
             }
         }
-
 
         function existingLocationErrors() {
             var num_errors = $('#edit-field-zip-code .error').length;
@@ -363,6 +376,7 @@
             return str.indexOf(substring) >= 0;
         }
 
+				// Delete user profile
         $('#edit-delete').click(function (e) {
             var delete_button = $(this);
             var fancybox = $.fancybox({
