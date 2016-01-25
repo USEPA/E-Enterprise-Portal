@@ -278,6 +278,10 @@ a.jcarousel-control-prev, a.jcarousel-control-next,
 a.jcarousel-control-prev:visited, a.jcarousel-control-next:visited {
 	color: #ffffff;
 }
+.menu a.active {
+	color: inherit;
+	font-weight: bold;
+}
 a:hover, a:focus,
 .ui-widget-content a:hover,
 .ui-widget-content a:focus,

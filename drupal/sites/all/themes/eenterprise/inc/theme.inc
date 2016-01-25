@@ -106,9 +106,14 @@ function eenterprise_menu_link(&$vars) {
 					//If the user is logged in either as a guest user or another user, Home link should be labeled Workbench
 					//In other words, if the user is NOT logged in AND the user is not a guest user viewing the Disclaimer page, then Home should say Workbench
 	        //$new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path != 'ee_disclaimer') || ($path != 'new-users'))) ? 'Workbench' : 'Home';
-		        $new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path == 'ee_disclaimer' || $path == 'new-users' || $path == 'bridge-landing' || $path == 'faqs' || $path == 'release-notes'))) ? 'Workbench' : 'Home';
+		        $new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path == 'new-users' || $path == 'bridge-landing' || $path == 'faqs' || $path == 'release-notes'))) ? 'Workbench' : 'Home';
 	        
-	        //If the user is viewing the Disclaimer page and is not logged in, 
+	        //If the user is viewing the Disclaimer page, then label should be Home link
+	        if ($path == 'ee_disclaimer') {
+		        $new_title = 'Home';
+	        }
+	        
+	        //If the user is viewing the Disclaimer page and is not logged in, point link back to landing page
 					if (($path == 'ee_disclaimer' || $path == 'new-users' || $path == 'bridge-landing' || $path == 'faqs' || $path == 'release-notes') && ($user->uid == 0 || $user->name == 'guest-user')) {
 						$element['#href'] = 'eenterprise-new';	
 					}
