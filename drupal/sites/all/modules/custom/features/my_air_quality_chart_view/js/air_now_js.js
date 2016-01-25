@@ -628,7 +628,7 @@
         .attr("d", area);
 
       // Draw populations at risk if needed
-      drawPopulationsAtRisk(todayData, graph);
+      //drawPopulationsAtRisk(todayData, graph);
     }
 
     // Create xAxis
@@ -663,7 +663,7 @@
 
     yAxisGroup.append("text")
       .attr("y", h + m[0] + 20)
-      .style("font-size", "70%")
+      .attr("class", "aqi-note")
       .text("Note: These are forecasted values./Graph is not drawn to scale.")
       .each(insertLinebreaks);
 

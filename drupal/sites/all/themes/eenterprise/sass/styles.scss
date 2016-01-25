@@ -378,6 +378,7 @@ label, .aria-label {
 	margin-bottom: 10px;
 	vertical-align: bottom;
 	color: $ee-dark-gray;
+	font-size: 0.85em;
 }
 .main-nav > .menu > .menu-item > .menu-link {
 	font-weight: normal;
@@ -418,11 +419,16 @@ nav ul {
 }
 .region-disclaimer {
 	background-color: #000;
+	padding-left: 10px;
+	padding-right: 10px;
 	.block {
 		margin-bottom: 0;
 		text-align: center;
 		color: #fff;
 		font-size: 0.75em;
+	}
+	p {
+		margin-bottom: 0;
 	}
 }
 
@@ -869,8 +875,8 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	float:left;
 }
 .page-workbench {
-	padding-left: 1em;
-	padding-right: 1em;
+	//padding-left: 1em;
+	//padding-right: 1em;
 	background-color: $ee-light-gray;
 	header {
 		background-color: #fff;
@@ -879,8 +885,8 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 		background-color: $ee-light-gray;
 		margin-left: 0;
 		margin-right: 0;
-		padding-left: 0;
-		padding-right: 0;
+		padding-left: 1em;
+		padding-right: 1em;
 	}
 	.panel-pane {
 		background-color: $epa-white;
@@ -918,6 +924,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	}
 }
 
+//747.999999px <~ up to 46.75em 
 @media screen and (min-width:20em) and (max-width:747.99999px) {
 	#benefits.ui-tabs .ui-tabs-nav li.ui-tabs-active:after {
 		border: none;
@@ -933,6 +940,7 @@ header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
 	}
 }
 
+//959.99999px <~ up to 60em
 @media screen and (min-width:20em) and (max-width:959.99999px) {
   #login-group .guest-login,
   #login-group #new-toeenterprise{
@@ -1217,6 +1225,37 @@ tr.odd, tr.even {
     margin-right: none;
   }
 }
+
+@media screen and (min-width:48em) and (max-width:56.875em) {
+  .ui-tabs .ui-tabs-nav li {
+	  margin-right: 0;
+	  padding-left: 0;
+	  padding-right: 0;
+	  &:hover {
+		  border-radius: inherit;
+	  }
+	  a.ui-tabs-anchor {
+		  padding-left: 0.5em;
+		  padding-right: 0.5em;
+	  }
+  }
+  .ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
+	  padding-left: 0.5em;
+	  padding-right: 0.5em;
+	  margin-bottom: 5px;
+  }
+}
+
+@media screen and (min-width:48em) and (max-width:73em) {
+	.site-name-and-slogan {
+		width: 40%;
+		.site-slogan {
+			font-size: 0.75em;
+		}	
+	}
+}
+
+
 .section-bridge-landing .ee-workbench-header-setlocation {
 	display: none;
 }
@@ -1829,31 +1868,33 @@ form[id^='user-profile-form'] {
 		.field-multiple-table {
 			width: 700px;
 		}
-		.field-name-field-field-zip-code {
+		.field-name-field-field-zip-code, .field-add-more-submit, .multiple-fields-remove-button, .form-wrapper {
+			float: left; 
 			display: inline-block;
-			float: left;
-		}
-		.field-add-more-submit {
-			float: left;
-			display: inline-block;
-		}
-		.multiple-fields-remove-button {
-			float: left; display: inline-block;
 		}
 		table tr:last td:last {
 			width:200px;
 		}
 		.form-wrapper {
-			display: inline-block;
-			float: left;
 			margin-right: 10px;
 		}
-		table tr td:first-child, .tabledrag-toggle-weight-wrapper,
-		.form-item .form-type-textfield label, .form-checkbox{
+		table tr td:first-child, .tabledrag-toggle-weight-wrapper, .form-checkbox{
 			display: none;
+		}
+		.form-item .form-type-textfield label {
+			@include element-invisible;
+		}
+		.form-item .form-type-textfield label#zip-label {
+			clip: auto;
+		  position: static;
+		  margin-right: 5px;
 		}
 		#user-profile-select-zip, #user-profile-back-zip {
 		  display: inline-block;
+		  @include button-gray;
+		  border-color: #aaa;
+		  font-weight: normal;
+		  color: #000;
 		}
 		label {
 			float: left;
@@ -1877,6 +1918,9 @@ form[id^='user-profile-form'] {
 			display:inline-block;
 			float: right;
 			width: 20px;
+		}
+		#zip-label {
+			margin-top: 10px;
 		}
 	}
 	.panel {
@@ -1911,6 +1955,9 @@ form[id^='user-profile-form'] {
 		margin: 0;
 		vertical-align: middle;
 		padding: 0.25em 0.75em;
+	}
+	.form-submit:disabled, .remove_button:disabled, .field-add-more-submit:disabled {
+		opacity: 0.5;
 	}
 	#links_description {
 		.form-actions {
@@ -2253,6 +2300,9 @@ a.tabledrag-handle .handle {
 .ui-tabs {
 	.ui-tabs-nav {
 		border-bottom: 1px solid #fafafa;
+		li {
+			margin-right: 0;
+		}
 	}
 }
 .view-empty p {
@@ -2265,10 +2315,10 @@ a.tabledrag-handle .handle {
 	}
 	li {
 		display: inline-block;
-		padding: 0 5px;
+		padding: 0;
 		text-align: center;
 		a {
-			padding: 5px 10px;
+			padding: 0.5em 1em;
 			text-decoration: none;
 			color: #000;
 		}
@@ -2287,17 +2337,33 @@ a.tabledrag-handle .handle {
 	}
 }
 @media screen and (max-width: 48em) {
+	header {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.site-name-and-slogan {
+		width: 40%;
+		.site-slogan {
+			font-size: 0.75em;
+		}	
+	}
+	.ee-workbench-header-block {
+		margin-left: 10px;
+	}
+	
 	.todo-filter-by-week li {
 		display: inline-block;
 		width: 8em;
 		padding-top: 5px;
 		padding-bottom: 5px;	//Provide more tap space
 	}
+	
 }
 label, .aria-label, .ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
 	font-size: 0.85em;
 }
-.ui-tabs .ui-tabs-nav li.ui-tabs-active, .todo-filter-by-week li.filter-applied {
+.ui-tabs .ui-tabs-nav li.ui-tabs-active, 
+.todo-filter-by-week li.filter-applied {
 	border-bottom: 3px solid #007AC6;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
@@ -3706,4 +3772,10 @@ ul.bulleted li:before {
   margin-left: -1.2em;
   color:#999;
   vertical-align: middle;
+}
+#edit-field-prog-tracker-app-value-wrapper{
+  display:none;
+}
+.edit-user-profile #edit-submit{
+  margin-left: 15px;
 }

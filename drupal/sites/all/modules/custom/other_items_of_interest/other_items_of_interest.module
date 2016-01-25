@@ -82,7 +82,7 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
         }
 
 
-        $form['title']['#description'] = "State code (such as NC for North Carolina), tribe, or EPA.";
+        $form['title']['#description'] = "State code (such as NC for North Carolina), tribe, or US EPA.";
 
         $form['field_source_url'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a id='new-state-url-preview' href='#'>Preview</a>";
 
@@ -96,17 +96,26 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
 
 
 function other_items_of_interest_form_validate($form, &$form_state){
+    $edit_form  = false;
+    if (ucwords($form_state['values']['title']) == 'EPA') {
+        $form['title']['#value'] = 'US EPA';
+        $form_state['values']['title'] = 'US EPA';
+
+    };
+
     $url = $form_state['values']['field_source_url'][LANGUAGE_NONE][0]['value'];
     if (!valid_url($url, TRUE)) {
         $message = "Invalid Web URL (include http or https prefix).";
         form_set_error('url', $message);
     }
-
+    if (!empty($form_state['values']['delete'])) {
+        $edit_form = TRUE;
+    }
     /// Validate Duplicates/
-    if  (db_query("SELECT COUNT(*) FROM {field_data_field_source_url} WHERE field_source_url_value = :url;", array(':url' => $url))->fetchField()) {
-        // If it is, give an error
-        $message = "This url has already been added. Please enter another.";
-        form_set_error('url', $message);
+        if (db_query("SELECT COUNT(*) FROM {field_data_field_source_url} WHERE field_source_url_value = :url;", array(':url' => $url))->fetchField() && !$edit_form) {
+            // If it is, give an error
+            $message = "This url has already been added. Please enter another.";
+            form_set_error('url', $message);
     }
 }
 
@@ -165,7 +174,7 @@ function loadUserStates() {
         if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
             $admin_state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
             // Reserve EPA for EPA tab
-            if ($admin_state != 'EPA') {
+            if ($admin_state != 'US EPA') {
                 $states[] = $admin_state;
             }
         }
@@ -174,69 +183,87 @@ function loadUserStates() {
 }
 
 function generateAllAreasOfInterestTable() {
-        $state_resources = loadStateResources();
-        echo "<table id='other-areas-of-interest-table'>" .
-            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
-            "<tbody>";
-        foreach ($state_resources as $nid => $nid_data) {
-            $state = $nid_data->title;
-                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
-                echo "<tr><td>$state</td>" .
-                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
-                    "<td>$topic</td></tr>";
-        }
-        echo "</tbody> </table>";
+    $table =  views_embed_view('additional_resources_all', 'block');
+    print $table;
+
+//        $state_resources = loadStateResources();
+//        echo "<table id='other-areas-of-interest-table'>" .
+//            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
+//            "<tbody>";
+//        foreach ($state_resources as $nid => $nid_data) {
+//            $state = $nid_data->title;
+//                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
+//                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
+//                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
+//                echo "<tr><td>$state</td>" .
+//                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
+//                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
+//                    "<td>$topic</td></tr>";
+//        }
+//        echo "</tbody> </table>";
 
 }
 
 
 function generateFavoriteAreasOfInterestTable() {
-    $state_resources = loadStateResources();
-        echo "<table id='other-areas-of-interest-table'>" .
-            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
-            "<tbody>";
         $users_favorite_states = loadUserStates();
-        foreach ($state_resources as $nid => $nid_data) {
-            $state = $nid_data->title;
-            if (in_array($state, $users_favorite_states)) {
-                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
-                echo "<tr><td>$state</td>" .
-                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
-                    "<td>$topic</td></tr>";
-
-            }
-        }
-        echo "</tbody> </table>";
+        $states = implode('+', $users_favorite_states);
+        $table = views_embed_view('additional_resources_all', 'block', $states);
+        print $table;
+//        foreach ($state_resources as $nid => $nid_data) {
+//            $state = $nid_data->title;
+//            if (in_array($state, $users_favorite_states)) {
+//                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
+//                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
+//                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
+//                echo "<tr><td>$state</td>" .
+//                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
+//                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
+//                    "<td>$topic</td></tr>";
+//
+//            }
+//        }
+//        echo "</tbody> </table>";
 }
 
 // Takes state code for filtering
 function generateCurrentAreaOfInterestTable() {
-    $state_resources = loadStateResources();
-    echo "<table id='other-areas-of-interest-table'>" .
-        "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
-        "<tbody>";
     if (isset($_POST['state'])) {
-        $user_selected_state = $_POST['state'];
-        foreach ($state_resources as $nid => $nid_data) {
-            $state = $nid_data->title;
-            if ($state == $user_selected_state) {
-                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
-                echo "<tr><td>$state</td>" .
-                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
-                    "<td>$topic</td></tr>";
-            }
+        $user_selected_state = xssafe($_POST['state']);
+        if ($user_selected_state == 'US EPA') {
+            $table = views_embed_view('additional_resources_all', 'block_1');
+        }
+        else {
+            $table = views_embed_view('additional_resources_all', 'block', $user_selected_state);
+        }
+        if ($table == '') {
+            echo 'No saved resources for ' . $user_selected_state;
+        }
+        else {
+            print $table;
         }
     }
-    echo "</tbody> </table>";
+//
+//    $state_resources = loadStateResources();
+//    echo "<table id='other-areas-of-interest-table'>" .
+//        "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
+//        "<tbody>";
+//    if (isset($_POST['state'])) {
+//        $user_selected_state = $_POST['state'];
+//        foreach ($state_resources as $nid => $nid_data) {
+//            $state = $nid_data->title;
+//            if ($state == $user_selected_state) {
+//                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
+//                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
+//                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
+//                echo "<tr><td>$state</td>" .
+//                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
+//                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
+//                    "<td>$topic</td></tr>";
+//            }
+//        }
+//    }
+//    echo "</tbody> </table>";
 }
 
 

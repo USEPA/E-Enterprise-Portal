@@ -35,6 +35,16 @@
       });
 
       $excludeEmailCheckbox.trigger('change');
+      
+			var text_max = 800;
+			$('#message-count').html(text_max + ' characters remaining');
+			
+			$('#edit-body').keyup(function() {
+				var text_length = $('#edit-body').val().length;
+				var text_remaining = text_max - text_length;
+				
+				$('#message-count').html(text_remaining + ' characters remaining');
+			});
     }
   }
 })(jQuery);

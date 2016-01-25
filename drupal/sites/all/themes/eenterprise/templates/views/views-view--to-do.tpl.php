@@ -38,7 +38,7 @@
       <?php print $header; ?>
     </div>
   <?php endif; ?>
-    <a href="todo/refresh" class="refresh"><span class="sr-only">Refresh To Do list</span><i class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh To Do List"></i></a>
+    <a href="javascript:void(0)" class="refresh"><span class="sr-only">Refresh To Do list</span><i class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh To Do List"></i></a>
     <div class="todo-filter-by-week">
 
         <?php

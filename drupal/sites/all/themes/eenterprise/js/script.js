@@ -590,6 +590,7 @@
                 $('#edit-field-prog-track-rep-type-filter-value').val('All');
                 $('#edit-field-prog-track-sub-part-code-value').val('All');
                 $('#edit-field-prog-track-part-code-value').val('All');
+                $("#edit-field-prog-tracker-app-value").val("");
             });
             $('#edit-field-prog-track-part-code-value').change(function () {
                 $('#edit-field-prog-track-sub-part-code-value').val('All');
@@ -829,6 +830,23 @@
             }
             xmlhttp.open("GET", "README.txt", true);
             xmlhttp.send();
+
+            $( ".view-to-do .refresh" ).click(function(e) {
+                $(".view-to-do #all-time a").click();
+            });
+
+            $( ".view-progress-tracker .refresh" ).click(function(e) {
+                $("#edit-field-prog-tracker-app-value").val(" ");
+                $("#edit-field-prog-tracker-app-value").change();
+            });
+            $(".view-progress-tracker .pager-next a").click(function(e){
+                $("#edit-field-prog-tracker-app-value").val("");
+            });
+            $(".view-progress_tracker .pager-previous a").click(function(e){
+                $("#edit-field-prog-tracker-app-value").val("");
+            });
+
+
         }
     };
 

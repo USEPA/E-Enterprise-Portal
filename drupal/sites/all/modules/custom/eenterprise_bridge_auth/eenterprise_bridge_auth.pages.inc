@@ -725,8 +725,9 @@ function refresh_todo_list(){
         node_delete($value['nid']);
     }
     create_progress_tracker($user);
-    drupal_set_message("To Do and Progress Tracker Data refreshed successfully");
-    drupal_goto('/workbench');
+    return '';
+    //drupal_set_message("To Do and Progress Tracker Data refreshed successfully");
+    //drupal_goto('/workbench');
 }
 
 function eenterprise_bridge_auth_redirect() {

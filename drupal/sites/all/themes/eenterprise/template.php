@@ -120,3 +120,99 @@ function eenterprise_preprocess_panels_pane(&$vars) {
     $vars['attributes_array']['role'] = 'region';
 
 }
+
+
+/*
+ * A function to override "function theme_form_element($variables)" from form.inc in core so that id
+ * can be added to a description of a form element. After that aria-describedby attribute will be associated to this id.
+ * */
+
+function eenterprise_form_element($variables) {
+    $element = &$variables['element'];
+
+    // This function is invoked as theme wrapper, but the rendered form element
+    // may not necessarily have been processed by form_builder().
+    $element += array(
+        '#title_display' => 'before',
+    );
+
+    // Add element #id for #type 'item'.
+    if (isset($element['#markup']) && !empty($element['#id'])) {
+        $attributes['id'] = $element['#id'];
+    }
+    // Add element's #type and #name as class to aid with JS/CSS selectors.
+    $attributes['class'] = array('form-item');
+    if (!empty($element['#type'])) {
+        $attributes['class'][] = 'form-type-' . strtr($element['#type'], '_', '-');
+    }
+    if (!empty($element['#name'])) {
+        $attributes['class'][] = 'form-item-' . strtr($element['#name'], array(' ' => '-', '_' => '-', '[' => '-', ']' => ''));
+    }
+    // Add a class for disabled elements to facilitate cross-browser styling.
+    if (!empty($element['#attributes']['disabled'])) {
+        $attributes['class'][] = 'form-disabled';
+    }
+    $output = '<div' . drupal_attributes($attributes) . '>' . "\n";
+
+    // If #title is not set, we don't display any label or required marker.
+    if (!isset($element['#title'])) {
+        $element['#title_display'] = 'none';
+    }
+    $prefix = isset($element['#field_prefix']) ? '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ' : '';
+    $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>' : '';
+
+    switch ($element['#title_display']) {
+        case 'before':
+        case 'invisible':
+            $output .= ' ' . theme('form_element_label', $variables);
+            $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
+            break;
+
+        case 'after':
+            $output .= ' ' . $prefix . $element['#children'] . $suffix;
+            $output .= ' ' . theme('form_element_label', $variables) . "\n";
+            break;
+
+        case 'none':
+        case 'attribute':
+            // Output no label and no required marker, only the children.
+            $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
+            break;
+    }
+
+    if (!empty($element['#description'])) {
+        $decription_attributes = array('class' => array('description'));
+        if ($element['#id']) {
+            $decription_attributes['id'] = $element['#id'] . '-description';
+        }
+        $output .= '<div' . drupal_attributes($decription_attributes) . '>' . $element['#description'] . "</div>\n";
+    }
+
+    $output .= "</div>\n";
+
+    return $output;
+}
+
+/**
+ * Preprocess textareas to add in aria attributes.
+ */
+function eenterprise_preprocess_textarea(&$variables) {
+    eenterprise_add_aria_attributes($variables);
+}
+
+/**
+ * Preprocess textfields to add in aria attributes.
+ */
+function eenterprise_preprocess_textfield(&$variables) {
+    eenterprise_add_aria_attributes($variables);
+}
+
+/**
+ * Generic function for adding aria-describedby attribute to form elements.
+ * The attribute is added if the element includes a description.
+ */
+function eenterprise_add_aria_attributes(&$variables) {
+    if (!empty($variables['element']['#description'])) {
+        $variables['element']['#attributes']['aria-describedby'] = $variables['element']['#id'] . '-description';
+    }
+}

@@ -255,3 +255,18 @@ function _eenterprise_bridge_auth_get_authmap($identifier) {
   }
   return FALSE;
 }
+
+/**
+ * Implementation of hook_auth_views_ajax_data_alter
+  */
+function eenterprise_bridge_auth_views_ajax_data_alter(&$commands, $view){
+    if ($view->name == 'to_do' && isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00') {
+        $val = module_load_include('inc', 'eenterprise_bridge_auth', 'eenterprise_bridge_auth.pages');
+        refresh_todo_list();
+    }
+    else if($view->name == 'progress_tracker' && isset($view->exposed_raw_input['field_prog_tracker_app_value'])
+        && $view->exposed_raw_input['field_prog_tracker_app_value'] == " "){
+        $val = module_load_include('inc', 'eenterprise_bridge_auth', 'eenterprise_bridge_auth.pages');
+        refresh_todo_list();
+    }
+}

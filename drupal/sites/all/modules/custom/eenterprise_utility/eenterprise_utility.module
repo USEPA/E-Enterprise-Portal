@@ -512,14 +512,22 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                 $input_zip = $form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0];
                 $zip = xssafe($input_zip['value']);
             }
+            // Aria-describedby to associate city, state name in suffix <span> with input field
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['aria-describedby'] = 'city-name-'.$delta;
+            
             // $field_suffix = city name and state name
             if (isset($zip) && $zip != '') {
                 $zip_data = zip_code_lookup($zip);
                 if ($zip_data['error']) {
-                    $field_suffix = '<span class="field-suffix error">' . $zip_data['string'] . '</span>';
+                    $field_suffix = '<span id="city-name-' .$delta. '" class="field-suffix error" aria-live="assertive">' . $zip_data['string'] . '</span>';
+                    // Update aria-describedby to point to zip-code-error
+										$form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes'] = array(
+        	'aria-describedby' => 'zip-code-error',
+        	'aria-live' => 'assertive',
+        	);
                 }
                 else {
-                    $field_suffix = $zip_data['string'];
+                    $field_suffix = '<span id="city-name-' .$delta. '" aria-live="polite">'.$zip_data['string'] . '</span>';
                 }
             } else {
                 $field_suffix = '';
@@ -589,7 +597,6 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
         $return_data_type = 'json';
     }
 
-    $error_message = '';
     $error = true;
     $is_zip_code = preg_match("/(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/", $unparsed_zip);
     $is_city_state = preg_match("/^[\w\s]+,\s*\w{2}$/", $unparsed_zip);
@@ -841,12 +848,13 @@ function eenterprise_utility_user_view($account, $view_mode, $langcode)
 function get_header_variables()
 {
     //the value for now is hardcoded not to block front end developers while backend developers investigate API endpoints to get data from CDX
-    //TODO: Call appropriate APIs to get the data for this function.
     global $user;
     $user_data = user_load($user->uid);
     $user_zips = $user_data->field_zip_code;
     $locations_array = array();
+    // Primary zip is the selected zip in the drop down
     $primary_zip = '';
+    // Does the user have any saved zip codes?
     $user_has_zip = false;
     foreach ($user_zips[LANGUAGE_NONE] as $key => $value) {
         $primary = $value['field_field_primary'][LANGUAGE_NONE][0]['value'];
@@ -855,11 +863,13 @@ function get_header_variables()
             $primary_zip = $zipcode;
         }
         $zipcode_data = zip_code_lookup($zipcode);
-        $locations_array[$zipcode] = $zipcode_data['string'];
-        $user_has_zip = true;
+        if (!$zipcode_data['error']) {
+            $locations_array[$zipcode] = $zipcode_data['string'];
+            $user_has_zip = true;
+        }
     }
     if (!$user_has_zip) {
-        // Use initial loging information
+        // Use initial login information
         $user_initial_login = $user_data->field_initial_log_in;
         $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
         $zipcode_data = zip_code_lookup($initial_zip);
@@ -867,11 +877,7 @@ function get_header_variables()
         $locations_array[$initial_zip] = $zipcode_data['string'];
     }
     asort($locations_array);
-    $header_data = array('header_text' => 'New for Your Favorite Cities',
-        'activities' => 7,
-        'reports' => 1,
-        'permits' => 3,
-        'data_sets' => 13,
+    $header_data = array(
         'locations' => $locations_array,
         'primary_zip' => $primary_zip,
     );
@@ -932,7 +938,9 @@ function generate_location_select()
     $city_name_count = array();
     $default_zip = $header_data['primary_zip'];
     if (isset($_SESSION['default_location_zip']) && isset($_SESSION['default_location_name'])) {
-        $default_zip = $_SESSION['default_location_zip'];
+        if (is_numeric($_SESSION['default_location_zip'])) {
+            $default_zip = $_SESSION['default_location_zip'];
+        }
         $default_name = $_SESSION['default_location_name'];
     }
 
@@ -1311,4 +1319,29 @@ function load_user_gridstack_data()
     }
     echo json_encode($return_array);
     exit();
+}
+
+/*
+ * To change user profile page title.
+ * */
+function eenterprise_menu_alter(&$items) {
+    $items['user/%user']['title callback'] = eenterprise_user_page_title;
+}
+
+/*
+ * Callback function to hook_menu_alter.
+ * */
+function eenterprise_user_page_title() {
+    $output = "Profile";
+    return $output;
+}
+
+/**
+ * Implementation of hook_form_user_profile_form_alter
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function eenterprise_utility_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+    $form['account']['submit'] = $form['actions']['submit'];
 }
