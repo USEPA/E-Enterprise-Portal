@@ -17,11 +17,13 @@ div#my-air-quality-chart {
 #my-air-quality-chart text {
   font-family: Lato, 'Source Sans Pro', sans-serif;
   fill: #454545;
-  font-size: 75%;
+  /* font-size: 75%; */
+  font-size: 0.75em;
 }
 
 #my-air-quality-chart .aqi-location {
-  font-size: 95%;
+/*   font-size: 95%; */
+  font-size: 0.95em;
 }
 
 #my-air-quality-chart .popover {
@@ -61,11 +63,13 @@ div#my-air-quality-chart {
 #my-air-quality-chart text.category-label {
   font-weight: normal;
   fill: #333;
-  font-size: 75%;
+/*   font-size: 75%; */
+  font-size: 0.75em;
 }
 
 #my-air-quality-chart text.active-category-text {
-  font-size: 115%;
+/*   font-size: 115%; */
+  font-size: 1.15em;
   font-weight: bold;
   fill: #333;
 }
@@ -176,6 +180,10 @@ div#my-air-quality-chart {
   font-size:40px;
   display:block;
 }
+#my-air-quality-chart .aqi-note {
+	font-size: 70%;
+}
+
 .leaflet-top, .leaflet-bottom {
   z-index: 50;
 }
@@ -232,4 +240,35 @@ svg.my-air-quality-map-legend-icon {
 
 div.arrow, div.popover-content {
     z-index:100;
+}
+
+@media screen and (min-width:48em) and (max-width:56.875em) {
+	#my-air-quality-chart text {
+	  font-size: 1em;
+	}
+	
+	#my-air-quality-chart .aqi-location {
+	  font-size: 1.25em;
+	}
+	
+	#my-air-quality-chart text.chart-title {
+	  font-size: 30px;
+	  font-weight: bold;
+	}
+	
+	#my-air-quality-chart text.category-label {
+	  font-size: 1em;
+	}
+	
+	#my-air-quality-chart text.active-category-text {
+	  font-size: 1.15em;
+	}
+	
+	#my-air-quality-index p, #my-air-quality-air-now-maps p {
+	  font-size: 0.85em;
+	}
+
+	#my-air-quality-chart .aqi-note {
+		font-size: 1em;
+	}
 }

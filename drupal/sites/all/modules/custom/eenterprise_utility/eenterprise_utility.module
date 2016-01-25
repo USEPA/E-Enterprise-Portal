@@ -512,14 +512,22 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                 $input_zip = $form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0];
                 $zip = xssafe($input_zip['value']);
             }
+            // Aria-describedby to associate city, state name in suffix <span> with input field
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['aria-describedby'] = 'city-name-'.$delta;
+            
             // $field_suffix = city name and state name
             if (isset($zip) && $zip != '') {
                 $zip_data = zip_code_lookup($zip);
                 if ($zip_data['error']) {
-                    $field_suffix = '<span class="field-suffix error">' . $zip_data['string'] . '</span>';
+                    $field_suffix = '<span id="city-name-' .$delta. '" class="field-suffix error" aria-live="assertive">' . $zip_data['string'] . '</span>';
+                    // Update aria-describedby to point to zip-code-error
+										$form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes'] = array(
+        	'aria-describedby' => 'zip-code-error',
+        	'aria-live' => 'assertive',
+        	);
                 }
                 else {
-                    $field_suffix = $zip_data['string'];
+                    $field_suffix = '<span id="city-name-' .$delta. '" aria-live="polite">'.$zip_data['string'] . '</span>';
                 }
             } else {
                 $field_suffix = '';
