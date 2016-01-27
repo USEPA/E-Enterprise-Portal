@@ -1,0 +1,14 @@
+name = Plug test
+description = A dummy module to test plug.
+core = 7.x
+package = Plug
+dependencies[] = plug_example
+
+registry_autoload[] = PSR-4
+
+; Information added by Drupal.org packaging script on 2015-11-09
+version = "7.x-1.0"
+core = "7.x"
+project = "plug"
+datestamp = "1447079642"
+

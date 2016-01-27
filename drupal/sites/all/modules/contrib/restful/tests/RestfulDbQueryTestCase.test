@@ -1,0 +1,278 @@
+<?php
+
+/**
+ * @file
+ * Contains RestfulDbQueryTestCase.
+ */
+
+use Drupal\restful\Http\Request;
+use Drupal\restful\Http\RequestInterface;
+
+class RestfulDbQueryTestCase extends DrupalWebTestCase {
+
+  /**
+   * The name of the test table.
+   *
+   * @var string
+   */
+  protected $tableName = 'restful_test_db_query';
+
+  /**
+   * Provides information about the test class.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'DB Query',
+      'description' => 'Test the DB Query data provider.',
+      'group' => 'RESTful',
+    );
+  }
+
+  /**
+   * Operations before the testing begins.
+   */
+  public function setUp() {
+    parent::setUp('restful_test');
+  }
+
+  /**
+   * Test authenticating a user.
+   */
+  public function testCrudOperations() {
+    $resource_manager = restful()->getResourceManager();
+    $random_int = intval(mt_rand(1, 100));
+    $random_string = $this->randomName();
+    $random_serialized = serialize(array(
+      'key1' => $random_int,
+      'key2' => $random_string,
+    ));
+
+    // Populate the table with some values.
+    $mock_data = array(
+      'str_field' => $random_string,
+      'int_field' => $random_int,
+      'serialized_field' => $random_serialized,
+    );
+    $id = db_insert($this->tableName)
+      ->fields($mock_data)
+      ->execute();
+    $id = intval($id);
+
+    $this->assertTrue(!empty($id), 'The manual record could be inserted');
+
+    // Get the handler.
+    $handler = $resource_manager->getPlugin('db_query_test:1.0');
+
+    // Testing read context.
+    $handler->setRequest(Request::create('api/db_query_test/v1.0/' . $id));
+    $handler->setPath($id);
+    $result = $handler->process();
+    /* @var \Drupal\restful\Plugin\resource\Field\ResourceFieldCollection $collection */
+    $collection = $result[0];
+    $this->assertEqual($collection->get('string')
+      ->value($collection->getInterpreter()), $mock_data['str_field'], 'The record was retrieved successfully.');
+    $this->assertEqual($collection->get('integer')
+      ->value($collection->getInterpreter()), $mock_data['int_field'], 'The record was retrieved successfully.');
+    $this->assertEqual($collection->get('serialized')
+      ->value($collection->getInterpreter()), $mock_data['serialized_field'], 'The record was retrieved successfully.');
+
+    // Testing JSON API formatter.
+    $formatter_manager = restful()->getFormatterManager();
+    $formatter_manager->setResource($handler);
+    $result = drupal_json_decode($formatter_manager->format($handler->process(), 'json_api'));
+    $this->assertEqual($result['data']['attributes']['string'], $mock_data['str_field'], 'The record was retrieved successfully.');
+    $this->assertEqual($result['data']['attributes']['integer'], $mock_data['int_field'], 'The record was retrieved successfully.');
+    $this->assertEqual($result['data']['attributes']['serialized'], $mock_data['serialized_field'], 'The record was retrieved successfully.');
+
+    // Testing update context.
+    $mock_data2 = array(
+      'string' => $this->randomName(),
+    );
+
+    $handler->setRequest(Request::create('api/db_query_test/v1.0/' . $id, array(), RequestInterface::METHOD_PATCH, NULL, FALSE, NULL, array(), array(), array(), $mock_data2));
+    $handler->setPath($id);
+    $handler->process();
+    // Now get the updated object.
+    $handler->setRequest(Request::create('api/db_query_test/v1.0/' . $id));
+    $handler->setPath($id);
+    $result = drupal_json_decode(restful()
+      ->getFormatterManager()
+      ->format($handler->process(), 'json'));
+
+    $expected = array(
+      // ID should be unchanged.
+      'id' => $id,
+      // String should be the string that we updated.
+      'string' => $mock_data2['string'],
+      // Serialized value should be unchanged.
+      'serialized' => $random_serialized,
+      // Integer value should be unchanged.
+      'integer' => $random_int,
+    );
+
+    // We expect that only the string field has changed.
+    $this->assertEqual($result['data'][0], $expected, 'The record was updated with PUT successfully.');
+
+
+    // Testing replace context.
+    $mock_data3 = array(
+      'string' => $this->randomName(),
+    );
+    $handler->setRequest(Request::create('api/db_query_test/v1.0/' . $id, array(), RequestInterface::METHOD_PUT, NULL, FALSE, NULL, array(), array(), array(), $mock_data3));
+    $handler->setPath($id);
+    $handler->process();
+    // Now get the updated object.
+    $handler->setRequest(Request::create('api/db_query_test/v1.0/' . $id));
+    $handler->setPath($id);
+    $result = drupal_json_decode(restful()
+      ->getFormatterManager()
+      ->format($handler->process(), 'json'));
+
+    $expected = array(
+      // ID should be unchanged.
+      'id' => $id,
+      // String should be the string that we PUT.
+      'string' => $mock_data3['string'],
+      // Serialized field should be null.
+      'serialized' => 'N;',
+      // Integer field should be default value from schema.
+      'integer' => 0,
+    );
+
+    // We expect that only the supplied fields are present.
+    $this->assertEqual($result['data'][0], $expected, 'The record was updated with PATCH successfully.');
+
+    // Testing delete context.
+    $handler->setRequest(Request::create('api/db_query_test/v1.0/' . $id, array(), RequestInterface::METHOD_DELETE));
+    $handler->setPath($id);
+    $handler->process();
+    $count = db_select($this->tableName)
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+    $this->assertEqual($count, 0, 'The record was deleted successfully.');
+
+    // Testing create context.
+    $mock_data4 = array(
+      'string' => $random_string,
+      'integer' => $random_int,
+      'serialized' => array(
+        'key1' => $random_int,
+        'key2' => $random_string,
+      ),
+    );
+    $handler->setRequest(Request::create('api/db_query_test/v1.0', array(), RequestInterface::METHOD_POST, NULL, FALSE, NULL, array(), array(), array(), $mock_data4));
+    $handler->setPath('');
+    $handler->process();
+
+    $count = db_select($this->tableName)
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+    $this->assertEqual($count, 1, 'The record was created.');
+
+    // Testing listing for read context.
+    $handler->setRequest(Request::create('api/db_query_test/v1.0'));
+    $handler->setPath('');
+    $result = drupal_json_decode(restful()
+      ->getFormatterManager()
+      ->format($handler->process(), 'json'));
+
+    // The created record should match our input.
+    $expected = $mock_data4;
+    // Account for serialization.
+    $expected['serialized'] = $random_serialized;
+    // Account for not knowing the ID of the new entity beforehand.
+    unset($result['data'][0]['id']);
+
+    $this->assertEqual($result['data'][0], $expected, 'All the content listed successfully.');
+
+    // Testing filters.
+    $mock_data5 = array(
+      'str_field' => $this->randomName(),
+      'int_field' => 101,
+    );
+    $mock_data5['serialized_field'] = serialize($mock_data5);
+    db_insert($this->tableName)
+      ->fields($mock_data5)
+      ->execute();
+
+    $mock_data6 = array(
+      'str_field' => $this->randomName(),
+      'int_field' => 102,
+    );
+    $mock_data6['serialized_field'] = serialize($mock_data6);
+    db_insert($this->tableName)
+      ->fields($mock_data6)
+      ->execute();
+
+    $parsed_input = array(
+      'filter' => array(
+        'integer' => array(
+          'value' => array(101, 102),
+          'conjunction' => 'OR',
+        ),
+      ),
+    );
+    $handler->setRequest(Request::create('api/db_query_test/v1.0', $parsed_input));
+    $handler->setPath('');
+    $result = drupal_json_decode(restful()
+      ->getFormatterManager()
+      ->format($handler->process(), 'json'));
+    $this->assertEqual(count($result['data']), 2);
+    $parsed_input = array(
+      'filter' => array(
+        'integer' => array(
+          'value' => array(101, 102),
+          'operator' => array('=', '>='),
+          'conjunction' => 'OR',
+        ),
+      ),
+    );
+    $handler->setRequest(Request::create('api/db_query_test/v1.0', $parsed_input));
+    $handler->setPath('');
+    $result = drupal_json_decode(restful()
+      ->getFormatterManager()
+      ->format($handler->process(), 'json'));
+    $this->assertEqual(count($result['data']), 2);
+  }
+
+  /**
+   * Test the render cache.
+   */
+  public function __testRenderCache() {
+    $resource_manager = restful()->getResourceManager();
+    $account = $this->drupalCreateUser();
+
+    // Populate the table with some values.
+    $mock_data = array(
+      'str_field' => $this->randomName(),
+      'int_field' => intval(mt_rand(1, 100)),
+    );
+    $mock_data['serialized_field'] = serialize($mock_data);
+    $id = db_insert($this->tableName)
+      ->fields($mock_data)
+      ->execute();
+    $id = intval($id);
+
+    // Get the handler.
+    /* @var \Drupal\restful\Plugin\resource\Decorators\CacheDecoratedResourceInterface $handler */
+    $handler = $resource_manager->getPlugin('db_query_test:1.0');
+    $handler->setAccount($account);
+    $cache = $handler->getCacheController();
+
+    // Populate the cache entry.
+    $handler->setRequest(Request::create('api/db_query_test/v1.0/' . $id));
+    $handler->setPath($id);
+    $handler->process();
+    $version = $handler->getVersion();
+    $cid = 'v' . $version['major'] . '.' . $version['minor'] . '::db_query_test::uu' . $account->uid . '::patb:restful_test_db_query::cl:id::id:' . $id;
+    $cache_data = $cache->get($cid);
+    $this->assertNotNull($cache_data->data, 'Cache data is present.');
+
+    $this->assertEqual($cache_data->data[0]['string'], $mock_data['str_field'], 'The record was retrieved successfully.');
+    $this->assertEqual($cache_data->data[0]['integer'], $mock_data['int_field'], 'The record was retrieved successfully.');
+    $this->assertEqual($cache_data->data[0]['serialized'], $mock_data['serialized_field'], 'The record was retrieved successfully.');
+  }
+
+}

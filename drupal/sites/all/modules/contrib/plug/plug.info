@@ -1,0 +1,16 @@
+name = Plug
+description = A port of the D8 plugin system.
+core = 7.x
+php = 5.4.2
+package = Plug
+dependencies[] = registry_autoload
+
+registry_autoload[] = PSR-0
+registry_autoload[] = PSR-4
+
+; Information added by Drupal.org packaging script on 2015-11-09
+version = "7.x-1.0"
+core = "7.x"
+project = "plug"
+datestamp = "1447079642"
+

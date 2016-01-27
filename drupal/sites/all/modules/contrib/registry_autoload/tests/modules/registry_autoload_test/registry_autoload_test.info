@@ -1,0 +1,26 @@
+name = Registry Autoload - Tests
+description = Support module for registry_autoload related testing.
+package = Testing
+core = 7.x
+hidden = TRUE
+
+dependencies[] = registry_autoload
+
+; Core Registry
+files[] = includes/RegistryAutoloadTestTest.class.php
+
+; Registry Autoload
+registry_autoload[] = PSR-0
+registry_autoload[] = PSR-4
+
+registry_autoload[DRUPAL_ROOT/sites/all/modules/registry_autoload/tests/modules/registry_autoload_test/sites/all/libraries/test-library/src] = PSR-4
+registry_autoload[sites/all/libraries/test-library/lib] = PSR-0
+
+registry_autoload_files[] = custom/some/name/space/RegistryAutoloadTestTest.php
+
+; Information added by Drupal.org packaging script on 2015-09-03
+version = "7.x-1.3"
+core = "7.x"
+project = "registry_autoload"
+datestamp = "1441286344"
+

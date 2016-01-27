@@ -1,0 +1,131 @@
+<?php
+
+/**
+ * @file
+ * Contains RestfulUpdateEntityCurlTestCase
+ */
+
+use Drupal\restful\Http\RequestInterface;
+
+class RestfulUpdateEntityCurlTestCase extends RestfulCurlBaseTestCase {
+
+  /**
+   * User account.
+   *
+   * @var stdClass
+   */
+  protected $account;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Update entity with CURL',
+      'description' => 'Test the updating of an entity using PUT and PATCH methods using CURL.',
+      'group' => 'RESTful',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('restful_test');
+
+    $this->account = $this->drupalCreateUser(array(
+      'administer site configuration',
+      'administer nodes',
+      'edit own article content',
+      'edit any article content',
+    ));
+    $this->drupalLogin($this->account);
+
+    $this->httpauth_credentials = $this->account->name . ':' . $this->account->pass_raw;
+  }
+
+  /**
+   * Test update an entity (PUT & PATCH methods).
+   */
+  function testUpdateEntityAsPutPatch() {
+    // Test update an entity (PUT method).
+    $label = $this->randomName();
+    $new_label = $this->randomName();
+
+    $text = $this->randomName();
+
+    $settings = array(
+      'type' => 'article',
+      'title' => $label,
+    );
+    $settings['body'][LANGUAGE_NONE][0]['value'] = $text;
+
+    $node = $this->drupalCreateNode($settings);
+    $id = $node->nid;
+
+    $request = array('label' => $new_label);
+
+    $result = $this->httpRequest('api/v1.2/test_articles/' . $id, RequestInterface::METHOD_PUT, $request, array(
+      'Content-Type' => 'application/x-www-form-urlencoded',
+    ));
+
+    $expected_result = array(
+      'data' => array(array(
+        'id' => '1',
+        'label' => $new_label,
+        'self' => url('api/v1.2/test_articles/' . $id, array('absolute' => TRUE)),
+        'body' => NULL,
+      )),
+      'self' => array(
+        'href' => url('api/v1.2/test_articles/' . $id, array('absolute' => TRUE)),
+        'title' => 'Self',
+      ),
+    );
+
+    $result = drupal_json_decode($result['body']);
+    $this->assertEqual($expected_result, $result);
+
+    // Update an entity with invalid property name.
+    $request['invalid'] = 'wrong';
+    $result = $this->httpRequest('api/v1.2/test_articles/' . $id, RequestInterface::METHOD_PUT, $request);
+    $this->assertEqual($result['code'], 400, 'User cannot update using PUT method an entity with invalid property name.');
+
+    // Test update an entity (PATCH method).
+    $label = $this->randomName();
+    $new_label = $this->randomName();
+
+    $text = $this->randomName();
+
+    $settings = array(
+      'type' => 'article',
+      'title' => $label,
+    );
+    $settings['body'][LANGUAGE_NONE][0]['value'] = $text;
+
+    $node = $this->drupalCreateNode($settings);
+    $id = $node->nid;
+
+    $request = array('label' => $new_label);
+    $result = $this->httpRequest("api/v1.2/test_articles/$id", RequestInterface::METHOD_PATCH, $request, array(
+      'Content-Type' => 'application/x-www-form-urlencoded',
+    ));
+    $expected_result = array(
+      'data' => array(array(
+        'id' => '2',
+        'label' => $new_label,
+        'self' => url('api/v1.2/test_articles/' . $id, array('absolute' => TRUE)),
+        'body' => $text,
+      )),
+      'self' => array(
+        'title' => 'Self',
+        'href' => url('api/v1.2/test_articles/' . $id, array('absolute' => TRUE)),
+      ),
+    );
+
+    $result = drupal_json_decode($result['body']);
+    $result['data'][0]['body'] = trim(strip_tags($result['data'][0]['body']));
+    ksort($result);
+    ksort($expected_result);
+
+    $this->assertEqual($result, $expected_result);
+
+    // Update an entity with invalid property name.
+    $request['invalid'] = 'wrong';
+    $result = $this->httpRequest("api/v1.2/test_articles/$id", RequestInterface::METHOD_PATCH, $request);
+    $this->assertEqual($result['code'], 400, 'User cannot update using PATCH method an entity with invalid property name.');
+  }
+}

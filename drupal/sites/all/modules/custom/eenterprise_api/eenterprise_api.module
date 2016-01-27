@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ * Module file for Rest EASY API.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function eenterprise_api_ctools_plugin_directory($module, $plugin) {
+    if ($module == 'restful') {
+        return 'plugins/' . $plugin;
+    }
+}

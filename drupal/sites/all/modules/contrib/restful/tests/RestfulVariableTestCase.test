@@ -1,0 +1,168 @@
+<?php
+
+/**
+ * @file
+ * Contains RestfulVariableTestCase.
+ */
+
+use Drupal\restful\RenderCache\RenderCache;
+
+class RestfulVariableTestCase extends DrupalWebTestCase {
+
+  /**
+   * Provides information about the test class.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Variable',
+      'description' => 'Test the variable data provider.',
+      'group' => 'RESTful',
+    );
+  }
+
+  /**
+   * Operations before the testing begins.
+   */
+  public function setUp() {
+    parent::setUp('restful_example');
+  }
+
+  /**
+   * Test authenticating a user.
+   */
+  public function testCrudOperations() {
+    // Set up random content and resource handler.
+    $random_string = $this->randomName();
+    $handler = restful()->getResourceManager()->getPlugin('variables:1.0');
+    $formatter = restful()->getFormatterManager()->negotiateFormatter(NULL, 'json');
+    $formatter->setResource($handler);
+
+    // Populate the test environment with variables.
+    $random_numbers = array();
+    for ($i = 0; $i < 6; $i++) {
+      $random_numbers[] = intval(mt_rand(1, 100));
+      variable_set('variable_' . $i, array('test_data' => $random_numbers[$i]));
+    }
+
+    $this->assertTrue(variable_get('variable_5'), 'The variables have been set.');
+
+    // Testing read.
+    $results = $formatter->prepare($handler->doGet('variable_5'));
+
+    $expected = array('test_data' => $random_numbers[5]);
+
+    $this->assertEqual($results['data'][0]['variable_name'], 'variable_5', 'The variable name was successfully retrieved.');
+    $this->assertEqual($results['data'][0]['variable_value'], $expected, 'The variable value was successfully retrieved.');
+
+    // Testing read context listing.
+    $results = $formatter->prepare($handler->doGet());
+    $in_results = FALSE;
+
+    foreach ($results['data'] as $result) {
+      if ($result['variable_name'] == 'variable_5') {
+        $in_results = TRUE;
+      }
+    }
+    $this->assertTrue($in_results, 'All the content listed successfully.');
+
+
+
+    // Testing sort for read context.
+
+    // Set a variable that will probably sort last.
+    variable_set('zzzzz', 'some value');
+
+    // Find the last variable name, which will probably be the one we just set.
+    $query = array(
+      'sort' => '-variable_name',
+    );
+    $results = $formatter->prepare($handler->doGet('', $query));
+    $last_variable_name = $results['data'][0]['variable_name'];
+
+    // Generate a variable name that will always sort last.
+    $new_variable_name = 'zzz';
+    while (strcmp($new_variable_name, $last_variable_name) <= 0) {
+      $new_variable_name .= 'z';
+    }
+
+    variable_set($new_variable_name, array('key' => $random_string));
+
+    $query = array(
+      'sort' => '-variable_name',
+    );
+    $results = $formatter->prepare($handler->doGet('', $query));
+
+    $expected = array(
+      'variable_name' => $new_variable_name,
+      'variable_value' => array('key' => $random_string),
+    );
+
+    $this->assertEqual($results['data'][0], $expected, 'List is sorted correctly.');
+
+    // Testing create.
+    $parsed_body = array(
+      'variable_name' => 'created_variable',
+      'variable_value' => $random_string,
+    );
+    $handler->doPost($parsed_body);
+    $results = $formatter->prepare($handler->doGet('created_variable'));
+
+    $this->assertEqual($results['data'][0]['variable_name'], 'created_variable', 'The variable was created.');
+    $this->assertEqual($results['data'][0]['variable_value'], $random_string, 'The created variable value is present.');
+
+    // Testing update.
+    $parsed_body = array('variable_name' => 'created_variable');
+    $handler->doPatch('created_variable', $parsed_body);
+    $results = $formatter->prepare($handler->doGet('created_variable'));
+
+    // Fields that are not supplied should not be updated.
+    $this->assertEqual($results['data'][0]['variable_value'], $random_string, 'The variable value was not updated.');
+
+    // Testing replace.
+    $handler->doPut('created_variable', $parsed_body);
+    $results = $formatter->prepare($handler->doGet('created_variable'));
+
+    // Fields that are not supplied should be NULL.
+    $this->assertFalse($results['data'][0]['variable_value'], 'The variable value was removed.');
+
+    // Testing delete.
+    $handler->doDelete('created_variable');
+    $deleted = !variable_get('created_variable');
+    $this->assertTrue($deleted);
+  }
+
+  /**
+   * Test the render cache.
+   */
+  public function testRenderCache() {
+    // Create a test variable.
+    /* @var \Drupal\restful\Plugin\resource\Decorators\CacheDecoratedResource $handler */
+    $handler = restful()->getResourceManager()->getPlugin('variables:1.0');
+    $formatter = restful()->getFormatterManager()->negotiateFormatter(NULL, 'json');
+    $formatter->setResource($handler);
+
+    $parsed_body = array(
+      'variable_name' => 'test_variable_cache',
+      'variable_value' => TRUE,
+    );
+    $handler->doPost($parsed_body);
+    $created = variable_get('test_variable_cache');
+    $this->assertNotNull($created, 'The cache variable has been created.');
+
+    // Populate the cache entries.
+    $account = $this->drupalCreateUser();
+    $handler->setAccount($account);
+    $formatter->prepare($handler->doGet('test_variable_cache'));
+
+    // Get the cache value.
+    $cache_fragments = $handler->getDataProvider()->getCacheFragments('test_variable_cache');
+    $cache_fragments->set('formatter', 'json');
+    $render_cache = RenderCache::create($cache_fragments, $handler->getCacheController());
+    $cache_data = $render_cache->get();
+
+    $this->assertNotNull($cache_data->data, 'Cache data is present.');
+    $this->assertEqual($cache_data->data['variable_name'], 'test_variable_cache', 'The variable name was retrieved from the cache.');
+    $this->assertEqual($cache_data->data['variable_value'], TRUE, 'The variable value was retrieved from the cache.');
+  }
+
+}

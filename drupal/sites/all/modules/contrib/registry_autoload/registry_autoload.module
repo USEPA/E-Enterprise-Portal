@@ -1,0 +1,363 @@
+<?php
+/**
+ * @file
+ * Main module for enabling core registry to support namespaced files.
+ */
+
+// Core hooks
+// --------------------------------------------------------------------------
+
+/**
+ * Implements hook_boot().
+ */
+function registry_autoload_boot() {
+  // Empty implementation so registry_rebuild can rebuild the registry in the
+  // bootstrap modules phase.
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function registry_autoload_module_implements_alter(&$implementations, $hook) {
+  // Move our hook implementation to the bottom, so we are called last.
+  if ($hook == 'registry_files_alter') {
+    $group = $implementations['registry_autoload'];
+    unset($implementations['registry_autoload']);
+    $implementations['registry_autoload'] = $group;
+  }
+}
+
+/**
+ * Implements hook_registry_files_alter().
+ */
+function registry_autoload_registry_files_alter(&$files, $indexed_modules) {
+  $parsed_files = registry_get_parsed_files();
+  $autoload_searcher = new RegistryAutoloadSearcher($parsed_files);
+
+  $registry = array();
+
+  // Search for modules that specify registry_autoload in info.
+  foreach ($indexed_modules as $module) {
+    if (empty($module->info['registry_autoload'])) {
+      $module->info['registry_autoload'] = variable_get('registry_autoload_global_formats', array());
+    }
+    if (empty($module->info['registry_autoload']) && empty($module->info['registry_autoload_files'])) {
+      continue;
+    }
+    // Ensure that properties exist.
+    $module->info += array(
+      'registry_autoload' => array(),
+      'registry_autoload_files' => array(),
+    );
+
+    $class_files = array();
+
+    // Detect class files based on namespaces.
+    foreach ($module->info['registry_autoload'] as $search_path => $format) {
+      $path = $module->dir;
+
+      if (!is_numeric($search_path)) {
+        // If there is an arbitrary path, use an absolute format path.
+        $format = $format . '/absolute';
+
+        // Support DRUPAL_ROOT as the single allowed constant.
+        if (strpos($search_path, 'DRUPAL_ROOT/') === 0) {
+          // Because all paths are relative, this works.
+          $path = str_replace('DRUPAL_ROOT/', '', $search_path);
+        }
+        else {
+          $path .= '/' . $search_path;
+        }
+      }
+      $class_files = array_merge($class_files, $autoload_searcher->findClassFiles($path, $format));
+    }
+
+    // Merge in user provided class files.
+    foreach ($module->info['registry_autoload_files'] as $class_file) {
+      $class_files[] = $module->dir . '/' . $class_file;
+    }
+
+    $registry = array_merge($registry, $autoload_searcher->processFiles($class_files, $module));
+  }
+
+  // Give other modules a chance to alter the registry before we save it.
+  drupal_alter('registry_autoload_registry', $registry);
+
+  foreach ($registry as $entry) {
+    // Add the files to the registry.
+    // Note: Because the hash is the same it won't try to reparse it.
+    $files[$entry->filename] = array(
+      'module' => $entry->module,
+      'weight' => $entry->weight,
+    );
+
+    if (empty($entry->needs_update)) {
+      continue;
+    }
+
+    // And update the registry_file table.
+    db_merge('registry_file')
+      ->key(array('filename' => $entry->filename))
+      ->fields(array(
+        'hash' => $entry->hash,
+      ))
+      ->execute();
+
+    $names = array();
+    foreach ($entry->classes as $class_name => $info) {
+      $names[] = $class_name;
+
+      db_merge('registry')->key(array(
+        'name' => $class_name,
+        'type' => $info['type'],
+      ))->fields(array(
+        'filename' => $entry->filename,
+        'module' => $entry->module,
+        'weight' => $entry->weight,
+      ))->execute();
+    }
+
+    if (!empty($names)) {
+      // Now delete all classes for filename no longer existing.
+      db_delete('registry')
+        ->condition('filename', $entry->filename)
+        ->condition('name', $names, 'NOT IN')
+        ->execute();
+    }
+  }
+}
+
+// Helper classes
+// --------------------------------------------------------------------------
+/**
+ * RegistryAutoloadSearcher helper class.
+ *
+ * Note: This class is not registered via the registry so it is available
+ *       while the registry is being rebuild.
+ */
+class RegistryAutoloadSearcher {
+
+  // @todo Make configurable.
+  /**
+   * The namespace $map maps the namespaces provided to subdirectories.
+   *
+   * @var array
+   */
+  protected $formatMap = array(
+    'PSR-0' => 'lib',
+    'PSR-4' => 'src',
+    'PHPUnit' => 'tests/src',
+    'PSR-0/absolute' => '',
+    'PSR-4/absolute' => '',
+    'PHPUnit/absolute' => '',
+  );
+
+  /**
+   * The current content of the {registry_file} table.
+   *
+   * @see registry_get_parsed_files()
+   *
+   * @var array $parsedFiles
+   */
+  protected $parsedFiles = array();
+
+  /**
+   * Constructs a RegistryAutoloadSearcher object.
+   *
+   * @param array $parsed_files
+   *   The current content of the {registry_file} table.
+   */
+  public function __construct(array $parsed_files) {
+    $this->parsedFiles = $parsed_files;
+  }
+
+  /**
+   * Finds class files in the given module for the given format.
+   *
+   * @param string $path
+   *   The path to search class files in.
+   * @param string $format
+   *   The format to scan for as specified in the $formatMap.
+   *
+   * @return array
+   *   Returns all found php files for the given module and format.
+   */
+  public function findClassFiles($path, $format) {
+    if (!isset($this->formatMap[$format])) {
+      return array();
+    }
+    $directory = $path;
+
+    $subdir = $this->formatMap[$format];
+    if (!empty($subdir)) {
+      $directory .= '/' . $subdir;
+    }
+    $class_files = file_scan_directory($directory, '/.*.php$/');
+
+    return array_keys($class_files);
+  }
+
+  /**
+   * Processes files containing classes for the given module.
+   *
+   * @param array $class_files
+   *   The files to scan for classes.
+   * @param object $module
+   *   The module object as given to hook_registry_files_alter().
+   *
+   * @return array
+   *   An associative array keyed by filename with object values.
+   *   The objects have the following properties:
+   *   - classes: An associative array keyed by namespace+name with properties:
+   *     - type: Type of the class, can be 'interface' or 'class'.
+   *     - name: Name of the class or interface.
+   *     This can be empty if needs_update below is FALSE.
+   *   - filename: The filename of the file.
+   *   - module: The module this file belongs to.
+   *   - weight: The weight of the module this file belongs to.
+   *   - hash: The file_hash() of the filename.
+   *   - needs_update: Whether the registry needs to be updated or not.
+   */
+  public function processFiles(array $class_files, $module) {
+    $registry = array();
+
+    foreach ($class_files as $filename) {
+      // Check if file exists.
+      if (!file_exists($filename)) {
+        continue;
+      }
+
+      $hash = NULL;
+      $needs_update = $this->checkFileNeedsUpdate($filename, $hash);
+
+      $registry[$filename] = (object) array(
+        'classes' => array(),
+        'filename' => $filename,
+        'module' => $module->name,
+        'weight' => $module->weight,
+        // We create a unique structure to populate both registry tables.
+        'hash' => $hash,
+        'needs_update' => $needs_update,
+      );
+
+      if ($needs_update) {
+        $this->parseFile($registry[$filename], $filename);
+      }
+    }
+
+    return $registry;
+  }
+
+  /**
+   * Checks if the is in need of an update.
+   *
+   * @param string $filename
+   *   The filename to check against the {registry_file} table.
+   * @param string $hash
+   *   The hash passed by reference for later usage.
+   *
+   * @return bool
+   *   TRUE if the file needs an update, FALSE otherwise.
+   */
+  protected function checkFileNeedsUpdate($filename, &$hash) {
+    // Check if hash matches still.
+    $stored_hash = !empty($this->parsedFiles[$filename]['hash']) ? $this->parsedFiles[$filename]['hash'] : NULL;
+    $hash = hash_file('sha256', $filename);
+    if (!empty($stored_hash) && $stored_hash == $hash) {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * Parses a file for classes and interfaces, including the namespace.
+   *
+   * This lifts the core limitation of not supporting namespaces.
+   *
+   * This code is now based on
+   * \Symfony\Component\ClassLoader\ClassMapGenerator::findClasses()
+   *
+   * @param object $entry
+   *   The registry entry as defined in processFiles(). The classes key will be
+   *   updated in the entry if classes can be found.
+   * @param string $filename
+   *   The filename to parse.
+   *
+   * @return bool
+   *   TRUE if classes could be found, FALSE otherwise.
+   *
+   * @see _registry_parse_file()
+   */
+  protected function parseFile($entry, $filename) {
+    $contents = file_get_contents($filename);
+    $namespace = '';
+
+    // Check if this version of PHP supports traits.
+    $traits = version_compare(PHP_VERSION, '5.4', '<')
+      ? ''
+      : '|trait';
+
+    // Return early if there is no chance of matching anything in this file.
+    if (!preg_match('{\b(?:class|interface' . $traits . ')\s}i', $contents)) {
+      return array();
+    }
+
+    $tokens = token_get_all($contents);
+
+    for ($i = 0, $max = count($tokens); $i < $max; $i++) {
+      $token = $tokens[$i];
+      if (is_string($token)) {
+        continue;
+      }
+
+      $class = '';
+
+      $token_name = token_name($token[0]);
+      switch ($token_name) {
+        case "T_NAMESPACE":
+          $namespace = '';
+
+          // If there is a namespace, extract it
+          while (($t = $tokens[++$i]) && is_array($t)) {
+            if (in_array($t[0], array(T_STRING, T_NS_SEPARATOR))) {
+              $namespace .= $t[1];
+            }
+          }
+          $namespace .= '\\';
+          break;
+
+        case "T_CLASS":
+        case "T_INTERFACE":
+        case "T_TRAIT":
+          // Find the classname
+          while (($t = $tokens[++$i]) && is_array($t)) {
+            if (T_STRING === $t[0]) {
+              $class .= $t[1];
+            }
+            elseif ($class !== '' && T_WHITESPACE == $t[0]) {
+              break;
+            }
+          }
+
+          $class_name = ltrim($namespace.$class, '\\');
+          $type = 'class';
+
+          if ($token[0] == T_INTERFACE) {
+            $type = 'interface';
+          }
+
+          $entry->classes[$class_name] = array(
+            'name' => $class_name,
+            'type' => $type,
+          );
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    return TRUE;
+  }
+}

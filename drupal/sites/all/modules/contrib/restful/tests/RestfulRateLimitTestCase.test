@@ -1,0 +1,121 @@
+<?php
+
+/**
+ * @file
+ * Contains RestfulRateLimitTestCase.
+ */
+
+use Drupal\restful\Exception\FloodException;
+use Drupal\restful\Http\Request;
+
+class RestfulRateLimitTestCase extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Rate limits',
+      'description' => 'Test the rate limit feature.',
+      'group' => 'RESTful',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('restful_example');
+    $settings = array('type' => 'article');
+
+    $titles = array(
+      'abc',
+      'xyz',
+      'efg',
+    );
+    foreach ($titles as $title) {
+      $settings['title'] = $title;
+      $node = $this->drupalCreateNode($settings);
+      $nodes[$title] = $node->nid;
+    }
+  }
+
+  /**
+   * Tests global rate limits.
+   */
+  public function testGlobalLimits() {
+    // Test the global limit.
+    variable_set('restful_global_rate_limit', 1);
+    // P3D for 3 days period. See
+    // http://php.net/manual/en/class.dateinterval.php for more information
+    // about the interval format.
+    variable_set('restful_global_rate_period', 'P3D');
+
+    $account = $this->drupalCreateUser();
+    $this->roleExecute($account, 1, array('articles', 1, 0));
+  }
+
+  /**
+   * Tests the rate limits and its expiration feature.
+   */
+  public function testLimits() {
+    variable_del('restful_global_rate_limit');
+    variable_del('restful_global_rate_period');
+    // This handler has a limit of 2 requests for the anonymous user.
+    $account = drupal_anonymous_user();
+    $this->roleExecute($account, 2, array('articles', 1, 4));
+
+    // This handler has a limit of 3 requests for the authenticated user.
+    $account = $this->drupalCreateUser();
+    $this->roleExecute($account, 3, array('articles', 1, 4));
+
+    // Now that the limit has been reached for $account. Fake expiration and see
+    // that the limit has been renewed.
+    $query = new \EntityFieldQuery();
+    $results = $query
+      ->entityCondition('entity_type', 'rate_limit')
+      ->entityCondition('bundle', 'request')
+      ->propertyCondition('identifier', 'articles:1.4:request:' . $account->uid)
+      ->execute();
+    $rl = entity_load_single('rate_limit', key($results['rate_limit']));
+    $rl->timestamp = REQUEST_TIME - 2;
+    $rl->expiration = REQUEST_TIME - 1;
+    $rl->save();
+    $this->roleExecute($account, 3, array('articles', 1, 4));
+  }
+
+  /**
+   * Tests the total amount of allowed calls and the following fail.
+   *
+   * @param object $account
+   *   The user account object.
+   * @param int $limit
+   *   The number of calls allowed for a user with the same roles as $account.
+   * @param array $resource_options
+   *   Array of options as received in restful_get_restful_handler.
+   */
+  protected function roleExecute($account, $limit, array $resource_options) {
+    $resource_manager = restful()->getResourceManager();
+    $handler = $resource_manager->getPlugin($resource_options[0] . ':' . $resource_options[1] . '.' . $resource_options[2]);
+    $handler->setAccount($account);
+
+    // Test rate limits.
+    $handler->setRequest(Request::create(''));
+    $handler->setPath('');
+    for ($count = 0; $count < $limit; $count++) {
+      try {
+        restful()->getFormatterManager()->format($handler->process(), 'json');
+        $this->pass('The rate limit authorized the request.');
+      }
+      catch (FloodException $e) {
+        $this->fail('The rate limit did not authorize the request.');
+      }
+    }
+
+    try {
+      restful()->getFormatterManager()->format($handler->process(), 'json');
+      $this->fail('The rate limit authorized the request.');
+    }
+    catch (FloodException $e) {
+      $this->pass('The rate limit did not authorize the request.');
+      $headers = $e->getHeaders();
+      $this->assertTrue(in_array('Retry-After', array_keys($headers)), 'Retry-After header found after rate limit exception.');
+      $this->assertTrue(new \DateTime($headers['Retry-After']) > new \DateTime(), 'Retry-After is set to a time in the future.');
+    }
+  }
+
+}

@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * @file
+ * registry_autoload tests.
+ */
+
+/**
+ * Test basics.
+ */
+class RegistryAutoloadTestCase extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Registry Autoload',
+      'description' => 'Tests loading classes inserted with registry autoload into the registry.',
+      'group' => 'Registry',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('registry_autoload', 'registry_autoload_test');
+  }
+
+  /**
+   * Tests that class loading works properly.
+   */
+  function testClassLoading() {
+    ob_start();
+    registry_autoload_test_class_loading();
+    $buffer = ob_get_clean();
+    $this->drupalSetContent($buffer);
+    $this->assertText('Hello Core', 'PSR-0 class loading works.');
+    $this->assertText('Hello Render_Cache', 'PSR-4 class loading works.');
+    $this->assertText('Implements x', 'Interface loading works.');
+    $this->assertText('Hello No Namespace', 'No namespace class loading works.');
+    $this->assertText('Hello custom some namespace', 'Custom namespace class loading works.');
+    $this->assertText('Hello test-library: SomeVendor\SomeComponent', 'Arbitrary directory class loading works.');
+    $this->assertText('Hello global test-library: SomeOtherVendor\SomeComponent', 'Arbitrary directory class loading with DRUPAL_ROOT works. For this test to succeed registry_autoload must be in sites/all/modules.');
+
+    $supports_traits = !version_compare(PHP_VERSION, '5.4', '<');
+
+    if ($supports_traits) {
+      $this->assertText('Hello Class using trait.', 'Trait loading works.');
+      $this->assertText('Hello Trait.', 'Trait loading works.');
+    }
+  }
+}

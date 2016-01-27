@@ -1,0 +1,12 @@
+name = Registry Autoload 
+description = Adds support for PSR-0 and PSR-4 to the Drupal 7 core registry.
+core = 7.x
+
+files[] = registry_autoload.test
+
+; Information added by Drupal.org packaging script on 2015-09-03
+version = "7.x-1.3"
+core = "7.x"
+project = "registry_autoload"
+datestamp = "1441286344"
+

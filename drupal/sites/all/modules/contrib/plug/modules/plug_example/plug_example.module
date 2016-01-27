@@ -1,0 +1,103 @@
+<?php
+
+/**
+ * @file
+ * Module implementation file.
+ */
+
+use \Drupal\plug_example\NamePluginManager;
+use \Drupal\plug_example\FruitPluginManager;
+
+/**
+ * Implements hook_menu().
+ */
+function plug_example_menu() {
+  $items['plug/test'] = array(
+    'title' => 'Plugins example',
+    'description' => 'Plugins example page.',
+    'page callback' => 'plug_example_annotation_test_page',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['plug/test/annotation'] = array(
+    'title' => 'Annotation',
+    'description' => 'Plugins annotation page.',
+    'page callback' => 'plug_example_annotation_test_page',
+    'access callback' => TRUE,
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $items['plug/test/yaml'] = array(
+    'title' => 'YAML',
+    'description' => 'Plugins YAML page.',
+    'page callback' => 'plug_example_yaml_test_page',
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_fruit_plugin_alter().
+ *
+ * Adds a new fruit plugin programmatically.
+ */
+function plug_example_fruit_plugin_alter(&$plugins) {
+  $plugin_manager = FruitPluginManager::create();
+  $base_definition = array(
+    'label' => 'Banana',
+    'sugar' => 'medium',
+    'id' => 'banana',
+    'provider' => 'plug_example',
+  );
+  $plugin_manager->processDefinition($base_definition);
+  $plugins[$base_definition['id']] = $base_definition;
+}
+
+/**
+ * Implements hook_name_plugin_alter().
+ *
+ * Modifies the plugin definition programmatically. John is not a company!
+ */
+function plug_example_name_plugin_alter(&$plugins) {
+  $plugins['john']['company'] = FALSE;
+}
+
+/**
+ * Page callback to test annotation the plugins.
+ */
+function plug_example_annotation_test_page() {
+  $manager = NamePluginManager::create();
+  return plug_example_test_page_content($manager, 'displayName');
+}
+
+/**
+ * Page callback to test the plugins.
+ */
+function plug_example_yaml_test_page() {
+  $manager = FruitPluginManager::create();
+  return plug_example_test_page_content($manager, 'display');
+}
+
+/**
+ * Generates the plug_example page content.
+ *
+ * @param \Drupal\Component\Plugin\PluginManagerInterface $manager
+ *   The Plugin manager.
+ *
+ * @return array
+ *   The test page render array.
+ */
+function plug_example_test_page_content($manager, $method) {
+  $items = array();
+  foreach ($manager->getDefinitions() as $id => $plugin) {
+    // This is just a silly way to show how you can pass arbitrary configuration
+    // at runtime. If true, the name will be wrapped in <em></em>.
+    $random_bool = (bool) floor(mt_rand(0, 2));
+    $instance = $manager->createInstance($id, array('em' => $random_bool));
+    $items[] = $instance->{$method}() . '<br /><pre>' . var_export($instance, TRUE) . '</pre>';
+  }
+  return array(
+    '#theme' => 'item_list',
+    '#items' => $items,
+  );
+}
