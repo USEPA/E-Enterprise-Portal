@@ -3720,6 +3720,7 @@ input#location-input-guests::-ms-clear {
 	margin-bottom: 5px;
 }
 .page-faqs {
+	
 	.view-header {
 		background-color: #fafafa;
 		padding: 5px 20px;
@@ -3750,6 +3751,9 @@ input#location-input-guests::-ms-clear {
 	}
 	p {
 		margin: 10px 0 0;
+	}
+	.region-disclaimer p {
+		margin-top: 0;
 	}
 	.view-id-faqs {
 		margin-bottom:20px;

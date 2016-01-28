@@ -15,7 +15,11 @@ function workbench_header_default_fe_block_boxes() {
   $fe_block_boxes->format = 'php_code';
   $fe_block_boxes->machine_name = 'ee_header_locations';
   $fe_block_boxes->body = '<?php
- global $theme_key;
+//If page is Workbench or Profile, then show locations
+$path = drupal_get_path_alias($_GET[\'q\']);
+
+if ($path == \'workbench\' || $path == \'local-resources\') {
+global $theme_key;
 $zip_code_mapping = array();
 drupal_add_js(drupal_get_path(\'theme\',  $theme_key) ."/js/workbench_locations_modal.js", "file");
 drupal_add_css(drupal_get_path(\'theme\',  $theme_key) ."/css/workbench_locations_modal.css", "file");
@@ -23,6 +27,7 @@ print "<div class=\'ee-workbench-header-locations\'>";
 print "<div class=\'ee-workbench-header-block ee-workbench-header-setlocation\'>";
 generate_location_select();
 print "</div>";
+}
 print "<div class=\'ee-workbench-header-block ee-feedback\'>";
 print _suggestion_box_make_link(\'Questions?\');
 print "</div><!-- end feedback -->";
@@ -35,15 +40,15 @@ print "</div><!-- end header locations feedback block -->";
   $fe_block_boxes->info = 'EE Social Media - Spread the Word';
   $fe_block_boxes->format = 'full_html';
   $fe_block_boxes->machine_name = 'ee_social_media';
-  $fe_block_boxes->body = '<ul class="ee-social-media"><li><img alt="Facebook" src="/images/facebook-white.png"></li><li><img alt="Twitter" src="/images/twitter-white.png"></li></ul>';
+  $fe_block_boxes->body = '<ul class="ee-social-media"><li><img alt="Facebook" src="/sites/all/themes/greentrees/images/facebook-white.png"></li><li><img alt="Twitter" src="/sites/all/themes/greentrees/images/twitter-white.png"></li></ul>';
 
   $export['ee_social_media'] = $fe_block_boxes;
 
   $fe_block_boxes = new stdClass();
-  $fe_block_boxes->info = 'Green Trees - EE Header (e-enterprise for the environment)';
+  $fe_block_boxes->info = 'Green Trees - EE Header (E-Enterprise for the Environment)';
   $fe_block_boxes->format = 'full_html';
   $fe_block_boxes->machine_name = 'greentrees_ee_header';
-  $fe_block_boxes->body = '<p><span class="ee-header-line1"><strong>e-enterprise</strong> for the&nbsp;</span><span class="ee-header-line2">environment</span></p>';
+  $fe_block_boxes->body = '<p><span class="ee-header-line1"><strong>E-Enterprise</strong> for the </span><span class="ee-header-line2">Environment</span></p>';
 
   $export['greentrees_ee_header'] = $fe_block_boxes;
 
@@ -51,7 +56,7 @@ print "</div><!-- end header locations feedback block -->";
   $fe_block_boxes->info = 'Login link from Guest Page';
   $fe_block_boxes->format = 'full_html';
   $fe_block_boxes->machine_name = 'login_from_guest_page';
-  $fe_block_boxes->body = '<div style="float:right;margin-right:50px;"><a class="favorite-ignore" href="/guest_bye" id="guest-login">Log in</a></div>';
+  $fe_block_boxes->body = '<div><a href="/faqs" id="faqs-link">FAQs</a><a class="favorite-ignore" href="/guest_bye" id="guest-login">Log in</a></div>';
 
   $export['login_from_guest_page'] = $fe_block_boxes;
 

@@ -105,26 +105,18 @@ function eenterprise_menu_link(&$vars) {
         if ($element['#title'] == 'Home') {
 					//If the user is logged in either as a guest user or another user, Home link should be labeled Workbench
 					//In other words, if the user is NOT logged in AND the user is not a guest user viewing the Disclaimer page, then Home should say Workbench
-	        //$new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path != 'ee_disclaimer') || ($path != 'new-users'))) ? 'Workbench' : 'Home';
-		        $new_title = (!$user->uid == 0 && !($user->name == 'guest-user' && ($path == 'new-users' || $path == 'bridge-landing' || $path == 'faqs' || $path == 'release-notes'))) ? 'Workbench' : 'Home';
-	        
-	        //If the user is viewing the Disclaimer page, then label should be Home link
-	        if ($path == 'ee_disclaimer') {
-		        $new_title = 'Home';
-	        }
-	        
-	        //If the user is viewing the Disclaimer page and is not logged in, point link back to landing page
-					if (($path == 'ee_disclaimer' || $path == 'new-users' || $path == 'bridge-landing' || $path == 'faqs' || $path == 'release-notes') && ($user->uid == 0 || $user->name == 'guest-user')) {
-						$element['#href'] = 'eenterprise-new';	
-					}
-					else {
-						$element['#href'] = 'workbench';
-					}
-	        $element['#title'] = $new_title;
+	        if (!$user->uid || (($user->uid > 0 || $user->uid == 0 || $user->name == 'guest-user') && needs_disclaimer())) {
+              $element['#title'] = "Home";
+              $element['#href'] = 'eenterprise-new';
+	         }
+	         else {
+	            $element['#title'] = "Workbench";
+	            $element['#href'] = 'workbench';
+	         } 
         }
 			else if ($element['#title'] != 'Home') {
-				//If the user is viewing the Disclaimer page hide other main menu items
-				if ($path == 'ee_disclaimer') {
+				//If the user is not logged in, or is a guest, or is viewing the Disclaimer page hide everything except Home link
+				if (!$user->uid || $user->uid == 0 || $user->name == 'guest-user' || $path == 'ee_disclaimer' || needs_disclaimer()) {
 					return null;
 				}
 			}
@@ -134,7 +126,7 @@ function eenterprise_menu_link(&$vars) {
       && $element['#original_link']['menu_name'] == 'user-menu'
       && $element['#title'] == 'My account') {
 			//If the user is viewing the Disclaimer page and is not logged in, 
-			if ($path == 'ee_disclaimer') {
+			if ($path == 'ee_disclaimer' || needs_disclaimer()) {
 				return null;
 			}
 	}
@@ -741,4 +733,22 @@ function check_item_value($key, $value, &$data, &$children, &$attributes){
     $attributes[$key] = $value;
   }
 
+}
+
+function needs_disclaimer() {
+	  global $user;
+    if($user->uid == 0) {
+        return FALSE;
+    }
+    $user_data = user_load($user->uid);
+
+    if ($user->name === 'guest-user') {
+        return $_SESSION['guest-user-signed-agreement'] !== TRUE;
+//    return TRUE;
+    }
+
+    $disclaimer_last_modified = _ee_disclaimer_last_modified();
+    $user_agreed_date = end($user_data->field_terms_of_use_agreed[LANGUAGE_NONE])['field_date_signed'][LANGUAGE_NONE][0]['value'];
+
+    return $disclaimer_last_modified > $user_agreed_date;
 }
