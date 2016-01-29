@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Eenteprise API 1.0 feature.
+ */
+
+include_once 'eenteprise_api_1_0.features.inc';
