@@ -830,23 +830,6 @@
             }
             xmlhttp.open("GET", "README.txt", true);
             xmlhttp.send();
-
-            $( ".view-to-do .refresh" ).click(function(e) {
-                $(".view-to-do #all-time a").click();
-            });
-
-            $( ".view-progress-tracker .refresh" ).click(function(e) {
-                $("#edit-field-prog-tracker-app-value").val(" ");
-                $("#edit-field-prog-tracker-app-value").change();
-            });
-            $(".view-progress-tracker .pager-next a").click(function(e){
-                $("#edit-field-prog-tracker-app-value").val("");
-            });
-            $(".view-progress_tracker .pager-previous a").click(function(e){
-                $("#edit-field-prog-tracker-app-value").val("");
-            });
-
-
         }
     };
 
