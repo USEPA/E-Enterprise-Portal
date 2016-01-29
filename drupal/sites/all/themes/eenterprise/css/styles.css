@@ -15006,67 +15006,71 @@ input#location-input-guests::-ms-clear {
   margin-bottom: 5px;
 }
 
-/* line 3723, ../sass/styles.scss */
+/* line 3724, ../sass/styles.scss */
 .page-faqs .view-header {
   background-color: #fafafa;
   padding: 5px 20px;
   margin-left: -20px;
   margin-right: -20px;
 }
-/* line 3729, ../sass/styles.scss */
+/* line 3730, ../sass/styles.scss */
 .page-faqs h2 {
   font-weight: bold;
   font-size: 1em;
   margin-bottom: 0;
 }
-/* line 3734, ../sass/styles.scss */
+/* line 3735, ../sass/styles.scss */
 .page-faqs h3 {
   font-weight: bold;
   margin-top: 20px;
 }
-/* line 3738, ../sass/styles.scss */
+/* line 3739, ../sass/styles.scss */
 .page-faqs ul {
   list-style: none;
 }
-/* line 3741, ../sass/styles.scss */
+/* line 3742, ../sass/styles.scss */
 .page-faqs .views-field-title, .page-faqs .views-field-field-faq-category, .page-faqs .views-field-field-faq-category div {
   font-weight: bold;
   display: inline;
 }
-/* line 3745, ../sass/styles.scss */
+/* line 3746, ../sass/styles.scss */
 .page-faqs ul.bulleted li:before {
   margin-left: -1.5em !important;
 }
-/* line 3748, ../sass/styles.scss */
+/* line 3749, ../sass/styles.scss */
 .page-faqs li {
   margin-bottom: 10px;
 }
-/* line 3751, ../sass/styles.scss */
+/* line 3752, ../sass/styles.scss */
 .page-faqs p {
   margin: 10px 0 0;
 }
-/* line 3754, ../sass/styles.scss */
+/* line 3755, ../sass/styles.scss */
+.page-faqs .region-disclaimer p {
+  margin-top: 0;
+}
+/* line 3758, ../sass/styles.scss */
 .page-faqs .view-id-faqs {
   margin-bottom: 20px;
 }
-/* line 3756, ../sass/styles.scss */
+/* line 3760, ../sass/styles.scss */
 .page-faqs .view-id-faqs li {
   margin-bottom: 0;
 }
 
-/* line 3761, ../sass/styles.scss */
+/* line 3765, ../sass/styles.scss */
 ul.bulleted {
   list-style: none;
   margin-bottom: 5px;
 }
 
-/* line 3765, ../sass/styles.scss */
+/* line 3769, ../sass/styles.scss */
 ul.bulleted li {
   padding-left: 1.2em;
   font-size: 0.85em;
 }
 
-/* line 3769, ../sass/styles.scss */
+/* line 3773, ../sass/styles.scss */
 ul.bulleted li:before {
   content: '\f054';
   font-family: FontAwesome;
@@ -15079,12 +15083,12 @@ ul.bulleted li:before {
   vertical-align: middle;
 }
 
-/* line 3780, ../sass/styles.scss */
+/* line 3784, ../sass/styles.scss */
 #edit-field-prog-tracker-app-value-wrapper {
   display: none;
 }
 
-/* line 3783, ../sass/styles.scss */
+/* line 3787, ../sass/styles.scss */
 .edit-user-profile #edit-submit {
   margin-left: 15px;
 }
