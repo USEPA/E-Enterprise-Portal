@@ -185,15 +185,25 @@
                             labelselect.after(select);
                             numSelects = numSelects + 1;
 													}
+													hideButtons();
                           field_suffix.html(confirm);                          
                           field_suffix.append(back);
                           select.focus();
 
                           back.click(function () {
+                          		numSelects = 0;
                               field_suffix.html('');
-                              select.replaceWith(input);
+                              $('.form-submit.new-button-unusable').remove();
+                              input.prop("disabled", false);
+                              $('#profile-locations').find('#zip-label').remove();
+                              $('#profile-locations').find('#city-state-lookup-zips').remove();
+                              back.remove();
+                              confirm.remove();
                               remove_button.show();
+                              add_button.show();
                               primary_indicator.show();
+                              input.focus();
+                              return;
                           });
                           confirm.click(function () {
                               back.remove();
@@ -300,6 +310,7 @@
         var path = window.location.pathname;
         var page = path.split('/')[1];
         if (page == 'user') {
+        	  $("#edit-submit").prependTo(".edit-user-profile");
             $(document).ajaxSuccess(function (event, xhr, settings) {
                 var target_url = settings.url;
 								
@@ -404,7 +415,7 @@
         placeAddAnotherButton(false, '#field-profile-favourites-values', '#links_description');
         $('#zipcode_description').show();
 
-        $("#edit-submit").prependTo($("#user-profile-form .edit-user-profile"));
+
     });
 })(jQuery);
 
