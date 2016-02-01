@@ -288,7 +288,7 @@ function recommended_resources_feature_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_lgc_id',
     'label' => 'ID',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'custom_add_another' => '',
       'custom_remove' => '',
@@ -313,7 +313,7 @@ function recommended_resources_feature_field_default_field_instances() {
     'custom_remove' => '',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Website address for resource.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -621,6 +621,7 @@ function recommended_resources_feature_field_default_field_instances() {
   t('Topic');
   t('Training Level');
   t('Update Frequently');
+  t('Website address for resource.');
 
   return $field_instances;
 }
