@@ -93,6 +93,7 @@ function save_first_time_user_preferences()
     $user_org = $user_data->field_organization;
     $user_comm_type = $user_data->field_community_type;
     $user_comm_size = $user_data->field_community_size;
+    $user_interests = $user_data->field_lgc_topics_of_interest;
 
     // Clear any previous zip code values (used for testing)
     unset($user_zip_codes[LANGUAGE_NONE]);
@@ -175,8 +176,16 @@ function save_first_time_user_preferences()
             $edit['field_community_size'] = $user_comm_size;
         }
 
-
         /// Save LGC Topic Settings
+        // reset saved user interests
+        $user_interests[LANGUAGE_NONE] = array();
+        $interests = $_POST['interests'];
+        foreach($interests as $tid) {
+            if (is_numeric($tid)) {
+                $user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
+            }
+        }
+
 
     }
 
@@ -191,6 +200,7 @@ function save_first_time_user_preferences()
         'field_role' => $user_role,
         'field_community_type' => $user_comm_type,
         'field_community_size' => $user_comm_size,
+        'field_lgc_topics_of_interest' => $user_interests
     );
 
     $return_msg = array();
@@ -205,6 +215,8 @@ function save_first_time_user_preferences()
         exit();
     }
     $return_msg['success'] = true;
+    $return_msg['input'] = $_POST;
+    $return_msg['user_interests'] = $user_interests;
     print json_encode($return_msg);
 
 }

@@ -5,7 +5,7 @@
 
         // If first time user, show modal for profile saving options
         var first_time_user_block = $('#first-time-user-block');
-      //  if (first_time_user_block.length > 0) {
+        if (first_time_user_block.length > 0) {
 
             var selected_zip_code = '27705';
             var selected_city = 'Durham';
@@ -279,8 +279,6 @@
                     var current_checkbox = $(this);
                     interests.push(current_checkbox.val());
                 });
-                console.log('here');
-                console.log(interests);
 
                 $.ajax({
                     url: '/save_first_time_user_preferences',
@@ -298,15 +296,13 @@
                     },
                     success: function (msg) {
                         var parsed_msg = $.parseJSON(msg);
-
-                        console.log(parsed_msg);
-                       // if (parsed_msg.success) {
-                       //     $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + selected_city + ', ' + selected_state + '</option>').trigger('change');
-                       // }
-                       // else {
-                       //     console.log(parsed_msg.error_msg);
-                       // }
-                       //first_time_user_block.dialog('close');
+                       if (parsed_msg.success) {
+                            $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + selected_city + ', ' + selected_state + '</option>').trigger('change');
+                       }
+                       else {
+                            console.log(parsed_msg.error_msg);
+                       }
+                       first_time_user_block.dialog('close');
 
                     }
                 })
@@ -337,6 +333,6 @@
             getLocation();
 
 
-    //    }
+        }
     });
 })(jQuery);
