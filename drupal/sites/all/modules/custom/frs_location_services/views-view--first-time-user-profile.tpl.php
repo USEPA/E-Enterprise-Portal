@@ -35,10 +35,6 @@
 drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/first_time_user_profile.js", "file");
 drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/combobox.js", "file");
 drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_time_user_profile.css", "file");
-global $user;
-$user_data = user_load($user->uid);
-dpm($user_data->field_lgc_topics_of_interest);
-
 ?>
 <div id="first-time-user-profile">
     <h2><span>Getting Started</span>What matters to you?</h2>
