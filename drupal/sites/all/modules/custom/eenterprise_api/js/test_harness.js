@@ -48,7 +48,6 @@
                             table = createStateTable(data);
                         }
                         $table_holder.html(table);
-                       // $table_holder.find('table').DataTable();
                     }
                 },
                 failure: function(msg) {
@@ -82,8 +81,8 @@
 
 
     $(document).ready(function() {
-        var local_resources_test_harness = new TestAPIHarness('local_request', 'local_json', 'local_table', 'url_used_local', 'search_locals', 'http://ec2-52-3-175-225.compute-1.amazonaws.com/api/1.1/local_resources.json', 'local');
-        var state_resources_test_harness = new TestAPIHarness('state_request', 'state_json', 'state_table', 'url_used_state', 'search_states', 'http://ec2-52-3-175-225.compute-1.amazonaws.com/api/1.1/state_resources.json', 'state');
+        var local_resources_test_harness = new TestAPIHarness('local_request', 'local_json', 'local_table', 'url_used_local', 'search_locals', 'https://eportaldev.epa.gov/api/1.1/local_resources.json', 'local');
+        var state_resources_test_harness = new TestAPIHarness('state_request', 'state_json', 'state_table', 'url_used_state', 'search_states', 'https://eportaldev.epa.gov/api/1.1/state_resources.json', 'state');
     });
 
 
