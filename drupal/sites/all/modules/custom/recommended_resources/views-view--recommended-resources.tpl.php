@@ -39,9 +39,9 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
 // Load the currently logged in user.
 global $user;
 // Check if the user has the 'editor' role.
-if (in_array('state_admin', $user->roles)) {
+if (in_array('state_admin', $user->roles) || $user->uid == 1) {
     ?>
-    <div class="action-links"><a href="/resource-editor" class="favorites-ignore">Manage Resources</a></div>
+    <div class="action-links"><a href="/local-resource-editor" class="favorites-ignore">Manage Resources</a></div>
 <?php
 }
 ?>
