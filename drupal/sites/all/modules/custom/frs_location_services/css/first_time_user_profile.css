@@ -10,19 +10,14 @@
     display:none;
 }
 
-.ui-widget-content.first-time-user-dialog{
-    max-height: none !important;
-    height: 300px;
-    min-width:300px;
-    overflow-y: hidden !important;
-    overflow-x: hidden;
-}
+
 #first-time-user-profile {
-    height: 500px;
+    height: 615px;
 }
 
 .pane-views-first-time-user-profile-block {
     border: 0 !important;
+    min-height: 100% !important;
 }
 #revert-to-geo-location {
     font-size: 68%;
@@ -31,6 +26,18 @@
 #user-profile-addition-info, #local-government-options {
     margin-top: 1em;
     width:75%;
+    float: left;
+}
+
+.ui-widget-content.first-time-user-dialog{
+    max-height: none !important;
+    height: 95% !important;
+    min-width:300px;
+    overflow-y: hidden !important;
+    overflow-x: hidden;
+}
+
+#local-gov-topics {
     float: left;
 }
 

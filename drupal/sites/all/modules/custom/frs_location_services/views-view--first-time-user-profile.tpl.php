@@ -94,11 +94,14 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
 
 
     </div><!-- @end local-government-options -->
+
+     <div id="local-gov-topics">
     <h3>Topics that matter</h3>
     <p>Select a few high-level topics that interest you.</p>
     <div id="high-level-interests">
         <?php high_level_taxonomy_checkboxes(); ?>
     </div>
+         </div>
 
 </div><!-- @end first-time-user-profile-->
 <div class="modal-footer">
