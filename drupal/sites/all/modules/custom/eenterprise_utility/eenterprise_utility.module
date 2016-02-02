@@ -530,14 +530,16 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                 else {
                     $field_suffix = '<span id="city-name-' .$delta. '" aria-live="polite">'.$zip_data['string'] . '</span>';
                 }
+                $ariacity = $zip_data['string'];
             } else {
                 $field_suffix = '';
+                $ariacity = '';
             }
             // Placeholder
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['placeholder'] = 'Enter ZIP code or city, state';
             // Remove button
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
-            $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['title'] = 'Remove ' . $zip . ' ' . $field_suffix . ' from locations';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['title'] = 'Remove ' . $zip . ' ' . $ariacity . ' from locations';
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_prefix'] = '<label class="element-invisible">' . $zip  . '</label>';
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['remove_button']['#attributes']['title'] = 'Remove';
