@@ -27,7 +27,7 @@
             var $cancel_zip = $('#cancel-zip-select');
 
             // Initialize  location with default information
-            $zip_select.text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
+            $nearest_location.text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
 
             // Used if user did not allow geolocation
             function showDefaultData() {
