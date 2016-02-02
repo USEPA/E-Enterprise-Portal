@@ -2,6 +2,7 @@
 	var numSelects = 0;
 	var fieldToCheck;
 	var type;
+	var removedSelect = false;
 	
     $(document).ready(function () {
     		$('body').find('.field-multiple-table').removeClass('sticky-enabled');
@@ -240,7 +241,8 @@
                           field_suffix.append(back);
                           $('.form-submit').prop("disabled", true);
                           select.focus();
-                          back.click(function () {
+                          back.on('click', function () {
+                          		removedSelect = true;
 															numSelects = 0;
                               field_suffix.html('');
 															input.prop("disabled", false);
@@ -255,7 +257,7 @@
 															field_suffix.html('Please update your location or remove this field before saving.');
 															input.focus();
                           });
-                          confirm.click(function () {
+                          confirm.on('click', function () {
                               back.remove();
                               confirm.remove();
                               var currentZip = $('.city-state-lookup-zips option:selected').val();
@@ -325,6 +327,9 @@
             $('#edit-submit').prop("disabled", true);
             $('#edit-submit--2').prop("disabled", true);
             $('#edit-delete').prop("disabled", true);
+            if (removedSelect == true) {
+	        		$('.remove-button').prop("disabled", false);
+						}
         }
 
         function existingLocationErrors() {
