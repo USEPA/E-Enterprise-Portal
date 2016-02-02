@@ -40,7 +40,6 @@
 
 
 
-
             function getLocation() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(showPosition);
@@ -253,6 +252,7 @@
             });
 
             $('#save-preferences').click(function () {
+                var interests = [];
                 var org_val = $org_select.val();
                 var org_text = $org_select.find('option:selected').text();
                 var role_val = $('#select-role').val();
@@ -272,6 +272,14 @@
                         comm_type_val = type_checkboxes.val();
                     }
                 }
+
+                // Collect interests from checkboxes
+
+                $('.term-name-checkboxes:checked').each(function() {
+                    var current_checkbox = $(this);
+                    interests.push(current_checkbox.val());
+                });
+
                 $.ajax({
                     url: '/save_first_time_user_preferences',
                     type: 'POST',
@@ -283,20 +291,22 @@
                         org: org_val,
                         role: role_val,
                         comm_size: comm_size_val,
-                        comm_type: comm_type_val
+                        comm_type: comm_type_val,
+                        interests: interests
                     },
                     success: function (msg) {
                         var parsed_msg = $.parseJSON(msg);
-                        if (parsed_msg.success) {
+                       if (parsed_msg.success) {
                             $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + selected_city + ', ' + selected_state + '</option>').trigger('change');
-                        }
-                        else {
+                       }
+                       else {
                             console.log(parsed_msg.error_msg);
-                        }
+                       }
                        first_time_user_block.dialog('close');
 
                     }
                 })
+
             });
 
             first_time_user_block.dialog({

@@ -59,7 +59,8 @@ function frs_location_services_theme_registry_alter(&$theme_registry)
 /**
  * Create a taxonomy term and return the tid.
  */
-function custom_create_taxonomy_term($name, $vid) {
+function custom_create_taxonomy_term($name, $vid)
+{
     $term = new stdClass();
     $term->name = $name;
     $term->vid = $vid;
@@ -92,6 +93,7 @@ function save_first_time_user_preferences()
     $user_org = $user_data->field_organization;
     $user_comm_type = $user_data->field_community_type;
     $user_comm_size = $user_data->field_community_size;
+    $user_interests = $user_data->field_lgc_topics_of_interest;
 
     // Clear any previous zip code values (used for testing)
     unset($user_zip_codes[LANGUAGE_NONE]);
@@ -151,43 +153,55 @@ function save_first_time_user_preferences()
 
 
         // add role data
-            $role = xssafe($_POST['role']);
-            // Check if role is a new input from user and add to vocabulary
-            if (!is_numeric($role)) {
-                $role = custom_create_taxonomy_term($role,taxonomy_vocabulary_machine_name_load('roles')->vid );
-            }
-            $org = xssafe($_POST['org']);
-            $comm_type = xssafe($_POST['comm_type']);
-            $comm_size = xssafe($_POST['comm_size']);
+        $role = xssafe($_POST['role']);
+        // Check if role is a new input from user and add to vocabulary
+        if (!is_numeric($role)) {
+            $role = custom_create_taxonomy_term($role, taxonomy_vocabulary_machine_name_load('roles')->vid);
+        }
+        $org = xssafe($_POST['org']);
+        $comm_type = xssafe($_POST['comm_type']);
+        $comm_size = xssafe($_POST['comm_size']);
 
-            if ($role != '' && is_numeric($role)) {
-                $user_role[LANGUAGE_NONE][0]['tid'] = $role;
+        if ($role != '' && is_numeric($role)) {
+            $user_role[LANGUAGE_NONE][0]['tid'] = $role;
+        }
+        if (is_numeric($org)) {
+            $user_org[LANGUAGE_NONE][0]['tid'] = $org;
+        }
+        if ($comm_type) {
+            $user_comm_type[LANGUAGE_NONE][0] = array('value' => $comm_type);
+        }
+        if ($comm_size && is_numeric($comm_size)) {
+            $user_comm_size[LANGUAGE_NONE][0]['tid'] = $comm_size;
+            $edit['field_community_size'] = $user_comm_size;
+        }
+
+        /// Save LGC Topic Settings
+        // reset saved user interests
+        $user_interests[LANGUAGE_NONE] = array();
+        $interests = $_POST['interests'];
+        foreach($interests as $tid) {
+            if (is_numeric($tid)) {
+                $user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
             }
-            if (is_numeric($org)) {
-                $user_org[LANGUAGE_NONE][0]['tid'] = $org;
-            }
-            if ($comm_type) {
-                $user_comm_type[LANGUAGE_NONE][0] = array('value' => $comm_type);
-            }
-            if ($comm_size && is_numeric($comm_size)) {
-                $user_comm_size[LANGUAGE_NONE][0]['tid'] = $comm_size;
-                $edit['field_community_size'] = $user_comm_size;
-            }
+        }
+
 
     }
 
 // Set first_time_user boolean to false
     $first_time_user[LANGUAGE_NONE][0] = array('value' => '0');
 
-        $edit = array(
-            'field_zip_code' => $user_zip_codes,
-            'field_first_time_user' => $first_time_user,
-            'field_initial_log_in' => $user_initial_login,
-            'field_organization' => $user_org,
-            'field_role' => $user_role,
-            'field_community_type' => $user_comm_type,
-            'field_community_size' => $user_comm_size,
-        );
+    $edit = array(
+        'field_zip_code' => $user_zip_codes,
+        'field_first_time_user' => $first_time_user,
+        'field_initial_log_in' => $user_initial_login,
+        'field_organization' => $user_org,
+        'field_role' => $user_role,
+        'field_community_type' => $user_comm_type,
+        'field_community_size' => $user_comm_size,
+        'field_lgc_topics_of_interest' => $user_interests
+    );
 
     $return_msg = array();
 
@@ -201,6 +215,8 @@ function save_first_time_user_preferences()
         exit();
     }
     $return_msg['success'] = true;
+    $return_msg['input'] = $_POST;
+    $return_msg['user_interests'] = $user_interests;
     print json_encode($return_msg);
 
 }
@@ -222,7 +238,7 @@ function return_location_data_lat_long()
 //xss mitigation functions
 function xssafe($data, $encoding = 'UTF-8')
 {
-        return htmlspecialchars($data, ENT_QUOTES | ENT_HTML401, $encoding);
+    return htmlspecialchars($data, ENT_QUOTES | ENT_HTML401, $encoding);
 }
 
 
@@ -263,19 +279,19 @@ function return_location_data()
 
 function high_level_taxonomy_checkboxes()
 {
-    $high_level_taxonomy_names = array(
-        'Air',
-        'Energy', 'Endangered Species', 'Environmental Justice',
-        'Compliance & Enforcement',
-        'Health Effects',
-        'Pollution Prevention & Control', 'Regulated Facilities', 'Services for Citizens',
-        'Soils & Land', 'Water',
-    );
-    foreach ($high_level_taxonomy_names as $term_name) {
-//    $tid = taxonomy_get_term_by_name($term_name);
-        print '<label class="ck-button"><input class="term-name-checkboxes" type="checkbox"  name="' . $term_name . '" value="' . $term_name . '"/><span>' . $term_name . '</span></label>';
+    $max_topics_shown = 10;
+    // load local government topics
+    $vid = taxonomy_vocabulary_machine_name_load('lgc_topics')->vid;
+    $vocab_tree = taxonomy_get_tree($vid);
+    $count = 0;
+    foreach ($vocab_tree as $obj_class) {
+        if ($count <= $max_topics_shown) {
+            print '<label class="ck-button"><input aria-label="' . $obj_class->name . '" class="term-name-checkboxes" type="checkbox"  name="' . $obj_class->name . '" value="' . $obj_class->tid . '"/><span>' . $obj_class->name . '</span></label>';
+            $count = $count + 1;
+        } else {
+            break;
+        }
     }
-
 }
 
 
@@ -530,7 +546,7 @@ function generate_taxonomy_select($elem_id)
         case 'community-size':
             $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('community_sizes')->vid);
             $title = 'Select size';
-            usort($terms, function($a, $b) {
+            usort($terms, function ($a, $b) {
                 return $a->tid - $b->tid;
             });
             break;
@@ -546,17 +562,17 @@ function generate_taxonomy_select($elem_id)
                 'utilities manager' => 'Utilities manager',
                 'budget and operations' => 'Budget and operations'
             );
-             $combobox = true;
-            usort($terms, function($a, $b) {
-                return  $b->name - $a->name;
+            $combobox = true;
+            usort($terms, function ($a, $b) {
+                return $b->name - $a->name;
             });
 
             break;
         case 'select-organization':
             $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('organizations')->vid);
             $title = 'Select organization';
-            usort($terms, function($a, $b) {
-                return  $b->name - $a->name;
+            usort($terms, function ($a, $b) {
+                return $b->name - $a->name;
             });
             break;
     }

@@ -35,11 +35,6 @@
 drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/first_time_user_profile.js", "file");
 drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/combobox.js", "file");
 drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_time_user_profile.css", "file");
-
-//$node = node_load($row->nid);
-//$field = field_view_field('field_source_url');
-
-
 ?>
 <div id="first-time-user-profile">
     <h2><span>Getting Started</span>What matters to you?</h2>
@@ -95,9 +90,14 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
         <label for="community-type">My community is mostly...</label>
         <input type="radio" name="community-type" class="community-type" value="rural">Rural
         <input type="radio" name="community-type" class="community-type" value="urban">Urban
-        </div>
+        </div> <!-- @end community-type-grouping -->
 
 
+    </div><!-- @end local-government-options -->
+    <h3>Topics that matter</h3>
+    <p>Select a few high-level topics that interest you.</p>
+    <div id="high-level-interests">
+        <?php high_level_taxonomy_checkboxes(); ?>
     </div>
 
 </div><!-- @end first-time-user-profile-->

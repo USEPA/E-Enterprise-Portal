@@ -2,7 +2,9 @@
     height: 200px;
 }
 
-
+#high-level-interests .ck-button input.term-name-checkboxes {
+    display:none;
+}
 
 .first-time-user-dialog .ui-dialog-titlebar, #local-government-options {
     display:none;
