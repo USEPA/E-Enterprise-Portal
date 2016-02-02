@@ -97,3 +97,33 @@
 .view-recommended-resources #datatable-1 thead{
     display:none;
 }
+
+
+.modal-iframe {
+    width: 100%;
+    height: 90%;
+}
+
+.ui-dialog, .ui-dialog-content {
+    height: 90% !important;
+}
+
+
+
+#edit-field-lgc-link .description {
+    width: 280px;
+}
+
+#edit-field-lgc-link .description.error {
+    color: red;
+}
+
+.node-lgc_resource-form .description {
+    font-size: 0.75em !important;
+    top: 100%;
+}
+
+#edit-actions, .resource-edit-cancel-link {
+    float: left;
+}
+
