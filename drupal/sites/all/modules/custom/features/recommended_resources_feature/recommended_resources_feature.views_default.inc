@@ -30,13 +30,14 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_plugin'] = 'datatables';
   $handler->display->display_options['style_options']['columns'] = array(
     'title' => 'title',
-    'field_source_editable' => 'field_source_editable',
-    'field_topic_editable' => 'field_topic_editable',
-    'field_source_url_editable' => 'field_source_url_editable',
-    'name' => 'name',
+    'field_lgc_id' => 'field_lgc_id',
+    'field_lgc_category' => 'field_lgc_category',
+    'field_lgc_description' => 'field_lgc_description',
+    'field_lgc_topic' => 'field_lgc_topic',
+    'edit_node' => 'edit_node',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
@@ -47,34 +48,55 @@ function recommended_resources_feature_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_source_editable' => array(
+    'field_lgc_id' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_topic_editable' => array(
+    'field_lgc_category' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_source_url_editable' => array(
+    'field_lgc_description' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'name' => array(
+    'field_lgc_topic' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
+    'edit_node' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['elements'] = array(
+    'search_box' => 1,
+    'table_info' => 1,
+    'save_state' => 0,
+    'table_tools' => 0,
+  );
+  $handler->display->display_options['style_options']['layout'] = array(
+    'autowidth' => 0,
+    'themeroller' => 0,
+    'sdom' => '',
+  );
+  $handler->display->display_options['style_options']['pages'] = array(
+    'pagination_style' => 'full_numbers',
+    'length_change' => 0,
+    'display_length' => '10',
   );
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';

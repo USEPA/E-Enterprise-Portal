@@ -68,6 +68,7 @@ features[user_permission][] = edit terms in lgc_topics
 features[user_permission][] = import lgc feeds
 features[user_permission][] = tamper lgc
 features[user_permission][] = unlock lgc feeds
+features[user_role][] = local_government_admin
 features[views_view][] = local_government_resource_editor
 features[views_view][] = new_local_government_resource
 features[views_view][] = recommended_resources
