@@ -1,6 +1,7 @@
 (function ($) {
 
     $(document).ready(function () {
+        console.log("loading first time user");
 
 
         // If first time user, show modal for profile saving options
@@ -25,6 +26,8 @@
             var $loc_add_new = $('#location-add-new');
             var $choose_zip_holder =   $('#choose-zip-holder');
             var $cancel_zip = $('#cancel-zip-select');
+
+
 
             // Initialize  location with default information
             $nearest_location.text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
@@ -118,12 +121,7 @@
                 $loc_add_new.hide();
             });
 
-            //$('#revert-to-geo-location').click(function () {
-            //    $nearest_location.text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
-            //    selected_zip_code = nearest_zip;
-            //    selected_state = nearest_state;
-            //    selected_city = nearest_city;
-            //});
+
 
             //Hide Zip selection options
             $cancel_zip.click(function () {
@@ -244,6 +242,7 @@
                     type: 'POST',
                     data: {skip: 1, zip: '', geolocation_used: geolocation_used, geolocation_zip: nearest_zip},
                     success: function () {
+                        $(document).trigger("ee:first_time_user_complete");
                         $('#location-select').html('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + '</option>').trigger('change');
                        $('.pane-views-first-time-user-profile-block').dialog('close');
                     }
@@ -296,13 +295,15 @@
                     },
                     success: function (msg) {
                         var parsed_msg = $.parseJSON(msg);
-                       if (parsed_msg.success) {
+                        $(document).trigger("ee:first_time_user_complete");
+                        if (parsed_msg.success) {
                             $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + selected_city + ', ' + selected_state + '</option>').trigger('change');
                        }
                        else {
                             console.log(parsed_msg.error_msg);
                        }
                        first_time_user_block.dialog('close');
+
 
                     }
                 })
@@ -317,6 +318,16 @@
                 height: 600,
                 //height: auto,
                 dialogClass: 'first-time-user-dialog'
+            });
+
+            $('#switch-to-interests').click(function() {
+                $('.first-time-first-page').hide();
+                $('.first-time-second-page').show();
+            });
+
+            $('#switch-to-first-page').click(function() {
+                $('.first-time-first-page').show();
+                $('.first-time-second-page').hide();
             });
 
 

@@ -8,7 +8,19 @@
   var AQSMonitorLayer;
 	var srTodayAQI;
 
+    var first_time_user_loading = false;
+
   $(document).ready(function() {
+
+
+      var first_time_user_block = $('#first-time-user-block');
+      if (first_time_user_block.length > 0) {
+          first_time_user_loading = true;
+      }
+      $(document).on('ee:first_time_user_complete', function() {
+          first_time_user_loading = false;
+          console.log("resetting");
+      });
 
     var $tabs = $("#my-air-quality-chart-tabs");
 
@@ -25,20 +37,22 @@
     });
 
     $(document).on("ee:zipCodeQueried", function(evt, data) {
-      currentZipData = data;
-      draw(currentZipData.zip, currentZipData.string);
-      //if markers exist then it's not the original map load
-      if (markers) {
-        map.removeLayer(markers);
-        markers = new L.FeatureGroup();
-        map.addLayer(markers);
-        updateMarker();
-      }
-      //original map load so markers are added via other method in map creation
-      else {
-        markers = new L.FeatureGroup();
-        map.addLayer(markers);
-      }
+        if (!first_time_user_loading) {
+            currentZipData = data;
+            draw(currentZipData.zip, currentZipData.string);
+            //if markers exist then it's not the original map load
+            if (markers) {
+                map.removeLayer(markers);
+                markers = new L.FeatureGroup();
+                map.addLayer(markers);
+                updateMarker();
+            }
+            //original map load so markers are added via other method in map creation
+            else {
+                markers = new L.FeatureGroup();
+                map.addLayer(markers);
+            }
+        }
     });
   });
 
