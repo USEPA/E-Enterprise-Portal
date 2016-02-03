@@ -322,6 +322,7 @@
                     type: 'POST',
                     data: {skip: 1, zip: '', geolocation_used: geolocation_used, geolocation_zip: nearest_zip},
                     success: function () {
+                        $(document).trigger("ee:first_time_user_complete");
                         $('#location-select').html('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + '</option>').trigger('change');
                        $('.pane-views-first-time-user-profile-block').dialog('close');
                     }
@@ -375,7 +376,8 @@
                     },
                     success: function (msg) {
                         var parsed_msg = $.parseJSON(msg);
-                       if (parsed_msg.success) {
+                        $(document).trigger("ee:first_time_user_complete");
+                        if (parsed_msg.success) {
                             $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + preferred_name + '</option>').trigger('change');
                        }
                        else {
@@ -396,6 +398,16 @@
                 height: 600,
                 //height: auto,
                 dialogClass: 'first-time-user-dialog'
+            });
+
+            $('#switch-to-interests').click(function() {
+                $('.first-time-first-page').hide();
+                $('.first-time-second-page').show();
+            });
+
+            $('#switch-to-first-page').click(function() {
+                $('.first-time-first-page').show();
+                $('.first-time-second-page').hide();
             });
 
 
