@@ -19,6 +19,10 @@ function eenterprise_utility_menu()
         'page callback' => 'zip_code_lookup',
         'access callback' => TRUE,
     );
+    $items['store_location'] = array(
+        'page callback' => 'store_location',
+        'access callback' => TRUE,
+    );
 
     $items['test_load_air_now_us_data'] = array(
         'page callback' => 'test_load_air_now_us_data',
@@ -438,6 +442,16 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             hide($form['field_admin_state']);
             hide($form['field_first_time_user']);
         }
+        // $form['zip_mapping'] = array(
+        //     '#title' => t('Zip Mapping'),
+        //     '#type' => 'select',
+        //     '#multiple' => true,
+        //     //'#description' => 'Select a Country.',
+        //     '#options' => array("val" => "option"),
+        // );
+        // if(isset($form_state['values'])) {
+        //     $multivalues = $form_state['values']['country'];
+        // }
 
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
         $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
@@ -570,6 +584,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 }
 
 function eenterprise_utility_profile_form_submit($form, &$form_state) {
+
     // if Reset User as First Time Login for Testing is checked, clear user agreement signed as well
     if ($form_state['values']['field_first_time_user'][LANGUAGE_NONE][0]['value'] === 1) {
         global $user;
@@ -578,6 +593,84 @@ function eenterprise_utility_profile_form_submit($form, &$form_state) {
         $edit = array('field_terms_of_use_agreed' => $agreed);
         user_save($user_data, $edit);
     }
+}
+
+
+function save_zip_mapping()
+{
+    global $user;
+    $user_data = user_load($user->uid);
+
+    $user_zip_codes = $user_data->field_zip_code;
+    $user_initial_login = $user_data->field_initial_log_in;
+    $first_time_user = $user_data->field_first_time_user;
+    $user_role = $user_data->field_role;
+    $user_org = $user_data->field_organization;
+    $user_comm_type = $user_data->field_community_type;
+    $user_comm_size = $user_data->field_community_size;
+    $user_interests = $user_data->field_lgc_topics_of_interest;
+
+    // Clear any previous zip code values (used for testing)
+    unset($user_zip_codes[LANGUAGE_NONE]);
+
+
+// Store users geolocation
+    if ($skip && $geolocation_used) {
+        $zip = $geolocation_zip;
+    }
+
+//Capture inital user settings for default zip
+    $multifield_initial_zip_obj = array(
+        'field_default_zip_code_value' => 1,
+        'field_default_zip_code_format' => null,
+        'field_geolocation_value' => $zip,
+        'field_geolocation_value_format' => null,
+        'field_geolocation' => array(
+            LANGUAGE_NONE => array(
+                0 => array(
+                    'value' => $geolocation_used
+                ),
+            ),
+        ),
+        'field_default_zip_code' => array(
+            LANGUAGE_NONE => array(
+                0 => array(
+                    'value' => $zip
+                ),
+            ),
+        ),
+    );
+
+// Set first_time_user boolean to false
+    $first_time_user[LANGUAGE_NONE][0] = array('value' => '0');
+
+    $edit = array(
+        'field_zip_code' => $user_zip_codes,
+        'field_first_time_user' => $first_time_user,
+        'field_initial_log_in' => $user_initial_login,
+        'field_organization' => $user_org,
+        'field_role' => $user_role,
+        'field_community_type' => $user_comm_type,
+        'field_community_size' => $user_comm_size,
+        'field_lgc_topics_of_interest' => $user_interests
+    );
+
+    $return_msg = array();
+
+    try {
+        user_save($user_data, $edit);
+    } catch (Exception $e) {
+        $return_msg['error_msg'] = $e;
+        $return_msg['success'] = false;
+        $return_msg['geo'] = $geolocation_used;
+        print json_encode($e);
+        exit();
+    }
+    $return_msg['success'] = true;
+    $return_msg['input'] = $_POST;
+    $return_msg['user_interests'] = $user_interests;
+    print json_encode($return_msg);
+
 }
 
 /**
@@ -613,6 +706,8 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
             'latitude' => '',
             'longitude' => '',
             'zip' => '',
+            'zip_attr' => '',
+            'city_attr' => '',
             'string' => $error_message,
             'error' => $error
     );
@@ -621,25 +716,78 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
         $validation = postal_code_validation_validate($unparsed_zip, 'US');
         if (!$validation['error']) {
             $zip = substr($validation['postal_code'], 0, 5);
+
+
+            $zip_data = array(
+                'city' => '',
+                'latitude' => '',
+                'longitude' => '',
+                'zip_attr' => '',
+                'city_attr' => '',
+                'zip' => $zip,
+            );
+
+            $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+            $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&f=pjson';
+        
+            $json_file = file_get_contents($zip_pop_url);
+            $result = json_decode($json_file);
+
+            if (!empty($result->features)) {
+                $city_attr = array();
+                $city_list = array();
+                foreach($result->features as $feature) {
+                    if(!empty($feature->attributes->NAME_LABEL)) {
+                        $city_list[] = $feature->attributes->NAME_LABEL;
+                        $city_attr[$feature->attributes->NAME_LABEL] = array(
+                            "pop" => $feature->attributes->Place_Pop_2010
+                        );
+                    } 
+                    $zip_attr[$feature->attributes->ZCTA] = array(
+                        "pop" => $feature->attributes->Zip_Pop2014_ACS5,
+                        "urban" => $feature->attributes->Urban,
+                    );
+                }
+
+                $zip_data['city'] = $city_list;
+                $zip_data['city_attr'] = $city_attr;
+                $zip_data['zip_attr'] = $zip_attr;
+                //$readable_string .= $feature->attributes->NAME_LABEL;
+            }
+
+
+
+
+            $zip_tribe_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
+            $zip_tribe_url = $zip_tribe_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&f=pjson';
+
+            $json_file = file_get_contents($zip_tribe_url);
+            $result = json_decode($json_file);
+
+
+            if (!empty($result->features)) {
+                $city_list = array();
+                foreach($result->features as $feature) {
+                    $zip_data['city'][] = $feature->attributes->TRIBE_NAME_CLEAN;
+                }
+                //$readable_string .= $feature->attributes->NAME_LABEL;
+            }
+
+
             $frs_city_state_return = frs_zip_code_to_city_state($zip);
             $frs_lat_long_return = frs_zip_code_to_lat_long($zip);
 
             if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {       // first try FRS resource
-                $zip_data = array(
-                    'state' => $frs_city_state_return['state'],
-                    'city' => $frs_city_state_return['city'],
-                    'latitude' => $frs_lat_long_return['lat'],
-                    'longitude' => $frs_lat_long_return['long'],
-                    'zip' => $zip,
-                );
+                    $zip_data['latitude'] = $frs_lat_long_return['lat'];
+                    $zip_data['longitude'] = $frs_lat_long_return['long'];
             }
 
             // Create readable string for across site
-            if (strlen($zip_data['city']) != 0) {
-                $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
+            //if (strlen($zip_data['city']) != 0) {
+                //$readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
                 $error = false;
-            }
-            $zip_data['string'] = $readable_string;
+            //}
+            //$zip_data['string'] = $readable_string;
             $zip_data['error'] = $error;
         }
     }
@@ -652,6 +800,21 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
 }
 
 
+function store_location() {
+    if (isset($_POST['zip']) && isset($_POST['preferred_name']) ) {
+        $zip = $_POST['zip'];
+        $zip = $_POST['preferred_name'];
+    } else if (isset($_GET['zip']) && isset($_GET['preferred_name'])) {
+        $zip = $_GET['zip'];
+        $zip = $_GET['preferred_name'];
+    } else {
+        exit();
+    }
+
+    global $user;
+    $user_data = user_load($user->uid);
+    
+}
 
 /**
  * @param $form

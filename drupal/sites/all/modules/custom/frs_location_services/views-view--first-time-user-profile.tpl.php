@@ -59,6 +59,10 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
             <label for="choose-zip">Select your ZIP code</label><span id="choose-zip"></span>
 			<button class="btn btn-primary btn-sm" id="confirm-zip-select">Save</button>
         </span>
+        <span style="display:none" id="choose-city-holder">
+            <label for="choose-zip">Select your city or tribal area</label><span id="choose-city"></span>
+            <button class="btn btn-primary btn-sm" id="confirm-city-select">Save</button>
+        </span>
         <button class="btn btn-danger btn-sm" id="cancel-zip-select">Cancel</button>
     </div><!-- @end location-add-new -->
 

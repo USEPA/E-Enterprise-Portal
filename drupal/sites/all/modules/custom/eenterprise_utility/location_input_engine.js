@@ -36,8 +36,14 @@
                     error = true;
                   }
                   else {
+                    var city_select = '<select id="zip-lookup-city-state">';
+                    $.each(parsed_data.city, function (index, city) {
+                      city_select = city_select + '<option value="' + city + '">' + city + '</option>';
+                    });
+                    city_select = city_select + '</select>';
                     location_data_return.state = parsed_data.state;
                     location_data_return.zip = parsed_data.zip;
+                    location_data_return.city_select = city_select;
                     location_data_return.zip_codes = false; // not returning list of zip codes
                   }
                 }

@@ -209,6 +209,7 @@
 						var trimmedValue = $.trim(input.val());
 
 						if ($.trim(input.val()) == '') {
+              console.log("input val: " + input.val());
 							field_suffix.html('');
 						}
 						else {
@@ -278,26 +279,85 @@
                       }
                       // Count zips returned isn't greater than 1
                       else {
-                          input.val(location_data.zip_array[0]);
-                          field_suffix.html(location_data.city + ', ' + location_data.state);
-                          if (!existingLocationErrors()) {
-                              resetButtons(button_clicked);
-                          }
-                          else {
-                          }
+
+                            input.val(location_data.zip_array[0]);
+                            field_suffix.html(location_data.city + ', ' + location_data.state);
+                            if (!existingLocationErrors()) {
+                                resetButtons(button_clicked);
+                            }
+                            else {
+                            }
                       } 
                   } // Ends if location_data.zip_codes
                   else {
-                      // add city and state data to field suffix
-                      field_suffix.html(location_data.city + ', ' + location_data.state);
-                      if (!existingLocationErrors()) {
-                          resetButtons(button_clicked);
+                      var count_cities_returned = location_data.city.length;
+                      if (count_cities_returned > 1) {
+                        // replace input with select list of zip codes.
+                        add_button.hide();
+                        remove_button.hide();
+                        primary_indicator.hide();
+
+                        var labelselect = $('<label id="zip-label" for="zip-lookup-city-state">Select a city/tribal area for ' + input.val() + ':</label>');
+                        var select = $(location_data.city_select);
+                        select.addClass('city-state-lookup-zips');
+                        var confirm = $('<button type="button" class="btn btn-default btn-sm" id ="user-profile-select-city">Select</button>');
+                        var back = $('<button type="button" class="btn btn-default btn-sm" id="user-profile-back-city">Back</button>');
+                        input.prop("disabled", true);
+                        if (numSelects == 0) {
+                          input.after(labelselect);
+                          labelselect.after(select);
+                          numSelects = numSelects + 1;
+                        }
+                        hideButtons();
+                        field_suffix.html(confirm);                          
+                        field_suffix.append(back);
+                        $('.form-submit').prop("disabled", true);
+                        select.focus();
+                        back.on('click', function () {
+                            removedSelect = true;
+                            numSelects = 0;
+                            field_suffix.html('');
+                            input.prop("disabled", false);
+                            $('#profile-locations').find('#city-label').remove();
+                            $('#profile-locations').find('#zip-lookup-city-state').remove();
+                            back.remove();
+                            confirm.remove();
+                            remove_button.show();
+                            add_button.show();
+                            primary_indicator.show();
+                            field_suffix.addClass('error');
+                            field_suffix.html('Please update your location or remove this field before saving.');
+                            input.focus();
+                        });
+                        confirm.on('click', function () {
+                            back.remove();
+                            confirm.remove();
+                            var currentCity = $('.city-state-lookup-zips option:selected').val();
+                            field_suffix.html(currentCity);
+                            $('#profile-locations').find('#zip-label').remove();
+                            $('#profile-locations').find('#zip-lookup-city-state').remove();
+                            remove_button.show();
+                            primary_indicator.show();
+                            if (!existingLocationErrors()) {
+                                resetButtons(button_clicked);
+                            }
+                            numSelects = 0;
+                            input.prop("disabled", false);
+                            $('.form-submit').prop("disabled", false);
+                            input.focus();
+                        });
+                      } else {
+                        // add city and state data to field suffix
+                        field_suffix.html(location_data.city + ', ' + location_data.state);
+                        if (!existingLocationErrors()) {
+                            resetButtons(button_clicked);
+                        }
+                        else {
+                        }
+                        processPrimaryFields();
+  											moveAddButton();
+                        field_suffix.closest("td").find('.field_zip_code').focus();
                       }
-                      else {
-                      }
-                      processPrimaryFields();
-											moveAddButton();
-                      field_suffix.closest("td").find('.field_zip_code').focus();
                   }
               }).fail(function (location_data) {
                   // Print error message

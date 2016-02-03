@@ -10,10 +10,15 @@
             var selected_zip_code = '27705';
             var selected_city = 'Durham';
             var selected_state = 'NC';
+            var selected_urban = 'Urban';
+            var selected_pop = 228330;
+            var preferred_name = 'Durham, NC';
             var nearest_zip = '27705';
             var nearest_city = 'Durham';
             var nearest_state = 'NC';
             var geolocation_used = 0;
+            var all_city_attr = [];
+            var all_zip_attr = [];
 
             var $org_select = $('#select-organization');
             var $zip_select =  $('#zip_container');
@@ -25,7 +30,7 @@
             var $loc_add_new = $('#location-add-new');
             var $choose_zip_holder =   $('#choose-zip-holder');
             var $cancel_zip = $('#cancel-zip-select');
-
+            var $choose_city_holder =   $('#choose-city-holder');
             // Initialize  location with default information
             $nearest_location.text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
 
@@ -105,6 +110,7 @@
                 $loc_add_new.show();
                 $choose_zip_holder.hide();
                 $cancel_zip.show();
+                $choose_city_holder.hide();
                 return false;
             });
 
@@ -116,6 +122,41 @@
                 $nearest_location.text(selected_location + ' (' + selected_zip_code + ')');
                 $zip_select.show();
                 $loc_add_new.hide();
+            });
+
+            // User has found city they want, show in selected/nearest data
+            $('#confirm-city-select').click(function () {
+                preferred_name = $('#city-state-lookup-zips').val();
+                var selected_location = $new_loc_input.val();
+                if(preferred_name in all_city_attr) {
+                    selected_pop = all_city_attr[preferred_name]['pop'];
+                } else {
+                    selected_pop = all_zip_attr[selected_location]['pop'];
+                }
+                selected_urban = all_zip_attr[selected_location]['urban'];
+                if(selected_urban.toLowerCase() == "urban") {
+                    $('input[name=community-type]:nth(1)').prop('checked', true);
+                } else {
+                    $('input[name=community-type]:nth(0)').prop('checked', true);
+                }
+                if(selected_pop < 5000) {
+                    $('#community-size option:contains(0 - 5,000)').attr('selected', 'selected');
+                } else if(selected_pop < 10000) {
+                    $('#community-size option:contains(5,000 - 10,000)').attr('selected', 'selected');
+                } else if(selected_pop < 25000) {
+                    $('#community-size option:contains(10,000 - 25,000)').attr('selected', 'selected');
+                } else if(selected_pop < 100000) {
+                    $('#community-size option:contains(25,000 - 100,000)').attr('selected', 'selected');
+                } else if(selected_pop < 1000000) {
+                    $('#community-size option:contains(100,000 - 1,000,000)').attr('selected', 'selected');
+                } else {
+                    $('#community-size option:contains(1,000,000+)').attr('selected', 'selected');
+                }
+                $location_desc_user.show();
+                $nearest_location.text(preferred_name + ' (' + selected_location + ')');
+                $zip_select.show();
+                $loc_add_new.hide();
+                $('input[name=community-type]:checked');
             });
 
             //$('#revert-to-geo-location').click(function () {
@@ -130,6 +171,7 @@
                 $zip_select.show();
                 $loc_add_new.hide();
                 $choose_zip_holder.hide();
+                $choose_city_holder.hide();
                 clear_city_state_error();
                 $cancel_zip.hide();
             });
@@ -162,23 +204,59 @@
                     data: {location: location},
                     success: function (data) {
                         var parsed_data = $.parseJSON(data);
-                        console.log(parsed_data);
                         // zip code entered, returned city/state
                         if (parsed_data.name_city_state) {
-                            selected_city = parsed_data.city;
-                            if (selected_city == '') { //Unable to find data for that zip
+                            var city_count = parsed_data.city.length;
+                            if (city_count == 0) { //Unable to find data for that zip
                                 error_message = '<span id="location-error-message">The ZIP code you entered could not be found.</span>';
                                 $loc_add_new.append(error_message);
                                 location_input.addClass('input-error');
                             }
-                            else {
+                            else if (city_count == 1) { 
                                 selected_state = parsed_data.state;
                                 var parsed_zip = parsed_data.zip;
-                                $nearest_location.text(parsed_data.city + ', ' + parsed_data.state + ' (' + parsed_zip + ')');
+                                selected_pop = parsed_data.city_attr[parsed_data.city[0]]['pop'];
+                                selected_urban = parsed_data.zip_attr[parsed_data.zip]['urban'];
+                                $nearest_location.text(parsed_data.city[0] + ' (' + parsed_zip + ')');
                                 selected_zip_code = parsed_zip;
+                                preferred_name = parsed_data.city[0];
+
+                                if(selected_urban.toLowerCase() == "urban") {
+                                    $('input[name=community-type]:nth(1)').prop('checked', true);
+                                } else {
+                                    $('input[name=community-type]:nth(0)').prop('checked', true);
+                                }
+                                if(selected_pop < 5000) {
+                                    $('#community-size option:contains(0 - 5,000)').attr('selected', 'selected');
+                                } else if(selected_pop < 10000) {
+                                    $('#community-size option:contains(5,000 - 10,000)').attr('selected', 'selected');
+                                } else if(selected_pop < 25000) {
+                                    $('#community-size option:contains(10,000 - 25,000)').attr('selected', 'selected');
+                                } else if(selected_pop < 100000) {
+                                    $('#community-size option:contains(25,000 - 100,000)').attr('selected', 'selected');
+                                } else if(selected_pop < 1000000) {
+                                    $('#community-size option:contains(100,000 - 1,000,000)').attr('selected', 'selected');
+                                } else {
+                                    $('#community-size option:contains(1,000,000+)').attr('selected', 'selected');
+                                }
                                 $zip_select.show();
                                 $loc_add_new.hide();
-                                $choose_zip_holder.hide();
+                                $choose_city_holder.hide();
+                            }
+                            else {
+                                selected_zip = parsed_data.zip;
+                                selected_state = parsed_data.state;
+                                all_zip_attr = parsed_data.zip_attr;
+                                all_city_attr = parsed_data.city_attr;
+                                var city_select = '<select id="city-state-lookup-zips">';
+                                $.each(parsed_data.city, function (index, city) {
+                                    city_select = city_select + '<option value="' + city + '">' + city + '</option>';
+                                });
+                                city_select = city_select + '</select>';
+                                $new_loc_input.val(selected_zip);
+                                $('#choose-city').html(city_select);
+                                $('#typed-in-city-state').text(location);
+                                $choose_city_holder.show();
                             }
                         }
                         else {
@@ -286,6 +364,7 @@
                     data: {
                         skip: 0,
                         zip: selected_zip_code,
+                        preferred_name: preferred_name,
                         geolocation_used: geolocation_used,
                         geolocation_zip: nearest_zip,
                         org: org_val,
@@ -297,7 +376,7 @@
                     success: function (msg) {
                         var parsed_msg = $.parseJSON(msg);
                        if (parsed_msg.success) {
-                            $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + selected_city + ', ' + selected_state + '</option>').trigger('change');
+                            $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + preferred_name + '</option>').trigger('change');
                        }
                        else {
                             console.log(parsed_msg.error_msg);
