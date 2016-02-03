@@ -28,55 +28,69 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'datatables';
   $handler->display->display_options['style_options']['columns'] = array(
     'title' => 'title',
+    'nothing' => 'nothing',
     'field_lgc_id' => 'field_lgc_id',
     'field_lgc_category' => 'field_lgc_category',
     'field_lgc_description' => 'field_lgc_description',
     'field_lgc_topic' => 'field_lgc_topic',
     'edit_node' => 'edit_node',
+    'php' => 'php',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
     'title' => array(
-      'sortable' => 0,
+      'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
+    'nothing' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'field_lgc_id' => array(
-      'sortable' => 0,
+      'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
     'field_lgc_category' => array(
-      'sortable' => 0,
+      'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
     'field_lgc_description' => array(
-      'sortable' => 0,
+      'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
     'field_lgc_topic' => array(
-      'sortable' => 0,
+      'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
     'edit_node' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'php' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -89,12 +103,12 @@ function recommended_resources_feature_views_default_views() {
     'table_tools' => 0,
   );
   $handler->display->display_options['style_options']['layout'] = array(
-    'autowidth' => 0,
+    'autowidth' => 1,
     'themeroller' => 0,
     'sdom' => '',
   );
   $handler->display->display_options['style_options']['pages'] = array(
-    'pagination_style' => 'full_numbers',
+    'pagination_style' => '0',
     'length_change' => 0,
     'display_length' => '10',
   );
@@ -120,8 +134,23 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Global: PHP */
+  $handler->display->display_options['fields']['php']['id'] = 'php';
+  $handler->display->display_options['fields']['php']['table'] = 'views';
+  $handler->display->display_options['fields']['php']['field'] = 'php';
+  $handler->display->display_options['fields']['php']['label'] = 'Resources';
+  $handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+  $handler->display->display_options['fields']['php']['php_value'] = 'echo $row->title;';
+  $handler->display->display_options['fields']['php']['php_output'] = '<?php
+echo $row->title;
+?>';
+  $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '2';
+  $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
   /* Field: Content: ID */
   $handler->display->display_options['fields']['field_lgc_id']['id'] = 'field_lgc_id';
   $handler->display->display_options['fields']['field_lgc_id']['table'] = 'field_data_field_lgc_id';
@@ -130,6 +159,7 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['fields']['field_lgc_category']['id'] = 'field_lgc_category';
   $handler->display->display_options['fields']['field_lgc_category']['table'] = 'field_data_field_lgc_category';
   $handler->display->display_options['fields']['field_lgc_category']['field'] = 'field_lgc_category';
+  $handler->display->display_options['fields']['field_lgc_category']['type'] = 'taxonomy_term_reference_plain';
   /* Field: Content: Description */
   $handler->display->display_options['fields']['field_lgc_description']['id'] = 'field_lgc_description';
   $handler->display->display_options['fields']['field_lgc_description']['table'] = 'field_data_field_lgc_description';
@@ -138,6 +168,7 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['fields']['field_lgc_topic']['id'] = 'field_lgc_topic';
   $handler->display->display_options['fields']['field_lgc_topic']['table'] = 'field_data_field_lgc_topic';
   $handler->display->display_options['fields']['field_lgc_topic']['field'] = 'field_lgc_topic';
+  $handler->display->display_options['fields']['field_lgc_topic']['type'] = 'taxonomy_term_reference_plain';
   /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
