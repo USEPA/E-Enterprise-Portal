@@ -8,7 +8,6 @@
     var first_time_user_loading = false;
 
     $(document).ready(function () {
-        console.log("loading enviro mapper");
 
         var first_time_user_block = $('#first-time-user-block');
         if (first_time_user_block.length > 0) {
@@ -16,8 +15,6 @@
         }
         $(document).on('ee:first_time_user_complete', function() {
             first_time_user_loading = false;
-            console.log("resetting");
-
         });
 
         $(document).on('ee:zipCodeQueried', function (evt, data) {

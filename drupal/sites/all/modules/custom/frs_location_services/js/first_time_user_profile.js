@@ -1,8 +1,6 @@
 (function ($) {
 
     $(document).ready(function () {
-        console.log("loading first time user");
-
 
         // If first time user, show modal for profile saving options
         var first_time_user_block = $('#first-time-user-block');

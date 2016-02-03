@@ -19,7 +19,6 @@
       }
       $(document).on('ee:first_time_user_complete', function() {
           first_time_user_loading = false;
-          console.log("resetting");
       });
 
     var $tabs = $("#my-air-quality-chart-tabs");

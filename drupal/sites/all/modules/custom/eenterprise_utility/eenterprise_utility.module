@@ -439,17 +439,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             hide($form['field_first_time_user']);
         }
 
-//        $form['zip_mapping'] = array(
-//            '#title' => t('Zip Mapping'),
-//            '#type' => 'select',
-//            '#multiple' => true,
-//            //'#description' => 'Select a Country.',
-//            '#options' => array("val" => "option"),
-//        );
 
-        if(isset($form_state['values'])) {
-            $multivalues = $form_state['values']['country'];
-        }
 
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
         $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
