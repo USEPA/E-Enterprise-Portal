@@ -54,7 +54,7 @@
 
 .ui-widget-content.first-time-user-dialog{
     max-height: none !important;
-    height: 65% !important;
+    height: 70% !important;
     min-width:300px;
     overflow-y: hidden !important;
     overflow-x: hidden;
