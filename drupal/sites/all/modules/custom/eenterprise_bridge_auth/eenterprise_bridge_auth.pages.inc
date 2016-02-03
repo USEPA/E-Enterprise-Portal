@@ -451,6 +451,9 @@ function create_progress_tracker_node($res, $user)
                     if (strpos($vl['name'], 'Certificate') !== false) {
                         $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Certificate</a><br/>";
                     }
+                    if (strpos($vl['name'], 'Logo') !== false) {
+                        $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Logo</a><br/>";
+                    }
                 }
                 if (empty($res_action)) {
                     $res_action = "N/A";

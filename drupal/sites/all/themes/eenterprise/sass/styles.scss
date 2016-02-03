@@ -127,6 +127,12 @@ menu, ol, ul {
 }
 
 /** --------- Logo Less ------- **/
+.region-disclaimer p {
+	margin-top: 0;
+	line-height: 1.2;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
 .masthead {
 	h1 {
 		width: 7.5em;
@@ -219,38 +225,11 @@ footer {
 	.menu__item.is-leaf {
 		list-style: none;
 	}
-	#block-menu-menu-footer-disclaimers {
-		float: none;
-		clear: left;
-		margin-top: 5px;
-	}
-	.block--ee-social-media, .block--ee-social-media .block-title, .ee-social-media, .ee-social-media li {
-	  float: left;
-	}
-	.block--ee-social-media {
-		h2 {
-		  font-size: 1.5em;
-		  text-transform: lowercase;
-		  font-family: $lato;
-		  padding-top:5px;
-		  letter-spacing: 1px;
-		  display: inline-block;
-		}
-	}
-	.ee-social-media {
-		padding-bottom: 0;
-		li {
-			list-style: none;
-			display: block;
-			margin-right: 5px;
-		}
-	}
-
   #release-number-footer {
-    float: left;
     font-size: 0.75em;
     line-height: 1;
-    margin-top: .5em;
+    margin-top: 0;
+    margin-bottom: 5px;
   }
 }
 
@@ -362,6 +341,14 @@ label, .aria-label {
 	margin-bottom: 2px;
 	display: block;
 	line-height: 1.2;
+}
+.page-eenterprise-new, .section-eenterprise-new {
+	.site-name-and-slogan {
+		width: 100%;
+		.site-slogan {
+			font-size: 0.85em;
+		}	
+	}
 }
 .site-name-and-slogan {
 	float: left;
@@ -485,12 +472,10 @@ header {
 .region-footer {
 	background-color: #333;
 	padding: 20px 2em;
-	height: 4em;
 	.block-title, a {
 		color: #fff;
 	}
 	.block {
-		float: left;
 		font-size: 0.75em;
 		line-height: 1;
 		margin-bottom: 0;
@@ -505,9 +490,8 @@ header {
 			font-size: 1em;
 		}
 	}
-	#block-menu-menu-footer-disclaimers, .menu-footer-disclaimers {
-		float: right;
-		margin-top: 0.5em;
+	.menu-footer-disclaimers {
+		margin-top: 3px;
 		.block-title, h2 {
 			@include element-invisible;
 		}
@@ -1276,26 +1260,24 @@ tr.odd, tr.even {
 .view-to-do .views-exposed-form .views-widget-filter-field_todo_lst_part_code_value{
   display:block;
 }
-
+footer {
+	padding: 10px; 
+	div, .block--ee-social-media {
+		float: none;
+	}
+	#block-menu-menu-footer-disclaimers {
+	  float: none;
+	  margin-bottom: 5px;
+	  margin-top: 15px;
+	 }
+}
 
 
 @media screen and (min-width: 30em) {
-	footer {
-		div, .block--ee-social-media {
-			float: left;
-		}
-		#block-menu-menu-footer-disclaimers {
-		  float: right;
-		  clear: none;
-		  margin-bottom: 0;
-		  margin-top: 15px;
-		 }
-	}
 	.pillbox > .menu-item,
 	.tabs > li {
 		float: left; /* LTR */
 	}
-
 	.pipeline > li {
 		border-right: 1px solid #aaa; /* LTR */
 		float: left; /* LTR */
@@ -1308,11 +1290,6 @@ tr.odd, tr.even {
 		border-right: 0; /* LTR */
 		margin-right: 0; /* LTR */
 		padding-right: 0; /* LTR */
-	}
-	footer {
-		div {
-			float: none;
-		}
 	}
 }
 
@@ -1505,9 +1482,18 @@ tr.odd, tr.even {
 	}
 }
 
-@media screen and (min-width: 47em) {
-	.page-eenterprise-new  .well #login-group {
+@media screen and (min-width: 43.75em) {
+	footer {
+		padding: 20px 2em;
+		height: 4em;	
+		min-height: 50px;
+		#release-number-footer {
+			float: left;
+		}
+		.menu-footer-disclaimers {
+		  float: right;
 
+		}
 	}
 }
 
@@ -1746,6 +1732,16 @@ tr.even {
 
 /** Profile Styles *********************************************************/
 @media screen and (max-width: 40em) {
+	.region-footer {
+		.pipeline > li {
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+	}
+	
+	.site-name-and-slogan {
+		width: 100%;
+	}
 	.simple-main-nav {
 	// Hide simple-main-nav at widths below 40em, when mobile-nav shows
 	display: none;
@@ -2366,6 +2362,7 @@ a.tabledrag-handle .handle {
 }
 label, .aria-label, .ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
 	font-size: 0.85em;
+	margin-bottom: 5px;
 }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active, 
 .todo-filter-by-week li.filter-applied {
@@ -3721,7 +3718,6 @@ input#location-input-guests::-ms-clear {
 	margin-bottom: 5px;
 }
 .page-faqs {
-	
 	.view-header {
 		background-color: #fafafa;
 		padding: 5px 20px;
@@ -3752,9 +3748,6 @@ input#location-input-guests::-ms-clear {
 	}
 	p {
 		margin: 10px 0 0;
-	}
-	.region-disclaimer p {
-		margin-top: 0;
 	}
 	.view-id-faqs {
 		margin-bottom:20px;
