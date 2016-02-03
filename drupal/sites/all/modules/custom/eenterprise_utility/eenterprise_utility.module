@@ -1351,3 +1351,17 @@ function eenterprise_user_page_title() {
 function eenterprise_utility_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
     $form['account']['submit'] = $form['actions']['submit'];
 }
+
+function eenterprise_utility_node_prepare($node) {
+  // Node edit tab is viewed.
+  if (arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == 'edit' && isset($node->nid)) {
+    // Show a message on node edit page if a link check failed once or more.
+    $ignore_response_codes = preg_split('/(\r\n?|\n)/', variable_get('linkchecker_ignore_response_codes', "200\n206\n302\n304\n401\n403"));
+    $links = db_query('SELECT ll.* FROM {linkchecker_node} ln INNER JOIN {linkchecker_link} ll ON ln.lid = ll.lid WHERE ln.nid = :nid AND ll.fail_count > :fail_count AND ll.status = :status AND ll.code NOT IN (:codes)', array(':nid' => $node->nid, ':fail_count' => 0, ':status' => 1, ':codes' => $ignore_response_codes));
+    foreach ($links as $link) {
+      if (_linkchecker_link_access($link)) {
+        drupal_set_message(format_plural($link->fail_count, 'The link below - <b><a href="@url">@url</a></b> - is no longer working and returned a @code status error.  Please update it before saving.', 'The link below - <b><a href="@url">@url</a></b> - is no longer working and returned a @code status error.  Please update it before saving.', array('@url' => $link->url, '@code' => $link->code)), 'error', FALSE);
+      }
+    }
+  }
+}
