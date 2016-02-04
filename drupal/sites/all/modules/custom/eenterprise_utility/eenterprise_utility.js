@@ -133,15 +133,18 @@
 		         $('.field-suffix').removeClass('error')
 	        });
 	        $(".field_zip_code").keyup(function(e) {
-              if (e.which == 13) { // Enter key
-                if (!$('.field-suffix').hasClass('error')) {
-                	$(this).blur();
-                }
-                else {
-	                hideButtons();
-	                $(this).closest("td").find(".field_zip_code").focus();
-                }
+	        	if ($(this).val() != '' && (lastVal != $(this).val())) {
+		        	hideButtons();
+	        	}
+            if (e.which == 13) { // Enter key
+              if (!$('.field-suffix').hasClass('error')) {
+              	$(this).blur();
               }
+              else {
+                hideButtons();
+                $(this).closest("td").find(".field_zip_code").focus();
+              }
+            }
           });
         });
         
@@ -154,9 +157,6 @@
         $('body').on('blur', '.field_zip_code', function (e) {
 					if (lastVal != $(this).val()) {
           	fieldChanged = $(e.target);
-          	if (fieldChanged.find('.field-suffix').hasClass('error')) {
-          		fieldChanged.find('.field-suffix').removeClass('error');
-          	}
           	checkLocation(fieldChanged, "textfield");    
           	fieldChanged.closest("td").find(".field_zip_code").focus();     	
           }
@@ -194,19 +194,10 @@
 	          var add_button = input.closest('td').find('.field-add-more-submit');
 	          var remove_button = input.closest('td').find('.remove-button');
 	          var primary_indicator = input.closest('td').find('.zip-code-primary-holder');
-	          var button_clicked = false;
-	          if (new_button != '' && new_button.attr('id') == clicked_id) {
-	              button_clicked = 'add';
-	          }
-	          else if (new_save_submit != '' &&  new_save_submit.attr('id') == clicked_id) {
-	              button_clicked = 'save';
-	          }
-	          else if (remove_button != '' && remove_button.attr('id') == clicked_id) {
-	            	button_clicked = 'remove';
-	          }
 	          
-          	field_suffix.removeClass('error');
-						var trimmedValue = $.trim(input.val());
+	          if (field_suffix.hasClass('error')) {
+          		field_suffix.removeClass('error');
+          	}
 
 						if ($.trim(input.val()) == '') {
 							field_suffix.html('');
@@ -268,7 +259,7 @@
                               remove_button.show();
                               primary_indicator.show();
                               if (!existingLocationErrors()) {
-                                  resetButtons(button_clicked);
+                                  resetButtons();
                               }
 															numSelects = 0;
 															input.prop("disabled", false);
@@ -281,7 +272,7 @@
                           input.val(location_data.zip_array[0]);
                           field_suffix.html(location_data.city + ', ' + location_data.state);
                           if (!existingLocationErrors()) {
-                              resetButtons(button_clicked);
+                              resetButtons();
                           }
                           else {
                           }
@@ -291,7 +282,7 @@
                       // add city and state data to field suffix
                       field_suffix.html(location_data.city + ', ' + location_data.state);
                       if (!existingLocationErrors()) {
-                          resetButtons(button_clicked);
+                          resetButtons();
                       }
                       else {
                       }
@@ -313,7 +304,7 @@
 				} // End checkLocation
 
         // Check if there are any errors. If no errors, make sure Save button / plus button are enabled
-        function resetButtons(button_clicked){
+        function resetButtons(){
             $('body').find('.field-add-more-submit').show();
             $('#edit-field-zip-code .field-add-more-submit').prop("disabled", false);
             $('#edit-submit').prop("disabled", false);
