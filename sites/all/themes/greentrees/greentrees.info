@@ -1,0 +1,81 @@
+name        = Green Trees
+description = e-Enterprise green trees theme using Zen as a starter theme.
+screenshot  = screenshot.png
+core        = 7.x
+base theme  = zen
+
+
+; STYLESHEETS - Remove some system ones
+; First we remove the system's menu and message styling since Zen has its own.
+stylesheets[all][] = system.menus.css
+stylesheets[all][] = system.messages.css
+stylesheets[all][] = system.theme.css
+
+; Then we add our own stylesheet.
+stylesheets[all][] = css/styles.css
+
+; REGIONS
+regions[top_header]		= Top Header
+regions[header]         = Header
+regions[nav-bar]        = Top navigation
+regions[navigation]     = Navigation bar
+regions[highlighted]    = Highlighted
+regions[help]           = Help
+regions[content]        = Content
+regions[sidebar_first]  = First sidebar
+regions[sidebar_second] = Second sidebar
+regions[footer]        = Footer
+regions[bottom]         = Page bottom
+
+; page_top and page_bottom are hidden (and won't show on blocks admin page) but are required for
+; the html.tpl.php to work properly. Do not delete them.
+regions[page_top]       = Page top
+regions[page_bottom]    = Page bottom
+
+; SCRIPTS
+scripts[] = js/script.js
+scripts[] = js/mobile-menu.js
+scripts[] = js/drop-down-menu.js
+scripts[] = js/eenterprise_utility.js
+scripts[] = inc/bootstrap/js/bootstrap.min.js
+
+; FEATURES
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = comment_user_verification
+features[] = favicon
+features[] = main_menu
+features[] = secondary_menu
+
+; SETTINGS - default settings for theme-settings.php form
+settings[zen_breadcrumb]           = yes
+settings[zen_breadcrumb_separator] = ' › '
+settings[zen_breadcrumb_home]      = 1
+settings[zen_breadcrumb_trailing]  = 0
+settings[zen_breadcrumb_title]     = 0
+settings[zen_skip_link_anchor]     = main-menu
+settings[zen_skip_link_text]       = Jump to navigation
+settings[zen_html5_respond_meta][] = respond
+settings[zen_html5_respond_meta][] = html5
+settings[zen_html5_respond_meta][] = meta
+settings[zen_rebuild_registry]     = 1
+settings[zen_wireframes]           = 0
+; Following from greentrees and called in template.php
+settings[use_handheld_friendly] = 1
+settings[use_mobile_optimized] = 1
+settings[use_ios_meta] = 0
+settings[use_mobile_viewport] = 1
+settings[mobile_viewport_value] = 'width=device-width'
+
+
+; To make this sub-theme an admin theme with shortcut links next to titles,
+; uncomment the line below.
+;settings[shortcut_module_link]    = 1
+
+; To add a Panels layout (which can also be used by Display Suite), uncomment
+; the line below and see the documentation at: https://drupal.org/node/495654
+;plugins[panels][layouts] = panels-layouts
+

@@ -1,0 +1,110 @@
+<?php
+/**
+ * @file magnific_popup/magnific_popup.module
+ */
+
+/**
+ * Implements hook_library().
+ */
+function magnific_popup_library() {
+  $libraries = array();
+
+  $magnific_library_path = libraries_get_path('magnific-popup', FALSE);
+  $module_path = drupal_get_path('module', 'magnific_popup');
+  
+  if (empty($magnific_library_path)) {
+    drupal_set_message(t('Please install the Magnific Popup JS library in sites/.../libraries/magnific-popup/.'), 'error');
+    return array();
+  }
+  
+  $libraries['magnific_popup'] = array(
+    'title' => 'Magnific Popup jQuery Plugin',
+    'website' => 'http://dimsemenov.com/plugins/magnific-popup/',
+    'version' => '1',
+    'js' => array(
+      "{$magnific_library_path}/dist/jquery.magnific-popup.js" => array('type' => 'file'),
+    ),
+    'css' => array(
+      "{$magnific_library_path}/dist/magnific-popup.css" => array('type' => 'file'),
+    ),
+    'dependencies' => array(
+      array('system', 'jquery'),
+    ),
+  );
+  
+  $libraries['magnific_popup_formatter'] = array(
+    'title' => 'Magnific Popup Module Extension',
+    'website' => '',
+    'version' => '1',
+    'js' => array(
+      "{$module_path}/js/behaviors.mfp-formatter.js" => array('type' => 'file'),
+    ),
+    'css' => array(
+      "{$module_path}/css/mfp-formatter.css" => array('type' => 'file'),
+    ),
+    'dependencies' => array(
+      array('system', 'jquery'),
+      array('magnific_popup', 'magnific_popup'),
+    ),
+  );
+  
+  return $libraries;
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function magnific_popup_ctools_plugin_api($owner, $api) {
+  static $api_versions = array(
+    'file_entity' => array(
+      'file_default_displays' => 1,
+    ),
+  );
+  if (isset($api_versions[$owner][$api])) {
+    return array('version' => $api_versions[$owner][$api]);
+  }
+}
+
+/**
+ * Internal utility function to check required library status.
+ */
+function _magnific_popup_check_status() {
+  $jquery = drupal_get_library('system', 'jquery');
+  if (empty($jquery) || empty($jquery['version'])) {
+    // jQuery not available?  Totally an error condition.
+    // @todo We should watchdog this, and/or report it on site status screen.
+    return FALSE;
+  }
+  // Check if the available jQuery version is 1.7.2+.
+  // @see http://dimsemenov.com/plugins/magnific-popup/documentation.html
+  if (version_compare($jquery['version'], '1.7.2') < 0) {
+    // $jquery['version'] is lower than 1.7.2.
+    // @todo We should watchdog this, and/or report it on site status screen.
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**
+ * Internal utility function to add one-time JS settings from extension modules.
+ */
+function _magnific_popup_add_api_js() {
+  $added = &drupal_static(__FUNCTION__, FALSE);
+  // Don't add JS more than once.
+  if ($added) {
+    return;
+  }
+  $settings = array(
+    'magnific_popup_api' => array(
+      'iframe_patterns' => module_invoke_all('magnific_popup_iframe_patterns'),
+    ),
+  );
+  $options = array(
+    'type' => 'setting',
+  );
+  
+  drupal_add_js($settings, $options);
+}
+
+require_once('includes/magnific_popup.image_styles.inc');
+require_once('includes/magnific_popup.formatters.inc');

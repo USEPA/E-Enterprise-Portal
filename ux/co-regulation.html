@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>E-Enterprise Portal  - Co-Regulation</title>
+
+    <!-- Bootstrap -->
+    <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="Content/css/portal.css" rel="stylesheet" />
+	<link href="Content/css/hover-min.css" rel="stylesheet" />
+	<link href="Content/css/bootstrap-select.min.css" rel="stylesheet" />
+	<link href="Content/css/font-awesome.min.css" rel="stylesheet" />
+	<link href="Content/css/calendar.css" rel="stylesheet">
+    <link href="Content/css/termlookup-popup.css" rel="stylesheet" />
+		
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="http://epa.gov">
+			<div class="site-header">
+				<!--<img src="images/earth_logo.png" alt="" class="site-logo" />-->
+				<span class="site-title site-logo">EE Portal</span>
+				<div class="site-title-container">
+					<!--<span class="site-title">EE Portal</span>-->
+					<span class="site-slogan hidden-xs">United States Environmental Protection Agency</span>
+				</div>
+			</div>			
+		  </a>
+        </div>		
+        <div id="navbar" class="navbar-collapse collapse">
+		 <ul role="menu" class="menu">
+			<li class="menu-item "><a title="Go back to portal home page" role="menuitem" href="index.html" class="menu-link">Home</a></li>
+                <li class="menu-item "><a title="Begin reporting for your business" role="menuitem" href="workspace.html" class="menu-link">Workspace</a></li>
+			    <li class="menu-item active"><a title="Access law, grant, and technology resources" role="menuitem" href="/CoRegulation" class="menu-link">Co-Regulators</a></li>
+			    <li class="menu-item"><a title="Browse literature, report archives, and resource library" role="menuitem" href="#" class="menu-link">Research</a></li>
+			    <li class="menu-item "><a title="Understand the environment in your own neighborhood" role="menuitem" href="/Public" class="menu-link">My Backyard</a></li>  
+			<li class="menu-item"><a title="Find answers to any environmental or portal related questions" role="menuitem" href="#" class="menu-link">Help</a></li>			
+		</ul>
+         <ul class="nav navbar-nav navbar-right portal-header-nav">		 
+		  <li class="nav-divider"></li>		  
+		  <li>
+                <span style="color: rgb(255, 255, 255); margin-left: 20px; font-size: 85%;">Welcome, ERIKA.E.ENTERPRISE@GMAIL.COM</span>
+                <a class="btn btn-blue navbar-login" href="/Home/LogOut?returnUrl=http%3A%2F%2Fcgidemo.dyndns.org%2Fe-EnterprisePortal%2FCoRegulation">Log Out</a>
+		  </li>
+		 </ul>	
+		
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+	
+	
+	<div class="container">		
+		
+<div class="row content-container">
+    <div class="col-md-12" id="co-regulation">        
+        <div class="row">
+            <div class="col-md-12 col-no-pad" style="margin-top: 8px;">              
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 col-no-pad">
+                                <div class="public-tile grid-2">
+                                    <h3><img class="heading-icon" src="Content/images/dasboard.png" /> Dashboard</h3>                            
+                                    <table class="table table-striped" style="margin-bottom: 5px;">
+	                                    <thead>
+	                                      <tr>
+		                                    <th>Task</th>
+		                                    <th>Date</th>
+		                                    <th>Status</th>
+	                                      </tr>
+	                                    </thead>
+	                                    <tbody> 
+                                             <tr>
+                                                <td>EPA Fac 100679827 Risk Management Plan report correction is ready for review</td>
+                                                <td>
+                                                    03/07/2015
+                                                </td>
+                                                <td>
+                                                    New
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>A Surface Water Withdrawal Permit Application is currently pending your review and decision.</td>
+                                                <td>
+                                                    03/14/2015
+                                                </td>
+                                                <td>
+                                                    Pending
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Time to submit your AQS data flow using the <a href="/CoRegulation/Vnap" target="_blank">Virtual Exchange Services</a> or <a href="/CoRegulation/Ensc" target="_blank">Exchange Network Services Center</a></td>
+                                                <td>
+                                                    03/28/2015
+                                                </td>
+                                                <td>
+                                                    Done
+                                                </td>
+                                            </tr>
+                                                                                    
+	                                    </tbody>
+                                    </table>
+                                    <small style="padding-top: 10px;">Showing 3 of 8 tasks</small>
+                                </div>
+                            </div>
+                        </div>
+                       <div class="row">
+                            <div class="col-md-12 col-no-pad">
+                                <div class="public-tile grid-8">
+                                    <h3><img class="heading-icon" src="Content/images/graph.png" /> Environmental Dataset Gateway</h3>      
+                                    <p>Browse geospatial and non-geospatial information resources.</p>
+                                    <div id="edgsearch"></div>  
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-md-6 col-no-pad">
+                                <div class="public-tile grid-5">  
+                                    <h3><a href="http://www.grants.gov/web/grants/home.html" target="_blank"><img class="heading-icon" src="Content/images/money.png" /> Grants</a></h3>     
+                                    <p>Find and apply for discretionary funding opportunities.</p>     
+                                </div> 
+                            </div>
+                            <div class="col-md-6 no-pad-left col-no-pad">
+                                <div class="public-tile grid-7">
+                                    <h3><a href="#"><img class="heading-icon" src="Content/images/clipboard.png" /> Reports</a></h3>
+                                    <p>View reports published by state, regional, and federal governments.</p>
+                                </div>
+                            </div>
+                        </div>                            
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 no-pad-left col-no-pad">
+                                <div class="public-tile grid-3">
+                                    <h3><a href="http://developer.epa.gov" target="_blank"><img class="heading-icon" src="Content/images/computer.png" /> Developer Central</a></h3>
+                                    <p>Build applications using EPA data and Web services or utilize showcased applications.</p>
+                                    <div style="margin-top: 15px;" class="row">
+                                        <div class="col-sm-5">
+                                            <a href="http://developer.epa.gov/category/api/" target="_blank"><img class="bullet" src="Content/images/bullet.png" />API Showcase</a>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <a href="http://developer.epa.gov/category/apps/" target="_blank"><img class="bullet" src="Content/images/bullet.png" />Application Showcase</a>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 7px;" class="row">
+                                        <div class="col-sm-5">
+                                            <a href="http://developer.epa.gov/category/data/" target="_blank"><img class="bullet" src="Content/images/bullet.png" />Data Showcase</a>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <a href="http://developer.epa.gov/category/resources/" target="_blank"><img class="bullet" src="Content/images/bullet.png" />Developer Resources</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-md-12 no-pad-left col-no-pad">
+                                <div class="public-tile grid-4">
+                                    <h3><a href="http://ofmpub.epa.gov/sor_internet/registry2/reusereg/searchandretrieve/" target="_blank"><img class="heading-icon" src="Content/images/refresh.png" /> Reusable Component Services</a></h3>  
+                                    <p>Access a broad range of IT resources, components, and services.</p>
+                                    <div style="margin-top: 25px;" class="rcsSearchWidget"></div>
+                                </div>
+                            </div>
+                        </div>                
+                    </div>
+                </div>               
+                <div class="row">
+                    <div class="col-md-12">    
+                        <div class="public-tile grid-9">  
+                            <h3><img class="heading-icon" src="Content/images/settings.png" /> Tools</h3>     
+                            <div>
+                                <form method="get" target="_blank" action="https://www.federalregister.gov/articles/search">
+                                    <label for="federal-register-search">
+                                        <a href="https://www.federalregister.gov/agencies/environmental-protection-agency" target="_blank">
+                                            <img src="Content/images/federal_register.jpg" class="logo" alt="Federal Register" />
+                                        </a>
+                                    </label>
+                                    <input type="text" placeholder="Search term or citation" id="federal-register-search" class="search-box" name="conditions[term]">
+                                    <button class="btn btn-blue" type="submit">Go</button>
+                                </form>
+                                <form method="get" id="regulations-search-form" target="_blank" action="http://www.regulations.gov/#!searchResults;s=">
+                                    <label for="regulations-search">
+                                        <a href="http://regulations.gov" target="_blank">
+                                            <img src="Content/images/regulations_logo.png" style="margin-bottom: 4px;" class="logo" alt="Regulations.gov" />
+                                        </a>
+                                    </label>
+                                    <input type="text" placeholder="Search for rules, comments, adjudications, or documents" id="regulations-search" class="search-box" name="pQuery">
+                                    <button class="btn btn-blue" type="submit">Go</button>
+                                </form>
+                                
+                            </div>  
+                        </div>        
+                    </div>
+                </div>
+            </div>           
+        </div>
+    </div>
+</div>
+
+
+	  <div class="row">
+	  <footer class="main-footer">
+		<div class="row">
+		  <div class="col-sm-5">
+			<ul class="pipeline" style="padding: 0px; margin-left: 25px;">
+              <li><a href="http://www.epa.gov/">EPA Home</a></li>
+              <li><a href="http://www2.epa.gov/home/privacy-and-security-notice">Privacy and Security Notice</a></li>
+              <li><a href="http://www.epa.gov/accessibility/statement.htm">Accessibility</a></li>
+            </ul>
+		  </div>
+		  <div class="col-sm-5 footer-widgets">
+			&nbsp;
+		  </div>
+		  <div class="col-sm-2 footer-logo">
+			&nbsp;
+		  </div>
+		</div>
+	  </footer>
+	  </div>
+	</div><!-- /container -->
+	           
+
+<!-- Modal -->
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		<h4 class="modal-title" id="myModalLabel">Account Provider</h4>
+		</div>
+		<div class="modal-body">
+		<div class="row">
+			<div class="col-sm-6 credential-selection">			
+                <p style="text-align: center;">How would you like to log in?</p>		
+				<div class="credential-type bubble-float-right" data-credential-type="Portal">						
+					<a href="#">
+						
+						<div class="caption">E-Enterprise Account</div>
+					</a>
+				</div>
+				<div class="credential-type bubble-float-right active"  data-credential-type="Epa">						
+					<a href="#">
+						
+						<div class="caption">EPA Account</div>
+					</a>
+				</div>					
+				<div class="credential-type bubble-float-right" data-credential-type="State">						
+					<a href="#">
+						
+						<div class="caption">State/Tribal Account</div>
+					</a>
+				</div>
+                <hr class="hidden-lg hidden-md hidden-sm" />
+			</div>
+			<div class="col-sm-6">
+                <div id="portal-login-form" class="login-form" style="display:none;">
+                    <div class="new-registration">
+                        <a href="/OpenId" class="btn btn-blue" style="display: block; margin: 25px auto; width: 150px;">Enterprise Bridge</a>
+                      
+					    <a href="/Registration?returnUrl=http%3A%2F%2Fcgidemo.dyndns.org%2Fe-EnterprisePortal%2FCoRegulation%3FprompAuth%3DTrue" style="display: block; margin: 0px auto; width: 161px;">Create an account today!</a>		
+				    </div>
+                </div>
+                
+                <div id="state-login-form" class="login-form" style="display:none;">
+                    <form class="form-horizontal" role="form" method="POST" action="/Home/LogIn">
+                        <div class="form-group">
+					        <label for="input1" class="col-lg-3 control-label">State/Tribe</label>
+					        <div class="col-lg-9">
+						        <select class="selectpicker">
+						            <option>-Please Select-</option>
+						            <option value="AL">Alabama</option>
+						            <option value="AK">Alaska</option>
+						            <option value="AS">American Samoa</option>
+						            <option value="AZ">Arizona</option>
+						            <option value="AR">Arkansas</option>
+						            <option value="CA">California</option>
+<option value="CN">Chickasaw Nation</option>
+						            <option value="CO">Colorado</option>
+
+<option value="CF">Confederated Tribes of the Umatilla Reservation</option>					            
+<option value="CT">Connecticut</option>
+						            <option value="DE">Delaware</option>
+						            <option value="DN">Delaware Nation</option>
+							    <option value="DC">District of Columbia</option>
+						            <option value="FL">Florida</option>
+						            <option value="GA">Georgia</option>
+						            <option value="HI">Hawaii</option>
+						            <option value="ID">Idaho</option>
+						            <option value="IL">Illinois</option>
+						            <option value="IN">Indiana</option>
+						            <option value="IA">Iowa</option>
+						            <option value="KS">Kansas</option>
+						            <option value="KY">Kentucky</option>
+						            
+<option value="KT">Kootenai Tribe</option>
+<option value="LA">Louisiana</option>
+						            <option value="ME">Maine</option>
+						            <option value="MH">Marshall Islands</option>
+						            <option value="MD">Maryland</option>
+						            <option value="MA">Massachusetts</option>
+						            <option value="MI">Michigan</option>
+						            <option value="MN">Minnesota</option>
+						            <option value="MS">Mississippi</option>
+						            <option value="MO">Missouri</option>
+						            <option value="MT">Montana</option>
+						            
+
+
+
+<option value="NN">Navajo Nation</option>
+						            <option value="NE">Nebraska</option>
+						            <option value="NV">Nevada</option>
+						            <option value="NH">New Hampshire</option>
+						            <option value="NJ">New Jersey</option>
+						            <option value="NM">New Mexico</option>
+						            <option value="NY">New York</option>
+						            <option value="NC">North Carolina</option>
+						            <option value="ND">North Dakota</option>
+						            <option value="MP">Northern Mariana Islands</option>
+						            <option value="OH">Ohio</option>
+						            <option value="OK">Oklahoma</option>
+						            <option value="OR">Oregon</option>
+						            <option value="PA">Pennsylvania</option>
+<option value="PL">Pyramid Lake Paiute Tribe</option>
+						            <option value="RI">Rhode Island</option>
+						            <option value="SC">South Carolina</option>
+						            <option value="SD">South Dakota</option>							
+						            <option value="TN">Tennessee</option>
+						            <option value="TX">Texas</option>
+						            <option value="UT">Utah</option>
+						            <option value="VT">Vermont</option>
+						            <option value="VI">Virgin Islands</option>
+						            <option value="VA">Virginia</option>
+						            <option value="WA">Washington</option>
+						            <option value="WV">West Virginia</option>
+						            <option value="WI">Wisconsin</option>
+						            <option value="WY">Wyoming</option>
+						        </select>
+					        </div>
+					    </div>
+					    <div class="form-group">
+					    <label for="input1" class="col-lg-3 control-label">User ID</label>
+					    <div class="col-lg-9">
+                            <input class="form-control" id="UserId" name="UserId" type="text" value="" />
+					    </div>
+					    </div>
+					    <div class="form-group">
+					    <label for="input2" class="col-lg-3 control-label">Password</label>
+					    <div class="col-lg-9">
+                            <input class="form-control" id="Password" name="Password" type="password" />
+					    </div>
+					    </div>
+                        <input id="ReturnUrl" name="ReturnUrl" type="hidden" value="http://cgidemo.dyndns.org/e-EnterprisePortal/CoRegulation" />                    
+                        <input id="NavFrom" name="NavFrom" type="hidden" value="http://cgidemo.dyndns.org/e-EnterprisePortal/CoRegulation" />
+					    <button class="btn btn-blue" type="submit">Sign In</button>
+                    </form>
+                </div>
+
+                <div id="epa-login-form" class="login-form">
+				    <form class="form-horizontal" role="form" method="POST" action="/Home/LogIn">					    
+					    <div class="form-group">
+					    <label for="input1" class="col-lg-3 control-label">User ID</label>
+					    <div class="col-lg-9">
+                            <input class="form-control" id="UserId" name="UserId" type="text" value="" />
+					    </div>
+					    </div>
+					    <div class="form-group">
+					    <label for="input2" class="col-lg-3 control-label">Password</label>
+					    <div class="col-lg-9">
+                            <input class="form-control" id="Password" name="Password" type="password" />
+					    </div>
+					    </div>
+                        <input id="ReturnUrl" name="ReturnUrl" type="hidden" value="http://cgidemo.dyndns.org/e-EnterprisePortal/CoRegulation" />                    
+                        <input id="NavFrom" name="NavFrom" type="hidden" value="http://cgidemo.dyndns.org/e-EnterprisePortal/CoRegulation" />
+					    <button class="btn btn-blue" type="submit" style="margin-bottom: 15px;">Sign In</button>
+                        <a href="/Registration?returnUrl=http%3A%2F%2Fcgidemo.dyndns.org%2Fe-EnterprisePortal%2FCoRegulation%3FprompAuth%3DTrue" style="display: block; margin: 0px auto; padding-bottom: 10px; width: 161px;">Create an account today!</a>
+				    </form>
+                </div>
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+</div>
+
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="Content/js/jquery-1.11.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="Content/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="Content/js/bootstrap-select-patch.js"></script>
+	<script type="text/javascript" src="Content/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.selectpicker').selectpicker();
+
+            var queryString = getUrlVars();
+            if (queryString.prompAuth == "True") {
+                $('#login-modal').modal('show');
+            }
+
+            $('.credential-type').click(function (e) {
+                $('.credential-type').removeClass('active');
+
+                if ($(this).data('credentialType') == 'Portal') {
+                    $('.login-form').hide();
+                    $('#portal-login-form').show();
+                    $(this).closest('.credential-type').addClass('active');
+                }
+
+                if ($(this).data('credentialType') == 'State') {
+                    $('.login-form').hide();
+                    $('#state-login-form').show();
+                    $(this).closest('.credential-type').addClass('active');
+                }
+
+                if ($(this).data('credentialType') == 'Epa') {
+                    $('.login-form').hide();
+                    $('#epa-login-form').show();
+                    $(this).closest('.credential-type').addClass('active');
+                }
+
+                e.preventDefault();
+                return false;
+            });
+        });
+
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
+	</script>
+
+    
+    <script type="text/javascript" src="Content/js/rcsSearchWidget.js"></script>
+    <link href="Content/css/jquery-ui-1.8.17.custom.css" rel="stylesheet">
+    <script type="text/javascript" src="Content/edg/searchjs_div.jsp?title=Search the EDG"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#regulations-search-form').submit(function (e) {
+                var url = $(this).attr('action');
+                url += $(this).find('.search-box').val();
+                $(this).attr('action', url);
+            });
+        });
+    </script>
+
+
+  </body>
+</html>

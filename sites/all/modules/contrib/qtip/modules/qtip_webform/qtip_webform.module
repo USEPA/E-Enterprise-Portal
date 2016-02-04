@@ -1,0 +1,173 @@
+<?php
+
+function qtip_webform_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['#node']) && isset($form['#node']->nid) && $form['#node']->type == 'webform'
+      && $settings = variable_get('qtip_webform_node_' . $form['#node']->nid, '')) {
+
+    if (isset($settings['components'])) {
+      foreach ($settings['components'] as $key => $value) {
+        switch ($value['text']) {
+          case 'description':
+            $form['submitted'][$key]['#attributes']['class'][] = 'qtip-webform-description';
+            break;
+
+          case 'custom':
+            $form['submitted'][$key]['#attributes']['class'][] = 'qtip-webform-custom-text';
+            $form['submitted'][$key]['#attributes']['data-qtip-webform-text'] = $value['custom_text'];
+            break;
+
+          default:
+            break;
+        }
+      }
+    }
+
+    // Send the settings to js
+    drupal_add_js(array('qtip_webform' => $settings), 'setting');
+
+    drupal_add_js(drupal_get_path('module', 'qtip_webform') . '/js/qtip_webform.js', 'file');
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function qtip_webform_form_webform_component_edit_form_alter(&$form, &$form_state) {
+  $exclude_components = array('hidden', 'fieldset', 'pagebreak', 'grid', 'markup');
+  if (in_array($form['type']['#value'], $exclude_components)) {
+    return;
+  }
+
+  $settings = variable_get('qtip_webform_node_' . $form['nid']['#value'], '');
+  // Get the settings for just this component
+  if (isset($settings['components'][$form['form_key']['#default_value']]) && !empty($settings['components'][$form['form_key']['#default_value']])) {
+    $component = $settings['components'][$form['form_key']['#default_value']];
+  }
+
+  // Fieldsets
+  $form['display']['qtip_webform'] = array(
+    '#type'        => 'fieldset',
+    '#title'       => t('qTip settings'),
+    '#collapsible' => TRUE,
+    '#collapsed'   => FALSE,
+    '#weight'      => 100,
+    '#tree'        => 1,
+  );
+
+  // Only show options for qTip if an instance has been created at node/[nid]/webform/configure
+  if (isset($settings['configure']['instance']) && !empty($settings['configure']['instance'])) {
+    // Display settings
+    $form['display']['qtip_webform']['text'] = array(
+      '#type'        => 'radios',
+      '#title'       => t('How to display qTip'),
+      '#description' => t('Select how you would like qTip to display for this field.'),
+      '#options'     => array(
+        ''            => t('Do not display a qTip'),
+        'description' => t('Use text from description field'),
+        'custom'      => t('Custom text'),
+      ),
+      '#default_value' => (isset($component['text']) ? $component['text'] : ''),
+    );
+    $form['display']['qtip_webform']['custom_text'] = array(
+      '#type'          => 'textfield',
+      '#title'         => t('Custom text'),
+      '#description'   => t('Enter the text that will show in the tooltip. Use this option if you would like to have the description field display normally, but still have text display in a qTip.'),
+      '#default_value' => (isset($component['custom_text']) ? $component['custom_text'] : ''),
+      '#states'        => array(
+        'visible' => array(
+          ':input[name="display[qtip_webform][text]"]' => array('value' => 'custom'),
+        ),
+      ),
+    );
+
+    $form['#submit'][] = 'qtip_webform_component_edit_form_submit';
+  }
+  else {
+    // An instance has not yet been declared
+    $form['display']['qtip_webform']['info'] = array(
+      '#markup' => t('You must !link to use before you can configure component settings.', array('!link' => l('configure the qTip instance', 'node/' . arg(1) . '/webform/configure'))),
+    );
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function qtip_webform_form_webform_configure_form_alter(&$form, &$form_state) {
+  ($settings = variable_get('qtip_webform_node_' . $form['nid']['#value'], '')) ? $configure = $settings['configure'] : $configure = array();
+
+  $form['advanced']['qtip_webform'] = array(
+    '#type'        => 'fieldset',
+    '#title'       => t('qTip settings'),
+    '#collapsible' => TRUE,
+    '#collapsed'   => FALSE,
+    '#weight'      => 100,
+    '#tree'        => 1,
+  );
+  $default_instance = (isset($configure['instance'])) ? $configure['instance'] : '';
+  $form['advanced']['qtip_webform']['instance'] = qtip_fetch_instances_field($default_instance);
+
+  $form['advanced']['qtip_webform']['required'] = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('Show required field notification with qTip'),
+    '#default_value' => (isset($configure['required']) ? $configure['required'] : 0),
+  );
+  $form['advanced']['qtip_webform']['required_instance'] = array(
+    '#type'          => 'select',
+    '#title'         => t('Required instance'),
+    '#description'   => t('Choose the !link that you would like to use for required notifications on this webform.', array('!link' => l('qTip instance', 'admin/config/user-interface/qtip'))) . '<br>' .
+                          '<strong>' . t('NOTE: The show and hide events for the selected qTip instance will be overridden while using the selected instance as the instance for required fields.') . '</strong>',
+    '#options'       => qtip_fetch_instances(TRUE),
+    '#default_value' => (isset($configure['required_instance']) ? $configure['required_instance'] : ''),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="qtip_webform[required]"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
+  $form['advanced']['qtip_webform']['required_text'] = array(
+    '#type'          => 'textfield',
+    '#title'         => t('Required field text'),
+    '#description'   => t('Enter the text to show in the required field qTip'),
+    '#default_value' => (isset($configure['required_text']) ? $configure['required_text'] : t('This field is required!')),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="qtip_webform[required]"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
+
+  $form['#submit'][] = 'qtip_webform_webform_configure_form_submit';
+}
+
+/**
+ * Submission handler.
+ */
+function qtip_webform_component_edit_form_submit(&$form, &$form_state) {
+  // Setup common variables
+  $values = $form_state['values'];
+  $qtip_webform = $values['display']['qtip_webform'];
+
+  $settings = variable_get('qtip_webform_node_' . $values['nid'], '');
+
+  $settings['components'][$values['form_key']] = array(
+    'text'        => $qtip_webform['text'],
+    'custom_text' => $qtip_webform['custom_text'],
+  );
+
+  variable_set('qtip_webform_node_' . $values['nid'], $settings);
+}
+
+/**
+ * Submission handler.
+ */
+function qtip_webform_webform_configure_form_submit(&$form, &$form_state) {
+  // Setup common variables
+  $qtip_webform = $form_state['values']['qtip_webform'];
+
+  $settings = variable_get('qtip_webform_node_' . $form_state['values']['nid'], '');
+
+  $settings['configure'] = $qtip_webform;
+
+  variable_set('qtip_webform_node_' . $form_state['values']['nid'], $settings);
+}

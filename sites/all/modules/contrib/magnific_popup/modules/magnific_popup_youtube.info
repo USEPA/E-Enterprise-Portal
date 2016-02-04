@@ -1,0 +1,15 @@
+name = Magnific Popup YouTube
+description = Enhance Magnific Popup support for YouTube:// File schemes.
+package = "Media"
+core = 7.x
+dependencies[] = magnific_popup
+dependencies[] = media_youtube
+dependencies[] = imagecache_actions
+dependencies[] = imagecache_canvasactions
+
+; Information added by Drupal.org packaging script on 2015-05-15
+version = "7.x-1.0"
+core = "7.x"
+project = "magnific_popup"
+datestamp = "1431711481"
+

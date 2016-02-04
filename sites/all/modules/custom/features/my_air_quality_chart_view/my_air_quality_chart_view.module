@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the My Air Quality Chart View feature.
+ */
+
+include_once 'my_air_quality_chart_view.features.inc';

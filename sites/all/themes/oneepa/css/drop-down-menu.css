@@ -1,0 +1,48 @@
+/**
+ * @file
+ * Styles for the drop-down menu.
+ */
+
+/** Functional Styles *********************************************************/
+.main-nav > .menu .menu {
+  position: absolute;
+  z-index: 4;
+}
+
+.main-nav > .menu .menu .menu-link {
+  clip: rect(1px, 1px, 1px, 1px);
+  opacity: 0;
+  position: absolute !important;
+}
+
+html.no-js .main-nav .menu-item:hover > .menu > .menu-item > .menu-link,
+.main-nav .menu-link:focus + .menu > .menu-item > .menu-link,
+.main-nav .show-menu > .menu > .menu-item > .menu-link,
+.main-nav > .menu .menu .menu-link:focus {
+  clip: auto;
+  opacity: 1;
+  position: static !important;
+}
+
+/** Design Styles *************************************************************/
+.main-nav > .menu .menu .menu-link {
+  background: #ddd;
+  border: 0;
+  border-bottom: 1px solid #4289aa;
+  color: #151515;
+  font-size: 75%;
+  line-height: 1.1;
+  padding: .8em;
+  text-decoration: none;
+  width: 13em;
+}
+.main-nav > .menu .menu a.active {
+  background: #cce1eb;
+}
+.main-nav > .menu .menu a.menu-link:focus,
+.main-nav > .menu .menu a.menu-link:hover,
+.main-nav > .menu .menu a.menu-link:active {
+  background: #4289aa;
+  color: #fff;
+  outline: 0;
+}

@@ -1,0 +1,87 @@
+.pane-views-favorite-sites-block .field-type-text, .pane-views-favorite-sites-block .form-text {
+  width: 26em; float: left;
+}
+
+.pane-views-favorite-sites-block .remove-button {
+  float: right;
+}
+.view-favorite-sites .views-table {
+  width: 100%;
+}
+
+.pane-views-favorite-sites-block .tabledrag-toggle-weight, 
+.pane-views-favorite-sites-block .form-wrapper legend, 
+.pane-views-favorite-sites-block .field-type-datetime,
+.pane-views-favorite-sites-block  th.views-field, 
+.pane-views-favorite-sites-block  .field-multiple-table thead, 
+.pane-views-favorite-sites-block  #field-profile-favourites-values,
+.edit-actions-submit{
+  display: none;
+}
+
+.pane-views-favorite-sites-block td.views-field-field-profile-favourites {
+  padding: 0px;
+}
+
+.pane-views-favorite-sites-block .form-wrapper, .pane-views-favorite-sites-block  tbody{
+  border: none;
+}
+
+/*.views-row-edit-edit {
+  height: 150px;
+}*/
+
+.pane-views-favorite-sites-block {
+  overflow-y: auto;
+}
+.pane-views-favorite-sites-block #favorite_links-ajax-wrapper {
+  height: 70%; overflow: hidden;
+}
+#favorite_links-ajax-wrapper tr.odd.views-row-first.views-row-last {
+	border-top: none;
+	border-bottom: none;
+}
+
+.transparent-qtip .ui-tooltip-wrapper{
+   background-color: transparent;
+}
+
+.qtip-default {
+  background-color: transparent; border: 0;
+}
+
+.qtip-tip, .qtip-tip canvas{
+  display: block;
+}
+
+.filled {
+  color: #d9534f;
+}
+.filled:hover{
+  color: #c9302c;
+  cursor: pointer;
+}
+.empty {
+  color: grey;
+}
+.empty:hover{
+  color: darkslategray;
+  cursor: pointer;
+}
+
+.button_input_holder btn, .button_input_holder btn-success, .button_input_holder btn-danger,
+.button_input_holder btn:hover, .button_input_holder btn-success:hover, .button_input_holder btn-danger:hover{
+  background-color: transparent;
+  border:  0;
+}
+
+span.glyphicon-heart {
+	font-size: 1.25em;
+}
+
+span.glyphicon-plus {
+  font-size: 2em;
+}
+td.favorites-holder {
+	width:40px;
+}

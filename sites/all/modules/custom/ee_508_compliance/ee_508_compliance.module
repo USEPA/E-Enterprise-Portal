@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * Implements hook_form_alter().
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function ee_508_compliance_form_alter(&$form, &$form_state, $form_id) {
+  foreach($form as $key => $value) {
+      if ((is_array($form[$key]) && isset($form[$key]['#required'])) && $form[$key]['#required'] === TRUE) {
+          $form[$key]['#attributes']['required'] = 'required';
+      }
+  }
+}

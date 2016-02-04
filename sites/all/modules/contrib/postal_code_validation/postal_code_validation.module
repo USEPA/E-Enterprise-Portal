@@ -1,0 +1,216 @@
+<?php
+
+/**
+ * @file
+ * This module provides a function to validate postal codes and ZIP codes for
+ * various countries. It has no user interface of its own, but can be used by
+ * other modules.
+ */
+
+/**
+ * Check if a postal code is valid for a given country.
+ *
+ * @param string $postal_code
+ *   The postal code to look up.
+ * @param string $country
+ *   The country that the postal code is from. If FALSE, try to determine the
+ *   country.
+ *
+ * @return array
+ *   Array with elements:
+ *   country: Country code of the postal code.
+ *   country_supported: boolean, whether the country is supported.
+ *   province: The province or province code if it can be determined.
+ *   postal_code: The formatted postal code.
+ *   postal_code_changed: boolean, whether postal_code is different from the
+ *     value sent in for validation.
+ *   error: An error message if the code is invalid.
+ *   Each is set to FALSE if a valid response is not possible.
+ */
+function postal_code_validation_validate($postal_code, $country = FALSE) {
+  // Ensures variables are of the correct type.
+  $postal_code = (string) $postal_code;
+  if ($country !== FALSE) {
+    $country = (string) $country;
+  }
+
+  if ($country) {
+    // Return empty string as postal code for countries that don't use them.
+    if (in_array($country, postal_code_validation_get_countries_without_codes())) {
+      $return = array(
+        'country' => $country,
+        'postal_code' => '',
+        'country_supported' => TRUE,
+      );
+      if ($postal_code) {
+        $countries = country_get_list();
+        $return['error'] = t('%country does not have a postal code system. Leave it blank.', array('%country' => $countries[$country]));
+      }
+    }
+    else {
+      // Check if the country is dependent on the postal code system of
+      // another country. If so, use the host country's code.
+      $dependencies = postal_code_validation_get_dependencies();
+      if (isset($dependencies[$country])) {
+        $country = $dependencies[$country];
+      }
+
+      if (in_array($country, postal_code_validation_get_supported_countries(), TRUE)) {
+        require_once 'countries/' . drupal_strtolower($country) . '.inc';
+        $validate_function = '_postal_code_validation_validate_' . $country;
+        $return = $validate_function(drupal_strtoupper(trim(str_replace(' ', '', $postal_code))));
+
+        $return['country_supported'] = TRUE;
+      }
+      else {
+        $return = _postal_code_validation_validate_other($postal_code, $country);
+      }
+    }
+  }
+  else {
+    $return = FALSE;
+    foreach (postal_code_validation_get_supported_countries() as $country) {
+      require_once 'countries/' . drupal_strtolower($country) . '.inc';
+      $validate_function = '_postal_code_validation_validate_' . $country;
+
+      $validate = $validate_function(drupal_strtoupper(trim(str_replace(' ', '', $postal_code))));
+      if (empty($validate['error'])) {
+        $return = $validate;
+        break;
+      }
+    }
+    if (!$return) {
+      $return = _postal_code_validation_validate_other($postal_code, FALSE);
+    }
+  }
+
+  $return += array(
+    'country' => FALSE,
+    'country_supported' => FALSE,
+    'province' => FALSE,
+    'postal_code' => FALSE,
+    'postal_code_changed' => FALSE,
+    'error' => FALSE,
+  );
+
+  if ($return['postal_code'] !== $postal_code) {
+    $return['postal_code_changed'] = TRUE;
+  }
+
+  return $return;
+}
+
+/**
+ * Based on _postal_code_validation_validate_COUNTRYCODE().
+ */
+function _postal_code_validation_validate_other($postal_code, $country) {
+  $return = array('country' => $country);
+
+  $postal_code = drupal_strtoupper(trim($postal_code));
+  $postal_code_new = preg_replace('/[^A-Z0-9 -]/', '', $postal_code);
+  if ($postal_code_new !== $postal_code) {
+    $return['error'] = t('Invalid characters in postal code. Only letters, numbers, hyphen, and space are used.');
+  }
+  $return['postal_code'] = $postal_code_new;
+
+  return $return;
+}
+
+/**
+ * Return an array of countries that are supported by the module.
+ */
+function postal_code_validation_get_supported_countries() {
+  return array(
+    'US',
+    'AD',
+    'AR',
+    'AT',
+    'AU',
+    'BD',
+    'BE',
+    'BN',
+    'BR',
+    'BY',
+    'CA',
+    'CH',
+    'CL',
+    'CN',
+    'CY',
+    'DE',
+    'DK',
+    'DZ',
+    'EE',
+    'EG',
+    'ES',
+    'FR',
+    'GB',
+    'GW',
+    'HR',
+    'HU',
+    'IN',
+    'IT',
+    'JP',
+    'NL',
+    'NZ',
+    'PT',
+    'RU',
+    'SE',
+  );
+}
+
+/**
+ * Return an array of countries that do not have a postal code system.
+ */
+function postal_code_validation_get_countries_without_codes() {
+  return array('AE', 'AG', 'AO', 'AW', 'BF', 'BI', 'BJ', 'BS', 'BW', 'BZ',
+    'CD', 'CF', 'CG', 'CI', 'CK', 'CM', 'CW', 'DJ', 'DM', 'ER', 'FJ', 'GD',
+    'GH', 'GM', 'GN', 'GQ', 'GY', 'HK', 'IE', 'KE', 'KI', 'KM', 'KN', 'KP',
+    'KR', 'KW', 'LC', 'ML', 'MO', 'MR', 'MS', 'MU', 'MV', 'MW', 'NR', 'NU',
+    'QA', 'SB', 'SC', 'SL', 'SO', 'SR', 'ST', 'SX', 'SY', 'TF', 'TG', 'TK',
+    'TL', 'TO', 'TV', 'TZ', 'UG', 'UZ', 'VU', 'YE', 'ZW');
+}
+
+/**
+ * Return an array with countries that use another country's postal codes.
+ */
+function postal_code_validation_get_dependencies() {
+  return array(
+    'BL' => 'FR',
+    'GF' => 'FR',
+    'GP' => 'FR',
+    'MC' => 'FR',
+    'MF' => 'FR',
+    'MQ' => 'FR',
+    'NC' => 'FR',
+    'PF' => 'FR',
+    'PM' => 'FR',
+    'RE' => 'FR',
+    'TF' => 'FR',
+    'WF' => 'FR',
+    'YT' => 'FR',
+
+    'AC' => 'GB',
+    'FK' => 'GB',
+    'GG' => 'GB',
+    'GI' => 'GB',
+    'GS' => 'GB',
+    'IM' => 'GB',
+    'IO' => 'GB',
+    'JE' => 'GB',
+    'PN' => 'GB',
+    'SH' => 'GB',
+    'TC' => 'GB',
+
+    'SM' => 'IT',
+    'VA' => 'IT',
+
+    'AS' => 'US',
+    'FM' => 'US',
+    'GU' => 'US',
+    'MH' => 'US',
+    'MP' => 'US',
+    'PR' => 'US',
+    'PW' => 'US',
+    'VI' => 'US',
+  );
+}

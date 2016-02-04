@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the FAQs and Views feature.
+ */
+
+include_once 'faqs_and_views.features.inc';

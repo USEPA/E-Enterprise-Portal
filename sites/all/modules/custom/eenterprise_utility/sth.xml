@@ -1,0 +1,181 @@
+<eact:EActivities xmlns:eact="http://www.exchangenetwork.net/schema/eact/1">
+    <eact:EActivity>
+        <eact:EActivityId>4</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-lead</eact:PartnerSystemId>
+        <eact:PartnerExternalId>649d5211-5606-4721-9d82-fbe91d920b59</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Some type of report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>We received some application about LEAD.</eact:ActivityDesc>
+        <eact:ActivityType>TRACKER</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-06-20T21:22:00Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL/>
+        <eact:ActivityExpirationDate>2015-06-20T21:22:00Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusUpdateDate>2015-06-20T21:22:00Z</eact:StatusUpdateDate>
+        <eact:UserId>DAVIDDUNDUA2</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="FacilityId" label="Facility Id" order="1">12312312312</eact:Attribute>
+            <eact:Attribute key="OrgId" label="Organization Id" order="2">33333</eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents/>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>1</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-lead</eact:PartnerSystemId>
+        <eact:PartnerExternalId>240823dd-066a-4944-9277-9287667188ff</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Some type of report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>We received some application about LEAD.</eact:ActivityDesc>
+        <eact:ActivityType>TRACKER</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-06-20T21:02:50Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL/>
+        <eact:ActivityExpirationDate>2015-06-20T21:02:50Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusUpdateDate>2015-06-20T21:02:50Z</eact:StatusUpdateDate>
+        <eact:UserId>DAVIDDUNDUA2</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes/>
+        <eact:Documents/>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>3</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-lead</eact:PartnerSystemId>
+        <eact:PartnerExternalId>877c7535-28c8-4b97-bae8-1a7a94514c53</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Some type of report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>We received some application about LEAD.</eact:ActivityDesc>
+        <eact:ActivityType>TRACKER</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-06-20T21:13:57Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL/>
+        <eact:ActivityExpirationDate>2015-06-20T21:13:57Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusUpdateDate>2015-06-20T21:13:57Z</eact:StatusUpdateDate>
+        <eact:UserId>DAVIDDUNDUA2</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="FacilityId" label="Facility Id" order="1">12312312312</eact:Attribute>
+            <eact:Attribute key="OrgId" label="Organization Id" order="2">33333</eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents/>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>9</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-lead</eact:PartnerSystemId>
+        <eact:PartnerExternalId>9e9b7afd-0f30-493b-ba0c-7dff4a599b3c</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Some type of report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>We received some application about LEAD.</eact:ActivityDesc>
+        <eact:ActivityType>TRACKER</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-06-21T13:04:10Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL/>
+        <eact:ActivityExpirationDate>2015-06-21T13:04:10Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusUpdateDate>2015-06-21T13:04:10Z</eact:StatusUpdateDate>
+        <eact:UserId>DAVIDDUNDUA2</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="FacilityId" label="Facility Id" order="1">12312312312</eact:Attribute>
+            <eact:Attribute key="OrgId" label="Organization Id" order="2">33333</eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents/>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>11</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-lead</eact:PartnerSystemId>
+        <eact:PartnerExternalId>c4ed8199-c6d8-4910-b2a1-0ffb15790e1b</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Some type of report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>We received some application about LEAD.</eact:ActivityDesc>
+        <eact:ActivityType>TRACKER</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-06-21T13:05:13Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL/>
+        <eact:ActivityExpirationDate>2015-06-21T13:05:13Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusUpdateDate>2015-06-21T13:05:13Z</eact:StatusUpdateDate>
+        <eact:UserId>DAVIDDUNDUA2</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="FacilityId" label="Facility Id" order="1">12312312312</eact:Attribute>
+            <eact:Attribute key="OrgId" label="Organization Id" order="2">33333</eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents>
+            <eact:Document>
+                <eact:Name>attachment.txt</eact:Name>
+                <eact:TypeId>pdf</eact:TypeId>
+                <eact:Size/>
+                <eact:CreateDate>2015-06-21 13:05:14.0</eact:CreateDate>
+            </eact:Document>
+        </eact:Documents>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>12</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-lead</eact:PartnerSystemId>
+        <eact:PartnerExternalId>cd618c97-e3fd-43a6-b461-6752ad3b77a2</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Some type of report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>We received some application about LEAD.</eact:ActivityDesc>
+        <eact:ActivityType>TRACKER</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-06-21T13:06:22Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL/>
+        <eact:ActivityExpirationDate>2015-06-21T13:06:22Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusUpdateDate>2015-06-21T13:06:22Z</eact:StatusUpdateDate>
+        <eact:UserId>DAVIDDUNDUA2</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="FacilityId" label="Facility Id" order="1">12312312312</eact:Attribute>
+            <eact:Attribute key="OrgId" label="Organization Id" order="2">33333</eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents>
+            <eact:Document>
+                <eact:Name>attachment.txt</eact:Name>
+                <eact:TypeId>pdf</eact:TypeId>
+                <eact:Size>15</eact:Size>
+                <eact:CreateDate>2015-06-21 13:06:22.0</eact:CreateDate>
+            </eact:Document>
+        </eact:Documents>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>8</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-lead</eact:PartnerSystemId>
+        <eact:PartnerExternalId>8c9d45e7-f89a-4aff-b40d-24c9582e4461</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Some type of report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>We received some application about LEAD.</eact:ActivityDesc>
+        <eact:ActivityType>TRACKER</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-06-21T13:03:46Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL/>
+        <eact:ActivityExpirationDate>2015-06-21T13:03:46Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusUpdateDate>2015-06-21T13:03:46Z</eact:StatusUpdateDate>
+        <eact:UserId>DAVIDDUNDUA2</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="FacilityId" label="Facility Id" order="1">12312312312</eact:Attribute>
+            <eact:Attribute key="OrgId" label="Organization Id" order="2">33333</eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents/>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>10</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-lead</eact:PartnerSystemId>
+        <eact:PartnerExternalId>5895bcda-6705-4620-9952-db1d580d270b</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Some type of report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>We received some application about LEAD.</eact:ActivityDesc>
+        <eact:ActivityType>TRACKER</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-06-21T13:04:30Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL/>
+        <eact:ActivityExpirationDate>2015-06-21T13:04:30Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusUpdateDate>2015-06-21T13:04:30Z</eact:StatusUpdateDate>
+        <eact:UserId>DAVIDDUNDUA2</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="FacilityId" label="Facility Id" order="1">12312312312</eact:Attribute>
+            <eact:Attribute key="OrgId" label="Organization Id" order="2">33333</eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents/>
+    </eact:EActivity>
+</eact:EActivities>
