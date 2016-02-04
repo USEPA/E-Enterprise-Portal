@@ -39,7 +39,7 @@ drupal_add_js(drupal_get_path('module', $module_name) . "/js/test_harness.js", "
     <div class="col-xs-3">
         <h2>Search State Resources</h2>
 
-        <p>https://eportaldev.epa.gov/api/1.1/state_resources.json</p>
+        <p>https://eenterprise-dev-portal.apps.cloud.gov/api/1.1/state_resources.json</p>
         <input id="state_request"/>
         <button id="search_states">Search</button>
         <p>Request URL: <span id="url_used_state"></span></p>
@@ -57,8 +57,7 @@ drupal_add_js(drupal_get_path('module', $module_name) . "/js/test_harness.js", "
 <div class="row">
     <div class="col-xs-3">
         <h2>Search Local Resources</h2>
-
-        <p>https://eportaldev.epa.gov/api/1.1/local_resources.json</p>
+        <p>https://eenterprise-dev-portal.apps.cloud.gov/api/1.1/local_resources.json</p>
         <input id="local_request"/>
         <button id="search_locals">Search</button>
         <p>Request URL: <span id="url_used_local"></span></p>
