@@ -49,80 +49,81 @@ function recommended_resources_feature_feeds_importer_default() {
             'autocreate' => 1,
           ),
           1 => array(
-            'source' => 'Tool Type',
-            'target' => 'field_lgc_tool_type',
-            'unique' => FALSE,
-          ),
-          2 => array(
             'source' => 'Name',
             'target' => 'title',
             'unique' => FALSE,
           ),
-          3 => array(
+          2 => array(
             'source' => 'Description',
             'target' => 'field_lgc_description',
             'unique' => FALSE,
           ),
-          4 => array(
+          3 => array(
             'source' => 'Category',
             'target' => 'field_lgc_category',
             'term_search' => '0',
             'autocreate' => 1,
           ),
-          5 => array(
-            'source' => 'Tool Type',
-            'target' => 'field_lgc_tool_type',
-            'unique' => FALSE,
-          ),
-          6 => array(
+          4 => array(
             'source' => 'Availability',
             'target' => 'field_lgc_availability',
             'unique' => FALSE,
           ),
-          7 => array(
+          5 => array(
             'source' => 'Update Frequently',
             'target' => 'field_lgc_update_frequently',
             'unique' => FALSE,
           ),
-          8 => array(
+          6 => array(
             'source' => 'Relevance',
             'target' => 'field_lgc_relevance',
             'term_search' => '0',
             'autocreate' => 1,
           ),
-          9 => array(
+          7 => array(
             'source' => 'Training Level',
             'target' => 'field_lgc_training_level',
             'unique' => FALSE,
           ),
-          10 => array(
+          8 => array(
             'source' => 'Ease of Use',
             'target' => 'field_lgc_ease_of_use',
             'unique' => FALSE,
           ),
-          11 => array(
-            'source' => 'Data/Resource Requirements',
-            'target' => 'field_lgc_data_requirements',
-            'unique' => FALSE,
-          ),
-          12 => array(
+          9 => array(
             'source' => 'Recommendation',
             'target' => 'field_lgc_recommendation',
             'unique' => FALSE,
           ),
-          13 => array(
+          10 => array(
             'source' => 'Comments',
             'target' => 'field_lgc_comments',
             'unique' => FALSE,
           ),
-          14 => array(
+          11 => array(
             'source' => 'ID',
             'target' => 'field_lgc_id',
             'unique' => FALSE,
           ),
-          15 => array(
+          12 => array(
             'source' => 'Link',
             'target' => 'field_lgc_link',
+            'unique' => FALSE,
+          ),
+          13 => array(
+            'source' => 'Resource Requirements',
+            'target' => 'field_lgc_data_requirements',
+            'unique' => FALSE,
+          ),
+          14 => array(
+            'source' => 'Tool Type',
+            'target' => 'field_tool_type',
+            'term_search' => '0',
+            'autocreate' => 1,
+          ),
+          15 => array(
+            'source' => 'Name',
+            'target' => 'field_lgc_title',
             'unique' => FALSE,
           ),
         ),

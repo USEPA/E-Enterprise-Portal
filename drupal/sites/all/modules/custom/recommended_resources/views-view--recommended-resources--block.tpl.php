@@ -43,8 +43,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     <?php
     }
     ?>
-    <p>The following resources are recommended for town, city, and county
-        governments based your chosen topics.</p>
+
 
     <ul>
         <?php

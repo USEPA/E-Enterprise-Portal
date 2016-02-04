@@ -27,9 +27,8 @@
  * @ingroup views_templates
  */
 ?>
-
-
-
+<p>The following resources are recommended for town, city, and county
+    governments based your chosen topics.</p>
 <div class="<?php print $classes; ?>">
     <?php print render($title_prefix); ?>
     <?php if ($title): ?>

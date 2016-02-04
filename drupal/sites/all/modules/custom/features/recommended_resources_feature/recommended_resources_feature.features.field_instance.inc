@@ -161,7 +161,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_lgc_data_requirements',
-    'label' => 'Data/Resource Requirements',
+    'label' => 'Resource Requirements',
     'required' => 0,
     'settings' => array(
       'custom_add_another' => '',
@@ -435,21 +435,19 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_tool_type'
-  $field_instances['node-lgc_resource-field_lgc_tool_type'] = array(
+  // Exported field_instance: 'node-lgc_resource-field_lgc_title'
+  $field_instances['node-lgc_resource-field_lgc_title'] = array(
     'bundle' => 'lgc_resource',
-    'custom_add_another' => '',
-    'custom_remove' => '',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'list',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 6,
+        'type' => 'text_default',
+        'weight' => 18,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -459,20 +457,22 @@ function recommended_resources_feature_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_lgc_tool_type',
-    'label' => 'Tool Type',
-    'required' => 0,
+    'field_name' => 'field_lgc_title',
+    'label' => 'Title',
+    'required' => FALSE,
     'settings' => array(
       'custom_add_another' => '',
       'custom_remove' => '',
+      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 2,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 14,
     ),
   );
 
@@ -605,18 +605,60 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-lgc_resource-field_tool_type'
+  $field_instances['node-lgc_resource-field_tool_type'] = array(
+    'bundle' => 'lgc_resource',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 17,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_tool_type',
+    'label' => 'Tool Type',
+    'required' => 0,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 13,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Availability');
   t('Category');
   t('Comments');
-  t('Data/Resource Requirements');
   t('Description');
   t('Ease of Use');
   t('ID');
   t('Link');
   t('Recommendation');
   t('Relevance');
+  t('Resource Requirements');
+  t('Title');
   t('Tool Type');
   t('Topic');
   t('Training Level');

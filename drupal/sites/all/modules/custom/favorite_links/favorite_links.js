@@ -204,6 +204,10 @@
                   }
                 });
 
+                $(document).on("ee:new_links_to_process", function() {
+                    processPageAnchors();
+                });
+
 								function refocusLink(focus_link_id) {
 									if (focus_link_id != "") {
 										$('#favorite_links-ajax-wrapper').find(focus_link_id).focus();	

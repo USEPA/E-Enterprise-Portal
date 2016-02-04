@@ -51,13 +51,13 @@
     display:none;
 }
 
-.view-recommended-resources td span {
+.view-recommended-resources td span,  .view-user-recommended-resources td span{
 	display: block;
   font-size: 1em;
   line-height: 1.2;
 }
 
-.view-recommended-resources td span.lgc-resource-topic {
+.view-recommended-resources td span.lgc-resource-topic, .view-user-recommended-resources td span.lgc-resource-topic  {
   text-transform: uppercase;
   font-size: 0.75em;
   color: #666;
