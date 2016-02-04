@@ -1,0 +1,12 @@
+---
+applications:
+- name: eenterprise-dev-portal
+  memory: 512M
+  instances: 3
+  host: eenterprise-dev-portal
+  domain: apps.cloud.gov
+  path: .
+  buildpack: https://github.com/cloudfoundry/php-buildpack.git
+  services:
+  - dev-mysqldb
+  - mandrill_epa

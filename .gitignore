@@ -1,12 +1,24 @@
+# Ignore configuration files that may contain sensitive information.
+sites/*/settings*.php
+
+# Ignore paths that contain user-generated content.
+sites/*/files
+sites/*/private
+
+#Ignore all sass-cache
+.sass-cache
+sites/all/themes/*/.sass-cache
+sites/all/themes/*/.sass-cache
+
 #Ignore all sass-cache
 .sass-cache
 .idea/
-drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.fe_block_settings.inc
-drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.field_base.inc
-drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.field_instance.inc
-drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.inc
-drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.taxonomy.inc
-drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.user_permission.inc
-drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.info
-drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.module
-drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.views_default.inc
+sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.fe_block_settings.inc
+sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.field_base.inc
+sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.field_instance.inc
+sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.inc
+sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.taxonomy.inc
+sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.features.user_permission.inc
+sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.info
+sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.module
+sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas_of_interest_aws.views_default.inc
