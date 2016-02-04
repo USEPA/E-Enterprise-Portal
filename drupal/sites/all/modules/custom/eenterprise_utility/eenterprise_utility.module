@@ -723,6 +723,9 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                     $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
                     $error = false;
                 }
+                $zip_data['string'] = $readable_string;
+                $zip_data['error'] = $error;
+                
             }
         }
     }

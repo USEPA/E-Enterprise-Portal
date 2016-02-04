@@ -239,7 +239,7 @@
                                 $choose_city_holder.hide();
                             }
                             else { //More than one city/tribal area match
-                                selected_zip = parsed_data.zip;
+                                selected_zip_code = parsed_data.zip;
                                 selected_state = parsed_data.state;
                                 // Get city & zip attribute data
                                 all_zip_attr = parsed_data.zip_attr;
@@ -251,7 +251,7 @@
                                     city_select = city_select + '<option value="' + city + '">' + city + '</option>';
                                 });
                                 city_select = city_select + '</select>';
-                                $new_loc_input.val(selected_zip);
+                                $new_loc_input.val(selected_zip_code);
                                 $('#choose-city').html(city_select);
                                 $('#typed-in-city-state').text(location);
                                 $choose_city_holder.show();
