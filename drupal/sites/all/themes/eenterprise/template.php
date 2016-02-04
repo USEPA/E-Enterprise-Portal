@@ -216,3 +216,65 @@ function eenterprise_add_aria_attributes(&$variables) {
         $variables['element']['#attributes']['aria-describedby'] = $variables['element']['#id'] . '-description';
     }
 }
+
+/**
+ * Find and adjust messages such as error, status, and warning with desired wording
+ */
+function eenterprise_status_messages($variables) {
+  $display = $variables['display'];
+  $output = '';
+
+  $status_heading = array(
+    'status' => t('Status message'),
+    'error' => t('Error message'),
+    'warning' => t('Warning message'),
+  );
+  
+    if (_exclude_message('Link check', 'warning', true)) drupal_set_message('', '');
+  
+  foreach (drupal_get_messages($display) as $type => $messages) {
+    $output .= "<div class=\"messages--$type messages $type\">\n";
+    if (!empty($status_heading[$type])) {
+      $output .= '<h2 class="element-invisible">' . $status_heading[$type] . "</h2>\n";
+    }
+    if (count($messages) > 1) {
+      $output .= " <ul class=\"messages__list\">\n";
+      foreach ($messages as $message) {
+        $output .= '  <li class=\"messages__item\">' . $message . "</li>\n";
+      }
+      $output .= " </ul>\n";
+    }
+    else {
+      $output .= $messages[0];
+    }
+    $output .= "</div>\n";
+  }
+  return $output;
+} 
+
+function _exclude_message($mymessage, $mytype, $search) {
+  $flag = false;
+  if ($messageArr = drupal_set_message()) {
+    foreach($messageArr as $type=>$messages) {
+      if ($mytype==$type) {
+        foreach($messages as $key=>$message) {
+          if ($search) {
+            if (stristr($message, $mymessage)) {
+              unset($_SESSION['messages'][$type][intval($key)]);
+              $flag = true;
+            }
+          } else {
+            if ($mymessage==$message) {
+              unset($_SESSION['messages'][$type][intval($key)]);
+              $flag = true;
+            }
+          } 
+        }
+      }
+      sort($_SESSION['messages'][$type]);
+      if (count($_SESSION['messages'][$type])==0) unset($_SESSION['messages'][$type]);
+      if (count($_SESSION['messages'])==0) unset($_SESSION['messages']);
+    }
+  }
+  return $flag;
+}
