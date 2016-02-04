@@ -2,6 +2,7 @@
 
     $(document).ready(function () {
 
+
         // If first time user, show modal for profile saving options
         var first_time_user_block = $('#first-time-user-block');
         if (first_time_user_block.length > 0) {
@@ -9,10 +10,15 @@
             var selected_zip_code = '27705';
             var selected_city = 'Durham';
             var selected_state = 'NC';
+            var selected_urban = 'Urban';
+            var selected_pop = 228330;
+            var preferred_name = 'Durham, NC';
             var nearest_zip = '27705';
             var nearest_city = 'Durham';
             var nearest_state = 'NC';
             var geolocation_used = 0;
+            var all_city_attr = [];
+            var all_zip_attr = [];
 
             var $org_select = $('#select-organization');
             var $zip_select =  $('#zip_container');
@@ -24,9 +30,7 @@
             var $loc_add_new = $('#location-add-new');
             var $choose_zip_holder =   $('#choose-zip-holder');
             var $cancel_zip = $('#cancel-zip-select');
-
-
-
+            var $choose_city_holder =   $('#choose-city-holder');
             // Initialize  location with default information
             $nearest_location.text(selected_city + ', ' + selected_state + ' (' + selected_zip_code + ')');
 
@@ -97,6 +101,39 @@
                 $loading_user_loc.hide();
             }
 
+            function setCommunitySizeType(zip) {
+
+                if(all_zip_attr) {
+                    if(preferred_name && all_city_attr) {
+                        if(preferred_name in all_city_attr) {
+                            selected_pop = all_city_attr[preferred_name]['pop'];
+                        } else {
+                            selected_pop = all_zip_attr[zip]['pop'];
+                        }
+                    } else {
+                        selected_pop = all_zip_attr[zip]['pop'];
+                    }
+                    selected_urban = all_zip_attr[zip]['urban'];
+                    if(selected_urban.toLowerCase() == "urban") {
+                        $('input[name=community-type]:nth(1)').prop('checked', true);
+                    } else {
+                        $('input[name=community-type]:nth(0)').prop('checked', true);
+                    }
+                    if(selected_pop < 5000) {
+                        $('#community-size option:contains(0 - 5,000)').attr('selected', 'selected');
+                    } else if(selected_pop < 10000) {
+                        $('#community-size option:contains(5,000 - 10,000)').attr('selected', 'selected');
+                    } else if(selected_pop < 25000) {
+                        $('#community-size option:contains(10,000 - 25,000)').attr('selected', 'selected');
+                    } else if(selected_pop < 100000) {
+                        $('#community-size option:contains(25,000 - 100,000)').attr('selected', 'selected');
+                    } else if(selected_pop < 1000000) {
+                        $('#community-size option:contains(100,000 - 1,000,000)').attr('selected', 'selected');
+                    } else {
+                        $('#community-size option:contains(1,000,000+)').attr('selected', 'selected');
+                    }
+                }
+            }
 
 
             // Show zip selection options
@@ -106,6 +143,7 @@
                 $loc_add_new.show();
                 $choose_zip_holder.hide();
                 $cancel_zip.show();
+                $choose_city_holder.hide();
                 return false;
             });
 
@@ -119,13 +157,31 @@
                 $loc_add_new.hide();
             });
 
+            // User has found city they want, show in selected/nearest data
+            $('#confirm-city-select').click(function () {
+                preferred_name = $('#city-state-lookup-zips').val();
+                var selected_location = $new_loc_input.val();
+                setCommunitySizeType(selected_location);
+                $location_desc_user.show();
+                $nearest_location.text(preferred_name + ' (' + selected_location + ')');
+                $zip_select.show();
+                $loc_add_new.hide();
+                $('input[name=community-type]:checked');
+            });
 
+            //$('#revert-to-geo-location').click(function () {
+            //    $nearest_location.text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
+            //    selected_zip_code = nearest_zip;
+            //    selected_state = nearest_state;
+            //    selected_city = nearest_city;
+            //});
 
             //Hide Zip selection options
             $cancel_zip.click(function () {
                 $zip_select.show();
                 $loc_add_new.hide();
                 $choose_zip_holder.hide();
+                $choose_city_holder.hide();
                 clear_city_state_error();
                 $cancel_zip.hide();
             });
@@ -155,29 +211,53 @@
                 $.ajax({
                     url: '/return_location_data',
                     type: 'POST',
-                    data: {location: location},
+                    data: {location: location, initial_login: true},
                     success: function (data) {
                         var parsed_data = $.parseJSON(data);
-                        console.log(parsed_data);
                         // zip code entered, returned city/state
                         if (parsed_data.name_city_state) {
-                            selected_city = parsed_data.city;
-                            if (selected_city == '') { //Unable to find data for that zip
+                            var city_count = parsed_data.city.length;
+                            if (city_count == 0) { //Unable to find data for that zip
                                 error_message = '<span id="location-error-message">The ZIP code you entered could not be found.</span>';
                                 $loc_add_new.append(error_message);
                                 location_input.addClass('input-error');
                             }
-                            else {
+                            else if (city_count == 1) { //Only one city/tribal area match
                                 selected_state = parsed_data.state;
                                 var parsed_zip = parsed_data.zip;
-                                $nearest_location.text(parsed_data.city + ', ' + parsed_data.state + ' (' + parsed_zip + ')');
+                                // Get city & zip attribute data
+                                all_zip_attr = parsed_data.zip_attr;
+                                all_city_attr = parsed_data.city_attr;
+                                // Update form with new location
+                                $nearest_location.text(parsed_data.city[0] + ' (' + parsed_zip + ')');
                                 selected_zip_code = parsed_zip;
+                                preferred_name = parsed_data.city[0];
+                                // Set community size & type fields based on census data
+                                setCommunitySizeType(selected_zip_code);
                                 $zip_select.show();
                                 $loc_add_new.hide();
-                                $choose_zip_holder.hide();
+                                $choose_city_holder.hide();
+                            }
+                            else { //More than one city/tribal area match
+                                selected_zip = parsed_data.zip;
+                                selected_state = parsed_data.state;
+                                // Get city & zip attribute data
+                                all_zip_attr = parsed_data.zip_attr;
+                                all_city_attr = parsed_data.city_attr;
+                                // Create a city dropdown for the user to select from
+                                // Community size/type will be populated based on selection
+                                var city_select = '<select id="city-state-lookup-zips">';
+                                $.each(parsed_data.city, function (index, city) {
+                                    city_select = city_select + '<option value="' + city + '">' + city + '</option>';
+                                });
+                                city_select = city_select + '</select>';
+                                $new_loc_input.val(selected_zip);
+                                $('#choose-city').html(city_select);
+                                $('#typed-in-city-state').text(location);
+                                $choose_city_holder.show();
                             }
                         }
-                        else {
+                        else { //Still uses old FRS-style for doing city/state -> zip lookups (i.e. no census data or auto-populating community size/type)
                             var zip_array = parsed_data.zip_array;
                             var zip_count = zip_array.length;
                             if (zip_count == 0) {
@@ -283,6 +363,7 @@
                     data: {
                         skip: 0,
                         zip: selected_zip_code,
+                        preferred_name: preferred_name,
                         geolocation_used: geolocation_used,
                         geolocation_zip: nearest_zip,
                         org: org_val,
@@ -295,13 +376,12 @@
                         var parsed_msg = $.parseJSON(msg);
                         $(document).trigger("ee:first_time_user_complete");
                         if (parsed_msg.success) {
-                            $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + selected_city + ', ' + selected_state + '</option>').trigger('change');
+                            $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + preferred_name + '</option>').trigger('change');
                        }
                        else {
                             console.log(parsed_msg.error_msg);
                        }
                        first_time_user_block.dialog('close');
-
 
                     }
                 })
