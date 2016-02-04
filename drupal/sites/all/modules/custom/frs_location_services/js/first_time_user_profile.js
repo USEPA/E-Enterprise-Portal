@@ -103,33 +103,35 @@
 
             function setCommunitySizeType(zip) {
 
-                if(preferred_name && all_city_attr) {
-                    if(preferred_name in all_city_attr) {
-                        selected_pop = all_city_attr[preferred_name]['pop'];
+                if(all_zip_attr) {
+                    if(preferred_name && all_city_attr) {
+                        if(preferred_name in all_city_attr) {
+                            selected_pop = all_city_attr[preferred_name]['pop'];
+                        } else {
+                            selected_pop = all_zip_attr[zip]['pop'];
+                        }
                     } else {
                         selected_pop = all_zip_attr[zip]['pop'];
                     }
-                } else {
-                    selected_pop = all_zip_attr[zip]['pop'];
-                }
-                selected_urban = all_zip_attr[zip]['urban'];
-                if(selected_urban.toLowerCase() == "urban") {
-                    $('input[name=community-type]:nth(1)').prop('checked', true);
-                } else {
-                    $('input[name=community-type]:nth(0)').prop('checked', true);
-                }
-                if(selected_pop < 5000) {
-                    $('#community-size option:contains(0 - 5,000)').attr('selected', 'selected');
-                } else if(selected_pop < 10000) {
-                    $('#community-size option:contains(5,000 - 10,000)').attr('selected', 'selected');
-                } else if(selected_pop < 25000) {
-                    $('#community-size option:contains(10,000 - 25,000)').attr('selected', 'selected');
-                } else if(selected_pop < 100000) {
-                    $('#community-size option:contains(25,000 - 100,000)').attr('selected', 'selected');
-                } else if(selected_pop < 1000000) {
-                    $('#community-size option:contains(100,000 - 1,000,000)').attr('selected', 'selected');
-                } else {
-                    $('#community-size option:contains(1,000,000+)').attr('selected', 'selected');
+                    selected_urban = all_zip_attr[zip]['urban'];
+                    if(selected_urban.toLowerCase() == "urban") {
+                        $('input[name=community-type]:nth(1)').prop('checked', true);
+                    } else {
+                        $('input[name=community-type]:nth(0)').prop('checked', true);
+                    }
+                    if(selected_pop < 5000) {
+                        $('#community-size option:contains(0 - 5,000)').attr('selected', 'selected');
+                    } else if(selected_pop < 10000) {
+                        $('#community-size option:contains(5,000 - 10,000)').attr('selected', 'selected');
+                    } else if(selected_pop < 25000) {
+                        $('#community-size option:contains(10,000 - 25,000)').attr('selected', 'selected');
+                    } else if(selected_pop < 100000) {
+                        $('#community-size option:contains(25,000 - 100,000)').attr('selected', 'selected');
+                    } else if(selected_pop < 1000000) {
+                        $('#community-size option:contains(100,000 - 1,000,000)').attr('selected', 'selected');
+                    } else {
+                        $('#community-size option:contains(1,000,000+)').attr('selected', 'selected');
+                    }
                 }
             }
 
