@@ -11,13 +11,22 @@
         this.$button = $('#' + button_id);
 
 
+        var initial_url = url;
+        var url_to_load;
 
         this.$button.click(function () {
-            var input = encodeURIComponent($('#' + input_id).val());
-            if (input != '') {
-                url = url + "?args[0]=" + input;
+            var input;
+            if (api_type != 'any') {
+                input = encodeURIComponent($('#' + input_id).val());
+                if (input != '') {
+                    url_to_load = initial_url + "?args[0]=" + input;
+                }
+                loadResults(url_to_load);
             }
-            loadResults(url);
+            else {
+                input = $('#' + input_id).val();
+                loadResults(input);
+            }
         });
 
 
@@ -35,19 +44,24 @@
                         str = "No results found";
                     }
                     else {
+                        if (api_type != 'any') {
                         $.each(data, function (key, value) {
                             str = JSON.stringify(value, undefined, 4);
                             $json_holder.append(str + '<br />');
                             $url_used_holder.text(url);
-
                         });
                         if (api_type == 'local') {
                             table = createLocalTable(data);
                         }
-                        else {
+                        else  {
                             table = createStateTable(data);
                         }
-                        $table_holder.html(table);
+                            $table_holder.html(table);
+
+                        }
+                        else {
+                            $json_holder.append(data);
+                        }
                     }
                 },
                 failure: function(msg) {
@@ -83,6 +97,8 @@
     $(document).ready(function() {
         var local_resources_test_harness = new TestAPIHarness('local_request', 'local_json', 'local_table', 'url_used_local', 'search_locals', 'https://eenterprise-dev-portal.apps.cloud.gov/api/1.1/local_resources.json', 'local');
         var state_resources_test_harness = new TestAPIHarness('state_request', 'state_json', 'state_table', 'url_used_state', 'search_states', 'https://eenterprise-dev-portal.apps.cloud.gov/api/1.1/state_resources.json', 'state');
+
+    //    var test_harness = new TestAPIHarness('any_request', 'raw_output', 'no_table', 'url_custom', 'search_custom', '', 'any');
     });
 
 
