@@ -257,34 +257,25 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_lgc_tool_type'
-  $field_bases['field_lgc_tool_type'] = array(
+  // Exported field_base: 'field_lgc_title'
+  $field_bases['field_lgc_title'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_lgc_tool_type',
+    'field_name' => 'field_lgc_title',
     'indexes' => array(
-      'value' => array(
-        0 => 'value',
+      'format' => array(
+        0 => 'format',
       ),
     ),
     'locked' => 0,
-    'module' => 'list',
+    'module' => 'text',
     'settings' => array(
-      'allowed_values' => array(
-        'Guidance' => 'Guidance',
-        'Website' => 'Website',
-        'Decision' => 'Decision',
-        'Tree' => 'Tree',
-        'Data' => 'Data',
-        'System' => 'System',
-      ),
-      'allowed_values_function' => '',
-      'profile2_private' => FALSE,
+      'max_length' => 255,
     ),
     'translatable' => 0,
-    'type' => 'list_text',
+    'type' => 'text',
   );
 
   // Exported field_base: 'field_lgc_topic'
@@ -361,6 +352,33 @@ function recommended_resources_feature_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
+  );
+
+  // Exported field_base: 'field_tool_type'
+  $field_bases['field_tool_type'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_tool_type',
+    'indexes' => array(
+      'tid' => array(
+        0 => 'tid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'taxonomy',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => array(
+          'vocabulary' => 'lgc_tool_type',
+          'parent' => 0,
+        ),
+      ),
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'taxonomy_term_reference',
   );
 
   return $field_bases;
