@@ -426,7 +426,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_initial_log_in']);
         hide($form['field_interests2']);
         hide($form['field_gridstack_settings']);
-        hide($form['field_lgc_topics_of_interest']);
+   //     hide($form['field_lgc_topics_of_interest']);
 //        if ($form['field_organization'][LANGUAGE_NONE]['#default_value'][0] != '172730') {
 //            hide($form['field_community_size']);
 //            hide($form['field_community_type']);

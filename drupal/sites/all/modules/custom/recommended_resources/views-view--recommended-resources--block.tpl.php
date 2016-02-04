@@ -33,39 +33,39 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
  */
 ?>
 <div id="local-resources-tabs" class="view-content">
-<?php
-// Load the currently logged in user.
-global $user;
-// Check if the user has the 'editor' role.
-if (in_array('local_government_admin', $user->roles) || $user->uid == 1) {
-    ?>
-    <div class="action-links"><a href="/local-resource-editor" class="favorites-ignore">Manage Resources</a></div>
-<?php
-}
-?>
-<p>The following resources are recommended for town, city, and county
-    governments based your chosen topics.</p>
-
-<ul>
     <?php
-    if ($user->name != 'guest-user') {
+    // Load the currently logged in user.
+    global $user;
+    // Check if the user has the 'editor' role.
+    if (in_array('local_government_admin', $user->roles) || $user->uid == 1) {
         ?>
-        <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#favorite-state-resources">My
-                Resources</a></li>
+        <div class="action-links"><a href="/local-resource-editor" class="favorites-ignore">Manage Resources</a></div>
     <?php
     }
     ?>
-    <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources">All</a></li>
+    <p>The following resources are recommended for town, city, and county
+        governments based your chosen topics.</p>
 
-</ul>
+    <ul>
+        <?php
+        if ($user->name != 'guest-user') {
+            ?>
+            <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#user-local-resources">My
+                    Resources</a></li>
+        <?php
+        }
+        ?>
+        <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources">All</a></li>
 
-<?php
-if ($user->name != 'guest-user') {
-    ?>
+    </ul>
+
+    <?php
+    if ($user->name != 'guest-user') {
+        ?>
         <div id="user-local-resources"></div>
     <?php
-}
-?>
+    }
+    ?>
     <div id="all-local-resources"></div>
 
 </div>

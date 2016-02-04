@@ -94,7 +94,7 @@
     display:none;
 }
 
-.view-recommended-resources #datatable-1 thead{
+.view-recommended-resources #datatable-1 thead, .view-user-recommended-resources thead{
     display:none;
 }
 
