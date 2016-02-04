@@ -114,25 +114,24 @@ function other_items_of_interest_form_validate($form, &$form_state){
         if (ucwords($form_state['values']['title']) == 'EPA') {
             $form['title']['#value'] = 'US EPA';
             $form_state['values']['title'] = 'US EPA';
-        };
+        }
         if (!valid_url($input_url, TRUE)) {
             $message = "Invalid Web URL (include http or https prefix).";
             form_set_error('field_source_url', $message);
         }
-
-    // Verify that link is not broken
-    else {
-				$headers = get_headers($url, 1);
-				if ($headers[0] == 'HTTP/1.1 200 OK') {
-					// Do nothing - this links seems to work
-				}
-				else if ($headers[0] != 'HTTP/1.1 200 OK') {
-					form_set_error('url', 'The link you tried - '.$url.' - does not seem to exist. Please check it and try again.');
-				}
-				else {
-					form_set_error('url', 'There was a problem checking this link.  Please let the system admin know.');
-				} 
-    }
+	// Else, for valid formatted link, verify that link is not broken
+	else {
+            $headers = get_headers($input_url, 1);
+            if ($headers[0] == 'HTTP/1.1 200 OK') {
+            	// Do nothing - this links seems to work
+            }
+            else if ($headers[0] != 'HTTP/1.1 200 OK') {
+            	form_set_error('url', 'The link you tried - '.$input_url.' - does not seem to exist. Please check it and try again.');
+            }
+            else {
+            	form_set_error('url', 'There was a problem checking this link.  Please let the system admin know.');
+            } 
+	}
 			
         if (!empty($form_state['values']['delete'])) {
             $edit_form = TRUE;

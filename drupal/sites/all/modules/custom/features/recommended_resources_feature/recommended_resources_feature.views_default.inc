@@ -314,6 +314,17 @@ echo $row->title;
     'length_change' => 1,
     'display_length' => '10',
   );
+  /* Field: Content: Topic */
+  $handler->display->display_options['fields']['field_lgc_topic']['id'] = 'field_lgc_topic';
+  $handler->display->display_options['fields']['field_lgc_topic']['table'] = 'field_data_field_lgc_topic';
+  $handler->display->display_options['fields']['field_lgc_topic']['field'] = 'field_lgc_topic';
+  $handler->display->display_options['fields']['field_lgc_topic']['label'] = '';
+  $handler->display->display_options['fields']['field_lgc_topic']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_lgc_topic']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_lgc_topic']['alter']['text'] = '[field_lgc_topic]';
+  $handler->display->display_options['fields']['field_lgc_topic']['alter']['max_length'] = '100';
+  $handler->display->display_options['fields']['field_lgc_topic']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_lgc_topic']['type'] = 'taxonomy_term_reference_plain';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
@@ -337,9 +348,9 @@ echo $row->title;
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<a href="[field_lgc_link]" target="_blank">[title_1]</a> <br />
-[field_lgc_description] <br />
-';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="lgc-resource-link"><a href="[field_lgc_link]" target="_blank">[title_1]</a></span>
+<span class="lgc-resource-description ee-bootstrap-tooltip ellipsis" data-toggle="tooltip">[field_lgc_description]</span>
+<span class="lgc-resource-topic">[field_lgc_topic]</span>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nothing']['hide_empty'] = TRUE;
   /* Sort criterion: Content: Post date */
