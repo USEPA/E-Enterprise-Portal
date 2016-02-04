@@ -114,7 +114,7 @@ function other_items_of_interest_form_validate($form, &$form_state){
         if (ucwords($form_state['values']['title']) == 'EPA') {
             $form['title']['#value'] = 'US EPA';
             $form_state['values']['title'] = 'US EPA';
-        };
+        }
         // If not valid formatted link
         if (!valid_url($input_url, TRUE)) {
             $message = "Invalid Web URL (include http or https prefix).";
