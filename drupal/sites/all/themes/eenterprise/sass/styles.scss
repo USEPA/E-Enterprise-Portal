@@ -1230,7 +1230,6 @@ tr.odd, tr.even {
   .ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
 	  padding-left: 0.5em;
 	  padding-right: 0.5em;
-	  margin-bottom: 5px;
   }
 }
 
@@ -1614,6 +1613,7 @@ footer {
 /** To Do / Progress Tracker Styles
 *********************************************************/
 table.views-table {
+	table-layout:fixed;
 	border-spacing: 10px;
 	font-size: 85%;
 	thead th {
@@ -1638,6 +1638,9 @@ table.views-table {
 	}
 	th:hover {
 		background-color: #606060;
+	}
+	&.display td {
+		word-wrap: break-word;
 	}
 }
 
@@ -2332,6 +2335,9 @@ a.tabledrag-handle .handle {
 	li {
 		padding: 0;
 	}
+	li.ui-tabs-active {
+		padding-bottom: 4px;
+	}
 	a {
 		padding: 5px 15px;
 		color: #000;
@@ -2354,7 +2360,6 @@ a.tabledrag-handle .handle {
 	
 	.todo-filter-by-week li {
 		display: inline-block;
-		width: 8em;
 		padding-top: 5px;
 		padding-bottom: 5px;	//Provide more tap space
 	}
@@ -2362,11 +2367,18 @@ a.tabledrag-handle .handle {
 }
 label, .aria-label, .ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
 	font-size: 0.85em;
-	margin-bottom: 5px;
+	margin-bottom: 3px;
+	float: none;
+	display: inline-block;
+}
+.ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
+	margin-bottom: -1px;
 }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active, 
 .todo-filter-by-week li.filter-applied {
 	border-bottom: 3px solid #007AC6;
+	margin-bottom: -4px;
+	padding-bottom: 0px;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
 	font-weight: bold;
@@ -2910,7 +2922,7 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 @media screen and (min-width:20em) and (max-width:959.99999px) {
   .responsive-table a.simple-dialog,
   td.responsive-to-do-link a{
-    color: #fff;
+    color: $ee-link-color;
     text-decoration: underline;
   }
 

@@ -5,7 +5,6 @@
     border: 0px;
 }
 
-
 .interests-url-hyperlink, .interests-url-text {
     word-wrap: break-word;
     white-space: normal;
@@ -44,52 +43,6 @@
     padding: 5px 0;
 }
 
-@media (min-width: 1200px) {
-    .interests-url-hyperlink, .interests-url-text {
-        width: 100%;
-        max-width: 330px;
-    }
-}
-
-
-@media (min-width: 900px) and (max-width: 1200px) {
-    .interests-url-hyperlink, .interests-url-text {
-        max-width: 170px;
-        width:100%
-    }
-
-}
-@media (min-width: 750px) and (max-width: 900px) {
-    .interests-url-hyperlink, .interests-url-text {
-        max-width: 100px;
-        width:100%
-    }
-
-}
-
-
-@media (min-width: 700px) and (max-width: 750px){
-    .interests-url-hyperlink, .interests-url-text {
-        max-width: 375px;
-        width: 100%;
-    }
-
-}
-
-@media (min-width: 500px)  and  (max-width: 700px) {
-    .interests-url-hyperlink, .interests-url-text {
-        max-width: 150px;
-        width: 100%;
-    }
-}
-
-@media (max-width: 500px) {
-    .interests-url-hyperlink, .interests-url-text {
-        max-width: 100px;
-        width: 100%;
-    }
-}
-
 .view-recommended-resources .dataTables_wrapper .pager-current.hidden {
     display:none;
 }
@@ -98,6 +51,18 @@
     display:none;
 }
 
+.view-recommended-resources td span {
+	display: block;
+  font-size: 1em;
+  line-height: 1.2;
+}
+
+.view-recommended-resources td span.lgc-resource-topic {
+  text-transform: uppercase;
+  font-size: 0.75em;
+  color: #666;
+  margin-bottom: 5px;
+}
 
 .modal-iframe {
     width: 100%;
@@ -107,8 +72,6 @@
 .ui-dialog, .ui-dialog-content {
     height: 90% !important;
 }
-
-
 
 #edit-field-lgc-link .description {
     width: 280px;

@@ -252,7 +252,15 @@ function return_location_data()
     } else {
         exit();
     }
+
+    $initial_login = false;
+    if (isset($_POST['initial_login'])) {
+        $initial_login = true;
+    }
+
+
 // Sanitize inputs
+
 
 
 // First check $location with postal code validation
@@ -269,7 +277,11 @@ function return_location_data()
         $zips = frs_city_state_to_zip_code($city, $state);
         echo json_encode($zips);
     } else {
-        $zip_lookup = zip_code_lookup($validation['postal_code']);
+        if($initial_login) {
+            $zip_lookup = zip_code_lookup($validation['postal_code'], 'php', true);
+        } else {
+            $zip_lookup = zip_code_lookup($validation['postal_code']);
+        }
         $zip_lookup['name_city_state'] = true;
         echo json_encode($zip_lookup);
     }

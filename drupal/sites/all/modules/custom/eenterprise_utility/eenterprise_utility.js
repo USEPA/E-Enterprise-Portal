@@ -1,12 +1,12 @@
 (function ($) {
-	var numSelects = 0;
-	var fieldToCheck;
-	var type;
-	var removedSelect = false;
-	
+  var numSelects = 0;
+  var fieldToCheck;
+  var type;
+  var removedSelect = false;
+  
     $(document).ready(function () {
-    		$('body').find('.field-multiple-table').removeClass('sticky-enabled');
-    		$('#profile-locations').find('.sticky-header').remove();
+        $('body').find('.field-multiple-table').removeClass('sticky-enabled');
+        $('#profile-locations').find('.sticky-header').remove();
         function placeAddAnotherButton(ajax_content, table_id, parent_id) {
             var table = $(table_id);
             var input_button = $(parent_id).find('.field-add-more-submit');
@@ -17,18 +17,18 @@
         }
         
         function moveAddButton() {
-        		var table = $('#zipcode_description .field-multiple-table');        
-	        	var addMoreBtn = $('#profile-locations').find('.field-add-more-submit');
-	        	var add_button = table.find('tr:last').find('td:nth-child(2)').find('.field-add-more-submit');
+            var table = $('#zipcode_description .field-multiple-table');        
+            var addMoreBtn = $('#profile-locations').find('.field-add-more-submit');
+            var add_button = table.find('tr:last').find('td:nth-child(2)').find('.field-add-more-submit');
             if (add_button.length == 0) {
               table_id = table.attr('id');
-	          }
-	          $('#profile-locations').find('tr:last').find('td:nth-child(2)').append(addMoreBtn);
+            }
+            $('#profile-locations').find('tr:last').find('td:nth-child(2)').append(addMoreBtn);
         }
 
         function processPrimaryFields() {
-    			$('body').find('.field-multiple-table').removeClass('sticky-enabled');
-					$('#profile-locations').find('.sticky-header').remove();        
+          $('body').find('.field-multiple-table').removeClass('sticky-enabled');
+          $('#profile-locations').find('.sticky-header').remove();        
           var table = $('#zipcode_description .field-multiple-table');        // cache the target table DOM element
           var checkboxes = table.find('input[type=checkbox]');
           var starsSpot = checkboxes.next('div');
@@ -37,7 +37,7 @@
           
           if (!$(starsSpot).hasClass('zip-code-primary-holder')) {
             checkboxes.after('<div class="zip-code-primary-holder"><a href="javascript:void(0)" title="Set to default location" class="zip-code-primary-select"><i class="glyphicon glyphicon-star-empty" aria-hidden="true"></i><span class="sr-only">Set to default location</span></a></div>');
-						var primary_indicator = selection.next('.zip-code-primary-holder').find('.zip-code-primary-select');
+            var primary_indicator = selection.next('.zip-code-primary-holder').find('.zip-code-primary-select');
             primary_indicator.addClass('selected');
             primary_indicator.prop('title', 'Default location');
             var primary_indicator_star = primary_indicator.find('i');
@@ -49,38 +49,38 @@
           
           // If no default location exists, set the first row to be the default
           if (table.find('input[type=checkbox]:checked').length == 0) {
-						setPrimaryZip();
+            setPrimaryZip();
           }
           
-					// If location error exists, lock down buttons to avoid accidental submit
+          // If location error exists, lock down buttons to avoid accidental submit
           if ($('#city-state-lookup-zips').length == 0) {
-	          $('.form-submit').prop("disabled", false);
-						table.find("tr:last").find('.field_zip_code').focus();
-					}
-					else {
-						$('.form-submit').prop("disabled", true);
-						$('#city-state-lookup-zips').focus();
-					}
-					
-					// If location error exists, lock down buttons to avoid accidental submit
-					if ($('.field-suffix').hasClass('error')) {
-						hideButtons();
-						var fixInput = $('.field-suffix.error').closest('td').find('.field_zip_code');
-						fixInput.focus();
-					}
-					else {
-						resetButtons(false);
-					}
-					
-					if (numSelects > 0) {
-						hideButtons();
-						var fixInput = $('#zipcode_description select').closest('td').find('.field_zip_code');
-						fixInput.focus();
-					}
+            $('.form-submit').prop("disabled", false);
+            table.find("tr:last").find('.field_zip_code').focus();
+          }
+          else {
+            $('.form-submit').prop("disabled", true);
+            $('#city-state-lookup-zips').focus();
+          }
+          
+          // If location error exists, lock down buttons to avoid accidental submit
+          if ($('.field-suffix').hasClass('error')) {
+            hideButtons();
+            var fixInput = $('.field-suffix.error').closest('td').find('.field_zip_code');
+            fixInput.focus();
+          }
+          else {
+            resetButtons(false);
+          }
+          
+          if (numSelects > 0) {
+            hideButtons();
+            var fixInput = $('#zipcode_description select').closest('td').find('.field_zip_code');
+            fixInput.focus();
+          }
         }
         
         function setPrimaryZip() {
-						$('#zipcode_description .field-multiple-table').find('tr:nth-child(1)').find('.zip-code-primary-select').click();
+            $('#zipcode_description .field-multiple-table').find('tr:nth-child(1)').find('.zip-code-primary-select').click();
         }
 
         var old_button = '';
@@ -110,36 +110,39 @@
             selected_icon_star.addClass('glyphicon-star');
             selected_icon_star.closest('td').find('input[type=checkbox]').prop('checked', true);
             var screenreader_indicator = $(this).find('.sr-only');
-        		screenreader_indicator.text('Default location');
+            screenreader_indicator.text('Default location');
             
         });
         $('body').on('click', '.zip-code-primary-select.selected', function () {
-        		$(this).removeClass('selected');
-        		$(this).prop('title', 'Set to default location');
+            $(this).removeClass('selected');
+            $(this).prop('title', 'Set to default location');
             var selected_icon = $(this).find('i');
             selected_icon.removeClass('glyphicon-star');
             selected_icon.addClass('glyphicon-star-empty');
             selected_icon.closest('td').find('input[type=checkbox]').prop('checked', false);
             var screenreader_indicator = $(this).find('.sr-only');
-        		screenreader_indicator.text('Set to default location');
+            screenreader_indicator.text('Set to default location');
         });
 
-				var lastVal;
+        var lastVal;
 
         $('body').on('focus', '.field_zip_code', function() {
-	        lastVal = $(this).val();
-	        $('.field_zip_code').on('change', function() {
-		         $('.form-submit').prop("disabled", true);
-		         $('.field-suffix').removeClass('error')
-	        });
-	        $(".field_zip_code").keyup(function(e) {
+          lastVal = $(this).val();
+          $('.field_zip_code').on('change', function() {
+             $('.form-submit').prop("disabled", true);
+             $('.field-suffix').removeClass('error')
+          });
+          $(".field_zip_code").keyup(function(e) {
+              if ($(this).val() != '' && (lastVal != $(this).val())) {
+                  hideButtons();
+              }
               if (e.which == 13) { // Enter key
                 if (!$('.field-suffix').hasClass('error')) {
-                	$(this).blur();
+                  $(this).blur();
                 }
                 else {
-	                hideButtons();
-	                $(this).closest("td").find(".field_zip_code").focus();
+                  hideButtons();
+                  $(this).closest("td").find(".field_zip_code").focus();
                 }
               }
           });
@@ -152,40 +155,37 @@
         });      
         
         $('body').on('blur', '.field_zip_code', function (e) {
-					if (lastVal != $(this).val()) {
-          	fieldChanged = $(e.target);
-          	if (fieldChanged.find('.field-suffix').hasClass('error')) {
-          		fieldChanged.find('.field-suffix').removeClass('error');
-          	}
-          	checkLocation(fieldChanged, "textfield");    
-          	fieldChanged.closest("td").find(".field_zip_code").focus();     	
+          if (lastVal != $(this).val()) {
+            fieldChanged = $(e.target);
+            checkLocation(fieldChanged, "textfield");    
+            fieldChanged.closest("td").find(".field_zip_code").focus();     	
           }
         });
         
         $('body').on('click', '.form-submit', function(e) {
           mouse_click = $(e.target);
-	        checkLocation(mouse_click, "button");
+          checkLocation(mouse_click, "button");
         });
         
         $('body').on('click', 'button', function(e) {
           mouse_click = $(e.target);
-	        checkLocation(mouse_click, "button");
-	        if ($('.field-suffix').hasClass('error')) {
-         		 hideButtons();
+          checkLocation(mouse_click, "button");
+          if ($('.field-suffix').hasClass('error')) {
+             hideButtons();
           }        
           mouse_click.closest("td").find(".field_zip_code").focus();
         });
         
         function checkLocation(fieldToCheck, type) {
-					// Lock save and add as to not submit faulty data before processed
-        	if (type != 'button' && fieldToCheck.val() != '') {
-	        	hideButtons();
-	        }	
+          // Lock save and add as to not submit faulty data before processed
+          if (type != 'button' && fieldToCheck.val() != '') {
+            hideButtons();
+          } 
 
-					if (type == 'button' || type == 'select') {
-						var clicked_id = fieldToCheck.id;
-						var input = $(clicked_id).closest('td').find('.field_zip_code');
-					}
+          if (type == 'button' || type == 'select') {
+            var clicked_id = fieldToCheck.id;
+            var input = $(clicked_id).closest('td').find('.field_zip_code');
+          }
 
           if (type == 'textfield') {
 	          // This is an override of the drupal add and save to allow the zip code data to process before saving
@@ -194,28 +194,19 @@
 	          var add_button = input.closest('td').find('.field-add-more-submit');
 	          var remove_button = input.closest('td').find('.remove-button');
 	          var primary_indicator = input.closest('td').find('.zip-code-primary-holder');
-	          var button_clicked = false;
-	          if (new_button != '' && new_button.attr('id') == clicked_id) {
-	              button_clicked = 'add';
-	          }
-	          else if (new_save_submit != '' &&  new_save_submit.attr('id') == clicked_id) {
-	              button_clicked = 'save';
-	          }
-	          else if (remove_button != '' && remove_button.attr('id') == clicked_id) {
-	            	button_clicked = 'remove';
-	          }
 	          
-          	field_suffix.removeClass('error');
-						var trimmedValue = $.trim(input.val());
+	          if (field_suffix.hasClass('error')) {
+          		field_suffix.removeClass('error');
+          	}
 
-						if ($.trim(input.val()) == '') {
-							field_suffix.html('');
-						}
-						else {
+            if ($.trim(input.val()) == '') {
+              field_suffix.html('');
+            }
+            else {
               var ariaid = input.attr('aria-describedby');
               field_suffix.attr('id', ariaid);
               field_suffix.html('Loading...');
-						  Drupal.settings.locationInputEngine.lookUpLocation(input.val()).done(function (location_data) {
+              Drupal.settings.locationInputEngine.lookUpLocation(input.val()).done(function (location_data) {
                   if (location_data.zip_codes) {
                       // Lookup city, state - IF only one zip code, automatically input into input
                       var count_zips_returned = location_data.zip_array.length;
@@ -225,7 +216,7 @@
                           remove_button.hide();
                           primary_indicator.hide();
 
-													var labelselect = $('<label id="zip-label" for="city-state-lookup-zips">Select a zip code for ' + input.val() + ':</label>');
+                          var labelselect = $('<label id="zip-label" for="city-state-lookup-zips">Select a zip code for ' + input.val() + ':</label>');
                           var select = $(location_data.zip_select);
                           select.addClass('city-state-lookup-zips');
                           var confirm = $('<button type="button" class="btn btn-default btn-sm" id ="user-profile-select-zip">Select</button>');
@@ -235,17 +226,17 @@
                             input.after(labelselect);
                             labelselect.after(select);
                             numSelects = numSelects + 1;
-													}
-													hideButtons();
+                          }
+                          hideButtons();
                           field_suffix.html(confirm);                          
                           field_suffix.append(back);
                           $('.form-submit').prop("disabled", true);
                           select.focus();
                           back.on('click', function () {
-                          		removedSelect = true;
-															numSelects = 0;
+                              removedSelect = true;
+                              numSelects = 0;
                               field_suffix.html('');
-															input.prop("disabled", false);
+                              input.prop("disabled", false);
                               $('#profile-locations').find('#zip-label').remove();
                               $('#profile-locations').find('#city-state-lookup-zips').remove();
                               back.remove();
@@ -253,9 +244,9 @@
                               remove_button.show();
                               add_button.show();
                               primary_indicator.show();
-															field_suffix.addClass('error');
-															field_suffix.html('Please update your location or remove this field before saving.');
-															input.focus();
+                              field_suffix.addClass('error');
+                              field_suffix.html('Please update your location or remove this field before saving.');
+                              input.focus();
                           });
                           confirm.on('click', function () {
                               back.remove();
@@ -268,12 +259,12 @@
                               remove_button.show();
                               primary_indicator.show();
                               if (!existingLocationErrors()) {
-                                  resetButtons(button_clicked);
+                                  resetButtons();
                               }
-															numSelects = 0;
-															input.prop("disabled", false);
-															$('.form-submit').prop("disabled", false);
-															input.focus();
+                              numSelects = 0;
+                              input.prop("disabled", false);
+                              $('.form-submit').prop("disabled", false);
+                              input.focus();
                           });
                       }
                       // Count zips returned isn't greater than 1
@@ -281,7 +272,7 @@
                           input.val(location_data.zip_array[0]);
                           field_suffix.html(location_data.city + ', ' + location_data.state);
                           if (!existingLocationErrors()) {
-                              resetButtons(button_clicked);
+                              resetButtons();
                           }
                           else {
                           }
@@ -291,7 +282,7 @@
                       // add city and state data to field suffix
                       field_suffix.html(location_data.city + ', ' + location_data.state);
                       if (!existingLocationErrors()) {
-                          resetButtons(button_clicked);
+                          resetButtons();
                       }
                       else {
                       }
@@ -307,13 +298,13 @@
                   are_there_errors = true;
                   hideButtons();
               });
-						}
-					}	
-					input.focus();
-				} // End checkLocation
+            }
+          } 
+          input.focus();
+        } // End checkLocation
 
         // Check if there are any errors. If no errors, make sure Save button / plus button are enabled
-        function resetButtons(button_clicked){
+        function resetButtons(){
             $('body').find('.field-add-more-submit').show();
             $('#edit-field-zip-code .field-add-more-submit').prop("disabled", false);
             $('#edit-submit').prop("disabled", false);
@@ -328,8 +319,8 @@
             $('#edit-submit--2').prop("disabled", true);
             $('#edit-delete').prop("disabled", true);
             if (removedSelect == true) {
-	        		$('.remove-button').prop("disabled", false);
-						}
+              $('.remove-button').prop("disabled", false);
+            }
         }
 
         function existingLocationErrors() {
@@ -345,11 +336,11 @@
         var path = window.location.pathname;
         var page = path.split('/')[1];
         if (page == 'user') {
-        	  $("#edit-submit").prependTo(".edit-user-profile");
+            $("#edit-submit").prependTo(".edit-user-profile");
             $(document).ajaxSuccess(function (event, xhr, settings) {
                 var target_url = settings.url;
-								
-								if (target_url == '/multifield/field-remove-item/ajax') {
+                
+                if (target_url == '/multifield/field-remove-item/ajax') {
                     if (existingLocationErrors()) {
                         hideButtons();
                     }
@@ -380,8 +371,8 @@
                         placeAddAnotherButton(false, '#' + table_id, parent_id);
                     }
                 }
-								processPrimaryFields();
-								moveAddButton();
+                processPrimaryFields();
+                moveAddButton();
             });
 
             //Add hide and show functionality for the local government user options
@@ -414,14 +405,14 @@
         }
         
         if (page == 'app-connect') {
-					$('#app-connect-tabs').tabs();
+          $('#app-connect-tabs').tabs();
         }
 
         function inString(str, substring) {
             return str.indexOf(substring) >= 0;
         }
 
-				// Delete user profile
+        // Delete user profile
         $('#edit-delete').click(function (e) {
             var delete_button = $(this);
             var fancybox = $.fancybox({
@@ -450,4 +441,3 @@
         $('#zipcode_description').show();
     });
 })(jQuery);
-
