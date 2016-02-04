@@ -101,6 +101,37 @@
                 $loading_user_loc.hide();
             }
 
+            function setCommunitySizeType(zip) {
+
+                if(preferred_name && all_city_attr) {
+                    if(preferred_name in all_city_attr) {
+                        selected_pop = all_city_attr[preferred_name]['pop'];
+                    } else {
+                        selected_pop = all_zip_attr[zip]['pop'];
+                    }
+                } else {
+                    selected_pop = all_zip_attr[zip]['pop'];
+                }
+                selected_urban = all_zip_attr[zip]['urban'];
+                if(selected_urban.toLowerCase() == "urban") {
+                    $('input[name=community-type]:nth(1)').prop('checked', true);
+                } else {
+                    $('input[name=community-type]:nth(0)').prop('checked', true);
+                }
+                if(selected_pop < 5000) {
+                    $('#community-size option:contains(0 - 5,000)').attr('selected', 'selected');
+                } else if(selected_pop < 10000) {
+                    $('#community-size option:contains(5,000 - 10,000)').attr('selected', 'selected');
+                } else if(selected_pop < 25000) {
+                    $('#community-size option:contains(10,000 - 25,000)').attr('selected', 'selected');
+                } else if(selected_pop < 100000) {
+                    $('#community-size option:contains(25,000 - 100,000)').attr('selected', 'selected');
+                } else if(selected_pop < 1000000) {
+                    $('#community-size option:contains(100,000 - 1,000,000)').attr('selected', 'selected');
+                } else {
+                    $('#community-size option:contains(1,000,000+)').attr('selected', 'selected');
+                }
+            }
 
 
             // Show zip selection options
@@ -128,30 +159,7 @@
             $('#confirm-city-select').click(function () {
                 preferred_name = $('#city-state-lookup-zips').val();
                 var selected_location = $new_loc_input.val();
-                if(preferred_name in all_city_attr) {
-                    selected_pop = all_city_attr[preferred_name]['pop'];
-                } else {
-                    selected_pop = all_zip_attr[selected_location]['pop'];
-                }
-                selected_urban = all_zip_attr[selected_location]['urban'];
-                if(selected_urban.toLowerCase() == "urban") {
-                    $('input[name=community-type]:nth(1)').prop('checked', true);
-                } else {
-                    $('input[name=community-type]:nth(0)').prop('checked', true);
-                }
-                if(selected_pop < 5000) {
-                    $('#community-size option:contains(0 - 5,000)').attr('selected', 'selected');
-                } else if(selected_pop < 10000) {
-                    $('#community-size option:contains(5,000 - 10,000)').attr('selected', 'selected');
-                } else if(selected_pop < 25000) {
-                    $('#community-size option:contains(10,000 - 25,000)').attr('selected', 'selected');
-                } else if(selected_pop < 100000) {
-                    $('#community-size option:contains(25,000 - 100,000)').attr('selected', 'selected');
-                } else if(selected_pop < 1000000) {
-                    $('#community-size option:contains(100,000 - 1,000,000)').attr('selected', 'selected');
-                } else {
-                    $('#community-size option:contains(1,000,000+)').attr('selected', 'selected');
-                }
+                setCommunitySizeType(selected_location);
                 $location_desc_user.show();
                 $nearest_location.text(preferred_name + ' (' + selected_location + ')');
                 $zip_select.show();
@@ -201,7 +209,7 @@
                 $.ajax({
                     url: '/return_location_data',
                     type: 'POST',
-                    data: {location: location},
+                    data: {location: location, initial_login: true},
                     success: function (data) {
                         var parsed_data = $.parseJSON(data);
                         // zip code entered, returned city/state
@@ -212,42 +220,30 @@
                                 $loc_add_new.append(error_message);
                                 location_input.addClass('input-error');
                             }
-                            else if (city_count == 1) { 
+                            else if (city_count == 1) { //Only one city/tribal area match
                                 selected_state = parsed_data.state;
                                 var parsed_zip = parsed_data.zip;
-                                selected_pop = parsed_data.city_attr[parsed_data.city[0]]['pop'];
-                                selected_urban = parsed_data.zip_attr[parsed_data.zip]['urban'];
+                                // Get city & zip attribute data
+                                all_zip_attr = parsed_data.zip_attr;
+                                all_city_attr = parsed_data.city_attr;
+                                // Update form with new location
                                 $nearest_location.text(parsed_data.city[0] + ' (' + parsed_zip + ')');
                                 selected_zip_code = parsed_zip;
                                 preferred_name = parsed_data.city[0];
-
-                                if(selected_urban.toLowerCase() == "urban") {
-                                    $('input[name=community-type]:nth(1)').prop('checked', true);
-                                } else {
-                                    $('input[name=community-type]:nth(0)').prop('checked', true);
-                                }
-                                if(selected_pop < 5000) {
-                                    $('#community-size option:contains(0 - 5,000)').attr('selected', 'selected');
-                                } else if(selected_pop < 10000) {
-                                    $('#community-size option:contains(5,000 - 10,000)').attr('selected', 'selected');
-                                } else if(selected_pop < 25000) {
-                                    $('#community-size option:contains(10,000 - 25,000)').attr('selected', 'selected');
-                                } else if(selected_pop < 100000) {
-                                    $('#community-size option:contains(25,000 - 100,000)').attr('selected', 'selected');
-                                } else if(selected_pop < 1000000) {
-                                    $('#community-size option:contains(100,000 - 1,000,000)').attr('selected', 'selected');
-                                } else {
-                                    $('#community-size option:contains(1,000,000+)').attr('selected', 'selected');
-                                }
+                                // Set community size & type fields based on census data
+                                setCommunitySizeType(selected_zip_code);
                                 $zip_select.show();
                                 $loc_add_new.hide();
                                 $choose_city_holder.hide();
                             }
-                            else {
+                            else { //More than one city/tribal area match
                                 selected_zip = parsed_data.zip;
                                 selected_state = parsed_data.state;
+                                // Get city & zip attribute data
                                 all_zip_attr = parsed_data.zip_attr;
                                 all_city_attr = parsed_data.city_attr;
+                                // Create a city dropdown for the user to select from
+                                // Community size/type will be populated based on selection
                                 var city_select = '<select id="city-state-lookup-zips">';
                                 $.each(parsed_data.city, function (index, city) {
                                     city_select = city_select + '<option value="' + city + '">' + city + '</option>';
@@ -259,7 +255,7 @@
                                 $choose_city_holder.show();
                             }
                         }
-                        else {
+                        else { //Still uses old FRS-style for doing city/state -> zip lookups (i.e. no census data or auto-populating community size/type)
                             var zip_array = parsed_data.zip_array;
                             var zip_count = zip_array.length;
                             if (zip_count == 0) {
