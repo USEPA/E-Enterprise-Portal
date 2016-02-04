@@ -81,8 +81,8 @@
 
 
     $(document).ready(function() {
-        var local_resources_test_harness = new TestAPIHarness('local_request', 'local_json', 'local_table', 'url_used_local', 'search_locals', 'https://eportaldev.epa.gov/api/1.1/local_resources.json', 'local');
-        var state_resources_test_harness = new TestAPIHarness('state_request', 'state_json', 'state_table', 'url_used_state', 'search_states', 'https://eportaldev.epa.gov/api/1.1/state_resources.json', 'state');
+        var local_resources_test_harness = new TestAPIHarness('local_request', 'local_json', 'local_table', 'url_used_local', 'search_locals', 'https://eenterprise-dev-portal.apps.cloud.gov/api/1.1/local_resources.json', 'local');
+        var state_resources_test_harness = new TestAPIHarness('state_request', 'state_json', 'state_table', 'url_used_state', 'search_states', 'https://eenterprise-dev-portal.apps.cloud.gov/api/1.1/state_resources.json', 'state');
     });
 
 
