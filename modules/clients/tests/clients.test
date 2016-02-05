@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * @file
+ * Contains tests for the Clients module.
+ */
+
+/**
+ * Test case.
+ */
+class ClientsTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => t('Clients dummy connection'),
+      'description' => t('Test the dummy connection module.'),
+      'group' => t('Clients'),
+    );
+  }
+
+  /**
+   * Implements setUp().
+   */
+  function setUp() {
+    // Call the parent with an array of modules to enable for the test.
+    // The clients_test module provides us with a dummy connection type and a
+    // default connection of this type.
+    parent::setUp(array('clients', 'clients_test'));
+  }
+
+  /**
+   * Test a basic call to the dummy connection.
+   */
+  function testConnectionCall() {
+    $this->assertTrue(TRUE, 'test passes');
+
+    // Load the connection.
+    $connection = clients_connection_load('dummy_connection');
+
+    // Set the callback on it.
+    // Because the entity controller caches the connection, this will remain on
+    // it when the connection it loaded elsewhere.
+    $connection->setCallback(array($this, 'connectionTestCallbackBasic'));
+
+    // Make a call to a fake method. This will invoke __call() on the connection
+    // class, clients_connection_clients_dummy. 
+    $remote_data = $connection->fake_connection_method('alpha', 'beta');
+
+    $this->assertEqual($remote_data, array('remote' => 'data'), 'The call to the connection returned the mocked remote data.');
+  }
+
+  /**
+   * Connection test callback.
+   */
+  function connectionTestCallbackBasic($method_name) {
+    // Remove the method name to get the originally called method's parameters.
+    $params = func_get_args();
+    array_shift($params);
+
+    // If your usual connection class requires several method calls to connect
+    // switch on the $method_name here.
+
+    // Just test we actually get here!
+    $this->assertTrue(TRUE, 'The connection test callback is called by the connection.');
+
+    // Test we get the method name and the parameters passed to us.
+    $this->assertEqual($method_name, 'fake_connection_method', 'The connection test callback received the name of the method called on the connection.');
+    $this->assertEqual($params, array('alpha', 'beta'), 'The connection test callback received the parameters.');
+
+    return array('remote' => 'data');
+  }
+
+}
