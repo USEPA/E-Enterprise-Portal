@@ -18,10 +18,10 @@
             var input;
             if (api_type != 'any') {
                 input = encodeURIComponent($('#' + input_id).val());
-                if (input != '') {
-                    url_to_load = initial_url + "?args[0]=" + input;
-                }
-                loadResults(url_to_load);
+               // if (input != '') {
+                //    url_to_load = initial_url + "?args[0]=" + input;
+                //}
+                loadResults(input);
             }
             else {
                 input = $('#' + input_id).val();
@@ -35,32 +35,37 @@
             var $url_used_holder = $('#' + url_used_id);
              var table;
              var $table_holder = $('#'+ table_div_id);
+             var parsed_data;
             $.ajax({
-                url: url,
+                url: '/rest_request',
                 method: "GET",
+                data: {url: url},
+                dataType: "JSON",
                 success: function(data) {
+                    parsed_data = $.parseJSON(data);
+                    $json_holder.html('');
                     var str = '';
-                    if (data.length  == 0 ) {
+                    if (parsed_data.length  == 0 ) {
                         str = "No results found";
                     }
                     else {
                         if (api_type != 'any') {
-                        $.each(data, function (key, value) {
+                        $.each(parsed_data, function (key, value) {
                             str = JSON.stringify(value, undefined, 4);
                             $json_holder.append(str + '<br />');
                             $url_used_holder.text(url);
                         });
                         if (api_type == 'local') {
-                            table = createLocalTable(data);
+                            table = createLocalTable(parsed_data);
                         }
                         else  {
-                            table = createStateTable(data);
+                            table = createStateTable(parsed_data);
                         }
                             $table_holder.html(table);
 
                         }
                         else {
-                            $json_holder.append(data);
+                            $json_holder.append(parsed_data);
                         }
                     }
                 },

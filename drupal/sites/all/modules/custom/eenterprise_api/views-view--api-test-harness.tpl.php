@@ -36,38 +36,38 @@ drupal_add_js(drupal_get_path('module', $module_name) . "/js/test_harness.js", "
 
 ?>
 <div class="row">
-    <div class="col-xs-3">
+    <div class="col-xs-12">
         <h2>Search State Resources</h2>
 
-        <p>https://eportaldev.epa.gov/api/1.1/state_resources.json</p>
-        <input id="state_request"/>
+        <p>eg. http://ec2-52-3-175-225.compute-1.amazonaws.com/api/1.1/state_resources.json</p>
+        <input style="width:600px!important;" id="state_request"/>
         <button id="search_states">Search</button>
-        <p>Request URL: <span id="url_used_state"></span></p>
+        <p style="display:none">Request URL: <span id="url_used_state"></span></p>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-6">
         <h3>Json output</h3>
         <div id="state_json"></div>
     </div>
-    <div class="col-xs-5">
+    <div class="col-xs-6">
         <h3>Table</h3>
 
         <div id="state_table"></div>
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-3">
+    <div class="col-xs-12">
         <h2>Search Local Resources</h2>
-        <p>https://eenterprise-dev-portal.apps.cloud.gov/api/1.1/local_resources.json</p>
-        <input id="local_request"/>
+        <p>e.g. http://ec2-52-3-175-225.compute-1.amazonaws.com/api/1.1/local_resources.json</p>
+        <input style="width:600px!important;" id="local_request"/>
         <button id="search_locals">Search</button>
-        <p>Request URL: <span id="url_used_local"></span></p>
+        <p style="display:none">Request URL: <span id="url_used_local"></span></p>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-6">
         <h3>Json output</h3>
 
         <div id="local_json"></div>
     </div>
-    <div class="col-xs-5">
+    <div class="col-xs-6">
         <h3>Table</h3>
 
         <div id="local_table"></div>

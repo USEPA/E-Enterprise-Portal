@@ -4,6 +4,17 @@
  * Module file for APIs.
  */
 
+function eenterprise_api_menu()
+{
+
+    $items = array();
+    $items['rest_request'] = array(
+        'page callback' => 'rest_request',
+        'access callback' => TRUE,
+    );
+    return $items;
+
+}
 
 
 /**
@@ -25,4 +36,35 @@ function eenterprise_api_theme_registry_alter(&$theme_registry)
             $theme_registry[$key]['type'] = 'module';
         }
     }
+}
+
+
+function rest_request()
+{
+    if (isset($_GET['url'])) {
+        $url = urldecode($_GET['url']);
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+            // Set so curl_exec returns the result instead of outputting it.
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // Get the response and close the channel.
+            $response = curl_exec($ch);
+            curl_close($ch);
+            if (FALSE === $response)
+                throw new Exception(curl_error($ch), curl_errno($ch));
+
+            echo json_encode($response);
+
+        }
+        catch (Exception $e) {
+            echo json_encode(array("url" => $url, "error" => $e));
+        }
+    } else {
+        echo json_encode(array("error" => "invalid parameters."));
+    }
+
+
 }

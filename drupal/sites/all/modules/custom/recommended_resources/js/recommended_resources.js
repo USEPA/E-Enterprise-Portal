@@ -109,17 +109,7 @@
         if (first_time_user_block.length > 0) {
             first_time_user_loading = true;
         }
-        $(document).on('ee:first_time_user_complete', function() {
-            first_time_user_loading = false;
-            if (!guest_user) {
-                favorite_local_resources_table.showTable();
-                all_local_resources_table.ajax_request();
-            }
-            else {
-                all_local_resources_table.showTable();
-                favorite_local_resources_table.ajax_request();
-            }
-        });
+
 
         if (!first_time_user_loading) {
             if (!guest_user) {
@@ -131,6 +121,18 @@
                 favorite_local_resources_table.ajax_request();
             }
         }
+
+        $(document).on('ee:first_time_user_complete', function() {
+            first_time_user_loading = false;
+            if (!guest_user) {
+                favorite_local_resources_table.showTable();
+                all_local_resources_table.ajax_request();
+            }
+            else {
+                all_local_resources_table.showTable();
+                favorite_local_resources_table.ajax_request();
+            }
+        });
 
     } );
 
