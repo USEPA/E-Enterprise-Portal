@@ -69,7 +69,7 @@
             fixInput.focus();
           }
           else {
-            resetButtons(false);
+            resetButtons();
           }
           
           if (numSelects > 0) {
@@ -246,6 +246,7 @@
                               primary_indicator.show();
                               field_suffix.addClass('error');
                               field_suffix.html('Please update your location or remove this field before saving.');
+                              processPrimaryFields();
                               input.focus();
                           });
                           confirm.on('click', function () {
@@ -263,7 +264,7 @@
                               }
                               numSelects = 0;
                               input.prop("disabled", false);
-                              $('.form-submit').prop("disabled", false);
+                              processPrimaryFields();
                               input.focus();
                           });
                       }
@@ -310,6 +311,9 @@
             $('#edit-submit').prop("disabled", false);
             $('#edit-submit--2').prop("disabled", false);
             $('#edit-delete').prop("disabled", false);
+            if (removedSelect == true) {
+            	$('.remove-button').prop("disabled", false);
+            }                        
         }
 
         // On an Drupal Ajax call- if there is an error, hide the actual Save and +
@@ -345,7 +349,7 @@
                         hideButtons();
                     }
                     else {
-                        resetButtons(false);
+                        resetButtons();
                     }
                 }
                 // determine which table to place the Add Another button
