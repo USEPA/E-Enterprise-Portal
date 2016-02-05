@@ -2367,10 +2367,10 @@ a.tabledrag-handle .handle {
 label, .aria-label, .ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
 	font-size: 0.85em;
 	margin-bottom: 3px;
-	float: none;
-	display: inline-block;
 }
 .ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
+	float: none;
+	display: inline-block;
 	margin-bottom: -1px;
 }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active, 
