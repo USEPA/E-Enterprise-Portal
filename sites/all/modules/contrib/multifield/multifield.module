@@ -1,0 +1,660 @@
+<?php
+
+require_once dirname(__FILE__) . '/multifield.field.inc';
+require_once dirname(__FILE__) . '/multifield.features.inc';
+
+/**
+ * Implements hook_permission().
+ */
+function multifield_permission() {
+  $info['administer multifield'] = array(
+    'title' => t('Administer multifields'),
+    'description' => t('Add, edit, or delete multifields.'),
+    'restrict access' => TRUE,
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function multifield_menu() {
+  $info['admin/structure/multifield'] = array(
+    'title' => 'Multifields',
+    'description' => 'Create and manage multifields and their subfields.',
+    'page callback' => 'multifield_list_page',
+    'access arguments' => array('administer multifield'),
+    'file' => 'multifield.admin.inc',
+  );
+  // Disable the add form now that the 'Multifield' field type exists.
+  $info['admin/structure/multifield/add'] = array(
+    'title' => 'Add multifield',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('multifield_edit_form'),
+    'access callback' => FALSE,
+    'type' => MENU_LOCAL_ACTION,
+    'file' => 'multifield.admin.inc',
+  );
+  $info['admin/structure/multifield/manage/%multifield'] = array(
+    'title' => 'Edit multifield',
+    'title callback' => 'multifield_page_title',
+    'title arguments' => array(4),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('multifield_edit_form', 4),
+    'access callback' => 'multifield_edit_access',
+    'access arguments' => array(4),
+    'file' => 'multifield.admin.inc',
+  );
+  $info['admin/structure/multifield/manage/%multifield/edit'] = array(
+    'title' => 'Edit',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  $info['admin/structure/multifield/manage/%multifield/delete'] = array(
+    'title' => 'Delete',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('multifield_delete_form', 4),
+    'access callback' => 'multifield_edit_access',
+    'access arguments' => array(4),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'multifield.admin.inc',
+    'weight' => 100,
+  );
+
+  $info['multifield/field-remove-item/ajax'] = array(
+    'title' => 'Remove item callback',
+    'page callback' => 'multifield_field_widget_remove_item_ajax',
+    'delivery callback' => 'ajax_deliver',
+    'access callback' => TRUE,
+    'theme callback' => 'ajax_base_page_theme',
+    'type' => MENU_CALLBACK,
+    'file' => 'multifield.field.inc',
+  );
+
+  return $info;
+}
+
+function multifield_edit_access($multifield, $account = NULL) {
+  return empty($multifield->locked) && user_access('administer multifield', $account);
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function multifield_menu_alter(&$items) {
+  // Change the Field UI title of 'Manage fields' to 'Manage subfields'
+  if (isset($items['admin/structure/multifield/manage/%multifield/fields'])) {
+    $items['admin/structure/multifield/manage/%multifield/fields']['title'] = 'Manage subfields';
+  }
+}
+
+function multifield_page_title($multifield) {
+  return check_plain($multifield->label);
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function multifield_entity_info() {
+  $info['multifield'] = array(
+    'label' => t('Multifield'),
+    'controller class' => 'MultifieldEntityController',
+    'base table' => 'multifield',
+    'fieldable' => TRUE,
+    // Mark this as a configuratoin entity type to prevent other modules from
+    // assuming they can do stuff with this entity type.
+    'configuration' => TRUE,
+    'bundle keys' => array(
+      'bundle' => 'machine_name',
+    ),
+    'entity keys' => array(
+      'id' => 'id',
+      'bundle' => 'type',
+    ),
+  );
+
+  // Bundles must provide a human readable name so we can create help and error
+  // messages, and the path to attach Field admin pages to.
+  foreach (multifield_load_all() as $machine_name => $multifield) {
+    $info['multifield']['bundles'][$machine_name] = array(
+      'label' => $multifield->label,
+      'admin' => array(
+        'path' => 'admin/structure/multifield/manage/%multifield',
+        'real path' => 'admin/structure/multifield/manage/' . $machine_name,
+        'bundle argument' => 4,
+        'access arguments' => array('administer multifield'),
+      ),
+    );
+  }
+
+  return $info;
+}
+
+function multifield_load($name) {
+  $result = multifield_load_all();
+  return isset($result[$name]) ? $result[$name] : FALSE;
+}
+
+function multifield_load_all() {
+  ctools_include('export');
+  $result = ctools_export_load_object('multifield');
+
+  $fields = field_read_fields(array('type' => 'multifield'));
+  foreach ($fields as $field) {
+    $multifield = new stdClass();
+    $multifield->machine_name = $field['field_name'];
+    $multifield->label = $field['field_name'];
+    $multifield->description = NULL;
+    $multifield->locked = TRUE;
+    $result[$multifield->machine_name] = $multifield;
+  }
+
+  return $result;
+}
+
+function multifield_save($multifield) {
+  $return = NULL;
+  module_invoke_all('multifield_presave', $multifield);
+
+  if (!empty($multifield->mfid)) {
+    // Existing record.
+    $return = drupal_write_record('multifield', $multifield, array('machine_name'));
+    module_invoke_all('mulifield_update', $multifield);
+  }
+  else {
+    $return = drupal_write_record('multifield', $multifield, array());
+    module_invoke_all('multifield_insert', $multifield);
+    field_attach_create_bundle('multifield', $multifield->machine_name);
+  }
+
+  multifield_cache_clear();
+  return $return;
+}
+
+function multifield_delete($multifield) {
+  module_invoke_all('multifield_delete', $multifield);
+
+  db_delete('multifield')
+    ->condition('machine_name', $multifield->machine_name)
+    ->execute();
+
+  field_attach_delete_bundle('multifield', $multifield->machine_name);
+  multifield_cache_clear();
+}
+
+/**
+ * Implements hook_multifield_delete() on behalf of field module.
+ */
+function field_multifield_delete($multifield) {
+  // Any fields created from this multifield must also be deleted.
+  $fields = field_read_fields(array('type' => $multifield->machine_name), array('include_inactive' => TRUE));
+  foreach ($fields as $field) {
+    field_delete_field($field['field_name']);
+  }
+}
+
+function multifield_cache_clear() {
+  field_info_cache_clear();
+  drupal_static_reset('multifield_get_fields');
+  drupal_static_reset('multifield_get_subfields');
+  ctools_include('export');
+  ctools_export_load_object_reset('multifield');
+  if (module_exists('field_ui')) {
+    variable_set('menu_rebuild_needed', TRUE);
+  }
+}
+
+function multifield_field_machine_name_exists($name) {
+  return field_info_field_types($name) || multifield_load($name);
+}
+
+/**
+ * Get all multifield fields.
+ *
+ * @return array
+ *   An array of multifield types, keyed by the respective field name.
+ */
+function multifield_get_fields() {
+  $fields = &drupal_static(__FUNCTION__);
+
+  if (!isset($fields)) {
+    // @todo Is caching really necessary here? It's just one query.
+    if ($cached = cache_get('field_info:multifields', 'cache_field')) {
+      $fields = $cached->data;
+    }
+    else {
+      // This query is based from FieldInfo::getFieldMap().
+      $fields = db_query("SELECT fc.field_name, fc.type FROM {field_config} fc WHERE fc.active = 1 AND fc.storage_active = 1 AND fc.deleted = 0 AND fc.module = 'multifield'")->fetchAllKeyed();
+      foreach ($fields as $field_name => $field_type) {
+        if ($field_type == 'multifield') {
+          $fields[$field_name] = $field_name;
+        }
+      }
+      cache_set('field_info:multifields', $fields, 'cache_field');
+    }
+  }
+
+  return $fields;
+}
+
+/**
+ * Check if a multifield has fields created from it.
+ *
+ * @param string $machine_name
+ *   The machine name of the multifield.
+ *
+ * @return bool
+ *   TRUE if the multifield has instances, or FALSE otherwise.
+ */
+function multifield_type_has_fields($machine_name) {
+  return in_array($machine_name, multifield_get_fields());
+}
+
+/**
+ * Get all the fields created from a certain multifield type.
+ *
+ * @param string $machine_name
+ *   The machine name of the multifield.
+ *
+ * @return array
+ *   An array of field names.
+ */
+function multifield_type_get_fields($machine_name) {
+  return array_keys(array_intersect(multifield_get_fields(), array($machine_name)));
+}
+
+/**
+ * Get all multifield subfields.
+ *
+ * @return array
+ *   A multi-dimensional array of subfields, first keyed by multifield machine
+ *   name.
+ */
+function multifield_get_subfields() {
+  $subfields = &drupal_static(__FUNCTION__);
+
+  if (!isset($subfields)) {
+    if ($cached = cache_get('field_info:multifield:subfields', 'cache_field')) {
+      $subfields = $cached->data;
+    }
+    else {
+      $subfields = array();
+      $results = db_query("SELECT fci.bundle, fci.field_name FROM {field_config_instance} fci INNER JOIN {field_config} fc ON fc.id = fci.field_id WHERE fc.active = 1 AND fc.storage_active = 1 AND fc.deleted = 0 AND fci.deleted = 0 AND fci.entity_type = 'multifield'")->fetchAll();
+      foreach ($results as $result) {
+        if (!isset($subfields[$result->bundle])) {
+          $subfields[$result->bundle] = array();
+        }
+        $subfields[$result->bundle][] = $result->field_name;
+      }
+      cache_set('field_info:multifield:subfields', $subfields, 'cache_field');
+    }
+  }
+
+  return $subfields;
+}
+
+/**
+ * Check if a multifield has subfields.
+ *
+ * @param string $machine_name
+ *   The machine name of the multifield.
+ *
+ * @return bool
+ *   TRUE if the multifield has subfields, or FALSE otherwise.
+ */
+function multifield_type_has_subfields($machine_name) {
+  $subfields = multifield_get_subfields();
+  return !empty($subfields[$machine_name]);
+}
+
+/**
+ * Get all the fields created from a certain multifield type.
+ *
+ * @param string $machine_name
+ *   The machine name of the multifield.
+ *
+ * @return array
+ *   An array of field names.
+ */
+function multifield_type_get_subfields($machine_name) {
+  $subfields = multifield_get_subfields();
+  return isset($subfields[$machine_name]) ? $subfields[$machine_name] : array();
+}
+
+function multifield_type_has_data($machine_name) {
+  foreach (multifield_type_get_fields($machine_name) as $field_name) {
+    $field = field_info_field($field_name);
+    if (field_has_data($field)) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Implements hook_field_create_field().
+ */
+function multifield_field_create_field($field) {
+  if ($machine_name = multifield_extract_multifield_machine_name($field)) {
+    if ($field['type'] == 'multifield') {
+      field_attach_create_bundle('multifield', $machine_name);
+    }
+    multifield_cache_clear();
+  }
+}
+
+/**
+ * Implements hook_field_update_field().
+ */
+function multifield_field_update_field($field) {
+  if ($machine_name = multifield_extract_multifield_machine_name($field)) {
+    multifield_cache_clear();
+  }
+}
+
+/**
+ * Implements hook_field_delete_field().
+ */
+function multifield_field_delete_field($field) {
+  if ($machine_name = multifield_extract_multifield_machine_name($field)) {
+    if ($field['type'] == 'multifield') {
+      field_attach_delete_bundle('multifield', $machine_name);
+    }
+    multifield_cache_clear();
+  }
+}
+
+/**
+ * Implements hook_field_create_instance().
+ */
+function multifield_field_create_instance($instance) {
+  if ($instance['entity_type'] == 'multifield') {
+    multifield_cache_clear();
+    _multifield_update_field_schemas($instance['bundle']);
+  }
+}
+
+/**
+ * Implements hook_field_update_instance().
+ */
+function multifield_field_update_instance($instance) {
+  if ($instance['entity_type'] == 'multifield') {
+    multifield_cache_clear();
+    _multifield_update_field_schemas($instance['bundle']);
+  }
+}
+
+/**
+ * Implements hook_field_delete_instance().
+ */
+function multifield_field_delete_instance($instance) {
+  if ($instance['entity_type'] == 'multifield') {
+    multifield_cache_clear();
+    _multifield_update_field_schemas($instance['bundle']);
+  }
+}
+
+function _multifield_update_field_schemas($machine_name) {
+  foreach (multifield_type_get_fields($machine_name) as $field_name) {
+    $field = field_read_field($field_name);
+    if (!field_has_data($field)) {
+      // Drupal core keeps existing, but should-be-removed indexes still in
+      // the $field['indexes'] array. This is a hack to get it to always read
+      // the indexes from multifield_field_schema().
+      // @see https://www.drupal.org/node/2311095
+      $field['indexes'] = array();
+      field_update_field($field);
+    }
+  }
+}
+
+function _multifield_field_item_to_entity($machine_name, array $item) {
+  $pseudo_entity = (object) ($item + array('id' => NULL));
+  $pseudo_entity->type = $machine_name;
+  return $pseudo_entity;
+}
+
+function _multifield_field_entity_to_item($pseudo_entity) {
+  $item = (array) $pseudo_entity;
+  unset($item['type']);
+  //$item['#pseudo_entity'] = $pseudo_entity;
+  return $item;
+}
+
+function multifield_item_unserialize(&$item, $delta, $machine_name) {
+  foreach (multifield_type_get_subfields($machine_name) as $subfield_name) {
+    $subfield = field_info_field($subfield_name);
+    foreach (array_keys($subfield['columns']) as $column) {
+      if (array_key_exists($subfield_name . '_' . $column, $item)) {
+        $item[$subfield_name][LANGUAGE_NONE][0][$column] = $item[$subfield_name . '_' . $column];
+        unset($item[$subfield_name . '_' . $column]);
+      }
+    }
+  }
+}
+
+function multifield_item_serialize(&$item, $delta, $machine_name) {
+  // Serialize the multifield values into separate columns for saving into the
+  // field table.
+  foreach (multifield_type_get_subfields($machine_name) as $subfield_name) {
+    $subfield = field_info_field($subfield_name);
+    foreach ($subfield['columns'] as $column => $details) {
+      // @see field_sql_storage_field_storage_write()
+      // @todo Should this be using array_key_exists() instead of isset()?
+      if (!isset($item[$subfield_name][LANGUAGE_NONE][0][$column])) {
+        $item[$subfield_name][LANGUAGE_NONE][0][$column] = isset($details['default']) ? $details['default'] : NULL;
+      }
+
+      // We need to assign this value by reference because
+      // $items[$delta][$subfield_name] could be modified in
+      // multifield_field_insert() or multifield_field_update().
+      $item[$subfield_name . '_' . $column] = &$item[$subfield_name][LANGUAGE_NONE][0][$column];
+    }
+    //unset($item[$subfield_name]);
+  }
+}
+
+function multifield_get_next_id() {
+  $id = &drupal_static(__FUNCTION__);
+  if (!isset($id)) {
+    $id = variable_get('multifield_max_id', 0);
+  }
+  return ++$id;
+}
+
+function multifield_update_maximum_id(array $items) {
+  if (!empty($items)) {
+    $ids = array();
+    foreach ($items as $item) {
+      $ids[] = $item['id'];
+    }
+    $largest_id = max($ids);
+    if ($largest_id > variable_get('multifield_max_id', 0)) {
+      variable_set('multifield_max_id', $largest_id);
+      drupal_static_reset('multifield_get_next_id');
+    }
+  }
+}
+
+// @todo Remove this function?
+function _multifield_generate_unique_id() {
+  $seen_ids = &drupal_static(__FUNCTION__, array());
+  do {
+    $id = mt_rand();
+  }
+  while (isset($seen_ids[$id]));
+  $seen_ids[$id] = TRUE;
+
+  return $id;
+}
+
+function multifield_items_extract_ids(array $items) {
+  $ids = array();
+  foreach ($items as $item) {
+    $ids[] = $item['id'];
+  }
+  return $ids;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for field_ui_field_overview_form().
+ */
+function multifield_form_field_ui_field_overview_form_alter(&$form, &$form_state) {
+  $multifields = array_intersect_key(multifield_get_fields(), array_flip($form['#fields']));
+  foreach ($multifields as $field_name => $machine_name) {
+    $subfields = multifield_type_get_subfields($machine_name);
+    if (!count($subfields)) {
+      $form['fields'][$field_name]['#attributes']['class'][] = 'warning';
+      $form['fields'][$field_name]['#attributes']['title'] = t('This multifield does not have any subfields yet.');
+    }
+    $form['fields'][$field_name]['type']['#suffix'] = ' | ' . l(t('Manage Subfields'), 'admin/structure/multifield/manage/' . $machine_name . '/fields', array('query' => drupal_get_destination())) . '';
+  }
+
+  if ($form['#entity_type'] != 'multifield') {
+    return;
+  }
+
+  // Prevent multifields from being added to multifields themselves.
+  $form['fields']['_add_new_field']['type']['#options'] = array_diff_key($form['fields']['_add_new_field']['type']['#options'], module_invoke('multifield', 'field_info'));
+  if (isset($form['fields']['_add_existing_field'])){
+    $form['fields']['_add_existing_field']['field_name']['#options'] = array_diff_key($form['fields']['_add_existing_field']['field_name']['#options'], multifield_get_fields());
+  }
+
+  // If this is a field attached to a multifield type that has instances, then
+  // preven changes being made to it so that it will not change field schema.
+  if (multifield_type_has_data($form['#bundle'])) {
+    drupal_set_message(t('Because the multifield already has data, some subfield settings can no longer be changed.'), 'warning');
+    //$form['fields']['_add_new_field']['#access'] = FALSE;
+    //$form['fields']['_add_existing_field']['#access'] = FALSE;
+    unset($form['fields']['_add_new_field']);
+    unset($form['fields']['_add_existing_field']);
+    unset($form['fields']['#regions']['add_new']);
+    foreach ($form['#fields'] as $field_name) {
+      $form['fields'][$field_name]['delete'] = array();
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for field_ui_field_edit_form().
+ */
+function multifield_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
+  _multifield_warn_no_subfields($form['#field']);
+
+  if ($form['#instance']['entity_type'] != 'multifield') {
+    return;
+  }
+
+  // Show a notice that multifield subfields have a cardinality of one value
+  // enforced in the widget.
+  $form['field']['cardinality']['#disabled'] = TRUE;
+  $form['field']['cardinality']['#field_prefix'] = '<div class="messages warning">' . t('Field cardinality in multifields is limited to one value despite this setting.') . '</div>';
+
+  // Hide the default value widget since we want the user to set the default
+  // value for this entire multifield instead.
+  if (isset($form['instance']['default_value_widget'])) {
+    $form['instance']['default_value_widget']['#access'] = FALSE;
+  }
+
+  // If this multifield has instances, make sure that no field settings that
+  // could change the field schema can be edited by re-invoking
+  // hook_field_settings_form() with $has_data forced to be TRUE.
+  if (multifield_type_has_data($form['#instance']['bundle'])) {
+    $field = $form['#field'];
+    $instance = $form['#instance'];
+    $has_data = field_has_data($field);
+    if (!$has_data) {
+      $additions = module_invoke($field['module'], 'field_settings_form', $field, $instance, TRUE);
+      if (is_array($additions)) {
+        $form['field']['settings'] = $additions;
+        $form['field']['#description'] = '<p>' . t('These settings apply to the %field field everywhere it is used.', array('%field' => $instance['label'])) . ' ' . t('Because the multifield already has data, some settings can no longer be changed.') . '</p>';
+      }
+    }
+  }
+}
+
+function multifield_form_field_ui_field_settings_form_alter(&$form, &$form_state) {
+  $instance = $form_state['build_info']['args'][0];
+  $field = field_info_field($instance['field_name']);
+
+  _multifield_warn_no_subfields($field);
+
+  if ($form['#entity_type'] == 'multifield' && multifield_type_has_data($form['#bundle'])) {
+    $field = field_info_field($instance['field_name']);
+    $has_data = field_has_data($field);
+    if (!$has_data) {
+      $additions = module_invoke($field['module'], 'field_settings_form', $field, $instance, TRUE);
+      if (is_array($additions)) {
+        $form['field']['settings'] = $additions;
+        $form['field']['#description'] = '<p>' . t('These settings apply to the %field field everywhere it is used.', array('%field' => $instance['label'])) . ' ' . t('Because the multifield already has data, some settings can no longer be changed.') . '</p>';
+      }
+    }
+  }
+}
+
+function multifield_form_field_ui_field_delete_form_alter(&$form, &$form_state) {
+  $instance = $form_state['build_info']['args'][0];
+  if ($instance['entity_type'] == 'multifield' && multifield_type_has_data($instance['bundle'])) {
+    $field = field_info_field($instance['field_name']);
+    if (!$field['locked']) {
+      $form['description']['#markup'] = '<div class="messages error">' . t('This field cannot be deleted since this multifield has instances.') . '</div>';
+      unset($form['actions']['submit']);
+    }
+  }
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function multifield_views_data_alter(array &$data) {
+  // Remove any references to the fake multifield table.
+  unset($data['multifield']);
+  unset($data['entity_multifield']);
+  unset($data['views_entity_multifield']);
+  foreach ($data as &$table) {
+    unset($table['table']['join']['multifield']);
+    unset($table['table']['default_relationship']['multifield']);
+  }
+}
+
+/**
+ * Implements hook_admin_menu_map().
+ */
+function multifield_admin_menu_map() {
+  if (!user_access('administer multifield')) {
+    return;
+  }
+
+  $multifields = multifield_load_all();
+  $map['admin/structure/multifield/manage/%multifield'] = array(
+    'parent' => 'admin/structure/multifield',
+    'arguments' => array(
+      array('%multifield' => array_keys($multifields)),
+    ),
+  );
+
+  return $map;
+}
+
+/**
+ * Determine the multifield type given a field.
+ */
+function multifield_extract_multifield_machine_name(array $field) {
+  if ($field['type'] == 'multifield') {
+    return $field['field_name'];
+  }
+  elseif ($field['module'] == 'multifield') {
+    return $field['type'];
+  }
+}
+
+function _multifield_warn_no_subfields($field) {
+  if ($machine_name = multifield_extract_multifield_machine_name($field)) {
+    if (!multifield_type_has_subfields($machine_name) && module_exists('field_ui') && user_access('administer multifield')) {
+      drupal_set_message(t('This multifield does not have any subfields yet. Go to the <a href="@subfields">manage subfields page</a> to add some.', array(
+        '@subfields' => url('admin/structure/multifield/manage/' . $machine_name . '/fields'),
+      )), 'error', FALSE);
+    }
+  }
+}

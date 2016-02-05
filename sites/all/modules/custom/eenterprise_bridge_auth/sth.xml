@@ -1,0 +1,242 @@
+<eact:EActivities xmlns:eact="http://www.exchangenetwork.net/schema/eact/1">
+    <eact:EActivity>
+        <eact:EActivityId>65983</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-cedri</eact:PartnerSystemId>
+        <eact:PartnerExternalId>81eadb94-b9e7-4cad-a741-b8d65afbe6c0</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Air Emissions Report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>Air Emissions Report (Part 60, Subpart IIII)</eact:ActivityDesc>
+        <eact:ActivityType>TRACKER</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-12-01T08:27:46Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL>
+            https://test.epacdx.net/SilentHandoff?URL=https%3A%2F%2Ftestngn.epacdxnode.net%2Fcdx-cedri-phase2%2Faction%2FSubmissionDetails%2Fview%2F%3Fid%3D69471
+        </eact:ActivitySourceURL>
+        <eact:ActivityExpirationDate>2015-12-16T08:27:45Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusNote/>
+        <eact:StatusUpdateDate>2015-12-01T08:27:46Z</eact:StatusUpdateDate>
+        <eact:UserId>TESTER018</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="partCode" label="Part Code" order="1">Part 60</eact:Attribute>
+            <eact:Attribute key="partName" label="Part Name" order="2">Standards of Performance for New Stationary
+                Sources (NSPS)
+            </eact:Attribute>
+            <eact:Attribute key="subPartCode" label="Subpart Code" order="3">Subpart IIII</eact:Attribute>
+            <eact:Attribute key="subPartName" label="Subpart Name" order="4">Stationary Compression Ignition Internal
+                Combustion Engines
+            </eact:Attribute>
+            <eact:Attribute key="facilityName" label="Facility Name" order="5">ACTION AUTO BODY</eact:Attribute>
+            <eact:Attribute key="facilityRegistryIdentifier" label="Facility Registry Identifier" order="6">
+                110005225176
+            </eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents/>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>68406</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-cedri</eact:PartnerSystemId>
+        <eact:PartnerExternalId>81eadb94-b9e7-4cad-a741-b8d65afbe6c0</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Air Emissions Report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>Review Air Emissions Report (Part 60, Subpart IIII)</eact:ActivityDesc>
+        <eact:ActivityType>TASK</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-12-01T08:31:00Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL>
+            https://test.epacdx.net/SilentHandoff?URL=https%3A%2F%2Ftestngn.epacdxnode.net%2Fcdx-cedri-phase2%2Faction%2FSubmissionDetails%2Fview%2F%3Fid%3D69471
+        </eact:ActivitySourceURL>
+        <eact:ActivityExpirationDate>2015-12-16T08:27:45Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusNote/>
+        <eact:StatusUpdateDate>2015-12-01T08:31:00Z</eact:StatusUpdateDate>
+        <eact:UserId>TESTER018</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="partCode" label="Part Code" order="1">Part 60</eact:Attribute>
+            <eact:Attribute key="partName" label="Part Name" order="2">Standards of Performance for New Stationary
+                Sources (NSPS)
+            </eact:Attribute>
+            <eact:Attribute key="subPartCode" label="Subpart Code" order="3">Subpart IIII</eact:Attribute>
+            <eact:Attribute key="subPartName" label="Subpart Name" order="4">Stationary Compression Ignition Internal
+                Combustion Engines
+            </eact:Attribute>
+            <eact:Attribute key="facilityName" label="Facility Name" order="5">ACTION AUTO BODY</eact:Attribute>
+            <eact:Attribute key="facilityRegistryIdentifier" label="Facility Registry Identifier" order="6">
+                110005225176
+            </eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents/>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>69816</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-cedri</eact:PartnerSystemId>
+        <eact:PartnerExternalId>8c2415c2-ef68-4481-b853-8daf853b87db</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Air Emissions Report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>Review Air Emissions Report (Part 60, Subpart IIII)</eact:ActivityDesc>
+        <eact:ActivityType>TASK</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-12-01T08:44:54Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL>
+            https://test.epacdx.net/SilentHandoff?URL=https%3A%2F%2Ftestngn.epacdxnode.net%2Fcdx-cedri-phase2%2Faction%2FSubmissionDetails%2Fview%2F%3Fid%3D69488
+        </eact:ActivitySourceURL>
+        <eact:ActivityExpirationDate>2015-12-16T08:42:18Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusNote/>
+        <eact:StatusUpdateDate>2015-12-01T08:44:54Z</eact:StatusUpdateDate>
+        <eact:UserId>TESTER018</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="partCode" label="Part Code" order="1">Part 60</eact:Attribute>
+            <eact:Attribute key="partName" label="Part Name" order="2">Standards of Performance for New Stationary
+                Sources (NSPS)
+            </eact:Attribute>
+            <eact:Attribute key="subPartCode" label="Subpart Code" order="3">Subpart IIII</eact:Attribute>
+            <eact:Attribute key="subPartName" label="Subpart Name" order="4">Stationary Compression Ignition Internal
+                Combustion Engines
+            </eact:Attribute>
+            <eact:Attribute key="facilityName" label="Facility Name" order="5">GEMINI ASSOC INC</eact:Attribute>
+            <eact:Attribute key="facilityRegistryIdentifier" label="Facility Registry Identifier" order="6">
+                110008186435
+            </eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents/>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>72855</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-cedri</eact:PartnerSystemId>
+        <eact:PartnerExternalId>e36ce0a3-6d1b-4a3a-a365-591a88341d8d</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Air Emissions Report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>Review Air Emissions Report (Part 60, Subpart IIII)</eact:ActivityDesc>
+        <eact:ActivityType>TASK</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-12-01T08:50:38Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL>
+            https://test.epacdx.net/SilentHandoff?URL=https%3A%2F%2Ftestngn.epacdxnode.net%2Fcdx-cedri-phase2%2Faction%2FSubmissionDetails%2Fview%2F%3Fid%3D69505
+        </eact:ActivitySourceURL>
+        <eact:ActivityExpirationDate>2015-12-16T08:48:19Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusNote/>
+        <eact:StatusUpdateDate>2015-12-01T08:50:38Z</eact:StatusUpdateDate>
+        <eact:UserId>TESTER018</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="partCode" label="Part Code" order="1">Part 60</eact:Attribute>
+            <eact:Attribute key="partName" label="Part Name" order="2">Standards of Performance for New Stationary
+                Sources (NSPS)
+            </eact:Attribute>
+            <eact:Attribute key="subPartCode" label="Subpart Code" order="3">Subpart IIII</eact:Attribute>
+            <eact:Attribute key="subPartName" label="Subpart Name" order="4">Stationary Compression Ignition Internal
+                Combustion Engines
+            </eact:Attribute>
+            <eact:Attribute key="facilityName" label="Facility Name" order="5">HOME DEPOT # 4631</eact:Attribute>
+            <eact:Attribute key="facilityRegistryIdentifier" label="Facility Registry Identifier" order="6">
+                110018897942
+            </eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents/>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>63318</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-lead</eact:PartnerSystemId>
+        <eact:PartnerExternalId>A358728</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Initial Abatement</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>Firm Certification / Abatement / (A358728)</eact:ActivityDesc>
+        <eact:ActivityType>TRACKER</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-09-11T11:41:29Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL>https://cdx.epa.gov</eact:ActivitySourceURL>
+        <eact:ActivityExpirationDate>2016-03-14T00:00:00Z</eact:ActivityExpirationDate>
+        <eact:Status>APPROVED</eact:Status>
+        <eact:StatusNote>Application number A358728 has been approved.</eact:StatusNote>
+        <eact:StatusUpdateDate>2015-09-14T15:19:11Z</eact:StatusUpdateDate>
+        <eact:UserId>TESTER018</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="OrgName" label="Organization Name" order="1">E-E Portal 2 Co.</eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents>
+            <eact:Document>
+                <eact:Id>_f2daf38e-1d9d-4de3-acec-6f2ac37cedb0</eact:Id>
+                <eact:Name>PaymentReceipt_A358728.html</eact:Name>
+                <eact:TypeId>BIN</eact:TypeId>
+                <eact:Size>2785</eact:Size>
+                <eact:CreateDate>2015-09-11 11:41:30.0</eact:CreateDate>
+                <eact:TransactionId>_b31d7de5-b4a4-46f9-980a-baf8d28f7d82</eact:TransactionId>
+            </eact:Document>
+            <eact:Document>
+                <eact:Id>_37d74ec2-0afe-4000-b4a1-4afda10e7ccb</eact:Id>
+                <eact:Name>Certificate_A358728_ID-F146292-1.pdf</eact:Name>
+                <eact:TypeId>BIN</eact:TypeId>
+                <eact:Size>750866</eact:Size>
+                <eact:CreateDate>2015-09-14 15:19:11.0</eact:CreateDate>
+                <eact:TransactionId>_083cd056-9c54-4a5a-80dc-2d8c36a38bce</eact:TransactionId>
+            </eact:Document>
+        </eact:Documents>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>63338</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-lead</eact:PartnerSystemId>
+        <eact:PartnerExternalId>R358729</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Initial RRP</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>Firm Certification / RRP / (R358729)</eact:ActivityDesc>
+        <eact:ActivityType>TRACKER</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-09-11T11:44:18Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL>https://cdx.epa.gov</eact:ActivitySourceURL>
+        <eact:ActivityExpirationDate>2016-03-11T00:00:00Z</eact:ActivityExpirationDate>
+        <eact:Status>INCOMPLETE</eact:Status>
+        <eact:StatusNote>Application number R358729 has been returned.</eact:StatusNote>
+        <eact:StatusUpdateDate>2015-09-14T14:38:15Z</eact:StatusUpdateDate>
+        <eact:UserId>TESTER018</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="OrgName" label="Organization Name" order="1">E-E Portal 2 Co.</eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents>
+            <eact:Document>
+                <eact:Id>_480b0614-3f53-4345-ae88-420a469bea25</eact:Id>
+                <eact:Name>PaymentReceipt_R358729.html</eact:Name>
+                <eact:TypeId>BIN</eact:TypeId>
+                <eact:Size>2779</eact:Size>
+                <eact:CreateDate>2015-09-11 11:44:18.0</eact:CreateDate>
+                <eact:TransactionId>_b0320858-3633-4873-b43a-d7d476ae483b</eact:TransactionId>
+            </eact:Document>
+        </eact:Documents>
+    </eact:EActivity>
+    <eact:EActivity>
+        <eact:EActivityId>65706</eact:EActivityId>
+        <eact:PartnerSystemId>cdx-cedri</eact:PartnerSystemId>
+        <eact:PartnerExternalId>ce568ee0-18df-4172-8cf2-1d89ba044610</eact:PartnerExternalId>
+        <eact:PartnerSystemReportType>Air Emissions Report</eact:PartnerSystemReportType>
+        <eact:ActivityDesc>Review Air Emissions Report (Part 60, Subpart IIII)</eact:ActivityDesc>
+        <eact:ActivityType>TASK</eact:ActivityType>
+        <eact:ActivityCreateDate>2015-12-01T08:24:46Z</eact:ActivityCreateDate>
+        <eact:ActivitySourceURL>
+            https://test.epacdx.net/SilentHandoff?URL=https%3A%2F%2Ftestngn.epacdxnode.net%2Fcdx-cedri-phase2%2Faction%2FSubmissionDetails%2Fview%2F%3Fid%3D69454
+        </eact:ActivitySourceURL>
+        <eact:ActivityExpirationDate>2015-12-16T08:21:33Z</eact:ActivityExpirationDate>
+        <eact:Status>IN_PROGRESS</eact:Status>
+        <eact:StatusNote/>
+        <eact:StatusUpdateDate>2015-12-01T08:24:46Z</eact:StatusUpdateDate>
+        <eact:UserId>TESTER018</eact:UserId>
+        <eact:RoleId/>
+        <eact:RoleIdSubject/>
+        <eact:Attributes>
+            <eact:Attribute key="partCode" label="Part Code" order="1">Part 60</eact:Attribute>
+            <eact:Attribute key="partName" label="Part Name" order="2">Standards of Performance for New Stationary
+                Sources (NSPS)
+            </eact:Attribute>
+            <eact:Attribute key="subPartCode" label="Subpart Code" order="3">Subpart IIII</eact:Attribute>
+            <eact:Attribute key="subPartName" label="Subpart Name" order="4">Stationary Compression Ignition Internal
+                Combustion Engines
+            </eact:Attribute>
+            <eact:Attribute key="facilityName" label="Facility Name" order="5">GREENHOUSE COFFEE</eact:Attribute>
+            <eact:Attribute key="facilityRegistryIdentifier" label="Facility Registry Identifier" order="6">
+                110090139315
+            </eact:Attribute>
+            <eact:Attribute key="stateFacilityIdentifier" label="State Facility Identifier" order="7">123
+            </eact:Attribute>
+        </eact:Attributes>
+        <eact:Documents/>
+    </eact:EActivity>
+</eact:EActivities>

@@ -1,0 +1,143 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function multifield_schema() {
+  $schema['multifield'] = array(
+    'description' => '',
+    'fields' => array(
+      'mfid' => array(
+        'description' => 'Primary ID field for the table. Not used for anything except internal lookups.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'no export' => TRUE,
+      ),
+      'machine_name' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'label' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'description' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'big',
+        'description' => 'Description of the multifield.',
+      ),
+    ),
+    'primary key' => array('mfid'),
+    'unique keys' => array(
+      'machine_name' => array('machine_name'),
+    ),
+    'export' => array(
+      'key' => 'machine_name',
+      'key name' => 'Machine name',
+      'primary key' => 'mfid',
+      'identifier' => 'multifield',
+      'default hook' => 'multifield_default_multifield',
+      'cache defaults' => TRUE,
+      'load callback' => 'multifield_load',
+      'load all callback' => 'multifield_load_all',
+      'save callback' => 'multifield_save',
+      'delete callback' => 'multifield_delete',
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_field_schema().
+ */
+function multifield_field_schema($field) {
+  $schema = array();
+
+  // Use the same query from multifield_type_get_subfields() but since
+  // we want to ensure we're using the most current data, the function isn't
+  // used.
+  $machine_name = multifield_extract_multifield_machine_name($field);
+  $field_names = db_query("SELECT fci.field_name FROM {field_config_instance} fci INNER JOIN {field_config} fc ON fc.id = fci.field_id WHERE fc.active = 1 AND fc.storage_active = 1 AND fc.deleted = 0 AND fci.deleted = 0 AND fci.entity_type = 'multifield' AND fci.bundle = :bundle", array(':bundle' => $machine_name))->fetchCol();
+  if (empty($field_names)) {
+    return $schema;
+  }
+
+  $subfields = field_read_fields(array('field_name' => $field_names));
+  foreach ($subfields as $field_name => $subfield) {
+    // Translate the subfield columns to the multifield.
+    foreach ($subfield['columns'] as $key => $column) {
+      // We need to ensure that subfields can always be saved with NULL
+      // values.
+      if (!empty($column['not null'])) {
+        $column['not null'] = FALSE;
+      }
+      $schema['columns'][$field_name . '_' . $key] = $column;
+    }
+
+    // Translate the subfield indexes to the multifield.
+    foreach ($subfield['indexes'] as $index_name => $index_fields) {
+      $index_name = $field_name . '_' . $index_name;
+      foreach ($index_fields as $index_field) {
+        // Indexes are arrays of column name strings and/or an array in the
+        // format of array(column-name, bytes-to-index), so we need to handle
+        // both formats.
+        if (is_array($index_field)) {
+          $schema['indexes'][$index_name][] = array($field_name . '_' . $index_field[0], $index_field[1]);
+        }
+        else {
+          $schema['indexes'][$index_name][] = $field_name . '_' . $index_field;
+        }
+      }
+    }
+
+    // Translate the subfield foreign keys to the multifield.
+    foreach ($subfield['foreign keys'] as $foreign_key_name => $foreign_key) {
+      foreach ($foreign_key['columns'] as $key => $value) {
+        unset($foreign_key['columns'][$key]);
+        $foreign_key['columns'][$field_name . '_' . $key] = $value;
+      }
+      $schema['foreign keys'][$field_name . '_' . $foreign_key_name] = $foreign_key;
+    }
+  }
+
+  // Add a unique ID column.
+  $schema['columns']['id'] = array(
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+  );
+  $schema['indexes']['id'] = array('id');
+
+  return $schema;
+}
+
+/**
+ * Remove the {multifield}.fields column.
+ */
+function multifield_update_7100() {
+  if (db_field_exists('multifield', 'fields')) {
+    db_drop_field('multifield', 'fields');
+  }
+}
+
+/**
+ * Increase the maximum length of {multifield}.machine_name.
+ */
+function multifield_update_7101() {
+  db_drop_unique_key('multifield', 'machine_name');
+  $schema = array(
+    'type' => 'varchar',
+    'length' => 128,
+    'default' => '',
+    'not null' => TRUE,
+  );
+  db_change_field('multifield', 'machine_name', 'machine_name', $schema);
+  db_add_unique_key('multifield', 'machine_name', array('machine_name'));
+}

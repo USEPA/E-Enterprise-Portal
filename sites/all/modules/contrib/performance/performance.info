@@ -1,0 +1,14 @@
+name = Performance Logging
+description = Logs detailed and/or summary page generation time and memory consumption for page requests.
+package = Development
+core = 7.x
+configure = admin/config/development/performance-logging
+tags[] = developer
+tags[] = monitoring
+
+; Information added by  packaging script on 2013-11-09
+version = "7.x-2.0"
+core = "7.x"
+project = "performance"
+datestamp = "1384025307"
+

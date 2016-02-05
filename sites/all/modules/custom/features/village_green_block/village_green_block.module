@@ -1,0 +1,3 @@
+<?php
+
+include_once 'village_green_block.features.inc';

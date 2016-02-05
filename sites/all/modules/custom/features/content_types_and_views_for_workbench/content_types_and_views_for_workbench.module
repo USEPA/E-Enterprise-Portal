@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Content Types and Views for Workbench feature.
+ */
+
+include_once 'content_types_and_views_for_workbench.features.inc';

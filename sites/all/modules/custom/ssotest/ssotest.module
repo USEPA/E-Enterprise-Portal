@@ -1,0 +1,103 @@
+<?php
+/**
+  * Implements hook_menu().
+  **/
+  
+
+function ssotest_menu() {
+  $items['sso-test'] = array(
+    'title' => 'SSO Test from CDX to Portal',
+    'page callback' => 'sso_test',
+    'access callback' => 'user_is_logged_in',
+    '#type' => MENU_CALLBACK,
+  );
+  $items['ssotestform'] = array( 
+    'title' => 'SSO Test Form', 
+    'description' => 'A form to test SSO.',
+    'page callback' => 'drupal_get_form', 
+    'page arguments' => array('ssotest_form'),
+    'access callback' => 'user_is_logged_in',
+  );    
+  return $items;
+}
+
+function ssotest_form($form, &$form_state) {
+  $form['securitytoken'] = array(
+    '#type' => 'hidden', 
+    '#title' => 'Sec Token?',
+    '#default_value' => ' -- ',
+    '#required' => TRUE, 
+  );
+  $form['clientip'] = array(
+    '#type' => 'hidden', 
+    '#title' => 'Client IP?',
+    '#default_value' => 'clientip',
+    '#required' => TRUE, 
+  );
+
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Link to Portal'),
+  );
+  
+  return $form;
+}
+
+
+function sso_test(){
+    /*try {
+        $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+    }
+    catch(SoapFault $sf){
+        dsm($sf);
+        return 'sthe';
+    }
+    //https://naasdev.epacdxnode.net/xml/SecurityToken_v30.wsdl
+    $clientxx = new SoapClient("https://naas.epacdxnode.net/xml/SecurityToken_v40.wsdl", array('soap_version'  => SOAP_1_2));
+    dsm($clientxx->__getFunctions());
+    dsm($clientxx->__getTypes());
+    $params1 = array(
+        "userId" => "registration.test@cgifederal.com",
+        "credential" => "Testregistration1",
+        "domain" => "default",
+        "authenticationMethod" => "password",
+    );
+    $response1 = null;
+    try {
+        $response1 = $client->__soapCall("Authenticate", array($params1));
+    } catch(SoapFault $f) {
+        dsm($f);
+    }
+
+    dsm($response1);
+
+    $params2 = array(
+        "userId" => "Tester001",
+        "securityToken" => $response1->securityToken
+    );
+    $paramxx = array(
+        "securityToken" => $response1->securityToken,
+        "clientHost" => "52.3.175.225",
+        "resourceURI" => "",
+    );
+     try{
+         $resp = $client->__soapCall("RetrieveUser", array($params2));
+     }
+     catch(SoapFault $f){
+         //If soapfault is insufficient previleges, securityToken is validated, login user, otherwise it's not send error message.
+         dsm($f);
+     }
+    dsm($resp);*/
+    $ip = gethostbyname('eenterprise-portal.18f.gov');
+    echo $ip;
+    $sec_token = $_SESSION['cdx_fmw_security_token'];
+    print "<br> Security Token:  ".$sec_token;
+
+    $output = "";
+    $output .= "<form method='POST' action='http://ec2-52-3-175-225.compute-1.amazonaws.com/sso-cdx-portal?destination=workbench'>";
+    $output .= "<input type='hidden' name='securitytoken' value='".$_SESSION['cdx_fmw_security_token']."'/>";
+    $output .= "<input type='hidden' name='clientip' value='".$ip."'/>";
+    $output .= "<input type='submit' name='Link to Portal' value='Link to Portal'>";
+    $output .= "</form>";
+    return $output;
+}

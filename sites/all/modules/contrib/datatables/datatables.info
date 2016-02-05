@@ -1,0 +1,19 @@
+name = DataTables
+description = Provides integration of the jquery DataTables plugin into views.
+version = 7.x-0.1
+core = 7.x
+package = Views
+dependencies[] = views
+
+files[] = datatables.install
+files[] = datatables.module
+files[] = views/datatables-view.tpl.php
+files[] = views/datatables.views.inc
+files[] = views/datatables_style_plugin.inc
+
+; Information added by drupal.org packaging script on 2013-02-18
+version = "7.x-1.2"
+core = "7.x"
+project = "datatables"
+datestamp = "1361149311"
+

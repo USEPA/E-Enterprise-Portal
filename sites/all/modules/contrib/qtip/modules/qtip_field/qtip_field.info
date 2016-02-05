@@ -1,0 +1,14 @@
+name = "qTip: Field"
+description = "Integrates the qTip library with Field API module."
+package = User interface
+core = 7.x
+
+dependencies[] = qtip
+dependencies[] = field_ui
+
+; Information added by Drupal.org packaging script on 2015-03-14
+version = "7.x-2.0-rc3"
+core = "7.x"
+project = "qtip"
+datestamp = "1426346891"
+

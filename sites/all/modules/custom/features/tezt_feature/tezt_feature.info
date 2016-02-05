@@ -1,0 +1,12 @@
+name = tezt_feature
+description = Testing a feature export
+core = 7.x
+package = Features
+dependencies[] = content_types_may_20_2015
+dependencies[] = features
+dependencies[] = text
+features[features_api][] = api:2
+features[field_base][] = field_teztf
+features[field_instance][] = node-tezt-body
+features[field_instance][] = node-tezt-field_teztf
+features[node][] = tezt

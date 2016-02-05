@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Favicon link formatter uninstall function.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function link_favicon_formatter_uninstall() {
+  variable_del('link_favicon_formatter_lifespan');
+}

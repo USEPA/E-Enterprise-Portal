@@ -1,0 +1,431 @@
+<?php
+/**
+  * Implements hook_menu().
+  **/
+  
+
+function foo_menu() {
+  $items['todo_data'] = array(
+      'title' => 'to do',
+    'page callback' => 'todo_data',
+    'access callback' => 'user_is_logged_in',
+    '#type' => MENU_CALLBACK,
+  );
+    $items['role_data'] = array(
+        'page callback' => 'role_data',
+        'access callback' => TRUE,
+    );
+    $items['rso'] = array(
+        'page callback' => 'rso',
+        'access callback' => TRUE,
+    );
+    $items['vacc'] = array(
+        'page callback' => 'vacc',
+        'access callback' => TRUE,
+    );
+
+    $items['sso'] = array(
+        'title' => 'SSO',
+        'page callback' => 'sso',
+        'access callback' => 'user_is_logged_in',
+        '#type' => MENU_CALLBACK,
+    );
+  return $items;
+}
+
+function sso(){
+    try {
+        $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+    }
+    catch(SoapFault $sf){
+        dsm($sf);
+        return 'sthe';
+    }
+    //https://naasdev.epacdxnode.net/xml/SecurityToken_v30.wsdl
+    $clientxx = new SoapClient("https://naas.epacdxnode.net/xml/SecurityToken_v40.wsdl", array('soap_version'  => SOAP_1_2));
+    dsm($clientxx->__getFunctions());
+    dsm($clientxx->__getTypes());
+    $params1 = array(
+        "userId" => "registration.test@cgifederal.com",
+        "credential" => "Testregistration1",
+        "domain" => "default",
+        "authenticationMethod" => "password",
+    );
+    $response1 = null;
+    try {
+        $response1 = $client->__soapCall("Authenticate", array($params1));
+    } catch(SoapFault $f) {
+        dsm($f);
+    }
+
+    dsm($response1);
+
+    $params2 = array(
+        "userId" => "Tester001",
+        "securityToken" => $response1->securityToken
+    );
+    $paramxx = array(
+        "securityToken" => $response1->securityToken,
+        "clientHost" => "52.3.175.225",
+        "resourceURI" => "",
+    );
+     try{
+         $resp = $client->__soapCall("RetrieveUser", array($params2));
+     }
+     catch(SoapFault $f){
+         //If soapfault is insufficient previleges, securityToken is validated, login user, otherwise it's not send error message.
+         dsm($f);
+     }
+    dsm($resp);
+
+
+
+
+
+    return 'sth';
+}
+function vacc(){
+    /*$v = views_get_view('progress_tracker');
+    $v->set_display('default');
+    $v->display_handler->display->display_options['access']['role'][32] = '32';
+    $v->save();*/
+    //$loaded_role = user_role_load_by_name('Certifier');
+    //dsm($loaded_role);
+    /*$query_res = db_query("select nid from {node} where type in (:node_type) and uid = :uid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':uid' => 120))->fetchAll(PDO::FETCH_ASSOC);
+    foreach($query_res as $key => $value){
+        if($value['nid'] == 3613 || $value['nid'] == 2940)
+            node_delete($value['nid']);
+    }
+    $query_res = db_query("select nid from {node} where type in (:node_type) and uid = :uid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':uid' => 120))->fetchAll(PDO::FETCH_ASSOC);
+    dsm($query_res);*/
+    dsm(variable_get('eenterprise_bridge_auth_issuer'));
+    //variable_set('z_starz', 'xfoo');
+    return 'sth';
+}
+
+function rso(){
+    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version'   => SOAP_1_2));
+    $params1 = array(
+        "userId" => "registration.test@cgifederal.com",
+        "credential" => "Testregistration1",
+        "domain" => "default",
+        "authenticationMethod" => "password",
+    );
+    $response1 = null;
+    try {
+        $response1 = $client->__soapCall("Authenticate", array($params1));
+        //dsm($response1->securityToken);
+    } catch(SoapFault $f) {
+        dsm($f);
+    }
+    $ip='208.247.58.200';
+    $client2 = new SoapClient("https://cdxnodenaas.epa.gov/xml/auth.wsdl");
+    //dsm($client2->__getFunctions());
+    //dsm($client2->__getTypes());
+
+
+
+
+    $params2 = array(
+        "authToken" => $response1->securityToken,
+        "clientHost" => $ip,
+        "resourceURI" => ""
+    );
+    try {
+        dsm($client2->__soapCall("Validate", array($params2)));
+    }
+    catch(SoapFault $f){
+        dsm($f);
+    }
+
+    $params3 = array(
+        "userId" => "greenolive",
+        "credential" => "EEP15fun3",
+        "authenticationMethod" => "password",
+    );
+
+    try {
+        dsm($client2->__soapCall("Authenticate", array($params3)));
+    }
+    catch(SoapFault $f){
+        dsm($f);
+    }
+
+    return 'RSO';
+}
+
+function todo_data(){
+    $sth = 'ff';
+    dsm($sth);
+    $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version'   => SOAP_1_2));
+    $params1 = array(
+        "userId" => "registration.test@cgifederal.com",
+        "credential" => "Testregistration1",
+        "domain" => "default",
+        "authenticationMethod" => "password",
+    );
+    $response1 = null;
+    try {
+        $response1 = $client->__soapCall("Authenticate", array($params1));
+        //dsm($response1->securityToken);
+    } catch(SoapFault $f) {
+        dsm($f);
+    }
+    $client2 = new SoapClient("http://testngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM?wsdl", array('soap_version'   => SOAP_1_2));
+    //$client3 = new SoapClient("https://naasdev.epacdxnode.net/xml/auth.wsdl", array('soap_version' => SOAP_1_2));
+    $params2 = array(
+        "securityToken" => $response1->securityToken,
+        "dataflow" => "E-ACTIVITY",
+        "request" => "GetByUser",
+        "rowId" => 0,
+        "maxRows" => -1,
+        "parameters" => array("_" => strtoupper("greenolive"), "parameterEncoding"=>"None", "parameterName"=>"user"),
+    );
+    //dsm($response1->securityToken);
+    //dsm($client3->__getFunctions());
+    //dsm($client3->__getTypes());
+    try{
+        //dsm($client2->__getFunctions());
+        //dsm($client2->__getTypes());
+        $resp = $client2->__soapCall("Query",array($params2));
+        //$resp = $client2->Query($params2);
+
+        $resp = $resp->results->any;
+             //dsm($resp);
+        $resp = simplexml_load_string($resp);
+        //dsm($resp);
+        //dsm($resp->children('http://www.exchangenetwork.net/schema/eact/1'));
+        foreach($resp->children('http://www.exchangenetwork.net/schema/eact/1') as $activity)
+        {
+            //dsm($activity);
+            $res = array("EActivityId" => (string)$activity->EActivityId,
+                "PartnerSystemId" => (string)$activity->PartnerSystemId,
+                "PartnerExternalId" => (string)$activity->PartnerExternalId,
+                "PartnerSystemReportType" => (string)$activity->PartnerSystemReportType,
+                "ActivityType" => (string)$activity->ActivityType,
+                "ActivityDesc" => (string)$activity->ActivityDesc,
+                "ActivityCreateDate" => (string)$activity->ActivityCreateDate,
+                "ActivitySourceURL" => (string)$activity->ActivitySourceURL,
+                "ActivityExpirationDate" => (string)$activity->ActivityExpirationDate,
+                "Status" => (string)$activity->Status,
+                "StatusNote" => (string)$activity->StatusNote,
+                "StatusUpdateDate" => (string)$activity->StatusUpdateDate,
+                "UserId" => (string)$activity->UserId,
+                "RoleId" => (string)$activity->RoleId,
+                "RoleIdSubject " => (string)$activity->RoleIdSubject ,
+                "Attributes " => (string)$activity->Attributes ,);
+            $i = 0;
+            foreach ($activity->Documents->Document as $child) {
+                //dsm((string)($child->attributes()));
+                //if((string)($child->attributes()) == 'facilityName')
+               // if('_479c60c0-48ba-41aa-88b0-327bc069294c' == $child->TransactionId->__toString()) {
+                    /*dsm($child->Id->__toString());
+                    dsm($child->Name->__toString());
+                    dsm($child->TypeId->__toString());
+                    dsm($child->Size->__toString());
+                    dsm($child->CreateDate->__toString());
+                    dsm($child->TransactionId->__toString());*/
+
+                $res['Documents'][$i]['id'] = $child->Id->__toString();
+                $res['Documents'][$i]['name'] = 'sites/default/files/'.$child->Name->__toString();
+                $res['Documents'][$i]['typeId'] = $child->TypeId->__toString();
+                $res['Documents'][$i]['size'] = $child->Size->__toString();
+                $res['Documents'][$i]['createDate'] = $child->CreateDate->__toString();
+                $res['Documents'][$i]['transactionId'] = $child->TransactionId->__toString();
+                $i++;
+                    $param_attch_type = array("_" => $child->Id->__toString(),
+                                              "contentType" => array($child->TypeId->__toString()));
+                    $param_doc_id = $child->Id->__toString();
+
+                    $param_doc = array(
+                        "documentName" => $child->Name->__toString(),
+                        "documentFormat" => array($child->TypeId->__toString()),
+                        "documentContent" => $param_attch_type,
+                        "documentId" => $param_doc_id,
+                    );
+
+                    $param_dl1 = array(
+                        "securityToken" => $response1->securityToken,
+                        "dataflow" => "E-ACTIVITY",
+                        "transactionId" => $child->TransactionId->__toString(),
+                        "documents" => $param_doc,
+                    );
+                    $resp_dl = $client2->__soapCall("Download", array($param_dl1));
+                    //dsm($resp_dl);
+
+
+                    //$INPUT = $resp_dl->documents->documentContent->_;
+                    //$file = 'sites/default/files/'.$child->Name->__toString();
+                    //file_put_contents($file, $INPUT);
+
+
+                    if (true) {
+                        /*header('Content-Description: File Transfer');
+                        header('Content-Type: '.$resp_dl->documents->documentContent->contentType); //application/octet-stream');
+                        header('Content-Disposition: attachment; filename='.$child->Name->__toString());
+                        header('Expires: 0');
+                        header('Cache-Control: must-revalidate');
+                        header('Pragma: public');
+                        header('Content-Length: '.filesize($file));
+                        readfile($file);
+                        exit;*/
+                    }
+
+
+
+                //}
+            }
+
+
+
+            //$expiration_date = strtotime($res['ActivityExpirationDate']);
+            $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
+            $curr_date =  strtotime(date("Y-m-d H:i:s"));
+
+            /*foreach($res['Documents'] as $ky => $vl){
+                if(strpos($vl['name'],'Receipt') !== false)
+                    dsm("<a href='/".$vl['name']."'>Print Receipt</a>");
+                if(strpos($vl['name'],'Certificate') !== false)
+                    dsm("<a href='/".$vl['name']."'>Print Certificate</a>");
+
+            }
+            dsm(' ------------------');*/
+            //dsm($expiration_date);
+            //dsm($curr_date);
+            //dsm('----> ' . ($expiration_date - $curr_date));
+            //dsm($res);
+            if(($expiration_date - $curr_date) > 0) {
+                dsm($res);
+                //dsm($res);
+                //dsm($activity->Attributes->Attribute->__toString());
+                //dsm($activity->Attributes->Attribute);
+                //foreach ($activity->Attributes->Attribute as $child) {
+                    //dsm((string)($child->attributes()));
+                    //if((string)($child->attributes()) == 'facilityName')
+                  //  dsm($child->__toString());
+                //}
+                //foreach ($activity->Attributes->Attribute as $attr => $val) {
+
+                    //dsm($child->attributes());
+                    //dsm($val->__toString());
+                    //$attr = $val->attributes();
+                    //dsm((string)$attr['facilityName']);
+
+                //}
+                //dsm(' ------------------');
+            }
+        }
+
+            //dsm($resp);
+
+    }
+    catch(SoapFault $f){
+        dsm($f);
+    }
+
+    /*
+     * KEEP THIS CODE FOR DOWNLOAD FUNCTIONALITY LATER
+     *
+     *
+     */
+    /*$client = new SoapClient("http://devngn.epacdxnode.net/ngn-enws20/services/NetworkNode2ServiceConditionalMTOM?wsdl", array('soap_version'   => SOAP_1_2));
+    $response = $client->__getFunctions(); //Look at Download function where getFunctions is returned
+    $types = $client->__getTypes();
+    dsm($response);
+    dsm($types);*/
+
+
+    return $sth;
+}
+
+
+
+
+
+     /*function _stripSoapHeaders($response)
+{
+    // Find first occurance of xml tag
+    preg_match('/(?<xml><.*?\?xml version=.*>)/', $response, $match);
+    $xml = $match['xml'];
+
+    // Strip SOAP http headers, and SOAP XML
+    $offset = strpos($response, $xml) + strlen($xml . PHP_EOL);
+    return substr($response, $offset);
+}
+     function _parseMimeData($data)
+{
+    // Find MIME boundary string
+    preg_match('/--(?<MIME_boundary>.+?)\s/', $data, $match);
+    $mimeBoundary = $match['MIME_boundary']; // Always unique compared to content
+
+    // Copy headers to client
+    if (preg_match('/(Content-Type: .+?)'.PHP_EOL.'/', $data, $match)) {
+        header($match[1]);
+    }
+    $contentType = $match[1];
+    if (preg_match('/(Content-Transfer-Encoding: .+?)'.PHP_EOL.'/', $data, $match)) {
+        header($match[1]);
+    }
+
+    // Remove string headers and MIME boundaries from data
+    preg_match('/(.*Content-Id.+'.PHP_EOL.')/', $data, $match);
+    $start = strpos($data, $match[1]) + strlen($match[1]);
+    $end = strpos($data, "--$mimeBoundary--");
+    $data = substr($data, $start, $end-$start);
+
+    return trim($data, "\r\n");
+}*/
+
+
+
+function role_data(){
+    $user_name = "eportalleadfirm";
+    try {
+        $client = new SoapClient("https://testngn.epacdxnode.net/cdx-register-II/services/RegisterService?wsdl", array('soap_version' => SOAP_1_2));
+    } catch(SoapFault $f) {
+        drupal_set_message('Cannot connect to Registration Service. Role cannot be assigned to this user. please try again later.', 'error');
+        dsm("Error: Cannot connect to CDX RegisterService. Role cannot be assigned to this user");
+        return;
+    }
+    $params1 = array(
+        "userId" => "registration.test@cgifederal.com",
+        "credential" => "Testregistration1",
+        "domain" => "default",
+        "authenticationMethod" => "password",
+    );
+    try {
+        //Authenticate to CDX
+        $response1 = $client->__soapCall("Authenticate", array($params1));
+    } catch(SoapFault $f) {
+        dsm("Error: Cannot authenticate user to retrieve role information");
+    }
+    $params2 = array(
+        "securityToken" => $response1->securityToken,
+        "userId" => $user_name
+    );
+    try {
+        $user_obj = $client->__soapCall("RetrieveUser", array($params2));
+        $user_sec_bundle = array(
+            "securityToken" => $response1->securityToken,
+            "user" => $user_obj->User,
+        );
+
+        $user_orgs = $client->__soapCall("RetrieveOrganizations", array($user_sec_bundle));
+        //dsm($client->__getFunctions());
+        dsm($user_orgs);
+        if(is_array($user_orgs->Organization))
+            $user_orgs->Organization = $user_orgs->Organization[0];
+        $user_sec_org_bundle = array(
+            "securityToken" => $response1->securityToken,
+            "user" => $user_obj->User,
+            "org" => $user_orgs->Organization,
+        );
+        //global $user;
+        //$user_roles = $client->__soapCall("RetrieveRoles", array($user_sec_org_bundle));
+        //dsm($user_roles);
+
+    } catch(SoapFault $f) {
+        dsm("Error: Cannot retrieve role information". $f);
+    }
+    return 'sth';
+}
