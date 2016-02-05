@@ -412,6 +412,9 @@ nav ul {
 	background-color: #000;
 	padding-left: 10px;
 	padding-right: 10px;
+	.block-title {
+		display: none;
+	}
 	.block {
 		margin-bottom: 0;
 		text-align: center;
