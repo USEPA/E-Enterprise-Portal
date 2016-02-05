@@ -47,7 +47,11 @@
         }
 
         this.update_current_location = function(location) {
-            this.state_code = $.trim(location.split(',')[1]);
+            // find if in city, state code pattern
+            if(location.indexOf(',') === -1)
+                this.state_code = location;
+            else
+                this.state_code = $.trim(location.split(',')[1]);
             this.ajax_request();
         }
 
