@@ -1,0 +1,1450 @@
+<?php
+/**
+ * Implements hook_menu().
+ **/
+
+
+function eenterprise_utility_menu()
+{
+    $items = array();
+    $items['get_taxonomy_parent_name'] = array(
+        'page callback' => 'get_taxonomy_parent_name',
+        'access callback' => TRUE,
+    );
+    $items['load_air_now_us_data'] = array(
+        'page callback' => 'load_air_now_us_data',
+        'access callback' => TRUE,
+    );
+    $items['zip_code_lookup'] = array(
+        'page callback' => 'zip_code_lookup',
+        'access callback' => TRUE,
+    );
+    $items['test_load_air_now_us_data'] = array(
+        'page callback' => 'test_load_air_now_us_data',
+        'access callback' => TRUE,
+    );
+    $items['guest_login'] = array(
+        'page callback' => 'guest_login_action',
+        'access callback' => TRUE,
+    );
+    $items['guest_bye'] = array(
+        'page callback' => 'guest_logout_action',
+        'access callback' => TRUE,
+    );
+
+
+    $items['default_location_zip'] = array(
+        'page callback' => 'default_location_zip',
+        'access callback' => TRUE,
+    );
+    $items['admin/config/people/trusted-users'] = array(
+        'title' => 'Trusted Users List Settings',
+        'description' => 'Manage A Trusted Users List, Switch between using and not using trusted list.',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('trusted_users_list_settings'),
+        'access arguments' => array('administer trusted list'),
+        'file' => 'eenterprise_utility_trusted_users.admin.inc',
+    );
+    $items['admin/config/system/eactivity-dataflow'] = array(
+        'title' => 'E-Activity Webservice Endpoint Settings',
+        'description' => 'Manage E-Activity Webservice Endpoint Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('eactivity_dataflow_list_settings'),
+        'access arguments' => array('administer eactivity dataflow'),
+        'file' => 'eenterprise_utility_eactivity_dataflow.admin.inc',
+    );
+    $items['admin/config/system/frs-naas'] = array(
+        'title' => 'FRS NAAS Authentication',
+        'description' => 'FRS NAAS Token generate and Zip code lookup Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('frs_naas_auth_settings'),
+        'access arguments' => array('administer frs naas'),
+        'file' => 'eenterprise_utility_frs_naas.admin.inc',
+    );
+    $items['admin/config/system/cdx-facility-widget'] = array(
+        'title' => 'CDX Facility Widget',
+        'description' => 'CDX Facility Management Widget Resource Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('cdx_facility_widget_settings'),
+        'access arguments' => array('administer cdx facility widget'),
+        'file' => 'eenterprise_utility_cdx_facility_widget.admin.inc',
+    );
+
+        $items['update_user_gridstack_data'] = array(
+            'page callback' => 'update_user_gridstack_data',
+            'access callback' => TRUE,
+        );
+
+    $items['load_user_gridstack_data'] = array(
+        'page callback' => 'load_user_gridstack_data',
+        'access callback' => TRUE,
+    );
+    $items['map_dataset'] = array(
+        'title' => 'Map Dataset',
+        'page callback' => 'map_dataset',
+        'access callback' => 'user_is_logged_in',
+        '#type' => MENU_CALLBACK,
+    );
+    $items['sso-cdx-portal'] = array(
+        'title' => 'Single Sign on From CDX to Portal',
+        'page callback' => 'sso_cdx_portal',
+        'access callback' => TRUE,
+        '#type' => MENU_CALLBACK,
+    );
+
+    return $items;
+}
+
+
+function sso_cdx_portal(){
+    if(!isset($_POST['securitytoken']) || !isset($_POST['clientip'])){
+        drupal_goto('/');
+    }
+    $frs_password = variable_get('cdx_facility_password');
+    $email = variable_get('cdx_node_token_email');
+    $domain = variable_get('cdx_node_token_domain');
+    $server_ip = $_POST['clientip'];  //$_SERVER['SERVER_ADDR'];
+    $wsdl = variable_get('cdx_facility_naas_wsdl');
+    $cdx_resource_url = variable_get('cdx_facility_resource_url');
+    $validate_client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
+
+    $validate_parameters = array(
+        "userId" => $email,
+        "credential" => $frs_password,
+        "domain" => $domain,
+        "securityToken" => $_POST['securitytoken'],
+        "clientIp" => $server_ip,
+        "resourceURI" => $cdx_resource_url,
+        "applicationId" => "",
+        "userProperties" => "",
+    );
+    try{
+        $validate_response = $validate_client->__soapCall("Validate", array($validate_parameters));
+        if(isset($validate_response->return)){
+            parse_str($validate_response->return, $return_output);
+            perform_user_login($return_output);//authenticate user and login to drupal
+            if(isset($_GET['destination']))
+                drupal_goto("/".$_GET['destination']);
+            else
+                drupal_goto("/");
+        }
+    }
+    catch(SoapFault $f){
+        $message = "Error: ".$f->faultstring.' Error Message: '.$f->detail->faultdetails->message;
+        watchdog('eenterprise_utility', $message, array(), WATCHDOG_ERROR);
+        drupal_goto("/");
+    }
+}
+
+function perform_user_login($response_output){
+    global $user;
+    $username = $response_output['userId'];
+    $ext_user = user_external_load($username);
+    if (!$ext_user) {
+        user_external_login_register($username, 'eenterprise_utility');
+        if ($user) {
+            user_save($user, array('mail' => trim($response_output['email'], '"')));
+            //if user is public user
+            if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS') {
+                //assign_roles_to_user($username);
+                $_SESSION['cdx_fmw_security_token'] = $_POST['securitytoken'];
+                $_SESSION['userId'] = $username;
+                $_SESSION['login_timestamp'] = time();
+                $public_or_cdx = 'cdx';
+            } else {
+                $user_role = user_role_load_by_name('Public User');
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                $public_or_cdx = 'public';
+            }
+            $_SESSION['cdx_user_type'] = $public_or_cdx;
+        }
+    } else {
+        //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
+        $user = $ext_user;
+        $form_state['uid'] = $user->uid;
+
+        user_login_submit(array(), $form_state);
+        //To fix a bug where email address is not updated after users update their email address in CDX and login.
+        user_save($user, array('mail' => trim($response_output['email'], '"')));
+        try {
+            if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS') {
+                $_SESSION['cdx_fmw_security_token'] = $_POST['securitytoken'];
+                $_SESSION['userId'] = $username;
+                $_SESSION['login_timestamp'] = time();
+                $public_or_cdx = 'cdx';
+            }
+            else {
+                $user_role = user_role_load_by_name('Public User');
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                $public_or_cdx = 'public';
+            }
+            $_SESSION['cdx_user_type'] = $public_or_cdx;
+
+        } catch (Exception $e) {
+            watchdog('eenterprise_utility', "Error 0014: General Exception", array(), WATCHDOG_ERROR);
+        }
+    }
+}
+
+/**
+ * returns a map Dataset, formated as JSON.
+ */
+function map_dataset(){
+    $agency_map_datasets = views_get_view_result("agency_map_list");
+    $mapset = array();
+    foreach($agency_map_datasets as $dataset){
+        $temp_dataset = array();
+        $temp_dataset['id'] = $dataset->field_field_id[0]['rendered']['#markup'];
+        $temp_dataset['alias'] = $dataset->field_field_ee_agency_map_agency[0]['rendered']['#title'];
+        $temp_dataset['contactemail'] = $dataset->field_field_ee_agency_map_email[0]['rendered']['#markup'];
+        $temp_dataset['url'] = $dataset->field_field_ee_agency_map_url[0]['rendered']['#title'];
+        $temp_dataset['orgid'] = $dataset->field_field_orgid[0]['rendered']['#markup'];
+        array_push($mapset, $temp_dataset);
+    }
+    $mapset = array('mapsets' => $mapset);
+    drupal_add_http_header('Content-Type', 'application/json');
+    echo drupal_json_encode($mapset);
+}
+
+/**
+ * Implements hook_permission().
+ */
+function eenterprise_utility_permission()
+{
+    return array(
+        'administer trusted list' => array(
+            'title' => t('Administer Trusted Users List'),
+            'description' => t('Change settings for enabling and disabling the usage of trusted users list for authentication.'),
+        ),
+        'administer eactivity dataflow' => array(
+            'title' => t('Administer E-Activity Dataflow Settings'),
+            'description' => t('Change E-Activity Webservice Endpoint Settings.'),
+        ),
+        'administer frs naas' => array(
+            'title' => t('Administer FRS NAAS Settings'),
+            'description' => t('Change FRS NAAS Settings.'),
+        ),
+        'administer cdx facility widget' => array(
+            'title' => t('Administer CDX Facility Widget Settings'),
+            'description' => t('Change CDX Facility Widget Settings.'),
+        ),
+    );
+}
+
+/**
+ * @param $view
+ * Implementation of hook_views_pre_render
+ * Hide filters when views result is empty.
+ */
+function eenterprise_utility_views_pre_render(&$view){
+    if ($view->name == 'progress_tracker' || $view->name == 'to_do'){
+        if (empty($view->result) && empty($view->exposed_input)) {
+            $view->exposed_widgets = NULL;
+        }
+    }
+}
+
+
+function test_load_air_now_us_data()
+{
+    // run testbench
+    echo '<h1> Case1: Empty CSV from resource- load from local file, db is empty</h1>';
+    db_truncate('air_now_city_zip_codes')->execute();
+    load_air_now_us_data('http://www.epa.gov/airnow/today/cityzipcodes.csv', false);
+    echo '<h1> Case2: Empty CSV from resource- load from local file, db has data.</h1>';
+    load_air_now_us_data('http://www.epa.gov/airnow/today/cityzipcodes.csv', false);
+    echo '<h1> Case3: CSV provided from resource- db has data. </h1>';
+    load_air_now_us_data('cityzipcodes.csv', true);
+    echo '<h1> Case4: CSV provided from resource- db empty. </h1>';
+    db_truncate('air_now_city_zip_codes')->execute();
+    load_air_now_us_data('cityzipcodes.csv', true);
+}
+
+
+/*
+ * A function that simple sets a session variable so the user's default location or selected location is remembered
+ */
+
+function default_location_zip()
+{
+    $_SESSION['default_location_zip'] = $_POST['zip'];
+    $_SESSION['default_location_name'] = $_POST['name'];
+}
+
+
+/*
+ * A function that implements guest login capability. Login a guest using a pre-defined username, role and password
+ * The role will restrict the user from accessing parts of the portal guests are not supposed to access.
+ */
+function guest_login_action()
+{
+    global $user;
+    if ($user->uid != 0)
+        drupal_goto("/");
+    else {
+        $uid = user_authenticate("guest-user", "Gu35t_u53r!!");
+        $user = user_load($uid);
+        watchdog('guest_user', 'Session opened for %name.', array('%name' => $user->name));
+        $user->login = REQUEST_TIME;
+        variable_set('cdx_user_type', 'public');
+        db_update('users')
+            ->fields(array('login' => $user->login))
+            ->condition('uid', $user->uid)
+            ->execute();
+        drupal_session_regenerate();
+        //drupal_goto('/workbench', array('query' => array('dest' => 'guest_login')));
+        drupal_goto("/");
+    }
+}
+
+/*
+ * Logout a guest user.
+ */
+function guest_logout_action()
+{
+    module_load_include('pages.inc', 'user');
+    user_logout();
+    drupal_goto("/");
+}
+
+function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv', $url_bool = false)
+{
+    // set php.ini max execution to 1500 temporarily for this processing
+    ini_set('max_execution_time', 1500);
+    $start = microtime(true);
+    $csvData = file_get_contents($url, $url_bool);
+    $lines = explode(PHP_EOL, $csvData);
+    if (count($lines) <= 1) {
+        echo '<p> There was no data available in online resource</p>';
+        //first check if db has been updated, then no changes need to be made
+        $results = db_select('air_now_city_zip_codes')->fields(NULL, array('zipcode'))->execute()->fetchAll();
+        $count = count($results);
+        if ($count == 0) { // no data in db, update from local
+            echo '<p> There is no Air Now data loaded in the database, loading from local file.</p>';
+            $csvData = file_get_contents('cityzipcodes.csv', true);
+            $lines = explode(PHP_EOL, $csvData);
+        } else { //No need to change anything, database has results and nothing from data source
+            echo '<p> There is already Air Now data, no update needed.</p>';
+            ini_set('max_execution_time', 150);
+            exit();
+        }
+    }
+    // clear table
+    echo '<p> emptying previous results for latest data from resource. </p>';
+    db_truncate('air_now_city_zip_codes')->execute();
+    // insert new data
+    $first_line = $lines[0];
+    // Check resource column order
+    if ($first_line != 'City|State|Zipcode|Latitude|Longitude,') {
+        exit();
+    }
+    foreach (array_slice($lines, 1) as $line) {
+        // Data returned of format City|State|Zipcode|Latitude|Longitude
+        $data_line = str_getcsv($line, '|');
+        if ($data_line[3] == '') {
+            $data_line[3] = NULL;
+        }
+        if ($data_line[4] == '') {
+            $data_line[4] = NULL;
+        }
+        if ($data_line[0] != '') {
+            db_insert('air_now_city_zip_codes')// Table name no longer needs {}
+            ->fields(array(
+                'City' => $data_line[0],
+                'State' => $data_line[1],
+                'Zipcode' => $data_line[2],
+                'Latitude' => (float)$data_line[3],
+                'Longitude' => (float)$data_line[4],
+            ))->execute();
+        }
+    }
+    $time_elapsed_secs = microtime(true) - $start;
+    echo '<p> the database has been updated in' . $time_elapsed_secs . ' seconds';
+    $results = db_select('air_now_city_zip_codes')->fields(NULL, array('zipcode'))->execute()->fetchAll();
+    $count = count($results);
+    echo '<p> Table air_now_city_zip_codes now has ' . $count . ' rows.</p>';
+    ini_set('max_execution_time', 150);
+}
+
+function get_taxonomy_parent_name($tid)
+{
+    $data_array = array();
+    $parents_array = array();
+    $vid = '';
+    $parents = taxonomy_get_parents_all($tid);
+    foreach ($parents as $key => $value) {
+        $parents_array[] = [$value->tid, $value->name];
+        $vid = $value->vid;
+    }
+    $data_array['parents'] = $parents_array;
+    $data_array['vid'] = $vid;
+    echo json_encode($data_array);
+}
+
+
+function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
+{
+
+    //Hide title from Map Set form
+    if($form['#form_id'] == 'ee_map_set_node_form'){
+        $form['title']['#default_value'] = t('Map Set Value');
+        hide($form['title']);
+    }
+
+    //Prevent guest user from accessing account edit page.
+    if (($form['#form_id'] == 'user_profile_form') && ($form['#user']->name == 'guest-user')) {
+        drupal_goto("/");
+    }
+    drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
+    if ($form['#form_id'] == 'user_profile_form') {
+        //remove user_account_form_validate callback. This will remove email address validation because we should allow multiple email addresses as CDX/Bridge allows that.
+        foreach ($form['#validate'] as $key => $value)
+            if ($value == 'user_account_form_validate')
+                unset($form['#validate'][$key]);
+
+        //Removed more than a thousand taxonomy hierarchy from bottom of admin profile page, it was giving me lots of misery.
+        global $user;
+        if ($user->uid == 1)
+            unset($form['field_interests2']);
+
+        // Get proper values for 'allowed_values_function', which is a core setting.
+        $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
+        $options = array();
+        foreach ($vocabularies as $vocabulary) {
+            $options[$vocabulary->machine_name] = $vocabulary->name;
+        }
+        $form['allowed_values'] = array(
+            '#tree' => TRUE,
+        );
+
+        hide($form['picture']);
+        hide($form['account']['current_pass']);
+        hide($form['account']['pass']);
+        hide($form['field_profile_interests']);
+        hide($form['field_profile_last_name']);
+        hide($form['field_initial_log_in']);
+        hide($form['field_interests2']);
+        hide($form['field_gridstack_settings']);
+        hide($form['field_lgc_topics_of_interest']);
+//        if ($form['field_organization'][LANGUAGE_NONE]['#default_value'][0] != '172730') {
+//            hide($form['field_community_size']);
+//            hide($form['field_community_type']);
+//        }
+//        if ($form['field_organization'][LANGUAGE_NONE][0]['value'] == 'Loca')
+
+        // If user is admin allow to edit state admin STATE and toggle user's first time status
+        if ($user->uid > 1) {
+            hide($form['field_admin_state']);
+            hide($form['field_first_time_user']);
+        }
+
+
+
+        $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
+        $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
+        $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter ZIP Code or City, State";
+        if (empty($form['account']['mail']['#default_value']))
+            $form['account']['mail']['#default_value'] = $form['#user']->name;
+        $form['account']['mail']['#attributes'] = array(
+        	'disabled' => 'disabled',
+        	'aria-describedby' => 'email-helptext'
+        	);
+        $form['account']['mail']['#required'] = false;
+        $form['account']['mail']['#title'] = 'Email Address <span tabindex="0" data-toggle="tooltip" data-placement="bottom" aria-hidden="true" id="email-helptext" class="glyphicon glyphicon-info-sign ee-bootstrap-tooltip"
+            title="All emails from the system will be sent to this address. This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX)."> </span>';
+
+
+        $form['#validate'][] = 'user_profile_form_custom_validate';
+        $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
+        $form['actions']['delete']['#submit'][] = 'profile_delete_action';
+
+        //We are not validating profile picture and password as we do not save and manage these information on the Portal.
+        foreach ($form['#validate'] as $key => $val) {
+            if ($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
+                unset($form['#validate'][$key]);
+        }
+
+        // When use deletes last zip code or url, do not repopulate with previous saved zip
+        if (isset($form_state['triggering_element'])) {
+            $trigger_string = $form_state['triggering_element']['#name'];
+            $trigger_array = explode('_', $trigger_string);
+
+            if (in_array('zip', $trigger_array)) {
+                $delta = $trigger_array[4];
+                if ($trigger_array[5] == 'remove') {
+                    if ($delta == 0) { // If first value clear out the input
+                        unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE]);
+                    } else {
+                        unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE]);
+                    }
+                }
+            }
+            if ($trigger_string == 'field_profile_favourites_' . LANGUAGE_NONE . '_0_remove_button') {
+                $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+                $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
+            }
+        }
+
+        // add more button for zip codes
+        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
+        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
+        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
+        //Add more button for urls
+        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = '+';
+        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
+        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
+
+        // Field specific settings for  URLs
+        for ($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+            $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
+            $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
+            $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['title'] = 'Remove favorite';
+            $date_value = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_date_updated'][LANGUAGE_NONE][0]['#default_value']['value'];
+            $date_updated = date_create($date_value);
+            $date_updated = date_format($date_updated, 'm/d/Y');
+            $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title']['#suffix'] = '<span class="date_updated_contain">' . $date_updated . '</span>';
+        }
+
+        // Field specific settings for Zip codes
+        for ($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+            $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'];
+            // overide default if input has been made
+            if (isset($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta])) {
+                $input_zip = $form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0];
+                $zip = xssafe($input_zip['value']);
+            }
+            // Aria-describedby to associate city, state name in suffix <span> with input field
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['aria-describedby'] = 'city-name-'.$delta;
+            
+            // $field_suffix = city name and state name
+            if (isset($zip) && $zip != '') {
+                $zip_data = zip_code_lookup($zip);
+                if ($zip_data['error']) {
+                    $field_suffix = '<span id="city-name-' .$delta. '" class="field-suffix error" aria-live="assertive">' . $zip_data['string'] . '</span>';
+                    // Update aria-describedby to point to zip-code-error
+										$form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes'] = array(
+        	'aria-describedby' => 'zip-code-error',
+        	'aria-live' => 'assertive',
+        	);
+                }
+                else {
+                    $field_suffix = '<span id="city-name-' .$delta. '" aria-live="polite">'.$zip_data['string'] . '</span>';
+                }
+                $ariacity = $zip_data['string'];
+            } else {
+                $field_suffix = '';
+                $ariacity = '';
+            }
+            // Placeholder
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['placeholder'] = 'Enter ZIP code or city, state';
+            // Remove button
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['title'] = 'Remove ' . $zip . ' ' . $ariacity . ' from locations';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_prefix'] = '<label class="element-invisible">' . $zip  . '</label>';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['remove_button']['#attributes']['title'] = 'Remove';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['class'][] =
+                'field_zip_code';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_suffix'] =
+                $field_suffix;
+            hide($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['#title']);
+        }
+
+        // Field specific settings for Terms of Use Agreed Date
+        $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#theme'] = 'eenterprise_utility_terms_of_use_agreed_date_display';
+        $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#disabled'] = TRUE;
+
+        // only admins see the Terms of Use Agreed Date field
+        if (!user_access('administer site configuration')) {
+            hide($form['field_terms_of_use_agreed'][LANGUAGE_NONE]);
+        }
+
+        $form['#submit'][] = 'eenterprise_utility_profile_form_submit';
+    } // end user form
+    global $user;
+    if($form['#form_id'] == 'user_profile_form' && (in_array('Public User',$user->roles) && count($user->roles) == 2)){
+        hide($form['account']['mail']);
+        $form['account']['mail']['#access'] = FALSE;
+    }
+}
+
+function eenterprise_utility_profile_form_submit($form, &$form_state) {
+
+    // if Reset User as First Time Login for Testing is checked, clear user agreement signed as well
+    if ($form_state['values']['field_first_time_user'][LANGUAGE_NONE][0]['value'] === 1) {
+        global $user;
+        $user_data = user_load($user->uid);
+        $agreed = array();
+        $edit = array('field_terms_of_use_agreed' => $agreed);
+        user_save($user_data, $edit);
+    }
+}
+
+/**
+ * Menu callback function.
+ *
+ * @param string $string
+ *  The string that will be searched.
+ * @return object
+ *  A JSON object.
+ */
+
+
+// Params: zip code integer
+// Returns Assoc Array( city => , state => , latitude => , longitude => )
+// can be called by ajax with url arguments ?zip=_____
+function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initial_login=false)
+{
+    $readable_string = '';
+    if (isset($_GET['zip'])) {
+        $unparsed_zip = $_GET['zip'];
+        $return_data_type = 'json';
+    }
+
+    $error = true;
+    $is_zip_code = preg_match("/(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/", $unparsed_zip);
+    $is_city_state = preg_match("/^[\w\s]+,\s*\w{2}$/", $unparsed_zip);
+    $zip_data = array();
+    if ( $is_zip_code === 0 && $is_city_state === 0) {
+        $error_message = 'Please input a valid ZIP code or a city and state code separated by a comma (e.g., Durham, NC)';
+        $zip_data = array(
+            'state' => '',
+            'city' => '',
+            'latitude' => '',
+            'longitude' => '',
+            'zip' => '',
+            'zip_attr' => '',
+            'city_attr' => '',
+            'string' => $error_message,
+            'error' => $error
+    );
+    }
+    else {
+        $validation = postal_code_validation_validate($unparsed_zip, 'US');
+        if (!$validation['error']) {
+            $zip = substr($validation['postal_code'], 0, 5);
+            $frs_city_state_return = frs_zip_code_to_city_state($zip);
+            $frs_lat_long_return = frs_zip_code_to_lat_long($zip);
+
+            if($initial_login) {
+                // If initial login, use new style zip/city lookup
+
+                $zip_data = array(
+                    'city' => '',
+                    'latitude' => '',
+                    'longitude' => '',
+                    'zip_attr' => '',
+                    'city_attr' => '',
+                    'zip' => $zip,
+                );
+
+                // Get Zip Code to Census Place/Population Lookup table as json
+                $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+                $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
+            
+                // Decode  json
+                $json_file = file_get_contents($zip_pop_url);
+                $result = json_decode($json_file);
+
+                // Keep track of whether a preferred name has been found yet
+                $city_tribe_found = false;
+                // If Zip->Census Place had results:
+                if (!empty($result->features)) {
+                    $city_attr = array();
+                    $city_list = array();
+                    // Loop through all Census Places for the specified zip
+                    foreach($result->features as $feature) {
+                        if(!empty($feature->attributes->NAME_LABEL)) {
+                            // If the table has a placename, record that as the preferred name, along with its population
+                            $city_list[] = $feature->attributes->NAME_LABEL;
+                            $city_attr[$feature->attributes->NAME_LABEL] = array(
+                                "pop" => $feature->attributes->Place_Pop_2014_ACS2014
+                            );
+                            $city_tribe_found = true;
+                        } 
+                        // Also record the zip code's population and urban/rural status
+                        $zip_attr[$feature->attributes->ZCTA] = array(
+                            "pop" => $feature->attributes->Zip_Pop2014_ACS5,
+                            "urban" => $feature->attributes->Urban,
+                        );
+                    }
+
+                    $zip_data['city'] = $city_list;
+                    $zip_data['city_attr'] = $city_attr;
+                    $zip_data['zip_attr'] = $zip_attr;
+                }
+
+                // Get Zip Code to Tribal Area Lookup table as json
+                $zip_tribe_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
+                $zip_tribe_url = $zip_tribe_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&f=pjson';
+
+                // Decode  json
+                $json_file = file_get_contents($zip_tribe_url);
+                $result = json_decode($json_file);
+
+                // If tribal area was found in this zip:
+                if (!empty($result->features)) {
+                    $city_list = array();
+                    foreach($result->features as $feature) {
+                        // If the table has a placename, record that as the preferred name
+                        $zip_data['city'][] = $feature->attributes->TRIBE_NAME_CLEAN;
+                        $city_tribe_found = true;
+                    }
+                }
+
+                // Use FRS to find lat & long of zipcode
+                if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) { 
+                    $zip_data['latitude'] = $frs_lat_long_return['lat'];
+                    $zip_data['longitude'] = $frs_lat_long_return['long'];
+                    // Also, if no preferred name has been found yet, use FRS city/state
+                    if(!$city_tribe_found and strlen($frs_city_state_return['city']) != 0) {
+                        $zip_data['city'][] = $frs_city_state_return['city'] . ", " . $frs_city_state_return['state'];
+                    }
+                }
+
+                $error = false;
+
+            } else {
+                // If not intial login, revert to old way of doing zip/city lookups
+                if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {       // first try FRS resource
+                    $zip_data = array(
+                        'state' => $frs_city_state_return['state'],
+                        'city' => $frs_city_state_return['city'],
+                        'latitude' => $frs_lat_long_return['lat'],
+                        'longitude' => $frs_lat_long_return['long'],
+                        'zip' => $zip,
+                    );
+                }
+
+                // Create readable string for across site
+                if (strlen($zip_data['city']) != 0) {
+                    $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
+                    $error = false;
+                }
+                $zip_data['string'] = $readable_string;
+                $zip_data['error'] = $error;
+                
+            }
+        }
+    }
+    if ($return_data_type == 'php') {
+        return $zip_data;
+    } else {
+        print json_encode($zip_data);
+    }
+
+}
+
+
+/**
+ * @param $form
+ * @param $form_state
+ * Custom validation for user information, called when form is submitted.
+ */
+function user_profile_form_custom_validate(&$form, &$form_state)
+{
+    user_profile_zipcode_custom_validate($form, $form_state);
+    user_profile_url_custom_validate($form, $form_state);
+}
+
+
+/**
+ * @param $form
+ * @param $form_state
+ * Custom validate for zip code.
+ */
+function user_profile_zipcode_custom_validate(&$form, &$form_state)
+{
+    // Validates even if javascript validation failed on form submit
+    $previous_zipcodes = array();
+    $error = false;
+    $error_messages = array();
+    $error_deltas = array();
+    $site_default_zip = 27705;
+
+    // Site default zip Occurs when all values are blank.
+    // overrides if user has save geolocation zip
+    global $user;
+    $user_data = user_load($user->uid);
+    $user_initial_login = $user_data->field_initial_log_in;
+    $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+    $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
+
+    if (isset($geolocation_used)) {
+        if ($geolocation_used) {
+            $site_default_zip = $initial_zip;
+        }
+    }
+
+    $blank_zipcode = true;
+    $count_zips = count($form_state['values']['field_zip_code'][LANGUAGE_NONE]) - 1;
+
+    // User has entered a zipcode
+    if (isset($form_state['input']['field_zip_code'])) {
+        foreach ($form_state['values']['field_zip_code'][LANGUAGE_NONE] as $delta => $field) {
+            if (is_array($field) && is_numeric($delta)) {
+                // Check input and values for blank value, unset if blank
+                if (trim($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']) == '') {
+                    unset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]);
+                    unset($form['field_zip_code'][LANGUAGE_NONE][$delta]);
+                } else if (trim($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']) == '') {
+                    unset($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]);
+                    $blank_zipcode = false;
+                    unset($form['field_zip_code'][LANGUAGE_NONE][$delta]);
+                } else {
+                    // Zip code is not blank
+                    $zip_val = $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
+                    if (strlen($zip_val) > 0) {
+                        // Check if valid format
+                        $valid_zip = postal_code_validation_validate($zip_val, 'US');
+                        if ($valid_zip['error']) {
+                            // Zip code not valid
+                            $error = true;
+                            $error_message = "Invalid ZIP code. Please enter a United States ZIP code in one of the following formats, '99999,' '99999-9999,' or '99999-999999,' or a city and state code separated by a comma (e.g., Durham, NC).";
+                            // Clear city details from field
+                            unset($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE]['value']['#field_suffix']);
+                            // Do not duplicate error messages to user
+                            if (!in_array($error_message, $error_messages)) {
+                                $error_messages[] = $error_message;
+                            }
+                            // Save deltas to know which fields to highlight for errors
+                            if (!in_array($delta, $error_deltas)) {
+                                $error_deltas[] = $delta;
+                            }
+                        }
+                        // Check if user has entered duplicate zip codes
+                        else if (in_array($zip_val, $previous_zipcodes)) {
+                            $error_message = 'Duplicate ZIP codes are not allowed.';
+                            $error = true;
+                            if (!in_array($error_message, $error_messages)) {
+                                $error_messages[] = $error_message;
+                            }
+                            if (!in_array($delta, $error_deltas)) {
+                                $error_deltas[] = $delta;
+                            }
+                        }
+                        // Check if zip code returned any data
+                        else if ( zip_code_lookup($zip_val)['city'] == ''){
+                            $error = true;
+                            $error_message = 'The ZIP code you entered could not be found';
+                            if (!in_array($error_message, $error_messages)) {
+                                $error_messages[] = $error_message;
+                            }
+                            if (!in_array($delta, $error_deltas)) {
+                                $error_deltas[] = $delta;
+                            }
+                        }
+                        else
+                        {
+                            // If there is only one zip code- make sure primary value is set. Subtract 1 one count to account for add-more element
+                            if ($count_zips == 1) {
+                                $form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
+                            }
+                            // Set session to primary zip value
+                            if ($form_state['values']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_primary'][LANGUAGE_NONE][0]['value'] == 1) {
+                                $_SESSION['default_location_zip'] = substr($valid_zip['postal_code'], 0, 5);
+                            }
+                            $error = false;
+                            $blank_zipcode = false;
+                        }
+                        $previous_zipcodes[] = $zip_val;
+                    }
+                }
+            }
+        }
+        if ($error) {
+            // Write all error messages and highlight fields
+            foreach ($error_messages as $delta => $message) {
+                form_set_error('field_zip_code][' . LANGUAGE_NONE . '][' . $error_deltas[$delta] . '][field_field_zip_code', t($message));
+            }
+            // High light all fields with no additional messages
+            foreach ($error_deltas as $delta) {
+                form_set_error('field_zip_code][' . LANGUAGE_NONE . '][' . $delta);
+            }
+        }
+    } // if no zipcodes entered, use default and save as primary
+    else {
+        $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'] = $site_default_zip;
+        $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
+
+    }
+    // if only blank inputs, use default and save as primary
+    if ($blank_zipcode) {
+        $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'] = $site_default_zip;
+        $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
+    }
+}
+
+
+function user_profile_url_custom_validate(&$form, &$form_state)
+{
+    // Occurs when all values are blank.
+    if (!isset($form_state['input']['field_profile_favourites'])) {
+        $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
+        $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value'] = '';
+        $form_state['input']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
+    } else {
+        foreach ($form_state['values']['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
+            if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
+                unset($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]);
+            }
+            // if title is empty, set it to given url
+            if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']) == '') {
+                $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] =
+                    $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
+            }
+        }
+    }
+}
+
+
+/**
+ * @param $form
+ * @param $form_state
+ * Delete user's profile permanently.
+ */
+function profile_delete_action($form, &$form_state)
+{
+    global $user;
+    if ($user->uid != 1) {
+        if ($form_state['clicked_button']['#value'] == 'Delete profile') {
+            $_SESSION['form_origin_btn'] = 'Delete profile';
+            drupal_goto('eebridge-auth/logout');
+        }
+    }
+}
+
+/**
+ * @param $account
+ * @param $view_mode
+ * @param $langcode
+ * Hook user_view implementation, on user view, if user is logged in, go directly to the edit page, instead of the view page.
+ */
+function eenterprise_utility_user_view($account, $view_mode, $langcode)
+{
+    if ($account->name == 'guest-user')
+        drupal_goto("/");
+    else if ($account->uid > 0)
+        drupal_goto("/user/" . $account->uid . "/edit");
+}
+
+/**
+ * @return array
+ * Workbench header data
+ */
+function get_header_variables()
+{
+    //the value for now is hardcoded not to block front end developers while backend developers investigate API endpoints to get data from CDX
+    global $user;
+    $user_data = user_load($user->uid);
+    $user_zips = $user_data->field_zip_code;
+    $locations_array = array();
+    // Primary zip is the selected zip in the drop down
+    $primary_zip = '';
+    // Does the user have any saved zip codes?
+    $user_has_zip = false;
+    foreach ($user_zips[LANGUAGE_NONE] as $key => $value) {
+        $primary = $value['field_field_primary'][LANGUAGE_NONE][0]['value'];
+        $zipcode = $value['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
+        if ($primary == 1) {
+            $primary_zip = $zipcode;
+        }
+        $zipcode_data = zip_code_lookup($zipcode);
+        if (!$zipcode_data['error']) {
+            $locations_array[$zipcode] = $zipcode_data['string'];
+            $user_has_zip = true;
+        }
+    }
+    if (!$user_has_zip) {
+        // Use initial login information
+        $user_initial_login = $user_data->field_initial_log_in;
+        $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
+        $zipcode_data = zip_code_lookup($initial_zip);
+        $primary_zip = $initial_zip;
+        $locations_array[$initial_zip] = $zipcode_data['string'];
+    }
+    asort($locations_array);
+    $header_data = array(
+        'locations' => $locations_array,
+        'primary_zip' => $primary_zip,
+    );
+    return $header_data;
+}
+
+
+function get_modal_data($locations, $city_name_count)
+{
+    print "<a id='locations-modal' href='#'>View all favorite cities</a>";
+    print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
+    print "<div class='radio-options-holder'>";
+    $duplicate_city_count = 0;
+    foreach ($locations as $key => $value) {
+        if ($city_name_count[$value] > 1) {
+            if ($duplicate_city_count == 0) {
+                print  $value . "<ul class='locations-modal-ul'>";
+            }
+            print "<li>";
+            print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' />" . $key . "</label>";
+            print "</li>";
+            ++$duplicate_city_count;
+            if ($duplicate_city_count == $city_name_count[$value]) {
+                print "</ul>";
+                $duplicate_city_count = 0;
+            }
+        } else {
+            print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' />" . $value . "</label>";
+        }
+    }
+    print "</div></div>";
+}
+
+function return_users_default_zip() {
+    global $user;
+
+    if (isset($_SESSION['default_location_zip']) && isset($_SESSION['default_location_name'])) {
+        $default_zip = $_SESSION['default_location_zip'];
+        $default_name = $_SESSION['default_location_name'];
+    }
+
+}
+
+
+function generate_location_select()
+{
+
+    // show an input box instead of a select for guest users
+    global $user;
+
+    if ($user->name == 'guest-user') {
+        generate_location_input_for_guests();
+        return;
+    }
+
+    $default_zip_used = false;
+    $header_data = get_header_variables();
+    $city_name_count = array();
+    $default_zip = $header_data['primary_zip'];
+    if (isset($_SESSION['default_location_zip']) && isset($_SESSION['default_location_name'])) {
+        if (is_numeric($_SESSION['default_location_zip'])) {
+            $default_zip = $_SESSION['default_location_zip'];
+        }
+        $default_name = $_SESSION['default_location_name'];
+    }
+
+
+    foreach ($header_data['locations'] as $key => $value) {
+        if (isset($city_name_count[$value])) {
+            ++$city_name_count[$value];
+        } else {
+            $city_name_count[$value] = 1;
+        }
+    }
+//    if (count($header_data['locations']) > 1) {
+    print "<label for='location-select'>Set location</label>";
+    print "<select for='favorite-location' id='location-select'>";
+
+    $count = 0;
+    foreach ($header_data['locations'] as $key => $value) {
+
+        if (intval($key) == intval($default_zip)) {
+            $selected = 'selected';
+            $default_zip_used = true;
+        } else {
+            $selected = '';
+        }
+        if ($count == 10) {
+            print "<option value='view_more' >Show More...</option>";
+            break;
+        }
+        if ($city_name_count[$value] > 1) {
+            print "<option value='" . $key . "' " . $selected . " >" . $value . " (" . $key . " )</option>";
+        } else {
+            print "<option value='" . $key . "' " . $selected . " >" . $value . "</option>";
+        }
+        $count = $count + 1;
+    }
+
+    // Check if saved default_zip was used. If not, it is a session variable that has not been saved yet.
+    // Add the value to the location selection
+    if ($default_zip_used == false && !empty($default_zip)) {
+        print "<option value='" . $default_zip . "' selected>" . $default_name . "</option>";
+    }
+
+
+    print "</select>";
+
+    if (count($header_data['locations']) > 10) {
+        get_modal_data($header_data['locations'], $city_name_count);
+    }
+//    }
+}
+
+function generate_location_input_for_guests() {
+    print '<div class="form-inline">';
+    print '<div class="form-group has-feedback">';
+    print '<label class="control-label" for="location-input-guests">Enter ZIP code or city, state</label>';
+    print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error" style="height:23px;vertical-align: top;padding-top:2px;padding-bottom:2px">';
+    print '<span class="form-control-feedback" aria-hidden="true" style="top:-2px;font-size:80%"></span>';
+//  print '<span id="location-input-guests-error" class="sr-only">(success)</span>';
+    print '</div>';
+    print '</div>';
+}
+
+
+
+
+function eenterprise_utility_node_access($node, $op, $account)
+{
+    //Deny access to content that the user did not create.
+    if (($node->type == 'progress_tracker' && $op == 'view') && $node->name != $account->name)
+        return NODE_ACCESS_DENY;
+    else
+        return NODE_ACCESS_ALLOW;
+}
+
+
+function eenterprise_utility_node_presave($node)
+{
+    if ($node->type == 'trusted_user')
+        $node->title = strtolower($node->title);
+}
+
+function eenterprise_utility_views_query_alter(&$view, &$query){
+    if ($view->name == 'to_do') {
+        if (isset($view->exposed_raw_input) && $view->exposed_raw_input['field_todo_lst_due_value'] != '') {
+            foreach($query->where[1]['conditions'] as $key => $value){
+                if($value['field'] == 'field_data_field_todo_lst_due.field_todo_lst_due_value'){
+                    $view->query->where[1]['conditions'][$key]['operator'] = '>=';
+                }
+            }
+            $view->args['week_filter_val'] = $view->exposed_raw_input['field_todo_lst_due_value'];
+            date_default_timezone_set('America/New_York');
+            $time_diff = time() - strtotime($view->exposed_raw_input['field_todo_lst_due_value']);
+            if ($time_diff < (7 * 24 * 60 * 60) && $time_diff > 0) {
+            //if (substr($view->exposed_raw_input['field_todo_lst_due_value'], 0, 10) == date("Y-m-d")) {
+                $view->query->add_where(1, 'field_data_field_todo_lst_due.field_todo_lst_due_value', date("Y-m-d 23:59:59", strtotime("next saturday", time())), '<');
+            } //if the difference between beyond next week and now is more than 7 days
+            else if ((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)) {
+                ;
+                //here, there is no need to add a second where clause because the filter is beyond next week.
+            } else if (date('D', strtotime($view->exposed_raw_input['field_todo_lst_due_value'])) == 'Sun') {
+                $next_week = time() + 7 * 24 * 60 * 60;
+                $view->query->add_where(1, 'field_data_field_todo_lst_due.field_todo_lst_due_value', date("Y-m-d 23:59:59", strtotime("next saturday", $next_week)), '<');
+            }
+
+        }
+
+        if(isset($query->table_queue['field_data_field_todo_lst_rprt_type_filter'])) {
+            unset($query->table_queue['field_data_field_todo_lst_rprt_type_filter']);
+            unset($query->tables['node']['field_data_field_todo_lst_rprt_type_filter']);
+        }
+        foreach ($query->where[1]['conditions'] as $key => $value)
+            if ($value['field'] == 'field_data_field_todo_lst_rprt_type_filter.field_todo_lst_rprt_type_filter_value')
+                unset($query->where[1]['conditions'][$key]);
+        $field_info = field_info_field('field_todo_lst_rprt_type_filter');
+        $allowed_values = $field_info['settings']['allowed_values'];
+        if (isset($view->exposed_raw_input['field_todo_lst_rprt_type_filter_value']) && $view->exposed_raw_input['field_todo_lst_rprt_type_filter_value'] != 'All') {
+            $query->add_table('field_data_field_todo_lst_item');
+            $query->add_where(1, 'field_data_field_todo_lst_item.field_todo_lst_item_value', '%' . $allowed_values[$view->exposed_raw_input['field_todo_lst_rprt_type_filter_value']] . '%', 'LIKE');
+        }
+        else if (isset($view->exposed_raw_input['field_todo_lst_rprt_type_filter_value']) && $view->exposed_raw_input['field_todo_lst_rprt_type_filter_value'] == 'All'){
+            $query->add_table('field_data_field_todo_lst_item');
+            $query->add_where(1, 'field_data_field_todo_lst_item.field_todo_lst_item_value', '% %', 'LIKE');
+        }
+    }
+    if ($view->name == 'progress_tracker') {
+        //Remove the natural behavior of the second filter on progress tracker.
+        unset($query->table_queue['field_data_field_prog_track_rep_type_filter']);
+        unset($query->tables['node']['field_data_field_prog_track_rep_type_filter']);
+
+        foreach ($query->where[1]['conditions'] as $key => $value){
+            if ($value['field'] == 'field_data_field_prog_track_rep_type_filter.field_prog_track_rep_type_filter_value') {
+                unset($query->where[1]['conditions'][$key]);
+            }
+        }
+        //get allowed values for field filter.
+        $field_info = field_info_field('field_prog_track_rep_type_filter');
+        $allowed_values = $field_info['settings']['allowed_values'];
+        if (isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] != 'All') {
+            if (in_array($allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']], array('Firm Abatement', 'Firm RRP', 'Firm Combination'))) {
+                $res_val = explode(" ", $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']]);
+                $query->add_table('field_data_field_prog_tracker_app');
+                $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $res_val[1] . '%', 'LIKE');
+            }
+            else {
+                $query->add_table('field_data_field_prog_tracker_app');
+                $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']] . '%', 'LIKE');
+            }
+        }
+        else if (isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] == 'All') {
+            $query->add_table('field_data_field_prog_tracker_app');
+            $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '% %', 'LIKE');
+        }
+    }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function eenterprise_utility_theme($existing, $type, $theme, $path)
+{
+
+    $themes = array(
+        'eenterprise_utility_terms_of_use_agreed_date_display' => array(
+            'render element' => 'element'
+        ),
+    );
+    return $themes;
+}
+
+// Custom theme output.
+function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars)
+{
+    $element = $vars['element'];
+
+    $header = array(
+        'field_date_signed' => t('User Agreement Signed'),
+        'field_agreement_node_id' => t('Agreement Version'),
+    );
+
+    $rows = array();
+    for ($i = 0; $i <= $element['#max_delta']; $i++) {
+        $row = array();
+        $row['data'] = array();
+
+        $timestamp = $element[$i]['field_date_signed'][LANGUAGE_NONE][0]['value']['#value'];
+        $nid = $element[$i]['field_agreement_node_id'][LANGUAGE_NONE][0]['value']['#value'];
+
+        if (!empty($timestamp)) {
+
+            $node = node_load($nid);
+
+            $row['data'][] = format_date($timestamp, 'long');
+            $row['data'][] = l($node->title . ' (Last modified: ' . format_date($node->changed) . ')', '/node/' . $nid);
+            $rows[] = $row;
+        }
+    }
+
+    return theme('table', array(
+        'header' => $header,
+        'rows' => $rows,
+    ));
+}
+
+/*
+ * Provides logic for generating default zip statement in user  profile. Inform the user wheter their default location
+ * is their current location (if allowed), Durham, NC.
+ */
+//
+function location_description() {
+global $user;
+$user_data = user_load($user->uid);
+$num_zip_codes = count($user_data->field_zip_code[LANGUAGE_NONE]);
+if ($num_zip_codes > 0) {
+    $location_description = "Add a location of interest to see environmental information relevant to that area. <strong>Select your primary location by clicking the <span class='sr-only'>Set primary location</span><i class='glyphicon glyphicon-star-empty star-example description-key selected' aria-hidden='true' title='Set primary location'></i> icon.</strong>";
+    $first_zip_code = $user_data->field_zip_code[LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
+} else {
+    $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <span class='sr-only'>Set primary location</span><i class='glyphicon glyphicon-star-empty star-example description-key selected' aria-hidden='true' title='Set primary location'></i> icon next to a location to make it your default location.</strong> <br />";
+    $first_zip_code = '';
+}
+
+    $geolocation = false;
+    $user_initial_login = $user_data->field_initial_log_in;
+    $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+
+    if (isset($geolocation_used)) {
+        if ($geolocation_used) {
+            $location_description .= '<br /> Until a location is specified, the location detected upon your initial login will be set as the default.';
+            $geolocation = true;
+        }
+    }
+    if ($geolocation == false && $num_zip_codes < 2) {
+        // Check if they have already saved values
+        if ($first_zip_code == '27705' || $first_zip_code == '') {
+            $location_description .= '<br /> Until a location is specified, the default location is set to Durham, North Carolina.';
+        }
+        }
+
+return $location_description;
+}
+
+
+
+/**
+ *
+ * Function to return latest release number. If recent session variable forgoes the db query and returns the session
+ *
+ */
+function release_number(){
+
+
+        $query = new EntityFieldQuery;
+        $query->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'release_number')
+            ->propertyCondition('status', 1);
+
+        $results = $query->execute();
+        if (isset($results['node'])) {
+            $nodes = node_load(max(array_keys($results['node']))); // Get the highest nodie id
+            $release_number = $nodes->title;
+            $_SESSION['release_number'] = $release_number;
+        }
+        else {
+            $release_number = '';
+        }
+    return $release_number;
+}
+
+
+function update_user_gridstack_data() {
+    global $user;
+    $user_data = user_load($user->uid);
+  //  var_dump($user_data->field_gridstack_settings);
+    echo json_encode($_POST['grid_data']);
+    if (isset($_POST['grid_data'])) {
+        $user_grid_data = $user_data->field_gridstack_settings;
+        unset($user_grid_data);
+        foreach($_POST['grid_data'] as $index=>$obj) {
+            $pane_id = $obj['id'];
+            $x_coor = $obj['x'];
+            $y_coor = $obj['y'];
+            $width = $obj['width'];
+            $height = $obj['width'];
+
+            $multifield_gridstack_obj = array (
+                'field_pane_id_value' => $pane_id,
+                'field_pane_id_value_format' => null,
+                'field_x_coordinate_value' => $x_coor,
+                'field_x_coordinate_value_format' => null,
+                'field_y_coordinate_value' => $y_coor,
+                'field_y_coordinate_value_format' => null,
+                'field_pane_id' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $pane_id
+                        ),
+                    ),
+                ),
+                'field_x_coordinate' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $x_coor
+                        ),
+                    ),
+                ),
+                'field_y_coordinate' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $y_coor
+                        ),
+                    ),
+                ),
+                'field_grid_width' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $width
+                        ),
+                    ),
+                ),
+                'field_grid_height' => array(
+                    LANGUAGE_NONE => array(
+                        0 => array(
+                            'value' => $height
+                        ),
+                    ),
+                ),
+            );
+            $user_grid_data[LANGUAGE_NONE][$index] = $multifield_gridstack_obj;
+        }
+        $edit = array(
+            'field_gridstack_settings' => $user_grid_data
+        );
+        try {
+            user_save($user_data, $edit);
+        } catch (Exception $e) {
+            print json_encode($e);
+            exit();
+        }
+
+
+
+    }
+
+}
+function loadPaneData($pane_id)
+{
+    global $user;
+    $user_data = user_load($user->uid);
+
+    if (isset($user_data->field_gridstack_settings[LANGUAGE_NONE][0])) {
+        foreach ($user_data->field_gridstack_settings[LANGUAGE_NONE] as $key => $value) {
+            $users_pane_id = $value["field_pane_id"][LANGUAGE_NONE][0]["safe_value"];
+            if ($pane_id == $users_pane_id) {
+                $x_coordinate = intval($value["field_x_coordinate"][LANGUAGE_NONE][0]["value"]);
+                $y_coordinate = intval($value["field_y_coordinate"][LANGUAGE_NONE][0]["value"]);
+                return array($x_coordinate, $y_coordinate);
+            }
+        }
+    }
+    return false;
+}
+
+
+function load_user_gridstack_data()
+{
+    // Format of gridstack data     {x: 2, y: 5, width: 1, height: 1}
+    $return_array = array();
+    global $user;
+    $user_data = user_load($user->uid);
+    if (isset($user_data->field_gridstack_settings[LANGUAGE_NONE][0])) {
+        foreach ($user_data->field_gridstack_settings[LANGUAGE_NONE] as $key => $value) {
+            $pane_id = $value["field_pane_id"][LANGUAGE_NONE][0]["safe_value"];
+            $x_coordinate = intval($value["field_x_coordinate"][LANGUAGE_NONE][0]["value"]);
+            $y_coordinate = intval($value["field_y_coordinate"][LANGUAGE_NONE][0]["value"]);
+            $return_array[] = array('x' => $x_coordinate, 'y' => $y_coordinate, 'width' => 5, 'height' => 1, 'id' => $pane_id);
+        }
+    }
+    echo json_encode($return_array);
+    exit();
+}
+
+/*
+ * To change user profile page title.
+ * */
+function eenterprise_menu_alter(&$items) {
+    $items['user/%user']['title callback'] = eenterprise_user_page_title;
+}
+
+/*
+ * Callback function to hook_menu_alter.
+ * */
+function eenterprise_user_page_title() {
+    $output = "Profile";
+    return $output;
+}
+
+/**
+ * Implementation of hook_form_user_profile_form_alter
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function eenterprise_utility_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+    $form['account']['submit'] = $form['actions']['submit'];
+}
+
+function eenterprise_utility_node_prepare($node) {
+  // Node edit tab is viewed.
+  if (arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == 'edit' && isset($node->nid)) {
+    // Show a message on node edit page if a link check failed once or more.
+    $ignore_response_codes = preg_split('/(\r\n?|\n)/', variable_get('linkchecker_ignore_response_codes', "200\n206\n302\n304\n401\n403"));
+    $links = db_query('SELECT ll.* FROM {linkchecker_node} ln INNER JOIN {linkchecker_link} ll ON ln.lid = ll.lid WHERE ln.nid = :nid AND ll.fail_count > :fail_count AND ll.status = :status AND ll.code NOT IN (:codes)', array(':nid' => $node->nid, ':fail_count' => 0, ':status' => 1, ':codes' => $ignore_response_codes));
+    foreach ($links as $link) {
+      if (_linkchecker_link_access($link)) {
+        drupal_set_message(format_plural($link->fail_count, 'The link below - <b><a href="@url">@url</a></b> - is no longer working and returned a @code status error.  Please update it before saving.', 'The link below - <b><a href="@url">@url</a></b> - is no longer working and returned a @code status error.  Please update it before saving.', array('@url' => $link->url, '@code' => $link->code)), 'error', FALSE);
+      }
+    }
+  }
+}

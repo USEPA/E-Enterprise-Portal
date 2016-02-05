@@ -1,0 +1,48 @@
+.paginate_button {
+    padding : .75em !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    border: 0px;
+}
+
+.paginate_disabled_next, .paginate_disabled_prev {
+    display:none !important;
+}
+
+.interests-url-hyperlink, .interests-url-text {
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.interests-url-text {
+    font-size: 0.85em;
+    color: #444;
+    margin-top: 2px;
+}
+
+.action-links {
+	font-size: 0.85em;
+}
+.action-links .first {
+    border-right: 1px solid #aaa;
+    padding-right: 10px;
+}
+
+.action-links .last {
+    padding-left: 5px;
+}
+
+#other-areas-tabs .dataTables_wrapper .dataTables_info {
+    font-size: 0.75em;
+    color: #444;
+}
+
+#restrict-to-states-button.inactive, #all-states-button.inactive {
+    background-color: white;
+    color: black;
+
+}
+
+#other-areas-tabs .ui-tabs-panel {
+    padding: 5px 0;
+}

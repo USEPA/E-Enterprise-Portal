@@ -1,0 +1,3 @@
+arcgis-js-api.git
+release-3.11-Portal-10.3
+08c7d97b9bc8037aee2cc23014b2e12bb584c1c3
