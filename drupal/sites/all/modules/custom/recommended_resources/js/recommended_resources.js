@@ -104,17 +104,32 @@
             }
         });
 
-
-
-
-        if (!guest_user) {
-            favorite_local_resources_table.showTable();
-            all_local_resources_table.ajax_request();
+        var first_time_user_loading = false;
+        var first_time_user_block = $('#first-time-user-block');
+        if (first_time_user_block.length > 0) {
+            first_time_user_loading = true;
         }
-        else {
-            all_local_resources_table.showTable();
-            favorite_local_resources_table.ajax_request();
+        $(document).on('ee:first_time_user_complete', function() {
+            first_time_user_loading = false;
+            if (!guest_user) {
+                favorite_local_resources_table.showTable();
+                all_local_resources_table.ajax_request();
+            }
+            else {
+                all_local_resources_table.showTable();
+                favorite_local_resources_table.ajax_request();
+            }
+        });
 
+        if (!first_time_user_loading) {
+            if (!guest_user) {
+                favorite_local_resources_table.showTable();
+                all_local_resources_table.ajax_request();
+            }
+            else {
+                all_local_resources_table.showTable();
+                favorite_local_resources_table.ajax_request();
+            }
         }
 
     } );
