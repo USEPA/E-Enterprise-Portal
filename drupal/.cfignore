@@ -1,16 +1,1 @@
-﻿# Ignore configuration files that may contain sensitive information.
-sites/*/settings*.php
-
-# Ignore paths that contain user-generated content.
-sites/*/files
-sites/*/private
-
-#Ignore all sass-cache
-.sass-cache
-sites/all/themes/*/.sass-cache
-sites/all/themes/*/.sass-cache
-
-
-#Ignore all old themes sass-cache
-sites/all/themes/oneepa/
-sites/all/themes/greentrees/
+﻿sites/default/
