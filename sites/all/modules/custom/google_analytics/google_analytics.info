@@ -1,5 +1,0 @@
-name = Google Analytics
-description = A module to include google analytics tag manager on each page.
-core = 7.x
-version = "7.x-1.0"
-package = CGI

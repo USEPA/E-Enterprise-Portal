@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Progress Tracker Content Type Export feature.
- */
-
-include_once 'progress_tracker_content_type_export.features.inc';

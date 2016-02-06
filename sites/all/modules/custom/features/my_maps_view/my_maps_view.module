@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the My Maps View feature.
- */
-
-include_once 'my_maps_view.features.inc';

@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the EPA_EE-340_Favorite-Links-Views-Block feature.
- */
-
-include_once 'epa_ee_340_favorite_links_views_block.features.inc';

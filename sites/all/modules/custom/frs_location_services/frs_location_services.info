@@ -1,5 +1,0 @@
-name = FRS Location Services
-description = A module to include the FRS location services.
-core = 7.x
-version = "7.x-1.0"
-package = CGI

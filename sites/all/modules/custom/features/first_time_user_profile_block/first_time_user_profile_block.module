@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the First Time User Profile Block feature.
- */
-
-include_once 'first_time_user_profile_block.features.inc';

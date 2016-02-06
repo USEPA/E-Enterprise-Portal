@@ -1,5 +1,0 @@
-name = Add Map Set
-description = A module to support state, tribal, and local admins adding their own mapsets
-core = 7.x
-version = "7.x-1.0"
-package = CGI

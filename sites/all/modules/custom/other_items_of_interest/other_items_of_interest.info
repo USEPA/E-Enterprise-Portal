@@ -1,5 +1,0 @@
-name = Other Items of Interest
-description = A module including Other Items of Interest
-core = 7.x
-version = "7.x-1.0"
-package = CGI

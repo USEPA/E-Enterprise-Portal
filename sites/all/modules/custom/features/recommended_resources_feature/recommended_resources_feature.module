@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Recommended Resources feature.
- */
-
-include_once 'recommended_resources_feature.features.inc';

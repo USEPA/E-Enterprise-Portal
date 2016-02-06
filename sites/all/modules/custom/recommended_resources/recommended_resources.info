@@ -1,5 +1,0 @@
-name = Recommended Resources
-description = A module including Recommended Resources
-core = 7.x
-version = "7.x-1.0"
-package = CGI

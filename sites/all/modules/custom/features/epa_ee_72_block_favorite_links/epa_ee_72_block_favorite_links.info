@@ -1,7 +1,0 @@
-core = 7.x
-name = favorite links
-package = Features
-dependencies[] = fe_block
-features[fe_block_boxes][] = eenterprise_favorite_links
-features[features_api][] = api:2
-project path = sites/all/modules/custom/features

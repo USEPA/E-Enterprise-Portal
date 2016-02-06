@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Agency Map Collections feature.
- */
-
-include_once 'agency_map_collections.features.inc';
