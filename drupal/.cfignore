@@ -5,7 +5,8 @@ sites/*/settings*.php
 sites/*/files
 sites/*/private
 
-#Ignore all sass-cache.sass-cache
+#Ignore all sass-cache
+.sass-cache
 sites/all/themes/*/.sass-cache
 sites/all/themes/*/.sass-cache
 
