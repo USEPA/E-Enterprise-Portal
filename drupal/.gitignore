@@ -9,3 +9,7 @@ sites/*/private
 .sass-cache
 sites/all/themes/*/.sass-cache
 sites/all/themes/*/.sass-cache
+
+#Ignore all old themes sass-cache
+sites/all/themes/oneepa/*
+sites/all/themes/greentrees/*
