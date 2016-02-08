@@ -6,7 +6,7 @@
 }
 
 .interests-url-hyperlink, .interests-url-text {
-    word-wrap: break-word;
+    word-break: break-word;
     white-space: normal;
 }
 

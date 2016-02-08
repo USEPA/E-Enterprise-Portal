@@ -2338,7 +2338,7 @@ a.tabledrag-handle .handle {
 		padding: 0;
 	}
 	li.ui-tabs-active {
-		padding-bottom: 4px;
+		//padding-bottom: 4px;
 	}
 	a {
 		padding: 5px 15px;
@@ -2924,8 +2924,11 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 @media screen and (min-width:20em) and (max-width:959.99999px) {
   .responsive-table a.simple-dialog,
   td.responsive-to-do-link a{
-    color: $ee-link-color;
+    color: $ee-white;
     text-decoration: underline;
+  }
+  .responsive-table .views-field-field-prog-track-status a.simple-dialog {
+	  color: $ee-link-color;
   }
 
   .responsive-table thead {
@@ -3759,6 +3762,9 @@ input#location-input-guests::-ms-clear {
 	}
 	li {
 		margin-bottom: 10px;
+	}
+	.region-disclaimer p {
+		margin-top: 0;
 	}
 	p {
 		margin: 10px 0 0;
