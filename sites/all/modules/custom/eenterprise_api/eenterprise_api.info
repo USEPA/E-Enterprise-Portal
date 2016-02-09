@@ -1,5 +1,0 @@
-name = EEnterprise REST API
-description = Contains all API resources
-core = 7.x
-
-dependencies[] = services
