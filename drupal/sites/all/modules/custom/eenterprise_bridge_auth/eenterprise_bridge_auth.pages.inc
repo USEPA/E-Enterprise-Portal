@@ -227,7 +227,6 @@ function create_progress_tracker($user)
     }
     // bmatkin 8-27
     // Adding local wsdl configurations
-
     $local = variable_get('eactivity_dataflow_local');
     $wsdl = variable_get('eactivity_dataflow_wsdl');
     if ($local) {
