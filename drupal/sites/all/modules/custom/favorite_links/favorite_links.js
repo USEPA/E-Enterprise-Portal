@@ -249,7 +249,9 @@
                                 load_links(false);
                                 button.removeClass('add_link').removeClass('new_link').removeClass('old_link').removeClass('filled');
                                 button.removeClass('empty');
+                                button.attr('title', 'Remove favorite');
                                 button.addClass('remove_link old_link filled');
+                                button.next('.sr-only').text('Favorited. Press Ctrl + D to unfavorite');
                                 button.attr('id', favorite_url_mapping[unparsed_url] + '__favorite_link');
                             }
                             else {
@@ -286,8 +288,9 @@
                                 reloadView();
                                 button.attr('id', unparsed_url + '-' + label);
                                 button.removeClass('remove_link').removeClass('new_link').removeClass('old_link').removeClass('filled').removeClass('empty');
+                                button.attr('title', 'Add favorite');
                                 button.addClass('add_link new_link empty ');
-                                
+                                button.next('.sr-only').text('Press Ctrl + D to favorite this link.');
                             }
 														refocusLink(focus_link_id);
                         },
