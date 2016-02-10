@@ -22,7 +22,7 @@
     }
 
     function validateAndPreviewURL(url) {
-        $field_description = $('#edit-field-source-url .description');
+        $field_description = $('#edit-field-lgc-link .description');
         // reg ex for url with http or https
         var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
         var regex = new RegExp(expression);
@@ -44,9 +44,9 @@
     }
 
     $(document).ready(function() {
-        var $preview = $('#new-state-url-preview');
+        var $preview = $('#new-lgc-resource-url-preview');
         if ($preview.length > 0) {
-            var $url_input = $('#edit-field-source-url-und-0-value');
+            var $url_input = $('#edit-field-lgc-link-und-0-value');
             $preview.click(function (e) {
                 //first validate url
                 var href = $url_input.val();

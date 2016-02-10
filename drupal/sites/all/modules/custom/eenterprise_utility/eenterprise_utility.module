@@ -19,7 +19,6 @@ function eenterprise_utility_menu()
         'page callback' => 'zip_code_lookup',
         'access callback' => TRUE,
     );
-
     $items['test_load_air_now_us_data'] = array(
         'page callback' => 'test_load_air_now_us_data',
         'access callback' => TRUE,
@@ -385,6 +384,7 @@ function get_taxonomy_parent_name($tid)
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 {
+
     //Hide title from Map Set form
     if($form['#form_id'] == 'ee_map_set_node_form'){
         $form['title']['#default_value'] = t('Map Set Value');
@@ -425,6 +425,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_initial_log_in']);
         hide($form['field_interests2']);
         hide($form['field_gridstack_settings']);
+        hide($form['field_lgc_topics_of_interest']);
 //        if ($form['field_organization'][LANGUAGE_NONE]['#default_value'][0] != '172730') {
 //            hide($form['field_community_size']);
 //            hide($form['field_community_type']);
@@ -436,6 +437,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             hide($form['field_admin_state']);
             hide($form['field_first_time_user']);
         }
+
+
 
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
         $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
@@ -529,14 +532,16 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                 else {
                     $field_suffix = '<span id="city-name-' .$delta. '" aria-live="polite">'.$zip_data['string'] . '</span>';
                 }
+                $ariacity = $zip_data['string'];
             } else {
                 $field_suffix = '';
+                $ariacity = '';
             }
             // Placeholder
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['placeholder'] = 'Enter ZIP code or city, state';
             // Remove button
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
-            $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['title'] = 'Remove ' . $zip . ' ' . $field_suffix . ' from locations';
+            $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['title'] = 'Remove ' . $zip . ' ' . $ariacity . ' from locations';
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_prefix'] = '<label class="element-invisible">' . $zip  . '</label>';
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
             $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['remove_button']['#attributes']['title'] = 'Remove';
@@ -566,6 +571,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 }
 
 function eenterprise_utility_profile_form_submit($form, &$form_state) {
+
     // if Reset User as First Time Login for Testing is checked, clear user agreement signed as well
     if ($form_state['values']['field_first_time_user'][LANGUAGE_NONE][0]['value'] === 1) {
         global $user;
@@ -589,7 +595,7 @@ function eenterprise_utility_profile_form_submit($form, &$form_state) {
 // Params: zip code integer
 // Returns Assoc Array( city => , state => , latitude => , longitude => )
 // can be called by ajax with url arguments ?zip=_____
-function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
+function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initial_login=false)
 {
     $readable_string = '';
     if (isset($_GET['zip'])) {
@@ -609,6 +615,8 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
             'latitude' => '',
             'longitude' => '',
             'zip' => '',
+            'zip_attr' => '',
+            'city_attr' => '',
             'string' => $error_message,
             'error' => $error
     );
@@ -620,23 +628,105 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
             $frs_city_state_return = frs_zip_code_to_city_state($zip);
             $frs_lat_long_return = frs_zip_code_to_lat_long($zip);
 
-            if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {       // first try FRS resource
+            if($initial_login) {
+                // If initial login, use new style zip/city lookup
+
                 $zip_data = array(
-                    'state' => $frs_city_state_return['state'],
-                    'city' => $frs_city_state_return['city'],
-                    'latitude' => $frs_lat_long_return['lat'],
-                    'longitude' => $frs_lat_long_return['long'],
+                    'city' => '',
+                    'latitude' => '',
+                    'longitude' => '',
+                    'zip_attr' => '',
+                    'city_attr' => '',
                     'zip' => $zip,
                 );
-            }
 
-            // Create readable string for across site
-            if (strlen($zip_data['city']) != 0) {
-                $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
+                // Get Zip Code to Census Place/Population Lookup table as json
+                $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+                $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
+            
+                // Decode  json
+                $json_file = file_get_contents($zip_pop_url);
+                $result = json_decode($json_file);
+
+                // Keep track of whether a preferred name has been found yet
+                $city_tribe_found = false;
+                // If Zip->Census Place had results:
+                if (!empty($result->features)) {
+                    $city_attr = array();
+                    $city_list = array();
+                    // Loop through all Census Places for the specified zip
+                    foreach($result->features as $feature) {
+                        if(!empty($feature->attributes->NAME_LABEL)) {
+                            // If the table has a placename, record that as the preferred name, along with its population
+                            $city_list[] = $feature->attributes->NAME_LABEL;
+                            $city_attr[$feature->attributes->NAME_LABEL] = array(
+                                "pop" => $feature->attributes->Place_Pop_2014_ACS2014
+                            );
+                            $city_tribe_found = true;
+                        } 
+                        // Also record the zip code's population and urban/rural status
+                        $zip_attr[$feature->attributes->ZCTA] = array(
+                            "pop" => $feature->attributes->Zip_Pop2014_ACS5,
+                            "urban" => $feature->attributes->Urban,
+                        );
+                    }
+
+                    $zip_data['city'] = $city_list;
+                    $zip_data['city_attr'] = $city_attr;
+                    $zip_data['zip_attr'] = $zip_attr;
+                }
+
+                // Get Zip Code to Tribal Area Lookup table as json
+                $zip_tribe_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
+                $zip_tribe_url = $zip_tribe_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&f=pjson';
+
+                // Decode  json
+                $json_file = file_get_contents($zip_tribe_url);
+                $result = json_decode($json_file);
+
+                // If tribal area was found in this zip:
+                if (!empty($result->features)) {
+                    $city_list = array();
+                    foreach($result->features as $feature) {
+                        // If the table has a placename, record that as the preferred name
+                        $zip_data['city'][] = $feature->attributes->TRIBE_NAME_CLEAN;
+                        $city_tribe_found = true;
+                    }
+                }
+
+                // Use FRS to find lat & long of zipcode
+                if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) { 
+                    $zip_data['latitude'] = $frs_lat_long_return['lat'];
+                    $zip_data['longitude'] = $frs_lat_long_return['long'];
+                    // Also, if no preferred name has been found yet, use FRS city/state
+                    if(!$city_tribe_found and strlen($frs_city_state_return['city']) != 0) {
+                        $zip_data['city'][] = $frs_city_state_return['city'] . ", " . $frs_city_state_return['state'];
+                    }
+                }
+
                 $error = false;
+
+            } else {
+                // If not intial login, revert to old way of doing zip/city lookups
+                if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {       // first try FRS resource
+                    $zip_data = array(
+                        'state' => $frs_city_state_return['state'],
+                        'city' => $frs_city_state_return['city'],
+                        'latitude' => $frs_lat_long_return['lat'],
+                        'longitude' => $frs_lat_long_return['long'],
+                        'zip' => $zip,
+                    );
+                }
+
+                // Create readable string for across site
+                if (strlen($zip_data['city']) != 0) {
+                    $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
+                    $error = false;
+                }
+                $zip_data['string'] = $readable_string;
+                $zip_data['error'] = $error;
+                
             }
-            $zip_data['string'] = $readable_string;
-            $zip_data['error'] = $error;
         }
     }
     if ($return_data_type == 'php') {
@@ -646,7 +736,6 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php')
     }
 
 }
-
 
 
 /**
@@ -1344,4 +1433,18 @@ function eenterprise_user_page_title() {
  */
 function eenterprise_utility_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
     $form['account']['submit'] = $form['actions']['submit'];
+}
+
+function eenterprise_utility_node_prepare($node) {
+  // Node edit tab is viewed.
+  if (arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == 'edit' && isset($node->nid)) {
+    // Show a message on node edit page if a link check failed once or more.
+    $ignore_response_codes = preg_split('/(\r\n?|\n)/', variable_get('linkchecker_ignore_response_codes', "200\n206\n302\n304\n401\n403"));
+    $links = db_query('SELECT ll.* FROM {linkchecker_node} ln INNER JOIN {linkchecker_link} ll ON ln.lid = ll.lid WHERE ln.nid = :nid AND ll.fail_count > :fail_count AND ll.status = :status AND ll.code NOT IN (:codes)', array(':nid' => $node->nid, ':fail_count' => 0, ':status' => 1, ':codes' => $ignore_response_codes));
+    foreach ($links as $link) {
+      if (_linkchecker_link_access($link)) {
+        drupal_set_message(format_plural($link->fail_count, 'The link below - <b><a href="@url">@url</a></b> - is no longer working and returned a @code status error.  Please update it before saving.', 'The link below - <b><a href="@url">@url</a></b> - is no longer working and returned a @code status error.  Please update it before saving.', array('@url' => $link->url, '@code' => $link->code)), 'error', FALSE);
+      }
+    }
+  }
 }

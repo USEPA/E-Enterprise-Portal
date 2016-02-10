@@ -16,12 +16,12 @@
             //},
             "bLengthChange": false,
             "sPageButton": "favorites-ignore",
-            "iDisplayLength": 3,
-            "fnDrawCallback": function () {
-                if ($wrapper.find('.paginate_button').length < 6) {
-                    $wrapper.find('.dataTables_paginate')[0].style.display = "none";
-                }
-            }
+            "iDisplayLength": 3
+            //"fnDrawCallback": function () {
+            //    if ($wrapper.find('.paginate_button').length < 6) {
+            //        $wrapper.find('.dataTables_paginate')[0].style.display = "none";
+            //    }
+            //}
         };
 
         var cached = false;
@@ -47,7 +47,11 @@
         }
 
         this.update_current_location = function(location) {
-            this.state_code = $.trim(location.split(',')[1]);
+            // find if in city, state code pattern
+            if(location.indexOf(',') === -1)
+                this.state_code = location;
+            else
+                this.state_code = $.trim(location.split(',')[1]);
             this.ajax_request();
         }
 

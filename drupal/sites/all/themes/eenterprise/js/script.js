@@ -831,21 +831,40 @@
             xmlhttp.open("GET", "README.txt", true);
             xmlhttp.send();
 
+            /* Start logic:-  For positioning scroll to top of to-do widget after to-do refresh*/
             $( ".view-to-do .refresh" ).click(function(e) {
-                $(".view-to-do #all-time a").click();
+                if (typeof(Storage) !== "undefined") {
+                    localStorage.setItem("to_do_refreshed",  "Yes");
+                }
             });
 
+            if (typeof(Storage) !== "undefined" && localStorage.getItem("to_do_refreshed") ==  "Yes") {
+                jQuery(window).load(function () {
+                    setTimeout(function () { //Delay 1 sec to wait for complete page load
+                        localStorage.setItem("to_do_refreshed",  "No");
+                        $( ".view-to-do .refresh" ).focus();
+                        $(window).scrollTop($("#gridstack-pane-views-to_do-block_1").offset().top);
+                    }, 1000);
+                });
+            }
+            /* End logic:-  For positioning scroll to top of to-do widget after to-do refresh*/
+            /* Start logic:-  For positioning scroll to top of progress tracker widget after progress tracker refresh*/
             $( ".view-progress-tracker .refresh" ).click(function(e) {
-                $("#edit-field-prog-tracker-app-value").val(" ");
-                $("#edit-field-prog-tracker-app-value").change();
-            });
-            $(".view-progress-tracker .pager-next a").click(function(e){
-                $("#edit-field-prog-tracker-app-value").val("");
-            });
-            $(".view-progress_tracker .pager-previous a").click(function(e){
-                $("#edit-field-prog-tracker-app-value").val("");
+                if (typeof(Storage) !== "undefined") {
+                    localStorage.setItem("progress_tracker_refreshed",  "Yes");
+                }
             });
 
+            if (typeof(Storage) !== "undefined" && localStorage.getItem("progress_tracker_refreshed") ==  "Yes") {
+                jQuery(window).load(function () {
+                    setTimeout(function () {  //Delay 1 sec to wait for complete page load
+                        localStorage.setItem("progress_tracker_refreshed",  "No");
+                        $( ".view-progress-tracker .refresh" ).focus();
+                        $(window).scrollTop($("#gridstack-pane-views-progress_tracker-block_1").offset().top);
+                    }, 1000);
+                });
+            }
+            /* End logic:-  For positioning scroll to top of progress tracker widget after progress tracker refresh*/
 
         }
     };

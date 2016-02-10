@@ -1,0 +1,70 @@
+<?php
+/**
+ * @file
+ * Module file for APIs.
+ */
+
+function eenterprise_api_menu()
+{
+
+    $items = array();
+    $items['rest_request'] = array(
+        'page callback' => 'rest_request',
+        'access callback' => TRUE,
+    );
+    return $items;
+
+}
+
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function eenterprise_api_theme_registry_alter(&$theme_registry)
+{
+    // Defined path to the current module.
+    $module_path = drupal_get_path('module', 'eenterprise_api');
+    // Find all .tpl.php files in this module's folder recursively.
+    $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+    // Iterate through all found template file objects.
+    foreach ($template_file_objects as $key => $template_file_object) {
+        // If the template has not already been overridden by a theme.
+        if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
+            // Alter the theme path and template elements.
+            $theme_registry[$key]['theme path'] = $module_path;
+            $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+            $theme_registry[$key]['type'] = 'module';
+        }
+    }
+}
+
+
+function rest_request()
+{
+    if (isset($_GET['url'])) {
+        $url = urldecode($_GET['url']);
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+            // Set so curl_exec returns the result instead of outputting it.
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // Get the response and close the channel.
+            $response = curl_exec($ch);
+            curl_close($ch);
+            if (FALSE === $response)
+                throw new Exception(curl_error($ch), curl_errno($ch));
+
+            echo json_encode($response);
+
+        }
+        catch (Exception $e) {
+            echo json_encode(array("url" => $url, "error" => $e));
+        }
+    } else {
+        echo json_encode(array("error" => "invalid parameters."));
+    }
+
+
+}

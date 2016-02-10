@@ -382,7 +382,10 @@ function other_items_of_interest_feature_default_page_manager_pages() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'grid-stack-item-content',
+    );
     $pane->extras = array();
     $pane->position = 11;
     $pane->locks = array();

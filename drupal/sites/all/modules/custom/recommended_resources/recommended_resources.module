@@ -5,19 +5,15 @@
 function recommended_resources_menu()
 {
     $items = array();
-    $items['generateFavoriteAreasOfInterestTable'] = array(
-        'page callback' => 'generateFavoriteAreasOfInterestTable',
+    $items['generateUserLocalResourcesTable'] = array(
+        'page callback' => 'generateUserLocalResourcesTable',
         'access callback' => TRUE,
     );
-    $items['generateAllAreasOfInterestTable'] = array(
-        'page callback' => 'generateAllAreasOfInterestTable',
+    $items['generateAllLocalResourcesTable'] = array(
+        'page callback' => 'generateAllLocalResourcesTable',
         'access callback' => TRUE,
     );
-    $items['generateCurrentAreaOfInterestTable'] = array(
-                'page callback' => 'generateCurrentAreaOfInterestTable',
-        'access callback' => TRUE,
 
-    );
 
     return $items;
 }
@@ -53,10 +49,9 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id)
 
 
     global $user;
-    if ($form_id == 'state_resource_node_form') {
-
+    if ($form_id == 'lgc_resource_node_form') {
         drupal_add_js(drupal_get_path('module', 'recommended_resources') . "/js/preview_url_form.js", "file");
-        drupal_add_css(drupal_get_path('module', 'recommended_resources') . "/css/state_resource_editor.css", "file");
+        drupal_add_css(drupal_get_path('module', 'recommended_resources') . "/css/recommended_resources.css", "file");
 
         hide($form['additional_settings']);
         hide($form['actions']['preview']);
@@ -72,23 +67,11 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id)
         $form_state['rebuild'] = TRUE;
 
         $form['#validate'][] = 'recommended_resources_form_validate';
-        // Allow admin to edit the Source
-        if ($user->uid > 1) {
-            $form['title']['#attributes'] = array(
-                'disabled' => 'disabled');
-            $user_data = user_load($user->uid);
-            $state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
-            $form['title']['#value'] = $state;
-        }
 
+        $form['field_lgc_link'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a id='new-lgc-resource-url-preview' href='#'>Preview</a>";
 
-        $form['title']['#description'] = "State code (such as NC for North Carolina), tribe, or EPA.";
-
-        $form['field_source_url'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a id='new-state-url-preview' href='#'>Preview</a>";
-
-
-        $form['actions']['submit']['#submit'][] = 'new_state_form_redirect';
-        $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/resource-editor', array('attributes' => array('class' => 'link'))) . "</div>";
+        $form['actions']['submit']['#submit'][] = 'new_lgc_resource_form_redirect';
+        $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/local-resource-editor', array('attributes' => array('class' => 'link'))) . "</div>";
 
     }
 }
@@ -96,19 +79,43 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id)
 
 
 function recommended_resources_form_validate($form, &$form_state){
-    $url = $form_state['values']['field_source_url'][LANGUAGE_NONE][0]['value'];
-    if (!valid_url($url, TRUE)) {
-        $message = "Invalid Web URL (include http or https prefix).";
-        form_set_error('url', $message);
+    $edit_form  = FALSE;
+    $delete_form = FALSE;
+    $changed_title = FALSE;
+
+    $input_title = $form_state['input']['title'];
+    $saved_title = $form['title']['#default_value'];
+
+
+    if (!empty($form_state['values']['delete'])) {
+        $edit_form = TRUE;
+    }
+    if ($form_state['input']['op'] == 'Delete') {
+        $delete_form = TRUE;
+    }
+    if ($input_title != $saved_title) {
+        $changed_title = TRUE;
     }
 
-    /// Validate Duplicates/
-    if  (db_query("SELECT COUNT(*) FROM {field_data_field_source_url} WHERE field_source_url_value = :url;", array(':url' => $url))->fetchField()) {
-        // If it is, give an error
-        $message = "This url has already been added. Please enter another.";
-        form_set_error('url', $message);
+
+    if (!$delete_form) {
+        $url = $form_state['values']['field_lgc_link'][LANGUAGE_NONE][0]['value'];
+        if (!valid_url($url, TRUE)) {
+            $message = "Invalid Web URL (include http or https prefix).";
+            form_set_error('field_lgc_link', $message);
+        }
+
+        if ($changed_title || !$edit_form) {
+            /// Validate Duplicates/
+            if (db_query("SELECT count(*) FROM {node} WHERE type = 'lgc_resource' and  title = :title;", array(':title' => $input_title))->fetchField()) {
+                // If it is, give an error
+                $message = "This resource has already been added. Please enter another.";
+                form_set_error('title', $message);
+            }
+        }
     }
 }
+
 
 
 /**
@@ -116,11 +123,16 @@ function recommended_resources_form_validate($form, &$form_state){
  */
 function recommended_resources_node_presave($node) {
     global $user;
-   // Ensure custom content type is assigned to correct author
-    if($node->type === 'state_resource') {
+    // Ensure custom content type is assigned to correct author
+    if($node->type === 'lgc_resource') {
         $node->uid = $user->uid;
     }
 }
+
+function new_lgc_resource_form_redirect($form, &$form_state) {
+    drupal_goto('/local-resource-editor');
+}
+
 
 //function new_state_form_redirect($form, &$form_state) {
 //        drupal_goto('/resource-editor');
@@ -173,24 +185,15 @@ function recommended_resources_node_presave($node) {
 //    return $states;
 //}
 //
-//function generateAllAreasOfInterestTable() {
-//        $state_resources = loadStateResources();
-//        echo "<table id='other-areas-of-interest-table'>" .
-//            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
-//            "<tbody>";
-//        foreach ($state_resources as $nid => $nid_data) {
-//            $state = $nid_data->title;
-//                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-//                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-//                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
-//                echo "<tr><td>$state</td>" .
-//                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-//                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
-//                    "<td>$topic</td></tr>";
-//        }
-//        echo "</tbody> </table>";
-//
-//}
+function generateUserLocalResourcesTable() {
+    $table =  views_embed_view('user_recommended_resources', 'block');
+    print $table;
+}
+
+function generateAllLocalResourcesTable() {
+    $table =  views_embed_view('recommended_resources', 'block_to_be_rendered');
+    print $table;
+}
 //
 //
 //function generateFavoriteAreasOfInterestTable() {
