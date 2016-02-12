@@ -191,18 +191,18 @@
                 var is_valid_zip = /(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/.test(location);
                 // regex for city, state code
                 var is_city_state = /^[\w\s]+,\s*\w{2}$/.test(location);
-                if (!is_city_state && !is_valid_zip) {
-                    location_input.addClass('input-error');
-                    $('#location-error-message').remove();
-                    var error_message = '<span id="location-error-message">Please input a valid ZIP code or a city and state code separated by a comma (e.g., Durham, NC)</span>';
-                    $loc_add_new.append(error_message);
-                }
+                // if (!is_city_state && !is_valid_zip) {
+                //     location_input.addClass('input-error');
+                //     $('#location-error-message').remove();
+                //     var error_message = '<span id="location-error-message">Please input a valid ZIP code or a city and state code separated by a comma (e.g., Durham, NC)</span>';
+                //     $loc_add_new.append(error_message);
+                // }
                 //throw new Error();
-                else {
+                //else {
                     $('#location-error-message').remove();
                     location_input.removeClass('input-error');
                     lookupAndProcessLocation(location, location_input);
-                }
+                //}
             });
 
             // accepts city, state or zipcodes.
