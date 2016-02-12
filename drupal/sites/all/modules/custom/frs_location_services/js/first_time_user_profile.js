@@ -132,6 +132,10 @@
                     } else {
                         $('#community-size option:contains(1,000,000+)').attr('selected', 'selected');
                     }
+                } else {
+                    // Reset options if not found in census data
+                    $('input[name=community-type]').prop('checked', false);
+                    $('#community-size').val('');
                 }
             }
 
