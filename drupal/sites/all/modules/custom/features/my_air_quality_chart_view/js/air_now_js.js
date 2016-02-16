@@ -722,7 +722,8 @@
         showPopoverFromCategoryIndex(this, i);
       })
       .on("focus", function(d, i) {
-        showPopoverFromCategoryIndex(this, i);
+         if(i < (reducedCategoryBounds.length - 1))
+            showPopoverFromCategoryIndex(this, i);
       })
       .on("focusout", function() {
         hidePopover();
