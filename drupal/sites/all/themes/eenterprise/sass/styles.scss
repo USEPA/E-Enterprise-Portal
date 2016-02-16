@@ -135,14 +135,13 @@ menu, ol, ul {
 }
 .masthead {
 	h1 {
-		width: 7.5em;
 		font-weight: 200;
 		color: #333;
 		line-height: 1.2;
-		margin-bottom: 10px;
 		margin-right: 20px;
 		display: inline-block;
 		font-size: 2em;
+		margin-bottom: 0.25em;
 	}
 	.ee-header-line1 {
 		display:block;
@@ -203,8 +202,8 @@ header #block-eenterprise-bridge-auth-eenterprise-bridge-auth h2.block-title {
 	margin-bottom: 0;
 }	
 .main-content {
-	padding-left: 2em;
-	padding-right: 2em;
+	padding-left: 30px;
+	padding-right: 30px;
 }
 footer {
 	font-size: 0.85em;
@@ -345,9 +344,6 @@ label, .aria-label {
 .page-eenterprise-new, .section-eenterprise-new {
 	.site-name-and-slogan {
 		width: 100%;
-		.site-slogan {
-			font-size: 0.85em;
-		}	
 	}
 }
 .site-name-and-slogan {
@@ -358,12 +354,10 @@ label, .aria-label {
 	display: inline-block;
 	margin-top: 5px;
 	margin-bottom: 0;
-	width: 125px;
-	height: 70px;
 	vertical-align: bottom;
 }
 .site-slogan {
-	display: inline-block;
+	display: block;
 	font-weight: 200;
 	line-height: 1.2;
 	margin-bottom: 10px;
@@ -474,7 +468,7 @@ header {
 }
 .region-footer {
 	background-color: #333;
-	padding: 20px 2em;
+	padding: 20px 30px;
 	.block-title, a {
 		color: #fff;
 	}
@@ -1240,7 +1234,7 @@ tr.odd, tr.even {
 	.site-name-and-slogan {
 		width: 40%;
 		.site-slogan {
-			font-size: 0.75em;
+			//font-size: 0.75em;
 		}	
 	}
 }
@@ -1310,7 +1304,7 @@ footer {
 	.workbench-menu, .simple-main-nav {
     	float: left;
     	font-size: 0.85em;
-    	padding-left: 2.5em;
+    	padding-left: 30px;
     	li {
 	    	float: left;
 	    	margin-right: 20px;
@@ -2762,8 +2756,6 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 	.masthead {
 		h1.site-name {
 			font-size: 1.5em;
-		    margin-bottom: 5px;
-		    height: auto;
 	    }
 	}
 	#first-time-user-block {
@@ -3494,7 +3486,7 @@ a {
 		top: 30px;
 		right: 30px;	
 	}
-	&:focus .fa-refresh, &:focus .fa-refresh:before {
+	&:focus .fa-refresh, &:focus .fa-refresh:before, &:hover .fa-fresh {
 			color: #fff;
 	}
 }	
