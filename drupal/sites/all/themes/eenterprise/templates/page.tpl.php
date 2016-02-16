@@ -35,7 +35,9 @@ if(arg(0) == 'workbench' && $user->uid == 0){
     <?php print $hgroup_open; ?>
     <?php if ($site_name): ?>
         <h1 class="site-name" id="site-name">
-            <?php $logoless = theme_get_setting('eenterprise_logoless'); 
+            <?php $logoless = theme_get_setting('eenterprise_logoless'); 	
+            			//Use SVG version of logo when available and indicated in Appearance > Settings > Themename
+            			$use_svg = theme_get_setting('eenterprise_use_svg');					
 	            		$path	= drupal_get_path_alias();
 	            		if ($path == 'ee_disclaimer' || $path == 'new-users' || $path == 'bridge-landing') {
 		            		$logolink = 'eenterprise-new';
@@ -47,7 +49,11 @@ if(arg(0) == 'workbench' && $user->uid == 0){
             <?php if ($logoless): ?>
                 <a class="logoless" href="<?php print $logolink; ?>" title="<?php print t(HOME_PAGE.' - '.$site_name); ?>" rel="home">
                 <span class="ee-header-line1">E-Enterprise <span class="logo-sublabel">for the </span></span><span class="ee-header-line2">Environment</span>
-            <?php elseif ($logo): ?>
+            <?php elseif ($logo): 
+	            	if ($use_svg){
+		            	$logo = str_replace(".png", ".svg", $logo);
+	            	}
+            ?>
                 <a href="<?php print $logolink; ?>" title="<?php print t(HOME_PAGE.' - '.$site_name); ?>" rel="home">
                 <img src="<?php print $logo; ?>" alt="<?php print t(HOME_PAGE.' - '.$site_name); ?>" class="site-logo" />
             <?php else: ?>
@@ -57,7 +63,7 @@ if(arg(0) == 'workbench' && $user->uid == 0){
             </a>
         </h1>
     <?php endif; ?>
-    <?php if ($site_slogan): ?>
+    <?php if ($site_slogan && $path != 'eenterprise-new'): ?>
         <div class="site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
     <?php endif; ?>
     <?php print $hgroup_close; ?>
