@@ -21,10 +21,10 @@ function eenterprise_form_system_theme_settings_alter(&$form, $form_state, $form
     '#description'   => t('Use SVG version if available'),
   );  
 
-  $form['logo']['settings']['eenterprise_logoless'] = array(
+  $form['logo']['settings']['eenterprise_use_logoless'] = array(
     '#type'          => 'checkbox',
     '#title'         => t('Use logo placeholder'),
-    '#default_value' => theme_get_setting('eenterprise_logoless'),
+    '#default_value' => theme_get_setting('eenterprise_use_logoless'),
     '#description'   => t('Shows text placeholder while logo pending'),
   );  
   
