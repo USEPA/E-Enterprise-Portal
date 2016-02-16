@@ -163,20 +163,20 @@ function new_state_form_redirect($form, &$form_state) {
         drupal_goto('/resource-editor');
 }
 
-
- function loadStateResources() {
-     $state_resources = array();
-     $query = new EntityFieldQuery;
-     $query->entityCondition('entity_type', 'node')
-         ->entityCondition('bundle', 'state_resource')
-         ->propertyCondition('status', 1);
-     $results = $query->execute();
-     if (isset($results['node'])) {
-         $nids = array_keys($results['node']);
-         $state_resources = entity_load('node', $nids);
-     }
-    return $state_resources;
-}
+//
+// function loadStateResources() {
+//     $state_resources = array();
+//     $query = new EntityFieldQuery;
+//     $query->entityCondition('entity_type', 'node')
+//         ->entityCondition('bundle', 'state_resource')
+//         ->propertyCondition('status', 1);
+//     $results = $query->execute();
+//     if (isset($results['node'])) {
+//         $nids = array_keys($results['node']);
+//         $state_resources = entity_load('node', $nids);
+//     }
+//    return $state_resources;
+//}
 
 
 function loadUserStates() {
@@ -221,20 +221,6 @@ function generateFavoriteAreasOfInterestTable() {
         $states = implode('+', $users_favorite_states);
         $table = views_embed_view('additional_resources_all', 'block', $states);
         print $table;
-//        foreach ($state_resources as $nid => $nid_data) {
-//            $state = $nid_data->title;
-//            if (in_array($state, $users_favorite_states)) {
-//                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-//                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-//                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
-//                echo "<tr><td>$state</td>" .
-//                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-//                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
-//                    "<td>$topic</td></tr>";
-//
-//            }
-//        }
-//        echo "</tbody> </table>";
 }
 
 // Takes state code for filtering
@@ -242,10 +228,10 @@ function generateCurrentAreaOfInterestTable() {
     if (isset($_POST['state'])) {
         $user_selected_state = xssafe($_POST['state']);
         if ($user_selected_state == 'US EPA') {
-            $table = views_embed_view('additional_resources_all', 'block_1');
+            $table = views_embed_view('additional_resources_all', 'us_epa');
         }
         else {
-            $table = views_embed_view('additional_resources_all', 'block', $user_selected_state);
+            $table = views_embed_view('additional_resources_all', 'current_location', $user_selected_state);
         }
         if ($table == '') {
             echo 'No saved resources for ' . $user_selected_state;
@@ -254,27 +240,7 @@ function generateCurrentAreaOfInterestTable() {
             print $table;
         }
     }
-//
-//    $state_resources = loadStateResources();
-//    echo "<table id='other-areas-of-interest-table'>" .
-//        "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
-//        "<tbody>";
-//    if (isset($_POST['state'])) {
-//        $user_selected_state = $_POST['state'];
-//        foreach ($state_resources as $nid => $nid_data) {
-//            $state = $nid_data->title;
-//            if ($state == $user_selected_state) {
-//                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-//                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-//                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
-//                echo "<tr><td>$state</td>" .
-//                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-//                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
-//                    "<td>$topic</td></tr>";
-//            }
-//        }
-//    }
-//    echo "</tbody> </table>";
+
 }
 
 
