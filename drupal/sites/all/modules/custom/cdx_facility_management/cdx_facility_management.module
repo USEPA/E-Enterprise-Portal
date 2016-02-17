@@ -103,14 +103,14 @@ function return_cdx_facility_management_token()
         $user_login_time = time();
     }
     else {
-        if (isset($_SESSION['userId'])) {
-            $user_id = $user->name;
-        }
-        else {
-            dpm($user);
-        }
         // if user logged in without bridge (single sign), session is not set.
-        $user_login_time = $_SESSION['login_timestamp'];
+        if (isset($_SESSION['login_timestamp']))
+            $user_login_time = $_SESSION['login_timestamp'];
+        else {
+            $user_login_time = time();
+            $_SESSION['login_timestamp'] = $user_login_time;
+        }
+        $user_id = $user->name;
     }
     $json_return = array();
     $user_session_logout = (int) variable_get('cdx_facility_user_logout_session');
