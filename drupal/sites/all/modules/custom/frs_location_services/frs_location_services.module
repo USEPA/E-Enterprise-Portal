@@ -274,12 +274,21 @@ function return_location_data()
         $location_array = explode(',', $location);
         $city = trim($location_array[0]);
         $state = trim($location_array[1]);
-        $zips = frs_city_state_to_zip_code($city, $state);
+
+        if($initial_login) {
+            // If initial login, use new-style lookup w/ census data
+            $zips = gpo_city_state_to_zip_code($city, $state);
+        } else {
+            // Else, fallback to old FRS lookup, for compatibility
+            $zips = frs_city_state_to_zip_code($city, $state);
+        }
         echo json_encode($zips);
     } else {
         if($initial_login) {
+            // If initial login, use new-style lookup w/ census data
             $zip_lookup = zip_code_lookup($validation['postal_code'], 'php', true);
         } else {
+            // Else, fallback to old FRS lookup, for compatibility
             $zip_lookup = zip_code_lookup($validation['postal_code']);
         }
         $zip_lookup['name_city_state'] = true;
@@ -354,6 +363,96 @@ function frs_lat_long_to_zip_code($lat, $long)
     }
     return $return;
 }
+
+// Look up zip codes if user enters city/state or tribal location using GeoPortal Online service
+function gpo_city_state_to_zip_code($city, $state)
+{
+    $zip_data = array(
+        'zip_array' => '',
+        'state' => '',
+        'city' => '',
+        'zip_attr' => '',
+        'city_attr' => '',
+    );
+
+    // City name standardization to match Census names
+    $cleaned_city = preg_replace("/\b(SAINT)\b/", "ST.", $city);
+    $cleaned_city = preg_replace("/\b(SAINTE)\b/", "STE.", $cleaned_city);
+    $cleaned_city = preg_replace("/\b(MT\.?)(\s)/", "MOUNT$2", $cleaned_city);
+    $cleaned_city = preg_replace("/\b(FT\.?)(\s)/", "FORT$2", $cleaned_city);
+    $cleaned_city = preg_replace("/\b(NEW YORK CITY)\b/", "NEW YORK", $cleaned_city);
+    $cleaned_city = preg_replace("/\s/", "+", $cleaned_city);  // Replace spaces with + for AGOL query
+
+    // Get Zip Code to Census Place/Population Lookup table as json
+    $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+    $zip_pop_url = $zip_pop_url . 'where=UPPER%28NAME_LABEL%29%3D%27' . $cleaned_city . '%2C+' . $state . '%27&outFields=*&orderByFields=ZCTA&f=pjson';
+
+    // Decode  json
+    $json_file = file_get_contents($zip_pop_url);
+    $result = json_decode($json_file);
+    //watchdog('GPO_city_state', '<pre>@print_r</pre>', array('@print_r' => print_r( $result, TRUE))); 
+    // Keep track of whether a zip has been found yet
+    $zip_found = false;
+    // If Census Place->Zip had results:
+    if (!empty($result->features)) {
+        $city_attr = array();
+        $zip_attr = array();
+        $zip_list = array();
+        // Loop through all Census Places for the specified zip
+        foreach($result->features as $feature) {
+            if(!empty($feature->attributes->ZCTA)) {
+                // If the table has a placename, record that as the preferred name, along with its population
+                $zip_list[] = $feature->attributes->ZCTA;
+                $city_attr[$feature->attributes->NAME_LABEL] = array(
+                    "pop" => $feature->attributes->Place_Pop_2014_ACS2014
+                );
+                // Also record the zip code's population and urban/rural status
+                $zip_attr[$feature->attributes->ZCTA] = array(
+                    "city" => $feature->attributes->NAME_LABEL,
+                    "pop" => $feature->attributes->Zip_Pop2014_ACS5,
+                    "urban" => $feature->attributes->Urban,
+                );
+                $zip_found = true;
+            } 
+        }
+
+        $location_array = explode(',', $feature->attributes->NAME_LABEL);
+        $zip_data['city'] = trim($location_array[0]);
+        $zip_data['state'] = trim($location_array[1]);
+        $zip_data['zip_array'] = $zip_list;
+        $zip_data['city_attr'] = $city_attr;
+        $zip_data['zip_attr'] = $zip_attr;
+    }
+
+    // Get Zip Code to Tribal Area Lookup table as json
+    $zip_tribe_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
+    $zip_tribe_url = $zip_tribe_url . 'where=UPPER%28TRIBE_NAME_CLEAN%29+LIKE+%27%25' . $cleaned_city . '%25%27&outFields=*&orderByFields=ZCTA&f=pjson';
+
+    // Decode  json
+    $json_file = file_get_contents($zip_tribe_url);
+    $result = json_decode($json_file);
+
+    //watchdog('GPO_city_state', '<pre>@print_r</pre>', array('@print_r' => print_r( $result, TRUE))); 
+    // If tribal area was found in this zip:
+    if (!empty($result->features)) {
+        foreach($result->features as $feature) {
+            // If the table has a placename, record that as the preferred name
+            $zip_data['zip_array'][] = $feature->attributes->ZCTA;
+            $zip_data['zip_attr'][$feature->attributes->ZCTA]["city"] = $feature->attributes->TRIBE_NAME_CLEAN;
+            $zip_data['city'] = $feature->attributes->TRIBE_NAME_CLEAN;
+            $zip_found = true;
+        }
+    }
+
+    //watchdog('zip_data', '<pre>@print_r</pre>', array('@print_r' => print_r( $zip_data, TRUE))); 
+    // If city/state/tribe not found, use FRS lookup
+    if(!$zip_found) {
+        $zip_data = frs_city_state_to_zip_code($city, $state);
+    }
+    return $zip_data;
+}
+
+
 
 // http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.14
 function frs_city_state_to_zip_code($city, $state)
