@@ -1,0 +1,6 @@
+name = CDX Facility Management
+description = View and edit facilities tied to cdx account
+dependencies[] = views
+core = 7.x
+version = "7.x-1.1"
+package = CGI
