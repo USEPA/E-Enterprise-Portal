@@ -104,8 +104,7 @@ function return_cdx_facility_management_token()
     }
     else {
         if (isset($_SESSION['userId'])) {
-            $user_id = $_SESSION['userId'];
-            dpm("session set?");
+            $user_id = $user->name;
         }
         else {
             dpm($user);
