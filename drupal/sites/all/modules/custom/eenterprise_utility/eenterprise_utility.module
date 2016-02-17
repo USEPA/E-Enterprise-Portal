@@ -690,6 +690,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                     foreach($result->features as $feature) {
                         // If the table has a placename, record that as the preferred name
                         $zip_data['city'][] = $feature->attributes->TRIBE_NAME_CLEAN;
+                        $city_tribe_found = true;
                     }
                 }
 
