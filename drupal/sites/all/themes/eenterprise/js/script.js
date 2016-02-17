@@ -764,12 +764,13 @@
             });
 
 
-            $("#all-time a").focus(function() {
-                $( "#all-time a" ).keydown(function(e) {
+            $("#all-time").focus(function() {
+                $( "#all-time" ).keydown(function(e) {
                     if(e.which === 40){
-                        $( "#all-time a").click();
+                        $( "#all-time").click();
                     }else if(e.which === 39){
                         $('#this-week a').click();
+                        $('#this-week').focus();
                     }
                 });
             });
