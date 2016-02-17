@@ -437,6 +437,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             hide($form['field_admin_state']);
             hide($form['field_first_time_user']);
         }
+        else {
+            $form['field_admin_state'][LANGUAGE_NONE][0]['value']['#title'] = "State code, tribe name, or 'US EPA'";
+        }
 
 
 
