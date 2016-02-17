@@ -55,7 +55,8 @@ features[] = main_menu
 features[] = secondary_menu
 
 ; SETTINGS - default settings for theme-settings.php form
-settings[eenterprise_logoless] = 1
+settings[eenterprise_use_svg] = 1
+settings[eenterprise_use_logoless] = 0
 settings[eenterprise_breadcrumb]           = no
 settings[eenterprise_breadcrumb_separator] = ' » '
 settings[eenterprise_breadcrumb_home]      = 1

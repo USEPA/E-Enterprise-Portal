@@ -163,24 +163,35 @@ function new_state_form_redirect($form, &$form_state) {
         drupal_goto('/resource-editor');
 }
 
+//
+// function loadStateResources() {
+//     $state_resources = array();
+//     $query = new EntityFieldQuery;
+//     $query->entityCondition('entity_type', 'node')
+//         ->entityCondition('bundle', 'state_resource')
+//         ->propertyCondition('status', 1);
+//     $results = $query->execute();
+//     if (isset($results['node'])) {
+//         $nids = array_keys($results['node']);
+//         $state_resources = entity_load('node', $nids);
+//     }
+//    return $state_resources;
+//}
 
- function loadStateResources() {
-     $state_resources = array();
-     $query = new EntityFieldQuery;
-     $query->entityCondition('entity_type', 'node')
-         ->entityCondition('bundle', 'state_resource')
-         ->propertyCondition('status', 1);
-     $results = $query->execute();
-     if (isset($results['node'])) {
-         $nids = array_keys($results['node']);
-         $state_resources = entity_load('node', $nids);
-     }
-    return $state_resources;
+
+function mapResourceTitlesToNids($title){
+    $nids = db_select("node", 'n')
+        ->fields('n', array('nid'))
+        ->condition('type', 'state_resource')
+        ->condition('status', 1)
+        ->condition('title', $title)
+        ->execute()->fetchCol();
+    return $nids;
 }
 
-
-function loadUserStates() {
-    $states = array();
+function loadUserResources() {
+    $resources = array();
+    $locations = array();
     global $user;
     $user_data = user_load($user->uid);
     $zip_codes = $user_data->field_zip_code[LANGUAGE_NONE];
@@ -188,13 +199,19 @@ function loadUserStates() {
         foreach($zip_codes as $elem) {
             $zip = $elem['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
             $state = zip_code_lookup($zip)['state'];
-            $states[] = $state;
+            if (!in_array($state, $locations)) {
+                $locations[] = $state;
+                $resources = array_merge($resources, mapResourceTitlesToNids($state));
+            }
         }
     }
     if ( isset($_SESSION['default_location_zip'])) {
         // add default state
         $state = zip_code_lookup($_SESSION['default_location_zip'])['state'];
-        $states[] = $state;
+        if (!in_array($state, $locations)) {
+            $locations[] = $state;
+            $resources = array_merge($resources, mapResourceTitlesToNids($state));
+        }
     }
 
     /// Add users admin state if applicable
@@ -202,12 +219,14 @@ function loadUserStates() {
         if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
             $admin_state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
             // Reserve EPA for EPA tab
-            if ($admin_state != 'US EPA') {
-                $states[] = $admin_state;
+            if ($admin_state != 'US EPA' && !in_array($admin_state, $locations)) {
+                $locations[] = $admin_state;
+                $resources = array_merge($resources, mapResourceTitlesToNids($admin_state));
             }
         }
     }
-    return $states;
+
+    return $resources;
 }
 
 function generateAllAreasOfInterestTable() {
@@ -217,24 +236,10 @@ function generateAllAreasOfInterestTable() {
 
 
 function generateFavoriteAreasOfInterestTable() {
-        $users_favorite_states = loadUserStates();
-        $states = implode('+', $users_favorite_states);
-        $table = views_embed_view('additional_resources_all', 'block', $states);
+        $users_favorite_resources = loadUserResources();
+        $nids = implode('+', $users_favorite_resources);
+        $table = views_embed_view('additional_resources_all', 'block', $nids);
         print $table;
-//        foreach ($state_resources as $nid => $nid_data) {
-//            $state = $nid_data->title;
-//            if (in_array($state, $users_favorite_states)) {
-//                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-//                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-//                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
-//                echo "<tr><td>$state</td>" .
-//                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-//                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
-//                    "<td>$topic</td></tr>";
-//
-//            }
-//        }
-//        echo "</tbody> </table>";
 }
 
 // Takes state code for filtering
@@ -242,10 +247,10 @@ function generateCurrentAreaOfInterestTable() {
     if (isset($_POST['state'])) {
         $user_selected_state = xssafe($_POST['state']);
         if ($user_selected_state == 'US EPA') {
-            $table = views_embed_view('additional_resources_all', 'block_1');
+            $table = views_embed_view('additional_resources_all', 'us_epa');
         }
         else {
-            $table = views_embed_view('additional_resources_all', 'block', $user_selected_state);
+            $table = views_embed_view('additional_resources_all', 'current_location', $user_selected_state);
         }
         if ($table == '') {
             echo 'No saved resources for ' . $user_selected_state;
@@ -254,27 +259,6 @@ function generateCurrentAreaOfInterestTable() {
             print $table;
         }
     }
-//
-//    $state_resources = loadStateResources();
-//    echo "<table id='other-areas-of-interest-table'>" .
-//        "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
-//        "<tbody>";
-//    if (isset($_POST['state'])) {
-//        $user_selected_state = $_POST['state'];
-//        foreach ($state_resources as $nid => $nid_data) {
-//            $state = $nid_data->title;
-//            if ($state == $user_selected_state) {
-//                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-//                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-//                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
-//                echo "<tr><td>$state</td>" .
-//                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-//                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
-//                    "<td>$topic</td></tr>";
-//            }
-//        }
-//    }
-//    echo "</tbody> </table>";
 }
 
 
