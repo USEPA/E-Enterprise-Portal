@@ -179,8 +179,19 @@ function new_state_form_redirect($form, &$form_state) {
 //}
 
 
-function loadUserStates() {
-    $states = array();
+function mapResourceTitlesToNids($title){
+    $nids = db_select("node", 'n')
+        ->fields('n', array('nid'))
+        ->condition('type', 'state_resource')
+        ->condition('status', 1)
+        ->condition('title', $title)
+        ->execute()->fetchCol();
+    return $nids;
+}
+
+function loadUserResources() {
+    $resources = array();
+    $locations = array();
     global $user;
     $user_data = user_load($user->uid);
     $zip_codes = $user_data->field_zip_code[LANGUAGE_NONE];
@@ -188,13 +199,19 @@ function loadUserStates() {
         foreach($zip_codes as $elem) {
             $zip = $elem['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
             $state = zip_code_lookup($zip)['state'];
-            $states[] = $state;
+            if (!in_array($state, $locations)) {
+                $locations[] = $state;
+                $resources = array_merge($resources, mapResourceTitlesToNids($state));
+            }
         }
     }
     if ( isset($_SESSION['default_location_zip'])) {
         // add default state
         $state = zip_code_lookup($_SESSION['default_location_zip'])['state'];
-        $states[] = $state;
+        if (!in_array($state, $locations)) {
+            $locations[] = $state;
+            $resources = array_merge($resources, mapResourceTitlesToNids($state));
+        }
     }
 
     /// Add users admin state if applicable
@@ -202,12 +219,14 @@ function loadUserStates() {
         if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
             $admin_state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
             // Reserve EPA for EPA tab
-            if ($admin_state != 'US EPA') {
-                $states[] = $admin_state;
+            if ($admin_state != 'US EPA' && !in_array($admin_state, $locations)) {
+                $locations[] = $admin_state;
+                $resources = array_merge($resources, mapResourceTitlesToNids($admin_state));
             }
         }
     }
-    return $states;
+
+    return $resources;
 }
 
 function generateAllAreasOfInterestTable() {
@@ -217,9 +236,9 @@ function generateAllAreasOfInterestTable() {
 
 
 function generateFavoriteAreasOfInterestTable() {
-        $users_favorite_states = loadUserStates();
-        $states = implode('+', $users_favorite_states);
-        $table = views_embed_view('additional_resources_all', 'block', $states);
+        $users_favorite_resources = loadUserResources();
+        $nids = implode('+', $users_favorite_resources);
+        $table = views_embed_view('additional_resources_all', 'block', $nids);
         print $table;
 }
 
@@ -240,7 +259,6 @@ function generateCurrentAreaOfInterestTable() {
             print $table;
         }
     }
-
 }
 
 
