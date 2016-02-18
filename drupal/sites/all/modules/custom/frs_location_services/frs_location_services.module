@@ -687,7 +687,7 @@ function generate_taxonomy_select($elem_id)
             break;
         case 'select-role':
             $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('roles')->vid);
-            $title = 'Select role';
+            $title = '';
 
             $options = array(
                 '' => '',
@@ -712,13 +712,12 @@ function generate_taxonomy_select($elem_id)
             break;
     }
 
-
     if ($combobox) {
-        echo "<select name='$elem_id' id='$elem_id' class='combobox'>";
+        echo "<select name='$elem_id' id='$elem_id' class='combobox form-control' style='display:none'>";
     } else {
-        echo "<select name='$elem_id' id='$elem_id'>";
+        echo "<select name='$elem_id' id='$elem_id' class='form-control'>";
+        echo "<option value='' selected>$title</option>";
     }
-    echo "<option value=''>$title</option>";
     foreach ($terms as $class_obj) {
         echo "<option value='$class_obj->tid'>$class_obj->name</option>";
     };
