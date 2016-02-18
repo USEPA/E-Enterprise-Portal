@@ -36,7 +36,6 @@
             var type_filter_select_holder = $('#fmw-type-select-holder');
             var management_button = $('#launch-facility-management');
 
-
             var first_name;
             var count = 0;
             program_filter_select.html('<option value="">Select&hellip;</option>');
@@ -138,16 +137,16 @@
                                 var time_logged_in = token_data.user_login_time;
                                 var time_threshold = token_data.user_session_logout;
                                 // First connect to widget initially to start CDX session;
-                                var temp = 0;
-                                $.each(org_to_roles, function (org_id, role_object) {
-                                    $.each(role_object.roles, function (dataflow, role_array) {
-                                        if (temp == 0) {
-                                            var initial_user_role_id = role_array[0].userRoleId;
-                                            updateWidget(initial_user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold, 0);
-                                            temp = 1;
-                                        }
-                                    });
-                                });
+                             //   var temp = 0;
+                                //$.each(org_to_roles, function (org_id, role_object) {
+                                //    $.each(role_object.roles, function (dataflow, role_array) {
+                                //        if (temp == 0) {
+                                //            var initial_user_role_id = role_array[0].userRoleId;
+                                //            updateWidget(initial_user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold, 0);
+                                //            temp = 1;
+                                //        }
+                                //    });
+                                //});
 
                                 org_filter_select.append('<option value="">Select an Organization</option>');
                                 var count = 0;
@@ -195,7 +194,8 @@
                             }
                         }
                     } else {
-                        alert('unable to recieve user data');
+                        console.log("CDX Error", parsed_json);
+                        $('#fmw-organization-select-holder').html("Unable to receive user data.");
                     }
 
 

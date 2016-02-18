@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * cdx_facility_management.views_default.inc
+ * cdx_facility_management_view.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function cdx_facility_management_views_default_views() {
+function cdx_facility_management_view_views_default_views() {
   $export = array();
 
   $view = new view();
@@ -24,7 +24,32 @@ function cdx_facility_management_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'CDX Facility Management';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    3 => '3',
+    80 => '80',
+    81 => '81',
+    17 => '17',
+    23 => '23',
+    64 => '64',
+    24 => '24',
+    78 => '78',
+    25 => '25',
+    62 => '62',
+    83 => '83',
+    65 => '65',
+    31 => '31',
+    84 => '84',
+    63 => '63',
+    76 => '76',
+    85 => '85',
+    8 => '8',
+    88 => '88',
+    11 => '11',
+    10 => '10',
+    92 => '92',
+    18 => '18',
+  );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -58,6 +83,8 @@ function cdx_facility_management_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'CDX Facility Management';
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';

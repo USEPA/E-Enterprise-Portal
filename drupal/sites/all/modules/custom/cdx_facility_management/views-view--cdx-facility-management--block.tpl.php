@@ -1,5 +1,5 @@
 <?php
-drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/custom_js.js", "file");
+drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/custom_js.js", "file");
 drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", "file");
 ?>
 

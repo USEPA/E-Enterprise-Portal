@@ -4,14 +4,6 @@
  * cdx_facility_management.features.inc
  */
 
-/**
- * Implements hook_views_api().
- */
-function cdx_facility_management_views_api($module = NULL, $api = NULL)
-{
-    return array("api" => "3.0");
-}
-
 
 /**
  * Implements hook_theme_registry_alter().
@@ -111,8 +103,14 @@ function return_cdx_facility_management_token()
         $user_login_time = time();
     }
     else {
-        $user_id = $_SESSION['userId'];
-        $user_login_time = $_SESSION['login_timestamp'];
+        // if user logged in without bridge (single sign), session is not set.
+        if (isset($_SESSION['login_timestamp']))
+            $user_login_time = $_SESSION['login_timestamp'];
+        else {
+            $user_login_time = time();
+            $_SESSION['login_timestamp'] = $user_login_time;
+        }
+        $user_id = $user->name;
     }
     $json_return = array();
     $user_session_logout = (int) variable_get('cdx_facility_user_logout_session');
@@ -220,15 +218,14 @@ function renewToken($client, $params_for_renewal, $json_return)
 
 function retrieve_cdx_user_data()
 {
+    global $user;
 
     $local_testing = variable_get('local_testing');
     $local_testing_user_id = variable_get('local_testing_user_id');
-    if ($local_testing) {
+    if ($local_testing || $user->uid == 1)
         $user_id = $local_testing_user_id;
-    }
-    else {
-        $user_id = $_SESSION['userId'];
-    }
+    else
+        $user_id = $user->name;
     $allowed_program_roles = ['CEDRI', 'CSPP', 'eDisclosure'];
     $json_return = array();
 
