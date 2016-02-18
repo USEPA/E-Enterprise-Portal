@@ -567,13 +567,13 @@ echo $row->title;
   $handler->display->display_options['relationships']['reverse_field_lgc_topic_node']['field'] = 'reverse_field_lgc_topic_node';
   $handler->display->display_options['relationships']['reverse_field_lgc_topic_node']['relationship'] = 'field_lgc_topics_of_interest_tid';
   $handler->display->display_options['relationships']['reverse_field_lgc_topic_node']['required'] = TRUE;
-  /* Field: Content: Title */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_lgc_title']['id'] = 'field_lgc_title';
   $handler->display->display_options['fields']['field_lgc_title']['table'] = 'field_data_field_lgc_title';
   $handler->display->display_options['fields']['field_lgc_title']['field'] = 'field_lgc_title';
   $handler->display->display_options['fields']['field_lgc_title']['relationship'] = 'reverse_field_lgc_topic_node';
+  $handler->display->display_options['fields']['field_lgc_title']['label'] = 'Title';
   $handler->display->display_options['fields']['field_lgc_title']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_lgc_title']['type'] = 'text_plain';
   /* Field: Content: Description */
   $handler->display->display_options['fields']['field_lgc_description']['id'] = 'field_lgc_description';
   $handler->display->display_options['fields']['field_lgc_description']['table'] = 'field_data_field_lgc_description';
@@ -621,11 +621,12 @@ echo $row->title;
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Title */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_lgc_title']['id'] = 'field_lgc_title';
   $handler->display->display_options['fields']['field_lgc_title']['table'] = 'field_data_field_lgc_title';
   $handler->display->display_options['fields']['field_lgc_title']['field'] = 'field_lgc_title';
   $handler->display->display_options['fields']['field_lgc_title']['relationship'] = 'reverse_field_lgc_topic_node';
+  $handler->display->display_options['fields']['field_lgc_title']['label'] = 'Title';
   $handler->display->display_options['fields']['field_lgc_title']['exclude'] = TRUE;
   /* Field: Content: Topic */
   $handler->display->display_options['fields']['field_lgc_topic']['id'] = 'field_lgc_topic';

@@ -121,11 +121,6 @@ function recommended_resources_feature_feeds_importer_default() {
             'term_search' => '0',
             'autocreate' => 1,
           ),
-          15 => array(
-            'source' => 'Name',
-            'target' => 'field_lgc_title',
-            'unique' => FALSE,
-          ),
         ),
         'update_existing' => '1',
         'update_non_existent' => 'delete',
