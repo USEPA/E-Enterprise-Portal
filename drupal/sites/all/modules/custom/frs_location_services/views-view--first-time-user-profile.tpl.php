@@ -32,10 +32,10 @@
 ?>
 
 <?php
-drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/first_time_user_profile.js", "file");
 drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/combobox.js", "file");
+drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/first_time_user_profile.js", "file");
 drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_time_user_profile.css", "file");
-    ?>
+?>
 <div id="first-time-user-profile">
     <h2><span>Getting Started</span>What matters to you?</h2>
 
@@ -78,10 +78,13 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
         <div id="user-profile-addition-info">
             <div class="org-select-grouping">
                 <label for="select-organization">My organization</label>
+                <div class="form-group">
+
                 <?php
                 // select-organization is the id
                 generate_taxonomy_select('select-organization');
                 ?>
+                    </div>
             </div>
             <div class="role-select-grouping">
                 <label for="select-role">My role</label>
@@ -95,16 +98,20 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
 
         <div id="local-government-options">
             <div class="community-select-grouping">
+                <div class="form-group">
+
                 <label for="community-size">Community size</label>
                 <?php
                 // select-organization is the id
                 generate_taxonomy_select('community-size');
                 ?>
+                    </div>
             </div>
             <div class="community-type-grouping">
+
                 <label for="community-type">My community is mostly...</label>
-                <input type="radio" name="community-type" class="community-type" value="rural">Rural
-                <input type="radio" name="community-type" class="community-type" value="urban">Urban
+                <input type="radio" name="community-type" class="community-type " value="rural">Rural
+                <input type="radio" name="community-type" class="community-type " value="urban">Urban
             </div>
             <!-- @end community-type-grouping -->
 
@@ -120,10 +127,14 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
             <p>Select a few high-level topics that interest you.</p>
 
             <div id="high-level-interests">
-                <?php high_level_taxonomy_checkboxes(); ?>
+                <div class="form-group">
+                    <?php high_level_taxonomy_checkboxes(); ?>
+                </div>
             </div>
-        </div> <!-- @local-gov-topics -->
-    </div> <!-- @second-page -->
+        </div>
+        <!-- @local-gov-topics -->
+    </div>
+    <!-- @second-page -->
 
 </div>
 <!-- @end first-time-user-profile-->
@@ -131,15 +142,15 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
     <div class="first-time-first-page">
 
         <button class="btn btn-md first-time-page-button" id="switch-to-interests"
-    ">Next > <br/> <span class="button-label-interests">Interests</span></button>
-        </div>
+        ">Next > <br/> <span class="button-label-interests">Interests</span></button>
+    </div>
     <div class="first-time-second-page" style="display:none">
         <button class="btn btn-md btn-primary first-time-page-button" id="save-preferences">Finish ></button>
 
         <button class="btn btn-md first-time-page-button" id="switch-to-first-page"
         ">< Back <br/> <span class="button-label-interests">Location and Role</span></button>
 
-        </div>
+    </div>
     <a href="#" id="skip-preferences">Skip this</a>
 
 </div>

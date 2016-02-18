@@ -1641,15 +1641,27 @@ table.views-table {
 	}
 }
 
+span.report-name, span.subpart-name {
+	display: block;
+}
+span.subpart-name {
+	color: $ee-dark-gray;
+}
+span.subpart-name,
 span.date-subscript-text,
 span.item-subscript-text,
 .simple-dialog {
 	font-weight: normal;
+	font-size: 67.5%;
+}
+span.date-subscript-text,
+span.item-subscript-text,
+.simple-dialog {
 	margin-top:10px;
 	display:inline-block;
 	text-transform: uppercase;
-	font-size: 67.5%;
 }
+
 td.views-field-counter,
 td.views-field-field-prog-track-domain,
 td.views-field-field-prog-track-status,
@@ -3401,6 +3413,13 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 		content: url('../images/exchange-network-x-sm.png');
 	}
 }
+.btn-wam {
+	@include btn-social(#369);
+	color: #fff;
+	.wam:before {
+		content: url('../images/epaicon.png');
+	}
+}
 
 .btn-envlinfoexchangenetwork {
 	@include btn-social(#80a3d8);
@@ -3475,6 +3494,21 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 .fa-refresh:before {
   content: "\f021";
   //color: #0e8200 !important;
+}
+td.has-error {
+	color: #a94442;
+  background-color: #f2dede;
+  border-color: #a94442;
+	.fa-brokenlink:before, a:before {
+	  display: inline-block;
+	  font: normal normal normal 14px/1 FontAwesome;
+	  font-size: inherit;
+	  text-rendering: auto;
+	  -webkit-font-smoothing: antialiased;
+	  -moz-osx-font-smoothing: grayscale;	
+		content: "\f127";
+		color: $base-text-color;
+	}
 }
 a {
 	&.refresh {
