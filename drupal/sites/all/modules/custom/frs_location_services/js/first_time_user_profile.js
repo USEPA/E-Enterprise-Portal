@@ -178,7 +178,7 @@
 
             // User has found city they want, show in selected/nearest data
             $('#confirm-city-select').click(function () {
-                preferred_name = $('#city-state-lookup-zips').val();
+                preferred_name = $('#zip-lookup-city-state').val();
                 var selected_location = $new_loc_input.val();
                 setCommunitySizeType(selected_location);
                 $location_desc_user.show();
@@ -264,7 +264,7 @@
                                 all_city_attr = parsed_data.city_attr;
                                 // Create a city dropdown for the user to select from
                                 // Community size/type will be populated based on selection
-                                var city_select = '<select id="city-state-lookup-zips">';
+                                var city_select = '<select id="zip-lookup-city-state">';
                                 $.each(parsed_data.city, function (index, city) {
                                     city_select = city_select + '<option value="' + city + '">' + city + '</option>';
                                 });
