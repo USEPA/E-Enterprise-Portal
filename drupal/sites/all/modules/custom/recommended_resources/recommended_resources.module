@@ -134,57 +134,6 @@ function new_lgc_resource_form_redirect($form, &$form_state) {
 }
 
 
-//function new_state_form_redirect($form, &$form_state) {
-//        drupal_goto('/resource-editor');
-//}
-
-
-// function loadStateResources() {
-//     $state_resources = array();
-//     $query = new EntityFieldQuery;
-//     $query->entityCondition('entity_type', 'node')
-//         ->entityCondition('bundle', 'state_resource')
-//         ->propertyCondition('status', 1);
-//     $results = $query->execute();
-//     if (isset($results['node'])) {
-//         $nids = array_keys($results['node']);
-//         $state_resources = entity_load('node', $nids);
-//     }
-//    return $state_resources;
-//}
-//
-//
-//function loadUserStates() {
-//    $states = array();
-//    global $user;
-//    $user_data = user_load($user->uid);
-//    $zip_codes = $user_data->field_zip_code[LANGUAGE_NONE];
-//    if (count($zip_codes) > 0) {
-//        foreach($zip_codes as $elem) {
-//            $zip = $elem['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
-//            $state = zip_code_lookup($zip)['state'];
-//            $states[] = $state;
-//        }
-//    }
-//    if ( isset($_SESSION['default_location_zip'])) {
-//        // add default state
-//        $state = zip_code_lookup($_SESSION['default_location_zip'])['state'];
-//        $states[] = $state;
-//    }
-//
-//    /// Add users admin state if applicable
-//    if (in_array('state_admin', $user->roles)) {
-//        if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
-//            $admin_state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
-//            // Reserve EPA for EPA tab
-//            if ($admin_state != 'EPA') {
-//                $states[] = $admin_state;
-//            }
-//        }
-//    }
-//    return $states;
-//}
-//
 function generateUserLocalResourcesTable() {
     $table =  views_embed_view('user_recommended_resources', 'block');
     print $table;
@@ -194,53 +143,6 @@ function generateAllLocalResourcesTable() {
     $table =  views_embed_view('recommended_resources', 'block_to_be_rendered');
     print $table;
 }
-//
-//
-//function generateFavoriteAreasOfInterestTable() {
-//    $state_resources = loadStateResources();
-//        echo "<table id='other-areas-of-interest-table'>" .
-//            "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
-//            "<tbody>";
-//        $users_favorite_states = loadUserStates();
-//        foreach ($state_resources as $nid => $nid_data) {
-//            $state = $nid_data->title;
-//            if (in_array($state, $users_favorite_states)) {
-//                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-//                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-//                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
-//                echo "<tr><td>$state</td>" .
-//                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-//                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
-//                    "<td>$topic</td></tr>";
-//
-//            }
-//        }
-//        echo "</tbody> </table>";
-//}
-//
-//// Takes state code for filtering
-//function generateCurrentAreaOfInterestTable() {
-//    $state_resources = loadStateResources();
-//    echo "<table id='other-areas-of-interest-table'>" .
-//        "<thead><tr><th>Source</th><th>Resource</th><th>Topic</th></tr></thead>" .
-//        "<tbody>";
-//    if (isset($_POST['state'])) {
-//        $user_selected_state = $_POST['state'];
-//        foreach ($state_resources as $nid => $nid_data) {
-//            $state = $nid_data->title;
-//            if ($state == $user_selected_state) {
-//                $source = $nid_data->field_source[LANGUAGE_NONE][0]['safe_value'];
-//                $url = $nid_data->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-//                $topic = $nid_data->field_topic[LANGUAGE_NONE][0]['value'];
-//                echo "<tr><td>$state</td>" .
-//                    "<td><div class='interests-url-hyperlink'><a href='" . $url . "' target='_blank'>$source</a></div>" .
-//                    "<div class='interests-url-text' title='" . $url . "'>$url</div></td>" .
-//                    "<td>$topic</td></tr>";
-//            }
-//        }
-//    }
-//    echo "</tbody> </table>";
-//}
 
 
 
