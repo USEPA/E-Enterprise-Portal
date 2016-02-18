@@ -624,6 +624,8 @@ function frs_zip_code_to_lat_long($zip)
     $response = drupal_http_request($request_url, $options);
     $data = json_decode($response->data);
     $results = $data->Results;
+
+    //watchdog('lat_long_lookup', '<pre>@print_r</pre>', array('@print_r' => print_r( $data->Results, TRUE))); 
     $return = array(
         'long' => $results->Longitude83,
         'lat' => $results->Latitude83,

@@ -283,6 +283,8 @@
                             else if (zip_count == 1) {
                                 selected_city = parsed_data.city;
                                 selected_state = parsed_data.state;
+                                all_zip_attr = parsed_data.zip_attr;
+                                all_city_attr = parsed_data.city_attr;
                                 if (selected_state) {
                                     preferred_name = selected_city + ", " + selected_state;
                                 } else {
