@@ -44,19 +44,20 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     }
     ?>
 
-
+    <?php
+    if ($user->name != 'guest-user') {
+        ?>
     <ul>
-        <?php
-        if ($user->name != 'guest-user') {
-            ?>
+
             <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#user-local-resources">My
                     Resources</a></li>
-        <?php
-        }
-        ?>
+
         <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources">All</a></li>
 
     </ul>
+<?php
+}
+?>
 
     <?php
     if ($user->name != 'guest-user') {

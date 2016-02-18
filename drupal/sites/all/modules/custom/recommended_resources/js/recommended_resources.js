@@ -70,21 +70,27 @@
 
     $(document).ready(function() {
 
-        var $tabs = $("#local-resources-tabs");
-        $tabs.tabs();
-
-        var guest_user;
+        var guest_user = Drupal.settings.is_guest;
         var location;
 
 
-
-        if (!guest_user) {
-            var favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"), 'generateUserLocalResourcesTable');
-        }
         var all_local_resources_table = new LocalResourcesTable($("#all-local-resources"), 'generateAllLocalResourcesTable');
 
-
+        // Guest user can only view all the content, so they do not have tabs
         if (!guest_user) {
+            var favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"), 'generateUserLocalResourcesTable');
+
+            var $tabs = $("#local-resources-tabs");
+            $tabs.tabs();
+
+            $("#restrict-to-local-resources-button").click(function() {
+                if ($(this).hasClass('inactive')){
+                    $(this).removeClass('inactive');
+                    $('#all-local-resources-button').addClass('inactive');
+                    all_local_resources_table.hideTable();
+                    favorite_local_resources_table.showTable();
+                }
+            });
             $('#all-local-resources-button').click(function () {
                 if ($(this).hasClass('inactive')) {
                     $(this).removeClass('inactive');
@@ -95,15 +101,10 @@
             });
         }
 
-        $("#restrict-to-local-resources-button").click(function() {
-            if ($(this).hasClass('inactive')){
-                $(this).removeClass('inactive');
-                $('#all-local-resources-button').addClass('inactive');
-                all_local_resources_table.hideTable();
-                favorite_local_resources_table.showTable();
-            }
-        });
 
+
+
+        // Restrict loading to after first time user preferences if applicable
         var first_time_user_loading = false;
         var first_time_user_block = $('#first-time-user-block');
         if (first_time_user_block.length > 0) {
