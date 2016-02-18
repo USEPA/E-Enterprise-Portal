@@ -436,15 +436,34 @@ function gpo_city_state_to_zip_code($city, $state)
     // If tribal area was found in this zip:
     if (!empty($result->features)) {
         foreach($result->features as $feature) {
+            $zip_found = true;
             // If the table has a placename, record that as the preferred name
             $zip_data['zip_array'][] = $feature->attributes->ZCTA;
             $zip_data['zip_attr'][$feature->attributes->ZCTA]["city"] = $feature->attributes->TRIBE_NAME_CLEAN;
             $zip_data['city'] = $feature->attributes->TRIBE_NAME_CLEAN;
-            $zip_found = true;
+            // For each found zip, lookup Census data
+
+            // Get Zip Code to Census Place/Population Lookup table as json
+            $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+            $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $feature->attributes->ZCTA . '%27&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
+        
+            // Decode  json
+            $json_file = file_get_contents($zip_pop_url);
+            $result = json_decode($json_file);
+
+            // If Zip->Census Place had results:
+            if (!empty($result->features)) {
+                // Loop through all Census Places for the specified zip
+                foreach($result->features as $feature) {
+                    // Also record the zip code's population and urban/rural status
+                    $zip_data['zip_attr'][$feature->attributes->ZCTA]["pop"] = $feature->attributes->Zip_Pop2014_ACS5;
+                    $zip_data['zip_attr'][$feature->attributes->ZCTA]["urban"] = $feature->attributes->Urban;
+                }
+            }
         }
     }
 
-    //watchdog('zip_data', '<pre>@print_r</pre>', array('@print_r' => print_r( $zip_data, TRUE))); 
+    // watchdog('zip_data', '<pre>@print_r</pre>', array('@print_r' => print_r( $zip_data, TRUE))); 
     // If city/state/tribe not found, use FRS lookup
     if(!$zip_found) {
         $zip_data = frs_city_state_to_zip_code($city, $state);
@@ -624,6 +643,8 @@ function frs_zip_code_to_lat_long($zip)
     $response = drupal_http_request($request_url, $options);
     $data = json_decode($response->data);
     $results = $data->Results;
+
+    //watchdog('lat_long_lookup', '<pre>@print_r</pre>', array('@print_r' => print_r( $data->Results, TRUE))); 
     $return = array(
         'long' => $results->Longitude83,
         'lat' => $results->Latitude83,

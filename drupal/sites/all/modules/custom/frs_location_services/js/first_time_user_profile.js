@@ -102,6 +102,8 @@
             }
 
             function setCommunitySizeType(zip) {
+                // console.log(all_zip_attr);
+                // console.log(all_city_attr);
                 if(all_zip_attr) {
                     if(zip in all_zip_attr) {
                         if(all_zip_attr[zip]['urban']) {
@@ -121,17 +123,17 @@
                                 $('input[name=community-type]:nth(0)').prop('checked', true);
                             }
                             if(selected_pop < 5000) {
-                                $('#community-size option:contains(0 - 5,000)').attr('selected', 'selected');
+                                $('#community-size option:contains(0 - 5,000)').prop('selected', true);
                             } else if(selected_pop < 10000) {
-                                $('#community-size option:contains(5,000 - 10,000)').attr('selected', 'selected');
+                                $('#community-size option:contains(5,000 - 10,000)').prop('selected', true);
                             } else if(selected_pop < 25000) {
-                                $('#community-size option:contains(10,000 - 25,000)').attr('selected', 'selected');
+                                $('#community-size option:contains(10,000 - 25,000)').prop('selected', true);
                             } else if(selected_pop < 100000) {
-                                $('#community-size option:contains(25,000 - 100,000)').attr('selected', 'selected');
+                                $('#community-size option:contains(25,000 - 100,000)').prop('selected', true);
                             } else if(selected_pop < 1000000) {
-                                $('#community-size option:contains(100,000 - 1,000,000)').attr('selected', 'selected');
+                                $('#community-size option:contains(100,000 - 1,000,000)').prop('selected', true);
                             } else {
-                                $('#community-size option:contains(1,000,000+)').attr('selected', 'selected');
+                                $('#community-size option:contains(1,000,000+)').prop('selected', true);
                             }
                         } else {
                             // Reset options if not found in census data
@@ -176,7 +178,7 @@
 
             // User has found city they want, show in selected/nearest data
             $('#confirm-city-select').click(function () {
-                preferred_name = $('#city-state-lookup-zips').val();
+                preferred_name = $('#zip-lookup-city-state').val();
                 var selected_location = $new_loc_input.val();
                 setCommunitySizeType(selected_location);
                 $location_desc_user.show();
@@ -262,7 +264,7 @@
                                 all_city_attr = parsed_data.city_attr;
                                 // Create a city dropdown for the user to select from
                                 // Community size/type will be populated based on selection
-                                var city_select = '<select id="city-state-lookup-zips">';
+                                var city_select = '<select id="zip-lookup-city-state">';
                                 $.each(parsed_data.city, function (index, city) {
                                     city_select = city_select + '<option value="' + city + '">' + city + '</option>';
                                 });
@@ -283,6 +285,8 @@
                             else if (zip_count == 1) {
                                 selected_city = parsed_data.city;
                                 selected_state = parsed_data.state;
+                                all_zip_attr = parsed_data.zip_attr;
+                                all_city_attr = parsed_data.city_attr;
                                 if (selected_state) {
                                     preferred_name = selected_city + ", " + selected_state;
                                 } else {
