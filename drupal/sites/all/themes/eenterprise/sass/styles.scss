@@ -3413,6 +3413,13 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 		content: url('../images/exchange-network-x-sm.png');
 	}
 }
+.btn-wam {
+	@include btn-social(#369);
+	color: #fff;
+	.wam:before {
+		content: url('../images/epaicon.png');
+	}
+}
 
 .btn-envlinfoexchangenetwork {
 	@include btn-social(#80a3d8);
