@@ -158,6 +158,7 @@ function save_first_time_user_preferences()
         if (!is_numeric($role)) {
             $role = custom_create_taxonomy_term($role, taxonomy_vocabulary_machine_name_load('roles')->vid);
         }
+
         $org = xssafe($_POST['org']);
         $comm_type = xssafe($_POST['comm_type']);
         $comm_size = xssafe($_POST['comm_size']);
