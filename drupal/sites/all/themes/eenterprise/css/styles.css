@@ -14857,10 +14857,6 @@ a:focus .fa-refresh, a:focus .fa-refresh:before, a:hover .fa-fresh {
   width: 18em;
   display: block;
 }
-/* line 3553, ../sass/styles.scss */
-.section-new-users li#exchange-cdx a {
-  margin-bottom: 0;
-}
 /* line 3556, ../sass/styles.scss */
 .section-new-users #exchange-subtext {
   display: block;
