@@ -3,6 +3,7 @@
   var fieldToCheck;
   var type;
   var removedSelect = false;
+  var failedLookup = false;
   
     $(document).ready(function () {
         $('body').find('.field-multiple-table').removeClass('sticky-enabled');
@@ -293,6 +294,7 @@
                   }
               }).fail(function (location_data) {
                   // Print error message
+                  failedLookup = true;
                   field_suffix.addClass('error').html(location_data.error_message);
                   field_suffix.attr("id", "zip-code-error");
                   field_suffix.prev().attr("aria-describedby", "zip-code-error");
@@ -311,7 +313,7 @@
             $('#edit-submit').prop("disabled", false);
             $('#edit-submit--2').prop("disabled", false);
             $('#edit-delete').prop("disabled", false);
-            if (removedSelect == true) {
+            if (removedSelect == true || failedLookup == true) {
             	$('.remove-button').prop("disabled", false);
             }                        
         }
@@ -322,7 +324,7 @@
             $('#edit-submit').prop("disabled", true);
             $('#edit-submit--2').prop("disabled", true);
             $('#edit-delete').prop("disabled", true);
-            if (removedSelect == true) {
+            if (removedSelect == true || failedLookup == true) {
               $('.remove-button').prop("disabled", false);
             }
         }
