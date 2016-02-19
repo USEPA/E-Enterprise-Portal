@@ -60,7 +60,7 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
         <!-- @end zip_container-->
         <div id="location-add-new" style="display:none">
         <span id="new-location">
-        	<label for="new-location-input">Enter city, state or ZIP code</label> <input id="new-location-input"/>
+        	<label for="new-location-input">Enter city, state; tribe; or ZIP code</label> <input id="new-location-input"/>
             <button class="btn btn-primary btn-sm" id="add-location">Find</button>
         </span>
         <span style="display:none" id="choose-zip-holder">

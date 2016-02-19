@@ -464,11 +464,27 @@ function gpo_city_state_to_zip_code($city, $state)
         }
     }
 
-    // watchdog('zip_data', '<pre>@print_r</pre>', array('@print_r' => print_r( $zip_data, TRUE))); 
     // If city/state/tribe not found, use FRS lookup
     if(!$zip_found) {
         $zip_data = frs_city_state_to_zip_code($city, $state);
+    } else {
+        // Also append FRS zips for this location if not found in census/tribe
+        $frs_zips = frs_city_state_to_zip_code($city, $state);
+        $append_frs = array_diff($frs_zips['zip_array'], $zip_data['zip_array']);
+
+        $zip_data['zip_array'] = array_merge($zip_data['zip_array'], $append_frs);
+        sort($zip_data['zip_array']);
+
+        // For each found zip, use existing census data
+        foreach($append_frs as $frs_zip) {
+            $zip_data['zip_attr'][$frs_zip]["pop"] = current($zip_data['zip_attr'])["pop"];
+            $zip_data['zip_attr'][$frs_zip]["urban"] = current($zip_data['zip_attr'])["urban"];
+            $zip_data['zip_attr'][$frs_zip]["city"] = current($zip_data['zip_attr'])["city"];
+        }
+
     }
+
+    // watchdog('zip_data', '<pre>@print_r</pre>', array('@print_r' => print_r( current($zip_data['zip_attr']), TRUE))); 
     return $zip_data;
 }
 
