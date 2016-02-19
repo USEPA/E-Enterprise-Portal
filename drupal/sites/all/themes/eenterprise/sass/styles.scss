@@ -2192,6 +2192,9 @@ a.tabledrag-handle .handle {
 	padding-bottom: 10px;
 	h2 {
 		padding: 0;
+		line-height: 1.2;
+		margin-top: 0;
+		margin-bottom: 15px;
 	}
 	h2 span {
 		display: block;
@@ -2199,10 +2202,13 @@ a.tabledrag-handle .handle {
 	    font-size: 0.5em;
 	    color: #999;
 	    margin-bottom: 5px;
+	    margin-top: 10px;
+	    line-height: 1;
 	}
 	h3 {
 		padding-bottom: 0;
-		margin-top: 2em;
+		margin-top: 30px;
+		font-weight: bold;
 	}
 	p {
 		padding-bottom: 0;
@@ -2210,7 +2216,7 @@ a.tabledrag-handle .handle {
 	label {
 		font-size: 1em;
 	}
-    #zip_container {
+  #zip_container {
 		span {
 			float: none;
 			margin-right: 0;
@@ -2219,7 +2225,7 @@ a.tabledrag-handle .handle {
 	#location-add-new {
 		margin-top: 10px;
 		label {
-			margin-bottom: 0;
+			margin-bottom: 5px;
 		}
 		#new-location {
 			width: 18em;
@@ -2289,8 +2295,8 @@ a.tabledrag-handle .handle {
 }
 
 /** jQuery Overrides - General, affects modals, tabs, etc. *********************************************************/
-.ui-widget, .ui-widget input {
-	font-family: $lato !important;
+.ui-widget, .ui-widget input, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+	font-family: $base-font-family !important;
 	font-size: 1em;
 }
 .ui-widget-overlay, #modalBackdrop {
