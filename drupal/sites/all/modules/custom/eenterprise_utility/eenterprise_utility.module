@@ -701,9 +701,10 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                 if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) { 
                     $zip_data['latitude'] = $frs_lat_long_return['lat'];
                     $zip_data['longitude'] = $frs_lat_long_return['long'];
+                    $frs_city = $frs_city_state_return['city'] . ", " . $frs_city_state_return['state'];
                     // Also, if no preferred name has been found yet, use FRS city/state
-                    if(!$city_tribe_found and strlen($frs_city_state_return['city']) != 0) {
-                        $zip_data['city'][] = $frs_city_state_return['city'] . ", " . $frs_city_state_return['state'];
+                    if(!in_array($frs_city, $zip_data['city']) and strlen($frs_city_state_return['city']) != 0) {
+                        $zip_data['city'][] = $frs_city;
                     }
                 }
 
