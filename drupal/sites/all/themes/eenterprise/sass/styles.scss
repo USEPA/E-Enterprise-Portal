@@ -1650,6 +1650,9 @@ span.date-subscript-text {
 span.subpart-name {
 	color: $ee-dark-gray;
 }
+a:hover span.subpart-name {
+	color: #fff;
+}
 span.subpart-name,
 span.date-subscript-text,
 span.item-subscript-text,
