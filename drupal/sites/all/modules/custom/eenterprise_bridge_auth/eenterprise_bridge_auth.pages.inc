@@ -445,13 +445,13 @@ function create_progress_tracker_node($res, $user)
             if ($res_domain == 'Lead') {
                 foreach ($res['Documents'] as $ky => $vl) {
                     if (strpos($vl['name'], 'Receipt') !== false) {
-                        $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Receipt</a><br/>";
+                        $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Receipt</a>";
                     }
                     if (strpos($vl['name'], 'Certificate') !== false) {
-                        $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Certificate</a><br/>";
+                        $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Certificate</a>";
                     }
                     if (strpos($vl['name'], 'Logo') !== false) {
-                        $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Logo</a><br/>";
+                        $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Logo</a>";
                     }
                 }
                 if (empty($res_action)) {

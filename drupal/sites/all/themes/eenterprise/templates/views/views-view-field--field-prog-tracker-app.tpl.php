@@ -26,12 +26,12 @@
 //TODO: move this to template.php
 $trunc_pos = strpos($output, ')');
 if($trunc_pos !== false){
-    $output = substr($output, 0, $trunc_pos+1)."<span class='report-name'>".substr($output, $trunc_pos+1)."</span>";
+    $output = "<span class='report-name'>".substr($output, 0, $trunc_pos+1)."</span><span class='subpart-name'>".substr($output, $trunc_pos+1)."</span>";
 }
 
 print $output;
 if(!empty($view->result[$view->row_index]->field_field_prog_track_facility_name)){
-    print "<br><span class='item-subscript-text'>".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']."</span>";
+    print "<span class='item-subscript-text'>".$view->result[$view->row_index]->field_field_prog_track_facility_name[0]['rendered']['#markup']."</span>";
 }
 
 ?>

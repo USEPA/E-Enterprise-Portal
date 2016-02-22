@@ -299,7 +299,7 @@ footer .pipeline {
 .pager li>a,
 .pager li>a:hover {
 	line-height: 16px;
-	padding: 0 6px 4px;
+	padding: 4px 8px;
 	font-size: 1.75em;
 	vertical-align: middle;
 }
@@ -1641,7 +1641,10 @@ table.views-table {
 	}
 }
 
-span.report-name, span.subpart-name {
+span.report-name, 
+span.subpart-name,
+span.item-subscript-text,
+span.date-subscript-text {
 	display: block;
 }
 span.subpart-name {
@@ -1652,7 +1655,7 @@ span.date-subscript-text,
 span.item-subscript-text,
 .simple-dialog {
 	font-weight: normal;
-	font-size: 67.5%;
+	font-size: 0.75em;
 }
 span.date-subscript-text,
 span.item-subscript-text,
@@ -1702,9 +1705,17 @@ tr.even {
     display:none;
 }
 
-.modal-content-in-page span.modal-label {
-  color: $ee-dark-gray;
-  font-size:0.9em;
+.modal-content-in-page {
+	.helpdesk-message {
+		margin-top: 30px;
+	}
+	span.modal-label {
+	  color: $ee-dark-gray;
+	  font-size: 0.75em;
+	  display: block;
+	  line-height: 1.2;
+	  margin-top: 10px;
+	}
 }
 
 .task-filter ul {
@@ -2718,7 +2729,6 @@ input[type="submit"],
   vertical-align: top;
 }
 
-
 .responsive-table caption {
   margin-bottom: 1em;
   font-size: 1em;
@@ -2746,6 +2756,12 @@ th.views-field-field-prog-tracker-app {
   width: 150px;
 }
 
+.view-to-do, .view-progress-tracker {
+	a.favorites-ignore:not(.pager__link) {
+		display: block;
+	}
+
+}
 td.responsive-to-do-link a,
 td.views-field-field-prog-track-actions-dnload a {
 	color: $ee-link-color;
