@@ -32,11 +32,12 @@ drupal_add_css("//cdn.jsdelivr.net/leaflet/0.7.3/leaflet.css", "external");
 drupal_add_css(drupal_get_path('module', 'my_air_quality_chart_view') ."/css/air_now_styles.css", "file");
 
 
-drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", "file");
-drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", "file");
-drupal_add_js("sites/all/libraries/globalassets/scripts/assets.core.js");
+//drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", "file");
+//drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", "file");
+drupal_add_js("sites/all/libraries/d3/3.5.5/d3.min.js", "file");
 
-drupal_add_js("//cdn.jsdelivr.net/leaflet/0.7.3/leaflet.js", "file");
+drupal_add_js("sites/all/libraries/leaflet/0.7.3/leaflet.js", "file");
+
 /*
 drupal_add_js("//cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js", "file");
 */
