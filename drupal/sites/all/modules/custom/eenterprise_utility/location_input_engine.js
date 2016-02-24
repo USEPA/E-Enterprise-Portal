@@ -28,7 +28,6 @@
                             data: {location: location_input, initial_login: true},
                             success: function (data) {
                                 var parsed_data = $.parseJSON(data);
-                                console.log(parsed_data);
                                 if (parsed_data.name_city_state) { // zip code entered, returned city/state
                                     var city_count = parsed_data.city.length;
                                     location_data_return.city = parsed_data.city;

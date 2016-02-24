@@ -30,7 +30,7 @@ function frs_location_services_menu()
         'page callback' => 'frs_naas_authentication',
         'access callback' => TRUE,
     );
-    
+
     return $items;
 }
 

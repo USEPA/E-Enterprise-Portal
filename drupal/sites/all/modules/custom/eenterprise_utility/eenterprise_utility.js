@@ -182,7 +182,7 @@
          *
          * stores zip and location name to dom multiselect #edit-zip-mapping
          */
-        function addZipMapping (zip, location_name) {
+        function addZipMapping(zip, location_name) {
             var multi_select = $('#edit-zip-mapping');
             var location_obj = {name: location_name, zip: zip};
             var location_obj_str = JSON.stringify(location_obj).replace("'", "&#39;");
@@ -196,18 +196,31 @@
             var primary_indicator = input.closest('td').find('.zip-code-primary-holder');
             var location = input.val();
             var field_suffix = input.next('.field-suffix');
-
+            var label_select_string = "";
+            var select = "";
             // replace input with select list
             add_button.hide();
             remove_button.hide();
             primary_indicator.hide();
-            var select = $(select);
+
+            if (input_type == "zip") {
+                label_select_string = 'Select a zip code for ' + input.val() + ':';
+                select = $(location_data.city_select);
+            }
+            else {
+                label_select_string = 'Select a location for ' + input.val() + ':';
+                select = $(location_data.zip_select);
+
+            }
+            var label_select = $('<label id="zip-label" for="city-state-lookup-zips">' + label_select_string + '</label>');
+            select.addClass('city-state-lookup-zips');
             // select.addClass('city-state-lookup-zips');
             var confirm = $('<button type="button" class="btn btn-primary btn-sm" id ="user-profile-select-zip">Select</button>');
             var back = $('<button type="button" class="btn btn-default btn-sm" id="user-profile-back-zip">Back</button>');
             input.prop("disabled", true);
             if (numSelects == 0) {
-                input.after(select);
+                input.after(label_select);
+                label_select.after(select);
                 numSelects = numSelects + 1;
             }
             hideButtons();
@@ -224,6 +237,7 @@
                 $('#profile-locations').find('#city-state-lookup-zips').remove();
                 back.remove();
                 confirm.remove();
+                label_select.remove();
                 select.remove();
                 remove_button.show();
                 add_button.show();
@@ -248,6 +262,7 @@
                     field_suffix.html(input_value);
                     input.val(select_value);
                 }
+                label_select.remove();
                 select.remove();
                 remove_button.show();
                 primary_indicator.show();
