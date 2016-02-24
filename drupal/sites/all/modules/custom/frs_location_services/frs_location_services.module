@@ -30,18 +30,7 @@ function frs_location_services_menu()
         'page callback' => 'frs_naas_authentication',
         'access callback' => TRUE,
     );
-    $items['loadUserPreferredNames'] = array(
-        'page callback' => 'loadUserPreferredNames',
-        'access callback' => TRUE,
-    );
-
-    $items['return_user_preferred_location/%'] = array(
-        'path arguments' => array(1),
-        'page callback' => 'return_user_preferred_location',
-        'access callback' => TRUE,
-    );
-
-
+    
     return $items;
 }
 
