@@ -101,7 +101,7 @@ function save_first_time_user_preferences()
     $geolocation_used = xssafe($_POST['geolocation_used']);
     $geolocation_zip = xssafe($_POST['geolocation_zip']);
     $role = xssafe($_POST['role']);
-    $preferred_location = xssafe($_POST['preferred_location']);
+    $preferred_location = xssafe($_POST['preferred_name']);
 
     $user_zip_codes = $user_data->field_zip_code;
     $user_initial_login = $user_data->field_initial_log_in;
@@ -113,7 +113,7 @@ function save_first_time_user_preferences()
     $user_interests = $user_data->field_lgc_topics_of_interest;
 
     // Clear any previous zip code values (used for testing)
-    // unset($user_zip_codes[LANGUAGE_NONE]);
+    unset($user_zip_codes[LANGUAGE_NONE]);
 
 
 // Store users geolocation

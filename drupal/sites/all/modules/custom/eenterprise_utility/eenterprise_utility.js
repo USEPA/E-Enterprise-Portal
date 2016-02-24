@@ -203,7 +203,7 @@
             primary_indicator.hide();
             var select = $(select);
             // select.addClass('city-state-lookup-zips');
-            var confirm = $('<button type="button" class="btn btn-default btn-sm" id ="user-profile-select-zip">Select</button>');
+            var confirm = $('<button type="button" class="btn btn-primary btn-sm" id ="user-profile-select-zip">Select</button>');
             var back = $('<button type="button" class="btn btn-default btn-sm" id="user-profile-back-zip">Back</button>');
             input.prop("disabled", true);
             if (numSelects == 0) {
