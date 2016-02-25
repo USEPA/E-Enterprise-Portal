@@ -13,15 +13,19 @@
                     var is_valid_zip = /(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/.test(location_input);
                     var location_data_return = {};
                     // regex for city, state code
-                    var is_city_state = /^[\w\s]+,\s*\w{2}$/.test(location_input);
-                    if (!is_city_state && !is_valid_zip) {
-                        error_message = 'Please input a valid ZIP code or a city and state code separated by a comma (e.g., Durham, NC)';
-                        error = true;
-                        location_data_return.error = error;
-                        location_data_return.error_message = error_message;
-                        deferred.reject(location_data_return);
-                    }
-                    else {
+                   /*
+                   Removed is_city_state check to  now accept tribes
+                    */
+                    //var is_city_state = /^[\w\s]+,\s*\w{2}$/.test(location_input);
+                    //if (!is_city_state && !is_valid_zip) {
+                    //   if (!is_valid_zip) {
+                    //    error_message = 'Please input a valid ZIP code or a city and state code separated by a comma (e.g., Durham, NC)';
+                    //    error = true;
+                    //    location_data_return.error = error;
+                    //    location_data_return.error_message = error_message;
+                    //    deferred.reject(location_data_return);
+                    //}
+                    //else {
                         $.ajax({
                             url: '/return_location_data',
                             type: 'POST',
@@ -60,12 +64,25 @@
                                         location_data_return.city = parsed_data.city;
                                         location_data_return.state = parsed_data.state;
                                         var zip_select = '<select id="city-state-lookup-zips">';
-                                        $.each(parsed_data.zip_array, function (index, zip_code) {
+                                        var previous_city = "";
+                                        var count = 0;
+                                        $.each(parsed_data.zip_attr, function (zip_code, zip_obj) {
+                                            if (zip_obj.city != previous_city && parsed_data.state == "") {
+                                                if (count == 0) {
+                                                    zip_select = zip_select + '<option value="" disabled selected>' + zip_obj.city + '</option>';
+                                                    count = count + 1;
+                                                }
+                                                else
+                                                    zip_select = zip_select + '<option value="" disabled>' + zip_obj.city + '</option>';
+                                                previous_city = zip_obj.city;
+                                            }
                                             zip_select = zip_select + '<option value="' + zip_code + '">' + zip_code + '</option>';
                                         });
+
                                         zip_select = zip_select + '</select>';
                                         location_data_return.zip_select = zip_select;
                                         location_data_return.zip_codes = true;
+                                        location_data_return.zip_attr = parsed_data.zip_attr;
                                     }
                                 }
 
@@ -79,7 +96,7 @@
                                 }
                             }
                         });
-                    }
+                  //  }
                     return deferred.promise();
                 }
             }
