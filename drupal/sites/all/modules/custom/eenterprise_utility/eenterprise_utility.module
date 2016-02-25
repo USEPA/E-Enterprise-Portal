@@ -458,7 +458,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 
         $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
         $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
-        $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter ZIP Code or City, State";
+        $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter city, state; tribe; or ZIP code";
         if (empty($form['account']['mail']['#default_value']))
             $form['account']['mail']['#default_value'] = $form['#user']->name;
         $form['account']['mail']['#attributes'] = array(

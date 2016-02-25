@@ -261,6 +261,8 @@
                 else {
                     field_suffix.html(input_value);
                     input.val(select_value);
+                    addZipMapping(input_value, select_value);
+
                 }
                 label_select.remove();
                 select.remove();

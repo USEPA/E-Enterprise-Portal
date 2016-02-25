@@ -13,21 +13,26 @@
                     var is_valid_zip = /(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/.test(location_input);
                     var location_data_return = {};
                     // regex for city, state code
-                    var is_city_state = /^[\w\s]+,\s*\w{2}$/.test(location_input);
-                    if (!is_city_state && !is_valid_zip) {
-                        error_message = 'Please input a valid ZIP code or a city and state code separated by a comma (e.g., Durham, NC)';
-                        error = true;
-                        location_data_return.error = error;
-                        location_data_return.error_message = error_message;
-                        deferred.reject(location_data_return);
-                    }
-                    else {
+                   /*
+                   Removed is_city_state check to  now accept tribes
+                    */
+                    //var is_city_state = /^[\w\s]+,\s*\w{2}$/.test(location_input);
+                    //if (!is_city_state && !is_valid_zip) {
+                    //   if (!is_valid_zip) {
+                    //    error_message = 'Please input a valid ZIP code or a city and state code separated by a comma (e.g., Durham, NC)';
+                    //    error = true;
+                    //    location_data_return.error = error;
+                    //    location_data_return.error_message = error_message;
+                    //    deferred.reject(location_data_return);
+                    //}
+                    //else {
                         $.ajax({
                             url: '/return_location_data',
                             type: 'POST',
                             data: {location: location_input, initial_login: true},
                             success: function (data) {
                                 var parsed_data = $.parseJSON(data);
+                                console.log(parsed_data);
                                 if (parsed_data.name_city_state) { // zip code entered, returned city/state
                                     var city_count = parsed_data.city.length;
                                     location_data_return.city = parsed_data.city;
@@ -79,7 +84,7 @@
                                 }
                             }
                         });
-                    }
+                  //  }
                     return deferred.promise();
                 }
             }
