@@ -68,11 +68,11 @@
                                         var count = 0;
                                         $.each(parsed_data.zip_attr, function (zip_code, zip_obj) {
                                             if (zip_obj.city != previous_city && parsed_data.state == "") {
-                                                if (count == 0) {
-                                                    zip_select = zip_select + '<option value="" disabled selected>' + zip_obj.city + '</option>';
-                                                    count = count + 1;
-                                                }
-                                                else
+                                                //if (count == 0) {
+                                                //    zip_select = zip_select + '<option value="" disabled selected>' + zip_obj.city + '</option>';
+                                                //    count = count + 1;
+                                                //}
+                                                //else
                                                     zip_select = zip_select + '<option value="" disabled>' + zip_obj.city + '</option>';
                                                 previous_city = zip_obj.city;
                                             }
