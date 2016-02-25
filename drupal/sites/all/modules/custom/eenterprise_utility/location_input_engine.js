@@ -32,7 +32,6 @@
                             data: {location: location_input, initial_login: true},
                             success: function (data) {
                                 var parsed_data = $.parseJSON(data);
-                                console.log(parsed_data);
                                 if (parsed_data.name_city_state) { // zip code entered, returned city/state
                                     var city_count = parsed_data.city.length;
                                     location_data_return.city = parsed_data.city;
@@ -65,12 +64,25 @@
                                         location_data_return.city = parsed_data.city;
                                         location_data_return.state = parsed_data.state;
                                         var zip_select = '<select id="city-state-lookup-zips">';
-                                        $.each(parsed_data.zip_array, function (index, zip_code) {
+                                        var previous_city = "";
+                                        var count = 0;
+                                        $.each(parsed_data.zip_attr, function (zip_code, zip_obj) {
+                                            if (zip_obj.city != previous_city && parsed_data.state == "") {
+                                                if (count == 0) {
+                                                    zip_select = zip_select + '<option value="" disabled selected>' + zip_obj.city + '</option>';
+                                                    count = count + 1;
+                                                }
+                                                else
+                                                    zip_select = zip_select + '<option value="" disabled>' + zip_obj.city + '</option>';
+                                                previous_city = zip_obj.city;
+                                            }
                                             zip_select = zip_select + '<option value="' + zip_code + '">' + zip_code + '</option>';
                                         });
+
                                         zip_select = zip_select + '</select>';
                                         location_data_return.zip_select = zip_select;
                                         location_data_return.zip_codes = true;
+                                        location_data_return.zip_attr = parsed_data.zip_attr;
                                     }
                                 }
 

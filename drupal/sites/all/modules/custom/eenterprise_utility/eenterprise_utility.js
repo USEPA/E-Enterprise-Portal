@@ -204,13 +204,12 @@
             primary_indicator.hide();
 
             if (input_type == "zip") {
-                label_select_string = 'Select a zip code for ' + input.val() + ':';
+                label_select_string = 'Select a location for ' + input.val() + ':';
                 select = $(location_data.city_select);
             }
             else {
-                label_select_string = 'Select a location for ' + input.val() + ':';
+                label_select_string = 'Select a zip code for ' + input.val() + ':';
                 select = $(location_data.zip_select);
-
             }
             var label_select = $('<label id="zip-label" for="city-state-lookup-zips">' + label_select_string + '</label>');
             select.addClass('city-state-lookup-zips');
@@ -250,18 +249,24 @@
             confirm.on('click', function () {
                 var input_value = input.val();
                 var select_value = select.val();
+                var location_name = '';
+                var zip_val = '';
                 back.remove();
                 confirm.remove();
                 if (input_type == 'zip') {
-                    input.val(input_value);
-                    field_suffix.html(select_value);
+                    location_name = select_value;
+                    zip_val = input_value;
+                    input.val(zip_val);
+                    field_suffix.html(location_name);
                     // addZipMapping takes zip then location name
-                    addZipMapping(input_value, select_value);
+                    addZipMapping(zip_val, location_name);
                 }
-                else {
-                    field_suffix.html(input_value);
-                    input.val(select_value);
-                    addZipMapping(input_value, select_value);
+                else { // type city or tribe
+                    zip_val = select_value;
+                    location_name = location_data.zip_attr[select_value].city;
+                    field_suffix.html(location_name);
+                    input.val(zip_val);
+                    addZipMapping(zip_val, location_name);
 
                 }
                 label_select.remove();
@@ -293,10 +298,6 @@
                 // This is an override of the drupal add and save to allow the zip code data to process before saving
                 var input = fieldToCheck;
                 var field_suffix = input.next('.field-suffix');
-                //var add_button = input.closest('td').find('.field-add-more-submit');
-                //var remove_button = input.closest('td').find('.remove-button');
-                //var primary_indicator = input.closest('td').find('.zip-code-primary-holder');
-
                 if (field_suffix.hasClass('error'))
                     field_suffix.removeClass('error');
                 if ($.trim(input.val()) == '')
