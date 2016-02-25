@@ -29,13 +29,11 @@
         this.ajax_url = ajax_url;
 
         if (location) {
-            if (location != 'US EPA') {
-                // Grab current state code
-                this.state_code = $.trim(location.split(',')[1]);
-            }
-            else {
+            // find if in city, state code pattern
+            if(location.indexOf(',') === -1)
                 this.state_code = location;
-            }
+            else
+                this.state_code = $.trim(location.split(',')[1]);
         }
         else {
             this.state_code  = false;
