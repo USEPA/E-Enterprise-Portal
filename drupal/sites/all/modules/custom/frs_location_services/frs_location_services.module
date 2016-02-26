@@ -517,6 +517,7 @@ function gpo_city_state_to_zip_code($city, $state)
     //watchdog('GPO_city_state', '<pre>@print_r</pre>', array('@print_r' => print_r( $result, TRUE))); 
     // If tribal area was found in this zip:
     if (!empty($result->features)) {
+        $tribalzips = array();
         foreach ($result->features as $feature) {
             $zip_found = true;
             // If the table has a placename, record that as the preferred name
@@ -524,15 +525,19 @@ function gpo_city_state_to_zip_code($city, $state)
             $zip_data['zip_attr'][$feature->attributes->ZCTA]["city"] = $feature->attributes->TRIBE_NAME_CLEAN;
             $zip_data['city'] = $feature->attributes->TRIBE_NAME_CLEAN;
             // For each found zip, lookup Census data
+            $tribalzips[] = $feature->attributes->ZCTA;
+
+        }
+        $tribalzips = array_unique($tribalzips);
+        if(!empty($tribalzips)) {
 
             // Get Zip Code to Census Place/Population Lookup table as json
             $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
-            $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $feature->attributes->ZCTA . '%27&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
+            $zip_pop_url = $zip_pop_url . 'where=ZCTA+IN+%28%27' . implode("%27%2C%27", $tribalzips) . '%27%29&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
 
             // Decode  json
             $json_file = file_get_contents($zip_pop_url);
             $result = json_decode($json_file);
-
             // If Zip->Census Place had results:
             if (!empty($result->features)) {
                 // Loop through all Census Places for the specified zip
@@ -543,6 +548,7 @@ function gpo_city_state_to_zip_code($city, $state)
                 }
             }
         }
+
     }
 
     // If city/state/tribe not found, use FRS lookup
