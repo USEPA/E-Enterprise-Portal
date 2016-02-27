@@ -190,18 +190,23 @@ function mapResourceTitlesToNids($title){
 }
 
 function loadUserResources() {
+    global $user;
     $resources = array();
     $locations = array();
-    global $user;
+
     $user_data = user_load($user->uid);
     $zip_codes = $user_data->field_zip_code[LANGUAGE_NONE];
     if (count($zip_codes) > 0) {
         foreach($zip_codes as $elem) {
             $zip = $elem['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
-            $state = zip_code_lookup($zip)['state'];
-            if (!in_array($state, $locations)) {
-                $locations[] = $state;
-                $resources = array_merge($resources, mapResourceTitlesToNids($state));
+            $preferred = return_user_preferred_location($zip);
+            if ($preferred)
+                $location = $preferred;
+            else
+                $location = zip_code_lookup($zip)['state'];
+            if (!in_array($location, $locations)) {
+                $locations[] = $location;
+                $resources = array_merge($resources, mapResourceTitlesToNids($location));
             }
         }
     }

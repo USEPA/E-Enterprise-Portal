@@ -385,12 +385,12 @@
 												// If count scrolls is 0, do not scroll left/previous, do not subtract
 												// If count scrolls is > 0, then scroll left/previous
 	                      if(!$('.jcarousel-control-prev').hasClass('inactive')) {
-													if (countScrolls => 0) {
+													if (countScrolls >= 0) {
 														$('.jcarousel-control-prev').trigger('click');													
 		                        if (countScrolls == 0) {
 														 	focusThumb = 0;
 													 	}
-		                        else if (countScrolls => 1 && (countScrolls < stopAtScrolls)) {
+		                        else if (countScrolls >= 1 && (countScrolls < stopAtScrolls)) {
 		                        	countScrolls = countScrolls - 1;
 		                        	focusThumb = countScrolls;
 													 	}
@@ -413,7 +413,7 @@
 															focusThumb = 1;
 														 	countScrolls = countScrolls + 1;
 													 	}
-		                        else if (countScrolls => 1 && (countScrolls < stopAtScrolls)) {
+		                        else if (countScrolls >= 1 && (countScrolls < stopAtScrolls)) {
 															countScrolls = countScrolls + 1;
 															focusThumb = countScrolls;
 													 	}
