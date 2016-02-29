@@ -1,0 +1,103 @@
+<?php
+/**
+ * @file
+ * PEAR Crypt_Blowfish integration
+ */
+ 
+/**
+ * 
+ */
+require_once('crypt_blowfish.inc'); 
+
+/**
+ * Implements hook_help()
+ * @param path which path of the site we're displaying help
+ * @param arg array that holds the current path as would be returned from arg() function
+ * @return help text for the path
+ */
+function crypt_blowfish_help($path, $arg) {
+  $output = '';  
+  switch ($path) {
+    case "admin/help#crypt_blowfish":
+      $output = '<p>'.  t("PEAR Crypt_Blowfish required.") .'</p>';
+      break;
+  }
+  return $output;
+} 
+
+/**
+ * Implements hook_perm()
+ * @TODO 
+ * @return array An array of valid permissions for the crypt_blowfish module
+ */
+function crypt_blowfish_perm() {
+  return array('crypt_blowfish admin');
+} 
+
+/**
+ * Implements hook_menu()
+ */
+function crypt_blowfish_menu() {
+  $items = array();
+
+  $items['admin/settings/crypt_blowfish'] = array(
+    'title' => 'Blowfish',
+    'description' => 'Blowfish Configuration',
+     'page callback' => 'drupal_get_form',
+     'page arguments' => array('crypt_blowfish_admin', 'add'),
+     'access arguments' => array('crypt_blowfish admin'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+} 
+
+/**
+ * @return array Form
+ */
+function crypt_blowfish_admin() {
+  $form = array();
+  if(Drupal_Crypt_Blowfish::getkey() == 'replace this with a strong password') {
+      $keyinfo = t('<strong>You still need to set this key. Go to this module\'s install directory and change the file \'crypt_blowfish_key.inc\'</strong>');
+  }
+  else {
+      $keyinfo = t('The key is set to: <em>'. Drupal_Crypt_Blowfish::getkey() .'</em>');
+  }
+  $form['crypt_info'] = array(
+    '#value' => t("<p>Remote login passwords are stored using reversible encryption. This means that they should be reasonably safe in case anybody has access to your database if you choose a strong key. This key is stored in plaintext in the file 'crypt_blowfish.key' in this module's install directory and can include any characters.</p><p>!keyinfo</p><p>The PEAR <a href=\"http://pear.php.net/package/Crypt_Blowfish\">Crypt_Blowfish</a> package must be installed for this module to work (see <a href=\"http://pear.php.net/manual/en/guide.users.commandline.installing.php\">installing packages</a>). If you do not have permission to install PEAR packages, you can download this to a local directory.</p>", array('!keyinfo' => $keyinfo)),
+  );
+  $form['crypt_blowfish_cryptdir'] = array(
+    '#type' => 'textfield',
+    '#title' => t('PEAR Crypt directory'),
+    '#default_value' => variable_get('crypt_blowfish_cryptdir', ''),
+    '#size' => 75,
+    '#maxlength' => 400,
+    '#description' => t('Usually your PEAR path. Must be full system path with leading slash'),
+    '#required' => TRUE,
+  );
+
+  return system_settings_form($form);
+} 
+
+/**
+ * Implements hook_clients_drupal_encrypt()
+ */
+function crypt_blowfish_clients_drupal_encrypt($val) {
+  return base64_encode(Drupal_Crypt_Blowfish::encrypt($val));
+}
+/**
+ * Implements hook_clients_drupal_decrypt()
+ */
+function crypt_blowfish_clients_drupal_decrypt($val) {
+  return trim(Drupal_Crypt_Blowfish::decrypt(base64_decode($val)));
+}
+
+/**
+ * Implements hook_clients_drupal_encryption_methods()
+ */
+function crypt_blowfish_clients_drupal_encryption_methods() {
+  return array('crypt_blowfish' => 'Blowfish');
+}
+
+
+
