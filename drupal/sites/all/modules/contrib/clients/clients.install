@@ -1,0 +1,162 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the Clients module.
+ */
+
+/**
+ * Implements hook_schema
+ */
+function clients_schema() {
+  $schema['cache_clients'] = drupal_get_schema_unprocessed('system', 'cache');
+
+  $schema['clients_connection'] = array(
+    'description' => 'Stores service connection configurations',
+    'fields' => array(
+      'cid' => array(
+        'description' => 'The primary identifier for a service connection.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'Connection name, must be unique',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'label' => array(
+        'description' => 'Resource human readable label',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => 'Connection type',
+        'type' => 'varchar',
+        'length' => 64,
+      ),
+      // EntityAPI field.
+      'status' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        // Set the default to ENTITY_CUSTOM without using the constant as it is
+        // not safe to use it at this point.
+        'default' => 0x01,
+        'size' => 'tiny',
+        'description' => 'The exportable status of the entity.',
+      ),
+      // EntityAPI field.
+      'module' => array(
+        'description' => 'The name of the providing module if the entity has been defined in code.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'endpoint' => array(
+        'description' => 'Connection endpoint',
+        'type' => 'varchar',
+        'length' => 256,
+      ),
+      'configuration' => array(
+        'description' => 'Connection configuration - serialized',
+        'serialize' => TRUE,
+        'size' => 'big',
+        'type' => 'text',
+      ),
+    ),
+    'unique keys' => array(
+      'name' => array('name'),
+      ),
+    'primary key' => array('cid'),
+  );
+
+  $schema['clients_resource'] = array(
+    'description' => 'Stores client resource configurations',
+    'fields' => array(
+      'rid' => array(
+        'description' => 'The primary identifier for a resource.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'Resource name, must be unique',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'label' => array(
+        'description' => 'Resource human readable label',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => 'Resource type',
+        'type' => 'varchar',
+        'length' => 64,
+      ),
+      // EntityAPI field.
+      'status' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        // Set the default to ENTITY_CUSTOM without using the constant as it is
+        // not safe to use it at this point.
+        'default' => 0x01,
+        'size' => 'tiny',
+        'description' => 'The exportable status of the entity.',
+      ),
+      // EntityAPI field.
+      'module' => array(
+        'description' => 'The name of the providing module if the entity has been defined in code.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'component' => array(
+        'description' => 'Resource component name',
+        'type' => 'varchar',
+        'length' => 128,
+      ),
+      'connection' => array(
+        'description' => 'Resource connection',
+        'type' => 'varchar',
+        'length' => 256,
+      ),
+      'configuration' => array(
+        'description' => 'Resource configuration - serialized',
+        'serialize' => TRUE,
+        'size' => 'big',
+        'type' => 'text',
+      ),
+    ),
+    'unique keys' => array(
+      'name' => array('name'),
+    ),
+    'primary key' => array('rid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Helper function for connection type modules to delete all their connections.
+ *
+ * For example usage, see clients_drupal_uninstall().
+ *
+ * @param $module
+ *  The name of the module whose connections should be deleted.
+ */
+function clients_connection_uninstall_connection_delete($module) {
+  // Invoke hook_clients_connection_type_info().
+  // This works even when the module is about to be uninstalled.
+  $connection_types = module_invoke($module, 'clients_connection_type_info');
+  foreach ($connection_types as $type => $info) {
+    $num_deleted = db_delete('clients_connections')
+      ->condition('type', $type)
+      ->execute();
+  }
+}
+
+// TODO: upgrade from D6: rename connections table to singular.

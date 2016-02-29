@@ -135,14 +135,13 @@ menu, ol, ul {
 }
 .masthead {
 	h1 {
-		width: 7.5em;
 		font-weight: 200;
 		color: #333;
 		line-height: 1.2;
-		margin-bottom: 10px;
 		margin-right: 20px;
 		display: inline-block;
 		font-size: 2em;
+		margin-bottom: 0.25em;
 	}
 	.ee-header-line1 {
 		display:block;
@@ -203,8 +202,8 @@ header #block-eenterprise-bridge-auth-eenterprise-bridge-auth h2.block-title {
 	margin-bottom: 0;
 }	
 .main-content {
-	padding-left: 2em;
-	padding-right: 2em;
+	padding-left: 30px;
+	padding-right: 30px;
 }
 footer {
 	font-size: 0.85em;
@@ -300,7 +299,7 @@ footer .pipeline {
 .pager li>a,
 .pager li>a:hover {
 	line-height: 16px;
-	padding: 0 6px 4px;
+	padding: 4px 8px;
 	font-size: 1.75em;
 	vertical-align: middle;
 }
@@ -345,9 +344,6 @@ label, .aria-label {
 .page-eenterprise-new, .section-eenterprise-new {
 	.site-name-and-slogan {
 		width: 100%;
-		.site-slogan {
-			font-size: 0.85em;
-		}	
 	}
 }
 .site-name-and-slogan {
@@ -358,18 +354,17 @@ label, .aria-label {
 	display: inline-block;
 	margin-top: 5px;
 	margin-bottom: 0;
-	width: 125px;
-	height: 70px;
 	vertical-align: bottom;
 }
 .site-slogan {
-	display: inline-block;
+	display: block;
 	font-weight: 200;
 	line-height: 1.2;
 	margin-bottom: 10px;
 	vertical-align: bottom;
 	color: $ee-dark-gray;
 	font-size: 0.85em;
+	font-style: italic;
 }
 .main-nav > .menu > .menu-item > .menu-link {
 	font-weight: normal;
@@ -474,7 +469,7 @@ header {
 }
 .region-footer {
 	background-color: #333;
-	padding: 20px 2em;
+	padding: 20px 30px;
 	.block-title, a {
 		color: #fff;
 	}
@@ -1240,7 +1235,7 @@ tr.odd, tr.even {
 	.site-name-and-slogan {
 		width: 40%;
 		.site-slogan {
-			font-size: 0.75em;
+			//font-size: 0.75em;
 		}	
 	}
 }
@@ -1310,7 +1305,7 @@ footer {
 	.workbench-menu, .simple-main-nav {
     	float: left;
     	font-size: 0.85em;
-    	padding-left: 2.5em;
+    	padding-left: 30px;
     	li {
 	    	float: left;
 	    	margin-right: 20px;
@@ -1646,15 +1641,32 @@ table.views-table {
 	}
 }
 
+span.report-name, 
+span.subpart-name,
+span.item-subscript-text,
+span.date-subscript-text {
+	display: block;
+}
+span.subpart-name {
+	color: $ee-dark-gray;
+}
+a:hover span.subpart-name {
+	color: #fff;
+}
+span.subpart-name,
 span.date-subscript-text,
 span.item-subscript-text,
 .simple-dialog {
 	font-weight: normal;
-	margin-top:10px;
-	display:inline-block;
-	text-transform: uppercase;
-	font-size: 67.5%;
+	font-size: 0.75em;
 }
+span.date-subscript-text,
+span.item-subscript-text,
+.simple-dialog {
+	margin-top:10px;
+	text-transform: uppercase;
+}
+
 td.views-field-counter,
 td.views-field-field-prog-track-domain,
 td.views-field-field-prog-track-status,
@@ -1695,9 +1707,17 @@ tr.even {
     display:none;
 }
 
-.modal-content-in-page span.modal-label {
-  color: $ee-dark-gray;
-  font-size:0.9em;
+.modal-content-in-page {
+	.helpdesk-message {
+		margin-top: 30px;
+	}
+	span.modal-label {
+	  color: $ee-dark-gray;
+	  font-size: 0.75em;
+	  display: block;
+	  line-height: 1.2;
+	  margin-top: 10px;
+	}
 }
 
 .task-filter ul {
@@ -2185,6 +2205,9 @@ a.tabledrag-handle .handle {
 	padding-bottom: 10px;
 	h2 {
 		padding: 0;
+		line-height: 1.2;
+		margin-top: 0;
+		margin-bottom: 15px;
 	}
 	h2 span {
 		display: block;
@@ -2192,10 +2215,13 @@ a.tabledrag-handle .handle {
 	    font-size: 0.5em;
 	    color: #999;
 	    margin-bottom: 5px;
+	    margin-top: 10px;
+	    line-height: 1;
 	}
 	h3 {
 		padding-bottom: 0;
-		margin-top: 2em;
+		margin-top: 30px;
+		font-weight: bold;
 	}
 	p {
 		padding-bottom: 0;
@@ -2203,7 +2229,7 @@ a.tabledrag-handle .handle {
 	label {
 		font-size: 1em;
 	}
-    #zip_container {
+  #zip_container {
 		span {
 			float: none;
 			margin-right: 0;
@@ -2212,7 +2238,7 @@ a.tabledrag-handle .handle {
 	#location-add-new {
 		margin-top: 10px;
 		label {
-			margin-bottom: 0;
+			margin-bottom: 5px;
 		}
 		#new-location {
 			width: 18em;
@@ -2282,8 +2308,8 @@ a.tabledrag-handle .handle {
 }
 
 /** jQuery Overrides - General, affects modals, tabs, etc. *********************************************************/
-.ui-widget, .ui-widget input {
-	font-family: $lato !important;
+.ui-widget, .ui-widget input, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+	font-family: $base-font-family !important;
 	font-size: 1em;
 }
 .ui-widget-overlay, #modalBackdrop {
@@ -2705,7 +2731,6 @@ input[type="submit"],
   vertical-align: top;
 }
 
-
 .responsive-table caption {
   margin-bottom: 1em;
   font-size: 1em;
@@ -2733,6 +2758,12 @@ th.views-field-field-prog-tracker-app {
   width: 150px;
 }
 
+.view-to-do, .view-progress-tracker {
+	a.favorites-ignore:not(.pager__link) {
+		display: block;
+	}
+
+}
 td.responsive-to-do-link a,
 td.views-field-field-prog-track-actions-dnload a {
 	color: $ee-link-color;
@@ -2762,8 +2793,6 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 	.masthead {
 		h1.site-name {
 			font-size: 1.5em;
-		    margin-bottom: 5px;
-		    height: auto;
 	    }
 	}
 	#first-time-user-block {
@@ -3408,6 +3437,13 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 		content: url('../images/exchange-network-x-sm.png');
 	}
 }
+.btn-wam {
+	@include btn-social(#369);
+	color: #fff;
+	.wam:before {
+		content: url('../images/epaicon.png');
+	}
+}
 
 .btn-envlinfoexchangenetwork {
 	@include btn-social(#80a3d8);
@@ -3483,6 +3519,21 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
   content: "\f021";
   //color: #0e8200 !important;
 }
+td.has-error {
+	color: #a94442;
+  background-color: #f2dede;
+  border-color: #a94442;
+	.fa-brokenlink:before, a:before {
+	  display: inline-block;
+	  font: normal normal normal 14px/1 FontAwesome;
+	  font-size: inherit;
+	  text-rendering: auto;
+	  -webkit-font-smoothing: antialiased;
+	  -moz-osx-font-smoothing: grayscale;	
+		content: "\f127";
+		color: $base-text-color;
+	}
+}
 a {
 	&.refresh {
 		//@include button-gray;
@@ -3494,7 +3545,7 @@ a {
 		top: 30px;
 		right: 30px;	
 	}
-	&:focus .fa-refresh, &:focus .fa-refresh:before {
+	&:focus .fa-refresh, &:focus .fa-refresh:before, &:hover .fa-fresh {
 			color: #fff;
 	}
 }	
@@ -3518,7 +3569,7 @@ a {
 		display: block;
 	}
 	li#exchange-cdx a {
-		margin-bottom:0;
+//		margin-bottom:0;
 	}
 	#exchange-subtext {
 		display: block;

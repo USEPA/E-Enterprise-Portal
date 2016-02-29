@@ -51,14 +51,6 @@ function first_time_user_profile_block_uuid_features_default_terms() {
     'vocabulary_machine_name' => 'community_sizes',
   );
   $terms[] = array(
-    'name' => 'Community outreach',
-    'description' => '',
-    'format' => 'full_html',
-    'weight' => 0,
-    'uuid' => '994e5c57-1f3a-4f92-930d-33d674bf9270',
-    'vocabulary_machine_name' => 'roles',
-  );
-  $terms[] = array(
     'name' => '5,000 - 10,000',
     'description' => '',
     'format' => 'full_html',

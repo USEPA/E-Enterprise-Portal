@@ -30,6 +30,7 @@ function frs_location_services_menu()
         'page callback' => 'frs_naas_authentication',
         'access callback' => TRUE,
     );
+
     return $items;
 }
 
@@ -79,12 +80,17 @@ function save_first_time_user_preferences()
 {
     global $user;
     $user_data = user_load($user->uid);
+    $return_msg = array();
 
     $skip = xssafe($_POST['skip']);
     $zip = xssafe($_POST['zip']);
-
+    $org = xssafe($_POST['org']);
+    $comm_type = xssafe($_POST['comm_type']);
+    $comm_size = xssafe($_POST['comm_size']);
     $geolocation_used = xssafe($_POST['geolocation_used']);
     $geolocation_zip = xssafe($_POST['geolocation_zip']);
+    $role = xssafe($_POST['role']);
+    $preferred_location = xssafe($_POST['preferred_name']);
 
     $user_zip_codes = $user_data->field_zip_code;
     $user_initial_login = $user_data->field_initial_log_in;
@@ -126,9 +132,9 @@ function save_first_time_user_preferences()
         ),
     );
 
-    $user_initial_login[LANGUAGE_NONE][0] = $multifield_initial_zip_obj;
 
     if (!$skip) {
+        // Create zip code object with saved zip code information
         $multifield_zip_obj = array(
             'field_field_primary_value' => 1,
             'field_field_primary_format' => null,
@@ -153,24 +159,18 @@ function save_first_time_user_preferences()
 
 
         // add role data
-        $role = xssafe($_POST['role']);
         // Check if role is a new input from user and add to vocabulary
         if (!is_numeric($role)) {
             $role = custom_create_taxonomy_term($role, taxonomy_vocabulary_machine_name_load('roles')->vid);
         }
-        $org = xssafe($_POST['org']);
-        $comm_type = xssafe($_POST['comm_type']);
-        $comm_size = xssafe($_POST['comm_size']);
 
-        if ($role != '' && is_numeric($role)) {
+
+        if ($role != '' && is_numeric($role))
             $user_role[LANGUAGE_NONE][0]['tid'] = $role;
-        }
-        if (is_numeric($org)) {
+        if (is_numeric($org))
             $user_org[LANGUAGE_NONE][0]['tid'] = $org;
-        }
-        if ($comm_type) {
+        if ($comm_type)
             $user_comm_type[LANGUAGE_NONE][0] = array('value' => $comm_type);
-        }
         if ($comm_size && is_numeric($comm_size)) {
             $user_comm_size[LANGUAGE_NONE][0]['tid'] = $comm_size;
             $edit['field_community_size'] = $user_comm_size;
@@ -180,17 +180,17 @@ function save_first_time_user_preferences()
         // reset saved user interests
         $user_interests[LANGUAGE_NONE] = array();
         $interests = $_POST['interests'];
-        foreach($interests as $tid) {
-            if (is_numeric($tid)) {
+        foreach ($interests as $tid) {
+            if (is_numeric($tid))
                 $user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
-            }
         }
 
 
     }
 
-// Set first_time_user boolean to false
-    $first_time_user[LANGUAGE_NONE][0] = array('value' => '0');
+    // Set user settings to corresponding objects
+    $user_initial_login[LANGUAGE_NONE][0] = $multifield_initial_zip_obj;
+    $first_time_user[LANGUAGE_NONE][0] = array('value' => '0'); // Set first_time_user boolean to false
 
     $edit = array(
         'field_zip_code' => $user_zip_codes,
@@ -203,23 +203,106 @@ function save_first_time_user_preferences()
         'field_lgc_topics_of_interest' => $user_interests
     );
 
-    $return_msg = array();
-
     try {
         user_save($user_data, $edit);
+        // Once the user has successfully saved, save the user preferred location
+        if (!$skip)
+            save_user_location($zip, $preferred_location);
+        $return_msg['success'] = true;
+        print json_encode($return_msg);
     } catch (Exception $e) {
         $return_msg['error_msg'] = $e;
         $return_msg['success'] = false;
         $return_msg['geo'] = $geolocation_used;
         print json_encode($e);
-        exit();
     }
-    $return_msg['success'] = true;
-    $return_msg['input'] = $_POST;
-    $return_msg['user_interests'] = $user_interests;
-    print json_encode($return_msg);
+}
+
+
+function save_user_location($zip_code, $preferred_location)
+{
+    global $user;
+    $uid = $user->uid;
+    $previously_saved_location = FALSE;
+
+    $nids = db_select("node", 'n')
+        ->fields('n', array('nid'))
+        ->condition('type', 'user_location_preferences')
+        ->condition('uid', $uid)
+        ->execute()->fetchCol();
+
+    // Check if user has previously saved this zip under a preferred name
+    foreach ($nids as $nid) {
+        $node = node_load($nid);
+        $saved_zip = $node->field_user_zip_code[LANGUAGE_NONE][0]['safe_value'];
+        $saved_loc_name = $node->field_preferred_location[LANGUAGE_NONE][0]['safe_value'];
+        if ($saved_zip == $zip_code && $saved_loc_name == $preferred_location) {
+            // do nothing
+            $previously_saved_location = TRUE;
+            break;
+        } else if ($saved_zip == $zip_code) {
+            // overwrite preferred name
+            $previously_saved_location = TRUE;
+            break;
+        }
+    }
+
+    // If there is no previously save version of the zip code, save a new preferred name
+    if (!$previously_saved_location) {
+        // Save new location preference
+        $node = new stdClass();
+        $node->type = 'user_location_preferences';
+        $node->title = $user->name . " - " . $zip_code . ": " . $preferred_location;
+        $node->field_preferred_name[LANGUAGE_NONE][0]['value'] = $preferred_location;
+        $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
+        $node->uid = $uid;
+        $node->status = 1;
+        $node->language = LANGUAGE_NONE;
+        node_save($node);
+    }
 
 }
+
+function return_user_preferred_location($zip_code)
+{
+    global $user;
+    $query = new EntityFieldQuery();
+
+    $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'user_location_preferences')
+        ->propertyCondition('status', NODE_PUBLISHED)
+        ->propertyCondition('uid', $user->uid)
+        ->fieldCondition('field_user_zip_code', 'value', $zip_code, '=');
+    $result = $query->execute();
+
+    if (isset($result['node'])) {
+        $nid = array_keys($result['node'])[0];
+        $node = node_load($nid);
+        return $node->field_preferred_name[LANGUAGE_NONE][0]['value'];
+    } else
+        return FALSE;
+}
+
+//function return_user_locations($user_data)
+//{
+//    global $user;
+//    $uid = $user->uid;
+//    $zip = '77571';
+//    $nids = db_select("node", 'n')
+//        ->fields('n', array('nid'))
+//        ->condition('type', 'user_location_preferences')
+//        ->condition('uid', $uid)
+//        ->execute()->fetchCol();
+//    foreach ($nids as $nid) {
+//        $node = node_load($nid);
+//        $found_zip = $node->field_user_zip_code[LANGUAGE_NONE][0]['safe_value'];
+//        if ($zip == $found_zip)
+//            echo "successfully found " . $zip;
+//        else
+//            echo "not found";
+//    }
+//}
+
 
 function return_location_data_lat_long()
 {
@@ -262,7 +345,6 @@ function return_location_data()
 // Sanitize inputs
 
 
-
 // First check $location with postal code validation
     $validation = postal_code_validation_validate($location, 'US');
     $location = xssafe($location);
@@ -274,12 +356,21 @@ function return_location_data()
         $location_array = explode(',', $location);
         $city = trim($location_array[0]);
         $state = trim($location_array[1]);
-        $zips = frs_city_state_to_zip_code($city, $state);
+
+        if ($initial_login) {
+            // If initial login, use new-style lookup w/ census data
+            $zips = gpo_city_state_to_zip_code($city, $state);
+        } else {
+            // Else, fallback to old FRS lookup, for compatibility
+            $zips = frs_city_state_to_zip_code($city, $state);
+        }
         echo json_encode($zips);
     } else {
-        if($initial_login) {
+        if ($initial_login) {
+            // If initial login, use new-style lookup w/ census data
             $zip_lookup = zip_code_lookup($validation['postal_code'], 'php', true);
         } else {
+            // Else, fallback to old FRS lookup, for compatibility
             $zip_lookup = zip_code_lookup($validation['postal_code']);
         }
         $zip_lookup['name_city_state'] = true;
@@ -354,6 +445,136 @@ function frs_lat_long_to_zip_code($lat, $long)
     }
     return $return;
 }
+
+// Look up zip codes if user enters city/state or tribal location using GeoPortal Online service
+function gpo_city_state_to_zip_code($city, $state)
+{
+    $zip_data = array(
+        'zip_array' => '',
+        'state' => '',
+        'city' => '',
+        'zip_attr' => '',
+        'city_attr' => '',
+    );
+
+    // City name standardization to match Census names
+    $cleaned_city = preg_replace("/\b(SAINT)\b/", "ST.", $city);
+    $cleaned_city = preg_replace("/\b(SAINTE)\b/", "STE.", $cleaned_city);
+    $cleaned_city = preg_replace("/\b(MT\.?)(\s)/", "MOUNT$2", $cleaned_city);
+    $cleaned_city = preg_replace("/\b(FT\.?)(\s)/", "FORT$2", $cleaned_city);
+    $cleaned_city = preg_replace("/\b(NEW YORK CITY)\b/", "NEW YORK", $cleaned_city);
+    $cleaned_city = preg_replace("/\s/", "+", $cleaned_city);  // Replace spaces with + for AGOL query
+
+    // Get Zip Code to Census Place/Population Lookup table as json
+    $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+    $zip_pop_url = $zip_pop_url . 'where=UPPER%28NAME_LABEL%29%3D%27' . $cleaned_city . '%2C+' . $state . '%27&outFields=*&orderByFields=ZCTA&f=pjson';
+
+    // Decode  json
+    $json_file = file_get_contents($zip_pop_url);
+    $result = json_decode($json_file);
+    //watchdog('GPO_city_state', '<pre>@print_r</pre>', array('@print_r' => print_r( $result, TRUE))); 
+    // Keep track of whether a zip has been found yet
+    $zip_found = false;
+    // If Census Place->Zip had results:
+    if (!empty($result->features)) {
+        $city_attr = array();
+        $zip_attr = array();
+        $zip_list = array();
+        // Loop through all Census Places for the specified zip
+        foreach ($result->features as $feature) {
+            if (!empty($feature->attributes->ZCTA)) {
+                // If the table has a placename, record that as the preferred name, along with its population
+                $zip_list[] = $feature->attributes->ZCTA;
+                $city_attr[$feature->attributes->NAME_LABEL] = array(
+                    "pop" => $feature->attributes->Place_Pop_2014_ACS2014
+                );
+                // Also record the zip code's population and urban/rural status
+                $zip_attr[$feature->attributes->ZCTA] = array(
+                    "city" => $feature->attributes->NAME_LABEL,
+                    "pop" => $feature->attributes->Zip_Pop2014_ACS5,
+                    "urban" => $feature->attributes->Urban,
+                );
+                $zip_found = true;
+            }
+        }
+
+        $location_array = explode(',', $feature->attributes->NAME_LABEL);
+        $zip_data['city'] = trim($location_array[0]);
+        $zip_data['state'] = trim($location_array[1]);
+        $zip_data['zip_array'] = $zip_list;
+        $zip_data['city_attr'] = $city_attr;
+        $zip_data['zip_attr'] = $zip_attr;
+    }
+
+    // Get Zip Code to Tribal Area Lookup table as json
+    $zip_tribe_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
+    $zip_tribe_url = $zip_tribe_url . 'where=UPPER%28TRIBE_NAME_CLEAN%29+LIKE+%27%25' . $cleaned_city . '%25%27&outFields=*&orderByFields=ZCTA&f=pjson';
+
+    // Decode  json
+    $json_file = file_get_contents($zip_tribe_url);
+    $result = json_decode($json_file);
+
+    //watchdog('GPO_city_state', '<pre>@print_r</pre>', array('@print_r' => print_r( $result, TRUE))); 
+    // If tribal area was found in this zip:
+    if (!empty($result->features)) {
+        $tribalzips = array();
+        foreach ($result->features as $feature) {
+            $zip_found = true;
+            // If the table has a placename, record that as the preferred name
+            $zip_data['zip_array'][] = $feature->attributes->ZCTA;
+            $zip_data['zip_attr'][$feature->attributes->ZCTA]["city"] = $feature->attributes->TRIBE_NAME_CLEAN;
+            $zip_data['city'] = $feature->attributes->TRIBE_NAME_CLEAN;
+            // For each found zip, lookup Census data
+            $tribalzips[] = $feature->attributes->ZCTA;
+
+        }
+        $tribalzips = array_unique($tribalzips);
+        if(!empty($tribalzips)) {
+
+            // Get Zip Code to Census Place/Population Lookup table as json
+            $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+            $zip_pop_url = $zip_pop_url . 'where=ZCTA+IN+%28%27' . implode("%27%2C%27", $tribalzips) . '%27%29&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
+
+            // Decode  json
+            $json_file = file_get_contents($zip_pop_url);
+            $result = json_decode($json_file);
+            // If Zip->Census Place had results:
+            if (!empty($result->features)) {
+                // Loop through all Census Places for the specified zip
+                foreach ($result->features as $feature) {
+                    // Also record the zip code's population and urban/rural status
+                    $zip_data['zip_attr'][$feature->attributes->ZCTA]["pop"] = $feature->attributes->Zip_Pop2014_ACS5;
+                    $zip_data['zip_attr'][$feature->attributes->ZCTA]["urban"] = $feature->attributes->Urban;
+                }
+            }
+        }
+
+    }
+
+    // If city/state/tribe not found, use FRS lookup
+    if (!$zip_found) {
+        $zip_data = frs_city_state_to_zip_code($city, $state);
+    } else {
+        // Also append FRS zips for this location if not found in census/tribe
+        $frs_zips = frs_city_state_to_zip_code($city, $state);
+        $append_frs = array_diff($frs_zips['zip_array'], $zip_data['zip_array']);
+
+        $zip_data['zip_array'] = array_merge($zip_data['zip_array'], $append_frs);
+        sort($zip_data['zip_array']);
+
+        // For each found zip, use existing census data
+        foreach ($append_frs as $frs_zip) {
+            $zip_data['zip_attr'][$frs_zip]["pop"] = current($zip_data['zip_attr'])["pop"];
+            $zip_data['zip_attr'][$frs_zip]["urban"] = current($zip_data['zip_attr'])["urban"];
+            $zip_data['zip_attr'][$frs_zip]["city"] = current($zip_data['zip_attr'])["city"];
+        }
+
+    }
+
+    // watchdog('zip_data', '<pre>@print_r</pre>', array('@print_r' => print_r( current($zip_data['zip_attr']), TRUE))); 
+    return $zip_data;
+}
+
 
 // http://epadev.induscorp.com/enviro/html/fii/api/frs_api_services.html#LOOKUP4.14
 function frs_city_state_to_zip_code($city, $state)
@@ -525,6 +746,8 @@ function frs_zip_code_to_lat_long($zip)
     $response = drupal_http_request($request_url, $options);
     $data = json_decode($response->data);
     $results = $data->Results;
+
+    //watchdog('lat_long_lookup', '<pre>@print_r</pre>', array('@print_r' => print_r( $data->Results, TRUE))); 
     $return = array(
         'long' => $results->Longitude83,
         'lat' => $results->Latitude83,
@@ -566,7 +789,7 @@ function generate_taxonomy_select($elem_id)
             break;
         case 'select-role':
             $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('roles')->vid);
-            $title = 'Select role';
+            $title = '';
 
             $options = array(
                 '' => '',
@@ -591,15 +814,16 @@ function generate_taxonomy_select($elem_id)
             break;
     }
 
-
     if ($combobox) {
-        echo "<select name='$elem_id' id='$elem_id' class='combobox'>";
+        echo "<select name='$elem_id' id='$elem_id' class='combobox form-control' style='display:none'>";
     } else {
-        echo "<select name='$elem_id' id='$elem_id'>";
+        echo "<select name='$elem_id' id='$elem_id' class='form-control'>";
+        echo "<option value='' selected>$title</option>";
     }
-    echo "<option value=''>$title</option>";
     foreach ($terms as $class_obj) {
         echo "<option value='$class_obj->tid'>$class_obj->name</option>";
     };
     echo "</select>";
 }
+
+

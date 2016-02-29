@@ -24,7 +24,10 @@ function other_items_of_interest_feature_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Additional Resources State';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    2 => '2',
+  );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -62,6 +65,15 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Contextual filter: Content: Title */
+  $handler->display->display_options['arguments']['title']['id'] = 'title';
+  $handler->display->display_options['arguments']['title']['table'] = 'node';
+  $handler->display->display_options['arguments']['title']['field'] = 'title';
+  $handler->display->display_options['arguments']['title']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['title']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['title']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['title']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['title']['limit'] = '0';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -89,16 +101,15 @@ function other_items_of_interest_feature_views_default_views() {
   /* Display: States, All */
   $handler = $view->new_display('block', 'States, All', 'block');
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Title */
-  $handler->display->display_options['arguments']['title']['id'] = 'title';
-  $handler->display->display_options['arguments']['title']['table'] = 'node';
-  $handler->display->display_options['arguments']['title']['field'] = 'title';
-  $handler->display->display_options['arguments']['title']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['title']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['title']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['title']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['title']['limit'] = '0';
-  $handler->display->display_options['arguments']['title']['break_phrase'] = TRUE;
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['nid']['break_phrase'] = TRUE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -118,7 +129,26 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['group'] = 1;
 
   /* Display: US EPA Only */
-  $handler = $view->new_display('block', 'US EPA Only', 'block_1');
+  $handler = $view->new_display('block', 'US EPA Only', 'us_epa');
+
+  /* Display: Current Location */
+  $handler = $view->new_display('block', 'Current Location', 'current_location');
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'state_resource' => 'state_resource',
+  );
   $export['additional_resources_all'] = $view;
 
   $view = new view();
@@ -381,6 +411,8 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Resource */
   $handler->display->display_options['fields']['field_source']['id'] = 'field_source';
   $handler->display->display_options['fields']['field_source']['table'] = 'field_data_field_source';
