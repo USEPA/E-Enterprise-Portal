@@ -42,6 +42,8 @@
                                         location_data_return.zip = parsed_data.zip;
                                         location_data_return.city_select = false;
                                         location_data_return.zip_codes = false; // not returning list of zip codes
+                                        location_data_return.city_attr = parsed_data.city_attr;
+                                        location_data_return.zip_attr = parsed_data.zip_attr;
                                     } else {
                                         var all_city_attr = parsed_data.city_attr;
                                         var city_select = '<select id="zip-lookup-city-state">';
@@ -52,6 +54,8 @@
                                         city_select = city_select + '</select>';
                                         location_data_return.city_select = city_select;
                                         location_data_return.zip_codes = false; // not returning list of zip codes
+                                        location_data_return.city_attr = parsed_data.city_attr;
+                                        location_data_return.zip_attr = parsed_data.zip_attr;
                                     }
                                 }
                                 else {
@@ -82,6 +86,7 @@
                                         zip_select = zip_select + '</select>';
                                         location_data_return.zip_select = zip_select;
                                         location_data_return.zip_codes = true;
+                                        location_data_return.city_attr = parsed_data.city_attr;
                                         location_data_return.zip_attr = parsed_data.zip_attr;
                                     }
                                 }

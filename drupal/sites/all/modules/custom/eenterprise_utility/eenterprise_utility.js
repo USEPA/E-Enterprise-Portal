@@ -77,6 +77,7 @@
                 hideButtons();
                 var fixInput = $('#zipcode_description select').closest('td').find('.field_zip_code');
                 fixInput.focus();
+                console.log(fixInput.val());
             }
         }
 
@@ -109,6 +110,10 @@
             selected_icon_star.closest('td').find('input[type=checkbox]').prop('checked', true);
             var screenreader_indicator = $(this).find('.sr-only');
             screenreader_indicator.text('Default location');
+            // get location offset by regexing the id
+            var primary_offset = /form-item-field-zip-code-und-(\d+)/.exec(selected_icon.parent().parent()[0].className)[1];
+            var primary_zip = $('#edit-field-zip-code-und-' + primary_offset + '-field-field-zip-code-und-0-value').val();
+            console.log($primary_zip);
 
         });
         $('body').on('click', '.zip-code-primary-select.selected', function () {
@@ -182,12 +187,13 @@
          *
          * stores zip and location name to dom multiselect #edit-zip-mapping
          */
-        function addZipMapping(zip, location_name) {
+        function addZipMapping(zip, location_name, commsize='', isurban='') {
             var multi_select = $('#edit-zip-mapping');
-            var location_obj = {name: location_name, zip: zip};
+            var location_obj = {name: location_name, zip: zip, commsize:commsize, isurban:isurban};
             var location_obj_str = JSON.stringify(location_obj).replace("'", "&#39;");
             var option = "<option value='" + location_obj_str + "' selected>" + location_name + "</option>";
             multi_select.append(option);
+            console.log(location_obj);
         }
 
         function appendSelect(input_type, select, location_data, input) {
@@ -247,6 +253,7 @@
                 input.focus();
             });
             confirm.on('click', function () {
+                console.log(location_data);
                 var input_value = input.val();
                 var select_value = select.val();
                 var location_name = '';
@@ -258,15 +265,27 @@
                     zip_val = input_value;
                     input.val(zip_val);
                     field_suffix.html(location_name);
+                    var pop = location_data.zip_attr[zip_val].pop;
+                    if(location_data.city_attr) {
+                        if (location_name in location_data.city_attr) {
+                            pop = location_data.city_attr[location_name].pop;
+                        } 
+                    }
                     // addZipMapping takes zip then location name
-                    addZipMapping(zip_val, location_name);
+                    addZipMapping(zip_val, location_name, pop, location_data.zip_attr[zip_val].urban);
                 }
                 else { // type city or tribe
                     zip_val = select_value;
                     location_name = location_data.zip_attr[select_value].city;
                     field_suffix.html(location_name);
                     input.val(zip_val);
-                    addZipMapping(zip_val, location_name);
+                    var pop = location_data.zip_attr[zip_val].pop;
+                    if(location_data.city_attr) {
+                        if (location_name in location_data.city_attr) {
+                            pop = location_data.city_attr[location_name].pop;
+                        } 
+                    }
+                    addZipMapping(zip_val, location_name, pop, location_data.zip_attr[zip_val].urban);
 
                 }
                 label_select.remove();
