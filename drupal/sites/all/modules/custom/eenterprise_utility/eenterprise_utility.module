@@ -683,6 +683,8 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                 if (!empty($result->features)) {
                     $city_attr = array();
                     $city_list = array();
+                    $zip_attr = array();
+
                     // Loop through all Census Places for the specified zip
                     foreach ($result->features as $feature) {
                         if (!empty($feature->attributes->NAME_LABEL)) {
@@ -691,7 +693,6 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                             $city_attr[$feature->attributes->NAME_LABEL] = array(
                                 "pop" => $feature->attributes->Place_Pop_2014_ACS2014
                             );
-                            $city_tribe_found = true;
                         }
                         // Also record the zip code's population and urban/rural status
                         $zip_attr[$feature->attributes->ZCTA] = array(
@@ -715,11 +716,9 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
 
                 // If tribal area was found in this zip:
                 if (!empty($result->features)) {
-                    $city_list = array();
                     foreach ($result->features as $feature) {
                         // If the table has a placename, record that as the preferred name
                         $zip_data['city'][] = $feature->attributes->TRIBE_NAME_CLEAN;
-                        $city_tribe_found = true;
                     }
                 }
 
@@ -733,9 +732,6 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                         $zip_data['city'][] = $frs_city;
                     }
                 }
-
-                $error = false;
-
             } else {
                 // If not intial login, revert to old way of doing zip/city lookups
                 if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {

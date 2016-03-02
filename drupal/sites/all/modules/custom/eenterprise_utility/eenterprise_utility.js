@@ -333,8 +333,15 @@
                                 appendSelect("city", location_data.zip_select, location_data, input);
                             // Count zips returned isn't greater than 1
                             else {
-                                input.val(location_data.zip_array[0]);
-                                field_suffix.html(location_data.city + ', ' + location_data.state);
+                                var zip = location_data.zip_array[0];
+                                var loction_name = location_data.city;
+                                input.val(zip);
+                                if (location_data.state == '') {
+                                    field_suffix.html(loction_name);
+                                    addZipMapping(zip, loction_name);
+                                }
+                                else
+                                    field_suffix.html(loction_name + ', ' + location_data.state);
                                 if (!existingLocationErrors())
                                     resetButtons();
                             }
