@@ -85,6 +85,38 @@
         }
 
 
+
+        function setCommunitySizeType(commsize, isurban) {
+            if(commsize && isurban) {
+                if(isurban == "1") {
+                    $('#edit-field-community-type-und-urban').prop('checked', true);
+                } else {
+                    $('#edit-field-community-type-und-rural').prop('checked', true);
+                }
+                var selected_pop = parseInt(commsize);
+                if(selected_pop < 5000) {
+                    $('#edit-field-community-size-und option:contains(0 - 5,000)').prop('selected', true);
+                } else if(selected_pop < 10000) {
+                    $('#edit-field-community-size-und option:contains(5,000 - 10,000)').prop('selected', true);
+                } else if(selected_pop < 25000) {
+                    $('#edit-field-community-size-und option:contains(10,000 - 25,000)').prop('selected', true);
+                } else if(selected_pop < 100000) {
+                    $('#edit-field-community-size-und option:contains(25,000 - 100,000)').prop('selected', true);
+                } else if(selected_pop < 1000000) {
+                    $('#edit-field-community-size-und option:contains(100,000 - 1,000,000)').prop('selected', true);
+                } else {
+                    $('#edit-field-community-size-und option:contains(1,000,000+)').prop('selected', true);
+                }
+            } else {
+                // Reset options if not found in census data
+                $('#edit-field-community-type-und-urban').prop('checked', false);
+                $('#edit-field-community-type-und-rural').prop('checked', false);
+                $('#edit-field-community-size-und').val('');
+            }
+
+        }
+
+
         var mouse_click;
         var are_there_errors;
 
@@ -109,6 +141,10 @@
             selected_icon_star.closest('td').find('input[type=checkbox]').prop('checked', true);
             var screenreader_indicator = $(this).find('.sr-only');
             screenreader_indicator.text('Default location');
+            // get location offset by regexing the id
+            var primary_offset = /form-item-field-zip-code-und-(\d+)/.exec(selected_icon.parent().parent()[0].className)[1];
+            var primary_zip = $('#city-name-' + primary_offset);
+            setCommunitySizeType(primary_zip.attr('commsize'), primary_zip.attr('isurban'));
 
         });
         $('body').on('click', '.zip-code-primary-select.selected', function () {
@@ -182,12 +218,16 @@
          *
          * stores zip and location name to dom multiselect #edit-zip-mapping
          */
-        function addZipMapping(zip, location_name) {
+        function addZipMapping(zip, location_name, commsize='', isurban='') {
             var multi_select = $('#edit-zip-mapping');
-            var location_obj = {name: location_name, zip: zip};
+            var location_obj = {name: location_name, zip: zip, commsize:commsize, isurban:isurban};
             var location_obj_str = JSON.stringify(location_obj).replace("'", "&#39;");
             var option = "<option value='" + location_obj_str + "' selected>" + location_name + "</option>";
             multi_select.append(option);
+
+            var primary_offset = /form-item-field-zip-code-und-(\d+)/.exec($(".zip-code-primary-select.selected").parent().parent()[0].className)[1];
+            var primary_zip = $('#city-name-' + primary_offset);
+            setCommunitySizeType(primary_zip.attr('commsize'), primary_zip.attr('isurban'));
         }
 
         function appendSelect(input_type, select, location_data, input) {
@@ -251,6 +291,8 @@
                 var select_value = select.val();
                 var location_name = '';
                 var zip_val = '';
+                var pop = '';
+                var urban = '';
                 back.remove();
                 confirm.remove();
                 if (input_type == 'zip') {
@@ -258,17 +300,44 @@
                     zip_val = input_value;
                     input.val(zip_val);
                     field_suffix.html(location_name);
-                    // addZipMapping takes zip then location name
-                    addZipMapping(zip_val, location_name);
+                    if (location_data.zip_attr) {
+                        if (zip_val in location_data.zip_attr) {
+                            pop = location_data.zip_attr[zip_val].pop;
+                            urban = location_data.zip_attr[zip_val].urban;
+                        }
+                    }
+                    if(location_data.city_attr) {
+                        if (location_name in location_data.city_attr) {
+                            pop = location_data.city_attr[location_name].pop;
+                        } 
+                    }
                 }
                 else { // type city or tribe
                     zip_val = select_value;
                     location_name = location_data.zip_attr[select_value].city;
                     field_suffix.html(location_name);
                     input.val(zip_val);
-                    addZipMapping(zip_val, location_name);
+                    if (location_data.zip_attr) {
+                        if (zip_val in location_data.zip_attr) {
+                            pop = location_data.zip_attr[zip_val].pop;
+                            urban = location_data.zip_attr[zip_val].urban;
+                        }
+                    }
+                    if(location_data.city_attr) {
+                        if (location_name in location_data.city_attr) {
+                            pop = location_data.city_attr[location_name].pop;
+                        } 
+                    }
 
                 }
+                field_suffix.attr('commsize', pop);
+                if (urban == "Urban") {
+                    field_suffix.attr('isurban', '1');
+                } else if (urban == "Rural") {
+                    field_suffix.attr('isurban', '0');
+                }
+                // addZipMapping takes zip then location name
+                addZipMapping(zip_val, location_name, pop, urban);
                 label_select.remove();
                 select.remove();
                 remove_button.show();
@@ -319,19 +388,80 @@
                                 input.val(zip);
                                 if (location_data.state == '') {
                                     field_suffix.html(loction_name);
-                                    addZipMapping(zip, loction_name);
+                                    var pop = location_data.zip_attr[zip].pop;
+                                    if(location_data.city_attr) {
+                                        if (location_name in location_data.city_attr) {
+                                            pop = location_data.city_attr[location_name].pop;
+                                        } 
+                                    }
+                                    field_suffix.attr('commsize', pop);
+                                    if (location_data.zip_attr[zip].urban == "Urban") {
+                                        field_suffix.attr('isurban', '1');
+                                    } else if (location_data.zip_attr[zip].urban == "Rural") {
+                                        field_suffix.attr('isurban', '0');
+                                    }
+                                    addZipMapping(zip, location_name, pop, location_data.zip_attr[zip].urban);
                                 }
                                 else
-                                    field_suffix.html(loction_name + ', ' + location_data.state);
+                                    location_name = loction_name + ', ' + location_data.state;
+                                    var zip = location_data.zip_array[0];
+                                    field_suffix.html(location_name);
+                                    var urban = "";
+                                    if (location_data.zip_attr) {
+                                        if (zip in location_data.zip_attr) {
+                                            var pop = location_data.zip_attr[zip].pop;
+                                            urban = location_data.zip_attr[zip].urban;
+                                        }
+                                    }
+                                    if(location_data.city_attr) {
+                                        if (location_name in location_data.city_attr) {
+                                            pop = location_data.city_attr[location_name].pop;
+                                        } 
+                                    }
+                                    field_suffix.attr('commsize', pop);
+                                    if (urban == "Urban") {
+                                        field_suffix.attr('isurban', '1');
+                                    } else if (urban == "Rural") {
+                                        field_suffix.attr('isurban', '0');
+                                    }
+                                    addZipMapping(zip, location_name, pop, urban);
                                 if (!existingLocationErrors())
                                     resetButtons();
                             }
                         } // Ends if location_data.zip_codes
                         else {
-                            if (location_data.city_select)  // multiple cities found
+                            if (location_data.city_select)  {// multiple cities found 
                                 appendSelect("zip", location_data.city_select, location_data, input);
-                            else //add city data to field suffix
-                                field_suffix.html(location_data.city[0]);
+                            } else { //add city data to field suffix
+                                var zip;
+                                if (location_data.zip) {
+                                    zip = location_data.zip;
+                                } else { 
+                                    zip = location_data.zip_array[0];
+                                }
+                                var location_name = location_data.city[0];
+                                field_suffix.html(location_name);
+                                var urban = "";
+                                var pop = "";
+                                if (location_data.zip_attr) {
+                                    if (zip in location_data.zip_attr) {
+                                        pop = location_data.zip_attr[zip].pop;
+                                        urban = location_data.zip_attr[zip].urban;
+                                    }
+                                }
+                                if(location_data.city_attr) {
+                                    if (location_name in location_data.city_attr) {
+                                        pop = location_data.city_attr[location_name].pop;
+                                    } 
+                                }
+                                field_suffix.attr('commsize', pop);
+                                if (urban == "Urban") {
+                                    field_suffix.attr('isurban', '1');
+                                } else if (urban == "Rural") {
+                                    field_suffix.attr('isurban', '0');
+                                }
+                                addZipMapping(zip, location_name, pop, urban);
+                            }
                             if (!existingLocationErrors())
                                 resetButtons();
                             processPrimaryFields();
