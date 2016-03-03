@@ -207,7 +207,13 @@ function save_first_time_user_preferences()
         user_save($user_data, $edit);
         // Once the user has successfully saved, save the user preferred location
         if (!$skip)
-            save_user_location($zip, $preferred_location);
+            if ($comm_type == "urban") {
+                save_user_location($zip, $preferred_location, $comm_size, "1");
+            } elseif ($comm_type == "rural") {
+                save_user_location($zip, $preferred_location, $comm_size, "0");
+            } else {
+                save_user_location($zip, $preferred_location, $comm_size, "");
+            }
         $return_msg['success'] = true;
         print json_encode($return_msg);
     } catch (Exception $e) {
@@ -236,13 +242,23 @@ function save_user_location($zip_code, $preferred_location, $commsize, $isurban)
         $node = node_load($nid);
         $saved_zip = $node->field_user_zip_code[LANGUAGE_NONE][0]['safe_value'];
         $saved_loc_name = $node->field_preferred_location[LANGUAGE_NONE][0]['safe_value'];
-        if ($saved_zip == $zip_code && $saved_loc_name == $preferred_location) {
-            // do nothing
-            $previously_saved_location = TRUE;
-            break;
-        } else if ($saved_zip == $zip_code) {
+        if ($saved_zip == $zip_code) {
             // overwrite preferred name
             $previously_saved_location = TRUE;
+            $node->type = 'user_location_preferences';
+            $node->title = $user->name . " - " . $zip_code . ": " . $preferred_location;
+            $node->field_preferred_name[LANGUAGE_NONE][0]['value'] = $preferred_location;
+            $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
+            $node->field_zip_community_size[LANGUAGE_NONE][0]['value'] = intval($commsize);
+            if ($isurban == "Urban") {
+                $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 1;
+            } elseif($isurban == "Rural") {
+                $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 0;
+            }
+            $node->uid = $uid;
+            $node->status = 1;
+            $node->language = LANGUAGE_NONE;
+            node_save($node);
             break;
         }
     }
@@ -257,9 +273,9 @@ function save_user_location($zip_code, $preferred_location, $commsize, $isurban)
         $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
         $node->field_zip_community_size[LANGUAGE_NONE][0]['value'] = intval($commsize);
         if ($isurban == "Urban") {
-            $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = TRUE;
+            $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 1;
         } elseif($isurban == "Rural") {
-            $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = FALSE;
+            $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 0;
         }
         $node->uid = $uid;
         $node->status = 1;
