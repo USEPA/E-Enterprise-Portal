@@ -218,7 +218,7 @@
          *
          * stores zip and location name to dom multiselect #edit-zip-mapping
          */
-        function addZipMapping(zip, location_name, commsize='', isurban='') {
+        function addZipMapping(zip, location_name, commsize, isurban) {
             var multi_select = $('#edit-zip-mapping');
             var location_obj = {name: location_name, zip: zip, commsize:commsize, isurban:isurban};
             var location_obj_str = JSON.stringify(location_obj).replace("'", "&#39;");
