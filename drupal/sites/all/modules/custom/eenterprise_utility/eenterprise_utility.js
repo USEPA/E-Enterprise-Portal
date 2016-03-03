@@ -86,6 +86,38 @@
         }
 
 
+
+        function setCommunitySizeType(commsize, isurban) {
+            if(commsize && isurban) {
+                if(isurban == "1") {
+                    $('#edit-field-community-type-und-urban').prop('checked', true);
+                } else {
+                    $('#edit-field-community-type-und-rural').prop('checked', true);
+                }
+                var selected_pop = parseInt(commsize);
+                if(selected_pop < 5000) {
+                    $('#edit-field-community-size-und option:contains(0 - 5,000)').prop('selected', true);
+                } else if(selected_pop < 10000) {
+                    $('#edit-field-community-size-und option:contains(5,000 - 10,000)').prop('selected', true);
+                } else if(selected_pop < 25000) {
+                    $('#edit-field-community-size-und option:contains(10,000 - 25,000)').prop('selected', true);
+                } else if(selected_pop < 100000) {
+                    $('#edit-field-community-size-und option:contains(25,000 - 100,000)').prop('selected', true);
+                } else if(selected_pop < 1000000) {
+                    $('#edit-field-community-size-und option:contains(100,000 - 1,000,000)').prop('selected', true);
+                } else {
+                    $('#edit-field-community-size-und option:contains(1,000,000+)').prop('selected', true);
+                }
+            } else {
+                // Reset options if not found in census data
+                $('#edit-field-community-type-und-urban').prop('checked', false);
+                $('#edit-field-community-type-und-rural').prop('checked', false);
+                $('#edit-field-community-size-und').val('');
+            }
+
+        }
+
+
         var mouse_click;
         var are_there_errors;
 
@@ -112,8 +144,8 @@
             screenreader_indicator.text('Default location');
             // get location offset by regexing the id
             var primary_offset = /form-item-field-zip-code-und-(\d+)/.exec(selected_icon.parent().parent()[0].className)[1];
-            var primary_zip = $('#edit-field-zip-code-und-' + primary_offset + '-field-field-zip-code-und-0-value').val();
-            console.log($primary_zip);
+            var primary_zip = $('#city-name-' + primary_offset);
+            setCommunitySizeType(primary_zip.attr('commsize'), primary_zip.attr('isurban'));
 
         });
         $('body').on('click', '.zip-code-primary-select.selected', function () {

@@ -550,8 +550,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                             'aria-live' => 'assertive',
                         );
                     } else
-                        watchdog('zipdata', '<pre>@print_r</pre>', array('@print_r' => print_r( $zip_data, TRUE))); 
-                        $field_suffix = '<span id="city-name-' . $delta . '" aria-live="polite">' . $zip_data['string'] . '</span>';
+                        $commsize = $zip_data['zip_attr'][$zip]['pop'];
+                        $isurban = $zip_data['zip_attr'][$zip]['urban'];
+                        //watchdog('zipdata', '<pre>@print_r</pre>', array('@print_r' => print_r( $zip_data, TRUE))); 
+                        $field_suffix = '<span id="city-name-' . $delta . '" commsize="' . $commsize . '" isurban="' . $isurban . '" aria-live="polite">' . $zip_data['string'] . '</span>';
                     $ariacity = $zip_data['string'];
                 }
             } else {
@@ -744,14 +746,13 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                     );
                 }
                 $location_info = return_user_preferred_location($zip);
-                watchdog('location_info', '<pre>@print_r</pre>', array('@print_r' => print_r( $location_info, TRUE))); 
                 // First find if there is a preferred name associated with this location
                 $users_preferred_name = $location_info['preferred_name'];
                 if ($users_preferred_name) {
                     $readable_string = $users_preferred_name;
                     $zip_attr[$zip] = array(
-                        "pop" => $location_info['pop'],
-                        "urban" => $location_info['urban'],
+                        "pop" => $location_info['commsize'],
+                        "urban" => $location_info['isurban'],
                     );
                     $zip_data['zip_attr'] = $zip_attr;
                     $error = false;
@@ -763,6 +764,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
 
                 $zip_data['string'] = $readable_string;
                 $zip_data['error'] = $error;
+                //watchdog('location_info', '<pre>@print_r</pre>', array('@print_r' => print_r( $zip_data, TRUE))); 
             }
         }
     }
