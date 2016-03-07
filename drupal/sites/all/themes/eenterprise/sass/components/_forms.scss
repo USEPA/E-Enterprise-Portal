@@ -28,11 +28,11 @@ form {
 }
 
 .usa-form-note, 
-.description
+.description,
 .field-suffix {
-  float: right;
+  float: none;
   font-family: $font-sans;
-  font-size: $h5-font-size;
+  font-size: $h6-font-size;
   margin: 0 0 1.5rem;
 
   & + * {
@@ -126,9 +126,10 @@ input.usa-input-medium {
 }
 
 .usa-additional_text {
-  float: right;
   font-style: italic;
   font-weight: normal;
+  color: $color-secondary-darkest;
+  font-size: $h6-font-size;
 }
 
 .usa-input-buttons-inline {

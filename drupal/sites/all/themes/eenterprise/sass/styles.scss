@@ -161,34 +161,6 @@ select:disabled {
 	padding-bottom: 4px;
 }
 
-/*
-a.pager__link {
-	color: $ee-link-color;
-}
-a:visited, 
-a:visited.pager__link {
-	color: $ee-link-color;
-}
-*/
-
-/*
-#ee-disclaimer-form #edit-submit-button, #guest-login, .button.primary-action {
-	@include button;
-	padding: 10px 20px;
-}
-.button.primary-action {
-	text-decoration: none;
-	-moz-appearance: none;
-	-webkit-appearance: none; 
-}
-*/
-/*
-#guest-login {
-	padding: 8px 16px;
-	text-decoration: none;
-}
-*/
-
 header #block-eenterprise-bridge-auth-eenterprise-bridge-auth h2.block-title {
 	@include element-invisible;
 }
@@ -238,17 +210,6 @@ footer {
   margin-right: 10px;
 }
 
-/*
-a, .ui-widget-content a, a.pager__link {
-	color: $ee-link-color;
-}
-a:visited,
-a:visited.pager__link,
-.ui-widget-content a:visited,
-.ui-widget-content a:visited.pager__link {
-	color: $ee-link-color;
-}
-*/
 .simple-main-nav .menu a.active,
 a.jcarousel-control-prev, a.jcarousel-control-next,
 a.jcarousel-control-prev:visited, a.jcarousel-control-next:visited {
@@ -292,9 +253,9 @@ input[type="text"]:disabled {
 label, .aria-label {
 	.form-required {
 		font-style: italic;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     margin-left: 10px;
-    color: #ff0000;
+    color: $color-secondary-dark;
 	}
 }
 .page-eenterprise-new, .section-eenterprise-new {
@@ -377,11 +338,7 @@ header {
 	a {
 		color: #333;
 	}
-	a:hover {
-		text-decoration: underline;
-	}
 	a:focus, a:active {
-// 		background-color: $ee-dark-gray;
 		color: #fff;
 	}
 	.block--login-from-guest-page {
@@ -449,13 +406,6 @@ header {
 		padding: 2px 10px 2px 0;
 		margin: -5px 0;
 		border-right: 1px solid #ddd;
-	}
-}
-
-article {
-	margin-bottom: 30px;
-	header {
-		padding-left: 0;
 	}
 }
 
@@ -528,29 +478,6 @@ article {
 				display: block;
 				margin-top: 10px;
 				width: auto;
-			    a {
-				    font-size: 1em;
-						margin-left: 0;
-						padding: 5px 15px;
-			    }
-			    a:hover, a:focus, a:active {
-				    color: #ffffff;
-			    }
-			}
-			#new-toeenterprise {
-				margin: 0 auto;
-				display: block;
-				a {
-					display: block;
-					padding: 5px 10px;
-					margin:10px auto 0;
-				}
-				a:hover, a:focus, a:active {
-				    color: #ffffff;
-			    }
-			}
-			.guest-login, #new-toeenterprise {
-				line-height: 1.2;
 			}
 		}
   	h1 {
@@ -645,9 +572,6 @@ article {
 	font-weight:normal;
 	color: #ffffff;
 	text-decoration: none;
-}
-header #edit-log-in, header #edit-log-in--2, #user-login #edit-submit {
-	padding: 0.5em 1em;
 }
 
 #learnmore {
@@ -1984,10 +1908,6 @@ form[id^='user-profile-form'] {
 	.form-type-textfield{
 		display:inline-block;
 	}
-	.field-multiple-drag {
-		padding-top: 0.5em;
-	}
-
 }
 #field-profile-favourites-values thead tr .field-label,
 #edit-field-profile-favourites thead {
@@ -2299,16 +2219,12 @@ div.ctools-modal-content {
 		border: none;
 		padding: 1em 2em 0 2em;
 	}
-	.form-item {
-		padding-bottom: 1em;
-		margin: 0.75em 0;
-	}
 	.form-item label, .aria-label {
 		float: none;
 		padding-bottom: 0;
 	}
-	.form-item-email {
-		padding-bottom: 0.1em;
+	.resizable-textarea {
+		margin-left: 0;
 	}
 	#edit-submit-button {
 		@include button;
@@ -2345,20 +2261,6 @@ div.ctools-modal-content {
 }
 
 /** Admin *********************************************************/
-#user-login input[type="submit"] {
-	color: #fff;
-	background-color: #337ab7;
-	border: 1px solid #2e6da4;
-	font-size: 87.5%;
-	font-weight: bold;
-	padding: 5px 8px;
-}
-#user-login input[type="submit"]:active, #user-login input[type="submit"]:hover, #user-login input[type="submit"]:focus {
-	color: #fff;
-	background-color: #286090;
-	border-color: #204d74;
-}
-
 .section-user-agreement, .page-ee-disclaimer {
 	.main-content {
 		background-color: #fff;
@@ -2369,21 +2271,10 @@ div.ctools-modal-content {
 			font-size: 0.85em;
 		}
 		.form-item-agree label.option {
-			font-size: 1em;
-			margin-left: 10px;
 			font-weight: bold;
 		}
 	}
-	ol {
-		margin-left: 40px;
-		li {
-			font-size: 1em;
-			margin-bottom:10px;
-			line-height: 1.4;
-		}
-	}
 }
-
 
 /** AQI / Popup Description Tweaks *********************************************************/
 .popover-title {
@@ -3604,50 +3495,16 @@ input#location-input-guests::-ms-clear {
 		font-weight: bold;
 		margin-top: 20px;
 	}
-	ul {
-		list-style: none;
+	.bulleted {
+		margin-bottom: 0;
 	}
 	.views-field-title, .views-field-field-faq-category, .views-field-field-faq-category div {
 		font-weight: bold;
 		display: inline;
 	}
-	ul.bulleted li:before {
-		margin-left: -1.5em !important;
-	}
-	li {
-		margin-bottom: 10px;
-	}
 	.region-disclaimer p {
 		margin-top: 0;
 	}
-	p {
-		margin: 10px 0 0;
-	}
-	.view-id-faqs {
-		margin-bottom:20px;
-		li {
-			margin-bottom: 0;
-		}
-	}
-}
-ul.bulleted {
-	list-style: none;
-	margin-bottom: 5px;
-}
-ul.bulleted li {
-  padding-left: 1.2em;
-  font-size: 0.85em;
-}
-ul.bulleted li:before {
-  content: '\f054';
-  font-family: FontAwesome;
-  font-weight: normal;
-  font-size: 0.5em;
-  display: inline-block;
-  width: 1.2em;
-  margin-left: -1.2em;
-  color:#999;
-  vertical-align: middle;
 }
 #edit-field-prog-tracker-app-value-wrapper{
   display:none;
