@@ -72,7 +72,8 @@ select  {
   padding-top: 3px;
 }
 
-label {
+label,
+.aria-label {
   display: block;
   margin-top: 3rem;
   max-width: $input-max-width;

@@ -8,7 +8,7 @@
 
 @import "init";
 //@import "normalize";
-@import "bootstrap";
+//@import "bootstrap";
 //@import "components/misc";
 @import "print";
 
@@ -171,6 +171,7 @@ a:visited.pager__link {
 }
 */
 
+/*
 #ee-disclaimer-form #edit-submit-button, #guest-login, .button.primary-action {
 	@include button;
 	padding: 10px 20px;
@@ -180,10 +181,13 @@ a:visited.pager__link {
 	-moz-appearance: none;
 	-webkit-appearance: none; 
 }
+*/
+/*
 #guest-login {
 	padding: 8px 16px;
 	text-decoration: none;
 }
+*/
 
 header #block-eenterprise-bridge-auth-eenterprise-bridge-auth h2.block-title {
 	@include element-invisible;
@@ -279,37 +283,19 @@ footer .pipeline {
 	vertical-align: middle;
 }
 
-/** Button Styles ***********/
-button,
-input[type="button"],
-input[type="reset"],
-input[type="submit"],
-.button,
-#edit-cancel {
-	@include button;
-	height: auto;
-}
 input[type="text"]:disabled {
 	background-color: #eee;
 	border: 1px solid #ccc;
 	padding: 2px;
 }
 
-button,
-input[type="button"],
-input[type="reset"],
-input[type="submit"],
-.button,
-#edit-cancel,
-.addtocal {
-	margin-bottom: 0.5em;
-}
 label, .aria-label {
-	font-weight: normal;
-	margin-top: 5px;
-	margin-bottom: 2px;
-	display: block;
-	line-height: 1.2;
+	.form-required {
+		font-style: italic;
+    font-size: 1.2rem;
+    margin-left: 10px;
+    color: #ff0000;
+	}
 }
 .page-eenterprise-new, .section-eenterprise-new {
 	.site-name-and-slogan {
@@ -344,15 +330,6 @@ nav ul {
 	list-style: none;
 }
 
-/** e-Enterprise Landing Page & Beyond ***********/
-.breadcrumb, .breadcrumb-title {
-	margin-top:20px;
-}
-
-//Hide breadcrumbs and microsite name for now
-.breadcrumb, .breadcrumb-title, h2.microsite-name {
-	display: none;
-}
 .not-logged-in {
 	.region-header {
 		padding: 0;
@@ -1015,50 +992,9 @@ a:focus.remove_link, a:focus.add_link {
 }
 
 /** General Table Styles *********************************************************/
-/*
-table, th, td {
-	border:none;
-}
-*/
-/*tr {
-	border-bottom:1px solid #efefef;
-}*/
-/*
-th, td {
-	padding: 15px;
-	border: none;
-	line-height:1.2;
-}
-th {
-	background-color: $ee-white;
-	text-align: center;
-}
-*/
-/*
-.field-multiple-table th {
-	text-align: left;
-}
-*/
 .views-field-counter {
 	text-align: right;
 }
-/*
-td {
-	vertical-align: top;
-}
-tr:nth-of-type(even) {
-	background-color: $ee-light-gray;
-}
-tr.odd {
-	background-color: $ee-white;
-}
-tr.views-row-first {
-	border-top: 1px solid $ee-medium-gray;
-}
-tr.odd, tr.even {
-	border-bottom: 1px solid $ee-medium-gray;
-}
-*/
 .region-nav-bar, .region-navigation {
 	background-color: $ee-menu-bg;
 	height: 2em;
@@ -1745,15 +1681,8 @@ tr.even {
 	display: none;
 	}
 	form[id^='user-profile-form'] {
-		.form-type-textfield {
-			width: 150px;
-			min-width: 140px;
-		}
 		.ajax-progress .message {
 			display: none;
-		}
-		#field-zip-code-values .field_zip_code {
-			width: 200px;
 		}
 	}
 }
@@ -1788,19 +1717,12 @@ form[id^='user-profile-form'] {
 	table, th {
 		border:none;
 	}
-	th {
-		text-transform: none;font-size:1.5em;
-	}
 	th.tabledrag-hide {
 		padding-bottom: 0.25em;
 		margin-bottom: 2px;
 		vertical-align: bottom;
 		font-size: 100%;
 	}
-	.form-text {
-		font-size:100%;
-	}
-
 	.field-profile-favourites-values{
 		width: 51%;
 	}
@@ -1810,20 +1732,11 @@ form[id^='user-profile-form'] {
 	.remove-button .field-profile-favourites-values {
 		float: right;
 	}
-	.description {
-		color:#333333;
-		display:table;
-	}
 	.form-item {
 		margin-top: 0;
 	}
-	.form-item .form-type-textfield, .city-state-lookup-zips {
-		padding-bottom:0.5em;
-	}
 	.form-type-textfield {
 		margin-right:20px;
-		min-width: 140px;
-		max-width:20em;
 	}
 
   #profile-tabs li {
@@ -1836,37 +1749,18 @@ form[id^='user-profile-form'] {
 
   .city-state-lookup-zips {
     float: left;
+    display:block;
   }
-	.form-type-textfield.form-item-mail input {
-		width:20em;
-		margin-bottom:10px;
-	}
-	.form-type-textfield .description {
-		margin-top:5px;
-	}
-	.form-type-textfield label {
-		font-size:0.95em;
-	}
-	.form-type-textfield label, .form-type-textfield input, .city-state-lookup-zips {
-		display:block;
-	}
-	.eenterprise-utility-form-item-description-p {
-		margin-bottom: .5em; padding-bottom: 0px;
-	}
-	.eenterprise-utility-form-item-description-p.field-title-below {
-		margin-bottom: 1.5em; padding-bottom: 0px;
-	}
+
 	#zipcode_description {
 		display:none;
-		.form-item {
-			display: inline-block;
-			float: left;
-			padding-bottom: 0px;
-		}
 		.field-multiple-table {
 			width: 700px;
 		}
-		.field-name-field-field-zip-code, .field-add-more-submit, .multiple-fields-remove-button, .form-wrapper {
+		.field-name-field-field-zip-code, 
+		.field-add-more-submit, 
+		.multiple-fields-remove-button, 
+		.form-wrapper {
 			float: left; 
 			display: inline-block;
 		}
@@ -1876,7 +1770,9 @@ form[id^='user-profile-form'] {
 		.form-wrapper {
 			margin-right: 10px;
 		}
-		table tr td:first-child, .tabledrag-toggle-weight-wrapper, .form-checkbox{
+		table tr td:first-child, 
+		.tabledrag-toggle-weight-wrapper, 
+		.form-checkbox {
 			display: none;
 		}
 		.form-item .form-type-textfield label {
@@ -1888,12 +1784,9 @@ form[id^='user-profile-form'] {
 		  margin-right: 5px;
 		  float:none;
 		}
-		#user-profile-select-zip, #user-profile-back-zip {
+		#user-profile-select-zip, 
+		#user-profile-back-zip {
 		  display: inline-block;
-		  @include button-gray;
-		  border-color: #aaa;
-		  font-weight: normal;
-		  color: #000;
 		}
 		label {
 			float: left;
@@ -1929,23 +1822,14 @@ form[id^='user-profile-form'] {
 	  display:block !important;
 	  position: inherit !important;
 	}
-	thead label {
-		padding:1em 1em 0.25em 0.5em;
-	}
-	thead, th, tr:nth-of-type(even) {
+	thead, 
+	th, 
+	tr:nth-of-type(even) {
 		background-color:transparent;
 	}
-	td {
-		padding: 5px 10px;
-		border:none;
-	}
-	.form-submit, .remove_button {
+	.form-submit, 
+	.remove_button {
 		text-transform: capitalize;
-		padding:0.5em 1em;
-		height:auto;
-		border-radius:4px;
-		font-size:0.95em;
-		font-weight:normal;
 	}
 	.field-add-more-submit {
 		background-color: green;
@@ -1953,9 +1837,10 @@ form[id^='user-profile-form'] {
 		width: auto;
 		margin: 0;
 		vertical-align: middle;
-		padding: 0.25em 0.75em;
 	}
-	.form-submit:disabled, .remove_button:disabled, .field-add-more-submit:disabled {
+	.form-submit:disabled, 
+	.remove_button:disabled, 
+	.field-add-more-submit:disabled {
 		opacity: 0.5;
 	}
 	#links_description {
@@ -1966,17 +1851,13 @@ form[id^='user-profile-form'] {
 			display: inline-block;
 		}
 	}
-	.multiple-fields-remove-button, .remove-button {
+	.multiple-fields-remove-button, 
+	.remove-button {
 		vertical-align: top;
 		padding: 0.20em 0.75em 0.30em;
 		width: auto;
 		height: auto;
 		text-transform: lowercase;
-	}
-	.field-suffix,
-	.move-zipcode  {
-		display:inline;
-		float: right !important;
 	}
 	.autocomplete-interests ul {
 		list-style-type: none;
@@ -2025,10 +1906,6 @@ form[id^='user-profile-form'] {
 	}
 }
 
-
-
-
-
 #links_description {
 	table > tbody > tr > td:nth-child(2) {
 		width: 900px;
@@ -2036,38 +1913,26 @@ form[id^='user-profile-form'] {
 	table > tbody > tr > td {
 	  vertical-align: middle;
 	}
-	table .field-type-text {
-	  float: left;
-	}
-	table .date_updated_contain {
-	  margin-top: 23px;
-	  display: block;
-	  float: left;
-	  margin-right: 10px;
-	}
-	table .field-multiple-drag {
-	  padding-top: 24px;
-	}
-	table .remove-button {
-	   margin-top: 16px;
-	}
-	table .field-add-more-submit {
-	  margin-top: 16px;
-	  float: left;
-	  display: block;
+	table {
+		.field-type-text {
+	  	float: left;
+	  }
+	  .date_updated_contain {
+		  margin-top: 23px;
+		  display: block;
+		  float: left;
+		  margin-right: 10px;
+		}
+		.field-add-more-submit {
+		  margin-top: 16px;
+		  float: left;
+		  display: block;
+		}
 	}
 	.form-actions.form-wrapper {
 	  float: left;
 	  margin-right: 10px;
 	}
-	.form-submit {
-		padding: 0.25em 0.75em;
-		text-transform: lowercase;
-	}
-
-}
-form[id^='user-profile-form'] .remove-button {
-  float: right;
 }
 
 .view-user-profile {
@@ -2080,37 +1945,14 @@ form[id^='user-profile-form'] .remove-button {
 	}
 }
 .page-user {
-	/** jQuery Overrides - Profile Page **/
-	.ui-widget,
-	.ui-menu .ui-menu-item {
-		font-family: inherit;
-	}
-	.ui-widget {
-	    font-size: 83% !important;
-	}
-	.ui-menu .ui-menu-item a{
-	    font-size:20px;
-	}
-
 	.ui-state-hover,
 	.ui-widget-content .ui-state-hover,
 	.ui-widget-header .ui-state-hover,
 	.ui-state-focus,
-	.ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+	.ui-widget-content .ui-state-focus, 
+	.ui-widget-header .ui-state-focus {
 		border: 1px solid #dedede;
 		background: #f3f3f3;
-	}
-	.autocomplete-interests .ui-widget input {
-		min-width: 140px;
-		max-width: 20em;
-		border: 1px solid #bbb;
-		padding: .2143em;
-		font-size: $base-font-size;
-		font-family: inherit;
-		height: auto;
-		border: 1px solid #bbb;
-		border-radius: 4px;
-		line-height: 1.42857;
 	}
 	#edit-actions {
 		margin-top: 20px;
@@ -2139,15 +1981,11 @@ form[id^='user-profile-form'] .remove-button {
 	.handle {
 		font-size:2em;
 	}
-	.form-type-textfield,
-	.field-multiple-drag  {
+	.form-type-textfield{
 		display:inline-block;
 	}
 	.field-multiple-drag {
 		padding-top: 0.5em;
-	}
-	.form-type-textfield input {
-		line-height: 1.42857;
 	}
 
 }
@@ -2155,7 +1993,8 @@ form[id^='user-profile-form'] .remove-button {
 #edit-field-profile-favourites thead {
 	display:none;
 }
-#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper, #field-zip-code-add-more-wrapper .tabledrag-toggle-weight-wrapper {
+#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper, 
+#field-zip-code-add-more-wrapper .tabledrag-toggle-weight-wrapper {
 	display: none;
 }
 
@@ -2366,7 +2205,7 @@ a.tabledrag-handle .handle {
 	}
 	
 }
-label, .aria-label, .ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
+.ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
 	font-size: 0.85em;
 	margin-bottom: 3px;
 }
@@ -2796,9 +2635,6 @@ td.responsive-to-do-link a:hover, td.responsive-to-do-link a:focus {
 			}
 			td {
 				padding: 0;
-			}
-			.field-multiple-table {
-				width: 100%;
 			}
 			.field-add-more-submit {
 			    margin-left: -10px;

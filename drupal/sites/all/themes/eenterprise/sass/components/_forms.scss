@@ -1,4 +1,4 @@
-$usa-form-width: 32rem;
+$usa-form-width: auto;
 
 form {
   @include media($medium-screen) {
@@ -27,7 +27,9 @@ form {
   }
 }
 
-.usa-form-note {
+.usa-form-note, 
+.description
+.field-suffix {
   float: right;
   font-family: $font-sans;
   font-size: $h5-font-size;
