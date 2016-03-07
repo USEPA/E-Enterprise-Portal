@@ -38,9 +38,11 @@ ul.vg-numbers {
 div.vg-numbers-container {
 	margin-bottom:1.2em; 
 }
+/*
 small.village-green-updated-every-minute {
 	margin-top: -1em; margin-bottom: 1.2em; display:block;
 }
+*/
 .currentObsDate {
 	font-size: 0.85em;
 }

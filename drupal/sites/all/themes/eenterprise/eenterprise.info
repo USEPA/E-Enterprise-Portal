@@ -9,13 +9,15 @@ base theme  = zen
 stylesheets[all][] = system.menus.css
 stylesheets[all][] = system.messages.css
 stylesheets[all][] = system.theme.css
+stylesheets[all][] = ../../modules/contrib/datatables/media/css/demo_table.css
 
 ; Then we add our own stylesheet.
 stylesheets[all][] = css/styles.css
 stylesheets[all][] = css/gridstack.css
 
 ; REGIONS
-regions[disclaimer]         = Disclaimer Area
+regions[maintenance]    = Maintenance
+regions[disclaimer]     = Disclaimer Area
 regions[header]         = Header
 regions[navigation]     = Navigation bar
 regions[highlighted]    = Highlighted
@@ -42,6 +44,7 @@ scripts[] = ../../libraries/jqueryui/jquery-ui.js
 scripts[] = js/lodash.min.js
 scripts[] = js/gridstack.js
 scripts[] = js/bootstrap.tooltip.js
+scripts[] = js/components.js
 
 ; FEATURES
 features[] = logo

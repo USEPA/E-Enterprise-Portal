@@ -22,6 +22,7 @@ if(arg(0) == 'workbench' && $user->uid == 0){
 
 ?>
 <?php print render($page['alert']); ?>
+<?php print render($page['maintenance']); ?>
 <?php print render($page['disclaimer']); ?>
 <header class="masthead clearfix" role="banner">
     <?php
