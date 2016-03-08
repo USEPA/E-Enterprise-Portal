@@ -340,6 +340,12 @@ label, .aria-label {
 	margin-bottom: 2px;
 	display: block;
 	line-height: 1.2;
+	.form-required {
+		font-style: italic;
+    font-size: 0.75rem;
+    margin-left: 10px;
+    color: #cd2026;
+	}	
 }
 .page-eenterprise-new, .section-eenterprise-new {
 	.site-name-and-slogan {
