@@ -1,0 +1,9 @@
+<?php
+
+
+
+function eenterprise_api_views_query_alter(&$view, &$query)
+{
+    dpm($view);
+    dpm($query);
+}

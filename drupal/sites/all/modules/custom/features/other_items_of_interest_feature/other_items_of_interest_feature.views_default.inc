@@ -256,6 +256,14 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -282,6 +290,9 @@ function other_items_of_interest_feature_views_default_views() {
 
   /* Display: Services */
   $handler = $view->new_display('services', 'Services', 'services_1');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -302,6 +313,29 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['fields']['field_source_url']['id'] = 'field_source_url';
   $handler->display->display_options['fields']['field_source_url']['table'] = 'field_data_field_source_url';
   $handler->display->display_options['fields']['field_source_url']['field'] = 'field_source_url';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = 'nid';
+  /* Field: Content: Post date */
+  $handler->display->display_options['fields']['created']['id'] = 'created';
+  $handler->display->display_options['fields']['created']['table'] = 'node';
+  $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['label'] = 'long_form_iso_date_example';
+  $handler->display->display_options['fields']['created']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['created']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['created']['custom_date_format'] = 'c';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
+  /* Field: Content: Post date */
+  $handler->display->display_options['fields']['created_1']['id'] = 'created_1';
+  $handler->display->display_options['fields']['created_1']['table'] = 'node';
+  $handler->display->display_options['fields']['created_1']['field'] = 'created';
+  $handler->display->display_options['fields']['created_1']['label'] = '';
+  $handler->display->display_options['fields']['created_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created_1']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['created_1']['custom_date_format'] = 'o-m-d';
+  $handler->display->display_options['fields']['created_1']['second_date_format'] = 'long';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -317,6 +351,84 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'state_resource' => 'state_resource',
+  );
+  /* Filter criterion: Search: Search Terms */
+  $handler->display->display_options['filters']['keys']['id'] = 'keys';
+  $handler->display->display_options['filters']['keys']['table'] = 'search_index';
+  $handler->display->display_options['filters']['keys']['field'] = 'keys';
+  $handler->display->display_options['filters']['keys']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['keys']['expose']['operator_id'] = 'keys_op';
+  $handler->display->display_options['filters']['keys']['expose']['label'] = 'Search Terms';
+  $handler->display->display_options['filters']['keys']['expose']['operator'] = 'keys_op';
+  $handler->display->display_options['filters']['keys']['expose']['identifier'] = 'keys';
+  $handler->display->display_options['filters']['keys']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    10 => 0,
+    11 => 0,
+    12 => 0,
+    13 => 0,
+    14 => 0,
+    15 => 0,
+    18 => 0,
+    16 => 0,
+    17 => 0,
+    19 => 0,
+    20 => 0,
+    23 => 0,
+    24 => 0,
+    25 => 0,
+    26 => 0,
+    27 => 0,
+    28 => 0,
+    29 => 0,
+    30 => 0,
+    31 => 0,
+    32 => 0,
+    33 => 0,
+    89 => 0,
+    90 => 0,
+    55 => 0,
+    56 => 0,
+    57 => 0,
+    58 => 0,
+    59 => 0,
+    60 => 0,
+    61 => 0,
+    62 => 0,
+    63 => 0,
+    64 => 0,
+    65 => 0,
+    66 => 0,
+    67 => 0,
+    68 => 0,
+    69 => 0,
+    70 => 0,
+    71 => 0,
+    72 => 0,
+    73 => 0,
+    74 => 0,
+    75 => 0,
+    76 => 0,
+    78 => 0,
+    80 => 0,
+    81 => 0,
+    82 => 0,
+    83 => 0,
+    84 => 0,
+    85 => 0,
+    86 => 0,
+    87 => 0,
+    88 => 0,
+    91 => 0,
+    92 => 0,
+    93 => 0,
   );
   $handler->display->display_options['path'] = 'state_resources';
   $export['other_items_of_interest'] = $view;
