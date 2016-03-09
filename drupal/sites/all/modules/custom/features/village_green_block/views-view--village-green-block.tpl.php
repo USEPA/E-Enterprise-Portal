@@ -69,12 +69,12 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
                 <div class="latest-reading col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 	<span class="aria-label" id="vg-obsdatelabel">Latest reading <span class="sr-only">at</span></span>
                   <span aria-labelledby="vg-obsdatelabel" class="currentObsDate"></span>
+                  <span class="sr-only">These readings refresh every minute.</span>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <span class="aria-label" id="vg-countdown-label" for="vg-progressbar">Update in</span>
-                <div class="progress progress-bar-striped">
-                  <div aria-labelledby="vg-countdown-label" class="progress-bar progress-bar-success active village-green-countdown" role="progressbar" aria-valuenow="0"
-                      aria-valuemin="0" aria-valuemax="100">
+                <div class="vg-countdown">
+                  <div aria-labelledby="vg-countdown-label" class="active village-green-countdown">
                       <span class="countdownContainer"></span>
                   </div>
                 </div>

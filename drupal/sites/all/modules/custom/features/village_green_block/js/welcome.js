@@ -114,11 +114,9 @@
                 else {
                 	$(".countdownContainer").html(currentInterval + " seconds");
                 }
-                $(".village-green-countdown").css("width", percentProgress + "%").attr({"aria-valuenow": percentProgress});
-
-                    if (currentInterval <= 0) {
-                        currentInterval = 60;
-                    }                                                                      
+                if (currentInterval <= 0) {
+                    currentInterval = 60;
+                }                                                                      
             }, 1000);             
         }
 
