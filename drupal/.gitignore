@@ -9,6 +9,5 @@ sites/*/private
 .sass-cache
 sites/all/themes/*/.sass-cache
 sites/all/themes/*/.sass-cache
-.htaccess
 
 
