@@ -2,7 +2,6 @@ name        = E-Enterprise
 description = E-Enterprise theme using Zen as a starter theme.
 core        = 7.x 
 screenshot  = screenshot.png
-base theme  = zen
 
 ; STYLESHEETS - Remove some system ones
 ; First we remove the system's menu and message styling since Zen has its own.

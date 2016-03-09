@@ -34,7 +34,7 @@ form {
   font-family: $font-sans;
   font-size: $h6-font-size;
   margin: 0 0 1.5rem;
-
+	color: $color-gray-dark;
   & + * {
     clear: both;
   }
