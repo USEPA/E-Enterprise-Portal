@@ -15,7 +15,7 @@ function eenteprise_api_1_0_default_services_endpoint() {
   $endpoint->api_version = 3;
   $endpoint->name = 'api_1_0';
   $endpoint->server = 'rest_server';
-  $endpoint->path = 'api/1.1';
+  $endpoint->path = 'api/1.0';
   $endpoint->authentication = array(
     'services_oauth' => array(
       'oauth_context' => 'auth',
@@ -51,8 +51,43 @@ function eenteprise_api_1_0_default_services_endpoint() {
         ),
       ),
     ),
-    'state_resources' => array(
+    'resources' => array(
       'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+          'settings' => array(
+            'services_oauth' => array(
+              'credentials' => 'none',
+              'authorization' => '',
+            ),
+          ),
+        ),
+      ),
+    ),
+    'taxonomies' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+          'settings' => array(
+            'services_oauth' => array(
+              'credentials' => 'none',
+              'authorization' => '',
+            ),
+          ),
+        ),
+      ),
+    ),
+    'taxonomy_term' => array(
+      'operations' => array(
+        'retrieve' => array(
+          'enabled' => '1',
+          'settings' => array(
+            'services_oauth' => array(
+              'credentials' => 'none',
+              'authorization' => '',
+            ),
+          ),
+        ),
         'index' => array(
           'enabled' => '1',
           'settings' => array(

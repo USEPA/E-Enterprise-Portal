@@ -431,7 +431,7 @@ function other_items_of_interest_feature_views_default_views() {
     92 => 0,
     93 => 0,
   );
-  $handler->display->display_options['path'] = 'state_resources';
+  $handler->display->display_options['path'] = 'resources';
   $export['other_items_of_interest'] = $view;
 
   $view = new view();
