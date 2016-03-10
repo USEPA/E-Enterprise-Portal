@@ -24,7 +24,7 @@ if(arg(0) == 'workbench' && $user->uid == 0){
 <?php print render($page['alert']); ?>
 <?php print render($page['maintenance']); ?>
 <?php print render($page['disclaimer']); ?>
-<header class="masthead usa-grid-full" role="banner">
+<header class="masthead usa-grid" role="banner">
     <?php
         $hgroup_open = '';
         $hgroup_close = '';
@@ -78,7 +78,7 @@ if(arg(0) == 'workbench' && $user->uid == 0){
     <?php print render($page['header']); ?>
 </header>
 <?php print render($page['navigation']); ?>
-<section class="main-content usa-grid-full" role="main">
+<section class="main-content usa-grid" role="main">
   <?php print render($page['preface']); ?>
   <?php print render($page['highlighted']); ?>
   <div id="content" class="usa-width-one-whole">

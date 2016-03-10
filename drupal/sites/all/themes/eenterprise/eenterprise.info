@@ -8,7 +8,6 @@ screenshot  = screenshot.png
 stylesheets[all][] = system.menus.css
 stylesheets[all][] = system.messages.css
 stylesheets[all][] = system.theme.css
-stylesheets[all][] = ../../modules/contrib/datatables/media/css/demo_table.css
 
 ; Then we add our own stylesheet.
 stylesheets[all][] = css/styles.css
@@ -36,7 +35,7 @@ regions[page_bottom]    = Page bottom
 
 ; SCRIPTS
 scripts[] = js/script.js
-scripts[] = js/mobile-menu.js
+; scripts[] = js/mobile-menu.js
 scripts[] = js/drop-down-menu.js
 scripts[] = js/eenterprise_utility.js
 scripts[] = ../../libraries/jqueryui/jquery-ui.js

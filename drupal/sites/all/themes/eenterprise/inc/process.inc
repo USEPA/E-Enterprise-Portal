@@ -134,35 +134,12 @@ function eenterprise_preprocess_page(&$vars) {
 		}
 	}
 	
-
 	// Test for anonymous user on login page
 	if (user_is_anonymous() && arg(0) == 'user' && (arg(1) == '' || arg(1) == 'login')) {
 		$vars['classes_array'][] = ' user-login';		
-		$warning_message = variable_get('eenterprise_login_warning');
-		
-		// Add warning message to content section
-		$vars['page']['content']['user_warning'] = array(
-			'#tag' => 'div',
-			'#attributes' => array(
-			'id' => 'user-login-warning',
-			'class' => 'col size-2of3',
-		),
-		'#value' => $warning_message,
-		'#weight' => 10,
-		'#theme' => 'html_tag',
-		);
-		
-		// @todo - Adjust these grid classes to match Drupal eenterprise theme
-		// Add css grid classes
-		$vars['page']['content']['system_main']['#attributes']['class'] = 'col size-1of3';
-		$vars['page']['content']['#prefix'] = "<div class='cols-2 row'>";
-		$vars['page']['content']['#suffix'] = '</div>';
-		}
-		$search_form = drupal_get_form('search_form');
-		$search_form_box = drupal_render($search_form);
-		$vars['search_box'] = $search_form_box;
-	
+		$warning_message = variable_get('eenterprise_login_warning');	
 	}
+}
 
 /**
  * Override or insert variables into the node template.
@@ -210,6 +187,15 @@ function eenterprise_preprocess_node(&$vars) {
 function eenterprise_preprocess_region(&$vars) {
   // Remove region class.
   array_shift($vars['classes_array']);
+
+  // Add grid and background classes as needed
+  if ($vars['region'] == 'disclaimer') {
+    $vars['classes_array'][] = 'usa-grid usa-background-dark';
+  }
+
+  if ($vars['region'] == 'navigation') {
+    $vars['classes_array'][] = 'usa-grid';
+  }
 
   // Remove classes from main content region.
   if ($vars['region'] == 'content') {
