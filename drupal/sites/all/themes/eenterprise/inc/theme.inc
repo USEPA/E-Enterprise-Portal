@@ -687,9 +687,8 @@ function eenterprise_pager_link($vars) {
 function eenterprise_form_required_marker($variables) {
   $attributes = array(
     'class' => 'form-required',
-    'title' => t('This field is required.'),
   );
-  return '<span' . drupal_attributes($attributes) . '>' .t('*') . '</span>';
+  return '<span' . drupal_attributes($attributes) . '>' .t('Required') . '</span>';
 }
 
 //TODO: Can we come up with a better name for this function if necessary?
