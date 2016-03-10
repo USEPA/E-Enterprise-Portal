@@ -657,127 +657,113 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
             $zip = substr($validation['postal_code'], 0, 5);
             $frs_city_state_return = frs_zip_code_to_city_state($zip);
             $frs_lat_long_return = frs_zip_code_to_lat_long($zip);
-            if (empty($frs_lat_long_return['lat'])) {
-                $error_message = 'Latitude/longitude could not be found for this zip code.';
+
+            if ($initial_login) {
+                // If initial login, use new style zip/city lookup
+
                 $zip_data = array(
-                    'state' => '',
                     'city' => '',
                     'latitude' => '',
                     'longitude' => '',
-                    'zip' => '',
                     'zip_attr' => '',
                     'city_attr' => '',
-                    'string' => $error_message,
-                    'error' => $error
+                    'zip' => $zip,
                 );
-            } else {
-                if ($initial_login) {
-                    // If initial login, use new style zip/city lookup
 
-                    $zip_data = array(
-                        'city' => '',
-                        'latitude' => '',
-                        'longitude' => '',
-                        'zip_attr' => '',
-                        'city_attr' => '',
-                        'zip' => $zip,
-                    );
+                // Get Zip Code to Census Place/Population Lookup table as json
+                $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+                $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
 
-                    // Get Zip Code to Census Place/Population Lookup table as json
-                    $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
-                    $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
+                // Decode  json
+                $json_file = file_get_contents($zip_pop_url);
+                $result = json_decode($json_file);
 
-                    // Decode  json
-                    $json_file = file_get_contents($zip_pop_url);
-                    $result = json_decode($json_file);
+                // Keep track of whether a preferred name has been found yet
+                $city_tribe_found = false;
+                // If Zip->Census Place had results:
+                if (!empty($result->features)) {
+                    $city_attr = array();
+                    $city_list = array();
+                    $zip_attr = array();
 
-                    // Keep track of whether a preferred name has been found yet
-                    $city_tribe_found = false;
-                    // If Zip->Census Place had results:
-                    if (!empty($result->features)) {
-                        $city_attr = array();
-                        $city_list = array();
-                        $zip_attr = array();
-
-                        // Loop through all Census Places for the specified zip
-                        foreach ($result->features as $feature) {
-                            if (!empty($feature->attributes->NAME_LABEL)) {
-                                // If the table has a placename, record that as the preferred name, along with its population
-                                $city_list[] = $feature->attributes->NAME_LABEL;
-                                $city_attr[$feature->attributes->NAME_LABEL] = array(
-                                    "pop" => $feature->attributes->Place_Pop_2014_ACS2014
-                                );
-                            }
-                            // Also record the zip code's population and urban/rural status
-                            $zip_attr[$feature->attributes->ZCTA] = array(
-                                "pop" => $feature->attributes->Zip_Pop2014_ACS5,
-                                "urban" => $feature->attributes->Urban,
+                    // Loop through all Census Places for the specified zip
+                    foreach ($result->features as $feature) {
+                        if (!empty($feature->attributes->NAME_LABEL)) {
+                            // If the table has a placename, record that as the preferred name, along with its population
+                            $city_list[] = $feature->attributes->NAME_LABEL;
+                            $city_attr[$feature->attributes->NAME_LABEL] = array(
+                                "pop" => $feature->attributes->Place_Pop_2014_ACS2014
                             );
                         }
-
-                        $zip_data['city'] = $city_list;
-                        $zip_data['city_attr'] = $city_attr;
-                        $zip_data['zip_attr'] = $zip_attr;
-                    }
-
-                    // Get Zip Code to Tribal Area Lookup table as json
-                    $zip_tribe_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
-                    $zip_tribe_url = $zip_tribe_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&f=pjson';
-
-                    // Decode  json
-                    $json_file = file_get_contents($zip_tribe_url);
-                    $result = json_decode($json_file);
-
-                    // If tribal area was found in this zip:
-                    if (!empty($result->features)) {
-                        foreach ($result->features as $feature) {
-                            // If the table has a placename, record that as the preferred name
-                            $zip_data['city'][] = $feature->attributes->TRIBE_NAME_CLEAN;
-                        }
-                    }
-
-                    // Use FRS to find lat & long of zipcode
-                    if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {
-                        $zip_data['latitude'] = $frs_lat_long_return['lat'];
-                        $zip_data['longitude'] = $frs_lat_long_return['long'];
-                        $frs_city = $frs_city_state_return['city'] . ", " . $frs_city_state_return['state'];
-                        // Also, if no preferred name has been found yet, use FRS city/state
-                        if (!in_array($frs_city, $zip_data['city']) and strlen($frs_city_state_return['city']) != 0) {
-                            $zip_data['city'][] = $frs_city;
-                        }
-                    }
-                } else {
-                    // If not intial login, revert to old way of doing zip/city lookups
-                    if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {
-                        $zip_data = array(
-                            'state' => $frs_city_state_return['state'],
-                            'city' => $frs_city_state_return['city'],
-                            'latitude' => $frs_lat_long_return['lat'],
-                            'longitude' => $frs_lat_long_return['long'],
-                            'zip' => $zip,
+                        // Also record the zip code's population and urban/rural status
+                        $zip_attr[$feature->attributes->ZCTA] = array(
+                            "pop" => $feature->attributes->Zip_Pop2014_ACS5,
+                            "urban" => $feature->attributes->Urban,
                         );
                     }
-                    $location_info = return_user_preferred_location($zip);
-                    // First find if there is a preferred name associated with this location
-                    $users_preferred_name = $location_info['preferred_name'];
-                    if ($users_preferred_name) {
-                        $readable_string = $users_preferred_name;
-                        $zip_attr[$zip] = array(
-                            "pop" => $location_info['commsize'],
-                            "urban" => $location_info['isurban'],
-                        );
-                        $zip_data['zip_attr'] = $zip_attr;
-                        $error = false;
-                    }
-                    else if (strlen($zip_data['city']) != 0) {
-                        $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
-                        $error = false;
-                    }
 
-                    $zip_data['string'] = $readable_string;
-                    $zip_data['error'] = $error;
-                    //watchdog('location_info', '<pre>@print_r</pre>', array('@print_r' => print_r( $zip_data, TRUE))); 
+                    $zip_data['city'] = $city_list;
+                    $zip_data['city_attr'] = $city_attr;
+                    $zip_data['zip_attr'] = $zip_attr;
                 }
+
+                // Get Zip Code to Tribal Area Lookup table as json
+                $zip_tribe_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
+                $zip_tribe_url = $zip_tribe_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&f=pjson';
+
+                // Decode  json
+                $json_file = file_get_contents($zip_tribe_url);
+                $result = json_decode($json_file);
+
+                // If tribal area was found in this zip:
+                if (!empty($result->features)) {
+                    foreach ($result->features as $feature) {
+                        // If the table has a placename, record that as the preferred name
+                        $zip_data['city'][] = $feature->attributes->TRIBE_NAME_CLEAN;
+                    }
+                }
+
+                // Use FRS to find lat & long of zipcode
+                if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {
+                    $zip_data['latitude'] = $frs_lat_long_return['lat'];
+                    $zip_data['longitude'] = $frs_lat_long_return['long'];
+                    $frs_city = $frs_city_state_return['city'] . ", " . $frs_city_state_return['state'];
+                    // Also, if no preferred name has been found yet, use FRS city/state
+                    if (!in_array($frs_city, $zip_data['city']) and strlen($frs_city_state_return['city']) != 0) {
+                        $zip_data['city'][] = $frs_city;
+                    }
+                }
+            } else {
+                // If not intial login, revert to old way of doing zip/city lookups
+                if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {
+                    $zip_data = array(
+                        'state' => $frs_city_state_return['state'],
+                        'city' => $frs_city_state_return['city'],
+                        'latitude' => $frs_lat_long_return['lat'],
+                        'longitude' => $frs_lat_long_return['long'],
+                        'zip' => $zip,
+                    );
+                }
+                $location_info = return_user_preferred_location($zip);
+                // First find if there is a preferred name associated with this location
+                $users_preferred_name = $location_info['preferred_name'];
+                if ($users_preferred_name) {
+                    $readable_string = $users_preferred_name;
+                    $zip_attr[$zip] = array(
+                        "pop" => $location_info['commsize'],
+                        "urban" => $location_info['isurban'],
+                    );
+                    $zip_data['zip_attr'] = $zip_attr;
+                    $error = false;
+                }
+                else if (strlen($zip_data['city']) != 0) {
+                    $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
+                    $error = false;
+                }
+
+                $zip_data['string'] = $readable_string;
+                $zip_data['error'] = $error;
+                //watchdog('location_info', '<pre>@print_r</pre>', array('@print_r' => print_r( $zip_data, TRUE))); 
             }
         }
     }
