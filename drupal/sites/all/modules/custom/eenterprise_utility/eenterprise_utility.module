@@ -541,7 +541,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                     $field_suffix = '<span id="city-name-' . $delta . '" aria-live="polite">' . $zip_mapping_array[$zip] . '</span>';
                     $ariacity = $zip_mapping_array[$zip];
                 } else {
-                    $zip_data = zip_code_lookup($zip);
+                    $zip_data = return_user_preferred_location($zip);
                     if ($zip_data['error']) {
                         $field_suffix = '<span id="city-name-' . $delta . '" class="field-suffix error" aria-live="assertive">' . $zip_data['string'] . '</span>';
                         // Update aria-describedby to point to zip-code-error
@@ -550,11 +550,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                             'aria-live' => 'assertive',
                         );
                     } else
-                        $commsize = $zip_data['zip_attr'][$zip]['pop'];
-                        $isurban = $zip_data['zip_attr'][$zip]['urban'];
-                        //watchdog('zipdata', '<pre>@print_r</pre>', array('@print_r' => print_r( $zip_data, TRUE))); 
-                        $field_suffix = '<span id="city-name-' . $delta . '" commsize="' . $commsize . '" isurban="' . $isurban . '" aria-live="polite">' . $zip_data['string'] . '</span>';
-                    $ariacity = $zip_data['string'];
+                        $commsize = $zip_data['commsize'];
+                        $isurban = $zip_data['isurban'];
+                        $field_suffix = '<span id="city-name-' . $delta . '" commsize="' . $commsize . '" isurban="' . $isurban . '" aria-live="polite">' . $zip_data['preferred_name'] . '</span>';
+                        $ariacity = $zip_data['preferred_name'];
                 }
             } else {
                 $field_suffix = '';
@@ -1000,9 +999,10 @@ function get_header_variables()
         if ($primary == 1) {
             $primary_zip = $zipcode;
         }
-        $zipcode_data = zip_code_lookup($zipcode);
+        $zipcode_data = return_user_preferred_location($zipcode);
+
         if (!$zipcode_data['error']) {
-            $locations_array[$zipcode] = $zipcode_data['string'];
+            $locations_array[$zipcode] = $zipcode_data['preferred_name'];
             $user_has_zip = true;
         }
     }
