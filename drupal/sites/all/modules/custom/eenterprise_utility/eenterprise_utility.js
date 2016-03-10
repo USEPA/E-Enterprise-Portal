@@ -384,10 +384,10 @@
                             // Count zips returned isn't greater than 1
                             else {
                                 var zip = location_data.zip_array[0];
-                                var loction_name = location_data.city;
+                                var location_name = location_data.city;
                                 input.val(zip);
                                 if (location_data.state == '') {
-                                    field_suffix.html(loction_name);
+                                    field_suffix.html(location_name);
                                     var pop = location_data.zip_attr[zip].pop;
                                     if(location_data.city_attr) {
                                         if (location_name in location_data.city_attr) {
