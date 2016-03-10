@@ -9,7 +9,6 @@ drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "f
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/other_items_of_interest.js", "file");
 drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_interest.css", "file");
 
-
 ?>
 
 <div id="other-areas-tabs" class="view-content">

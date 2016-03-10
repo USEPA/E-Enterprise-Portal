@@ -3,6 +3,8 @@
  * @file
  * Module file for APIs.
  */
+use Swagger\Annotations as SWG;
+require 'MyAPI.php';
 
 
 /***
@@ -15,16 +17,15 @@
 function eenterprise_api_menu()
 {
     $items = array();
-    $items['api/1.1/%/%'] = array(
+    $items['api/1.0/%/%'] = array(
         'page callback' => 'process_request',
         'access callback' => TRUE,
-        'page arguments' => array(2, 3),
     );
     return $items;
 }
 
 
-function process_request($resource, $id)
+function process_request()
 {
     // create new http request with $resource, attaching $id as an argument to work with service_views
 
@@ -32,16 +33,24 @@ function process_request($resource, $id)
 //    drupal_add_http_header('Access-Control-Allow-Origin', "*");
 //    drupal_add_http_header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
 
-    $args = '?args[0]=' . $id;
-    $host = $_SERVER['HTTP_HOST'];
-    $htt = $_SERVER['HTTPS'];
-    if (isset($htt))
-        $htt = 'https://';
-    else
-        $htt = 'http://';
-    $request = $htt . $host . "/api/1.1/" . $resource . $args;
-    print(drupal_http_request($request)->data);
-    exit();
+    // Requests from the same server don't have a HTTP_ORIGIN header
+    if (!array_key_exists('HTTP_ORIGIN', $_SERVER))
+        $_SERVER['HTTP_ORIGIN'] = $_SERVER['SERVER_NAME'];
+
+    try {
+        $request = '';
+        if (!isset($_REQUEST['request']))
+            $request = $_SERVER['REQUEST_URI'];
+        else
+            $request = $_REQUEST['request'];
+
+        $API = new MyAPI($request, $_SERVER['HTTP_ORIGIN']);
+        echo $API->processAPI();
+    } catch (Exception $e) {
+        echo json_encode(Array('error' => $e->getMessage()));
+    }
+
+
 }
 
 /**
@@ -96,13 +105,6 @@ function rest_request()
 }
 
 
-function apply_pagination_rules(&$output, &$view, $limit)
-{
-//    echo '<h1>Output</h1>';
-//    dpm($output);
-//    echo '<h1>View</h1>';
-//    dpm($view);
-}
 
 /*
  * METADATA defined here
