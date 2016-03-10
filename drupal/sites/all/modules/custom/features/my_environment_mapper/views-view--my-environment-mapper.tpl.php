@@ -84,6 +84,9 @@ drupal_add_css(drupal_get_path('module', 'my_environment_mapper') ."/css/myEnvMa
     </div>
   <?php endif; ?>
 
+<div id="invalid-location" style="display:none;">
+    <p>The zip code you have selected is unable to be mapped at this time.</p>
+</div>
 </div><?php /* class view */ ?>
 
 

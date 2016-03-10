@@ -27,7 +27,23 @@
             }
         });
 
+
     });
+
+    function showMap() {
+        var logged_in_view = $('.embedMyEnv-container');
+        var error_view = $('#invalid-location');
+        logged_in_view.show();
+        error_view.hide();
+    }
+
+    function missingZipLatLong() {
+        var logged_in_view = $('.embedMyEnv-container');
+        var error_view = $('#invalid-location');
+        logged_in_view.hide();
+        error_view.show();
+
+    }
 
     function updateMyEnvMapperLoc(data) {
         if (currentZip) {
@@ -35,6 +51,9 @@
                 var zipCentLat = String(data.latitude);
                 var zipCentLon = String(data.longitude);
                 setiFrameNewURL(zipCentLat, zipCentLon);
+                showMap();
+            } else {
+                missingZipLatLong();
             }
         }
     }
