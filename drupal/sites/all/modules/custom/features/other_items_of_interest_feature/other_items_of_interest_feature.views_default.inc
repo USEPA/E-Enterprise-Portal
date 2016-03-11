@@ -325,7 +325,7 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['fields']['created']['label'] = 'long_form_iso_date_example';
   $handler->display->display_options['fields']['created']['alter']['text'] = '<?php echo date_iso8601([created]);?>';
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
-  $handler->display->display_options['fields']['created']['custom_date_format'] = 'c';
+  $handler->display->display_options['fields']['created']['custom_date_format'] = 'Y-m-d\\TH:i:s\\Z';
   $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
   $handler->display->display_options['fields']['created']['timezone'] = 'UTC';
   /* Field: Content: Post date */
