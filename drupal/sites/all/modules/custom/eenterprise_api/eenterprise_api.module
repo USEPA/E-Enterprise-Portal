@@ -4,20 +4,13 @@
  * Module file for APIs.
  */
 use Swagger\Annotations as SWG;
+require 'api_constants.php';
 require 'MyAPI.php';
-
-
-/***
- * TODO
- * - Need to automate grabbing the most current api base path
- *
- *
- */
 
 function eenterprise_api_menu()
 {
     $items = array();
-    $items['api/1.0/%/%'] = array(
+    $items['api/' . API_VERSION . '/%/%'] = array(
         'page callback' => 'process_request',
         'access callback' => TRUE,
     );
@@ -229,4 +222,11 @@ function attach_metadata($view, &$output)
         'results' => $output,
     );
     $output = $paged_output;
+}
+
+/*
+ * Used to generate dynamic address
+ */
+function current_server(){
+    return $_SERVER['SERVER_NAME'];
 }
