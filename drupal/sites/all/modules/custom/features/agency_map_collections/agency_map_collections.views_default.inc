@@ -50,7 +50,7 @@ function agency_map_collections_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<a href="/new-agency-map" class="button primary-action">Add an agency map collection</a>';
+  $handler->display->display_options['header']['area']['content'] = '<a href="/new-agency-map" class="usa-button primary-action">Add an agency map collection</a>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Field: Content: Agency map URL */
   $handler->display->display_options['fields']['field_ee_agency_map_url_1']['id'] = 'field_ee_agency_map_url_1';
