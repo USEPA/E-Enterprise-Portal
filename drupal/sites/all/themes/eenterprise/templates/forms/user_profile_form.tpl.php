@@ -88,7 +88,7 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
     ?>
       <div id="delete-holder" style="display:none">
           <div>This will delete your entire profile, including any selected preferences, from the E-Enterprise Platform and will log you out from the system. Are you sure that you want to do this?</div>
-          <div class="pull-right"><button id="cancel-delete-profile" class="btn btn-default" type="button">Back</button> <button id="confirm-delete-profile" type="button" class="btn btn-danger">Delete Profile</button></div>
+          <div class="pull-right"><button id="cancel-delete-profile" class="usa-button" type="button">Back</button> <button id="confirm-delete-profile" type="button" class="btn btn-danger">Delete Profile</button></div>
       </div>
 
   </div> <!--col-->

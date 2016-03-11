@@ -282,7 +282,7 @@
 
                     function showError(msg) {
                         $locationInputFormGroup.addClass('has-error');
-                        $locationInputIcon.attr('class', 'glyphicon glyphicon-remove form-control-feedback');
+                        $locationInputIcon.attr('class', 'fa fa-close form-control-feedback');
                         $locationInputIcon.show();
                         clearErrorMessage();
                         $('div#content').before($('<div>', {
@@ -294,12 +294,12 @@
                     function hideError() {
                         $locationInputFormGroup.removeClass('has-error');
                         $locationInputIcon.hide();
-                        $locationInputIcon.removeClass('spinning');
+                        $locationInputIcon.removeClass('fa-spinner');
                         clearErrorMessage();
                     }
 
                     function showLoading() {
-                        $locationInputIcon.attr('class', 'glyphicon glyphicon-refresh form-control-feedback spinning');
+                        $locationInputIcon.attr('class', 'fa fa-refresh form-control-feedback fa-spinner');
                         $locationInputIcon.show();
 
                     }

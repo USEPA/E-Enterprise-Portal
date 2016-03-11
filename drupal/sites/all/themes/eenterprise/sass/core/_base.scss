@@ -20,6 +20,7 @@ body {
   }
 }
 
-[aria-hidden=true]:not.glyphicon {
+[aria-hidden=true]:not.glyphicon,
+[aria-hidden=true]:not.fa {
   display: none !important;
 }

@@ -15,17 +15,12 @@
 }
 
 .interests-url-text {
-    font-size: 0.85em;
-    color: #444;
+    font-size: $h6-font-size;
     margin-top: 2px;
 }
-
-.action-links {
-	font-size: 0.85em;
-}
 .action-links .first {
-    border-right: 1px solid #aaa;
-    padding-right: 10px;
+  border-right: 1px solid #aaa;
+  padding-right: 10px;
 }
 
 .action-links .last {

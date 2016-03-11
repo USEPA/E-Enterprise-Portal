@@ -48,7 +48,7 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
 
     </script>
 
-<div class="view-content">
+<div id="village-green" class="view-content">
 	<small class="village-green-updated-every-minute">Updated every minute via <a target="_blank" href="http://	villagegreen.airnowtech.org/">Village Green</a></small>
 	<div class="usa-grid-full">
 		<div class="usa-width-one-half">

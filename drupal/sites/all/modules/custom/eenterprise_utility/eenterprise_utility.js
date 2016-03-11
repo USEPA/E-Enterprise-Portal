@@ -37,13 +37,13 @@
             var selection = table.find('input[type=checkbox]:checked');
 
             if (!$(starsSpot).hasClass('zip-code-primary-holder')) {
-                checkboxes.after('<div class="zip-code-primary-holder"><a href="javascript:void(0)" title="Set to default location" class="zip-code-primary-select"><i class="glyphicon glyphicon-star-empty" aria-hidden="true"></i><span class="sr-only">Set to default location</span></a></div>');
+                checkboxes.after('<div class="zip-code-primary-holder"><a href="javascript:void(0)" title="Set to default location" class="zip-code-primary-select"><i class="fa fa-star-o" aria-hidden="true"></i><span class="sr-only">Set to default location</span></a></div>');
                 var primary_indicator = selection.next('.zip-code-primary-holder').find('.zip-code-primary-select');
                 primary_indicator.addClass('selected');
                 primary_indicator.prop('title', 'Default location');
                 var primary_indicator_star = primary_indicator.find('i');
-                primary_indicator_star.removeClass('glyphicon-star-empty');
-                primary_indicator_star.addClass('glyphicon-star');
+                primary_indicator_star.removeClass('fa-star-o');
+                primary_indicator_star.addClass('fa-star');
                 var screenreader_indicator = primary_indicator.find('.sr-only');
                 screenreader_indicator.text("Default location");
             }
@@ -98,14 +98,14 @@
             $('.zip-code-primary-select').prop('title', 'Set to default location');
             $('.zip-code-primary-select').closest('td').find('input[type=checkbox]:checked').prop('checked', false);
             var original_star = $('.zip-code-primary-select').find('i')
-            original_star.addClass('glyphicon-star-empty');
-            original_star.removeClass('glyphicon-star');
+            original_star.addClass('fa-star-o');
+            original_star.removeClass('fa-star');
             var selected_icon = $(this);
             selected_icon.addClass('selected');
             selected_icon.prop('title', 'Default location');
             var selected_icon_star = selected_icon.find('i');
-            selected_icon_star.removeClass('glyphicon-star-empty');
-            selected_icon_star.addClass('glyphicon-star');
+            selected_icon_star.removeClass('fa-star-o');
+            selected_icon_star.addClass('fa-star');
             selected_icon_star.closest('td').find('input[type=checkbox]').prop('checked', true);
             var screenreader_indicator = $(this).find('.sr-only');
             screenreader_indicator.text('Default location');
@@ -115,8 +115,8 @@
             $(this).removeClass('selected');
             $(this).prop('title', 'Set to default location');
             var selected_icon = $(this).find('i');
-            selected_icon.removeClass('glyphicon-star');
-            selected_icon.addClass('glyphicon-star-empty');
+            selected_icon.removeClass('fa-star');
+            selected_icon.addClass('fa-star-empty');
             selected_icon.closest('td').find('input[type=checkbox]').prop('checked', false);
             var screenreader_indicator = $(this).find('.sr-only');
             screenreader_indicator.text('Set to default location');
@@ -215,8 +215,8 @@
             var label_select = $('<label id="zip-label" for="city-state-lookup-zips">' + label_select_string + '</label>');
             select.addClass('city-state-lookup-zips');
             // select.addClass('city-state-lookup-zips');
-            var confirm = $('<button type="button" class="btn btn-primary btn-sm" id ="user-profile-select-zip">Select</button>');
-            var back = $('<button type="button" class="btn btn-default btn-sm" id="user-profile-back-zip">Back</button>');
+            var confirm = $('<button type="button" class="usa-button" id ="user-profile-select-zip">Select</button>');
+            var back = $('<button type="button" class="usa-button-outline" id="user-profile-back-zip">Back</button>');
             input.prop("disabled", true);
             if (numSelects == 0) {
                 input.after(label_select);

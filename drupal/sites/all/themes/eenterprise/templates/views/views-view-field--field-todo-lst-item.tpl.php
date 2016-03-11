@@ -38,7 +38,7 @@ if($trunc_pos !== false){
 
 print "<a href='".$src_link."' class='favorites-ignore' target='_blank'>".$output."</a>";
 if(!empty($view->result[$view->row_index]->field_field_todo_lst_facility_name)) {
-    print "<span class='date-subscript-text'>" . $view->result[$view->row_index]->field_field_todo_lst_facility_name[0]['rendered']['#markup'] . "</span>";
+    print "<span class='facility-subscript-text'>" . $view->result[$view->row_index]->field_field_todo_lst_facility_name[0]['rendered']['#markup'] . "</span>";
 }
 if(!empty($view->result[$view->row_index]->field_field_todo_lst_part_code)) {
     $unique_id = $view->query->pager->current_page.'-'.$view->row_index;

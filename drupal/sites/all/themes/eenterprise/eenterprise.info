@@ -35,7 +35,7 @@ regions[page_bottom]    = Page bottom
 
 ; SCRIPTS
 scripts[] = js/script.js
-; scripts[] = js/mobile-menu.js
+scripts[] = js/mobile-menu.js
 scripts[] = js/drop-down-menu.js
 scripts[] = js/eenterprise_utility.js
 scripts[] = ../../libraries/jqueryui/jquery-ui.js
