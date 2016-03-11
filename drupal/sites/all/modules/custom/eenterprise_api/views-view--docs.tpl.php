@@ -1,5 +1,6 @@
 <?php
 $path = '/' . libraries_get_path('swagger-ui') . '/dist/';
+require_once 'api_constants.php';
 ?>
 <head>
     <meta charset="UTF-8">
@@ -42,7 +43,7 @@ $path = '/' . libraries_get_path('swagger-ui') . '/dist/';
 //      if (url && url.length > 1) {
 //        url = decodeURIComponent(url[1]);
 //      } else {
-            var url = "http://localhost/swagger-docs";//"http://petstore.swagger.io/v2/swagger.json";
+            var url = location.protocol + "//" + window.location.hostname + "/swagger-docs";// "http://localhost/swagger-docs";//"http://petstore.swagger.io/v2/swagger.json";
             //}
             hljs.configure({
                 highlightSizeThreshold: 5000
