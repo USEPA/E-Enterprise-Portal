@@ -817,7 +817,9 @@ header {
 .block--login-from-guest-page {
 	float: right;
 	margin-top: 20px;
-	margin-right: 1em;
+	.usa-button {
+		margin-right: 0;
+	}
 	a#faqs-link {
 		font-size: $h6-font-size;
 		margin-right: 20px;
@@ -2428,14 +2430,20 @@ a {
 	margin-top: 0;
 	li {
 		vertical-align: top;
+		margin-top: 0;
+		margin-bottom: 0;
 		li {
 			width: 25em;
 			display: block;
 			margin-bottom: 0;
 			margin-top: 0;
-			a {
+			a.usa-button {
 				padding: 1.5rem 2.5rem;
 			}
+		}
+		a.usa-button {
+			margin-bottom: 5px;
+			margin-top: 5px;			
 		}
 	}
 }
@@ -2448,14 +2456,10 @@ a {
 		width: 18em;
 		display: block;
 	}
-	li#exchange-cdx a {
-//		margin-bottom:0;
-	}
 	#exchange-subtext {
 		display: block;
 		font-size: 0.75em;
 		margin-bottom: 20px;
-		text-align:center;
 	}
 }
 
@@ -2694,5 +2698,13 @@ ul {
 				content: none;
 			}
 		}
+	}
+}
+.views-field-field-faq-answer {
+	p {
+		margin-top: 0;
+	}
+	ul {
+		margin-bottom: 1rem;
 	}
 }
