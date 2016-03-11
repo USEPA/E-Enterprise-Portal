@@ -534,14 +534,16 @@
                     return $.inArray(this.innerHTML, lead_list) == -1
                 }).remove();
             }
-            var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc", "Subpart IIII", "Subpart JJJJ", "- Any -"];
+
+            var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc", "Subpart IIII", "Subpart JJJJ", "Subpart CCCC", "Subpart DDDD", "Subpart Ga", "Subpart OOOO", "Subpart F", "Subpart LLLL", "Subpart MMMM", "Subpart BB", "Subpart CC", "Subpart DD", "Subpart E", "Subpart G", "Subpart GG", "Subpart H", "Subpart I", "Subpart L", "Subpart M", "Subpart MM", "Subpart P", "Subpart PP", "Subpart Q", "Subpart QQ", "Subpart R", "Subpart RR", "Subpart T", "Subpart UU", "Subpart V", "Subpart W", "Subpart X", "Subpart XX", "Subpart Z", "Subpart U", "Subpart Y", "Subpart HH", "Subpart KK", "Subpart LLL", "Subpart S", "- Any -"];
             if ($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 60') {
                 $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
                 $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
                     return $.inArray(this.innerHTML, part_60_list) == -1
                 }).remove();
             }
-            var part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
+
+            var part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "Subpart N", "Subpart EEEEEEE", "Subpart Y", "Subpart HH", "Subpart HHH", "Subpart GGG", "Subpart U", "Subpart HHHHHHH", "Subpart KK", "Subpart S", "Subpart CCC", "Subpart AA and BB", "Subpart DD", "Subpart DDD", "Subpart GG", "Subpart III", "Subpart JJJ",  "Subpart LL", "Subpart MMM", "Subpart NNN", "Subpart OOO", "Subpart PPP", "Subpart RRR", "Subpart PPP", "Subpart RRR", "Subpart X", "Subpart XXX", "Subpart YY", "Subpart NN","- Any -"];
             if ($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 63') {
                 $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
                 $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
@@ -708,7 +710,7 @@
                 $('#edit-field-todo-lst-part-code-value-wrapper').show();
             }
 
-            var todo_part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc", "Subpart IIII", "Subpart JJJJ", "- Any -"];
+            var todo_part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc", "Subpart IIII", "Subpart JJJJ", "Subpart CCCC", "Subpart DDDD", "Subpart Ga", "Subpart OOOO", "Subpart F", "Subpart LLLL", "Subpart MMMM", "Subpart BB", "Subpart CC", "Subpart DD", "Subpart E", "Subpart G", "Subpart GG", "Subpart H", "Subpart I", "Subpart L", "Subpart M", "Subpart MM", "Subpart P", "Subpart PP", "Subpart Q", "Subpart QQ", "Subpart R", "Subpart RR", "Subpart T", "Subpart UU", "Subpart V", "Subpart W", "Subpart X", "Subpart XX", "Subpart Z", "Subpart U", "Subpart Y", "Subpart HH", "Subpart KK", "Subpart LLL", "Subpart S", "- Any -"];
             if ($("#edit-field-todo-lst-part-code-value").length && $("#edit-field-todo-lst-part-code-value").val().trim() == 'Part 60') {
                 $('#edit-field-todo-lst-sub-part-code-value-wrapper').show();
                 $('#edit-field-todo-lst-sub-part-code-value option').filter(function () {
@@ -716,7 +718,7 @@
                 }).remove();
             }
 
-            var todo_part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
+            var todo_part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "Subpart N", "Subpart EEEEEEE", "Subpart Y", "Subpart HH", "Subpart HHH", "Subpart GGG", "Subpart U", "Subpart HHHHHHH", "Subpart KK", "Subpart S", "Subpart CCC", "Subpart AA and BB", "Subpart DD", "Subpart DDD", "Subpart GG", "Subpart III", "Subpart JJJ",  "Subpart LL", "Subpart MMM", "Subpart NNN", "Subpart OOO", "Subpart PPP", "Subpart RRR", "Subpart PPP", "Subpart RRR", "Subpart X", "Subpart XXX", "Subpart YY", "Subpart NN","- Any -"];
             if ($("#edit-field-todo-lst-part-code-value").length && $("#edit-field-todo-lst-part-code-value").val().trim() == 'Part 63') {
                 $('#edit-field-todo-lst-sub-part-code-value-wrapper').show();
                 $('#edit-field-todo-lst-sub-part-code-value option').filter(function () {
