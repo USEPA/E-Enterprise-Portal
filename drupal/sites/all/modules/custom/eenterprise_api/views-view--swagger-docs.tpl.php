@@ -1,5 +1,6 @@
 <?php
 use Swagger\Swagger;
+    echo __DIR__;
     if (current_server() == 'localhost')
         require("/../vendor/autoload.php");
     else
