@@ -98,13 +98,13 @@ function eenterprise_utility_menu()
 
 function sso_cdx_portal()
 {
-    if (!isset($_POST['securitytoken']) || !isset($_POST['clientip'])) {
+    if (!isset($_POST['Token']) || !isset($_POST['CDX_DATA'])) {
         drupal_goto('/');
     }
     $frs_password = variable_get('cdx_facility_password');
     $email = variable_get('cdx_node_token_email');
     $domain = variable_get('cdx_node_token_domain');
-    $server_ip = $_POST['clientip'];  //$_SERVER['SERVER_ADDR'];
+    $server_ip = $_POST['CDX_DATA'];
     $wsdl = variable_get('cdx_facility_naas_wsdl');
     $cdx_resource_url = variable_get('cdx_facility_resource_url');
     $validate_client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
@@ -113,11 +113,9 @@ function sso_cdx_portal()
         "userId" => $email,
         "credential" => $frs_password,
         "domain" => $domain,
-        "securityToken" => $_POST['securitytoken'],
+        "securityToken" => $_POST['Token'],
         "clientIp" => $server_ip,
         "resourceURI" => $cdx_resource_url,
-        "applicationId" => "",
-        "userProperties" => "",
     );
     try {
         $validate_response = $validate_client->__soapCall("Validate", array($validate_parameters));
