@@ -1,12 +1,5 @@
 <?php
-/**
- * @SWG\Resource(
- * 	apiVersion="1.0",
- *	resourcePath="/resource",
- *	description="State, Tribal, and US EPA resources",
- *	produces="['application/json']"
- * )
- */
+
 class ResourceWithDocsController
 {
 

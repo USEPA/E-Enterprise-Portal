@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: bmatkin
@@ -8,19 +7,7 @@
  */
 require_once 'API.php';
 
-/**
- * @SWG\Info(title="My First API", version="0.1")
- */
-/* @SWG\Api(
- * @SWG\Operation(
- * summary="Retreives data from database and prints out in json",
- * method="GET",
- * type="", // what would go here?
- * @SWG\Parameter(name="param1",type="string"),
- * @SWG\Parameter(name="param2",type="int")
- * )
- * )
- * */
+
 class MyAPI extends API
 {
 

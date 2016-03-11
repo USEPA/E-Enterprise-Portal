@@ -1,9 +1,10 @@
 <?php
+require_once 'api_constants.php';
 /**
 * @SWG\Info(
 *   title="EEnterprise API",
-*   description="A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification",
-*   version="1.0.0",
+*   description="Demonstrate features in the OPEN API-2.0 specification",
+*   version=API_VERSION,
 *   @SWG\Contact(
 *     email="apiteam@swagger.io",
 *     name="Swagger API Team",
@@ -16,9 +17,9 @@
 *   termsOfService="http://swagger.io/terms/"
 * )
 * @SWG\Swagger(
-*   host="localhost",
-*   basePath="/api/1.0",
-*   schemes={"http"},
+*   host=API_HOST,
+*   basePath=BASE_PATH,
+*   schemes={HTTP_SETTING},
 *   produces={"application/json"},
 *   consumes={"application/json"},
 * )
