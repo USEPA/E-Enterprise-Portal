@@ -77,8 +77,17 @@
   top: 100%;
 }
 
+#edit-actions input[type="submit"] {
+  display: table-cell;
+}
+
 #edit-actions, .resource-edit-cancel-link {
-  float: left;
+	display: inline;
+}
+
+.resource-edit-cancel-link .link.usa-button.usa-button-outline {
+	margin-left:40px;
+	display: initial;
 }
 
 #field-lgc-link-add-more-wrapper input[type="text"] {

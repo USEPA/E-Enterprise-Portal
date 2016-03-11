@@ -10,6 +10,7 @@ stylesheets[all][] = system.messages.css
 stylesheets[all][] = system.theme.css
 
 ; Then we add our own stylesheet.
+stylesheets[all][] = css/google-fonts.css
 stylesheets[all][] = css/styles.css
 stylesheets[all][] = css/gridstack.css
 

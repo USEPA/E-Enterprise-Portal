@@ -14,7 +14,6 @@
 @import 'lib/neat/neat';
 @import 'lib/normalize';
 
-
 // Core -------------- //
 
 @import 'core/defaults';
@@ -95,10 +94,6 @@
 @mixin button-gray {
 
 }
-
-@include font-face(SourceSansPro, '../fonts/SourceSansPro/SourceSansPro-Regular');
-@include font-face(SourceSansPro, '../fonts/SourceSansPro/SourceSansPro-Bold', bold);
-@include font-face(SourceSansPro, '../fonts/SourceSansPro/SourceSansPro-Italic', normal, italic);
 
 .element-hidden {
 	display: none;
@@ -270,6 +265,11 @@ label, .aria-label {
 	label.option {
 		font-weight: bold;
 	}
+}
+
+.autocomplete-deluxe-container {
+	background: none;
+	border-color: $color-gray;
 }
 
 
@@ -1373,6 +1373,14 @@ form[id^='user-profile-form'] {
 .page-user {
 	#edit-actions {
 		display: inline-block;
+		input[type="submit"],
+		.usa-button,
+		.usa-button.usa-button-outline {
+			display: table-cell;
+		}
+		.usa-button.usa-button-outline {
+			margin-left: 40px;
+		}
 	}
 }
 
@@ -1388,9 +1396,11 @@ form[id^='user-profile-form'] {
 #edit-field-profile-favourites thead {
 	display:none;
 }
-#edit-field-profile-favourites .tabledrag-toggle-weight-wrapper, 
-#field-zip-code-add-more-wrapper .tabledrag-toggle-weight-wrapper {
-	display: none;
+#edit-field-profile-favourites,
+#field-zip-code-add-more-wrapper {
+ .tabledrag-toggle-weight-wrapper {
+	 display: none;
+	}
 }
 
 .form-item-field-profile-interests-und label:first-child{
@@ -1795,6 +1805,7 @@ div.ctools-modal-content {
 
 // Gradients -------------- //
 
+.usa-button:not(.usa-button-outline),
 button:not(.usa-button-outline),
 input[type="button"]:not(.usa-button-outline),
 input[type="reset"]:not(.usa-button-outline),
@@ -2258,10 +2269,9 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 #agency-map-node-form {
 	fieldset {
 		legend {
-			font-size: 0.85em;
 			border-bottom: none;
-			font-weight: bold;
 			margin-bottom: 0;
+			font-size: inherit;
 		}
 		.fieldset-wrapper {
 			position: relative;
@@ -2273,35 +2283,13 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 		.field-value-url {
 			margin-top: -20px; 
 		}
-	}
-	.fieldset-description, .description {
-			font-size: 0.75em;
-	}
-	.form-actions {
-		position: relative;
-		width: 9em;
-		a {
-			position: absolute;
-			right: 0;
+		input[type="text"] {
+			display: table-cell;
 		}
-		input {
-			padding: 5px 20px;
-		}
-	}
-	#edit-actions {
-		width: 27em;
-		a {
-			right: auto;
-			left: 6em;
-		}
-		#edit-delete {
-			@include button-gray;
-			position: absolute;
-			right: 0;
-			font-weight: normal;
-			padding: 5px 20px;
-			border: 1px solid #aaa;
-			color: #000;
+		.field-suffix {
+			vertical-align: middle;
+			margin-left: 20px;
+			font-size: 1.7rem;
 		}
 	}
 }
@@ -2645,10 +2633,7 @@ input#location-input-guests::-ms-clear {
   text-transform: capitalize;
   font-size: 100%;
 }
-.page-new-agency-map p {
-	font-size: 0.85em;
-	margin-bottom: 5px;
-}
+
 .page-faqs {
 	.view-header {
 		background-color: #fafafa;
@@ -2657,12 +2642,10 @@ input#location-input-guests::-ms-clear {
 		margin-right: -20px;
 	}
 	h2 {
-		font-weight: bold;
 		font-size: 1em;
 		margin-bottom: 0;
 	}
 	h3 {
-		font-weight: bold;
 		margin-top: 20px;
 	}
 	.bulleted {
@@ -2678,9 +2661,6 @@ input#location-input-guests::-ms-clear {
 }
 #edit-field-prog-tracker-app-value-wrapper{
   display:none;
-}
-.edit-user-profile #edit-submit{
-  margin-left: 15px;
 }
 
 // CIOgov Overrides -------------- //
