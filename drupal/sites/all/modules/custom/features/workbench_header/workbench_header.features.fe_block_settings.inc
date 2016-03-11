@@ -14,6 +14,7 @@ function workbench_header_default_fe_block_settings() {
 
   $export['block-ee_header_locations'] = array(
     'cache' => -1,
+    'css_class' => 'usa-width-one-half',
     'custom' => 0,
     'machine_name' => 'ee_header_locations',
     'module' => 'block',
@@ -73,13 +74,14 @@ eenterprise-new',
     'visibility' => 0,
   );
 
-  $export['block-ee_social_media'] = array(
+  $export['block-eenterprise_favorite_links'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
-    'machine_name' => 'ee_social_media',
+    'machine_name' => 'eenterprise_favorite_links',
     'module' => 'block',
     'node_types' => array(),
-    'pages' => '',
+    'pages' => 'favorite_links',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
@@ -95,81 +97,22 @@ eenterprise-new',
         'weight' => 0,
       ),
       'eenterprise' => array(
-        'region' => '',
-        'status' => 0,
+        'region' => 'content',
+        'status' => 1,
         'theme' => 'eenterprise',
-        'weight' => -22,
+        'weight' => -20,
       ),
       'greentrees' => array(
-        'region' => 'footer',
+        'region' => 'content',
         'status' => 1,
         'theme' => 'greentrees',
-        'weight' => -22,
+        'weight' => -20,
       ),
       'oneepa' => array(
-        'region' => 'footer',
+        'region' => 'content',
         'status' => 1,
         'theme' => 'oneepa',
-        'weight' => 0,
-      ),
-      'seven' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'seven',
-        'weight' => 0,
-      ),
-      'zen' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'zen',
-        'weight' => 0,
-      ),
-    ),
-    'title' => 'Spread the Word',
-    'visibility' => 0,
-  );
-
-  $export['block-greentrees_ee_header'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'machine_name' => 'greentrees_ee_header',
-    'module' => 'block',
-    'node_types' => array(),
-    'pages' => '',
-    'roles' => array(
-      'anonymous user' => 1,
-      'authenticated user' => 2,
-    ),
-    'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'bootstrap' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bootstrap',
-        'weight' => 0,
-      ),
-      'eenterprise' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'eenterprise',
-        'weight' => -21,
-      ),
-      'greentrees' => array(
-        'region' => 'header',
-        'status' => 1,
-        'theme' => 'greentrees',
-        'weight' => -23,
-      ),
-      'oneepa' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'oneepa',
-        'weight' => 0,
+        'weight' => -20,
       ),
       'seven' => array(
         'region' => '',
@@ -185,11 +128,12 @@ eenterprise-new',
       ),
     ),
     'title' => '',
-    'visibility' => 0,
+    'visibility' => 1,
   );
 
   $export['block-login_from_guest_page'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'machine_name' => 'login_from_guest_page',
     'module' => 'block',
@@ -249,64 +193,9 @@ bridge-landing',
     'visibility' => 0,
   );
 
-  $export['block-workbenchheader'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'machine_name' => 'workbenchheader',
-    'module' => 'block',
-    'node_types' => array(),
-    'pages' => 'workbench',
-    'roles' => array(),
-    'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'bootstrap' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bootstrap',
-        'weight' => 0,
-      ),
-      'eenterprise' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'eenterprise',
-        'weight' => -17,
-      ),
-      'greentrees' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'greentrees',
-        'weight' => -17,
-      ),
-      'oneepa' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'oneepa',
-        'weight' => -17,
-      ),
-      'seven' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'seven',
-        'weight' => 0,
-      ),
-      'zen' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'zen',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 1,
-  );
-
   $export['eenterprise_bridge_auth-eenterprise_bridge_auth'] = array(
     'cache' => 1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => 'eenterprise_bridge_auth',
     'module' => 'eenterprise_bridge_auth',
@@ -366,134 +255,9 @@ bridge-landing',
     'visibility' => 0,
   );
 
-  $export['menu-menu-ee-workbench-cdx-menu'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'delta' => 'menu-ee-workbench-cdx-menu',
-    'module' => 'menu',
-    'node_types' => array(),
-    'pages' => 'ee-welcome
-eenterprise-for-environment',
-    'roles' => array(
-      'admin' => 3,
-      'Delegated Certifier' => 12,
-      'EPA Reviewer' => 11,
-      'federal-regulator' => 4,
-      'industry-user' => 5,
-      'Preparer' => 8,
-      'regional-regulator' => 6,
-      'State Reviewer' => 10,
-      'state-regulator' => 7,
-    ),
-    'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'bootstrap' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bootstrap',
-        'weight' => 0,
-      ),
-      'eenterprise' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'eenterprise',
-        'weight' => -23,
-      ),
-      'greentrees' => array(
-        'region' => 'nav-bar',
-        'status' => 1,
-        'theme' => 'greentrees',
-        'weight' => -23,
-      ),
-      'oneepa' => array(
-        'region' => 'nav-bar',
-        'status' => 1,
-        'theme' => 'oneepa',
-        'weight' => -23,
-      ),
-      'seven' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'seven',
-        'weight' => 0,
-      ),
-      'zen' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'zen',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 0,
-  );
-
-  $export['menu-menu-ee-workbench-public-menu'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'delta' => 'menu-ee-workbench-public-menu',
-    'module' => 'menu',
-    'node_types' => array(),
-    'pages' => 'ee-welcome
-eenterprise-for-environment',
-    'roles' => array(
-      'Public User' => 13,
-    ),
-    'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'bootstrap' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bootstrap',
-        'weight' => 0,
-      ),
-      'eenterprise' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'eenterprise',
-        'weight' => -22,
-      ),
-      'greentrees' => array(
-        'region' => 'nav-bar',
-        'status' => 1,
-        'theme' => 'greentrees',
-        'weight' => -22,
-      ),
-      'oneepa' => array(
-        'region' => 'nav-bar',
-        'status' => 1,
-        'theme' => 'oneepa',
-        'weight' => -22,
-      ),
-      'seven' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'seven',
-        'weight' => 0,
-      ),
-      'zen' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'zen',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 0,
-  );
-
   $export['menu-menu-footer-disclaimers'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => 'menu-footer-disclaimers',
     'module' => 'menu',
@@ -517,7 +281,7 @@ eenterprise-for-environment',
         'region' => 'footer',
         'status' => 1,
         'theme' => 'eenterprise',
-        'weight' => -21,
+        'weight' => -37,
       ),
       'greentrees' => array(
         'region' => 'footer',
@@ -548,8 +312,79 @@ eenterprise-for-environment',
     'visibility' => 0,
   );
 
+  $export['system-main-menu'] = array(
+    'cache' => -1,
+    'css_class' => 'usa-width-one-half',
+    'custom' => 0,
+    'delta' => 'main-menu',
+    'module' => 'system',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(
+      'admin' => 3,
+      'anonymous user' => 1,
+      'authenticated user' => 2,
+      'Delegated Certifier' => 12,
+      'EPA Reviewer' => 11,
+      'federal-regulator' => 4,
+      'industry-user' => 5,
+      'Preparer' => 8,
+      'Public User' => 13,
+      'regional-regulator' => 6,
+      'State Reviewer' => 10,
+      'state-regulator' => 7,
+    ),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'bootstrap' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bootstrap',
+        'weight' => 0,
+      ),
+      'eenterprise' => array(
+        'region' => 'navigation',
+        'status' => 1,
+        'theme' => 'eenterprise',
+        'weight' => -25,
+      ),
+      'greentrees' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'greentrees',
+        'weight' => -22,
+      ),
+      'oneepa' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'oneepa',
+        'weight' => -21,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
   $export['system-user-menu'] = array(
     'cache' => -1,
+    'css_class' => ' usa-width-one-half',
     'custom' => 0,
     'delta' => 'user-menu',
     'module' => 'system',
@@ -583,6 +418,7 @@ eenterprise-for-environment',
       'Help Desk - Super User' => 27,
       'INDIVIDUAL APPLICATION' => 16,
       'industry-user' => 5,
+      'INVOICE MANAGER' => 94,
       'LAB' => 72,
       'Lead-Based Paint Firm Applications' => 19,
       'Locational' => 58,
@@ -647,6 +483,63 @@ eenterprise-for-environment',
         'status' => 1,
         'theme' => 'oneepa',
         'weight' => -24,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+      'zen' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'zen',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['views-google_analytics-block'] = array(
+    'cache' => -1,
+    'css_class' => '',
+    'custom' => 0,
+    'delta' => 'google_analytics-block',
+    'module' => 'views',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'bootstrap' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bootstrap',
+        'weight' => 0,
+      ),
+      'eenterprise' => array(
+        'region' => 'bottom',
+        'status' => 1,
+        'theme' => 'eenterprise',
+        'weight' => -36,
+      ),
+      'greentrees' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'greentrees',
+        'weight' => 0,
+      ),
+      'oneepa' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'oneepa',
+        'weight' => 0,
       ),
       'seven' => array(
         'region' => '',

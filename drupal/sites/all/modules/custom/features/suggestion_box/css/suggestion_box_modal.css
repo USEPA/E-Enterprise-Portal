@@ -1,11 +1,3 @@
-.form-textarea-wrapper textarea {
-  width: auto !important;
-}
-
-div.ctools-modal-content .resizable-textarea {
-  margin:0 !important;
-}
-
 .resizable-textarea .grippie {
   visibility: hidden;
 }
@@ -27,15 +19,6 @@ div.ctools-modal-content {
 div.ctools-modal-content .modal-content {
   width: 100% !important;
   padding: 0;
-}
-
-div.ctools-modal-content .modal-content label {
-	line-height: 1.2;
-}
-
-div.ctools-modal-content .modal-content .description {
-	color: #606060;
-	font-size: 0.75em;
 }
 
 div.ctools-modal-content .modal-content .resizable-textarea .grippie {

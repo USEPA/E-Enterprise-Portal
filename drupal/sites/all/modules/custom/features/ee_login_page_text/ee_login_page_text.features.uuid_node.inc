@@ -12,7 +12,7 @@ function ee_login_page_text_uuid_features_default_content() {
 
   $nodes[] = array(
   'title' => 'New to E-Enterprise?',
-  'log' => 'Removes Twitter so not deployed across environments and moves Exchange Network subtext to tooltip and screen reader only spot',
+  'log' => 'Updates button classes for CIO.gov standards',
   'status' => 1,
   'comment' => 0,
   'promote' => 0,
@@ -26,10 +26,12 @@ function ee_login_page_text_uuid_features_default_content() {
   'body' => array(
     'und' => array(
       0 => array(
-        'value' => '<p>You can use our <strong><a href="/guest_login">Browse as Guest</a></strong> option to see environmental information in your area as well as explore other tools like:</p><ul><li>My Air</li><li>My Maps</li><li>My Environment Mapper</li></ul><p>If you\'d like to save your preferences and see more, you can use an account you may have already like:</p><ul class="login-options"><li id="exchange-cdx"><a aria-describedby="exchange-subtext" title="Use your CDX or Exchange Network account" class="btn btn-block btn-social btn-exchangenetwork" href="/eebridge-auth/redirect?whr=urn:ENNAAS"><i class="exchangenetwork" aria-hidden="true"></i>Exchange Network</a><span class="sr-only" id="exchange-subtext">Use your CDX or Exchange Network account</span></li>
-<li><a class="btn btn-block btn-social btn-facebook" href="/eebridge-auth/redirect?whr=urn:Facebook"><i class="fa fa-facebook" aria-hidden="true"></i>Facebook</a></li>
+        'value' => '<p>You can use our <strong><a href="/guest_login">Browse as Guest</a></strong> option to see environmental information in your area as well as explore other tools like:</p><ul><li>My Air</li><li>Interactive Maps</li><li>My Environment Mapper</li></ul><p>If you\'d like to save your preferences and see more, you can use an account you may have already like:</p><ul class="login-options"><li id="exchange-cdx"><a title="Use your CDX, Exchange Network, or Shared CROMERR Services account" aria-describedby="exchange-subtext" class="usa-button btn-social btn-exchangenetwork" href="/eebridge-auth/redirect?whr=urn:ENNAAS"><i class="exchangenetwork" aria-hidden="true"></i>Exchange Network</a><span class="sr-only" id="exchange-subtext">Use your CDX, Exchange Network, or Shared CROMERR Services account</span></li>
+<li><a title="Use your EPA LAN ID or EPA partner WAM ID" aria-describedby="wam-subtext" href="/eebridge-auth/redirect?whr=urn:WAMNAAS" class="usa-button btn-social btn-wam"><i class="wam" aria-hidden="true"></i>EPA LAN/WAM ID</a><span class="sr-only" id="wam-subtext">Use your EPA LAN ID or EPA partner WAM ID</span></li>
+<li><a class="usa-button btn-social btn-facebook" href="/eebridge-auth/redirect?whr=urn:Facebook"><i class="fa fa-facebook" aria-hidden="true"></i>Facebook</a></li>
+<li><a class="usa-button btn-social btn-twitter" href="/eebridge-auth/redirect?whr=urn:Twitter"><i class="fa fa-twitter" aria-hidden="true"></i>Twitter</a></li>
 <li><span id="exchange-subtext">Other providers may be available in the future</span></li>
-</ul><p>Or if you\'d prefer, you can <strong><a href="http://test.epacdx.net/RegistrationRequest?DataflowRole=111010">create a free CDX account</a></strong> within the Exchange Network . You only need to provide some basic information.</p>',
+</ul><p>Or if you\'d prefer, you can <strong><a href="http://test.epacdx.net/RegistrationRequest?DataflowRole=111010">create a free CDX account</a></strong> within the Exchange Network. You only need to provide some basic information.</p>',
         'summary' => '',
         'format' => 'full_html',
         'safe_summary' => '',
@@ -95,7 +97,7 @@ function ee_login_page_text_uuid_features_default_content() {
 );
   $nodes[] = array(
   'title' => 'Log in',
-  'log' => 'Removes Twitter for other environments, adds Exchange Network text to title',
+  'log' => 'Updates buttons with classes for CIO.gov standards',
   'status' => 1,
   'comment' => 0,
   'promote' => 0,
@@ -110,15 +112,18 @@ function ee_login_page_text_uuid_features_default_content() {
     'und' => array(
       0 => array(
         'value' => '<ul class="login-options"><li id="en-logins">
-<h3>Use your CDX or Exchange Network account…</h3>
-<ul><li><a aria-describedby="exchange-subtext" title="Use your CDX or Exchange Network account" class="btn btn-block btn-social btn-exchangenetwork" href="/eebridge-auth/redirect?whr=urn:ENNAAS"><i class="exchangenetwork" aria-hidden="true"></i>Exchange Network</a><span class="sr-only" id="exchange-subtext">Use your CDX or Exchange Network account</span></li>
+<h3>Use your agency or EPA account…</h3>
+<ul><li><a title="Use your CDX, Exchange Network, or Shared CROMERR Services account" aria-describedby="exchange-subtext" href="/eebridge-auth/redirect?whr=urn:ENNAAS" class="usa-button btn-social btn-exchangenetwork"><span class="exchangenetwork" aria-hidden="true"> </span> Exchange Network</a><span class="sr-only" id="exchange-subtext">Use your CDX, Exchange Network, or Shared CROMERR Services account</span></li>
+<li><a title="Use your EPA LAN ID or EPA partner WAM ID" aria-describedby="wam-subtext" href="/eebridge-auth/redirect?whr=urn:WAMNAAS" class="usa-button btn-social btn-wam"><span class="wam" aria-hidden="true"> </span> EPA LAN/WAM ID</a><span class="sr-only" id="wam-subtext">Use your EPA LAN ID or EPA partner WAM ID</span></li>
 </ul></li>
 <li id="social-logins">
 <h3>Or a social media account…</h3>
-<ul><li><a class="btn btn-block btn-social btn-facebook" href="/eebridge-auth/redirect?whr=urn:Facebook"><i class="fa fa-facebook" aria-hidden="true"></i>Facebook</a></li>
-<li><span style="display: block;font-size: 0.75em;margin-bottom: 20px;text-align:center;">Other providers may be available in the future</span></li>
+<ul><li><a href="/eebridge-auth/redirect?whr=urn:Facebook" class="usa-button btn-social btn-facebook"><span class="fa fa-facebook" aria-hidden="true"> </span> Facebook</a></li>
+<li><a href="/eebridge-auth/redirect?whr=urn:Twitter" class="usa-button btn-social btn-twitter"><span class="fa fa-twitter" aria-hidden="true"> </span> Twitter</a></li>
+<li><span class="usa-form-note">Other providers may be available in the future</span></li>
 </ul></li>
-</ul>',
+</ul>
+',
         'summary' => '',
         'format' => 'full_html',
         'safe_summary' => '',

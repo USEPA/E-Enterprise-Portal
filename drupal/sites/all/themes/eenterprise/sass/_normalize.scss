@@ -39,10 +39,12 @@ audio,
 canvas,
 video {
   display: inline-block;
+/*
   @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
     *display: inline;
     *zoom: 1;
   }
+*/
 }
 
 /**
@@ -104,55 +106,16 @@ audio:not([controls]) {
  *    `em` units.
  */
 html {
-  font-family: $base-font-family; /* 1 */
-  font-size: 100% * ($base-font-size / 16px); /* 3 */
   -ms-text-size-adjust: 100%; /* 2 */
   -webkit-text-size-adjust: 100%; /* 2 */
   // Establish a vertical rhythm unit using $base-line-height.
   @include adjust-leading-to(1);
 }
 
-@if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
-  /* Address `font-family` inconsistency between `textarea` and other form elements. */
-  button,
-  input,
-  select,
-  textarea {
-    font-family: $base-font-family;
-  }
-}
-
 /* Remove default margin. */
 body {
   margin: 0;
   padding: 0;
-}
-
-/**
- * Links
- *
- * The order of link states are based on Eric Meyer's article:
- * http://meyerweb.com/eric/thoughts/2007/06/11/who-ordered-the-link-states
- */
-a:link {
-}
-a:visited {
-}
-a:hover,
-a:focus {
-}
-a:active {
-}
-
-/* Address `outline` inconsistency between Chrome and other browsers. */
-a:focus {
-  outline: thin dotted;
-}
-
-/* Improve readability when focused and also mouse hovered in all browsers. */
-a:active,
-a:hover {
-  outline: 0;
 }
 
 /**

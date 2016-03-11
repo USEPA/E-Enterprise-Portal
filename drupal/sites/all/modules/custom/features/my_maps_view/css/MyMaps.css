@@ -83,8 +83,8 @@
   width: 30px;
   height: 30px;
   text-align: center;
-  background: #4E443C;
-  color: #fff;
+  background: #444444;
+  color: #fafafa;
   text-decoration: none;
   text-shadow: 0 0 1px #000;
   font: 24px/27px Arial, sans-serif;
@@ -97,6 +97,11 @@
   z-index: 10;
 }
 
+.ui-widget-content a.jcarousel-control-prev, .ui-widget-content a.jcarousel-control-next,
+.ui-widget-content a.jcarousel-control-prev:visited, .ui-widget-content a.jcarousel-control-next:visited {
+	color: #fafafa;
+}
+
 .jcarousel-control-prev {
   left: -25px;
 }
@@ -105,9 +110,15 @@
   right: -25px;
 }
 
-.jcarousel-control-prev:hover span,
-.jcarousel-control-next:hover span {
-  display: block;
+.ui-widget-content a.jcarousel-control-prev:hover,
+.ui-widget-content a.jcarousel-control-next:hover,
+.ui-widget-content a.jcarousel-control-prev:focus,
+.ui-widget-content a.jcarousel-control-next:focus,
+.ui-widget-content a.jcarousel-control-prev:active,
+.ui-widget-content a.jcarousel-control-next:active {
+	text-decoration: none;
+	color: #ffffff;	
+	background-color: #333333;
 }
 
 .jcarousel-control-prev.inactive,

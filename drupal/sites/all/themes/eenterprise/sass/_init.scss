@@ -35,9 +35,11 @@
 // Zen does not require special handling for IE8 or later. But Compass uses that
 // variable for a couple edge cases. We include it for completeness sake. See
 // the documentation at http://compass-style.org/reference/compass/support/
+/*
 $legacy-support-for-ie6: false;
 $legacy-support-for-ie7: false;
 $legacy-support-for-ie8: true;
+*/
 
 
 //
@@ -49,6 +51,7 @@ $legacy-support-for-ie8: true;
 // use in the normalize.scss file.
 // @see http://compass-style.org/reference/compass/typography/vertical_rhythm/
 
+/*
 $base-font-size:   16px; // The font size set on the root html element.
 $base-line-height: 24px; // This line-height determines the basic unit of vertical rhythm.
 
@@ -58,6 +61,7 @@ $h3-font-size: 1.17 * $base-font-size;
 $h4-font-size: 1    * $base-font-size;
 $h5-font-size: 0.83 * $base-font-size;
 $h6-font-size: 0.67 * $base-font-size;
+*/
 
 // The following font family declarations are based on the Microsoft core web
 // fonts which are common fonts available on most computer systems. The DejaVu
@@ -72,6 +76,7 @@ $h6-font-size: 0.67 * $base-font-size;
 
 // First, let's create some font stacks.
 
+/*
 @font-face {
 	font-family: Lato;
 	font-weight: 100;
@@ -121,7 +126,9 @@ $h6-font-size: 0.67 * $base-font-size;
 		url("../fonts/Lato/Lato-Bold.woff") format("woff"), 
 		url("../fonts/Lato/Lato-Bold.ttf") format("truetype"), 
 		url("../fonts/Lato/Lato-Bold.svg#Lato") format("svg"); }  
+*/
 
+/*
 $times-new-roman: "Times New Roman", Times, Georgia, "DejaVu Serif", serif;
 $times:           Times, "Times New Roman", Georgia, "DejaVu Serif", serif;
 $georgia:         Georgia, "Times New Roman", "DejaVu Serif", serif;
@@ -132,15 +139,18 @@ $helvetica:       Helvetica, Arial, "Nimbus Sans L", sans-serif;
 $arial:           Arial, Helvetica, "Nimbus Sans L", sans-serif;
 
 $lato:            Lato, 'Source Sans Pro', sans-serif;	
+*/
 
 // For an explanation of why "sans-serif" is at the end of this list, see
 // http://meyerweb.com/eric/thoughts/2010/02/12/fixed-monospace-sizing/
 $courier:         "Courier New", "DejaVu Sans Mono", monospace, sans-serif;
 
 // Now create some variables for the font stacks we want to use on this site.
+/*
 $base-font-family: $lato; // The font family set on the html element.
 $font-body:        $lato;
 $font-monospace:   $courier;
+*/
 
 
 //

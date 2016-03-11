@@ -1,16 +1,13 @@
 <?php
 /**
  * @file
- * block--menu--menu-footer-disclaimers.tpl.php
+ * Footer
+ * block--menu--menu-footer-disclaimers.tpl.php includes release-number-footer and menu-footer-disclaimer links
  */
 ?>
-<div id="release-number-footer">
-    <?php echo release_number(); ?>
-</div>
-<div class="nav block menu-footer-disclaimers" role="navigation">
-
-<?php if ($block->subject): ?>
-  <h2 class="element-invisible"><?php print $block->subject; ?></h2>
-<?php endif;?>
-<?php print $content; ?>
+<p id="release-number-footer" class="usa-width-one-third">
+  <?php echo release_number(); ?>
+</p>
+<div class="nav block menu-footer-disclaimers usa-width-two-thirds" role="navigation">
+	<?php print $content; ?>
 </div>

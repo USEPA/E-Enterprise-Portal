@@ -79,6 +79,6 @@ $cdx_facility_source = variable_get('cdx_facility_resource_url');
 </div>
 
 <div ID="facility-widget-orgs-table"></div>
-<table id="facility-management-initial-data">
+<table id="facility-management-initial-data" class="responsive-table">
 </table>
 

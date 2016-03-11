@@ -22,13 +22,20 @@ if(arg(0) == 'workbench' && $user->uid == 0){
 
 ?>
 <?php print render($page['alert']); ?>
+<?php print render($page['maintenance']); ?>
 <?php print render($page['disclaimer']); ?>
-<header class="masthead clearfix" role="banner">
+<div class="mobile-nav">
+<a class="usa-button mobile-nav_home" href="/" rel="home"><span class="sr-only">Home</span><i aria-hidden="true" class="fa fa-home"></i></a>
+<a class="usa-button mobile-nav_toggle" href="#mobile-links">Menu</a>
+<div class="mobile-nav_links element-hidden"></div>
+</div>
+<?php print render($page['mobile-navigation']); ?>
+<header class="masthead usa-grid" role="banner">
     <?php
         $hgroup_open = '';
         $hgroup_close = '';
         if ($site_name || $site_slogan) {
-            $hgroup_open = '<hgroup class="site-name-and-slogan">';
+            $hgroup_open = '<hgroup class="site-name-and-slogan usa-width-one-half">';
             $hgroup_close = '</hgroup>';
         }
     ?>
@@ -77,10 +84,10 @@ if(arg(0) == 'workbench' && $user->uid == 0){
     <?php print render($page['header']); ?>
 </header>
 <?php print render($page['navigation']); ?>
-<section class="main-content clearfix" role="main">
+<section class="main-content usa-grid" role="main">
   <?php print render($page['preface']); ?>
   <?php print render($page['highlighted']); ?>
-  <div id="content" class="main-column column clearfix">
+  <div id="content" class="usa-width-one-whole">
     <a id="main-content"></a>
     <?php print render($page['help']); ?>
     <?php print render($title_prefix); ?>

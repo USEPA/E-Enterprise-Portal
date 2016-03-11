@@ -1,3 +1,13 @@
+/** 
+	*	Colors from CIOgov Design Standards
+	*
+	* $color-secondary-dark:       #cd2026;
+	* $color-secondary-darkest:    #981b1e;
+	* $color-gray-dark:            #323a45;
+	*
+	**/
+
+
 .pane-views-favorite-sites-block .field-type-text, .pane-views-favorite-sites-block .form-text {
   width: 26em; float: left;
 }
@@ -55,17 +65,17 @@
 }
 
 .filled {
-  color: #d9534f;
+  color: #cd2026;
 }
 .filled:hover{
-  color: #c9302c;
+  color: #981b1e;
   cursor: pointer;
 }
 .empty {
   color: grey;
 }
 .empty:hover{
-  color: darkslategray;
+  color: #323a45;
   cursor: pointer;
 }
 
@@ -75,11 +85,11 @@
   border:  0;
 }
 
-span.glyphicon-heart {
+span.fa-heart {
 	font-size: 1.25em;
 }
 
-span.glyphicon-plus {
+span.fa-plus {
   font-size: 2em;
 }
 td.favorites-holder {

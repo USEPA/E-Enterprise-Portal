@@ -45,7 +45,7 @@ if(!drupal_is_front_page()) {
     print "wide-template";
 }
 ?>" <?php print $attributes;?>>
-  <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable"><?php print t('Jump to main content'); ?></a></div>
+  <a href="#main-content" class="skipnav"><?php print t('Jump to main content'); ?></a>
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>

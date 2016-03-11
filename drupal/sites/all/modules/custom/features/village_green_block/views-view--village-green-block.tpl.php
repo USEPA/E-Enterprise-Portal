@@ -48,52 +48,40 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
 
     </script>
 
-<div class="view-content">
-<small class="village-green-updated-every-minute">Updated every minute via <a target="_blank" href="http://villagegreen.airnowtech.org/">Village Green</a></small>
-    <div>
-        <div class="paddedSubContainer">
-            <div class="marginBottom-10 col-xs-12 col-sm-4 col-md-4 col-lg-4" style="padding:0">
-                <label for="currentSiteID">
-                  Air monitoring station
-                </label>
-                <select id="currentSiteID" aria-controls="vg-city-numbers">
-                    <option value="24290">Durham, NC</option>
-                    <option value="24538">Hartford, CT</option>
-                    <option value="24294">Kansas City, KS</option>
-                    <option value="24291">Oklahoma City, OK</option>
-                    <option value="24292">Philadelphia, PA</option>
-                    <option value="24293">Washington, DC</option>
-                </select>
-            </div>
-            <div class="marginBottom-10 col-xs-12 col-sm-8 col-md-8 col-lg-8" style="padding:0">
-                <div class="latest-reading col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                	<span class="aria-label" id="vg-obsdatelabel">Latest reading <span class="sr-only">at</span></span>
-                  <span aria-labelledby="vg-obsdatelabel" class="currentObsDate"></span>
-                  <span class="sr-only">These readings refresh every minute.</span>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <span class="aria-label" id="vg-countdown-label" for="vg-progressbar">Update in</span>
-                <div class="vg-countdown">
-                  <div aria-labelledby="vg-countdown-label" class="active village-green-countdown">
-                      <span class="countdownContainer"></span>
-                  </div>
-                </div>
-                </div>
-            </div>
-            <div style="clear:both"></div>
-            <div class="vg-numbers-container">
-		<span class="sr-only" aria-describedby="currentSiteID">Air station readings</span>
-              <ul class="vg-numbers" id="vg-city-numbers" aria-live="polite">
-                  <li><h4 id="temp-label" aria-describedby="currentSiteID">Temp</h4><p aria-labelledby="temp-label"><span class="curTempReading">0</span> <span class="vg-units" id="temp-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Degrees fahrenheit">&deg; F</abbr></span></p></li>
-                  <li><h4 id="humid-label" aria-describedby="currentSiteID">Humidity</h4><p aria-labelledby="humid-label"><span class="curHumidReading">0</span> <span class="vg-units" id="humid-units">%</span></p></li>
-                  <li><h4 id="wind-label" aria-describedby="currentSiteID">Wind</h4><p aria-labelledby="wind-label"><span class="curWSReading">0</span> <abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Wind Direction" class="curWDReading"></abbr><span class="vg-units" id="wind-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Miles per hour">mph</abbr></span></p></li>
-                  <li><h4 id="ozone-label" aria-describedby="currentSiteID">Ozone</h4><p aria-labelledby="ozone-label"><span class="curOzoneReading">0</span> <span class="vg-units" id="ozone-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Parts per billion">ppb</abbr></span></p></li>
-                  <li><h4 id="pm-label">PM<sub>2.5<sub></h4><p aria-labelledby="pm-label"><span class="curPMReading">0</span><span class="vg-units" id="pm-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Micrograms per cubic meter">&mu;g/m<sup>3</sup></abbr></span></p></li>
-              </ul>
-              <div style="clear:both"></div>
-            </div>
-        </div>
+<div id="village-green" class="view-content">
+	<small class="village-green-updated-every-minute">Updated every minute via <a target="_blank" href="http://	villagegreen.airnowtech.org/">Village Green</a></small>
+	<div class="usa-grid-full">
+		<div class="usa-width-one-half">
+      <label for="currentSiteID">Air monitoring station</label>
+      <select id="currentSiteID" aria-controls="vg-city-numbers">
+          <option value="24290">Durham, NC</option>
+          <option value="24538">Hartford, CT</option>
+          <option value="24294">Kansas City, KS</option>
+          <option value="24291">Oklahoma City, OK</option>
+          <option value="24292">Philadelphia, PA</option>
+          <option value="24293">Washington, DC</option>
+      </select>
+  </div>
+  <div class="usa-width-one-half usa-grid">
+    <div class="latest-reading usa-width-one-half">
+    	<span class="aria-label" id="vg-obsdatelabel">Latest reading <span class="sr-only">at</span></span>
+      <span aria-labelledby="vg-obsdatelabel" class="currentObsDate"></span>
     </div>
+    <div class="usa-width-one-half">
+    	<span class="aria-label" id="vg-countdown-label" for="vg-progressbar">Update in</span>
+    	<div aria-labelledby="vg-countdown-label" class="active village-green-countdown" aria-label="Updates every minute"><span class="countdownContainer"></span></div>
+		</div>
+  </div>
 </div>
-<div style="clear:both"></div>
+<div class="usa-grid-full vg-numbers-container">
+	<span class="sr-only" aria-describedby="currentSiteID">Air station readings</span>
+  <ul class="vg-numbers" id="vg-city-numbers" aria-live="polite">
+      <li><h4 id="temp-label" aria-describedby="currentSiteID">Temp</h4><p aria-labelledby="temp-label"><span class="curTempReading">0</span> <span class="vg-units" id="temp-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Degrees fahrenheit">&deg; F</abbr></span></p></li>
+      <li><h4 id="humid-label" aria-describedby="currentSiteID">Humidity</h4><p aria-labelledby="humid-label"><span class="curHumidReading">0</span> <span class="vg-units" id="humid-units">%</span></p></li>
+      <li><h4 id="wind-label" aria-describedby="currentSiteID">Wind</h4><p aria-labelledby="wind-label"><span class="curWSReading">0</span> <abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Wind Direction" class="curWDReading"></abbr><span class="vg-units" id="wind-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Miles per hour">mph</abbr></span></p></li>
+      <li><h4 id="ozone-label" aria-describedby="currentSiteID">Ozone</h4><p aria-labelledby="ozone-label"><span class="curOzoneReading">0</span> <span class="vg-units" id="ozone-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Parts per billion">ppb</abbr></span></p></li>
+      <li><h4 id="pm-label">PM<sub>2.5<sub></h4><p aria-labelledby="pm-label"><span class="curPMReading">0</span><span class="vg-units" id="pm-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Micrograms per cubic meter">&mu;g/m<sup>3</sup></abbr></span></p></li>
+  </ul>
+</div>
+</div>
 <small class="village-green-source"><a target="_blank" href="http://villagegreen.airnowtech.org" class="village-green-external-link"></a></small>
