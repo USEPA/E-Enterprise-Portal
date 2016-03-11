@@ -2758,7 +2758,7 @@ fieldset {
 }
 /* line 153, ../sass/components/_forms.scss */
 .usa-checklist li {
-  display: inline-block;
+  display: block;
   list-style: none;
   margin-bottom: 0;
   margin-top: 0;
@@ -2780,7 +2780,7 @@ fieldset {
   background-image: url("../images/correct9.svg");
   background-position: 100%;
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: 90%;
 }
 
 /* line 12, ../sass/components/_search.scss */

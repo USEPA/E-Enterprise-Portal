@@ -81,11 +81,11 @@ function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
         drupal_add_js(drupal_get_path('module', 'agency_map_list') . '/js/preview_maps.js');
         drupal_add_css(drupal_get_path('module', 'agency_map_list') . "/css/map_preview.css", "file");
 
-        $form['instructions']['#markup'] = "<p><strong>Please note:</strong> Maps must meet the following criteria in order to be published to the \"Interactive Maps\" widget:</p><ul class=\"bulleted\">
-            <li>Publicly-visible ArcGIS Online Web Mapping Application (not just a web map or a feature service)</li>
-            <li>Meaningful item description</li>
-            <li>Relevant item tags for use in filtering</li>
-            <li>Use a unique and intuitive thumbnail image (i.e. not the default thumbnail)</li>
+        $form['instructions']['#markup'] = "<p><strong>Please note:</strong> Maps must meet the following criteria in order to be published to the \"Interactive Maps\" widget:</p><ul class=\"usa-checklist\">
+            <li class=\"usa-checklist-checked\">Publicly-visible ArcGIS Online Web Mapping Application (not just a web map or a feature service)</li>
+            <li class=\"usa-checklist-checked\">Meaningful item description</li>
+            <li class=\"usa-checklist-checked\">Relevant item tags for use in filtering</li>
+            <li class=\"usa-checklist-checked\">Use a unique and intuitive thumbnail image (i.e. not the default thumbnail)</li>
         </ul>";
 
         // Hide title field
