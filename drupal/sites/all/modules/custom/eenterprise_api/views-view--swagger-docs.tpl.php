@@ -1,10 +1,10 @@
 <?php
 use Swagger\Swagger;
-    echo __DIR__;
+    $path = $_SERVER['DOCUMENT_ROOT']  . "/../vendor/autoload.php";
     if (current_server() == 'localhost')
         require("/../vendor/autoload.php");
     else
-        require("/vendor/autoload.php");
+        require($path);
 
 drupal_add_http_header('Access-Control-Allow-Origin', "*");
     header('Content-Type: application/json');
