@@ -16,6 +16,10 @@
             //},
             "bLengthChange": false,
             "sPageButton": "favorites-ignore",
+						"oLanguage": {
+							"sSearch": "Filter:"
+       			},
+
             "iDisplayLength": 3
             //"fnDrawCallback": function () {
             //    if ($wrapper.find('.paginate_button').length < 6) {

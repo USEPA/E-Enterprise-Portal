@@ -630,12 +630,6 @@ header {
 	cursor: pointer;
 }
 
-.messages--status.messages.status {
-	margin-bottom:0;
-}
-.messages {
-	font-size: 16px;
-}
 #benefits ul, #including ul {
 	list-style: none;
 	background-color: transparent !important;
@@ -714,6 +708,9 @@ header {
 #including {
 	clear: left;
 	padding-bottom: 30px;
+	border: 1px solid $color-gray-lightest;
+	border-width: 1px 0;
+	background-color: $color-gray-white;	
 	ul {
 		margin-bottom: 30px;
 	}
@@ -1051,11 +1048,11 @@ span.facility-subscript-text {
 	display: block;
 }
 span.facility-subscript-text {
-	font-size: $h6-font-size;
 	margin-top: 5px;
 }
 span.subpart-name,
-a.simple-dialog {
+a.simple-dialog,
+span.facility-subscript-text {
 	font-size: $h7-font-size;
 }
 span.date-subscript-text,
@@ -1122,17 +1119,29 @@ form tbody {
 	color: $color-primary;
 }
 form[id^='user-profile-form'] {
-    .description-key {
-      margin-left: 5px;
-    }
-    .ajax-progress .message {
-      display: none;
-    }
+	.field-multiple-table {
+		table {
+			thead {
+				tr {
+					background-color: transparent;
+				}
+			}
+		}
+	}
+  .description-key {
+    margin-left: 5px;
+  }
+  .ajax-progress .message {
+    display: none;
+  }
 	label {
 		cursor: pointer;
 	}
-	table, th {
-		border:none;
+	table {
+		th,
+		td {
+			border:none;
+		}
 	}
 	th.tabledrag-hide {
 		padding-bottom: 0.25em;
@@ -1223,7 +1232,7 @@ form[id^='user-profile-form'] {
 			color: $color-secondary-dark;
 		}
 		.zip-code-primary-holder {
-			margin-top: 8px;
+			margin-top: 1rem;
 			display:inline-block;
 			float: right;
 			width: 20px;
@@ -1254,6 +1263,10 @@ form[id^='user-profile-form'] {
 		width: auto;
 		margin: 0;
 		vertical-align: middle;
+		padding: 0.5rem 1rem;
+	}
+	.field-add-more-submit {
+		margin-top: 1rem;
 	}
 	.form-submit:disabled, 
 	.remove_button:disabled, 
@@ -1271,10 +1284,11 @@ form[id^='user-profile-form'] {
 	.multiple-fields-remove-button, 
 	.remove-button {
 		vertical-align: top;
-		padding: 0.20em 0.75em 0.30em;
+		padding: 0.5rem 1rem;
 		width: auto;
 		height: auto;
 		text-transform: lowercase;
+		margin-top: 1rem;
 	}
 	.autocomplete-interests ul {
 		list-style-type: none;
@@ -1335,7 +1349,6 @@ form[id^='user-profile-form'] {
 	  	float: left;
 	  }
 	  .date_updated_contain {
-		  margin-top: 23px;
 		  display: block;
 		  float: left;
 		  margin-right: 10px;
@@ -1414,12 +1427,21 @@ a.tabledrag-handle .handle {
 	.tabledrag-handle {
 		display: table-cell;
 		vertical-align: middle;
+		padding-right: 0;
 	}
 }
 .ui-widget-content.first-time-user-dialog {
 	width: 1100px !important;
 	max-width: 95% !important;
 }
+
+#field-profile-favourites-values {
+	.date_updated_contain,
+	.multiple-fields-remove-button {
+		margin-top: 3rem;
+	}
+}
+
 #first-time-user-profile {
 	padding-bottom: 10px;
 	h2 {
@@ -1806,6 +1828,21 @@ div.ctools-modal-content {
 	}
 }
 
+.dataTables_wrapper {
+	.dataTables_filter {
+		label {
+			text-align: left;
+			display: block;
+		}
+		input {
+			margin-left: 0.5em;
+			float: none;
+			display: table-cell;	
+			width: 80%;
+		}	
+	}
+}
+
 
 /** AQI / Popup Description Tweaks *********************************************************/
 .popover-title {
@@ -1986,10 +2023,6 @@ td.views-field-field-prog-track-actions-dnload a {
 		}
 	}
 
-	.section-eenterprise-new .row.shaded {
-		padding-top: 10px;
-
-	}
 	#including {
 		li {
 			margin-bottom: 10px;
@@ -2016,7 +2049,8 @@ td.views-field-field-prog-track-actions-dnload a {
 		padding: 0.75em 1.5em;
 		font-size: 1em;
 	}
-	.btn-social > :first-child, .btn-social-icon > :first-child {
+	.btn-social > :first-child, 
+	.btn-social-icon > :first-child {
 		line-height: 1.9 !important;
 	}
 	footer {
@@ -2463,13 +2497,17 @@ a {
 			display: block;
 			margin-bottom: 0;
 			margin-top: 0;
-			a.usa-button {
-				padding: 1.5rem 2.5rem;
+			a.usa-button.btn-social {
+				padding: 1.5rem 1.5rem 1.5rem 4.5rem;
+				span {
+					padding-top: 0.5rem;
+				}
 			}
 		}
-		a.usa-button {
+		a.usa-button.btn-social {
 			margin-bottom: 5px;
-			margin-top: 5px;			
+			margin-top: 5px;		
+			width: 30rem;				
 		}
 	}
 }
@@ -2486,6 +2524,7 @@ a {
 		display: block;
 		font-size: 0.75em;
 		margin-bottom: 20px;
+		text-align: center;
 	}
 }
 
