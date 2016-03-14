@@ -17,7 +17,6 @@ class MyAPI extends API
 
 
     protected function resources() {
-
         if ($this->method == 'GET') {
             if (isset($this->args[0]))
              $args = '?args[0]=' . $this->args[0] . "&";

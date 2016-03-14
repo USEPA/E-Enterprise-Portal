@@ -46,12 +46,9 @@ abstract class API
      */
     public function __construct($request)
     {
-        // Read extension and remove query
-        if ($ext = pathinfo($request, PATHINFO_EXTENSION)) {
-            if (strpos($ext, "?"))
-                $ext = substr($ext, 0, strpos($ext, "?"));
-            $this->ext = $ext;
-        }
+
+        $this->_setExtension($request);
+
         // Extract possible query params
 
         if (strpos($request, "?"))
@@ -121,6 +118,23 @@ abstract class API
             return $this->_response($this->{$this->endpoint}($this->args));
         else
             return $this->_response("No Endpoint: $this->endpoint", 404);
+    }
+
+
+    private function _setExtension($request_str)
+    {
+        // Read extension and remove query
+        if ($ext = pathinfo($request_str, PATHINFO_EXTENSION)) {
+            if (strpos($ext, "?"))
+                $ext = substr($ext, 0, strpos($ext, "?"));
+        }
+        $headers = getallheaders();
+        if ($headers['Accept'] == 'application/xml')
+            $ext = "xml";
+        else if ($headers['Accept'] == 'application/json')
+            $ext = "json";
+
+        $this->ext = $ext;
     }
 
     private function _response($data, $status = 200)
