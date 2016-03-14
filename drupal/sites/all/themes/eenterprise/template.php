@@ -225,7 +225,7 @@ function eenterprise_status_messages($variables) {
   $output = '';
 
   $status_heading = array(
-    'status' => t('Status message'),
+    'status' => t('Success!'),
     'error' => t('Error message'),
     'warning' => t('Warning message'),
   );
@@ -233,9 +233,19 @@ function eenterprise_status_messages($variables) {
     if (_exclude_message('Link check', 'warning', true)) drupal_set_message('', '');
   
   foreach (drupal_get_messages($display) as $type => $messages) {
-    $output .= "<div class=\"messages--$type messages $type\">\n";
+	  if ($type == 'status' || $type == 'warning') {
+		  $ariaattributes = "aria-live=\"polite\"";
+		}
+	  else if ($type == 'error') {
+		  $ariaattributes = "role=\"alert\"";
+	  }
+	  
+	  if ($type == 'status') {$usetype = 'success';}
+	  else {$usetype = $type;}
+	  
+    $output .= "<div $ariaattributes class=\"usa-alert usa-alert-$usetype messages--$type messages $type\"><div class=\"usa-alert-body\">\n";
     if (!empty($status_heading[$type])) {
-      $output .= '<h2 class="element-invisible">' . $status_heading[$type] . "</h2>\n";
+      $output .= '<h3 class="usa-alert-heading">' . $status_heading[$type] . "</h3>\n<p class=\"usa-alert-text\">";
     }
     if (count($messages) > 1) {
       $output .= " <ul class=\"messages__list\">\n";
@@ -247,7 +257,7 @@ function eenterprise_status_messages($variables) {
     else {
       $output .= $messages[0];
     }
-    $output .= "</div>\n";
+    $output .= "</p></div></div>\n";
   }
   return $output;
 } 

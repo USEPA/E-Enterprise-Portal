@@ -519,7 +519,7 @@
             if ($("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
                 //$('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
                 $('#edit-field-prog-track-part-code-value-wrapper').show();
-                var cedri_list = ["Notification Report", "Notification of Compliance Status", "Air Emissions Report", "ERT Performance Report", "All"];
+                var cedri_list = ["Notification Report", "Notification of Compliance Status", "Air Emissions Report", "ERT Performance Report", "- Any -"];
                 $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
                     return $.inArray(this.innerHTML, cedri_list) == -1
                 }).remove();
@@ -529,19 +529,19 @@
                 $('#edit-field-prog-track-sub-part-code-value-wrapper').hide();
                 $('#edit-field-prog-track-part-code-value-wrapper').hide();
 
-                var lead_list = ["Firm Abatement", "Firm RRP", "Firm Combination", "All"];
+                var lead_list = ["Firm Abatement", "Firm RRP", "Firm Combination", "- Any -"];
                 $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
                     return $.inArray(this.innerHTML, lead_list) == -1
                 }).remove();
             }
-            var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc", "Subpart IIII", "Subpart JJJJ", "All"];
+            var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc", "Subpart IIII", "Subpart JJJJ", "- Any -"];
             if ($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 60') {
                 $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
                 $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
                     return $.inArray(this.innerHTML, part_60_list) == -1
                 }).remove();
             }
-            var part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "All"];
+            var part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
             if ($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 63') {
                 $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
                 $('#edit-field-prog-track-sub-part-code-value option').filter(function () {
@@ -552,7 +552,7 @@
 
             if ($("#edit-field-prog-track-sub-part-code-value").length && jQuery.inArray($("#edit-field-prog-track-sub-part-code-value").val().trim(), part_60_list) != -1) {
                 $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
-                var report_type_60 = ["Air Emissions Report", "ERT Performance Report", "All"];
+                var report_type_60 = ["Air Emissions Report", "ERT Performance Report", "- Any -"];
                 $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
                     return $.inArray(this.innerHTML, report_type_60) == -1
                 }).remove();
@@ -560,14 +560,14 @@
 
             if ($("#edit-field-prog-track-sub-part-code-value").length && $("#edit-field-prog-track-sub-part-code-value").val().trim() == "Subpart JJJJJJ") {
                 $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
-                var report_type_63_jjjjjj = ["ERT Performance Report", "Notification of Compliance Status", "All"];
+                var report_type_63_jjjjjj = ["ERT Performance Report", "Notification of Compliance Status", "- Any -"];
                 $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
                     return $.inArray(this.innerHTML, report_type_63_jjjjjj) == -1
                 }).remove();
             }
             else if ($("#edit-field-prog-track-sub-part-code-value").length && jQuery.inArray($("#edit-field-prog-track-sub-part-code-value").val().trim(), part_63_list) != -1) {
                 $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
-                var report_type_63 = ["Air Emissions Report", "Notification Report", "ERT Performance Report", "All"];
+                var report_type_63 = ["Air Emissions Report", "Notification Report", "ERT Performance Report", "- Any -"];
                 $('#edit-field-prog-track-rep-type-filter-value option').filter(function () {
                     return $.inArray(this.innerHTML, report_type_63) == -1
                 }).remove();
@@ -708,7 +708,7 @@
                 $('#edit-field-todo-lst-part-code-value-wrapper').show();
             }
 
-            var todo_part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc", "Subpart IIII", "Subpart JJJJ", "All"];
+            var todo_part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc", "Subpart IIII", "Subpart JJJJ", "- Any -"];
             if ($("#edit-field-todo-lst-part-code-value").length && $("#edit-field-todo-lst-part-code-value").val().trim() == 'Part 60') {
                 $('#edit-field-todo-lst-sub-part-code-value-wrapper').show();
                 $('#edit-field-todo-lst-sub-part-code-value option').filter(function () {
@@ -716,7 +716,7 @@
                 }).remove();
             }
 
-            var todo_part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "All"];
+            var todo_part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
             if ($("#edit-field-todo-lst-part-code-value").length && $("#edit-field-todo-lst-part-code-value").val().trim() == 'Part 63') {
                 $('#edit-field-todo-lst-sub-part-code-value-wrapper').show();
                 $('#edit-field-todo-lst-sub-part-code-value option').filter(function () {
@@ -726,7 +726,7 @@
 
             if ($("#edit-field-todo-lst-sub-part-code-value").length && jQuery.inArray($("#edit-field-todo-lst-sub-part-code-value").val().trim(), todo_part_60_list) != -1) {
                 $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').show();
-                var report_type_60 = ["Air Emissions Report", "ERT Performance Report", "All"];
+                var report_type_60 = ["Air Emissions Report", "ERT Performance Report", "- Any -"];
                 $('#edit-field-todo-lst-rprt-type-filter-value option').filter(function () {
                     return $.inArray(this.innerHTML, report_type_60) == -1
                 }).remove();
@@ -734,14 +734,14 @@
 
             if ($("#edit-field-todo-lst-sub-part-code-value").length && $("#edit-field-todo-lst-sub-part-code-value").val().trim() == "Subpart JJJJJJ") {
                 $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').show();
-                var report_type_63_jjjjjj = ["ERT Performance Report", "Notification of Compliance Status", "All"];
+                var report_type_63_jjjjjj = ["ERT Performance Report", "Notification of Compliance Status", "- Any -"];
                 $('#edit-field-todo-lst-rprt-type-filter-value option').filter(function () {
                     return $.inArray(this.innerHTML, report_type_63_jjjjjj) == -1
                 }).remove();
             }
             else if ($("#edit-field-todo-lst-sub-part-code-value").length && jQuery.inArray($("#edit-field-todo-lst-sub-part-code-value").val().trim(), todo_part_63_list) != -1) {
                 $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').show();
-                var report_type_63 = ["Air Emissions Report", "Notification Report", "ERT Performance Report", "All"];
+                var report_type_63 = ["Air Emissions Report", "Notification Report", "ERT Performance Report", "- Any -"];
                 $('#edit-field-todo-lst-rprt-type-filter-value option').filter(function () {
                     return $.inArray(this.innerHTML, report_type_63) == -1
                 }).remove();
