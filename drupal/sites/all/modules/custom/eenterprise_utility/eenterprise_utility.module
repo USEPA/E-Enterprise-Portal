@@ -1487,7 +1487,8 @@ function eenterprise_utility_node_prepare($node)
         }
     }
 }
-
+/*
+@TODO - Use this to replace - Any - with All in drop-downs.  Need to determine why Progress Tracker > Lead > Report Type drop-down filter only shows All first
 function eenterprise_utility_form_views_exposed_form_alter(&$form, &$form_state) {
 
      if($form["#id"] == 'views-exposed-form-progress-tracker-block-1'){
@@ -1503,5 +1504,5 @@ function eenterprise_utility_form_views_exposed_form_alter(&$form, &$form_state)
 	     $form['field_todo_lst_rprt_type_filter_value']['#options']["All"] = 'All';	     
 	     
      }
-
 }
+*/
