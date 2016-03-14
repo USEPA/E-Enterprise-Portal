@@ -3,45 +3,54 @@
  * @file
  * Module file for APIs.
  */
-
-
-/***
- * TODO
- * - Need to automate grabbing the most current api base path
- *
- *
- */
+use Swagger\Annotations as SWG;
+require 'api_constants.php';
+require 'MyAPI.php';
 
 function eenterprise_api_menu()
 {
     $items = array();
-    $items['api/1.1/%/%'] = array(
+    $items['api/' . API_VERSION . '/%'] = array(
         'page callback' => 'process_request',
         'access callback' => TRUE,
-        'page arguments' => array(2, 3),
+    );
+    $items['api/' . API_VERSION . '/%/%'] = array(
+        'page callback' => 'process_request_with_arg',
+        'access callback' => TRUE,
     );
     return $items;
 }
 
-
-function process_request($resource, $id)
-{
+function return_request() {
     // create new http request with $resource, attaching $id as an argument to work with service_views
 
-//    drupal_add_http_header('Content-Type', 'application/json; utf-8');
-//    drupal_add_http_header('Access-Control-Allow-Origin', "*");
-//    drupal_add_http_header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    // Requests from the same server don't have a HTTP_ORIGIN header
 
-    $args = '?args[0]=' . $id;
-    $host = $_SERVER['HTTP_HOST'];
-    $htt = $_SERVER['HTTPS'];
-    if (isset($htt))
-        $htt = 'https://';
+    if (!array_key_exists('HTTP_ORIGIN', $_SERVER))
+        $_SERVER['HTTP_ORIGIN'] = $_SERVER['SERVER_NAME'];
+
+    if (!isset($_REQUEST['request']))
+        $request = $_SERVER['REQUEST_URI'];
     else
-        $htt = 'http://';
-    $request = $htt . $host . "/api/1.1/" . $resource . $args;
-    print(drupal_http_request($request)->data);
-    exit();
+        $request = $_REQUEST['request'];
+
+    return $request;
+}
+
+function process_request()
+{
+    $request = return_request();
+    $API = new MyAPI($request, $_SERVER['HTTP_ORIGIN']);
+    echo $API->processAPI();
+}
+
+
+
+function process_request_with_arg()
+{
+    $request = return_request();
+        $API = new MyAPI($request, $_SERVER['HTTP_ORIGIN']);
+        echo $API->processAPI();
 }
 
 /**
@@ -96,13 +105,6 @@ function rest_request()
 }
 
 
-function apply_pagination_rules(&$output, &$view, $limit)
-{
-//    echo '<h1>Output</h1>';
-//    dpm($output);
-//    echo '<h1>View</h1>';
-//    dpm($view);
-}
 
 /*
  * METADATA defined here
@@ -134,7 +136,6 @@ function eenterprise_api_views_query_alter(&$view, &$query)
                 // Formula for offset from page and items per page
                 $offset = ($page - 1) * ($limit + 1);
                 $query->set_offset($offset);
-
             }
         }
     }
@@ -227,4 +228,11 @@ function attach_metadata($view, &$output)
         'results' => $output,
     );
     $output = $paged_output;
+}
+
+/*
+ * Used to generate dynamic address
+ */
+function current_server(){
+    return $_SERVER['SERVER_NAME'];
 }

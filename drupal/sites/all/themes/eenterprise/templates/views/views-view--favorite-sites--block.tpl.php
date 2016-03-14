@@ -30,7 +30,7 @@ drupal_add_css(drupal_get_path('theme', 'eenterprise') ."/css/favorite-sites.css
 ?>
 
 <div id="favorite_links-ajax-wrapper">
-<a id="favorites-edit-profile" class="favorites-ignore" href="/user">Edit Profile</a>
+<div class="widget-note"><a id="favorites-edit-profile" class="favorites-ignore" href="/user">Edit Profile</a></div>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>

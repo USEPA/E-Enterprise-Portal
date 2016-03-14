@@ -45,8 +45,16 @@
     height: 90% !important;
 }
 
+#edit-actions input[type="submit"] {
+  display: table-cell;
+}
+
 #edit-actions, .resource-edit-cancel-link {
-    float: left;
+	display: inline;
+}
+.resource-edit-cancel-link .link.usa-button.usa-button-outline {
+	margin-left:40px;
+	display: initial;
 }
 
 #edit-field-source-url .description {
@@ -58,6 +66,14 @@
 }
 
 .node-state_resource-form .description {
-    font-size: 0.75em !important;
     top: 100%;
+}
+
+#field-source-url-add-more-wrapper input[type="text"] {
+	display: table-cell;
+}
+#field-source-url-add-more-wrapper .field-suffix {
+	vertical-align: middle;
+  margin-left: 20px;
+  font-size: 1.7rem;
 }

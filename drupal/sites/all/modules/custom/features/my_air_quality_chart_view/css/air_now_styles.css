@@ -188,9 +188,7 @@ div#my-air-quality-chart {
   z-index: 50;
 }
 #my-air-quality-index p, #my-air-quality-air-now-maps p {
-/*     padding: 1.18em 1.65em; */
 	padding: 5px 10px;
-  font-size: 0.85em;
 }
 
 svg.my-air-quality-map-legend-icon {

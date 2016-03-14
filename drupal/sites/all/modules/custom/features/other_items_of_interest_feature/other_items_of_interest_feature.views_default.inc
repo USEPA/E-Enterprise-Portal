@@ -305,14 +305,17 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['fields']['field_source']['id'] = 'field_source';
   $handler->display->display_options['fields']['field_source']['table'] = 'field_data_field_source';
   $handler->display->display_options['fields']['field_source']['field'] = 'field_source';
+  $handler->display->display_options['fields']['field_source']['label'] = 'resource';
   /* Field: Content: Topic */
   $handler->display->display_options['fields']['field_topic']['id'] = 'field_topic';
   $handler->display->display_options['fields']['field_topic']['table'] = 'field_data_field_topic';
   $handler->display->display_options['fields']['field_topic']['field'] = 'field_topic';
+  $handler->display->display_options['fields']['field_topic']['label'] = 'topic';
   /* Field: Content: URL */
   $handler->display->display_options['fields']['field_source_url']['id'] = 'field_source_url';
   $handler->display->display_options['fields']['field_source_url']['table'] = 'field_data_field_source_url';
   $handler->display->display_options['fields']['field_source_url']['field'] = 'field_source_url';
+  $handler->display->display_options['fields']['field_source_url']['label'] = 'url';
   /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -323,10 +326,11 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['fields']['created']['table'] = 'node';
   $handler->display->display_options['fields']['created']['field'] = 'created';
   $handler->display->display_options['fields']['created']['label'] = 'long_form_iso_date_example';
-  $handler->display->display_options['fields']['created']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['created']['alter']['text'] = '<?php echo date_iso8601([created]);?>';
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
-  $handler->display->display_options['fields']['created']['custom_date_format'] = 'c';
+  $handler->display->display_options['fields']['created']['custom_date_format'] = 'Y-m-d\\TH:i:s\\Z';
   $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
+  $handler->display->display_options['fields']['created']['timezone'] = 'UTC';
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created_1']['id'] = 'created_1';
   $handler->display->display_options['fields']['created_1']['table'] = 'node';
@@ -430,7 +434,7 @@ function other_items_of_interest_feature_views_default_views() {
     92 => 0,
     93 => 0,
   );
-  $handler->display->display_options['path'] = 'state_resources';
+  $handler->display->display_options['path'] = 'resources';
   $export['other_items_of_interest'] = $view;
 
   $view = new view();
@@ -504,13 +508,13 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<a href="/new-resource" class="button primary-action">Add a resource</a>';
+  $handler->display->display_options['header']['area']['content'] = '<a href="/new-resource" class="usa-button primary-action">Add a resource</a>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Footer: Global: Text area */
   $handler->display->display_options['footer']['area']['id'] = 'area';
   $handler->display->display_options['footer']['area']['table'] = 'views';
   $handler->display->display_options['footer']['area']['field'] = 'area';
-  $handler->display->display_options['footer']['area']['content'] = '<a href="/new-resource" class="button primary-action">Add a resource</a>';
+  $handler->display->display_options['footer']['area']['content'] = '<a href="/new-resource" class="usa-button primary-action">Add a resource</a>';
   $handler->display->display_options['footer']['area']['format'] = 'full_html';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';

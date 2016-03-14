@@ -30,15 +30,18 @@ if(!empty($view->result[$view->row_index]->field_field_todo_lst_activ_source_url
 else {
     $src_link = "/workbench";
 }
-//TODO: move this to template.php
+
 $trunc_pos = strpos($output, ')');
 if($trunc_pos !== false){
     $output = "<span class='report-name'>".substr($output, 0, $trunc_pos+1)."</span><span class='subpart-name'>".substr($output, $trunc_pos+1)."</span>";
+}else{
+    $temp = substr($output, 0, 50);
+    $output = "<span class='report-name'>".substr($output, 0, strrpos($temp," "))."</span><span class='subpart-name'>".substr($output, 0, strrpos($temp," "))."</span>";
 }
 
 print "<a href='".$src_link."' class='favorites-ignore' target='_blank'>".$output."</a>";
 if(!empty($view->result[$view->row_index]->field_field_todo_lst_facility_name)) {
-    print "<span class='date-subscript-text'>" . $view->result[$view->row_index]->field_field_todo_lst_facility_name[0]['rendered']['#markup'] . "</span>";
+    print "<span class='facility-subscript-text'>" . $view->result[$view->row_index]->field_field_todo_lst_facility_name[0]['rendered']['#markup'] . "</span>";
 }
 if(!empty($view->result[$view->row_index]->field_field_todo_lst_part_code)) {
     $unique_id = $view->query->pager->current_page.'-'.$view->row_index;

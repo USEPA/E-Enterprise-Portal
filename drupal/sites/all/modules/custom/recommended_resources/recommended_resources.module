@@ -68,10 +68,10 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id)
 
         $form['#validate'][] = 'recommended_resources_form_validate';
 
-        $form['field_lgc_link'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a id='new-lgc-resource-url-preview' href='#'>Preview</a>";
+        $form['field_lgc_link'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a class='usa-button' id='new-lgc-resource-url-preview' href='#'>Preview</a>";
 
         $form['actions']['submit']['#submit'][] = 'new_lgc_resource_form_redirect';
-        $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/local-resource-editor', array('attributes' => array('class' => 'link'))) . "</div>";
+        $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/local-resource-editor', array('attributes' => array('class' => 'link usa-button usa-button-outline'))) . "</div>";
 
     }
 }

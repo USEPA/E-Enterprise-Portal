@@ -11,6 +11,39 @@ function workbench_header_default_fe_block_boxes() {
   $export = array();
 
   $fe_block_boxes = new stdClass();
+  $fe_block_boxes->info = 'Sends custom events to Google Analytics';
+  $fe_block_boxes->format = 'allow_javascript';
+  $fe_block_boxes->machine_name = 'cdx_custom_analytics';
+  $fe_block_boxes->body = '<script>
+    (function($) {  
+   $(document).ready(function() {
+            var page_name = window.location.pathname.split(\'/\')[1];
+            if (page_name == "workbench") {
+                // Not pager link
+                $(\'body\').on(\'click\', \'.view-progress-tracker .views-field a:not(.pager__link), .view-to-do .views-field a:not(.pager__link)\', function() {
+                   var label = $(this).text();
+                   console.log("sending for EPortal:" + label);
+                   ga("EPA.send", "event", "Eportal", "Click", label);
+                    ga("GSA.send", "event", "Eportal", "Click", label);              
+
+});
+            }
+        });
+    }(jQuery));
+
+</script>';
+
+  $export['cdx_custom_analytics'] = $fe_block_boxes;
+
+  $fe_block_boxes = new stdClass();
+  $fe_block_boxes->info = 'User login (New Bridge)';
+  $fe_block_boxes->format = 'full_html';
+  $fe_block_boxes->machine_name = 'ee_bridge_login';
+  $fe_block_boxes->body = '<div style="float:right"><a class="usa-button favorite-ignore" href="/guest_bye" id="guest-login">Log in</a></div>';
+
+  $export['ee_bridge_login'] = $fe_block_boxes;
+
+  $fe_block_boxes = new stdClass();
   $fe_block_boxes->info = 'EE Header Locations';
   $fe_block_boxes->format = 'php_code';
   $fe_block_boxes->machine_name = 'ee_header_locations';
@@ -18,7 +51,7 @@ function workbench_header_default_fe_block_boxes() {
 //If page is Workbench or Profile, then show locations
 $path = drupal_get_path_alias($_GET[\'q\']);
 
-if ($path == \'workbench\' || $path == \'local-resources\') {
+if ($path == \'workbench\' || $path == \'local-resources\' || $path == \'air_now_789456\') {
 global $theme_key;
 $zip_code_mapping = array();
 drupal_add_js(drupal_get_path(\'theme\',  $theme_key) ."/js/workbench_locations_modal.js", "file");
@@ -37,26 +70,38 @@ print "</div><!-- end header locations feedback block -->";
   $export['ee_header_locations'] = $fe_block_boxes;
 
   $fe_block_boxes = new stdClass();
-  $fe_block_boxes->info = 'EE Social Media - Spread the Word';
+  $fe_block_boxes->info = 'EE Showcase Disclaimer';
   $fe_block_boxes->format = 'full_html';
-  $fe_block_boxes->machine_name = 'ee_social_media';
-  $fe_block_boxes->body = '<ul class="ee-social-media"><li><img alt="Facebook" src="/sites/all/themes/greentrees/images/facebook-white.png"></li><li><img alt="Twitter" src="/sites/all/themes/greentrees/images/twitter-white.png"></li></ul>';
+  $fe_block_boxes->machine_name = 'ee_showcase_disclaimer';
+  $fe_block_boxes->body = '<p>Welcome to the E-Enterprise AWS development environment. This is a non-production demonstration environment and is not to be used for any regulatory activity.</p>';
 
-  $export['ee_social_media'] = $fe_block_boxes;
+  $export['ee_showcase_disclaimer'] = $fe_block_boxes;
 
   $fe_block_boxes = new stdClass();
-  $fe_block_boxes->info = 'Green Trees - EE Header (E-Enterprise for the Environment)';
-  $fe_block_boxes->format = 'full_html';
-  $fe_block_boxes->machine_name = 'greentrees_ee_header';
-  $fe_block_boxes->body = '<p><span class="ee-header-line1"><strong>E-Enterprise</strong> for the </span><span class="ee-header-line2">Environment</span></p>';
+  $fe_block_boxes->info = 'Favorite Links';
+  $fe_block_boxes->format = 'php_code';
+  $fe_block_boxes->machine_name = 'eenterprise_favorite_links';
+  $fe_block_boxes->body = '<div class="panel panel-default">
+<div class="panel-body ">
 
-  $export['greentrees_ee_header'] = $fe_block_boxes;
+<div id="load_links"></div>
+<div id="load_more" style="display:none"><button class="btn btn-success" id="load_more_favorites">See More</button></div>
+<div id="load_more" style="display:none"><button class="btn btn-success" id="load_less_favorites">See Less</button></div>
+
+<div id="loading_list" style="display:none">Loading...</div>
+
+</div>
+</div>
+
+';
+
+  $export['eenterprise_favorite_links'] = $fe_block_boxes;
 
   $fe_block_boxes = new stdClass();
   $fe_block_boxes->info = 'Login link from Guest Page';
   $fe_block_boxes->format = 'full_html';
   $fe_block_boxes->machine_name = 'login_from_guest_page';
-  $fe_block_boxes->body = '<div><a href="/faqs" id="faqs-link">FAQs</a><a class="favorite-ignore" href="/guest_bye" id="guest-login">Log in</a></div>';
+  $fe_block_boxes->body = '<div><a href="/faqs" id="faqs-link">FAQs</a><a class="usa-button favorite-ignore" href="/guest_bye" id="guest-login">Log in</a></div>';
 
   $export['login_from_guest_page'] = $fe_block_boxes;
 

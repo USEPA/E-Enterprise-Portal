@@ -881,7 +881,7 @@
       	//TO DOsrTodayAQI = srTodayAQI + 
       }
       else { // no data; show message
-        drawMessage('Air quality information is not available for ' + locationText + '.');
+        drawMessage('<p>Air quality information is not available for ' + locationText + '.</p>');
       }
     });
   };
