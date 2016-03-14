@@ -305,14 +305,17 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['fields']['field_source']['id'] = 'field_source';
   $handler->display->display_options['fields']['field_source']['table'] = 'field_data_field_source';
   $handler->display->display_options['fields']['field_source']['field'] = 'field_source';
+  $handler->display->display_options['fields']['field_source']['label'] = 'resource';
   /* Field: Content: Topic */
   $handler->display->display_options['fields']['field_topic']['id'] = 'field_topic';
   $handler->display->display_options['fields']['field_topic']['table'] = 'field_data_field_topic';
   $handler->display->display_options['fields']['field_topic']['field'] = 'field_topic';
+  $handler->display->display_options['fields']['field_topic']['label'] = 'topic';
   /* Field: Content: URL */
   $handler->display->display_options['fields']['field_source_url']['id'] = 'field_source_url';
   $handler->display->display_options['fields']['field_source_url']['table'] = 'field_data_field_source_url';
   $handler->display->display_options['fields']['field_source_url']['field'] = 'field_source_url';
+  $handler->display->display_options['fields']['field_source_url']['label'] = 'url';
   /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
