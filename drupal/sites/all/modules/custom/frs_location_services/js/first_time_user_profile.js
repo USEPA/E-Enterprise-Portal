@@ -89,6 +89,7 @@
                 nearest_city = location_data.city;
                 nearest_state = location_data.state;
                 nearest_zip = location_data.zip;
+                preferred_name = nearest_city + ', ' + nearest_state;
                 $nearest_location.text(nearest_city + ', ' + nearest_state + ' (' + nearest_zip + ')');
 //                        $location_desc_na.hide();
                 selected_zip_code = nearest_zip;
