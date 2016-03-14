@@ -4,6 +4,7 @@ core = 7.x
 package = Features
 version = 7.x-1.0
 project = eenteprise_api_1_0
+dependencies[] = ctools
 dependencies[] = other_items_of_interest_feature
 dependencies[] = recommended_resources_feature
 dependencies[] = services

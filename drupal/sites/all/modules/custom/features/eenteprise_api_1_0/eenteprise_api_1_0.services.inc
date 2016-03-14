@@ -15,7 +15,7 @@ function eenteprise_api_1_0_default_services_endpoint() {
   $endpoint->api_version = 3;
   $endpoint->name = 'api_1_0';
   $endpoint->server = 'rest_server';
-  $endpoint->path = 'api/1.0';
+  $endpoint->path = 'api_1_0_engine';
   $endpoint->authentication = array(
     'services_oauth' => array(
       'oauth_context' => 'auth',
@@ -23,7 +23,23 @@ function eenteprise_api_1_0_default_services_endpoint() {
       'authorization' => '',
     ),
   );
-  $endpoint->server_settings = array();
+  $endpoint->server_settings = array(
+    'formatters' => array(
+      'json' => TRUE,
+      'xml' => TRUE,
+      'bencode' => FALSE,
+      'jsonp' => FALSE,
+      'php' => FALSE,
+    ),
+    'parsers' => array(
+      'application/json' => TRUE,
+      'application/vnd.php.serialized' => TRUE,
+      'application/x-www-form-urlencoded' => TRUE,
+      'application/xml' => TRUE,
+      'multipart/form-data' => TRUE,
+      'text/xml' => TRUE,
+    ),
+  );
   $endpoint->resources = array(
     'local_resources' => array(
       'operations' => array(
