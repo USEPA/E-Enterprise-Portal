@@ -116,7 +116,6 @@ function rest_request()
  */
 function eenterprise_api_services_views_execute_view_alter(&$output, $view)
 {
-    drupal_add_http_header('Access-Control-Allow-Origin', "*");
     attach_metadata($view, $output);
 }
 
