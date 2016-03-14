@@ -160,16 +160,22 @@
 			}
 		}
 	}
-	.block--ee-header-locations {
-		a {
-			padding-right: 0;
+	.main-nav {
+		.menu {
+			.menu-item {
+				a {
+					padding: 0.5rem 2rem;
+				}
+			}
 		}
-		.ee-workbench-header-locations, .ee-feedback {
-			float: right;
+	}
+	.block--ee-header-locations {
+		.ee-workbench-header-locations, 
+		.ee-feedback {
+			float: right;		
 		}
 		.ee-workbench-header-block {
 			display: inline-block;
-			margin-left: 20px;
 		}		
 		.ee-workbench-header-setlocation {
 			line-height: 3.5rem;
@@ -189,6 +195,9 @@
 				border-color: $color-gray-lightest;
 				font-size: $h5-font-size;	
 			}
+		}
+		.ee-feedback {
+			margin-right: -2.5rem; //Balance out padding while still aligning to grid
 		}
 	}	
 
@@ -258,7 +267,16 @@ label, .aria-label {
 	}
 	input, select {
 		font-size: inherit;
+		padding-right: 3rem;
 	}
+	.widget-note {
+		font-size: $h6-font-size;
+		margin-bottom: 15px;
+	}
+	div.widget-note {
+		margin-top: 1em;
+		line-height: 1.5;
+	}	
 }
 
 .form-item-agree {
@@ -308,8 +326,7 @@ footer {
 
 .pager {
   list-style: none;
-  margin-top: 0;
-  margin-bottom: 0;
+	margin: 0 auto 1.5rem;
   padding: 0;
 	font-size: 1.4rem;
 	li {
@@ -319,20 +336,13 @@ footer {
 	li>a,
 	li>a:hover {
 		line-height: 1;
-		padding: 0 1rem 0.25rem;
-		font-size: 2rem;
+		font-size: 1rem;
 		vertical-align: top;
-    border: 1px solid $color-gray-dark;
-    border-radius: 3rem;
-	}
-	li>a {
-		background-color: $color-gray;
-		color: $color-gray-white;
+		padding-top: 0.5rem;
+		text-align: center;
 	}
 	li>a:hover {
-		background-color: $color-gray-dark;
 		text-decoration: none;
-		color: $color-white;
 	}
 	.hidden {
 		display: none;
@@ -355,9 +365,20 @@ footer {
 	a:focus.pager_link,
 	a:active.pager_link {
 		color: $color-white;
+		font-family: 'FontAwesome';
 	} 
+	.pager__link--previous:before,
 	.pager__link--next:before {
-		content: "\203A";
+		color: $color-white;
+		background-color: $color-primary;
+		padding: 0.5rem 0.75rem;
+		border-radius: 1.5rem;
+	}
+	.pager__link--next:before {
+		content: "\f054";
+	}
+	.pager__link--previous:before {
+		content: "\f053";
 	}
 }
 
@@ -834,11 +855,14 @@ a:focus.add_link {
 }
 
 .field-add-more-submit {
-	background-color: green;
+	background-color: $color-green;
 	height:40px;
 	width:43px;
 	vertical-align: middle;
 	margin: 0px;
+	&:hover {
+		background-color: $color-green-dark;
+	}
 }
 
 @media screen and (min-width:48em) and (max-width:56.875em) {
@@ -854,7 +878,8 @@ a:focus.add_link {
 		  padding-right: 0.5em;
 	  }
   }
-  .ui-tabs .ui-tabs-nav li, .todo-filter-by-week li {
+  .ui-tabs .ui-tabs-nav li, 
+  .todo-filter-by-week li {
 	  padding-left: 0.5em;
 	  padding-right: 0.5em;
   }
@@ -878,9 +903,6 @@ a:focus.add_link {
 }
 
 @media screen and (min-width: 40.001em) {
-  .mobile-nav {
-    display: none;
-  }
   #zip_container {
 		span {
 			float: left;
@@ -897,16 +919,7 @@ a:focus.add_link {
 	}
 }
 
-/** Workbench *******************************************************************/
-
-.pane-views-cdx-facility-management-block {
-	p {
-		font-size: 0.85em;
-	}
-	#fmw-organization-select-holder, #fmw-program-select-holder, #fmw-type-select-holder {
-		margin: 0 15px 10px 0;
-	}
-}
+// Workbench -------------- //
 
 @media screen and (min-width: 45em) {
 	#benefits {
@@ -1045,6 +1058,10 @@ span.date-subscript-text,
 span.facility-subscript-text {
 	display: block;
 }
+span.facility-subscript-text {
+	font-size: $h6-font-size;
+	margin-top: 5px;
+}
 span.subpart-name,
 a.simple-dialog {
 	font-size: $h7-font-size;
@@ -1068,7 +1085,7 @@ td.views-field-field-todo-lst-due {
 
 .views-field-field-prog-track-updated .date-subscript-text,
 .views-field-field-prog-tracker-app .item-subscript-text,
- {
+.view-to-do .date-subscript-text {
     font-size: 1rem;
 }
 .views-field-field-prog-tracker-app,
@@ -1097,27 +1114,6 @@ td.views-field-field-todo-lst-due {
     margin:0 1em 0 0;
     text-align:right;
     width:100%;
-}
-
-/** Profile Styles *********************************************************/
-@media screen and (max-width: 40em) {
-	.site-name-and-slogan {
-		width: 100%;
-	}
-	.main-nav,
-	.secondary-nav {
-	// Hide simple-main-nav at widths below 40em, when mobile-nav shows
-		display: none;
-	}
-	form[id^='user-profile-form'] {
-		.ajax-progress .message {
-			display: none;
-		}
-	}
-}
-
-#favorites-edit-profile {
-	font-size: 0.85em;
 }
 
 .field-name-field-profile-first-name,
@@ -1417,8 +1413,15 @@ a.tabledrag-handle .handle {
 	table thead tr {
 		background-color: none;
 	}
+	label, .aria-label {
+		margin-top: 0;
+	}
+	.td.field-multiple-drag {
+		width: 13px;
+	}
 	.tabledrag-handle {
-		top:-10px; 
+		display: table-cell;
+		vertical-align: middle;
 	}
 }
 .ui-widget-content.first-time-user-dialog {
@@ -1531,9 +1534,13 @@ a.tabledrag-handle .handle {
 	}
 }
 
-/** jQuery Overrides - General, affects modals, tabs, etc. *********************************************************/
-.ui-tabs .ui-tabs-panel {
+// jQuery Overrides - General, affects modals, tabs, etc.-------------- //
+
+.ui-tabs {
 	padding: 0;
+	.ui-tabs-panel {
+		padding: 0;
+	}
 }
 #profile-tabs {
 	.ui-tabs-panel {
@@ -1562,14 +1569,21 @@ a.tabledrag-handle .handle {
 }
 .ui-tabs {
 	.ui-tabs-nav {
+		display: block;
 		border-bottom: 1px solid $color-gray-lightest;
 		li {
 			margin-right: 0;
 		}
 	}
 }
-.view-empty p {
-	font-size: 0.85em;
+.view-empty {
+	font-size: $h5-font-size;
+	min-height: 4rem;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	p {
+		font-size: $h5-font-size;
+	}
 }
 .todo-filter-by-week {
 	ul {
@@ -1617,6 +1631,11 @@ a.tabledrag-handle .handle {
 		padding-bottom: 5px;	//Provide more tap space
 	}
 	
+	.page-workbench {
+		.grid-stack-item[data-gs-x="1"] {
+			margin-left: 0;
+		}
+	}
 }
 
 .ui-tabs .ui-tabs-nav, .todo-filter-by-week {
@@ -1739,7 +1758,7 @@ div.ctools-modal-content {
 }
 //Override jQuery widget rules
 .main-content {
-	.ui-state-default {
+	.ui-state-default, .todo_filter_button {
 		background: none;
 		border: none;
 		font-weight: normal;
@@ -1824,8 +1843,13 @@ input[type="submit"]:not(.usa-button-outline),
 // Responsive Tables -------------- //
 .view-filters {
 	font-size: $h5-font-size;
+	.views-exposed-widgets {
+		margin-bottom: 0;
+    margin-top: 1.5rem;
+	}
 }
 .responsive-table {
+	margin-top: 1em;
 	thead {
 		@include sr-only;
 	}
@@ -1841,6 +1865,12 @@ input[type="submit"]:not(.usa-button-outline),
 	td {
 	  vertical-align: top;
 	}
+	tr {
+		&.odd,
+		&.even {
+			background-color: $color-white;
+		}
+	}
 	tbody {
 		tr:last-of-type {
   		margin-bottom: 0;
@@ -1852,12 +1882,6 @@ input[type="submit"]:not(.usa-button-outline),
 		  font-size: $h7-font-size;
 		  color: $color-gray-dark;
 		}		
-	}
-	tr.odd {
-		background-color: $color-white;
-	}
-	tr.even {
-		background-color: $color-gray-lightest;
 	}
 	.views-field-field-prog-track-actions-dnload {
 		p {
@@ -1970,14 +1994,9 @@ td.views-field-field-prog-track-actions-dnload a {
 		}
 	}
 
-	.page-eenterprise-new .row.shaded, 
 	.section-eenterprise-new .row.shaded {
 		padding-top: 10px;
-		padding-left: 2em;
-		h2 {
-			padding-left: 1em;
-			line-height: 1.4;
-		}
+
 	}
 	#including {
 		li {
@@ -2102,21 +2121,33 @@ td.views-field-field-prog-track-actions-dnload a {
 }
 
 .mobile-nav {
-	border-bottom: 1px solid $color-primary;
+	display: none;
+	background-color: $color-primary;
+	border-bottom: 1px solid $color-primary-darker;
+	border-radius: 0;
 	a {
 		display: table-cell;
-		padding: 5px;
 	  text-decoration: none;
 	  border-radius: none;
 	}
 	.mobile-nav_home {
 		color: white;
+		padding: 5px;		
 	}
-	.menu-item {
-		display: block;
-		width: 15rem;
-		border-right: none;
-		border-bottom: 1px solid $color-gray-white;
+	.menu {
+		width: 100%;
+		.menu-item {
+			display: block;
+			width: 100%;
+			border-right: none;
+			border-bottom: 1px solid $color-gray-white;
+			a {
+				display: block;
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
 	}
 }
 
@@ -2393,10 +2424,13 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 	color: #42adee;
 }
 .fa-refresh {
-	color: #0e8200;
-}
-.fa-refresh:before {
-  content: "\f021";
+	color: $color-green;
+	&:hover {
+		color: $color-green-dark;
+	}
+  &:before {
+  	content: "\f021";
+  }
 }
 .fa-star-o:hover {
 	color: $color-secondary-darkest;
@@ -2667,7 +2701,36 @@ input#location-input-guests::-ms-clear {
   display:none;
 }
 
+
+// Responsive -------------- //
+
+@media screen and (max-width: 40em) {
+	.site-name-and-slogan {
+		width: 100%;
+	}
+	.main-nav,
+	.secondary-nav,
+	.region-footer {
+	// Hide simple-main-nav at widths below 40em, when mobile-nav shows
+		display: none;
+	}
+	
+	.mobile-nav {
+		display: block;
+	}
+	
+	form[id^='user-profile-form'] {
+		.ajax-progress .message {
+			display: none;
+		}
+	}
+}
+
+
+
+
 // CIOgov Overrides -------------- //
+
 #login-group,
 #benefits,
 #including,

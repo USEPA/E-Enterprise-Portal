@@ -68,8 +68,8 @@
   <?php endif; ?>
 
   <div class="view-content" id="interactive-maps-actions">
-  	<div id="numThumbnails" class="numThumbnails favorites-ignore">
-      <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore last">Browse Gallery...</a>
+  	<div id="numThumbnails" class="widget-note favorites-ignore">
+      <p class="widget-note"><a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore last">Browse Gallery...</a></p>
 			</div>
     <div id="myMapsFiltering">
       <ul id="myMapsFilterList">

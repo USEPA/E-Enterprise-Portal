@@ -14,11 +14,12 @@
 
 .interests-url-text {
   margin-top: 2px;
+  font-size: 1.3rem;
 }
 
 .action-links .first {
-    border-right: 1px solid #aaa;
-    padding-right: 10px;
+  border-right: 1px solid #aaa;
+  padding-right: 10px;
 }
 
 .action-links .last {

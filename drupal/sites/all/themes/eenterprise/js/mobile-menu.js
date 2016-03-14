@@ -34,7 +34,6 @@ Drupal.behaviors.mobileMenu = {
     $newMainMenu.appendTo($mobileLinks);
     $newSecondaryMenu.appendTo($mobileLinks);
     $newFooterMenu.appendTo($mobileLinks);
-//    $newLocations.appendTo($mobileLinks);
 
     // Open/Close mobile menu when menu button is clicked.
     var $mobileMenuWrapper = $('.mobile-nav').find('.mobile-nav_links'),
@@ -54,22 +53,6 @@ Drupal.behaviors.mobileMenu = {
       e.preventDefault();
     });
 
-    // Set the height of the menu.
-    //$mobileMenuWrapper.height($(document).height());
-
-    var breakpoint = 640; /* 40em */
-    if (document.documentElement.clientWidth >= breakpoint) {
-			$('.mobile-nav').addClass('element-hidden');
-      $mainNav.removeClass('element-hidden');
-      $secondaryNav.removeClass('element-hidden');
-      $footerNav.removeClass('element-hidden');
-    }
-    else {
-			$('.mobile-nav').removeClass('element-hidden');
-      $mainNav.addClass('element-hidden');
-      $secondaryNav.addClass('element-hidden');
-      $footerNav.addClass('element-hidden');	    
-    }
   }
 };
 
