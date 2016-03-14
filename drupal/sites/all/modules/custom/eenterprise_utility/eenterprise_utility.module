@@ -1022,7 +1022,7 @@ function get_modal_data($locations, $city_name_count)
                 print  $value . "<ul class='locations-modal-ul'>";
             }
             print "<li>";
-            print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' />" . $key . "</label>";
+            print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $key . "</label>";
             print "</li>";
             ++$duplicate_city_count;
             if ($duplicate_city_count == $city_name_count[$value]) {
@@ -1030,7 +1030,7 @@ function get_modal_data($locations, $city_name_count)
                 $duplicate_city_count = 0;
             }
         } else {
-            print "<label for='" . $key . "'><input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' />" . $value . "</label>";
+            print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . "</label>";
         }
     }
     print "</div></div>";
@@ -1486,4 +1486,22 @@ function eenterprise_utility_node_prepare($node)
             }
         }
     }
+}
+
+function eenterprise_utility_form_views_exposed_form_alter(&$form, &$form_state) {
+
+     if($form["#id"] == 'views-exposed-form-progress-tracker-block-1'){
+         $form['field_prog_track_domain_value']['#options']["All"] = 'All';
+				 $form['field_prog_track_part_code_value']['#options']["All"] = 'All';
+				 $form['field_prog_track_sub_part_code_value']['#options']["All"] = 'All';
+				 $form['field_prog_track_rep_type_filter_value']['#options']["All"] = 'All';
+     }     
+     else if($form["#id"] == 'views-exposed-form-to-do-block-1') {
+	     $form['field_todo_lst_domain_value']['#options']["All"] = 'All';
+	     $form['field_todo_lst_part_code_value']['#options']["All"] = 'All';
+	     $form['field_todo_lst_sub_part_code_value']['#options']["All"] = 'All';
+	     $form['field_todo_lst_rprt_type_filter_value']['#options']["All"] = 'All';	     
+	     
+     }
+
 }

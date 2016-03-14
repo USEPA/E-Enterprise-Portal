@@ -8,14 +8,20 @@
     max-width: 1370px;
 }
 
-/*#facility-widget{*/
-/*max-width: 1400px;*/
-/*}*/
+#fmw-type-select-holder, #fmw-organization-select-holder, #fmw-program-select-holder {
+  display: table-cell;
+  padding-right: 20px;
+}
 
-#fmw-type-select-holder, #fmw-organization-select-holder, #fmw-program-select-holder, #launch-facility-management {
-    display: inline-block;
-    margin:10px 20px;
+.fmw-launch {
+	display: block;
+	min-height: 5rem;
+}
 
+#launch-facility-management {
+	display: block;
+	margin-top: 20px;
+	margin-left: 60%;
 }
 
 .ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-front .cdx_facility_management_block .ui-draggable {

@@ -7,7 +7,6 @@
 	*
 	**/
 
-
 .pane-views-favorite-sites-block .field-type-text, .pane-views-favorite-sites-block .form-text {
   width: 26em; float: left;
 }
@@ -17,6 +16,9 @@
 }
 .view-favorite-sites .views-table {
   width: 100%;
+}
+.view-favorite-sites .views-field-field-profile-favourites {
+	display: none; /* Hide empty rows */
 }
 
 .pane-views-favorite-sites-block .tabledrag-toggle-weight, 
@@ -65,12 +67,16 @@
 }
 
 .filled {
-  color: #cd2026;
+  color: #e31c3d;
 }
 .filled:hover{
-  color: #981b1e;
+  color: #cd2026;
   cursor: pointer;
 }
+.filled:active {
+	color: #981b1e;
+}
+
 .empty {
   color: grey;
 }

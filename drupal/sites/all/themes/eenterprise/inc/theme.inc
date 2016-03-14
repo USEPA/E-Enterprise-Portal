@@ -541,7 +541,7 @@ function eenterprise_pager_link($vars) {
   $classes = &$vars['attributes']['class'];
 
   // Add default link class.
-  $classes[] = 'pager__link';
+  $classes[] = 'pager__link fa';
 
   $page = isset($_GET['page']) ? $_GET['page'] : '';
   if ($new_page = implode(',', pager_load_array($page_new[$element], $element, explode(',', $page)))) {

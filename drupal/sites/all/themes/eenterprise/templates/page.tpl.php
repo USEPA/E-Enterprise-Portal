@@ -24,7 +24,7 @@ if(arg(0) == 'workbench' && $user->uid == 0){
 <?php print render($page['alert']); ?>
 <?php print render($page['maintenance']); ?>
 <?php print render($page['disclaimer']); ?>
-<div class="mobile-nav">
+<div class="mobile-nav usa-grid">
 <a class="usa-button mobile-nav_home" href="/" rel="home"><span class="sr-only">Home</span><i aria-hidden="true" class="fa fa-home"></i></a>
 <a class="usa-button mobile-nav_toggle" href="#mobile-links">Menu</a>
 <div class="mobile-nav_links element-hidden"></div>

@@ -49,7 +49,7 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
     </script>
 
 <div id="village-green" class="view-content">
-	<small class="village-green-updated-every-minute">Updated every minute via <a target="_blank" href="http://	villagegreen.airnowtech.org/">Village Green</a></small>
+	<p class="widget-note">Updated every minute via <a target="_blank" href="http://villagegreen.airnowtech.org/">Village Green</a></p>
 	<div class="usa-grid-full">
 		<div class="usa-width-one-half">
       <label for="currentSiteID">Air monitoring station</label>
@@ -84,4 +84,4 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
   </ul>
 </div>
 </div>
-<small class="village-green-source"><a target="_blank" href="http://villagegreen.airnowtech.org" class="village-green-external-link"></a></small>
+<div class="village-green-source"><a target="_blank" href="http://villagegreen.airnowtech.org" class="village-green-external-link"></a></div>

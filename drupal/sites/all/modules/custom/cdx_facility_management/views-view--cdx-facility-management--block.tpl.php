@@ -58,7 +58,7 @@ $cdx_facility_source = variable_get('cdx_facility_resource_url');
 
 <div id="cdx-logged-in-options">
 <div id="facility-widget" style="max-width:1363px;"></div>
-<p>Use of facility widget is subject to CDX <a href="https://cdx.epa.gov/Terms" target="_blank">terms and conditions</a>. </p>
+<p class="widget-note">Use of facility widget is subject to CDX <a href="https://cdx.epa.gov/Terms" target="_blank">terms and conditions</a>. </p>
 <div id="fmw-organization-select-holder"><label
         for="fmw-organization-select">Organization</label><select style="display:none" name="fmw-organization-select"
                                                                   id="fmw-organization-select"></select>
@@ -69,10 +69,10 @@ $cdx_facility_source = variable_get('cdx_facility_resource_url');
 <div id="fmw-type-select-holder" style="display:none"><label for="fmw-type-select">Role Type</label><select
         name="fmw-type-select" id="fmw-type-select"></select>
     <span id="fmw-type-single"></span></div>
-<button id="launch-facility-management" style="display:none;">Manage Facilities</button>
+<div class="fmw-launch"><button id="launch-facility-management" style="display:none;">Manage Facilities</button></div>
 </div>
 <div id="cdx-logged-out-options" style="display:none;">
-    <p>Your secure connection to CDX Facility Management services has expired. You must log back in again to access this widget.</p><button id="cdx-logged-out-log-out" type="button" class="btn btn-sm btn-danger">Log in</button>
+    <p class="widget-note">Your secure connection to CDX Facility Management services has expired. You must log back in again to access this widget.</p><button id="cdx-logged-out-log-out" type="button" class="btn btn-sm btn-danger">Log in</button>
 </div>
 <div id="cdx-unable-to-load" style="display:none;">
     <p>The Facility Management tool is currently unavailable.</p>
