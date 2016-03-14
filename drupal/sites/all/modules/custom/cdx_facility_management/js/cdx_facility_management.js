@@ -136,7 +136,7 @@
                                 var resource_url = token_data.url;
                                 var time_logged_in = token_data.user_login_time;
                                 var time_threshold = token_data.user_session_logout;
-                                 First connect to widget initially to start CDX session;
+                                // First connect to widget initially to start CDX session;
                                 var temp = 0;
                                 $.each(org_to_roles, function (org_id, role_object) {
                                     $.each(role_object.roles, function (dataflow, role_array) {
