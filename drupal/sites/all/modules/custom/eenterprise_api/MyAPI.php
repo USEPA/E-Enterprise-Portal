@@ -15,28 +15,28 @@ class MyAPI extends API
         parent::__construct($request);
     }
 
-    /**
-     * Example of an Endpoint
-     */
-    protected function example() {
-        if ($this->method == 'GET') {
-            return "Your name is " . $this->User->name;
-        } else {
-            return "Only accepts GET requests";
-        }
-    }
 
     protected function resources() {
+
         if ($this->method == 'GET') {
-            $args = '?args[0]=' . $this->args[0];
+            if (isset($this->args[0]))
+             $args = '?args[0]=' . $this->args[0] . "&";
+            else
+                $args = "?";
+
             $host = $_SERVER['HTTP_HOST'];
             $htt = $_SERVER['HTTPS'];
             if (isset($htt))
                 $htt = 'https://';
             else
                 $htt = 'http://';
-            $request = $htt . $host . "/api/1.0/" . $this->endpoint . '.json' . $args;
-            return json_decode(drupal_http_request($request)->data);
+            $api_v = str_replace(".", "_", API_VERSION);
+            $request = $htt . $host . "/api_" . $api_v . "_engine/" . $this->endpoint . "." . $this->ext .  $args . $this->query;
+            if ($this->ext == 'xml')
+                return $this->printXMLPage($request);
+            else
+                return drupal_http_request($request)->data;
+
         } else {
             return "Only accepts GET requests";
         }

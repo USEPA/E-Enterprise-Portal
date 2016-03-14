@@ -10,40 +10,47 @@ require 'MyAPI.php';
 function eenterprise_api_menu()
 {
     $items = array();
-    $items['api/' . API_VERSION . '/%/%'] = array(
+    $items['api/' . API_VERSION . '/%'] = array(
         'page callback' => 'process_request',
+        'access callback' => TRUE,
+    );
+    $items['api/' . API_VERSION . '/%/%'] = array(
+        'page callback' => 'process_request_with_arg',
         'access callback' => TRUE,
     );
     return $items;
 }
 
-
-function process_request()
-{
+function return_request() {
     // create new http request with $resource, attaching $id as an argument to work with service_views
 
-//    drupal_add_http_header('Content-Type', 'application/json; utf-8');
-//    drupal_add_http_header('Access-Control-Allow-Origin', "*");
-//    drupal_add_http_header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-
     // Requests from the same server don't have a HTTP_ORIGIN header
+
     if (!array_key_exists('HTTP_ORIGIN', $_SERVER))
         $_SERVER['HTTP_ORIGIN'] = $_SERVER['SERVER_NAME'];
 
-    try {
-        $request = '';
-        if (!isset($_REQUEST['request']))
-            $request = $_SERVER['REQUEST_URI'];
-        else
-            $request = $_REQUEST['request'];
+    if (!isset($_REQUEST['request']))
+        $request = $_SERVER['REQUEST_URI'];
+    else
+        $request = $_REQUEST['request'];
 
+    return $request;
+}
+
+function process_request()
+{
+    $request = return_request();
+    $API = new MyAPI($request, $_SERVER['HTTP_ORIGIN']);
+    echo $API->processAPI();
+}
+
+
+
+function process_request_with_arg()
+{
+    $request = return_request();
         $API = new MyAPI($request, $_SERVER['HTTP_ORIGIN']);
         echo $API->processAPI();
-    } catch (Exception $e) {
-        echo json_encode(Array('error' => $e->getMessage()));
-    }
-
-
 }
 
 /**
@@ -109,6 +116,7 @@ function rest_request()
  */
 function eenterprise_api_services_views_execute_view_alter(&$output, $view)
 {
+    drupal_add_http_header('Access-Control-Allow-Origin', "*");
     attach_metadata($view, $output);
 }
 
@@ -129,7 +137,6 @@ function eenterprise_api_views_query_alter(&$view, &$query)
                 // Formula for offset from page and items per page
                 $offset = ($page - 1) * ($limit + 1);
                 $query->set_offset($offset);
-
             }
         }
     }
