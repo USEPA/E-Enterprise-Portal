@@ -27,6 +27,7 @@
         var dialog = $("<div></div>").append(iframe).appendTo("body").dialog({
             autoOpen: true,
             modal: true,
+						dialogClass: 'recommended-resources',                                            
             resizable: false,
             width: "90%",
             height: "90%",

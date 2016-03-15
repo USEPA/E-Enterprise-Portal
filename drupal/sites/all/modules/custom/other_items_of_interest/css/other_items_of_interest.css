@@ -14,6 +14,10 @@
     white-space: normal;
 }
 
+.other-items.ui-dialog, .other-items-form.ui-dialog {
+	height: 90% !important;
+}
+
 .interests-url-text {
     font-size: $h6-font-size;
     margin-top: 2px;

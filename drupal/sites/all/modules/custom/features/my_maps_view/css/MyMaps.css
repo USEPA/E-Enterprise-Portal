@@ -136,25 +136,26 @@
   font-weight: bold;
   padding: 5px 5px 2px;
   line-height: 1.2;
+  margin-top: 0;
 }
 
 .mapAppDesc {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-top: auto !important;
   max-height: 40px;
   max-width: 198px;
   font-size: 75%;
   padding: 2px 5px 2px;
   line-height: 1.2;
+  margin-top: 0;  
 }
 
 .mapAppSource {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1px auto !important;
+  margin-top: 0;
   max-height: 40px;
   max-width: 198px;
   font-size: 75%;
@@ -165,7 +166,7 @@
 .mapAppContact {
 	padding: 2px 5px;
 	font-size: 75%;
-	margin: 1px auto 0;
+	margin: 0 auto 0;
 	line-height: normal;
 }
 
