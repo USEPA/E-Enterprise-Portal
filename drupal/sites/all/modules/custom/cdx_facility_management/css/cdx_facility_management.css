@@ -33,17 +33,18 @@
     min-width: 100%;
 }
 
-#TribalLandsCheckbox #tribLandsLyrVis
+#TribalLandsCheckbox #tribLandsLyrVis {
 	  width: 15px !important;
-    float: left;
-    margin-top: 5px;
-    position: static;
+    float: left !important;
+    margin-top: 5px !important;
+    position: static !important;
+    margin-right: 10px !important;
 }
 #TribalLandsCheckbox label {
-	color: #333;
+	color: #333 !important;
 }
 .facility-widget-form h1, .facility-widget-form h2, .facility-widget-form h3, .facility-widget-form h4, .facility-widget-form h5, .facility-widget-form h6, .facility-widget-form th, .facility-widget-form legend, .facility-widget-form caption {
-	font-family: inherit;
+	font-family: inherit !important;
 }
 
 @media (min-width: 1200px) {

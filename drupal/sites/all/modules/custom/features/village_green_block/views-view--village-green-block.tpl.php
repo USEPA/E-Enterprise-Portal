@@ -61,17 +61,17 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
           <option value="24292">Philadelphia, PA</option>
           <option value="24293">Washington, DC</option>
       </select>
-  </div>
-  <div class="usa-width-one-half usa-grid">
-    <div class="latest-reading usa-width-one-half">
-    	<span class="aria-label" id="vg-obsdatelabel">Latest reading <span class="sr-only">at</span></span>
-      <span aria-labelledby="vg-obsdatelabel" class="currentObsDate"></span>
-    </div>
-    <div class="usa-width-one-half">
-    	<span class="aria-label" id="vg-countdown-label" for="vg-progressbar">Update in</span>
-    	<div aria-labelledby="vg-countdown-label" class="active village-green-countdown" aria-label="Updates every minute"><span class="countdownContainer"></span></div>
-		</div>
-  </div>
+  	</div>
+	  <div class="usa-width-one-half">
+	    <div class="latest-reading usa-width-one-half">
+	    	<span class="aria-label" id="vg-obsdatelabel">Latest reading <span class="sr-only">at</span></span>
+	      <span aria-labelledby="vg-obsdatelabel" class="currentObsDate"></span>
+	    </div>
+	    <div class="usa-width-one-half">
+	    	<span class="aria-label" id="vg-countdown-label" for="vg-progressbar">Update in</span>
+	    	<div aria-labelledby="vg-countdown-label" class="active village-green-countdown" aria-label="Updates every minute"><span class="countdownContainer"></span></div>
+			</div>
+	  </div>
 </div>
 <div class="usa-grid-full vg-numbers-container">
 	<span class="sr-only" aria-describedby="currentSiteID">Air station readings</span>

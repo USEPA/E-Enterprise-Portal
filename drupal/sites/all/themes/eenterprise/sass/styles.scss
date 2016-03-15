@@ -303,6 +303,11 @@ footer {
 		float: right;
 		.menu-item {
 			border-color: #ddd;
+			padding: 0 10px;
+			vertical-align: top;
+			a {
+				padding: 0;
+			}
 		}
 	}
 }
@@ -453,6 +458,15 @@ header {
 			padding: 5px 10px;
 			display: block;
 		}
+		.usa-button {
+			margin-right: 0;
+		}
+	}
+	.block--ee-bridge-login {
+		padding-top: 3rem;
+		a.usa-button {
+			margin-right: 0;
+		}
 	}
 }
 
@@ -472,20 +486,14 @@ header {
 	.jumbotron {
 		margin-bottom: 0px;
     background-image: url('../images/nurturing-hands.jpg');
-    background-position: 0% 50%;
+    background-position: 0%;
     background-size: cover;
     background-repeat: no-repeat;
+    padding-top: 300px;
     text-align: left;
-    margin-left: -1em;
-    margin-right: -1em;
     position: relative;
-    padding-left: 0;
-    padding-right: 0;
 		.container {
 	    width: auto;
-	    margin-left: 0;
-	    margin-right: 0;
-	    padding: 0;
 	  }
   }
   .well {
@@ -493,7 +501,7 @@ header {
   	box-shadow: none;
   	border: none;
   	margin:0 auto;
-  	padding: 19px 2.5em;
+  	padding: 19px 4rem;
   	width: 100%;
 		.welcome-message {
 			display: block;
@@ -501,8 +509,15 @@ header {
 			border:1px solid #fff;
 			background-color: #fefefe;
 			opacity: 0.9;
-			padding: 18px 2em 27px;
+			padding: 18px 1.5em;
 			border-radius: 3px 3px 0 0;
+	  	h1 {
+		    font-size: 3rem;
+		    line-height: 1.4;
+		    font-weight: normal;
+		    margin-top: 0;
+		    margin-bottom: 15px;
+	  	}			
 		}
 		#login-group {
 			display: block;
@@ -511,7 +526,6 @@ header {
 			text-align:center;
 			opacity: 0.9;
 			padding: 16px;
-			margin-top: 0;
 			border-radius: 0 0 3px 3px;
 			ul {
 				margin: 0 auto;
@@ -519,39 +533,23 @@ header {
 			form, a {
 				display:inline-block;
 			}
+			.usa-button-big {
+				font-size: 2.5rem;
+				font-weight: normal;
+			}
 			.guest-login {
 				display: block;
 				margin-top: 10px;
 				width: auto;
 			}
 		}
-  	h1 {
-    	font-size: 1.5em;
-    	line-height: 1.4;
-  	}
   	p {
-    	font-size: 1.25em;
+    	font-size: 1.7rem;
     	line-height: 1.4;
+    	margin-top: 15px;
+    	margin-bottom: 0;
   	}
   }
-	.well-narrow {
-		margin-top:30px;
-		max-width:25em;
-		margin:0 auto;
-	}
-	p {
-		margin-bottom: 0;
-	}
-	.row {
-		padding: 2em;
-	}
-	.row.shaded {
-		background-color:#f7f7f9;
-		border:1px solid #e1e1e8;
-		border-width:1px 0;
-		padding-top: 1em;
-		padding-bottom: 1em;
-	}
 }
 
 .section-eenterprise-new {
@@ -566,74 +564,23 @@ header {
 	ul {
 		list-style:none;
 	}
-	li h3 {
-		padding-bottom:0;
-	}
-	li br, .row.shaded br {
-		display:none;
-	}
-	.row {
-		padding:1em 2.5em;
-	}
-	.view-footer {
-		padding-left:30px;
-	}
-	.view-footer h3 {
-		margin-left:1em !important;
-		margin-top:1em;
-		margin-bottom:5px;
-		padding-bottom:0;
-	}
-	.view-footer li h3 {
-		margin:0 !important;
-	}
-}
-
-#learnmore {
-	.modal-content {
-		padding:30px;
-	}
-	.modal-header {
-		padding: 5px 15px;
-	}
-	.modal-header, .modal-footer {
-		border:none;
-	}
-	.modal-title {
-		padding-left:0;
-		font-size: 1.5em;
-	}
-	.ee-available-widgets {
-		padding-left: 20px;
-		li {
-			list-style-type: square;
+	li {
+		h3 {
+			padding-bottom: 0;
 		}
-	}
-	.login-options {
-		padding-left: 40px;
-		margin-top: 20px;
-		li {
-			width: 12em;
-			display: inline-block;
+		br {
+			display: none;
 		}
 	}
 }
 
-#learnmore-close {
-	font-size: 1.375em;
-	line-height: 1;
-	position: absolute;
-	top: 0.5em;
-	right: 0.6875em;
-	color: #aaaaaa;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-#benefits ul, #including ul {
-	list-style: none;
-	background-color: transparent !important;
-	display: initial;
+#benefits, 
+#including {
+	ul {
+		list-style: none;
+		background-color: transparent !important;
+		display: initial;		
+	}
 }
 #benefits {
 	border: none;
@@ -684,11 +631,11 @@ header {
 		clear: left;
 		height: 250px;
 		padding: 0em 3em 1em 2em;
-	}
-	div span {
-		float: none;
-		width: 100%;
-		padding: 10px 20px;
+		span {
+			float: none;
+			width: 100%;
+			padding: 10px 20px;
+		}
 	}
 	h3 {
 		font-weight: 200;
@@ -698,6 +645,7 @@ header {
 	}
 	p {
 		margin-top: 10px;
+		font-size: $h4-font-size;
 	}
 	img {
 		max-width: 50%;
@@ -716,21 +664,27 @@ header {
 	}
 	li {
 		min-height: 7em;
-	}
-	li img {
-		display:inline-block;
-		vertical-align: top;
-		margin-top:1em;
-		margin-right:10px;
-		width:3.5em;
-		height:3.5em;
-	}
-	li div {
-		display:inline-block;
-		vertical-align: top;
-		width:80%;
-		margin-left:10px;
-	}
+		h3 {
+			margin-bottom: 0;
+		}
+		p {
+			margin-top: 5px;
+		}
+		img {
+			display:inline-block;
+			vertical-align: top;
+			margin-top:1em;
+			margin-right:10px;
+			width:3.5em;
+			height:3.5em;
+		}
+		div {
+			display:inline-block;
+			vertical-align: top;
+			width:80%;
+			margin-left:10px;
+		}	
+	}	
 }
 
 .page-workbench,
@@ -802,7 +756,6 @@ header {
 	  }
   }
 
-  .page-eenterprise-new,
   .section-eenterprise-new {
 	  .jumbotron {
 	  	.container {
@@ -911,49 +864,30 @@ a:focus.add_link {
 // Workbench -------------- //
 
 @media screen and (min-width: 45em) {
-	#benefits {
-		li {
-			width: 33%;
-		}
-		div {
-			padding-top: 1em;
-		}
-		div span {
-			float: left;
-			width: 50%;
-		}
-		img {
-			max-width: 35%;
-		}
-	}
+	
 	th.views-field {
 		padding-top: 5px;
 		padding-bottom: 5px;
 	}
-	.views-field-field-todo-lst-item, .views-field-field-todo-lst-domain, .views-field-field-prog-tracker-app, .views-field-field-prog-track-domain {
+	
+	.views-field-field-todo-lst-item, 
+	.views-field-field-todo-lst-domain, 
+	.views-field-field-prog-tracker-app, 
+	.views-field-field-prog-track-domain {
 		display: block;
 	}
-	td.views-field-field-todo-lst-item, td.views-field-field-todo-lst-domain, td.views-field-field-prog-tracker-app, td.views-field-field-prog-track-domain {
+	
+	td.views-field-field-todo-lst-item, 
+	td.views-field-field-todo-lst-domain, 
+	td.views-field-field-prog-tracker-app, 
+	td.views-field-field-prog-track-domain {
 		text-align: left;
 	}
+	
 	.views-field-field-todo-lst-item a.simple-dialog {
 		margin-top: 0
 	}
 
-	.page-eenterprise-new, .section-eenterprise-new {
-		.region-header {
-			padding:0;
-		}
-	}
-	.page-ee-welcome, .view-ee-welcome, .page-node-50, .page-node-168 {
-		.region-header {
-			font-size: 1em;
-		}
-		.well {
-			font-size: 2.5em;
-			margin-top: 1em;
-		}
-	}
 	.page-workbench .block-views.odd,
 	.section-workbench .block-views.odd {
 		width:55%;
@@ -963,64 +897,77 @@ a:focus.add_link {
 		width:40%;
 		}
 
-	.ee-stats-header {
-		width: 36em;
-		}
 	.ee-workbench-top-header li {
 		min-width: 4.5em;
-		}
-	#block-search-form {
-		clear: right;
-		padding-top: 0;
-		float: right;
-		position:initial
 	}
-	.page-eenterprise-new .well, .section-eenterprise-new .well {
-		padding: 19px 0;
-		position: relative;
-		.welcome-message, .welcome-message {
-			width: 50%;
-			border-radius:3px;
-			display: inline-block;
+		
+	.section-eenterprise-new {
+		.well {
 			position: relative;
-			left: 3.5em;
+			.welcome-message {
+				width: 50%;
+				border-radius:3px;
+				display: inline-block;
+				position: relative;
+			}
+			#login-group {
+				border-radius: 3px;
+				width: 16em;
+				display: inline-block;
+				right: 4rem;
+				position: absolute;
+				bottom: 0;
+				margin-bottom: 19px;
+			}
 		}
-		#login-group {
-			border-radius: 3px;
-			width: 16em;
-			display: inline-block;
-			margin-left: 2.5%;
-			position: absolute;
-			bottom: 19px;
-			right: 4em;
-		}
+		#benefits {
+			padding-left: 4rem;
+			padding-right: 4rem;
+			li {
+				width: 33.3%;
+				margin-right: 2px;
+				&:last-child {
+					width: 33%;
+					margin-right: 0;
+				}
+			}
+			div {
+				padding-top: 1em;
+			}
+			div span {
+				float: left;
+				width: 50%;
+			}
+			img {
+				max-width: 35%;
+			}
+		}		
 	}
 }
 
-@media screen and (min-width: 65em) {
-	.page-eenterprise-new .well, .section-eenterprise-new .well {
-		padding: 2%;
-		#login-group {
-			right: 7em;
-			bottom: 22px;
+@media screen and (min-width: 56em) {
+	#including {
+		li {
+			width: 50%;
+			float: left;
 		}
 	}
 }
 
 @media screen and (min-width: 75em) {
-	.views-field-field-todo-lst-item, .views-field-field-todo-lst-domain, .views-field-field-prog-tracker-app, .views-field-field-prog-track-domain {
+	.views-field-field-todo-lst-item, 
+	.views-field-field-todo-lst-domain, 
+	.views-field-field-prog-tracker-app, 
+	.views-field-field-prog-track-domain {
 		display: table-cell;
 	}
 }
 
 @media screen and (min-width: 90em) {
-	.page-eenterprise-new .well, 
 	.section-eenterprise-new .well {
 		.welcome-message {
-			left: 5em;
 		}
 		#login-group {
-			right: 10em;
 			bottom: 29px;
 		}
 	}
@@ -1367,7 +1314,7 @@ form[id^='user-profile-form'] {
 
 .view-user-profile {
 	.field-label {
-			@include element-invisible;
+		@include element-invisible;
 	}
 	.field-name-field-profile-first-name .field-item {
 		margin-right:0.4em;
@@ -1415,7 +1362,7 @@ a.tabledrag-handle .handle {
 
 #field-zip-code-values,
 #field-profile-favourites-values {
-	table thead tr {
+	thead tr {
 		background-color: none;
 	}
 	label, .aria-label {
@@ -1430,6 +1377,13 @@ a.tabledrag-handle .handle {
 		padding-right: 0;
 	}
 }
+
+form .field-multiple-table#field-zip-code-values {
+	th.field-label {
+		padding-left: 1.5rem;
+	}
+}
+
 .ui-widget-content.first-time-user-dialog {
 	width: 1100px !important;
 	max-width: 95% !important;
@@ -1833,6 +1787,8 @@ div.ctools-modal-content {
 		label {
 			text-align: left;
 			display: block;
+			margin-top: 0;
+			max-width: none;
 		}
 		input {
 			margin-left: 0.5em;
@@ -1879,6 +1835,7 @@ input[type="submit"]:not(.usa-button-outline),
 }
 .responsive-table {
 	margin-top: 1em;
+	clear: both;
 	thead {
 		@include sr-only;
 	}
@@ -2229,8 +2186,8 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
     left: 0;
     top: 0;
     bottom: 0;
-    width: $bs-height-base;
-    line-height: ($bs-height-base + 2);
+    width: 4rem;
+    line-height: 4rem;
     font-size: 1.6em;
     text-align: center;
     border-right: 1px solid rgba(0, 0, 0, 0.2);
@@ -2377,14 +2334,14 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 .btn-twitter       { @include btn-social(#55acee); }
 .btn-yahoo         { @include btn-social(#720e9e); }
 
-.btn-exchangenetwork {
+a.usa-button.btn-social.btn-exchangenetwork {
 	@include btn-social(#80a3d8);
 	color: #fff;
 	.exchangenetwork:before {
 		content: url('../images/exchange-network-x-sm.png');
 	}
 }
-.btn-wam {
+a.usa-button.btn-social.btn-wam {
 	@include btn-social(#369);
 	color: #fff;
 	.wam:before {
@@ -2498,16 +2455,19 @@ a {
 			margin-bottom: 0;
 			margin-top: 0;
 			a.usa-button.btn-social {
-				padding: 1.5rem 1.5rem 1.5rem 4.5rem;
 				span {
 					padding-top: 0.5rem;
 				}
 			}
 		}
 		a.usa-button.btn-social {
+			padding: 1.5rem 1.5rem 1.5rem 5.25rem;			
 			margin-bottom: 5px;
 			margin-top: 5px;		
-			width: 30rem;				
+			width: 30rem;
+			i {
+				padding-top: 0.5rem;
+			}				
 		}
 	}
 }
