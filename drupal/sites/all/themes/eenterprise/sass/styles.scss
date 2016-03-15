@@ -1398,6 +1398,7 @@ form .field-multiple-table#field-zip-code-values {
 
 #first-time-user-profile {
 	padding-bottom: 10px;
+	height: auto;
 	h2 {
 		padding: 0;
 		line-height: 1.2;
@@ -1415,7 +1416,7 @@ form .field-multiple-table#field-zip-code-values {
 	}
 	h3 {
 		padding-bottom: 0;
-		margin-top: 30px;
+		margin-top: 15px;
 		font-weight: bold;
 	}
 	p {
@@ -1471,10 +1472,23 @@ form .field-multiple-table#field-zip-code-values {
 	#skip-preferences {
 		font-size: 0.875em;
 	}
+	.usa-grid .usa-width-one-half {
+		width: 45%;
+	}
 }
-.pane-views-first-time-user-profile-block .modal-footer {
-		.btn-primary {margin-right: 30px;}
-		a {vertical-align: middle;}
+.pane-views-first-time-user-profile-block {
+	.modal-footer {
+		display: block;
+		clear: left;
+		border-top: 1px solid $color-gray-light;
+		padding-bottom: 50px;
+		.btn-primary {
+			margin-right: 30px;
+		}
+		a {
+			vertical-align: middle;
+		}
+	}
 }
 .ck-button {
     margin:4px;
@@ -1485,10 +1499,10 @@ form .field-multiple-table#field-zip-code-values {
     float:left;
     width:auto;
 	span {
-	    text-align:center;
-	    padding:5px 8px;
-	    display:block;
-	    border: 1px solid #fafafa;
+    text-align:center;
+    padding:5px 8px;
+    display:block;
+    border: 1px solid #fafafa;
 	}
 	input {
 	    position:absolute;
@@ -1584,6 +1598,68 @@ form .field-multiple-table#field-zip-code-values {
 		color: #000;
 	}
 }
+
+ .ui-autocomplete-input {
+  appearance: none;
+  border: 1px solid $color-gray;
+  border-radius: 0;
+  box-sizing: border-box;
+  color: $color-base; // standardize on firefox 
+  display: block;
+  font-size: $base-font-size;
+  margin: 0.2em 0 !important;
+  max-width: $input-max-width;
+  outline: none;
+  padding: 1rem 0.7em !important;
+  width: 100% !important;
+  &:after {
+	  content: "\f002";
+    font-family: 'FontAwesome';
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    position: absolute;
+    font-size: 1.7rem;
+    color: $color-gray;
+    &:focus {
+	    background-image: none;
+    }
+  }
+
+  &:focus, 
+  &.usa-input-focus {
+    box-shadow: $focus-shadow;
+  }
+
+  &.usa-input-success {
+    border: 3px solid $color-green-light;
+  }
+}
+/*
+
+.ui-menu-item > a.ui-corner-all {
+    display: block;
+    padding: 3px 15px;
+    clear: both;
+    font-weight: normal;
+    line-height: 18px;
+    color: #555555;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.ui-state-hover, .ui-state-active {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #0088cc;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    background-image: none;
+}
+*/
+
+
 @media screen and (max-width: 48em) {
 	header {
 		padding-left: 10px;
@@ -2208,10 +2284,11 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
   }
 }
 
-.btn-social-icon {
+.btn-social-icon.usa-button {
   @extend .btn-social;
   height: ($bs-height-base + 2);
   width: ($bs-height-base + 2);
+  @include linear-gradient(rgba(255,255,255,.15) 0%, rgba(0,0,0,.1) 100%);
   padding: 0;
   > :first-child {
     border: none;
@@ -2654,6 +2731,9 @@ input#location-input-guests::-ms-clear {
   background-clip: padding-box;
   *border-right-width: 2px;
   *border-bottom-width: 2px;
+  .ui-menu-item {
+	  padding: 1rem 0.7em;
+  }
 }
 
 .views-field-field-prog-track-status a.simple-dialog {
@@ -2741,7 +2821,8 @@ ul {
 	&.vg-numbers,
 	&.thumb,
 	&.list-inline,
-	&.ui-tabs-nav {
+	&.ui-tabs-nav,
+	&.ui-autocomplete {
 		li {
 			&:before,
 			&:after,

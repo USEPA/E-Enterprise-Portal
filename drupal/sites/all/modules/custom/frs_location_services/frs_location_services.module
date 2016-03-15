@@ -413,10 +413,10 @@ function high_level_taxonomy_checkboxes()
     $vid = taxonomy_vocabulary_machine_name_load('lgc_topics')->vid;
     $vocab_tree = taxonomy_get_tree($vid);
     $count = 0;
-    print "<div class='row'>";
+    print "<div class='usa-grid'>";
     foreach ($vocab_tree as $obj_class) {
         if ($count <= $max_topics_shown) {
-            print '<div class="col-xs-6"><label class="ck-button lgc-topics-of-interest"><input aria-label="' . $obj_class->name . '" class="term-name-checkboxes" type="checkbox"  name="' . $obj_class->name . '" value="' . $obj_class->tid . '"/><span>' . $obj_class->name . '</span></label></div>';
+            print '<div class="usa-width-one-half"><label class="ck-button lgc-topics-of-interest"><input aria-label="' . $obj_class->name . '" class="term-name-checkboxes" type="checkbox"  name="' . $obj_class->name . '" value="' . $obj_class->tid . '"/><span>' . $obj_class->name . '</span></label></div>';
             $count = $count + 1;
         } else {
             break;

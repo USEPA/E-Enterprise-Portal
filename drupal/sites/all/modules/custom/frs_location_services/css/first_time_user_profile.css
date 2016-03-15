@@ -15,24 +15,32 @@
 
 
 #first-time-user-profile {
-    height: 500px;
+  height: auto;
+}
+#first-time-user-profile #high-level-interests .ck-button {
+	font-size: 1.5rem;
+}
+#first-time-user-profile #high-level-interests .ck-button span {
+  width: 30rem;
+  height: 5.5rem;
+  vertical-align: middle;
+  display: table-cell;
 }
 
 .first-time-page-button {
-    margin-left: 30px !important;
-    float: right;
-    height: 60px;
-    width: 145px;
+  margin-left: 30px !important;
+  float: right;
+  height: 60px;
+  width: 145px;
 }
 .first-time-page-button:hover {
-    color:white !important;
-    cursor: pointer;
-
+  color:white !important;
+  cursor: pointer;
 }
 
 .button-label-interests {
-    font-size: .8em;
-    color: lightgrey;
+  font-size: 0.8em;
+  color: lightgrey;
 }
 #skip-preferences {
     line-height: 50px;
