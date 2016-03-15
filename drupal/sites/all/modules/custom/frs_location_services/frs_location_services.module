@@ -558,7 +558,7 @@ function gpo_city_state_to_zip_code($city, $state)
         if(!empty($tribalzips)) {
 
             // Get Zip Code to Census Place/Population Lookup table as json
-            $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+            $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
             $zip_pop_url = $zip_pop_url . 'where=ZCTA+IN+%28%27' . implode("%27%2C%27", $tribalzips) . '%27%29&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
 
             // Decode  json
