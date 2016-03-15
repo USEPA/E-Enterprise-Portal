@@ -844,11 +844,35 @@ a:focus.add_link {
   display:block;
 }
 
+#first-time-user-profile {
+	.usa-grid .usa-width-one-half {
+		width: 45%;
+	}
+}
+
 @media screen and (min-width: 40.001em) {
 	#first-time-user-profile {
 		.usa-grid .usa-width-one-half {
 			width: 45%;
 		}	
+	}
+	.org-select-grouping, .role-select-grouping {
+		div {
+			margin-bottom: 10px;
+		}
+	}
+	#new-location {
+		width: 55%;
+		#new-location-input {
+			width: 72.5%;
+			display: inline-block;
+			float: none;
+		}
+		.usa-button {
+			display: inline-block;
+			float: none;
+			margin-left: 10px;
+		}
 	}
   #zip_container {
 		span {
@@ -861,7 +885,8 @@ a:focus.add_link {
 	}
 	#location-add-new {
 		span, button {
-			display: inline-block;
+			display: block;
+			float: left;
 		}
 	}
 }
@@ -1437,29 +1462,26 @@ form .field-multiple-table#field-zip-code-values {
 		}
 	}
 	#location-add-new {
+		width: 75%;
 		margin-top: 10px;
 		label {
 			margin-bottom: 5px;
 		}
-		#new-location {
-			width: 18em;
-		}
 		#choose-zip-holder {
-			width: 15em;
-		}
-		select {
-			padding-top: 4px;
-			padding-bottom: 4px;
-			margin-left: -2px;
+			width: auto;
 		}
 	}
 
 	#choose-zip-holder {
 		margin-left: 10px;
 		margin-right: 10px;
+		.usa-button {
+			margin-left: 10px;
+		}
 	}
 	#cancel-zip-select {
 		margin-left: 20px;
+		margin-top: 42px;
 	}
 	#location-description-user {
 		span {
@@ -1471,10 +1493,7 @@ form .field-multiple-table#field-zip-code-values {
 		height:8em;
 	}
 	#skip-preferences {
-		font-size: 0.875em;
-	}
-	.usa-grid .usa-width-one-half {
-		width: 100%;
+		font-size: 1.5rem;
 	}
 }
 .pane-views-first-time-user-profile-block {
@@ -1483,8 +1502,9 @@ form .field-multiple-table#field-zip-code-values {
 		clear: left;
 		border-top: 1px solid $color-gray-light;
 		padding-bottom: 50px;
-		.btn-primary {
+		.usa-button {
 			margin-right: 30px;
+			width: 15rem;
 		}
 		a {
 			vertical-align: middle;
@@ -1840,15 +1860,22 @@ div.ctools-modal-content {
     //outline: 0;
   }
 }
-// Fix facility management modal options in upper right on hover / focus / active
-.facility-widget-form .toggle-list-map-header {
-	font-weight: normal;
-	font-size: 0.85em;
-}
-.facility-widget-form .toggle-list-map-header a:hover,
-.facility-widget-form .toggle-list-map-header a:focus,
-.facility-widget-form .toggle-list-map-header a:active {
-	color: #fff !important;
+
+
+// Fix facility management modal options in upper right on hover / focus / active -------------- //
+
+.facility-widget-form {
+	.toggle-list-map-header {
+		font-weight: normal;
+		font-size: $h5-font-size;
+		a:hover {
+			color: $color-primary-darker !important;
+		}
+		a:focus,
+		a:active {
+			color: $color-primary-darkest !important;
+		} 
+	}
 }
 #facility-widget {
 	.ui-widget, .facility-widget-form .tab-content-heading, .facility-widget-form {

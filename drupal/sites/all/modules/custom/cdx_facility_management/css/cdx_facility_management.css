@@ -53,9 +53,33 @@
 .facility-widget-form h5, 
 .facility-widget-form h6, 
 .facility-widget-form th, 
+.facility-widget-form td,
 .facility-widget-form legend, 
-.facility-widget-form caption {
+.facility-widget-form caption,
+.facility-widget-form label,
+.facility-widget-form select,
+.facility-widget-form a {
 	font-family: inherit !important;
+}
+
+.facility-widget-form div.facility-edit-fields .facility-city,
+.facility-widget-form div.facility-edit-fields .facility-state,
+.facility-widget-form div.facility-edit-fields .facility-zip {
+	height: auto !important;
+	line-height: 1.4 !important;
+}
+
+.facility-widget-form div.facility-edit-fields .facility-city {
+	width: 55% !important;
+	margin-right: 3% !important;
+}
+
+.facility-widget-form div.facility-edit-fields .facility-state {
+	margin-right: 2% !important;
+}
+
+.facility-widget-form div.facility-edit-fields .facility-county {
+	margin-top: 40px !important;
 }
 
 @media (min-width: 1200px) {

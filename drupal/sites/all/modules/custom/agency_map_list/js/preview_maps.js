@@ -59,6 +59,7 @@
                         .appendTo("body").dialog({
                     autoOpen: true,
                     modal: true,
+										dialogClass: 'agency-map-list',                                
                     resizable: false,
                     width: "90%",
                     height: "90%",
