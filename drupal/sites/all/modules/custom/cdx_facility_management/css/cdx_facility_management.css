@@ -1,14 +1,16 @@
 /* Override the yellow select color inside widget */
 .facility-edit-bottom tr.selected td {
-    background: inherit;
+  background: inherit;
 }
 
 .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.cdx_facility_management_block.ui-draggable {
-    width: 80%  !important;
-    max-width: 1370px;
+  width: 80%  !important;
+  max-width: 1370px;
 }
 
-#fmw-type-select-holder, #fmw-organization-select-holder, #fmw-program-select-holder {
+#fmw-type-select-holder, 
+#fmw-organization-select-holder, 
+#fmw-program-select-holder {
   display: table-cell;
   padding-right: 20px;
 }
@@ -24,44 +26,54 @@
 }
 
 .ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-front .cdx_facility_management_block .ui-draggable {
-    width: 100%;
+  width: 100%;
 }
 
 .accordian-map-legend {
-    max-width: 100%;
-    min-width: 100%;
+  max-width: 100%;
+  min-width: 100%;
 }
 
 #TribalLandsCheckbox #tribLandsLyrVis {
-	  width: 15px !important;
-    float: left !important;
-    margin-top: 5px !important;
-    position: static !important;
-    margin-right: 10px !important;
+  width: 15px !important;
+  float: left !important;
+  margin-top: 5px !important;
+  position: static !important;
+  margin-right: 10px !important;
 }
 #TribalLandsCheckbox label {
 	color: #333 !important;
+  margin-top: 5px;
+  margin-bottom: 5px;	
 }
-.facility-widget-form h1, .facility-widget-form h2, .facility-widget-form h3, .facility-widget-form h4, .facility-widget-form h5, .facility-widget-form h6, .facility-widget-form th, .facility-widget-form legend, .facility-widget-form caption {
+.facility-widget-form h1, 
+.facility-widget-form h2, 
+.facility-widget-form h3, 
+.facility-widget-form h4, 
+.facility-widget-form h5, 
+.facility-widget-form h6, 
+.facility-widget-form th, 
+.facility-widget-form legend, 
+.facility-widget-form caption {
 	font-family: inherit !important;
 }
 
 @media (min-width: 1200px) {
-    .cdx_facility_management_block {
-        min-width: 1000px;
-        max-width: 1000px;
-    }
+  .cdx_facility_management_block {
+    min-width: 1000px;
+    max-width: 1000px;
+  }
 }
 
 @media (min-width: 900px) and (max-width: 1200px) {
-    .cdx_facility_management_block {
-        min-width: 900px;
-    }
+  .cdx_facility_management_block {
+    min-width: 900px;
+  }
 }
 
 @media (max-width: 900px) {
-    .cdx_facility_management_block {
-        min-width: 75px;
-    }
+  .cdx_facility_management_block {
+    min-width: 75px;
+  }
 }
 

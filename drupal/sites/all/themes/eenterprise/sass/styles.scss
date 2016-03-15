@@ -845,6 +845,11 @@ a:focus.add_link {
 }
 
 @media screen and (min-width: 40.001em) {
+	#first-time-user-profile {
+		.usa-grid .usa-width-one-half {
+			width: 45%;
+		}	
+	}
   #zip_container {
 		span {
 			float: left;
@@ -1448,11 +1453,7 @@ form .field-multiple-table#field-zip-code-values {
 			margin-left: -2px;
 		}
 	}
-	#location-add-new button {
-		margin-top: -3px;
-		margin-left: 10px;
-		font-size: 0.75em;
-	}
+
 	#choose-zip-holder {
 		margin-left: 10px;
 		margin-right: 10px;
@@ -1473,7 +1474,7 @@ form .field-multiple-table#field-zip-code-values {
 		font-size: 0.875em;
 	}
 	.usa-grid .usa-width-one-half {
-		width: 45%;
+		width: 100%;
 	}
 }
 .pane-views-first-time-user-profile-block {
@@ -1872,6 +1873,21 @@ div.ctools-modal-content {
 			display: table-cell;	
 			width: 80%;
 		}	
+	}
+}
+#existing-facilities-table_filter {
+	margin-bottom: 10px;
+}
+a#details-facility-exit {
+	background-color: transparent;
+	margin-left: -1rem;
+	padding: 0.5rem 1rem;
+	margin-top: 10px;
+	display: block;
+	font-size: 1.3rem;
+	text-decoration: none;
+	&:hover {
+		
 	}
 }
 
