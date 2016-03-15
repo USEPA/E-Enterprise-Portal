@@ -107,12 +107,11 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
                 ?>
                     </div>
             </div>
-            <div class="community-type-grouping">
-
-                <label for="community-type">My community is mostly...</label>
-                <input type="radio" name="community-type" class="community-type " value="rural">Rural
-                <input type="radio" name="community-type" class="community-type " value="urban">Urban
-            </div>
+            <fieldset class="community-type-grouping">
+                <label for="community-type-grouping">My community is mostly...</label>
+                <input type="radio" name="community-type" class="community-type" value="rural" id="lgc-rural"><label for="lgc-rural">Rural</label>
+                <input type="radio" name="community-type" class="community-type " value="urban" id="lgc-urban"><label for="lgc-urban">Urban</label>
+            </fieldset>
             <!-- @end community-type-grouping -->
 
 
@@ -141,14 +140,11 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
 <div class="modal-footer">
     <div class="first-time-first-page">
 
-        <button class="btn btn-md first-time-page-button" id="switch-to-interests"
-        ">Next > <br/> <span class="button-label-interests">Interests</span></button>
+        <button class="btn btn-md first-time-page-button" id="switch-to-interests">Next <span aria-hidden="true">></span><br/> <span class="button-label-interests">Interests</span></button>
     </div>
     <div class="first-time-second-page" style="display:none">
-        <button class="btn btn-md btn-primary first-time-page-button" id="save-preferences">Finish ></button>
-
-        <button class="btn btn-md first-time-page-button" id="switch-to-first-page"
-        ">< Back <br/> <span class="button-label-interests">Location and Role</span></button>
+        <button class="usa-button first-time-page-button" id="save-preferences">Finish ></button>
+        <button class="usa-button first-time-page-button" id="switch-to-first-page"><span aria-hidden="true"><</span> Back <br/> <span class="button-label-interests">Location and Role</span></button>
 
     </div>
     <a href="#" id="skip-preferences">Skip this</a>
