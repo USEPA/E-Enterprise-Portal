@@ -21,6 +21,8 @@
 .fmw-launch {
   min-height: 5rem;
   padding-left: 0;
+  padding-right: 0;
+  padding-top: 25px;
 }
 
 #launch-facility-management {
@@ -84,7 +86,7 @@
   padding-right: 20px;
 }
 
-.additional-mailing-address .form-field {
+.facility-widget-form .additional-mailing-address div.form-group div.form-field {
   display: block;
   margin-bottom: 10px;
 }

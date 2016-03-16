@@ -844,6 +844,8 @@ a:focus.add_link {
   display:block;
 }
 
+
+
 @media screen and (min-width: 40.001em) {
 	.org-select-grouping, .role-select-grouping {
 		div {
@@ -1028,6 +1030,10 @@ table.views-table {
 }
 .views-exposed-form .views-exposed-widget {
 	padding-top: 0;
+	&.views-widget-filter-field_todo_lst_rprt_type_filter_value,
+	&.views-widget-filter-field_prog_track_rep_type_filter_value {
+		padding-right: 0;
+	}
 }
 
 span.report-name, 
@@ -2811,39 +2817,44 @@ input#location-input-guests::-ms-clear {
 
 #autocomplete {
 	background-color: $color-white;
-	li {
-	  width: 100%;
-	  display: block;
-	  background-color: #fff;
-	  padding-left: 0.5em;
-	  &:hover {
-		  text-decoration: underline;
-		  background-color: $color-primary;
-		  color: $color-white;		  
-	  }
-	  &:focus,
-	  &.selected {
-		  box-shadow: 0 0 3px $color-focus, 0 0 7px $color-focus;
-		  background: none;
-		  background-color: $color-white;;
-			border: none;		  
-	  }
-	  a {
- 		  padding: 0.5rem 0.7em;
+	ul {
+		width: 100%;
+		li {
 		  width: 100%;
 		  display: block;
-		  background-color: #fff;
-		  &:hover,
-		  &.ui-state-hover {
-			  background-color: $color-primary;
-			  color: $color-white;
+		  background-color: $color-white;
+		  padding-left: 0.5em;
+		  &:hover {
+			  text-decoration: underline;
+			  background-color: $color-white;
+			  color: $color-base;	  
 		  }
 		  &:focus,
-		  &.ui-state-focus {
+		  &.selected {
 			  box-shadow: 0 0 3px $color-focus, 0 0 7px $color-focus;
 			  background: none;
-			  background-color: $color-white;;
-				border: none;
+			  background-color: $color-white;
+			  color: $color-base;
+				border: none;		  
+		  }
+		  a {
+	 		  padding: 0.5rem 0.7em;
+			  width: 100%;
+			  display: block;
+			  background-color: $color-white;
+			  &:hover,
+			  &.ui-state-hover {
+				  background-color: $color-white;
+				  color: $color-base;
+			  }
+			  &:focus,
+			  &.ui-state-focus {
+				  box-shadow: 0 0 3px $color-focus, 0 0 7px $color-focus;
+				  background: none;
+				  background-color: $color-white;
+				  color: $color-base;
+					border: none;
+			  }
 		  }
 	  }
   }
