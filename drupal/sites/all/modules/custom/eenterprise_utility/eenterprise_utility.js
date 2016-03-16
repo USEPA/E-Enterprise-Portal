@@ -111,7 +111,8 @@
                 // Reset options if not found in census data
                 $('#edit-field-community-type-und-urban').prop('checked', false);
                 $('#edit-field-community-type-und-rural').prop('checked', false);
-                $('#edit-field-community-size-und').val('');
+                $('#edit-field-community-type-und-none').prop('checked', true);
+                $('#edit-field-community-size-und option:contains(None)').prop('selected', true);
             }
 
         }

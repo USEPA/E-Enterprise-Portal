@@ -553,11 +553,12 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                             'aria-describedby' => 'zip-code-error',
                             'aria-live' => 'assertive',
                         );
-                    } else
+                    } else {
                         $commsize = $zip_data['commsize'];
                         $isurban = $zip_data['isurban'];
                         $field_suffix = '<span id="city-name-' . $delta . '" commsize="' . $commsize . '" isurban="' . $isurban . '" aria-live="polite">' . $zip_data['preferred_name'] . '</span>';
                         $ariacity = $zip_data['preferred_name'];
+                    }
                 }
             } else {
                 $field_suffix = '';
