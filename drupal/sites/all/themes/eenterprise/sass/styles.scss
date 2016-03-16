@@ -844,18 +844,7 @@ a:focus.add_link {
   display:block;
 }
 
-#first-time-user-profile {
-	.usa-grid .usa-width-one-half {
-		width: 45%;
-	}
-}
-
 @media screen and (min-width: 40.001em) {
-	#first-time-user-profile {
-		.usa-grid .usa-width-one-half {
-			width: 45%;
-		}	
-	}
 	.org-select-grouping, .role-select-grouping {
 		div {
 			margin-bottom: 10px;
@@ -972,6 +961,30 @@ a:focus.add_link {
 				max-width: 35%;
 			}
 		}		
+	}
+}
+#first-time-user-profile {
+	.first-time-second-page {
+		.usa-grid-full {
+			.usa-width-one-half {
+				margin-right: 10px;
+				&:last-child {
+					margin-bottom: 20px;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 47em) {
+	#first-time-user-profile {
+		.first-time-second-page {
+			.usa-grid {
+				.usa-width-one-half {
+					width: 100%;
+				}
+			}				
+		}
 	}
 }
 
@@ -1656,7 +1669,6 @@ form .field-multiple-table#field-zip-code-values {
     border: 3px solid $color-green-light;
   }
 }
-/*
 
 .ui-menu-item > a.ui-corner-all {
     display: block;
@@ -1678,7 +1690,6 @@ form .field-multiple-table#field-zip-code-values {
     -moz-border-radius: 0px;
     background-image: none;
 }
-*/
 
 
 @media screen and (max-width: 48em) {
@@ -2775,7 +2786,62 @@ input#location-input-guests::-ms-clear {
   *border-right-width: 2px;
   *border-bottom-width: 2px;
   .ui-menu-item {
-	  padding: 1rem 0.7em;
+	  width: 100%;
+	  display: block;
+	  a {
+		  padding: 1rem 0.7em;
+		  width: 100%;
+		  display: block;
+		  &:focus,
+		  &.ui-state-focus {
+			  box-shadow: 0 0 3px #3e94cf, 0 0 7px #3e94cf;
+			  background: none;
+				border: none;
+		  }
+	  }
+  }
+}
+
+
+// Adjust styling for drupal/misc/autocomplete.js -------------- //
+
+#autocomplete {
+	background-color: $color-white;
+	li {
+	  width: 100%;
+	  display: block;
+	  background-color: #fff;
+	  padding-left: 0.5em;
+	  &:hover {
+		  text-decoration: underline;
+		  background-color: $color-primary;
+		  color: $color-white;		  
+	  }
+	  &:focus,
+	  &.selected {
+		  box-shadow: 0 0 3px $color-focus, 0 0 7px $color-focus;
+		  background: none;
+		  background-color: $color-white;;
+			border: none;		  
+	  }
+	  a {
+ 		  padding: 0.5rem 0.7em;
+		  width: 100%;
+		  display: block;
+		  background-color: #fff;
+		  &:hover,
+		  &.ui-state-hover {
+			  background-color: $color-primary;
+			  color: $color-white;
+		  }
+		  &:focus,
+		  &.ui-state-focus {
+			  box-shadow: 0 0 3px $color-focus, 0 0 7px $color-focus;
+			  background: none;
+			  background-color: $color-white;;
+				border: none;
+		  }
+	  }
   }
 }
 
@@ -2885,4 +2951,7 @@ ul {
 	ul {
 		margin-bottom: 1rem;
 	}
+}
+select[multiple="multiple"] {
+	background: none;
 }
