@@ -10,19 +10,29 @@
 
 #fmw-type-select-holder, 
 #fmw-organization-select-holder, 
-#fmw-program-select-holder {
-  display: table-cell;
+#fmw-program-select-holder,
+.fmw-launch {
+  display: inline-block;
   padding-right: 20px;
+  min-width: 12rem;
 }
 
 .fmw-launch {
-	display: block;
-	min-height: 5rem;
+  min-height: 5rem;
+  vertical-align: middle;
+  padding-left: 20px;
+  padding-right: 0;
 }
 
 #launch-facility-management {
-	display: block;
-	margin-top: 20px;
+	margin-top: 0;
+	padding-left: 0;
+	padding-right: 0;
+	width: 15rem;
+}
+
+#fmw-organization-select-holder {
+	margin-bottom: 30px;
 }
 
 .ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-front .cdx_facility_management_block .ui-draggable {
@@ -62,9 +72,11 @@
 	font-family: inherit !important;
 }
 
+
+
 .facility-widget-form div.facility-edit-fields .facility-city,
 .facility-widget-form div.facility-edit-fields .facility-state,
-.facility-widget-form div.facility-edit-fields .facility-zip {
+.facility-widget-form div.facility-edit-fields .facility-zip-code {
 	height: auto !important;
 	line-height: 1.4 !important;
 }
