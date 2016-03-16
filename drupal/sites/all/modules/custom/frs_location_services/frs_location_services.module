@@ -250,10 +250,15 @@ function save_user_location($zip_code, $preferred_location, $commsize, $isurban)
             $node->field_preferred_name[LANGUAGE_NONE][0]['value'] = $preferred_location;
             $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
             $node->field_zip_community_size[LANGUAGE_NONE][0]['value'] = intval($commsize);
+            if (intval($commsize) == 0) {
+                unset($node->field_zip_community_size[LANGUAGE_NONE][0]['value']);
+            }
             if ($isurban == "Urban") {
                 $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 1;
             } elseif($isurban == "Rural") {
                 $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 0;
+            } else {
+                unset($node->field_zip_is_urban[LANGUAGE_NONE][0]['value']);
             }
             $node->uid = $uid;
             $node->status = 1;
