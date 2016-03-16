@@ -1905,16 +1905,18 @@ div.ctools-modal-content {
 #existing-facilities-table_filter {
 	margin-bottom: 10px;
 }
-a#details-facility-exit {
+a#details-facility-exit,
+a#edit-facility-exit {
 	background-color: transparent;
 	margin-left: -1rem;
 	padding: 0.5rem 1rem;
 	margin-top: 10px;
 	display: block;
-	font-size: 1.3rem;
+	font-size: 1.5rem;
 	text-decoration: none;
 	&:hover {
-		
+		text-decoration: underline;
+		color: $color-primary-darker;
 	}
 }
 
@@ -2775,7 +2777,19 @@ input#location-input-guests::-ms-clear {
   *border-right-width: 2px;
   *border-bottom-width: 2px;
   .ui-menu-item {
-	  padding: 1rem 0.7em;
+	  width: 100%;
+	  display: block;
+	  a {
+		  padding: 1rem 0.7em;
+		  width: 100%;
+		  display: block;
+		  &:focus,
+		  &.ui-state-focus {
+			  box-shadow: 0 0 3px #3e94cf, 0 0 7px #3e94cf;
+			  background: none;
+				border: none;
+		  }
+	  }
   }
 }
 

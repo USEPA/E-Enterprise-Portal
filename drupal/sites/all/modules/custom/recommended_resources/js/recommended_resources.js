@@ -19,7 +19,6 @@
             "bLengthChange": false,
             "sPageButton": "favorites-ignore",
             "iDisplayLength": 3,
-            "sSearch": "Filter records:",
 						"oLanguage": {
 							"sSearch": "Filter:"
        			},            

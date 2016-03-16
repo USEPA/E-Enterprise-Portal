@@ -74,7 +74,7 @@ function recommended_resources_feature_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_lgc_category',
     'label' => 'Category',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'custom_add_another' => '',
       'custom_remove' => '',
@@ -461,7 +461,7 @@ function recommended_resources_feature_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_lgc_topic',
     'label' => 'Topic',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'custom_add_another' => '',
       'custom_remove' => '',
