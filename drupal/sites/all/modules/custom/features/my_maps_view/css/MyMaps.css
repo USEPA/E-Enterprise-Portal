@@ -39,10 +39,11 @@
 
 .jcarousel li {
   float: left;
-	height: 16.5em;
+	height: 17em;
 	min-height: 240px;
   margin-right: 2px;
   margin-left: 2px;
+  margin-top: 0.25em;
   background-color: #fff;
   padding: 5px;
 }
@@ -50,7 +51,7 @@
 .thumbitem-border {
   padding: 2px;
   border: 1px solid #efefef;
-  height: 16em;
+  height: 16.5em;
   min-height: 230px;
   width: 190px;
   margin: auto;
@@ -166,7 +167,9 @@
 	margin: 0 auto 0;
 	line-height: normal;
 }
-
+.mapAppContact a {
+	word-wrap: break-word;	
+}	
 .thumbnailImg {
   display: block;
   margin-left: auto;
