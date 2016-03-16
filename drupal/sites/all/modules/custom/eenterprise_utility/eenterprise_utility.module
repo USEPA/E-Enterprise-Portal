@@ -1015,7 +1015,7 @@ function get_header_variables()
 
 function get_modal_data($locations, $city_name_count)
 {
-    print "<a id='locations-modal' href='#'>View all favorite cities</a>";
+    //print "<a id='locations-modal' href='#'>View all favorite cities</a>";
     print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
     print "<fieldset class='radio-options-holder'>";
     $duplicate_city_count = 0;
@@ -1095,7 +1095,7 @@ function generate_location_select()
             $selected = '';
         }
         if ($count == 10) {
-            print "<option value='view_more' >Show more...</option>";
+            print "<option value='view_more'>Show more...</option>";
             break;
         }
         if ($city_name_count[$value] > 1) {

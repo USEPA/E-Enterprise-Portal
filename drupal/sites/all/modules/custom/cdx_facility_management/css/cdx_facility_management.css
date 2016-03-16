@@ -15,24 +15,32 @@
   display: inline-block;
   padding-right: 20px;
   min-width: 12rem;
+  vertical-align: top;
 }
 
 .fmw-launch {
   min-height: 5rem;
-  vertical-align: middle;
-  padding-left: 20px;
-  padding-right: 0;
+  padding-left: 0;
 }
 
 #launch-facility-management {
-	margin-top: 0;
-	padding-left: 0;
-	padding-right: 0;
-	width: 15rem;
+  margin-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+  width: 15rem;
 }
 
 #fmw-organization-select-holder {
-	margin-bottom: 30px;
+  margin-bottom: 30px;
+}
+
+.fa-question-circle:before {
+  font-family: "FontAwesome";
+  color: #0071bc;	
+}
+.fa-question-circle:hover::before,
+.fa-question-circle:active::before {
+  color: #205493;	
 }
 
 .ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-front .cdx_facility_management_block .ui-draggable {
@@ -72,8 +80,14 @@
 	font-family: inherit !important;
 }
 
+.facility-widget-form .facility-edit-fields {
+  padding-right: 20px;
+}
 
-
+.additional-mailing-address .form-field {
+  display: block;
+  margin-bottom: 10px;
+}
 .facility-widget-form div.facility-edit-fields .facility-city,
 .facility-widget-form div.facility-edit-fields .facility-state,
 .facility-widget-form div.facility-edit-fields .facility-zip-code {
@@ -93,6 +107,11 @@
 .facility-widget-form div.facility-edit-fields .facility-county {
 	margin-top: 40px !important;
 }
+
+.facility-widget-form #facility-state-facility-id {
+  width: auto;
+}
+
 
 @media (min-width: 1200px) {
   .cdx_facility_management_block {

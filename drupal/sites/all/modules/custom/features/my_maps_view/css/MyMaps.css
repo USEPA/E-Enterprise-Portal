@@ -39,10 +39,8 @@
 
 .jcarousel li {
   float: left;
-/*   height: 250px; */
-	height: 16em;
+	height: 16.5em;
 	min-height: 240px;
-  /*width: 200px;*/
   margin-right: 2px;
   margin-left: 2px;
   background-color: #fff;
@@ -52,9 +50,8 @@
 .thumbitem-border {
   padding: 2px;
   border: 1px solid #efefef;
-/* 	height: 240px; */
-  height: 15.5em;
-  min-height: 220px;
+  height: 16em;
+  min-height: 230px;
   width: 190px;
   margin: auto;
 }
@@ -146,7 +143,7 @@
   max-height: 40px;
   max-width: 198px;
   font-size: 75%;
-  padding: 2px 5px 2px;
+  padding: 0 5px 2px;
   line-height: 1.2;
   margin-top: 0;  
 }
@@ -159,12 +156,12 @@
   max-height: 40px;
   max-width: 198px;
   font-size: 75%;
-  padding: 2px 5px 2px;
+  padding: 0 5px 2px;
   line-height: 1.2;
   font-weight:bold;
 }
 .mapAppContact {
-	padding: 2px 5px;
+	padding: 0 5px 2px;
 	font-size: 75%;
 	margin: 0 auto 0;
 	line-height: normal;
