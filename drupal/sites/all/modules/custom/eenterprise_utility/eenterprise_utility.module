@@ -675,7 +675,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                 );
 
                 // Get Zip Code to Census Place/Population Lookup table as json
-                $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+                $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
                 $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
 
                 // Decode  json
@@ -712,7 +712,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                 }
 
                 // Get Zip Code to Tribal Area Lookup table as json
-                $zip_tribe_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
+                $zip_tribe_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
                 $zip_tribe_url = $zip_tribe_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&f=pjson';
 
                 // Decode  json
