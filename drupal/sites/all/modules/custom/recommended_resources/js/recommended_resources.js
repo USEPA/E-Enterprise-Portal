@@ -72,7 +72,9 @@
 
         var guest_user = Drupal.settings.is_guest;
         var location;
-
+        var $lgc_filter = $('#lgc-topics-filter');
+        var $filter_topics = $('#apply-lgc-topics');
+        var $lgc_topics_select =$('#lgc-topics-select');
 
         var all_local_resources_table = new LocalResourcesTable($("#all-local-resources"), 'generateAllLocalResourcesTable');
 
@@ -87,6 +89,7 @@
                 if ($(this).hasClass('inactive')){
                     $(this).removeClass('inactive');
                     $('#all-local-resources-button').addClass('inactive');
+                    $lgc_filter.show();
                     all_local_resources_table.hideTable();
                     favorite_local_resources_table.showTable();
                 }
@@ -96,12 +99,19 @@
                     $(this).removeClass('inactive');
                     $("#restrict-to-local-resources-button").addClass('inactive');
                     all_local_resources_table.hideTable();
+                    $lgc_filter.hide();
                     favorite_local_resources_table.showTable();
                 }
             });
         }
 
+        // Enable filtering via selections made
+        $filter_topics.click(function() {
+            alert('clicked');
+           var values_selected =  $lgc_topics_select.val();
+            console.log(values_selected);
 
+        });
 
 
         // Restrict loading to after first time user preferences if applicable
@@ -110,7 +120,6 @@
         if (first_time_user_block.length > 0) {
             first_time_user_loading = true;
         }
-
 
         if (!first_time_user_loading) {
             if (!guest_user) {
@@ -122,6 +131,8 @@
                 favorite_local_resources_table.ajax_request();
             }
         }
+
+
 
         $(document).on('ee:first_time_user_complete', function() {
             first_time_user_loading = false;

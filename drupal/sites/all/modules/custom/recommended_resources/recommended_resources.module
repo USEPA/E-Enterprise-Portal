@@ -39,8 +39,22 @@ function recommended_resources_theme_registry_alter(&$theme_registry)
     }
 }
 
-
-
+/**
+ * Returns html for multiselect for lgc topics
+ */
+function lgc_topics_multiselect()
+{
+    $multi_select = "<div id='lgc-topics-filter'><select id='lgc-topics-select' multiple>";
+    $vocab = taxonomy_vocabulary_machine_name_load("lgc_topics");
+    $terms = taxonomy_get_tree($vocab->vid);
+    foreach($terms as $obj) {
+        $tid = $obj->tid;
+        $name = $obj->name;
+        $multi_select .= "<option value=$tid>$name</option>";
+    }
+    $multi_select .= "</select> <button id='apply-lgc-topics'>Apply</button></div>";
+    return $multi_select;
+}
 /**
  * Implements hook_form_alter().
  */
