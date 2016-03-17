@@ -1531,7 +1531,7 @@ form .field-multiple-table#field-zip-code-values {
 	}
 	#high-level-interests {
 		margin-top:20px;
-		height:8em;
+		//height:8em;
 	}
 	#skip-preferences {
 		font-size: 1.5rem;
@@ -2278,6 +2278,16 @@ td.views-field-field-prog-track-actions-dnload a {
 	.mobile-nav_home {
 		color: white;
 		padding: 5px;		
+		width: 2em;
+	}
+	.usa-button.mobile-nav_toggle {
+		width: 12em;
+		&.menu-button-active {
+			background-color: $color-primary-darker;
+		}
+	}
+	.mobile-nav_links {
+		background-color: $color-primary-darker;
 	}
 	.menu {
 		width: 100%;
@@ -2286,11 +2296,25 @@ td.views-field-field-prog-track-actions-dnload a {
 			width: 100%;
 			border-right: none;
 			border-bottom: 1px solid $color-gray-white;
+	    margin-bottom: 0;
+	    margin-top: 0;			
 			a {
 				display: block;
+				padding-top: 0.75em;
+				padding-bottom: 0.75em;			
+				color: $color-white;	
 				&:hover {
 					text-decoration: underline;
+					background-color: $color-primary-darkest;
 				}
+				&:focus,
+				&:active {
+					background-color: $color-primary-darkest;
+				}
+			}
+			&.username {
+				color: $color-gray-lightest;
+				font-style: italic;
 			}
 		}
 	}
@@ -2941,6 +2965,14 @@ input#location-input-guests::-ms-clear {
 			display: none;
 		}
 	}
+	
+	#first-time-user-profile {
+		#high-level-interests {
+			.ck-button {
+				clear: left;
+			}
+		}
+	}	
 }
 
 
