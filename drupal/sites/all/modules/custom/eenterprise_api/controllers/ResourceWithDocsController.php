@@ -59,6 +59,22 @@ class ResourceWithDocsController
      *         type="integer",
      *         format="int32"
      *     ),
+     *     @SWG\Parameter(
+     *         name="sortby",
+     *         in="query",
+     *         description="key to sort by",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="sorttype",
+     *         in="query",
+     *         description="ASC or DESC",
+     *         required=false,
+     *         type="string",
+     *     ),
+     *
+     *
      *     @SWG\Response(
      *         response=200,
      *         description="resource response",

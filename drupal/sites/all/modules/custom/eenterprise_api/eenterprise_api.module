@@ -128,6 +128,11 @@ function eenterprise_api_services_views_execute_view_alter(&$output, $view)
 function eenterprise_api_views_query_alter(&$view, &$query)
 {
     if ($view->name == 'other_items_of_interest' && $view->current_display == "services_1") {
+        $params = array();
+        if (isset($view->args[0])){
+            parse_str(ltrim($view->args[0], "?"), $params);
+            $_GET = $params;
+        }
         if (isset($_GET['limit'])) {
             $limit = $_GET['limit'];
             $query->set_limit($limit);
@@ -138,6 +143,17 @@ function eenterprise_api_views_query_alter(&$view, &$query)
                 $query->set_offset($offset);
             }
         }
+        if (isset($_GET[['sortby']]))
+            $sort_by = xssafe($_GET['sortby']);
+        else
+            $sort_by = 'resource';
+        if (isset($_GET['sorttype']))
+            $sort_type = xssafe($_GET['sorttype']);
+        else
+            $sort_type = 'ASC';
+        $current_display = $view->current_display;
+        $field_data = $view->display[$current_display]->display_options['fields'];
+       apply_sort($query, $sort_by, $sort_type, $field_data);
     }
 }
 
@@ -156,6 +172,41 @@ function process_service_view_response($view_name, $content_type, $request_heade
         return $error_handler->error_message;
     else
         return return_service_view_response($view_name, $content_type);
+}
+
+
+function apply_sort(&$query, $sort_by, $sort_type, $field_data)
+{
+    $found_field = FALSE;
+    $table_name = "";
+    $field_name = "";
+  //  $default_names = array("nid", "created", "title");
+
+    // First simply check if field matches machine name
+    if (isset($field_data[$sort_by])) {
+        $found_field = TRUE;
+        $field_name = $sort_by;
+        $table_name = $field_data[$sort_by]['table'];
+    }
+    else {
+        // Loop through field data finding the correct field obj
+        foreach ($field_data as $index => $value) {
+            if ($value['label'] == $sort_by) {
+                if ($value['label'] != "") {
+                    $field_name = $value['field'];
+                    $table_name = $value['table'];
+                    $found_field = TRUE;
+                }
+            }
+        }
+    }
+    if ($found_field){
+        if ($table_name == "node")
+            $field_lookup = $table_name . "_" . $field_name;
+        else
+            $field_lookup = $table_name . '_' . $field_name . "_value";
+       $query->orderby = array(array("field" => $field_lookup, "direction" => $sort_type));
+    }
 }
 
 
