@@ -181,7 +181,7 @@ abstract class API
         header("Access-Control-Allow-Methods: *");
         switch ($ext) {
             case "json":
-                header('Content-Type: application/json, charset=utf-8');
+                header('Content-Type: application/json; charset=utf-8');
                 break;
             case "xml":
                 header('Content-Type: application/xml; charset=utf-8');

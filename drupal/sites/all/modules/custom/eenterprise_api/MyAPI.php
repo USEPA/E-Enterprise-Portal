@@ -34,7 +34,7 @@ class MyAPI extends API
             if ($this->ext == 'xml')
                 return $this->printXMLPage($request);
             else
-                return drupal_http_request($request)->data;
+                return json_encode(json_decode(drupal_http_request($request)->data), JSON_PRETTY_PRINT);
 
         } else {
             return "Only accepts GET requests";
