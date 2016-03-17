@@ -1022,15 +1022,9 @@ function get_modal_data($locations, $city_name_count)
     $duplicate_city_count = 0;
     foreach ($locations as $key => $value) {
         if ($city_name_count[$value] > 1) {
-            if ($duplicate_city_count == 0) {
-                print  $value . "<ul class='locations-modal-ul'>";
-            }
-            print "<li>";
-            print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $key . "</label>";
-            print "</li>";
+            print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . " (". $key . ")" . "</label>";
             ++$duplicate_city_count;
             if ($duplicate_city_count == $city_name_count[$value]) {
-                print "</ul>";
                 $duplicate_city_count = 0;
             }
         } else {
@@ -1100,7 +1094,7 @@ function generate_location_select()
             break;
         }
         if ($city_name_count[$value] > 1) {
-            print "<option value='" . $key . "' " . $selected . " >" . $value . " (" . $key . " )</option>";
+            print "<option value='" . $key . "' " . $selected . " >" . $value . " (" . $key . ")</option>";
         } else {
             print "<option value='" . $key . "' " . $selected . " >" . $value . "</option>";
         }

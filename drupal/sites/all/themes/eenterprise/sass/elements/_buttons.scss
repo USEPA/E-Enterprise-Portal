@@ -12,7 +12,8 @@ button,
 [type="button"],
 [type="submit"],
 [type="reset"],
-[type="image"] {
+[type="image"],
+.usa-button.ui-state-default {
   appearance: none;
   background-color: $color-primary;
   border: 0;
@@ -36,6 +37,10 @@ button,
 
   @include media($small-screen) {
     width: auto;
+  }
+
+  &.ui-button-text-only .ui-button-text {
+    padding: 0;
   }
 
   &:hover,
@@ -100,8 +105,11 @@ button,
     }
   }
 
-  &.usa-button-outline {
+  &.usa-button-outline,
+  &.usa-button-outline.ui-state-default {
+	  background-image: none;
     background-color: $color-white;
+    border: none;
     box-shadow: $button-stroke $color-primary;
     color: $color-primary;
 
@@ -121,6 +129,11 @@ button,
     &.usa-button-focus {
       box-shadow: $button-stroke $color-primary-darkest, $focus-shadow;
     }
+    
+    &.ui-button-text-only .ui-button-text {
+	    padding: 0;
+    }
+    
   }
 
   &.usa-button-outline-inverse {
