@@ -66,6 +66,7 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id)
 
         $form_state['rebuild'] = TRUE;
 
+				$form['#attributes']['novalidate'] = '1';  
         $form['#validate'][] = 'recommended_resources_form_validate';
 
         $form['field_lgc_link'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a class='usa-button' id='new-lgc-resource-url-preview' href='#'>Preview</a>";
