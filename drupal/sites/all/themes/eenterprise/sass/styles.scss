@@ -539,6 +539,7 @@ header {
 			.usa-button-big {
 				font-size: 2.5rem;
 				font-weight: normal;
+				margin-right: 0;
 			}
 			.guest-login {
 				display: block;
@@ -866,6 +867,18 @@ a:focus.add_link {
   display:block;
 }
 
+.pane-content {
+	.view-to-do,
+	.view-progress-tracker {
+		select {
+			padding-right: 2.5rem;
+			background-position: right 0.75rem center;
+		}		
+		.views-exposed-form .views-exposed-widget {
+			padding-right: 10px;
+		}
+	}
+}
 
 
 @media screen and (min-width: 40.001em) {
@@ -2795,6 +2808,21 @@ a {
 input#location-input-guests::-ms-clear {
   width : 0;
   height: 0;
+}
+
+input#location-input-guests {
+	&.ui-autocomplete-input.form-control.input-sm.jquery-once-4-processed {
+		width: 125px !important;
+		height: 2.75rem;
+		color: $color-base;
+		vertical-align: middle;
+		padding-top: 2px;
+		padding-bottom: 2px;
+		color:#000;
+		font-size:1.5rem;
+		line-height:1;
+		padding-right:2px;
+	}
 }
 
 .fa.fa-spinner {

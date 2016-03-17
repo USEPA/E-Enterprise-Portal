@@ -65,7 +65,7 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
             '#value' => 1
         );
 
-
+				$form['#attributes']['novalidate'] = '1';  
 
         $form_state['rebuild'] = TRUE;
 
