@@ -170,6 +170,9 @@
 		}
 	}
 	.block--ee-header-locations {
+		#locations-modal {
+			display: none;
+		}
 		.ee-workbench-header-locations, 
 		.ee-feedback {
 			float: right;		
@@ -729,6 +732,25 @@ header {
 	}
 
 }
+
+// Hide dialogs on first load -------------- //
+
+.page-workbench {
+	.ui-dialog,
+	.modal-content-in-page,
+	div[role="dialog"] {
+		display: none;
+	}
+	.locations-modal.ui-dialog {
+		max-width: 80%;
+		.ui-dialog-buttonpane {
+			.ui-dialog-buttonset {
+				padding-left: 100px;
+			}		
+		}
+	}
+}
+
 
 //747.999999px <~ up to 46.75em 
 @media screen and (min-width:20em) and (max-width:747.99999px) {
