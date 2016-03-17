@@ -40,6 +40,9 @@ abstract class API
 
     protected $ext = "json";
     protected $query = "";
+    protected $sort_type = "ASC";
+    protected $sort_by = "";
+
     /**
      * Constructor: __construct
      * Allow for CORS, assemble and pre-process the data
@@ -133,7 +136,8 @@ abstract class API
             $ext = "xml";
         else if ($headers['Accept'] == 'application/json')
             $ext = "json";
-
+        if ($ext == "")
+            $ext = "json";
         $this->ext = $ext;
     }
 
@@ -175,7 +179,6 @@ abstract class API
         }
         header("Access-Control-Allow-Orgin: *");
         header("Access-Control-Allow-Methods: *");
-
         switch ($ext) {
             case "json":
                 header('Content-Type: application/json, charset=utf-8');
@@ -200,6 +203,12 @@ abstract class API
         $retValue = curl_exec($ch);
         curl_close($ch);
         $oXML = new SimpleXMLElement($retValue);
-        echo $oXML->asXML();
+        try {
+            echo $oXML->asXML();
+        }
+        catch (Exception $e) {
+            var_dump($e);
+        }
     }
+
 }
