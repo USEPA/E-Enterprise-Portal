@@ -247,8 +247,25 @@ function eenterprise_utility_views_pre_render(&$view)
             $view->exposed_widgets = NULL;
         }
     }
+    if($view->name == 'app_connect_new'){
+        print drupal_render(drupal_get_form('app_connect_sso_form'));
+    }
 }
 
+function app_connect_sso_form($form, &$form_state){
+    $form['app-connect-sso-form']['security_token'] = array(
+        '#type' => 'hidden',
+        '#name' => 'security_token',
+        '#value' => $_SERVER['SERVER_ADDR'],
+    );
+    $form['app-connect-sso-form']['client_ip'] = array(
+        '#type' => 'hidden',
+        '#name' => 'client_ip',
+        '#value' => $_SESSION['cdx_fmw_security_token'],
+    );
+    $form['#action'] = variable_get('attains_destination_url');
+    return $form;
+}
 
 function test_load_air_now_us_data()
 {
