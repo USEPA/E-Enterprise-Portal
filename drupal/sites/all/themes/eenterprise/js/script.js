@@ -9,6 +9,10 @@
 
     Drupal.behaviors.initializeSkipLinks = {
         attach: function (context) {
+            $( ".view-app-connect-new .views-field-title a" ).click(function() {
+                $('#app-connect-sso-form').submit();
+            });
+
             $('body').once(function () {
 
                 function findNextWidgetTitle(skipWidgetLink) {
