@@ -203,12 +203,8 @@ abstract class API
         $retValue = curl_exec($ch);
         curl_close($ch);
         $oXML = new SimpleXMLElement($retValue);
-        try {
             echo $oXML->asXML();
-        }
-        catch (Exception $e) {
-            var_dump($e);
-        }
+
     }
 
 }

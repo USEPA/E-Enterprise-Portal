@@ -141,7 +141,7 @@ function eenterprise_api_views_query_alter(&$view, &$query)
         if (isset($_GET[['sortby']]))
             $sort_by = xssafe($_GET['sortby']);
         else
-            $sort_by = 'nid';
+            $sort_by = 'topic';
         if (isset($_GET['sorttype']))
             $sort_type = xssafe($_GET['sorttype']);
         else
@@ -175,7 +175,7 @@ function apply_sort(&$query, $sort_by, $sort_type, $field_data)
     $found_field = FALSE;
     $table_name = "";
     $field_name = "";
-    $default_names = array("nid", "created");
+  //  $default_names = array("nid", "created", "title");
 
     // First simply check if field matches machine name
     if (isset($field_data[$sort_by])) {
@@ -196,13 +196,11 @@ function apply_sort(&$query, $sort_by, $sort_type, $field_data)
         }
     }
     if ($found_field){
-        if (in_array($field_name, $default_names))
+        if ($table_name == "node")
             $field_lookup = $table_name . "_" . $field_name;
         else
             $field_lookup = $table_name . '_' . $field_name . "_value";
-        dpm($field_lookup);
-        dpm($query);
-       $query->orderby = array(array("field" => $field_lookup, "direction" => "ASC"));
+       $query->orderby = array(array("field" => $field_lookup, "direction" => $sort_type));
     }
 }
 
