@@ -128,6 +128,11 @@ function eenterprise_api_services_views_execute_view_alter(&$output, $view)
 function eenterprise_api_views_query_alter(&$view, &$query)
 {
     if ($view->name == 'other_items_of_interest' && $view->current_display == "services_1") {
+        $params = array();
+        if (isset($view->args[0])){
+            parse_str(ltrim($view->args[0], "?"), $params);
+            $_GET = $params;
+        }
         if (isset($_GET['limit'])) {
             $limit = $_GET['limit'];
             $query->set_limit($limit);
@@ -141,7 +146,7 @@ function eenterprise_api_views_query_alter(&$view, &$query)
         if (isset($_GET[['sortby']]))
             $sort_by = xssafe($_GET['sortby']);
         else
-            $sort_by = 'topic';
+            $sort_by = 'resource';
         if (isset($_GET['sorttype']))
             $sort_type = xssafe($_GET['sorttype']);
         else

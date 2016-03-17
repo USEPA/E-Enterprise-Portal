@@ -31,6 +31,7 @@ class MyAPI extends API
                 $htt = 'http://';
             $api_v = str_replace(".", "_", API_VERSION);
             $request = $htt . $host . "/api_" . $api_v . "_engine/" . $this->endpoint . "." . $this->ext .  $args . $this->query;
+
             if ($this->ext == 'xml')
                 return $this->printXMLPage($request);
             else
