@@ -22,7 +22,7 @@
 
 <?php $total_fields = array(); ?>
 
-<table <?php if ($classes) { print 'class="'. $classes . '" '; } ?><?php print $attributes; ?>>
+<table <?php if ($classes) { print 'class="usa-table-borderless '. $classes . '" '; } ?><?php print $attributes; ?>>
    <?php if (!empty($title) || !empty($caption)) : ?>
      <caption><?php print $caption . $title; ?></caption>
   <?php endif; ?>

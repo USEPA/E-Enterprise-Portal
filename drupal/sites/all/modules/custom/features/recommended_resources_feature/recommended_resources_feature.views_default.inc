@@ -117,13 +117,13 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<a href="/new-local-resource" class="button primary-action">Add a resource</a>';
+  $handler->display->display_options['header']['area']['content'] = '<a href="/new-local-resource" class="usa-button primary-action">Add a resource</a>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Footer: Global: Text area */
   $handler->display->display_options['footer']['area']['id'] = 'area';
   $handler->display->display_options['footer']['area']['table'] = 'views';
   $handler->display->display_options['footer']['area']['field'] = 'area';
-  $handler->display->display_options['footer']['area']['content'] = '<a href="/new-local-resource" class="button primary-action">Add a resource</a>';
+  $handler->display->display_options['footer']['area']['content'] = '<a href="/new-local-resource" class="usa-button primary-action">Add a resource</a>';
   $handler->display->display_options['footer']['area']['format'] = 'full_html';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';

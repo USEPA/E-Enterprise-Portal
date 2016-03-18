@@ -9,6 +9,10 @@
 
     Drupal.behaviors.initializeSkipLinks = {
         attach: function (context) {
+            $( ".view-app-connect-new .views-field-title a" ).click(function() {
+                $('#app-connect-sso-form').submit();
+            });
+
             $('body').once(function () {
 
                 function findNextWidgetTitle(skipWidgetLink) {
@@ -65,7 +69,7 @@
                         var grid = $grid_container.data('gridstack');
 
                         var save_grid_changes = '<button id="save-grid-changes">Save Layout</button>';
-                        var revert_grid_changes = '<button   id="revert-grid-changes">Cancel</button>';
+                        var revert_grid_changes = '<button class="usa-button-outline" id="revert-grid-changes">Cancel</button>';
                         var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
 
                         $('body').prepend($grid_change_options);
@@ -282,7 +286,7 @@
 
                     function showError(msg) {
                         $locationInputFormGroup.addClass('has-error');
-                        $locationInputIcon.attr('class', 'glyphicon glyphicon-remove form-control-feedback');
+                        $locationInputIcon.attr('class', 'fa fa-close form-control-feedback');
                         $locationInputIcon.show();
                         clearErrorMessage();
                         $('div#content').before($('<div>', {
@@ -294,12 +298,12 @@
                     function hideError() {
                         $locationInputFormGroup.removeClass('has-error');
                         $locationInputIcon.hide();
-                        $locationInputIcon.removeClass('spinning');
+                        $locationInputIcon.removeClass('fa-spinner');
                         clearErrorMessage();
                     }
 
                     function showLoading() {
-                        $locationInputIcon.attr('class', 'glyphicon glyphicon-refresh form-control-feedback spinning');
+                        $locationInputIcon.attr('class', 'fa fa-refresh form-control-feedback fa-spinner');
                         $locationInputIcon.show();
 
                     }

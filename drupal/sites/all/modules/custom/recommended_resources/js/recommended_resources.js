@@ -18,7 +18,10 @@
         var datatable_options = {
             "bLengthChange": false,
             "sPageButton": "favorites-ignore",
-            "iDisplayLength": 3
+            "iDisplayLength": 3,
+						"oLanguage": {
+							"sSearch": "Filter:"
+       			},            
         };
 
         var cached = false;
@@ -35,8 +38,9 @@
         this.ajax_request = function () {
             var topics = this.topics;
             $.ajax({
-                beforeSend: function () {
-                    $wrapper.html('Loading...');
+
+                beforeSend:  function() {
+                    $wrapper.html('<p>Loading&hellip;</p>');
                 },
                 url: ajax_url,
                 method: "POST",
@@ -48,8 +52,8 @@
                         $table.DataTable(datatable_options);
                         $table.removeClass("dataTable no-footer").addClass('views-table cols-3 responsive-table');
                         truncateWithEllipses("lgc-resource-description");
-
                     }
+
                     cached = true;
                 }
             });

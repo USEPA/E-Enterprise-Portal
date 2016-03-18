@@ -9,9 +9,9 @@
     //        //function to favor button
     //    }
     //    this.favorite_html =       "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + this.id + "__favorite_link' " +
-    //        "class=' remove_link favorite_hover old_link glyphicon glyphicon-heart filled' aria-hidden='true'></span></div>";
+    //        "class=' remove_link favorite_hover old_link a fa-heart filled' aria-hidden='true'></span></div>";
     //    this.non_favorite_html = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + this.id + '-' + text_title + '"' +
-    //    "class='add_link favorite_hover new_link glyphicon glyphicon-heart empty' aria-hidden='true'></span></div>";
+    //    "class='add_link favorite_hover new_link fa fa-heart empty' aria-hidden='true'></span></div>";
     //}
     //
     //var LinkGroups = function() {
@@ -75,12 +75,12 @@
                         id = favorite_url_mapping[url];
                         favorite_button =
                             "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + id + "__favorite_link' " +
-                            " class=' remove_link favorite_hover old_link glyphicon glyphicon-heart filled' aria-hidden='true'></span><span class='sr-only'>Favorited. To remove favorite, press Ctrl + D</span></div>";
+                            " class=' remove_link favorite_hover old_link fa fa-heart filled' aria-hidden='true'></span><span class='sr-only'>Favorited. To remove favorite, press Ctrl + D</span></div>";
                     }
                     else {
                         id = url;
                         favorite_button = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + id + '__' + text_title + '"' +
-                        " class='add_link favorite_hover new_link glyphicon glyphicon-heart empty' aria-hidden='true'></span><span class='sr-only'>To favorite, press Ctrl + D</span></div>";
+                        " class='add_link favorite_hover new_link fa fa-heart empty' aria-hidden='true'></span><span class='sr-only'>To favorite, press Ctrl + D</span></div>";
                     }
                     return favorite_button;
                 }
