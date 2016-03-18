@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
     function truncate(text, maxLength) {
         if (text.length <= maxLength) {
             return text;
@@ -11,11 +11,11 @@
         return truncated.substring(0, spaceIndex) + '...';
     }
 
-    var LocalResourcesTable = function($wrapper, ajax_url) {
+    var LocalResourcesTable = function ($wrapper, ajax_url) {
 
-       // $wrapper.hide();
+        // $wrapper.hide();
 
-        var datatable_options =  {
+        var datatable_options = {
             "bLengthChange": false,
             "sPageButton": "favorites-ignore",
             "iDisplayLength": 3
@@ -27,16 +27,15 @@
         this.wrapper = $wrapper;
         this.ajax_url = ajax_url;
 
-        this.hideTable = function() {
+        this.hideTable = function () {
             $wrapper.hide();
         }
 
 
-
-        this.ajax_request = function() {
+        this.ajax_request = function () {
             var topics = this.topics;
             $.ajax({
-                beforeSend:  function() {
+                beforeSend: function () {
                     $wrapper.html('Loading...');
                 },
                 url: ajax_url,
@@ -48,39 +47,33 @@
                     if ($table.length > 0) {
                         $table.DataTable(datatable_options);
                         $table.removeClass("dataTable no-footer").addClass('views-table cols-3 responsive-table');
-                    }
-                    else {
-                        //         $wrapper.html('No resources found for ' + state_code + '.');
+                        truncateWithEllipses("lgc-resource-description");
+
                     }
                     cached = true;
                 }
             });
         }
 
-        this.showTable = function() {
-            if (cached) {
-                $wrapper.show();
-            }
-            else {
+        this.showTable = function () {
+            if (!cached)
                 this.ajax_request();
-                $wrapper.show();
-            }
+            $wrapper.show();
         }
-        this.updateTopics= function(values){
+        this.updateTopics = function (values) {
             this.topics = values;
         }
 
     }
 
 
-
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         var guest_user = Drupal.settings.is_guest;
         var location;
         var $lgc_filter = $('#lgc-topics-filter');
         var $filter_topics = $('#apply-lgc-topics');
-        var $lgc_topics_select =$('#lgc-topics-select');
+        var $lgc_topics_select = $('#lgc-topics-select');
 
         var all_local_resources_table = new LocalResourcesTable($("#all-local-resources"), 'generateAllLocalResourcesTable');
 
@@ -91,29 +84,29 @@
             var $tabs = $("#local-resources-tabs");
             $tabs.tabs();
 
-    //        $("#restrict-to-local-resources-button").click(function() {
-    //            if ($(this).hasClass('inactive')){
-    //                $(this).removeClass('inactive');
-    //                $('#all-local-resources-button').addClass('inactive');
-    //                $lgc_filter.show();
-    //                all_local_resources_table.hideTable();
-    //        favorite_local_resources_table.showTable();
-    //    }
-    //});
-    //$('#all-local-resources-button').click(function () {
-    //    if ($(this).hasClass('inactive')) {
-    //        $(this).removeClass('inactive');
-    //        $("#restrict-to-local-resources-button").addClass('inactive');
-    //        favorite_local_resources_table.hideTable();
-    //        $lgc_filter.hide();
-    //        all_local_resources_table.showTable();
-    //    }
-    //});
-}
+            //        $("#restrict-to-local-resources-button").click(function() {
+            //            if ($(this).hasClass('inactive')){
+            //                $(this).removeClass('inactive');
+            //                $('#all-local-resources-button').addClass('inactive');
+            //                $lgc_filter.show();
+            //                all_local_resources_table.hideTable();
+            //        favorite_local_resources_table.showTable();
+            //    }
+            //});
+            //$('#all-local-resources-button').click(function () {
+            //    if ($(this).hasClass('inactive')) {
+            //        $(this).removeClass('inactive');
+            //        $("#restrict-to-local-resources-button").addClass('inactive');
+            //        favorite_local_resources_table.hideTable();
+            //        $lgc_filter.hide();
+            //        all_local_resources_table.showTable();
+            //    }
+            //});
+        }
 
 // Enable filtering via selections made
-$(document).on('click', '#apply-lgc-topics', function() {
-    var values_selected =  $('#lgc-topics-select').val();
+        $(document).on('click', '#apply-lgc-topics', function () {
+            var values_selected = $('#lgc-topics-select').val();
             all_local_resources_table.updateTopics(values_selected);
             all_local_resources_table.ajax_request();
 
@@ -139,8 +132,7 @@ $(document).on('click', '#apply-lgc-topics', function() {
         }
 
 
-
-        $(document).on('ee:first_time_user_complete', function() {
+        $(document).on('ee:first_time_user_complete', function () {
             first_time_user_loading = false;
             if (!guest_user) {
                 favorite_local_resources_table.showTable();
@@ -152,7 +144,30 @@ $(document).on('click', '#apply-lgc-topics', function() {
             }
         });
 
-    } );
+    });
+
+
+    // Add ellipses functionality
+    $(document).on('click', '.view-recommended-resources .pager__link', function() {
+        truncateWithEllipses("lgc-resource-description");
+    });
+
+    function truncateWithEllipses(class_name) {
+        $("." + class_name).dotdotdot({
+            //	configuration goes here
+            /*	The text to add as ellipsis. */
+            ellipsis: '... ',
+            /*	How to cut off the text/html: 'word'/'letter'/'children' */
+            wrap: 'word',
+
+            /*	Wrap-option fallback to 'letter' for long words */
+            fallbackToLetter: true,
+
+            /*	Optionally set a max-height, can be a number or function.
+             If null, the height will be measured. */
+            height: 50
+        });
+    }
 
 
 }(jQuery));

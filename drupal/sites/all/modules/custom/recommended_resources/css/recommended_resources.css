@@ -90,3 +90,11 @@
     float: left;
 }
 
+/*
+Truncate  text
+*/
+.lgc-resource-description {
+    height: 50px;
+
+
+}
