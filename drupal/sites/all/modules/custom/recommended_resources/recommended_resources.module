@@ -154,7 +154,13 @@ function generateUserLocalResourcesTable() {
 }
 
 function generateAllLocalResourcesTable() {
-    $table =  views_embed_view('recommended_resources', 'block_to_be_rendered');
+    if (isset($_POST['filters'])) {
+        $topics = $_POST['filters'];
+        $tids = implode('+', $topics);
+        $table =  views_embed_view('recommended_resources', 'block_to_be_rendered', $tids);
+    }
+    else
+        $table =  views_embed_view('recommended_resources', 'block_to_be_rendered');
     print $table;
 }
 

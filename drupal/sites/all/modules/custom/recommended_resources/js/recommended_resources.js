@@ -13,7 +13,7 @@
 
     var LocalResourcesTable = function($wrapper, ajax_url) {
 
-        $wrapper.hide();
+       // $wrapper.hide();
 
         var datatable_options =  {
             "bLengthChange": false,
@@ -22,6 +22,8 @@
         };
 
         var cached = false;
+        var topics = [];
+
         this.wrapper = $wrapper;
         this.ajax_url = ajax_url;
 
@@ -30,15 +32,16 @@
         }
 
 
+
         this.ajax_request = function() {
-            var state_code = this.state_code;
+            var topics = this.topics;
             $.ajax({
                 beforeSend:  function() {
                     $wrapper.html('Loading...');
                 },
                 url: ajax_url,
                 method: "POST",
-                data: {state: state_code},
+                data: {filters: topics},
                 success: function (table) {
                     $wrapper.html(table);
                     var $table = $wrapper.find('table');
@@ -63,6 +66,9 @@
                 $wrapper.show();
             }
         }
+        this.updateTopics= function(values){
+            this.topics = values;
+        }
 
     }
 
@@ -85,31 +91,31 @@
             var $tabs = $("#local-resources-tabs");
             $tabs.tabs();
 
-            $("#restrict-to-local-resources-button").click(function() {
-                if ($(this).hasClass('inactive')){
-                    $(this).removeClass('inactive');
-                    $('#all-local-resources-button').addClass('inactive');
-                    $lgc_filter.show();
-                    all_local_resources_table.hideTable();
-                    favorite_local_resources_table.showTable();
-                }
-            });
-            $('#all-local-resources-button').click(function () {
-                if ($(this).hasClass('inactive')) {
-                    $(this).removeClass('inactive');
-                    $("#restrict-to-local-resources-button").addClass('inactive');
-                    all_local_resources_table.hideTable();
-                    $lgc_filter.hide();
-                    favorite_local_resources_table.showTable();
-                }
-            });
-        }
+    //        $("#restrict-to-local-resources-button").click(function() {
+    //            if ($(this).hasClass('inactive')){
+    //                $(this).removeClass('inactive');
+    //                $('#all-local-resources-button').addClass('inactive');
+    //                $lgc_filter.show();
+    //                all_local_resources_table.hideTable();
+    //        favorite_local_resources_table.showTable();
+    //    }
+    //});
+    //$('#all-local-resources-button').click(function () {
+    //    if ($(this).hasClass('inactive')) {
+    //        $(this).removeClass('inactive');
+    //        $("#restrict-to-local-resources-button").addClass('inactive');
+    //        favorite_local_resources_table.hideTable();
+    //        $lgc_filter.hide();
+    //        all_local_resources_table.showTable();
+    //    }
+    //});
+}
 
-        // Enable filtering via selections made
-        $filter_topics.click(function() {
-            alert('clicked');
-           var values_selected =  $lgc_topics_select.val();
-            console.log(values_selected);
+// Enable filtering via selections made
+$(document).on('click', '#apply-lgc-topics', function() {
+    var values_selected =  $('#lgc-topics-select').val();
+            all_local_resources_table.updateTopics(values_selected);
+            all_local_resources_table.ajax_request();
 
         });
 

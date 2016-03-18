@@ -28,7 +28,6 @@
  */
 ?>
 
-<?php echo lgc_topics_multiselect(); ?>
 <div class="<?php print $classes; ?>">
     <?php print render($title_prefix); ?>
     <?php if ($title): ?>

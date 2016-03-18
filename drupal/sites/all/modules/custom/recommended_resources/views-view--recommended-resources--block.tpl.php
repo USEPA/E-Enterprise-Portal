@@ -40,32 +40,36 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     if (in_array('local_government_admin', $user->roles) || $user->uid == 1) {
         ?>
         <div class="action-links"><a href="/local-resource-editor" class="favorites-ignore">Manage Resources</a></div>
-    <?php
+        <?php
     }
     ?>
 
     <?php
     if ($user->name != 'guest-user') {
         ?>
-    <ul>
+        <ul>
 
             <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#user-local-resources">My
                     Resources</a></li>
 
-        <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources">All</a></li>
+            <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources-wrapper">All</a>
+            </li>
 
-    </ul>
-<?php
-}
-?>
+        </ul>
+        <?php
+    }
+    ?>
 
     <?php
     if ($user->name != 'guest-user') {
         ?>
         <div id="user-local-resources"></div>
-    <?php
+        <?php
     }
     ?>
-    <div id="all-local-resources"></div>
+    <div id="all-local-resources-wrapper">
+        <?php echo lgc_topics_multiselect(); ?>
+        <div id="all-local-resources"></div>
+    </div>
 
 </div>
