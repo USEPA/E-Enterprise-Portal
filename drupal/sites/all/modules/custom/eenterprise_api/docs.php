@@ -6,9 +6,8 @@ require_once 'api_constants.php';
 *   description="Demonstrate features in the OPEN API-2.0 specification",
 *   version=API_VERSION,
 *   @SWG\Contact(
-*     email="apiteam@swagger.io",
-*     name="Swagger API Team",
-*     url="http://swagger.io"
+*     email="benjamin.matkin@cgifederal.com",
+*     name="EPortal API Team"
 *   ),
 *   @SWG\License(
 *     name="MIT",
