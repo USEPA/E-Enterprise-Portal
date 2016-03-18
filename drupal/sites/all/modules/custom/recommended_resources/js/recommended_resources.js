@@ -50,7 +50,7 @@
                     var $table = $wrapper.find('table');
                     if ($table.length > 0) {
                         $table.DataTable(datatable_options);
-                        $table.removeClass("dataTable no-footer").addClass('views-table cols-3 responsive-table');
+                        $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
                         truncateWithEllipses("lgc-resource-description");
                     }
 
