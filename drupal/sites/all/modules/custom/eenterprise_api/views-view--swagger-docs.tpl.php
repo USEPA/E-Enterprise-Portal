@@ -1,8 +1,8 @@
 <?php
 use Swagger\Swagger;
-    $path = $_SERVER['DOCUMENT_ROOT']  . "/../vendor/autoload.php";
+    $path = $_SERVER['DOCUMENT_ROOT']  . "/vendor/autoload.php";
     if (current_server() == 'localhost')
-        require("/../vendor/autoload.php");
+        require("/vendor/autoload.php");
     else
         require($path);
 
