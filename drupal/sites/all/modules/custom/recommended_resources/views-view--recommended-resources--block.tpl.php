@@ -2,7 +2,7 @@
 $module_name = "recommended_resources";
 
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/recommended_resources.js", "file");
-drupal_add_library(libraries_get_path('jQuery.dotdotdot-master') . '/src/jquery.dotdotdot.min.js');
+//drupal_add_library(libraries_get_path('jQuery.dotdotdot-master') . '/src/jquery.dotdotdot.min.js');
 drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resources.css", "file");
 
 
@@ -70,7 +70,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     }
     ?>
     <div id="all-local-resources-wrapper">
-        <?php echo lgc_topics_multiselect(); ?>
+        <?php //echo lgc_topics_multiselect(); ?>
         <div id="all-local-resources"></div>
     </div>
 

@@ -1,15 +1,15 @@
 (function ($) {
-    function truncate(text, maxLength) {
-        if (text.length <= maxLength) {
-            return text;
-        }
-        var truncated = text.substr(0, maxLength);
-        var spaceIndex = truncated.lastIndexOf(' ');
-        if (spaceIndex === -1) {
-            return truncated + '...';
-        }
-        return truncated.substring(0, spaceIndex) + '...';
-    }
+    //function truncate(text, maxLength) {
+    //    if (text.length <= maxLength) {
+    //        return text;
+    //    }
+    //    var truncated = text.substr(0, maxLength);
+    //    var spaceIndex = truncated.lastIndexOf(' ');
+    //    if (spaceIndex === -1) {
+    //        return truncated + '...';
+    //    }
+    //    return truncated.substring(0, spaceIndex) + '...';
+    //}
 
     var LocalResourcesTable = function ($wrapper, ajax_url) {
 
@@ -51,7 +51,7 @@
                     if ($table.length > 0) {
                         $table.DataTable(datatable_options);
                         $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
-                        truncateWithEllipses("lgc-resource-description");
+                     //   truncateWithEllipses("lgc-resource-description");
                     }
 
                     cached = true;
@@ -152,26 +152,26 @@
 
 
     // Add ellipses functionality
-    $(document).on('click', '.view-recommended-resources .pager__link', function() {
-        truncateWithEllipses("lgc-resource-description");
-    });
+    //$(document).on('click', '.view-recommended-resources .pager__link', function() {
+    //    truncateWithEllipses("lgc-resource-description");
+    //});
 
-    function truncateWithEllipses(class_name) {
-        $("." + class_name).dotdotdot({
-            //	configuration goes here
-            /*	The text to add as ellipsis. */
-            ellipsis: '... ',
-            /*	How to cut off the text/html: 'word'/'letter'/'children' */
-            wrap: 'word',
-
-            /*	Wrap-option fallback to 'letter' for long words */
-            fallbackToLetter: true,
-
-            /*	Optionally set a max-height, can be a number or function.
-             If null, the height will be measured. */
-            height: 50
-        });
-    }
+    //function truncateWithEllipses(class_name) {
+    //    $("." + class_name).dotdotdot({
+    //        //	configuration goes here
+    //        /*	The text to add as ellipsis. */
+    //        ellipsis: '... ',
+    //        /*	How to cut off the text/html: 'word'/'letter'/'children' */
+    //        wrap: 'word',
+    //
+    //        /*	Wrap-option fallback to 'letter' for long words */
+    //        fallbackToLetter: true,
+    //
+    //        /*	Optionally set a max-height, can be a number or function.
+    //         If null, the height will be measured. */
+    //        height: 50
+    //    });
+    //}
 
 
 }(jQuery));
