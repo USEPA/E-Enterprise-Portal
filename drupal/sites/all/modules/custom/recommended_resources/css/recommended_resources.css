@@ -90,9 +90,9 @@
 /*
 Truncate  text
 */
-.lgc-resource-description {
-    height: 50px;
-}
+/*.lgc-resource-description {*/
+    /*height: 50px;*/
+/*}*/
 .resource-edit-cancel-link .link.usa-button.usa-button-outline {
 	margin-left:40px;
 	display: initial;
