@@ -131,7 +131,7 @@
             }
             else {
                 all_local_resources_table.showTable();
-                favorite_local_resources_table.ajax_request();
+              //  favorite_local_resources_table.ajax_request();
             }
         }
 
@@ -144,7 +144,7 @@
             }
             else {
                 all_local_resources_table.showTable();
-                favorite_local_resources_table.ajax_request();
+             //   favorite_local_resources_table.ajax_request();
             }
         });
 
