@@ -6750,8 +6750,8 @@ input#location-input-guests::-ms-clear {
   height: 0;
 }
 
-/* line 2813, ../sass/styles.scss */
-input#location-input-guests.ui-autocomplete-input.form-control.input-sm.jquery-once-4-processed {
+/* line 2815, ../sass/styles.scss */
+.block--ee-header-locations .ee-workbench-header-setlocation input#location-input-guests.ui-autocomplete-input.form-control.input-sm {
   width: 125px !important;
   height: 2.75rem;
   color: #212121;
@@ -6764,7 +6764,7 @@ input#location-input-guests.ui-autocomplete-input.form-control.input-sm.jquery-o
   padding-right: 2px;
 }
 
-/* line 2827, ../sass/styles.scss */
+/* line 2831, ../sass/styles.scss */
 .fa.fa-spinner {
   color: #0071bc;
   animation: spin 1s infinite linear;
@@ -6787,7 +6787,7 @@ input#location-input-guests.ui-autocomplete-input.form-control.input-sm.jquery-o
     -webkit-transform: rotate(360deg);
   }
 }
-/* line 2843, ../sass/styles.scss */
+/* line 2847, ../sass/styles.scss */
 .ui-autocomplete {
   position: absolute;
   top: 100%;
@@ -6817,46 +6817,46 @@ input#location-input-guests.ui-autocomplete-input.form-control.input-sm.jquery-o
   *border-right-width: 2px;
   *border-bottom-width: 2px;
 }
-/* line 2871, ../sass/styles.scss */
+/* line 2875, ../sass/styles.scss */
 .ui-autocomplete .ui-menu-item {
   width: 100%;
   display: block;
 }
-/* line 2874, ../sass/styles.scss */
+/* line 2878, ../sass/styles.scss */
 .ui-autocomplete .ui-menu-item a {
   padding: 1rem 0.7em;
   width: 100%;
   display: block;
 }
-/* line 2878, ../sass/styles.scss */
+/* line 2882, ../sass/styles.scss */
 .ui-autocomplete .ui-menu-item a:focus, .ui-autocomplete .ui-menu-item a.ui-state-focus {
   box-shadow: 0 0 3px #3e94cf, 0 0 7px #3e94cf;
   background: none;
   border: none;
 }
 
-/* line 2891, ../sass/styles.scss */
+/* line 2895, ../sass/styles.scss */
 #autocomplete {
   background-color: #ffffff;
 }
-/* line 2893, ../sass/styles.scss */
+/* line 2897, ../sass/styles.scss */
 #autocomplete ul {
   width: 100%;
 }
-/* line 2895, ../sass/styles.scss */
+/* line 2899, ../sass/styles.scss */
 #autocomplete ul li {
   width: 100%;
   display: block;
   background-color: #ffffff;
   padding-left: 0.5em;
 }
-/* line 2900, ../sass/styles.scss */
+/* line 2904, ../sass/styles.scss */
 #autocomplete ul li:hover {
   text-decoration: underline;
   background-color: #ffffff;
   color: #212121;
 }
-/* line 2905, ../sass/styles.scss */
+/* line 2909, ../sass/styles.scss */
 #autocomplete ul li:focus, #autocomplete ul li.selected {
   box-shadow: 0 0 3px #3e94cf, 0 0 7px #3e94cf;
   background: none;
@@ -6864,19 +6864,19 @@ input#location-input-guests.ui-autocomplete-input.form-control.input-sm.jquery-o
   color: #212121;
   border: none;
 }
-/* line 2913, ../sass/styles.scss */
+/* line 2917, ../sass/styles.scss */
 #autocomplete ul li a {
   padding: 0.5rem 0.7em;
   width: 100%;
   display: block;
   background-color: #ffffff;
 }
-/* line 2918, ../sass/styles.scss */
+/* line 2922, ../sass/styles.scss */
 #autocomplete ul li a:hover, #autocomplete ul li a.ui-state-hover {
   background-color: #ffffff;
   color: #212121;
 }
-/* line 2923, ../sass/styles.scss */
+/* line 2927, ../sass/styles.scss */
 #autocomplete ul li a:focus, #autocomplete ul li a.ui-state-focus {
   box-shadow: 0 0 3px #3e94cf, 0 0 7px #3e94cf;
   background: none;
@@ -6885,7 +6885,7 @@ input#location-input-guests.ui-autocomplete-input.form-control.input-sm.jquery-o
   border: none;
 }
 
-/* line 2936, ../sass/styles.scss */
+/* line 2940, ../sass/styles.scss */
 .views-field-field-prog-track-status a.simple-dialog {
   margin-top: 0px;
   display: inline-block;
@@ -6893,70 +6893,70 @@ input#location-input-guests.ui-autocomplete-input.form-control.input-sm.jquery-o
   font-size: 100%;
 }
 
-/* line 2944, ../sass/styles.scss */
+/* line 2948, ../sass/styles.scss */
 .page-faqs .view-header {
   background-color: #fafafa;
   padding: 5px 20px;
   margin-left: -20px;
   margin-right: -20px;
 }
-/* line 2950, ../sass/styles.scss */
+/* line 2954, ../sass/styles.scss */
 .page-faqs h2 {
   font-size: 1em;
   margin-bottom: 0;
 }
-/* line 2954, ../sass/styles.scss */
+/* line 2958, ../sass/styles.scss */
 .page-faqs h3 {
   margin-top: 20px;
 }
-/* line 2957, ../sass/styles.scss */
+/* line 2961, ../sass/styles.scss */
 .page-faqs .bulleted {
   margin-bottom: 0;
 }
-/* line 2960, ../sass/styles.scss */
+/* line 2964, ../sass/styles.scss */
 .page-faqs .views-field-title, .page-faqs .views-field-field-faq-category, .page-faqs .views-field-field-faq-category div {
   font-weight: bold;
   display: inline;
 }
-/* line 2964, ../sass/styles.scss */
+/* line 2968, ../sass/styles.scss */
 .page-faqs .region-disclaimer p {
   margin-top: 0;
 }
 
-/* line 2968, ../sass/styles.scss */
+/* line 2972, ../sass/styles.scss */
 #edit-field-prog-tracker-app-value-wrapper {
   display: none;
 }
 
 @media screen and (max-width: 40em) {
-  /* line 2976, ../sass/styles.scss */
+  /* line 2980, ../sass/styles.scss */
   .site-name-and-slogan {
     width: 100%;
   }
 
-  /* line 2979, ../sass/styles.scss */
+  /* line 2983, ../sass/styles.scss */
   .main-nav,
   .secondary-nav,
   .region-footer {
     display: none;
   }
 
-  /* line 2986, ../sass/styles.scss */
+  /* line 2990, ../sass/styles.scss */
   .mobile-nav {
     display: block;
   }
 
-  /* line 2991, ../sass/styles.scss */
+  /* line 2995, ../sass/styles.scss */
   form[id^='user-profile-form'] .ajax-progress .message {
     display: none;
   }
 
-  /* line 2998, ../sass/styles.scss */
+  /* line 3002, ../sass/styles.scss */
   #first-time-user-profile #high-level-interests .ck-button {
     clear: left;
   }
 }
-/* line 3015, ../sass/styles.scss */
+/* line 3019, ../sass/styles.scss */
 #login-group ul li:before,
 #login-group ul li:after,
 #benefits ul li:before,
@@ -6968,21 +6968,21 @@ input#location-input-guests.ui-autocomplete-input.form-control.input-sm.jquery-o
   content: none;
 }
 
-/* line 3032, ../sass/styles.scss */
+/* line 3036, ../sass/styles.scss */
 ul.login-options li:before, ul.login-options li:after, ul.login-options li.ui-state-default:before, ul.login-options li.ui-state-default:after, ul.login-options li.todo_filter_button:before, ul.login-options li.todo_filter_button:after, ul.menu li:before, ul.menu li:after, ul.menu li.ui-state-default:before, ul.menu li.ui-state-default:after, ul.menu li.todo_filter_button:before, ul.menu li.todo_filter_button:after, ul.pager li:before, ul.pager li:after, ul.pager li.ui-state-default:before, ul.pager li.ui-state-default:after, ul.pager li.todo_filter_button:before, ul.pager li.todo_filter_button:after, ul.vg-numbers li:before, ul.vg-numbers li:after, ul.vg-numbers li.ui-state-default:before, ul.vg-numbers li.ui-state-default:after, ul.vg-numbers li.todo_filter_button:before, ul.vg-numbers li.todo_filter_button:after, ul.thumb li:before, ul.thumb li:after, ul.thumb li.ui-state-default:before, ul.thumb li.ui-state-default:after, ul.thumb li.todo_filter_button:before, ul.thumb li.todo_filter_button:after, ul.list-inline li:before, ul.list-inline li:after, ul.list-inline li.ui-state-default:before, ul.list-inline li.ui-state-default:after, ul.list-inline li.todo_filter_button:before, ul.list-inline li.todo_filter_button:after, ul.ui-tabs-nav li:before, ul.ui-tabs-nav li:after, ul.ui-tabs-nav li.ui-state-default:before, ul.ui-tabs-nav li.ui-state-default:after, ul.ui-tabs-nav li.todo_filter_button:before, ul.ui-tabs-nav li.todo_filter_button:after, ul.ui-autocomplete li:before, ul.ui-autocomplete li:after, ul.ui-autocomplete li.ui-state-default:before, ul.ui-autocomplete li.ui-state-default:after, ul.ui-autocomplete li.todo_filter_button:before, ul.ui-autocomplete li.todo_filter_button:after {
   content: none;
 }
 
-/* line 3044, ../sass/styles.scss */
+/* line 3048, ../sass/styles.scss */
 .views-field-field-faq-answer p {
   margin-top: 0;
 }
-/* line 3047, ../sass/styles.scss */
+/* line 3051, ../sass/styles.scss */
 .views-field-field-faq-answer ul {
   margin-bottom: 1rem;
 }
 
-/* line 3051, ../sass/styles.scss */
+/* line 3055, ../sass/styles.scss */
 select[multiple="multiple"] {
   background: none;
 }
