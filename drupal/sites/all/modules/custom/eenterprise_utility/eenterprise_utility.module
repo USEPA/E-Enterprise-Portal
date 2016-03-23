@@ -570,6 +570,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                             'aria-describedby' => 'zip-code-error',
                             'aria-live' => 'assertive',
                         );
+                    } elseif ($zip_data['preferred_name'] == '') {
+                        $zip_data = zip_code_lookup($zip);
+                        $field_suffix = '<span id="city-name-' .$delta. '" aria-live="polite">' . $zip_data['string'] . '</span>';
+                        $ariacity = $zip_data['string'] ;
                     } else {
                         $commsize = $zip_data['commsize'];
                         $isurban = $zip_data['isurban'];
@@ -1010,8 +1014,14 @@ function get_header_variables()
         $zipcode_data = return_user_preferred_location($zipcode);
 
         if (!$zipcode_data['error']) {
-            $locations_array[$zipcode] = $zipcode_data['preferred_name'];
-            $user_has_zip = true;
+            if( $zipcode_data['preferred_name'] ) {
+                $locations_array[$zipcode] = $zipcode_data['preferred_name'];
+                $user_has_zip = true;
+            } else {
+                $zipcode_data = zip_code_lookup($zipcode);
+                $locations_array[$zipcode] = $zipcode_data['string'];
+                $user_has_zip = true;
+            }
         }
     }
     if (!$user_has_zip) {
