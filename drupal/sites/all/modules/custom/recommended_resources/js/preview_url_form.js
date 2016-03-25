@@ -4,6 +4,7 @@
         var iframe = $('<iframe class="modal-iframe" src="' + url + '"  class="modal-iframe" marginwidth="0" marginheight="0" allowfullscreen></iframe>');
         var dialog = $("<div></div>").append(iframe).appendTo("body").dialog({
             autoOpen: true,
+						dialogClass: 'recommended-resources-form',            
             modal: true,
             resizable: false,
             width: "90%",

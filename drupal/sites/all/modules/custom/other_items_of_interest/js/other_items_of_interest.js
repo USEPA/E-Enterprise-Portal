@@ -16,6 +16,10 @@
             //},
             "bLengthChange": false,
             "sPageButton": "favorites-ignore",
+						"oLanguage": {
+							"sSearch": "Filter:"
+       			},
+
             "iDisplayLength": 3
             //"fnDrawCallback": function () {
             //    if ($wrapper.find('.paginate_button').length < 6) {
@@ -57,7 +61,7 @@
             var state_code = this.state_code;
             $.ajax({
                 beforeSend:  function() {
-                    $wrapper.html('Loading...');
+                    $wrapper.html('<p>Loading&hellip;</p>');
                 },
                 url: ajax_url,
                 method: "POST",
@@ -67,7 +71,7 @@
                     var $table = $wrapper.find('table');
                     if ($table.length > 0) {
                         $table.DataTable(datatable_options);
-                        $table.removeClass("dataTable no-footer").addClass('views-table cols-3 responsive-table');
+                        $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
                     }
                     else {
                //         $wrapper.html('No resources found for ' + state_code + '.');

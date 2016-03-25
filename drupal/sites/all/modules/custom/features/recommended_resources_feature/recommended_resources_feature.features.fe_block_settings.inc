@@ -14,6 +14,7 @@ function recommended_resources_feature_default_fe_block_settings() {
 
   $export['views-907066888099d826f087c340818e9c70'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => '907066888099d826f087c340818e9c70',
     'module' => 'views',
@@ -70,6 +71,7 @@ function recommended_resources_feature_default_fe_block_settings() {
 
   $export['views-9e3a249cf9a1d30220668368dee152ce'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => '9e3a249cf9a1d30220668368dee152ce',
     'module' => 'views',
@@ -126,6 +128,7 @@ function recommended_resources_feature_default_fe_block_settings() {
 
   $export['views-recommended_resources-block'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => 'recommended_resources-block',
     'module' => 'views',

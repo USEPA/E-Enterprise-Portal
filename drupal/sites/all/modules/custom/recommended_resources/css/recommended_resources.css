@@ -1,63 +1,55 @@
 .paginate_button {
-    padding : .75em !important;
-}
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    border: 0px;
+	padding : 0.75em !important;
 }
 
-.interests-url-hyperlink, .interests-url-text {
-    word-break: break-word;
-    white-space: normal;
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  border: 0px;
+}
+
+.interests-url-hyperlink, 
+.interests-url-text {
+  word-break: break-word;
+  white-space: normal;
 }
 
 .interests-url-text {
-    font-size: 0.85em;
-    color: #444;
-    margin-top: 2px;
+  margin-top: 2px;
+  font-size: 1.3rem;
 }
 
-.action-links {
-	font-size: 0.85em;
-}
 .action-links .first {
-    border-right: 1px solid #aaa;
-    padding-right: 10px;
+  border-right: 1px solid #aaa;
+  padding-right: 10px;
 }
 
 .action-links .last {
-    padding-left: 5px;
+  padding-left: 5px;
 }
 
-#other-areas-tabs .dataTables_wrapper .dataTables_info {
-    font-size: 0.75em;
-    color: #444;
-}
-
-#restrict-to-states-button.inactive, #all-states-button.inactive {
-    background-color: white;
-    color: black;
-
+#restrict-to-states-button.inactive, 
+#all-states-button.inactive {
+  background-color: white;
+  color: black;
 }
 
 #other-areas-tabs .ui-tabs-panel {
     padding: 5px 0;
 }
 
-.view-recommended-resources .dataTables_wrapper .pager-current.hidden {
+.view-recommended-resources .dataTables_wrapper .pager-current.hidden,
+.view-recommended-resources #datatable-1 thead, .view-user-recommended-resources thead  {
     display:none;
 }
 
-.view-recommended-resources #datatable-1 thead, .view-user-recommended-resources thead{
-    display:none;
-}
-
-.view-recommended-resources td span,  .view-user-recommended-resources td span{
+.view-recommended-resources td span,  
+.view-user-recommended-resources td span{
 	display: block;
   font-size: 1em;
   line-height: 1.2;
 }
 
-.view-recommended-resources td span.lgc-resource-topic, .view-user-recommended-resources td span.lgc-resource-topic  {
+.view-recommended-resources td span.lgc-resource-topic, 
+.view-user-recommended-resources td span.lgc-resource-topic  {
   text-transform: uppercase;
   font-size: 0.75em;
   color: #666;
@@ -65,28 +57,52 @@
 }
 
 .modal-iframe {
-    width: 100%;
-    height: 90%;
+  width: 100%;
+  height: 90%;
 }
 
-.ui-dialog, .ui-dialog-content {
-    height: 90% !important;
+.recommended-resources.ui-dialog, .recommended-resources-form.ui-dialog,
+.recommended-resources.ui-dialog-content, .recommended-resources-form.ui-dialog-content {
+	height: 90% !important;
 }
 
 #edit-field-lgc-link .description {
-    width: 280px;
+  width: 280px;
 }
 
 #edit-field-lgc-link .description.error {
-    color: red;
+  color: red;
 }
 
 .node-lgc_resource-form .description {
-    font-size: 0.75em !important;
-    top: 100%;
+  font-size: 0.75em !important;
+  top: 100%;
+}
+
+#edit-actions input[type="submit"] {
+  display: table-cell;
 }
 
 #edit-actions, .resource-edit-cancel-link {
-    float: left;
+	display: inline;
 }
 
+/*
+Truncate  text
+*/
+/*.lgc-resource-description {*/
+    /*height: 50px;*/
+/*}*/
+.resource-edit-cancel-link .link.usa-button.usa-button-outline {
+	margin-left:40px;
+	display: initial;
+}
+
+#field-lgc-link-add-more-wrapper input[type="text"] {
+	display: table-cell;
+}
+#field-lgc-link-add-more-wrapper .field-suffix {
+	vertical-align: middle;
+  margin-left: 20px;
+  font-size: 1.7rem;
+}

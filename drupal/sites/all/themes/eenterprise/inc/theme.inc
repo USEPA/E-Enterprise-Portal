@@ -4,82 +4,6 @@
  * Theme functions.
  */
 
-/**
- * Override HTML for link lists.
- */
-/*
-function eenterprise_links($vars) {
-  $links = $vars['links'];
-  $attributes = $vars['attributes'];
-  $heading = $vars['heading'];
-  global $language_url;
-  $output = '';
-
-  if (count($links) > 0) {
-    $output = '';
-
-    // Treat the heading first if it is present to prepend it to the
-    // list of links.
-    if (!empty($heading)) {
-      if (is_string($heading)) {
-        // Prepare the array that will be used when the passed heading
-        // is a string.
-        $heading = array(
-          'text' => $heading,
-          // Set the default level of the heading.
-          'level' => 'h2',
-        );
-      }
-      $output .= '<' . $heading['level'];
-      if (!empty($heading['class'])) {
-        $output .= drupal_attributes(array('class' => $heading['class']));
-      }
-      $output .= '>' . check_plain($heading['text']) . '</' . $heading['level'] . '>';
-    }
-
-    $output .= '<ul' . drupal_attributes($attributes) . '>';
-    $i = 1;
-
-    foreach ($links as $key => $link) {
-      $class = array($key);
-      $class[] = 'menu-item';
-
-      // Add link classes.
-      $link['attributes']['class'][] = 'menu-link';
-
-      if (isset($link['href']) && ($link['href'] == $_GET['q'] || ($link['href'] == '<front>' && drupal_is_front_page()))
-           && (empty($link['language']) || $link['language']->language == $language_url->language)) {
-        $class[] = 'active';
-      }
-      $output .= '<li' . drupal_attributes(array('class' => $class)) . '>';
-
-      if (isset($link['href'])) {
-        // Pass in $link as $options, they share the same keys.
-        $output .= l($link['title'], $link['href'], $link);
-      }
-      elseif (!empty($link['title'])) {
-        // Some links are actually not links, but we wrap these in <span> for adding title and class attributes.
-        if (empty($link['html'])) {
-          $link['title'] = check_plain($link['title']);
-        }
-        $span_attributes = '';
-        if (isset($link['attributes'])) {
-          $span_attributes = drupal_attributes($link['attributes']);
-        }
-        $output .= '<span' . $span_attributes . '>' . $link['title'] . '</span>';
-      }
-
-      $i++;
-      $output .= "</li>\n";
-    }
-
-    $output .= '</ul>';
-  }
-
-  return $output;
-}
-*/
-
 function eenterprise_menu_link(&$vars) {
 	global $user;
 	$name = $user->name;
@@ -202,7 +126,6 @@ function eenterprise_menu_tree($vars) {
  */
 function eenterprise_menu_local_tasks($vars) {
   $output = '';
- 
  
 	  if (!empty($vars['primary'])) {
 	    $vars['primary']['#prefix'] = '<h2 class="element-invisible">' . t('Primary tasks') . '</h2>';
@@ -618,7 +541,7 @@ function eenterprise_pager_link($vars) {
   $classes = &$vars['attributes']['class'];
 
   // Add default link class.
-  $classes[] = 'pager__link';
+  $classes[] = 'pager__link fa';
 
   $page = isset($_GET['page']) ? $_GET['page'] : '';
   if ($new_page = implode(',', pager_load_array($page_new[$element], $element, explode(',', $page)))) {
@@ -687,9 +610,8 @@ function eenterprise_pager_link($vars) {
 function eenterprise_form_required_marker($variables) {
   $attributes = array(
     'class' => 'form-required',
-    'title' => t('This field is required.'),
   );
-  return '<span' . drupal_attributes($attributes) . '>' .t('*') . '</span>';
+  return '<span' . drupal_attributes($attributes) . '>' .t('Required') . '</span>';
 }
 
 //TODO: Can we come up with a better name for this function if necessary?

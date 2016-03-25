@@ -117,13 +117,13 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<a href="/new-local-resource" class="button primary-action">Add a resource</a>';
+  $handler->display->display_options['header']['area']['content'] = '<a href="/new-local-resource" class="usa-button primary-action">Add a resource</a>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Footer: Global: Text area */
   $handler->display->display_options['footer']['area']['id'] = 'area';
   $handler->display->display_options['footer']['area']['table'] = 'views';
   $handler->display->display_options['footer']['area']['field'] = 'area';
-  $handler->display->display_options['footer']['area']['content'] = '<a href="/new-local-resource" class="button primary-action">Add a resource</a>';
+  $handler->display->display_options['footer']['area']['content'] = '<a href="/new-local-resource" class="usa-button primary-action">Add a resource</a>';
   $handler->display->display_options['footer']['area']['format'] = 'full_html';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
@@ -253,6 +253,7 @@ echo $row->title;
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Resources for Local Communities';
+  $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -353,15 +354,15 @@ echo $row->title;
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Contextual filter: Search: Search Terms */
-  $handler->display->display_options['arguments']['keys']['id'] = 'keys';
-  $handler->display->display_options['arguments']['keys']['table'] = 'search_index';
-  $handler->display->display_options['arguments']['keys']['field'] = 'keys';
-  $handler->display->display_options['arguments']['keys']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['keys']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['keys']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['keys']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['keys']['specify_validation'] = TRUE;
+  /* Contextual filter: Content: Topic (field_lgc_topic) */
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['id'] = 'field_lgc_topic_tid';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['table'] = 'field_data_field_lgc_topic';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['field'] = 'field_lgc_topic_tid';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['break_phrase'] = TRUE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -468,6 +469,20 @@ echo $row->title;
   $handler->display->display_options['fields']['field_lgc_link']['id'] = 'field_lgc_link';
   $handler->display->display_options['fields']['field_lgc_link']['table'] = 'field_data_field_lgc_link';
   $handler->display->display_options['fields']['field_lgc_link']['field'] = 'field_lgc_link';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = 'nid';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['path'] = 'local_resources';
 
   /* Display: Block to be Rendered */

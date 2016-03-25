@@ -9,7 +9,6 @@ drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "f
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/other_items_of_interest.js", "file");
 drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_interest.css", "file");
 
-
 ?>
 
 <div id="other-areas-tabs" class="view-content">
@@ -19,7 +18,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_in
     // Check if the user has the 'editor' role.
     if (in_array('state_admin', $user->roles)) {
         ?>
-        <div class="action-links"><a href="/resource-editor" class="favorites-ignore">Manage Resources</a></div>
+        <div class="widget-note"><a href="/resource-editor" class="favorites-ignore">Manage Resources</a></div>
     <?php
     }
     ?>

@@ -64,7 +64,8 @@ function suggestion_box_callback($ajax) {
 function suggestion_box_form($form, &$form_state) {
 
   global $user;
-    if(in_array('Public', $user->roles) || in_array('Public User', $user->roles)){
+    //The first condition means, if user is a CDX Public user and does not have any other role.
+    if((in_array('Public', $user->roles) && count($user->roles) == 2) || in_array('Public User', $user->roles)){
         $form['email'] = array(
             '#type' => 'textfield',
             '#title' => t('Email'),
@@ -138,6 +139,7 @@ function suggestion_box_form($form, &$form_state) {
   }
 
   $form['#submit'][] = 'suggestion_box_form_submit';
+	$form['#attributes']['novalidate'] = '1';    
   $form['#validate'][] = 'suggestion_box_form_validation';
 
   $form['submit_button'] = array(

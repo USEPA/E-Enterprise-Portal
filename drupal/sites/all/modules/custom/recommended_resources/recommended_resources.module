@@ -39,8 +39,22 @@ function recommended_resources_theme_registry_alter(&$theme_registry)
     }
 }
 
-
-
+/**
+ * Returns html for multiselect for lgc topics
+ */
+function lgc_topics_multiselect()
+{
+    $multi_select = "<div id='lgc-topics-filter'><select id='lgc-topics-select' multiple>";
+    $vocab = taxonomy_vocabulary_machine_name_load("lgc_topics");
+    $terms = taxonomy_get_tree($vocab->vid);
+    foreach($terms as $obj) {
+        $tid = $obj->tid;
+        $name = $obj->name;
+        $multi_select .= "<option value=$tid>$name</option>";
+    }
+    $multi_select .= "</select> <button id='apply-lgc-topics'>Apply</button></div>";
+    return $multi_select;
+}
 /**
  * Implements hook_form_alter().
  */
@@ -66,12 +80,13 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id)
 
         $form_state['rebuild'] = TRUE;
 
+				$form['#attributes']['novalidate'] = '1';  
         $form['#validate'][] = 'recommended_resources_form_validate';
 
-        $form['field_lgc_link'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a id='new-lgc-resource-url-preview' href='#'>Preview</a>";
+        $form['field_lgc_link'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a class='usa-button' id='new-lgc-resource-url-preview' href='#'>Preview</a>";
 
         $form['actions']['submit']['#submit'][] = 'new_lgc_resource_form_redirect';
-        $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/local-resource-editor', array('attributes' => array('class' => 'link'))) . "</div>";
+        $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/local-resource-editor', array('attributes' => array('class' => 'link usa-button usa-button-outline'))) . "</div>";
 
     }
 }
@@ -140,7 +155,13 @@ function generateUserLocalResourcesTable() {
 }
 
 function generateAllLocalResourcesTable() {
-    $table =  views_embed_view('recommended_resources', 'block_to_be_rendered');
+    if (isset($_POST['filters'])) {
+        $topics = $_POST['filters'];
+        $tids = implode('+', $topics);
+        $table =  views_embed_view('recommended_resources', 'block_to_be_rendered', $tids);
+    }
+    else
+        $table =  views_embed_view('recommended_resources', 'block_to_be_rendered');
     print $table;
 }
 

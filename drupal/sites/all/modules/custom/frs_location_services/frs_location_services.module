@@ -207,7 +207,13 @@ function save_first_time_user_preferences()
         user_save($user_data, $edit);
         // Once the user has successfully saved, save the user preferred location
         if (!$skip)
-            save_user_location($zip, $preferred_location);
+            if ($comm_type == "urban") {
+                save_user_location($zip, $preferred_location, $comm_size, "1");
+            } elseif ($comm_type == "rural") {
+                save_user_location($zip, $preferred_location, $comm_size, "0");
+            } else {
+                save_user_location($zip, $preferred_location, $comm_size, "");
+            }
         $return_msg['success'] = true;
         print json_encode($return_msg);
     } catch (Exception $e) {
@@ -219,7 +225,7 @@ function save_first_time_user_preferences()
 }
 
 
-function save_user_location($zip_code, $preferred_location)
+function save_user_location($zip_code, $preferred_location, $commsize, $isurban)
 {
     global $user;
     $uid = $user->uid;
@@ -236,13 +242,28 @@ function save_user_location($zip_code, $preferred_location)
         $node = node_load($nid);
         $saved_zip = $node->field_user_zip_code[LANGUAGE_NONE][0]['safe_value'];
         $saved_loc_name = $node->field_preferred_location[LANGUAGE_NONE][0]['safe_value'];
-        if ($saved_zip == $zip_code && $saved_loc_name == $preferred_location) {
-            // do nothing
-            $previously_saved_location = TRUE;
-            break;
-        } else if ($saved_zip == $zip_code) {
+        if ($saved_zip == $zip_code) {
             // overwrite preferred name
             $previously_saved_location = TRUE;
+            $node->type = 'user_location_preferences';
+            $node->title = $user->name . " - " . $zip_code . ": " . $preferred_location;
+            $node->field_preferred_name[LANGUAGE_NONE][0]['value'] = $preferred_location;
+            $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
+            $node->field_zip_community_size[LANGUAGE_NONE][0]['value'] = intval($commsize);
+            if (intval($commsize) == 0) {
+                unset($node->field_zip_community_size[LANGUAGE_NONE][0]['value']);
+            }
+            if ($isurban == "Urban") {
+                $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 1;
+            } elseif($isurban == "Rural") {
+                $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 0;
+            } else {
+                unset($node->field_zip_is_urban[LANGUAGE_NONE][0]['value']);
+            }
+            $node->uid = $uid;
+            $node->status = 1;
+            $node->language = LANGUAGE_NONE;
+            node_save($node);
             break;
         }
     }
@@ -255,6 +276,12 @@ function save_user_location($zip_code, $preferred_location)
         $node->title = $user->name . " - " . $zip_code . ": " . $preferred_location;
         $node->field_preferred_name[LANGUAGE_NONE][0]['value'] = $preferred_location;
         $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
+        $node->field_zip_community_size[LANGUAGE_NONE][0]['value'] = intval($commsize);
+        if ($isurban == "Urban") {
+            $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 1;
+        } elseif($isurban == "Rural") {
+            $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 0;
+        }
         $node->uid = $uid;
         $node->status = 1;
         $node->language = LANGUAGE_NONE;
@@ -278,7 +305,11 @@ function return_user_preferred_location($zip_code)
     if (isset($result['node'])) {
         $nid = array_keys($result['node'])[0];
         $node = node_load($nid);
-        return $node->field_preferred_name[LANGUAGE_NONE][0]['value'];
+        $location_info = array();
+        $location_info['preferred_name'] = $node->field_preferred_name[LANGUAGE_NONE][0]['value'];
+        $location_info['commsize'] = $node->field_zip_community_size[LANGUAGE_NONE][0]['value'];
+        $location_info['isurban'] = $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'];
+        return $location_info;
     } else
         return FALSE;
 }
@@ -387,10 +418,10 @@ function high_level_taxonomy_checkboxes()
     $vid = taxonomy_vocabulary_machine_name_load('lgc_topics')->vid;
     $vocab_tree = taxonomy_get_tree($vid);
     $count = 0;
-    print "<div class='row'>";
+    print "<div class='usa-grid-full'>";
     foreach ($vocab_tree as $obj_class) {
         if ($count <= $max_topics_shown) {
-            print '<div class="col-xs-6"><label class="ck-button lgc-topics-of-interest"><input aria-label="' . $obj_class->name . '" class="term-name-checkboxes" type="checkbox"  name="' . $obj_class->name . '" value="' . $obj_class->tid . '"/><span>' . $obj_class->name . '</span></label></div>';
+            print '<div class="usa-width-one-half"><label class="ck-button lgc-topics-of-interest"><input aria-label="' . $obj_class->name . '" class="term-name-checkboxes" type="checkbox"  name="' . $obj_class->name . '" value="' . $obj_class->tid . '"/><span>' . $obj_class->name . '</span></label></div>';
             $count = $count + 1;
         } else {
             break;
@@ -532,7 +563,7 @@ function gpo_city_state_to_zip_code($city, $state)
         if(!empty($tribalzips)) {
 
             // Get Zip Code to Census Place/Population Lookup table as json
-            $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+            $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
             $zip_pop_url = $zip_pop_url . 'where=ZCTA+IN+%28%27' . implode("%27%2C%27", $tribalzips) . '%27%29&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
 
             // Decode  json

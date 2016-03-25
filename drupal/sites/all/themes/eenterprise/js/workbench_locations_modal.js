@@ -16,7 +16,7 @@ $(document).ready(function(){
 			buttons: [
 				{
 					text: 'View',
-					class: ' ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only',
+					class: ' usa-button',
 					click: function() {
 						var selection_array = $(':radio[name=location-radio]:checked').val().split('|');
 						var selection_value = selection_array[0];
@@ -27,7 +27,7 @@ $(document).ready(function(){
 					}
 				},
 				{	text : "Cancel",
-					class: ' ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only',
+					class: ' usa-button-outline',
 					click: function() {
 						$('#location-select').val(previous_selection);
 						$('#dialog-all-locations').dialog('close');

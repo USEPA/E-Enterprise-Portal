@@ -2,6 +2,7 @@
 $module_name = "recommended_resources";
 
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/recommended_resources.js", "file");
+//drupal_add_library(libraries_get_path('jQuery.dotdotdot-master') . '/src/jquery.dotdotdot.min.js');
 drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resources.css", "file");
 
 
@@ -39,7 +40,8 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     // Check if the user has the 'editor' role.
     if (in_array('local_government_admin', $user->roles) || $user->uid == 1) {
         ?>
-        <div class="action-links"><a href="/local-resource-editor" class="favorites-ignore">Manage Resources</a></div>
+
+        <div class="widget-note action-links"><a href="/local-resource-editor" class="favorites-ignore">Manage Resources</a></div>
     <?php
     }
     ?>
@@ -47,25 +49,29 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     <?php
     if ($user->name != 'guest-user') {
         ?>
-    <ul>
+        <ul>
 
             <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#user-local-resources">My
                     Resources</a></li>
 
-        <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources">All</a></li>
+            <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources-wrapper">All</a>
+            </li>
 
-    </ul>
-<?php
-}
-?>
+        </ul>
+        <?php
+    }
+    ?>
 
     <?php
     if ($user->name != 'guest-user') {
         ?>
         <div id="user-local-resources"></div>
-    <?php
+        <?php
     }
     ?>
-    <div id="all-local-resources"></div>
+    <div id="all-local-resources-wrapper">
+        <?php //echo lgc_topics_multiselect(); ?>
+        <div id="all-local-resources"></div>
+    </div>
 
 </div>
