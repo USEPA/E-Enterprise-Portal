@@ -1,32 +1,6 @@
 (function ($) {
 
-    //var LinkHeart = function (id) {
-    //    this.id = id;
-    //    this.unfavor = function() {
-    //        // function to unfavor button
-    //    }
-    //    this.favor = function() {
-    //        //function to favor button
-    //    }
-    //    this.favorite_html =       "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + this.id + "__favorite_link' " +
-    //        "class=' remove_link favorite_hover old_link a fa-heart filled' aria-hidden='true'></span></div>";
-    //    this.non_favorite_html = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + this.id + '-' + text_title + '"' +
-    //    "class='add_link favorite_hover new_link fa fa-heart empty' aria-hidden='true'></span></div>";
-    //}
-    //
-    //var LinkGroups = function() {
-    //
-    //    this.link_hearts = [];
-    //    this.add_link_heart = function(link_heart) {
-    //        this.link_hearts[]''
-    //    }
-    //
-    //
-    //    this.favor = function(id) {
-    //
-    //    }
-    //
-    //}
+
 
 
     $(document).ready(function () {
