@@ -136,7 +136,7 @@ function eenterprise_bridge_auth_authenticate($error)
                     $public_or_cdx = 'public';
                 }
             } else {
-                $uname = $username;
+                $uname = $username."@cdx";
                 $public_or_cdx = 'cdx';
             }
             if (variable_get('trusted_users_list_used') == 'Yes') {
@@ -231,13 +231,22 @@ function create_progress_tracker($user)
             }
             if (!$client2->error) {
                 $client2 = $client2->client;
+
+                //Extract out "@cdx" string from $user->name to pull to-do and progress tracker from the Activity Data flow
+                $cdx_username = $user->name;
+                $cdx_pos = strrpos($cdx_username,"@cdx");
+                if($cdx_pos !== FALSE){
+                    $cdx_username = substr($cdx_username, 0, $cdx_pos);
+                }
+
+                //For the following parameter, use $cdx_username, which does not have @cdx at the end, instead of $user_name
                 $params2 = array(
                     "securityToken" => $response1->securityToken,
                     "dataflow" => "E-ACTIVITY",
                     "request" => "GetByUser",
                     "rowId" => 0,
                     "maxRows" => -1,
-                    "parameters" => array("_" => strtoupper($user->name), "parameterEncoding" => "None", "parameterName" => "user"),
+                    "parameters" => array("_" => strtoupper($cdx_username), "parameterEncoding" => "None", "parameterName" => "user"),
                 );
                 $resp = callSOAPWithParams($client2, "Query", $params2, "Eenterprise Bridge Auth");
                 if (!$resp->error) {
@@ -589,9 +598,18 @@ function assign_roles_to_user($user_name)
         $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
         if (!$response1->error) {
             $response1 = $response1->response;
+
+            //Extract out "@cdx" string from user_name to pull roles from the Activity Data flow
+            $cdx_username = $user_name;
+            $cdx_pos = strrpos($cdx_username,"@cdx");
+            if($cdx_pos !== FALSE){
+                $cdx_username = substr($cdx_username, 0, $cdx_pos);
+            }
+
+            //For the following parameter, use $cdx_username, which does not have @cdx at the end, instead of $user_name
             $params2 = array(
                 "securityToken" => $response1->securityToken,
-                "userId" => $user_name
+                "userId" => $cdx_username,
             );
 
             $user_obj = callSOAPWithParams($client, "RetrieveUser", $params2, "Eenterprise Bridge Auth");
