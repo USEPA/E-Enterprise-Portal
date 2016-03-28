@@ -136,7 +136,7 @@ function eenterprise_bridge_auth_authenticate($error)
                     $public_or_cdx = 'public';
                 }
             } else {
-                $uname = $username."@cdx";
+                $uname = $username . "@cdx";
                 $public_or_cdx = 'cdx';
             }
             if (variable_get('trusted_users_list_used') == 'Yes') {
@@ -209,123 +209,129 @@ function create_progress_tracker($user)
     $wsdl = variable_get('eactivity_auth_reg_wsdl');
     $client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
 
-    if (!$client->error) {
-        $client = $client->client;
+    if ($client->error)
+        return;
 
-        $params1 = array(
-            "userId" => variable_get('eactivity_auth_reg_username'),
-            "credential" => variable_get('eactivity_auth_reg_password'),
-            "domain" => variable_get('eactivity_auth_reg_domain'),
-            "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
-        );
-        $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
-        if (!$response1->error) {
-            $response1 = $response1->response;
-            // Adding local wsdl configurations
-            $local = variable_get('eactivity_dataflow_local');
-            $wsdl = variable_get('eactivity_dataflow_wsdl');
-            if ($local) {
-                $client2 = connectToSOAPServerWithWSDL(dirname(__FILE__) . '/' . $wsdl, "Eenterprise Bridge Auth");
-            } else {
-                $client2 = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
-            }
-            if (!$client2->error) {
-                $client2 = $client2->client;
+    $client = $client->client;
+    $params1 = array(
+        "userId" => variable_get('eactivity_auth_reg_username'),
+        "credential" => variable_get('eactivity_auth_reg_password'),
+        "domain" => variable_get('eactivity_auth_reg_domain'),
+        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
+    );
+    $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
 
-                //Extract out "@cdx" string from $user->name to pull to-do and progress tracker from the Activity Data flow
-                $cdx_username = $user->name;
-                $cdx_pos = strrpos($cdx_username,"@cdx");
-                if($cdx_pos !== FALSE){
-                    $cdx_username = substr($cdx_username, 0, $cdx_pos);
-                }
+    if ($response1->error)
+        return;
 
-                //For the following parameter, use $cdx_username, which does not have @cdx at the end, instead of $user_name
-                $params2 = array(
-                    "securityToken" => $response1->securityToken,
-                    "dataflow" => "E-ACTIVITY",
-                    "request" => "GetByUser",
-                    "rowId" => 0,
-                    "maxRows" => -1,
-                    "parameters" => array("_" => strtoupper($cdx_username), "parameterEncoding" => "None", "parameterName" => "user"),
-                );
-                $resp = callSOAPWithParams($client2, "Query", $params2, "Eenterprise Bridge Auth");
-                if (!$resp->error) {
-                    $resp = $resp->response;
-                    $resp = $resp->results->any;
-                    $resp = simplexml_load_string($resp);
-                    foreach ($resp->children('http://www.exchangenetwork.net/schema/eact/1') as $activity) {
+    $response1 = $response1->response;
+    // Adding local wsdl configurations
+    $local = variable_get('eactivity_dataflow_local');
+    $wsdl = variable_get('eactivity_dataflow_wsdl');
+    if ($local) {
+        $client2 = connectToSOAPServerWithWSDL(dirname(__FILE__) . '/' . $wsdl, "Eenterprise Bridge Auth");
+    } else {
+        $client2 = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
+    }
 
-                        $res = array("EActivityId" => (string)$activity->EActivityId,
-                            "PartnerSystemId" => (string)$activity->PartnerSystemId,
-                            "PartnerExternalId" => (string)$activity->PartnerExternalId,
-                            "PartnerSystemReportType" => (string)$activity->PartnerSystemReportType,
-                            "ActivityType" => (string)$activity->ActivityType,
-                            "ActivityDesc" => (string)$activity->ActivityDesc,
-                            "ActivityCreateDate" => (string)$activity->ActivityCreateDate,
-                            "ActivitySourceURL" => (string)$activity->ActivitySourceURL,
-                            "ActivityExpirationDate" => (string)$activity->ActivityExpirationDate,
-                            "Status" => (string)$activity->Status,
-                            "StatusNote" => (string)$activity->StatusNote,
-                            "StatusUpdateDate" => (string)$activity->StatusUpdateDate,
-                            "UserId" => (string)$activity->UserId,
-                            "RoleId" => (string)$activity->RoleId,
-                            "RoleIdSubject" => (string)$activity->RoleIdSubject,
-                            "Attributes" => (string)$activity->Attributes,);
-                        foreach ($activity->Attributes->Attribute as $child) {
-                            if ((string)($child->attributes()) == 'facilityName') {
-                                $res['FacilityName'] = $child->__toString();
-                            } else if ((string)($child->attributes()) == 'partCode') {
-                                $res['partCode'] = $child->__toString();
-                            } else if ((string)($child->attributes()) == 'partName') {
-                                $res['partName'] = $child->__toString();
-                            } else if ((string)($child->attributes()) == 'subPartCode') {
-                                $res['subPartCode'] = $child->__toString();
-                            } else if ((string)($child->attributes()) == 'subPartName') {
-                                $res['subPartName'] = $child->__toString();
-                            } else if ((string)($child->attributes()) == 'facilityRegistryIdentifier') {
-                                $res['facilityRegistryIdentifier'] = $child->__toString();
-                            }
-                        }
-                        $i = 0;
-                        foreach ($activity->Documents->Document as $child) {
-                            $res['Documents'][$i]['id'] = $child->Id->__toString();
-                            $res['Documents'][$i]['name'] = 'sites/default/files/' . $child->Name->__toString();
-                            $res['Documents'][$i]['typeId'] = $child->TypeId->__toString();
-                            $res['Documents'][$i]['size'] = $child->Size->__toString();
-                            $res['Documents'][$i]['createDate'] = $child->CreateDate->__toString();
-                            $res['Documents'][$i]['transactionId'] = $child->TransactionId->__toString();
-                            $i++;
+    if ($client2->error)
+        return;
 
-                            $param_attch_type = array("_" => $child->Id->__toString(),
-                                "contentType" => array($child->TypeId->__toString()));
-                            $param_doc_id = $child->Id->__toString();
+    $client2 = $client2->client;
 
-                            $param_doc = array(
-                                "documentName" => $child->Name->__toString(),
-                                "documentFormat" => array($child->TypeId->__toString()),
-                                "documentContent" => $param_attch_type,
-                                "documentId" => $param_doc_id,
-                            );
+    //Extract out "@cdx" string from $user->name to pull to-do and progress tracker from the Activity Data flow
+    $cdx_username = $user->name;
+    $cdx_pos = strrpos($cdx_username, "@cdx");
+    if ($cdx_pos !== FALSE) {
+        $cdx_username = substr($cdx_username, 0, $cdx_pos);
+    }
 
-                            $param_dl1 = array(
-                                "securityToken" => $response1->securityToken,
-                                "dataflow" => "E-ACTIVITY",
-                                "transactionId" => $child->TransactionId->__toString(),
-                                "documents" => $param_doc,
-                            );
-                            $resp_dl = callSOAPWithParams($client2, "Download", $param_dl1, "Eenterprise Bridge Auth");
-                            if (!$resp_dl->error) {
-                                $resp_dl = $resp_dl->response;
-                                $INPUT = $resp_dl->documents->documentContent->_;
-                                $file = 'sites/default/files/' . $child->Name->__toString();
-                                file_put_contents($file, $INPUT);
-                            }
-                        }
-                        create_progress_tracker_node($res, $user);
-                    }
-                }
+    //For the following parameter, use $cdx_username, which does not have @cdx at the end, instead of $user_name
+    $params2 = array(
+        "securityToken" => $response1->securityToken,
+        "dataflow" => "E-ACTIVITY",
+        "request" => "GetByUser",
+        "rowId" => 0,
+        "maxRows" => -1,
+        "parameters" => array("_" => strtoupper($cdx_username), "parameterEncoding" => "None", "parameterName" => "user"),
+    );
+    $resp = callSOAPWithParams($client2, "Query", $params2, "Eenterprise Bridge Auth");
+
+    if ($resp->error)
+        return;
+
+    $resp = $resp->response;
+    $resp = $resp->results->any;
+    $resp = simplexml_load_string($resp);
+    foreach ($resp->children('http://www.exchangenetwork.net/schema/eact/1') as $activity) {
+
+        $res = array("EActivityId" => (string)$activity->EActivityId,
+            "PartnerSystemId" => (string)$activity->PartnerSystemId,
+            "PartnerExternalId" => (string)$activity->PartnerExternalId,
+            "PartnerSystemReportType" => (string)$activity->PartnerSystemReportType,
+            "ActivityType" => (string)$activity->ActivityType,
+            "ActivityDesc" => (string)$activity->ActivityDesc,
+            "ActivityCreateDate" => (string)$activity->ActivityCreateDate,
+            "ActivitySourceURL" => (string)$activity->ActivitySourceURL,
+            "ActivityExpirationDate" => (string)$activity->ActivityExpirationDate,
+            "Status" => (string)$activity->Status,
+            "StatusNote" => (string)$activity->StatusNote,
+            "StatusUpdateDate" => (string)$activity->StatusUpdateDate,
+            "UserId" => (string)$activity->UserId,
+            "RoleId" => (string)$activity->RoleId,
+            "RoleIdSubject" => (string)$activity->RoleIdSubject,
+            "Attributes" => (string)$activity->Attributes,);
+        foreach ($activity->Attributes->Attribute as $child) {
+            if ((string)($child->attributes()) == 'facilityName') {
+                $res['FacilityName'] = $child->__toString();
+            } else if ((string)($child->attributes()) == 'partCode') {
+                $res['partCode'] = $child->__toString();
+            } else if ((string)($child->attributes()) == 'partName') {
+                $res['partName'] = $child->__toString();
+            } else if ((string)($child->attributes()) == 'subPartCode') {
+                $res['subPartCode'] = $child->__toString();
+            } else if ((string)($child->attributes()) == 'subPartName') {
+                $res['subPartName'] = $child->__toString();
+            } else if ((string)($child->attributes()) == 'facilityRegistryIdentifier') {
+                $res['facilityRegistryIdentifier'] = $child->__toString();
             }
         }
+        $i = 0;
+        foreach ($activity->Documents->Document as $child) {
+            $res['Documents'][$i]['id'] = $child->Id->__toString();
+            $res['Documents'][$i]['name'] = 'sites/default/files/' . $child->Name->__toString();
+            $res['Documents'][$i]['typeId'] = $child->TypeId->__toString();
+            $res['Documents'][$i]['size'] = $child->Size->__toString();
+            $res['Documents'][$i]['createDate'] = $child->CreateDate->__toString();
+            $res['Documents'][$i]['transactionId'] = $child->TransactionId->__toString();
+            $i++;
+
+            $param_attch_type = array("_" => $child->Id->__toString(),
+                "contentType" => array($child->TypeId->__toString()));
+            $param_doc_id = $child->Id->__toString();
+
+            $param_doc = array(
+                "documentName" => $child->Name->__toString(),
+                "documentFormat" => array($child->TypeId->__toString()),
+                "documentContent" => $param_attch_type,
+                "documentId" => $param_doc_id,
+            );
+
+            $param_dl1 = array(
+                "securityToken" => $response1->securityToken,
+                "dataflow" => "E-ACTIVITY",
+                "transactionId" => $child->TransactionId->__toString(),
+                "documents" => $param_doc,
+            );
+            $resp_dl = callSOAPWithParams($client2, "Download", $param_dl1, "Eenterprise Bridge Auth");
+            if (!$resp_dl->error) {
+                $resp_dl = $resp_dl->response;
+                $INPUT = $resp_dl->documents->documentContent->_;
+                $file = 'sites/default/files/' . $child->Name->__toString();
+                file_put_contents($file, $INPUT);
+            }
+        }
+        create_progress_tracker_node($res, $user);
     }
 }
 
@@ -587,121 +593,131 @@ function assign_roles_to_user($user_name)
     $wsdl = variable_get('eactivity_auth_reg_wsdl');
     $client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
     $user_role_error = TRUE;
-    if (!$client->error) {
-        $client = $client->client;
-        $params1 = array(
-            "userId" => variable_get('eactivity_auth_reg_username'),
-            "credential" => variable_get('eactivity_auth_reg_password'),
-            "domain" => variable_get('eactivity_auth_reg_domain'),
-            "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
-        );
-        $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
-        if (!$response1->error) {
-            $response1 = $response1->response;
+    global $user;
+    if ($client->error) {
+        makeUserPublicUser($user);
+        return;
+    }
 
-            //Extract out "@cdx" string from user_name to pull roles from the Activity Data flow
-            $cdx_username = $user_name;
-            $cdx_pos = strrpos($cdx_username,"@cdx");
-            if($cdx_pos !== FALSE){
-                $cdx_username = substr($cdx_username, 0, $cdx_pos);
-            }
+    $client = $client->client;
+    $params1 = array(
+        "userId" => variable_get('eactivity_auth_reg_username'),
+        "credential" => variable_get('eactivity_auth_reg_password'),
+        "domain" => variable_get('eactivity_auth_reg_domain'),
+        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
+    );
+    $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
+    if ($response1->error) {
+        makeUserPublicUser($user);
+        return;
+    }
+    $response1 = $response1->response;
 
-            //For the following parameter, use $cdx_username, which does not have @cdx at the end, instead of $user_name
-            $params2 = array(
-                "securityToken" => $response1->securityToken,
-                "userId" => $cdx_username,
-            );
+    //Extract out "@cdx" string from user_name to pull roles from the Activity Data flow
+    $cdx_username = $user_name;
+    $cdx_pos = strrpos($cdx_username, "@cdx");
+    if ($cdx_pos !== FALSE) {
+        $cdx_username = substr($cdx_username, 0, $cdx_pos);
+    }
+    //For the following parameter, use $cdx_username, which does not have @cdx at the end, instead of $user_name
+    $params2 = array(
+        "securityToken" => $response1->securityToken,
+        "userId" => $cdx_username,
+    );
 
-            $user_obj = callSOAPWithParams($client, "RetrieveUser", $params2, "Eenterprise Bridge Auth");
-            if (!$user_obj->error) {
-                $user_obj = $user_obj->response;
-                $user_sec_bundle = array(
-                    "securityToken" => $response1->securityToken,
-                    "user" => $user_obj->User,
-                );
+    $user_obj = callSOAPWithParams($client, "RetrieveUser", $params2, "Eenterprise Bridge Auth");
+    if ($user_obj->error) {
+        makeUserPublicUser($user);
+        return;
+    }
 
-                $org_val = null;
-                $user_orgs = callSOAPWithParams($client, "RetrieveOrganizations", $user_sec_bundle, "Eenterprise Bridge Auth");
-                if (!$user_orgs->error) {
-                    $user_orgs = $user_orgs->response;
-                    if (is_array($user_orgs->Organization)) {
-                        $org_val = $user_orgs->Organization[0];
-                    } else {
-                        $org_val = $user_orgs->Organization;
-                    }
-                    $user_sec_org_bundle = array(
-                        "securityToken" => $response1->securityToken,
-                        "user" => $user_obj->User,
-                        "org" => $org_val,
-                    );
-                    global $user;
-                    $user_roles = callSOAPWithParams($client, "RetrieveRoles", $user_sec_org_bundle, "Eenterprise Bridge Auth");
-                    if (!$user_roles->error) {
-                        $user_role_error = FALSE;
-                        $user_roles = $user_roles->response;
-                        if (is_array($user_roles->Role)) {
-                            foreach ($user_roles->Role as $k => $v) {
-                                $role_val = $v->type->description;
-                                if (!empty($role_val)) {
-                                    $user_role = user_role_load_by_name($role_val);
-                                    if ($user_role === FALSE) {
-                                        $user_role = new stdClass();
-                                        $user_role->name = $role_val;
-                                        user_role_save($user_role);
-                                    }
-                                    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-                                    allow_user_menu_access($user_role->rid);
-                                    //Allow favorites view access to all CDX users.
-                                    view_allow_access_role('favorite_sites', $user_role->rid);
-                                    if ($role_val != 'Public') {
-                                        view_allow_access_role('cdx_facility_management', $user_role->rid);
-                                        view_allow_access_role('progress_tracker', $user_role->rid);
-                                        view_allow_access_role('to_do', $user_role->rid);
-                                    }
-                                }
-                            }
-                        } else {
-                            $role_val = $user_roles->Role->type->description;
-                            if (!empty($role_val)) {
-                                $user_role = user_role_load_by_name($role_val);
-                                if ($user_role === FALSE) {
-                                    $user_role = new stdClass();
-                                    $user_role->name = $role_val;
-                                    user_role_save($user_role);
-                                }
-                                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-                                allow_user_menu_access($user_role->rid);
-                                //Allow favorites view access to all CDX users.
-                                view_allow_access_role('favorite_sites', $user_role->rid);
-                                if ($role_val != 'Public') {
-                                    view_allow_access_role('cdx_facility_management', $user_role->rid);
-                                    view_allow_access_role('progress_tracker', $user_role->rid);
-                                    view_allow_access_role('to_do', $user_role->rid);
-                                }
-                            }
-                        }
-                    }
+    $user_obj = $user_obj->response;
+    $user_sec_bundle = array(
+        "securityToken" => $response1->securityToken,
+        "user" => $user_obj->User,
+    );
+
+    $org_val = null;
+    $user_orgs = callSOAPWithParams($client, "RetrieveOrganizations", $user_sec_bundle, "Eenterprise Bridge Auth");
+    if ($user_orgs->error) {
+        makeUserPublicUser($user);
+        return;
+    }
+    $user_orgs = $user_orgs->response;
+    if (is_array($user_orgs->Organization)) {
+        $org_val = $user_orgs->Organization[0];
+    } else {
+        $org_val = $user_orgs->Organization;
+    }
+    $user_sec_org_bundle = array(
+        "securityToken" => $response1->securityToken,
+        "user" => $user_obj->User,
+        "org" => $org_val,
+    );
+    $user_roles = callSOAPWithParams($client, "RetrieveRoles", $user_sec_org_bundle, "Eenterprise Bridge Auth");
+    if ($user_roles->error) {
+        makeUserPublicUser($user);
+        return;
+    }
+    $user_roles = $user_roles->response;
+    if (is_array($user_roles->Role)) {
+        foreach ($user_roles->Role as $k => $v) {
+            $role_val = $v->type->description;
+            if (!empty($role_val)) {
+                $user_role = user_role_load_by_name($role_val);
+                if ($user_role === FALSE) {
+                    $user_role = new stdClass();
+                    $user_role->name = $role_val;
+                    user_role_save($user_role);
+                }
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                allow_user_menu_access($user_role->rid);
+                //Allow favorites view access to all CDX users.
+                view_allow_access_role('favorite_sites', $user_role->rid);
+                if ($role_val != 'Public') {
+                    view_allow_access_role('cdx_facility_management', $user_role->rid);
+                    view_allow_access_role('progress_tracker', $user_role->rid);
+                    view_allow_access_role('to_do', $user_role->rid);
                 }
             }
         }
-    }
-
-    if ($user_role_error) {
-        global $user;
-        $role_val = 'Public';
-        $user_role = user_role_load_by_name($role_val);
-        if ($user_role === FALSE) {
-            $user_role = new stdClass();
-            $user_role->name = $role_val;
-            user_role_save($user_role);
+    } else {
+        $role_val = $user_roles->Role->type->description;
+        if (!empty($role_val)) {
+            $user_role = user_role_load_by_name($role_val);
+            if ($user_role === FALSE) {
+                $user_role = new stdClass();
+                $user_role->name = $role_val;
+                user_role_save($user_role);
+            }
+            user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+            allow_user_menu_access($user_role->rid);
+            //Allow favorites view access to all CDX users.
+            view_allow_access_role('favorite_sites', $user_role->rid);
+            if ($role_val != 'Public') {
+                view_allow_access_role('cdx_facility_management', $user_role->rid);
+                view_allow_access_role('progress_tracker', $user_role->rid);
+                view_allow_access_role('to_do', $user_role->rid);
+            }
         }
-        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-        allow_user_menu_access($user_role->rid);
-        //Allow favorites view access to all CDX users.
-        view_allow_access_role('favorite_sites', $user_role->rid);
-
-        watchdog('eenterprise_bridge_auth', "Error 0003: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
+}
+
+
+function makeUserPublicUser($user)
+{
+    $role_val = 'Public';
+    $user_role = user_role_load_by_name($role_val);
+    if ($user_role === FALSE) {
+        $user_role = new stdClass();
+        $user_role->name = $role_val;
+        user_role_save($user_role);
+    }
+    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+    allow_user_menu_access($user_role->rid);
+    //Allow favorites view access to all CDX users.
+    view_allow_access_role('favorite_sites', $user_role->rid);
+    watchdog('eenterprise_bridge_auth', "Error 0003: Cannot retrieve role information", array(), WATCHDOG_ERROR);
 }
 
 /*
