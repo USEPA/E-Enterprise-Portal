@@ -156,13 +156,10 @@ function favorite_links_ajax_callback($js, $node) {
 
   // Get the render array for the node.
   $build = views_embed_view('favorite_sites', $display_id = 'default');
-  // dpm($build);
-  // $build =  $block['favorite_sites_block'];
   // Render the node into html.
   $html = '<a class="favorites-ignore" href="/user">Edit Profile</a>';
   $html .= render($build);
   $html .= '  <a style="display:none" id="reload_favorite_links"  href="favorite_sites-ajax/ajax" class="use-ajax">Reload</a>';
-  // print($html);
   // Prepare an ajax command to insert the node html into our ajax wrapper.
   $commands = array();
   $commands[] = ajax_command_html('#favorite_links-ajax-wrapper', $html);

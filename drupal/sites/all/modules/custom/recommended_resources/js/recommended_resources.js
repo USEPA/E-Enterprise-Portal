@@ -39,8 +39,10 @@
                     var $table = $wrapper.find('table');
                     if ($table.length > 0) {
                         $table.DataTable(datatable_options);
+                        $table.on('page.dt', function() {
+                            truncateWithEllipses("lgc-resource-description");
+                        });
                         $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
-                        truncateWithEllipses("lgc-resource-description");
                     }
 
                     cached = true;
@@ -141,12 +143,12 @@
 
 
     // Add ellipses functionality
-    $(document).on('click',
-        '#user-local-resources .pager__link, #all-local-resources .pager__link, ' +
-        '#all-local-resources-button, #restrict-to-local-resources-button',
-        function() {
-        truncateWithEllipses("lgc-resource-description");
-    });
+    //$(document).on('click',
+    //    '#user-local-resources .pager__link, #all-local-resources .pager__link, ' +
+    //    '#all-local-resources-button, #restrict-to-local-resources-button',
+    //    function() {
+    //    truncateWithEllipses("lgc-resource-description");
+    //});
 
     function truncateWithEllipses(class_name) {
         $("." + class_name).dotdotdot({
