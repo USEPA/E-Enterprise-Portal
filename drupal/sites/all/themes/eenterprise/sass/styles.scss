@@ -738,7 +738,6 @@ header {
 
 .page-workbench {
 	.ui-dialog,
-	.modal-content-in-page,
 	div[role="dialog"] {
 		display: none;
 	}
@@ -2810,18 +2809,22 @@ input#location-input-guests::-ms-clear {
   height: 0;
 }
 
-input#location-input-guests {
-	&.ui-autocomplete-input.form-control.input-sm.jquery-once-4-processed {
-		width: 125px !important;
-		height: 2.75rem;
-		color: $color-base;
-		vertical-align: middle;
-		padding-top: 2px;
-		padding-bottom: 2px;
-		color:#000;
-		font-size:1.5rem;
-		line-height:1;
-		padding-right:2px;
+.block--ee-header-locations {
+	.ee-workbench-header-setlocation {
+		input#location-input-guests {
+			&.ui-autocomplete-input.form-control.input-sm {
+				width: 125px !important;
+				height: 2.75rem;
+				color: $color-base;
+				vertical-align: middle;
+				padding-top: 2px;
+				padding-bottom: 2px;
+				color:#000;
+				font-size:1.5rem;
+				line-height:1;
+				padding-right:2px;
+			}
+		}
 	}
 }
 
