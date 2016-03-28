@@ -281,8 +281,6 @@
                 }
             }); //End keyup function
         }); //End focus function
-    })
-    ;
-
+    });
 })
 (jQuery);
