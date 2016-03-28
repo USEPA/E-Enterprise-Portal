@@ -44,6 +44,7 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
           <h3>Interests</h3>
           <div id='links_description' class='form-group'>
               <?php
+              print render($form['field_lgc_topics_of_interest']);
               print render($form['field_organization']);
               print render($form['field_role']);
               $term = taxonomy_term_load($form['field_organization'][LANGUAGE_NONE]['#default_value'][0]);

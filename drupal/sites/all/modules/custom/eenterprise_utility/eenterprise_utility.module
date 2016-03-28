@@ -456,7 +456,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_initial_log_in']);
         hide($form['field_interests2']);
         hide($form['field_gridstack_settings']);
-        hide($form['field_lgc_topics_of_interest']);
+        $form['field_lgc_topics_of_interest'];
 
 
         // Custom multiselect field for storing users preferred location names
