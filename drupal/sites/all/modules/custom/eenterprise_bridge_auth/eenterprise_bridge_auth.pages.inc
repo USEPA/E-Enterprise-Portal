@@ -578,112 +578,123 @@ function assign_roles_to_user($user_name)
     $wsdl = variable_get('eactivity_auth_reg_wsdl');
     $client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
     $user_role_error = TRUE;
-    if (!$client->error) {
-        $client = $client->client;
-        $params1 = array(
-            "userId" => variable_get('eactivity_auth_reg_username'),
-            "credential" => variable_get('eactivity_auth_reg_password'),
-            "domain" => variable_get('eactivity_auth_reg_domain'),
-            "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
-        );
-        $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
-        if (!$response1->error) {
-            $response1 = $response1->response;
-            $params2 = array(
-                "securityToken" => $response1->securityToken,
-                "userId" => $user_name
-            );
+    global $user;
+    if ($client->error) {
+        makeUserPublicUser($user);
+        return;
+    }
 
-            $user_obj = callSOAPWithParams($client, "RetrieveUser", $params2, "Eenterprise Bridge Auth");
-            if (!$user_obj->error) {
-                $user_obj = $user_obj->response;
-                $user_sec_bundle = array(
-                    "securityToken" => $response1->securityToken,
-                    "user" => $user_obj->User,
-                );
+    $client = $client->client;
+    $params1 = array(
+        "userId" => variable_get('eactivity_auth_reg_username'),
+        "credential" => variable_get('eactivity_auth_reg_password'),
+        "domain" => variable_get('eactivity_auth_reg_domain'),
+        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
+    );
+    $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
+    if ($response1->error) {
+        makeUserPublicUser($user);
+        return;
+    }
+    $response1 = $response1->response;
+    $params2 = array(
+        "securityToken" => $response1->securityToken,
+        "userId" => $user_name
+    );
 
-                $org_val = null;
-                $user_orgs = callSOAPWithParams($client, "RetrieveOrganizations", $user_sec_bundle, "Eenterprise Bridge Auth");
-                if (!$user_orgs->error) {
-                    $user_orgs = $user_orgs->response;
-                    if (is_array($user_orgs->Organization)) {
-                        $org_val = $user_orgs->Organization[0];
-                    } else {
-                        $org_val = $user_orgs->Organization;
-                    }
-                    $user_sec_org_bundle = array(
-                        "securityToken" => $response1->securityToken,
-                        "user" => $user_obj->User,
-                        "org" => $org_val,
-                    );
-                    global $user;
-                    $user_roles = callSOAPWithParams($client, "RetrieveRoles", $user_sec_org_bundle, "Eenterprise Bridge Auth");
-                    if (!$user_roles->error) {
-                        $user_role_error = FALSE;
-                        $user_roles = $user_roles->response;
-                        if (is_array($user_roles->Role)) {
-                            foreach ($user_roles->Role as $k => $v) {
-                                $role_val = $v->type->description;
-                                if (!empty($role_val)) {
-                                    $user_role = user_role_load_by_name($role_val);
-                                    if ($user_role === FALSE) {
-                                        $user_role = new stdClass();
-                                        $user_role->name = $role_val;
-                                        user_role_save($user_role);
-                                    }
-                                    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-                                    allow_user_menu_access($user_role->rid);
-                                    //Allow favorites view access to all CDX users.
-                                    view_allow_access_role('favorite_sites', $user_role->rid);
-                                    if ($role_val != 'Public') {
-                                        view_allow_access_role('cdx_facility_management', $user_role->rid);
-                                        view_allow_access_role('progress_tracker', $user_role->rid);
-                                        view_allow_access_role('to_do', $user_role->rid);
-                                    }
-                                }
-                            }
-                        } else {
-                            $role_val = $user_roles->Role->type->description;
-                            if (!empty($role_val)) {
-                                $user_role = user_role_load_by_name($role_val);
-                                if ($user_role === FALSE) {
-                                    $user_role = new stdClass();
-                                    $user_role->name = $role_val;
-                                    user_role_save($user_role);
-                                }
-                                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-                                allow_user_menu_access($user_role->rid);
-                                //Allow favorites view access to all CDX users.
-                                view_allow_access_role('favorite_sites', $user_role->rid);
-                                if ($role_val != 'Public') {
-                                    view_allow_access_role('cdx_facility_management', $user_role->rid);
-                                    view_allow_access_role('progress_tracker', $user_role->rid);
-                                    view_allow_access_role('to_do', $user_role->rid);
-                                }
-                            }
-                        }
-                    }
+    $user_obj = callSOAPWithParams($client, "RetrieveUser", $params2, "Eenterprise Bridge Auth");
+    if ($user_obj->error) {
+        makeUserPublicUser($user);
+        return;
+    }
+
+    $user_obj = $user_obj->response;
+    $user_sec_bundle = array(
+        "securityToken" => $response1->securityToken,
+        "user" => $user_obj->User,
+    );
+
+    $org_val = null;
+    $user_orgs = callSOAPWithParams($client, "RetrieveOrganizations", $user_sec_bundle, "Eenterprise Bridge Auth");
+    if ($user_orgs->error) {
+        makeUserPublicUser($user);
+        return;
+    }
+    $user_orgs = $user_orgs->response;
+    if (is_array($user_orgs->Organization)) {
+        $org_val = $user_orgs->Organization[0];
+    } else {
+        $org_val = $user_orgs->Organization;
+    }
+    $user_sec_org_bundle = array(
+        "securityToken" => $response1->securityToken,
+        "user" => $user_obj->User,
+        "org" => $org_val,
+    );
+    $user_roles = callSOAPWithParams($client, "RetrieveRoles", $user_sec_org_bundle, "Eenterprise Bridge Auth");
+    if ($user_roles->error) {
+        makeUserPublicUser($user);
+        return;
+    }
+    $user_roles = $user_roles->response;
+    if (is_array($user_roles->Role)) {
+        foreach ($user_roles->Role as $k => $v) {
+            $role_val = $v->type->description;
+            if (!empty($role_val)) {
+                $user_role = user_role_load_by_name($role_val);
+                if ($user_role === FALSE) {
+                    $user_role = new stdClass();
+                    $user_role->name = $role_val;
+                    user_role_save($user_role);
+                }
+                user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                allow_user_menu_access($user_role->rid);
+                //Allow favorites view access to all CDX users.
+                view_allow_access_role('favorite_sites', $user_role->rid);
+                if ($role_val != 'Public') {
+                    view_allow_access_role('cdx_facility_management', $user_role->rid);
+                    view_allow_access_role('progress_tracker', $user_role->rid);
+                    view_allow_access_role('to_do', $user_role->rid);
                 }
             }
         }
-    }
-
-    if ($user_role_error) {
-        global $user;
-        $role_val = 'Public';
-        $user_role = user_role_load_by_name($role_val);
-        if ($user_role === FALSE) {
-            $user_role = new stdClass();
-            $user_role->name = $role_val;
-            user_role_save($user_role);
+    } else {
+        $role_val = $user_roles->Role->type->description;
+        if (!empty($role_val)) {
+            $user_role = user_role_load_by_name($role_val);
+            if ($user_role === FALSE) {
+                $user_role = new stdClass();
+                $user_role->name = $role_val;
+                user_role_save($user_role);
+            }
+            user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+            allow_user_menu_access($user_role->rid);
+            //Allow favorites view access to all CDX users.
+            view_allow_access_role('favorite_sites', $user_role->rid);
+            if ($role_val != 'Public') {
+                view_allow_access_role('cdx_facility_management', $user_role->rid);
+                view_allow_access_role('progress_tracker', $user_role->rid);
+                view_allow_access_role('to_do', $user_role->rid);
+            }
         }
-        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-        allow_user_menu_access($user_role->rid);
-        //Allow favorites view access to all CDX users.
-        view_allow_access_role('favorite_sites', $user_role->rid);
-
-        watchdog('eenterprise_bridge_auth', "Error 0003: Cannot retrieve role information", array(), WATCHDOG_ERROR);
     }
+}
+
+
+function makeUserPublicUser($user)
+{
+    $role_val = 'Public';
+    $user_role = user_role_load_by_name($role_val);
+    if ($user_role === FALSE) {
+        $user_role = new stdClass();
+        $user_role->name = $role_val;
+        user_role_save($user_role);
+    }
+    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+    allow_user_menu_access($user_role->rid);
+    //Allow favorites view access to all CDX users.
+    view_allow_access_role('favorite_sites', $user_role->rid);
+    watchdog('eenterprise_bridge_auth', "Error 0003: Cannot retrieve role information", array(), WATCHDOG_ERROR);
 }
 
 /*

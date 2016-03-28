@@ -24,7 +24,6 @@
 ?>
 
 
-
 <?php 
 	foreach ($row->field_field_profile_favourites as $key=>$array) {
 		$url = $array['raw']['field_url'][LANGUAGE_NONE][0]['value'];
