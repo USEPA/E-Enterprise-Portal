@@ -232,6 +232,10 @@ function retrieve_cdx_user_data()
         $user_id = $local_testing_user_id;
     else
         $user_id = $user->name;
+    // if user id includes @, only use first part
+    $at_pos = strpos($user_id, '@');
+    if ($at_pos)
+        $user_id = substr($user_id, 0, $at_pos);
     $allowed_program_roles = ['CEDRI', 'CSPP', 'eDisclosure'];
     $json_return = array();
 
