@@ -111,6 +111,9 @@ function return_cdx_facility_management_token()
             $_SESSION['login_timestamp'] = $user_login_time;
         }
         $user_id = $user->name;
+        $at_pos = strpos($user_id, '@');
+        if ($at_pos)
+            $user_id = substr($user_id, 0, $at_pos);
     }
     $json_return = array();
     $user_session_logout = (int)variable_get('cdx_facility_user_logout_session');
