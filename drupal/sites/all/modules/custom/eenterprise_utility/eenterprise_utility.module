@@ -782,7 +782,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                 // First find if there is a preferred name associated with this location
                 if ($location_info) {
                     $users_preferred_name = $location_info['preferred_name'];
-                    if (isset($users_preferred_name)) {
+                    if (strlen($users_preferred_name) != 0) {
                         $readable_string = $users_preferred_name;
                         $zip_attr[$zip] = array(
                             "pop" => $location_info['commsize'],
