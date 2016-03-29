@@ -4,6 +4,7 @@ var id = 0;
 var favorite_urls;
 var favorite_url_mapping;
 var id_label_mapping;
+var link_status_changing = false;
 
 function preload_links() {
     $('#load_more').hide();
@@ -19,18 +20,18 @@ $(document).ready(function () {
     preload_links();
 });
 
-jQuery.fn.extend({
-    favor: function () {
-        return this.each(function () {
-            this.checked = true;
-        });
-    },
-    unfavor: function () {
-        return this.each(function () {
-            this.checked = false;
-        });
-    }
-});
+//jQuery.fn.extend({
+//    favor: function () {
+//        return this.each(function () {
+//            this.checked = true;
+//        });
+//    },
+//    unfavor: function () {
+//        return this.each(function () {
+//            this.checked = false;
+//        });
+//    }
+//});
 
 
 function createFavoriteButton(url, text_title) {
@@ -131,6 +132,10 @@ var FavoriteLink = function ($container) {
     this.triggerParentForRemoval = function () {
         parent.unfavor();
         parent.unfavor_children();
+    }
+
+    this.setTitle = function(in_title) {
+        title = in_title;
     }
 
     // Private
