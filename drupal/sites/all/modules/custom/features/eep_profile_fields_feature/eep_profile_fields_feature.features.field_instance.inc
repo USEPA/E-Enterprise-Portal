@@ -562,43 +562,6 @@ function eep_profile_fields_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_interests2'
-  $field_instances['user-user-field_interests2'] = array(
-    'bundle' => 'user',
-    'custom_add_another' => '',
-    'custom_remove' => '',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 5,
-      ),
-    ),
-    'entity_type' => 'user',
-    'field_name' => 'field_interests2',
-    'label' => 'Interests2',
-    'required' => 0,
-    'settings' => array(
-      'custom_add_another' => '',
-      'custom_remove' => '',
-      'user_register_form' => 0,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 8,
-    ),
-  );
-
   // Exported field_instance: 'user-user-field_profile_favourites'
   $field_instances['user-user-field_profile_favourites'] = array(
     'bundle' => 'user',
@@ -810,7 +773,6 @@ function eep_profile_fields_feature_field_default_field_instances() {
   t('First Name');
   t('First Time User');
   t('Geolocation');
-  t('Interests2');
   t('Primary');
   t('State');
   t('Terms of Use Agreed');
