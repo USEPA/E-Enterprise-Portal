@@ -1683,7 +1683,7 @@ form .field-multiple-table#field-zip-code-values {
   font-size: $base-font-size;
   margin: 0.2em 0 !important;
   max-width: $input-max-width;
-  outline: none;
+  //outline: none;
   padding: 1rem 0.7em !important;
   width: 100% !important;
   &:after {
@@ -1974,7 +1974,8 @@ a#edit-facility-exit {
 }
 
 
-/** AQI / Popup Description Tweaks *********************************************************/
+// AQI / Popup Description Tweaks -------------- //
+
 .popover-title {
 	font-weight: bold;
 }
@@ -1999,7 +2000,9 @@ input[type="submit"]:not(.usa-button-outline),
   @include linear-gradient(rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
 }
 
+
 // Responsive Tables -------------- //
+
 .view-filters {
 	font-size: $h5-font-size;
 	.views-exposed-widgets {
@@ -2007,82 +2010,83 @@ input[type="submit"]:not(.usa-button-outline),
     margin-top: 1.5rem;
 	}
 }
-.responsive-table {
-	margin-top: 1em;
-	clear: both;
-	thead {
-		@include sr-only;
-	}
-	tbody,
-	tr,
-	th,
-	td {
-  	display: block;
-		white-space: normal;
-		padding: 1rem;
-	}	
-	th,
-	td {
-	  vertical-align: top;
-	}
-	tr {
-		&.odd,
-		&.even {
-			background-color: $color-white;
-		}
-	}
-	tbody {
-		tr:last-of-type {
-  		margin-bottom: 0;
-		}
-		td[data-title]:before {
-		  width: 11em;
-		  content: attr(data-title);
-		  float: left;
-		  font-size: $h7-font-size;
-		  color: $color-gray-dark;
-		}		
-	}
-	.views-field-field-prog-track-actions-dnload {
-		p {
-			line-height: 1.2;
-			margin-top: 0;
-			margin-bottom: 0;
-			a {
-				margin-bottom: 5px;
+.view-to-do,
+.view-progress-tracker {
+	.responsive-table {
+		margin-top: 1em;
+		clear: both;
+		thead {
+			@include sr-only;
+			th.views-field-field-prog-tracker-app {
+				width: 150px;
 			}
 		}
-		br {
-			display: none;
+		tbody,
+		tr,
+		th,
+		td {
+	  	display: block;
+			white-space: normal;
+			padding: 1rem 0.5rem;
+		}	
+		th,
+		td {
+		  vertical-align: top;
 		}
-		
+		tr {
+			&.odd,
+			&.even {
+				background-color: $color-white;
+			}
+		}
+		tbody {
+			tr:last-of-type {
+	  		margin-bottom: 0;
+			}
+			td[data-title]:before {
+			  width: 11em;
+			  content: attr(data-title);
+			  float: left;
+			  font-size: $h7-font-size;
+			  color: $color-gray-dark;	  
+			}		
+			td.views-field-field-prog-tracker-app,
+			td.views-field-field-todo-lst-item {
+		    background-color: $color-gray-lightest;
+		    border-left: 1px solid $color-gray-light;
+		    border-right: 1px solid $color-gray-light;					
+			}
+			td {
+				border-bottom: none;
+			}
+		}
+		.views-field-field-prog-track-actions-dnload {
+			p {
+				line-height: 1.2;
+				margin-top: 0;
+				margin-bottom: 0;
+				a {
+					margin-bottom: 5px;
+				}
+			}
+			br {
+				display: none;
+			}
+			
+		}
+		td.responsive-to-do-link a,
+		td.views-field-field-prog-track-actions-dnload a {
+			padding-bottom:1px;
+			padding-top: 1px;
+		}
 	}
-}
-
-th.views-field-field-prog-tracker-app {
-  width: 150px;
-}
-
-.view-to-do, 
-.view-progress-tracker {
 	a.favorites-ignore:not(.pager__link) {
 		display: block;
 	}
 }
-td.responsive-to-do-link a,
-td.views-field-field-prog-track-actions-dnload a {
-	padding-bottom:1px;
-	padding-top: 1px;
-}
 
-/*********** iPhone, some Android Portrait @ 320px***********/
-@media screen and (max-width: 20em) {
-	#including li div {
-		width: 9.5em;
-	}
-}
+// iPhone, some Android Portrait @ 320px, iphone 6 @ 375px -------------- //
 
-/*********** iPhone, some Android Portrait @ 320px, iphone 6 @ 375px ***********/
 @media screen and (max-width: 20em) {
 	.masthead {
 		h1.site-name {
@@ -2108,6 +2112,20 @@ td.views-field-field-prog-track-actions-dnload a {
 			}
 		}
 	}
+	#including li div {
+		width: 9.5em;
+	}
+  .responsive-table {
+	  tbody {
+		  td[data-title="Item"]:before {
+		    font-size: 1.4rem; //0.9em
+		    content: '';
+	    }
+			td[data-title="Item"] {
+		    text-align: left;
+		  }	    
+	  }  	
+  }	
 }
 @media screen and (min-width: 20.1em) and (max-width: 24em) {
 	#including li div {
@@ -2197,39 +2215,38 @@ td.views-field-field-prog-track-actions-dnload a {
 	}
 }
 
-/*********** iPhone, some Android Portrait @ 320px***********/
-@media screen and (min-width: 20em) {
-  .responsive-table {
-	  tbody {
-		  td[data-title="Item"]:before {
-		    font-size: 1.4rem; //0.9em
-		    content: '';
-	    }
-			td[data-title="Item"] {
-		    text-align: left;
-		  }	    
-	  }  	
-  }
-}
+
+// To Do / Progress Tracker - iPhone -------------- //
 
 @media screen and (min-width:20em) and (max-width:60em) {
-  .responsive-table {
+	.view-progress-tracker,
+	.view-to-do {
+	  .responsive-table {
 	  	thead {
 				display:none;
 			}
-	  tbody td[scope="row"] {
-	    margin: 0;
-	    text-align: left;
+		  tbody td[scope="row"] {
+		    margin: 0;
+		    text-align: left;
+		  }
+		  tbody td {
+		    text-align: left;
+		  }
+		  td.views-field-counter {
+		    display: none;
+		  }
 	  }
-	  tbody td {
-	    text-align: left;
-	  }
-	  td.views-field-counter {
-	    display: none;
+  }
+  .responsive-table {
+	  td {
+		  padding: 1rem 0.5rem;
 	  }
   }
 }
-/*********** Tablet, iPad Landscape @ 768px ***********/
+
+
+// Tablet, iPad Landscape @ 768px -------------- //
+
 @media screen and (min-width: 48em) {
 	.login-options li {
 		display: inline-block;
@@ -2237,44 +2254,59 @@ td.views-field-field-prog-track-actions-dnload a {
 		margin-right: 40px;
 		vertical-align: top;
 	}
-  .responsive-table {
-	  caption {
-	    font-size: 1.5em;
-	  }    
-		thead {
-	    position: relative;
-	    clip: auto;
-	    height: auto;
-	    width: auto;
-	    overflow: auto;
-	  }   
-	  tr {
-	    display: table-row;
-	  }	   
-		th,
-	  td {
-	    display: table-cell;
-	  }	
-	  tbody {
-	    display: table-row-group;
-		  th[scope="row"] {
-		    background-color: transparent;
-		    color: $color-gray-dark;
-		    text-align: left;
-		  }
+}
+
+@media screen and (min-width: 60em) {
+	.view-progress-tracker,
+	.view-to-do {	
+		.responsive-table {
+			caption {
+			  font-size: 1.5em;
+			}
+			thead {
+		    position: relative;
+		    clip: auto;
+		    height: auto;
+		    width: auto;
+		    overflow: auto;				
+			}      
 			tr {
-				margin-bottom: 1em;			
-			}
-			td[data-title]:before {
-			  content: none;
-			}		
-			td[data-title="Item"] {
-				text-align: left;
-		    background: inherit;
-		    color: inherit;
-			}
-	  }	    
-  }
+			  display: table-row;
+			}	   
+			th,
+			td {
+			  display: table-cell;
+			}	
+			tbody {
+			  display: table-row-group;
+			  th[scope="row"] {
+			    background-color: transparent;
+			    color: $color-gray-dark;
+			    text-align: left;
+			  }
+				tr {
+					margin-bottom: 1em;			
+				}
+				td[data-title]:before {
+					content: none;
+				}
+				td[data-title="Item"] {
+					text-align: left;
+			    background: inherit;
+			    color: inherit;
+				}
+				td {
+			    border-bottom: 1px solid $color-gray-lighter;
+			  }
+				td.views-field-field-prog-tracker-app,
+				td.views-field-field-todo-lst-item {
+			    background-color: transparent;
+			    border-left: none;
+			    border-right: none;							
+				}
+			}	    
+	  }	
+	}	
 }
 
 .mobile-nav {
@@ -2667,6 +2699,11 @@ a {
 			i {
 				padding-top: 0.5rem;
 			}				
+		}
+		.usa-form-note {
+			text-align: center;
+			display: block;
+			width: 30rem;
 		}
 	}
 }
