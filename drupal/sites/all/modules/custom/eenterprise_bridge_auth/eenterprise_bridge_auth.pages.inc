@@ -136,7 +136,7 @@ function eenterprise_bridge_auth_authenticate($error)
                     $public_or_cdx = 'public';
                 }
             } else {
-                if(variable_get('cdx_username_mitigation') == 'Run Mitigation Code' ){
+                if(variable_get('cdx_usernames_mitigation') == 'Run Mitigation Code' ){
                     db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $username."@cdx", ':uname2' => $username));
                     db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $username."@cdx", ':uname2' => $username));
                 }
