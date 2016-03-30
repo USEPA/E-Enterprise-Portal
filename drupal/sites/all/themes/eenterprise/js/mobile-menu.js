@@ -8,12 +8,8 @@ Drupal.behaviors.mobileMenu = {
     var $mobileLinks = $('.mobile-nav_links'),
         $mainNav = $('.main-nav'),
         $secondaryNav = $('.secondary-nav'),
-        $footerNav = $('.region-footer');
         $newMainMenu = $mainNav.find('.menu').clone();
         $newSecondaryMenu = $secondaryNav.find('.menu').clone();
-        $newFooterMenu = $footerNav.find('.menu').clone();
-//				$locationsBlock = $('.ee-workbench-header-setlocation');        
-//        $newLocations = $locationsBlock.clone();
 
     // Insert the cloned menus into the mobile menu container.
     $newMainMenu.attr('class', 'menu').find('ul').each(function() {
@@ -26,14 +22,8 @@ Drupal.behaviors.mobileMenu = {
     });
     $newSecondaryMenu.find('ul').remove();
     
-    $newFooterMenu.attr('class', 'menu').find('ul').each(function() {
-      $(this).attr('class', 'menu');
-    });
-    $newFooterMenu.find('ul').remove();
-    
     $newMainMenu.appendTo($mobileLinks);
     $newSecondaryMenu.appendTo($mobileLinks);
-    $newFooterMenu.appendTo($mobileLinks);
 
     // Open/Close mobile menu when menu button is clicked.
     var $mobileMenuWrapper = $('.mobile-nav').find('.mobile-nav_links'),

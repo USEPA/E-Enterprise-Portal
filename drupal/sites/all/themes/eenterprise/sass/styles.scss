@@ -117,6 +117,10 @@
 	.site-name {
 		margin-top: 15px;
 		margin-bottom: 5px;
+		a {
+			display: block;
+			width: 239px;
+		}
 	}
 	.site-slogan {
 		margin-bottom: 15px;
@@ -128,7 +132,7 @@
 
 .region-navigation {
 	background-color: $color-primary;
-	height: 3.5rem;
+	height: auto;
 	font-size: $h5-font-size;	
   @include linear-gradient(rgba(255,255,255,.2) 0%, rgba(0,0,0,.15) 100%);
 	@include special-box-shadow(0px, 1px, 5px, $color-gray);
@@ -158,27 +162,33 @@
 				padding-right: 0.75rem;
 				border-right: 1px solid darken($color-primary, 3%);
 			}
-		}
-	}
-	.main-nav {
-		.menu {
-			.menu-item {
-				a {
-					padding: 0.5rem 2rem;
-				}
+			a {
+				padding: 0.5rem 2 rem;
 			}
 		}
 	}
+	.main-nav {
+		&.usa-width-one-half {
+			float: none;
+			width: auto;
+			margin-bottom: 10px;
+		}		
+	}
 	.block--ee-header-locations {
+		&.usa-width-one-half {
+			width: auto;
+			float: none;
+		}
 		#locations-modal {
 			display: none;
 		}
 		.ee-workbench-header-locations, 
 		.ee-feedback {
-			float: right;		
+			float: none;		
 		}
 		.ee-workbench-header-block {
 			display: inline-block;
+			float: left;
 		}		
 		.ee-workbench-header-setlocation {
 			line-height: 3.5rem;
@@ -203,7 +213,6 @@
 			margin-right: -2.5rem; //Balance out padding while still aligning to grid
 		}
 	}	
-
 }
 
 
@@ -240,6 +249,16 @@
 		font-size: $h6-font-size;
 		.menu-item {
 			border-color: $color-gray-lightest;
+		}
+	}
+}
+
+.region-footer {
+	.menu {
+		margin-top: 1.25rem;
+		margin-left: -5px;
+		.menu-item {
+			display: inline-block;
 		}
 	}
 }
@@ -1012,7 +1031,27 @@ a:focus.add_link {
 	}
 }
 
-@media screen and (max-width: 47em) {
+@media screen and (min-width: 47em) {
+	.region-navigation {
+		height: 3.5rem;
+		&.usa-grid {
+			.main-nav {
+				&.usa-width-one-half {
+					float: left;
+					width: 26rem;
+				}		
+			}
+			.block--ee-header-locations {
+				&.usa-width-one-half {
+					.ee-workbench-header-locations, 
+					.ee-feedback {
+						float: right;		
+					}
+				}
+			}
+		}
+	}
+	
 	#first-time-user-profile {
 		.first-time-second-page {
 			.usa-grid {
@@ -2050,6 +2089,9 @@ input[type="submit"]:not(.usa-button-outline),
 			  font-size: $h7-font-size;
 			  color: $color-gray-dark;	  
 			}		
+			td.views-field-field-prog-track-actions-dnload[data-title]:before {
+				float: none;
+			}
 			td.views-field-field-prog-tracker-app,
 			td.views-field-field-todo-lst-item {
 		    background-color: $color-gray-lightest;
@@ -2091,7 +2133,7 @@ input[type="submit"]:not(.usa-button-outline),
 	.masthead {
 		h1.site-name {
 			font-size: 1.5em;
-	    }
+	  }
 	}
 	#first-time-user-block {
 		h2 {
@@ -2123,15 +2165,59 @@ input[type="submit"]:not(.usa-button-outline),
 	    }
 			td[data-title="Item"] {
 		    text-align: left;
-		  }	    
+		  }	   
 	  }  	
   }	
+	.region-footer {
+		padding-top: 20px;
+		&.usa-grid {
+			.usa-width-one-third,
+			.usa-width-two-thirds {
+				float: none;
+				width: 100%;
+				margin-top: 0;
+				margin-bottom: 10px;
+			}
+			.menu {
+				float: none;
+				.menu-item {
+					display: block;
+					padding: 10px 0;
+				}
+			}			
+		}
+	}
+	  
 }
 @media screen and (min-width: 20.1em) and (max-width: 24em) {
 	#including li div {
 		width: 13em;
 	}
 }
+
+@media screen and (min-width: 20.1em) and (max-width: 40em) {
+	.region-footer {
+		padding-top: 20px;		
+		&.usa-grid {
+			.usa-width-one-third, 
+			.usa-width-two-thirds {
+				float: none;
+				width: 100%;
+				margin-top: 0;
+				.menu {
+					float: none;
+					.menu-item {
+						&:first-child {
+							padding-left: 0;
+						}
+						margin-left: -5px;
+					}
+				}
+			}
+		}
+	}
+}
+
 @media screen and (max-width: 26em) {
 	#benefits div {
 		padding-left: 1em;
@@ -2245,6 +2331,80 @@ input[type="submit"]:not(.usa-button-outline),
 }
 
 
+@media screen and (max-width: 30em) {
+	.site-logo, 
+	.region-navigation .block--ee-header-locations .ee-workbench-header-setlocation select, 
+	.region-navigation .block--ee-header-locations .ee-workbench-header-setlocation input {
+		max-width: 80%;
+	}
+	.page-workbench {
+		.usa-grid {
+			padding: 0 5px;
+		}
+	}
+	.div.ctools-modal-content {
+		.resizable-textarea {
+			margin-right: 0;
+		}
+	}
+	// Ensure Questions dialog box scrolls on mobil -------------- //
+	#modalContent {
+		position: absolute !important;		
+	}
+  #other-areas-tabs {
+	  .responsive-table {
+	  	thead {
+		  	display: none;
+	  	}
+	  	tr {
+		  	border-bottom: 1px solid $color-gray-light;
+	  	}
+	  	td.views-field {
+		  	display: block;
+		  	border-bottom: none;
+		  	&:before {
+			  	font-size: 1.1rem;
+					display:inline-block;
+			  	width: 5em;
+			  }
+				&.views-field-title-1:before {
+					content: "Source";
+				}
+				&.views-field-nothing:before {
+					content: "Resource";
+				}
+				&.views-field-field-topic:before {
+					content: "Topic";
+				}
+			}	 
+	  }
+  }
+	
+	.region-footer {
+		&.usa-grid {
+			.usa-width-one-third, 
+			.usa-width-two-thirds {
+				.menu {
+					float: none;
+					.menu-item {
+						display: inline-block;
+						border-right: none;
+						padding: 0;
+						margin-bottom: 5px;
+						a {
+							padding: 5px 10px;
+							display: block;
+							text-align: left;
+							margin-top: -5px;
+							margin-bottom: -5px;
+						}
+					}
+				}
+			}
+		}
+	}	
+}
+
 // Tablet, iPad Landscape @ 768px -------------- //
 
 @media screen and (min-width: 48em) {
@@ -2323,9 +2483,14 @@ input[type="submit"]:not(.usa-button-outline),
 		color: white;
 		padding: 5px;		
 		width: 2em;
+		border: 1px solid darken($color-primary-darker, 5%);
+		&:hover {
+			text-decoration: none;
+		}
 	}
 	.usa-button.mobile-nav_toggle {
-		width: 12em;
+		width: 5em;
+		border: 1px solid darken($color-primary-darker, 5%);		
 		&.menu-button-active {
 			background-color: $color-primary-darker;
 		}
@@ -3017,17 +3182,7 @@ input#location-input-guests::-ms-clear {
 	.site-name-and-slogan {
 		width: 100%;
 	}
-	.main-nav,
-	.secondary-nav,
-	.region-footer {
-	// Hide simple-main-nav at widths below 40em, when mobile-nav shows
-		display: none;
-	}
-	
-	.mobile-nav {
-		display: block;
-	}
-	
+
 	form[id^='user-profile-form'] {
 		.ajax-progress .message {
 			display: none;
@@ -3043,6 +3198,27 @@ input#location-input-guests::-ms-clear {
 	}	
 }
 
+@media screen and (max-width: 49em) {
+	.usa-grid {
+		.site-name-and-slogan {
+			&.usa-width-one-half {
+				margin-right: 0;
+			}
+		}
+		.main-nav,
+		.secondary-nav {
+		// Hide simple-main-nav at widths below 40em, when mobile-nav shows
+			display: none;
+			&.usa-width-one-half {
+				display: none;
+			}
+		}
+	}
+	
+	.mobile-nav {
+		display: block;
+	}
+}
 
 
 
