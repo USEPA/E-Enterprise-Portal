@@ -1,154 +1,127 @@
 <?php
-/**
- * @file
- * View: First Time User Profile
- *
- * @file
- * Main view template.
- *
- * Variables available:
- * - $classes_array: An array of classes determined in
- *   template_preprocess_views_view(). Default classes are:
- *     .view
- *     .view-[css_name]
- *     .view-id-[view_name]
- *     .view-display-id-[display_name]
- *     .view-dom-id-[dom_id]
- * - $classes: A string version of $classes_array for use in the class attribute
- * - $css_name: A css-safe version of the view name.
- * - $css_class: The user-specified classes names, if any
- * - $header: The view header
- * - $footer: The view footer
- * - $rows: The results of the view query, if any
- * - $empty: The empty text to display if the view is empty
- * - $pager: The pager next/prev links to display, if any
- * - $exposed: Exposed widget form/info to display
- * - $feed_icon: Feed icon to display, if any
- * - $more: A link to view more, if any
- *
- * @ingroup views_templates
- */
-
+drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_input_engine.js');
+drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "file");
+drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", "file");
+drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+$font_awesome_path = libraries_get_path('font-awesome-4.5.0');
+drupal_add_css($font_awesome_path . "/css/font-awesome.min.css", "file");
 ?>
+<div class="edit-user-profile">
+    <div id="profile-tabs">
+        <ul>
+            <li><a class="favorites-ignore" href="#profile-account">Account</a></li>
+            <li><a class="favorites-ignore" href="#profile-locations">Locations</a></li>
+            <li><a class="favorites-ignore" href="#profile-interests">Interests</a></li>
+            <li><a class="favorites-ignore" href="#profile-favorites">Favorites</a></li>
 
-<?php
-drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/combobox.js", "file");
-drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/first_time_user_profile.js", "file");
-drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_time_user_profile.css", "file");
-?>
-<div id="first-time-user-profile">
-    <h2><span>Getting Started</span>What matters to you?</h2>
-
-    <p>We have many resources and will be adding more. To personalize your experience, you can include location details
-        below. You can adjust this later in 'My account' too.</p>
-
-    <div class="first-time-first-page">
-        <h3>Location that interests you</h3>
-
-        <p id="location-description-intro">Pick a location to see environmental information for that area.
-            <span id="location-description-na" style="display:none">Until you choose a location, the default location will be Durham, <abbr
-                    title="North Carolina">NC</abbr>.</span></p>
-
-        <div id="zip_container">
-            <div id="loading-user-location">Loading...</div>
-            <div id="location-description-user" style="display:none">
-                <span id="location-description-geo">Location</span>
-                <span id="nearest-location" aria-labelledby="location-description-geo">No location found</span>
-                <a href="#" id="change-location">Change location</a>
-            </div>
-        </div>
-        <!-- @end zip_container-->
-        <div id="location-add-new" style="display:none">
-        <span id="new-location">
-        	<label for="new-location-input">Enter city, state; tribe; or ZIP code</label> <input id="new-location-input"/>
-            <button class="usa-button" id="add-location">Find</button>
-        </span>
-        <span style="display:none" id="choose-zip-holder">
-            <label for="choose-zip">Select your ZIP code</label><span id="choose-zip"></span>
-			<button class="usa-button" id="confirm-zip-select">Save</button>
-        </span>
-        <span style="display:none" id="choose-city-holder">
-            <label for="choose-zip">Select your city or tribal area</label><span id="choose-city"></span>
-            <button class="usa-button" id="confirm-city-select">Save</button>
-        </span>
-            <button class="usa-button usa-button-outline" id="cancel-zip-select">Cancel</button>
-        </div>
-        <!-- @end location-add-new -->
-
-        <div id="user-profile-addition-info">
-            <div class="org-select-grouping">
-                <label for="select-organization">My organization</label>
-                <div class="form-group">
-
+        </ul>
+        <div id="profile-account">
+            <h3>User Information</h3>
                 <?php
-                // select-organization is the id
-                generate_taxonomy_select('select-organization');
-                ?>
+            print render($form['field_profile_first_name']);
+            print render($form['account']['mail']);
+            ?>
+                <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
+            </div>
+            <div id="profile-locations">
+                <h3>Locations of Interest</h3>
+                <p class="eenterprise-utility-form-item-description-p">
+                    <?php
+                    print location_description();
+                    ?>
+                    <span class='zip_code_ajax_error'></span>
+                </p>
+                <div id='zipcode_description' class='form-group'>
+                    <?php
+                    print render($form['field_zip_code']);
+                    ?>
+                </div>
+                <div style="clear:both"></div>
+                <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
+
+            </div>
+            <div id="profile-interests">
+                <h3>Interests</h3>
+                <div id='links_description' class='form-group'>
+                    <div class="usa-grid">
+                        <div class="usa-width-one-fourth">
+                            <?php
+                            print render($form['field_organization']);
+                            ?>
+                        </div>
+                        <div class="usa-width-one-fourth">
+
+                            <?php
+                            print render($form['field_role']);
+                            ?>
+                        </div>
+                        <?php
+                        $term = taxonomy_term_load($form['field_organization'][LANGUAGE_NONE]['#default_value'][0]);
+                        $name = $term->name;
+                        if ($name != 'Local government') {
+                            $style = "style='display:none;'";
+                        } else {
+                            $style = '';
+                        }
+
+                        ?>
+                        <div class="usa-width-one-fourth">
+                            <div class="local-government-options" <?php echo $style; ?>>
+                                <?php
+                                print render($form['field_community_type']);
+                                ?>
+                            </div>
+                        </div>
+                        <div class="usa-width-one-fourth">
+                            <div class="local-government-options" <?php echo $style; ?>>
+                                <?php
+                                print render($form['field_community_size']);
+                                ?>
+                            </div>
+                        </div>
                     </div>
-            </div>
-            <div class="role-select-grouping">
-                <label for="select-role">My role</label>
-                <?php
-                // select-organization is the id
-                generate_taxonomy_select('select-role');
-                ?>
-            </div>
-        </div>
-        <!-- @end user-profile-addition-info-->
+                    <div class='usa-grid-full'>
 
-        <div id="local-government-options">
-            <div class="community-select-grouping">
-                <div class="form-group">
+                        <div class="form-group">
 
-                <label for="community-size">Community size</label>
-                <?php
-                // select-organization is the id
-                generate_taxonomy_select('community-size');
-                ?>
+                            <?php
+                            print render($form['field_lgc_topics_of_interest']);
+                            ?>
+                        </div>
                     </div>
+                </div>
+                <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
+
             </div>
-            <fieldset class="community-type-grouping">
-                <label for="community-type-grouping">My community is mostly...</label>
-                <input type="radio" name="community-type" class="community-type" value="_none" id="lgc-rural"><label for="lgc-rural">N/A</label>                
-                <input type="radio" name="community-type" class="community-type" value="rural" id="lgc-rural"><label for="lgc-rural">Rural</label>
-                <input type="radio" name="community-type" class="community-type " value="urban" id="lgc-urban"><label for="lgc-urban">Urban</label>
-            </fieldset>
-            <!-- @end community-type-grouping -->
 
+            <div id="profile-favorites">
+                <h3>Favorite Links</h3>
+                <p class="eenterprise-utility-form-item-description-p field-title-below">
+                    Add and manage your favorite links.</p>
 
+                <div id='links_description' class='form-group'>
+                    <?php
+                    print render($form['field_profile_favourites']);
+                    ?>
+                </div>
+                <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
+
+            </div>
         </div>
-        <!-- @end local-government-options -->
-    </div>
-    <!-- @end first-page -->
-    <div class="first-time-second-page" style="display:none">
-        <div id="local-gov-topics">
-            <h3>Topics that matter</h3>
-
-            <p>Select a few high-level topics that interest you.</p>
-
-            <div id="high-level-interests">
-                <div class="form-group">
-                    <?php high_level_taxonomy_checkboxes(); ?>
+        <div class="col-xs-12">
+            <?php
+            print drupal_render_children($form);
+            ?>
+            <div id="delete-holder" style="display:none">
+                <div>This will delete your entire profile, including any selected preferences, from the E-Enterprise
+                    Platform and will log you out from the system. Are you sure that you want to do this?
+                </div>
+                <div class="pull-right">
+                    <button id="cancel-delete-profile" class="usa-button" type="button">Back</button>
+                    <button id="confirm-delete-profile" type="button" class="btn btn-danger">Delete Profile</button>
                 </div>
             </div>
-        </div>
-        <!-- @local-gov-topics -->
-    </div>
-    <!-- @second-page -->
 
-</div>
-<!-- @end first-time-user-profile-->
-<div class="modal-footer">
-    <div class="first-time-first-page">
+        </div> <!--col-->
 
-        <button class="btn btn-md first-time-page-button" id="switch-to-interests">Next <span aria-hidden="true">></span><br/> <span class="button-label-interests">Interests</span></button>
-    </div>
-    <div class="first-time-second-page" style="display:none">
-        <button class="usa-button first-time-page-button" id="save-preferences">Finish ></button>
-        <button class="usa-button first-time-page-button" id="switch-to-first-page"><span aria-hidden="true"><</span> Back <br/> <span class="button-label-interests">Location and Role</span></button>
-
-    </div>
-    <a href="#" id="skip-preferences">Skip this</a>
-
-</div>
-<!-- @end modal-footer-->
+    </div> <!-- edit user-profile -->
