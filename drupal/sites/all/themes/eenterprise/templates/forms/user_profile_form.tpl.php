@@ -17,7 +17,10 @@ drupal_add_css($font_awesome_path . "/css/font-awesome.min.css", "file");
         </ul>
         <div id="profile-account">
             <h3>User Information</h3>
+
             <?php
+
+
             print render($form['field_profile_first_name']);
             print render($form['account']['mail']);
             ?>
@@ -80,43 +83,48 @@ drupal_add_css($font_awesome_path . "/css/font-awesome.min.css", "file");
                         </div>
                     </div>
                 </div>
-    <?php
-    print render($form['field_lgc_topics_of_interest']);
-    ?>
+                <div class='usa-grid-full'>
 
-</div>
-<p>All unsaved data will be lost upon navigating away from the Profile page.</p>
+                    <div class="form-group">
 
-</div>
+                        <?php
+                        print render($form['field_lgc_topics_of_interest']);
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
 
-<div id="profile-favorites">
-    <h3>Favorite Links</h3>
-    <p class="eenterprise-utility-form-item-description-p field-title-below">
-        Add and manage your favorite links.</p>
+        </div>
 
-    <div id='links_description' class='form-group'>
+        <div id="profile-favorites">
+            <h3>Favorite Links</h3>
+            <p class="eenterprise-utility-form-item-description-p field-title-below">
+                Add and manage your favorite links.</p>
+
+            <div id='links_description' class='form-group'>
+                <?php
+                print render($form['field_profile_favourites']);
+                ?>
+            </div>
+            <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
+
+        </div>
+    </div>
+    <div class="col-xs-12">
         <?php
-        print render($form['field_profile_favourites']);
+        print drupal_render_children($form);
         ?>
-    </div>
-    <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
-
-</div>
-</div>
-<div class="col-xs-12">
-    <?php
-    print drupal_render_children($form);
-    ?>
-    <div id="delete-holder" style="display:none">
-        <div>This will delete your entire profile, including any selected preferences, from the E-Enterprise
-            Platform and will log you out from the system. Are you sure that you want to do this?
+        <div id="delete-holder" style="display:none">
+            <div>This will delete your entire profile, including any selected preferences, from the E-Enterprise
+                Platform and will log you out from the system. Are you sure that you want to do this?
+            </div>
+            <div class="pull-right">
+                <button id="cancel-delete-profile" class="usa-button" type="button">Back</button>
+                <button id="confirm-delete-profile" type="button" class="btn btn-danger">Delete Profile</button>
+            </div>
         </div>
-        <div class="pull-right">
-            <button id="cancel-delete-profile" class="usa-button" type="button">Back</button>
-            <button id="confirm-delete-profile" type="button" class="btn btn-danger">Delete Profile</button>
-        </div>
-    </div>
 
-</div> <!--col-->
+    </div> <!--col-->
 
 </div> <!-- edit user-profile -->
