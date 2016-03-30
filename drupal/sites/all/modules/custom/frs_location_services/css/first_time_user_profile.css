@@ -15,7 +15,16 @@
 
 
 #first-time-user-profile {
-    height: 370px;
+    height: auto;
+}
+#first-time-user-profile #high-level-interests .ck-button {
+    font-size: 1.5rem;
+}
+#first-time-user-profile #high-level-interests .ck-button span {
+    width: 30rem;
+    height: 5.5rem;
+    vertical-align: middle;
+    display: table-cell;
 }
 
 .first-time-page-button {
@@ -27,11 +36,10 @@
 .first-time-page-button:hover {
     color:white !important;
     cursor: pointer;
-
 }
 
 .button-label-interests {
-    font-size: .8em;
+    font-size: 0.8em;
     color: lightgrey;
 }
 #skip-preferences {
@@ -54,7 +62,7 @@
 
 .ui-widget-content.first-time-user-dialog{
     max-height: none !important;
-    height: 50% !important;
+    height: 70% !important;
     min-width:300px;
     overflow-y: hidden !important;
     overflow-x: hidden;
@@ -64,14 +72,15 @@
     float: left;
 }
 
-.org-select-grouping, .role-select-grouping{
-    float:left;
-    width: 50%;
+@media screen and (min-width: 40em) {
+    .org-select-grouping, .role-select-grouping, .community-type-grouping, .community-select-grouping {
+        float:left;
+        width: 40%;
+        margin-left: 5%;
+    }
 }
-
-.community-type-grouping, .community-select-grouping {
-    float:left;
-    width: 50%
+.org-select-grouping, .community-select-grouping {
+    margin-left: 0;
 }
 
 .community-type-grouping input[type="radio"]{
@@ -120,4 +129,3 @@
 
 
 /*.radio-options-holder input[type=radio], .radio-options-holder input.radio { margin-right: 5px; }*/
-
