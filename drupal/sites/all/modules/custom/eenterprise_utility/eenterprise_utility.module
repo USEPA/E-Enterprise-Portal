@@ -531,13 +531,11 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         }
 
         // add more button for zip codes
-        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
-        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = 'New location';
         $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
         $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
         //Add more button for urls
-        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = '+';
-        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = 'New favorite';
         $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
         $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
 
