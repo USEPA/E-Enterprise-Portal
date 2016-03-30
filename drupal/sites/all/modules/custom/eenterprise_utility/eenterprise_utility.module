@@ -456,7 +456,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_initial_log_in']);
         hide($form['field_interests2']);
         hide($form['field_gridstack_settings']);
-        $form['field_lgc_topics_of_interest'];
 
 
         // Custom multiselect field for storing users preferred location names
@@ -475,6 +474,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                 $zip_mapping_array[$zip_obj->zip] = $zip_obj->name;
             }
         }
+        //Edit select default options
+        $form['field_community_type'][LANGUAGE_NONE]['#options']['_none'] = t('N/A');
+        $form['field_community_size'][LANGUAGE_NONE]['#options']['_none'] = t('Select size');
+
 
 
         // If user is admin allow to edit state admin STATE and toggle user's first time status
