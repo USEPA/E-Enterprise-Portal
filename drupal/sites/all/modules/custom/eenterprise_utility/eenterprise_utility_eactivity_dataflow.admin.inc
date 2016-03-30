@@ -66,7 +66,7 @@ function eactivity_dataflow_list_settings($form, $form_state) {
     $form['eactivity_settings']['cdx_usernames_mitigation'] = array(
         '#type' => 'textfield',
         '#title' => t('CDX Usernames Mitigation'),
-        '#default_value' => variable_get('cdx_usernames_mitigation'),
+        '#default_value' => variable_get('cdx_username_mitigation'),
         '#required' => TRUE,
     );
 
