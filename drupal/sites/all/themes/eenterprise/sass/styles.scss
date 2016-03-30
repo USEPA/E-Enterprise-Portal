@@ -149,12 +149,11 @@
 	a:hover, 
 	a:focus {
 		background-color: darken($color-primary, 10%);
-		outline-color: lighten($color-primary, 40%);
-		box-shadow: 0 0 3px lighten($color-primary, 40%), 0 0 7px lighten($color-primary, 40%);		
 	}
+	a:focus,
 	select:focus {
 		outline-color: lighten($color-primary, 40%);
-		box-shadow: 0 0 3px lighten($color-primary, 40%), 0 0 7px lighten($color-primary, 40%);
+		box-shadow: 0 0 3px lighten($color-primary, 40%), 0 0 7px lighten($color-primary, 40%);		
 	}
 	.menu {
 		.menu-item {
