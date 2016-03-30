@@ -149,6 +149,12 @@
 	a:hover, 
 	a:focus {
 		background-color: darken($color-primary, 10%);
+		outline-color: lighten($color-primary, 40%);
+		box-shadow: 0 0 3px lighten($color-primary, 40%), 0 0 7px lighten($color-primary, 40%);		
+	}
+	select:focus {
+		outline-color: lighten($color-primary, 40%);
+		box-shadow: 0 0 3px lighten($color-primary, 40%), 0 0 7px lighten($color-primary, 40%);
 	}
 	.menu {
 		.menu-item {
@@ -1309,6 +1315,14 @@ form[id^='user-profile-form'] {
 		#zip-label {
 			margin-top: 10px;
 		}
+		.field-add-more-submit {
+			background-color: $color-green;
+			height: auto;
+			width: auto;
+			margin: 1rem 0 0 0;
+			vertical-align: middle;
+			padding: 0.5rem 1rem;
+		}
 	}
 	.panel {
 		min-height: 330px;
@@ -1327,14 +1341,7 @@ form[id^='user-profile-form'] {
 		text-transform: capitalize;
 	}
 	.field-add-more-submit {
-		background-color: green;
-		height: auto;
-		width: auto;
-		margin: 0;
-		vertical-align: middle;
-		padding: 0.5rem 1rem;
-	}
-	.field-add-more-submit {
+		background-color: $color-green;
 		margin-top: 1rem;
 	}
 	.form-submit:disabled, 
@@ -1412,8 +1419,13 @@ form[id^='user-profile-form'] {
 	}
 	table > tbody > tr > td {
 	  vertical-align: middle;
+	  padding: 0;
 	}
 	table {
+		.field-multiple-drag {
+			vertical-align: top;
+			padding-top: 3rem;
+		}
 		.field-type-text {
 	  	float: left;
 	  }
@@ -1422,11 +1434,16 @@ form[id^='user-profile-form'] {
 		  float: left;
 		  margin-right: 10px;
 		}
+/*
 		.field-add-more-submit {
-		  margin-top: 16px;
+		  margin-top: 3rem;
 		  float: left;
 		  display: block;
 		}
+*/
+	}
+	.field-add-more-submit {
+		margin-left: 35px;
 	}
 	.form-actions.form-wrapper {
 	  float: left;
@@ -1483,7 +1500,8 @@ a.tabledrag-handle .handle {
 }
 
 #field-zip-code-values,
-#field-profile-favourites-values {
+#field-profile-favourites-values,
+#links_description .field-multiple-table {
 	thead tr {
 		background-color: none;
 	}
@@ -1511,7 +1529,8 @@ form .field-multiple-table#field-zip-code-values {
 	max-width: 95% !important;
 }
 
-#field-profile-favourites-values {
+#field-profile-favourites-values,
+#links_description .field-multiple-table {
 	.date_updated_contain,
 	.multiple-fields-remove-button {
 		margin-top: 3rem;
@@ -2235,7 +2254,10 @@ input[type="submit"]:not(.usa-button-outline),
 				padding: 0;
 			}
 			.field-add-more-submit {
-			    margin-left: -10px;
+			  margin-left: -10px;
+				clear: left;
+				margin-left: 200px;
+				display: block;			  
 			}
 			.form-type-checkbox {
 				margin-right: 0;
@@ -2245,11 +2267,6 @@ input[type="submit"]:not(.usa-button-outline),
 			}
 			.form-type-textfield {
 				margin-right: 10px;
-			}
-			.field-add-more-submit {
-				clear: left;
-				margin-left: 200px;
-				display: block;
 			}
 			.zip-code-primary-holder {
 				margin-left: 10px;
