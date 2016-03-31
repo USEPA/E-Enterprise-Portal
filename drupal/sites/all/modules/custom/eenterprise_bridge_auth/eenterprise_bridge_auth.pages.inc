@@ -123,12 +123,12 @@ function eenterprise_bridge_auth_authenticate($error)
             else if (($pos === FALSE && $openid_position === FALSE) || $username === FALSE) {
                 if (isset($userDetails->attributes['email'])) {
                     $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
-                    $uname = $userDetails->attributes['email'][0];
+                    if (isset($userDetails->attributes['link']) && strpos($userDetails->attributes['link'][0], 'facebook') !== FALSE)
+                        $uname = $userDetails->attributes['email'][0]."@facebook.com";
+                    else
+                        $uname = $userDetails->attributes['email'][0];
                     $public_or_cdx = 'public';
                 } else {
-                    //$userDetails->attributes['name'][0] = trim($userDetails->attributes['name'][0], '"');
-                    //$uname = $userDetails->attributes['name'][0];
-                    //$uname = str_replace(" ", "_", $uname);
                     if (isset($userDetails->attributes['followers_count']))
                         $uname = $userDetails->attributes['id'][0] . "@twitter.com";
                     else if (isset($userDetails->attributes['link']) && strpos($userDetails->attributes['link'][0], 'facebook') !== FALSE)
