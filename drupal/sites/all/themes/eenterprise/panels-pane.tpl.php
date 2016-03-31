@@ -26,7 +26,7 @@ if ($user->name == 'guest-user') {
 }
 else {
     drupal_add_js(array('is_guest' => false), 'setting');
-
+   // drupal_add_js(array('gridstack_settings' => load_user_gridstack_data()));
 }
 ?>
 

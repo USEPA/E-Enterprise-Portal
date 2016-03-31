@@ -155,6 +155,7 @@ function generateUserLocalResourcesTable() {
 }
 
 function generateAllLocalResourcesTable() {
+
     if (isset($_POST['filters'])) {
         $topics = $_POST['filters'];
         $tids = implode('+', $topics);

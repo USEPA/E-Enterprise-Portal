@@ -81,7 +81,6 @@
                         loadUserIndices(grid);
                         addResizeSensors(grid, verticalMargin, cellHeight);
                         grid.resizable('.grid-stack-item', false);
-                        console.log(Drupal.settings.is_guest);
                         if (Drupal.settings.is_guest) {
                             grid.movable('.grid-stack-item', false);
                         }
@@ -177,6 +176,8 @@
                         var serialization;
                         $.ajax({
                             url: 'load_user_gridstack_data',
+                            data: {json: true},
+                            method: 'GET',
                             success: function (data) {
                                 var data = $.parseJSON(data);
                                 serialization = GridStackUI.Utils.sort(data);
