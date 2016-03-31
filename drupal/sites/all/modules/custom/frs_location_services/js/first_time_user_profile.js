@@ -152,7 +152,12 @@
 
             }
 
-
+            $('.term-name-checkboxes').on('keyup', function (e) {
+            	if (e.which == 13) { // Enter key
+                $(this).trigger('click');
+            	}
+        		});
+        		
             // Show zip selection options
             $('#change-location').click(function () {
                 $zip_select.hide();

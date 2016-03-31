@@ -1627,22 +1627,25 @@ form .field-multiple-table#field-zip-code-values {
 		input[type="checkbox"] + label {
 			@include button;
 			background-color: $color-primary;
-			padding: 1rem 0.5rem 1rem 4rem;
+			padding: 1rem 3rem 1rem 4rem;
 			width: 100%;	
 			color: $color-white;
 			outline: 2px solid transparent;
 			box-shadow: $focus-shadow-clear;
 			text-indent: -2.65rem;
-			height: 6.5rem;
+			height: 6.75rem;
 		}	
+		input[type="checkbox"]:not(#lgc-0) + label {
+			padding: 2rem 0.5rem 2rem 4rem;
+		}
 		input[type="checkbox"]:focus + label {
 			outline: 2px solid $color-focus;
 			border: 1px solid $color-focus;
 			box-shadow: $focus-shadow;
 		}
 		input[type="checkbox"] + label::before {
-			//background-color: transparent;
-			//box-shadow: none;
+			background-color: transparent;
+			box-shadow: none;
 		}
 		input[type="checkbox"]:checked + label::before {
 			background-color: $color-primary-darker;
