@@ -64,7 +64,7 @@
                 $.ajax({
                     url: '/return_location_data_lat_long',
                     type: 'GET',
-                    async: false,
+                 //   async: false,
                     data: {latitude: latitude, longitude: longitude},
                     success: function (location_data) {
                         var location_data = $.parseJSON(location_data);

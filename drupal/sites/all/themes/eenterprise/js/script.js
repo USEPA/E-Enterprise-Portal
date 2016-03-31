@@ -173,7 +173,6 @@
 
 
                     function loadUserIndices(grid) {
-                        console.log(Drupal.settings);
                         var serialization;
                         $.ajax({
                             url: 'load_user_gridstack_data',
