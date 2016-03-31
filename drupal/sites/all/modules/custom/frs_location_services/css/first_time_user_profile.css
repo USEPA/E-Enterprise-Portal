@@ -73,11 +73,14 @@
 }
 
 @media screen and (min-width: 40em) {
-    .org-select-grouping, .role-select-grouping, .community-type-grouping, .community-select-grouping {
-        float:left;
-        width: 40%;
-        margin-left: 5%;
-    }
+	.org-select-grouping, 
+	.role-select-grouping, 
+	.community-type-grouping, 
+	.community-select-grouping {
+	    float:left;
+	    width: 40%;
+	    margin-left: 5%;
+	}
 }
 .org-select-grouping, .community-select-grouping {
     margin-left: 0;

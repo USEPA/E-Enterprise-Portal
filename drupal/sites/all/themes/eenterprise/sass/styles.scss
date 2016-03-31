@@ -923,6 +923,11 @@ a:focus.add_link {
 			margin-left: 10px;
 		}
 	}
+	#choose-city-holder {
+		.usa-button {
+			margin-left: 10px;
+		}
+	}
   #zip_container {
 		span {
 			float: left;
@@ -1536,6 +1541,14 @@ form .field-multiple-table#field-zip-code-values {
 	}
 }
 
+@mixin vertical-align($position: relative) {
+  position: $position;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 #first-time-user-profile {
 	padding-bottom: 10px;
 	height: auto;
@@ -1590,7 +1603,7 @@ form .field-multiple-table#field-zip-code-values {
 		}
 	}
 	#cancel-zip-select {
-		margin-left: 20px;
+		margin-left: 5px;
 		margin-top: 42px;
 	}
 	#location-description-user {
@@ -1600,7 +1613,45 @@ form .field-multiple-table#field-zip-code-values {
 	}
 	#high-level-interests {
 		margin-top:20px;
-		//height:8em;
+		ul {
+			margin-top: 0;
+			li:before,
+			li:after {
+				content: none;
+			}
+			li {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+		}
+		input[type="checkbox"] + label {
+			@include button;
+			background-color: $color-primary;
+			padding: 1rem 0.5rem 1rem 4rem;
+			width: 100%;	
+			color: $color-white;
+			outline: 2px solid transparent;
+			box-shadow: $focus-shadow-clear;
+			text-indent: -2.65rem;
+			height: 6.5rem;
+		}	
+		input[type="checkbox"]:focus + label {
+			outline: 2px solid $color-focus;
+			border: 1px solid $color-focus;
+			box-shadow: $focus-shadow;
+		}
+		input[type="checkbox"] + label::before {
+			//background-color: transparent;
+			//box-shadow: none;
+		}
+		input[type="checkbox"]:checked + label::before {
+			background-color: $color-primary-darker;
+			box-shadow: none;	
+		}
+		input[type="checkbox"]:checked + label {
+			background-color: $color-primary-darker;
+			background-image: none;
+		}
 	}
 	#skip-preferences {
 		font-size: 1.5rem;
