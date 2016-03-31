@@ -19,8 +19,6 @@ drupal_add_css($font_awesome_path . "/css/font-awesome.min.css", "file");
             <h3>User Information</h3>
 
             <?php
-
-
             print render($form['field_profile_first_name']);
             print render($form['account']['mail']);
             ?>

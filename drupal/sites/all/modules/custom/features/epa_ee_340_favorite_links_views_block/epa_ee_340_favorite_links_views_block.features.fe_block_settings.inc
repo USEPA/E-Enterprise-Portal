@@ -14,6 +14,7 @@ function epa_ee_340_favorite_links_views_block_default_fe_block_settings() {
 
   $export['views-favorite_sites-block'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => 'favorite_sites-block',
     'module' => 'views',
@@ -31,6 +32,18 @@ function epa_ee_340_favorite_links_views_block_default_fe_block_settings() {
         'region' => '',
         'status' => 0,
         'theme' => 'bootstrap',
+        'weight' => 0,
+      ),
+      'eenterprise' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'eenterprise',
+        'weight' => 0,
+      ),
+      'greentrees' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'greentrees',
         'weight' => 0,
       ),
       'oneepa' => array(

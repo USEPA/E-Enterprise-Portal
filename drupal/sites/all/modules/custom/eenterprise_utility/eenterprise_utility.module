@@ -536,13 +536,11 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         }
 
         // add more button for zip codes
-        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
-        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = 'New location';
         $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
         $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
         //Add more button for urls
-        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = '+';
-        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = 'New favorite';
         $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
         $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
 
@@ -786,7 +784,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                 // First find if there is a preferred name associated with this location
                 if ($location_info) {
                     $users_preferred_name = $location_info['preferred_name'];
-                    if (isset($users_preferred_name)) {
+                    if (strlen($users_preferred_name) != 0) {
                         $readable_string = $users_preferred_name;
                         $zip_attr[$zip] = array(
                             "pop" => $location_info['commsize'],
