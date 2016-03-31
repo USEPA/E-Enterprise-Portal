@@ -482,7 +482,7 @@ function eep_profile_fields_feature_field_default_field_instances() {
       'active' => 1,
       'module' => 'options',
       'settings' => array(),
-      'type' => 'options_buttons',
+      'type' => 'options_select',
       'weight' => 21,
     ),
   );

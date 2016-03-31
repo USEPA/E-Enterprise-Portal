@@ -474,6 +474,11 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                 $zip_mapping_array[$zip_obj->zip] = $zip_obj->name;
             }
         }
+        //Edit select default options
+        $form['field_community_type'][LANGUAGE_NONE]['#options']['_none'] = t('N/A');
+        $form['field_community_size'][LANGUAGE_NONE]['#options']['_none'] = t('Select size');
+
+
 
 
         // If user is admin allow to edit state admin STATE and toggle user's first time status
@@ -549,7 +554,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             $date_updated = date_format($date_updated, 'm/d/Y');
             $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title']['#suffix'] = '<span class="date_updated_contain">' . $date_updated . '</span>';
         }
-
 
         // Field specific settings for Zip codes
         for ($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
