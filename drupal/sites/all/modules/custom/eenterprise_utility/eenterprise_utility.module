@@ -478,8 +478,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         $form['field_community_type'][LANGUAGE_NONE]['#options']['_none'] = t('N/A');
         $form['field_community_size'][LANGUAGE_NONE]['#options']['_none'] = t('Select size');
 
-        // Edit pre and post wrapping for lgc_topics
-     //   print '<div class="usa-width-one-half"><label class="ck-button lgc-topics-of-interest"><input aria-label="' . $obj_class->name . '" class="term-name-checkboxes" type="checkbox"  name="' . $obj_class->name . '" value="' . $obj_class->tid . '"/><span>' . $obj_class->name . '</span></label></div>';
 
 
 
