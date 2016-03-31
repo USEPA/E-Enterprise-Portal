@@ -8,7 +8,7 @@
             var token_data = {};
             $.ajax({
                 url: '/return_cdx_facility_management_token',
-              //  async: false,
+                async: false,
                 success: function (json) {
                     var parsed_json = $.parseJSON(json);
                     if (parsed_json.expired) {
