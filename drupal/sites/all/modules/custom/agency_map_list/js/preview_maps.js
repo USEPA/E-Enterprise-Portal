@@ -37,7 +37,7 @@
         $.ajax({
             type: 'GET',
             url: url + '/sharing/rest/search',
-          //  async: true,
+            async: true,
             data: {
                 q: 'orgid:' + orgid + ' -type:"Code Attachment" -type:"Featured Items" -type:"Symbol Set" -type:"Color Set" -type:"Windows Viewer Add In" -type:"Windows Viewer Configuration" (type:"Web Mapping Application" OR type:"Mobile Application")',
                 f: 'json',
