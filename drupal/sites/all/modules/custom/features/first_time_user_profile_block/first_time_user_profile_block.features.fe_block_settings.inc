@@ -14,6 +14,7 @@ function first_time_user_profile_block_default_fe_block_settings() {
 
   $export['views-first_time_user_profile-block'] = array(
     'cache' => -1,
+    'css_class' => '',
     'custom' => 0,
     'delta' => 'first_time_user_profile-block',
     'module' => 'views',

@@ -152,7 +152,12 @@
 
             }
 
-
+            $('.term-name-checkboxes').on('keyup', function (e) {
+            	if (e.which == 13) { // Enter key
+                $(this).trigger('click');
+            	}
+        		});
+        		
             // Show zip selection options
             $('#change-location').click(function () {
                 $zip_select.hide();
@@ -161,6 +166,7 @@
                 $choose_zip_holder.hide();
                 $cancel_zip.show();
                 $choose_city_holder.hide();
+                $('#new-location-input').focus();
                 return false;
             });
 
@@ -173,6 +179,8 @@
                 $nearest_location.text(selected_location + ' (' + selected_zip_code + ')');
                 $zip_select.show();
                 $loc_add_new.hide();
+                $('#nearest-location').prop('tabindex',0);
+                $('#nearest-location').focus();
             });
 
             // User has found city they want, show in selected/nearest data
@@ -184,6 +192,8 @@
                 $nearest_location.text(preferred_name + ' (' + selected_location + ')');
                 $zip_select.show();
                 $loc_add_new.hide();
+                $('#nearest-location').prop('tabindex',0);
+                $('#nearest-location').focus();
             });
 
             //$('#revert-to-geo-location').click(function () {
@@ -201,6 +211,7 @@
                 $choose_city_holder.hide();
                 clear_city_state_error();
                 $cancel_zip.hide();
+                $('#change-location').focus();
             });
             $('#add-location').click(function () {
                 var location_input = $new_loc_input;
@@ -272,6 +283,7 @@
                                 $('#choose-city').html(city_select);
                                 $('#typed-in-city-state').text(location);
                                 $choose_city_holder.show();
+                                $('#zip-lookup-city-state').focus();
                             }
                         }
                         else { //Still uses old FRS-style for doing city/state -> zip lookups (i.e. no census data or auto-populating community size/type)
@@ -319,6 +331,7 @@
                                 $('#choose-zip').html(zip_select);
                                 $('#typed-in-city-state').text(location);
                                 $choose_zip_holder.show();
+                                $('#city-state-lookup-zips').focus();
                             }
                         }
                     },

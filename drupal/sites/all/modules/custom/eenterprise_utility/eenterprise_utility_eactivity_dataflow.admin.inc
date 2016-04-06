@@ -62,6 +62,13 @@ function eactivity_dataflow_list_settings($form, $form_state) {
         '#default_value' => variable_get('attains_destination_url'),
         '#required' => TRUE,
     );
+    //This config item is used to allow code execution for CDX username changes. CDX usernames should have @cdx at the end.
+    $form['eactivity_settings']['cdx_usernames_mitigation'] = array(
+        '#type' => 'textfield',
+        '#title' => t('CDX Usernames Mitigation'),
+        '#default_value' => variable_get('cdx_usernames_mitigation'),
+        '#required' => TRUE,
+    );
 
     $form['#submit'][] = 'eactivity_dataflow_settings_form_submit';
     return system_settings_form($form);

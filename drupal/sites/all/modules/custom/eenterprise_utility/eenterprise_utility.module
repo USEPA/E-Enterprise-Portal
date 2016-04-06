@@ -100,39 +100,45 @@ function eenterprise_utility_menu()
  * Implementation of hook node view.
  * SSO from CDX to Portal is implemented in this hook.
  */
-function  eenterprise_utility_node_view($node, $view_mode, $langcode){
-    if (isset($_POST['Token']) && isset($_POST['CDX_DATA'])){
+function eenterprise_utility_node_view($node, $view_mode, $langcode)
+{
+    if (isset($_POST['Token']) && isset($_POST['CDX_DATA'])) {
         $frs_password = variable_get('cdx_facility_password');
         $email = variable_get('cdx_node_token_email');
         $domain = variable_get('cdx_node_token_domain');
         $server_ip = $_POST['CDX_DATA'];
         $wsdl = variable_get('cdx_facility_naas_wsdl');
         $cdx_resource_url = variable_get('cdx_facility_resource_url');
-        $validate_client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
-
-        $validate_parameters = array(
-            "userId" => $email,
-            "credential" => $frs_password,
-            "domain" => $domain,
-            "securityToken" => $_POST['Token'],
-            "clientIp" => $server_ip,
-            "resourceURI" => $cdx_resource_url,
-            "applicationId" => "",
-            "userProperties" => "",
-        );
-        try {
-            $validate_response = $validate_client->__soapCall("Validate", array($validate_parameters));
-            if (isset($validate_response->return)) {
-                parse_str($validate_response->return, $return_output);
-                perform_user_login($return_output);//authenticate user and login to drupal
-                if (isset($_GET['destination']))
-                    drupal_goto("/" . $_GET['destination']);
-                else
-                    drupal_goto("/");
-            }
-        } catch (SoapFault $f) {
-            $message = "Error: " . $f->faultstring . ' Error Message: ' . $f->detail->faultdetails->message;
-            watchdog('eenterprise_utility', $message, array(), WATCHDOG_ERROR);
+        $validate_error = TRUE;
+        $validate_client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Utility");
+        if (!$validate_client->error) {
+            $validate_parameters = array(
+                "userId" => $email,
+                "credential" => $frs_password,
+                "domain" => $domain,
+                "securityToken" => $_POST['Token'],
+                "clientIp" => $server_ip,
+                "resourceURI" => $cdx_resource_url,
+                "applicationId" => "",
+                "userProperties" => "",
+            );
+            $validate_response = callSOAPWithParams($validate_client->client,
+                "Validate",
+                $validate_parameters,
+                "Eenterprise Utility");
+            if (!$validate_response->error) {
+                $response = $validate_response->response;
+                if (isset($response->return)) {
+                    parse_str($response->return, $return_output);
+                    perform_user_login($return_output);//authenticate user and login to drupal
+                    if (isset($_GET['destination']))
+                        drupal_goto("/" . $_GET['destination']);
+                    else
+                        drupal_goto("/");
+                }
+            } else
+                drupal_goto("/");
+        } else {
             drupal_goto("/");
         }
     }
@@ -247,12 +253,13 @@ function eenterprise_utility_views_pre_render(&$view)
             $view->exposed_widgets = NULL;
         }
     }
-    if($view->name == 'app_connect_new'){
+    if ($view->name == 'app_connect_new') {
         print drupal_render(drupal_get_form('app_connect_sso_form'));
     }
 }
 
-function app_connect_sso_form($form, &$form_state){
+function app_connect_sso_form($form, &$form_state)
+{
     $form['app-connect-sso-form']['security_token'] = array(
         '#type' => 'hidden',
         '#name' => 'security_token',
@@ -449,7 +456,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_initial_log_in']);
         hide($form['field_interests2']);
         hide($form['field_gridstack_settings']);
-        hide($form['field_lgc_topics_of_interest']);
 
 
         // Custom multiselect field for storing users preferred location names
@@ -462,10 +468,17 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             '#validated' => true,
         );
         // Check if user has added preferred names for zips
-        foreach ($form_state['input']['zip_mapping'] as $zip_mapping) {
-            $zip_obj = json_decode($zip_mapping);
-            $zip_mapping_array[$zip_obj->zip] = $zip_obj->name;
+        if (isset($form_state['input']['zip_mapping'])) {
+            foreach ($form_state['input']['zip_mapping'] as $zip_mapping) {
+                $zip_obj = json_decode($zip_mapping);
+                $zip_mapping_array[$zip_obj->zip] = $zip_obj->name;
+            }
         }
+        //Edit select default options
+        $form['field_community_type'][LANGUAGE_NONE]['#options']['_none'] = t('N/A');
+        $form['field_community_size'][LANGUAGE_NONE]['#options']['_none'] = t('Select size');
+
+
 
 
         // If user is admin allow to edit state admin STATE and toggle user's first time status
@@ -523,13 +536,11 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         }
 
         // add more button for zip codes
-        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
-        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+        $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = 'New location';
         $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
         $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
         //Add more button for urls
-        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = '+';
-        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
+        $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = 'New favorite';
         $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
         $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
 
@@ -543,7 +554,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             $date_updated = date_format($date_updated, 'm/d/Y');
             $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title']['#suffix'] = '<span class="date_updated_contain">' . $date_updated . '</span>';
         }
-
 
         // Field specific settings for Zip codes
         for ($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
@@ -572,8 +582,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
                         );
                     } elseif ($zip_data['preferred_name'] == '') {
                         $zip_data = zip_code_lookup($zip);
-                        $field_suffix = '<span id="city-name-' .$delta. '" aria-live="polite">' . $zip_data['string'] . '</span>';
-                        $ariacity = $zip_data['string'] ;
+                        $field_suffix = '<span id="city-name-' . $delta . '" aria-live="polite">' . $zip_data['string'] . '</span>';
+                        $ariacity = $zip_data['string'];
                     } else {
                         $commsize = $zip_data['commsize'];
                         $isurban = $zip_data['isurban'];
@@ -772,20 +782,25 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
                 }
                 $location_info = return_user_preferred_location($zip);
                 // First find if there is a preferred name associated with this location
-                $users_preferred_name = $location_info['preferred_name'];
-                if ($users_preferred_name) {
-                    $readable_string = $users_preferred_name;
-                    $zip_attr[$zip] = array(
-                        "pop" => $location_info['commsize'],
-                        "urban" => $location_info['isurban'],
-                    );
-                    $zip_data['zip_attr'] = $zip_attr;
-                    $error = false;
-                }
-                else if (strlen($zip_data['city']) != 0) {
+                if ($location_info) {
+                    $users_preferred_name = $location_info['preferred_name'];
+                    if (strlen($users_preferred_name) != 0) {
+                        $readable_string = $users_preferred_name;
+                        $zip_attr[$zip] = array(
+                            "pop" => $location_info['commsize'],
+                            "urban" => $location_info['isurban'],
+                        );
+                        $zip_data['zip_attr'] = $zip_attr;
+                        $error = false;
+                    } else if (strlen($zip_data['city']) != 0) {
+                        $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
+                        $error = false;
+                    }
+                } else if (strlen($zip_data['city']) != 0) {
                     $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
                     $error = false;
                 }
+
 
                 $zip_data['string'] = $readable_string;
                 $zip_data['error'] = $error;
@@ -1014,7 +1029,7 @@ function get_header_variables()
         $zipcode_data = return_user_preferred_location($zipcode);
 
         if (!$zipcode_data['error']) {
-            if( $zipcode_data['preferred_name'] ) {
+            if ($zipcode_data['preferred_name']) {
                 $locations_array[$zipcode] = $zipcode_data['preferred_name'];
                 $user_has_zip = true;
             } else {
@@ -1049,7 +1064,7 @@ function get_modal_data($locations, $city_name_count)
     $duplicate_city_count = 0;
     foreach ($locations as $key => $value) {
         if ($city_name_count[$value] > 1) {
-            print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . " (". $key . ")" . "</label>";
+            print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . " (" . $key . ")" . "</label>";
             ++$duplicate_city_count;
             if ($duplicate_city_count == $city_name_count[$value]) {
                 $duplicate_city_count = 0;
@@ -1161,8 +1176,6 @@ function eenterprise_utility_node_access($node, $op, $account)
     //Deny access to content that the user did not create.
     if (($node->type == 'progress_tracker' && $op == 'view') && $node->name != $account->name)
         return NODE_ACCESS_DENY;
-    else
-        return NODE_ACCESS_ALLOW;
 }
 
 
@@ -1466,8 +1479,13 @@ function load_user_gridstack_data()
             $return_array[] = array('x' => $x_coordinate, 'y' => $y_coordinate, 'width' => 5, 'height' => 1, 'id' => $pane_id);
         }
     }
-    echo json_encode($return_array);
-    exit();
+    if (isset($_GET['json'])) {
+        echo json_encode($return_array);
+        exit();
+    } else {
+        return $return_array;
+    }
+
 }
 
 /*
@@ -1512,6 +1530,7 @@ function eenterprise_utility_node_prepare($node)
         }
     }
 }
+
 /*
 @TODO - Use this to replace - Any - with All in drop-downs.  Need to determine why Progress Tracker > Lead > Report Type drop-down filter only shows All first
 function eenterprise_utility_form_views_exposed_form_alter(&$form, &$form_state) {
@@ -1531,3 +1550,76 @@ function eenterprise_utility_form_views_exposed_form_alter(&$form, &$form_state)
      }
 }
 */
+
+
+function connectToSOAPServerWithWSDL($wsdl, $location = "")
+{
+    $soap_obj = new stdClass();
+
+    try {
+        $client = new SoapClient($wsdl,
+            array(
+                "trace" => 1,
+                'exceptions' => 1,
+                "stream_context" => stream_context_create(
+                    array(
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                        )
+                    )
+                )
+            ));
+        $soap_obj->client = $client;
+        $soap_obj->error = FALSE;
+    } catch (SoapFault $f) {
+        $message = "Error: " . $f . ' Error Message: ' . $f->detail->faultdetails->message;
+        watchdog($location, $message, array(), WATCHDOG_ERROR);
+        $soap_obj->error = TRUE;
+    }
+    return $soap_obj;
+}
+
+/**
+ * @param $client
+ * @param $service
+ * @param $params
+ * @return bool
+ */
+function callSOAPWithParams($client, $service, $params, $location = "")
+{
+    $soap_obj = new stdClass();
+    try {
+        $response = $client->__soapCall($service, array($params));
+        $soap_obj->response = $response;
+        $soap_obj->error = FALSE;
+    } catch (SoapFault $f) {
+        $soap_obj->error = TRUE;
+        $message = "Error: " . $f . ' Error Message: ' . $f->detail->faultdetails->message;
+        watchdog($location, $message, array(), WATCHDOG_ERROR);
+        dpm($f);
+    }
+    return $soap_obj;
+}
+
+function getFileContents($file_location, $location = "")
+{
+    $response = new stdClass();
+    $stream_context = array(
+        "ssl" => array(
+            "verify_peer" => false,
+            "verify_peer_name" => false,
+        ),
+    );
+    try {
+        $content = file_get_contents($file_location, false, stream_context_create($stream_context));
+        $response->error = FALSE;
+        $response->content = $content;
+    } catch (Exception $e) {
+        $response->error = TRUE;
+        $message = "Error: " . $e . ' Error Message: ' . $e->getMessage();
+        watchdog($location, $message, array(), WATCHDOG_ERROR);
+    }
+    return $response;
+
+}

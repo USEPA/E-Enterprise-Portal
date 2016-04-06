@@ -129,7 +129,6 @@ function eenterprise_preprocess_panels_pane(&$vars) {
 
 function eenterprise_form_element($variables) {
     $element = &$variables['element'];
-
     // This function is invoked as theme wrapper, but the rendered form element
     // may not necessarily have been processed by form_builder().
     $element += array(
@@ -187,6 +186,7 @@ function eenterprise_form_element($variables) {
         }
         $output .= '<div' . drupal_attributes($decription_attributes) . '>' . $element['#description'] . "</div>\n";
     }
+
 
     $output .= "</div>\n";
 
