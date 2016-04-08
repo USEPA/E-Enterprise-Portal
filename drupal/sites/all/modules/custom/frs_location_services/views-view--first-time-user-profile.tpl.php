@@ -110,8 +110,8 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
             </div>
             <fieldset class="community-type-grouping">
                 <label for="community-type-grouping">My community is mostly...</label>
-                <input type="radio" name="community-type" class="community-type" value="_none" id="lgc-rural"><label
-                    for="lgc-rural">N/A</label>
+                <input type="radio" name="community-type" class="community-type" value="_none" id="lgc-na"><label
+                    for="lgc-na">N/A</label>
                 <input type="radio" name="community-type" class="community-type" value="rural" id="lgc-rural"><label
                     for="lgc-rural">Rural</label>
                 <input type="radio" name="community-type" class="community-type " value="urban" id="lgc-urban"><label
