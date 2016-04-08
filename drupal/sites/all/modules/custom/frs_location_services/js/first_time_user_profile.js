@@ -449,11 +449,6 @@
                 }, 1000);
             // Try to get local settings via gelocation
             getLocation();
-
-            // Set placeholder text in combobox
-            $('.combo-input').attr("placeholder", " Select or enter new role...").val('').addClass('form-control');
-
-
         }
     });
 })(jQuery);

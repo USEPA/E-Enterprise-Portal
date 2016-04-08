@@ -32,7 +32,6 @@
 ?>
 
 <?php
-drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/combobox.js", "file");
 drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/first_time_user_profile.js", "file");
 drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_time_user_profile.css", "file");
 ?>
