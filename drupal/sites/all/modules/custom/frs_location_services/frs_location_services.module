@@ -106,9 +106,8 @@ function save_first_time_user_preferences()
 
 
 // Store users geolocation
-    if ($skip && $geolocation_used) {
+    if ($skip && $geolocation_used)
         $zip = $geolocation_zip;
-    }
 
 //Capture inital user settings for default zip
     $multifield_initial_zip_obj = array(
@@ -158,14 +157,7 @@ function save_first_time_user_preferences()
         $user_zip_codes[LANGUAGE_NONE][0] = $multifield_zip_obj;
 
 
-        // add role data
-        // Check if role is a new input from user and add to vocabulary
-        if (!is_numeric($role)) {
-            $role = custom_create_taxonomy_term($role, taxonomy_vocabulary_machine_name_load('roles')->vid);
-        }
-
-
-        if ($role != '' && is_numeric($role))
+        if (is_numeric($role))
             $user_role[LANGUAGE_NONE][0]['tid'] = $role;
         if (is_numeric($org))
             $user_org[LANGUAGE_NONE][0]['tid'] = $org;
@@ -255,7 +247,7 @@ function save_user_location($zip_code, $preferred_location, $commsize, $isurban)
             }
             if ($isurban == "Urban") {
                 $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 1;
-            } elseif($isurban == "Rural") {
+            } elseif ($isurban == "Rural") {
                 $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 0;
             } else {
                 unset($node->field_zip_is_urban[LANGUAGE_NONE][0]['value']);
@@ -279,7 +271,7 @@ function save_user_location($zip_code, $preferred_location, $commsize, $isurban)
         $node->field_zip_community_size[LANGUAGE_NONE][0]['value'] = intval($commsize);
         if ($isurban == "Urban") {
             $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 1;
-        } elseif($isurban == "Rural") {
+        } elseif ($isurban == "Rural") {
             $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 0;
         }
         $node->uid = $uid;
@@ -560,7 +552,7 @@ function gpo_city_state_to_zip_code($city, $state)
 
         }
         $tribalzips = array_unique($tribalzips);
-        if(!empty($tribalzips)) {
+        if (!empty($tribalzips)) {
 
             // Get Zip Code to Census Place/Population Lookup table as json
             $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
@@ -805,56 +797,48 @@ function generate_organization_select($elem_id)
     echo "</select>";
 }
 
+/**
+ * @param $elem_id
+ * @return string
+ */
 function generate_taxonomy_select($elem_id)
 {
-    $options = array();
-    $combobox = false;
     $title = '';
+    $select = '';
+
+    // Assign vocab to search for taxonomy and title for the select html based elem_id
     switch ($elem_id) {
         case 'community-size':
-            $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('community_sizes')->vid);
+            $vocab = 'community_sizes';
             $title = 'Select size';
-            usort($terms, function ($a, $b) {
-                return $a->tid - $b->tid;
-            });
             break;
         case 'select-role':
-            $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('roles')->vid);
-            $title = '';
-
-            $options = array(
-                '' => '',
-                'data steward' => 'Data steward',
-                'community outreach' => 'Community outreach',
-                'program manager' => 'Program manager',
-                'utilities manager' => 'Utilities manager',
-                'budget and operations' => 'Budget and operations'
-            );
-            $combobox = true;
-            usort($terms, function ($a, $b) {
-                return $b->name - $a->name;
-            });
-
+            $vocab = 'roles';
+            $title = 'Select role';
             break;
         case 'select-organization':
-            $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('organizations')->vid);
+            $vocab = 'Organization';
             $title = 'Select organization';
-            usort($terms, function ($a, $b) {
-                return $b->name - $a->name;
-            });
             break;
     }
+    // collect terms from appropriate taxonomy
+    $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load($vocab)->vid);
+    // Sort alpha
+    usort($terms, function ($a, $b) {
+        return $b->name - $a->name;
+    });
 
-    if ($combobox) {
-        echo "<select name='$elem_id' id='$elem_id' class='combobox form-control' style='display:none'>";
-    } else {
-        echo "<select name='$elem_id' id='$elem_id' class='form-control'>";
-        echo "<option value='' selected>$title</option>";
-    }
+    // Create select html elem
+    $select .= "<select name='$elem_id' id='$elem_id' class='form-control'>";
+    $select .= "<option value='' selected>$title</option>";
+
     foreach ($terms as $class_obj) {
-        echo "<option value='$class_obj->tid'>$class_obj->name</option>";
+        $select .= "<option value='$class_obj->tid'>$class_obj->name</option>";
     };
-    echo "</select>";
+    $select .= "</select>";
+    return $select;
 }
+
+
 
 
