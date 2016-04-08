@@ -817,7 +817,7 @@ function generate_taxonomy_select($elem_id)
             $title = 'Select role';
             break;
         case 'select-organization':
-            $vocab = 'Organization';
+            $vocab = 'organizations';
             $title = 'Select organization';
             break;
     }
