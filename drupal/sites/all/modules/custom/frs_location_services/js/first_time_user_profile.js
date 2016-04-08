@@ -366,10 +366,6 @@
                 var org_val = $org_select.val();
                 var org_text = $org_select.find('option:selected').text();
                 var role_val = $('#select-role').val();
-                var typed_role_val = $('.combo-input').val();
-                if ((role_val == '' || typed_role_val == role_val) && typed_role_val != 'Select role') {
-                    role_val = typed_role_val;
-                }
                 var comm_size_val = 0;
                 var comm_type_val = 0;
                 if (org_text == 'Local government') {

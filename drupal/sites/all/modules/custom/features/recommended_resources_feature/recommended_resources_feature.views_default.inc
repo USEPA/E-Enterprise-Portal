@@ -23,6 +23,7 @@ function recommended_resources_feature_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Resource Editor';
+  $handler->display->display_options['css_class'] = 'usa-table';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -345,7 +346,7 @@ echo $row->title;
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="lgc-resource-link"><a href="[field_lgc_link]" target="_blank">[title_1]</a></span>
-<span class="lgc-resource-description ee-bootstrap-tooltip ellipsis" data-toggle="tooltip">[field_lgc_description]</span>
+<span class="lgc-resource-description ee-bootstrap-tooltip" data-toggle="tooltip" title=[field_lgc_description]>[field_lgc_description]</span>
 <span class="lgc-resource-topic">[field_lgc_topic]</span>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nothing']['hide_empty'] = TRUE;
@@ -613,7 +614,7 @@ echo $row->title;
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="lgc-resource-link"><a href="[field_lgc_link]" target="_blank">[title]</a></span>
-<span class="lgc-resource-description ee-bootstrap-tooltip ellipsis" data-toggle="tooltip">[field_lgc_description]</span>
+<span class="lgc-resource-description ee-bootstrap-tooltip" data-toggle="tooltip" title=[field_lgc_description]>[field_lgc_description]</span>
 <span class="lgc-resource-topic">[field_lgc_topic]</span>';
   /* Sort criterion: User: Created date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
@@ -635,47 +636,6 @@ echo $row->title;
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
-  $handler->display->display_options['fields']['title_1']['table'] = 'node';
-  $handler->display->display_options['fields']['title_1']['field'] = 'title';
-  $handler->display->display_options['fields']['title_1']['relationship'] = 'reverse_field_lgc_topic_node';
-  $handler->display->display_options['fields']['title_1']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['title_1']['link_to_node'] = FALSE;
-  /* Field: Content: Topic */
-  $handler->display->display_options['fields']['field_lgc_topic']['id'] = 'field_lgc_topic';
-  $handler->display->display_options['fields']['field_lgc_topic']['table'] = 'field_data_field_lgc_topic';
-  $handler->display->display_options['fields']['field_lgc_topic']['field'] = 'field_lgc_topic';
-  $handler->display->display_options['fields']['field_lgc_topic']['relationship'] = 'reverse_field_lgc_topic_node';
-  $handler->display->display_options['fields']['field_lgc_topic']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_lgc_topic']['type'] = 'taxonomy_term_reference_plain';
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['relationship'] = 'reverse_field_lgc_topic_node';
-  $handler->display->display_options['fields']['title']['label'] = 'Resources';
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Description */
-  $handler->display->display_options['fields']['field_lgc_description']['id'] = 'field_lgc_description';
-  $handler->display->display_options['fields']['field_lgc_description']['table'] = 'field_data_field_lgc_description';
-  $handler->display->display_options['fields']['field_lgc_description']['field'] = 'field_lgc_description';
-  $handler->display->display_options['fields']['field_lgc_description']['relationship'] = 'reverse_field_lgc_topic_node';
-  $handler->display->display_options['fields']['field_lgc_description']['exclude'] = TRUE;
-  /* Field: Content: Link */
-  $handler->display->display_options['fields']['field_lgc_link']['id'] = 'field_lgc_link';
-  $handler->display->display_options['fields']['field_lgc_link']['table'] = 'field_data_field_lgc_link';
-  $handler->display->display_options['fields']['field_lgc_link']['field'] = 'field_lgc_link';
-  $handler->display->display_options['fields']['field_lgc_link']['relationship'] = 'reverse_field_lgc_topic_node';
-  $handler->display->display_options['fields']['field_lgc_link']['exclude'] = TRUE;
-  /* Field: Global: Custom text */
-  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="lgc-resource-link"><a href="[field_lgc_link]" target="_blank">[title_1]</a></span>
-<span class="lgc-resource-description ee-bootstrap-tooltip ellipsis" data-toggle="tooltip">[field_lgc_description]</span>
-<span class="lgc-resource-topic">[field_lgc_topic]</span>';
   $handler->display->display_options['path'] = 'user-recommended-resources';
 
   /* Display: Block */
