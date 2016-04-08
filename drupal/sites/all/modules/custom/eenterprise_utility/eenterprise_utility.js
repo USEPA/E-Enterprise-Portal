@@ -78,6 +78,9 @@
                 var fixInput = $('#zipcode_description select').closest('td').find('.field_zip_code');
                 fixInput.focus();
             }
+            $('#links_description .field-add-more-submit').prop("value", "New favorite");
+            $('#links_description .field-add-more-submit').addClass("usa-button");
+
         }
 
         function setPrimaryZip() {
@@ -580,7 +583,6 @@
                 }
                 else {
                     parent_id = '#links_description';
-                    // table_id = '#field-profile-favourites-values';
                 }
                 placeAddAnotherButton(false, table_id, parent_id);
             };
@@ -620,7 +622,6 @@
 
         processPrimaryFields();
         placeAddAnotherButton(false, '#field-zip-code-values', '#zipcode_description');
-        placeAddAnotherButton(false, '#field-profile-favourites-values', '#links_description');
         $('#zipcode_description').show();
     });
 })(jQuery);
