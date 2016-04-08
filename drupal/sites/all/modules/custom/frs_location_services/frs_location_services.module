@@ -806,7 +806,7 @@ function generate_taxonomy_select($elem_id)
     $title = '';
     $select = '';
 
-
+    // Assign vocab to search for taxonomy and title for the select html based elem_id
     switch ($elem_id) {
         case 'community-size':
             $vocab = 'community_sizes';
@@ -821,11 +821,14 @@ function generate_taxonomy_select($elem_id)
             $title = 'Select organization';
             break;
     }
+    // collect terms from appropriate taxonomy
     $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load($vocab)->vid);
+    // Sort alpha
     usort($terms, function ($a, $b) {
         return $b->name - $a->name;
     });
 
+    // Create select html elem
     $select .= "<select name='$elem_id' id='$elem_id' class='form-control'>";
     $select .= "<option value='' selected>$title</option>";
 
@@ -836,6 +839,6 @@ function generate_taxonomy_select($elem_id)
     return $select;
 }
 
-;
+
 
 
