@@ -261,6 +261,9 @@ div.arrow, div.popover-content {
 	width: auto;
 	overflow: auto;
 	display: block;
+	background: transparent url('../images/fancy_close.png') 99% 0% no-repeat;
+	padding-top: 25px;
+	padding-right: 10px;
 }
 
 
