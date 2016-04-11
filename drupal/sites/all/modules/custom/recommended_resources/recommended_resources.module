@@ -46,17 +46,18 @@ function recommended_resources_preprocess(&$variables, $hook)
 {
 
     if ($hook == 'views_view' && $variables['name'] == 'lgc_manage_my_topics' && $variables['display_id'] == 'manage_my_topics_page') {
+        drupal_session_start(); // use drupal session
+
         // Create array of user's LGC Topics
-        $user_lgc_topics = array();
+        $_SESSION['user_lgc_topics'] = array();
         global $user;
 //        $user_data = user_load($user->uid);
 //        $lgc_topics = $user_data->field_lgc_topics_of_interest;
 
-$user_lgc_topics[] = '172911';
-$user_lgc_topics[] = '172899';
-$user_lgc_topics[] = '172906';
-
-        $variables['user_lgc_topics'] = $user_lgc_topics;
+// TODO: is there a way to do this without using a session variable? Ben and I are 'not thrilled about this'
+$_SESSION['user_lgc_topics'][] = '172911';
+$_SESSION['user_lgc_topics'][] = '172899';
+$_SESSION['user_lgc_topics'][] = '172906';
     }
 
 }

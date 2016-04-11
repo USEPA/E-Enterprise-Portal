@@ -32,7 +32,7 @@
             name="<?php print $output?>"
             value="<?php print $row->tid?>"
             <?php
-            if(in_array($row->tid, $user_lgc_topics)) {
+            if(in_array($row->tid, $_SESSION['user_lgc_topics'])) {
                 print "checked='checked'";
             }
             ?>
