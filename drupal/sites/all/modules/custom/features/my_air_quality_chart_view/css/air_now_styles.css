@@ -240,6 +240,30 @@ div.arrow, div.popover-content {
     z-index:100;
 }
 
+#sr-aqi-data, #aqi-explained {
+/* 	position: absolute; */
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+#sr-aqi-data:focus, #aqi-explained:focus,
+#sr-aqi-data:active, #aqi-explained:active,
+#sr-aqi-data.element-invisible:focus, #aqi-explained.element-invisible:focus,
+#sr-aqi-data:focus.element-invisible, #aqi-explained:focus.element-invisible {
+	position: static;
+	clip: auto;
+	height: auto;
+	width: auto;
+	overflow: auto;
+	display: block;
+}
+
+
 @media screen and (max-width:35em) {
 	#my-air-quality-chart text {
 	  font-size: 1em;
