@@ -57,6 +57,7 @@ drupal_add_js(drupal_get_path('module', 'my_air_quality_chart_view') ."/js/esri.
       <div id="sr-aqi-svg"></div>
       <div id="my-air-quality-chart">
       </div>
+      <div id="sr-aqi-explained"></div>
     </div>
     <div id="my-air-quality-air-now-maps" style="padding:0">
       <p class="aqi-source">Source: <a target="_blank" href="http://airnow.gov/" rel="external">AirNow.gov</a></p>
