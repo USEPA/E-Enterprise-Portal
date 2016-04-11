@@ -806,13 +806,15 @@
                 $('input#focused-element').remove();
                 $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="' + thisId + '" />');
             });
+            $('.views-exposed-form select').blur(function() {
+                $('input#focused-element').remove();
+            });
 
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     if ($('input#focused-element').length == 1) {
                         $('#' + $('input#focused-element').val()).focus();
-                        $('input#focused-element').remove();
                     }
                 }
             }
