@@ -136,6 +136,7 @@ function eenterprise_bridge_auth_authenticate($error)
                     }
                     else if (isset($userDetails->attributes['link']) && strpos($userDetails->attributes['link'][0], 'facebook') !== FALSE) {
                         mitigate_username_alteration($userDetails->attributes['id'][0]."_Via_Facebook", $userDetails->attributes['id'][0]);
+                        $userDetails->attributes['id'][0] = trim($userDetails->attributes['id'][0], '"');
                         $uname = $userDetails->attributes['id'][0] . "_Via_Facebook";
                     }
                     $public_or_cdx = 'public';
