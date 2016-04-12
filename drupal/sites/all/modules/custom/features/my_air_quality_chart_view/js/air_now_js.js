@@ -58,10 +58,10 @@
 	    $('body').on('click', function() {
 	    	$('#sr-aqi-data').trigger("blur");
 	    });
-			$('#sr-aqi-data').on('keydown', function(event) {
+	    $('#sr-aqi-data').on('keydown', function(event) {
 	    	if (event.keyCode == 27) {
 		    	$('#sr-aqi-data').trigger("blur");
-				}
+		    }
 	    });  
     });
     
@@ -69,13 +69,12 @@
 	    $('body').on('click', function() {
 	    	$('#aqi-explained').trigger("blur");
 	    });
-			$('#aqi-explained').on('keydown', function(event) {
-	    	if (event.keyCode == 27) {
-		    	$('#aqi-explained').trigger("blur");
-				}
+	    $('#aqi-explained').on('keydown', function(event) {
+		    if (event.keyCode == 27) {
+			    $('#aqi-explained').trigger("blur");
+		    }
 	    });	    	    
     });
-
   });
 
   function loadMap() {
