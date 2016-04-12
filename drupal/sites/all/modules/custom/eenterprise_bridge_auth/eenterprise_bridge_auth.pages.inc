@@ -205,7 +205,7 @@ function mitigate_username_alteration($altered_username, $username){
         db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username));
         db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username));
 
-        db_query("UPDATE {users} SET name = :uname1 WHERE hname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username.'@cdx'));
+        db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username.'@cdx'));
         db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username.'@cdx'));
         db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username.'@twitter.com'));
         db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username.'@twitter.com'));
