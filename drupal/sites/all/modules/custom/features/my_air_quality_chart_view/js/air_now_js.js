@@ -54,15 +54,27 @@
         }
     });
     
-    $('#sr-aqi-data').on("click", function() {
-	    $('#sr-aqi-data').trigger("blur");
-    });
-
-    $('#aqi-explained').on("click", function() {
-	    $('#aqi-explained').trigger("blur");
+    $('body').on('focus', '#sr-aqi-data', function() {
+	    $('body').on('click', function() {
+	    	$('#sr-aqi-data').trigger("blur");
+	    });
+	    $('#sr-aqi-data').on('keydown', function(event) {
+	    	if (event.keyCode == 27) {
+		    	$('#sr-aqi-data').trigger("blur");
+		    }
+	    });  
     });
     
-
+    $('body').on('focus', '#aqi-explained', function() {
+	    $('body').on('click', function() {
+	    	$('#aqi-explained').trigger("blur");
+	    });
+	    $('#aqi-explained').on('keydown', function(event) {
+		    if (event.keyCode == 27) {
+			    $('#aqi-explained').trigger("blur");
+		    }
+	    });	    	    
+    });
   });
 
   function loadMap() {
