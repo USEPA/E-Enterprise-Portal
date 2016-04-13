@@ -12,7 +12,6 @@
 
   $(document).ready(function() {
 
-
       var first_time_user_block = $('#first-time-user-block');
       if (first_time_user_block.length > 0) {
           first_time_user_loading = true;
@@ -54,27 +53,56 @@
         }
     });
     
-    $('body').on('focus', '#sr-aqi-data', function() {
-	    $('body').on('click', function() {
-	    	$('#sr-aqi-data').trigger("blur");
-	    });
-	    $('#sr-aqi-data').on('keydown', function(event) {
-	    	if (event.keyCode == 27) {
-		    	$('#sr-aqi-data').trigger("blur");
-		    }
-	    });  
+    $('body').on('click', '#sr-aqi-data-toggle', function(e) {
+	    e.preventDefault();
+	    $('#sr-aqi-data').addClass('opened');
+	    $('#aqi-explained').removeClass('opened');	    	    
+	    $('#sr-aqi-data').focus(); 
+	    e.stopPropagation();
     });
     
-    $('body').on('focus', '#aqi-explained', function() {
-	    $('body').on('click', function() {
-	    	$('#aqi-explained').trigger("blur");
-	    });
-	    $('#aqi-explained').on('keydown', function(event) {
-		    if (event.keyCode == 27) {
-			    $('#aqi-explained').trigger("blur");
-		    }
-	    });	    	    
+    $('body').on('focus', '#sr-aqi-data', function() {
+	    if ($('#sr-aqi-data').hasClass('opened')) {	    
+		    $('body').one('click', function() {
+		    	$('#sr-aqi-data').trigger("blur");
+		    	$('#sr-aqi-data').removeClass('opened');
+		    	$('#sr-aqi-data-toggle').focus();
+		    });
+		    $('#sr-aqi-data').on('keydown', function(event) {
+		    	if (event.keyCode == 27) {
+			    	$('#sr-aqi-data').trigger("blur");
+			    	$('#sr-aqi-data').removeClass('opened');
+			    	$('#sr-aqi-data-toggle').focus();
+			    }
+		    });  
+		  }
     });
+    
+    $('body').on('click', '#aqi-explained-toggle', function(e) {
+	    e.preventDefault();
+	    $('#aqi-explained').addClass('opened');	 
+	    $('#sr-aqi-data').removeClass('opened');	       
+	    $('#aqi-explained').focus(); 
+	    e.stopPropagation();	    
+    });    
+    
+    $('body').on('focus', '#aqi-explained', function() {
+	    if ($('#aqi-explained').hasClass('opened')) {
+		    $('body').one('click', function() {
+		    	$('#aqi-explained').trigger('blur');
+		    	$('#aqi-explained').removeClass('opened');
+		    	$('#aqi-explained-toggle').focus();	
+		    });
+		    $('#aqi-explained').on('keydown', function(event) {
+			    if (event.keyCode == 27) {
+				    $('#aqi-explained').trigger("blur");
+				    $('#aqi-explained').removeClass('opened');
+				    $('#aqi-explained-toggle').focus(); 
+			    }
+		    });	    	    
+		  }
+    });
+    
   });
 
   function loadMap() {
