@@ -120,7 +120,12 @@ function eenterprise_bridge_auth_authenticate($error)
                 mitigate_username_alteration($userDetails->attributes['id'][0]."_Via_WAM", $userDetails->attributes['id'][0]);
                 $uname = $userDetails->attributes['id'][0] . "_Via_WAM";
                 $public_or_cdx = 'public';
-            } //If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
+            }
+            else if($openid_position !== FALSE){
+                mitigate_username_alteration($username."_Via_Exchange_Network", $username);
+                $uname = $username . "_Via_Exchange_Network";
+                $public_or_cdx = 'cdx';
+            }//If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
             else if (($pos === FALSE && $openid_position === FALSE) || $username === FALSE) {
                 if (isset($userDetails->attributes['email'])) {
                     $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
@@ -266,14 +271,14 @@ function create_progress_tracker($user)
 
     $client2 = $client2->client;
 
-    //Extract out "@cdx" string from $user->name to pull to-do and progress tracker from the Activity Data flow
+    //Extract out "_Via_CDX" string from $user->name to pull to-do and progress tracker from the Activity Data flow
     $cdx_username = $user->name;
-    $cdx_pos = strrpos($cdx_username, "@cdx");
+    $cdx_pos = strrpos($cdx_username, "_Via_");
     if ($cdx_pos !== FALSE) {
         $cdx_username = substr($cdx_username, 0, $cdx_pos);
     }
 
-    //For the following parameter, use $cdx_username, which does not have @cdx at the end, instead of $user_name
+    //For the following parameter, use $cdx_username, which does not have _Via_CDX at the end, instead of $user_name
     $params2 = array(
         "securityToken" => $response1->securityToken,
         "dataflow" => "E-ACTIVITY",
@@ -640,13 +645,13 @@ function assign_roles_to_user($user_name)
     }
     $response1 = $response1->response;
 
-    //Extract out "@cdx" string from user_name to pull roles from the Activity Data flow
+    //Extract out "_Via_CDX" string from user_name to pull roles from the Activity Data flow
     $cdx_username = $user_name;
-    $cdx_pos = strrpos($cdx_username, "@cdx");
+    $cdx_pos = strrpos($cdx_username, "_Via_");
     if ($cdx_pos !== FALSE) {
         $cdx_username = substr($cdx_username, 0, $cdx_pos);
     }
-    //For the following parameter, use $cdx_username, which does not have @cdx at the end, instead of $user_name
+    //For the following parameter, use $cdx_username, which does not have _Via_CDX at the end, instead of $user_name
     $params2 = array(
         "securityToken" => $response1->securityToken,
         "userId" => $cdx_username,
