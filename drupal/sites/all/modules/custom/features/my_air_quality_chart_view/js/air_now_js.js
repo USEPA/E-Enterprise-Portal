@@ -67,14 +67,12 @@
 		    	$('#sr-aqi-data').trigger("blur");
 		    	$('#sr-aqi-data').removeClass('opened');
 		    	$('#sr-aqi-data-toggle').focus();
-		    	e.stopPropagation();
 		    });
 		    $('#sr-aqi-data').on('keydown', function(event) {
 		    	if (event.keyCode == 27) {
 			    	$('#sr-aqi-data').trigger("blur");
 			    	$('#sr-aqi-data').removeClass('opened');
 			    	$('#sr-aqi-data-toggle').focus();
-			    	e.stopPropagation();
 			    }
 		    });  
 		  }
@@ -94,32 +92,17 @@
 		    	$('#aqi-explained').trigger('blur');
 		    	$('#aqi-explained').removeClass('opened');
 		    	$('#aqi-explained-toggle').focus();	
-		    	e.stopPropagation(); 
 		    });
 		    $('#aqi-explained').on('keydown', function(event) {
 			    if (event.keyCode == 27) {
 				    $('#aqi-explained').trigger("blur");
 				    $('#aqi-explained').removeClass('opened');
 				    $('#aqi-explained-toggle').focus(); 
-				    e.stopPropagation();
 			    }
 		    });	    	    
 		  }
     });
     
-    $('body').on('keydown', function(event) {
-	    if (event.keyCode == 27) {
-		    if (('#aqi-explained').hasClass('opened')) {
-		    	$('#aqi-explained').trigger('blur');
-					$('#aqi-explained').removeClass('opened');			    
-		    }
-		    else if (('#sr-aqi-data').hasClass('opened')) {
-		    	$('#aqi-explained').trigger('blur');
-					$('#aqi-explained').removeClass('opened');			    			    
-		    }
-	    }
-    });
-
   });
 
   function loadMap() {
