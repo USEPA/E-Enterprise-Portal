@@ -771,45 +771,48 @@
 
             $("#all-time").focus(function() {
                 $( "#all-time" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
-                        $( "#all-time").click();
+                        $( "#all-time a").click();
                     }else if(e.which === 39){
-                        $('#this-week a').click();
-                        $('#this-week').focus();
+                        $('#this-week a').focus();
                     }
                 });
             });
             $("#this-week a").focus(function() {
                 $( "#this-week a" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
                         $( "#this-week a").click();
                     }else if(e.which === 39){
-                        $('#next-week a').click();
+                        $('#next-week a').focus();
                     }
                     else if(e.which === 37){
-                        $('#all-time a').click();
+                        $('#all-time a').focus();
                     }
                 });
             });
             $("#next-week a").focus(function() {
                 $( "#next-week a" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
                         $( "#next-week a").click();
                     }else if(e.which === 39){
-                        $('#beyond-next-week a').click();
+                        $('#beyond-next-week a').focus();
                     }
                     else if(e.which === 37){
-                        $('#this-week a').click();
+                        $('#this-week a').focus();
                     }
                 });
             });
             $("#beyond-next-week a").focus(function() {
                 $( "#beyond-next-week a" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
                         $( "#beyond-next-week a").click();
                     }
                     else if(e.which === 37){
-                        $('#next-week a').click();
+                        $('#next-week a').focus();
                     }
                 });
             });
