@@ -22,21 +22,28 @@
  * the view is modified.
  */
 ?>
+<?php
+if (in_array($row->tid, $_SESSION['user_lgc_topics']))
+  $checked = true;
+else
+  $checked = false;
+?>
+
 
 <div class="usa-width-one-whole">
-    <label class="ck-button lgc-topics-of-interest">
-        <input
-            aria-label="<?php print $output?>"
-            class="term-name-checkboxes"
-            type="checkbox"
-            name="<?php print $output?>"
-            value="<?php print $row->tid?>"
-            <?php
-            if(in_array($row->tid, $_SESSION['user_lgc_topics'])) {
-                print "checked='checked'";
-            }
-            ?>
-        />
-        <span><?php print $output?></span>
-    </label>
+  <label class="ck-button lgc-topics-of-interest">
+    <input
+      aria-label="<?php print $output ?>"
+      class="term-name-checkboxes"
+      type="checkbox"
+      name="<?php print $output ?>"
+      value="<?php print $row->tid ?>"
+      <?php
+      if ($checked)
+        print "checked='checked'";
+      ?>
+    />
+        <span><?php print $output ?>
+        </span>
+  </label>
 </div>
