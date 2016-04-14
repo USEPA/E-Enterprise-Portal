@@ -59,7 +59,7 @@ function recommended_resources_theme_registry_alter(&$theme_registry)
  */
 function recommended_resources_preprocess(&$variables, $hook)
 {
-  if ($hook == 'views_view' && $variables['name'] == 'lgc_manage_my_topics' && $variables['display_id'] == 'manage_my_topics_page') {
+  if ($variables['name'] == 'lgc_manage_my_topics' && $variables['display_id'] == 'manage_my_topics_page') {
     drupal_session_start(); // use drupal session
 
     // Create array of user's LGC Topics
