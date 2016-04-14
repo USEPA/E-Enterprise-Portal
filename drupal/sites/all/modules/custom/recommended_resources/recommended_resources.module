@@ -4,18 +4,28 @@
  **/
 function recommended_resources_menu()
 {
-    $items = array();
-    $items['generateUserLocalResourcesTable'] = array(
-        'page callback' => 'generateUserLocalResourcesTable',
-        'access callback' => TRUE,
-    );
-    $items['generateAllLocalResourcesTable'] = array(
-        'page callback' => 'generateAllLocalResourcesTable',
-        'access callback' => TRUE,
-    );
+  $items = array();
+  $items['generateUserLocalResourcesTable'] = array(
+    'page callback' => 'generateUserLocalResourcesTable',
+    'access callback' => TRUE,
+  );
+  $items['generateAllLocalResourcesTable'] = array(
+    'page callback' => 'generateAllLocalResourcesTable',
+    'access callback' => TRUE,
+  );
 
+  // Manage My Topics ajax urls
+  $items['manage_my_topics/save_topic'] = array(
+    'page callback' => 'save_lgc_topic',
+    'access callback' => TRUE,
+  );
 
-    return $items;
+  $items['manage_my_topics/remove_topic'] = array(
+    'page callback' => 'remove_lgc_topic',
+    'access callback' => TRUE,
+  );
+
+  return $items;
 }
 
 /**
@@ -23,20 +33,42 @@ function recommended_resources_menu()
  */
 function recommended_resources_theme_registry_alter(&$theme_registry)
 {
-    // Defined path to the current module.
-    $module_path = drupal_get_path('module', 'recommended_resources');
-    // Find all .tpl.php files in this module's folder recursively.
-    $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
-    // Iterate through all found template file objects.
-    foreach ($template_file_objects as $key => $template_file_object) {
-        // If the template has not already been overridden by a theme.
-        if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
-            // Alter the theme path and template elements.
-            $theme_registry[$key]['theme path'] = $module_path;
-            $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
-            $theme_registry[$key]['type'] = 'module';
-        }
+  // Defined path to the current module.
+  $module_path = drupal_get_path('module', 'recommended_resources');
+  // Find all .tpl.php files in this module's folder recursively.
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  // Iterate through all found template file objects.
+  foreach ($template_file_objects as $key => $template_file_object) {
+    // If the template has not already been overridden by a theme.
+    if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
+      // Alter the theme path and template elements.
+      $theme_registry[$key]['theme path'] = $module_path;
+      $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+      $theme_registry[$key]['type'] = 'module';
     }
+  }
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function recommended_resources_preprocess(&$variables, $hook)
+{
+  if ($hook == 'views_view' && $variables['name'] == 'lgc_manage_my_topics' && $variables['display_id'] == 'manage_my_topics_page') {
+    drupal_session_start(); // use drupal session
+
+    // Create array of user's LGC Topics
+// TODO: is there a way to do this without using a session variable? Ben and I are 'not thrilled about this'
+    $_SESSION['user_lgc_topics'] = array();
+    global $user;
+        $user_data = user_load($user->uid);
+        $lgc_topics = $user_data->field_lgc_topics_of_interest[LANGUAGE_NONE];
+    foreach($lgc_topics as $topic) {
+      $_SESSION['user_lgc_topics'][] = $topic['tid'];
+    }
+
+  }
+
 }
 
 /**
@@ -44,126 +76,228 @@ function recommended_resources_theme_registry_alter(&$theme_registry)
  */
 function lgc_topics_multiselect()
 {
-    $multi_select = "<div id='lgc-topics-filter'><select id='lgc-topics-select' multiple>";
-    $vocab = taxonomy_vocabulary_machine_name_load("lgc_topics");
-    $terms = taxonomy_get_tree($vocab->vid);
-    foreach($terms as $obj) {
-        $tid = $obj->tid;
-        $name = $obj->name;
-        $multi_select .= "<option value=$tid>$name</option>";
-    }
-    $multi_select .= "</select> <button id='apply-lgc-topics'>Apply</button></div>";
-    return $multi_select;
+  $multi_select = "<div id='lgc-topics-filter'><select id='lgc-topics-select' multiple>";
+  $vocab = taxonomy_vocabulary_machine_name_load("lgc_topics");
+  $terms = taxonomy_get_tree($vocab->vid);
+  foreach ($terms as $obj) {
+    $tid = $obj->tid;
+    $name = $obj->name;
+    $multi_select .= "<option value=$tid>$name</option>";
+  }
+  $multi_select .= "</select> <button id='apply-lgc-topics'>Apply</button></div>";
+  return $multi_select;
 }
+
 /**
  * Implements hook_form_alter().
  */
 function recommended_resources_form_alter(&$form, &$form_state, $form_id)
 {
+  if ($form_id == 'lgc_resource_node_form') {
+    drupal_add_js(drupal_get_path('module', 'recommended_resources') . "/js/preview_url_form.js", "file");
+    drupal_add_css(drupal_get_path('module', 'recommended_resources') . "/css/recommended_resources.css", "file");
+
+    hide($form['additional_settings']);
+    hide($form['actions']['preview']);
+
+    // Make sure resource is marked as published
+    $form['options']['status'] = array(
+      '#type' => 'value',
+      '#value' => 1
+    );
 
 
-    global $user;
-    if ($form_id == 'lgc_resource_node_form') {
-        drupal_add_js(drupal_get_path('module', 'recommended_resources') . "/js/preview_url_form.js", "file");
-        drupal_add_css(drupal_get_path('module', 'recommended_resources') . "/css/recommended_resources.css", "file");
+    $form_state['rebuild'] = TRUE;
 
-        hide($form['additional_settings']);
-        hide($form['actions']['preview']);
+    $form['#attributes']['novalidate'] = '1';
+    $form['#validate'][] = 'recommended_resources_form_validate';
 
-        // Make sure resource is marked as published
-        $form['options']['status'] = array(
-            '#type' => 'value',
-            '#value' => 1
-        );
+    $form['field_lgc_link'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a class='usa-button' id='new-lgc-resource-url-preview' href='#'>Preview</a>";
 
+    $form['actions']['submit']['#submit'][] = 'new_lgc_resource_form_redirect';
+    $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/local-resource-editor', array('attributes' => array('class' => 'link usa-button usa-button-outline'))) . "</div>";
 
-
-        $form_state['rebuild'] = TRUE;
-
-				$form['#attributes']['novalidate'] = '1';  
-        $form['#validate'][] = 'recommended_resources_form_validate';
-
-        $form['field_lgc_link'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a class='usa-button' id='new-lgc-resource-url-preview' href='#'>Preview</a>";
-
-        $form['actions']['submit']['#submit'][] = 'new_lgc_resource_form_redirect';
-        $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/local-resource-editor', array('attributes' => array('class' => 'link usa-button usa-button-outline'))) . "</div>";
-
-    }
+  }
 }
 
 
+function recommended_resources_form_validate($form, &$form_state)
+{
+  $edit_form = FALSE;
+  $delete_form = FALSE;
+  $changed_title = FALSE;
 
-function recommended_resources_form_validate($form, &$form_state){
-    $edit_form  = FALSE;
-    $delete_form = FALSE;
-    $changed_title = FALSE;
-
-    $input_title = $form_state['input']['title'];
-    $saved_title = $form['title']['#default_value'];
+  $input_title = $form_state['input']['title'];
+  $saved_title = $form['title']['#default_value'];
 
 
-    if (!empty($form_state['values']['delete'])) {
-        $edit_form = TRUE;
+  if (!empty($form_state['values']['delete'])) {
+    $edit_form = TRUE;
+  }
+  if ($form_state['input']['op'] == 'Delete') {
+    $delete_form = TRUE;
+  }
+  if ($input_title != $saved_title) {
+    $changed_title = TRUE;
+  }
+
+
+  if (!$delete_form) {
+    $url = $form_state['values']['field_lgc_link'][LANGUAGE_NONE][0]['value'];
+    if (!valid_url($url, TRUE)) {
+      $message = "Invalid Web URL (include http or https prefix).";
+      form_set_error('field_lgc_link', $message);
     }
-    if ($form_state['input']['op'] == 'Delete') {
-        $delete_form = TRUE;
-    }
-    if ($input_title != $saved_title) {
-        $changed_title = TRUE;
-    }
 
-
-    if (!$delete_form) {
-        $url = $form_state['values']['field_lgc_link'][LANGUAGE_NONE][0]['value'];
-        if (!valid_url($url, TRUE)) {
-            $message = "Invalid Web URL (include http or https prefix).";
-            form_set_error('field_lgc_link', $message);
-        }
-
-        if ($changed_title || !$edit_form) {
-            /// Validate Duplicates/
-            if (db_query("SELECT count(*) FROM {node} WHERE type = 'lgc_resource' and  title = :title;", array(':title' => $input_title))->fetchField()) {
-                // If it is, give an error
-                $message = "This resource has already been added. Please enter another.";
-                form_set_error('title', $message);
-            }
-        }
+    if ($changed_title || !$edit_form) {
+      /// Validate Duplicates/
+      if (db_query("SELECT count(*) FROM {node} WHERE type = 'lgc_resource' and  title = :title;", array(':title' => $input_title))->fetchField()) {
+        // If it is, give an error
+        $message = "This resource has already been added. Please enter another.";
+        form_set_error('title', $message);
+      }
     }
+  }
 }
-
 
 
 /**
  * Hook_node_presave
  */
-function recommended_resources_node_presave($node) {
-    global $user;
-    // Ensure custom content type is assigned to correct author
-    if($node->type === 'lgc_resource') {
-        $node->uid = $user->uid;
+function recommended_resources_node_presave($node)
+{
+  global $user;
+  // Ensure custom content type is assigned to correct author
+  if ($node->type === 'lgc_resource') {
+    $node->uid = $user->uid;
+  }
+}
+
+function new_lgc_resource_form_redirect($form, &$form_state)
+{
+  drupal_goto('/local-resource-editor');
+}
+
+
+function generateUserLocalResourcesTable()
+{
+  $table = views_embed_view('user_recommended_resources', 'block');
+  print $table;
+}
+
+function generateAllLocalResourcesTable()
+{
+  if (isset($_POST['filters'])) {
+    $topics = $_POST['filters'];
+    $tids = implode('+', $topics);
+    $table = views_embed_view('recommended_resources', 'block_to_be_rendered', $tids);
+  } else
+    $table = views_embed_view('recommended_resources', 'block_to_be_rendered');
+  print $table;
+}
+
+/**
+ * Accepts POST request with "tid" param
+ * Saves LGC topic to current user with tid
+ * @return array
+ */
+function save_lgc_topic()
+{
+  // Access current user lgc topics (tids)
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_interests = $user_data->field_lgc_topics_of_interest;
+  $response = array();
+
+  // Check if POST tid is set
+  if (!isset($_POST['tid'])) {
+    $response['error'] = TRUE;
+    $response['message'] = 'Must include TID in POST as \'tid\'';
+    print $response;
+    exit();
+  }
+
+  //Add tid to users preexisting lgc topic tids
+  $tid = $_POST['tid'];
+  $user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
+  $edit = array(
+    'field_lgc_topics_of_interest' => $user_interests
+  );
+
+  // Save changes, return error exception if fails
+  try {
+    user_save($user_data, $edit);
+    $response['error'] = FALSE;
+    $response['message'] = 'Successfully saved tid- ' . $tid;
+    $_SESSION['user_lgc_topics'][] = $tid;
+  }
+  catch (Exception $e) {
+    $response['error'] = TRUE;
+    $response['message'] = array('Failed with exception' => $e);
+  }
+  print json_encode($response);
+}
+
+
+/**
+ * Clear element in session array by key name and element value
+ * @param $key
+ * @param $remove_elem
+ */
+function remove_from_session_array($key, $remove_elem)
+{
+
+  foreach ($_SESSION[$key] as $index=>$elem) {
+    if ($elem == $remove_elem)
+      unset($_SESSION[$key][$index]);
+  }
+}
+
+/**
+ * Accepts POST request with "tid" param
+ * Removes LGC topic from current user with tid
+ * @return array
+ */
+function remove_lgc_topic()
+{
+  // Access current user lgc topics (tids)
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_interests = $user_data->field_lgc_topics_of_interest;
+  $response = array();
+
+  // Check if POST tid is set
+  if (!isset($_POST['tid'])) {
+    $response['error'] = TRUE;
+    $response['message'] = 'Must include TID in POST as \'tid\'';
+    print $response;
+    exit();
+  }
+
+  //Remove tid to users preexisting lgc topic tids
+  $tid_to_remove = $_POST['tid'];
+  foreach ($user_interests[LANGUAGE_NONE] as $index=>$topics) {
+    $tid = $topics['tid'];
+    if ($tid == $tid_to_remove) {
+      unset($user_interests[LANGUAGE_NONE][$index]);
+      //break; /// no longer need to search.
     }
+  }
+
+  $edit = array(
+    'field_lgc_topics_of_interest' => $user_interests
+  );
+
+  // Save changes, return error exception if fails
+  try {
+    user_save($user_data, $edit);
+    remove_from_session_array('user_lgc_topics', $tid_to_remove);
+    $response['error'] = FALSE;
+    $response['message'] = 'Successfully removed tid- ' . $tid_to_remove;
+  }
+  catch (Exception $e) {
+    $response['error'] = TRUE;
+    $response['message'] = array('Failed with exception' => $e);
+  }
+  print json_encode($response);
 }
-
-function new_lgc_resource_form_redirect($form, &$form_state) {
-    drupal_goto('/local-resource-editor');
-}
-
-
-function generateUserLocalResourcesTable() {
-    $table =  views_embed_view('user_recommended_resources', 'block');
-    print $table;
-}
-
-function generateAllLocalResourcesTable() {
-    if (isset($_POST['filters'])) {
-        $topics = $_POST['filters'];
-        $tids = implode('+', $topics);
-        $table =  views_embed_view('recommended_resources', 'block_to_be_rendered', $tids);
-    }
-    else
-        $table =  views_embed_view('recommended_resources', 'block_to_be_rendered');
-    print $table;
-}
-
-
-
