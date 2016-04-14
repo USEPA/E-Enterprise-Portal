@@ -52,6 +52,12 @@
             }
         }
     });
+  
+	  function closeDiv(divIDToClose) {
+	  	if ($(divIDToClose).hasClass('opened')) {
+		  	$(divIDToClose).removeClass('opened');    
+		  }
+	  }    
     
     $('body').on('click', '#sr-aqi-data-toggle', function(e) {
 	    e.preventDefault();
@@ -132,12 +138,6 @@
     });
     
   });
-  
-  function closeDiv(divIDToClose) {
-  	if ($(divIDToClose).hasClass('opened')) {
-	  	$(divIDToClose).removeClass('opened');    
-	  }
-  }
 
   function loadMap() {
     var map = L.map('my-air-quality-air-now-map-container');
