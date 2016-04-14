@@ -240,6 +240,58 @@ div.arrow, div.popover-content {
     z-index:100;
 }
 
+@-webkit-keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+}
+
+@-webkit-keyframes fadeOut {
+    from { opacity: 1; }
+      to { opacity: 0; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+      to { opacity: 0; }
+}
+
+#sr-aqi-data, #aqi-explained {
+/* 	position: absolute; */
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+  -webkit-animation: fadeOut 1s;
+  animation: fadeOut 1s;  
+}
+
+#sr-aqi-data:focus, #aqi-explained:focus,
+#sr-aqi-data:active, #aqi-explained:active,
+#sr-aqi-data.element-invisible:focus, #aqi-explained.element-invisible:focus,
+#sr-aqi-data:focus.element-invisible, #aqi-explained:focus.element-invisible,
+#sr-aqi-data.opened, #aqi-explained.opened {
+	position: static;
+	clip: auto;
+	height: auto;
+	width: auto;
+	overflow: auto;
+	display: block;
+	background: transparent url('../images/fancy_close.png') 99% 0% no-repeat;
+	padding-top: 25px;
+	padding-right: 10px;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+
 @media screen and (max-width:35em) {
 	#my-air-quality-chart text {
 	  font-size: 1em;
