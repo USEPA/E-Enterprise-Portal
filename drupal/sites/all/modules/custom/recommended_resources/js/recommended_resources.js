@@ -126,6 +126,17 @@
             }
         }
 
+        $('#load_lgc_manage_topics.inactive').click(function() {
+              $.ajax({
+                url: 'manage_my_topics/load_view',
+                success: function(html) {
+                    $('#manage-topics-wrapper').html(html);
+                    $('#local-resources-tables').hide();
+                }
+            })
+        });
+
+
 
         $(document).on('ee:first_time_user_complete', function () {
             first_time_user_loading = false;

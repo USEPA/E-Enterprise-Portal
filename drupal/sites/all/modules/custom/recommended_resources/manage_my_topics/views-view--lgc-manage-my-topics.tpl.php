@@ -32,11 +32,10 @@
   $module_name = "recommended_resources";
   drupal_add_js(drupal_get_path('module', $module_name) . "/js/manage_my_topics_component.js", "file");
   drupal_add_css(drupal_get_path('module', $module_name) . "/css/manage_my_topics.css", "file");
-
 ?>
 
-
-<div class="<?php print $classes; ?> manage-my-topics">
+<div class="<?php print $classes; ?>" id="manage-my-topics">
+  <div id="high-level-interests">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
     <?php print $title; ?>
@@ -49,9 +48,9 @@
   <?php endif; ?>
 
   <?php if ($exposed): ?>
-    <div class="view-filters">
-      <?php print $exposed; ?>
-    </div>
+<!--    <div class="view-filters">-->
+    <?php //print $exposed; ?>
+<!--    </div>-->
   <?php endif; ?>
 
   <?php if ($attachment_before): ?>
@@ -95,5 +94,5 @@
       <?php print $feed_icon; ?>
     </div>
   <?php endif; ?>
-
+  </div>
 </div><?php /* class view */ ?>

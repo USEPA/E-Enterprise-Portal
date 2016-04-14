@@ -30,20 +30,23 @@ else
 ?>
 
 
-<div class="usa-width-one-whole">
-  <label class="ck-button lgc-topics-of-interest">
-    <input
-      aria-label="<?php print $output ?>"
-      class="term-name-checkboxes"
-      type="checkbox"
-      name="<?php print $output ?>"
-      value="<?php print $row->tid ?>"
-      <?php
-      if ($checked)
-        print "checked='checked'";
-      ?>
-    />
-        <span><?php print $output ?>
-        </span>
+<li class="usa-width-one-whole">
+  <input
+    id="manage-lgc-<?php print $row->tid ?>"
+    aria-label="<?php print $output ?>"
+    class="term-name-checkboxes"
+    type="checkbox"
+    name="<?php print $output ?>"
+    value="<?php print $row->tid ?>"
+    <?php
+    if ($checked)
+      print "checked='checked'";
+    ?>
+  />
+  <label class="ck-button lgc-topics-of-interest"
+         for="manage-lgc-<?php print $row->tid ?>"
+  >
+    <?php print $output ?>
   </label>
-</div>
+</li>
+

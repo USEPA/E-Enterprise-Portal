@@ -1549,12 +1549,60 @@ form .field-multiple-table#field-zip-code-values {
   transform: translateY(-50%);
 }
 
-#first-time-user-profile {
+#manage-my-topics {
+	#high-level-interests {
+		.view-content {
+			height: 300px;
+			overflow-y: scroll;
+		}
+		margin-top:20px;
+		ul {
+			margin-top: 0;
+			li:before,
+			li:after {
+				content: none;
+			}
+			li {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+		}
+		input[type="checkbox"] + label {
+			@include button;
+			//background-color: $color-primary;
+			padding: 1rem 3rem 1rem 4rem;
+			width: 100%;
+			//color: $color-white;
+			outline: 2px solid transparent;
+			box-shadow: $focus-shadow-clear;
+		}
+
+		input[type="checkbox"]:focus + label {
+			outline: 2px solid $color-focus;
+			border: 1px solid $color-focus;
+			box-shadow: $focus-shadow;
+		}
+		input[type="checkbox"] + label::before {
+			background-color: transparent;
+			box-shadow: none;
+		}
+		input[type="checkbox"]:checked + label::before {
+			background-color: $color-primary-darker;
+			box-shadow: none;
+		}
+		input[type="checkbox"]:checked + label {
+			background-color: $color-primary-darker;
+			background-image: none;
+			color: $color-white;
+		}
+	}
+}
+#first-time-user-profile{
 	padding-bottom: 10px;
 	height: auto;
 	h2 {
 		padding: 0;
-		line-height: 1.2;
+		line-height: 1.1;
 		margin-top: 0;
 		margin-bottom: 15px;
 	}
