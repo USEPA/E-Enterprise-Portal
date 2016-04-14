@@ -52,6 +52,12 @@
             }
         }
     });
+  
+	  function closeDiv(divIDToClose) {
+	  	if ($(divIDToClose).hasClass('opened')) {
+		  	$(divIDToClose).removeClass('opened');    
+		  }
+	  }    
     
     $('body').on('click', '#sr-aqi-data-toggle', function(e) {
 	    e.preventDefault();
@@ -61,21 +67,35 @@
 	    e.stopPropagation();
     });
     
+    $('body').on('focus', '#sr-aqi-data-toggle', function(e) {
+			$('#sr-aqi-data-toggle').on('keydown', function(event) {
+		    // Escape key 27 to close description
+		    if (event.which === 27) {
+			    closeDiv('#sr-aqi-data');
+			    closeDiv('#aqi-explained');
+			    $('#sr-aqi-data-toggle').focus();
+		    }
+	    });	   	 
+	  });
+    
     $('body').on('focus', '#sr-aqi-data', function() {
-	    if ($('#sr-aqi-data').hasClass('opened')) {	    
-		    $('body').one('click', function() {
-		    	$('#sr-aqi-data').trigger("blur");
-		    	$('#sr-aqi-data').removeClass('opened');
-		    	$('#sr-aqi-data-toggle').focus();
-		    });
-		    $('#sr-aqi-data').on('keydown', function(event) {
-		    	if (event.keyCode == 27) {
-			    	$('#sr-aqi-data').trigger("blur");
-			    	$('#sr-aqi-data').removeClass('opened');
-			    	$('#sr-aqi-data-toggle').focus();
-			    }
-		    });  
-		  }
+	    var sqAQIData = '#sr-aqi-data';   
+	    $('body').one('click', function() {
+	    	$(sqAQIData).trigger("blur");
+	    	closeDiv(sqAQIData);
+	    	$('#sr-aqi-data-toggle').focus();
+	    });
+	    $(sqAQIData).on('keydown', function(event) {
+		    // Escape key 27 to close description		    
+	    	if (event.which === 27) {
+		    	$(sqAQIData).trigger("blur");
+					closeDiv(sqAQIData);
+					$('#sr-aqi-data-toggle').focus();	   
+		    }
+	    });  
+	    $(sqAQIData).on('blur', function(event) {
+		    closeDiv(sqAQIData);
+		  });	 	    
     });
     
     $('body').on('click', '#aqi-explained-toggle', function(e) {
@@ -86,21 +106,35 @@
 	    e.stopPropagation();	    
     });    
     
+    $('body').on('focus', '#aqi-explained-toggle', function(e) {
+			$('#aqi-explained-toggle').on('keydown', function(event) {
+		    // Escape key 27 to close description
+		    if (event.which === 27) {
+			    closeDiv('#aqi-explained');
+			    closeDiv('#sr-aqi-data');			    
+			    $('#aqi-explained-toggle').focus();
+		    }
+	    });	   	 
+	  });    
+    
     $('body').on('focus', '#aqi-explained', function() {
-	    if ($('#aqi-explained').hasClass('opened')) {
-		    $('body').one('click', function() {
-		    	$('#aqi-explained').trigger('blur');
-		    	$('#aqi-explained').removeClass('opened');
-		    	$('#aqi-explained-toggle').focus();	
-		    });
-		    $('#aqi-explained').on('keydown', function(event) {
-			    if (event.keyCode == 27) {
-				    $('#aqi-explained').trigger("blur");
-				    $('#aqi-explained').removeClass('opened');
-				    $('#aqi-explained-toggle').focus(); 
-			    }
-		    });	    	    
-		  }
+			var aqiExplained = '#aqi-explained';
+	    $('body').one('click', function() {
+	    	$(aqiExplained).trigger('blur');
+	    	closeDiv(aqiExplained);
+			  $('#aqi-explained-toggle').focus();	    	
+	    });
+	    $(aqiExplained).on('keydown', function(event) {
+		    // Escape key 27 to close description
+		    if (event.which === 27) {
+			    $(aqiExplained).trigger("blur");
+			    closeDiv(aqiExplained);
+			    $('#aqi-explained-toggle').focus();
+		    }
+	    });
+	    $(aqiExplained).on('blur', function(event) {
+		    closeDiv(aqiExplained);
+		  });	    
     });
     
   });
