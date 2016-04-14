@@ -25,6 +25,11 @@ function recommended_resources_menu()
     'access callback' => TRUE,
   );
 
+  $items['manage_my_topics/load_view'] = array(
+    'page callback' => 'load_view',
+    'access callback' => TRUE,
+  );
+
   return $items;
 }
 
@@ -300,4 +305,12 @@ function remove_lgc_topic()
     $response['message'] = array('Failed with exception' => $e);
   }
   print json_encode($response);
+}
+
+
+function load_view()
+{
+  $table = views_embed_view('lgc_manage_my_topics', 'block');
+  print $table;
+  exit();
 }

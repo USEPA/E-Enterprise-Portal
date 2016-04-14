@@ -91,7 +91,7 @@
 
 
   $(document).ready(function () {
-    var $checkboxes = $('.manage-my-topics .term-name-checkboxes');
+    var $checkboxes = $('#manage-my-topics .term-name-checkboxes');
     $checkboxes.click(function () {
       var $checkbox = $(this);
       if ($checkbox.prop('checked')) // Check if user checked the topic
