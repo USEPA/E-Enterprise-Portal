@@ -389,8 +389,8 @@ echo $row->title;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['path'] = 'recommended-resources';
 
-  /* Display: Block */
-  $handler = $view->new_display('block', 'Block', 'block');
+  /* Display: Local Government Wrapper */
+  $handler = $view->new_display('block', 'Local Government Wrapper', 'block');
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -486,8 +486,8 @@ echo $row->title;
   $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['path'] = 'local_resources';
 
-  /* Display: Block to be Rendered */
-  $handler = $view->new_display('block', 'Block to be Rendered', 'block_to_be_rendered');
+  /* Display: All resources table */
+  $handler = $view->new_display('block', 'All resources table', 'block_to_be_rendered');
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
