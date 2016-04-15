@@ -1,6 +1,6 @@
 <?php
 $module_name = "recommended_resources";
-
+drupal_add_js(drupal_get_path('module', $module_name) . "/js/LocalResourcesTable.js", "file");
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/recommended_resources.js", "file");
 //drupal_add_library(libraries_get_path('jQuery.dotdotdot-master') . '/src/jquery.dotdotdot.min.js');
 drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resources.css", "file");
@@ -56,12 +56,11 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
 
             <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources-wrapper">All</a>
             </li>
-
         </ul>
+<!--        <a href="javascript:void(0)" id="load_lgc_manage_topics" class="inactive">Manage Topics</a>-->
         <?php
     }
     ?>
-
     <?php
     if ($user->name != 'guest-user') {
         ?>
@@ -80,5 +79,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
             ?>
         </div>
     </div>
+
+
 
 </div>

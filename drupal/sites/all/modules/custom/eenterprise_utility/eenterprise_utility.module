@@ -1061,17 +1061,8 @@ function get_modal_data($locations, $city_name_count)
     print "<a id='locations-modal' href='#'>View all favorite cities</a>";
     print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
     print "<fieldset class='radio-options-holder'>";
-    $duplicate_city_count = 0;
     foreach ($locations as $key => $value) {
-        if ($city_name_count[$value] > 1) {
-            print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . " (" . $key . ")" . "</label>";
-            ++$duplicate_city_count;
-            if ($duplicate_city_count == $city_name_count[$value]) {
-                $duplicate_city_count = 0;
-            }
-        } else {
-            print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . "</label>";
-        }
+        print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . " (" . $key . ")" . "</label>";
     }
     print "</fieldset></div>";
 }
@@ -1135,11 +1126,7 @@ function generate_location_select()
             print "<option value='view_more'>Show more...</option>";
             break;
         }
-        if ($city_name_count[$value] > 1) {
-            print "<option value='" . $key . "' " . $selected . " >" . $value . " (" . $key . ")</option>";
-        } else {
-            print "<option value='" . $key . "' " . $selected . " >" . $value . "</option>";
-        }
+        print "<option value='" . $key . "' " . $selected . " >" . $value . " (" . $key . ")</option>";
         $count = $count + 1;
     }
 
