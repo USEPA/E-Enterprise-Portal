@@ -23,7 +23,8 @@
  */
 ?>
 <?php
-if (in_array($row->tid, $_SESSION['user_lgc_topics']))
+//TODO: Find preprocess function when rendering views_blocks in /workbench
+if (is_user_topic_saved($row->tid))
   $checked = true;
 else
   $checked = false;
