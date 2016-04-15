@@ -55,6 +55,7 @@
 
     <?php if ($rows): ?>
         <div class="view-content">
+            <div class='usa-grid-full'><ul aria-describedby='topic-description'>
             <?php print $rows; ?>
         </div>
     <?php elseif ($empty): ?>

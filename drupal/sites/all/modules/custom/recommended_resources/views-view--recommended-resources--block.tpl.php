@@ -56,22 +56,30 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
 
             <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources-wrapper">All</a>
             </li>
-
         </ul>
+<!--        <a href="javascript:void(0)" id="load_lgc_manage_topics" class="inactive">Manage Topics</a>-->
         <?php
     }
     ?>
-
     <?php
     if ($user->name != 'guest-user') {
         ?>
-        <div id="user-local-resources"></div>
+        <div id="user-local-resources">
+            <?php
+           // generateUserLocalResourcesTable();
+            ?>
+        </div>
         <?php
     }
     ?>
     <div id="all-local-resources-wrapper">
-        <?php //echo lgc_topics_multiselect(); ?>
-        <div id="all-local-resources"></div>
+        <div id="all-local-resources">
+            <?php
+         //   generateAllLocalResourcesTable();
+            ?>
+        </div>
     </div>
+
+
 
 </div>
