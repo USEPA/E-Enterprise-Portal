@@ -54,26 +54,34 @@ function recommended_resources_theme_registry_alter(&$theme_registry)
   }
 }
 
-/**
- * Implements hook_preprocess().
- */
-function recommended_resources_preprocess(&$variables, $hook)
-{
-  if ($variables['name'] == 'lgc_manage_my_topics' && $variables['display_id'] == 'manage_my_topics_page') {
-    drupal_session_start(); // use drupal session
 
-    // Create array of user's LGC Topics
-// TODO: is there a way to do this without using a session variable? Ben and I are 'not thrilled about this'
+/**
+ * Creates Session array if does not already exists.
+ * Checks session for topic tid
+ * Return true if User has saved tid, false otherwise
+ * @param $tid
+ * @return bool
+ */
+function is_user_topic_saved($tid)
+{
+  if (isset($_SESSION['user_lgc_topics'])) {
+    // TODO: is there a way to do this without using a session variable? Ben and I are 'not thrilled about this'
+    drupal_session_start(); // use drupal session
+    $topics = $_SESSION['user_lgc_topics'];
+    if (in_array($tid, $topics))
+      return TRUE;
+    else
+      return FALSE;
+  } else {
     $_SESSION['user_lgc_topics'] = array();
     global $user;
-        $user_data = user_load($user->uid);
-        $lgc_topics = $user_data->field_lgc_topics_of_interest[LANGUAGE_NONE];
+    $user_data = user_load($user->uid);
+    $lgc_topics = $user_data->field_lgc_topics_of_interest[LANGUAGE_NONE];
     foreach($lgc_topics as $topic) {
       $_SESSION['user_lgc_topics'][] = $topic['tid'];
     }
-
+    return is_user_topic_saved($tid);
   }
-
 }
 
 /**
@@ -235,8 +243,7 @@ function save_lgc_topic()
     $response['error'] = FALSE;
     $response['message'] = 'Successfully saved tid- ' . $tid;
     $_SESSION['user_lgc_topics'][] = $tid;
-  }
-  catch (Exception $e) {
+  } catch (Exception $e) {
     $response['error'] = TRUE;
     $response['message'] = array('Failed with exception' => $e);
   }
@@ -252,7 +259,7 @@ function save_lgc_topic()
 function remove_from_session_array($key, $remove_elem)
 {
 
-  foreach ($_SESSION[$key] as $index=>$elem) {
+  foreach ($_SESSION[$key] as $index => $elem) {
     if ($elem == $remove_elem)
       unset($_SESSION[$key][$index]);
   }
@@ -281,7 +288,7 @@ function remove_lgc_topic()
 
   //Remove tid to users preexisting lgc topic tids
   $tid_to_remove = $_POST['tid'];
-  foreach ($user_interests[LANGUAGE_NONE] as $index=>$topics) {
+  foreach ($user_interests[LANGUAGE_NONE] as $index => $topics) {
     $tid = $topics['tid'];
     if ($tid == $tid_to_remove) {
       unset($user_interests[LANGUAGE_NONE][$index]);
@@ -299,8 +306,7 @@ function remove_lgc_topic()
     remove_from_session_array('user_lgc_topics', $tid_to_remove);
     $response['error'] = FALSE;
     $response['message'] = 'Successfully removed tid- ' . $tid_to_remove;
-  }
-  catch (Exception $e) {
+  } catch (Exception $e) {
     $response['error'] = TRUE;
     $response['message'] = array('Failed with exception' => $e);
   }
