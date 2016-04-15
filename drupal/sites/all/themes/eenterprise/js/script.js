@@ -604,20 +604,6 @@
             $('#edit-field-prog-track-sub-part-code-value').change(function () {
                 $('#edit-field-prog-track-rep-type-filter-value').val('All');
             });
-
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    if($("#edit-field-prog-track-rep-type-filter-value").is(":visible"))
-                        $('#edit-field-prog-track-rep-type-filter-value').focus();
-                    else if ($("#edit-field-prog-track-sub-part-code-value").is(":visible"))
-                        $('#edit-field-prog-track-sub-part-code-value').focus();
-                    else if ($("#edit-field-prog-track-part-code-value").is(":visible"))
-                        $('#edit-field-prog-track-part-code-value').focus();
-                }
-            }
-            xmlhttp.open("GET", "README.txt", true);
-            xmlhttp.send();
         }
     };
 
@@ -817,24 +803,28 @@
                 });
             });
 
+            // Keep track of the last pull-down we focused on (view filters only, for now)
+            $('.views-exposed-form select').focus(function() {
+                var thisId = $(this).attr('id');
+                $('input#focused-element').remove();
+                $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="' + thisId + '" />');
+            });
+            $('.views-exposed-form select').blur(function() {
+                $('input#focused-element').remove();
+            });
+
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    if ($("#this-week").hasClass("filter-applied"))
+                    if ($('input#focused-element').length == 1) {
+                        $('#' + $('input#focused-element').val()).focus();
+                    } else if ($("#this-week").hasClass("filter-applied")) {
                         $('#this-week a').focus();
-                    else if ($("#next-week").hasClass("filter-applied"))
+                    } else if ($("#next-week").hasClass("filter-applied")) {
                         $('#next-week a').focus();
-                    else if ($("#beyond-next-week").hasClass("filter-applied"))
+                    } else if ($("#beyond-next-week").hasClass("filter-applied")) {
                         $('#beyond-next-week a').focus();
-
-                    if($('#edit-field-prog-track-domain-value').val() != 'All' && !$("#edit-field-prog-track-rep-type-filter-value").is(":visible"))
-                        $('#edit-field-prog-track-domain-value').focus();
-                    else if(!$('#edit-field-prog-track-part-code-value').is(":visible") && $('#edit-field-prog-track-domain-value').val() != 'All')
-                        $('#edit-field-prog-track-domain-value').focus();
-                    else if ($("#edit-field-todo-lst-rprt-type-filter-value").is(":visible"))
-                        $('#edit-field-todo-lst-rprt-type-filter-value').focus();
-                    else if ($("#edit-field-todo-lst-sub-part-code-value").is(":visible"))
-                        $('#edit-field-todo-lst-sub-part-code-value').focus();
+                    }
                 }
             }
             xmlhttp.open("GET", "README.txt", true);
