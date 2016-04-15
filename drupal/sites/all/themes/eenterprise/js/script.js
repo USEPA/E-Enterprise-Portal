@@ -761,7 +761,7 @@
                     if(e.which === 40){
                         $( "#all-time a").click();
                     }else if(e.which === 39){
-                        $('#this-week a').focus();
+                        $('#this-week a').click();
                     }
                 });
             });
@@ -771,10 +771,10 @@
                     if(e.which === 40){
                         $( "#this-week a").click();
                     }else if(e.which === 39){
-                        $('#next-week a').focus();
+                        $('#next-week a').click();
                     }
                     else if(e.which === 37){
-                        $('#all-time a').focus();
+                        $('#all-time a').click();
                     }
                 });
             });
@@ -784,10 +784,10 @@
                     if(e.which === 40){
                         $( "#next-week a").click();
                     }else if(e.which === 39){
-                        $('#beyond-next-week a').focus();
+                        $('#beyond-next-week a').click();
                     }
                     else if(e.which === 37){
-                        $('#this-week a').focus();
+                        $('#this-week a').click();
                     }
                 });
             });
@@ -798,7 +798,7 @@
                         $( "#beyond-next-week a").click();
                     }
                     else if(e.which === 37){
-                        $('#next-week a').focus();
+                        $('#next-week a').click();
                     }
                 });
             });
