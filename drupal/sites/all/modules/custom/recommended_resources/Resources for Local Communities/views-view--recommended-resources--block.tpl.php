@@ -40,7 +40,6 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     // Check if the user has the 'editor' role.
     if (in_array('local_government_admin', $user->roles) || $user->uid == 1) {
         ?>
-
         <div class="widget-note action-links"><a href="/local-resource-editor" class="favorites-ignore">Manage Resources</a></div>
     <?php
     }
