@@ -55,6 +55,8 @@ function recommended_resources_theme_registry_alter(&$theme_registry)
 }
 
 
+
+
 /**
  * Creates Session array if does not already exists.
  * Checks session for topic tid
@@ -68,10 +70,7 @@ function is_user_topic_saved($tid)
     // TODO: is there a way to do this without using a session variable? Ben and I are 'not thrilled about this'
     drupal_session_start(); // use drupal session
     $topics = $_SESSION['user_lgc_topics'];
-    if (in_array($tid, $topics))
-      return TRUE;
-    else
-      return FALSE;
+    return in_array($tid, $topics);
   } else {
     $_SESSION['user_lgc_topics'] = array();
     global $user;
