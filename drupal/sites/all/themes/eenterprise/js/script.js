@@ -806,25 +806,26 @@
             // Keep track of the last pull-down we focused on (view filters only, for now)
             $('.views-exposed-form select').focus(function() {
                 var thisId = $(this).attr('id');
-                $('input#focused-element').remove();
-                $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="#' + thisId + '" />');
-            });
-            $('.views-exposed-form select, .view .pager a').blur(function() {
-                $('input#focused-element').remove();
+                trackFocusedElement('#' + thisId);
             });
             $('.view').on('focus', '.pager .pager-previous a', function() {
                 var thisTarget = getParentViewSelectorByClass($(this));
                 thisTarget += ' .pager .pager-previous a';
-                $('input#focused-element').remove();
-                $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="' + thisTarget + '" />');
+                trackFocusedElement(thisTarget);
             });
             $('.view').on('focus', '.pager .pager-next a', function() {
                 var thisTarget = getParentViewSelectorByClass($(this));
                 thisTarget += ' .pager .pager-next a';
-                $('input#focused-element').remove();
-                $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="' + thisTarget + '" />');
+                trackFocusedElement(thisTarget);
             });
 
+
+            function trackFocusedElement(target) {
+                $('input#focused-element').remove();
+                $('input#focused-view').remove();
+                $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="' + target + '" />');
+                $('body').append('<input type="hidden" id="focused-view" name="focused_view" value="' + getParentViewSelectorByClass($(target)) + '" />');
+            }
             function getParentViewSelectorByClass(element) {
                 var thisTarget = '';
                 // find the class that uniquely identifies this view container
@@ -835,11 +836,23 @@
                 return thisTarget;
             }
 
+            // Lose track if we blur
+            $('.views-exposed-form select, .view .pager a').blur(function() {
+                $('input#focused-element').remove();
+                $('input#focused-view').remove();
+            });
+
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     if ($('input#focused-element').length == 1) {
-                        $($('input#focused-element').val()).focus();
+                        if ($($('input#focused-element').val()).length > 0) {
+                            // attempt to focus this element
+                            $($('input#focused-element').val()).focus();
+                        } else {
+                            // if it disappeared, focus on its view container
+                            $($('input#focused-view').val()).focus();
+                        }
                     } else if ($("#this-week").hasClass("filter-applied")) {
                         $('#this-week a').focus();
                     } else if ($("#next-week").hasClass("filter-applied")) {
