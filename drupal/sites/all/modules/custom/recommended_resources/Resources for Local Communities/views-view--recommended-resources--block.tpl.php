@@ -2,7 +2,8 @@
 $module_name = "recommended_resources";
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/LocalResourcesTable.js", "file");
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/recommended_resources.js", "file");
-//drupal_add_library(libraries_get_path('jQuery.dotdotdot-master') . '/src/jquery.dotdotdot.min.js');
+drupal_add_js(drupal_get_path('module', $module_name) . "/js/embedded_lgc_topics_view.js", "file");
+drupal_add_library(libraries_get_path('DataTables-1.10.11') . '/media/datatables/');
 drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resources.css", "file");
 
 
@@ -33,44 +34,60 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
  * @ingroup views_templates
  */
 ?>
-<div id="local-resources-tabs" class="view-content">
-    <?php
-    // Load the currently logged in user.
-    global $user;
-    // Check if the user has the 'editor' role.
-    if (in_array('local_government_admin', $user->roles) || $user->uid == 1) {
-        ?>
-        <div class="widget-note action-links"><a href="/local-resource-editor" class="favorites-ignore">Manage Resources</a></div>
-    <?php
-    }
-    ?>
 
-    <?php
-    if ($user->name != 'guest-user') {
-        ?>
-        <ul>
-
-            <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#user-local-resources">My
-                    Resources</a></li>
-
-            <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources-wrapper">All</a>
-            </li>
-
-        </ul>
-        <?php
-    }
-    ?>
-
-    <?php
-    if ($user->name != 'guest-user') {
-        ?>
-        <div id="user-local-resources"></div>
-        <?php
-    }
-    ?>
-    <div id="all-local-resources-wrapper">
-        <?php //echo lgc_topics_multiselect(); ?>
-        <div id="all-local-resources"></div>
+<div class="back-to-lgc-widget">
+  <div class="usa-grid">
+    <div class="usa-width-one-third">
+      <span class="left-arrow"></span>
     </div>
+    <div class="usa-width-two-thirds">
+      <a href="javascript:void(0)">Back</a>
+      <h4>Resources for Local Communities</h4>
+    </div>
+  </div>
+</div>
+<h3 class="lgc-header"></h3>
+
+
+<div id="local-resources-tabs" class="view-content">
+  <?php
+  // Load the currently logged in user.
+  global $user;
+  // Check if the user has the 'editor' role.
+  if (in_array('local_government_admin', $user->roles) || $user->uid == 1) {
+    ?>
+    <div class="widget-note action-links"><a href="/local-resource-editor" class="favorites-ignore">Manage Resources</a>
+    </div>
+    <?php
+  }
+  ?>
+
+  <?php
+  if ($user->name != 'guest-user') {
+    ?>
+    <ul>
+
+      <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#user-local-resources">My
+          Resources</a></li>
+
+      <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources-wrapper">All</a>
+      </li>
+
+    </ul>
+    <?php
+  }
+  ?>
+
+  <?php
+  if ($user->name != 'guest-user') {
+    ?>
+    <div id="user-local-resources"></div>
+    <?php
+  }
+  ?>
+  <div id="all-local-resources-wrapper">
+    <?php //echo lgc_topics_multiselect(); ?>
+    <div id="all-local-resources"></div>
+  </div>
 
 </div>

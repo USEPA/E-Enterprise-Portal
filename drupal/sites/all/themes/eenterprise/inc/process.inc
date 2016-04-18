@@ -19,6 +19,9 @@ function eenterprise_preprocess_maintenance_page(&$vars) {
   // called here.
   eenterprise_preprocess_html($vars);
   $vars['title_attributes_array']['class'] = 'page-title';
+
+  // Empty user lgc topics
+// / unset($_SESSION['user_lgc_topics']);
 }
 
 /**
