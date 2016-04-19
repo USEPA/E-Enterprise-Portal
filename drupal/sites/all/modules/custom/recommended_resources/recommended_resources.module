@@ -279,16 +279,10 @@ function generateUserLocalResourcesTable()
       print $response;
       exit();
     }
-
-
     //Remove tid to users preexisting lgc topic tids
     $tid_to_remove = xssafe($_POST['tid']);
-    dpm($tid_to_remove);
-    dpm($user_interests);
     foreach($user_interests[LANGUAGE_NONE] as $key=>$topic) {
       if ($topic['tid'] == $tid_to_remove) {
-        dpm('deleting');
-        dpm($tid_to_remove);
         unset($user_interests[LANGUAGE_NONE][$key]);
       }
     }
