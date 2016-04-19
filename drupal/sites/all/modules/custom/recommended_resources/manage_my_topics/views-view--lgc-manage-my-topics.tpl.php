@@ -38,7 +38,6 @@
   unset($_SESSION['user_lgc_topics']);
 
 ?>
-<h2 class="manage-my-topics-header"></h2>
 
 <div class="<?php print $classes; ?>" id="manage-my-topics">
   <div id="high-level-interests">

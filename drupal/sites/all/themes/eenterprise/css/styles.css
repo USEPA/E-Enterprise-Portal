@@ -2372,7 +2372,7 @@ fieldset {
       padding-right: 0.75rem;
       border-right: 1px solid #0068ad; }
     .region-navigation .menu .menu-item a {
-      padding: 0.5rem 2 rem; }
+      padding: 0.5rem 2rem; }
   .region-navigation .main-nav.usa-width-one-half {
     float: none;
     width: auto;
@@ -3405,6 +3405,17 @@ form .field-multiple-table#field-zip-code-values th.field-label {
     margin-right: 1rem;
     padding: .5rem; }
 
+.pane-views-recommended-resources-block .lgc-topic-header {
+  padding: 0; }
+  .pane-views-recommended-resources-block .lgc-topic-header .lgc-header {
+    margin-right: 5px; }
+  .pane-views-recommended-resources-block .lgc-topic-header .lgc-header, .pane-views-recommended-resources-block .lgc-topic-header .unfollow-lgc-topic {
+    display: inline; }
+  .pane-views-recommended-resources-block .lgc-topic-header .unfollow-lgc-topic {
+    display: none; }
+  .pane-views-recommended-resources-block .lgc-topic-header .usa-width-one-whole {
+    margin-top: 30px; }
+
 .back-to-lgc-widget {
   display: none; }
   .back-to-lgc-widget .usa-grid {
@@ -3434,10 +3445,15 @@ form .field-multiple-table#field-zip-code-values th.field-label {
     -ms-filter: "FlipH"; }
 
 #manage-my-topics, #user-lgc-topics-small-view {
-  margin-top: 20px; }
+  margin-top: 10px; }
+  #manage-my-topics .ck-button, #user-lgc-topics-small-view .ck-button {
+    cursor: pointer; }
+  #manage-my-topics .ck-button.selected, #user-lgc-topics-small-view .ck-button.selected {
+    background-color: #205493;
+    color: #ffffff; }
   #manage-my-topics #high-level-interests .view-content, #user-lgc-topics-small-view #high-level-interests .view-content {
-    height: 300px;
-    overflow-y: scroll; }
+    height: 100%;
+    overflow-y: auto; }
   #manage-my-topics #high-level-interests ul, #user-lgc-topics-small-view #high-level-interests ul {
     margin-top: 0; }
     #manage-my-topics #high-level-interests ul li:before,
@@ -3453,9 +3469,11 @@ form .field-multiple-table#field-zip-code-values th.field-label {
     background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.15) 100%);
     background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.15) 100%);
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.15) 100%);
-    padding: 1rem 3rem 1rem 4rem;
+    padding: .5rem;
+    margin: 0;
     width: 100%;
-    outline: 2px solid transparent; }
+    outline: 2px solid transparent;
+    max-width: 90%; }
   #manage-my-topics #high-level-interests input[type="checkbox"]:focus + label, #user-lgc-topics-small-view #high-level-interests input[type="checkbox"]:focus + label {
     outline: 2px solid #3e94cf;
     border: 1px solid #3e94cf;
@@ -3480,6 +3498,8 @@ form .field-multiple-table#field-zip-code-values th.field-label {
 #user-local-resources .usa-grid {
   padding: 0px;
   float: right; }
+#user-local-resources .no-topics {
+  margin-top: 30px; }
 
 #first-time-user-profile {
   padding-bottom: 10px;

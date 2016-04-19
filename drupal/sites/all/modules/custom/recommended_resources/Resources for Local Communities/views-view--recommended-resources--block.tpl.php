@@ -2,6 +2,7 @@
 $module_name = "recommended_resources";
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/LocalResourcesTable.js", "file");
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/recommended_resources.js", "file");
+drupal_add_js(drupal_get_path('module', $module_name) . "/js/manage_my_topics_component.js", "file");
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/embedded_lgc_topics_view.js", "file");
 drupal_add_library(libraries_get_path('DataTables-1.10.11') . '/media/datatables/');
 drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resources.css", "file");
@@ -46,8 +47,14 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     </div>
   </div>
 </div>
-<h3 class="lgc-header"></h3>
 
+
+<div class="usa-grid lgc-topic-header">
+  <div class="usa-width-one-whole">
+    <h3 class="lgc-header"></h3> <a class="unfollow-lgc-topic" href="javascript:void(0)">Unfollow</a>
+
+  </div>
+</div>
 
 <div id="local-resources-tabs" class="view-content">
   <?php
@@ -89,5 +96,9 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     <?php //echo lgc_topics_multiselect(); ?>
     <div id="all-local-resources"></div>
   </div>
+
+</div>
+
+<div id="manage-my-topics-wrapper">
 
 </div>
