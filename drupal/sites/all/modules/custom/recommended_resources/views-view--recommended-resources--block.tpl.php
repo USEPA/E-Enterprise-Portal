@@ -65,18 +65,12 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     if ($user->name != 'guest-user') {
         ?>
         <div id="user-local-resources">
-            <?php
-           // generateUserLocalResourcesTable();
-            ?>
         </div>
         <?php
     }
     ?>
     <div id="all-local-resources-wrapper">
         <div id="all-local-resources">
-            <?php
-         //   generateAllLocalResourcesTable();
-            ?>
         </div>
     </div>
 
