@@ -68,17 +68,16 @@ function is_user_topic_saved($tid)
     // TODO: is there a way to do this without using a session variable? Ben and I are 'not thrilled about this'
     drupal_session_start(); // use drupal session
     $topics = $_SESSION['user_lgc_topics'];
-    if (in_array($tid, $topics))
-      return TRUE;
-    else
-      return FALSE;
+
+    return array_key_exists($tid, $topics);
   } else {
     $_SESSION['user_lgc_topics'] = array();
     global $user;
     $user_data = user_load($user->uid);
     $lgc_topics = $user_data->field_lgc_topics_of_interest[LANGUAGE_NONE];
-    foreach($lgc_topics as $topic) {
-      $_SESSION['user_lgc_topics'][] = $topic['tid'];
+
+    foreach ($lgc_topics as $topic) {
+      $_SESSION['user_lgc_topics'][$topic['tid']] = taxonomy_term_load($topic['tid'])->name;
     }
     return is_user_topic_saved($tid);
   }
@@ -194,129 +193,138 @@ function new_lgc_resource_form_redirect($form, &$form_state)
 
 function generateUserLocalResourcesTable()
 {
-  $table = views_embed_view('user_recommended_resources', 'block');
-  print $table;
-}
-
-function generateAllLocalResourcesTable()
-{
+  set_user_lgc_topic_session();
   if (isset($_POST['filters'])) {
     $topics = $_POST['filters'];
     $tids = implode('+', $topics);
-    $table = views_embed_view('recommended_resources', 'block_to_be_rendered', $tids);
-  } else
-    $table = views_embed_view('recommended_resources', 'block_to_be_rendered');
-  print $table;
+    $table = views_embed_view('user_recommended_resources', 'block', $tids);
+  }
+  else {
+    $table = views_embed_view('user_recommended_resources', 'block');
+  }
+    print $table;
 }
 
-/**
- * Accepts POST request with "tid" param
- * Saves LGC topic to current user with tid
- * @return array
- */
-function save_lgc_topic()
-{
-  // Access current user lgc topics (tids)
-  global $user;
-  $user_data = user_load($user->uid);
-  $user_interests = $user_data->field_lgc_topics_of_interest;
-  $response = array();
-
-  // Check if POST tid is set
-  if (!isset($_POST['tid'])) {
-    $response['error'] = TRUE;
-    $response['message'] = 'Must include TID in POST as \'tid\'';
-    print $response;
-    exit();
+  function generateAllLocalResourcesTable()
+  {
+    if (isset($_POST['filters'])) {
+      $topics = xssafe($_POST['filters']);
+      $tids = implode('+', $topics);
+      $table = views_embed_view('recommended_resources', 'block_to_be_rendered', $tids);
+    } else
+      $table = views_embed_view('recommended_resources', 'block_to_be_rendered');
+    print $table;
   }
 
-  //Add tid to users preexisting lgc topic tids
-  $tid = $_POST['tid'];
-  $user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
-  $edit = array(
-    'field_lgc_topics_of_interest' => $user_interests
-  );
+  /**
+   * Accepts POST request with "tid" param
+   * Saves LGC topic to current user with tid
+   * @return array
+   */
+  function save_lgc_topic()
+  {
+    // Access current user lgc topics (tids)
+    global $user;
+    $user_data = user_load($user->uid);
+    $user_interests = $user_data->field_lgc_topics_of_interest;
+    $response = array();
 
-  // Save changes, return error exception if fails
-  try {
-    user_save($user_data, $edit);
-    $response['error'] = FALSE;
-    $response['message'] = 'Successfully saved tid- ' . $tid;
-    $_SESSION['user_lgc_topics'][] = $tid;
-  } catch (Exception $e) {
-    $response['error'] = TRUE;
-    $response['message'] = array('Failed with exception' => $e);
-  }
-  print json_encode($response);
-}
+    // Check if POST tid is set
+    if (!isset($_POST['tid'])) {
+      $response['error'] = TRUE;
+      $response['message'] = 'Must include TID in POST as \'tid\'';
+      print $response;
+      exit();
+    }
 
 
-/**
- * Clear element in session array by key name and element value
- * @param $key
- * @param $remove_elem
- */
-function remove_from_session_array($key, $remove_elem)
-{
+    //Add tid to users preexisting lgc topic tids
+    $tid = $_POST['tid'];
+    $user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
+    $edit = array(
+      'field_lgc_topics_of_interest' => $user_interests
+    );
 
-  foreach ($_SESSION[$key] as $index => $elem) {
-    if ($elem == $remove_elem)
-      unset($_SESSION[$key][$index]);
-  }
-}
-
-/**
- * Accepts POST request with "tid" param
- * Removes LGC topic from current user with tid
- * @return array
- */
-function remove_lgc_topic()
-{
-  // Access current user lgc topics (tids)
-  global $user;
-  $user_data = user_load($user->uid);
-  $user_interests = $user_data->field_lgc_topics_of_interest;
-  $response = array();
-
-  // Check if POST tid is set
-  if (!isset($_POST['tid'])) {
-    $response['error'] = TRUE;
-    $response['message'] = 'Must include TID in POST as \'tid\'';
-    print $response;
-    exit();
+    // Save changes, return error exception if fails
+    try {
+      user_save($user_data, $edit);
+      $response['error'] = FALSE;
+      $response['message'] = 'Successfully saved tid- ' . $tid;
+      $_SESSION['user_lgc_topics'][$tid] = taxonomy_term_load($tid)->name;
+    } catch (Exception $e) {
+      $response['error'] = TRUE;
+      $response['message'] = array('Failed with exception' => $e);
+    }
+    print json_encode($response);
   }
 
-  //Remove tid to users preexisting lgc topic tids
-  $tid_to_remove = $_POST['tid'];
-  foreach ($user_interests[LANGUAGE_NONE] as $index => $topics) {
-    $tid = $topics['tid'];
-    if ($tid == $tid_to_remove) {
-      unset($user_interests[LANGUAGE_NONE][$index]);
-      //break; /// no longer need to search.
+
+  /**
+   * Accepts POST request with "tid" param
+   * Removes LGC topic from current user with tid
+   * @return array
+   */
+  function remove_lgc_topic()
+  {
+    // Access current user lgc topics (tids)
+    global $user;
+    $user_data = user_load($user->uid);
+    $user_interests = $user_data->field_lgc_topics_of_interest;
+    $response = array();
+
+    // Check if POST tid is set
+    if (!isset($_POST['tid'])) {
+      $response['error'] = TRUE;
+      $response['message'] = 'Must include TID in POST as \'tid\'';
+      print $response;
+      exit();
+    }
+
+
+    //Remove tid to users preexisting lgc topic tids
+    $tid_to_remove = xssafe($_POST['tid']);
+    dpm($tid_to_remove);
+    dpm($user_interests);
+    foreach($user_interests[LANGUAGE_NONE] as $key=>$topic) {
+      if ($topic['tid'] == $tid_to_remove) {
+        dpm('deleting');
+        dpm($tid_to_remove);
+        unset($user_interests[LANGUAGE_NONE][$key]);
+      }
+    }
+
+    $edit = array(
+      'field_lgc_topics_of_interest' => $user_interests
+    );
+
+    // Save changes, return error exception if fails
+    try {
+      user_save($user_data, $edit);
+      unset($_SESSION['user_lgc_topics'][$tid_to_remove]);
+      $response['error'] = FALSE;
+      $response['message'] = 'Successfully removed tid- ' . $tid_to_remove;
+    } catch (Exception $e) {
+      $response['error'] = TRUE;
+      $response['message'] = array('Failed with exception' => $e);
+    }
+    print json_encode($response);
+  }
+
+
+  function set_user_lgc_topic_session() {
+    $_SESSION['user_lgc_topics'] = array();
+    global $user;
+    $user_data = user_load($user->uid);
+    $lgc_topics = $user_data->field_lgc_topics_of_interest[LANGUAGE_NONE];
+    foreach ($lgc_topics as $topic) {
+      $_SESSION['user_lgc_topics'][$topic['tid']] = taxonomy_term_load($topic['tid'])->name;
     }
   }
 
-  $edit = array(
-    'field_lgc_topics_of_interest' => $user_interests
-  );
-
-  // Save changes, return error exception if fails
-  try {
-    user_save($user_data, $edit);
-    remove_from_session_array('user_lgc_topics', $tid_to_remove);
-    $response['error'] = FALSE;
-    $response['message'] = 'Successfully removed tid- ' . $tid_to_remove;
-  } catch (Exception $e) {
-    $response['error'] = TRUE;
-    $response['message'] = array('Failed with exception' => $e);
+  function load_view()
+  {
+    set_user_lgc_topic_session();
+    $table = views_embed_view('lgc_manage_my_topics', 'block');
+    print $table;
+    exit();
   }
-  print json_encode($response);
-}
-
-
-function load_view()
-{
-  $table = views_embed_view('lgc_manage_my_topics', 'block');
-  print $table;
-  exit();
-}

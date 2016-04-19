@@ -33,11 +33,6 @@
   drupal_add_js(drupal_get_path('module', $module_name) . "/js/manage_my_topics_component.js", "file");
   drupal_add_css(drupal_get_path('module', $module_name) . "/css/manage_my_topics.css", "file");
 
-//TODO: Not the best place to handle this functionality. Preprocessing wasn't working.
-
-// Unset user_lgc topics so function is_user_topic_saved collects new user data
-  unset($_SESSION['user_lgc_topics']);
-
 ?>
 
 <div class="<?php print $classes; ?>" id="manage-my-topics">

@@ -23,10 +23,7 @@
  */
 ?>
 <?php
-if (is_user_topic_saved($row->tid))
-  $checked = true;
-else
-  $checked = false;
+  $checked = array_key_exists($row->tid, $_SESSION['user_lgc_topics']);
 ?>
 
 
