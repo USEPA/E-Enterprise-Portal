@@ -149,7 +149,10 @@ function perform_user_login($response_output)
 {
     global $user;
     $username = $response_output['userid'];
-    $ext_user = user_external_load($username);
+    $ext_user = user_external_load_custom($username);
+    if($ext_user === FALSE) {
+        $ext_user = user_external_load($username);
+    }
     if (!$ext_user) {
         user_external_login_register($username, 'eenterprise_utility');
         if ($user) {
@@ -192,6 +195,23 @@ function perform_user_login($response_output)
         } catch (Exception $e) {
             watchdog('eenterprise_utility', "Error 0014: General Exception", array(), WATCHDOG_ERROR);
         }
+    }
+}
+
+/**
+ * returns a user object based on the external authentication source,
+ * or FALSE if not found.
+ *
+ * This is exactly the same implementation as Drupal 7's user_external_load function
+ * except the where clause in the query is changed to accommodate Unique username resolution put in place..
+ */
+function user_external_load_custom($authname) {
+    $uid = db_query("SELECT uid FROM {authmap} WHERE authname LIKE :authname", array(':authname' => '%'.db_like($authname).'_Via_%'))->fetchField();
+    if ($uid) {
+        return user_load($uid);
+    }
+    else {
+        return FALSE;
     }
 }
 
