@@ -124,10 +124,7 @@ function suggestion_box_form($form, &$form_state) {
   // guest user
   if($user->name === 'guest-user') {
     // captcha for guests only
-    $form['my_captcha_element'] = array(
-      '#type' => 'captcha',
-      '#captcha_type' => 'image_captcha/Image',
-    );
+    honeypot_add_form_protection($form, $form_state, array('honeypot', 'time_restriction'));
 
     // guests need to be able to edit the email field
     $form['email']['#disabled'] = FALSE;
