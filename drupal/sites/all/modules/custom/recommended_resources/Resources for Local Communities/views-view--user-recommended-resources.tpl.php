@@ -28,14 +28,6 @@
  */
 
 
-//TODO: This is temporary while Manage My topics is under a separate block.
-$_SESSION['user_lgc_topics'] = array();
-global $user;
-$user_data = user_load($user->uid);
-$lgc_topics = $user_data->field_lgc_topics_of_interest[LANGUAGE_NONE];
-foreach ($lgc_topics as $topic) {
-  $_SESSION['user_lgc_topics'][$topic['tid']] = taxonomy_term_load($topic['tid'])->name;
-}
 ?>
 
 <p>The following resources are recommended for town, city, and county

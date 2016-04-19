@@ -4,7 +4,6 @@ drupal_add_js(drupal_get_path('module', $module_name) . "/js/LocalResourcesTable
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/recommended_resources.js", "file");
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/manage_my_topics_component.js", "file");
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/embedded_lgc_topics_view.js", "file");
-drupal_add_library(libraries_get_path('DataTables-1.10.11') . '/media/datatables/');
 drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resources.css", "file");
 
 
@@ -93,7 +92,6 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
   }
   ?>
   <div id="all-local-resources-wrapper">
-    <?php //echo lgc_topics_multiselect(); ?>
     <div id="all-local-resources"></div>
   </div>
 
