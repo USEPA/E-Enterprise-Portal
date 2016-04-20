@@ -487,6 +487,9 @@ function gpo_city_state_to_zip_code($city, $state)
     $cleaned_city = preg_replace("/\b(FT\.?)(\s)/", "FORT$2", $cleaned_city);
     $cleaned_city = preg_replace("/\b(NEW YORK CITY)\b/", "NEW YORK", $cleaned_city);
     $cleaned_city = preg_replace("/\s/", "+", $cleaned_city);  // Replace spaces with + for AGOL query
+    
+    // Remove periods from state abbreviation
+    $state = preg_replace("/([A-Z])\.?([A-Z]).*/", "$1$2", $state);
 
     // Get Zip Code to Census Place/Population Lookup table as json
     $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
