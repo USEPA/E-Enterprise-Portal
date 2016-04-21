@@ -3171,7 +3171,7 @@ fieldset {
 }
 /* line 166, ../sass/styles.scss */
 .region-navigation .menu .menu-item:last-child a {
-  padding-right: 0.75rem;
+  padding-right: 2rem;
   border-right: 1px solid #0068ad;
 }
 /* line 170, ../sass/styles.scss */
