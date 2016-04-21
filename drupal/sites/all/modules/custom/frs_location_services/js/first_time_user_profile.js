@@ -366,7 +366,7 @@
                     type: 'POST',
                     data: {
 	                    skip: 1, 
-	                    zip: nearest_zip, 
+	                    zip: '', 
 	                    geolocation_used: geolocation_used, 
 	                    geolocation_zip: nearest_zip
 	                  },
