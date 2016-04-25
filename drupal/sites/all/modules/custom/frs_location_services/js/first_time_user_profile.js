@@ -361,6 +361,10 @@
             });
 
             $('#skip-preferences').click(function () {
+	            // If user blocks location and skips Getting Started, leave zip and geolocation_zip blank
+	            if (geolocation_used = 0) {
+		            nearest_zip = '';
+	            }	            
                 $.ajax({
                     url: '/save_first_time_user_preferences',
                     type: 'POST',
