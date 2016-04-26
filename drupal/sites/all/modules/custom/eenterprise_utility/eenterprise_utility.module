@@ -987,8 +987,7 @@ function user_profile_url_custom_validate(&$form, &$form_state)
             }
             // if title is empty, set it to given url
             if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']) == '') {
-                $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] =
-                    $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
+                $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
             }
         }
     }
@@ -1063,6 +1062,12 @@ function get_header_variables()
         // Use initial login information
         $user_initial_login = $user_data->field_initial_log_in;
         $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
+        $initial_geo = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];        
+        // If user has no locations and no initial zip or locations in their profile (e.g., Skip this)
+        if (!$initial_zip > 0 && !$initial_geo > 0) {
+	        $initial_zip = 27705;
+	        //$initial_zip = 12401; // Good zip to test for good air quality
+        }
         $zipcode_data = zip_code_lookup($initial_zip);
         $primary_zip = $initial_zip;
         $locations_array[$initial_zip] = $zipcode_data['string'];
@@ -1121,7 +1126,6 @@ function generate_location_select()
         $default_name = $_SESSION['default_location_name'];
     }
 
-
     foreach ($header_data['locations'] as $key => $value) {
         if (isset($city_name_count[$value])) {
             ++$city_name_count[$value];
@@ -1156,13 +1160,11 @@ function generate_location_select()
         print "<option value='" . $default_zip . "' selected>" . $default_name . "</option>";
     }
 
-
     print "</select>";
 
     if (count($header_data['locations']) > 10) {
         get_modal_data($header_data['locations'], $city_name_count);
     }
-//    }
 }
 
 function generate_location_input_for_guests()
