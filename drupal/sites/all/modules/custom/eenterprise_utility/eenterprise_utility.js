@@ -407,7 +407,7 @@
                                     addZipMapping(zip, location_name, pop, location_data.zip_attr[zip].urban);
                                 }
                                 else
-                                    location_name = loction_name + ', ' + location_data.state;
+                                    location_name = location_name + ', ' + location_data.state;
                                     var zip = location_data.zip_array[0];
                                     field_suffix.html(location_name);
                                     var urban = "";
