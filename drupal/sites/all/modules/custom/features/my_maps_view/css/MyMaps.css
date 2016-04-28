@@ -281,6 +281,15 @@
 	text-decoration: none;
 }
 
+@media screen and (max-width: 30em) {
+	.jcarousel-control-prev {
+		left: -5px;
+	}
+	.jcarousel-control-next {
+		right: -5px;
+	}
+}
+
 /* 767px */
 @media screen and (max-width: 48em) {
 	#myMapsFiltering div.farLeft {

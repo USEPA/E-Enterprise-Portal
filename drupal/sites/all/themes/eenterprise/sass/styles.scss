@@ -259,10 +259,9 @@
 	}
 }
 
-.region-footer {
+footer {
 	.menu {
 		margin-top: 1.25rem;
-		margin-left: -5px;
 		.menu-item {
 			display: inline-block;
 		}
@@ -323,7 +322,6 @@ label, .aria-label {
 
 footer {
 	p, .menu {
-		margin-top: 2rem;
 		margin-bottom: 2rem;
 		font-size: $h6-font-size;
 	}
@@ -881,6 +879,12 @@ a:focus.add_link {
 	}
 }
 
+.add_more_holder {
+	.field-add-more-submit {
+		width: auto;
+	}
+}
+
 @media screen and (min-width:48em) and (max-width:56.875em) {
   .ui-tabs .ui-tabs-nav li {
 	  margin-right: 0;
@@ -931,7 +935,6 @@ a:focus.add_link {
 	}
 }
 
-
 @media screen and (min-width: 40.001em) {
 	.org-select-grouping, .role-select-grouping {
 		div {
@@ -969,6 +972,11 @@ a:focus.add_link {
 		span, button {
 			display: block;
 			float: left;
+		}
+	}
+	footer {
+		p {
+			margin-top: 2rem;
 		}
 	}
 }
@@ -1228,6 +1236,12 @@ form tbody {
 	color: $color-primary;
 }
 form[id^='user-profile-form'] {
+	#profile-interests {
+		.usa-grid {
+			padding: 0;
+		}
+	}
+
 	.field-multiple-table {
 		table {
 			thead {
@@ -1289,9 +1303,6 @@ form[id^='user-profile-form'] {
 
 	#zipcode_description {
 		display:none;
-		.field-multiple-table {
-			width: 700px;
-		}
 		.field-name-field-field-zip-code,
 		.field-add-more-submit,
 		.multiple-fields-remove-button,
@@ -1389,6 +1400,12 @@ form[id^='user-profile-form'] {
 		}
 		.field-name-field-url, .field-name-field-title, .form-actions {
 			display: inline-block;
+		}
+		tr {
+			border-bottom: 1px solid $color-gray-lighter;
+		}
+		td {
+			padding-top: 10px;
 		}
 	}
 	.multiple-fields-remove-button,
@@ -1494,6 +1511,11 @@ form[id^='user-profile-form'] {
 	}
 }
 .page-user {
+	#edit-submit {
+		padding-left: 0;
+		padding-right: 0;
+		width: 10rem;		
+	}
 	#edit-actions {
 		display: inline-block;
 		input[type="submit"],
@@ -1501,8 +1523,15 @@ form[id^='user-profile-form'] {
 		.usa-button.usa-button-outline {
 			display: table-cell;
 		}
+		input[type="submit"],
+		.usa-button {
+			padding-left: 0;
+			padding-right: 0;
+			width: 10rem;
+		}
 		.usa-button.usa-button-outline {
-			margin-left: 40px;
+			width: 12.25rem;
+			margin-left: 0px;
 		}
 	}
 }
@@ -2040,8 +2069,17 @@ form .field-multiple-table#field-zip-code-values {
 		padding-left: 10px;
 		padding-right: 10px;
 	}
+	footer {
+		&.usa-grid {
+			padding-top: 1rem;
+		}
+	}
 	.ee-workbench-header-block {
 		margin-left: 10px;
+	}
+	h1.page-title {
+		margin-top: 0;
+		padding-top: 1rem;
 	}
 
 	.todo-filter-by-week li {
@@ -2053,6 +2091,12 @@ form .field-multiple-table#field-zip-code-values {
 	.page-workbench {
 		.grid-stack-item[data-gs-x="1"] {
 			margin-left: 0;
+		}
+	}
+	#links_description {
+		td.field-multiple-drag {
+			display: none;
+			width: 0;
 		}
 	}
 }
@@ -2430,8 +2474,11 @@ input[type="submit"]:not(.usa-button-outline),
 		  }
 	  }  	
   }	
-	.region-footer {
+	footer {
 		padding-top: 20px;
+		p {
+			margin-top: 0;
+		}
 		&.usa-grid {
 			.usa-width-one-third,
 			.usa-width-two-thirds {
@@ -2449,6 +2496,13 @@ input[type="submit"]:not(.usa-button-outline),
 			}
 		}
 	}
+	.ui-tabs {
+		.ui-tabs-nav {
+			.ui-tabs-anchor {
+				padding: .5em 0.75em;
+			}
+		}
+	}
 	  
 }
 @media screen and (min-width: 20.1em) and (max-width: 24em) {
@@ -2458,8 +2512,11 @@ input[type="submit"]:not(.usa-button-outline),
 }
 
 @media screen and (min-width: 20.1em) and (max-width: 40em) {
-	.region-footer {
+	footer {
 		padding-top: 20px;
+		p {
+			margin-top: 0;
+		}
 		&.usa-grid {
 			.usa-width-one-third, 
 			.usa-width-two-thirds {
@@ -2472,7 +2529,7 @@ input[type="submit"]:not(.usa-button-outline),
 						&:first-child {
 							padding-left: 0;
 						}
-						margin-left: -5px;
+						margin-left: 0;
 					}
 				}
 			}
@@ -2481,12 +2538,33 @@ input[type="submit"]:not(.usa-button-outline),
 }
 
 @media screen and (max-width: 26em) {
+	.usa-grid {
+		padding: 0 2rem;
+	}
 	#benefits div {
 		padding-left: 1em;
 		padding-right: 1em;
 	}
 	form[id^='user-profile-form'] {
+		#profile-interests {
+			.form-type-textfield {
+				margin-right: 0;
+			}
+		}		
 		#zipcode_description {
+			.field-multiple-table {
+				width: 100%;
+				table-layout: fixed;
+				td:not(.field-multiple-drag):not(.tabledrag-hide) {
+					width: 290px;
+					display: block;
+					padding-top: 10px;
+					padding-bottom: 10px;
+				}
+				.field_zip_code {
+					width: 180px;
+				}
+			}
 			th {
 				padding: 5px 0;
 			}
@@ -2497,9 +2575,7 @@ input[type="submit"]:not(.usa-button-outline),
 				padding: 0;
 			}
 			.field-add-more-submit {
-			  margin-left: -10px;
 				clear: left;
-				margin-left: 200px;
 				display: block;
 			}
 			.form-type-checkbox {
@@ -2514,6 +2590,11 @@ input[type="submit"]:not(.usa-button-outline),
 			.zip-code-primary-holder {
 				margin-left: 10px;
 				margin-right: 10px;
+			}
+		}
+		#links_description {
+			.field-add-more-submit {
+				margin-left: 0;
 			}
 		}
 	}
@@ -2551,6 +2632,9 @@ input[type="submit"]:not(.usa-button-outline),
 	footer {
 		height: auto;
 		padding: 5px 2em;
+		p {
+			margin-top: 0;
+		}
 		.menu-footer-disclaimers {
 			float: none;
 		}
@@ -2601,6 +2685,9 @@ input[type="submit"]:not(.usa-button-outline),
 		.usa-grid {
 			padding: 0 5px;
 		}
+		.panel-pane {
+			padding: 5px 15px;
+		}
 	}
 	.div.ctools-modal-content {
 		.resizable-textarea {
@@ -2639,13 +2726,30 @@ input[type="submit"]:not(.usa-button-outline),
 			}
 	  }
   }
+  
+  .login-options {
+	  .sr-only {
+		  display: block;
+		  float: none;
+	    font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
+	    font-size: 1.3rem;
+	    margin: 0 0 1.5rem;
+	    color: #323a45;
+	    position: static;
+	    width: 30rem;
+	    height: auto;
+	    clip: auto;
+	    text-align: center;
+	  }
+  }
 
-	.region-footer {
+	footer {
 		&.usa-grid {
 			.usa-width-one-third,
 			.usa-width-two-thirds {
 				.menu {
 					float: none;
+					margin-left: -1rem;
 					.menu-item {
 						display: inline-block;
 						border-right: none;
@@ -2674,11 +2778,24 @@ input[type="submit"]:not(.usa-button-outline),
 		margin-right: 40px;
 		vertical-align: top;
 	}
+	.page-user {
+		#edit-actions {
+			.usa-button.usa-button-outline {
+				margin-left: 40px;
+			}
+		}
+	}
+	form[id^='user-profile-form'] {
+		#zipcode_description {
+			.field-multiple-table {
+				width: 66rem;
+			}
+		}
+	}
 }
 
 @media screen and (min-width: 60em) {
 	.view-progress-tracker,
-
 	.view-to-do {
 		.responsive-table {
 			caption {
@@ -3463,6 +3580,7 @@ input#location-input-guests::-ms-clear {
 			}
 		}
 	}
+
 }
 
 @media screen and (max-width: 49em) {
