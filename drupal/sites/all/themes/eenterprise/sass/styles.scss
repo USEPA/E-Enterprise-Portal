@@ -2726,6 +2726,22 @@ input[type="submit"]:not(.usa-button-outline),
 			}
 	  }
   }
+  
+  .login-options {
+	  .sr-only {
+		  display: block;
+		  float: none;
+	    font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
+	    font-size: 1.3rem;
+	    margin: 0 0 1.5rem;
+	    color: #323a45;
+	    position: static;
+	    width: 30rem;
+	    height: auto;
+	    clip: auto;
+	    text-align: center;
+	  }
+  }
 
 	footer {
 		&.usa-grid {
