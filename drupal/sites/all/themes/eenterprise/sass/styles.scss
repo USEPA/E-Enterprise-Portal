@@ -3193,6 +3193,9 @@ a.usa-button.btn-social.btn-wam {
 .fa-star-o:hover {
 	color: $color-secondary-darkest;
 }
+.fa-home:before {
+	content: "\f015";
+}
 
 td.has-error {
 	color: #a94442;
