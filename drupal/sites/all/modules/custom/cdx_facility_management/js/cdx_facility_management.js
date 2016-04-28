@@ -113,7 +113,6 @@
             url: '/retrieve_cdx_user_data',
             success: function (json) {
                 var parsed_json = $.parseJSON(json);
-                console.log(parsed_json);
                 if (!parsed_json.error) {
                     var org_to_roles = parsed_json.organizations_to_roles;
                     if (org_to_roles.length == 0) {
