@@ -365,7 +365,13 @@
             });
 
             $('#skip-preferences').on('click', skipGettingStarted);
-						$(first_time_user_block).on('dialogclose', skipGettingStarted);                        						              
+            $(first_time_user_block).on('keydown', function(e) {
+	            if (e.which === 27) {
+		            event.preventDefault();
+		            skipGettingStarted();
+		            $(first_time_user_block).close();
+	            }
+            });
 
             $('#save-preferences').click(function () {
                 var interests = [];
@@ -411,7 +417,7 @@
                         var parsed_msg = $.parseJSON(msg);
                         $(document).trigger("ee:first_time_user_complete");
                         if (parsed_msg.success) {
-                            $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + preferred_name + '</option>').trigger('change');
+                            $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + preferred_name + ' (' + selected_zip_code + ')</option>').trigger('change');
                        }
                        else {
                             console.log(parsed_msg.error_msg);
@@ -429,7 +435,6 @@
                 autoOpen: true,
                 width: 1100,
                 height: 600,
-                closeOnEscape: true,
                 //height: auto,
                 dialogClass: 'first-time-user-dialog'
             });
@@ -483,7 +488,6 @@
                    $('.pane-views-first-time-user-profile-block').dialog('close');
                 }
             });
-            gotToSkipped = 'skippin';
             return false;
         }
         
