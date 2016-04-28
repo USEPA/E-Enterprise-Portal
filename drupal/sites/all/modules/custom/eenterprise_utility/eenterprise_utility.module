@@ -91,6 +91,10 @@ function eenterprise_utility_menu()
         'access callback' => TRUE,
         '#type' => MENU_CALLBACK,
     );
+    $items['user_preferred_locations/add_to_session'] = array(
+        'page callback' => 'locations_add_to_session',
+        'access callback' => TRUE,
+    )
 
     return $items;
 }
@@ -797,6 +801,18 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
         return $zip_data;
     } else {
         print json_encode($zip_data);
+    }
+
+}
+
+
+function locations_add_to_session() {
+    $return_msg = array();
+    if (isset($_POST['name']) && isset($_POST['zip'])) {
+
+    }
+    else {
+        $return_msg = array('error' => TRUE, 'msg' => "No post data sent");
     }
 
 }

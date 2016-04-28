@@ -248,24 +248,17 @@ function save_user_location($zip_code, $preferred_location)
 {
     global $user;
     $uid = $user->uid;
-    $previously_saved_location = FALSE;
 
-
-
-    // If there is no previously save version of the zip code, save a new preferred name
-    if (!$previously_saved_location) {
-        // Save new location preference
-        $node = new stdClass();
-        $node->type = 'user_location_preferences';
-        $node->title = $user->name . " - " . $zip_code . ": " . $preferred_location;
-        $node->field_preferred_name[LANGUAGE_NONE][0]['value'] = $preferred_location;
-        $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
-        $node->uid = $uid;
-        $node->status = 1;
-        $node->language = LANGUAGE_NONE;
-        node_save($node);
-    }
-
+    // Save new location preference
+    $node = new stdClass();
+    $node->type = 'user_location_preferences';
+    $node->title = $user->name . " - " . $zip_code . ": " . $preferred_location;
+    $node->field_preferred_name[LANGUAGE_NONE][0]['value'] = $preferred_location;
+    $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
+    $node->uid = $uid;
+    $node->status = 1;
+    $node->language = LANGUAGE_NONE;
+    node_save($node);
 }
 
 function return_user_preferred_location($zip_code)

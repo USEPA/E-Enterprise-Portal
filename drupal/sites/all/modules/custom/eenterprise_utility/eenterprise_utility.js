@@ -111,6 +111,7 @@
             screenreader_indicator.text('Default location');
 
         });
+
         $('body').on('click', '.zip-code-primary-select.selected', function () {
             $(this).removeClass('selected');
             $(this).prop('title', 'Set to default location');
@@ -188,6 +189,14 @@
             var location_obj_str = JSON.stringify(location_obj).replace("'", "&#39;");
             var option = "<option value='" + location_obj_str + "' selected>" + location_name + "</option>";
             multi_select.append(option);
+            $.ajax({ 
+                url: "user_preferred_locations/add_to_session",
+                method: "POST",
+                data: location_obj,
+                success: function(response) {
+                    console.log(response);
+                }
+            });
         }
 
         function appendSelect(input_type, select, location_data, input) {
