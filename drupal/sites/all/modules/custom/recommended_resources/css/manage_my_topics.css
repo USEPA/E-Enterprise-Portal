@@ -1,0 +1,9 @@
+#high-level-interests {
+    /*height: 600px;*/
+}
+
+
+#manage-my-topics .ck-button.lgc-topics-of-interest {
+    /*height: 8px !important;*/
+    max-width: 45rem !important;
+}

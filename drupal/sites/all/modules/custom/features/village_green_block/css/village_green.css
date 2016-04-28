@@ -9,14 +9,14 @@
 	display: block;
 	float:left;
   width:auto;
-	width: 17.5%;
-	min-width: 5em;
+	width: 18.5%;
+	min-width: 4em;
   margin-bottom: 1em;
 	position:relative;
 	text-align: center;
 	background-color:#f8f8f8;
 	border:1px solid #f0f0f0;
-	margin-right:10px;
+	margin-right: 1.5%;
 	padding: 10px 5px;
 }
 
@@ -27,8 +27,8 @@
 	font-size: 1.5rem;
 }
 .vg-numbers p {
-	font-size: 3.5rem;
-	font-weight: bold;
+	font-size: 3rem;
+	font-weight: normal;
 	margin:5px 0;
 	padding:0
 }

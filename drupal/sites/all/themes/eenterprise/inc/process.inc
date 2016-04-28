@@ -19,6 +19,9 @@ function eenterprise_preprocess_maintenance_page(&$vars) {
   // called here.
   eenterprise_preprocess_html($vars);
   $vars['title_attributes_array']['class'] = 'page-title';
+
+  // Empty user lgc topics
+// / unset($_SESSION['user_lgc_topics']);
 }
 
 /**
@@ -118,7 +121,6 @@ function eenterprise_process_html_tag(&$vars) {
  * Override or insert variables into the page template.
  */
 function eenterprise_preprocess_page(&$vars) {
-
 	$vars['title_attributes_array']['class'] = 'page-title';
 	$vars['content_language'] = language_default('language');
 	if(!empty($vars['node']->field_language['und'][0]['value'])) {
@@ -145,6 +147,7 @@ function eenterprise_preprocess_page(&$vars) {
  * Override or insert variables into the node template.
  */
 function eenterprise_preprocess_node(&$vars) {
+
   // Set title any time we're viewing a node (need to do this to make it work for revision viewing pages)
   if($vars['page']) {
     drupal_set_title($vars['title'], PASS_THROUGH);
@@ -185,6 +188,7 @@ function eenterprise_preprocess_node(&$vars) {
  * Override or insert variables into the region template.
  */
 function eenterprise_preprocess_region(&$vars) {
+
   // Remove region class.
   array_shift($vars['classes_array']);
 
@@ -217,6 +221,7 @@ function eenterprise_preprocess_region(&$vars) {
  * Override or insert variables into the block template.
  */
 function eenterprise_preprocess_block(&$vars) {
+
   if ($vars['block_html_id'] == 'block-system-main-menu') {
     $vars['classes_array'][] = 'main-nav clearfix';
     $vars['title_attributes_array']['class'][] = 'element-invisible';

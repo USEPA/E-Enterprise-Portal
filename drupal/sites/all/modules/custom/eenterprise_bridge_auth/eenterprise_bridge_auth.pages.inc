@@ -117,30 +117,38 @@ function eenterprise_bridge_auth_authenticate($error)
             $username = end($username_raw);
             $uname = "";
             if ($wam_pos !== FALSE) {
-                $uname = $userDetails->attributes['id'][0] . "@wam";
+                mitigate_username_alteration($userDetails->attributes['id'][0]."_Via_WAM", $userDetails->attributes['id'][0]);
+                $uname = $userDetails->attributes['id'][0] . "_Via_WAM";
                 $public_or_cdx = 'public';
-            } //If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
+            }
+            else if($openid_position !== FALSE){
+                mitigate_username_alteration($username."_Via_Exchange_Network", $username);
+                $uname = $username . "_Via_Exchange_Network";
+                $public_or_cdx = 'cdx';
+            }//If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
             else if (($pos === FALSE && $openid_position === FALSE) || $username === FALSE) {
                 if (isset($userDetails->attributes['email'])) {
                     $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
-                    if (isset($userDetails->attributes['link']) && strpos($userDetails->attributes['link'][0], 'facebook') !== FALSE)
-                        $uname = $userDetails->attributes['email'][0]."@facebook.com";
-                    else
-                        $uname = $userDetails->attributes['email'][0];
+                    if (isset($userDetails->attributes['link']) && strpos($userDetails->attributes['link'][0], 'facebook') !== FALSE){
+                        mitigate_username_alteration($userDetails->attributes['email'][0]."_Via_Facebook", $userDetails->attributes['email'][0]);
+                        $uname = $userDetails->attributes['email'][0]."_Via_Facebook";
+                    }
                     $public_or_cdx = 'public';
                 } else {
-                    if (isset($userDetails->attributes['followers_count']))
-                        $uname = $userDetails->attributes['id'][0] . "@twitter.com";
-                    else if (isset($userDetails->attributes['link']) && strpos($userDetails->attributes['link'][0], 'facebook') !== FALSE)
-                        $uname = $userDetails->attributes['id'][0] . "@facebook.com";
+                    if (isset($userDetails->attributes['followers_count'])) {
+                        mitigate_username_alteration($userDetails->attributes['id'][0]."_Via_Twitter", $userDetails->attributes['id'][0]);
+                        $uname = $userDetails->attributes['id'][0] . "_Via_Twitter";
+                    }
+                    else if (isset($userDetails->attributes['link']) && strpos($userDetails->attributes['link'][0], 'facebook') !== FALSE) {
+                        mitigate_username_alteration($userDetails->attributes['id'][0]."_Via_Facebook", $userDetails->attributes['id'][0]);
+                        $userDetails->attributes['id'][0] = trim($userDetails->attributes['id'][0], '"');
+                        $uname = $userDetails->attributes['id'][0] . "_Via_Facebook";
+                    }
                     $public_or_cdx = 'public';
                 }
             } else {
-                if(variable_get('cdx_usernames_mitigation') == 'Run Mitigation Code' ){
-                    db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $username."@cdx", ':uname2' => $username));
-                    db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $username."@cdx", ':uname2' => $username));
-                }
-                $uname = $username . "@cdx";
+                mitigate_username_alteration($username."_Via_CDX", $username);
+                $uname = $username . "_Via_CDX";
                 $public_or_cdx = 'cdx';
             }
             if (variable_get('trusted_users_list_used') == 'Yes') {
@@ -189,6 +197,26 @@ function eenterprise_bridge_auth_authenticate($error)
         create_progress_tracker($user);
     }
     drupal_goto('workbench');
+}
+
+/**
+ * Username appended with _Via_CDX, _Via_Facebook etc to qualify provider names and ensure username uniqueness.
+ * @param $altered_username
+ * Original username sent from an identity provider
+ * @param $username
+ */
+function mitigate_username_alteration($altered_username, $username){
+    if(variable_get('cdx_usernames_mitigation') == 'Run Mitigation Code' ) {
+        db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username));
+        db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username));
+
+        db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username.'@cdx'));
+        db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username.'@cdx'));
+        db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username.'@twitter.com'));
+        db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username.'@twitter.com'));
+        db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username.'@facebook.com'));
+        db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username.'@facebook.com'));
+    }
 }
 
 /*
@@ -243,14 +271,14 @@ function create_progress_tracker($user)
 
     $client2 = $client2->client;
 
-    //Extract out "@cdx" string from $user->name to pull to-do and progress tracker from the Activity Data flow
+    //Extract out "_Via_CDX" string from $user->name to pull to-do and progress tracker from the Activity Data flow
     $cdx_username = $user->name;
-    $cdx_pos = strrpos($cdx_username, "@cdx");
+    $cdx_pos = strrpos($cdx_username, "_Via_");
     if ($cdx_pos !== FALSE) {
         $cdx_username = substr($cdx_username, 0, $cdx_pos);
     }
 
-    //For the following parameter, use $cdx_username, which does not have @cdx at the end, instead of $user_name
+    //For the following parameter, use $cdx_username, which does not have _Via_CDX at the end, instead of $user_name
     $params2 = array(
         "securityToken" => $response1->securityToken,
         "dataflow" => "E-ACTIVITY",
@@ -617,13 +645,13 @@ function assign_roles_to_user($user_name)
     }
     $response1 = $response1->response;
 
-    //Extract out "@cdx" string from user_name to pull roles from the Activity Data flow
+    //Extract out "_Via_CDX" string from user_name to pull roles from the Activity Data flow
     $cdx_username = $user_name;
-    $cdx_pos = strrpos($cdx_username, "@cdx");
+    $cdx_pos = strrpos($cdx_username, "_Via_");
     if ($cdx_pos !== FALSE) {
         $cdx_username = substr($cdx_username, 0, $cdx_pos);
     }
-    //For the following parameter, use $cdx_username, which does not have @cdx at the end, instead of $user_name
+    //For the following parameter, use $cdx_username, which does not have _Via_CDX at the end, instead of $user_name
     $params2 = array(
         "securityToken" => $response1->securityToken,
         "userId" => $cdx_username,

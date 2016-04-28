@@ -148,8 +148,11 @@ function eenterprise_utility_node_view($node, $view_mode, $langcode)
 function perform_user_login($response_output)
 {
     global $user;
-    $username = $response_output['userid'];
-    $ext_user = user_external_load($username);
+    $username = $response_output['userId'];
+    $ext_user = user_external_load_custom($username);
+    if($ext_user === FALSE) {
+        $ext_user = user_external_load($username);
+    }
     if (!$ext_user) {
         user_external_login_register($username, 'eenterprise_utility');
         if ($user) {
@@ -192,6 +195,23 @@ function perform_user_login($response_output)
         } catch (Exception $e) {
             watchdog('eenterprise_utility', "Error 0014: General Exception", array(), WATCHDOG_ERROR);
         }
+    }
+}
+
+/**
+ * returns a user object based on the external authentication source,
+ * or FALSE if not found.
+ *
+ * This is exactly the same implementation as Drupal 7's user_external_load function
+ * except the where clause in the query is changed to accommodate Unique username resolution put in place..
+ */
+function user_external_load_custom($authname) {
+    $uid = db_query("SELECT uid FROM {authmap} WHERE authname LIKE :authname", array(':authname' => '%'.db_like($authname).'_Via_%'))->fetchField();
+    if ($uid) {
+        return user_load($uid);
+    }
+    else {
+        return FALSE;
     }
 }
 
@@ -967,8 +987,7 @@ function user_profile_url_custom_validate(&$form, &$form_state)
             }
             // if title is empty, set it to given url
             if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']) == '') {
-                $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] =
-                    $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
+                $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
             }
         }
     }
@@ -1043,6 +1062,12 @@ function get_header_variables()
         // Use initial login information
         $user_initial_login = $user_data->field_initial_log_in;
         $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
+        $initial_geo = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];        
+        // If user has no locations and no initial zip or locations in their profile (e.g., Skip this)
+        if (!$initial_zip > 0 && !$initial_geo > 0) {
+	        $initial_zip = 27705;
+	        //$initial_zip = 12401; // Good zip to test for good air quality
+        }
         $zipcode_data = zip_code_lookup($initial_zip);
         $primary_zip = $initial_zip;
         $locations_array[$initial_zip] = $zipcode_data['string'];
@@ -1061,17 +1086,8 @@ function get_modal_data($locations, $city_name_count)
     print "<a id='locations-modal' href='#'>View all favorite cities</a>";
     print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
     print "<fieldset class='radio-options-holder'>";
-    $duplicate_city_count = 0;
     foreach ($locations as $key => $value) {
-        if ($city_name_count[$value] > 1) {
-            print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . " (" . $key . ")" . "</label>";
-            ++$duplicate_city_count;
-            if ($duplicate_city_count == $city_name_count[$value]) {
-                $duplicate_city_count = 0;
-            }
-        } else {
-            print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . "</label>";
-        }
+        print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . " (" . $key . ")" . "</label>";
     }
     print "</fieldset></div>";
 }
@@ -1110,7 +1126,6 @@ function generate_location_select()
         $default_name = $_SESSION['default_location_name'];
     }
 
-
     foreach ($header_data['locations'] as $key => $value) {
         if (isset($city_name_count[$value])) {
             ++$city_name_count[$value];
@@ -1135,11 +1150,7 @@ function generate_location_select()
             print "<option value='view_more'>Show more...</option>";
             break;
         }
-        if ($city_name_count[$value] > 1) {
-            print "<option value='" . $key . "' " . $selected . " >" . $value . " (" . $key . ")</option>";
-        } else {
-            print "<option value='" . $key . "' " . $selected . " >" . $value . "</option>";
-        }
+        print "<option value='" . $key . "' " . $selected . " >" . $value . " (" . $key . ")</option>";
         $count = $count + 1;
     }
 
@@ -1149,13 +1160,11 @@ function generate_location_select()
         print "<option value='" . $default_zip . "' selected>" . $default_name . "</option>";
     }
 
-
     print "</select>";
 
     if (count($header_data['locations']) > 10) {
         get_modal_data($header_data['locations'], $city_name_count);
     }
-//    }
 }
 
 function generate_location_input_for_guests()
