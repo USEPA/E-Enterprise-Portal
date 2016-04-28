@@ -219,33 +219,38 @@ function save_first_time_user_preferences()
 }
 
 
+/**
+ * Clears user preferred location content for resaving new settings
+ * Simpler solution then updating previously saved settings
+ */
+function clear_user_preferred_locations()
+{
+    global $user;
+    $uid = $user->uid;
+
+    $nids = db_select("node", 'n')
+      ->fields('n', array('nid'))
+      ->condition('type', 'user_location_preferences')
+      ->condition('uid', $uid)
+      ->execute()->fetchCol();
+
+    foreach ($nids as $nid) {
+        node_delete($nid);
+    }
+}
+
+/**
+ * @param $zip_code
+ * @param $preferred_location
+ * @throws Exception
+ */
 function save_user_location($zip_code, $preferred_location)
 {
     global $user;
     $uid = $user->uid;
     $previously_saved_location = FALSE;
 
-    $nids = db_select("node", 'n')
-        ->fields('n', array('nid'))
-        ->condition('type', 'user_location_preferences')
-        ->condition('uid', $uid)
-        ->execute()->fetchCol();
 
-    // Check if user has previously saved this zip under a preferred name
-    foreach ($nids as $nid) {
-        $node = node_load($nid);
-        $saved_zip = $node->field_user_zip_code[LANGUAGE_NONE][0]['safe_value'];
-        $saved_loc_name = $node->field_preferred_location[LANGUAGE_NONE][0]['safe_value'];
-        if ($saved_zip == $zip_code && $saved_loc_name == $preferred_location) {
-            // do nothing
-            $previously_saved_location = TRUE;
-            break;
-        } else if ($saved_zip == $zip_code) {
-            // overwrite preferred name
-            $previously_saved_location = TRUE;
-            break;
-        }
-    }
 
     // If there is no previously save version of the zip code, save a new preferred name
     if (!$previously_saved_location) {

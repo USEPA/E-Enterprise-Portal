@@ -384,43 +384,46 @@ function get_taxonomy_parent_name($tid)
 }
 
 
+
+
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 {
+
+    /**
+     * Map Set Form
+     */
     //Hide title from Map Set form
     if ($form['#form_id'] == 'ee_map_set_node_form') {
         $form['title']['#default_value'] = t('Map Set Value');
         hide($form['title']);
     }
 
+    /**
+     * Guest User Profile Form
+     */
     //Prevent guest user from accessing account edit page.
     if (($form['#form_id'] == 'user_profile_form') && ($form['#user']->name == 'guest-user')) {
         drupal_goto("/");
     }
+
+    /**
+     * Public User Profile Form
+     */
+    if ($form['#form_id'] == 'user_profile_form' && (in_array('Public User', $user->roles) && count($user->roles) == 2)) {
+        hide($form['account']['mail']);
+        $form['account']['mail']['#access'] = FALSE;
+    }
+
+    /**
+     * User Profile Form
+     */
     if ($form['#form_id'] == 'user_profile_form') {
-        drupal_add_css(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.css');
         global $user;
-        $zip_mapping_array = array();
+        $zip_mapping_array = array(); // Used to track user preferred names for zips
 
-        //remove user_account_form_validate callback. This will remove email address validation because we should allow multiple email addresses as CDX/Bridge allows that.
-        foreach ($form['#validate'] as $key => $value)
-            if ($value == 'user_account_form_validate')
-                unset($form['#validate'][$key]);
-
-        //Removed more than a thousand taxonomy hierarchy from bottom of admin profile page, it was giving me lots of misery.
-        global $user;
-        if ($user->uid == 1)
-            unset($form['field_interests2']);
-
-        // Get proper values for 'allowed_values_function', which is a core setting.
-        $vocabularies = taxonomy_vocabulary_load_multiple(FALSE);
-        $options = array();
-        foreach ($vocabularies as $vocabulary) {
-            $options[$vocabulary->machine_name] = $vocabulary->name;
-        }
-        $form['allowed_values'] = array(
-            '#tree' => TRUE,
-        );
-
+        /**
+         * Hide user metadata or deprecated user fields
+        */
         hide($form['picture']);
         hide($form['account']['current_pass']);
         hide($form['account']['pass']);
@@ -430,10 +433,24 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         hide($form['field_interests2']);
         hide($form['field_gridstack_settings']);
         hide($form['field_lgc_topics_of_interest']);
+        // If user is admin allow to edit state admin STATE and toggle user's first time status
+        if ($user->uid > 1) {
+            hide($form['field_admin_state']);
+            hide($form['field_first_time_user']);
+        } else {
+            // Set description for admin
+            $form['field_admin_state'][LANGUAGE_NONE][0]['value']['#title'] = "State code, tribe name, or 'US EPA'";
+            $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
+        }
+        // only admins see the Terms of Use Agreed Date field
+        if (!user_access('administer site configuration')) {
+            hide($form['field_terms_of_use_agreed'][LANGUAGE_NONE]);
+        }
 
-
+        /**
+         * User Preferred Locations
+         */
         // Custom multiselect field for storing users preferred location names
-
         $form['zip_mapping'] = array(
             '#title' => t('Zip Mapping'),
             '#type' => 'select',
@@ -441,26 +458,19 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             '#options' => array("val" => "option"),
             '#validated' => true,
         );
+
         // Check if user has added preferred names for zips
         foreach ($form_state['input']['zip_mapping'] as $zip_mapping) {
             $zip_obj = json_decode($zip_mapping);
             $zip_mapping_array[$zip_obj->zip] = $zip_obj->name;
         }
 
-
-        // If user is admin allow to edit state admin STATE and toggle user's first time status
-        if ($user->uid > 1) {
-            hide($form['field_admin_state']);
-            hide($form['field_first_time_user']);
-        } else
-            $form['field_admin_state'][LANGUAGE_NONE][0]['value']['#title'] = "State code, tribe name, or 'US EPA'";
-
-
-        $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
-        $form['field_interests2'][LANGUAGE_NONE]['#title'] = "";
-        $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter city, state; tribe; or ZIP code";
-        if (empty($form['account']['mail']['#default_value']))
+        /**
+         * User Email
+         */
+        if (empty($form['account']['mail']['#default_value'])) {
             $form['account']['mail']['#default_value'] = $form['#user']->name;
+        }
         $form['account']['mail']['#attributes'] = array(
             'disabled' => 'disabled',
             'aria-describedby' => 'email-helptext'
@@ -469,17 +479,30 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         $form['account']['mail']['#title'] = 'Email Address <span tabindex="0" data-toggle="tooltip" data-placement="bottom" aria-hidden="true" id="email-helptext" class="glyphicon glyphicon-info-sign ee-bootstrap-tooltip"
             title="All emails from the system will be sent to this address. This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX)."> </span>';
 
-
+        /**
+         * Validation of Form
+         */
         $form['#validate'][] = 'user_profile_form_custom_validate';
-        $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
-        $form['actions']['delete']['#submit'][] = 'profile_delete_action';
-
         //We are not validating profile picture and password as we do not save and manage these information on the Portal.
         foreach ($form['#validate'] as $key => $val) {
-            if ($val == 'user_validate_current_pass' || $val == 'user_validate_picture')
+            if ($val == 'user_validate_current_pass' || $val == 'user_validate_picture') {
                 unset($form['#validate'][$key]);
+            }
+        }
+        //remove user_account_form_validate callback. This will remove email address validation
+        // because we should allow multiple email addresses as CDX/Bridge allows that.
+        foreach ($form['#validate'] as $key => $value) {
+            if ($value == 'user_account_form_validate') {
+                unset($form['#validate'][$key]);
+            }
         }
 
+        /**
+         * Button Actions
+         */
+        $form['#submit'][] = 'eenterprise_utility_profile_form_submit';
+        $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
+        $form['actions']['delete']['#submit'][] = 'profile_delete_action';
         // When use delete last zip code or url, do not repopulate with previous saved zip
         if (isset($form_state['triggering_element'])) {
             $trigger_string = $form_state['triggering_element']['#name'];
@@ -501,6 +524,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             }
         }
 
+        /**
+         * Add More Buttons
+         */
         // add more button for zip codes
         $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#value'] = '+';
         $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['title'] = 'Add';
@@ -512,7 +538,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
         $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
 
-        // Field specific settings for  URLs
+        /**
+         * Favorite URL Settings
+         */
         for ($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
             $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
             $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
@@ -523,11 +551,13 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title']['#suffix'] = '<span class="date_updated_contain">' . $date_updated . '</span>';
         }
 
-
-        // Field specific settings for Zip codes
+        /**
+         * Zip Code Settings
+         */
+        $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter city, state; tribe; or ZIP code";
         for ($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
             $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'];
-            // overide default if input has been made
+            // override default if input has been made
             if (isset($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta])) {
                 $input_zip = $form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0];
                 $zip = xssafe($input_zip['value']);
@@ -572,21 +602,15 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
             hide($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['#title']);
         }
 
-        // Field specific settings for Terms of Use Agreed Date
+        /**
+         * Terms of Use Agreed Date Field
+         */
         $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#theme'] = 'eenterprise_utility_terms_of_use_agreed_date_display';
         $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#disabled'] = TRUE;
 
-        // only admins see the Terms of Use Agreed Date field
-        if (!user_access('administer site configuration')) {
-            hide($form['field_terms_of_use_agreed'][LANGUAGE_NONE]);
-        }
-
-        $form['#submit'][] = 'eenterprise_utility_profile_form_submit';
     } // end user form
-    if ($form['#form_id'] == 'user_profile_form' && (in_array('Public User', $user->roles) && count($user->roles) == 2)) {
-        hide($form['account']['mail']);
-        $form['account']['mail']['#access'] = FALSE;
-    }
+
+
 }
 
 function eenterprise_utility_profile_form_submit($form, &$form_state)
@@ -600,6 +624,16 @@ function eenterprise_utility_profile_form_submit($form, &$form_state)
         user_save($user_data, $edit);
     }
 
+    /*
+     * Save user preferences based on Session
+     */
+    if (isset($_SESSION['user_preferred_zips'])) {
+        clear_user_preferred_locations();
+        foreach ($_SESSION['user_preferred_zips'] as $zip_mapping) {
+            $zip_obj = json_decode($zip_mapping);
+            save_user_location($zip_obj->zip, $zip_obj->name);
+        }
+    }
     // Save the zip_mappings if applicable
     foreach ($form_state['values']['zip_mapping'] as $zip_mapping) {
         $zip_obj = json_decode($zip_mapping);
