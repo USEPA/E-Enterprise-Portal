@@ -12,3 +12,7 @@
   width: 100%;
   height: 100%;
 }
+/* Add additional padding to accommodate EnviroMapper menu and content on smaller screens */
+@media screen and (max-width: 23em) {
+	padding-bottom: 75%;
+}

@@ -2133,6 +2133,8 @@ form .field-multiple-table#field-zip-code-values {
 	border: none;
 	border-radius: 0 !important;
 }
+
+/* Suggestion Box / Questions modal */
 #modalContent {
 	.ui-dialog-titlebar {
 		position: relative;
@@ -3193,6 +3195,9 @@ a.usa-button.btn-social.btn-wam {
 .fa-star-o:hover {
 	color: $color-secondary-darkest;
 }
+.fa-home:before {
+	content: "\f015";
+}
 
 td.has-error {
 	color: #a94442;
@@ -3563,6 +3568,16 @@ input#location-input-guests::-ms-clear {
 // Responsive -------------- //
 
 @media screen and (max-width: 40em) {
+	.not-logged-in {
+		.region-navigation {
+			.ee-workbench-header-block {
+				margin-left: 0;
+				.ctools-use-modal {
+					margin-left: -2.5rem;
+				}
+			}
+		}
+	}
 	.site-name-and-slogan {
 		width: 100%;
 	}
@@ -3581,6 +3596,23 @@ input#location-input-guests::-ms-clear {
 		}
 	}
 
+	/* Suggestion Box / Questions modal */
+	body.modal-open {
+		overflow: hidden;
+		width: 100%;
+	}
+	#modalBackdrop {
+		max-width: 100% !important;
+	}
+	#modalContent {
+		overflow-y: scroll;
+		max-width: 97% !important;
+		div.ctools-modal-content {
+			.resizable-textarea {
+				margin-right: 0;
+			}
+		}	
+	}
 }
 
 @media screen and (max-width: 49em) {
