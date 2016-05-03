@@ -112,23 +112,28 @@
 		margin-bottom: 0;
 	}
 }
-
-.site-name-and-slogan {
-	.site-name {
-		margin-top: 15px;
-		margin-bottom: 5px;
-		a {
-			display: block;
-			width: 239px;
+.usa-grid {
+	.site-name-and-slogan {
+		&.usa-width-one-half {
+			width: auto;
+		}
+		.site-name {
+			margin-top: 15px;
+			margin-bottom: 5px;
+			a {
+				display: block;
+				width: 239px;
+			}
+		}
+		.site-slogan {
+			margin-bottom: 15px;
+			color: $color-gray-dark;
+			font-size: $h6-font-size;
+			font-style: italic;
 		}
 	}
-	.site-slogan {
-		margin-bottom: 15px;
-		color: $color-gray-dark;
-		font-size: $h6-font-size;
-		font-style: italic;
-	}
 }
+
 
 .region-navigation {
 	background-color: $color-primary;
@@ -1047,7 +1052,7 @@ a:focus.add_link {
 				width: 33.3%;
 				margin-right: 2px;
 				&:last-child {
-					width: 33%;
+					width: 32.75%;
 					margin-right: 0;
 				}
 			}
@@ -2074,6 +2079,21 @@ form .field-multiple-table#field-zip-code-values {
 			padding-top: 1rem;
 		}
 	}
+	
+	.section-eenterprise-new {
+		.jumbotron {
+			padding-top: 30px;	
+			background-position: 50%;	
+		}
+		.well {
+			.welcome-message {
+				h1 {
+					line-height: 1.2;
+				}
+			}
+		}
+	}
+		
 	.ee-workbench-header-block {
 		margin-left: 10px;
 	}
@@ -2729,6 +2749,19 @@ input[type="submit"]:not(.usa-button-outline),
 	  }
   }
   
+  #benefits {
+	  div {
+		  height: auto;
+	  }
+  }
+  #including {
+	  li {
+		  div {
+			  width: 60%;
+		  }
+	  }
+  }
+  
   .login-options {
 	  .sr-only {
 		  display: block;
@@ -2754,7 +2787,6 @@ input[type="submit"]:not(.usa-button-outline),
 					margin-left: -1rem;
 					.menu-item {
 						display: inline-block;
-						border-right: none;
 						padding: 0;
 						margin-bottom: 5px;
 						a {
@@ -2842,7 +2874,6 @@ input[type="submit"]:not(.usa-button-outline),
 				td.views-field-field-todo-lst-item {
 			    background-color: transparent;
 			    border-left: none;
-
 			    border-right: none;
 				}
 			}
