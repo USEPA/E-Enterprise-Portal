@@ -14,5 +14,7 @@
 }
 /* Add additional padding to accommodate EnviroMapper menu and content on smaller screens */
 @media screen and (max-width: 23em) {
-	padding-bottom: 75%;
+	.embedMyEnv-container {
+		padding-bottom: 100%;
+	}
 }
