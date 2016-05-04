@@ -2,7 +2,7 @@
 
 $(document).ready(function(){
 	// Instantiate previous with primary location
-	// var previous_selection = $('#location-select').val();
+	var previous_selection = $('#location-select').val();
 	// alert(previous_selection);
 	// $('input[type=radio]#' + previous_selection).attr('checked', true);
 	
