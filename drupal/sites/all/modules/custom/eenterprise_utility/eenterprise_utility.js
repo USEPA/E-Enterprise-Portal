@@ -161,8 +161,8 @@
             method: "POST",
             data: location_obj,
             success: function(response) {
-                var response = $.parseJSON(response);
-                console.log(response);
+                //var response = $.parseJSON(response);
+                //console.log(response);
             }
         });
         setCommunitySizeType(primary_zip.attr('commsize'), primary_zip.attr('isurban'));

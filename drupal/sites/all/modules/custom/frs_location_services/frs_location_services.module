@@ -200,11 +200,11 @@ function save_first_time_user_preferences()
         // Once the user has successfully saved, save the user preferred location
         if (!$skip)
             if ($comm_type == "urban") {
-                save_user_location($zip, $preferred_location, $comm_size, "1", TRUE);
+                save_user_location($zip, $preferred_location, $comm_size, "1", 1);
             } elseif ($comm_type == "rural") {
-                save_user_location($zip, $preferred_location, $comm_size, "0", TRUE);
+                save_user_location($zip, $preferred_location, $comm_size, "0", 1);
             } else {
-                save_user_location($zip, $preferred_location, $comm_size, "", TRUE);
+                save_user_location($zip, $preferred_location, $comm_size, "", 1);
             }
         $return_msg['success'] = true;
         print json_encode($return_msg);
