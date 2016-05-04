@@ -65,7 +65,7 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
             '#value' => 1
         );
 
-
+				$form['#attributes']['novalidate'] = '1';  
 
         $form_state['rebuild'] = TRUE;
 
@@ -82,11 +82,11 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
 
         $form['title']['#description'] = "State code (such as NC for North Carolina), tribe, or US EPA.";
 
-        $form['field_source_url'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a id='new-state-url-preview' href='#'>Preview</a>";
+        $form['field_source_url'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a class='usa-button' id='new-state-url-preview' href='#'>Preview</a>";
 
 
         $form['actions']['submit']['#submit'][] = 'new_state_form_redirect';
-        $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/resource-editor', array('attributes' => array('class' => 'link'))) . "</div>";
+        $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/resource-editor', array('attributes' => array('class' => 'link usa-button-outline usa-button'))) . "</div>";
 
     }
 }

@@ -52,6 +52,7 @@ function add_map_set_form_alter(&$form, &$form_state, $form_id) {
             $form['title']['#attributes'] = array(
                 'disabled' => 'disabled');
         //}
+				$form['#attributes']['novalidate'] = '1';            
         $form['actions']['submit']['#submit'][] = 'new_state_form_redirect';
         $form['link'] = array('#markup' => l(t('Cancel'), '/workbench'));
     }

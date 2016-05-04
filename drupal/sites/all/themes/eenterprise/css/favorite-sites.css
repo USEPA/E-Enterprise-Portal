@@ -1,3 +1,12 @@
+/** 
+	*	Colors from CIOgov Design Standards
+	*
+	* $color-secondary-dark:       #cd2026;
+	* $color-secondary-darkest:    #981b1e;
+	* $color-gray-dark:            #323a45;
+	*
+	**/
+
 .pane-views-favorite-sites-block .field-type-text, .pane-views-favorite-sites-block .form-text {
   width: 26em; float: left;
 }
@@ -7,6 +16,9 @@
 }
 .view-favorite-sites .views-table {
   width: 100%;
+}
+.view-favorite-sites .views-field-field-profile-favourites {
+	display: none; /* Hide empty rows */
 }
 
 .pane-views-favorite-sites-block .tabledrag-toggle-weight, 
@@ -55,17 +67,21 @@
 }
 
 .filled {
-  color: #d9534f;
+  color: #e31c3d;
 }
 .filled:hover{
-  color: #c9302c;
+  color: #cd2026;
   cursor: pointer;
 }
+.filled:active {
+	color: #981b1e;
+}
+
 .empty {
   color: grey;
 }
 .empty:hover{
-  color: darkslategray;
+  color: #323a45;
   cursor: pointer;
 }
 
@@ -75,11 +91,11 @@
   border:  0;
 }
 
-span.glyphicon-heart {
+span.fa-heart {
 	font-size: 1.25em;
 }
 
-span.glyphicon-plus {
+span.fa-plus {
   font-size: 2em;
 }
 td.favorites-holder {

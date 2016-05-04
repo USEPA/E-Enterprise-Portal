@@ -2,7 +2,6 @@ name        = E-Enterprise
 description = E-Enterprise theme using Zen as a starter theme.
 core        = 7.x 
 screenshot  = screenshot.png
-base theme  = zen
 
 ; STYLESHEETS - Remove some system ones
 ; First we remove the system's menu and message styling since Zen has its own.
@@ -11,11 +10,13 @@ stylesheets[all][] = system.messages.css
 stylesheets[all][] = system.theme.css
 
 ; Then we add our own stylesheet.
+stylesheets[all][] = css/google-fonts.css
 stylesheets[all][] = css/styles.css
 stylesheets[all][] = css/gridstack.css
 
 ; REGIONS
-regions[disclaimer]         = Disclaimer Area
+regions[maintenance]    = Maintenance
+regions[disclaimer]     = Disclaimer Area
 regions[header]         = Header
 regions[navigation]     = Navigation bar
 regions[highlighted]    = Highlighted
@@ -42,6 +43,7 @@ scripts[] = ../../libraries/jqueryui/jquery-ui.js
 scripts[] = js/lodash.min.js
 scripts[] = js/gridstack.js
 scripts[] = js/bootstrap.tooltip.js
+;scripts[] = js/components.js
 
 ; FEATURES
 features[] = logo

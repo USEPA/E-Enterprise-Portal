@@ -256,6 +256,14 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -282,6 +290,9 @@ function other_items_of_interest_feature_views_default_views() {
 
   /* Display: Services */
   $handler = $view->new_display('services', 'Services', 'services_1');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -290,18 +301,74 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Resource */
   $handler->display->display_options['fields']['field_source']['id'] = 'field_source';
   $handler->display->display_options['fields']['field_source']['table'] = 'field_data_field_source';
   $handler->display->display_options['fields']['field_source']['field'] = 'field_source';
+  $handler->display->display_options['fields']['field_source']['label'] = 'resource';
   /* Field: Content: Topic */
   $handler->display->display_options['fields']['field_topic']['id'] = 'field_topic';
   $handler->display->display_options['fields']['field_topic']['table'] = 'field_data_field_topic';
   $handler->display->display_options['fields']['field_topic']['field'] = 'field_topic';
+  $handler->display->display_options['fields']['field_topic']['label'] = 'topic';
   /* Field: Content: URL */
   $handler->display->display_options['fields']['field_source_url']['id'] = 'field_source_url';
   $handler->display->display_options['fields']['field_source_url']['table'] = 'field_data_field_source_url';
   $handler->display->display_options['fields']['field_source_url']['field'] = 'field_source_url';
+  $handler->display->display_options['fields']['field_source_url']['label'] = 'url';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = 'nid';
+  /* Field: Content: Post date */
+  $handler->display->display_options['fields']['created']['id'] = 'created';
+  $handler->display->display_options['fields']['created']['table'] = 'node';
+  $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['label'] = 'long_form_iso_date_example';
+  $handler->display->display_options['fields']['created']['alter']['text'] = '<?php echo date_iso8601([created]);?>';
+  $handler->display->display_options['fields']['created']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['created']['custom_date_format'] = 'Y-m-d\\TH:i:s\\Z';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
+  $handler->display->display_options['fields']['created']['timezone'] = 'UTC';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Sort criterion: Content: Topic (field_topic) */
+  $handler->display->display_options['sorts']['field_topic_value']['id'] = 'field_topic_value';
+  $handler->display->display_options['sorts']['field_topic_value']['table'] = 'field_data_field_topic';
+  $handler->display->display_options['sorts']['field_topic_value']['field'] = 'field_topic_value';
+  $handler->display->display_options['sorts']['field_topic_value']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['field_topic_value']['expose']['label'] = 'Topic (field_topic)';
+  /* Sort criterion: Content: Resource (field_source) */
+  $handler->display->display_options['sorts']['field_source_value']['id'] = 'field_source_value';
+  $handler->display->display_options['sorts']['field_source_value']['table'] = 'field_data_field_source';
+  $handler->display->display_options['sorts']['field_source_value']['field'] = 'field_source_value';
+  $handler->display->display_options['sorts']['field_source_value']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['field_source_value']['expose']['label'] = 'Resource (field_source)';
+  /* Sort criterion: Content: Topic (field_topic) */
+  $handler->display->display_options['sorts']['field_topic_value_1']['id'] = 'field_topic_value_1';
+  $handler->display->display_options['sorts']['field_topic_value_1']['table'] = 'field_data_field_topic';
+  $handler->display->display_options['sorts']['field_topic_value_1']['field'] = 'field_topic_value';
+  $handler->display->display_options['sorts']['field_topic_value_1']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['field_topic_value_1']['expose']['label'] = 'Topic (field_topic)';
+  /* Sort criterion: Content: URL (field_source_url) */
+  $handler->display->display_options['sorts']['field_source_url_value']['id'] = 'field_source_url_value';
+  $handler->display->display_options['sorts']['field_source_url_value']['table'] = 'field_data_field_source_url';
+  $handler->display->display_options['sorts']['field_source_url_value']['field'] = 'field_source_url_value';
+  $handler->display->display_options['sorts']['field_source_url_value']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['field_source_url_value']['expose']['label'] = 'URL (field_source_url)';
+  /* Sort criterion: Content: Nid */
+  $handler->display->display_options['sorts']['nid']['id'] = 'nid';
+  $handler->display->display_options['sorts']['nid']['table'] = 'node';
+  $handler->display->display_options['sorts']['nid']['field'] = 'nid';
+  $handler->display->display_options['sorts']['nid']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['nid']['expose']['label'] = 'Nid';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -318,7 +385,85 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'state_resource' => 'state_resource',
   );
-  $handler->display->display_options['path'] = 'state_resources';
+  /* Filter criterion: Search: Search Terms */
+  $handler->display->display_options['filters']['keys']['id'] = 'keys';
+  $handler->display->display_options['filters']['keys']['table'] = 'search_index';
+  $handler->display->display_options['filters']['keys']['field'] = 'keys';
+  $handler->display->display_options['filters']['keys']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['keys']['expose']['operator_id'] = 'keys_op';
+  $handler->display->display_options['filters']['keys']['expose']['label'] = 'Search Terms';
+  $handler->display->display_options['filters']['keys']['expose']['operator'] = 'keys_op';
+  $handler->display->display_options['filters']['keys']['expose']['identifier'] = 'keys';
+  $handler->display->display_options['filters']['keys']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    10 => 0,
+    11 => 0,
+    12 => 0,
+    13 => 0,
+    14 => 0,
+    15 => 0,
+    18 => 0,
+    16 => 0,
+    17 => 0,
+    19 => 0,
+    20 => 0,
+    23 => 0,
+    24 => 0,
+    25 => 0,
+    26 => 0,
+    27 => 0,
+    28 => 0,
+    29 => 0,
+    30 => 0,
+    31 => 0,
+    32 => 0,
+    33 => 0,
+    89 => 0,
+    90 => 0,
+    55 => 0,
+    56 => 0,
+    57 => 0,
+    58 => 0,
+    59 => 0,
+    60 => 0,
+    61 => 0,
+    62 => 0,
+    63 => 0,
+    64 => 0,
+    65 => 0,
+    66 => 0,
+    67 => 0,
+    68 => 0,
+    69 => 0,
+    70 => 0,
+    71 => 0,
+    72 => 0,
+    73 => 0,
+    74 => 0,
+    75 => 0,
+    76 => 0,
+    78 => 0,
+    80 => 0,
+    81 => 0,
+    82 => 0,
+    83 => 0,
+    84 => 0,
+    85 => 0,
+    86 => 0,
+    87 => 0,
+    88 => 0,
+    91 => 0,
+    92 => 0,
+    93 => 0,
+  );
+  $handler->display->display_options['path'] = 'resources';
   $export['other_items_of_interest'] = $view;
 
   $view = new view();
@@ -392,13 +537,13 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<a href="/new-resource" class="button primary-action">Add a resource</a>';
+  $handler->display->display_options['header']['area']['content'] = '<a href="/new-resource" class="usa-button primary-action">Add a resource</a>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Footer: Global: Text area */
   $handler->display->display_options['footer']['area']['id'] = 'area';
   $handler->display->display_options['footer']['area']['table'] = 'views';
   $handler->display->display_options['footer']['area']['field'] = 'area';
-  $handler->display->display_options['footer']['area']['content'] = '<a href="/new-resource" class="button primary-action">Add a resource</a>';
+  $handler->display->display_options['footer']['area']['content'] = '<a href="/new-resource" class="usa-button primary-action">Add a resource</a>';
   $handler->display->display_options['footer']['area']['format'] = 'full_html';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';

@@ -27,6 +27,9 @@
 $trunc_pos = strpos($output, ')');
 if($trunc_pos !== false){
     $output = "<span class='report-name'>".substr($output, 0, $trunc_pos+1)."</span><span class='subpart-name'>".substr($output, $trunc_pos+1)."</span>";
+}else{
+    $temp = substr($output, 0, 50);
+    $output = "<span class='report-name'>".substr($output, 0, strrpos($temp," "))."</span><span class='subpart-name'>".substr($output, strrpos($temp," "))."</span>";
 }
 
 print $output;

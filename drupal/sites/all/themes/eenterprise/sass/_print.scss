@@ -27,7 +27,6 @@
     a[href]:after {
       content: " (" attr(href) ")";
       font-weight: normal;
-      font-size: $base-font-size;
     }
 
     /* Only display useful links. */

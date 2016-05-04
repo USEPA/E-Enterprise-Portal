@@ -32,7 +32,6 @@
 ?>
 
 <?php
-drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/combobox.js", "file");
 drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/first_time_user_profile.js", "file");
 drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_time_user_profile.css", "file");
 ?>
@@ -46,32 +45,32 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
         <h3>Location that interests you</h3>
 
         <p id="location-description-intro">Pick a location to see environmental information for that area.
-            <span id="location-description-na" style="display:none">Until you choose a location, the default location will be Durham, <abbr
-                    title="North Carolina">NC</abbr>.</span></p>
+            <span id="location-description-na" style="display:none">Until you choose a location, the default location will be Durham, <abbr title="North Carolina">NC</abbr>.</span></p>
 
         <div id="zip_container">
             <div id="loading-user-location">Loading...</div>
             <div id="location-description-user" style="display:none">
                 <span id="location-description-geo">Location</span>
                 <span id="nearest-location" aria-labelledby="location-description-geo">No location found</span>
-                <a href="#" id="change-location">Change location</a>
+                <a href="#" id="change-location" aria-controls="location-add-new">Change location</a>
             </div>
         </div>
         <!-- @end zip_container-->
         <div id="location-add-new" style="display:none">
         <span id="new-location">
-        	<label for="new-location-input">Enter city, state; tribe; or ZIP code</label> <input id="new-location-input"/>
-            <button class="btn btn-primary btn-sm" id="add-location">Find</button>
+        	<label for="new-location-input">Enter city, state; tribe; or ZIP code</label> <input
+                id="new-location-input"/>
+            <button class="usa-button" id="add-location">Find</button>
         </span>
-        <span style="display:none" id="choose-zip-holder">
-            <label for="choose-zip">Select your ZIP code</label><span id="choose-zip"></span>
-			<button class="btn btn-primary btn-sm" id="confirm-zip-select">Save</button>
+        <span style="display:none" id="choose-zip-holder" aria-live="assertive">
+            <label for="city-state-lookup-zips">Select your ZIP code</label><span id="choose-zip"></span>
+			<button class="usa-button" id="confirm-zip-select">Save</button>
         </span>
-        <span style="display:none" id="choose-city-holder">
-            <label for="choose-zip">Select your city or tribal area</label><span id="choose-city"></span>
-            <button class="btn btn-primary btn-sm" id="confirm-city-select">Save</button>
+        <span style="display:none" id="choose-city-holder" aria-live="assertive">
+            <label for="zip-lookup-city-state">Select your city or tribal area</label><span id="choose-city"></span>
+            <button class="usa-button" id="confirm-city-select">Save</button>
         </span>
-            <button class="btn btn-danger btn-sm" id="cancel-zip-select">Cancel</button>
+            <button class="usa-button usa-button-outline" id="cancel-zip-select">Cancel</button>
         </div>
         <!-- @end location-add-new -->
 
@@ -80,17 +79,17 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
                 <label for="select-organization">My organization</label>
                 <div class="form-group">
 
-                <?php
-                // select-organization is the id
-                generate_taxonomy_select('select-organization');
-                ?>
-                    </div>
+                    <?php
+                    // select-organization is the id
+                    print generate_taxonomy_select('select-organization');
+                    ?>
+                </div>
             </div>
             <div class="role-select-grouping">
                 <label for="select-role">My role</label>
                 <?php
                 // select-organization is the id
-                generate_taxonomy_select('select-role');
+                print generate_taxonomy_select('select-role');
                 ?>
             </div>
         </div>
@@ -100,19 +99,19 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
             <div class="community-select-grouping">
                 <div class="form-group">
 
-                <label for="community-size">Community size</label>
-                <?php
-                // select-organization is the id
-                generate_taxonomy_select('community-size');
-                ?>
-                    </div>
+                    <label for="community-size">Community size</label>
+                    <?php
+                    // select-organization is the id
+                    print generate_taxonomy_select('community-size');
+                    ?>
+                </div>
             </div>
-            <div class="community-type-grouping">
-
-                <label for="community-type">My community is mostly...</label>
-                <input type="radio" name="community-type" class="community-type " value="rural">Rural
-                <input type="radio" name="community-type" class="community-type " value="urban">Urban
-            </div>
+            <fieldset class="community-type-grouping">
+                <label for="community-type-grouping">My community is mostly...</label>
+                <input type="radio" name="community-type" class="community-type" value="_none" id="lgc-na"><label for="lgc-na">N/A</label>
+                <input type="radio" name="community-type" class="community-type" value="rural" id="lgc-rural"><label for="lgc-rural">Rural</label>
+                <input type="radio" name="community-type" class="community-type " value="urban" id="lgc-urban"><label for="lgc-urban">Urban</label>
+            </fieldset>
             <!-- @end community-type-grouping -->
 
 
@@ -123,9 +122,7 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
     <div class="first-time-second-page" style="display:none">
         <div id="local-gov-topics">
             <h3>Topics that matter</h3>
-
-            <p>Select a few high-level topics that interest you.</p>
-
+            <p id="topic-description">Select a few high-level topics that interest you. <span class="sr-only">Use the space bar to select topics.</span></p>
             <div id="high-level-interests">
                 <div class="form-group">
                     <?php high_level_taxonomy_checkboxes(); ?>
@@ -141,14 +138,13 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
 <div class="modal-footer">
     <div class="first-time-first-page">
 
-        <button class="btn btn-md first-time-page-button" id="switch-to-interests"
-        ">Next > <br/> <span class="button-label-interests">Interests</span></button>
+        <button class="btn btn-md first-time-page-button" id="switch-to-interests">Next <span
+                aria-hidden="true">></span><br/> <span class="button-label-interests">Interests</span></button>
     </div>
     <div class="first-time-second-page" style="display:none">
-        <button class="btn btn-md btn-primary first-time-page-button" id="save-preferences">Finish ></button>
-
-        <button class="btn btn-md first-time-page-button" id="switch-to-first-page"
-        ">< Back <br/> <span class="button-label-interests">Location and Role</span></button>
+        <button class="usa-button first-time-page-button" id="save-preferences">Finish ></button>
+        <button class="usa-button first-time-page-button" id="switch-to-first-page"><span aria-hidden="true"><</span>
+            Back <br/> <span class="button-label-interests">Location and Role</span></button>
 
     </div>
     <a href="#" id="skip-preferences">Skip this</a>

@@ -21,7 +21,7 @@
 
 $dataTitle = array();
 ?>
-<table <?php if ($classes) { print 'class="'. $classes . ' ' . 'responsive-table"'; } ?><?php print $attributes; ?>>
+<table <?php if ($classes) { print 'class="'. $classes . ' ' . 'responsive-table usa-table-borderless"'; } ?><?php print $attributes; ?>>
    <?php if (!empty($title) || !empty($caption)) : ?>
      <caption><?php print $caption . $title; ?></caption>
   <?php endif; ?>

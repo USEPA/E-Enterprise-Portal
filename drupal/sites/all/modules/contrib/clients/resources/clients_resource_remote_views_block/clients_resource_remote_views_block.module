@@ -1,0 +1,42 @@
+<?php
+/**
+ * @file clients_resource_remote_views_block.module
+ * TODO: Enter file description here.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function clients_resource_remote_views_block_block_info() {
+  $block_resources = clients_resource_load_all('remote_view_block');
+  
+  $blocks = array();
+  foreach ($block_resources as $resource) {
+    $blocks += $resource->hook_block_info();
+  }
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function clients_resource_remote_views_block_block_view($delta = '') {
+  $resource = clients_resource_get_for_component('remote_view_block', $delta);
+  
+  $block = $resource->hook_block_view();
+
+  return $block;
+}
+
+/**
+ * Implements hook_clients_resource_type_info().
+ */
+function clients_resource_remote_views_block_clients_resource_type_info() {
+  return array(
+    'remote_view_block' => array(
+      'label'  => t('Remote views block'),
+      'description' => t('Provides a block based on a Views block on a remote Drupal site.'),
+    ),
+  );
+}

@@ -3,19 +3,55 @@
  * @file
  * Module file for APIs.
  */
+use Swagger\Annotations as SWG;
+require 'api_constants.php';
+require 'MyAPI.php';
 
 function eenterprise_api_menu()
 {
-
     $items = array();
-    $items['rest_request'] = array(
-        'page callback' => 'rest_request',
+    $items['api/' . API_VERSION . '/%'] = array(
+        'page callback' => 'process_request',
+        'access callback' => TRUE,
+    );
+    $items['api/' . API_VERSION . '/%/%'] = array(
+        'page callback' => 'process_request_with_arg',
         'access callback' => TRUE,
     );
     return $items;
-
 }
 
+function return_request() {
+    // create new http request with $resource, attaching $id as an argument to work with service_views
+
+    // Requests from the same server don't have a HTTP_ORIGIN header
+
+    if (!array_key_exists('HTTP_ORIGIN', $_SERVER))
+        $_SERVER['HTTP_ORIGIN'] = $_SERVER['SERVER_NAME'];
+
+    if (!isset($_REQUEST['request']))
+        $request = $_SERVER['REQUEST_URI'];
+    else
+        $request = $_REQUEST['request'];
+
+    return $request;
+}
+
+function process_request()
+{
+    $request = return_request();
+    $API = new MyAPI($request, $_SERVER['HTTP_ORIGIN']);
+    echo $API->processAPI();
+}
+
+
+
+function process_request_with_arg()
+{
+    $request = return_request();
+        $API = new MyAPI($request, $_SERVER['HTTP_ORIGIN']);
+        echo $API->processAPI();
+}
 
 /**
  * Implements hook_theme_registry_alter().
@@ -58,8 +94,7 @@ function rest_request()
 
             echo json_encode($response);
 
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             echo json_encode(array("url" => $url, "error" => $e));
         }
     } else {
@@ -67,4 +102,188 @@ function rest_request()
     }
 
 
+}
+
+
+
+/*
+ * METADATA defined here
+ *
+ * @param array $output
+ *   Results of the view execution. These will be sent to services for rendering.
+ * @param object $view
+ *   Views object.
+ */
+function eenterprise_api_services_views_execute_view_alter(&$output, $view)
+{
+    attach_metadata($view, $output);
+}
+
+/**
+ * @param $view
+ * @param $query
+ *
+ * *** For the query to be overidden, the pagination must be turned off for the service view. "Display all options"
+ */
+function eenterprise_api_views_query_alter(&$view, &$query)
+{
+    if ($view->name == 'other_items_of_interest' && $view->current_display == "services_1") {
+        $params = array();
+        if (isset($view->args[0])){
+            parse_str(ltrim($view->args[0], "?"), $params);
+            $_GET = $params;
+        }
+        if (isset($_GET['limit'])) {
+            $limit = $_GET['limit'];
+            $query->set_limit($limit);
+            if (isset($_GET['page'])) {
+                $page = $_GET['page'];
+                // Formula for offset from page and items per page
+                $offset = ($page - 1) * ($limit + 1);
+                $query->set_offset($offset);
+            }
+        }
+        if (isset($_GET[['sortby']]))
+            $sort_by = xssafe($_GET['sortby']);
+        else
+            $sort_by = 'resource';
+        if (isset($_GET['sorttype']))
+            $sort_type = xssafe($_GET['sorttype']);
+        else
+            $sort_type = 'ASC';
+        $current_display = $view->current_display;
+        $field_data = $view->display[$current_display]->display_options['fields'];
+       apply_sort($query, $sort_by, $sort_type, $field_data);
+    }
+}
+
+/**
+ * @param $view_name
+ * @param $content_type
+ * Checks headers for error codes
+ * Content type refers to json or xml
+ * Includes metadata
+ * Checks for Post or Get sorting/paging/limiting arguments
+ */
+function process_service_view_response($view_name, $content_type, $request_header)
+{
+    $error_handler = return_error_codes($request_header);
+    if ($error_handler->error)
+        return $error_handler->error_message;
+    else
+        return return_service_view_response($view_name, $content_type);
+}
+
+
+function apply_sort(&$query, $sort_by, $sort_type, $field_data)
+{
+    $found_field = FALSE;
+    $table_name = "";
+    $field_name = "";
+  //  $default_names = array("nid", "created", "title");
+
+    // First simply check if field matches machine name
+    if (isset($field_data[$sort_by])) {
+        $found_field = TRUE;
+        $field_name = $sort_by;
+        $table_name = $field_data[$sort_by]['table'];
+    }
+    else {
+        // Loop through field data finding the correct field obj
+        foreach ($field_data as $index => $value) {
+            if ($value['label'] == $sort_by) {
+                if ($value['label'] != "") {
+                    $field_name = $value['field'];
+                    $table_name = $value['table'];
+                    $found_field = TRUE;
+                }
+            }
+        }
+    }
+    if ($found_field){
+        if ($table_name == "node")
+            $field_lookup = $table_name . "_" . $field_name;
+        else
+            $field_lookup = $table_name . '_' . $field_name . "_value";
+       $query->orderby = array(array("field" => $field_lookup, "direction" => $sort_type));
+    }
+}
+
+
+/**
+ * @param $request_header
+ * Reads request header and decides if valid request, returns appropriate http error code
+ */
+function return_error_codes($request_header)
+{
+
+}
+
+function get_content_total($content_type)
+{
+    $query = "SELECT COUNT(*) amount FROM {node} n " .
+        "WHERE n.type = :type";
+    $result = db_query($query, array(':type' => $content_type))->fetch();
+    return $result->amount;
+}
+
+/**
+ * @param $view
+ * @param $output
+ * appends metadata for a view to output
+ */
+function attach_metadata($view, &$output)
+{
+    // Get total
+
+    $limit = FALSE;
+    $page = FALSE;
+
+    if (isset($_GET['limit']))
+        $limit = $_GET['limit'];
+    if (isset($_GET['page']))
+        $page = $_GET['page'];
+
+
+    $page_results = count($view->result);
+
+    if ($limit) {
+        $items_per_page = $limit;
+        $total_results = get_content_total("state_resource");
+        if ($page) {
+            $current_page = $page;
+        }
+    } else {
+        $items_per_page = count($view->result);
+        $current_page = 1;
+    }
+    $total_pages = $total_results / $items_per_page - 1;
+    if ($page ==  1 || !$limit)
+        $start = 1;
+    else if ($items_per_page == 1)
+        $start = $current_page * $items_per_page;
+    else
+        $start = $current_page * $items_per_page - 1;
+
+
+
+    $end = $start + $page_results - 1;
+    $paged_output = array(
+        'metadata' => array(
+            'current_page' => $current_page,
+            'total_pages' => ceil($total_pages),
+            'items_per_page' => $items_per_page,
+            'display_start' => $start,
+            'display_end' => $end,
+            'total_results' => $total_results),
+        'results' => $output,
+    );
+    $output = $paged_output;
+}
+
+/*
+ * Used to generate dynamic address
+ */
+function current_server(){
+    return $_SERVER['SERVER_NAME'];
 }

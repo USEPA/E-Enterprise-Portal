@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file clients_test.module
+ * Provides a dummy connection type and connection.
+ */
+
+/**
+ * Implements hook_clients_connection_type_info().
+ */
+function clients_test_clients_connection_type_info() {
+  return array(
+    'clients_dummy' => array(
+      'label'  => t('Dummy Client'),
+      'description' => t('Dummy client connection for use in testing.'),
+      'tests' => array(
+        'connect' => 'MyClientTypeTestConnection',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_clients_default_connections().
+ */
+function clients_test_clients_default_connections() {
+  $items = array();
+  $items['dummy_connection'] = entity_import('clients_connection', '{
+    "name" : "dummy_connection",
+    "endpoint" : "https:\\/\\/example.com\\/services\\/",
+    "configuration" : {
+      "debug" : 0,
+      "credentials_storage" : "connection_configuration",
+      "username" : "user",
+      "password" : "password"
+    },
+    "label" : "Dummy connection",
+    "type" : "clients_dummy"
+  }');
+  return $items;
+}

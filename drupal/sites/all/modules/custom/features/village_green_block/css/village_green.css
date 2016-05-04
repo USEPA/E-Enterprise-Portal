@@ -1,69 +1,44 @@
 .vg-numbers {
 	list-style: none;
+	padding-left: 0; 
+	margin-top: 15px;
+	margin-bottom: 15px;
+	width: 100%;
 }
 .vg-numbers li {
 	display: block;
 	float:left;
   width:auto;
-	width: 17.5%;
-	min-width: 5em;
+	width: 18.5%;
+	min-width: 4em;
   margin-bottom: 1em;
 	position:relative;
 	text-align: center;
 	background-color:#f8f8f8;
 	border:1px solid #f0f0f0;
-	margin-right:10px;
+	margin-right: 1.5%;
 	padding: 10px 5px;
 }
 
 .vg-numbers h4 {
-	font-weight:200;
+	font-weight: normal;
 	margin-bottom:0;
 	margin-top:0;
+	font-size: 1.5rem;
 }
 .vg-numbers p {
-	font-size: 1.75em;
-	font-weight: bold;
+	font-size: 3rem;
+	font-weight: normal;
 	margin:5px 0;
 	padding:0
 }
 .vg-numbers .vg-units {
-	font-size: 0.5em;
+	font-size: 1.3rem;
 	display: block;
-	font-weight:200;
+	font-weight: normal;
 }
-ul.vg-numbers {
-	padding-left: 0; 
-}
-div.vg-numbers-container {
-	margin-bottom:1.2em; 
-}
-small.village-green-updated-every-minute {
-	margin-top: -1em; margin-bottom: 1.2em; display:block;
-}
-.currentObsDate {
-	font-size: 0.85em;
-}
-
-/* Swaps the right and left sides and switches the colors */
-.pane-views-village-green-block-block-1 .progress {
-	position: relative;
-}
-
-.pane-views-village-green-block-block-1 .progress.progress-bar-striped {
-	background-color: #5cb85c;
-}
-.pane-views-village-green-block-block-1 .progress-bar.progress-bar-success.active.village-green-countdown {
-	float: right;
-	background-color: #f5f5f5;
-}
-
-/* Left-aligns the text inside the larger progress bar parent */
-.pane-views-village-green-block-block-1 span.countdownContainer {
-	white-space:nowrap;
-	position: absolute;
-	left: 10px;
-	color: #444;
+.village-green-source {
+	margin-bottom: 15px;
 }
 
 @media screen and (min-width: 48em) and (max-width:59.4em) {

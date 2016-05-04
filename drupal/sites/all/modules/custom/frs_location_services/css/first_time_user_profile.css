@@ -15,7 +15,16 @@
 
 
 #first-time-user-profile {
-    height: 500px;
+    height: auto;
+}
+#first-time-user-profile #high-level-interests .ck-button {
+    font-size: 1.5rem;
+}
+#first-time-user-profile #high-level-interests .ck-button span {
+    width: 30rem;
+    height: 5.5rem;
+    vertical-align: middle;
+    display: table-cell;
 }
 
 .first-time-page-button {
@@ -27,11 +36,10 @@
 .first-time-page-button:hover {
     color:white !important;
     cursor: pointer;
-
 }
 
 .button-label-interests {
-    font-size: .8em;
+    font-size: 0.8em;
     color: lightgrey;
 }
 #skip-preferences {
@@ -64,13 +72,18 @@
     float: left;
 }
 
-.org-select-grouping, .role-select-grouping, .community-type-grouping, .community-select-grouping {
-    float:left;
-    width: 40%;
-    margin-left: 5%;
+@media screen and (min-width: 40em) {
+	.org-select-grouping, 
+	.role-select-grouping, 
+	.community-type-grouping, 
+	.community-select-grouping {
+	    float:left;
+	    width: 40%;
+	    margin-left: 5%;
+	}
 }
 .org-select-grouping, .community-select-grouping {
-	margin-left: 0;
+    margin-left: 0;
 }
 
 .community-type-grouping input[type="radio"]{
@@ -100,23 +113,22 @@
     padding-bottom: 0;
 }
 /*.ui-widget-content {*/
-    /*overflow-y: auto !important;*/
+/*overflow-y: auto !important;*/
 /*}*/
 
 /*.ui-widget-content.first-time-user-dialog .ui-dialog-buttonpane {*/
-    /*overflow-y: hidden;*/
-    /*height: 40px;*/
+/*overflow-y: hidden;*/
+/*height: 40px;*/
 /*}*/
 
 /*.ui-widget-content.locations-modal button:hover {*/
-    /*border: 1px solid #dedede;*/
-    /*background: #f3f3f3;*/
+/*border: 1px solid #dedede;*/
+/*background: #f3f3f3;*/
 /*}*/
 
 /*#dialog-all-locations{*/
-    /*height: 350px;*/
+/*height: 350px;*/
 /*}*/
 
 
 /*.radio-options-holder input[type=radio], .radio-options-holder input.radio { margin-right: 5px; }*/
-

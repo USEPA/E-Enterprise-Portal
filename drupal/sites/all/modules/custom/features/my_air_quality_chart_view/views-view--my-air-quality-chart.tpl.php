@@ -53,13 +53,14 @@ drupal_add_js(drupal_get_path('module', 'my_air_quality_chart_view') ."/js/esri.
       <li><a class="favorites-ignore" href="#my-air-quality-air-now-maps">AirNow Maps</a></li>
     </ul>
     <div id="my-air-quality-index" style="padding:0">
-      <p>Source: <a target="_blank" href="http://airnow.gov/" rel="external">AirNow.gov</a></p>
+      <p class="widget-note aqi-source">Source: <a target="_blank" href="http://airnow.gov/" rel="external">AirNow.gov</a></p>
       <div id="sr-aqi-svg"></div>
       <div id="my-air-quality-chart">
       </div>
+      <div id="sr-aqi-explained"></div>
     </div>
     <div id="my-air-quality-air-now-maps" style="padding:0">
-      <p>Source: <a target="_blank" href="http://airnow.gov/" rel="external">AirNow.gov</a></p>
+      <p class="aqi-source">Source: <a target="_blank" href="http://airnow.gov/" rel="external">AirNow.gov</a></p>
       <div id="my-air-quality-air-now-map-container"></div>
       <p>Today's AQI Forecast</p>
       <ul class="list-inline small">

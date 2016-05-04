@@ -9,6 +9,10 @@
 
     Drupal.behaviors.initializeSkipLinks = {
         attach: function (context) {
+            $( ".view-app-connect-new .views-field-title a" ).click(function() {
+                $('#app-connect-sso-form').submit();
+            });
+
             $('body').once(function () {
 
                 function findNextWidgetTitle(skipWidgetLink) {
@@ -65,7 +69,7 @@
                         var grid = $grid_container.data('gridstack');
 
                         var save_grid_changes = '<button id="save-grid-changes">Save Layout</button>';
-                        var revert_grid_changes = '<button   id="revert-grid-changes">Cancel</button>';
+                        var revert_grid_changes = '<button class="usa-button-outline" id="revert-grid-changes">Cancel</button>';
                         var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
 
                         $('body').prepend($grid_change_options);
@@ -77,7 +81,6 @@
                         loadUserIndices(grid);
                         addResizeSensors(grid, verticalMargin, cellHeight);
                         grid.resizable('.grid-stack-item', false);
-                        console.log(Drupal.settings.is_guest);
                         if (Drupal.settings.is_guest) {
                             grid.movable('.grid-stack-item', false);
                         }
@@ -173,6 +176,8 @@
                         var serialization;
                         $.ajax({
                             url: 'load_user_gridstack_data',
+                            data: {json: true},
+                            method: 'GET',
                             success: function (data) {
                                 var data = $.parseJSON(data);
                                 serialization = GridStackUI.Utils.sort(data);
@@ -282,7 +287,7 @@
 
                     function showError(msg) {
                         $locationInputFormGroup.addClass('has-error');
-                        $locationInputIcon.attr('class', 'glyphicon glyphicon-remove form-control-feedback');
+                        $locationInputIcon.attr('class', 'fa fa-close form-control-feedback');
                         $locationInputIcon.show();
                         clearErrorMessage();
                         $('div#content').before($('<div>', {
@@ -294,12 +299,12 @@
                     function hideError() {
                         $locationInputFormGroup.removeClass('has-error');
                         $locationInputIcon.hide();
-                        $locationInputIcon.removeClass('spinning');
+                        $locationInputIcon.removeClass('fa-spinner');
                         clearErrorMessage();
                     }
 
                     function showLoading() {
-                        $locationInputIcon.attr('class', 'glyphicon glyphicon-refresh form-control-feedback spinning');
+                        $locationInputIcon.attr('class', 'fa fa-refresh form-control-feedback fa-spinner');
                         $locationInputIcon.show();
 
                     }
@@ -599,20 +604,6 @@
             $('#edit-field-prog-track-sub-part-code-value').change(function () {
                 $('#edit-field-prog-track-rep-type-filter-value').val('All');
             });
-
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    if($("#edit-field-prog-track-rep-type-filter-value").is(":visible"))
-                        $('#edit-field-prog-track-rep-type-filter-value').focus();
-                    else if ($("#edit-field-prog-track-sub-part-code-value").is(":visible"))
-                        $('#edit-field-prog-track-sub-part-code-value').focus();
-                    else if ($("#edit-field-prog-track-part-code-value").is(":visible"))
-                        $('#edit-field-prog-track-part-code-value').focus();
-                }
-            }
-            xmlhttp.open("GET", "README.txt", true);
-            xmlhttp.send();
         }
     };
 
@@ -766,16 +757,17 @@
 
             $("#all-time").focus(function() {
                 $( "#all-time" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
-                        $( "#all-time").click();
+                        $( "#all-time a").click();
                     }else if(e.which === 39){
                         $('#this-week a').click();
-                        $('#this-week').focus();
                     }
                 });
             });
             $("#this-week a").focus(function() {
                 $( "#this-week a" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
                         $( "#this-week a").click();
                     }else if(e.which === 39){
@@ -788,6 +780,7 @@
             });
             $("#next-week a").focus(function() {
                 $( "#next-week a" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
                         $( "#next-week a").click();
                     }else if(e.which === 39){
@@ -800,6 +793,7 @@
             });
             $("#beyond-next-week a").focus(function() {
                 $( "#beyond-next-week a" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
                         $( "#beyond-next-week a").click();
                     }
@@ -809,24 +803,63 @@
                 });
             });
 
+            // Keep track of the last pull-down we focused on (view filters only, for now)
+            $('.views-exposed-form select').focus(function() {
+                var thisId = $(this).attr('id');
+                trackFocusedElement('#' + thisId);
+            });
+            $('.view').on('focus', '.pager .pager-previous a', function() {
+                var thisTarget = getParentViewSelectorByClass($(this));
+                thisTarget += ' .pager .pager-previous a';
+                trackFocusedElement(thisTarget);
+            });
+            $('.view').on('focus', '.pager .pager-next a', function() {
+                var thisTarget = getParentViewSelectorByClass($(this));
+                thisTarget += ' .pager .pager-next a';
+                trackFocusedElement(thisTarget);
+            });
+
+
+            function trackFocusedElement(target) {
+                $('input#focused-element').remove();
+                $('input#focused-view').remove();
+                $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="' + target + '" />');
+                $('body').append('<input type="hidden" id="focused-view" name="focused_view" value="' + getParentViewSelectorByClass($(target)) + '" />');
+            }
+            function getParentViewSelectorByClass(element) {
+                var thisTarget = '';
+                // find the class that uniquely identifies this view container
+                var classList = $(element).parents('.view').attr('class').split(/\s+/);
+                $.each(classList, function(index, item) {
+                    thisTarget += '.' + item;
+                });
+                return thisTarget;
+            }
+
+            // Lose track if we blur
+            $('.views-exposed-form select, .view .pager a').blur(function() {
+                $('input#focused-element').remove();
+                $('input#focused-view').remove();
+            });
+
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    if ($("#this-week").hasClass("filter-applied"))
+                    if ($('input#focused-element').length == 1) {
+                        if ($($('input#focused-element').val()).length > 0) {
+                            // attempt to focus this element
+                            $($('input#focused-element').val()).focus();
+                        } else {
+                            // if it disappeared, focus on its view container
+                            $($('input#focused-view').val()).focus();
+                        }
+                    } else if ($("#this-week").hasClass("filter-applied")) {
                         $('#this-week a').focus();
-                    else if ($("#next-week").hasClass("filter-applied"))
+                    } else if ($("#next-week").hasClass("filter-applied")) {
                         $('#next-week a').focus();
-                    else if ($("#beyond-next-week").hasClass("filter-applied"))
+                    } else if ($("#beyond-next-week").hasClass("filter-applied")) {
                         $('#beyond-next-week a').focus();
-
-                    if($('#edit-field-prog-track-domain-value').val() != 'All' && !$("#edit-field-prog-track-rep-type-filter-value").is(":visible"))
-                        $('#edit-field-prog-track-domain-value').focus();
-                    else if(!$('#edit-field-prog-track-part-code-value').is(":visible") && $('#edit-field-prog-track-domain-value').val() != 'All')
-                        $('#edit-field-prog-track-domain-value').focus();
-                    else if ($("#edit-field-todo-lst-rprt-type-filter-value").is(":visible"))
-                        $('#edit-field-todo-lst-rprt-type-filter-value').focus();
-                    else if ($("#edit-field-todo-lst-sub-part-code-value").is(":visible"))
-                        $('#edit-field-todo-lst-sub-part-code-value').focus();
+                    }
                 }
             }
             xmlhttp.open("GET", "README.txt", true);

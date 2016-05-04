@@ -106,9 +106,8 @@ function save_first_time_user_preferences()
 
 
 // Store users geolocation
-    if ($skip && $geolocation_used) {
+    if ($skip && $geolocation_used)
         $zip = $geolocation_zip;
-    }
 
 //Capture inital user settings for default zip
     $multifield_initial_zip_obj = array(
@@ -158,14 +157,7 @@ function save_first_time_user_preferences()
         $user_zip_codes[LANGUAGE_NONE][0] = $multifield_zip_obj;
 
 
-        // add role data
-        // Check if role is a new input from user and add to vocabulary
-        if (!is_numeric($role)) {
-            $role = custom_create_taxonomy_term($role, taxonomy_vocabulary_machine_name_load('roles')->vid);
-        }
-
-
-        if ($role != '' && is_numeric($role))
+        if (is_numeric($role))
             $user_role[LANGUAGE_NONE][0]['tid'] = $role;
         if (is_numeric($org))
             $user_org[LANGUAGE_NONE][0]['tid'] = $org;
@@ -207,7 +199,13 @@ function save_first_time_user_preferences()
         user_save($user_data, $edit);
         // Once the user has successfully saved, save the user preferred location
         if (!$skip)
-            save_user_location($zip, $preferred_location);
+            if ($comm_type == "urban") {
+                save_user_location($zip, $preferred_location, $comm_size, "1", TRUE);
+            } elseif ($comm_type == "rural") {
+                save_user_location($zip, $preferred_location, $comm_size, "0", TRUE);
+            } else {
+                save_user_location($zip, $preferred_location, $comm_size, "", TRUE);
+            }
         $return_msg['success'] = true;
         print json_encode($return_msg);
     } catch (Exception $e) {
@@ -239,33 +237,36 @@ function clear_user_preferred_locations()
     }
 }
 
-/**
- * @param $zip_code
- * @param $preferred_location
- * @throws Exception
- */
-function save_user_location($zip_code, $preferred_location)
+function save_user_location($zip_code, $preferred_location, $commsize, $isurban, $primary)
 {
     global $user;
     $uid = $user->uid;
 
-    // Save new location preference
-    $node = new stdClass();
-    $node->type = 'user_location_preferences';
-    $node->title = $user->name . " - " . $zip_code . ": " . $preferred_location;
-    $node->field_preferred_name[LANGUAGE_NONE][0]['value'] = $preferred_location;
-    $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
-    $node->uid = $uid;
-    $node->status = 1;
-    $node->language = LANGUAGE_NONE;
-    node_save($node);
+        // Save new location preference
+        $node = new stdClass();
+        $node->type = 'user_location_preferences';
+        $node->title = $user->name . " - " . $zip_code . ": " . $preferred_location;
+        $node->field_preferred_name[LANGUAGE_NONE][0]['value'] = $preferred_location;
+        $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
+        $node->field_zip_community_size[LANGUAGE_NONE][0]['value'] = intval($commsize);
+        $node->field_primary[LANGUAGE_NONE][0]['value'] = $primary;
+        if ($isurban == "Urban") {
+            $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 1;
+        } elseif ($isurban == "Rural") {
+            $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 0;
+        }
+        $node->uid = $uid;
+        $node->status = 1;
+        $node->language = LANGUAGE_NONE;
+        node_save($node);
+
 }
 
 function return_user_preferred_location($zip_code)
 {
+    $location_info = array();
     global $user;
     $query = new EntityFieldQuery();
-
     $query->entityCondition('entity_type', 'node')
         ->entityCondition('bundle', 'user_location_preferences')
         ->propertyCondition('status', NODE_PUBLISHED)
@@ -276,7 +277,10 @@ function return_user_preferred_location($zip_code)
     if (isset($result['node'])) {
         $nid = array_keys($result['node'])[0];
         $node = node_load($nid);
-        return $node->field_preferred_name[LANGUAGE_NONE][0]['value'];
+        $location_info['preferred_name'] = $node->field_preferred_name[LANGUAGE_NONE][0]['value'];
+        $location_info['commsize'] = $node->field_zip_community_size[LANGUAGE_NONE][0]['value'];
+        $location_info['isurban'] = $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'];
+        return $location_info;
     } else
         return FALSE;
 }
@@ -385,16 +389,16 @@ function high_level_taxonomy_checkboxes()
     $vid = taxonomy_vocabulary_machine_name_load('lgc_topics')->vid;
     $vocab_tree = taxonomy_get_tree($vid);
     $count = 0;
-    print "<div class='row'>";
+    print "<div class='usa-grid-full'><ul aria-describedby='topic-description'>";
     foreach ($vocab_tree as $obj_class) {
         if ($count <= $max_topics_shown) {
-            print '<div class="col-xs-6"><label class="ck-button lgc-topics-of-interest"><input aria-label="' . $obj_class->name . '" class="term-name-checkboxes" type="checkbox"  name="' . $obj_class->name . '" value="' . $obj_class->tid . '"/><span>' . $obj_class->name . '</span></label></div>';
+            print '<li class="usa-width-one-half"><input id="lgc-'. $count .'" class="term-name-checkboxes" type="checkbox"  name="' . $obj_class->name . '" value="' . $obj_class->tid . '"/><label for="lgc-'. $count .'" class="ck-button lgc-topics-of-interest">' . $obj_class->name . '</label></li>';
             $count = $count + 1;
         } else {
             break;
         }
     }
-    print "</div>";
+    print "</ul></div>";
 }
 
 
@@ -462,6 +466,9 @@ function gpo_city_state_to_zip_code($city, $state)
     $cleaned_city = preg_replace("/\b(FT\.?)(\s)/", "FORT$2", $cleaned_city);
     $cleaned_city = preg_replace("/\b(NEW YORK CITY)\b/", "NEW YORK", $cleaned_city);
     $cleaned_city = preg_replace("/\s/", "+", $cleaned_city);  // Replace spaces with + for AGOL query
+    
+    // Remove periods from state abbreviation
+    $state = preg_replace("/([A-Z])\.?([A-Z]).*/", "$1$2", $state);
 
     // Get Zip Code to Census Place/Population Lookup table as json
     $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
@@ -515,6 +522,7 @@ function gpo_city_state_to_zip_code($city, $state)
     //watchdog('GPO_city_state', '<pre>@print_r</pre>', array('@print_r' => print_r( $result, TRUE))); 
     // If tribal area was found in this zip:
     if (!empty($result->features)) {
+        $tribalzips = array();
         foreach ($result->features as $feature) {
             $zip_found = true;
             // If the table has a placename, record that as the preferred name
@@ -522,15 +530,19 @@ function gpo_city_state_to_zip_code($city, $state)
             $zip_data['zip_attr'][$feature->attributes->ZCTA]["city"] = $feature->attributes->TRIBE_NAME_CLEAN;
             $zip_data['city'] = $feature->attributes->TRIBE_NAME_CLEAN;
             // For each found zip, lookup Census data
+            $tribalzips[] = $feature->attributes->ZCTA;
+
+        }
+        $tribalzips = array_unique($tribalzips);
+        if (!empty($tribalzips)) {
 
             // Get Zip Code to Census Place/Population Lookup table as json
-            $zip_pop_url = 'http://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
-            $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $feature->attributes->ZCTA . '%27&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
+            $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+            $zip_pop_url = $zip_pop_url . 'where=ZCTA+IN+%28%27' . implode("%27%2C%27", $tribalzips) . '%27%29&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
 
             // Decode  json
             $json_file = file_get_contents($zip_pop_url);
             $result = json_decode($json_file);
-
             // If Zip->Census Place had results:
             if (!empty($result->features)) {
                 // Loop through all Census Places for the specified zip
@@ -541,6 +553,7 @@ function gpo_city_state_to_zip_code($city, $state)
                 }
             }
         }
+
     }
 
     // If city/state/tribe not found, use FRS lookup
@@ -766,56 +779,48 @@ function generate_organization_select($elem_id)
     echo "</select>";
 }
 
+/**
+ * @param $elem_id
+ * @return string
+ */
 function generate_taxonomy_select($elem_id)
 {
-    $options = array();
-    $combobox = false;
     $title = '';
+    $select = '';
+
+    // Assign vocab to search for taxonomy and title for the select html based elem_id
     switch ($elem_id) {
         case 'community-size':
-            $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('community_sizes')->vid);
+            $vocab = 'community_sizes';
             $title = 'Select size';
-            usort($terms, function ($a, $b) {
-                return $a->tid - $b->tid;
-            });
             break;
         case 'select-role':
-            $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('roles')->vid);
-            $title = '';
-
-            $options = array(
-                '' => '',
-                'data steward' => 'Data steward',
-                'community outreach' => 'Community outreach',
-                'program manager' => 'Program manager',
-                'utilities manager' => 'Utilities manager',
-                'budget and operations' => 'Budget and operations'
-            );
-            $combobox = true;
-            usort($terms, function ($a, $b) {
-                return $b->name - $a->name;
-            });
-
+            $vocab = 'roles';
+            $title = 'Select role';
             break;
         case 'select-organization':
-            $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('organizations')->vid);
+            $vocab = 'organizations';
             $title = 'Select organization';
-            usort($terms, function ($a, $b) {
-                return $b->name - $a->name;
-            });
             break;
     }
+    // collect terms from appropriate taxonomy
+    $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load($vocab)->vid);
+    // Sort alpha
+    usort($terms, function ($a, $b) {
+        return $b->name - $a->name;
+    });
 
-    if ($combobox) {
-        echo "<select name='$elem_id' id='$elem_id' class='combobox form-control' style='display:none'>";
-    } else {
-        echo "<select name='$elem_id' id='$elem_id' class='form-control'>";
-        echo "<option value='' selected>$title</option>";
-    }
+    // Create select html elem
+    $select .= "<select name='$elem_id' id='$elem_id' class='form-control'>";
+    $select .= "<option value='' selected>$title</option>";
+
     foreach ($terms as $class_obj) {
-        echo "<option value='$class_obj->tid'>$class_obj->name</option>";
+        $select .= "<option value='$class_obj->tid'>$class_obj->name</option>";
     };
-    echo "</select>";
+    $select .= "</select>";
+    return $select;
 }
+
+
 
 

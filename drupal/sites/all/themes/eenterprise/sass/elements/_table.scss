@@ -1,0 +1,56 @@
+table,
+.usa-table table,
+.usa-table-borderless table,
+table.display {
+  border-spacing: 0;
+  margin: 2em 0;
+  min-width: 100%;
+
+  thead {
+    tr {
+      background-color: $color-gray-lightest;
+    }
+
+    th {
+      text-align: left;
+    }
+  }
+
+  tbody {
+    th {
+      font-weight: $font-normal;
+    }
+  }
+
+  thead th,
+  th, td {
+    border: 1px solid $color-gray-lighter;
+    padding: 1.5rem;
+  }
+}
+
+.usa-table-borderless,
+.usa-table-borderless table {
+  thead {
+    tr {
+      background-color: transparent;
+
+      th {
+        border-top: 0;
+      }
+    }
+  }
+
+  th, td {
+    border-left: 0;
+    border-right: 0;
+  }
+}
+
+.usa-table,
+.usa-table-borderless {
+	tr.odd, 
+	tr.even {
+		background-color: transparent;	
+	}
+}
