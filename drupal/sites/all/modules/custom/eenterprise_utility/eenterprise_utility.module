@@ -1789,5 +1789,4 @@ function getFileContents($file_location, $location = "")
     watchdog($location, $message, array(), WATCHDOG_ERROR);
   }
   return $response;
-
 }
