@@ -113,6 +113,9 @@ function eenterprise_theme($existing, $type, $theme, $path){
     return $items;
 }
 
+
+
+
 function eenterprise_preprocess_panels_pane(&$vars) {
     if ($vars['pane']->type == 'node_title') {
         $vars['template_files'][] = 'panels-pane';

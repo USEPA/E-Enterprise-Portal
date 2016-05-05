@@ -200,11 +200,11 @@ function save_first_time_user_preferences()
         // Once the user has successfully saved, save the user preferred location
         if (!$skip)
             if ($comm_type == "urban") {
-                save_user_location($zip, $preferred_location, $comm_size, "1");
+                save_user_location($zip, $preferred_location, $comm_size, "1", 1);
             } elseif ($comm_type == "rural") {
-                save_user_location($zip, $preferred_location, $comm_size, "0");
+                save_user_location($zip, $preferred_location, $comm_size, "0", 1);
             } else {
-                save_user_location($zip, $preferred_location, $comm_size, "");
+                save_user_location($zip, $preferred_location, $comm_size, "", 1);
             }
         $return_msg['success'] = true;
         print json_encode($return_msg);
@@ -217,51 +217,31 @@ function save_first_time_user_preferences()
 }
 
 
-function save_user_location($zip_code, $preferred_location, $commsize, $isurban)
+/**
+ * Clears user preferred location content for resaving new settings
+ * Simpler solution then updating previously saved settings
+ */
+function clear_user_preferred_locations()
 {
     global $user;
     $uid = $user->uid;
-    $previously_saved_location = FALSE;
 
     $nids = db_select("node", 'n')
-        ->fields('n', array('nid'))
-        ->condition('type', 'user_location_preferences')
-        ->condition('uid', $uid)
-        ->execute()->fetchCol();
+      ->fields('n', array('nid'))
+      ->condition('type', 'user_location_preferences')
+      ->condition('uid', $uid)
+      ->execute()->fetchCol();
 
-    // Check if user has previously saved this zip under a preferred name
     foreach ($nids as $nid) {
-        $node = node_load($nid);
-        $saved_zip = $node->field_user_zip_code[LANGUAGE_NONE][0]['safe_value'];
-        $saved_loc_name = $node->field_preferred_location[LANGUAGE_NONE][0]['safe_value'];
-        if ($saved_zip == $zip_code) {
-            // overwrite preferred name
-            $previously_saved_location = TRUE;
-            $node->type = 'user_location_preferences';
-            $node->title = $user->name . " - " . $zip_code . ": " . $preferred_location;
-            $node->field_preferred_name[LANGUAGE_NONE][0]['value'] = $preferred_location;
-            $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
-            $node->field_zip_community_size[LANGUAGE_NONE][0]['value'] = intval($commsize);
-            if (intval($commsize) == 0) {
-                unset($node->field_zip_community_size[LANGUAGE_NONE][0]['value']);
-            }
-            if ($isurban == "Urban") {
-                $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 1;
-            } elseif ($isurban == "Rural") {
-                $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 0;
-            } else {
-                unset($node->field_zip_is_urban[LANGUAGE_NONE][0]['value']);
-            }
-            $node->uid = $uid;
-            $node->status = 1;
-            $node->language = LANGUAGE_NONE;
-            node_save($node);
-            break;
-        }
+        node_delete($nid);
     }
+}
 
-    // If there is no previously save version of the zip code, save a new preferred name
-    if (!$previously_saved_location) {
+function save_user_location($zip_code, $preferred_location, $commsize, $isurban, $primary)
+{
+    global $user;
+    $uid = $user->uid;
+
         // Save new location preference
         $node = new stdClass();
         $node->type = 'user_location_preferences';
@@ -269,6 +249,7 @@ function save_user_location($zip_code, $preferred_location, $commsize, $isurban)
         $node->field_preferred_name[LANGUAGE_NONE][0]['value'] = $preferred_location;
         $node->field_user_zip_code[LANGUAGE_NONE][0]['value'] = $zip_code;
         $node->field_zip_community_size[LANGUAGE_NONE][0]['value'] = intval($commsize);
+        $node->field_primary[LANGUAGE_NONE][0]['value'] = $primary;
         if ($isurban == "Urban") {
             $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'] = 1;
         } elseif ($isurban == "Rural") {
@@ -278,15 +259,14 @@ function save_user_location($zip_code, $preferred_location, $commsize, $isurban)
         $node->status = 1;
         $node->language = LANGUAGE_NONE;
         node_save($node);
-    }
 
 }
 
 function return_user_preferred_location($zip_code)
 {
+    $location_info = array();
     global $user;
     $query = new EntityFieldQuery();
-
     $query->entityCondition('entity_type', 'node')
         ->entityCondition('bundle', 'user_location_preferences')
         ->propertyCondition('status', NODE_PUBLISHED)
@@ -297,7 +277,6 @@ function return_user_preferred_location($zip_code)
     if (isset($result['node'])) {
         $nid = array_keys($result['node'])[0];
         $node = node_load($nid);
-        $location_info = array();
         $location_info['preferred_name'] = $node->field_preferred_name[LANGUAGE_NONE][0]['value'];
         $location_info['commsize'] = $node->field_zip_community_size[LANGUAGE_NONE][0]['value'];
         $location_info['isurban'] = $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'];

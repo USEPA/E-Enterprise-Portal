@@ -7,7 +7,13 @@
  * @see https://drupal.org/node/1728208
  * Tesing for Bamboo build
  */
-?><!DOCTYPE html>
+?>
+<?php
+  if (!isset($html_attributes)) {
+    $html_attributes = '';
+  }
+?>
+<!DOCTYPE html>
 <!--[if IEMobile 7]><html class="iem7" <?php print $html_attributes; ?>><![endif]-->
 <!--[if lte IE 6]><html class="lt-ie9 lt-ie8 lt-ie7" <?php print $html_attributes; ?>><![endif]-->
 <!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8" <?php print $html_attributes; ?>><![endif]-->

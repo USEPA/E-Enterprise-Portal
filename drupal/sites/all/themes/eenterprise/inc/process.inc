@@ -3,10 +3,6 @@ define("CREATED","created");
 define("CUSTOM","custom");
 
 
-/**
- * @file
- * Preprocess and process functions.
- */
 
 /**
  * Override or insert variables into the maintenance page template.
@@ -243,3 +239,4 @@ function eenterprise_preprocess_search_block_form(&$vars) {
   $vars['search_form'] = str_replace('type="text"', 'type="search"', $vars['search_form']);
   $vars['classes_array'][] = 'epa-search';  
 }
+

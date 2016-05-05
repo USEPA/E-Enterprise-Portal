@@ -63,7 +63,11 @@ $(document).ready(function(){
 		else {
 			previous_selection = $(this).val();
 			$('input[type=radio]#' + previous_selection).attr('checked', true); // Update modal with selected values
-			$.post("/default_location_zip", {zip: $(this).val(), name: $(this).find('option:selected').text()});
+			var zip_val = $(this).val();
+			var location_name = $(this).find('option:selected').text();
+			location_name = location_name.split('(')[0]; // ignore zip code
+			location_name = $.trim(location_name); // trim any leading, trailing whitespace.
+			$.post("/default_location_zip", {zip: zip_val, name: location_name});
 		}
 	});
 
