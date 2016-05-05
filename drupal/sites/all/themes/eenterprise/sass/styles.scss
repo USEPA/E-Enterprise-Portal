@@ -45,6 +45,7 @@
 @import 'components/forms';
 @import 'components/search';
 @import 'components/skipnav';
+@import 'components/pace';
 
 @mixin linear-gradient($gradient-light, $gradient-dark) {
   background-image: -webkit-gradient(linear, left top, left bottom, from($gradient-light), to($gradient-dark));

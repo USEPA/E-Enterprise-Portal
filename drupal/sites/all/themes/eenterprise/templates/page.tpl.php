@@ -19,6 +19,9 @@ if(drupal_is_front_page()) {
 if(arg(0) == 'workbench' && $user->uid == 0){
     drupal_goto("/");
 }
+elseif (arg(0) == 'workbench' && $user->uid > 0) {
+	drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/pace.min.js", "file");
+}
 
 ?>
 <?php print render($page['alert']); ?>
