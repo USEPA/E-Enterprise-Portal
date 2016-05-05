@@ -65,37 +65,37 @@ drupal_add_js(drupal_get_path('module', 'my_air_quality_chart_view') ."/js/esri.
       <ul class="list-inline small">
         <li>
           <svg class="my-air-quality-map-legend-icon">
-            <rect width="100" height="100" class="section-good">
+            <rect width="100" height="100" class="section-good" />
           </svg>
           Good
         </li>
         <li>
           <svg class="my-air-quality-map-legend-icon">
-            <rect width="100" height="100" class="section-moderate">
+            <rect width="100" height="100" class="section-moderate" />
           </svg>
           Moderate
         </li>
         <li>
           <svg class="my-air-quality-map-legend-icon">
-            <rect width="100" height="100" class="section-unhealthy-for-sensitive">
+            <rect width="100" height="100" class="section-unhealthy-for-sensitive" />
           </svg>
           Unhealthy for Sensitive Groups
         </li>
         <li>
           <svg class="my-air-quality-map-legend-icon">
-            <rect width="100" height="100" class="section-unhealthy">
+            <rect width="100" height="100" class="section-unhealthy" />
           </svg>
           Unhealthy
         </li>
         <li>
           <svg class="my-air-quality-map-legend-icon">
-            <rect width="100" height="100" class="section-very-unhealthy">
+            <rect width="100" height="100" class="section-very-unhealthy" />
           </svg>
           Very Unhealthy
         </li>
         <li>
           <svg class="my-air-quality-map-legend-icon">
-            <rect width="100" height="100" class="section-hazardous">
+            <rect width="100" height="100" class="section-hazardous" />
           </svg>
           Hazardous
         </li>

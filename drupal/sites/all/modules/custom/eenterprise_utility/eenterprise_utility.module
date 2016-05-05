@@ -1619,6 +1619,7 @@ function getFileContents($file_location, $location = "")
         $response->error = TRUE;
         $message = "Error: " . $e . ' Error Message: ' . $e->getMessage();
         watchdog($location, $message, array(), WATCHDOG_ERROR);
+        dpm($f);
     }
     return $response;
 

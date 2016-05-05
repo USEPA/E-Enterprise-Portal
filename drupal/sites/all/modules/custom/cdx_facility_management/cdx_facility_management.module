@@ -138,7 +138,6 @@ function return_cdx_facility_management_token()
         $create_new_token_initially = variable_get('temp_create_new_token');
 
         //Connect to wsdl
-        $client_connect_error = TRUE;
         if ($local) {
             $client = connectToSOAPServerWithWSDL(dirname(__FILE__) . '/' . $wsdl, "CDX Facility Management");
         } else {
@@ -180,7 +179,6 @@ function return_cdx_facility_management_token()
             $json_return['url'] = $cdx_resource_url;
             $json_return['user_session_logout'] = $user_session_logout;
             $json_return['user_login_time'] = $user_login_time;
-
             print json_encode($json_return);
         } else {
             $json_return['error'] = TRUE;
