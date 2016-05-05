@@ -1234,7 +1234,6 @@ function get_header_variables()
       $primary_zip = $_SESSION['default_location_zip'];
       // add to locations array
       $locations_array[$primary_location] = $primary_zip;
-      print_r($_SESSION['default_location_name']);
     }
   }
 
@@ -1247,7 +1246,6 @@ function get_header_variables()
     'primary_location' => $primary_location,
     'primary_zip' => $primary_zip
   );
-  print_r($header_data);
   return $header_data;
 }
 
