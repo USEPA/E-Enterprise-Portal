@@ -152,7 +152,7 @@
 
             }
 
-						var countEnter = 0;
+            var countEnter = 0;
             $('.term-name-checkboxes').on('keyup', function (e) {
             	if ((e.which == 13) && (countEnter == 1)) { // Enter key
                 $(this).trigger('click');
@@ -160,7 +160,7 @@
             	else if (e.which == 13 && countEnter == 0) {
 	            	countEnter = countEnter + 1;
             	}
-        		});
+            });
         		
             // Show zip selection options
             $('#change-location').click(function () {
@@ -440,8 +440,8 @@
             });
 
             $('#switch-to-interests').click(function(e) {
-	            	e.preventDefault();
-	            	e.stopPropagation();
+                e.preventDefault();
+                e.stopPropagation();
                 $('.first-time-first-page').hide();
                 $('.first-time-second-page').show();
                 $('.term-name-checkboxes').filter(":first").focus();
@@ -470,7 +470,7 @@
         
         function skipGettingStarted() {
           // If user blocks location and skips Getting Started, leave zip and geolocation_zip blank
-          if (geolocation_used = 0) {
+          if (geolocation_used == 0) {
             nearest_zip = '';
           }	            
             $.ajax({
