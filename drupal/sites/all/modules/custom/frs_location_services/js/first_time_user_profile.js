@@ -362,7 +362,7 @@
 
             $('#skip-preferences').click(function () {
 	            // If user blocks location and skips Getting Started, leave zip and geolocation_zip blank
-	            if (geolocation_used = 0) {
+	            if (geolocation_used == 0) {
 		            nearest_zip = '';
 	            }	            
                 $.ajax({
