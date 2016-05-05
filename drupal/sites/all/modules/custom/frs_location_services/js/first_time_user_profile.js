@@ -489,7 +489,7 @@
             },
             success: function () {
                 $(document).trigger("ee:first_time_user_complete");
-                $('#location-select').html('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + ' (' + show_zip +')</option>').trigger('change');
+                $('#location-select').html('<option value="' + show_zip + '" selected>' + nearest_city + ', ' + nearest_state + ' (' + show_zip +')</option>').trigger('change');
                $('.pane-views-first-time-user-profile-block').dialog('close');
             }
           });
