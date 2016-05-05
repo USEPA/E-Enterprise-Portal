@@ -351,6 +351,62 @@ footer {
 }
 
 // Override Vendor Components -------------- //
+/**
+ * Pager.
+ */
+
+/* A list of page numbers when more than 1 page of content is available. */
+.ui-widget-content {
+	.paging_simple_numbers {
+		float: right;
+		margin-top: 0;
+		margin-bottom: 20px;
+		a {
+			font-family: $font-sans !important;
+			font-size: 1.4rem;
+		}
+	}
+}
+.pager {
+  clear: both;
+  padding: 0;
+  text-align: center;
+}
+%pager__item,
+.paging_simple_numbers {
+  display: inline;
+  padding: 0 0.5em;
+  list-style-type: none;
+  background-image: none;
+}
+
+.paging_simple_numbers {
+	li {
+		display: inline;
+		font-family: $font-sans !important;
+	}
+	li::before,
+	li::after {
+		content: none;
+	}
+}
+
+.pager-item,      /* A list item containing a page number in the list of pages. */
+.pager-first,     /* The first page's list item. */
+.pager-previous,  /* The previous page's list item. */
+.pager-next,      /* The next page's list item. */
+.pager-last,      /* The last page's list item. */
+.pager-ellipsis,
+.pager__link { /* A concatenation of several list items using an ellipsis. */
+  @extend %pager__item;
+}
+
+/* The current page's list item. */
+.pager-current {
+  @extend %pager__item;
+  //font-weight: bold;
+}
+
 .ui-widget {
 	font-family: $font-sans;
 	font-size: $h5-font-size
@@ -360,11 +416,15 @@ footer {
 	padding-right:0 !important;
 }
 
-#local-resources-tabs .dataTables_paginate.paging_simple {
-	float:none;
+#local-resources-tabs {
+	.dataTables_paginate.paging_simple {
+		float:none;
+	}
 }
 
-.pager, .dataTables_paginate.paging_simple {
+.pager, 
+.dataTables_paginate.paging_simple 
+.dataTables_paginate.paging_simple_numbers {
 
 	li:before,
 	li:after {
@@ -379,7 +439,7 @@ footer {
 		list-style: none;
 	}
 //	margin: 0 auto 1.5rem;
-    padding: 0;
+  padding: 0;
 	font-size: 1.4rem;
 	li {
 		display: table-cell;
@@ -408,7 +468,7 @@ footer {
 	.pager-ellipsis,
 	.pager-current,
 	li.previous,
-	li.next{
+	li.next {
 	  display: inline;
 	  padding: 0 0.5em;
 	  list-style-type: none;
@@ -1526,7 +1586,7 @@ form[id^='user-profile-form'] {
 		input[type="submit"],
 		.usa-button,
 		.usa-button.usa-button-outline {
-			display: table-cell;
+			display: inline-block;
 		}
 		input[type="submit"],
 		.usa-button {
