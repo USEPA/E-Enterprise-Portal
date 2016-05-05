@@ -110,10 +110,12 @@ function return_cdx_facility_management_token()
             $user_login_time = time();
             $_SESSION['login_timestamp'] = $user_login_time;
         }
+        //Extract out "_Via_CDX" string from user_name to pull roles from the Activity Data flow
         $user_id = $user->name;
-        $at_pos = strpos($user_id, '@');
-        if ($at_pos)
-            $user_id = substr($user_id, 0, $at_pos);
+        $cdx_pos = strrpos($user_id, "_Via_");
+        if ($cdx_pos !== FALSE) {
+            $user_id = substr($user_id, 0, $cdx_pos);
+        }
     }
     $json_return = array();
     $user_session_logout = (int)variable_get('cdx_facility_user_logout_session');
@@ -234,10 +236,13 @@ function retrieve_cdx_user_data()
         $user_id = $local_testing_user_id;
     else
         $user_id = $user->name;
-    // if user id includes @, only use first part
-    $at_pos = strpos($user_id, '@');
-    if ($at_pos)
-        $user_id = substr($user_id, 0, $at_pos);
+
+    //Extract out "_Via_CDX" string from user_name to pull roles from the Activity Data flow
+    $cdx_pos = strrpos($user_id, "_Via_");
+    if ($cdx_pos !== FALSE) {
+        $user_id = substr($user_id, 0, $cdx_pos);
+    }
+
     $allowed_program_roles = ['CEDRI', 'CSPP', 'eDisclosure'];
 
 // Generate token as administrator to get user data

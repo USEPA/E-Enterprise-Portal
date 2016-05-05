@@ -32,7 +32,6 @@
 ?>
 
 <?php
-drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/combobox.js", "file");
 drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/first_time_user_profile.js", "file");
 drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_time_user_profile.css", "file");
 ?>
@@ -59,7 +58,8 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
         <!-- @end zip_container-->
         <div id="location-add-new" style="display:none">
         <span id="new-location">
-        	<label for="new-location-input">Enter city, state; tribe; or ZIP code</label> <input id="new-location-input"/>
+        	<label for="new-location-input">Enter city, state; tribe; or ZIP code</label> <input
+                id="new-location-input"/>
             <button class="usa-button" id="add-location">Find</button>
         </span>
         <span style="display:none" id="choose-zip-holder" aria-live="assertive">
@@ -79,17 +79,17 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
                 <label for="select-organization">My organization</label>
                 <div class="form-group">
 
-                <?php
-                // select-organization is the id
-                generate_taxonomy_select('select-organization');
-                ?>
-                    </div>
+                    <?php
+                    // select-organization is the id
+                    print generate_taxonomy_select('select-organization');
+                    ?>
+                </div>
             </div>
             <div class="role-select-grouping">
                 <label for="select-role">My role</label>
                 <?php
                 // select-organization is the id
-                generate_taxonomy_select('select-role');
+                print generate_taxonomy_select('select-role');
                 ?>
             </div>
         </div>
@@ -99,12 +99,12 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
             <div class="community-select-grouping">
                 <div class="form-group">
 
-                <label for="community-size">Community size</label>
-                <?php
-                // select-organization is the id
-                generate_taxonomy_select('community-size');
-                ?>
-                    </div>
+                    <label for="community-size">Community size</label>
+                    <?php
+                    // select-organization is the id
+                    print generate_taxonomy_select('community-size');
+                    ?>
+                </div>
             </div>
             <fieldset class="community-type-grouping">
                 <label for="community-type-grouping">My community is mostly...</label>
@@ -138,11 +138,13 @@ drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_
 <div class="modal-footer">
     <div class="first-time-first-page">
 
-        <button class="btn btn-md first-time-page-button" id="switch-to-interests">Next <span aria-hidden="true">></span><br/> <span class="button-label-interests">Interests</span></button>
+        <button class="btn btn-md first-time-page-button" id="switch-to-interests">Next <span
+                aria-hidden="true">></span><br/> <span class="button-label-interests">Interests</span></button>
     </div>
     <div class="first-time-second-page" style="display:none">
         <button class="usa-button first-time-page-button" id="save-preferences">Finish ></button>
-        <button class="usa-button first-time-page-button" id="switch-to-first-page"><span aria-hidden="true"><</span> Back <br/> <span class="button-label-interests">Location and Role</span></button>
+        <button class="usa-button first-time-page-button" id="switch-to-first-page"><span aria-hidden="true"><</span>
+            Back <br/> <span class="button-label-interests">Location and Role</span></button>
 
     </div>
     <a href="#" id="skip-preferences">Skip this</a>

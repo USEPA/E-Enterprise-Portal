@@ -7,6 +7,109 @@
  */
 (function ($) {
 
+    Drupal.behaviors.modal508Compliance = {
+        attach: function (context) {
+            $('body').on('change', 'select#location-select', function () {
+                var currentZip = $(this).val();
+                if (currentZip == 'view_more') {
+                    add_aria_hidden_true_attrib_to_workbench();
+                }
+            });
+            $('#dialog-all-locations').on("dialogclose", function () {
+                add_aria_hidden_false_attrib_to_workbench();
+            });
+            $('#simple-dialog-container').on("dialogclose", function(){
+                add_aria_hidden_false_attrib_to_workbench();
+            });
+            if($('#simple-dialog-container').is(':visible')) {
+                add_aria_hidden_true_attrib_to_workbench();
+            }
+            $('#facility-widget').on("dialogclose", function(){
+                add_aria_hidden_false_attrib_to_workbench();
+            });
+            $("#launch-facility-management").click(function() {
+                add_aria_hidden_true_attrib_to_workbench();
+            });
+
+            if($('#modal-content').is(':visible')) {
+                $('#edit-field-profile-first-name-und-0-value').attr('aria-hidden', 'true');
+                $('#edit-mail').attr('aria-hidden', 'true');
+                $('#edit-field-zip-code input').attr('aria-hidden', 'true');
+                $('#edit-field-organization-und').attr('aria-hidden', 'true');
+                $('#edit-field-role-und').attr('aria-hidden', 'true');
+                $('#edit-field-lgc-topics-of-interest-und input').attr('aria-hidden', 'true');
+                $('#edit-field-profile-favourites input').attr('aria-hidden', 'true');
+                $('#edit-submit').attr('aria-hidden', 'true');
+                $('#edit-submit--2').attr('aria-hidden', 'true');
+                $('#edit-delete').attr('aria-hidden', 'true');
+                $('#profile-tabs ul li').attr('aria-hidden', 'true');
+                $('#field-zip-code-values .field_zip_code-delta-order').attr('aria-hidden', 'true');
+                $('#links_description select').attr('aria-hidden', 'true');
+                $('#delete-holder button').attr('aria-hidden', 'true');
+                add_aria_hidden_true_attrib_to_workbench();
+            }
+            $('#modal-content').on("remove", function () {
+                $('#edit-field-profile-first-name-und-0-value').attr('aria-hidden', 'false');
+                $('#edit-mail').attr('aria-hidden', 'false');
+                $('#edit-field-zip-code input').attr('aria-hidden', 'false');
+                $('#edit-field-organization-und').attr('aria-hidden', 'false');
+                $('#edit-field-role-und').attr('aria-hidden', 'false');
+                $('#edit-field-lgc-topics-of-interest-und input').attr('aria-hidden', 'false');
+                $('#edit-field-profile-favourites input').attr('aria-hidden', 'false');
+                $('#edit-submit').attr('aria-hidden', 'false');
+                $('#edit-submit--2').attr('aria-hidden', 'false');
+                $('#edit-delete').attr('aria-hidden', 'false');
+                $('#profile-tabs ul li').attr('aria-hidden', 'false');
+                $('#field-zip-code-values .field_zip_code-delta-order').attr('aria-hidden', 'false');
+                $('#links_description select').attr('aria-hidden', 'false');
+                $('#delete-holder button').attr('aria-hidden', 'false');
+                add_aria_hidden_false_attrib_to_workbench();
+            });
+            function add_aria_hidden_true_attrib_to_workbench(){
+                $('.view-filters input').attr('aria-hidden', 'true');
+                $('.views-exposed-form select').attr('aria-hidden', 'true');
+                $('#village-green select').attr('aria-hidden', 'true');
+                $('#location-select').attr('aria-hidden', 'true');
+                $('#dialog-all-locations input').attr('aria-hidden', 'true');
+                $('#other-areas-tabs input').attr('aria-hidden', 'true');
+                $('#save-grid-changes').attr('aria-hidden', 'true');
+                $('#cdx-logged-out-log-out').attr('aria-hidden', 'true');
+                $('#revert-grid-changes').attr('aria-hidden', 'true');
+                $('#launch-facility-management').attr('aria-hidden', 'true');
+                $('#fmw-organization-select').attr('aria-hidden', 'true');
+                $('#fmw-program-select').attr('aria-hidden', 'true');
+                $('#fmw-type-select').attr('aria-hidden', 'true');
+                $('.view-to-do ul.ui-tabs-nav li').attr('aria-hidden', 'true');
+                $('#my-air-quality-chart-tabs ul li').attr('aria-hidden', 'true');
+                $('#myMapsFilterList li').attr('aria-hidden', 'true');
+                $('#other-areas-tabs ul li').attr('aria-hidden', 'true');
+                $('#local-resources-tabs ul li').attr('aria-hidden', 'true');
+                $('#my-facilities-tab .MapLegend-header').attr('aria-hidden', 'true');
+            }
+            function add_aria_hidden_false_attrib_to_workbench(){
+                $('.view-filters input').attr('aria-hidden', 'false');
+                $('.views-exposed-form select').attr('aria-hidden', 'false');
+                $('#village-green select').attr('aria-hidden', 'false');
+                $('#location-select').attr('aria-hidden', 'false');
+                $('#dialog-all-locations input').attr('aria-hidden', 'false');
+                $('#other-areas-tabs input').attr('aria-hidden', 'false');
+                $('#save-grid-changes').attr('aria-hidden', 'false');
+                $('#cdx-logged-out-log-out').attr('aria-hidden', 'false');
+                $('#revert-grid-changes').attr('aria-hidden', 'false');
+                $('#launch-facility-management').attr('aria-hidden', 'false');
+                $('#fmw-organization-select').attr('aria-hidden', 'false');
+                $('#fmw-program-select').attr('aria-hidden', 'false');
+                $('#fmw-type-select').attr('aria-hidden', 'false');
+                $('.view-to-do ul.ui-tabs-nav li').attr('aria-hidden', 'false');
+                $('#my-air-quality-chart-tabs ul li').attr('aria-hidden', 'false');
+                $('#myMapsFilterList li').attr('aria-hidden', 'false');
+                $('#other-areas-tabs ul li').attr('aria-hidden', 'false');
+                $('#local-resources-tabs ul li').attr('aria-hidden', 'false');
+                $('#my-facilities-tab .MapLegend-header').attr('aria-hidden', 'false');
+            }
+        }
+    };
+
     Drupal.behaviors.initializeSkipLinks = {
         attach: function (context) {
             $( ".view-app-connect-new .views-field-title a" ).click(function() {
@@ -604,20 +707,6 @@
             $('#edit-field-prog-track-sub-part-code-value').change(function () {
                 $('#edit-field-prog-track-rep-type-filter-value').val('All');
             });
-
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    if($("#edit-field-prog-track-rep-type-filter-value").is(":visible"))
-                        $('#edit-field-prog-track-rep-type-filter-value').focus();
-                    else if ($("#edit-field-prog-track-sub-part-code-value").is(":visible"))
-                        $('#edit-field-prog-track-sub-part-code-value').focus();
-                    else if ($("#edit-field-prog-track-part-code-value").is(":visible"))
-                        $('#edit-field-prog-track-part-code-value').focus();
-                }
-            }
-            xmlhttp.open("GET", "README.txt", true);
-            xmlhttp.send();
         }
     };
 
@@ -771,16 +860,17 @@
 
             $("#all-time").focus(function() {
                 $( "#all-time" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
-                        $( "#all-time").click();
+                        $( "#all-time a").click();
                     }else if(e.which === 39){
                         $('#this-week a').click();
-                        $('#this-week').focus();
                     }
                 });
             });
             $("#this-week a").focus(function() {
                 $( "#this-week a" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
                         $( "#this-week a").click();
                     }else if(e.which === 39){
@@ -793,6 +883,7 @@
             });
             $("#next-week a").focus(function() {
                 $( "#next-week a" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
                         $( "#next-week a").click();
                     }else if(e.which === 39){
@@ -805,6 +896,7 @@
             });
             $("#beyond-next-week a").focus(function() {
                 $( "#beyond-next-week a" ).keydown(function(e) {
+                    e.stopImmediatePropagation();
                     if(e.which === 40){
                         $( "#beyond-next-week a").click();
                     }
@@ -814,24 +906,63 @@
                 });
             });
 
+            // Keep track of the last pull-down we focused on (view filters only, for now)
+            $('.views-exposed-form select').focus(function() {
+                var thisId = $(this).attr('id');
+                trackFocusedElement('#' + thisId);
+            });
+            $('.view').on('focus', '.pager .pager-previous a', function() {
+                var thisTarget = getParentViewSelectorByClass($(this));
+                thisTarget += ' .pager .pager-previous a';
+                trackFocusedElement(thisTarget);
+            });
+            $('.view').on('focus', '.pager .pager-next a', function() {
+                var thisTarget = getParentViewSelectorByClass($(this));
+                thisTarget += ' .pager .pager-next a';
+                trackFocusedElement(thisTarget);
+            });
+
+
+            function trackFocusedElement(target) {
+                $('input#focused-element').remove();
+                $('input#focused-view').remove();
+                $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="' + target + '" />');
+                $('body').append('<input type="hidden" id="focused-view" name="focused_view" value="' + getParentViewSelectorByClass($(target)) + '" />');
+            }
+            function getParentViewSelectorByClass(element) {
+                var thisTarget = '';
+                // find the class that uniquely identifies this view container
+                var classList = $(element).parents('.view').attr('class').split(/\s+/);
+                $.each(classList, function(index, item) {
+                    thisTarget += '.' + item;
+                });
+                return thisTarget;
+            }
+
+            // Lose track if we blur
+            $('.views-exposed-form select, .view .pager a').blur(function() {
+                $('input#focused-element').remove();
+                $('input#focused-view').remove();
+            });
+
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange=function() {
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    if ($("#this-week").hasClass("filter-applied"))
+                    if ($('input#focused-element').length == 1) {
+                        if ($($('input#focused-element').val()).length > 0) {
+                            // attempt to focus this element
+                            $($('input#focused-element').val()).focus();
+                        } else {
+                            // if it disappeared, focus on its view container
+                            $($('input#focused-view').val()).focus();
+                        }
+                    } else if ($("#this-week").hasClass("filter-applied")) {
                         $('#this-week a').focus();
-                    else if ($("#next-week").hasClass("filter-applied"))
+                    } else if ($("#next-week").hasClass("filter-applied")) {
                         $('#next-week a').focus();
-                    else if ($("#beyond-next-week").hasClass("filter-applied"))
+                    } else if ($("#beyond-next-week").hasClass("filter-applied")) {
                         $('#beyond-next-week a').focus();
-
-                    if($('#edit-field-prog-track-domain-value').val() != 'All' && !$("#edit-field-prog-track-rep-type-filter-value").is(":visible"))
-                        $('#edit-field-prog-track-domain-value').focus();
-                    else if(!$('#edit-field-prog-track-part-code-value').is(":visible") && $('#edit-field-prog-track-domain-value').val() != 'All')
-                        $('#edit-field-prog-track-domain-value').focus();
-                    else if ($("#edit-field-todo-lst-rprt-type-filter-value").is(":visible"))
-                        $('#edit-field-todo-lst-rprt-type-filter-value').focus();
-                    else if ($("#edit-field-todo-lst-sub-part-code-value").is(":visible"))
-                        $('#edit-field-todo-lst-sub-part-code-value').focus();
+                    }
                 }
             }
             xmlhttp.open("GET", "README.txt", true);

@@ -1,142 +1,113 @@
-(function ($) {
+  var favorite_local_resources_table, all_local_resources_table, pane_content;
+  var pane_class = ".pane-views-recommended-resources-block";
+  var manage_components_title = "Manage my Topics";
 
-    var id = 0;
-
-    var truncate_options = {
-        ellipsis: '...',
-        /*	How to cut off the text/html: 'word'/'letter'/'children' */
-        wrap: 'word',
-        /*	Wrap-option fallback to 'letter' for long words */
-        fallbackToLetter: true,
-        /*	Optionally set a max-height, can be a number or function.
-         If null, the height will be measured. */
-        height: 50,
-        watch: 'window'
-    };
-
-    var LocalResourcesTable = function ($wrapper, ajax_url) {
-        var datatable_options = {
-            "bLengthChange": false,
-            "sPageButton": "favorites-ignore",
-            "iDisplayLength": 3,
-            "oLanguage": {
-                "sSearch": "Filter:"
-            },
-            "bSort" : false
-            //      "fnRowCallback": dotdotdotInsert($wrapper.find('table'))
-        };
+  function showLGCResourcesView() {
+    $('#user-lgc-topics-small-view label').removeClass('selected');
+    favorite_local_resources_table.updateTopics([]);
+    favorite_local_resources_table.showTable();
+    $('#manage-my-topics-wrapper').hide();
+    $('.lgc-header').text('');
+    $('.back-to-lgc-widget').hide();
+    $('.unfollow-lgc-topic').hide();
+    $('#local-resources-tabs').show();
+    $(pane_class).find('.pane-title').show();
+    $(pane_class).find('.ui-tabs-nav').show();
+  }
 
 
-        var cached = false;
+  /**
+   * Loads manage topics view via an ajax request
+   */
+  function loadManageTopicsView() {
+    $.ajax({
+      url: "manage_my_topics/load_view",
+      beforeSend: function() {
+        $('#local-resources-tabs').hide();
+        $(pane_class).find('.pane-title').hide();
+        $('.unfollow-lgc-topic').hide();
+        $('.back-to-lgc-widget').show();
+        $('.lgc-header').text(manage_components_title).show();
+        $('#manage-my-topics-wrapper').html('Loading...').show();
+      },
+       success: function(html_view) {
+         $('#manage-my-topics-wrapper').html(html_view);
+       }
+    });
+  }
 
-        this.wrapper = $wrapper;
+  function showFocusedTopicView($lgc_topic_elem) {
+    $lgc_topic_elem.addClass('selected');
+    $(pane_class).find('.pane-title').hide();
+    $(pane_class).find('.ui-tabs-nav').hide();
+    var id = $lgc_topic_elem.attr('id');
+    var tid_array = id.split('-');
+    var tid = tid_array[tid_array.length - 1];
+    var title = $lgc_topic_elem.text();
+    $('.lgc-header').text(title);
+    $('.back-to-lgc-widget').show();
+    $('.unfollow-lgc-topic').attr('id', 'unfollow-lgc-' + tid).show();
+    favorite_local_resources_table.updateTopics([tid], true);
+  }
 
-        this.hideTable = function () {
-            $wrapper.hide();
-        }
 
-
-        this.ajax_request = function () {
-            var topics = this.topics;
-            $.ajax({
-
-                beforeSend: function () {
-                    $wrapper.html('<p>Loading&hellip;</p>');
-                },
-                url: ajax_url,
-                method: "POST",
-                data: {filters: topics},
-                success: function (table) {
-                    var table_id;
-                    var $table;
-
-                    $wrapper.html(table);
-                    $table = $wrapper.find('table');
-                    if ($table.length > 0) {
-                        table_id = $table.attr('id');
-                        $table.attr('id', table_id + id);
-                        id++;
-                        $table.find('.lgc-resource-description').dotdotdot(truncate_options);
-                        $table.DataTable(datatable_options);
-                        $table.on( 'draw.dt', function () {
-                            $table.find('.lgc-resource-description').dotdotdot(truncate_options);
-                        } );
-                        $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
-                    }
-
-                    cached = true;
-                }
-            });
-        }
-
-        this.showTable = function () {
-            if (!cached)
-                this.ajax_request();
-            $wrapper.show();
-        }
-    }
-
-    function dotdotdotInsert($table) {
-        $table.find('.lgc-resource-description').dotdotdot({
-            watch: true
-        });
-    }
+  (function ($) {
 
 
     $(document).ready(function () {
 
-        var guest_user = Drupal.settings.is_guest;
-        var all_local_resources_table = new LocalResourcesTable($("#all-local-resources"), 'generateAllLocalResourcesTable');
+    var guest_user = Drupal.settings.is_guest;
+     all_local_resources_table = new LocalResourcesTable($("#all-local-resources"), 'generateAllLocalResourcesTable');
 
-        // Guest user can only view all the content, so they do not have tabs
-        if (!guest_user) {
-            var favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"), 'generateUserLocalResourcesTable');
-            var $tabs = $("#local-resources-tabs");
-            $tabs.tabs();
-        }
+    // Guest user can only view all the content, so they do not have tabs
+    if (!guest_user) {
+       favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"), 'generateUserLocalResourcesTable');
+      var $tabs = $("#local-resources-tabs");
+      $tabs.tabs();
+    }
 
+    // Restrict loading to after first time user preferences if applicable
+    var first_time_user_loading = false;
+    var first_time_user_block = $('#first-time-user-block');
+    if (first_time_user_block.length > 0) {
+      first_time_user_loading = true;
+    }
 
-// Enable filtering via selections made
-        $(document).on('click', '#apply-lgc-topics', function () {
-            var values_selected = $('#lgc-topics-select').val();
-            all_local_resources_table.updateTopics(values_selected);
-            all_local_resources_table.ajax_request();
+    if (!first_time_user_loading) {
+      if (!guest_user) {
+        favorite_local_resources_table.showTable();
+        all_local_resources_table.ajax_request();
+      }
+      else {
+        all_local_resources_table.showTable();
+      }
+    }
 
-        });
-
-        $(document).on('click',
-            '#all-local-resources-button, #restrict-to-local-resources-button', function() {
-           $('.lgc-resource-description').dotdotdot(truncate_options);
-        });
-
-        // Restrict loading to after first time user preferences if applicable
-        var first_time_user_loading = false;
-        var first_time_user_block = $('#first-time-user-block');
-        if (first_time_user_block.length > 0) {
-            first_time_user_loading = true;
-        }
-
-        if (!first_time_user_loading) {
-            if (!guest_user) {
-                favorite_local_resources_table.showTable();
-                all_local_resources_table.ajax_request();
-            }
-            else {
-                all_local_resources_table.showTable();
-            }
-        }
-
-
-        $(document).on('ee:first_time_user_complete', function () {
-            first_time_user_loading = false;
-            if (!guest_user) {
-                favorite_local_resources_table.showTable();
-                all_local_resources_table.showTable();
-            }
-            else {
-                all_local_resources_table.showTable();
-            }
-        });
-
+    $(document).on('ee:first_time_user_complete', function () {
+      first_time_user_loading = false;
+      if (!guest_user) {
+        favorite_local_resources_table.showTable();
+        all_local_resources_table.ajax_request();
+      }
+      else {
+        all_local_resources_table.showTable();
+      }
     });
+
+    $('body').on('click', '#user-lgc-topics-small-view label', function () {
+      showFocusedTopicView($(this));
+    });
+
+    $('body').on('click', '#user-lgc-topics-small-view .grid-selector, #add-more-topics', function() {
+        loadManageTopicsView();
+    });
+
+    $('body').on('click', '.back-to-lgc-widget a, .back-to-lgc-widget .left-arrow',
+      function() {
+        showLGCResourcesView();
+      });
+
+
+  });
+
 }(jQuery));

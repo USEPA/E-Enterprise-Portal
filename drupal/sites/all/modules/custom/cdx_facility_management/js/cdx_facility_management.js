@@ -141,13 +141,15 @@
                             // First connect to widget initially to start CDX session;
                             var temp = 0;
                             $.each(org_to_roles, function (org_id, role_object) {
-                                $.each(role_object.roles, function (dataflow, role_array) {
-                                    if (temp == 0) {
-                                        var initial_user_role_id = role_array[0].userRoleId;
-                                        updateWidget(initial_user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold, 0);
-                                        temp = 1;
-                                    }
-                                });
+                                if (role_object.roles) {
+                                    $.each(role_object.roles, function (dataflow, role_array) {
+                                        if (temp == 0) {
+                                            var initial_user_role_id = role_array[0].userRoleId;
+                                            updateWidget(initial_user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold, 0);
+                                            temp = 1;
+                                        }
+                                    });
+                                }
                             });
 
                             org_filter_select.append('<option value="">Select an Organization</option>');
@@ -155,11 +157,12 @@
                             var first_org_id;
                             var first_org_name;
                             $.each(org_to_roles, function (org_id, org_obj) {
-                                org_filter_select.append('<option value="' + org_id + '" >' + org_obj.name + '</option>');
-                                count = count + 1;
-                                first_org_id = org_id; // unused if count > 1
-                                first_org_name = org_obj.name;
-
+                                if (org_obj.roles) {
+                                    org_filter_select.append('<option value="' + org_id + '" >' + org_obj.name + '</option>');
+                                    count = count + 1;
+                                    first_org_id = org_id; // unused if count > 1
+                                    first_org_name = org_obj.name;
+                                }
                             });
 
                             if (count == 1) {
@@ -199,8 +202,6 @@
                     console.log("CDX Error", parsed_json);
                     $('#fmw-organization-select-holder').html("Unable to receive user data.");
                 }
-
-
             }
         });
     }
@@ -210,10 +211,11 @@
         $('#facility-widget').html('');
 
         // For IE8 and below
-        if (!Date.now)
+        if (!Date.now) {
             Date.now = function () {
                 return new Date().getTime();
             }
+        }
         var current_time = Date.now();
         // convert php timestamp to miliseconds
         var time_logged_in_mili = time_logged_in * 1000;
