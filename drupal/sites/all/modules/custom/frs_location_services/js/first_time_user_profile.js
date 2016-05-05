@@ -369,7 +369,7 @@
 	            if (e.which === 27) {
 		            event.preventDefault();
 		            skipGettingStarted();
-		            $(first_time_user_block).close();
+		            first_time_user_block.dialog('close');
 	            }
             });
 
