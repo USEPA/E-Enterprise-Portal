@@ -44,15 +44,17 @@ $(document).ready(function(){
 	}
 	
 	function locationSelect(selection_value, selection_name) {
+		var combined_name = selection_value + ' (' + selection_name + ')';
+		var selection_element = $('#location-select option').filter(function () { return $(this).html() == combined_name; });
 		// If selected from modal and exists in select box, just change value
-		if ($('#location-select option[value=' + selection_value + ']').length > 0) {
-			$('#location-select').val(selection_value);
+		if (selection_element.length > 0) {
+			selection_element.prop('selected', true);
 			$('#location-select').trigger('change');
 		}
 		else { // add value to select, remove last select value
-			$("#location-select").prepend("<option value='" + selection_value + "'>" + selection_name + "</option>");
+			$("#location-select").prepend("<option value='" + selection_name + "'>" + combined_name + "</option>");
 			$('#location-select option:nth-child(10)').remove();
-			$('#location-select').val(selection_value);
+			$('#location-select option').filter(function () { return $(this).html() == combined_name; }).prop('selected', true);
 			$('#location-select').trigger('change');
 		}
 	}
