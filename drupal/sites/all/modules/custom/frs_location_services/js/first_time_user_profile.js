@@ -470,25 +470,30 @@
         
         function skipGettingStarted() {
           // If user blocks location and skips Getting Started, leave zip and geolocation_zip blank
+          var show_zip = '';
           if (geolocation_used == 0) {
             nearest_zip = '';
-          }	            
-            $.ajax({
-                url: '/save_first_time_user_preferences',
-                type: 'POST',
-                data: {
-                  skip: 1, 
-                  zip: '', 
-                  geolocation_used: geolocation_used, 
-                  geolocation_zip: nearest_zip
-                },
-                success: function () {
-                    $(document).trigger("ee:first_time_user_complete");
-                    $('#location-select').html('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + ' (' + nearest_zip +')</option>').trigger('change');
-                   $('.pane-views-first-time-user-profile-block').dialog('close');
-                }
-            });
-            return false;
+            show_zip = '27705';
+          }
+          else {
+            show_zip = nearest_zip;	          
+          }
+          $.ajax({
+            url: '/save_first_time_user_preferences',
+            type: 'POST',
+            data: {
+              skip: 1, 
+              zip: '', 
+              geolocation_used: geolocation_used, 
+              geolocation_zip: nearest_zip
+            },
+            success: function () {
+                $(document).trigger("ee:first_time_user_complete");
+                $('#location-select').html('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + ' (' + show_zip +')</option>').trigger('change');
+               $('.pane-views-first-time-user-profile-block').dialog('close');
+            }
+          });
+          return false;
         }
         
     });
