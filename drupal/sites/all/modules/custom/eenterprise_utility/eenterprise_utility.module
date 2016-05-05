@@ -579,6 +579,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
      */
     $form['#submit'][] = 'eenterprise_utility_profile_form_submit';
     $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
+    $form['actions']['delete']['#attributes']['class'][] = 'usa-button usa-button-outline';
+    
     $form['actions']['delete']['#submit'][] = 'profile_delete_action';
     // When use delete last zip code or url, do not repopulate with previous saved zip
     if (isset($form_state['triggering_element'])) {
