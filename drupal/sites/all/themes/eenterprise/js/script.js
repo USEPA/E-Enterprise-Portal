@@ -7,6 +7,109 @@
  */
 (function ($) {
 
+    Drupal.behaviors.modal508Compliance = {
+        attach: function (context) {
+            $('body').on('change', 'select#location-select', function () {
+                var currentZip = $(this).val();
+                if (currentZip == 'view_more') {
+                    add_aria_hidden_true_attrib_to_workbench();
+                }
+            });
+            $('#dialog-all-locations').on("dialogclose", function () {
+                add_aria_hidden_false_attrib_to_workbench();
+            });
+            $('#simple-dialog-container').on("dialogclose", function(){
+                add_aria_hidden_false_attrib_to_workbench();
+            });
+            if($('#simple-dialog-container').is(':visible')) {
+                add_aria_hidden_true_attrib_to_workbench();
+            }
+            $('#facility-widget').on("dialogclose", function(){
+                add_aria_hidden_false_attrib_to_workbench();
+            });
+            $("#launch-facility-management").click(function() {
+                add_aria_hidden_true_attrib_to_workbench();
+            });
+
+            if($('#modal-content').is(':visible')) {
+                $('#edit-field-profile-first-name-und-0-value').attr('aria-hidden', 'true');
+                $('#edit-mail').attr('aria-hidden', 'true');
+                $('#edit-field-zip-code input').attr('aria-hidden', 'true');
+                $('#edit-field-organization-und').attr('aria-hidden', 'true');
+                $('#edit-field-role-und').attr('aria-hidden', 'true');
+                $('#edit-field-lgc-topics-of-interest-und input').attr('aria-hidden', 'true');
+                $('#edit-field-profile-favourites input').attr('aria-hidden', 'true');
+                $('#edit-submit').attr('aria-hidden', 'true');
+                $('#edit-submit--2').attr('aria-hidden', 'true');
+                $('#edit-delete').attr('aria-hidden', 'true');
+                $('#profile-tabs ul li').attr('aria-hidden', 'true');
+                $('#field-zip-code-values .field_zip_code-delta-order').attr('aria-hidden', 'true');
+                $('#links_description select').attr('aria-hidden', 'true');
+                $('#delete-holder button').attr('aria-hidden', 'true');
+                add_aria_hidden_true_attrib_to_workbench();
+            }
+            $('#modal-content').on("remove", function () {
+                $('#edit-field-profile-first-name-und-0-value').attr('aria-hidden', 'false');
+                $('#edit-mail').attr('aria-hidden', 'false');
+                $('#edit-field-zip-code input').attr('aria-hidden', 'false');
+                $('#edit-field-organization-und').attr('aria-hidden', 'false');
+                $('#edit-field-role-und').attr('aria-hidden', 'false');
+                $('#edit-field-lgc-topics-of-interest-und input').attr('aria-hidden', 'false');
+                $('#edit-field-profile-favourites input').attr('aria-hidden', 'false');
+                $('#edit-submit').attr('aria-hidden', 'false');
+                $('#edit-submit--2').attr('aria-hidden', 'false');
+                $('#edit-delete').attr('aria-hidden', 'false');
+                $('#profile-tabs ul li').attr('aria-hidden', 'false');
+                $('#field-zip-code-values .field_zip_code-delta-order').attr('aria-hidden', 'false');
+                $('#links_description select').attr('aria-hidden', 'false');
+                $('#delete-holder button').attr('aria-hidden', 'false');
+                add_aria_hidden_false_attrib_to_workbench();
+            });
+            function add_aria_hidden_true_attrib_to_workbench(){
+                $('.view-filters input').attr('aria-hidden', 'true');
+                $('.views-exposed-form select').attr('aria-hidden', 'true');
+                $('#village-green select').attr('aria-hidden', 'true');
+                $('#location-select').attr('aria-hidden', 'true');
+                $('#dialog-all-locations input').attr('aria-hidden', 'true');
+                $('#other-areas-tabs input').attr('aria-hidden', 'true');
+                $('#save-grid-changes').attr('aria-hidden', 'true');
+                $('#cdx-logged-out-log-out').attr('aria-hidden', 'true');
+                $('#revert-grid-changes').attr('aria-hidden', 'true');
+                $('#launch-facility-management').attr('aria-hidden', 'true');
+                $('#fmw-organization-select').attr('aria-hidden', 'true');
+                $('#fmw-program-select').attr('aria-hidden', 'true');
+                $('#fmw-type-select').attr('aria-hidden', 'true');
+                $('.view-to-do ul.ui-tabs-nav li').attr('aria-hidden', 'true');
+                $('#my-air-quality-chart-tabs ul li').attr('aria-hidden', 'true');
+                $('#myMapsFilterList li').attr('aria-hidden', 'true');
+                $('#other-areas-tabs ul li').attr('aria-hidden', 'true');
+                $('#local-resources-tabs ul li').attr('aria-hidden', 'true');
+                $('#my-facilities-tab .MapLegend-header').attr('aria-hidden', 'true');
+            }
+            function add_aria_hidden_false_attrib_to_workbench(){
+                $('.view-filters input').attr('aria-hidden', 'false');
+                $('.views-exposed-form select').attr('aria-hidden', 'false');
+                $('#village-green select').attr('aria-hidden', 'false');
+                $('#location-select').attr('aria-hidden', 'false');
+                $('#dialog-all-locations input').attr('aria-hidden', 'false');
+                $('#other-areas-tabs input').attr('aria-hidden', 'false');
+                $('#save-grid-changes').attr('aria-hidden', 'false');
+                $('#cdx-logged-out-log-out').attr('aria-hidden', 'false');
+                $('#revert-grid-changes').attr('aria-hidden', 'false');
+                $('#launch-facility-management').attr('aria-hidden', 'false');
+                $('#fmw-organization-select').attr('aria-hidden', 'false');
+                $('#fmw-program-select').attr('aria-hidden', 'false');
+                $('#fmw-type-select').attr('aria-hidden', 'false');
+                $('.view-to-do ul.ui-tabs-nav li').attr('aria-hidden', 'false');
+                $('#my-air-quality-chart-tabs ul li').attr('aria-hidden', 'false');
+                $('#myMapsFilterList li').attr('aria-hidden', 'false');
+                $('#other-areas-tabs ul li').attr('aria-hidden', 'false');
+                $('#local-resources-tabs ul li').attr('aria-hidden', 'false');
+                $('#my-facilities-tab .MapLegend-header').attr('aria-hidden', 'false');
+            }
+        }
+    };
+
     Drupal.behaviors.initializeSkipLinks = {
         attach: function (context) {
             $( ".view-app-connect-new .views-field-title a" ).click(function() {
