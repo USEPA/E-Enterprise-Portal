@@ -2068,7 +2068,7 @@ form .field-multiple-table#field-zip-code-values {
 	}
 }
 
- .ui-autocomplete-input {
+.ui-autocomplete-input {
   appearance: none;
   border: 1px solid $color-gray;
   border-radius: 0;
@@ -3489,6 +3489,25 @@ a {
 input#location-input-guests::-ms-clear {
   width : 0;
   height: 0;
+}
+
+.ui-autocomplete {
+	&.guest-zip-options {
+		border-top-color: #fff;
+		margin-left: -1px;
+		height: 300px;
+		height: auto;
+		max-height: 300px;
+		overflow-y: scroll;
+		li {
+			margin-top: 0;
+			margin-bottom: 0;
+			a {
+				padding-top: 0.75rem;
+				padding-bottom: 0.75rem;
+			}
+		}
+	}
 }
 
 .block--ee-header-locations {

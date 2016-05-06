@@ -425,7 +425,7 @@
                             $locationInput.autocomplete("search");
                         }, 0);
                     }
-
+										
                     $locationInput.autocomplete({
                         source: function (request, respond) {
                             if ($locationInput.autocomplete("option", "searchEnabled") === true) {
@@ -454,7 +454,7 @@
                             $(document).trigger("ee:zipCodeChanged", {zip: ui.item.value});
                         },
                         searchEnabled: false
-                    });
+                    }).autocomplete("widget").addClass("guest-zip-options").attr('style', 'display: block; max-height: 300px; overflow-y: scroll;');
 
                     $locationInput.change(inputChangeHandler);
 
