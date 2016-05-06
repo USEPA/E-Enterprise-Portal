@@ -1,14 +1,24 @@
 <?php
+/**
+ * @file
+ * View: First Time User Profile
+ *
+ * Required Drupal / configuration elements:
+ * - People > Account Settings > First Time User (field_first_time_user)
+ * - Views > First Time User Profile > Set field to User: First Time User (First Time User)
+ * - Panels > Workbench Page > Edit > Add View:First Time User Profile to panel
+ *
+ * @ingroup views_templates
+ */
+drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', 'external');
+//drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/custom_js.js", "file");
+drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/cdx_facility_management.css", "file");
 
-
-$module_path = drupal_get_path('module', 'cdx_facility_management');
-drupal_add_css($module_path . "/css/font-awesome.min.css", "file");
-drupal_add_css($module_path . "/css/cdx_facility_management.css", "file");
 ?>
 <!-- Site must incorporate these files to use FacilityWidget -->
 <script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery-1.10.2.min.js"></script>
 <script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery-ui-1.10.4/js/jquery-ui-1.10.4.min.js"></script>
-<!--<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>-->
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
 
 <script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/jquery.validate1.12.0.min.js"></script>
 
@@ -22,16 +32,9 @@ drupal_add_css($module_path . "/css/cdx_facility_management.css", "file");
 <script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/HandleBars/handlebars-v3.0.3.js"></script>
 
 <!-- Below is mapping stuff -->
-<?php
-
-//drupal_add_css($module_path . "/css/claro.css", "file");
-//drupal_add_css($module_path . "/css/esri.css", "file");
-//drupal_add_js($module_path . "/js/arcgis_3_13_init.js", "file");
-
-?>
-<!--<link rel="stylesheet" href="/css/claro.css"/>-->
-<!--<link rel="stylesheet" href="/css/esri.css"/>-->
-<!--<script src="/js/arcgis_3_13_init.js"></script>-->
+<link rel="stylesheet" href="//js.arcgis.com/3.13/dijit/themes/claro/claro.css"/>
+<link rel="stylesheet" href="//js.arcgis.com/3.13/esri/css/esri.css"/>
+<script src="//js.arcgis.com/3.13/"></script>
 
 
 <!--<script src="../dist/FacilityManagementWidget.min.js"> </script>-->
