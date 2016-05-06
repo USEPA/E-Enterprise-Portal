@@ -5,11 +5,11 @@ Drupal.behaviors.mobileMenu = {
   attach: function () {
 
     // Create mobile menu container, create mobile bar, and clone the main menu.
-    var $mobileLinks = $('.mobile-nav_links'),
-        $mainNav = $('.main-nav'),
-        $secondaryNav = $('.secondary-nav'),
-        $newMainMenu = $mainNav.find('.menu').clone();
-        $newSecondaryMenu = $secondaryNav.find('.menu').clone();
+    var $mobileLinks = $('.mobile-nav_links');
+    var $mainNav = $('.main-nav');
+    var $secondaryNav = $('.secondary-nav');
+    var $newMainMenu = $mainNav.find('.menu').clone();
+    var $newSecondaryMenu = $secondaryNav.find('.menu').clone();
 
     // Insert the cloned menus into the mobile menu container.
     $newMainMenu.attr('class', 'menu').find('ul').each(function() {
@@ -22,7 +22,27 @@ Drupal.behaviors.mobileMenu = {
     });
     $newSecondaryMenu.find('ul').remove();
     
-    $newMainMenu.appendTo($mobileLinks);
+    // If the user is a guest user, then show them the FAQs, Login options
+    if (Drupal.settings.is_guest) {
+	    var $guestMenu = $('.block--login-from-guest-page div a').clone().prop({class: "newlinks"});
+	    $newMainMenu.append($guestMenu);
+	    $newMainMenu.find('.newlinks').wrap('<li class="menu-item"></li>');
+    }
+    // If the user isn't logged in and is viewing FAQs / Release Notes pages
+	  else if (!Drupal.settings.ee_user) {
+		  var menuToClone = '';
+		  if ($('.block--login-from-guest-page').length > 0 ) {
+			  menuToClone = '.block--login-from-guest-page div a';
+		  }
+		  else if ($('.block--ee-bridge-login div a').length > 0) {
+			  menuToClone = '.block--ee-bridge-login div a';
+		  }
+    	var $newuserMenu = $(menuToClone).clone().prop({class: "newlinks"});
+    	$newMainMenu.append($newuserMenu);
+    	$newMainMenu.find('.newlinks').wrap('<li class="menu-item"></li>');
+	  }
+	  
+	  $newMainMenu.appendTo($mobileLinks);
     $newSecondaryMenu.appendTo($mobileLinks);
 
     // Open/Close mobile menu when menu button is clicked.
@@ -41,8 +61,7 @@ Drupal.behaviors.mobileMenu = {
         $mobileMenuLinks.removeAttr('tabindex');
       }
       e.preventDefault();
-    });
-
+    });   
   }
 };
 
