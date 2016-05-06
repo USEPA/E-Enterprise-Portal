@@ -6,6 +6,27 @@
  * the README.txt next to this file.
  */
 (function ($) {
+	
+	Drupal.behaviors.loadPace = {
+		// Find more info about PACE - Automatic Page Load Progress Bar at http://github.hubspot.com/pace/
+		// Related styles found in /scss/_pace.scss
+		// JS script added for Workbench in templates/page.tpl.php
+		attach: function (context) {			
+			var page_name = window.location.pathname.split('/')[1];
+        if (page_name == "workbench") {
+          $('body').prepend('<div class="pace-div" aria-label="Please wait while page loads" style="display: block;"></div>');
+					Pace.on("start", function(){
+			    	$('body').addClass('loading-workbench');
+			    	$('.pace-div').show();
+					});
+				
+					Pace.on("done", function(){
+						$('body').removeClass('loading-workbench');
+						$('.pace-div').hide();
+					});
+				}
+		}
+	}
 
     Drupal.behaviors.modal508Compliance = {
         attach: function (context) {
