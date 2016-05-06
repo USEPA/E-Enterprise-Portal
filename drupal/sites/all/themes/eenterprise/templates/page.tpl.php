@@ -20,20 +20,25 @@ if(arg(0) == 'workbench' && $user->uid == 0){
     drupal_goto("/");
 }
 
+$user_data = user_load($user->uid);
+if ($user->name == 'guest-user') {
+    drupal_add_js(array('ee_guest' => true), 'setting'); // Adding check for guest
+}
+if ($user->uid > 0) {
+	drupal_add_js(array('ee_user' => true), 'setting'); // Adding check for guest
+}
+else {
+	drupal_add_js(array('ee_public' => true), 'setting'); // If not guest and not logged in, show public view on Home, FAQs, Release Notes
+}
+
 ?>
 <?php print render($page['alert']); ?>
 <?php print render($page['maintenance']); ?>
 <?php print render($page['disclaimer']); ?>
 <div class="mobile-nav usa-grid">
 <a class="usa-button mobile-nav_home" href="/" rel="home"><span class="sr-only">Home</span><i aria-hidden="true" class="fa fa-home"></i></a>
-<?php 
-	if($user->uid > 0) {
-?>
 <a class="usa-button mobile-nav_toggle" href="#mobile-links">Menu</a>
 <div class="mobile-nav_links element-hidden"></div>
-<?php
-	}
-?>
 </div>
 <?php print render($page['mobile-navigation']); ?>
 <header class="masthead usa-grid" role="banner">

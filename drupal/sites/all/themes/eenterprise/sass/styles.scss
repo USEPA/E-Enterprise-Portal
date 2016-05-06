@@ -357,7 +357,8 @@ footer {
 
 /* A list of page numbers when more than 1 page of content is available. */
 .ui-widget-content {
-	.paging_simple_numbers {
+	.paging_simple_numbers,
+	.paging_simple {
 		float: right;
 		margin-top: 0;
 		margin-bottom: 20px;
@@ -373,14 +374,16 @@ footer {
   text-align: center;
 }
 %pager__item,
-.paging_simple_numbers {
+.paging_simple_numbers,
+.paging_simple {
   display: inline;
   padding: 0 0.5em;
   list-style-type: none;
   background-image: none;
 }
 
-.paging_simple_numbers {
+.paging_simple_numbers,
+.paging_simple {
 	li {
 		display: inline;
 		font-family: $font-sans !important;
@@ -2941,6 +2944,14 @@ input[type="submit"]:not(.usa-button-outline),
 	}
 }
 
+.section-eenterprise-new {
+	&.not-logged-in {
+		.mobile-nav {
+			display: none;
+		}
+	}
+}
+
 .mobile-nav {
 	display: none;
 	background-color: $color-primary;
@@ -3714,7 +3725,9 @@ input#location-input-guests::-ms-clear {
 			}
 		}
 		.main-nav,
-		.secondary-nav {
+		.secondary-nav,
+		.block--login-from-guest-page,
+		.block--ee-bridge-login {
 		// Hide simple-main-nav at widths below 40em, when mobile-nav shows
 			display: none;
 			&.usa-width-one-half {

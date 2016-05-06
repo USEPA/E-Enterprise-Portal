@@ -23,13 +23,24 @@ Drupal.behaviors.mobileMenu = {
     $newSecondaryMenu.find('ul').remove();
     
     // If the user is a guest user, then show them the FAQs, Login options
-    if (Drupal.settings.is_guest) {
-	    var $guestMenu = $('.block--login-from-guest-page div a').clone().prop({class: "newlinks"});
-	    $newMainMenu.append($guestMenu);
-	    $newMainMenu.find('.newlinks').wrap('<li class="menu-item"></li>');
+    if (Drupal.settings.ee_guest) {
+	    if ($('.block--login-from-guest-page').length > 0 ) {
+				var $guestMenu = $('.block--login-from-guest-page div a').clone().prop({class: "newlinks"});
+		    $newMainMenu.append($guestMenu);
+		    $newMainMenu.find('.newlinks').wrap('<li class="menu-item"></li>');
+			}
+			else {
+				var guestMenuAdd = $('<ul class="menu"><li class="menu-item"><a href="/faqs" id="faqs-link">FAQs</a></li><li class="menu-item"><a href="/guest_bye" id="guest-login">Log in</a></li></ul>');
+				if ($newMainMenu > 0) {
+					$newMainMenu.append(guestMenuAdd);
+				}
+				else {
+					$('.mobile-nav_links').append(guestMenuAdd);
+				}
+			}
     }
     // If the user isn't logged in and is viewing FAQs / Release Notes pages
-	  else if (!Drupal.settings.ee_user) {
+	  else if (Drupal.settings.ee_user) {
 		  var menuToClone = '';
 		  if ($('.block--login-from-guest-page').length > 0 ) {
 			  menuToClone = '.block--login-from-guest-page div a';
@@ -37,9 +48,17 @@ Drupal.behaviors.mobileMenu = {
 		  else if ($('.block--ee-bridge-login div a').length > 0) {
 			  menuToClone = '.block--ee-bridge-login div a';
 		  }
+		  else if ($('.main-nav').length == 0) {
+			  var addWorkbench = '<li class="menu-item"><a href="/">Workbench</a></li>';
+			  $newSecondaryMenu.prepend(addWorkbench);
+		  }
     	var $newuserMenu = $(menuToClone).clone().prop({class: "newlinks"});
     	$newMainMenu.append($newuserMenu);
     	$newMainMenu.find('.newlinks').wrap('<li class="menu-item"></li>');
+	  }
+	  else {
+		 var otherUser = $('<li class="menu-item"><a href="/bridge-landing" id="guest-login">Log in</a></li><li class="menu-item"><a href="/faqs" id="faqs-link" >FAQs</a></li>');
+		 $newMainMenu.append(otherUser);
 	  }
 	  
 	  $newMainMenu.appendTo($mobileLinks);
