@@ -757,7 +757,6 @@ function eenterprise_utility_profile_form_submit($form, &$form_state)
         if ($primary == 1) {
           $_SESSION['default_location_zip'] = $zip;
           $_SESSION['default_location_name'] = $name;
-          dpm($_SESSION, " storing " . $zip . " for " . $name);
         }
         save_user_location($zip, $name, $commsize, $isurban, $primary);
       } else {
@@ -1765,28 +1764,28 @@ function callSOAPWithParams($client, $service, $params, $location = "")
     $soap_obj->error = TRUE;
     $message = "Error: " . $f . ' Error Message: ' . $f->detail->faultdetails->message;
     watchdog($location, $message, array(), WATCHDOG_ERROR);
-    dpm($f);
   }
   return $soap_obj;
 }
 
 function getFileContents($file_location, $location = "")
 {
-  $response = new stdClass();
-  $stream_context = array(
-    "ssl" => array(
-      "verify_peer" => false,
-      "verify_peer_name" => false,
-    ),
-  );
-  try {
-    $content = file_get_contents($file_location, false, stream_context_create($stream_context));
-    $response->error = FALSE;
-    $response->content = $content;
-  } catch (Exception $e) {
-    $response->error = TRUE;
-    $message = "Error: " . $e . ' Error Message: ' . $e->getMessage();
-    watchdog($location, $message, array(), WATCHDOG_ERROR);
-  }
-  return $response;
+    $response = new stdClass();
+    $stream_context = array(
+        "ssl" => array(
+            "verify_peer" => false,
+            "verify_peer_name" => false,
+        ),
+    );
+    try {
+        $content = file_get_contents($file_location, false, stream_context_create($stream_context));
+        $response->error = FALSE;
+        $response->content = $content;
+    } catch (Exception $e) {
+        $response->error = TRUE;
+        $message = "Error: " . $e . ' Error Message: ' . $e->getMessage();
+        watchdog($location, $message, array(), WATCHDOG_ERROR);
+    }
+    return $response;
+
 }
