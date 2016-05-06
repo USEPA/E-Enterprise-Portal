@@ -853,7 +853,7 @@ header {
 
 .page-workbench {
 	.ui-dialog,
-	div[role="dialog"] {
+	div[role="dialog"]:not(.fsrFloatingContainer) {
 		display: none;
 	}
 	.locations-modal.ui-dialog {
