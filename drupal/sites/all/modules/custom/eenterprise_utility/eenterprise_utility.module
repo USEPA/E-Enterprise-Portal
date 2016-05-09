@@ -1305,7 +1305,7 @@ function generate_location_select()
 
     // Carry on as normal
     if ($count < 9) {
-      print "<option value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
+      print "<option title = '". $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
     }
     // need to use default zip if not used yet
     else if ($count == 9 && !$default_location_used && $default_zip != -1) {
