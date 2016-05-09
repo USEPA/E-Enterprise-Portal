@@ -1193,6 +1193,7 @@ function get_header_variables()
   $user_preferred_zips = load_user_preferred_zips();
   // Primary zip is the selected zip in the drop down
   $primary_location = '';
+  $primary_zip = -1;
   // Does the user have any saved zip codes? If not will use default information
   $user_has_zip = false;
 
@@ -1238,10 +1239,9 @@ function get_header_variables()
     }
   }
 
-//  print_r($_SESSION);
   // Sort locations by location name
   //TODO do a state/tribe sort?
-  asort($locations_array);
+  ksort($locations_array);
   $header_data = array(
     'locations' => $locations_array,
     'primary_location' => $primary_location,
@@ -1261,8 +1261,8 @@ function get_modal_data($locations, $city_name_count)
   print "<a id='locations-modal' href='#'>View all favorite cities</a>";
   print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
   print "<fieldset class='radio-options-holder'>";
-  foreach ($locations as $key => $value) {
-    print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . " (" . $key . ")" . "</label>";
+  foreach ($locations as $name => $zip) {
+    print '<input type="radio"  id="' . $zip . '|' . $name . '"  name="location-radio" value="' . $zip . '|' . $name . '" /><label for="' . $zip . '|' . $name .  '">' . $name . " (" . $zip . ")" . "</label>";
   }
   print "</fieldset></div>";
 }
@@ -1303,14 +1303,17 @@ function generate_location_select()
     }
 
 
+    // Carry on as normal
+    if ($count < 9) {
+      print "<option value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
+    }
     // need to use default zip if not used yet
-    if ($count == 9 && !$default_location_used && $default_zip != -1) {
+    else if ($count == 9 && !$default_location_used && $default_zip != -1) {
       print "<option value='" . $default_zip . "' selected>" . $default_location . "</option>";
-    } else if ($count == 10) {
+    }
+    else {
       print "<option value='view_more'>Show more...</option>";
       break;
-    } else {
-      print "<option value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
     }
 
     $count = $count + 1;
