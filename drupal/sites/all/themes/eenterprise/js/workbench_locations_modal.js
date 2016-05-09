@@ -11,6 +11,13 @@ $(document).ready(function(){
 			width: 'auto',
 			height: 400,
 			dialogClass: "locations-modal",
+			close: function() {
+				var $location_select = $('#location-select');
+				// Select previously selected value by recapturing elements from previous selection elem
+				var select_title = previous_selection.attr('title');
+				$location_select.find('option[title="' + select_title + '"]').prop('selected', 'selected');
+				$location_select.trigger('change');
+			},
 			buttons: [
 				{
 					text: 'View',
@@ -26,11 +33,6 @@ $(document).ready(function(){
 				{	text : "Cancel",
 					class: ' usa-button-outline',
 					click: function() {
-						var $location_select = $('#location-select');
-						// Select previously selected value by recapturing elements from previous selection elem
-						var select_title = previous_selection.attr('title');
-						$location_select.find('option[title="' + select_title + '"]').prop('selected', 'selected');
-						$location_select.trigger('change');
 						$('#dialog-all-locations').dialog('close');
 
 					}	
@@ -40,6 +42,20 @@ $(document).ready(function(){
 		$('#locations-modal').click(function() {
 			$('#dialog-all-locations').dialog('open');
 		})
+
+		$(':radio[name=location-radio]').change(function() {
+			var container = $('#dialog-all-locations');
+			var scroll_to = $(this);
+			var height = container.height();
+			var scroll_to_height = scroll_to.height();
+
+			if (scroll_to.offset().top < 0) {// Is above container, must scroll up
+				container.scrollTop( scroll_to.offset().top - scroll_to_height);
+			}
+			else if (scroll_to.offset().top - container.offset().top > height) { // below, must scroll down or stay the same
+				container.scrollTop(scroll_to.offset().top + scroll_to_height);
+			}
+		});
 	}
 	
 	function locationSelect(zipcode, name) {
