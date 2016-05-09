@@ -7,6 +7,7 @@
  */
 (function ($) {
 	
+/*
 	Drupal.behaviors.loadPace = {
 		// Find more info about PACE - Automatic Page Load Progress Bar at http://github.hubspot.com/pace/
 		// Related styles found in /scss/_pace.scss
@@ -27,6 +28,7 @@
 				}
 		}
 	}
+*/
 
     Drupal.behaviors.modal508Compliance = {
         attach: function (context) {

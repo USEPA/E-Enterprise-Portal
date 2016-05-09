@@ -2085,6 +2085,10 @@ form .field-multiple-table#field-zip-code-values {
   //outline: none;
   padding: 1rem 0.7em !important;
   width: 100% !important;
+  &#location-input-guests {
+	  padding-top: 0 !important;
+	  padding-bottom: 0 !important;
+  }
   &:after {
 	  content: "\f002";
     font-family: 'FontAwesome';
