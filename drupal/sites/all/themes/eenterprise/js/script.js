@@ -36,16 +36,20 @@
                 var currentZip = $(this).val();
                 if (currentZip == 'view_more') {
                     add_aria_hidden_true_attrib_to_workbench();
+                    add_aria_hidden_true_attrib_facility_inputs_to_workbench();
                 }
             });
             $('#dialog-all-locations').on("dialogclose", function () {
                 add_aria_hidden_false_attrib_to_workbench();
+                add_aria_hidden_false_attrib_facility_inputs_to_workbench();
             });
             $('#simple-dialog-container').on("dialogclose", function(){
                 add_aria_hidden_false_attrib_to_workbench();
+                add_aria_hidden_false_attrib_facility_inputs_to_workbench();
             });
             if($('#simple-dialog-container').is(':visible')) {
                 add_aria_hidden_true_attrib_to_workbench();
+                add_aria_hidden_true_attrib_facility_inputs_to_workbench();
             }
             $('#facility-widget').on("dialogclose", function(){
                 add_aria_hidden_false_attrib_to_workbench();
@@ -70,6 +74,8 @@
                 $('#links_description select').attr('aria-hidden', 'true');
                 $('#delete-holder button').attr('aria-hidden', 'true');
                 add_aria_hidden_true_attrib_to_workbench();
+                add_aria_hidden_true_attrib_facility_inputs_to_workbench();
+                //$('#').attr('aria-hidden', 'true');
             }
             $('#modal-content').on("remove", function () {
                 $('#edit-field-profile-first-name-und-0-value').attr('aria-hidden', 'false');
@@ -87,7 +93,24 @@
                 $('#links_description select').attr('aria-hidden', 'false');
                 $('#delete-holder button').attr('aria-hidden', 'false');
                 add_aria_hidden_false_attrib_to_workbench();
+                add_aria_hidden_false_attrib_facility_inputs_to_workbench();
+                //$('#').attr('aria-hidden', 'false');
             });
+
+            function add_aria_hidden_true_attrib_facility_inputs_to_workbench(){
+                $('select#edit-facility-state').attr('aria-hidden', 'true');
+                $('select#facility-bia-code').attr('aria-hidden', 'true');
+                $('#facility-type').attr('aria-hidden', 'true');
+                $('#edit-facility-active-status').attr('aria-hidden', 'true');
+                $('#edit-my-facility .facility-county-fips').attr('aria-hidden', 'true');
+            }
+            function add_aria_hidden_false_attrib_facility_inputs_to_workbench(){
+                $('select#edit-facility-state').attr('aria-hidden', 'false');
+                $('select#facility-bia-code').attr('aria-hidden', 'false');
+                $('#facility-type').attr('aria-hidden', 'false');
+                $('#edit-facility-active-status').attr('aria-hidden', 'false');
+                $('#edit-my-facility .facility-county-fips').attr('aria-hidden', 'false');
+            }
             function add_aria_hidden_true_attrib_to_workbench(){
                 $('.view-filters input').attr('aria-hidden', 'true');
                 $('.views-exposed-form select').attr('aria-hidden', 'true');
