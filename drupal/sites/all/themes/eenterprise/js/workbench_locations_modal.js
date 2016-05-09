@@ -2,11 +2,9 @@
 
 $(document).ready(function(){
 	// Instantiate previous with primary location
-	// var previous_selection = $('#location-select').val();
-	// alert(previous_selection);
-	// $('input[type=radio]#' + previous_selection).attr('checked', true);
-	
-	if ($('#locations-modal').length > 0) {
+	 var previous_selection = $('#location-select option:selected');
+
+	if ($('#locations-modal')	.length > 0) {
 		$('#dialog-all-locations').dialog({
 			modal: true,
 			autoOpen: false,
@@ -23,14 +21,18 @@ $(document).ready(function(){
 						var selection_name = selection_array[1];
 						locationSelect(selection_value, selection_name);
 						$('#dialog-all-locations').dialog('close');
-						// $(':radio[name=location-radio]:checked').attr('checked', false);
 					}
 				},
 				{	text : "Cancel",
 					class: ' usa-button-outline',
 					click: function() {
-						$('#location-select').val(previous_selection);
+						var $location_select = $('#location-select');
+						// Select previously selected value by recapturing elements from previous selection elem
+						var select_title = previous_selection.attr('title');
+						$location_select.find('option[title="' + select_title + '"]').prop('selected', 'selected');
+						$location_select.trigger('change');
 						$('#dialog-all-locations').dialog('close');
+
 					}	
 				}
 			]
@@ -40,17 +42,24 @@ $(document).ready(function(){
 		})
 	}
 	
-	function locationSelect(selection_value, selection_name) {
-		// If selected from modal and exists in select box, just change value
-		if ($('#location-select option[value=' + selection_value + ']').length > 0) {
-			$('#location-select').val(selection_value);
-			$('#location-select').trigger('change');
+	function locationSelect(zipcode, name) {
+		// If selected from modal and exists in select box change value
+		// Searching via select TITLE, not VALUE
+		var select_title = name + ' (' + zipcode + ')';
+		var $location_select = $('#location-select');
+		if ($location_select.find('option[title="' + select_title + '"]').length > 0) {
+			//  Using first in case there are ever duplicates
+			$location_select.find('option[title="' + select_title + '"]').first().prop('selected', 'selected');
+			$location_select.trigger('change');
 		}
 		else { // add value to select, remove last select value
-			$("#location-select").prepend("<option value='" + selection_value + "'>" + selection_name + "</option>");
-			$('#location-select option:nth-child(10)').remove();
-			$('#location-select').val(selection_value);
-			$('#location-select').trigger('change');
+			var $new_option = $("<option title='" + select_title + "' value='" + zipcode + "'>" + name + " (" + zipcode + ")</option>");
+			$location_select.find('option:nth-child(9)').remove();
+			// Alphabetically place select option. Because already alphabetical, if not in
+			// select drop down, just make last choice (position 9)
+			$location_select.find('option:nth-child(8)').after($new_option);
+			$location_select.find('option[title="' + select_title + '"]').prop('selected', 'selected');
+			$location_select.trigger('change');
 		}
 	}
 	
@@ -61,12 +70,12 @@ $(document).ready(function(){
 			$('#locations-modal').trigger('click');
 		}
 		else {
-			previous_selection = $(this).val();
-			$('input[type=radio]#' + previous_selection).attr('checked', true); // Update modal with selected values
+			previous_selection = $('#location-select option:selected');
 			var zip_val = $(this).val();
 			var location_name = $(this).find('option:selected').text();
 			location_name = location_name.split('(')[0]; // ignore zip code
 			location_name = $.trim(location_name); // trim any leading, trailing whitespace.
+			$('input[type=radio][id="' + zip_val + '|' + location_name + '"]').prop('checked', true);
 			$.post("/default_location_zip", {zip: zip_val, name: location_name});
 		}
 	});
