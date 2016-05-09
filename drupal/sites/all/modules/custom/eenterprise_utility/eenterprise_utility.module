@@ -579,6 +579,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
      */
     $form['#submit'][] = 'eenterprise_utility_profile_form_submit';
     $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
+    $form['actions']['delete']['#attributes']['class'][] = 'usa-button usa-button-outline';
+    
     $form['actions']['delete']['#submit'][] = 'profile_delete_action';
     // When use delete last zip code or url, do not repopulate with previous saved zip
     if (isset($form_state['triggering_element'])) {
@@ -1765,28 +1767,28 @@ function callSOAPWithParams($client, $service, $params, $location = "")
     $soap_obj->error = TRUE;
     $message = "Error: " . $f . ' Error Message: ' . $f->detail->faultdetails->message;
     watchdog($location, $message, array(), WATCHDOG_ERROR);
-    dpm($f);
   }
   return $soap_obj;
 }
 
 function getFileContents($file_location, $location = "")
 {
-  $response = new stdClass();
-  $stream_context = array(
-    "ssl" => array(
-      "verify_peer" => false,
-      "verify_peer_name" => false,
-    ),
-  );
-  try {
-    $content = file_get_contents($file_location, false, stream_context_create($stream_context));
-    $response->error = FALSE;
-    $response->content = $content;
-  } catch (Exception $e) {
-    $response->error = TRUE;
-    $message = "Error: " . $e . ' Error Message: ' . $e->getMessage();
-    watchdog($location, $message, array(), WATCHDOG_ERROR);
-  }
-  return $response;
+    $response = new stdClass();
+    $stream_context = array(
+        "ssl" => array(
+            "verify_peer" => false,
+            "verify_peer_name" => false,
+        ),
+    );
+    try {
+        $content = file_get_contents($file_location, false, stream_context_create($stream_context));
+        $response->error = FALSE;
+        $response->content = $content;
+    } catch (Exception $e) {
+        $response->error = TRUE;
+        $message = "Error: " . $e . ' Error Message: ' . $e->getMessage();
+        watchdog($location, $message, array(), WATCHDOG_ERROR);
+    }
+    return $response;
+
 }

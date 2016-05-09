@@ -45,6 +45,7 @@
 @import 'components/forms';
 @import 'components/search';
 @import 'components/skipnav';
+@import 'components/pace';
 
 @mixin linear-gradient($gradient-light, $gradient-dark) {
   background-image: -webkit-gradient(linear, left top, left bottom, from($gradient-light), to($gradient-dark));
@@ -112,23 +113,28 @@
 		margin-bottom: 0;
 	}
 }
-
-.site-name-and-slogan {
-	.site-name {
-		margin-top: 15px;
-		margin-bottom: 5px;
-		a {
-			display: block;
-			width: 239px;
+.usa-grid {
+	.site-name-and-slogan {
+		&.usa-width-one-half {
+			width: auto;
+		}
+		.site-name {
+			margin-top: 15px;
+			margin-bottom: 5px;
+			a {
+				display: block;
+				width: 239px;
+			}
+		}
+		.site-slogan {
+			margin-bottom: 15px;
+			color: $color-gray-dark;
+			font-size: $h6-font-size;
+			font-style: italic;
 		}
 	}
-	.site-slogan {
-		margin-bottom: 15px;
-		color: $color-gray-dark;
-		font-size: $h6-font-size;
-		font-style: italic;
-	}
 }
+
 
 .region-navigation {
 	background-color: $color-primary;
@@ -346,6 +352,65 @@ footer {
 }
 
 // Override Vendor Components -------------- //
+/**
+ * Pager.
+ */
+
+/* A list of page numbers when more than 1 page of content is available. */
+.ui-widget-content {
+	.paging_simple_numbers,
+	.paging_simple {
+		float: right;
+		margin-top: 0;
+		margin-bottom: 20px;
+		a {
+			font-family: $font-sans !important;
+			font-size: 1.4rem;
+		}
+	}
+}
+.pager {
+  clear: both;
+  padding: 0;
+  text-align: center;
+}
+%pager__item,
+.paging_simple_numbers,
+.paging_simple {
+  display: inline;
+  padding: 0 0.5em;
+  list-style-type: none;
+  background-image: none;
+}
+
+.paging_simple_numbers,
+.paging_simple {
+	li {
+		display: inline;
+		font-family: $font-sans !important;
+	}
+	li::before,
+	li::after {
+		content: none;
+	}
+}
+
+.pager-item,      /* A list item containing a page number in the list of pages. */
+.pager-first,     /* The first page's list item. */
+.pager-previous,  /* The previous page's list item. */
+.pager-next,      /* The next page's list item. */
+.pager-last,      /* The last page's list item. */
+.pager-ellipsis,
+.pager__link { /* A concatenation of several list items using an ellipsis. */
+  @extend %pager__item;
+}
+
+/* The current page's list item. */
+.pager-current {
+  @extend %pager__item;
+  //font-weight: bold;
+}
+
 .ui-widget {
 	font-family: $font-sans;
 	font-size: $h5-font-size
@@ -355,11 +420,15 @@ footer {
 	padding-right:0 !important;
 }
 
-#local-resources-tabs .dataTables_paginate.paging_simple {
-	float:none;
+#local-resources-tabs {
+	.dataTables_paginate.paging_simple {
+		float:none;
+	}
 }
 
-.pager, .dataTables_paginate.paging_simple {
+.pager, 
+.dataTables_paginate.paging_simple 
+.dataTables_paginate.paging_simple_numbers {
 
 	li:before,
 	li:after {
@@ -374,7 +443,7 @@ footer {
 		list-style: none;
 	}
 //	margin: 0 auto 1.5rem;
-    padding: 0;
+  padding: 0;
 	font-size: 1.4rem;
 	li {
 		display: table-cell;
@@ -403,7 +472,7 @@ footer {
 	.pager-ellipsis,
 	.pager-current,
 	li.previous,
-	li.next{
+	li.next {
 	  display: inline;
 	  padding: 0 0.5em;
 	  list-style-type: none;
@@ -788,7 +857,7 @@ header {
 
 .page-workbench {
 	.ui-dialog,
-	div[role="dialog"] {
+	div[role="dialog"]:not(.fsrFloatingContainer) {
 		display: none;
 	}
 	.locations-modal.ui-dialog {
@@ -1047,7 +1116,7 @@ a:focus.add_link {
 				width: 33.3%;
 				margin-right: 2px;
 				&:last-child {
-					width: 33%;
+					width: 32.75%;
 					margin-right: 0;
 				}
 			}
@@ -1521,7 +1590,7 @@ form[id^='user-profile-form'] {
 		input[type="submit"],
 		.usa-button,
 		.usa-button.usa-button-outline {
-			display: table-cell;
+			display: inline-block;
 		}
 		input[type="submit"],
 		.usa-button {
@@ -2003,7 +2072,7 @@ form .field-multiple-table#field-zip-code-values {
 	}
 }
 
- .ui-autocomplete-input {
+.ui-autocomplete-input {
   appearance: none;
   border: 1px solid $color-gray;
   border-radius: 0;
@@ -2074,6 +2143,21 @@ form .field-multiple-table#field-zip-code-values {
 			padding-top: 1rem;
 		}
 	}
+	
+	.section-eenterprise-new {
+		.jumbotron {
+			padding-top: 30px;	
+			background-position: 50%;	
+		}
+		.well {
+			.welcome-message {
+				h1 {
+					line-height: 1.2;
+				}
+			}
+		}
+	}
+		
 	.ee-workbench-header-block {
 		margin-left: 10px;
 	}
@@ -2133,6 +2217,8 @@ form .field-multiple-table#field-zip-code-values {
 	border: none;
 	border-radius: 0 !important;
 }
+
+/* Suggestion Box / Questions modal */
 #modalContent {
 	.ui-dialog-titlebar {
 		position: relative;
@@ -2727,6 +2813,19 @@ input[type="submit"]:not(.usa-button-outline),
 	  }
   }
   
+  #benefits {
+	  div {
+		  height: auto;
+	  }
+  }
+  #including {
+	  li {
+		  div {
+			  width: 60%;
+		  }
+	  }
+  }
+  
   .login-options {
 	  .sr-only {
 		  display: block;
@@ -2752,7 +2851,6 @@ input[type="submit"]:not(.usa-button-outline),
 					margin-left: -1rem;
 					.menu-item {
 						display: inline-block;
-						border-right: none;
 						padding: 0;
 						margin-bottom: 5px;
 						a {
@@ -2840,11 +2938,18 @@ input[type="submit"]:not(.usa-button-outline),
 				td.views-field-field-todo-lst-item {
 			    background-color: transparent;
 			    border-left: none;
-
 			    border-right: none;
 				}
 			}
 	  }
+	}
+}
+
+.section-eenterprise-new {
+	&.not-logged-in {
+		.mobile-nav {
+			display: none;
+		}
 	}
 }
 
@@ -3193,6 +3298,9 @@ a.usa-button.btn-social.btn-wam {
 .fa-star-o:hover {
 	color: $color-secondary-darkest;
 }
+.fa-home:before {
+	content: "\f015";
+}
 
 td.has-error {
 	color: #a94442;
@@ -3395,6 +3503,25 @@ input#location-input-guests::-ms-clear {
   height: 0;
 }
 
+.ui-autocomplete {
+	&.guest-zip-options {
+		border-top-color: #fff;
+		margin-left: -1px;
+		height: 300px;
+		height: auto;
+		max-height: 300px;
+		overflow-y: scroll;
+		li {
+			margin-top: 0;
+			margin-bottom: 0;
+			a {
+				padding-top: 0.75rem;
+				padding-bottom: 0.75rem;
+			}
+		}
+	}
+}
+
 .block--ee-header-locations {
 	.ee-workbench-header-setlocation {
 		input#location-input-guests {
@@ -3563,6 +3690,16 @@ input#location-input-guests::-ms-clear {
 // Responsive -------------- //
 
 @media screen and (max-width: 40em) {
+	.not-logged-in {
+		.region-navigation {
+			.ee-workbench-header-block {
+				margin-left: 0;
+				.ctools-use-modal {
+					margin-left: -2.5rem;
+				}
+			}
+		}
+	}
 	.site-name-and-slogan {
 		width: 100%;
 	}
@@ -3581,6 +3718,23 @@ input#location-input-guests::-ms-clear {
 		}
 	}
 
+	/* Suggestion Box / Questions modal */
+	body.modal-open {
+		overflow: hidden;
+		width: 100%;
+	}
+	#modalBackdrop {
+		max-width: 100% !important;
+	}
+	#modalContent {
+		overflow-y: scroll;
+		max-width: 97% !important;
+		div.ctools-modal-content {
+			.resizable-textarea {
+				margin-right: 0;
+			}
+		}	
+	}
 }
 
 @media screen and (max-width: 49em) {
@@ -3591,7 +3745,9 @@ input#location-input-guests::-ms-clear {
 			}
 		}
 		.main-nav,
-		.secondary-nav {
+		.secondary-nav,
+		.block--login-from-guest-page,
+		.block--ee-bridge-login {
 		// Hide simple-main-nav at widths below 40em, when mobile-nav shows
 			display: none;
 			&.usa-width-one-half {

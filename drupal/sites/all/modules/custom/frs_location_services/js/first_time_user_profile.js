@@ -152,7 +152,7 @@
 
             }
 
-						var countEnter = 0;
+            var countEnter = 0;
             $('.term-name-checkboxes').on('keyup', function (e) {
             	if ((e.which == 13) && (countEnter == 1)) { // Enter key
                 $(this).trigger('click');
@@ -160,7 +160,7 @@
             	else if (e.which == 13 && countEnter == 0) {
 	            	countEnter = countEnter + 1;
             	}
-        		});
+            });
         		
             // Show zip selection options
             $('#change-location').click(function () {
@@ -369,7 +369,7 @@
 	            if (e.which === 27) {
 		            event.preventDefault();
 		            skipGettingStarted();
-		            $(first_time_user_block).close();
+		            first_time_user_block.dialog('close');
 	            }
             });
 
@@ -440,8 +440,8 @@
             });
 
             $('#switch-to-interests').click(function(e) {
-	            	e.preventDefault();
-	            	e.stopPropagation();
+                e.preventDefault();
+                e.stopPropagation();
                 $('.first-time-first-page').hide();
                 $('.first-time-second-page').show();
                 $('.term-name-checkboxes').filter(":first").focus();
@@ -470,25 +470,30 @@
         
         function skipGettingStarted() {
           // If user blocks location and skips Getting Started, leave zip and geolocation_zip blank
-          if (geolocation_used = 0) {
+          var show_zip = '';
+          if (geolocation_used == 0) {
             nearest_zip = '';
-          }	            
-            $.ajax({
-                url: '/save_first_time_user_preferences',
-                type: 'POST',
-                data: {
-                  skip: 1, 
-                  zip: '', 
-                  geolocation_used: geolocation_used, 
-                  geolocation_zip: nearest_zip
-                },
-                success: function () {
-                    $(document).trigger("ee:first_time_user_complete");
-                    $('#location-select').html('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + ' (' + nearest_zip +')</option>').trigger('change');
-                   $('.pane-views-first-time-user-profile-block').dialog('close');
-                }
-            });
-            return false;
+            show_zip = '27705';
+          }
+          else {
+            show_zip = nearest_zip;	          
+          }
+          $.ajax({
+            url: '/save_first_time_user_preferences',
+            type: 'POST',
+            data: {
+              skip: 1, 
+              zip: '', 
+              geolocation_used: geolocation_used, 
+              geolocation_zip: nearest_zip
+            },
+            success: function () {
+                $(document).trigger("ee:first_time_user_complete");
+                $('#location-select').html('<option value="' + show_zip + '" selected>' + nearest_city + ', ' + nearest_state + ' (' + show_zip +')</option>').trigger('change');
+               $('.pane-views-first-time-user-profile-block').dialog('close');
+            }
+          });
+          return false;
         }
         
     });

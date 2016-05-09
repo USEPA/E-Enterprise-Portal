@@ -1,4 +1,7 @@
 Drupal.theme.prototype.ee_ctools_popup_theme = function () {
+	
+  jQuery('body').addClass('modal-open');
+	
   var html = '';
   html += '  <div id="ctools-modal" class="ui-dialog" role="dialog">'
   html += '    <div class="ctools-modal-content">' // panels-modal-content
