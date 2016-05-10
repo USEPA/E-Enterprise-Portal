@@ -46,7 +46,7 @@ $(document).ready(function(){
 		});
 		$('#locations-modal').click(function() {
 			$('#dialog-all-locations').dialog('open');
-		})
+		});
 
 		$(':radio[name=location-radio]').change(function() {
 			var container = $('#dialog-all-locations');

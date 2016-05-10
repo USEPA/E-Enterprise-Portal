@@ -82,6 +82,7 @@ function save_first_time_user_preferences()
     $user_data = user_load($user->uid);
     $return_msg = array();
 
+    // Load post data
     $skip = xssafe($_POST['skip']);
     $zip = xssafe($_POST['zip']);
     $org = xssafe($_POST['org']);
@@ -92,6 +93,7 @@ function save_first_time_user_preferences()
     $role = xssafe($_POST['role']);
     $preferred_location = xssafe($_POST['preferred_name']);
 
+    // Initialize user data containers
     $user_zip_codes = $user_data->field_zip_code;
     $user_initial_login = $user_data->field_initial_log_in;
     $first_time_user = $user_data->field_first_time_user;
@@ -105,11 +107,12 @@ function save_first_time_user_preferences()
     unset($user_zip_codes[LANGUAGE_NONE]);
 
 
-// Store users geolocation
-    if ($skip && $geolocation_used)
+    // Store users geolocation
+    if ($skip && $geolocation_used) {
         $zip = $geolocation_zip;
+    }
 
-//Capture inital user settings for default zip
+    //Capture inital user settings for default zip
     $multifield_initial_zip_obj = array(
         'field_default_zip_code_value' => 1,
         'field_default_zip_code_format' => null,
@@ -173,8 +176,9 @@ function save_first_time_user_preferences()
         $user_interests[LANGUAGE_NONE] = array();
         $interests = $_POST['interests'];
         foreach ($interests as $tid) {
-            if (is_numeric($tid))
+            if (is_numeric($tid)) {
                 $user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
+            }
         }
 
 
