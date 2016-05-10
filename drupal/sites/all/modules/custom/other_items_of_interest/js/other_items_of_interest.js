@@ -91,6 +91,11 @@
             }
         }
 
+    };
+
+
+    function return_location_name(location) {
+        return $.trim(location.substr(0, location.indexOf('(')));
     }
 
     $(document).ready(function() {
@@ -105,9 +110,11 @@
         if ($('#location-select').length > 0) {
             $location_select =  $('#location-select');
             guest_user = false;
-            location = $('#location-select option:selected').text();
+            location = $('#location-select').find('option:selected').text();
+            location = return_location_name(location);
             $location_select.change(function() {
                 var location = $('#location-select option:selected').text();
+                location = return_location_name(location);
                 $('#restrict-to-current-button a').text(location);
                 current_state_table.update_current_location(location);
                 current_state_table.ajax_request();
@@ -117,6 +124,7 @@
             $location_select = $('#location-input-guests');
             guest_user = true;
             location = $location_select.text();
+            location = return_location_name(location);
         }
 
         if (guest_user) {

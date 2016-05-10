@@ -3,8 +3,8 @@
 $(document).ready(function(){
 	// Instantiate previous with primary location
 	 var previous_selection = $('#location-select option:selected');
-	// Flag for hitting cancel in modal
-	 var cancelling_input = false;
+	// Flag for hitting cancel in modal, default is true
+	 var cancelling_input = true;
 
 	if ($('#locations-modal')	.length > 0) {
 		$('#dialog-all-locations').dialog({
@@ -20,7 +20,10 @@ $(document).ready(function(){
 					var select_title = previous_selection.attr('title');
 					$location_select.find('option[title="' + select_title + '"]').prop('selected', 'selected');
 					$location_select.trigger('change');
+				} else { // Reset canceling input
+					cancelling_input = true;
 				}
+
 			},
 			buttons: [
 				{
@@ -38,7 +41,6 @@ $(document).ready(function(){
 				{	text : "Cancel",
 					class: ' usa-button-outline',
 					click: function() {
-						cancelling_input = true;
 						$('#dialog-all-locations').dialog('close');
 					}	
 				}
@@ -51,15 +53,7 @@ $(document).ready(function(){
 		$(':radio[name=location-radio]').change(function() {
 			var container = $('#dialog-all-locations');
 			var scroll_to = $(this);
-			var height = container.height();
-			var scroll_to_height = scroll_to.height();
-
-			if (scroll_to.offset().top < 0) {// Is above container, must scroll up
-				container.scrollTop( scroll_to.offset().top - scroll_to_height);
-			}
-			else if (scroll_to.offset().top - container.offset().top > height) { // below, must scroll down or stay the same
-				container.scrollTop(scroll_to.offset().top + scroll_to_height);
-			}
+			container.scrollTop(scroll_to.offset().top - container.offset().top + container.scrollTop());
 		});
 	}
 	
