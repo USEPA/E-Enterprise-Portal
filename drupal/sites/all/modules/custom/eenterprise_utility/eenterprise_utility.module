@@ -917,8 +917,6 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
           $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
           $error = false;
         }
-
-
         $zip_data['string'] = $readable_string;
         $zip_data['error'] = $error;
       }
@@ -943,17 +941,7 @@ function locations_add_to_session()
   if (isset($_POST['zip_data'])) {
     $_SESSION['user_preferred_zips'] = $_POST['zip_data'];
     $return_msg = array('error' => FALSE, 'msg' => "saved successfull", 'zips' => $_SESSION['user_preferred_zips']);
-
   }
-//    if (isset($_POST['name']) && isset($_POST['zip'])) {
-//        $zip = xssafe($_POST['zip']);
-//        $name = xssafe($_POST['name']);
-//        $comm_size = xssafe($_POST['commsize']);
-//        $is_urban = xssafe($_POST['isurban']);
-//        $_SESSION['user_preferred_zips'][$name][$zip]['comm_size'] = $comm_size;
-//        $_SESSION['user_preferred_zips'][$name][$zip]['is_urban'] = $is_urban;
-//        $return_msg = array('error' => FALSE, 'msg' => "saved " . $zip, 'zips' => $_SESSION['user_preferred_zips']);
-//    }zip_data
   else {
     $return_msg = array('error' => TRUE, 'msg' => "No post data sent");
   }
