@@ -593,6 +593,8 @@
                     else {
                         resetButtons();
                     }
+                    // Update zip session data
+                    update_user_zip_preferences();
                 }
                 // determine which table to place the Add Another button
                 if (target_url == '/system/ajax' || target_url == '/multifield/field-remove-item/ajax') {

@@ -443,18 +443,25 @@ function get_taxonomy_parent_name($tid)
  * $zip_lookup is the user zip data to find the name-> zip matching
  * $zip is the zipcode used to search for name.
  */
-function name_look_up($zip_lookup, $zip, &$lookup_names)
+function name_look_up($zip_lookup, $zip_search, &$lookup_names)
 {
-  if (is_array($zip_lookup) || is_object($zip_lookup)) {
-    foreach ($zip_lookup as $name => $data) {
-      if (key($data) == $zip && !in_array($name, $lookup_names)) {
-        $lookup_names[] = $name;
+  foreach ($zip_lookup as $name => $location_data) {
+    foreach ($location_data as $zip => $zip_data) {
+      if ($zip_search != $zip) {
+        continue;
+      }
+      if (!is_array($lookup_names[$name])) {
+        $lookup_names[$name] = array();
+      }
+      // Check if zip and name has already been used
+      if (!in_array($zip, $lookup_names[$name])) {
+        $lookup_names[$name][] = $zip;
         return $name;
       }
+
     }
   }
   return FALSE;
-
 }
 
 function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
@@ -587,16 +594,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
       $trigger_array = explode('_', $trigger_string);
 
       if (in_array('zip', $trigger_array)) {
-        $delta = $trigger_array[4];
         if ($trigger_array[5] == 'remove') {
           //Unset build info to stop deleted zip from repopulating the field
           unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE]);
-          // Remove name information from session data
-          $name = $_SESSION['zip_name_mapping'][$delta];
-          unset($_SESSION['zip_name_mapping'][$delta]);
-          unset($_SESSION['user_preferred_zips'][$name]);
-          unset($zip_mapping_options[$name]);
-
         }
       }
       if ($trigger_string == 'field_profile_favourites_' . LANGUAGE_NONE . '_0_remove_button') {
@@ -655,23 +655,23 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 
       // $field_suffix = city name and state name
       if (isset($zip) && $zip != '') {
+        // Initialize Session zip array
         $user_preferred_name = name_look_up($zip_mapping_options, $zip, $lookup_names);
         if ($user_preferred_name) {
           $name = $user_preferred_name;
           $field_suffix = '<span id="city-name-' . $delta . '" aria-live="polite">' . $user_preferred_name . '</span>';
           $ariacity = $user_preferred_name;
-          $_SESSION['zip_name_mapping'][$delta] = $name;
-          $_SESSION['user_preferred_zips'][$name][$zip] = array('commsize' => '', 'is_urban' => '', 'primary' => $primary);
         } else {
           // no preferred name found, use zip_code_lookup
           $zip_data = zip_code_lookup($zip);
           $name = $zip_data['string'];
           $field_suffix = '<span id="city-name-' . $delta . '" aria-live="polite">' . $name . '</span>';
           $ariacity = $name;
-          // Add name to session data
-          $_SESSION['zip_name_mapping'][$delta] = $name;
-          $_SESSION['user_preferred_zips'][$name][$zip] = array('commsize' => '', 'is_urban' => '', 'primary' => $primary);
         }
+        // Add name to session data
+        $_SESSION['zip_name_mapping'][$delta] = $name;
+        $_SESSION['user_preferred_zips'][$name][$zip] = array('commsize' => '', 'is_urban' => '', 'primary' => $primary);
+
       } else {
         $field_suffix = '';
         $ariacity = '';
@@ -721,17 +721,19 @@ function eenterprise_utility_profile_form_submit($form, &$form_state)
    */
   if (isset($_SESSION['user_preferred_zips'])) {
     clear_user_preferred_locations();
-    foreach ($_SESSION['user_preferred_zips'] as $name => $data) {
-      $zip = key($data);
-      $commsize = $data[$zip]['commsize'];
-      $isurban = $data[$zip]['isurban'];
-      $primary = $data[$zip]['primary'];
-      // Set default zip location data for workbench select
-      if ($primary == 1) {
-        $_SESSION['default_location_zip'] = $zip;
-        $_SESSION['default_location_name'] = $name;
+    foreach ($_SESSION['user_preferred_zips'] as $name => $location_data) {
+      foreach ($location_data as $zip => $zip_data) {
+        //  $zip = key($data);
+        $commsize = $zip_data['commsize'];
+        $isurban = $zip_data['isurban'];
+        $primary = $zip_data['primary'];
+        // Set default zip location data for workbench select
+        if ($primary == 1) {
+          $_SESSION['default_location_zip'] = $zip;
+          $_SESSION['default_location_name'] = $name;
+        }
+        save_user_location($zip, $name, $commsize, $isurban, $primary);
       }
-      save_user_location($zip, $name, $commsize, $isurban, $primary);
     }
   }
   // Clear sessions for user preferred data and name-> zip mapping
@@ -1036,16 +1038,16 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
                 $error_deltas[] = $delta;
               }
             } // Check if user has entered duplicate zip codes
-//                        else if (in_array($zip_val, $previous_zipcodes)) {
-//                            $error_message = 'Duplicate ZIP codes are not allowed.';
-//                            $error = true;
-//                            if (!in_array($error_message, $error_messages)) {
-//                                $error_messages[] = $error_message;
-//                            }
-//                            if (!in_array($delta, $error_deltas)) {
-//                                $error_deltas[] = $delta;
-//                            }
-//                        } // Check if zip code returned any data
+//            else if (in_array($zip_val, $previous_locations)) {
+//              $error_message = 'Duplicate ZIP codes are not allowed.';
+//              $error = true;
+//              if (!in_array($error_message, $error_messages)) {
+//                $error_messages[] = $error_message;
+//              }
+//              if (!in_array($delta, $error_deltas)) {
+//                $error_deltas[] = $delta;
+//              }
+//            } // Check if zip code returned any data
             else if (zip_code_lookup($zip_val)['city'] == '') {
               $error = true;
               $error_message = 'The ZIP code you entered could not be found';
@@ -1161,18 +1163,23 @@ function get_header_variables()
   // Does the user have any saved zip codes? If not will use default information
   $user_has_zip = false;
 
+  foreach ($user_preferred_zips as $name => $location_data) {
+    foreach ($location_data as $zip => $zip_data) {
+      $primary = $zip_data['primary'];
 
-  foreach ($user_preferred_zips as $name => $data) {
-    $zipcode = key($data);
-    $primary = $data[$zipcode]['primary'];
-
-    if ($primary == 1) {
-      $primary_location = $name;
+      if ($primary == 1) {
+        $primary_location = $name;
+        $primary_zip = $zip;
+      }
+      // initialize empty array to hold zips for name
+      if (!is_array($locations_array[$name])) {
+        $locations_array[$name] = array();
+      }
+      // Add zip to location named list
+      $locations_array[$name][] = $zip;
+      // User has zips stored
+      $user_has_zip = TRUE;
     }
-    // Look up zip by unique identifier location name
-    $locations_array[$name] = $zipcode;
-    // User has zips stored
-    $user_has_zip = TRUE;
   }
 
   if (!$user_has_zip) {
@@ -1199,7 +1206,13 @@ function get_header_variables()
       $primary_location = $_SESSION['default_location_name'];
       $primary_zip = $_SESSION['default_location_zip'];
       // add to locations array
-      $locations_array[$primary_location] = $primary_zip;
+      if (!is_array($locations_array[$primary_location])) {
+        $locations_array[$primary_location] = array();
+      }
+      // Only add if not already included
+      if (!in_array($primary_zip, $locations_array[$primary_location])) {
+        $locations_array[$primary_location][] = $primary_zip;
+      }
     }
   }
 
@@ -1224,8 +1237,10 @@ function get_modal_data($locations, $city_name_count)
   print "<a id='locations-modal' href='#'>View all favorite cities</a>";
   print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
   print "<fieldset class='radio-options-holder'>";
-  foreach ($locations as $name => $zip) {
-    print '<input type="radio"  id="' . $zip . '|' . $name . '"  name="location-radio" value="' . $zip . '|' . $name . '" /><label for="' . $zip . '|' . $name . '">' . $name . " (" . $zip . ")" . "</label>";
+  foreach ($locations as $name => $zips) {
+    foreach ($zips as $zip) {
+      print '<input type="radio"  id="' . $zip . '|' . $name . '"  name="location-radio" value="' . $zip . '|' . $name . '" /><label for="' . $zip . '|' . $name . '">' . $name . " (" . $zip . ")" . "</label>";
+    }
   }
   print "</fieldset></div>";
 }
@@ -1255,35 +1270,36 @@ function generate_location_select()
   print "<select name='favorite-location' id='location-select'>";
 
   $count = 0;
-  foreach ($header_data['locations'] as $name => $zip) {
+  // Zip is array of zips
+  foreach ($header_data['locations'] as $name => $zips) {
+    foreach ($zips as $zip) {
+      // Select if default/primary location
+      if ($name == $default_location && $zip == $default_zip) {
+        $selected = 'selected';
+        $default_location_used = true;
+      } else {
+        $selected = '';
+      }
 
-    // Select if default/primary location
-    if ($name == $default_location) {
-      $selected = 'selected';
-      $default_location_used = true;
-    } else {
-      $selected = '';
+
+      // Print option for select (up to 8 values)
+      if ($count < 9) {
+        print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
+      } // need to use default zip if not used yet
+      else if ($count == 9 && !$default_location_used && $default_zip != -1) {
+        print "<option value='" . $default_zip . "' selected>" . $default_location . "</option>";
+      } else {
+        print "<option value='view_more'>Show more...</option>";
+        break;
+      }
+
+      $count = $count + 1;
     }
-
-
-    // Carry on as normal
-    if ($count < 9) {
-      print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
-    } // need to use default zip if not used yet
-    else if ($count == 9 && !$default_location_used && $default_zip != -1) {
-      print "<option value='" . $default_zip . "' selected>" . $default_location . "</option>";
-    } else {
-      print "<option value='view_more'>Show more...</option>";
-      break;
-    }
-
-    $count = $count + 1;
   }
-
 
   print "</select>";
 
-  if (count($header_data['locations']) > 10) {
+  if ($count >= 9) {
     get_modal_data($header_data['locations'], $city_name_count);
   }
 }
@@ -1670,13 +1686,13 @@ function eenterprise_utility_form_views_exposed_form_alter(&$form, &$form_state)
 				 $form['field_prog_track_part_code_value']['#options']["All"] = 'All';
 				 $form['field_prog_track_sub_part_code_value']['#options']["All"] = 'All';
 				 $form['field_prog_track_rep_type_filter_value']['#options']["All"] = 'All';
-     }     
+     }
      else if($form["#id"] == 'views-exposed-form-to-do-block-1') {
 	     $form['field_todo_lst_domain_value']['#options']["All"] = 'All';
 	     $form['field_todo_lst_part_code_value']['#options']["All"] = 'All';
 	     $form['field_todo_lst_sub_part_code_value']['#options']["All"] = 'All';
-	     $form['field_todo_lst_rprt_type_filter_value']['#options']["All"] = 'All';	     
-	     
+	     $form['field_todo_lst_rprt_type_filter_value']['#options']["All"] = 'All';
+
      }
 }
 */

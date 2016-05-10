@@ -397,7 +397,6 @@
                 // for logged in users ----------------------------------------------
                 $('body').on('change', 'select#location-select', function () {
                     var currentZip = $(this).val();
-                    console.log("change:", currentZip);
                     if (currentZip != 'view_more') {
                         $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
                     }
