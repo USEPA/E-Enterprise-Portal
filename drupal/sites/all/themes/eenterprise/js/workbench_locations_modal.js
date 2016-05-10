@@ -3,6 +3,8 @@
 $(document).ready(function(){
 	// Instantiate previous with primary location
 	 var previous_selection = $('#location-select option:selected');
+	// Flag for hitting cancel in modal
+	 var cancelling_input = false;
 
 	if ($('#locations-modal')	.length > 0) {
 		$('#dialog-all-locations').dialog({
@@ -11,18 +13,21 @@ $(document).ready(function(){
 			width: 'auto',
 			height: 400,
 			dialogClass: "locations-modal",
-			close: function() {
-				var $location_select = $('#location-select');
-				// Select previously selected value by recapturing elements from previous selection elem
-				var select_title = previous_selection.attr('title');
-				$location_select.find('option[title="' + select_title + '"]').prop('selected', 'selected');
-				$location_select.trigger('change');
+			beforeClose: function() {
+				if (cancelling_input) {
+					var $location_select = $('#location-select');
+					// Select previously selected value by recapturing elements from previous selection elem
+					var select_title = previous_selection.attr('title');
+					$location_select.find('option[title="' + select_title + '"]').prop('selected', 'selected');
+					$location_select.trigger('change');
+				}
 			},
 			buttons: [
 				{
 					text: 'View',
 					class: ' usa-button',
 					click: function() {
+						cancelling_input = false;
 						var selection_array = $(':radio[name=location-radio]:checked').val().split('|');
 						var selection_value = selection_array[0];
 						var selection_name = selection_array[1];
@@ -33,8 +38,8 @@ $(document).ready(function(){
 				{	text : "Cancel",
 					class: ' usa-button-outline',
 					click: function() {
+						cancelling_input = true;
 						$('#dialog-all-locations').dialog('close');
-
 					}	
 				}
 			]
