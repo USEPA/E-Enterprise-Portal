@@ -174,15 +174,7 @@
   }
 
   function check_duplicate(location_name, zip_val) {
-
-    if (location_obj["zip_data"][location_name] && location_obj["zip_data"][location_name][zip_val]) {
-      // THe location and zip have been added already
-      console.log("duplicate");
-      return false;
-    }
-    else {
-      return true;
-    }
+    return (location_obj["zip_data"][location_name] && location_obj["zip_data"][location_name][zip_val]);
   }
 
   function updateCommunitySettings() {
@@ -195,6 +187,15 @@
     return str.indexOf(substring) >= 0;
   }
 
+  function print_error_message(field_suffix, message) {
+    // Print error message
+    failedLookup = true;
+    field_suffix.addClass('error').html(message);
+    field_suffix.attr("id", "zip-code-error");
+    field_suffix.prev().attr("aria-describedby", "zip-code-error");
+    are_there_errors = true;
+    hideButtons();
+  }
 
   function appendSelect(input_type, select, location_data, input) {
     var add_button = input.closest('td').find('.field-add-more-submit');
@@ -260,55 +261,69 @@
       var zip_val = '';
       var pop = '';
       var urban = '';
+      var duplicate = false;
       back.remove();
       confirm.remove();
       if (input_type == 'zip') {
         location_name = select_value;
         zip_val = input_value;
-        check_duplicate(location_name, zip_val);
-        input.val(zip_val);
-        field_suffix.html(location_name);
-        if (location_data.zip_attr && zip_val in location_data.zip_attr) {
-          pop = location_data.zip_attr[zip_val].pop;
-          urban = location_data.zip_attr[zip_val].urban;
-        }
-        if (location_data.city_attr && location_name in location_data.city_attr) {
-          pop = location_data.city_attr[location_name].pop;
+        if (check_duplicate(location_name, zip_val)) {
+          print_error_message(field_suffix, "Duplicate location name and zip code pairs are not allowed.");
+          duplicate = true;
+        } else {
+          input.val(zip_val);
+          field_suffix.html(location_name);
+          if (location_data.zip_attr && zip_val in location_data.zip_attr) {
+            pop = location_data.zip_attr[zip_val].pop;
+            urban = location_data.zip_attr[zip_val].urban;
+          }
+          if (location_data.city_attr && location_name in location_data.city_attr) {
+            pop = location_data.city_attr[location_name].pop;
+          }
         }
       }
       else { // type city or tribe
         zip_val = select_value;
         location_name = location_data.zip_attr[select_value].city;
-        field_suffix.html(location_name);
-        input.val(zip_val);
-        if (location_data.zip_attr && zip_val in location_data.zip_attr) {
-          pop = location_data.zip_attr[zip_val].pop;
-          urban = location_data.zip_attr[zip_val].urban;
-        }
-        if (location_data.city_attr && location_name in location_data.city_attr) {
-          pop = location_data.city_attr[location_name].pop;
+        if (check_duplicate(location_name, zip_val)) {
+          print_error_message(field_suffix, "Duplicate location name and zip code pairs are not allowed.");
+          duplicate = true;
+        } else {
+          field_suffix.html(location_name);
+          input.val(zip_val);
+          if (location_data.zip_attr && zip_val in location_data.zip_attr) {
+            pop = location_data.zip_attr[zip_val].pop;
+            urban = location_data.zip_attr[zip_val].urban;
+          }
+          if (location_data.city_attr && location_name in location_data.city_attr) {
+            pop = location_data.city_attr[location_name].pop;
+          }
         }
       }
-      field_suffix.attr('commsize', pop);
-      if (urban == "Urban") {
-        field_suffix.attr('isurban', '1');
-      } else if (urban == "Rural") {
-        field_suffix.attr('isurban', '0');
+      if (!duplicate) {
+        field_suffix.attr('commsize', pop);
+        if (urban == "Urban") {
+          field_suffix.attr('isurban', '1');
+        } else if (urban == "Rural") {
+          field_suffix.attr('isurban', '0');
+        }
+        // Update community/rural data
+        updateCommunitySettings();
+        // Update all location data
+        update_user_zip_preferences(location_name, pop, urban);
       }
-      // Update community/rural data
-      updateCommunitySettings();
-      // Update all location data
-      update_user_zip_preferences(location_name, pop, urban);
       label_select.remove();
       select.remove();
       remove_button.show();
       primary_indicator.show();
-      if (!existingLocationErrors())
+      if (!existingLocationErrors()) {
         resetButtons();
+      }
       numSelects = 0;
       input.prop("disabled", false);
       processPrimaryFields();
       input.focus();
+
     });
 
   }
@@ -338,7 +353,6 @@
         field_suffix.attr('id', ariaid);
         field_suffix.html('Loading...');
         Drupal.settings.locationInputEngine.lookUpLocation(input.val()).done(function (location_data) {
-          console.log(location_data);
           var zip;
           var location_name;
           var pop = 0;
@@ -363,7 +377,10 @@
               location_name = location_name + ', ' + location_data.state;
             }
 
-            check_duplicate(location_name, zip);
+            if (check_duplicate(location_name, zip)) {
+              print_error_message(field_suffix, "Duplicate location name and zip code pairs are not allowed.");
+              return;
+            }
 
 
             // Gather FRS location data for zip code
@@ -401,11 +418,11 @@
             location_name = location_data.city[0];
             field_suffix.html(location_name);
             if (location_data.zip_attr && zip in location_data.zip_attr) {
-                pop = location_data.zip_attr[zip].pop;
-                urban = location_data.zip_attr[zip].urban;
+              pop = location_data.zip_attr[zip].pop;
+              urban = location_data.zip_attr[zip].urban;
             }
             if (location_data.city_attr && location_name in location_data.city_attr) {
-                pop = location_data.city_attr[location_name].pop;
+              pop = location_data.city_attr[location_name].pop;
             }
             field_suffix.attr('commsize', pop);
             if (urban == "Urban") {
@@ -423,13 +440,7 @@
           moveAddButton();
           field_suffix.closest("td").find('.field_zip_code').focus();
         }).fail(function (location_data) {
-          // Print error message
-          failedLookup = true;
-          field_suffix.addClass('error').html(location_data.error_message);
-          field_suffix.attr("id", "zip-code-error");
-          field_suffix.prev().attr("aria-describedby", "zip-code-error");
-          are_there_errors = true;
-          hideButtons();
+          print_error_message(field_suffix, location_data.error_message);
         });
       }
     }
