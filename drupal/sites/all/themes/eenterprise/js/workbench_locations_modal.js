@@ -58,6 +58,7 @@ $(document).ready(function(){
 	}
 	
 	function locationSelect(zipcode, name) {
+		var max_allowed_locations =  5;
 		// If selected from modal and exists in select box change value
 		// Searching via select TITLE, not VALUE
 		var select_title = name + ' (' + zipcode + ')';
@@ -69,10 +70,10 @@ $(document).ready(function(){
 		}
 		else { // add value to select, remove last select value
 			var $new_option = $("<option title='" + select_title + "' value='" + zipcode + "'>" + name + " (" + zipcode + ")</option>");
-			$location_select.find('option:nth-child(9)').remove();
+			$location_select.find('option:nth-child(' + max_allowed_locations + ')').remove();
 			// Alphabetically place select option. Because already alphabetical, if not in
 			// select drop down, just make last choice (position 9)
-			$location_select.find('option:nth-child(8)').after($new_option);
+			$location_select.find('option:nth-child(' + (max_allowed_locations - 1) + ')').after($new_option);
 			$location_select.find('option[title="' + select_title + '"]').prop('selected', 'selected');
 			$location_select.trigger('change');
 		}

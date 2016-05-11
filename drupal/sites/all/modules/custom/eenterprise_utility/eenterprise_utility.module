@@ -941,8 +941,7 @@ function locations_add_to_session()
   if (isset($_POST['zip_data'])) {
     $_SESSION['user_preferred_zips'] = $_POST['zip_data'];
     $return_msg = array('error' => FALSE, 'msg' => "saved successfull", 'zips' => $_SESSION['user_preferred_zips']);
-  }
-  else {
+  } else {
     $return_msg = array('error' => TRUE, 'msg' => "No post data sent");
   }
   print json_encode($return_msg);
@@ -1137,6 +1136,11 @@ function eenterprise_utility_user_view($account, $view_mode, $langcode)
     drupal_goto("/user/" . $account->uid . "/edit");
 }
 
+
+
+
+
+
 /**
  * @return array
  * Workbench header data
@@ -1150,6 +1154,7 @@ function get_header_variables()
   $primary_zip = -1;
   // Does the user have any saved zip codes? If not will use default information
   $user_has_zip = false;
+  $location_count = 0;
 
   foreach ($user_preferred_zips as $name => $location_data) {
     foreach ($location_data as $zip => $zip_data) {
@@ -1167,6 +1172,8 @@ function get_header_variables()
       $locations_array[$name][] = $zip;
       // User has zips stored
       $user_has_zip = TRUE;
+
+      $location_count++;
     }
   }
 
@@ -1209,7 +1216,8 @@ function get_header_variables()
   $header_data = array(
     'locations' => $locations_array,
     'primary_location' => $primary_location,
-    'primary_zip' => $primary_zip
+    'primary_zip' => $primary_zip,
+    'location_count' => $location_count
   );
   return $header_data;
 }
@@ -1233,11 +1241,13 @@ function get_modal_data($locations, $city_name_count)
   print "</fieldset></div>";
 }
 
+
 /**
  * Generates location drop down in workbench header
  */
 function generate_location_select()
 {
+  $max_location_items = 9;
 
   // show an input box instead of a select for guest users
   global $user;
@@ -1248,6 +1258,15 @@ function generate_location_select()
   }
 
   $header_data = get_header_variables();
+
+  // Check if user has saved user_preferred_locations
+  $user_data = user_load($user->uid);
+  $user_zips_count = count($user_data->field_zip_code[LANGUAGE_NONE]);
+  if ($user_zips_count != $header_data['location_count']) {
+    // User zip fields are not reflected in user_preferred_locations
+    deprec_generate_location_select();
+    return;
+  }
   $city_name_count = array();
   $default_location = $header_data['primary_location'];
   $default_location_used = FALSE;
@@ -1271,10 +1290,10 @@ function generate_location_select()
 
 
       // Print option for select (up to 8 values)
-      if ($count < 9) {
+      if ($count < $max_location_items) {
         print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
       } // need to use default zip if not used yet
-      else if ($count == 9 && !$default_location_used && $default_zip != -1) {
+      else if ($count == $max_location_items && !$default_location_used && $default_zip != -1) {
         print "<option value='" . $default_zip . "' selected>" . $default_location . "</option>";
       } else {
         print "<option value='view_more'>Show more...</option>";
@@ -1290,6 +1309,143 @@ function generate_location_select()
   if ($count >= 9) {
     get_modal_data($header_data['locations'], $city_name_count);
   }
+}
+
+/**
+ * Called if user has not accessed user profile updating to user_preferred_locations
+ */
+function deprec_get_header_variables()
+{
+  //the value for now is hardcoded not to block front end developers while backend developers investigate API endpoints to get data from CDX
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_zips = $user_data->field_zip_code;
+  $locations_array = array();
+  // Primary zip is the selected zip in the drop down
+  $primary_zip = '';
+  // Does the user have any saved zip codes?
+  $user_has_zip = false;
+  foreach ($user_zips[LANGUAGE_NONE] as $key => $value) {
+    $primary = $value['field_field_primary'][LANGUAGE_NONE][0]['value'];
+    $zipcode = $value['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
+    if ($primary == 1) {
+      $primary_zip = $zipcode;
+    }
+    $zipcode_data = return_user_preferred_location($zipcode);
+
+    if (!$zipcode_data['error']) {
+      if ($zipcode_data['preferred_name']) {
+        $locations_array[$zipcode] = $zipcode_data['preferred_name'];
+        $user_has_zip = true;
+      } else {
+        $zipcode_data = zip_code_lookup($zipcode);
+        $locations_array[$zipcode] = $zipcode_data['string'];
+        $user_has_zip = true;
+      }
+    }
+  }
+  if (!$user_has_zip) {
+    // Use initial login information
+    $user_initial_login = $user_data->field_initial_log_in;
+    $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
+    $initial_geo = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+    // If user has no locations and no initial zip or locations in their profile (e.g., Skip this)
+    if (!$initial_zip > 0 && !$initial_geo > 0) {
+      $initial_zip = 27705;
+      //$initial_zip = 12401; // Good zip to test for good air quality
+    }
+    $zipcode_data = zip_code_lookup($initial_zip);
+    $primary_zip = $initial_zip;
+    $locations_array[$initial_zip] = $zipcode_data['string'];
+  }
+  asort($locations_array);
+  $header_data = array(
+    'locations' => $locations_array,
+    'primary_zip' => $primary_zip,
+  );
+  return $header_data;
+}
+
+/**
+ * Called if user has not accessed user profile updating to user_preferred_locations
+ */
+function deprec_generate_location_select()
+{
+  // show an input box instead of a select for guest users
+  global $user;
+  $max_location_items = 10;
+
+  if ($user->name == 'guest-user') {
+    generate_location_input_for_guests();
+    return;
+  }
+
+  $default_zip_used = false;
+  $header_data = deprec_get_header_variables();
+  $city_name_count = array();
+  $default_zip = $header_data['primary_zip'];
+  if (isset($_SESSION['default_location_zip']) && isset($_SESSION['default_location_name'])) {
+    if (is_numeric($_SESSION['default_location_zip'])) {
+      $default_zip = $_SESSION['default_location_zip'];
+    }
+    $default_name = $_SESSION['default_location_name'];
+  }
+
+  foreach ($header_data['locations'] as $key => $value) {
+    if (isset($city_name_count[$value])) {
+      ++$city_name_count[$value];
+    } else {
+      $city_name_count[$value] = 1;
+    }
+  }
+//    if (count($header_data['locations']) > 1) {
+  print "<label for='location-select'>Set location</label>";
+  print "<select for='favorite-location' id='location-select'>";
+
+  $count = 0;
+  foreach ($header_data['locations'] as $key => $value) {
+
+    if (intval($key) == intval($default_zip)) {
+      $selected = 'selected';
+      $default_zip_used = true;
+    } else {
+      $selected = '';
+    }
+    if ($count < $max_location_items) {
+      print "<option value='" . $key . "' " . $selected . " >" . $value . " (" . $key . ")</option>";
+    }
+    if ($count == $max_location_items) {
+      print "<option value='view_more'>Show more...</option>";
+      break;
+    }
+    $count = $count + 1;
+  }
+
+  // Check if saved default_zip was used. If not, it is a session variable that has not been saved yet.
+  // Add the value to the location selection
+  if ($default_zip_used == false && !empty($default_zip) && $default_name != "") {
+    print "<option value='" . $default_zip . "' selected>" . $default_name . "</option>";
+  }
+
+  print "</select>";
+
+  if (count($header_data['locations']) > $max_location_items) {
+    deprec_get_modal_data($header_data['locations'], $city_name_count);
+  }
+}
+
+/**
+ * Called if user has not accessed user profile updating to user_preferred_locations
+ */
+function deprec_get_modal_data($locations)
+{
+  print "<a id='locations-modal' href='#'>View all favorite cities</a>";
+  print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
+  print "<fieldset class='radio-options-holder'>";
+  foreach ($locations as $key => $value) {
+    print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . " (" . $key . ")" . "</label>";
+  }
+  print "</fieldset></div>";
 }
 
 /**
