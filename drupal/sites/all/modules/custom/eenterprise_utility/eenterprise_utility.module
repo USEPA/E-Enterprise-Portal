@@ -1184,7 +1184,7 @@ function get_header_variables()
         $primary_zip = $zip;
       }
       // initialize empty array to hold zips for name
-      if (!is_array($locations_array[$name])) {
+      if (!isset($locations_array[$name])) {
         $locations_array[$name] = array();
       }
       // Add zip to location named list
@@ -1281,6 +1281,7 @@ function generate_location_select()
   // Check if user has saved user_preferred_locations
   $user_data = user_load($user->uid);
   $user_zips_count = count($user_data->field_zip_code[LANGUAGE_NONE]);
+
   if ($user_zips_count != $header_data['location_count']) {
     // User zip fields are not reflected in user_preferred_locations
     deprec_generate_location_select();
@@ -1314,7 +1315,8 @@ function generate_location_select()
       } // need to use default zip if not used yet
       else if ($count == $max_location_items && !$default_location_used && $default_zip != -1) {
         print "<option value='" . $default_zip . "' selected>" . $default_location . "</option>";
-      } else {
+      }
+      else {
         print "<option value='view_more'>Show more...</option>";
         break;
       }
@@ -1322,7 +1324,6 @@ function generate_location_select()
       $count = $count + 1;
     }
   }
-
   print "</select>";
 
   if ($count >= 9) {
@@ -1882,6 +1883,7 @@ function connectToSOAPServerWithWSDL($wsdl, $location = "")
     $soap_obj->client = $client;
     $soap_obj->error = FALSE;
   } catch (SoapFault $f) {
+    dpm($f);
     $message = "Error: " . $f . ' Error Message: ' . $f->detail->faultdetails->message;
     watchdog($location, $message, array(), WATCHDOG_ERROR);
     $soap_obj->error = TRUE;
