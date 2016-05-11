@@ -254,7 +254,8 @@
         });
       }
     });
-
+    //Right after the map is done loading, add favorites-ignore to Leaflet branding text.
+    $("#my-air-quality-air-now-map-container .leaflet-bottom .leaflet-control-attribution a").addClass("favorites-ignore");
     return map;
   }
 
@@ -594,7 +595,7 @@
     // find the maxAQI in the data
     // compute visualAQI
     var maxAQI = 0;
-    var srAQIString = "<p class='widget-note'><a href='#sr-aqi-data' id='sr-aqi-data-toggle'>View chart description</a></p><p id='sr-aqi-data' tabindex='0'>";
+    var srAQIString = "<p class='widget-note'><a href='#sr-aqi-data' id='sr-aqi-data-toggle' class='favorites-ignore'>View chart description</a></p><p id='sr-aqi-data' tabindex='0'>";
     srTodayAQI = "";
     for (var i in data) {
       if (maxAQI < data[i].AQI)
@@ -879,7 +880,7 @@
       .attr("class", "popover right")
       .style("position", "fixed");
                
-		$('#my-air-quality-chart').append("<p class='widget-note'><a href='#aqi-explained' id='aqi-explained-toggle'>Learn more about AQI categories and ranges</a></p>");
+		$('#my-air-quality-chart').append("<p class='widget-note'><a href='#aqi-explained' id='aqi-explained-toggle'  class='favorites-ignore'>Learn more about AQI categories and ranges</a></p>");
     $('#sr-aqi-svg').html(srAQIString);
     
     var aqiExplained = "<div id='aqi-explained' tabindex='0'><p>Think of the AQI as a yardstick that runs from 0 to 500. The higher the AQI value, the greater the level of air pollution and the greater the health concern. For example, an AQI value of 50 represents good air quality with little potential to affect public health, while an AQI value over 300 represents hazardous air quality.  Each category corresponds to a different level of health concern. The six levels of health concern and what they mean are:</p><ul><li>A Good AQI is 0 to 50. Air quality is considered satisfactory, and air pollution poses little or no risk.</li><li>A Moderate AQI is 51 to 100. Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people. For example, people who are unusually sensitive to ozone may experience respiratory symptoms.</li><li>An Unhealthy for Sensitive Groups AQI is 101 to 150. Although general public is not likely to be affected at this AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air.</li><li>An Unhealthy AQI is 151 to 200. Everyone may begin to experience some adverse health effects, and members of the sensitive groups may experience more serious effects.</li><li>A Very Unhealthy AQI is 201 to 300. This would trigger a health alert signifying that everyone may experience more serious health effects.</li><li>A Hazardous AQI is greater than 300. This would trigger a health warnings of emergency conditions. The entire population is more likely to be affected.</li></ul></div>";
