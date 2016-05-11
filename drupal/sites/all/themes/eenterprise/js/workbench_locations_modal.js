@@ -58,7 +58,7 @@ $(document).ready(function(){
 	}
 	
 	function locationSelect(zipcode, name) {
-		var max_allowed_locations =  5;
+		var max_allowed_locations =  9;
 		// If selected from modal and exists in select box change value
 		// Searching via select TITLE, not VALUE
 		var select_title = name + ' (' + zipcode + ')';
