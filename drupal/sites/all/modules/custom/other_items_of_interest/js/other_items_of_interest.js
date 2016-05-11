@@ -95,8 +95,15 @@
 
 
     function return_location_name(location) {
-        return $.trim(location.substr(0, location.indexOf('(')));
+        var index = location.indexOf('(');
+        if (index > 0) {
+            return $.trim(location.substr(0, location.indexOf('(')));
+        }
+        else {
+            return location;
+        }
     }
+
 
     $(document).ready(function() {
 
