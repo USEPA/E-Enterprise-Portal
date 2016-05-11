@@ -133,6 +133,7 @@
    */
   function update_user_zip_preferences(location_name, commsize, isurban, input_to_ignore) {
     // Reset global location_obj
+    hideButtons();
     location_obj = {};
 
     $("[id*=field-zip-code-values]").find("tr").each(function () {
@@ -173,7 +174,10 @@
       method: "POST",
       data: location_obj,
       success: function (response) {
-      //  response = $.parseJSON(response);
+        response = $.parseJSON(response);
+        console.log(response);
+        resetButtons();
+
       }
     });
   }
