@@ -640,7 +640,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
      * Zip Code Settings
      */
     $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter city, state; tribe; or ZIP code";
+    $used_preferred_names = array();
     for ($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
+      $duplicate = false;
       $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'];
       $primary = $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_primary'][LANGUAGE_NONE]['#default_value'];
       // override default if input has been made
@@ -659,18 +661,35 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         $user_preferred_name = name_look_up($zip_mapping_options, $zip, $lookup_names);
         if ($user_preferred_name) {
           $name = $user_preferred_name;
-          $field_suffix = '<span id="city-name-' . $delta . '" aria-live="polite">' . $user_preferred_name . '</span>';
-          $ariacity = $user_preferred_name;
         } else {
           // no preferred name found, use zip_code_lookup
           $zip_data = zip_code_lookup($zip);
           $name = $zip_data['string'];
+        }
+
+        if (!is_array($used_preferred_names[$name])) {
+          $used_preferred_names[$name] = array();
+        }
+        if (!in_array($zip, $used_preferred_names[$name])) {
+          $used_preferred_names[$name][] = $zip;
+        }
+        else {
+          $duplicate = true;
+        }
+
+        if ($duplicate) {
+          $field_suffix = '<span id="zip-code-error" class="field-suffix error">' .
+            'Duplicate location name (' . $name . ') and zip code paires are not allowed.</span>';
+          $ariacity = '';
+        }
+        else {
           $field_suffix = '<span id="city-name-' . $delta . '" aria-live="polite">' . $name . '</span>';
           $ariacity = $name;
+          // Add name to session data
+          $_SESSION['zip_name_mapping'][$delta] = $name;
+          $_SESSION['user_preferred_zips'][$name][$zip] = array('commsize' => '', 'is_urban' => '', 'primary' => $primary);
         }
-        // Add name to session data
-        $_SESSION['zip_name_mapping'][$delta] = $name;
-        $_SESSION['user_preferred_zips'][$name][$zip] = array('commsize' => '', 'is_urban' => '', 'primary' => $primary);
+
 
       } else {
         $field_suffix = '';
