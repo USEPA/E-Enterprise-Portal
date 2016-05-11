@@ -679,7 +679,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 
         if ($duplicate) {
           $field_suffix = '<span id="zip-code-error" class="field-suffix error">' .
-            'Duplicate location name (' . $name . ') and zip code paires are not allowed.</span>';
+            'Duplicate location name (' . $name . ') and zip code pairs are not allowed.</span>';
           $ariacity = '';
         }
         else {
