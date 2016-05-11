@@ -28,7 +28,7 @@
 
 
     function processPageAnchors() {
-        var ignore_panels = ['leaflet-popup-pane', '.pane-views-cdx-facility-management-block', '.pane-views-progress-tracker-block-1', '.pane-views-to-do-block-1'];
+        var ignore_panels = ['.leaflet-popup-pane', '.pane-views-cdx-facility-management-block', '.pane-views-progress-tracker-block-1', '.pane-views-to-do-block-1'];
         // process img links
         $('.panel-pane:not(' + ignore_panels.join(',') + ') img').each(function () {
 
