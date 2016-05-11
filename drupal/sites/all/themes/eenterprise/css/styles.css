@@ -4016,6 +4016,9 @@ form .field-multiple-table#field-zip-code-values th.field-label {
   max-width: 40rem;
   padding: 1rem 0.7em !important;
   width: 100% !important; }
+  .ui-autocomplete-input#location-input-guests {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important; }
   .ui-autocomplete-input:after {
     content: "\f002";
     font-family: 'FontAwesome';
