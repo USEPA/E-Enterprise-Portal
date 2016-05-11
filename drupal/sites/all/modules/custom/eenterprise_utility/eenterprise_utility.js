@@ -131,14 +131,20 @@
    * @param commsize
    * @param isurban
    */
-  function update_user_zip_preferences(location_name, commsize, isurban) {
+  function update_user_zip_preferences(location_name, commsize, isurban, input_to_ignore) {
     // Reset global location_obj
     location_obj = {};
 
-    $("[id*=field-zip-code-values] tr").each(function () {
+    $("[id*=field-zip-code-values]").find("tr").each(function () {
       var $tr = $(this);
+      var zip_id = $tr.find(".field_zip_code").attr('id');
+      var $field_suffix = $tr.find('.field-suffix');
+      // Do not add items that have errored or are currently being changed
+      if (zip_id == input_to_ignore || $field_suffix.hasClass('error')) {
+        return true; // Skip to next iteration
+      }
       var zip = $tr.find(".field_zip_code").val();
-      var name = $tr.find('.field-suffix').text();
+      var name = $field_suffix.text();
       var primary = $tr.find('.field-name-field-field-primary input').prop('checked');
       if (primary) {
         primary = 1;
@@ -284,6 +290,7 @@
       else { // type city or tribe
         zip_val = select_value;
         location_name = location_data.zip_attr[select_value].city;
+        // Set duplicate flag if the location and zip has already been entered.
         if (check_duplicate(location_name, zip_val)) {
           print_error_message(field_suffix, "Duplicate location name and zip code pairs are not allowed.");
           duplicate = true;
@@ -309,7 +316,7 @@
         // Update community/rural data
         updateCommunitySettings();
         // Update all location data
-        update_user_zip_preferences(location_name, pop, urban);
+        update_user_zip_preferences(location_name, pop, urban, "");
       }
       label_select.remove();
       select.remove();
@@ -343,10 +350,12 @@
       // This is an override of the drupal add and save to allow the zip code data to process before saving
       input = fieldToCheck;
       var field_suffix = input.next('.field-suffix');
-      if (field_suffix.hasClass('error'))
+      if (field_suffix.hasClass('error')) {
         field_suffix.removeClass('error');
-      if ($.trim(input.val()) == '')
+      }
+      if ($.trim(input.val()) == '') {
         field_suffix.html('');
+      }
       else {
         var ariaid = input.attr('aria-describedby');
         field_suffix.attr('id', ariaid);
@@ -357,6 +366,9 @@
           var pop = 0;
           var urban = "";
           var duplicate = false;
+
+          // Update location data to check for duplicates, ignoring this input-
+          update_user_zip_preferences("", "", "", input.attr('id'));
 
           // If zip codes, then returning zip code data for string input
           if (location_data.zip_codes) {
@@ -377,7 +389,7 @@
               location_name = location_name + ', ' + location_data.state;
             }
             if (check_duplicate(location_name, zip)) {
-              print_error_message(field_suffix, "Duplicate location name and zip code pairs are not allowed.");
+              print_error_message(field_suffix, "Duplicate location name (" + location_name + ") and zip code pairs are not allowed.");
               duplicate = true;
             }
             if (!duplicate) {
@@ -414,7 +426,7 @@
             }
             location_name = location_data.city[0];
             if (check_duplicate(location_name, zip)) {
-              print_error_message(field_suffix, "Duplicate location name and zip code pairs are not allowed.");
+              print_error_message(field_suffix, "Duplicate location name (" + location_name + ") and zip code pairs are not allowed.");
               duplicate = true;
             }
             if (!duplicate) {
@@ -514,7 +526,6 @@
       setCommunitySizeType(primary_zip.attr('commsize'), primary_zip.attr('isurban'));
       //update session data without adding new community data
       update_user_zip_preferences("", "", "");
-
     });
 
     $('body').on('click', '.zip-code-primary-select.selected', function () {
@@ -533,7 +544,7 @@
       lastVal = $(this).val();
       $('.field_zip_code').on('change', function () {
         $('.form-submit').prop("disabled", true);
-        $('.field-suffix').removeClass('error')
+       // $('.field-suffix').removeClass('error')
       });
       $(".field_zip_code").keyup(function (e) {
         if ($(this).val() != '' && (lastVal != $(this).val())) {
@@ -597,7 +608,7 @@
             resetButtons();
           }
           // Update zip session data
-          update_user_zip_preferences();
+          update_user_zip_preferences("", "", "");
         }
         // determine which table to place the Add Another button
         if (target_url == '/system/ajax' || target_url == '/multifield/field-remove-item/ajax') {
