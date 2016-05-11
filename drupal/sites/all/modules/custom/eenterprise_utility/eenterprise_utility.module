@@ -450,7 +450,7 @@ function name_look_up($zip_lookup, $zip_search, &$lookup_names)
       if ($zip_search != $zip) {
         continue;
       }
-      if (!is_array($lookup_names[$name])) {
+      if (!isset($lookup_names[$name])) {
         $lookup_names[$name] = array();
       }
       // Check if zip and name has already been used
@@ -667,7 +667,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
           $name = $zip_data['string'];
         }
 
-        if (!is_array($used_preferred_names[$name])) {
+        if (!isset($used_preferred_names[$name])) {
           $used_preferred_names[$name] = array();
         }
         if (!in_array($zip, $used_preferred_names[$name])) {
@@ -1205,13 +1205,13 @@ function get_header_variables()
     $initial_geo = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
     // If user has no locations and no initial zip or locations in their profile (e.g., Skip this)
     //TODO check this condition, looks wonky
-    if (!$initial_zip > 0 && !$initial_geo > 0) {
+    if ($initial_zip <= 0 && $initial_geo <= 0) {
       $initial_zip = 27705;
       //$initial_zip = 12401; // Good zip to test for good air quality
     }
     $zipcode_data = zip_code_lookup($initial_zip);
     $primary_location = $zipcode_data['string'];
-    $locations_array[$zipcode_data['string']] = $initial_zip;
+    $locations_array[$primary_location] = array($initial_zip);
   }
 
   // Overide primary location with session if set
@@ -1220,7 +1220,7 @@ function get_header_variables()
       $primary_location = $_SESSION['default_location_name'];
       $primary_zip = $_SESSION['default_location_zip'];
       // add to locations array
-      if (!is_array($locations_array[$primary_location])) {
+      if (!isset($locations_array[$primary_location])) {
         $locations_array[$primary_location] = array();
       }
       // Only add if not already included
@@ -1247,7 +1247,7 @@ function get_header_variables()
  * @param $locations
  * @param $city_name_count
  */
-function get_modal_data($locations, $city_name_count)
+function get_modal_data($locations)
 {
   print "<a id='locations-modal' href='#'>View all favorite cities</a>";
   print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
@@ -1287,23 +1287,24 @@ function generate_location_select()
     deprec_generate_location_select();
     return;
   }
-  $city_name_count = array();
-  $default_location = $header_data['primary_location'];
-  $default_location_used = FALSE;
-  $default_zip = $header_data['primary_zip']; // Reset if found
+
+  $primary_location = $header_data['primary_location'];
+  $primary_location_used = FALSE;
+  $primary_zip = $header_data['primary_zip']; // Reset if found
 
 
   print "<label for='location-select'>Set location</label>";
   print "<select name='favorite-location' id='location-select'>";
 
   $count = 0;
+  $show_more = TRUE;
   // Zip is array of zips
   foreach ($header_data['locations'] as $name => $zips) {
     foreach ($zips as $zip) {
       // Select if default/primary location
-      if ($name == $default_location && $zip == $default_zip) {
+      if ($name == $primary_location && $zip == $primary_zip) {
         $selected = 'selected';
-        $default_location_used = true;
+        $primary_location_used = true;
       } else {
         $selected = '';
       }
@@ -1313,11 +1314,12 @@ function generate_location_select()
       if ($count < $max_location_items) {
         print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
       } // need to use default zip if not used yet
-      else if ($count == $max_location_items && !$default_location_used && $default_zip != -1) {
-        print "<option value='" . $default_zip . "' selected>" . $default_location . "</option>";
+      else if ($count == $max_location_items && !$primary_location_used && $primary_zip > 0 ) {
+        print "<option value='" . $primary_zip . "' selected>" . $primary_location . "</option>";
       }
-      else {
+      else if ($show_more){
         print "<option value='view_more'>Show more...</option>";
+        $show_more = FALSE;
         break;
       }
 
@@ -1327,7 +1329,7 @@ function generate_location_select()
   print "</select>";
 
   if ($count >= 9) {
-    get_modal_data($header_data['locations'], $city_name_count);
+    get_modal_data($header_data['locations']);
   }
 }
 
