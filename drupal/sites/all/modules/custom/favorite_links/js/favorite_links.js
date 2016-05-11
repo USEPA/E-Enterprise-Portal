@@ -28,7 +28,7 @@
 
 
     function processPageAnchors() {
-        var ignore_panels = ['.leaflet-popup-pane', '.pane-views-cdx-facility-management-block', '.pane-views-progress-tracker-block-1', '.pane-views-to-do-block-1'];
+        var ignore_panels = ['.pane-views-cdx-facility-management-block', '.pane-views-progress-tracker-block-1', '.pane-views-to-do-block-1'];
         // process img links
         $('.panel-pane:not(' + ignore_panels.join(',') + ') img').each(function () {
 
@@ -45,6 +45,7 @@
         $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .menu-link, .skip-link, .paginate_button,[href^=mailto], [href^=javascript])').each(function () {
             if ($(this).text().length > 0 && $(this).attr('href') != '#'
                 && $(this).attr('href') != '/'
+                && $(this).attr('href') != '#close'
                 && !$(this).hasClass('processed-favorite')
                 && $(this).attr('href') != ''
             ) {
