@@ -208,6 +208,7 @@
 
 
     function updateWidget(user_role_id, naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts) {
+
         $('#facility-widget').html('');
 
         // For IE8 and below
@@ -244,14 +245,17 @@
             NAASip: naas_ip,
             onInvalidSession: function () {
                 var new_token_return = createNewToken();
-                if (new_token_return.expired)
+                if (new_token_return.expired) {
                     userMustLogin();
+                }
                 else {
                     var new_naas_token = new_token_return.token;
-                    if (new_naas_token == '')
+                    if (new_naas_token == '') {
                         unableToConnectWidget("CDX Facility- Blank Token");
-                    else if (number_attempts > 2)
+                    }
+                    else if (number_attempts > 2) {
                         unableToConnectWidget("CDX Facility- Max attempts.");
+                    }
                     else {
                         widget_updating = false;
                         updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts + 1);
