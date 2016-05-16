@@ -228,7 +228,6 @@
         }
 
         if (widget_updating) {
-    //        alert("widget updating, don't use" + user_role_id);
             user_role_waiting = user_role_id;
             must_update_widget = true;
             return;
@@ -253,8 +252,10 @@
                         unableToConnectWidget("CDX Facility- Blank Token");
                     else if (number_attempts > 2)
                         unableToConnectWidget("CDX Facility- Max attempts.");
-                    else
+                    else {
+                        widget_updating = false;
                         updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts + 1);
+                    }
                 }
             },
             onServiceCall: function () {
@@ -266,9 +267,7 @@
             },
             onWidgetDataLoaded: function() {
                 widget_updating = false;
-              //  alert('finished updating = ' + user_role_id);
                 if (must_update_widget) {
-             //       alert('update widget after this completes- ' + user_role_waiting);
                     updateWidget(user_role_waiting, naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts);
                     must_update_widget = false;
                 }
