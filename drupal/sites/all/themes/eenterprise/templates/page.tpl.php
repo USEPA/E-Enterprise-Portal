@@ -19,6 +19,22 @@ if(drupal_is_front_page()) {
 if(arg(0) == 'workbench' && $user->uid == 0){
     drupal_goto("/");
 }
+/*
+elseif (arg(0) == 'workbench' && $user->uid > 0) {
+	drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/pace.min.js", "file");
+}
+*/
+
+$user_data = user_load($user->uid);
+if ($user->name == 'guest-user') {
+    drupal_add_js(array('ee_guest' => true), 'setting'); // Adding check for guest
+}
+if ($user->uid > 0) {
+	drupal_add_js(array('ee_user' => true), 'setting'); // Adding check for guest
+}
+else {
+	drupal_add_js(array('ee_public' => true), 'setting'); // If not guest and not logged in, show public view on Home, FAQs, Release Notes
+}
 
 ?>
 <?php print render($page['alert']); ?>

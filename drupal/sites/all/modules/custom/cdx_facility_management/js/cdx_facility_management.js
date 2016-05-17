@@ -12,7 +12,13 @@
             url: '/return_cdx_facility_management_token',
             async: false,
             success: function (json) {
-                var parsed_json = $.parseJSON(json);
+                var parsed_json = {};
+                if (json == "") {
+                    parsed_json.expired = true;
+                }
+                else {
+                    parsed_json = $.parseJSON(json);
+                }
                 if (parsed_json.expired) {
                     token_data.expired = true;
                 }
@@ -141,13 +147,15 @@
                             // First connect to widget initially to start CDX session;
                             var temp = 0;
                             $.each(org_to_roles, function (org_id, role_object) {
-                                $.each(role_object.roles, function (dataflow, role_array) {
-                                    if (temp == 0) {
-                                        var initial_user_role_id = role_array[0].userRoleId;
-                                        updateWidget(initial_user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold, 0);
-                                        temp = 1;
-                                    }
-                                });
+                                if (role_object.roles) {
+                                    $.each(role_object.roles, function (dataflow, role_array) {
+                                        if (temp == 0) {
+                                            var initial_user_role_id = role_array[0].userRoleId;
+                                            updateWidget(initial_user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold, 0);
+                                            temp = 1;
+                                        }
+                                    });
+                                }
                             });
 
                             org_filter_select.append('<option value="">Select an Organization</option>');
@@ -155,11 +163,12 @@
                             var first_org_id;
                             var first_org_name;
                             $.each(org_to_roles, function (org_id, org_obj) {
-                                org_filter_select.append('<option value="' + org_id + '" >' + org_obj.name + '</option>');
-                                count = count + 1;
-                                first_org_id = org_id; // unused if count > 1
-                                first_org_name = org_obj.name;
-
+                                if (org_obj.roles) {
+                                    org_filter_select.append('<option value="' + org_id + '" >' + org_obj.name + '</option>');
+                                    count = count + 1;
+                                    first_org_id = org_id; // unused if count > 1
+                                    first_org_name = org_obj.name;
+                                }
                             });
 
                             if (count == 1) {
@@ -199,21 +208,21 @@
                     console.log("CDX Error", parsed_json);
                     $('#fmw-organization-select-holder').html("Unable to receive user data.");
                 }
-
-
             }
         });
     }
 
 
     function updateWidget(user_role_id, naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts) {
+
         $('#facility-widget').html('');
 
         // For IE8 and below
-        if (!Date.now)
+        if (!Date.now) {
             Date.now = function () {
                 return new Date().getTime();
             }
+        }
         var current_time = Date.now();
         // convert php timestamp to miliseconds
         var time_logged_in_mili = time_logged_in * 1000;
@@ -226,7 +235,6 @@
         }
 
         if (widget_updating) {
-    //        alert("widget updating, don't use" + user_role_id);
             user_role_waiting = user_role_id;
             must_update_widget = true;
             return;
@@ -243,16 +251,21 @@
             NAASip: naas_ip,
             onInvalidSession: function () {
                 var new_token_return = createNewToken();
-                if (new_token_return.expired)
+                if (new_token_return.expired) {
                     userMustLogin();
+                }
                 else {
                     var new_naas_token = new_token_return.token;
-                    if (new_naas_token == '')
+                    if (new_naas_token == '') {
                         unableToConnectWidget("CDX Facility- Blank Token");
-                    else if (number_attempts > 2)
+                    }
+                    else if (number_attempts > 2) {
                         unableToConnectWidget("CDX Facility- Max attempts.");
-                    else
+                    }
+                    else {
+                        widget_updating = false;
                         updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts + 1);
+                    }
                 }
             },
             onServiceCall: function () {
@@ -264,9 +277,7 @@
             },
             onWidgetDataLoaded: function() {
                 widget_updating = false;
-              //  alert('finished updating = ' + user_role_id);
                 if (must_update_widget) {
-             //       alert('update widget after this completes- ' + user_role_waiting);
                     updateWidget(user_role_waiting, naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts);
                     must_update_widget = false;
                 }
