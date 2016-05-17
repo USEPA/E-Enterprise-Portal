@@ -104,8 +104,9 @@ function return_cdx_facility_management_token()
         $user_login_time = time();
     } else {
         // if user logged in without bridge (single sign), session is not set.
-        if (isset($_SESSION['login_timestamp']))
+        if (isset($_SESSION['login_timestamp'])) {
             $user_login_time = $_SESSION['login_timestamp'];
+        }
         else {
             $user_login_time = time();
             $_SESSION['login_timestamp'] = $user_login_time;
@@ -134,7 +135,6 @@ function return_cdx_facility_management_token()
         $token_expiration = variable_get('cdx_facility_token_expiration');
         $auth_method = variable_get('eactivity_auth_reg_auth_method');
         $cdx_resource_url = variable_get('cdx_facility_resource_url');
-
 
         //Temp for testing on aws
         $create_new_token_initially = variable_get('temp_create_new_token');

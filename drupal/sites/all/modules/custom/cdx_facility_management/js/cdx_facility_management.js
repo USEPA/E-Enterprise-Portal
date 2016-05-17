@@ -12,7 +12,13 @@
             url: '/return_cdx_facility_management_token',
             async: false,
             success: function (json) {
-                var parsed_json = $.parseJSON(json);
+                var parsed_json = {};
+                if (json == "") {
+                    parsed_json.expired = true;
+                }
+                else {
+                    parsed_json = $.parseJSON(json);
+                }
                 if (parsed_json.expired) {
                     token_data.expired = true;
                 }
