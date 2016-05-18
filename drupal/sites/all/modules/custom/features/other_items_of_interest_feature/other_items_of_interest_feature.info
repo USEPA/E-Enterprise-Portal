@@ -4,6 +4,7 @@ core = 7.x
 package = Features
 version = 7.x-1.5
 project = other_items_of_interest_feature
+dependencies[] = datatables
 dependencies[] = fe_block
 dependencies[] = features
 dependencies[] = list
