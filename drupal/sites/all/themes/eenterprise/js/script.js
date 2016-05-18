@@ -174,17 +174,20 @@
                     return $nextWidgetSkipLink.prev('h2');
                 }
 
+                // Locate widgets and insert skip links after the H2
                 $('.grid-stack-item-content:not(.no-skip-widget-link)').find('h2').after($('<a>', {
                     'class': 'skip-widget element-invisible element-focusable',
                     'href': 'javascript:void(0)',
                     text: 'Skip to next widget'
                 }));
 
+                // Instead of "Skip to next widget," replace the "next widget" text with the actual title, e.g.: "Trending Air"
                 $('a.skip-widget').text(function (e) {
                     var $nextWidgetTitle = findNextWidgetTitle($(this));
                     $(this).text('Skip to ' + $nextWidgetTitle.text() + ' widget');
                 });
 
+                // Add click event handler for these skip links
                 $('body').on('click', 'a.skip-widget', function (e) {
                     var $nextWidgetTitle = findNextWidgetTitle($(this));
                     $nextWidgetTitle.focus();
