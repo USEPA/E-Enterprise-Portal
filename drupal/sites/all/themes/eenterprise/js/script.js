@@ -373,6 +373,8 @@
                                 var data = $.parseJSON(data);
                                 serialization = GridStackUI.Utils.sort(data);
                                 initializeIndices(grid, serialization);
+                                var serializedWidgets = reorderGridDOM();
+                                rebuildSkipLinks(serializedWidgets);
                             }
                         });
                     }
