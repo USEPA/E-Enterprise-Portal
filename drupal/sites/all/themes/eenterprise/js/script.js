@@ -902,6 +902,8 @@
                         $('#next-week a').click();
                     }
                     else if (e.which === 37) {
+                        $('input#focused-element').remove();
+                        $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="#all-time" />');
                         $('#all-time a').click();
                     }
                 });
