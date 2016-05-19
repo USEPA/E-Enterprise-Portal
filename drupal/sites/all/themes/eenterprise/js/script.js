@@ -989,6 +989,8 @@
                                 $($('input#focused-view').val()).focus();
                             }
                         }
+                        // we used it, now lose it!
+                        $('input#focused-element').remove();
                     } else if ($("#this-week").hasClass("filter-applied")) {
                         $('#this-week a').focus();
                     } else if ($("#next-week").hasClass("filter-applied")) {
