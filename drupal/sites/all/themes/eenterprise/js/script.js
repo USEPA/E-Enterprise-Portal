@@ -239,8 +239,61 @@
                     function addDragListeners($grid_container, $grid_change_options) {
                         $('body').on('swapped_grid', function() {
                             $grid_change_options.show();
+                            var serializedWidgets = reorderGridDOM();
+                            rebuildSkipLinks(serializedWidgets);
                         });
+                    }
 
+                    function reorderGridDOM() {
+                        // clear out ids
+                        $('.grid-stack .grid-stack-item:visible').attr('id', '');
+
+                        // let gridstack determine the new skip order
+                        var serializedWidgets = GridStackUI.Utils.sort(serializeWidgets());
+
+                        for (var key in serializedWidgets) {
+                            var value = serializedWidgets[key];
+                            $('.grid-stack').append($('#' + value.id));
+                        }
+
+                        return serializedWidgets;
+                    }
+
+                    function rebuildSkipLinks(serializedWidgets) {
+                        // rebuild the skip links
+                        for (var i = 0; i < (serializedWidgets.length - 1); i++) {
+                            // all widgets except for the last one point to 'next'
+                            setSkipLink($('#' + serializedWidgets[i].id), $('#' + serializedWidgets[i + 1].id));
+                        }
+                        // the last widget points to 'first'
+                        var lastWidget = serializedWidgets[serializedWidgets.length - 1];
+                        setSkipLink($('#' + lastWidget.id), $('#' + serializedWidgets[0].id));
+                    }
+
+                    // @see https://github.com/troolee/gridstack.js/blob/master/README.md#save-grid-to-array
+                    function serializeWidgets() {
+                        return _.map($('.grid-stack .grid-stack-item:visible'), function (el, key) {
+                            el = $(el);
+                            el.attr('id', 'grid-item-' + key);
+                            var node = el.data('_gridstack_node');
+                            return {
+                                id: el.attr('id'),
+                                x: node.x,
+                                y: node.y,
+                                width: node.width,
+                                height: node.height
+                            };
+                        });
+                    }
+
+                    function setSkipLink(sourceWidget, destinationWidget) {
+                        var skipTitle = $(destinationWidget).find('h2').text();
+                        $(sourceWidget).find('a.skip-widget').remove();
+                        $(sourceWidget).find('h2').after($('<a>', {
+                            'class': 'skip-widget element-invisible element-focusable',
+                            'href': 'javascript:void(0)',
+                            'text': 'Skip to ' + skipTitle + ' widget'
+                        }));
                     }
 
                     function addSaveListeners(grid, $save_button, $revert_button) {
