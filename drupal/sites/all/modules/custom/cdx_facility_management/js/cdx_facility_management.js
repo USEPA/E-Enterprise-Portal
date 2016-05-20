@@ -12,7 +12,13 @@
             url: '/return_cdx_facility_management_token',
             async: false,
             success: function (json) {
-                var parsed_json = $.parseJSON(json);
+                var parsed_json = {};
+                if (json == "") {
+                    parsed_json.expired = true;
+                }
+                else {
+                    parsed_json = $.parseJSON(json);
+                }
                 if (parsed_json.expired) {
                     token_data.expired = true;
                 }
@@ -208,6 +214,7 @@
 
 
     function updateWidget(user_role_id, naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts) {
+
         $('#facility-widget').html('');
 
         // For IE8 and below
@@ -228,7 +235,6 @@
         }
 
         if (widget_updating) {
-    //        alert("widget updating, don't use" + user_role_id);
             user_role_waiting = user_role_id;
             must_update_widget = true;
             return;
@@ -245,16 +251,21 @@
             NAASip: naas_ip,
             onInvalidSession: function () {
                 var new_token_return = createNewToken();
-                if (new_token_return.expired)
+                if (new_token_return.expired) {
                     userMustLogin();
+                }
                 else {
                     var new_naas_token = new_token_return.token;
-                    if (new_naas_token == '')
+                    if (new_naas_token == '') {
                         unableToConnectWidget("CDX Facility- Blank Token");
-                    else if (number_attempts > 2)
+                    }
+                    else if (number_attempts > 2) {
                         unableToConnectWidget("CDX Facility- Max attempts.");
-                    else
+                    }
+                    else {
+                        widget_updating = false;
                         updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts + 1);
+                    }
                 }
             },
             onServiceCall: function () {
@@ -266,9 +277,7 @@
             },
             onWidgetDataLoaded: function() {
                 widget_updating = false;
-              //  alert('finished updating = ' + user_role_id);
                 if (must_update_widget) {
-             //       alert('update widget after this completes- ' + user_role_waiting);
                     updateWidget(user_role_waiting, naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts);
                     must_update_widget = false;
                 }
