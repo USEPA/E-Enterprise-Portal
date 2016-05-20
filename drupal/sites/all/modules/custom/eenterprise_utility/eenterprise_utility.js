@@ -84,7 +84,7 @@
       fixInput = $zipcode_description.find('select').closest('td').find('.field_zip_code');
       fixInput.focus();
     }
-    var $field_add_more_submit = $('#links_description').find('.field-add-more-submit');
+    var $field_add_more_submit = $('#links_description .field-add-more-submit');
     $field_add_more_submit.prop("value", "New favorite").addClass("usa-button");
 
   }

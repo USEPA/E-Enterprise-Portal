@@ -939,8 +939,6 @@ a:focus.add_link {
 
 .field-add-more-submit {
 	background-color: $color-green;
-	height:40px;
-	width:43px;
 	vertical-align: middle;
 	margin: 0px;
 	&:hover {
@@ -1429,14 +1427,6 @@ form[id^='user-profile-form'] {
 		#zip-label {
 			margin-top: 10px;
 		}
-		.field-add-more-submit {
-			background-color: $color-green;
-			height: auto;
-			width: auto;
-			margin: 1rem 0 0 0;
-			vertical-align: middle;
-			padding: 0.5rem 1rem;
-		}
 	}
 	.panel {
 		min-height: 330px;
@@ -1453,8 +1443,14 @@ form[id^='user-profile-form'] {
 	.form-submit,
 	.remove_button {
 		text-transform: capitalize;
-	}
+	}	
 	.field-add-more-submit {
+		background-color: $color-green;
+		height: auto;
+		width: auto;
+		margin: 1rem 0 0 0;
+		vertical-align: middle;
+		padding: 0.5rem 1rem;
 		background-color: $color-green;
 		margin-top: 1rem;
 	}
@@ -1475,6 +1471,9 @@ form[id^='user-profile-form'] {
 		}
 		td {
 			padding-top: 10px;
+		}
+		.field-add-more-submit {
+			margin-left: 35px;
 		}
 	}
 	.multiple-fields-remove-button,
@@ -1554,16 +1553,6 @@ form[id^='user-profile-form'] {
 		  float: left;
 		  margin-right: 10px;
 		}
-/*
-		.field-add-more-submit {
-		  margin-top: 3rem;
-		  float: left;
-		  display: block;
-		}
-*/
-	}
-	.field-add-more-submit {
-		margin-left: 35px;
 	}
 	.form-actions.form-wrapper {
 	  float: left;
@@ -1633,9 +1622,10 @@ a.tabledrag-handle .handle {
 
 #field-zip-code-values,
 #field-profile-favourites-values,
+#zipcode_description .field-multiple-table,
 #links_description .field-multiple-table {
 	thead tr {
-		background-color: none;
+		background-color: transparent;
 	}
 	label, .aria-label {
 		margin-top: 0;
@@ -3741,6 +3731,69 @@ input#location-input-guests::-ms-clear {
 			}
 		}	
 	}
+}
+
+@media screen and (max-width: 41.75em) {
+	form[id^='user-profile-form'] {
+		#zipcode_description {
+			.field-multiple-table {
+				width: 100%;
+				table-layout: fixed;
+				td:not(.field-multiple-drag):not(.tabledrag-hide) {
+					min-width: 375px;
+					display: block;
+					padding-top: 10px;
+					padding-bottom: 10px;
+				}
+			}
+			th {
+				padding: 5px 0;
+				&.field-label {
+					padding-left: 0;
+				}
+			}
+			thead label {
+				padding: 0;
+			}
+			td {
+				padding: 0;
+			}
+			.field-add-more-submit {
+				clear: left;
+				display: block;
+			}
+			.form-type-checkbox {
+				margin-right: 0;
+			}
+			.form-wrapper {
+				margin-right: 0;
+				display: block;
+			}
+			.form-type-textfield {
+				margin-right: 10px;
+				display: block;
+			}
+			.zip-code-primary-holder {
+				margin-left: 10px;
+				margin-right: 10px;
+			}
+			.field_zip_code {
+				min-width: auto;
+				max-width: 280px;
+				width: 100%;
+				display: block;
+			}
+
+		}
+		#links_description {
+			.date_updated_contain {
+				float: none;
+			}
+			.field-add-more-submit {
+				margin-left: 0;				
+			}
+		}
+	}	
 }
 
 @media screen and (max-width: 49em) {
