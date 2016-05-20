@@ -2247,11 +2247,13 @@ form .field-multiple-table#field-zip-code-values {
 		background: none;
 		border: none;
 		position: absolute;
-		right: 1em;
+		right: 2em;
 		top: 0.5em;
-		width: 20px;
+		width: auto;
     height: 20px;
 		margin: 0;
+		padding-left: 0;
+		padding-right: 0;
 	}
 	.ui-dialog-titlebar-close .ui-icon {
 		background: transparent url('../images/close-titlebar.png') no-repeat 0 0 !important;
