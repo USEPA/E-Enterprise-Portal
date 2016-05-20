@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Landing Page Content feature.
- */
-
-include_once 'landing_page_content.features.inc';

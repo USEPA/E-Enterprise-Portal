@@ -10,23 +10,6 @@
 function workbench_header_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: main-menu_app-connect:app-connect
-  $menu_links['main-menu_app-connect:app-connect'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'app-connect',
-    'router_path' => 'app-connect',
-    'link_title' => 'App Connect',
-    'options' => array(
-      'identifier' => 'main-menu_app-connect:app-connect',
-    ),
-    'module' => 'system',
-    'hidden' => 1,
-    'external' => 0,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => -49,
-    'customized' => 1,
-  );
   // Exported menu link: main-menu_app-connect:app-connect-new
   $menu_links['main-menu_app-connect:app-connect-new'] = array(
     'menu_name' => 'main-menu',
