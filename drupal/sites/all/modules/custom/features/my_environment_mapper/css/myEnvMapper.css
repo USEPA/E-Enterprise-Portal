@@ -4,6 +4,7 @@
   height: 0;
   overflow: hidden;
   max-width: 100%;
+  min-height: 300px;
 }
 .embedMyEnv-container iframe, .embedMyEnv-container object, .embedMyEnv-container embed {
   position: absolute;
