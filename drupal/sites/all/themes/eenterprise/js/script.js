@@ -957,6 +957,8 @@
                         $('#next-week a').click();
                     }
                     else if (e.which === 37) {
+                        $('input#focused-element').remove();
+                        $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="#all-time" />');
                         $('#all-time a').click();
                     }
                 });
@@ -1034,9 +1036,18 @@
                             // attempt to focus this element
                             $($('input#focused-element').val()).focus();
                         } else {
-                            // if it disappeared, focus on its view container
-                            $($('input#focused-view').val()).focus();
+                            // if it disappeared...
+                            if ($('input#focused-element').val().indexOf(".pager-next")) {
+                                // ...focus on the 'previous page' item. therefore,
+                                // pressing <tab> takes the user to the next widget
+                                $($('input#focused-view').val()).find('.pager-previous > a').focus();
+                            } else {
+                                // ...focus on its view container
+                                $($('input#focused-view').val()).focus();
+                            }
                         }
+                        // we used it, now lose it!
+                        $('input#focused-element').remove();
                     } else if ($("#this-week").hasClass("filter-applied")) {
                         $('#this-week a').focus();
                     } else if ($("#next-week").hasClass("filter-applied")) {
