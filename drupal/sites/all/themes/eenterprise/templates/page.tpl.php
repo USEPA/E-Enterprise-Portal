@@ -93,7 +93,7 @@ else {
             </a>
         </h1>
     <?php endif; ?>
-    <?php if ($site_slogan && $path != 'eenterprise-new'): ?>
+    <?php if ($site_slogan && $path != 'eenterprise-new' && $path != 'eenterprise-alternate'): ?>
         <div class="site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
     <?php endif; ?>
     <?php print $hgroup_close; ?>
@@ -115,7 +115,7 @@ else {
         }
       ?>
       <!--googleon: all-->
-      <?php if ($exploded_path[0] == 'eenterprise-new'): ?>
+      <?php if (($exploded_path[0] == 'eenterprise-new') || ($exploded_path[0] == 'eenterprise-alternate')) : ?>
 	    	<h1 class="element-invisible" <?php print $title_attributes; ?>><?php print $title;?></h1>
 			<?php else: ?>
 				<h1 <?php print $title_attributes; ?>><?php print $title;?></h1>
