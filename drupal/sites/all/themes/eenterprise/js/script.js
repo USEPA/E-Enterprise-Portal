@@ -7,11 +7,13 @@
  */
 (function($) {
     // Change the default label of all Search fields
-    $.extend(true, jQuery.fn.dataTable.defaults, {
-        "oLanguage": {
-            sSearch: "Filter:"
-        }
-    });
+    if (jQuery.fn.dataTable != null){
+        $.extend(true, jQuery.fn.dataTable.defaults, {
+            "oLanguage": {
+                sSearch: "Filter:"
+            }
+        });
+    }
 
     Drupal.behaviors.modal508Compliance = {
         attach: function(context) {
