@@ -543,7 +543,7 @@
                             $(document).trigger("ee:zipCodeChanged", {zip: ui.item.value});
                         },
                         searchEnabled: false
-                    }).autocomplete("widget").addClass("guest-zip-options").attr('style', 'display: block; max-height: 300px; overflow-y: scroll;');
+                    }).autocomplete('widget').addClass('guest-zip-options fixed-height');
 
                     $locationInput.change(inputChangeHandler);
 
