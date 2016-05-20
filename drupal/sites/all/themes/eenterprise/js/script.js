@@ -225,11 +225,17 @@
 
                     }
 
+                    $('.grid-stack').on('change', function(event, items) {
+                        if (JSON.stringify(serializeWidgets()) != JSON.stringify(GridStackUI.Utils.sort(serializeWidgets()))) {
+                            // only run this if the change caused the order of the widgets to change
+                            var serializedWidgets = reorderGridDOM();
+                            rebuildSkipLinks(serializedWidgets);
+                        }
+                    });
+
                     function addDragListeners($grid_container, $grid_change_options) {
                         $('body').on('swapped_grid', function() {
                             $grid_change_options.show();
-                            var serializedWidgets = reorderGridDOM();
-                            rebuildSkipLinks(serializedWidgets);
                         });
                     }
 
@@ -373,8 +379,6 @@
                                 var data = $.parseJSON(data);
                                 serialization = GridStackUI.Utils.sort(data);
                                 initializeIndices(grid, serialization);
-                                var serializedWidgets = reorderGridDOM();
-                                rebuildSkipLinks(serializedWidgets);
                             }
                         });
                     }
