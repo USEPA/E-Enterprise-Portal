@@ -537,7 +537,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
       $_SESSION['user_preferred_zips'] = load_user_preferred_zips();
       $_SESSION['zip_name_mapping'] = array();
     }
-    $zip_mapping_options = $_SESSION['user_preferred_zips'];
     // List of used names so they are not used again.
     $lookup_names = array();
 
@@ -592,7 +591,11 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
 
       if (in_array('zip', $trigger_array) && $trigger_array[5] == 'remove') {
         //Unset build info to stop deleted zip from repopulating the field
-        unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE][$trigger_array[4]]);
+        $index_to_remove = $trigger_array[4];
+        $zip_value_to_remove = $form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE][$index_to_remove]["field_field_zip_code"][LANGUAGE_NONE][0]['value'];
+        $name_to_remove = $_SESSION['zip_name_mapping'][$index_to_remove];
+        unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE][$index_to_remove]);
+        unset($_SESSION['user_preferred_zips'][$name_to_remove][$zip_value_to_remove]);
       }
       if ($trigger_string == 'field_profile_favourites_' . LANGUAGE_NONE . '_0_remove_button') {
         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
@@ -654,7 +657,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
       // $field_suffix = city name and state name
       if (isset($zip) && $zip != '') {
         // Initialize Session zip array
-        $user_preferred_name = name_look_up($zip_mapping_options, $zip, $lookup_names);
+        $user_preferred_name = name_look_up($_SESSION['user_preferred_zips'], $zip, $lookup_names);
         if ($user_preferred_name) {
           $name = $user_preferred_name;
         } else {

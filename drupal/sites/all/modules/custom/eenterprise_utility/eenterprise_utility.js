@@ -211,7 +211,7 @@
       },
       success: function () {
         //$('.remove-button').not('#'+ remove_to_ignore).prop('disabled', true);
-        if(!existingLocationErrors()) {
+        if(!existingLocationErrors() && $('.city-state-lookup-zips').length == 0) {
           resetButtons();
         }
 
