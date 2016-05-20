@@ -23,7 +23,6 @@ $(document).ready(function(){
 				} else { // Reset canceling input
 					cancelling_input = true;
 				}
-
 			},
 			buttons: [
 				{
