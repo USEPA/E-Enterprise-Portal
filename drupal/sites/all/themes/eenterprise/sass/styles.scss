@@ -1181,6 +1181,7 @@ a:focus.add_link {
 			}
 			img {
 				max-width: 35%;
+				margin-bottom: 3rem;
 			}
 		}
 	}
@@ -3250,7 +3251,10 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 }
 
 .btn-dropbox       { @include btn-social(#1087dd); }
-.btn-facebook      { @include btn-social(#3b5998); }
+.btn-facebook,
+a.usa-button.btn-facebook { 
+	@include btn-social(#3b5998); 
+}
 .btn-github        { @include btn-social(#444444); }
 .btn-google        { @include btn-social(#dd4b39); }
 .btn-instagram     { @include btn-social(#3f729b); }
@@ -3264,7 +3268,10 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 }
 .btn-openid        { @include btn-social(#f7931e); }
 .btn-pinterest     { @include btn-social(#cb2027); }
-.btn-twitter       { @include btn-social(#55acee); }
+.btn-twitter,
+a.usa-button.btn-twitter { 
+	@include btn-social(#55acee); 
+}
 .btn-yahoo         { @include btn-social(#720e9e); }
 
 a.usa-button.btn-social.btn-exchangenetwork {
