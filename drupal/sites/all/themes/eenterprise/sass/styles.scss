@@ -195,7 +195,6 @@
 		}
 		.ee-workbench-header-locations,
 		.ee-feedback {
-
 			float: none;
 		}
 		.ee-workbench-header-block {
@@ -3500,13 +3499,13 @@ input#location-input-guests::-ms-clear {
 }
 
 .ui-autocomplete {
-	&.guest-zip-options {
+	&.guest-zip-options.fixed-height {
 		border-top-color: #fff;
 		margin-left: -1px;
-		height: 300px;
-		height: auto;
-		max-height: 300px;
+		display: block;
+		height: 200px;
 		overflow-y: scroll;
+		overflow-x: hidden;
 		li {
 			margin-top: 0;
 			margin-bottom: 0;
