@@ -8,6 +8,27 @@
   var lastVal;
   // Map of location and zip data
   var location_obj = {};
+  // Flags for when to search for location information
+  var enter_pressed = false; // When user deliberately presses enter in a location
+  var show_locations_again = false; // When the location errored but returned multiple options.
+
+
+  // Disables entering the form by key press when focused on an input
+  Drupal.behaviors.DisableInputEnter = {
+    attach: function (context, settings) {
+      $('input', context).once('disable-input-enter', function () {
+        $(this).keypress(function (e) {
+          var $elem = $(this);
+          if (e.keyCode == 13) {
+            enter_pressed = true;
+            $elem.blur();
+            e.preventDefault();
+          }
+        });
+      });
+    }
+  };
+
 
   function placeAddAnotherButton(ajax_content, table_id, parent_id) {
     var table = $(table_id);
@@ -30,6 +51,8 @@
   }
 
   function processPrimaryFields() {
+    var reset_buttons = false;
+    var hide_buttons = false;
     var $zipcode_description = $('#zipcode_description');
     $('body').find('.field-multiple-table').removeClass('sticky-enabled');
     $('#profile-locations').find('.sticky-header').remove();
@@ -56,8 +79,8 @@
       setPrimaryZip();
     }
 
-    // If location error exists, lock down buttons to avoid accidental submit
-    var $city_lookup = $('#city-state-lookup-zips');
+    // If city select exist, lock submit and focus on select
+    var $city_lookup = $('.city-state-lookup-zips');
     if ($city_lookup.length == 0) {
       $('.form-submit').prop("disabled", false);
       table.find("tr:last").find('.field_zip_code').focus();
@@ -70,23 +93,33 @@
     // If location error exists, lock down buttons to avoid accidental submit
     var fixInput;
 
-    if ($('.field-suffix').hasClass('error')) {
-      hideButtons();
+    if (!$('.field-suffix').hasClass('error')) {
+      reset_buttons = true;
+      //resetButtons();
+    } else {
+      //hideButtons();
+      hide_buttons = true;
       fixInput = $('.field-suffix.error').closest('td').find('.field_zip_code');
       fixInput.focus();
     }
-    else {
+
+    if (numSelects > 0) {
+      //hideButtons();
+      hide_buttons = true;
+      fixInput = $zipcode_description.find('select').closest('td').find('.field_zip_code');
+     // fixInput.focus();
+    }
+
+    if (hide_buttons) {
+      hideButtons();
+    }
+    if (reset_buttons) {
       resetButtons();
     }
 
-    if (numSelects > 0) {
-      hideButtons();
-      fixInput = $zipcode_description.find('select').closest('td').find('.field_zip_code');
-      fixInput.focus();
-    }
     var $field_add_more_submit = $('#links_description').find('.field-add-more-submit');
     $field_add_more_submit.prop("value", "New favorite").addClass("usa-button");
-
+    $('.field_zip_code').prop("disabled", false);
   }
 
   function setPrimaryZip() {
@@ -133,12 +166,12 @@
    */
   function update_user_zip_preferences(location_name, commsize, isurban, input_to_ignore) {
     // Reset global location_obj
-    hideButtons();
     location_obj = {};
 
     $("[id*=field-zip-code-values]").find("tr").each(function () {
       var $tr = $(this);
-      var zip_id = $tr.find(".field_zip_code").attr('id');
+      var $zip_code_input = $tr.find(".field_zip_code");
+      var zip_id = $zip_code_input.attr('id');
       var $field_suffix = $tr.find('.field-suffix');
       // Do not add items that have errored or are currently being changed
       if (zip_id == input_to_ignore || $field_suffix.hasClass('error')) {
@@ -173,10 +206,14 @@
       url: "/user_preferred_locations/add_to_session",
       method: "POST",
       data: location_obj,
-      success: function (response) {
-        response = $.parseJSON(response);
-        console.log(response);
-        resetButtons();
+      beforeSend: function() {
+        hideButtons();
+      },
+      success: function () {
+        //$('.remove-button').not('#'+ remove_to_ignore).prop('disabled', true);
+        if(!existingLocationErrors()) {
+          resetButtons();
+        }
 
       }
     });
@@ -196,13 +233,25 @@
     return str.indexOf(substring) >= 0;
   }
 
+  // When an error occurs, disabled removal/ addition of
+  // rows except for the input that is errored
+  function  disable_zip_buttons(input_to_ignore) {
+    var remove_to_ignore = input_to_ignore.closest('tr').find('.remove-button').attr('id');
+    $('#' + remove_to_ignore).attr('disabled', false);
+    $('.remove-button').not('#'+ remove_to_ignore).prop('disabled', true);
+    $('input.field_zip_code').not(input_to_ignore).prop('disabled', true);
+  }
+
+
   function print_error_message(field_suffix, message) {
     // Print error message
+    lastVal = field_suffix.prev().val();
     failedLookup = true;
     field_suffix.addClass('error').html(message);
     field_suffix.attr("id", "zip-code-error");
     field_suffix.prev().attr("aria-describedby", "zip-code-error");
     are_there_errors = true;
+    update_user_zip_preferences("", "", "", "");
     hideButtons();
   }
 
@@ -258,10 +307,12 @@
       remove_button.show();
       add_button.show();
       primary_indicator.show();
+      //TODO if they had valid input before reset to previous input
       field_suffix.addClass('error');
       field_suffix.html('Please update your location or remove this field before saving.');
-      processPrimaryFields();
+      disable_zip_buttons(input);
       input.focus();
+      //processPrimaryFields();
     });
     confirm.on('click', function () {
       var input_value = input.val();
@@ -278,6 +329,7 @@
         zip_val = input_value;
         if (check_duplicate(location_name, zip_val)) {
           print_error_message(field_suffix, "Duplicate location name and zip code pairs are not allowed.");
+          disable_zip_buttons(input);
           duplicate = true;
         } else {
           input.val(zip_val);
@@ -297,6 +349,7 @@
         // Set duplicate flag if the location and zip has already been entered.
         if (check_duplicate(location_name, zip_val)) {
           print_error_message(field_suffix, "Duplicate location name and zip code pairs are not allowed.");
+          disable_zip_buttons(input);
           duplicate = true;
         } else {
           field_suffix.html(location_name);
@@ -310,6 +363,13 @@
           }
         }
       }
+
+      label_select.remove();
+      select.remove();
+      remove_button.show();
+      primary_indicator.show();
+      numSelects = 0;
+
       if (!duplicate) {
         field_suffix.attr('commsize', pop);
         if (urban == "Urban") {
@@ -321,17 +381,13 @@
         updateCommunitySettings();
         // Update all location data
         update_user_zip_preferences(location_name, pop, urban, "");
+        processPrimaryFields();
+        if (!existingLocationErrors()) {
+          resetButtons();
+        }
       }
-      label_select.remove();
-      select.remove();
-      remove_button.show();
-      primary_indicator.show();
-      if (!existingLocationErrors()) {
-        resetButtons();
-      }
-      numSelects = 0;
+
       input.prop("disabled", false);
-      processPrimaryFields();
       input.focus();
 
     });
@@ -394,6 +450,7 @@
             }
             if (check_duplicate(location_name, zip)) {
               print_error_message(field_suffix, "Duplicate location name (" + location_name + ") and zip code pairs are not allowed.");
+              disable_zip_buttons(input);
               duplicate = true;
             }
             if (!duplicate) {
@@ -431,6 +488,7 @@
             location_name = location_data.city[0];
             if (check_duplicate(location_name, zip)) {
               print_error_message(field_suffix, "Duplicate location name (" + location_name + ") and zip code pairs are not allowed.");
+              disable_zip_buttons(input);
               duplicate = true;
             }
             if (!duplicate) {
@@ -450,20 +508,22 @@
               }
               update_user_zip_preferences(location_name, pop, urban);
               updateCommunitySettings();
+              $('.remove-button').prop("disabled", false);
             }
           }
           if (!existingLocationErrors()) {
             resetButtons();
           }
-          processPrimaryFields();
+         // processPrimaryFields();
           moveAddButton();
           field_suffix.closest("td").find('.field_zip_code').focus();
         }).fail(function (location_data) {
           print_error_message(field_suffix, location_data.error_message);
+          disable_zip_buttons(input);
         });
       }
     }
-    input.focus();
+    //input.focus();
   } // End checkLocation
 
   // Enable Save button / plus button
@@ -474,18 +534,18 @@
     $('#edit-submit--2').prop("disabled", false);
     $('#edit-delete').prop("disabled", false);
     if (removedSelect == true || failedLookup == true) {
-      $('.remove-button').prop("disabled", false);
+     // $('.remove-button').prop("disabled", false);
     }
   }
 
   // On an Drupal Ajax call- if there is an error, hide the actual Save and +
   function hideButtons() {
-    $('#edit-field-zip-code .field-add-more-submit').prop("disabled", true);
+    $('#edit-field-zip-code').find('.field-add-more-submit').prop("disabled", true);
     $('#edit-submit').prop("disabled", true);
     $('#edit-submit--2').prop("disabled", true);
     $('#edit-delete').prop("disabled", true);
     if (removedSelect == true || failedLookup == true) {
-      $('.remove-button').prop("disabled", false);
+    //  $('.remove-button').prop("disabled", false);
     }
   }
 
@@ -548,21 +608,25 @@
       lastVal = $(this).val();
       $('.field_zip_code').on('change', function () {
         $('.form-submit').prop("disabled", true);
-       // $('.field-suffix').removeClass('error')
+        // $('.field-suffix').removeClass('error')
       });
       $(".field_zip_code").keyup(function (e) {
         if ($(this).val() != '' && (lastVal != $(this).val())) {
           hideButtons();
         }
-        if (e.which == 13) { // Enter key
-          if (!$('.field-suffix').hasClass('error')) {
-            $(this).blur();
-          }
-          else {
-            hideButtons();
-            $(this).closest("td").find(".field_zip_code").focus();
-          }
-        }
+        //if (e.which == 13) { // Enter key
+        //  // Stop from submitting form
+        //  //     e.preventDefault();
+        //  //     if (!$('.field-suffix').hasClass('error')) {
+        //  enter_pressed = true;
+        //  $(this).blur();
+        //  //   return false;
+        //  //    }
+        //  //    else {
+        //  //     hideButtons();
+        //  //    $(this).closest("td").find(".field_zip_code").focus();
+        //  // }
+        //}
       });
     });
 
@@ -573,10 +637,14 @@
     });
 
     $('body').on('blur', '.field_zip_code', function (e) {
-      if (lastVal != $(this).val()) {
+      // Search for location on Enter click even if same value
+      if (lastVal != $(this).val() || enter_pressed || show_locations_again) {
         fieldChanged = $(e.target);
         checkLocation(fieldChanged, "textfield");
-        fieldChanged.closest("td").find(".field_zip_code").focus();
+        //fieldChanged.closest("td").find(".field_zip_code").focus();
+        // Reset flags
+        enter_pressed = false;
+        show_locations_again = false;
       }
     });
 
@@ -626,7 +694,7 @@
             }
           });
           if (inString(table_id, 'zip-code')) {
-            processPrimaryFields();
+            //processPrimaryFields();
             parent_id = '#zipcode_description';
           }
           else {
@@ -636,8 +704,9 @@
           if (table_id != '') {
             placeAddAnotherButton(false, '#' + table_id, parent_id);
           }
+          processPrimaryFields();
         }
-        processPrimaryFields();
+       // processPrimaryFields(false);
         moveAddButton();
       });
 
