@@ -26,7 +26,7 @@ $(document).ready(function(){
 			},
 			buttons: [
 				{
-					text: 'View',
+					text: 'Update',
 					class: ' usa-button',
 					click: function() {
 						cancelling_input = false;

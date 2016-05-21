@@ -1244,7 +1244,7 @@ function get_header_variables()
 function get_modal_data($locations)
 {
   print "<a id='locations-modal' href='#'>View all favorite cities</a>";
-  print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
+  print "<div id='dialog-all-locations' class='ui-dialog' title='Set location'>";
   print "<fieldset class='radio-options-holder'>";
   foreach ($locations as $name => $zips) {
     foreach ($zips as $zip) {
@@ -1455,7 +1455,7 @@ function deprec_generate_location_select()
 function deprec_get_modal_data($locations)
 {
   print "<a id='locations-modal' href='#'>View all favorite cities</a>";
-  print "<div id='dialog-all-locations' class='ui-dialog' title='Locations of Interest'>";
+  print "<div id='dialog-all-locations' class='ui-dialog' title='Set location'>";
   print "<fieldset class='radio-options-holder'>";
   foreach ($locations as $key => $value) {
     print "<input type='radio'  id='" . $key . "'  name='location-radio' value='" . $key . "|" . $value . "' /><label for='" . $key . "'>" . $value . " (" . $key . ")" . "</label>";
