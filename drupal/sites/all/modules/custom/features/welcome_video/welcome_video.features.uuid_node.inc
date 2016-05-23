@@ -12,7 +12,7 @@ function welcome_video_uuid_features_default_content() {
 
   $nodes[] = array(
   'title' => 'Welcome',
-  'log' => 'Adds Welcome video',
+  'log' => 'Changed aspect ratio to 16by9',
   'status' => 1,
   'comment' => 0,
   'promote' => 0,
@@ -37,7 +37,7 @@ unset($_SESSION[\'trusted_login\']);
 <li id="new-toeenterprise"><a href="/new-users" class="new-guestuser">New to E-Enterprise Portal?</a></li>
 </li>
 </div></div></div></div>
-<div class="usa-grid" id="ee-video"><div class="video-holder usa-width-one-half"><div class="embed-responsive embed-responsive-4by3"><iframe title="Welcome to E-Enterprise video" width="560" height="315" src="https://www.youtube.com/embed/iFv0DYnW1-A" frameborder="0" allowfullscreen></iframe></div></div><div class="video-details usa-width-one-half"><h2><span class="sr-only">Welcome Video</span>Addressing Unique Needs of Many</h2><p>The E-Enterprise Portal provides an important new means by which users can customize the types of information presented to them, find and select tools and other resources, and, conduct transactions with EPA.</p></div></div><!-- end video -->
+<div class="usa-grid" id="ee-video"><div class="video-holder usa-width-one-half"><div class="embed-responsive embed-responsive-16by9"><iframe title="Welcome to E-Enterprise video" width="560" height="315" src="https://www.youtube.com/embed/iFv0DYnW1-A" frameborder="0" allowfullscreen></iframe></div></div><div class="video-details usa-width-one-half"><h2><span class="sr-only">Welcome Video</span>Addressing Unique Needs of Many</h2><p>The E-Enterprise Portal provides an important new means by which users can customize the types of information presented to them, find and select tools and other resources, and, conduct transactions with EPA.</p></div></div><!-- end video -->
 <div class="usa-grid" id="benefits"><h2 class="element-invisible">Benefits to you</h2><ul><li><a href="#streamlining">Streamlining processes</a></li><li><a href="#trusted-info">Trusted information</a></li><li><a href="#productivity">Enhanced productivity</a></li></ul>
 <div id="streamlining"><span><h3>Streamlining processes</h3><p>E-Enterprise for the Environment simplifies regulation by streamlining and modernizing the implementation of our environmental programs.</p></span><img alt="" src="sites/all/themes/eenterprise/images/baton-folder.jpg"></div>
 <div id="trusted-info"><span><h3>Trusted information</h3><p>E-Enterprise for the Environment fosters greater trust among the regulated community, the public, and their government by improving data integrity and communication of accurate information.</p></span><img alt="" src="sites/all/themes/eenterprise/images/market-analysis.jpg"></div>
@@ -108,7 +108,7 @@ unset($_SESSION[\'trusted_login\']);
 );
   $nodes[] = array(
   'title' => 'Welcome - Option B Video Placement',
-  'log' => 'New Welcome page with alternate video placement',
+  'log' => 'Changes aspect ratio for video to 16by9',
   'status' => 1,
   'comment' => 0,
   'promote' => 0,
@@ -138,7 +138,7 @@ unset($_SESSION[\'trusted_login\']);
 <div id="trusted-info"><span><h3>Trusted information</h3><p>E-Enterprise for the Environment fosters greater trust among the regulated community, the public, and their government by improving data integrity and communication of accurate information.</p></span><img alt="" src="sites/all/themes/eenterprise/images/market-analysis.jpg"></div>
 <div id="productivity"><span><h3>Enhanced productivity</h3><p>E-Enterprise for the Environment enables more informed and timely decision making and better environmental results by improving the productivity of the environmental protection enterprise.</p></span><img alt="" src="sites/all/themes/eenterprise/images/runner-sprint.jpg"></div>
 </div><!-- end benefits-->
-<div class="usa-grid" id="ee-video"><div class="video-holder usa-width-one-half"><div class="embed-responsive embed-responsive-4by3"><iframe title="Welcome to E-Enterprise video" width="560" height="315" src="https://www.youtube.com/embed/iFv0DYnW1-A" frameborder="0" allowfullscreen></iframe></div></div><div class="video-details usa-width-one-half"><h2><span class="sr-only">Welcome Video</span>Addressing Unique Needs of Many</h2><p>The E-Enterprise Portal provides an important new means by which users can customize the types of information presented to them, find and select tools and other resources, and, conduct transactions with EPA.</p></div></div>
+<div class="usa-grid" id="ee-video"><div class="video-holder usa-width-one-half"><div class="embed-responsive embed-responsive-16by9"><iframe title="Welcome to E-Enterprise video" width="560" height="315" src="https://www.youtube.com/embed/iFv0DYnW1-A" frameborder="0" allowfullscreen></iframe></div></div><div class="video-details usa-width-one-half"><h2><span class="sr-only">Welcome Video</span>Addressing Unique Needs of Many</h2><p>The E-Enterprise Portal provides an important new means by which users can customize the types of information presented to them, find and select tools and other resources, and, conduct transactions with EPA.</p></div></div>
 <div class="usa-grid" id="including"><br><h2>What we\'re including</h2><ul><li class="col-lg-6 col-md-6 col-sm-12" id="workbench"><img alt="" src="sites/all/themes/eenterprise/images/workbench.png"><div><h3>Workbench</h3><p>Tools, data, and resources to help you.</p></div></li><li class="col-lg-6 col-md-6 col-sm-12" id="facilities"><img alt="" src="sites/all/themes/eenterprise/images/environment.png"><div><h3>Environmental Reporting</h3><p>New ways to submit information.</p></div></li><li class="col-lg-6 col-md-6 col-sm-12" id="reporting"><img alt="" src="sites/all/themes/eenterprise/images/headline.png"><div><h3>Maps &amp; Displays</h3><p>Learn more about the environment thru maps and data mashups.</p></div></li><li class="col-lg-6 col-md-6 col-sm-12 last" id="reporting"><img alt="" src="sites/all/themes/eenterprise/images/settings.png"><div><h3>Developer Community (Future)</h3><p>Find APIs, widgets, and tools to build and use environmental data and resources.</p></div></li></ul><p>Want to know more? Visit our <a href="faqs">FAQs</a> and <a href="release-notes">Release Notes</a>.</p></div>',
         'summary' => '',
         'format' => 'php_code',
