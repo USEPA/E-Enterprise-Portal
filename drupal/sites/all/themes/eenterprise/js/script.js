@@ -228,12 +228,25 @@
                     }
 
                     $('.grid-stack').on('change', function(event, items) {
-                        if (JSON.stringify(serializeWidgets()) != JSON.stringify(GridStackUI.Utils.sort(serializeWidgets()))) {
+                        if (!isSameWidgetOrder(serializeWidgets(), GridStackUI.Utils.sort(serializeWidgets()))) {
                             // only run this if the change caused the order of the widgets to change
                             var serializedWidgets = reorderGridDOM();
                             rebuildSkipLinks(serializedWidgets);
+                            console.log('Section 508 - skip links have been updated.');
                         }
                     });
+
+                    function isSameWidgetOrder(a, b) {
+                        if (a.length != b.length) {
+                            return false;
+                        }
+                        for (var key in a) {
+                            if (a[key].id != b[key].id) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
 
                     function addDragListeners($grid_container, $grid_change_options) {
                         $('body').on('swapped_grid', function() {
@@ -271,7 +284,10 @@
                     function serializeWidgets() {
                         return _.map($('.grid-stack .grid-stack-item:visible'), function (el, key) {
                             el = $(el);
-                            el.attr('id', 'grid-item-' + key);
+                            // if no id has been set, set the id, e.g.: grid-item-my-facility-manager-2
+                            if (!el.attr('id')) {
+                                el.attr('id', 'grid-item-' + key);
+                            }
                             var node = el.data('_gridstack_node');
                             return {
                                 id: el.attr('id'),
