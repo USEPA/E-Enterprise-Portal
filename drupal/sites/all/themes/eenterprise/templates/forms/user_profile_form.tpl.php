@@ -43,7 +43,7 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
         </div>
         <div id="profile-interests">
             <h3>Interests</h3>
-            <div id='links_description' class='form-group'>
+            <div id='lgc_description' class='form-group'>
                 <div class="usa-grid">
                     <div class="usa-width-one-fourth">
                         <?php
