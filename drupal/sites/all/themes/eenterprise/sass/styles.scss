@@ -2942,6 +2942,12 @@ input[type="submit"]:not(.usa-button-outline),
 			}
 		}
 	}
+  .view-state-resource-editor {
+	.view-header { float: left; }
+	.dataTables_filter { float: right; }
+	.view-header,
+	.dataTables_filter { line-height: 6rem; }
+  }
 }
 
 @media screen and (min-width: 60em) {
