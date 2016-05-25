@@ -276,7 +276,7 @@
 
                         for (var key in serializedWidgets) {
                             var value = serializedWidgets[key];
-                            $('.grid-stack').append($('#' + value.id));
+                            // TODO: reorder DOM without affecting ResizeSensor() for $('.view-content')
                         }
 
                         return serializedWidgets;
