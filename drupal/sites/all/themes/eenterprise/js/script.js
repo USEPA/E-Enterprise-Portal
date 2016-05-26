@@ -1072,12 +1072,15 @@
                             $($('input#focused-element').val()).focus();
                         } else {
                             // if it disappeared...
-                            if ($('input#focused-element').val().indexOf(".pager-next")) {
-                                // ...focus on the 'previous page' item. therefore,
-                                // pressing <tab> takes the user to the next widget
+                            if ($('input#focused-element').val().indexOf(".pager-next") != -1) {
+                                // ...focus on the 'previous page' item if you were on the last page.
+                                // therefore, pressing <tab> takes the user to the next widget.
                                 $($('input#focused-view').val()).find('.pager-previous > a').focus();
+                            } else if ($('input#focused-element').val().indexOf(".pager-previous") != -1) {
+                                // ...focus on the 'next page' item if you were on the first page.
+                                $($('input#focused-view').val()).find('.pager-next > a').focus();
                             } else {
-                                // ...focus on its view container
+                                // ...focus on its view container.
                                 $($('input#focused-view').val()).focus();
                             }
                         }
