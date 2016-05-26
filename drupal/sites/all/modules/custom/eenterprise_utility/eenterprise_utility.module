@@ -953,25 +953,6 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
 
 }
 
-/**
- * Add zip and preferred name to user_preferred_zips sessions
- * as well as comm size and comm type
- *
- * user_preferred_zips = { zip_code => {name => {comm_size, comm_type} ... } }
- */
-function locations_add_to_session()
-{
-  drupal_session_start();
-  if (isset($_POST['zip_data'])) {
-    $_SESSION['user_preferred_zips'] = $_POST['zip_data'];
-    $return_msg = array('error' => FALSE, 'msg' => "saved successfull", 'zips' => $_SESSION['user_preferred_zips']);
-  } else {
-    $return_msg = array('error' => TRUE, 'msg' => "No post data sent");
-  }
-  print json_encode($return_msg);
-  exit();
-}
-
 
 /**
  * @param $form
