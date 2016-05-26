@@ -91,18 +91,8 @@ function eenterprise_utility_menu()
     'access callback' => TRUE,
     '#type' => MENU_CALLBACK,
   );
-  $items['user_preferred_locations/add_to_session'] = array(
-    'page callback' => 'locations_add_to_session',
-    'access callback' => TRUE,
-  );
-  $items['user_preferred_locations/delete_from_session'] = array(
-    'page callback' => 'locations_delete_from_session',
-    'access callback' => TRUE,
-  );
-  $items['user_preferred_locations/initialize_session'] = array(
-    'page callback' => 'locations_initialize_session',
-    'access callback' => TRUE,
-  );
+
+
 
   return $items;
 }
@@ -497,7 +487,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
    * User Profile Form
    */
   if ($form['#form_id'] == 'user_profile_form') {
-    global $user;
     drupal_session_start();
 
     /**
@@ -529,17 +518,29 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
     /**
      * User Preferred Locations
      */
-
     // Load user preferences for zips from Session if has been updated in user form,
     // otherwise from db
     // Also load if no triggering element, meaning refreshed
-    if (!isset($_SESSION['user_preferred_zips']) || !isset($form_state['triggering_element'])) {
-      $_SESSION['user_preferred_zips'] = load_user_preferred_zips();
-      $_SESSION['zip_name_mapping'] = array();
-    }
-    // List of used names so they are not used again.
-    $lookup_names = array();
 
+    // Check if user has added preferred names for zips
+    $zip_deltas = array();
+    if (isset($form_state['input']['zip_mapping'])) {
+      $zip_mapping = json_decode($form_state['input']['zip_mapping'], TRUE);
+      // Create zip_mapping with delta as the key
+      foreach ($zip_mapping as $name => $zip_data) {
+        foreach ($zip_data as $zip => $data) {
+          $zip_deltas[$data['delta']] = array('name' => $name, 'zip' => $zip, 'comm' => $data['comm'], 'urban' => $data['urban']);
+        }
+      }
+    } else {
+      $zip_mapping = load_user_preferred_zips();
+    }
+
+    $form['zip_mapping'] = array(
+      '#title' => t('Zip Mapping'),
+      '#type' => 'textfield',
+      '#validated' => true, // allows for javascript editing value
+    );
 
     //Edit select default options
     $form['field_community_type'][LANGUAGE_NONE]['#options']['_none'] = t('N/A');
@@ -582,20 +583,37 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
     $form['#submit'][] = 'eenterprise_utility_profile_form_submit';
     $form['actions']['delete'] = array('#type' => 'submit', '#value' => 'Delete profile');
     $form['actions']['delete']['#attributes']['class'][] = 'usa-button usa-button-outline';
-    
     $form['actions']['delete']['#submit'][] = 'profile_delete_action';
     // When use delete last zip code or url, do not repopulate with previous saved zip
     if (isset($form_state['triggering_element'])) {
       $trigger_string = $form_state['triggering_element']['#name'];
       $trigger_array = explode('_', $trigger_string);
-
       if (in_array('zip', $trigger_array) && $trigger_array[5] == 'remove') {
-        //Unset build info to stop deleted zip from repopulating the field
         $index_to_remove = $trigger_array[4];
-        $zip_value_to_remove = $form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE][$index_to_remove]["field_field_zip_code"][LANGUAGE_NONE][0]['value'];
-        $name_to_remove = $_SESSION['zip_name_mapping'][$index_to_remove];
+        unset($zip_deltas[$index_to_remove]);
+        // Remove index/delta deleted from form
         unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE][$index_to_remove]);
-        unset($_SESSION['user_preferred_zips'][$name_to_remove][$zip_value_to_remove]);
+
+        // Update build info with new delta information, clearing any gaps
+        $iter = 0;
+        foreach ($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE] as $index => $data) {
+          if ($index != $iter) {
+            // Reassign to $iter
+            $form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE][$iter] = $data;
+            unset($form_state['build_info']['args'][0]->field_zip_code[LANGUAGE_NONE][$index]);
+          }
+          $iter++;
+        }
+        // Update zip deltas with deleted info
+        $iter = 0;
+        foreach ($zip_deltas as $index => $data) {
+          if ($index != $iter) {
+            // Reassign to $iter
+            $zip_deltas[$iter] = $data;
+            unset($zip_deltas[$index]);
+          }
+          $iter++;
+        }
       }
       if ($trigger_string == 'field_profile_favourites_' . LANGUAGE_NONE . '_0_remove_button') {
         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
@@ -637,30 +655,34 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
     /**
      * Zip Code Settings
      */
-    $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter city, state; tribe; or ZIP code";
+
+    // Keeps track of used names and zips to check for duplicates
     $used_preferred_names = array();
+    // List of used names so they are not used again.
+    $lookup_names = array();
+
     for ($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
       $duplicate = false;
       $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'];
-      $primary = $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_primary'][LANGUAGE_NONE]['#default_value'];
-      // override default if input has been made
-      if (isset($form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta])) {
-        $input_zip = $form_state['input']['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0];
-        $zip = xssafe($input_zip['value']);
+
+      // Check if input has been made
+      if (isset($zip_deltas[$delta])) {
+        $zip = xssafe($zip_deltas[$delta]['zip']);
+        // Setting input manually here in case overwritten by disabled input bug
+        $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'] = $zip;
       }
 
-      // check for primary input
       // Aria-describedby to associate city, state name in suffix <span> with input field
       $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['aria-describedby'] = 'city-name-' . $delta;
-
-
-      // $field_suffix = city name and state name
       if (isset($zip) && $zip != '') {
-        // Initialize Session zip array
-        $user_preferred_name = name_look_up($_SESSION['user_preferred_zips'], $zip, $lookup_names);
-        if ($user_preferred_name) {
-          $name = $user_preferred_name;
+        // returns false if not found
+        if (isset($zip_deltas[$delta])) {
+          $name = $zip_deltas[$delta]['name'];
         } else {
+          $name = name_look_up($zip_mapping, $zip, $lookup_names);
+        }
+
+        if (!$name) {
           // no preferred name found, use zip_code_lookup
           $zip_data = zip_code_lookup($zip);
           $name = $zip_data['string'];
@@ -682,9 +704,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         } else {
           $field_suffix = '<span id="city-name-' . $delta . '" aria-live="polite">' . $name . '</span>';
           $ariacity = $name;
-          // Add name to session data
-          $_SESSION['zip_name_mapping'][$delta] = $name;
-          $_SESSION['user_preferred_zips'][$name][$zip] = array('commsize' => '', 'is_urban' => '', 'primary' => $primary);
         }
 
       } else {
@@ -704,23 +723,18 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
       $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_suffix'] =
         $field_suffix;
 
-
       hide($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['#title']);
     }
-
     /**
      * Terms of Use Agreed Date Field
      */
     $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#theme'] = 'eenterprise_utility_terms_of_use_agreed_date_display';
     $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#disabled'] = TRUE;
-
-
   } // end user form
 }
 
 function eenterprise_utility_profile_form_submit($form, &$form_state)
 {
-
 
   // if Reset User as First Time Login for Testing is checked, clear user agreement signed as well
   if ($form_state['values']['field_first_time_user'][LANGUAGE_NONE][0]['value'] === 1) {
@@ -734,27 +748,21 @@ function eenterprise_utility_profile_form_submit($form, &$form_state)
   /*
    * Save user preferences based on Session
    */
-  if (isset($_SESSION['user_preferred_zips'])) {
-    clear_user_preferred_locations();
-    foreach ($_SESSION['user_preferred_zips'] as $name => $location_data) {
-      foreach ($location_data as $zip => $zip_data) {
-        //  $zip = key($data);
-        $commsize = $zip_data['commsize'];
-        $isurban = $zip_data['isurban'];
-        $primary = $zip_data['primary'];
-        // Set default zip location data for workbench select
-        if ($primary == 1) {
-          $_SESSION['default_location_zip'] = $zip;
-          $_SESSION['default_location_name'] = $name;
-        }
-        save_user_location($zip, $name, $commsize, $isurban, $primary);
+  $zip_mapping = json_decode($form_state['values']['zip_mapping'], TRUE);
+  clear_user_preferred_locations();
+  foreach ($zip_mapping as $name => $location_data) {
+    foreach ($location_data as $zip => $zip_data) {
+      $commsize = $zip_data['commsize'];
+      $isurban = $zip_data['isurban'];
+      $primary = $zip_data['primary'];
+      // Set default zip location data for workbench select
+      if ($primary == 1) {
+        $_SESSION['default_location_zip'] = $zip;
+        $_SESSION['default_location_name'] = $name;
       }
+      save_user_location($zip, $name, $commsize, $isurban, $primary);
     }
   }
-  // Clear sessions for user preferred data and name-> zip mapping
-  unset($_SESSION['zip_name_mapping']);
-  unset($_SESSION['user_preferred_zips']);
-
 }
 
 
@@ -953,6 +961,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
  */
 function locations_add_to_session()
 {
+  drupal_session_start();
   if (isset($_POST['zip_data'])) {
     $_SESSION['user_preferred_zips'] = $_POST['zip_data'];
     $return_msg = array('error' => FALSE, 'msg' => "saved successfull", 'zips' => $_SESSION['user_preferred_zips']);
@@ -1052,7 +1061,7 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
       $zip_code_form['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_suffix'] = $field_suffix;
       $zip_code_value['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_suffix'] = $field_suffix;
       // Clear city details from field
-    //  $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE]['value']['#field_suffix'] = $field_suffix;
+      //  $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE]['value']['#field_suffix'] = $field_suffix;
       // unset($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE]['value']['#field_suffix']);
       // Do not duplicate error messages to user
       if (!in_array($error_message, $error_messages)) {
@@ -1927,4 +1936,12 @@ function getFileContents($file_location, $location = "")
   }
   return $response;
 
+}
+
+
+function delete_user_preference_session()
+{
+  unset($_SESSION['user_preferred_zips']);
+  print json_encode(array("success" => true));
+  exit();
 }

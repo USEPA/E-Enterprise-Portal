@@ -95,9 +95,7 @@
 
     if (!$('.field-suffix').hasClass('error')) {
       reset_buttons = true;
-      //resetButtons();
     } else {
-      //hideButtons();
       hide_buttons = true;
       fixInput = $('.field-suffix.error').closest('td').find('.field_zip_code');
       fixInput.focus();
@@ -113,7 +111,7 @@
     if (hide_buttons) {
       hideButtons();
     }
-    if (reset_buttons) {
+    if (reset_buttons && !existingLocationErrors()) {
       resetButtons();
     }
 
@@ -168,15 +166,22 @@
     // Reset global location_obj
     location_obj = {};
 
-    $("[id*=field-zip-code-values]").find("tr").each(function () {
+    var count_ignore_tr = 0;
+    $("[id*=field-zip-code-values]").find("tr").each(function (index) {
       var $tr = $(this);
       var $zip_code_input = $tr.find(".field_zip_code");
       var zip_id = $zip_code_input.attr('id');
       var $field_suffix = $tr.find('.field-suffix');
       // Do not add items that have errored or are currently being changed
-      if (zip_id == input_to_ignore || $field_suffix.hasClass('error')) {
+      if (zip_id == input_to_ignore || zip_id == null) {
+        count_ignore_tr = count_ignore_tr + 1;
         return true; // Skip to next iteration
       }
+      // If the field has an error, we still need to account for the delta, so don't add to count_ignore_tr
+      if ($field_suffix.hasClass('error')) {
+        return true; // Skip to next iteration
+      }
+      index = index - count_ignore_tr;
       var zip = $tr.find(".field_zip_code").val();
       var name = $field_suffix.text();
       var primary = $tr.find('.field-name-field-field-primary input').prop('checked');
@@ -194,6 +199,7 @@
         // Store zip and primary
         location_obj[name][zip] = {};
         location_obj[name][zip].primary = primary;
+        location_obj[name][zip].delta = index;
         // If this is the latest name, add community data
         if (name == location_name) {
           location_obj[name][zip].commsize = commsize;
@@ -201,26 +207,12 @@
         }
       }
     });
-    location_obj = {zip_data: location_obj};
-    $.ajax({
-      url: "/user_preferred_locations/add_to_session",
-      method: "POST",
-      data: location_obj,
-      beforeSend: function() {
-        hideButtons();
-      },
-      success: function () {
-        //$('.remove-button').not('#'+ remove_to_ignore).prop('disabled', true);
-        if(!existingLocationErrors() && $('.city-state-lookup-zips').length == 0) {
-          resetButtons();
-        }
-
-      }
-    });
+    var json_value = JSON.stringify(location_obj);
+    $('#edit-zip-mapping').val(json_value);
   }
 
   function check_duplicate(location_name, zip_val) {
-    return (location_obj["zip_data"][location_name] && location_obj["zip_data"][location_name][zip_val]);
+    return (location_obj[location_name] && location_obj[location_name][zip_val]);
   }
 
   function updateCommunitySettings() {
@@ -238,18 +230,19 @@
   function  disable_zip_buttons(input_to_ignore) {
     var remove_to_ignore = input_to_ignore.closest('tr').find('.remove-button').attr('id');
     $('#' + remove_to_ignore).attr('disabled', false);
-    $('.remove-button').not('#'+ remove_to_ignore).prop('disabled', true);
-    $('input.field_zip_code').not(input_to_ignore).prop('disabled', true);
+    $('.remove-button').not('#' + remove_to_ignore).prop('disabled', true);
+    $('input.field_zip_code').prop('disabled', true);
   }
 
 
-  function print_error_message(field_suffix, message) {
+  // Appends error message to given field suffix elem
+  function print_error_message($field_suffix, message) {
     // Print error message
-    lastVal = field_suffix.prev().val();
+    lastVal = $field_suffix.prev().val();
     failedLookup = true;
-    field_suffix.addClass('error').html(message);
-    field_suffix.attr("id", "zip-code-error");
-    field_suffix.prev().attr("aria-describedby", "zip-code-error");
+    $field_suffix.addClass('error').html(message);
+    $field_suffix.attr("id", "zip-code-error");
+    $field_suffix.prev().attr("aria-describedby", "zip-code-error");
     are_there_errors = true;
     update_user_zip_preferences("", "", "", "");
     hideButtons();
@@ -311,6 +304,7 @@
       field_suffix.addClass('error');
       field_suffix.html('Please update your location or remove this field before saving.');
       disable_zip_buttons(input);
+      input.prop('disabled',false);
       input.focus();
       //processPrimaryFields();
     });
@@ -667,7 +661,6 @@
     var page = path.split('/')[1];
     if (page == 'user') {
 
-
       $("#edit-submit").prependTo(".edit-user-profile");
       $(document).ajaxSuccess(function (event, xhr, settings) {
         var target_url = settings.url;
@@ -694,7 +687,6 @@
             }
           });
           if (inString(table_id, 'zip-code')) {
-            //processPrimaryFields();
             parent_id = '#zipcode_description';
           }
           else {
@@ -706,7 +698,6 @@
           }
           processPrimaryFields();
         }
-       // processPrimaryFields(false);
         moveAddButton();
       });
 
