@@ -483,7 +483,7 @@
           var show_zip = '';
           if (geolocation_used == 0 && changed_city == 'no') {
 						nearest_zip = '27705';
-						preferred_name = 'Default Durham, NC';
+						preferred_name = 'Durham, NC';
           }
           else {
             nearest_zip = selected_zip_code; 	          
