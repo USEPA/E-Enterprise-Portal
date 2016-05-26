@@ -372,7 +372,8 @@
             $('#skip-preferences').on('click', skipGettingStarted);
             $(first_time_user_block).on('keydown', function(e) {
 	            if (e.which === 27) {
-		            event.preventDefault();
+		            e.stopImmediatePropagation();
+		            e.preventDefault();
 		            skipGettingStarted();
 		            first_time_user_block.dialog('close');
 	            }
