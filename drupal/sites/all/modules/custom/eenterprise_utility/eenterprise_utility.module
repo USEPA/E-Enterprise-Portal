@@ -1918,11 +1918,3 @@ function getFileContents($file_location, $location = "")
   return $response;
 
 }
-
-
-function delete_user_preference_session()
-{
-  unset($_SESSION['user_preferred_zips']);
-  print json_encode(array("success" => true));
-  exit();
-}
