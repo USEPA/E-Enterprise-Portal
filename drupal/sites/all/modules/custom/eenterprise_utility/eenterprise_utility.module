@@ -980,18 +980,24 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state)
   $site_default_zip = 27705;
   $blank_zipcode = true;
 
-  // Site default zip Occurs when all values are blank.
-  // overrides if user has save geolocation zip
+  // Site default zip Occurs when all values are blank and user did not change location on Getting Started
+  // overrides if user has save geolocation and zip or changed location (stored in geolocation_zip)
   global $user;
   $user_data = user_load($user->uid);
   $user_initial_login = $user_data->field_initial_log_in;
   $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+  $geolocation_value = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation_value'][LANGUAGE_NONE][0]['value'];
   $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
 
-
   if (!isset($form_state['input']['field_zip_code'])) {
-    $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'] = $site_default_zip;
-    $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
+	  if (isset($skip) && isset($geolocation_value)) {
+		  $blank_zipcode = false;
+		  $site_default_zip = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation_value'][LANGUAGE_NONE][0]['value'];
+	  }	  
+		else {
+	    $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'] = $site_default_zip;
+	    $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
+	  }
     return;
   }
 
