@@ -2,8 +2,6 @@
 define("CREATED","created");
 define("CUSTOM","custom");
 
-
-
 /**
  * Override or insert variables into the maintenance page template.
  */
