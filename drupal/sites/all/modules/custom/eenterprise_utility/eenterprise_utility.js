@@ -228,10 +228,13 @@
   // When an error occurs, disabled removal/ addition of
   // rows except for the input that is errored
   function  disable_zip_buttons(input_to_ignore) {
-    var remove_to_ignore = input_to_ignore.closest('tr').find('.remove-button').attr('id');
-    $('#' + remove_to_ignore).attr('disabled', false);
-    $('.remove-button').not('#' + remove_to_ignore).prop('disabled', true);
+    $('.remove-button').prop('disabled', true);
     $('input.field_zip_code').prop('disabled', true);
+    if (input_to_ignore != "all") {
+      var remove_to_ignore = input_to_ignore.closest('tr').find('.remove-button').attr('id');
+      $('#' + remove_to_ignore).attr('disabled', false);
+      input_to_ignore.closest('tr').find('.field_zip_code').prop('disabled', false);
+    }
   }
 
 
@@ -414,6 +417,7 @@
         var ariaid = input.attr('aria-describedby');
         field_suffix.attr('id', ariaid);
         field_suffix.html('Loading...');
+        disable_zip_buttons("all");
         Drupal.settings.locationInputEngine.lookUpLocation(input.val()).done(function (location_data) {
           var zip;
           var location_name;
@@ -527,6 +531,7 @@
     $('#edit-submit').prop("disabled", false);
     $('#edit-submit--2').prop("disabled", false);
     $('#edit-delete').prop("disabled", false);
+    $('.field_zip_code').prop("disabled", false);
     if (removedSelect == true || failedLookup == true) {
      // $('.remove-button').prop("disabled", false);
     }
@@ -608,19 +613,6 @@
         if ($(this).val() != '' && (lastVal != $(this).val())) {
           hideButtons();
         }
-        //if (e.which == 13) { // Enter key
-        //  // Stop from submitting form
-        //  //     e.preventDefault();
-        //  //     if (!$('.field-suffix').hasClass('error')) {
-        //  enter_pressed = true;
-        //  $(this).blur();
-        //  //   return false;
-        //  //    }
-        //  //    else {
-        //  //     hideButtons();
-        //  //    $(this).closest("td").find(".field_zip_code").focus();
-        //  // }
-        //}
       });
     });
 
@@ -757,6 +749,10 @@
       });
 
       e.preventDefault();
+    });
+
+    $('.remove-button').click(function() {
+
     });
 
     processPrimaryFields();

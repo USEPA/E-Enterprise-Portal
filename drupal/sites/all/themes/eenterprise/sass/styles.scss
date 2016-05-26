@@ -1302,6 +1302,9 @@ form tbody {
 	color: $color-primary;
 }
 form[id^='user-profile-form'] {
+	.form-item-zip-mapping {
+		display: none;
+	}
 	#profile-interests {
 		.usa-grid {
 			padding: 0;
@@ -2627,6 +2630,7 @@ input[type="submit"]:not(.usa-button-outline),
 		padding-right: 1em;
 	}
 	form[id^='user-profile-form'] {
+
 		#profile-interests {
 			.form-type-textfield {
 				margin-right: 0;

@@ -655,7 +655,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
     /**
      * Zip Code Settings
      */
-
+    $form['field_zip_code'][LANGUAGE_NONE]['#title'] = "Enter city, state; tribe; or ZIP code";
     // Keeps track of used names and zips to check for duplicates
     $used_preferred_names = array();
     // List of used names so they are not used again.
