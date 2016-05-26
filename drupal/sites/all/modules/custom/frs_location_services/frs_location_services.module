@@ -108,7 +108,7 @@ function save_first_time_user_preferences()
 
 
     // Store users geolocation
-    if ($skip && $geolocation_used) {
+    if ($skip) {
         $zip = $geolocation_zip;
     }
 
