@@ -22,6 +22,7 @@
                 if (currentZip == 'view_more') {
                     add_aria_hidden_true_attrib_to_workbench();
                     add_aria_hidden_true_attrib_facility_inputs_to_workbench();
+                    $('#dialog-all-locations input').removeAttr('aria-hidden');
                 }
             });
             $('#dialog-all-locations').on("dialogclose", function() {
@@ -58,6 +59,7 @@
                 $('#field-zip-code-values .field_zip_code-delta-order').attr('aria-hidden', 'true');
                 $('#links_description select').attr('aria-hidden', 'true');
                 $('#delete-holder button').attr('aria-hidden', 'true');
+                $('#location-input-guests').attr('aria-hidden', 'true');
                 add_aria_hidden_true_attrib_to_workbench();
                 add_aria_hidden_true_attrib_facility_inputs_to_workbench();
                 //$('#').attr('aria-hidden', 'true');
@@ -77,6 +79,7 @@
                 $('#field-zip-code-values .field_zip_code-delta-order').attr('aria-hidden', 'false');
                 $('#links_description select').attr('aria-hidden', 'false');
                 $('#delete-holder button').attr('aria-hidden', 'false');
+                $('#location-input-guests').attr('aria-hidden', 'false');
                 add_aria_hidden_false_attrib_to_workbench();
                 add_aria_hidden_false_attrib_facility_inputs_to_workbench();
                 //$('#').attr('aria-hidden', 'false');
@@ -88,6 +91,7 @@
                 $('#facility-type').attr('aria-hidden', 'true');
                 $('#edit-facility-active-status').attr('aria-hidden', 'true');
                 $('#edit-my-facility .facility-county-fips').attr('aria-hidden', 'true');
+                $('#existing-facilities-table').attr('aria-hidden', 'true');
             }
 
             function add_aria_hidden_false_attrib_facility_inputs_to_workbench() {
@@ -96,6 +100,7 @@
                 $('#facility-type').attr('aria-hidden', 'false');
                 $('#edit-facility-active-status').attr('aria-hidden', 'false');
                 $('#edit-my-facility .facility-county-fips').attr('aria-hidden', 'false');
+                $('#existing-facilities-table').attr('aria-hidden', 'false');
             }
 
             function add_aria_hidden_true_attrib_to_workbench() {
@@ -118,6 +123,10 @@
                 $('#other-areas-tabs ul li').attr('aria-hidden', 'true');
                 $('#local-resources-tabs ul li').attr('aria-hidden', 'true');
                 $('#my-facilities-tab .MapLegend-header').attr('aria-hidden', 'true');
+                $('.region-navigation .menu').attr('aria-hidden', 'true');
+                $('table.usa-table-borderless').attr('aria-hidden', 'true');
+                $('#datatable-1_filter input').attr('aria-hidden', 'true');
+                //$('').attr('aria-hidden', 'true');
             }
 
             function add_aria_hidden_false_attrib_to_workbench() {
@@ -140,6 +149,10 @@
                 $('#other-areas-tabs ul li').attr('aria-hidden', 'false');
                 $('#local-resources-tabs ul li').attr('aria-hidden', 'false');
                 $('#my-facilities-tab .MapLegend-header').attr('aria-hidden', 'false');
+                $('.region-navigation .menu').attr('aria-hidden', 'false');
+                $('table.usa-table-borderless').attr('aria-hidden', 'false');
+                $('#datatable-1_filter input').attr('aria-hidden', 'false');
+                //$('').attr('aria-hidden', 'false');
             }
         }
     };
@@ -227,11 +240,30 @@
 
                     }
 
+                    $('.grid-stack').on('change', function(event, items) {
+                        if (!isSameWidgetOrder(serializeWidgets(), GridStackUI.Utils.sort(serializeWidgets()))) {
+                            // only run this if the change caused the order of the widgets to change
+                            var serializedWidgets = reorderGridDOM();
+                            rebuildSkipLinks(serializedWidgets);
+                            console.log('Section 508 - skip links have been updated.');
+                        }
+                    });
+
+                    function isSameWidgetOrder(a, b) {
+                        if (a.length != b.length) {
+                            return false;
+                        }
+                        for (var key in a) {
+                            if (a[key].id != b[key].id) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+
                     function addDragListeners($grid_container, $grid_change_options) {
                         $('body').on('swapped_grid', function() {
                             $grid_change_options.show();
-                            var serializedWidgets = reorderGridDOM();
-                            rebuildSkipLinks(serializedWidgets);
                         });
                     }
 
@@ -244,7 +276,7 @@
 
                         for (var key in serializedWidgets) {
                             var value = serializedWidgets[key];
-                            $('.grid-stack').append($('#' + value.id));
+                            // TODO: reorder DOM without affecting ResizeSensor() for $('.view-content')
                         }
 
                         return serializedWidgets;
@@ -265,7 +297,10 @@
                     function serializeWidgets() {
                         return _.map($('.grid-stack .grid-stack-item:visible'), function (el, key) {
                             el = $(el);
-                            el.attr('id', 'grid-item-' + key);
+                            // if no id has been set, set the id, e.g.: grid-item-my-facility-manager-2
+                            if (!el.attr('id')) {
+                                el.attr('id', 'grid-item-' + key);
+                            }
                             var node = el.data('_gridstack_node');
                             return {
                                 id: el.attr('id'),
@@ -375,8 +410,6 @@
                                 var data = $.parseJSON(data);
                                 serialization = GridStackUI.Utils.sort(data);
                                 initializeIndices(grid, serialization);
-                                var serializedWidgets = reorderGridDOM();
-                                rebuildSkipLinks(serializedWidgets);
                             }
                         });
                     }

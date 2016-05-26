@@ -225,7 +225,8 @@ svg.my-air-quality-map-legend-icon {
   margin-top: 0px;
 }
 
-.leaflet-popup-content table th, td {
+.leaflet-popup-content table th, 
+.leaflet-popup-content table td {
     border: medium none;
     line-height: 1.2;
     padding: 8px;

@@ -427,7 +427,8 @@ footer {
 
 .pager, 
 .dataTables_paginate.paging_simple
-.dataTables_paginate.paging_simple_numbers {
+.dataTables_paginate.paging_simple_numbers,
+.paging_simple {
 
 	li:before,
 	li:after {
@@ -591,7 +592,8 @@ header {
 	}
 }
 
-.section-eenterprise-new {
+.section-eenterprise-new,
+.section-eenterprise-alternate {
 	.page-title, .article-title {
 		display: none;
 	}
@@ -674,7 +676,8 @@ header {
   }
 }
 
-.section-eenterprise-new {
+.section-eenterprise-new,
+.section-eenterprise-alternate {
 	&.logged-in {
 		.guest-login {
 			display: none;
@@ -694,6 +697,33 @@ header {
 			display: none;
 		}
 	}
+}
+
+.embed-responsive {
+  position: relative;
+  display: block;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.embed-responsive .embed-responsive-item,
+.embed-responsive iframe,
+.embed-responsive embed,
+.embed-responsive object,
+.embed-responsive video {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.embed-responsive.embed-responsive-16by9 {
+  padding-bottom: 56.25%;
+}
+.embed-responsive.embed-responsive-4by3 {
+  padding-bottom: 75%;
 }
 
 #benefits,
@@ -809,6 +839,29 @@ header {
 	}
 }
 
+#ee-video {
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+	background-color: $color-gray-white;
+	border-bottom: 1px solid $color-gray-lightest;
+	h2 {
+		font-weight: 200;
+    font-size: 1em;
+    text-transform: uppercase;
+    color: #666;
+	}
+}
+
+.section-eenterprise-alternate {	
+	#ee-video {
+		background-color: $color-gray-white;
+		border-top: 1px solid $color-gray-lightest;
+	}
+	#including {
+		background-color: $color-white;
+	}
+}
+
 .page-workbench,
 .page-user {
 	.main-content {
@@ -896,7 +949,8 @@ header {
 	  }
   }
 
-  .section-eenterprise-new {
+  .section-eenterprise-new,
+  .section-eenterprise-alternate {
 	  .jumbotron {
 	  	.container {
 	    	max-width:100%;
@@ -1087,7 +1141,8 @@ a:focus.add_link {
 		min-width: 4.5em;
 	}
 
-	.section-eenterprise-new {
+	.section-eenterprise-new,
+	.section-eenterprise-alternate {
 		.well {
 			position: relative;
 			.welcome-message {
@@ -1126,6 +1181,7 @@ a:focus.add_link {
 			}
 			img {
 				max-width: 35%;
+				margin-bottom: 3rem;
 			}
 		}
 	}
@@ -1196,7 +1252,8 @@ a:focus.add_link {
 }
 
 @media screen and (min-width: 90em) {
-	.section-eenterprise-new .well {
+	.section-eenterprise-new .well,
+	.section-eenterprise-alternate .well {
 		.welcome-message {
 		}
 		#login-group {
@@ -2140,7 +2197,8 @@ form .field-multiple-table#field-zip-code-values {
 		}
 	}
 	
-	.section-eenterprise-new {
+	.section-eenterprise-new,
+	.section-eenterprise-alternate {
 		.jumbotron {
 			padding-top: 30px;	
 			background-position: 50%;	
@@ -2889,6 +2947,18 @@ input[type="submit"]:not(.usa-button-outline),
 			}
 		}
 	}
+	.view-state-resource-editor {
+		.view-header {
+			float: left;
+		}
+		.dataTables_filter {
+			float: right;
+		}
+		.view-header,
+		.dataTables_filter {
+			line-height: 6rem;
+		}
+	}
 }
 
 @media screen and (min-width: 60em) {
@@ -2944,7 +3014,8 @@ input[type="submit"]:not(.usa-button-outline),
 	}
 }
 
-.section-eenterprise-new {
+.section-eenterprise-new,
+.section-eenterprise-alternate {
 	&.not-logged-in {
 		.mobile-nav {
 			display: none;
@@ -3196,7 +3267,10 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 }
 
 .btn-dropbox       { @include btn-social(#1087dd); }
-.btn-facebook      { @include btn-social(#3b5998); }
+.btn-facebook,
+a.usa-button.btn-facebook { 
+	@include btn-social(#3b5998); 
+}
 .btn-github        { @include btn-social(#444444); }
 .btn-google        { @include btn-social(#dd4b39); }
 .btn-instagram     { @include btn-social(#3f729b); }
@@ -3210,7 +3284,10 @@ $bs-height-lg:   (floor($font-size-large * $line-height-base) + $padding-large-v
 }
 .btn-openid        { @include btn-social(#f7931e); }
 .btn-pinterest     { @include btn-social(#cb2027); }
-.btn-twitter       { @include btn-social(#55acee); }
+.btn-twitter,
+a.usa-button.btn-twitter { 
+	@include btn-social(#55acee); 
+}
 .btn-yahoo         { @include btn-social(#720e9e); }
 
 a.usa-button.btn-social.btn-exchangenetwork {
