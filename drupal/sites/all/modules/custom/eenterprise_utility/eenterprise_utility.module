@@ -532,10 +532,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
           $zip_deltas[$data['delta']] = array('name' => $name, 'zip' => $zip, 'comm' => $data['comm'], 'urban' => $data['urban']);
         }
       }
+      ksort($zip_deltas);
     } else {
       $zip_mapping = load_user_preferred_zips();
     }
-
     $form['zip_mapping'] = array(
       '#title' => t('Zip Mapping'),
       '#type' => 'textfield',
@@ -606,6 +606,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
         }
         // Update zip deltas with deleted info
         $iter = 0;
+
         foreach ($zip_deltas as $index => $data) {
           if ($index != $iter) {
             // Reassign to $iter
@@ -660,7 +661,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id)
     $used_preferred_names = array();
     // List of used names so they are not used again.
     $lookup_names = array();
-
     for ($delta = 0; $delta <= intval($form['field_zip_code'][LANGUAGE_NONE]['#max_delta']); $delta++) {
       $duplicate = false;
       $zip = $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#default_value'];
