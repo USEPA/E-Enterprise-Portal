@@ -163,36 +163,9 @@
                 $('#app-connect-sso-form').submit();
             });
 
-            $('body').once(function() {
-
-                function findNextWidgetTitle(skipWidgetLink) {
-                    var $nextWidgetSkipLink = skipWidgetLink.parent().parent().nextAll().find('.skip-widget').first();
-
-                    if ($nextWidgetSkipLink.size() == 0) { // if there is no $nextWidgetSkipLink, use the first widget
-                        $nextWidgetSkipLink = $('.skip-widget').first();
-                    }
-
-                    return $nextWidgetSkipLink.prev('h2');
-                }
-
-                // Locate widgets and insert skip links after the H2
-                $('.grid-stack-item-content:not(.no-skip-widget-link)').find('h2').after($('<a>', {
-                    'class': 'skip-widget element-invisible element-focusable',
-                    'href': 'javascript:void(0)',
-                    text: 'Skip to next widget'
-                }));
-
-                // Instead of "Skip to next widget," replace the "next widget" text with the actual title, e.g.: "Trending Air"
-                $('a.skip-widget').text(function(e) {
-                    var $nextWidgetTitle = findNextWidgetTitle($(this));
-                    $(this).text('Skip to ' + $nextWidgetTitle.text() + ' widget');
-                });
-
-                // Add click event handler for these skip links
-                $('body').on('click', 'a.skip-widget', function(e) {
-                    var $nextWidgetTitle = findNextWidgetTitle($(this));
-                    $nextWidgetTitle.focus();
-                });
+            $('.grid-stack-item').on('click', 'a.skip-widget', function(ev) {
+                ev.preventDefault();
+                $('#' + $(this).attr('next-widget') + ' h2').focus();
             });
         }
     };
@@ -240,46 +213,10 @@
 
                     }
 
-                    $('.grid-stack').on('change', function(event, items) {
-                        if (!isSameWidgetOrder(serializeWidgets(), GridStackUI.Utils.sort(serializeWidgets()))) {
-                            // only run this if the change caused the order of the widgets to change
-                            var serializedWidgets = reorderGridDOM();
-                            rebuildSkipLinks(serializedWidgets);
-                            console.log('Section 508 - skip links have been updated.');
-                        }
-                    });
-
-                    function isSameWidgetOrder(a, b) {
-                        if (a.length != b.length) {
-                            return false;
-                        }
-                        for (var key in a) {
-                            if (a[key].id != b[key].id) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    }
-
                     function addDragListeners($grid_container, $grid_change_options) {
                         $('body').on('swapped_grid', function() {
                             $grid_change_options.show();
                         });
-                    }
-
-                    function reorderGridDOM() {
-                        // clear out ids
-                        $('.grid-stack .grid-stack-item:visible').attr('id', '');
-
-                        // let gridstack determine the new skip order
-                        var serializedWidgets = GridStackUI.Utils.sort(serializeWidgets());
-
-                        for (var key in serializedWidgets) {
-                            var value = serializedWidgets[key];
-                            // TODO: reorder DOM without affecting ResizeSensor() for $('.view-content')
-                        }
-
-                        return serializedWidgets;
                     }
 
                     function rebuildSkipLinks(serializedWidgets) {
@@ -291,6 +228,7 @@
                         // the last widget points to 'first'
                         var lastWidget = serializedWidgets[serializedWidgets.length - 1];
                         setSkipLink($('#' + lastWidget.id), $('#' + serializedWidgets[0].id));
+                        console.log('Section 508 - skip links have been updated.');
                     }
 
                     // @see https://github.com/troolee/gridstack.js/blob/master/README.md#save-grid-to-array
@@ -313,12 +251,15 @@
                     }
 
                     function setSkipLink(sourceWidget, destinationWidget) {
-                        var skipTitle = $(destinationWidget).find('h2').text();
+                        var skipTitle = $.trim($(destinationWidget).find('h2').text());
                         $(sourceWidget).find('a.skip-widget').remove();
                         $(sourceWidget).find('h2').after($('<a>', {
                             'class': 'skip-widget element-invisible element-focusable',
-                            'href': 'javascript:void(0)',
-                            'text': 'Skip to ' + skipTitle + ' widget'
+                            'text': 'Skip to ' + skipTitle + ' widget',
+                            'href': '#',
+                            'next-widget': $(destinationWidget).attr('id'),
+                            // @see http://stackoverflow.com/questions/11144653/a-script-links-without-href (A dud href)
+                            'role' : 'button'
                         }));
                     }
 
@@ -344,17 +285,21 @@
                     function addResizeSensors(grid) {
                         if (typeof ResizeSensor !== 'undefined') {
                             new ResizeSensor(jQuery('.grid-stack-item'), _.debounce(function() {
-                                recalculateWidgetHeights(grid)
+                                resizeCallback(grid);
                             }, 150));
                             new ResizeSensor(jQuery('.view-content'), _.debounce(function() {
-                                recalculateWidgetHeights(grid)
+                                resizeCallback(grid);
                             }, 150));
                             $(document).ajaxComplete(_.debounce(function() {
-                                recalculateWidgetHeights(grid)
+                                resizeCallback(grid);
                             }, 150));
                         }
                     }
 
+                    function resizeCallback(grid) {
+                        recalculateWidgetHeights(grid);
+                        rebuildSkipLinks(GridStackUI.Utils.sort(serializeWidgets()));
+                    }
 
                     function recalculateWidgetHeights(grid) {
                         $('.grid-stack-item.ui-draggable').each(function() {
