@@ -100,11 +100,38 @@ function lgc_topics_multiselect()
   return $multi_select;
 }
 
+function xml2array ( $xmlObject, $out = array () )
+{
+  foreach ( (array) $xmlObject as $index => $node )
+    $out[$index] = ( is_object ( $node ) ) ? xml2array ( $node ) : $node;
+
+  return $out;
+}
+
 /**
  * Implements hook_form_alter().
  */
 function recommended_resources_form_alter(&$form, &$form_state, $form_id)
 {
+  dpm('here');
+  $url = "https://ends2.epacdxnode.net/RestProxy/query?Node=.NetNodeDev2.0&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+  $response = drupal_http_request($url, array(
+    'headers' => array('Content-Type' => 'text/xml'),
+    'method' => 'GET',
+  ));
+  dpm($response);
+  $xmlobj=simplexml_load_string($response->data);
+  dpm($xmlobj->Results->NewDataSet->Resource->
+  ResourceIdentifier);
+  $resources = xml2array($xmlobj->Results->NewDataSet);
+  $resources_array = array();
+  foreach($resources['Resource'] as $simpleXML) {
+    $resources_array[] = xml2array($simpleXML);
+  }
+  dpm($resources_array);
+
+
+
   if ($form_id == 'lgc_resource_node_form') {
     drupal_add_js(drupal_get_path('module', 'recommended_resources') . "/js/preview_url_form.js", "file");
     drupal_add_css(drupal_get_path('module', 'recommended_resources') . "/css/recommended_resources.css", "file");
@@ -321,4 +348,12 @@ function generateUserLocalResourcesTable()
     $table = views_embed_view('lgc_manage_my_topics', 'block');
     print $table;
     exit();
+  }
+
+
+  function load_data_from_rcs()
+  {
+    $request = "https://ends2.epacdxnode.net/RestProxy/query?Node=.NetNodeDev2.0&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+    $result = drupal_http_request($request);
+    $vals = xml2array($result->data);
   }
