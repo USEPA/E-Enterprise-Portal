@@ -228,12 +228,19 @@
                         // the last widget points to 'first'
                         var lastWidget = serializedWidgets[serializedWidgets.length - 1];
                         setSkipLink($('#' + lastWidget.id), $('#' + serializedWidgets[0].id));
-                        console.log('Section 508 - skip links have been updated.');
                     }
 
+                    // override what gets tabbed as the first widget
+                    $('.grid-stack').parents('.main-content').prevAll().find('a').last().keydown(function(e) {
+                        e.stopImmediatePropagation();
+                        if (e.which === 9) { // tab key
+                            $('#' + sortedWidgets()[0].id + ' h2').focus();
+                        }
+                    });
+
                     // @see https://github.com/troolee/gridstack.js/blob/master/README.md#save-grid-to-array
-                    function serializeWidgets() {
-                        return _.map($('.grid-stack .grid-stack-item:visible'), function (el, key) {
+                    function sortedWidgets() {
+                        var widgets = _.map($('.grid-stack .grid-stack-item:visible'), function (el, key) {
                             el = $(el);
                             // if no id has been set, set the id, e.g.: grid-item-my-facility-manager-2
                             if (!el.attr('id')) {
@@ -248,6 +255,8 @@
                                 height: node.height
                             };
                         });
+
+                        return GridStackUI.Utils.sort(widgets);
                     }
 
                     function setSkipLink(sourceWidget, destinationWidget) {
@@ -298,7 +307,7 @@
 
                     function resizeCallback(grid) {
                         recalculateWidgetHeights(grid);
-                        rebuildSkipLinks(GridStackUI.Utils.sort(serializeWidgets()));
+                        rebuildSkipLinks(sortedWidgets());
                     }
 
                     function recalculateWidgetHeights(grid) {
