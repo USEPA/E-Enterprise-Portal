@@ -2953,6 +2953,10 @@ input[type="submit"]:not(.usa-button-outline),
 		}
 		.dataTables_filter {
 			float: right;
+			input {
+				float: right;
+				margin-top: 7px;
+			}
 		}
 		.view-header,
 		.dataTables_filter {
