@@ -369,16 +369,6 @@
 
             });
 
-            $('#skip-preferences').on('click', skipGettingStarted);
-            $(first_time_user_block).on('keydown', function(e) {
-	            if (e.which === 27) {
-		            e.stopImmediatePropagation();
-		            e.preventDefault();
-		            skipGettingStarted();
-		            first_time_user_block.dialog('close');
-	            }
-            });
-
             $('#save-preferences').click(function () {
                 var interests = [];
                 var org_val = $org_select.val();
@@ -446,8 +436,29 @@
                 width: 1100,
                 height: 600,
                 //height: auto,
-                dialogClass: 'first-time-user-dialog'
+                dialogClass: 'first-time-user-dialog',
+                closeOnEscape: false
             });
+            
+            $('#skip-preferences').on('click', skipGettingStarted);
+            // If user presses Escape key
+            $(first_time_user_block).on('keydown', function(e) {
+	            if (e.which === 27) {
+		            e.stopImmediatePropagation();
+		            e.preventDefault();
+		            skipGettingStarted();
+		            first_time_user_block.dialog('close');
+	            }
+            });
+            $(first_time_user_block).parent().on('keydown', function(event) {
+	            if (event.which === 27) {
+		            event.stopImmediatePropagation();
+		            event.preventDefault();
+		            skipGettingStarted();
+		            first_time_user_block.dialog('close');
+	            }
+            });
+                        
 
             $('#switch-to-interests').click(function(e) {
                 e.preventDefault();
