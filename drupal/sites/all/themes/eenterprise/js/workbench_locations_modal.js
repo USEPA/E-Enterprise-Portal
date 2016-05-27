@@ -73,7 +73,7 @@ $(document).ready(function(){
 			// Alphabetically place select option. Because already alphabetical, if not in
 			// select drop down, just make last choice (position 9)
 			$location_select.find('option:nth-child(' + (max_allowed_locations - 1) + ')').after($new_option);
-			$location_select.find('option[title="' + select_title + '"]').prop('selected', 'selected');
+			$location_select.find('option[title="' + select_title + '"]').attr('selected', TRUE);
 			$location_select.trigger('change');
 		}
 	}
