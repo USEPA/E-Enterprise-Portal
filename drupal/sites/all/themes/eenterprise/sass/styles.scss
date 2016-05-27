@@ -2954,8 +2954,7 @@ input[type="submit"]:not(.usa-button-outline),
 		.dataTables_filter {
 			float: right;
 			input {
-				float: right;
-				margin-top: 7px;
+				display: inline-block;
 			}
 		}
 		.view-header,
