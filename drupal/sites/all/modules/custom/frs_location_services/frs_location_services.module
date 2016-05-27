@@ -289,26 +289,6 @@ function return_user_preferred_location($zip_code)
         return FALSE;
 }
 
-//function return_user_locations($user_data)
-//{
-//    global $user;
-//    $uid = $user->uid;
-//    $zip = '77571';
-//    $nids = db_select("node", 'n')
-//        ->fields('n', array('nid'))
-//        ->condition('type', 'user_location_preferences')
-//        ->condition('uid', $uid)
-//        ->execute()->fetchCol();
-//    foreach ($nids as $nid) {
-//        $node = node_load($nid);
-//        $found_zip = $node->field_user_zip_code[LANGUAGE_NONE][0]['safe_value'];
-//        if ($zip == $found_zip)
-//            echo "successfully found " . $zip;
-//        else
-//            echo "not found";
-//    }
-//}
-
 
 function return_location_data_lat_long()
 {

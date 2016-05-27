@@ -93,7 +93,6 @@ function eenterprise_utility_menu()
   );
 
 
-
   return $items;
 }
 
@@ -950,7 +949,6 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
   } else {
     print json_encode($zip_data);
   }
-
 }
 
 
@@ -1321,7 +1319,6 @@ function generate_location_select()
  */
 function deprec_get_header_variables()
 {
-  //the value for now is hardcoded not to block front end developers while backend developers investigate API endpoints to get data from CDX
   global $user;
   $user_data = user_load($user->uid);
   $user_zips = $user_data->field_zip_code;
@@ -1376,14 +1373,7 @@ function deprec_get_header_variables()
  */
 function deprec_generate_location_select()
 {
-  // show an input box instead of a select for guest users
-  global $user;
   $max_location_items = 10;
-
-  if ($user->name == 'guest-user') {
-    generate_location_input_for_guests();
-    return;
-  }
 
   $default_zip_used = false;
   $header_data = deprec_get_header_variables();
@@ -1916,5 +1906,49 @@ function getFileContents($file_location, $location = "")
     watchdog($location, $message, array(), WATCHDOG_ERROR);
   }
   return $response;
+
+}
+
+
+function updateUserLocationPreferences()
+{
+
+  // Load all users
+  $users = entity_load('user');
+  foreach ($users as $uid => $data) {
+    $user_data = user_load($uid);
+
+    // Load previously saved zip and primary settings
+    $zip = $user_data->field_zip_code[LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
+    $primary = $user_data->field_zip_code[LANGUAGE_NONE][0]['field_field_primary'][LANGUAGE_NONE][0]['value'];
+
+    //TODO Look up community size and urban/rural status of zip code
+
+    // Check if they have a preferred name for that location
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'user_location_preferences')
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->propertyCondition('uid', $uid)
+      ->fieldCondition('field_user_zip_code', 'value', $zip, '=');
+    $result = $query->execute();
+
+    // Load node information for preferred location if found
+    if (isset($result['node'])) {
+      foreach ($result['node'] as $nid => $node_data) {
+        if ($nid === '') {
+          break;
+        }
+        $node = node_load($nid);
+        $name = $node->field_preferred_name[LANGUAGE_NONE][0]['value'];
+        $zip = $node->field_user_zip_code[LANGUAGE_NONE][0]['value'];
+
+        /** use zip_look_up to find population and rural/urban data */
+      }
+    }
+
+    //TODO If not found, create new User Preferred location content
+
+  }
 
 }
