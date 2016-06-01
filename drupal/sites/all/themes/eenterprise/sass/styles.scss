@@ -353,6 +353,11 @@ footer {
         a {
             font-family: $font-sans !important;
             font-size: 1.4rem;
+            &:before, 
+            &:after
+             {
+              font-family: 'FontAwesome' !important;
+            }
         }
     }
 }
@@ -448,6 +453,18 @@ footer {
         vertical-align: top;
         padding-top: 0.5rem;
         text-align: center;
+        &.pager__link.previous,
+        &.pager__link.next {
+          font-size: 0;
+          display: table-cell;
+          &:before,
+          &:after {
+            font-size: 1.4rem;
+          }
+          &.disabled {
+            display: none;
+          }
+        }
     }
     li > a:hover {
         text-decoration: none;
@@ -2464,6 +2481,18 @@ div.ctools-modal-content {
             float: none;
             display: table-cell;
             width: 80%;
+        }
+    }
+}
+
+.pane-content {
+    .view-content {
+        .dataTables_wrapper {
+            .dataTables_info,
+            .dataTables_paginate {
+                margin-top: 0;
+                padding-top: 0.25rem;   
+            }
         }
     }
 }
