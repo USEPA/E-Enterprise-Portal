@@ -114,6 +114,14 @@
   width: auto;
 }
 
+#my-facilities #existing-facilities-table_info.dataTables_info {
+  font-size: 1.4rem;
+  display: table-cell;
+}
+#my-facilities #existing-facilities-table_paginate.paging_simple_numbers span {
+    margin-left: 10px;
+    margin-right: 10px;
+}
 
 @media (min-width: 1200px) {
   .cdx_facility_management_block {
