@@ -1310,7 +1310,7 @@ function generate_location_select()
         print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
       } // need to use default zip if not used yet
       else if ($count == $max_location_items && !$primary_location_used && $primary_zip > 0) {
-        print "<option value='" . $primary_zip . "' selected>" . $primary_location . "</option>";
+        print "<option title = '" . $primary_location . " (" . $primary_zip . ")' value='" . $primary_zip . "' selected>" . $primary_location . "</option>";
       } else if ($show_more) {
         print "<option value='view_more'>Show more...</option>";
         $show_more = FALSE;
