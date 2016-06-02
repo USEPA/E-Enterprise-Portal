@@ -495,6 +495,9 @@ footer {
         font-family: 'FontAwesome';
         box-shadow: none;
     }
+    a:focus.pager__link {
+        outline: 1px dotted #212121; // this addresses the lack of a focus outline on firefox
+    }
     .pager__link--previous:before,
     .pager__link--next:before,
     .pager__link.previous:before,
