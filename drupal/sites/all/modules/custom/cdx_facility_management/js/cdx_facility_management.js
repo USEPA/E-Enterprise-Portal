@@ -307,6 +307,11 @@
     }
 
     function adjustFacilityWidgetHeight() {
+      var width = 0;
+      $('#cdx-logged-in-options div').each(function() {
+          width += $(this).outerWidth( true );
+      });
+      if (width > $('.pane-views-cdx-facility-management-block').width()) {
       if ($('.pane-views-cdx-facility-management-block').parent().hasClass('expanded') && 
           ($('#launch-facility-management').css('display') == 'none')) {
         $('.pane-views-cdx-facility-management-block').parent().height("-=40");
@@ -316,6 +321,7 @@
         $('.pane-views-cdx-facility-management-block').parent().height("+=40");
         $('.pane-views-cdx-facility-management-block').parent().addClass('expanded');
       }
+    }
     }
 
     $(document).ready(function () {
