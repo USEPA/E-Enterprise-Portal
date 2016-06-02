@@ -596,7 +596,7 @@
       $(this).prop('title', 'Set to default location');
       var selected_icon = $(this).find('i');
       selected_icon.removeClass('fa-star');
-      selected_icon.addClass('fa-star-empty');
+      selected_icon.addClass('fa-star-o');
       selected_icon.closest('td').find('input[type=checkbox]').prop('checked', false);
       var screenreader_indicator = $(this).find('.sr-only');
       screenreader_indicator.text('Set to default location');
