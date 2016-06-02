@@ -91,12 +91,7 @@ function eenterprise_utility_menu()
     'access callback' => TRUE,
     '#type' => MENU_CALLBACK,
   );
-
-  // Open URL for local development
-//  $items['update_user_location_preferences'] = array(
-//    'page callback' => 'update_user_location_preferences',
-//    'access callback' => TRUE,
-//  );
+  
 
   return $items;
 }

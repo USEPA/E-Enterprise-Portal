@@ -218,12 +218,6 @@
     return (location_obj[location_name] && location_obj[location_name][zip_val]);
   }
 
-  function updateCommunitySettings() {
-    var primary_offset = /form-item-field-zip-code-und-(\d+)/.exec($(".zip-code-primary-select.selected").parent().parent()[0].className)[1];
-    var primary_zip = $('#city-name-' + primary_offset);
-    setCommunitySizeType(primary_zip.attr('commsize'), primary_zip.attr('isurban'));
-  }
-
   function inString(str, substring) {
     return str.indexOf(substring) >= 0;
   }
@@ -377,8 +371,6 @@
         } else if (urban == "Rural") {
           field_suffix.attr('isurban', '0');
         }
-        //// Update community/rural data
-        //updateCommunitySettings();
         // Update all location data
         update_user_zip_preferences();
         processPrimaryFields();
