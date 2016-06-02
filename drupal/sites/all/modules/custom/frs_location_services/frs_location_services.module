@@ -400,7 +400,7 @@ function high_level_taxonomy_checkboxes() {
 function frs_lat_long_to_zip_code($lat, $long) {
 
   $token = frs_naas_authentication();
-  $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
+  $ip = $_SERVER['SERVER_ADDR'];
   $frs_domain = variable_get('frs_api_lookup_url');
   if ($frs_domain == 'test_proxy') {
     $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
@@ -693,7 +693,6 @@ function frs_naas_authentication() {
         "domain" => variable_get('cdx_node_token_domain'),
         "authenticationMethod" => variable_get('cdx_node_token_auth_method'),
         "clientIp" => $_SERVER['SERVER_ADDR'],
-        //variable_get('frs_api_lookup_ip'),
         'resourceURI' => ''
       );
       $soap_type = 'CentralAuth';
