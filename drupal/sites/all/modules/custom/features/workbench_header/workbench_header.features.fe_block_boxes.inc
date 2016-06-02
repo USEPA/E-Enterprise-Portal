@@ -47,6 +47,7 @@ function workbench_header_default_fe_block_boxes() {
   $fe_block_boxes->info = 'EE Header Locations';
   $fe_block_boxes->format = 'php_code';
   $fe_block_boxes->machine_name = 'ee_header_locations';
+
   $fe_block_boxes->body = '<?php
 //If page is Workbench, then show locations
 $path = drupal_get_path_alias($_GET[\'q\']);
@@ -84,6 +85,7 @@ print "</div><!-- end header locations feedback block -->";
   $fe_block_boxes->info = 'Favorite Links';
   $fe_block_boxes->format = 'php_code';
   $fe_block_boxes->machine_name = 'eenterprise_favorite_links';
+
   $fe_block_boxes->body = '<div class="panel panel-default">
 <div class="panel-body ">
 

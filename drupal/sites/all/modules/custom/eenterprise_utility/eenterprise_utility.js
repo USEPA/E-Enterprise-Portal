@@ -162,9 +162,11 @@
    * @param commsize
    * @param isurban
    */
-  function update_user_zip_preferences(location_name, commsize, isurban, input_to_ignore) {
+  function update_user_zip_preferences(input_to_ignore) {
+    if (typeof(input_to_ignore) === 'undefined') input_to_ignore = "";
     // Reset global location_obj
     location_obj = {};
+
 
     var count_ignore_tr = 0;
     $("[id*=field-zip-code-values]").find("tr").each(function (index) {
@@ -185,6 +187,9 @@
       var zip = $tr.find(".field_zip_code").val();
       var name = $field_suffix.text();
       var primary = $tr.find('.field-name-field-field-primary input').prop('checked');
+      var urban = parseInt($field_suffix.attr('isurban'));
+      var pop = parseInt($field_suffix.attr('commsize'));
+
       if (primary) {
         primary = 1;
       }
@@ -201,10 +206,8 @@
         location_obj[name][zip].primary = primary;
         location_obj[name][zip].delta = index;
         // If this is the latest name, add community data
-        if (name == location_name) {
-          location_obj[name][zip].commsize = commsize;
-          location_obj[name][zip].is_urban = isurban;
-        }
+        location_obj[name][zip].commsize = pop;
+        location_obj[name][zip].is_urban = urban;
       }
     });
     var json_value = JSON.stringify(location_obj);
@@ -213,12 +216,6 @@
 
   function check_duplicate(location_name, zip_val) {
     return (location_obj[location_name] && location_obj[location_name][zip_val]);
-  }
-
-  function updateCommunitySettings() {
-    var primary_offset = /form-item-field-zip-code-und-(\d+)/.exec($(".zip-code-primary-select.selected").parent().parent()[0].className)[1];
-    var primary_zip = $('#city-name-' + primary_offset);
-    setCommunitySizeType(primary_zip.attr('commsize'), primary_zip.attr('isurban'));
   }
 
   function inString(str, substring) {
@@ -303,13 +300,12 @@
       remove_button.show();
       add_button.show();
       primary_indicator.show();
-      //TODO if they had valid input before reset to previous input
       field_suffix.addClass('error');
       field_suffix.html('Please update your location or remove this field before saving.');
       disable_zip_buttons(input);
       input.prop('disabled',false);
       input.focus();
-      //processPrimaryFields();
+      update_user_zip_preferences();
     });
     confirm.on('click', function () {
       var input_value = input.val();
@@ -374,10 +370,8 @@
         } else if (urban == "Rural") {
           field_suffix.attr('isurban', '0');
         }
-        // Update community/rural data
-        updateCommunitySettings();
         // Update all location data
-        update_user_zip_preferences(location_name, pop, urban, "");
+        update_user_zip_preferences();
         processPrimaryFields();
         if (!existingLocationErrors()) {
           resetButtons();
@@ -424,9 +418,8 @@
           var pop = 0;
           var urban = "";
           var duplicate = false;
-
           // Update location data to check for duplicates, ignoring this input-
-          update_user_zip_preferences("", "", "", input.attr('id'));
+          update_user_zip_preferences(input.attr('id'));
 
           // If zip codes, then returning zip code data for string input
           if (location_data.zip_codes) {
@@ -442,6 +435,7 @@
 
             input.val(zip);
 
+            // Check if state included. If not, it is a tribe
             if (location_data.state != '') {
               // Add state information
               location_name = location_name + ', ' + location_data.state;
@@ -468,8 +462,7 @@
               } else if (urban == "Rural") {
                 field_suffix.attr('isurban', '0');
               }
-              update_user_zip_preferences(location_name, pop, urban);
-              updateCommunitySettings();
+              update_user_zip_preferences();
             }
           } // Ends if location_data.zip_codes
           else { // Returning zip codes for selection
@@ -504,8 +497,7 @@
               } else if (urban == "Rural") {
                 field_suffix.attr('isurban', '0');
               }
-              update_user_zip_preferences(location_name, pop, urban);
-              updateCommunitySettings();
+              update_user_zip_preferences();
               $('.remove-button').prop("disabled", false);
             }
           }
@@ -588,7 +580,7 @@
       var primary_zip = $('#city-name-' + primary_offset);
       setCommunitySizeType(primary_zip.attr('commsize'), primary_zip.attr('isurban'));
       //update session data without adding new community data
-      update_user_zip_preferences("", "", "");
+      update_user_zip_preferences();
     });
 
     $('body').on('click', '.zip-code-primary-select.selected', function () {
@@ -665,7 +657,7 @@
             resetButtons();
           }
           // Update zip session data
-          update_user_zip_preferences("", "", "");
+          update_user_zip_preferences();
         }
         // determine which table to place the Add Another button
         if (target_url == '/system/ajax' || target_url == '/multifield/field-remove-item/ajax') {
@@ -720,7 +712,7 @@
       };
       $('#profile-tabs').tabs();
       // Update session on page load for zip mapping
-      update_user_zip_preferences("", "", "");
+      update_user_zip_preferences();
     }
 
     if (page == 'app-connect') {

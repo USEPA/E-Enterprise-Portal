@@ -257,9 +257,16 @@ function profile2_page_profile2_type_insert(ProfileType $type) {
 function profile2_page_profile2_type_update(ProfileType $type) {
   // Rebuild the menu if use_page or the type name has been changed.
   // @see profile2_page_profile2_type_insert()
-  if (empty($type->data['use_page']) != empty($type->original->data['use_page']) || ($type->data['use_page'] &&  $type->type != $type->original->type)) {
-    variable_set('menu_rebuild_needed', TRUE);
-  }
+  /**
+   * Ben Matkin 6/2/2016- use_page is an undefined index that breaks update.php
+            - Added isset conditional
+   */
+  if (isset($type->data['use_page'])) { // bmatkin added 6/2
+    if (empty($type->data['use_page']) != empty($type->original->data['use_page']) || ($type->data['use_page'] && $type->type != $type->original->type)) {
+      variable_set('menu_rebuild_needed', TRUE);
+    }
+  } // bmatkin added 6/2
+
 }
 
 /**
