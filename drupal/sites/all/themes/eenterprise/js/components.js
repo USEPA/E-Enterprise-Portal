@@ -197,7 +197,6 @@ Politely add spaces to input values to increase readability (credit card numbers
     $('[data-' + componentName + ']').politespace();
   });
 
-}( jQuery ));
 
 /**
  * Accordion
@@ -221,7 +220,7 @@ function Accordion($el) {
 
 Accordion.prototype.$ = function(selector) {
   return this.$root.find(selector);
-}
+};
 
 Accordion.prototype.hide = function($button) {
   var selector = $button.attr('aria-controls'),
@@ -374,3 +373,6 @@ $(function() {
   validator($('.js-validate_password'));
 
 });
+
+}( jQuery ));
+

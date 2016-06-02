@@ -187,8 +187,8 @@
       var zip = $tr.find(".field_zip_code").val();
       var name = $field_suffix.text();
       var primary = $tr.find('.field-name-field-field-primary input').prop('checked');
-      var urban = $field_suffix.attr('urban');
-      var pop = $field_suffix.attr('pop');
+      var urban = parseInt($field_suffix.attr('isurban'));
+      var pop = parseInt($field_suffix.attr('commsize'));
 
       if (primary) {
         primary = 1;

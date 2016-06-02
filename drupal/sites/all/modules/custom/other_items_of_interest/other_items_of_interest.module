@@ -4,22 +4,22 @@
  **/
 function other_items_of_interest_menu()
 {
-    $items = array();
-    $items['generateFavoriteAreasOfInterestTable'] = array(
-        'page callback' => 'generateFavoriteAreasOfInterestTable',
-        'access callback' => TRUE,
-    );
-    $items['generateAllAreasOfInterestTable'] = array(
-        'page callback' => 'generateAllAreasOfInterestTable',
-        'access callback' => TRUE,
-    );
-    $items['generateCurrentAreaOfInterestTable'] = array(
-                'page callback' => 'generateCurrentAreaOfInterestTable',
-        'access callback' => TRUE,
+  $items = array();
+  $items['generateFavoriteAreasOfInterestTable'] = array(
+    'page callback' => 'generateFavoriteAreasOfInterestTable',
+    'access callback' => TRUE,
+  );
+  $items['generateAllAreasOfInterestTable'] = array(
+    'page callback' => 'generateAllAreasOfInterestTable',
+    'access callback' => TRUE,
+  );
+  $items['generateCurrentAreaOfInterestTable'] = array(
+    'page callback' => 'generateCurrentAreaOfInterestTable',
+    'access callback' => TRUE,
 
-    );
+  );
 
-    return $items;
+  return $items;
 }
 
 /**
@@ -27,20 +27,20 @@ function other_items_of_interest_menu()
  */
 function other_items_of_interest_theme_registry_alter(&$theme_registry)
 {
-    // Defined path to the current module.
-    $module_path = drupal_get_path('module', 'other_items_of_interest');
-    // Find all .tpl.php files in this module's folder recursively.
-    $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
-    // Iterate through all found template file objects.
-    foreach ($template_file_objects as $key => $template_file_object) {
-        // If the template has not already been overridden by a theme.
-        if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
-            // Alter the theme path and template elements.
-            $theme_registry[$key]['theme path'] = $module_path;
-            $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
-            $theme_registry[$key]['type'] = 'module';
-        }
+  // Defined path to the current module.
+  $module_path = drupal_get_path('module', 'other_items_of_interest');
+  // Find all .tpl.php files in this module's folder recursively.
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  // Iterate through all found template file objects.
+  foreach ($template_file_objects as $key => $template_file_object) {
+    // If the template has not already been overridden by a theme.
+    if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
+      // Alter the theme path and template elements.
+      $theme_registry[$key]['theme path'] = $module_path;
+      $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+      $theme_registry[$key]['type'] = 'module';
     }
+  }
 }
 
 /**
@@ -50,117 +50,117 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
 {
 
 
-    global $user;
-    if ($form_id == 'state_resource_node_form') {
+  global $user;
+  if ($form_id == 'state_resource_node_form') {
 
-        drupal_add_js(drupal_get_path('module', 'other_items_of_interest') . "/js/preview_url_form.js", "file");
-        drupal_add_css(drupal_get_path('module', 'other_items_of_interest') . "/css/state_resource_editor.css", "file");
+    drupal_add_js(drupal_get_path('module', 'other_items_of_interest') . "/js/preview_url_form.js", "file");
+    drupal_add_css(drupal_get_path('module', 'other_items_of_interest') . "/css/state_resource_editor.css", "file");
 
-        hide($form['additional_settings']);
-        hide($form['actions']['preview']);
+    hide($form['additional_settings']);
+    hide($form['actions']['preview']);
 
-        // Make sure resource is marked as published
-        $form['options']['status'] = array(
-            '#type' => 'value',
-            '#value' => 1
-        );
+    // Make sure resource is marked as published
+    $form['options']['status'] = array(
+      '#type' => 'value',
+      '#value' => 1
+    );
 
-				$form['#attributes']['novalidate'] = '1';  
+    $form['#attributes']['novalidate'] = '1';
 
-        $form_state['rebuild'] = TRUE;
+    $form_state['rebuild'] = TRUE;
 
-        $form['#validate'][] = 'other_items_of_interest_form_validate';
-        // Allow admin to edit the Source
-        if ($user->uid > 1) {
-            $form['title']['#attributes'] = array(
-                'disabled' => 'disabled');
-            $user_data = user_load($user->uid);
-            $state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
-            $form['title']['#value'] = $state;
-        }
-
-
-        $form['title']['#description'] = "State code (such as NC for North Carolina), tribe, or US EPA.";
-
-        $form['field_source_url'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a class='usa-button' id='new-state-url-preview' href='#'>Preview</a>";
-
-
-        $form['actions']['submit']['#submit'][] = 'new_state_form_redirect';
-        $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/resource-editor', array('attributes' => array('class' => 'link usa-button-outline usa-button'))) . "</div>";
-
+    $form['#validate'][] = 'other_items_of_interest_form_validate';
+    // Allow admin to edit the Source
+    if ($user->uid > 1) {
+      $form['title']['#attributes'] = array(
+        'disabled' => 'disabled');
+      $user_data = user_load($user->uid);
+      $state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
+      $form['title']['#value'] = $state;
     }
+
+
+    $form['title']['#description'] = "State code (such as NC for North Carolina), tribe, or US EPA.";
+
+    $form['field_source_url'][LANGUAGE_NONE][0]['value']['#field_suffix'] = "<a class='usa-button' id='new-state-url-preview' href='#'>Preview</a>";
+
+
+    $form['actions']['submit']['#submit'][] = 'new_state_form_redirect';
+    $form['actions']['#suffix'] = "<div class='resource-edit-cancel-link'>" . l(t('Cancel'), '/resource-editor', array('attributes' => array('class' => 'link usa-button-outline usa-button'))) . "</div>";
+
+  }
 }
 
-function other_items_of_interest_form_validate($form, &$form_state){
-    $edit_form  = FALSE;
-    $delete_form = FALSE;
-    $changed_url = FALSE;
+function other_items_of_interest_form_validate($form, &$form_state)
+{
+  $edit_form = FALSE;
+  $delete_form = FALSE;
+  $changed_url = FALSE;
 
-    $input_url = $form_state['values']['field_source_url'][LANGUAGE_NONE][0]['value'];
-    $saved_url = $form['field_source_url'][LANGUAGE_NONE][0]['value']['#default_value'];
+  $input_url = $form_state['values']['field_source_url'][LANGUAGE_NONE][0]['value'];
+  $saved_url = $form['field_source_url'][LANGUAGE_NONE][0]['value']['#default_value'];
+
+  if (!empty($form_state['values']['delete'])) {
+    $edit_form = TRUE;
+  }
+  if ($form_state['input']['op'] == 'Delete') {
+    $delete_form = TRUE;
+  }
+
+  if ($input_url != $saved_url) {
+    $changed_url = TRUE;
+  }
+
+  if (!$delete_form) {
+    if (ucwords($form_state['values']['title']) == 'EPA') {
+      $form['title']['#value'] = 'US EPA';
+      $form_state['values']['title'] = 'US EPA';
+    }
+    if (!valid_url($input_url, TRUE)) {
+      $message = "Invalid Web URL (include http or https prefix).";
+      form_set_error('field_source_url', $message);
+    } // Else, for valid formatted link, verify that link is not broken
+    else {
+      $headers = get_headers($input_url, 1);
+      if ($headers[0] == 'HTTP/1.1 200 OK') {
+        // Do nothing - this links seems to work
+      } else if ($headers[0] != 'HTTP/1.1 200 OK') {
+        form_set_error('url', 'The link you tried - ' . $input_url . ' - does not seem to exist. Please check it and try again.');
+      } else {
+        form_set_error('url', 'There was a problem checking this link.  Please let the system admin know.');
+      }
+    }
 
     if (!empty($form_state['values']['delete'])) {
-        $edit_form = TRUE;
+      $edit_form = TRUE;
     }
-    if ($form_state['input']['op'] == 'Delete') {
-        $delete_form = TRUE;
+    /// Validate Duplicates/
+    if ($changed_url || !$edit_form) {
+      if (db_query("SELECT COUNT(*) FROM {field_data_field_source_url} WHERE field_source_url_value = :url;", array(':url' => $input_url))->fetchField()) {
+        // If it is, give an error
+        $message = "This url has already been added. Please enter another.";
+        form_set_error('field_source_url', $message);
+      }
     }
-
-    if ($input_url != $saved_url) {
-        $changed_url = TRUE;
-    }
-
-    if (!$delete_form) {
-        if (ucwords($form_state['values']['title']) == 'EPA') {
-            $form['title']['#value'] = 'US EPA';
-            $form_state['values']['title'] = 'US EPA';
-        }
-        if (!valid_url($input_url, TRUE)) {
-            $message = "Invalid Web URL (include http or https prefix).";
-            form_set_error('field_source_url', $message);
-        }
-	// Else, for valid formatted link, verify that link is not broken
-	else {
-            $headers = get_headers($input_url, 1);
-            if ($headers[0] == 'HTTP/1.1 200 OK') {
-            	// Do nothing - this links seems to work
-            }
-            else if ($headers[0] != 'HTTP/1.1 200 OK') {
-            	form_set_error('url', 'The link you tried - '.$input_url.' - does not seem to exist. Please check it and try again.');
-            }
-            else {
-            	form_set_error('url', 'There was a problem checking this link.  Please let the system admin know.');
-            } 
-	}
-			
-        if (!empty($form_state['values']['delete'])) {
-            $edit_form = TRUE;
-        }
-        /// Validate Duplicates/
-        if ($changed_url || !$edit_form) {
-            if (db_query("SELECT COUNT(*) FROM {field_data_field_source_url} WHERE field_source_url_value = :url;", array(':url' => $input_url))->fetchField()) {
-                // If it is, give an error
-                $message = "This url has already been added. Please enter another.";
-                form_set_error('field_source_url', $message);
-            }
-        }
-    }
+  }
 }
 
 
 /**
  * Hook_node_presave
  */
-function other_items_of_interest_node_presave($node) {
-    global $user;
-   // Ensure custom content type is assigned to correct author
-    if($node->type === 'state_resource') {
-        $node->uid = $user->uid;
-    }
+function other_items_of_interest_node_presave($node)
+{
+  global $user;
+  // Ensure custom content type is assigned to correct author
+  if ($node->type === 'state_resource') {
+    $node->uid = $user->uid;
+  }
 }
 
-function new_state_form_redirect($form, &$form_state) {
-        drupal_goto('/resource-editor');
+function new_state_form_redirect($form, &$form_state)
+{
+  drupal_goto('/resource-editor');
 }
 
 //
@@ -179,91 +179,95 @@ function new_state_form_redirect($form, &$form_state) {
 //}
 
 
-function mapResourceTitlesToNids($title){
-    $nids = db_select("node", 'n')
-        ->fields('n', array('nid'))
-        ->condition('type', 'state_resource')
-        ->condition('status', 1)
-        ->condition('title', $title)
-        ->execute()->fetchCol();
-    return $nids;
+function mapResourceTitlesToNids($title)
+{
+  $nids = db_select("node", 'n')
+    ->fields('n', array('nid'))
+    ->condition('type', 'state_resource')
+    ->condition('status', 1)
+    ->condition('title', $title)
+    ->execute()->fetchCol();
+  return $nids;
 }
 
-function loadUserResources() {
-    global $user;
-    $resources = array();
-    $locations = array();
+function loadUserResources()
+{
+  global $user;
+  $resources = array();
+  $locations = array();
 
-    $user_data = user_load($user->uid);
-    $zip_codes = $user_data->field_zip_code[LANGUAGE_NONE];
-    if (count($zip_codes) > 0) {
-        foreach($zip_codes as $elem) {
-            $zip = $elem['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
-            $preferred = return_user_preferred_location($zip);
-            if ($preferred)
-                $location = $preferred;
-            else
-                $location = zip_code_lookup($zip)['state'];
-            if (!in_array($location, $locations)) {
-                $locations[] = $location;
-                $resources = array_merge($resources, mapResourceTitlesToNids($location));
-            }
-        }
+  $user_data = user_load($user->uid);
+  $zip_codes = $user_data->field_zip_code[LANGUAGE_NONE];
+  if (count($zip_codes) > 0) {
+    foreach ($zip_codes as $elem) {
+      $zip = $elem['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
+      $preferred = return_user_preferred_location($zip);
+      if ($preferred) {
+        $location = $preferred;
+      } else {
+        $location = zip_code_lookup($zip)['state'];
+      }
+      if (!in_array($location, $locations)) {
+        $locations[] = $location;
+        $resources = array_merge($resources, mapResourceTitlesToNids($location));
+      }
     }
-    if ( isset($_SESSION['default_location_zip'])) {
-        // add default state
-        $state = zip_code_lookup($_SESSION['default_location_zip'])['state'];
-        if (!in_array($state, $locations)) {
-            $locations[] = $state;
-            $resources = array_merge($resources, mapResourceTitlesToNids($state));
-        }
+  }
+  if (isset($_SESSION['default_location_zip'])) {
+    // add default state
+    $state = zip_code_lookup($_SESSION['default_location_zip'])['state'];
+    if (!in_array($state, $locations)) {
+      $locations[] = $state;
+      $resources = array_merge($resources, mapResourceTitlesToNids($state));
     }
+  }
 
-    /// Add users admin state if applicable
-    if (in_array('state_admin', $user->roles)) {
-        if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
-            $admin_state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
-            // Reserve EPA for EPA tab
-            if ($admin_state != 'US EPA' && !in_array($admin_state, $locations)) {
-                $locations[] = $admin_state;
-                $resources = array_merge($resources, mapResourceTitlesToNids($admin_state));
-            }
-        }
+  /// Add users admin state if applicable
+  if (in_array('state_admin', $user->roles)) {
+    if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
+      $admin_state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
+      // Reserve EPA for EPA tab
+      if ($admin_state != 'US EPA' && !in_array($admin_state, $locations)) {
+        $locations[] = $admin_state;
+        $resources = array_merge($resources, mapResourceTitlesToNids($admin_state));
+      }
     }
+  }
 
-    return $resources;
+  return $resources;
 }
 
-function generateAllAreasOfInterestTable() {
-    $table =  views_embed_view('additional_resources_all', 'block');
-    print $table;
+function generateAllAreasOfInterestTable()
+{
+  $table = views_embed_view('additional_resources_all', 'block');
+  print $table;
 }
 
 
-function generateFavoriteAreasOfInterestTable() {
-        $users_favorite_resources = loadUserResources();
-        $nids = implode('+', $users_favorite_resources);
-        $table = views_embed_view('additional_resources_all', 'block', $nids);
-        print $table;
+function generateFavoriteAreasOfInterestTable()
+{
+  $users_favorite_resources = loadUserResources();
+  $nids = implode('+', $users_favorite_resources);
+  $table = views_embed_view('additional_resources_all', 'block', $nids);
+  print $table;
 }
 
 // Takes state code for filtering
-function generateCurrentAreaOfInterestTable() {
-    if (isset($_POST['state'])) {
-        $user_selected_state = xssafe($_POST['state']);
-        if ($user_selected_state == 'US EPA') {
-            $table = views_embed_view('additional_resources_all', 'us_epa');
-        }
-        else {
-            $table = views_embed_view('additional_resources_all', 'current_location', $user_selected_state);
-        }
-        if ($table == '') {
-            echo 'No saved resources for ' . $user_selected_state;
-        }
-        else {
-            print $table;
-        }
+function generateCurrentAreaOfInterestTable()
+{
+  if (isset($_POST['state'])) {
+    $user_selected_state = xssafe($_POST['state']);
+    if ($user_selected_state == 'US EPA') {
+      $table = views_embed_view('additional_resources_all', 'us_epa');
+    } else {
+      $table = views_embed_view('additional_resources_all', 'current_location', $user_selected_state);
     }
+    if ($table == '') {
+      echo 'No saved resources for ' . $user_selected_state;
+    } else {
+      print $table;
+    }
+  }
 }
 
 
