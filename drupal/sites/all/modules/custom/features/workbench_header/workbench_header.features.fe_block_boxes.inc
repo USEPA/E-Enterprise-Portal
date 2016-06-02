@@ -47,8 +47,9 @@ function workbench_header_default_fe_block_boxes() {
   $fe_block_boxes->info = 'EE Header Locations';
   $fe_block_boxes->format = 'php_code';
   $fe_block_boxes->machine_name = 'ee_header_locations';
+
   $fe_block_boxes->body = '<?php
-//If page is Workbench or Profile, then show locations
+//If page is Workbench, then show locations
 $path = drupal_get_path_alias($_GET[\'q\']);
 
 if ($path == \'workbench\' || $path == \'local-resources\' || $path == \'air_now_789456\') {
@@ -64,7 +65,10 @@ print "</div>";
 print "<div class=\'ee-workbench-header-block ee-feedback\'>";
 print _suggestion_box_make_link(\'Questions?\');
 print "</div><!-- end feedback -->";
+//If page is Workbench and includes Set location, close the <div>
+if ($path == \'workbench\' || $path == \'local-resources\' || $path == \'air_now_789456\') {
 print "</div><!-- end header locations feedback block -->";
+}
 ?>';
 
   $export['ee_header_locations'] = $fe_block_boxes;
@@ -81,6 +85,7 @@ print "</div><!-- end header locations feedback block -->";
   $fe_block_boxes->info = 'Favorite Links';
   $fe_block_boxes->format = 'php_code';
   $fe_block_boxes->machine_name = 'eenterprise_favorite_links';
+
   $fe_block_boxes->body = '<div class="panel panel-default">
 <div class="panel-body ">
 
@@ -90,8 +95,8 @@ print "</div><!-- end header locations feedback block -->";
 
 <div id="loading_list" style="display:none">Loading...</div>
 
-</div>
-</div>
+</div><!-- @end panel-body favorite-links block -->
+</div><!-- @end panel-default favorite-links block -->
 
 ';
 

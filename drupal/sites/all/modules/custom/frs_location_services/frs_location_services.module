@@ -104,10 +104,9 @@ function save_first_time_user_preferences() {
 
 
   // Store users geolocation
-  if ($skip && $geolocation_used) {
-    $zip = $geolocation_zip;
-  }
-
+    if ($skip) {
+        $zip = $geolocation_zip;
+    }
   //Capture inital user settings for default zip
   $multifield_initial_zip_obj = array(
     'field_default_zip_code_value' => 1,
@@ -118,6 +117,7 @@ function save_first_time_user_preferences() {
       LANGUAGE_NONE => array(
         0 => array(
           'value' => $geolocation_used
+
         ),
       ),
     ),

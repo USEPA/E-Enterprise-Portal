@@ -70,6 +70,7 @@
             if (selected_program != '') {
                 createFilterSelect(roles_obj[selected_program]);
             }
+            adjustFacilityWidgetHeight();
         });
     }
 
@@ -101,16 +102,17 @@
             management_button.show();
         }
 
-        type_filter_select.unbind('change').change(function () {
+        type_filter_select.on('change', function () {
             if ($(this).val() == '') {
                 management_button.hide();
             }
             else {
                 management_button.show();
             }
+            adjustFacilityWidgetHeight();
         });
         type_filter_select_holder.show();
-
+        adjustFacilityWidgetHeight();
     }
 
 
@@ -304,6 +306,23 @@
         error_view.show();
     }
 
+    function adjustFacilityWidgetHeight() {
+      var width = 0;
+      $('#cdx-logged-in-options div').each(function() {
+          width += $(this).outerWidth( true );
+      });
+      if (width > $('.pane-views-cdx-facility-management-block').width()) {
+      if ($('.pane-views-cdx-facility-management-block').parent().hasClass('expanded') && 
+          ($('#launch-facility-management').css('display') == 'none')) {
+        $('.pane-views-cdx-facility-management-block').parent().height("-=40");
+        $('.pane-views-cdx-facility-management-block').parent().removeClass('expanded');
+      }
+      else if (!$('.pane-views-cdx-facility-management-block').parent().hasClass('expanded')) {
+        $('.pane-views-cdx-facility-management-block').parent().height("+=40");
+        $('.pane-views-cdx-facility-management-block').parent().addClass('expanded');
+      }
+    }
+    }
 
     $(document).ready(function () {
         cdx_facility_management_block = $('#facility-widget');

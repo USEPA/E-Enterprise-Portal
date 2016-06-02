@@ -19,6 +19,7 @@
             var geolocation_used = 0;
             var all_city_attr = [];
             var all_zip_attr = [];
+            var changed_city = 'no';
 
             var $org_select = $('#select-organization');
             var $zip_select =  $('#zip_container');
@@ -176,6 +177,7 @@
 
             // User has found zip they want, show in selected/nearest data
             $('#confirm-zip-select').click(function () {
+		            changed_city = 'yes';
                 selected_zip_code = $('#city-state-lookup-zips').val();
                 var selected_location = all_zip_attr[selected_zip_code]['city'];
                 setCommunitySizeType(selected_zip_code);
@@ -189,6 +191,7 @@
 
             // User has found city they want, show in selected/nearest data
             $('#confirm-city-select').click(function () {
+	            	changed_city = 'yes';	            
                 preferred_name = $('#zip-lookup-city-state').val();
                 var selected_location = $new_loc_input.val();
                 setCommunitySizeType(selected_location);
@@ -255,6 +258,7 @@
                                 location_input.addClass('input-error');
                             }
                             else if (city_count == 1) { //Only one city/tribal area match
+	                            	changed_city = 'yes';
                                 selected_state = parsed_data.state;
                                 var parsed_zip = parsed_data.zip;
                                 // Get city & zip attribute data
@@ -298,6 +302,7 @@
                                 $loc_add_new.append(error_message);
                             }
                             else if (zip_count == 1) {
+		                            changed_city = 'yes';
                                 selected_city = parsed_data.city;
                                 selected_state = parsed_data.state;
                                 all_zip_attr = parsed_data.zip_attr;
@@ -364,15 +369,6 @@
 
             });
 
-            $('#skip-preferences').on('click', skipGettingStarted);
-            $(first_time_user_block).on('keydown', function(e) {
-	            if (e.which === 27) {
-		            event.preventDefault();
-		            skipGettingStarted();
-		            first_time_user_block.dialog('close');
-	            }
-            });
-
             $('#save-preferences').click(function () {
                 var interests = [];
                 var org_val = $org_select.val();
@@ -398,6 +394,10 @@
                     interests.push(current_checkbox.val());
                 });
 
+								// ***********  !  IMPORTANT  !  ***********
+								// If save_first_time_user_preferences is updated, please verify that...
+								// ... function skipGettingStarted is updated as needed also to pass any variables to...
+								// ... Workbench header.
                 $.ajax({
                     url: '/save_first_time_user_preferences',
                     type: 'POST',
@@ -436,8 +436,29 @@
                 width: 1100,
                 height: 600,
                 //height: auto,
-                dialogClass: 'first-time-user-dialog'
+                dialogClass: 'first-time-user-dialog',
+                closeOnEscape: false
             });
+            
+            $('#skip-preferences').on('click', skipGettingStarted);
+            // If user presses Escape key
+            $(first_time_user_block).on('keydown', function(e) {
+	            if (e.which === 27) {
+		            e.stopImmediatePropagation();
+		            e.preventDefault();
+		            skipGettingStarted();
+		            first_time_user_block.dialog('close');
+	            }
+            });
+            $(first_time_user_block).parent().on('keydown', function(event) {
+	            if (event.which === 27) {
+		            event.stopImmediatePropagation();
+		            event.preventDefault();
+		            skipGettingStarted();
+		            first_time_user_block.dialog('close');
+	            }
+            });
+                        
 
             $('#switch-to-interests').click(function(e) {
                 e.preventDefault();
@@ -471,12 +492,12 @@
         function skipGettingStarted() {
           // If user blocks location and skips Getting Started, leave zip and geolocation_zip blank
           var show_zip = '';
-          if (geolocation_used == 0) {
-            nearest_zip = '';
-            show_zip = '27705';
+          if (geolocation_used == 0 && changed_city == 'no') {
+						nearest_zip = '27705';
+						preferred_name = 'Durham, NC';
           }
           else {
-            show_zip = nearest_zip;	          
+            nearest_zip = selected_zip_code; 	          
           }
           $.ajax({
             url: '/save_first_time_user_preferences',
@@ -485,12 +506,13 @@
               skip: 1, 
               zip: '', 
               geolocation_used: geolocation_used, 
-              geolocation_zip: nearest_zip
+              geolocation_zip: nearest_zip,
+              preferred_name: preferred_name
             },
             success: function () {
                 $(document).trigger("ee:first_time_user_complete");
-                $('#location-select').html('<option value="' + show_zip + '" selected>' + nearest_city + ', ' + nearest_state + ' (' + show_zip +')</option>').trigger('change');
-               $('.pane-views-first-time-user-profile-block').dialog('close');
+                $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + preferred_name + ' (' + selected_zip_code + ')</option>').trigger('change');
+								$('.pane-views-first-time-user-profile-block').dialog('close');
             }
           });
           return false;

@@ -43,8 +43,8 @@ else {
 <div class="mobile-nav usa-grid">
 <a class="usa-button mobile-nav_home" href="/" rel="home"><span class="sr-only">Home</span><i aria-hidden="true" class="fa fa-home"></i></a>
 <a class="usa-button mobile-nav_toggle" href="#mobile-links">Menu</a>
-<div class="mobile-nav_links element-hidden"></div>
-</div>
+<div class="mobile-nav_links element-hidden"></div><!-- @end mobile-nav_links -->
+</div><!-- @end mobile-nav -->
 <?php print render($page['mobile-navigation']); ?>
 <header class="masthead usa-grid" role="banner">
     <?php
@@ -94,7 +94,7 @@ else {
         </h1>
     <?php endif; ?>
     <?php if ($site_slogan && $path != 'eenterprise-new' && $path != 'eenterprise-alternate'): ?>
-        <div class="site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
+        <div class="site-slogan" id="site-slogan"><?php print $site_slogan; ?></div><!-- @end site-slogan -->
     <?php endif; ?>
     <?php print $hgroup_close; ?>
     <?php print render($page['header']); ?>
@@ -133,12 +133,9 @@ else {
     <?php print render($page['content']); ?>
     <!--googleoff: all-->
     <?php print $feed_icons; ?>
-
-    </div>
     
     <?php
       //Render the sidebars to see if there's anything in them.
-
       $sidebar_first  = render($page['sidebar_first']);
       $sidebar_second = render($page['sidebar_second']);
     ?>
@@ -150,7 +147,7 @@ else {
       </aside>
     <?php endif; ?>
 
-  </div>
+  </div><!-- @end #content -->
 </section>
 <?php print render($page['footer']); ?>
 <?php print render($page['bottom']); ?>
