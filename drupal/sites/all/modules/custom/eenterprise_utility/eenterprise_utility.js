@@ -300,13 +300,12 @@
       remove_button.show();
       add_button.show();
       primary_indicator.show();
-      //TODO if they had valid input before reset to previous input
       field_suffix.addClass('error');
       field_suffix.html('Please update your location or remove this field before saving.');
       disable_zip_buttons(input);
       input.prop('disabled',false);
       input.focus();
-      //processPrimaryFields();
+      update_user_zip_preferences();
     });
     confirm.on('click', function () {
       var input_value = input.val();
