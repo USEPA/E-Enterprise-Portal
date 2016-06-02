@@ -42,6 +42,7 @@
             class: ' usa-button-outline',
             click: function() {
               $('#dialog-all-locations').dialog('close');
+              $('body').removeClass('modal-open');
             }  
           }
         ]
@@ -76,6 +77,7 @@
       if ($('#location-select option:selected').text() == 'Show more...') {
         e.preventDefault();
         $('#dialog-all-locations').dialog('open');
+        $('body').addClass('modal-open');
         matchSelectToRadio(select_title);
         $('#dialog-all-locations :radio[name=location-radio]').each(function() {
           var radioInput = $(this);
@@ -83,6 +85,7 @@
             $('#dialog-all-locations').animate({
               scrollTop: radioInput.position().top
             }, 1500);
+            radioInput.focus();
           }
         });
       }
@@ -96,6 +99,12 @@
 			$.post("/default_location_zip", {zip: zip_val, name: location_name});
       }
     });
+  
+		$(':radio[name=location-radio]').change(function() {
+			var container = $('#dialog-all-locations');
+			var scroll_to = $(this);
+			container.scrollTop(scroll_to.offset().top - container.offset().top + container.scrollTop());
+		});    
   
     // Select title = city, state (zip) (e.g., Chicago, IL (60660))
     // Dialog radio buttons use id and value = zip|city, state (e.g., 60660|Chicago, IL)

@@ -1446,6 +1446,8 @@ form[id^='user-profile-form'] {
 
     .field-suffix.error {
         color: red;
+        max-width: 40rem;
+        display: block;
     }
 
     .city-state-lookup-zips {
@@ -2894,7 +2896,7 @@ input[type="submit"]:not(.usa-button-outline),
             margin-right: 0;
         }
     }
-    // Ensure Questions dialog box scrolls on mobil -------------- //
+    // Ensure Questions dialog box scrolls on mobile -------------- //
     #modalContent {
         position: absolute !important;
     }
