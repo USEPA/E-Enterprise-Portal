@@ -105,7 +105,7 @@
       //hideButtons();
       hide_buttons = true;
       fixInput = $zipcode_description.find('select').closest('td').find('.field_zip_code');
-     // fixInput.focus();
+      // fixInput.focus();
     }
 
     if (hide_buttons) {
@@ -229,7 +229,7 @@
 
   // When an error occurs, disabled removal/ addition of
   // rows except for the input that is errored
-  function  disable_zip_buttons(input_to_ignore) {
+  function disable_zip_buttons(input_to_ignore) {
     $('.remove-button').prop('disabled', true);
     $('input.field_zip_code').prop('disabled', true);
     if (input_to_ignore != "all") {
@@ -249,6 +249,10 @@
       $field_suffix.parent().addClass('error');
       $field_suffix.parent().attr("id", "zip-code-error");
       $field_suffix.parent().prev().attr("aria-describedby", "zip-code-error");
+    } else {
+      $field_suffix.addClass('error');
+      $field_suffix.attr("id", "zip-code-error");
+      $field_suffix.prev().attr("aria-describedby", "zip-code-error");
     }
     $field_suffix.html(message);
     are_there_errors = true;
@@ -314,7 +318,7 @@
       field_suffix.addClass('error');
       field_suffix.html('Please update your location or remove this field before saving.');
       disable_zip_buttons(input);
-      input.prop('disabled',false);
+      input.prop('disabled', false);
       input.focus();
       update_user_zip_preferences();
     });
@@ -533,7 +537,7 @@
           if (!existingLocationErrors()) {
             resetButtons();
           }
-         // processPrimaryFields();
+          // processPrimaryFields();
           moveAddButton();
           field_suffix.closest("td").find('.field_zip_code').focus();
         }).fail(function (location_data) {
@@ -554,7 +558,7 @@
     $('#edit-delete').prop("disabled", false);
     $('.field_zip_code').prop("disabled", false);
     if (removedSelect == true || failedLookup == true) {
-     // $('.remove-button').prop("disabled", false);
+      // $('.remove-button').prop("disabled", false);
     }
   }
 
@@ -565,7 +569,7 @@
     $('#edit-submit--2').prop("disabled", true);
     $('#edit-delete').prop("disabled", true);
     if (removedSelect == true || failedLookup == true) {
-    //  $('.remove-button').prop("disabled", false);
+      //  $('.remove-button').prop("disabled", false);
     }
   }
 
@@ -777,7 +781,7 @@
       e.preventDefault();
     });
 
-    $('.remove-button').click(function() {
+    $('.remove-button').click(function () {
 
     });
 
