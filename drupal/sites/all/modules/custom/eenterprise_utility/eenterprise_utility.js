@@ -127,9 +127,9 @@
   function setCommunitySizeType(commsize, isurban) {
     if (commsize && isurban) {
       if (isurban == "1") {
-        $('#edit-field-community-type-und-urban').prop('checked', true);
+        $('#edit-field-community-type-und').val("urban");
       } else {
-        $('#edit-field-community-type-und-rural').prop('checked', true);
+        $('#edit-field-community-type-und').val("rural");
       }
       var selected_pop = parseInt(commsize);
       if (selected_pop < 5000) {
@@ -244,7 +244,7 @@
     $field_suffix.attr("id", "zip-code-error");
     $field_suffix.prev().attr("aria-describedby", "zip-code-error");
     are_there_errors = true;
-    update_user_zip_preferences("", "", "", "");
+    update_user_zip_preferences();
     hideButtons();
   }
 
