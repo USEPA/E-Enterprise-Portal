@@ -102,7 +102,6 @@
     }
 
     if (numSelects > 0) {
-      //hideButtons();
       hide_buttons = true;
     }
 
@@ -304,7 +303,6 @@
       numSelects = 0;
       field_suffix.html('');
       input.prop("disabled", false);
-      //$('#profile-locations').find('#zip-label').remove();
       $('#profile-locations').find('#city-state-lookup-zips').remove();
       back.remove();
       confirm.remove();
@@ -544,7 +542,6 @@
         });
       }
     }
-    //input.focus();
   } // End checkLocation
 
   // Enable Save button / plus button
@@ -555,9 +552,6 @@
     $('#edit-submit--2').prop("disabled", false);
     $('#edit-delete').prop("disabled", false);
     $('.field_zip_code').prop("disabled", false);
-    if (removedSelect == true || failedLookup == true) {
-      // $('.remove-button').prop("disabled", false);
-    }
   }
 
   // On an Drupal Ajax call- if there is an error, hide the actual Save and +
@@ -566,9 +560,6 @@
     $('#edit-submit').prop("disabled", true);
     $('#edit-submit--2').prop("disabled", true);
     $('#edit-delete').prop("disabled", true);
-    if (removedSelect == true || failedLookup == true) {
-      //  $('.remove-button').prop("disabled", false);
-    }
   }
 
   /**
@@ -613,8 +604,6 @@
       var screenreader_indicator = $(this).find('.sr-only');
       screenreader_indicator.text('Default location');
       // get location offset by regexing the id
-      //var primary_offset = /form-item-field-zip-code-und-(\d+)/.exec(selected_icon.parent().parent()[0].className)[1];
-      //var primary_zip = $('#city-name-' + primary_offset);
       setCommunitySizeType(comm_size, urban);
       //update session data without adding new community data
       update_user_zip_preferences();
@@ -655,7 +644,6 @@
       if (lastVal != $(this).val() || enter_pressed || show_locations_again) {
         fieldChanged = $(e.target);
         checkLocation(fieldChanged, "textfield");
-        //fieldChanged.closest("td").find(".field_zip_code").focus();
         // Reset flags
         enter_pressed = false;
         show_locations_again = false;
