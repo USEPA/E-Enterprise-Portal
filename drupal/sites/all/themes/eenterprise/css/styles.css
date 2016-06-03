@@ -3713,7 +3713,7 @@ footer .menu .menu-item a {
 
 /* line 424, ../sass/styles.scss */
 .pager,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple,
 .dataTables_paginate.paging_simple_numbers,
 .paging_simple {
   list-style: none;
@@ -3724,9 +3724,9 @@ footer .menu .menu-item a {
 /* line 429, ../sass/styles.scss */
 .pager li:before,
 .pager li:after,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple li:before,
+.dataTables_paginate.paging_simple li:after,
 .dataTables_paginate.paging_simple_numbers li:before,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li:after,
 .paging_simple li:before,
 .paging_simple li:after {
@@ -3734,21 +3734,21 @@ footer .menu .menu-item a {
 }
 /* line 435, ../sass/styles.scss */
 .pager .disabled,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple .disabled,
 .dataTables_paginate.paging_simple_numbers .disabled,
 .paging_simple .disabled {
   display: none;
 }
 /* line 438, ../sass/styles.scss */
 .pager ul,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple ul,
 .dataTables_paginate.paging_simple_numbers ul,
 .paging_simple ul {
   list-style: none;
 }
 /* line 444, ../sass/styles.scss */
 .pager li,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple li,
 .dataTables_paginate.paging_simple_numbers li,
 .paging_simple li {
   display: table-cell;
@@ -3758,9 +3758,9 @@ footer .menu .menu-item a {
 /* line 449, ../sass/styles.scss */
 .pager li > a,
 .pager li > a:hover,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple li > a,
+.dataTables_paginate.paging_simple li > a:hover,
 .dataTables_paginate.paging_simple_numbers li > a,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a:hover,
 .paging_simple li > a,
 .paging_simple li > a:hover {
@@ -3774,13 +3774,13 @@ footer .menu .menu-item a {
 .pager li > a.pager__link.previous, .pager li > a.pager__link.next,
 .pager li > a:hover.pager__link.previous,
 .pager li > a:hover.pager__link.next,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple li > a.pager__link.previous,
+.dataTables_paginate.paging_simple li > a.pager__link.next,
+.dataTables_paginate.paging_simple li > a:hover.pager__link.previous,
+.dataTables_paginate.paging_simple li > a:hover.pager__link.next,
 .dataTables_paginate.paging_simple_numbers li > a.pager__link.previous,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a.pager__link.next,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a:hover.pager__link.previous,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a:hover.pager__link.next,
 .paging_simple li > a.pager__link.previous,
 .paging_simple li > a.pager__link.next,
@@ -3795,21 +3795,21 @@ footer .menu .menu-item a {
 .pager li > a:hover.pager__link.previous:after,
 .pager li > a:hover.pager__link.next:before,
 .pager li > a:hover.pager__link.next:after,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple li > a.pager__link.previous:before,
+.dataTables_paginate.paging_simple li > a.pager__link.previous:after,
+.dataTables_paginate.paging_simple li > a.pager__link.next:before,
+.dataTables_paginate.paging_simple li > a.pager__link.next:after,
+.dataTables_paginate.paging_simple li > a:hover.pager__link.previous:before,
+.dataTables_paginate.paging_simple li > a:hover.pager__link.previous:after,
+.dataTables_paginate.paging_simple li > a:hover.pager__link.next:before,
+.dataTables_paginate.paging_simple li > a:hover.pager__link.next:after,
 .dataTables_paginate.paging_simple_numbers li > a.pager__link.previous:before,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a.pager__link.previous:after,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a.pager__link.next:before,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a.pager__link.next:after,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a:hover.pager__link.previous:before,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a:hover.pager__link.previous:after,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a:hover.pager__link.next:before,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a:hover.pager__link.next:after,
 .paging_simple li > a.pager__link.previous:before,
 .paging_simple li > a.pager__link.previous:after,
@@ -3825,13 +3825,13 @@ footer .menu .menu-item a {
 .pager li > a.pager__link.previous.disabled, .pager li > a.pager__link.next.disabled,
 .pager li > a:hover.pager__link.previous.disabled,
 .pager li > a:hover.pager__link.next.disabled,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple li > a.pager__link.previous.disabled,
+.dataTables_paginate.paging_simple li > a.pager__link.next.disabled,
+.dataTables_paginate.paging_simple li > a:hover.pager__link.previous.disabled,
+.dataTables_paginate.paging_simple li > a:hover.pager__link.next.disabled,
 .dataTables_paginate.paging_simple_numbers li > a.pager__link.previous.disabled,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a.pager__link.next.disabled,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a:hover.pager__link.previous.disabled,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a:hover.pager__link.next.disabled,
 .paging_simple li > a.pager__link.previous.disabled,
 .paging_simple li > a.pager__link.next.disabled,
@@ -3843,13 +3843,13 @@ footer .menu .menu-item a {
 .pager li > a.previous.disabled, .pager li > a.next.disabled,
 .pager li > a:hover.previous.disabled,
 .pager li > a:hover.next.disabled,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple li > a.previous.disabled,
+.dataTables_paginate.paging_simple li > a.next.disabled,
+.dataTables_paginate.paging_simple li > a:hover.previous.disabled,
+.dataTables_paginate.paging_simple li > a:hover.next.disabled,
 .dataTables_paginate.paging_simple_numbers li > a.previous.disabled,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a.next.disabled,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a:hover.previous.disabled,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li > a:hover.next.disabled,
 .paging_simple li > a.previous.disabled,
 .paging_simple li > a.next.disabled,
@@ -3859,14 +3859,14 @@ footer .menu .menu-item a {
 }
 /* line 475, ../sass/styles.scss */
 .pager li > a:hover,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple li > a:hover,
 .dataTables_paginate.paging_simple_numbers li > a:hover,
 .paging_simple li > a:hover {
   text-decoration: none;
 }
 /* line 478, ../sass/styles.scss */
 .pager .hidden,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple .hidden,
 .dataTables_paginate.paging_simple_numbers .hidden,
 .paging_simple .hidden {
   display: none;
@@ -3881,23 +3881,23 @@ footer .menu .menu-item a {
 .pager .pager-current,
 .pager li.previous,
 .pager li.next,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple .pager-item,
+.dataTables_paginate.paging_simple .pager-first,
+.dataTables_paginate.paging_simple .pager-previous,
+.dataTables_paginate.paging_simple .pager-next,
+.dataTables_paginate.paging_simple .pager-last,
+.dataTables_paginate.paging_simple .pager-ellipsis,
+.dataTables_paginate.paging_simple .pager-current,
+.dataTables_paginate.paging_simple li.previous,
+.dataTables_paginate.paging_simple li.next,
 .dataTables_paginate.paging_simple_numbers .pager-item,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers .pager-first,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers .pager-previous,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers .pager-next,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers .pager-last,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers .pager-ellipsis,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers .pager-current,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li.previous,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers li.next,
 .paging_simple .pager-item,
 .paging_simple .pager-first,
@@ -3919,15 +3919,15 @@ footer .menu .menu-item a {
 .pager a:hover.pager_link,
 .pager a:focus.pager_link,
 .pager a:active.pager_link,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple a.pager__link,
+.dataTables_paginate.paging_simple a:visited.pager_link,
+.dataTables_paginate.paging_simple a:hover.pager_link,
+.dataTables_paginate.paging_simple a:focus.pager_link,
+.dataTables_paginate.paging_simple a:active.pager_link,
 .dataTables_paginate.paging_simple_numbers a.pager__link,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers a:visited.pager_link,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers a:hover.pager_link,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers a:focus.pager_link,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers a:active.pager_link,
 .paging_simple a.pager__link,
 .paging_simple a:visited.pager_link,
@@ -3940,7 +3940,7 @@ footer .menu .menu-item a {
 }
 /* line 504, ../sass/styles.scss */
 .pager a:focus.pager__link,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple a:focus.pager__link,
 .dataTables_paginate.paging_simple_numbers a:focus.pager__link,
 .paging_simple a:focus.pager__link {
   outline: 1px dotted #212121;
@@ -3950,13 +3950,13 @@ footer .menu .menu-item a {
 .pager .pager__link--next:before,
 .pager .pager__link.previous:before,
 .pager .pager__link.next:before,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple .pager__link--previous:before,
+.dataTables_paginate.paging_simple .pager__link--next:before,
+.dataTables_paginate.paging_simple .pager__link.previous:before,
+.dataTables_paginate.paging_simple .pager__link.next:before,
 .dataTables_paginate.paging_simple_numbers .pager__link--previous:before,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers .pager__link--next:before,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers .pager__link.previous:before,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers .pager__link.next:before,
 .paging_simple .pager__link--previous:before,
 .paging_simple .pager__link--next:before,
@@ -3970,9 +3970,9 @@ footer .menu .menu-item a {
 /* line 516, ../sass/styles.scss */
 .pager .pager__link--next:before,
 .pager .pager__link.next:before,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple .pager__link--next:before,
+.dataTables_paginate.paging_simple .pager__link.next:before,
 .dataTables_paginate.paging_simple_numbers .pager__link--next:before,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers .pager__link.next:before,
 .paging_simple .pager__link--next:before,
 .paging_simple .pager__link.next:before {
@@ -3981,9 +3981,9 @@ footer .menu .menu-item a {
 /* line 520, ../sass/styles.scss */
 .pager .pager__link--previous:before,
 .pager .pager__link.previous:before,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple .pager__link--previous:before,
+.dataTables_paginate.paging_simple .pager__link.previous:before,
 .dataTables_paginate.paging_simple_numbers .pager__link--previous:before,
-.dataTables_paginate.paging_simple
 .dataTables_paginate.paging_simple_numbers .pager__link.previous:before,
 .paging_simple .pager__link--previous:before,
 .paging_simple .pager__link.previous:before {
@@ -3991,7 +3991,7 @@ footer .menu .menu-item a {
 }
 /* line 524, ../sass/styles.scss */
 .pager .pager__link.previous,
-.dataTables_paginate.paging_simple
+.dataTables_paginate.paging_simple .pager__link.previous,
 .dataTables_paginate.paging_simple_numbers .pager__link.previous,
 .paging_simple .pager__link.previous {
   margin-right: -35px;
