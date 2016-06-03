@@ -22,6 +22,7 @@ function update_user_location_preferences() {
 
     $locations = array();
     $zip_name_mapping = array();
+    $zips_to_delete = array();
 
 // Create array of location data for user
     foreach ($zips[LANGUAGE_NONE] as $index => $user_zip_data) {
@@ -53,7 +54,7 @@ function update_user_location_preferences() {
 
 // Check if name has been stored.
       if (isset($zip_name_mapping[$zip]) && $zip_name_mapping[$zip] === $location_name) {
-        remove_zip_code_from_user($uid, $zip);
+        $zips_to_delete[] = $zip;
         continue;
       }
       else {
@@ -70,6 +71,11 @@ function update_user_location_preferences() {
         "comm_size" => $comm_size,
         "primary" => $primary
       );
+    }
+
+    // Ensure only one of each zip exist for user
+    foreach($zips_to_delete as $zip) {
+      remove_zip_code_from_user($uid, $zip);
     }
 
     clear_user_preferred_locations($uid);
@@ -176,26 +182,54 @@ function save_user_locations($uid, $locations) {
 }
 
 /**
+ * @param $zip_array
+ * @return mixed
+ *
+ * removes gaps in indexing of zip data in user fields
+ */
+function remove_gaps ($zip_array){
+  $iter = 0;
+  foreach($zip_array as $index=>$zip_data ) {
+    if ($index !== $iter) {
+      $zip_array[$iter] = $zip_data;
+      unset($zip_array[$index]);
+    }
+    $iter++;
+  }
+  return $zip_array;
+}
+
+/**
  * @param $uid
  * @param $zip
  * @throws \Exception
  *
  * Removes zip code field from users collection of zip codes if it has already been
- * captured in the User Preferred Locations.
+ * captured in the User Preferred Locations. Leaves first instance of zip code saved and
+ * removes all following duplicates.
  */
 function remove_zip_code_from_user($uid, $zip) {
   $user_data = user_load($uid);
+
   $user_zip_codes = $user_data->field_zip_code;
-  $unset_delta = FALSE;
+  $unset_deltas = array();
+  $found_count = 0;
   foreach ($user_zip_codes[LANGUAGE_NONE] as $key => $data) {
     $parse_zip = $data['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
     if ($parse_zip === $zip) {
-      $unset_delta = $key;
-      break;
+      if($found_count >= 1) {
+        //Do not set the first value, we want one zip remaining
+        $unset_deltas[] = $key;
+        $found_count++;
+      }
+      $found_count++;
     }
   }
-  if ($unset_delta) {
-    unset($user_zip_codes[LANGUAGE_NONE][$unset_delta]);
+  if (count($unset_deltas) > 0) {
+    foreach ($unset_deltas as $unset_delta) {
+      unset($user_zip_codes[LANGUAGE_NONE][$unset_delta]);
+    }
+    $user_zip_codes[LANGUAGE_NONE] = remove_gaps($user_zip_codes[LANGUAGE_NONE]);
     $edit['field_zip_code'] = $user_zip_codes;
     user_save($user_data, $edit);
   }
