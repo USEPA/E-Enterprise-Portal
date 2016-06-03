@@ -368,7 +368,7 @@
           if (location_data.city_attr && location_name in location_data.city_attr) {
             pop = location_data.city_attr[location_name].pop;
           }
-          field_suffix.text('location_name')
+          field_suffix.text(location_name)
             .attr('isurban', urban)
             .attr('commsize', pop);
         }
