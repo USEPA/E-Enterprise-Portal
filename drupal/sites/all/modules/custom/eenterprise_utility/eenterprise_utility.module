@@ -3,8 +3,6 @@
  * Implements hook_menu().
  **/
 
-module_load_include('inc', 'eenterprise_utility', 'eenterprise_utility');
-
 function eenterprise_utility_menu()
 {
   $items = array();
@@ -93,10 +91,6 @@ function eenterprise_utility_menu()
     '#type' => MENU_CALLBACK,
   );
 
-  $items['remove_zip_code_from_user'] = array(
-    'page callback' => 'remove_zip_code_from_user',
-    'access callback' => TRUE,
-  );
 
   return $items;
 }
