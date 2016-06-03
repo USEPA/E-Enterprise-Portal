@@ -1024,8 +1024,6 @@
             if ($($('input#focused-element').val()).length > 0) {
               // attempt to focus this element
               $($('input#focused-element').val()).focus();
-              // we used it, now lose it!
-              $('input#focused-element').remove();
             } else {
               // if it disappeared...
               if ($('input#focused-element').val().indexOf(".pager-next") != -1) {
