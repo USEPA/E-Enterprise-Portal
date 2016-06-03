@@ -266,7 +266,7 @@ function save_user_location($zip_code, $preferred_location, $commsize, $isurban,
   $node->uid = $uid;
   $node->status = 1;
   $node->language = LANGUAGE_NONE;
-  node_save($node);
+  $node = node_save($node);
 
 }
 
