@@ -267,7 +267,6 @@ function save_user_location($zip_code, $preferred_location, $commsize, $isurban,
   $node->status = 1;
   $node->language = LANGUAGE_NONE;
   node_save($node);
-
 }
 
 function return_user_preferred_location($zip_code) {

@@ -3,7 +3,6 @@
  * Implements hook_menu().
  **/
 
-
 function eenterprise_utility_menu()
 {
   $items = array();
@@ -701,12 +700,13 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
         else {
           // Returns false if not found
           $name = name_look_up($zip_mapping, $zip, $lookup_names);
-        }
-
           // Set pop and urban from found preferred name
           $location_data = $zip_mapping[$name][$zip];
           $commsize = $location_data['comm'];
           $urban = $location_data['urban'];
+        }
+
+
 
         if (!isset($used_preferred_names[$name])) {
           $used_preferred_names[$name] = array();
@@ -727,7 +727,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
           $field_suffix =
             '<span ' .
             ' id="city-name-' . $delta . '" aria-live="polite"' .
-            ' isurban="' . $urban . '" commsize="' . $commsize . '"' .
+            ' isurban="' . $urban . '" class="field-suffix-data" commsize="' . $commsize . '"' .
             ' >' . $name . ' </span>';
           $ariacity = $name;
         }
