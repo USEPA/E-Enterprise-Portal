@@ -5,6 +5,6 @@ module_load_include('inc', 'eenterprise_utility', 'eenterprise_utility');
 /**
  * UPDATES
  */
-function eenterprise_utility_update_7102() {
+function eenterprise_utility_update_7103() {
   update_user_location_preferences();
 }
