@@ -102,7 +102,7 @@
             management_button.show();
         }
 
-        type_filter_select.on('change', function () {
+        type_filter_select.unbind('change').change(function () {          
             if ($(this).val() == '') {
                 management_button.hide();
             }
@@ -112,7 +112,6 @@
             adjustFacilityWidgetHeight();
         });
         type_filter_select_holder.show();
-        adjustFacilityWidgetHeight();
     }
 
 

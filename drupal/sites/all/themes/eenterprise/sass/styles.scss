@@ -465,6 +465,12 @@ footer {
             display: none;
           }
         }
+        &.previous,
+        &.next {
+          &.disabled {
+            display: none;
+          }
+        }
     }
     li > a:hover {
         text-decoration: none;
