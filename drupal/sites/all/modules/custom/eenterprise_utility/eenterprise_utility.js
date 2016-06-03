@@ -104,8 +104,6 @@
     if (numSelects > 0) {
       //hideButtons();
       hide_buttons = true;
-      fixInput = $zipcode_description.find('select').closest('td').find('.field_zip_code');
-      // fixInput.focus();
     }
 
     if (hide_buttons) {
