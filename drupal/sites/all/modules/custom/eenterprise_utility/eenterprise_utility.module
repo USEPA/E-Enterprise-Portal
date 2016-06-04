@@ -1291,9 +1291,9 @@ function get_modal_data($locations) {
         print '<input checked type="radio" id="' . $zip . '|' . $name . '"  name="location-radio" value="' . $zip . '|' . $name . '" /><label for="' . $zip . '|' . $name . '">' . $name . " (" . $zip . ")" . "</label>";
       }
       else {
-      print '<input type="radio"  id="' . $zip . '|' . $name . '"  name="location-radio" value="' . $zip . '|' . $name . '" /><label for="' . $zip . '|' . $name . '">' . $name . " (" . $zip . ")" . "</label>";
+        print '<input type="radio" id="' . $zip . '|' . $name . '"  name="location-radio" value="' . $zip . '|' . $name . '" /><label for="' . $zip . '|' . $name . '">' . $name . " (" . $zip . ")" . "</label>";
+      }
     }
-  }
   }
   print "</fieldset></div>";
 }
@@ -1331,26 +1331,41 @@ function generate_location_select() {
       if ($name == $primary_location && $zip == $primary_zip) {
         $selected = 'selected';
         $primary_location_used = TRUE;
+        // Set a data attribute on the option that's the primary location to avoid removing it later
+        $data_primary_location = " data-ee-location='primary' ";        
       }
       else {
         $selected = '';
       }
 
+      // Remove extra leading and trailing spaces from location name
+      $name = trim($name);
 
-      // Print option for select (up to 8 values)
-      if ($count < $max_location_items) {
-        print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
-      } // need to use default zip if not used yet
-
-      else if ($count == $max_location_items && !$primary_location_used && $primary_zip > 0) {
-        print "<option title = '" . $primary_location . " (" . $primary_zip . ")' value='" . $primary_zip . "' selected>" . $primary_location . "</option>";
-      } else if ($show_more) {
+      // Print option for select (up to 9 values) - Fill up the first 8, then make sure the primary exists - if not, add it
+      if ($count < $max_location_items - 1) {
+        print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "'" . $selected . $data_primary_location . ">" . $name . " (" . $zip . ")</option>";
+      }
+      // Add default zip if not yet used
+      else if ($count == $max_location_items - 1) {
+          // If a primary zip exists but hasn't been used yet, add it
+          if (!$primary_location_used && $primary_zip > 0) {
+            $selected = 'selected';
+            // Set a data attribute on the option that's the primary location to avoid removing it later            
+            $data_primary_location = " data-ee-location='primary' ";
+            print "<option title = '" . $primary_location . " (" . $primary_zip . ")' value='" . $primary_zip . "'" . $selected . $data_primary_location .">" . $primary_location . " (" . $primary_zip . ")</option>";
+          }
+          // If no primary zip exists or the primary zip was already used, just add another option
+          else if ($primary_location_used || !$primary_zip > 0) {
+            print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
+          }
+      }
+      else if ($show_more) {
         print "<option value='view_more'>Show more...</option>";
         $show_more = FALSE;
         break;
       }
-
-      $count = $count + 1;
+      $data_primary_location = '';
+      $count = $count + 1;      
     }
   }
   print "</select>";

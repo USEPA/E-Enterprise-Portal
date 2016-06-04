@@ -6,7 +6,7 @@
     // Flag for hitting cancel in modal, default is true
     var cancelling_input = true;
   
-    // If View all cities (#locations-modal) link exists, then generate dialog
+    // If View all cities (#locations-modal) link exists, then instantiate dialog
     // View all cities is added via eenterprise_utility.module
     if ($('#locations-modal').length > 0) {
       $('#dialog-all-locations').dialog({
@@ -54,6 +54,7 @@
       var max_allowed_locations =  9;
       // If selected from modal and exists in select box change value
       // Searching via select TITLE, not VALUE
+      name = $.trim(name);
       var select_title = name + ' (' + zipcode + ')';
       var $location_select = $('#location-select');
       if ($location_select.find('option[title="' + select_title + '"]').length > 0) {
@@ -61,7 +62,16 @@
       }
       else { // add value to select, remove last select value
         var $new_option = $("<option title='" + select_title + "' value='" + zipcode + "'>" + name + " (" + zipcode + ")</option>");
+        // If last option isn't default location, remove it
+        // Otherwise, remove second to last
+        var $check_last_option = $location_select.find('option:nth-child(' + max_allowed_locations + ')');
+        if ($location_select.find('option:nth-child(9)').attr('data-ee-location') == 'primary') {
+          var remove_option = max_allowed_locations - 1;
+          $location_select.find('option:nth-child(' + remove_option + ')').remove();
+        }
+        else {
         $location_select.find('option:nth-child(' + max_allowed_locations + ')').remove();
+        }
         // Alphabetically place select option. Because already alphabetical, if not in
         // select drop down, just make last choice (position 9)
         $location_select.find('option:nth-child(' + (max_allowed_locations - 1) + ')').after($new_option);
@@ -73,12 +83,12 @@
     
     // Update Session
     $('body').on('change', '#location-select', function(e) {
-      var select_title = previous_selection.attr('title');
+      var setlocation_title = previous_selection.attr('title');
       if ($('#location-select option:selected').text() == 'Show more...') {
         e.preventDefault();
-        $('#dialog-all-locations').dialog('open');
         $('body').addClass('modal-open');
-        matchSelectToRadio(select_title);
+        matchSelectToRadio(setlocation_title); // e.g., Centreville, VA (20121)        
+        $('#dialog-all-locations').dialog('open');
         $('#dialog-all-locations :radio[name=location-radio]').each(function() {
           var radioInput = $(this);
           if(radioInput.is(':checked')) {
@@ -108,14 +118,13 @@
   
     // Select title = city, state (zip) (e.g., Chicago, IL (60660))
     // Dialog radio buttons use id and value = zip|city, state (e.g., 60660|Chicago, IL)
-    function matchSelectToRadio(select_title) {
-      var citystate = select_title.split('(')[0];
-      location_name = $.trim(citystate);
-      
-      var selectzip = select_title.split('(')[1];
+    function matchSelectToRadio(setlocation_title) {
+      var citystate = setlocation_title.split('(')[0];
+      var selectzip = setlocation_title.split('(')[1];
       selectzip = selectzip.split(')')[0];
+      var select_radio = selectzip + '|' + citystate;
       
-      $('input[type=radio][id="' + selectzip + '|' + location_name + '"]').prop('checked', true);
+      $('input[type=radio][id="' + select_radio + '"]').prop('checked', true);
       
     }
   
