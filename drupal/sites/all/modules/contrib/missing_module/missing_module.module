@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * @file
+ * Find modules missing in file system.
+ */
+
+/**
+ * Find modules that are missing from file system.
+ */
+function missing_module_find_missing() {
+  $missing = array();
+
+  // Select all active modules from current database.
+  $result = db_select('system')->fields('system', array('filename'))->condition('status', '1', '=')->execute();
+
+  foreach ($result as $node) {
+    $path = DRUPAL_ROOT . '/' . $node->filename;
+
+    if (!file_exists($path)) {
+      $sections = explode("/", $node->filename);
+
+      // Find name of module, strip path and extension.
+      $module_name = str_replace(".module", '', array_pop($sections));
+
+      $missing[$module_name] = $path;
+    }
+  }
+
+  return $missing;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function missing_module_menu() {
+  $items['admin/reports/status/disable_module/%'] = array(
+    'title' => 'Disable Module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('missing_module_disable_confirm', 4),
+    'access arguments' => array('administer modules'),
+    'type' => MENU_CALLBACK,
+    'file' => 'missing_module.form.inc',
+  );
+  return $items;
+}
