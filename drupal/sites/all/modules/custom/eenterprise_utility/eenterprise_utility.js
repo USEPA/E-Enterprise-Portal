@@ -124,15 +124,10 @@
   function setCommunitySizeType(commsize, isurban) {
     var $urban_check =  $('#edit-field-community-type-und');
     var $comm_size_select =  $('#edit-field-community-size-und');
-    if ((typeof(commsize) !== 'undefined' || commsize !== '') &&(typeof(isurban) !== 'undefined' || isurban !== '')) {
-      if (isurban === 1) {
-        $urban_check.val("urban").find('input[value="urban"]').prop("checked", true);
-      } else if (isurban === 0) {
-        $urban_check.val("rural").find('input[value="rural"]').prop("checked", true);
-      }
-      else {
-        $urban_check.val("rural").find('input[value="_none"]').prop("checked", true);
-      }
+    // Reset Population and Urban setting selections
+    $urban_check.val("_none").find('input[value="_none"]').prop("checked", true);
+    $comm_size_select.find('option[value="_none"]').prop('selected', true);
+    if (typeof(commsize) !== 'undefined' && commsize !== '' && parseInt(commsize) >= 0) {
       var selected_pop = parseInt(commsize);
       if (selected_pop < 5000) {
         $comm_size_select.find('option:contains("0 - 5,000")').prop('selected', true);
@@ -147,10 +142,16 @@
       } else {
         $comm_size_select.find('option:contains("1,000,000+")').prop('selected', true);
       }
-    } else {
-      // Reset options if not found in census data
-      $urban_check.val("_none").find('input[value="_none"]').prop("checked", true);
-      $comm_size_select.find('option[value="_none"]').prop('selected', true);
+    }
+  if ((typeof(isurban) !== 'undefined' && isurban !== '' && isurban.toString() !== "NaN")) {
+      if (isurban === 1) {
+        $urban_check.val("urban").find('input[value="urban"]').prop("checked", true);
+      } else if (isurban === 0) {
+        $urban_check.val("rural").find('input[value="rural"]').prop("checked", true);
+      }
+      else {
+        $urban_check.val("rural").find('input[value="_none"]').prop("checked", true);
+      }
     }
 
   }
@@ -356,10 +357,17 @@
           if (location_data.city_attr && location_name in location_data.city_attr) {
             pop = location_data.city_attr[location_name].pop;
           }
+          // If pop returned 0 rewrite to -1 so it does not select
+          if (parseInt(pop) === 0) {
+            pop = -1;
+          }
+          if (urban == "Urban") {
+            field_suffix.attr('isurban', '1');
+          } else if (urban == "Rural") {
+            field_suffix.attr('isurban', '0');
+          }
           field_suffix.text(location_name)
-            .attr('isurban', urban)
             .attr('commsize', pop);
-
         }
       }
       else { // type city or tribe
@@ -380,8 +388,12 @@
           if (location_data.city_attr && location_name in location_data.city_attr) {
             pop = location_data.city_attr[location_name].pop;
           }
+          if (urban == "Urban") {
+            field_suffix.attr('isurban', '1');
+          } else if (urban == "Rural") {
+            field_suffix.attr('isurban', '0');
+          }
           field_suffix.text(location_name)
-            .attr('isurban', urban)
             .attr('commsize', pop);
         }
       }
@@ -455,7 +467,7 @@
         Drupal.settings.locationInputEngine.lookUpLocation(input.val()).done(function (location_data) {
           var zip;
           var location_name;
-          var pop = 0;
+          var pop = -1;
           var urban = "";
           var duplicate = false;
           // Update location data to check for duplicates, ignoring this input-
@@ -495,6 +507,10 @@
               if (location_data.city_attr && location_name in location_data.city_attr) {
                 pop = location_data.city_attr[location_name].pop;
               }
+              // If pop returned 0 rewrite to -1 so it does not select
+              if (parseInt(pop) === 0) {
+                pop = -1;
+              }
               field_suffix.html(location_name);
               field_suffix.attr('commsize', pop);
               if (urban == "Urban") {
@@ -532,12 +548,17 @@
               if (location_data.city_attr && location_name in location_data.city_attr) {
                 pop = location_data.city_attr[location_name].pop;
               }
+              // If pop returned 0 rewrite to -1 so it does not select
+              if (parseInt(pop) === 0) {
+                pop = -1;
+              }
               field_suffix.attr('commsize', pop);
               if (urban == "Urban") {
                 field_suffix.attr('isurban', '1');
               } else if (urban == "Rural") {
                 field_suffix.attr('isurban', '0');
               }
+
               update_user_zip_preferences();
               $('.remove-button').prop("disabled", false);
             }
