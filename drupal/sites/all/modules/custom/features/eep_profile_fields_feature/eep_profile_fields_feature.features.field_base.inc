@@ -296,65 +296,6 @@ function eep_profile_fields_feature_field_default_field_bases() {
     'type' => 'multifield',
   );
 
-  // Exported field_base: 'field_interests2'
-  $field_bases['field_interests2'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_interests2',
-    'indexes' => array(
-      'target_id' => array(
-        0 => 'target_id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'entityreference',
-    'settings' => array(
-      'handler' => 'base',
-      'handler_settings' => array(
-        'behaviors' => array(
-          'views-select-list' => array(
-            'status' => 0,
-          ),
-        ),
-        'sort' => array(
-          'direction' => 'ASC',
-          'property' => 'tid',
-          'type' => 'property',
-        ),
-        'target_bundles' => array(
-          'agency_function' => 'agency_function',
-          'audiences' => 'audiences',
-          'channels' => 'channels',
-          'cooperation_and_assistance_topics' => 'cooperation_and_assistance_topics',
-          'emergencies_and_cleanup_topics' => 'emergencies_and_cleanup_topics',
-          'environmental_laws_regulations_and_treaties' => 'environmental_laws_regulations_and_treaties',
-          'environmental_media_topics' => 'environmental_media_topics',
-          'epa_operations_topics' => 'epa_operations_topics',
-          'epa_release_status' => 'epa_release_status',
-          'geographic_locations' => 'geographic_locations',
-          'green_living' => 'green_living',
-          'health_topics' => 'health_topics',
-          'industries' => 'industries',
-          'interests' => 'interests',
-          'locality' => 'locality',
-          'pollution_prevention_topics' => 'pollution_prevention_topics',
-          'programs' => 'programs',
-          'regulatory_and_industrial_topics' => 'regulatory_and_industrial_topics',
-          'research_analysis_and_technology_topics' => 'research_analysis_and_technology_topics',
-          'substances' => 'substances',
-          'tags' => 'tags',
-          'type' => 'type',
-        ),
-      ),
-      'profile2_private' => FALSE,
-      'target_type' => 'taxonomy_term',
-    ),
-    'translatable' => 0,
-    'type' => 'entityreference',
-  );
-
   // Exported field_base: 'field_profile_favourites'
   $field_bases['field_profile_favourites'] = array(
     'active' => 1,

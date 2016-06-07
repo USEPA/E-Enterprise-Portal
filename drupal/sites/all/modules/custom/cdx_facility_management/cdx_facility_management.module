@@ -104,13 +104,19 @@ function return_cdx_facility_management_token()
         $user_login_time = time();
     } else {
         // if user logged in without bridge (single sign), session is not set.
-        if (isset($_SESSION['login_timestamp']))
+        if (isset($_SESSION['login_timestamp'])) {
             $user_login_time = $_SESSION['login_timestamp'];
+        }
         else {
             $user_login_time = time();
             $_SESSION['login_timestamp'] = $user_login_time;
         }
+        //Extract out "_Via_CDX" string from user_name to pull roles from the Activity Data flow
         $user_id = $user->name;
+        $cdx_pos = strrpos($user_id, "_Via_");
+        if ($cdx_pos !== FALSE) {
+            $user_id = substr($user_id, 0, $cdx_pos);
+        }
     }
     $json_return = array();
     $user_session_logout = (int)variable_get('cdx_facility_user_logout_session');
@@ -130,12 +136,10 @@ function return_cdx_facility_management_token()
         $auth_method = variable_get('eactivity_auth_reg_auth_method');
         $cdx_resource_url = variable_get('cdx_facility_resource_url');
 
-
         //Temp for testing on aws
         $create_new_token_initially = variable_get('temp_create_new_token');
 
         //Connect to wsdl
-        $client_connect_error = TRUE;
         if ($local) {
             $client = connectToSOAPServerWithWSDL(dirname(__FILE__) . '/' . $wsdl, "CDX Facility Management");
         } else {
@@ -177,7 +181,6 @@ function return_cdx_facility_management_token()
             $json_return['url'] = $cdx_resource_url;
             $json_return['user_session_logout'] = $user_session_logout;
             $json_return['user_login_time'] = $user_login_time;
-
             print json_encode($json_return);
         } else {
             $json_return['error'] = TRUE;
@@ -225,6 +228,7 @@ function renewToken($client, $params_for_renewal, $json_return)
 function retrieve_cdx_user_data()
 {
     global $user;
+    $json_return = array();
 
     $local_testing = variable_get('local_testing');
     $local_testing_user_id = variable_get('local_testing_user_id');
@@ -232,61 +236,73 @@ function retrieve_cdx_user_data()
         $user_id = $local_testing_user_id;
     else
         $user_id = $user->name;
+
+    //Extract out "_Via_CDX" string from user_name to pull roles from the Activity Data flow
+    $cdx_pos = strrpos($user_id, "_Via_");
+    if ($cdx_pos !== FALSE) {
+        $user_id = substr($user_id, 0, $cdx_pos);
+    }
+
     $allowed_program_roles = ['CEDRI', 'CSPP', 'eDisclosure'];
-    $json_return = array();
 
 // Generate token as administrator to get user data
     $wsdl = variable_get('eactivity_auth_reg_wsdl');
-    $error = TRUE;
     $client = connectToSOAPServerWithWSDL($wsdl, "CDX Facility Management");
-    if (!$client->error) {
-        $client = $client->client;
-        $params = array(
-            "userId" => variable_get('eactivity_auth_reg_username'),
-            "credential" => variable_get('eactivity_auth_reg_password'),
-            "domain" => variable_get('eactivity_auth_reg_domain'),
-            "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
-        );
-        $response = callSOAPWithParams($client, "Authenticate", $params, "CDX Facility Management");
-        if (!$response->error) {
-            $response = $response->response;
-            $token = $response->securityToken;
-            if (isset($token)) {
-                $user_params = array(
-                    "securityToken" => $token,
-                    "userId" => $user_id);
-                $user_obj = callSOAPWithParams($client, "RetrieveUser", $user_params, "CDX Facility Management");
-                if (!$user_obj->error) {
-                    $response = $user_obj->response;
-                    $user_sec_bundle = array(
-                        "securityToken" => $token,
-                        "user" => $response->User,
-                    );
-                    $org_val = null;
-                    $user_orgs = callSOAPWithParams($client, "RetrieveOrganizations", $user_sec_bundle, "CDX Facility Management");
-                    if (!$user_orgs->error) {
-                        $response = $user_orgs->response;
-                        // CDX returns object if single return and array if multiple
-                        if (is_array($response->Organization)) {
-                            foreach ($response->Organization as $index => $org_val) {
-                                $json_return = addCDXOrganization($json_return, $org_val, $token, $user_obj->response, $client, $allowed_program_roles);
-                            }
-                        } else {
-                            $org_val = $response->Organization;
-                            $json_return = addCDXOrganization($json_return, $org_val, $token, $user_obj->response, $client, $allowed_program_roles);
-                        }
-
-                        $json_return['error'] = false;
-                        $error = FALSE;
-                        print json_encode($json_return);
-
-                    }
-                }
-            }
-        }
-    }
-    if ($error)
+    if ($client->error) {
         print json_encode((array('error' => 'true', 'user' => $user_id)));
+        return;
+    }
+    $client = $client->client;
+    $params = array(
+        "userId" => variable_get('eactivity_auth_reg_username'),
+        "credential" => variable_get('eactivity_auth_reg_password'),
+        "domain" => variable_get('eactivity_auth_reg_domain'),
+        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
+    );
+    $response = callSOAPWithParams($client, "Authenticate", $params, "CDX Facility Management");
+    if ($response->error) {
+        print json_encode((array('error' => 'true', 'user' => $user_id)));
+        return;
+    }
+    $response = $response->response;
+    $token = $response->securityToken;
+    if (!isset($token)) {
+        print json_encode((array('error' => 'true', 'user' => $user_id)));
+        return;
+    }
+    $user_params = array(
+        "securityToken" => $token,
+        "userId" => $user_id);
+
+    $user_obj = callSOAPWithParams($client, "RetrieveUser", $user_params, "CDX Facility Management");
+    if ($user_obj->error) {
+        print json_encode((array('error' => 'true', 'user' => $user_id)));
+        return;
+    }
+    $response = $user_obj->response;
+    $user_sec_bundle = array(
+        "securityToken" => $token,
+        "user" => $response->User,
+    );
+    $org_val = null;
+    $user_orgs = callSOAPWithParams($client, "RetrieveOrganizations", $user_sec_bundle, "CDX Facility Management");
+    if ($user_orgs->error) {
+        print json_encode((array('error' => 'true', 'user' => $user_id)));
+        return;
+    }
+    $response = $user_orgs->response;
+    // CDX returns object if single return and array if multiple
+    if (is_array($response->Organization)) {
+        foreach ($response->Organization as $index => $org_val) {
+            $json_return = addCDXOrganization($json_return, $org_val, $token, $user_obj->response, $client, $allowed_program_roles);
+        }
+    } else {
+        $org_val = $response->Organization;
+        $json_return = addCDXOrganization($json_return, $org_val, $token, $user_obj->response, $client, $allowed_program_roles);
+    }
+
+    $json_return['error'] = false;
+    print json_encode($json_return);
 }
 
 
@@ -296,19 +312,12 @@ function addCDXRole($json_return, $role, $org_id)
     $role_obj = array();
     $role_type = $role->type->description;
     $status = $role->status->code;
-
-    if (in_array($role_type, $disallowed_types) || $status == 'Inactive') {
-        // not allowed to show this user type
-        $json_return['invalid_cdx_role'] = true;
-    } else {
+    if (!in_array($role_type, $disallowed_types) && $status != 'Inactive') {
         $role_obj['type'] = $role_type;
         $role_obj['userRoleId'] = $role->userRoleId;
-        if (!isset($json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow])) {
+        if (!isset($json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow]))
             $json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow] = array();
-        }
         $json_return['organizations_to_roles'][$org_id]['roles'][$role->dataflow][] = $role_obj;
-        $json_return['invalid_cdx_role'] = false;
-
     }
     return $json_return;
 }
@@ -317,7 +326,6 @@ function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, 
 {
     $org_id = $org_val->userOrganizationId;
     $org_name = $org_val->organizationName;
-    $org_contains_role = false;
     $json_return['organizations_to_roles'][$org_id] = array('name' => $org_name);
     $user_sec_org_bundle = array(
         "securityToken" => $token,
@@ -325,35 +333,31 @@ function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, 
         "org" => $org_val,
     );
     $user_roles = callSOAPWithParams($client, "RetrieveRoles", $user_sec_org_bundle, "CDX Facility Management");
-    if (!$user_roles->error) {
-        $user_roles = $user_roles->response;
-        // Check if roles are assigned to organizat            ion
-        if (isset($user_roles->Role)) {
-            // Check if multiple roles or single role
-            if (is_array($user_roles->Role)) {
-                foreach ($user_roles->Role as $key => $role) {
-                    if (in_array($role->dataflow, $allowed_program_roles)) {
-                        $json_return = addCDXRole($json_return, $role, $org_id);
-                        if (!$json_return['invalid_cdx_role']) {
-                            $org_contains_role = true;
-                        }
-                    }
-                }
-            } else {
-                $role = $user_roles->Role;
-                if (in_array($role->dataflow, $allowed_program_roles)) {
-                    $json_return = addCDXRole($json_return, $role, $org_id);
-                    if (!$json_return['invalid_cdx_role']) {
-                        $org_contains_role = true;
-                    }
-                }
-            }
+    if ($user_roles->error)
+        return $json_return;
+
+    $user_roles = $user_roles->response;
+    // Check if roles are assigned to organizat            ion
+    if (!isset($user_roles->Role))
+        return $json_return;
+
+    // Check if multiple roles or single role
+    if (is_array($user_roles->Role)) {
+        foreach ($user_roles->Role as $key => $role) {
+            if (in_array($role->dataflow, $allowed_program_roles))
+                $json_return = addCDXRole($json_return, $role, $org_id);
         }
-        if (!$org_contains_role) {
-            unset($json_return['organizations_to_roles'][$org_id]);
-        }
+    } else {
+        $role = $user_roles->Role;
+        if (in_array($role->dataflow, $allowed_program_roles))
+            $json_return = addCDXRole($json_return, $role, $org_id);
     }
-    return $json_return;
+
+
+if (!isset($json_return['organizations_to_roles'][$org_id]['roles']))
+    unset($json_return['organizations_to_roles'][$org_id]);
+
+return $json_return;
 }
 
 

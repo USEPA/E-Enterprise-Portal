@@ -84,10 +84,12 @@ function eenterprise_menu_link(&$vars) {
       unset($link_classes[$remove_key]);
     }
   }
-  $remove_key = array_search('menu-item', $link_classes);
+  if (isset($link_classes)) {
+    $remove_key = array_search('menu-item', $link_classes);
     if (!is_null($remove_key)) {
-			unset($link_classes[$remove_key]);
+      unset($link_classes[$remove_key]);
     }
+  }
 
   // Add global classes to all menu links.
   $item_classes[] = 'menu-item';

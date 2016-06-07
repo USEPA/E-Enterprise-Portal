@@ -35,6 +35,19 @@ function recommended_resources_menu()
     'access callback' => TRUE,
   );
 
+  $items['load_data_from_rcs_by_topic'] = array(
+    'page callback' => 'load_data_from_rcs_by_topic',
+    'access callback' => TRUE,
+  );
+
+  $items['load_data_from_rcs_by_user'] = array(
+    'page callback' => 'load_data_from_rcs_by_user',
+    'access callback' => TRUE,
+  );
+  $items['load_rcs_topics'] = array(
+    'page callback' => 'load_rcs_topics',
+    'access callback' => TRUE,
+  );
   return $items;
 }
 
@@ -341,8 +354,73 @@ function load_view()
 
 function load_data_from_rcs()
 {
+  $json = array();
   $url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
-//  $url = "https://ends2.epacdxnode.net/RestProxy/query?Node=.NetNodeDev2.0&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+  $response = drupal_http_request($url, array(
+    'headers' => array('Content-Type' => 'text/xml'),
+    'method' => 'GET',
+  ));
+  $xmlobj = simplexml_load_string($response->data);
+  $resources = xml2array($xmlobj->Results->NewDataSet);
+  $resources_array = array("resources" => array());
+  foreach ($resources['Resource'] as $simpleXML) {
+    $resources_array["resources"][] = xml2array($simpleXML);
+  }
+  $json = json_encode($resources_array);
+  update_lgc_topic_taxonomy($json);
+  return $json;
+}
+
+/**
+ * Updates lgc json with appropriate taxonomy tids.
+ * If the topic does not exist in the taxonomy, creates a new  topic.
+ * @param $json
+ */
+function update_lgc_topic_taxonomy(&$json) {
+
+}
+
+/**
+ * Returns taxonomy object for lgc topics
+ * array format is {topic=>tid, ...}
+ * @return array
+ */
+function return_lgc_taxonomy_terms() {
+  $return = array();
+
+  return $return;
+}
+
+/**
+ * Returns json of all lgc information
+ */
+function rcs_lgc_resources_json_all(){
+$json = load_data_from_rcs();
+  print $json;
+  exit();
+}
+
+/**
+ * returns lgc resource by what topics the user has selected in their profile or lgc widget
+ */
+function rcs_lgc_resources_json_by_user()
+{
+  $uid = 5;
+  $json = load_data_from_rcs();
+  $user_tids = array();
+  $topic_tids =
+
+  print json_encode($resources_array);
+  exit();
+}
+
+/**
+ * returns lgc resources filtered by topic
+ */
+function rcs_lgc_resources_json_by_topic()
+{
+  $topic = "Climate Change";
+  $url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
   $response = drupal_http_request($url, array(
     'headers' => array('Content-Type' => 'text/xml'),
     'method' => 'GET',
@@ -355,5 +433,23 @@ function load_data_from_rcs()
   }
   print json_encode($resources_array);
   exit();
+}
 
+/**
+ * Loads from  RCS endpoint. Saves via variable_set if has not been accessed in past  five minutes
+ */
+function load_rcs_topics() {
+  $url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+  $response = drupal_http_request($url, array(
+    'headers' => array('Content-Type' => 'text/xml'),
+    'method' => 'GET',
+  ));
+  $xmlobj = simplexml_load_string($response->data);
+  $resources = xml2array($xmlobj->Results->NewDataSet);
+  $topics_array = array("topics" => array());
+  foreach ($resources['Resource'] as $simpleXML) {
+    $resources_array["topics"][] = xml2array($simpleXML)["TopicText"];
+  }
+  print json_encode($resources_array);
+  exit();
 }

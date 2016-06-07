@@ -14,7 +14,6 @@ function other_items_of_interest_feature_default_fe_block_settings() {
 
   $export['views-3442ce0386d467ae6c9b36071bf198b3'] = array(
     'cache' => -1,
-    'css_class' => '',
     'custom' => 0,
     'delta' => '3442ce0386d467ae6c9b36071bf198b3',
     'module' => 'views',
@@ -71,7 +70,6 @@ function other_items_of_interest_feature_default_fe_block_settings() {
 
   $export['views-additional_resources_all-block'] = array(
     'cache' => -1,
-    'css_class' => '',
     'custom' => 0,
     'delta' => 'additional_resources_all-block',
     'module' => 'views',
@@ -128,7 +126,6 @@ function other_items_of_interest_feature_default_fe_block_settings() {
 
   $export['views-additional_resources_all-us_epa'] = array(
     'cache' => -1,
-    'css_class' => '',
     'custom' => 0,
     'delta' => 'additional_resources_all-us_epa',
     'module' => 'views',
@@ -185,7 +182,6 @@ function other_items_of_interest_feature_default_fe_block_settings() {
 
   $export['views-other_items_of_interest-block'] = array(
     'cache' => -1,
-    'css_class' => '',
     'custom' => 0,
     'delta' => 'other_items_of_interest-block',
     'module' => 'views',

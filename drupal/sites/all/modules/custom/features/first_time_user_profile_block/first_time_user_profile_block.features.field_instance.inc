@@ -10,7 +10,7 @@
 function first_time_user_profile_block_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-user_location_preferences-body'
+  // Exported field_instance: 'node-user_location_preferences-body'.
   $field_instances['node-user_location_preferences-body'] = array(
     'bundle' => 'user_location_preferences',
     'default_value' => NULL,
@@ -57,7 +57,7 @@ function first_time_user_profile_block_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'node-user_location_preferences-field_preferred_name'
+  // 'node-user_location_preferences-field_preferred_name'.
   $field_instances['node-user_location_preferences-field_preferred_name'] = array(
     'bundle' => 'user_location_preferences',
     'default_value' => NULL,
@@ -98,8 +98,55 @@ function first_time_user_profile_block_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-user_location_preferences-field_primary'.
+  $field_instances['node-user_location_preferences-field_primary'] = array(
+    'bundle' => 'user_location_preferences',
+    'custom_add_another' => '',
+    'custom_remove' => '',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_primary',
+    'label' => 'Primary',
+    'required' => 0,
+    'settings' => array(
+      'custom_add_another' => '',
+      'custom_remove' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 1,
+    ),
+  );
+
   // Exported field_instance:
-  // 'node-user_location_preferences-field_user_zip_code'
+  // 'node-user_location_preferences-field_user_zip_code'.
   $field_instances['node-user_location_preferences-field_user_zip_code'] = array(
     'bundle' => 'user_location_preferences',
     'custom_add_another' => '',
@@ -144,7 +191,7 @@ function first_time_user_profile_block_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'node-user_location_preferences-field_zip_community_size'
+  // 'node-user_location_preferences-field_zip_community_size'.
   $field_instances['node-user_location_preferences-field_zip_community_size'] = array(
     'bundle' => 'user_location_preferences',
     'custom_add_another' => '',
@@ -195,7 +242,7 @@ function first_time_user_profile_block_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'node-user_location_preferences-field_zip_is_urban'
+  // 'node-user_location_preferences-field_zip_is_urban'.
   $field_instances['node-user_location_preferences-field_zip_is_urban'] = array(
     'bundle' => 'user_location_preferences',
     'custom_add_another' => '',
@@ -235,14 +282,14 @@ function first_time_user_profile_block_field_default_field_instances() {
       'active' => 1,
       'module' => 'options',
       'settings' => array(
-        'display_label' => 0,
+        'display_label' => 1,
       ),
       'type' => 'options_onoff',
       'weight' => 0,
     ),
   );
 
-  // Exported field_instance: 'user-user-field_lgc_topics_of_interest'
+  // Exported field_instance: 'user-user-field_lgc_topics_of_interest'.
   $field_instances['user-user-field_lgc_topics_of_interest'] = array(
     'bundle' => 'user',
     'custom_add_another' => '',
@@ -272,12 +319,12 @@ function first_time_user_profile_block_field_default_field_instances() {
       'active' => 1,
       'module' => 'options',
       'settings' => array(),
-      'type' => 'options_select',
+      'type' => 'options_buttons',
       'weight' => 22,
     ),
   );
 
-  // Exported field_instance: 'user-user-field_organization'
+  // Exported field_instance: 'user-user-field_organization'.
   $field_instances['user-user-field_organization'] = array(
     'bundle' => 'user',
     'custom_add_another' => '',
@@ -312,7 +359,7 @@ function first_time_user_profile_block_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_role'
+  // Exported field_instance: 'user-user-field_role'.
   $field_instances['user-user-field_role'] = array(
     'bundle' => 'user',
     'custom_add_another' => '',
@@ -355,6 +402,7 @@ function first_time_user_profile_block_field_default_field_instances() {
   t('LGC Topics of Interest');
   t('Organization');
   t('Preferred Name');
+  t('Primary');
   t('Role');
   t('User Zip Code');
 

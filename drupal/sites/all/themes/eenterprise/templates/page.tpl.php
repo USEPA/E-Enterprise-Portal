@@ -19,6 +19,22 @@ if(drupal_is_front_page()) {
 if(arg(0) == 'workbench' && $user->uid == 0){
     drupal_goto("/");
 }
+/*
+elseif (arg(0) == 'workbench' && $user->uid > 0) {
+	drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/pace.min.js", "file");
+}
+*/
+
+$user_data = user_load($user->uid);
+if ($user->name == 'guest-user') {
+    drupal_add_js(array('ee_guest' => true), 'setting'); // Adding check for guest
+}
+if ($user->uid > 0) {
+	drupal_add_js(array('ee_user' => true), 'setting'); // Adding check for guest
+}
+else {
+	drupal_add_js(array('ee_public' => true), 'setting'); // If not guest and not logged in, show public view on Home, FAQs, Release Notes
+}
 
 ?>
 <?php print render($page['alert']); ?>
@@ -27,8 +43,8 @@ if(arg(0) == 'workbench' && $user->uid == 0){
 <div class="mobile-nav usa-grid">
 <a class="usa-button mobile-nav_home" href="/" rel="home"><span class="sr-only">Home</span><i aria-hidden="true" class="fa fa-home"></i></a>
 <a class="usa-button mobile-nav_toggle" href="#mobile-links">Menu</a>
-<div class="mobile-nav_links element-hidden"></div>
-</div>
+<div class="mobile-nav_links element-hidden"></div><!-- @end mobile-nav_links -->
+</div><!-- @end mobile-nav -->
 <?php print render($page['mobile-navigation']); ?>
 <header class="masthead usa-grid" role="banner">
     <?php
@@ -77,8 +93,8 @@ if(arg(0) == 'workbench' && $user->uid == 0){
             </a>
         </h1>
     <?php endif; ?>
-    <?php if ($site_slogan && $path != 'eenterprise-new'): ?>
-        <div class="site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
+    <?php if ($site_slogan && $path != 'eenterprise-new' && $path != 'eenterprise-alternate'): ?>
+        <div class="site-slogan" id="site-slogan"><?php print $site_slogan; ?></div><!-- @end site-slogan -->
     <?php endif; ?>
     <?php print $hgroup_close; ?>
     <?php print render($page['header']); ?>
@@ -99,7 +115,7 @@ if(arg(0) == 'workbench' && $user->uid == 0){
         }
       ?>
       <!--googleon: all-->
-      <?php if ($exploded_path[0] == 'eenterprise-new'): ?>
+      <?php if (($exploded_path[0] == 'eenterprise-new') || ($exploded_path[0] == 'eenterprise-alternate')) : ?>
 	    	<h1 class="element-invisible" <?php print $title_attributes; ?>><?php print $title;?></h1>
 			<?php else: ?>
 				<h1 <?php print $title_attributes; ?>><?php print $title;?></h1>
@@ -117,12 +133,9 @@ if(arg(0) == 'workbench' && $user->uid == 0){
     <?php print render($page['content']); ?>
     <!--googleoff: all-->
     <?php print $feed_icons; ?>
-
-    </div>
     
     <?php
       //Render the sidebars to see if there's anything in them.
-
       $sidebar_first  = render($page['sidebar_first']);
       $sidebar_second = render($page['sidebar_second']);
     ?>
@@ -134,7 +147,7 @@ if(arg(0) == 'workbench' && $user->uid == 0){
       </aside>
     <?php endif; ?>
 
-  </div>
+  </div><!-- @end #content -->
 </section>
 <?php print render($page['footer']); ?>
 <?php print render($page['bottom']); ?>

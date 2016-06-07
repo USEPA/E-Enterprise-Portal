@@ -10,6 +10,11 @@
 
       $form.submit(function(){
         $('div.messages--status').remove();
+        $('body').removeClass('modal-open');
+      });
+      
+      $("#modalContent").on("remove", function () {
+        $('body').removeClass('modal-open');
       });
 
       // focus modal

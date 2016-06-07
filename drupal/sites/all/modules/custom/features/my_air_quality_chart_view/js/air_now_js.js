@@ -12,7 +12,6 @@
 
   $(document).ready(function() {
 
-
       var first_time_user_block = $('#first-time-user-block');
       if (first_time_user_block.length > 0) {
           first_time_user_loading = true;
@@ -53,6 +52,91 @@
             }
         }
     });
+  
+	  function closeDiv(divIDToClose) {
+	  	if ($(divIDToClose).hasClass('opened')) {
+		  	$(divIDToClose).removeClass('opened');    
+		  }
+	  }    
+    
+    $('body').on('click', '#sr-aqi-data-toggle', function(e) {
+	    e.preventDefault();
+	    $('#sr-aqi-data').addClass('opened');
+	    $('#aqi-explained').removeClass('opened');	    	    
+	    $('#sr-aqi-data').focus(); 
+	    e.stopPropagation();
+    });
+    
+    $('body').on('focus', '#sr-aqi-data-toggle', function(e) {
+			$('#sr-aqi-data-toggle').on('keydown', function(event) {
+		    // Escape key 27 to close description
+		    if (event.which === 27) {
+			    closeDiv('#sr-aqi-data');
+			    closeDiv('#aqi-explained');
+			    $('#sr-aqi-data-toggle').focus();
+		    }
+	    });	   	 
+	  });
+    
+    $('body').on('focus', '#sr-aqi-data', function() {
+	    var sqAQIData = '#sr-aqi-data';   
+	    $('body').one('click', function() {
+	    	$(sqAQIData).trigger("blur");
+	    	closeDiv(sqAQIData);
+	    	$('#sr-aqi-data-toggle').focus();
+	    });
+	    $(sqAQIData).on('keydown', function(event) {
+		    // Escape key 27 to close description		    
+	    	if (event.which === 27) {
+		    	$(sqAQIData).trigger("blur");
+					closeDiv(sqAQIData);
+					$('#sr-aqi-data-toggle').focus();	   
+		    }
+	    });  
+	    $(sqAQIData).on('blur', function(event) {
+		    closeDiv(sqAQIData);
+		  });	 	    
+    });
+    
+    $('body').on('click', '#aqi-explained-toggle', function(e) {
+	    e.preventDefault();
+	    $('#aqi-explained').addClass('opened');	 
+	    $('#sr-aqi-data').removeClass('opened');	       
+	    $('#aqi-explained').focus(); 
+	    e.stopPropagation();	    
+    });    
+    
+    $('body').on('focus', '#aqi-explained-toggle', function(e) {
+			$('#aqi-explained-toggle').on('keydown', function(event) {
+		    // Escape key 27 to close description
+		    if (event.which === 27) {
+			    closeDiv('#aqi-explained');
+			    closeDiv('#sr-aqi-data');			    
+			    $('#aqi-explained-toggle').focus();
+		    }
+	    });	   	 
+	  });    
+    
+    $('body').on('focus', '#aqi-explained', function() {
+			var aqiExplained = '#aqi-explained';
+	    $('body').one('click', function() {
+	    	$(aqiExplained).trigger('blur');
+	    	closeDiv(aqiExplained);
+			  $('#aqi-explained-toggle').focus();	    	
+	    });
+	    $(aqiExplained).on('keydown', function(event) {
+		    // Escape key 27 to close description
+		    if (event.which === 27) {
+			    $(aqiExplained).trigger("blur");
+			    closeDiv(aqiExplained);
+			    $('#aqi-explained-toggle').focus();
+		    }
+	    });
+	    $(aqiExplained).on('blur', function(event) {
+		    closeDiv(aqiExplained);
+		  });	    
+    });
+    
   });
 
   function loadMap() {
@@ -170,7 +254,8 @@
         });
       }
     });
-
+    //Right after the map is done loading, add favorites-ignore to Leaflet branding text.
+    $("#my-air-quality-air-now-map-container .leaflet-bottom .leaflet-control-attribution a").addClass("favorites-ignore");
     return map;
   }
 
@@ -409,7 +494,7 @@
 
       popover.style({
         "left": bound.left + obj.clientWidth + 40 + "px",
-        "top": bound.top - $popover.height() / 2 + "px"
+        "top": bound.top - 50 + "px"
       });
 
       $popover.show();
@@ -444,10 +529,6 @@
         return (aqi - 200) * 0.5 + 200;
       else
         return (aqi - 300) * 0.25 + 250;
-    }
-    
-    function addAQItoSR(aqi) {
-      srTodayAQI = srTodayAQI + " " + aqi;
     }
 
     var categoryInfo = [{
@@ -514,7 +595,8 @@
     // find the maxAQI in the data
     // compute visualAQI
     var maxAQI = 0;
-    var srAQIString = "<p class='sr-only'>";
+    var srAQIString = "<p class='widget-note'><a href='#sr-aqi-data' id='sr-aqi-data-toggle' class='favorites-ignore'>View chart description</a></p><p id='sr-aqi-data' tabindex='0'>";
+    srTodayAQI = "";
     for (var i in data) {
       if (maxAQI < data[i].AQI)
         maxAQI = data[i].AQI;
@@ -530,9 +612,9 @@
 			
 			srAQI = data[i].AQI;
 			srAQICategory = addAQICategoryToSR(srAQI);
-      srAQIString = srAQIString + "The AQI for " + srLongDate + " is " + srAQI + " in the " + srAQICategory + " range.  ";
+      srTodayAQI = srTodayAQI + "The AQI for " + srLongDate + " is " + srAQI + " in the " + srAQICategory + " range.  ";
     }
-    srAQIString = srAQIString + "</p>";
+    srAQIString = srAQIString + srTodayAQI + "  </p>";
 
     // Find data point corresponding to today
     for (var i in data) {
@@ -606,6 +688,7 @@
         "top": 0
       }).style("max-width", (w + m[1] + m[3]) + "px")
       // .style("max-height", (h + m[0] + m[2]) + "px")
+
       .attr("viewBox", "0 0 " + (w + m[1] + m[3]) + " " + (h + m[0] + m[2]))
       // .attr("preserveAspectRatio", "xMidYMin slice")
       .attr("aria-labelledby", "my-air-quality-chart-title")
@@ -613,11 +696,11 @@
       .append("svg:g")
       .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-    graph.append("title")
+    graph.append("svg:title")
       .attr("id", "my-air-quality-chart-title")
       .text(chartTitle);
       
-    graph.append("desc")
+    graph.append("svg:desc")
     	.attr("id", "my-air-quality-chart-description")
     	.text(srTodayAQI);
 
@@ -779,7 +862,7 @@
       })
       .on("mouseout", function() {
         hidePopover();
-      });
+      });	  
 
     // Append reporting area
     graph.append("text")
@@ -797,9 +880,13 @@
       .attr("class", "popover right")
       .style("position", "fixed");
                
+		$('#my-air-quality-chart').append("<p class='widget-note'><a href='#aqi-explained' id='aqi-explained-toggle'  class='favorites-ignore'>Learn more about AQI categories and ranges</a></p>");
     $('#sr-aqi-svg').html(srAQIString);
-
     
+    var aqiExplained = "<div id='aqi-explained' tabindex='0'><p>Think of the AQI as a yardstick that runs from 0 to 500. The higher the AQI value, the greater the level of air pollution and the greater the health concern. For example, an AQI value of 50 represents good air quality with little potential to affect public health, while an AQI value over 300 represents hazardous air quality.  Each category corresponds to a different level of health concern. The six levels of health concern and what they mean are:</p><ul><li>A Good AQI is 0 to 50. Air quality is considered satisfactory, and air pollution poses little or no risk.</li><li>A Moderate AQI is 51 to 100. Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people. For example, people who are unusually sensitive to ozone may experience respiratory symptoms.</li><li>An Unhealthy for Sensitive Groups AQI is 101 to 150. Although general public is not likely to be affected at this AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air.</li><li>An Unhealthy AQI is 151 to 200. Everyone may begin to experience some adverse health effects, and members of the sensitive groups may experience more serious effects.</li><li>A Very Unhealthy AQI is 201 to 300. This would trigger a health alert signifying that everyone may experience more serious health effects.</li><li>A Hazardous AQI is greater than 300. This would trigger a health warnings of emergency conditions. The entire population is more likely to be affected.</li></ul></div>";
+    
+    $('#sr-aqi-explained').html(aqiExplained);
+
   }
 
   var drawMessage = function(msg) {
@@ -859,7 +946,7 @@
       return data;
     }
 
-    drawMessage('Loading...');
+    drawMessage('<p class="widget-note">Loading...</p>');
 
     var endpoint = Drupal.settings.basePath + 'my_air_quality_chart_view/api/forecast/zipCode/';
 
@@ -878,7 +965,6 @@
 
       if (data.length > 0) {
       	drawChart(data, locationText);
-      	//TO DOsrTodayAQI = srTodayAQI + 
       }
       else { // no data; show message
         drawMessage('<p>Air quality information is not available for ' + locationText + '.</p>');

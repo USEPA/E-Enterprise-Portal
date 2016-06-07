@@ -19,6 +19,7 @@
             var geolocation_used = 0;
             var all_city_attr = [];
             var all_zip_attr = [];
+            var changed_city = 'no';
 
             var $org_select = $('#select-organization');
             var $zip_select =  $('#zip_container');
@@ -116,10 +117,12 @@
                                 selected_pop = all_zip_attr[zip]['pop'];
                             }
                             selected_urban = all_zip_attr[zip]['urban'];
-                            if(selected_urban.toLowerCase() == "urban") {
-                                $('input[name=community-type]:nth(1)').prop('checked', true);
+                            if(selected_urban.toLowerCase() === "urban") {
+                                $('input[name=community-type][value="urban"]').prop('checked', true);
+                            } else if (selected_urban.toLowerCase() === "rural"){
+                                $('input[name=community-type][value="rural"]').prop('checked', true);
                             } else {
-                                $('input[name=community-type]:nth(0)').prop('checked', true);
+                                $('input[name=community-type][value="_none"]').prop('checked', true);
                             }
                             if(selected_pop < 5000) {
                                 $('#community-size option:contains(0 - 5,000)').prop('selected', true);
@@ -152,7 +155,16 @@
 
             }
 
-
+            var countEnter = 0;
+            $('.term-name-checkboxes').on('keyup', function (e) {
+            	if ((e.which == 13) && (countEnter == 1)) { // Enter key
+                $(this).trigger('click');
+            	}
+            	else if (e.which == 13 && countEnter == 0) {
+	            	countEnter = countEnter + 1;
+            	}
+            });
+        		
             // Show zip selection options
             $('#change-location').click(function () {
                 $zip_select.hide();
@@ -161,11 +173,13 @@
                 $choose_zip_holder.hide();
                 $cancel_zip.show();
                 $choose_city_holder.hide();
+                $('#new-location-input').focus();
                 return false;
             });
 
             // User has found zip they want, show in selected/nearest data
             $('#confirm-zip-select').click(function () {
+		            changed_city = 'yes';
                 selected_zip_code = $('#city-state-lookup-zips').val();
                 var selected_location = all_zip_attr[selected_zip_code]['city'];
                 setCommunitySizeType(selected_zip_code);
@@ -173,10 +187,13 @@
                 $nearest_location.text(selected_location + ' (' + selected_zip_code + ')');
                 $zip_select.show();
                 $loc_add_new.hide();
+                $('#nearest-location').prop('tabindex',0);
+                $('#nearest-location').focus();
             });
 
             // User has found city they want, show in selected/nearest data
             $('#confirm-city-select').click(function () {
+	            	changed_city = 'yes';	            
                 preferred_name = $('#zip-lookup-city-state').val();
                 var selected_location = $new_loc_input.val();
                 setCommunitySizeType(selected_location);
@@ -184,6 +201,8 @@
                 $nearest_location.text(preferred_name + ' (' + selected_location + ')');
                 $zip_select.show();
                 $loc_add_new.hide();
+                $('#nearest-location').prop('tabindex',0);
+                $('#nearest-location').focus();
             });
 
             //$('#revert-to-geo-location').click(function () {
@@ -201,6 +220,7 @@
                 $choose_city_holder.hide();
                 clear_city_state_error();
                 $cancel_zip.hide();
+                $('#change-location').focus();
             });
             $('#add-location').click(function () {
                 var location_input = $new_loc_input;
@@ -240,6 +260,7 @@
                                 location_input.addClass('input-error');
                             }
                             else if (city_count == 1) { //Only one city/tribal area match
+	                            	changed_city = 'yes';
                                 selected_state = parsed_data.state;
                                 var parsed_zip = parsed_data.zip;
                                 // Get city & zip attribute data
@@ -272,6 +293,7 @@
                                 $('#choose-city').html(city_select);
                                 $('#typed-in-city-state').text(location);
                                 $choose_city_holder.show();
+                                $('#zip-lookup-city-state').focus();
                             }
                         }
                         else { //Still uses old FRS-style for doing city/state -> zip lookups (i.e. no census data or auto-populating community size/type)
@@ -282,6 +304,7 @@
                                 $loc_add_new.append(error_message);
                             }
                             else if (zip_count == 1) {
+		                            changed_city = 'yes';
                                 selected_city = parsed_data.city;
                                 selected_state = parsed_data.state;
                                 all_zip_attr = parsed_data.zip_attr;
@@ -319,6 +342,7 @@
                                 $('#choose-zip').html(zip_select);
                                 $('#typed-in-city-state').text(location);
                                 $choose_zip_holder.show();
+                                $('#city-state-lookup-zips').focus();
                             }
                         }
                     },
@@ -347,20 +371,6 @@
 
             });
 
-            $('#skip-preferences').click(function () {
-                $.ajax({
-                    url: '/save_first_time_user_preferences',
-                    type: 'POST',
-                    data: {skip: 1, zip: '', geolocation_used: geolocation_used, geolocation_zip: nearest_zip},
-                    success: function () {
-                        $(document).trigger("ee:first_time_user_complete");
-                        $('#location-select').html('<option value="' + nearest_zip + '" selected>' + nearest_city + ', ' + nearest_state + '</option>').trigger('change');
-                       $('.pane-views-first-time-user-profile-block').dialog('close');
-                    }
-                });
-                return false;
-            });
-
             $('#save-preferences').click(function () {
                 var interests = [];
                 var org_val = $org_select.val();
@@ -386,6 +396,10 @@
                     interests.push(current_checkbox.val());
                 });
 
+								// ***********  !  IMPORTANT  !  ***********
+								// If save_first_time_user_preferences is updated, please verify that...
+								// ... function skipGettingStarted is updated as needed also to pass any variables to...
+								// ... Workbench header.
                 $.ajax({
                     url: '/save_first_time_user_preferences',
                     type: 'POST',
@@ -405,7 +419,7 @@
                         var parsed_msg = $.parseJSON(msg);
                         $(document).trigger("ee:first_time_user_complete");
                         if (parsed_msg.success) {
-                            $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + preferred_name + '</option>').trigger('change');
+                            $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + preferred_name + ' (' + selected_zip_code + ')</option>').trigger('change');
                        }
                        else {
                             console.log(parsed_msg.error_msg);
@@ -424,17 +438,43 @@
                 width: 1100,
                 height: 600,
                 //height: auto,
-                dialogClass: 'first-time-user-dialog'
+                dialogClass: 'first-time-user-dialog',
+                closeOnEscape: false
             });
+            
+            $('#skip-preferences').on('click', skipGettingStarted);
+            // If user presses Escape key
+            $(first_time_user_block).on('keydown', function(e) {
+	            if (e.which === 27) {
+		            e.stopImmediatePropagation();
+		            e.preventDefault();
+		            skipGettingStarted();
+		            first_time_user_block.dialog('close');
+	            }
+            });
+            $(first_time_user_block).parent().on('keydown', function(event) {
+	            if (event.which === 27) {
+		            event.stopImmediatePropagation();
+		            event.preventDefault();
+		            skipGettingStarted();
+		            first_time_user_block.dialog('close');
+	            }
+            });
+                        
 
-            $('#switch-to-interests').click(function() {
+            $('#switch-to-interests').click(function(e) {
+                e.preventDefault();
+                e.stopPropagation();
                 $('.first-time-first-page').hide();
                 $('.first-time-second-page').show();
+                $('.term-name-checkboxes').filter(":first").focus();
+                $('.term-name-checkboxes').filter(":first").attr('checked', false);
             });
 
             $('#switch-to-first-page').click(function() {
                 $('.first-time-first-page').show();
                 $('.first-time-second-page').hide();
+                $org_select.focus();
             });
 
 
@@ -450,5 +490,35 @@
             // Try to get local settings via gelocation
             getLocation();
         }
+        
+        function skipGettingStarted() {
+          // If user blocks location and skips Getting Started, leave zip and geolocation_zip blank
+          var show_zip = '';
+          if (geolocation_used == 0 && changed_city == 'no') {
+						nearest_zip = '27705';
+						preferred_name = 'Durham, NC';
+          }
+          else {
+            nearest_zip = selected_zip_code; 	          
+          }
+          $.ajax({
+            url: '/save_first_time_user_preferences',
+            type: 'POST',
+            data: {
+              skip: 1, 
+              zip: '', 
+              geolocation_used: geolocation_used, 
+              geolocation_zip: nearest_zip,
+              preferred_name: preferred_name
+            },
+            success: function () {
+                $(document).trigger("ee:first_time_user_complete");
+                $('#location-select').html('<option value="' + selected_zip_code + '" selected>' + preferred_name + ' (' + selected_zip_code + ')</option>').trigger('change');
+								$('.pane-views-first-time-user-profile-block').dialog('close');
+            }
+          });
+          return false;
+        }
+        
     });
 })(jQuery);
