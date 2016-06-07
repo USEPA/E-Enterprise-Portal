@@ -24,6 +24,11 @@
     display: inline-block;
 }
 
+#local-resources-tabs.ui-widget-content:not(#facility-widget) .dataTables_paginate.paging_simple {
+    float: none;
+    margin: 0 auto;
+}
+
 .action-links .first {
     border-right: 1px solid #aaa;
     padding-right: 10px;

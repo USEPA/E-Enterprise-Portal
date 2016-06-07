@@ -8414,21 +8414,30 @@ ul.pager li:not(.disabled), ul.paging_simple li:not(.disabled), ul.paging_simple
   padding-right: 10px;
 }
 /* line 4074, ../sass/styles.scss */
+.grid-stack-item .paging_simple_numbers span li a {
+  font-weight: normal;
+}
+/* line 4078, ../sass/styles.scss */
+.grid-stack-item .paging_simple_numbers span li.current a {
+  font-weight: bold;
+  color: #212121;
+}
+/* line 4083, ../sass/styles.scss */
 .grid-stack-item .paging_simple_numbers span li:not(.disabled) {
   display: inline;
   font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif !important;
 }
 
-/* line 4084, ../sass/styles.scss */
+/* line 4093, ../sass/styles.scss */
 .views-field-field-faq-answer p {
   margin-top: 0;
 }
-/* line 4087, ../sass/styles.scss */
+/* line 4096, ../sass/styles.scss */
 .views-field-field-faq-answer ul {
   margin-bottom: 1rem;
 }
 
-/* line 4092, ../sass/styles.scss */
+/* line 4101, ../sass/styles.scss */
 select[multiple="multiple"] {
   background: none;
 }
