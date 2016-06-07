@@ -1,6 +1,6 @@
 var ItemsOfInterestTable;
 
-(function($) {
+(function ($) {
 
 
   $.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings) {
@@ -30,7 +30,7 @@ var ItemsOfInterestTable;
       },
       "pagingType": "simple",
       "dom": 'iftp',
-      "fnDrawCallback": function (oSettings) {
+      "fnDrawCallback": function () {
         var pageInfo = this.fnPagingInfo();
         var pageNo = pageInfo.iPage + 1;
         var totalPages = pageInfo.iTotalPages + 1;
@@ -62,7 +62,7 @@ var ItemsOfInterestTable;
 
     this.hideTable = function () {
       $wrapper.hide();
-    }
+    };
 
     this.update_current_location = function (location) {
       // find if in city, state code pattern
@@ -71,7 +71,7 @@ var ItemsOfInterestTable;
       else
         this.state_code = $.trim(location.split(',')[1]);
       this.ajax_request();
-    }
+    };
 
     this.ajax_request = function () {
       var state_code = this.state_code;
@@ -103,13 +103,10 @@ var ItemsOfInterestTable;
             $table.dataTable(datatable_options);
             $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
           }
-          else {
-            //         $wrapper.html('No resources found for ' + state_code + '.');
-          }
           cached = true;
         }
       });
-    }
+    };
 
     this.showTable = function () {
       if (cached) {
