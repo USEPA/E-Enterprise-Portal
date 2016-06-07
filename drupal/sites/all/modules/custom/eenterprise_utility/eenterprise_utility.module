@@ -779,6 +779,9 @@ function eenterprise_utility_profile_form_submit($form, &$form_state) {
     foreach ($location_data as $zip => $zip_data) {
       $commsize = $zip_data['commsize'];
       $isurban = $zip_data['is_urban'];
+      if ($isurban === "_none") {
+        $isurban = ""; // Unset so nothing is saved
+      }
       $primary = $zip_data['primary'];
       // Set default zip location data for workbench select
       if ($primary == 1) {

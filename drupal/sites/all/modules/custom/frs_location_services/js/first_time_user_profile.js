@@ -117,10 +117,12 @@
                                 selected_pop = all_zip_attr[zip]['pop'];
                             }
                             selected_urban = all_zip_attr[zip]['urban'];
-                            if(selected_urban.toLowerCase() == "urban") {
-                                $('input[name=community-type]:nth(1)').prop('checked', true);
+                            if(selected_urban.toLowerCase() === "urban") {
+                                $('input[name=community-type][value="urban"]').prop('checked', true);
+                            } else if (selected_urban.toLowerCase() === "rural"){
+                                $('input[name=community-type][value="rural"]').prop('checked', true);
                             } else {
-                                $('input[name=community-type]:nth(0)').prop('checked', true);
+                                $('input[name=community-type][value="_none"]').prop('checked', true);
                             }
                             if(selected_pop < 5000) {
                                 $('#community-size option:contains(0 - 5,000)').prop('selected', true);

@@ -11,7 +11,7 @@
   // Flags for when to search for location information
   var enter_pressed = false; // When user deliberately presses enter in a location
   var show_locations_again = false; // When the location errored but returned multiple options.
-
+  var initial_load = true;
 
   // Disables entering the form by key press when focused on an input
   Drupal.behaviors.DisableInputEnter = {
@@ -122,32 +122,35 @@
   }
 
   function setCommunitySizeType(commsize, isurban) {
-    if (commsize && isurban) {
-      if (isurban == "1") {
-        $('#edit-field-community-type-und').val("urban");
-      } else {
-        $('#edit-field-community-type-und').val("rural");
+    var $urban_check =  $('#edit-field-community-type-und');
+    var $comm_size_select =  $('#edit-field-community-size-und');
+    if ((typeof(commsize) !== 'undefined' || commsize !== '') &&(typeof(isurban) !== 'undefined' || isurban !== '')) {
+      if (isurban === 1) {
+        $urban_check.val("urban").find('input[value="urban"]').prop("checked", true);
+      } else if (isurban === 0) {
+        $urban_check.val("rural").find('input[value="rural"]').prop("checked", true);
+      }
+      else {
+        $urban_check.val("rural").find('input[value="_none"]').prop("checked", true);
       }
       var selected_pop = parseInt(commsize);
       if (selected_pop < 5000) {
-        $('#edit-field-community-size-und option:contains("0 - 5,000")').prop('selected', true);
+        $comm_size_select.find('option:contains("0 - 5,000")').prop('selected', true);
       } else if (selected_pop < 10000) {
-        $('#edit-field-community-size-und option:contains("5,000 - 10,000")').prop('selected', true);
+        $comm_size_select.find('option:contains("5,000 - 10,000")').prop('selected', true);
       } else if (selected_pop < 25000) {
-        $('#edit-field-community-size-und option:contains("10,000 - 25,000")').prop('selected', true);
+        $comm_size_select.find('option:contains("10,000 - 25,000")').prop('selected', true);
       } else if (selected_pop < 100000) {
-        $('#edit-field-community-size-und option:contains("25,000 - 100,000")').prop('selected', true);
+        $comm_size_select.find('option:contains("25,000 - 100,000")').prop('selected', true);
       } else if (selected_pop < 1000000) {
-        $('#edit-field-community-size-und option:contains("100,000 - 1,000,000")').prop('selected', true);
+        $comm_size_select.find('option:contains("100,000 - 1,000,000")').prop('selected', true);
       } else {
-        $('#edit-field-community-size-und option:contains("1,000,000+")').prop('selected', true);
+        $comm_size_select.find('option:contains("1,000,000+")').prop('selected', true);
       }
     } else {
       // Reset options if not found in census data
-      $('#edit-field-community-type-und-urban').prop('checked', false);
-      $('#edit-field-community-type-und-rural').prop('checked', false);
-      $('#edit-field-community-type-und-none').prop('checked', true);
-      $('#edit-field-community-size-und').find('option:contains(None)').prop('selected', true);
+      $urban_check.val("_none").find('input[value="_none"]').prop("checked", true);
+      $comm_size_select.find('option[value="_none"]').prop('selected', true);
     }
 
   }
@@ -187,11 +190,20 @@
       var zip = $tr.find(".field_zip_code").val();
       var name = $field_suffix.text().trim();
       var primary = $tr.find('.field-name-field-field-primary input').prop('checked');
-      var urban = parseInt($field_suffix.attr('isurban'));
+      var urban = $field_suffix.attr('isurban');
+      if (urban !== "_none") {
+        urban = parseInt($field_suffix.attr('isurban'));
+      }
       var pop = parseInt($field_suffix.attr('commsize'));
 
       if (primary) {
         primary = 1;
+        // If primary set comm size and urban flag
+        if (!initial_load) {
+          setCommunitySizeType(pop, urban);
+        } else {
+          initial_load = false;
+        }
       }
       else {
         primary = 0;
@@ -368,7 +380,7 @@
           if (location_data.city_attr && location_name in location_data.city_attr) {
             pop = location_data.city_attr[location_name].pop;
           }
-          field_suffix.text('location_name')
+          field_suffix.text(location_name)
             .attr('isurban', urban)
             .attr('commsize', pop);
         }
@@ -571,7 +583,67 @@
     return num_errors > 0;
   }
 
+  /**
+   * When the user edits the location size and urban flag, update the currently select primary setting
+   * @param comm_size
+   * @param isurban
+   */
+  function updatePrimaryLocationDataSize($select_elem) {
+    var select_text = $select_elem.text();
+    var replace_text = select_text.replace(/,/g, '').replace(' ', '').replace('+', '');
+    var location_of_dash = replace_text.indexOf('-');
+    var number_text;
+    if (location_of_dash > -1) {
+      number_text = replace_text.substr(0, replace_text.indexOf('-'));
+    } else {
+      number_text = replace_text;
+    }
+    var number = parseInt(number_text);
+    var $primary = $('.field-name-field-field-primary').find('input:checked');
+    var $field_suffix = $primary.closest('tr').find('.field-suffix');
+    if ($field_suffix.find('.field-suffix-data').length > 0) {
+      $field_suffix.find('.field-suffix-data').attr('commsize', number);
+    } else {
+      $field_suffix.attr('commsize', number);
+    }
+  }
+
+  function updatePrimaryLocationDataUrban(urban) {
+    var $primary = $('.field-name-field-field-primary').find('input:checked');
+    var $field_suffix = $primary.closest('tr').find('.field-suffix');
+    var isurban = "_none";
+    if (urban === "urban") {
+      isurban  = 1;
+    } else if (urban === "rural") {
+      isurban = 0;
+    }
+    if ($field_suffix.find('.field-suffix-data').length <= 0) {
+      $field_suffix.attr("isurban", isurban);
+    } else {
+      $field_suffix.find('.field-suffix-data').attr("isurban", isurban);
+    }
+  }
+
+
   $(document).ready(function () {
+
+    // If No radio selection has been made, select "N/A". This has not action in Drupal's db so it is not set by defautl
+    var $urban_check =  $('#edit-field-community-type-und');
+    if ($urban_check.find('input:checked').length === 0) {
+      $urban_check.val("_none").find('input[value="_none"]').prop("checked", true);
+    }
+
+    $urban_check.find('input').change( function() {
+      var isurban = $(this).val();
+      updatePrimaryLocationDataUrban(isurban);
+      update_user_zip_preferences();
+    });
+
+    $('#edit-field-community-size-und').change( function() {
+      updatePrimaryLocationDataSize($(this).find('option:selected'));
+      update_user_zip_preferences();
+    });
+
 
     $('body').find('.field-multiple-table').removeClass('sticky-enabled');
     $('#profile-locations').find('.sticky-header').remove();
