@@ -430,6 +430,55 @@ footer {
       }
     }
 }
+.grid-stack-item {
+    .pager {
+        margin: 0 auto;
+        a {
+            font-family: $font-sans !important;
+            font-size: 1.4rem;
+            &:before,
+            &:after {
+                font-family: 'FontAwesome' !important;
+            }          
+        }
+        a:focus {
+            outline: 1px dotted $color-primary; // this addresses the lack of a focus outline on firefox
+        }
+        .pager-current {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .pager-previous a,
+        .pager-next a {
+            &:before,
+            &:after {
+                font-size: 1.4rem;
+                color: $color-white;
+                background-color: $color-primary;
+                padding: 0.5rem 0.75rem;
+                border-radius: 1.5rem;
+            }    
+            &:hover,
+            &:focus {
+                text-decoration:none;
+                outline: none;
+                &::before,
+                &::after {
+                    background-color: darken($color-primary, 10%);                      
+                    box-shadow: $focus-shadow;
+                    outline: 1px dotted #212121;
+                }
+            }
+        }
+        .pager-previous a:before {
+            content: "\f053";
+        }
+        .pager-next a:after {
+            content: "\f054";
+        }
+    } 
+}
+
 
 .not-logged-in {
     .region-header {
@@ -827,12 +876,11 @@ header {
             margin-bottom: 0;
         }
     }
-/*
-    .pager, .dataTables_paginate,
+    .pager, 
+    .dataTables_paginate,
     .views-exposed-form label {
         font-weight: normal;
     }
-*/
 
 }
 
@@ -3986,12 +4034,22 @@ ul {
             &.todo_filter_button:after {
                 content: none;
             }
+        }
+    }
+}
+
+ul {
+    &.pager,
+    &.paging_simple,
+    &.paging_simple_numbers {
+        li {
             &:not(.disabled) {
                 display: table-cell;             
             }
         }
     }
 }
+
 
 // Prefix E-Enterprise Workbench only and .page-resource-editor with CSS class to avoid overwriting My Facility Manager widget
 .grid-stack-item {
