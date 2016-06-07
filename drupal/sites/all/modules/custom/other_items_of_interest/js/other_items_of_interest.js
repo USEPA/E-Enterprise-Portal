@@ -67,8 +67,22 @@
                 method: "POST",
                 data: {state: state_code},
                 success: function (table) {
-                    $wrapper.html(table);
-                    var $table = $wrapper.find('table');
+                    /**
+                     * TODO: refactor - duplicate code block in the following files:
+                     * recommended_resources/js/LocalResourcesTable.js
+                     * other_items_of_interest/js/ItemsOfInterestTable.js
+                     */
+                    // alter the datatable id, one digit larger than the largest id
+                    var newId = 0;
+                    $("table[id^='datatable-']").each(function () {
+                        newId = Math.max(newId, parseInt($(this).attr('id').substr('datatable-'.length), 10));
+                    });
+                    newId++;
+                    var $table = $('<div>' + table + '</div>'); // wrap contents in a div for now, will unwrap later
+                    $table.find('table').attr('id', 'datatable-' + newId);
+                    $wrapper.html($table.html()); // unwrap
+
+                    $table = $wrapper.find('table');
                     if ($table.length > 0) {
                         $table.DataTable(datatable_options);
                         $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
