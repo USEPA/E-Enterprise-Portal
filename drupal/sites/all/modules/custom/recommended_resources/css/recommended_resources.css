@@ -24,7 +24,8 @@
     display: inline-block;
 }
 
-#local-resources-tabs.ui-widget-content:not(#facility-widget) .dataTables_paginate.paging_simple {
+#local-resources-tabs.ui-widget-content:not(#facility-widget) .dataTables_paginate.paging_simple,
+#local-resources-tabs .dataTables_paginate.paging_simple {
     float: none;
     margin: 0 auto;
 }
