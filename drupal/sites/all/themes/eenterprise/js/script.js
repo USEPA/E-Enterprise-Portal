@@ -933,6 +933,7 @@
           if (e.which === 40) {
             $("#all-time a").click();
           } else if (e.which === 39) {
+            $('input#focused-element').remove();
             $('#this-week a').click();
           }
         });
