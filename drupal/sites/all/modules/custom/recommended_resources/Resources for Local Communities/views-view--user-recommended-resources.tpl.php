@@ -63,7 +63,7 @@
     <?php endif; ?>
   </div>
 </div>
-<!--- ---!>
+<!--- End list of user topics ---!>
 
 <div class="<?php print $classes; ?>">
     <?php print render($title_prefix); ?>
@@ -91,8 +91,9 @@
 
     <?php if ($rows): ?>
         <div class="view-content">
-            <div class='usa-grid-full'><ul aria-describedby='topic-description'>
+            <div class='usa-grid-full'>
             <?php print $rows; ?>
+            </div>
         </div>
     <?php elseif ($empty): ?>
         <div class="view-empty">

@@ -39,8 +39,7 @@
 #other-areas-tabs .dataTables_wrapper .dataTables_info {
 	font-size: 1.4rem;
 	color: #444;
-	float: left;
-	margin-top: 3px;
+	display: inline-block;
 }
 
 #restrict-to-states-button.inactive, #all-states-button.inactive {
