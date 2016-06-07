@@ -19,12 +19,18 @@
     margin-top: 2px;
     font-size: 1.3rem;
 }
-#local-resources-tabs.ui-widget-content:not(#facility-widget) .dataTables_info {
+#local-resources-tabs.ui-widget-content:not(#facility-widget) .dataTables_info,
+.pane-views-recommended-resources-block #local-resources-tabs .dataTables_info {
     padding-top: 15px;
     display: inline-block;
 }
 
-#local-resources-tabs.ui-widget-content:not(#facility-widget) .dataTables_paginate.paging_simple {
+#local-resources-tabs .dataTables_filter {
+    float: right;
+}
+
+#local-resources-tabs.ui-widget-content:not(#facility-widget) .dataTables_paginate.paging_simple,
+#local-resources-tabs .dataTables_paginate.paging_simple {
     float: none;
     margin: 0 auto;
 }

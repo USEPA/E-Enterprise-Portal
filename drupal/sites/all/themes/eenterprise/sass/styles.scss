@@ -367,7 +367,8 @@ footer {
 // Select all of them that aren't the Manage Facilities widget
 
 .ui-widget-content:not(#facility-widget),
-.ui-widget:not(#facility-widget) {
+.ui-widget:not(#facility-widget),
+#local-resources-tabs {
     .paging_simple_numbers,
     .paging_simple {
         float: right;
