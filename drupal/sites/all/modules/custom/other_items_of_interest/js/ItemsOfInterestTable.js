@@ -1,6 +1,6 @@
 var ItemsOfInterestTable;
 
-(function($) {
+(function ($) {
 
 
   $.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings) {
@@ -30,7 +30,7 @@ var ItemsOfInterestTable;
       },
       "pagingType": "simple",
       "dom": 'iftp',
-      "fnDrawCallback": function (oSettings) {
+      "fnDrawCallback": function () {
         var pageInfo = this.fnPagingInfo();
         var pageNo = pageInfo.iPage + 1;
         var totalPages = pageInfo.iTotalPages + 1;
@@ -62,7 +62,7 @@ var ItemsOfInterestTable;
 
     this.hideTable = function () {
       $wrapper.hide();
-    }
+    };
 
     this.update_current_location = function (location) {
       // find if in city, state code pattern
@@ -71,7 +71,7 @@ var ItemsOfInterestTable;
       else
         this.state_code = $.trim(location.split(',')[1]);
       this.ajax_request();
-    }
+    };
 
     this.ajax_request = function () {
       var state_code = this.state_code;
@@ -83,19 +83,30 @@ var ItemsOfInterestTable;
         method: "POST",
         data: {state: state_code},
         success: function (table) {
-          $wrapper.html(table);
-          var $table = $wrapper.find('table');
+          /**
+           * TODO: refactor - duplicate code block in the following files:
+           * other_items_of_interest/js/other_items_of_interest.js
+           * recommended_resources/js/LocalResourceTable.js
+           */
+          // alter the datatable id, one digit larger than the largest id
+          var newId = 0;
+          $("table[id^='datatable-']").each(function () {
+            newId = Math.max(newId, parseInt($(this).attr('id').substr('datatable-'.length), 10));
+          });
+          newId++;
+          var $table = $('<div>' + table + '</div>'); // wrap contents in a div for now, will unwrap later
+          $table.find('table').attr('id', 'datatable-' + newId);
+          $wrapper.html($table.html()); // unwrap
+
+          $table = $wrapper.find('table');
           if ($table.length > 0) {
             $table.dataTable(datatable_options);
             $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
           }
-          else {
-            //         $wrapper.html('No resources found for ' + state_code + '.');
-          }
           cached = true;
         }
       });
-    }
+    };
 
     this.showTable = function () {
       if (cached) {
