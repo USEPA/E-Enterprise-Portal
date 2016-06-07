@@ -1,4 +1,4 @@
-/**
+  /**
  * @file
  * Styles are organized using the SMACSS technique. @see http://smacss.com/book/
  *
@@ -339,72 +339,6 @@ footer {
 }
 
 // Override Vendor Components -------------- //
-/**
- * Pager.
- */
-
-/* A list of page numbers when more than 1 page of content is available. */
-.ui-widget-content {
-    .paging_simple_numbers,
-    .paging_simple {
-        float: right;
-        margin-top: 0;
-        margin-bottom: 20px;
-        a {
-            font-family: $font-sans !important;
-            font-size: 1.4rem;
-            &:before, 
-            &:after
-             {
-              font-family: 'FontAwesome' !important;
-            }
-        }
-    }
-}
-
-.pager {
-    clear: both;
-    padding: 0;
-    text-align: center;
-}
-
-%pager__item,
-.paging_simple_numbers,
-.paging_simple {
-    display: inline;
-    padding: 0 0.5em;
-    list-style-type: none;
-    background-image: none;
-}
-
-.paging_simple_numbers,
-.paging_simple {
-    li {
-        display: inline;
-        font-family: $font-sans !important;
-    }
-    li::before,
-    li::after {
-        content: none;
-    }
-}
-
-.pager-item, /* A list item containing a page number in the list of pages. */
-.pager-first, /* The first page's list item. */
-.pager-previous, /* The previous page's list item. */
-.pager-next, /* The next page's list item. */
-.pager-last, /* The last page's list item. */
-.pager-ellipsis,
-.pager__link {
-    /* A concatenation of several list items using an ellipsis. */
-    @extend %pager__item;
-}
-
-/* The current page's list item. */
-.pager-current {
-    @extend %pager__item;
-    //font-weight: bold;
-}
 
 .ui-widget {
     font-family: $font-sans;
@@ -421,108 +355,79 @@ footer {
     }
 }
 
-.pager,
-.dataTables_paginate.paging_simple,
-.dataTables_paginate.paging_simple_numbers,
-.paging_simple {
+/**
+ * Pager.
+ */
+ 
+// Pagers in use
+// To Do, Progress Tracker use .pager with .pager-previous.first / .pager__link, .pager-current (2 of 5), and .pager-next.last / .pager__link
+// Additional Resources (Other Items of Interest), My Facility Manager > Manage Facilities use .paging_simple_numbers
+// Resources for Local Communities (Recommended Resources) uses .paging_simple
+// .ui-widget-content represents any tabs, .ui-widget covers other jQuery elements
+// Select all of them that aren't the Manage Facilities widget
 
-    li:before,
-    li:after {
-        content: none;
-    }
-    list-style: none;
-    display: initial;
-    .disabled {
-        display: none;
-    }
-    ul {
-        list-style: none;
-    }
-    //	margin: 0 auto 1.5rem;
-    padding: 0;
-    font-size: 1.4rem;
-    li {
-        display: table-cell;
-        padding: 5px;
-        cursor: pointer;
-    }
-    li > a,
-    li > a:hover {
-        line-height: 1;
-        font-size: 1rem;
-        vertical-align: top;
-        padding-top: 0.5rem;
-        text-align: center;
-        &.pager__link.previous,
-        &.pager__link.next {
-          font-size: 0;
-          display: table-cell;
-          &:before,
-          &:after {
+.ui-widget-content:not(#facility-widget),
+.ui-widget:not(#facility-widget) {
+    .paging_simple_numbers,
+    .paging_simple {
+        float: right;
+        margin-top: 0;
+        margin-bottom: 20px;
+        a {
+            font-family: $font-sans !important;
             font-size: 1.4rem;
-          }
-          &.disabled {
-            display: none;
-          }
+            &:before,
+            &:after {
+                font-family: 'FontAwesome' !important;
+            }
         }
-        &.previous,
-        &.next {
-          &.disabled {
-            display: none;
-          }
+        .pager__link:focus {
+            outline: 1px dotted $color-primary; // this addresses the lack of a focus outline on firefox
+        }
+        .pager__link.previous,
+        .pager__link.next {
+            font-size: 0;
+            &:before,
+            &:after {
+                font-size: 1.4rem;
+                color: $color-white;
+                background-color: $color-primary;
+                padding: 0.5rem 0.75rem;
+                border-radius: 1.5rem;
+            }    
+            &:hover,
+            &:focus {
+                text-decoration:none;
+                outline: none;
+                &::before,
+                &::after {
+                    background-color: darken($color-primary, 10%);                      
+                    box-shadow: $focus-shadow;
+                    outline: 1px dotted #212121;
+                }
+            }
+        }
+        .pager__link.previous:before {
+            content: "\f053";
+        }        
+        .pager__link.next:after {
+            content: "\f054";
+        }        
+        li, a {
+            &.disabled {
+                display: none;
+            }
         }
     }
-    li > a:hover {
-        text-decoration: none;
-    }
-    .hidden {
-        display: none;
-    }
-    .pager-item,
-    .pager-first,
-    .pager-previous,
-    .pager-next,
-    .pager-last,
-    .pager-ellipsis,
-    .pager-current,
-    li.previous,
-    li.next {
-        display: inline;
-        padding: 0 0.5em;
-        list-style-type: none;
-        background-image: none;
-    }
-    a.pager__link,
-    a:visited.pager_link,
-    a:hover.pager_link,
-    a:focus.pager_link,
-    a:active.pager_link {
-        color: $color-white;
-        font-family: 'FontAwesome';
-        box-shadow: none;
-    }
-    a:focus.pager__link {
-        outline: 1px dotted #212121; // this addresses the lack of a focus outline on firefox
-    }
-    .pager__link--previous:before,
-    .pager__link--next:before,
-    .pager__link.previous:before,
-    .pager__link.next:before {
-        color: $color-white;
-        background-color: $color-primary;
-        padding: 0.5rem 0.75rem;
-        border-radius: 1.5rem;
-    }
-    .pager__link--next:before,
-    .pager__link.next:before {
-        content: "\f054";
-    }
-    .pager__link--previous:before,
-    .pager__link.previous:before {
-        content: "\f053";
-    }
-    .pager__link.previous {
-        margin-right: -35px;
+    .dataTables_info,
+    .paging_simple_numbers {
+      font-size: 1.4rem;
+      line-height: 1;
+      margin-top: 0;
+      padding-top: 0;
+      > li {
+        display: table-cell;
+      }
     }
 }
 
@@ -922,12 +827,16 @@ header {
             margin-bottom: 0;
         }
     }
+/*
     .pager, .dataTables_paginate,
     .views-exposed-form label {
         font-weight: normal;
     }
+*/
 
 }
+
+
 
 // Hide dialogs on first load -------------- //
 
@@ -1790,6 +1699,7 @@ form .field-multiple-table#field-zip-code-values {
 
 .pane-views-recommended-resources-block {
     .lgc-topic-header {
+        display: none;
         padding: 0;
         .lgc-header {
             margin-right: 5px;
@@ -2499,11 +2409,21 @@ div.ctools-modal-content {
 .pane-content {
     .view-content {
         .dataTables_wrapper {
+            padding-top: 10px;          
             .dataTables_info,
             .dataTables_paginate {
-                margin-top: 0;
-                padding-top: 0.25rem;   
+               
             }
+            .dataTables_info {
+                clear: left;
+                float: none;
+                font-size: 1.3rem;
+            }
+            .dataTables_filter {
+            }
+            table {
+              margin-top: 0;
+            }         
         }
     }
 }
@@ -4054,7 +3974,9 @@ ul {
     &.thumb,
     &.list-inline,
     &.ui-tabs-nav,
-    &.ui-autocomplete {
+    &.ui-autocomplete,
+    &.paging_simple,
+    &.paging_simple_numbers {
         li {
             &:before,
             &:after,
@@ -4063,6 +3985,32 @@ ul {
             &.todo_filter_button:before,
             &.todo_filter_button:after {
                 content: none;
+            }
+            &:not(.disabled) {
+                display: table-cell;             
+            }
+        }
+    }
+}
+
+// Prefix E-Enterprise Workbench only and .page-resource-editor with CSS class to avoid overwriting My Facility Manager widget
+.grid-stack-item {
+    .paging_simple {
+        li {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+    }
+    
+    .paging_simple_numbers {
+        span {
+            padding-left: 10px;
+            li {
+                padding-right: 10px;
+                &:not(.disabled) {
+                    display: inline;
+                    font-family: $font-sans !important;
+                }
             }
         }
     }
