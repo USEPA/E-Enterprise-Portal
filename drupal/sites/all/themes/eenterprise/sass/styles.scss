@@ -366,11 +366,13 @@ footer {
 // .ui-widget-content represents any tabs, .ui-widget covers other jQuery elements
 // Select all of them that aren't the Manage Facilities widget
 
-.ui-widget-content:not(#facility-widget),
-.ui-widget:not(#facility-widget),
-#local-resources-tabs {
-    .paging_simple_numbers,
-    .paging_simple {
+.grid-stack-item:not(#facility-widget) .ui-widget,
+.grid-stack-item:not(#facility-widget) .ui-widget-content,
+#local-resources-tabs,
+.view-state-resource-editor,
+.view-resource-editor {
+    ul.paging_simple_numbers,
+    ul.paging_simple {
         float: right;
         margin-top: 0;
         margin-bottom: 20px;
@@ -421,16 +423,16 @@ footer {
         }
     }
     .dataTables_info,
-    .paging_simple_numbers {
-      font-size: 1.4rem;
-      line-height: 1;
-      margin-top: 0;
-      padding-top: 0;
-      > li {
-        display: table-cell;
-      }
+    ul.paging_simple_numbers {
+        font-size: 1.4rem;
+        line-height: 1;
+        margin-top: 0;
+        padding-top: 0;
+        > li {
+            display: table-cell;
+        }
     }
-    .paging_simple {
+    ul.paging_simple {
         .pager-current {
             font-size: 1.4rem;
         }
@@ -438,7 +440,7 @@ footer {
 }
 .grid-stack-item {
     .pager {
-        margin: 0 auto;
+        margin: 0 auto 15px;
         font-size: 1.4rem;
         a {
             font-family: $font-sans !important;
@@ -486,6 +488,11 @@ footer {
     } 
 }
 
+.view-state-resource-editor {
+    label {
+        width: 30rem;
+    }
+}
 
 .not-logged-in {
     .region-header {
@@ -500,7 +507,7 @@ footer {
     display: none;
 }
 
-.admin-menu {
+#admin-menu {
     ul {
         display: initial;
     }
@@ -4059,6 +4066,8 @@ ul {
 
 
 // Prefix E-Enterprise Workbench only and .page-resource-editor with CSS class to avoid overwriting My Facility Manager widget
+.grid-stack-item:not(#facility-widget) .ui-widget,
+.grid-stack-item:not(#facility-widget) .ui-widget-content,
 .grid-stack-item {
     .paging_simple {
         li {
