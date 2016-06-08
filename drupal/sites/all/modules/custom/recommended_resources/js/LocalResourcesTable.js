@@ -40,6 +40,7 @@ var LocalResourcesTable;
     };
 
     var cached = false;
+    var datatable_id = '';
 
     this.wrapper = $wrapper;
 
@@ -74,7 +75,8 @@ var LocalResourcesTable;
           });
           newId++;
           var $table = $('<div>' + table + '</div>'); // wrap contents in a div for now, will unwrap later
-          $table.find('table').attr('id', 'datatable-' + newId);
+          datatable_id = 'datatable-' + newId;
+          $table.find('table').attr('id', datatable_id);
           $wrapper.html($table.html()); // unwrap
 
           $table = $wrapper.find('table');
@@ -110,6 +112,13 @@ var LocalResourcesTable;
         this.ajax_request();
       }
     };
+    this.filterTopics = function (topic_text) {
+      if (datatable_id !== '') {
+        var $table = $('#' + datatable_id);
+        $table.DataTable().columns().search(topic_text).draw();
+      }
+    }
+
   };
 })(jQuery);
 
