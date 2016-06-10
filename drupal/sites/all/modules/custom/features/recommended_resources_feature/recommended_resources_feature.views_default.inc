@@ -139,6 +139,93 @@ function recommended_resources_feature_views_default_views() {
   $export['lgc_manage_my_topics'] = $view;
 
   $view = new view();
+  $view->name = 'lgc_resources';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'json';
+  $view->human_name = 'LGC Resources';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'LGC Resources';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['json_file'] = 'http://localhost/rcs_lgc_resources_json_all';
+  $handler->display->display_options['query']['options']['row_apath'] = 'resources';
+  $handler->display->display_options['query']['options']['show_errors'] = 1;
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['style_plugin'] = 'datatables';
+  /* Field: ResourceName: value */
+  $handler->display->display_options['fields']['value']['id'] = 'value';
+  $handler->display->display_options['fields']['value']['table'] = 'json';
+  $handler->display->display_options['fields']['value']['field'] = 'value';
+  $handler->display->display_options['fields']['value']['label'] = 'Name';
+  $handler->display->display_options['fields']['value']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['value']['key'] = 'ResourceName';
+  /* Field: DescriptionText: value */
+  $handler->display->display_options['fields']['value_1']['id'] = 'value_1';
+  $handler->display->display_options['fields']['value_1']['table'] = 'json';
+  $handler->display->display_options['fields']['value_1']['field'] = 'value';
+  $handler->display->display_options['fields']['value_1']['label'] = 'Description';
+  $handler->display->display_options['fields']['value_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['value_1']['key'] = 'DescriptionText';
+  /* Field: LocationResourceText: value */
+  $handler->display->display_options['fields']['value_2']['id'] = 'value_2';
+  $handler->display->display_options['fields']['value_2']['table'] = 'json';
+  $handler->display->display_options['fields']['value_2']['field'] = 'value';
+  $handler->display->display_options['fields']['value_2']['label'] = 'URL';
+  $handler->display->display_options['fields']['value_2']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['value_2']['key'] = 'LocationResourceText';
+  /* Field: TopicText: value */
+  $handler->display->display_options['fields']['value_3']['id'] = 'value_3';
+  $handler->display->display_options['fields']['value_3']['table'] = 'json';
+  $handler->display->display_options['fields']['value_3']['field'] = 'value';
+  $handler->display->display_options['fields']['value_3']['label'] = 'Topic';
+  $handler->display->display_options['fields']['value_3']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['value_3']['key'] = 'TopicText';
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="lgc-resource-link"><a href="[value_2]" target="_blank">[value]</a></span>
+<span class="lgc-resource-description ee-bootstrap-tooltip" data-toggle="tooltip" title=[value_1]>[value_1]</span>
+<span class="lgc-resource-topic">[value_3]</span>';
+
+  /* Display: page */
+  $handler = $view->new_display('page', 'page', 'page');
+  $handler->display->display_options['path'] = 'lgc-resources';
+
+  /* Display: All Resources */
+  $handler = $view->new_display('block', 'All Resources', 'rcs_resources_all');
+
+  /* Display: Resources by Topic */
+  $handler = $view->new_display('block', 'Resources by Topic', 'rcs_resources_topic');
+  $handler->display->display_options['defaults']['query'] = FALSE;
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['json_file'] = 'http://localhost/rcs_lgc_resources_json_by_topic';
+  $handler->display->display_options['query']['options']['row_apath'] = 'resources';
+  $handler->display->display_options['query']['options']['show_errors'] = 1;
+
+  /* Display: Resources by User */
+  $handler = $view->new_display('block', 'Resources by User', 'rcs_resources_user');
+  $handler->display->display_options['defaults']['query'] = FALSE;
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['json_file'] = 'http://localhost/rcs_lgc_resources_json_by_user';
+  $handler->display->display_options['query']['options']['row_apath'] = 'resources';
+  $handler->display->display_options['query']['options']['show_errors'] = 1;
+
+  /* Display: LGC Resource Page Wrapper */
+  $handler = $view->new_display('block', 'LGC Resource Page Wrapper', 'block_1');
+  $export['lgc_resources'] = $view;
+
+  $view = new view();
   $view->name = 'local_government_resource_editor';
   $view->description = '';
   $view->tag = 'default';

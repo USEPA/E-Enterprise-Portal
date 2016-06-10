@@ -397,7 +397,6 @@ function load_data_from_rcs() {
     variable_set('rcs_cache_load_time', time());
     return $resources_array;
   }
-
   else {
     return $cache;
   }
@@ -429,6 +428,7 @@ function lgc_user_tids($uid) {
  * returns lgc resource by what topics the user has selected in their profile or lgc widget
  */
 function rcs_lgc_resources_json_by_user() {
+
   global $user;
   $uid = $user->uid;
   $user_lgc_tids = lgc_user_tids($uid);
@@ -440,7 +440,6 @@ function rcs_lgc_resources_json_by_user() {
       $response['resources'][] = $resource_data;
     }
   }
-
   print json_encode($response);
   exit();
 }
