@@ -299,6 +299,9 @@
               new ResizeSensor(jQuery('.view-content'), _.debounce(function() {
                 resizeCallback(grid);
               }, 150));
+              new ResizeSensor(jQuery('#cdx-logged-in-options'), _.debounce(function() {
+                resizeCallback(grid);
+              }, 150));
               $(document).ajaxComplete(_.debounce(function() {
                 resizeCallback(grid);
               }, 150));
