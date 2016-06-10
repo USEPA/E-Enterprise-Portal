@@ -291,18 +291,19 @@
           }
 
 
+          // @see http://benalman.com/projects/jquery-throttle-debounce-plugin/
           function addResizeSensors(grid) {
             if (typeof ResizeSensor !== 'undefined') {
-              new ResizeSensor(jQuery('.grid-stack-item'), _.debounce(function() {
+              new ResizeSensor(jQuery('.grid-stack-item'), _.throttle(function() {
                 resizeCallback(grid);
               }, 150));
-              new ResizeSensor(jQuery('.view-content'), _.debounce(function() {
+              new ResizeSensor(jQuery('.view-content'), _.throttle(function() {
                 resizeCallback(grid);
               }, 150));
-              new ResizeSensor(jQuery('#cdx-logged-in-options'), _.debounce(function() {
+              new ResizeSensor(jQuery('#cdx-logged-in-options'), _.throttle(function() {
                 resizeCallback(grid);
               }, 150));
-              $(document).ajaxComplete(_.debounce(function() {
+              $(document).ajaxComplete(_.throttle(function() {
                 resizeCallback(grid);
               }, 150));
             }
