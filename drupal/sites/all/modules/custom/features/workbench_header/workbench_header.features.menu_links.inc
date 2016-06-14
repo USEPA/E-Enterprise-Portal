@@ -10,24 +10,7 @@
 function workbench_header_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: main-menu_app-connect:app-connect
-  $menu_links['main-menu_app-connect:app-connect'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'app-connect',
-    'router_path' => 'app-connect',
-    'link_title' => 'App Connect',
-    'options' => array(
-      'identifier' => 'main-menu_app-connect:app-connect',
-    ),
-    'module' => 'system',
-    'hidden' => 1,
-    'external' => 0,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => -49,
-    'customized' => 1,
-  );
-  // Exported menu link: main-menu_app-connect:app-connect-new
+  // Exported menu link: main-menu_app-connect:app-connect-new.
   $menu_links['main-menu_app-connect:app-connect-new'] = array(
     'menu_name' => 'main-menu',
     'link_path' => 'app-connect-new',
@@ -47,7 +30,7 @@ function workbench_header_menu_default_menu_links() {
     'weight' => 1,
     'customized' => 1,
   );
-  // Exported menu link: main-menu_home:<front>
+  // Exported menu link: main-menu_home:<front>.
   $menu_links['main-menu_home:<front>'] = array(
     'menu_name' => 'main-menu',
     'link_path' => '<front>',
@@ -67,7 +50,7 @@ function workbench_header_menu_default_menu_links() {
     'weight' => -50,
     'customized' => 1,
   );
-  // Exported menu link: management_footer-disclaimers:admin/structure/menu/manage/menu-footer-disclaimers
+  // Exported menu link: management_footer-disclaimers:admin/structure/menu/manage/menu-footer-disclaimers.
   $menu_links['management_footer-disclaimers:admin/structure/menu/manage/menu-footer-disclaimers'] = array(
     'menu_name' => 'management',
     'link_path' => 'admin/structure/menu/manage/menu-footer-disclaimers',
@@ -85,7 +68,7 @@ function workbench_header_menu_default_menu_links() {
     'customized' => 0,
     'parent_identifier' => 'management_menus:admin/structure/menu',
   );
-  // Exported menu link: menu-footer-disclaimers_accessibility:http://www2.epa.gov/accessibility
+  // Exported menu link: menu-footer-disclaimers_accessibility:http://www2.epa.gov/accessibility.
   $menu_links['menu-footer-disclaimers_accessibility:http://www2.epa.gov/accessibility'] = array(
     'menu_name' => 'menu-footer-disclaimers',
     'link_path' => 'http://www2.epa.gov/accessibility',
@@ -105,7 +88,7 @@ function workbench_header_menu_default_menu_links() {
     'weight' => -47,
     'customized' => 1,
   );
-  // Exported menu link: menu-footer-disclaimers_conditions-of-use:ee_disclaimer
+  // Exported menu link: menu-footer-disclaimers_conditions-of-use:ee_disclaimer.
   $menu_links['menu-footer-disclaimers_conditions-of-use:ee_disclaimer'] = array(
     'menu_name' => 'menu-footer-disclaimers',
     'link_path' => 'ee_disclaimer',
@@ -125,7 +108,7 @@ function workbench_header_menu_default_menu_links() {
     'weight' => -46,
     'customized' => 1,
   );
-  // Exported menu link: menu-footer-disclaimers_e-enterprise-home:http://www2.epa.gov/e-enterprise/about-e-enterprise-environment
+  // Exported menu link: menu-footer-disclaimers_e-enterprise-home:http://www2.epa.gov/e-enterprise/about-e-enterprise-environment.
   $menu_links['menu-footer-disclaimers_e-enterprise-home:http://www2.epa.gov/e-enterprise/about-e-enterprise-environment'] = array(
     'menu_name' => 'menu-footer-disclaimers',
     'link_path' => 'http://www2.epa.gov/e-enterprise/about-e-enterprise-environment',
@@ -145,7 +128,7 @@ function workbench_header_menu_default_menu_links() {
     'weight' => -50,
     'customized' => 1,
   );
-  // Exported menu link: menu-footer-disclaimers_faqs:faqs
+  // Exported menu link: menu-footer-disclaimers_faqs:faqs.
   $menu_links['menu-footer-disclaimers_faqs:faqs'] = array(
     'menu_name' => 'menu-footer-disclaimers',
     'link_path' => 'faqs',
@@ -165,7 +148,7 @@ function workbench_header_menu_default_menu_links() {
     'weight' => -49,
     'customized' => 1,
   );
-  // Exported menu link: menu-footer-disclaimers_privacy-and-security-notice:http://www2.epa.gov/home/privacy-and-security-notice
+  // Exported menu link: menu-footer-disclaimers_privacy-and-security-notice:http://www2.epa.gov/home/privacy-and-security-notice.
   $menu_links['menu-footer-disclaimers_privacy-and-security-notice:http://www2.epa.gov/home/privacy-and-security-notice'] = array(
     'menu_name' => 'menu-footer-disclaimers',
     'link_path' => 'http://www2.epa.gov/home/privacy-and-security-notice',
@@ -185,7 +168,7 @@ function workbench_header_menu_default_menu_links() {
     'weight' => -48,
     'customized' => 1,
   );
-  // Exported menu link: menu-footer-disclaimers_release-notes:release-notes
+  // Exported menu link: menu-footer-disclaimers_release-notes:release-notes.
   $menu_links['menu-footer-disclaimers_release-notes:release-notes'] = array(
     'menu_name' => 'menu-footer-disclaimers',
     'link_path' => 'release-notes',
@@ -205,6 +188,7 @@ function workbench_header_menu_default_menu_links() {
     'weight' => -45,
     'customized' => 1,
   );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Accessibility');
@@ -216,7 +200,6 @@ function workbench_header_menu_default_menu_links() {
   t('Home');
   t('Privacy and Security Notice');
   t('Release Notes');
-
 
   return $menu_links;
 }

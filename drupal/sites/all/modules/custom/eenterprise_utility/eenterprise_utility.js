@@ -8,6 +8,27 @@
   var lastVal;
   // Map of location and zip data
   var location_obj = {};
+  // Flags for when to search for location information
+  var enter_pressed = false; // When user deliberately presses enter in a location
+  var show_locations_again = false; // When the location errored but returned multiple options.
+  var initial_load = true;
+
+  // Disables entering the form by key press when focused on an input
+  Drupal.behaviors.DisableInputEnter = {
+    attach: function (context, settings) {
+      $('input', context).once('disable-input-enter', function () {
+        $(this).keypress(function (e) {
+          var $elem = $(this);
+          if (e.keyCode == 13) {
+            enter_pressed = true;
+            $elem.blur();
+            e.preventDefault();
+          }
+        });
+      });
+    }
+  };
+
 
   function placeAddAnotherButton(ajax_content, table_id, parent_id) {
     var table = $(table_id);
@@ -30,6 +51,8 @@
   }
 
   function processPrimaryFields() {
+    var reset_buttons = false;
+    var hide_buttons = false;
     var $zipcode_description = $('#zipcode_description');
     $('body').find('.field-multiple-table').removeClass('sticky-enabled');
     $('#profile-locations').find('.sticky-header').remove();
@@ -56,8 +79,8 @@
       setPrimaryZip();
     }
 
-    // If location error exists, lock down buttons to avoid accidental submit
-    var $city_lookup = $('#city-state-lookup-zips');
+    // If city select exist, lock submit and focus on select
+    var $city_lookup = $('.city-state-lookup-zips');
     if ($city_lookup.length == 0) {
       $('.form-submit').prop("disabled", false);
       table.find("tr:last").find('.field_zip_code').focus();
@@ -70,23 +93,28 @@
     // If location error exists, lock down buttons to avoid accidental submit
     var fixInput;
 
-    if ($('.field-suffix').hasClass('error')) {
-      hideButtons();
+    if (!$('.field-suffix').hasClass('error')) {
+      reset_buttons = true;
+    } else {
+      hide_buttons = true;
       fixInput = $('.field-suffix.error').closest('td').find('.field_zip_code');
       fixInput.focus();
     }
-    else {
+
+    if (numSelects > 0) {
+      hide_buttons = true;
+    }
+
+    if (hide_buttons) {
+      hideButtons();
+    }
+    if (reset_buttons && !existingLocationErrors()) {
       resetButtons();
     }
 
-    if (numSelects > 0) {
-      hideButtons();
-      fixInput = $zipcode_description.find('select').closest('td').find('.field_zip_code');
-      fixInput.focus();
-    }
     var $field_add_more_submit = $('#links_description').find('.field-add-more-submit');
     $field_add_more_submit.prop("value", "New favorite").addClass("usa-button");
-
+    $('.field_zip_code').prop("disabled", false);
   }
 
   function setPrimaryZip() {
@@ -94,32 +122,36 @@
   }
 
   function setCommunitySizeType(commsize, isurban) {
-    if (commsize && isurban) {
-      if (isurban == "1") {
-        $('#edit-field-community-type-und-urban').prop('checked', true);
-      } else {
-        $('#edit-field-community-type-und-rural').prop('checked', true);
-      }
+    var $urban_check =  $('#edit-field-community-type-und');
+    var $comm_size_select =  $('#edit-field-community-size-und');
+    // Reset Population and Urban setting selections
+    $urban_check.val("_none").find('input[value="_none"]').prop("checked", true);
+    $comm_size_select.find('option[value="_none"]').prop('selected', true);
+    if (typeof(commsize) !== 'undefined' && commsize !== '' && parseInt(commsize) >= 0) {
       var selected_pop = parseInt(commsize);
       if (selected_pop < 5000) {
-        $('#edit-field-community-size-und option:contains("0 - 5,000")').prop('selected', true);
+        $comm_size_select.find('option:contains("0 - 5,000")').prop('selected', true);
       } else if (selected_pop < 10000) {
-        $('#edit-field-community-size-und option:contains("5,000 - 10,000")').prop('selected', true);
+        $comm_size_select.find('option:contains("5,000 - 10,000")').prop('selected', true);
       } else if (selected_pop < 25000) {
-        $('#edit-field-community-size-und option:contains("10,000 - 25,000")').prop('selected', true);
+        $comm_size_select.find('option:contains("10,000 - 25,000")').prop('selected', true);
       } else if (selected_pop < 100000) {
-        $('#edit-field-community-size-und option:contains("25,000 - 100,000")').prop('selected', true);
+        $comm_size_select.find('option:contains("25,000 - 100,000")').prop('selected', true);
       } else if (selected_pop < 1000000) {
-        $('#edit-field-community-size-und option:contains("100,000 - 1,000,000")').prop('selected', true);
+        $comm_size_select.find('option:contains("100,000 - 1,000,000")').prop('selected', true);
       } else {
-        $('#edit-field-community-size-und option:contains("1,000,000+")').prop('selected', true);
+        $comm_size_select.find('option:contains("1,000,000+")').prop('selected', true);
       }
-    } else {
-      // Reset options if not found in census data
-      $('#edit-field-community-type-und-urban').prop('checked', false);
-      $('#edit-field-community-type-und-rural').prop('checked', false);
-      $('#edit-field-community-type-und-none').prop('checked', true);
-      $('#edit-field-community-size-und').find('option:contains(None)').prop('selected', true);
+    }
+  if ((typeof(isurban) !== 'undefined' && isurban !== '' && isurban.toString() !== "NaN")) {
+      if (isurban === 1) {
+        $urban_check.val("urban").find('input[value="urban"]').prop("checked", true);
+      } else if (isurban === 0) {
+        $urban_check.val("rural").find('input[value="rural"]').prop("checked", true);
+      }
+      else {
+        $urban_check.val("rural").find('input[value="_none"]').prop("checked", true);
+      }
     }
 
   }
@@ -131,24 +163,48 @@
    * @param commsize
    * @param isurban
    */
-  function update_user_zip_preferences(location_name, commsize, isurban, input_to_ignore) {
+  function update_user_zip_preferences(input_to_ignore) {
+    if (typeof(input_to_ignore) === 'undefined') input_to_ignore = "";
     // Reset global location_obj
-    hideButtons();
     location_obj = {};
 
-    $("[id*=field-zip-code-values]").find("tr").each(function () {
+
+    var count_ignore_tr = 0;
+    $("[id*=field-zip-code-values]").find("tr").each(function (index) {
       var $tr = $(this);
-      var zip_id = $tr.find(".field_zip_code").attr('id');
+      var $zip_code_input = $tr.find(".field_zip_code");
+      var zip_id = $zip_code_input.attr('id');
       var $field_suffix = $tr.find('.field-suffix');
+      if (!$field_suffix.hasClass('field-suffix-data')) {
+        $field_suffix = $field_suffix.find('.field-suffix-data');
+      }
       // Do not add items that have errored or are currently being changed
-      if (zip_id == input_to_ignore || $field_suffix.hasClass('error')) {
+      if (zip_id == input_to_ignore || zip_id == null) {
+        count_ignore_tr = count_ignore_tr + 1;
         return true; // Skip to next iteration
       }
+      // If the field has an error, we still need to account for the delta, so don't add to count_ignore_tr
+      if ($field_suffix.hasClass('error')) {
+        return true; // Skip to next iteration
+      }
+      index = index - count_ignore_tr;
       var zip = $tr.find(".field_zip_code").val();
-      var name = $field_suffix.text();
+      var name = $field_suffix.text().trim();
       var primary = $tr.find('.field-name-field-field-primary input').prop('checked');
+      var urban = $field_suffix.attr('isurban');
+      if (urban !== "_none") {
+        urban = parseInt($field_suffix.attr('isurban'));
+      }
+      var pop = parseInt($field_suffix.attr('commsize'));
+
       if (primary) {
         primary = 1;
+        // If primary set comm size and urban flag
+        if (!initial_load) {
+          setCommunitySizeType(pop, urban);
+        } else {
+          initial_load = false;
+        }
       }
       else {
         primary = 0;
@@ -161,48 +217,56 @@
         // Store zip and primary
         location_obj[name][zip] = {};
         location_obj[name][zip].primary = primary;
+        location_obj[name][zip].delta = index;
         // If this is the latest name, add community data
-        if (name == location_name) {
-          location_obj[name][zip].commsize = commsize;
-          location_obj[name][zip].is_urban = isurban;
-        }
+        location_obj[name][zip].commsize = pop;
+        location_obj[name][zip].is_urban = urban;
       }
     });
-    location_obj = {zip_data: location_obj};
-    $.ajax({
-      url: "/user_preferred_locations/add_to_session",
-      method: "POST",
-      data: location_obj,
-      success: function (response) {
-        response = $.parseJSON(response);
-        console.log(response);
-        resetButtons();
-
-      }
-    });
+    var json_value = JSON.stringify(location_obj);
+    $('#edit-zip-mapping').val(json_value);
   }
 
   function check_duplicate(location_name, zip_val) {
-    return (location_obj["zip_data"][location_name] && location_obj["zip_data"][location_name][zip_val]);
-  }
-
-  function updateCommunitySettings() {
-    var primary_offset = /form-item-field-zip-code-und-(\d+)/.exec($(".zip-code-primary-select.selected").parent().parent()[0].className)[1];
-    var primary_zip = $('#city-name-' + primary_offset);
-    setCommunitySizeType(primary_zip.attr('commsize'), primary_zip.attr('isurban'));
+    zip_val = parseInt(zip_val);
+    location_name = location_name.trim();
+    return (location_obj[location_name] && location_obj[location_name][zip_val]);
   }
 
   function inString(str, substring) {
     return str.indexOf(substring) >= 0;
   }
 
-  function print_error_message(field_suffix, message) {
+  // When an error occurs, disabled removal/ addition of
+  // rows except for the input that is errored
+  function disable_zip_buttons(input_to_ignore) {
+    $('.remove-button').prop('disabled', true);
+    $('input.field_zip_code').prop('disabled', true);
+    if (input_to_ignore != "all") {
+      var remove_to_ignore = input_to_ignore.closest('tr').find('.remove-button').attr('id');
+      $('#' + remove_to_ignore).attr('disabled', false);
+      input_to_ignore.closest('tr').find('.field_zip_code').prop('disabled', false);
+    }
+  }
+
+
+  // Appends error message to given field suffix elem
+  function print_error_message($field_suffix, message) {
     // Print error message
+    lastVal = $field_suffix.prev().val();
     failedLookup = true;
-    field_suffix.addClass('error').html(message);
-    field_suffix.attr("id", "zip-code-error");
-    field_suffix.prev().attr("aria-describedby", "zip-code-error");
+    if ($field_suffix.parent().hasClass('field-suffix')) {
+      $field_suffix.parent().addClass('error');
+      $field_suffix.parent().attr("id", "zip-code-error");
+      $field_suffix.parent().prev().attr("aria-describedby", "zip-code-error");
+    } else {
+      $field_suffix.addClass('error');
+      $field_suffix.attr("id", "zip-code-error");
+      $field_suffix.prev().attr("aria-describedby", "zip-code-error");
+    }
+    $field_suffix.html(message);
     are_there_errors = true;
+    update_user_zip_preferences();
     hideButtons();
   }
 
@@ -212,6 +276,9 @@
     var primary_indicator = input.closest('td').find('.zip-code-primary-holder');
     var location = input.val();
     var field_suffix = input.next('.field-suffix');
+    if (!field_suffix.hasClass('field-suffix-data')) {
+      field_suffix = field_suffix.find('.field-suffix-data');
+    }
     var label_select_string = "";
     var select;
 
@@ -249,7 +316,6 @@
       numSelects = 0;
       field_suffix.html('');
       input.prop("disabled", false);
-      //$('#profile-locations').find('#zip-label').remove();
       $('#profile-locations').find('#city-state-lookup-zips').remove();
       back.remove();
       confirm.remove();
@@ -260,8 +326,10 @@
       primary_indicator.show();
       field_suffix.addClass('error');
       field_suffix.html('Please update your location or remove this field before saving.');
-      processPrimaryFields();
+      disable_zip_buttons(input);
+      input.prop('disabled', false);
       input.focus();
+      update_user_zip_preferences();
     });
     confirm.on('click', function () {
       var input_value = input.val();
@@ -278,10 +346,10 @@
         zip_val = input_value;
         if (check_duplicate(location_name, zip_val)) {
           print_error_message(field_suffix, "Duplicate location name and zip code pairs are not allowed.");
+          disable_zip_buttons(input);
           duplicate = true;
         } else {
           input.val(zip_val);
-          field_suffix.html(location_name);
           if (location_data.zip_attr && zip_val in location_data.zip_attr) {
             pop = location_data.zip_attr[zip_val].pop;
             urban = location_data.zip_attr[zip_val].urban;
@@ -289,6 +357,17 @@
           if (location_data.city_attr && location_name in location_data.city_attr) {
             pop = location_data.city_attr[location_name].pop;
           }
+          // If pop returned 0 rewrite to -1 so it does not select
+          if (parseInt(pop) === 0) {
+            pop = -1;
+          }
+          if (urban == "Urban") {
+            field_suffix.attr('isurban', '1');
+          } else if (urban == "Rural") {
+            field_suffix.attr('isurban', '0');
+          }
+          field_suffix.text(location_name)
+            .attr('commsize', pop);
         }
       }
       else { // type city or tribe
@@ -297,9 +376,10 @@
         // Set duplicate flag if the location and zip has already been entered.
         if (check_duplicate(location_name, zip_val)) {
           print_error_message(field_suffix, "Duplicate location name and zip code pairs are not allowed.");
+          disable_zip_buttons(input);
           duplicate = true;
         } else {
-          field_suffix.html(location_name);
+          field_suffix.html('<span>' + location_name + '</span>');
           input.val(zip_val);
           if (location_data.zip_attr && zip_val in location_data.zip_attr) {
             pop = location_data.zip_attr[zip_val].pop;
@@ -308,8 +388,22 @@
           if (location_data.city_attr && location_name in location_data.city_attr) {
             pop = location_data.city_attr[location_name].pop;
           }
+          if (urban == "Urban") {
+            field_suffix.attr('isurban', '1');
+          } else if (urban == "Rural") {
+            field_suffix.attr('isurban', '0');
+          }
+          field_suffix.text(location_name)
+            .attr('commsize', pop);
         }
       }
+
+      label_select.remove();
+      select.remove();
+      remove_button.show();
+      primary_indicator.show();
+      numSelects = 0;
+
       if (!duplicate) {
         field_suffix.attr('commsize', pop);
         if (urban == "Urban") {
@@ -317,21 +411,15 @@
         } else if (urban == "Rural") {
           field_suffix.attr('isurban', '0');
         }
-        // Update community/rural data
-        updateCommunitySettings();
         // Update all location data
-        update_user_zip_preferences(location_name, pop, urban, "");
+        update_user_zip_preferences();
+        processPrimaryFields();
+        if (!existingLocationErrors()) {
+          resetButtons();
+        }
       }
-      label_select.remove();
-      select.remove();
-      remove_button.show();
-      primary_indicator.show();
-      if (!existingLocationErrors()) {
-        resetButtons();
-      }
-      numSelects = 0;
+
       input.prop("disabled", false);
-      processPrimaryFields();
       input.focus();
 
     });
@@ -354,8 +442,19 @@
       // This is an override of the drupal add and save to allow the zip code data to process before saving
       input = fieldToCheck;
       var field_suffix = input.next('.field-suffix');
+      if (!field_suffix.hasClass('field-suffix-data')) {
+        if (field_suffix.find('.field-suffix-data').length === 0) {
+          field_suffix.addClass('field-suffix-data');
+        }
+        else {
+          field_suffix = field_suffix.find('.field-suffix-data');
+        }
+      }
       if (field_suffix.hasClass('error')) {
         field_suffix.removeClass('error');
+      }
+      if (field_suffix.parent().hasClass('error')) {
+        field_suffix.parent().removeClass('error');
       }
       if ($.trim(input.val()) == '') {
         field_suffix.html('');
@@ -364,15 +463,15 @@
         var ariaid = input.attr('aria-describedby');
         field_suffix.attr('id', ariaid);
         field_suffix.html('Loading...');
+        disable_zip_buttons("all");
         Drupal.settings.locationInputEngine.lookUpLocation(input.val()).done(function (location_data) {
           var zip;
           var location_name;
-          var pop = 0;
+          var pop = -1;
           var urban = "";
           var duplicate = false;
-
           // Update location data to check for duplicates, ignoring this input-
-          update_user_zip_preferences("", "", "", input.attr('id'));
+          update_user_zip_preferences(input.attr('id'));
 
           // If zip codes, then returning zip code data for string input
           if (location_data.zip_codes) {
@@ -388,12 +487,14 @@
 
             input.val(zip);
 
+            // Check if state included. If not, it is a tribe
             if (location_data.state != '') {
               // Add state information
               location_name = location_name + ', ' + location_data.state;
             }
             if (check_duplicate(location_name, zip)) {
               print_error_message(field_suffix, "Duplicate location name (" + location_name + ") and zip code pairs are not allowed.");
+              disable_zip_buttons(input);
               duplicate = true;
             }
             if (!duplicate) {
@@ -406,6 +507,10 @@
               if (location_data.city_attr && location_name in location_data.city_attr) {
                 pop = location_data.city_attr[location_name].pop;
               }
+              // If pop returned 0 rewrite to -1 so it does not select
+              if (parseInt(pop) === 0) {
+                pop = -1;
+              }
               field_suffix.html(location_name);
               field_suffix.attr('commsize', pop);
               if (urban == "Urban") {
@@ -413,8 +518,8 @@
               } else if (urban == "Rural") {
                 field_suffix.attr('isurban', '0');
               }
-              update_user_zip_preferences(location_name, pop, urban);
-              updateCommunitySettings();
+              processPrimaryFields();
+              update_user_zip_preferences();
             }
           } // Ends if location_data.zip_codes
           else { // Returning zip codes for selection
@@ -431,6 +536,7 @@
             location_name = location_data.city[0];
             if (check_duplicate(location_name, zip)) {
               print_error_message(field_suffix, "Duplicate location name (" + location_name + ") and zip code pairs are not allowed.");
+              disable_zip_buttons(input);
               duplicate = true;
             }
             if (!duplicate) {
@@ -442,28 +548,33 @@
               if (location_data.city_attr && location_name in location_data.city_attr) {
                 pop = location_data.city_attr[location_name].pop;
               }
+              // If pop returned 0 rewrite to -1 so it does not select
+              if (parseInt(pop) === 0) {
+                pop = -1;
+              }
               field_suffix.attr('commsize', pop);
               if (urban == "Urban") {
                 field_suffix.attr('isurban', '1');
               } else if (urban == "Rural") {
                 field_suffix.attr('isurban', '0');
               }
-              update_user_zip_preferences(location_name, pop, urban);
-              updateCommunitySettings();
+
+              update_user_zip_preferences();
+              $('.remove-button').prop("disabled", false);
             }
           }
           if (!existingLocationErrors()) {
             resetButtons();
           }
-          processPrimaryFields();
+          // processPrimaryFields();
           moveAddButton();
           field_suffix.closest("td").find('.field_zip_code').focus();
         }).fail(function (location_data) {
           print_error_message(field_suffix, location_data.error_message);
+          disable_zip_buttons(input);
         });
       }
     }
-    input.focus();
   } // End checkLocation
 
   // Enable Save button / plus button
@@ -473,20 +584,15 @@
     $('#edit-submit').prop("disabled", false);
     $('#edit-submit--2').prop("disabled", false);
     $('#edit-delete').prop("disabled", false);
-    if (removedSelect == true || failedLookup == true) {
-      $('.remove-button').prop("disabled", false);
-    }
+    $('.field_zip_code').prop("disabled", false);
   }
 
   // On an Drupal Ajax call- if there is an error, hide the actual Save and +
   function hideButtons() {
-    $('#edit-field-zip-code .field-add-more-submit').prop("disabled", true);
+    $('#edit-field-zip-code').find('.field-add-more-submit').prop("disabled", true);
     $('#edit-submit').prop("disabled", true);
     $('#edit-submit--2').prop("disabled", true);
     $('#edit-delete').prop("disabled", true);
-    if (removedSelect == true || failedLookup == true) {
-      $('.remove-button').prop("disabled", false);
-    }
   }
 
   /**
@@ -498,7 +604,67 @@
     return num_errors > 0;
   }
 
+  /**
+   * When the user edits the location size and urban flag, update the currently select primary setting
+   * @param comm_size
+   * @param isurban
+   */
+  function updatePrimaryLocationDataSize($select_elem) {
+    var select_text = $select_elem.text();
+    var replace_text = select_text.replace(/,/g, '').replace(' ', '').replace('+', '');
+    var location_of_dash = replace_text.indexOf('-');
+    var number_text;
+    if (location_of_dash > -1) {
+      number_text = replace_text.substr(0, replace_text.indexOf('-'));
+    } else {
+      number_text = replace_text;
+    }
+    var number = parseInt(number_text);
+    var $primary = $('.field-name-field-field-primary').find('input:checked');
+    var $field_suffix = $primary.closest('tr').find('.field-suffix');
+    if ($field_suffix.find('.field-suffix-data').length > 0) {
+      $field_suffix.find('.field-suffix-data').attr('commsize', number);
+    } else {
+      $field_suffix.attr('commsize', number);
+    }
+  }
+
+  function updatePrimaryLocationDataUrban(urban) {
+    var $primary = $('.field-name-field-field-primary').find('input:checked');
+    var $field_suffix = $primary.closest('tr').find('.field-suffix');
+    var isurban = "_none";
+    if (urban === "urban") {
+      isurban  = 1;
+    } else if (urban === "rural") {
+      isurban = 0;
+    }
+    if ($field_suffix.find('.field-suffix-data').length <= 0) {
+      $field_suffix.attr("isurban", isurban);
+    } else {
+      $field_suffix.find('.field-suffix-data').attr("isurban", isurban);
+    }
+  }
+
+
   $(document).ready(function () {
+
+    // If No radio selection has been made, select "N/A". This has not action in Drupal's db so it is not set by defautl
+    var $urban_check =  $('#edit-field-community-type-und');
+    if ($urban_check.find('input:checked').length === 0) {
+      $urban_check.val("_none").find('input[value="_none"]').prop("checked", true);
+    }
+
+    $urban_check.find('input').change( function() {
+      var isurban = $(this).val();
+      updatePrimaryLocationDataUrban(isurban);
+      update_user_zip_preferences();
+    });
+
+    $('#edit-field-community-size-und').change( function() {
+      updatePrimaryLocationDataSize($(this).find('option:selected'));
+      update_user_zip_preferences();
+    });
+
 
     $('body').find('.field-multiple-table').removeClass('sticky-enabled');
     $('#profile-locations').find('.sticky-header').remove();
@@ -509,6 +675,12 @@
     });
 
     $('body').on('click', '.zip-code-primary-select', function () {
+      var $field_suffix = $(this).closest('tr').find('.field-suffix');
+      if (!$field_suffix.hasClass('field-suffix-data')) {
+        $field_suffix = $field_suffix.find('.field-suffix-data');
+      }
+      var comm_size = $field_suffix.attr('commsize');
+      var urban = $field_suffix.attr('isurban');
       $('.zip-code-primary-select.selected').removeClass('selected');
       $('.zip-code-primary-select').prop('title', 'Set to default location');
       $('.zip-code-primary-select').closest('td').find('input[type=checkbox]:checked').prop('checked', false);
@@ -525,11 +697,9 @@
       var screenreader_indicator = $(this).find('.sr-only');
       screenreader_indicator.text('Default location');
       // get location offset by regexing the id
-      var primary_offset = /form-item-field-zip-code-und-(\d+)/.exec(selected_icon.parent().parent()[0].className)[1];
-      var primary_zip = $('#city-name-' + primary_offset);
-      setCommunitySizeType(primary_zip.attr('commsize'), primary_zip.attr('isurban'));
+      setCommunitySizeType(comm_size, urban);
       //update session data without adding new community data
-      update_user_zip_preferences("", "", "");
+      update_user_zip_preferences();
     });
 
     $('body').on('click', '.zip-code-primary-select.selected', function () {
@@ -537,7 +707,7 @@
       $(this).prop('title', 'Set to default location');
       var selected_icon = $(this).find('i');
       selected_icon.removeClass('fa-star');
-      selected_icon.addClass('fa-star-empty');
+      selected_icon.addClass('fa-star-o');
       selected_icon.closest('td').find('input[type=checkbox]').prop('checked', false);
       var screenreader_indicator = $(this).find('.sr-only');
       screenreader_indicator.text('Set to default location');
@@ -548,20 +718,10 @@
       lastVal = $(this).val();
       $('.field_zip_code').on('change', function () {
         $('.form-submit').prop("disabled", true);
-       // $('.field-suffix').removeClass('error')
       });
       $(".field_zip_code").keyup(function (e) {
         if ($(this).val() != '' && (lastVal != $(this).val())) {
           hideButtons();
-        }
-        if (e.which == 13) { // Enter key
-          if (!$('.field-suffix').hasClass('error')) {
-            $(this).blur();
-          }
-          else {
-            hideButtons();
-            $(this).closest("td").find(".field_zip_code").focus();
-          }
         }
       });
     });
@@ -573,10 +733,13 @@
     });
 
     $('body').on('blur', '.field_zip_code', function (e) {
-      if (lastVal != $(this).val()) {
+      // Search for location on Enter click even if same value
+      if (lastVal != $(this).val() || enter_pressed || show_locations_again) {
         fieldChanged = $(e.target);
         checkLocation(fieldChanged, "textfield");
-        fieldChanged.closest("td").find(".field_zip_code").focus();
+        // Reset flags
+        enter_pressed = false;
+        show_locations_again = false;
       }
     });
 
@@ -599,7 +762,6 @@
     var page = path.split('/')[1];
     if (page == 'user') {
 
-
       $("#edit-submit").prependTo(".edit-user-profile");
       $(document).ajaxSuccess(function (event, xhr, settings) {
         var target_url = settings.url;
@@ -612,7 +774,7 @@
             resetButtons();
           }
           // Update zip session data
-          update_user_zip_preferences("", "", "");
+          update_user_zip_preferences();
         }
         // determine which table to place the Add Another button
         if (target_url == '/system/ajax' || target_url == '/multifield/field-remove-item/ajax') {
@@ -626,7 +788,6 @@
             }
           });
           if (inString(table_id, 'zip-code')) {
-            processPrimaryFields();
             parent_id = '#zipcode_description';
           }
           else {
@@ -636,8 +797,8 @@
           if (table_id != '') {
             placeAddAnotherButton(false, '#' + table_id, parent_id);
           }
+          processPrimaryFields();
         }
-        processPrimaryFields();
         moveAddButton();
       });
 
@@ -668,7 +829,7 @@
       };
       $('#profile-tabs').tabs();
       // Update session on page load for zip mapping
-      update_user_zip_preferences("", "", "");
+      update_user_zip_preferences();
     }
 
     if (page == 'app-connect') {
@@ -697,6 +858,10 @@
       });
 
       e.preventDefault();
+    });
+
+    $('.remove-button').click(function () {
+
     });
 
     processPrimaryFields();

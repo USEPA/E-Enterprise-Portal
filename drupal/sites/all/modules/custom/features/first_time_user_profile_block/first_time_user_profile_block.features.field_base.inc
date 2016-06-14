@@ -10,7 +10,7 @@
 function first_time_user_profile_block_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_lgc_topics_of_interest'
+  // Exported field_base: 'field_lgc_topics_of_interest'.
   $field_bases['field_lgc_topics_of_interest'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -37,7 +37,7 @@ function first_time_user_profile_block_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_organization'
+  // Exported field_base: 'field_organization'.
   $field_bases['field_organization'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -64,7 +64,7 @@ function first_time_user_profile_block_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_preferred_name'
+  // Exported field_base: 'field_preferred_name'.
   $field_bases['field_preferred_name'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -85,7 +85,7 @@ function first_time_user_profile_block_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_primary'
+  // Exported field_base: 'field_primary'.
   $field_bases['field_primary'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -111,7 +111,7 @@ function first_time_user_profile_block_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'field_role'
+  // Exported field_base: 'field_role'.
   $field_bases['field_role'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -138,7 +138,7 @@ function first_time_user_profile_block_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_user_zip_code'
+  // Exported field_base: 'field_user_zip_code'.
   $field_bases['field_user_zip_code'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -160,7 +160,7 @@ function first_time_user_profile_block_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_zip_community_size'
+  // Exported field_base: 'field_zip_community_size'.
   $field_bases['field_zip_community_size'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -177,7 +177,7 @@ function first_time_user_profile_block_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
-  // Exported field_base: 'field_zip_is_urban'
+  // Exported field_base: 'field_zip_is_urban'.
   $field_bases['field_zip_is_urban'] = array(
     'active' => 1,
     'cardinality' => 1,

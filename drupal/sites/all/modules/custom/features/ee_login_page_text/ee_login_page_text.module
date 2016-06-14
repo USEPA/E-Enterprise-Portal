@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the EE Login Page Text feature.
- */
-
-include_once 'ee_login_page_text.features.inc';

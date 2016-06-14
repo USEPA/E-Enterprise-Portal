@@ -1,0 +1,10 @@
+<?php
+
+module_load_include('inc', 'eenterprise_utility', 'eenterprise_utility');
+
+/**
+ * UPDATES
+ */
+function eenterprise_utility_update_7104() {
+  update_user_location_preferences();
+}

@@ -1,5 +1,5 @@
 .paginate_button {
-    padding : .75em !important;
+    padding : 0.75em !important;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     border: 0px;
@@ -9,22 +9,23 @@
     display:none !important;
 }
 
-.interests-url-hyperlink, .interests-url-text {
-    word-wrap: break-word;
+#other-areas-tabs .interests-url-hyperlink, 
+#other-areas-tabs .interests-url-text {
+    word-break: break-word;
     white-space: normal;
 }
-
-.other-items.ui-dialog, .other-items-form.ui-dialog {
-	height: 90% !important;
-}
-
-.interests-url-text {
-    font-size: $h6-font-size;
+#other-areas-tabs .interests-url-text {
+    word-break: break-all;
+    font-size: 1.3rem;
     margin-top: 2px;
 }
+.other-items.ui-dialog, .other-items-form.ui-dialog {
+    height: 90% !important;
+}
+
 .action-links .first {
-  border-right: 1px solid #aaa;
-  padding-right: 10px;
+    border-right: 1px solid #aaa;
+    padding-right: 10px;
 }
 
 .action-links .last {
@@ -32,20 +33,21 @@
 }
 
 #other-areas-tabs .action-links {
-	font-size: 1.3rem;
-	margin-bottom: 15px;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
 }
 #other-areas-tabs .dataTables_wrapper .dataTables_info {
     font-size: 1.4rem;
     color: #444;
-    float: left;
-    margin-top: 3px;
+    display: inline-block;
+}
+#other-areas-tabs .dataTables_filter {
+    float: right;
 }
 
 #restrict-to-states-button.inactive, #all-states-button.inactive {
     background-color: white;
     color: black;
-
 }
 
 #other-areas-tabs .ui-tabs-panel {

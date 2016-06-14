@@ -1,10 +1,10 @@
 <?php
 $dev_root = '/var/www/html/drupal';
 $aliases['dev'] = array(
-    'uri' => 'ec2-52-3-175-225.compute-1.amazonaws.com',
+    'uri' => '52.204.39.82',
     'root' => $dev_root,
     'remote-user' => 'bamboo',
-    'remote-host' => 'ec2-52-3-175-225.compute-1.amazonaws.com',
+    'remote-host' => '52.204.39.82',
     'path-aliases' => array(
         '%dump-dir' => '/var/www/dumps',
         '%files' => $dev_root . '/sites/default/files',

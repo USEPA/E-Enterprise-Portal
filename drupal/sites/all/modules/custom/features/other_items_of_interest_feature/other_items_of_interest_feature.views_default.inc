@@ -486,13 +486,13 @@ function other_items_of_interest_feature_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_plugin'] = 'datatables';
   $handler->display->display_options['style_options']['columns'] = array(
     'title' => 'title',
-    'field_source_editable' => 'field_source_editable',
-    'field_topic_editable' => 'field_topic_editable',
-    'field_source_url_editable' => 'field_source_url_editable',
-    'name' => 'name',
+    'field_source' => 'field_source',
+    'field_topic' => 'field_topic',
+    'field_source_url' => 'field_source_url',
+    'edit_node' => 'edit_node',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
@@ -503,34 +503,48 @@ function other_items_of_interest_feature_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_source_editable' => array(
+    'field_source' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_topic_editable' => array(
+    'field_topic' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_source_url_editable' => array(
+    'field_source_url' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'name' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
+    'edit_node' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
+  );
+  $handler->display->display_options['style_options']['elements'] = array(
+    'search_box' => 1,
+    'table_info' => 1,
+    'save_state' => 0,
+    'table_tools' => 0,
+  );
+  $handler->display->display_options['style_options']['layout'] = array(
+    'autowidth' => 0,
+    'themeroller' => 0,
+    'sdom' => '',
+  );
+  $handler->display->display_options['style_options']['pages'] = array(
+    'pagination_style' => '0',
+    'length_change' => 0,
+    'display_length' => '10',
   );
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
