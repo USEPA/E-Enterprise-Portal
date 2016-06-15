@@ -72,18 +72,18 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
   if ($user->name != 'guest-user') {
     ?>
     <ul>
-
-      <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#user-local-resources">My
-          Resources</a></li>
-
       <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources-wrapper">All</a>
       </li>
-
+      <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#user-local-resources">My
+          Resources</a></li>
     </ul>
     <?php
   }
   ?>
 
+  <div id="all-local-resources-wrapper">
+    <div id="all-local-resources"></div>
+  </div>
   <?php
   if ($user->name != 'guest-user') {
     ?>
@@ -91,9 +91,6 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     <?php
   }
   ?>
-  <div id="all-local-resources-wrapper">
-    <div id="all-local-resources"></div>
-  </div>
 
 </div>
 

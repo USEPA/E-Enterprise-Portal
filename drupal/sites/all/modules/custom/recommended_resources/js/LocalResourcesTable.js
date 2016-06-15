@@ -40,7 +40,6 @@ var LocalResourcesTable;
     };
 
     var cached = false;
-
     this.wrapper = $wrapper;
 
     this.hideTable = function () {
