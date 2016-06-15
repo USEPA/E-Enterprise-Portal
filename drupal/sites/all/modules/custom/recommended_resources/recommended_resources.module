@@ -346,11 +346,18 @@ function load_data_from_rcs() {
   $current_time = time();
   $time_diff = ($current_time - $time_last_loaded) / 60;
   if (!isset($cache) || $time_diff >= 1) {
-    $url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
-    $response = drupal_http_request($url, array(
-      'headers' => array('Content-Type' => 'text/xml'),
-      'method' => 'GET',
-    ));
+    module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+    if (feature_toggle_get_status('sample_rcs_data')) {
+      $response = new stdClass();
+      $response->data = file_get_contents(drupal_get_path('module', 'recommended_resources') . '/sample-response.xml');
+    } else {
+      $url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+      $response = drupal_http_request($url, array(
+        'headers' => array('Content-Type' => 'text/xml'),
+        'method' => 'GET',
+      ));
+    }
+
     $xmlobj = simplexml_load_string($response->data);
     $resources = xml2array($xmlobj->Results->NewDataSet);
     $resources_array = array("resources" => array());
