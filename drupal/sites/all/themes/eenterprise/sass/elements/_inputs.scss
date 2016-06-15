@@ -188,6 +188,20 @@ input[type="checkbox"]:focus + label::before {
   box-shadow: 0 0 0 1px $color-white, 0 0 0 3px $color-primary;
 }
 
+.form-item-agree {
+  input[type="checkbox"] + label {
+    padding: 10px;
+    margin-top: 2rem;
+    margin-left: -9px;
+  }
+}
+
+.form-item-agree {
+  input[type="checkbox"]:focus + label {
+    box-shadow: $focus-shadow;
+  }
+}
+
 input[type="checkbox"]:disabled + label {
   color: $color-gray;
 }
