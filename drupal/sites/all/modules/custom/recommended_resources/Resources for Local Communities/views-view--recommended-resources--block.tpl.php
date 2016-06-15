@@ -1,4 +1,5 @@
 <?php
+drupal_add_js(libraries_get_path('yadcf') . '/0.8.9/jquery.dataTables.yadcf.js', 'file');
 $module_name = "recommended_resources";
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/LocalResourcesTable.js", "file");
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/recommended_resources.js", "file");
@@ -82,8 +83,14 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     <?php
   }
   ?>
-  <div id="all-local-resources-wrapper">
-    <div id="all-local-resources"></div>
+  <div id="all-local-resources-wrapper" class="clearfix">
+    <div class="faceted-filters left">
+      <div class="topic facet"></div>
+    </div>
+    <div class="left">
+      <div class="your-selections">Your selections:</div>
+      <div id="all-local-resources"></div>
+    </div>
   </div>
 
 </div>

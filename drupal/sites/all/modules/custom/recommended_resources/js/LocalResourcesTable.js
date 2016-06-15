@@ -81,7 +81,7 @@ var LocalResourcesTable;
 
           $table = $wrapper.find('table');
           if ($table.length > 0) {
-            $table.dataTable(datatable_options);
+            var tableDT = $table.DataTable(datatable_options);
             $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
             // in embedded_lgc_topics_view.js
             updateDropdown($('#user-lgc-topics-small-view'));
@@ -89,6 +89,14 @@ var LocalResourcesTable;
               var $elem_id = "#embed-manage-lgc-" + topics[0];
               $($elem_id).addClass('selected');
             }
+
+            yadcf.init(tableDT, [
+              {
+                column_number : 1,
+                filter_type: 'multi_select',
+                filter_container_selector: '#all-local-resources-wrapper .topic.facet'
+              },
+            ]);
           }
           else {
             $wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>')
