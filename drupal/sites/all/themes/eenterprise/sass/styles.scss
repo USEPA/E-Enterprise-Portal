@@ -53,6 +53,15 @@
     zoom: 1;
 }
 
+@mixin inset-box-shadow {
+    -moz-box-shadow: inset 0 -2px 2px #bbb;
+    -webkit-box-shadow: inset 0 -2px 2px #bbb;
+    box-shadow: inset 0 -2px 2px #bbb;
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3, MakeShadow=true, ShadowOpacity=0.30);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
+    zoom: 1;
+}
+
 @mixin special-box-shadow($hshadow,$vshadow,$blur, $color) {
     -moz-box-shadow: $hshadow $vshadow $blur $color;
     -webkit-box-shadow: $hshadow $vshadow $blur $color;
@@ -1736,26 +1745,34 @@ form .field-multiple-table#field-zip-code-values {
 }
 
 #user-lgc-topics-small-view {
+    margin-top: 0;
+    @include box-shadow;
     height: 90px;
     overflow-y: hidden;
+    &.topics-collapsed {
+      @include inset-box-shadow;
+    }
     .drop-down-arrow {
         background-image: url("../images/arrow-down.svg");
         float: right;
-        height: 30px;
-        width: 30px;
+        height: 16px;
+        width: 16px;
         background-repeat: no-repeat;
-        background-size: 3rem;
+        background-size: 1.5rem;
         cursor: pointer;
         margin-right: 15px;
+        margin-top: 20px;
+        &.revealed {
+          background-image: url("../images/arrow-up.svg");
+        }
     }
-
     .embedded-lgc-topic-elem {
         float: left;
     }
     label {
         margin-top: 1rem;
         margin-right: 1rem;
-        padding: .5rem;
+        padding: 0.5rem;
     }
 }
 
@@ -1875,6 +1892,9 @@ form .field-multiple-table#field-zip-code-values {
 }
 
 #user-local-resources {
+    p {
+      margin-bottom: 0.5rem;
+    }
     .fa-th:before {
         height: 30px;
         width: 30px;
@@ -1882,8 +1902,9 @@ form .field-multiple-table#field-zip-code-values {
     .grid-selector {
         float: right;
         cursor: pointer;
+        margin-right: 20px;
+        margin-top: 20px;
     }
-
     .usa-grid {
         padding: 0px;
         float: right;

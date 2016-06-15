@@ -118,7 +118,6 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id)
       '#value' => 1
     );
 
-
     $form_state['rebuild'] = TRUE;
 
     $form['#attributes']['novalidate'] = '1';
@@ -205,120 +204,120 @@ function generateUserLocalResourcesTable()
     print $table;
 }
 
-  function generateAllLocalResourcesTable()
-  {
-    if (isset($_POST['filters'])) {
-      $topics = xssafe($_POST['filters']);
-      $tids = implode('+', $topics);
-      $table = views_embed_view('recommended_resources', 'block_to_be_rendered', $tids);
-    } else
-      $table = views_embed_view('recommended_resources', 'block_to_be_rendered');
-    print $table;
+function generateAllLocalResourcesTable()
+{
+if (isset($_POST['filters'])) {
+  $topics = xssafe($_POST['filters']);
+  $tids = implode('+', $topics);
+  $table = views_embed_view('recommended_resources', 'block_to_be_rendered', $tids);
+} else
+  $table = views_embed_view('recommended_resources', 'block_to_be_rendered');
+print $table;
+}
+
+/**
+* Accepts POST request with "tid" param
+* Saves LGC topic to current user with tid
+* @return array
+*/
+function save_lgc_topic()
+{
+// Access current user lgc topics (tids)
+global $user;
+$user_data = user_load($user->uid);
+$user_interests = $user_data->field_lgc_topics_of_interest;
+$response = array();
+
+// Check if POST tid is set
+if (!isset($_POST['tid'])) {
+  $response['error'] = TRUE;
+  $response['message'] = 'Must include TID in POST as \'tid\'';
+  print $response;
+  exit();
+}
+
+
+//Add tid to users preexisting lgc topic tids
+$tid = $_POST['tid'];
+$user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
+$edit = array(
+  'field_lgc_topics_of_interest' => $user_interests
+);
+
+// Save changes, return error exception if fails
+try {
+  user_save($user_data, $edit);
+  $response['error'] = FALSE;
+  $response['message'] = 'Successfully saved tid- ' . $tid;
+  $_SESSION['user_lgc_topics'][$tid] = taxonomy_term_load($tid)->name;
+} catch (Exception $e) {
+  $response['error'] = TRUE;
+  $response['message'] = array('Failed with exception' => $e);
+}
+print json_encode($response);
+}
+
+
+/**
+* Accepts POST request with "tid" param
+* Removes LGC topic from current user with tid
+* @return array
+*/
+function remove_lgc_topic()
+{
+// Access current user lgc topics (tids)
+global $user;
+$user_data = user_load($user->uid);
+$user_interests = $user_data->field_lgc_topics_of_interest;
+$response = array();
+
+// Check if POST tid is set
+if (!isset($_POST['tid'])) {
+  $response['error'] = TRUE;
+  $response['message'] = 'Must include TID in POST as \'tid\'';
+  print $response;
+  exit();
+}
+//Remove tid to users preexisting lgc topic tids
+$tid_to_remove = xssafe($_POST['tid']);
+foreach($user_interests[LANGUAGE_NONE] as $key=>$topic) {
+  if ($topic['tid'] == $tid_to_remove) {
+    unset($user_interests[LANGUAGE_NONE][$key]);
   }
+}
 
-  /**
-   * Accepts POST request with "tid" param
-   * Saves LGC topic to current user with tid
-   * @return array
-   */
-  function save_lgc_topic()
-  {
-    // Access current user lgc topics (tids)
-    global $user;
-    $user_data = user_load($user->uid);
-    $user_interests = $user_data->field_lgc_topics_of_interest;
-    $response = array();
+$edit = array(
+  'field_lgc_topics_of_interest' => $user_interests
+);
 
-    // Check if POST tid is set
-    if (!isset($_POST['tid'])) {
-      $response['error'] = TRUE;
-      $response['message'] = 'Must include TID in POST as \'tid\'';
-      print $response;
-      exit();
-    }
+// Save changes, return error exception if fails
+try {
+  user_save($user_data, $edit);
+  unset($_SESSION['user_lgc_topics'][$tid_to_remove]);
+  $response['error'] = FALSE;
+  $response['message'] = 'Successfully removed tid- ' . $tid_to_remove;
+} catch (Exception $e) {
+  $response['error'] = TRUE;
+  $response['message'] = array('Failed with exception' => $e);
+}
+print json_encode($response);
+}
 
 
-    //Add tid to users preexisting lgc topic tids
-    $tid = $_POST['tid'];
-    $user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
-    $edit = array(
-      'field_lgc_topics_of_interest' => $user_interests
-    );
+function set_user_lgc_topic_session() {
+$_SESSION['user_lgc_topics'] = array();
+global $user;
+$user_data = user_load($user->uid);
+$lgc_topics = $user_data->field_lgc_topics_of_interest[LANGUAGE_NONE];
+foreach ($lgc_topics as $topic) {
+  $_SESSION['user_lgc_topics'][$topic['tid']] = taxonomy_term_load($topic['tid'])->name;
+}
+}
 
-    // Save changes, return error exception if fails
-    try {
-      user_save($user_data, $edit);
-      $response['error'] = FALSE;
-      $response['message'] = 'Successfully saved tid- ' . $tid;
-      $_SESSION['user_lgc_topics'][$tid] = taxonomy_term_load($tid)->name;
-    } catch (Exception $e) {
-      $response['error'] = TRUE;
-      $response['message'] = array('Failed with exception' => $e);
-    }
-    print json_encode($response);
-  }
-
-
-  /**
-   * Accepts POST request with "tid" param
-   * Removes LGC topic from current user with tid
-   * @return array
-   */
-  function remove_lgc_topic()
-  {
-    // Access current user lgc topics (tids)
-    global $user;
-    $user_data = user_load($user->uid);
-    $user_interests = $user_data->field_lgc_topics_of_interest;
-    $response = array();
-
-    // Check if POST tid is set
-    if (!isset($_POST['tid'])) {
-      $response['error'] = TRUE;
-      $response['message'] = 'Must include TID in POST as \'tid\'';
-      print $response;
-      exit();
-    }
-    //Remove tid to users preexisting lgc topic tids
-    $tid_to_remove = xssafe($_POST['tid']);
-    foreach($user_interests[LANGUAGE_NONE] as $key=>$topic) {
-      if ($topic['tid'] == $tid_to_remove) {
-        unset($user_interests[LANGUAGE_NONE][$key]);
-      }
-    }
-
-    $edit = array(
-      'field_lgc_topics_of_interest' => $user_interests
-    );
-
-    // Save changes, return error exception if fails
-    try {
-      user_save($user_data, $edit);
-      unset($_SESSION['user_lgc_topics'][$tid_to_remove]);
-      $response['error'] = FALSE;
-      $response['message'] = 'Successfully removed tid- ' . $tid_to_remove;
-    } catch (Exception $e) {
-      $response['error'] = TRUE;
-      $response['message'] = array('Failed with exception' => $e);
-    }
-    print json_encode($response);
-  }
-
-
-  function set_user_lgc_topic_session() {
-    $_SESSION['user_lgc_topics'] = array();
-    global $user;
-    $user_data = user_load($user->uid);
-    $lgc_topics = $user_data->field_lgc_topics_of_interest[LANGUAGE_NONE];
-    foreach ($lgc_topics as $topic) {
-      $_SESSION['user_lgc_topics'][$topic['tid']] = taxonomy_term_load($topic['tid'])->name;
-    }
-  }
-
-  function load_view()
-  {
-    set_user_lgc_topic_session();
-    $table = views_embed_view('lgc_manage_my_topics', 'block');
-    print $table;
-    exit();
-  }
+function load_view()
+{
+set_user_lgc_topic_session();
+$table = views_embed_view('lgc_manage_my_topics', 'block');
+print $table;
+exit();
+}
