@@ -1780,12 +1780,24 @@ input[type="checkbox"]:focus + label::before {
   box-shadow: 0 0 0 1px #ffffff, 0 0 0 3px #0071bc;
 }
 
-/* line 191, ../sass/elements/_inputs.scss */
+/* line 192, ../sass/elements/_inputs.scss */
+.form-item-agree input[type="checkbox"] + label {
+  padding: 10px;
+  margin-top: 2rem;
+  margin-left: -9px;
+}
+
+/* line 200, ../sass/elements/_inputs.scss */
+.form-item-agree input[type="checkbox"]:focus + label {
+  box-shadow: 0 0 3px #3e94cf, 0 0 7px #3e94cf;
+}
+
+/* line 205, ../sass/elements/_inputs.scss */
 input[type="checkbox"]:disabled + label {
   color: #5b616b;
 }
 
-/* line 195, ../sass/elements/_inputs.scss */
+/* line 209, ../sass/elements/_inputs.scss */
 input[type="checkbox"]:disabled + label::before,
 input[type="radio"]:disabled + label::before {
   background: #d6d7d9;
@@ -1793,7 +1805,7 @@ input[type="radio"]:disabled + label::before {
   cursor: not-allowed;
 }
 
-/* line 204, ../sass/elements/_inputs.scss */
+/* line 218, ../sass/elements/_inputs.scss */
 input[type=range] {
   -webkit-appearance: none;
   border: none;
@@ -1801,13 +1813,13 @@ input[type=range] {
   width: 100%;
 }
 
-/* line 211, ../sass/elements/_inputs.scss */
+/* line 225, ../sass/elements/_inputs.scss */
 input[type=range]:focus {
   box-shadow: none;
   outline: none;
 }
 
-/* line 216, ../sass/elements/_inputs.scss */
+/* line 230, ../sass/elements/_inputs.scss */
 input[type=range]::-webkit-slider-runnable-track {
   background: #aeb0b5;
   border: 1px solid #757575;
@@ -1816,7 +1828,7 @@ input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
 }
 
-/* line 224, ../sass/elements/_inputs.scss */
+/* line 238, ../sass/elements/_inputs.scss */
 input[type=range]::-moz-range-track {
   background: #0071bc;
   border: 1px solid #757575;
@@ -1825,7 +1837,7 @@ input[type=range]::-moz-range-track {
   width: 100%;
 }
 
-/* line 232, ../sass/elements/_inputs.scss */
+/* line 246, ../sass/elements/_inputs.scss */
 input[type=range]::-ms-track {
   background: transparent;
   color: transparent;
@@ -1834,7 +1846,7 @@ input[type=range]::-ms-track {
   width: 100%;
 }
 
-/* line 240, ../sass/elements/_inputs.scss */
+/* line 254, ../sass/elements/_inputs.scss */
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   border: 1px solid #757575;
@@ -1846,7 +1858,7 @@ input[type=range]::-webkit-slider-thumb {
   width: 2.2rem;
 }
 
-/* line 251, ../sass/elements/_inputs.scss */
+/* line 265, ../sass/elements/_inputs.scss */
 input[type=range]::-moz-range-thumb {
   background: #f1f1f1;
   border: 1px solid #757575;
@@ -1856,7 +1868,7 @@ input[type=range]::-moz-range-thumb {
   width: 2.2rem;
 }
 
-/* line 260, ../sass/elements/_inputs.scss */
+/* line 274, ../sass/elements/_inputs.scss */
 input[type=range]::-ms-thumb {
   background: #f1f1f1;
   border: 1px solid #757575;
@@ -1866,52 +1878,52 @@ input[type=range]::-ms-thumb {
   width: 2.2rem;
 }
 
-/* line 269, ../sass/elements/_inputs.scss */
+/* line 283, ../sass/elements/_inputs.scss */
 input[type=range]::-ms-fill-lower {
   background: #aeb0b5;
   border: 1px solid #757575;
   border-radius: 2rem;
 }
 
-/* line 275, ../sass/elements/_inputs.scss */
+/* line 289, ../sass/elements/_inputs.scss */
 input[type=range]::-ms-fill-upper {
   background: #aeb0b5;
   border: 1px solid #757575;
   border-radius: 2rem;
 }
 
-/* line 281, ../sass/elements/_inputs.scss */
+/* line 295, ../sass/elements/_inputs.scss */
 input[type=range]:focus::-webkit-slider-thumb {
   border: 2px solid #3e94cf;
 }
 
-/* line 285, ../sass/elements/_inputs.scss */
+/* line 299, ../sass/elements/_inputs.scss */
 input[type=range]:focus::-moz-range-thumb {
   border: 2px solid #3e94cf;
 }
 
-/* line 289, ../sass/elements/_inputs.scss */
+/* line 303, ../sass/elements/_inputs.scss */
 input[type=range]:focus::-ms-thumb {
   border: 2px solid #3e94cf;
 }
 
-/* line 296, ../sass/elements/_inputs.scss */
+/* line 310, ../sass/elements/_inputs.scss */
 .usa-date-of-birth label {
   margin-top: 0;
 }
-/* line 300, ../sass/elements/_inputs.scss */
+/* line 314, ../sass/elements/_inputs.scss */
 .usa-date-of-birth input[type=number]::-webkit-inner-spin-button,
 .usa-date-of-birth input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   appearance: none;
   margin: 0;
 }
-/* line 307, ../sass/elements/_inputs.scss */
+/* line 321, ../sass/elements/_inputs.scss */
 .usa-date-of-birth input[type=number] {
   -moz-appearance: textfield;
 }
 
-/* line 312, ../sass/elements/_inputs.scss */
+/* line 326, ../sass/elements/_inputs.scss */
 .usa-form-group-day,
 .usa-form-group-month,
 .usa-form-group-year {
@@ -1921,7 +1933,7 @@ input[type=range]:focus::-ms-thumb {
   width: 5rem;
 }
 
-/* line 321, ../sass/elements/_inputs.scss */
+/* line 335, ../sass/elements/_inputs.scss */
 .usa-form-group-year {
   width: 7rem;
 }
@@ -7752,19 +7764,19 @@ a.usa-button.btn-social.btn-wam, a.usa-button.btn-wam.btn-social-icon {
 /* line 3235, ../sass/styles.scss */
 a.usa-button.btn-social.btn-wam:focus, a.usa-button.btn-wam.btn-social-icon:focus, a.usa-button.btn-social.btn-wam.focus, a.usa-button.btn-wam.focus.btn-social-icon {
   color: #fff;
-  background-color: #264c73;
+  background-color: #264d73;
   border-color: rgba(0, 0, 0, 0.2);
 }
 /* line 3241, ../sass/styles.scss */
 a.usa-button.btn-social.btn-wam:hover, a.usa-button.btn-wam.btn-social-icon:hover {
   color: #fff;
-  background-color: #264c73;
+  background-color: #264d73;
   border-color: rgba(0, 0, 0, 0.2);
 }
 /* line 3246, ../sass/styles.scss */
 a.usa-button.btn-social.btn-wam:active, a.usa-button.btn-wam.btn-social-icon:active, a.usa-button.btn-social.btn-wam.active, a.usa-button.btn-wam.active.btn-social-icon, .open > a.usa-button.btn-social.btn-wam.dropdown-toggle, .open > a.usa-button.btn-wam.dropdown-toggle.btn-social-icon {
   color: #fff;
-  background-color: #264c73;
+  background-color: #264d73;
   border-color: rgba(0, 0, 0, 0.2);
 }
 /* line 3253, ../sass/styles.scss */
