@@ -59,7 +59,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
   <?php
   // Load the currently logged in user.
   global $user;
-  // Check if the user has the 'editor' role.
+
   if ($user->name != 'guest-user') {
     ?>
     <ul>

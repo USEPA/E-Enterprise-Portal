@@ -26,16 +26,44 @@
  *
  * @ingroup views_templates
  */
+
+
 ?>
 
-<?php
-// Add js for qtipping a preview for the urls
-$module_name = "other_items_of_interest";
-drupal_add_js(drupal_get_path('module', $module_name) . "/js/preview_urls.js", "file");
-drupal_add_css(drupal_get_path('module', $module_name) . "/css/state_resource_editor.css", "file");
-$font_awesome_path = libraries_get_path('font-awesome-4.5.0');
-drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
-?>
+<p>The following resources are recommended for town, city, and county
+  governments based your chosen topics.</p>
+
+<!--- List of user topics--->
+<div id="user-lgc-topics-small-view">
+  <div id="high-level-interests">
+    <div class="usa-grid">
+      <div class="usa-width-one-half">
+        <span class="drop-down-arrow hidden" title="Show more topics"></span>
+      </div>
+      <div class="usa-width-one-half">
+        <i class="grid-selector fa fa-th fa-2x" aria-hidden="true" title="Manage my topics"></i>
+      </div>
+    </div>
+    <?php if (isset($_SESSION['user_lgc_topics'])): ?>
+      <?php
+      foreach ($_SESSION['user_lgc_topics'] as $tid => $topic) {
+        ?>
+        <div class="embedded-lgc-topic-elem">
+          <label class="ck-button lgc-topics-of-interest"
+                 id="embed-manage-lgc-<?php print $tid ?>">
+            <?php print $topic ?>
+          </label>
+        </div>
+        <?php
+      }
+      ?>
+
+    <?php else: ?>
+      <p> No session set</p>
+    <?php endif; ?>
+  </div>
+</div>
+<!--- ---!>
 
 <div class="<?php print $classes; ?>">
     <?php print render($title_prefix); ?>
@@ -63,6 +91,7 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
 
     <?php if ($rows): ?>
         <div class="view-content">
+            <div class='usa-grid-full'><ul aria-describedby='topic-description'>
             <?php print $rows; ?>
         </div>
     <?php elseif ($empty): ?>
@@ -96,6 +125,5 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
             <?php print $feed_icon; ?>
         </div>
     <?php endif; ?>
-
 
 </div><?php /* class view */ ?>

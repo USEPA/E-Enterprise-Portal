@@ -2,7 +2,10 @@
   var pane_class = ".pane-views-recommended-resources-block";
   var manage_components_title = "Manage my Topics";
 
-  function showLGCResourcesView() {
+  (function ($) {
+
+
+    function showLGCResourcesView() {
     $('#user-lgc-topics-small-view label').removeClass('selected');
     favorite_local_resources_table.updateTopics([]);
     favorite_local_resources_table.showTable();
@@ -41,17 +44,16 @@
     $(pane_class).find('.pane-title').hide();
     $(pane_class).find('.ui-tabs-nav').hide();
     var id = $lgc_topic_elem.attr('id');
+    var title = $lgc_topic_elem.text();
     var tid_array = id.split('-');
     var tid = tid_array[tid_array.length - 1];
-    var title = $lgc_topic_elem.text();
     $('.lgc-header').text(title);
     $('.back-to-lgc-widget').show();
     $('.unfollow-lgc-topic').attr('id', 'unfollow-lgc-' + tid).show();
-    favorite_local_resources_table.updateTopics([tid], true);
+    favorite_local_resources_table.filterTopics(title);
   }
 
 
-  (function ($) {
 
 
     $(document).ready(function () {
