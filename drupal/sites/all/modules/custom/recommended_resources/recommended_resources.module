@@ -2,8 +2,7 @@
 /**
  * Implements hook_menu().
  **/
-function recommended_resources_menu()
-{
+function recommended_resources_menu() {
   $items = array();
   $items['generateUserLocalResourcesTable'] = array(
     'page callback' => 'generateUserLocalResourcesTable',
@@ -30,14 +29,36 @@ function recommended_resources_menu()
     'access callback' => TRUE,
   );
 
+  $items['load_data_from_rcs'] = array(
+    'page callback' => 'load_data_from_rcs',
+    'access callback' => TRUE,
+  );
+
+  $items['rcs_lgc_resources_json_all'] = array(
+    'page callback' => 'rcs_lgc_resources_json_all',
+    'access callback' => TRUE,
+  );
+
+  $items['rcs_lgc_resources_json_by_user'] = array(
+    'page callback' => 'rcs_lgc_resources_json_by_user',
+    'access callback' => TRUE,
+  );
+
+  $items['rcs_lgc_resources_json_by_topic'] = array(
+    'page callback' => 'rcs_lgc_resources_json_by_topic',
+    'access callback' => TRUE,
+  );
+  $items['rcs_load_topics'] = array(
+    'page callback' => 'rcs_load_topics',
+    'access callback' => TRUE,
+  );
   return $items;
 }
 
 /**
  * Implements hook_theme_registry_alter().
  */
-function recommended_resources_theme_registry_alter(&$theme_registry)
-{
+function recommended_resources_theme_registry_alter(&$theme_registry) {
   // Defined path to the current module.
   $module_path = drupal_get_path('module', 'recommended_resources');
   // Find all .tpl.php files in this module's folder recursively.
@@ -62,15 +83,15 @@ function recommended_resources_theme_registry_alter(&$theme_registry)
  * @param $tid
  * @return bool
  */
-function is_user_topic_saved($tid)
-{
+function is_user_topic_saved($tid) {
   if (isset($_SESSION['user_lgc_topics'])) {
     // TODO: is there a way to do this without using a session variable? Ben and I are 'not thrilled about this'
     drupal_session_start(); // use drupal session
     $topics = $_SESSION['user_lgc_topics'];
 
     return array_key_exists($tid, $topics);
-  } else {
+  }
+  else {
     $_SESSION['user_lgc_topics'] = array();
     global $user;
     $user_data = user_load($user->uid);
@@ -86,8 +107,7 @@ function is_user_topic_saved($tid)
 /**
  * Returns html for multiselect for lgc topics
  */
-function lgc_topics_multiselect()
-{
+function lgc_topics_multiselect() {
   $multi_select = "<div id='lgc-topics-filter'><select id='lgc-topics-select' multiple>";
   $vocab = taxonomy_vocabulary_machine_name_load("lgc_topics");
   $terms = taxonomy_get_tree($vocab->vid);
@@ -100,11 +120,20 @@ function lgc_topics_multiselect()
   return $multi_select;
 }
 
+function xml2array($xmlObject, $out = array()) {
+  foreach ((array) $xmlObject as $index => $node) {
+    $out[$index] = (is_object($node)) ? xml2array($node) : $node;
+  }
+
+  return $out;
+}
+
 /**
  * Implements hook_form_alter().
  */
-function recommended_resources_form_alter(&$form, &$form_state, $form_id)
-{
+function recommended_resources_form_alter(&$form, &$form_state, $form_id) {
+
+
   if ($form_id == 'lgc_resource_node_form') {
     drupal_add_js(drupal_get_path('module', 'recommended_resources') . "/js/preview_url_form.js", "file");
     drupal_add_css(drupal_get_path('module', 'recommended_resources') . "/css/recommended_resources.css", "file");
@@ -132,8 +161,7 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id)
 }
 
 
-function recommended_resources_form_validate($form, &$form_state)
-{
+function recommended_resources_form_validate($form, &$form_state) {
   $edit_form = FALSE;
   $delete_form = FALSE;
   $changed_title = FALSE;
@@ -175,8 +203,7 @@ function recommended_resources_form_validate($form, &$form_state)
 /**
  * Hook_node_presave
  */
-function recommended_resources_node_presave($node)
-{
+function recommended_resources_node_presave($node) {
   global $user;
   // Ensure custom content type is assigned to correct author
   if ($node->type === 'lgc_resource') {
@@ -184,140 +211,316 @@ function recommended_resources_node_presave($node)
   }
 }
 
-function new_lgc_resource_form_redirect($form, &$form_state)
-{
+function new_lgc_resource_form_redirect($form, &$form_state) {
   drupal_goto('/local-resource-editor');
 }
 
 
-function generateUserLocalResourcesTable()
-{
+function generateUserLocalResourcesTable() {
   set_user_lgc_topic_session();
-  if (isset($_POST['filters'])) {
-    $topics = $_POST['filters'];
-    $tids = implode('+', $topics);
-    $table = views_embed_view('user_recommended_resources', 'block', $tids);
-  }
-  else {
-    $table = views_embed_view('user_recommended_resources', 'block');
-  }
-    print $table;
+  $table = views_embed_view('lgc_resources', 'rcs_resources_user');
+  print $table;
 }
 
-function generateAllLocalResourcesTable()
-{
-if (isset($_POST['filters'])) {
-  $topics = xssafe($_POST['filters']);
-  $tids = implode('+', $topics);
-  $table = views_embed_view('recommended_resources', 'block_to_be_rendered', $tids);
-} else
-  $table = views_embed_view('recommended_resources', 'block_to_be_rendered');
-print $table;
+function generateAllLocalResourcesTable() {
+  $table = views_embed_view('lgc_resources', 'rcs_resources_all');
+  print $table;
 }
 
 /**
-* Accepts POST request with "tid" param
-* Saves LGC topic to current user with tid
-* @return array
-*/
-function save_lgc_topic()
-{
-// Access current user lgc topics (tids)
-global $user;
-$user_data = user_load($user->uid);
-$user_interests = $user_data->field_lgc_topics_of_interest;
-$response = array();
+ * Accepts POST request with "tid" param
+ * Saves LGC topic to current user with tid
+ * @return array
+ */
+function save_lgc_topic() {
+  // Access current user lgc topics (tids)
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_interests = $user_data->field_lgc_topics_of_interest;
+  $response = array();
 
-// Check if POST tid is set
-if (!isset($_POST['tid'])) {
-  $response['error'] = TRUE;
-  $response['message'] = 'Must include TID in POST as \'tid\'';
-  print $response;
-  exit();
-}
+  // Check if POST tid is set
+  if (!isset($_POST['tid'])) {
+    $response['error'] = TRUE;
+    $response['message'] = 'Must include TID in POST as \'tid\'';
+    print $response;
+    exit();
+  }
 
 
-//Add tid to users preexisting lgc topic tids
-$tid = $_POST['tid'];
-$user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
-$edit = array(
-  'field_lgc_topics_of_interest' => $user_interests
-);
+  //Add tid to users preexisting lgc topic tids
+  $tid = $_POST['tid'];
+  $user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
+  $edit = array(
+    'field_lgc_topics_of_interest' => $user_interests
+  );
 
-// Save changes, return error exception if fails
-try {
-  user_save($user_data, $edit);
-  $response['error'] = FALSE;
-  $response['message'] = 'Successfully saved tid- ' . $tid;
-  $_SESSION['user_lgc_topics'][$tid] = taxonomy_term_load($tid)->name;
-} catch (Exception $e) {
-  $response['error'] = TRUE;
-  $response['message'] = array('Failed with exception' => $e);
-}
-print json_encode($response);
+  // Save changes, return error exception if fails
+  try {
+    user_save($user_data, $edit);
+    $response['error'] = FALSE;
+    $response['message'] = 'Successfully saved tid- ' . $tid;
+    $_SESSION['user_lgc_topics'][$tid] = taxonomy_term_load($tid)->name;
+  } catch (Exception $e) {
+    $response['error'] = TRUE;
+    $response['message'] = array('Failed with exception' => $e);
+  }
+  print json_encode($response);
 }
 
 
 /**
-* Accepts POST request with "tid" param
-* Removes LGC topic from current user with tid
-* @return array
-*/
-function remove_lgc_topic()
-{
-// Access current user lgc topics (tids)
-global $user;
-$user_data = user_load($user->uid);
-$user_interests = $user_data->field_lgc_topics_of_interest;
-$response = array();
+ * Accepts POST request with "tid" param
+ * Removes LGC topic from current user with tid
+ * @return array
+ */
+function remove_lgc_topic() {
+  // Access current user lgc topics (tids)
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_interests = $user_data->field_lgc_topics_of_interest;
+  $response = array();
 
-// Check if POST tid is set
-if (!isset($_POST['tid'])) {
-  $response['error'] = TRUE;
-  $response['message'] = 'Must include TID in POST as \'tid\'';
-  print $response;
-  exit();
-}
-//Remove tid to users preexisting lgc topic tids
-$tid_to_remove = xssafe($_POST['tid']);
-foreach($user_interests[LANGUAGE_NONE] as $key=>$topic) {
-  if ($topic['tid'] == $tid_to_remove) {
-    unset($user_interests[LANGUAGE_NONE][$key]);
+  // Check if POST tid is set
+  if (!isset($_POST['tid'])) {
+    $response['error'] = TRUE;
+    $response['message'] = 'Must include TID in POST as \'tid\'';
+    print $response;
+    exit();
   }
-}
+  //Remove tid to users preexisting lgc topic tids
+  $tid_to_remove = xssafe($_POST['tid']);
+  foreach ($user_interests[LANGUAGE_NONE] as $key => $topic) {
+    if ($topic['tid'] == $tid_to_remove) {
+      unset($user_interests[LANGUAGE_NONE][$key]);
+    }
+  }
 
-$edit = array(
-  'field_lgc_topics_of_interest' => $user_interests
-);
+  $edit = array(
+    'field_lgc_topics_of_interest' => $user_interests
+  );
 
-// Save changes, return error exception if fails
-try {
-  user_save($user_data, $edit);
-  unset($_SESSION['user_lgc_topics'][$tid_to_remove]);
-  $response['error'] = FALSE;
-  $response['message'] = 'Successfully removed tid- ' . $tid_to_remove;
-} catch (Exception $e) {
-  $response['error'] = TRUE;
-  $response['message'] = array('Failed with exception' => $e);
-}
-print json_encode($response);
+  // Save changes, return error exception if fails
+  try {
+    user_save($user_data, $edit);
+    unset($_SESSION['user_lgc_topics'][$tid_to_remove]);
+    $response['error'] = FALSE;
+    $response['message'] = 'Successfully removed tid- ' . $tid_to_remove;
+  } catch (Exception $e) {
+    $response['error'] = TRUE;
+    $response['message'] = array('Failed with exception' => $e);
+  }
+  print json_encode($response);
 }
 
 
 function set_user_lgc_topic_session() {
-$_SESSION['user_lgc_topics'] = array();
-global $user;
-$user_data = user_load($user->uid);
-$lgc_topics = $user_data->field_lgc_topics_of_interest[LANGUAGE_NONE];
-foreach ($lgc_topics as $topic) {
-  $_SESSION['user_lgc_topics'][$topic['tid']] = taxonomy_term_load($topic['tid'])->name;
-}
+  $_SESSION['user_lgc_topics'] = array();
+  global $user;
+  $user_data = user_load($user->uid);
+  $lgc_topics = $user_data->field_lgc_topics_of_interest[LANGUAGE_NONE];
+  foreach ($lgc_topics as $topic) {
+    $_SESSION['user_lgc_topics'][$topic['tid']] = taxonomy_term_load($topic['tid'])->name;
+  }
 }
 
-function load_view()
-{
-set_user_lgc_topic_session();
-$table = views_embed_view('lgc_manage_my_topics', 'block');
-print $table;
-exit();
+function load_view() {
+  set_user_lgc_topic_session();
+  $table = views_embed_view('lgc_manage_my_topics', 'block');
+  print $table;
+  exit();
 }
+
+/**
+ * Parses XML return from RCS to
+ *  1) update LGC Taxonomy with changes to LGC topics
+ *  2) Return an array with structured LGC data
+ * @return array
+ * @throws \Exception
+ */
+function load_data_from_rcs() {
+  // Store cache of data so request to RCS is not required each call
+  $cache = variable_get('rcs_cache');
+  if (!isset($cache)) {
+    $cache = array();
+  }
+  // Capture time the cache was last updated
+  $time_last_loaded = variable_get('rcs_cache_load_time');
+  $cache_update_refresh = 5;
+  $current_time = time();
+  $time_diff = ($current_time - $time_last_loaded) / 60;
+
+  // If the cache has not been updated in ($cache_update_refresh) minutes, refresh the data
+  if (count($cache) === 0 || $time_diff >= $cache_update_refresh) {
+    // Tracks all resources pulled from RCS and parsed from XML
+    $resources_array = array("resources" => array());
+    // Tracks all topic mapping to tids
+    $term_tid_mapping = array();
+    // Track terms that are no longer part of LGC taxonomy due to updates from RCS
+    $deprecated_terms = array();
+
+    $url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+    $response = drupal_http_request($url, array(
+      'headers' => array('Content-Type' => 'text/xml'),
+      'method' => 'GET',
+    ));
+    // Convert the response into an xml object
+    $xmlobj = simplexml_load_string($response->data);
+    // convert the resources into an array
+    $resources = xml2array($xmlobj->Results->NewDataSet);
+    // Load LGC Resource taxonomy
+    $vocabulary = taxonomy_vocabulary_machine_name_load('lgc_topics');
+    $vid = $vocabulary->vid;
+    // Load the terms for the LGC Resource taxonomy
+    $terms = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
+
+    // Initialize $term_tid_mapping and $deprecated_terms with mapping of
+    // topic name to tid from LGC taxonomy
+    foreach ($terms as $tid => $term_data) {
+      $term_tid_mapping[$term_data->name] = $tid;
+      $deprecated_terms[$term_data->name] = $tid;
+    }
+
+    /* Loop through RCS xml return to
+    *  1) update LGC taxonomy with LGC topic names,
+    *  2) return array of LGC resources
+    */
+    foreach ($resources['Resource'] as $simpleXML) {
+      // Convert inner xmlObj of resource array to array
+      $resource_array = xml2array($simpleXML);
+      $topic = $resource_array['TopicText'];
+      // Only pull LGC Resource if contains topic
+      if ($topic !== '') {
+        // Trim any non-alphanumeric from topic and description
+        $topic = trim(preg_replace("/[^A-Za-z0-9 ]/", '', $topic));
+        $resources_array['DescriptionText'] = trim(preg_replace("/[^A-Za-z0-9 ]/", '', $resources_array['DescriptionText']));
+
+        // Topic is not deprecated
+        unset($deprecated_terms[$topic]);
+
+        // Add topic to tid_mapping if the topic has not been saved
+        // to the LGC Resource taxonomy
+        if (!isset($term_tid_mapping[$topic])) {
+          // Update $term_tid_mapping with topic=>tid
+          add_new_rcs_topic_to_taxonomy($topic, $vid, $term_tid_mapping);
+        }
+
+        // Update processed topics if has not been updated
+        $tid = $term_tid_mapping[$topic];
+
+        $resource_array['tid'] = $tid;
+        $resources_array["resources"][] = $resource_array;
+      }
+    }
+
+    // Delete $deprecated_terms not included in RCS data
+    foreach ($deprecated_terms as $term_to_delete => $tid) {
+      taxonomy_term_delete($tid);
+    }
+
+    // Set variables for cache to save processing time on recurrent calls
+    variable_set('rcs_cache', $resources_array);
+    variable_set('rcs_cache_load_time', time());
+    return $resources_array;
+  }
+  else {
+    return $cache;
+  }
+}
+
+
+/**
+ * Returns json of all lgc information
+ */
+function rcs_lgc_resources_json_all() {
+  $resource_array = load_data_from_rcs();
+  print json_encode($resource_array);
+  exit();
+}
+
+function lgc_user_tids($uid) {
+  $user_data = user_load($uid);
+  $user_lgc_topic_tids = array();
+  $user_lgc_topic_saved_field = $user_data->field_lgc_topics_of_interest;
+  if (isset($user_lgc_topic_saved_field[LANGUAGE_NONE])) {
+    foreach ($user_lgc_topic_saved_field[LANGUAGE_NONE] as $data) {
+      $user_lgc_topic_tids[] = intval($data['tid']);
+    }
+  }
+  return $user_lgc_topic_tids;
+}
+
+/**
+ * returns lgc resource by what topics the user has selected in their profile or lgc widget
+ */
+function rcs_lgc_resources_json_by_user() {
+
+  global $user;
+  $uid = $user->uid;
+  $user_lgc_tids = lgc_user_tids($uid);
+  $resources_array = load_data_from_rcs();
+  $response = array('resources' => array());
+  foreach ($resources_array['resources'] as $resource_data) {
+    $tid = $resource_data['tid'];
+    if (in_array($tid, $user_lgc_tids)) {
+      $response['resources'][] = $resource_data;
+    }
+  }
+  print json_encode($response);
+  exit();
+}
+
+/**
+ * returns lgc resources filtered by topic
+ */
+function rcs_lgc_resources_json_by_topic() {
+  $search_topic = "Climate Change";
+  $filtered_resources_array = array("resources" => array());
+  $resources_array = load_data_from_rcs();
+  foreach ($resources_array['resources'] as $resource_data) {
+    $topic = $resource_data['TopicText'];
+    if ($topic === $search_topic) {
+      $filtered_resources_array["resources"][] = $resource_data;
+    }
+  }
+  print json_encode($filtered_resources_array);
+  exit();
+}
+
+/**
+ * Loads from  RCS endpoint. Restrict return to array of topics
+ */
+function rcs_load_topics() {
+  $resources_array = load_data_from_rcs();
+  $topics = array();
+  foreach ($resources_array['resources'] as $resource_data) {
+    $topic = $resource_data['TopicText'];
+    if (!in_array($topic, $topics) && $topic) {
+      $topics[] = $resource_data['TopicText'];
+    }
+  }
+  print json_encode($topics);
+  exit();
+}
+
+function rcs_filtered_by_tids($tids) {
+  $resources_array = load_data_from_rcs();
+  foreach ($resources_array['resources'] as $resource_data) {
+
+  }
+}
+
+/**
+ * Saves Topic in system and adds to tid_term_mapping
+ * @param $topic
+ * @return int
+ */
+function add_new_rcs_topic_to_taxonomy($topic, $vid, &$tid_term_mapping) {
+  $term = new stdClass();
+  $term->name = $topic;
+  $term->vid = $vid;
+  taxonomy_term_save($term);
+  $tid = $term->tid;
+  $tid_term_mapping[$topic] = $tid;
+}
+
