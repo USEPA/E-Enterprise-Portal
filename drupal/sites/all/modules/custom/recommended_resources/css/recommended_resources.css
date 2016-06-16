@@ -8,6 +8,7 @@
 
 #local-resources-tabs .interests-url-hyperlink, 
 #local-resources-tabs .interests-url-text {
+    word-break: break-word;
     white-space: normal;
 }
 #local-resources-tabs .interests-url-text {
@@ -53,8 +54,8 @@
     padding: 5px 0;
 }
 
-.view-recommended-resources .dataTables_wrapper .pager-current.hidden,
-.view-recommended-resources #datatable-1 thead, .view-user-recommended-resources thead    {
+.view-lgc-resources .dataTables_wrapper .pager-current.hidden,
+#all-local-resources div[id*="datatable-"] thead, .view-user-recommended-resources thead    {
     display:none;
 }
 

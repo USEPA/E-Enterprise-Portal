@@ -69,6 +69,16 @@ function eenterprise_utility_menu()
     'file' => 'eenterprise_utility_cdx_facility_widget.admin.inc',
   );
 
+  $items['admin/config/system/rcs'] = array(
+    'title' => 'RCS',
+    'description' => 'RCS data configuration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('rcs_settings'),
+    'access arguments' => array('administer rcs'),
+    'file' => 'eenterprise_utility_rcs.admin.inc',
+  );
+
+
   $items['update_user_gridstack_data'] = array(
     'page callback' => 'update_user_gridstack_data',
     'access callback' => TRUE,
