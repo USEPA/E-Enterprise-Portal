@@ -340,18 +340,16 @@ function load_view() {
  */
 function load_data_from_rcs() {
   // Store cache of data so request to RCS is not required each call
-  $cache = variable_get('rcs_cache');
-  if (!isset($cache)) {
-    $cache = array('resources' => array());
-  }
-  // Capture time the cache was last updated
-  $time_last_loaded = variable_get('rcs_cache_load_time');
-  $cache_update_refresh = 5;
+  $cache = variable_get('rcs_cache', array('resources' => array()));
+  // Capture time the cache was last updated. If not set enter current time
+  $time_last_loaded = variable_get('rcs_cache_load_time', time());
+  // Load amount of time to wait before reloading rcs. Default is 5 minutes
+  $cache_update_refresh = variable_get('rcs_cache_reset_time', 5);
   $current_time = time();
   $time_diff = ($current_time - $time_last_loaded) / 60;
 
   // If the cache has not been updated in ($cache_update_refresh) minutes, refresh the data
-  if (count($cache['resources']) == 0 || $time_diff >= $cache_update_refresh) {
+  if (count($cache['resources']) === 0 || $time_diff >= $cache_update_refresh) {
     // Tracks all resources pulled from RCS and parsed from XML
     $resources_array = array("resources" => array());
     // Tracks all topic mapping to tids
