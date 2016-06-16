@@ -49,13 +49,12 @@ $dataTitle = array();
               </td>
           <?php } else {?>
                 <?php $attribute = strip_tags($dataTitle[$i]); ?>
-                <td scope="row" <?php if ($field_classes[$field][$row_count]) { print 'class="'. $field_classes[$field][$row_count] . ' ' . 'responsive-to-do-link" '; } ?><?php print drupal_attributes($field_attributes[$field][$row_count]); ?>>
+                <td <?php if ($field_classes[$field][$row_count]) { print 'class="'. $field_classes[$field][$row_count] . ' ' . 'responsive-to-do-link" '; } ?><?php print drupal_attributes($field_attributes[$field][$row_count]); ?>>
                     <?php print $content; ?>
                 </td>
             <?php }?>
         <?php $i++; ?>
         <?php endforeach; ?>
-
       </tr>
     <?php endforeach; ?>
   </tbody>
