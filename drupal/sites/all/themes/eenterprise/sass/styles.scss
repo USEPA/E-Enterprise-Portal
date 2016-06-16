@@ -53,6 +53,15 @@
     zoom: 1;
 }
 
+@mixin inset-box-shadow {
+    -moz-box-shadow: inset 0 -2px 2px #bbb;
+    -webkit-box-shadow: inset 0 -2px 2px #bbb;
+    box-shadow: inset 0 -2px 2px #bbb;
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=3, MakeShadow=true, ShadowOpacity=0.30);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Blur(PixelRadius=3,MakeShadow=true,ShadowOpacity=0.30)";
+    zoom: 1;
+}
+
 @mixin special-box-shadow($hshadow,$vshadow,$blur, $color) {
     -moz-box-shadow: $hshadow $vshadow $blur $color;
     -webkit-box-shadow: $hshadow $vshadow $blur $color;
@@ -366,10 +375,13 @@ footer {
 // .ui-widget-content represents any tabs, .ui-widget covers other jQuery elements
 // Select all of them that aren't the Manage Facilities widget
 
-.ui-widget-content:not(#facility-widget),
-.ui-widget:not(#facility-widget) {
-    .paging_simple_numbers,
-    .paging_simple {
+.grid-stack-item:not(#facility-widget) .ui-widget,
+.grid-stack-item:not(#facility-widget) .ui-widget-content,
+#local-resources-tabs,
+.view-state-resource-editor,
+.view-resource-editor {
+    ul.paging_simple_numbers,
+    ul.paging_simple {
         float: right;
         margin-top: 0;
         margin-bottom: 20px;
@@ -420,14 +432,74 @@ footer {
         }
     }
     .dataTables_info,
-    .paging_simple_numbers {
-      font-size: 1.4rem;
-      line-height: 1;
-      margin-top: 0;
-      padding-top: 0;
-      > li {
-        display: table-cell;
-      }
+    ul.paging_simple_numbers {
+        font-size: 1.4rem;
+        line-height: 1;
+        margin-top: 0;
+        padding-top: 0;
+        > li {
+            display: table-cell;
+        }
+    }
+    ul.paging_simple {
+        .pager-current {
+            font-size: 1.4rem;
+        }
+    }
+}
+.grid-stack-item {
+    .pager {
+        margin: 0 auto 15px;
+        font-size: 1.4rem;
+        a {
+            font-family: $font-sans !important;
+            font-size: 1.4rem;
+            &:before,
+            &:after {
+                font-family: 'FontAwesome' !important;
+            }          
+        }
+        a:focus {
+            outline: 1px dotted $color-primary; // this addresses the lack of a focus outline on firefox
+        }
+        .pager-current {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .pager-previous a,
+        .pager-next a {
+            &:before,
+            &:after {
+                font-size: 1.4rem;
+                color: $color-white;
+                background-color: $color-primary;
+                padding: 0.5rem 0.75rem;
+                border-radius: 1.5rem;
+            }    
+            &:hover,
+            &:focus {
+                text-decoration:none;
+                outline: none;
+                &::before,
+                &::after {
+                    background-color: darken($color-primary, 10%);                      
+                    box-shadow: $focus-shadow;
+                    outline: 1px dotted #212121;
+                }
+            }
+        }
+        .pager-previous a:before {
+            content: "\f053";
+        }
+        .pager-next a:after {
+            content: "\f054";
+        }
+    } 
+}
+
+.view-state-resource-editor {
+    label {
+        width: 30rem;
     }
 }
 
@@ -444,7 +516,7 @@ footer {
     display: none;
 }
 
-.admin-menu {
+#admin-menu {
     ul {
         display: initial;
     }
@@ -827,12 +899,11 @@ header {
             margin-bottom: 0;
         }
     }
-/*
-    .pager, .dataTables_paginate,
+    .pager, 
+    .dataTables_paginate,
     .views-exposed-form label {
         font-weight: normal;
     }
-*/
 
 }
 
@@ -1674,26 +1745,34 @@ form .field-multiple-table#field-zip-code-values {
 }
 
 #user-lgc-topics-small-view {
+    margin-top: 0;
+    @include box-shadow;
     height: 90px;
     overflow-y: hidden;
+    &.topics-collapsed {
+      @include inset-box-shadow;
+    }
     .drop-down-arrow {
         background-image: url("../images/arrow-down.svg");
         float: right;
-        height: 30px;
-        width: 30px;
+        height: 16px;
+        width: 16px;
         background-repeat: no-repeat;
-        background-size: 3rem;
+        background-size: 1.5rem;
         cursor: pointer;
         margin-right: 15px;
+        margin-top: 20px;
+        &.revealed {
+          background-image: url("../images/arrow-up.svg");
+        }
     }
-
     .embedded-lgc-topic-elem {
         float: left;
     }
     label {
         margin-top: 1rem;
         margin-right: 1rem;
-        padding: .5rem;
+        padding: 0.5rem;
     }
 }
 
@@ -1813,6 +1892,9 @@ form .field-multiple-table#field-zip-code-values {
 }
 
 #user-local-resources {
+    p {
+      margin-bottom: 0.5rem;
+    }
     .fa-th:before {
         height: 30px;
         width: 30px;
@@ -1820,8 +1902,9 @@ form .field-multiple-table#field-zip-code-values {
     .grid-selector {
         float: right;
         cursor: pointer;
+        margin-right: 20px;
+        margin-top: 20px;
     }
-
     .usa-grid {
         padding: 0px;
         float: right;
@@ -2257,9 +2340,9 @@ form .field-multiple-table#field-zip-code-values {
         background: none;
         border: none;
         position: absolute;
-        right: 2em;
+        right: 0.5em;
         top: 0.5em;
-        width: auto;
+        width: 20px;
         height: 20px;
         margin: 0;
         padding-left: 0;
@@ -3986,6 +4069,15 @@ ul {
             &.todo_filter_button:after {
                 content: none;
             }
+        }
+    }
+}
+
+ul {
+    &.pager,
+    &.paging_simple,
+    &.paging_simple_numbers {
+        li {
             &:not(.disabled) {
                 display: table-cell;             
             }
@@ -3993,7 +4085,10 @@ ul {
     }
 }
 
+
 // Prefix E-Enterprise Workbench only and .page-resource-editor with CSS class to avoid overwriting My Facility Manager widget
+.grid-stack-item:not(#facility-widget) .ui-widget,
+.grid-stack-item:not(#facility-widget) .ui-widget-content,
 .grid-stack-item {
     .paging_simple {
         li {
@@ -4007,6 +4102,15 @@ ul {
             padding-left: 10px;
             li {
                 padding-right: 10px;
+                a {
+                    font-weight: normal;
+                }                
+                &.current {
+                    a {
+                        font-weight: bold;
+                        color: $color-base;
+                    }
+                }
                 &:not(.disabled) {
                     display: inline;
                     font-family: $font-sans !important;

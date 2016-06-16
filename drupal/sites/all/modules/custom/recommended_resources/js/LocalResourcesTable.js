@@ -41,7 +41,6 @@ var LocalResourcesTable;
 
     var cached = false;
     var datatable_id = '';
-
     this.wrapper = $wrapper;
 
     this.hideTable = function () {

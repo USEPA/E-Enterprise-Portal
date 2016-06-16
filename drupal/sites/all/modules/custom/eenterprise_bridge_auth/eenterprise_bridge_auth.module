@@ -86,12 +86,7 @@ function eenterprise_bridge_auth_menu() {
 }
 
 function eenterprise_bridge_auth_menu_alter(&$items) {
-  if (isset($items['user/logout']['page arguments'])) {
-    $items['user/logout']['page arguments'] = array(
-      $items['user/logout']['page callback'],
-      $items['user/logout']['page arguments']
-    );
-  }
+  $items['user/logout']['page arguments'] = array($items['user/logout']['page callback'], $items['user/logout']['page arguments']);
   $items['user/logout']['page callback'] = 'enterprise_bridge_auth_logout_page_callback';
 }
 

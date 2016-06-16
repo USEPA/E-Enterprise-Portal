@@ -27,22 +27,20 @@
  * @ingroup views_templates
  */
 
-
 ?>
 
 <p>The following resources are recommended for town, city, and county
-  governments based your chosen topics.</p>
+  governments based on your chosen topics.</p>
 
 <!--- List of user topics--->
-<div id="user-lgc-topics-small-view">
+<div id="user-lgc-topics-small-view" class="topics-collapsed">
   <div id="high-level-interests">
     <div class="usa-grid">
       <div class="usa-width-one-half">
         <span class="drop-down-arrow hidden" title="Show more topics"></span>
       </div>
       <div class="usa-width-one-half">
-        <i class="grid-selector fa fa-th fa-2x" aria-hidden="true"
-           title="Manage my topics"></i>
+        <i class="grid-selector fa fa-th" aria-hidden="true" title="Manage my topics"></i>
       </div>
     </div>
     <?php if (isset($_SESSION['user_lgc_topics'])): ?>
@@ -60,7 +58,7 @@
     <?php endif; ?>
   </div>
 </div>
-<!--- ---!>
+<!--- End list of user topics ---!>
 
 <div class="<?php print $classes; ?>">
     <?php print render($title_prefix); ?>
@@ -88,8 +86,9 @@
 
     <?php if ($rows): ?>
         <div class="view-content">
-            <div class='usa-grid-full'><ul aria-describedby='topic-description'>
+            <div class='usa-grid-full'>
             <?php print $rows; ?>
+            </div>
         </div>
     <?php elseif ($empty): ?>
         <div class="view-empty">

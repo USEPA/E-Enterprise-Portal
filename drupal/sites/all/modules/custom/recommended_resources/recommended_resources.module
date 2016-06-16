@@ -147,7 +147,6 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id) {
       '#value' => 1
     );
 
-
     $form_state['rebuild'] = TRUE;
 
     $form['#attributes']['novalidate'] = '1';
