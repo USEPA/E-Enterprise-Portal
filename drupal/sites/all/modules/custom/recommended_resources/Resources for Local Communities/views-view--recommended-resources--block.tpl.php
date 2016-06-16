@@ -60,8 +60,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
   // Load the currently logged in user.
   global $user;
   // Check if the user has the 'editor' role.
-  if ($user->name != 'guest-user') {
-    ?>
+  if ($user->name != 'guest-user'): ?>
     <ul>
 
       <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#user-local-resources">My
@@ -71,16 +70,12 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
       </li>
 
     </ul>
-    <?php
-  }
-  ?>
+    <?php endif; ?>
 
   <?php
-  if ($user->name != 'guest-user') {
-    ?>
+  if ($user->name != 'guest-user'): ?>
     <div id="user-local-resources"></div>
-    <?php
-  }
+    <?php endif;
   ?>
   <div id="all-local-resources-wrapper">
     <div id="all-local-resources"></div>

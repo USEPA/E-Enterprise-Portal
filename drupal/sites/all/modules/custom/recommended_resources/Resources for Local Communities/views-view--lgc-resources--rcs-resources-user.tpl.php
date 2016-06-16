@@ -46,7 +46,7 @@
     </div>
     <?php if (isset($_SESSION['user_lgc_topics'])): ?>
       <?php
-      foreach ($_SESSION['user_lgc_topics'] as $tid => $topic) {
+      foreach ($_SESSION['user_lgc_topics'] as $tid => $topic):
         ?>
         <div class="embedded-lgc-topic-elem">
           <label class="ck-button lgc-topics-of-interest"
@@ -54,9 +54,7 @@
             <?php print $topic ?>
           </label>
         </div>
-        <?php
-      }
-      ?>
+        <?php endforeach; ?>
 
     <?php else: ?>
       <p> No session set</p>
