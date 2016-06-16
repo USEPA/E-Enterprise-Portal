@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings form for CDX Facility Management Widget.
+ * Settings form for RCS Data consumption to load LGC resources.
  */
 function rcs_settings($form, $form_state) {
     $form = array();

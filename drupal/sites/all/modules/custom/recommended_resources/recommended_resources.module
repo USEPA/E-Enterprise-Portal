@@ -438,7 +438,6 @@ function load_data_from_rcs() {
 function rcs_lgc_resources_json_all() {
   $resource_array = load_data_from_rcs();
   print json_encode($resource_array);
-  print(variable_get('rcs_endpoint_url'));
   exit();
 }
 
