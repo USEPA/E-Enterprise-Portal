@@ -26,8 +26,6 @@
  *
  * @ingroup views_templates
  */
-
-
 ?>
 
 <p>The following resources are recommended for town, city, and county
@@ -89,8 +87,9 @@
 
     <?php if ($rows): ?>
         <div class="view-content">
-            <div class='usa-grid-full'><ul aria-describedby='topic-description'>
+            <div class='usa-grid-full'>
             <?php print $rows; ?>
+            </div>
         </div>
     <?php elseif ($empty): ?>
         <div class="view-empty">

@@ -17,25 +17,23 @@
 
   Drupal.behaviors.modal508Compliance = {
     attach: function(context) {
-      var $simple_dialog_container = $('#simple-dialog-container');
-      var $modal_content = $('#modal-content');
       $('body').on('change', 'select#location-select', function() {
         var currentZip = $(this).val();
         if (currentZip == 'view_more') {
           add_aria_hidden_true_attrib_to_workbench();
           add_aria_hidden_true_attrib_facility_inputs_to_workbench();
-          $('#dialog-all-locations').find('input').removeAttr('aria-hidden');
+          $('#dialog-all-locations input').removeAttr('aria-hidden');
         }
       });
       $('#dialog-all-locations').on("dialogclose", function() {
         add_aria_hidden_false_attrib_to_workbench();
         add_aria_hidden_false_attrib_facility_inputs_to_workbench();
       });
-      $simple_dialog_container.on("dialogclose", function() {
+      $('#simple-dialog-container').on("dialogclose", function() {
         add_aria_hidden_false_attrib_to_workbench();
         add_aria_hidden_false_attrib_facility_inputs_to_workbench();
       });
-      if ($simple_dialog_container.is(':visible')) {
+      if ($('#simple-dialog-container').is(':visible')) {
         add_aria_hidden_true_attrib_to_workbench();
         add_aria_hidden_true_attrib_facility_inputs_to_workbench();
       }
@@ -46,44 +44,45 @@
         add_aria_hidden_true_attrib_to_workbench();
       });
 
-      if ($modal_content.is(':visible')) {
+      if ($('#modal-content').is(':visible')) {
         $('#edit-field-profile-first-name-und-0-value').attr('aria-hidden', 'true');
         $('#edit-mail').attr('aria-hidden', 'true');
-        $('#edit-field-zip-code').find('input').attr('aria-hidden', 'true');
+        $('#edit-field-zip-code input').attr('aria-hidden', 'true');
         $('#edit-field-organization-und').attr('aria-hidden', 'true');
         $('#edit-field-role-und').attr('aria-hidden', 'true');
-        $('#edit-field-lgc-topics-of-interest-und').find('input').attr('aria-hidden', 'true');
-        $('#edit-field-profile-favourites').find('input').attr('aria-hidden', 'true');
+        $('#edit-field-lgc-topics-of-interest-und input').attr('aria-hidden', 'true');
+        $('#edit-field-profile-favourites input').attr('aria-hidden', 'true');
         $('#edit-submit').attr('aria-hidden', 'true');
         $('#edit-submit--2').attr('aria-hidden', 'true');
         $('#edit-delete').attr('aria-hidden', 'true');
-        $('#profile-tabs').find('ul').find('li').attr('aria-hidden', 'true');
-        $('#field-zip-code-values').find('.field_zip_code-delta-order').attr('aria-hidden', 'true');
-        $('#links_description').find('select').attr('aria-hidden', 'true');
-        $('#delete-holder').find('button').attr('aria-hidden', 'true');
+        $('#profile-tabs ul li').attr('aria-hidden', 'true');
+        $('#field-zip-code-values .field_zip_code-delta-order').attr('aria-hidden', 'true');
+        $('#links_description select').attr('aria-hidden', 'true');
+        $('#delete-holder button').attr('aria-hidden', 'true');
         $('#location-input-guests').attr('aria-hidden', 'true');
         add_aria_hidden_true_attrib_to_workbench();
         add_aria_hidden_true_attrib_facility_inputs_to_workbench();
         //$('#').attr('aria-hidden', 'true');
       }
-      $modal_content.on("remove", function() {
+      $('#modal-content').on("remove", function() {
         $('#edit-field-profile-first-name-und-0-value').attr('aria-hidden', 'false');
         $('#edit-mail').attr('aria-hidden', 'false');
-        $('#edit-field-zip-code').find('input').attr('aria-hidden', 'false');
+        $('#edit-field-zip-code input').attr('aria-hidden', 'false');
         $('#edit-field-organization-und').attr('aria-hidden', 'false');
         $('#edit-field-role-und').attr('aria-hidden', 'false');
-        $('#edit-field-lgc-topics-of-interest-und').find('input').attr('aria-hidden', 'false');
-        $('#edit-field-profile-favourites').find('input').attr('aria-hidden', 'false');
+        $('#edit-field-lgc-topics-of-interest-und input').attr('aria-hidden', 'false');
+        $('#edit-field-profile-favourites input').attr('aria-hidden', 'false');
         $('#edit-submit').attr('aria-hidden', 'false');
         $('#edit-submit--2').attr('aria-hidden', 'false');
         $('#edit-delete').attr('aria-hidden', 'false');
-        $('#profile-tabs').find('ul').find('li').attr('aria-hidden', 'false');
-        $('#field-zip-code-values').find('.field_zip_code-delta-order').attr('aria-hidden', 'false');
-        $('#links_description').find('select').attr('aria-hidden', 'false');
-        $('#delete-holder').find('button').attr('aria-hidden', 'false');
+        $('#profile-tabs ul li').attr('aria-hidden', 'false');
+        $('#field-zip-code-values .field_zip_code-delta-order').attr('aria-hidden', 'false');
+        $('#links_description select').attr('aria-hidden', 'false');
+        $('#delete-holder button').attr('aria-hidden', 'false');
         $('#location-input-guests').attr('aria-hidden', 'false');
         add_aria_hidden_false_attrib_to_workbench();
         add_aria_hidden_false_attrib_facility_inputs_to_workbench();
+        //$('#').attr('aria-hidden', 'false');
       });
 
       function add_aria_hidden_true_attrib_facility_inputs_to_workbench() {
@@ -183,6 +182,7 @@
           var cellHeight = 10;
           var verticalMargin = 10;
           var is_saving = false;
+          var allowed_drag = false;
 
           function createGrid() {
             var $grid_container = $('.grid-stack');
@@ -202,7 +202,7 @@
             var $revert_button = $('#revert-grid-changes');
             var $save_button = $('#save-grid-changes');
 
-            addDragListeners($grid_change_options);
+            addDragListeners($grid_container, $grid_change_options);
             addSaveListeners(grid, $save_button, $revert_button);
             loadUserIndices(grid);
             addResizeSensors(grid, verticalMargin, cellHeight);
@@ -213,7 +213,7 @@
 
           }
 
-          function addDragListeners($grid_change_options) {
+          function addDragListeners($grid_container, $grid_change_options) {
             $('body').on('swapped_grid', function() {
               $grid_change_options.show();
             });
