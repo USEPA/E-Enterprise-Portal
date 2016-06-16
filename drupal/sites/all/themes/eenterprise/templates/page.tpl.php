@@ -46,13 +46,13 @@ else {
 <div class="mobile-nav_links element-hidden"></div><!-- @end mobile-nav_links -->
 </div><!-- @end mobile-nav -->
 <?php print render($page['mobile-navigation']); ?>
-<header class="masthead usa-grid" role="banner">
+<header class="masthead usa-grid">
     <?php
         $hgroup_open = '';
         $hgroup_close = '';
         if ($site_name || $site_slogan) {
-            $hgroup_open = '<hgroup class="site-name-and-slogan usa-width-one-half">';
-            $hgroup_close = '</hgroup>';
+            $hgroup_open = '<div class="site-name-and-slogan usa-width-one-half">';
+            $hgroup_close = '</div>';
         }
     ?>
     <?php print $hgroup_open; ?>
