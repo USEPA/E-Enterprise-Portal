@@ -1,3 +1,46 @@
+// @see https://gist.github.com/cman81/ef1ad79cff899c01160ba7d77f761f13
+// @see https://gist.github.com/jmcd/2284550
+(function($) {
+
+  var methods = {
+    init: function() {
+      var $ul = $("<ul/>").insertAfter(this);
+      var $container = $ul.prev().andSelf().wrapAll("<div class='multiselect-to-checkboxes'></div>");
+      var baseId = "_" + $(this).attr("id");
+      $(this).children("option").each(function(index) {
+        var $option = $(this);
+        var id = baseId + index;
+        var $li = $("<li/>").appendTo($ul);
+        var $checkbox = $("<input type='checkbox' id='" + id + "'/>").appendTo($li).change(function() {
+          var $option = $(this).parents('.multiselect-to-checkboxes').find('select option').eq(index);
+          if ($(this).is(":checked")) {
+            $option.attr("selected", true).parent().change();
+          } else {
+            $option.attr("selected", false).parent().change();
+          }
+        });
+        if ($option.is(":selected")) {
+          $checkbox.attr("checked", "checked");
+        }
+        $checkbox.after("<label for='" + id + "'>" + $option.text() + "</label>");
+      });
+      $(this).hide();
+    }
+  };
+
+  $.fn.multiSelectToCheckboxes = function(method) {
+    if (methods[method]) {
+      return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+    } else if (typeof method === 'object' || !method) {
+      return methods.init.apply(this, arguments);
+    } else {
+      $.error('Method ' + method + ' does not exist on jQuery.multiSelectToCheckboxes');
+    }
+
+  };
+
+})(jQuery);
+
 var LocalResourcesTable;
 
 (function ($) {
@@ -80,7 +123,7 @@ var LocalResourcesTable;
 
           $table = $wrapper.find('table');
           if ($table.length > 0) {
-            $table.dataTable(datatable_options);
+            var tableDT = $table.DataTable(datatable_options);
             $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
             // in embedded_lgc_topics_view.js
             updateDropdown($('#user-lgc-topics-small-view'));
@@ -88,6 +131,15 @@ var LocalResourcesTable;
               var $elem_id = "#embed-manage-lgc-" + topics[0];
               $($elem_id).addClass('selected');
             }
+
+            yadcf.init(tableDT, [
+              {
+                column_number : 1,
+                filter_type: 'multi_select',
+                filter_container_selector: '#all-local-resources-wrapper .topic.facet'
+              },
+            ]);
+            $('#all-local-resources-wrapper').find('.topic.facet select').multiSelectToCheckboxes();
           }
           else {
             $wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>')

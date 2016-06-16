@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * module file
+ *
+ */
+
+/*
+ * In settings.php
+ * $conf['feature_flags'] = array(
+    'site_help' => array(
+      'name' => 'Example feature to toggle help module', 
+    ),
+    'site_log' => array(
+      'name' => 'Example feature to toggle database logging module',
+    ),
+  );
+ */
+
+/**
+ * Implements hook_feature_toggle_<feature-name>_enable().
+ */
+function feature_toggle_example_feature_toggle_site_help_enable() {
+  module_enable(array("help"), TRUE);
+}
+
+/**
+ * Implements hook_feature_toggle_<feature-name>_disable().
+ */
+function feature_toggle_example_feature_toggle_site_help_disable() {
+  module_disable(array("help"), TRUE);
+}
+
+/**
+ * Implements hook_init().
+ */
+function feature_toggle_example_init() {
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+  if(feature_toggle_get_status("site_help")){
+    drupal_set_message("site_help feature is enabled");
+  }else{
+    drupal_set_message("site_help feature is disabled");
+  }
+}
+
+// EOF
