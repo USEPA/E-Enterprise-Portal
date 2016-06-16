@@ -1,0 +1,12 @@
+name = Feature toggle
+description = Enable or disable features.
+core = 7.x
+
+configure = admin/features/toggle
+
+; Information added by Drupal.org packaging script on 2015-04-27
+version = "7.x-1.0-alpha1"
+core = "7.x"
+project = "feature_toggle"
+datestamp = "1430165890"
+

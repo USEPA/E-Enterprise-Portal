@@ -4,10 +4,9 @@
  */
 function rcs_settings($form, $form_state) {
     $form = array();
-    $reset_time = variable_get('rcs_cache_reset_time');
-    if (!isset($reset_time)) {
-        $reset_time = 5; // default of 5 minutes
-    }
+    // Amount of minutes to wait before reloading the RCS data
+    $default_reload_time = 5;
+
     $form['rcs_settings'] = array(
         '#type' => 'fieldset',
         '#title' => t('RCS Data configurations'),
@@ -24,7 +23,7 @@ function rcs_settings($form, $form_state) {
     $form['rcs_settings']['rcs_cache_reset_time'] = array(
       '#type' => 'textfield',
       '#title' => t('Time (minutes) for refresh rate of RCS data'),
-      '#default_value' => $reset_time,
+      '#default_value' => variable_get('rcs_cache_reset_time', $default_reload_time),
       '#element_validate' => array('element_validate_number'),
     );
 

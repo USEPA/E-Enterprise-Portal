@@ -358,15 +358,21 @@ function load_data_from_rcs() {
     $term_tid_mapping = array();
     // Track terms that are no longer part of LGC taxonomy due to updates from RCS
     $deprecated_terms = array();
-    $url = variable_get('rcs_endpoint_url');
-    if (!isset($url) || $url === '') {
-      // Default if url is not configured
-      $url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+
+
+    module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+    if (feature_toggle_get_status('sample_rcs_data')) {
+      $response = new stdClass();
+      $response->data = file_get_contents(drupal_get_path('module', 'recommended_resources') . '/sample-response.xml');
+    } else {
+      $default_url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+      $url = variable_get('rcs_endpoint_url', $default_url);
+      $response = drupal_http_request($url, array(
+        'headers' => array('Content-Type' => 'text/xml'),
+        'method' => 'GET',
+      ));
     }
-    $response = drupal_http_request($url, array(
-      'headers' => array('Content-Type' => 'text/xml'),
-      'method' => 'GET',
-    ));
+
     // Convert the response into an xml object
     $xmlobj = simplexml_load_string($response->data);
     // convert the resources into an array
