@@ -4,7 +4,7 @@
  * block--system--main.tpl.php
  */
 ?>
-<nav class="nav main-nav usa-width-one-half" role="navigation">
+<nav class="nav main-nav usa-width-one-half">
 <?php if ($block->subject): ?>
   <h2 class="element-invisible"><?php print $block->subject; ?></h2>
 <?php endif;?>

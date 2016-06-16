@@ -524,7 +524,7 @@ function eenterprise_pager($vars) {
         'data' => $li_last,
       );
     }
-    return '<nav role="navigation"><h2 class="element-invisible">' . t('Pages') . '</h2>' . theme('item_list', array(
+    return '<nav><h2 class="element-invisible">' . t('Pages') . '</h2>' . theme('item_list', array(
       'items' => $items,
       'attributes' => array('class' => array('pager')),
     )) . '</nav>';
