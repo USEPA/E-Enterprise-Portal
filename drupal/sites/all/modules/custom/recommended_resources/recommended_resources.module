@@ -342,7 +342,7 @@ function load_data_from_rcs() {
   // Store cache of data so request to RCS is not required each call
   $cache = variable_get('rcs_cache');
   if (!isset($cache)) {
-    $cache = array();
+    $cache = array('resources' => array());
   }
   // Capture time the cache was last updated
   $time_last_loaded = variable_get('rcs_cache_load_time');
@@ -351,15 +351,18 @@ function load_data_from_rcs() {
   $time_diff = ($current_time - $time_last_loaded) / 60;
 
   // If the cache has not been updated in ($cache_update_refresh) minutes, refresh the data
-  if (count($cache) === 0 || $time_diff >= $cache_update_refresh) {
+  if (count($cache['resources']) == 0 || $time_diff >= $cache_update_refresh) {
     // Tracks all resources pulled from RCS and parsed from XML
     $resources_array = array("resources" => array());
     // Tracks all topic mapping to tids
     $term_tid_mapping = array();
     // Track terms that are no longer part of LGC taxonomy due to updates from RCS
     $deprecated_terms = array();
-
-    $url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+    $url = variable_get('rcs_endpoint_url');
+    if (!isset($url) || $url === '') {
+      // Default if url is not configured
+      $url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+    }
     $response = drupal_http_request($url, array(
       'headers' => array('Content-Type' => 'text/xml'),
       'method' => 'GET',
@@ -435,6 +438,7 @@ function load_data_from_rcs() {
 function rcs_lgc_resources_json_all() {
   $resource_array = load_data_from_rcs();
   print json_encode($resource_array);
+  print(variable_get('rcs_endpoint_url'));
   exit();
 }
 
