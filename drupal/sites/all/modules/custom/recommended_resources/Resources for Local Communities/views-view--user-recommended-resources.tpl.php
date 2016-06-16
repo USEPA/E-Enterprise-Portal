@@ -27,36 +27,31 @@
  * @ingroup views_templates
  */
 
-
 ?>
 
 <p>The following resources are recommended for town, city, and county
-  governments based your chosen topics.</p>
+  governments based on your chosen topics.</p>
 
 <!--- List of user topics--->
-<div id="user-lgc-topics-small-view">
+<div id="user-lgc-topics-small-view" class="topics-collapsed">
   <div id="high-level-interests">
     <div class="usa-grid">
       <div class="usa-width-one-half">
         <span class="drop-down-arrow hidden" title="Show more topics"></span>
       </div>
       <div class="usa-width-one-half">
-        <i class="grid-selector fa fa-th fa-2x" aria-hidden="true" title="Manage my topics"></i>
+        <i class="grid-selector fa fa-th" aria-hidden="true" title="Manage my topics"></i>
       </div>
     </div>
     <?php if (isset($_SESSION['user_lgc_topics'])): ?>
-      <?php
-      foreach ($_SESSION['user_lgc_topics'] as $tid => $topic) {
-        ?>
+      <?php foreach ($_SESSION['user_lgc_topics'] as $tid => $topic): ?>
         <div class="embedded-lgc-topic-elem">
           <label class="ck-button lgc-topics-of-interest"
                  id="embed-manage-lgc-<?php print $tid ?>">
             <?php print $topic ?>
           </label>
         </div>
-        <?php
-      }
-      ?>
+      <?php endforeach; ?>
 
     <?php else: ?>
       <p> No session set</p>

@@ -26,8 +26,6 @@
  *
  * @ingroup views_templates
  */
-
-
 ?>
 
 <p>The following resources are recommended for town, city, and county
@@ -46,7 +44,7 @@
     </div>
     <?php if (isset($_SESSION['user_lgc_topics'])): ?>
       <?php
-      foreach ($_SESSION['user_lgc_topics'] as $tid => $topic) {
+      foreach ($_SESSION['user_lgc_topics'] as $tid => $topic):
         ?>
         <div class="embedded-lgc-topic-elem">
           <label class="ck-button lgc-topics-of-interest"
@@ -54,9 +52,7 @@
             <?php print $topic ?>
           </label>
         </div>
-        <?php
-      }
-      ?>
+        <?php endforeach; ?>
 
     <?php else: ?>
       <p> No session set</p>
@@ -91,8 +87,9 @@
 
     <?php if ($rows): ?>
         <div class="view-content">
-            <div class='usa-grid-full'><ul aria-describedby='topic-description'>
+            <div class='usa-grid-full'>
             <?php print $rows; ?>
+            </div>
         </div>
     <?php elseif ($empty): ?>
         <div class="view-empty">

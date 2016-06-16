@@ -1,12 +1,12 @@
-  var favorite_local_resources_table, all_local_resources_table, pane_content;
-  var pane_class = ".pane-views-recommended-resources-block";
-  var manage_components_title = "Manage my Topics";
+var favorite_local_resources_table, all_local_resources_table;
+var pane_class = ".pane-views-recommended-resources-block";
+var manage_components_title = "Manage my Topics";
 
-  (function ($) {
+(function ($) {
 
 
-    function showLGCResourcesView() {
-    $('#user-lgc-topics-small-view label').removeClass('selected');
+  function showLGCResourcesView() {
+    $('#user-lgc-topics-small-view').find('label').removeClass('selected');
     favorite_local_resources_table.updateTopics([]);
     favorite_local_resources_table.showTable();
     $('#manage-my-topics-wrapper').hide();
@@ -25,7 +25,7 @@
   function loadManageTopicsView() {
     $.ajax({
       url: "manage_my_topics/load_view",
-      beforeSend: function() {
+      beforeSend: function () {
         $('#local-resources-tabs').hide();
         $(pane_class).find('.pane-title').hide();
         $('.unfollow-lgc-topic').hide();
@@ -33,9 +33,9 @@
         $('.lgc-header').text(manage_components_title).show();
         $('#manage-my-topics-wrapper').html('Loading...').show();
       },
-       success: function(html_view) {
-         $('#manage-my-topics-wrapper').html(html_view);
-       }
+      success: function (html_view) {
+        $('#manage-my-topics-wrapper').html(html_view);
+      }
     });
   }
 
@@ -54,16 +54,14 @@
   }
 
 
-
-
-    $(document).ready(function () {
-
+  $(document).ready(function () {
+    var $body = $('body');
     var guest_user = Drupal.settings.is_guest;
-     all_local_resources_table = new LocalResourcesTable($("#all-local-resources"), 'generateAllLocalResourcesTable');
 
+    all_local_resources_table = new LocalResourcesTable($("#all-local-resources"), 'generateAllLocalResourcesTable');
     // Guest user can only view all the content, so they do not have tabs
     if (!guest_user) {
-       favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"), 'generateUserLocalResourcesTable');
+      favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"), 'generateUserLocalResourcesTable');
       var $tabs = $("#local-resources-tabs");
       $tabs.tabs();
     }
@@ -77,8 +75,8 @@
 
     if (!first_time_user_loading) {
       if (!guest_user) {
-        favorite_local_resources_table.showTable();
-        all_local_resources_table.ajax_request();
+        all_local_resources_table.showTable();
+        favorite_local_resources_table.ajax_request();
       }
       else {
         all_local_resources_table.showTable();
@@ -88,28 +86,30 @@
     $(document).on('ee:first_time_user_complete', function () {
       first_time_user_loading = false;
       if (!guest_user) {
-        favorite_local_resources_table.showTable();
-        all_local_resources_table.ajax_request();
+        all_local_resources_table.showTable();
+        favorite_local_resources_table.ajax_request();
       }
       else {
         all_local_resources_table.showTable();
       }
     });
 
-    $('body').on('click', '#user-lgc-topics-small-view label', function () {
+    $body.on('click', '#user-lgc-topics-small-view label', function () {
       showFocusedTopicView($(this));
     });
 
-    $('body').on('click', '#user-lgc-topics-small-view .grid-selector, #add-more-topics', function() {
-        loadManageTopicsView();
+    $body.on('click', '#user-lgc-topics-small-view .grid-selector, #add-more-topics', function () {
+      loadManageTopicsView();
     });
 
-    $('body').on('click', '.back-to-lgc-widget a, .back-to-lgc-widget .left-arrow',
-      function() {
+    $body.on('click', '.back-to-lgc-widget a, .back-to-lgc-widget .left-arrow',
+      function () {
         showLGCResourcesView();
       });
 
-
+    $body.on('click', '#restrict-to-local-resources-button', function () {
+      favorite_local_resources_table.ajax_request();
+      updateDropdown($('#user-lgc-topics-small-view'));
+    });
   });
-
 }(jQuery));

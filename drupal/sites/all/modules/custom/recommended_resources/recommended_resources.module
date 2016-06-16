@@ -147,7 +147,6 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id) {
       '#value' => 1
     );
 
-
     $form_state['rebuild'] = TRUE;
 
     $form['#attributes']['novalidate'] = '1';
@@ -224,14 +223,7 @@ function generateUserLocalResourcesTable() {
 }
 
 function generateAllLocalResourcesTable() {
-//  if (isset($_POST['filters'])) {
-//    $topics = xssafe($_POST['filters']);
-//    $tids = implode('+', $topics);
-//    $table = views_embed_view('recommended_resources', 'block_to_be_rendered', $tids);
-//  }
-//  else {
   $table = views_embed_view('lgc_resources', 'rcs_resources_all');
-//  }
   print $table;
 }
 
@@ -339,13 +331,34 @@ function load_view() {
   exit();
 }
 
-
+/**
+ * Parses XML return from RCS to
+ *  1) update LGC Taxonomy with changes to LGC topics
+ *  2) Return an array with structured LGC data
+ * @return array
+ * @throws \Exception
+ */
 function load_data_from_rcs() {
+  // Store cache of data so request to RCS is not required each call
   $cache = variable_get('rcs_cache');
+  if (!isset($cache)) {
+    $cache = array();
+  }
+  // Capture time the cache was last updated
   $time_last_loaded = variable_get('rcs_cache_load_time');
+  $cache_update_refresh = 5;
   $current_time = time();
   $time_diff = ($current_time - $time_last_loaded) / 60;
-  if (!isset($cache) || $time_diff >= 1) {
+
+  // If the cache has not been updated in ($cache_update_refresh) minutes, refresh the data
+  if (count($cache) === 0 || $time_diff >= $cache_update_refresh) {
+    // Tracks all resources pulled from RCS and parsed from XML
+    $resources_array = array("resources" => array());
+    // Tracks all topic mapping to tids
+    $term_tid_mapping = array();
+    // Track terms that are no longer part of LGC taxonomy due to updates from RCS
+    $deprecated_terms = array();
+
     module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
     if (feature_toggle_get_status('sample_rcs_data')) {
       $response = new stdClass();
@@ -357,49 +370,61 @@ function load_data_from_rcs() {
         'method' => 'GET',
       ));
     }
-
+    // Convert the response into an xml object
     $xmlobj = simplexml_load_string($response->data);
+    // convert the resources into an array
     $resources = xml2array($xmlobj->Results->NewDataSet);
-    $resources_array = array("resources" => array());
-    $processed_topics = array();
+    // Load LGC Resource taxonomy
     $vocabulary = taxonomy_vocabulary_machine_name_load('lgc_topics');
     $vid = $vocabulary->vid;
+    // Load the terms for the LGC Resource taxonomy
     $terms = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
-    $term_tid_mapping = array();
-    $remaining_terms = array();
+
+    // Initialize $term_tid_mapping and $deprecated_terms with mapping of
+    // topic name to tid from LGC taxonomy
     foreach ($terms as $tid => $term_data) {
       $term_tid_mapping[$term_data->name] = $tid;
-      $remaining_terms[$term_data->name] = $tid;
+      $deprecated_terms[$term_data->name] = $tid;
     }
+
+    /* Loop through RCS xml return to
+    *  1) update LGC taxonomy with LGC topic names,
+    *  2) return array of LGC resources
+    */
     foreach ($resources['Resource'] as $simpleXML) {
+      // Convert inner xmlObj of resource array to array
       $resource_array = xml2array($simpleXML);
       $topic = $resource_array['TopicText'];
+      // Only pull LGC Resource if contains topic
       if ($topic !== '') {
+        // Trim any non-alphanumeric from topic and description
         $topic = trim(preg_replace("/[^A-Za-z0-9 ]/", '', $topic));
         $resources_array['DescriptionText'] = trim(preg_replace("/[^A-Za-z0-9 ]/", '', $resources_array['DescriptionText']));
-        // Found topic, remove from remaining list
-        unset($remaining_terms[$topic]);
+
+        // Topic is not deprecated
+        unset($deprecated_terms[$topic]);
+
+        // Add topic to tid_mapping if the topic has not been saved
+        // to the LGC Resource taxonomy
         if (!isset($term_tid_mapping[$topic])) {
-          // adds topic to tid_mapping
+          // Update $term_tid_mapping with topic=>tid
           add_new_rcs_topic_to_taxonomy($topic, $vid, $term_tid_mapping);
         }
-        if (!isset($processed_topics[$topic])) {
-          $tid = $term_tid_mapping[$topic];
-          $processed_topics[$topic] = $tid;
-        }
-        else {
-          $tid = $processed_topics[$topic];
-        }
+
+        // Update processed topics if has not been updated
+        $tid = $term_tid_mapping[$topic];
+
         $resource_array['tid'] = $tid;
         $resources_array["resources"][] = $resource_array;
       }
     }
-    // Delete remaining terms
-    foreach ($remaining_terms as $term_to_delete => $tid) {
+
+    // Delete $deprecated_terms not included in RCS data
+    foreach ($deprecated_terms as $term_to_delete => $tid) {
       taxonomy_term_delete($tid);
     }
 
-
+    // Set variables for cache to save processing time on recurrent calls
     variable_set('rcs_cache', $resources_array);
     variable_set('rcs_cache_load_time', time());
     return $resources_array;
