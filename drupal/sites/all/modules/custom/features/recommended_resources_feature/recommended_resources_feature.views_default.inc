@@ -159,8 +159,8 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['query']['options']['row_apath'] = 'resources';
   $handler->display->display_options['query']['options']['show_errors'] = 1;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'datatables';
   /* Field: ResourceName: value */
   $handler->display->display_options['fields']['value']['id'] = 'value';
