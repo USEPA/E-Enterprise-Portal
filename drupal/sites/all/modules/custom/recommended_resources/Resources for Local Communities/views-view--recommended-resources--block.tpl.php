@@ -72,6 +72,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
 
   <div id="all-local-resources-wrapper" class="clearfix">
     <div class="faceted-filters left">
+      <h3>Topic</h3>
       <div class="topic facet"></div>
     </div>
     <div class="left">

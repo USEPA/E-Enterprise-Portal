@@ -23,6 +23,16 @@
           $checkbox.attr("checked", "checked");
         }
         $checkbox.after("<label for='" + id + "'>" + $option.text() + "</label>");
+
+        // if this is a placeholder item, hide it so that it cannot be selected
+        var dataPlaceholderAttr = $option.attr('data-placeholder');
+        if ( // @see http://stackoverflow.com/questions/1318076/jquery-hasattr-checking-to-see-if-there-is-an-attribute-on-an-element
+          typeof dataPlaceholderAttr !== typeof undefined
+          && dataPlaceholderAttr !== false
+          && dataPlaceholderAttr.toLowerCase() == 'true'
+        ) {
+          $li.hide();
+        }
       });
       $(this).hide();
     }
