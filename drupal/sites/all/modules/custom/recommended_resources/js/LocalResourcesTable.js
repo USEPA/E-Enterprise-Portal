@@ -149,14 +149,13 @@ var LocalResourcesTable;
               /*Iterate through each facet, search for the number of occurrences of that facet in the data table and show
                * count next to each facet.*/
               $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('li').each(function (index) {
-                  if (index > 0) {
-                      var facet_topic = $(this).children('label').html();
-                      var res_t = $.grep(tableDT.data(), function (n, i) {
-                          var patrn = new RegExp(facet_topic.trim());
-                          return patrn.test(n[1]);
-                      }, false);
-                      $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
-                  }
+                if (index > 0) {
+                  var facet_topic = $(this).children('label').html();
+                  var res_t = $.grep(tableDT.data(), function (n, i) {
+                    return (facet_topic.trim()) == (n[1]).trim();
+                  }, false);
+                  $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+                }
               });
           }
           else {
