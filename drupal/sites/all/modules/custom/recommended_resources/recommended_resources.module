@@ -347,7 +347,6 @@ function load_data_from_rcs() {
   $cache_update_refresh = variable_get('rcs_cache_reset_time', 5);
   $current_time = time();
   $time_diff = ($current_time - $time_last_loaded) / 60;
-
   // If the cache has not been updated in ($cache_update_refresh) minutes, refresh the data
   if (count($cache['resources']) === 0 || $time_diff >= $cache_update_refresh) {
     // Tracks all resources pulled from RCS and parsed from XML
@@ -356,7 +355,6 @@ function load_data_from_rcs() {
     $term_tid_mapping = array();
     // Track terms that are no longer part of LGC taxonomy due to updates from RCS
     $deprecated_terms = array();
-
 
     module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
     if (feature_toggle_get_status('sample_rcs_data')) {
@@ -412,10 +410,8 @@ function load_data_from_rcs() {
           // Update $term_tid_mapping with topic=>tid
           add_new_rcs_topic_to_taxonomy($topic, $vid, $term_tid_mapping);
         }
-
-        // Update processed topics if has not been updated
+        // Save the new TID to the RCS return (resource_array)
         $tid = $term_tid_mapping[$topic];
-
         $resource_array['tid'] = $tid;
         $resources_array["resources"][] = $resource_array;
       }
