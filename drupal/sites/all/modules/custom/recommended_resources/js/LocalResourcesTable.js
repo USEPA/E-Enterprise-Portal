@@ -146,18 +146,18 @@ var LocalResourcesTable;
             ]);
             $('#all-local-resources-wrapper').find('.topic.facet select').multiSelectToCheckboxes();
 
-            /*Iterate through each facet, search for the number of occurrences of that facet in the data table and show
-            * count next to each facet.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('li').each(function(index) {
-              if(index > 0) {
-                  var facet_topic = $(this).children('label').html();
-                  var res_t = $.grep( tableDT.data(), function( n, i ) {
-                      var patrn = new RegExp(facet_topic.trim());
-                      return patrn.test(n[1]);
-                  }, false );
-                  $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
-              }
-            });
+              /*Iterate through each facet, search for the number of occurrences of that facet in the data table and show
+               * count next to each facet.*/
+              $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('li').each(function (index) {
+                  if (index > 0) {
+                      var facet_topic = $(this).children('label').html();
+                      var res_t = $.grep(tableDT.data(), function (n, i) {
+                          var patrn = new RegExp(facet_topic.trim());
+                          return patrn.test(n[1]);
+                      }, false);
+                      $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+                  }
+              });
           }
           else {
             $wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>')
