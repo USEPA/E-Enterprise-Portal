@@ -39,8 +39,9 @@ function recommended_resources_menu() {
     'access callback' => TRUE,
   );
 
-  $items['rcs_lgc_resources_json_by_user'] = array(
+  $items['rcs_lgc_resources_json_by_user/%'] = array(
     'page callback' => 'rcs_lgc_resources_json_by_user',
+    'page arguments' => array(1),
     'access callback' => TRUE,
   );
 
@@ -463,10 +464,12 @@ function lgc_user_tids($uid) {
 /**
  * returns lgc resource by what topics the user has selected in their profile or lgc widget
  */
-function rcs_lgc_resources_json_by_user() {
-
-  global $user;
-  $uid = $user->uid;
+function rcs_lgc_resources_json_by_user($uid = -1) {
+  if ($uid == -1) {
+    // TODO: find out cases where this conditional is actually running
+    global $user;
+    $uid = $user->uid;
+  }
   $user_lgc_tids = lgc_user_tids($uid);
   $resources_array = load_data_from_rcs();
   $response = array('resources' => array());
@@ -534,3 +537,13 @@ function add_new_rcs_topic_to_taxonomy($topic, $vid, &$tid_term_mapping) {
   $tid_term_mapping[$topic] = $tid;
 }
 
+/**
+ * Implements hook_views_pre_execute().
+ * Before running the REST call, provide the logged-in user's UID.
+ */
+function recommended_resources_views_pre_execute(&$view) {
+  global $user;
+  if (isset($view->display['rcs_resources_user'])) {
+    $view->query->options['json_file'] .= '/' . $user->uid;
+  }
+}
