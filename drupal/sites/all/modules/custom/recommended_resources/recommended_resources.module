@@ -393,13 +393,16 @@ function load_data_from_rcs() {
     foreach ($resources['Resource'] as $simpleXML) {
       // Convert inner xmlObj of resource array to array
       $resource_array = xml2array($simpleXML);
-      $topic = $resource_array['TopicText'];
       // Only pull LGC Resource if contains topic
-      if (isset($resource_array['TopicText']) && isset($resource_array['ResourceName']) &&
-        trim($resource_array['TopicText']) !== '' && trim($resource_array['ResourceName']) !== '') {
+      if (
+        isset($resource_array['TopicText'])
+        && isset($resource_array['ResourceName'])
+        && trim($resource_array['TopicText']) !== ''
+        && trim($resource_array['ResourceName']) !== ''
+      ) {
         // Trim any non-alphanumeric from topic and description
-        $topic = trim(preg_replace("/[^A-Za-z0-9 ]/", '', $topic));
-        $resources_array['DescriptionText'] = trim(preg_replace("/[^A-Za-z0-9 ]/", '', $resources_array['DescriptionText']));
+        $topic = trim($resource_array['TopicText']);
+        $resources_array['DescriptionText'] = trim($resources_array['DescriptionText']);
 
         // Topic is not deprecated
         unset($deprecated_terms[$topic]);
