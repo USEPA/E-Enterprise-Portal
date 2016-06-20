@@ -397,7 +397,8 @@ function load_data_from_rcs() {
       $resource_array = xml2array($simpleXML);
       $topic = $resource_array['TopicText'];
       // Only pull LGC Resource if contains topic
-      if ($topic !== '') {
+      if (isset($resource_array['TopicText']) && isset($resource_array['ResourceName']) &&
+        trim($resource_array['TopicText']) !== '' && trim($resource_array['ResourceName']) !== '') {
         // Trim any non-alphanumeric from topic and description
         $topic = trim(preg_replace("/[^A-Za-z0-9 ]/", '', $topic));
         $resources_array['DescriptionText'] = trim(preg_replace("/[^A-Za-z0-9 ]/", '', $resources_array['DescriptionText']));
