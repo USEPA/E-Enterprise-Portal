@@ -137,6 +137,8 @@ var LocalResourcesTable;
               $($elem_id).addClass('selected');
             }
 
+            // initialize faceted filtering using Yet Another DataTables Column Filter (yadcf) library
+            // @see views-view--recommended-resources--block.tpl.php
             var wrapperParentId = $wrapper.parents('.local.resources.wrapper').attr('id');
             yadcf.init(tableDT, [
               {
