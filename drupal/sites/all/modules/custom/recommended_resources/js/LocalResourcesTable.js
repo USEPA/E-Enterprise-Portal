@@ -84,7 +84,14 @@ var LocalResourcesTable;
           .html(pageNo + ' of ' + totalPages);
         $wrapper.find('.dataTables_paginate li:first').after($current_li);
 
-      }
+      },
+      // hide the following columns, they are only used for faceted filtering
+      "columnDefs": [
+        {
+          "targets": [3, 4, 5, 6, 7],
+          "visible": false
+        }
+      ]
     };
 
     var cached = false;
@@ -145,10 +152,48 @@ var LocalResourcesTable;
                 column_number : 1,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .topic.facet',
-                filter_match_mode: 'exact'
+                filter_match_mode: 'exact',
+                filter_reset_button_text: false
               },
+              {
+                column_number: 3,
+                filter_type: 'multi_select',
+                filter_container_selector: '#' + wrapperParentId + ' .category.facet',
+                filter_match_mode: 'exact',
+                filter_reset_button_text: false
+              },
+              {
+                column_number: 4,
+                filter_type: 'multi_select',
+                filter_container_selector: '#' + wrapperParentId + ' .tool-type.facet',
+                filter_match_mode: 'exact',
+                filter_reset_button_text: false
+              },
+              {
+                column_number: 5,
+                filter_type: 'multi_select',
+                filter_container_selector: '#' + wrapperParentId + ' .training-level.facet',
+                filter_match_mode: 'exact',
+                filter_reset_button_text: false
+              },
+              {
+                column_number: 6,
+                filter_type: 'multi_select',
+                filter_container_selector: '#' + wrapperParentId + ' .data-requirements.facet',
+                filter_match_mode: 'exact',
+                filter_reset_button_text: false
+              },
+              {
+                column_number: 7,
+                filter_type: 'multi_select',
+                filter_container_selector: '#' + wrapperParentId + ' .relevance.facet',
+                filter_match_mode: 'exact',
+                filter_reset_button_text: false
+              }
             ]);
-            $('#' + wrapperParentId).find('.topic.facet select').multiSelectToCheckboxes();
+            $('#' + wrapperParentId).find('.facet select').each(function() {
+              $(this).multiSelectToCheckboxes();
+            });
 
               /*Iterate through each facet, search for the number of occurrences of that facet in the data table and show
                * count next to each facet.*/

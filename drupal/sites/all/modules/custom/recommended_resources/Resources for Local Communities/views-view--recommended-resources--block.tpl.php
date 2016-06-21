@@ -7,7 +7,6 @@ drupal_add_js(drupal_get_path('module', $module_name) . "/js/manage_my_topics_co
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/embedded_lgc_topics_view.js", "file");
 drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resources.css", "file");
 
-
 /**
  * @file
  * Main view template.
@@ -74,6 +73,16 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     <div class="faceted-filters left">
       <h3>Topic</h3>
       <div class="topic facet"></div>
+      <h3>Category</h3>
+      <div class="category facet"></div>
+      <h3>Tool Type</h3>
+      <div class="tool-type facet"></div>
+      <h3>Training Level</h3>
+      <div class="training-level facet"></div>
+      <h3>Data Requirements</h3>
+      <div class="data-requirements facet"></div>
+      <h3>Relevance</h3>
+      <div class="relevance facet"></div>
     </div>
     <div class="left">
       <div class="your-selections">Your selections:</div>
@@ -86,6 +95,14 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
       <div class="faceted-filters left">
         <h3>Topic</h3>
         <div class="topic facet"></div>
+        <h3>Category</h3>
+        <div class="category facet"></div>
+        <h3>Tool Type</h3>
+        <div class="tool-type facet"></div>
+        <h3>Training Level</h3>
+        <div class="training-level facet"></div>
+        <h3>Relevance</h3>
+        <div class="relevance facet"></div>
       </div>
       <div class="left">
         <div class="your-selections">Your selections:</div>
