@@ -39,8 +39,9 @@ function recommended_resources_menu() {
     'access callback' => TRUE,
   );
 
-  $items['rcs_lgc_resources_json_by_user'] = array(
+  $items['rcs_lgc_resources_json_by_user/%'] = array(
     'page callback' => 'rcs_lgc_resources_json_by_user',
+    'page arguments' => array(1),
     'access callback' => TRUE,
   );
 
@@ -347,7 +348,6 @@ function load_data_from_rcs() {
   $cache_update_refresh = variable_get('rcs_cache_reset_time', 5);
   $current_time = time();
   $time_diff = ($current_time - $time_last_loaded) / 60;
-
   // If the cache has not been updated in ($cache_update_refresh) minutes, refresh the data
   if (count($cache['resources']) === 0 || $time_diff >= $cache_update_refresh) {
     // Tracks all resources pulled from RCS and parsed from XML
@@ -356,7 +356,6 @@ function load_data_from_rcs() {
     $term_tid_mapping = array();
     // Track terms that are no longer part of LGC taxonomy due to updates from RCS
     $deprecated_terms = array();
-
 
     module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
     if (feature_toggle_get_status('sample_rcs_data')) {
@@ -395,13 +394,16 @@ function load_data_from_rcs() {
     foreach ($resources['Resource'] as $simpleXML) {
       // Convert inner xmlObj of resource array to array
       $resource_array = xml2array($simpleXML);
-      $topic = $resource_array['TopicText'];
       // Only pull LGC Resource if contains topic
-      if (isset($resource_array['TopicText']) && isset($resource_array['ResourceName']) &&
-        trim($resource_array['TopicText']) !== '' && trim($resource_array['ResourceName']) !== '') {
+      if (
+        isset($resource_array['TopicText'])
+        && isset($resource_array['ResourceName'])
+        && trim($resource_array['TopicText']) !== ''
+        && trim($resource_array['ResourceName']) !== ''
+      ) {
         // Trim any non-alphanumeric from topic and description
-        $topic = trim(preg_replace("/[^A-Za-z0-9 ]/", '', $topic));
-        $resources_array['DescriptionText'] = trim(preg_replace("/[^A-Za-z0-9 ]/", '', $resources_array['DescriptionText']));
+        $topic = trim($resource_array['TopicText']);
+        $resources_array['DescriptionText'] = trim($resources_array['DescriptionText']);
 
         // Topic is not deprecated
         unset($deprecated_terms[$topic]);
@@ -412,10 +414,8 @@ function load_data_from_rcs() {
           // Update $term_tid_mapping with topic=>tid
           add_new_rcs_topic_to_taxonomy($topic, $vid, $term_tid_mapping);
         }
-
-        // Update processed topics if has not been updated
+        // Save the new TID to the RCS return (resource_array)
         $tid = $term_tid_mapping[$topic];
-
         $resource_array['tid'] = $tid;
         $resources_array["resources"][] = $resource_array;
       }
@@ -461,10 +461,12 @@ function lgc_user_tids($uid) {
 /**
  * returns lgc resource by what topics the user has selected in their profile or lgc widget
  */
-function rcs_lgc_resources_json_by_user() {
-
-  global $user;
-  $uid = $user->uid;
+function rcs_lgc_resources_json_by_user($uid = -1) {
+  if ($uid == -1) {
+    // TODO: find out cases where this conditional is actually running
+    global $user;
+    $uid = $user->uid;
+  }
   $user_lgc_tids = lgc_user_tids($uid);
   $resources_array = load_data_from_rcs();
   $response = array('resources' => array());
@@ -532,3 +534,13 @@ function add_new_rcs_topic_to_taxonomy($topic, $vid, &$tid_term_mapping) {
   $tid_term_mapping[$topic] = $tid;
 }
 
+/**
+ * Implements hook_views_pre_execute().
+ * Before running the REST call, provide the logged-in user's UID.
+ */
+function recommended_resources_views_pre_execute(&$view) {
+  global $user;
+  if (isset($view->display['rcs_resources_user'])) {
+    $view->query->options['json_file'] .= '/' . $user->uid;
+  }
+}

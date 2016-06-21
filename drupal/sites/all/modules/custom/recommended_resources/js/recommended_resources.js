@@ -62,6 +62,7 @@ var manage_components_title = "Manage my Topics";
     // Guest user can only view all the content, so they do not have tabs
     if (!guest_user) {
       favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"), 'generateUserLocalResourcesTable');
+
       var $tabs = $("#local-resources-tabs");
       $tabs.tabs();
     }
