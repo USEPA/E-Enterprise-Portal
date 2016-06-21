@@ -137,14 +137,15 @@ var LocalResourcesTable;
               $($elem_id).addClass('selected');
             }
 
+            var wrapperParentId = $wrapper.parents('.local.resources.wrapper').attr('id');
             yadcf.init(tableDT, [
               {
                 column_number : 1,
                 filter_type: 'multi_select',
-                filter_container_selector: '#all-local-resources-wrapper .topic.facet'
+                filter_container_selector: '#' + wrapperParentId + ' .topic.facet'
               },
             ]);
-            $('#all-local-resources-wrapper').find('.topic.facet select').multiSelectToCheckboxes();
+            $('#' + wrapperParentId).find('.topic.facet select').multiSelectToCheckboxes();
 
               /*Iterate through each facet, search for the number of occurrences of that facet in the data table and show
                * count next to each facet.*/

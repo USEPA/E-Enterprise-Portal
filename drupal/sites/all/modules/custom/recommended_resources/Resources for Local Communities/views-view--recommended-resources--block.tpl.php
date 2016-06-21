@@ -65,12 +65,12 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     <ul>
       <li id="all-local-resources-button"><a class="favorites-ignore" href="#all-local-resources-wrapper">All</a>
       </li>
-      <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#user-local-resources">My
+      <li id="restrict-to-local-resources-button"><a class="favorites-ignore" href="#user-local-resources-wrapper">My
           Resources</a></li>
     </ul>
     <?php endif; ?>
 
-  <div id="all-local-resources-wrapper" class="clearfix">
+  <div id="all-local-resources-wrapper" class="all local resources wrapper clearfix">
     <div class="faceted-filters left">
       <h3>Topic</h3>
       <div class="topic facet"></div>
@@ -82,7 +82,16 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
   </div>
   <?php
   if ($user->name != 'guest-user'): ?>
-    <div id="user-local-resources"></div>
+    <div id="user-local-resources-wrapper" class="user local resources wrapper clearfix">
+      <div class="faceted-filters left">
+        <h3>Topic</h3>
+        <div class="topic facet"></div>
+      </div>
+      <div class="left">
+        <div class="your-selections">Your selections:</div>
+        <div id="user-local-resources"></div>
+      </div>
+    </div>
     <?php endif;
   ?>
 
