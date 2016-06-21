@@ -109,7 +109,6 @@ var manage_components_title = "Manage my Topics";
       });
 
     $body.on('click', '#restrict-to-local-resources-button', function () {
-      favorite_local_resources_table.ajax_request();
       updateDropdown($('#user-lgc-topics-small-view'));
     });
   });
