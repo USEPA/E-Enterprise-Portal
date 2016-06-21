@@ -142,7 +142,8 @@ var LocalResourcesTable;
               {
                 column_number : 1,
                 filter_type: 'multi_select',
-                filter_container_selector: '#' + wrapperParentId + ' .topic.facet'
+                filter_container_selector: '#' + wrapperParentId + ' .topic.facet',
+                filter_match_mode: 'exact'
               },
             ]);
             $('#' + wrapperParentId).find('.topic.facet select').multiSelectToCheckboxes();
