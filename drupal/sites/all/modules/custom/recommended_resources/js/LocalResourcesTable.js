@@ -88,7 +88,7 @@ var LocalResourcesTable;
       // hide the following columns, they are only used for faceted filtering
       "columnDefs": [
         {
-          "targets": [3, 4, 5, 6, 7],
+          "targets": [5, 6, 7, 8],
           "visible": false
         }
       ]
@@ -149,42 +149,42 @@ var LocalResourcesTable;
             var wrapperParentId = $wrapper.parents('.local.resources.wrapper').attr('id');
             yadcf.init(tableDT, [
               {
-                column_number : 1,
+                column_number : 3,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .topic.facet',
                 filter_match_mode: 'exact',
                 filter_reset_button_text: false
               },
               {
-                column_number: 3,
+                column_number: 4,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .category.facet',
                 filter_match_mode: 'exact',
                 filter_reset_button_text: false
               },
               {
-                column_number: 4,
+                column_number: 5,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .tool-type.facet',
                 filter_match_mode: 'exact',
                 filter_reset_button_text: false
               },
               {
-                column_number: 5,
+                column_number: 6,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .training-level.facet',
                 filter_match_mode: 'exact',
                 filter_reset_button_text: false
               },
               {
-                column_number: 6,
+                column_number: 7,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .data-requirements.facet',
                 filter_match_mode: 'exact',
                 filter_reset_button_text: false
               },
               {
-                column_number: 7,
+                column_number: 8,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .relevance.facet',
                 filter_match_mode: 'exact',
