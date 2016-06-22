@@ -166,37 +166,65 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['fields']['value']['id'] = 'value';
   $handler->display->display_options['fields']['value']['table'] = 'json';
   $handler->display->display_options['fields']['value']['field'] = 'value';
-  $handler->display->display_options['fields']['value']['label'] = 'Name';
-  $handler->display->display_options['fields']['value']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['value']['label'] = 'Resource';
   $handler->display->display_options['fields']['value']['key'] = 'ResourceName';
   /* Field: DescriptionText: value */
   $handler->display->display_options['fields']['value_1']['id'] = 'value_1';
   $handler->display->display_options['fields']['value_1']['table'] = 'json';
   $handler->display->display_options['fields']['value_1']['field'] = 'value';
-  $handler->display->display_options['fields']['value_1']['label'] = 'Description';
+  $handler->display->display_options['fields']['value_1']['label'] = 'Info';
   $handler->display->display_options['fields']['value_1']['exclude'] = TRUE;
   $handler->display->display_options['fields']['value_1']['key'] = 'DescriptionText';
-  /* Field: LocationResourceText: value */
-  $handler->display->display_options['fields']['value_2']['id'] = 'value_2';
-  $handler->display->display_options['fields']['value_2']['table'] = 'json';
-  $handler->display->display_options['fields']['value_2']['field'] = 'value';
-  $handler->display->display_options['fields']['value_2']['label'] = 'URL';
-  $handler->display->display_options['fields']['value_2']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['value_2']['key'] = 'LocationResourceText';
+  /* Field: (i) icon */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['ui_name'] = '(i) icon';
+  $handler->display->display_options['fields']['nothing']['label'] = 'Info';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div>[value_1]</div>
+<span></span>';
+  /* Field: PrimaryOrganizationText: value */
+  $handler->display->display_options['fields']['value_9']['id'] = 'value_9';
+  $handler->display->display_options['fields']['value_9']['table'] = 'json';
+  $handler->display->display_options['fields']['value_9']['field'] = 'value';
+  $handler->display->display_options['fields']['value_9']['label'] = 'Source';
+  $handler->display->display_options['fields']['value_9']['key'] = 'PrimaryOrganizationText';
   /* Field: TopicText: value */
   $handler->display->display_options['fields']['value_3']['id'] = 'value_3';
   $handler->display->display_options['fields']['value_3']['table'] = 'json';
   $handler->display->display_options['fields']['value_3']['field'] = 'value';
   $handler->display->display_options['fields']['value_3']['label'] = 'Topic';
-  $handler->display->display_options['fields']['value_3']['exclude'] = TRUE;
   $handler->display->display_options['fields']['value_3']['key'] = 'TopicText';
-  /* Field: Global: Custom text */
-  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="lgc-resource-link"><a href="[value_2]" target="_blank">[value]</a></span>
-<span class="lgc-resource-description ee-bootstrap-tooltip" data-toggle="tooltip" title=[value_1]>[value_1]</span>
-<span class="lgc-resource-topic">[value_3]</span>';
+  /* Field: CategoryTagsText: value */
+  $handler->display->display_options['fields']['value_4']['id'] = 'value_4';
+  $handler->display->display_options['fields']['value_4']['table'] = 'json';
+  $handler->display->display_options['fields']['value_4']['field'] = 'value';
+  $handler->display->display_options['fields']['value_4']['label'] = 'Category';
+  $handler->display->display_options['fields']['value_4']['key'] = 'CategoryTagsText';
+  /* Field: ResourceTypeText: value */
+  $handler->display->display_options['fields']['value_5']['id'] = 'value_5';
+  $handler->display->display_options['fields']['value_5']['table'] = 'json';
+  $handler->display->display_options['fields']['value_5']['field'] = 'value';
+  $handler->display->display_options['fields']['value_5']['label'] = 'Tool Type';
+  $handler->display->display_options['fields']['value_5']['key'] = 'ResourceTypeText';
+  /* Field: AccessLevelText: value */
+  $handler->display->display_options['fields']['value_6']['id'] = 'value_6';
+  $handler->display->display_options['fields']['value_6']['table'] = 'json';
+  $handler->display->display_options['fields']['value_6']['field'] = 'value';
+  $handler->display->display_options['fields']['value_6']['label'] = 'Training Level';
+  $handler->display->display_options['fields']['value_6']['key'] = 'AccessLevelText';
+  /* Field: ShareRequirementsText: value */
+  $handler->display->display_options['fields']['value_7']['id'] = 'value_7';
+  $handler->display->display_options['fields']['value_7']['table'] = 'json';
+  $handler->display->display_options['fields']['value_7']['field'] = 'value';
+  $handler->display->display_options['fields']['value_7']['label'] = 'Data Requirements';
+  $handler->display->display_options['fields']['value_7']['key'] = 'ShareRequirementsText';
+  /* Field: SubtypeText: value */
+  $handler->display->display_options['fields']['value_8']['id'] = 'value_8';
+  $handler->display->display_options['fields']['value_8']['table'] = 'json';
+  $handler->display->display_options['fields']['value_8']['field'] = 'value';
+  $handler->display->display_options['fields']['value_8']['label'] = 'Relevance';
+  $handler->display->display_options['fields']['value_8']['key'] = 'SubtypeText';
 
   /* Display: page */
   $handler = $view->new_display('page', 'page', 'page');
