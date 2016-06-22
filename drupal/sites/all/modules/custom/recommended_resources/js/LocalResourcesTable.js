@@ -211,6 +211,8 @@ var LocalResourcesTable;
               }
             });
 
+            /*On Facet click (select), show topic above data table and hide if the click event unchecks the
+             *clicked checkbox*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('input').click(function () {
               var span_selector = 'span[title="'+ $(this).next().attr('title') +'"]';
               if($('.your-selections').children(span_selector).is(":visible")){
