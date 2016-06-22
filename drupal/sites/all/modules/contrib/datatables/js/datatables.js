@@ -22,7 +22,7 @@
             settings.aoColumns.unshift({"bSortable": false});
           }
 
-          var datatable = $(selector).dataTable(settings);
+          var datatable = $.fn.dataTable.fnIsDataTable(selector) ? $(selector) : $(selector).dataTable(settings);
 
           if (settings.bExpandable) {
             // Add column headers to table settings.

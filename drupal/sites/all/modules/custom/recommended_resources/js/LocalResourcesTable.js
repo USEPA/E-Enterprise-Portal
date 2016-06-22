@@ -229,6 +229,15 @@ var LocalResourcesTable;
                 $('.your-selections').children(span_selector).show();
               }
             });
+
+            // Click handler for clicking 'i' icon - show modal
+            // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
+            $('#local-resources-tabs').on('click', 'td.views-field-nothing', function() {
+              Drupal.CTools.Modal.show("ee-ctools-popup-style");
+              $('#modal-title').html('Resource Info');
+              $('#modal-content').html($(this).text()).scrollTop(0);
+              Drupal.attachBehaviors();
+            });
           }
           else {
             $wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>')

@@ -124,3 +124,15 @@ Truncate    text
     margin-left: 20px;
     font-size: 1.7rem;
 }
+#local-resources-tabs td.views-field-nothing div {
+    display: none;
+}
+#local-resources-tabs td.views-field-nothing span {
+    background: url("../images/information.png");
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
