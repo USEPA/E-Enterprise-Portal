@@ -55,8 +55,8 @@
 }
 
 .view-lgc-resources .dataTables_wrapper .pager-current.hidden,
-#all-local-resources div[id*="datatable-"] thead, .view-user-recommended-resources thead    {
-    display:none;
+.view-user-recommended-resources thead {
+    display: none;
 }
 
 .view-recommended-resources td span,    

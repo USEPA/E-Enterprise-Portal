@@ -149,6 +149,13 @@ var LocalResourcesTable;
             var wrapperParentId = $wrapper.parents('.local.resources.wrapper').attr('id');
             yadcf.init(tableDT, [
               {
+                column_number : 2,
+                filter_type: 'multi_select',
+                filter_container_selector: '#' + wrapperParentId + ' .source.facet',
+                filter_match_mode: 'exact',
+                filter_reset_button_text: false
+              },
+              {
                 column_number : 3,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .topic.facet',
@@ -195,17 +202,33 @@ var LocalResourcesTable;
               $(this).multiSelectToCheckboxes();
             });
 
-              /*Iterate through each facet, search for the number of occurrences of that facet in the data table and show
-               * count next to each facet.*/
-              $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('li').each(function (index) {
-                if (index > 0) {
-                  var facet_topic = $(this).children('label').html();
-                  var res_t = $.grep(tableDT.data(), function (n, i) {
-                    return (facet_topic.trim()) == (n[1]).trim();
-                  }, false);
-                  $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
-                }
-              });
+            /*Iterate through each facet, search for the number of occurrences of that facet in the data table and show
+             *count next to each facet.*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('li').each(function (index) {
+              if (index > 0) {
+                var facet_topic = $(this).children('label').html();
+                $(this).children('label').attr('title', facet_topic);
+                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                $('.your-selections').append(selection);
+                $('.your-selections span').hide();
+                var res_t = $.grep(tableDT.data(), function (n, i) {
+                  return (facet_topic.trim()) == (n[3]).trim();
+                }, false);
+                $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+              }
+            });
+
+            /*On Facet click (select), show topic above data table and hide if the click event unchecks the
+             *clicked checkbox*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('input').click(function () {
+              var span_selector = 'span[title="'+ $(this).next().attr('title') +'"]';
+              if($('.your-selections').children(span_selector).is(":visible")){
+                $('.your-selections').children(span_selector).hide();
+              }
+              else{
+                $('.your-selections').children(span_selector).show();
+              }
+            });
 
             // Click handler for clicking 'i' icon - show modal
             // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
