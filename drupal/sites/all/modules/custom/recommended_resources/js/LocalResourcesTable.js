@@ -226,7 +226,7 @@ var LocalResourcesTable;
                 $('.your-selections').children(span_selector).hide();
               }
               else{
-                $('.your-selections').children(span_selector).show();
+                $('.your-selections').children(span_selector).css('display', 'inline-block');
               }
             });
 
