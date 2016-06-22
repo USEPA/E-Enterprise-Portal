@@ -149,6 +149,13 @@ var LocalResourcesTable;
             var wrapperParentId = $wrapper.parents('.local.resources.wrapper').attr('id');
             yadcf.init(tableDT, [
               {
+                column_number : 2,
+                filter_type: 'multi_select',
+                filter_container_selector: '#' + wrapperParentId + ' .source.facet',
+                filter_match_mode: 'exact',
+                filter_reset_button_text: false
+              },
+              {
                 column_number : 3,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .topic.facet',
