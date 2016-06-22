@@ -8674,3 +8674,12 @@ ul.pager li:not(.disabled), ul.paging_simple li:not(.disabled), ul.paging_simple
 select[multiple="multiple"] {
   background: none;
 }
+
+ /* line 4136, ../sass/styles.scss */
+ .your-selections span{
+     border: 1px solid gray;
+     margin:3px 0px 0px 3px;
+     padding:0px 3px 0px 3px;
+     border-radius: 4px;
+     white-space:nowrap;
+ }
