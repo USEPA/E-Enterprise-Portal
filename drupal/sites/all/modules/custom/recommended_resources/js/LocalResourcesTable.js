@@ -59,7 +59,7 @@ var LocalResourcesTable;
       "iPage": oSettings._iDisplayLength === -1 ?
         0 : Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
       "iTotalPages": oSettings._iDisplayLength === -1 ?
-        0 : Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength)
+        0 : Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength) - 1
     };
   };
 
