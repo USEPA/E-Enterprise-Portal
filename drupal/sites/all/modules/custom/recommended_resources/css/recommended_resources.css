@@ -124,7 +124,8 @@ Truncate    text
     margin-left: 20px;
     font-size: 1.7rem;
 }
-#local-resources-tabs td.views-field-nothing div {
+#local-resources-tabs td.views-field-nothing div,
+.faceted-filters.off {
     display: none;
 }
 #local-resources-tabs td.views-field-nothing span {
@@ -134,5 +135,18 @@ Truncate    text
     display: inline-block;
     background-size: 16px 16px;
     background-repeat: no-repeat;
+    cursor: pointer;
+}
+.ui-tabs .ui-tabs-panel.local.resources {
+    padding-top: 10px;
+}
+.local.resources .left {
+    float: left;
+}
+.faceted-filters {
+    border: 1px black solid;
+    padding: 10px 15px;
+}
+.faceted-filters .toggle {
     cursor: pointer;
 }

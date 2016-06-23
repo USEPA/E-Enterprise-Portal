@@ -70,7 +70,8 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     <?php endif; ?>
 
   <div id="all-local-resources-wrapper" class="all local resources wrapper clearfix">
-    <div class="faceted-filters left">
+    <div class="faceted-filters on left">
+      <div class="toggle">Adjust selections</div>
       <h3>Source</h3>
       <div class="source facet"></div>
       <h3>Topic</h3>
@@ -87,14 +88,20 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
       <div class="relevance facet"></div>
     </div>
     <div class="left">
-      <div class="your-selections">Your selections:</div>
+      <div class="clearfix">
+        <div class="faceted-filters off left">
+          <div class="toggle">Adjust selections</div>
+        </div>
+        <div class="your-selections">Your selections:</div>
+      </div>
       <div id="all-local-resources"></div>
     </div>
   </div>
   <?php
   if ($user->name != 'guest-user'): ?>
     <div id="user-local-resources-wrapper" class="user local resources wrapper clearfix">
-      <div class="faceted-filters left">
+      <div class="faceted-filters on left">
+        <div class="toggle">Adjust selections</div>
         <h3>Topic</h3>
         <div class="topic facet"></div>
         <h3>Category</h3>
@@ -107,7 +114,12 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
         <div class="relevance facet"></div>
       </div>
       <div class="left">
-        <div class="your-selections">Your selections:</div>
+        <div class="clearfix">
+          <div class="faceted-filters off left">
+            <div class="toggle">Adjust selections</div>
+          </div>
+          <div class="your-selections">Your selections:</div>
+        </div>
         <div id="user-local-resources"></div>
       </div>
     </div>
