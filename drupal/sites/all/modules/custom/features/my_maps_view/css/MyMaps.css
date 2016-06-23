@@ -1,106 +1,113 @@
 #numThumbnails a {
-	border-right: 1px solid #aaa;
-	padding-right: 5px;
+    border-right: 1px solid #aaa;
+    padding-right: 5px;
 }
 #numThumbnails a.first {
-	border-right: none;
+    border-right: none;
 }
 #numThumbnails a.last {
-	padding-left: 3px;
-	border-right: none;
+    padding-left: 3px;
+    border-right: none;
 }
 #numThumbnails a.last:nth-child(2) {
-	padding-left: 5px;
-	border-left: 1px solid #dedede;
+    padding-left: 5px;
+    border-left: 1px solid #dedede;
 }
 .wrapper {
-  max-width: 620px;
-  margin: auto;
+    max-width: 620px;
+    margin: auto;
 }
 
 .jcarousel-wrapper {
-  margin: 5px auto;
-  position: relative;
+    margin: 5px auto;
+    position: relative;
 }
 
 .jcarousel {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
 }
 
 .jcarousel ul {
-  width: 20000em;
-  position: relative;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    width: 20000em;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .jcarousel li {
-  float: left;
-	height: 17em;
-	min-height: 240px;
-  margin-right: 2px;
-  margin-left: 2px;
-  margin-top: 0.25em;
-  background-color: #fff;
-  padding: 5px;
+    float: left;
+    height: 17em;
+    min-height: 240px;
+    margin-right: 2px;
+    margin-left: 2px;
+    margin-top: 0.25em;
+    background-color: #fff;
+    padding: 5px;
+}
+
+.jcarousel li.load-thumbnail {
+    display: none;
+}
+.jcarousel li.load-thumbnail.active {
+    display: block;
 }
 
 .thumbitem-border {
-  padding: 2px;
-  border: 1px solid #efefef;
-  height: 16.5em;
-  min-height: 230px;
-  width: 190px;
-  margin: auto;
+    padding: 2px;
+    border: 1px solid #efefef;
+    height: 16.5em;
+    min-height: 230px;
+    width: 190px;
+    margin: auto;
 }
 .thumbitem-border p {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 .jcarousel img {
-  max-height: 121px;
-  max-width: 100%;
+    max-height: 121px;
+    max-width: 100%;
 }
 
 .jcarousel .loading {
-  text-align: center;
-  line-height: 90px;
+    text-align: center;
+    line-height: 90px;
 }
 
 .jcarousel-control-prev,
 .jcarousel-control-next {
-  position: absolute;
-  top: 75px;
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  background: #444444;
-  color: #fafafa;
-  text-decoration: none;
-  text-shadow: 0 0 1px #000;
-  font: 24px/27px Arial, sans-serif;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  border-radius: 30px;
-  -webkit-box-shadow: 0 0 2px #999;
-  -moz-box-shadow: 0 0 2px #999;
-  box-shadow: 0 0 2px #999;
-  z-index: 10;
+    position: absolute;
+    top: 75px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background: #444444;
+    color: #fafafa;
+    text-decoration: none;
+    text-shadow: 0 0 1px #000;
+    font: 24px/27px Arial, sans-serif;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    -webkit-box-shadow: 0 0 2px #999;
+    -moz-box-shadow: 0 0 2px #999;
+    box-shadow: 0 0 2px #999;
+    z-index: 10;
 }
 
 .ui-widget-content a.jcarousel-control-prev, .ui-widget-content a.jcarousel-control-next,
 .ui-widget-content a.jcarousel-control-prev:visited, .ui-widget-content a.jcarousel-control-next:visited {
-	color: #fafafa;
+    color: #fafafa;
 }
 
 .jcarousel-control-prev {
-  left: -25px;
+    left: -25px;
 }
 
 .jcarousel-control-next {
-  right: -25px;
+    right: -25px;
 }
 
 .ui-widget-content a.jcarousel-control-prev:hover,
@@ -109,202 +116,160 @@
 .ui-widget-content a.jcarousel-control-next:focus,
 .ui-widget-content a.jcarousel-control-prev:active,
 .ui-widget-content a.jcarousel-control-next:active {
-	text-decoration: none;
-	color: #ffffff;	
-	background-color: #333333;
+    text-decoration: none;
+    color: #ffffff;    
+    background-color: #333333;
 }
 
 .jcarousel-control-prev.inactive,
 .jcarousel-control-next.inactive {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 .widgetHeader {
-  text-align: left;
-  margin-bottom: 0px;
+    text-align: left;
+    margin-bottom: 0px;
 }
 
 .mapAppTitle {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  max-height: 40px;
-  max-width: 198px;
-  font-size: 83%;
-  font-weight: bold;
-  padding: 5px 5px 2px;
-  line-height: 1.2;
-  margin-top: 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 40px;
+    max-width: 198px;
+    font-size: 83%;
+    font-weight: bold;
+    padding: 5px 5px 2px;
+    line-height: 1.2;
+    margin-top: 0;
 }
 
 .mapAppDesc {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  max-height: 40px;
-  max-width: 198px;
-  font-size: 75%;
-  padding: 0 5px 2px;
-  line-height: 1.2;
-  margin-top: 0;  
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 40px;
+    max-width: 198px;
+    font-size: 75%;
+    padding: 0 5px 2px;
+    line-height: 1.2;
+    margin-top: 0;    
 }
 
 .mapAppSource {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0;
-  max-height: 40px;
-  max-width: 198px;
-  font-size: 75%;
-  padding: 0 5px 2px;
-  line-height: 1.2;
-  font-weight:bold;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    max-height: 40px;
+    max-width: 198px;
+    font-size: 75%;
+    padding: 0 5px 2px;
+    line-height: 1.2;
+    font-weight:bold;
 }
 .mapAppContact {
-	padding: 0 5px 2px;
-	font-size: 75%;
-	margin: 0 auto 0;
-	line-height: normal;
+    padding: 0 5px 2px;
+    font-size: 75%;
+    margin: 0 auto 0;
+    line-height: normal;
 }
 .mapAppContact a {
-	word-wrap: break-word;	
-}	
+    word-wrap: break-word;    
+}    
 .thumbnailImg {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  max-height: 123px;
-  min-height: 121px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 123px;
+    min-height: 121px;
 }
 
 .filterMapsByLocationBtn {
-  width: 160px;
-  height: 40px;
-  margin-top: 1px;
-  display: block;
-  margin: 0 auto;
-  background-color: Transparent;
-  background-image: none !important;
-  background-repeat:no-repeat;
-  border: 1px solid #dedede;
+    width: 160px;
+    height: 40px;
+    margin-top: 1px;
+    display: block;
+    margin: 0 auto;
+    background-color: Transparent;
+    background-image: none !important;
+    background-repeat:no-repeat;
+    border: 1px solid #dedede;
 }
 
 .filterMapsByLocationImg {
-  width: 25px;
-  height: 25px;
-  float: left;
-  padding-top: 1px;
+    width: 25px;
+    height: 25px;
+    float: left;
+    padding-top: 1px;
 }
 
 .mapiFrame {
-  height: 100% !important;
-  max-height: 100% !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  padding-top: 0px !important;
-  padding-bottom: 60px !important;
-  margin-bottom: 0px;
-  overflow-y: hidden !important;
-  overflow-x: hidden !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 60px !important;
+    margin-bottom: 0px;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
 }
 
 .mapDialog {
-  height: 90% !important;
-  max-height: 90% !important;
-  width: 95% !important;
-  max-width: 95% !important;
-  overflow-y: hidden !important;
-  padding-bottom: 10px;
+    height: 90% !important;
+    max-height: 90% !important;
+    width: 95% !important;
+    max-width: 95% !important;
+    overflow-y: hidden !important;
+    padding-bottom: 10px;
 }
 
 .mapiFrameFooter {
-  height: 30px !important;
-  max-height: 30px !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  font-size: 10px;
-  margin-top: 0px;
-  line-height: 0;
-  padding-left: 17.6px;
-  padding-top: 2px;
+    height: 30px !important;
+    max-height: 30px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 10px;
+    margin-top: 0px;
+    line-height: 0;
+    padding-left: 17.6px;
+    padding-top: 2px;
 }
 
 /*override default jQ UI CSS per Designer's input */
 .ui-widget-overlay {
-	opacity: 0.9;
+    opacity: 0.9;
 }
 
 #myMapsFiltering div.farLeft {
-	width: 5em;
-	font-size: 0.85em;
-	display: inline-block;
+    width: 5em;
+    font-size: 0.85em;
+    display: inline-block;
 }
-
-/*
-#myMapsFilterList {
-	list-style: none;
-	line-height: 1.4;
-	width: 100%;
-	font-size: 0.85em;
-	padding-bottom: 0px;
-	margin-top: 10px;
-	display: inline;
-}
-
-#myMapsFilterList li {
-	display: inline-block;
-	padding-left: 10px;
-	padding-right: 10px;
-	line-height: 1.4;
-	white-space: nowrap;
-	border-bottom: 1px solid #fafafa;
-  cursor: pointer;
-}​
-#myMapsFilterList li a {
-	padding-bottom: 5px;
-	text-align: center;
-}
-*/
-
-/*
-.active-mymaps-filter, #myMapsFilterList li.active-mymaps-filter {
-	color: #000;
-	font-weight: bold;
-	border-bottom: 3px solid #007AC6;
-}
-*/
 
 .myMapFilterTerm {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 @media screen and (max-width: 30em) {
-	.jcarousel-control-prev {
-		left: -5px;
-	}
-	.jcarousel-control-next {
-		right: -5px;
-	}
+    .jcarousel-control-prev {
+        left: -5px;
+    }
+    .jcarousel-control-next {
+        right: -5px;
+    }
 }
 
 /* 767px */
 @media screen and (max-width: 48em) {
-	#myMapsFiltering div.farLeft {
-		font-size: 0.75em;
-		display:block;
-	}
-	.latest-reading {
-		padding-left: 0;
-	}
-/*
-	#myMapsFilterList li {
-		display: inline-block;
-		width: 8em;
-		padding-top: 5px;
-		padding-bottom: 5px; /* Provide more tap space */
-	}
-*/
+    #myMapsFiltering div.farLeft {
+        font-size: 0.75em;
+        display:block;
+    }
+    .latest-reading {
+        padding-left: 0;
+    }
 }
