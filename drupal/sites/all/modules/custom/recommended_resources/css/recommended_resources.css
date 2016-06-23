@@ -143,10 +143,17 @@ Truncate    text
 .local.resources .left {
     float: left;
 }
+.local.resources .dataTables_wrapper {
+    width: 440px;
+}
 .faceted-filters {
     border: 1px black solid;
     padding: 10px 15px;
+    margin-right: 15px;
 }
 .faceted-filters .toggle {
     cursor: pointer;
+}
+.faceted-filters.on {
+    width: 25%;
 }
