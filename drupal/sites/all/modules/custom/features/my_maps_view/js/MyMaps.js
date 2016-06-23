@@ -73,6 +73,7 @@
           numThumbs = 2;
         }
         carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
+        turnOnVisibleThumbs();
       });
     
       $('.jcarousel-control-prev')
@@ -150,7 +151,6 @@
           var thumbnailSrcExists = $(this).find(".thumbnailImg").attr("src");
           if (!thumbnailSrcExists) {
             // Set image source from temporary source.
-            var thumbnailTSrc = $(this).find(".thumbnailImg").attr("data-map-source");
             $(this).find(".thumbnailImg").attr("src", $(this).find(".thumbnailImg").attr("data-map-source"));
           }
           else {
