@@ -202,7 +202,23 @@ var LocalResourcesTable;
               $(this).multiSelectToCheckboxes();
             });
 
-            /*Iterate through each facet, search for the number of occurrences of that facet in the data table and show
+            /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
+             *count next to each facet.*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-source-facet').find('li').each(function (index) {
+              if (index > 0) {
+                var facet_topic = $(this).children('label').html();
+                $(this).children('label').attr('title', facet_topic);
+                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                $('.your-selections').append(selection);
+                $('.your-selections span').hide();
+                var res_t = $.grep(tableDT.data(), function (n, i) {
+                  return (facet_topic.trim()) == (n[2]).trim();
+                }, false);
+                $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+              }
+            });
+
+            /*Iterate through Topics facet, search for the number of occurrences of that facet in the data table and show
              *count next to each facet.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('li').each(function (index) {
               if (index > 0) {
@@ -218,14 +234,170 @@ var LocalResourcesTable;
               }
             });
 
-            /*On Facet click (select), show topic above data table and hide if the click event unchecks the
+            /*Iterate through Topics facet, search for the number of occurrences of that facet in the data table and show
+             *count next to each facet.*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-category-facet').find('li').each(function (index) {
+              if (index > 0) {
+                var facet_topic = $(this).children('label').html();
+                $(this).children('label').attr('title', facet_topic);
+                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                $('.your-selections').append(selection);
+                $('.your-selections span').hide();
+                var res_t = $.grep(tableDT.data(), function (n, i) {
+                  return (facet_topic.trim()) == (n[4]).trim();
+                }, false);
+                $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+              }
+            });
+
+            /*Iterate through Tool Type facet, search for the number of occurrences of that facet in the data table and show
+             *count next to each facet.*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('li').each(function (index) {
+              if (index > 0) {
+                var facet_topic = $(this).children('label').html();
+                $(this).children('label').attr('title', facet_topic);
+                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                $('.your-selections').append(selection);
+                $('.your-selections span').hide();
+                var res_t = $.grep(tableDT.data(), function (n, i) {
+                  return (facet_topic.trim()) == (n[5]).trim();
+                }, false);
+                $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+              }
+            });
+
+            /*Iterate through Training Level facet, search for the number of occurrences of that facet in the data table and show
+             *count next to each facet.*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('li').each(function (index) {
+              if (index > 0) {
+                var facet_topic = $(this).children('label').html();
+                $(this).children('label').attr('title', facet_topic);
+                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                $('.your-selections').append(selection);
+                $('.your-selections span').hide();
+                var res_t = $.grep(tableDT.data(), function (n, i) {
+                  return (facet_topic.trim()) == (n[6]).trim();
+                }, false);
+                $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+              }
+            });
+
+            /*Iterate through Data Requirements facet, search for the number of occurrences of that facet in the data table and show
+             *count next to each facet.*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-data-requirements-facet').find('li').each(function (index) {
+              if (index > 0) {
+                var facet_topic = $(this).children('label').html();
+                $(this).children('label').attr('title', facet_topic);
+                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                $('.your-selections').append(selection);
+                $('.your-selections span').hide();
+                var res_t = $.grep(tableDT.data(), function (n, i) {
+                  return (facet_topic.trim()) == (n[7]).trim();
+                }, false);
+                $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+              }
+            });
+
+            /*Iterate through Relevance facet, search for the number of occurrences of that facet in the data table and show
+             *count next to each facet.*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-relevance-facet').find('li').each(function (index) {
+              if (index > 0) {
+                var facet_topic = $(this).children('label').html();
+                $(this).children('label').attr('title', facet_topic);
+                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                $('.your-selections').append(selection);
+                $('.your-selections span').hide();
+                var res_t = $.grep(tableDT.data(), function (n, i) {
+                  return (facet_topic.trim()) == (n[8]).trim();
+                }, false);
+                $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+              }
+            });
+
+            /*On Source Facet click (select), show source above data table and hide if the click event unchecks the
              *clicked checkbox*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('input').click(function () {
-              var span_selector = 'span[title="'+ $(this).next().attr('title') +'"]';
-              if($('.your-selections').children(span_selector).is(":visible")){
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-source-facet').find('input').click(function () {
+              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
+              if ($('.your-selections').children(span_selector).is(":visible")) {
                 $('.your-selections').children(span_selector).hide();
               }
-              else{
+              else {
+                $('.your-selections').children(span_selector).css('display', 'inline-block');
+              }
+            });
+
+            /*On Topic Facet click (select), show topic above data table and hide if the click event unchecks the
+             *clicked checkbox*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('input').click(function () {
+              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
+              if ($('.your-selections').children(span_selector).is(":visible")) {
+                $('.your-selections').children(span_selector).hide();
+              }
+              else {
+                $('.your-selections').children(span_selector).css('display', 'inline-block');
+              }
+            });
+
+            /*On Category Facet click (select), show category above data table and hide if the click event unchecks the
+             *clicked checkbox*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-category-facet').find('input').click(function () {
+              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
+              if ($('.your-selections').children(span_selector).is(":visible")) {
+                $('.your-selections').children(span_selector).hide();
+              }
+              else {
+                $('.your-selections').children(span_selector).css('display', 'inline-block');
+              }
+            });
+
+
+
+
+
+            /*On Tool Type Facet click (select), show Tool Type above data table and hide if the click event unchecks the
+             *clicked checkbox*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('input').click(function () {
+              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
+              if ($('.your-selections').children(span_selector).is(":visible")) {
+                $('.your-selections').children(span_selector).hide();
+              }
+              else {
+                $('.your-selections').children(span_selector).css('display', 'inline-block');
+              }
+            });
+
+            /*On Training Level Facet click (select), show Training Level above data table and hide if the click event unchecks the
+             *clicked checkbox*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('input').click(function () {
+              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
+              if ($('.your-selections').children(span_selector).is(":visible")) {
+                $('.your-selections').children(span_selector).hide();
+              }
+              else {
+                $('.your-selections').children(span_selector).css('display', 'inline-block');
+              }
+            });
+
+            /*On Data Requirements Facet click (select), show Data Requirements above data table and hide if the click event unchecks the
+             *clicked checkbox*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-data-requirements-facet').find('input').click(function () {
+              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
+              if ($('.your-selections').children(span_selector).is(":visible")) {
+                $('.your-selections').children(span_selector).hide();
+              }
+              else {
+                $('.your-selections').children(span_selector).css('display', 'inline-block');
+              }
+            });
+
+            /*On Relevance Facet click (select), show Relevance above data table and hide if the click event unchecks the
+             *clicked checkbox*/
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-relevance-facet').find('input').click(function () {
+              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
+              if ($('.your-selections').children(span_selector).is(":visible")) {
+                $('.your-selections').children(span_selector).hide();
+              }
+              else {
                 $('.your-selections').children(span_selector).css('display', 'inline-block');
               }
             });
