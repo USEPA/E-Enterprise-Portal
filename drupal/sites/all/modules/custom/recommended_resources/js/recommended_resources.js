@@ -111,5 +111,10 @@ var manage_components_title = "Manage my Topics";
     $body.on('click', '#restrict-to-local-resources-button', function () {
       updateDropdown($('#user-lgc-topics-small-view'));
     });
+
+    // Toggle sidebar expanded / collapsed view
+    $body.on('click', '#local-resources-tabs .faceted-filters .toggle', function() {
+      $(this).parents('.local.resources').find('.faceted-filters').toggle();
+    });
   });
 }(jQuery));
