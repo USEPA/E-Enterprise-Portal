@@ -203,7 +203,7 @@ var LocalResourcesTable;
             });
 
             /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet.*/
+             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-source-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
@@ -219,7 +219,7 @@ var LocalResourcesTable;
             });
 
             /*Iterate through Topics facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet.*/
+             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
@@ -235,7 +235,7 @@ var LocalResourcesTable;
             });
 
             /*Iterate through Topics facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet.*/
+             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-category-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
@@ -251,7 +251,7 @@ var LocalResourcesTable;
             });
 
             /*Iterate through Tool Type facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet.*/
+             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
@@ -267,7 +267,7 @@ var LocalResourcesTable;
             });
 
             /*Iterate through Training Level facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet.*/
+             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
@@ -283,7 +283,7 @@ var LocalResourcesTable;
             });
 
             /*Iterate through Data Requirements facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet.*/
+             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-data-requirements-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
@@ -299,7 +299,7 @@ var LocalResourcesTable;
             });
 
             /*Iterate through Relevance facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet.*/
+             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-relevance-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
@@ -315,7 +315,7 @@ var LocalResourcesTable;
             });
 
             /*On Source Facet click (select), show source above data table and hide if the click event unchecks the
-             *clicked checkbox*/
+             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-source-facet').find('input').click(function () {
               var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
               if ($('.your-selections').children(span_selector).is(":visible")) {
@@ -327,7 +327,7 @@ var LocalResourcesTable;
             });
 
             /*On Topic Facet click (select), show topic above data table and hide if the click event unchecks the
-             *clicked checkbox*/
+             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('input').click(function () {
               var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
               if ($('.your-selections').children(span_selector).is(":visible")) {
@@ -339,7 +339,7 @@ var LocalResourcesTable;
             });
 
             /*On Category Facet click (select), show category above data table and hide if the click event unchecks the
-             *clicked checkbox*/
+             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-category-facet').find('input').click(function () {
               var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
               if ($('.your-selections').children(span_selector).is(":visible")) {
@@ -350,12 +350,8 @@ var LocalResourcesTable;
               }
             });
 
-
-
-
-
             /*On Tool Type Facet click (select), show Tool Type above data table and hide if the click event unchecks the
-             *clicked checkbox*/
+             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('input').click(function () {
               var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
               if ($('.your-selections').children(span_selector).is(":visible")) {
@@ -367,7 +363,7 @@ var LocalResourcesTable;
             });
 
             /*On Training Level Facet click (select), show Training Level above data table and hide if the click event unchecks the
-             *clicked checkbox*/
+             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('input').click(function () {
               var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
               if ($('.your-selections').children(span_selector).is(":visible")) {
@@ -379,7 +375,7 @@ var LocalResourcesTable;
             });
 
             /*On Data Requirements Facet click (select), show Data Requirements above data table and hide if the click event unchecks the
-             *clicked checkbox*/
+             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-data-requirements-facet').find('input').click(function () {
               var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
               if ($('.your-selections').children(span_selector).is(":visible")) {
@@ -391,7 +387,7 @@ var LocalResourcesTable;
             });
 
             /*On Relevance Facet click (select), show Relevance above data table and hide if the click event unchecks the
-             *clicked checkbox*/
+             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-relevance-facet').find('input').click(function () {
               var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
               if ($('.your-selections').children(span_selector).is(":visible")) {
