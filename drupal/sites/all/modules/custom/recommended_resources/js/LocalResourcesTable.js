@@ -267,7 +267,9 @@ var LocalResourcesTable;
             });
 
             /*Iterate through Training Level facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
+             *count next to each facet. TODO: put this in a function after the MVP is accepted. the class name .your-selections
+             * TODO: Appears multiple times. Let's cache this selector, and also see if we can optimize by selecting by ID and then using
+             * TODO: find() to select the child class (.your-selections). ID is the fastest selector, check this article: https://24ways.org/2011/your-jquery-now-with-less-suck*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
