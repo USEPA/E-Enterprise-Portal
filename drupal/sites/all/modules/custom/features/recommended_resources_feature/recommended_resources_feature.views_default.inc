@@ -167,7 +167,22 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['fields']['value']['table'] = 'json';
   $handler->display->display_options['fields']['value']['field'] = 'value';
   $handler->display->display_options['fields']['value']['label'] = 'Resource';
+  $handler->display->display_options['fields']['value']['exclude'] = TRUE;
   $handler->display->display_options['fields']['value']['key'] = 'ResourceName';
+  /* Field: LocationResourceText: value */
+  $handler->display->display_options['fields']['value_2']['id'] = 'value_2';
+  $handler->display->display_options['fields']['value_2']['table'] = 'json';
+  $handler->display->display_options['fields']['value_2']['field'] = 'value';
+  $handler->display->display_options['fields']['value_2']['label'] = 'URL';
+  $handler->display->display_options['fields']['value_2']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['value_2']['key'] = 'LocationResourceText';
+  /* Field: Linked Resource Name */
+  $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+  $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing_1']['ui_name'] = 'Linked Resource Name';
+  $handler->display->display_options['fields']['nothing_1']['label'] = 'Resource';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<a href="[value_2]" target="_blank">[value]</a>';
   /* Field: DescriptionText: value */
   $handler->display->display_options['fields']['value_1']['id'] = 'value_1';
   $handler->display->display_options['fields']['value_1']['table'] = 'json';
