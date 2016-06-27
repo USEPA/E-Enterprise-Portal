@@ -92,7 +92,9 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
         <div class="faceted-filters off left">
           <div class="toggle">Adjust selections <span class="icon-right"></span></div>
         </div>
-        <div class="your-selections">Your selections:</div>
+        <div class="your-selections">
+          <div class="selection-lbl">Your selections:</div>
+        </div>
       </div>
       <div id="all-local-resources"></div>
     </div>
