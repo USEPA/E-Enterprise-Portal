@@ -116,5 +116,11 @@ var manage_components_title = "Manage my Topics";
     $body.on('click', '#local-resources-tabs .faceted-filters .toggle', function() {
       $(this).parents('.local.resources').find('.faceted-filters').toggle();
     });
+
+    // Toggle facet expanded / collapsed view
+    $body.on('click', '#local-resources-tabs h3', function() {
+      $(this).next().toggle();
+      $(this).find('span').toggleClass('glyphicon-triangle-right glyphicon-triangle-bottom');
+    });
   });
 }(jQuery));

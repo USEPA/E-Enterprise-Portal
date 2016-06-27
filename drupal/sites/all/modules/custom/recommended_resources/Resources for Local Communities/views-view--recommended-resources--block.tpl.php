@@ -71,26 +71,26 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
 
   <div id="all-local-resources-wrapper" class="all local resources wrapper clearfix">
     <div class="faceted-filters on left">
-      <div class="toggle">Adjust selections <span>&lt;</span></div>
-      <h3>Source</h3>
+      <div class="toggle">Adjust selections <span class="icon-left"></span></div>
+      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Source</h3>
       <div class="source facet"></div>
-      <h3>Topic</h3>
+      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Topic</h3>
       <div class="topic facet"></div>
-      <h3>Category</h3>
+      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Category</h3>
       <div class="category facet"></div>
-      <h3>Tool Type</h3>
+      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Tool Type</h3>
       <div class="tool-type facet"></div>
-      <h3>Training Level</h3>
+      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Training Level</h3>
       <div class="training-level facet"></div>
-      <h3>Data Requirements</h3>
+      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Data Requirements</h3>
       <div class="data-requirements facet"></div>
-      <h3>Relevance</h3>
+      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Relevance</h3>
       <div class="relevance facet"></div>
     </div>
     <div class="left">
       <div class="clearfix">
         <div class="faceted-filters off left">
-          <div class="toggle">Adjust selections <span>&gt;</span></div>
+          <div class="toggle">Adjust selections <span class="icon-right"></span></div>
         </div>
         <div class="your-selections">Your selections:</div>
       </div>
@@ -101,22 +101,26 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
   if ($user->name != 'guest-user'): ?>
     <div id="user-local-resources-wrapper" class="user local resources wrapper clearfix">
       <div class="faceted-filters on left">
-        <div class="toggle">Adjust selections <span>&lt;</span></div>
-        <h3>Topic</h3>
+        <div class="toggle">Adjust selections <span class="icon-left"></span></div>
+        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Source</h3>
+        <div class="source facet"></div>
+        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Topic</h3>
         <div class="topic facet"></div>
-        <h3>Category</h3>
+        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Category</h3>
         <div class="category facet"></div>
-        <h3>Tool Type</h3>
+        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Tool Type</h3>
         <div class="tool-type facet"></div>
-        <h3>Training Level</h3>
+        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Training Level</h3>
         <div class="training-level facet"></div>
-        <h3>Relevance</h3>
+        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Data Requirements</h3>
+        <div class="data-requirements facet"></div>
+        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Relevance</h3>
         <div class="relevance facet"></div>
       </div>
       <div class="left">
         <div class="clearfix">
           <div class="faceted-filters off left">
-            <div class="toggle">Adjust selections <span>&gt;</span></div>
+            <div class="toggle">Adjust selections <span class="icon-right"></span></div>
           </div>
           <div class="your-selections">Your selections:</div>
         </div>

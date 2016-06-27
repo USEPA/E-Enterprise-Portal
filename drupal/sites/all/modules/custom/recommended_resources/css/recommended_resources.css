@@ -144,13 +144,13 @@ Truncate    text
     float: left;
 }
 .local.resources .dataTables_wrapper {
-    width: 440px;
+    width: 410px;
 }
 .faceted-filters {
     background-color: #FAFAFA;
     font-weight: bold;
     font-size: 1.2rem;
-    padding: 10px 15px;
+    padding: 10px 4px;
     margin-right: 15px;
     /* convert this CSS to use SCSS */
     -moz-box-shadow: 5px 5px 10px 0 #ccc;
@@ -159,16 +159,68 @@ Truncate    text
 }
 .faceted-filters .toggle {
     cursor: pointer;
-    line-height: 2.5rem;
+    line-height: 20px;
+    padding: 0 5px 0 10px;
 }
 .faceted-filters .toggle span {
     float: right;
-    font-size: 2.5rem;
-    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+}
+.faceted-filters .toggle span.icon-left {
+    background-image: url("../images/chevron-left.png");
+}
+.faceted-filters .toggle span.icon-right {
+    background-image: url("../images/chevron-right.png");
 }
 .faceted-filters.on {
-    width: 25%;
+    width: 30%;
 }
 .faceted-filters.off {
     width: 35%;
+}
+.multiselect-to-checkboxes ul {
+    margin: 0;
+}
+.multiselect-to-checkboxes li::before {
+    content: "";
+}
+.multiselect-to-checkboxes label {
+    font-size: 1.1rem;
+}
+.faceted-filters .facet,
+.faceted-filters h3 {
+    background-color: #fff;
+    border: 1px solid #F2F2F2;
+    margin: 0;
+}
+.faceted-filters .facet {
+    max-height: 150px;
+    overflow-y: scroll;
+    /* borders on only 3 of the sides */
+    border-top: 0;
+}
+.faceted-filters h3 {
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding: 5px 0;
+}
+.faceted-filters h3 .glyphicon {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    background-size: 10px 10px;
+    background-repeat: no-repeat;
+    margin: 0 2px 0 5px;
+}
+.faceted-filters h3 .glyphicon-triangle-right {
+    background-image: url("../images/arrow-right.png");
+}
+.faceted-filters h3 .glyphicon-triangle-bottom {
+    background-image: url("../images/arrow-down.png");
 }
