@@ -88,7 +88,7 @@ var LocalResourcesTable;
       // hide the following columns, they are only used for faceted filtering
       "columnDefs": [
         {
-          "targets": [5, 6, 7, 8],
+          "targets": [3, 4, 5, 6, 7, 8],
           "visible": false
         }
       ]
