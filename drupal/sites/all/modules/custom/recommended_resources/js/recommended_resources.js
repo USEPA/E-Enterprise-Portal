@@ -114,7 +114,21 @@ var manage_components_title = "Manage my Topics";
 
     // Toggle sidebar expanded / collapsed view
     $body.on('click', '#local-resources-tabs .faceted-filters .toggle', function() {
-      $(this).parents('.local.resources').find('.faceted-filters').toggle();
+      var $localResources = $(this).parents('.local.resources');
+      $localResources.find('.faceted-filters').toggle();
+
+      // expose/remove extra columns, resize, and redraw datetable
+      var $table = $localResources.find('table');
+      var datatable = $table.DataTable();
+      $table.width('auto'); // needed since datatables manipulates inline styles
+      if ($(this).parent().hasClass('on')) {
+        $localResources.find('.dataTables_wrapper').width('auto');
+        datatable.columns([3, 4]).visible(true, false);
+      } else {
+        $localResources.find('.dataTables_wrapper').width(410);
+        datatable.columns([3, 4]).visible(false, false);
+      }
+      datatable.columns.adjust().draw(false); // adjust column sizing and redraw
     });
 
     // Toggle facet expanded / collapsed view
