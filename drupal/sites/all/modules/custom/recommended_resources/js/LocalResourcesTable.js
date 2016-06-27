@@ -202,6 +202,13 @@ var LocalResourcesTable;
               $(this).multiSelectToCheckboxes();
             });
 
+            /*Add enclosing div to "Your Selection" label.
+             */
+            if($('.your-selections .selection-lbl').length == 0){
+              var selection_lbl = "<div class='selection-lbl'>" + $('.your-selections').html() + "</div>";
+              $('.your-selections').html(selection_lbl);
+            }
+
             /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
              *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-source-facet').find('li').each(function (index) {
