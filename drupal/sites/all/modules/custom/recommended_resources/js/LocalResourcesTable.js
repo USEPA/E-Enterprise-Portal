@@ -204,9 +204,10 @@ var LocalResourcesTable;
 
             /*Add enclosing div to "Your Selection" label.
              */
-            if($('.your-selections .selection-lbl').length == 0){
-              var selection_lbl = "<div class='selection-lbl'>" + $('.your-selections').html() + "</div>";
-              $('.your-selections').html(selection_lbl);
+            var your_selections = $('.your-selections');
+            if( your_selections.find('.selection-lbl').length == 0 ){
+              var selection_lbl = "<div class='selection-lbl'>" + your_selections.html() + "</div>";
+              your_selections.html(selection_lbl);
             }
 
             /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
