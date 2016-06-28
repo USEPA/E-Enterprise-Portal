@@ -143,6 +143,7 @@ Truncate    text
 .local.resources .left {
     float: left;
 }
+.local.resources .dataTables_wrapper,
 .local.resources .facets-expanded {
     width: 65%;
 }

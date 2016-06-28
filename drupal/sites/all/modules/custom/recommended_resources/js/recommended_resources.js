@@ -3,7 +3,7 @@ var pane_class = ".pane-views-recommended-resources-block";
 var manage_components_title = "Manage my Topics";
 
 (function ($) {
-
+  var $localResourcesTabs = $('#local-resources-tabs');
 
   function showLGCResourcesView() {
     $('#user-lgc-topics-small-view').find('label').removeClass('selected');
@@ -13,7 +13,7 @@ var manage_components_title = "Manage my Topics";
     $('.lgc-header').text('');
     $('.back-to-lgc-widget').hide();
     $('.unfollow-lgc-topic').hide();
-    $('#local-resources-tabs').show();
+    $localResourcesTabs.show();
     $(pane_class).find('.pane-title').show();
     $(pane_class).find('.ui-tabs-nav').show();
   }
@@ -26,7 +26,7 @@ var manage_components_title = "Manage my Topics";
     $.ajax({
       url: "manage_my_topics/load_view",
       beforeSend: function () {
-        $('#local-resources-tabs').hide();
+        $localResourcesTabs.hide();
         $(pane_class).find('.pane-title').hide();
         $('.unfollow-lgc-topic').hide();
         $('.back-to-lgc-widget').show();
@@ -115,8 +115,14 @@ var manage_components_title = "Manage my Topics";
     // Toggle sidebar expanded / collapsed view
     $body.on('click', '#local-resources-tabs .faceted-filters .toggle', function() {
       var $localResources = $(this).parents('.local.resources');
+      var expandedWidth = parseInt($localResources.width() * 0.65);
       $localResources.find('.faceted-filters').toggle();
       $localResources.find('.your-selections').toggleClass('facets-expanded');
+      if ($localResources.find('.your-selections').hasClass('facets-expanded')) {
+        $localResources.find('.your-selections').width(expandedWidth);
+      } else {
+        $localResources.find('.your-selections').width('auto');
+      }
 
       // expose/remove extra columns, resize, and redraw datetable
       var $table = $localResources.find('table');
@@ -127,7 +133,7 @@ var manage_components_title = "Manage my Topics";
         datatable.columns([3, 4]).visible(true, false);
       } else {
         // apparently using CSS - width: 65%; - is no good
-        $localResources.find('.dataTables_wrapper').width(parseInt($localResources.width() * 0.65));
+        $localResources.find('.dataTables_wrapper').width(expandedWidth);
         datatable.columns([3, 4]).visible(false, false);
       }
       datatable.columns.adjust().draw(false); // adjust column sizing and redraw
@@ -138,5 +144,9 @@ var manage_components_title = "Manage my Topics";
       $(this).next().toggle();
       $(this).find('span').toggleClass('on off');
     });
+
+    // Set default width for Your Selections
+    // apparently using CSS - width: 65%; - is no good
+    $localResourcesTabs.find('.your-selections').width(parseInt($localResourcesTabs.width() * 0.65));
   });
 }(jQuery));

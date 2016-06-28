@@ -414,13 +414,17 @@ var LocalResourcesTable;
               $('#modal-content').html($(this).text()).scrollTop(0);
               Drupal.attachBehaviors();
             });
+
+            // apparently using CSS - width: 65%; - is no good
+            $wrapper.find('.dataTables_wrapper').width(parseInt($wrapper.width() * 0.65));
           }
           else {
             $wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>')
+
+            // apparently using CSS - width: 65%; - is no good
+            $wrapper.find('.no-topics').width(parseInt($wrapper.width() * 0.65));
           }
 
-          // apparently using CSS - width: 65%; - is no good
-          $wrapper.find('.dataTables_wrapper').width(parseInt($wrapper.width() * 0.65));
           cached = true;
         }
       });
