@@ -117,23 +117,17 @@ var manage_components_title = "Manage my Topics";
       var $localResources = $(this).parents('.local.resources');
       var expandedWidth = parseInt($localResources.width() * 0.65);
       $localResources.find('.faceted-filters').toggle();
-      $localResources.find('.your-selections').toggleClass('facets-expanded');
-      if ($localResources.find('.your-selections').hasClass('facets-expanded')) {
-        $localResources.find('.your-selections').width(expandedWidth);
-      } else {
-        $localResources.find('.your-selections').width('auto');
-      }
 
       // expose/remove extra columns, resize, and redraw datetable
       var $table = $localResources.find('table');
       var datatable = $table.DataTable();
       $table.width('auto'); // needed since datatables manipulates inline styles
       if ($(this).parent().hasClass('on')) {
-        $localResources.find('.dataTables_wrapper').width('auto');
+        $localResources.find('.your-selections, .dataTables_wrapper').width('auto');
         datatable.columns([3, 4]).visible(true, false);
       } else {
         // apparently using CSS - width: 65%; - is no good
-        $localResources.find('.dataTables_wrapper').width(expandedWidth);
+        $localResources.find('.your-selections, .dataTables_wrapper').width(expandedWidth);
         datatable.columns([3, 4]).visible(false, false);
       }
       datatable.columns.adjust().draw(false); // adjust column sizing and redraw
