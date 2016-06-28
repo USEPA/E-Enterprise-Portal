@@ -35,6 +35,9 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
  */
 ?>
 
+
+
+
 <div class="back-to-lgc-widget">
   <div class="usa-grid">
     <div class="usa-width-one-third">
@@ -56,6 +59,13 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
 </div>
 
 <div id="local-resources-tabs" class="view-content">
+
+  <div class="usa-width-one-whole manage-my-topics-grid-wrapper">
+    <a class="manage-my-topics-grid" href="javascript:void(0)" title="Manage my topics" >
+      Manage My Topics
+      <i class="grid-selector fa fa-th" aria-hidden="true" title="Manage my topics"></i>
+    </a>
+  </div>
   <?php
   // Load the currently logged in user.
   global $user;

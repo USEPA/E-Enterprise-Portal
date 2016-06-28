@@ -38,9 +38,6 @@
       <div class="usa-width-one-half">
         <span class="drop-down-arrow hidden" title="Show more topics"></span>
       </div>
-      <div class="usa-width-one-half">
-        <i class="grid-selector fa fa-th fa-2x" aria-hidden="true" title="Manage my topics"></i>
-      </div>
     </div>
     <?php if (isset($_SESSION['user_lgc_topics'])): ?>
       <?php

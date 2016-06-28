@@ -211,3 +211,11 @@ Truncate    text
 {
     display: none;
 }
+.manage-my-topics-grid .grid-selector {
+    margin-left: 5px;
+}
+
+.manage-my-topics-grid-wrapper {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
