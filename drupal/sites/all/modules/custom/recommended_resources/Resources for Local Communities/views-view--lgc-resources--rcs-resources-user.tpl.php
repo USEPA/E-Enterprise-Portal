@@ -31,31 +31,6 @@
 <p>The following resources are recommended for town, city, and county
   governments based your chosen topics.</p>
 
-<!--- List of user topics--->
-<div id="user-lgc-topics-small-view">
-  <div id="high-level-interests">
-    <div class="usa-grid">
-      <div class="usa-width-one-half">
-        <span class="drop-down-arrow hidden" title="Show more topics"></span>
-      </div>
-    </div>
-    <?php if (isset($_SESSION['user_lgc_topics'])): ?>
-      <?php
-      foreach ($_SESSION['user_lgc_topics'] as $tid => $topic):
-        ?>
-        <div class="embedded-lgc-topic-elem">
-          <label class="ck-button lgc-topics-of-interest"
-                 id="embed-manage-lgc-<?php print $tid ?>">
-            <?php print $topic ?>
-          </label>
-        </div>
-        <?php endforeach; ?>
-
-    <?php else: ?>
-      <p> No session set</p>
-    <?php endif; ?>
-  </div>
-</div>
 
 <div class="<?php print $classes; ?>">
     <?php print render($title_prefix); ?>
