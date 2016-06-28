@@ -99,7 +99,7 @@ var manage_components_title = "Manage my Topics";
       showFocusedTopicView($(this));
     });
 
-    $body.on('click', '#user-lgc-topics-small-view .grid-selector, #add-more-topics', function () {
+    $body.on('click', '.manage-my-topics-grid, #add-more-topics', function () {
       loadManageTopicsView();
     });
 
