@@ -16,13 +16,14 @@
           stopAtScrolls = 0,
           slideCount = 0;
 
-      var galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse US EPA gallery...</a>';
-      //Direct link to EPA maps
-      //If user is a state_admin, then show the "Add agency maps" link
+      //If user is a state_admin, add the "Add agency maps" link
       if (Drupal.settings.userrole == 'state_admin') {
-        galleryLink = '<a class="last" href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse US EPA gallery...</a>  <a href="/agency-map-list" class="favorites-ignore last">Manage agency map collections</a>';
+        var galleryLinkTarget = $('#numThumbnails').find('.widget-note');
+        galleryLinkTarget.append('<a href="/agency-map-list" id="manage-maps" class="favorites-ignore last">Manage agency map collections</a>');
       }
       var jcarousel = $('.jcarousel').jcarousel();
+      var jcarouselNext  = $('.jcarousel-control-next');
+      var jcarouselPrev  = $('.jcarousel-control-prev');       
       //Opening UL only created in init of gallery  
       var $ul = $('<ul>', {'class': 'thumb'});
       jcarousel.html($ul);
@@ -76,7 +77,7 @@
         turnOnVisibleThumbs();
       });
     
-      $('.jcarousel-control-prev')
+      jcarouselPrev
         .on('jcarouselcontrol:active', function () {
           $(this).removeClass('inactive');
         })
@@ -91,7 +92,7 @@
           target: '-=1'
         });
 
-      $('.jcarousel-control-next')
+      jcarouselNext
         .on('jcarouselcontrol:active', function () {
           $(this).removeClass('inactive');
         })
@@ -359,7 +360,7 @@
       function updateTotalNumberOfMapsShowing(countThese) {
         var carouselToCount = '#' + countThese + '-maps-carousel .thumb > li.load-thumbnail';
         numItemsVisible = $(carouselToCount).length;
-        $("#numThumbnails").html(numItemsVisible.toString() + ' Maps  - ' + galleryLink);
+        $("#map-count").html(numItemsVisible.toString());
       }
 
       //mix content from different sources in the MyMaps Gallery

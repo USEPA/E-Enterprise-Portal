@@ -1,18 +1,12 @@
 #numThumbnails a {
-    border-right: 1px solid #aaa;
     padding-right: 5px;
 }
-#numThumbnails a.first {
-    border-right: none;
-}
-#numThumbnails a.last {
-    padding-left: 3px;
-    border-right: none;
-}
-#numThumbnails a.last:nth-child(2) {
+
+#numThumbnails #manage-maps {
     padding-left: 5px;
     border-left: 1px solid #dedede;
 }
+
 .wrapper {
     max-width: 620px;
     margin: auto;

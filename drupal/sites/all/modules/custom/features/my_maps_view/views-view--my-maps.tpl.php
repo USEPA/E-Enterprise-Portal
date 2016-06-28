@@ -27,20 +27,19 @@
  * @ingroup views_templates
  */
   // If user is a state admin, pass role to MyMaps.js to render Add agency maps link
-	global $user;
-	if (in_array('state_admin', $user->roles) || in_array('admin', $user->roles)) {
-	  drupal_add_js(array('userrole' => 'state_admin'), 'setting');
-	}
-	else {
-		drupal_add_js(array('userrole' => 'nonadmin'), 'setting');
-	}
-	
- 	// Pass state admin role to provide additional options to MyMaps.js file
-	drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.dotdotdot.min.js", "file");
-	drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.jcarousel.min.js", "file");
-	drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/MyMaps.js", "file");
-	drupal_add_css(drupal_get_path('module', 'my_maps_view') ."/css/MyMaps.css", "file");
-
+  global $user;
+  if (in_array('state_admin', $user->roles) || in_array('admin', $user->roles)) {
+    drupal_add_js(array('userrole' => 'state_admin'), 'setting');
+  }
+  else {
+    drupal_add_js(array('userrole' => 'nonadmin'), 'setting');
+  }
+  
+   // Pass state admin role to provide additional options to MyMaps.js file
+  drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.dotdotdot.min.js", "file");
+  drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.jcarousel.min.js", "file");
+  drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/MyMaps.js", "file");
+  drupal_add_css(drupal_get_path('module', 'my_maps_view') ."/css/MyMaps.css", "file");
 
 ?>
 <div class="<?php print $classes; ?>">
@@ -68,9 +67,9 @@
   <?php endif; ?>
 
   <div class="view-content" id="interactive-maps-actions">
-  	<div id="numThumbnails" class="widget-note favorites-ignore">
-      <p class="widget-note"><a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore last">Browse Gallery...</a></p>
-			</div>
+    <div id="numThumbnails" class="widget-note favorites-ignore">
+      <p class="widget-note"><span id="map-count"></span> Maps - <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse US EPA gallery...</a></p>
+    </div>
     <div id="myMapsFiltering">
       <ul id="myMapsFilterList">
         <li id="myMapsFilterAll"><a href="#interactive-maps-control" aria-controls="interactive-maps-carousel" id="mapsAll" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>All</a><span class="sr-only"> maps</span></li>
@@ -106,27 +105,4 @@
   <?php if ($pager): ?>
     <?php print $pager; ?>
   <?php endif; ?>
-
-  <?php if ($attachment_after): ?>
-    <div class="attachment attachment-after">
-      <?php print $attachment_after; ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($more): ?>
-    <?php print $more; ?>
-  <?php endif; ?>
-
-  <?php if ($footer): ?>
-    <div class="view-footer">
-      <?php print $footer; ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($feed_icon): ?>
-    <div class="feed-icon">
-      <?php print $feed_icon; ?>
-    </div>
-  <?php endif; ?>
-
 </div><?php /* class view */ ?>
