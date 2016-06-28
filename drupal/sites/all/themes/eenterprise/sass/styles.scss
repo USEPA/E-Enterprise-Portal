@@ -4134,9 +4134,13 @@ select[multiple="multiple"] {
 }
 
 .your-selections span{
-  border: 1px solid gray;
-  margin:3px 0px 0px 3px;
-  padding:0px 3px 0px 3px;
-  border-radius: 4px;
-  white-space:nowrap;
+    border: 1px solid gray;
+    margin:3px 0px 0px 3px;
+    padding:0px 3px 0px 3px;
+    border-radius: 4px;
+    white-space:nowrap;
+}
+
+.your-selections span:after{
+    content: url('/sites/default/files/close.png');
 }
