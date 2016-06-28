@@ -116,6 +116,7 @@ var manage_components_title = "Manage my Topics";
     $body.on('click', '#local-resources-tabs .faceted-filters .toggle', function() {
       var $localResources = $(this).parents('.local.resources');
       $localResources.find('.faceted-filters').toggle();
+      $localResources.find('.your-selections').toggleClass('facets-expanded');
 
       // expose/remove extra columns, resize, and redraw datetable
       var $table = $localResources.find('table');
@@ -125,7 +126,8 @@ var manage_components_title = "Manage my Topics";
         $localResources.find('.dataTables_wrapper').width('auto');
         datatable.columns([3, 4]).visible(true, false);
       } else {
-        $localResources.find('.dataTables_wrapper').width(410);
+        // apparently using CSS - width: 65%; - is no good
+        $localResources.find('.dataTables_wrapper').width(parseInt($localResources.width() * 0.65));
         datatable.columns([3, 4]).visible(false, false);
       }
       datatable.columns.adjust().draw(false); // adjust column sizing and redraw
