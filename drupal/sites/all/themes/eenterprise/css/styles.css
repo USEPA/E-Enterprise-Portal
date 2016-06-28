@@ -8683,3 +8683,8 @@ select[multiple="multiple"] {
      border-radius: 4px;
      white-space:nowrap;
  }
+
+ /* line 4144, ../sass/styles.scss */
+ .your-selections span:after{
+     content: url('../images/close.png');
+ }

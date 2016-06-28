@@ -394,6 +394,28 @@ var LocalResourcesTable;
               }
             });
 
+            /*On Close button click, mimick a checkbox click event.
+            * */
+            $('.your-selections span').click(function(e) {
+              var selected_selection = $(this).html();
+              var selected_id = $('.multiselect-to-checkboxes ul li').find('label[title=\'' + selected_selection + '\']').attr('for');
+              simulateClick(e, $("#"+selected_id));
+            });
+
+            function simulateClick(event, obj) {
+              if (obj.click) {
+                obj.click()
+              } else if(document.createEvent) {
+                if(event.target !== obj) {
+                  var evt = document.createEvent("MouseEvents");
+                  evt.initMouseEvent("click", true, true, window,
+                      0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                  var allowDefault = obj.dispatchEvent(evt);
+                }
+              }
+            }
+
+
             /*On Relevance Facet click (select), show Relevance above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-relevance-facet').find('input').click(function () {
