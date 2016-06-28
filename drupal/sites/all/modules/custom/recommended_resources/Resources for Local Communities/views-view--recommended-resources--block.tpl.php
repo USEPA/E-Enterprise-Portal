@@ -150,7 +150,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
             <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-right.png" alt="Click to expand" />
           </div>
         </div>
-        <div class="your-selections">Your selections:</div>
+        <div class="your-selections facets-expanded">Your selections:</div>
       </div>
       <div id="all-local-resources"></div>
     </div>
@@ -228,7 +228,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
               <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-right.png" alt="Click to expand" />
             </div>
           </div>
-          <div class="your-selections">Your selections:</div>
+          <div class="your-selections facets-expanded">Your selections:</div>
         </div>
         <div id="user-local-resources"></div>
       </div>
