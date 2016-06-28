@@ -162,19 +162,10 @@ Truncate    text
     line-height: 20px;
     padding: 0 5px 0 10px;
 }
-.faceted-filters .toggle span {
+.faceted-filters .toggle img {
     float: right;
     width: 20px;
     height: 20px;
-    display: inline-block;
-    background-size: 20px 20px;
-    background-repeat: no-repeat;
-}
-.faceted-filters .toggle span.icon-left {
-    background-image: url("../images/chevron-left.png");
-}
-.faceted-filters .toggle span.icon-right {
-    background-image: url("../images/chevron-right.png");
 }
 .faceted-filters.on {
     width: 30%;
@@ -210,17 +201,13 @@ Truncate    text
     font-weight: bold;
     padding: 5px 0;
 }
-.faceted-filters h3 .glyphicon {
-    width: 10px;
-    height: 10px;
-    display: inline-block;
-    background-size: 10px 10px;
-    background-repeat: no-repeat;
+.faceted-filters h3 .icon img {
+    width: 16px;
+    height: 16px;
     margin: 0 2px 0 5px;
 }
-.faceted-filters h3 .glyphicon-triangle-right {
-    background-image: url("../images/arrow-right.png");
-}
-.faceted-filters h3 .glyphicon-triangle-bottom {
-    background-image: url("../images/arrow-down.png");
+.faceted-filters h3 span.on img.off,
+.faceted-filters h3 span.off img.on
+{
+    display: none;
 }
