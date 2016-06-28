@@ -29,7 +29,6 @@
 
 ?>
 
-
 <p>The following resources are recommended for town, city, and county
   governments based on your chosen topics.</p>
 
@@ -40,7 +39,6 @@
       <div class="usa-width-one-half">
         <span class="drop-down-arrow hidden" title="Show more topics"></span>
       </div>
-
     </div>
     <?php if (isset($_SESSION['user_lgc_topics'])): ?>
       <?php foreach ($_SESSION['user_lgc_topics'] as $tid => $topic): ?>
