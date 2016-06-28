@@ -78,26 +78,74 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
 
   <div id="all-local-resources-wrapper" class="all local resources wrapper clearfix">
     <div class="faceted-filters on left">
-      <div class="toggle">Adjust selections <span class="icon-left"></span></div>
-      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Source</h3>
+      <div class="toggle">
+        Adjust selections
+        <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-left.png" class="icon" alt="Click to collapse" />
+      </div>
+      <h3>
+        <span class="icon on">
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+        </span>
+        Source
+      </h3>
       <div class="source facet"></div>
-      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Topic</h3>
+      <h3>
+        <span class="icon on">
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+        </span>
+        Topic
+      </h3>
       <div class="topic facet"></div>
-      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Category</h3>
+      <h3>
+        <span class="icon on">
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+        </span>
+        Category
+      </h3>
       <div class="category facet"></div>
-      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Tool Type</h3>
+      <h3>
+        <span class="icon on">
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+        </span>
+        Tool Type
+      </h3>
       <div class="tool-type facet"></div>
-      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Training Level</h3>
+      <h3>
+        <span class="icon on">
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+        </span>
+        Training Level
+      </h3>
       <div class="training-level facet"></div>
-      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Data Requirements</h3>
+      <h3>
+        <span class="icon on">
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+        </span>
+        Data Requirements
+      </h3>
       <div class="data-requirements facet"></div>
-      <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Relevance</h3>
+      <h3>
+        <span class="icon on">
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+        </span>
+        Relevance
+      </h3>
       <div class="relevance facet"></div>
     </div>
     <div class="left">
       <div class="clearfix">
         <div class="faceted-filters off left">
-          <div class="toggle">Adjust selections <span class="icon-right"></span></div>
+          <div class="toggle">
+            Adjust selections
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-right.png" alt="Click to expand" />
+          </div>
         </div>
         <div class="your-selections">Your selections:</div>
       </div>
@@ -108,26 +156,74 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
   if ($user->name != 'guest-user'): ?>
     <div id="user-local-resources-wrapper" class="user local resources wrapper clearfix">
       <div class="faceted-filters on left">
-        <div class="toggle">Adjust selections <span class="icon-left"></span></div>
-        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Source</h3>
+        <div class="toggle">
+          Adjust selections
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-left.png" alt="Click to collapse" />
+        </div>
+        <h3>
+          <span class="icon on">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+          </span>
+          Source
+        </h3>
         <div class="source facet"></div>
-        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Topic</h3>
+        <h3>
+          <span class="icon on">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+          </span>
+          Topic
+        </h3>
         <div class="topic facet"></div>
-        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Category</h3>
+        <h3>
+          <span class="icon on">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+          </span>
+          Category
+        </h3>
         <div class="category facet"></div>
-        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Tool Type</h3>
+        <h3>
+          <span class="icon on">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+          </span>
+          Tool Type
+        </h3>
         <div class="tool-type facet"></div>
-        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Training Level</h3>
+        <h3>
+          <span class="icon on">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+          </span>
+          Training Level
+        </h3>
         <div class="training-level facet"></div>
-        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Data Requirements</h3>
+        <h3>
+          <span class="icon on">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+          </span>
+          Data Requirements
+        </h3>
         <div class="data-requirements facet"></div>
-        <h3><span class="glyphicon glyphicon-triangle-bottom"></span> Relevance</h3>
+        <h3>
+          <span class="icon on">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on"  alt="Click to collapse" />
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off"  alt="Click to expand" />
+          </span>
+          Relevance
+        </h3>
         <div class="relevance facet"></div>
       </div>
       <div class="left">
         <div class="clearfix">
           <div class="faceted-filters off left">
-            <div class="toggle">Adjust selections <span class="icon-right"></span></div>
+            <div class="toggle">
+              Adjust selections
+              <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-right.png" alt="Click to expand" />
+            </div>
           </div>
           <div class="your-selections">Your selections:</div>
         </div>

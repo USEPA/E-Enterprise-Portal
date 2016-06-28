@@ -88,7 +88,7 @@ var LocalResourcesTable;
       // hide the following columns, they are only used for faceted filtering
       "columnDefs": [
         {
-          "targets": [5, 6, 7, 8],
+          "targets": [3, 4, 5, 6, 7, 8],
           "visible": false
         }
       ]
@@ -201,6 +201,12 @@ var LocalResourcesTable;
             $('#' + wrapperParentId).find('.facet select').each(function() {
               $(this).multiSelectToCheckboxes();
             });
+
+            var your_selections = $('.your-selections');
+            if( your_selections.find('.selection-lbl').length == 0 ){
+              var selection_lbl = "<div class='selection-lbl'>" + your_selections.html() + "</div>";
+              your_selections.html(selection_lbl);
+            }
 
             /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
              *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
