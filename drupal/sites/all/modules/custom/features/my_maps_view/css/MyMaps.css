@@ -42,12 +42,15 @@
     padding: 5px;
 }
 
-.jcarousel li.load-thumbnail,
+.jcarousel li.load-thumbnail {
+    visibility: hidden;
+}
 .jcarousel li.hide-thumbnail {
     display: none;
 }
 .jcarousel li.load-thumbnail.active {
     display: block;
+    visibility: visible;
 }
 
 .thumbitem-border {
