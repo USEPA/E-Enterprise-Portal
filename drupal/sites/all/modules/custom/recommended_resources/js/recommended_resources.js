@@ -138,9 +138,5 @@ var manage_components_title = "Manage my Topics";
       $(this).next().toggle();
       $(this).find('span').toggleClass('on off');
     });
-
-    // Set default width for Your Selections
-    // apparently using CSS - width: 65%; - is no good
-    $localResourcesTabs.find('.your-selections').width(parseInt($localResourcesTabs.width() * 0.65));
   });
 }(jQuery));
