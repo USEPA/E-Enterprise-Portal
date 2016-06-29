@@ -213,10 +213,12 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-source-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[2]).trim();
                 }, false);
@@ -231,10 +233,12 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[3]).trim();
                 }, false);
@@ -249,10 +253,12 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-category-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[4]).trim();
                 }, false);
@@ -267,10 +273,12 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[5]).trim();
                 }, false);
@@ -287,10 +295,12 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[6]).trim();
                 }, false);
@@ -305,10 +315,12 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-data-requirements-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[7]).trim();
                 }, false);
@@ -323,10 +335,12 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-relevance-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[8]).trim();
                 }, false);
