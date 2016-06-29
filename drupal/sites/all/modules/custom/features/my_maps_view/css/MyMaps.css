@@ -42,7 +42,8 @@
     padding: 5px;
 }
 
-.jcarousel li.load-thumbnail {
+.jcarousel li.load-thumbnail,
+.jcarousel li.hide-thumbnail {
     display: none;
 }
 .jcarousel li.load-thumbnail.active {

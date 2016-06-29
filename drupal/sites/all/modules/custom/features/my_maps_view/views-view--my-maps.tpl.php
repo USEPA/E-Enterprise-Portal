@@ -68,7 +68,7 @@
 
   <div class="view-content" id="interactive-maps-actions">
     <div id="numThumbnails" class="widget-note favorites-ignore">
-      <p class="widget-note"><span id="map-count"></span> Maps - <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse US EPA gallery...</a></p>
+      <p class="widget-note"><span id="map-count">Loading </span> maps - <a href="https://epa.maps.arcgis.com/home/search.html?q=&t=content&focus=applications" target="_blank" class="favorites-ignore">Browse US EPA gallery...</a></p>
     </div>
     <div id="myMapsFiltering">
       <ul id="myMapsFilterList">
