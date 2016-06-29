@@ -115,7 +115,7 @@ var manage_components_title = "Manage my Topics";
     // Toggle sidebar expanded / collapsed view
     $body.on('click', '#local-resources-tabs .faceted-filters .toggle', function() {
       var $localResources = $(this).parents('.local.resources');
-      var expandedWidth = parseInt($localResources.width() * 0.65);
+      // var expandedWidth = parseInt($localResources.width() * 0.65);
       $localResources.find('.faceted-filters').toggle();
 
       // expose/remove extra columns, resize, and redraw datetable
@@ -123,11 +123,11 @@ var manage_components_title = "Manage my Topics";
       var datatable = $table.DataTable();
       $table.width('auto'); // needed since datatables manipulates inline styles
       if ($(this).parent().hasClass('on')) {
-        $localResources.find('.your-selections, .dataTables_wrapper').width('auto');
+        //$localResources.find('.your-selections, .dataTables_wrapper').width('auto');
         datatable.columns([3, 4]).visible(true, false);
       } else {
         // apparently using CSS - width: 65%; - is no good
-        $localResources.find('.your-selections, .dataTables_wrapper').width(expandedWidth);
+        //$localResources.find('.your-selections, .dataTables_wrapper').width(expandedWidth);
         datatable.columns([3, 4]).visible(false, false);
       }
       datatable.columns.adjust().draw(false); // adjust column sizing and redraw
