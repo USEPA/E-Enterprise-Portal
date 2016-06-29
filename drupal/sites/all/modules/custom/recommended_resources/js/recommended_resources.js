@@ -1,6 +1,6 @@
 var favorite_local_resources_table, all_local_resources_table;
 var pane_class = ".pane-views-recommended-resources-block";
-var manage_components_title = "Manage my Topics";
+var manage_components_title = "Manage My Profile Topics";
 
 (function ($) {
 
