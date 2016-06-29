@@ -3,9 +3,9 @@ var pane_class = ".pane-views-recommended-resources-block";
 var manage_components_title = "Manage my Topics";
 
 (function ($) {
-  var $localResourcesTabs = $('#local-resources-tabs');
 
   function showLGCResourcesView() {
+    var $localResourcesTabs = $('#local-resources-tabs');
     $('#user-lgc-topics-small-view').find('label').removeClass('selected');
     favorite_local_resources_table.updateTopics([]);
     favorite_local_resources_table.showTable();
@@ -23,6 +23,7 @@ var manage_components_title = "Manage my Topics";
    * Loads manage topics view via an ajax request
    */
   function loadManageTopicsView() {
+    var $localResourcesTabs = $('#local-resources-tabs');
     $.ajax({
       url: "manage_my_topics/load_view",
       beforeSend: function () {
@@ -138,9 +139,5 @@ var manage_components_title = "Manage my Topics";
       $(this).next().toggle();
       $(this).find('span').toggleClass('on off');
     });
-
-    // Set default width for Your Selections
-    // apparently using CSS - width: 65%; - is no good
-    $localResourcesTabs.find('.your-selections').width(parseInt($localResourcesTabs.width() * 0.65));
   });
 }(jQuery));
