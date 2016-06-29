@@ -1,11 +1,11 @@
 var favorite_local_resources_table, all_local_resources_table;
 var pane_class = ".pane-views-recommended-resources-block";
-var manage_components_title = "Manage my Topics";
+var manage_components_title = "Manage My Profile Topics";
 
 (function ($) {
-  var $localResourcesTabs = $('#local-resources-tabs');
 
   function showLGCResourcesView() {
+    var $localResourcesTabs = $('#local-resources-tabs');
     $('#user-lgc-topics-small-view').find('label').removeClass('selected');
     favorite_local_resources_table.updateTopics([]);
     favorite_local_resources_table.showTable();
@@ -23,6 +23,7 @@ var manage_components_title = "Manage my Topics";
    * Loads manage topics view via an ajax request
    */
   function loadManageTopicsView() {
+    var $localResourcesTabs = $('#local-resources-tabs');
     $.ajax({
       url: "manage_my_topics/load_view",
       beforeSend: function () {

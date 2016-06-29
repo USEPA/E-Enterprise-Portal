@@ -18,11 +18,8 @@
       });
 
       // focus modal
-      var formInput = $('div.ctools-modal-content button,div.ctools-modal-content select,div.ctools-modal-content input:enabled')[0];
-      if (formInput) {
-        formInput.focus();
-      }
-
+      $('.ctools-modal-open').focus();
+      
       // if exclude email is checked, clear the value in the email input form
       // if unchecked, restore the value
       var email;

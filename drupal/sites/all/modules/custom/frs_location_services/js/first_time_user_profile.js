@@ -2,7 +2,7 @@
 
     $(document).ready(function () {
 
-
+        $('#first-time-user-profile').parent().focus();
         // If first time user, show modal for profile saving options
         var first_time_user_block = $('#first-time-user-block');
         if (first_time_user_block.length > 0) {
