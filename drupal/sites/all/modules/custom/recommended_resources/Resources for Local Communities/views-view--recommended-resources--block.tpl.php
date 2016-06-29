@@ -66,11 +66,11 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
   global $user;
 
   if ($user->name !== 'guest-user'): ?>
-    <!-- link to manage My Topics -->
+    <!-- link to manage My Profile Topics -->
     <div class="usa-width-one-whole manage-my-topics-grid-wrapper">
-      <a class="manage-my-topics-grid" href="javascript:void(0)" title="Manage my topics" >
-        Manage My Topics
-        <i class="grid-selector fa fa-th" aria-hidden="true" title="Manage my topics"></i>
+      <a class="manage-my-topics-grid" href="javascript:void(0)" title="Manage My Profile Topics" >
+        Manage My Profile Topics
+        <i class="grid-selector fa fa-th" aria-hidden="true" title="Manage My Profile Topics"></i>
       </a>
     </div>
 
