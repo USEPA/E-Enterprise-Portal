@@ -155,7 +155,7 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['query']['options']['json_file'] = 'http://eep.local/rcs_lgc_resources_json_all';
+  $handler->display->display_options['query']['options']['json_file'] = 'http://localhost/rcs_lgc_resources_json_all';
   $handler->display->display_options['query']['options']['row_apath'] = 'resources';
   $handler->display->display_options['query']['options']['show_errors'] = 1;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -252,7 +252,7 @@ function recommended_resources_feature_views_default_views() {
   $handler = $view->new_display('block', 'Resources by Topic', 'rcs_resources_topic');
   $handler->display->display_options['defaults']['query'] = FALSE;
   $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['query']['options']['json_file'] = 'http://eep.local/rcs_lgc_resources_json_by_topic';
+  $handler->display->display_options['query']['options']['json_file'] = 'http://localhost/rcs_lgc_resources_json_by_topic';
   $handler->display->display_options['query']['options']['row_apath'] = 'resources';
   $handler->display->display_options['query']['options']['show_errors'] = 1;
 
@@ -260,7 +260,7 @@ function recommended_resources_feature_views_default_views() {
   $handler = $view->new_display('block', 'Resources by User', 'rcs_resources_user');
   $handler->display->display_options['defaults']['query'] = FALSE;
   $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['query']['options']['json_file'] = 'http://eep.local/rcs_lgc_resources_json_by_user';
+  $handler->display->display_options['query']['options']['json_file'] = 'http://localhost/rcs_lgc_resources_json_by_user';
   $handler->display->display_options['query']['options']['row_apath'] = 'resources';
   $handler->display->display_options['query']['options']['show_errors'] = 1;
 
