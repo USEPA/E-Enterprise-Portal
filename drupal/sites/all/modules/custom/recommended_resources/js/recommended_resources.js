@@ -114,7 +114,8 @@ var manage_components_title = "Manage My Profile Topics";
     });
 
     // Toggle sidebar expanded / collapsed view
-    $body.on('click', '#local-resources-tabs .faceted-filters .toggle', function() {
+    $body.on('click', '#local-resources-tabs .faceted-filters .toggle a', function(ev) {
+      ev.preventDefault();
       var $localResources = $(this).parents('.local.resources');
       var expandedWidth = parseInt($localResources.width() * 0.65);
       $localResources.find('.faceted-filters').toggle();
@@ -123,7 +124,7 @@ var manage_components_title = "Manage My Profile Topics";
       var $table = $localResources.find('table');
       var datatable = $table.DataTable();
       $table.width('auto'); // needed since datatables manipulates inline styles
-      if ($(this).parent().hasClass('on')) {
+      if ($(this).parents('.faceted-filters').hasClass('on')) {
         $localResources.find('.your-selections, .dataTables_wrapper').width('auto');
         datatable.columns([3, 4]).visible(true, false);
       } else {
@@ -135,9 +136,11 @@ var manage_components_title = "Manage My Profile Topics";
     });
 
     // Toggle facet expanded / collapsed view
-    $body.on('click', '#local-resources-tabs h3', function() {
-      $(this).next().toggle();
-      $(this).find('span').toggleClass('on off');
+    $body.on('click', '#local-resources-tabs h3 a', function(ev) {
+      ev.preventDefault();
+      var $h3 = $(this).parents('h3');
+      $h3.next().toggle();
+      $h3.find('span').toggleClass('on off');
     });
   });
 }(jQuery));
