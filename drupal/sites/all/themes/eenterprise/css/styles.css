@@ -8686,5 +8686,6 @@ select[multiple="multiple"] {
 
  /* line 4144, ../sass/styles.scss */
  .your-selections span:after{
-     content: url('../images/close.png');
+     content: url('../images/close_black.png');
+     margin-left: 5px;
  }
