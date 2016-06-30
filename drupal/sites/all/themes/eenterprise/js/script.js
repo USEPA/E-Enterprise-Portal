@@ -192,7 +192,10 @@
             var options = {
               vertical_margin: verticalMargin,
               cell_height: cellHeight,
-              'data-gs-width': 2
+              'data-gs-width': 2,
+              draggable: {
+                cancel: '.faceted-filters'
+              }
             };
             $grid_container.gridstack(options);
             var grid = $grid_container.data('gridstack');
