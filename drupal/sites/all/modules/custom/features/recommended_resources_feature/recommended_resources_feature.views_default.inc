@@ -197,7 +197,7 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['ui_name'] = '(i) icon';
   $handler->display->display_options['fields']['nothing']['label'] = 'Info';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div>[value_1]</div>
-<span></span>';
+<a href="#" class="favorites-ignore" title="Click for more information"></a>';
   /* Field: PrimaryOrganizationText: value */
   $handler->display->display_options['fields']['value_9']['id'] = 'value_9';
   $handler->display->display_options['fields']['value_9']['table'] = 'json';

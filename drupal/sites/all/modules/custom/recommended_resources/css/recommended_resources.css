@@ -128,14 +128,13 @@ Truncate    text
 .faceted-filters.off {
     display: none;
 }
-#local-resources-tabs td.views-field-nothing span {
+#local-resources-tabs td.views-field-nothing a {
     background: url("../images/information.png");
     width: 16px;
     height: 16px;
     display: inline-block;
     background-size: 16px 16px;
     background-repeat: no-repeat;
-    cursor: pointer;
 }
 .ui-tabs .ui-tabs-panel.local.resources {
     padding-top: 10px;
