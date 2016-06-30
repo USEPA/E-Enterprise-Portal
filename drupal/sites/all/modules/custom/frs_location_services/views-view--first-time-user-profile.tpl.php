@@ -35,7 +35,7 @@
 drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/first_time_user_profile.js", "file");
 drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_time_user_profile.css", "file");
 ?>
-<div id="first-time-user-profile">
+<div id="first-time-user-profile" tabindex="-1">
     <h2><span>Getting Started</span>What matters to you?</h2>
 
     <p>We have many resources and will be adding more. To personalize your experience, you can include location details
