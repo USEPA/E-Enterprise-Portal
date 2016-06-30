@@ -213,6 +213,12 @@ Truncate    text
 {
     display: none;
 }
+.faceted-filters a.favorites-ignore {
+    color: black;
+}
+.faceted-filters a.favorites-ignore:hover {
+    text-decoration: none;
+}
 .manage-my-topics-grid .grid-selector {
     margin-left: 5px;
 }
