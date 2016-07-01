@@ -114,14 +114,16 @@ var manage_components_title = "Manage My Profile Topics";
     });
 
     // Toggle sidebar expanded / collapsed view
-    $body.on('click', '#local-resources-tabs .faceted-filters .toggle', function() {
+    $body.on('click', '#local-resources-tabs .faceted-filters .toggle a', function(ev) {
+      ev.preventDefault();
       var $localResources = $(this).parents('.local.resources');
       $localResources.find('.faceted-filters').toggle();
 
       // expose/remove extra columns, resize, and redraw datetable
       var $table = $localResources.find('table');
       var datatable = $table.DataTable();
-      if ($(this).parent().hasClass('on')) {
+      $table.width('auto'); // needed since datatables manipulates inline styles
+      if ($(this).parents('.faceted-filters').hasClass('on')) {
         datatable.columns([3, 4]).visible(true, false);
       } else {
         datatable.columns([3, 4]).visible(false, false);
@@ -130,9 +132,11 @@ var manage_components_title = "Manage My Profile Topics";
     });
 
     // Toggle facet expanded / collapsed view
-    $body.on('click', '#local-resources-tabs h3', function() {
-      $(this).next().toggle();
-      $(this).find('span').toggleClass('on off');
+    $body.on('click', '#local-resources-tabs h3 a', function(ev) {
+      ev.preventDefault();
+      var $h3 = $(this).parents('h3');
+      $h3.next().toggle();
+      $h3.find('span').toggleClass('on off');
     });
   });
 }(jQuery));

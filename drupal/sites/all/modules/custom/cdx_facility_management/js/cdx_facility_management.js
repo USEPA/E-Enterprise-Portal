@@ -197,6 +197,7 @@
                                 updateWidget(user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold, 0);
                                 if ($('#facility-widget').length > 0) {
                                     cdx_facility_management_block.dialog('open');
+                                    $('.ui-dialog').focus();
                                 }
                             });
 

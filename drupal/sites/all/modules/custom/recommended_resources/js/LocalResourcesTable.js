@@ -214,15 +214,17 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-source-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span.facet-topic-container').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[2]).trim();
                 }, false);
                 if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
                 }
               }
             });
@@ -232,15 +234,17 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span.facet-topic-container').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[3]).trim();
                 }, false);
                 if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
                 }
               }
             });
@@ -250,15 +254,17 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-category-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span.facet-topic-container').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[4]).trim();
                 }, false);
                 if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
                 }
               }
             });
@@ -268,15 +274,17 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span.facet-topic-container').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[5]).trim();
                 }, false);
                 if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
                 }
               }
             });
@@ -288,15 +296,17 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span.facet-topic-container').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[6]).trim();
                 }, false);
                 if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
                 }
               }
             });
@@ -306,15 +316,17 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-data-requirements-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span.facet-topic-container').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[7]).trim();
                 }, false);
                 if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
                 }
               }
             });
@@ -324,97 +336,130 @@ var LocalResourcesTable;
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-relevance-facet').find('li').each(function (index) {
               if (index > 0) {
                 var facet_topic = $(this).children('label').html();
-                $(this).children('label').attr('title', facet_topic);
-                var selection = "<span title = '" + facet_topic + "'>" + facet_topic + "</span>";
-                $('.your-selections').append(selection);
-                $('.your-selections span').hide();
+                if ((facet_topic.indexOf("(")) < 0) {
+                  $(this).children('label').attr('title', facet_topic);
+                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
+                  $('.your-selections').append(selection);
+                  $('.your-selections span.facet-topic-container').hide();
+                }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
                   return (facet_topic.trim()) == (n[8]).trim();
                 }, false);
                 if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + "(" + res_t.length + ")");
+                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
                 }
               }
             });
 
             /*On Source Facet click (select), show source above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-source-facet').find('input').click(function () {
-              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
-              if ($('.your-selections').children(span_selector).is(":visible")) {
-                $('.your-selections').children(span_selector).hide();
-              }
-              else {
-                $('.your-selections').children(span_selector).css('display', 'inline-block');
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-source-facet').find('input').click(function (e) {
+              /*
+              *Click event is being fired twice on a single click and creating a problem by hiding and showing or showing and hiding selections
+              * all at once. To solve that problem, check the timeStamp on the event and do not execute if current Click and next click have the
+              * same timeStamp.
+              * */
+              if(sessionStorage.getItem('click_stamp_src') != e.timeStamp) {
+                sessionStorage.setItem('click_stamp_src', e.timeStamp);
+                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
+                if ($('.your-selections').children(span_selector).is(":visible")) {
+                  $('.your-selections').children(span_selector).hide();
+                }
+                else {
+                  $('.your-selections').children(span_selector).css('display', 'inline-block');
+                }
               }
             });
 
             /*On Topic Facet click (select), show topic above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('input').click(function () {
-              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
-              if ($('.your-selections').children(span_selector).is(":visible")) {
-                $('.your-selections').children(span_selector).hide();
-              }
-              else {
-                $('.your-selections').children(span_selector).css('display', 'inline-block');
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('input').click(function (e) {
+              if(sessionStorage.getItem('click_stamp_topic') != e.timeStamp) {
+                sessionStorage.setItem('click_stamp_topic', e.timeStamp);
+                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
+                if ($('.your-selections').children(span_selector).is(":visible")) {
+                  $('.your-selections').children(span_selector).hide();
+                }
+                else {
+                  $('.your-selections').children(span_selector).css('display', 'inline-block');
+                }
               }
             });
 
             /*On Category Facet click (select), show category above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-category-facet').find('input').click(function () {
-              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
-              if ($('.your-selections').children(span_selector).is(":visible")) {
-                $('.your-selections').children(span_selector).hide();
-              }
-              else {
-                $('.your-selections').children(span_selector).css('display', 'inline-block');
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-category-facet').find('input').click(function (e) {
+              if(sessionStorage.getItem('click_stamp_cat') != e.timeStamp) {
+                sessionStorage.setItem('click_stamp_cat', e.timeStamp);
+                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
+                if ($('.your-selections').children(span_selector).is(":visible")) {
+                  $('.your-selections').children(span_selector).hide();
+                }
+                else {
+                  $('.your-selections').children(span_selector).css('display', 'inline-block');
+                }
               }
             });
 
             /*On Tool Type Facet click (select), show Tool Type above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('input').click(function () {
-              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
-              if ($('.your-selections').children(span_selector).is(":visible")) {
-                $('.your-selections').children(span_selector).hide();
-              }
-              else {
-                $('.your-selections').children(span_selector).css('display', 'inline-block');
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('input').click(function (e) {
+              if(sessionStorage.getItem('click_stamp_tool_type') != e.timeStamp) {
+                sessionStorage.setItem('click_stamp_tool_type', e.timeStamp);
+                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
+                if ($('.your-selections').children(span_selector).is(":visible")) {
+                  $('.your-selections').children(span_selector).hide();
+                }
+                else {
+                  $('.your-selections').children(span_selector).css('display', 'inline-block');
+                }
               }
             });
 
             /*On Training Level Facet click (select), show Training Level above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('input').click(function () {
-              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
-              if ($('.your-selections').children(span_selector).is(":visible")) {
-                $('.your-selections').children(span_selector).hide();
-              }
-              else {
-                $('.your-selections').children(span_selector).css('display', 'inline-block');
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('input').click(function (e) {
+              if(sessionStorage.getItem('click_stamp_lvl') != e.timeStamp) {
+                sessionStorage.setItem('click_stamp_lvl', e.timeStamp);
+                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
+                if ($('.your-selections').children(span_selector).is(":visible")) {
+                  $('.your-selections').children(span_selector).hide();
+                }
+                else {
+                  $('.your-selections').children(span_selector).css('display', 'inline-block');
+                }
               }
             });
 
             /*On Data Requirements Facet click (select), show Data Requirements above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-data-requirements-facet').find('input').click(function () {
-              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
-              if ($('.your-selections').children(span_selector).is(":visible")) {
-                $('.your-selections').children(span_selector).hide();
-              }
-              else {
-                $('.your-selections').children(span_selector).css('display', 'inline-block');
+            $('#yadcf-filter-wrapper--all-local-resources-wrapper-data-requirements-facet').find('input').click(function (e) {
+              if(sessionStorage.getItem('click_stamp_req') != e.timeStamp) {
+                sessionStorage.setItem('click_stamp_req', e.timeStamp);
+                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
+                if ($('.your-selections').children(span_selector).is(":visible")) {
+                  $('.your-selections').children(span_selector).hide();
+                }
+                else {
+                  $('.your-selections').children(span_selector).css('display', 'inline-block');
+                }
               }
             });
 
             /*On Close button click, mimick a checkbox click event.
             * */
-            $('.your-selections span').click(function(e) {
-              var selected_selection = $(this).html();
-              var selected_id = $('.multiselect-to-checkboxes ul li').find('label[title=\'' + selected_selection + '\']').attr('for');
-              simulateClick(e, $("#"+selected_id));
+            $('.your-selections span.facet-topic-container a').click(function(e) {
+              /*
+               *Click event is being fired twice on a single click and creating a problem by hiding and showing or showing and hiding selections
+               * all at once. To solve this problem, check the timeStamp on the event and do not execute if current click and next click have the
+               * same timeStamp.
+               * */
+              if(sessionStorage.getItem('click_stamp_selected') != e.timeStamp) {
+                sessionStorage.setItem('click_stamp_selected', e.timeStamp);
+                var selected_selection = $(this).parent().attr('title');
+                var selected_id = $('.multiselect-to-checkboxes ul li').find('label[title=\'' + selected_selection + '\']').attr('for');
+                simulateClick(e, $("#" + selected_id));
+              }
             });
 
             function simulateClick(event, obj) {
@@ -445,10 +490,11 @@ var LocalResourcesTable;
 
             // Click handler for clicking 'i' icon - show modal
             // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
-            $('#local-resources-tabs').on('click', 'td.views-field-nothing', function() {
+            $('#local-resources-tabs').on('click', 'td.views-field-nothing a', function(ev) {
+              ev.preventDefault();
               Drupal.CTools.Modal.show("ee-ctools-popup-style");
               $('#modal-title').html('Resource Info');
-              $('#modal-content').html($(this).text()).scrollTop(0);
+              $('#modal-content').html($(this).parent().text()).scrollTop(0);
               Drupal.attachBehaviors();
             });
             

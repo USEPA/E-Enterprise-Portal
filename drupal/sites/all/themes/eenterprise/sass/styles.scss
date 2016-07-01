@@ -4133,7 +4133,7 @@ select[multiple="multiple"] {
     background: none;
 }
 
-.your-selections span{
+.your-selections span.facet-topic-container{
     border: 1px solid gray;
     margin:3px 0px 0px 3px;
     padding:0px 3px 0px 3px;
@@ -4141,6 +4141,7 @@ select[multiple="multiple"] {
     white-space:nowrap;
 }
 
-.your-selections span:after{
-    content: url('../images/close.png');
+.your-selections a{
+    content: url('../images/close_black.png');
+    margin-left: 5px;
 }

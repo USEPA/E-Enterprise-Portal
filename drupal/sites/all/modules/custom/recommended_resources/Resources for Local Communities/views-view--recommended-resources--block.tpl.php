@@ -85,61 +85,91 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
   <div id="all-local-resources-wrapper" class="all local resources wrapper clearfix">
     <div class="faceted-filters on left">
       <div class="toggle">
-        Adjust selections
-        <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-left.png" class="favorites-ignore" alt="Click to collapse" />
+        <a href="#" class="favorites-ignore">
+          Adjust selections
+          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-left.png" alt="Click to collapse"/>
+        </a>
       </div>
       <h3>
         <span class="icon on">
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
         </span>
         Source
       </h3>
       <div class="source facet"></div>
       <h3>
         <span class="icon on">
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
         </span>
         Topic
       </h3>
       <div class="topic facet"></div>
       <h3>
         <span class="icon on">
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
         </span>
         Category
       </h3>
       <div class="category facet"></div>
       <h3>
         <span class="icon on">
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
         </span>
         Tool Type
       </h3>
       <div class="tool-type facet"></div>
       <h3>
         <span class="icon on">
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
         </span>
         Training Level
       </h3>
       <div class="training-level facet"></div>
       <h3>
         <span class="icon on">
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
         </span>
         Data Requirements
       </h3>
       <div class="data-requirements facet"></div>
       <h3>
         <span class="icon on">
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
         </span>
         Relevance
       </h3>
@@ -149,8 +179,10 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
       <div class="clearfix">
         <div class="faceted-filters off left">
           <div class="toggle">
-            Adjust selections
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-right.png" class="favorites-ignore" alt="Click to expand" />
+            <a href="#" class="favorites-ignore">
+              Adjust selections
+              <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-right.png" class="favorites-ignore" alt="Click to expand" />
+            </a>
           </div>
         </div>
         <div class="your-selections facets-expanded">Your selections:</div>
@@ -163,61 +195,91 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     <div id="user-local-resources-wrapper" class="user local resources wrapper clearfix">
       <div class="faceted-filters on left">
         <div class="toggle">
-          Adjust selections
-          <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-left.png" class="favorites-ignore" alt="Click to collapse" />
+          <a href="#" class="favorites-ignore">
+            Adjust selections
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-left.png" class="favorites-ignore" alt="Click to collapse" />
+          </a>
         </div>
         <h3>
           <span class="icon on">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
+            <a href="#" class="favorites-ignore">
+              <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+            </a>
+            <a href="#" class="favorites-ignore">
+              <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+            </a>
           </span>
           Source
         </h3>
         <div class="source facet"></div>
         <h3>
           <span class="icon on">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
-          </span>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
+        </span>
           Topic
         </h3>
         <div class="topic facet"></div>
         <h3>
           <span class="icon on">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
-          </span>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
+        </span>
           Category
         </h3>
         <div class="category facet"></div>
         <h3>
           <span class="icon on">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
-          </span>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
+        </span>
           Tool Type
         </h3>
         <div class="tool-type facet"></div>
         <h3>
           <span class="icon on">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
-          </span>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
+        </span>
           Training Level
         </h3>
         <div class="training-level facet"></div>
         <h3>
           <span class="icon on">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
-          </span>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+          </a>
+          <a href="#" class="favorites-ignore">
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+          </a>
+        </span>
           Data Requirements
         </h3>
         <div class="data-requirements facet"></div>
         <h3>
           <span class="icon on">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="favorites-ignore on"  alt="Click to collapse" />
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="favorites-ignore off"  alt="Click to expand" />
+            <a href="#" class="favorites-ignore">
+              <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
+            </a>
+            <a href="#" class="favorites-ignore">
+              <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+            </a>
           </span>
           Relevance
         </h3>
@@ -227,8 +289,10 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
         <div class="clearfix">
           <div class="faceted-filters off left">
             <div class="toggle">
-              Adjust selections
-              <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-right.png" class="favorites-ignore" alt="Click to expand" />
+              <a href="#" class="favorites-ignore">
+                Adjust selections
+                <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/chevron-right.png" class="favorites-ignore" alt="Click to expand" />
+              </a>
             </div>
           </div>
           <div class="your-selections facets-expanded">Your selections:</div>

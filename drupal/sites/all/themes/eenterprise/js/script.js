@@ -25,6 +25,9 @@
           $('#dialog-all-locations input').removeAttr('aria-hidden');
         }
       });
+      $('.ui-dialog').on("dialogopen", function( event, ui ) {
+        $('.ui-dialog').focus()      
+      });  
       $('#dialog-all-locations').on("dialogclose", function() {
         add_aria_hidden_false_attrib_to_workbench();
         add_aria_hidden_false_attrib_facility_inputs_to_workbench();
@@ -189,7 +192,10 @@
             var options = {
               vertical_margin: verticalMargin,
               cell_height: cellHeight,
-              'data-gs-width': 2
+              'data-gs-width': 2,
+              draggable: {
+                cancel: '.faceted-filters'
+              }
             };
             $grid_container.gridstack(options);
             var grid = $grid_container.data('gridstack');
