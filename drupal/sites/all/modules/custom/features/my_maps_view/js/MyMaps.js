@@ -23,10 +23,10 @@
         var galleryLinkTarget = $('#numThumbnails').find('.widget-note');
         galleryLinkTarget.append('<a href="/agency-map-list" id="manage-maps" class="favorites-ignore last">Manage agency map collections</a>');
       }
-      var jcarousel = $('.jcarousel');
+      var $jcarousel = $('.jcarousel');
       //Opening UL only created in init of gallery  
       var $ul = $('<ul>', {'class': 'thumb'});
-      jcarousel.html($ul);
+      $jcarousel.html($ul);
 
       var totThumbnails = 0;
       //Counter for keeping track of agency mapset insertion-induced reloads
@@ -38,12 +38,12 @@
 
       //Query all AGOL endpoints given from mapsets JSON
       query_AGOL(mapsets);
-      jcarousel.jcarousel();
-      var jcarouselNext = $('.jcarousel-control-next');
-      var jcarouselPrev = $('.jcarousel-control-prev');             
+      $jcarousel.jcarousel();
+      var $jcarouselNext = $('.jcarousel-control-next');
+      var $jcarouselPrev = $('.jcarousel-control-prev');             
 
       /********************jcarousel event listeners***********************/
-      jcarousel
+      $jcarousel
         .on('jcarousel:reloadend', function () {
           //Event listener for carousel reloads
           if (last_reload != reloadCounter) {
@@ -55,60 +55,64 @@
             if (reloadCounter == totalNumOrgs) {
               carousel.jcarousel('scroll', 0);
               turnOnVisibleThumbs();
-              resizeThumbs();         
+              resizeThumbs();
               updateTotalNumberOfMapsShowing(countThese);   
             }
             last_reload = reloadCounter;
           }
           else {
-            var carousel = $(this);            
+            var carousel = $(this);
             resizeThumbs();
             var firstActive = carousel.find('.active').first().index();
             if (firstActive === carousel.find('.load-thumbnail').first().index()) {
-              jcarouselPrev.addClass('inactive');
+              $jcarouselPrev.addClass('inactive');
             }
           }
         })
         .on('jcarousel:visiblein', 'li', function(event, carousel) {
+          console.log('jcarousel:visiblein', this, event, carousel);
           //if this has .load-thumbnail, then active
           if ($(this).hasClass('load-thumbnail')) {
-            $(this).addClass('active').css('display', 'block');            
+            $(this).addClass('active');
           }
-          turnOnVisibleThumbs();
+          //turnOnVisibleThumbs();
         })
         .on('jcarousel:visibleout', 'li', function(event, carousel) {
-          $(this).css('display', '').removeClass('active');
+          console.log('jcarousel:visibleout', this, event, carousel);
+          //$(this).removeClass('active');
         })
-    
-      jcarouselPrev
-        .on('jcarouselcontrol:active', function () {
-          $(this).removeClass('inactive');
-        })
-        .on('jcarouselcontrol:inactive', function () {
-          $(this).addClass('inactive');
-        })
-        .click(function () {
-          // If user clicks previous, make sure those thumbs are visible.        
-          turnOnVisibleThumbs();         
-        })
-        .jcarouselControl({
-          target: negativeOffset
+        .on('jcarousel:scroll', function(event, carousel, target, animate) {
+          // "this" refers to the root element
+          // "carousel" is the jCarousel instance
+          // "target" is the target argument passed to the `scroll` method
+          // "animate" is the animate argument passed to the `scroll` method
+          //      indicating whether jCarousel was requested to do an animation
+          console.log('JCAROUSEL:SCROLL', target)
         });
 
-      jcarouselNext
-        .on('jcarouselcontrol:active', function () {
-          $(this).removeClass('inactive');
-        })
-        .on('jcarouselcontrol:inactive', function () {
-          $(this).addClass('inactive');
-        })
-        .click(function () {
-          // If user clicks next, make sure those thumbs are visible.
-          turnOnVisibleThumbs();          
-        })
-        .jcarouselControl({
-          target: positiveOffset
-        });
+      // Helper function for updating offset values as the objects resize
+      function updateJCarouselButton($button, offset){
+        $button
+        // cleanup event listeners
+          .unbind('jcarouselcontrol:active').unbind('jcarouselcontrol:inactive')
+        // Apply new events
+          .on('jcarouselcontrol:active', function () {
+            $(this).removeClass('inactive');
+          })
+          .on('jcarouselcontrol:inactive', function () {
+            $(this).addClass('inactive');
+          })
+          .click(function () {
+            // If user clicks previous, make sure those thumbs are visible.
+            turnOnVisibleThumbs();
+          })
+          .jcarouselControl({
+            target: offset
+          });
+      }
+
+      //updateJCarouselButton($jcarouselPrev, negativeOffset);
+      //updateJCarouselButton($jcarouselNext, positiveOffset);
        
       $("#myMapsFiltering").on("tabsbeforeactivate", function (event, tab) {      
         countScrolls = 0;
@@ -127,7 +131,7 @@
         //Find start of visible list
         var notHiddenThumbs = $('.thumb').find('li').not(':hidden');
         try {
-          start = $.inArray(jcarousel.jcarousel('visible')[0], notHiddenThumbs);
+          start = $.inArray($jcarousel.jcarousel('visible')[0], notHiddenThumbs);
         }
         catch(err) {
         }
@@ -157,11 +161,11 @@
       }
 
       function resizeThumbs() {
-        var jcarouselLoadThumbs = jcarousel.find('li');
+        console.log("resizeThumbs");
+        var $jcarouselThumbs = $jcarousel.find('li');
         //Set max number of items displayed to be 5, with less
         //visible based on current browser width
-        var carousel = jcarousel,
-            width = carousel.innerWidth();
+        var width = $jcarousel.innerWidth();
         if (width >= 1100) {
           width = (width / 5) - 4;
           numThumbs = 5;
@@ -175,18 +179,17 @@
           width = (width / 2) - 4;
           numThumbs = 2;
         }
-        jcarouselLoadThumbs.css('width', Math.ceil(width) + 'px');
-        if (jcarouselLoadThumbs.hasClass('load-thumbnail')) {
+        $jcarouselThumbs.css('width', Math.ceil(width) + 'px');
+        if ($jcarouselThumbs.hasClass('load-thumbnail')) {
           turnOnVisibleThumbs();
         }
-        else {
-        }
-        jcarouselLoadThumbs.css('display', '').removeClass('active');
-        console.log("resizeThumbs numThumbs is: " + numThumbs);
-        jcarousel.find('.load-thumbnail').slice(0, numThumbs).addClass('active').css('display','block');     
-        jcarousel.jcarousel('scroll', jcarousel.find('.active').first().index());
-        negativeOffset = '-=' + (numThumbs + 1);
-        positiveOffset = '+=' + (numThumbs + 1);         
+        $jcarouselThumbs.css('display', '').removeClass('active');
+        $jcarousel.find('.load-thumbnail').slice(0, numThumbs).css('display','block').addClass('active');
+        $jcarousel.jcarousel('scroll', $jcarousel.find('.active').eq(0));
+        //$jcarousel.jcarousel('first');
+        // Update our buttons with the proper targets
+        updateJCarouselButton($jcarouselPrev, '-=' + numThumbs);
+        updateJCarouselButton($jcarouselNext, '+=' + numThumbs);
       }
 
       function filterMyMapsGallery(filterType) {
@@ -224,12 +227,12 @@
                 $(this).removeClass('load-thumbnail').addClass('hide-thumbnail');
               }
               break;
-          }          
+          }
         });
-        updateTotalNumberOfMapsShowing(countThese);    
-        jcarousel.jcarousel('reload');            
+        updateTotalNumberOfMapsShowing(countThese);
+        $jcarousel.jcarousel('reload');
         // Scroll to beginning of filtered list
-        jcarousel.jcarousel('scroll', 0);
+        $jcarousel.jcarousel('scroll', 0);
         // Ensure thumbs are visible
         turnOnVisibleThumbs();
       }
@@ -367,7 +370,7 @@
         totThumbnails += numGoodResults;
         $('.thumb').randomize('li');
         reloadCounter++;
-        jcarousel.jcarousel('reload');
+        $jcarousel.jcarousel('reload');
 
         $(".ellipsis").dotdotdot({
           watch: "window"
@@ -382,6 +385,7 @@
         var carouselToCount = '#' + countThese + '-maps-carousel .thumb > li.load-thumbnail';
         numItemsVisible = $(carouselToCount).length;
         $("#map-count").html(numItemsVisible.toString());
+        console.log('updateTotalNumberOfMapsShowing', numItemsVisible);
       }
 
       //mix content from different sources in the MyMaps Gallery
@@ -407,17 +411,17 @@
       }
 
       //better beyboard accessibility, allow keyboard left and right arrows to navigate gallery
-      jcarousel.on('focus', function() {
-        jcarousel.on('keyup', function(e) {
+      $jcarousel.on('focus', function() {
+        $jcarousel.on('keyup', function(e) {
           e.stopImmediatePropagation();
           var key = e.which || e.keyChar || e.keyCode;
           stopAtScrolls = numItemsVisible - 1;
           if (key == 37) {
             // If count scrolls is 0, do not scroll left/previous, do not subtract
             // If count scrolls is > 0, then scroll left/previous
-            if(!jcarouselPrev.hasClass('inactive')) {
+            if(!$jcarouselPrev.hasClass('inactive')) {
               if (countScrolls >= 0) {
-                jcarouselPrev.trigger('click');              
+                $jcarouselPrev.trigger('click');              
                 if (countScrolls == 0) {
                    focusThumb = 0;
                  }
@@ -432,16 +436,16 @@
                 var thumbToShow = 'li.load-thumbnail:eq(' + focusThumb + ')';
                 var thumbToShowA = $(thumbToShow).find('.thumbhyperlink')[0];
                 turnOnVisibleThumbs();
-                jcarousel.jcarousel('scroll', thumbToShow);
+                $jcarousel.jcarousel('scroll', thumbToShow);
                 $(thumbToShowA).focus();
               }
             }          
           } else if (key == 39){
             // If count scrolls is less than the max # of scrolls, scroll right/next
             // If count scrolls is > 0, then scroll to previous thumbnails
-            if(!jcarouselNext.hasClass('inactive')) {
+            if(!$jcarouselNext.hasClass('inactive')) {
               if (countScrolls <= stopAtScrolls) {
-                jcarouselNext.trigger('click');                      
+                $jcarouselNext.trigger('click');                      
                 if (countScrolls == 0) {
                   focusThumb = 1;
                    countScrolls = countScrolls + 1;
@@ -457,7 +461,7 @@
                 var thumbToShow = 'li.load-thumbnail:eq(' + focusThumb + ')';
                 var thumbToShowA = $(thumbToShow).find('.thumbhyperlink')[0];
                 turnOnVisibleThumbs();                
-                jcarousel.jcarousel('scroll', thumbToShow);
+                $jcarousel.jcarousel('scroll', thumbToShow);
                 $(thumbToShowA).focus();
               }
             }
@@ -469,11 +473,11 @@
         });
       });
       $(".jcarousel .thumb li a").focus(function() {
-        jcarousel.keyup(function(e) {
+        $jcarousel.keyup(function(e) {
           var key = e.which || e.keyChar || e.keyCode;
           if (key == 27) {
             countScrolls = 0;
-             jcarousel.focus();
+             $jcarousel.focus();
           }
         });
       });
