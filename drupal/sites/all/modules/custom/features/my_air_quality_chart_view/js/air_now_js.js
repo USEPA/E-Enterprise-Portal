@@ -59,6 +59,9 @@
       }
     }    
     
+    // When user clicks / presses Enter on View chart description / Learn more links, 
+    // create dialogs with appropriate text and open dialogs, then focus them
+    // Also call hideWorkbenchFieldsFromSR to apply aria-hidden to background elements so screen reader does not "see" them
     $('#sr-aqi-data-toggle').on('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -172,7 +175,7 @@
             var stateAbbrev = featureCollection.features[0].properties.STATE_CODE;
             $.ajax({
               type: 'GET',
-              url: 'my_air_quality_map_view/api/current/latLong/',
+              url: '/my_air_quality_map_view/api/current/latLong/',
               async: true,
               data: {
                 format: 'application/json',
@@ -515,7 +518,7 @@
     var srYear;
     var srLongDate;
     var srAQI;
-    var srAQICategory;9
+    var srAQICategory;
 
     // find the maxAQI in the data
     // compute visualAQI
