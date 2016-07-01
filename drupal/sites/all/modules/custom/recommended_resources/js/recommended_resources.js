@@ -116,9 +116,16 @@ var manage_components_title = "Manage My Profile Topics";
     // Toggle sidebar expanded / collapsed view
     $body.on('click', '#local-resources-tabs .faceted-filters .toggle', function() {
       var $localResources = $(this).parents('.local.resources');
-      // var expandedWidth = parseInt($localResources.width() * 0.65);
       $localResources.find('.faceted-filters').toggle();
 
+      // expose/remove extra columns, resize, and redraw datetable
+      var $table = $localResources.find('table');
+      var datatable = $table.DataTable();
+      if ($(this).parent().hasClass('on')) {
+        datatable.columns([3, 4]).visible(true, false);
+      } else {
+        datatable.columns([3, 4]).visible(false, false);
+      }
       datatable.columns.adjust().draw(false); // adjust column sizing and redraw
     });
 

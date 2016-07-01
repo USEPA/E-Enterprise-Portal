@@ -297,11 +297,6 @@ Truncate    text
   }
 
   /* line 14, ../sass/_rflc.scss */
-  .faceted-filters.off {
-    width: 35%;
-  }
-
-  /* line 17, ../sass/_rflc.scss */
   .local.resources .dataTables_wrapper,
   .local.resources .facets-expanded,
   .local.resources .left + .left {
@@ -309,14 +304,14 @@ Truncate    text
   }
 }
 @media screen and (min-width: 30.01em) and (max-width: 48em) {
-  /* line 25, ../sass/_rflc.scss */
-  .views-field.views-field-value-3 {
+  /* line 22, ../sass/_rflc.scss */
+  .views-field.views-field-value-3, .views-field.views-field-value-4 {
     display: table-cell;
   }
 }
 @media screen and (min-width: 72.01em) {
-  /* line 32, ../sass/_rflc.scss */
-  .views-field.views-field-value-3 {
+  /* line 29, ../sass/_rflc.scss */
+  .views-field.views-field-value-3, .views-field.views-field-value-4 {
     display: table-cell;
   }
 }

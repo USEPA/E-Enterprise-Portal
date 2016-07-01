@@ -11,9 +11,6 @@
   .faceted-filters.on {
     width: 30%;
   }
-  .faceted-filters.off {
-    width: 35%;
-  }
   .local.resources .dataTables_wrapper,
   .local.resources .facets-expanded,
   .local.resources .left + .left {
@@ -22,14 +19,14 @@
 }
 @media screen and (min-width: 30.01em) and (max-width: 48em) {
   .views-field {
-    &.views-field-value-3 {
+    &.views-field-value-3, &.views-field-value-4 {
       display: table-cell;
     }
   }
 }
 @media screen and (min-width: 72.01em) {
   .views-field {
-    &.views-field-value-3 {
+    &.views-field-value-3, &.views-field-value-4 {
       display: table-cell;
     }
   }
