@@ -69,6 +69,7 @@ var LocalResourcesTable;
     var datatable_options = {
       "bLengthChange": false,
       "iDisplayLength": 3,
+      "bAutoWidth": false,
       "oLanguage": {
         "sSearch": "Filter:"
       },
@@ -88,7 +89,7 @@ var LocalResourcesTable;
       // hide the following columns, they are only used for faceted filtering
       "columnDefs": [
         {
-          "targets": [3, 4, 5, 6, 7, 8],
+          "targets": [5, 6, 7, 8],
           "visible": false
         }
       ]
