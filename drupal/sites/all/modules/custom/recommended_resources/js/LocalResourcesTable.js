@@ -268,7 +268,7 @@ var LocalResourcesTable;
               }
             });
 
-            /*391 Iterate through Tool Type facet, search for the number of occurrences of that facet in the data table and show
+            /*Iterate through Tool Type facet, search for the number of occurrences of that facet in the data table and show
              *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('li').each(function (index) {
               if (index > 0) {
@@ -386,7 +386,7 @@ var LocalResourcesTable;
               }
             });
 
-            /*273 On Tool Type Facet click (select), show Tool Type above data table and hide if the click event unchecks the
+            /*On Tool Type Facet click (select), show Tool Type above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('input').click(function () {
               var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
