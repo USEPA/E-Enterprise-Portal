@@ -5,7 +5,6 @@
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     border: 0;
 }
-
 #local-resources-tabs .interests-url-hyperlink,
 #local-resources-tabs .interests-url-text {
     word-break: break-word;
@@ -19,6 +18,7 @@
     margin-top: 2px;
     font-size: 1.3rem;
 }
+
 #local-resources-tabs.ui-widget-content:not(#facility-widget) .dataTables_info,
 .pane-views-recommended-resources-block #local-resources-tabs .dataTables_info {
     padding-top: 15px;

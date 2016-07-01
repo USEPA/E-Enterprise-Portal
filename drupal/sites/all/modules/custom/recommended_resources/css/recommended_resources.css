@@ -8,19 +8,19 @@
   border: 0;
 }
 
-/* line 9, ../sass/recommended_resources.scss */
+/* line 8, ../sass/recommended_resources.scss */
 #local-resources-tabs .interests-url-hyperlink,
 #local-resources-tabs .interests-url-text {
   word-break: break-word;
   white-space: normal;
 }
 
-/* line 14, ../sass/recommended_resources.scss */
+/* line 13, ../sass/recommended_resources.scss */
 #local-resources-tabs .interests-url-text {
   word-break: break-all;
 }
 
-/* line 18, ../sass/recommended_resources.scss */
+/* line 17, ../sass/recommended_resources.scss */
 #local-resources-tabs .interests-url-text {
   margin-top: 2px;
   font-size: 1.3rem;
