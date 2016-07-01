@@ -8685,7 +8685,7 @@ select[multiple="multiple"] {
 }
 
 /* line 4144, ../sass/styles.scss */
-.your-selections a{
+.your-selections a:after{
     content: url('../images/close_black.png');
     margin-left: 5px;
 }
