@@ -4141,7 +4141,7 @@ select[multiple="multiple"] {
     white-space:nowrap;
 }
 
-.your-selections a{
+.your-selections a:after{
     content: url('../images/close_black.png');
     margin-left: 5px;
 }
