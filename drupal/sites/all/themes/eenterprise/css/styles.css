@@ -8676,7 +8676,7 @@ select[multiple="multiple"] {
 }
 
  /* line 4136, ../sass/styles.scss */
- .your-selections span{
+ .your-selections span.facet-topic-container{
      border: 1px solid gray;
      margin:3px 0px 0px 3px;
      padding:0px 3px 0px 3px;
@@ -8685,7 +8685,7 @@ select[multiple="multiple"] {
  }
 
  /* line 4144, ../sass/styles.scss */
- .your-selections span:after{
+ .your-selections a{
      content: url('../images/close_black.png');
      margin-left: 5px;
  }
