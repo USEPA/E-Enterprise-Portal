@@ -6,7 +6,7 @@
     border: 0;
 }
 
-#local-resources-tabs .interests-url-hyperlink, 
+#local-resources-tabs .interests-url-hyperlink,
 #local-resources-tabs .interests-url-text {
     word-break: break-word;
     white-space: normal;
@@ -44,7 +44,7 @@
     padding-left: 5px;
 }
 
-#restrict-to-states-button.inactive, 
+#restrict-to-states-button.inactive,
 #all-states-button.inactive {
     background-color: white;
     color: black;
@@ -59,14 +59,14 @@
     display: none;
 }
 
-.view-recommended-resources td span,    
+.view-recommended-resources td span,
 .view-user-recommended-resources td span{
     display: block;
     font-size: 1em;
     line-height: 1.2;
 }
 
-.view-recommended-resources td span.lgc-resource-topic, 
+.view-recommended-resources td span.lgc-resource-topic,
 .view-user-recommended-resources td span.lgc-resource-topic    {
     text-transform: uppercase;
     font-size: 0.75em;
@@ -128,6 +128,8 @@ Truncate    text
 .faceted-filters.off {
     display: none;
 }
+
+/* line 131, ../sass/recommended_resources.scss */
 #local-resources-tabs td.views-field-nothing span {
     background: url("../images/information.png");
     width: 16px;
@@ -146,7 +148,7 @@ Truncate    text
 .local.resources .dataTables_wrapper,
 .local.resources .facets-expanded,
 .local.resources .left + .left {
-    width: 100%;
+    width: 65%;
 }
 .faceted-filters {
     background-color: #FAFAFA;
@@ -168,6 +170,12 @@ Truncate    text
     float: right;
     width: 20px;
     height: 20px;
+}
+.faceted-filters.on {
+    width: 30%;
+}
+.faceted-filters.off {
+    width: 35%;
 }
 .multiselect-to-checkboxes ul {
     margin: 0;
@@ -207,6 +215,12 @@ Truncate    text
 {
     display: none;
 }
+.faceted-filters a.favorites-ignore {
+    color: black;
+}
+.faceted-filters a.favorites-ignore:hover {
+    text-decoration: none;
+}
 .manage-my-topics-grid .grid-selector {
     margin-left: 5px;
 }
@@ -215,5 +229,6 @@ Truncate    text
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
 
 @import "rflc";

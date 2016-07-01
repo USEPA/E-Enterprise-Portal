@@ -122,7 +122,6 @@ var manage_components_title = "Manage My Profile Topics";
       // expose/remove extra columns, resize, and redraw datetable
       var $table = $localResources.find('table');
       var datatable = $table.DataTable();
-      $table.width('auto'); // needed since datatables manipulates inline styles
       if ($(this).parents('.faceted-filters').hasClass('on')) {
         datatable.columns([3, 4]).visible(true, false);
       } else {
