@@ -44,9 +44,6 @@
 
       /********************jcarousel event listeners***********************/
       jcarousel
-        .on('jcarousel:reload', function() {
-          jcarousel.find('.load-thumbnail').css('display','block');
-        })
         .on('jcarousel:reloadend', function () {
           //Event listener for carousel reloads
           if (last_reload != reloadCounter) {
@@ -64,20 +61,23 @@
             last_reload = reloadCounter;
           }
           else {
+            var carousel = $(this);            
             resizeThumbs();
-            var firstActive = jcarousel.find('.active').first().index();
-            jcarousel.jcarousel('scroll', firstActive);
-            if (firstActive === jcarousel.find('.load-thumbnail').first().index()) {
+            var firstActive = carousel.find('.active').first().index();
+            if (firstActive === carousel.find('.load-thumbnail').first().index()) {
               jcarouselPrev.addClass('inactive');
             }
           }
         })
-        .on('jcarousel:fullyvisiblein', 'li', function(event, carousel) {
-          $(this).addClass('active').css('display', 'block');
+        .on('jcarousel:visiblein', 'li', function(event, carousel) {
+          //if this has .load-thumbnail, then active
+          if ($(this).hasClass('load-thumbnail')) {
+            $(this).addClass('active').css('display', 'block');            
+          }
           turnOnVisibleThumbs();
         })
-        .on('jcarousel:fullyvisibleout', 'li', function(event, carousel) {
-          $(this).css('display', 'none').removeClass('active');
+        .on('jcarousel:visibleout', 'li', function(event, carousel) {
+          $(this).css('display', '').removeClass('active');
         })
     
       jcarouselPrev
@@ -88,7 +88,7 @@
           $(this).addClass('inactive');
         })
         .click(function () {
-          // If user clicks previous, make sure those thumbs are visible.
+          // If user clicks previous, make sure those thumbs are visible.        
           turnOnVisibleThumbs();         
         })
         .jcarouselControl({
@@ -142,14 +142,14 @@
         //interested in (all possible visible & not filtered/hidden)
         try {
           notHiddenThumbs.slice(start, end).each(function () {
-          // If the img source is not already turned on
-          var thumbnailSrcExists = $(this).find(".thumbnailImg").attr("src");
-          if (!thumbnailSrcExists) {
-            // Set image source from temporary source.
-            $(this).find(".thumbnailImg").attr("src", $(this).find(".thumbnailImg").attr("data-map-source"));
-          }
-          else {
-          }
+            // If the img source is not already turned on
+            var thumbnailSrcExists = $(this).find(".thumbnailImg").attr("src");
+            if (!thumbnailSrcExists) {
+              // Set image source from temporary source.
+              $(this).find(".thumbnailImg").attr("src", $(this).find(".thumbnailImg").attr("data-map-source"));
+            }
+            else {
+            }
           });
         }
         catch(err3) {
@@ -178,21 +178,21 @@
         jcarouselLoadThumbs.css('width', Math.ceil(width) + 'px');
         if (jcarouselLoadThumbs.hasClass('load-thumbnail')) {
           turnOnVisibleThumbs();
-          jcarouselLoadThumbs.css('display','').removeClass('active');    
         }
         else {
-          jcarouselLoadThumbs.css('display', 'none').removeClass('active');
         }
+        jcarouselLoadThumbs.css('display', '').removeClass('active');
+        console.log("resizeThumbs numThumbs is: " + numThumbs);
         jcarousel.find('.load-thumbnail').slice(0, numThumbs).addClass('active').css('display','block');     
-        jcarousel.jcarousel('scroll', jcarousel.jcarousel('visible')[0]);
+        jcarousel.jcarousel('scroll', jcarousel.find('.active').first().index());
         negativeOffset = '-=' + (numThumbs + 1);
         positiveOffset = '+=' + (numThumbs + 1);         
       }
 
       function filterMyMapsGallery(filterType) {
         var listItems = $('.jcarousel ul li');
+        listItems.removeClass('active hide-thumbnail').addClass('load-thumbnail');        
         listItems.each(function (li) {
-          $(this).removeClass('active');
           //reset gallery to show all items before applying filter
           $(this).show();
           var itemTags = $(this).find('a').data('tags').toLowerCase();
@@ -200,32 +200,30 @@
           // Then add load-thumbnail to the remaining items
           // If faster to use else versus listItems.filter, then can adjust 
           switch (filterType) {
-          case 'mapsAll':
-            listItems.filter(':visible').addClass('load-thumbnail').removeClass('hide-thumbnail');
-            var countThese = 'all';
-            //nothing to do because all items are showing
-            break;
-          case 'mapsAir':
-            var countThese = 'air';
-            if ((itemTags.indexOf('air') == -1 && itemTags.indexOf('oaqps') == -1) || (itemTags.indexOf('impair') > -1)) {
-              $(this).closest('li').removeClass('load-thumbnail').addClass('hide-thumbnail').css('display','none');
-            }
-            listItems.filter(':visible').addClass('load-thumbnail').removeClass('hide-thumbnail');
-            break;
-          case 'mapsWater':
-            var countThese = 'water';
-            if (itemTags.indexOf('water') == -1 && itemTags.indexOf('ocean') == -1) {
-              $(this).closest('li').removeClass('load-thumbnail').addClass('hide-thumbnail').css('display','none');
-            }
-            listItems.filter(':visible').addClass('load-thumbnail').removeClass('hide-thumbnail');
-            break;
-          case 'mapsLand':
-            var countThese = 'land';
-            if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1) {
-              $(this).closest('li').removeClass('load-thumbnail').addClass('hide-thumbnail').css('display','none');
-            }
-            listItems.filter(':visible').addClass('load-thumbnail').removeClass('hide-thumbnail');         
-            break;
+            // NOTE:  All maps includes more than just Air, Water, and Land where tags don't match our queries
+            case 'mapsAll':
+              listItems.filter(':visible').addClass('load-thumbnail');
+              var countThese = 'all';
+              //nothing to do because all items are showing
+              break;
+            case 'mapsAir':
+              var countThese = 'air';
+              if ((itemTags.indexOf('air') == -1 && itemTags.indexOf('oaqps') == -1) || (itemTags.indexOf('impair') > -1)) {
+                $(this).removeClass('load-thumbnail').addClass('hide-thumbnail');
+              }
+              break;
+            case 'mapsWater':
+              var countThese = 'water';
+              if (itemTags.indexOf('water') == -1 && itemTags.indexOf('ocean') == -1) {
+                $(this).removeClass('load-thumbnail').addClass('hide-thumbnail');
+              }
+              break;
+            case 'mapsLand':
+              var countThese = 'land';
+              if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1) {
+                $(this).removeClass('load-thumbnail').addClass('hide-thumbnail');
+              }
+              break;
           }          
         });
         updateTotalNumberOfMapsShowing(countThese);    
