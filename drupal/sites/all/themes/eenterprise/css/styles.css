@@ -3181,100 +3181,100 @@ div.pace-div:before {
 }
 
 @-webkit-keyframes pace-bounce {
-    0% {
+  0% {
     top: 0;
     -webkit-animation-timing-function: ease-in;
-    }
-    50% {
+  }
+  50% {
     top: 140px;
     height: 140px;
     -webkit-animation-timing-function: ease-out;
-    }
-    55% {
+  }
+  55% {
     top: 160px;
     height: 120px;
     border-radius: 70px / 60px;
     -webkit-animation-timing-function: ease-in;
-    }
-    65% {
+  }
+  65% {
     top: 120px;
     height: 140px;
     border-radius: 70px;
     -webkit-animation-timing-function: ease-out;
-    }
-    95% {
+  }
+  95% {
     top: 0;
     -webkit-animation-timing-function: ease-in;
-    }
-    100% {
+  }
+  100% {
     top: 0;
     -webkit-animation-timing-function: ease-in;
-    }
+  }
 }
 @-moz-keyframes pace-bounce {
-    0% {
+  0% {
     top: 0;
     -moz-animation-timing-function: ease-in;
-    }
-    50% {
+  }
+  50% {
     top: 140px;
     height: 140px;
     -moz-animation-timing-function: ease-out;
-    }
-    55% {
+  }
+  55% {
     top: 160px;
     height: 120px;
     border-radius: 70px / 60px;
     -moz-animation-timing-function: ease-in;
-    }
-    65% {
+  }
+  65% {
     top: 120px;
     height: 140px;
     border-radius: 70px;
     -moz-animation-timing-function: ease-out;
-    }
-    95% {
+  }
+  95% {
     top: 0;
     -moz-animation-timing-function: ease-in;
-    }
-    100% {
+  }
+  100% {
     top: 0;
     -moz-animation-timing-function: ease-in;
-    }
+  }
 }
 @keyframes pace-bounce {
-    0% {
+  0% {
     top: 0;
     animation-timing-function: ease-in;
-    }
-    50% {
+  }
+  50% {
     top: 140px;
     height: 140px;
     animation-timing-function: ease-out;
-    }
-    55% {
+  }
+  55% {
     top: 160px;
     height: 120px;
     border-radius: 70px / 60px;
     animation-timing-function: ease-in;
-    }
-    65% {
+  }
+  65% {
     top: 120px;
     height: 140px;
     border-radius: 70px;
     animation-timing-function: ease-out;
-    }
-    95% {
+  }
+  95% {
     top: 0;
     animation-timing-function: ease-in;
-    }
-    100% {
+  }
+  100% {
     top: 0;
     animation-timing-function: ease-in;
-    }
+  }
 }
 @-webkit-keyframes pace-compress {
-    0% {
+  0% {
     bottom: 0;
     margin-left: -30px;
     width: 60px;
@@ -3283,8 +3283,8 @@ div.pace-div:before {
     box-shadow: 0 0 20px 35px rgba(20, 20, 20, 0.1);
     border-radius: 30px / 40px;
     -webkit-animation-timing-function: ease-in;
-    }
-    100% {
+  }
+  100% {
     bottom: 30px;
     margin-left: -10px;
     width: 20px;
@@ -3293,10 +3293,10 @@ div.pace-div:before {
     box-shadow: 0 0 20px 35px rgba(20, 20, 20, 0.3);
     border-radius: 20px / 20px;
     -webkit-animation-timing-function: ease-out;
-    }
+  }
 }
 @-moz-keyframes pace-compress {
-    0% {
+  0% {
     bottom: 0;
     margin-left: -30px;
     width: 60px;
@@ -3305,8 +3305,8 @@ div.pace-div:before {
     box-shadow: 0 0 20px 35px rgba(20, 20, 20, 0.1);
     border-radius: 30px / 40px;
     -moz-animation-timing-function: ease-in;
-    }
-    100% {
+  }
+  100% {
     bottom: 30px;
     margin-left: -10px;
     width: 20px;
@@ -3315,10 +3315,10 @@ div.pace-div:before {
     box-shadow: 0 0 20px 35px rgba(20, 20, 20, 0.3);
     border-radius: 20px / 20px;
     -moz-animation-timing-function: ease-out;
-    }
+  }
 }
 @keyframes pace-compress {
-    0% {
+  0% {
     bottom: 0;
     margin-left: -30px;
     width: 60px;
@@ -3327,8 +3327,8 @@ div.pace-div:before {
     box-shadow: 0 0 20px 35px rgba(20, 20, 20, 0.1);
     border-radius: 30px / 40px;
     animation-timing-function: ease-in;
-    }
-    100% {
+  }
+  100% {
     bottom: 30px;
     margin-left: -10px;
     width: 20px;
@@ -3337,7 +3337,7 @@ div.pace-div:before {
     box-shadow: 0 0 20px 35px rgba(20, 20, 20, 0.3);
     border-radius: 20px / 20px;
     animation-timing-function: ease-out;
-    }
+  }
 }
 /* line 98, ../sass/styles.scss */
 .element-hidden {
@@ -8302,20 +8302,20 @@ input#location-input-guests::-ms-clear {
 }
 
 @keyframes spin {
-    from {
+  from {
     transform: scale(1) rotate(0deg);
-    }
-    to {
+  }
+  to {
     transform: scale(1) rotate(360deg);
-    }
+  }
 }
 @-webkit-keyframes spin2 {
-    from {
+  from {
     -webkit-transform: rotate(0deg);
-    }
-    to {
+  }
+  to {
     -webkit-transform: rotate(360deg);
-    }
+  }
 }
 /* line 3772, ../sass/styles.scss */
 .ui-autocomplete {
