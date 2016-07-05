@@ -25,8 +25,19 @@
           $('#dialog-all-locations input').removeAttr('aria-hidden');
         }
       });
-      $('.ui-dialog').on("dialogopen", function( event, ui ) {
-        $('.ui-dialog').focus()      
+      $('.ui-dialog')
+        .on("dialogopen", function( event, ui ) {
+          $('.ui-dialog').focus();
+          if (!$('.ui-dialog').hasClass('cdx_facility_management_block')) {
+            add_aria_hidden_true_attrib_to_workbench();
+            add_aria_hidden_true_attrib_facility_inputs_to_workbench();
+          }          
+        })
+        .on("dialogclose", function() {
+          if (!$('.ui-dialog').hasClass('cdx_facility_management_block')) {          
+            add_aria_hidden_false_attrib_to_workbench();
+            add_aria_hidden_false_attrib_facility_inputs_to_workbench();		                    
+          }
       });  
       $('#dialog-all-locations').on("dialogclose", function() {
         add_aria_hidden_false_attrib_to_workbench();
@@ -47,6 +58,7 @@
         add_aria_hidden_true_attrib_to_workbench();
       });
 
+      // @TODO Create functions to simplify the setting / removing of aria-hidden for each of these elements
       if ($('#modal-content').is(':visible')) {
         $('#edit-field-profile-first-name-und-0-value').attr('aria-hidden', 'true');
         $('#edit-mail').attr('aria-hidden', 'true');
@@ -107,6 +119,10 @@
       }
 
       function add_aria_hidden_true_attrib_to_workbench() {
+        $('.masthead').attr('aria-hidden', 'true');
+        $('.region-navigation').attr('aria-hidden', 'true');
+        $('.main-content').attr('aria-hidden', 'true');
+        $('#footer').attr('aria-hidden', 'true');
         $('.view-filters input').attr('aria-hidden', 'true');
         $('.views-exposed-form select').attr('aria-hidden', 'true');
         $('#village-green select').attr('aria-hidden', 'true');
@@ -133,29 +149,33 @@
       }
 
       function add_aria_hidden_false_attrib_to_workbench() {
-        $('.view-filters input').attr('aria-hidden', 'false');
-        $('.views-exposed-form select').attr('aria-hidden', 'false');
-        $('#village-green select').attr('aria-hidden', 'false');
-        $('#location-select').attr('aria-hidden', 'false');
-        $('#dialog-all-locations input').attr('aria-hidden', 'false');
-        $('#other-areas-tabs input').attr('aria-hidden', 'false');
-        $('#save-grid-changes').attr('aria-hidden', 'false');
-        $('#cdx-logged-out-log-out').attr('aria-hidden', 'false');
-        $('#revert-grid-changes').attr('aria-hidden', 'false');
-        $('#launch-facility-management').attr('aria-hidden', 'false');
-        $('#fmw-organization-select').attr('aria-hidden', 'false');
-        $('#fmw-program-select').attr('aria-hidden', 'false');
-        $('#fmw-type-select').attr('aria-hidden', 'false');
-        $('.view-to-do ul.ui-tabs-nav li').attr('aria-hidden', 'false');
-        $('#my-air-quality-chart-tabs ul li').attr('aria-hidden', 'false');
-        $('#myMapsFilterList li').attr('aria-hidden', 'false');
-        $('#other-areas-tabs ul li').attr('aria-hidden', 'false');
-        $('#local-resources-tabs ul li').attr('aria-hidden', 'false');
-        $('#my-facilities-tab .MapLegend-header').attr('aria-hidden', 'false');
-        $('.region-navigation .menu').attr('aria-hidden', 'false');
-        $('table.usa-table-borderless').attr('aria-hidden', 'false');
-        $('#datatable-1_filter input').attr('aria-hidden', 'false');
-        //$('').attr('aria-hidden', 'false');
+        $('.masthead').removeAttr('aria-hidden');
+        $('.region-navigation').removeAttr('aria-hidden');
+        $('.main-content').removeAttr('aria-hidden');
+        $('#footer').removeAttr('aria-hidden');
+        $('.view-filters input').removeAttr('aria-hidden');
+        $('.views-exposed-form select').removeAttr('aria-hidden');
+        $('#village-green select').removeAttr('aria-hidden');
+        $('#location-select').removeAttr('aria-hidden');
+        $('#dialog-all-locations input').removeAttr('aria-hidden');
+        $('#other-areas-tabs input').removeAttr('aria-hidden');
+        $('#save-grid-changes').removeAttr('aria-hidden');
+        $('#cdx-logged-out-log-out').removeAttr('aria-hidden');
+        $('#revert-grid-changes').removeAttr('aria-hidden');
+        $('#launch-facility-management').removeAttr('aria-hidden');
+        $('#fmw-organization-select').removeAttr('aria-hidden');
+        $('#fmw-program-select').removeAttr('aria-hidden');
+        $('#fmw-type-select').removeAttr('aria-hidden');
+        $('.view-to-do ul.ui-tabs-nav li').removeAttr('aria-hidden');
+        $('#my-air-quality-chart-tabs ul li').removeAttr('aria-hidden');
+        $('#myMapsFilterList li').removeAttr('aria-hidden');
+        $('#other-areas-tabs ul li').removeAttr('aria-hidden');
+        $('#local-resources-tabs ul li').removeAttr('aria-hidden');
+        $('#my-facilities-tab .MapLegend-header').removeAttr('aria-hidden');
+        $('.region-navigation .menu').removeAttr('aria-hidden');
+        $('table.usa-table-borderless').removeAttr('aria-hidden');
+        $('#datatable-1_filter input').removeAttr('aria-hidden');
+        //$('').removeAttr('aria-hidden');
       }
     }
   };
