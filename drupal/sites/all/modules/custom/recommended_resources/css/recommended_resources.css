@@ -163,7 +163,7 @@ Truncate    text
 
 /* line 131, ../sass/recommended_resources.scss */
 /* line 133, ../sass/recommended_resources.scss */
-#local-resources-tabs td.views-field-nothing span {
+#local-resources-tabs td.views-field-nothing a {
   background: url("../images/information.png");
   width: 16px;
   height: 16px;
