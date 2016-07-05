@@ -148,6 +148,10 @@ var LocalResourcesTable;
             // initialize faceted filtering using Yet Another DataTables Column Filter (yadcf) library
             // @see views-view--recommended-resources--block.tpl.php
             var wrapperParentId = $wrapper.parents('.local.resources.wrapper').attr('id');
+
+            // Remove all previous facets for initialization
+            $('#' + wrapperParentId + ' .facet').html('');
+
             yadcf.init(tableDT, [
               {
                 column_number : 2,
