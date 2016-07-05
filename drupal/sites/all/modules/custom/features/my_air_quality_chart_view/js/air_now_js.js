@@ -11,6 +11,7 @@
   var aqiExplained;
   var first_time_user_loading = false;
   var hidden;
+  var dialogDiv, dialogTitle, dialogContents;
 
   $(document).ready(function() {
       var first_time_user_block = $('#first-time-user-block');
@@ -53,48 +54,46 @@
         }
     });
   
-    function closeDiv(divIDToClose) {
-      if ($(divIDToClose).hasClass('opened')) {
-        $(divIDToClose).removeClass('opened');    
-      }
-    }    
-    
     // When user clicks / presses Enter on View chart description / Learn more links, 
     // create dialogs with appropriate text and open dialogs, then focus them
     // Also call hideWorkbenchFieldsFromSR to apply aria-hidden to background elements so screen reader does not "see" them
     $('#sr-aqi-data-toggle').on('click', function(e) {
       e.stopPropagation();
-      $('#sr-aqi-data').html(srAQIString);
-      $('#sr-aqi-data').dialog({
-        title: "Air Quality Index Chart",
-        width: 500,
-        modal: true
-      })
-      .attr('id', 'sr-aqi-dialog')
-      .on("dialogclose", function() {
-          hideWorkbenchFieldsFromSR(false);
-      });
-      hideWorkbenchFieldsFromSR(true);      
-      $('.ui-dialog').focus();
+      dialogDiv = '#sr-aqi-data';
+      dialogTitle = 'Air Quality Index Chart'
+      openDialog(dialogDiv, dialogTitle, srAQIString);      
     });
     
     $('#aqi-explained-toggle').on('click', function(e) {
-      e.stopPropagation();      
-      $('#aqi-explained').html(aqiExplained);
-      $('#aqi-explained').dialog({
-        title: "Air Quality Index Explained",
-        width: 500,
-        height: 300,
-        modal: true
-      })
-      .attr('id', 'aqi-explained-dialog')
-      .on("dialogclose", function() {
-          hideWorkbenchFieldsFromSR(false);
-      });
-      hideWorkbenchFieldsFromSR(true);      
-      $('.ui-dialog').focus();
+     e.stopPropagation();
+     dialogDiv = '#aqi-explained';
+     dialogTitle = 'Air Quality Index Explained';
+     openDialog(dialogDiv, dialogTitle, aqiExplained); 
     });
 
+    function openDialog(dialogDiv, dialogTitle, dialogContents) {
+      $('body').addClass('modal-open');
+      if ($(dialogDiv).text().length === 0) {
+        $(dialogDiv).html(dialogContents);
+        $(dialogDiv).dialog({
+          title: dialogTitle,
+          width: 500,
+          modal: true,
+          maxHeight: 300,
+          close: function() {
+            hideWorkbenchFieldsFromSR(false);
+            $('body').removeClass('modal-open');            
+            $(dialogDiv).dialog('destroy');
+            $(dialogDiv).text('');            
+          }
+        });
+      }
+      else {
+        $(dialogDiv).dialog('open');   
+      }
+      hideWorkbenchFieldsFromSR(true);      
+      $('.ui-dialog').focus();
+    }
   });
 
   function hideWorkbenchFieldsFromSR(hidden) {
@@ -541,7 +540,7 @@
     }
     srAQIString = srAQIString + srTodayAQI;
     
-    aqiExplained = "<p>Think of the AQI as a yardstick that runs from 0 to 500. The higher the AQI value, the greater the level of air pollution and the greater the health concern. For example, an AQI value of 50 represents good air quality with little potential to affect public health, while an AQI value over 300 represents hazardous air quality.  Each category corresponds to a different level of health concern. The six levels of health concern and what they mean are:</p><ul><li>A <b>Good</b> AQI is 0 to 50. Air quality is considered satisfactory, and air pollution poses little or no risk.</li><li>A <b>Moderate</b> AQI is 51 to 100. Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people. For example, people who are unusually sensitive to ozone may experience respiratory symptoms.</li><li>An <b>Unhealthy for Sensitive Groups</b> AQI is 101 to 150. Although general public is not likely to be affected at this AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air.</li><li>An Unhealthy AQI is 151 to 200. Everyone may begin to experience some adverse health effects, and members of the sensitive groups may experience more serious effects.</li><li>A <b>Very Unhealthy</b> AQI is 201 to 300. This would trigger a health alert signifying that everyone may experience more serious health effects.</li><li>A <b>Hazardous</b> AQI is greater than 300. This would trigger a health warnings of emergency conditions. The entire population is more likely to be affected.</li></ul>";
+    aqiExplained = "<div tabindex='0'><p>Think of the AQI as a yardstick that runs from 0 to 500. The higher the AQI value, the greater the level of air pollution and the greater the health concern. For example, an AQI value of 50 represents good air quality with little potential to affect public health, while an AQI value over 300 represents hazardous air quality.  Each category corresponds to a different level of health concern. The six levels of health concern and what they mean are:</p><ul><li>A <b>Good</b> AQI is 0 to 50. Air quality is considered satisfactory, and air pollution poses little or no risk.</li><li>A <b>Moderate</b> AQI is 51 to 100. Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people. For example, people who are unusually sensitive to ozone may experience respiratory symptoms.</li><li>An <b>Unhealthy for Sensitive Groups</b> AQI is 101 to 150. Although general public is not likely to be affected at this AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air.</li><li>An Unhealthy AQI is 151 to 200. Everyone may begin to experience some adverse health effects, and members of the sensitive groups may experience more serious effects.</li><li>A <b>Very Unhealthy</b> AQI is 201 to 300. This would trigger a health alert signifying that everyone may experience more serious health effects.</li><li>A <b>Hazardous</b> AQI is greater than 300. This would trigger a health warnings of emergency conditions. The entire population is more likely to be affected.</li></ul></div>";
     
     // Find data point corresponding to today
     for (var i in data) {
