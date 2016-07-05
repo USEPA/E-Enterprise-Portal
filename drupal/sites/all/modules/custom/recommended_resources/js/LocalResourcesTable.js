@@ -371,6 +371,8 @@ var LocalResourcesTable;
                 }
                 else {
                   $('.your-selections').children(span_selector).css('display', 'inline-block');
+                  //Shorten string to 40 characters or less making sure a word is  not cut off and append three dots.
+                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
                 }
               }
             });
@@ -386,6 +388,7 @@ var LocalResourcesTable;
                 }
                 else {
                   $('.your-selections').children(span_selector).css('display', 'inline-block');
+                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
                 }
               }
             });
@@ -401,6 +404,7 @@ var LocalResourcesTable;
                 }
                 else {
                   $('.your-selections').children(span_selector).css('display', 'inline-block');
+                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
                 }
               }
             });
@@ -416,6 +420,7 @@ var LocalResourcesTable;
                 }
                 else {
                   $('.your-selections').children(span_selector).css('display', 'inline-block');
+                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
                 }
               }
             });
@@ -431,6 +436,7 @@ var LocalResourcesTable;
                 }
                 else {
                   $('.your-selections').children(span_selector).css('display', 'inline-block');
+                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
                 }
               }
             });
@@ -446,6 +452,7 @@ var LocalResourcesTable;
                 }
                 else {
                   $('.your-selections').children(span_selector).css('display', 'inline-block');
+                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
                 }
               }
             });
@@ -465,6 +472,17 @@ var LocalResourcesTable;
                 simulateClick(e, $("#" + selected_id));
               }
             });
+
+            function shorten_string(str, max_len){
+              if(str.length < max_len){
+                return str;
+              }
+              else{
+                str = str.substr(0, max_len);
+                str  = str.substr(0, Math.min(str.length, str.lastIndexOf(" ")));
+                return str + " ...";
+              }
+            }
 
             function simulateClick(event, obj) {
               if (obj.click) {
