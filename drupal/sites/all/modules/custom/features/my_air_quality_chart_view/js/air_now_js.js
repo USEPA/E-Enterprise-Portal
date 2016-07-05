@@ -63,7 +63,6 @@
     // create dialogs with appropriate text and open dialogs, then focus them
     // Also call hideWorkbenchFieldsFromSR to apply aria-hidden to background elements so screen reader does not "see" them
     $('#sr-aqi-data-toggle').on('click', function(e) {
-      e.preventDefault();
       e.stopPropagation();
       $('#sr-aqi-data').html(srAQIString);
       $('#sr-aqi-data').dialog({
@@ -80,7 +79,6 @@
     });
     
     $('#aqi-explained-toggle').on('click', function(e) {
-      e.preventDefault();
       e.stopPropagation();      
       $('#aqi-explained').html(aqiExplained);
       $('#aqi-explained').dialog({
