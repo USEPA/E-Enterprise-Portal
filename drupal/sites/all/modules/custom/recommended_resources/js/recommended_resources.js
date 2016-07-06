@@ -66,6 +66,9 @@ var manage_components_title = "Manage My Profile Topics";
 
       var $tabs = $("#local-resources-tabs");
       $tabs.tabs();
+      $tabs.find('.ui-corner-top').on('click', function(ev) {
+        $(this).focus();
+      });
     }
 
     // Restrict loading to after first time user preferences if applicable

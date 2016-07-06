@@ -34,6 +34,10 @@
         }
       }
     });
+    
+    $('#my-air-quality-chart-tabs').find('.ui-corner-top').on('click', function(ev) {
+      $(this).focus();
+    });
 
     $(document).on("ee:zipCodeQueried", function(evt, data) {
         if (!first_time_user_loading) {
