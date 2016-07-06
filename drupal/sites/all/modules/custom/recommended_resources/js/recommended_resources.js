@@ -121,7 +121,7 @@ var manage_components_title = "Manage My Profile Topics";
       ev.preventDefault();
       var $localResources = $(this).parents('.local.resources');
       $localResources.find('.faceted-filters').toggle();
-
+      $localResources.toggleClass('toggle-open toggle-closed');
       // expose/remove extra columns, resize, and redraw datetable
       var $table = $localResources.find('table');
       var datatable = $table.DataTable();

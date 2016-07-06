@@ -145,11 +145,6 @@ Truncate    text
 .local.resources .left {
     float: left;
 }
-.local.resources .dataTables_wrapper,
-.local.resources .facets-expanded,
-.local.resources .left + .left {
-    width: 65%;
-}
 .faceted-filters {
     background-color: #FAFAFA;
     font-weight: bold;

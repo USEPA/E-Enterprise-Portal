@@ -68,7 +68,7 @@ var LocalResourcesTable;
     $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
     var datatable_options = {
       "bLengthChange": false,
-      "iDisplayLength": 3,
+      "iDisplayLength": 5,
       "bAutoWidth": false,
       "oLanguage": {
         "sSearch": "Filter:"
