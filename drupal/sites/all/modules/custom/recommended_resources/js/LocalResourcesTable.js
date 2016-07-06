@@ -366,8 +366,8 @@ var LocalResourcesTable;
               * e.timeStamp is not working in Firefox. A little bit of research reveals it's a bug in Firefox reported in 2004 and still not fixed.
               * Look here for further info. http://api.jquery.com/event.timeStamp/
               * */
-              if( (navigator.userAgent).indexOf('Firefox') != -1 || (sessionStorage.getItem('click_stamp_src') != e.timeStamp)) {
-                sessionStorage.setItem('click_stamp_src', e.timeStamp);
+              if(sessionStorage.getItem('click_stamp_src') != parseInt(new Date() / 1000)) {
+                sessionStorage.setItem('click_stamp_src', parseInt(new Date() / 1000));
                 var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
                 if ($('.your-selections').children(span_selector).is(":visible")) {
                   $('.your-selections').children(span_selector).hide();
@@ -383,8 +383,8 @@ var LocalResourcesTable;
             /*On Topic Facet click (select), show topic above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('input').click(function (e) {
-              if( (navigator.userAgent).indexOf('Firefox') != -1 || (sessionStorage.getItem('click_stamp_topic') != e.timeStamp)) {
-                sessionStorage.setItem('click_stamp_topic', e.timeStamp);
+              if( sessionStorage.getItem('click_stamp_topic') != parseInt(new Date() / 1000) ) {
+                sessionStorage.setItem('click_stamp_topic', parseInt(new Date() / 1000));
                 var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
                 if ($('.your-selections').children(span_selector).is(":visible")) {
                   $('.your-selections').children(span_selector).hide();
@@ -399,8 +399,8 @@ var LocalResourcesTable;
             /*On Category Facet click (select), show category above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-category-facet').find('input').click(function (e) {
-              if( (navigator.userAgent).indexOf('Firefox') != -1 || (sessionStorage.getItem('click_stamp_cat') != e.timeStamp)) {
-                sessionStorage.setItem('click_stamp_cat', e.timeStamp);
+              if( sessionStorage.getItem('click_stamp_cat') != parseInt(new Date() / 1000)) {
+                sessionStorage.setItem('click_stamp_cat', parseInt(new Date() / 1000));
                 var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
                 if ($('.your-selections').children(span_selector).is(":visible")) {
                   $('.your-selections').children(span_selector).hide();
@@ -415,8 +415,8 @@ var LocalResourcesTable;
             /*On Tool Type Facet click (select), show Tool Type above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('input').click(function (e) {
-              if( (navigator.userAgent).indexOf('Firefox') != -1 || (sessionStorage.getItem('click_stamp_tool_type') != e.timeStamp)) {
-                sessionStorage.setItem('click_stamp_tool_type', e.timeStamp);
+              if( sessionStorage.getItem('click_stamp_tool_type') != parseInt(new Date() / 1000)) {
+                sessionStorage.setItem('click_stamp_tool_type', parseInt(new Date() / 1000));
                 var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
                 if ($('.your-selections').children(span_selector).is(":visible")) {
                   $('.your-selections').children(span_selector).hide();
@@ -431,8 +431,8 @@ var LocalResourcesTable;
             /*On Training Level Facet click (select), show Training Level above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('input').click(function (e) {
-              if( (navigator.userAgent).indexOf('Firefox') != -1 || (sessionStorage.getItem('click_stamp_lvl') != e.timeStamp)) {
-                sessionStorage.setItem('click_stamp_lvl', e.timeStamp);
+              if( sessionStorage.getItem('click_stamp_lvl') != parseInt(new Date() / 1000)) {
+                sessionStorage.setItem('click_stamp_lvl', parseInt(new Date() / 1000));
                 var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
                 if ($('.your-selections').children(span_selector).is(":visible")) {
                   $('.your-selections').children(span_selector).hide();
@@ -447,8 +447,8 @@ var LocalResourcesTable;
             /*On Data Requirements Facet click (select), show Data Requirements above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('#yadcf-filter-wrapper--all-local-resources-wrapper-data-requirements-facet').find('input').click(function (e) {
-              if( (navigator.userAgent).indexOf('Firefox') != -1 || (sessionStorage.getItem('click_stamp_req') != e.timeStamp)) {
-                sessionStorage.setItem('click_stamp_req', e.timeStamp);
+              if( sessionStorage.getItem('click_stamp_req') != parseInt(new Date() / 1000)) {
+                sessionStorage.setItem('click_stamp_req', parseInt(new Date() / 1000));
                 var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
                 if ($('.your-selections').children(span_selector).is(":visible")) {
                   $('.your-selections').children(span_selector).hide();
