@@ -794,141 +794,166 @@ header {
     padding-bottom: 75%;
 }
 
-#benefits,
-#including {
-    ul {
-        list-style: none;
-        background-color: transparent !important;
-        display: initial;
-    }
-}
-
-#benefits {
-    border: none;
-    &.ui-tabs .ui-tabs-nav li.ui-tabs-active {
-        position: relative;
-        border-bottom: none;
-    }
-    &.ui-tabs .ui-tabs-nav li.ui-tabs-active:after {
-        content: ' ';
-        height: 0;
-        position: absolute;
-        width: 0;
-        border: 10px solid transparent; /* arrow size */
-        border-top-color: #333; /* arrow color */
-
-        /* positioning */
-        top: 2.25em;
-        left: 50%;
-        z-index: 1;
-    }
-    li {
-        margin-right: 2px;
-        width: 100%;
-        min-width: 7em;
-        background-color: #666;
-        text-align: center;
-        float: left;
-        font-size: 1.25em;
-        font-weight: 200;
-        &:after {
-            margin-bottom: 0;
+.section-eenterprise-new {
+    #ee-video {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        background-color: $color-gray-white;
+        border-bottom: 1px solid $color-gray-lightest;
+        h2 {
+            font-weight: 200;
+            font-size: 1em;
+            text-transform: uppercase;
+            color: #666;
         }
-        &.ui-tabs-active {
-            background-color: #333;
+    }
+    #benefits,
+    #including {
+        ul {
+            list-style: none;
+            background-color: transparent !important;
+            display: initial;
         }
-        a {
-            display: inline-block;
+    }
+    #benefits {
+        border: none;
+        &.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+            position: relative;
+            border-bottom: none;
         }
-        a, a:focus {
-            background-color: transparent;
-            padding: 0.5em 1em;
+        &.ui-tabs .ui-tabs-nav li.ui-tabs-active:after {
+            content: ' ';
+            height: 0;
+            position: absolute;
+            width: 0;
+            border: 10px solid transparent; /* arrow size */
+            border-top-color: #333; /* arrow color */
+    
+            /* positioning */
+            top: 2.25em;
+            left: 50%;
+            z-index: 1;
+        }
+        li {
+            margin-right: 2px;
+            width: 100%;
+            min-width: 7em;
+            background-color: #666;
             text-align: center;
-            color: #fff;
-            width: 100%;
-        }
-    }
-    div {
-        clear: left;
-        height: 250px;
-        padding: 0em 3em 1em 2em;
-        span {
-            float: none;
-            width: 100%;
-            padding: 10px 20px;
-        }
-    }
-    h3 {
-        font-weight: 200;
-        font-size: 1em;
-        text-transform: uppercase;
-        color: #666;
-    }
-    p {
-        margin-top: 10px;
-        font-size: $h4-font-size;
-    }
-    img {
-        max-width: 50%;
-        margin: 0 auto;
-        float: right;
-    }
-}
-
-#including {
-    clear: left;
-    padding-bottom: 30px;
-    border: 1px solid $color-gray-lightest;
-    border-width: 1px 0;
-    background-color: $color-gray-white;
-    ul {
-        margin-bottom: 30px;
-    }
-    li {
-        min-height: 7em;
-        h3 {
-            margin-bottom: 0;
-        }
-        p {
-            margin-top: 5px;
-        }
-        img {
-            display: inline-block;
-            vertical-align: top;
-            margin-top: 1em;
-            margin-right: 10px;
-            width: 3.5em;
-            height: 3.5em;
+            float: left;
+            font-size: 1.25em;
+            font-weight: 200;
+            &:after {
+                margin-bottom: 0;
+            }
+            &.ui-tabs-active {
+                background-color: #333;
+            }
+            a {
+                display: inline-block;
+            }
+            a, a:focus {
+                background-color: transparent;
+                padding: 0.5em 1em;
+                text-align: center;
+                color: #fff;
+                width: 100%;
+            }
         }
         div {
-            display: inline-block;
-            vertical-align: top;
-            width: 80%;
-            margin-left: 10px;
+            clear: left;
+            height: 250px;
+            padding: 0em 3em 1em 2em;
+            span {
+                float: none;
+                width: 100%;
+                padding: 10px 20px;
+            }
         }
-    }
-}
-
-#ee-video {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    background-color: $color-gray-white;
-    border-bottom: 1px solid $color-gray-lightest;
-    h2 {
-        font-weight: 200;
-        font-size: 1em;
-        text-transform: uppercase;
-        color: #666;
+        h3 {
+            font-weight: 200;
+            font-size: 1em;
+            text-transform: uppercase;
+            color: #666;
+        }
+        p {
+            margin-top: 10px;
+            font-size: $h4-font-size;
+        }
+        img {
+            max-width: 50%;
+            margin: 0 auto;
+            float: right;
+        }
+    }  
+    #including {
+        clear: left;
+        padding-bottom: 30px;
+        border: 1px solid $color-gray-lightest;
+        border-width: 1px 0;
+        background-color: $color-gray-white;
+        ul {
+            margin-bottom: 30px;
+        }
+        li {
+            min-height: 7em;
+            h3 {
+                margin-bottom: 0;
+            }
+            p {
+                margin-top: 5px;
+            }
+            img {
+                display: inline-block;
+                vertical-align: top;
+                margin-top: 1em;
+                margin-right: 10px;
+                width: 3.5em;
+                height: 3.5em;
+            }
+            div {
+                display: inline-block;
+                vertical-align: top;
+                width: 80%;
+                margin-left: 10px;
+            }
+        }
     }
 }
 
 .section-eenterprise-alternate {
+    h2, p {
+        font-family: 'Futura LT BT';
+    }
+    h2 {
+        font-size: 3rem;
+    }
+    h3 {
+        font-size: $h4-font-size;
+    }
+    p {
+        font-size: $h7-font-size;
+    }
     #ee-video {
         background-color: $color-gray-white;
         border-top: 1px solid $color-gray-lightest;
     }
-    #including {
-        background-color: $color-white;
+    .including {
+        li.including-row1,
+        li.including-row2 {
+            display: block;
+            width: 50%;
+        }
+        li.including-row1 {
+            float: right;
+        }
+        li.including-row2 {
+            clear: right;
+            float: left;
+        }
+    }
+    .featured {
+        background: transparent url('..images/bg-streamlining.jpg') no-repeat 0 50%;
     }
 }
 
