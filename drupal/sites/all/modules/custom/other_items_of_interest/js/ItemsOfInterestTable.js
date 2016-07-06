@@ -34,12 +34,14 @@ var ItemsOfInterestTable;
         var pageInfo = this.fnPagingInfo();
         var pageNo = pageInfo.iPage + 1;
         var totalPages = pageInfo.iTotalPages + 1;
-        var $current_li = $('<li />', {
-          class: 'pager-current'
-        })
-          .html(pageNo + ' of ' + totalPages);
-        $wrapper.find('.dataTables_paginate li:first').after($current_li);
 
+        if (totalPages > 1) {
+          var $current_li = $('<li />', {
+            class: 'pager-current'
+          })
+            .html(pageNo + ' of ' + totalPages);
+          $wrapper.find('.dataTables_paginate li:first').after($current_li);
+        }
       }
     };
 
