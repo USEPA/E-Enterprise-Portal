@@ -106,6 +106,9 @@
 
     var $tabs = $("#other-areas-tabs");
     $tabs.tabs();
+    $tabs.find('.ui-corner-top').on('click', function(ev) {
+      $(this).focus();
+    });
 
     var $location_select;
     var guest_user;

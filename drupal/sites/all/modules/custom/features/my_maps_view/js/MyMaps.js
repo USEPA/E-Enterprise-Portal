@@ -1,6 +1,10 @@
 (function ($) {
   $(function () {
     $( "#myMapsFiltering" ).tabs();
+    $('#myMapsFiltering').find('.ui-corner-top').on('click', function(ev) {
+      $(this).focus();
+    });
+    
     $.getJSON( "./map_dataset", function( data ) {
       // Get map collections from JSON
       var mapsets = data.mapsets,
