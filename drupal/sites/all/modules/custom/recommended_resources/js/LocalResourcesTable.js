@@ -14,13 +14,13 @@
         var $checkbox = $("<input type='checkbox' id='" + id + "'/>").appendTo($li).change(function() {
           var $option = $(this).parents('.multiselect-to-checkboxes').find('select option').eq(index);
           if ($(this).is(":checked")) {
-            $option.attr("selected", true).parent().change();
+            $option.prop("selected", true).parent().change();
           } else {
-            $option.attr("selected", false).parent().change();
+            $option.prop("selected", false).parent().change();
           }
         });
         if ($option.is(":selected")) {
-          $checkbox.attr("checked", "checked");
+          $checkbox.prop("checked");
         }
         $checkbox.after("<label for='" + id + "'>" + $option.text() + "</label>");
 
