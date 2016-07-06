@@ -385,77 +385,58 @@
       };
 
       //better keyboard accessibility, allow keyboard left and right arrows to navigate gallery
+      var $jcarouselThumbnail = $jcarousel.find('.load-thumbnail.active a');
+      $jcarouselThumbnail.on('focus', function() {
+        $jcarouselThumbnail.on('keyup', function(ev) {
+          ev.stopImmediatePropagation();
+          var key = ev.which || ev.keyChar || ev.keyCode;
+          if (key === 27) {
+            $jcarousel.focus();
+          } else if (key === 37) {
+            // If count scrolls is 0, do not scroll left/previous, do not subtract
+            // If count scrolls is > 0, then scroll left/previous
+            if(!$jcarouselPrev.hasClass('inactive')) {
+              $jcarouselPrev.trigger('click');
+            }    
+            $jcarouselThumbnail.eq(0).focus();      
+          } else if (key === 39) {
+            // If count scrolls is less than the max # of scrolls, scroll right/next
+            // If count scrolls is > 0, then scroll to previous thumbnails
+            if(!$jcarouselNext.hasClass('inactive')) {
+              $jcarouselNext.trigger('click');
+            }
+            $jcarouselThumbnail.eq(0).focus();
+          }
+        });
+      });
+      
       $jcarousel.on('focus', function() {
         $jcarousel.on('keyup', function(e) {
           e.stopImmediatePropagation();
           var key = e.which || e.keyChar || e.keyCode;
           stopAtScrolls = numItemsVisible - 1;
-          if (key == 37) {
+          if (key === 37) {
             // If count scrolls is 0, do not scroll left/previous, do not subtract
             // If count scrolls is > 0, then scroll left/previous
             if(!$jcarouselPrev.hasClass('inactive')) {
-              if (countScrolls >= 0) {
-                $jcarouselPrev.trigger('click');              
-                if (countScrolls == 0) {
-                   focusThumb = 0;
-                 }
-                else if (countScrolls >= 1 && (countScrolls < stopAtScrolls)) {
-                  countScrolls = countScrolls - 1;
-                  focusThumb = countScrolls;
-                 }
-                 else {
-                   countScrolls = stopAtScrolls;
-                   focusThumb = countScrolls;
-                 }
-                var thumbToShow = 'li.load-thumbnail:eq(' + focusThumb + ')';
-                var thumbToShowA = $(thumbToShow).find('.thumbhyperlink')[0];
-                turnOnVisibleThumbs();
-                $jcarousel.jcarousel('scroll', thumbToShow);
-                $(thumbToShowA).focus();
-              }
+              $jcarouselPrev.trigger('click');
+              $jcarousel.focus();              
             }          
-          } else if (key == 39){
+          } else if (key === 39) {
             // If count scrolls is less than the max # of scrolls, scroll right/next
             // If count scrolls is > 0, then scroll to previous thumbnails
             if(!$jcarouselNext.hasClass('inactive')) {
-              if (countScrolls <= stopAtScrolls) {
-                $jcarouselNext.trigger('click');                      
-                if (countScrolls == 0) {
-                  focusThumb = 1;
-                   countScrolls = countScrolls + 1;
-                 }
-                else if (countScrolls >= 1 && (countScrolls < stopAtScrolls)) {
-                  countScrolls = countScrolls + 1;
-                  focusThumb = countScrolls;
-                 }
-                 else {
-                   focusThumb = countScrolls;
-                   countScrolls = stopAtScrolls;
-                 }
-                var thumbToShow = 'li.load-thumbnail:eq(' + focusThumb + ')';
-                var thumbToShowA = $(thumbToShow).find('.thumbhyperlink')[0];
-                turnOnVisibleThumbs();                
-                $jcarousel.jcarousel('scroll', thumbToShow);
-                $(thumbToShowA).focus();
-              }
+              $jcarouselNext.trigger('click');
+              $jcarousel.focus();
             }
-          } else if (key == 27) {           
+          } else if (key === 27) {           
              var focusTab = '#' + activeTab;
-             countScrolls = 0;
              $(focusTab).focus();
           }
         });
       });
-      $(".jcarousel .thumb li a").focus(function() {
-        $jcarousel.keyup(function(e) {
-          var key = e.which || e.keyChar || e.keyCode;
-          if (key == 27) {
-            countScrolls = 0;
-             $jcarousel.focus();
-          }
-        });
-      });
-
+      
+      
     });
   });
 })(jQuery);
