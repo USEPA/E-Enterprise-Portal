@@ -15,7 +15,6 @@ drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_fa
  *
  * @ingroup views_templates
  */
-//drupal_add_css('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', 'external');
 drupal_add_css( libraries_get_path('font-awesome-4.5.0') . "/css/font-awesome.embedded.css", "file");
 //drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/custom_js.js", "file");
 drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/cdx_facility_management.css", "file");

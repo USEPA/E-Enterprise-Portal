@@ -5,7 +5,6 @@ drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", "file");
 drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
 $font_awesome_path = libraries_get_path('font-awesome-4.5.0');
 drupal_add_css( libraries_get_path('font-awesome-4.5.0') . "/css/font-awesome.embedded.css", "file");
-//drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
 ?>
 <div class="edit-user-profile">
     <div id="profile-tabs">
