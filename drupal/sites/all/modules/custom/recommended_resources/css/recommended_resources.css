@@ -184,13 +184,6 @@ Truncate    text
 }
 
 /* line 148, ../sass/recommended_resources.scss */
-.local.resources .dataTables_wrapper,
-.local.resources .facets-expanded,
-.local.resources .left + .left {
-  width: 65%;
-}
-
-/* line 153, ../sass/recommended_resources.scss */
 .faceted-filters {
   background-color: #FAFAFA;
   font-weight: bold;
@@ -203,46 +196,46 @@ Truncate    text
   box-shadow: 5px 5px 10px 0 #ccc;
 }
 
-/* line 164, ../sass/recommended_resources.scss */
+/* line 159, ../sass/recommended_resources.scss */
 .faceted-filters .toggle {
   cursor: pointer;
   line-height: 20px;
   padding: 0 5px 0 10px;
 }
 
-/* line 169, ../sass/recommended_resources.scss */
+/* line 164, ../sass/recommended_resources.scss */
 .faceted-filters .toggle img {
   float: right;
   width: 20px;
   height: 20px;
 }
 
-/* line 174, ../sass/recommended_resources.scss */
+/* line 169, ../sass/recommended_resources.scss */
 .faceted-filters.on {
   width: 30%;
 }
 
-/* line 177, ../sass/recommended_resources.scss */
+/* line 172, ../sass/recommended_resources.scss */
 .faceted-filters.off {
   width: 35%;
 }
 
-/* line 180, ../sass/recommended_resources.scss */
+/* line 175, ../sass/recommended_resources.scss */
 .multiselect-to-checkboxes ul {
   margin: 0;
 }
 
-/* line 183, ../sass/recommended_resources.scss */
+/* line 178, ../sass/recommended_resources.scss */
 .multiselect-to-checkboxes li::before {
   content: "";
 }
 
-/* line 186, ../sass/recommended_resources.scss */
+/* line 181, ../sass/recommended_resources.scss */
 .multiselect-to-checkboxes label {
   font-size: 1.1rem;
 }
 
-/* line 189, ../sass/recommended_resources.scss */
+/* line 184, ../sass/recommended_resources.scss */
 .faceted-filters .facet,
 .faceted-filters h3 {
   background-color: #fff;
@@ -250,7 +243,7 @@ Truncate    text
   margin: 0;
 }
 
-/* line 195, ../sass/recommended_resources.scss */
+/* line 190, ../sass/recommended_resources.scss */
 .faceted-filters .facet {
   max-height: 150px;
   overflow-y: scroll;
@@ -258,7 +251,7 @@ Truncate    text
   border-top: 0;
 }
 
-/* line 201, ../sass/recommended_resources.scss */
+/* line 196, ../sass/recommended_resources.scss */
 .faceted-filters h3 {
   margin-top: 5px;
   cursor: pointer;
@@ -267,35 +260,35 @@ Truncate    text
   padding: 5px 0;
 }
 
-/* line 208, ../sass/recommended_resources.scss */
+/* line 203, ../sass/recommended_resources.scss */
 .faceted-filters h3 .icon img {
   width: 16px;
   height: 16px;
   margin: 0 2px 0 5px;
 }
 
-/* line 213, ../sass/recommended_resources.scss */
+/* line 208, ../sass/recommended_resources.scss */
 .faceted-filters h3 span.on img.off,
 .faceted-filters h3 span.off img.on {
   display: none;
 }
 
-/* line 218, ../sass/recommended_resources.scss */
+/* line 213, ../sass/recommended_resources.scss */
 .faceted-filters a.favorites-ignore {
   color: black;
 }
 
-/* line 221, ../sass/recommended_resources.scss */
+/* line 216, ../sass/recommended_resources.scss */
 .faceted-filters a.favorites-ignore:hover {
   text-decoration: none;
 }
 
-/* line 224, ../sass/recommended_resources.scss */
+/* line 219, ../sass/recommended_resources.scss */
 .manage-my-topics-grid .grid-selector {
   margin-left: 5px;
 }
 
-/* line 228, ../sass/recommended_resources.scss */
+/* line 223, ../sass/recommended_resources.scss */
 .manage-my-topics-grid-wrapper {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -306,33 +299,38 @@ Truncate    text
   width: 100%;
 }
 
-/* line 6, ../sass/_rflc.scss */
+/* line 7, ../sass/_rflc.scss */
 .views-field.views-field-value-3, .views-field.views-field-value-4 {
   display: none;
 }
 
-@media screen and (min-width: 30.01em) and (max-width: 48em), screen and (min-width: 60.01em) {
-  /* line 11, ../sass/_rflc.scss */
-  .faceted-filters.on {
-    width: 30%;
-  }
+/* line 13, ../sass/_rflc.scss */
+.local.resources .left + .left {
+  width: 100%;
+}
+/* line 17, ../sass/_rflc.scss */
+.local.resources.toggle-open .left + .left {
+  width: 65%;
+}
 
-  /* line 14, ../sass/_rflc.scss */
-  .local.resources .dataTables_wrapper,
-  .local.resources .facets-expanded,
-  .local.resources .left + .left {
-    width: 65%;
+@media screen and (min-width: 30.01em) and (max-width: 48em), screen and (min-width: 60.01em) {
+  /* line 35, ../sass/_rflc.scss */
+  .toggle-closed .views-field.views-field-value-3, .toggle-closed .views-field.views-field-value-4 {
+    display: table-cell;
   }
 }
+/*
 @media screen and (min-width: 30.01em) and (max-width: 48em) {
-  /* line 22, ../sass/_rflc.scss */
-  .views-field.views-field-value-3, .views-field.views-field-value-4 {
-    display: table-cell;
+  .views-field {
+    &.views-field-value-3, &.views-field-value-4 {
+      display: table-cell;
+    }
   }
 }
 @media screen and (min-width: 72.01em) {
-  /* line 29, ../sass/_rflc.scss */
-  .views-field.views-field-value-3, .views-field.views-field-value-4 {
-    display: table-cell;
+  .views-field {
+    &.views-field-value-3, &.views-field-value-4 {
+      display: table-cell;
+    }
   }
-}
+}*/
