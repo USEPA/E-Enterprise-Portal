@@ -1,17 +1,29 @@
+// mapping of topic name to column number, can be expanded as needed
+var yadtf_topic_configs = {
+  source: {column: 2},
+  topic: {column: 3},
+  category: {column: 4},
+  tool_type: {column: 5},
+  training_level: {column: 6},
+  data_requirements: {column: 7},
+  relevance: {column: 8}
+};
+
+
 // @see https://gist.github.com/cman81/ef1ad79cff899c01160ba7d77f761f13
 // @see https://gist.github.com/jmcd/2284550
-(function($) {
+(function ($) {
 
   var methods = {
-    init: function() {
+    init: function () {
       var $ul = $("<ul/>").insertAfter(this);
       var $container = $ul.prev().andSelf().wrapAll("<div class='multiselect-to-checkboxes'></div>");
       var baseId = "_" + $(this).attr("id");
-      $(this).children("option").each(function(index) {
+      $(this).children("option").each(function (index) {
         var $option = $(this);
         var id = baseId + index;
         var $li = $("<li/>").appendTo($ul);
-        var $checkbox = $("<input type='checkbox' id='" + id + "'/>").appendTo($li).change(function() {
+        var $checkbox = $("<input type='checkbox' id='" + id + "'/>").appendTo($li).change(function () {
           var $option = $(this).parents('.multiselect-to-checkboxes').find('select option').eq(index);
           if ($(this).is(":checked")) {
             $option.prop("selected", true).parent().change();
@@ -33,7 +45,7 @@
     }
   };
 
-  $.fn.multiSelectToCheckboxes = function(method) {
+  $.fn.multiSelectToCheckboxes = function (method) {
     if (methods[method]) {
       return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
     } else if (typeof method === 'object' || !method) {
@@ -62,6 +74,7 @@ var LocalResourcesTable;
         0 : Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength) - 1
     };
   };
+
 
   LocalResourcesTable = function ($wrapper, ajax_url) {
 
@@ -97,6 +110,7 @@ var LocalResourcesTable;
 
     var cached = false;
     var datatable_id = '';
+    var wrapper_id = $wrapper.attr('id');
     this.wrapper = $wrapper;
 
     this.hideTable = function () {
@@ -154,14 +168,14 @@ var LocalResourcesTable;
 
             yadcf.init(tableDT, [
               {
-                column_number : 2,
+                column_number: 2,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .source.facet',
                 filter_match_mode: 'exact',
                 filter_reset_button_text: false
               },
               {
-                column_number : 3,
+                column_number: 3,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .topic.facet',
                 filter_match_mode: 'exact',
@@ -203,29 +217,36 @@ var LocalResourcesTable;
                 filter_reset_button_text: false
               }
             ]);
-            $('#' + wrapperParentId).find('.facet select').each(function() {
+            $('#' + wrapperParentId).find('.facet select').each(function () {
               $(this).multiSelectToCheckboxes();
             });
 
             var your_selections = $('.your-selections');
-            if( your_selections.find('.selection-lbl').length == 0 ){
+            if (your_selections.find('.selection-lbl').length == 0) {
               var selection_lbl = "<div class='selection-lbl'>" + your_selections.html() + "</div>";
               your_selections.html(selection_lbl);
             }
 
             /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
              *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-source-facet').find('li').each(function (index) {
+            $('div[id^="yadcf-filter-wrapper--' + wrapper_id + '-wrapper"]').find('li').each(function (index) {
               if (index > 0) {
+                var facet_type = $(this).closest('.facet').attr('class').replace('facet', '').trim();
                 var facet_topic = $(this).children('label').html();
+                // Switch hyphen to underscore for looking up column number
+                var topic_config_str = facet_type.replace('-', '_');
+                var column_number = yadtf_topic_configs[topic_config_str].column;
+                var $your_selections = $('.your-selections');
                 if ((facet_topic.indexOf("(")) < 0) {
                   $(this).children('label').attr('title', facet_topic);
-                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
-                  $('.your-selections').append(selection);
-                  $('.your-selections span.facet-topic-container').hide();
+                  var selection = "<span class='facet-topic-container' title='" + facet_topic + "'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
+                  if ($your_selections.find('span[title="' + facet_topic + '"]').length === 0) {
+                    $your_selections.append(selection);
+                    $your_selections.find('span.facet-topic-container').hide();
+                  }
                 }
                 var res_t = $.grep(tableDT.data(), function (n, i) {
-                  return (facet_topic.trim()) == (n[2]).trim();
+                  return (facet_topic.trim()) == (n[column_number]).trim();
                 }, false);
                 if ((facet_topic.indexOf("(")) < 0) {
                   $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
@@ -233,242 +254,34 @@ var LocalResourcesTable;
               }
             });
 
-            /*Iterate through Topics facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('li').each(function (index) {
-              if (index > 0) {
-                var facet_topic = $(this).children('label').html();
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').attr('title', facet_topic);
-                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
-                  $('.your-selections').append(selection);
-                  $('.your-selections span.facet-topic-container').hide();
-                }
-                var res_t = $.grep(tableDT.data(), function (n, i) {
-                  return (facet_topic.trim()) == (n[3]).trim();
-                }, false);
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
-                }
-              }
-            });
-
-            /*Iterate through Topics facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-category-facet').find('li').each(function (index) {
-              if (index > 0) {
-                var facet_topic = $(this).children('label').html();
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').attr('title', facet_topic);
-                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
-                  $('.your-selections').append(selection);
-                  $('.your-selections span.facet-topic-container').hide();
-                }
-                var res_t = $.grep(tableDT.data(), function (n, i) {
-                  return (facet_topic.trim()) == (n[4]).trim();
-                }, false);
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
-                }
-              }
-            });
-
-            /*Iterate through Tool Type facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('li').each(function (index) {
-              if (index > 0) {
-                var facet_topic = $(this).children('label').html();
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').attr('title', facet_topic);
-                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
-                  $('.your-selections').append(selection);
-                  $('.your-selections span.facet-topic-container').hide();
-                }
-                var res_t = $.grep(tableDT.data(), function (n, i) {
-                  return (facet_topic.trim()) == (n[5]).trim();
-                }, false);
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
-                }
-              }
-            });
-
-            /*Iterate through Training Level facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet. TODO: put this in a function after the MVP is accepted. the class name .your-selections
-             * TODO: Appears multiple times. Let's cache this selector, and also see if we can optimize by selecting by ID and then using
-             * TODO: find() to select the child class (.your-selections). ID is the fastest selector, check this article: https://24ways.org/2011/your-jquery-now-with-less-suck*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('li').each(function (index) {
-              if (index > 0) {
-                var facet_topic = $(this).children('label').html();
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').attr('title', facet_topic);
-                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
-                  $('.your-selections').append(selection);
-                  $('.your-selections span.facet-topic-container').hide();
-                }
-                var res_t = $.grep(tableDT.data(), function (n, i) {
-                  return (facet_topic.trim()) == (n[6]).trim();
-                }, false);
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
-                }
-              }
-            });
-
-            /*Iterate through Data Requirements facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-data-requirements-facet').find('li').each(function (index) {
-              if (index > 0) {
-                var facet_topic = $(this).children('label').html();
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').attr('title', facet_topic);
-                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
-                  $('.your-selections').append(selection);
-                  $('.your-selections span.facet-topic-container').hide();
-                }
-                var res_t = $.grep(tableDT.data(), function (n, i) {
-                  return (facet_topic.trim()) == (n[7]).trim();
-                }, false);
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
-                }
-              }
-            });
-
-            /*Iterate through Relevance facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-relevance-facet').find('li').each(function (index) {
-              if (index > 0) {
-                var facet_topic = $(this).children('label').html();
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').attr('title', facet_topic);
-                  var selection = "<span class='facet-topic-container' title='"+ facet_topic +"'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
-                  $('.your-selections').append(selection);
-                  $('.your-selections span.facet-topic-container').hide();
-                }
-                var res_t = $.grep(tableDT.data(), function (n, i) {
-                  return (facet_topic.trim()) == (n[8]).trim();
-                }, false);
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
-                }
-              }
-            });
-
-            /*On Source Facet click (select), show source above data table and hide if the click event unchecks the
-             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-source-facet').find('input').click(function (e) {
-              /*
-              *Click event is being fired twice on a single click and creating a problem by hiding and showing or showing and hiding selections
-              * all at once. To solve that problem, check the timeStamp on the event and do not execute if current Click and next click have the
-              * same timeStamp.
-              *
-              * e.timeStamp is not working in Firefox. A little bit of research reveals it's a bug in Firefox reported in 2004 and still not fixed.
-              * Look here for further info. http://api.jquery.com/event.timeStamp/
-              * */
-              if(sessionStorage.getItem('click_stamp_src') != parseInt(new Date() / 1000)) {
-                sessionStorage.setItem('click_stamp_src', parseInt(new Date() / 1000));
-                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
-                if ($('.your-selections').children(span_selector).is(":visible")) {
-                  $('.your-selections').children(span_selector).hide();
-                }
-                else {
-                  $('.your-selections').children(span_selector).css('display', 'inline-block');
-                  //Shorten string to 40 characters or less making sure a word is  not cut off and append three dots.
-                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
-                }
-              }
-            });
 
             /*On Topic Facet click (select), show topic above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-topic-facet').find('input').click(function (e) {
-              if( sessionStorage.getItem('click_stamp_topic') != parseInt(new Date() / 1000) ) {
-                sessionStorage.setItem('click_stamp_topic', parseInt(new Date() / 1000));
-                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
-                if ($('.your-selections').children(span_selector).is(":visible")) {
-                  $('.your-selections').children(span_selector).hide();
-                }
-                else {
-                  $('.your-selections').children(span_selector).css('display', 'inline-block');
-                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
-                }
+            $('div[id^="yadcf-filter-wrapper--' + wrapper_id + '-wrapper"]').find('input').click(function (e) {
+              var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
+              var $your_selections = $('.your-selections');
+              var visible = $your_selections.children(span_selector).is(":visible");
+              // show label if checked
+              if (!visible) {
+                $your_selections.children(span_selector).css('display', 'inline-block');
+                $your_selections.children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
+              } else {
+                $your_selections.children(span_selector).hide();
               }
+
             });
 
-            /*On Category Facet click (select), show category above data table and hide if the click event unchecks the
-             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-category-facet').find('input').click(function (e) {
-              if( sessionStorage.getItem('click_stamp_cat') != parseInt(new Date() / 1000)) {
-                sessionStorage.setItem('click_stamp_cat', parseInt(new Date() / 1000));
-                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
-                if ($('.your-selections').children(span_selector).is(":visible")) {
-                  $('.your-selections').children(span_selector).hide();
-                }
-                else {
-                  $('.your-selections').children(span_selector).css('display', 'inline-block');
-                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
-                }
-              }
-            });
 
-            /*On Tool Type Facet click (select), show Tool Type above data table and hide if the click event unchecks the
-             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-tool-type-facet').find('input').click(function (e) {
-              if( sessionStorage.getItem('click_stamp_tool_type') != parseInt(new Date() / 1000)) {
-                sessionStorage.setItem('click_stamp_tool_type', parseInt(new Date() / 1000));
-                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
-                if ($('.your-selections').children(span_selector).is(":visible")) {
-                  $('.your-selections').children(span_selector).hide();
-                }
-                else {
-                  $('.your-selections').children(span_selector).css('display', 'inline-block');
-                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
-                }
-              }
-            });
-
-            /*On Training Level Facet click (select), show Training Level above data table and hide if the click event unchecks the
-             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-training-level-facet').find('input').click(function (e) {
-              if( sessionStorage.getItem('click_stamp_lvl') != parseInt(new Date() / 1000)) {
-                sessionStorage.setItem('click_stamp_lvl', parseInt(new Date() / 1000));
-                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
-                if ($('.your-selections').children(span_selector).is(":visible")) {
-                  $('.your-selections').children(span_selector).hide();
-                }
-                else {
-                  $('.your-selections').children(span_selector).css('display', 'inline-block');
-                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
-                }
-              }
-            });
-
-            /*On Data Requirements Facet click (select), show Data Requirements above data table and hide if the click event unchecks the
-             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-data-requirements-facet').find('input').click(function (e) {
-              if( sessionStorage.getItem('click_stamp_req') != parseInt(new Date() / 1000)) {
-                sessionStorage.setItem('click_stamp_req', parseInt(new Date() / 1000));
-                var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
-                if ($('.your-selections').children(span_selector).is(":visible")) {
-                  $('.your-selections').children(span_selector).hide();
-                }
-                else {
-                  $('.your-selections').children(span_selector).css('display', 'inline-block');
-                  $('.your-selections').children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
-                }
-              }
-            });
 
             /*On Close button click, mimick a checkbox click event.
-            * */
-            $('.your-selections span.facet-topic-container a').click(function(e) {
+             * */
+            $('.your-selections span.facet-topic-container a').click(function (e) {
               /*
                *Click event is being fired twice on a single click and creating a problem by hiding and showing or showing and hiding selections
                * all at once. To solve this problem, check the timeStamp on the event and do not execute if current click and next click have the
                * same timeStamp.
                * */
-              if(sessionStorage.getItem('click_stamp_selected') != e.timeStamp) {
+              if (sessionStorage.getItem('click_stamp_selected') != e.timeStamp) {
                 sessionStorage.setItem('click_stamp_selected', e.timeStamp);
                 var selected_selection = $(this).parent().attr('title');
                 var selected_id = $('.multiselect-to-checkboxes ul li').find('label[title=\'' + selected_selection + '\']').attr('for');
@@ -476,13 +289,13 @@ var LocalResourcesTable;
               }
             });
 
-            function shorten_string(str, max_len){
-              if(str.length < max_len){
+            function shorten_string(str, max_len) {
+              if (str.length < max_len) {
                 return str;
               }
-              else{
+              else {
                 str = str.substr(0, max_len);
-                str  = str.substr(0, Math.min(str.length, str.lastIndexOf(" ")));
+                str = str.substr(0, Math.min(str.length, str.lastIndexOf(" ")));
                 return str + " ...";
               }
             }
@@ -490,39 +303,27 @@ var LocalResourcesTable;
             function simulateClick(event, obj) {
               if (obj.click) {
                 obj.click()
-              } else if(document.createEvent) {
-                if(event.target !== obj) {
+              } else if (document.createEvent) {
+                if (event.target !== obj) {
                   var evt = document.createEvent("MouseEvents");
                   evt.initMouseEvent("click", true, true, window,
-                      0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                    0, 0, 0, 0, 0, false, false, false, false, 0, null);
                   var allowDefault = obj.dispatchEvent(evt);
                 }
               }
             }
 
 
-            /*On Relevance Facet click (select), show Relevance above data table and hide if the click event unchecks the
-             *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('#yadcf-filter-wrapper--all-local-resources-wrapper-relevance-facet').find('input').click(function () {
-              var span_selector = 'span[title="' + $(this).next().attr('title') + '"]';
-              if ($('.your-selections').children(span_selector).is(":visible")) {
-                $('.your-selections').children(span_selector).hide();
-              }
-              else {
-                $('.your-selections').children(span_selector).css('display', 'inline-block');
-              }
-            });
-
             // Click handler for clicking 'i' icon - show modal
             // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
-            $('#local-resources-tabs').on('click', 'td.views-field-nothing a', function(ev) {
+            $('#local-resources-tabs').on('click', 'td.views-field-nothing a', function (ev) {
               ev.preventDefault();
               Drupal.CTools.Modal.show("ee-ctools-popup-style");
               $('#modal-title').html('Resource Info');
               $('#modal-content').html($(this).parent().text()).scrollTop(0);
               Drupal.attachBehaviors();
             });
-            
+
           }
           else {
             $wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>');
