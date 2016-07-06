@@ -382,7 +382,6 @@
             previous_grid_settings = serialized_data(grid);
           }
 
-
           function loadUserIndices(grid) {
             var serialization;
             $.ajax({
@@ -436,15 +435,51 @@
             }, grid);
           }
 
-
           createGrid();
-
 
         });
       }
+    }
+  };
 
+  Drupal.behaviors.initializeWelcomeCarousel = {
+    attach: function(context) {
+      var page_name = window.location.pathname.split('/')[1];
+      if (page_name == "eenterprise-new" || page_name == "eenterprise-alternate") {
+        $(document).ready(function() {
+          $('.jcarousel').jcarousel();
+          $('.jcarousel-control-prev')
+            .on('jcarouselcontrol:active', function() {
+                $(this).removeClass('inactive');
+            })
+            .on('jcarouselcontrol:inactive', function() {
+                $(this).addClass('inactive');
+            })
+            .jcarouselControl({
+                target: '-=1'
+            });
+          $('.jcarousel-control-next')
+              .on('jcarouselcontrol:active', function() {
+                  $(this).removeClass('inactive');
+              })
+              .on('jcarouselcontrol:inactive', function() {
+                  $(this).addClass('inactive');
+              })
+              .jcarouselControl({
+                  target: '+=1'
+              });
+          $('.jcarousel-pagination')
+              .on('jcarouselpagination:active', 'a', function() {
+                  $(this).addClass('active');
+              })
+              .on('jcarouselpagination:inactive', 'a', function() {
+                  $(this).removeClass('active');
+              })
+              .jcarouselPagination();
+        });
     }
   }
+  };
 
   Drupal.behaviors.initalizeTooltips = {
     attach: function(context) {
