@@ -82,7 +82,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     <?php
   }
   ?>
-  <div id="all-local-resources-wrapper">
+  <div id="all-local-resources-wrapper toggle-open">
     <div id="all-local-resources"></div>
   </div>
 

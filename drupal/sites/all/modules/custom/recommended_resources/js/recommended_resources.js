@@ -66,6 +66,9 @@ var manage_components_title = "Manage My Profile Topics";
 
       var $tabs = $("#local-resources-tabs");
       $tabs.tabs();
+      $tabs.find('.ui-corner-top').on('click', function(ev) {
+        $(this).focus();
+      });
     }
 
     // Restrict loading to after first time user preferences if applicable
@@ -117,19 +120,14 @@ var manage_components_title = "Manage My Profile Topics";
     $body.on('click', '#local-resources-tabs .faceted-filters .toggle a', function(ev) {
       ev.preventDefault();
       var $localResources = $(this).parents('.local.resources');
-      var expandedWidth = parseInt($localResources.width() * 0.65);
       $localResources.find('.faceted-filters').toggle();
-
+      $localResources.toggleClass('toggle-open toggle-closed');
       // expose/remove extra columns, resize, and redraw datetable
       var $table = $localResources.find('table');
       var datatable = $table.DataTable();
-      $table.width('auto'); // needed since datatables manipulates inline styles
       if ($(this).parents('.faceted-filters').hasClass('on')) {
-        $localResources.find('.your-selections, .dataTables_wrapper').width('auto');
         datatable.columns([3, 4]).visible(true, false);
       } else {
-        // apparently using CSS - width: 65%; - is no good
-        $localResources.find('.your-selections, .dataTables_wrapper').width(expandedWidth);
         datatable.columns([3, 4]).visible(false, false);
       }
       datatable.columns.adjust().draw(false); // adjust column sizing and redraw

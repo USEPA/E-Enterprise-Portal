@@ -1,9 +1,4 @@
-#high-level-interests {
-    /*height: 600px;*/
-}
-
-
+/* line 2, ../sass/manage_my_topics.scss */
 #manage-my-topics .ck-button.lgc-topics-of-interest {
-    /*height: 8px !important;*/
-    max-width: 45rem !important;
+  max-width: 45rem !important;
 }

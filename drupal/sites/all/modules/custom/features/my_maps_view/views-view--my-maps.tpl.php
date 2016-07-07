@@ -78,12 +78,12 @@
         <li id="myMapsFilterLand"><a href="#interactive-maps-control4" aria-controls="interactive-maps-carousel4" id="mapsLand" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Land<span class="sr-only"> maps only</span></a></li>
       </ul>
     <div class="jcarousel-wrapper" id="interactive-maps-carousel">
-        <a href="#" class="jcarousel-control-prev"><span class="sr-only">Previous maps</span>&lsaquo;</a>
         <div class="jcarousel" id="all-maps-carousel" tabindex="0">
             <!-- Map thumbnails dynamically loaded here -->
             <div class="loading">Loading <b>all</b> maps...</div>
         </div>
         <a href="#" class="jcarousel-control-next"><span class="sr-only">Next maps</span>&rsaquo;</a>
+        <a href="#" class="jcarousel-control-prev"><span class="sr-only">Previous maps</span>&lsaquo;</a>        
     </div>
     <div class="jcarousel-wrapper" id="interactive-maps-control2">
     </div>

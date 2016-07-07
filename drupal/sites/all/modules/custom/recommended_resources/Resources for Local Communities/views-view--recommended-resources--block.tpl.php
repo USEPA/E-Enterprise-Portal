@@ -1,5 +1,5 @@
 <?php
-drupal_add_js(libraries_get_path('yadcf') . '/0.8.9/jquery.dataTables.yadcf.js', 'file');
+drupal_add_js(libraries_get_path('yadcf') . '/0.9.0.beta.5/jquery.dataTables.yadcf.js', 'file');
 $module_name = "recommended_resources";
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/LocalResourcesTable.js", "file");
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/recommended_resources.js", "file");
@@ -82,7 +82,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
     </ul>
   <?php endif; ?>
 
-  <div id="all-local-resources-wrapper" class="all local resources wrapper clearfix">
+  <div id="all-local-resources-wrapper" class="all local resources wrapper clearfix toggle-open">
     <div class="faceted-filters on left">
       <div class="toggle">
         <a href="#" class="favorites-ignore">
@@ -192,7 +192,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
   </div>
   <?php
   if ($user->name != 'guest-user'): ?>
-    <div id="user-local-resources-wrapper" class="user local resources wrapper clearfix">
+    <div id="user-local-resources-wrapper" class="user local resources wrapper clearfix toggle-open">
       <div class="faceted-filters on left">
         <div class="toggle">
           <a href="#" class="favorites-ignore">

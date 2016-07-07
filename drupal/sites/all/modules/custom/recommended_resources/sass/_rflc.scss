@@ -1,0 +1,57 @@
+// Resources for Local Communities responsive table styles
+.faceted-filters {
+    width: 100%;
+}
+
+.views-field {
+    &.views-field-value-3, &.views-field-value-4 {
+        display: none;
+    }
+}
+
+.local.resources {
+    .left + .left {
+        width: 100%;
+    }
+    &.toggle-open {
+        .left + .left {
+            width: 65%;
+        }
+    }
+}
+
+@media screen and (min-width: 30.01em) and (max-width: 48em), screen and (min-width: 60.01em) {
+    //.faceted-filters.on {
+    //  width: 30%;
+    //}
+    //.local.resources .dataTables_wrapper, .local.resources {
+    //&.toggle-open {
+    //    .left + .left {
+    //        width: 65%;
+    //    }
+    //}
+    .toggle-closed {
+        .views-field {
+            &.views-field-value-3, &.views-field-value-4 {
+                display: table-cell;
+            }
+        }
+    }
+
+}
+/*
+@media screen and (min-width: 30.01em) and (max-width: 48em) {
+  .views-field {
+    &.views-field-value-3, &.views-field-value-4 {
+      display: table-cell;
+    }
+  }
+}
+@media screen and (min-width: 72.01em) {
+  .views-field {
+    &.views-field-value-3, &.views-field-value-4 {
+      display: table-cell;
+    }
+  }
+}*/
+
