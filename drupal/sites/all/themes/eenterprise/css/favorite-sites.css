@@ -64,6 +64,7 @@
     display: block;
 }
 
+.page-workbench .fa-heart:before,
 .fa-heart:before,
 .fa-heart.filled:before,
 .fa-heart-o:before,
