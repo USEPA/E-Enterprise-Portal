@@ -491,8 +491,8 @@ footer {
             background-image: url('../images/white/chevron-right.svg');
             background-position-x: 60%;
         }
-        .pager-prev a {
-            background-image: url('../images/white/chevron-right.svg');
+        .pager-previous a {
+            background-image: url('../images/white/chevron-left.svg');
             background-position-x: 40%;
         }
     } 
@@ -3500,6 +3500,14 @@ a.usa-button.btn-social.btn-wam {
     height: 2rem;
     &:before {
         content: none;
+    }
+}
+
+.view-to-do {
+    .fa-refresh {
+        &:before {
+            content: none;
+        }
     }
 }
 
