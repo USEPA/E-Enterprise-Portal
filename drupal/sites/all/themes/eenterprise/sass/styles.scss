@@ -403,30 +403,26 @@ footer {
         .pager__link.next {  
             background-color: $color-primary;
             background-repeat: no-repeat;
-            background-position: 50% 50%;
-            background-size: 18px, contain;
-            width: 25px;
-            height: 25px;
+            background-position-y: 50%;
+            background-size: 1rem, contain;
+            width: 2rem;
+            height: 2rem;
             border-radius: 50%;     
-            vertical-align: top;    
+            vertical-align: middle;    
             font-size: 0;       
             &:hover,
             &:focus {
                 text-decoration:none;
                 outline: none;
-                &::before,
-                &::after {
-                    background-color: darken($color-primary, 10%);                      
-                    box-shadow: $focus-shadow;
-                    outline: 1px dotted #212121;
-                }
             }
         }      
         .pager__link.previous {
-            background-image: url('../images/white/chevron-left.svg');       
+            background-image: url('../images/white/chevron-left.svg'); 
+            background-position-x: 40%;                  
         }
         .pager__link.next {
             background-image: url('../images/white/chevron-right.svg');
+            background-position-x: 60%;            
         }        
         li, a {
             &.disabled {
@@ -474,13 +470,13 @@ footer {
             a {
                 background-color: $color-primary;
                 background-repeat: no-repeat;
-                background-position: 50% 50%;
-                background-size: 18px, contain;
-                width: 25px;
-                height: 25px;
-                border-radius: 50%;     
-                vertical-align: top;   
-                font-size: 0;        
+                background-position-y: 50%;
+                background-size: 1rem, contain;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                vertical-align: middle;
+                font-size: 0;
                 &:before {
                     content: none;
                 }
@@ -493,9 +489,11 @@ footer {
         }
         .pager-next a {
             background-image: url('../images/white/chevron-right.svg');
+            background-position-x: 60%;
         }
         .pager-prev a {
             background-image: url('../images/white/chevron-right.svg');
+            background-position-x: 40%;
         }
     } 
 }
