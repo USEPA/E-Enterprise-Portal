@@ -1,21 +1,21 @@
 /** 
 	*	Colors from CIOgov Design Standards
 	*
-	* $color-secondary-dark:       #cd2026;
-	* $color-secondary-darkest:    #981b1e;
-	* $color-gray-dark:            #323a45;
+	* $color-secondary-dark:  #cd2026;
+	* $color-secondary-darkest:  #981b1e;
+	* $color-gray-dark: #323a45;
 	*
 	**/
 
 .pane-views-favorite-sites-block .field-type-text, .pane-views-favorite-sites-block .form-text {
-  width: 26em; float: left;
+    width: 26em; float: left;
 }
 
 .pane-views-favorite-sites-block .remove-button {
-  float: right;
+    float: right;
 }
 .view-favorite-sites .views-table {
-  width: 100%;
+    width: 100%;
 }
 .view-favorite-sites .views-field-field-profile-favourites {
 	display: none; /* Hide empty rows */
@@ -24,80 +24,96 @@
 .pane-views-favorite-sites-block .tabledrag-toggle-weight, 
 .pane-views-favorite-sites-block .form-wrapper legend, 
 .pane-views-favorite-sites-block .field-type-datetime,
-.pane-views-favorite-sites-block  th.views-field, 
-.pane-views-favorite-sites-block  .field-multiple-table thead, 
-.pane-views-favorite-sites-block  #field-profile-favourites-values,
+.pane-views-favorite-sites-block th.views-field, 
+.pane-views-favorite-sites-block .field-multiple-table thead, 
+.pane-views-favorite-sites-block #field-profile-favourites-values,
 .edit-actions-submit{
-  display: none;
+    display: none;
 }
 
 .pane-views-favorite-sites-block td.views-field-field-profile-favourites {
-  padding: 0px;
+    padding: 0px;
 }
 
-.pane-views-favorite-sites-block .form-wrapper, .pane-views-favorite-sites-block  tbody{
-  border: none;
+.pane-views-favorite-sites-block .form-wrapper, .pane-views-favorite-sites-block    tbody{
+    border: none;
 }
-
-/*.views-row-edit-edit {
-  height: 150px;
-}*/
 
 .pane-views-favorite-sites-block {
-  overflow-y: auto;
+    overflow-y: auto;
 }
+
 .pane-views-favorite-sites-block #favorite_links-ajax-wrapper {
-  height: 70%; overflow: hidden;
+    height: 70%; overflow: hidden;
 }
+
 #favorite_links-ajax-wrapper tr.odd.views-row-first.views-row-last {
-	border-top: none;
-	border-bottom: none;
+    border-top: none;
+    border-bottom: none;
 }
 
 .transparent-qtip .ui-tooltip-wrapper{
-   background-color: transparent;
+    background-color: transparent;
 }
 
 .qtip-default {
-  background-color: transparent; border: 0;
+    background-color: transparent; border: 0;
 }
 
 .qtip-tip, .qtip-tip canvas{
-  display: block;
+    display: block;
+}
+
+.fa-heart:before,
+.fa-heart.filled:before,
+.fa-heart-o:before,
+.fa-heart-o.empty:before,
+.empty:before,
+.empty:hover:before {
+    content: none;
+}
+
+.fa-heart {
+    background: transparent url('../images/red/heart-o.svg') no-repeat 50% 50%;
+    background-size: 1.85rem;
+    width: 1.85rem;
+    height: 1.85rem;
+    display: block;
+    vertical-align: bottom;
+    margin-right: 10px;    
 }
 
 .filled {
-  color: #e31c3d;
+    background-image: url('../images/red/heart-filled.svg');
 }
+
 .filled:hover{
-  color: #cd2026;
-  cursor: pointer;
+    background-image: url('../images/red/heart-filled-hover.svg');
+    cursor: pointer;
 }
+
 .filled:active {
-	color: #981b1e;
+    background-image: url('../images/red/heart-filled-active.svg');
 }
 
 .empty {
-  color: grey;
+    background-image: url('../images/red/heart-o.svg');
 }
+
 .empty:hover{
-  color: #323a45;
-  cursor: pointer;
+    background-image: url('../images/red/heart-o-hover.svg');
 }
 
 .button_input_holder btn, .button_input_holder btn-success, .button_input_holder btn-danger,
 .button_input_holder btn:hover, .button_input_holder btn-success:hover, .button_input_holder btn-danger:hover{
-  background-color: transparent;
-  border:  0;
-}
-
-span.fa-heart {
-	font-size: 1.25em;
+    background-color: transparent;
+    border:    0;
 }
 
 span.fa-plus {
-  font-size: 2em;
+    font-size: 2em;
 }
+
 td.favorites-holder {
 	width:40px;
 }
