@@ -842,7 +842,7 @@
       $("#all-time").click(function(event) {
         $("#edit-field-todo-lst-due-value").val('0000-00-00');
         $("#edit-submit-to-do").trigger("click");
-        $(this).find('a').focus();
+        $("#all-time").find('a').focus();
       });
 
       function get_server_date(evt) {
@@ -1082,6 +1082,8 @@
             $('#next-week a').focus();
           } else if ($("#beyond-next-week").hasClass("filter-applied")) {
             $('#beyond-next-week a').focus();
+          } else if ($("#all-time").hasClass("filter-applied")) {
+            $('#all-time a').focus();
           }
         }
       }
