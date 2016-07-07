@@ -8693,7 +8693,7 @@ select[multiple="multiple"] {
 }
 
 /* line 4178, ../sass/styles.scss */
-.your-selections span {
+.your-selections span.facet-topic-container {
   border: 1px solid gray;
   margin: 3px 0px 0px 3px;
   padding: 0px 3px 0px 3px;
