@@ -829,16 +829,20 @@
       });
       $("#this-week").click(function(event) {
         get_server_date(event);
+        $(this).find('a').focus();
       });
       $("#next-week").click(function(event) {
         get_server_date(event);
+        $(this).find('a').focus();
       });
       $("#beyond-next-week").click(function(event) {
         get_server_date(event);
+        $(this).find('a').focus();
       });
       $("#all-time").click(function(event) {
         $("#edit-field-todo-lst-due-value").val('0000-00-00');
         $("#edit-submit-to-do").trigger("click");
+        $(this).find('a').focus();
       });
 
       function get_server_date(evt) {
