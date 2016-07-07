@@ -1082,8 +1082,6 @@
             $('#next-week a').focus();
           } else if ($("#beyond-next-week").hasClass("filter-applied")) {
             $('#beyond-next-week a').focus();
-          } else if ($("#all-time").hasClass("filter-applied")) {
-            $('#all-time a').focus();
           }
         }
       }
