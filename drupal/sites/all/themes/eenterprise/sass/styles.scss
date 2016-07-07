@@ -4183,7 +4183,7 @@ select[multiple="multiple"] {
     white-space:nowrap;
 }
 
-.your-selections span:after{
+.your-selections a:after{
     content: url('../images/close_black.png');
     margin-left: 5px;
 }

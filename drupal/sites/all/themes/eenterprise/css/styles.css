@@ -8702,7 +8702,7 @@ select[multiple="multiple"] {
 }
 
 /* line 4186, ../sass/styles.scss */
-.your-selections span:after {
+.your-selections a:after {
   content: url("../images/close_black.png");
   margin-left: 5px;
 }
