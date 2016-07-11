@@ -75,7 +75,8 @@ function eenterprise_preprocess_html(&$vars) {
       }
       $page_alias = drupal_lookup_path('alias', $_GET['q'], $path_language);
       if (($page_alias == 'eenterprise-new') || ($page_alias == 'eenterprise-alternate')) {
-        drupal_add_js( libraries_get_path('jcarousel') . '/jquery.jcarousel.min.js');        
+        drupal_add_js( libraries_get_path('jcarousel') . '/jquery.jcarousel.min.js');
+        drupal_add_js( drupal_get_path('theme', 'eenterprise') . '/js/welcome.js');
       }
     }
     $vars['classes_array'][] = drupal_html_class('section-' . $section);

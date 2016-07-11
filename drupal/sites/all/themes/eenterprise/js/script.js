@@ -198,8 +198,6 @@
     attach: function(context) {
       var page_name = window.location.pathname.split('/')[1];
       if (page_name == "workbench") {
-
-
         $('body').once(function() {
           var previous_grid_settings;
           var cellHeight = 10;
@@ -236,7 +234,6 @@
             if (Drupal.settings.is_guest) {
               grid.movable('.grid-stack-item', false);
             }
-
           }
 
           function addDragListeners($grid_container, $grid_change_options) {
@@ -315,7 +312,6 @@
               $(".grid-changes").fadeOut();
             });
           }
-
 
           function addResizeSensors(grid) {
             if (typeof ResizeSensor !== 'undefined') {
@@ -440,45 +436,6 @@
         });
       }
     }
-  };
-
-  Drupal.behaviors.initializeWelcomeCarousel = {
-    attach: function(context) {
-      var page_name = window.location.pathname.split('/')[1];
-      if (page_name == "eenterprise-new" || page_name == "eenterprise-alternate") {
-        $(document).ready(function() {
-          $('.jcarousel').jcarousel();
-          $('.jcarousel-control-prev')
-            .on('jcarouselcontrol:active', function() {
-                $(this).removeClass('inactive');
-            })
-            .on('jcarouselcontrol:inactive', function() {
-                $(this).addClass('inactive');
-            })
-            .jcarouselControl({
-                target: '-=1'
-            });
-          $('.jcarousel-control-next')
-              .on('jcarouselcontrol:active', function() {
-                  $(this).removeClass('inactive');
-              })
-              .on('jcarouselcontrol:inactive', function() {
-                  $(this).addClass('inactive');
-              })
-              .jcarouselControl({
-                  target: '+=1'
-              });
-          $('.jcarousel-pagination')
-              .on('jcarouselpagination:active', 'a', function() {
-                  $(this).addClass('active');
-              })
-              .on('jcarouselpagination:inactive', 'a', function() {
-                  $(this).removeClass('active');
-              })
-              .jcarouselPagination();
-        });
-    }
-  }
   };
 
   Drupal.behaviors.initalizeTooltips = {

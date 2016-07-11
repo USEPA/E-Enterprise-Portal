@@ -699,12 +699,15 @@ header {
     .jcarousel-wrapper {
         margin: 5px auto;
         position: relative;
+        background-color: #8a8a8a;
+        padding: 0 8em;
         .jcarousel {
             background-color: #8a8a8a;
             position: relative;
             overflow: hidden;
             width: 100%;
-            ul {
+            padding-bottom: 5px;
+            ul:not(.including_items) {
                 width: 20000em;
                 position: relative;
                 list-style: none;
@@ -712,12 +715,57 @@ header {
                 padding: 0;
                 li {
                     float: left;
-                    display: list-item;
-                    padding-left: 8rem;
-                    padding-right: 8rem;
-                    height: 200px;
+                    display: block;
+                    width: 1240px;
+                    height: 400px;
+                    padding-top: 1rem;
+                    padding-bottom: 1rem;
                     &.featured {
-                        background: transparent url('..images/bg-streamlining.jpg') no-repeat 0 0;
+                        background: transparent url('../images/bg-streamlining.jpg') no-repeat 0 0;
+                        div {
+                            width: 300px;
+                            float: right;
+                            margin-right: 8em;
+                            color: $color-white;
+                            padding-top: 150px;
+                        }
+                    }
+                    &.including {
+                        h2 {
+                            margin-bottom: 0;
+                        }
+                        li {
+                            width: 400px;
+                            height: 100px;
+                            float: left;
+                            &.slide-row1:first-of-type {
+                                margin-left: 200px;
+                            }
+                            &.slide-row1, 
+                            &.slide-row2 {
+                                img {
+                                    border-radius: 50%;
+                                    width: 48px;
+                                    height: 48px;   
+                                    vertical-align: top;                                 
+                                }
+                                img, div {
+                                    display: inline-block;
+                                }
+                                h3 {
+                                    font-size: $h3-font-size;
+                                    margin-top: 0;
+                                    margin-bottom: 0;
+                                }
+                                p {
+                                    margin-top: 0;
+                                }
+                                div {
+                                    width: 300px;
+                                    margin-left: 10px;
+                                }
+                            }
+                        }
                     }
                 }                
             }
@@ -725,41 +773,42 @@ header {
         .jcarousel-control-prev,
         .jcarousel-control-next {
             position: absolute;
-            top: 75px;
-            width: 20px;
-            height: 100px;
+            top: 100px;
             text-align: center;
-            background: #444444;
-            color: #fafafa;
-            text-decoration: none;
-            text-shadow: 0 0 1px #000;
-            font: 24px/27px Arial, sans-serif;
-            -webkit-border-radius: 30px;
-            -moz-border-radius: 30px;
-            border-radius: 30px;
-            -webkit-box-shadow: 0 0 2px #999;
-            -moz-box-shadow: 0 0 2px #999;
-            box-shadow: 0 0 2px #999;
-            z-index: 10;
+            font-size: 20rem;
+            color: $color-white;
             &:hover,
             &:focus,
             &:active {
                 text-decoration: none;
-                color: #ffffff;    
-                background-color: #333333;              
-            }
-            &.inactive {
-                visibility: hidden;
-            }
-            &:visited {
-                color: #fafafa;
+                color: #efefef;               
             }
         }
         .jcarousel-control-prev {
-            left: 100px;
+            left: 4rem;
         }
         .jcarousel-control-next {
-            right: 100px;
+            right: 4rem;
+        }
+        .jcarousel-pagination {
+            position: absolute;
+            left: 40%;     
+            bottom: 5px;       
+            a {
+                padding: 5px 10px;
+                border: 3px solid #898989;
+                background-color: $color-gray-lightest;
+                border-radius: 50%;
+                margin-right: 15px;
+                text-decoration: none;
+                &.active,
+                &:hover,
+                &:focus {
+                    background-color: $color-white;
+                    color: $color-base;
+                    font-weight: bold;
+                }          
+            }
         }
     }
 }
@@ -922,9 +971,6 @@ header {
 }
 
 .section-eenterprise-alternate {
-    h2, p {
-        font-family: 'Futura LT BT';
-    }
     h2 {
         font-size: 3rem;
     }
@@ -932,28 +978,7 @@ header {
         font-size: $h4-font-size;
     }
     p {
-        font-size: $h7-font-size;
-    }
-    #ee-video {
-        background-color: $color-gray-white;
-        border-top: 1px solid $color-gray-lightest;
-    }
-    .including {
-        li.including-row1,
-        li.including-row2 {
-            display: block;
-            width: 50%;
-        }
-        li.including-row1 {
-            float: right;
-        }
-        li.including-row2 {
-            clear: right;
-            float: left;
-        }
-    }
-    .featured {
-        background: transparent url('..images/bg-streamlining.jpg') no-repeat 0 50%;
+        font-size: $h5-font-size;
     }
 }
 
