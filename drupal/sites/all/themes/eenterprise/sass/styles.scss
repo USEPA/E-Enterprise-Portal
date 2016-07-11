@@ -385,6 +385,9 @@ footer {
         float: right;
         margin-top: 0;
         margin-bottom: 20px;
+        span {
+            vertical-align: middle;
+        }
         a {
             font-family: $font-sans !important;
             font-size: 1.4rem;
@@ -397,33 +400,29 @@ footer {
             outline: 1px dotted $color-primary; // this addresses the lack of a focus outline on firefox
         }
         .pager__link.previous,
-        .pager__link.next {
-            font-size: 0;
-            &:before,
-            &:after {
-                font-size: 1.4rem;
-                color: $color-white;
-                background-color: $color-primary;
-                padding: 0.5rem 0.75rem;
-                border-radius: 1.5rem;
-            }    
+        .pager__link.next {  
+            background-color: $color-primary;
+            background-repeat: no-repeat;
+            background-position-y: 50%;
+            background-size: 1rem, contain;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;     
+            vertical-align: middle;    
+            font-size: 0;       
             &:hover,
             &:focus {
                 text-decoration:none;
                 outline: none;
-                &::before,
-                &::after {
-                    background-color: darken($color-primary, 10%);                      
-                    box-shadow: $focus-shadow;
-                    outline: 1px dotted #212121;
-                }
             }
+        }      
+        .pager__link.previous {
+            background-image: url('../images/white/chevron-left.svg'); 
+            background-position-x: 40%;                  
         }
-        .pager__link.previous:before {
-            content: "\f053";
-        }        
-        .pager__link.next:after {
-            content: "\f054";
+        .pager__link.next {
+            background-image: url('../images/white/chevron-right.svg');
+            background-position-x: 60%;            
         }        
         li, a {
             &.disabled {
@@ -466,33 +465,35 @@ footer {
             padding-left: 10px;
             padding-right: 10px;
         }
-        .pager-previous a,
-        .pager-next a {
-            &:before,
-            &:after {
-                font-size: 1.4rem;
-                color: $color-white;
+        .pager-previous,
+        .pager-next {
+            a {
                 background-color: $color-primary;
-                padding: 0.5rem 0.75rem;
-                border-radius: 1.5rem;
-            }    
-            &:hover,
-            &:focus {
-                text-decoration:none;
-                outline: none;
-                &::before,
-                &::after {
-                    background-color: darken($color-primary, 10%);                      
-                    box-shadow: $focus-shadow;
-                    outline: 1px dotted #212121;
+                background-repeat: no-repeat;
+                background-position-y: 50%;
+                background-size: 1rem, contain;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                vertical-align: middle;
+                font-size: 0;
+                &:before {
+                    content: none;
                 }
+                &:hover,
+                &:focus {
+                    text-decoration:none;
+                    outline: none;
+                } 
             }
         }
-        .pager-previous a:before {
-            content: "\f053";
+        .pager-next a {
+            background-image: url('../images/white/chevron-right.svg');
+            background-position-x: 60%;
         }
-        .pager-next a:after {
-            content: "\f054";
+        .pager-previous a {
+            background-image: url('../images/white/chevron-left.svg');
+            background-position-x: 40%;
         }
     } 
 }
@@ -1481,12 +1482,15 @@ form tbody {
     border-top: none;
 }
 
-.fa-star.star-example {
-    color: $color-secondary-dark;
-}
-
 .fa-info-circle {
-    color: $color-primary;
+    //color: $color-primary;
+    background: transparent url('../images/blue/info-circle.svg') no-repeat 50% 50%;
+    background-size: 18px, contain;
+    width: 18px;
+    height: 18px;
+    &:before {
+        content: none;
+    }
 }
 
 form[id^='user-profile-form'] {
@@ -1510,6 +1514,7 @@ form[id^='user-profile-form'] {
     }
     .description-key {
         margin-left: 5px;
+        margin-right: 5px;
     }
     .ajax-progress .message {
         display: none;
@@ -1596,9 +1601,9 @@ form[id^='user-profile-form'] {
         label {
             float: left;
         }
-        .zip-code-primary-select .fa {
-            color: grey;
-            cursor: pointer;
+        .zip-code-primary-select {
+            display: block;
+            height: 2rem;
         }
         .ajax-new-content {
             float: left;
@@ -1607,11 +1612,8 @@ form[id^='user-profile-form'] {
         .form-type-checkbox {
             margin-right: 10px;
         }
-        .zip-code-primary-select.selected .fa {
-            color: $color-secondary-dark;
-        }
         .zip-code-primary-holder {
-            margin-top: 1rem;
+            padding-top: 1rem;
             display: inline-block;
             float: right;
             width: 20px;
@@ -2014,10 +2016,6 @@ form .field-multiple-table#field-zip-code-values {
     p {
       margin-bottom: 0.5rem;
     }
-    .fa-th:before {
-        height: 30px;
-        width: 30px;
-    }
     .grid-selector {
         float: right;
         cursor: pointer;
@@ -2031,6 +2029,20 @@ form .field-multiple-table#field-zip-code-values {
     .no-topics {
         margin-top: 30px;
     }
+}
+
+.manage-my-topics-grid-wrapper,
+#user-local-resources {
+    .fa-th {
+        background: transparent url('../images/blue/th.svg') no-repeat 50% 50%;
+        background-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+        vertical-align: bottom;        
+        &:before {
+            content: none;
+        }
+    }  
 }
 
 #first-time-user-profile {
@@ -2590,6 +2602,7 @@ div.ctools-modal-content {
         border-width: 0 !important;
     }
 }
+
 
 .dataTables_wrapper {
     .dataTables_filter {
@@ -3549,13 +3562,17 @@ a.usa-button.btn-social.btn-wam {
     }
 }
 
+
 .fa {
     display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
+    font-family: $font-sans;
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    &:before {
+        content: none;
+    }
 }
 
 .fa-lg {
@@ -3564,12 +3581,15 @@ a.usa-button.btn-social.btn-wam {
     vertical-align: -15%;
 }
 
-.fa-twitter:before {
-    content: "\f099";
+.fa-twitter {
+    background: transparent url('../images/white/twitter.svg') no-repeat 50% 50%;
+    background-size: 2.5rem, contain;
 }
 
-.fa-facebook:before {
-    content: "\f09a";
+.fa-facebook {
+    background: transparent url('../images/white/facebook-f.svg') no-repeat 50% 50%;
+    background-size: 2.5rem, contain;
+    padding-top: 0;
 }
 
 .fa-github:before {
@@ -3589,22 +3609,52 @@ a.usa-button.btn-social.btn-wam {
     color: #42adee;
 }
 
-.fa-refresh {
-    color: $color-green;
-    &:hover {
-        color: $color-green-dark;
-    }
+.fa-home,
+.fa-refresh,
+.fa-star,
+.fa-star-o {
+    background-position: 50% 50%;
+    background-size: 2rem, contain;
+    background-color: transparent;
+    width: 2rem;
+    height: 2rem;
     &:before {
-        content: "\f021";
+        content: none;
     }
 }
 
-.fa-star-o:hover {
-    color: $color-secondary-darkest;
+.view-to-do,
+.view-progress-tracker {
+    .fa-refresh {
+        &:before {
+            content: none;
+        }
+    }
 }
 
-.fa-home:before {
-    content: "\f015";
+.fa-refresh {
+    background-image: url('../images/green/refresh.svg');
+    &:hover {
+        background-image: url('../images/green/refresh-hover.svg');
+    }
+}
+
+.fa-star-o {
+    background-image: url('../images/gray/star-o.svg');
+    &:hover {
+        background-image: url('../images/gray/star-o-hover.svg');    
+    }
+}
+
+.fa-star {
+    background-image: url('../images/red/star.svg');
+    &:hover {
+        background-image: url('../images/red/star-hover.svg');    
+    }  
+}
+
+.fa-home {
+    background-image: url('../images/white/home.svg');
 }
 
 td.has-error {
@@ -3645,7 +3695,7 @@ a {
             margin-bottom: 0;
             margin-top: 0;
             a.usa-button.btn-social {
-                span {
+                span:not(.fa-facebook):not(.fa-twitter) {
                     padding-top: 0.5rem;
                 }
             }
@@ -3655,7 +3705,7 @@ a {
             margin-bottom: 5px;
             margin-top: 5px;
             width: 30rem;
-            i {
+            i:not(.fa-facebook):not(.fa-twitter) {
                 padding-top: 0.5rem;
             }
         }

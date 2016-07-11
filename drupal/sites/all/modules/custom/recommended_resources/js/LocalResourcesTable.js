@@ -76,7 +76,7 @@ var LocalResourcesTable;
   };
 
 
-  LocalResourcesTable = function ($wrapper, ajax_url) {
+  LocalResourcesTable = function ($table_wrapper, ajax_url, table_type) {
 
     $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
     var datatable_options = {
@@ -92,12 +92,14 @@ var LocalResourcesTable;
         var pageInfo = this.fnPagingInfo();
         var pageNo = pageInfo.iPage + 1;
         var totalPages = pageInfo.iTotalPages + 1;
-        var $current_li = $('<li />', {
-          class: 'pager-current'
-        })
-          .html(pageNo + ' of ' + totalPages);
-        $wrapper.find('.dataTables_paginate li:first').after($current_li);
 
+        if (totalPages > 1) {
+          var $current_li = $('<li />', {
+            class: 'pager-current'
+          })
+            .html(pageNo + ' of ' + totalPages);
+          $table_wrapper.find('.dataTables_paginate li:first').after($current_li);
+        }
       },
       // hide the following columns, they are only used for faceted filtering
       "columnDefs": [
@@ -110,22 +112,21 @@ var LocalResourcesTable;
 
     var cached = false;
     var datatable_id = '';
-    var wrapper_id = $wrapper.attr('id');
-    this.wrapper = $wrapper;
+    var wrapper_id = $table_wrapper.attr('id');
 
     this.hideTable = function () {
-      $wrapper.hide();
+      $table_wrapper.hide();
     };
 
     this.ajax_request = function (from_embedded_topics) {
       var topics = this.topics;
       $.ajax({
         beforeSend: function () {
-          var $table = $wrapper.find('.view-content');
+          var $table = $table_wrapper.find('.view-content');
           if ($table.length > 0) {
             $table.html('<p>Loading&hellip;</p>');
           } else {
-            $wrapper.html('<p>Loading&hellip;</p>');
+            $table_wrapper.html('<p>Loading&hellip;</p>');
           }
         },
         url: ajax_url,
@@ -146,9 +147,9 @@ var LocalResourcesTable;
           var $table = $('<div>' + table + '</div>'); // wrap contents in a div for now, will unwrap later
           datatable_id = 'datatable-' + newId;
           $table.find('table').attr('id', datatable_id);
-          $wrapper.html($table.html()); // unwrap
+          $table_wrapper.html($table.html()); // unwrap
 
-          $table = $wrapper.find('table');
+          $table = $table_wrapper.find('table');
           if ($table.length > 0) {
             var tableDT = $table.DataTable(datatable_options);
             $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
@@ -161,7 +162,8 @@ var LocalResourcesTable;
 
             // initialize faceted filtering using Yet Another DataTables Column Filter (yadcf) library
             // @see views-view--recommended-resources--block.tpl.php
-            var wrapperParentId = $wrapper.parents('.local.resources.wrapper').attr('id');
+            var wrapperParentId = $table_wrapper.parents('.local.resources.wrapper').attr('id');
+            var $wrapper_parent = $('#' + wrapperParentId);
 
             // Remove all previous facets for initialization
             $('#' + wrapperParentId + ' .facet').html('');
@@ -227,6 +229,13 @@ var LocalResourcesTable;
               your_selections.html(selection_lbl);
             }
 
+            var $your_selections;
+            if (table_type === 'my') {
+              $your_selections = $wrapper_parent.find('.your-selections.my-resources');
+            } else {
+              $your_selections = $wrapper_parent.find('.your-selections.all-resources');
+            }
+
             /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
              *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
             $('div[id^="yadcf-filter-wrapper--' + wrapper_id + '-wrapper"]').find('li').each(function (index) {
@@ -236,7 +245,7 @@ var LocalResourcesTable;
                 // Switch hyphen to underscore for looking up column number
                 var topic_config_str = facet_type.replace('-', '_');
                 var column_number = yadtf_topic_configs[topic_config_str].column;
-                var $your_selections = $('.your-selections');
+
                 if ((facet_topic.indexOf("(")) < 0) {
                   $(this).children('label').attr('title', facet_topic);
                   var selection = "<span class='facet-topic-container' title='" + facet_topic + "'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
@@ -257,16 +266,16 @@ var LocalResourcesTable;
 
             /*On Topic Facet click (select), show topic above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('div[id^="yadcf-filter-wrapper--' + wrapper_id + '-wrapper"]').find('input').click(function (e) {
-              var span_selector = 'span.facet-topic-container[title="' + $(this).next().attr('title') + '"]';
+            $('div[id^="yadcf-filter-wrapper--' + wrapperParentId + '"]').find('input').click(function (e) {
+              var $span_selector = $wrapper_parent.find('span.facet-topic-container[title="' + $(this).next().attr('title') + '"]');
               var $your_selections = $('.your-selections');
-              var visible = $your_selections.children(span_selector).is(":visible");
+              var visible = $span_selector.is(":visible");
               // show label if checked
               if (!visible) {
-                $your_selections.children(span_selector).css('display', 'inline-block');
-                $your_selections.children(span_selector).find('span').html(shorten_string($(this).next().attr('title'), 40));
+                $span_selector.css('display', 'inline-block');
+                $span_selector.find('span').html(shorten_string($(this).next().attr('title'), 40));
               } else {
-                $your_selections.children(span_selector).hide();
+                $span_selector.hide();
               }
 
             });
@@ -275,18 +284,10 @@ var LocalResourcesTable;
 
             /*On Close button click, mimick a checkbox click event.
              * */
-            $('.your-selections span.facet-topic-container a').click(function (e) {
-              /*
-               *Click event is being fired twice on a single click and creating a problem by hiding and showing or showing and hiding selections
-               * all at once. To solve this problem, check the timeStamp on the event and do not execute if current click and next click have the
-               * same timeStamp.
-               * */
-              if (sessionStorage.getItem('click_stamp_selected') != e.timeStamp) {
-                sessionStorage.setItem('click_stamp_selected', e.timeStamp);
+            $wrapper_parent.find('.your-selections span.facet-topic-container a').click(function (e) {
                 var selected_selection = $(this).parent().attr('title');
-                var selected_id = $('.multiselect-to-checkboxes ul li').find('label[title=\'' + selected_selection + '\']').attr('for');
-                simulateClick(e, $("#" + selected_id));
-              }
+                var selected_id = $wrapper_parent.find('.multiselect-to-checkboxes ul li label[title=\'' + selected_selection + '\']').attr('for');
+                simulateClick(e, $wrapper_parent.find("#" + selected_id));
             });
 
             function shorten_string(str, max_len) {
@@ -326,7 +327,7 @@ var LocalResourcesTable;
 
           }
           else {
-            $wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>');
+            $table_wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>');
           }
 
           cached = true;
@@ -337,7 +338,7 @@ var LocalResourcesTable;
     this.showTable = function () {
       if (!cached)
         this.ajax_request();
-      $wrapper.show();
+      $table_wrapper.show();
     };
     this.updateTopics = function (values, from_embedded_topics) {
       this.topics = values;

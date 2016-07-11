@@ -59,10 +59,10 @@ var manage_components_title = "Manage My Profile Topics";
     var $body = $('body');
     var guest_user = Drupal.settings.is_guest;
 
-    all_local_resources_table = new LocalResourcesTable($("#all-local-resources"), 'generateAllLocalResourcesTable');
+    all_local_resources_table = new LocalResourcesTable($("#all-local-resources"), 'generateAllLocalResourcesTable', 'all');
     // Guest user can only view all the content, so they do not have tabs
     if (!guest_user) {
-      favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"), 'generateUserLocalResourcesTable');
+      favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"), 'generateUserLocalResourcesTable', 'my');
 
       var $tabs = $("#local-resources-tabs");
       $tabs.tabs();
@@ -115,6 +115,7 @@ var manage_components_title = "Manage My Profile Topics";
     $body.on('click', '#restrict-to-local-resources-button', function () {
       updateDropdown($('#user-lgc-topics-small-view'));
     });
+
 
     // Toggle sidebar expanded / collapsed view
     $body.on('click', '#local-resources-tabs .faceted-filters .toggle a', function(ev) {

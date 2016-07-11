@@ -185,7 +185,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
             </a>
           </div>
         </div>
-        <div class="your-selections facets-expanded">Your selections:</div>
+        <div class="your-selections facets-expanded all-resources">Your selections:</div>
       </div>
       <div id="all-local-resources"></div>
     </div>
@@ -295,13 +295,12 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
               </a>
             </div>
           </div>
-          <div class="your-selections facets-expanded">Your selections:</div>
+          <div class="your-selections my-resources facets-expanded">Your selections:</div>
         </div>
         <div id="user-local-resources"></div>
       </div>
     </div>
-  <?php endif;
-  ?>
+  <?php endif;?>
 
 </div>
 
