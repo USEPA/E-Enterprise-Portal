@@ -10,6 +10,5 @@ sites/*/private
 sites/all/themes/*/.sass-cache
 sites/all/themes/*/.sass-cache
 .htaccess
-Gemfile
 
 

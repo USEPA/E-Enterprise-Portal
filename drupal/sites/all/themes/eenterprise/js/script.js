@@ -198,8 +198,6 @@
     attach: function(context) {
       var page_name = window.location.pathname.split('/')[1];
       if (page_name == "workbench") {
-
-
         $('body').once(function() {
           var previous_grid_settings;
           var cellHeight = 10;
@@ -236,7 +234,6 @@
             if (Drupal.settings.is_guest) {
               grid.movable('.grid-stack-item', false);
             }
-
           }
 
           function addDragListeners($grid_container, $grid_change_options) {
@@ -316,7 +313,6 @@
             });
           }
 
-
           function addResizeSensors(grid) {
             if (typeof ResizeSensor !== 'undefined') {
               new ResizeSensor(jQuery('.grid-stack-item'), _.debounce(function() {
@@ -382,7 +378,6 @@
             previous_grid_settings = serialized_data(grid);
           }
 
-
           function loadUserIndices(grid) {
             var serialization;
             $.ajax({
@@ -436,15 +431,12 @@
             }, grid);
           }
 
-
           createGrid();
-
 
         });
       }
-
     }
-  }
+  };
 
   Drupal.behaviors.initalizeTooltips = {
     attach: function(context) {
