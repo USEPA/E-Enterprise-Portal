@@ -43,6 +43,7 @@
             click: function() {
               $('#dialog-all-locations').dialog('close');
               $('body').removeClass('modal-open');
+              $('#location-select').focus();
             }  
           }
         ]
@@ -95,9 +96,9 @@
             $('#dialog-all-locations').animate({
               scrollTop: radioInput.position().top
             }, 1500);
-            radioInput.focus();
           }
         });
+        $('#dialog-all-locations').parent().focus();
       }
       else {
         previous_selection = $('#location-select option:selected');

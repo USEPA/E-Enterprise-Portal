@@ -35,18 +35,17 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/VillageGree
 drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js", "file");
 ?>
 
-    <script type="text/javascript">
-        (function() {
-            if (!window.VG) {
-                window.VG = {}
-            }
-
-            VG.config = {
-                baseUrl : ""
-            };
-        })();
-
-    </script>
+<script type="text/javascript">
+    (function() {
+        if (!window.VG) {
+            window.VG = {}
+        }
+    
+        VG.config = {
+            baseUrl : ""
+        };
+    })();
+</script>
 
 <div id="village-green" class="view-content">
 	<p class="widget-note">Updated every minute via <a target="_blank" href="http://villagegreen.airnowtech.org/">Village Green</a></p>
@@ -68,19 +67,20 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
 	      <span aria-labelledby="vg-obsdatelabel" class="currentObsDate"></span>
 	    </div>
 	    <div class="usa-width-one-half">
-	    	<span class="aria-label" id="vg-countdown-label" for="vg-progressbar">Update in</span>
-	    	<div aria-labelledby="vg-countdown-label" class="active village-green-countdown" aria-label="Updates every minute"><span class="countdownContainer"></span></div>
+    	    <span class="sr-only">Updates every 60 seconds</span>
+	    	<span class="aria-label" id="vg-countdown-label" aria-hidden="true">Update in</span>
+	    	<div class="active village-green-countdown" aria-hidden="true"><span class="countdownContainer"></span></div>
 			</div>
 	  </div>
 </div>
 <div class="usa-grid-full vg-numbers-container">
-	<span class="sr-only" aria-describedby="currentSiteID">Air station readings</span>
-  <ul class="vg-numbers" id="vg-city-numbers" aria-live="polite">
+  <span class="sr-only" aria-describedby="currentSiteID">Air station readings</span>
+  <ul class="vg-numbers" id="vg-city-numbers" aria-live="off">
       <li><h4 id="temp-label" aria-describedby="currentSiteID">Temp</h4><p aria-labelledby="temp-label"><span class="curTempReading">0</span> <span class="vg-units" id="temp-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Degrees fahrenheit">&deg; F</abbr></span></p></li>
       <li><h4 id="humid-label" aria-describedby="currentSiteID">Humidity</h4><p aria-labelledby="humid-label"><span class="curHumidReading">0</span> <span class="vg-units" id="humid-units">%</span></p></li>
-      <li><h4 id="wind-label" aria-describedby="currentSiteID">Wind</h4><p aria-labelledby="wind-label"><span class="curWSReading">0</span> <abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Wind Direction" class="curWDReading"></abbr><span class="vg-units" id="wind-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Miles per hour">mph</abbr></span></p></li>
+      <li><h4 id="wind-label" aria-describedby="currentSiteID">Wind</h4><p aria-labelledby="wind-label"><span class="curWSReading">0</span> <abbr class="ee-bootstrap-tooltip curWDReading" data-toggle="tooltip" data-placement="bottom" title="Wind Direction"></abbr><span class="vg-units" id="wind-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Miles per hour">mph</abbr></span></p></li>
       <li><h4 id="ozone-label" aria-describedby="currentSiteID">Ozone</h4><p aria-labelledby="ozone-label"><span class="curOzoneReading">0</span> <span class="vg-units" id="ozone-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Parts per billion">ppb</abbr></span></p></li>
-      <li><h4 id="pm-label">PM<sub>2.5<sub></h4><p aria-labelledby="pm-label"><span class="curPMReading">0</span><span class="vg-units" id="pm-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Micrograms per cubic meter">&mu;g/m<sup>3</sup></abbr></span></p></li>
+      <li><h4 id="pm-label">PM<sub>2.5</sub></h4><p aria-labelledby="pm-label"><span class="curPMReading">0</span><span class="vg-units" id="pm-units"><abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="bottom" title="Micrograms per cubic meter">&mu;g/m<sup>3</sup></abbr></span></p></li>
   </ul>
 </div>
 </div>

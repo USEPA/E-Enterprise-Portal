@@ -6,23 +6,21 @@
 
       // handle form submission to clear status messages on submit
       // this prevents duplicate status messages from appearing
-      var $form = $('div.ctools-modal-content form');
+      var $form = $('div.ctools-modal-content form'),
+          $body = $('body');
 
       $form.submit(function(){
         $('div.messages--status').remove();
-        $('body').removeClass('modal-open');
+        $body.removeClass('modal-open');
       });
       
       $("#modalContent").on("remove", function () {
-        $('body').removeClass('modal-open');
+        $body.removeClass('modal-open');
       });
 
       // focus modal
-      var formInput = $('div.ctools-modal-content button,div.ctools-modal-content select,div.ctools-modal-content input:enabled')[0];
-      if (formInput) {
-        formInput.focus();
-      }
-
+      $('.ctools-modal-content').focus();
+      
       // if exclude email is checked, clear the value in the email input form
       // if unchecked, restore the value
       var email;
@@ -41,15 +39,14 @@
 
       $excludeEmailCheckbox.trigger('change');
       
-			var text_max = 800;
-			$('#message-count').html(text_max + ' characters remaining');
-			
-			$('#edit-body').keyup(function() {
-				var text_length = $('#edit-body').val().length;
-				var text_remaining = text_max - text_length;
-				
-				$('#message-count').html(text_remaining + ' characters remaining');
-			});
+      var text_max = 800;
+      $('#message-count').html(text_max + ' characters remaining');
+
+      $('#edit-body').keyup(function() {
+        var text_length = $('#edit-body').val().length;
+        var text_remaining = text_max - text_length;
+        $('#message-count').html(text_remaining + ' characters remaining');
+      });
     }
   }
 })(jQuery);

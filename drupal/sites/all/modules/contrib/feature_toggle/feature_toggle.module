@@ -1,0 +1,110 @@
+<?php
+
+/**
+ * @file
+ * module file
+ *
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function feature_toggle_permission() {
+  return array(
+    'toggle feature' =>  array(
+      'title' => t('Toggle Feature'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function feature_toggle_menu() {
+  $items['admin/features/toggle'] = array(
+    'title' => 'Feature toggle',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('feature_toggle_manage_form'),
+    'access arguments' => array('toggle feature'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function feature_toggle_manage_form($form, &$form_state) {
+  $form = array();
+  $feature_flags_var = variable_get('feature_flags', array());
+  $feature_flags = array();
+  foreach ($feature_flags_var as $key => $value){
+    $feature_flags[] = array('key' => $key, 'feature_name' => $value['name']);
+  }
+  
+  // getting status from variable to show default checkbox options in the form
+  $feature_flags_status_var = variable_get('feature_flags_status', array());
+  $enabled_feature_flags = array();
+  foreach ($feature_flags_status_var as $key => $value){
+    $enabled_feature_flags[$key] = 1;
+  }
+
+  $header = array(
+    'feature_name' => t('Feature'),
+  );
+  $options = array();
+  foreach ($feature_flags as $user) {
+    $options[$user['key']] =array(
+      'feature_name' => $user['feature_name'],
+    );
+  }
+  $form['table'] = array(
+    '#type' => 'tableselect',
+    '#header' => $header,
+    '#options' => $options,
+    '#empty' => t('No features found'),
+    '#default_value' => $enabled_feature_flags,
+  );
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+
+  return $form;
+}
+
+function feature_toggle_manage_form_submit($form, &$form_state) {
+  $all_feature_flags_status = array_filter($form_state['values']['table']);
+  $old_feature_flags_status = variable_get('feature_flags_status', array());
+  $disabled_features = array_diff($old_feature_flags_status, $all_feature_flags_status);
+  $enabled_features = array_diff($all_feature_flags_status, $old_feature_flags_status);
+  //Setting status in variable
+  variable_set('feature_flags_status', $all_feature_flags_status);
+  // run hooks to enable or disable modules, features
+  foreach ($enabled_features as $key => $value){
+    // will call all modules implementing hook_feature_toggle_<feature-name>_enable
+    module_invoke_all("feature_toggle_{$key}_enable");
+  }
+  foreach ($disabled_features as $key => $value){
+    // will call all modules implementing hook_feature_toggle_<feature-name>_disable
+    module_invoke_all("feature_toggle_{$key}_disable");
+  }
+}
+
+/**
+ * Implements hook_page_build().
+ */
+function feature_toggle_page_build(&$page) {
+  $feature_flags_status = variable_get('feature_flags_status', array());
+  $js_settings = array(
+    'ft_enabled_features' => $feature_flags_status,
+  );
+  /*
+   * This global variable is accessible through 
+   * Drupal.settings.ft_enabled_features
+   * Example: 
+   *   if(Drupal.settings.ft_enabled_features["feature_name"]){ 
+   *     alert("Yes. Feature is enabled"); 
+   *   }
+   */
+  drupal_add_js($js_settings, 'setting');
+}
+
+// EOF

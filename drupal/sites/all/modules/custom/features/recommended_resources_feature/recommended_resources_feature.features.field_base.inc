@@ -10,7 +10,7 @@
 function recommended_resources_feature_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_lgc_availability'
+  // Exported field_base: 'field_lgc_availability'.
   $field_bases['field_lgc_availability'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -36,7 +36,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_lgc_category'
+  // Exported field_base: 'field_lgc_category'.
   $field_bases['field_lgc_category'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -63,7 +63,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_lgc_comments'
+  // Exported field_base: 'field_lgc_comments'.
   $field_bases['field_lgc_comments'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -84,7 +84,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_lgc_data_requirements'
+  // Exported field_base: 'field_lgc_data_requirements'.
   $field_bases['field_lgc_data_requirements'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -111,7 +111,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_lgc_description'
+  // Exported field_base: 'field_lgc_description'.
   $field_bases['field_lgc_description'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -132,7 +132,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_lgc_ease_of_use'
+  // Exported field_base: 'field_lgc_ease_of_use'.
   $field_bases['field_lgc_ease_of_use'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -159,7 +159,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_lgc_id'
+  // Exported field_base: 'field_lgc_id'.
   $field_bases['field_lgc_id'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -181,7 +181,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_lgc_link'
+  // Exported field_base: 'field_lgc_link'.
   $field_bases['field_lgc_link'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -203,7 +203,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_lgc_recommendation'
+  // Exported field_base: 'field_lgc_recommendation'.
   $field_bases['field_lgc_recommendation'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -230,7 +230,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_lgc_relevance'
+  // Exported field_base: 'field_lgc_relevance'.
   $field_bases['field_lgc_relevance'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -257,7 +257,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_lgc_title'
+  // Exported field_base: 'field_lgc_title'.
   $field_bases['field_lgc_title'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -278,7 +278,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_lgc_topic'
+  // Exported field_base: 'field_lgc_topic'.
   $field_bases['field_lgc_topic'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -305,7 +305,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_lgc_training_level'
+  // Exported field_base: 'field_lgc_training_level'.
   $field_bases['field_lgc_training_level'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -332,7 +332,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_lgc_update_frequently'
+  // Exported field_base: 'field_lgc_update_frequently'.
   $field_bases['field_lgc_update_frequently'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -354,7 +354,7 @@ function recommended_resources_feature_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_tool_type'
+  // Exported field_base: 'field_tool_type'.
   $field_bases['field_tool_type'] = array(
     'active' => 1,
     'cardinality' => -1,

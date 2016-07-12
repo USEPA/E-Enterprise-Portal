@@ -27,15 +27,14 @@ function updateDropdown($wrapper) {
 
 (function ($) {
 
-
   $('#user-lgc-topics-small-view').ready(function () {
-
 
     $('body').on('click', '#user-lgc-topics-small-view .drop-down-arrow.hidden', function () {
 
       $(this)
         .removeClass('hidden')
         .addClass('revealed');
+      $('#user-lgc-topics-small-view').removeClass('topics-collapsed');
       $('#user-lgc-topics-small-view').animate({height: auto_height}, 200);
     });
 
@@ -43,6 +42,7 @@ function updateDropdown($wrapper) {
       $(this)
         .removeClass('revealed')
         .addClass('hidden');
+      $('#user-lgc-topics-small-view').addClass('topics-collapsed');  
       $('#user-lgc-topics-small-view').animate({height: orig_height}, 200);
     });
 
@@ -54,6 +54,5 @@ function updateDropdown($wrapper) {
     });
 
   });
-
 
 })(jQuery);

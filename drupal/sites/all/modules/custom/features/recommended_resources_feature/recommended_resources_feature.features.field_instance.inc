@@ -10,7 +10,7 @@
 function recommended_resources_feature_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_availability'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_availability'.
   $field_instances['node-lgc_resource-field_lgc_availability'] = array(
     'bundle' => 'lgc_resource',
     'default_value' => NULL,
@@ -48,7 +48,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_category'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_category'.
   $field_instances['node-lgc_resource-field_lgc_category'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -92,7 +92,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_comments'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_comments'.
   $field_instances['node-lgc_resource-field_lgc_comments'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -136,7 +136,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_data_requirements'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_data_requirements'.
   $field_instances['node-lgc_resource-field_lgc_data_requirements'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -177,7 +177,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_description'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_description'.
   $field_instances['node-lgc_resource-field_lgc_description'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -221,7 +221,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_ease_of_use'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_ease_of_use'.
   $field_instances['node-lgc_resource-field_lgc_ease_of_use'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -262,7 +262,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_id'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_id'.
   $field_instances['node-lgc_resource-field_lgc_id'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -306,7 +306,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_link'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_link'.
   $field_instances['node-lgc_resource-field_lgc_link'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -350,7 +350,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_recommendation'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_recommendation'.
   $field_instances['node-lgc_resource-field_lgc_recommendation'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -391,7 +391,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_relevance'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_relevance'.
   $field_instances['node-lgc_resource-field_lgc_relevance'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -435,7 +435,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_title'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_title'.
   $field_instances['node-lgc_resource-field_lgc_title'] = array(
     'bundle' => 'lgc_resource',
     'default_value' => NULL,
@@ -476,7 +476,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_topic'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_topic'.
   $field_instances['node-lgc_resource-field_lgc_topic'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -520,7 +520,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_training_level'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_training_level'.
   $field_instances['node-lgc_resource-field_lgc_training_level'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -561,7 +561,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_lgc_update_frequently'
+  // Exported field_instance: 'node-lgc_resource-field_lgc_update_frequently'.
   $field_instances['node-lgc_resource-field_lgc_update_frequently'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
@@ -605,7 +605,7 @@ function recommended_resources_feature_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-lgc_resource-field_tool_type'
+  // Exported field_instance: 'node-lgc_resource-field_tool_type'.
   $field_instances['node-lgc_resource-field_tool_type'] = array(
     'bundle' => 'lgc_resource',
     'custom_add_another' => '',
