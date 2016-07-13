@@ -32,7 +32,9 @@ drupal_add_css('//js.arcgis.com/3.13/esri/css/esri.css', 'external');
 drupal_add_css('//js.arcgis.com/3.13/esri/css/esri.css', 'external');
 
 // Set load to JS_THEME because this needs to be loaded with themes items after libraries have been loaded
-drupal_add_js('http://js.arcgis.com/3.13/', array('type'=>'external', 'group' => JS_THEME));
+?>
+<script src="//js.arcgis.com/3.13/"></script>
+<?php
 drupal_add_css( $cdx_facility_source .  '/ContentFramework/FRS%20Widget/FacilityManagementStyles.css', 'external');
 ?>
 
