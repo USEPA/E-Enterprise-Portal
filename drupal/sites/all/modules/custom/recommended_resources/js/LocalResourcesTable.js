@@ -88,7 +88,7 @@ var LocalResourcesTable;
       },
       "pagingType": "simple",
       "dom": 'iftp',
-      "fnDrawCallback": function () {
+      "fnDrawCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         var pageInfo = this.fnPagingInfo();
         var pageNo = pageInfo.iPage + 1;
         var totalPages = pageInfo.iTotalPages + 1;
@@ -100,6 +100,14 @@ var LocalResourcesTable;
             .html(pageNo + ' of ' + totalPages);
           $table_wrapper.find('.dataTables_paginate li:first').after($current_li);
         }
+        // Add needed classes
+        console.log('fnDrawCallback', nRow, aData, iDisplayIndex, iDisplayIndexFull,$('td', nRow.nTable))
+        $('td:first-child', nRow.nTable).addClass( "resource-title" );
+        $('td:nth-child(2)', nRow.nTable).addClass( "resource-info" );
+        $('td:nth-child(3)', nRow.nTable).addClass( "resource-source" ).attr('data-title', 'Source');
+        $('td:nth-child(4)', nRow.nTable).addClass( "resource-topic" ).attr('data-title', 'Topic');
+        $('td:nth-child(5)', nRow.nTable).addClass( "resource-category" ).attr('data-title', 'Category');
+        //$('td:eq(1),td:eq(2),td:eq(3)', nRow).addClass( "avo-light" );
       },
       // hide the following columns, they are only used for faceted filtering
       "columnDefs": [
