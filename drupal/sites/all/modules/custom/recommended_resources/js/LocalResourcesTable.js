@@ -130,7 +130,7 @@ var LocalResourcesTable;
           }
           // Need to clear and freeze the filters while loading
           $userFilters.prop('checked', false).prop('disabled', true);
-          $('#user-local-resources-wrapper .your-selections .facet-topic-container').hide();
+          $('#user-local-resources-wrapper').find('.your-selections .facet-topic-container').hide();
         },
         url: ajax_url,
         method: "POST",
