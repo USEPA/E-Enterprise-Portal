@@ -53,7 +53,6 @@ var yadtf_topic_configs = {
     } else {
       $.error('Method ' + method + ' does not exist on jQuery.multiSelectToCheckboxes');
     }
-
   };
 
 })(jQuery);
@@ -119,7 +118,8 @@ var LocalResourcesTable;
     };
 
     this.ajax_request = function (from_embedded_topics) {
-      var topics = this.topics;
+      var topics = this.topics,
+          $userFilters = $('#user-local-resources-wrapper').find('[id^=_yadcf-filter]');
       $.ajax({
         beforeSend: function () {
           var $table = $table_wrapper.find('.view-content');
@@ -128,6 +128,9 @@ var LocalResourcesTable;
           } else {
             $table_wrapper.html('<p>Loading&hellip;</p>');
           }
+          // Need to clear and freeze the filters while loading
+          $userFilters.prop('checked', false).prop('disabled', true);
+          $('#user-local-resources-wrapper').find('.your-selections .facet-topic-container').hide();
         },
         url: ajax_url,
         method: "POST",
@@ -225,6 +228,7 @@ var LocalResourcesTable;
 
             var your_selections = $('.your-selections');
             if (your_selections.find('.selection-lbl').length == 0) {
+
               var selection_lbl = "<div class='selection-lbl'>" + your_selections.html() + "</div>";
               your_selections.html(selection_lbl);
             }
@@ -281,7 +285,6 @@ var LocalResourcesTable;
             });
 
 
-
             /*On Close button click, mimick a checkbox click event.
              * */
             $wrapper_parent.find('.your-selections span.facet-topic-container a').click(function (e) {
@@ -314,7 +317,6 @@ var LocalResourcesTable;
               }
             }
 
-
             // Click handler for clicking 'i' icon - show modal
             // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
             $('#local-resources-tabs').on('click', 'td.views-field-nothing a', function (ev) {
@@ -329,6 +331,9 @@ var LocalResourcesTable;
           else {
             $table_wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>');
           }
+
+          // Unfreeze filters
+          $userFilters.prop('disabled', false);
 
           cached = true;
         }
