@@ -290,7 +290,9 @@ var LocalResourcesTable;
             });
 
 
-            /*On Close button click, mimick a checkbox click event.
+            /* On Close button click, mimic a checkbox click event. After modifying the "My Profile Topics" there is a
+             * chance the close button can have multiply click events added to fake a click on the checkbox.  When an
+             * even number of listeners are created, the button appears to fail.
              * */
             $wrapper_parent.find('.your-selections span.facet-topic-container a').unbind('click').click(function (e) {
               var selected_selection = $(this).parent().attr('title');
