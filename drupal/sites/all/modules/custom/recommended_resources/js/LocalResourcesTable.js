@@ -277,17 +277,18 @@ var LocalResourcesTable;
               } else {
                 $span_selector.hide();
               }
-
             });
 
 
 
             /*On Close button click, mimick a checkbox click event.
              * */
-            $wrapper_parent.find('.your-selections span.facet-topic-container a').click(function (e) {
-                var selected_selection = $(this).parent().attr('title');
-                var selected_id = $wrapper_parent.find('.multiselect-to-checkboxes ul li label[title=\'' + selected_selection + '\']').attr('for');
-                simulateClick(e, $wrapper_parent.find("#" + selected_id));
+            $wrapper_parent.find('.your-selections span.facet-topic-container a').unbind('click').click(function (e) {
+              var selected_selection = $(this).parent().attr('title');
+              var selected_id = $wrapper_parent.find('.multiselect-to-checkboxes ul li label[title=\'' + selected_selection + '\']').attr('for');
+              simulateClick(e, $wrapper_parent.find("#" + selected_id));
+              console.log(this, e, selected_selection, selected_id, $wrapper_parent)
+              //$wrapper_parent.find("#" + selected_id).trigger('click')
             });
 
             function shorten_string(str, max_len) {
@@ -302,14 +303,19 @@ var LocalResourcesTable;
             }
 
             function simulateClick(event, obj) {
+              console.log('simulateClick', event, obj)
               if (obj.click) {
                 obj.click()
               } else if (document.createEvent) {
                 if (event.target !== obj) {
                   var evt = document.createEvent("MouseEvents");
-                  evt.initMouseEvent("click", true, true, window,
-                    0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                  var allowDefault = obj.dispatchEvent(evt);
+                  //evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                  var event = new MouseEvent('click', {
+                    'view': window,
+                    'bubbles': true,
+                    'cancelable': true
+                  });
+                  var allowDefault = obj.dispatchEvent(event);
                 }
               }
             }
