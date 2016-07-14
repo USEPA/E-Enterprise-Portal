@@ -73,6 +73,11 @@ function eenterprise_preprocess_html(&$vars) {
       elseif (is_numeric(arg(1)) && (arg(2) == 'edit' || arg(2) == 'delete')) {
         $section = 'page-node-' . arg(2);
       }
+      $page_alias = drupal_lookup_path('alias', $_GET['q'], $path_language);
+      if (($page_alias == 'eenterprise-new') || ($page_alias == 'eenterprise-alternate')) {
+        drupal_add_js( libraries_get_path('jcarousel') . '/jquery.jcarousel.min.js');
+        drupal_add_js( drupal_get_path('theme', 'eenterprise') . '/js/welcome.js');
+      }
     }
     $vars['classes_array'][] = drupal_html_class('section-' . $section);
   }
@@ -115,26 +120,26 @@ function eenterprise_process_html_tag(&$vars) {
  * Override or insert variables into the page template.
  */
 function eenterprise_preprocess_page(&$vars) {
-	$vars['title_attributes_array']['class'] = 'page-title';
-	$vars['content_language'] = language_default('language');
-	if(!empty($vars['node']->field_language['und'][0]['value'])) {
-		$vars['content_language'] = $vars['node']->field_language['und'][0]['value'];
-	}
-	
-	if(!empty($vars['node'])){
-		switch ($vars['node']->type) {
-			case 'page':
-				$menu_trail = menu_set_active_trail();
-				$active_primary_title = $menu_trail[1]['link_title'];
-				break;
-		}
-	}
-	
-	// Test for anonymous user on login page
-	if (user_is_anonymous() && arg(0) == 'user' && (arg(1) == '' || arg(1) == 'login')) {
-		$vars['classes_array'][] = ' user-login';		
-		$warning_message = variable_get('eenterprise_login_warning');	
-	}
+  $vars['title_attributes_array']['class'] = 'page-title';
+  $vars['content_language'] = language_default('language');
+  if(!empty($vars['node']->field_language['und'][0]['value'])) {
+    $vars['content_language'] = $vars['node']->field_language['und'][0]['value'];
+  }
+  
+  if(!empty($vars['node'])){
+    switch ($vars['node']->type) {
+      case 'page':
+        $menu_trail = menu_set_active_trail();
+        $active_primary_title = $menu_trail[1]['link_title'];
+        break;
+    }
+  }
+  
+  // Test for anonymous user on login page
+  if (user_is_anonymous() && arg(0) == 'user' && (arg(1) == '' || arg(1) == 'login')) {
+    $vars['classes_array'][] = ' user-login';    
+    $warning_message = variable_get('eenterprise_login_warning');  
+  }
 }
 
 /**
@@ -154,20 +159,20 @@ function eenterprise_preprocess_node(&$vars) {
   $vars['datetime'] = format_date($vars[CREATED], CUSTOM, 'c');
   $vars['date'] = format_date($vars[CREATED], CUSTOM, 'F j, Y');
   if (variable_get('node_submitted_' . $vars['node']->type, TRUE)) {
-	if ($vars['node']->type == 'ee_user_agreement') {
-		$vars['submitted'] = t('Last revised: !datetime',
-	      array(
-	        '!datetime' => '<time class="node-date" datetime="' . $vars['datetime'] . '" pubdate="pubdate">' . $vars['date'] . '</time>'
-	      )
-	    );
-	}
-	else {
-		$vars['submitted'] = t('Last updated: !datetime',
-	      array(
-	        '!datetime' => '<time class="node-date" datetime="' . $vars['datetime'] . '" pubdate="pubdate">' . $vars['date'] . '</time>'
-	      )
-	    );
-	}
+    if ($vars['node']->type == 'ee_user_agreement') {
+      $vars['submitted'] = t('Last revised: !datetime',
+          array(
+            '!datetime' => '<time class="node-date" datetime="' . $vars['datetime'] . '" pubdate="pubdate">' . $vars['date'] . '</time>'
+          )
+        );
+    }
+    else {
+      $vars['submitted'] = t('Last updated: !datetime',
+          array(
+            '!datetime' => '<time class="node-date" datetime="' . $vars['datetime'] . '" pubdate="pubdate">' . $vars['date'] . '</time>'
+          )
+        );
+    }
   }
   else {
     $vars['submitted'] = '';

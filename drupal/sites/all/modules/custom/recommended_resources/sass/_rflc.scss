@@ -1,3 +1,6 @@
+@import '../../../../themes/eenterprise/sass/core/variables';
+// Mixins
+
 // Resources for Local Communities responsive table styles
 .faceted-filters {
     width: 100%;
@@ -19,39 +22,86 @@
         }
     }
 }
+@media screen and (max-width: 30.01em), screen and (min-width: 48.01em) and (max-width: 60.01em) {
+    .faceted-filters.on {
+      width: 100%;
+    }
 
-@media screen and (min-width: 30.01em) and (max-width: 48em), screen and (min-width: 60.01em) {
-    //.faceted-filters.on {
-    //  width: 30%;
-    //}
-    //.local.resources .dataTables_wrapper, .local.resources {
-    //&.toggle-open {
-    //    .left + .left {
-    //        width: 65%;
-    //    }
-    //}
-    .toggle-closed {
-        .views-field {
-            &.views-field-value-3, &.views-field-value-4 {
-                display: table-cell;
+    .local.resources {
+        &.toggle-open {
+            .left + .left {
+                width: 100%;
             }
         }
     }
 
-}
-/*
-@media screen and (min-width: 30.01em) and (max-width: 48em) {
-  .views-field {
-    &.views-field-value-3, &.views-field-value-4 {
-      display: table-cell;
+    .view-lgc-resources {
+        .responsive-table {
+            margin-top: 1em;
+            clear: both;
+            thead {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                margin: -1px;
+                padding: 0;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                border: 0;
+            }
+            tbody,
+            tr,
+            th,
+            td {
+                display: block;
+                white-space: normal;
+                padding: 1rem 0.5rem;
+            }
+            th,
+            td {
+                vertical-align: top;
+            }
+            tr {
+                position: relative;
+                &.odd,
+                &.even {
+                    background-color: $color-white;
+                }
+            }
+            tbody {
+                tr:last-of-type {
+                    margin-bottom: 0;
+                }
+                td[data-title]:before {
+                    width: 5em;
+                    content: attr(data-title);
+                    position: absolute;
+                    left: 1em;
+                    font-size: 1.1rem;
+                    line-height: 1.8rem;
+                    color: $color-gray-dark;
+                }
+                td[data-title] {
+                    padding-left: 5.5em;
+                }
+                td.resource-title {
+                    padding-left: 2.5em;
+                    background-color: $color-gray-lightest;
+                    border-left: 1px solid $color-gray-light;
+                    border-right: 1px solid $color-gray-light;
+                }
+                td.resource-info {
+                    background-color: transparent;
+                    border: none;
+                    position: absolute;
+                    top: 0;
+                    margin-top: 0.9em;
+                    margin-left: 0.5em;
+                }
+                td {
+                    border-bottom: none;
+                }
+            }
+        }
     }
-  }
 }
-@media screen and (min-width: 72.01em) {
-  .views-field {
-    &.views-field-value-3, &.views-field-value-4 {
-      display: table-cell;
-    }
-  }
-}*/
-
