@@ -4101,13 +4101,13 @@ input#location-input-guests::-ms-clear {
     /* Suggestion Box / Questions modal */
     body.modal-open {
         overflow: hidden;
+        overflow-y: visible;
         width: 100%;
     }
     #modalBackdrop {
         max-width: 100% !important;
     }
     #modalContent {
-        overflow-y: scroll;
         max-width: 97% !important;
         div.ctools-modal-content {
             .resizable-textarea {

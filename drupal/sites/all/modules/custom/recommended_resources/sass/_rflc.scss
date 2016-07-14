@@ -105,3 +105,12 @@
         }
     }
 }
+@media screen and (min-width: 60.01em) and (max-width: 72.0em){
+    .responsive-table {
+        .views-field {
+            &.views-field-value-3, &.views-field-value-4 {
+                display: none;
+            }
+        }
+    }
+}

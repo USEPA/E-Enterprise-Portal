@@ -124,14 +124,14 @@ var manage_components_title = "Manage My Profile Topics";
       $localResources.find('.faceted-filters').toggle();
       $localResources.toggleClass('toggle-open toggle-closed');
       // expose/remove extra columns, resize, and redraw datetable
-      var $table = $localResources.find('table');
+      /*var $table = $localResources.find('table');
       var datatable = $table.DataTable();
       if ($(this).parents('.faceted-filters').hasClass('on')) {
         datatable.columns([3, 4]).visible(true, false);
       } else {
         datatable.columns([3, 4]).visible(false, false);
       }
-      datatable.columns.adjust().draw(false); // adjust column sizing and redraw
+      datatable.columns.adjust().draw(false); // adjust column sizing and redraw*/
     });
 
     // Toggle facet expanded / collapsed view

@@ -401,3 +401,9 @@ Truncate    text
     border-bottom: none;
   }
 }
+@media screen and (min-width: 60.01em) and (max-width: 72em) {
+  /* line 111, ../sass/_rflc.scss */
+  .responsive-table .views-field.views-field-value-3, .responsive-table .views-field.views-field-value-4 {
+    display: none;
+  }
+}
