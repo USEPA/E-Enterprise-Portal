@@ -12,7 +12,7 @@
  */
 module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
 ?>
-<?php if (feature_toggle_get_status('use_new_method_for_cdx_js')):?>
+<?php if (feature_toggle_get_status('use_new_method_for_cdx_js')): ?>
 
   <?php
   drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", "file");
@@ -24,10 +24,10 @@ module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
   drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/jquery.validate1.12.0.js', 'file');
   drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/ElementGroupDisplay.js', 'external');
 
-  drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/jquery-fancybox/jquery.fancybox.css", "file");
+  drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/jquery-fancybox/jquery.fancybox.css", array('type'=> 'file', 'group' => CSS_SYSTEM));
+
   drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/jquery.blockUI.1.7.js', 'file');
   drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/handlebars-v3.0.3.js', 'file');
-
 
 
 // Mapping scripts
@@ -71,27 +71,13 @@ module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
   drupal_add_library('system', 'ui.accordion');
 
   $cdx_facility_source = variable_get('cdx_facility_resource_url');
+  echo '<script src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/third-party/jquery.validate1.12.0.min.js"></script>';
+  echo '<script type="text/javascript" src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/ElementGroupDisplay.js"></script>';
+  echo '<link rel="stylesheet" href="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.css"/>';
+  echo '<script type="text/javascript" src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/third-party/jquery.blockUI.1.7.js"></script>';
+  echo '<script src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/third-party/HandleBars/handlebars-v3.0.3.js"></script>';
   ?>
-  <!-- Site must incorporate these files to use FacilityWidget -->
-  <!--<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>-->
 
-  <?php echo '<script src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/third-party/jquery.validate1.12.0.min.js"></script>'; ?>
-
-  <!--<script src="https://dev.epacdx.net/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.js"></script>-->
-  <?php echo '<script type="text/javascript" src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/ElementGroupDisplay.js"></script>'; ?>
-
-  <!--<link rel="stylesheet" href="../libs/jquery-ui-1.11.4.custom/jquery-ui.min.css" />-->
-  <?php echo '<link rel="stylesheet"
-      href="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/third-party/fancybox-v2/jquery.fancybox.css"/>'; ?>
-  <?php echo '<link rel="stylesheet"
-      href="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/css/font-awesome-4.0.3/css/font-awesome.min.css"/>'; ?>
-
-  <!--<link rel="stylesheet" href="https://dev.epacdx.net/ContentFramework/v3/css/s.css"></link>	-->
-  <?php echo '<script type="text/javascript" src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/third-party/jquery.blockUI.1.7.js"></script>'; ?>
-  <?php echo '<script src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/third-party/HandleBars/handlebars-v3.0.3.js"></script>'; ?>
-
-
-  <!-- Below is mapping stuff -->
   <link rel="stylesheet"
         href="https://js.arcgis.com/3.13/dijit/themes/claro/claro.css"/>
   <link rel="stylesheet" href="https://js.arcgis.com/3.13/esri/css/esri.css"/>
@@ -103,10 +89,13 @@ module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
   <?php echo '<link rel="stylesheet" href="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/FacilityManagementStyles-ie8.css">';?>
   <![endif]-->
 
-  <?php echo '<script src="' . $cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementTemplates.min.js"></script>'; ?>
-  <?php echo '<script src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js"></script>'; ?>
+  <?php
+  echo '<script src="' . $cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementTemplates.min.js"></script>';
+  echo '<script src="' . str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js"></script>';
+  ?>
 
 <?php endif;// End feature toggle ?>
+
 <div id="cdx-logged-in-options">
   <div id="facility-widget" style="max-width:1363px;"></div>
   <p class="widget-note">Use of facility widget is subject to CDX <a

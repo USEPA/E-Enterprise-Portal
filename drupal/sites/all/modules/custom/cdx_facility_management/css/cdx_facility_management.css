@@ -236,6 +236,12 @@
     outline: 0;
 }
 
+#edit-facility-state {
+  padding: 0rem 1rem;
+  height: 42px;
+  margin-right: 2%;
+}
+
 
 /* End Facility Manager pagination */
 
