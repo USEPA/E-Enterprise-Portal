@@ -3562,34 +3562,31 @@ a.usa-button.btn-social.btn-wam {
     }
 }
 
-
-.fa {
-    display: inline-block;
-    font-family: $font-sans;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+.clear-before {
     &:before {
         content: none;
     }
 }
 
+
 .fa-lg {
     font-size: 1.33333333em;
     line-height: 0.75em;
     vertical-align: -15%;
+    @extend .clear-before;
 }
 
 .fa-twitter {
     background: transparent url('../images/white/twitter.svg') no-repeat 50% 50%;
     background-size: 2.5rem, contain;
+    @extend .clear-before;
 }
 
 .fa-facebook {
     background: transparent url('../images/white/facebook-f.svg') no-repeat 50% 50%;
     background-size: 2.5rem, contain;
     padding-top: 0;
+    @extend .clear-before;
 }
 
 .fa-github:before {
@@ -3618,17 +3615,13 @@ a.usa-button.btn-social.btn-wam {
     background-color: transparent;
     width: 2rem;
     height: 2rem;
-    &:before {
-        content: none;
-    }
+    @extend .clear-before;
 }
 
 .view-to-do,
 .view-progress-tracker {
     .fa-refresh {
-        &:before {
-            content: none;
-        }
+        @extend .clear-before;
     }
 }
 
@@ -3637,6 +3630,7 @@ a.usa-button.btn-social.btn-wam {
     &:hover {
         background-image: url('../images/green/refresh-hover.svg');
     }
+    @extend .clear-before;
 }
 
 .fa-star-o {
@@ -3644,17 +3638,20 @@ a.usa-button.btn-social.btn-wam {
     &:hover {
         background-image: url('../images/gray/star-o-hover.svg');    
     }
+    @extend .clear-before;
 }
 
 .fa-star {
     background-image: url('../images/red/star.svg');
     &:hover {
         background-image: url('../images/red/star-hover.svg');    
-    }  
+    }
+    @extend .clear-before;
 }
 
 .fa-home {
     background-image: url('../images/white/home.svg');
+    @extend .clear-before;
 }
 
 td.has-error {
