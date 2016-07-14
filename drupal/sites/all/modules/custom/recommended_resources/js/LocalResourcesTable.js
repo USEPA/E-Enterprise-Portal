@@ -53,7 +53,6 @@ var yadtf_topic_configs = {
     } else {
       $.error('Method ' + method + ' does not exist on jQuery.multiSelectToCheckboxes');
     }
-
   };
 
 })(jQuery);
@@ -88,7 +87,7 @@ var LocalResourcesTable;
       },
       "pagingType": "simple",
       "dom": 'iftp',
-      "fnDrawCallback": function () {
+      "fnDrawCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         var pageInfo = this.fnPagingInfo();
         var pageNo = pageInfo.iPage + 1;
         var totalPages = pageInfo.iTotalPages + 1;
@@ -100,6 +99,12 @@ var LocalResourcesTable;
             .html(pageNo + ' of ' + totalPages);
           $table_wrapper.find('.dataTables_paginate li:first').after($current_li);
         }
+        // Add needed classes after the table is rendered
+        $('td:first-child', nRow.nTable).addClass( "resource-title" );
+        $('td:nth-child(2)', nRow.nTable).addClass( "resource-info" );
+        $('td:nth-child(3)', nRow.nTable).addClass( "resource-source" ).attr('data-title', 'Source');
+        $('td:nth-child(4)', nRow.nTable).addClass( "resource-topic" ).attr('data-title', 'Topic');
+        $('td:nth-child(5)', nRow.nTable).addClass( "resource-category" ).attr('data-title', 'Category');
       },
       // hide the following columns, they are only used for faceted filtering
       "columnDefs": [
@@ -119,7 +124,8 @@ var LocalResourcesTable;
     };
 
     this.ajax_request = function (from_embedded_topics) {
-      var topics = this.topics;
+      var topics = this.topics,
+          $userFilters = $('#user-local-resources-wrapper').find('[id^=_yadcf-filter]');
       $.ajax({
         beforeSend: function () {
           var $table = $table_wrapper.find('.view-content');
@@ -128,6 +134,9 @@ var LocalResourcesTable;
           } else {
             $table_wrapper.html('<p>Loading&hellip;</p>');
           }
+          // Need to clear and freeze the filters while loading
+          $userFilters.prop('checked', false).prop('disabled', true);
+          $('#user-local-resources-wrapper').find('.your-selections .facet-topic-container').hide();
         },
         url: ajax_url,
         method: "POST",
@@ -225,6 +234,7 @@ var LocalResourcesTable;
 
             var your_selections = $('.your-selections');
             if (your_selections.find('.selection-lbl').length == 0) {
+
               var selection_lbl = "<div class='selection-lbl'>" + your_selections.html() + "</div>";
               your_selections.html(selection_lbl);
             }
@@ -280,7 +290,6 @@ var LocalResourcesTable;
             });
 
 
-
             /*On Close button click, mimick a checkbox click event.
              * */
             $wrapper_parent.find('.your-selections span.facet-topic-container a').unbind('click').click(function (e) {
@@ -320,7 +329,6 @@ var LocalResourcesTable;
               }
             }
 
-
             // Click handler for clicking 'i' icon - show modal
             // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
             $('#local-resources-tabs').on('click', 'td.views-field-nothing a', function (ev) {
@@ -335,6 +343,9 @@ var LocalResourcesTable;
           else {
             $table_wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>');
           }
+
+          // Unfreeze filters
+          $userFilters.prop('disabled', false);
 
           cached = true;
         }

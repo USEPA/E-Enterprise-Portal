@@ -370,3 +370,4 @@ function cdx_facility_configurations()
     echo json_encode($configs);
     exit();
 }
+

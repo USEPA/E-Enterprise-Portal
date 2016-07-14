@@ -294,43 +294,110 @@ Truncate    text
   margin-bottom: 10px;
 }
 
-/* line 2, ../sass/_rflc.scss */
+/* line 5, ../sass/_rflc.scss */
 .faceted-filters {
   width: 100%;
 }
 
-/* line 7, ../sass/_rflc.scss */
+/* line 10, ../sass/_rflc.scss */
 .views-field.views-field-value-3, .views-field.views-field-value-4 {
   display: none;
 }
 
-/* line 13, ../sass/_rflc.scss */
+/* line 16, ../sass/_rflc.scss */
 .local.resources .left + .left {
   width: 100%;
 }
-/* line 17, ../sass/_rflc.scss */
+/* line 20, ../sass/_rflc.scss */
 .local.resources.toggle-open .left + .left {
   width: 65%;
 }
 
-@media screen and (min-width: 30.01em) and (max-width: 48em), screen and (min-width: 60.01em) {
-  /* line 35, ../sass/_rflc.scss */
-  .toggle-closed .views-field.views-field-value-3, .toggle-closed .views-field.views-field-value-4 {
-    display: table-cell;
+@media screen and (max-width: 30.01em), screen and (min-width: 48.01em) and (max-width: 60.01em) {
+  /* line 26, ../sass/_rflc.scss */
+  .faceted-filters.on {
+    width: 100%;
+  }
+
+  /* line 32, ../sass/_rflc.scss */
+  .local.resources.toggle-open .left + .left {
+    width: 100%;
+  }
+
+  /* line 39, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table {
+    margin-top: 1em;
+    clear: both;
+  }
+  /* line 42, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+  /* line 52, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table tbody,
+  .view-lgc-resources .responsive-table tr,
+  .view-lgc-resources .responsive-table th,
+  .view-lgc-resources .responsive-table td {
+    display: block;
+    white-space: normal;
+    padding: 1rem 0.5rem;
+  }
+  /* line 60, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table th,
+  .view-lgc-resources .responsive-table td {
+    vertical-align: top;
+  }
+  /* line 64, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table tr {
+    position: relative;
+  }
+  /* line 66, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table tr.odd, .view-lgc-resources .responsive-table tr.even {
+    background-color: #ffffff;
+  }
+  /* line 72, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table tbody tr:last-of-type {
+    margin-bottom: 0;
+  }
+  /* line 75, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table tbody td[data-title]:before {
+    width: 5em;
+    content: attr(data-title);
+    position: absolute;
+    left: 1em;
+    font-size: 1.1rem;
+    line-height: 1.8rem;
+    color: #323a45;
+  }
+  /* line 84, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table tbody td[data-title] {
+    padding-left: 5.5em;
+  }
+  /* line 87, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table tbody td.resource-title {
+    padding-left: 2.5em;
+    background-color: #f1f1f1;
+    border-left: 1px solid #aeb0b5;
+    border-right: 1px solid #aeb0b5;
+  }
+  /* line 93, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table tbody td.resource-info {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 0;
+    margin-top: 0.9em;
+    margin-left: 0.5em;
+  }
+  /* line 101, ../sass/_rflc.scss */
+  .view-lgc-resources .responsive-table tbody td {
+    border-bottom: none;
   }
 }
-/*
-@media screen and (min-width: 30.01em) and (max-width: 48em) {
-  .views-field {
-    &.views-field-value-3, &.views-field-value-4 {
-      display: table-cell;
-    }
-  }
-}
-@media screen and (min-width: 72.01em) {
-  .views-field {
-    &.views-field-value-3, &.views-field-value-4 {
-      display: table-cell;
-    }
-  }
-}*/
