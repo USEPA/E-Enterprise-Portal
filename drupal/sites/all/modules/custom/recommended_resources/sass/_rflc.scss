@@ -21,10 +21,22 @@
             width: 65%;
         }
     }
+    &.toggle-close {
+        .your-selections {
+            padding-top: 1em;
+            clear: both;
+        }
+    }
 }
+.faceted-filters.off {
+    width: 40%;
+}
+
 @media screen and (max-width: 30.01em), screen and (min-width: 48.01em) and (max-width: 60.01em) {
-    .faceted-filters.on {
-      width: 100%;
+    .faceted-filters {
+        &.on, &.off {
+            width: 100%;
+        }
     }
 
     .local.resources {
@@ -101,6 +113,15 @@
                 td {
                     border-bottom: none;
                 }
+            }
+        }
+    }
+}
+@media screen and (min-width: 60.01em) and (max-width: 72.0em){
+    .responsive-table {
+        .views-field {
+            &.views-field-value-3, &.views-field-value-4 {
+                display: none;
             }
         }
     }
