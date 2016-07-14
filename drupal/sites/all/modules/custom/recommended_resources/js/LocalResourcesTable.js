@@ -53,7 +53,6 @@ var yadtf_topic_configs = {
     } else {
       $.error('Method ' + method + ' does not exist on jQuery.multiSelectToCheckboxes');
     }
-
   };
 
 })(jQuery);
@@ -125,7 +124,8 @@ var LocalResourcesTable;
     };
 
     this.ajax_request = function (from_embedded_topics) {
-      var topics = this.topics;
+      var topics = this.topics,
+          $userFilters = $('#user-local-resources-wrapper').find('[id^=_yadcf-filter]');
       $.ajax({
         beforeSend: function () {
           var $table = $table_wrapper.find('.view-content');
@@ -134,6 +134,9 @@ var LocalResourcesTable;
           } else {
             $table_wrapper.html('<p>Loading&hellip;</p>');
           }
+          // Need to clear and freeze the filters while loading
+          $userFilters.prop('checked', false).prop('disabled', true);
+          $('#user-local-resources-wrapper').find('.your-selections .facet-topic-container').hide();
         },
         url: ajax_url,
         method: "POST",
@@ -231,6 +234,7 @@ var LocalResourcesTable;
 
             var your_selections = $('.your-selections');
             if (your_selections.find('.selection-lbl').length == 0) {
+
               var selection_lbl = "<div class='selection-lbl'>" + your_selections.html() + "</div>";
               your_selections.html(selection_lbl);
             }
@@ -283,17 +287,17 @@ var LocalResourcesTable;
               } else {
                 $span_selector.hide();
               }
-
             });
 
 
-
-            /*On Close button click, mimick a checkbox click event.
+            /* On Close button click, mimic a checkbox click event. After modifying the "My Profile Topics" there is a
+             * chance the close button can have multiply click events added to fake a click on the checkbox.  When an
+             * even number of listeners are created, the button appears to fail.
              * */
-            $wrapper_parent.find('.your-selections span.facet-topic-container a').click(function (e) {
-                var selected_selection = $(this).parent().attr('title');
-                var selected_id = $wrapper_parent.find('.multiselect-to-checkboxes ul li label[title=\'' + selected_selection + '\']').attr('for');
-                simulateClick(e, $wrapper_parent.find("#" + selected_id));
+            $wrapper_parent.find('.your-selections span.facet-topic-container a').unbind('click').click(function (e) {
+              var selected_selection = $(this).parent().attr('title');
+              var selected_id = $wrapper_parent.find('.multiselect-to-checkboxes ul li label[title=\'' + selected_selection + '\']').attr('for');
+              $wrapper_parent.find("#" + selected_id).trigger('click')
             });
 
             function shorten_string(str, max_len) {
@@ -306,20 +310,6 @@ var LocalResourcesTable;
                 return str + " ...";
               }
             }
-
-            function simulateClick(event, obj) {
-              if (obj.click) {
-                obj.click()
-              } else if (document.createEvent) {
-                if (event.target !== obj) {
-                  var evt = document.createEvent("MouseEvents");
-                  evt.initMouseEvent("click", true, true, window,
-                    0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                  var allowDefault = obj.dispatchEvent(evt);
-                }
-              }
-            }
-
 
             // Click handler for clicking 'i' icon - show modal
             // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
@@ -335,6 +325,9 @@ var LocalResourcesTable;
           else {
             $table_wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>');
           }
+
+          // Unfreeze filters
+          $userFilters.prop('disabled', false);
 
           cached = true;
         }
