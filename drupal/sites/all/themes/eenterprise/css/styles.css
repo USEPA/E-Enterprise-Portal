@@ -3816,7 +3816,7 @@ footer .menu .menu-item a {
 .view-resource-editor ul.paging_simple_numbers .pager__link.previous,
 .view-resource-editor ul.paging_simple .pager__link.previous {
   background-image: url("../images/white/chevron-left.svg");
-  background-position: center center;
+  background-position: 40% center;
 }
 /* line 423, ../sass/styles.scss */
 .grid-stack-item:not(#facility-widget) .ui-widget ul.paging_simple_numbers .pager__link.next,
@@ -3830,7 +3830,7 @@ footer .menu .menu-item a {
 .view-resource-editor ul.paging_simple_numbers .pager__link.next,
 .view-resource-editor ul.paging_simple .pager__link.next {
   background-image: url("../images/white/chevron-right.svg");
-  background-position: center center;
+  background-position: 60% center;
 }
 /* line 428, ../sass/styles.scss */
 .grid-stack-item:not(#facility-widget) .ui-widget ul.paging_simple_numbers li.disabled, .grid-stack-item:not(#facility-widget) .ui-widget ul.paging_simple_numbers a.disabled,
@@ -3943,12 +3943,12 @@ footer .menu .menu-item a {
 /* line 490, ../sass/styles.scss */
 .grid-stack-item .pager .pager-next a {
   background-image: url("../images/white/chevron-right.svg");
-  background-position: center center;
+  background-position: 60% center;
 }
 /* line 494, ../sass/styles.scss */
 .grid-stack-item .pager .pager-previous a {
   background-image: url("../images/white/chevron-left.svg");
-  background-position: center center;
+  background-position: 40% center;
 }
 
 /* line 502, ../sass/styles.scss */

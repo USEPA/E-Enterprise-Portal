@@ -418,11 +418,11 @@ footer {
         }      
         .pager__link.previous {
             background-image: url('../images/white/chevron-left.svg'); 
-            background-position: center center;                  
+            background-position: 40% center;                  
         }
         .pager__link.next {
             background-image: url('../images/white/chevron-right.svg');
-            background-position: center center;
+            background-position: 60% center;
         }        
         li, a {
             &.disabled {
@@ -489,11 +489,11 @@ footer {
         }
         .pager-next a {
             background-image: url('../images/white/chevron-right.svg');
-            background-position: center center;
+            background-position: 60% center;
         }
         .pager-previous a {
             background-image: url('../images/white/chevron-left.svg');
-            background-position: center center;
+            background-position: 40% center;
         }
     } 
 }
