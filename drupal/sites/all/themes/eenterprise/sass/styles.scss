@@ -403,11 +403,11 @@ footer {
         .pager__link.next {  
             background-color: $color-primary;
             background-repeat: no-repeat;
-            background-position-y: 50%;
+            background-position: center center;
             background-size: 1rem, contain;
             width: 2rem;
             height: 2rem;
-            border-radius: 50%;     
+            border-radius: 50%;
             vertical-align: middle;    
             font-size: 0;       
             &:hover,
@@ -418,11 +418,11 @@ footer {
         }      
         .pager__link.previous {
             background-image: url('../images/white/chevron-left.svg'); 
-            background-position-x: 40%;                  
+            background-position: 40% center;                  
         }
         .pager__link.next {
             background-image: url('../images/white/chevron-right.svg');
-            background-position-x: 60%;            
+            background-position: 60% center;
         }        
         li, a {
             &.disabled {
@@ -470,7 +470,7 @@ footer {
             a {
                 background-color: $color-primary;
                 background-repeat: no-repeat;
-                background-position-y: 50%;
+                background-position: center center; 
                 background-size: 1rem, contain;
                 width: 2rem;
                 height: 2rem;
@@ -489,11 +489,11 @@ footer {
         }
         .pager-next a {
             background-image: url('../images/white/chevron-right.svg');
-            background-position-x: 60%;
+            background-position: 60% center;
         }
         .pager-previous a {
             background-image: url('../images/white/chevron-left.svg');
-            background-position-x: 40%;
+            background-position: 40% center;
         }
     } 
 }
