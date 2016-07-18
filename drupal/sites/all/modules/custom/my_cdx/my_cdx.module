@@ -100,7 +100,7 @@ function my_cdx_json_output() {
 function load_my_cdx_data() {
   $data = array();
 
-  if (TRUE || feature_toggle_get_status('sample_mycdx_data')) {
+  if (feature_toggle_get_status('sample_mycdx_data')) {
     $data[] = array(
       'program_service_name' => 'CEDRI: Compliance and Emissions Data Reporting Interface',
       'role' => 'Certifier',
@@ -129,14 +129,34 @@ function load_my_cdx_data() {
   } else {
     // cached? if not... (per user)
     // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
+    $data = get_cached_data();
+    if (!$data) {
       // call soap service
       // @see connectToSOAPServerWithWSDL()
-      // @see callSOAPWithParams()
+      $location = 'my_cdx.module';
+      $client = connectToSOAPServerWithWSDL('http://something', $location);
+      $token_object = return_cdx_facility_management_token(FALSE);
+      $params = array(
+        'securityToken' => $token_object->token,
+        'userId' => $token_object->user_id,
+      );
       // retrieve object
+      // @see callSOAPWithParams()
+      $response = callSOAPWithParams($client, "RetrieveMyCdxLinks", $params, $location);
       // format it to be some sort of array
+$a = 'a';
       // convert the array to match the structure "above"
+    }
   }
 
 
   return $data;
+}
+
+
+/**
+ * Retrieve cached data
+ */
+function get_cached_data() {
+  return FALSE;
 }
