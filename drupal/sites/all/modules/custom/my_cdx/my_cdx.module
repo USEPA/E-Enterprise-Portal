@@ -82,7 +82,7 @@ function my_cdx_json_output() {
     foreach ($input as $value) {
       $output[] = array(
         $value['program_service_name'],
-        '<a href="' . $value['role_id'] . '">' . $value['role'] . '</a>',
+        '<a href="#' . $value['role_id'] . '">' . $value['role'] . '</a>',
       );
     }
 
@@ -99,32 +99,32 @@ function my_cdx_json_output() {
  */
 function load_my_cdx_data() {
   $data = array();
-
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
   if (feature_toggle_get_status('sample_mycdx_data')) {
     $data[] = array(
       'program_service_name' => 'CEDRI: Compliance and Emissions Data Reporting Interface',
       'role' => 'Certifier',
-      'role_id' => "#00001",
+      'role_id' => "00001",
     );
     $data[] = array(
       'program_service_name' => 'CSPP: Submissions for Chemical Safety and Pesticide Program',
       'role' => 'Primary Authorized Official',
-      'role_id' => "#00002",
+      'role_id' => "00002",
     );
     $data[] = array(
       'program_service_name' => 'eDisclosure: Voluntary Disclosure System',
       'role' => 'Disclose / Certify',
-      'role_id' => "#00003",
+      'role_id' => "00003",
     );
     $data[] = array(
       'program_service_name' => 'EEP: General E-Enterprise Use',
       'role' => 'E-Enterprise Portal',
-      'role_id' => "#00004",
+      'role_id' => "00004",
     );
     $data[] = array(
       'program_service_name' => 'SSTS: Section Seven Tracking System',
       'role' => 'Primary Authorized Official',
-      'role_id' => "#00005",
+      'role_id' => "00005",
     );
   } else {
     // cached? if not... (per user)
@@ -134,22 +134,40 @@ function load_my_cdx_data() {
       // call soap service
       // @see connectToSOAPServerWithWSDL()
       $location = 'my_cdx.module';
-      $client = connectToSOAPServerWithWSDL('http://something', $location);
-      $token_object = return_cdx_facility_management_token(FALSE);
-      $params = array(
-        'securityToken' => $token_object->token,
-        'userId' => $token_object->user_id,
-      );
-      // retrieve object
-      // @see callSOAPWithParams()
-      $response = callSOAPWithParams($client, "RetrieveMyCdxLinks", $params, $location);
-      // format it to be some sort of array
-$a = 'a';
+      $wsdl = "https://devngn.epacdxnode.net/cdx-register-II/services/RegisterMyCdxService?wsdl";
+      $client = connectToSOAPServerWithWSDL($wsdl, $location);
+      
+      if (!$client->error) {
+        // Use wsdl to create token to retrieve user info
+        $params_for_authenticate = array(
+          "userId" => variable_get('eactivity_auth_reg_username'),
+          "credential" => variable_get('eactivity_auth_reg_password'),
+          "domain" => variable_get('eactivity_auth_reg_domain'),
+          "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
+        );
+        $response = callSOAPWithParams($client->client, "Authenticate", $params_for_authenticate, $location);
+        
+        $params_for_data = array(
+          'securityToken' => $response->response->securityToken,//$token_object['token'],
+          'userId' => 'greenolive',
+        );
+        // retrieve object
+        // @see callSOAPWithParams()
+        $result = callSOAPWithParams($client->client, "RetrieveMyCdxLinks", $params_for_data, $location);
+        // format it to be some sort of array
+        foreach($result->response->links as $link) {
+          if ($link->Status->code === "Active") {
+            $data[] = array(
+              'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
+              'role' => $link->Description,
+              'role_id' => $link->RoleId,
+            );
+          }
+        }
+      }
       // convert the array to match the structure "above"
     }
   }
-
-
   return $data;
 }
 
