@@ -13,7 +13,7 @@ function my_cdx_settings($form, $form_state) {
     $form['my_cdx_settings']['cdx_service_endpoint'] = array(
         '#type' => 'textfield',
         '#title' => t('CDX Service Endpoint'),
-        '#default_value' => variable_get('cdx_service_endpoint'),
+        '#default_value' => variable_get('cdx_service_endpoint', "https://devngn.epacdxnode.net/cdx-register-II/services/RegisterMyCdxService?wsdl"),
         '#required' => TRUE,
     );
 

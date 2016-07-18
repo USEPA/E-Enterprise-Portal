@@ -98,83 +98,109 @@ function my_cdx_json_output() {
  * @return mixed
  */
 function load_my_cdx_data() {
-  $data = array();
-  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-  if (feature_toggle_get_status('sample_mycdx_data')) {
-    $data[] = array(
-      'program_service_name' => 'CEDRI: Compliance and Emissions Data Reporting Interface',
-      'role' => 'Certifier',
-      'role_id' => "00001",
-    );
-    $data[] = array(
-      'program_service_name' => 'CSPP: Submissions for Chemical Safety and Pesticide Program',
-      'role' => 'Primary Authorized Official',
-      'role_id' => "00002",
-    );
-    $data[] = array(
-      'program_service_name' => 'eDisclosure: Voluntary Disclosure System',
-      'role' => 'Disclose / Certify',
-      'role_id' => "00003",
-    );
-    $data[] = array(
-      'program_service_name' => 'EEP: General E-Enterprise Use',
-      'role' => 'E-Enterprise Portal',
-      'role_id' => "00004",
-    );
-    $data[] = array(
-      'program_service_name' => 'SSTS: Section Seven Tracking System',
-      'role' => 'Primary Authorized Official',
-      'role_id' => "00005",
-    );
-  } else {
-    // cached? if not... (per user)
-    // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
-    $data = get_cached_data();
-    if (!$data) {
-      // call soap service
-      // @see connectToSOAPServerWithWSDL()
-      $location = 'my_cdx.module';
-      $wsdl = "https://devngn.epacdxnode.net/cdx-register-II/services/RegisterMyCdxService?wsdl";
-      $client = connectToSOAPServerWithWSDL($wsdl, $location);
-      
-      if (!$client->error) {
-        // Use wsdl to create token to retrieve user info
-        $params_for_authenticate = array(
-          "userId" => variable_get('eactivity_auth_reg_username'),
-          "credential" => variable_get('eactivity_auth_reg_password'),
-          "domain" => variable_get('eactivity_auth_reg_domain'),
-          "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
-        );
-        $response = callSOAPWithParams($client->client, "Authenticate", $params_for_authenticate, $location);
-        
-        $params_for_data = array(
-          'securityToken' => $response->response->securityToken,//$token_object['token'],
-          'userId' => 'greenolive',
-        );
-        // retrieve object
-        // @see callSOAPWithParams()
-        $result = callSOAPWithParams($client->client, "RetrieveMyCdxLinks", $params_for_data, $location);
-        // format it to be some sort of array
-        foreach($result->response->links as $link) {
-          if ($link->Status->code === "Active") {
-            $data[] = array(
-              'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
-              'role' => $link->Description,
-              'role_id' => $link->RoleId,
-            );
-          }
-        }
+  global $user;
+  $data = &drupal_static(__FUNCTION__);
+
+  if (!isset($data)) {
+    module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+    if (feature_toggle_get_status('sample_mycdx_data')) {
+      $data = fetch_sample_my_cdx_links();
+    } else {
+      // each user gets their own cached data
+      $cache_key = 'my_cdx_data|' . $user->uid;
+
+      if ($cache = cache_get($cache_key)) {
+        // try cache first
+        // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
+        $data = $cache->data;
+      } else {
+        $data = fetch_my_cdx_links();
+
+        // expire the cache every ___ minutes
+        $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
+        cache_set($cache_key, $data, 'cache', $expire_ts);
       }
-      // convert the array to match the structure "above"
     }
   }
+
   return $data;
 }
 
+/**
+ * Fetch Sample My CDX data
+ */
+function fetch_sample_my_cdx_links() {
+  $data = array();
+
+  $data[] = array(
+    'program_service_name' => 'CEDRI: Compliance and Emissions Data Reporting Interface',
+    'role' => 'Certifier',
+    'role_id' => "00001",
+  );
+  $data[] = array(
+    'program_service_name' => 'CSPP: Submissions for Chemical Safety and Pesticide Program',
+    'role' => 'Primary Authorized Official',
+    'role_id' => "00002",
+  );
+  $data[] = array(
+    'program_service_name' => 'eDisclosure: Voluntary Disclosure System',
+    'role' => 'Disclose / Certify',
+    'role_id' => "00003",
+  );
+  $data[] = array(
+    'program_service_name' => 'EEP: General E-Enterprise Use',
+    'role' => 'E-Enterprise Portal',
+    'role_id' => "00004",
+  );
+  $data[] = array(
+    'program_service_name' => 'SSTS: Section Seven Tracking System',
+    'role' => 'Primary Authorized Official',
+    'role_id' => "00005",
+  );
+
+  return $data;
+}
 
 /**
- * Retrieve cached data
+ * Fetch My CDX data from SOAP service
  */
-function get_cached_data() {
-  return FALSE;
+function fetch_my_cdx_links() {
+  // fetch the data from the soap service
+  $location = 'my_cdx.module';
+  $wsdl = variable_get('cdx_service_endpoint', "https://devngn.epacdxnode.net/cdx-register-II/services/RegisterMyCdxService?wsdl");
+  $client = connectToSOAPServerWithWSDL($wsdl, $location);
+
+  if (!$client->error) {
+    // Use wsdl to create token to retrieve user info
+    $params_for_authenticate = array(
+      "userId" => variable_get('eactivity_auth_reg_username'),
+      "credential" => variable_get('eactivity_auth_reg_password'),
+      "domain" => variable_get('eactivity_auth_reg_domain'),
+      "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
+    );
+    $response = callSOAPWithParams($client->client, "Authenticate", $params_for_authenticate, $location);
+
+    // retrieve object from "RetrieveMyCdxLinks" service
+    $params_for_data = array(
+      'securityToken' => $response->response->securityToken,
+      'userId' => 'greenolive',
+    );
+    $result = callSOAPWithParams($client->client, "RetrieveMyCdxLinks", $params_for_data, $location);
+
+    // format it to be some sort of array, match the structure of 'sample_mycdx_data'
+    $data = array();
+    foreach($result->response->links as $link) {
+      if ($link->Status->code === "Active") {
+        $data[] = array(
+          'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
+          'role' => $link->Description,
+          'role_id' => $link->RoleId,
+        );
+      }
+    }
+
+    return $data;
+  } else {
+    return array();
+  }
 }
