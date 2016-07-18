@@ -127,7 +127,14 @@ function load_my_cdx_data() {
       'role_id' => "#00005",
     );
   } else {
-
+    // cached? if not... (per user)
+    // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
+      // call soap service
+      // @see connectToSOAPServerWithWSDL()
+      // @see callSOAPWithParams()
+      // retrieve object
+      // format it to be some sort of array
+      // convert the array to match the structure "above"
   }
 
 
