@@ -4,6 +4,16 @@
  * my_environment_mapper.features.inc
  */
 
+
+function my_environment_mapper_menu() {
+    $items = array();
+    $items['load_enviromapper'] = array(
+      'page callback' => 'load_enviromapper',
+      'access callback' => TRUE,
+    );
+
+    return $items;
+}
 /**
  * Implements hook_views_api().
  */
@@ -32,3 +42,5 @@ function my_environment_mapper_theme_registry_alter(&$theme_registry) {
         }
     }
 }
+
+
