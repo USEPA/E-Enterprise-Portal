@@ -165,6 +165,17 @@ function fetch_sample_my_cdx_links() {
  * Fetch My CDX data from SOAP service
  */
 function fetch_my_cdx_links() {
+  global $user;
+
+  // Extract out "_Via_CDX" string from username
+  $user_id = $user->name;
+  $cdx_pos = strrpos($user_id, "_Via_");
+  if ($cdx_pos === FALSE) {
+    // do not connect to SOAP service if the user is not coming from CDX
+    return array();
+  }
+  $user_id = substr($user_id, 0, $cdx_pos);
+
   // fetch the data from the soap service
   $location = 'my_cdx.module';
   $wsdl = variable_get('cdx_service_endpoint', "https://devngn.epacdxnode.net/cdx-register-II/services/RegisterMyCdxService?wsdl");
@@ -183,7 +194,7 @@ function fetch_my_cdx_links() {
     // retrieve object from "RetrieveMyCdxLinks" service
     $params_for_data = array(
       'securityToken' => $response->response->securityToken,
-      'userId' => 'greenolive',
+      'userId' => $user_id,
     );
     $result = callSOAPWithParams($client->client, "RetrieveMyCdxLinks", $params_for_data, $location);
 
