@@ -15,27 +15,121 @@ function my_cdx_menu(){
     'access arguments' => array('administer my cdx'),
     'file' => 'my_cdx.admin.inc',
   );
+  $items['my-cdx/json'] = array(
+    'page callback' => 'my_cdx_json_output',
+    'access arguments' => array('access content'),
+  );
 
   return $items;
 }
 
+/**
+ * Implements hook_block_info().
+ */
+function my_cdx_block_info() {
+  $blocks = array();
+  $blocks['my_cdx'] = array(
+    'info' => t('My CDX Block'),
+  );
+
+  return $blocks;
+}
 
 /**
- * Implements hook_theme_registry_alter().
+ * Implements hook_theme().
+ * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
  */
-function my_cdx_theme_registry_alter(&$theme_registry) {
-// Defined path to the current module.
-  $module_path = drupal_get_path('module', 'my_cdx');
-// Find all .tpl.php files in this module's folder recursively.
-  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
-// Iterate through all found template file objects.
-  foreach ($template_file_objects as $key => $template_file_object) {
-// If the template has not already been overridden by a theme.
-    if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
-// Alter the theme path and template elements.
-      $theme_registry[$key]['theme path'] = $module_path;
-      $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
-      $theme_registry[$key]['type'] = 'module';
+function my_cdx_theme() {
+  return array(
+    // Name to be called with theme(). theme('my_cdx')
+    'my_cdx' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use my-cdx.tpl.php
+      'template' => 'my-cdx',
+      'path' => drupal_get_path('module', 'my_cdx') . '/templates'
+    ),
+  );
+}
+/**
+ * Implements hook_block_view().
+ */
+function my_cdx_block_view($delta = '') {
+  drupal_add_js('sites/all/modules/contrib/datatables/dataTables/media/js/jquery.dataTables.js');
+  drupal_add_js(drupal_get_path('module', 'my_cdx') . '/my_cdx.js', 'file');
+
+  $block = array();
+
+  if ($delta = 'my_cdx') {
+    if (user_access('access content')){ //good idea to check user perms here
+      $block['subject'] = t('My CDX');
+      $block['content'] = theme('my_cdx');
+      return $block;
     }
   }
+
+  return $block;
+}
+
+/**
+ * Callback for 'my-cdx/json' menu item
+ * @see https://www.webwash.net/drupal/articles/getting-started-json-drupal-7 (JSON Endpoints)
+ */
+function my_cdx_json_output() {
+  if ($input = load_my_cdx_data()) {
+    // convert the data into a format that DataTables ajax can understand
+    $output = array();
+    foreach ($input as $value) {
+      $output[] = array(
+        $value['program_service_name'],
+        '<a href="' . $value['role_id'] . '">' . $value['role'] . '</a>',
+      );
+    }
+
+    drupal_json_output(array('data' => $output));
+  } else {
+    // TODO: an error occurred, handle it here
+  }
+}
+
+/**
+ * Load My CDX data from cache, web service, or static source (for testing)
+ * Restructure XML return into an array we can JSONify, or return FALSE if we have an error
+ * @return mixed
+ */
+function load_my_cdx_data() {
+  $data = array();
+
+  if (TRUE || feature_toggle_get_status('sample_mycdx_data')) {
+    $data[] = array(
+      'program_service_name' => 'CEDRI: Compliance and Emissions Data Reporting Interface',
+      'role' => 'Certifier',
+      'role_id' => "#00001",
+    );
+    $data[] = array(
+      'program_service_name' => 'CSPP: Submissions for Chemical Safety and Pesticide Program',
+      'role' => 'Primary Authorized Official',
+      'role_id' => "#00002",
+    );
+    $data[] = array(
+      'program_service_name' => 'eDisclosure: Voluntary Disclosure System',
+      'role' => 'Disclose / Certify',
+      'role_id' => "#00003",
+    );
+    $data[] = array(
+      'program_service_name' => 'EEP: General E-Enterprise Use',
+      'role' => 'E-Enterprise Portal',
+      'role_id' => "#00004",
+    );
+    $data[] = array(
+      'program_service_name' => 'SSTS: Section Seven Tracking System',
+      'role' => 'Primary Authorized Official',
+      'role_id' => "#00005",
+    );
+  } else {
+
+  }
+
+
+  return $data;
 }
