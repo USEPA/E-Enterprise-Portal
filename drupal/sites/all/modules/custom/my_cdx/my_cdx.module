@@ -198,7 +198,7 @@ function fetch_my_cdx_links() {
     );
     $result = callSOAPWithParams($client->client, "RetrieveMyCdxLinks", $params_for_data, $location);
 
-    // format it to be some sort of array, match the structure of 'sample_mycdx_data'
+    // format it to be some sort of array, match the structure of fetch_sample_my_cdx_links()
     $data = array();
     foreach($result->response->links as $link) {
       if ($link->Status->code === "Active") {
