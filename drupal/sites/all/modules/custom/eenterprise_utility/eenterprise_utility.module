@@ -1833,9 +1833,10 @@ function connectToSOAPServerWithWSDL($wsdl, $location = "") {
 }
 
 /**
- * @param $client
+ * @param $client WSDL file
  * @param $service
  * @param $params
+ * @param $location (for debugging)
  * @return bool
  */
 function callSOAPWithParams($client, $service, $params, $location = "") {
