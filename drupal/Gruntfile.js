@@ -23,8 +23,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/add_map_set/js/src',
-          dest: 'sites/all/modules/custom/add_map_set/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/add_map_set/js'
         }]
       },*/
       agency_map_list: {
@@ -32,8 +31,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/agency_map_list/js/src',
-          dest: 'sites/all/modules/custom/agency_map_list/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/agency_map_list/js'
         }]
       },
       cdx_facility_management: {
@@ -41,8 +39,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/cdx_facility_management/js/src',
-          dest: 'sites/all/modules/custom/cdx_facility_management/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/cdx_facility_management/js'
         }]
       },
       eenterprise_api: {
@@ -50,8 +47,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/eenterprise_api/js/src',
-          dest: 'sites/all/modules/custom/eenterprise_api/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/eenterprise_api/js'
         }]
       },
       favorite_links: {
@@ -59,8 +55,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/favorite_links/js/src',
-          dest: 'sites/all/modules/custom/favorite_links/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/favorite_links/js'
         }]
       },
       my_air_quality_chart_view: {
@@ -68,8 +63,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/features/my_air_quality_chart_view/js/src',
-          dest: 'sites/all/modules/custom/features/my_air_quality_chart_view/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/features/my_air_quality_chart_view/js'
         }]
       },
       my_environment_mapper: {
@@ -77,8 +71,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/features/my_environment_mapper/js/src',
-          dest: 'sites/all/modules/custom/features/my_environment_mapper/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/features/my_environment_mapper/js'
         }]
       },
       my_maps_view: {
@@ -86,8 +79,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/features/my_maps_view/js/src',
-          dest: 'sites/all/modules/custom/features/my_maps_view/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/features/my_maps_view/js'
         }]
       },
       suggestion_box: {
@@ -95,8 +87,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/features/suggestion_box/js/src',
-          dest: 'sites/all/modules/custom/features/suggestion_box/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/features/suggestion_box/js'
         }]
       },
       village_green_block: {
@@ -104,8 +95,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/features/village_green_block/js/src',
-          dest: 'sites/all/modules/custom/features/village_green_block/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/features/village_green_block/js'
         }]
       },
       frs_location_services: {
@@ -113,8 +103,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/frs_location_services/js/src',
-          dest: 'sites/all/modules/custom/frs_location_services/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/frs_location_services/js'
         }]
       },
       other_items_of_interest: {
@@ -122,8 +111,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd: 'sites/all/modules/custom/other_items_of_interest/js/src',
-          dest: 'sites/all/modules/custom/other_items_of_interest/js',
-          ext: '.js'
+          dest: 'sites/all/modules/custom/other_items_of_interest/js'
         }]
       },
       recommended_resources: {
@@ -132,8 +120,7 @@ module.exports = function(grunt) {
             expand: true,
             src: ['**/*.js', '!*min.js'],
             dest: 'sites/all/modules/custom/recommended_resources/js',
-            cwd: 'sites/all/modules/custom/recommended_resources/js/src',
-            ext: '.css'
+            cwd: 'sites/all/modules/custom/recommended_resources/js/src'
           }
         ]
       }
@@ -157,8 +144,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.css', '!*.min.css'],
           cwd: 'sites/all/modules/custom/add_map_set/css/src',
-          dest: 'sites/all/modules/custom/add_map_set/css',
-          ext: '.css'
+          dest: 'sites/all/modules/custom/add_map_set/css'
         }]
       },
       agency_map_list: {
@@ -166,8 +152,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.css', '!*.min.css'],
           cwd: 'sites/all/modules/custom/agency_map_list/css/src',
-          dest: 'sites/all/modules/custom/agency_map_list/css',
-          ext: '.css'
+          dest: 'sites/all/modules/custom/agency_map_list/css'
         }]
       },
       cdx_facility_management: {
@@ -175,14 +160,12 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.css', '!*.min.css'],
           cwd: 'sites/all/modules/custom/cdx_facility_management/css/src',
-          dest: 'sites/all/modules/custom/cdx_facility_management/css',
-          ext: '.css'
+          dest: 'sites/all/modules/custom/cdx_facility_management/css'
         },{
           expand: true,
           src: ['*.css', '!*.min.css'],
           cwd: 'sites/all/modules/custom/cdx_facility_management/css/jquery_fancybox/src',
-          dest: 'sites/all/modules/custom/cdx_facility_management/css/jquery_fancybox',
-          ext: '.css'
+          dest: 'sites/all/modules/custom/cdx_facility_management/css/jquery_fancybox'
         }]
       },
       /*eenterprise_api: {
@@ -208,8 +191,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.css', '!*.min.css'],
           cwd: 'sites/all/modules/custom/features/my_air_quality_chart_view/css/src',
-          dest: 'sites/all/modules/custom/features/my_air_quality_chart_view/css',
-          ext: '.css'
+          dest: 'sites/all/modules/custom/features/my_air_quality_chart_view/css'
         }]
       },
       my_environment_mapper: {
@@ -217,8 +199,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.css', '!*.min.css'],
           cwd: 'sites/all/modules/custom/features/my_environment_mapper/css/src',
-          dest: 'sites/all/modules/custom/features/my_environment_mapper/css',
-          ext: '.css'
+          dest: 'sites/all/modules/custom/features/my_environment_mapper/css'
         }]
       },
       my_maps_view: {
@@ -226,8 +207,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.css', '!*.min.css'],
           cwd: 'sites/all/modules/custom/features/my_maps_view/css/src',
-          dest: 'sites/all/modules/custom/features/my_maps_view/css',
-          ext: '.css'
+          dest: 'sites/all/modules/custom/features/my_maps_view/css'
         }]
       },
       suggestion_box: {
@@ -235,8 +215,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.css', '!*.min.css'],
           cwd: 'sites/all/modules/custom/features/suggestion_box/css/src',
-          dest: 'sites/all/modules/custom/features/suggestion_box/css',
-          ext: '.css'
+          dest: 'sites/all/modules/custom/features/suggestion_box/css'
         }]
       },
       village_green_block: {
@@ -244,8 +223,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.css', '!*.min.css'],
           cwd: 'sites/all/modules/custom/features/village_green_block/css/src',
-          dest: 'sites/all/modules/custom/features/village_green_block/css',
-          ext: '.css'
+          dest: 'sites/all/modules/custom/features/village_green_block/css'
         }]
       },
       frs_location_services: {
@@ -253,8 +231,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.css', '!*.min.css'],
           cwd: 'sites/all/modules/custom/frs_location_services/css/src',
-          dest: 'sites/all/modules/custom/frs_location_services/css',
-          ext: '.css'
+          dest: 'sites/all/modules/custom/frs_location_services/css'
         }]
       },
       other_items_of_interest: {
@@ -262,8 +239,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.css', '!*.min.css'],
           cwd: 'sites/all/modules/custom/other_items_of_interest/css/src',
-          dest: 'sites/all/modules/custom/other_items_of_interest/css',
-          ext: '.css'
+          dest: 'sites/all/modules/custom/other_items_of_interest/css'
         }]
       },
       recommended_resources: {

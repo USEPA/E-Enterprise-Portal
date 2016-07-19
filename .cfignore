@@ -2,3 +2,4 @@ drupal/.htaccess
 drupal/db_dump.sql
 drupal/*.sql
 /drupal/node_modules/
+/node_modules/

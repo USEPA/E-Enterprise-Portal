@@ -13,3 +13,4 @@ drupal/sites/all/modules/custom/features/other_areas_of_interest_aws/other_areas
 drupal/.htaccess
 drupal/vendor
 /drupal/node_modules/
+/node_modules/
