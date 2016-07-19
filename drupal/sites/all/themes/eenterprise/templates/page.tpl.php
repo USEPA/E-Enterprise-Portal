@@ -41,7 +41,7 @@ else {
 <?php print render($page['maintenance']); ?>
 <?php print render($page['disclaimer']); ?>
 <div class="mobile-nav usa-grid">
-<a class="usa-button mobile-nav_home" href="/" rel="home"><span class="sr-only">Home</span><i aria-hidden="true" class="fa fa-home"></i></a>
+<a class="usa-button mobile-nav_home" href="/" rel="home"><img src="<?php print base_path() . path_to_theme(); ?>/images/white/home.svg" alt="Home"></a>
 <a class="usa-button mobile-nav_toggle" href="#mobile-links">Menu</a>
 <div class="mobile-nav_links element-hidden"></div><!-- @end mobile-nav_links -->
 </div><!-- @end mobile-nav -->
