@@ -102,7 +102,7 @@
 
     // If Iframe fails to  load withing wait_for_iframe_seconds, show error message
     setTimeout(function () {
-      if (iframe_loaded) {
+      if (!iframe_loaded) {
         iframeUnavailable($iframe);
       }
     }, wait_for_iframe_seconds * 1000);
