@@ -1,21 +1,2 @@
-.embedMyEnv-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  max-width: 100%;
-  min-height: 300px;
-}
-.embedMyEnv-container iframe, .embedMyEnv-container object, .embedMyEnv-container embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-/* Add additional padding to accommodate EnviroMapper menu and content on smaller screens */
-@media screen and (max-width: 23em) {
-	.embedMyEnv-container {
-		padding-bottom: 100%;
-	}
-}
+.embedMyEnv-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;min-height:300px}.embedMyEnv-container embed,.embedMyEnv-container iframe,.embedMyEnv-container object{position:absolute;top:0;left:0;width:100%;height:100%}@media screen and (max-width:23em){.embedMyEnv-container{padding-bottom:100%}}
+/*# sourceMappingURL=myEnvMapper.css.map */

@@ -1,0 +1,134 @@
+#first-time-user-profile #locations-holder {
+    height: 200px;
+}
+
+.ck-button.lgc-topics-of-interest {
+    cursor: pointer;
+}
+#high-level-interests .ck-button input.term-name-checkboxes {
+    display:none;
+}
+
+.first-time-user-dialog .ui-dialog-titlebar, #local-government-options {
+    display:none;
+}
+
+
+#first-time-user-profile {
+    height: auto;
+}
+#first-time-user-profile #high-level-interests .ck-button {
+    font-size: 1.5rem;
+}
+#first-time-user-profile #high-level-interests .ck-button span {
+    width: 30rem;
+    height: 5.5rem;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.first-time-page-button {
+    margin-left: 30px !important;
+    float: right;
+    height: 60px;
+    width: 145px;
+}
+.first-time-page-button:hover {
+    color:white !important;
+    cursor: pointer;
+}
+
+.button-label-interests {
+    font-size: 0.8em;
+    color: lightgrey;
+}
+#skip-preferences {
+    line-height: 50px;
+    float: right;
+}
+.pane-views-first-time-user-profile-block {
+    border: 0 !important;
+    min-height: 100% !important;
+}
+#revert-to-geo-location {
+    font-size: 68%;
+}
+
+#user-profile-addition-info, #local-government-options {
+    margin-top: 1em;
+    width:75%;
+    float: left;
+}
+
+.ui-widget-content.first-time-user-dialog{
+    max-height: none !important;
+    height: 70% !important;
+    min-width:300px;
+    overflow-y: hidden !important;
+    overflow-x: hidden;
+}
+
+#local-gov-topics {
+    float: left;
+}
+
+@media screen and (min-width: 40em) {
+	.org-select-grouping, 
+	.role-select-grouping, 
+	.community-type-grouping, 
+	.community-select-grouping {
+	    float:left;
+	    width: 40%;
+	    margin-left: 5%;
+	}
+}
+.org-select-grouping, .community-select-grouping {
+    margin-left: 0;
+}
+
+.community-type-grouping input[type="radio"]{
+    margin-right: .5em;
+    margin-left: 1em;
+}
+
+#roles-show-all-items {
+    display:none;
+}
+
+#new-location-input.input-error {
+    border: solid 1px #d9534f;
+}
+#location-error-message {
+    margin-left: 30px;
+    width: 400px;
+    color: #d9534f;
+}
+/*
+#location-description-user {
+    display:none;
+    line-height: 1em;
+}
+*/
+#locations-from-input-text {
+    padding-bottom: 0;
+}
+/*.ui-widget-content {*/
+/*overflow-y: auto !important;*/
+/*}*/
+
+/*.ui-widget-content.first-time-user-dialog .ui-dialog-buttonpane {*/
+/*overflow-y: hidden;*/
+/*height: 40px;*/
+/*}*/
+
+/*.ui-widget-content.locations-modal button:hover {*/
+/*border: 1px solid #dedede;*/
+/*background: #f3f3f3;*/
+/*}*/
+
+/*#dialog-all-locations{*/
+/*height: 350px;*/
+/*}*/
+
+
+/*.radio-options-holder input[type=radio], .radio-options-holder input.radio { margin-right: 5px; }*/

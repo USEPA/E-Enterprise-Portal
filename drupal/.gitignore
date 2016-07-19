@@ -12,3 +12,4 @@ sites/all/themes/*/.sass-cache
 .htaccess
 
 
+/node_modules/
