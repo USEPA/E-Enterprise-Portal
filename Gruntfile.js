@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    pkg: grunt.file.readJSON('../package.json'),
+    pkg: grunt.file.readJSON('package.json'),
     uglify: {
       options: {
         sourceMap: true,
@@ -14,104 +14,104 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           src: ['**/*.js', '!*min.js'],
-          cwd: 'sites/all/themes/eenterprise/js/src',
-          dest: 'sites/all/themes/eenterprise/js'
+          cwd:  'drupal/sites/all/themes/eenterprise/js/src',
+          dest:  'drupal/sites/all/themes/eenterprise/js'
         }],
       },
       /*add_map_set: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/add_map_set/js/src',
-          dest: 'sites/all/modules/custom/add_map_set/js'
+          cwd:  'drupal/sites/all/modules/custom/add_map_set/js/src',
+          dest:  'drupal/sites/all/modules/custom/add_map_set/js'
         }]
       },*/
       agency_map_list: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/agency_map_list/js/src',
-          dest: 'sites/all/modules/custom/agency_map_list/js'
+          cwd:  'drupal/sites/all/modules/custom/agency_map_list/js/src',
+          dest:  'drupal/sites/all/modules/custom/agency_map_list/js'
         }]
       },
       cdx_facility_management: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/cdx_facility_management/js/src',
-          dest: 'sites/all/modules/custom/cdx_facility_management/js'
+          cwd:  'drupal/sites/all/modules/custom/cdx_facility_management/js/src',
+          dest:  'drupal/sites/all/modules/custom/cdx_facility_management/js'
         }]
       },
       eenterprise_api: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/eenterprise_api/js/src',
-          dest: 'sites/all/modules/custom/eenterprise_api/js'
+          cwd:  'drupal/sites/all/modules/custom/eenterprise_api/js/src',
+          dest:  'drupal/sites/all/modules/custom/eenterprise_api/js'
         }]
       },
       favorite_links: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/favorite_links/js/src',
-          dest: 'sites/all/modules/custom/favorite_links/js'
+          cwd:  'drupal/sites/all/modules/custom/favorite_links/js/src',
+          dest:  'drupal/sites/all/modules/custom/favorite_links/js'
         }]
       },
       my_air_quality_chart_view: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/features/my_air_quality_chart_view/js/src',
-          dest: 'sites/all/modules/custom/features/my_air_quality_chart_view/js'
+          cwd:  'drupal/sites/all/modules/custom/features/my_air_quality_chart_view/js/src',
+          dest:  'drupal/sites/all/modules/custom/features/my_air_quality_chart_view/js'
         }]
       },
       my_environment_mapper: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/features/my_environment_mapper/js/src',
-          dest: 'sites/all/modules/custom/features/my_environment_mapper/js'
+          cwd:  'drupal/sites/all/modules/custom/features/my_environment_mapper/js/src',
+          dest:  'drupal/sites/all/modules/custom/features/my_environment_mapper/js'
         }]
       },
       my_maps_view: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/features/my_maps_view/js/src',
-          dest: 'sites/all/modules/custom/features/my_maps_view/js'
+          cwd:  'drupal/sites/all/modules/custom/features/my_maps_view/js/src',
+          dest:  'drupal/sites/all/modules/custom/features/my_maps_view/js'
         }]
       },
       suggestion_box: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/features/suggestion_box/js/src',
-          dest: 'sites/all/modules/custom/features/suggestion_box/js'
+          cwd:  'drupal/sites/all/modules/custom/features/suggestion_box/js/src',
+          dest:  'drupal/sites/all/modules/custom/features/suggestion_box/js'
         }]
       },
       village_green_block: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/features/village_green_block/js/src',
-          dest: 'sites/all/modules/custom/features/village_green_block/js'
+          cwd:  'drupal/sites/all/modules/custom/features/village_green_block/js/src',
+          dest:  'drupal/sites/all/modules/custom/features/village_green_block/js'
         }]
       },
       frs_location_services: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/frs_location_services/js/src',
-          dest: 'sites/all/modules/custom/frs_location_services/js'
+          cwd:  'drupal/sites/all/modules/custom/frs_location_services/js/src',
+          dest:  'drupal/sites/all/modules/custom/frs_location_services/js'
         }]
       },
       other_items_of_interest: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd: 'sites/all/modules/custom/other_items_of_interest/js/src',
-          dest: 'sites/all/modules/custom/other_items_of_interest/js'
+          cwd:  'drupal/sites/all/modules/custom/other_items_of_interest/js/src',
+          dest:  'drupal/sites/all/modules/custom/other_items_of_interest/js'
         }]
       },
       recommended_resources: {
@@ -119,8 +119,8 @@ module.exports = function(grunt) {
           {
             expand: true,
             src: ['**/*.js', '!*min.js'],
-            dest: 'sites/all/modules/custom/recommended_resources/js',
-            cwd: 'sites/all/modules/custom/recommended_resources/js/src'
+            dest:  'drupal/sites/all/modules/custom/recommended_resources/js',
+            cwd:  'drupal/sites/all/modules/custom/recommended_resources/js/src'
           }
         ]
       }
@@ -135,45 +135,45 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           src: ['**/*.css', '!*min.css'],
-          cwd: 'sites/all/themes/eenterprise/css/src',
-          dest: 'sites/all/themes/eenterprise/css'
+          cwd:  'drupal/sites/all/themes/eenterprise/css/src',
+          dest:  'drupal/sites/all/themes/eenterprise/css'
         }]
       },
       add_map_set: {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd: 'sites/all/modules/custom/add_map_set/css/src',
-          dest: 'sites/all/modules/custom/add_map_set/css'
+          cwd:  'drupal/sites/all/modules/custom/add_map_set/css/src',
+          dest:  'drupal/sites/all/modules/custom/add_map_set/css'
         }]
       },
       agency_map_list: {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd: 'sites/all/modules/custom/agency_map_list/css/src',
-          dest: 'sites/all/modules/custom/agency_map_list/css'
+          cwd:  'drupal/sites/all/modules/custom/agency_map_list/css/src',
+          dest:  'drupal/sites/all/modules/custom/agency_map_list/css'
         }]
       },
       cdx_facility_management: {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd: 'sites/all/modules/custom/cdx_facility_management/css/src',
-          dest: 'sites/all/modules/custom/cdx_facility_management/css'
+          cwd:  'drupal/sites/all/modules/custom/cdx_facility_management/css/src',
+          dest:  'drupal/sites/all/modules/custom/cdx_facility_management/css'
         },{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd: 'sites/all/modules/custom/cdx_facility_management/css/jquery_fancybox/src',
-          dest: 'sites/all/modules/custom/cdx_facility_management/css/jquery_fancybox'
+          cwd:  'drupal/sites/all/modules/custom/cdx_facility_management/css/jquery_fancybox/src',
+          dest:  'drupal/sites/all/modules/custom/cdx_facility_management/css/jquery_fancybox'
         }]
       },
       /*eenterprise_api: {
        files: [{
        expand: true,
        src: ['*.css', '!*.min.css'],
-       cwd: 'sites/all/modules/custom/eenterprise_api/css/src',
-       dest: 'sites/all/modules/custom/eenterprise_api/css',
+       cwd:  'drupal/sites/all/modules/custom/eenterprise_api/css/src',
+       dest:  'drupal/sites/all/modules/custom/eenterprise_api/css',
        ext: '.css'
        }]
        },*/
@@ -181,8 +181,8 @@ module.exports = function(grunt) {
        files: [{
        expand: true,
        src: ['*.css', '!*.min.css'],
-       cwd: 'sites/all/modules/custom/favorite_links/css/src',
-       dest: 'sites/all/modules/custom/favorite_links/css',
+       cwd:  'drupal/sites/all/modules/custom/favorite_links/css/src',
+       dest:  'drupal/sites/all/modules/custom/favorite_links/css',
        ext: '.css'
        }]
        },*/
@@ -190,56 +190,56 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd: 'sites/all/modules/custom/features/my_air_quality_chart_view/css/src',
-          dest: 'sites/all/modules/custom/features/my_air_quality_chart_view/css'
+          cwd:  'drupal/sites/all/modules/custom/features/my_air_quality_chart_view/css/src',
+          dest:  'drupal/sites/all/modules/custom/features/my_air_quality_chart_view/css'
         }]
       },
       my_environment_mapper: {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd: 'sites/all/modules/custom/features/my_environment_mapper/css/src',
-          dest: 'sites/all/modules/custom/features/my_environment_mapper/css'
+          cwd:  'drupal/sites/all/modules/custom/features/my_environment_mapper/css/src',
+          dest:  'drupal/sites/all/modules/custom/features/my_environment_mapper/css'
         }]
       },
       my_maps_view: {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd: 'sites/all/modules/custom/features/my_maps_view/css/src',
-          dest: 'sites/all/modules/custom/features/my_maps_view/css'
+          cwd:  'drupal/sites/all/modules/custom/features/my_maps_view/css/src',
+          dest:  'drupal/sites/all/modules/custom/features/my_maps_view/css'
         }]
       },
       suggestion_box: {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd: 'sites/all/modules/custom/features/suggestion_box/css/src',
-          dest: 'sites/all/modules/custom/features/suggestion_box/css'
+          cwd:  'drupal/sites/all/modules/custom/features/suggestion_box/css/src',
+          dest:  'drupal/sites/all/modules/custom/features/suggestion_box/css'
         }]
       },
       village_green_block: {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd: 'sites/all/modules/custom/features/village_green_block/css/src',
-          dest: 'sites/all/modules/custom/features/village_green_block/css'
+          cwd:  'drupal/sites/all/modules/custom/features/village_green_block/css/src',
+          dest:  'drupal/sites/all/modules/custom/features/village_green_block/css'
         }]
       },
       frs_location_services: {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd: 'sites/all/modules/custom/frs_location_services/css/src',
-          dest: 'sites/all/modules/custom/frs_location_services/css'
+          cwd:  'drupal/sites/all/modules/custom/frs_location_services/css/src',
+          dest:  'drupal/sites/all/modules/custom/frs_location_services/css'
         }]
       },
       other_items_of_interest: {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd: 'sites/all/modules/custom/other_items_of_interest/css/src',
-          dest: 'sites/all/modules/custom/other_items_of_interest/css'
+          cwd:  'drupal/sites/all/modules/custom/other_items_of_interest/css/src',
+          dest:  'drupal/sites/all/modules/custom/other_items_of_interest/css'
         }]
       },
       recommended_resources: {
@@ -247,8 +247,8 @@ module.exports = function(grunt) {
           {
             expand: true,
             src: ['**/*.css', '!*min.css'],
-            dest: 'sites/all/modules/custom/recommended_resources/css',
-            cwd: 'sites/all/modules/custom/recommended_resources/css/src',
+            dest:  'drupal/sites/all/modules/custom/recommended_resources/css',
+            cwd:  'drupal/sites/all/modules/custom/recommended_resources/css/src',
             ext: '.css'
           }
         ]
