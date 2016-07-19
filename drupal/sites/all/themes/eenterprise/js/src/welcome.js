@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 (function ($) {
 
   $(function() {
@@ -98,7 +97,3 @@
       }
     });
 })(jQuery);
-=======
-!function(a){a(function(){var b=window.location.pathname.split("/")[1];console.log("page name is : "+b),"eenterprise-new"!=b&&"eenterprise-alternate"!=b||(console.log("page name is right"),a(document).on("ready",function(){var b=a(".jcarousel");b.jcarousel(),b.on("jcarousel:create jcarousel:reload",function(){var b=a(this),c=a("body").find(".jcarousel-wrapper").innerWidth();console.log("width is: "+c),b.jcarousel("items").css("width",Math.ceil(c)+"px")}),a(".jcarousel-control-prev").jcarouselControl({target:"-=1"}),a(".jcarousel-control-next").jcarouselControl({target:"+=1"}),a(".jcarousel-pagination").on("jcarouselpagination:active","a",function(){a(this).addClass("active")}).on("jcarouselpagination:inactive","a",function(){a(this).removeClass("active")}).on("click",function(a){a.preventDefault()}).jcarouselPagination({perPage:1,item:function(a){return'<a href="#'+a+'">'+a+"</a>"}})}))})}(jQuery);
-//# sourceMappingURL=welcome.js.map
->>>>>>> 449dee5810a31e38c121db2e67c4e5b75c789b9d
