@@ -28,8 +28,8 @@
  *
 *
 */
-drupal_add_js(drupal_get_path('module', 'my_environment_mapper') ."/js/myEnvironmentMapper.js", "file");
-drupal_add_css(drupal_get_path('module', 'my_environment_mapper') ."/css/myEnvMapper.css", "file");
+drupal_add_js(drupal_get_path('module', 'environment_mapper') ."/js/myEnvironmentMapper.js", "file");
+drupal_add_css(drupal_get_path('module', 'environment_mapper') ."/css/myEnvMapper.css", "file");
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
@@ -54,10 +54,10 @@ drupal_add_css(drupal_get_path('module', 'my_environment_mapper') ."/css/myEnvMa
       <?php print $attachment_before; ?>
     </div>
   <?php endif; ?>
-		<p class="widget-note">For more information, like water quality and <abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="top" title="Ultraviolet">UV</abbr> index, visit <a href='' id="myEnvMoreInfo" rel="external" target="_blank">MyEnvironment</a>.</p>
-    <div class="embedMyEnv-container">
-        <iframe id="myEnviFrame" src='' title='My EnviroMapper map from EPA.gov' width='800' height='500' style='border:0'></iframe>
-    </div>
+  <p class="widget-note">For more information, like water quality and <abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="top" title="Ultraviolet">UV</abbr> index, visit <a href='' id="myEnvMoreInfo" rel="external" target="_blank">MyEnvironment</a>.</p>
+  <div class="error-loading-enviromapper"></div>
+  <div class="embedMyEnv-container">
+  </div>
   <?php if ($pager): ?>
     <?php print $pager; ?>
   <?php endif; ?>
@@ -87,7 +87,8 @@ drupal_add_css(drupal_get_path('module', 'my_environment_mapper') ."/css/myEnvMa
 <div id="invalid-location" style="display:none;">
     <p>The location you have selected does not have sufficient geospatial data to be displayed on the map.</p>
 </div>
-</div><?php /* class view */ ?>
+</div>
+<?php /* class view */ ?>
 
 
 
