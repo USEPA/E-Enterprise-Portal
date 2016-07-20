@@ -215,3 +215,67 @@ function fetch_my_cdx_links() {
     return array();
   }
 }
+
+/**
+ * Implements hook_feature_toggle_TOGGLE_enable().
+ */
+function my_cdx_feature_toggle_mycdx_connections_enable() {
+  // set the menu type for the 'App Connect' view to 'No menu entry'
+  // @see http://drupal.stackexchange.com/questions/49398/how-to-change-views-field-settings-programmatically
+  $view = views_get_view('app_connect');
+  $view->display['page']->display_options['path'] = 'app-connect-disabled';
+  $view->display['page']->display_options['menu']['type'] = 'none';
+  views_save_view($view);
+
+  // set the menu type for the 'App Connect' panel page to 'Normal menu entry'
+  // add My CDX block to App Connect panel page if not already present
+  $page = page_manager_page_load('app_connect');
+  $page->menu = array(
+    'type' => 'normal',
+    'title' => 'App Connect',
+    'name' => 'main-menu',
+    'weight' => '1',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  ctools_get_plugins('page_manager', 'task_handlers');
+  page_manager_page_save($page);
+}
+
+/**
+ * Implements hook_feature_toggle_TOGGLE_disable().
+ */
+function my_cdx_feature_toggle_mycdx_connections_disable() {
+  // set the menu type for the 'App Connect' view back to 'Normal menu entry'
+  // @see http://drupal.stackexchange.com/questions/49398/how-to-change-views-field-settings-programmatically
+  $view = views_get_view('app_connect');
+  $view->display['page']->display_options['path'] = 'app-connect';
+  $view->display['page']->display_options['menu']['type'] = 'normal';
+  $view->display['page']->display_options['menu']['title'] = 'App Connect';
+  $view->display['page']->display_options['menu']['weight'] = '1';
+  $view->display['page']->display_options['menu']['name'] = 'main-menu';
+  $view->display['page']->display_options['menu']['context'] = 0;
+  $view->display['page']->display_options['menu']['context_only_inline'] = 0;
+  views_save_view($view);
+
+  // set the menu type for the 'App Connect' panel page to 'No menu entry'
+  $page = page_manager_page_load('app_connect');
+  $page->menu = array(
+    'type' => 'none',
+    'title' => 'App Connect',
+    'name' => 'main-menu',
+    'weight' => '0',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  ctools_get_plugins('page_manager', 'task_handlers');
+  page_manager_page_save($page);
+}
