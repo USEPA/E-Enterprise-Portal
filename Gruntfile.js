@@ -66,12 +66,12 @@ module.exports = function(grunt) {
           dest:  'drupal/sites/all/modules/custom/features/my_air_quality_chart_view/js'
         }]
       },
-      my_environment_mapper: {
+      environment_mapper: {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd:  'drupal/sites/all/modules/custom/features/my_environment_mapper/js/src',
-          dest:  'drupal/sites/all/modules/custom/features/my_environment_mapper/js'
+          cwd:  'drupal/sites/all/modules/custom/environment_mapper/js/src',
+          dest:  'drupal/sites/all/modules/custom/environment_mapper/js'
         }]
       },
       my_maps_view: {
@@ -194,12 +194,12 @@ module.exports = function(grunt) {
           dest:  'drupal/sites/all/modules/custom/features/my_air_quality_chart_view/css'
         }]
       },
-      my_environment_mapper: {
+      environment_mapper: {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd:  'drupal/sites/all/modules/custom/features/my_environment_mapper/css/src',
-          dest:  'drupal/sites/all/modules/custom/features/my_environment_mapper/css'
+          cwd:  'drupal/sites/all/modules/custom/environment_mapper/css/src',
+          dest:  'drupal/sites/all/modules/custom/environment_mapper/css'
         }]
       },
       my_maps_view: {
@@ -282,7 +282,7 @@ module.exports = function(grunt) {
   grunt.registerTask('eenterprise_api', ['uglify:eenterprise_api']);
   grunt.registerTask('favorite_links', ['uglify:favorite_links']);
   grunt.registerTask('my_air_quality_chart_view', ['cssmin:my_air_quality_chart_view', 'uglify:my_air_quality_chart_view']);
-  grunt.registerTask('my_environment_mapper', ['cssmin:my_environment_mapper', 'uglify:my_environment_mapper']);
+  grunt.registerTask('environment_mapper', ['cssmin:environment_mapper', 'uglify:environment_mapper']);
   grunt.registerTask('my_maps_view', ['cssmin:my_maps_view', 'uglify:my_maps_view']);
   grunt.registerTask('suggestion_box', ['cssmin:suggestion_box', 'uglify:suggestion_box']);
   grunt.registerTask('village_green_block', ['cssmin:village_green_block', 'uglify:village_green_block']);
