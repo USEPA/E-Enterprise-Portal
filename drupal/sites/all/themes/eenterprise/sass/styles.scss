@@ -403,11 +403,11 @@ footer {
         .pager__link.next {  
             background-color: $color-primary;
             background-repeat: no-repeat;
-            background-position-y: 50%;
+            background-position: center center;
             background-size: 1rem, contain;
             width: 2rem;
             height: 2rem;
-            border-radius: 50%;     
+            border-radius: 50%;
             vertical-align: middle;    
             font-size: 0;       
             &:hover,
@@ -418,11 +418,11 @@ footer {
         }      
         .pager__link.previous {
             background-image: url('../images/white/chevron-left.svg'); 
-            background-position-x: 40%;                  
+            background-position: 40% center;                  
         }
         .pager__link.next {
             background-image: url('../images/white/chevron-right.svg');
-            background-position-x: 60%;            
+            background-position: 60% center;
         }        
         li, a {
             &.disabled {
@@ -470,7 +470,7 @@ footer {
             a {
                 background-color: $color-primary;
                 background-repeat: no-repeat;
-                background-position-y: 50%;
+                background-position: center center; 
                 background-size: 1rem, contain;
                 width: 2rem;
                 height: 2rem;
@@ -489,11 +489,11 @@ footer {
         }
         .pager-next a {
             background-image: url('../images/white/chevron-right.svg');
-            background-position-x: 60%;
+            background-position: 60% center;
         }
         .pager-previous a {
             background-image: url('../images/white/chevron-left.svg');
-            background-position-x: 40%;
+            background-position: 40% center;
         }
     } 
 }
@@ -698,16 +698,14 @@ header {
         }
     }
     .jcarousel-wrapper {
-        margin: 5px auto;
+        margin: 0 auto;
         position: relative;
         background-color: #8a8a8a;
-        padding: 0 8em;
         .jcarousel {
             background-color: #8a8a8a;
             position: relative;
             overflow: hidden;
             width: 100%;
-            padding-bottom: 5px;
             ul:not(.including_items) {
                 width: 20000em;
                 position: relative;
@@ -718,36 +716,36 @@ header {
                     float: left;
                     display: block;
                     width: 1240px;
-                    height: 400px;
-                    padding-top: 1rem;
-                    padding-bottom: 1rem;
+                    height: auto;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    padding: 0 2rem;
                     &.featured {
-                        background: transparent url('../images/bg-streamlining.jpg') no-repeat 0 0;
+                        background: transparent url('../images/bg-streamlining.jpg') no-repeat 50% 0;
+                        background-size: cover;
                         div {
-                            width: 300px;
-                            float: right;
-                            margin-right: 8em;
+                            margin-top: 100px;                            
                             color: $color-white;
-                            padding-top: 150px;
+                            background-color: #2C2A2D; //Color from background image
+                            opacity: 0.8;
+                            padding: 0.5rem 1.5rem;
                         }
                     }
                     &.including {
                         h2 {
                             margin-bottom: 0;
                         }
+                        .including_items {
+                            padding-top: 2rem;
+                        }
                         li {
-                            width: 400px;
-                            height: 100px;
-                            float: left;
-                            &.slide-row1:first-of-type {
-                                margin-left: 200px;
-                            }
+                            width: 100%;
+                            display: block;
                             &.slide-row1, 
                             &.slide-row2 {
                                 img {
-                                    border-radius: 50%;
-                                    width: 48px;
-                                    height: 48px;   
+                                    width: 24px;
+                                    height: 24px;   
                                     vertical-align: top;                                 
                                 }
                                 img, div {
@@ -762,11 +760,15 @@ header {
                                     margin-top: 0;
                                 }
                                 div {
-                                    width: 300px;
+                                    width: 80%;
                                     margin-left: 10px;
                                 }
                             }
                         }
+                    }
+                    .video-details,
+                    .video-holder {
+                        display: block;                                                
                     }
                 }                
             }
@@ -774,41 +776,51 @@ header {
         .jcarousel-control-prev,
         .jcarousel-control-next {
             position: absolute;
-            top: 100px;
+            top: 150px;
             text-align: center;
-            font-size: 20rem;
-            color: $color-white;
             &:hover,
             &:focus,
             &:active {
                 text-decoration: none;
                 color: #efefef;               
             }
+            img {
+                //background-size: 20px 100px;
+                height: 50px;
+            }
+            &.inactive {
+                display: none;
+            }
         }
         .jcarousel-control-prev {
-            left: 4rem;
+            left: 1rem;
         }
         .jcarousel-control-next {
-            right: 4rem;
+            right: 1rem;
         }
         .jcarousel-pagination {
             position: absolute;
             left: 40%;     
-            bottom: 5px;       
+            bottom: 0;       
             a {
                 padding: 5px 10px;
                 border: 3px solid #898989;
-                background-color: $color-gray-lightest;
+                background-color: $color-gray-light;
                 border-radius: 50%;
                 margin-right: 15px;
                 text-decoration: none;
+                color: $color-base;
                 &.active,
                 &:hover,
-                &:focus {
-                    background-color: $color-white;
+                &:focus,
+                &:active {
+                    background-color: $color-gray-lightest;
                     color: $color-base;
                     font-weight: bold;
-                }          
+                }    
+                &:visited {
+                    color: $color-base;                    
+                }      
             }
         }
     }
@@ -3127,6 +3139,86 @@ input[type="submit"]:not(.usa-button-outline),
 // Tablet, iPad Landscape @ 768px -------------- //
 
 @media screen and (min-width: 48em) {
+    
+    .section-eenterprise-new, 
+    .section-eenterprise-alternate {
+        .jcarousel-wrapper {
+            .jcarousel {
+                ul:not(.including_items) {
+                    li {
+                        height: 450px;  
+                        &.featured {
+                            background-position: center;
+                            div {
+                                width: 300px;
+                                float: right;
+                                margin-right: 8em;
+                                margin-top: 100px;
+                                margin-left: auto;
+                                margin-bottom: auto;                            
+                                color: $color-white;
+                                background-color: #2C2A2D; //Color from background image
+                                opacity: 0.7;
+                                padding: 0.5rem 1.5rem;
+                            }
+                        }                        
+                        &.including {
+                            padding: 0 8rem;
+                            h2 {
+                                margin-bottom: 0;
+                            }
+                            .including_items {
+                                padding-top: 2rem;
+                            }
+                            li {
+                                width: 45%;
+                                height: 100px;
+                                display: table-cell;
+                                vertical-align: top;
+                                float: left;
+                                &.slide-row1:first-of-type {
+                                    margin-left: 5%;
+                                }
+                                &.slide-row1, 
+                                &.slide-row2 {
+                                    img {
+                                        border-radius: 50%;
+                                        width: 48px;
+                                        height: 48px;   
+                                        vertical-align: top;                                 
+                                    }
+                                    div {
+                                        width: 80%;
+                                    }
+                                }
+                            }
+                        }                         
+                        .video-details,
+                        .video-holder {
+                            display: table-cell;                        
+                            vertical-align: top;                        
+                        }
+                        .video-details {
+                            width: 350px;
+                            padding-left: 4rem;
+                            float: left;
+                        }
+                        .video-holder {
+                            width: 550px;
+                            padding: 2em 4rem 2em 0;
+                            float: right;
+                        }                        
+                    }
+                }
+            }
+            .jcarousel-control-prev,
+            .jcarousel-control-next { 
+                height: 100px;   
+            }           
+        }
+        
+    }
+    
     .login-options li {
         display: inline-block;
         width: 40%;
@@ -3241,8 +3333,12 @@ input[type="submit"]:not(.usa-button-outline),
         padding: 5px;
         width: 2em;
         border: 1px solid darken($color-primary-darker, 5%);
+        vertical-align: middle;
         &:hover {
             text-decoration: none;
+        }
+        img {
+            vertical-align: middle;
         }
     }
     .usa-button.mobile-nav_toggle {

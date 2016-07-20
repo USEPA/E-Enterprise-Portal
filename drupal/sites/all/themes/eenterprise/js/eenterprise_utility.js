@@ -1,5 +1,2 @@
-// function removeLink() {
-//   ajax.url({
-//     url: '/'
-//   }})
-// }
+
+//# sourceMappingURL=eenterprise_utility.js.map
