@@ -28,7 +28,7 @@
  *
 *
 */
-drupal_add_js(drupal_get_path('module', 'environment_mapper') ."/js/load_emapper_iframe.js", "file");
+drupal_add_js(drupal_get_path('module', 'environment_mapper') ."/js/myEnvironmentMapper.js", "file");
 drupal_add_css(drupal_get_path('module', 'environment_mapper') ."/css/myEnvMapper.css", "file");
 ?>
 <div class="<?php print $classes; ?>">
@@ -54,9 +54,10 @@ drupal_add_css(drupal_get_path('module', 'environment_mapper') ."/css/myEnvMappe
       <?php print $attachment_before; ?>
     </div>
   <?php endif; ?>
-    <div id="enviromapper-wrapper">
-
-    </div>
+  <p class="widget-note">For more information, like water quality and <abbr class="ee-bootstrap-tooltip" data-toggle="tooltip" data-placement="top" title="Ultraviolet">UV</abbr> index, visit <a href='' id="myEnvMoreInfo" rel="external" target="_blank">MyEnvironment</a>.</p>
+  <div class="error-loading-enviromapper"></div>
+  <div class="embedMyEnv-container">
+  </div>
   <?php if ($pager): ?>
     <?php print $pager; ?>
   <?php endif; ?>

@@ -1,22 +1,5 @@
 <?php
 
-function environment_mapper_menu() {
-  $items = array();
-  $items['load_enviromapper'] = array(
-    'page callback' => 'load_enviromapper',
-    'access callback' => TRUE,
-  );
-
-  return $items;
-}
-
-/**
- * Implements hook_views_api().
- */
-function environment_mapper_views_api($module = NULL, $api = NULL) {
-  return array("api" => "3.0");
-}
-
 
 /**
  * Implements hook_theme_registry_alter().
@@ -37,14 +20,3 @@ function environment_mapper_theme_registry_alter(&$theme_registry) {
     }
   }
 }
-
-function load_enviromapper() {
-  if (isset($_GET['iframe_url'])) {
-    $iframe_url = xssafe($_GET['iframe_url']);
-    print views_embed_view('my_environment_wrapper', 'enviromapper_iframe');
-  }
-  else {
-    print "Missing GET param: 'iframe_url'.";
-  }
-}
-
