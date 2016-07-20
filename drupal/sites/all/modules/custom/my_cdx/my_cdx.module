@@ -229,6 +229,7 @@ function my_cdx_feature_toggle_mycdx_connections_enable() {
 
   // set the menu type for the 'App Connect' panel page to 'Normal menu entry'
   // add My CDX block to App Connect panel page if not already present
+  ctools_get_plugins('page_manager', 'tasks');
   $page = page_manager_page_load('app_connect');
   $page->menu = array(
     'type' => 'normal',
@@ -242,7 +243,6 @@ function my_cdx_feature_toggle_mycdx_connections_enable() {
       'weight' => '0',
     ),
   );
-  ctools_get_plugins('page_manager', 'task_handlers');
   page_manager_page_save($page);
 }
 
@@ -263,6 +263,7 @@ function my_cdx_feature_toggle_mycdx_connections_disable() {
   views_save_view($view);
 
   // set the menu type for the 'App Connect' panel page to 'No menu entry'
+  ctools_get_plugins('page_manager', 'tasks');
   $page = page_manager_page_load('app_connect');
   $page->menu = array(
     'type' => 'none',
@@ -276,6 +277,5 @@ function my_cdx_feature_toggle_mycdx_connections_disable() {
       'weight' => '0',
     ),
   );
-  ctools_get_plugins('page_manager', 'task_handlers');
   page_manager_page_save($page);
 }
