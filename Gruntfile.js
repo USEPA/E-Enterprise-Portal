@@ -70,8 +70,8 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           src: ['*.js', '!*.min.js'],
-          cwd:  'drupal/sites/all/modules/custom/features/my_environment_mapper/js/src',
-          dest:  'drupal/sites/all/modules/custom/features/my_environment_mapper/js'
+          cwd:  'drupal/sites/all/modules/custom/my_environment_mapper/js/src',
+          dest:  'drupal/sites/all/modules/custom/my_environment_mapper/js'
         }]
       },
       my_maps_view: {
@@ -198,8 +198,8 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           src: ['*.css', '!*.min.css'],
-          cwd:  'drupal/sites/all/modules/custom/features/my_environment_mapper/css/src',
-          dest:  'drupal/sites/all/modules/custom/features/my_environment_mapper/css'
+          cwd:  'drupal/sites/all/modules/custom/my_environment_mapper/css/src',
+          dest:  'drupal/sites/all/modules/custom/my_environment_mapper/css'
         }]
       },
       my_maps_view: {
