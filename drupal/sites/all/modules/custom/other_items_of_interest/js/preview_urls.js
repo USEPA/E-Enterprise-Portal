@@ -1,2 +1,78 @@
-!function(a){function b(b){var d=b.text(),e=d.split(":")[0],f=a("<button class='preview_button'>Preview</button>");return f.click(function(){"https"==e?c(d):window.open(d,"_blank")}),f}function c(b){var c=a('<iframe class="modal-iframe" src="'+b+'"  class="modal-iframe" marginwidth="0" marginheight="0" allowfullscreen></iframe>');a("<div></div>").append(c).appendTo("body").dialog({autoOpen:!0,modal:!0,dialogClass:"other-items",resizable:!1,width:"90%",height:"90%",position:{my:"center",at:"center",of:window},close:function(){c.attr("src",""),a(this).dialog("destroy").remove()}})}a(document).ready(function(){var c=a("td.views-field.views-field-field-source-url a");a.each(c,function(){var c=a(this);a(this).qtip({content:{text:b(c)},hide:{fixed:!0,delay:300},position:{my:"left center",at:"right center",target:a(this)},style:{classes:"transparent-qtip",width:"auto"}})})})}(jQuery);
-//# sourceMappingURL=preview_urls.js.map
+(function($) {
+
+
+
+    function previewButton(elem) {
+        var url = elem.text();
+        var htt = url.split(':')[0];
+        var button = $("<button class='preview_button'>Preview</button>");
+        button.click(function() {
+            if (htt == 'https') {
+                openDialog(url);
+            }
+            else {
+                window.open(
+                   url,
+                    '_blank' // <- This is what makes it open in a new window.
+                );
+
+            }
+        });
+        return button;
+
+    }
+
+    function openDialog(url) {
+        var iframe = $('<iframe class="modal-iframe" src="' + url + '"  class="modal-iframe" marginwidth="0" marginheight="0" allowfullscreen></iframe>');
+        var dialog = $("<div></div>").append(iframe).appendTo("body").dialog({
+            autoOpen: true,
+            modal: true,
+						dialogClass: 'other-items',                                            
+            resizable: false,
+            width: "90%",
+            height: "90%",
+            position: {
+                    my: "center",
+                    at: "center",
+                    of: window
+            },
+            close: function () {
+                iframe.attr("src", "");
+                $(this).dialog("destroy").remove();
+            }
+        });
+
+    }
+
+    $(document).ready(function() {
+        var $urls = $('td.views-field.views-field-field-source-url a');
+        $.each($urls, function() {
+                var _this = $(this);
+            $(this).qtip({ // Grab some elements to apply the tooltip to
+                content: {
+                    text: previewButton(_this)
+                },
+              //  content: $('<iframe class="preview-iframe" src="'+ _this.text() + '" />'),
+
+                hide: {
+                    fixed: true,
+                    delay: 300
+                },
+            //    show: true,
+                position: {
+                    my: 'left center',  // Position my top left...
+                    at: 'right center', // at the bottom right of...
+                    target: $(this) // my target
+                },
+                style: {
+                    classes: 'transparent-qtip',
+                    width: "auto"
+                }
+            });
+
+        });
+
+    });
+
+
+}(jQuery));
