@@ -1,6 +1,4 @@
 @import '../../../../themes/eenterprise/sass/core/variables';
-// Mixins
-
 // Resources for Local Communities responsive table styles
 .faceted-filters {
     width: 100%;
@@ -32,7 +30,7 @@
     width: 40%;
 }
 
-@media screen and (max-width: 30.01em), screen and (min-width: 48.01em) and (max-width: 60.01em) {
+@media screen and (max-width: 30em), screen and (min-width: 48.01em) and (max-width: 60.01em) {
     .faceted-filters {
         &.on, &.off {
             width: 100%;
@@ -117,11 +115,25 @@
         }
     }
 }
-@media screen and (min-width: 60.01em) and (max-width: 72.0em){
-    .responsive-table {
-        .views-field {
-            &.views-field-value-3, &.views-field-value-4 {
-                display: none;
+
+@media screen and (min-width: 34.01em) and (max-width: 48.0em), screen and (min-width: 72.01em) {
+    .all.resources {
+        &.toggle-open {
+            .responsive-table {
+                .views-field {
+                    &.views-field-value-3, &.views-field-value-4 {
+                        display: none;
+                    }
+                }
+            }
+        }
+        &.toggle-closed {
+            .responsive-table {
+                .views-field {
+                    &.views-field-value-3, &.views-field-value-4 {
+                        display: table-cell;
+                    }
+                }
             }
         }
     }
