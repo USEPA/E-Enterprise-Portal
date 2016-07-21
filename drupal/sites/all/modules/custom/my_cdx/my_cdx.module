@@ -55,7 +55,7 @@ function my_cdx_theme() {
  * Implements hook_block_view().
  */
 function my_cdx_block_view($delta = '') {
-  drupal_add_js('sites/all/modules/contrib/datatables/dataTables/media/js/jquery.dataTables.js', 'file');
+  drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', 'file');
   drupal_add_js(drupal_get_path('module', 'my_cdx') . '/my_cdx.js', 'file');
   drupal_add_css(drupal_get_path('module', 'my_cdx') . '/my_cdx.css', 'file');
 
