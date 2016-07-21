@@ -76,8 +76,6 @@
    * @param zipCentLon
    */
   function createIframe(zipCentLat, zipCentLon) {
-    var iframe_loaded = false;
-    var wait_for_iframe_seconds = 30;
     var iFrameURL = "https://map11.epa.gov/myem/envmapEEP/mainmap.html?pTheme=all&pLayers=afs,triair,triwater,rcra,tsca&ve=11," + zipCentLat + "," + zipCentLon;
     //Create Iframe
     var $iframe = $('<iframe>', {
@@ -93,7 +91,6 @@
     $('.embedMyEnv-container').html($iframe);
     // Update extra details text with new link
     $('#myEnvMoreInfo').attr('href', 'http://www3.epa.gov/myenv/myenview2.find?zipcode=' + currentZip + '&GO=go');
-
   }
 
 })(jQuery);
