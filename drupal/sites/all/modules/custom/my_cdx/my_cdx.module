@@ -63,7 +63,7 @@ function my_cdx_block_view($delta = '') {
 
   if ($delta = 'my_cdx') {
     if (user_access('access content')){ //good idea to check user perms here
-      $block['subject'] = t('My CDX');
+      $block['subject'] = t('App Connect');
       $block['content'] = theme('my_cdx');
       return $block;
     }
