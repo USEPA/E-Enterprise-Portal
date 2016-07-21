@@ -1,2 +1,92 @@
-!function(a){Drupal.behaviors.mobileMenu={attach:function(b,c){if(!a(".mobile-nav_links").hasClass("mobilenav-processed")){var d=a(".mobile-nav_links"),e=a(".main-nav"),f=a(".secondary-nav"),g=e.find(".menu").clone(),h=f.find(".menu").clone();if(g.attr("class","menu").find("ul").each(function(){a(this).attr("class","menu")}),g.find("ul").remove(),h.attr("class","menu").find("ul").each(function(){a(this).attr("class","menu")}),h.find("ul").remove(),Drupal.settings.ee_guest)if(a(".block--login-from-guest-page").length>0){var i=a(".block--login-from-guest-page div a").clone().prop({"class":"newlinks"});g.append(i),g.find(".newlinks").wrap('<li class="menu-item"></li>')}else{var j=a('<ul class="menu"><li class="menu-item"><a href="/faqs" id="faqs-link">FAQs</a></li><li class="menu-item"><a href="/guest_bye" id="guest-login">Log in</a></li></ul>');g>0?g.append(j):a(".mobile-nav_links").append(j)}else if(Drupal.settings.ee_user){var k="";if(a(".block--login-from-guest-page").length>0)k=".block--login-from-guest-page div a";else if(a(".block--ee-bridge-login div a").length>0)k=".block--ee-bridge-login div a";else if(0==a(".main-nav").length){var l='<li class="menu-item"><a href="/">Workbench</a></li>';h.prepend(l)}var m=a(k).clone().prop({"class":"newlinks"});g.append(m),g.find(".newlinks").wrap('<li class="menu-item"></li>')}else{var n=a('<li class="menu-item"><a href="/bridge-landing" id="guest-login">Log in</a></li><li class="menu-item"><a href="/faqs" id="faqs-link" >FAQs</a></li>');g.append(n)}g.appendTo(d),h.appendTo(d),a(".mobile-nav_links").addClass("mobilenav-processed")}var o=a(".mobile-nav").find(".mobile-nav_links"),p=o.find("a");p.attr("tabindex",-1),a(".mobile-nav_toggle").on("click",function(b){b.stopImmediatePropagation(),b.preventDefault(),a(".mobile-nav_toggle").toggleClass("menu-button-active"),o.hasClass("element-hidden")?(p.attr("tabindex",-1),a(".mobile-nav_links").removeClass("element-hidden")):(p.removeAttr("tabindex"),a(".mobile-nav_links").addClass("element-hidden"))})}}}(jQuery);
-//# sourceMappingURL=mobile-menu.js.map
+(function ($) {
+
+// Convert main menu into a mobile menu and move original menu.
+Drupal.behaviors.mobileMenu = {
+  attach: function(context, settings) {
+	  if (!$('.mobile-nav_links').hasClass('mobilenav-processed')) {
+			
+	    // Create mobile menu container, create mobile bar, and clone the main menu.
+	    var $mobileLinks = $('.mobile-nav_links');
+	    var $mainNav = $('.main-nav');
+	    var $secondaryNav = $('.secondary-nav');
+	    var $newMainMenu = $mainNav.find('.menu').clone();
+	    var $newSecondaryMenu = $secondaryNav.find('.menu').clone();
+	
+	    // Insert the cloned menus into the mobile menu container.
+	    $newMainMenu.attr('class', 'menu').find('ul').each(function() {
+	      $(this).attr('class', 'menu');
+	    });
+	    $newMainMenu.find('ul').remove();
+	
+	    $newSecondaryMenu.attr('class', 'menu').find('ul').each(function() {
+	      $(this).attr('class', 'menu');
+	    });
+	    $newSecondaryMenu.find('ul').remove();
+	    
+	    // If the user is a guest user, then show them the FAQs, Login options
+	    if (Drupal.settings.ee_guest) {
+		    if ($('.block--login-from-guest-page').length > 0 ) {
+					var $guestMenu = $('.block--login-from-guest-page div a').clone().prop({class: "newlinks"});
+			    $newMainMenu.append($guestMenu);
+			    $newMainMenu.find('.newlinks').wrap('<li class="menu-item"></li>');
+				}
+				else {
+					var guestMenuAdd = $('<ul class="menu"><li class="menu-item"><a href="/faqs" id="faqs-link">FAQs</a></li><li class="menu-item"><a href="/guest_bye" id="guest-login">Log in</a></li></ul>');
+					if ($newMainMenu > 0) {
+						$newMainMenu.append(guestMenuAdd);
+					}
+					else {
+						$('.mobile-nav_links').append(guestMenuAdd);
+					}
+				}
+	    }
+	    // If the user isn't logged in and is viewing FAQs / Release Notes pages
+		  else if (Drupal.settings.ee_user) {
+			  var menuToClone = '';
+			  if ($('.block--login-from-guest-page').length > 0 ) {
+				  menuToClone = '.block--login-from-guest-page div a';
+			  }
+			  else if ($('.block--ee-bridge-login div a').length > 0) {
+				  menuToClone = '.block--ee-bridge-login div a';
+			  }
+			  else if ($('.main-nav').length == 0) {
+				  var addWorkbench = '<li class="menu-item"><a href="/">Workbench</a></li>';
+				  $newSecondaryMenu.prepend(addWorkbench);
+			  }
+	    	var $newuserMenu = $(menuToClone).clone().prop({class: "newlinks"});
+	    	$newMainMenu.append($newuserMenu);
+	    	$newMainMenu.find('.newlinks').wrap('<li class="menu-item"></li>');
+		  }
+		  else {
+			 var otherUser = $('<li class="menu-item"><a href="/bridge-landing" id="guest-login">Log in</a></li><li class="menu-item"><a href="/faqs" id="faqs-link" >FAQs</a></li>');
+			 $newMainMenu.append(otherUser);
+		  }
+		  
+	    $newMainMenu.appendTo($mobileLinks);
+	    $newSecondaryMenu.appendTo($mobileLinks); 
+	    $('.mobile-nav_links').addClass('mobilenav-processed');
+    } 
+  	// Open/Close mobile menu when menu button is clicked.
+    var $mobileMenuWrapper = $('.mobile-nav').find('.mobile-nav_links');
+    var $mobileMenuLinks = $mobileMenuWrapper.find('a');
+
+    $mobileMenuLinks.attr('tabindex', -1);
+    
+    $('.mobile-nav_toggle').on('click', function(toggleEvent) {
+      toggleEvent.stopImmediatePropagation();
+      toggleEvent.preventDefault();		    
+      $('.mobile-nav_toggle').toggleClass('menu-button-active');
+      // Take mobile menu links out of tab flow if hidden.
+      if ($mobileMenuWrapper.hasClass('element-hidden')) {
+        $mobileMenuLinks.attr('tabindex', -1);
+        $('.mobile-nav_links').removeClass('element-hidden');
+      }
+      else {
+        $mobileMenuLinks.removeAttr('tabindex');
+        $('.mobile-nav_links').addClass('element-hidden');
+      }
+    }); 
+  }
+};
+
+})(jQuery);
