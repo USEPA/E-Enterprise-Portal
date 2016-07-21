@@ -77,7 +77,7 @@
    */
   function createIframe(zipCentLat, zipCentLon) {
     var iframe_loaded = false;
-    var wait_for_iframe_seconds = 10;
+    var wait_for_iframe_seconds = 30;
     var iFrameURL = "https://map11.epa.gov/myem/envmapEEP/mainmap.html?pTheme=all&pLayers=afs,triair,triwater,rcra,tsca&ve=11," + zipCentLat + "," + zipCentLon;
     //Create Iframe
     var $iframe = $('<iframe>', {
@@ -94,18 +94,6 @@
     // Update extra details text with new link
     $('#myEnvMoreInfo').attr('href', 'http://www3.epa.gov/myenv/myenview2.find?zipcode=' + currentZip + '&GO=go');
 
-    // If iframe loads, clear error message
-    $iframe.on('load', function () {
-      iframe_loaded = true;
-      $('.error-loading-enviromapper').text('');
-    });
-
-    // If Iframe fails to  load withing wait_for_iframe_seconds, show error message
-    setTimeout(function () {
-      if (!iframe_loaded) {
-        iframeUnavailable($iframe);
-      }
-    }, wait_for_iframe_seconds * 1000);
   }
 
 })(jQuery);
