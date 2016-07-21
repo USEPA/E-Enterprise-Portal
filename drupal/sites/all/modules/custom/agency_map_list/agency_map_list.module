@@ -78,8 +78,8 @@ function agency_map_list_node_preview($variables) {
 function agency_map_list_form_alter(&$form, &$form_state, $form_id) {
     global $user;
     if ($form_id == 'agency_map_node_form') {
-        drupal_add_js(drupal_get_path('module', 'agency_map_list') . '/js/preview_maps.js');
-        drupal_add_css(drupal_get_path('module', 'agency_map_list') . "/css/map_preview.css", "file");
+        drupal_add_js(drupal_get_path('module', 'agency_map_list') . '/js/preview_maps.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+        drupal_add_css(drupal_get_path('module', 'agency_map_list') . "/css/map_preview.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
 
         $form['instructions']['#markup'] = "<p><strong>Please note:</strong> Maps must meet the following criteria in order to be published to the \"Interactive Maps\" widget:</p><ul class=\"usa-checklist\">
             <li class=\"usa-checklist-checked\">Publicly-visible ArcGIS Online Web Mapping Application (not just a web map or a feature service)</li>

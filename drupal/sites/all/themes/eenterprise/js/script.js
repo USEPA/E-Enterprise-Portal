@@ -1,2 +1,1121 @@
-!function(a){null!=jQuery.fn.dataTable&&a.extend(!0,jQuery.fn.dataTable.defaults,{oLanguage:{sSearch:"Filter:"}}),Drupal.behaviors.modal508Compliance={attach:function(b){function c(){a("select#edit-facility-state").attr("aria-hidden","true"),a("select#facility-bia-code").attr("aria-hidden","true"),a("#facility-type").attr("aria-hidden","true"),a("#edit-facility-active-status").attr("aria-hidden","true"),a("#edit-my-facility .facility-county-fips").attr("aria-hidden","true"),a("#existing-facilities-table").attr("aria-hidden","true")}function d(){a("select#edit-facility-state").attr("aria-hidden","false"),a("select#facility-bia-code").attr("aria-hidden","false"),a("#facility-type").attr("aria-hidden","false"),a("#edit-facility-active-status").attr("aria-hidden","false"),a("#edit-my-facility .facility-county-fips").attr("aria-hidden","false"),a("#existing-facilities-table").attr("aria-hidden","false")}function e(){a(".masthead").attr("aria-hidden","true"),a(".region-navigation").attr("aria-hidden","true"),a(".main-content").attr("aria-hidden","true"),a("#footer").attr("aria-hidden","true"),a(".view-filters input").attr("aria-hidden","true"),a(".views-exposed-form select").attr("aria-hidden","true"),a("#village-green select").attr("aria-hidden","true"),a("#location-select").attr("aria-hidden","true"),a("#dialog-all-locations input").attr("aria-hidden","true"),a("#other-areas-tabs input").attr("aria-hidden","true"),a("#save-grid-changes").attr("aria-hidden","true"),a("#cdx-logged-out-log-out").attr("aria-hidden","true"),a("#revert-grid-changes").attr("aria-hidden","true"),a("#launch-facility-management").attr("aria-hidden","true"),a("#fmw-organization-select").attr("aria-hidden","true"),a("#fmw-program-select").attr("aria-hidden","true"),a("#fmw-type-select").attr("aria-hidden","true"),a(".view-to-do ul.ui-tabs-nav li").attr("aria-hidden","true"),a("#my-air-quality-chart-tabs ul li").attr("aria-hidden","true"),a("#myMapsFilterList li").attr("aria-hidden","true"),a("#other-areas-tabs ul li").attr("aria-hidden","true"),a("#local-resources-tabs ul li").attr("aria-hidden","true"),a("#my-facilities-tab .MapLegend-header").attr("aria-hidden","true"),a(".region-navigation .menu").attr("aria-hidden","true"),a("table.usa-table-borderless").attr("aria-hidden","true"),a("#datatable-1_filter input").attr("aria-hidden","true")}function f(){a(".masthead").removeAttr("aria-hidden"),a(".region-navigation").removeAttr("aria-hidden"),a(".main-content").removeAttr("aria-hidden"),a("#footer").removeAttr("aria-hidden"),a(".view-filters input").removeAttr("aria-hidden"),a(".views-exposed-form select").removeAttr("aria-hidden"),a("#village-green select").removeAttr("aria-hidden"),a("#location-select").removeAttr("aria-hidden"),a("#dialog-all-locations input").removeAttr("aria-hidden"),a("#other-areas-tabs input").removeAttr("aria-hidden"),a("#save-grid-changes").removeAttr("aria-hidden"),a("#cdx-logged-out-log-out").removeAttr("aria-hidden"),a("#revert-grid-changes").removeAttr("aria-hidden"),a("#launch-facility-management").removeAttr("aria-hidden"),a("#fmw-organization-select").removeAttr("aria-hidden"),a("#fmw-program-select").removeAttr("aria-hidden"),a("#fmw-type-select").removeAttr("aria-hidden"),a(".view-to-do ul.ui-tabs-nav li").removeAttr("aria-hidden"),a("#my-air-quality-chart-tabs ul li").removeAttr("aria-hidden"),a("#myMapsFilterList li").removeAttr("aria-hidden"),a("#other-areas-tabs ul li").removeAttr("aria-hidden"),a("#local-resources-tabs ul li").removeAttr("aria-hidden"),a("#my-facilities-tab .MapLegend-header").removeAttr("aria-hidden"),a(".region-navigation .menu").removeAttr("aria-hidden"),a("table.usa-table-borderless").removeAttr("aria-hidden"),a("#datatable-1_filter input").removeAttr("aria-hidden")}a("body").on("change","select#location-select",function(){var b=a(this).val();"view_more"==b&&(e(),c(),a("#dialog-all-locations input").removeAttr("aria-hidden"))}),a(".ui-dialog").on("dialogopen",function(b,d){a(".ui-dialog").focus(),a(".ui-dialog").hasClass("cdx_facility_management_block")||(e(),c())}).on("dialogclose",function(){a(".ui-dialog").hasClass("cdx_facility_management_block")||(f(),d())}),a("#dialog-all-locations").on("dialogclose",function(){f(),d()}),a("#simple-dialog-container").on("dialogclose",function(){f(),d()}),a("#simple-dialog-container").is(":visible")&&(e(),c()),a("#facility-widget").on("dialogclose",function(){f()}),a("#launch-facility-management").click(function(){e()}),a("#modal-content").is(":visible")&&(a("#edit-field-profile-first-name-und-0-value").attr("aria-hidden","true"),a("#edit-mail").attr("aria-hidden","true"),a("#edit-field-zip-code input").attr("aria-hidden","true"),a("#edit-field-organization-und").attr("aria-hidden","true"),a("#edit-field-role-und").attr("aria-hidden","true"),a("#edit-field-lgc-topics-of-interest-und input").attr("aria-hidden","true"),a("#edit-field-profile-favourites input").attr("aria-hidden","true"),a("#edit-submit").attr("aria-hidden","true"),a("#edit-submit--2").attr("aria-hidden","true"),a("#edit-delete").attr("aria-hidden","true"),a("#profile-tabs ul li").attr("aria-hidden","true"),a("#field-zip-code-values .field_zip_code-delta-order").attr("aria-hidden","true"),a("#links_description select").attr("aria-hidden","true"),a("#delete-holder button").attr("aria-hidden","true"),a("#location-input-guests").attr("aria-hidden","true"),e(),c()),a("#modal-content").on("remove",function(){a("#edit-field-profile-first-name-und-0-value").attr("aria-hidden","false"),a("#edit-mail").attr("aria-hidden","false"),a("#edit-field-zip-code input").attr("aria-hidden","false"),a("#edit-field-organization-und").attr("aria-hidden","false"),a("#edit-field-role-und").attr("aria-hidden","false"),a("#edit-field-lgc-topics-of-interest-und input").attr("aria-hidden","false"),a("#edit-field-profile-favourites input").attr("aria-hidden","false"),a("#edit-submit").attr("aria-hidden","false"),a("#edit-submit--2").attr("aria-hidden","false"),a("#edit-delete").attr("aria-hidden","false"),a("#profile-tabs ul li").attr("aria-hidden","false"),a("#field-zip-code-values .field_zip_code-delta-order").attr("aria-hidden","false"),a("#links_description select").attr("aria-hidden","false"),a("#delete-holder button").attr("aria-hidden","false"),a("#location-input-guests").attr("aria-hidden","false"),f(),d()})}},Drupal.behaviors.initializeSkipLinks={attach:function(b){a(".view-app-connect-new .views-field-title a").click(function(){a("#app-connect-sso-form").submit()}),a(".grid-stack-item").on("click","a.skip-widget",function(b){b.preventDefault(),a("#"+a(this).attr("next-widget")+" h2").focus()})}},Drupal.behaviors.initializeGridstack={attach:function(b){var c=window.location.pathname.split("/")[1];"workbench"==c&&a("body").once(function(){function b(){var b=a(".grid-stack"),d={vertical_margin:q,cell_height:p,"data-gs-width":2,draggable:{cancel:"input, textarea, button, select, option, .faceted-filters"}};b.gridstack(d);var e=b.data("gridstack"),f='<button id="save-grid-changes">Save Layout</button>',i='<button class="usa-button-outline" id="revert-grid-changes">Cancel</button>',j=a('<div class="grid-changes">'+f+i+"</div>");a("body").prepend(j);var k=a("#revert-grid-changes"),m=a("#save-grid-changes");c(b,j),g(e,m,k),l(e),h(e,q,p),e.resizable(".grid-stack-item",!1),Drupal.settings.is_guest&&e.movable(".grid-stack-item",!1)}function c(b,c){a("body").on("swapped_grid",function(){c.show()})}function d(b){for(var c=0;c<b.length-1;c++)f(a("#"+b[c].id),a("#"+b[c+1].id));var d=b[b.length-1];f(a("#"+d.id),a("#"+b[0].id))}function e(){var b=_.map(a(".grid-stack .grid-stack-item:visible"),function(b,c){b=a(b),b.attr("id")||b.attr("id","grid-item-"+c);var d=b.data("_gridstack_node");return{id:b.attr("id"),x:d.x,y:d.y,width:d.width,height:d.height}});return GridStackUI.Utils.sort(b)}function f(b,c){var d=a.trim(a(c).find("h2").text());a(b).find("a.skip-widget").remove(),a(b).find("h2").after(a("<a>",{"class":"skip-widget element-invisible element-focusable",text:"Skip to "+d+" widget",href:"#","next-widget":a(c).attr("id"),role:"button"}))}function g(b,c,d){c.click(function(a){if(r)a.preventDefault();else{var e=n(b);m(e,c,d)}}),d.click(function(){k(b,o),a(".grid-changes").fadeOut()})}function h(b){"undefined"!=typeof ResizeSensor&&(new ResizeSensor(jQuery(".grid-stack-item"),_.debounce(function(){i(b)},150)),new ResizeSensor(jQuery(".view-content"),_.debounce(function(){i(b)},150)),a("#cdx-logged-in-options").on("change","select",function(){i(b)}),a(document).ajaxComplete(_.debounce(function(){i(b)},150)))}function i(a){j(a),d(e())}function j(b){a(".grid-stack-item.ui-draggable").each(function(){var c=a(this).find(".pane-title").outerHeight(!0)+Math.ceil(a(this).find(".pane-content").outerHeight(!0))+30+q,d=a(this).find(".pager");d.size()>0&&(c+=parseInt(d.css("marginBottom")));var e=Math.ceil(c/(p+q));b.resize(this,null,e)})}function k(b,c){if(c.length>0&&!Drupal.settings.is_guest)a.each(c,function(c,d){var e=a("#"+d.id).parent(),f=d.x,g=d.y,h=1,i=1;b.update(e,f,g,h,i),e.find(".grid-stack-item-content").css("overflow-y","hidden")});else{var d=0;a(".grid-stack-item").each(function(){var c=d%2,e=30*Math.floor(d/2);b.update(a(this),c,e),d++,a(this).find(".grid-stack-item-content").css("overflow-y","hidden")})}o=n(b)}function l(b){var c;a.ajax({url:"load_user_gridstack_data",data:{json:!0},method:"GET",success:function(d){var d=a.parseJSON(d);c=GridStackUI.Utils.sort(d),k(b,c)}})}function m(b,c,d){a.ajax({url:"update_user_gridstack_data",data:{grid_data:b},method:"POST",beforeSend:function(){c.html('Saving Changes <i class="fa fa-spinner fa-pulse"></i>').addClass("btn btn-default").prop("disabled",!0),d.hide(),r=!0},success:function(e){c.html("Changes to Layout Saved"),setTimeout(function(){a(".grid-changes").fadeOut()},1e3),setTimeout(function(){c.html("Save Changes to Layout").removeClass("btn btn-default").prop("disabled",!1),d.show()},2e3),o=b,r=!1}})}function n(b){return _.map(a(".grid-stack > .grid-stack-item:visible"),function(b){b=a(b);var c=b.data("_gridstack_node");return{x:c.x,y:c.y,width:c.width,height:c.height,id:b.find(".grid-stack-item-content").attr("id")}},b)}var o,p=10,q=10,r=!1;a(".grid-stack").parents(".main-content").prevAll().find("a").last().keydown(function(b){b.stopImmediatePropagation(),9===b.which&&a("#"+e()[0].id+" h2").focus()}),b()})}},Drupal.behaviors.initalizeTooltips={attach:function(b){a("body").once(function(){a("body").tooltip({selector:".ee-bootstrap-tooltip",delay:400,trigger:"click hover focus",container:"body",placement:"auto left"}),a("body").click(function(b){a(".ee-bootstrap-tooltip").not(b.target).tooltip("hide")})})}},Drupal.behaviors.zipCodeChangeEvent={attach:function(b){var c=a("select#location-select",b),d=a("input#location-input-guests",b),e=27705;c.add(d).once(function(){function b(){a("div.workbench-zipcode-error").remove()}function f(c){l.addClass("has-error"),m.attr("class","fa fa-close form-control-feedback"),m.show(),b(),a("div#content").before(a("<div>",{"class":"messages--error messages error workbench-zipcode-error",text:c}))}function g(){l.removeClass("has-error"),m.hide(),m.removeClass("fa-spinner"),b()}function h(){m.attr("class","fa fa-refresh form-control-feedback fa-spinner"),m.show()}function i(){m.hide()}function j(a){n=!0,d.autocomplete("option","searchEnabled",!0),setTimeout(function(){d.autocomplete("search")},0)}function k(){d.val(e),a(document).trigger("ee:zipCodeChanged",{zip:e})}var l=d.closest(".form-group"),m=d.next(".form-control-feedback");if(a("body").on("change","select#location-select",function(){var b=a(this).val();"view_more"!=b&&a(document).trigger("ee:zipCodeChanged",{zip:b})}),Drupal.settings.locationInputEngine){var n=!1;if(d.autocomplete({source:function(b,c){d.autocomplete("option","searchEnabled")===!0?(d.autocomplete("option","searchEnabled",!1),g(),h(),Drupal.settings.locationInputEngine.lookUpLocation(b.term).done(function(d){i(),console.log(d,d.zip_codes,d.zip_codes===!0),d.zip_codes===!0?c(d.zip_array):a(document).trigger("ee:zipCodeChanged",{zip:b.term})}).fail(function(a){f(a.error_message)})):c([])},select:function(b,c){console.log("autocomplete selected: "+c.item.value),b.preventDefault(),d.val(c.item.value),a(document).trigger("ee:zipCodeChanged",{zip:c.item.value})},searchEnabled:!1}).autocomplete("widget").addClass("guest-zip-options fixed-height"),d.change(j),d.keydown(function(a){13==a.which&&(a.preventDefault(),j(a))}),a(document).on("ee:zipCodeChanged",function(b,c){g(),h(),a.getJSON("/zip_code_lookup?zip="+c.zip,function(b){i(),""===b.string?f():(g(),a(document).trigger("ee:zipCodeQueried",b))})}),c.trigger("change"),d.size()>0){var o=1e4,p=!1;navigator.geolocation&&navigator.geolocation.getCurrentPosition(function(b){p=!0,a.ajax({url:"/return_location_data_lat_long",type:"GET",data:{latitude:b.coords.latitude,longitude:b.coords.longitude},success:function(c){if(console.log(c),c=a.parseJSON(c),console.log(c),!c.error){d.val(c.zip);var e={state:c.state,city:c.city,latitude:b.coords.latitude,longitude:b.coords.longitude,zip:c.zip,string:c.city+", "+c.state};a(document).trigger("ee:zipCodeQueried",e)}return c},failure:function(){alert("Unable to connect to service")}})},function(){k()});setTimeout(function(){p||k()},o)}}})}},Drupal.behaviors.eenterprise={attach:function(b){a("html.no-js",b).removeClass("no-js"),a(".views-field a").addClass("favorites-ignore"),a(".pager a").addClass("favorites-ignore"),a("#benefits",b).tabs()}},Drupal.behaviors.skiplinks={attach:function(b){var c=navigator.userAgent.toLowerCase().indexOf("webkit")>-1,d=navigator.userAgent.toLowerCase().indexOf("opera")>-1;a("#main-content, #site-navigation",b).attr("tabindex",-1),(c||d)&&a('.skip-links a[href^="#"]',b).click(function(){var b="#"+this.href.split("#")[1];a(b).focus()})}},Drupal.behaviors.accordion={attach:function(b){a(".accordion",b).each(function(){var b=a(this).find(".accordion-title"),c=b.next(".accordion-pane");c.hide(),b.each(function(){var d=a(this).next(".accordion-pane");a(this).click(function(e){a(this).hasClass("active")?(a(this).removeClass("active"),d.slideUp().removeClass("active")):(b.removeClass("active"),c.slideUp().removeClass("active"),a(this).addClass("active"),d.slideDown().addClass("active")),e.preventDefault()})})})}},Drupal.behaviors.filterItems={attach:function(b){if(a("a").click(function(a){clicked_link_id=a.target.id}),a("#simple-dialog-container").is(":visible"))if(""==a("#simple-dialog-container").text()){var c=a("#"+clicked_link_id).attr("name");c=a("#"+c).html(),a("#simple-dialog-container").prepend('<div class="modal-content-in-page">'+c+"</div>")}else{a("#simple-dialog-container").empty();var c=a("#"+clicked_link_id).attr("name");c=a("#"+c).html(),a("#simple-dialog-container").prepend('<div class="modal-content-in-page">'+c+"</div>")}if("CEDRI"==a("#edit-field-prog-track-domain-value").val()){a("#edit-field-prog-track-part-code-value-wrapper").show();var d=["Notification Report","Notification of Compliance Status","Air Emissions Report","ERT Performance Report","- Any -"];a("#edit-field-prog-track-rep-type-filter-value option").filter(function(){return a.inArray(this.innerHTML,d)==-1}).remove()}if("Lead"==a("#edit-field-prog-track-domain-value").val()){a("#edit-field-prog-track-rep-type-filter-value-wrapper").show(),a("#edit-field-prog-track-sub-part-code-value-wrapper").hide(),a("#edit-field-prog-track-part-code-value-wrapper").hide();var e=["Firm Abatement","Firm RRP","Firm Combination","- Any -"];a("#edit-field-prog-track-rep-type-filter-value option").filter(function(){return a.inArray(this.innerHTML,e)==-1}).remove()}var f=["Subpart Da","Subpart Db","Subpart Dc","Subpart IIII","Subpart JJJJ","- Any -"];a("#edit-field-prog-track-part-code-value").length&&"Part 60"==a("#edit-field-prog-track-part-code-value").val().trim()&&(a("#edit-field-prog-track-sub-part-code-value-wrapper").show(),a("#edit-field-prog-track-sub-part-code-value option").filter(function(){return a.inArray(this.innerHTML,f)==-1}).remove());var g=["Subpart DDDDD","Subpart JJJJJJ","Subpart LLL","Subpart ZZZZ","- Any -"];if(a("#edit-field-prog-track-part-code-value").length&&"Part 63"==a("#edit-field-prog-track-part-code-value").val().trim()&&(a("#edit-field-prog-track-sub-part-code-value-wrapper").show(),a("#edit-field-prog-track-sub-part-code-value option").filter(function(){return a.inArray(this.innerHTML,g)==-1}).remove()),a("#edit-field-prog-track-sub-part-code-value").length&&jQuery.inArray(a("#edit-field-prog-track-sub-part-code-value").val().trim(),f)!=-1){a("#edit-field-prog-track-rep-type-filter-value-wrapper").show();var h=["Air Emissions Report","ERT Performance Report","- Any -"];a("#edit-field-prog-track-rep-type-filter-value option").filter(function(){return a.inArray(this.innerHTML,h)==-1}).remove()}if(a("#edit-field-prog-track-sub-part-code-value").length&&"Subpart JJJJJJ"==a("#edit-field-prog-track-sub-part-code-value").val().trim()){a("#edit-field-prog-track-rep-type-filter-value-wrapper").show();var i=["ERT Performance Report","Notification of Compliance Status","- Any -"];a("#edit-field-prog-track-rep-type-filter-value option").filter(function(){return a.inArray(this.innerHTML,i)==-1}).remove()}else if(a("#edit-field-prog-track-sub-part-code-value").length&&jQuery.inArray(a("#edit-field-prog-track-sub-part-code-value").val().trim(),g)!=-1){a("#edit-field-prog-track-rep-type-filter-value-wrapper").show();var j=["Air Emissions Report","Notification Report","ERT Performance Report","- Any -"];a("#edit-field-prog-track-rep-type-filter-value option").filter(function(){return a.inArray(this.innerHTML,j)==-1}).remove()}"All"==a("#edit-field-prog-track-domain-value").val()&&(a("#edit-field-prog-track-rep-type-filter-value-wrapper").hide(),a("#edit-field-prog-track-part-code-value-wrapper").hide(),a("#edit-field-prog-track-sub-part-code-value-wrapper").hide()),"All"==a("#edit-field-prog-track-part-code-value").val()&&"CEDRI"==a("#edit-field-prog-track-domain-value").val()&&(a("#edit-field-prog-track-sub-part-code-value-wrapper").hide(),a("#edit-field-prog-track-rep-type-filter-value-wrapper").hide()),"All"==a("#edit-field-prog-track-sub-part-code-value").val()&&"CEDRI"==a("#edit-field-prog-track-domain-value").val()&&a("#edit-field-prog-track-rep-type-filter-value-wrapper").hide(),a("#edit-field-prog-track-domain-value").change(function(){a("#edit-field-prog-track-rep-type-filter-value").val("All"),a("#edit-field-prog-track-sub-part-code-value").val("All"),a("#edit-field-prog-track-part-code-value").val("All"),a("#edit-field-prog-tracker-app-value").val("")}),a("#edit-field-prog-track-part-code-value").change(function(){a("#edit-field-prog-track-sub-part-code-value").val("All"),a("#edit-field-prog-track-rep-type-filter-value").val("All")}),a("#edit-field-prog-track-sub-part-code-value").change(function(){a("#edit-field-prog-track-rep-type-filter-value").val("All")})}},Drupal.behaviors.filterToDoList={attach:function(b){function c(b){var c=window.location.origin+"/server_time.php?tz=America/New_York",d=new XMLHttpRequest;d.onreadystatechange=function(){if(4==d.readyState&&200==d.status)if("This Week"==b.target.innerHTML){var c=d.responseText;c=JSON.parse(c),a("#edit-field-todo-lst-due-value").val(c.flastsunday),a("#edit-submit-to-do").trigger("click")}else if("Next Week"==b.target.innerHTML){var e=d.responseText;e=JSON.parse(e);var f=7==e.fday?0:e.fday,g=new Date(e.fyear,e.fmonth-1,e.fdate+(7-f)),h=g.getMonth()+1;h=h<10?"0"+h:h;var i=g.getDate();i=i<10?"0"+i:i;var j=g.getFullYear()+"-"+h+"-"+i+" 00:00:01";a("#edit-field-todo-lst-due-value").val(j),a("#edit-submit-to-do").trigger("click")}else if("Beyond"==b.target.innerHTML){var e=d.responseText;e=JSON.parse(e);var f=7==e.fday?0:e.fday,g=new Date(e.fyear,e.fmonth-1,e.fdate+(7-f)),k=new Date(g.getFullYear(),g.getMonth(),g.getDate()+(7-g.getDay())),h=k.getMonth()+1;h=h<10?"0"+h:h;var i=k.getDate();i=i<10?"0"+i:i;var j=g.getFullYear()+"-"+h+"-"+i+" 00:00:01";a("#edit-field-todo-lst-due-value").val(j),a("#edit-submit-to-do").trigger("click")}},d.open("GET",c,!0),d.send()}function d(b){a("input#focused-element").remove(),a("input#focused-view").remove(),a("body").append('<input type="hidden" id="focused-element" name="focused_element" value="'+b+'" />'),a("body").append('<input type="hidden" id="focused-view" name="focused_view" value="'+e(a(b))+'" />')}function e(b){var c="",d=a(b).parents(".view").attr("class").split(/\s+/);return a.each(d,function(a,b){c+="."+b}),c}a(document).one("ready",function(){a(".view-to-do div").hasClass("view-content")?a(".view-to-do .todo-filter-by-week").show():a(".view-to-do .todo-filter-by-week").hide()}),a("#this-week").click(function(b){c(b),a(this).find("a").focus()}),a("#next-week").click(function(b){c(b),a(this).find("a").focus()}),a("#beyond-next-week").click(function(b){c(b),a(this).find("a").focus()}),a("#all-time").click(function(b){a("#edit-field-todo-lst-due-value").val("0000-00-00"),a("#edit-submit-to-do").trigger("click"),a("#all-time").find("a").focus()}),a("#edit-field-todo-lst-domain-value").prop("disabled","true"),"CEDRI"==a("#edit-field-todo-lst-domain-value").val()&&a("#edit-field-todo-lst-part-code-value-wrapper").show();var f=["Subpart Da","Subpart Db","Subpart Dc","Subpart IIII","Subpart JJJJ","- Any -"];a("#edit-field-todo-lst-part-code-value").length&&"Part 60"==a("#edit-field-todo-lst-part-code-value").val().trim()&&(a("#edit-field-todo-lst-sub-part-code-value-wrapper").show(),a("#edit-field-todo-lst-sub-part-code-value option").filter(function(){return a.inArray(this.innerHTML,f)==-1}).remove());var g=["Subpart DDDDD","Subpart JJJJJJ","Subpart LLL","Subpart ZZZZ","- Any -"];if(a("#edit-field-todo-lst-part-code-value").length&&"Part 63"==a("#edit-field-todo-lst-part-code-value").val().trim()&&(a("#edit-field-todo-lst-sub-part-code-value-wrapper").show(),a("#edit-field-todo-lst-sub-part-code-value option").filter(function(){return a.inArray(this.innerHTML,g)==-1}).remove()),a("#edit-field-todo-lst-sub-part-code-value").length&&jQuery.inArray(a("#edit-field-todo-lst-sub-part-code-value").val().trim(),f)!=-1){a("#edit-field-todo-lst-rprt-type-filter-value-wrapper").show();var h=["Air Emissions Report","ERT Performance Report","- Any -"];a("#edit-field-todo-lst-rprt-type-filter-value option").filter(function(){return a.inArray(this.innerHTML,h)==-1}).remove()}if(a("#edit-field-todo-lst-sub-part-code-value").length&&"Subpart JJJJJJ"==a("#edit-field-todo-lst-sub-part-code-value").val().trim()){a("#edit-field-todo-lst-rprt-type-filter-value-wrapper").show();var i=["ERT Performance Report","Notification of Compliance Status","- Any -"];a("#edit-field-todo-lst-rprt-type-filter-value option").filter(function(){return a.inArray(this.innerHTML,i)==-1}).remove()}else if(a("#edit-field-todo-lst-sub-part-code-value").length&&jQuery.inArray(a("#edit-field-todo-lst-sub-part-code-value").val().trim(),g)!=-1){a("#edit-field-todo-lst-rprt-type-filter-value-wrapper").show();var j=["Air Emissions Report","Notification Report","ERT Performance Report","- Any -"];a("#edit-field-todo-lst-rprt-type-filter-value option").filter(function(){return a.inArray(this.innerHTML,j)==-1}).remove()}"All"==a("#edit-field-todo-lst-sub-part-code-value").val()&&a("#edit-field-todo-lst-rprt-type-filter-value-wrapper").hide(),"All"==a("#edit-field-todo-lst-part-code-value").val()&&(a("#edit-field-todo-lst-sub-part-code-value-wrapper").hide(),a("#edit-field-todo-lst-rprt-type-filter-value-wrapper").hide()),a("#edit-field-todo-lst-part-code-value").change(function(){a("#edit-field-todo-lst-sub-part-code-value").val("All"),a("#edit-field-todo-lst-rprt-type-filter-value").val("All")}),a("#edit-field-todo-lst-sub-part-code-value").change(function(){a("#edit-field-todo-lst-rprt-type-filter-value").val("All")}),a("#all-time").focus(function(){a("#all-time").keydown(function(b){b.stopImmediatePropagation(),40===b.which?a("#all-time a").click():39===b.which&&(a("input#focused-element").remove(),a("#this-week a").click())})}),a("#this-week a").focus(function(){a("#this-week a").keydown(function(b){b.stopImmediatePropagation(),40===b.which?a("#this-week a").click():39===b.which?a("#next-week a").click():37===b.which&&(a("input#focused-element").remove(),a("body").append('<input type="hidden" id="focused-element" name="focused_element" value="#all-time" />'),a("#all-time a").click())})}),a("#next-week a").focus(function(){a("#next-week a").keydown(function(b){b.stopImmediatePropagation(),40===b.which?a("#next-week a").click():39===b.which?a("#beyond-next-week a").click():37===b.which&&a("#this-week a").click()})}),a("#beyond-next-week a").focus(function(){a("#beyond-next-week a").keydown(function(b){b.stopImmediatePropagation(),40===b.which?a("#beyond-next-week a").click():37===b.which&&a("#next-week a").click()})}),a(".views-exposed-form select").focus(function(){var b=a(this).attr("id");d("#"+b)}),a(".view").on("focus",".pager .pager-previous a",function(){var b=e(a(this));b+=" .pager .pager-previous a",d(b)}),a(".view").on("focus",".pager .pager-next a",function(){var b=e(a(this));b+=" .pager .pager-next a",d(b)}),a(".views-exposed-form select, .view .pager a").blur(function(){a("input#focused-element").remove(),a("input#focused-view").remove()});var k=new XMLHttpRequest;k.onreadystatechange=function(){4==k.readyState&&200==k.status&&(1==a("input#focused-element").length?a(a("input#focused-element").val()).length>0?a(a("input#focused-element").val()).focus():a("input#focused-element").val().indexOf(".pager-next")!=-1?(d(a("input#focused-view").val()+" .pager-previous > a"),a(a("input#focused-view").val()).find(".pager-previous > a").focus()):a("input#focused-element").val().indexOf(".pager-previous")!=-1?(d(a("input#focused-view").val()+" .pager-next > a"),a(a("input#focused-view").val()).find(".pager-next > a").focus()):(a(a("input#focused-view").val()).focus(),a("input#focused-element").remove()):a("#this-week").hasClass("filter-applied")?a("#this-week a").focus():a("#next-week").hasClass("filter-applied")?a("#next-week a").focus():a("#beyond-next-week").hasClass("filter-applied")&&a("#beyond-next-week a").focus())},k.open("GET","README.txt",!0),k.send(),a(".view-to-do .refresh").click(function(a){"undefined"!=typeof Storage&&localStorage.setItem("to_do_refreshed","Yes")}),"undefined"!=typeof Storage&&"Yes"==localStorage.getItem("to_do_refreshed")&&jQuery(window).load(function(){setTimeout(function(){localStorage.setItem("to_do_refreshed","No"),a(".view-to-do .refresh").focus(),a(window).scrollTop(a("#gridstack-pane-views-to_do-block_1").offset().top)},1e3)}),a(".view-progress-tracker .refresh").click(function(a){"undefined"!=typeof Storage&&localStorage.setItem("progress_tracker_refreshed","Yes")}),"undefined"!=typeof Storage&&"Yes"==localStorage.getItem("progress_tracker_refreshed")&&jQuery(window).load(function(){setTimeout(function(){localStorage.setItem("progress_tracker_refreshed","No"),a(".view-progress-tracker .refresh").focus(),a(window).scrollTop(a("#gridstack-pane-views-progress_tracker-block_1").offset().top)},1e3)})}}}(jQuery);
-//# sourceMappingURL=script.js.map
+/**
+ * @file
+ * A JavaScript file for the theme.
+ *
+ * In order for this JavaScript to be loaded on pages, see the instructions in
+ * the README.txt next to this file.
+ */
+(function($) {
+  // Change the default label of all Search fields
+  if (jQuery.fn.dataTable != null) {
+    $.extend(true, jQuery.fn.dataTable.defaults, {
+      "oLanguage": {
+        sSearch: "Filter:"
+      }
+    });
+  }
+
+  Drupal.behaviors.modal508Compliance = {
+    attach: function(context) {
+      $('body').on('change', 'select#location-select', function() {
+        var currentZip = $(this).val();
+        if (currentZip == 'view_more') {
+          add_aria_hidden_true_attrib_to_workbench();
+          add_aria_hidden_true_attrib_facility_inputs_to_workbench();
+          $('#dialog-all-locations input').removeAttr('aria-hidden');
+        }
+      });
+      $('.ui-dialog')
+        .on("dialogopen", function( event, ui ) {
+          $('.ui-dialog').focus();
+          if (!$('.ui-dialog').hasClass('cdx_facility_management_block')) {
+            add_aria_hidden_true_attrib_to_workbench();
+            add_aria_hidden_true_attrib_facility_inputs_to_workbench();
+          }          
+        })
+        .on("dialogclose", function() {
+          if (!$('.ui-dialog').hasClass('cdx_facility_management_block')) {          
+            add_aria_hidden_false_attrib_to_workbench();
+            add_aria_hidden_false_attrib_facility_inputs_to_workbench();		                    
+          }
+      });  
+      $('#dialog-all-locations').on("dialogclose", function() {
+        add_aria_hidden_false_attrib_to_workbench();
+        add_aria_hidden_false_attrib_facility_inputs_to_workbench();
+      });
+      $('#simple-dialog-container').on("dialogclose", function() {
+        add_aria_hidden_false_attrib_to_workbench();
+        add_aria_hidden_false_attrib_facility_inputs_to_workbench();
+      });
+      if ($('#simple-dialog-container').is(':visible')) {
+        add_aria_hidden_true_attrib_to_workbench();
+        add_aria_hidden_true_attrib_facility_inputs_to_workbench();
+      }
+      $('#facility-widget').on("dialogclose", function() {
+        add_aria_hidden_false_attrib_to_workbench();
+      });
+      $("#launch-facility-management").click(function() {
+        add_aria_hidden_true_attrib_to_workbench();
+      });
+
+      // @TODO Create functions to simplify the setting / removing of aria-hidden for each of these elements
+      if ($('#modal-content').is(':visible')) {
+        $('#edit-field-profile-first-name-und-0-value').attr('aria-hidden', 'true');
+        $('#edit-mail').attr('aria-hidden', 'true');
+        $('#edit-field-zip-code input').attr('aria-hidden', 'true');
+        $('#edit-field-organization-und').attr('aria-hidden', 'true');
+        $('#edit-field-role-und').attr('aria-hidden', 'true');
+        $('#edit-field-lgc-topics-of-interest-und input').attr('aria-hidden', 'true');
+        $('#edit-field-profile-favourites input').attr('aria-hidden', 'true');
+        $('#edit-submit').attr('aria-hidden', 'true');
+        $('#edit-submit--2').attr('aria-hidden', 'true');
+        $('#edit-delete').attr('aria-hidden', 'true');
+        $('#profile-tabs ul li').attr('aria-hidden', 'true');
+        $('#field-zip-code-values .field_zip_code-delta-order').attr('aria-hidden', 'true');
+        $('#links_description select').attr('aria-hidden', 'true');
+        $('#delete-holder button').attr('aria-hidden', 'true');
+        $('#location-input-guests').attr('aria-hidden', 'true');
+        add_aria_hidden_true_attrib_to_workbench();
+        add_aria_hidden_true_attrib_facility_inputs_to_workbench();
+        //$('#').attr('aria-hidden', 'true');
+      }
+      $('#modal-content').on("remove", function() {
+        $('#edit-field-profile-first-name-und-0-value').attr('aria-hidden', 'false');
+        $('#edit-mail').attr('aria-hidden', 'false');
+        $('#edit-field-zip-code input').attr('aria-hidden', 'false');
+        $('#edit-field-organization-und').attr('aria-hidden', 'false');
+        $('#edit-field-role-und').attr('aria-hidden', 'false');
+        $('#edit-field-lgc-topics-of-interest-und input').attr('aria-hidden', 'false');
+        $('#edit-field-profile-favourites input').attr('aria-hidden', 'false');
+        $('#edit-submit').attr('aria-hidden', 'false');
+        $('#edit-submit--2').attr('aria-hidden', 'false');
+        $('#edit-delete').attr('aria-hidden', 'false');
+        $('#profile-tabs ul li').attr('aria-hidden', 'false');
+        $('#field-zip-code-values .field_zip_code-delta-order').attr('aria-hidden', 'false');
+        $('#links_description select').attr('aria-hidden', 'false');
+        $('#delete-holder button').attr('aria-hidden', 'false');
+        $('#location-input-guests').attr('aria-hidden', 'false');
+        add_aria_hidden_false_attrib_to_workbench();
+        add_aria_hidden_false_attrib_facility_inputs_to_workbench();
+        //$('#').attr('aria-hidden', 'false');
+      });
+
+      function add_aria_hidden_true_attrib_facility_inputs_to_workbench() {
+        $('select#edit-facility-state').attr('aria-hidden', 'true');
+        $('select#facility-bia-code').attr('aria-hidden', 'true');
+        $('#facility-type').attr('aria-hidden', 'true');
+        $('#edit-facility-active-status').attr('aria-hidden', 'true');
+        $('#edit-my-facility .facility-county-fips').attr('aria-hidden', 'true');
+        $('#existing-facilities-table').attr('aria-hidden', 'true');
+      }
+
+      function add_aria_hidden_false_attrib_facility_inputs_to_workbench() {
+        $('select#edit-facility-state').attr('aria-hidden', 'false');
+        $('select#facility-bia-code').attr('aria-hidden', 'false');
+        $('#facility-type').attr('aria-hidden', 'false');
+        $('#edit-facility-active-status').attr('aria-hidden', 'false');
+        $('#edit-my-facility .facility-county-fips').attr('aria-hidden', 'false');
+        $('#existing-facilities-table').attr('aria-hidden', 'false');
+      }
+
+      function add_aria_hidden_true_attrib_to_workbench() {
+        $('.masthead').attr('aria-hidden', 'true');
+        $('.region-navigation').attr('aria-hidden', 'true');
+        $('.main-content').attr('aria-hidden', 'true');
+        $('#footer').attr('aria-hidden', 'true');
+        $('.view-filters input').attr('aria-hidden', 'true');
+        $('.views-exposed-form select').attr('aria-hidden', 'true');
+        $('#village-green select').attr('aria-hidden', 'true');
+        $('#location-select').attr('aria-hidden', 'true');
+        $('#dialog-all-locations input').attr('aria-hidden', 'true');
+        $('#other-areas-tabs input').attr('aria-hidden', 'true');
+        $('#save-grid-changes').attr('aria-hidden', 'true');
+        $('#cdx-logged-out-log-out').attr('aria-hidden', 'true');
+        $('#revert-grid-changes').attr('aria-hidden', 'true');
+        $('#launch-facility-management').attr('aria-hidden', 'true');
+        $('#fmw-organization-select').attr('aria-hidden', 'true');
+        $('#fmw-program-select').attr('aria-hidden', 'true');
+        $('#fmw-type-select').attr('aria-hidden', 'true');
+        $('.view-to-do ul.ui-tabs-nav li').attr('aria-hidden', 'true');
+        $('#my-air-quality-chart-tabs ul li').attr('aria-hidden', 'true');
+        $('#myMapsFilterList li').attr('aria-hidden', 'true');
+        $('#other-areas-tabs ul li').attr('aria-hidden', 'true');
+        $('#local-resources-tabs ul li').attr('aria-hidden', 'true');
+        $('#my-facilities-tab .MapLegend-header').attr('aria-hidden', 'true');
+        $('.region-navigation .menu').attr('aria-hidden', 'true');
+        $('table.usa-table-borderless').attr('aria-hidden', 'true');
+        $('#datatable-1_filter input').attr('aria-hidden', 'true');
+        //$('').attr('aria-hidden', 'true');
+      }
+
+      function add_aria_hidden_false_attrib_to_workbench() {
+        $('.masthead').removeAttr('aria-hidden');
+        $('.region-navigation').removeAttr('aria-hidden');
+        $('.main-content').removeAttr('aria-hidden');
+        $('#footer').removeAttr('aria-hidden');
+        $('.view-filters input').removeAttr('aria-hidden');
+        $('.views-exposed-form select').removeAttr('aria-hidden');
+        $('#village-green select').removeAttr('aria-hidden');
+        $('#location-select').removeAttr('aria-hidden');
+        $('#dialog-all-locations input').removeAttr('aria-hidden');
+        $('#other-areas-tabs input').removeAttr('aria-hidden');
+        $('#save-grid-changes').removeAttr('aria-hidden');
+        $('#cdx-logged-out-log-out').removeAttr('aria-hidden');
+        $('#revert-grid-changes').removeAttr('aria-hidden');
+        $('#launch-facility-management').removeAttr('aria-hidden');
+        $('#fmw-organization-select').removeAttr('aria-hidden');
+        $('#fmw-program-select').removeAttr('aria-hidden');
+        $('#fmw-type-select').removeAttr('aria-hidden');
+        $('.view-to-do ul.ui-tabs-nav li').removeAttr('aria-hidden');
+        $('#my-air-quality-chart-tabs ul li').removeAttr('aria-hidden');
+        $('#myMapsFilterList li').removeAttr('aria-hidden');
+        $('#other-areas-tabs ul li').removeAttr('aria-hidden');
+        $('#local-resources-tabs ul li').removeAttr('aria-hidden');
+        $('#my-facilities-tab .MapLegend-header').removeAttr('aria-hidden');
+        $('.region-navigation .menu').removeAttr('aria-hidden');
+        $('table.usa-table-borderless').removeAttr('aria-hidden');
+        $('#datatable-1_filter input').removeAttr('aria-hidden');
+        //$('').removeAttr('aria-hidden');
+      }
+    }
+  };
+
+  Drupal.behaviors.initializeSkipLinks = {
+    attach: function(context) {
+      $(".view-app-connect-new .views-field-title a").click(function() {
+        $('#app-connect-sso-form').submit();
+      });
+
+      $('.grid-stack-item').on('click', 'a.skip-widget', function(ev) {
+        ev.preventDefault();
+        $('#' + $(this).attr('next-widget') + ' h2').focus();
+      });
+    }
+  };
+
+
+  Drupal.behaviors.initializeGridstack = {
+    attach: function(context) {
+      var page_name = window.location.pathname.split('/')[1];
+      if (page_name == "workbench") {
+        $('body').once(function() {
+          var previous_grid_settings;
+          var cellHeight = 10;
+          var verticalMargin = 10;
+          var is_saving = false;
+          var allowed_drag = false;
+
+          function createGrid() {
+            var $grid_container = $('.grid-stack');
+            var options = {
+              vertical_margin: verticalMargin,
+              cell_height: cellHeight,
+              'data-gs-width': 2,
+              draggable: { // @see jquery-ui.js:837
+                cancel: 'input, textarea, button, select, option, .faceted-filters'
+              }
+            };
+            $grid_container.gridstack(options);
+            var grid = $grid_container.data('gridstack');
+
+            var save_grid_changes = '<button id="save-grid-changes">Save Layout</button>';
+            var revert_grid_changes = '<button class="usa-button-outline" id="revert-grid-changes">Cancel</button>';
+            var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
+
+            $('body').prepend($grid_change_options);
+            var $revert_button = $('#revert-grid-changes');
+            var $save_button = $('#save-grid-changes');
+
+            addDragListeners($grid_container, $grid_change_options);
+            addSaveListeners(grid, $save_button, $revert_button);
+            loadUserIndices(grid);
+            addResizeSensors(grid, verticalMargin, cellHeight);
+            grid.resizable('.grid-stack-item', false);
+            if (Drupal.settings.is_guest) {
+              grid.movable('.grid-stack-item', false);
+            }
+          }
+
+          function addDragListeners($grid_container, $grid_change_options) {
+            $('body').on('swapped_grid', function() {
+              $grid_change_options.show();
+            });
+          }
+
+          function rebuildSkipLinks(serializedWidgets) {
+            // rebuild the skip links
+            for (var i = 0; i < (serializedWidgets.length - 1); i++) {
+              // all widgets except for the last one point to 'next'
+              setSkipLink($('#' + serializedWidgets[i].id), $('#' + serializedWidgets[i + 1].id));
+            }
+            // the last widget points to 'first'
+            var lastWidget = serializedWidgets[serializedWidgets.length - 1];
+            setSkipLink($('#' + lastWidget.id), $('#' + serializedWidgets[0].id));
+          }
+
+          // override what gets tabbed as the first widget
+          $('.grid-stack').parents('.main-content').prevAll().find('a').last().keydown(function(e) {
+            e.stopImmediatePropagation();
+            if (e.which === 9) { // tab key
+              $('#' + sortedWidgets()[0].id + ' h2').focus();
+            }
+          });
+
+          // @see https://github.com/troolee/gridstack.js/blob/master/README.md#save-grid-to-array
+          function sortedWidgets() {
+            var widgets = _.map($('.grid-stack .grid-stack-item:visible'), function(el, key) {
+              el = $(el);
+              // if no id has been set, set the id, e.g.: grid-item-my-facility-manager-2
+              if (!el.attr('id')) {
+                el.attr('id', 'grid-item-' + key);
+              }
+              var node = el.data('_gridstack_node');
+              return {
+                id: el.attr('id'),
+                x: node.x,
+                y: node.y,
+                width: node.width,
+                height: node.height
+              };
+            });
+
+            return GridStackUI.Utils.sort(widgets);
+          }
+
+          function setSkipLink(sourceWidget, destinationWidget) {
+            var skipTitle = $.trim($(destinationWidget).find('h2').text());
+            $(sourceWidget).find('a.skip-widget').remove();
+            $(sourceWidget).find('h2').after($('<a>', {
+              'class': 'skip-widget element-invisible element-focusable',
+              'text': 'Skip to ' + skipTitle + ' widget',
+              'href': '#',
+              'next-widget': $(destinationWidget).attr('id'),
+              // @see http://stackoverflow.com/questions/11144653/a-script-links-without-href (A dud href)
+              'role': 'button'
+            }));
+          }
+
+          function addSaveListeners(grid, $save_button, $revert_button) {
+            $save_button.click(function(e) {
+              if (is_saving) {
+                e.preventDefault();
+              }
+              else {
+                // Save changes
+                var data = serialized_data(grid);
+                updateUserIndices(data, $save_button, $revert_button);
+              }
+            });
+            $revert_button.click(function() {
+              // Revert changes
+              initializeIndices(grid, previous_grid_settings);
+              $(".grid-changes").fadeOut();
+            });
+          }
+
+          function addResizeSensors(grid) {
+            if (typeof ResizeSensor !== 'undefined') {
+              new ResizeSensor(jQuery('.grid-stack-item'), _.debounce(function() {
+                resizeCallback(grid);
+              }, 150));
+              new ResizeSensor(jQuery('.view-content'), _.debounce(function() {
+                resizeCallback(grid);
+              }, 150));
+              $('#cdx-logged-in-options').on('change', 'select', function() {
+                resizeCallback(grid);
+              });
+              $(document).ajaxComplete(_.debounce(function() {
+                resizeCallback(grid);
+              }, 150));
+            }
+          }
+
+          function resizeCallback(grid) {
+            recalculateWidgetHeights(grid);
+            rebuildSkipLinks(sortedWidgets());
+          }
+
+          function recalculateWidgetHeights(grid) {
+            $('.grid-stack-item.ui-draggable').each(function() {
+              var contentHeight = $(this).find('.pane-title').outerHeight(true)
+                + Math.ceil($(this).find('.pane-content').outerHeight(true))
+                + 30
+                + verticalMargin;
+
+              var $pager = $(this).find('.pager');
+              if ($pager.size() > 0) {
+                contentHeight += parseInt($pager.css('marginBottom'));
+              }
+
+              var gsHeight = Math.ceil(contentHeight / (cellHeight + verticalMargin));
+              grid.resize(this, null, gsHeight);
+            });
+          }
+
+          function initializeIndices(grid, serialization) {
+            // assign x and y values to widgets
+            if (serialization.length > 0 && !Drupal.settings.is_guest) {
+              $.each(serialization, function(key, pane_data) {
+                var $grid_item = $("#" + pane_data.id).parent();
+                var x = pane_data.x;
+                var y = pane_data.y;
+                var width = 1; //pane_data.width;
+                var height = 1; //pane_data.height;
+                grid.update($grid_item, x, y, width, height);
+                $grid_item.find('.grid-stack-item-content').css('overflow-y', 'hidden');
+              });
+            }
+            else {
+              var count = 0;
+              $(".grid-stack-item").each(function() {
+                var x = count % 2;
+                var y = Math.floor(count / 2) * 30;
+                grid.update($(this), x, y);
+                count++;
+                $(this).find('.grid-stack-item-content').css('overflow-y', 'hidden');
+              });
+            }
+            previous_grid_settings = serialized_data(grid);
+          }
+
+          function loadUserIndices(grid) {
+            var serialization;
+            $.ajax({
+              url: 'load_user_gridstack_data',
+              data: {json: true},
+              method: 'GET',
+              success: function(data) {
+                var data = $.parseJSON(data);
+                serialization = GridStackUI.Utils.sort(data);
+                initializeIndices(grid, serialization);
+              }
+            });
+          }
+
+          function updateUserIndices(grid_data, $save_button, $revert_button) {
+            $.ajax({
+              url: 'update_user_gridstack_data',
+              data: {grid_data: grid_data},
+              method: "POST",
+              beforeSend: function() {
+                $save_button.html('Saving Changes <i class="fa fa-spinner fa-pulse"></i>').addClass("btn btn-default").prop('disabled', true);
+                $revert_button.hide();
+                is_saving = true;
+              },
+              success: function(data) {
+                $save_button.html("Changes to Layout Saved");
+                setTimeout(function() {
+                  $(".grid-changes").fadeOut();
+                }, 1000);
+                setTimeout(function() {
+                  $save_button.html("Save Changes to Layout").removeClass('btn btn-default').prop('disabled', false);
+                  $revert_button.show();
+                }, 2000);
+                previous_grid_settings = grid_data;
+                is_saving = false;
+              }
+            });
+          }
+
+          function serialized_data(grid) {
+            return _.map($('.grid-stack > .grid-stack-item:visible'), function(el) {
+              el = $(el);
+              var node = el.data('_gridstack_node');
+              return {
+                x: node.x,
+                y: node.y,
+                width: node.width,
+                height: node.height,
+                id: el.find(".grid-stack-item-content").attr("id")
+              };
+            }, grid);
+          }
+
+          createGrid();
+
+        });
+      }
+    }
+  };
+
+  Drupal.behaviors.initalizeTooltips = {
+    attach: function(context) {
+      $('body').once(function() {
+
+        // initialize all tooltips in page
+        $('body').tooltip({
+          selector: '.ee-bootstrap-tooltip',
+          delay: 400,
+          trigger: 'click hover focus',
+          container: 'body',
+          placement: 'auto left'
+        });
+
+        // destroy all tooltips when clicking anywhere
+        $('body').click(function(e) {
+          // but don't destroy the tooltip that was just created
+          $('.ee-bootstrap-tooltip').not(e.target).tooltip('hide');
+        })
+      });
+    }
+  };
+
+  Drupal.behaviors.zipCodeChangeEvent = {
+    attach: function(context) {
+
+      var $locationSelect = $('select#location-select', context);
+      var $locationInput = $('input#location-input-guests', context);
+
+      var defaultZip = 27705; // Durham
+
+      $locationSelect.add($locationInput).once(function() {
+
+        var $locationInputFormGroup = $locationInput.closest('.form-group');
+        var $locationInputIcon = $locationInput.next('.form-control-feedback');
+
+        // for logged in users ----------------------------------------------
+        $('body').on('change', 'select#location-select', function() {
+          var currentZip = $(this).val();
+          if (currentZip != 'view_more') {
+            $(document).trigger("ee:zipCodeChanged", {zip: currentZip});
+          }
+        });
+
+        // for guests ------------------------------------------------------
+        if (Drupal.settings.locationInputEngine) {
+          function clearErrorMessage() {
+            $('div.workbench-zipcode-error').remove();
+          }
+
+          function showError(msg) {
+            $locationInputFormGroup.addClass('has-error');
+            $locationInputIcon.attr('class', 'fa fa-close form-control-feedback');
+            $locationInputIcon.show();
+            clearErrorMessage();
+            $('div#content').before($('<div>', {
+              'class': 'messages--error messages error workbench-zipcode-error',
+              'text': msg
+            }));
+          }
+
+          function hideError() {
+            $locationInputFormGroup.removeClass('has-error');
+            $locationInputIcon.hide();
+            $locationInputIcon.removeClass('fa-spinner');
+            clearErrorMessage();
+          }
+
+          function showLoading() {
+            $locationInputIcon.attr('class', 'fa fa-refresh form-control-feedback fa-spinner');
+            $locationInputIcon.show();
+
+          }
+
+          function doneLoading() {
+            $locationInputIcon.hide();
+          }
+
+          var autocompleteEnabled = false;
+
+          function inputChangeHandler(e) {
+            autocompleteEnabled = true;
+            $locationInput.autocomplete("option", "searchEnabled", true);
+            setTimeout(function() {
+              $locationInput.autocomplete("search");
+            }, 0);
+          }
+
+          $locationInput.autocomplete({
+            source: function(request, respond) {
+              if ($locationInput.autocomplete("option", "searchEnabled") === true) {
+                $locationInput.autocomplete("option", "searchEnabled", false);
+                hideError();
+                showLoading();
+                Drupal.settings.locationInputEngine.lookUpLocation(request.term).done(function(location_data) {
+                  doneLoading();
+                  console.log(location_data, location_data.zip_codes, location_data.zip_codes === true);
+                  if (location_data.zip_codes === true) { // user entered city/state; show zip code drop down
+                    respond(location_data.zip_array);
+                  } else { // user entered zip
+                    $(document).trigger("ee:zipCodeChanged", {zip: request.term});
+                  }
+                }).fail(function(location_data) {
+                  showError(location_data.error_message);
+                });
+              } else {
+                respond([]);
+              }
+            },
+            select: function(event, ui) {
+              console.log("autocomplete selected: " + ui.item.value);
+              event.preventDefault();
+              $locationInput.val(ui.item.value);
+              $(document).trigger("ee:zipCodeChanged", {zip: ui.item.value});
+            },
+            searchEnabled: false
+          }).autocomplete('widget').addClass('guest-zip-options fixed-height');
+
+          $locationInput.change(inputChangeHandler);
+
+          // IE hack: since pressing enter doesn't trigger change in IE only, handle enter with keydown event
+          $locationInput.keydown(function(e) {
+            if (e.which == 13) {
+              e.preventDefault();
+              inputChangeHandler(e);
+            }
+          });
+
+          // get latlng info for new zip
+          $(document).on("ee:zipCodeChanged", function(evt, data) {
+            hideError();
+            showLoading();
+            $.getJSON('/zip_code_lookup?zip=' + data.zip, function(queryResponse) {
+              doneLoading();
+              if (queryResponse.string === '') { // invalid zip code
+                showError();
+              } else {
+                hideError();
+                $(document).trigger('ee:zipCodeQueried', queryResponse);
+              }
+            });
+          });
+
+          $locationSelect.trigger('change');
+
+          // for guests users, request location
+          if ($locationInput.size() > 0) {
+
+            var waitTime = 10000;
+            var accepted = false;
+
+            function setDefaultZip() {
+              $locationInput.val(defaultZip);
+              $(document).trigger("ee:zipCodeChanged", {zip: defaultZip});
+            }
+
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(position) {
+                accepted = true;
+                $.ajax({
+                  url: '/return_location_data_lat_long',
+                  type: 'GET',
+                  data: {latitude: position.coords.latitude, longitude: position.coords.longitude},
+                  success: function(location_data) {
+                    console.log(location_data);
+                    location_data = $.parseJSON(location_data);
+                    console.log(location_data);
+
+                    if (!location_data.error) {
+
+                      $locationInput.val(location_data.zip);
+
+                      var zipData = {
+                        state: location_data.state,
+                        city: location_data.city,
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        zip: location_data.zip,
+                        string: location_data.city + ', ' + location_data.state
+                      };
+
+                      $(document).trigger("ee:zipCodeQueried", zipData);
+                    }
+                    return location_data;
+                  },
+                  failure: function() {
+                    alert('Unable to connect to service');
+                  }
+                });
+              }, function() {
+                setDefaultZip();
+              });
+            }
+
+            var t = setTimeout(function() {
+              if (!accepted) {
+                setDefaultZip();
+              }
+            }, waitTime);
+          }
+        }
+      });
+    }
+  };
+
+// Remove no-js class
+  Drupal.behaviors.eenterprise = {
+    attach: function(context) {
+      $('html.no-js', context).removeClass('no-js');
+      $('.views-field a').addClass('favorites-ignore');
+      $('.pager a').addClass('favorites-ignore');
+      $('#benefits', context).tabs();
+    }
+  };
+
+// Accessible skiplinks
+  Drupal.behaviors.skiplinks = {
+    attach: function(context) {
+      var isWebkit = navigator.userAgent.toLowerCase().indexOf('webkit') > -1,
+        isOpera = navigator.userAgent.toLowerCase().indexOf('opera') > -1;
+
+      // Set tabindex on the skiplink targets so IE knows they are focusable, and
+      // so Webkit browsers will focus() them.
+      $('#main-content, #site-navigation', context).attr('tabindex', -1);
+
+      // Set focus to skiplink targets in Webkit and Opera.
+      if (isWebkit || isOpera) {
+        $('.skip-links a[href^="#"]', context).click(function() {
+          var clickAnchor = '#' + this.href.split('#')[1];
+          $(clickAnchor).focus();
+        });
+      }
+    }
+  };
+
+// Add simple accordion behavior.
+  Drupal.behaviors.accordion = {
+    attach: function(context) {
+      $('.accordion', context).each(function() {
+        var $titles = $(this).find('.accordion-title'),
+          $panes = $titles.next('.accordion-pane');
+        $panes.hide();
+        $titles.each(function() {
+          var $target = $(this).next('.accordion-pane');
+          $(this).click(function(e) {
+            if (!$(this).hasClass('active')) {
+              $titles.removeClass('active');
+              $panes.slideUp().removeClass('active');
+              $(this).addClass('active');
+              $target.slideDown().addClass('active');
+            }
+            else {
+              $(this).removeClass('active');
+              $target.slideUp().removeClass('active');
+            }
+            e.preventDefault();
+          });
+        });
+      });
+    }
+  };
+
+  Drupal.behaviors.filterItems = {
+    attach: function(context) {
+      $("a").click(function(event) {
+        clicked_link_id = event.target.id;
+      });
+
+      if ($("#simple-dialog-container").is(':visible')) {
+        if ($("#simple-dialog-container").text() == '') {
+          //var invisibleItem = $(".simpleDialogProcessed").attr('name');
+          var invisibleItem = $("#" + clicked_link_id).attr('name');
+          invisibleItem = $("#" + invisibleItem).html();
+          $("#simple-dialog-container").prepend('<div class="modal-content-in-page">' + invisibleItem + '</div>');
+        }
+        else {
+          //This condition is added because when sorting is applied the id's get mixed up and what's seen on the modal is not related to
+          //the actual clicked row. So by adding id to each link, this problem is solved.
+          $("#simple-dialog-container").empty();
+          var invisibleItem = $("#" + clicked_link_id).attr('name');
+          invisibleItem = $("#" + invisibleItem).html();
+          $("#simple-dialog-container").prepend('<div class="modal-content-in-page">' + invisibleItem + '</div>');
+        }
+      }
+
+
+      if ($("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
+        //$('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+        $('#edit-field-prog-track-part-code-value-wrapper').show();
+        var cedri_list = ["Notification Report", "Notification of Compliance Status", "Air Emissions Report", "ERT Performance Report", "- Any -"];
+        $('#edit-field-prog-track-rep-type-filter-value option').filter(function() {
+          return $.inArray(this.innerHTML, cedri_list) == -1
+        }).remove();
+      }
+      if ($("#edit-field-prog-track-domain-value").val() == 'Lead') {
+        $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+        $('#edit-field-prog-track-sub-part-code-value-wrapper').hide();
+        $('#edit-field-prog-track-part-code-value-wrapper').hide();
+
+        var lead_list = ["Firm Abatement", "Firm RRP", "Firm Combination", "- Any -"];
+        $('#edit-field-prog-track-rep-type-filter-value option').filter(function() {
+          return $.inArray(this.innerHTML, lead_list) == -1
+        }).remove();
+      }
+      var part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc", "Subpart IIII", "Subpart JJJJ", "- Any -"];
+      if ($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 60') {
+        $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
+        $('#edit-field-prog-track-sub-part-code-value option').filter(function() {
+          return $.inArray(this.innerHTML, part_60_list) == -1
+        }).remove();
+      }
+      var part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
+      if ($("#edit-field-prog-track-part-code-value").length && $("#edit-field-prog-track-part-code-value").val().trim() == 'Part 63') {
+        $('#edit-field-prog-track-sub-part-code-value-wrapper').show();
+        $('#edit-field-prog-track-sub-part-code-value option').filter(function() {
+          return $.inArray(this.innerHTML, part_63_list) == -1
+        }).remove();
+      }
+
+
+      if ($("#edit-field-prog-track-sub-part-code-value").length && jQuery.inArray($("#edit-field-prog-track-sub-part-code-value").val().trim(), part_60_list) != -1) {
+        $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+        var report_type_60 = ["Air Emissions Report", "ERT Performance Report", "- Any -"];
+        $('#edit-field-prog-track-rep-type-filter-value option').filter(function() {
+          return $.inArray(this.innerHTML, report_type_60) == -1
+        }).remove();
+      }
+
+      if ($("#edit-field-prog-track-sub-part-code-value").length && $("#edit-field-prog-track-sub-part-code-value").val().trim() == "Subpart JJJJJJ") {
+        $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+        var report_type_63_jjjjjj = ["ERT Performance Report", "Notification of Compliance Status", "- Any -"];
+        $('#edit-field-prog-track-rep-type-filter-value option').filter(function() {
+          return $.inArray(this.innerHTML, report_type_63_jjjjjj) == -1
+        }).remove();
+      }
+      else if ($("#edit-field-prog-track-sub-part-code-value").length && jQuery.inArray($("#edit-field-prog-track-sub-part-code-value").val().trim(), part_63_list) != -1) {
+        $('#edit-field-prog-track-rep-type-filter-value-wrapper').show();
+        var report_type_63 = ["Air Emissions Report", "Notification Report", "ERT Performance Report", "- Any -"];
+        $('#edit-field-prog-track-rep-type-filter-value option').filter(function() {
+          return $.inArray(this.innerHTML, report_type_63) == -1
+        }).remove();
+      }
+
+
+      if ($("#edit-field-prog-track-domain-value").val() == 'All') {
+        $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
+        $('#edit-field-prog-track-part-code-value-wrapper').hide();
+        $('#edit-field-prog-track-sub-part-code-value-wrapper').hide();
+      }
+      if ($("#edit-field-prog-track-part-code-value").val() == 'All' && $("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
+        $('#edit-field-prog-track-sub-part-code-value-wrapper').hide();
+        $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
+      }
+      if ($("#edit-field-prog-track-sub-part-code-value").val() == 'All' && $("#edit-field-prog-track-domain-value").val() == 'CEDRI') {
+        $('#edit-field-prog-track-rep-type-filter-value-wrapper').hide();
+      }
+      $('#edit-field-prog-track-domain-value').change(function() {
+        $('#edit-field-prog-track-rep-type-filter-value').val('All');
+        $('#edit-field-prog-track-sub-part-code-value').val('All');
+        $('#edit-field-prog-track-part-code-value').val('All');
+        $("#edit-field-prog-tracker-app-value").val("");
+      });
+      $('#edit-field-prog-track-part-code-value').change(function() {
+        $('#edit-field-prog-track-sub-part-code-value').val('All');
+        $('#edit-field-prog-track-rep-type-filter-value').val('All');
+      });
+      $('#edit-field-prog-track-sub-part-code-value').change(function() {
+        $('#edit-field-prog-track-rep-type-filter-value').val('All');
+      });
+    }
+  };
+
+  Drupal.behaviors.filterToDoList = {
+    attach: function(context) {
+      $(document).one('ready', function() {
+        if ($(".view-to-do div").hasClass("view-content")) {
+          $(".view-to-do .todo-filter-by-week").show();
+        }
+        else {
+          $(".view-to-do .todo-filter-by-week").hide();
+        }
+      });
+      $("#this-week").click(function(event) {
+        get_server_date(event);
+        $(this).find('a').focus();
+      });
+      $("#next-week").click(function(event) {
+        get_server_date(event);
+        $(this).find('a').focus();
+      });
+      $("#beyond-next-week").click(function(event) {
+        get_server_date(event);
+        $(this).find('a').focus();
+      });
+      $("#all-time").click(function(event) {
+        $("#edit-field-todo-lst-due-value").val('0000-00-00');
+        $("#edit-submit-to-do").trigger("click");
+        $("#all-time").find('a').focus();
+      });
+
+      function get_server_date(evt) {
+        var time_url = window.location.origin + "/server_time.php?tz=America/New_York";
+        var httpreq = new XMLHttpRequest(); // a new request
+
+        httpreq.onreadystatechange = function() {
+          if (httpreq.readyState == 4 && httpreq.status == 200) {
+            if (evt.target.innerHTML == 'This Week') {
+              var date_today = httpreq.responseText;
+              date_today = JSON.parse(date_today);
+
+              $("#edit-field-todo-lst-due-value").val(date_today.flastsunday);
+              $("#edit-submit-to-do").trigger("click");
+            }
+            else if (evt.target.innerHTML == 'Next Week') {
+              var currDate = httpreq.responseText;
+              currDate = JSON.parse(currDate);
+              var fday = currDate.fday == 7 ? 0 : currDate.fday;
+              var nextSunday = new Date(currDate.fyear, currDate.fmonth - 1, currDate.fdate + (7 - fday));
+
+              var vmonth = nextSunday.getMonth() + 1;
+              vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
+
+              var vdate = nextSunday.getDate();
+              vdate = vdate < 10 ? '0' + vdate : vdate;
+
+              var date_var = nextSunday.getFullYear() + '-' + vmonth + '-' + vdate + ' ' + '00:00:01';
+              $("#edit-field-todo-lst-due-value").val(date_var);
+              $("#edit-submit-to-do").trigger("click");
+            }
+            else if (evt.target.innerHTML == 'Beyond') {
+              var currDate = httpreq.responseText;
+              currDate = JSON.parse(currDate);
+              var fday = currDate.fday == 7 ? 0 : currDate.fday;
+              var nextSunday = new Date(currDate.fyear, currDate.fmonth - 1, currDate.fdate + (7 - fday));
+              var sunAfterNextSun = new Date(nextSunday.getFullYear(), nextSunday.getMonth(), nextSunday.getDate() + (7 - nextSunday.getDay()));
+
+              var vmonth = sunAfterNextSun.getMonth() + 1;
+              vmonth = vmonth < 10 ? '0' + vmonth : vmonth;
+
+              var vdate = sunAfterNextSun.getDate();
+              vdate = vdate < 10 ? '0' + vdate : vdate;
+
+              var date_var = nextSunday.getFullYear() + '-' + vmonth + '-' + vdate + ' ' + '00:00:01';
+              $("#edit-field-todo-lst-due-value").val(date_var);
+              $("#edit-submit-to-do").trigger("click");
+            }
+
+          }
+        }
+        httpreq.open("GET", time_url, true);
+        httpreq.send();
+      }
+
+
+      $("#edit-field-todo-lst-domain-value").prop('disabled', 'true');
+      if ($("#edit-field-todo-lst-domain-value").val() == 'CEDRI') {
+        $('#edit-field-todo-lst-part-code-value-wrapper').show();
+      }
+
+      var todo_part_60_list = ["Subpart Da", "Subpart Db", "Subpart Dc", "Subpart IIII", "Subpart JJJJ", "- Any -"];
+      if ($("#edit-field-todo-lst-part-code-value").length && $("#edit-field-todo-lst-part-code-value").val().trim() == 'Part 60') {
+        $('#edit-field-todo-lst-sub-part-code-value-wrapper').show();
+        $('#edit-field-todo-lst-sub-part-code-value option').filter(function() {
+          return $.inArray(this.innerHTML, todo_part_60_list) == -1
+        }).remove();
+      }
+
+      var todo_part_63_list = ["Subpart DDDDD", "Subpart JJJJJJ", "Subpart LLL", "Subpart ZZZZ", "- Any -"];
+      if ($("#edit-field-todo-lst-part-code-value").length && $("#edit-field-todo-lst-part-code-value").val().trim() == 'Part 63') {
+        $('#edit-field-todo-lst-sub-part-code-value-wrapper').show();
+        $('#edit-field-todo-lst-sub-part-code-value option').filter(function() {
+          return $.inArray(this.innerHTML, todo_part_63_list) == -1
+        }).remove();
+      }
+
+      if ($("#edit-field-todo-lst-sub-part-code-value").length && jQuery.inArray($("#edit-field-todo-lst-sub-part-code-value").val().trim(), todo_part_60_list) != -1) {
+        $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').show();
+        var report_type_60 = ["Air Emissions Report", "ERT Performance Report", "- Any -"];
+        $('#edit-field-todo-lst-rprt-type-filter-value option').filter(function() {
+          return $.inArray(this.innerHTML, report_type_60) == -1
+        }).remove();
+      }
+
+      if ($("#edit-field-todo-lst-sub-part-code-value").length && $("#edit-field-todo-lst-sub-part-code-value").val().trim() == "Subpart JJJJJJ") {
+        $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').show();
+        var report_type_63_jjjjjj = ["ERT Performance Report", "Notification of Compliance Status", "- Any -"];
+        $('#edit-field-todo-lst-rprt-type-filter-value option').filter(function() {
+          return $.inArray(this.innerHTML, report_type_63_jjjjjj) == -1
+        }).remove();
+      }
+      else if ($("#edit-field-todo-lst-sub-part-code-value").length && jQuery.inArray($("#edit-field-todo-lst-sub-part-code-value").val().trim(), todo_part_63_list) != -1) {
+        $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').show();
+        var report_type_63 = ["Air Emissions Report", "Notification Report", "ERT Performance Report", "- Any -"];
+        $('#edit-field-todo-lst-rprt-type-filter-value option').filter(function() {
+          return $.inArray(this.innerHTML, report_type_63) == -1
+        }).remove();
+      }
+
+
+      if ($("#edit-field-todo-lst-sub-part-code-value").val() == 'All') {
+        $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').hide();
+      }
+      if ($("#edit-field-todo-lst-part-code-value").val() == 'All') {
+        $('#edit-field-todo-lst-sub-part-code-value-wrapper').hide();
+        $('#edit-field-todo-lst-rprt-type-filter-value-wrapper').hide();
+      }
+      $('#edit-field-todo-lst-part-code-value').change(function() {
+        $('#edit-field-todo-lst-sub-part-code-value').val('All');
+        $('#edit-field-todo-lst-rprt-type-filter-value').val('All');
+      });
+      $('#edit-field-todo-lst-sub-part-code-value').change(function() {
+        $('#edit-field-todo-lst-rprt-type-filter-value').val('All');
+      });
+
+
+      $("#all-time").focus(function() {
+        $("#all-time").keydown(function(e) {
+          e.stopImmediatePropagation();
+          if (e.which === 40) {
+            $("#all-time a").click();
+          } else if (e.which === 39) {
+            $('input#focused-element').remove();
+            $('#this-week a').click();
+          }
+        });
+      });
+      $("#this-week a").focus(function() {
+        $("#this-week a").keydown(function(e) {
+          e.stopImmediatePropagation();
+          if (e.which === 40) {
+            $("#this-week a").click();
+          } else if (e.which === 39) {
+            $('#next-week a').click();
+          }
+          else if (e.which === 37) {
+            $('input#focused-element').remove();
+            $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="#all-time" />');
+            $('#all-time a').click();
+          }
+        });
+      });
+      $("#next-week a").focus(function() {
+        $("#next-week a").keydown(function(e) {
+          e.stopImmediatePropagation();
+          if (e.which === 40) {
+            $("#next-week a").click();
+          } else if (e.which === 39) {
+            $('#beyond-next-week a').click();
+          }
+          else if (e.which === 37) {
+            $('#this-week a').click();
+          }
+        });
+      });
+      $("#beyond-next-week a").focus(function() {
+        $("#beyond-next-week a").keydown(function(e) {
+          e.stopImmediatePropagation();
+          if (e.which === 40) {
+            $("#beyond-next-week a").click();
+          }
+          else if (e.which === 37) {
+            $('#next-week a').click();
+          }
+        });
+      });
+
+      // Keep track of the last pull-down we focused on (view filters only, for now)
+      $('.views-exposed-form select').focus(function() {
+        var thisId = $(this).attr('id');
+        trackFocusedElement('#' + thisId);
+      });
+      $('.view').on('focus', '.pager .pager-previous a', function() {
+        var thisTarget = getParentViewSelectorByClass($(this));
+        thisTarget += ' .pager .pager-previous a';
+        trackFocusedElement(thisTarget);
+      });
+      $('.view').on('focus', '.pager .pager-next a', function() {
+        var thisTarget = getParentViewSelectorByClass($(this));
+        thisTarget += ' .pager .pager-next a';
+        trackFocusedElement(thisTarget);
+      });
+
+
+      function trackFocusedElement(target) {
+        $('input#focused-element').remove();
+        $('input#focused-view').remove();
+        $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="' + target + '" />');
+        $('body').append('<input type="hidden" id="focused-view" name="focused_view" value="' + getParentViewSelectorByClass($(target)) + '" />');
+      }
+
+      function getParentViewSelectorByClass(element) {
+        var thisTarget = '';
+        // find the class that uniquely identifies this view container
+        var classList = $(element).parents('.view').attr('class').split(/\s+/);
+        $.each(classList, function(index, item) {
+          thisTarget += '.' + item;
+        });
+        return thisTarget;
+      }
+
+      // Lose track if we blur
+      $('.views-exposed-form select, .view .pager a').blur(function() {
+        $('input#focused-element').remove();
+        $('input#focused-view').remove();
+      });
+
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          if ($('input#focused-element').length == 1) {
+            if ($($('input#focused-element').val()).length > 0) {
+              // attempt to focus this element
+              $($('input#focused-element').val()).focus();
+            } else {
+              // if it disappeared...
+              if ($('input#focused-element').val().indexOf(".pager-next") != -1) {
+                // ...focus on the 'previous page' item if you were on the last page.
+                // therefore, pressing <tab> takes the user to the next widget.
+                trackFocusedElement($('input#focused-view').val() + ' .pager-previous > a');
+                $($('input#focused-view').val()).find('.pager-previous > a').focus();
+              } else if ($('input#focused-element').val().indexOf(".pager-previous") != -1) {
+                // ...focus on the 'next page' item if you were on the first page.
+                trackFocusedElement($('input#focused-view').val() + ' .pager-next > a');
+                $($('input#focused-view').val()).find('.pager-next > a').focus();
+              } else {
+                // ...focus on its view container.
+                $($('input#focused-view').val()).focus();
+                // we used it, now lose it!
+                $('input#focused-element').remove();
+              }
+            }
+          } else if ($("#this-week").hasClass("filter-applied")) {
+            $('#this-week a').focus();
+          } else if ($("#next-week").hasClass("filter-applied")) {
+            $('#next-week a').focus();
+          } else if ($("#beyond-next-week").hasClass("filter-applied")) {
+            $('#beyond-next-week a').focus();
+          }
+        }
+      }
+      xmlhttp.open("GET", "README.txt", true);
+      xmlhttp.send();
+
+      /* Start logic:-  For positioning scroll to top of to-do widget after to-do refresh*/
+      $(".view-to-do .refresh").click(function(e) {
+        if (typeof(Storage) !== "undefined") {
+          localStorage.setItem("to_do_refreshed", "Yes");
+        }
+      });
+
+      if (typeof(Storage) !== "undefined" && localStorage.getItem("to_do_refreshed") == "Yes") {
+        jQuery(window).load(function() {
+          setTimeout(function() { //Delay 1 sec to wait for complete page load
+            localStorage.setItem("to_do_refreshed", "No");
+            $(".view-to-do .refresh").focus();
+            $(window).scrollTop($("#gridstack-pane-views-to_do-block_1").offset().top);
+          }, 1000);
+        });
+      }
+      /* End logic:-  For positioning scroll to top of to-do widget after to-do refresh*/
+      /* Start logic:-  For positioning scroll to top of progress tracker widget after progress tracker refresh*/
+      $(".view-progress-tracker .refresh").click(function(e) {
+        if (typeof(Storage) !== "undefined") {
+          localStorage.setItem("progress_tracker_refreshed", "Yes");
+        }
+      });
+
+      if (typeof(Storage) !== "undefined" && localStorage.getItem("progress_tracker_refreshed") == "Yes") {
+        jQuery(window).load(function() {
+          setTimeout(function() {  //Delay 1 sec to wait for complete page load
+            localStorage.setItem("progress_tracker_refreshed", "No");
+            $(".view-progress-tracker .refresh").focus();
+            $(window).scrollTop($("#gridstack-pane-views-progress_tracker-block_1").offset().top);
+          }, 1000);
+        });
+      }
+      /* End logic:-  For positioning scroll to top of progress tracker widget after progress tracker refresh*/
+
+    }
+  };
+
+})(jQuery);

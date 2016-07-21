@@ -36,10 +36,10 @@
   }
   
    // Pass state admin role to provide additional options to MyMaps.js file
-  drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.dotdotdot.min.js", "file");
-  drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.jcarousel.min.js", "file");
-  drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/MyMaps.js", "file");
-  drupal_add_css(drupal_get_path('module', 'my_maps_view') ."/css/MyMaps.css", "file");
+  drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.dotdotdot.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+  drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/jquery.jcarousel.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+  drupal_add_js(drupal_get_path('module', 'my_maps_view') ."/js/MyMaps.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+  drupal_add_css(drupal_get_path('module', 'my_maps_view') ."/css/MyMaps.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
 
 ?>
 <div class="<?php print $classes; ?>">

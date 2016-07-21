@@ -18,8 +18,8 @@
  *   field id, then row number. This matches the index in $rows.
  * @ingroup views_templates
  */
-drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/FavoriteLink.js", "file");
-drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/favorite_links.js", "file");
+drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/FavoriteLink.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/favorite_links.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 drupal_add_js(array('preloaded_link_data' => load_links()), 'setting');
 ?>
 
