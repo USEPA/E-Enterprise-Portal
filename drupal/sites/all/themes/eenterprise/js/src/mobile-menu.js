@@ -31,7 +31,7 @@ Drupal.behaviors.mobileMenu = {
 			    $newMainMenu.find('.newlinks').wrap('<li class="menu-item"></li>');
 				}
 				else {
-					var guestMenuAdd = $('<ul class="menu"><li class="menu-item"><a href="/faqs" id="faqs-link">FAQs</a></li><li class="menu-item"><a href="/guest_bye" id="guest-login">Log in</a></li></ul>');
+					var guestMenuAdd = $('<ul class="menu"><li class="menu-item"><a href="' + Drupal.settings.basePath + 'faqs" id="faqs-link">FAQs</a></li><li class="menu-item"><a href="' + Drupal.settings.basePath + 'guest_bye" id="guest-login">Log in</a></li></ul>');
 					if ($newMainMenu > 0) {
 						$newMainMenu.append(guestMenuAdd);
 					}
@@ -57,9 +57,11 @@ Drupal.behaviors.mobileMenu = {
 	    	$newMainMenu.append($newuserMenu);
 	    	$newMainMenu.find('.newlinks').wrap('<li class="menu-item"></li>');
 		  }
+		  // If user is not a Guest user or an authenticated non-guest user
 		  else {
-			 var otherUser = $('<li class="menu-item"><a href="/bridge-landing" id="guest-login">Log in</a></li><li class="menu-item"><a href="/faqs" id="faqs-link" >FAQs</a></li>');
-			 $newMainMenu.append(otherUser);
+  		  $newMainMenu = $('.mobile-nav_links');
+        var otherUser = $('<ul class="menu"><li class="menu-item"><a href="' + Drupal.settings.basePath + 'bridge-landing" id="user-login">Log in</a></li><li class="menu-item"><a href="' + Drupal.settings.basePath + 'guest_login" id="guest-login">Browse as Guest</a></li><li class="menu-item"><a href="' + Drupal.settings.basePath + 'new-users" id="new-users">New User?</a></li><li class="menu-item"><a href="' + Drupal.settings.basePath + 'faqs" id="faqs-link" >FAQs</a></li></ul>');
+        $newMainMenu.append(otherUser);
 		  }
 		  
 	    $newMainMenu.appendTo($mobileLinks);

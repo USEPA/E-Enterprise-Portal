@@ -345,9 +345,10 @@ function guest_login_action() {
  * Logout a guest user.
  */
 function guest_logout_action() {
-  module_load_include('pages.inc', 'user');
-  user_logout();
-  drupal_goto("/");
+  watchdog('guest_user', 'Session ended for guest user.');
+  module_invoke_all('user_logout', $user);    
+  session_destroy();
+  drupal_goto('/bridge-landing');
 }
 
 function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv', $url_bool = FALSE) {
