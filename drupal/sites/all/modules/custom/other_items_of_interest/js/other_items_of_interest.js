@@ -1,2 +1,232 @@
-!function(a){function b(b){var c=b.indexOf("(");return c>0?a.trim(b.substr(0,b.indexOf("("))):b}var c=function(b,c,d){b.hide();var e={bLengthChange:!1,sPageButton:"favorites-ignore",oLanguage:{sSearch:"Filter:"},iDisplayLength:3},f=!1;this.wrapper=b,this.ajax_url=c,d?d.indexOf(",")===-1?this.state_code=d:this.state_code=a.trim(d.split(",")[1]):this.state_code=!1,this.hideTable=function(){b.hide()},this.update_current_location=function(b){b.indexOf(",")===-1?this.state_code=b:this.state_code=a.trim(b.split(",")[1]),this.ajax_request()},this.ajax_request=function(){var d=this.state_code;a.ajax({beforeSend:function(){b.html("<p>Loading&hellip;</p>")},url:c,method:"POST",data:{state:d},success:function(c){var d=0;a("table[id^='datatable-']").each(function(){d=Math.max(d,parseInt(a(this).attr("id").substr("datatable-".length),10))}),d++;var g=a("<div>"+c+"</div>");g.find("table").attr("id","datatable-"+d),b.html(g.html()),g=b.find("table"),g.length>0&&(g.DataTable(e),g.removeClass("dataTable display no-footer").addClass("views-table responsive-table usa-table-borderless")),f=!0}})},this.showTable=function(){f?b.show():(this.ajax_request(),b.show())}};a(document).ready(function(){var d=a("#other-areas-tabs");d.tabs(),d.find(".ui-corner-top").on("click",function(b){a(this).focus()});var e,f,g;a("#location-select").length>0?(e=a("#location-select"),f=!1,g=a("#location-select").find("option:selected").text(),g=b(g),e.change(function(){var c=a("#location-select option:selected").text();c=b(c),a("#restrict-to-current-button a").text(c),h.update_current_location(c),h.ajax_request()})):(e=a("#location-input-guests"),f=!0,g=e.text(),g=b(g)),f&&a(document).on("ee:zipCodeQueried",function(b,c){g=c.city+", "+c.state,a("#restrict-to-current-button a").text(g),h.update_current_location(g),h.ajax_request()});var h=new c(a("#current-state-resources"),"generateCurrentAreaOfInterestTable",g);if(!f)var i=new c(a("#favorite-state-resources"),"generateFavoriteAreasOfInterestTable");var j=new c(a("#all-state-resources"),"generateAllAreasOfInterestTable"),k=new c(a("#epa-resources"),"generateCurrentAreaOfInterestTable","US EPA");f||a("#restrict-to-states-button").click(function(){a(this).hasClass("inactive")&&(a(this).removeClass("inactive"),a("#all-states-button").addClass("inactive"),a("#restrict-to-current-button").addClass("inactive"),a("#epa-button").addClass("inactive"),j.hideTable(),h.hideTable(),k.hideTable(),i.showTable())}),a("#all-states-button").click(function(){a(this).hasClass("inactive")&&(a(this).removeClass("inactive"),a("#restrict-to-states-button").addClass("inactive"),a("#restrict-to-current-button").addClass("inactive"),a("#epa-button").addClass("inactive"),j.showTable(),h.hideTable(),f||i.hideTable(),k.hideTable())}),a("#restrict-to-current-button").click(function(){a(this).hasClass("inactive")&&(a(this).removeClass("inactive"),a("#restrict-to-states-button").addClass("inactive"),a("#all-states-button").addClass("inactive"),a("#epa-button").addClass("inactive"),h.showTable(),f||i.hideTable(),j.hideTable(),k.hideTable())}),a("#epa-button").click(function(){a(this).hasClass("inactive")&&(a(this).removeClass("inactive"),a("#restrict-to-states-button").addClass("inactive"),a("#restrict-to-current-button").addClass("inactive"),a("#all-states-button").addClass("inactive"),h.hideTable(),f||i.hideTable(),j.hideTable(),k.showTable())}),a("#restrict-to-current-button a").text(g),h.showTable(),f||i.ajax_request(),j.ajax_request(),k.ajax_request()})}(jQuery);
-//# sourceMappingURL=other_items_of_interest.js.map
+(function ($) {
+
+  var ItemsOfInterestTable = function ($wrapper, ajax_url, location) {
+
+    $wrapper.hide();
+
+    var datatable_options = {
+      "bLengthChange": false,
+      "sPageButton": "favorites-ignore",
+      "oLanguage": {
+        "sSearch": "Filter:"
+      },
+
+      "iDisplayLength": 3
+    };
+
+    var cached = false;
+    this.wrapper = $wrapper;
+    this.ajax_url = ajax_url;
+
+    if (location) {
+      // find if in city, state code pattern
+      if (location.indexOf(',') === -1)
+        this.state_code = location;
+      else
+        this.state_code = $.trim(location.split(',')[1]);
+    }
+    else {
+      this.state_code = false;
+    }
+
+
+    this.hideTable = function () {
+      $wrapper.hide();
+    };
+
+    this.update_current_location = function (location) {
+      // find if in city, state code pattern
+      if (location.indexOf(',') === -1)
+        this.state_code = location;
+      else
+        this.state_code = $.trim(location.split(',')[1]);
+      this.ajax_request();
+    };
+
+    this.ajax_request = function () {
+      var state_code = this.state_code;
+      $.ajax({
+        beforeSend: function () {
+          $wrapper.html('<p>Loading&hellip;</p>');
+        },
+        url: ajax_url,
+        method: "POST",
+        data: {state: state_code},
+        success: function (table) {
+          /**
+           * TODO: refactor - duplicate code block in the following files:
+           * recommended_resources/js/LocalResourcesTable.js
+           * other_items_of_interest/js/ItemsOfInterestTable.js
+           */
+          // alter the datatable id, one digit larger than the largest id
+          var newId = 0;
+          $("table[id^='datatable-']").each(function () {
+            newId = Math.max(newId, parseInt($(this).attr('id').substr('datatable-'.length), 10));
+          });
+          newId++;
+          var $table = $('<div>' + table + '</div>'); // wrap contents in a div for now, will unwrap later
+          $table.find('table').attr('id', 'datatable-' + newId);
+          $wrapper.html($table.html()); // unwrap
+
+          $table = $wrapper.find('table');
+          if ($table.length > 0) {
+            $table.DataTable(datatable_options);
+            $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
+          }
+          cached = true;
+        }
+      });
+    };
+
+    this.showTable = function () {
+      if (cached) {
+        $wrapper.show();
+      }
+      else {
+        this.ajax_request();
+        $wrapper.show();
+      }
+    }
+
+  };
+
+
+  function return_location_name(location) {
+    var index = location.indexOf('(');
+    if (index > 0) {
+      return $.trim(location.substr(0, location.indexOf('(')));
+    }
+    else {
+      return location;
+    }
+  }
+
+
+  $(document).ready(function () {
+
+    var $tabs = $("#other-areas-tabs");
+    $tabs.tabs();
+    $tabs.find('.ui-corner-top').on('click', function(ev) {
+      $(this).focus();
+    });
+
+    var $location_select;
+    var guest_user;
+    var location;
+
+    if ($('#location-select').length > 0) {
+      $location_select = $('#location-select');
+      guest_user = false;
+      location = $('#location-select').find('option:selected').text();
+      location = return_location_name(location);
+      $location_select.change(function () {
+        var location = $('#location-select option:selected').text();
+        location = return_location_name(location);
+        $('#restrict-to-current-button a').text(location);
+        current_state_table.update_current_location(location);
+        current_state_table.ajax_request();
+      });
+    }
+    else {
+      $location_select = $('#location-input-guests');
+      guest_user = true;
+      location = $location_select.text();
+      location = return_location_name(location);
+    }
+
+    if (guest_user) {
+      $(document).on('ee:zipCodeQueried', function (e, queryResponse) {
+        location = queryResponse.city + ', ' + queryResponse.state;
+        $('#restrict-to-current-button a').text(location);
+        current_state_table.update_current_location(location);
+        current_state_table.ajax_request();
+
+      });
+    }
+
+    var current_state_table = new ItemsOfInterestTable($("#current-state-resources"), 'generateCurrentAreaOfInterestTable', location);
+    if (!guest_user) {
+      var favorite_states_table = new ItemsOfInterestTable($("#favorite-state-resources"), 'generateFavoriteAreasOfInterestTable');
+    }
+    var all_states_resource_table = new ItemsOfInterestTable($("#all-state-resources"), 'generateAllAreasOfInterestTable');
+    // Generating EPA by using current location as EPA
+    var epa_table = new ItemsOfInterestTable($("#epa-resources"), 'generateCurrentAreaOfInterestTable', 'US EPA');
+
+
+    if (!guest_user) {
+      $('#restrict-to-states-button').click(function () {
+        if ($(this).hasClass('inactive')) {
+          $(this).removeClass('inactive');
+          $("#all-states-button").addClass('inactive');
+          $('#restrict-to-current-button').addClass('inactive');
+          $("#epa-button").addClass('inactive');
+          all_states_resource_table.hideTable();
+          current_state_table.hideTable();
+          epa_table.hideTable();
+          favorite_states_table.showTable();
+        }
+      });
+    }
+
+    $("#all-states-button").click(function () {
+      if ($(this).hasClass('inactive')) {
+        $(this).removeClass('inactive');
+        $('#restrict-to-states-button').addClass('inactive');
+        $('#restrict-to-current-button').addClass('inactive');
+        $("#epa-button").addClass('inactive');
+
+        all_states_resource_table.showTable();
+        current_state_table.hideTable();
+        if (!guest_user) {
+          favorite_states_table.hideTable();
+        }
+        epa_table.hideTable();
+      }
+    });
+
+    $('#restrict-to-current-button').click(function () {
+      if ($(this).hasClass('inactive')) {
+        $(this).removeClass('inactive');
+        $('#restrict-to-states-button').addClass('inactive');
+        $("#all-states-button").addClass('inactive');
+        $("#epa-button").addClass('inactive');
+        current_state_table.showTable();
+        if (!guest_user) {
+          favorite_states_table.hideTable();
+        }
+        all_states_resource_table.hideTable();
+        epa_table.hideTable();
+      }
+    });
+
+    $('#epa-button').click(function () {
+      if ($(this).hasClass('inactive')) {
+        $(this).removeClass('inactive');
+        $('#restrict-to-states-button').addClass('inactive');
+        $('#restrict-to-current-button').addClass('inactive');
+        $("#all-states-button").addClass('inactive');
+        current_state_table.hideTable();
+        if (!guest_user) {
+          favorite_states_table.hideTable();
+        }
+        all_states_resource_table.hideTable();
+        epa_table.showTable();
+      }
+    });
+
+
+    // Dynamically set button text for currently selected location
+    $('#restrict-to-current-button a').text(location);
+
+
+    current_state_table.showTable();
+    if (!guest_user) {
+      favorite_states_table.ajax_request();
+    }
+    all_states_resource_table.ajax_request();
+    epa_table.ajax_request();
+
+  });
+
+
+}(jQuery));

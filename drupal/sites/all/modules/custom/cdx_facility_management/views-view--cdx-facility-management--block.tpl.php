@@ -15,7 +15,7 @@ module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
 <?php if (feature_toggle_get_status('use_new_method_for_cdx_js')): ?>
 
   <?php
-  drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", "file");
+drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", "file");
   drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/cdx_facility_management.css", "file");
 
   drupal_add_library('system', 'ui.accordion');
@@ -35,12 +35,12 @@ module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
   drupal_add_css('https://js.arcgis.com/3.13/esri/css/esri.css', 'external');
 
 // Set load to JS_THEME because this needs to be loaded with themes items after libraries have been loaded
-  ?>
+?>
   <script src="https://js.arcgis.com/3.13/"></script>
   <?php
   drupal_add_css($cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementStyles.css', 'external');
   ?>
-
+  
 
   <!--[if IE 8]>
   <?php echo '<link rel="stylesheet" href="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/FacilityManagementStyles-ie8.css">';?>

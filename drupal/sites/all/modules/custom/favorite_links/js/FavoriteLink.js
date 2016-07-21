@@ -1,2 +1,201 @@
-function preload_links(){$("#load_more").hide();var a=$.parseJSON(Drupal.settings.preloaded_link_data);"false"!=a.url_data&&(favorite_urls=a.urls,favorite_url_mapping=a.url_mapping,id_label_mapping=a.label_mapping)}function createFavoriteButton(a,b){var c,d;return $.inArray(a,favorite_urls)>=0?(c=favorite_url_mapping[a],d="<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='"+c+"__favorite_link'  class=' remove_link favorite_hover old_link fa fa-heart filled' aria-hidden='true'></span><span class='sr-only'>Favorited. To remove favorite, press Ctrl + D</span></div>"):(c=a,d='<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="'+c+"__"+b+"\" class='add_link favorite_hover new_link fa fa-heart empty' aria-hidden='true'></span><span class='sr-only'>To favorite, press Ctrl + D</span></div>"),d}$=jQuery;var id=0,favorite_urls,favorite_url_mapping,id_label_mapping,link_status_changing=!1;$(document).ready(function(){preload_links()});var FavoriteLink=function(a){var b=-1,c=a.closest("a").attr("href"),d=!1,e=null,f=a.attr("alt"),g=null;this.is_parent=!1,this.qtip_postion={my:"right bottom",at:"right bottom",target:a},a.closest("a").addClass("processed-favorite"),this.addFavoriteButton=function(){g=createFavoriteButton(c,f),a.after(g),a.qtip({content:{text:a.next("div")},hide:{fixed:!0,delay:300},position:this.qtip_postion,style:{classes:"transparent-qtip",width:4}})},this.setUrl=function(a){c=a},this.getUrl=function(){return c},this.setId=function(a){b=a},this.getId=function(){return b},this.getState=function(){return d},this.setState=function(a){d=a},this.triggerParentForRemoval=function(){e.unfavor(),e.unfavor_children()},this.setTitle=function(a){f=a}},FavoriteLinkCollection=function(){var a={};this.removeFavoriteLink=function(b){var c=a[b];c.is_parent?c.unfavor_children():c.triggerParentForRemoval(),delete a[b]}};
-//# sourceMappingURL=FavoriteLink.js.map
+$ = jQuery;
+// global id for link tracking
+var id = 0;
+var favorite_urls;
+var favorite_url_mapping;
+var id_label_mapping;
+var link_status_changing = false;
+
+function preload_links() {
+    $('#load_more').hide();
+    var data = $.parseJSON(Drupal.settings.preloaded_link_data);
+    if (data.url_data != 'false') {
+        favorite_urls = data.urls;
+        favorite_url_mapping = data.url_mapping;
+        id_label_mapping = data.label_mapping;
+    }
+}
+
+$(document).ready(function () {
+    preload_links();
+});
+
+//jQuery.fn.extend({
+//    favor: function () {
+//        return this.each(function () {
+//            this.checked = true;
+//        });
+//    },
+//    unfavor: function () {
+//        return this.each(function () {
+//            this.checked = false;
+//        });
+//    }
+//});
+
+
+function createFavoriteButton(url, text_title) {
+    //var favorite_button;
+    //if ($.inArray(url, favorite_urls) >= 0) {
+    //    favorite_button =
+    //        "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + id + "__favorite_link' " +
+    //        " class=' remove_link favorite_hover old_link fa fa-heart filled' aria-hidden='true'></span><span class='sr-only'>Favorited. To remove favorite, press Ctrl + D</span></div>";
+    //}
+    //else {
+    //    favorite_button = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + id + '__favorite_link' +
+    //        " class='add_link favorite_hover new_link fa fa-heart empty' aria-hidden='true'></span><span class='sr-only'>To favorite, press Ctrl + D</span></div>";
+    //}
+    //id++;
+    //return favorite_button;
+
+    var id;
+    var favorite_button;
+    if ($.inArray(url, favorite_urls) >= 0) {
+        id = favorite_url_mapping[url];
+        favorite_button =
+            "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + id + "__favorite_link' " +
+            " class=' remove_link favorite_hover old_link fa fa-heart filled' aria-hidden='true'></span><span class='sr-only'>Favorited. To remove favorite, press Ctrl + D</span></div>";
+    }
+    else {
+        id = url;
+        favorite_button = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + id + '__' + text_title + '"' +
+            " class='add_link favorite_hover new_link fa fa-heart empty' aria-hidden='true'></span><span class='sr-only'>To favorite, press Ctrl + D</span></div>";
+    }
+    return favorite_button;
+}
+
+
+var FavoriteLink = function ($container) {
+
+
+    // Private
+    var id = -1;
+    var url = $container.closest('a').attr('href');
+    var favored = false;
+    var parent = null; // id of
+    var children = [];
+    var title = $container.attr('alt');
+    var favorite_button = null;
+
+
+    // Public
+    this.is_parent = false;
+    this.qtip_postion = {
+        my: 'right bottom',  // Position my top left...
+        at: 'right bottom', // at the bottom right of...
+        target: $container
+    }
+
+    // initial DOM element processing
+    $container.closest('a').addClass('processed-favorite');
+
+
+    this.addFavoriteButton = function () {
+        favorite_button = createFavoriteButton(url, title);
+        $container.after(favorite_button);
+        $container.qtip({ // Grab some elements to apply the tooltip to // add into class
+            content: {
+                text: $container.next('div')
+            },
+            hide: {
+                fixed: true,
+                delay: 300
+            },
+            position: this.qtip_postion,
+            style: {
+                classes: 'transparent-qtip',
+                width: 4
+            }
+        });
+    }
+
+    this.setUrl = function (in_url) {
+        url = in_url;
+    }
+    this.getUrl = function () {
+        return url;
+    }
+    this.setId = function (in_id) {
+        id = in_id;
+    }
+    this.getId = function () {
+        return id;
+    }
+
+    this.getState = function () {
+        return favored;
+    }
+    this.setState = function (in_favored) {
+        favored = in_favored;
+    }
+
+    this.triggerParentForRemoval = function () {
+        parent.unfavor();
+        parent.unfavor_children();
+    }
+
+    this.setTitle = function(in_title) {
+        title = in_title;
+    }
+
+    // Private
+
+    var unfavor = function () {
+        favored = false;
+        parent = null;
+        $anchor.unfavorHeart();
+    }
+
+    var favor = function () {
+        favored = true;
+        $anchor.favorHeart();
+    }
+
+    var unfavorChildren = function () {
+        $.each(children, function () {
+            this.unfavor();
+        });
+    }
+}
+
+var FavoriteLinkCollection = function () {
+    /**
+     *
+     * @type {Array}
+     */
+
+
+    // favorite links object - look up by id. id points to array of 1 - many ids.
+    var favorite_links = {};
+
+
+    // remove favorite link
+    this.removeFavoriteLink = function (id_to_be_removed) {
+        var favorite_link = favorite_links[id_to_be_removed];
+        if (favorite_link.is_parent)
+            favorite_link.unfavor_children();
+        else
+            favorite_link.triggerParentForRemoval();
+        delete  favorite_links[id_to_be_removed];
+    }
+
+    // add favorite link
+
+    // look up favorite link by id
+
+
+}
+
+/// On page load loop through anchor urls creating favorite link instances. If in favorites,
+// assign true and appropriate id from favorites.
+
+/*
+
+ parent favorite in master list and it has children.
+ each instance has unfavor and favor method that deals with the hearts
+
+ on child click, trigger parent action. parent loops through children.
+
+
+ */
+
