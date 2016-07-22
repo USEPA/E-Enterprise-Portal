@@ -30,8 +30,8 @@
 
 <?php
   $module_name = "recommended_resources";
-  drupal_add_js(drupal_get_path('module', $module_name) . "/js/manage_my_topics_component.js", "file");
-  drupal_add_css(drupal_get_path('module', $module_name) . "/css/manage_my_topics.css", "file");
+  drupal_add_js(drupal_get_path('module', $module_name) . "/js/manage_my_topics_component.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+  drupal_add_css(drupal_get_path('module', $module_name) . "/css/manage_my_topics.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
 
 ?>
 

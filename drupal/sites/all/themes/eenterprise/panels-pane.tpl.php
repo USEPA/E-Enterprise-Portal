@@ -16,9 +16,9 @@
  * - $display: The complete panels display object containing all kinds of
  *   data including the contexts and all of the other panes being displayed.
  */
-drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ElementQueries.js", "file");
-drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ResizeSensor.js", "file");
-drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_input_engine.js');
+drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ElementQueries.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/ResizeSensor.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/location_input_engine.js', ['scope'=>'header', 'preprocess'=>true, 'group'=>JS_DEFAULT, 'weight'=>-1, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 global $user;
 $user_data = user_load($user->uid);
 if ($user->name == 'guest-user') {
