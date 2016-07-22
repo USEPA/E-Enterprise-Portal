@@ -538,7 +538,7 @@ th {
   padding: 0;
 }
 
-/* Apply a natural box layout model to all elements, but allowing components to
+/* Apply a natural box layout model to all elements, but allowing components to 
 change */
 /* line 4, ../sass/core/_base.scss */
 html {

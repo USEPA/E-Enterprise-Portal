@@ -104,34 +104,34 @@
 }
 
 // Branding & Headers -------------- //
+.region-maintenance {
+    margin-top: 0;
+    margin-bottom: 0;
+    .usa-alert,
+    div {
+       padding-top: 5px;
+       padding-bottom: 5px; 
+       margin-top: 0;
+       margin-bottom: 0;
+    }
+    p {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 0.75em;
+    }
+    .usa-alert-error {
+        background-size: 4rem;
+        background-position: 4rem center;
+        padding-left: 4rem;
+    }
+}
+
 .region-disclaimer {
     background-color: $color-gray-dark;
     color: $color-white;
     p {
         margin-top: 0;
         margin-bottom: 0;
-    }
-}
-
-.usa-grid {
-    .site-name-and-slogan {
-        &.usa-width-one-half {
-            width: auto;
-        }
-        .site-name {
-            margin-top: 15px;
-            margin-bottom: 5px;
-            a {
-                display: block;
-                width: 239px;
-            }
-        }
-        .site-slogan {
-            margin-bottom: 15px;
-            color: $color-gray-dark;
-            font-size: $h6-font-size;
-            font-style: italic;
-        }
     }
 }
 
@@ -252,21 +252,11 @@
 
 .secondary-nav {
     float: right;
-    margin-top: 20px;
     line-height: 2.5rem;
     .menu {
         font-size: $h6-font-size;
         .menu-item {
             border-color: $color-gray-lightest;
-        }
-    }
-}
-
-footer {
-    .menu {
-        margin-top: 1.25rem;
-        .menu-item {
-            display: inline-block;
         }
     }
 }
@@ -324,19 +314,27 @@ label, .aria-label {
 
 footer {
     p, .menu {
-        margin-bottom: 2rem;
+        margin: 0 auto 10px;
         font-size: $h6-font-size;
     }
     .menu {
-        float: right;
+        padding-top: 1.25rem;        
         .menu-item {
-            border-color: #ddd;
-            padding: 0 10px;
+            display: inline-block;
+            border: none;
+            padding: 0 15px;
             vertical-align: top;
+            margin-bottom: 5px;
             a {
                 padding: 0;
             }
         }
+    }
+    p#release-number-footer {
+        text-align: center;
+        color: $color-gray-light;
+        font-size: $h7-font-size;
+        margin-top: 0;
     }
 }
 
@@ -550,43 +548,58 @@ header {
     a {
         color: #333;
     }
-    .block--login-from-guest-page {
-        margin-bottom: 0;
-    }
-    .header__region {
-        float: right;
-        clear: none;
-        margin-top: 30px;
-        #faqs-link {
-            margin-right: 20px;
-            font-size: 87.5%;
+    .site-name-and-slogan {
+        .site-name {
+            margin-top: 15px;
+            margin-bottom: 5px;
+            a {
+                display: block;
+                width: 239px;
+            }
+        }
+        .site-slogan {
+            margin-bottom: 15px;
+            color: $color-gray-dark;
+            font-size: $h6-font-size;
+            font-style: italic;
         }
     }
-    #block--ee-bridge-login {
-        width: auto;
-        float: right;
-        margin-bottom: 0;
-        margin-top: 20px;
-        margin-right: 1em;
-        h2.block-title {
-            @include element-invisible;
-        }
+    .button-menu {
         a {
-            font-size: 1em;
-            height: auto;
-            padding: 5px 10px;
-            display: block;
-        }
-        .usa-button {
-            margin-right: 0;
+            border-radius: 12px;
+            color: $color-base;
+            font-weight: normal;
+            &.usa-button {
+                line-height: 17px;
+                width: 13rem;            
+            }
+            &#button-ee-login {
+                background-color: $color-ee-light-green;
+                text-transform: uppercase;
+                color: $color-base;
+                font-size: 1.7rem;
+            }
+            &#button-ee-guest {
+                background-color: $color-ee-light-blue;
+                color: $color-base;
+                font-size: 1.3rem;
+            }
+            &#button-ee-login:hover {
+                background-color: darken($color-ee-light-green, 10%);
+            }
+            &#button-ee-guest:hover {
+                background-color: darken($color-ee-light-blue, 10%);            
+            }
+            &#button-ee-new {
+                font-size: $h6-font-size;
+            }
+            &#button-ee-faqs {
+                margin-right: 10px;
+                font-size: $h6-font-size;
+            }
         }
     }
-    .block--ee-bridge-login {
-        padding-top: 3rem;
-        a.usa-button {
-            margin-right: 0;
-        }
-    }
+    
 }
 
 .section-eenterprise-new,
@@ -700,9 +713,10 @@ header {
     .jcarousel-wrapper {
         margin: 0 auto;
         position: relative;
-        background-color: #8a8a8a;
+        background-color: #575757;  // Achieves sufficient color contrast with white foreground color for text on slides.
+        color: $color-white;
         .jcarousel {
-            background-color: #8a8a8a;
+            background-color: #575757;
             position: relative;
             overflow: hidden;
             width: 100%;
@@ -715,7 +729,7 @@ header {
                 li {
                     float: left;
                     display: block;
-                    width: 1240px;
+                    width: 1500px;
                     height: auto;
                     margin-top: 0;
                     margin-bottom: 0;
@@ -822,6 +836,20 @@ header {
                     color: $color-base;                    
                 }      
             }
+        }
+    }
+    .usa-background-dark:not(.region-disclaimer) {
+        background-color: $color-white;
+        p#release-number-footer {
+            color: #595959;
+        }
+        .menu-item a {
+            color: $color-gray-dark;
+            &:hover,
+            &:active {
+                color: $color-base;
+            }
+            
         }
     }
 }
@@ -1191,6 +1219,28 @@ a:focus.add_link {
 }
 
 @media screen and (min-width: 40.001em) {
+    
+    header {
+        table-layout: fixed;
+        display: table;
+        width: 100%;
+        > div {
+            display: table-cell;
+        }
+        .site-name-and-slogan {
+            width: 40%;
+        }
+        .region-header {
+            text-align: right;
+            vertical-align: middle;
+            width: 60%;
+        }
+        a:last-of-type {
+            margin-right: 0;
+        }
+        
+    }
+    
     .org-select-grouping, .role-select-grouping {
         div {
             margin-bottom: 10px;
@@ -1227,11 +1277,6 @@ a:focus.add_link {
         span, button {
             display: block;
             float: left;
-        }
-    }
-    footer {
-        p {
-            margin-top: 2rem;
         }
     }
 }
@@ -2990,7 +3035,7 @@ input[type="submit"]:not(.usa-button-outline),
         height: auto;
         padding: 5px 2em;
         p {
-            margin-top: 0;
+            margin-top: 1rem;
         }
         .menu-footer-disclaimers {
             float: none;
@@ -3196,15 +3241,15 @@ input[type="submit"]:not(.usa-button-outline),
                         .video-details,
                         .video-holder {
                             display: table-cell;                        
-                            vertical-align: top;                        
+                            vertical-align: top;
+                            width: 50%;                        
                         }
                         .video-details {
-                            width: 350px;
                             padding-left: 4rem;
+                            padding-right: 3rem;
                             float: left;
                         }
                         .video-holder {
-                            width: 550px;
                             padding: 2em 4rem 2em 0;
                             float: right;
                         }                        
@@ -3305,15 +3350,6 @@ input[type="submit"]:not(.usa-button-outline),
                     border-right: none;
                 }
             }
-        }
-    }
-}
-
-.section-eenterprise-new,
-.section-eenterprise-alternate {
-    &.not-logged-in {
-        .mobile-nav {
-            display: none;
         }
     }
 }
@@ -4283,7 +4319,9 @@ input#location-input-guests::-ms-clear {
         .main-nav,
         .secondary-nav,
         .block--login-from-guest-page,
-        .block--ee-bridge-login {
+        .block--ee-bridge-login,
+        .block--anonymous-user-login-buttons,
+        .block--guest-user-login-buttons {
             // Hide simple-main-nav at widths below 40em, when mobile-nav shows
             display: none;
             &.usa-width-one-half {
