@@ -55,14 +55,15 @@ function my_cdx_theme() {
  * Implements hook_block_view().
  */
 function my_cdx_block_view($delta = '') {
-  drupal_add_js('sites/all/modules/contrib/datatables/dataTables/media/js/jquery.dataTables.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+  drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
   drupal_add_js(drupal_get_path('module', 'my_cdx') . '/my_cdx.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+  drupal_add_css(drupal_get_path('module', 'my_cdx') . '/my_cdx.css', ['preprocess'=>true, 'group'=>CSS_THEME]);
 
   $block = array();
 
   if ($delta = 'my_cdx') {
     if (user_access('access content')){ //good idea to check user perms here
-      $block['subject'] = t('My CDX');
+      $block['subject'] = t('App Connect');
       $block['content'] = theme('my_cdx');
       return $block;
     }
