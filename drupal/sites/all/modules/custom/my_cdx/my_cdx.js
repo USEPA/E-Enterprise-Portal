@@ -1,7 +1,9 @@
 (function ($) {
   $(document).ready(function() {
     $('#my-cdx').find('table').DataTable({
-      "ajax": Drupal.settings.basePath + 'my-cdx/json'
+      "ajax": Drupal.settings.basePath + 'my-cdx/json',
+      "bLengthChange": false,
+      "dom": 'it'
     });
   });
 })(jQuery);

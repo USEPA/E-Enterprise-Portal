@@ -11,12 +11,6 @@ $a = 'a';
           <th>Role</th>
         </tr>
       </thead>
-      <tfoot>
-        <tr>
-          <th>Program service name</th>
-          <th>Role</th>
-        </tr>
-      </tfoot>
       <tbody>
 
       </tbody>
