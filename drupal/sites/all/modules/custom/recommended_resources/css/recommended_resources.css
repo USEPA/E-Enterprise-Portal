@@ -299,42 +299,42 @@ Truncate    text
   display: none;
 }
 
-/* line 14, ../sass/_rflc.scss */
-.local.resources .left + .left {
+/* line 18, ../sass/_rflc.scss */
+.resources .left + .left {
   width: 100%;
 }
-/* line 18, ../sass/_rflc.scss */
-.local.resources.toggle-open .left + .left {
+/* line 22, ../sass/_rflc.scss */
+.resources.toggle-open .left + .left {
   width: 65%;
 }
-/* line 23, ../sass/_rflc.scss */
-.local.resources.toggle-close .your-selections {
+/* line 27, ../sass/_rflc.scss */
+.resources.toggle-close .your-selections {
   padding-top: 1em;
   clear: both;
 }
 
-/* line 29, ../sass/_rflc.scss */
+/* line 34, ../sass/_rflc.scss */
 .faceted-filters.off {
   width: 40%;
 }
 
 @media screen and (max-width: 30em), screen and (min-width: 48.01em) and (max-width: 60.01em) {
-  /* line 35, ../sass/_rflc.scss */
+  /* line 40, ../sass/_rflc.scss */
   .faceted-filters.on, .faceted-filters.off {
     width: 100%;
   }
 
-  /* line 42, ../sass/_rflc.scss */
-  .local.resources.toggle-open .left + .left {
+  /* line 47, ../sass/_rflc.scss */
+  .resources.toggle-open .left + .left {
     width: 100%;
   }
 
-  /* line 49, ../sass/_rflc.scss */
+  /* line 54, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table {
     margin-top: 1em;
     clear: both;
   }
-  /* line 52, ../sass/_rflc.scss */
+  /* line 57, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table thead {
     position: absolute;
     width: 1px;
@@ -345,7 +345,7 @@ Truncate    text
     clip: rect(0, 0, 0, 0);
     border: 0;
   }
-  /* line 62, ../sass/_rflc.scss */
+  /* line 67, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table tbody,
   .view-lgc-resources .responsive-table tr,
   .view-lgc-resources .responsive-table th,
@@ -354,24 +354,24 @@ Truncate    text
     white-space: normal;
     padding: 1rem 0.5rem;
   }
-  /* line 70, ../sass/_rflc.scss */
+  /* line 75, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table th,
   .view-lgc-resources .responsive-table td {
     vertical-align: top;
   }
-  /* line 74, ../sass/_rflc.scss */
+  /* line 79, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table tr {
     position: relative;
   }
-  /* line 76, ../sass/_rflc.scss */
+  /* line 81, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table tr.odd, .view-lgc-resources .responsive-table tr.even {
     background-color: #ffffff;
   }
-  /* line 82, ../sass/_rflc.scss */
+  /* line 87, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table tbody tr:last-of-type {
     margin-bottom: 0;
   }
-  /* line 85, ../sass/_rflc.scss */
+  /* line 90, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table tbody td[data-title]:before {
     width: 5em;
     content: attr(data-title);
@@ -381,18 +381,18 @@ Truncate    text
     line-height: 1.8rem;
     color: #323a45;
   }
-  /* line 94, ../sass/_rflc.scss */
+  /* line 99, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table tbody td[data-title] {
     padding-left: 5.5em;
   }
-  /* line 97, ../sass/_rflc.scss */
+  /* line 102, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table tbody td.resource-title {
     padding-left: 2.5em;
     background-color: #f1f1f1;
     border-left: 1px solid #aeb0b5;
     border-right: 1px solid #aeb0b5;
   }
-  /* line 103, ../sass/_rflc.scss */
+  /* line 108, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table tbody td.resource-info {
     background-color: transparent;
     border: none;
@@ -401,18 +401,18 @@ Truncate    text
     margin-top: 0.9em;
     margin-left: 0.5em;
   }
-  /* line 111, ../sass/_rflc.scss */
+  /* line 116, ../sass/_rflc.scss */
   .view-lgc-resources .responsive-table tbody td {
     border-bottom: none;
   }
 }
 @media screen and (min-width: 34.01em) and (max-width: 48em), screen and (min-width: 72.01em) {
-  /* line 124, ../sass/_rflc.scss */
-  .all.resources.toggle-open .responsive-table .views-field.views-field-value-3, .all.resources.toggle-open .responsive-table .views-field.views-field-value-4 {
+  /* line 129, ../sass/_rflc.scss */
+  .resources.toggle-open .responsive-table .views-field.views-field-value-3, .resources.toggle-open .responsive-table .views-field.views-field-value-4 {
     display: none;
   }
-  /* line 133, ../sass/_rflc.scss */
-  .all.resources.toggle-closed .responsive-table .views-field.views-field-value-3, .all.resources.toggle-closed .responsive-table .views-field.views-field-value-4 {
+  /* line 138, ../sass/_rflc.scss */
+  .resources.toggle-closed .responsive-table .views-field.views-field-value-3, .resources.toggle-closed .responsive-table .views-field.views-field-value-4 {
     display: table-cell;
   }
 }
