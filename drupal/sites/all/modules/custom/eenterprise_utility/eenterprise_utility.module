@@ -346,6 +346,7 @@ function guest_login_action() {
  */
 function guest_logout_action() {
   watchdog('guest_user', 'Session ended for guest user.');
+  global $user;
   module_invoke_all('user_logout', $user);    
   session_destroy();
   drupal_goto('/bridge-landing');
