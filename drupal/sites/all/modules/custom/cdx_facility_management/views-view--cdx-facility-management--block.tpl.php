@@ -11,23 +11,23 @@
  * @ingroup views_templates
  */
 module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-?>
-<?php if (feature_toggle_get_status('use_new_method_for_cdx_js')): ?>
+
+if (feature_toggle_get_status('use_new_method_for_cdx_js')): ?>
 
   <?php
-drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", "file");
-  drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/cdx_facility_management.css", "file");
+  drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+  drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/cdx_facility_management.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
 
   drupal_add_library('system', 'ui.accordion');
 
   $cdx_facility_source = variable_get('cdx_facility_resource_url');
-  drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/jquery.validate1.12.0.js', 'file');
-  drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/ElementGroupDisplay.js', 'external');
+  drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/jquery.validate1.12.0.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+  drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/ElementGroupDisplay.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 
-  drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/jquery-fancybox/jquery.fancybox.css", array('type'=> 'file', 'group' => CSS_SYSTEM));
+  drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/jquery-fancybox/jquery.fancybox.css", ['preprocess'=>true, 'group'=>CSS_SYSTEM]);
 
-  drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/jquery.blockUI.1.7.js', 'file');
-  drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/handlebars-v3.0.3.js', 'file');
+  drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/jquery.blockUI.1.7.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+  drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/handlebars-v3.0.3.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 
 
 // Mapping scripts
@@ -35,25 +35,16 @@ drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_fa
   drupal_add_css('https://js.arcgis.com/3.13/esri/css/esri.css', 'external');
 
 // Set load to JS_THEME because this needs to be loaded with themes items after libraries have been loaded
-?>
-  <script src="https://js.arcgis.com/3.13/"></script>
-  <?php
+
+  drupal_add_js('//js.arcgis.com/3.13/init.js', ['scope'=>'footer','type'=>'external', 'group'=>JS_SCRIPT]);
   drupal_add_css($cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementStyles.css', 'external');
-  ?>
-  
 
-  <!--[if IE 8]>
-  <?php echo '<link rel="stylesheet" href="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/FacilityManagementStyles-ie8.css">';?>
-  <![endif]-->
+  echo '<!--[if IE 8]><link rel="stylesheet" href="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/FacilityManagementStyles-ie8.css"><![endif]-->';
 
-  <?php
-  drupal_add_js($cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementTemplates.min.js', 'external');
-  drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js', 'external');
-  ?>
+  drupal_add_js($cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementTemplates.min.js', ['scope'=>'footer','type'=>'external', 'group'=>JS_SCRIPT]);
+  drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js', ['scope'=>'footer','type'=>'external']);
 
-
-<?php else: ?>
-  <?php
+else:
   /**
    * @file
    * View: First Time User Profile
@@ -65,8 +56,8 @@ drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_fa
    *
    * @ingroup views_templates
    */
-  drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", "file");
-  drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/cdx_facility_management.css", "file");
+  drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+  drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/cdx_facility_management.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
 
   drupal_add_library('system', 'ui.accordion');
 

@@ -136,8 +136,8 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id) {
 
 
   if ($form_id == 'lgc_resource_node_form') {
-    drupal_add_js(drupal_get_path('module', 'recommended_resources') . "/js/preview_url_form.js", "file");
-    drupal_add_css(drupal_get_path('module', 'recommended_resources') . "/css/recommended_resources.css", "file");
+    drupal_add_js(drupal_get_path('module', 'recommended_resources') . "/js/preview_url_form.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+    drupal_add_css(drupal_get_path('module', 'recommended_resources') . "/css/recommended_resources.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
 
     hide($form['additional_settings']);
     hide($form['actions']['preview']);

@@ -26,9 +26,9 @@
  *
  * @ingroup views_templates
  */
-drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", "file");
-drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/air_emissions.js", "file");
-drupal_add_css(drupal_get_path('theme', 'eenterprise') ."/css/air_emissions.css", "file");
+drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", ['scope'=>'footer', 'group'=>JS_THEME, 'type'=>'external', 'requires_jquery'=>false]);
+drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/air_emissions.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_css(drupal_get_path('theme', 'eenterprise') ."/css/air_emissions.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>

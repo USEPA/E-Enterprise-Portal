@@ -26,7 +26,7 @@
  *
  * @ingroup views_templates
  */
-drupal_add_css(drupal_get_path('theme', 'eenterprise') ."/css/favorite-sites.css", "file");
+drupal_add_css(drupal_get_path('theme', 'eenterprise') ."/css/favorite-sites.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
 ?>
 
 <div id="favorite_links-ajax-wrapper">
