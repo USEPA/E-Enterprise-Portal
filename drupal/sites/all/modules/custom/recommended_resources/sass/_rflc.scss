@@ -10,7 +10,11 @@
     }
 }
 
-.local.resources {
+// controls how the table displays
+.resources {
+    .all, .local {
+
+    }
     .left + .left {
         width: 100%;
     }
@@ -26,6 +30,7 @@
         }
     }
 }
+
 .faceted-filters.off {
     width: 40%;
 }
@@ -37,7 +42,7 @@
         }
     }
 
-    .local.resources {
+    .resources {
         &.toggle-open {
             .left + .left {
                 width: 100%;
@@ -117,7 +122,7 @@
 }
 
 @media screen and (min-width: 34.01em) and (max-width: 48.0em), screen and (min-width: 72.01em) {
-    .all.resources {
+    .resources {
         &.toggle-open {
             .responsive-table {
                 .views-field {
