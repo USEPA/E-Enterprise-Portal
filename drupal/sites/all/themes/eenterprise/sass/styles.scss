@@ -2863,12 +2863,11 @@ input[type="submit"]:not(.usa-button-outline),
 
 /** Sorting images (up and down arrows) **/
 table.dataTable, table.views-table {
+
   thead {
     .sorting {
       background-image: url("../images/sort_both.png");
     }
-  }
-  thead {
     .sorting, .sorting_asc, .sorting_desc, .sorting_asc_disabled, .sorting_desc_disabled {
       background-repeat: no-repeat;
       background-position: center right;
