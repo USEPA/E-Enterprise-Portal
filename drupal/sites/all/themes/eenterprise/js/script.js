@@ -811,6 +811,7 @@
 
   Drupal.behaviors.filterToDoList = {
     attach: function(context) {
+      var currentFocus = focus.getInstance();
       $(document).one('ready', function() {
         if ($(".view-to-do div").hasClass("view-content")) {
           $(".view-to-do .todo-filter-by-week").show();
@@ -819,40 +820,56 @@
           $(".view-to-do .todo-filter-by-week").hide();
         }
       });
+
       $("#this-week").click(function(event) {
+        currentFocus.target = "#this-week";
+        currentFocus.tab = "#this-week a";
         get_server_date(event);
-        $(this).find('a').focus();
+        updateFocusedElement();
       });
       $("#next-week").click(function(event) {
+        currentFocus.target = "#next-week";
+        currentFocus.tab = "#next-week a";
         get_server_date(event);
-        $(this).find('a').focus();
+        updateFocusedElement();
       });
       $("#beyond-next-week").click(function(event) {
+        currentFocus.target = "#beyond-next-week";
+        currentFocus.tab = "#beyond-next-week a";
         get_server_date(event);
-        $(this).find('a').focus();
+        updateFocusedElement();
       });
       $("#all-time").click(function(event) {
+        event.stopPropagation();
+        currentFocus.target = "#all-time";
+        currentFocus.tab = "#all-time a";
         $("#edit-field-todo-lst-due-value").val('0000-00-00');
         $("#edit-submit-to-do").trigger("click");
-        $("#all-time").find('a').focus();
+        updateFocusedElement();
       });
+
+      // Update focus anytime the DOM changes for our To Do list
+      jQuery('[id^=gridstack-pane-views-to_do]').find('.pane-content')
+        .on('DOMNodeInserted DOMNodeRemoved', updateFocusedElement);
 
       function get_server_date(evt) {
         var time_url = window.location.origin + "/server_time.php?tz=America/New_York";
-        var httpreq = new XMLHttpRequest(); // a new request
 
-        httpreq.onreadystatechange = function() {
-          if (httpreq.readyState == 4 && httpreq.status == 200) {
+        $.ajax({
+          url:time_url,
+          content:"JSON",
+          method:"GET",
+          data: {},
+          success: function(currDate){
+            // Handle the returned data
+            console.log(evt.target, currDate);
             if (evt.target.innerHTML == 'This Week') {
-              var date_today = httpreq.responseText;
-              date_today = JSON.parse(date_today);
 
-              $("#edit-field-todo-lst-due-value").val(date_today.flastsunday);
+              //$("#edit-field-todo-lst-due-value").val(currDate.flastsunday);
+              $("#edit-field-todo-lst-due-value").val('2016-04-01');
               $("#edit-submit-to-do").trigger("click");
             }
             else if (evt.target.innerHTML == 'Next Week') {
-              var currDate = httpreq.responseText;
-              currDate = JSON.parse(currDate);
               var fday = currDate.fday == 7 ? 0 : currDate.fday;
               var nextSunday = new Date(currDate.fyear, currDate.fmonth - 1, currDate.fdate + (7 - fday));
 
@@ -867,8 +884,6 @@
               $("#edit-submit-to-do").trigger("click");
             }
             else if (evt.target.innerHTML == 'Beyond') {
-              var currDate = httpreq.responseText;
-              currDate = JSON.parse(currDate);
               var fday = currDate.fday == 7 ? 0 : currDate.fday;
               var nextSunday = new Date(currDate.fyear, currDate.fmonth - 1, currDate.fdate + (7 - fday));
               var sunAfterNextSun = new Date(nextSunday.getFullYear(), nextSunday.getMonth(), nextSunday.getDate() + (7 - nextSunday.getDay()));
@@ -883,13 +898,9 @@
               $("#edit-field-todo-lst-due-value").val(date_var);
               $("#edit-submit-to-do").trigger("click");
             }
-
           }
-        }
-        httpreq.open("GET", time_url, true);
-        httpreq.send();
+        });
       }
-
 
       $("#edit-field-todo-lst-domain-value").prop('disabled', 'true');
       if ($("#edit-field-todo-lst-domain-value").val() == 'CEDRI') {
@@ -1004,28 +1015,39 @@
       });
 
       // Keep track of the last pull-down we focused on (view filters only, for now)
-      $('.views-exposed-form select').focus(function() {
+      $('.views-exposed-form select').on('focus click', function() {
         var thisId = $(this).attr('id');
-        trackFocusedElement('#' + thisId);
+        currentFocus.target = '#' + thisId;
+        updateFocusedElement();
       });
-      $('.view').on('focus', '.pager .pager-previous a', function() {
-        var thisTarget = getParentViewSelectorByClass($(this));
-        thisTarget += ' .pager .pager-previous a';
-        trackFocusedElement(thisTarget);
+      $('.view').on('focus click', '.pager .pager-previous a', function() {
+        currentFocus.target = '[id^=gridstack-pane-views-to_do] .pager .pager-previous a';
+        updateFocusedElement();
       });
-      $('.view').on('focus', '.pager .pager-next a', function() {
-        var thisTarget = getParentViewSelectorByClass($(this));
-        thisTarget += ' .pager .pager-next a';
-        trackFocusedElement(thisTarget);
+      $('.view').on('focus click', '.pager .pager-next a', function() {
+        currentFocus.target = '[id^=gridstack-pane-views-to_do] .pager .pager-next a';
+        console.log('next', currentFocus.target)
+        updateFocusedElement();
       });
 
+      function updateFocusedElement(){
+        //var currentFocus = focus.getInstance();
+        //$('.todo-filter-by-week li').not(currentFocus.tab).removeClass('filter-applied');
+        //$(currentFocus.tab).addClass('filter-applied');
+        //$(currentFocus.target).focus();
 
-      function trackFocusedElement(target) {
+        var currentFocus = focus.getInstance();
+        console.log('focus', currentFocus.target);
+        $('.todo-filter-by-week li').not(currentFocus.target).removeClass('filter-applied');
+        $(currentFocus.target).addClass('filter-applied').find('a').focus();
+      }
+
+      /*function trackFocusedElement(target) {
         $('input#focused-element').remove();
         $('input#focused-view').remove();
         $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="' + target + '" />');
         $('body').append('<input type="hidden" id="focused-view" name="focused_view" value="' + getParentViewSelectorByClass($(target)) + '" />');
-      }
+      }*/
 
       function getParentViewSelectorByClass(element) {
         var thisTarget = '';
@@ -1038,7 +1060,7 @@
       }
 
       // Lose track if we blur
-      $('.views-exposed-form select, .view .pager a').blur(function() {
+      /*$('.views-exposed-form select, .view .pager a').blur(function() {
         $('input#focused-element').remove();
         $('input#focused-view').remove();
       });
@@ -1078,7 +1100,7 @@
         }
       }
       xmlhttp.open("GET", "README.txt", true);
-      xmlhttp.send();
+      xmlhttp.send();*/
 
       /* Start logic:-  For positioning scroll to top of to-do widget after to-do refresh*/
       $(".view-to-do .refresh").click(function(e) {
@@ -1113,9 +1135,29 @@
           }, 1000);
         });
       }
+
+      $(currentFocus.target).find('a').focus();
       /* End logic:-  For positioning scroll to top of progress tracker widget after progress tracker refresh*/
 
     }
   };
+
+  var focus = (function(){
+    function Singleton() {
+      this.target = null;
+      this.tab = '#all-time'
+    }
+    var instance;
+    return {
+      getInstance: function(){
+        if (instance == null) {
+          instance = new Singleton();
+          // Hide the constructor so the returned objected can't be new'd...
+          instance.constructor = null;
+        }
+        return instance;
+      }
+    };
+  })();
 
 })(jQuery);
