@@ -416,10 +416,10 @@ function load_data_from_rcs() {
       }
     }
 
-    // Delete $deprecated_terms not included in RCS data and invalidate the user's topic cache to prevent duplicates
+    // Delete $deprecated_terms not included in RCS data
     if(count($deprecated_terms) > 0)
     {
-      // Force users cache to be rebuild from database to remove old references
+      // Force users cache to be rebuilt from the database and not use the old references in drupal cache
       entity_get_controller('user')->resetCache();
       foreach ($deprecated_terms as $term_to_delete => $tid) {
         taxonomy_term_delete($tid);
