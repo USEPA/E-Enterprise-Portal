@@ -29,11 +29,6 @@ function recommended_resources_menu() {
     'access callback' => TRUE,
   );
 
-  $items['load_data_from_rcs'] = array(
-    'page callback' => 'load_data_from_rcs',
-    'access callback' => TRUE,
-  );
-
   $items['rcs_lgc_resources_json_all'] = array(
     'page callback' => 'rcs_lgc_resources_json_all',
     'access callback' => TRUE,
@@ -422,8 +417,13 @@ function load_data_from_rcs() {
     }
 
     // Delete $deprecated_terms not included in RCS data
-    foreach ($deprecated_terms as $term_to_delete => $tid) {
-      taxonomy_term_delete($tid);
+    if(count($deprecated_terms) > 0)
+    {
+      // Force users cache to be rebuilt from the database and not use the old references in drupal cache
+      entity_get_controller('user')->resetCache();
+      foreach ($deprecated_terms as $term_to_delete => $tid) {
+        taxonomy_term_delete($tid);
+      }
     }
 
     // Set variables for cache to save processing time on recurrent calls
