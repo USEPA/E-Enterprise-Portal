@@ -2905,7 +2905,7 @@ input[type="submit"]:not(.usa-button-outline),
   footer {
     padding-top: 20px;
     p {
-      margin-top: 1rem;
+      margin-top: 0;
     }
     &.usa-grid {
       .usa-width-one-third,
@@ -3063,7 +3063,7 @@ input[type="submit"]:not(.usa-button-outline),
     height: auto;
     padding: 5px 2em;
     p {
-      margin-top: 0;
+      margin-top: 1rem;
     }
     .menu-footer-disclaimers {
       float: none;

@@ -6727,7 +6727,7 @@ input[type="submit"]:not(.usa-button-outline),
   }
   /* line 2907, ../sass/styles.scss */
   footer p {
-    margin-top: 1rem;
+    margin-top: 0;
   }
   /* line 2911, ../sass/styles.scss */
   footer.usa-grid .usa-width-one-third,
@@ -6907,7 +6907,7 @@ input[type="submit"]:not(.usa-button-outline),
   }
   /* line 3065, ../sass/styles.scss */
   footer p {
-    margin-top: 0;
+    margin-top: 1rem;
   }
   /* line 3068, ../sass/styles.scss */
   footer .menu-footer-disclaimers {
