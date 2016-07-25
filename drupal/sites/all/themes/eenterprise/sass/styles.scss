@@ -384,7 +384,6 @@ footer {
 .pane-my-cdx-my-cdx {
   ul.paging_simple_numbers,
   ul.paging_simple {
-    //float: right;
     margin-top: 0;
     margin-bottom: 20px;
     span {
@@ -450,12 +449,16 @@ footer {
   }
 }
 
-#my-cdx {
-  margin-top: 2rem;
-}
+
+// Pagers for workbench panes
 .pane-block .paging_simple {
   float: none;
   margin: 0 auto;
+}
+
+// Pager and margin-top for my-cdx widget in app-connect
+#my-cdx {
+  margin-top: 2rem;
 }
 
 .page-app-connect .paging_simple {
@@ -806,7 +809,6 @@ header {
         color: #efefef;
       }
       img {
-        //background-size: 20px 100px;
         height: 50px;
       }
       &.inactive {
@@ -1523,7 +1525,6 @@ form tbody {
 }
 
 .fa-info-circle {
-  //color: $color-primary;
   background: transparent url('../images/blue/info-circle.svg') no-repeat 50% 50%;
   background-size: 18px, contain;
   width: 18px;
@@ -2168,7 +2169,6 @@ form .field-multiple-table#field-zip-code-values {
       width: 100%;
       color: $color-white;
       outline: 2px solid transparent;
-      //box-shadow: $focus-shadow-clear;
       text-indent: -2.65rem;
       height: 6.75rem;
     }
@@ -2322,9 +2322,6 @@ form .field-multiple-table#field-zip-code-values {
   li {
     padding: 0;
   }
-  li.ui-tabs-active {
-    //padding-bottom: 4px;
-  }
   a {
     padding: 5px 15px;
     color: #000;
@@ -2341,7 +2338,6 @@ form .field-multiple-table#field-zip-code-values {
   font-size: $base-font-size;
   margin: 0.2em 0 !important;
   max-width: $input-max-width;
-  //outline: none;
   padding: 1rem 0.7em !important;
   width: 100% !important;
   &#location-input-guests {
@@ -2614,7 +2610,6 @@ div.ctools-modal-content {
 
   &:focus {
     box-shadow: $focus-shadow;
-    //outline: 0;
   }
 }
 

@@ -7,6 +7,7 @@
         var datatable_options = {
             "bLengthChange": false,
             "iDisplayLength": 3,
+            "sPageButton": "favorites-ignore",
             "oLanguage": {
                 "sSearch": "Filter:"
             },
