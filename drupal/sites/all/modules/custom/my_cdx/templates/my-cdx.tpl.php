@@ -4,7 +4,7 @@ $a = 'a';
 
 <div id="my-cdx">
   <div class="datatable">
-    <table>
+    <table class="usa-table-borderless">
       <thead>
         <tr>
           <th>Program service name</th>

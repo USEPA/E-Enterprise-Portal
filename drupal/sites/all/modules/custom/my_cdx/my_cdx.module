@@ -55,6 +55,8 @@ function my_cdx_theme() {
  * Implements hook_block_view().
  */
 function my_cdx_block_view($delta = '') {
+  $font_awesome_path = libraries_get_path('font-awesome-4.5.0');
+  drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
   drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
   drupal_add_js(drupal_get_path('module', 'my_cdx') . '/my_cdx.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
   drupal_add_css(drupal_get_path('module', 'my_cdx') . '/my_cdx.css', ['preprocess'=>true, 'group'=>CSS_THEME]);
@@ -90,6 +92,8 @@ function my_cdx_json_output() {
     drupal_json_output(array('data' => $output));
   } else {
     // TODO: an error occurred, handle it here
+    // Send empty json so Datatables does not break
+    drupal_json_output(array('data' => array()));
   }
 }
 
@@ -133,6 +137,81 @@ function load_my_cdx_data() {
 function fetch_sample_my_cdx_links() {
   $data = array();
 
+  $data[] = array(
+    'program_service_name' => 'CEDRI: Compliance and Emissions Data Reporting Interface',
+    'role' => 'Certifier',
+    'role_id' => "00001",
+  );
+  $data[] = array(
+    'program_service_name' => 'CSPP: Submissions for Chemical Safety and Pesticide Program',
+    'role' => 'Primary Authorized Official',
+    'role_id' => "00002",
+  );
+  $data[] = array(
+    'program_service_name' => 'eDisclosure: Voluntary Disclosure System',
+    'role' => 'Disclose / Certify',
+    'role_id' => "00003",
+  );
+  $data[] = array(
+    'program_service_name' => 'EEP: General E-Enterprise Use',
+    'role' => 'E-Enterprise Portal',
+    'role_id' => "00004",
+  );
+  $data[] = array(
+    'program_service_name' => 'SSTS: Section Seven Tracking System',
+    'role' => 'Primary Authorized Official',
+    'role_id' => "00005",
+  );
+  $data[] = array(
+    'program_service_name' => 'CEDRI: Compliance and Emissions Data Reporting Interface',
+    'role' => 'Certifier',
+    'role_id' => "00001",
+  );
+  $data[] = array(
+    'program_service_name' => 'CSPP: Submissions for Chemical Safety and Pesticide Program',
+    'role' => 'Primary Authorized Official',
+    'role_id' => "00002",
+  );
+  $data[] = array(
+    'program_service_name' => 'eDisclosure: Voluntary Disclosure System',
+    'role' => 'Disclose / Certify',
+    'role_id' => "00003",
+  );
+  $data[] = array(
+    'program_service_name' => 'EEP: General E-Enterprise Use',
+    'role' => 'E-Enterprise Portal',
+    'role_id' => "00004",
+  );
+  $data[] = array(
+    'program_service_name' => 'SSTS: Section Seven Tracking System',
+    'role' => 'Primary Authorized Official',
+    'role_id' => "00005",
+  );
+  $data[] = array(
+    'program_service_name' => 'CEDRI: Compliance and Emissions Data Reporting Interface',
+    'role' => 'Certifier',
+    'role_id' => "00001",
+  );
+  $data[] = array(
+    'program_service_name' => 'CSPP: Submissions for Chemical Safety and Pesticide Program',
+    'role' => 'Primary Authorized Official',
+    'role_id' => "00002",
+  );
+  $data[] = array(
+    'program_service_name' => 'eDisclosure: Voluntary Disclosure System',
+    'role' => 'Disclose / Certify',
+    'role_id' => "00003",
+  );
+  $data[] = array(
+    'program_service_name' => 'EEP: General E-Enterprise Use',
+    'role' => 'E-Enterprise Portal',
+    'role_id' => "00004",
+  );
+  $data[] = array(
+    'program_service_name' => 'SSTS: Section Seven Tracking System',
+    'role' => 'Primary Authorized Official',
+    'role_id' => "00005",
+  );
   $data[] = array(
     'program_service_name' => 'CEDRI: Compliance and Emissions Data Reporting Interface',
     'role' => 'Certifier',
