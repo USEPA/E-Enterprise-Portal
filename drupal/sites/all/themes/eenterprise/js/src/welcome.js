@@ -10,7 +10,7 @@
           var $jcarouselNext = $('.jcarousel-control-next');
           var $jcarouselPrev = $('.jcarousel-control-prev');             
           $jcarousel
-            .on('jcarousel:create jcarousel:reload', function () {
+            .on('jcarousel:reload', function () {
               var carousel = $(this),
                 width = $('body').find('.jcarousel-wrapper').innerWidth();
               carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
@@ -70,6 +70,13 @@
           }); // End jcarousel focus
         
         }); // End document ready
+        
+        $(window).load(function() {
+          var carousel = $('body').find('.jcarousel'),
+                width = $('body').find('.jcarousel-wrapper').innerWidth();
+              carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
+          firstIsActive();
+        });
 
         function firstIsActive(){
           var $jcarousel = $('body').find('.jcarousel'),

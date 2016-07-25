@@ -10,6 +10,23 @@
 function workbench_header_menu_default_menu_links() {
   $menu_links = array();
 
+  // Exported menu link: main-menu_app-connect:app-connect.
+  $menu_links['main-menu_app-connect:app-connect'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'app-connect',
+    'router_path' => 'app-connect',
+    'link_title' => 'App Connect',
+    'options' => array(
+      'identifier' => 'main-menu_app-connect:app-connect',
+    ),
+    'module' => 'system',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -49,
+    'customized' => 1,
+  );
   // Exported menu link: main-menu_app-connect:app-connect-new.
   $menu_links['main-menu_app-connect:app-connect-new'] = array(
     'menu_name' => 'main-menu',
@@ -23,7 +40,7 @@ function workbench_header_menu_default_menu_links() {
       'identifier' => 'main-menu_app-connect:app-connect-new',
     ),
     'module' => 'system',
-    'hidden' => 0,
+    'hidden' => 1,
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
@@ -49,24 +66,6 @@ function workbench_header_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -50,
     'customized' => 1,
-  );
-  // Exported menu link: management_footer-disclaimers:admin/structure/menu/manage/menu-footer-disclaimers.
-  $menu_links['management_footer-disclaimers:admin/structure/menu/manage/menu-footer-disclaimers'] = array(
-    'menu_name' => 'management',
-    'link_path' => 'admin/structure/menu/manage/menu-footer-disclaimers',
-    'router_path' => 'admin/structure/menu/manage/%',
-    'link_title' => 'Footer Disclaimers',
-    'options' => array(
-      'identifier' => 'management_footer-disclaimers:admin/structure/menu/manage/menu-footer-disclaimers',
-    ),
-    'module' => 'menu',
-    'hidden' => 0,
-    'external' => 0,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => 0,
-    'customized' => 0,
-    'parent_identifier' => 'management_menus:admin/structure/menu',
   );
   // Exported menu link: menu-footer-disclaimers_accessibility:http://www2.epa.gov/accessibility.
   $menu_links['menu-footer-disclaimers_accessibility:http://www2.epa.gov/accessibility'] = array(
@@ -196,7 +195,6 @@ function workbench_header_menu_default_menu_links() {
   t('Conditions of Use');
   t('E-Enterprise Home');
   t('FAQs');
-  t('Footer Disclaimers');
   t('Home');
   t('Privacy and Security Notice');
   t('Release Notes');
