@@ -855,8 +855,8 @@
             // Handle the returned data
             if (evt.target.innerHTML == 'This Week') {
 
-              //$("#edit-field-todo-lst-due-value").val(currDate.flastsunday);
-              $("#edit-field-todo-lst-due-value").val('2016-04-01');
+              $("#edit-field-todo-lst-due-value").val(currDate.flastsunday);
+              //$("#edit-field-todo-lst-due-value").val('2016-04-01');
               $("#edit-submit-to-do").trigger("click");
             }
             else if (evt.target.innerHTML == 'Next Week') {
