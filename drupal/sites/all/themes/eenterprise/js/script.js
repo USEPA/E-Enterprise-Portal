@@ -856,7 +856,6 @@
             if (evt.target.innerHTML == 'This Week') {
 
               $("#edit-field-todo-lst-due-value").val(currDate.flastsunday);
-              //$("#edit-field-todo-lst-due-value").val('2016-04-01');
               $("#edit-submit-to-do").trigger("click");
             }
             else if (evt.target.innerHTML == 'Next Week') {
@@ -1057,7 +1056,7 @@
 
   var focus = (function(){
     function Singleton() {
-      var t = {};
+      var t = this; // 't' is short for 'this'. The constructor is hijacked returning 't' instead of 'this'.
       var _target = null,
         _tab = '#all-time',
         _previousTarget = null;
