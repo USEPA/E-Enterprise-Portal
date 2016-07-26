@@ -1,8 +1,8 @@
 (function ($) {
-    var $table_wrapper =  $('#my-cdx').find('table');
+    var $table_wrapper = $('#my-cdx').find('table');
     var $tabs = $('#app-connect-tabs');
     $tabs.tabs();
-    $tabs.find('.ui-corner-top').on('click', function(ev) {
+    $tabs.find('.ui-corner-top').on('click', function (ev) {
         $(this).focus();
     });
     $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
@@ -25,8 +25,8 @@
         "bLengthChange": false,
         "iDisplayLength": 5,
         "columnDefs": [
-            { "width": "70%", "targets": 0 }, // First column width
-            { "width": "30%", "targets": 1 } // Second column width
+            {"width": "70%", "targets": 0}, // First column width
+            {"width": "30%", "targets": 1} // Second column width
         ],
         "pagingType": "simple",
         "bSortable": true,
@@ -48,89 +48,136 @@
 
     // Click handler for clicking a CDX role
     // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
-    $('#local-resources-tabs').on('click', 'td.views-field-nothing a', function (ev) {
-var theJsonWeAreWorkingWith = [
-    {
-        'orgName': 'org abc',
-        'orgId': 1234,
-        'programClients': [
-            {
-                'clientName': 'client abc',
-                'clientId': 1234
-            },
-            {
-                'clientName': 'client abc',
-                'clientId': 1234
-            },
-            {
-                'clientName': 'client abc',
-                'clientId': 1234
+    $tabs.on('click', 'a.cdx-link', function (ev) {
+        var theJsonWeAreWorkingWith =
+        {
+            orgCount: 4,
+            organizations: {
+                1234: {
+                    'orgName': 'org abc',
+                    'clientCount': 4,
+                    'programClients': {
+                        1234: {
+                            'clientName': 'client1 abc'
+                        },
+                        1235: {
+                            'clientName': 'client2 abc'
+                        },
+                        1236: {
+                            'clientName': 'client3 abc'
+                        },
+                        1237: {
+                            'clientName': 'client4 abc'
+                        }
+                    }
+                },
+                1236: {
+                    'orgName': 'org 2',
+                    'clientCount': 4,
+                    'programClients': {
+                        1234: {
+                            'clientName': 'Aclient abc'
+                        },
+                        1235: {
+                            'clientName': 'Bclient abc'
+                        },
+                        1236: {
+                            'clientName': 'Cclient abc'
+                        },
+                        1237: {
+                            'clientName': 'Dclient abc'
+                        }
+                    }
+                },
+                Single_Client: {
+                    'orgName': 'SINGLE',
+                    'clientCount': 1,
+                    'programClients': {
+                        1234: {
+                            'clientName': 'Hans Solo'
+                        }
+                    }
+                }
             }
-        ]
-    },
-    {
-        'orgName': 'org abc',
-        'orgId': 1234,
-        'programClients': [
-            {
-                'clientName': 'client abc',
-                'clientId': 1234
-            },
-            {
-                'clientName': 'client abc',
-                'clientId': 1234
-            },
-            {
-                'clientName': 'client abc',
-                'clientId': 1234
-            }
-        ]
-    },
-    {
-        'orgName': 'org abc',
-        'orgId': 1234,
-        'programClients': [
-            {
-                'clientName': 'client abc',
-                'clientId': 1234
-            },
-            {
-                'clientName': 'client abc',
-                'clientId': 1234
-            },
-            {
-                'clientName': 'client abc',
-                'clientId': 1234
-            },
-        ]
-    },
-];
+        };
 
 
-var programAcronym = 'PSP';
+        var programAcronym = 'PSP';
         Drupal.CTools.Modal.show("ee-ctools-popup-style");
-        $('#modal-title').html('Application Profile Settings');
-        var theContent = '\
-        <div class="cdx-role-modal">\
-          <div>Organization Name</div>\
-          <div>' + orgSelect(theJsonWeAreWorkingWith) + '</div>\
-          <div>Program Client ID</div>\
-          <div>' + programClientSelect(theJsonWeAreWorkingWith) + '</div>\
-          <div>Program</div>\
-          <div>' + programAcronym + '</div>\
-          <div class="operations">\
-            <a href="#" class="proceed">Proceed</a>\
-            <a href="#" class="cancel">Cancel</a>\
-          </div>\
-        </div>\
-        \
-        ';
-        $('#modal-content').html(theContent).scrollTop(0);
+        $('#modal-title').html('Application Profile Settings')
+        var myCDXModalTemplate = Drupal.settings.myCDXModalTemplate;
+
+        $('#modal-content').html(myCDXModalTemplate).scrollTop(0);
+        myCDXLinkDetailsHandler(theJsonWeAreWorkingWith);
         Drupal.attachBehaviors();
         ev.preventDefault();
     });
 
-    $('.cdx-role-modal .org').change(function() {
-        // ajax here to update the list of program clients
-    });
+
+    function myCDXLinkDetailsHandler(linkDetailsJSON) {
+        var $organizationSelect = $('.my-cdx-modal .organization-select');
+        var $organizationName = $('.my-cdx-modal .organization-name');
+
+        // Clear previous values
+        $organizationSelect.html('');
+        $organizationName.html('');
+        if (linkDetailsJSON.orgCount === 0) {
+            $organizationName.html("No Organizations found.");
+            $organizationSelect.hide();
+        } else {
+            var $option;
+            if (linkDetailsJSON.orgCount > 1) {
+                $organizationSelect.show();
+                $organizationName.hide();
+            }
+            $.each(linkDetailsJSON.organizations, function (orgId, orgObj) {
+                if (linkDetailsJSON.orgCount === 1) {
+                    $organizationName.html(orgObj.orgName).show();
+                    $organizationSelect.hide();
+                    myCDXLinkProgramClientHandler(orgObj);
+                } else {
+                    $option = $('<option />', {
+                        value: orgId,
+                        text: orgObj.orgName
+                    });
+                    $organizationSelect.append($option);
+                }
+            });
+            $organizationSelect.change(function () {
+                var selectedOrgId = $(this).val();
+                myCDXLinkProgramClientHandler(linkDetailsJSON.organizations[selectedOrgId]);
+            });
+        }
+    }
+
+    function myCDXLinkProgramClientHandler(programClientsJson) {
+        var $programClientsSelect = $('.my-cdx-modal .program-client-select');
+        var $programClientName = $('.my-cdx-modal .program-client-name');
+        // Clear previous values
+        $programClientsSelect.html('');
+        $programClientName.html('');
+
+        if (programClientsJson.clientCount === 0) {
+            $programClientsSelect.hide();
+            $programClientName.html("No Program Clients found.");
+        } else {
+            var $option;
+            if (programClientsJson.clientCount > 1) {
+                $programClientsSelect.show();
+                $programClientName.hide();
+            }
+            $.each(programClientsJson.programClients, function (clientId, clientObj) {
+                if (programClientsJson.clientCount === 1) {
+                    $programClientName.html(clientObj.clientName).show();
+                    $programClientsSelect.hide();
+                } else {
+                    $option = $('<option />', {
+                        value: clientId,
+                        text: clientObj.clientName
+                    });
+                    $programClientsSelect.append($option);
+                }
+            });
+        }
+    }
 })(jQuery);

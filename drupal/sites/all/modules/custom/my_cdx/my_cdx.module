@@ -61,6 +61,23 @@ function my_cdx_block_view($delta = '') {
   drupal_add_js(drupal_get_path('module', 'my_cdx') . '/my_cdx.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
   drupal_add_css(drupal_get_path('module', 'my_cdx') . '/my_cdx.css', ['preprocess'=>true, 'group'=>CSS_THEME]);
 
+  // Set Modal Template
+  $modal_html = '<div class="my-cdx-modal">
+    <div>Organization Name</div>
+    <div class="organization-name"></div>
+    <select class="organization-select"></select>
+    <div>Program Client ID</div>
+    <div class="program-client-name"></div>
+    <select class="program-client-select"></select>
+  <div>Program</div>
+  <div class="program-acronym"></div>
+  <div class="operations">
+      <a href="#" class="proceed">Proceed</a>
+      <a href="#" class="cancel">Cancel</a>
+    </div>
+</div>
+';
+  drupal_add_js(array("myCDXModalTemplate" => $modal_html), 'setting');
 
   $block = array();
 
@@ -88,7 +105,7 @@ function my_cdx_json_output() {
       if (feature_toggle_get_status('mycdx_connections')) {
         $output[] = array(
           $value['program_service_name'],
-          '<a href="#' . $value['role_id'] . '">' . $value['role'] . '</a>',
+          '<a class="cdx-link" href="#' . $value['role_id'] . '">' . $value['role'] . '</a>',
         );
       } else {
         $output[] = array(
