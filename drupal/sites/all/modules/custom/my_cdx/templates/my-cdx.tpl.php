@@ -2,7 +2,7 @@
   <ul>
     <li>
       <a class="favorites-ignore" href="#my-cdx">
-        EPA
+        US EPA
       </a>
     </li>
   </ul>
