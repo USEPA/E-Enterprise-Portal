@@ -533,7 +533,6 @@
                 showLoading();
                 Drupal.settings.locationInputEngine.lookUpLocation(request.term).done(function(location_data) {
                   doneLoading();
-                  console.log(location_data, location_data.zip_codes, location_data.zip_codes === true);
                   if (location_data.zip_codes === true) { // user entered city/state; show zip code drop down
                     respond(location_data.zip_array);
                   } else { // user entered zip
@@ -547,7 +546,6 @@
               }
             },
             select: function(event, ui) {
-              console.log("autocomplete selected: " + ui.item.value);
               event.preventDefault();
               $locationInput.val(ui.item.value);
               $(document).trigger("ee:zipCodeChanged", {zip: ui.item.value});
@@ -601,10 +599,7 @@
                   type: 'GET',
                   data: {latitude: position.coords.latitude, longitude: position.coords.longitude},
                   success: function(location_data) {
-                    console.log(location_data);
                     location_data = $.parseJSON(location_data);
-                    console.log(location_data);
-
                     if (!location_data.error) {
 
                       $locationInput.val(location_data.zip);
@@ -811,6 +806,7 @@
 
   Drupal.behaviors.filterToDoList = {
     attach: function(context) {
+      var currentFocus = focus.getInstance();
       $(document).one('ready', function() {
         if ($(".view-to-do div").hasClass("view-content")) {
           $(".view-to-do .todo-filter-by-week").show();
@@ -819,40 +815,50 @@
           $(".view-to-do .todo-filter-by-week").hide();
         }
       });
+
       $("#this-week").click(function(event) {
+        currentFocus.setTab("#this-week");
+        currentFocus.setTarget("#this-week a");
         get_server_date(event);
-        $(this).find('a').focus();
       });
       $("#next-week").click(function(event) {
+        currentFocus.setTab("#next-week");
+        currentFocus.setTarget("#next-week a");
         get_server_date(event);
-        $(this).find('a').focus();
       });
       $("#beyond-next-week").click(function(event) {
+        currentFocus.setTab("#beyond-next-week");
+        currentFocus.setTarget("#beyond-next-week a");
         get_server_date(event);
-        $(this).find('a').focus();
       });
       $("#all-time").click(function(event) {
+        event.stopPropagation();
+        currentFocus.setTab("#all-time");
+        currentFocus.setTarget("#all-time a");
         $("#edit-field-todo-lst-due-value").val('0000-00-00');
         $("#edit-submit-to-do").trigger("click");
-        $("#all-time").find('a').focus();
       });
+
+      // Update focus anytime the DOM changes for our To Do list
+      jQuery('[id^=gridstack-pane-views-to_do]').find('.pane-content')
+        .on('DOMNodeInserted DOMNodeRemoved', currentFocus.updateFocus);
 
       function get_server_date(evt) {
         var time_url = window.location.origin + "/server_time.php?tz=America/New_York";
-        var httpreq = new XMLHttpRequest(); // a new request
 
-        httpreq.onreadystatechange = function() {
-          if (httpreq.readyState == 4 && httpreq.status == 200) {
+        $.ajax({
+          url:time_url,
+          content:"JSON",
+          method:"GET",
+          data: {},
+          success: function(currDate){
+            // Handle the returned data
             if (evt.target.innerHTML == 'This Week') {
-              var date_today = httpreq.responseText;
-              date_today = JSON.parse(date_today);
 
-              $("#edit-field-todo-lst-due-value").val(date_today.flastsunday);
+              $("#edit-field-todo-lst-due-value").val(currDate.flastsunday);
               $("#edit-submit-to-do").trigger("click");
             }
             else if (evt.target.innerHTML == 'Next Week') {
-              var currDate = httpreq.responseText;
-              currDate = JSON.parse(currDate);
               var fday = currDate.fday == 7 ? 0 : currDate.fday;
               var nextSunday = new Date(currDate.fyear, currDate.fmonth - 1, currDate.fdate + (7 - fday));
 
@@ -867,8 +873,6 @@
               $("#edit-submit-to-do").trigger("click");
             }
             else if (evt.target.innerHTML == 'Beyond') {
-              var currDate = httpreq.responseText;
-              currDate = JSON.parse(currDate);
               var fday = currDate.fday == 7 ? 0 : currDate.fday;
               var nextSunday = new Date(currDate.fyear, currDate.fmonth - 1, currDate.fdate + (7 - fday));
               var sunAfterNextSun = new Date(nextSunday.getFullYear(), nextSunday.getMonth(), nextSunday.getDate() + (7 - nextSunday.getDay()));
@@ -883,13 +887,9 @@
               $("#edit-field-todo-lst-due-value").val(date_var);
               $("#edit-submit-to-do").trigger("click");
             }
-
           }
-        }
-        httpreq.open("GET", time_url, true);
-        httpreq.send();
+        });
       }
-
 
       $("#edit-field-todo-lst-domain-value").prop('disabled', 'true');
       if ($("#edit-field-todo-lst-domain-value").val() == 'CEDRI') {
@@ -1004,81 +1004,15 @@
       });
 
       // Keep track of the last pull-down we focused on (view filters only, for now)
-      $('.views-exposed-form select').focus(function() {
-        var thisId = $(this).attr('id');
-        trackFocusedElement('#' + thisId);
+      $('.views-exposed-form select').on('focus click', function() {
+        currentFocus.setTarget('#' + $(this).attr('id'));
       });
-      $('.view').on('focus', '.pager .pager-previous a', function() {
-        var thisTarget = getParentViewSelectorByClass($(this));
-        thisTarget += ' .pager .pager-previous a';
-        trackFocusedElement(thisTarget);
+      $('.view').on('focus click', '.pager .pager-previous a', function() {
+        currentFocus.setTarget('[id^=gridstack-pane-views-to_do] .pager .pager-previous a');
       });
-      $('.view').on('focus', '.pager .pager-next a', function() {
-        var thisTarget = getParentViewSelectorByClass($(this));
-        thisTarget += ' .pager .pager-next a';
-        trackFocusedElement(thisTarget);
+      $('.view').on('focus click', '.pager .pager-next a', function() {
+        currentFocus.setTarget('[id^=gridstack-pane-views-to_do] .pager .pager-next a');
       });
-
-
-      function trackFocusedElement(target) {
-        $('input#focused-element').remove();
-        $('input#focused-view').remove();
-        $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="' + target + '" />');
-        $('body').append('<input type="hidden" id="focused-view" name="focused_view" value="' + getParentViewSelectorByClass($(target)) + '" />');
-      }
-
-      function getParentViewSelectorByClass(element) {
-        var thisTarget = '';
-        // find the class that uniquely identifies this view container
-        var classList = $(element).parents('.view').attr('class').split(/\s+/);
-        $.each(classList, function(index, item) {
-          thisTarget += '.' + item;
-        });
-        return thisTarget;
-      }
-
-      // Lose track if we blur
-      $('.views-exposed-form select, .view .pager a').blur(function() {
-        $('input#focused-element').remove();
-        $('input#focused-view').remove();
-      });
-
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-          if ($('input#focused-element').length == 1) {
-            if ($($('input#focused-element').val()).length > 0) {
-              // attempt to focus this element
-              $($('input#focused-element').val()).focus();
-            } else {
-              // if it disappeared...
-              if ($('input#focused-element').val().indexOf(".pager-next") != -1) {
-                // ...focus on the 'previous page' item if you were on the last page.
-                // therefore, pressing <tab> takes the user to the next widget.
-                trackFocusedElement($('input#focused-view').val() + ' .pager-previous > a');
-                $($('input#focused-view').val()).find('.pager-previous > a').focus();
-              } else if ($('input#focused-element').val().indexOf(".pager-previous") != -1) {
-                // ...focus on the 'next page' item if you were on the first page.
-                trackFocusedElement($('input#focused-view').val() + ' .pager-next > a');
-                $($('input#focused-view').val()).find('.pager-next > a').focus();
-              } else {
-                // ...focus on its view container.
-                $($('input#focused-view').val()).focus();
-                // we used it, now lose it!
-                $('input#focused-element').remove();
-              }
-            }
-          } else if ($("#this-week").hasClass("filter-applied")) {
-            $('#this-week a').focus();
-          } else if ($("#next-week").hasClass("filter-applied")) {
-            $('#next-week a').focus();
-          } else if ($("#beyond-next-week").hasClass("filter-applied")) {
-            $('#beyond-next-week a').focus();
-          }
-        }
-      }
-      xmlhttp.open("GET", "README.txt", true);
-      xmlhttp.send();
 
       /* Start logic:-  For positioning scroll to top of to-do widget after to-do refresh*/
       $(".view-to-do .refresh").click(function(e) {
@@ -1113,9 +1047,66 @@
           }, 1000);
         });
       }
+
+      currentFocus.updateFocus();
       /* End logic:-  For positioning scroll to top of progress tracker widget after progress tracker refresh*/
 
     }
   };
+
+  var focus = (function(){
+    function Singleton() {
+      var t = this; // 't' is short for 'this'. The constructor is hijacked returning 't' instead of 'this'.
+      var _target = null,
+        _tab = '#all-time',
+        _previousTarget = null;
+      t.setTarget = function(target) {
+        if(target !== _previousTarget) {
+          _previousTarget = target;
+        }
+        _target = target;
+        // update focus for shiggles
+        t.updateFocus();
+      };
+      t.getTarget = function() { return _target; };
+
+      t.getPreviousTarget = function() { return _previousTarget; };
+
+      t.setTab = function(tab) { _tab = tab; };
+      t.getTab = function() { return _tab; };
+
+      t.updateFocus = function() {
+        // Customize the focus behavior here
+        $('.todo-filter-by-week li').not(_tab).removeClass('filter-applied');
+        $(_tab).addClass('filter-applied');
+
+        // Use the last set target, if does exist we use the previous one. If all else fails we just jump to the tab
+        var $_target = $(_target),
+          $_previousTarget = $(_previousTarget),
+          $_tab = $(_tab);
+        if($_target.length > 0) {
+          $currentTarget = $_target
+        } else if($_previousTarget.length > 0) {
+          $currentTarget = $_previousTarget
+        } else {
+          $currentTarget = $_tab
+        }
+        $currentTarget.focus();
+      };
+
+      return t;
+    }
+    var instance;
+    return {
+      getInstance: function(){
+        if (instance == null) {
+          instance = new Singleton();
+          // Hide the constructor so the returned objected can't be new'd...
+          instance.constructor = null;
+        }
+        return instance;
+      }
+    };
+  })();
 
 })(jQuery);
