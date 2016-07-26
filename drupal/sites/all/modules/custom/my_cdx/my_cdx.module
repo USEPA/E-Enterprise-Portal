@@ -55,12 +55,12 @@ function my_cdx_theme() {
  * Implements hook_block_view().
  */
 function my_cdx_block_view($delta = '') {
-  $font_awesome_path = libraries_get_path('font-awesome-4.5.0');
-  drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
+  drupal_add_css( libraries_get_path('font-awesome-4.5.0') . "/css/font-awesome.min.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
+  drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");
   drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
   drupal_add_js(drupal_get_path('module', 'my_cdx') . '/my_cdx.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
   drupal_add_css(drupal_get_path('module', 'my_cdx') . '/my_cdx.css', ['preprocess'=>true, 'group'=>CSS_THEME]);
-  drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "file");
+
 
   $block = array();
 
