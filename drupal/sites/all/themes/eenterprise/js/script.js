@@ -1077,8 +1077,8 @@
 
       t.updateFocus = function() {
         // Customize the focus behavior here
-        $('.todo-filter-by-week li').not(_tab).removeClass('filter-applied');
-        $(_tab).addClass('filter-applied');
+        $('.todo-filter-by-week li').not(_tab).removeClass('filter-applied').prop('tabindex', -1);
+        $(_tab).addClass('filter-applied').prop('tabindex', 0);
 
         // Use the last set target, if does exist we use the previous one. If all else fails we just jump to the tab
         var $_target = $(_target),
