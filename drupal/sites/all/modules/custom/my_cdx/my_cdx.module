@@ -304,3 +304,12 @@ function fetch_my_cdx_links() {
     return array();
   }
 }
+
+/**
+ * Fetch My CDX link details from SOAP service
+ */
+function fetch_my_cdx_link_details($role_id) {
+  global $user;
+
+  return array();
+}

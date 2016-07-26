@@ -45,4 +45,92 @@
     };
 
     $table_wrapper.DataTable(datatable_options);
+
+    // Click handler for clicking a CDX role
+    // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
+    $('#local-resources-tabs').on('click', 'td.views-field-nothing a', function (ev) {
+var theJsonWeAreWorkingWith = [
+    {
+        'orgName': 'org abc',
+        'orgId': 1234,
+        'programClients': [
+            {
+                'clientName': 'client abc',
+                'clientId': 1234
+            },
+            {
+                'clientName': 'client abc',
+                'clientId': 1234
+            },
+            {
+                'clientName': 'client abc',
+                'clientId': 1234
+            }
+        ]
+    },
+    {
+        'orgName': 'org abc',
+        'orgId': 1234,
+        'programClients': [
+            {
+                'clientName': 'client abc',
+                'clientId': 1234
+            },
+            {
+                'clientName': 'client abc',
+                'clientId': 1234
+            },
+            {
+                'clientName': 'client abc',
+                'clientId': 1234
+            }
+        ]
+    },
+    {
+        'orgName': 'org abc',
+        'orgId': 1234,
+        'programClients': [
+            {
+                'clientName': 'client abc',
+                'clientId': 1234
+            },
+            {
+                'clientName': 'client abc',
+                'clientId': 1234
+            },
+            {
+                'clientName': 'client abc',
+                'clientId': 1234
+            },
+        ]
+    },
+];
+
+
+var programAcronym = 'PSP';
+        Drupal.CTools.Modal.show("ee-ctools-popup-style");
+        $('#modal-title').html('Application Profile Settings');
+        var theContent = '\
+        <div class="cdx-role-modal">\
+          <div>Organization Name</div>\
+          <div>' + orgSelect(theJsonWeAreWorkingWith) + '</div>\
+          <div>Program Client ID</div>\
+          <div>' + programClientSelect(theJsonWeAreWorkingWith) + '</div>\
+          <div>Program</div>\
+          <div>' + programAcronym + '</div>\
+          <div class="operations">\
+            <a href="#" class="proceed">Proceed</a>\
+            <a href="#" class="cancel">Cancel</a>\
+          </div>\
+        </div>\
+        \
+        ';
+        $('#modal-content').html(theContent).scrollTop(0);
+        Drupal.attachBehaviors();
+        ev.preventDefault();
+    });
+
+    $('.cdx-role-modal .org').change(function() {
+        // ajax here to update the list of program clients
+    });
 })(jQuery);
