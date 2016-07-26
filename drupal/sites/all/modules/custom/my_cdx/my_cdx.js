@@ -1,5 +1,10 @@
 (function ($) {
     var $table_wrapper =  $('#my-cdx').find('table');
+    var $tabs = $('#app-connect-tabs');
+    $tabs.tabs();
+    $tabs.find('.ui-corner-top').on('click', function(ev) {
+        $(this).focus();
+    });
     $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
     $.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings) {
         return {

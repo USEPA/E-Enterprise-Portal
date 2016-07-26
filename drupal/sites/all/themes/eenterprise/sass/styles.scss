@@ -462,9 +462,11 @@ footer {
   float: right;
 }
 
-.page-app-connect .dataTables_info {
+
+.page-app-connect #app-connect-tabs .dataTables_info {
   float: left;
 }
+
 
 .grid-stack-item,
 .pane-content {
@@ -2493,6 +2495,11 @@ form .field-multiple-table#field-zip-code-values {
       width: 0;
     }
   }
+}
+
+/** App connect tab has only one, so we hide the grey border bottom for inactive tabs **/
+#app-connect-tabs ul {
+  border-bottom: none;
 }
 
 .ui-tabs .ui-tabs-nav, .todo-filter-by-week {
