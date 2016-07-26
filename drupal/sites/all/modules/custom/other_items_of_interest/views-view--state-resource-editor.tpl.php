@@ -34,7 +34,7 @@ $module_name = "other_items_of_interest";
 drupal_add_js(drupal_get_path('module', $module_name) . "/js/preview_urls.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 drupal_add_css(drupal_get_path('module', $module_name) . "/css/state_resource_editor.css", "file");
 $font_awesome_path = libraries_get_path('font-awesome-4.5.0');
-drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
+drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 ?>
 
 <div class="<?php print $classes; ?>">
