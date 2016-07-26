@@ -27,9 +27,9 @@
  * @ingroup views_templates
  */
 
-drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
+drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 drupal_add_css("//cdn.jsdelivr.net/leaflet/0.7.3/leaflet.css", "external");
-drupal_add_css(drupal_get_path('module', 'my_air_quality_chart_view') ."/css/air_now_styles.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
+drupal_add_css(drupal_get_path('module', 'my_air_quality_chart_view') ."/css/air_now_styles.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 
 
 //drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", "file");

@@ -29,7 +29,7 @@
 *
 */
 drupal_add_js(drupal_get_path('module', 'environment_mapper') ."/js/myEnvironmentMapper.js", ['scope'=>'header', 'preprocess'=>true, "weight"=>-2, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-drupal_add_css(drupal_get_path('module', 'environment_mapper') ."/css/myEnvMapper.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
+drupal_add_css(drupal_get_path('module', 'environment_mapper') ."/css/myEnvMapper.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 ?>
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>

@@ -33,7 +33,7 @@
 
 <?php
 drupal_add_js(drupal_get_path('module', 'frs_location_services') . "/js/first_time_user_profile.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_time_user_profile.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
+drupal_add_css(drupal_get_path('module', 'frs_location_services') . "/css/first_time_user_profile.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 ?>
 <div id="first-time-user-profile" tabindex="-1">
     <h2><span>Getting Started</span>What matters to you?</h2>
