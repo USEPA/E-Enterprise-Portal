@@ -1080,6 +1080,7 @@
         var $tabs = $('.todo-filter-by-week li');
         $tabs.not(_tab).removeClass('filter-applied').prop('tabindex', -1);
         $(_tab).addClass('filter-applied').prop('tabindex', 0);
+        // Set initial active/tabindex for when the page first renders
         if($tabs.parent().find('li[tabindex=0]').length == 0 || $tabs.length > 0) {
           $tabs.eq(0).addClass('filter-applied').prop('tabindex', 0);
         }
