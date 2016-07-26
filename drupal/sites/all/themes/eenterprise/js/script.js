@@ -533,7 +533,6 @@
                 showLoading();
                 Drupal.settings.locationInputEngine.lookUpLocation(request.term).done(function(location_data) {
                   doneLoading();
-                  console.log(location_data, location_data.zip_codes, location_data.zip_codes === true);
                   if (location_data.zip_codes === true) { // user entered city/state; show zip code drop down
                     respond(location_data.zip_array);
                   } else { // user entered zip
@@ -547,7 +546,6 @@
               }
             },
             select: function(event, ui) {
-              console.log("autocomplete selected: " + ui.item.value);
               event.preventDefault();
               $locationInput.val(ui.item.value);
               $(document).trigger("ee:zipCodeChanged", {zip: ui.item.value});
@@ -601,10 +599,7 @@
                   type: 'GET',
                   data: {latitude: position.coords.latitude, longitude: position.coords.longitude},
                   success: function(location_data) {
-                    console.log(location_data);
                     location_data = $.parseJSON(location_data);
-                    console.log(location_data);
-
                     if (!location_data.error) {
 
                       $locationInput.val(location_data.zip);
@@ -822,35 +817,31 @@
       });
 
       $("#this-week").click(function(event) {
-        currentFocus.tab = "#this-week";
-        currentFocus.target = "#this-week a";
+        currentFocus.setTab("#this-week");
+        currentFocus.setTarget("#this-week a");
         get_server_date(event);
-        updateFocusedElement();
       });
       $("#next-week").click(function(event) {
-        currentFocus.tab = "#next-week";
-        currentFocus.target = "#next-week a";
+        currentFocus.setTab("#next-week");
+        currentFocus.setTarget("#next-week a");
         get_server_date(event);
-        updateFocusedElement();
       });
       $("#beyond-next-week").click(function(event) {
-        currentFocus.tab = "#beyond-next-week";
-        currentFocus.target = "#beyond-next-week a";
+        currentFocus.setTab("#beyond-next-week");
+        currentFocus.setTarget("#beyond-next-week a");
         get_server_date(event);
-        updateFocusedElement();
       });
       $("#all-time").click(function(event) {
         event.stopPropagation();
-        currentFocus.tab = "#all-time";
-        currentFocus.target = "#all-time a";
+        currentFocus.setTab("#all-time");
+        currentFocus.setTarget("#all-time a");
         $("#edit-field-todo-lst-due-value").val('0000-00-00');
         $("#edit-submit-to-do").trigger("click");
-        updateFocusedElement();
       });
 
       // Update focus anytime the DOM changes for our To Do list
       jQuery('[id^=gridstack-pane-views-to_do]').find('.pane-content')
-        .on('DOMNodeInserted', updateFocusedElement);
+        .on('DOMNodeInserted DOMNodeRemoved', currentFocus.updateFocus);
 
       function get_server_date(evt) {
         var time_url = window.location.origin + "/server_time.php?tz=America/New_York";
@@ -862,7 +853,6 @@
           data: {},
           success: function(currDate){
             // Handle the returned data
-            console.log(evt.target, currDate);
             if (evt.target.innerHTML == 'This Week') {
 
               //$("#edit-field-todo-lst-due-value").val(currDate.flastsunday);
@@ -1016,37 +1006,14 @@
 
       // Keep track of the last pull-down we focused on (view filters only, for now)
       $('.views-exposed-form select').on('focus click', function() {
-        var thisId = $(this).attr('id');
-        currentFocus.target = '#' + thisId;
-        updateFocusedElement();
+        currentFocus.setTarget('#' + $(this).attr('id'));
       });
       $('.view').on('focus click', '.pager .pager-previous a', function() {
-        currentFocus.target = '[id^=gridstack-pane-views-to_do] .pager .pager-previous a';
-        updateFocusedElement();
+        currentFocus.setTarget('[id^=gridstack-pane-views-to_do] .pager .pager-previous a');
       });
       $('.view').on('focus click', '.pager .pager-next a', function() {
-        currentFocus.target = '[id^=gridstack-pane-views-to_do] .pager .pager-next a';
-        updateFocusedElement();
+        currentFocus.setTarget('[id^=gridstack-pane-views-to_do] .pager .pager-next a');
       });
-
-      function updateFocusedElement(){
-        var currentFocus = focus.getInstance();
-        $('.todo-filter-by-week li').not(currentFocus.tab).removeClass('filter-applied');
-        $(currentFocus.tab).addClass('filter-applied');
-
-        var ct = ($(currentFocus.target).length) ? currentFocus.target : currentFocus.tab;
-        $(ct).focus();
-      }
-
-      function getParentViewSelectorByClass(element) {
-        var thisTarget = '';
-        // find the class that uniquely identifies this view container
-        var classList = $(element).parents('.view').attr('class').split(/\s+/);
-        $.each(classList, function(index, item) {
-          thisTarget += '.' + item;
-        });
-        return thisTarget;
-      }
 
       /* Start logic:-  For positioning scroll to top of to-do widget after to-do refresh*/
       $(".view-to-do .refresh").click(function(e) {
@@ -1082,7 +1049,7 @@
         });
       }
 
-      $(currentFocus.target).find('a').focus();
+      currentFocus.updateFocus();
       /* End logic:-  For positioning scroll to top of progress tracker widget after progress tracker refresh*/
 
     }
@@ -1090,8 +1057,45 @@
 
   var focus = (function(){
     function Singleton() {
-      this.target = null;
-      this.tab = '#all-time'
+      var t = {};
+      var _target = null,
+        _tab = '#all-time',
+        _previousTarget = null;
+      t.setTarget = function(target) {
+        if(target !== _previousTarget) {
+          _previousTarget = target;
+        }
+        _target = target;
+        // update focus for shiggles
+        t.updateFocus();
+      };
+      t.getTarget = function() { return _target; };
+
+      t.getPreviousTarget = function() { return _previousTarget; };
+
+      t.setTab = function(tab) { _tab = tab; };
+      t.getTab = function() { return _tab; };
+
+      t.updateFocus = function() {
+        // Customize the focus behavior here
+        $('.todo-filter-by-week li').not(_tab).removeClass('filter-applied');
+        $(_tab).addClass('filter-applied');
+
+        // Use the last set target, if does exist we use the previous one. If all else fails we just jump to the tab
+        var $_target = $(_target),
+          $_previousTarget = $(_previousTarget),
+          $_tab = $(_tab);
+        if($_target.length > 0) {
+          $currentTarget = $_target
+        } else if($_previousTarget.length > 0) {
+          $currentTarget = $_previousTarget
+        } else {
+          $currentTarget = $_tab
+        }
+        $currentTarget.focus();
+      };
+
+      return t;
     }
     var instance;
     return {
