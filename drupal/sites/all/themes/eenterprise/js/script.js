@@ -970,7 +970,6 @@
         if (e.which === 40) {
           $("#all-time a").trigger('focus.508magic');
         } else if (e.which === 39) {
-          $('input#focused-element').remove();
           $('#this-week a').trigger('focus.508stuff');
         }
       });
@@ -981,7 +980,6 @@
           $('#next-week a').trigger('focus.508magic');
         }
         else if (e.which === 37) {
-          $('input#focused-element').remove();
           $('#all-time a').trigger('focus.508magic');
         }
       });
@@ -1005,8 +1003,7 @@
       });
 
       // Keep track of the last pull-down we focused on (view filters only, for now)
-      $('.views-exposed-form select').on('click', function (e) {
-        e.stopImmediatePropagation();
+      $('.views-exposed-form select').on('focus click', function () {
         currentFocus.setTarget('#' + $(this).attr('id'));
       });
       $('[id^=gridstack-pane-views-to_do]').on('focus click', '.pager .pager-previous a', function () {
@@ -1063,6 +1060,8 @@
         _tab = '',
         _previousTarget = null;
       t.setTarget = function (target) {
+
+        // Preserve the previous target if it is different from the current
         if (target !== _target) {
           _previousTarget = _target;
         }
@@ -1084,6 +1083,7 @@
       };
 
       t.updateFocus = function () {
+
         t.updateTabState();
         // Use the last set target, if does exist we use the previous one. If all else fails we just jump to the tab
         var $_target = $(_target),
