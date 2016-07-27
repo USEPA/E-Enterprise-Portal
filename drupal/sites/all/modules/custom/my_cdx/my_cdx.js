@@ -6,6 +6,11 @@
         $(this).focus();
     });
     $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
+    // If the datatables loading has an error gracefully handle with a message
+    $.fn.dataTable.ext.errMode = function (settings, helpPage, message) {
+        $('#my-cdx').find('.dataTables_empty').html("Unable to connect to service.");
+        console.log(message);
+    };
     $.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings) {
         return {
             "iStart": oSettings._iDisplayStart,
@@ -20,7 +25,7 @@
         };
     };
     var datatable_options = {
-        "ajax": Drupal.settings.basePath + 'my-cdx/links_json',
+        "ajax": Drupal.settings.basePath + 'my-cdx/links-json',
         "dom": 'tip',
         "bLengthChange": false,
         "iDisplayLength": 5,
@@ -43,14 +48,12 @@
             }
         }
     };
-
     $table_wrapper.DataTable(datatable_options);
 
     // Click handler for clicking a CDX role
     // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
     $tabs.on('click', 'a.cdx-link', function (ev) {
-        var roleId = '123';
-
+        var roleID = $(this).attr('id').split('|')[1];
         // Show modal with 'Loading...'
         Drupal.CTools.Modal.show("ee-ctools-popup-style");
         var $modalContent = $('#modal-content');
@@ -59,14 +62,13 @@
 
         // Attempt to setup the modal form
         $.ajax({
-            url: Drupal.settings.basePath + 'my-cdx/link-details/' + roleId,
+            url: Drupal.settings.basePath + 'my-cdx/link-details-json/' + roleID,
             dataType: 'json',
-            success:  function(data) {
+            success: function (data) {
                 if ($modalContent.is(':visible')) {
                     // only do this if the user has not prematurely closed the modal
                     var programAcronym = 'PSP';
                     var myCDXModalTemplate = Drupal.settings.myCDXModalTemplate;
-
                     $('#modal-content').html(myCDXModalTemplate).scrollTop(0);
                     myCDXLinkDetailsHandler(data);
                     console.log('myCDXLinkDetails complete.');
@@ -84,12 +86,14 @@
         var $organizationSelect = $('.my-cdx-modal .organization-select');
         var $organizationName = $('.my-cdx-modal .organization-name');
 
+        var first_selected_org_id = "";
         // Clear previous values
         $organizationSelect.html('');
         $organizationName.html('');
         if (linkDetailsJSON.orgCount === 0) {
             $organizationName.html("No Organizations found.");
             $organizationSelect.hide();
+            myCDXLinkProgramClientHandler({clientCount: 0});
         } else {
             var $option;
             if (linkDetailsJSON.orgCount > 1) {
@@ -106,6 +110,7 @@
                         value: orgId,
                         text: orgObj.orgName
                     });
+                    first_selected_org_id = orgId;
                     $organizationSelect.append($option);
                 }
             });
@@ -113,6 +118,9 @@
                 var selectedOrgId = $(this).val();
                 myCDXLinkProgramClientHandler(linkDetailsJSON.organizations[selectedOrgId]);
             });
+            if (first_selected_org_id !== "") {
+                $organizationSelect.trigger('change');
+            }
         }
     }
 
@@ -139,7 +147,7 @@
                 } else {
                     $option = $('<option />', {
                         value: clientId,
-                        text: clientObj.clientName
+                        text: clientObj.clientName + ': ' + clientId
                     });
                     $programClientsSelect.append($option);
                 }
