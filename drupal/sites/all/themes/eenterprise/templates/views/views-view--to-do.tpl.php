@@ -1,4 +1,5 @@
 <?php
+//var_dump(get_defined_vars());die();
 
 /**
  * @file
@@ -40,27 +41,11 @@
   <?php endif; ?>
     <a href="todo/refresh" class="refresh"><span class="sr-only">Refresh To Do list</span><i class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh To Do List"></i></a>
     <div class="todo-filter-by-week ui-tabs">
-
-        <?php
-        $this_week = '';
-        $beyond_next_week = '';
-        if(isset($view->args['week_filter_val'])){
-            if(substr($view->args['week_filter_val'], 0,10) == date('Y-m-d',strtotime('last sunday'))){
-                $this_week = 'filter-applied';
-            }
-            else if((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)){
-                $beyond_next_week = 'filter-applied';
-            }
-            else if(date('D', strtotime($view->args['week_filter_val'])) == 'Sun'){
-                $next_week = 'filter-applied';
-            }
-        }
-        ?>
         <ul role="tablist" class="ui-tabs-nav">
-          <li id="all-time" role="tab"
-              class="todo_filter_button <?php if (!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) {
-                print 'filter-applied';
-              } ?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="0">All Items</a></li>
+          <li id="all-time" role="tab" class="todo_filter_button <?php print $all_items ?>"><a href="javascript:void(0)"
+                                                                                               class="favorites-ignore"
+                                                                                               tabindex="0">All
+              Items</a></li>
             <li id="this-week" role="tab" class="todo_filter_button <?php print $this_week;?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="-1">This Week</a></li>
             <li id="next-week" role="tab" class="todo_filter_button <?php print $next_week;?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="-1">Next Week</a></li>
             <li id="beyond-next-week" role="tab" class="todo_filter_button <?php print $beyond_next_week;?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="-1">Beyond</a></li>

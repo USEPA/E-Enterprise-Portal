@@ -240,6 +240,32 @@ function eenterprise_preprocess_block(&$vars) {
  */
 function eenterprise_preprocess_search_block_form(&$vars) {
   $vars['search_form'] = str_replace('type="text"', 'type="search"', $vars['search_form']);
-  $vars['classes_array'][] = 'epa-search';  
+  $vars['classes_array'][] = 'epa-search';
 }
 
+function eenterprise_preprocess_views_view(&$vars)
+{
+  // automatically find hooks for specific views
+  $function_name = __FUNCTION__ . '__' . $vars['view']->name;
+  if (function_exists($function_name)) {
+    $function_name($vars);
+  }
+}
+
+function eenterprise_preprocess_views_view__to_do(&$vars)
+{
+  $vars['this_week'] = '';
+  $vars['next_week'] = '';
+  $vars['beyond_next_week'] = '';
+  $view = $vars['view'];
+  if (isset($view->args['week_filter_val'])) {
+    if (substr($view->args['week_filter_val'], 0, 10) == date('Y-m-d', strtotime('last sunday'))) {
+      $vars['this_week'] = 'filter-applied';
+    } else if ((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)) {
+      $vars['beyond_next_week'] = 'filter-applied';
+    } else if (date('D', strtotime($view->args['week_filter_val'])) == 'Sun') {
+      $vars['next_week'] = 'filter-applied';
+    }
+  }
+  $vars['all_items'] = (!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) ? 'filter-applied' : '';
+}
