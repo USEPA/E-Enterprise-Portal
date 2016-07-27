@@ -820,16 +820,19 @@
         currentFocus.setTab("#this-week");
         currentFocus.setTarget("#this-week a");
         get_server_date(event);
+        currentFocus.updateFocus();
       });
       $("#next-week").click(function(event) {
         currentFocus.setTab("#next-week");
         currentFocus.setTarget("#next-week a");
         get_server_date(event);
+        currentFocus.updateFocus();
       });
       $("#beyond-next-week").click(function(event) {
         currentFocus.setTab("#beyond-next-week");
         currentFocus.setTarget("#beyond-next-week a");
         get_server_date(event);
+        currentFocus.updateFocus();
       });
       $("#all-time").click(function(event) {
         event.stopPropagation();
@@ -839,9 +842,17 @@
         $("#edit-submit-to-do").trigger("click");
       });
 
+
+      $('.todo-filter-by-week li').on('focus', function() {
+        currentFocus.setTab('#' + $(this).attr('id'));
+        currentFocus.updateTabState();
+      });
+
       // Update focus anytime the DOM changes for our To Do list
       jQuery('[id^=gridstack-pane-views-to_do]').find('.pane-content')
-        .on('DOMNodeInserted DOMNodeRemoved', currentFocus.updateFocus);
+        .on('DOMNodeInserted DOMNodeRemoved', function(e){
+          currentFocus.updateFocus()
+        });
 
       function get_server_date(evt) {
         var time_url = window.location.origin + "/server_time.php?tz=America/New_York";
@@ -951,66 +962,57 @@
         $('#edit-field-todo-lst-rprt-type-filter-value').val('All');
       });
 
-
-      $("#all-time").focus(function() {
-        $("#all-time").keydown(function(e) {
-          e.stopImmediatePropagation();
-          if (e.which === 40) {
-            $("#all-time a").click();
-          } else if (e.which === 39) {
-            $('input#focused-element').remove();
-            $('#this-week a').click();
-          }
-        });
+      /*
+      * Note: the event "focus.508magic" is just using the namespace of 508magic to prevent endless event loop. Any name
+      * could have been use.
+      * */
+      $("[id^=gridstack-pane-views-to_do]").on('keydown', '#all-time a:focus', function(e) {
+        if (e.which === 40) {
+          $("#all-time a").trigger('focus.508magic');
+        } else if (e.which === 39) {
+          $('input#focused-element').remove();
+          $('#this-week a').trigger('focus.508stuff');
+        }
       });
-      $("#this-week a").focus(function() {
-        $("#this-week a").keydown(function(e) {
-          e.stopImmediatePropagation();
+      $("[id^=gridstack-pane-views-to_do]").on('keydown', '#this-week a:focus', function(e) {
           if (e.which === 40) {
-            $("#this-week a").click();
+            $("#this-week a").trigger('focus.508magic');
           } else if (e.which === 39) {
-            $('#next-week a').click();
+            $('#next-week a').trigger('focus.508magic');
           }
           else if (e.which === 37) {
             $('input#focused-element').remove();
-            $('body').append('<input type="hidden" id="focused-element" name="focused_element" value="#all-time" />');
-            $('#all-time a').click();
+            $('#all-time a').trigger('focus.508magic');
           }
-        });
       });
-      $("#next-week a").focus(function() {
-        $("#next-week a").keydown(function(e) {
-          e.stopImmediatePropagation();
+      $("[id^=gridstack-pane-views-to_do]").on('keydown', '#next-week a:focus', function(e) {
           if (e.which === 40) {
-            $("#next-week a").click();
+            $("#next-week a").trigger('focus.508magic');
           } else if (e.which === 39) {
-            $('#beyond-next-week a').click();
+            $('#beyond-next-week a').trigger('focus.508magic');
           }
           else if (e.which === 37) {
-            $('#this-week a').click();
+            $('#this-week a').trigger('focus.508magic');
           }
-        });
       });
-      $("#beyond-next-week a").focus(function() {
-        $("#beyond-next-week a").keydown(function(e) {
-          e.stopImmediatePropagation();
+      $("[id^=gridstack-pane-views-to_do]").on('keydown', '#beyond-next-week a:focus', function(e) {
           if (e.which === 40) {
-            $("#beyond-next-week a").click();
+            $("#beyond-next-week a").trigger('focus.508magic');
           }
           else if (e.which === 37) {
-            $('#next-week a').click();
+            $('#next-week a').trigger('focus.508magic');
           }
-        });
       });
 
       // Keep track of the last pull-down we focused on (view filters only, for now)
-      $('.views-exposed-form select').on('focus click', function() {
+      $('.views-exposed-form select').on('click', function(e) {
+        e.stopImmediatePropagation();
         currentFocus.setTarget('#' + $(this).attr('id'));
       });
-      $('.view').on('focus click', '.pager .pager-previous a', function() {
+       $('[id^=gridstack-pane-views-to_do]').on('focus click', '.pager .pager-previous a', function() {
         currentFocus.setTarget('[id^=gridstack-pane-views-to_do] .pager .pager-previous a');
       });
-      $('.view').on('focus click', '.pager .pager-next a', function() {
+      $('[id^=gridstack-pane-views-to_do]').on('focus click', '.pager .pager-next a', function() {
         currentFocus.setTarget('[id^=gridstack-pane-views-to_do] .pager .pager-next a');
       });
 
@@ -1048,8 +1050,8 @@
         });
       }
 
-      currentFocus.updateFocus();
       /* End logic:-  For positioning scroll to top of progress tracker widget after progress tracker refresh*/
+      currentFocus.updateFocus();
 
     }
   };
@@ -1061,42 +1063,44 @@
         _tab = '',
         _previousTarget = null;
       t.setTarget = function(target) {
-        if(target !== _previousTarget) {
-          _previousTarget = target;
+        if(target !== _target) {
+          _previousTarget = _target;
         }
         _target = target;
-        // update focus for shiggles
-        t.updateFocus();
       };
       t.getTarget = function() { return _target; };
 
       t.getPreviousTarget = function() { return _previousTarget; };
 
-      t.setTab = function(tab) { _tab = tab; };
+      t.setTab = function(tab) {
+        _tab = tab;
+      };
       t.getTab = function() { return _tab; };
 
       t.updateFocus = function() {
-        // Customize the focus behavior here
-        var $tabs = $('.todo-filter-by-week li');
-        $tabs.not(_tab).removeClass('filter-applied').prop('tabindex', -1);
-        $(_tab).addClass('filter-applied').prop('tabindex', 0);
-        // Set initial active/tabindex for when the page first renders
-        if($tabs.parent().find('li[tabindex=0]').length == 0 || $tabs.length > 0) {
-          $tabs.eq(0).addClass('filter-applied').prop('tabindex', 0);
-        }
-
+        t.updateTabState();
         // Use the last set target, if does exist we use the previous one. If all else fails we just jump to the tab
         var $_target = $(_target),
           $_previousTarget = $(_previousTarget),
           $_tab = $(_tab);
+
+        // Fallback targets in case the original is lost i.e. previous button when there are no more pages
         if($_target.length > 0) {
-          $currentTarget = $_target
+          $currentTarget = $_target;
         } else if($_previousTarget.length > 0) {
-          $currentTarget = $_previousTarget
+          $currentTarget = $_previousTarget;
         } else {
-          $currentTarget = $_tab
+          $currentTarget = $_tab.find('a');
         }
         $currentTarget.focus();
+      };
+      t.updateTabState = function(){
+        // Customize the focus behavior here
+        var $tabs = $('.todo-filter-by-week li');
+        var tab = (!_tab) ? '#all-time' : _tab;
+
+        $tabs.not(tab).removeClass('filter-applied').find('a').prop('tabindex', -1);
+        $(tab).addClass('filter-applied').find('a').prop('tabindex', 0);
       };
 
       return t;

@@ -57,10 +57,10 @@
         }
         ?>
         <ul role="tablist" class="ui-tabs-nav">
-            <li id="all-time" tabindex="0" role="tab" class="todo_filter_button <?php if(!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) { print 'filter-applied'; }?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="-1">All Items</a></li>
-            <li id="this-week" tabindex="-1" role="tab" class="todo_filter_button <?php print $this_week;?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="-1">This Week</a></li>
-            <li id="next-week" tabindex="-1" role="tab" class="todo_filter_button <?php print $next_week;?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="-1">Next Week</a></li>
-            <li id="beyond-next-week" tabindex="-1" role="tab" class="todo_filter_button <?php print $beyond_next_week;?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="-1">Beyond</a></li>
+            <li id="all-time" role="tab" class="todo_filter_button <?php if(!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) { print 'filter-applied'; }?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="-1">All Items</a></li>
+            <li id="this-week" role="tab" class="todo_filter_button <?php print $this_week;?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="-1">This Week</a></li>
+            <li id="next-week" role="tab" class="todo_filter_button <?php print $next_week;?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="-1">Next Week</a></li>
+            <li id="beyond-next-week" role="tab" class="todo_filter_button <?php print $beyond_next_week;?>"><a href="javascript:void(0)" class="favorites-ignore" tabindex="-1">Beyond</a></li>
         </ul>
     </div>
     <?php if ($exposed): ?>
