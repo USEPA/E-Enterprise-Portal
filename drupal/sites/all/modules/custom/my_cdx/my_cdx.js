@@ -20,7 +20,7 @@
         };
     };
     var datatable_options = {
-        "ajax": Drupal.settings.basePath + 'my-cdx/json',
+        "ajax": Drupal.settings.basePath + 'my-cdx/links_json',
         "dom": 'tip',
         "bLengthChange": false,
         "iDisplayLength": 5,
