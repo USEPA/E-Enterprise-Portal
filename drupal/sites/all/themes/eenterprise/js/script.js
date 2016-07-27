@@ -1058,7 +1058,7 @@
     function Singleton() {
       var t = this; // 't' is short for 'this'. The constructor is hijacked returning 't' instead of 'this'.
       var _target = null,
-        _tab = '#all-time',
+        _tab = '',
         _previousTarget = null;
       t.setTarget = function(target) {
         if(target !== _previousTarget) {
@@ -1077,8 +1077,13 @@
 
       t.updateFocus = function() {
         // Customize the focus behavior here
-        $('.todo-filter-by-week li').not(_tab).removeClass('filter-applied');
-        $(_tab).addClass('filter-applied');
+        var $tabs = $('.todo-filter-by-week li');
+        $tabs.not(_tab).removeClass('filter-applied').prop('tabindex', -1);
+        $(_tab).addClass('filter-applied').prop('tabindex', 0);
+        // Set initial active/tabindex for when the page first renders
+        if($tabs.parent().find('li[tabindex=0]').length == 0 || $tabs.length > 0) {
+          $tabs.eq(0).addClass('filter-applied').prop('tabindex', 0);
+        }
 
         // Use the last set target, if does exist we use the previous one. If all else fails we just jump to the tab
         var $_target = $(_target),

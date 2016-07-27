@@ -54,7 +54,7 @@ function other_items_of_interest_form_alter(&$form, &$form_state, $form_id)
   if ($form_id == 'state_resource_node_form') {
 
     drupal_add_js(drupal_get_path('module', 'other_items_of_interest') . "/js/preview_url_form.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-    drupal_add_css(drupal_get_path('module', 'other_items_of_interest') . "/css/state_resource_editor.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
+    drupal_add_css(drupal_get_path('module', 'other_items_of_interest') . "/css/state_resource_editor.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 
     hide($form['additional_settings']);
     hide($form['actions']['preview']);

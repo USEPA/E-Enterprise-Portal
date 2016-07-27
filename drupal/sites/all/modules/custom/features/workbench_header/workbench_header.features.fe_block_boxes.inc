@@ -81,7 +81,7 @@ if ($path == \'workbench\' || $path == \'local-resources\' || $path == \'air_now
 global $theme_key;
 $zip_code_mapping = array();
 drupal_add_js(drupal_get_path(\'theme\',  $theme_key) ."/js/workbench_locations_modal.js", [\'preprocess\'=>true, \'group\'=>JS_LIBRARY, \'type\'=>\'file\', \'cache\'=>true, \'requires_jquery\'=>true]);
-drupal_add_css(drupal_get_path(\'theme\',  $theme_key) ."/css/workbench_locations_modal.css", [\'preprocess\'=>true, \'group\'=>CSS_THEME]);
+drupal_add_css(drupal_get_path(\'theme\',  $theme_key) ."/css/workbench_locations_modal.css", [\'preprocess\'=>true, \'group\'=>CSS_DEFAULT]);
 print "<div class=\'ee-workbench-header-locations\'>";
 print "<div class=\'ee-workbench-header-block ee-workbench-header-setlocation\'>";
 generate_location_select();
