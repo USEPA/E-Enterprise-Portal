@@ -54,39 +54,32 @@ function my_cdx_theme() {
       'template' => 'my-cdx',
       'path' => drupal_get_path('module', 'my_cdx') . '/templates'
     ),
+    'my_cdx_modal' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use my-cdx.tpl.php
+      'template' => 'my-cdx-modal',
+      'path' => drupal_get_path('module', 'my_cdx') . '/templates'
+    ),
   );
 }
 /**
  * Implements hook_block_view().
  */
 function my_cdx_block_view($delta = '') {
-  drupal_add_css( libraries_get_path('font-awesome-4.5.0') . "/css/font-awesome.min.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
-  drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");
-  drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-  drupal_add_js(drupal_get_path('module', 'my_cdx') . '/my_cdx.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-  drupal_add_css(drupal_get_path('module', 'my_cdx') . '/my_cdx.css', ['preprocess'=>true, 'group'=>CSS_THEME]);
-
-  // Set Modal Template
-  $modal_html = '<div class="my-cdx-modal">
-    <div>Organization Name</div>
-    <div class="organization-name"></div>
-    <select class="organization-select"></select>
-    <div>Program Client ID</div>
-    <div class="program-client-name"></div>
-    <select class="program-client-select"></select>
-  <div>Program</div>
-  <div class="program-acronym"></div>
-  <div class="operations">
-      <a href="#" class="proceed">Proceed</a>
-      <a href="#" class="cancel">Cancel</a>
-    </div>
-</div>
-';
-  drupal_add_js(array("myCDXModalTemplate" => $modal_html), 'setting');
-
   $block = array();
 
   if ($delta = 'my_cdx') {
+    drupal_add_css(libraries_get_path('font-awesome-4.5.0') . "/css/font-awesome.min.css", ['preprocess'=>true, 'group'=>CSS_THEME]);
+    drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");
+    drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+    drupal_add_js(drupal_get_path('module', 'my_cdx') . '/my_cdx.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+    drupal_add_css(drupal_get_path('module', 'my_cdx') . '/my_cdx.css', ['preprocess'=>true, 'group'=>CSS_THEME]);
+
+    // Set Modal Template
+    $modal_html = theme('my_cdx_modal');
+    drupal_add_js(array("myCDXModalTemplate" => $modal_html), 'setting');
+
     if (user_access('access content')){ //good idea to check user perms here
       $block['subject'] = t('App Connect');
       $block['content'] = theme('my_cdx');
