@@ -1,6 +1,4 @@
 <?php
-//var_dump(get_defined_vars());die();
-
 /**
  * @file
  * Main view template.
