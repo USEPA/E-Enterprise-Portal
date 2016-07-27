@@ -49,67 +49,33 @@
     // Click handler for clicking a CDX role
     // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
     $tabs.on('click', 'a.cdx-link', function (ev) {
-        var theJsonWeAreWorkingWith =
-        {
-            orgCount: 4,
-            organizations: {
-                1234: {
-                    'orgName': 'org abc',
-                    'clientCount': 4,
-                    'programClients': {
-                        1234: {
-                            'clientName': 'client1 abc'
-                        },
-                        1235: {
-                            'clientName': 'client2 abc'
-                        },
-                        1236: {
-                            'clientName': 'client3 abc'
-                        },
-                        1237: {
-                            'clientName': 'client4 abc'
-                        }
-                    }
-                },
-                1236: {
-                    'orgName': 'org 2',
-                    'clientCount': 4,
-                    'programClients': {
-                        1234: {
-                            'clientName': 'Aclient abc'
-                        },
-                        1235: {
-                            'clientName': 'Bclient abc'
-                        },
-                        1236: {
-                            'clientName': 'Cclient abc'
-                        },
-                        1237: {
-                            'clientName': 'Dclient abc'
-                        }
-                    }
-                },
-                Single_Client: {
-                    'orgName': 'SINGLE',
-                    'clientCount': 1,
-                    'programClients': {
-                        1234: {
-                            'clientName': 'Hans Solo'
-                        }
-                    }
+        var roleId = '123';
+
+        // Show modal with 'Loading...'
+        Drupal.CTools.Modal.show("ee-ctools-popup-style");
+        var $modalContent = $('#modal-content');
+        $('#modal-title').html('Application Profile Settings')
+        Drupal.attachBehaviors();
+
+        // Attempt to setup the modal form
+        $.ajax({
+            url: Drupal.settings.basePath + 'my-cdx/link-details/' + roleId,
+            dataType: 'json',
+            success:  function(data) {
+                if ($modalContent.is(':visible')) {
+                    // only do this if the user has not prematurely closed the modal
+                    var programAcronym = 'PSP';
+                    var myCDXModalTemplate = Drupal.settings.myCDXModalTemplate;
+
+                    $('#modal-content').html(myCDXModalTemplate).scrollTop(0);
+                    myCDXLinkDetailsHandler(data);
+                    console.log('myCDXLinkDetails complete.');
+                } else {
+                    console.log('myCDXLinkDetails aborted (modal closed?).');
                 }
             }
-        };
+        });
 
-
-        var programAcronym = 'PSP';
-        Drupal.CTools.Modal.show("ee-ctools-popup-style");
-        $('#modal-title').html('Application Profile Settings')
-        var myCDXModalTemplate = Drupal.settings.myCDXModalTemplate;
-
-        $('#modal-content').html(myCDXModalTemplate).scrollTop(0);
-        myCDXLinkDetailsHandler(theJsonWeAreWorkingWith);
-        Drupal.attachBehaviors();
         ev.preventDefault();
     });
 

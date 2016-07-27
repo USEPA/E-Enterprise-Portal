@@ -24,6 +24,11 @@ function my_cdx_menu(){
     'page arguments' => array(1),
     'access arguments' => array('access content'),
   );
+  $items['my-cdx/link-details/%'] = array(
+    'page callback' => 'my_cdx_json_link_details',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+  );
 
   return $items;
 }
@@ -122,6 +127,36 @@ function my_cdx_json_output() {
 }
 
 /**
+ * Callback for 'my-cdx/link-details/%' menu item
+ * @see https://www.webwash.net/drupal/articles/getting-started-json-drupal-7 (JSON Endpoints)
+ */
+function my_cdx_json_link_details($role_id) {
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+  if (feature_toggle_get_status('mycdx_connections')) {
+    if ($input = load_my_cdx_link_details($role_id)) {
+drupal_json_output($input);
+return;
+      // convert the data into a format that DataTables ajax can understand
+      $output = array();
+      foreach ($input as $value) {
+        $output[] = array(
+          $value['program_service_name'],
+          $value['role'],
+        );
+      }
+
+      drupal_json_output(array('data' => $output));
+    } else {
+      // TODO: an error occurred, handle it here
+      // Send empty json so Datatables does not break
+      drupal_json_output(array('data' => array()));
+    }
+  } else {
+    drupal_json_output(array('data' => array()));
+  }
+}
+
+/**
  * Load My CDX data from cache, web service, or static source (for testing)
  * Restructure XML return into an array we can JSONify, or return FALSE if we have an error
  * @return mixed
@@ -144,6 +179,44 @@ function load_my_cdx_data() {
         $data = $cache->data;
       } else {
         $data = fetch_my_cdx_links();
+
+        // expire the cache every ___ minutes
+        $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
+        cache_set($cache_key, $data, 'cache', $expire_ts);
+      }
+    }
+  }
+
+  return $data;
+}
+
+/**
+ * Load My CDX data from cache, web service, or static source (for testing)
+ * Restructure XML return into an array we can JSONify, or return FALSE if we have an error
+ * @return mixed
+ */
+function load_my_cdx_link_details($role_id) {
+  global $user;
+  $data = &drupal_static(__FUNCTION__);
+
+  if (!isset($data)) {
+    module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+    if (feature_toggle_get_status('sample_mycdx_data')) {
+      $data = fetch_sample_my_cdx_link_details();
+    } else {
+      // setup distinct caches for each role that a given user has
+      $cache_key = implode('|', array(
+        'my_cdx_link_details',
+        $user->uid,
+        $role_id,
+      ));
+
+      if ($cache = cache_get($cache_key)) {
+        // try cache first
+        // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
+        $data = $cache->data;
+      } else {
+        $data = fetch_my_cdx_link_details();
 
         // expire the cache every ___ minutes
         $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
@@ -318,6 +391,67 @@ function fetch_my_cdx_links() {
   } else {
     return array();
   }
+}
+
+/**
+ * Fetch Sample My CDX link details
+ */
+function fetch_sample_my_cdx_link_details() {
+  $data = array(
+    'orgCount' => 4,
+    'organizations' => array(),
+  );
+
+  $data['organizations']['1234'] = array(
+    'orgName' => 'org abc',
+    'clientCount' => 4,
+    'programClients' => array(
+      '1234' => array(
+        'clientName' => 'client1 abc',
+      ),
+      '1235' => array(
+        'clientName' => 'client2 abc',
+      ),
+      '1236' => array(
+        'clientName' => 'client3 abc',
+      ),
+      '1237' => array(
+        'clientName' => 'client4 abc',
+      ),
+    ),
+  );
+
+  $data['organizations']['1236'] = array(
+    'orgName' => 'org 2',
+    'clientCount' => 4,
+    'programClients' => array(
+      '1234' => array(
+        'clientName' => 'Aclient abc',
+      ),
+      '1235' => array(
+        'clientName' => 'Bclient abc',
+      ),
+      '1236' => array(
+        'clientName' => 'Cclient abc',
+      ),
+      '1237' => array(
+        'clientName' => 'Dclient abc',
+      ),
+    ),
+  );
+
+  $data['organizations']['Single_Client'] = array(
+    'orgName' => 'SINGLE',
+    'clientCount' => 1,
+    'programClients' => array(
+      '1234' => array(
+        'clientName' => 'Hans Solo',
+      ),
+    ),
+  );
+
+
+  return $data;
 }
 
 /**
