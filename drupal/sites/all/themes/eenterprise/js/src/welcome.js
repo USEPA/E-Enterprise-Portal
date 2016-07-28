@@ -102,9 +102,8 @@
           if (firstLoad !== 'true') {
             $jcarousel.focus();
           }
-
         }
-        
+  
       }
     });
 })(jQuery);
