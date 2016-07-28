@@ -855,7 +855,6 @@
         });
 
       function get_server_date(evt) {
-        console.log('get_server_date');
         var time_url = window.location.origin + "/server_time.php?tz=America/New_York";
 
         $.ajax({
