@@ -851,7 +851,7 @@
       // Update focus anytime the DOM changes for our To Do list
       jQuery('[id^=gridstack-pane-views-to_do]').find('.pane-content')
         .on('DOMNodeInserted DOMNodeRemoved', function (e) {
-          currentFocus.updateFocus()
+          currentFocus.updateFocus();
         });
 
       function get_server_date(evt) {
@@ -966,39 +966,40 @@
        * Note: the event "focus.508magic" is just using the namespace of 508magic to prevent endless event loop. Any name
        * could have been use.
        * */
+      //var tabClickEvent = _.debounce(tabClick, 350, { 'maxWait': 1000 })
       $("[id^=gridstack-pane-views-to_do]").on('keydown', '#all-time a:focus', function (e) {
         if (e.which === 40) {
-          $("#all-time a").trigger('focus.508magic');
+          $("#all-time a").trigger('focus.508magic').trigger('click');
         } else if (e.which === 39) {
-          $('#this-week a').trigger('focus.508stuff');
+          $('#this-week a').trigger('focus.508magic').trigger('click');
         }
       });
       $("[id^=gridstack-pane-views-to_do]").on('keydown', '#this-week a:focus', function (e) {
         if (e.which === 40) {
-          $("#this-week a").trigger('focus.508magic');
+          $("#this-week a").trigger('focus.508magic').trigger('click');
         } else if (e.which === 39) {
-          $('#next-week a').trigger('focus.508magic');
+          $('#next-week a').trigger('focus.508magic').trigger('click');
         }
         else if (e.which === 37) {
-          $('#all-time a').trigger('focus.508magic');
+          $('#all-time a').trigger('focus.508magic').trigger('click');
         }
       });
       $("[id^=gridstack-pane-views-to_do]").on('keydown', '#next-week a:focus', function (e) {
         if (e.which === 40) {
-          $("#next-week a").trigger('focus.508magic');
+          $("#next-week a").trigger('focus.508magic').trigger('click');
         } else if (e.which === 39) {
-          $('#beyond-next-week a').trigger('focus.508magic');
+          $('#beyond-next-week a').trigger('focus.508magic').trigger('click');
         }
         else if (e.which === 37) {
-          $('#this-week a').trigger('focus.508magic');
+          $('#this-week a').trigger('focus.508magic').trigger('click');
         }
       });
       $("[id^=gridstack-pane-views-to_do]").on('keydown', '#beyond-next-week a:focus', function (e) {
         if (e.which === 40) {
-          $("#beyond-next-week a").trigger('focus.508magic');
+          $("#beyond-next-week a").trigger('focus.508magic').trigger('click');
         }
         else if (e.which === 37) {
-          $('#next-week a').trigger('focus.508magic');
+          $('#next-week a').trigger('focus.508magic').trigger('click');
         }
       });
 
