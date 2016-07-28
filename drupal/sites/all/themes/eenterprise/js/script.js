@@ -25,6 +25,7 @@
           $('#dialog-all-locations input').removeAttr('aria-hidden');
         }
       });
+
       $('.ui-dialog')
         .on("dialogopen", function (event, ui) {
           $('.ui-dialog').focus();
@@ -449,7 +450,13 @@
           trigger: 'click hover focus',
           container: 'body',
           placement: 'auto left'
-        });
+        })
+        // Modify existing behavior to close on Esc
+          .on('keyup', '.ee-bootstrap-tooltip', function (e) {
+            if (e.which === 27) { // Esc key
+              $(e.target).tooltip('hide');
+            }
+          });
 
         // destroy all tooltips when clicking anywhere
         $('body').click(function (e) {
