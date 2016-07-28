@@ -92,7 +92,10 @@
         ev.preventDefault();
     });
 
-
+    /**
+     * Creates Organization select and sets listener
+     * @param linkDetailsJSON
+     */
     function myCDXLinkDetailsHandler(linkDetailsJSON) {
         var $organizationSelect = $('.my-cdx-modal .organization-select');
         var $organizationName = $('.my-cdx-modal .organization-name');
@@ -134,6 +137,11 @@
             }
         }
     }
+
+    /**
+     * Creates Select for Program Clients based on what Organization has been selected
+     * @param programClientsJson
+     */
 
     function myCDXLinkProgramClientHandler(programClientsJson) {
         var $programClientsSelect = $('.my-cdx-modal .program-client-select');
