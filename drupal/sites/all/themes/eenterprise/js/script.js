@@ -868,7 +868,6 @@
             if (evt.target.innerHTML == 'This Week') {
 
               $("#edit-field-todo-lst-due-value").val(currDate.flastsunday);
-              $("#edit-field-todo-lst-due-value").val('0000-00-00');
               $("#edit-submit-to-do").trigger("click");
             }
             else if (evt.target.innerHTML == 'Next Week') {
