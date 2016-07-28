@@ -31,7 +31,7 @@
         "iDisplayLength": 5,
         "columnDefs": [
             {"width": "70%", "targets": 0}, // First column width
-            {"width": "30%", "targets": 1} // Second column width
+            {"width": "30%", "targets": 1}, // Second column width
         ],
         "pagingType": "simple",
         "bSortable": true,
@@ -54,23 +54,34 @@
     // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
     $tabs.on('click', 'a.cdx-link', function (ev) {
         var roleID = $(this).attr('id').split('|')[1];
-        // Show modal with 'Loading...'
-        Drupal.CTools.Modal.show("ee-ctools-popup-style");
-        var $modalContent = $('#modal-content');
-        $('#modal-title').html('Application Profile Settings')
-        Drupal.attachBehaviors();
-
-        // Attempt to setup the modal form
+        var acronym = $(this).data('acronym');
+        var $modal_content = $('#my-cdx-modal-content')
+            .html('<i class="my-cdx-loader  fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span>')
+            .dialog({
+                dialogClass: 'my-cdx-modal-content',
+                title: 'Application Profile Settings'
+            });
         $.ajax({
             url: Drupal.settings.basePath + 'my-cdx/link-details-json/' + roleID,
             dataType: 'json',
             success: function (data) {
-                if ($modalContent.is(':visible')) {
+                if ($modal_content.is(':visible')) {
                     // only do this if the user has not prematurely closed the modal
-                    var programAcronym = 'PSP';
+
+                    // Access modal tpl @see my-cdx.module function my_cdx_block_view
                     var myCDXModalTemplate = Drupal.settings.myCDXModalTemplate;
-                    $('#modal-content').html(myCDXModalTemplate).scrollTop(0);
+                    $modal_content.html(myCDXModalTemplate).dialog();
+
+                    // Add acronym to modal
+                    $modal_content.find('.program-acronym').html(acronym);
+
+                    // Parse data and create select operations
                     myCDXLinkDetailsHandler(data);
+
+                    // Close modal on clicking cancel
+                    $('.cancel').click(function() {
+                        $modal_content.dialog('close');
+                    });
                     console.log('myCDXLinkDetails complete.');
                 } else {
                     console.log('myCDXLinkDetails aborted (modal closed?).');

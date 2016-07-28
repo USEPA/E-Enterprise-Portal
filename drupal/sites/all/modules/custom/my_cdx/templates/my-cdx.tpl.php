@@ -22,3 +22,5 @@
     </div>
   </div>
 </div>
+
+<div id="my-cdx-modal-content" class="cdx-user-role-modal"></div>
