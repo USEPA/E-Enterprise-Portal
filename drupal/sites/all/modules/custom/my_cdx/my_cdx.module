@@ -481,6 +481,17 @@ function fetch_my_cdx_link_details($role_id)
                 );
             }
         }
+
+        // Sort orgranizations and program clients alphabetically
+        usort($data['organizations'], function($a, $b) {
+            // Sort program clients  alphabetically
+            usort($a['programClients'], function($a2, $b2) {
+                return $a2['clientName'] - $b2['clientName'];
+            });
+            return $a['orgName'] - $b['orgName'];
+        });
+
+
         return $data;
     } else {
         return array();
