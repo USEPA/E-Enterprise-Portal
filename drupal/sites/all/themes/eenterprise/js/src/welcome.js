@@ -2,7 +2,9 @@
 
   $(function() {
 
-      var page_name = window.location.pathname.split('/')[1];
+      var page_name = window.location.pathname.split('/')[1],
+          firstLoad = 'true';
+      
       if (page_name == "eenterprise-new" || page_name == "eenterprise-alternate") {
         $(document).on('ready', function() {
           var $jcarousel = $('.jcarousel');
@@ -76,6 +78,7 @@
                 width = $('body').find('.jcarousel-wrapper').innerWidth();
               carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
           firstIsActive();
+          firstLoad = 'false';          
         });
 
         function firstIsActive(){
@@ -88,19 +91,19 @@
               lastSlide = $jcarouselSlides.length - 1;
           if (firstActive === currentActive) {
             $jcarouselPrev.addClass('inactive');
-            $jcarousel.focus();
           }
           else if (firstActive === lastSlide) {
             $jcarouselNext.addClass('inactive');
-            $jcarousel.focus();            
           }
           else {
             $jcarouselPrev.removeClass('inactive');
             $jcarouselNext.removeClass('inactive');
-            $jcarousel.focus();                        
+          }
+          if (firstLoad !== 'true') {
+            $jcarousel.focus();
           }
         }
-        
+  
       }
     });
 })(jQuery);
