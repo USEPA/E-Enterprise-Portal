@@ -33,6 +33,7 @@
             {"width": "70%", "targets": 0}, // First column width
             {"width": "30%", "targets": 1}, // Second column width
         ],
+        "bAutoWidth": false,
         "pagingType": "simple",
         "bSortable": true,
         "fnDrawCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
