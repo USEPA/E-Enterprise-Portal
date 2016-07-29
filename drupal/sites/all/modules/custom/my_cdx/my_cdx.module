@@ -482,15 +482,26 @@ function fetch_my_cdx_link_details($role_id)
             }
         }
 
-        // Sort orgranizations and program clients alphabetically
-        usort($data['organizations'], function($a, $b) {
-            // Sort program clients  alphabetically
-            usort($a['programClients'], function($a2, $b2) {
-                return $a2['clientName'] - $b2['clientName'];
+
+        // Reset organizations and program clients to arrays for sorting and sort
+        $organizations = array();
+        foreach ($data['organizations'] as $org_obj) {
+            $client_ids = array();
+            foreach ($org_obj['programClients'] as $program_client) {
+                $client_ids[] = $program_client;
+            }
+            // Sort clients for this organization
+            usort($client_ids, function ($a, $b) {
+                return strcmp($a["clientName"], $b["clientName"]);
             });
-            return $a['orgName'] - $b['orgName'];
+            $org_obj['programClients'] = $client_ids;
+            $organizations[] = $org_obj;
+        }
+        usort($organizations, function ($a, $b) {
+            return strcmp($a["orgName"], $b["orgName"]);
         });
 
+        $data['organizations'] = $organizations;
 
         return $data;
     } else {
