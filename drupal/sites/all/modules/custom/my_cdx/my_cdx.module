@@ -129,7 +129,12 @@ function my_cdx_links_json_output()
             if (feature_toggle_get_status('mycdx_connections')) {
                 $output[] = array(
                     $value['program_service_name'],
-                    '<a data-acronym="' . $value['data_acronym'] . '" class="cdx-link" href="javascript:void(0);" id="role_id|' . $value['role_id'] . '">' . $value['role'] . '</a>',
+                    '<a data-role-description="' . $value['role_description'] . '" ' .
+                    'data-acronym="' . $value['data_acronym'] . '" ' .
+                    'data-role-id="' . $value['role_id'] . '" ' .
+                    '" class="cdx-link" href="javascript:void(0);">' .
+                    $value['role'] .
+                    '</a>',
                 );
             } else {
                 $output[] = array(
@@ -308,6 +313,11 @@ function fetch_my_cdx_links()
 
         // format it to be some sort of array, match the structure of fetch_sample_my_cdx_links()
         $data = array();
+        // CDX service sends an object if the return is singular.
+        // Convert the object to an array containing the object
+        if (!is_array($result->response->links)) {
+            $result->response->links = array($result->response->links);
+        }
         foreach ($result->response->links as $link) {
             if ($link->Status->code === "Active") {
                 $data[] = array(
@@ -315,6 +325,7 @@ function fetch_my_cdx_links()
                     'role' => $link->Description,
                     'role_id' => $link->RoleId,
                     'data_acronym' => $link->DataflowAcronym,
+                    'role_description' => $link->Description,
                 );
             }
         }
@@ -449,6 +460,11 @@ function fetch_my_cdx_link_details($role_id)
         }
         $data = array("orgCount" => 0, "organizations" => array());
         // format it to be some sort of array, match the structure of fetch_sample_my_cdx_links()
+        // CDX service sends an object if the return is singular.
+        // Convert the object to an array containing the object
+        if (!is_array($result->response->linkDetails)) {
+            $result->response->linkDetails = array($result->response->linkDetails);
+        }
         foreach ($result->response->linkDetails as $linkDetail) {
             if ($linkDetail->RoleStatus->code === "Active") {
                 if (!isset($data['organizations'][$linkDetail->UserOrganizationId])) {
@@ -465,6 +481,16 @@ function fetch_my_cdx_link_details($role_id)
                 );
             }
         }
+
+        // Sort orgranizations and program clients alphabetically
+        usort($data['organizations'], function($a, $b) {
+            // Sort program clients  alphabetically
+            usort($a['programClients'], function($a2, $b2) {
+                return $a2['clientName'] - $b2['clientName'];
+            });
+            return $a['orgName'] - $b['orgName'];
+        });
+
 
         return $data;
     } else {
