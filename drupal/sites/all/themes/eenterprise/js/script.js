@@ -452,9 +452,9 @@
           placement: 'auto left'
         })
         // Modify existing behavior to close on Esc
-          .on('keyup', '.ee-bootstrap-tooltip', function (e) {
+          .on('keyup', function (e) {
             if (e.which === 27) { // Esc key
-              $(e.target).tooltip('hide');
+              $('.ee-bootstrap-tooltip').tooltip('hide');
             }
           });
 
