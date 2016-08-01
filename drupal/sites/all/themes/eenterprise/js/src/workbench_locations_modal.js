@@ -107,7 +107,7 @@
         location_name = location_name.split('(')[0]; // ignore zip code
         location_name = $.trim(location_name); // trim any leading, trailing whitespace.
         $('input[type=radio][id="' + zip_val + '|' + location_name + '"]').prop('checked', true);
-			$.post("/default_location_zip", {zip: zip_val, name: location_name});
+			$.post(Drupal.settings.basePath + "default_location_zip", {zip: zip_val, name: location_name});
       }
     });
   

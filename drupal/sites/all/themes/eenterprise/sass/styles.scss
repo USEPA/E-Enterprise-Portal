@@ -213,7 +213,7 @@
                 margin-bottom: 0;
                 margin-top: 0;
                 padding: 0 0.7rem;
-                width: 20rem;
+                width: 26rem;
                 line-height: 1.75;
                 border-color: $color-gray-lightest;
                 font-size: $h5-font-size;
@@ -2548,19 +2548,12 @@ table.dataTable, table.views-table {
         .sorting, .sorting_asc, .sorting_desc {
             cursor: pointer;
         }
-        th, td {
-            border-bottom: 1px solid #111;
-        }
         .sorting_asc {
             background-image: url("../images/sort_asc.png");
         }
         .sorting_desc {
             background-image: url("../images/sort_desc.png");
         }
-    }
-
-    thead th, tfoot th {
-        font-weight: bold;
     }
 }
 

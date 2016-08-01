@@ -11,7 +11,7 @@
     function load_links(async_setting) {
         $('#load_more').hide();
         $.ajax({
-            url: '/load_links',
+            url: Drupal.settings.basePath + 'load_links',
             method: 'GET',
             async: async_setting,
             data: {json: true},
@@ -104,7 +104,7 @@
             url = encodeURIComponent(unparsed_url);
         }
         $.ajax({
-            url: '/process_favorite_link',
+            url: Drupal.settings.basePath + 'process_favorite_link',
             type: 'POST',
             async: false,
             data: {url: url, action: action, title: label, id: id},

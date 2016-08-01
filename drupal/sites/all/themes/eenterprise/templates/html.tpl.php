@@ -18,7 +18,7 @@
 <!--[if lte IE 6]><html class="lt-ie9 lt-ie8 lt-ie7" <?php print $html_attributes; ?>><![endif]-->
 <!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8" <?php print $html_attributes; ?>><![endif]-->
 <!--[if IE 8]><html class="lt-ie9" <?php print $html_attributes; ?>><![endif]-->
-<!--[if (gte IE 9)|(gt IEMobile 7)]><!--><html <?php print $html_attributes . $rdf_namespaces; ?>><!--<![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)]><!--><html lang="en" dir="ltr" <?php print $html_attributes . $rdf_namespaces; ?>><!--<![endif]-->
 
 <head>
   <?php print $head; ?>

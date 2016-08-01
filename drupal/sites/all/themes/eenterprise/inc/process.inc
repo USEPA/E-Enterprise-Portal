@@ -26,7 +26,8 @@ function eenterprise_preprocess_html(&$vars) {
   $vars['base_path'] = base_path();
   $vars['path_to_eenterprise'] = drupal_get_path('theme', 'eenterprise');
   
-  drupal_add_css('//fonts.googleapis.com/css?family=Poppins:300,400|Roboto:300,400', ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
+  drupal_add_css('//fonts.googleapis.com/css?family=Poppins:300,400', ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
+  drupal_add_css('//fonts.googleapis.com/css?family=Roboto:300,400', ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 
   // Get settings for HTML5 and responsive support. array_filter() removes
   // items from the array that have been disabled.
