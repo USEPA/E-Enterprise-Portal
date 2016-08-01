@@ -442,12 +442,11 @@
   Drupal.behaviors.initalizeTooltips = {
     attach: function (context) {
       $('body').once(function () {
-
         // initialize all tooltips in page
         $('body').tooltip({
           selector: '.ee-bootstrap-tooltip',
           delay: 400,
-          trigger: 'click hover focus',
+          trigger: 'hover focus',
           container: 'body',
           placement: 'auto left'
         })
@@ -457,12 +456,6 @@
               $('.ee-bootstrap-tooltip').tooltip('hide');
             }
           });
-
-        // destroy all tooltips when clicking anywhere
-        $('body').click(function (e) {
-          // but don't destroy the tooltip that was just created
-          $('.ee-bootstrap-tooltip').not(e.target).tooltip('hide');
-        })
       });
     }
   };
