@@ -72,24 +72,24 @@
     </div>
     <div id="myMapsFiltering">
       <ul id="myMapsFilterList">
-        <li id="myMapsFilterAll"><a href="#interactive-maps-control" aria-controls="interactive-maps-carousel" id="mapsAll" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>All</a><span class="sr-only"> maps</span></li>
-        <li id="myMapsFilterAir"><a href="#interactive-maps-control2" aria-controls="interactive-maps-carousel2" id="mapsAir" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Air</a><span class="sr-only"> maps only</span></li>
-        <li id="myMapsFilterWater"><a href="#interactive-maps-control3" aria-controls="interactive-maps-carousel3" id="mapsWater" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Water<span class="sr-only"> maps only</span></a></li>
-        <li id="myMapsFilterLand"><a href="#interactive-maps-control4" aria-controls="interactive-maps-carousel4" id="mapsLand" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Land<span class="sr-only"> maps only</span></a></li>
+        <li id="myMapsFilterAll"><a href="#interactive-maps-carousel" id="mapsAll" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>All</a><span class="sr-only"> maps</span></li>
+        <li id="myMapsFilterAir"><a href="#interactive-maps-carousel" id="mapsAir" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Air</a><span class="sr-only"> maps only</span></li>
+        <li id="myMapsFilterWater"><a href="#interactive-maps-carousel" id="mapsWater" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Water<span class="sr-only"> maps only</span></a></li>
+        <li id="myMapsFilterLand"><a href="#interactive-maps-carousel" id="mapsLand" class="myMapFilterTerm favorites-ignore"><span class="sr-only">Show </span>Land<span class="sr-only"> maps only</span></a></li>
       </ul>
     <div class="jcarousel-wrapper" id="interactive-maps-carousel">
         <div class="jcarousel" id="all-maps-carousel" tabindex="0">
             <!-- Map thumbnails dynamically loaded here -->
             <div class="loading">Loading <b>all</b> maps...</div>
-        </div>
+        </div><!-- @end all-maps-carousel -->
         <a href="#" class="jcarousel-control-next"><span class="sr-only">Next maps</span>&rsaquo;</a>
         <a href="#" class="jcarousel-control-prev"><span class="sr-only">Previous maps</span>&lsaquo;</a>        
+    </div><!-- @end interactive-maps-carousel -->
+    <div class="jcarousel-wrapper" id="interactive-maps-carousel2">
     </div>
-    <div class="jcarousel-wrapper" id="interactive-maps-control2">
+    <div class="jcarousel-wrapper" id="interactive-maps-carousel3">
     </div>
-    <div class="jcarousel-wrapper" id="interactive-maps-control3">
-    </div>
-    <div class="jcarousel-wrapper" id="interactive-maps-control4">
+    <div class="jcarousel-wrapper" id="interactive-maps-carousel4">
     </div>
     </div>
     
