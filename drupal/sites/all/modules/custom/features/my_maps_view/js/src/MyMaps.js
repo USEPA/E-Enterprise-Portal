@@ -5,7 +5,7 @@
       $(this).focus();
     });
     
-    $.getJSON( "./map_dataset", function( data ) {
+    $.getJSON(Drupal.settings.basePath + "map_dataset", function( data ) {
       // Get map collections from JSON
       var mapsets = data.mapsets,
         filterType = "mapsAll",
@@ -25,7 +25,7 @@
         }, 300);
 
       //If user is a state_admin, add the "Add agency maps" link
-      if (Drupal.settings.userrole == 'state_admin') {
+      if (Drupal.settings.userrole === 'state_admin') {
         var galleryLinkTarget = $('#numThumbnails').find('.widget-note');
         galleryLinkTarget.append('<a href="/agency-map-list" id="manage-maps" class="favorites-ignore last">Manage agency map collections</a>');
       }
@@ -55,7 +55,7 @@
           $(this).removeClass('active');
         })
        
-      $("#myMapsFiltering").on("tabsbeforeactivate", function (event, tab) {      
+      $("#myMapsFiltering").on("tabsbeforeactivate", function (event, tab) {     
         countScrolls = 0;
         activeTab = tab.newTab.attr('id');
         filterType = tab.newTab.find('a').attr('id');
@@ -179,19 +179,19 @@
               break;
             case 'mapsAir':
               var countThese = 'air';
-              if ((itemTags.indexOf('air') == -1 && itemTags.indexOf('oaqps') == -1) || (itemTags.indexOf('impair') > -1)) {
+              if ((itemTags.indexOf('air') === -1 && itemTags.indexOf('oaqps') === -1) || (itemTags.indexOf('impair') > -1)) {
                 $(this).removeClass('load-thumbnail').addClass('hide-thumbnail');
               }
               break;
             case 'mapsWater':
               var countThese = 'water';
-              if (itemTags.indexOf('water') == -1 && itemTags.indexOf('ocean') == -1) {
+              if (itemTags.indexOf('water') === -1 && itemTags.indexOf('ocean') === -1) {
                 $(this).removeClass('load-thumbnail').addClass('hide-thumbnail');
               }
               break;
             case 'mapsLand':
               var countThese = 'land';
-              if (itemTags.indexOf('land') == -1 && itemTags.indexOf('rcra') == -1) {
+              if (itemTags.indexOf('land') === -1 && itemTags.indexOf('rcra') === -1) {
                 $(this).removeClass('load-thumbnail').addClass('hide-thumbnail');
               }
               break;
@@ -207,7 +207,7 @@
         $.each(mapsets, function (index, mapset) {
           var agency_specific_tags = "";
           mapset.id = mapset.url.match(/\/\/(.*).maps.arcgis.com/)[1];
-          if (mapset.id == "noaa") {
+          if (mapset.id === "noaa") {
             agency_specific_tags = noaatag;
           }
           $.ajax({
@@ -227,7 +227,7 @@
               setupMyMapsGalleryWithThumbs(resultJson, this.mapset);
             }
           }).fail(function (xhr, status) {
-            if (status == "error") {
+            if (status === "error") {
               return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
             }
           });

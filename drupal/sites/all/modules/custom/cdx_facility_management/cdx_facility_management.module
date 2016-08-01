@@ -186,7 +186,7 @@ function return_cdx_facility_management_token($is_print_json = TRUE)
         }
 
         if ($is_print_json) {
-            print json_encode($json_return);
+            drupal_json_output($json_return);
         } else {
             return $json_return;
         }

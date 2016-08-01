@@ -16,7 +16,8 @@
 
 .my-cdx-modal-content {
     border: 1px solid #000;
-    width: 280px !important;
+    width: auto !important;
+    max-width: 320px !important;
     margin-left: -140px !important;
     margin-top: -170px !important;
     top: 50% !important;

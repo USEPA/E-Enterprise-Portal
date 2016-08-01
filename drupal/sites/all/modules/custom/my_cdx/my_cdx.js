@@ -33,6 +33,7 @@
             {"width": "70%", "targets": 0}, // First column width
             {"width": "30%", "targets": 1}, // Second column width
         ],
+        "bAutoWidth": false,
         "pagingType": "simple",
         "bSortable": true,
         "fnDrawCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -53,8 +54,9 @@
     // Click handler for clicking a CDX role
     // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
     $tabs.on('click', 'a.cdx-link', function (ev) {
-        var roleID = $(this).attr('id').split('|')[1];
+        var roleID = $(this).data('roleId');
         var acronym = $(this).data('acronym');
+        var roleDescription = $(this).data('roleDescription');
         var $modal_content = $('#my-cdx-modal-content')
             .html('<i class="my-cdx-loader  fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span>')
             .dialog({
@@ -68,6 +70,7 @@
                 if ($modal_content.is(':visible')) {
                     // only do this if the user has not prematurely closed the modal
 
+                    data.roleDescription = roleDescription;
                     // Access modal tpl @see my-cdx.module function my_cdx_block_view
                     var myCDXModalTemplate = Drupal.settings.myCDXModalTemplate;
                     $modal_content.html(myCDXModalTemplate).dialog();
@@ -118,7 +121,7 @@
                 if (linkDetailsJSON.orgCount === 1) {
                     $organizationName.html(orgObj.orgName).show();
                     $organizationSelect.hide();
-                    myCDXLinkProgramClientHandler(orgObj);
+                    myCDXLinkProgramClientHandler(orgObj, linkDetailsJSON.roleDescription);
                 } else {
                     $option = $('<option />', {
                         value: orgId,
@@ -130,7 +133,7 @@
             });
             $organizationSelect.change(function () {
                 var selectedOrgId = $(this).val();
-                myCDXLinkProgramClientHandler(linkDetailsJSON.organizations[selectedOrgId]);
+                myCDXLinkProgramClientHandler(linkDetailsJSON.organizations[selectedOrgId], linkDetailsJSON.roleDescription);
             });
             if (first_selected_org_id !== "") {
                 $organizationSelect.trigger('change');
@@ -143,7 +146,7 @@
      * @param programClientsJson
      */
 
-    function myCDXLinkProgramClientHandler(programClientsJson) {
+    function myCDXLinkProgramClientHandler(programClientsJson, roleDescription) {
         var $programClientsSelect = $('.my-cdx-modal .program-client-select');
         var $programClientName = $('.my-cdx-modal .program-client-name');
         // Clear previous values
@@ -161,12 +164,12 @@
             }
             $.each(programClientsJson.programClients, function (clientId, clientObj) {
                 if (programClientsJson.clientCount === 1) {
-                    $programClientName.html(clientObj.clientName).show();
+                    $programClientName.html(roleDescription + ': ' + clientObj.clientName).show();
                     $programClientsSelect.hide();
                 } else {
                     $option = $('<option />', {
                         value: clientId,
-                        text: clientObj.clientName + ': ' + clientId
+                        text: roleDescription + ': ' + clientObj.clientName
                     });
                     $programClientsSelect.append($option);
                 }
