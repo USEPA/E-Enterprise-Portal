@@ -1,1 +1,9 @@
-{"version":3,"sources":["sites/all/modules/custom/recommended_resources/css/src/manage_my_topics.css"],"names":[],"mappings":"AACA,oDACE,UAAW"}
+{
+  "version": 3,
+  "mappings": "AAAA,mDAAoD,CAChD,SAAS,CAAE,gBAAgB",
+  "sources": [
+    "../sass/manage_my_topics.scss"
+  ],
+  "names": [],
+  "file": "manage_my_topics.css"
+}

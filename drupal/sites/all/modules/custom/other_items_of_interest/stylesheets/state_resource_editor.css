@@ -1,0 +1,103 @@
+/* line 2, ../sass/state_resource_editor.scss */
+.transparent-qtip .ui-tooltip-wrapper {
+    background-color: transparent;
+}
+
+/* line 6, ../sass/state_resource_editor.scss */
+.qtip-default {
+    background-color: transparent;
+    border: 0;
+}
+
+/* line 10, ../sass/state_resource_editor.scss */
+.qtip-tip, .qtip-tip canvas {
+    display: none;
+}
+
+/* line 14, ../sass/state_resource_editor.scss */
+.filled {
+    color: #d9534f;
+}
+
+/* line 17, ../sass/state_resource_editor.scss */
+.filled:hover {
+    color: #c9302c;
+    cursor: pointer;
+}
+
+/* line 21, ../sass/state_resource_editor.scss */
+.empty {
+    color: grey;
+}
+
+/* line 24, ../sass/state_resource_editor.scss */
+.empty:hover {
+    color: darkslategray;
+    cursor: pointer;
+}
+
+/* line 29, ../sass/state_resource_editor.scss */
+.button_input_holder .btn, .button_input_holder .btn-success, .button_input_holder .btn-danger,
+.button_input_holder .btn:hover, .button_input_holder .btn-success:hover, .button_input_holder .btn-danger:hover {
+    background-color: transparent;
+    border: 0;
+}
+
+/* line 35, ../sass/state_resource_editor.scss */
+.qtip .qtip-default {
+    width: auto;
+}
+
+/* line 39, ../sass/state_resource_editor.scss */
+.modal-iframe {
+    width: 100%;
+    height: 90%;
+}
+
+/* line 44, ../sass/state_resource_editor.scss */
+.ui-dialog, .ui-dialog-content {
+    height: 90% !important;
+}
+
+/* line 48, ../sass/state_resource_editor.scss */
+#edit-actions input[type="submit"] {
+    display: table-cell;
+}
+
+/* line 52, ../sass/state_resource_editor.scss */
+#edit-actions, .resource-edit-cancel-link {
+    display: inline;
+}
+
+/* line 55, ../sass/state_resource_editor.scss */
+.resource-edit-cancel-link .link.usa-button.usa-button-outline {
+    margin-left: 40px;
+    display: initial;
+}
+
+/* line 60, ../sass/state_resource_editor.scss */
+#edit-field-source-url .description {
+    width: 280px;
+}
+
+/* line 64, ../sass/state_resource_editor.scss */
+#edit-field-source-url .description.error {
+    color: red;
+}
+
+/* line 68, ../sass/state_resource_editor.scss */
+.node-state_resource-form .description {
+    top: 100%;
+}
+
+/* line 72, ../sass/state_resource_editor.scss */
+#field-source-url-add-more-wrapper input[type="text"] {
+    display: table-cell;
+}
+
+/* line 75, ../sass/state_resource_editor.scss */
+#field-source-url-add-more-wrapper .field-suffix {
+    vertical-align: middle;
+    margin-left: 20px;
+    font-size: 1.7rem;
+}

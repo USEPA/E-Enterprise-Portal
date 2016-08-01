@@ -26,7 +26,6 @@
         });
     }
 
-
     function processPageAnchors() {
         var ignore_panels = ['.pane-views-cdx-facility-management-block', '.pane-views-progress-tracker-block-1', '.pane-views-to-do-block-1'];
         // process img links
@@ -63,8 +62,7 @@
     }
 
     // Show tooltip on <a> element, but only when
-// focused and Shift key pressed.
-
+  // focused and Shift key pressed.
 
     function triggerQtip(findLink, hideQtip) {
         try {
@@ -166,10 +164,6 @@
             }
         });
     }
-
-
-
-
 
     $(document).ready(function () {
 

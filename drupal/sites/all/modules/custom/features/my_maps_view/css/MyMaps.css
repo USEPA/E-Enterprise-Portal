@@ -1,28 +1,34 @@
+/* line 1, ../sass/MyMaps.scss */
 #numThumbnails a {
     padding-right: 5px;
 }
 
+/* line 5, ../sass/MyMaps.scss */
 #numThumbnails #manage-maps {
     padding-left: 5px;
     border-left: 1px solid #dedede;
 }
 
+/* line 10, ../sass/MyMaps.scss */
 .wrapper {
     max-width: 620px;
     margin: auto;
 }
 
+/* line 15, ../sass/MyMaps.scss */
 .jcarousel-wrapper {
     margin: 5px auto;
     position: relative;
 }
 
+/* line 20, ../sass/MyMaps.scss */
 .jcarousel {
     position: relative;
     overflow: hidden;
     width: 100%;
 }
 
+/* line 26, ../sass/MyMaps.scss */
 .jcarousel ul {
     width: 20000em;
     position: relative;
@@ -31,6 +37,7 @@
     padding: 0;
 }
 
+/* line 34, ../sass/MyMaps.scss */
 .jcarousel li {
     float: left;
     height: 17em;
@@ -42,17 +49,23 @@
     padding: 5px;
 }
 
+/* line 45, ../sass/MyMaps.scss */
 .jcarousel li.load-thumbnail {
     visibility: hidden;
 }
+
+/* line 48, ../sass/MyMaps.scss */
 .jcarousel li.hide-thumbnail {
     display: none;
 }
+
+/* line 51, ../sass/MyMaps.scss */
 .jcarousel li.load-thumbnail.active {
     display: block;
     visibility: visible;
 }
 
+/* line 56, ../sass/MyMaps.scss */
 .thumbitem-border {
     padding: 2px;
     border: 1px solid #efefef;
@@ -61,19 +74,25 @@
     width: 190px;
     margin: auto;
 }
+
+/* line 64, ../sass/MyMaps.scss */
 .thumbitem-border p {
     margin-bottom: 0;
 }
+
+/* line 67, ../sass/MyMaps.scss */
 .jcarousel img {
     max-height: 121px;
     max-width: 100%;
 }
 
+/* line 72, ../sass/MyMaps.scss */
 .jcarousel .loading {
     text-align: center;
     line-height: 90px;
 }
 
+/* line 77, ../sass/MyMaps.scss */
 .jcarousel-control-prev,
 .jcarousel-control-next {
     position: absolute;
@@ -95,19 +114,23 @@
     z-index: 10;
 }
 
+/* line 98, ../sass/MyMaps.scss */
 .ui-widget-content a.jcarousel-control-prev, .ui-widget-content a.jcarousel-control-next,
 .ui-widget-content a.jcarousel-control-prev:visited, .ui-widget-content a.jcarousel-control-next:visited {
     color: #fafafa;
 }
 
+/* line 103, ../sass/MyMaps.scss */
 .jcarousel-control-prev {
     left: -25px;
 }
 
+/* line 107, ../sass/MyMaps.scss */
 .jcarousel-control-next {
     right: -25px;
 }
 
+/* line 111, ../sass/MyMaps.scss */
 .ui-widget-content a.jcarousel-control-prev:hover,
 .ui-widget-content a.jcarousel-control-next:hover,
 .ui-widget-content a.jcarousel-control-prev:focus,
@@ -115,20 +138,23 @@
 .ui-widget-content a.jcarousel-control-prev:active,
 .ui-widget-content a.jcarousel-control-next:active {
     text-decoration: none;
-    color: #ffffff;    
+    color: #ffffff;
     background-color: #333333;
 }
 
+/* line 122, ../sass/MyMaps.scss */
 .jcarousel-control-prev.inactive,
 .jcarousel-control-next.inactive {
     visibility: hidden;
 }
 
+/* line 127, ../sass/MyMaps.scss */
 .widgetHeader {
     text-align: left;
     margin-bottom: 0px;
 }
 
+/* line 132, ../sass/MyMaps.scss */
 .mapAppTitle {
     display: block;
     margin-left: auto;
@@ -142,6 +168,7 @@
     margin-top: 0;
 }
 
+/* line 145, ../sass/MyMaps.scss */
 .mapAppDesc {
     display: block;
     margin-left: auto;
@@ -151,9 +178,10 @@
     font-size: 75%;
     padding: 0 5px 2px;
     line-height: 1.2;
-    margin-top: 0;    
+    margin-top: 0;
 }
 
+/* line 157, ../sass/MyMaps.scss */
 .mapAppSource {
     display: block;
     margin-left: auto;
@@ -164,17 +192,23 @@
     font-size: 75%;
     padding: 0 5px 2px;
     line-height: 1.2;
-    font-weight:bold;
+    font-weight: bold;
 }
+
+/* line 169, ../sass/MyMaps.scss */
 .mapAppContact {
     padding: 0 5px 2px;
     font-size: 75%;
     margin: 0 auto 0;
     line-height: normal;
 }
+
+/* line 175, ../sass/MyMaps.scss */
 .mapAppContact a {
-    word-wrap: break-word;    
-}    
+    word-wrap: break-word;
+}
+
+/* line 178, ../sass/MyMaps.scss */
 .thumbnailImg {
     display: block;
     margin-left: auto;
@@ -183,6 +217,7 @@
     min-height: 121px;
 }
 
+/* line 186, ../sass/MyMaps.scss */
 .filterMapsByLocationBtn {
     width: 160px;
     height: 40px;
@@ -191,10 +226,11 @@
     margin: 0 auto;
     background-color: Transparent;
     background-image: none !important;
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     border: 1px solid #dedede;
 }
 
+/* line 198, ../sass/MyMaps.scss */
 .filterMapsByLocationImg {
     width: 25px;
     height: 25px;
@@ -202,6 +238,7 @@
     padding-top: 1px;
 }
 
+/* line 205, ../sass/MyMaps.scss */
 .mapiFrame {
     height: 100% !important;
     max-height: 100% !important;
@@ -216,6 +253,7 @@
     overflow-x: hidden !important;
 }
 
+/* line 219, ../sass/MyMaps.scss */
 .mapDialog {
     height: 90% !important;
     max-height: 90% !important;
@@ -225,6 +263,7 @@
     padding-bottom: 10px;
 }
 
+/* line 228, ../sass/MyMaps.scss */
 .mapiFrameFooter {
     height: 30px !important;
     max-height: 30px !important;
@@ -238,35 +277,43 @@
 }
 
 /*override default jQ UI CSS per Designer's input */
+/* line 241, ../sass/MyMaps.scss */
 .ui-widget-overlay {
     opacity: 0.9;
 }
 
+/* line 245, ../sass/MyMaps.scss */
 #myMapsFiltering div.farLeft {
     width: 5em;
     font-size: 0.85em;
     display: inline-block;
 }
 
+/* line 251, ../sass/MyMaps.scss */
 .myMapFilterTerm {
     text-decoration: none;
 }
 
 @media screen and (max-width: 30em) {
+    /* line 256, ../sass/MyMaps.scss */
     .jcarousel-control-prev {
         left: -5px;
     }
+
+    /* line 259, ../sass/MyMaps.scss */
     .jcarousel-control-next {
         right: -5px;
     }
 }
-
 /* 767px */
 @media screen and (max-width: 48em) {
+    /* line 266, ../sass/MyMaps.scss */
     #myMapsFiltering div.farLeft {
         font-size: 0.75em;
-        display:block;
+        display: block;
     }
+
+    /* line 270, ../sass/MyMaps.scss */
     .latest-reading {
         padding-left: 0;
     }
