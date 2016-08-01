@@ -12,7 +12,7 @@
                     var location_data_return = {};
 
                     $.ajax({
-                        url: '/return_location_data',
+                        url: Drupal.settings.basePath + 'return_location_data',
                         type: 'POST',
                         data: {location: location_input, initial_login: true},
                         success: function (data) {

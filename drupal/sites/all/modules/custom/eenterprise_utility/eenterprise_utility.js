@@ -29,7 +29,6 @@
     }
   };
 
-
   function placeAddAnotherButton(ajax_content, table_id, parent_id) {
     var table = $(table_id);
     var input_button = $(parent_id).find('.field-add-more-submit');
@@ -757,16 +756,14 @@
       mouse_click.closest("td").find(".field_zip_code").focus();
     });
 
-
     var path = window.location.pathname;
     var page = path.split('/')[1];
     if (page == 'user') {
-
       $("#edit-submit").prependTo(".edit-user-profile");
       $(document).ajaxSuccess(function (event, xhr, settings) {
         var target_url = settings.url;
 
-        if (target_url == '/multifield/field-remove-item/ajax') {
+        if (target_url == Drupal.settings.basePath + 'multifield/field-remove-item/ajax') {
           if (existingLocationErrors()) {
             hideButtons();
           }
@@ -777,7 +774,7 @@
           update_user_zip_preferences();
         }
         // determine which table to place the Add Another button
-        if (target_url == '/system/ajax' || target_url == '/multifield/field-remove-item/ajax') {
+        if (target_url == Drupal.settings.basePath + 'system/ajax' || target_url == Drupal.settings.basePath + 'multifield/field-remove-item/ajax') {
           var table_id = '';
           var parent_id = '';
           $('.field-multiple-table').each(function () {
