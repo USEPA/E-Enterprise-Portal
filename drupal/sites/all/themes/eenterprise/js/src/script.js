@@ -448,13 +448,14 @@
           trigger: 'click hover focus',
           container: 'body',
           placement: 'auto left'
-        });
-
-        // destroy all tooltips when clicking anywhere
-        $('body').click(function(e) {
-          // but don't destroy the tooltip that was just created
-          $('.ee-bootstrap-tooltip').not(e.target).tooltip('hide');
         })
+        // Additional behavior to close tooltips when the escape key is hit
+          .on('keyup', '.ee-bootstrap-tooltip', function (e) {
+            if (e.which === 27) { // Esc key
+              $(e.target).tooltip('hide')
+            }
+            console.log(e.which, e.target, $(e.target).tooltip, this)
+        });
       });
     }
   };
