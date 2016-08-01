@@ -26,19 +26,19 @@
         }
       });
       $('.ui-dialog')
-        .on("dialogopen", function( event, ui ) {
+        .on("dialogopen", function(event, ui) {
           $('.ui-dialog').focus();
           if (!$('.ui-dialog').hasClass('cdx_facility_management_block')) {
             add_aria_hidden_true_attrib_to_workbench();
             add_aria_hidden_true_attrib_facility_inputs_to_workbench();
-          }          
+          }
         })
         .on("dialogclose", function() {
-          if (!$('.ui-dialog').hasClass('cdx_facility_management_block')) {          
+          if (!$('.ui-dialog').hasClass('cdx_facility_management_block')) {
             add_aria_hidden_false_attrib_to_workbench();
-            add_aria_hidden_false_attrib_facility_inputs_to_workbench();		                    
+            add_aria_hidden_false_attrib_facility_inputs_to_workbench();
           }
-      });  
+        });
       $('#dialog-all-locations').on("dialogclose", function() {
         add_aria_hidden_false_attrib_to_workbench();
         add_aria_hidden_false_attrib_facility_inputs_to_workbench();
@@ -439,23 +439,22 @@
   };
 
   Drupal.behaviors.initalizeTooltips = {
-    attach: function (context) {
-      $('body').once(function () {
+    attach: function(context) {
+      $('body').once(function() {
         // initialize all tooltips in page
         $('body').tooltip({
           selector: '.ee-bootstrap-tooltip',
           delay: 400,
-          trigger: 'click hover focus',
+          trigger: 'hover focus',
           container: 'body',
           placement: 'auto left'
         })
-        // Additional behavior to close tooltips when the escape key is hit
-          .on('keyup', '.ee-bootstrap-tooltip', function (e) {
+        // Modify existing behavior to close on Esc
+          .on('keyup', function(e) {
             if (e.which === 27) { // Esc key
-              $(e.target).tooltip('hide')
+              $('.ee-bootstrap-tooltip').tooltip('hide');
             }
-            console.log(e.which, e.target, $(e.target).tooltip, this)
-        });
+          });
       });
     }
   };
@@ -533,7 +532,6 @@
                 showLoading();
                 Drupal.settings.locationInputEngine.lookUpLocation(request.term).done(function(location_data) {
                   doneLoading();
-                  console.log(location_data, location_data.zip_codes, location_data.zip_codes === true);
                   if (location_data.zip_codes === true) { // user entered city/state; show zip code drop down
                     respond(location_data.zip_array);
                   } else { // user entered zip
@@ -547,7 +545,6 @@
               }
             },
             select: function(event, ui) {
-              console.log("autocomplete selected: " + ui.item.value);
               event.preventDefault();
               $locationInput.val(ui.item.value);
               $(document).trigger("ee:zipCodeChanged", {zip: ui.item.value});
@@ -601,9 +598,7 @@
                   type: 'GET',
                   data: {latitude: position.coords.latitude, longitude: position.coords.longitude},
                   success: function(location_data) {
-                    console.log(location_data);
                     location_data = $.parseJSON(location_data);
-                    console.log(location_data);
 
                     if (!location_data.error) {
 
