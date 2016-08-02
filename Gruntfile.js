@@ -291,5 +291,4 @@ module.exports = function(grunt) {
   grunt.registerTask('recommended_resources', ['cssmin:recommended_resources', 'uglify:recommended_resources']);
   grunt.registerTask('other_items_of_interest', ['cssmin:other_items_of_interest', 'uglify:other_items_of_interest']);
   grunt.registerTask('recommended_resources', ['cssmin:recommended_resources', 'uglify:recommended_resources']);
-
 };
