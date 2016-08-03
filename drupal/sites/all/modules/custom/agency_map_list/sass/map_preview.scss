@@ -1,0 +1,25 @@
+.mapAppTitle {
+    max-height: 40px;
+    max-width: 198px;
+    font-size: 10pt;
+    font-weight: bold;
+    padding: 5px 5px 2px;
+    line-height: 1.2;
+}
+
+.ui-dialog, .ui-dialog-content {
+    height: 90% !important;
+}
+
+#edit-actions input[type="submit"] {
+    display: table-cell;
+}
+
+.agency-map-list-cancel-link {
+    display: inline;
+}
+
+.agency-map-list-cancel-link .link.usa-button.usa-button-outline {
+    margin-left: 40px;
+    display: initial;
+}

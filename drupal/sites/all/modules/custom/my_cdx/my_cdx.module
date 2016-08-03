@@ -88,7 +88,7 @@ function my_cdx_block_view($delta = '')
             'cache' => TRUE,
             'requires_jquery' => TRUE
         ]);
-        drupal_add_js(drupal_get_path('module', 'my_cdx') . '/my_cdx.js', [
+      drupal_add_js(drupal_get_path('module', 'my_cdx') . '/js/my_cdx.js', [
             'scope' => 'footer',
             'preprocess' => TRUE,
             'group' => JS_LIBRARY,
@@ -96,7 +96,7 @@ function my_cdx_block_view($delta = '')
             'cache' => TRUE,
             'requires_jquery' => TRUE
         ]);
-        drupal_add_css(drupal_get_path('module', 'my_cdx') . '/my_cdx.css', [
+      drupal_add_css(drupal_get_path('module', 'my_cdx') . '/css/my_cdx.css', [
             'preprocess' => TRUE,
             'group' => CSS_THEME
         ]);

@@ -1,17 +1,31 @@
-(function ($) {
+(function($) {
 
-  var ItemsOfInterestTable = function ($wrapper, ajax_url, location) {
+  var ItemsOfInterestTable = function($wrapper, ajax_url, location) {
 
     $wrapper.hide();
 
     var datatable_options = {
       "bLengthChange": false,
+      "iDisplayLength": 3,
       "sPageButton": "favorites-ignore",
       "oLanguage": {
         "sSearch": "Filter:"
       },
+      "pagingType": "simple",
+      "dom": 'iftp',
+      "fnDrawCallback": function() {
+        var pageInfo = this.fnPagingInfo();
+        var pageNo = pageInfo.iPage + 1;
+        var totalPages = pageInfo.iTotalPages + 1;
 
-      "iDisplayLength": 3
+        if (totalPages > 1) {
+          var $current_li = $('<li />', {
+            class: 'pager-current'
+          })
+            .html(pageNo + ' of ' + totalPages);
+          $wrapper.find('.dataTables_paginate li:first').after($current_li);
+        }
+      }
     };
 
     var cached = false;
@@ -30,11 +44,11 @@
     }
 
 
-    this.hideTable = function () {
+    this.hideTable = function() {
       $wrapper.hide();
     };
 
-    this.update_current_location = function (location) {
+    this.update_current_location = function(location) {
       // find if in city, state code pattern
       if (location.indexOf(',') === -1)
         this.state_code = location;
@@ -43,24 +57,24 @@
       this.ajax_request();
     };
 
-    this.ajax_request = function () {
+    this.ajax_request = function() {
       var state_code = this.state_code;
       $.ajax({
-        beforeSend: function () {
+        beforeSend: function() {
           $wrapper.html('<p>Loading&hellip;</p>');
         },
         url: ajax_url,
         method: "POST",
         data: {state: state_code},
-        success: function (table) {
+        success: function(table) {
           /**
            * TODO: refactor - duplicate code block in the following files:
            * recommended_resources/js/LocalResourcesTable.js
            * other_items_of_interest/js/ItemsOfInterestTable.js
            */
-          // alter the datatable id, one digit larger than the largest id
+            // alter the datatable id, one digit larger than the largest id
           var newId = 0;
-          $("table[id^='datatable-']").each(function () {
+          $("table[id^='datatable-']").each(function() {
             newId = Math.max(newId, parseInt($(this).attr('id').substr('datatable-'.length), 10));
           });
           newId++;
@@ -78,7 +92,7 @@
       });
     };
 
-    this.showTable = function () {
+    this.showTable = function() {
       if (cached) {
         $wrapper.show();
       }
@@ -102,7 +116,7 @@
   }
 
 
-  $(document).ready(function () {
+  $(document).ready(function() {
 
     var $tabs = $("#other-areas-tabs");
     $tabs.tabs();
@@ -119,7 +133,7 @@
       guest_user = false;
       location = $('#location-select').find('option:selected').text();
       location = return_location_name(location);
-      $location_select.change(function () {
+      $location_select.change(function() {
         var location = $('#location-select option:selected').text();
         location = return_location_name(location);
         $('#restrict-to-current-button a').text(location);
@@ -135,7 +149,7 @@
     }
 
     if (guest_user) {
-      $(document).on('ee:zipCodeQueried', function (e, queryResponse) {
+      $(document).on('ee:zipCodeQueried', function(e, queryResponse) {
         location = queryResponse.city + ', ' + queryResponse.state;
         $('#restrict-to-current-button a').text(location);
         current_state_table.update_current_location(location);
@@ -154,7 +168,7 @@
 
 
     if (!guest_user) {
-      $('#restrict-to-states-button').click(function () {
+      $('#restrict-to-states-button').click(function() {
         if ($(this).hasClass('inactive')) {
           $(this).removeClass('inactive');
           $("#all-states-button").addClass('inactive');
@@ -168,7 +182,7 @@
       });
     }
 
-    $("#all-states-button").click(function () {
+    $("#all-states-button").click(function() {
       if ($(this).hasClass('inactive')) {
         $(this).removeClass('inactive');
         $('#restrict-to-states-button').addClass('inactive');
@@ -184,7 +198,7 @@
       }
     });
 
-    $('#restrict-to-current-button').click(function () {
+    $('#restrict-to-current-button').click(function() {
       if ($(this).hasClass('inactive')) {
         $(this).removeClass('inactive');
         $('#restrict-to-states-button').addClass('inactive');
@@ -199,7 +213,7 @@
       }
     });
 
-    $('#epa-button').click(function () {
+    $('#epa-button').click(function() {
       if ($(this).hasClass('inactive')) {
         $(this).removeClass('inactive');
         $('#restrict-to-states-button').addClass('inactive');

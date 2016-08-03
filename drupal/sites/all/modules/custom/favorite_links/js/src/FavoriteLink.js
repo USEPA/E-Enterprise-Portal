@@ -20,33 +20,7 @@ $(document).ready(function () {
     preload_links();
 });
 
-//jQuery.fn.extend({
-//    favor: function () {
-//        return this.each(function () {
-//            this.checked = true;
-//        });
-//    },
-//    unfavor: function () {
-//        return this.each(function () {
-//            this.checked = false;
-//        });
-//    }
-//});
-
-
 function createFavoriteButton(url, text_title) {
-    //var favorite_button;
-    //if ($.inArray(url, favorite_urls) >= 0) {
-    //    favorite_button =
-    //        "<div class='button_input_holder' style='display:none'><span title='Remove Favorite' id='" + id + "__favorite_link' " +
-    //        " class=' remove_link favorite_hover old_link fa fa-heart filled' aria-hidden='true'></span><span class='sr-only'>Favorited. To remove favorite, press Ctrl + D</span></div>";
-    //}
-    //else {
-    //    favorite_button = '<div class="button_input_holder" style="display:none"><span title="Add Favorite" id="' + id + '__favorite_link' +
-    //        " class='add_link favorite_hover new_link fa fa-heart empty' aria-hidden='true'></span><span class='sr-only'>To favorite, press Ctrl + D</span></div>";
-    //}
-    //id++;
-    //return favorite_button;
 
     var id;
     var favorite_button;
@@ -64,9 +38,7 @@ function createFavoriteButton(url, text_title) {
     return favorite_button;
 }
 
-
 var FavoriteLink = function ($container) {
-
 
     // Private
     var id = -1;
@@ -179,23 +151,4 @@ var FavoriteLinkCollection = function () {
         delete  favorite_links[id_to_be_removed];
     }
 
-    // add favorite link
-
-    // look up favorite link by id
-
-
 }
-
-/// On page load loop through anchor urls creating favorite link instances. If in favorites,
-// assign true and appropriate id from favorites.
-
-/*
-
- parent favorite in master list and it has children.
- each instance has unfavor and favor method that deals with the hearts
-
- on child click, trigger parent action. parent loops through children.
-
-
- */
-
