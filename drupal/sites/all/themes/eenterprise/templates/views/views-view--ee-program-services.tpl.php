@@ -7,7 +7,7 @@
 		$custom_block = module_invoke('block','block_view', $name);
 		$whole_block = block_load('block', $name); // not really the whole block until render
 		$views_block = module_invoke('views','block_view', $name);
-		      
+
 		print render($custom_block['content']);
 		print drupal_render(_block_get_renderable_array(_block_render_blocks(array($whole_block))));
 		print render($views_block);
@@ -42,10 +42,10 @@
 			 //$block_view = views_embed_view('ee_program_services', $block_name);
 			 //$embed_view = render($block_view);
        $content .= "<div id='tabs-$name'>" . $block_view . "</div>";
-    }   
+    }
     $i++;
     //print "i is: " . $i . " and name is: " . $name . "<br>";
-	}   
+	}
 
 	$tabs .= '</ul>';
 	$tabs .= $content;
@@ -57,5 +57,3 @@
 	drupal_add_css("sites/all/libraries/jqueryui/themes/base/minified/jquery.ui.tabs.css", ['scope'=>'footer', 'preprocess'=>true, 'group'=>CSS_DEFAULT]);
 	drupal_add_js("sites/all/libraries/jqueryui/ui/minified/jquery.ui.tabs.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 	drupal_add_js('jQuery(document).ready(function(){jQuery("#app-connect-tabs").tabs();});', ['scope'=>'footer', 'type'=>'inline']);
-	
-?>
