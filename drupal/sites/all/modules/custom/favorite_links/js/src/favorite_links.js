@@ -223,8 +223,8 @@
         $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", "[href^=mailto]", "[href^=javascript]").focus(function () {
             $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", "[href^=mailto]", "[href^=javascript]").keydown(function (event) {
                 try {
-                    if (event.which == 16) {
-                        if (event.which == 9) {
+                    if (event.which === 16) {
+                        if (event.which === 9) {
                             event.stopImmediatePropagation();
                             // Ignore shift + tab (9)
                             return false;
@@ -243,7 +243,7 @@
                             return false;
                         }
                     }
-                    else if (event.which == 68 && event.ctrlKey) {
+                    else if (event.which === 68 && event.ctrlKey) {
                         event.stopImmediatePropagation();
                         var linkQtip = $(this).attr('data-hasqtip');
                         if (linkQtip > 0) {
