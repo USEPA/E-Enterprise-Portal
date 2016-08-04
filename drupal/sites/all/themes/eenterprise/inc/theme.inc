@@ -241,7 +241,7 @@ function eenterprise_table($vars) {
 
   // Add sticky headers, if applicable.
   if (count($header) && $sticky) {
-    drupal_add_js('misc/tableheader.js');
+    drupal_add_js('misc/tableheader.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
     // Add 'sticky-enabled' class to the table to identify it for JS.
     // This is needed to target tables constructed by this function.
     $attributes['class'][] = 'sticky-enabled';

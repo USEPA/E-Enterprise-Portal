@@ -46,6 +46,7 @@ function eenterprise_js_alter(&$js) {
       }
     }
   }
+  #var_dump($js); die;
 }
 
 // epa_css_alter from EPA Drupal template.php

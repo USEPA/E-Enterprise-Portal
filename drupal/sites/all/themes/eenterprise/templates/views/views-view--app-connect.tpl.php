@@ -70,8 +70,8 @@ $content .= $name;
 	print $tabs;
 	 
 	 // and add the js to handle these tabs
-	drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "file");
-	drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", "file");
-	drupal_add_js('jQuery(document).ready(function(){jQuery("#app-connect-tabs").tabs();});', 'inline');
+	drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", ['scope'=>'footer', 'preprocess'=>true, 'group'=>CSS_DEFAULT]);
+	drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+	drupal_add_js('jQuery(document).ready(function(){jQuery("#app-connect-tabs").tabs();});', ['scope'=>'footer', 'type'=>'inline']);
 	
 ?>

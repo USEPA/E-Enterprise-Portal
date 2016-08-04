@@ -27,12 +27,12 @@
 * @ingroup views_templates
 */
 
-drupal_add_css(drupal_get_path('module', 'village_green_block') ."/css/village_green.css", "file");
-drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/chosen.jquery.js", "file");
-drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/backstretch.js", "file");
-drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/STI.js", "file");
-drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/VillageGreenDAL.js", "file");
-drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js", "file");
+drupal_add_css(drupal_get_path('module', 'village_green_block') ."/css/village_green.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
+drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/chosen.jquery.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/backstretch.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/STI.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/VillageGreenDAL.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 ?>
 
 <script type="text/javascript">

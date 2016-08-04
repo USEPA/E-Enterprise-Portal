@@ -345,9 +345,11 @@ function guest_login_action() {
  * Logout a guest user.
  */
 function guest_logout_action() {
-  module_load_include('pages.inc', 'user');
-  user_logout();
-  drupal_goto("/");
+  watchdog('guest_user', 'Session ended for guest user.');
+  global $user;
+  module_invoke_all('user_logout', $user);    
+  session_destroy();
+  drupal_goto('/bridge-landing');
 }
 
 function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv', $url_bool = FALSE) {
@@ -1290,21 +1292,22 @@ function get_header_variables() {
  * @param $city_name_count
  */
 function get_modal_data($locations) {
+  $id = 0;
   $header_data = get_header_variables();
   $primary_radio_location = $header_data['primary_location'];
   $primary_radio_zip = $header_data['primary_zip']; // Reset if found
-
   print "<a id='locations-modal' href='#'>View all favorite cities</a>";
   print "<div id='dialog-all-locations' class='ui-dialog' title='Set location'>";
   print "<fieldset class='radio-options-holder'>";
   foreach ($locations as $name => $zips) {
     foreach ($zips as $zip) {
       $name = trim($name);
+      $radio_id = sprintf("%02d", $id++);;
       if ($zip == $primary_radio_zip && $name == $primary_radio_location) {
-        print '<input checked type="radio" id="' . $zip . '|' . $name . '"  name="location-radio" value="' . $zip . '|' . $name . '" /><label for="' . $zip . '|' . $name . '">' . $name . " (" . $zip . ")" . "</label>";
+        print '<input checked type="radio" id="location-' . $radio_id . '" data-location-zip="'. $zip . '" data-location-name="'. $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
       }
       else {
-        print '<input type="radio" id="' . $zip . '|' . $name . '"  name="location-radio" value="' . $zip . '|' . $name . '" /><label for="' . $zip . '|' . $name . '">' . $name . " (" . $zip . ")" . "</label>";
+        print '<input type="radio" id="location-' . $radio_id . '" data-location-zip="'. $zip . '" data-location-name="'. $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
       }
     }
   }
@@ -1356,7 +1359,7 @@ function generate_location_select() {
 
       // Print option for select (up to 9 values) - Fill up the first 8, then make sure the primary exists - if not, add it
       if ($count < $max_location_items - 1) {
-        print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "'" . $selected . $data_primary_location . ">" . $name . " (" . $zip . ")</option>";
+        print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . $data_primary_location . ">" . $name . " (" . $zip . ")</option>";
       }
       // Add default zip if not yet used
       else if ($count == $max_location_items - 1) {
@@ -1365,7 +1368,7 @@ function generate_location_select() {
             $selected = 'selected';
             // Set a data attribute on the option that's the primary location to avoid removing it later            
             $data_primary_location = " data-ee-location='primary' ";
-            print "<option title = '" . $primary_location . " (" . $primary_zip . ")' value='" . $primary_zip . "'" . $selected . $data_primary_location .">" . $primary_location . " (" . $primary_zip . ")</option>";
+            print "<option title = '" . $primary_location . " (" . $primary_zip . ")' value='" . $primary_zip . "' " . $selected . $data_primary_location .">" . $primary_location . " (" . $primary_zip . ")</option>";
           }
           // If no primary zip exists or the primary zip was already used, just add another option
           else if ($primary_location_used || !$primary_zip > 0) {
@@ -1833,9 +1836,10 @@ function connectToSOAPServerWithWSDL($wsdl, $location = "") {
 }
 
 /**
- * @param $client
+ * @param $client WSDL file
  * @param $service
  * @param $params
+ * @param $location (for debugging)
  * @return bool
  */
 function callSOAPWithParams($client, $service, $params, $location = "") {

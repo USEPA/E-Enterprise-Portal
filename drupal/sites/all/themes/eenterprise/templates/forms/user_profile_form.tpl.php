@@ -1,10 +1,10 @@
 <?php
-drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/location_input_engine.js');
-drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", "file");
-drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", "file");
-drupal_add_js(drupal_get_path('module', 'eenterprise_utility') . '/eenterprise_utility.js');
+drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/location_input_engine.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", ['scope'=>'footer', 'preprocess'=>true, 'group'=>CSS_DEFAULT]);
+drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/eenterprise_utility.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 $font_awesome_path = libraries_get_path('font-awesome-4.5.0');
-drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
+drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 ?>
 <div class="edit-user-profile">
     <div id="profile-tabs">

@@ -101,7 +101,13 @@ function eenterprise_bridge_auth_authenticate($error)
     } else if ($_POST['wa'] == 'wsignin1.0') {
         $adfs = new AdfsBridge();
         try {
-            $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $_POST['wresult']);
+            if(isset($_POST['wam_test'])){
+                $userDetails = new stdClass();
+                $userDetails->attributes['name'][] = $_POST['name'];
+            }
+            else {
+                $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $_POST['wresult']);
+            }
         } catch (Exception $e) {
             $msg = 'Message: ' . $e->getMessage();
             drupal_set_message($msg, "error");
@@ -117,8 +123,11 @@ function eenterprise_bridge_auth_authenticate($error)
             $username = end($username_raw);
             $uname = "";
             if ($wam_pos !== FALSE) {
-                mitigate_username_alteration($userDetails->attributes['id'][0]."_Via_WAM", $userDetails->attributes['id'][0]);
-                $uname = $userDetails->attributes['id'][0] . "_Via_WAM";
+                //Trim space and double quote from WAM name attribute.
+                $wam_uname = trim(trim($userDetails->attributes['name'][0]), '"');
+                $uname_pos = strrpos($wam_uname, "/");
+                $wam_res = substr($wam_uname, $uname_pos+1);
+                $uname = $wam_res . "_Via_WAM";
                 $public_or_cdx = 'public';
             }
             else if($openid_position !== FALSE){

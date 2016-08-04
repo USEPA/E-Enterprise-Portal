@@ -1,0 +1,510 @@
+<?php
+
+
+/**
+ * Implements hook_menu().
+ **/
+function my_cdx_menu()
+{
+
+    $items = array();
+    $items['admin/config/system/my-cdx'] = array(
+        'title' => 'My CDX Settings',
+        'description' => 'Manage My CDX Webservice Endpoint Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('my_cdx_settings'),
+        'access arguments' => array('administer my cdx'),
+        'file' => 'my_cdx.admin.inc',
+    );
+    $items['my-cdx/links-json'] = array(
+        'page callback' => 'my_cdx_links_json_output',
+        'access arguments' => array('access content'),
+    );
+
+    $items['my-cdx/link-details-json/%'] = array(
+        'page callback' => 'my_cdx_json_link_details',
+        'page arguments' => array(2),
+        'access arguments' => array('access content'),
+    );
+
+    return $items;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function my_cdx_block_info()
+{
+    $blocks = array();
+    $blocks['my_cdx'] = array(
+        'info' => t('My CDX Block'),
+    );
+    return $blocks;
+}
+
+/**
+ * Implements hook_theme().
+ * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
+ */
+function my_cdx_theme()
+{
+    return array(
+        // Name to be called with theme(). theme('my_cdx')
+        'my_cdx' => array(
+            // Default variables
+            'variables' => array(),
+            // Which .tpl.php file to use my-cdx.tpl.php
+            'template' => 'my-cdx',
+            'path' => drupal_get_path('module', 'my_cdx') . '/templates'
+        ),
+        'my_cdx_modal' => array(
+            // Default variables
+            'variables' => array(),
+            // Which .tpl.php file to use my-cdx.tpl.php
+            'template' => 'my-cdx-modal',
+            'path' => drupal_get_path('module', 'my_cdx') . '/templates'
+        ),
+    );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function my_cdx_block_view($delta = '')
+{
+    $block = array();
+
+    if ($delta = 'my_cdx') {
+        drupal_add_css(libraries_get_path('font-awesome-4.5.0') . "/css/font-awesome.min.css", [
+            'preprocess' => TRUE,
+            'group' => CSS_THEME
+        ]);
+        drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");
+        drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
+            'scope' => 'footer',
+            'preprocess' => TRUE,
+            'group' => JS_LIBRARY,
+            'type' => 'file',
+            'cache' => TRUE,
+            'requires_jquery' => TRUE
+        ]);
+      drupal_add_js(drupal_get_path('module', 'my_cdx') . '/js/my_cdx.js', [
+            'scope' => 'footer',
+            'preprocess' => TRUE,
+            'group' => JS_LIBRARY,
+            'type' => 'file',
+            'cache' => TRUE,
+            'requires_jquery' => TRUE
+        ]);
+      drupal_add_css(drupal_get_path('module', 'my_cdx') . '/css/my_cdx.css', [
+            'preprocess' => TRUE,
+            'group' => CSS_THEME
+        ]);
+
+        // Set Modal Template
+        $modal_html = theme('my_cdx_modal');
+        drupal_add_js(array("myCDXModalTemplate" => $modal_html), 'setting');
+
+        if (user_access('access content')) { //good idea to check user perms here
+            $block['subject'] = t('App Connect');
+            $block['content'] = theme('my_cdx');
+            return $block;
+        }
+    }
+
+    return $block;
+}
+
+/**
+ * Callback for 'my-cdx/links-json' menu item
+ * @see https://www.webwash.net/drupal/articles/getting-started-json-drupal-7 (JSON Endpoints)
+ */
+function my_cdx_links_json_output()
+{
+    if ($input = load_my_cdx_data()) {
+        module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+        // convert the data into a format that DataTables ajax can understand
+        $output = array();
+        foreach ($input as $value) {
+            if (feature_toggle_get_status('mycdx_connections')) {
+                $output[] = array(
+                    $value['program_service_name'],
+                    '<a data-role-description="' . $value['role_description'] . '" ' .
+                    'data-acronym="' . $value['data_acronym'] . '" ' .
+                    'data-role-id="' . $value['role_id'] . '" ' .
+                    '" class="cdx-link" href="javascript:void(0);">' .
+                    $value['role'] .
+                    '</a>',
+                );
+            } else {
+                $output[] = array(
+                    $value['program_service_name'],
+                    $value['role'],
+                );
+            }
+        }
+        drupal_json_output(array('data' => $output));
+    } else {
+        // TODO: an error occurred, handle it here
+        // Send empty json so Datatables does not break
+        drupal_json_output(array('data' => array()));
+    }
+}
+
+/**
+ * Callback for 'my-cdx/link-details/%' menu item
+ * @see https://www.webwash.net/drupal/articles/getting-started-json-drupal-7 (JSON Endpoints)
+ */
+function my_cdx_json_link_details($role_id)
+{
+    if ($input = load_my_cdx_link_details($role_id)) {
+        drupal_json_output($input);
+    } else {
+        // Send empty json so Datatables does not break
+        drupal_json_output(array());
+    }
+}
+
+/**
+ * Load My CDX data from cache, web service, or static source (for testing)
+ * Restructure XML return into an array we can JSONify, or return FALSE if we have an error
+ * @return mixed
+ */
+function load_my_cdx_data()
+{
+    global $user;
+    $data = &drupal_static(__FUNCTION__);
+
+    if (!isset($data)) {
+        module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+        if (feature_toggle_get_status('sample_mycdx_data')) {
+            $data = fetch_sample_my_cdx_links();
+        } else {
+            // each user gets their own cached data
+            $cache_key = 'my_cdx_data|' . $user->uid;
+
+            if ($cache = cache_get($cache_key)) {
+                // try cache first
+                // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
+                $data = $cache->data;
+            } else {
+                $data = fetch_my_cdx_links();
+
+                // expire the cache every ___ minutes
+                $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
+                cache_set($cache_key, $data, 'cache', $expire_ts);
+            }
+        }
+    }
+    return $data;
+}
+
+/**
+ * Load My CDX data from cache, web service, or static source (for testing)
+ * Restructure XML return into an array we can JSONify, or return FALSE if we have an error
+ * @return mixed
+ */
+function load_my_cdx_link_details($role_id)
+{
+    global $user;
+    $data = &drupal_static(__FUNCTION__);
+
+    if (!isset($data)) {
+        module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+        if (feature_toggle_get_status('sample_mycdx_data')) {
+            $data = fetch_sample_my_cdx_link_details();
+        } else {
+            // setup distinct caches for each role that a given user has
+            $cache_key = implode('|', array(
+                'my_cdx_link_details',
+                $user->uid,
+                $role_id,
+            ));
+
+            if ($cache = cache_get($cache_key)) {
+                // try cache first
+                // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
+                $data = $cache->data;
+            }
+            // The cache was set but with invalid data
+            if (!isset($data)) {
+                $data = fetch_my_cdx_link_details($role_id);
+
+                // expire the cache every ___ minutes
+                $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
+                cache_set($cache_key, $data, 'cache', $expire_ts);
+            }
+        }
+    }
+
+    return $data;
+}
+
+/**
+ * Fetch Sample My CDX data
+ */
+function fetch_sample_my_cdx_links()
+{
+    $data = array();
+
+    $data[] = array(
+        'program_service_name' => 'CEDRI: Compliance and Emissions Data Reporting Interface',
+        'role' => 'Certifier',
+        'role_id' => "00001",
+        'data_acronym' => "CED0",
+    );
+    $data[] = array(
+        'program_service_name' => 'CSPP: Submissions for Chemical Safety and Pesticide Program',
+        'role' => 'Primary Authorized Official',
+        'role_id' => "00002",
+        'data_acronym' => "CED1",
+
+    );
+    $data[] = array(
+        'program_service_name' => 'eDisclosure: Voluntary Disclosure System',
+        'role' => 'Disclose / Certify',
+        'role_id' => "00003",
+        'data_acronym' => "CED2",
+
+    );
+    $data[] = array(
+        'program_service_name' => 'EEP: General E-Enterprise Use',
+        'role' => 'E-Enterprise Portal',
+        'role_id' => "00004",
+        'data_acronym' => "CED3",
+
+    );
+    $data[] = array(
+        'program_service_name' => 'SSTS: Section Seven Tracking System',
+        'role' => 'Primary Authorized Official',
+        'role_id' => "00005",
+        'data_acronym' => "CED4",
+
+    );
+
+    return $data;
+}
+
+/**
+ * Fetch My CDX data from SOAP service
+ */
+function fetch_my_cdx_links()
+{
+    global $user;
+    // fetch the data from the soap service
+    $location = 'my_cdx.module';
+    $my_cdx_client_access = return_my_cdx_token();
+    if ($token = $my_cdx_client_access['token']) {
+        // Extract out "_Via_CDX" string from username
+        $user_id = $user->name;
+        $cdx_pos = strrpos($user_id, "_Via_");
+        if ($cdx_pos === FALSE) {
+            // do not connect to SOAP service if the user is not coming from CDX
+            return array();
+        }
+        $user_id = substr($user_id, 0, $cdx_pos);
+
+        // retrieve object from "RetrieveMyCdxLinks" service
+        $params_for_data = array(
+            'securityToken' => $token,
+            'userId' => $user_id,
+        );
+        $result = callSOAPWithParams($my_cdx_client_access['client'], "RetrieveMyCdxLinks", $params_for_data, $location);
+
+        // format it to be some sort of array, match the structure of fetch_sample_my_cdx_links()
+        $data = array();
+        // CDX service sends an object if the return is singular.
+        // Convert the object to an array containing the object
+        if (!is_array($result->response->links)) {
+            $result->response->links = array($result->response->links);
+        }
+        foreach ($result->response->links as $link) {
+            if ($link->Status->code === "Active") {
+                $data[] = array(
+                    'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
+                    'role' => $link->Description,
+                    'role_id' => $link->RoleId,
+                    'data_acronym' => $link->DataflowAcronym,
+                    'role_description' => $link->Description,
+                );
+            }
+        }
+
+        return $data;
+    } else {
+        return array();
+    }
+}
+
+/**
+ * Fetch Sample My CDX link details
+ */
+function fetch_sample_my_cdx_link_details()
+{
+    $data = array(
+        'orgCount' => 4,
+        'organizations' => array(),
+    );
+
+    $data['organizations']['1234'] = array(
+        'orgName' => 'org abc',
+        'clientCount' => 4,
+        'programClients' => array(
+            '1234' => array(
+                'clientName' => 'client1 abc',
+            ),
+            '1235' => array(
+                'clientName' => 'client2 abc',
+            ),
+            '1236' => array(
+                'clientName' => 'client3 abc',
+            ),
+            '1237' => array(
+                'clientName' => 'client4 abc',
+            ),
+        ),
+    );
+
+    $data['organizations']['1236'] = array(
+        'orgName' => 'org 2',
+        'clientCount' => 4,
+        'programClients' => array(
+            '1234' => array(
+                'clientName' => 'Aclient abc',
+            ),
+            '1235' => array(
+                'clientName' => 'Bclient abc',
+            ),
+            '1236' => array(
+                'clientName' => 'Cclient abc',
+            ),
+            '1237' => array(
+                'clientName' => 'Dclient abc',
+            ),
+        ),
+    );
+
+    $data['organizations']['Single_Client'] = array(
+        'orgName' => 'SINGLE',
+        'clientCount' => 1,
+        'programClients' => array(
+            '1234' => array(
+                'clientName' => 'Hans Solo',
+            ),
+        ),
+    );
+
+
+    return $data;
+}
+
+/**
+ * Connects to MY CDX NAAS authentication wsdl and returns token
+ * @return array
+ */
+function return_my_cdx_token()
+{
+    $wsdl = variable_get('cdx_service_endpoint', "https://devngn.epacdxnode.net/cdx-register-II/services/RegisterMyCdxService?wsdl");
+    $location = 'my_cdx.module';
+    $client = connectToSOAPServerWithWSDL($wsdl, $location);
+    if ($client->error) {
+        return array("client" => FALSE, "token" => FALSE);
+    }
+    // Use wsdl to create token to retrieve user info
+    $params_for_authenticate = array(
+        "userId" => variable_get('eactivity_auth_reg_username'),
+        "credential" => variable_get('eactivity_auth_reg_password'),
+        "domain" => variable_get('eactivity_auth_reg_domain'),
+        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
+    );
+
+    $response = callSOAPWithParams($client->client, "Authenticate", $params_for_authenticate, $location);
+    if ($response->error) {
+        return array("client" => $client, "token" => FALSE);
+    }
+
+    return array(
+        "client" => $client->client,
+        "token" => $response->response->securityToken
+    );
+}
+
+/**
+ * Fetch My CDX link details from SOAP service
+ */
+function fetch_my_cdx_link_details($role_id)
+{
+    global $user;
+    $location = 'my_cdx.module';
+    $my_cdx_client_access = return_my_cdx_token();
+    if ($token = $my_cdx_client_access['token']) {
+        // Extract out "_Via_CDX" string from username
+        $user_id = $user->name;
+        $cdx_pos = strrpos($user_id, "_Via_");
+        if ($cdx_pos === FALSE) {
+            // do not connect to SOAP service if the user is not coming from CDX
+            return array();
+        }
+        $user_id = substr($user_id, 0, $cdx_pos);
+
+
+        // retrieve object from "RetrieveMyCdxLinks" service
+        $params_for_data = array(
+            'securityToken' => $token,
+            'userId' => $user_id,
+            'roleId' => $role_id
+        );
+        $result = callSOAPWithParams($my_cdx_client_access['client'], "RetrieveMyCdxLinkDetails", $params_for_data, $location);
+        if ($result->error) {
+            return array();
+        }
+        $data = array("orgCount" => 0, "organizations" => array());
+        // format it to be some sort of array, match the structure of fetch_sample_my_cdx_links()
+        // CDX service sends an object if the return is singular.
+        // Convert the object to an array containing the object
+        if (!is_array($result->response->linkDetails)) {
+            $result->response->linkDetails = array($result->response->linkDetails);
+        }
+        foreach ($result->response->linkDetails as $linkDetail) {
+            if ($linkDetail->RoleStatus->code === "Active") {
+                if (!isset($data['organizations'][$linkDetail->UserOrganizationId])) {
+                    $data['orgCount']++;
+                    $data['organizations'][$linkDetail->UserOrganizationId] = array(
+                        'clientCount' => 0,
+                        'orgName' => $linkDetail->OrganizationName,
+                        'programClients' => array(),
+                    );
+                }
+                $data['organizations'][$linkDetail->UserOrganizationId]["clientCount"]++;
+                $data['organizations'][$linkDetail->UserOrganizationId]["programClients"][$linkDetail->UserRoleId] = array(
+                    'clientName' => $linkDetail->Subject,
+                );
+            }
+        }
+
+
+        // Reset organizations and program clients to arrays for sorting and sort
+        $organizations = array();
+        foreach ($data['organizations'] as $org_obj) {
+            $client_ids = array();
+            foreach ($org_obj['programClients'] as $program_client) {
+                $client_ids[] = $program_client;
+            }
+            // Sort clients for this organization
+            usort($client_ids, function ($a, $b) {
+                return strcmp($a["clientName"], $b["clientName"]);
+            });
+            $org_obj['programClients'] = $client_ids;
+            $organizations[] = $org_obj;
+        }
+        usort($organizations, function ($a, $b) {
+            return strcmp($a["orgName"], $b["orgName"]);
+        });
+
+        $data['organizations'] = $organizations;
+
+        return $data;
+    } else {
+        return array();
+    }
+}

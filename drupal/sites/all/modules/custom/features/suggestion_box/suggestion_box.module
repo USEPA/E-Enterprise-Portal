@@ -348,7 +348,7 @@ function configure_ctools_popup() {
 
        ctools_add_js('ee_ctools_popup_style', 'suggestion_box'); // Adding the theme
 
-       drupal_add_js(drupal_get_path('module', 'suggestion_box') . '/js/suggestion_box_modal.js');
-       drupal_add_css(drupal_get_path('module', 'suggestion_box') . '/css/suggestion_box_modal.css');
+       drupal_add_js(drupal_get_path('module', 'suggestion_box') . '/js/suggestion_box_modal.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+       drupal_add_css(drupal_get_path('module', 'suggestion_box') . '/css/suggestion_box_modal.css', ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
    }
 }

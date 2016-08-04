@@ -31,8 +31,8 @@
 <?php
 $module_name = "eenterprise_api";
 
-drupal_add_js('sites/all/modules/contrib/datatables/dataTables/media/js/jquery.dataTables.js');
-drupal_add_js(drupal_get_path('module', $module_name) . "/js/test_harness.js", "file");
+drupal_add_js('sites/all/modules/contrib/datatables/dataTables/media/js/jquery.dataTables.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('module', $module_name) . "/js/test_harness.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 
 ?>
 <div class="row">

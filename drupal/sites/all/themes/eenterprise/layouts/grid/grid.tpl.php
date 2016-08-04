@@ -12,7 +12,7 @@
  *   $content['middle']: The only panel in the layout.
  */
 $font_awesome_path = libraries_get_path('font-awesome-4.5.0');
-drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", "file");
+drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 ?>
 <div class="panel-display panel-grid clearfix"  <?php if (!empty($css_id)) { print "id=\"$css_id\""; } ?>>
   <div class="panel-panel panel-col grid-stack grid-stack-2">

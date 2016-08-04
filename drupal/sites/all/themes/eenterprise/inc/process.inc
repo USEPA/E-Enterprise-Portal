@@ -25,6 +25,9 @@ function eenterprise_preprocess_html(&$vars) {
   $vars['web_area_feed'] = '';
   $vars['base_path'] = base_path();
   $vars['path_to_eenterprise'] = drupal_get_path('theme', 'eenterprise');
+  
+  drupal_add_css('//fonts.googleapis.com/css?family=Poppins:300,400', ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
+  drupal_add_css('//fonts.googleapis.com/css?family=Roboto:300,400', ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 
   // Get settings for HTML5 and responsive support. array_filter() removes
   // items from the array that have been disabled.
@@ -75,8 +78,8 @@ function eenterprise_preprocess_html(&$vars) {
       }
       $page_alias = drupal_lookup_path('alias', $_GET['q'], $path_language);
       if (($page_alias == 'eenterprise-new') || ($page_alias == 'eenterprise-alternate')) {
-        drupal_add_js( libraries_get_path('jcarousel') . '/jquery.jcarousel.min.js');
-        drupal_add_js( drupal_get_path('theme', 'eenterprise') . '/js/welcome.js');
+        drupal_add_js( libraries_get_path('jcarousel') . '/jquery.jcarousel.min.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+        drupal_add_js( drupal_get_path('theme', 'eenterprise') . '/js/welcome.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
       }
     }
     $vars['classes_array'][] = drupal_html_class('section-' . $section);
@@ -240,6 +243,32 @@ function eenterprise_preprocess_block(&$vars) {
  */
 function eenterprise_preprocess_search_block_form(&$vars) {
   $vars['search_form'] = str_replace('type="text"', 'type="search"', $vars['search_form']);
-  $vars['classes_array'][] = 'epa-search';  
+  $vars['classes_array'][] = 'epa-search';
 }
 
+function eenterprise_preprocess_views_view(&$vars)
+{
+  // automatically find hooks for specific views
+  $function_name = __FUNCTION__ . '__' . $vars['view']->name;
+  if (function_exists($function_name)) {
+    $function_name($vars);
+  }
+}
+
+function eenterprise_preprocess_views_view__to_do(&$vars)
+{
+  $vars['this_week'] = '';
+  $vars['next_week'] = '';
+  $vars['beyond_next_week'] = '';
+  $view = $vars['view'];
+  if (isset($view->args['week_filter_val'])) {
+    if (substr($view->args['week_filter_val'], 0, 10) == date('Y-m-d', strtotime('last sunday'))) {
+      $vars['this_week'] = 'filter-applied';
+    } else if ((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)) {
+      $vars['beyond_next_week'] = 'filter-applied';
+    } else if (date('D', strtotime($view->args['week_filter_val'])) == 'Sun') {
+      $vars['next_week'] = 'filter-applied';
+    }
+  }
+  $vars['all_items'] = (!isset($view->args['week_filter_val']) || (isset($view->args['week_filter_val']) && $view->args['week_filter_val'] == '0000-00-00')) ? 'filter-applied' : '';
+}

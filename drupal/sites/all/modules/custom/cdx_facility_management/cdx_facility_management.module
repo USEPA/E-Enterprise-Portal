@@ -94,7 +94,7 @@ function userMustLogOut($user_session_logout, $user_login_time)
 }
 
 
-function return_cdx_facility_management_token()
+function return_cdx_facility_management_token($is_print_json = TRUE)
 {
     global $user;
     $local_testing = variable_get('local_testing');
@@ -181,10 +181,14 @@ function return_cdx_facility_management_token()
             $json_return['url'] = $cdx_resource_url;
             $json_return['user_session_logout'] = $user_session_logout;
             $json_return['user_login_time'] = $user_login_time;
-            print json_encode($json_return);
         } else {
             $json_return['error'] = TRUE;
-            print json_encode($json_return);
+        }
+
+        if ($is_print_json) {
+            drupal_json_output($json_return);
+        } else {
+            return $json_return;
         }
     }
 }
@@ -203,6 +207,7 @@ function createNewToken($client, $params_for_creation)
             'token' => $token,
             'server_ip' => $server_ip,
             'error' => false,
+            'user_id' => $params_for_creation['userId'],
         );
     } else
         $json_return = array('token' => '', 'error' => TRUE);
@@ -219,6 +224,7 @@ function renewToken($client, $params_for_renewal, $json_return)
         $response = $response->response;
         $new_token = $response->return;
         $json_return['token'] = $new_token;
+        $json_return['user_id'] = $params_for_renewal['userId'];
     } else
         $json_return['error'] = TRUE;
     return $json_return;
@@ -370,3 +376,4 @@ function cdx_facility_configurations()
     echo json_encode($configs);
     exit();
 }
+
