@@ -7,7 +7,7 @@
 
     // Ajax request for the CDX token to authenticate Facility Widget
     var create_token_ajax = $.ajax({
-        url: '/return_cdx_facility_management_token',
+        url: Drupal.settings.basePath + 'return_cdx_facility_management_token',
         type: 'JSON'
     });
 
@@ -92,7 +92,7 @@
 
     function generateUserData() {
         $.ajax({
-            url: '/retrieve_cdx_user_data',
+            url: Drupal.settings.basePath + 'retrieve_cdx_user_data',
             success: function (json) {
                 var parsed_json = $.parseJSON(json);
                 if (!parsed_json.error) {

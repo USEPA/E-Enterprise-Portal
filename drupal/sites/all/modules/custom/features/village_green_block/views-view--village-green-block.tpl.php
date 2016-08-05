@@ -53,7 +53,8 @@ drupal_add_js(drupal_get_path('module', 'village_green_block') ."/js/welcome.js"
 		<div class="usa-width-one-half">
       <label for="currentSiteID">Air monitoring station</label>
       <select id="currentSiteID" aria-controls="vg-city-numbers">
-          <option value="24290">Durham, NC</option>
+          <option value="24607">Chicago, IL</option>
+          <option value="24290" selected>Durham, NC</option>
           <option value="24538">Hartford, CT</option>
           <option value="24294">Kansas City, KS</option>
           <option value="24291">Oklahoma City, OK</option>

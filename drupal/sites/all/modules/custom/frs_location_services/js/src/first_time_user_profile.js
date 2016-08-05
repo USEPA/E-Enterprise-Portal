@@ -61,7 +61,7 @@
 
       function lookupAndProcessCityState(latitude, longitude) {
         $.ajax({
-          url: '/return_location_data_lat_long',
+          url: Drupal.settings.basePath + 'return_location_data_lat_long',
           type: 'GET',
           async: false,
           data: {latitude: latitude, longitude: longitude},
@@ -228,7 +228,7 @@
       function lookupAndProcessLocation(location, location_input) {
         var error_message = '';
         $.ajax({
-          url: '/return_location_data',
+          url: Drupal.settings.basePath + 'return_location_data',
           type: 'POST',
           data: {location: location, initial_login: true},
           success: function(data) {
@@ -379,7 +379,7 @@
         // ... function skipGettingStarted is updated as needed also to pass any variables to...
         // ... Workbench header.
         $.ajax({
-          url: '/save_first_time_user_preferences',
+          url: Drupal.settings.basePath + 'save_first_time_user_preferences',
           type: 'POST',
           data: {
             skip: 0,
@@ -477,7 +477,7 @@
         nearest_zip = selected_zip_code;
       }
       $.ajax({
-        url: '/save_first_time_user_preferences',
+        url: Drupal.settings.basePath + 'save_first_time_user_preferences',
         type: 'POST',
         data: {
           skip: 1,
