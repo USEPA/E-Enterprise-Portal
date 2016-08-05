@@ -5,7 +5,7 @@
       var page_name = window.location.pathname.split('/')[1],
           firstLoad = 'true';
       
-      if (page_name == "eenterprise-new" || page_name == "eenterprise-alternate") {
+      if (page_name == "eenterprise-new") {
         $(document).on('ready', function() {
           var $jcarousel = $('.jcarousel');
           $jcarousel.jcarousel();
@@ -17,7 +17,7 @@
                 width = $('body').find('.jcarousel-wrapper').innerWidth();
               carousel.jcarousel('items').css('width', Math.ceil(width) + 'px');
             });
-  
+            
           $jcarouselPrev
             .jcarouselControl({
               target: '-=1'
@@ -89,15 +89,26 @@
               $jcarouselSlides = $jcarousel.find('.slides > li'),
               currentActive = $jcarouselSlides.eq(0).index(),
               lastSlide = $jcarouselSlides.length - 1;
+          
+          // Remove active class that sets visibility: visible
+          $jcarouselSlides.removeClass('active');   
+          
+          // Handle what slide to set visibility: visible and when to show arrows
           if (firstActive === currentActive) {
-            $jcarouselPrev.addClass('inactive');
+            // First slide
+            $jcarouselPrev.addClass('inactive');     
+            $jcarouselSlides.eq(0).addClass('active');
           }
           else if (firstActive === lastSlide) {
-            $jcarouselNext.addClass('inactive');
+            // Last slide
+            $jcarouselNext.addClass('inactive');    
+            $jcarouselSlides.eq(2).addClass('active');
           }
           else {
+            // Second slide
             $jcarouselPrev.removeClass('inactive');
             $jcarouselNext.removeClass('inactive');
+            $jcarouselSlides.eq(1).addClass('active');            
           }
           if (firstLoad !== 'true') {
             $jcarousel.focus();
