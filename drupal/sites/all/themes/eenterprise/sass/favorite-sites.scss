@@ -121,4 +121,8 @@ span.fa-plus {
 
 td.favorites-holder {
     width: 40px;
+    a {
+        display: table-cell;
+        padding-right: 10px
+    }
 }
