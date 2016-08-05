@@ -9,6 +9,7 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         sourceMap: true,
+        sourceMapIncludeSources: true
       },
       theme: {
         files: [{
@@ -31,7 +32,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.js', '!*.min.js'],
           cwd:  'drupal/sites/all/modules/custom/agency_map_list/js/src',
-          dest:  'drupal/sites/all/modules/custom/agency_map_list/js'
+          dest:  'drupal/sites/all/modules/custom/agency_map_list/js',
         }]
       },
       cdx_facility_management: {
