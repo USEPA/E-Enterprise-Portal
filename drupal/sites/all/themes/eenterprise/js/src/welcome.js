@@ -93,7 +93,7 @@
           // Remove active class that sets visibility: visible
           $jcarouselSlides.removeClass('active');   
           
-          // Handle what slide to set visibility: visible and when to show arrows
+          // Handle what slide to set visibility: visible and when to show arrows - assumes 3 slides
           if (firstActive === currentActive) {
             // First slide
             $jcarouselPrev.addClass('inactive');     
