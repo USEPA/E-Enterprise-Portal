@@ -732,6 +732,13 @@ header {
                         display: block;
                     }
                 }
+                > li {
+                    visibility: hidden;
+                }                
+                > li.active {
+                    display: block;
+                    visibility: visible;
+                }  
             }
         }
         .jcarousel-control-prev,

@@ -15,7 +15,7 @@
     }
     else {
       $.ajax({
-        url: '/return_location_data',
+        url: Drupal.settings.basePath + 'return_location_data',
         type: 'POST',
         data: {location: location},
         success: function(data) {
