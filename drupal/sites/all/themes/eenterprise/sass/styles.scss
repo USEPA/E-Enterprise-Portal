@@ -3611,6 +3611,7 @@ a {
 }
 
 /** =============== bootstrap tooltip styles ================== */
+
 .tooltip {
     position: absolute;
     z-index: 1070;
@@ -3630,7 +3631,7 @@ a {
     word-break: normal;
     word-spacing: normal;
     word-wrap: normal;
-    font-size: 12px;
+    font-size: 15px;
     opacity: 0;
     filter: alpha(opacity=0);
 }
