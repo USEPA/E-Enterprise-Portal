@@ -26,6 +26,7 @@
 @import 'elements/list';
 @import 'elements/table';
 @import 'elements/typography';
+
 // Components -------------- //
 //@import 'components/accordions';
 @import 'components/alerts';
@@ -940,13 +941,6 @@ header {
         font-size: $h6-font-size;
         margin-right: 20px;
     }
-}
-
-a:focus.remove_link,
-a:focus.add_link {
-    height: 22px;
-    width: 21px;
-    display: inline-block;
 }
 
 .field-add-more-submit {

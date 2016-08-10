@@ -6,6 +6,23 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    compass: {
+			dev: {
+				options: {
+					sassDir: '<%= pkg.path.theme %>sass',
+					cssDir: '<%= pkg.path.theme %>css/src',
+					environment: 'development'
+				}
+			},
+      prod: {
+				options: {
+					sassDir: '<%= pkg.path.theme %>sass',
+					cssDir: '<%= pkg.path.theme %>css/src',
+					environment: 'production'
+				}
+			}			
+			
+		},    
     uglify: {
       options: {
         sourceMap: true,
@@ -123,8 +140,8 @@ module.exports = function(grunt) {
           {
             expand: true,
             src: ['**/*.js', '!*min.js'],
-            dest:  '<%= pkg.path.modules %>recommended_resources/js',
-            cwd:  '<%= pkg.path.modules %>recommended_resources/js/src'
+            cwd:  '<%= pkg.path.modules %>recommended_resources/js/src',            
+            dest:  '<%= pkg.path.modules %>recommended_resources/js'
           }
         ]
       }
@@ -247,18 +264,27 @@ module.exports = function(grunt) {
         }]
       },
       recommended_resources: {
-        files: [
-          {
-            expand: true,
-            src: ['**/*.css', '!*min.css'],
-            dest:  '<%= pkg.path.modules %>recommended_resources/css',
-            cwd:  '<%= pkg.path.modules %>recommended_resources/css/src',
-            ext: '.css'
-          }
-        ]
+        files: [{
+          expand: true,
+          src: ['**/*.css', '!*min.css'],
+          dest:  '<%= pkg.path.modules %>recommended_resources/css',
+          cwd:  '<%= pkg.path.modules %>recommended_resources/css/src',
+          ext: '.css'
+        }]
       }
     },
     watch: {
+      compass: {
+        files: ['<%= pkg.path.theme %>sass/*.{scss,sass}'],
+        tasks: ['compass:dev'],
+        options: {
+          debounceDelay: 1000,
+        },        
+      },
+      css: {
+        files: ['<%= pkg.path.theme %>css/src/*.css'],
+        tasks: ['cssmin:theme'], 
+      },
       theme: {
         files: ['<%= pkg.path.theme %>js/src/*.js'],
         tasks: ['uglify:theme']
@@ -300,7 +326,7 @@ module.exports = function(grunt) {
         tasks: ['uglify:suggestion_box']
       },
       village_green_block: {
-        files: ['<%= pkg.path.modules %>village_green_block/js/src/*.js'],
+        files: ['<%= pkg.path.modules %>features/village_green_block/js/src/*.js'],
         tasks: ['uglify:village_green_block']
       },
       frs_location_services: {
@@ -332,12 +358,13 @@ module.exports = function(grunt) {
   });
 
   // Load the plugin that provides the task.
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-compass'); // Compile SASS to CSS
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task(s).
-  grunt.registerTask('default', ['cssmin', 'uglify']);
+  grunt.registerTask('default', ['compass:dev', 'cssmin', 'uglify']);
   grunt.registerTask('theme', ['cssmin:theme', 'uglify:theme']);
   grunt.registerTask('add_map_set', ['cssmin:add_map_set']);
   grunt.registerTask('agency_map_list', ['cssmin:agency_map_list', 'uglify:agency_map_list']);

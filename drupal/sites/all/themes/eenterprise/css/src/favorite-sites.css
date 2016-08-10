@@ -1,0 +1,152 @@
+/** 
+	*	Colors from CIOgov Design Standards
+	*
+	* $color-secondary-dark:  #cd2026;
+	* $color-secondary-darkest:  #981b1e;
+	* $color-gray-dark: #323a45;
+	*
+	**/
+/* line 10, ../../sass/favorite-sites.scss */
+.pane-views-favorite-sites-block .field-type-text, .pane-views-favorite-sites-block .form-text {
+  width: 26em;
+  float: left;
+}
+
+/* line 15, ../../sass/favorite-sites.scss */
+.pane-views-favorite-sites-block .remove-button {
+  float: right;
+}
+
+/* line 19, ../../sass/favorite-sites.scss */
+.view-favorite-sites .views-table {
+  width: 100%;
+}
+
+/* line 23, ../../sass/favorite-sites.scss */
+.view-favorite-sites .views-field-field-profile-favourites {
+  display: none;
+  /* Hide empty rows */
+}
+
+/* line 27, ../../sass/favorite-sites.scss */
+.pane-views-favorite-sites-block .tabledrag-toggle-weight,
+.pane-views-favorite-sites-block .form-wrapper legend,
+.pane-views-favorite-sites-block .field-type-datetime,
+.pane-views-favorite-sites-block th.views-field,
+.pane-views-favorite-sites-block .field-multiple-table thead,
+.pane-views-favorite-sites-block #field-profile-favourites-values,
+.edit-actions-submit {
+  display: none;
+}
+
+/* line 37, ../../sass/favorite-sites.scss */
+.pane-views-favorite-sites-block td.views-field-field-profile-favourites {
+  padding: 0px;
+}
+
+/* line 41, ../../sass/favorite-sites.scss */
+.pane-views-favorite-sites-block .form-wrapper, .pane-views-favorite-sites-block tbody {
+  border: none;
+}
+
+/* line 45, ../../sass/favorite-sites.scss */
+.pane-views-favorite-sites-block {
+  overflow-y: auto;
+}
+
+/* line 49, ../../sass/favorite-sites.scss */
+.pane-views-favorite-sites-block #favorite_links-ajax-wrapper {
+  height: 70%;
+  overflow: hidden;
+}
+
+/* line 54, ../../sass/favorite-sites.scss */
+#favorite_links-ajax-wrapper tr.odd.views-row-first.views-row-last {
+  border-top: none;
+  border-bottom: none;
+}
+
+/* line 59, ../../sass/favorite-sites.scss */
+.transparent-qtip .ui-tooltip-wrapper {
+  background-color: transparent;
+}
+
+/* line 63, ../../sass/favorite-sites.scss */
+.qtip-default {
+  background-color: transparent;
+  border: 0;
+}
+
+/* line 68, ../../sass/favorite-sites.scss */
+.qtip-tip, .qtip-tip canvas {
+  display: block;
+}
+
+/* line 72, ../../sass/favorite-sites.scss */
+.page-workbench .fa-heart:before,
+.fa-heart:before,
+.fa-heart.filled:before,
+.fa-heart-o:before,
+.fa-heart-o.empty:before,
+.empty:before,
+.empty:hover:before {
+  content: none;
+}
+
+/* line 82, ../../sass/favorite-sites.scss */
+.fa-heart {
+  background: transparent url("../images/red/heart-o.svg") no-repeat 50% 50%;
+  background-size: 1.7rem, contain;
+  width: 1.7rem;
+  height: 1.7rem;
+  display: block;
+  vertical-align: bottom;
+}
+
+/* line 91, ../../sass/favorite-sites.scss */
+.filled {
+  background-image: url("../images/red/heart-filled.svg");
+}
+
+/* line 95, ../../sass/favorite-sites.scss */
+.filled:hover {
+  background-image: url("../images/red/heart-filled-hover.svg");
+  cursor: pointer;
+}
+
+/* line 100, ../../sass/favorite-sites.scss */
+.filled:active {
+  background-image: url("../images/red/heart-filled-active.svg");
+}
+
+/* line 104, ../../sass/favorite-sites.scss */
+.empty {
+  background-image: url("../images/red/heart-o.svg");
+}
+
+/* line 108, ../../sass/favorite-sites.scss */
+.empty:hover {
+  background-image: url("../images/red/heart-o-hover.svg");
+}
+
+/* line 112, ../../sass/favorite-sites.scss */
+.button_input_holder btn, .button_input_holder btn-success, .button_input_holder btn-danger,
+.button_input_holder btn:hover, .button_input_holder btn-success:hover, .button_input_holder btn-danger:hover {
+  background-color: transparent;
+  border: 0;
+}
+
+/* line 118, ../../sass/favorite-sites.scss */
+span.fa-plus {
+  font-size: 2em;
+}
+
+/* line 122, ../../sass/favorite-sites.scss */
+td.favorites-holder {
+  width: 40px;
+}
+/* line 124, ../../sass/favorite-sites.scss */
+td.favorites-holder a {
+  display: table-cell;
+  padding: 2px 10px;
+}
