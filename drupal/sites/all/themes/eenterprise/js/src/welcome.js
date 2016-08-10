@@ -5,7 +5,7 @@
       var page_name = window.location.pathname.split('/')[1],
           firstLoad = 'true';
       
-      if (page_name == "eenterprise-new") {
+      if (page_name === "eenterprise-new") {
         $(document).on('ready', function() {
           var $jcarousel = $('.jcarousel');
           $jcarousel.jcarousel();
@@ -52,24 +52,25 @@
               }
             });
             
-          $jcarousel.on('focus', function() {
-            $jcarousel.on('keyup', function(e) {
-              e.stopImmediatePropagation();
-              var key = e.which || e.keyChar || e.keyCode;
-              if (key === 37) {
-                // If jcarouselPrev button does not have inactive class, reverse carousel
-                if(!$jcarouselPrev.hasClass('inactive')) {
-                  $jcarouselPrev.trigger('click');             
-                }          
-              } else if (key === 39) {
-                // If jcarouselNext button does not have inactive class, advance carousel
-                if(!$jcarouselNext.hasClass('inactive')) {
-                  $jcarouselNext.trigger('click');
-                }
+          $jcarousel.on('keyup', function(e) {
+            var key = e.which || e.keyChar || e.keyCode;
+            if (key === 37) {
+              e.stopImmediatePropagation();                
+              // If jcarouselPrev button does not have inactive class, reverse carousel
+              if(!$jcarouselPrev.hasClass('inactive')) {
+                $jcarouselPrev.trigger('click');             
+              }          
+            } else if (key === 39) {
+              e.stopImmediatePropagation();                
+              // If jcarouselNext button does not have inactive class, advance carousel
+              if(!$jcarouselNext.hasClass('inactive')) {
+                $jcarouselNext.trigger('click');
               }
-              firstIsActive();
-            }); // End jcarousel keyup
-          }); // End jcarousel focus
+            } else {
+                return false;
+            }
+            firstIsActive();
+          }); // End jcarousel keyup
         
         }); // End document ready
         
@@ -85,9 +86,10 @@
           var $jcarousel = $('body').find('.jcarousel'),
               $jcarouselNext = $('.jcarousel-control-next'),
               $jcarouselPrev = $('.jcarousel-control-prev'),
-              firstActive = $jcarousel.jcarousel('first').index(),
               $jcarouselSlides = $jcarousel.find('.slides > li'),
-              currentActive = $jcarouselSlides.eq(0).index(),
+              firstActive = $jcarouselSlides.eq(0).index(),
+              currentActive = $jcarousel.jcarousel('last').index(), // Last visible slide
+              //currentActive = $jcarouselSlides.eq(0).index(); 
               lastSlide = $jcarouselSlides.length - 1;
           
           // Remove active class that sets visibility: visible
@@ -96,23 +98,27 @@
           // Handle what slide to set visibility: visible and when to show arrows - assumes 3 slides
           if (firstActive === currentActive) {
             // First slide
-            $jcarouselPrev.addClass('inactive');     
-            $jcarouselSlides.eq(0).addClass('active');
+            $jcarouselPrev.addClass('inactive');   
+            if ($jcarouselNext.hasClass('inactive')) {
+              $jcarouselNext.removeClass('inactive');
+            }            
           }
-          else if (firstActive === lastSlide) {
-            // Last slide
-            $jcarouselNext.addClass('inactive');    
-            $jcarouselSlides.eq(2).addClass('active');
-          }
-          else {
-            // Second slide
+          else if (currentActive !== lastSlide) {
+            // Middle slide
             $jcarouselPrev.removeClass('inactive');
-            $jcarouselNext.removeClass('inactive');
-            $jcarouselSlides.eq(1).addClass('active');            
+            $jcarouselNext.removeClass('inactive');              
+          }
+          else  {
+            // Last slide
+            if ($jcarouselPrev.hasClass('inactive')) {
+              $jcarouselPrev.removeClass('inactive');
+            }
+            $jcarouselNext.addClass('inactive');    
           }
           if (firstLoad !== 'true') {
             $jcarousel.focus();
           }
+          $jcarouselSlides.eq(currentActive).addClass('active');  
         }
   
       }
