@@ -89,7 +89,6 @@
               $jcarouselSlides = $jcarousel.find('.slides > li'),
               firstActive = $jcarouselSlides.eq(0).index(),
               currentActive = $jcarousel.jcarousel('last').index(), // Last visible slide
-              //currentActive = $jcarouselSlides.eq(0).index(); 
               lastSlide = $jcarouselSlides.length - 1;
           
           // Remove active class that sets visibility: visible
