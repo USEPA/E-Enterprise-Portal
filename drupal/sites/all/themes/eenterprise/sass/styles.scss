@@ -678,7 +678,6 @@ header {
                 padding: 0;
                 li {
                     float: left;
-                    display: block;
                     width: 1500px;
                     height: auto;
                     margin-top: 0;
@@ -732,6 +731,19 @@ header {
                     .video-holder {
                         display: block;
                     }
+                    .learn-more {
+                        float: right;
+                        margin-right: 75px;
+                        a {
+                            color: $color-gray-white;
+                            &:visited,
+                            &:hover,
+                            &:focus,
+                            &:active {
+                                color: $color-white;
+                            }
+                        }
+                    } 
                 }
                 > li {
                     visibility: hidden;
@@ -2874,25 +2886,23 @@ table.dataTable, table.views-table {
             .jcarousel {
                 ul:not(.including_items) {
                     li {
-                        height: 475px;
+                        height: 485px;
                         padding: 50px 8rem;
                         &.including {
                             h2 {
-                                margin-bottom: 0;
+                                margin-bottom: 20px;
                             }
                             .including_items {
                                 padding-top: 2rem;
                             }
                             li {
-                                width: 45%;
-                                height: 150px;
+                                width: 49%;
+                                height: 125px;
+                                margin-bottom: 10px;
                                 display: table-cell;
                                 vertical-align: top;
                                 float: left;
                                 padding: 0;
-                                &.slide-row1:first-of-type {
-                                    margin-left: 5%;
-                                }
                                 &.slide-row1,
                                 &.slide-row2 {
                                     img {
@@ -3008,14 +3018,11 @@ table.dataTable, table.views-table {
                             }
                             li {
                                 width: 45%;
-                                height: 150px;
+                                height: 125px;
                                 display: table-cell;
                                 vertical-align: top;
                                 float: left;
                                 padding: 0;
-                                &.slide-row1:first-of-type {
-                                    margin-left: 5%;
-                                }
                                 &.slide-row1,
                                 &.slide-row2 {
                                     img {
@@ -3030,6 +3037,9 @@ table.dataTable, table.views-table {
                                 }
                                 &:after {
                                     content: none;
+                                }
+                                .learn-more {
+                                    margin-right: 0;
                                 }
                             }
                         }
