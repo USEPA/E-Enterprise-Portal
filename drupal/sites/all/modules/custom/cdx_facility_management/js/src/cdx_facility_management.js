@@ -168,6 +168,7 @@
                                     if (selected_org != '') {
                                         createProgramSelect(org_to_roles[selected_org].roles);
                                     }
+                                    adjustFacilityWidgetHeight();
                                 });
 
                                 management_button.click(function () {
