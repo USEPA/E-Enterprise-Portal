@@ -1,2 +1,2 @@
-!function(a){var b=STI.namespace("VillageGreen");b.VillageGreenDAL=function(){return{getDataForCurrentMinuteWelcomePage:function(a,b){jQuery.ajax({url:VG.config.baseUrl+"/village_green_block/api/getDataForCurrentMinute?siteID="+a,complete:b,dataType:"json",type:"POST"})}}}()}(jQuery);
+(function($){var VillageGreen=STI.namespace("VillageGreen");var VGD=VillageGreen.VillageGreenDAL=function(){return{getDataForCurrentMinuteWelcomePage:function(siteID,callbackFn){jQuery.ajax({url:VG.config.baseUrl+"/village_green_block/api/getDataForCurrentMinute?siteID="+siteID,complete:callbackFn,dataType:"json",type:"POST"})}}}()})(jQuery);
 //# sourceMappingURL=src/VillageGreenDAL.js.map
