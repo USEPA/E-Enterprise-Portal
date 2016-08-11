@@ -52,7 +52,6 @@ function cdx_facility_management_block_view($delta = '')
             module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
 
 
-$_SESSION['cdx_fmw_security_token'] = "csm:IiKaBeCRDqKV4pKx3NXZ56NkNQTO3zfsCrPzxrd29D593OOm8KhT7ENFQEZG5qtU.r3xQ3UHoSnvBhQTw0ISL1g_Z1hlQ-p7QbpVvW9xjKNYwIlzsOayCwNz2DlfZyRyX.KAWCWbhgQ7wO4LfLjHlgoc8MQAieBwn413uZ0Pfn-mefi5kjxAW8J_kgCKff7UhH.2CMB9Zvc5EeQjHjhAAUOsPVjAvx_Qin2GazAEVesHJuhUN57P-Q6QdiSq7hfSJh_.DWYdu0gM9j7PFmjO0Rlf3bZJjt7nidNX7l2p5s6ZBgT3ibppU_YLlOYdDR90McnV.RhYQvwE9FpkwxzdeGB60ceGTA5ziPbrCH7eWWs95X759NfJfj7QS0ArnL4EkqZN4.c3M4MwhnPeiMMPAAWKkvXVodVoMhOW-4yWC3M-updjnFGzMUw0fPe90-9v_fZ26e.nUzVzvA-NznAP1uHexlV3-3I55_UM2EkEHuDfuFE90KXDbvzX-E5Zh51GszP5w7U.EvzXFwqv4JqWoC-Nvhsf3onkVhPKWzZq_PPBw_pe0lfz3YdzBuyEQ0IX9BJ86G3s._F54UV7yaR0euu7HtwVtlKt0npAjhxB_6fjifXvQI9Pp6NGVCRZ9VyGFE-_zy2j9.";
             $user_settings = retrieve_cdx_user_data();
             $cdx_facility_management_settings = array();
             $cdx_facility_management_settings['user_data'] = $user_settings;

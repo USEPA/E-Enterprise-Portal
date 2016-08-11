@@ -13,6 +13,12 @@
     });
 
 
+    /**
+     * Creates and adds Program select to the Facility Widget block.
+     * Based dynamically on the roles_obj passed in.
+     * Handles select listener for program select
+     * @param roles_obj
+     */
     function createProgramSelect(roles_obj) {
         var program_filter_select = $('#fmw-program-select');
         var program_filter_select_holder = $('#fmw-program-select-holder');
@@ -49,6 +55,10 @@
         });
     }
 
+    /**
+     * Creates Role Type Select based on the type obj passed in
+     * @param type_obj
+     */
     function createFilterSelect(type_obj) {
         var type_filter_select = $('#fmw-type-select');
         var type_single = $('#fmw-type-single');
@@ -90,6 +100,11 @@
     }
 
 
+    /**
+     * Uses Drupal settings from @see cdx_facility_management.module, function cdx_facility_management_block_view()
+     * and creates select options for the Facility widget. Also initalized the widget with the token stored in
+     * Drupal.settings
+     */
     function generateUserData() {
         var user_data = Drupal.settings.cdx_facility_widget_settings.user_data;
         if (user_data.length === 0) {
@@ -194,6 +209,17 @@
     }
 
 
+    /**
+     * Activates the Facility Widget. If user has been logged in past  the time_threshold, will force log out option
+     * to continue using.
+     * @param user_role_id
+     * @param naas_token
+     * @param naas_ip
+     * @param resource_url
+     * @param time_logged_in
+     * @param time_threshold
+     * @param number_attempts
+     */
     function updateWidget(user_role_id, naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts) {
 
         $('#facility-widget').html('');
@@ -273,6 +299,10 @@
         });
     }
 
+    /**
+     * Updates Facilitiy Widget content with message to log out and
+     * button handler
+     */
     function userMustLogin() {
         var logged_in_view = $('#cdx-logged-in-options');
         var logged_out_view = $('#cdx-logged-out-options');
@@ -284,6 +314,12 @@
         });
     }
 
+    /**
+     * If the facility Widget does not work with the token
+     * or fails to load, this throws an error message and shows the full message on
+     * the console
+     * @param error
+     */
     function unableToConnectWidget(error) {
         console.log(error);
         var logged_in_view = $('#cdx-logged-in-options');
