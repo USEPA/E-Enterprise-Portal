@@ -1,0 +1,67 @@
+<?php
+
+function minify_install() {
+  db_update('system')
+    ->fields(array('weight' => 100))
+    ->condition('name', 'minify', '=')
+    ->execute();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function minify_uninstall() {
+  variable_del('minify_html');
+  variable_del('minify_js');
+  variable_del('minify_captured_js');
+  
+  $minify_dir = variable_get('file_public_path', conf_path() . '/files') . '/minify';
+  $files = file_scan_directory($minify_dir, '/.*\.*$/');
+  foreach($files as $key => $value) {
+    drupal_unlink($key);
+  }
+  
+  drupal_rmdir($minify_dir);
+}
+
+/**
+ * Set module weight
+ */
+function minify_update_7100() {
+  db_update('system')
+    ->fields(array('weight' => 100))
+    ->condition('name', 'minify', '=')
+    ->execute();
+}
+
+/**
+ * This update will clear all previously generated minify files and re-generate it.
+ *  After update user must visit Performance -> Minify JavaScript files to confirm.
+ */
+function minify_update_7102() {
+  module_load_include('inc', 'minify', 'minify.admin');
+  $cache_data = variable_get('minify_captured_js', array());
+
+  foreach ($cache_data as $key => $file_details) {
+    $cache_data[$key]['last_minify_at'] = 0;
+    $cache_data[$key]['original_size'] = filesize(drupal_realpath($key));
+    $cache_data[$key]['error'] = 0;
+    $cache_data[$key]['error_msg'] = '';
+    $cache_data[$key]['skip'] = 0;
+    (!isset($cache_data[$key]['version'])) ? ($cache_data[$key]['version'] = '') : '';
+    
+    variable_set('minify_captured_js', $cache_data);
+
+    /* If file is allrady minified, then re-generate it accordingly new file name convention */
+    if ($cache_data[$key]['status']) {
+      /* Clear old file */
+      drupal_unlink($cache_data[$key]['minified_file_path']);
+      /* Re-generate it */
+      _minify_process_minify($key, $cache_data);
+    }
+  }
+
+  $link = 'admin/config/development/performance/minifyjs';
+  return t('Minify files regenerated. ')
+    . t('Visit <a href="@link">Performance -> Minify JavaScript files</a> to confirm.', array('@link' => url($link)));
+}

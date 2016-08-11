@@ -1,0 +1,26 @@
+Minify 7.x-1.2, 2015-01-07
+------------------------------
+- #2298669 Injection of new line to limit line length is removed
+- #2302417 Collisions for any files with the same filename
+- #2328153 Not working with ThemeKey for multiple themes 
+
+
+Minify 7.x-1.1, 2013-03-29
+------------------------------
+- Bug fixed
+
+
+Minify 7.x-1.0, 2013-12-31
+------------------------------
+- Bug fixed
+- Updated to manage only front end / site visitor JavaScript files
+
+
+Minify 7.x-1.0-rc1, 2013-12-26
+------------------------------
+First rc1 release.
+
+
+Minify 7.x-1.x, 2013-12-26
+------------------------------
+Development release of minify module.
