@@ -44,20 +44,7 @@ function cdx_facility_widget_settings($form, $form_state) {
         '#default_value' => variable_get('cdx_facility_password'),
         '#required' => TRUE,
     );
-    $form['cdx_facility_widget_settings']['cdx_facility_local'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Load WSDL from server instead of service endpoint.'),
-        '#default_value' => variable_get('cdx_facility_local'),
-        '#required' => FALSE,
-    );
 
-    // temp for testing on aws
-    $form['cdx_facility_widget_settings']['temp_create_new_token'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Create new token (instead of using one from bridge)?'),
-        '#default_value' => variable_get('temp_create_new_token'),
-        '#required' => FALSE,
-    );
     $form['cdx_facility_widget_settings']['local_testing'] = array(
         '#type' => 'checkbox',
         '#title' => t('Local testing?'),
