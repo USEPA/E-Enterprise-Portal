@@ -52,9 +52,8 @@ function cdx_facility_management_block_view($delta = '')
             module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
 
 
-            $user_settings = retrieve_cdx_user_data();
             $cdx_facility_management_settings = array();
-            $cdx_facility_management_settings['user_data'] = $user_settings;
+            $cdx_facility_management_settings['user_data'] = retrieve_cdx_user_data();
             $cdx_facility_management_settings['token_data'] = return_cdx_facility_management_token(FALSE);
             $cdx_facility_management_settings['resource_url'] = variable_get('cdx_facility_resource_url');
             $cdx_facility_management_settings['token_from_bridge'] = feature_toggle_get_status('reuse_token_from_bridge');

@@ -135,11 +135,11 @@
 
         var program_filter_select_holder = $('#fmw-program-select-holder');
         var token_data = Drupal.settings.cdx_facility_widget_settings.token_data;
-        if (token_data === "") {
+        if (!token_data || token_data === "") {
             token_data = {expired: true};
         }
 
-        if (token_data.expired) {
+        if (token_data.expired || token_data.error) {
             userMustLogin();
             return;
         }
@@ -185,17 +185,16 @@
             org_filter_select.show();
         }
 
-
-                                org_filter_select.change(function () {
-                                    var selected_org = $(this).val();
-                                    program_filter_select_holder.hide();
-                                    type_filter_select_holder.hide();
-                                    management_button.hide();
-                                    if (selected_org != '') {
-                                        createProgramSelect(org_to_roles[selected_org].roles);
-                                    }
-                                    adjustFacilityWidgetHeight();
-                                });
+        org_filter_select.change(function () {
+            var selected_org = $(this).val();
+            program_filter_select_holder.hide();
+            type_filter_select_holder.hide();
+            management_button.hide();
+            if (selected_org != '') {
+                createProgramSelect(org_to_roles[selected_org].roles);
+            }
+            adjustFacilityWidgetHeight();
+        });
 
         management_button.click(function () {
             var user_role_id = $('#fmw-type-select').val();
