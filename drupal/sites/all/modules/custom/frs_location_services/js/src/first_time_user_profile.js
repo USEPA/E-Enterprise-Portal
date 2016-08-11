@@ -163,7 +163,7 @@
       });
 
       // Show zip selection options
-      $('#change-location').click(function() {
+      $('#change-location').on('click', function() {
         $zip_select.hide();
         $new_loc_input.val('');
         $loc_add_new.show();
@@ -175,7 +175,7 @@
       });
 
       // User has found zip they want, show in selected/nearest data
-      $('#confirm-zip-select').click(function() {
+      $('#confirm-zip-select').on('click', function() {
         changed_city = 'yes';
         selected_zip_code = $('#city-state-lookup-zips').val();
         var selected_location = all_zip_attr[selected_zip_code]['city'];
@@ -189,7 +189,7 @@
       });
 
       // User has found city they want, show in selected/nearest data
-      $('#confirm-city-select').click(function() {
+      $('#confirm-city-select').on('click', function() {
         changed_city = 'yes';
         preferred_name = $('#zip-lookup-city-state').val();
         var selected_location = $new_loc_input.val();
@@ -203,7 +203,7 @@
       });
 
       //Hide Zip selection options
-      $cancel_zip.click(function() {
+      $cancel_zip.on('click', function() {
         $zip_select.show();
         $loc_add_new.hide();
         $choose_zip_holder.hide();
@@ -213,16 +213,36 @@
         $('#change-location').focus();
       });
 
-      $('#add-location').click(function() {
+      $new_loc_input.on('keypress', function(e) {
+          var $elem = $(this);
+          if (e.keyCode === 13) {
+            e.stopImmediatePropagation();
+            if ($new_loc_input.val().length > 4) {            
+              initialValueCheck();
+            }
+          }
+      });
+
+      $('#add-location').on('click', function() {
+        initialValueCheck();
+      });
+      
+      function initialValueCheck() {
         var location_input = $new_loc_input;
         var location = location_input.val();
         var is_valid_zip = /(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/.test(location);
         // regex for city, state code
         var is_city_state = /^[\w\s]+,\s*\w{2}$/.test(location);
+        if ((is_valid_zip === true) || (is_city_state === true)) {
+          triggerCityZipLookup(location, location_input);
+        }
+      }
+
+      function triggerCityZipLookup(location, location_input) {
         $('#location-error-message').remove();
         location_input.removeClass('input-error');
         lookupAndProcessLocation(location, location_input);
-      });
+      }
 
       // accepts city, state or zipcodes.
       function lookupAndProcessLocation(location, location_input) {
@@ -237,9 +257,11 @@
             if (parsed_data.name_city_state) {
               var city_count = parsed_data.city.length;
               if (city_count == 0) { //Unable to find data for that zip
-                error_message = '<span id="location-error-message">The ZIP code you entered could not be found.</span>';
-                $loc_add_new.append(error_message);
-                location_input.addClass('input-error');
+                if ($('#location-error-message').length === 0) {
+                  error_message = '<span id="location-error-message">The ZIP code you entered could not be found.</span>';
+                  $loc_add_new.append(error_message);
+                  location_input.addClass('input-error');
+                }
               }
               else if (city_count == 1) { //Only one city/tribal area match
                 changed_city = 'yes';
@@ -282,8 +304,10 @@
               var zip_array = parsed_data.zip_array;
               var zip_count = zip_array.length;
               if (zip_count == 0) {
-                error_message = '<span id="location-error-message">No ZIP codes returned. Are you sure the city and state code were entered correctly? (e.g., Durham, NC)</span>';
-                $loc_add_new.append(error_message);
+                if ($('#location-error-message').length === 0) {
+                  error_message = '<span id="location-error-message">No ZIP codes returned. Are you sure the city and state code were entered correctly? (e.g., Durham, NC)</span>';
+                  $loc_add_new.append(error_message);
+                }
               }
               else if (zip_count == 1) {
                 changed_city = 'yes';
