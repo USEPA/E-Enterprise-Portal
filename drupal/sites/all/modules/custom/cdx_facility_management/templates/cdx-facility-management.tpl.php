@@ -10,12 +10,13 @@
  *
  * @ingroup views_templates
  */
+
 module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
 
 if (feature_toggle_get_status('use_new_method_for_cdx_js')): ?>
 
   <?php
-  drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+  drupal_add_js(drupal_get_path('module','cdx_facility_management') . "/js/cdx_facility_management.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
   drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/cdx_facility_management.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 
   drupal_add_library('system', 'ui.accordion');
