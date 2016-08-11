@@ -62,14 +62,6 @@ console.log(\'progress tracker ready\');
   $export['cdx_custom_analytics'] = $fe_block_boxes;
 
   $fe_block_boxes = new stdClass();
-  $fe_block_boxes->info = 'User login (New Bridge)';
-  $fe_block_boxes->format = 'full_html';
-  $fe_block_boxes->machine_name = 'ee_bridge_login';
-  $fe_block_boxes->body = '<div style="float:right"><a class="usa-button favorite-ignore" href="/guest_bye" id="guest-login">Log in</a></div>';
-
-  $export['ee_bridge_login'] = $fe_block_boxes;
-
-  $fe_block_boxes = new stdClass();
   $fe_block_boxes->info = 'EE Header Locations';
   $fe_block_boxes->format = 'php_code';
   $fe_block_boxes->machine_name = 'ee_header_locations';
