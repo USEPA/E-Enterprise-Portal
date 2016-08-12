@@ -1,0 +1,335 @@
+<?php
+
+/**
+ * Implements hook_help().
+ */
+function minify_help($path, $arg) {
+  switch ($path) {
+    case 'admin/config/development/performance/minifyjs':
+      $output = '<p>' . t('This is a simple module that provides the mechanism to minify JavaScript files, ');
+      $output .= t('which ultimatly reduces the file size and load time.') . '</p>';
+      $output .= '<p>' . t('In <b>Operations</b> column,<br /><b>Minify</b> => Generate the minified version,<br />');
+      $output .= t('<b>Refresh</b> => Refresh/regenerate the minified version,<br />');
+      $output .= t('<b>Revert</b> => Revert the changes and use the original file.') . '</p>';
+      $output .= '<p>' . t('In <b>Status</b> column,<br />');
+      $output .= t('<span class="marker">Out of sync</span> => Original file is updated, click Refresh to update minified file.') . '</p>';
+    return $output;
+  }
+}
+
+/**
+ * Implements hook_menu()
+ */
+function minify_menu() {
+  $items['admin/config/development/performance/default'] = array(
+    'title' => 'Performance',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 1,
+  );
+  $items['admin/config/development/performance/minifyjs'] = array(
+    'title' => 'Minify JavaScript files',
+    'access arguments' => array('administer minify'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('minify_js_callback'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 2,
+    'file' => 'minify.admin.inc',
+  );
+  $items['admin/config/development/performance/minifyjs/revert'] = array(
+    'title' => 'Revert Minify JS',
+    'access arguments' => array('administer minify'),
+    'page callback' => '_minify_js_revert_callback',
+    'file' => 'minify.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/config/development/performance/minifyjs/refresh'] = array(
+    'title' => 'Minify JS',
+    'access arguments' => array('administer minify'),
+    'page callback' => '_minify_js_refresh_callback',
+    'file' => 'minify.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission()
+ */
+function minify_permission() {
+  return array(
+    'administer minify' => array(
+      'title' => t('Administer minify'),
+      'description' => t('Perform administration tasks for minify module.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_FORM_ID_alter().
+ *
+ * @param type $form
+ * @param type $form_state
+ */
+function minify_form_system_performance_settings_alter(&$form, &$form_state, $form_id) {
+  if (user_access('administer minify')) {
+
+    $m_cnt = 0;
+    $cache = variable_get('minify_captured_js', array());
+    $status_flag = true;
+    foreach ($cache as $key => $value) {
+      if ($cache[$key]['status']) {
+        $status_flag = false;
+        $m_cnt++;
+      }
+    }
+
+    if (!$status_flag) {
+      $description = t('Select <b>Minify JavaScript files</b> tab at top of the page or ')
+        . l('Click here', 'admin/config/development/performance/minifyjs')
+        . t(' to manage minified JavaScript files.')
+        . t('<br />Out of <b>@cnt</b> only <b>@m_cnt</b> JavaScript files are minified.', array('@cnt' => count($cache), '@m_cnt' => $m_cnt));
+    } else {
+      $description = t('Select <b>Minify JavaScript file</b> tab at top of the page or ')
+        . l('Click here', 'admin/config/development/performance/minifyjs')
+        . t(' to generate and manage minified JavaScript files. <br />This option is avaliable only if when minified JavaScript files are exist.');
+    }
+
+    $form['bandwidth_optimization']['minify_html'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Minify HTML.'),
+      '#default_value' => intval(variable_get('minify_html', 0)),
+    );
+    $form['bandwidth_optimization']['minify_js'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Use Minified JavaScript files.'),
+      '#disabled' => $status_flag,
+      '#description' => $description,
+      '#default_value' => intval(variable_get('minify_js', 0)),
+    );
+  }
+}
+
+/**
+ * Implements hook_process_html()
+ */
+function minify_process_html(&$variables) {
+  global $theme;
+  $theme_default = variable_get('theme_default', null);
+  
+  /* Check Monify HTML is selected and it is for front end theme */
+  if (intval(variable_get('minify_html', 0)) && $theme == $theme_default) {
+    /* Constant used as replacement tag key in global placeholders array */
+    define('REPLACEMENT_HASH', 'MINIFYHTML' . md5($_SERVER['REQUEST_TIME']));
+    /* Get active theme regions */
+    $visible_theme_region = system_region_list($theme_default, REGIONS_ALL);
+    /* Add page region to array */
+    $visible_theme_region = array_merge(array('page' => 'Page', 'page_top' => 'Page top', 'page_bottom' => 'Page bottom'), $visible_theme_region);
+
+    /* Prase and check if region is exist then minify HTML */
+    foreach ($visible_theme_region as $key => $value) {
+      if (isset($variables[$key])) {
+        $variables[$key] = _minify_html($variables[$key]);
+      }
+    }
+  }
+}
+
+/**
+ * Helper function to minify HTML
+ */
+function _minify_html($buffer) {
+
+  /* Replace <textarea> with placeholder */
+  $buffer = preg_replace_callback('/\\s*<textarea(\\b[^>]*?>[\\s\\S]*?<\\/textarea>)\\s*/i', '_minify_html_callback', $buffer);
+
+  /* Replace <pre> with placeholder */
+  $buffer = preg_replace_callback('/\\s*<pre(\\b[^>]*?>[\\s\\S]*?<\\/pre>)\\s*/i', '_minify_html_callback', $buffer);
+
+  /* Replace <iframe> with placeholder */
+  $buffer = preg_replace_callback('/\\s*<iframe(\\b[^>]*?>[\\s\\S]*?<\\/iframe>)\\s*/i', '_minify_html_iframe_callback', $buffer);
+
+  /* Replace <script> with placeholder */ 
+  $buffer = preg_replace_callback('/\\s*<script(\\b[^>]*?>[\\s\\S]*?<\\/script>)\\s*/i', '_minify_html_script_callback', $buffer);
+
+  /* Replace <style> with placeholder */
+  $buffer = preg_replace_callback('/\\s*<style(\\b[^>]*?>[\\s\\S]*?<\\/style>)\\s*/i', '_minify_html_style_callback', $buffer);
+  
+  /* Remove HTML comment */
+  $buffer = preg_replace_callback('/<!--([\\s\\S]*?)-->/', '_minify_html_html_comment', $buffer);
+
+  $search = array(
+    '/\>[^\S ]+/s',                 // remove whitespaces after tags, except space
+    '/[^\S ]+\</s',                 // remove whitespaces before tags, except space
+    '/(\s)+/s',                     // shorten multiple whitespace sequences
+    '/\\s+(<\\/?(?:area|base(?:font)?|blockquote|body'
+        .'|caption|center|col(?:group)?|dd|dir|div|dl|dt|fieldset|form'
+        .'|frame(?:set)?|h[1-6]|head|hr|html|legend|li|link|map|menu|meta'
+        .'|ol|opt(?:group|ion)|p|param|t(?:able|body|head|d|h||r|foot|itle)'
+        .'|ul)\\b[^>]*>)/i',        // remove whitespaces around block/undisplayed elements
+    '/^\\s+|\\s+$/m',               // trim each line
+  );
+
+  $replace = array(
+    '>',        // remove whitespaces after tags, except space
+    '<',        // remove whitespaces before tags, except space
+    '\\1',      // shorten multiple whitespace sequences
+    '$1',       // remove whitespaces around block/undisplayed elements
+    '',         // trim each line
+  );
+
+  $buffer = preg_replace($search, $replace, $buffer);
+
+  /* Find and replace <textarea>, <pre>, <iframe>, <script> and <style> place holders values */
+  global $placeholders;
+  if (!empty($placeholders)) {
+    $buffer = str_replace(array_keys($placeholders), array_values($placeholders), $buffer);
+  }
+
+  return $buffer;
+}
+
+/**
+ * Remove HTML comments (not containing IE conditional comments).
+ */
+function _minify_html_html_comment($string) {
+  return (0 === strpos($string[1], '[') || false !== strpos($string[1], '<!['))
+    ? $string[0]
+    : '';
+}
+
+/*
+ * Helper function to add place holder for <textarea> and <pre> tag
+ */
+function _minify_html_callback($m){
+  return _minify_reserve_place($m[0]);
+}
+
+/*
+ * Helper function to add place holder for <iframe> tag
+ */
+function _minify_html_iframe_callback($m) {
+  $iframe = preg_replace('/^\\s+|\\s+$/m', '', $m[0]);
+  return _minify_reserve_place($iframe);
+}
+
+/*
+ * Helper function to add place holder for <script> tag
+ */
+function _minify_html_script_callback($m) {
+  $search = array(
+    '!/\*.*?\*/!s',     // remove multi-line comment
+    '/^\\s+|\\s+$/m',   // trim each line
+    '/\n(\s*\n)+/',     // remove multiple empty line
+  );
+  $replace = array('', "\n", "\n");
+  $script = preg_replace($search, $replace, $m[0]);
+  
+  return _minify_reserve_place($script);
+}
+
+/*
+ * Helper function to add place holder for <style> tag
+ */
+function _minify_html_style_callback($m) {
+  $search = array(
+    '!/\*.*?\*/!s',   // remove multiline comment
+    '/^\\s+|\\s+$/m'  // trim each line
+  );
+  $replace = array('');
+  $style = preg_replace($search, $replace, $m[0]);
+  return _minify_reserve_place($style);
+}
+
+/*
+ * Helper function to add tag key and value for further replacement
+ */
+function _minify_reserve_place($content) {
+  global $placeholders;
+  $placeholder = '%' . REPLACEMENT_HASH . count($placeholders) . '%';
+  $placeholders[$placeholder] = $content;
+  return $placeholder;
+}
+
+/**
+ * Implements hook_js_alter().
+ */
+function minify_js_alter(&$scripts) {
+  $cache = variable_get('minify_captured_js', array());
+
+  $updated = false;
+  foreach ($scripts as $file_path => $file_details) {
+    if ('file' == $file_details['type']) {
+      /* Set JavaScript entry into cache array if it not exist in cache */
+      if (!_minify_javascript_exist($file_path, $cache)) {
+        $updated = true;
+        $cache[$file_path]['file_path'] = $file_path;
+        $cache[$file_path]['file_name'] = drupal_basename($file_path);
+        $cache[$file_path]['version'] = isset($file_details['version']) ? $file_details['version'] : '';
+        $cache[$file_path]['minified_file_path'] = '';
+        $cache[$file_path]['original_size'] = filesize(drupal_realpath($file_path));
+        $cache[$file_path]['minified_size'] = 0;
+        $cache[$file_path]['status'] = false;
+        $cache[$file_path]['last_minify_at'] = 0;
+        $cache[$file_path]['error'] = 0;
+        $cache[$file_path]['error_msg'] = '';
+        $cache[$file_path]['skip'] = 0;
+      }
+      
+      if (!_minify_file_version_same($file_details, $cache[$file_path])) {
+        $updated = true;
+        $cache[$file_path]['version'] = isset($file_details['version']) ? $file_details['version'] : '';
+      }
+    }
+  }
+
+  /* If any change in existing array update cache */
+  if ($updated) {
+    variable_set('minify_captured_js', $cache);
+  }
+
+  if (intval(variable_get('minify_js', 0))) {
+    /* Replace the JavaScript path by minified path into $scripts without changing the order */
+    foreach ($cache as $key => $value) {
+      if (isset($scripts[$key]) && $value['status']) {
+        $scripts[$key]['data'] = $value['minified_file_path'];
+        $scripts = _minify_replace_array_key($scripts, $key, $value['minified_file_path']);
+      }
+    }
+  }
+}
+
+/*
+ * Helper function to check wheather JavaScript entry is exist into given array
+ *
+ * @param $search_value
+ *  JavaScript file name to search into array
+ *
+ * @param $cache
+ *  File array to search JavaScript 
+ */
+function _minify_javascript_exist($search_value, $cache) {
+  return array_key_exists($search_value, $cache);
+}
+
+
+/**
+ * Helper function to check file version is same
+ */
+function _minify_file_version_same($file_details, $cache_details) {
+  return (isset($file_details['version']) && isset($cache_details['version']))
+    ? ( ($file_details['version'] == $cache_details['version']) ? true : false) 
+    : false;
+}
+
+/*
+ * Helper function to change array key, without changing its order
+ */
+function _minify_replace_array_key($array, $old_key, $new_key) {
+  $keys = array_keys($array);
+  $index = array_search($old_key, $keys);
+  if ($index !== false) {
+    $keys[$index] = $new_key;
+    $array = array_combine($keys, $array);
+  }
+  return $array;
+}

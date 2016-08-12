@@ -27,26 +27,6 @@ function workbench_header_menu_default_menu_links() {
     'weight' => -49,
     'customized' => 1,
   );
-  // Exported menu link: main-menu_app-connect:app-connect-new.
-  $menu_links['main-menu_app-connect:app-connect-new'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'app-connect-new',
-    'router_path' => 'app-connect-new',
-    'link_title' => 'App Connect',
-    'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
-      'identifier' => 'main-menu_app-connect:app-connect-new',
-    ),
-    'module' => 'system',
-    'hidden' => 1,
-    'external' => 0,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => 1,
-    'customized' => 1,
-  );
   // Exported menu link: main-menu_home:<front>.
   $menu_links['main-menu_home:<front>'] = array(
     'menu_name' => 'main-menu',
@@ -84,7 +64,7 @@ function workbench_header_menu_default_menu_links() {
     'external' => 1,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -47,
+    'weight' => -46,
     'customized' => 1,
   );
   // Exported menu link: menu-footer-disclaimers_conditions-of-use:ee_disclaimer.
@@ -104,7 +84,7 @@ function workbench_header_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -46,
+    'weight' => -45,
     'customized' => 1,
   );
   // Exported menu link: menu-footer-disclaimers_e-enterprise-home:http://www2.epa.gov/e-enterprise/about-e-enterprise-environment.
@@ -144,7 +124,7 @@ function workbench_header_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -49,
+    'weight' => -48,
     'customized' => 1,
   );
   // Exported menu link: menu-footer-disclaimers_privacy-and-security-notice:http://www2.epa.gov/home/privacy-and-security-notice.
@@ -164,7 +144,7 @@ function workbench_header_menu_default_menu_links() {
     'external' => 1,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -48,
+    'weight' => -47,
     'customized' => 1,
   );
   // Exported menu link: menu-footer-disclaimers_release-notes:release-notes.
@@ -184,7 +164,7 @@ function workbench_header_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -45,
+    'weight' => -44,
     'customized' => 1,
   );
 

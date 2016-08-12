@@ -1,3 +1,7 @@
+#gridstack-pane-cdx_facility_management-cdx_facility_widget {
+    overflow-y: hidden;
+}
+
 /* Override the yellow select color inside widget */
 .facility-edit-bottom tr.selected td {
     background: inherit;
@@ -246,7 +250,7 @@
 }
 
 #edit-facility-state {
-    padding: 0rem 1rem;
+    padding: 0 1rem;
     height: 42px;
     margin-right: 2%;
 }

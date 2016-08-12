@@ -1765,7 +1765,6 @@ form .field-multiple-table#field-zip-code-values {
         }
         input[type="checkbox"] + label {
             @include button;
-
             padding: .5rem;
             margin: 0;
             width: 100%;
@@ -1906,7 +1905,6 @@ form .field-multiple-table#field-zip-code-values {
             @include button;
             background-color: $color-primary;
             padding: 1rem 3rem 1rem 4rem;
-
             width: 100%;
             color: $color-white;
             outline: 2px solid transparent;
@@ -3122,6 +3120,7 @@ table.dataTable, table.views-table {
         }
         img {
             vertical-align: middle;
+            width: 100%;
         }
     }
     .usa-button.mobile-nav_toggle {

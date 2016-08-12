@@ -10,7 +10,7 @@
 function other_items_of_interest_feature_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_source'
+  // Exported field_base: 'field_source'.
   $field_bases['field_source'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -32,7 +32,7 @@ function other_items_of_interest_feature_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_source_url'
+  // Exported field_base: 'field_source_url'.
   $field_bases['field_source_url'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -54,7 +54,7 @@ function other_items_of_interest_feature_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_topic'
+  // Exported field_base: 'field_topic'.
   $field_bases['field_topic'] = array(
     'active' => 1,
     'cardinality' => 1,
