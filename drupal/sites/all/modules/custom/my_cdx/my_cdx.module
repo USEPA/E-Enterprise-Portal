@@ -135,11 +135,13 @@ function my_cdx_links_json_output()
                     '" class="cdx-link" href="javascript:void(0);">' .
                     $value['role'] .
                     '</a>',
+                    $value['status'],
                 );
             } else {
                 $output[] = array(
                     $value['program_service_name'],
                     $value['role'],
+                    $value['status'],
                 );
             }
         }
@@ -241,6 +243,16 @@ function load_my_cdx_link_details($role_id)
 }
 
 /**
+ * Easy way to fake the status data in the Sample Links.
+ * @return mixed
+ */
+function fetchRandomStatus() {
+    $possible_statuses = array("inactive", "active");
+    $random_status_index = mt_rand(0, count($possible_statuses) - 1);
+    return $possible_statuses[$random_status_index];
+}
+
+/**
  * Fetch Sample My CDX data
  */
 function fetch_sample_my_cdx_links()
@@ -252,19 +264,21 @@ function fetch_sample_my_cdx_links()
         'role' => 'Certifier',
         'role_id' => "00001",
         'data_acronym' => "CED0",
+        'status' => fetchRandomStatus(),
     );
     $data[] = array(
         'program_service_name' => 'CSPP: Submissions for Chemical Safety and Pesticide Program',
         'role' => 'Primary Authorized Official',
         'role_id' => "00002",
         'data_acronym' => "CED1",
-
+        'status' => fetchRandomStatus(),
     );
     $data[] = array(
         'program_service_name' => 'eDisclosure: Voluntary Disclosure System',
         'role' => 'Disclose / Certify',
         'role_id' => "00003",
         'data_acronym' => "CED2",
+        'status' => fetchRandomStatus(),
 
     );
     $data[] = array(
@@ -272,6 +286,7 @@ function fetch_sample_my_cdx_links()
         'role' => 'E-Enterprise Portal',
         'role_id' => "00004",
         'data_acronym' => "CED3",
+        'status' => fetchRandomStatus(),
 
     );
     $data[] = array(
@@ -279,6 +294,7 @@ function fetch_sample_my_cdx_links()
         'role' => 'Primary Authorized Official',
         'role_id' => "00005",
         'data_acronym' => "CED4",
+        'status' => fetchRandomStatus(),
 
     );
 
@@ -319,15 +335,14 @@ function fetch_my_cdx_links()
             $result->response->links = array($result->response->links);
         }
         foreach ($result->response->links as $link) {
-            if ($link->Status->code === "Active") {
                 $data[] = array(
                     'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
                     'role' => $link->Description,
                     'role_id' => $link->RoleId,
                     'data_acronym' => $link->DataflowAcronym,
                     'role_description' => $link->Description,
+                    'status' => $link->Status->code,
                 );
-            }
         }
 
         return $data;
