@@ -3390,6 +3390,14 @@ a.usa-button.btn-facebook {
     @include btn-social(#cb2027);
 }
 
+a.usa-button.btn-social.btn-piv {
+    @include btn-social(#898989);
+    color: #fff;
+    .piv:before {
+        content: url('../images/white/piv-smartcard.png');
+    }
+}
+
 .btn-twitter,
 a.usa-button.btn-twitter {
     @include btn-social(#55acee);
