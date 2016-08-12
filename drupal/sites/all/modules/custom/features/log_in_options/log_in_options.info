@@ -1,0 +1,15 @@
+name = Log In Options
+description = Bridge landing and New to E-Enterprise page content with login options
+core = 7.x
+package = CGI
+version = 7.x-1.0
+dependencies[] = node
+dependencies[] = text
+features[features_api][] = api:2
+features[uuid_node][] = 2b51353b-ae55-4917-bdd7-52c8471e2774
+features[uuid_node][] = d8e04d57-7a08-4eb2-b55b-c7d33b374cf4
+features_exclude[node][page] = page
+features_exclude[dependencies][content_types_may_20_2015] = content_types_may_20_2015
+features_exclude[dependencies][features] = features
+features_exclude[dependencies][uuid_features] = uuid_features
+features_exclude[field_instance][node-page-body] = node-page-body

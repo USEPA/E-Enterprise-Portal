@@ -1765,7 +1765,6 @@ form .field-multiple-table#field-zip-code-values {
         }
         input[type="checkbox"] + label {
             @include button;
-
             padding: .5rem;
             margin: 0;
             width: 100%;
@@ -1906,7 +1905,6 @@ form .field-multiple-table#field-zip-code-values {
             @include button;
             background-color: $color-primary;
             padding: 1rem 3rem 1rem 4rem;
-
             width: 100%;
             color: $color-white;
             outline: 2px solid transparent;
@@ -3389,6 +3387,14 @@ a.usa-button.btn-facebook {
 
 .btn-pinterest {
     @include btn-social(#cb2027);
+}
+
+a.usa-button.btn-social.btn-piv {
+    @include btn-social(#898989);
+    color: #fff;
+    .piv:before {
+        content: url('../images/white/piv-smartcard.png');
+    }
 }
 
 .btn-twitter,
