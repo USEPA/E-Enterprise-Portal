@@ -120,9 +120,16 @@ function eenterprise_bridge_auth_authenticate($error)
             $openid_position = strpos($userDetails->attributes['name'][0], "ENOpenId");
             $wam_pos = stripos($userDetails->attributes['name'][0], "WAM");
             $username_raw = explode('/', $userDetails->attributes['name'][0]);
+            $piv_card_position = stripos($userDetails->attributes['issuer'][0], "SmartCard");
             $username = end($username_raw);
             $uname = "";
-            if ($wam_pos !== FALSE) {
+            if($piv_card_position !== FALSE){
+                $piv_uname = trim(trim($userDetails->attributes['uid'][0]), '"');
+                $uname_arr = explode(' ', $piv_uname);
+                $uname = $uname_arr[0] . "_" . $uname_arr[1] . "_Via_PIV_Card";
+                $public_or_cdx = 'public';
+            }
+            else if ($wam_pos !== FALSE) {
                 //Trim space and double quote from WAM name attribute.
                 $wam_uname = trim(trim($userDetails->attributes['name'][0]), '"');
                 $uname_pos = strrpos($wam_uname, "/");
@@ -167,6 +174,10 @@ function eenterprise_bridge_auth_authenticate($error)
             if (!$ext_user) {
                 user_external_login_register($uname, 'eenterprise_bridge_auth');
                 if ($user) {
+                    if($piv_card_position !== FALSE) {
+                      $edit = array('field_piv_card_org' => array('und' => array(0 => array('value' => $userDetails->attributes['Organization']." ".$userDetails->attributes['OrganizationUnit']))));
+                      user_save($user, $edit);
+                    }
                     user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
                     //if user is public user
                     if ($pos === FALSE && $openid_position === FALSE) {
