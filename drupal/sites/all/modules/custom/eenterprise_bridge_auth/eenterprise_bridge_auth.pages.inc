@@ -175,10 +175,12 @@ function eenterprise_bridge_auth_authenticate($error)
                 user_external_login_register($uname, 'eenterprise_bridge_auth');
                 if ($user) {
                     if($piv_card_position !== FALSE) {
-                      $edit = array('field_piv_card_org' => array('und' => array(0 => array('value' => $userDetails->attributes['Organization']." ".$userDetails->attributes['OrganizationUnit']))));
-                      user_save($user, $edit);
+                        $edit = array('field_piv_card_org' => array('und' => array(0 => array('value' => $userDetails->attributes['Organization']." ".$userDetails->attributes['OrganizationUnit']))));
+                        user_save($user, $edit);
                     }
-                    user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
+                    else {
+                        user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
+                    }
                     //if user is public user
                     if ($pos === FALSE && $openid_position === FALSE) {
                         $user_role = user_role_load_by_name('Public User');
