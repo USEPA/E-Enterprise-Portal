@@ -105,6 +105,12 @@ function eenterprise_bridge_auth_authenticate($error)
                 $userDetails = new stdClass();
                 $userDetails->attributes['name'][] = $_POST['name'];
             }
+            else if(isset($_POST['piv_card_test'])){
+                $userDetails = new stdClass();
+                $userDetails->attributes['uid'][] = $_POST['uid'];
+                $userDetails->attributes['Organization'][] = $_POST['Organization'];
+                $userDetails->attributes['OrganizationUnit'][] = $_POST['OrganizationUnit'];
+            }
             else {
                 $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $_POST['wresult']);
             }
@@ -175,7 +181,7 @@ function eenterprise_bridge_auth_authenticate($error)
                 user_external_login_register($uname, 'eenterprise_bridge_auth');
                 if ($user) {
                     if($piv_card_position !== FALSE) {
-                        $edit = array('field_piv_card_org' => array('und' => array(0 => array('value' => $userDetails->attributes['Organization']." ".$userDetails->attributes['OrganizationUnit']))));
+                        $edit = array('field_piv_card_org' => array('und' => array(0 => array('value' => $userDetails->attributes['Organization'][0]." ".$userDetails->attributes['OrganizationUnit'][0]))));
                         user_save($user, $edit);
                     }
                     else {
