@@ -131,6 +131,8 @@ function eenterprise_bridge_auth_authenticate($error)
             $uname = "";
             if($piv_card_position !== FALSE){
                 $piv_uname = trim(trim($userDetails->attributes['uid'][0]), '"');
+                $uname_pos = strrpos($piv_uname, "/");
+                $piv_uname = substr($piv_uname, $uname_pos+1);
                 $uname_arr = explode(' ', $piv_uname);
                 $uname = $uname_arr[0] . "_" . $uname_arr[1] . "_Via_PIV_Card";
                 $public_or_cdx = 'public';
