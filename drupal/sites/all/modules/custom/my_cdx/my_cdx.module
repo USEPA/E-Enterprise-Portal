@@ -112,6 +112,46 @@ function my_cdx_block_view($delta = '') {
 }
 
 /**
+ * Convert status from CDX into user friendly, readable status
+ * @param $status
+ * @return string
+ */
+function processCDXStatus($status) {
+
+  switch ($status) {
+    case "AwaitingApproval":
+      $status = "Awaiting Approval";
+      break;
+    case "AwaitingDigitalCertificate":
+      $status = "Awaiting DSA Approval";
+      break;
+    case "AwaitingElectronicSignatureAgreement":
+      $status = "Awaiting ESA Approval";
+      break;
+    case "AwaitingSponsorship":
+      $status = "Awaiting Sponsorship";
+      break;
+  }
+
+  return $status;
+}
+
+/**
+ * Loop through statuses in an array and return status string
+ * @param $status_array
+ * @return string
+ */
+function printStatuses($status_array) {
+  $statuses_string = "";
+  // Alphabetize statuses
+  asort($status_array);
+  foreach ($status_array as $status) {
+    $statuses_string .= '<div class="my-cdx-status">' . processCDXStatus($status) . '</div>';
+  }
+  return $statuses_string;
+}
+
+/**
  * Callback for 'my-cdx/links-json' menu item
  * @see https://www.webwash.net/drupal/articles/getting-started-json-drupal-7 (JSON Endpoints)
  */
@@ -122,22 +162,29 @@ function my_cdx_links_json_output() {
     $output = array();
     foreach ($input as $value) {
       if (feature_toggle_get_status('mycdx_connections')) {
+        // If status is not active, do not allow link to be clicked
+        if (!in_array("Active", $value['statuses'])) {
+          $link = $value['data']['role'];
+        }
+        else {
+          $link = '<a data-role-description="' . $value['data']['role_description'] . '" ' .
+            'data-acronym="' . $value['data']['data_acronym'] . '" ' .
+            'data-role-id="' . $value['data']['role_id'] . '" ' .
+            '" class="cdx-link" href="javascript:void(0);">' .
+            $value['data']['role'] .
+            '</a>';
+        }
         $output[] = array(
-          $value['program_service_name'],
-          '<a data-role-description="' . $value['role_description'] . '" ' .
-          'data-acronym="' . $value['data_acronym'] . '" ' .
-          'data-role-id="' . $value['role_id'] . '" ' .
-          '" class="cdx-link" href="javascript:void(0);">' .
-          $value['role'] .
-          '</a>',
-          $value['status'],
+          $value['data']['program_service_name'],
+          printStatuses($value['statuses']),
+          $link,
         );
       }
       else {
         $output[] = array(
           $value['program_service_name'],
+          processCDXStatus($value['status']),
           $value['role'],
-          $value['status'],
         );
       }
     }
@@ -268,7 +315,14 @@ function load_my_cdx_link_details($role_id) {
  * @return mixed
  */
 function fetchRandomStatus() {
-  $possible_statuses = array("inactive", "active");
+  $possible_statuses = array(
+    "Inactive",
+    "Active",
+    "AwaitingApproval",
+    "AwaitingDigitalCertificate",
+    "AwaitingElectronicSignatureAgreement",
+    "AwaitingSponsorship"
+  );
   $random_status_index = mt_rand(0, count($possible_statuses) - 1);
   return $possible_statuses[$random_status_index];
 }
@@ -318,6 +372,15 @@ function fetch_sample_my_cdx_links() {
 
   );
 
+  $data[] = array(
+    'program_service_name' => 'SSTS: Section Seven Tracking System',
+    'role' => 'Primary Authorized Official',
+    'role_id' => "00005",
+    'data_acronym' => "CED4",
+    'status' => "Inactive",
+  );
+
+
   return $data;
 }
 
@@ -353,15 +416,24 @@ function fetch_my_cdx_links() {
     if (!is_array($result->response->links)) {
       $result->response->links = array($result->response->links);
     }
+
+
     foreach ($result->response->links as $link) {
-      $data[] = array(
-        'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
-        'role' => $link->Description,
-        'role_id' => $link->RoleId,
-        'data_acronym' => $link->DataflowAcronym,
-        'role_description' => $link->Description,
-        'status' => $link->Status->code,
-      );
+      $key = $link->DataflowAcronym . ': ' . $link->DataflowName . '|' . $link->Description;
+      if (!is_array($data[$key])) {
+        $data[$key] = array('statuses' => array());
+        $data[$key]['data'] = array(
+          'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
+          'role' => $link->Description,
+          'role_id' => $link->RoleId,
+          'data_acronym' => $link->DataflowAcronym,
+          'role_description' => $link->Description,
+        );
+      }
+      $status = $link->Status->code;
+      if (!in_array($status, $data[$key]['statuses'])) {
+        $data[$key]['statuses'][] = $status;
+      }
     }
 
     return $data;
