@@ -1,7 +1,9 @@
 {
-"version": 3,
-"mappings": "AAAA,4BAA6B,CAC3B,UAAU,CAAE,MAAM,CAIpB,aAAc,CACZ,QAAQ,CAAE,gBAAgB,CAC1B,GAAG,CAAE,aAAa,CAClB,MAAM,CAAE,cAAc,CACtB,KAAK,CAAE,aAAa,CACpB,IAAI,CAAE,aAAa,CAGrB,wBAAyB,CACvB,KAAK,CAAE,eAAe,CACtB,MAAM,CAAE,MAAM,CACd,SAAS,CAAE,MAAM,CAEnB,uCAAwC,CACtC,KAAK,CAAE,eAAe,CACtB,OAAO,CAAE,CAAC,CAGZ,oEAAqE,CACpE,MAAM,CAAE,GAAG",
-"sources": ["../sass/suggestion_box_modal.scss"],
-"names": [],
-"file": "suggestion_box_modal.css"
+  "version": 3,
+  "mappings": "AAAA,4BAA6B,CAC3B,UAAU,CAAE,MAAM,CAIpB,aAAc,CACZ,QAAQ,CAAE,gBAAgB,CAC1B,GAAG,CAAE,aAAa,CAClB,MAAM,CAAE,cAAc,CACtB,KAAK,CAAE,aAAa,CACpB,IAAI,CAAE,aAAa,CAGrB,wBAAyB,CACvB,KAAK,CAAE,eAAe,CACtB,MAAM,CAAE,MAAM,CACd,SAAS,CAAE,MAAM,CAEnB,uCAAwC,CACtC,KAAK,CAAE,eAAe,CACtB,OAAO,CAAE,CAAC,CAGZ,oEAAqE,CACpE,MAAM,CAAE,GAAG",
+  "sources": [
+    "../sass/suggestion_box_modal.scss"
+  ],
+  "names": [],
+  "file": "suggestion_box_modal.css"
 }
