@@ -30,7 +30,8 @@
         "bLengthChange": false,
         "iDisplayLength": 5,
         "columnDefs": [
-            {"width": "70%", "targets": 0}, // First column width
+            {"width": "40%", "targets": 0}, // First column width
+            {"width": "30%", "targets": 1}, // Second column width
             {"width": "30%", "targets": 1}, // Second column width
         ],
         "bAutoWidth": false,
