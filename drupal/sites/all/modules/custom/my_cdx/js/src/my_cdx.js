@@ -186,7 +186,13 @@
      * Inspect the user's organizations and roles. If we only have one of each, connect them instantly
      */
     function instantConnect(data) {
-        if (true) {
+        var firstOrgClientCount;
+        for (var key in data.organizations) {
+          firstOrgClientCount = data.organizations[key].clientCount;
+          break;
+        }
+
+        if (data.orgCount == 1 && firstOrgClientCount == 1) {
             window.open('http://www.google.com');
             return true;
         }
