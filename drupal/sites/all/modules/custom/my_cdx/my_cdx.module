@@ -357,7 +357,7 @@ function fetch_my_cdx_links()
 function fetch_sample_my_cdx_link_details()
 {
     $data = array(
-        'orgCount' => 4,
+        'orgCount' => 3,
         'organizations' => array(),
     );
 

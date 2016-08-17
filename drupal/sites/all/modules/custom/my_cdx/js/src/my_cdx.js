@@ -78,8 +78,13 @@
                     // Add acronym to modal
                     $modal_content.find('.program-acronym').html(acronym);
 
-                    // Parse data and create select operations
-                    myCDXLinkDetailsHandler(data);
+                    if (!instantConnect(data)) {
+                        // Parse data and create select operations
+                        myCDXLinkDetailsHandler(data);
+                    } else {
+                        // close this modal
+                        $modal_content.dialog('close');
+                    }
 
                     // Close modal on clicking cancel
                     $('.cancel').click(function() {
@@ -175,5 +180,16 @@
                 }
             });
         }
+    }
+
+    /**
+     * Inspect the user's organizations and roles. If we only have one of each, connect them instantly
+     */
+    function instantConnect(data) {
+        if (true) {
+            window.open('http://www.google.com');
+            return true;
+        }
+        return false;
     }
 })(jQuery);
