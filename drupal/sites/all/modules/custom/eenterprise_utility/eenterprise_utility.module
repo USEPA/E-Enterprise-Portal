@@ -344,7 +344,7 @@ function guest_login_action() {
 function guest_logout_action() {
   watchdog('guest_user', 'Session ended for guest user.');
   global $user;
-  module_invoke_all('user_logout', $user);    
+  module_invoke_all('user_logout', $user);
   session_destroy();
   drupal_goto('/bridge-landing');
 }
@@ -459,7 +459,6 @@ function name_look_up($zip_lookup, $zip_search, &$lookup_names) {
         $lookup_names[$name][] = $zip;
         return $name;
       }
-
     }
   }
   return FALSE;
@@ -561,7 +560,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     $form['zip_mapping']['#attributes'] = array(
       'maxlength' => 'disabled'
     );
-    
+
     //Edit select default options
     $form['field_community_type'][LANGUAGE_NONE]['#options']['_none'] = t('N/A');
     $form['field_community_size'][LANGUAGE_NONE]['#options']['_none'] = t('Select size');
@@ -583,7 +582,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
      * Validation of Form
      */
     $form['#validate'][] = 'user_profile_form_custom_validate';
-    $form['#attributes']['novalidate'] = '1';    
+    $form['#attributes']['novalidate'] = '1';
 
     //We are not validating profile picture and password as we do not save and manage these information on the Portal.
     foreach ($form['#validate'] as $key => $val) {
@@ -669,40 +668,22 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
      * Favorite URL Settings
      */
     for ($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
-        $check_url = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'];
-        $check_text = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'];
-/*  SAMPLE FROM CODE USED IN AGENCY MAP SET TO CHECK VALID LINKS
-        if (!valid_url($check_url, TRUE)) {
-          $message = "Invalid Web URL (include http or https prefix).";
-          form_set_error($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'], $message);
-        } // Else, for valid formatted link, verify that link is not broken
-        else {
-          $headers = get_headers($check_url, 1);
-          if ($headers[0] == 'HTTP/1.1 200 OK') {
-            // Do nothing - this links seems to work
-          } else if ($headers[0] != 'HTTP/1.1 200 OK') {
-            form_set_error($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'], 'The link you tried - ' . $check_url . ' - does not seem to exist. Please check it and try again.');
-          } else {
-            form_set_error($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'], 'There was a problem checking this link.  Please let the system admin know.');
-          }
-        }  
-*/
-      if ($check_url === check_url($check_url)) {
-        print ("URL IS GOOD");
-      } else {
-        print ("URL IS NO GOOD");
-      }
-      
-      if ($check_text === check_plain($check_text)) {
-        print ("TITLE IS GOOD");
-      } else {
-        print ("TITLE IS NO GOOD");
-      }      
+      $url = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'];
+      $text = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'];
 
-        
+      $check_url = check_url($url);
+      if ($url !== check_url($check_url)) {
+        form_set_error($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'], 'There was a problem checking this link.  Please let the system admin know.');
+      }
+
+      $check_text = check_url($text);
+      if ($text !== check_plain($check_text)) {
+        form_set_error($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'], 'There was a problem checking this text.  It may contain invalid characters. Please refrain from using special characters.');
+      }
+
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = check_url($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value']);
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = check_plain($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value']);
-      
+
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['title'] = 'Remove favorite';
@@ -1060,19 +1041,19 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
   $user_data = user_load($user->uid);
   $user_initial_login = $user_data->field_initial_log_in;
 
-  $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+  $geolocation_used = (int) $user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
   $geolocation_value = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation_value'][LANGUAGE_NONE][0]['value'];
   $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
 
   if (!isset($form_state['input']['field_zip_code'])) {
-	  if (isset($skip) && isset($geolocation_value)) {
-		  $blank_zipcode = false;
-		  $site_default_zip = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation_value'][LANGUAGE_NONE][0]['value'];
-	  }	  
-		else {
-	    $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'] = $site_default_zip;
-	    $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
-	  }
+    if (isset($skip) && isset($geolocation_value)) {
+      $blank_zipcode = FALSE;
+      $site_default_zip = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation_value'][LANGUAGE_NONE][0]['value'];
+    }
+    else {
+      $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'] = $site_default_zip;
+      $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
+    }
     return;
   }
 
@@ -1325,10 +1306,10 @@ function get_modal_data($locations) {
       $name = trim($name);
       $radio_id = sprintf("%02d", $id++);;
       if ($zip == $primary_radio_zip && $name == $primary_radio_location) {
-        print '<input checked type="radio" id="location-' . $radio_id . '" data-location-zip="'. $zip . '" data-location-name="'. $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
+        print '<input checked type="radio" id="location-' . $radio_id . '" data-location-zip="' . $zip . '" data-location-name="' . $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
       }
       else {
-        print '<input type="radio" id="location-' . $radio_id . '" data-location-zip="'. $zip . '" data-location-name="'. $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
+        print '<input type="radio" id="location-' . $radio_id . '" data-location-zip="' . $zip . '" data-location-name="' . $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
       }
     }
   }
@@ -1368,7 +1349,7 @@ function generate_location_select() {
         $selected = 'selected';
         $primary_location_used = TRUE;
         // Set a data attribute on the option that's the primary location to avoid removing it later
-        $data_primary_location = " data-ee-location='primary' ";        
+        $data_primary_location = " data-ee-location='primary' ";
       }
       else {
         $selected = '';
@@ -1380,28 +1361,32 @@ function generate_location_select() {
       // Print option for select (up to 9 values) - Fill up the first 8, then make sure the primary exists - if not, add it
       if ($count < $max_location_items - 1) {
         print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . $data_primary_location . ">" . $name . " (" . $zip . ")</option>";
-      }
-      // Add default zip if not yet used
-      else if ($count == $max_location_items - 1) {
-        // If a primary zip exists but hasn't been used yet, add it
-        if (!$primary_location_used && $primary_zip > 0) {
-          $selected = 'selected';
-          // Set a data attribute on the option that's the primary location to avoid removing it later            
-          $data_primary_location = " data-ee-location='primary' ";
-          print "<option title = '" . $primary_location . " (" . $primary_zip . ")' value='" . $primary_zip . "' " . $selected . $data_primary_location .">" . $primary_location . " (" . $primary_zip . ")</option>";
+      } // Add default zip if not yet used
+      else {
+        if ($count == $max_location_items - 1) {
+          // If a primary zip exists but hasn't been used yet, add it
+          if (!$primary_location_used && $primary_zip > 0) {
+            $selected = 'selected';
+            // Set a data attribute on the option that's the primary location to avoid removing it later
+            $data_primary_location = " data-ee-location='primary' ";
+            print "<option title = '" . $primary_location . " (" . $primary_zip . ")' value='" . $primary_zip . "' " . $selected . $data_primary_location . ">" . $primary_location . " (" . $primary_zip . ")</option>";
+          } // If no primary zip exists or the primary zip was already used, just add another option
+          else {
+            if ($primary_location_used || !$primary_zip > 0) {
+              print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
+            }
+          }
         }
-        // If no primary zip exists or the primary zip was already used, just add another option
-        else if ($primary_location_used || !$primary_zip > 0) {
-          print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
+        else {
+          if ($show_more) {
+            print "<option value='view_more'>Show more...</option>";
+            $show_more = FALSE;
+            break;
+          }
         }
-      }
-      else if ($show_more) {
-        print "<option value='view_more'>Show more...</option>";
-        $show_more = FALSE;
-        break;
       }
       $data_primary_location = '';
-      $count = $count + 1;      
+      $count = $count + 1;
     }
   }
   print "</select>";
