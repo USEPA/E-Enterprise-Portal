@@ -880,7 +880,9 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
   else {
     // Test if zip code (and not city, state)
     $validation = postal_code_validation_validate($unparsed_zip, 'US');
-    if (!$validation['error']) {
+
+    // Call to Function exist is to check if the FRS module is available
+    if (!$validation['error'] && function_exists('frs_zip_code_to_city_state')) {
       // only send first 5 digits to frs return
       $zip = substr($validation['postal_code'], 0, 5);
       $frs_city_state_return = frs_zip_code_to_city_state($zip);
@@ -1010,6 +1012,12 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
   }
 }
 
+function user_profile_mail_custom_validate(&$form, &$form_state) {
+  // Prevent anyone form changing the email unless it is the admin
+  if($form['user']['uid'] != 1 && $form['#user']->uid != 1){
+    form_set_error('mail', t('You do not have adequate permission to edit your email.'));
+  }
+}
 
 /**
  * @param $form
@@ -1019,6 +1027,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
 function user_profile_form_custom_validate(&$form, &$form_state) {
   user_profile_zipcode_custom_validate($form, $form_state);
   user_profile_url_custom_validate($form, $form_state);
+  user_profile_mail_custom_validate($form, $form_state);
 }
 
 
@@ -1153,7 +1162,6 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
     $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
   }
 }
-
 
 function user_profile_url_custom_validate(&$form, &$form_state) {
   // Occurs when all values are blank.
