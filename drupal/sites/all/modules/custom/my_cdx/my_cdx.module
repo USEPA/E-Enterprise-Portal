@@ -419,13 +419,18 @@ function fetch_my_cdx_links() {
 
 
     foreach ($result->response->links as $link) {
+
       $key = $link->DataflowAcronym . ': ' . $link->DataflowName . '|' . $link->Description;
+
+      // If key has not been stored, initialize
       if (!is_array($data[$key])) {
-        $data[$key] = array('statuses' => array());
+        $data[$key] = array(
+          'statuses' => array(),
+          'role_ids' => array()
+        );
         $data[$key]['data'] = array(
           'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
           'role' => $link->Description,
-          'role_id' => $link->RoleId,
           'data_acronym' => $link->DataflowAcronym,
           'role_description' => $link->Description,
         );
@@ -434,6 +439,7 @@ function fetch_my_cdx_links() {
       if (!in_array($status, $data[$key]['statuses'])) {
         $data[$key]['statuses'][] = $status;
       }
+      $data[$key]['role_ids'][] = $link->RoleId;
     }
 
     return $data;
