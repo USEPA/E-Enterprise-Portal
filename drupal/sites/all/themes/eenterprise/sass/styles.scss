@@ -693,37 +693,29 @@ header {
                         }
                     }
                     &.including {
-                        h2 {
-                            margin-bottom: 0;
-                        }
-                        .including_items {
-                            padding-top: 2rem;
-                        }
                         li {
+                            padding-top: 2rem;
                             width: 100%;
                             display: block;
-                            &.slide-row1,
-                            &.slide-row2 {
-                                img {
-                                    width: 24px;
-                                    height: 24px;
-                                    vertical-align: top;
-                                }
-                                img, div {
-                                    display: inline-block;
-                                }
-                                h3 {
-                                    font-size: $h3-font-size;
-                                    margin-top: 0;
-                                    margin-bottom: 0;
-                                }
-                                p {
-                                    margin-top: 0;
-                                }
-                                div {
-                                    width: 80%;
-                                    margin-left: 10px;
-                                }
+                            img {
+                                width: 24px;
+                                height: 24px;
+                                vertical-align: top;
+                            }
+                            img, div {
+                                display: inline-block;
+                            }
+                            h3 {
+                                font-size: $h3-font-size;
+                                margin-top: 0;
+                                margin-bottom: 0;
+                            }
+                            p {
+                                margin-top: 0;
+                            }
+                            div {
+                                width: 80%;
+                                margin-left: 10px;
                             }
                         }
                     }
@@ -2888,30 +2880,24 @@ table.dataTable, table.views-table {
                         padding: 50px 8rem;
                         &.including {
                             h2 {
-                                margin-bottom: 20px;
-                            }
-                            .including_items {
-                                padding-top: 2rem;
+                                margin-bottom: 40px;
                             }
                             li {
                                 width: 49%;
-                                height: 125px;
+                                height: 80px;
                                 margin-bottom: 10px;
                                 display: table-cell;
                                 vertical-align: top;
                                 float: left;
                                 padding: 0;
-                                &.slide-row1,
-                                &.slide-row2 {
-                                    img {
-                                        border-radius: 50%;
-                                        width: 48px;
-                                        height: 48px;
-                                        vertical-align: top;
-                                    }
-                                    div {
-                                        width: 80%;
-                                    }
+                                img {
+                                    border-radius: 50%;
+                                    width: 48px;
+                                    height: 48px;
+                                    vertical-align: top;
+                                }
+                                div {
+                                    width: 80%;
                                 }
                                 &:after {
                                     content: none;
@@ -3008,30 +2994,21 @@ table.dataTable, table.views-table {
                         height: 475px;
                         padding: 50px 11rem;
                         &.including {
-                            h2 {
-                                margin-bottom: 0;
-                            }
-                            .including_items {
-                                padding-top: 2rem;
-                            }
                             li {
                                 width: 45%;
-                                height: 125px;
+                                height: 80px;
                                 display: table-cell;
                                 vertical-align: top;
                                 float: left;
                                 padding: 0;
-                                &.slide-row1,
-                                &.slide-row2 {
-                                    img {
-                                        border-radius: 50%;
-                                        width: 48px;
-                                        height: 48px;
-                                        vertical-align: top;
-                                    }
-                                    div {
-                                        width: 80%;
-                                    }
+                                img {
+                                    border-radius: 50%;
+                                    width: 48px;
+                                    height: 48px;
+                                    vertical-align: top;
+                                }
+                                div {
+                                    width: 80%;
                                 }
                                 &:after {
                                     content: none;
