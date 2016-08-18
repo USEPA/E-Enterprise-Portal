@@ -1012,12 +1012,6 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
   }
 }
 
-function user_profile_mail_custom_validate(&$form, &$form_state) {
-  // Prevent anyone form changing the email unless it is the admin
-  if($form['user']['uid'] != 1 && $form['#user']->uid != 1){
-    form_set_error('mail', t('You do not have adequate permission to edit your email.'));
-  }
-}
 
 /**
  * @param $form
@@ -1180,6 +1174,13 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
         $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
       }
     }
+  }
+}
+
+function user_profile_mail_custom_validate(&$form, &$form_state) {
+  // Prevent anyone form changing the email unless it is the admin
+  if($form['user']['uid'] != 1 && $form['#user']->uid != 1){
+    form_set_error('mail', t('You do not have adequate permission to edit your email.'));
   }
 }
 
