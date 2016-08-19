@@ -672,12 +672,12 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
       $text = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'];
 
       $check_url = check_url($url);
-      if ($url !== check_url($check_url)) {
+      if ($url !== $check_url) {
         form_set_error($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'], 'There was a problem checking this link.  Please let the system admin know.');
       }
 
-      $check_text = check_url($text);
-      if ($text !== check_plain($check_text)) {
+      $check_text = check_plain($text);
+      if ($text !== $check_text) {
         form_set_error($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'], 'There was a problem checking this text.  It may contain invalid characters. Please refrain from using special characters.');
       }
 
