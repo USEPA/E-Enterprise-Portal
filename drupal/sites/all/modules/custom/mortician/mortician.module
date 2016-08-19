@@ -1,0 +1,37 @@
+<?php
+
+
+/**
+ * Implements hook_menu()
+ */
+function mortician_menu() {
+  $items['admin/config/development/performance/default'] = array(
+    'title' => 'Performance',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 1,
+  );
+  $items['admin/config/development/performance/mortician'] = array(
+    'title' => 'Minify JavaScript files',
+    'access arguments' => array('administer mortician'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('mortician_callback'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 2,
+    'file' => 'mortician.admin.inc',
+  );
+  /*$items['admin/config/development/performance/minifyjs/revert'] = array(
+    'title' => 'Revert Minify JS',
+    'access arguments' => array('administer minify'),
+    'page callback' => '_minify_js_revert_callback',
+    'file' => 'minify.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/config/development/performance/minifyjs/refresh'] = array(
+    'title' => 'Minify JS',
+    'access arguments' => array('administer minify'),
+    'page callback' => '_minify_js_refresh_callback',
+    'file' => 'minify.admin.inc',
+    'type' => MENU_CALLBACK,
+  );*/
+  return $items;
+}
