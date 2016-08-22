@@ -668,26 +668,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
      * Favorite URL Settings
      */
     for ($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
-      $url = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'];
-      $text = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'];
-
-      $check_url = check_url($url);
-      if ($url !== $check_url) {
-        form_set_error($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'], 'There was a problem checking this link.  Please let the system admin know.');
-      }
-      else {
-        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = check_url($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value']);
-      }
-
-      $check_text = check_plain($text);
-      if ($text !== $check_text) {
-        form_set_error($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'], 'There was a problem checking this text.  It may contain invalid characters. Please refrain from using special characters.');
-      }
-      else {
-        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = check_plain($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value']);
-      }
-
-
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['title'] = 'Remove favorite';
@@ -1023,6 +1003,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
 function user_profile_form_custom_validate(&$form, &$form_state) {
   user_profile_zipcode_custom_validate($form, $form_state);
   user_profile_url_custom_validate($form, $form_state);
+  user_profile_favorites_custom_validate($form, $form_state);
 }
 
 
@@ -1179,6 +1160,32 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
   }
 }
 
+
+function user_profile_favorites_custom_validate(&$form, &$form_state) {
+
+  /**
+   * Favorite URL Settings
+   */
+  $nl = LANGUAGE_NONE;
+  $maxDelta = count($form_state['values']['field_profile_favourites'][LANGUAGE_NONE]);
+  for ($delta = 0; $delta < $maxDelta; $delta++) {
+    $url = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
+    $text = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'];
+
+    $errorMsg = 'There was a problem checking this link.  It may contain invalid characters. Please refrain from using special characters. Please contact a system admin if this problem continues.';
+    $match_html = preg_match('/(<script(\s|\S)*?<\/script>)|(<style(\s|\S)*?<\/style>)|(<!--(\s|\S)*?-->)|(<\/?(\s|\S)*?>)/', $url);
+    if ($match_html) {
+      $key = "field_profile_favourites][$nl][$delta][field_url";
+      form_set_error($key, t($errorMsg));
+    }
+
+    $check_text = check_plain($text);
+    if ($text !== $check_text) {
+      $key = "field_profile_favourites][$nl][$delta][field_title";
+      form_set_error($key, t($errorMsg));
+    }
+  }
+}
 /**
  * @param $form
  * @param $form_state
