@@ -164,18 +164,18 @@ function my_cdx_links_json_output() {
       if (feature_toggle_get_status('mycdx_connections')) {
         // If status is not active, do not allow link to be clicked
         if (!in_array("Active", $value['statuses'])) {
-          $link = $value['data']['role'];
+          $link = $value['role'];
         }
         else {
-          $link = '<a data-role-description="' . $value['data']['role_description'] . '" ' .
-            'data-acronym="' . $value['data']['data_acronym'] . '" ' .
-            'data-role-id="' . $value['data']['role_id'] . '" ' .
+          $link = '<a data-role-description="' . $value['role_description'] . '" ' .
+            'data-acronym="' . $value['data_acronym'] . '" ' .
+            'data-role-id="' . $value['role_id'] . '" ' .
             '" class="cdx-link" href="javascript:void(0);">' .
-            $value['data']['role'] .
+            $value['role'] .
             '</a>';
         }
         $output[] = array(
-          $value['data']['program_service_name'],
+          $value['program_service_name'],
           printStatuses($value['statuses']),
           $link,
         );
@@ -339,6 +339,7 @@ function fetch_sample_my_cdx_links() {
     'role_id' => "00001",
     'data_acronym' => "CED0",
     'status' => fetchRandomStatus(),
+    'statuses' => array(fetchRandomStatus()),
   );
   $data[] = array(
     'program_service_name' => 'CSPP: Submissions for Chemical Safety and Pesticide Program',
@@ -346,6 +347,7 @@ function fetch_sample_my_cdx_links() {
     'role_id' => "00002",
     'data_acronym' => "CED1",
     'status' => fetchRandomStatus(),
+    'statuses' => array(fetchRandomStatus()),
   );
   $data[] = array(
     'program_service_name' => 'eDisclosure: Voluntary Disclosure System',
@@ -353,7 +355,7 @@ function fetch_sample_my_cdx_links() {
     'role_id' => "00003",
     'data_acronym' => "CED2",
     'status' => fetchRandomStatus(),
-
+    'statuses' => array(fetchRandomStatus()),
   );
   $data[] = array(
     'program_service_name' => 'EEP: General E-Enterprise Use',
@@ -361,7 +363,7 @@ function fetch_sample_my_cdx_links() {
     'role_id' => "00004",
     'data_acronym' => "CED3",
     'status' => fetchRandomStatus(),
-
+    'statuses' => array(fetchRandomStatus()),
   );
   $data[] = array(
     'program_service_name' => 'SSTS: Section Seven Tracking System',
@@ -369,7 +371,7 @@ function fetch_sample_my_cdx_links() {
     'role_id' => "00005",
     'data_acronym' => "CED4",
     'status' => fetchRandomStatus(),
-
+    'statuses' => array(fetchRandomStatus()),
   );
 
   $data[] = array(
@@ -378,7 +380,20 @@ function fetch_sample_my_cdx_links() {
     'role_id' => "00005",
     'data_acronym' => "CED4",
     'status' => "Inactive",
+    'statuses' => array("Inactive"),
   );
+
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+  foreach ($data as $key => $value) {
+    if (feature_toggle_get_status('mycdx_connections')) {
+      unset($data[$key]['status']);
+    } else {
+      unset($data[$key]['statuses']);
+    }
+  }
+
+
+
 
 
   return $data;
