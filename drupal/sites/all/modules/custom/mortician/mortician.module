@@ -57,5 +57,12 @@ function mortician_remove_module($moduleIndex) {
     ))
     ->condition('filename', $moduleIndex)
     ->execute();
+
+  $modulePath = explode('/', $moduleIndex);
+  $moduleName = array_pop($modulePath);
+  if(strlen($moduleName) > 1){
+    drupal_set_message("'$moduleName' has been removed");
+  }
+
   return $num_deleted;
 }

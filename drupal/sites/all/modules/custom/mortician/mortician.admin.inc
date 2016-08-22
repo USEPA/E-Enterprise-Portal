@@ -7,7 +7,6 @@ function mortician_callback() {
   $options = array();
   $deadModules = getDeadModules();
   if (!empty($deadModules)) {
-    dsm($deadModules);
     foreach ($deadModules as $index => $module) {
       $options[$index] = array(
         'file_name' => $module->info['name'],
@@ -17,7 +16,6 @@ function mortician_callback() {
       );
     }
   }
-
   $header = array(
     'file_name' => t('Module name'),
     'version' => t('Version'),
@@ -45,10 +43,8 @@ function mortician_callback() {
 function _mortician_remove_callback() {
   global $user;
   $moduleIndex = $_GET['module'];
-  if($user->uid == 1) {
-    $moduleIndex = check_plain($moduleIndex);
-    mortician_remove_module($moduleIndex);
-  }
+  $moduleIndex = check_plain($moduleIndex);
+  mortician_remove_module($moduleIndex);
   drupal_goto('admin/config/development/performance/mortician');
 }
 
