@@ -240,7 +240,10 @@ function load_my_cdx_data() {
 
         // expire the cache every ___ minutes
         $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
-        cache_set($cache_key, $data, 'cache', $expire_ts);
+        module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+        if (!feature_toggle_get_status('cdx_dev_mode')) {
+          cache_set($cache_key, $data, 'cache', $expire_ts);
+        }
       }
     }
   }
@@ -281,7 +284,10 @@ function load_my_cdx_link_details($role_ids) {
 
         // expire the cache every ___ minutes
         $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
-        cache_set($cache_key, $data, 'cache', $expire_ts);
+        module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+        if (!feature_toggle_get_status('cdx_dev_mode')) {
+          cache_set($cache_key, $data, 'cache', $expire_ts);
+        }
       }
     }
   }
@@ -395,16 +401,9 @@ function fetch_my_cdx_links() {
   $location = 'my_cdx.module';
   $my_cdx_client_access = return_my_cdx_token();
   if ($token = $my_cdx_client_access['token']) {
-    // Extract out "_Via_CDX" string from username
-    $user_id = $user->name;
-    $cdx_pos = strrpos($user_id, "_Via_");
-    $cdx_pos = true;
-    if ($cdx_pos === FALSE) {
-      // do not connect to SOAP service if the user is not coming from CDX
+    if (!($user_id = verify_cdx_user($user->name))) {
       return array();
     }
-    $user_id = substr($user_id, 0, $cdx_pos);
-    $user_id = 'franklipman';
 
     // retrieve object from "RetrieveMyCdxLinks" service
     $params_for_data = array(
@@ -557,16 +556,9 @@ function fetch_my_cdx_link_details($role_ids) {
   $location = 'my_cdx.module';
   $my_cdx_client_access = return_my_cdx_token();
   if ($token = $my_cdx_client_access['token']) {
-    // Extract out "_Via_CDX" string from username
-    $user_id = $user->name;
-    $cdx_pos = strrpos($user_id, "_Via_");
-    $cdx_pos = true;
-    if ($cdx_pos === FALSE) {
-      // do not connect to SOAP service if the user is not coming from CDX
+    if (!($user_id = verify_cdx_user($user->name))) {
       return array();
     }
-    $user_id = substr($user_id, 0, $cdx_pos);
-    $user_id = 'franklipman';
 
     // retrieve object from "RetrieveMyCdxLinkDetails" service
     $data = array("orgCount" => 0, "organizations" => array());
@@ -642,4 +634,21 @@ function fetch_my_cdx_link_details($role_ids) {
   else {
     return array();
   }
+}
+
+/**
+ * do not connect to SOAP service if the user is not coming from CDX
+ */
+function verify_cdx_user($username) {
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+  if (feature_toggle_get_status('cdx_dev_mode')) {
+    return 'franklipman';
+  }
+  // Extract out "_Via_CDX" string from username
+  $user_id = $username;
+  $cdx_pos = strrpos($user_id, "_Via_");
+  if ($cdx_pos === FALSE) {
+    return FALSE;
+  }
+  return substr($user_id, 0, $cdx_pos);
 }
