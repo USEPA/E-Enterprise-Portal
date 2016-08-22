@@ -164,27 +164,27 @@ function my_cdx_links_json_output() {
       if (feature_toggle_get_status('mycdx_connections')) {
         // If status is not active, do not allow link to be clicked
         if (!in_array("Active", $value['statuses'])) {
-          $link = $value['role'];
+          $link = $value['data']['role'];
         }
         else {
-          $link = '<a data-role-description="' . $value['role_description'] . '" ' .
-            'data-acronym="' . $value['data_acronym'] . '" ' .
+          $link = '<a data-role-description="' . $value['data']['role_description'] . '" ' .
+            'data-acronym="' . $value['data']['data_acronym'] . '" ' .
             'data-role-ids="' . implode('|', $value['role_ids']) . '" ' .
             'class="cdx-link" href="javascript:void(0);">' .
-            $value['role'] .
+            $value['data']['role'] .
             '</a>';
         }
         $output[] = array(
-          $value['program_service_name'],
+          $value['data']['program_service_name'],
           printStatuses($value['statuses']),
           $link,
         );
       }
       else {
         $output[] = array(
-          $value['program_service_name'],
+          $value['data']['program_service_name'],
           processCDXStatus($value['status']),
-          $value['role'],
+          $value['data']['role'],
         );
       }
     }
@@ -398,11 +398,13 @@ function fetch_my_cdx_links() {
     // Extract out "_Via_CDX" string from username
     $user_id = $user->name;
     $cdx_pos = strrpos($user_id, "_Via_");
+    $cdx_pos = true;
     if ($cdx_pos === FALSE) {
       // do not connect to SOAP service if the user is not coming from CDX
       return array();
     }
     $user_id = substr($user_id, 0, $cdx_pos);
+    $user_id = 'franklipman';
 
     // retrieve object from "RetrieveMyCdxLinks" service
     $params_for_data = array(
@@ -558,12 +560,13 @@ function fetch_my_cdx_link_details($role_ids) {
     // Extract out "_Via_CDX" string from username
     $user_id = $user->name;
     $cdx_pos = strrpos($user_id, "_Via_");
+    $cdx_pos = true;
     if ($cdx_pos === FALSE) {
       // do not connect to SOAP service if the user is not coming from CDX
       return array();
     }
     $user_id = substr($user_id, 0, $cdx_pos);
-
+    $user_id = 'franklipman';
 
     // retrieve object from "RetrieveMyCdxLinkDetails" service
     $data = array("orgCount" => 0, "organizations" => array());
