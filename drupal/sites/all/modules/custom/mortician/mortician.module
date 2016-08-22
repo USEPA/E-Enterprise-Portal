@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Implements hook_menu()
  */
@@ -31,7 +30,10 @@ function mortician_menu() {
   return $items;
 }
 
-function getDeadModules() {
+/**
+ * Gets a list of dead modules
+ */
+function get_dead_modules() {
   $modules = [];
   $result = db_select('system')
     ->fields('system')
@@ -40,7 +42,7 @@ function getDeadModules() {
     ->execute();
 
   foreach ($result as $node) {
-    $path = DRUPAL_ROOT.'/'.$node->filename;
+    $path = DRUPAL_ROOT . '/' . $node->filename;
     If (!file_exists($path)) {
       $modules[$node->filename] = $node;
       $modules[$node->filename]->info = unserialize($node->info);
@@ -50,6 +52,9 @@ function getDeadModules() {
   return $modules;
 }
 
+/**
+ * Gets a remove dead modules
+ */
 function mortician_remove_module($moduleIndex) {
   $num_deleted = db_update('system')
     ->fields(array(
@@ -60,7 +65,7 @@ function mortician_remove_module($moduleIndex) {
 
   $modulePath = explode('/', $moduleIndex);
   $moduleName = array_pop($modulePath);
-  if(strlen($moduleName) > 1){
+  if (strlen($moduleName) > 1) {
     drupal_set_message("'$moduleName' has been removed");
   }
 

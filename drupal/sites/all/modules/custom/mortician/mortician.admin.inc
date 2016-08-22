@@ -5,7 +5,7 @@
  */
 function mortician_callback() {
   $options = array();
-  $deadModules = getDeadModules();
+  $deadModules = get_dead_modules();
   if (!empty($deadModules)) {
     foreach ($deadModules as $index => $module) {
       $options[$index] = array(
@@ -36,7 +36,6 @@ function mortician_callback() {
   return $form;
 }
 
-
 /**
  * Helper function to remove modules
  */
@@ -59,7 +58,6 @@ function _mortician_operation_links($details) {
 
   return $remove_link;
 }
-
 
 /**
  * Submit callback to clear captured data
