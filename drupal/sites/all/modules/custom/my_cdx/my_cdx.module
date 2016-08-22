@@ -587,29 +587,32 @@ function fetch_my_cdx_link_details($role_ids) {
         $result->response->linkDetails = array($result->response->linkDetails);
       }
 
-    }
 
+      foreach ($result->response->linkDetails as $linkDetail) {
 
-
-    foreach ($result->response->linkDetails as $linkDetail) {
-      if ($linkDetail->RoleStatus->code === "Active") {
-        if (!isset($data['organizations'][$linkDetail->UserOrganizationId])) {
-          $data['orgCount']++;
-          $data['organizations'][$linkDetail->UserOrganizationId] = array(
-            'clientCount' => 0,
-            'orgName' => $linkDetail->OrganizationName,
-            'programClients' => array(),
+        // Only accept links that are Active
+        if ($linkDetail->RoleStatus->code === "Active") {
+          $userOrgId = $linkDetail->UserOrganizationId;
+          if (!isset($data['organizations'][$userOrgId])) {
+            $data['orgCount']++;
+            $data['organizations'][$userOrgId] = array(
+              'clientCount' => 0,
+              'orgName' => $linkDetail->OrganizationName,
+              'programClients' => array(),
+            );
+          }
+          $data['organizations'][$userOrgId]["clientCount"]++;
+          $data['organizations'][$userOrgId]["programClients"][$linkDetail->UserRoleId] = array(
+            'clientName' => $linkDetail->Subject,
           );
         }
-        $data['organizations'][$linkDetail->UserOrganizationId]["clientCount"]++;
-        $data['organizations'][$linkDetail->UserOrganizationId]["programClients"][$linkDetail->UserRoleId] = array(
-          'clientName' => $linkDetail->Subject,
-        );
       }
+
     }
 
-
-    // Reset organizations and program clients to arrays for sorting and sort
+    // Organizations have a 1 to many relationship with Program Clients. We alphabetize
+    // program clients for each organization by clientName,
+    // then alphabetize the organizations by orgName
     $organizations = array();
     foreach ($data['organizations'] as $org_obj) {
       $client_ids = array();
@@ -620,6 +623,7 @@ function fetch_my_cdx_link_details($role_ids) {
       usort($client_ids, function ($a, $b) {
         return strcmp($a["clientName"], $b["clientName"]);
       });
+      // Reassign the programClients for this organization to the sorted client_ids
       $org_obj['programClients'] = $client_ids;
       $organizations[] = $org_obj;
     }
@@ -627,6 +631,7 @@ function fetch_my_cdx_link_details($role_ids) {
       return strcmp($a["orgName"], $b["orgName"]);
     });
 
+    // Reassign the organizations to the sorted version
     $data['organizations'] = $organizations;
 
     return $data;
