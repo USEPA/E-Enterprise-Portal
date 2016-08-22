@@ -2,6 +2,7 @@
 
 /**
  * Menu callback to generate overview form
+ * @return mixed
  */
 function mortician_callback() {
   $options = array();
@@ -40,7 +41,6 @@ function mortician_callback() {
  * Helper function to remove modules
  */
 function _mortician_remove_callback() {
-  global $user;
   $moduleIndex = $_GET['module'];
   $moduleIndex = check_plain($moduleIndex);
   mortician_remove_module($moduleIndex);
@@ -49,6 +49,8 @@ function _mortician_remove_callback() {
 
 /**
  * Helper function to construct operation links
+ * @param $details
+ * @return string
  */
 function _mortician_operation_links($details) {
   $remove_link = l('Remove',
@@ -61,6 +63,8 @@ function _mortician_operation_links($details) {
 
 /**
  * Submit callback to clear captured data
+ * @param $form
+ * @param $form_state
  */
 function clear_dead_modules($form, &$form_state) {
   foreach ($form_state['values']['modules'] as $index => $filename) {

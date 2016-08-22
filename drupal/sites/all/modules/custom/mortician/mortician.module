@@ -2,6 +2,7 @@
 
 /**
  * Implements hook_menu()
+ * @return mixed
  */
 function mortician_menu() {
   $items['admin/config/development/performance/default'] = array(
@@ -31,7 +32,21 @@ function mortician_menu() {
 }
 
 /**
+ * Implements hook_permission()
+ * @return array
+ */
+function mortician_permission() {
+  return array(
+    'administer mortician' => array(
+      'title' => t('Administer mortician'),
+      'description' => t('Perform administration tasks for mortician module.'),
+    ),
+  );
+}
+
+/**
  * Gets a list of dead modules
+ * @return array
  */
 function get_dead_modules() {
   $modules = [];
@@ -53,7 +68,9 @@ function get_dead_modules() {
 }
 
 /**
- * Gets a remove dead modules
+ * Remove dead modules
+ * @param $moduleIndex
+ * @return DatabaseStatementInterface
  */
 function mortician_remove_module($moduleIndex) {
   $num_deleted = db_update('system')
