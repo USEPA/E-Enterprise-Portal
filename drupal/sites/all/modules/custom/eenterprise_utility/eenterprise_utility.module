@@ -1174,13 +1174,13 @@ function user_profile_favorites_custom_validate(&$form, &$form_state) {
 
     $errorMsg = 'There was a problem checking this link.  It may contain invalid characters. Please refrain from using special characters. Please contact a system admin if this problem continues.';
     $match_html = preg_match('/(<script(\s|\S)*?<\/script>)|(<style(\s|\S)*?<\/style>)|(<!--(\s|\S)*?-->)|(<\/?(\s|\S)*?>)/', $url);
-    if ($match_html) {
+    if ($match_html && $url != null) {
       $key = "field_profile_favourites][$nl][$delta][field_url";
       form_set_error($key, t($errorMsg));
     }
 
     $check_text = check_plain($text);
-    if ($text !== $check_text) {
+    if ($text !== $check_text && $text != null) {
       $key = "field_profile_favourites][$nl][$delta][field_title";
       form_set_error($key, t($errorMsg));
     }
