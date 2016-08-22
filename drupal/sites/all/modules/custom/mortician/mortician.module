@@ -10,8 +10,9 @@ function mortician_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => 1,
   );
+
   $items['admin/config/development/performance/mortician'] = array(
-    'title' => 'Minify JavaScript files',
+    'title' => 'Mortician - Clean up dead modules',
     'access arguments' => array('administer mortician'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('mortician_callback'),
@@ -19,19 +20,42 @@ function mortician_menu() {
     'weight' => 2,
     'file' => 'mortician.admin.inc',
   );
-  /*$items['admin/config/development/performance/minifyjs/revert'] = array(
-    'title' => 'Revert Minify JS',
-    'access arguments' => array('administer minify'),
-    'page callback' => '_minify_js_revert_callback',
-    'file' => 'minify.admin.inc',
+
+  $items['admin/config/development/performance/mortician/remove'] = array(
+    'title' => 'Mortician',
+    'access arguments' => array('administer mortician'),
+    'page callback' => '_mortician_remove_callback',
+    'file' => 'mortician.admin.inc',
     'type' => MENU_CALLBACK,
   );
-  $items['admin/config/development/performance/minifyjs/refresh'] = array(
-    'title' => 'Minify JS',
-    'access arguments' => array('administer minify'),
-    'page callback' => '_minify_js_refresh_callback',
-    'file' => 'minify.admin.inc',
-    'type' => MENU_CALLBACK,
-  );*/
   return $items;
+}
+
+function getDeadModules() {
+  $modules = [];
+  $result = db_select('system')
+    ->fields('system')
+    ->condition('status', '1', '=')
+    ->range(0, 150)
+    ->execute();
+
+  foreach ($result as $node) {
+    $path = DRUPAL_ROOT.'/'.$node->filename;
+    If (!file_exists($path)) {
+      $modules[$node->filename] = $node;
+      $modules[$node->filename]->info = unserialize($node->info);
+    }
+  }
+
+  return $modules;
+}
+
+function mortician_remove_module($moduleIndex) {
+  $num_deleted = db_update('system')
+    ->fields(array(
+      'status' => 0
+    ))
+    ->condition('filename', $moduleIndex)
+    ->execute();
+  return $num_deleted;
 }
