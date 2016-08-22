@@ -1162,32 +1162,43 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
   }
 }
 
-
+/**
+ * @param $form
+ * @param $form_state
+ * Checks to make sure that favorite links do not have script tags with javascript inside
+ */
 function user_profile_favorites_custom_validate(&$form, &$form_state) {
 
-  /**
-   * Favorite URL Settings
-   */
   $nl = LANGUAGE_NONE;
   $maxDelta = count($form_state['values']['field_profile_favourites'][LANGUAGE_NONE]);
   for ($delta = 0; $delta < $maxDelta; $delta++) {
     $url = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
     $text = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'];
 
-    $errorMsg = 'There was a problem checking this link.  It may contain invalid characters. Please refrain from using special characters. Please contact a system admin if this problem continues.';
-    $match_html = preg_match('/(<script(\s|\S)*?<\/script>)|(<style(\s|\S)*?<\/style>)|(<!--(\s|\S)*?-->)|(<\/?(\s|\S)*?>)/', $url);
+    // The keys are build with the '][' as a delimiter then we will append the final field name in the form_set_error()
+    $key = "field_profile_favourites][$nl][$delta][";
+    $errorMsg = 'There was a problem checking this link.  It may contain invalid characters. Please refrain from using' .
+      ' special characters. Please contact a system admin if this problem continues.';
+
+    // this regex will look for an html tags or the keyword 'javascript'
+    $all_html_tags_and_js = '/(<script(\s|\S)*?<\/script>)|(<style(\s|\S)*?<\/style>)|(<!--(\s|\S)*?-->)|(<\/?(\s|\S)*?>)|javascript/';
+    $match_html = preg_match($all_html_tags_and_js, $url);
     if ($match_html && $url != null) {
-      $key = "field_profile_favourites][$nl][$delta][field_url";
-      form_set_error($key, t($errorMsg));
+      form_set_error($key . "field_url", t($errorMsg));
     }
 
     $check_text = check_plain($text);
     if ($text !== $check_text && $text != null) {
-      $key = "field_profile_favourites][$nl][$delta][field_title";
-      form_set_error($key, t($errorMsg));
+      form_set_error($key . "field_title", t($errorMsg));
     }
   }
 }
+
+/**
+ * @param $form
+ * @param $form_state
+ * Does a quick check to prevent the user email from being changed
+ */
 function user_profile_mail_custom_validate(&$form, &$form_state) {
   // Prevent anyone form changing the email unless it is the admin
   if($form['user']['uid'] != 1 && $form['#user']->uid != 1){
