@@ -186,6 +186,9 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
           </div>
         </div>
         <div class="your-selections facets-expanded all-resources">Your selections:</div>
+        <div>
+          <a href="javascript:void(0);" onclick="clearResources();">Clear Selections</a>
+        </div>
       </div>
       <div id="all-local-resources"></div>
     </div>
@@ -296,6 +299,9 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
             </div>
           </div>
           <div class="your-selections my-resources facets-expanded">Your selections:</div>
+          <div>
+            <a href="javascript:void(0);" onclick="clearResources();">Clear Selections</a>
+          </div>
         </div>
         <div id="user-local-resources"></div>
       </div>
