@@ -675,14 +675,18 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
       if ($url !== $check_url) {
         form_set_error($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'], 'There was a problem checking this link.  Please let the system admin know.');
       }
+      else {
+        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = check_url($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value']);
+      }
 
       $check_text = check_plain($text);
       if ($text !== $check_text) {
         form_set_error($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'], 'There was a problem checking this text.  It may contain invalid characters. Please refrain from using special characters.');
       }
+      else {
+        $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = check_plain($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value']);
+      }
 
-      $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = check_url($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value']);
-      $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = check_plain($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']['#default_value']);
 
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
