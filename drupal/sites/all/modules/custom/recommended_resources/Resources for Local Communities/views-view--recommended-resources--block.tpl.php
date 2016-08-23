@@ -93,10 +93,8 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
       <h3>
         <span class="icon on">
           <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
-          </a>
-          <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Source expanded.  Click to collapse"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Source collapsed.  Click to expand"/>            
           </a>
         </span>
         Source
@@ -105,10 +103,8 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
       <h3>
         <span class="icon on">
           <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
-          </a>
-          <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Topic expanded. Click to collapse"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Topic collapsed. Click to expand"/>
           </a>
         </span>
         Topic
@@ -117,10 +113,8 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
       <h3>
         <span class="icon on">
           <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
-          </a>
-          <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Category expanded. Click to collapse"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Category collapsed. Click to expand"/>
           </a>
         </span>
         Category
@@ -129,10 +123,8 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
       <h3>
         <span class="icon on">
           <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
-          </a>
-          <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Tool type expanded. Click to collapse"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Tool type collapsed. Click to expand"/>
           </a>
         </span>
         Tool Type
@@ -141,10 +133,8 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
       <h3>
         <span class="icon on">
           <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
-          </a>
-          <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Training level expanded. Click to collapse"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Training level collapsed. Click to expand"/>
           </a>
         </span>
         Training Level
@@ -153,10 +143,8 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
       <h3>
         <span class="icon on">
           <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
-          </a>
-          <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Data Requirements expanded. Click to collapse"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Data Requirements collapsed. Click to expand"/>
           </a>
         </span>
         Data Requirements
@@ -165,10 +153,8 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
       <h3>
         <span class="icon on">
           <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Click to collapse"/>
-          </a>
-          <a href="#" class="favorites-ignore">
-            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Click to expand"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-down.png" class="on" alt="Relevance expanded. Click to collapse"/>
+            <img src="<?php print drupal_get_path('module', 'recommended_resources'); ?>/images/arrow-right.png" class="off" alt="Relevance collapsed. Click to expand"/>
           </a>
         </span>
         Relevance
@@ -185,9 +171,9 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
             </a>
           </div>
         </div>
-        <div class="your-selections facets-expanded all-resources">Your selections:</div>
+        <div class="your-selections facets-expanded all-resources">Your selections</div>
         <div>
-          <a href="javascript:void(0);" onclick="clearResources();">Clear Selections</a>
+          <a href="javascript:void(0);" onclick="clearResources();" style="display:none;">Clear Selections</a>
         </div>
       </div>
       <div id="all-local-resources"></div>
@@ -298,9 +284,9 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
               </a>
             </div>
           </div>
-          <div class="your-selections my-resources facets-expanded">Your selections:</div>
+          <div class="your-selections my-resources facets-expanded">Your selections</div>
           <div>
-            <a href="javascript:void(0);" onclick="clearResources();">Clear Selections</a>
+            <a class="clear-lgc-resources" href="javascript:void(0);" onclick="clearResources();">Clear Selections</a>
           </div>
         </div>
         <div id="user-local-resources"></div>
