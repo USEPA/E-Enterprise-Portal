@@ -269,9 +269,20 @@ Truncate    text
 .your-selections a:after {
   content: url('../images/close_black.png');
   margin-left: 5px;
-  border: 1px solid #888;
-  padding: 1px 5px;
-  border-radius: 50%;
 }
+
+.your-selections span.facet-topic-container {
+    border: 1px solid gray;
+    margin: 3px 0px 0px 3px;
+    padding: 0px 3px 0px 3px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.your-selections a:after {
+  content: url('../images/close_black.png');
+  margin-left: 5px;
+}
+
 
 @import "rflc";
