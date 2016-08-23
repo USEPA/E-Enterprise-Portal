@@ -286,7 +286,6 @@ var LocalResourcesTable;
                 $span_selector.find('a span').html('Remove ' + $(this).next().attr('title'));
               } else {
                 $span_selector.hide();
-                $body.find('.clear-lgc-resources').hide();
               }
             });
 
