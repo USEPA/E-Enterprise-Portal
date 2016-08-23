@@ -37,6 +37,17 @@
   margin: 0 auto;
 }
 
+#local-resources-tabs .ui-widget-content a:visited {
+  color: #0071bc;
+}
+
+#local-resources-tabs .your-selections .selection-lbl {
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #888;
+}
+
 .action-links .first {
   border-right: 1px solid #aaa;
   padding-right: 10px;
@@ -212,7 +223,8 @@ Truncate    text
   cursor: pointer;
   font-size: 1.4rem;
   font-weight: bold;
-  padding: 5px 0;
+  padding: 5px 0 5px 26px;
+  text-indent: -26px;
 }
 
 .faceted-filters h3 .icon img {
@@ -224,6 +236,11 @@ Truncate    text
 .faceted-filters h3 span.on img.off,
 .faceted-filters h3 span.off img.on {
   display: none;
+}
+
+.faceted-filters .facet input[type=checkbox]+label {
+  padding-left: 26px;
+  text-indent: -26px;
 }
 
 .faceted-filters a.favorites-ignore {
@@ -241,6 +258,20 @@ Truncate    text
 .manage-my-topics-grid-wrapper {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+
+.your-selections span.facet-topic-container {
+  white-space: nowrap;
+  margin-bottom: 5px;
+}
+
+.your-selections a:after {
+  content: url('../images/close_black.png');
+  margin-left: 5px;
+  border: 1px solid #888;
+  padding: 1px 5px;
+  border-radius: 50%;
 }
 
 @import "rflc";

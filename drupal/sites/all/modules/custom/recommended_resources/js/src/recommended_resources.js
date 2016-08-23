@@ -7,7 +7,6 @@ function clearResources() {
 }
 
 (function ($) {
-
   function showLGCResourcesView() {
     var $localResourcesTabs = $('#local-resources-tabs');
     $('#user-lgc-topics-small-view').find('label').removeClass('selected');
@@ -21,7 +20,6 @@ function clearResources() {
     $(pane_class).find('.pane-title').show();
     $(pane_class).find('.ui-tabs-nav').show();
   }
-
 
   /**
    * Loads manage topics view via an ajax request
@@ -57,7 +55,6 @@ function clearResources() {
     $('.unfollow-lgc-topic').attr('id', 'unfollow-lgc-' + tid).show();
     favorite_local_resources_table.filterTopics(title);
   }
-
 
   $(document).ready(function () {
     var $body = $('body');
@@ -119,8 +116,7 @@ function clearResources() {
     $body.on('click', '#restrict-to-local-resources-button', function () {
       updateDropdown($('#user-lgc-topics-small-view'));
     });
-
-
+    
     // Toggle sidebar expanded / collapsed view
     $body.on('click', '#local-resources-tabs .faceted-filters .toggle a', function(ev) {
       ev.preventDefault();
@@ -136,5 +132,6 @@ function clearResources() {
       $h3.next().toggle();
       $h3.find('span').toggleClass('on off');
     });
+    
   });
 }(jQuery));

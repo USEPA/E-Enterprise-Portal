@@ -26,7 +26,6 @@
   $checked = array_key_exists($row->tid, $_SESSION['user_lgc_topics']);
 ?>
 
-
 <li class="usa-width-one-whole">
   <input
     id="manage-lgc-<?php print $row->tid ?>"

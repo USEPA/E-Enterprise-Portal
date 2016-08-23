@@ -233,8 +233,7 @@ var LocalResourcesTable;
             });
 
             var your_selections = $('.your-selections');
-            if (your_selections.find('.selection-lbl').length == 0) {
-
+            if (your_selections.find('.selection-lbl').length === 0) {
               var selection_lbl = "<div class='selection-lbl'>" + your_selections.html() + "</div>";
               your_selections.html(selection_lbl);
             }
@@ -258,7 +257,7 @@ var LocalResourcesTable;
 
                 if ((facet_topic.indexOf("(")) < 0) {
                   $(this).children('label').attr('title', facet_topic);
-                  var selection = "<span class='facet-topic-container' title='" + facet_topic + "'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'></a></span>";
+                  var selection = "<span class='facet-topic-container' title='" + facet_topic + "'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'><span class='sr-only'>Remove "+ facet_topic +"</span></a></span>";
                   if ($your_selections.find('span[title="' + facet_topic + '"]').length === 0) {
                     $your_selections.append(selection);
                     $your_selections.find('span.facet-topic-container').hide();
@@ -284,8 +283,11 @@ var LocalResourcesTable;
               if (!visible) {
                 $span_selector.css('display', 'inline-block');
                 $span_selector.find('span').html(shorten_string($(this).next().attr('title'), 40));
+                var remove_link = $(this).next().attr('title');
+                $span_selector.find('a span').html('Remove ' + $(this).next().attr('title'));
               } else {
                 $span_selector.hide();
+                $body.find('.clear-lgc-resources').hide();
               }
             });
 
