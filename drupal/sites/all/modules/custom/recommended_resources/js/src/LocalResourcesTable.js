@@ -283,7 +283,6 @@ var LocalResourcesTable;
               if (!visible) {
                 $span_selector.css('display', 'inline-block');
                 $span_selector.find('span').html(shorten_string($(this).next().attr('title'), 40));
-                var remove_link = $(this).next().attr('title');
                 $span_selector.find('a span').html('Remove ' + $(this).next().attr('title'));
               } else {
                 $span_selector.hide();
