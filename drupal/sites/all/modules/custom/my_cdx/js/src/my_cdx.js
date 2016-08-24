@@ -169,13 +169,14 @@
         $programClientName.hide();
       }
       $.each(programClientsJson.programClients, function (clientId, clientObj) {
+        var programClientName = clientObj.roleName + ': ' + clientObj.clientName;
         if (programClientsJson.clientCount === 1) {
-          $programClientName.html(roleDescription + ': ' + clientObj.clientName).show();
+          $programClientName.html(programClientName).show();
           $programClientsSelect.hide();
         } else {
           $option = $('<option />', {
             value: clientId,
-            text: roleDescription + ': ' + clientObj.clientName
+            text: programClientName
           });
           $programClientsSelect.append($option);
         }
