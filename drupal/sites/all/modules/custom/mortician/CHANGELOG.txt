@@ -1,0 +1,3 @@
+Mortician 7.x-1.x, 2016-06-24
+------------------------------
+Development release of Mortician module.
