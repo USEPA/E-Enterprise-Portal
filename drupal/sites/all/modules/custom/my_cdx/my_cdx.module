@@ -182,9 +182,9 @@ function my_cdx_links_json_output() {
       }
       else {
         $output[] = array(
-          $value['data']['program_service_name'],
+          $value['program_service_name'],
           processCDXStatus($value['status']),
-          $value['data']['role'],
+          $value['role'],
         );
       }
     }
@@ -422,12 +422,7 @@ function fetch_my_cdx_links() {
 
 
     foreach ($result->response->links as $link) {
-
       $key = $link->DataflowAcronym . ': ' . $link->DataflowName . '|' . $link->Description;
-      // GLENDA: Great Lakes Environmental Database Query System|Query User
-      // GLENDA: Great Lakes Environmental Database Query System|Certifier
-      // HELPDESK: CDX Help Desk|Query User
-      // TRIMEweb: Toxic Release Inventory Made Easy Web|TRI-MEweb (30020, 30010)
 
       // If key has not been stored, initialize
       if (!is_array($data[$key])) {
@@ -560,7 +555,7 @@ function fetch_my_cdx_link_details($role_ids) {
       return array();
     }
 
-    // retrieve object from "RetrieveMyCdxLinkDetails" service
+    // retrieve objects from "RetrieveMyCdxLinkDetails" service
     $data = array("orgCount" => 0, "organizations" => array());
     $role_ids = explode('|', $role_ids);
     foreach ($role_ids as $role_id) {
