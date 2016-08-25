@@ -37,8 +37,31 @@
   margin: 0 auto;
 }
 
-#local-resources-tabs .ui-widget-content a:visited {
-  color: #0071bc;
+#local-resources-tabs {
+  .ui-widget-content {
+    a.clear-lgc-resources {
+      background-color: #0071bc;
+      color: #fff;
+      border: 1px solid #0071bc;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      padding: 2px 5px;
+      margin-top: 5px;
+      display: block;
+      width: 10rem;
+      text-align: center;
+      text-decoration: none;
+      &:hover {
+        background-color: #205493;
+      }
+      &:visited,
+      &:hover,
+      &:focus,
+      &:active {
+        color: #fff;
+      }
+    }
+  }
 }
 
 #local-resources-tabs .your-selections .selection-lbl {
@@ -283,6 +306,5 @@ Truncate    text
   content: url('../images/close_black.png');
   margin-left: 5px;
 }
-
 
 @import "rflc";
