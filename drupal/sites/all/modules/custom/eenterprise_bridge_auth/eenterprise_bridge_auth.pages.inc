@@ -187,7 +187,7 @@ function eenterprise_bridge_auth_authenticate($error)
                         $org_pos = strrpos($userDetails->attributes['Organization'][0], ":");
                         $org = substr($userDetails->attributes['Organization'][0], $org_pos+1);
                         $org_unit_pos = strrpos($userDetails->attributes['OrganizationUnit'][0], ":");
-                        $org_unit = substr($userDetails->attributes['OrganizationUnit'][0], $org_unit_pos+1);
+                        $org_unit = substr($userDetails->attributes['OrganizationUnit'][0], $org_unit_pos);
                         $edit = array('field_piv_card_org' => array('und' => array(0 => array('value' => $org." : ".$org_unit))));
                         user_save($user, $edit);
                     }
