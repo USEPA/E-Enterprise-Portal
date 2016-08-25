@@ -137,6 +137,9 @@ function processCDXStatus($status) {
     case "AwaitingSponsorship":
       $status = "Awaiting Sponsorship";
       break;
+    case "OfflineTemporary":
+      $status = "Temporarily Offline";
+      break;
   }
 
   return $status;
