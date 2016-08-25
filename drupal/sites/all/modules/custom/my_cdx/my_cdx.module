@@ -170,18 +170,18 @@ function my_cdx_links_json_output() {
       if (feature_toggle_get_status('mycdx_connections')) {
         // If status is not active, do not allow link to be clicked
         if (!in_array("Active", $value['statuses'])) {
-          $link = $value['role'];
+          $link = $value['data']['role'];
         }
         else {
-          $link = '<a data-role-description="' . $value['role_description'] . '" ' .
-            'data-acronym="' . $value['data_acronym'] . '" ' .
-            'data-role-id="' . $value['role_id'] . '" ' .
-            '" class="cdx-link" href="javascript:void(0);">' .
-            $value['role'] .
+          $link = '<a data-role-description="' . $value['data']['role_description'] . '" ' .
+            'data-acronym="' . $value['data']['data_acronym'] . '" ' .
+            'data-role-ids="' . implode('|', $value['role_ids']) . '" ' .
+            'class="cdx-link" href="javascript:void(0);">' .
+            $value['data']['role'] .
             '</a>';
         }
         $output[] = array(
-          $value['program_service_name'],
+          $value['data']['program_service_name'],
           printStatuses($value['statuses']),
           $link,
         );
@@ -205,10 +205,11 @@ function my_cdx_links_json_output() {
 
 /**
  * Callback for 'my-cdx/link-details/%' menu item
+ * @param $role_ids string (pipe-delimited)
  * @see https://www.webwash.net/drupal/articles/getting-started-json-drupal-7 (JSON Endpoints)
  */
-function my_cdx_json_link_details($role_id) {
-  if ($input = load_my_cdx_link_details($role_id)) {
+function my_cdx_json_link_details($role_ids) {
+  if ($input = load_my_cdx_link_details($role_ids)) {
     drupal_json_output($input);
   }
   else {
@@ -260,7 +261,10 @@ function load_my_cdx_data() {
 
         // expire the cache every ___ minutes
         $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
-        cache_set($cache_key, $data, 'cache', $expire_ts);
+        module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+        if (!feature_toggle_get_status('cdx_dev_mode')) {
+          cache_set($cache_key, $data, 'cache', $expire_ts);
+        }
       }
     }
   }
@@ -270,9 +274,10 @@ function load_my_cdx_data() {
 /**
  * Load My CDX data from cache, web service, or static source (for testing)
  * Restructure XML return into an array we can JSONify, or return FALSE if we have an error
+ * @param $role_ids string (pipe-delimited)
  * @return mixed
  */
-function load_my_cdx_link_details($role_id) {
+function load_my_cdx_link_details($role_ids) {
   global $user;
   $data = &drupal_static(__FUNCTION__);
 
@@ -286,7 +291,7 @@ function load_my_cdx_link_details($role_id) {
       $cache_key = implode('|', array(
         'my_cdx_link_details',
         $user->uid,
-        $role_id,
+        $role_ids,
       ));
 
       if ($cache = cache_get($cache_key)) {
@@ -296,11 +301,14 @@ function load_my_cdx_link_details($role_id) {
       }
       // The cache was set but with invalid data
       if (!isset($data)) {
-        $data = fetch_my_cdx_link_details($role_id);
+        $data = fetch_my_cdx_link_details($role_ids);
 
         // expire the cache every ___ minutes
         $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
-        cache_set($cache_key, $data, 'cache', $expire_ts);
+        module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+        if (!feature_toggle_get_status('cdx_dev_mode')) {
+          cache_set($cache_key, $data, 'cache', $expire_ts);
+        }
       }
     }
   }
@@ -466,14 +474,9 @@ function fetch_my_cdx_links() {
   $location = 'my_cdx.module';
   $my_cdx_client_access = return_my_cdx_token();
   if ($token = $my_cdx_client_access['token']) {
-    // Extract out "_Via_CDX" string from username
-    $user_id = $user->name;
-    $cdx_pos = strrpos($user_id, "_Via_");
-    if ($cdx_pos === FALSE) {
-      // do not connect to SOAP service if the user is not coming from CDX
+    if (!($user_id = verify_cdx_user($user->name))) {
       return array();
     }
-    $user_id = substr($user_id, 0, $cdx_pos);
 
     // retrieve object from "RetrieveMyCdxLinks" service
     $params_for_data = array(
@@ -493,12 +496,16 @@ function fetch_my_cdx_links() {
 
     foreach ($result->response->links as $link) {
       $key = $link->DataflowAcronym . ': ' . $link->DataflowName . '|' . $link->Description;
+
+      // If key has not been stored, initialize
       if (!is_array($data[$key])) {
-        $data[$key] = array('statuses' => array());
+        $data[$key] = array(
+          'statuses' => array(),
+          'role_ids' => array() // array(30020, 30010)
+        );
         $data[$key]['data'] = array(
           'program_service_name' => $link->DataflowAcronym . ': ' . $link->DataflowName,
-          'role' => $link->Description,
-          'role_id' => $link->RoleId,
+          'role' => $link->Description, // TRI-MEWeb
           'data_acronym' => $link->DataflowAcronym,
           'role_description' => $link->Description,
         );
@@ -507,6 +514,7 @@ function fetch_my_cdx_links() {
       if (!in_array($status, $data[$key]['statuses'])) {
         $data[$key]['statuses'][] = $status;
       }
+      $data[$key]['role_ids'][] = $link->RoleId;
     }
 
     return $data;
@@ -621,58 +629,66 @@ function return_my_cdx_token() {
 
 /**
  * Fetch My CDX link details from SOAP service
+ * @param $role_ids string (pipe-delimited)
  */
-function fetch_my_cdx_link_details($role_id) {
+function fetch_my_cdx_link_details($role_ids) {
   global $user;
   $location = 'my_cdx.module';
   $my_cdx_client_access = return_my_cdx_token();
   if ($token = $my_cdx_client_access['token']) {
-    // Extract out "_Via_CDX" string from username
-    $user_id = $user->name;
-    $cdx_pos = strrpos($user_id, "_Via_");
-    if ($cdx_pos === FALSE) {
-      // do not connect to SOAP service if the user is not coming from CDX
+    if (!($user_id = verify_cdx_user($user->name))) {
       return array();
     }
-    $user_id = substr($user_id, 0, $cdx_pos);
 
-
-    // retrieve object from "RetrieveMyCdxLinks" service
-    $params_for_data = array(
-      'securityToken' => $token,
-      'userId' => $user_id,
-      'roleId' => $role_id
-    );
-    $result = callSOAPWithParams($my_cdx_client_access['client'], "RetrieveMyCdxLinkDetails", $params_for_data, $location);
-    if ($result->error) {
-      return array();
-    }
+    // retrieve objects from "RetrieveMyCdxLinkDetails" service
     $data = array("orgCount" => 0, "organizations" => array());
-    // format it to be some sort of array, match the structure of fetch_sample_my_cdx_links()
-    // CDX service sends an object if the return is singular.
-    // Convert the object to an array containing the object
-    if (!is_array($result->response->linkDetails)) {
-      $result->response->linkDetails = array($result->response->linkDetails);
-    }
-    foreach ($result->response->linkDetails as $linkDetail) {
-      if ($linkDetail->RoleStatus->code === "Active") {
-        if (!isset($data['organizations'][$linkDetail->UserOrganizationId])) {
-          $data['orgCount']++;
-          $data['organizations'][$linkDetail->UserOrganizationId] = array(
-            'clientCount' => 0,
-            'orgName' => $linkDetail->OrganizationName,
-            'programClients' => array(),
+    $role_ids = explode('|', $role_ids);
+    foreach ($role_ids as $role_id) {
+      // make the SOAP call
+      $params_for_data = array(
+        'securityToken' => $token,
+        'userId' => $user_id,
+        'roleId' => $role_id,
+      );
+      $result = callSOAPWithParams($my_cdx_client_access['client'], "RetrieveMyCdxLinkDetails", $params_for_data, $location);
+      if ($result->error) {
+        continue;
+      }
+
+      // format it to be some sort of array, match the structure of fetch_sample_my_cdx_links()
+      // CDX service sends an object if the return is singular.
+      // Convert the object to an array containing the object
+      if (!is_array($result->response->linkDetails)) {
+        $result->response->linkDetails = array($result->response->linkDetails);
+      }
+
+
+      foreach ($result->response->linkDetails as $linkDetail) {
+
+        // Only accept links that are Active
+        if ($linkDetail->RoleStatus->code === "Active") {
+          $userOrgId = $linkDetail->UserOrganizationId;
+          if (!isset($data['organizations'][$userOrgId])) {
+            $data['orgCount']++;
+            $data['organizations'][$userOrgId] = array(
+              'clientCount' => 0,
+              'orgName' => $linkDetail->OrganizationName,
+              'programClients' => array(),
+            );
+          }
+          $data['organizations'][$userOrgId]["clientCount"]++;
+          $data['organizations'][$userOrgId]["programClients"][$linkDetail->UserRoleId] = array(
+            'clientName' => $linkDetail->Subject,
+            'roleName' => $linkDetail->RoleName,
           );
         }
-        $data['organizations'][$linkDetail->UserOrganizationId]["clientCount"]++;
-        $data['organizations'][$linkDetail->UserOrganizationId]["programClients"][$linkDetail->UserRoleId] = array(
-          'clientName' => $linkDetail->Subject,
-        );
       }
+
     }
 
-
-    // Reset organizations and program clients to arrays for sorting and sort
+    // Organizations have a 1 to many relationship with Program Clients. We alphabetize
+    // program clients for each organization by clientName,
+    // then alphabetize the organizations by orgName
     $organizations = array();
     foreach ($data['organizations'] as $org_obj) {
       $client_ids = array();
@@ -683,6 +699,7 @@ function fetch_my_cdx_link_details($role_id) {
       usort($client_ids, function ($a, $b) {
         return strcmp($a["clientName"], $b["clientName"]);
       });
+      // Reassign the programClients for this organization to the sorted client_ids
       $org_obj['programClients'] = $client_ids;
       $organizations[] = $org_obj;
     }
@@ -690,6 +707,7 @@ function fetch_my_cdx_link_details($role_id) {
       return strcmp($a["orgName"], $b["orgName"]);
     });
 
+    // Reassign the organizations to the sorted version
     $data['organizations'] = $organizations;
 
     return $data;
@@ -697,6 +715,23 @@ function fetch_my_cdx_link_details($role_id) {
   else {
     return array();
   }
+}
+
+/**
+ * do not connect to SOAP service if the user is not coming from CDX
+ */
+function verify_cdx_user($username) {
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+  if (feature_toggle_get_status('cdx_dev_mode')) {
+    return 'franklipman';
+  }
+  // Extract out "_Via_CDX" string from username
+  $user_id = $username;
+  $cdx_pos = strrpos($user_id, "_Via_");
+  if ($cdx_pos === FALSE) {
+    return FALSE;
+  }
+  return substr($user_id, 0, $cdx_pos);
 }
 
 /**

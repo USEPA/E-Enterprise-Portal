@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * Implements hook_menu()
+ * @return mixed
+ */
+function mortician_menu() {
+  $items['admin/config/development/performance/default'] = array(
+    'title' => 'Performance',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 1,
+  );
+
+  $items['admin/config/development/performance/mortician'] = array(
+    'title' => 'Mortician - Clean up dead modules',
+    'access arguments' => array('administer mortician'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('mortician_callback'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 2,
+    'file' => 'mortician.admin.inc',
+  );
+
+  $items['admin/config/development/performance/mortician/remove'] = array(
+    'title' => 'Mortician',
+    'access arguments' => array('administer mortician'),
+    'page callback' => '_mortician_remove_callback',
+    'file' => 'mortician.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission()
+ * @return array
+ */
+function mortician_permission() {
+  return array(
+    'administer mortician' => array(
+      'title' => t('Administer mortician'),
+      'description' => t('Perform administration tasks for mortician module.'),
+    ),
+  );
+}
+
+/**
+ * Gets a list of dead modules
+ * @return array
+ */
+function get_dead_modules() {
+  $modules = [];
+  $result = db_select('system')
+    ->fields('system')
+    ->condition('status', '1', '=')
+    ->range(0, 150)
+    ->execute();
+
+  foreach ($result as $node) {
+    $path = DRUPAL_ROOT . '/' . $node->filename;
+    If (!file_exists($path)) {
+      $modules[$node->filename] = $node;
+      $modules[$node->filename]->info = unserialize($node->info);
+    }
+  }
+
+  return $modules;
+}
+
+/**
+ * Remove dead modules
+ * @param $moduleIndex
+ * @return DatabaseStatementInterface
+ */
+function mortician_remove_module($moduleIndex) {
+  $num_deleted = db_update('system')
+    ->fields(array(
+      'status' => 0
+    ))
+    ->condition('filename', $moduleIndex)
+    ->execute();
+
+  $modulePath = explode('/', $moduleIndex);
+  $moduleName = array_pop($modulePath);
+  if (strlen($moduleName) > 1) {
+    drupal_set_message("'$moduleName' has been removed");
+  }
+
+  return $num_deleted;
+}

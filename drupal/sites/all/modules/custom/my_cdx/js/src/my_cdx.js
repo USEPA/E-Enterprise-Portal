@@ -55,7 +55,7 @@
   // Click handler for clicking a CDX role
   // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
   $tabs.on('click', 'a.cdx-link', function (ev) {
-    var roleID = $(this).data('roleId');
+    var roleIds = $(this).data('roleIds');
     var acronym = $(this).data('acronym');
     var roleDescription = $(this).data('roleDescription');
     var $modal_content = $('#my-cdx-modal-content')
@@ -65,7 +65,7 @@
         title: 'Application Profile Settings'
       });
     $.ajax({
-      url: Drupal.settings.basePath + 'my-cdx/link-details-json/' + roleID,
+      url: Drupal.settings.basePath + 'my-cdx/link-details-json/' + roleIds,
       dataType: 'json',
       success: function (data) {
         if ($modal_content.is(':visible')) {
@@ -200,13 +200,14 @@
         $programClientName.hide();
       }
       $.each(programClientsJson.programClients, function (clientId, clientObj) {
+        var programClientName = clientObj.roleName + ': ' + clientObj.clientName;
         if (programClientsJson.clientCount === 1) {
-          $programClientName.html(roleDescription + ': ' + clientObj.clientName).show();
+          $programClientName.html(programClientName).show();
           $programClientsSelect.hide();
         } else {
           $option = $('<option />', {
             value: clientId,
-            text: roleDescription + ': ' + clientObj.clientName
+            text: programClientName
           });
           $programClientsSelect.append($option);
         }

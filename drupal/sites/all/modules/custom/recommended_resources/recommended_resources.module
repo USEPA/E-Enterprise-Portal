@@ -71,7 +71,6 @@ function recommended_resources_theme_registry_alter(&$theme_registry) {
   }
 }
 
-
 /**
  * Creates Session array if does not already exists.
  * Checks session for topic tid
@@ -156,15 +155,12 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
-
 function recommended_resources_form_validate($form, &$form_state) {
   $edit_form = FALSE;
   $delete_form = FALSE;
   $changed_title = FALSE;
-
   $input_title = $form_state['input']['title'];
   $saved_title = $form['title']['#default_value'];
-
 
   if (!empty($form_state['values']['delete'])) {
     $edit_form = TRUE;
@@ -175,7 +171,6 @@ function recommended_resources_form_validate($form, &$form_state) {
   if ($input_title != $saved_title) {
     $changed_title = TRUE;
   }
-
 
   if (!$delete_form) {
     $url = $form_state['values']['field_lgc_link'][LANGUAGE_NONE][0]['value'];
@@ -195,7 +190,6 @@ function recommended_resources_form_validate($form, &$form_state) {
   }
 }
 
-
 /**
  * Hook_node_presave
  */
@@ -210,7 +204,6 @@ function recommended_resources_node_presave($node) {
 function new_lgc_resource_form_redirect($form, &$form_state) {
   drupal_goto('/local-resource-editor');
 }
-
 
 function generateUserLocalResourcesTable() {
   set_user_lgc_topic_session();
@@ -243,7 +236,6 @@ function save_lgc_topic() {
     exit();
   }
 
-
   //Add tid to users preexisting lgc topic tids
   $tid = $_POST['tid'];
   $user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
@@ -263,7 +255,6 @@ function save_lgc_topic() {
   }
   print json_encode($response);
 }
-
 
 /**
  * Accepts POST request with "tid" param
@@ -308,7 +299,6 @@ function remove_lgc_topic() {
   }
   print json_encode($response);
 }
-
 
 function set_user_lgc_topic_session() {
   $_SESSION['user_lgc_topics'] = array();
@@ -435,7 +425,6 @@ function load_data_from_rcs() {
     return $cache;
   }
 }
-
 
 /**
  * Returns json of all lgc information

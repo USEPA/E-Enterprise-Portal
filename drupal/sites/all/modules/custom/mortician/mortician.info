@@ -1,0 +1,5 @@
+name = "Mortician"
+description = "Checks drupal system for modules that have been removed improperly"
+core = 7.x
+package = Performance and scalability
+configure = admin/config/development/performance/default
