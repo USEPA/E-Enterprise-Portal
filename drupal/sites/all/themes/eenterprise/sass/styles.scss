@@ -4159,3 +4159,7 @@ select[multiple="multiple"] {
     background: none;
 }
 
+// add red boxes to bad input
+.edit-user-profile .error {
+    outline: 1px solid red;
+}
