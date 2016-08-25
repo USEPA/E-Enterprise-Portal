@@ -133,7 +133,7 @@ function eenterprise_bridge_auth_authenticate($error)
             if($piv_card_position !== FALSE){
                 $piv_uname = trim(trim($userDetails->attributes['uid'][0]), '"');
                 $uname_pos = strrpos($piv_uname, ":");
-                $piv_uname = substr($piv_uname, $uname_pos+1);
+                $piv_uname = substr($piv_uname, $uname_pos);
                 $uname_arr = explode(' ', $piv_uname);
                 $uname = $uname_arr[0] . "_" . $uname_arr[1] . "_Via_PIV_Card";
                 $public_or_cdx = 'public';
@@ -187,7 +187,7 @@ function eenterprise_bridge_auth_authenticate($error)
                         $org_pos = strrpos($userDetails->attributes['Organization'][0], ":");
                         $org = substr($userDetails->attributes['Organization'][0], $org_pos+1);
                         $org_unit_pos = strrpos($userDetails->attributes['OrganizationUnit'][0], ":");
-                        $org_unit = substr($userDetails->attributes['OrganizationUnit'][0], $org_unit_pos);
+                        $org_unit = substr($userDetails->attributes['OrganizationUnit'][0], $org_unit_pos+1);
                         $edit = array('field_piv_card_org' => array('und' => array(0 => array('value' => $org." : ".$org_unit))));
                         user_save($user, $edit);
                     }
