@@ -26,6 +26,12 @@ function my_cdx_menu() {
     'access arguments' => array('access content'),
   );
 
+  $items['my-cdx/link-json-handoff/%'] = array(
+      'page callback' => 'my_cdx_json_link_handoff',
+      'page arguments' => array(2),
+      'access arguments' => array('access content'),
+  );
+
   return $items;
 }
 
@@ -212,6 +218,21 @@ function my_cdx_json_link_details($role_id) {
 }
 
 /**
+ * Callback for 'my-cdx/link-json-handoff/%' menu item
+ */
+function my_cdx_json_link_handoff($role_id) {
+  if ($input = load_my_cdx_link_handoff($role_id)) {
+    drupal_json_output($input);
+  }
+  else {
+    // Send empty json to Data-tables
+    drupal_json_output(array());
+  }
+}
+
+
+
+/**
  * Load My CDX data from cache, web service, or static source (for testing)
  * Restructure XML return into an array we can JSONify, or return FALSE if we have an error
  * @return mixed
@@ -307,6 +328,43 @@ function load_my_cdx_link_details($role_id) {
     $data = $new_data;
   }
 
+  return $data;
+}
+
+/**
+ * Load My CDX data from cache, web service, or static source (for testing)
+ */
+function load_my_cdx_link_handoff($role_id){
+  global $user;
+  $data = &drupal_static(__FUNCTION__);
+
+  if (!isset($data)) {
+    module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+    if (feature_toggle_get_status('sample_mycdx_data')) {
+      $data = fetch_sample_my_cdx_link_handoff();
+    }
+    else {
+      // setup distinct caches for each role that a given user has
+      $cache_key = implode('|', array(
+          'my_cdx_link_handoff',
+          $user->uid,
+          $role_id,
+      ));
+
+      if ($cache = cache_get($cache_key)) {
+        // try cache first
+        $data = $cache->data;
+      }
+      // The cache was set but with invalid data
+      if (!isset($data)) {
+        $data = fetch_my_cdx_link_handoff($role_id);
+
+        // expire the cache every ___ minutes
+        $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
+        cache_set($cache_key, $data, 'cache', $expire_ts);
+      }
+    }
+  }
   return $data;
 }
 
@@ -520,6 +578,18 @@ function fetch_sample_my_cdx_link_details() {
 }
 
 /**
+ * Fetch a sample My CDX link handOff
+ */
+function fetch_sample_my_cdx_link_handoff(){
+  $data = array(
+    'userroleid' => 102258,
+    'handoffurl' => 'https://devngn.epacdxnode.net/naas-webcdx-client-sample/'
+  );
+
+  return $data;
+}
+
+/**
  * Connects to MY CDX NAAS authentication wsdl and returns token
  * @return array
  */
@@ -622,6 +692,35 @@ function fetch_my_cdx_link_details($role_id) {
 
     $data['organizations'] = $organizations;
 
+    return $data;
+  }
+  else {
+    return array();
+  }
+}
+
+/**
+ * Fetch My CDX link handoff from SOAP service
+ */
+function fetch_my_cdx_link_handoff($role_id){
+  $location = 'my_cdx.module';
+  $my_cdx_client_access = return_my_cdx_token();
+  if ($token = $my_cdx_client_access['token']) {
+    // retrieve object from "RetrieveMyCdxLinkHandOff" service
+    $params_for_data = array(
+        'securityToken' => $token,
+        'userRoleId' => $role_id,
+        'clientIp' => $_SERVER['SERVER_ADDR']
+    );
+    $result = callSOAPWithParams($my_cdx_client_access['client'], "RetrieveMyCdxLinkHandOff", $params_for_data, $location);
+    if ($result->error) {
+      return array();
+    }
+    $data = array();
+    $data['linkHandOff']['HandOffUrl'] = $result->response->linkHandOff->HandOffUrl;
+    foreach ($result->response->linkHandOff->parameters->parameter as $key => $val) {
+      $data['parameter'][] = array('Name' => $val->Name, 'Value' => $val->Value);
+    }
     return $data;
   }
   else {
