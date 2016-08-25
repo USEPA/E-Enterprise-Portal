@@ -92,6 +92,17 @@
             $modal_content.dialog('close');
           });
           console.log('myCDXLinkDetails complete.');
+          $('.proceed').click(function () {
+            var selected_org = $modal_content.find('.organization-select option:selected').text();
+            var handOffRoleId = '';
+            $.each( data.organizations, function( key, value ) {
+              if(value.orgName == selected_org){
+                handOffRoleId = value.programClients[0].clientName;
+              }
+            });
+            performMyCDXHandoff(handOffRoleId);
+          });
+
         } else {
           console.log('myCDXLinkDetails aborted (modal closed?).');
         }
@@ -100,6 +111,26 @@
 
     ev.preventDefault();
   });
+
+  /*
+  * Performs final handoff to a CDX link retrieved from server side via ajax call.
+  * */
+  function performMyCDXHandoff(roleId){
+    $.ajax({
+      url: Drupal.settings.basePath + 'my-cdx/link-json-handoff/' + roleId,
+      dataType: 'json',
+      success: function (data) {
+        var url = data.linkHandOff.HandOffUrl;
+        var $form = $('<form action="' + url + '" method="POST" target="_blank"></form>');
+        $.each( data.parameter, function (key, val){
+          $form.append('<input type="hidden" name="' + val.Name + '" value="' + val.Value + '" />');
+        });
+        var $modal = $('#my-cdx-modal-content')
+        $modal.append($form);
+        $modal.find('form').submit();
+      }
+    });
+  }
 
   /**
    * Creates Organization select and sets listener
