@@ -97,7 +97,7 @@
             var handOffRoleId = '';
             $.each( data.organizations, function( key, value ) {
               if(value.orgName == selected_org){
-                handOffRoleId = value.programClients[0].clientName;
+                handOffRoleId = value.programClients[0].userRoleId;
               }
             });
             performMyCDXHandoff(handOffRoleId);
