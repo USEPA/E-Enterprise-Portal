@@ -680,9 +680,10 @@ function fetch_my_cdx_link_details($role_ids) {
             );
           }
           $data['organizations'][$userOrgId]["clientCount"]++;
-          $data['organizations'][$userOrgId]["programClients"][$linkDetail->UserRoleId] = array(
+          $data['organizations'][$userOrgId]["programClients"][] = array(
             'clientName' => $linkDetail->Subject,
             'roleName' => $linkDetail->RoleName,
+            'userRoleId' => $linkDetail->UserRoleId,
           );
         }
       }
