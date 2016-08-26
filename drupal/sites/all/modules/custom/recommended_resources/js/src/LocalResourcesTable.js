@@ -290,10 +290,10 @@ var LocalResourcesTable;
 
               // This will toggle the visibility of the clear selected button
               if($wrapper_parent.find('.your-selections span.facet-topic-container a:visible').length > 0) {
-                $wrapper_parent.find('.clear-lgc-resources').css({"visibility":"visible"});
+                $wrapper_parent.find('.clear-lgc-resources').removeClass('hidden');
               }
               else {
-                $wrapper_parent.find('.clear-lgc-resources').css({"visibility":"hidden"});
+                $wrapper_parent.find('.clear-lgc-resources').addClass('hidden');
               }
             });
 

@@ -173,7 +173,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
         </div>
         <div class="your-selections facets-expanded all-resources">Your selections</div>
         <div>
-          <a class="clear-lgc-resources" href="javascript:void(0);" onclick="clearResources();" style="visibility:hidden;">Clear Selections</a>
+          <a class="clear-lgc-resources hidden" href="javascript:void(0);" onclick="clearResources();" >Clear Selections</a>
         </div>
       </div>
       <div id="all-local-resources"></div>
@@ -286,7 +286,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
           </div>
           <div class="your-selections my-resources facets-expanded">Your selections</div>
           <div>
-            <a class="clear-lgc-resources" href="javascript:void(0);" onclick="clearResources();" style="visibility:hidden;">Clear Selections</a>
+            <a class="clear-lgc-resources hidden" href="javascript:void(0);" onclick="clearResources();">Clear Selections</a>
           </div>
         </div>
         <div id="user-local-resources"></div>
