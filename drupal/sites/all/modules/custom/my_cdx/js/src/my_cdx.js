@@ -93,13 +93,17 @@
           });
           console.log('myCDXLinkDetails complete.');
           $('.proceed').click(function () {
-            var selected_org = $modal_content.find('.organization-select option:selected').text();
-            var handOffRoleId = '';
-            $.each( data.organizations, function( key, value ) {
-              if(value.orgName == selected_org){
-                handOffRoleId = value.programClients[0].userRoleId;
-              }
-            });
+            var org_index = 0;
+            var prog_index = 0;
+            /*Determine the user role id based on what the user selected from org and program drop down list box.
+            * If one or both are invisible, just use the default value, 0*/
+            if($modal_content.find(".organization-select").is(":visible")){
+              org_index = $(".organization-select option:selected").index();
+            }
+            if($modal_content.find(".program-client-select").is(":visible")){
+              prog_index = $(".program-client-select option:selected").index();
+            }
+            var handOffRoleId = data.organizations[org_index].programClients[prog_index].userRoleId;
             performMyCDXHandoff(handOffRoleId);
           });
 
