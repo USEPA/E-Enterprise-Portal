@@ -79,7 +79,7 @@
           // Add acronym to modal
           $modal_content.find('.program-acronym').html(acronym);
 
-          if (!instantConnect(data)) {
+          if (!instantConnect(data, $modal_content)) {
             // Parse data and create select operations
             myCDXLinkDetailsHandler(data);
           } else {
@@ -92,6 +92,17 @@
             $modal_content.dialog('close');
           });
           console.log('myCDXLinkDetails complete.');
+          $('.proceed').click(function () {
+            var selected_org = $modal_content.find('.organization-select option:selected').text();
+            var handOffRoleId = '';
+            $.each( data.organizations, function( key, value ) {
+              if(value.orgName == selected_org){
+                handOffRoleId = value.programClients[0].clientName;
+              }
+            });
+            performMyCDXHandoff(handOffRoleId);
+          });
+
         } else {
           console.log('myCDXLinkDetails aborted (modal closed?).');
         }
@@ -100,6 +111,26 @@
 
     ev.preventDefault();
   });
+
+  /*
+  * Performs final handoff to a CDX link retrieved from server side via ajax call.
+  * */
+  function performMyCDXHandoff(roleId){
+    $.ajax({
+      url: Drupal.settings.basePath + 'my-cdx/link-json-handoff/' + roleId,
+      dataType: 'json',
+      success: function (data) {
+        var url = data.linkHandOff.HandOffUrl;
+        var $form = $('<form action="' + url + '" method="POST" target="_blank"></form>');
+        $.each( data.parameter, function (key, val){
+          $form.append('<input type="hidden" name="' + val.Name + '" value="' + val.Value + '" />');
+        });
+        var $modal = $('#my-cdx-modal-content')
+        $modal.append($form);
+        $modal.find('form').submit();
+      }
+    });
+  }
 
   /**
    * Creates Organization select and sets listener
@@ -188,7 +219,7 @@
   /**
    * Inspect the user's organizations and roles. If we only have one of each, connect them instantly
    */
-  function instantConnect(data) {
+  function instantConnect(data, $modal_content) {
     var firstOrgClientCount;
     for (var key in data.organizations) {
       firstOrgClientCount = data.organizations[key].clientCount;
@@ -196,9 +227,31 @@
     }
 
     if (data.orgCount == 1 && firstOrgClientCount == 1) {
-      window.open('http://www.google.com');
+      appConnect('http://www.google.com', {}, $modal_content);
       return true;
     }
     return false;
+  }
+
+  /**
+   * Connect to a CDX App
+   */
+  function appConnect(url, params, $modal) {
+    console.log({
+      "url": url,
+      "params": params
+    });
+    // create a form which opens a new window when submitted
+    var $form = $('<form action="' + url + '" method="post" target="_blank"></form>');
+
+    // attach parameters to the form
+    for (var key in params) {
+      var value = params[key];
+      $form.append('<input type="hidden" name="' + key + '" value="' + value + '" />');
+    }
+
+    // attach the form to the page and submit it
+    $modal.append($form);
+    $modal.find('form').submit();
   }
 })(jQuery);
