@@ -254,7 +254,10 @@ function load_my_cdx_data() {
       // each user gets their own cached data
       $cache_key = 'my_cdx_data|' . $user->uid;
 
-      if ($cache = cache_get($cache_key)) {
+      $cache = cache_get($cache_key);
+      // Check if cache was set and if the cache is stale, since cache_get() does not.
+      // @see https://civicactions.com/blog/drupal-gotchya-cache_get-returns-expired-items/
+      if ($cache && time() < $cache->expire) {
         // try cache first
         // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
         $data = $cache->data;
@@ -297,7 +300,10 @@ function load_my_cdx_link_details($role_ids) {
         $role_ids,
       ));
 
-      if ($cache = cache_get($cache_key)) {
+      $cache = cache_get($cache_key);
+      // Check if cache was set and if the cache is stale, since cache_get() does not.
+      // @see https://civicactions.com/blog/drupal-gotchya-cache_get-returns-expired-items/
+      if ($cache && time() < $cache->expire) {
         // try cache first
         // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
         $data = $cache->data;
