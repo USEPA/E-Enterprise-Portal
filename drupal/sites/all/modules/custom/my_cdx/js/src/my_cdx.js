@@ -125,7 +125,7 @@
         $.each( data.parameter, function (key, val){
           $form.append('<input type="hidden" name="' + val.Name + '" value="' + val.Value + '" />');
         });
-        var $modal = $('#my-cdx-modal-content')
+        var $modal = $('#my-cdx-modal-content');
         $modal.append($form);
         $modal.find('form').submit();
       }
@@ -227,31 +227,10 @@
     }
 
     if (data.orgCount == 1 && firstOrgClientCount == 1) {
-      appConnect('http://www.google.com', {}, $modal_content);
+      performMyCDXHandoff(data.organizations[0].programClients[0].userRoleId);
       return true;
     }
     return false;
   }
 
-  /**
-   * Connect to a CDX App
-   */
-  function appConnect(url, params, $modal) {
-    console.log({
-      "url": url,
-      "params": params
-    });
-    // create a form which opens a new window when submitted
-    var $form = $('<form action="' + url + '" method="post" target="_blank"></form>');
-
-    // attach parameters to the form
-    for (var key in params) {
-      var value = params[key];
-      $form.append('<input type="hidden" name="' + key + '" value="' + value + '" />');
-    }
-
-    // attach the form to the page and submit it
-    $modal.append($form);
-    $modal.find('form').submit();
-  }
 })(jQuery);
