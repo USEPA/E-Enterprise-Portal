@@ -12,6 +12,7 @@
         <thead>
         <tr>
           <th>Program service name</th>
+          <th>Status</th>
           <th>Role</th>
         </tr>
         </thead>

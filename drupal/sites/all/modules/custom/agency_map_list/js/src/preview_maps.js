@@ -8,7 +8,7 @@
                 var url = $('#edit-field-ee-agency-map-url-und-0-value').val();
                 var original_text = $field_messages.text();
                 $.ajax({
-                    url: '/ajax_map_form_validate',
+                    url: Drupal.settings.basePath + 'ajax_map_form_validate',
                     data: {url: url},
                     method: 'POST',
                     beforeSend: function() {

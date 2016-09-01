@@ -3,8 +3,7 @@
  * Implements hook_menu().
  **/
 
-function eenterprise_utility_menu()
-{
+function eenterprise_utility_menu() {
   $items = array();
   $items['get_taxonomy_parent_name'] = array(
     'page callback' => 'get_taxonomy_parent_name',
@@ -30,8 +29,6 @@ function eenterprise_utility_menu()
     'page callback' => 'guest_logout_action',
     'access callback' => TRUE,
   );
-
-
   $items['default_location_zip'] = array(
     'page callback' => 'default_location_zip',
     'access callback' => TRUE,
@@ -347,7 +344,7 @@ function guest_login_action() {
 function guest_logout_action() {
   watchdog('guest_user', 'Session ended for guest user.');
   global $user;
-  module_invoke_all('user_logout', $user);    
+  module_invoke_all('user_logout', $user);
   session_destroy();
   drupal_goto('/bridge-landing');
 }
@@ -462,7 +459,6 @@ function name_look_up($zip_lookup, $zip_search, &$lookup_names) {
         $lookup_names[$name][] = $zip;
         return $name;
       }
-
     }
   }
   return FALSE;
@@ -514,6 +510,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     hide($form['field_interests2']);
     hide($form['field_gridstack_settings']);
     hide($form['field_lgc_topics_of_interest']);
+    hide($form['field_piv_card_org']);
     // If user is admin allow to edit state admin STATE and toggle user's first time status
     if ($user->uid > 1) {
       hide($form['field_admin_state']);
@@ -564,7 +561,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     $form['zip_mapping']['#attributes'] = array(
       'maxlength' => 'disabled'
     );
-    
+
     //Edit select default options
     $form['field_community_type'][LANGUAGE_NONE]['#options']['_none'] = t('N/A');
     $form['field_community_size'][LANGUAGE_NONE]['#options']['_none'] = t('Select size');
@@ -586,7 +583,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
      * Validation of Form
      */
     $form['#validate'][] = 'user_profile_form_custom_validate';
-    $form['#attributes']['novalidate'] = '1';    
+    $form['#attributes']['novalidate'] = '1';
 
     //We are not validating profile picture and password as we do not save and manage these information on the Portal.
     foreach ($form['#validate'] as $key => $val) {
@@ -659,7 +656,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#suffix'] = '</div>';
     $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#name'] = 'add_zip_code';
     $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#default_value'] = 'add_zip_code';
-
+    $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['class'][] = 'add-profile-location';
 
     //Add more button for urls
     $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = 'New favorite';
@@ -718,8 +715,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
           $urban = $location_data['urban'];
         }
 
-
-
         if (!isset($used_preferred_names[$name])) {
           $used_preferred_names[$name] = array();
         }
@@ -761,7 +756,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
         'field_zip_code';
       $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_suffix'] =
         $field_suffix;
-
       hide($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['#title']);
     }
     /**
@@ -805,7 +799,6 @@ function eenterprise_utility_profile_form_submit($form, &$form_state) {
   }
 }
 
-
 function load_user_preferred_zips() {
   global $user;
   $user_zips = array();
@@ -823,10 +816,8 @@ function load_user_preferred_zips() {
       $zip = $node->field_user_zip_code[LANGUAGE_NONE][0]['value'];
       $comm = $node->field_zip_community_size[LANGUAGE_NONE][0]['value'];
       $urban = $node->field_zip_is_urban[LANGUAGE_NONE][0]['value'];
-
       $user_zips[$name][$zip]['urban'] = $urban;
       $user_zips[$name][$zip]['comm'] = $comm;
-
       // Set primary value
       if (isset($node->field_primary[LANGUAGE_NONE]) && $node->field_primary[LANGUAGE_NONE][0]['value'] == 1) {
         $user_zips[$name][$zip]['primary'] = 1;
@@ -834,7 +825,6 @@ function load_user_preferred_zips() {
       else {
         $user_zips[$name][$zip]['primary'] = 0;
       }
-
     }
   }
   return $user_zips;
@@ -875,7 +865,9 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
   else {
     // Test if zip code (and not city, state)
     $validation = postal_code_validation_validate($unparsed_zip, 'US');
-    if (!$validation['error']) {
+
+    // Call to Function exist is to check if the FRS module is available
+    if (!$validation['error'] && function_exists('frs_zip_code_to_city_state')) {
       // only send first 5 digits to frs return
       $zip = substr($validation['postal_code'], 0, 5);
       $frs_city_state_return = frs_zip_code_to_city_state($zip);
@@ -1014,6 +1006,8 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
 function user_profile_form_custom_validate(&$form, &$form_state) {
   user_profile_zipcode_custom_validate($form, $form_state);
   user_profile_url_custom_validate($form, $form_state);
+  user_profile_favorites_custom_validate($form, $form_state);
+  user_profile_mail_custom_validate($form, $form_state);
 }
 
 
@@ -1036,19 +1030,19 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
   $user_data = user_load($user->uid);
   $user_initial_login = $user_data->field_initial_log_in;
 
-  $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+  $geolocation_used = (int) $user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
   $geolocation_value = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation_value'][LANGUAGE_NONE][0]['value'];
   $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
 
   if (!isset($form_state['input']['field_zip_code'])) {
-	  if (isset($skip) && isset($geolocation_value)) {
-		  $blank_zipcode = false;
-		  $site_default_zip = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation_value'][LANGUAGE_NONE][0]['value'];
-	  }	  
-		else {
-	    $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'] = $site_default_zip;
-	    $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
-	  }
+    if (isset($skip) && isset($geolocation_value)) {
+      $blank_zipcode = FALSE;
+      $site_default_zip = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation_value'][LANGUAGE_NONE][0]['value'];
+    }
+    else {
+      $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'] = $site_default_zip;
+      $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
+    }
     return;
   }
 
@@ -1058,7 +1052,6 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
 
   // User has entered a zipcode
   $count_zips = count($form_state['values']['field_zip_code'][LANGUAGE_NONE]) - 1;
-
 
   foreach ($form_state['values']['field_zip_code'][LANGUAGE_NONE] as $delta => $field) {
     if (!is_array($field) || !is_numeric($delta)) {
@@ -1150,7 +1143,6 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
   }
 }
 
-
 function user_profile_url_custom_validate(&$form, &$form_state) {
   // Occurs when all values are blank.
   if (!isset($form_state['input']['field_profile_favourites'])) {
@@ -1171,6 +1163,56 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
   }
 }
 
+/**
+ * @param $form
+ * @param $form_state
+ * Checks to make sure that favorite links do not have script tags with javascript inside
+ */
+function user_profile_favorites_custom_validate(&$form, &$form_state) {
+
+  $nl = LANGUAGE_NONE;
+  $maxDelta = count($form_state['values']['field_profile_favourites'][LANGUAGE_NONE]) - 1;
+  for ($delta = 0; $delta < $maxDelta; $delta++) {
+    $url = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
+    $text = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'];
+
+    // The keys are build with the '][' as a delimiter then we will append the final field name in the form_set_error()
+    $key = "field_profile_favourites][$nl][$delta][";
+
+    $errorMsgUrl = 'Invalid link.  It may contain invalid characters and is not allowed to have javascript. ' .
+      'Please refrain from using special characters. Please contact a system admin if this problem continues.';
+    $errorMsgText = 'Invalid text.  It can not be blank or contain invalid characters. ' .
+      'Please contact a system admin if this problem continues.';
+    $errorMsgBlank = 'This field may not be left blank';
+
+    // this regex will look for an html tags or the keyword 'javascript'
+    $all_html_tags_and_js = '/(<script(\s|\S)*?<\/script>)|(<style(\s|\S)*?<\/style>)|(<!--(\s|\S)*?-->)|(<\/?(\s|\S)*?>)|javascript/';
+    $match_html = preg_match($all_html_tags_and_js, $url);
+    if (empty($url)) {
+      form_set_error($key . "field_url", t($errorMsgBlank));
+    }
+    else if ($match_html) {
+      form_set_error($key . "field_url", t($errorMsgUrl));
+    }
+
+    $check_text = check_plain($text);
+    if ($text !== $check_text) {
+      form_set_error($key . "field_title", t($errorMsgText));
+    }
+  }
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ * Does a quick check to prevent the user email from being changed
+ */
+function user_profile_mail_custom_validate(&$form, &$form_state) {
+  // Prevent anyone form changing the email unless it is the admin
+  if($form['user']['uid'] != 1 && $form['#user']->uid != 1 && $form_state['values']['mail'] != $form['#user']->mail){
+    form_set_error('mail', t('You do not have adequate permission to edit your email.'));
+  }
+}
 
 /**
  * @param $form
@@ -1203,7 +1245,6 @@ function eenterprise_utility_user_view($account, $view_mode, $langcode) {
     }
   }
 }
-
 
 /**
  * @return array
@@ -1304,10 +1345,10 @@ function get_modal_data($locations) {
       $name = trim($name);
       $radio_id = sprintf("%02d", $id++);;
       if ($zip == $primary_radio_zip && $name == $primary_radio_location) {
-        print '<input checked type="radio" id="location-' . $radio_id . '" data-location-zip="'. $zip . '" data-location-name="'. $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
+        print '<input checked type="radio" id="location-' . $radio_id . '" data-location-zip="' . $zip . '" data-location-name="' . $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
       }
       else {
-        print '<input type="radio" id="location-' . $radio_id . '" data-location-zip="'. $zip . '" data-location-name="'. $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
+        print '<input type="radio" id="location-' . $radio_id . '" data-location-zip="' . $zip . '" data-location-name="' . $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
       }
     }
   }
@@ -1323,7 +1364,6 @@ function generate_location_select() {
 
   // show an input box instead of a select for guest users
   global $user;
-
   if ($user->name == 'guest-user') {
     generate_location_input_for_guests();
     return;
@@ -1348,7 +1388,7 @@ function generate_location_select() {
         $selected = 'selected';
         $primary_location_used = TRUE;
         // Set a data attribute on the option that's the primary location to avoid removing it later
-        $data_primary_location = " data-ee-location='primary' ";        
+        $data_primary_location = " data-ee-location='primary' ";
       }
       else {
         $selected = '';
@@ -1360,28 +1400,32 @@ function generate_location_select() {
       // Print option for select (up to 9 values) - Fill up the first 8, then make sure the primary exists - if not, add it
       if ($count < $max_location_items - 1) {
         print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . $data_primary_location . ">" . $name . " (" . $zip . ")</option>";
-      }
-      // Add default zip if not yet used
-      else if ($count == $max_location_items - 1) {
+      } // Add default zip if not yet used
+      else {
+        if ($count == $max_location_items - 1) {
           // If a primary zip exists but hasn't been used yet, add it
           if (!$primary_location_used && $primary_zip > 0) {
             $selected = 'selected';
-            // Set a data attribute on the option that's the primary location to avoid removing it later            
+            // Set a data attribute on the option that's the primary location to avoid removing it later
             $data_primary_location = " data-ee-location='primary' ";
-            print "<option title = '" . $primary_location . " (" . $primary_zip . ")' value='" . $primary_zip . "' " . $selected . $data_primary_location .">" . $primary_location . " (" . $primary_zip . ")</option>";
+            print "<option title = '" . $primary_location . " (" . $primary_zip . ")' value='" . $primary_zip . "' " . $selected . $data_primary_location . ">" . $primary_location . " (" . $primary_zip . ")</option>";
+          } // If no primary zip exists or the primary zip was already used, just add another option
+          else {
+            if ($primary_location_used || !$primary_zip > 0) {
+              print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
+            }
           }
-          // If no primary zip exists or the primary zip was already used, just add another option
-          else if ($primary_location_used || !$primary_zip > 0) {
-            print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
+        }
+        else {
+          if ($show_more) {
+            print "<option value='view_more'>Show more...</option>";
+            $show_more = FALSE;
+            break;
           }
-      }
-      else if ($show_more) {
-        print "<option value='view_more'>Show more...</option>";
-        $show_more = FALSE;
-        break;
+        }
       }
       $data_primary_location = '';
-      $count = $count + 1;      
+      $count = $count + 1;
     }
   }
   print "</select>";
@@ -1525,7 +1569,6 @@ function eenterprise_utility_theme($existing, $type, $theme, $path) {
 // Custom theme output.
 function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
   $element = $vars['element'];
-
   $header = array(
     'field_date_signed' => t('User Agreement Signed'),
     'field_agreement_node_id' => t('Agreement Version'),
@@ -1535,20 +1578,16 @@ function theme_eenterprise_utility_terms_of_use_agreed_date_display($vars) {
   for ($i = 0; $i <= $element['#max_delta']; $i++) {
     $row = array();
     $row['data'] = array();
-
     $timestamp = $element[$i]['field_date_signed'][LANGUAGE_NONE][0]['value']['#value'];
     $nid = $element[$i]['field_agreement_node_id'][LANGUAGE_NONE][0]['value']['#value'];
 
     if (!empty($timestamp)) {
-
       $node = node_load($nid);
-
       $row['data'][] = format_date($timestamp, 'long');
       $row['data'][] = l($node->title . ' (Last modified: ' . format_date($node->changed) . ')', '/node/' . $nid);
       $rows[] = $row;
     }
   }
-
   return theme('table', array(
     'header' => $header,
     'rows' => $rows,
@@ -1687,10 +1726,7 @@ function update_user_gridstack_data() {
       print json_encode($e);
       exit();
     }
-
-
   }
-
 }
 
 function loadPaneData($pane_id) {
@@ -1708,7 +1744,6 @@ function loadPaneData($pane_id) {
   }
   return FALSE;
 }
-
 
 function load_user_gridstack_data() {
   // Format of gridstack data     {x: 2, y: 5, width: 1, height: 1}
@@ -1736,7 +1771,6 @@ function load_user_gridstack_data() {
   else {
     return $return_array;
   }
-
 }
 
 /*
@@ -1805,7 +1839,6 @@ function eenterprise_utility_form_views_exposed_form_alter(&$form, &$form_state)
      }
 }
 */
-
 
 function connectToSOAPServerWithWSDL($wsdl, $location = "") {
   $soap_obj = new stdClass();

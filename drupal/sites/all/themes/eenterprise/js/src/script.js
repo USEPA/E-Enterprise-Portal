@@ -193,11 +193,10 @@
     }
   };
 
-
   Drupal.behaviors.initializeGridstack = {
     attach: function(context) {
       var page_name = window.location.pathname.split('/')[1];
-      if (page_name == "workbench") {
+      if (page_name === "workbench") {
         $('body').once(function() {
           var previous_grid_settings;
           var cellHeight = 10;
@@ -566,7 +565,7 @@
           $(document).on("ee:zipCodeChanged", function(evt, data) {
             hideError();
             showLoading();
-            $.getJSON('/zip_code_lookup?zip=' + data.zip, function(queryResponse) {
+            $.getJSON(Drupal.settings.basePath + 'zip_code_lookup?zip=' + data.zip, function(queryResponse) {
               doneLoading();
               if (queryResponse.string === '') { // invalid zip code
                 showError();
@@ -594,7 +593,7 @@
               navigator.geolocation.getCurrentPosition(function(position) {
                 accepted = true;
                 $.ajax({
-                  url: '/return_location_data_lat_long',
+                  url: Drupal.settings.basePath + 'return_location_data_lat_long',
                   type: 'GET',
                   data: {latitude: position.coords.latitude, longitude: position.coords.longitude},
                   success: function(location_data) {

@@ -36,7 +36,7 @@
              var $table_holder = $('#'+ table_div_id);
              var parsed_data;
             $.ajax({
-                url: '/rest_request',
+                url: Drupal.settings.basePath + 'rest_request',
                 method: "GET",
                 data: {url: url},
                 dataType: "JSON",

@@ -26,6 +26,7 @@
 @import 'elements/list';
 @import 'elements/table';
 @import 'elements/typography';
+
 // Components -------------- //
 //@import 'components/accordions';
 @import 'components/alerts';
@@ -677,7 +678,6 @@ header {
                 padding: 0;
                 li {
                     float: left;
-                    display: block;
                     width: 1500px;
                     height: auto;
                     margin-top: 0;
@@ -693,37 +693,29 @@ header {
                         }
                     }
                     &.including {
-                        h2 {
-                            margin-bottom: 0;
-                        }
-                        .including_items {
-                            padding-top: 2rem;
-                        }
                         li {
+                            padding-top: 2rem;
                             width: 100%;
                             display: block;
-                            &.slide-row1,
-                            &.slide-row2 {
-                                img {
-                                    width: 24px;
-                                    height: 24px;
-                                    vertical-align: top;
-                                }
-                                img, div {
-                                    display: inline-block;
-                                }
-                                h3 {
-                                    font-size: $h3-font-size;
-                                    margin-top: 0;
-                                    margin-bottom: 0;
-                                }
-                                p {
-                                    margin-top: 0;
-                                }
-                                div {
-                                    width: 80%;
-                                    margin-left: 10px;
-                                }
+                            img {
+                                width: 24px;
+                                height: 24px;
+                                vertical-align: top;
+                            }
+                            img, div {
+                                display: inline-block;
+                            }
+                            h3 {
+                                font-size: $h3-font-size;
+                                margin-top: 0;
+                                margin-bottom: 0;
+                            }
+                            p {
+                                margin-top: 0;
+                            }
+                            div {
+                                width: 80%;
+                                margin-left: 10px;
                             }
                         }
                     }
@@ -731,7 +723,27 @@ header {
                     .video-holder {
                         display: block;
                     }
+                    .learn-more {
+                        float: right;
+                        margin-right: 75px;
+                        a {
+                            color: $color-gray-white;
+                            &:visited,
+                            &:hover,
+                            &:focus,
+                            &:active {
+                                color: $color-white;
+                            }
+                        }
+                    } 
                 }
+                > li {
+                    visibility: hidden;
+                }                
+                > li.active {
+                    display: block;
+                    visibility: visible;
+                }  
             }
         }
         .jcarousel-control-prev,
@@ -921,13 +933,6 @@ header {
         font-size: $h6-font-size;
         margin-right: 20px;
     }
-}
-
-a:focus.remove_link,
-a:focus.add_link {
-    height: 22px;
-    width: 21px;
-    display: inline-block;
 }
 
 .field-add-more-submit {
@@ -1752,7 +1757,6 @@ form .field-multiple-table#field-zip-code-values {
         }
         input[type="checkbox"] + label {
             @include button;
-
             padding: .5rem;
             margin: 0;
             width: 100%;
@@ -1893,7 +1897,6 @@ form .field-multiple-table#field-zip-code-values {
             @include button;
             background-color: $color-primary;
             padding: 1rem 3rem 1rem 4rem;
-
             width: 100%;
             color: $color-white;
             outline: 2px solid transparent;
@@ -2873,36 +2876,28 @@ table.dataTable, table.views-table {
             .jcarousel {
                 ul:not(.including_items) {
                     li {
-                        height: 475px;
+                        height: 485px;
                         padding: 50px 8rem;
                         &.including {
                             h2 {
-                                margin-bottom: 0;
-                            }
-                            .including_items {
-                                padding-top: 2rem;
+                                margin-bottom: 40px;
                             }
                             li {
-                                width: 45%;
-                                height: 150px;
+                                width: 49%;
+                                height: 80px;
+                                margin-bottom: 10px;
                                 display: table-cell;
                                 vertical-align: top;
                                 float: left;
                                 padding: 0;
-                                &.slide-row1:first-of-type {
-                                    margin-left: 5%;
+                                img {
+                                    border-radius: 50%;
+                                    width: 48px;
+                                    height: 48px;
+                                    vertical-align: top;
                                 }
-                                &.slide-row1,
-                                &.slide-row2 {
-                                    img {
-                                        border-radius: 50%;
-                                        width: 48px;
-                                        height: 48px;
-                                        vertical-align: top;
-                                    }
-                                    div {
-                                        width: 80%;
-                                    }
+                                div {
+                                    width: 80%;
                                 }
                                 &:after {
                                     content: none;
@@ -2999,36 +2994,27 @@ table.dataTable, table.views-table {
                         height: 475px;
                         padding: 50px 11rem;
                         &.including {
-                            h2 {
-                                margin-bottom: 0;
-                            }
-                            .including_items {
-                                padding-top: 2rem;
-                            }
                             li {
                                 width: 45%;
-                                height: 150px;
+                                height: 80px;
                                 display: table-cell;
                                 vertical-align: top;
                                 float: left;
                                 padding: 0;
-                                &.slide-row1:first-of-type {
-                                    margin-left: 5%;
+                                img {
+                                    border-radius: 50%;
+                                    width: 48px;
+                                    height: 48px;
+                                    vertical-align: top;
                                 }
-                                &.slide-row1,
-                                &.slide-row2 {
-                                    img {
-                                        border-radius: 50%;
-                                        width: 48px;
-                                        height: 48px;
-                                        vertical-align: top;
-                                    }
-                                    div {
-                                        width: 80%;
-                                    }
+                                div {
+                                    width: 80%;
                                 }
                                 &:after {
                                     content: none;
+                                }
+                                .learn-more {
+                                    margin-right: 0;
                                 }
                             }
                         }
@@ -3111,6 +3097,7 @@ table.dataTable, table.views-table {
         }
         img {
             vertical-align: middle;
+            width: 100%;
         }
     }
     .usa-button.mobile-nav_toggle {
@@ -3379,6 +3366,14 @@ a.usa-button.btn-facebook {
     @include btn-social(#cb2027);
 }
 
+a.usa-button.btn-social.btn-piv {
+    @include btn-social(#898989);
+    color: #fff;
+    .piv:before {
+        content: url('../images/white/piv-smartcard.png');
+    }
+}
+
 .btn-twitter,
 a.usa-button.btn-twitter {
     @include btn-social(#55acee);
@@ -3604,6 +3599,7 @@ a {
 }
 
 /** =============== bootstrap tooltip styles ================== */
+
 .tooltip {
     position: absolute;
     z-index: 1070;
@@ -3623,7 +3619,7 @@ a {
     word-break: normal;
     word-spacing: normal;
     word-wrap: normal;
-    font-size: 12px;
+    font-size: 15px;
     opacity: 0;
     filter: alpha(opacity=0);
 }
@@ -4159,19 +4155,15 @@ ul {
     }
 }
 
+.hidden {
+    visibility: hidden;
+}
+
 select[multiple="multiple"] {
     background: none;
 }
 
-.your-selections span.facet-topic-container {
-    border: 1px solid gray;
-    margin: 3px 0px 0px 3px;
-    padding: 0px 3px 0px 3px;
-    border-radius: 4px;
-    white-space: nowrap;
-}
-
-.your-selections a:after {
-    content: url('../images/close_black.png');
-    margin-left: 5px;
+// add red boxes to bad input
+.edit-user-profile .error {
+    outline: 1px solid red;
 }

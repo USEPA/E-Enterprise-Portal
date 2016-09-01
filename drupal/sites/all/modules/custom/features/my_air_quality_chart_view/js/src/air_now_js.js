@@ -176,7 +176,7 @@
             var stateAbbrev = featureCollection.features[0].properties.STATE_CODE;
             $.ajax({
               type: 'GET',
-              url: '/my_air_quality_map_view/api/current/latLong/',
+              url: Drupal.settings.basePath + 'my_air_quality_map_view/api/current/latLong/',
               async: true,
               data: {
                 format: 'application/json',
@@ -228,7 +228,7 @@
     var resultJson;
     $.ajax({
       type: 'GET',
-      url: '/my_air_quality_map_view/api/current/latLong/',
+      url: Drupal.settings.basePath + 'my_air_quality_map_view/api/current/latLong/',
       async: true,
       data: {
         format: 'application/json',

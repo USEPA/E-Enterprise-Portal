@@ -1,4 +1,5 @@
 (function ($) {
+  var $body = $('body');
   var numSelects = 0;
   var type;
   var removedSelect = false;
@@ -14,12 +15,14 @@
   var initial_load = true;
 
   // Disables entering the form by key press when focused on an input
+  // Specific to E-Enterprise User Profile forms to disable accidental form submission if user presses Enter key
+  // while ZIP code field is focused  
   Drupal.behaviors.DisableInputEnter = {
     attach: function (context, settings) {
-      $('input', context).once('disable-input-enter', function () {
+      $('.field_zip_code', context).once('disable-input-enter', function () {
         $(this).keypress(function (e) {
           var $elem = $(this);
-          if (e.keyCode == 13) {
+          if (e.keyCode === 13) {
             enter_pressed = true;
             $elem.blur();
             e.preventDefault();
@@ -47,18 +50,18 @@
       table_id = table.attr('id');
     }
     $profile_locations.find('tr:last').find('td:nth-child(2)').append(addMoreBtn);
+    $profile_locations.find('tr:last .field_zip_code').focus();
   }
 
   function processPrimaryFields() {
     var reset_buttons = false;
     var hide_buttons = false;
     var $zipcode_description = $('#zipcode_description');
-    $('body').find('.field-multiple-table').removeClass('sticky-enabled');
+    $body.find('.field-multiple-table').removeClass('sticky-enabled');
     $('#profile-locations').find('.sticky-header').remove();
     var table = $zipcode_description.find('.field-multiple-table');        // cache the target table DOM element
     var checkboxes = table.find('input[type=checkbox]');
     var starsSpot = checkboxes.next('div');
-
     var selection = table.find('input[type=checkbox]:checked');
 
     if (!$(starsSpot).hasClass('zip-code-primary-holder')) {
@@ -91,7 +94,6 @@
 
     // If location error exists, lock down buttons to avoid accidental submit
     var fixInput;
-
     if (!$('.field-suffix').hasClass('error')) {
       reset_buttons = true;
     } else {
@@ -152,9 +154,7 @@
         $urban_check.val("rural").find('input[value="_none"]').prop("checked", true);
       }
     }
-
   }
-
 
   /**
    *
@@ -166,7 +166,6 @@
     if (typeof(input_to_ignore) === 'undefined') input_to_ignore = "";
     // Reset global location_obj
     location_obj = {};
-
 
     var count_ignore_tr = 0;
     $("[id*=field-zip-code-values]").find("tr").each(function (index) {
@@ -247,7 +246,6 @@
       input_to_ignore.closest('tr').find('.field_zip_code').prop('disabled', false);
     }
   }
-
 
   // Appends error message to given field suffix elem
   function print_error_message($field_suffix, message) {
@@ -417,12 +415,9 @@
           resetButtons();
         }
       }
-
       input.prop("disabled", false);
       input.focus();
-
     });
-
   }
 
   function checkLocation(fieldToCheck, type) {
@@ -567,10 +562,11 @@
           }
           // processPrimaryFields();
           moveAddButton();
-          field_suffix.closest("td").find('.field_zip_code').focus();
+          $('#profile-locations').find('tr:last').find('.field_zip_code').focus();
         }).fail(function (location_data) {
           print_error_message(field_suffix, location_data.error_message);
           disable_zip_buttons(input);
+          $body.find('#zip-code-error').prev('.field_zip_code').focus();    
         });
       }
     }
@@ -578,7 +574,7 @@
 
   // Enable Save button / plus button
   function resetButtons() {
-    $('body').find('.field-add-more-submit').show();
+    $body.find('.field-add-more-submit').show();
     $('#edit-field-zip-code .field-add-more-submit').prop("disabled", false);
     $('#edit-submit').prop("disabled", false);
     $('#edit-submit--2').prop("disabled", false);
@@ -644,9 +640,7 @@
     }
   }
 
-
   $(document).ready(function () {
-
     // If No radio selection has been made, select "N/A". This has not action in Drupal's db so it is not set by defautl
     var $urban_check =  $('#edit-field-community-type-und');
     if ($urban_check.find('input:checked').length === 0) {
@@ -664,8 +658,7 @@
       update_user_zip_preferences();
     });
 
-
-    $('body').find('.field-multiple-table').removeClass('sticky-enabled');
+    $body.find('.field-multiple-table').removeClass('sticky-enabled');
     $('#profile-locations').find('.sticky-header').remove();
 
     $(document).click(function (e) {
@@ -673,7 +666,7 @@
       mouse_click = $(e.target);
     });
 
-    $('body').on('click', '.zip-code-primary-select', function () {
+    $body.on('click', '.zip-code-primary-select', function () {
       var $field_suffix = $(this).closest('tr').find('.field-suffix');
       if (!$field_suffix.hasClass('field-suffix-data')) {
         $field_suffix = $field_suffix.find('.field-suffix-data');
@@ -701,7 +694,7 @@
       update_user_zip_preferences();
     });
 
-    $('body').on('click', '.zip-code-primary-select.selected', function () {
+    $body.on('click', '.zip-code-primary-select.selected', function () {
       $(this).removeClass('selected');
       $(this).prop('title', 'Set to default location');
       var selected_icon = $(this).find('i');
@@ -713,7 +706,7 @@
     });
 
 
-    $('body').on('focus', '.field_zip_code', function () {
+    $body.on('focus', '.field_zip_code', function () {
       lastVal = $(this).val();
       $('.field_zip_code').on('change', function () {
         $('.form-submit').prop("disabled", true);
@@ -731,7 +724,7 @@
       }
     });
 
-    $('body').on('blur', '.field_zip_code', function (e) {
+    $body.on('blur', '.field_zip_code', function (e) {
       // Search for location on Enter click even if same value
       if (lastVal != $(this).val() || enter_pressed || show_locations_again) {
         fieldChanged = $(e.target);
@@ -742,25 +735,24 @@
       }
     });
 
-    $('body').on('click', '.form-submit', function (e) {
+    $body.on('click', '.form-submit', function (e) {
       mouse_click = $(e.target);
       checkLocation(mouse_click, "button");
     });
 
-    $('body').on('click', 'button', function (e) {
+    $body.on('click', 'button', function (e) {
       mouse_click = $(e.target);
       checkLocation(mouse_click, "button");
       if ($('.field-suffix').hasClass('error')) {
         hideButtons();
       }
-      mouse_click.closest("td").find(".field_zip_code").focus();
+      $(this).closest('.field_zip_code').focus();
     });
 
 
     var path = window.location.pathname;
     var page = path.split('/')[1];
-    if (page == 'user') {
-
+    if (page === 'user') {
       $("#edit-submit").prependTo(".edit-user-profile");
       $(document).ajaxSuccess(function (event, xhr, settings) {
         var target_url = settings.url;

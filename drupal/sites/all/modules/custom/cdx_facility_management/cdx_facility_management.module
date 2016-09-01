@@ -5,26 +5,68 @@
  */
 
 
+
 /**
- * Implements hook_theme_registry_alter().
+ * Implements hook_block_info().
  */
-function cdx_facility_management_theme_registry_alter(&$theme_registry)
+function cdx_facility_management_block_info()
 {
-    // Defined path to the current module.
-    $module_path = drupal_get_path('module', 'cdx_facility_management');
-    // Find all .tpl.php files in this module's folder recursively.
-    $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
-    // Iterate through all found template file objects.
-    foreach ($template_file_objects as $key => $template_file_object) {
-        // If the template has not already been overridden by a theme.
-        if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
-            // Alter the theme path and template elements.
-            $theme_registry[$key]['theme path'] = $module_path;
-            $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
-            $theme_registry[$key]['type'] = 'module';
+    $blocks = array();
+    $blocks['cdx_facility_widget'] = array(
+        'info' => t('Facility Widget'),
+    );
+    return $blocks;
+}
+
+
+/**
+ * Implements hook_theme().
+ * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
+ */
+function cdx_facility_management_theme()
+{
+    return array(
+        // Name to be called with theme(). theme('cdx_facility_management')
+        'cdx_facility_management' => array(
+            // Default variables
+            'variables' => array(),
+            // Which .tpl.php file to use cdx-facility-management.tpl.php
+            'template' => 'cdx-facility-management',
+            'path' => drupal_get_path('module', 'cdx_facility_management') . '/templates'
+        ),
+    );
+}
+
+
+/**
+ * Implements hook_block_view().
+ */
+function cdx_facility_management_block_view($delta = '')
+{
+    $block = array();
+
+    if ($delta === 'cdx_facility_widget') {
+        // Add Drupal settings for renewed bridge token, and Facility Widget configurations
+        if (user_access('access content')) { //good idea to check user perms here
+            // Load feature toggling for using toggle: reuse_token_from_bridge
+            module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+
+
+            $cdx_facility_management_settings = array();
+            $cdx_facility_management_settings['user_data'] = retrieve_cdx_user_data();
+            $cdx_facility_management_settings['token_data'] = return_cdx_facility_management_token(FALSE);
+            $cdx_facility_management_settings['resource_url'] = variable_get('cdx_facility_resource_url');
+            $cdx_facility_management_settings['token_from_bridge'] = feature_toggle_get_status('reuse_token_from_bridge');
+            drupal_add_js(array('cdx_facility_widget_settings' => $cdx_facility_management_settings), 'setting');
+            $block['subject'] = t('My Facility Manager');
+            $block['content'] = theme('cdx_facility_management');
+            return $block;
         }
     }
+
+    return $block;
 }
+
 
 /**
  * Implements hook_menu().
@@ -35,47 +77,17 @@ function cdx_facility_management_menu()
 {
     $items = array();
 
-    $items['cdx_facility_management_iframe'] = array(
-        'page callback' => 'cdx_facility_management_iframe',
-        'access callback' => TRUE,
-    );
-    $items['cdx_soap_test'] = array(
-        'page callback' => 'cdx_soap_test',
-        'access callback' => TRUE,
-    );
-    $items['return_cdx_security_token'] = array(
-        'page callback' => 'return_cdx_security_token',
-        'access callback' => TRUE,
-    );
     $items['return_cdx_facility_management_token'] = array(
         'page callback' => 'return_cdx_facility_management_token',
         'access callback' => TRUE,
     );
-    $items['retrieve_cdx_user_data'] = array(
-        'page callback' => 'retrieve_cdx_user_data',
-        'access callback' => TRUE,
-    );
+
     $items['cdx_facility_configurations'] = array(
         'page callback' => 'cdx_facility_configurations',
         'access callback' => TRUE,
     );
 
     return $items;
-}
-
-
-/*
-* Page callback sets up and returns the content for cdx-facility-management-iframe page
-*/
-function cdx_facility_management_iframe()
-{
-    try {
-        $build = views_embed_view('cdx_facility_management', $display_id = 'default');
-    } catch (Exception $e) {
-        $build = '';
-        echo $e;
-    }
-    print render($build);
 }
 
 
@@ -96,18 +108,29 @@ function userMustLogOut($user_session_logout, $user_login_time)
 
 function return_cdx_facility_management_token($is_print_json = TRUE)
 {
+    // Load feature toggling for using toggle: reuse_token_from_bridge
+    module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+
     global $user;
+    $json_return = array();
+
+    // Configurable settings for using Facility Widget locally
+    // @see /admin/config/system/cdx-facility-widget
     $local_testing = variable_get('local_testing');
     $local_testing_user_id = variable_get('local_testing_user_id');
-    if ($local_testing || $user->uid == 1) {
+
+    // Configurable amount of minutes before the portal no longer allows Facility Widget access
+    $user_session_logout = (int)variable_get('cdx_facility_user_logout_session');
+
+    // Allow user to acces Facility widget locally with hard coded user id
+    if ($local_testing || $user->uid === 1) {
         $user_id = $local_testing_user_id;
         $user_login_time = time();
     } else {
-        // if user logged in without bridge (single sign), session is not set.
+        // if user logged in without bridge, session is not set. Default logged in time to current time
         if (isset($_SESSION['login_timestamp'])) {
             $user_login_time = $_SESSION['login_timestamp'];
-        }
-        else {
+        } else {
             $user_login_time = time();
             $_SESSION['login_timestamp'] = $user_login_time;
         }
@@ -118,38 +141,34 @@ function return_cdx_facility_management_token($is_print_json = TRUE)
             $user_id = substr($user_id, 0, $cdx_pos);
         }
     }
-    $json_return = array();
-    $user_session_logout = (int)variable_get('cdx_facility_user_logout_session');
 
-    // Check if user should be logged out to generate token
+
+    // Check if user session has timed out. If so, do not grant access to Facility Widget
     if (userMustLogOut($user_session_logout, $user_login_time)) {
         $json_return['expired'] = true;
     } else {
-        // Configurations
+        // Configurations from admin menu
+
+        // @see /admin/config/system/cdx-facility-widget
         $frs_password = variable_get('cdx_facility_password');
-        $email = variable_get('cdx_node_token_email');
-        $domain = variable_get('cdx_node_token_domain');
-        $server_ip = $_SERVER['SERVER_ADDR']; // variable_get('frs_api_lookup_ip');
-        $local = variable_get('cdx_facility_local');
         $wsdl = variable_get('cdx_facility_naas_wsdl');
         $token_expiration = variable_get('cdx_facility_token_expiration');
+
+        // @see /admin/config/system/eactivity-dataflow
+        $email = variable_get('cdx_node_token_email');
+        $domain = variable_get('cdx_node_token_domain');
         $auth_method = variable_get('eactivity_auth_reg_auth_method');
-        $cdx_resource_url = variable_get('cdx_facility_resource_url');
 
-        //Temp for testing on aws
-        $create_new_token_initially = variable_get('temp_create_new_token');
+        // Dynamic Server IP
+        $server_ip = $_SERVER['SERVER_ADDR'];
 
-        //Connect to wsdl
-        if ($local) {
-            $client = connectToSOAPServerWithWSDL(dirname(__FILE__) . '/' . $wsdl, "CDX Facility Management");
-        } else {
-            $client = connectToSOAPServerWithWSDL($wsdl, "CDX Facility Management");
-        }
+        // Initialize connection with client
+        $client = connectToSOAPServerWithWSDL($wsdl, "CDX Facility Management");
 
         if (!$client->error) {
             $client = $client->client;
             // Create new token- not using token from bridge
-            if ($create_new_token_initially) {
+            if (!feature_toggle_get_status('reuse_token_from_bridge')) {
                 // Create new token with CDX's user id
                 $params_for_creation = array(
                     "userId" => $user_id,
@@ -168,28 +187,28 @@ function return_cdx_facility_management_token($is_print_json = TRUE)
             } else {
                 // Use token from bridge and renew
                 $token = $_SESSION['cdx_fmw_security_token'];
-                $params_for_renewal = array(
-                    "userId" => $email,
-                    "password" => $frs_password,
-                    "domain" => $domain,
-                    "securityToken" => $token,
-                    "expiration" => $token_expiration,
-                );
+
                 // Immediately renew the NAAS token received from Bridge or newly created
-                $json_return = renewToken($client, $params_for_renewal, $json_return);
+                $token_renewal_data = renewToken($client, $email, $frs_password, $domain, $token);
+                $json_return['user_id'] = $user_id;
+                if (!$token_renewal_data['error']) {
+                    $json_return['token'] = $token_renewal_data['token'];
+                    // Reset the session bridge token with the renewed token
+                    $_SESSION['cdx_fmw_security_token'] = $token_renewal_data['token'];
+                } else {
+                    unset($_SESSION['cdx_fmw_security_token']);
+                }
             }
-            $json_return['url'] = $cdx_resource_url;
             $json_return['user_session_logout'] = $user_session_logout;
             $json_return['user_login_time'] = $user_login_time;
         } else {
             $json_return['error'] = TRUE;
         }
-
-        if ($is_print_json) {
-            drupal_json_output($json_return);
-        } else {
-            return $json_return;
-        }
+    }
+    if ($is_print_json) {
+        drupal_json_output($json_return);
+    } else {
+        return $json_return;
     }
 }
 
@@ -214,34 +233,47 @@ function createNewToken($client, $params_for_creation)
     return $json_return;
 }
 
-function renewToken($client, $params_for_renewal, $json_return)
+function renewToken($client, $email, $frs_password, $domain, $token)
 {
+    $return = array();
+
+    $params_for_renewal = array(
+        "userId" => $email,
+        "password" => $frs_password,
+        "domain" => $domain,
+        "securityToken" => $token,
+    );
+
     $response = callSOAPWithParams($client,
         "RenewSecurityToken",
         $params_for_renewal,
         "CDX Facility Management");
+
     if (!$response->error) {
         $response = $response->response;
         $new_token = $response->return;
-        $json_return['token'] = $new_token;
-        $json_return['user_id'] = $params_for_renewal['userId'];
-    } else
-        $json_return['error'] = TRUE;
-    return $json_return;
+        $return['token'] = $new_token;
+    } else {
+        $return['error'] = TRUE;
+    }
+    return $return;
 }
 
 
 function retrieve_cdx_user_data()
 {
     global $user;
-    $json_return = array();
+    $return = array();
 
     $local_testing = variable_get('local_testing');
     $local_testing_user_id = variable_get('local_testing_user_id');
-    if ($local_testing || $user->uid == 1)
+
+    if ($local_testing || $user->uid == 1) {
         $user_id = $local_testing_user_id;
-    else
+    }
+    else {
         $user_id = $user->name;
+    }
 
     //Extract out "_Via_CDX" string from user_name to pull roles from the Activity Data flow
     $cdx_pos = strrpos($user_id, "_Via_");
@@ -255,8 +287,7 @@ function retrieve_cdx_user_data()
     $wsdl = variable_get('eactivity_auth_reg_wsdl');
     $client = connectToSOAPServerWithWSDL($wsdl, "CDX Facility Management");
     if ($client->error) {
-        print json_encode((array('error' => 'true', 'user' => $user_id)));
-        return;
+        return array('error' => 'true', 'user' => $user_id);
     }
     $client = $client->client;
     $params = array(
@@ -267,14 +298,12 @@ function retrieve_cdx_user_data()
     );
     $response = callSOAPWithParams($client, "Authenticate", $params, "CDX Facility Management");
     if ($response->error) {
-        print json_encode((array('error' => 'true', 'user' => $user_id)));
-        return;
+        return array('error' => 'true', 'user' => $user_id);
     }
     $response = $response->response;
     $token = $response->securityToken;
     if (!isset($token)) {
-        print json_encode((array('error' => 'true', 'user' => $user_id)));
-        return;
+        return array('error' => 'true', 'user' => $user_id);
     }
     $user_params = array(
         "securityToken" => $token,
@@ -282,8 +311,7 @@ function retrieve_cdx_user_data()
 
     $user_obj = callSOAPWithParams($client, "RetrieveUser", $user_params, "CDX Facility Management");
     if ($user_obj->error) {
-        print json_encode((array('error' => 'true', 'user' => $user_id)));
-        return;
+        return array('error' => 'true', 'user' => $user_id);
     }
     $response = $user_obj->response;
     $user_sec_bundle = array(
@@ -293,22 +321,19 @@ function retrieve_cdx_user_data()
     $org_val = null;
     $user_orgs = callSOAPWithParams($client, "RetrieveOrganizations", $user_sec_bundle, "CDX Facility Management");
     if ($user_orgs->error) {
-        print json_encode((array('error' => 'true', 'user' => $user_id)));
-        return;
+        return array('error' => 'true', 'user' => $user_id);
     }
     $response = $user_orgs->response;
     // CDX returns object if single return and array if multiple
     if (is_array($response->Organization)) {
         foreach ($response->Organization as $index => $org_val) {
-            $json_return = addCDXOrganization($json_return, $org_val, $token, $user_obj->response, $client, $allowed_program_roles);
+            $return = addCDXOrganization($return, $org_val, $token, $user_obj->response, $client, $allowed_program_roles);
         }
     } else {
         $org_val = $response->Organization;
-        $json_return = addCDXOrganization($json_return, $org_val, $token, $user_obj->response, $client, $allowed_program_roles);
+        $return = addCDXOrganization($return, $org_val, $token, $user_obj->response, $client, $allowed_program_roles);
     }
-
-    $json_return['error'] = false;
-    print json_encode($json_return);
+    return $return;
 }
 
 
@@ -360,20 +385,8 @@ function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, 
     }
 
 
-if (!isset($json_return['organizations_to_roles'][$org_id]['roles']))
-    unset($json_return['organizations_to_roles'][$org_id]);
+    if (!isset($json_return['organizations_to_roles'][$org_id]['roles']))
+        unset($json_return['organizations_to_roles'][$org_id]);
 
-return $json_return;
+    return $json_return;
 }
-
-
-// Returns json for use in jquery of configs for CDX Facility Management             Widget
-function cdx_facility_configurations()
-{
-    $url = variable_get('cdx_facility_resource_url');
-    $configs = array();
-    $configs['url'] = $url;
-    echo json_encode($configs);
-    exit();
-}
-

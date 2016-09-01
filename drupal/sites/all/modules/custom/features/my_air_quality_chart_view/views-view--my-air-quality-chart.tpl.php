@@ -27,13 +27,12 @@
  * @ingroup views_templates
  */
 
-drupal_add_css("sites/all/libraries/jqueryui/themes/base/jquery.ui.tabs.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
+drupal_add_css("sites/all/libraries/jqueryui/themes/base/minified/jquery.ui.tabs.min.css", ['scope'=>'footer', 'preprocess'=>true, 'group'=>CSS_DEFAULT]);
 drupal_add_css("//cdn.jsdelivr.net/leaflet/0.7.3/leaflet.css", "external");
 drupal_add_css(drupal_get_path('module', 'my_air_quality_chart_view') ."/css/air_now_styles.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
 
-
-//drupal_add_js("sites/all/libraries/jqueryui/ui/jquery.ui.tabs.js", "file");
-//drupal_add_js("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", "file");
+// If needed, install jQuery Tabs JS
+//drupal_add_js("sites/all/libraries/jqueryui/ui/minified/jquery.ui.tabs.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 drupal_add_js("sites/all/libraries/d3/3.5.5/d3.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 
 drupal_add_js("sites/all/libraries/leaflet/0.7.3/leaflet.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);

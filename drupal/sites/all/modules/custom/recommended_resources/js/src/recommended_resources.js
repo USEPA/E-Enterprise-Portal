@@ -2,8 +2,11 @@ var favorite_local_resources_table, all_local_resources_table;
 var pane_class = ".pane-views-recommended-resources-block";
 var manage_components_title = "Manage My Profile Topics";
 
-(function ($) {
+function clearResources() {
+  $children = jQuery('.facet-topic-container:visible a').trigger('click');
+}
 
+(function ($) {
   function showLGCResourcesView() {
     var $localResourcesTabs = $('#local-resources-tabs');
     $('#user-lgc-topics-small-view').find('label').removeClass('selected');
@@ -17,7 +20,6 @@ var manage_components_title = "Manage My Profile Topics";
     $(pane_class).find('.pane-title').show();
     $(pane_class).find('.ui-tabs-nav').show();
   }
-
 
   /**
    * Loads manage topics view via an ajax request
@@ -53,7 +55,6 @@ var manage_components_title = "Manage My Profile Topics";
     $('.unfollow-lgc-topic').attr('id', 'unfollow-lgc-' + tid).show();
     favorite_local_resources_table.filterTopics(title);
   }
-
 
   $(document).ready(function () {
     var $body = $('body');
@@ -115,8 +116,7 @@ var manage_components_title = "Manage My Profile Topics";
     $body.on('click', '#restrict-to-local-resources-button', function () {
       updateDropdown($('#user-lgc-topics-small-view'));
     });
-
-
+    
     // Toggle sidebar expanded / collapsed view
     $body.on('click', '#local-resources-tabs .faceted-filters .toggle a', function(ev) {
       ev.preventDefault();
@@ -132,5 +132,6 @@ var manage_components_title = "Manage My Profile Topics";
       $h3.next().toggle();
       $h3.find('span').toggleClass('on off');
     });
+    
   });
 }(jQuery));
