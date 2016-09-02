@@ -2164,6 +2164,10 @@ form .field-multiple-table#field-zip-code-values {
             width: 0;
         }
     }
+    #modalContent {
+        height: 100%;
+    }
+
 }
 
 /** App connect tab has only one, so we hide the grey border bottom for inactive tabs **/
@@ -2221,6 +2225,7 @@ form .field-multiple-table#field-zip-code-values {
 
 .ui-dialog,
 #modalContent {
+    overflow-y: auto;
     .ui-dialog-title {
         font-weight: normal !important;
         font-size: 1.25em;
@@ -3969,6 +3974,8 @@ input#location-input-guests::-ms-clear {
     }
     #modalContent {
         max-width: 97% !important;
+        max-height: 100%;
+        position: fixed !important;
         div.ctools-modal-content {
             .resizable-textarea {
                 margin-right: 0;

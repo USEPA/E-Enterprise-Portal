@@ -1,26 +1,29 @@
 .resizable-textarea .grippie {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 /* Override inline dom styles from modal.js */
 #modalContent {
-  position: fixed !important;
-  top: 0% !important;
-  bottom: 12% !important;
-  right: 4% !important;
-  left: 4% !important;
+    position: fixed !important;
+    top: 0% !important;
+    bottom: 12% !important;
+    right: 4% !important;
+    left: 4% !important;
+    overflow-y: auto;
 }
+
 /* Limit max width to 1000px */
 div.ctools-modal-content {
-  width: 100% !important;
-  margin: 0 auto;
-  max-width: 1000px;
+    width: 100% !important;
+    margin: 0 auto;
+    max-width: 1000px;
 }
+
 div.ctools-modal-content .modal-content {
-  width: 100% !important;
-  padding: 0;
+    width: 100% !important;
+    padding: 0;
 }
 
 div.ctools-modal-content .modal-content .resizable-textarea .grippie {
-	height: 2px;
+    height: 2px;
 }
