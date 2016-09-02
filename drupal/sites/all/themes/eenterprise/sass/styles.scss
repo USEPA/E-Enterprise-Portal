@@ -2802,7 +2802,7 @@ table.dataTable, table.views-table {
     }
     // Ensure Questions dialog box scrolls on mobile -------------- //
     #modalContent {
-        position: absolute !important;
+        position: fixed !important;
     }
     #other-areas-tabs {
         .responsive-table {
