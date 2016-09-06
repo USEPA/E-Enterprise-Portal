@@ -5,11 +5,15 @@
 /* Override inline dom styles from modal.js */
 #modalContent {
     position: fixed !important;
-    top: 0% !important;
-    bottom: 12% !important;
+    top: 50% !important;
     right: 4% !important;
     left: 4% !important;
     overflow-y: auto;
+    transform: translateY(-50%);
+    max-height: 100%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Limit max width to 1000px */
