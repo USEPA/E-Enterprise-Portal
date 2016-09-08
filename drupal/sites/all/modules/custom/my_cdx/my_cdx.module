@@ -225,7 +225,7 @@ function my_cdx_json_link_details($role_ids) {
  * Callback for 'my-cdx/link-json-handoff/%' menu item
  */
 function my_cdx_json_link_handoff($role_id) {
-  if ($input = load_my_cdx_link_handoff($role_id)) {
+  if ($input = fetch_my_cdx_link_handoff($role_id)) {
     drupal_json_output($input);
   }
   else {
