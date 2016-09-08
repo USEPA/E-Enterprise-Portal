@@ -42,8 +42,7 @@ function saveTopic($checkbox) {
       updatingUserTopics();
     },
     success: function (response) {
-      console.log(tid, title, response, Drupal.settings.recommended_resources)
-      if(Drupal.settings.recommended_resources.user_lgc_topics) {
+      if(Drupal.settings.recommended_resources && Drupal.settings.recommended_resources.user_lgc_topics) {
         Drupal.settings.recommended_resources.user_lgc_topics[tid] = title;
       }
       still_updating--;
@@ -86,8 +85,7 @@ function removeTopic($checkbox, from_unfollow) {
       updatingUserTopics();
     },
     success: function (response) {
-      console.log(tid, title, response, Drupal.settings.recommended_resources)
-      if(Drupal.settings.recommended_resources.user_lgc_topics) {
+      if(Drupal.settings.recommended_resources && Drupal.settings.recommended_resources.user_lgc_topics) {
         delete Drupal.settings.recommended_resources.user_lgc_topics[tid];
       }
       still_updating--;

@@ -329,28 +329,14 @@ var LocalResourcesTable;
               ev.preventDefault();
             });
 
-            // Add ES-1434 Here
-            console.log("Drupal.settings", Drupal.settings.recommended_resources.user_lgc_topics)
-            //user_lgc_topics
-            //recommended_resources
-            /*  For MyResources
-            Isolate the topic if the user only has one selected
-            Get topic count
-            Get the topic
-            Check & disable
-
-            * */
             var topics = Drupal.settings.recommended_resources.user_lgc_topics;
             var count = Object.keys(topics).length;
             if($table_wrapper.attr('id') == 'user-local-resources' && count == 1) {
               for(key in topics){
                 var $label = $('#user-local-resources-wrapper label[title="'+topics[key]+'"]');
-                //console.log("label", $label);
                 $label.trigger("click");
                 var inputSelector = "#" + $label.attr('for');
                 var $input = $(inputSelector);
-                console.log("input", $input);
-                console.log("inputSelector", inputSelector);
                 $input.prop("disabled", "disabled");
                }
             }
