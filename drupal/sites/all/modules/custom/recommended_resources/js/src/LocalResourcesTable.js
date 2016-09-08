@@ -330,7 +330,7 @@ var LocalResourcesTable;
             });
 
             // Add ES-1434 Here
-            //console.log("Drupal.settings", Drupal.settings)
+            console.log("Drupal.settings", Drupal.settings.recommended_resources.user_lgc_topics)
             //user_lgc_topics
             //recommended_resources
             /*  For MyResources
