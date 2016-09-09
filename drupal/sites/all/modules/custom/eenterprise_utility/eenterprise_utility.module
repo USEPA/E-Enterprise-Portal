@@ -101,6 +101,10 @@ function eenterprise_utility_menu() {
     'page callback' => 'instant_logout',
     'access callback' => TRUE,
   );
+  $items['renew-session'] = array(
+    'page callback' => 'renew_session',
+    'access callback' => TRUE,
+  );
 
   return $items;
 }
@@ -1926,4 +1930,10 @@ function instant_logout() {
 
   // Destroy the current session, and reset $user to the anonymous user.
   session_destroy();
+}
+
+function renew_session() {
+  $_SESSION['promptAt'] = time() + (60 * 15);
+  $_SESSION['logoutAt'] = time() + (60 * 20);
+  return_cdx_facility_management_token();
 }

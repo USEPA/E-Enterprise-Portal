@@ -1132,9 +1132,9 @@ var isLoggedOut = false;
               var now = Math.floor(Date.now() / 1000);
               // only applies to logged-in users
               if (!isLoggedOut && Drupal.settings.currentUser != 0) {
-                if (now > Drupal.settings.logoutAt) {
+                if (now > logoutAt) {
                   instantLogout();
-                } else if (!isPrompted && now > Drupal.settings.promptAt) {
+                } else if (!isPrompted && now > promptAt) {
                   $('#session-timeout-modal')
                     .html('<div>Warning</div><div><a href="#" class="logout button">Logout</a><a href="#" class="renew button">Renew Session</a></div>')
                     .dialog({
@@ -1166,6 +1166,16 @@ var isLoggedOut = false;
         // click handlers for logging out and renewing the session
         $('#session-timeout-modal').on('click', '.logout', instantLogout);
         $('#session-timeout-modal').on('click', '.renew', function() {
+          // reset the clock
+          var now = Math.floor(Date.now() / 1000);
+          promptAt = now + (60 * 15);
+          logoutAt = now + (60 * 20);
+          isPrompted = false;
+
+          // renew the token
+          $.get(Drupal.settings.basePath + 'renew-session');
+
+          // inform the user
           $('#session-timeout-modal')
             .html('<div>Your session has been renewed.</div>')
             .dialog({
@@ -1173,6 +1183,7 @@ var isLoggedOut = false;
               title: 'Session Renewed'
             });
 
+          // ignore the default click action
           return false;
         });
       });

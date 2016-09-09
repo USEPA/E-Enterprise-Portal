@@ -147,14 +147,20 @@ function eenterprise_preprocess_page(&$vars) {
   }
 
   // Add javascript variables for tracking session timeout
-  drupal_add_js(
-    array(
-      'promptAt' => time() + 10,
-      'logoutAt' => time() + 30,
-      'currentUser' => $user->uid,
-    ),
-    'setting'
-  );
+  if (!user_is_anonymous()) {
+    if (!isset($_SESSION['promptAt']) || !isset($_SESSION['logoutAt'])) {
+      $_SESSION['promptAt'] = time() + (60 * 15);
+      $_SESSION['logoutAt'] = time() + (60 * 20);
+    }
+    drupal_add_js(
+      array(
+        'promptAt' => $_SESSION['promptAt'],
+        'logoutAt' => $_SESSION['logoutAt'],
+        'currentUser' => $user->uid,
+      ),
+      'setting'
+    );
+  }
 }
 
 /**
