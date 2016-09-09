@@ -6,10 +6,9 @@
 #modalContent {
     position: fixed !important;
     top: 50% !important;
-    right: 4% !important;
-    left: 4% !important;
+    left: 50% !important;
     overflow-y: auto;
-    transform: translateY(-50%);
+    transform: translateY(-50%) translateX(-50%);
     max-height: 100%;
     max-width: 1000px;
     margin-left: auto;

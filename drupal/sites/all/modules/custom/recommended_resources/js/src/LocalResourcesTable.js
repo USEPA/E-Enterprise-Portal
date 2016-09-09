@@ -228,7 +228,7 @@ var LocalResourcesTable;
                 filter_reset_button_text: false
               }
             ]);
-            $('#' + wrapperParentId).find('.facet select').each(function () {
+            $('#' + wrapperParentId).find('.facet select').each(function() {
               $(this).multiSelectToCheckboxes();
             });
 
@@ -247,7 +247,7 @@ var LocalResourcesTable;
 
             /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
              *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
-            $('div[id^="yadcf-filter-wrapper--' + wrapper_id + '-wrapper"]').find('li').each(function (index) {
+            $('div[id^="yadcf-filter-wrapper--' + wrapper_id + '-wrapper"]').find('li').each(function(index) {
               if (index > 0) {
                 var facet_type = $(this).closest('.facet').attr('class').replace('facet', '').trim();
                 var facet_topic = $(this).children('label').html();
@@ -257,13 +257,13 @@ var LocalResourcesTable;
 
                 if ((facet_topic.indexOf("(")) < 0) {
                   $(this).children('label').attr('title', facet_topic);
-                  var selection = "<span class='facet-topic-container' title='" + facet_topic + "'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'><span class='sr-only'>Remove "+ facet_topic +"</span></a></span>";
+                  var selection = "<span class='facet-topic-container' title='" + facet_topic + "'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'><span class='sr-only'>Remove " + facet_topic + "</span></a></span>";
                   if ($your_selections.find('span[title="' + facet_topic + '"]').length === 0) {
                     $your_selections.append(selection);
                     $your_selections.find('span.facet-topic-container').hide();
                   }
                 }
-                var res_t = $.grep(tableDT.data(), function (n, i) {
+                var res_t = $.grep(tableDT.data(), function(n, i) {
                   return (facet_topic.trim()) == (n[column_number]).trim();
                 }, false);
                 if ((facet_topic.indexOf("(")) < 0) {
@@ -275,7 +275,7 @@ var LocalResourcesTable;
 
             /*On Topic Facet click (select), show topic above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
-            $('div[id^="yadcf-filter-wrapper--' + wrapperParentId + '"]').find('input').click(function (e) {
+            $('div[id^="yadcf-filter-wrapper--' + wrapperParentId + '"]').find('input').click(function(e) {
               var $span_selector = $wrapper_parent.find('span.facet-topic-container[title="' + $(this).next().attr('title') + '"]');
               var $your_selections = $('.your-selections');
               var visible = $span_selector.is(":visible");
@@ -289,7 +289,7 @@ var LocalResourcesTable;
               }
 
               // This will toggle the visibility of the clear selected button
-              if($wrapper_parent.find('.your-selections span.facet-topic-container a:visible').length > 0) {
+              if ($wrapper_parent.find('.your-selections span.facet-topic-container a:visible').length > 0) {
                 $wrapper_parent.find('.clear-lgc-resources').removeClass('hidden');
               }
               else {
@@ -302,7 +302,7 @@ var LocalResourcesTable;
              * chance the close button can have multiply click events added to fake a click on the checkbox.  When an
              * even number of listeners are created, the button appears to fail.
              * */
-            $wrapper_parent.find('.your-selections span.facet-topic-container a').unbind('click').click(function (e) {
+            $wrapper_parent.find('.your-selections span.facet-topic-container a').unbind('click').click(function(e) {
               var selected_selection = $(this).parent().attr('title');
               var selected_id = $wrapper_parent.find('.multiselect-to-checkboxes ul li label[title=\'' + selected_selection + '\']').attr('for');
               $wrapper_parent.find("#" + selected_id).trigger('click')
@@ -321,7 +321,7 @@ var LocalResourcesTable;
 
             // Click handler for clicking 'i' icon - show modal
             // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
-            $('#local-resources-tabs').on('click', 'td.views-field-nothing a', function (ev) {
+            $('#local-resources-tabs').on('click', 'td.views-field-nothing a', function(ev) {
               Drupal.CTools.Modal.show("ee-ctools-popup-style");
               $('#modal-title').html('Resource Info');
               $('#modal-content').html($(this).parent().text()).scrollTop(0);
@@ -329,6 +329,17 @@ var LocalResourcesTable;
               ev.preventDefault();
             });
 
+            var topics = Drupal.settings.recommended_resources.user_lgc_topics;
+            var count = Object.keys(topics).length;
+            if($table_wrapper.attr('id') == 'user-local-resources' && count == 1) {
+              for(key in topics){
+                var $label = $('#user-local-resources-wrapper label[title="'+topics[key]+'"]');
+                $label.trigger("click");
+                var inputSelector = "#" + $label.attr('for');
+                var $input = $(inputSelector);
+                $input.prop("disabled", "disabled");
+               }
+            }
           }
           else {
             $table_wrapper.html('<div class="no-topics">You have not selected any local government interests. <a href="javascript:void(0);" id="add-more-topics">Add some here.</a></div>');
