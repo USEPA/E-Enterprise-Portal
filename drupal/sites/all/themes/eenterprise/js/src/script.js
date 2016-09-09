@@ -7,6 +7,7 @@
  */
 var promptAt;
 var logoutAt;
+var isPrompted = false;
 var isLoggedOut = false;
 
 (function($) {
@@ -1118,31 +1119,62 @@ var isLoggedOut = false;
 
 // Prompt to keep session alive?
   Drupal.behaviors.sessionTimeoutPrompt = {
-    attach: function (context, settings) {
+    attach: function (context) {
       //@see https://www.lullabot.com/articles/understanding-javascript-behaviors-in-drupal (Using jQuery Once)
       $('body').once('session-timeout-prompt', function () {
         if (Drupal.settings.ft_enabled_features["keep_session_alive"]) {
           promptAt = Drupal.settings.promptAt;
           logoutAt = Drupal.settings.logoutAt;
 
+          // periodically check whether to popup modal
           setInterval(
             function() {
               var now = Math.floor(Date.now() / 1000);
               // only applies to logged-in users
               if (!isLoggedOut && Drupal.settings.currentUser != 0) {
                 if (now > Drupal.settings.logoutAt) {
-                  alert("Logout");
-                  $.get(Drupal.settings.basePath + 'instant-logout');
-                  isLoggedOut = true;
-                } else if (now > Drupal.settings.promptAt) {
-                  alert("Hey, your session is ending");
+                  instantLogout();
+                } else if (!isPrompted && now > Drupal.settings.promptAt) {
+                  $('#session-timeout-modal')
+                    .html('<div>Warning</div><div><a href="#" class="logout button">Logout</a><a href="#" class="renew button">Renew Session</a></div>')
+                    .dialog({
+                      dialogClass: 'session-timeout-modal-content',
+                      title: 'Session Timeout Warning'
+                    });
+                  isPrompted = true;
                 }
               }
             },
-            10000
+            2000
           );
         }
 
+        // logout occurs because the user clicked on 'logout' or they simply waited too long without renewing the session
+        var instantLogout = function() {
+          $.get(Drupal.settings.basePath + 'instant-logout');
+          $('#session-timeout-modal')
+            .html('<div>You have been logged out.</div><div><a href="' + Drupal.settings.basePath + 'bridge-landing">Login</a></div>')
+            .dialog({
+              dialogClass: 'session-timeout-modal-content',
+              title: 'Session Timeout'
+            });
+          isLoggedOut = true;
+
+          return false;
+        };
+
+        // click handlers for logging out and renewing the session
+        $('#session-timeout-modal').on('click', '.logout', instantLogout);
+        $('#session-timeout-modal').on('click', '.renew', function() {
+          $('#session-timeout-modal')
+            .html('<div>Your session has been renewed.</div>')
+            .dialog({
+              dialogClass: 'session-timeout-modal-content',
+              title: 'Session Renewed'
+            });
+
+          return false;
+        });
       });
     }
   };

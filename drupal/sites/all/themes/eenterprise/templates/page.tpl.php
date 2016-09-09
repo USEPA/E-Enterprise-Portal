@@ -151,3 +151,4 @@ else {
 </section>
 <?php print render($page['footer']); ?>
 <?php print render($page['bottom']); ?>
+<div id="session-timeout-modal"></div>
