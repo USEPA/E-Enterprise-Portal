@@ -31,6 +31,7 @@ function handleError(error_message) {
  */
 function saveTopic($checkbox) {
   var tid = $checkbox.val();
+  var title = $checkbox.prop('name');
   var $anchor = $('.back-to-lgc-widget a');
 
   $.ajax({
@@ -41,6 +42,9 @@ function saveTopic($checkbox) {
       updatingUserTopics();
     },
     success: function (response) {
+      if(Drupal.settings.recommended_resources && Drupal.settings.recommended_resources.user_lgc_topics) {
+        Drupal.settings.recommended_resources.user_lgc_topics[tid] = title;
+      }
       still_updating--;
       response = $.parseJSON(response);
       var error = response.error;
@@ -64,6 +68,7 @@ function saveTopic($checkbox) {
  */
 function removeTopic($checkbox, from_unfollow) {
   var tid;
+  var title = $checkbox.prop('name');
   var $anchor = $('.back-to-lgc-widget a');
 
   if (from_unfollow) {
@@ -80,6 +85,9 @@ function removeTopic($checkbox, from_unfollow) {
       updatingUserTopics();
     },
     success: function (response) {
+      if(Drupal.settings.recommended_resources && Drupal.settings.recommended_resources.user_lgc_topics) {
+        delete Drupal.settings.recommended_resources.user_lgc_topics[tid];
+      }
       still_updating--;
       response = $.parseJSON(response);
       var error = response.error;

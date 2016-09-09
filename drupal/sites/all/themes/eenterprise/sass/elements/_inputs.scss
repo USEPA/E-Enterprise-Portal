@@ -208,7 +208,7 @@ input[type="checkbox"]:disabled + label {
 
 input[type="checkbox"]:disabled + label::before,
 input[type="radio"]:disabled + label::before {
-  background: $color-gray-lighter;
+  background-color: $color-gray-lighter;
   box-shadow: 0 0 0 1px $color-gray-light;
   cursor: not-allowed;
 }

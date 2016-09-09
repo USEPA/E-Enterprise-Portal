@@ -123,6 +123,7 @@
     $.ajax({
       url: Drupal.settings.basePath + 'my-cdx/link-json-handoff/' + roleId,
       dataType: 'json',
+      cache: false,
       success: function (data) {
         var url = data.linkHandOff.HandOffUrl;
         var $form = $('<form action="' + url + '" method="POST" target="_blank"></form>');

@@ -17,6 +17,9 @@
 
   Drupal.behaviors.modal508Compliance = {
     attach: function(context) {
+      // Ensure focus is in correct place for esc to work ES-1432
+      $('a').click(function(){$(this).focus()});
+
       $('body').on('change', 'select#location-select', function() {
         var currentZip = $(this).val();
         if (currentZip == 'view_more') {

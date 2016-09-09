@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * UPDATES
+ */
+function recommended_resources_update_7100() {
+  // Set LGC Resources View Query Settings to appropriate server url from configs
+  // @see /admin/config/people/eebridge-auth for config information.
+  $current_url = variable_get('eenterprise_bridge_auth_realm', 'http://localhost');
+  $view = views_get_view('lgc_resources', TRUE);
+  // Set default
+  $view->display['default']->display_options['query']['options']['json_file'] = $current_url . '/rcs_lgc_resources_json_all';
+  // Override User
+  $view->display['rcs_resources_user']->display_options['query']['options']['json_file'] = $current_url . '/rcs_lgc_resources_json_by_user';
+  views_save_view($view);
+}

@@ -52,6 +52,20 @@ function recommended_resources_menu() {
 }
 
 /**
+ * Implements hook_js_alter().
+ */
+function recommended_resources_js_alter(&$javascript) {
+  set_user_lgc_topic_session();
+  $user_topics = [];
+  foreach ($_SESSION['user_lgc_topics'] as $tid => $title) {
+    if($title) {
+      $user_topics[$tid] = $title;
+    }
+  }
+  drupal_add_js(['recommended_resources' => ['user_lgc_topics' => $user_topics]], 'setting');
+}
+
+/**
  * Implements hook_theme_registry_alter().
  */
 function recommended_resources_theme_registry_alter(&$theme_registry) {
