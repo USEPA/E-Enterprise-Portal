@@ -1136,10 +1136,13 @@ var isLoggedOut = false;
                   instantLogout();
                 } else if (!isPrompted && now > promptAt) {
                   $('#session-timeout-modal')
-                    .html('<div>Warning</div><div><a href="#" class="logout button">Logout</a><a href="#" class="renew button">Renew Session</a></div>')
+                    .html('<div>Due to inactivity, your session will expire in 5 minutes. Please click Continue Session to continue.</div><div><button class="logout button">Logout</button><button class="renew button">Continue Session</button></div>')
                     .dialog({
                       dialogClass: 'session-timeout-modal-content',
-                      title: 'Session Timeout Warning'
+                      title: 'Session Timeout Warning',
+                      resizable: false,
+                      closeText: "Close",
+                      modal: true
                     });
                   isPrompted = true;
                 }
@@ -1153,10 +1156,13 @@ var isLoggedOut = false;
         var instantLogout = function() {
           $.get(Drupal.settings.basePath + 'instant-logout');
           $('#session-timeout-modal')
-            .html('<div>You have been logged out.</div><div><a href="' + Drupal.settings.basePath + 'bridge-landing">Login</a></div>')
+            .html('<div>You have been timed out.</div><div><a href="' + Drupal.settings.basePath + 'bridge-landing">Login</a></div>')
             .dialog({
               dialogClass: 'session-timeout-modal-content',
-              title: 'Session Timeout'
+              title: 'Session Timeout',
+              resizable: false,
+              closeText: "Close",
+              modal: true
             });
           isLoggedOut = true;
 
@@ -1180,7 +1186,10 @@ var isLoggedOut = false;
             .html('<div>Your session has been renewed.</div>')
             .dialog({
               dialogClass: 'session-timeout-modal-content',
-              title: 'Session Renewed'
+              title: 'Session Renewed',
+              resizable: false,
+              closeText: "Close",
+              modal: true
             });
 
           // ignore the default click action
