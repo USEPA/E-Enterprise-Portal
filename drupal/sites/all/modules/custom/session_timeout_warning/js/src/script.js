@@ -17,36 +17,34 @@ var isLoggedOut = false;
       //@see https://www.lullabot.com/articles/understanding-javascript-behaviors-in-drupal (Using jQuery Once)
       $('body').once('session-timeout-prompt', function () {
         $('body').append('<div id="session-timeout-modal"></div>');
-        if (Drupal.settings.ft_enabled_features["keep_session_alive"]) {
-          promptAt = Drupal.settings.promptAt;
-          logoutAt = Drupal.settings.logoutAt;
+        promptAt = Drupal.settings.promptAt;
+        logoutAt = Drupal.settings.logoutAt;
 
-          // periodically check whether to popup modal
-          setInterval(
-            function() {
-              var now = Math.floor(Date.now() / 1000);
-              // @see http://stackoverflow.com/questions/7540397/convert-nan-to-0-in-javascript
-              var userId = Drupal.settings.currentUser || 0;
-              if (!isLoggedOut && userId != 0) { // only applies to logged-in users
-                if (now > logoutAt) {
-                  instantLogout();
-                } else if (!isPrompted && now > promptAt) {
-                  $('#session-timeout-modal')
-                    .html('<div>Due to inactivity, your session will expire in 5 minutes. Please click Continue Session to continue.</div><div><button class="logout button">Logout</button><button class="renew button">Continue Session</button></div>')
-                    .dialog({
-                      dialogClass: 'session-timeout-modal-content',
-                      title: 'Session Timeout Warning',
-                      resizable: false,
-                      closeText: "Close",
-                      modal: true
-                    });
-                  isPrompted = true;
-                }
+        // periodically check whether to popup modal
+        setInterval(
+          function() {
+            var now = Math.floor(Date.now() / 1000);
+            // @see http://stackoverflow.com/questions/7540397/convert-nan-to-0-in-javascript
+            var userId = Drupal.settings.currentUser || 0;
+            if (!isLoggedOut && userId != 0) { // only applies to logged-in users
+              if (now > logoutAt) {
+                instantLogout();
+              } else if (!isPrompted && now > promptAt) {
+                $('#session-timeout-modal')
+                  .html('<div>Due to inactivity, your session will expire in 5 minutes. Please click Continue Session to continue.</div><div><button class="logout button">Logout</button><button class="renew button">Continue Session</button></div>')
+                  .dialog({
+                    dialogClass: 'session-timeout-modal-content',
+                    title: 'Session Timeout Warning',
+                    resizable: false,
+                    closeText: "Close",
+                    modal: true
+                  });
+                isPrompted = true;
               }
-            },
-            2000
-          );
-        }
+            }
+          },
+          2000
+        );
 
         // logout occurs because the user clicked on 'logout' or they simply waited too long without renewing the session
         var instantLogout = function() {
