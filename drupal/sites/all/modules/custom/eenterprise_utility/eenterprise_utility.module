@@ -1188,16 +1188,18 @@ function user_profile_favorites_custom_validate(&$form, &$form_state) {
     // this regex will look for an html tags or the keyword 'javascript'
     $all_html_tags_and_js = '/(<script(\s|\S)*?<\/script>)|(<style(\s|\S)*?<\/style>)|(<!--(\s|\S)*?-->)|(<\/?(\s|\S)*?>)|javascript/';
     $match_html = preg_match($all_html_tags_and_js, $url);
-    if (empty($url)) {
-      form_set_error($key . "field_url", t($errorMsgBlank));
-    }
-    else if ($match_html) {
-      form_set_error($key . "field_url", t($errorMsgUrl));
-    }
+    if(!empty($url) || !empty($text)) {
+      if (empty($url)) {
+        form_set_error($key . "field_url", t($errorMsgBlank));
+      }
+      else if ($match_html) {
+        form_set_error($key . "field_url", t($errorMsgUrl));
+      }
 
-    $check_text = check_plain($text);
-    if ($text !== $check_text) {
-      form_set_error($key . "field_title", t($errorMsgText));
+      $check_text = check_plain($text);
+      if ($text !== $check_text) {
+        form_set_error($key . "field_title", t($errorMsgText));
+      }
     }
   }
 }
