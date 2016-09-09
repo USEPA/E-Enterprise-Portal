@@ -37,14 +37,33 @@ function instant_logout() {
  * Page callback for 'renew-session'
  */
 function renew_session() {
-  $_SESSION['promptAt'] = time() + (60 * 15);
-  $_SESSION['logoutAt'] = time() + (60 * 20);
+  $_SESSION['promptAt'] = time() + (60 * 15); // 15 minute timeout
+  $_SESSION['logoutAt'] = time() + (60 * 20); // 20 minute timeout
   return_cdx_facility_management_token();
 }
 
 /**
  * Implements hook_init().
+ * Add client-side business logic, tracking for prompt and logout
  */
 function session_timeout_warning_init() {
+  global $user;
+
   drupal_add_js(drupal_get_path('module', 'session_timeout_warning') . '/js/script.js');
+
+  // Add javascript variables for tracking session timeout
+  if (!user_is_anonymous()) {
+    if (!isset($_SESSION['promptAt']) || !isset($_SESSION['logoutAt'])) {
+      $_SESSION['promptAt'] = time() + (60 * 15); // 15 minute timeout
+      $_SESSION['logoutAt'] = time() + (60 * 20); // 20 minute timeout
+    }
+    drupal_add_js(
+      array(
+        'promptAt' => $_SESSION['promptAt'],
+        'logoutAt' => $_SESSION['logoutAt'],
+        'currentUser' => $user->uid,
+      ),
+      'setting'
+    );
+  }
 }

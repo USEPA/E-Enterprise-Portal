@@ -123,8 +123,6 @@ function eenterprise_process_html_tag(&$vars) {
  * Override or insert variables into the page template.
  */
 function eenterprise_preprocess_page(&$vars) {
-  global $user;
-
   $vars['title_attributes_array']['class'] = 'page-title';
   $vars['content_language'] = language_default('language');
   if(!empty($vars['node']->field_language['und'][0]['value'])) {
@@ -144,22 +142,6 @@ function eenterprise_preprocess_page(&$vars) {
   if (user_is_anonymous() && arg(0) == 'user' && (arg(1) == '' || arg(1) == 'login')) {
     $vars['classes_array'][] = ' user-login';    
     $warning_message = variable_get('eenterprise_login_warning');  
-  }
-
-  // Add javascript variables for tracking session timeout
-  if (!user_is_anonymous()) {
-    if (!isset($_SESSION['promptAt']) || !isset($_SESSION['logoutAt'])) {
-      $_SESSION['promptAt'] = time() + (60 * 15);
-      $_SESSION['logoutAt'] = time() + (60 * 20);
-    }
-    drupal_add_js(
-      array(
-        'promptAt' => $_SESSION['promptAt'],
-        'logoutAt' => $_SESSION['logoutAt'],
-        'currentUser' => $user->uid,
-      ),
-      'setting'
-    );
   }
 }
 
