@@ -5,6 +5,10 @@
  * In order for this JavaScript to be loaded on pages, see the instructions in
  * the README.txt next to this file.
  */
+var promptAt;
+var logoutAt;
+var isLoggedOut = false;
+
 (function($) {
   // Change the default label of all Search fields
   if (jQuery.fn.dataTable != null) {
@@ -1112,4 +1116,34 @@
     }
   };
 
+// Prompt to keep session alive?
+  Drupal.behaviors.sessionTimeoutPrompt = {
+    attach: function (context, settings) {
+      //@see https://www.lullabot.com/articles/understanding-javascript-behaviors-in-drupal (Using jQuery Once)
+      $('body').once('session-timeout-prompt', function () {
+        if (Drupal.settings.ft_enabled_features["keep_session_alive"]) {
+          promptAt = Drupal.settings.promptAt;
+          logoutAt = Drupal.settings.logoutAt;
+
+          setInterval(
+            function() {
+              var now = Math.floor(Date.now() / 1000);
+              // only applies to logged-in users
+              if (!isLoggedOut && Drupal.settings.currentUser != 0) {
+                if (now > Drupal.settings.logoutAt) {
+                  alert("Logout");
+                  $.get(Drupal.settings.basePath + 'instant-logout');
+                  isLoggedOut = true;
+                } else if (now > Drupal.settings.promptAt) {
+                  alert("Hey, your session is ending");
+                }
+              }
+            },
+            10000
+          );
+        }
+
+      });
+    }
+  };
 })(jQuery);
