@@ -1130,8 +1130,9 @@ var isLoggedOut = false;
           setInterval(
             function() {
               var now = Math.floor(Date.now() / 1000);
-              // only applies to logged-in users
-              if (!isLoggedOut && Drupal.settings.currentUser != 0) {
+              // @see http://stackoverflow.com/questions/7540397/convert-nan-to-0-in-javascript
+              var userId = Drupal.settings.currentUser || 0;
+              if (!isLoggedOut && userId != 0) { // only applies to logged-in users
                 if (now > logoutAt) {
                   instantLogout();
                 } else if (!isPrompted && now > promptAt) {
