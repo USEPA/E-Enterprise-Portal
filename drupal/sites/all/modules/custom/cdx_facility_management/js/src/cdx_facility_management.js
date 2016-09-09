@@ -256,30 +256,34 @@
             NASSToken: naas_token,
             NAASip: naas_ip,
             onInvalidSession: function () {
+              if (Drupal.settings.ft_enabled_features["remove_token_invalidation_check"]) {
+                unableToConnectWidget("Unable to connect");
+              } else {
                 // If not using token from bridge, we can create a new token and Facility widget
                 if (!Drupal.settings.cdx_facility_widget_settings.token_from_bridge) {
-                    renew_token_ajax.done(function (renewed_token_return) {
-                        if (renewed_token_return.expired) {
-                            userMustLogin();
-                        }
-                        else {
-                            var new_naas_token = renewed_token_return.token;
-                            if (new_naas_token === '') {
-                                unableToConnectWidget("CDX Facility- Blank Token");
-                            }
-                            else if (number_attempts > 2) {
-                                unableToConnectWidget("CDX Facility- Max attempts.");
-                            }
-                            else {
-                                widget_updating = false;
-                                updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts + 1);
-                            }
-                        }
-                    });
+                  renew_token_ajax.done(function (renewed_token_return) {
+                    if (renewed_token_return.expired) {
+                      userMustLogin();
+                    }
+                    else {
+                      var new_naas_token = renewed_token_return.token;
+                      if (new_naas_token === '') {
+                        unableToConnectWidget("CDX Facility- Blank Token");
+                      }
+                      else if (number_attempts > 2) {
+                        unableToConnectWidget("CDX Facility- Max attempts.");
+                      }
+                      else {
+                        widget_updating = false;
+                        updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts + 1);
+                      }
+                    }
+                  });
                 } else {
-                    // The initial token from the bridge has expired, use must login.
-                    userMustLogin();
+                  // The initial token from the bridge has expired, use must login.
+                  userMustLogin();
                 }
+              }
             },
             onServiceCall: function () {
                 cdx_facility_management_block.dialog("option", "position", {
