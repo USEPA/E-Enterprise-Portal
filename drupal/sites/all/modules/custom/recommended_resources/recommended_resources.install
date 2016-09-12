@@ -4,8 +4,6 @@
  * UPDATES
  */
 function recommended_resources_update_7101() {
-  // Set LGC Resources View Query Settings to appropriate server url from configs
-  // @see /admin/config/people/eebridge-auth for config information.
   global $base_url;
   $view = views_get_view('lgc_resources', TRUE);
   // Set default
