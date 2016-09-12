@@ -257,8 +257,316 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['query']['options']['show_errors'] = 1;
 
   /* Display: LGC Resource Page Wrapper */
-  $handler = $view->new_display('block', 'LGC Resource Page Wrapper', 'block_1');
+  $handler = $view->new_display('block', 'LGC Resource Page Wrapper', 'lgc_resource_page_wrapper');
   $export['lgc_resources'] = $view;
+
+  $view = new view();
+  $view->name = 'recommended_resources';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'Recommended Resources';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Resources for Local Communities';
+  $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'datatables';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['style_options']['columns'] = array(
+    'title_1' => 'title_1',
+    'field_lgc_description' => 'field_lgc_description',
+    'field_lgc_link' => 'field_lgc_link',
+    'nothing' => 'nothing',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'title_1' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_lgc_description' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_lgc_link' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'nothing' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 1,
+    ),
+  );
+  $handler->display->display_options['style_options']['elements'] = array(
+    'search_box' => 1,
+    'table_info' => 1,
+    'save_state' => 0,
+    'table_tools' => 0,
+  );
+  $handler->display->display_options['style_options']['layout'] = array(
+    'autowidth' => 0,
+    'themeroller' => 0,
+    'sdom' => '',
+  );
+  $handler->display->display_options['style_options']['pages'] = array(
+    'pagination_style' => '0',
+    'length_change' => 1,
+    'display_length' => '10',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
+  $handler->display->display_options['fields']['title_1']['table'] = 'node';
+  $handler->display->display_options['fields']['title_1']['field'] = 'title';
+  $handler->display->display_options['fields']['title_1']['label'] = 'Tool';
+  $handler->display->display_options['fields']['title_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title_1']['link_to_node'] = FALSE;
+  /* Field: Content: Topic */
+  $handler->display->display_options['fields']['field_lgc_topic']['id'] = 'field_lgc_topic';
+  $handler->display->display_options['fields']['field_lgc_topic']['table'] = 'field_data_field_lgc_topic';
+  $handler->display->display_options['fields']['field_lgc_topic']['field'] = 'field_lgc_topic';
+  $handler->display->display_options['fields']['field_lgc_topic']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_lgc_topic']['type'] = 'taxonomy_term_reference_plain';
+  /* Field: Content: Description */
+  $handler->display->display_options['fields']['field_lgc_description']['id'] = 'field_lgc_description';
+  $handler->display->display_options['fields']['field_lgc_description']['table'] = 'field_data_field_lgc_description';
+  $handler->display->display_options['fields']['field_lgc_description']['field'] = 'field_lgc_description';
+  $handler->display->display_options['fields']['field_lgc_description']['exclude'] = TRUE;
+  /* Field: Content: Link */
+  $handler->display->display_options['fields']['field_lgc_link']['id'] = 'field_lgc_link';
+  $handler->display->display_options['fields']['field_lgc_link']['table'] = 'field_data_field_lgc_link';
+  $handler->display->display_options['fields']['field_lgc_link']['field'] = 'field_lgc_link';
+  $handler->display->display_options['fields']['field_lgc_link']['exclude'] = TRUE;
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['label'] = '';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<span class="lgc-resource-link"><a href="[field_lgc_link]" target="_blank">[title_1]</a></span>
+<span class="lgc-resource-description ee-bootstrap-tooltip" data-toggle="tooltip" title=[field_lgc_description]>[field_lgc_description]</span>
+<span class="lgc-resource-topic">[field_lgc_topic]</span>';
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['nothing']['hide_empty'] = TRUE;
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Contextual filter: Content: Topic (field_lgc_topic) */
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['id'] = 'field_lgc_topic_tid';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['table'] = 'field_data_field_lgc_topic';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['field'] = 'field_lgc_topic_tid';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_lgc_topic_tid']['break_phrase'] = TRUE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'lgc_resource' => 'lgc_resource',
+  );
+  /* Filter criterion: Content: Title */
+  $handler->display->display_options['filters']['title']['id'] = 'title';
+  $handler->display->display_options['filters']['title']['table'] = 'node';
+  $handler->display->display_options['filters']['title']['field'] = 'title';
+  $handler->display->display_options['filters']['title']['operator'] = '!=';
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  $handler->display->display_options['path'] = 'recommended-resources';
+
+  /* Display: Local Government Wrapper */
+  $handler = $view->new_display('block', 'Local Government Wrapper', 'block');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'datatables';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'title_1' => 'title_1',
+    'field_lgc_description' => 'field_lgc_description',
+    'field_lgc_link' => 'field_lgc_link',
+    'nothing' => 'nothing',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'title_1' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_lgc_description' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_lgc_link' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'nothing' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['elements'] = array(
+    'search_box' => 1,
+    'table_info' => 1,
+    'save_state' => 0,
+    'table_tools' => 0,
+  );
+  $handler->display->display_options['style_options']['layout'] = array(
+    'autowidth' => 0,
+    'themeroller' => 0,
+    'sdom' => '',
+  );
+  $handler->display->display_options['style_options']['pages'] = array(
+    'pagination_style' => '0',
+    'length_change' => 1,
+    'display_length' => '10',
+  );
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+
+  /* Display: Services */
+  $handler = $view->new_display('services', 'Services', 'services_1');
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
+  $handler->display->display_options['fields']['title_1']['table'] = 'node';
+  $handler->display->display_options['fields']['title_1']['field'] = 'title';
+  $handler->display->display_options['fields']['title_1']['label'] = 'Tool';
+  $handler->display->display_options['fields']['title_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title_1']['link_to_node'] = FALSE;
+  /* Field: Content: Description */
+  $handler->display->display_options['fields']['field_lgc_description']['id'] = 'field_lgc_description';
+  $handler->display->display_options['fields']['field_lgc_description']['table'] = 'field_data_field_lgc_description';
+  $handler->display->display_options['fields']['field_lgc_description']['field'] = 'field_lgc_description';
+  /* Field: Content: Link */
+  $handler->display->display_options['fields']['field_lgc_link']['id'] = 'field_lgc_link';
+  $handler->display->display_options['fields']['field_lgc_link']['table'] = 'field_data_field_lgc_link';
+  $handler->display->display_options['fields']['field_lgc_link']['field'] = 'field_lgc_link';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = 'nid';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['path'] = 'local_resources';
+
+  /* Display: All resources table */
+  $handler = $view->new_display('block', 'All resources table', 'block_to_be_rendered');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'datatables';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'title_1' => 'title_1',
+    'field_lgc_description' => 'field_lgc_description',
+    'field_lgc_link' => 'field_lgc_link',
+    'nothing' => 'nothing',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'title_1' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_lgc_description' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_lgc_link' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'nothing' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['elements'] = array(
+    'search_box' => 1,
+    'table_info' => 1,
+    'save_state' => 0,
+    'table_tools' => 0,
+  );
+  $handler->display->display_options['style_options']['layout'] = array(
+    'autowidth' => 0,
+    'themeroller' => 0,
+    'sdom' => '',
+  );
+  $handler->display->display_options['style_options']['pages'] = array(
+    'pagination_style' => '0',
+    'length_change' => 1,
+    'display_length' => '10',
+  );
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $export['recommended_resources'] = $view;
 
   return $export;
 }
