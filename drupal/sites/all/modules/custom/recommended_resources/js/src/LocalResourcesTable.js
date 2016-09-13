@@ -322,6 +322,7 @@ var LocalResourcesTable;
             // Click handler for clicking 'i' icon - show modal
             // @see http://drupal.stackexchange.com/questions/88399/ctools-modals-without-ajax
             $('#local-resources-tabs').on('click', 'td.views-field-nothing a', function(ev) {
+              this.focus();
               Drupal.CTools.Modal.show("ee-ctools-popup-style");
               $('#modal-title').html('Resource Info');
               $('#modal-content').html($(this).parent().text()).scrollTop(0);
