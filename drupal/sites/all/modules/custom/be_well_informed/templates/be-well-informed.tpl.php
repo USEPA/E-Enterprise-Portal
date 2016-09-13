@@ -29,7 +29,3 @@
     Check your water
   </button>
 </p>
-<p class="widget-note">
-  Want a well water tool for your community? <a href="#" target="_blank">Visit Be Well Informed</a> on Github to learn
-  more.
-</p>
