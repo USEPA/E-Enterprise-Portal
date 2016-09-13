@@ -1,0 +1,69 @@
+<?php
+/**
+ * Implements hook_menu().
+ **/
+
+function session_timeout_warning_menu() {
+  $items = array();
+
+  $items['instant-logout'] = array(
+    'page callback' => 'instant_logout',
+    'access callback' => TRUE,
+  );
+  $items['renew-session'] = array(
+    'page callback' => 'renew_session',
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * Page callback for 'instant-logout'
+ * @see https://api.drupal.org/api/drupal/modules%21user%21user.pages.inc/function/user_logout_current_user/7.x
+ */
+function instant_logout() {
+  global $user;
+
+  watchdog('user', 'Session closed for %name.', array('%name' => $user->name));
+
+  module_invoke_all('user_logout', $user);
+
+  // Destroy the current session, and reset $user to the anonymous user.
+  session_destroy();
+}
+
+/**
+ * Page callback for 'renew-session'
+ */
+function renew_session() {
+  $_SESSION['promptAt'] = time() + (60 * 15); // 15 minute timeout
+  $_SESSION['logoutAt'] = time() + (60 * 20); // 20 minute timeout
+  return_cdx_facility_management_token();
+}
+
+/**
+ * Implements hook_init().
+ * Add client-side business logic, tracking for prompt and logout
+ */
+function session_timeout_warning_init() {
+  global $user;
+
+  drupal_add_js(drupal_get_path('module', 'session_timeout_warning') . '/js/script.js');
+
+  // Add javascript variables for tracking session timeout
+  if (!user_is_anonymous()) {
+    if (!isset($_SESSION['promptAt']) || !isset($_SESSION['logoutAt'])) {
+      $_SESSION['promptAt'] = time() + (60 * 15); // 15 minute timeout
+      $_SESSION['logoutAt'] = time() + (60 * 20); // 20 minute timeout
+    }
+    drupal_add_js(
+      array(
+        'promptAt' => $_SESSION['promptAt'],
+        'logoutAt' => $_SESSION['logoutAt'],
+        'currentUser' => $user->uid,
+      ),
+      'setting'
+    );
+  }
+}

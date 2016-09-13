@@ -1,0 +1,7 @@
+name = Session Timeout Warning
+description = Presents users with a modal when they are about to timeout from NAAS services, and an option to keep their session alive
+core = 7.x
+version = "7.x-1.0"
+package = CGI
+
+dependencies[] = cdx_facility_management
