@@ -719,7 +719,9 @@ header {
                         }
                     }
                     .video-details,
-                    .video-holder {
+                    .video-holder,
+                    .slide-image,
+                    .slide-details {
                         display: block;
                     }
                     .learn-more {
@@ -734,6 +736,28 @@ header {
                                 color: $color-white;
                             }
                         }
+                    }
+                    &.lgc-slide {
+                        .slide-image {
+                            position: relative;
+                        }
+                        .lgc-roles {
+                            width: 85%;
+                        }
+                        .lgc-highlight {
+                            border: #1c9b97 solid 7px;
+                            border-radius: 5px;
+                            width: 50%;
+                            position: absolute;
+                            right: 40px;
+                            top: 30px;
+                        }
+                        .lgc-calltoaction {
+                            color: $color-ee-light-green;
+                            font-size: 2.5rem;
+                            font-style: italic;
+                            margin-top: 0;
+                        }                      
                     }
                 }
                 > li {
@@ -2908,19 +2932,26 @@ table.dataTable, table.views-table {
                             }
                         }
                         .video-details,
-                        .video-holder {
+                        .video-holder,
+                        .slide-image,
+                        .slide-details {
                             display: table-cell;
                             vertical-align: top;
                             width: 50%;
                         }
-                        .video-details {
+                        .video-details,
+                        .lgc-slide .slide-image {
                             float: left;
                         }
-                        .video-holder {
+                        .video-holder,
+                        .lgc-slide .slide-details {
                             width: 45%;
                         }
                         .video-holder {
                             padding: 2em 4rem 2em 0;
+                        }
+                        .video-holder,
+                        .lgc-slide .slide-details {
                             float: right;
                         }
                         &.featured {
