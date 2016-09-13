@@ -98,7 +98,6 @@ function eenterprise_utility_menu() {
     '#type' => MENU_CALLBACK,
   );
 
-
   return $items;
 }
 
