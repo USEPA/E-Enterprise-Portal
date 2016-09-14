@@ -9,6 +9,10 @@
         clear: both;
     }
 }
+@mixin container() {
+    position: relative;
+    box-sizing: border-box;
+}
 
 .be-well-informed-modal {
     &.ui-dialog {
@@ -23,38 +27,60 @@
     h1 {
         margin-top: 0;
     }
-    .component {
+    .section {
         border-bottom:1px solid #cccccc;
+        width: 100%;
 
-        label {
-            margin: 0.2em 0;
-            padding: 1rem 0em;
+        label, .absent-present > span, .absent-present div {
+            margin: 0.2rem 0;
+            padding: 1rem 0rem;
         }
 
         input {
             text-align: right;
+            color: #333333;
         }
 
         select {
         }
 
+        .absent-present {
+            float: right;
+
+            &> span {
+                color: #666666;
+                line-height: 2rem;
+                font-size: 1.1rem;
+            }
+        }
+        [type=radio]+label {
+            margin: 0rem 0;
+            padding: 0rem 1rem;
+            display: block;
+            float: left;
+        }
+
     }
     .symbol {
         color: #666666;
+        .sub {
+            font-size: 1rem;
+        }
     }
     .row {
-        //margin-left: -0.9375em;
-        //margin-right: -0.9375em;
+        float: left;
         @include clearfix();
     }
     .column {
         float: left;
         position: relative;
-        min-height: 0.1em;
-        padding-right: 0.9375em;
-        padding-left: 0.9375em;
+        min-height: 0.1rem;
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem;
+        &.right {
+            float: right;
+        }
     }
-
     .one-third {
         width: 31.3%;
         margin-left: 3%;
@@ -62,4 +88,30 @@
             margin-left: 0;
         }
     }
+    .one-half {
+        width: 49%;
+        margin-left: 2%;
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
+
+@media screen and (max-width: 30em) {
+    /*#be-well-informed-modal {
+        .one-third {
+            width: 31.3%;
+            margin-left: 3%;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+        .one-half {
+            width: 49%;
+            margin-left: 2%;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }*/
 }
