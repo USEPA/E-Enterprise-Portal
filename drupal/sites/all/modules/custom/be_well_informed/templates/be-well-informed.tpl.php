@@ -29,3 +29,4 @@
     Check your water
   </button>
 </p>
+<div id="be-well-informed-modal"></div>
