@@ -1,6 +1,19 @@
 <?php
 
 /**
+ * Implements hook_menu().
+ */
+function be_well_informed_menu() {
+  $items = array();
+  $items['be_well_informed:form_submission'] = array(
+    'page callback' => 'form_submission',
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+
+/**
  * Implements hook_block_info().
  */
 function be_well_informed_block_info() {
@@ -25,11 +38,18 @@ function be_well_informed_theme() {
       'template' => 'be-well-informed',
       'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
     ),
-    'be_well_informed_modal' => array(
+    'be_well_informed_form_submission_modal' => array(
       // Default variables
       'variables' => array(),
       // Which .tpl.php file to use my-cdx.tpl.php
-      'template' => 'be-well-informed-modal',
+      'template' => 'be-well-informed-form-submission-modal',
+      'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
+    ),
+    'be_well_informed_return_results_modal' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use my-cdx.tpl.php
+      'template' => 'be-well-informed-return-results-modal',
       'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
     ),
   );
@@ -52,4 +72,50 @@ function be_well_informed_block_view($delta = '') {
     }
   }
   return $block;
+}
+
+
+function form_submission() {
+  if (!isset ($_POST['be_well_informed'])) {
+    drupal_json_output(array('error' => true, 'message' => 'Failed to recieve any data.'));
+  }
+
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+  $sanitized_post_data = check_markup($_POST['be_well_informed']);
+  if (feature_toggle_get_status('be_well_informed_sample_data')) {
+    $be_well_informed_response = sample_be_well_informed_response($sanitized_post_data);
+  } else {
+    // TODO: hook into be well informed app
+    $be_well_informed_response = array();
+  }
+
+  drupal_json_output(array('error' => false, 'data' => $be_well_informed_response));
+}
+
+
+function sample_be_well_informed_response() {
+  $response = [
+    [
+      'name' => 'Arsenic',
+      'input' => '0.01 mg/L',
+      'containment_level' => '0.01 mg/L',
+      'message' => 'The value entered is close to exceeding the drinking water standard',
+      'level' => 'close',
+    ],
+    [
+      'name' => 'Chloride',
+      'input' => 'None',
+      'containment_level' => '250 mg/L',
+      'message' => 'A value was not entered',
+      'level' => 'none',
+    ],
+    [
+      'name' => 'Copper',
+      'input' => '1.3 mg/L',
+      'containment_level' => '1.3 mg/L',
+      'message' => 'The value entered meets the drinking water guideline',
+      'level' => 'below',
+    ],
+  ];
+  return $response;
 }
