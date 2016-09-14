@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"..\\be_well_informed.js"}
+{"version":3,"sources":["be_well_informed.js"],"names":["$","click","html","Drupal","settings","be_well_informed","modal","dialog","width","dialogClass","jQuery"],"mappings":"CAAA,SAAUA,GAERA,EAAE,wBAAwBC,MAAM,WAC9BD,EAAE,2BACCE,KAAKC,OAAOC,SAASC,iBAAiBC,OACtCC,QACCC,MAAO,OACPF,MAAO,KACPG,YAAa,+BAIlBC","file":"..\\be_well_informed.js"}

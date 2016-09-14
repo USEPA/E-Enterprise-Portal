@@ -1,0 +1,28 @@
+.be-well-informed-modal {
+    .ui-dialog {
+        .ui-dialog-titlebar {
+            background-color: transparent !important;
+            border: none;
+        }
+    }
+    &>h1 {
+        margin-top: 0;
+    }
+    .component {
+        border-bottom:1px solid #cccccc;
+
+        label {
+            
+        }
+
+        input {
+            width: 90%;
+            margin-left: 5%;
+        }
+
+    }
+    .symbol {
+        color: #666666;
+    }
+
+}

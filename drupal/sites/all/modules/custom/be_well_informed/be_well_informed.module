@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Implements hook_menu().
  */
@@ -61,11 +62,24 @@ function be_well_informed_theme() {
 function be_well_informed_block_view($delta = '') {
   $block = array();
   if ($delta == 'be_well_informed') {
-    drupal_add_css(drupal_get_path('module', 'be_well_informed') . '/css/be_well_informed.css', [
-      'preprocess' => TRUE,
-      'group' => CSS_THEME
-    ]);
-    if (user_access('access content')) { //good idea to check user perms here
+    //good idea to check user perms here
+    if (user_access('access content')) {
+      drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/be_well_informed.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      drupal_add_css(drupal_get_path('module', 'be_well_informed') . '/css/be_well_informed.css', [
+        'preprocess' => TRUE,
+        'group' => CSS_THEME
+      ]);
+      // Set Modal Template
+      $modal_html = theme('be_well_informed_modal');
+      drupal_add_js(array("be_well_informed" => ["modal"=> $modal_html]), 'setting');
+
       $block['subject'] = t('Be Well Informed');
       $block['content'] = theme('be_well_informed');
       return $block;
