@@ -1,28 +1,117 @@
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+@mixin container() {
+    position: relative;
+    box-sizing: border-box;
+}
+
 .be-well-informed-modal {
-    .ui-dialog {
+    &.ui-dialog {
         .ui-dialog-titlebar {
             background-color: transparent !important;
             border: none;
         }
     }
-    &>h1 {
+}
+
+#be-well-informed-modal {
+    h1 {
         margin-top: 0;
     }
-    .component {
+    .section {
         border-bottom:1px solid #cccccc;
+        width: 100%;
 
-        label {
-            
+        label, .absent-present > span, .absent-present div {
+            margin: 0.2rem 0;
+            padding: 1rem 0rem;
         }
 
         input {
-            width: 90%;
-            margin-left: 5%;
+            text-align: right;
+            color: #333333;
+        }
+
+        select {
+        }
+
+        .absent-present {
+            float: right;
+
+            &> span {
+                color: #666666;
+                line-height: 2rem;
+                font-size: 1.1rem;
+            }
+        }
+        [type=radio]+label {
+            margin: 0rem 0;
+            padding: 0rem 1rem;
+            display: block;
+            float: left;
         }
 
     }
     .symbol {
         color: #666666;
+        .sub {
+            font-size: 1rem;
+        }
     }
+    .row {
+        float: left;
+        @include clearfix();
+    }
+    .column {
+        float: left;
+        position: relative;
+        min-height: 0.1rem;
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem;
+        &.right {
+            float: right;
+        }
+    }
+    .one-third {
+        width: 31.3%;
+        margin-left: 3%;
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+    .one-half {
+        width: 49%;
+        margin-left: 2%;
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
 
+@media screen and (max-width: 30em) {
+    /*#be-well-informed-modal {
+        .one-third {
+            width: 31.3%;
+            margin-left: 3%;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+        .one-half {
+            width: 49%;
+            margin-left: 2%;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }*/
 }
