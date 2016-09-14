@@ -4,3 +4,5 @@ core = 7.x
 
 dependencies[] = ctools
 configure = admin/config/people/suggestion_box
+dependencies[] = ctools
+dependencies[] = views

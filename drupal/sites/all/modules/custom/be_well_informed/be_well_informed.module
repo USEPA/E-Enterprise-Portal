@@ -1,6 +1,32 @@
 <?php
 
 /**
+ *  Implements of hook_menu()
+ */
+function be_well_informed_menu() {
+  $items['be_well_informed/%ctools_js/%'] = array(
+    'title' => 'Be Well Informed > Enter Your Water Analysis Results',
+    'page arguments' => array(1, 2),
+    'page callback' => 'be_well_informed_water_analysis_reports_results',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function be_well_informed_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'be_well_informed') .'/includes'
+  );
+}
+
+
+
+/**
  * Implements hook_block_info().
  */
 function be_well_informed_block_info() {
@@ -32,6 +58,13 @@ function be_well_informed_theme() {
       'template' => 'be-well-informed-modal',
       'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
     ),
+    'views_view_fields__be_well_informed' => array(
+      'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
+      'template' => 'views-view-fields--water-analysis-report-results',
+      'base hook' => 'views_view_fields',
+      // I am defining another directory inside the happy module dir called 'theme'
+      'path' => drupal_get_path('module', 'be_well_informed') . '/templates',
+    ),
   );
 }
 
@@ -52,4 +85,105 @@ function be_well_informed_block_view($delta = '') {
     }
   }
   return $block;
+}
+
+/**
+ * Helper function to make a link.
+ */
+function _check_your_water_make_link($link_text = '') {
+
+  configure_ctools_popup();
+
+  // Set a default value if no text in supplied.
+  if (empty($link_text)) {
+    $link_text = 'Modal';
+  }
+  else {
+    $link_text = '<span aria-controls="modalContent">'.$link_text.'</span>';
+  }
+
+  // return l($link_text, 'suggestion_box/nojs', array('attributes' => array('class' => 'ctools-use-modal menu-link')));
+  return ctools_modal_text_button($link_text, 'suggestion_box/nojs', $link_text, 'ctools-modal-ee-ctools-popup-style');
+}
+
+function be_well_informed_water_analysis_reports_results($js = null, $nid = null) {
+  if ($nid == NULL) {
+    return 'No node id was sent. Error.';
+  }
+  if ($js) {
+    // Required includes for ctools to work:
+    ctools_include('modal');
+    ctools_include('ajax');
+  }
+  // Load the node obkect
+  $node = node_load($nid);
+  // Drupal 7 requires a render of the node object in order to obtain a string.
+  // Note that I am able to customize the fields by using the "Teaser" display mode
+  // under admin/structure/types.
+  $contents = render(node_view($node, 'water_analysis_reports_results', NULL));
+  return ctools_modal_render($node->title, $contents) ;
+}
+
+function be_well_informed_views_pre_render(&$views) {
+  if ($views->name == 'water_analysis_reports_results') {
+    // Include the CTools tools that we need.
+    ctools_include('ajax');
+    ctools_include('modal');
+
+    // Add CTools' javascript to the page.
+    ctools_modal_add_js();
+
+    // Create our own javascript that will be used to theme a modal.
+    $be_well_informed_style = array(
+      'be-well-informed-modal-style' => array(
+        /*'modalSize' => array(
+          'type' => 'fixed',
+          'width' => 600,
+          'height' => 240,
+          'addWidth' => 10,
+          'addHeight' => 10,
+          'contentRight' => 0,
+          'contentBottom' => 0,
+        ),*/
+        'modalOptions' => array(
+          'opacity' => .6,
+          'background-color' => '#684C31',
+        ),
+        'animation' => 'fadeIn',
+        'modalTheme' => 'be_well_informed_modal',
+        // Customize the AJAX throbber like so:
+        // This function assumes the images are inside the module directory's "images"
+        // directory:
+        // ctools_image_path($image, $module = 'ctools', $dir = 'images')
+        'throbber' => theme('image', array('path' => ctools_image_path('ajax-loader.gif', 'be_well_informed'), 'alt' => t('Loading...'), 'title' => t('Loading'))),
+        'closeImage' => theme('image', array('path' => ctools_image_path('modal-close.png', 'be_well_informed'), 'alt' => t('Close window'), 'title' => t('Close window'))),
+      ),
+    );
+    // Add the settings array defined above to Drupal 7's JS settings:
+    drupal_add_js($be_well_informed_style, 'setting');
+    // The function below assumes the be_well_informed.js file resides in [module_dir]/js
+    ctools_add_js('be_well_informed', 'be_well_informed');
+    // The function below assumes the be_well_informed.css file resides in [module_dir]/css
+    ctools_add_css('be_well_informed', 'be_well_informed');
+  }
+}
+
+function be_well_informed_preprocess_views_view_fields(&$vars) {
+  if ($vars['view']->name == 'water_analysis_reports_results') {
+    // Include the CTools tools that we need.
+    ctools_include('ajax');
+    ctools_include('modal');
+    // The view has two fields, title (not linked and no styles added), and NID (again,
+    // no style added. They are available here as $vars['fields']->title and
+    // $vars['fields']->nid.
+    $name = $vars['fields']['title']->content;
+    // Create a path for the url that is like our hook_menu() declaration above.
+    $href = 'be_well_informed/nojs/' . $vars['fields']['nid']->content;
+    // Here's the ctools function that generates the trigger inside the link
+    // ctools_modal_text_button($text, $dest, $alt, $class = '')
+    // http://api.drupalize.me/api/drupal/function/ctools_modal_text_button/7
+    // IMPORTANT: Include ctools-modal-[your declared style name] as a class so
+    // Ctools knows what Javascript settings to use in generating the modal:
+    $vars['ctools_link'] = ctools_modal_text_button($name, $href, t('View node content for @name', array('@name' => $name)), 'ctools-modal-be-well-informed-modal-style');
+  }
 }
