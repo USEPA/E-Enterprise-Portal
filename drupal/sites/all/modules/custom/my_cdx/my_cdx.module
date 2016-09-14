@@ -76,7 +76,7 @@ function my_cdx_theme() {
 function my_cdx_block_view($delta = '') {
   $block = array();
 
-  if ($delta = 'my_cdx') {
+  if ($delta == 'my_cdx') {
     drupal_add_css(libraries_get_path('font-awesome-4.5.0') . "/css/font-awesome.min.css", [
       'preprocess' => TRUE,
       'group' => CSS_THEME
