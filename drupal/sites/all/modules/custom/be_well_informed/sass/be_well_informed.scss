@@ -1,28 +1,65 @@
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
 .be-well-informed-modal {
-    .ui-dialog {
+    &.ui-dialog {
         .ui-dialog-titlebar {
             background-color: transparent !important;
             border: none;
         }
     }
-    &>h1 {
+}
+
+#be-well-informed-modal {
+    h1 {
         margin-top: 0;
     }
     .component {
         border-bottom:1px solid #cccccc;
 
         label {
-            
+            margin: 0.2em 0;
+            padding: 1rem 0em;
         }
 
         input {
-            width: 90%;
-            margin-left: 5%;
+            text-align: right;
+        }
+
+        select {
         }
 
     }
     .symbol {
         color: #666666;
     }
+    .row {
+        //margin-left: -0.9375em;
+        //margin-right: -0.9375em;
+        @include clearfix();
+    }
+    .column {
+        float: left;
+        position: relative;
+        min-height: 0.1em;
+        padding-right: 0.9375em;
+        padding-left: 0.9375em;
+    }
 
+    .one-third {
+        width: 31.3%;
+        margin-left: 3%;
+        &:first-child {
+            margin-left: 0;
+        }
+    }
 }
