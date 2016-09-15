@@ -172,7 +172,7 @@
 
   ?>
 
-  <form action="">
+  <form action="" id="be-well-informed-form">
     <div class="row usa-grid-full ">
       <div class="components usa-width-one-half">
         <h3>Routine Water Analysis</h3>
@@ -229,4 +229,5 @@
       </div>
     </div>
   </form>
+  <button id="submit-form" type="button">Submit(fake)</button>
 </div>

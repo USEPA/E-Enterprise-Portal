@@ -6,7 +6,7 @@
  */
 function be_well_informed_menu() {
   $items = array();
-  $items['be_well_informed:form_submission'] = array(
+  $items['be_well_informed/form_submission'] = array(
     'page callback' => 'form_submission',
     'access callback' => TRUE,
   );
@@ -64,6 +64,15 @@ function be_well_informed_block_view($delta = '') {
   if ($delta == 'be_well_informed') {
     //good idea to check user perms here
     if (user_access('access content')) {
+      drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");
+      drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
       drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/be_well_informed.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
@@ -76,9 +85,14 @@ function be_well_informed_block_view($delta = '') {
         'preprocess' => TRUE,
         'group' => CSS_THEME
       ]);
-      // Set Modal Template
-      $modal_html = theme('be_well_informed_modal');
-      drupal_add_js(array("be_well_informed" => ["modal"=> $modal_html]), 'setting');
+      // Set Form Modal Template
+      $modal_form_html = theme('be_well_informed_form_submission_modal');
+      drupal_add_js(array("be_well_informed" => ["modal_form"=> $modal_form_html]), 'setting');
+
+      // Set Form Return Modal Template
+      $modal_results_html = theme('be_well_informed_return_results_modal');
+      drupal_add_js(array("be_well_informed" => ["modal_results"=> $modal_results_html]), 'setting');
+
 
       $block['subject'] = t('Be Well Informed');
       $block['content'] = theme('be_well_informed');
@@ -90,20 +104,36 @@ function be_well_informed_block_view($delta = '') {
 
 
 function form_submission() {
-  if (!isset ($_POST['be_well_informed'])) {
+  if (!isset($_POST)) {
     drupal_json_output(array('error' => true, 'message' => 'Failed to recieve any data.'));
+    return;
   }
 
   module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-  $sanitized_post_data = check_markup($_POST['be_well_informed']);
   if (feature_toggle_get_status('be_well_informed_sample_data')) {
-    $be_well_informed_response = sample_be_well_informed_response($sanitized_post_data);
+    $be_well_informed_response = sample_be_well_informed_response();
   } else {
     // TODO: hook into be well informed app
     $be_well_informed_response = array();
   }
 
+
   drupal_json_output(array('error' => false, 'data' => $be_well_informed_response));
+}
+
+function be_well_informed_datatable_response($be_well_response) {
+  $datatable_json = [];
+  foreach($be_well_response as $water_data) {
+    $datatable_row = [];
+    $datatable_row[] = $water_data['name'];
+    $datatable_row[] = $water_data['input'];
+    $datatable_row[] = $water_data['containment_level'];
+    $datatable_row[] = $water_data['message'];
+    $datatable_row[] = $water_data['level'];
+    $datatable_json[] = $datatable_row;
+  }
+
+  return $datatable_json;
 }
 
 
