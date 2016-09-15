@@ -77,7 +77,7 @@ function be_well_informed_block_view($delta = '') {
 }
 
 /**
- * Implements hook_preprocess for be-well-informed-modal.tpl.php.
+ * Implements template_preprocess for be-well-informed-modal.tpl.php.
  */
 function template_preprocess_be_well_informed_modal(&$variables, $hook) {
   $variables['unit_types'] = [
