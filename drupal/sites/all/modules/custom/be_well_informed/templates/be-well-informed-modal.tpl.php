@@ -168,12 +168,24 @@
     ],
   ];
 
+  $cities = ["Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
+
   $prefix = 'ct100$MainContent$';
 
   ?>
 
   <form action="">
-    <div class="row usa-grid-full ">
+    <div class="row usa-grid-full">
+      <div class="row usa-width-one-whole">
+        <div class="city-selection section usa-width-one-half">
+          <label class="column one-half" for="<?php echo $prefix.'drp' ?>city">New Hampshire / City<span class="red">Required</span></label>
+          <select class="column one-half right" name="<?php echo $prefix.'drp' ?>city" id="drpcity">
+          <?php foreach($cities as $c): ?>
+            <option value="<?php echo $c ?>"><?php echo $c ?></option>
+          <?php endforeach; ?>
+          </select>
+        </div>
+      </div>
       <div class="components usa-width-one-half">
         <h3>Routine Water Analysis</h3>
         <?php foreach($water_components as $wc): ?>
@@ -216,7 +228,7 @@
           <h3>Radionuclides</h3>
           <?php foreach($radionuclides as $rn): ?>
             <div class="row section">
-              <label class="column one-third" for="<?php echo $prefix.'txt'.$rn['machine_name'] ?>"><?php echo $rn['name'] ?> <span class="symbol">(<?php echo ($rn['symbol_text'])? $rn['symbol_text'] :$rn['symbol'] ?>)</span></label>
+              <label class="column one-third" for="<?php echo $prefix.'txt'.$rn['machine_name'] ?>"><?php echo $rn['name'] ?> <?php  if($rn['symbol_text'] || $rn['symbol']): ?><span class="symbol">(<?php echo ($rn['symbol_text'])? $rn['symbol_text'] :$rn['symbol'] ?>)</span><?php endif; ?></label>
               <input class="column one-third" name="<?php echo $prefix.'txt'.$rn['machine_name'] ?>" type="number" id="txt<?php echo $rn['machine_name'] ?>">
               <select class="column one-third" name="<?php echo $prefix.'ddl'.$rn['machine_name']?>" id="ddl<?php echo $rn['machine_name'] ?>">
                 <?php foreach($rn['unit_types'] as $ut): ?>
@@ -226,6 +238,12 @@
             </div>
           <?php endforeach; ?>
         </div>
+      </div>
+    </div>
+    <div class="row usa-width-one-whole reset-submit">
+      <div class="column right">
+        <button id="water_analysis_reset" class="usa-button-primary-alt">Reset</button>
+        <button id="water_analysis_submit" class="usa-button-primary">Submit</button>
       </div>
     </div>
   </form>

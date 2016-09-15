@@ -16,6 +16,8 @@
 
 .be-well-informed-modal {
     &.ui-dialog {
+        overflow-x: hidden;
+
         .ui-dialog-titlebar {
             background-color: transparent !important;
             border: none;
@@ -24,12 +26,19 @@
 }
 
 #be-well-informed-modal {
+    &>div:first-child {
+        overflow: visible;
+    }
     h1 {
-        margin-top: 0;
+        margin-top: -3rem;
     }
     .section {
         border-bottom:1px solid #cccccc;
         width: 100%;
+
+        &:last-child {
+            border-bottom: none;
+        }
 
         label, .absent-present > span, .absent-present div {
             margin: 0.2rem 0;
@@ -61,6 +70,9 @@
         }
 
     }
+    .city-selection {
+        border: none;
+    }
     .symbol {
         color: #666666;
         .sub {
@@ -68,7 +80,7 @@
         }
     }
     .row {
-        float: left;
+        //float: left;
         @include clearfix();
     }
     .column {
@@ -79,6 +91,16 @@
         padding-left: 0.9375rem;
         &.right {
             float: right;
+        }
+    }
+    .reset-submit {
+        margin-top: 2rem;
+        button {
+            float: left;
+            width: 47.4%;
+        }
+        &>div:first-child {
+            width: 21em;
         }
     }
     .one-third {
