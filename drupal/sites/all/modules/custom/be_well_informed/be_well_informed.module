@@ -44,6 +44,14 @@ function be_well_informed_block_view($delta = '') {
   if ($delta == 'be_well_informed') {
     //good idea to check user perms here
     if (user_access('access content')) {
+      drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/parsley.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
       drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/be_well_informed.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
