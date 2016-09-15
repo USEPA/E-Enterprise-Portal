@@ -16,7 +16,7 @@
 
 .be-well-informed-modal {
     &.ui-dialog {
-        overflow-x: hidden;
+        overflow: visible;
 
         .ui-dialog-titlebar {
             background-color: transparent !important;
@@ -99,7 +99,7 @@
             float: left;
             width: 47.4%;
         }
-        &>div:first-child {
+        &>div {
             width: 21em;
         }
     }
