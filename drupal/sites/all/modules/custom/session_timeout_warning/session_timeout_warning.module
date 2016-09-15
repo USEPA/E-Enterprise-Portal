@@ -31,6 +31,11 @@ function instant_logout() {
 
   // Destroy the current session, and reset $user to the anonymous user.
   session_destroy();
+
+  // set status message after the session is destroyed
+  drupal_set_message('You have been timed out.', 'warning');
+
+  drupal_goto('bridge-landing');
 }
 
 /**

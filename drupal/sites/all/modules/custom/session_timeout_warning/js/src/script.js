@@ -26,12 +26,13 @@ var isLoggedOut = false;
             var now = Math.floor(Date.now() / 1000);
             // @see http://stackoverflow.com/questions/7540397/convert-nan-to-0-in-javascript
             var userId = Drupal.settings.currentUser || 0;
+            var $sessionTimeoutModal = $('#session-timeout-modal');
             if (!isLoggedOut && userId != 0) { // only applies to logged-in users
               if (now > logoutAt) {
                 instantLogout();
               } else if (!isPrompted && now > promptAt) {
-                $('#session-timeout-modal')
-                  .html('<div>Due to inactivity, your session will expire in 5 minutes. Please click Continue Session to continue.</div><div><button class="logout button">Logout</button><button class="renew button">Continue Session</button></div>')
+                $sessionTimeoutModal
+                  .html('<div>Due to inactivity, your session will expire in <span class="min-remaining">5 minutes</span>. Please click Continue Session to continue.</div><div><button class="logout button">Logout</button><button class="renew button">Continue Session</button></div>')
                   .dialog({
                     dialogClass: 'session-timeout-modal-content',
                     title: 'Session Timeout Warning',
@@ -40,6 +41,13 @@ var isLoggedOut = false;
                     modal: true
                   });
                 isPrompted = true;
+              } else if (isPrompted) {
+                // update how many minutes remaining
+                var minutesRemaining = Math.ceil((logoutAt - now) / 60) + ' minute';
+                if (minutesRemaining != 1) {
+                  minutesRemaining += 's'; // 'minute' or 'minutes'
+                }
+                $sessionTimeoutModal.find('span.min-remaining').html(minutesRemaining);
               }
             }
           },
@@ -48,19 +56,7 @@ var isLoggedOut = false;
 
         // logout occurs because the user clicked on 'logout' or they simply waited too long without renewing the session
         var instantLogout = function() {
-          $.get(Drupal.settings.basePath + 'instant-logout');
-          $('#session-timeout-modal')
-            .html('<div>You have been timed out.</div><div><a href="' + Drupal.settings.basePath + 'bridge-landing">Login</a></div>')
-            .dialog({
-              dialogClass: 'session-timeout-modal-content',
-              title: 'Session Timeout',
-              resizable: false,
-              closeText: "Close",
-              modal: true
-            });
-          isLoggedOut = true;
-
-          return false;
+          window.location.href = Drupal.settings.basePath + 'instant-logout';
         };
 
         // click handlers for logging out and renewing the session
@@ -74,17 +70,6 @@ var isLoggedOut = false;
 
           // renew the token
           $.get(Drupal.settings.basePath + 'renew-session');
-
-          // inform the user
-          $('#session-timeout-modal')
-            .html('<div>Your session has been renewed.</div>')
-            .dialog({
-              dialogClass: 'session-timeout-modal-content',
-              title: 'Session Renewed',
-              resizable: false,
-              closeText: "Close",
-              modal: true
-            });
 
           // ignore the default click action
           return false;
