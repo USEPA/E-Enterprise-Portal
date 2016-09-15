@@ -56,19 +56,7 @@ var isLoggedOut = false;
 
         // logout occurs because the user clicked on 'logout' or they simply waited too long without renewing the session
         var instantLogout = function() {
-          $.get(Drupal.settings.basePath + 'instant-logout');
-          $('#session-timeout-modal')
-            .html('<div>You have been timed out.</div><div><a href="' + Drupal.settings.basePath + 'bridge-landing">Login</a></div>')
-            .dialog({
-              dialogClass: 'session-timeout-modal-content',
-              title: 'Session Timeout',
-              resizable: false,
-              closeText: "Close",
-              modal: true
-            });
-          isLoggedOut = true;
-
-          return false;
+          window.location.href = Drupal.settings.basePath + 'instant-logout';
         };
 
         // click handlers for logging out and renewing the session
