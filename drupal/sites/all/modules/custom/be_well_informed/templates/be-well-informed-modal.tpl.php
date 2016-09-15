@@ -178,7 +178,7 @@
     <div class="row usa-grid-full">
       <div class="row usa-width-one-whole">
         <div class="city-selection section usa-width-one-half">
-          <label class="column one-half" for="<?php echo $prefix.'drp' ?>city">New Hampshire / City<span class="red">Required</span></label>
+          <label class="column one-half" for="<?php echo $prefix.'drp' ?>city">New Hampshire / City -<span class="red"> Required</span></label>
           <select class="column one-half right" name="<?php echo $prefix.'drp' ?>city" id="drpcity">
           <?php foreach($cities as $c): ?>
             <option value="<?php echo $c ?>"><?php echo $c ?></option>
