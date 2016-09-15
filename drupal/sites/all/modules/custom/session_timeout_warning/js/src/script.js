@@ -83,17 +83,6 @@ var isLoggedOut = false;
           // renew the token
           $.get(Drupal.settings.basePath + 'renew-session');
 
-          // inform the user
-          $('#session-timeout-modal')
-            .html('<div>Your session has been renewed.</div>')
-            .dialog({
-              dialogClass: 'session-timeout-modal-content',
-              title: 'Session Renewed',
-              resizable: false,
-              closeText: "Close",
-              modal: true
-            });
-
           // ignore the default click action
           return false;
         });
