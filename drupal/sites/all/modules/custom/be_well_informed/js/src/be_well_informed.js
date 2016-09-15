@@ -10,7 +10,7 @@
         }
         else if(i == 2 && instance.$element.find('[type=radio]:checked').length){
           return true; // One section is filled, this check is valid
-        } 
+        }
       return false; // No section is filled, this validation fails
     }
   });
