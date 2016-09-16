@@ -9,9 +9,21 @@
         clear: both;
     }
 }
+
 @mixin container() {
     position: relative;
     box-sizing: border-box;
+}
+
+@mixin bwi-label($url) {
+    background-image: url($url);
+    background-size: 3rem;
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    content: "";
+    vertical-align: middle;
+    margin-right: 1%;
 }
 
 .be-well-informed-modal {
@@ -30,104 +42,161 @@
 }
 
 #be-well-informed-modal {
-    &>div:first-child {
-        overflow: visible;
-    }
-    h1 {
-        margin-top: -3rem;
-    }
-    .section {
-        border-bottom:1px solid #cccccc;
-        width: 100%;
 
-        &:last-child {
+    #be-well-informed-results-wrapper {
+        > h1 {
+            margin-top: -3rem;
+            margin-bottom: 3rem;
+        }
+
+        table {
+            thead th {
+                background: transparent;
+            }
             border-bottom: none;
         }
-
-        label, .absent-present > span, .absent-present div {
-            margin: 0.2rem 0;
-            padding: 1rem 0rem;
+        .ui-accordion-content {
+            padding: 0;
         }
 
-        input {
-            text-align: right;
-            color: #333333;
-        }
-
-        select {
-        }
-
-        .absent-present {
-            float: right;
-
-            &> span {
-                color: #666666;
-                line-height: 2rem;
-                font-size: 1.1rem;
+        .one-fifth {
+            float: left;
+            display: block;
+            width: 20%;
+            &:first-child {
+                margin-left: 0;
             }
         }
-        [type=radio]+label {
-            margin: 0rem 0;
-            padding: 0rem 1rem;
-            display: block;
-            float: left;
+
+        #be-well-informed-accordion {
+            margin-top: 5%;
+
+            .ui-accordion-header {
+                background: #0000BB none;
+                color: white;
+            }
+            .ui-accordion-header-icon {
+                display: none;
+            }
+            h1 {
+                font-size: 1.5rem;
+                padding-left: 2%;
+                i {
+                    margin-right: 10%;
+                }
+            }
+            .bwi-legend {
+                width: 100%;
+                display: block;
+                div {
+                    margin: 2% 0 2% 0;
+                    white-space: nowrap;
+                }
+
+                .bwi-key {
+                    padding-left: 5%;
+                }
+                .bwi-meets-limit:before {
+                    @include bwi-label('../images/check.png');
+                }
+                .bwi-above-limit:before {
+                    @include bwi-label('../images/false.png');
+                }
+                .bwi-close-to-limit:before {
+                    @include bwi-label('../images/exclamation.png');
+                }
+                .bwi-no-entry:before {
+                    @include bwi-label('../images/circle.png');
+
+                }
+            }
+
+        }
+    }
+    #be-well-informed-results-wrapper, #be-well-informed-error-wrapper {
+        display: none;
+    }
+    #be-well-informed-form-wrapper {
+        > h1 {
+            margin-top: -3rem;
+            margin-bottom: 3rem;
         }
 
-    }
-    .city-selection {
-        border: none;
-    }
-    .symbol {
-        color: #666666;
-        .sub {
-            font-size: 1rem;
+        & > div:first-child {
+            overflow: visible;
         }
-    }
-    .row {
-        //float: left;
-        @include clearfix();
-    }
-    .column {
-        float: left;
-        position: relative;
-        min-height: 0.1rem;
-        padding-right: 0.9375rem;
-        padding-left: 0.9375rem;
-        &.right {
-            float: right;
-        }
-    }
-    .reset-submit {
-        margin-top: 2rem;
-        button {
-            float: left;
-            width: 47.4%;
-        }
-        &>div {
-            width: 21em;
-        }
-    }
-    .one-third {
-        width: 31.3%;
-        margin-left: 3%;
-        &:first-child {
-            margin-left: 0;
-        }
-    }
-    .one-half {
-        width: 49%;
-        margin-left: 2%;
-        &:first-child {
-            margin-left: 0;
-        }
-    }
-    .red {
-        color: red;
-    }
-}
 
-@media screen and (max-width: 30em) {
-    /*#be-well-informed-modal {
+        .section {
+            border-bottom: 1px solid #cccccc;
+            width: 100%;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            label, .absent-present > span, .absent-present div {
+                margin: 0.2rem 0;
+                padding: 1rem 0rem;
+            }
+
+            input {
+                text-align: right;
+                color: #333333;
+            }
+
+            select {
+            }
+
+            .absent-present {
+                float: right;
+
+                & > span {
+                    color: #666666;
+                    line-height: 2rem;
+                    font-size: 1.1rem;
+                }
+            }
+            [type=radio] + label {
+                margin: 0rem 0;
+                padding: 0rem 1rem;
+                display: block;
+                float: left;
+            }
+
+        }
+        .city-selection {
+            border: none;
+        }
+        .symbol {
+            color: #666666;
+            .sub {
+                font-size: 1rem;
+            }
+        }
+        .row {
+            //float: left;
+            @include clearfix();
+        }
+        .column {
+            float: left;
+            position: relative;
+            min-height: 0.1rem;
+            padding-right: 0.9375rem;
+            padding-left: 0.9375rem;
+            &.right {
+                float: right;
+            }
+        }
+        .reset-submit {
+            margin-top: 2rem;
+            button {
+                float: left;
+                width: 47.4%;
+            }
+            & > div {
+                width: 21em;
+            }
+        }
         .one-third {
             width: 31.3%;
             margin-left: 3%;
@@ -142,5 +211,53 @@
                 margin-left: 0;
             }
         }
-    }*/
+        .red {
+            color: red;
+        }
+    }
+}
+
+#admin-menu {
+    display: none;
+}
+
+@media screen and (max-width: 60em) {
+    #be-well-informed-modal {
+        #be-well-informed-results-wrapper {
+
+            .one-fifth {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 60em) and (max-width: 100em) {
+    #be-well-informed-modal {
+        #be-well-informed-results-wrapper {
+
+            .one-fifth {
+                width: 50%;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 60em) {
+
+    #be-well-informed-modal {
+        #be-well-informed-results-wrapper {
+            .one-fifth {
+                width: 100%;
+            }
+            #be-well-informed-accordion {
+                .bwi-legend {
+                    div {
+                        white-space: nowrap;
+                    }
+
+                }
+            }
+        }
+    }
 }

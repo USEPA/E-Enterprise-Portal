@@ -1103,14 +1103,16 @@ header {
     .views-field-field-todo-lst-item,
     .views-field-field-todo-lst-domain,
     .views-field-field-prog-tracker-app,
-    .views-field-field-prog-track-domain {
+    .views-field-field-prog-track-domain,
+    .be-well-results-first-column{
         display: block;
     }
 
     td.views-field-field-todo-lst-item,
     td.views-field-field-todo-lst-domain,
     td.views-field-field-prog-tracker-app,
-    td.views-field-field-prog-track-domain {
+    td.views-field-field-prog-track-domain,
+    td.be-well-results-first-column{
         text-align: left;
     }
 
@@ -1183,7 +1185,8 @@ header {
     .views-field-field-todo-lst-item,
     .views-field-field-todo-lst-domain,
     .views-field-field-prog-tracker-app,
-    .views-field-field-prog-track-domain {
+    .views-field-field-prog-track-domain,
+    .be-well-results-first-column{
         display: table-cell;
     }
 }
@@ -2493,7 +2496,8 @@ input[type="submit"]:not(.usa-button-outline),
 }
 
 .view-to-do,
-.view-progress-tracker {
+.view-progress-tracker,
+.be-well-informed-modal {
     .responsive-table {
         margin-top: 1em;
         clear: both;
@@ -2536,7 +2540,9 @@ input[type="submit"]:not(.usa-button-outline),
                 float: none;
             }
             td.views-field-field-prog-tracker-app,
-            td.views-field-field-todo-lst-item {
+            td.views-field-field-todo-lst-item,
+            td.be-well-results-first-column
+            {
                 background-color: $color-gray-lightest;
                 border-left: 1px solid $color-gray-light;
                 border-right: 1px solid $color-gray-light;
@@ -2784,7 +2790,8 @@ table.dataTable, table.views-table {
 
 @media screen and (min-width: 20em) and (max-width: 60em) {
     .view-progress-tracker,
-    .view-to-do {
+    .view-to-do,
+    .be-well-informed-modal{
         .responsive-table {
             thead {
                 display: none;
@@ -2831,7 +2838,7 @@ table.dataTable, table.views-table {
     #modalContent {
         position: fixed !important;
     }
-    #other-areas-tabs {
+    #other-areas-tabs{
         .responsive-table {
             thead {
                 display: none;
@@ -3064,7 +3071,8 @@ table.dataTable, table.views-table {
     }
 
     .view-progress-tracker,
-    .view-to-do {
+    .view-to-do,
+    .be-well-informed-modal{
         .responsive-table {
             caption {
                 font-size: 1.5em;
@@ -3105,7 +3113,8 @@ table.dataTable, table.views-table {
                     border-bottom: 1px solid $color-gray-lighter;
                 }
                 td.views-field-field-prog-tracker-app,
-                td.views-field-field-todo-lst-item {
+                td.views-field-field-todo-lst-item,
+                td.be-well-results-first-column{
                     background-color: transparent;
                     border-left: none;
                     border-right: none;

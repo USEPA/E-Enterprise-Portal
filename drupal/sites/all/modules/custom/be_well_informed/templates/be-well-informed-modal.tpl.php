@@ -1,5 +1,5 @@
 <div class="usa-grid-full">
-  <div class="be-well-informed-form">
+  <div id="be-well-informed-form-wrapper" class="be-well-informed-modal-wrapper">
     <h1>Be Well Informed > Enter Your Water Analysis Results</h1>
     <?php
 
@@ -270,24 +270,54 @@
       </div>
     </form>
   </div>
-  <div class="be-well-informed-loading">
+  <div id="be-well-informed-loader-wrapper" class="be-well-informed-modal-wrapper">
 
   </div>
-  <div class="be-well-informed-results">
+  <div id="be-well-informed-results-wrapper" class="be-well-informed-modal-wrapper">
+    <h1>Be Well Informed > View Your Water Analysis Results</h1>
     <div id="be-well-informed-accordion">
-      <h2>About the Results</h2>
-      <p>
-        The Results below compare your water to federal and state health-based standards (Maximum Contaminant Levels - MCLs)
-        and other guidelines (Secondary Maximum Contaminant Levels - SMCLs, health advisory levels, etc.). These standards
-        and guidelines are often referred to as "limits" on your laboratory report. If your water exceeds or is approaching
-        established federal/state drinking water limits or advisory levels for the contaminant(s) entered, additional health
-        information and treatment options will be shown. Several contaminants, such as radon and sodium, do not have state
-        or federal standards. Instead, when radon is present in drinking water at 2,000 pCi/L or greater, we recommend you
-        check the Drinking Water Fact Sheet. For sodium, health and treatment information is shown when sodium is present at
-        levels above 20 mg/L, U.S. EPA's federal "health advisory" for persons on a physician-prescribed “no salt diet.”
-      </p>
-      <h2>Results Summary</h2>
-      <div class="datatable">
+      <h1>
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
+        About the Results
+      </h1>
+      <div>
+        <p>
+          The Results below compare your water to federal and state health-based standards (Maximum Contaminant Levels -
+          MCLs)
+          and other guidelines (Secondary Maximum Contaminant Levels - SMCLs, health advisory levels, etc.). These
+          standards
+          and guidelines are often referred to as "limits" on your laboratory report. If your water exceeds or is
+          approaching
+          established federal/state drinking water limits or advisory levels for the contaminant(s) entered, additional
+          health
+          information and treatment options will be shown.
+        </p>
+        <p>
+          Several contaminants, such as radon and sodium, do not have state
+          or federal standards. Instead, when radon is present in drinking water at 2,000 pCi/L or greater, we recommend
+          you
+          check the
+          <a href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf">
+            Drinking Water Fact Sheet
+          </a>.
+          For sodium, health and treatment information is shown when sodium is
+          present at
+          levels above 20 mg/L, U.S. EPA's federal "health advisory" for persons on a physician-prescribed “no salt
+          diet.”
+        </p>
+      </div>
+      <h1>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        Results Summary
+      </h1>
+      <div class="datatable usa-width-one-whole">
+        <div class="bwi-legend">
+          <div class="bwi-key one-fifth">Key</div>
+          <div class="bwi-meets-limit one-fifth">Meets the Drinking Water Limit</div>
+          <div class="bwi-close-to-limit one-fifth">Close to the Drinking Water Limit</div>
+          <div class="bwi-above-limit one-fifth">Above the Drinking Water Limit</div>
+          <div class="bwi-no-entry one-fifth">No Input Entered</div>
+        </div>
         <table id="be-well-informed-results-table" class="responsive-table usa-table-borderless">
           <thead>
           <tr>
@@ -302,20 +332,26 @@
           </tbody>
         </table>
       </div>
-      <h2>Results Details</h2>
-      <table id="be-well-informed-result-details-table" class="responsive-table usa-table-borderless">
-        <thead>
-        <tr>
-          <th>Result</th>
-          <th>Element</th>
-          <th>Your Entry</th>
-          <th>Limit</th>
-          <th>About Your Well Water</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
+<!--      <h1>-->
+<!--        <i class="fa fa-caret-right" aria-hidden="true"></i>-->
+<!--        Results Details-->
+<!--      </h1>-->
+<!--      <table id="be-well-informed-result-details-table" class="responsive-table usa-table-borderless">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--          <th>Result</th>-->
+<!--          <th>Element</th>-->
+<!--          <th>Your Entry</th>-->
+<!--          <th>Limit</th>-->
+<!--          <th>About Your Well Water</th>-->
+<!--          <th>Interpretation of Results</th>-->
+<!--          <th>Health Concerns</th>-->
+<!--          <th>Treatment Options</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        </tbody>-->
+<!--      </table>-->
     </div>
   </div>
 </div>

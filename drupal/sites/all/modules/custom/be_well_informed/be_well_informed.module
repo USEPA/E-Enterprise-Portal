@@ -7,7 +7,7 @@
 function be_well_informed_menu() {
   $items = array();
   $items['be_well_informed/form_submission'] = array(
-    'page callback' => 'form_submission',
+    'page callback' => 'be_well_informed_form_submission',
     'access callback' => TRUE,
   );
   return $items;
@@ -39,18 +39,11 @@ function be_well_informed_theme() {
       'template' => 'be-well-informed',
       'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
     ),
-    'be_well_informed_form_submission_modal' => array(
+    'be_well_informed_modal' => array(
       // Default variables
       'variables' => array(),
       // Which .tpl.php file to use my-cdx.tpl.php
-      'template' => 'be-well-informed-form-submission-modal',
-      'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
-    ),
-    'be_well_informed_return_results_modal' => array(
-      // Default variables
-      'variables' => array(),
-      // Which .tpl.php file to use my-cdx.tpl.php
-      'template' => 'be-well-informed-return-results-modal',
+      'template' => 'be-well-informed-modal',
       'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
     ),
   );
@@ -86,13 +79,8 @@ function be_well_informed_block_view($delta = '') {
         'group' => CSS_THEME
       ]);
       // Set Form Modal Template
-      $modal_form_html = theme('be_well_informed_form_submission_modal');
-      drupal_add_js(array("be_well_informed" => ["modal_form"=> $modal_form_html]), 'setting');
-
-      // Set Form Return Modal Template
-      $modal_results_html = theme('be_well_informed_return_results_modal');
-      drupal_add_js(array("be_well_informed" => ["modal_results"=> $modal_results_html]), 'setting');
-
+      $modal_form_html = theme('be_well_informed_modal');
+      drupal_add_js(array("be_well_informed" => ["modal" => $modal_form_html]), 'setting');
 
       $block['subject'] = t('Be Well Informed');
       $block['content'] = theme('be_well_informed');
@@ -102,8 +90,10 @@ function be_well_informed_block_view($delta = '') {
   return $block;
 }
 
-
-function form_submission() {
+/**
+ * Take users POST input and handoff to sample data or BE WELL INFORMED service
+ */
+function be_well_informed_form_submission() {
   if (!isset($_POST)) {
     drupal_json_output(array('error' => true, 'message' => 'Failed to recieve any data.'));
     return;
@@ -112,28 +102,45 @@ function form_submission() {
   module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
   if (feature_toggle_get_status('be_well_informed_sample_data')) {
     $be_well_informed_response = sample_be_well_informed_response();
+    $datatable_formatted_response = be_well_informed_datatable_response($be_well_informed_response);
   } else {
     // TODO: hook into be well informed app
     $be_well_informed_response = array();
   }
 
-
-  drupal_json_output(array('error' => false, 'data' => $be_well_informed_response));
+  drupal_json_output(array('error' => false, 'data' => $datatable_formatted_response));
 }
 
+/**
+ * Take BE WELL INFORMED response and format for Result Details and Result Summary datatables
+ * @param $be_well_response
+ * @return array
+ */
 function be_well_informed_datatable_response($be_well_response) {
-  $datatable_json = [];
-  foreach($be_well_response as $water_data) {
+  $water_response_datatable_returns = [];
+  $datatable_result_summary_json = [];
+  $datatable_result_details_json = [];
+
+  foreach ($be_well_response as $water_data) {
     $datatable_row = [];
+    $datatable_row[] = processWaterLevel($water_data['level']);
     $datatable_row[] = $water_data['name'];
     $datatable_row[] = $water_data['input'];
     $datatable_row[] = $water_data['containment_level'];
     $datatable_row[] = $water_data['message'];
-    $datatable_row[] = $water_data['level'];
-    $datatable_json[] = $datatable_row;
+    $datatable_result_summary_json[] = $datatable_row;
+
+    if ($water_data['level'] === 'above' || $water_data['level'] === 'close') {
+      $datatable_row[] = $water_data['interpretation'];
+      $datatable_row[] = $water_data['health_concerns'];
+      $datatable_row[] = $water_data['treatment'];
+      $datatable_result_details_json[] = $datatable_row;
+    }
   }
 
-  return $datatable_json;
+  $water_response_datatable_returns['result_summary'] = $datatable_result_summary_json;
+  $water_response_datatable_returns['result_details'] = $datatable_result_details_json;
+  return $water_response_datatable_returns;
 }
 
 
@@ -144,7 +151,25 @@ function sample_be_well_informed_response() {
       'input' => '0.01 mg/L',
       'containment_level' => '0.01 mg/L',
       'message' => 'The value entered is close to exceeding the drinking water standard',
-      'level' => 'close',
+      'level' => 'above',
+      'interpretation' => 'Does my well water meet the drinking water standard for fluoride? No, your water does not meet federal and state drinking water standards as it contains more than 4.0 mg/L of fluoride.',
+      'health_concerns' => 'Can consuming water containing fluoride affect my health? Consuming water containing more than 4.0 mg/L of fluoride can cause bone disease, which can include pain and tenderness of the bones and irregular bone deposits that can cause arthritis and crippling when occurring at joints (skeletal fluorosis).
+
+Consuming water containing more than 2.0 mg/L of fluoride can cause small ‘white spots’ on children’s teeth (mottled enamel), or in extreme cases, brown staining or pitting of teeth that are still developing below the gums (dental fluorosis).
+
+To reduce your exposure to fluoride in your well water, treat the water that you use for drinking and cooking to a level less than 2.0 mg/L. If treatment is not feasible, children under nine years old should be provided with an alternative source of drinking water that contains less than 2.0 mg/L of fluoride.
+
+Consuming water containing an optimal level of fluoride helps protect against tooth decay. The U.S. Department of Health and Human Services’ recommended optimal range for fluoride in drinking water is 0.6 - 0.8 mg/L. You should talk with your dentist and doctor about the level of fluoride in your water and how you can reduce your and your family’s total fluoride exposure. Click here for more information from the U.S. Centers for Disease Control and Prevention about private well water and fluoride.',
+      'treatment' => 'How can I reduce the level of fluoride in my water? Install one of the following point-of-use (POU) water treatment systems at your kitchen sink to reduce the level of fluoride in the water that you consume:
+
+An NSF/ANSI Standard 61 certified activated alumina filter system.
+
+OR
+
+An NSF/ANSI Standard 58 certified reverse osmosis (RO) system.
+
+More information about treatment for fluoride can be found in NHDES’ Fact Sheet.',
+
     ],
     [
       'name' => 'Chloride',
@@ -162,4 +187,28 @@ function sample_be_well_informed_response() {
     ],
   ];
   return $response;
+}
+
+
+/**
+ * Returns the correct image for a water level
+ * @param $water_level
+ * @return string
+ */
+function processWaterLevel($water_level) {
+  $image_path = drupal_get_path('module', 'be_well_informed') . '/images';
+  switch ($water_level) {
+    case "below":
+      $return_html = "<img src='" . $image_path . "/check.png' />";
+      break;
+    case "close":
+      $return_html = "<img src='" . $image_path . "/exclamation.png' />";
+      break;
+    case "above":
+      $return_html = "<img src='" . $image_path . "/false.png' />";
+      break;
+    default:
+      $return_html = "<img src='" . $image_path . "/circle.png' />";
+  }
+  return $return_html;
 }
