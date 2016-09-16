@@ -75,7 +75,6 @@ function eenterprise_utility_menu() {
     'file' => 'eenterprise_utility_rcs.admin.inc',
   );
 
-
   $items['update_user_gridstack_data'] = array(
     'page callback' => 'update_user_gridstack_data',
     'access callback' => TRUE,
@@ -96,6 +95,14 @@ function eenterprise_utility_menu() {
     'page callback' => 'sso_cdx_portal',
     'access callback' => TRUE,
     '#type' => MENU_CALLBACK,
+  );
+  $items['admin/config/system/system-admin-role'] = array(
+      'title' => 'System Admin Role',
+      'description' => 'Currently used Drupal admin role',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('admin_role_settings'),
+      'access arguments' => array('administer users'),
+      'file' => 'eenterprise_utility_admin_role.admin.inc',
   );
 
   return $items;
