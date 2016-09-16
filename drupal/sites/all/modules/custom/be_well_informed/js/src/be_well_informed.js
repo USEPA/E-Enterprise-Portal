@@ -21,6 +21,17 @@ function showResultsView() {
 
 (function($) {
 
+  var datatable_options = {
+    data: {},
+    "dom": 't',
+    "bLengthChange": false,
+    "bAutoWidth": false,
+    "bSort": false,
+    "columnDefs": [
+      { className: "be-well-results-first-column", "targets": [ 0 ] }
+    ]
+  };
+
   Parsley.addValidator('checkChildren', {
     messages: {en: 'You must correctly give value or choose a whether the microbe was present!'},
     requirementType: 'integer',
@@ -77,17 +88,9 @@ function showResultsView() {
 
   $('#bwi-check-water-btn').click(function() {
     $('#be-well-informed-modal').dialog("open")
+  });
 
-  var datatable_options = {
-    data: {},
-    "dom": 't',
-    "bLengthChange": false,
-    "bAutoWidth": false,
-    "bSort": false,
-    "columnDefs": [
-      { className: "be-well-results-first-column", "targets": [ 0 ] }
-    ]
-  };
+
 
   $('#bwi-check-water-btn').click(function() {
     $('#be-well-informed-modal')
