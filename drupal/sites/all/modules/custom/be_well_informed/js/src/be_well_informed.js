@@ -70,7 +70,7 @@ function showResultsView() {
         $('#water_analysis_submit').click(function() {
           $form.trigger('submit');
           return false;
-        })
+        });
 
         $('#water_analysis_reset').click(function() {
           var $form = $('#water_analysis_results_form');
@@ -85,11 +85,9 @@ function showResultsView() {
       }
     });
 
-
   $('#bwi-check-water-btn').click(function() {
     $('#be-well-informed-modal').dialog("open")
   });
-
 
 
   $('#bwi-check-water-btn').click(function() {
@@ -106,7 +104,7 @@ function showResultsView() {
     });
   });
 
-  $('#be-well-informed-modal').on('click', '#submit-form', function() {
+  $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
     showLoadingView();
     $.ajax({
       url: 'be_well_informed/form_submission',

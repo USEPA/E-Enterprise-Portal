@@ -140,7 +140,7 @@
       <div class="column right">
         <button id="water_analysis_reset" class="usa-button-primary-alt">Reset
         </button>
-        <button id="water_analysis_submit" class="usa-button-primary">Submit
+        <button  type="button" id="water_analysis_submit" class="usa-button-primary">Submit
         </button>
       </div>
     </div>
