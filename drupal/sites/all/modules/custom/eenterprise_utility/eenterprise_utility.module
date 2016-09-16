@@ -1011,9 +1011,8 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
  */
 function user_profile_form_custom_validate(&$form, &$form_state) {
   user_profile_zipcode_custom_validate($form, $form_state);
-  user_profile_url_custom_validate($form, $form_state);
-  user_profile_favorites_custom_validate($form, $form_state);
   user_profile_mail_custom_validate($form, $form_state);
+  user_profile_url_custom_validate($form, $form_state);
 }
 
 
@@ -1149,62 +1148,67 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
   }
 }
 
-function user_profile_url_custom_validate(&$form, &$form_state) {
-  // Occurs when all values are blank.
-  if (!isset($form_state['input']['field_profile_favourites'])) {
-    $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
-    $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value'] = '';
-    $form_state['input']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
-  }
-  else {
-    foreach ($form_state['values']['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
-      if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
-        unset($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]);
-      }
-      // if title is empty, set it to given url
-      if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']) == '') {
-        $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
-      }
-    }
-  }
-}
 
 /**
  * @param $form
  * @param $form_state
- * Checks to make sure that favorite links do not have script tags with javascript inside
+ * Trims the values and checks to make sure that favorite links do not have script tags with javascript inside
  */
-function user_profile_favorites_custom_validate(&$form, &$form_state) {
-
+function user_profile_url_custom_validate(&$form, &$form_state) {
   $nl = LANGUAGE_NONE;
-  $maxDelta = count($form_state['values']['field_profile_favourites'][LANGUAGE_NONE]) - 1;
-  for ($delta = 0; $delta < $maxDelta; $delta++) {
-    $url = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
-    $text = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'];
+  // Occurs when all values are blank.
+  if (!isset($form_state['input']['field_profile_favourites']) && !isset($form_state['values']['field_profile_favourites'])) {
+    $form_state['values']['field_profile_favourites'][$nl][0]['field_url'][$nl][0]['value'] = '';
+    $form_state['values']['field_profile_favourites'][$nl][0]['field_title'][$nl][0]['value'] = '';
+    $form_state['input']['field_profile_favourites'][$nl][0]['field_url'][$nl][0]['value'] = '';
+  }
+  else {
+    foreach ($form_state['values']['field_profile_favourites'][$nl] as $delta => $field) {
 
-    // The keys are build with the '][' as a delimiter then we will append the final field name in the form_set_error()
-    $key = "field_profile_favourites][$nl][$delta][";
+      // skip if the field is not an valid array
+      if (!is_array($field)) continue;
 
-    $errorMsgUrl = 'Invalid link.  It may contain invalid characters and is not allowed to have javascript. ' .
-      'Please refrain from using special characters. Please contact a system admin if this problem continues.';
-    $errorMsgText = 'Invalid text.  It can not be blank or contain invalid characters. ' .
-      'Please contact a system admin if this problem continues.';
-    $errorMsgBlank = 'This field may not be left blank';
+      $url = trim($form_state['values']['field_profile_favourites'][$nl][$delta]['field_url'][$nl][0]['value']);
+      $title = trim($form_state['values']['field_profile_favourites'][$nl][$delta]['field_title'][$nl][0]['value']);
 
-    // this regex will look for an html tags or the keyword 'javascript'
-    $all_html_tags_and_js = '/(<script(\s|\S)*?<\/script>)|(<style(\s|\S)*?<\/style>)|(<!--(\s|\S)*?-->)|(<\/?(\s|\S)*?>)|javascript/';
-    $match_html = preg_match($all_html_tags_and_js, $url);
-    if(!empty($url) || !empty($text)) {
-      if (empty($url)) {
-        form_set_error($key . "field_url", t($errorMsgBlank));
+      // Trim it regardless
+      $form_state['values']['field_profile_favourites'][$nl][$delta]['field_url'][$nl][0]['value'] = $url;
+
+      // if title is empty, set it to given url
+      if ($title == '') {
+        $form_state['values']['field_profile_favourites'][$nl][$delta]['field_title'][$nl][0]['value'] = $url;
       }
-      else if ($match_html) {
-        form_set_error($key . "field_url", t($errorMsgUrl));
+      else {
+        $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] = $title;
       }
 
-      $check_text = check_plain($text);
-      if ($text !== $check_text) {
-        form_set_error($key . "field_title", t($errorMsgText));
+      // this regex will look for an html tags or the keyword 'javascript'
+      $all_html_tags_and_js = '/(<script(\s|\S)*?<\/script>)|(<style(\s|\S)*?<\/style>)|(<!--(\s|\S)*?-->)|(<\/?(\s|\S)*?>)|javascript:/';
+      $match_html = preg_match($all_html_tags_and_js, $url);
+
+      $hasUrl = !empty($url);
+      $hasText = !empty($title);
+
+      // The keys are build with the '][' as a delimiter then we will append the final field name in the form_set_error()
+      $key = "field_profile_favourites][$nl][$delta][";
+      $errorMsgUrl = 'Invalid link.  It may contain invalid characters and is not allowed to have javascript. ' .
+        'Please refrain from using special characters. Please contact a system admin if this problem continues.';
+      $errorMsgText = 'Invalid text.  It can not be blank or contain invalid characters. ' .
+        'Please contact a system admin if this problem continues.';
+      $errorMsgBlank = 'This field may not be left blank';
+
+      if($hasUrl || $hasText) {
+        if (!$hasUrl) {
+          form_set_error($key . "field_url", t($errorMsgBlank));
+        }
+        else if ($match_html) {
+          form_set_error($key . "field_url", t($errorMsgUrl));
+        }
+
+        $check_text = check_plain($title);
+        if ($title !== $check_text) {
+          form_set_error($key . "field_title", t($errorMsgText));
+        }
       }
     }
   }
