@@ -57,7 +57,6 @@ function be_well_informed_block_view($delta = '') {
   if ($delta == 'be_well_informed') {
     //good idea to check user perms here
     if (user_access('access content')) {
-      drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");
       drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
