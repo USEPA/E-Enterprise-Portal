@@ -732,7 +732,8 @@ function assign_roles_to_user($user_name)
     if (is_array($user_roles->Role)) {
         foreach ($user_roles->Role as $k => $v) {
             $role_val = $v->type->description;
-            if (!empty($role_val)) {
+            //Make sure a role that is assigned to a CDX role is not a Drupal admin role, the second case.
+            if (!empty($role_val) && $role_val != variable_get('current_admin_role')) {
                 $user_role = user_role_load_by_name($role_val);
                 if ($user_role === FALSE) {
                     $user_role = new stdClass();
