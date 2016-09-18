@@ -1,0 +1,281 @@
+
+//colors
+$color_hippie_green_approx: #468847;
+$color_willow_brook_approx: #dff0d8;
+$color_beryl_green_approx: #d6e9c6;
+$color_chestnut_approx: #b94a48;
+$color_vanilla_ice_approx: #f2dede;
+$color_gallery_approx: #eee;
+$white: #fff;
+$color_vista_white_approx: #fdf7f7;
+$color_chestnut_rose_approx: #d9534f;
+$color_bianca_approx: #fcf8f2;
+$color_casablanca_approx: #f0ad4e;
+$color_black_squeeze_approx: #f4f8fa;
+$color_viking_approx: #5bc0de;
+$color_mountain_mist_approx: #949494;
+$color_ecstasy_approx: #ff851b;
+
+//@extend-elements
+//original selectors
+//input.parsley-success, select.parsley-success, textarea.parsley-success
+%extend_1 {
+    color: $color_hippie_green_approx;
+    background-color: $color_willow_brook_approx;
+    border: 1px solid $color_beryl_green_approx;
+}
+
+//original selectors
+//input.parsley-error, select.parsley-error, textarea.parsley-error
+%extend_2 {
+    color: $color_chestnut_approx;
+    background-color: $color_vanilla_ice_approx;
+    border: 1px solid $color_vanilla_ice_approx;
+}
+
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+@mixin container() {
+    position: relative;
+    box-sizing: border-box;
+}
+
+.be-well-informed-modal {
+    &.ui-dialog {
+        overflow: visible;
+
+        .ui-dialog-titlebar {
+            background-color: transparent !important;
+            border: none;
+            z-index: 100;
+        }
+
+        .ui-dialog-content {
+            overflow: visible;
+        }
+    }
+}
+
+#be-well-informed-modal {
+    & > div:first-child {
+        overflow: visible;
+    }
+    h1 {
+        margin-top: -3rem;
+    }
+    .section {
+        border-bottom: 1px solid #cccccc;
+        width: 100%;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        label, .absent-present > span, .absent-present div {
+            margin: 0.2rem 0;
+            padding: 1rem 0rem;
+        }
+
+        input {
+            text-align: right;
+            color: #333333;
+        }
+
+        select {
+        }
+
+        .absent-present {
+            float: right;
+
+            & > span {
+                color: #666666;
+                line-height: 2rem;
+                font-size: 1.1rem;
+            }
+        }
+        [type=radio] + label {
+            margin: 0rem 0;
+            padding: 0rem 1rem;
+            display: block;
+            float: left;
+        }
+
+    }
+    .microbiology {
+        .parsley-errors-list {
+            width: 100%;
+            li {
+                text-align: left;
+            }
+        }
+    }
+    .city-selection {
+        border: none;
+    }
+    .symbol {
+        color: #666666;
+        .sub {
+            font-size: 1rem;
+        }
+    }
+    .row {
+        //float: left;
+        @include clearfix();
+    }
+    .column {
+        float: left;
+        position: relative;
+        min-height: 0.1rem;
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem;
+        &.right {
+            float: right;
+        }
+    }
+    .reset-submit {
+        margin-top: 2rem;
+        button {
+            float: left;
+            width: 47.4%;
+        }
+        & > div {
+            width: 21em;
+        }
+    }
+    .one-third {
+        width: 31.3%;
+        margin-left: 3%;
+        &:first-child {
+            margin-left: 0;
+        }
+        & + .parsley-errors-list {
+            margin-left: -31.3%;
+            width: 30%;
+            float: left;
+            position: relative;
+        }
+    }
+    .one-half {
+        width: 49%;
+        margin-left: 2%;
+        &:first-child {
+            margin-left: 0;
+        }
+        & + .parsley-errors-list {
+            margin-right: -48.5%;
+            width: 47%;
+            position: relative;
+        }
+
+        &.right + .parsley-errors-list {
+            float: right;
+            clear: right;
+            margin-top: -4.2rem;
+            margin-right: 1.0rem;
+            width: auto;
+        }
+    }
+    .red {
+        color: $color_chestnut_approx;
+    }
+    .hidden {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+
+input {
+    &.parsley-success {
+        @extend %extend_1;
+    }
+    &.parsley-error {
+        @extend %extend_2;
+    }
+}
+select {
+    &.parsley-success {
+        @extend %extend_1;
+    }
+    &.parsley-error {
+        @extend %extend_2;
+    }
+}
+textarea {
+    &.parsley-success {
+        @extend %extend_1;
+    }
+    &.parsley-error {
+        @extend %extend_2;
+    }
+}
+.parsley-errors-list {
+    margin: 0.5rem 0 3px;
+    padding: 0;
+    list-style-type: none;
+    font-size: 1rem;
+    line-height: 0.9em;
+    opacity: 0;
+    //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: all .3s ease-in;
+    pointer-events: none;
+
+    &.filled {
+        opacity: 1;
+    }
+    li {
+        list-style: none;
+        width: 100%;
+        text-align: right;
+        color: $color_chestnut_approx;
+        &:before {
+            content: '';
+        }
+    }
+}
+.bs-callout {
+    margin: 20px 0;
+    padding: 20px;
+    border-left: 3px solid $color_gallery_approx;
+    h4 {
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+    code {
+        background-color: $white;
+        //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+        border-radius: 3px;
+    }
+    p:last-child {
+        margin-bottom: 0;
+    }
+}
+.bs-callout-danger {
+    background-color: $color_vista_white_approx;
+    border-color: $color_chestnut_rose_approx;
+    h4 {
+        color: $color_chestnut_approx;
+    }
+}
+.bs-callout-warning {
+    background-color: $color_vanilla_ice_approx;
+    border-color: $color_chestnut_approx;
+    h4 {
+        color: $color_chestnut_approx;
+    }
+}
+.bs-callout-info {
+    background-color: $color_black_squeeze_approx;
+    border-color: $color_viking_approx;
+    h4 {
+        color: $color_viking_approx;
+    }
+}
