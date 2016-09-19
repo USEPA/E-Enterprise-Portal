@@ -1,3 +1,4 @@
+
 //colors
 $color_hippie_green_approx: #468847;
 $color_willow_brook_approx: #dff0d8;
@@ -43,7 +44,6 @@ $color_ecstasy_approx: #ff851b;
         clear: both;
     }
 }
-
 @mixin container() {
     position: relative;
     box-sizing: border-box;
@@ -77,6 +77,14 @@ $color_ecstasy_approx: #ff851b;
 }
 
 #be-well-informed-modal {
+    & > div:first-child {
+        overflow: visible;
+    }
+    h2 {
+        margin-top: -3rem;
+    }
+    .section {
+        border-bottom: 1px solid #cccccc;
 
     #be-well-informed-results-wrapper {
         > h1 {

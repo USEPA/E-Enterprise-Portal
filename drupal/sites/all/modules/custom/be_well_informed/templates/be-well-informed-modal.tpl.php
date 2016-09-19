@@ -1,6 +1,6 @@
 <div class="usa-grid-full">
   <div id="be-well-informed-form-wrapper" class="be-well-informed-modal-wrapper">
-  <h1>Be Well Informed > Enter Your Water Analysis Results</h1>
+  <h2>Be Well Informed > Enter Your Water Analysis Results</h2>
 
   <div class="bs-callout bs-callout-warning hidden">
     <h4>Please correct the errors below:</h4>
@@ -13,18 +13,20 @@
   <form action="" id="water_analysis_results_form">
     <div class="row usa-grid-full">
       <div class="row usa-width-one-whole">
-        <div class="city-selection section usa-width-one-half">
-          <label class="column one-half"
-                 for="<?php echo $prefix . 'drp' ?>city">New Hampshire / City
-            -<span class="red"> Required</span></label>
-          <select class="column one-half right"
-                  name="<?php echo $prefix . 'drp' ?>city" id="drpcity"
-                  required="">
-            <option value="">Select a City</option>
-            <?php foreach ($cities as $c): ?>
-              <option value="<?php echo $c ?>"><?php echo $c ?></option>
-            <?php endforeach; ?>
-          </select>
+        <div class="city-selection usa-width-one-half">
+          <div class="section">
+            <label class="column one-half"
+                   for="<?php echo $prefix . 'drp' ?>city">New Hampshire /
+              City</label>
+            <select class="column one-half right"
+                    name="<?php echo $prefix . 'drp' ?>city" id="drpcity"
+                    required="">
+              <option value="">Select a City</option>
+              <?php foreach ($cities as $c): ?>
+                <option value="<?php echo $c ?>"><?php echo $c ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
         </div>
       </div>
       <div class="components usa-width-one-half">
@@ -138,7 +140,8 @@
     </div>
     <div class="row usa-width-one-whole reset-submit">
       <div class="column right">
-        <button id="water_analysis_reset" class="usa-button-primary-alt">Reset
+        <button id="water_analysis_reset" class="usa-button usa-button-outline">
+          Reset
         </button>
         <button  type="button" id="water_analysis_submit" class="usa-button-primary">Submit
         </button>
