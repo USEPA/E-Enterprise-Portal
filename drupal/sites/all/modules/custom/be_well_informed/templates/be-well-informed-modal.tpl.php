@@ -150,7 +150,7 @@
     </form>
   </div>
   <div id="be-well-informed-loading-wrapper" class="be-well-informed-modal-wrapper">
-    <i class="fa fa-spinner" aria-hidden="true"></i>
+    <h2>Loading Analysis</h2> <i class="fa fa-spinner" aria-hidden="true"></i>
   </div>
   <div id="be-well-informed-results-wrapper" class="be-well-informed-modal-wrapper">
     <h1>Be Well Informed > View Your Water Analysis Results</h1>
@@ -211,26 +211,25 @@
           </tbody>
         </table>
       </div>
-      <!--      <h1>-->
-      <!--        <i class="fa fa-caret-right" aria-hidden="true"></i>-->
-      <!--        Results Details-->
-      <!--      </h1>-->
-      <!--      <table id="be-well-informed-result-details-table" class="responsive-table usa-table-borderless">-->
-      <!--        <thead>-->
-      <!--        <tr>-->
-      <!--          <th>Result</th>-->
-      <!--          <th>Element</th>-->
-      <!--          <th>Your Entry</th>-->
-      <!--          <th>Limit</th>-->
-      <!--          <th>About Your Well Water</th>-->
-      <!--          <th>Interpretation of Results</th>-->
-      <!--          <th>Health Concerns</th>-->
-      <!--          <th>Treatment Options</th>-->
-      <!--        </tr>-->
-      <!--        </thead>-->
-      <!--        <tbody>-->
-      <!--        </tbody>-->
-      <!--      </table>-->
+      <h1>
+        <i class="fa fa-caret-right" aria-hidden="true"></i>
+        Results Details
+      </h1>
+      <div class="datatable usa-width-one-whole">
+        <table id="be-well-informed-result-details-table" class="responsive-table usa-table-borderless">
+          <thead>
+          <tr>
+            <th>Result</th>
+            <th>Element</th>
+            <th>Your Entry</th>
+            <th>Limit</th>
+            <th>About Your Well Water</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

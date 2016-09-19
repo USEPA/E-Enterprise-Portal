@@ -296,6 +296,12 @@ $color_ecstasy_approx: #ff851b;
         display: none;
     }
 
+    #be-well-informed-loading-wrapper {
+        i {
+            font-size: 5rem;
+        }
+    }
+
     #be-well-informed-results-wrapper {
         > h1 {
             margin-top: -3rem;
@@ -323,6 +329,9 @@ $color_ecstasy_approx: #ff851b;
 
         #be-well-informed-accordion {
             margin-top: 5%;
+            table, div {
+                padding: 0 1%;
+            }
 
             .ui-accordion-header {
                 background: #0000BB none;
@@ -364,7 +373,29 @@ $color_ecstasy_approx: #ff851b;
                 }
             }
 
-            #be-well-informed-results-table {
+            #be-well-informed-result-details-table {
+                tbody {
+                    tr {
+                        .bwi-detail-td {
+                         span {
+                             font-weight: bold;
+                             display: block;
+                             margin-bottom: 5%;
+                         }
+                        }
+                        .bwi-detail-td.above {
+                            border-left: .3rem solid red;
+                        }
+                        .bwi-detail-td.below {
+                            border-left: .3rem solid green;
+                        }
+                        .bwi-detail-td.close {
+                            border-left: .3rem solid yellow;
+                        }
+                    }
+                }
+            }
+            table {
                 td {
                     img {
                         width: 3rem;
@@ -408,3 +439,6 @@ $color_ecstasy_approx: #ff851b;
     }
 }
 
+#be-well-informed-result-details-table > tbody > tr:nth-child(3) > td {
+    //border-left: .3rem solid red;
+}

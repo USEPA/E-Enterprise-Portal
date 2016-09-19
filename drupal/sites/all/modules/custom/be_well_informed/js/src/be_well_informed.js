@@ -6,8 +6,7 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
 
 (function($) {
 
-  var datatable_options = {
-    data: {},
+  var default_datatable_result_details_options = {
     dom: 't',
     bLengthChange: false,
     bAutoWidth: false,
@@ -24,6 +23,25 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
       $(row).find('td:eq(4)').attr('data-title', 'About Your Well Water');
     }
   };
+
+  var default_datatable_result_summary_options = {
+    dom: 't',
+    bLengthChange: false,
+    bAutoWidth: false,
+    bSort: false,
+    columnDefs: [
+      {className: "be-well-results-first-column", "targets": [0]}
+    ],
+    createdRow: function(row, data, dataIndex) {
+      // Add data-title attributes to row
+      $(row).find('td:eq(0)').attr('data-title', 'Result');
+      $(row).find('td:eq(1)').attr('data-title', 'Element');
+      $(row).find('td:eq(2)').attr('data-title', 'Your Entry');
+      $(row).find('td:eq(3)').attr('data-title', 'Limit');
+      $(row).find('td:eq(4)').attr('data-title', 'About Your Well Water');
+    }
+  };
+
 
   Parsley.addValidator('checkChildren', {
     messages: {en: 'You must correctly give value or choose a whether the microbe was present!'},
@@ -102,12 +120,35 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
       },
       success: function(be_well_response_json) {
         if (!be_well_response_json.error) {
-          datatable_options.data = be_well_response_json.data.result_summary;
-          $('#be-well-informed-results-table').DataTable(datatable_options);
+
+          default_datatable_result_details_options.data = be_well_response_json.data.result_summary;
+          default_datatable_result_summary_options.data = be_well_response_json.data.result_summary;
+
+          $('#be-well-informed-results-table').DataTable(default_datatable_result_summary_options);
+
+          $('#be-well-informed-result-details-table').DataTable(default_datatable_result_details_options);
           showElementOutOfMany($results_wrapper, $all_wrappers);
+
+          // Loop through and add trs to the summary table. Datatable does not support colspan
+          var result;
+          var row_index = 1;
+          $.each(be_well_response_json.data.result_details, function(index, detail_obj) {
+            result = detail_obj.result;
+            if (detail_obj.data_array.length > 0) {
+              for (var i = 0; i < detail_obj.data_array.length; i++) {
+                if (detail_obj.data_array[i] !== '') {
+                  $('#be-well-informed-result-details-table')
+                    .find('tr:eq(' + (row_index + index) + ')')
+                    .after('<tr><td class="bwi-detail-td ' + result + '" colspan="5">' + detail_obj.data_array[i] + '</td></tr>');
+                  row_index++;
+                }
+              }
+            }
+          });
+
         }
         else {
-          showErrorView($results_wrapper, $all_wrappers);
+          showElementOutOfMany($results_wrapper, $all_wrappers);
         }
       }
     })

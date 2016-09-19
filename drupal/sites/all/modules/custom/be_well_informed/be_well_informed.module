@@ -137,12 +137,17 @@ function be_well_informed_datatable_response($be_well_response) {
     $datatable_row[] = $water_data['message'];
     $datatable_result_summary_json[] = $datatable_row;
 
-    if ($water_data['level'] === 'above' || $water_data['level'] === 'close') {
-      $datatable_row[] = $water_data['interpretation'];
-      $datatable_row[] = $water_data['health_concerns'];
-      $datatable_row[] = $water_data['treatment'];
-      $datatable_result_details_json[] = $datatable_row;
-    }
+// Capture details for each summary row, even if empty
+      $datatable_result_details_json[] = [
+        'data_array' => [
+          $water_data['interpretation'],
+          $water_data['health_concerns'],
+          $water_data['treatment']
+        ],
+        'result' => $water_data['level'],
+      ];
+
+
   }
 
   $water_response_datatable_returns['result_summary'] = $datatable_result_summary_json;
@@ -159,15 +164,15 @@ function sample_be_well_informed_response() {
       'containment_level' => '0.01 mg/L',
       'message' => 'The value entered is close to exceeding the drinking water standard',
       'level' => 'above',
-      'interpretation' => 'Does my well water meet the drinking water standard for fluoride? No, your water does not meet federal and state drinking water standards as it contains more than 4.0 mg/L of fluoride.',
-      'health_concerns' => 'Can consuming water containing fluoride affect my health? Consuming water containing more than 4.0 mg/L of fluoride can cause bone disease, which can include pain and tenderness of the bones and irregular bone deposits that can cause arthritis and crippling when occurring at joints (skeletal fluorosis).
+      'interpretation' => '<span>Does my well water meet the drinking water standard for fluoride?</span> No, your water does not meet federal and state drinking water standards as it contains more than 4.0 mg/L of fluoride.',
+      'health_concerns' => '<span>Can consuming water containing fluoride affect my health?</span> Consuming water containing more than 4.0 mg/L of fluoride can cause bone disease, which can include pain and tenderness of the bones and irregular bone deposits that can cause arthritis and crippling when occurring at joints (skeletal fluorosis).
 
 Consuming water containing more than 2.0 mg/L of fluoride can cause small ‘white spots’ on children’s teeth (mottled enamel), or in extreme cases, brown staining or pitting of teeth that are still developing below the gums (dental fluorosis).
 
 To reduce your exposure to fluoride in your well water, treat the water that you use for drinking and cooking to a level less than 2.0 mg/L. If treatment is not feasible, children under nine years old should be provided with an alternative source of drinking water that contains less than 2.0 mg/L of fluoride.
 
 Consuming water containing an optimal level of fluoride helps protect against tooth decay. The U.S. Department of Health and Human Services’ recommended optimal range for fluoride in drinking water is 0.6 - 0.8 mg/L. You should talk with your dentist and doctor about the level of fluoride in your water and how you can reduce your and your family’s total fluoride exposure. Click here for more information from the U.S. Centers for Disease Control and Prevention about private well water and fluoride.',
-      'treatment' => 'How can I reduce the level of fluoride in my water? Install one of the following point-of-use (POU) water treatment systems at your kitchen sink to reduce the level of fluoride in the water that you consume:
+      'treatment' => '<span>How can I reduce the level of fluoride in my water?</span> Install one of the following point-of-use (POU) water treatment systems at your kitchen sink to reduce the level of fluoride in the water that you consume:
 
 An NSF/ANSI Standard 61 certified activated alumina filter system.
 
@@ -184,6 +189,10 @@ More information about treatment for fluoride can be found in NHDES’ Fact Shee
       'containment_level' => '250 mg/L',
       'message' => 'A value was not entered',
       'level' => 'none',
+      'interpretation' => '',
+      'health_concerns' => '',
+      'treatment' => '',
+
     ],
     [
       'name' => 'Copper',
@@ -191,6 +200,11 @@ More information about treatment for fluoride can be found in NHDES’ Fact Shee
       'containment_level' => '1.3 mg/L',
       'message' => 'The value entered meets the drinking water guideline',
       'level' => 'below',
+      'interpretation' => '<span>Does my well water meet the drinking water standard for copper?</span> Yes, your water meets federal and state drinking water standards as it contains less than 1.3 mg/L of copper.',
+      'health_concerns' => '<span>Can consuming water containing copper affect my health?</span> Consuming water containing less than 1.3 mg/L of copper is not harmful to most people. However, if you or someone in your household has Wilson’s Disease, you should talk with your doctor about the level of copper in your water. The presence of copper in your water may also indicate that other pollutants, such as lead, may be present in your water.',
+
+      'treatment' => '<span>What should I do?</span> If you haven’t already done so, you should also test your water for lead, which can cause serious health problems, especially for babies, children, and pregnant women.',
+
     ],
   ];
   return $response;
@@ -400,7 +414,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     ],
   ];
 
-  $variables['cities'] = [ "Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
+  $variables['cities'] = ["Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
 
   $variables['prefix'] = 'ct100$MainContent$';
 }
