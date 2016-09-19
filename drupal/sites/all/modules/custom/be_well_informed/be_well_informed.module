@@ -260,14 +260,6 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'unit_types' => ['mg/L', 'μg/L', 'ppm', 'ppb']
     ],
     [
-      'name' => 'Lead',
-      'machine_name' => 'lead',
-      'symbol' => 'Pb',
-      'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
-      'unit_types' => ['mg/L', 'ppm']
-    ],
-    [
       'name' => 'Chloride',
       'machine_name' => 'chloride',
       'symbol' => 'Cl',
@@ -276,25 +268,9 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'unit_types' => ['mg/L', 'μg/L', 'ppm', 'ppb']
     ],
     [
-      'name' => 'Lead, Stagnant',
-      'machine_name' => 'leadst',
-      'symbol' => 'Cl',
-      'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
-      'unit_types' => ['mg/L', 'ppm']
-    ],
-    [
       'name' => 'Copper',
       'machine_name' => 'copper',
       'symbol' => 'Cu',
-      'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
-      'unit_types' => ['mg/L', 'ppm']
-    ],
-    [
-      'name' => 'Manganese',
-      'machine_name' => 'manganese',
-      'symbol' => 'Mn',
       'default_unit_type' => 'mg/L',
       'validation' => ['required'],
       'unit_types' => ['mg/L', 'ppm']
@@ -308,27 +284,9 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
-      'name' => 'Nitrate-N',
-      'machine_name' => 'nitrate',
-      'symbol' => 'NO3',
-      'symbol_text' => 'NO<span class="sub">3</span>',
-      'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
-      'unit_types' => ['mg/L', 'ppm']
-    ],
-    [
       'name' => 'Fluoride',
       'machine_name' => 'fluoride',
       'symbol' => 'F',
-      'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
-      'unit_types' => ['mg/L', 'ppm']
-    ],
-    [
-      'name' => 'Nitrite-N',
-      'machine_name' => 'nitrite',
-      'symbol' => 'NO2',
-      'symbol_text' => 'NO<span class="sub">2</span>',
       'default_unit_type' => 'mg/L',
       'validation' => ['required'],
       'unit_types' => ['mg/L', 'ppm']
@@ -343,12 +301,20 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'unit_types' => ['mg/L', 'ppm', 'gpg']
     ],
     [
-      'name' => 'pH',
-      'machine_name' => 'ph',
-      'symbol' => 'ph',
-      'default_unit_type' => 'unit',
+      'name' => 'Lead',
+      'machine_name' => 'lead',
+      'symbol' => 'Pb',
+      'default_unit_type' => 'mg/L',
       'validation' => ['required'],
-      'unit_types' => ['units']
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Lead, Stagnant',
+      'machine_name' => 'leadst',
+      'symbol' => 'Cl',
+      'default_unit_type' => 'mg/L',
+      'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm']
     ],
     [
       'name' => 'Iron',
@@ -357,6 +323,40 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'default_unit_type' => 'mg/L',
       'validation' => ['required'],
       'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Manganese',
+      'machine_name' => 'manganese',
+      'symbol' => 'Mn',
+      'default_unit_type' => 'mg/L',
+      'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Nitrate-N',
+      'machine_name' => 'nitrate',
+      'symbol' => 'NO3',
+      'symbol_text' => 'NO<span class="sub">3</span>',
+      'default_unit_type' => 'mg/L',
+      'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Nitrite-N',
+      'machine_name' => 'nitrite',
+      'symbol' => 'NO2',
+      'symbol_text' => 'NO<span class="sub">2</span>',
+      'default_unit_type' => 'mg/L',
+      'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'pH',
+      'machine_name' => 'ph',
+      'symbol' => 'ph',
+      'default_unit_type' => 'unit',
+      'validation' => ['required'],
+      'unit_types' => ['units']
     ],
     [
       'name' => 'Sodium',
