@@ -60,7 +60,14 @@ $color_ecstasy_approx: #ff851b;
     margin-right: 1%;
 }
 
-.be-well-informed-modal {
+.ui-dialog.be-well-informed-modal {
+
+
+    margin: 1% 0;
+    width: 90% !important;
+    top: 0 !important;
+
+
     &.ui-dialog {
         overflow: visible;
 
@@ -77,6 +84,7 @@ $color_ecstasy_approx: #ff851b;
 }
 
 #be-well-informed-modal {
+
     #be-well-informed-form-wrapper {
 
         & > div:first-child {
@@ -439,6 +447,7 @@ $color_ecstasy_approx: #ff851b;
     }
 }
 
-#be-well-informed-result-details-table > tbody > tr:nth-child(3) > td {
-    //border-left: .3rem solid red;
+
+#admin-menu {
+    display: none;
 }

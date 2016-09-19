@@ -59,8 +59,13 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
   $('#be-well-informed-modal')
     .html(Drupal.settings.be_well_informed.modal)
     .dialog({
-      width: '90%',
       modal: true,
+      position: {
+        my: "center top",
+        at: "center top",
+        of: window,
+        collision: "none"
+      },
       dialogClass: 'be-well-informed-modal',
       autoOpen: false,
       create: function(event, ui) {
@@ -105,8 +110,17 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
     $('#be-well-informed-modal').dialog("open")
   });
 
+  //$(window).resize(function() {
+  //  var wWidth = $(window).width();
+  //  var dWidth = wWidth * 0.9;
+  //  var wHeight = $(window).height();
+  //  var dHeight = wHeight * 0.9;
+  //  $("#be-well-informed-modal").dialog("option", "width", dWidth);
+  //  $("#be-well-informed-modal").dialog("option", "height", dHeight);
+  //});
 
-  $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
+
+    $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
     var $loading_wrapper = $('#be-well-informed-loading-wrapper');
     var $results_wrapper = $('#be-well-informed-results-wrapper');
     var $all_wrappers = $('.be-well-informed-modal-wrapper');
