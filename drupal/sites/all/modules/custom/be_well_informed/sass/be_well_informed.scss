@@ -76,8 +76,6 @@ $color_ecstasy_approx: #ff851b;
     }
 }
 
-
-
 #be-well-informed-modal {
     #be-well-informed-form-wrapper {
 
@@ -294,7 +292,7 @@ $color_ecstasy_approx: #ff851b;
         }
     }
 
-    #be-well-informed-results-wrapper, #be-well-informed-error-wrapper {
+    #be-well-informed-results-wrapper, #be-well-informed-error-wrapper, #be-well-informed-loading-wrapper {
         display: none;
     }
 
@@ -363,6 +361,14 @@ $color_ecstasy_approx: #ff851b;
                 .bwi-no-entry:before {
                     @include bwi-label('../images/circle.png');
 
+                }
+            }
+
+            #be-well-informed-results-table {
+                td {
+                    img {
+                        width: 3rem;
+                    }
                 }
             }
 

@@ -1,44 +1,37 @@
-function showLoadingView() {
-  $('.be-well-informed-modal-wrapper').hide();
-  $('#be-well-informed-loading-wrapper').show();
-
+function showElementOutOfMany($wrapper_to_show, $common_selector) {
+  $common_selector.hide();
+  $wrapper_to_show.show();
 }
 
-function showFormView() {
-  $('.be-well-informed-modal-wrapper').hide();
-  $('#be-well-informed-form-wrapper').show();
-}
-
-function showErrorView() {
-  $('.be-well-informed-modal-wrapper').hide();
-  $('#be-well-informed-error-wrapper').show();
-}
-
-function showResultsView() {
-  $('.be-well-informed-modal-wrapper').hide();
-  $('#be-well-informed-results-wrapper').show();
-}
 
 (function($) {
 
   var datatable_options = {
     data: {},
-    "dom": 't',
-    "bLengthChange": false,
-    "bAutoWidth": false,
-    "bSort": false,
-    "columnDefs": [
-      { className: "be-well-results-first-column", "targets": [ 0 ] }
-    ]
+    dom: 't',
+    bLengthChange: false,
+    bAutoWidth: false,
+    bSort: false,
+    columnDefs: [
+      {className: "be-well-results-first-column", "targets": [0]}
+    ],
+    createdRow: function(row, data, dataIndex) {
+      // Add data-title attributes to row
+      $(row).find('td:eq(0)').attr('data-title', 'Result');
+      $(row).find('td:eq(1)').attr('data-title', 'Element');
+      $(row).find('td:eq(2)').attr('data-title', 'Your Entry');
+      $(row).find('td:eq(3)').attr('data-title', 'Limit');
+      $(row).find('td:eq(4)').attr('data-title', 'About Your Well Water');
+    }
   };
 
   Parsley.addValidator('checkChildren', {
     messages: {en: 'You must correctly give value or choose a whether the microbe was present!'},
     requirementType: 'integer',
     validate: function(_value, requirement, instance) {
-      for(var i = 1; i <= requirement; i++)
-        if(i == 1 && instance.$element.find('input').val() // If block-1 has any value in the input box
-          || i == 2 && instance.$element.find('[type=radio]:checked').length){ // or if block-2 has any radio buttons checked
+      for (var i = 1; i <= requirement; i++)
+        if (i == 1 && instance.$element.find('input').val() // If block-1 has any value in the input box
+          || i == 2 && instance.$element.find('[type=radio]:checked').length) { // or if block-2 has any radio buttons checked
           return true; // One section is filled, this check is valid
         }
       return false; // No section is filled, this validation fails
@@ -48,7 +41,7 @@ function showResultsView() {
   $('#be-well-informed-modal')
     .html(Drupal.settings.be_well_informed.modal)
     .dialog({
-      width: 'auto',
+      width: '90%',
       modal: true,
       dialogClass: 'be-well-informed-modal',
       autoOpen: false,
@@ -64,12 +57,12 @@ function showResultsView() {
             $('.bs-callout-warning').toggleClass('hidden', ok);
           })
           .on('form:submit', function() {
-            return false; // Don't submit form for this demo
+            //return false; // Don't submit form for this demo
           });
 
         $('#water_analysis_submit').click(function() {
-          $form.trigger('submit');
-          return false;
+          //$form.trigger('submit');
+          //return false;
         });
 
         $('#water_analysis_reset').click(function() {
@@ -81,7 +74,12 @@ function showResultsView() {
           $('.bs-callout-info').toggleClass('hidden', true);
           $('.bs-callout-warning').toggleClass('hidden', true);
           return false;
-        })
+        });
+
+        $('#be-well-informed-accordion').accordion({
+          collapsible: true,
+          heightStyle: "content"
+        });
       }
     });
 
@@ -90,34 +88,26 @@ function showResultsView() {
   });
 
 
-  $('#bwi-check-water-btn').click(function() {
-    $('#be-well-informed-modal')
-      .html(Drupal.settings.be_well_informed.modal)
-      .dialog({
-        width: '90%',
-        modal: true,
-        dialogClass: 'be-well-informed-modal'
-      });
-    $('#be-well-informed-accordion').accordion( {
-      collapsible: true,
-      heightStyle: "content"
-    });
-  });
-
   $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
-    showLoadingView();
+    var $loading_wrapper = $('#be-well-informed-loading-wrapper');
+    var $results_wrapper = $('#be-well-informed-results-wrapper');
+    var $all_wrappers = $('.be-well-informed-modal-wrapper');
+
     $.ajax({
       url: 'be_well_informed/form_submission',
       method: 'POST',
       data: $('#be-well-informed-form').serialize(),
+      beforeSend: function() {
+        showElementOutOfMany($loading_wrapper, $all_wrappers);
+      },
       success: function(be_well_response_json) {
         if (!be_well_response_json.error) {
           datatable_options.data = be_well_response_json.data.result_summary;
           $('#be-well-informed-results-table').DataTable(datatable_options);
-          showResultsView();
+          showElementOutOfMany($results_wrapper, $all_wrappers);
         }
         else {
-          showErrorView();
+          showErrorView($results_wrapper, $all_wrappers);
         }
       }
     })

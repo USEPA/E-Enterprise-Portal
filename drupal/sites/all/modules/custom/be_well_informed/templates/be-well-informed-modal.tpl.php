@@ -149,6 +149,9 @@
       </div>
     </form>
   </div>
+  <div id="be-well-informed-loading-wrapper" class="be-well-informed-modal-wrapper">
+    <i class="fa fa-spinner" aria-hidden="true"></i>
+  </div>
   <div id="be-well-informed-results-wrapper" class="be-well-informed-modal-wrapper">
     <h1>Be Well Informed > View Your Water Analysis Results</h1>
     <div id="be-well-informed-accordion">
