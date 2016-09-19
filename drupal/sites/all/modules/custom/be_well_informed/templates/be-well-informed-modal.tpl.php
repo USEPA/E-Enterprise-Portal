@@ -1,5 +1,5 @@
 <div class="usa-grid-full">
-  <h2>Be Well Informed > Enter Your Water Analysis Results</h2>
+  <h2>Be Well Informed &gt; Enter Your Water Analysis Results</h2>
 
   <div class="bs-callout bs-callout-warning hidden">
     <h4>Please correct the errors below:</h4>
@@ -9,16 +9,57 @@
     <h4>Everything appears valid</h4>
   </div>
 
+  <div id="interactive-prompts-modal" class="usa-width-one-whole">
+    <form action="" id="interactive-prompts" class="">
+      <div class="questions">
+        <div class="section row">
+          <div class="column usa-width-one-half">
+            <p>Does your water taste salty?</p>
+          </div>
+          <div class="column usa-width-one-half text-right btn-group">
+            <button for="" class="usa-button-primary" type="button"><input type="radio" value="1">Yes</button>
+            <button for="" class="usa-button-primary" type="button"><input type="radio" value="0">No</button>
+          </div>
+        </div>
+        <div class="section row">
+          <div class="column usa-width-one-half">
+            <p>Please enter the value for Iron (symbol is “Fe”) if there is a result within your lab report. If Iron was not tested as part of your water analysis, leave the box blank. Do not enter “0”.</p>
+          </div>
+          <div class="column usa-width-one-half text-right btn-group">
+            <input class="one-third"
+                   name=""
+                   type="number"
+                   id="" >
+            <select class="one-third"
+                    name="<?php echo $prefix . 'ddl' . $m['machine_name'] ?>"
+                    id="ddl<?php echo $m['machine_name'] ?>">
+              <?php foreach ($unit_types as $ut): ?>
+                <option
+                  value="<?php echo $ut ?>"> <?php echo $ut ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row usa-width-one-whole reset-submit">
+        <div class="column right">
+          <button id="water_analysis_reset" class="usa-button usa-button-outline" type="button">Reset</button>
+          <button id="water_analysis_submit" class="usa-button-primary" type="button">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
   <form action="" id="water_analysis_results_form">
     <div class="row usa-grid-full">
       <div class="row usa-width-one-whole">
         <div class="city-selection usa-width-one-half">
           <div class="section">
             <label class="column one-half"
-                   for="<?php echo $prefix . 'drp' ?>city">New Hampshire /
+                   for="CityName">New Hampshire /
               City</label>
             <select class="column one-half right"
-                    name="<?php echo $prefix . 'drp' ?>city" id="drpcity"
+                    name="CityName" id="drpcity"
                     required="">
               <option value="">Select a City</option>
               <?php foreach ($cities as $c): ?>
@@ -32,19 +73,21 @@
         <h3>Routine Water Analysis</h3>
         <?php foreach ($water_components as $wc): ?>
           <div class="row section">
+            <input type="hidden" name="RoutineContaminants[<?php echo $wc['machine_name'] ?>][Symbol]" value="<?php echo $wc['machine_name'] ?>">
+            <input type="hidden" name="RoutineContaminants[<?php echo $wc['machine_name'] ?>][Name]" value="<?php echo $wc['name'] ?>">
             <label class="column one-third"
-                   for="<?php echo $prefix . 'txt' . $wc['machine_name'] ?>"><?php echo $wc['name'] ?>
+                   for="RoutineContaminants[<?php echo $wc['machine_name'] ?>][Value]"><?php echo $wc['name'] ?>
               <span
-                class="symbol">(<?php echo ($wc['symbol_text']) ? $wc['symbol_text'] : $wc['symbol'] ?>
+                class="symbol">(<?php echo $wc['symbol_text'] ?>
                 )</span></label>
             <input class="column one-third"
-                   name="<?php echo $prefix . 'txt' . $wc['machine_name'] ?>"
+                   name="RoutineContaminants[<?php echo $wc['machine_name'] ?>][Value]"
                    type="number"
                    id="txt<?php echo $wc['machine_name'] ?>" <?php if (in_array('required', $wc['validation'])): {
               echo 'required=""';
             } endif; ?>>
             <select class="column one-third"
-                    name="<?php echo $prefix . 'ddl' . $wc['machine_name'] ?>"
+                    name="RoutineContaminants[<?php echo $wc['machine_name'] ?>][Unit]"
                     id="ddl<?php echo $wc['machine_name'] ?>">
               <?php foreach ($wc['unit_types'] as $ut): ?>
                 <option
@@ -64,16 +107,18 @@
               <div <?php if (in_array('required', $m['validation'])): {
                 echo 'data-parsley-check-children="2" data-parsley-validate-if-empty=""';
               } endif; ?>>
+                <input type="hidden" name="BacterialContaminants[<?php echo $m['machine_name'] ?>][Symbol]" value="<?php echo $m['machine_name'] ?>">
+                <input type="hidden" name="BacterialContaminants[<?php echo $m['machine_name'] ?>][Name]" value="<?php echo $m['name'] ?>">
                 <label class="column one-third"
-                       for="<?php echo $prefix . 'txt' . $m['machine_name'] ?>"><?php echo $m['name'] ?></label>
+                       for="BacterialContaminants[<?php echo $m['machine_name'] ?>][Value]"><?php echo $m['name'] ?></label>
                 <input class="column one-third"
-                       name="<?php echo $prefix . 'txt' . $m['machine_name'] ?>"
+                       name="BacterialContaminants[<?php echo $m['machine_name'] ?>][Value]"
                        type="number"
                        id="txt<?php echo $m['machine_name'] ?>" <?php if (in_array('required', $m['validation'])): {
                   echo 'data-parsley-group="block-1"';
                 } endif; ?>>
                 <select class="column one-third"
-                        name="<?php echo $prefix . 'ddl' . $m['machine_name'] ?>"
+                        name="BacterialContaminants[<?php echo $m['machine_name'] ?>][Unit]"
                         id="ddl<?php echo $m['machine_name'] ?>">
                   <?php foreach ($m['unit_types'] as $ut): ?>
                     <option
@@ -111,19 +156,19 @@
           <h3>Radionuclides</h3>
           <?php foreach ($radionuclides as $rn): ?>
             <div class="row section">
+              <input type="hidden" name="RadionuclideContaminants[<?php echo $rn['machine_name'] ?>][Symbol]" value="<?php echo $rn['machine_name'] ?>">
+              <input type="hidden" name="RadionuclideContaminants[<?php echo $rn['machine_name'] ?>][Name]" value="<?php echo $rn['name'] ?>">
               <label class="column one-third"
-                     for="<?php echo $prefix . 'txt' . $rn['machine_name'] ?>"><?php echo $rn['name'] ?> <?php if ($rn['symbol_text'] || $rn['symbol']): ?>
-                  <span class="symbol">
-                  (<?php echo ($rn['symbol_text']) ? $rn['symbol_text'] : $rn['symbol'] ?>
-                  )</span><?php endif; ?></label>
+                     for="RadionuclideContaminants[<?php echo $rn['machine_name'] ?>][Value]"><?php echo $rn['name'] ?> <?php if ($rn['symbol_text']): ?>
+                  <span class="symbol">(<?php echo $rn['symbol_text'] ?>)</span><?php endif; ?></label>
               <input class="column one-third"
-                     name="<?php echo $prefix . 'txt' . $rn['machine_name'] ?>"
+                     name="RadionuclideContaminants[<?php echo $rn['machine_name'] ?>][Value]"
                      type="number"
                      id="txt<?php echo $rn['machine_name'] ?>" <?php if (in_array('required', $rn['validation'])): {
                 echo 'required=""';
               } endif; ?>>
               <select class="column one-third"
-                      name="<?php echo $prefix . 'ddl' . $rn['machine_name'] ?>"
+                      name="RadionuclideContaminants[<?php echo $rn['machine_name'] ?>][Unit]"
                       id="ddl<?php echo $rn['machine_name'] ?>">
                 <?php foreach ($rn['unit_types'] as $ut): ?>
                   <option
@@ -139,11 +184,8 @@
     </div>
     <div class="row usa-width-one-whole reset-submit">
       <div class="column right">
-        <button id="water_analysis_reset" class="usa-button usa-button-outline">
-          Reset
-        </button>
-        <button id="water_analysis_submit" class="usa-button-primary">Submit
-        </button>
+        <button id="water_analysis_reset" class="usa-button usa-button-outline" type="button">Reset</button>
+        <button id="water_analysis_submit" class="usa-button-primary" type="button">Submit</button>
       </div>
     </div>
   </form>

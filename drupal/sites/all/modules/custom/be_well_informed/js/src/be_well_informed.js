@@ -1,5 +1,42 @@
 (function($) {
 
+  $.fn.serializeObject = function()
+  {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+      objRoot = this.name.replace(/]/g, '')
+        .split(/\[/g)
+        .reduce(function(previous, current, cIndex, original) {
+          var newObject = {}
+          var property = original[original.length - 1 - cIndex]
+          newObject[property] = previous
+          return newObject;
+        }, this.value);
+
+      $.extend(true, o, objRoot);
+    });
+    return o;
+  };
+
+  function checkValues(previous, current, cIndex, keys) {
+    var previousKeys = Object.keys(previous[keys[cIndex]])
+    console.log(previous, current, cIndex, keys)
+    console.log(keys[cIndex], previous[keys[cIndex]], typeof previous[keys[cIndex]])
+    console.log(previousKeys)
+
+    if((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")){
+      delete previous[keys[cIndex]];
+    }
+    else if (['object'].indexOf(typeof previous[keys[cIndex]]) > -1){
+      previous[keys[cIndex]] = previousKeys.reduce(checkValues, previous[keys[cIndex]])
+      if(Object.keys(previous[keys[cIndex]]).length == 0) {
+        delete previous[keys[cIndex]];
+      }
+    }
+    return previous
+  }
+
   Parsley.addValidator('checkChildren', {
     messages: {en: 'You must correctly give value or choose a whether the microbe was present!'},
     requirementType: 'integer',
@@ -32,6 +69,10 @@
             $('.bs-callout-warning').toggleClass('hidden', ok);
           })
           .on('form:submit', function() {
+            // AJAX call
+            // use this for the data value
+            Object.keys(formData).reduce(checkValues, formData);
+
             return false; // Don't submit form for this demo
           });
 
@@ -60,3 +101,4 @@
 
 
 })(jQuery);
+

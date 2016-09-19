@@ -192,6 +192,23 @@ $color_ecstasy_approx: #ff851b;
     }
 }
 
+#interactive-prompts {
+    .btn-group {
+        float: right;
+        width: 21.1em;
+        button {
+            float: left;
+            width: 48.7%;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+        &> input, &> select {
+            display: inline-block;
+        }
+    }
+}
+
 input {
     &.parsley-success {
         @extend %extend_1;
