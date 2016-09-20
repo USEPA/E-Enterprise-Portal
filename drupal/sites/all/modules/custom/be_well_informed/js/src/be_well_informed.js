@@ -3,6 +3,51 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
   $wrapper_to_show.show();
 }
 
+$.fn.serializeObject = function() {
+  var o = {};
+  var a = this.serializeArray();
+  $.each(a, function() {
+    objRoot = this.name.replace(/]/g, '')
+      .split(/\[/g)
+      .reduce(function(previous, current, cIndex, original) {
+        var newObject = {}
+        var property = original[original.length - 1 - cIndex]
+        newObject[property] = previous
+        return newObject;
+      }, this.value);
+
+    $.extend(true, o, objRoot);
+  });
+  return o;
+};
+
+function checkValues(previous, current, cIndex, keys) {
+  var previousKeys = Object.keys(previous[keys[cIndex]])
+
+  if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {
+    delete previous[keys[cIndex]];
+  }
+  else if (['object'].indexOf(typeof previous[keys[cIndex]]) > -1) {
+    previous[keys[cIndex]] = previousKeys.reduce(checkValues, previous[keys[cIndex]])
+    if (Object.keys(previous[keys[cIndex]]).length == 0) {
+      delete previous[keys[cIndex]];
+    }
+  }
+  return previous
+}
+
+/**
+ * Clear form inputs and hide warning messages
+ */
+function resetBWIForm() {
+  var $form = $('#water_analysis_results_form');
+  $form.parsley().reset();
+  $form.find('input[type=number]').val('');
+  $form.find('input[type=radio]').prop('checked', false);
+  $form.find('select option').prop('selected', false);
+  $('.bs-callout-info').toggleClass('hidden', true);
+  $('.bs-callout-warning').toggleClass('hidden', true);
+}
 
 (function($) {
 
@@ -44,56 +89,6 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
     }
   };
 
-
-  $.fn.serializeObject = function() {
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-      objRoot = this.name.replace(/]/g, '')
-        .split(/\[/g)
-        .reduce(function(previous, current, cIndex, original) {
-          var newObject = {}
-          var property = original[original.length - 1 - cIndex]
-          newObject[property] = previous
-          return newObject;
-        }, this.value);
-
-      $.extend(true, o, objRoot);
-    });
-    return o;
-  };
-
-  function checkValues(previous, current, cIndex, keys) {
-    var previousKeys = Object.keys(previous[keys[cIndex]])
-    console.log(previous, current, cIndex, keys)
-    console.log(keys[cIndex], previous[keys[cIndex]], typeof previous[keys[cIndex]])
-    console.log(previousKeys)
-
-    if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {
-      delete previous[keys[cIndex]];
-    }
-    else if (['object'].indexOf(typeof previous[keys[cIndex]]) > -1) {
-      previous[keys[cIndex]] = previousKeys.reduce(checkValues, previous[keys[cIndex]])
-      if (Object.keys(previous[keys[cIndex]]).length == 0) {
-        delete previous[keys[cIndex]];
-      }
-    }
-    return previous
-  }
-
-  /**
-   * Clear form inputs and hide warning messages
-   */
-  function resetBWIForm() {
-    var $form = $('#water_analysis_results_form');
-    $form.parsley().reset();
-    $form.find('input[type=number]').val('');
-    $form.find('input[type=radio]').prop('checked', false);
-    $form.find('select option').prop('selected', false);
-    $('.bs-callout-info').toggleClass('hidden', true);
-    $('.bs-callout-warning').toggleClass('hidden', true);
-  }
-
   Parsley.addValidator('checkChildren', {
     messages: {en: 'You must correctly give value or choose a whether the microbe was present!'},
     requirementType: 'integer',
@@ -107,13 +102,12 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
     }
   });
 
-
-
   $('#be-well-informed-modal')
     .html(Drupal.settings.be_well_informed.modal)
     .dialog({
       modal: true,
-      width: "90%",
+      //width: "90%",
+      width: "auto",
       position: {
         my: "center top",
         at: "center top",
@@ -162,7 +156,7 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
     var $loading_wrapper = $('#be-well-informed-loading-wrapper');
     var $results_wrapper = $('#be-well-informed-results-wrapper');
     var $all_wrappers = $('.be-well-informed-modal-wrapper');
-    var formData = $form.serialize();
+    var formData = $form.serializeObject();
 
     // Show Loading view
     showElementOutOfMany($loading_wrapper, $all_wrappers);
