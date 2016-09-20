@@ -309,7 +309,48 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'Cu',
       'symbol' => 'Cu',
       'default_unit_type' => 'mg/L',
-      'validation' => [],
+      'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Fluoride',
+      'machine_name' => 'fluoride',
+      'symbol' => 'F',
+      'default_unit_type' => 'mg/L',
+      'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Hardness as CaCO3',
+      'machine_name' => 'hardness',
+      'symbol' => 'CaCO3',
+      'symbol_test' => 'CaCO<span class="sub">3</span>',
+      'default_unit_type' => 'mg/L',
+      'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm', 'gpg']
+    ],
+    [
+      'name' => 'Iron',
+      'machine_name' => 'iron',
+      'symbol' => 'Cl',
+      'default_unit_type' => 'mg/L',
+      'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Lead',
+      'machine_name' => 'lead',
+      'symbol' => 'Pb',
+      'default_unit_type' => 'mg/L',
+      'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Lead, Stagnant',
+      'machine_name' => 'leadst',
+      'symbol' => 'Cl',
+      'default_unit_type' => 'mg/L',
+      'validation' => ['required'],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [

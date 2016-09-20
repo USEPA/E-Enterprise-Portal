@@ -90,22 +90,6 @@ function cdx_facility_management_menu()
     return $items;
 }
 
-
-function userMustLogOut($user_session_logout, $user_login_time)
-{
-    // user timeout in minutes
-    $return = true;
-    if (isset($user_login_time)) {
-        $current_timestamp = time();
-        $diff_hours = abs($current_timestamp - $user_login_time) / (60);
-        if ($diff_hours < $user_session_logout) {
-            $return = false;
-        }
-    }
-    return $return;
-}
-
-
 function return_cdx_facility_management_token($is_print_json = TRUE)
 {
     // Load feature toggling for using toggle: reuse_token_from_bridge
@@ -120,7 +104,7 @@ function return_cdx_facility_management_token($is_print_json = TRUE)
     $local_testing_user_id = variable_get('local_testing_user_id');
 
     // Configurable amount of minutes before the portal no longer allows Facility Widget access
-    $user_session_logout = (int)variable_get('cdx_facility_user_logout_session');
+    $user_session_logout = (int)variable_get('cdx_facility_user_logout_session', 20);
 
     // Allow user to acces Facility widget locally with hard coded user id
     if ($local_testing || $user->uid === 1) {
@@ -143,8 +127,11 @@ function return_cdx_facility_management_token($is_print_json = TRUE)
     }
 
 
-    // Check if user session has timed out. If so, do not grant access to Facility Widget
-    if (userMustLogOut($user_session_logout, $user_login_time)) {
+    // Ensure that the logout time has been set
+    if (!isset($_SESSION['logoutAt'])) {
+        $_SESSION['logoutAt'] = time() + $user_session_logout * 60;
+    }
+    if (time() > $_SESSION['logoutAt']) {
         $json_return['expired'] = true;
     } else {
         // Configurations from admin menu
