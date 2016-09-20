@@ -101,18 +101,39 @@ function be_well_informed_block_view($delta = '') {
  * Take users POST input and handoff to sample data or BE WELL INFORMED service
  */
 function be_well_informed_form_submission() {
-  if (!isset($_POST)) {
+  if (!isset($_POST) || count($_POST) === 0) {
     drupal_json_output(array('error' => true, 'message' => 'Failed to recieve any data.'));
     return;
   }
 
+
+  $datatable_formatted_response = array();
   module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
   if (feature_toggle_get_status('be_well_informed_sample_data')) {
     $be_well_informed_response = sample_be_well_informed_response();
     $datatable_formatted_response = be_well_informed_datatable_response($be_well_informed_response);
   } else {
+    $post_data =
+      array(
+        "CityName" => "DC",
+        "RoutineContaminants" => [
+          "As" => [
+            "Symbol" => "As",
+            "Name" => "Arsenic",
+            "Value" => "1234",
+            "Unit" => "mg/L"
+          ]
+        ],
+        "BacterialContaminants" => null,
+        "RadionuclideContaminants" => null
+      );
+    $endpoint = "http://nodewebdev.epacdxnode.net/DWIService/dwievaluation";
+    $headers = array('Content-Type' => 'application/json');
+    $response = drupal_http_request($endpoint, ["headers" => $headers, "method" => "POST", 'timeout' => "10", 'data' =>  json_encode($post_data)]);
     // TODO: hook into be well informed app
-    $be_well_informed_response = array();
+    if ($response->code !== "200") {
+      $datatable_formatted_response['error'] = TRUE;
+    }
   }
 
   drupal_json_output(array('error' => false, 'data' => $datatable_formatted_response));
@@ -138,14 +159,14 @@ function be_well_informed_datatable_response($be_well_response) {
     $datatable_result_summary_json[] = $datatable_row;
 
 // Capture details for each summary row, even if empty
-      $datatable_result_details_json[] = [
-        'data_array' => [
-          $water_data['interpretation'],
-          $water_data['health_concerns'],
-          $water_data['treatment']
-        ],
-        'result' => $water_data['level'],
-      ];
+    $datatable_result_details_json[] = [
+      'data_array' => [
+        $water_data['interpretation'],
+        $water_data['health_concerns'],
+        $water_data['treatment']
+      ],
+      'result' => $water_data['level'],
+    ];
 
 
   }
@@ -264,7 +285,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'Pb',
       'symbol' => 'Pb',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
@@ -272,7 +293,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'Cl',
       'symbol' => 'Cl',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'μg/L', 'ppm', 'ppb']
     ],
     [
@@ -280,7 +301,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'PbSt',
       'symbol' => 'Pb',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
@@ -288,7 +309,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'Cu',
       'symbol' => 'Cu',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
@@ -304,7 +325,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'CuSt',
       'symbol' => 'Cu',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
@@ -313,7 +334,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'symbol' => 'NO3',
       'symbol_text' => 'NO<span class="sub">3</span>',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
@@ -321,7 +342,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'Fl',
       'symbol' => 'F',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
@@ -330,7 +351,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'symbol' => 'NO2',
       'symbol_text' => 'NO<span class="sub">2</span>',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
@@ -339,7 +360,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'symbol' => 'CaCO3',
       'symbol_text' => 'CaCO<span class="sub">3</span>',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm', 'gpg']
     ],
     [
@@ -347,7 +368,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'ph',
       'symbol' => 'ph',
       'default_unit_type' => 'unit',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['units']
     ],
     [
@@ -363,7 +384,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'Na',
       'symbol' => 'Na',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
     ],
   ];
@@ -374,7 +395,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'Bac',
       'symbol' => 'Bac',
       'default_unit_type' => 'CFU/100 mL',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['CFU/100 mL', 'MPN/100 mL'],
       'radio_name' => 'Bac',
     ],
@@ -383,7 +404,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'Ecoli',
       'symbol' => 'Ecoli',
       'default_unit_type' => 'CFU/100 mL',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['CFU/100 mL', 'MPN/100 mL'],
       'radio_name' => 'Ecoli',
     ],
@@ -395,7 +416,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'Rn',
       'symbol' => 'Rn',
       'default_unit_type' => 'pCi/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['pCi/L']
     ],
     [
@@ -403,7 +424,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'U',
       'symbol' => 'U',
       'default_unit_type' => 'μg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['pCi/L', 'μg/L']
     ],
     [
@@ -411,7 +432,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'AGA',
       'symbol' => '',
       'default_unit_type' => 'pCi/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['pCi/L']
     ],
   ];
@@ -420,5 +441,5 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     $variables['water_components'][$key]['symbol_text'] = ($var['symbol_text']) ? $var['symbol_text'] : $var['symbol'];
   }
 
-  $variables['cities'] = [ "Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
+  $variables['cities'] = ["Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
 }

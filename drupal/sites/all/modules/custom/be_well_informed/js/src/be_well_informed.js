@@ -6,6 +6,8 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
 
 (function($) {
 
+  var formAjaxRequest;
+
   var default_datatable_result_details_options = {
     dom: 't',
     bLengthChange: false,
@@ -43,8 +45,7 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
   };
 
 
-  $.fn.serializeObject = function()
-  {
+  $.fn.serializeObject = function() {
     var o = {};
     var a = this.serializeArray();
     $.each(a, function() {
@@ -68,16 +69,29 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
     console.log(keys[cIndex], previous[keys[cIndex]], typeof previous[keys[cIndex]])
     console.log(previousKeys)
 
-    if((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")){
+    if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {
       delete previous[keys[cIndex]];
     }
-    else if (['object'].indexOf(typeof previous[keys[cIndex]]) > -1){
+    else if (['object'].indexOf(typeof previous[keys[cIndex]]) > -1) {
       previous[keys[cIndex]] = previousKeys.reduce(checkValues, previous[keys[cIndex]])
-      if(Object.keys(previous[keys[cIndex]]).length == 0) {
+      if (Object.keys(previous[keys[cIndex]]).length == 0) {
         delete previous[keys[cIndex]];
       }
     }
     return previous
+  }
+
+  /**
+   * Clear form inputs and hide warning messages
+   */
+  function resetBWIForm() {
+    var $form = $('#water_analysis_results_form');
+    $form.parsley().reset();
+    $form.find('input[type=number]').val('');
+    $form.find('input[type=radio]').prop('checked', false);
+    $form.find('select option').prop('selected', false);
+    $('.bs-callout-info').toggleClass('hidden', true);
+    $('.bs-callout-warning').toggleClass('hidden', true);
   }
 
   Parsley.addValidator('checkChildren', {
@@ -93,10 +107,13 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
     }
   });
 
+
+
   $('#be-well-informed-modal')
     .html(Drupal.settings.be_well_informed.modal)
     .dialog({
       modal: true,
+      width: "90%",
       position: {
         my: "center top",
         at: "center top",
@@ -119,24 +136,13 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
           .on('form:submit', function() {
             // AJAX call
             // use this for the data value
-            Object.keys(formData).reduce(checkValues, formData);
+            // Object.keys(formData).reduce(checkValues, formData);
 
             return false; // Don't submit form for this demo
           });
 
-        $('#water_analysis_submit').click(function() {
-          $form.trigger('submit');
-          return false;
-        })
-
         $('#water_analysis_reset').click(function() {
-          var $form = $('#water_analysis_results_form');
-          $form.parsley().reset();
-          $form.find('input[type=number]').val('');
-          $form.find('input[type=radio]').prop('checked', false);
-          $form.find('select option').prop('selected', false);
-          $('.bs-callout-info').toggleClass('hidden', true);
-          $('.bs-callout-warning').toggleClass('hidden', true);
+          resetBWIForm();
           return false;
         });
 
@@ -151,5 +157,80 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
     $('#be-well-informed-modal').dialog("open")
   });
 
+  $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
+    var $loading_wrapper = $('#be-well-informed-loading-wrapper');
+    var $results_wrapper = $('#be-well-informed-results-wrapper');
+    var $all_wrappers = $('.be-well-informed-modal-wrapper');
+    var formData = $('#water_analysis_results_form').serialize();
+    formAjaxRequest = $.ajax({
+      url: 'be_well_informed/form_submission',
+      method: 'POST',
+      data: Object.keys(formData).reduce(checkValues, formData),
+      beforeSend: function() {
+        showElementOutOfMany($loading_wrapper, $all_wrappers);
+      },
+      success: function(be_well_response_json) {
+        if (!be_well_response_json.error) {
+
+          default_datatable_result_details_options.data = be_well_response_json.data.result_summary;
+          default_datatable_result_summary_options.data = be_well_response_json.data.result_summary;
+
+          $('#be-well-informed-results-table').DataTable(default_datatable_result_summary_options);
+
+          $('#be-well-informed-result-details-table').DataTable(default_datatable_result_details_options);
+          showElementOutOfMany($results_wrapper, $all_wrappers);
+
+          // Loop through and add trs to the summary table. Datatable does not support colspan
+          var result;
+          var row_index = 1;
+          $.each(be_well_response_json.data.result_details, function(index, detail_obj) {
+            result = detail_obj.result;
+            if (detail_obj.data_array.length > 0) {
+              for (var i = 0; i < detail_obj.data_array.length; i++) {
+                if (detail_obj.data_array[i] !== '') {
+                  $('#be-well-informed-result-details-table')
+                    .find('tr:eq(' + (row_index + index) + ')')
+                    .after('<tr><td class="bwi-detail-td ' + result + '" colspan="5">' + detail_obj.data_array[i] + '</td></tr>');
+                  row_index++;
+                }
+              }
+            }
+          });
+
+        }
+        else {
+          showElementOutOfMany($results_wrapper, $all_wrappers);
+        }
+      }
+    });
+
+  });
+
+  /**
+   * Close Listener on BWI Modal
+   * -  Destroy Datatables
+   * -  Cancel Pending Form submission
+   */
+  $('#be-well-informed-modal').on('dialogclose', function() {
+    var $form_wrapper = $('#be-well-informed-form-wrapper');
+    var $all_wrappers = $('.be-well-informed-modal-wrapper');
+    if (formAjaxRequest) {
+      formAjaxRequest.abort();
+    }
+    $('#be-well-informed-results-table').DataTable().destroy();
+    $('#be-well-informed-result-details-table').DataTable().destroy();
+    showElementOutOfMany($form_wrapper, $all_wrappers);
+  });
+
+  $('#be-well-informed-modal').on('click', '.ui-accordion-header', function() {
+    var $arrow = $(this).find('i');
+    // Reset all other arrows to right (default)
+    $('.ui-accordion-header').not($(this)).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
+    if ($arrow.hasClass("fa-caret-right")) {
+      $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
+    } else {
+      $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
+    }
+  });
 
 })(jQuery);
