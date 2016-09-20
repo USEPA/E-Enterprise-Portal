@@ -1172,7 +1172,7 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
         $form_state['values']['field_profile_favourites'][$nl][$delta]['field_title'][$nl][0]['value'] = $url;
       }
       else {
-        $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] = $title;
+        $form_state['values']['field_profile_favourites'][$nl][$delta]['field_title'][$nl][0]['value'] = $title;
       }
 
       // this regex will look for an html tags or the keyword 'javascript'
@@ -1202,6 +1202,10 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
         if ($title !== $check_text) {
           form_set_error($key . "field_title", t($errorMsgText));
         }
+      }
+      else if(!$hasUrl && !$hasText) {
+        unset($form_state['values']['field_profile_favourites'][$nl][$delta]);
+        unset($form_state['input']['field_profile_favourites'][$nl][$delta]);
       }
     }
   }
