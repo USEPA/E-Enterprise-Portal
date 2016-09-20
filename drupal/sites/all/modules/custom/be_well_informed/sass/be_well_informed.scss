@@ -49,7 +49,25 @@ $color_ecstasy_approx: #ff851b;
     box-sizing: border-box;
 }
 
-.be-well-informed-modal {
+@mixin bwi-label($url) {
+    background-image: url($url);
+    background-size: 3rem;
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    content: "";
+    vertical-align: middle;
+    margin-right: 1%;
+}
+
+.ui-dialog.be-well-informed-modal {
+
+
+    margin: 1% 0;
+    width: 90% !important;
+    top: 0 !important;
+
+
     &.ui-dialog {
         overflow: visible;
 
@@ -66,129 +84,149 @@ $color_ecstasy_approx: #ff851b;
 }
 
 #be-well-informed-modal {
-    & > div:first-child {
-        overflow: visible;
-    }
-    h2 {
-        margin-top: -3rem;
-    }
-    .section {
-        border-bottom: 1px solid #cccccc;
 
-        &:last-child {
-            border-bottom: none;
+    #be-well-informed-form-wrapper {
+
+        & > div:first-child {
+            overflow: visible;
         }
-
-        label, .absent-present > span, .absent-present div {
-            margin: 0.2rem 0;
-            padding: 1rem 0rem;
+        h2 {
+            margin-top: -3rem;
         }
+        .section {
+            border-bottom: 1px solid #cccccc;
 
-        input {
-            text-align: right;
-            color: #333333;
+            &:last-child {
+                border-bottom: none;
+            }
+
+            label, .absent-present > span, .absent-present div {
+                margin: 0.2rem 0;
+                padding: 1rem 0rem;
+            }
+
+            input {
+                text-align: right;
+                color: #333333;
+            }
+
+            select {
+            }
+
+            .absent-present {
+                float: right;
+
+                & > span {
+                    color: #666666;
+                    line-height: 2rem;
+                    font-size: 1.1rem;
+                }
+            }
+            [type=radio] + label {
+                margin: 0rem 0;
+                padding: 0rem 1rem;
+                display: block;
+                float: left;
+            }
+
         }
-
-        select {
-        }
-
-        .absent-present {
-            float: right;
-
-            & > span {
-                color: #666666;
-                line-height: 2rem;
-                font-size: 1.1rem;
+        .microbiology {
+            .parsley-errors-list {
+                width: 100%;
+                li {
+                    text-align: left;
+                }
             }
         }
-        [type=radio] + label {
-            margin: 0rem 0;
-            padding: 0rem 1rem;
-            display: block;
+        .city-selection {
+            border: none;
+        }
+        .symbol {
+            color: #666666;
+            .sub {
+                font-size: 1rem;
+            }
+        }
+        .row {
+            //float: left;
+            @include clearfix();
+        }
+        .column {
             float: left;
-        }
-
-    }
-    .microbiology {
-        .parsley-errors-list {
-            width: 100%;
-            li {
-                text-align: left;
+            position: relative;
+            min-height: 0.1rem;
+            padding-right: 0.9375rem;
+            padding-left: 0.9375rem;
+            &.right {
+                float: right;
             }
         }
-    }
-    .city-selection {
-        border: none;
-    }
-    .symbol {
-        color: #666666;
-        .sub {
-            font-size: 1rem;
+        .reset-submit {
+            margin-top: 2rem;
+            button {
+                float: left;
+                width: 47.4%;
+            }
+            & > div {
+                width: 21em;
+            }
+        }
+        .one-third {
+            width: 31.3%;
+            margin-left: 3%;
+            &:first-child {
+                margin-left: 0;
+            }
+            & + .parsley-errors-list {
+                margin-left: -31.3%;
+                width: 30%;
+                float: left;
+                position: relative;
+            }
+        }
+        .one-half {
+            width: 49%;
+            margin-left: 2%;
+            &:first-child {
+                margin-left: 0;
+            }
+            & + .parsley-errors-list {
+                margin-right: -48.5%;
+                width: 47%;
+                position: relative;
+            }
+
+            &.right + .parsley-errors-list {
+                float: right;
+                clear: right;
+                margin-top: -4.2rem;
+                margin-right: 1.0rem;
+                width: auto;
+            }
+        }
+        .red {
+            color: $color_chestnut_approx;
+        }
+        .hidden {
+            display: none !important;
+            visibility: hidden !important;
         }
     }
-    .row {
-        //float: left;
-        @include clearfix();
-    }
-    .column {
-        float: left;
-        position: relative;
-        min-height: 0.1rem;
-        padding-right: 0.9375rem;
-        padding-left: 0.9375rem;
-        &.right {
-            float: right;
-        }
-    }
-    .reset-submit {
-        margin-top: 2rem;
+
+#interactive-prompts {
+    .btn-group {
+        float: right;
+        width: 21.1em;
         button {
             float: left;
-            width: 47.4%;
+            width: 48.7%;
+            &:last-child {
+                margin-right: 0;
+            }
         }
-        & > div {
-            width: 21em;
+        &> input, &> select {
+            display: inline-block;
         }
-    }
-    .one-third {
-        width: 31.3%;
-        margin-left: 3%;
-        &:first-child {
-            margin-left: 0;
-        }
-        & + .parsley-errors-list {
-            margin-left: -31.3%;
-            width: 30%;
-            float: left;
-            position: relative;
-        }
-    }
-    .one-half {
-        width: 49%;
-        margin-left: 2%;
-        &:first-child {
-            margin-left: 0;
-        }
-        & + .parsley-errors-list {
-            margin-right: -48.5%;
-            width: 47%;
-            position: relative;
-        }
-
-        &.right + .parsley-errors-list {
-            float: right;
-            clear: right;
-            margin-top: -4.2rem;
-            margin-right: 1.0rem;
-            width: auto;
-        }
-    }
-    .red {
-        color: $color_chestnut_approx;
-    }
-    .hidden {
-        display: none !important;
-        visibility: hidden !important;
     }
 }
 
@@ -235,54 +273,206 @@ textarea {
     transition: all .3s ease-in;
     pointer-events: none;
 
-    &.filled {
-        opacity: 1;
+        &.filled {
+            opacity: 1;
+        }
+        li {
+            list-style: none;
+            width: 100%;
+            text-align: right;
+            color: $color_chestnut_approx;
+            &:before {
+                content: '';
+            }
+        }
     }
-    li {
-        list-style: none;
-        width: 100%;
-        text-align: right;
-        color: $color_chestnut_approx;
-        &:before {
-            content: '';
+    .bs-callout {
+        margin: 20px 0;
+        padding: 20px;
+        border-left: 3px solid $color_gallery_approx;
+        h4 {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        code {
+            background-color: $white;
+            //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+            border-radius: 3px;
+        }
+        p:last-child {
+            margin-bottom: 0;
+        }
+    }
+    .bs-callout-danger {
+        background-color: $color_vista_white_approx;
+        border-color: $color_chestnut_rose_approx;
+        h4 {
+            color: $color_chestnut_approx;
+        }
+    }
+    .bs-callout-warning {
+        background-color: $color_vanilla_ice_approx;
+        border-color: $color_chestnut_approx;
+        h4 {
+            color: $color_chestnut_approx;
+        }
+    }
+    .bs-callout-info {
+        background-color: $color_black_squeeze_approx;
+        border-color: $color_viking_approx;
+        h4 {
+            color: $color_viking_approx;
+        }
+    }
+
+    #be-well-informed-results-wrapper, #be-well-informed-error-wrapper, #be-well-informed-loading-wrapper {
+        display: none;
+    }
+
+    #be-well-informed-loading-wrapper {
+        i {
+            font-size: 5rem;
+        }
+    }
+
+    #be-well-informed-results-wrapper {
+        > h1 {
+            margin-top: -3rem;
+            margin-bottom: 3rem;
+        }
+
+        table {
+            thead th {
+                background: transparent;
+            }
+            border-bottom: none;
+        }
+        .ui-accordion-content {
+            padding: 0;
+        }
+
+        .one-fifth {
+            float: left;
+            display: block;
+            width: 20%;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+
+        #be-well-informed-accordion {
+            margin-top: 5%;
+            table, div {
+                padding: 0 1%;
+            }
+
+            .ui-accordion-header {
+                background: #0000BB none;
+                color: white;
+            }
+            .ui-accordion-header-icon {
+                display: none;
+            }
+            h1 {
+                font-size: 1.5rem;
+                padding-left: 2%;
+                i {
+                    margin-right: 10%;
+                }
+            }
+            .bwi-legend {
+                width: 100%;
+                display: block;
+                div {
+                    margin: 2% 0 2% 0;
+                    white-space: nowrap;
+                }
+
+                .bwi-key {
+                    padding-left: 5%;
+                }
+                .bwi-meets-limit:before {
+                    @include bwi-label('../images/check.png');
+                }
+                .bwi-above-limit:before {
+                    @include bwi-label('../images/false.png');
+                }
+                .bwi-close-to-limit:before {
+                    @include bwi-label('../images/exclamation.png');
+                }
+                .bwi-no-entry:before {
+                    @include bwi-label('../images/circle.png');
+
+                }
+            }
+
+            #be-well-informed-result-details-table {
+                tbody {
+                    tr {
+                        .bwi-detail-td {
+                         span {
+                             font-weight: bold;
+                             display: block;
+                             margin-bottom: 1%;
+                         }
+                        }
+                        .bwi-detail-td.above {
+                            border-left: .3rem solid red;
+                        }
+                        .bwi-detail-td.below {
+                            border-left: .3rem solid green;
+                        }
+                        .bwi-detail-td.close {
+                            border-left: .3rem solid yellow;
+                        }
+                    }
+                }
+            }
+            table {
+                td {
+                    img {
+                        width: 3rem;
+                    }
+                }
+            }
+
+        }
+    }
+    #be-well-informed-results-wrapper, #be-well-informed-error-wrapper {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 60em) and (max-width: 100em) {
+    #be-well-informed-modal {
+        #be-well-informed-results-wrapper {
+            .one-fifth {
+                width: 50%;
+            }
         }
     }
 }
-.bs-callout {
-    margin: 20px 0;
-    padding: 20px;
-    border-left: 3px solid $color_gallery_approx;
-    h4 {
-        margin-top: 0;
-        margin-bottom: 5px;
-    }
-    code {
-        background-color: $white;
-        //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-        border-radius: 3px;
-    }
-    p:last-child {
-        margin-bottom: 0;
-    }
-}
-.bs-callout-danger {
-    background-color: $color_vista_white_approx;
-    border-color: $color_chestnut_rose_approx;
-    h4 {
-        color: $color_chestnut_approx;
+
+@media screen and (max-width: 60em) {
+
+    #be-well-informed-modal {
+        #be-well-informed-results-wrapper {
+            .one-fifth {
+                width: 100%;
+            }
+            #be-well-informed-accordion {
+                .bwi-legend {
+                    div {
+                        white-space: nowrap;
+                    }
+
+                }
+            }
+        }
     }
 }
-.bs-callout-warning {
-    background-color: $color_vanilla_ice_approx;
-    border-color: $color_chestnut_approx;
-    h4 {
-        color: $color_chestnut_approx;
-    }
-}
-.bs-callout-info {
-    background-color: $color_black_squeeze_approx;
-    border-color: $color_viking_approx;
-    h4 {
-        color: $color_viking_approx;
-    }
+
+
+#admin-menu {
+    display: none;
 }
