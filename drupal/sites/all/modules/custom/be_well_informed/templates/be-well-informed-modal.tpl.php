@@ -15,8 +15,7 @@
         <div class="city-selection usa-width-one-half">
           <div class="section">
             <label class="column one-half"
-                   for="<?php echo $prefix . 'drp' ?>city">New Hampshire /
-              City</label>
+                   for="<?php echo $prefix . 'drp' ?>city">New Hampshire Town/City</label>
             <select class="column one-half right"
                     name="<?php echo $prefix . 'drp' ?>city" id="drpcity"
                     required="">
@@ -139,10 +138,10 @@
     </div>
     <div class="row usa-width-one-whole reset-submit">
       <div class="column right">
+        <button id="water_analysis_submit" class="usa-button-primary">Submit
+        </button>
         <button id="water_analysis_reset" class="usa-button usa-button-outline">
           Reset
-        </button>
-        <button id="water_analysis_submit" class="usa-button-primary">Submit
         </button>
       </div>
     </div>
