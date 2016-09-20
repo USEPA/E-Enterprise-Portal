@@ -143,6 +143,14 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'unit_types' => ['mg/L', 'ppm', 'gpg']
     ],
     [
+      'name' => 'Iron',
+      'machine_name' => 'iron',
+      'symbol' => 'Cl',
+      'default_unit_type' => 'mg/L',
+      'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
       'name' => 'Lead',
       'machine_name' => 'lead',
       'symbol' => 'Pb',
@@ -153,14 +161,6 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     [
       'name' => 'Lead, Stagnant',
       'machine_name' => 'leadst',
-      'symbol' => 'Cl',
-      'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
-      'unit_types' => ['mg/L', 'ppm']
-    ],
-    [
-      'name' => 'Iron',
-      'machine_name' => 'iron',
       'symbol' => 'Cl',
       'default_unit_type' => 'mg/L',
       'validation' => ['required'],
