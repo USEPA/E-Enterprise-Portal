@@ -6,8 +6,6 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
 
 (function($) {
 
-  var formAjaxRequest;
-
   var default_datatable_result_details_options = {
     dom: 't',
     bLengthChange: false,
@@ -160,10 +158,8 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
     var $results_wrapper = $('#be-well-informed-results-wrapper');
     var $all_wrappers = $('.be-well-informed-modal-wrapper');
     var formData = $form.serializeObject();
-
-    // Show Loading view
     showElementOutOfMany($loading_wrapper, $all_wrappers);
-    formAjaxRequest = $.ajax({
+    $.ajax({
       url: 'be_well_informed/form_submission',
       method: 'POST',
       data: Object.keys(formData).reduce(checkValues, formData),
@@ -213,9 +209,7 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
   $('#be-well-informed-modal').on('dialogclose', function() {
     var $form_wrapper = $('#be-well-informed-form-wrapper');
     var $all_wrappers = $('.be-well-informed-modal-wrapper');
-    if (formAjaxRequest) {
-      formAjaxRequest.abort();
-    }
+
     $('#be-well-informed-results-table').DataTable().destroy();
     $('#be-well-informed-result-details-table').DataTable().destroy();
     showElementOutOfMany($form_wrapper, $all_wrappers);
