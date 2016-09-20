@@ -170,6 +170,7 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
       success: function(be_well_response_json) {
         if (!be_well_response_json.error) {
 
+          // Use two separate instances of Datatable configs for both datatables
           default_datatable_result_details_options.data = be_well_response_json.data.result_summary;
           default_datatable_result_summary_options.data = be_well_response_json.data.result_summary;
 
