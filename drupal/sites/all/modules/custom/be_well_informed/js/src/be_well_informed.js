@@ -106,14 +106,7 @@ function resetBWIForm() {
     .html(Drupal.settings.be_well_informed.modal)
     .dialog({
       modal: true,
-      //width: "90%",
       width: "auto",
-      position: {
-        my: "center top",
-        at: "center top",
-        of: window,
-        collision: "none"
-      },
       dialogClass: 'be-well-informed-modal',
       autoOpen: false,
       create: function(event, ui) {
