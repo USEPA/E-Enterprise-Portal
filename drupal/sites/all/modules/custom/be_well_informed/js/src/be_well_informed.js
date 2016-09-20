@@ -64,10 +64,7 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
   };
 
   function checkValues(previous, current, cIndex, keys) {
-    var previousKeys = Object.keys(previous[keys[cIndex]])
-    console.log(previous, current, cIndex, keys)
-    console.log(keys[cIndex], previous[keys[cIndex]], typeof previous[keys[cIndex]])
-    console.log(previousKeys)
+    var previousKeys = Object.keys(previous[keys[cIndex]]);
 
     if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {
       delete previous[keys[cIndex]];
@@ -162,7 +159,7 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
     var $loading_wrapper = $('#be-well-informed-loading-wrapper');
     var $results_wrapper = $('#be-well-informed-results-wrapper');
     var $all_wrappers = $('.be-well-informed-modal-wrapper');
-    var formData = $form.serialize();
+    var formData = $form.serializeObject();
 
     // Show Loading view
     showElementOutOfMany($loading_wrapper, $all_wrappers);
