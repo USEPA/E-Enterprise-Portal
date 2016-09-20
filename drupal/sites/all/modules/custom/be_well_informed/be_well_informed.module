@@ -112,31 +112,21 @@ function be_well_informed_form_submission() {
   if (feature_toggle_get_status('be_well_informed_sample_data')) {
     $be_well_informed_response = sample_be_well_informed_response();
     $datatable_formatted_response = be_well_informed_datatable_response($be_well_informed_response);
+    $datatable_formatted_response['error'] = FALSE;
   } else {
-    $post_data =
-      array(
-        "CityName" => "DC",
-        "RoutineContaminants" => [
-          "As" => [
-            "Symbol" => "As",
-            "Name" => "Arsenic",
-            "Value" => "1234",
-            "Unit" => "mg/L"
-          ]
-        ],
-        "BacterialContaminants" => null,
-        "RadionuclideContaminants" => null
-      );
     $endpoint = "http://nodewebdev.epacdxnode.net/DWIService/dwievaluation";
     $headers = array('Content-Type' => 'application/json');
-    $response = drupal_http_request($endpoint, ["headers" => $headers, "method" => "POST", 'timeout' => "10", 'data' =>  json_encode($post_data)]);
-    // TODO: hook into be well informed app
+    $response = drupal_http_request($endpoint, ["headers" => $headers, "method" => "POST", 'timeout' => "10", 'data' =>  json_encode($_POST)]);
     if ($response->code !== "200") {
       $datatable_formatted_response['error'] = TRUE;
+    } else {
+      $formatted_data = be_well_informed_datatable_response(json_decode($response->data));
+      $datatable_formatted_response['data'] = $formatted_data;
+      $datatable_formatted_response['error'] = FALSE;
     }
   }
 
-  drupal_json_output(array('error' => false, 'data' => $datatable_formatted_response));
+  drupal_json_output($datatable_formatted_response);
 }
 
 /**
@@ -149,26 +139,24 @@ function be_well_informed_datatable_response($be_well_response) {
   $datatable_result_summary_json = [];
   $datatable_result_details_json = [];
 
-  foreach ($be_well_response as $water_data) {
+  foreach ($be_well_response->ResultEvaluations as $water_data) {
+
     $datatable_row = [];
-    $datatable_row[] = processWaterLevel($water_data['level']);
-    $datatable_row[] = $water_data['name'];
-    $datatable_row[] = $water_data['input'];
-    $datatable_row[] = $water_data['containment_level'];
-    $datatable_row[] = $water_data['message'];
+    $datatable_row[] = processGuidelineColor($water_data->GuidelineColor);
+    $datatable_row[] = $water_data->Symbol;
+    $datatable_row[] = $water_data->UserContaminatValue;
+    $datatable_row[] = $water_data->MaximumContaminantLevel;
+    $datatable_row[] = $water_data->GuidelineText;
     $datatable_result_summary_json[] = $datatable_row;
 
 // Capture details for each summary row, even if empty
     $datatable_result_details_json[] = [
       'data_array' => [
-        $water_data['interpretation'],
-        $water_data['health_concerns'],
-        $water_data['treatment']
+        html_entity_decode($water_data->InterpretationMessages),
+        html_entity_decode($water_data->HealthMessages),
+        html_entity_decode($water_data->TreatmentMessages)
       ],
-      'result' => $water_data['level'],
     ];
-
-
   }
 
   $water_response_datatable_returns['result_summary'] = $datatable_result_summary_json;
@@ -234,19 +222,20 @@ More information about treatment for fluoride can be found in NHDES’ Fact Shee
 
 /**
  * Returns the correct image for a water level
- * @param $water_level
+ * @param $guideline_color
  * @return string
  */
-function processWaterLevel($water_level) {
+function processGuidelineColor($guideline_color) {
   $image_path = drupal_get_path('module', 'be_well_informed') . '/images';
-  switch ($water_level) {
-    case "below":
+
+  switch ($guideline_color) {
+    case "font-green":
       $return_html = "<img src='" . $image_path . "/check.png' />";
       break;
-    case "close":
+    case "font-blue":
       $return_html = "<img src='" . $image_path . "/exclamation.png' />";
       break;
-    case "above":
+    case "font-red":
       $return_html = "<img src='" . $image_path . "/false.png' />";
       break;
     default:

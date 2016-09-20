@@ -156,7 +156,7 @@ function resetBWIForm() {
     var $loading_wrapper = $('#be-well-informed-loading-wrapper');
     var $results_wrapper = $('#be-well-informed-results-wrapper');
     var $all_wrappers = $('.be-well-informed-modal-wrapper');
-    var formData = $form.serialize();
+    var formData = $form.serializeObject();
 
     // Show Loading view
     showElementOutOfMany($loading_wrapper, $all_wrappers);
