@@ -16,6 +16,8 @@ var isLoggedOut = false;
     attach: function (context) {
       //@see https://www.lullabot.com/articles/understanding-javascript-behaviors-in-drupal (Using jQuery Once)
       $('body').once('session-timeout-prompt', function () {
+        var $sessionTimeoutModal = $('#session-timeout-modal');
+
         $('body').append('<div id="session-timeout-modal"></div>');
         promptAt = Drupal.settings.promptAt;
         logoutAt = Drupal.settings.logoutAt;
@@ -26,7 +28,6 @@ var isLoggedOut = false;
             var now = Math.floor(Date.now() / 1000);
             // @see http://stackoverflow.com/questions/7540397/convert-nan-to-0-in-javascript
             var userId = Drupal.settings.currentUser || 0;
-            var $sessionTimeoutModal = $('#session-timeout-modal');
             if (!isLoggedOut && userId != 0) { // only applies to logged-in users
               if (now > logoutAt) {
                 instantLogout();
@@ -60,16 +61,17 @@ var isLoggedOut = false;
         };
 
         // click handlers for logging out and renewing the session
-        $('#session-timeout-modal').on('click', '.logout', instantLogout);
-        $('#session-timeout-modal').on('click', '.renew', function() {
+        $sessionTimeoutModal.on('click', '.logout', instantLogout);
+        $sessionTimeoutModal.on('click', '.renew', function() {
           // reset the clock
           var now = Math.floor(Date.now() / 1000);
           promptAt = now + (60 * 15);
           logoutAt = now + (60 * 20);
           isPrompted = false;
 
-          // renew the token
+          // renew the token and close the modal
           $.get(Drupal.settings.basePath + 'renew-session');
+          $sessionTimeoutModal.dialog('close');
 
           // ignore the default click action
           return false;
