@@ -85,7 +85,7 @@
                   )</span></label>
               <input class="column one-third"
                      name="RoutineContaminants[<?php echo $wc['machine_name'] ?>][Value]"
-                     type="number"
+                     type="number" step="0.001"
                      id="txt<?php echo $wc['machine_name'] ?>" <?php if (in_array('required', $wc['validation'])): {
                 echo 'required=""';
               } endif; ?>>
@@ -118,7 +118,7 @@
                          for="BacterialContaminants[<?php echo $m['machine_name'] ?>][Value]"><?php echo $m['name'] ?></label>
                   <input class="column one-third"
                          name="BacterialContaminants[<?php echo $m['machine_name'] ?>][Value]"
-                         type="number"
+                         type="number" step="0.001"
                          id="txt<?php echo $m['machine_name'] ?>" <?php if (in_array('required', $m['validation'])): {
                     echo 'data-parsley-group="block-1"';
                   } endif; ?>>
@@ -170,7 +170,7 @@
                     <span class="symbol">(<?php echo $rn['symbol_text'] ?>)</span><?php endif; ?></label>
                 <input class="column one-third"
                        name="RadionuclideContaminants[<?php echo $rn['machine_name'] ?>][Value]"
-                       type="number"
+                       type="number" step="0.001"
                        id="txt<?php echo $rn['machine_name'] ?>" <?php if (in_array('required', $rn['validation'])): {
                   echo 'required=""';
                 } endif; ?>>

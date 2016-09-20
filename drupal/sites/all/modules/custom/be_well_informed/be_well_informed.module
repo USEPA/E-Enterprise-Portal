@@ -281,14 +281,6 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'unit_types' => ['mg/L', 'μg/L', 'ppm', 'ppb']
     ],
     [
-      'name' => 'Lead',
-      'machine_name' => 'Pb',
-      'symbol' => 'Pb',
-      'default_unit_type' => 'mg/L',
-      'validation' => [],
-      'unit_types' => ['mg/L', 'ppm']
-    ],
-    [
       'name' => 'Chloride',
       'machine_name' => 'Cl',
       'symbol' => 'Cl',
@@ -297,27 +289,11 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'unit_types' => ['mg/L', 'μg/L', 'ppm', 'ppb']
     ],
     [
-      'name' => 'Lead, Stagnant',
-      'machine_name' => 'PbSt',
-      'symbol' => 'Pb',
-      'default_unit_type' => 'mg/L',
-      'validation' => [],
-      'unit_types' => ['mg/L', 'ppm']
-    ],
-    [
       'name' => 'Copper',
       'machine_name' => 'Cu',
       'symbol' => 'Cu',
       'default_unit_type' => 'mg/L',
       'validation' => [],
-      'unit_types' => ['mg/L', 'ppm']
-    ],
-    [
-      'name' => 'Manganese',
-      'machine_name' => 'Mn',
-      'symbol' => 'Mn',
-      'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
@@ -329,27 +305,9 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
-      'name' => 'Nitrate-N',
-      'machine_name' => 'NO3',
-      'symbol' => 'NO3',
-      'symbol_text' => 'NO<span class="sub">3</span>',
-      'default_unit_type' => 'mg/L',
-      'validation' => [],
-      'unit_types' => ['mg/L', 'ppm']
-    ],
-    [
       'name' => 'Fluoride',
       'machine_name' => 'Fl',
       'symbol' => 'F',
-      'default_unit_type' => 'mg/L',
-      'validation' => [],
-      'unit_types' => ['mg/L', 'ppm']
-    ],
-    [
-      'name' => 'Nitrite-N',
-      'machine_name' => 'NO2',
-      'symbol' => 'NO2',
-      'symbol_text' => 'NO<span class="sub">2</span>',
       'default_unit_type' => 'mg/L',
       'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
@@ -364,6 +322,14 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'unit_types' => ['mg/L', 'ppm', 'gpg']
     ],
     [
+      'name' => 'Iron',
+      'machine_name' => 'Fe',
+      'symbol' => 'Fe',
+      'default_unit_type' => 'mg/L',
+      'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
       'name' => 'pH',
       'machine_name' => 'ph',
       'symbol' => 'ph',
@@ -372,11 +338,45 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'unit_types' => ['units']
     ],
     [
-      'name' => 'Iron',
-      'machine_name' => 'Fe',
-      'symbol' => 'Fe',
+      'name' => 'Lead',
+      'machine_name' => 'Pb',
+      'symbol' => 'Pb',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Lead, Stagnant',
+      'machine_name' => 'PbSt',
+      'symbol' => 'Pb',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Manganese',
+      'machine_name' => 'Mn',
+      'symbol' => 'Mn',
       'default_unit_type' => 'mg/L',
       'validation' => ['required'],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Nitrate-N',
+      'machine_name' => 'NO3',
+      'symbol' => 'NO3',
+      'symbol_text' => 'NO<span class="sub">3</span>',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Nitrite-N',
+      'machine_name' => 'NO2',
+      'symbol' => 'NO2',
+      'symbol_text' => 'NO<span class="sub">2</span>',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
