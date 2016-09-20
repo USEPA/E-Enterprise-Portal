@@ -43,6 +43,43 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
   };
 
 
+  $.fn.serializeObject = function()
+  {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+      objRoot = this.name.replace(/]/g, '')
+        .split(/\[/g)
+        .reduce(function(previous, current, cIndex, original) {
+          var newObject = {}
+          var property = original[original.length - 1 - cIndex]
+          newObject[property] = previous
+          return newObject;
+        }, this.value);
+
+      $.extend(true, o, objRoot);
+    });
+    return o;
+  };
+
+  function checkValues(previous, current, cIndex, keys) {
+    var previousKeys = Object.keys(previous[keys[cIndex]])
+    console.log(previous, current, cIndex, keys)
+    console.log(keys[cIndex], previous[keys[cIndex]], typeof previous[keys[cIndex]])
+    console.log(previousKeys)
+
+    if((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")){
+      delete previous[keys[cIndex]];
+    }
+    else if (['object'].indexOf(typeof previous[keys[cIndex]]) > -1){
+      previous[keys[cIndex]] = previousKeys.reduce(checkValues, previous[keys[cIndex]])
+      if(Object.keys(previous[keys[cIndex]]).length == 0) {
+        delete previous[keys[cIndex]];
+      }
+    }
+    return previous
+  }
+
   Parsley.addValidator('checkChildren', {
     messages: {en: 'You must correctly give value or choose a whether the microbe was present!'},
     requirementType: 'integer',
@@ -80,13 +117,17 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
             $('.bs-callout-warning').toggleClass('hidden', ok);
           })
           .on('form:submit', function() {
-            //return false; // Don't submit form for this demo
+            // AJAX call
+            // use this for the data value
+            Object.keys(formData).reduce(checkValues, formData);
+
+            return false; // Don't submit form for this demo
           });
 
         $('#water_analysis_submit').click(function() {
-          //$form.trigger('submit');
-          //return false;
-        });
+          $form.trigger('submit');
+          return false;
+        })
 
         $('#water_analysis_reset').click(function() {
           var $form = $('#water_analysis_results_form');
@@ -110,73 +151,5 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
     $('#be-well-informed-modal').dialog("open")
   });
 
-  //$(window).resize(function() {
-  //  var wWidth = $(window).width();
-  //  var dWidth = wWidth * 0.9;
-  //  var wHeight = $(window).height();
-  //  var dHeight = wHeight * 0.9;
-  //  $("#be-well-informed-modal").dialog("option", "width", dWidth);
-  //  $("#be-well-informed-modal").dialog("option", "height", dHeight);
-  //});
-
-
-    $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
-    var $loading_wrapper = $('#be-well-informed-loading-wrapper');
-    var $results_wrapper = $('#be-well-informed-results-wrapper');
-    var $all_wrappers = $('.be-well-informed-modal-wrapper');
-
-    $.ajax({
-      url: 'be_well_informed/form_submission',
-      method: 'POST',
-      data: $('#be-well-informed-form').serialize(),
-      beforeSend: function() {
-        showElementOutOfMany($loading_wrapper, $all_wrappers);
-      },
-      success: function(be_well_response_json) {
-        if (!be_well_response_json.error) {
-
-          default_datatable_result_details_options.data = be_well_response_json.data.result_summary;
-          default_datatable_result_summary_options.data = be_well_response_json.data.result_summary;
-
-          $('#be-well-informed-results-table').DataTable(default_datatable_result_summary_options);
-
-          $('#be-well-informed-result-details-table').DataTable(default_datatable_result_details_options);
-          showElementOutOfMany($results_wrapper, $all_wrappers);
-
-          // Loop through and add trs to the summary table. Datatable does not support colspan
-          var result;
-          var row_index = 1;
-          $.each(be_well_response_json.data.result_details, function(index, detail_obj) {
-            result = detail_obj.result;
-            if (detail_obj.data_array.length > 0) {
-              for (var i = 0; i < detail_obj.data_array.length; i++) {
-                if (detail_obj.data_array[i] !== '') {
-                  $('#be-well-informed-result-details-table')
-                    .find('tr:eq(' + (row_index + index) + ')')
-                    .after('<tr><td class="bwi-detail-td ' + result + '" colspan="5">' + detail_obj.data_array[i] + '</td></tr>');
-                  row_index++;
-                }
-              }
-            }
-          });
-
-        }
-        else {
-          showElementOutOfMany($results_wrapper, $all_wrappers);
-        }
-      }
-    })
-  });
-
-  $('#be-well-informed-modal').on('click', '.ui-accordion-header', function() {
-    var $arrow = $(this).find('i');
-    // Reset all other arrows to right (default)
-    $('.ui-accordion-header').not($(this)).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
-    if ($arrow.hasClass("fa-caret-right")) {
-      $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
-    } else {
-      $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
-    }
-  });
 
 })(jQuery);
