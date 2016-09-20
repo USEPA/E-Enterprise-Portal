@@ -330,14 +330,6 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
-      'name' => 'pH',
-      'machine_name' => 'ph',
-      'symbol' => 'ph',
-      'default_unit_type' => 'unit',
-      'validation' => [],
-      'unit_types' => ['units']
-    ],
-    [
       'name' => 'Lead',
       'machine_name' => 'Pb',
       'symbol' => 'Pb',
@@ -378,6 +370,14 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'default_unit_type' => 'mg/L',
       'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'pH',
+      'machine_name' => 'ph',
+      'symbol' => 'ph',
+      'default_unit_type' => 'unit',
+      'validation' => [],
+      'unit_types' => ['units']
     ],
     [
       'name' => 'Sodium',
