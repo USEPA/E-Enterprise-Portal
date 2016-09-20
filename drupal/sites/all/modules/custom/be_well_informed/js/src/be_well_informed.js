@@ -134,16 +134,11 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
             $('.bs-callout-warning').toggleClass('hidden', ok);
           })
           .on('form:submit', function() {
-            // AJAX call
-            // use this for the data value
-            // Object.keys(formData).reduce(checkValues, formData);
-
             return false; // Don't submit form for this demo
           });
 
         $('#water_analysis_reset').click(function() {
           resetBWIForm();
-          return false;
         });
 
         $('#be-well-informed-accordion').accordion({
@@ -158,17 +153,23 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
   });
 
   $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
+    var $form = $('#water_analysis_results_form');
+    // If the form does not validate do not submit data.
+    if (!$form.parsley().validate()) {
+      return false;
+    }
+
     var $loading_wrapper = $('#be-well-informed-loading-wrapper');
     var $results_wrapper = $('#be-well-informed-results-wrapper');
     var $all_wrappers = $('.be-well-informed-modal-wrapper');
-    var formData = $('#water_analysis_results_form').serialize();
+    var formData = $form.serialize();
+
+    // Show Loading view
+    showElementOutOfMany($loading_wrapper, $all_wrappers);
     formAjaxRequest = $.ajax({
       url: 'be_well_informed/form_submission',
       method: 'POST',
       data: Object.keys(formData).reduce(checkValues, formData),
-      beforeSend: function() {
-        showElementOutOfMany($loading_wrapper, $all_wrappers);
-      },
       success: function(be_well_response_json) {
         if (!be_well_response_json.error) {
 
