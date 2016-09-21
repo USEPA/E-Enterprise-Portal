@@ -11,7 +11,7 @@ function recommended_resources_feature_node_export_features_default() {
   $node_export = array(
   'code_string' => 'array(
   (object) array(
-      \'vid\' => \'23520\',
+      \'vid\' => \'27053\',
       \'uid\' => \'1\',
       \'title\' => \'Placeholder Resource\',
       \'log\' => \'\',
@@ -20,15 +20,15 @@ function recommended_resources_feature_node_export_features_default() {
       \'promote\' => \'0\',
       \'sticky\' => \'0\',
       \'vuuid\' => \'cff566c2-d5f3-49ef-b79f-d31404dc3c74\',
-      \'nid\' => \'23466\',
+      \'nid\' => \'26990\',
       \'type\' => \'lgc_resource\',
       \'language\' => \'und\',
-      \'created\' => \'1466185992\',
-      \'changed\' => \'1466185992\',
+      \'created\' => \'1473345142\',
+      \'changed\' => \'1473345142\',
       \'tnid\' => \'0\',
       \'translate\' => \'0\',
       \'uuid\' => \'38a6c6f5-3bae-461d-971c-5c0c4996b949\',
-      \'revision_timestamp\' => \'1466185992\',
+      \'revision_timestamp\' => \'1473345142\',
       \'revision_uid\' => \'1\',
       \'field_lgc_availability\' => array(),
       \'field_lgc_category\' => array(
