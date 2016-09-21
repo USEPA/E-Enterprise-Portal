@@ -52,6 +52,21 @@ function recommended_resources_menu() {
 }
 
 /**
+ * Implements hook_block_view().
+ */
+function recommended_resources_block_view($delta = '') {
+  drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
+    'scope' => 'header',
+    'preprocess' => TRUE,
+    'group' => JS_LIBRARY,
+    'weight' => -1,
+    'type' => 'file',
+    'cache' => TRUE,
+    'requires_jquery' => TRUE
+  ]);
+}
+
+/**
  * Implements hook_js_alter().
  */
 function recommended_resources_js_alter(&$javascript) {
