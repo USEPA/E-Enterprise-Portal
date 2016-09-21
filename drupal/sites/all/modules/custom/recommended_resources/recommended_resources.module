@@ -361,7 +361,13 @@ function load_data_from_rcs() {
       $response = new stdClass();
       $response->data = file_get_contents(drupal_get_path('module', 'recommended_resources') . '/sample-response.xml');
     } else {
-      $default_url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+      if (feature_toggle_get_status('rcs_dev_mode')) {
+        //TEST RCS
+        $default_url = "https://ends2.epacdxnode.net/RestProxy/query?Node=.NetNodeTest2.0&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+      } else {
+        //PROD RCS
+        $default_url = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+      }
       $url = variable_get('rcs_endpoint_url', $default_url);
       $response = drupal_http_request($url, array(
         'headers' => array('Content-Type' => 'text/xml'),

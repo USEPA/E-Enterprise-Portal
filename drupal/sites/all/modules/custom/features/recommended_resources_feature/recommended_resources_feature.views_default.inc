@@ -155,7 +155,7 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['query']['options']['json_file'] = 'http://localhost/rcs_lgc_resources_json_all';
+  $handler->display->display_options['query']['options']['json_file'] = 'http://eenterprise/rcs_lgc_resources_json_all';
   $handler->display->display_options['query']['options']['row_apath'] = 'resources';
   $handler->display->display_options['query']['options']['show_errors'] = 1;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -197,13 +197,14 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['fields']['nothing']['ui_name'] = '(i) icon';
   $handler->display->display_options['fields']['nothing']['label'] = 'Info';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div>[value_1]</div>
-<a href="#" class="favorites-ignore"><span class="sr-only">Details for [value]</sr></a>';
-  /* Field: PrimaryOrganizationText: value */
+<a href="#" class="favorites-ignore"><span class="sr-only">Details for [value]</sr></a>
+';
+  /* Field: SourceSystemText: value */
   $handler->display->display_options['fields']['value_9']['id'] = 'value_9';
   $handler->display->display_options['fields']['value_9']['table'] = 'json';
   $handler->display->display_options['fields']['value_9']['field'] = 'value';
   $handler->display->display_options['fields']['value_9']['label'] = 'Source';
-  $handler->display->display_options['fields']['value_9']['key'] = 'PrimaryOrganizationText';
+  $handler->display->display_options['fields']['value_9']['key'] = 'SourceSystemText';
   /* Field: TopicText: value */
   $handler->display->display_options['fields']['value_3']['id'] = 'value_3';
   $handler->display->display_options['fields']['value_3']['table'] = 'json';
@@ -222,24 +223,31 @@ function recommended_resources_feature_views_default_views() {
   $handler->display->display_options['fields']['value_5']['field'] = 'value';
   $handler->display->display_options['fields']['value_5']['label'] = 'Tool Type';
   $handler->display->display_options['fields']['value_5']['key'] = 'ResourceTypeText';
-  /* Field: AccessLevelText: value */
+  /* Field: RatingsTrainingLevelText: value */
   $handler->display->display_options['fields']['value_6']['id'] = 'value_6';
   $handler->display->display_options['fields']['value_6']['table'] = 'json';
   $handler->display->display_options['fields']['value_6']['field'] = 'value';
   $handler->display->display_options['fields']['value_6']['label'] = 'Training Level';
-  $handler->display->display_options['fields']['value_6']['key'] = 'AccessLevelText';
-  /* Field: ShareRequirementsText: value */
+  $handler->display->display_options['fields']['value_6']['key'] = 'RatingsTrainingLevelText';
+  /* Field: RatingsRecommendationText: value */
   $handler->display->display_options['fields']['value_7']['id'] = 'value_7';
   $handler->display->display_options['fields']['value_7']['table'] = 'json';
   $handler->display->display_options['fields']['value_7']['field'] = 'value';
   $handler->display->display_options['fields']['value_7']['label'] = 'Data Requirements';
-  $handler->display->display_options['fields']['value_7']['key'] = 'ShareRequirementsText';
-  /* Field: SubtypeText: value */
+  $handler->display->display_options['fields']['value_7']['key'] = 'RatingsRecommendationText';
+  /* Field: RelevanceText: value */
   $handler->display->display_options['fields']['value_8']['id'] = 'value_8';
   $handler->display->display_options['fields']['value_8']['table'] = 'json';
   $handler->display->display_options['fields']['value_8']['field'] = 'value';
   $handler->display->display_options['fields']['value_8']['label'] = 'Relevance';
-  $handler->display->display_options['fields']['value_8']['key'] = 'SubtypeText';
+  $handler->display->display_options['fields']['value_8']['key'] = 'RelevanceText';
+  /* Field: ShortDescriptionText: value */
+  $handler->display->display_options['fields']['value_10']['id'] = 'value_10';
+  $handler->display->display_options['fields']['value_10']['table'] = 'json';
+  $handler->display->display_options['fields']['value_10']['field'] = 'value';
+  $handler->display->display_options['fields']['value_10']['label'] = 'Summary';
+  $handler->display->display_options['fields']['value_10']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['value_10']['key'] = 'ShortDescriptionText';
 
   /* Display: page */
   $handler = $view->new_display('page', 'page', 'page');
@@ -252,12 +260,12 @@ function recommended_resources_feature_views_default_views() {
   $handler = $view->new_display('block', 'Resources by User', 'rcs_resources_user');
   $handler->display->display_options['defaults']['query'] = FALSE;
   $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['query']['options']['json_file'] = 'http://localhost/rcs_lgc_resources_json_by_user';
+  $handler->display->display_options['query']['options']['json_file'] = 'http://eenterprise/rcs_lgc_resources_json_by_user';
   $handler->display->display_options['query']['options']['row_apath'] = 'resources';
   $handler->display->display_options['query']['options']['show_errors'] = 1;
 
   /* Display: LGC Resource Page Wrapper */
-  $handler = $view->new_display('block', 'LGC Resource Page Wrapper', 'lgc_resource_page_wrapper');
+  $handler = $view->new_display('block', 'LGC Resource Page Wrapper', 'block_1');
   $export['lgc_resources'] = $view;
 
   $view = new view();
