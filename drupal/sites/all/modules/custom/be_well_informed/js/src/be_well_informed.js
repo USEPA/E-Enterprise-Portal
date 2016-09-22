@@ -177,13 +177,6 @@ function resetBWIForm() {
           return false;
         }).not(':eq(0)').next();
 
-        /*var element = document.getElementById('be-well-informed-modal');
-        new ResizeSensor(element, function() {
-          console.log('be-well-informed-modal resize')
-          jQuery('#be-well-informed-modal').dialog({
-            position: { 'my': 'center', 'at': 'center' }
-          });
-        });*/
       }
     })
 
