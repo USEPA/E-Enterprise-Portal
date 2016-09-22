@@ -4217,3 +4217,23 @@ select[multiple="multiple"] {
 .edit-user-profile .error {
     outline: 1px solid red;
 }
+
+.beta-ribbon:after{
+    content: "beta";
+    position: absolute;
+    width: 80px;
+    height: 25px;
+    background: #227ebb;
+    top: 7px;
+    left: -20px;
+    text-align: center;
+    font-size: 13px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #fff;
+    line-height: 27px;
+    -ms-transform:rotate(-45deg);
+    -webkit-transform:rotate(-45deg);
+    transform:rotate(-45deg);
+}
