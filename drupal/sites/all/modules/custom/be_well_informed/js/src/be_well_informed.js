@@ -4,10 +4,10 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
   resizeModal()
 }
 
-$.fn.serializeObject = function() {
+jQuery.fn.serializeObject = function() {
   var o = {};
   var a = this.serializeArray();
-  $.each(a, function() {
+  jQuery.each(a, function() {
     objRoot = this.name.replace(/]/g, '')
       .split(/\[/g)
       .reduce(function(previous, current, cIndex, original) {
@@ -17,7 +17,7 @@ $.fn.serializeObject = function() {
         return newObject;
       }, this.value);
 
-    $.extend(true, o, objRoot);
+    jQuery.extend(true, o, objRoot);
   });
   return o;
 };
@@ -46,6 +46,8 @@ function checkValues(previous, current, cIndex, keys) {
   return previous
 }
 
+var sampleData = function() {};
+
 /**
  * Clear form inputs and hide warning messages
  */
@@ -61,6 +63,27 @@ function resetBWIForm() {
 
 (function($) {
 
+  sampleData =  function() {
+    var sample = {"CityName":"Anonymous","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":".048","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"5.2","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":".104","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":".636","Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":".8","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"34.1","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"0","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"0","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":".010","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"0","Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":".99","Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":"0","Unit":"mg/L"},"ph":{"Symbol":"ph","Name":"pH","Value":"6.62","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"9.24","Unit":"mg/L"}},"Bac_G":"rdb_Bac_False","Ecoli_G":"rdb_Ecoli_False","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"2194","Unit":"pCi/L"},"U":{"Symbol":"U","Name":"Uranium","Value":"8","Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"7.3","Unit":"pCi/L"}}};
+
+    for(var cat in sample){
+      if(typeof sample[cat] == 'object'){
+        for(var field in sample[cat]){
+          if(typeof sample[cat][field] == 'object') {
+            for(var prop in sample[cat][field]){
+              var selector = '[name="' + cat + '[' + field + '][' + prop + ']"]';
+              $(selector).val(sample[cat][field][prop]);
+            }
+          }
+        }
+      }
+      else {
+        var selector = '[name="' + cat + '"]';
+        $(selector+'[type=radio][value="'+sample[cat]+'"]').prop('checked', true)
+        $('select'+selector).val(sample[cat])
+      }
+    }
+  }
   var default_datatable_result_details_options = {
     dom: 't',
     bLengthChange: false,

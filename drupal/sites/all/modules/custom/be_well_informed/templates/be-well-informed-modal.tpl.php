@@ -69,6 +69,10 @@
               </select>
             </div>
           </div>
+
+          <div class="city-selection usa-width-one-half">
+            <button class="column right" type="button" onclick="sampleData()">Sample Data</button>
+          </div>
         </div>
         <div class="components usa-width-one-half">
           <h3>Routine Water Analysis</h3>
