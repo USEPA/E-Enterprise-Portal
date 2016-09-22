@@ -61,6 +61,12 @@ $color_ecstasy_approx: #ff851b;
 }
 
 .ui-dialog.be-well-informed-modal {
+    // -webkit-transition: 0.5s;
+    // -moz-transition: 0.5s;
+    // -ms-transition: 0.5s;
+    // -o-transition: 0.5s;
+    // transition: 0.5s;
+    // transition-property: width, height, top, left, right, bottom;
     &.ui-dialog {
         overflow: visible;
 
@@ -376,6 +382,14 @@ textarea {
                     margin-right: 10%;
                 }
             }
+            /*& > div {
+                border-right: 1px solid #0000BB;
+                border-left: 1px solid #0000BB;
+                padding-top: 0.2em;
+                padding-bottom: 0.2em;
+                margin-top: -1em;
+                margin-bottom: -1em;
+            }*/
             .bwi-legend {
                 width: 100%;
                 display: block;
@@ -466,9 +480,4 @@ textarea {
             }
         }
     }
-}
-
-
-#admin-menu {
-    display: none;
 }
