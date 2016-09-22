@@ -1,12 +1,13 @@
 function showElementOutOfMany($wrapper_to_show, $common_selector) {
   $common_selector.hide();
   $wrapper_to_show.show();
+  resizeModal()
 }
 
-$.fn.serializeObject = function() {
+jQuery.fn.serializeObject = function() {
   var o = {};
   var a = this.serializeArray();
-  $.each(a, function() {
+  jQuery.each(a, function() {
     objRoot = this.name.replace(/]/g, '')
       .split(/\[/g)
       .reduce(function(previous, current, cIndex, original) {
@@ -16,10 +17,19 @@ $.fn.serializeObject = function() {
         return newObject;
       }, this.value);
 
-    $.extend(true, o, objRoot);
+    jQuery.extend(true, o, objRoot);
   });
   return o;
 };
+
+function resizeModal() {
+  jQuery('#be-well-informed-modal').dialog({
+    position: { 'my': 'center', 'at': 'center' }
+  });
+  if(jQuery('.be-well-informed-modal').css('top').replace('px', '') < 1){
+    jQuery('.be-well-informed-modal').css('top', 0)
+  }
+}
 
 function checkValues(previous, current, cIndex, keys) {
   var previousKeys = Object.keys(previous[keys[cIndex]])
@@ -36,6 +46,8 @@ function checkValues(previous, current, cIndex, keys) {
   return previous
 }
 
+var sampleData = function() {};
+
 /**
  * Clear form inputs and hide warning messages
  */
@@ -51,6 +63,27 @@ function resetBWIForm() {
 
 (function($) {
 
+  sampleData =  function() {
+    var sample = {"CityName":"Anonymous","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":".048","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"5.2","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":".104","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":".636","Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":".8","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"34.1","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"0","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"0","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":".010","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"0","Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":".99","Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":"0","Unit":"mg/L"},"ph":{"Symbol":"ph","Name":"pH","Value":"6.62","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"9.24","Unit":"mg/L"}},"Bac_G":"rdb_Bac_False","Ecoli_G":"rdb_Ecoli_False","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"2194","Unit":"pCi/L"},"U":{"Symbol":"U","Name":"Uranium","Value":"8","Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"7.3","Unit":"pCi/L"}}};
+
+    for(var cat in sample){
+      if(typeof sample[cat] == 'object'){
+        for(var field in sample[cat]){
+          if(typeof sample[cat][field] == 'object') {
+            for(var prop in sample[cat][field]){
+              var selector = '[name="' + cat + '[' + field + '][' + prop + ']"]';
+              $(selector).val(sample[cat][field][prop]);
+            }
+          }
+        }
+      }
+      else {
+        var selector = '[name="' + cat + '"]';
+        $(selector+'[type=radio][value="'+sample[cat]+'"]').prop('checked', true)
+        $('select'+selector).val(sample[cat])
+      }
+    }
+  }
   var default_datatable_result_details_options = {
     dom: 't',
     bLengthChange: false,
@@ -66,7 +99,8 @@ function resetBWIForm() {
       $(row).find('td:eq(2)').attr('data-title', 'Your Entry');
       $(row).find('td:eq(3)').attr('data-title', 'Limit');
       $(row).find('td:eq(4)').attr('data-title', 'About Your Well Water');
-    }
+    },
+    paging: false
   };
 
   var default_datatable_result_summary_options = {
@@ -84,7 +118,8 @@ function resetBWIForm() {
       $(row).find('td:eq(2)').attr('data-title', 'Your Entry');
       $(row).find('td:eq(3)').attr('data-title', 'Limit');
       $(row).find('td:eq(4)').attr('data-title', 'About Your Well Water');
-    }
+    },
+    paging: false
   };
 
   Parsley.addValidator('checkChildren', {
@@ -105,6 +140,7 @@ function resetBWIForm() {
     .dialog({
       modal: true,
       width: "auto",
+      position: { 'my': 'center', 'at': 'center' },
       dialogClass: 'be-well-informed-modal',
       autoOpen: false,
       create: function(event, ui) {
@@ -124,17 +160,29 @@ function resetBWIForm() {
 
         $('#water_analysis_reset').click(function() {
           resetBWIForm();
+          resizeModal()
         });
 
-        $('#be-well-informed-accordion').accordion({
-          collapsible: true,
-          heightStyle: "content"
-        });
+        $("#be-well-informed-accordion").prop('data-min-width', $("#be-well-informed-accordion").width())
+        // Makeshift accordion like widget
+        $('#be-well-informed-accordion .head').click(function() {
+          $(this).find('i').toggleClass('fa-caret-down fa-caret-right')
+          $(this).next().toggle();
+          var min = $("#be-well-informed-accordion").prop('data-min-width');
+          var cWidth = $(this).width()
+          if(cWidth > min){
+            $("#be-well-informed-accordion").prop('data-min-width', cWidth).css({"min-width":cWidth})
+          }
+          resizeModal()
+          return false;
+        }).not(':eq(0)').next();
+
       }
-    });
+    })
 
   $('#bwi-check-water-btn').click(function() {
     $('#be-well-informed-modal').dialog("open")
+    resizeModal()
   });
 
   $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
@@ -186,6 +234,7 @@ function resetBWIForm() {
         else {
           showElementOutOfMany($results_wrapper, $all_wrappers);
         }
+        resizeModal();
       }
     });
 
@@ -203,6 +252,7 @@ function resetBWIForm() {
     $('#be-well-informed-results-table').DataTable().destroy();
     $('#be-well-informed-result-details-table').DataTable().destroy();
     showElementOutOfMany($form_wrapper, $all_wrappers);
+    resizeModal()
   });
 
   $('#be-well-informed-modal').on('click', '.ui-accordion-header', function() {
@@ -214,6 +264,7 @@ function resetBWIForm() {
     } else {
       $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
     }
+    resizeModal()
   });
 
 })(jQuery);

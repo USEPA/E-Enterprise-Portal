@@ -69,6 +69,10 @@
               </select>
             </div>
           </div>
+
+          <div class="city-selection usa-width-one-half">
+            <button class="column right" type="button" onclick="sampleData()">Sample Data</button>
+          </div>
         </div>
         <div class="components usa-width-one-half">
           <h3>Routine Water Analysis</h3>
@@ -80,9 +84,8 @@
                      value="<?php echo $wc['name'] ?>">
               <label class="column one-third"
                      for="RoutineContaminants[<?php echo $wc['machine_name'] ?>][Value]"><?php echo $wc['name'] ?>
-                <span
-                  class="symbol">(<?php echo $wc['symbol_text'] ?>
-                  )</span></label>
+                <?php if ($wc['symbol_text']): echo '<span class="symbol">(' .$wc['symbol_text']. ')</span>'; endif; ?>
+              </label>
               <input class="column one-third"
                      name="RoutineContaminants[<?php echo $wc['machine_name'] ?>][Value]"
                      type="number" step="0.001"
@@ -166,8 +169,9 @@
                 <input type="hidden" name="RadionuclideContaminants[<?php echo $rn['machine_name'] ?>][Name]"
                        value="<?php echo $rn['name'] ?>">
                 <label class="column one-third"
-                       for="RadionuclideContaminants[<?php echo $rn['machine_name'] ?>][Value]"><?php echo $rn['name'] ?> <?php if ($rn['symbol_text']): ?>
-                    <span class="symbol">(<?php echo $rn['symbol_text'] ?>)</span><?php endif; ?></label>
+                       for="RadionuclideContaminants[<?php echo $rn['machine_name'] ?>][Value]"><?php echo $rn['name'] ?>
+                      <?php if ($rn['symbol_text']): echo '<span class="symbol">(' .$rn['symbol_text']. ')</span>'; endif; ?>
+                </label>
                 <input class="column one-third"
                        name="RadionuclideContaminants[<?php echo $rn['machine_name'] ?>][Value]"
                        type="number" step="0.001"
@@ -202,8 +206,8 @@
   </div>
   <div id="be-well-informed-results-wrapper" class="be-well-informed-modal-wrapper">
     <h1>Be Well Informed > View Your Water Analysis Results</h1>
-    <div id="be-well-informed-accordion">
-      <h1>
+    <div id="be-well-informed-accordion" class="ui-accordion">
+      <h1 class="head ui-accordion-header" role="tab" tabindex="0">
         <i class="fa fa-caret-down" aria-hidden="true"></i>
         About the Results
       </h1>
@@ -233,8 +237,8 @@
           diet.”
         </p>
       </div>
-      <h1>
-        <i class="fa fa-caret-right" aria-hidden="true"></i>
+      <h1 class="head ui-accordion-header" role="tab" tabindex="0">
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
         Results Summary
       </h1>
       <div class="datatable usa-width-one-whole">
@@ -259,8 +263,8 @@
           </tbody>
         </table>
       </div>
-      <h1>
-        <i class="fa fa-caret-right" aria-hidden="true"></i>
+      <h1 class="head ui-accordion-header" role="tab" tabindex="0">
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
         Results Details
       </h1>
       <div class="datatable usa-width-one-whole">
