@@ -91,7 +91,7 @@ var LocalResourcesTable;
         // Refactor pipe delimited values to use commas and be on new lines
         var $tds = $('td:gt(1)', nRow);
         $tds.each(function() {
-          $(this).html("<div>" + $(this).text().replace('|', ',</div><div>') + "</div>");
+          $(this).html("<span>" +  $(this).text().replace(/\|/g, '; </span><span>') + "</span>");
         });
         return nRow;
       },
@@ -228,8 +228,9 @@ var LocalResourcesTable;
                 filter_container_selector: '#' + wrapperParentId + ' .training-level.facet',
                 filter_match_mode: 'contains',
                 filter_reset_button_text: false,
-                text_data_delimiter: '|'
-
+                text_data_delimiter: '|',
+                data: ['High', 'Medium', 'Low'],
+                sort_as: 'none'
               },
               {
                 column_number: 7,
@@ -237,8 +238,9 @@ var LocalResourcesTable;
                 filter_container_selector: '#' + wrapperParentId + ' .data-requirements.facet',
                 filter_match_mode: 'contains',
                 filter_reset_button_text: false,
-                text_data_delimiter: '|'
-
+                text_data_delimiter: '|',
+                data: ['High', 'Medium', 'Low'],
+                sort_as: 'none'
               },
               {
                 column_number: 8,
@@ -348,7 +350,7 @@ var LocalResourcesTable;
               this.focus();
               Drupal.CTools.Modal.show("ee-ctools-popup-style");
               $('#modal-title').html('Resource Info');
-              $('#modal-content').html($(this).parent().text()).scrollTop(0);
+              $('#modal-content').html($(this).parent().find('div').text()).scrollTop(0);
               Drupal.attachBehaviors();
               ev.preventDefault();
             });
