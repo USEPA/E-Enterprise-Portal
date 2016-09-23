@@ -362,7 +362,7 @@ function load_data_from_rcs() {
   $current_time = time();
   $time_diff = ($current_time - $time_last_loaded) / 60;
   // If the cache has not been updated in ($cache_update_refresh) minutes, refresh the data
-  if (TRUE || count($cache['resources']) === 0 || $time_diff >= $cache_update_refresh) {
+  if (count($cache['resources']) === 0 || $time_diff >= $cache_update_refresh) {
     // Tracks all resources pulled from RCS and parsed from XML
     $resources_array = array("resources" => array());
     // Tracks all topic mapping to tids
