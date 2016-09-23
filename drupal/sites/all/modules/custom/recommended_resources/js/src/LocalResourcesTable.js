@@ -87,6 +87,14 @@ var LocalResourcesTable;
       },
       "pagingType": "simple",
       "dom": 'iftp',
+      "fnCreatedRow": function(nRow, aData, iDataIndex) {
+        // Refactor pipe delimited values to use commas and be on new lines
+        var $tds = $('td:gt(1)', nRow);
+        $tds.each(function() {
+          $(this).html("<div>" + $(this).text().replace('|', ',</div><div>') + "</div>");
+        });
+        return nRow;
+      },
       "fnDrawCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         var pageInfo = this.fnPagingInfo();
         var pageNo = pageInfo.iPage + 1;
@@ -162,6 +170,7 @@ var LocalResourcesTable;
           if ($table.length > 0) {
             var tableDT = $table.DataTable(datatable_options);
             $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
+
             // in embedded_lgc_topics_view.js
             updateDropdown($('#user-lgc-topics-small-view'));
             if (from_embedded_topics) {
@@ -182,50 +191,63 @@ var LocalResourcesTable;
                 column_number: 2,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .source.facet',
-                filter_match_mode: 'exact',
-                filter_reset_button_text: false
+                filter_match_mode: 'contains',
+                filter_reset_button_text: false,
+                text_data_delimiter: '|'
+
               },
               {
                 column_number: 3,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .topic.facet',
-                filter_match_mode: 'exact',
-                filter_reset_button_text: false
+                filter_match_mode: 'contains',
+                filter_reset_button_text: false,
+                text_data_delimiter: '|'
               },
               {
                 column_number: 4,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .category.facet',
-                filter_match_mode: 'exact',
-                filter_reset_button_text: false
+                filter_match_mode: 'contains',
+                filter_reset_button_text: false,
+                text_data_delimiter: '|'
+
               },
               {
                 column_number: 5,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .tool-type.facet',
-                filter_match_mode: 'exact',
-                filter_reset_button_text: false
+                filter_match_mode: 'contains',
+                filter_reset_button_text: false,
+                text_data_delimiter: '|'
+
               },
               {
                 column_number: 6,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .training-level.facet',
-                filter_match_mode: 'exact',
-                filter_reset_button_text: false
+                filter_match_mode: 'contains',
+                filter_reset_button_text: false,
+                text_data_delimiter: '|'
+
               },
               {
                 column_number: 7,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .data-requirements.facet',
-                filter_match_mode: 'exact',
-                filter_reset_button_text: false
+                filter_match_mode: 'contains',
+                filter_reset_button_text: false,
+                text_data_delimiter: '|'
+
               },
               {
                 column_number: 8,
                 filter_type: 'multi_select',
                 filter_container_selector: '#' + wrapperParentId + ' .relevance.facet',
-                filter_match_mode: 'exact',
-                filter_reset_button_text: false
+                filter_match_mode: 'contains',
+                filter_reset_button_text: false,
+                text_data_delimiter: '|'
+
               }
             ]);
             $('#' + wrapperParentId).find('.facet select').each(function() {
@@ -258,13 +280,14 @@ var LocalResourcesTable;
                 if ((facet_topic.indexOf("(")) < 0) {
                   $(this).children('label').attr('title', facet_topic);
                   var selection = "<span class='facet-topic-container' title='" + facet_topic + "'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'><span class='sr-only'>Remove " + facet_topic + "</span></a></span>";
-                  if ($your_selections.find('span[title="' + facet_topic + '"]').length === 0) {
+                  if ($your_selections.find('span[title*="' + facet_topic + '"]').length === 0) {
                     $your_selections.append(selection);
                     $your_selections.find('span.facet-topic-container').hide();
                   }
                 }
+
                 var res_t = $.grep(tableDT.data(), function(n, i) {
-                  return (facet_topic.trim()) == (n[column_number]).trim();
+                  return ($.inArray(facet_topic.trim(), n[column_number].split('|')) >= 0);
                 }, false);
                 if ((facet_topic.indexOf("(")) < 0) {
                   $(this).children('label').html(facet_topic + " (" + res_t.length + ")");

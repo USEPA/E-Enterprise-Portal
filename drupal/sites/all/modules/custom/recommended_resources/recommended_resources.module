@@ -73,7 +73,7 @@ function recommended_resources_js_alter(&$javascript) {
   set_user_lgc_topic_session();
   $user_topics = [];
   foreach ($_SESSION['user_lgc_topics'] as $tid => $title) {
-    if($title) {
+    if ($title) {
       $user_topics[$tid] = $title;
     }
   }
@@ -114,8 +114,7 @@ function is_user_topic_saved($tid) {
     $topics = $_SESSION['user_lgc_topics'];
 
     return array_key_exists($tid, $topics);
-  }
-  else {
+  } else {
     $_SESSION['user_lgc_topics'] = array();
     global $user;
     $user_data = user_load($user->uid);
@@ -145,7 +144,7 @@ function lgc_topics_multiselect() {
 }
 
 function xml2array($xmlObject, $out = array()) {
-  foreach ((array) $xmlObject as $index => $node) {
+  foreach ((array)$xmlObject as $index => $node) {
     $out[$index] = (is_object($node)) ? xml2array($node) : $node;
   }
 
@@ -159,8 +158,8 @@ function recommended_resources_form_alter(&$form, &$form_state, $form_id) {
 
 
   if ($form_id == 'lgc_resource_node_form') {
-    drupal_add_js(drupal_get_path('module', 'recommended_resources') . "/js/preview_url_form.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-    drupal_add_css(drupal_get_path('module', 'recommended_resources') . "/css/recommended_resources.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
+    drupal_add_js(drupal_get_path('module', 'recommended_resources') . "/js/preview_url_form.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+    drupal_add_css(drupal_get_path('module', 'recommended_resources') . "/css/recommended_resources.css", ['preprocess' => true, 'group' => CSS_DEFAULT]);
 
     hide($form['additional_settings']);
     hide($form['actions']['preview']);
@@ -423,29 +422,38 @@ function load_data_from_rcs() {
         && trim($resource_array['TopicText']) !== ''
         && trim($resource_array['ResourceName']) !== ''
       ) {
-        // Trim any non-alphanumeric from topic and description
-        $topic = trim($resource_array['TopicText']);
+
+        // Trim any non-alphanumeric from description
         $resources_array['DescriptionText'] = trim($resources_array['DescriptionText']);
 
-        // Topic is not deprecated
-        unset($deprecated_terms[$topic]);
+        // Check for '|' delimiters in topic
+        $topics_array = explode('|', $resource_array['TopicText']);
+        $tids = [];
+        foreach ($topics_array as $topic) {
+          $topic = trim($topic);
 
-        // Add topic to tid_mapping if the topic has not been saved
-        // to the LGC Resource taxonomy
-        if (!isset($term_tid_mapping[$topic])) {
-          // Update $term_tid_mapping with topic=>tid
-          add_new_rcs_topic_to_taxonomy($topic, $vid, $term_tid_mapping);
+          // Topic is not deprecated
+          unset($deprecated_terms[$topic]);
+          // Add topic to tid_mapping if the topic has not been saved
+          // to the LGC Resource taxonomy
+          if (!isset($term_tid_mapping[$topic])) {
+            // Update $term_tid_mapping with topic=>tid
+            add_new_rcs_topic_to_taxonomy($topic, $vid, $term_tid_mapping);
+          }
+          // Save the new TID to the RCS return (resource_array)
+          $tid = $term_tid_mapping[$topic];
+          $tids[] = $tid;
         }
-        // Save the new TID to the RCS return (resource_array)
-        $tid = $term_tid_mapping[$topic];
-        $resource_array['tid'] = $tid;
+        $resource_array['tids'] = $tids;
+
+
         $resources_array["resources"][] = $resource_array;
+
       }
     }
 
     // Delete $deprecated_terms not included in RCS data
-    if(count($deprecated_terms) > 0)
-    {
+    if (count($deprecated_terms) > 0) {
       // Force users cache to be rebuilt from the database and not use the old references in drupal cache
       entity_get_controller('user')->resetCache();
       foreach ($deprecated_terms as $term_to_delete => $tid) {
@@ -457,8 +465,7 @@ function load_data_from_rcs() {
     variable_set('rcs_cache', $resources_array);
     variable_set('rcs_cache_load_time', time());
     return $resources_array;
-  }
-  else {
+  } else {
     return $cache;
   }
 }
@@ -497,54 +504,18 @@ function rcs_lgc_resources_json_by_user($uid = -1) {
   $resources_array = load_data_from_rcs();
   $response = array('resources' => array());
   foreach ($resources_array['resources'] as $resource_data) {
-    $tid = $resource_data['tid'];
-    if (in_array($tid, $user_lgc_tids)) {
-      $response['resources'][] = $resource_data;
+    $tids = $resource_data['tids'];
+    foreach ($tids as $tid) {
+      if (in_array($tid, $user_lgc_tids)) {
+        $response['resources'][] = $resource_data;
+        break; // no need to loop through other tids
+      }
     }
   }
   print json_encode($response);
   exit();
 }
 
-/**
- * returns lgc resources filtered by topic
- */
-function rcs_lgc_resources_json_by_topic() {
-  $search_topic = "Climate Change";
-  $filtered_resources_array = array("resources" => array());
-  $resources_array = load_data_from_rcs();
-  foreach ($resources_array['resources'] as $resource_data) {
-    $topic = $resource_data['TopicText'];
-    if ($topic === $search_topic) {
-      $filtered_resources_array["resources"][] = $resource_data;
-    }
-  }
-  print json_encode($filtered_resources_array);
-  exit();
-}
-
-/**
- * Loads from  RCS endpoint. Restrict return to array of topics
- */
-function rcs_load_topics() {
-  $resources_array = load_data_from_rcs();
-  $topics = array();
-  foreach ($resources_array['resources'] as $resource_data) {
-    $topic = $resource_data['TopicText'];
-    if (!in_array($topic, $topics) && $topic) {
-      $topics[] = $resource_data['TopicText'];
-    }
-  }
-  print json_encode($topics);
-  exit();
-}
-
-function rcs_filtered_by_tids($tids) {
-  $resources_array = load_data_from_rcs();
-  foreach ($resources_array['resources'] as $resource_data) {
-
-  }
-}
 
 /**
  * Saves Topic in system and adds to tid_term_mapping
