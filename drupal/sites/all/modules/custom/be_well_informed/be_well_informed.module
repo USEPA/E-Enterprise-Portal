@@ -446,6 +446,11 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     ],
   ];
 
+  $variables['treatments'] = [
+
+  ];
+
+  // some logic to help make it simpler to read
   foreach ($variables['water_components'] as $key => $var) {
     $variables['water_components'][$key]['symbol_text'] = ($var['symbol_text']) ? $var['symbol_text'] : $var['symbol'];
   }

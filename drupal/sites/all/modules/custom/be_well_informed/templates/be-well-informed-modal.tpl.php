@@ -315,54 +315,38 @@
           </tr>
           </tbody>
         </table>
-        <h3 id="h_title" style="font-size: 17px; font-weight: bold; color: Red;
-                            margin-left: 17px; margin-top: 10px;">
-          Treatment Order</h3>
+        <h3 id="treatment_order_title">Treatment Order</h3>
         <div class="step_class">
           <div id="step_As" class="clearfix hide">
-            <div class="col-sm-1"></div>
-            <div class="col-sm-11">
-              <div class="step_boxes text-center">
-                <div class="home_icon" style="float: none; margin-right: 30px;">
-                  <img src="Images/water/smallhome2.png">
-                </div>
-                <div class="box_main">
-                                            <span>Whole House Anion Exchange Water Treatment System followed by an Acid
-                                                Neutralizer</span>
-                </div>
-                <span class="or" style="margin-left: 30px;">OR</span>
-                <div style="float: none; margin-right: 30px;" class="home_icon">
-                  <img src="Images/water/facut.jpg">
-                </div>
-                <div class="box_main">
-                  <span>Point-of-Use (POU) Arsenic Adsorption Media Filter System</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="step_1" class="clearfix">
             <div class="col-sm-1">
-              <div id="div_step_1_circle" class="step_circle">
-                <span id="step_1_no">Step 1</span></div>
+              <div class="step"><span>Step 1</span></div>
             </div>
+
             <div class="col-sm-11">
               <div class="step_boxes text-center">
-                <div class="home_icon">
-                  <img src="Images/water/smallhome2.png">
-                </div>
-                <span class="caret"></span>
-                <div id="a1_box" class="box_main">
-                  <span id="a1">Whole House Oxidizing Filter System</span>
-                </div>
-                <span id="or_1_1" class="or">OR</span>
-                <div id="b1_box" class="box_main">
-                  <span
-                    id="b1">Whole House Cation Exchange Water Softener</span>
-                </div>
+                <div class="home_icon"></div>
+                <div class="box_main"><span>Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer</span></div>
+                <div class="or"><span>OR</span></div>
+                <div class="facut_icon"></div>
+                <div class="box_main"><span>Point-of-Use (POU) Arsenic Adsorption Media Filter System</span></div>
               </div>
             </div>
           </div>
-          <div id="step_2" class="clearfix hide">
+          <div id="treatment-step-1" class="clearfix treatment-step">
+            <div class="col-sm-1">
+              <div class="step"><span>Step 1</span></div>
+            </div>
+            <div class="col-sm-11">
+              <div class="step_boxes text-center">
+                <div class="home_icon"></div>
+                <span class="caret"></span>
+                <div id="a1_box" class="box_main">Whole House Oxidizing Filter System</div>
+                <span id="or_1_1" class="or">OR</span>
+                <div id="b1_box" class="box_main">Whole House Cation Exchange Water Softener</div>
+              </div>
+            </div>
+          </div>
+          <div id="treatment-step-2" class="clearfix treatment-step hide">
             <div class="col-sm-1">
               <div id="div_step_2_circle" class="">
                 <span id="step_2_no"></span></div>
@@ -388,7 +372,7 @@
               </div>
             </div>
           </div>
-          <div id="step_3" class="clearfix">
+          <div id="treatment-step-3" class="clearfix treatment-step">
             <div class="col-sm-1">
               <div id="div_step_3_circle" class="step_circle">
                 <span id="step_3_no">Step 2</span></div>
@@ -412,7 +396,7 @@
               </div>
             </div>
           </div>
-          <div id="step_4" class="clearfix">
+          <div id="treatment-step-4" class="clearfix treatment-step">
             <div class="col-sm-1">
               <div id="div_step_4_circle" class="step_circle">
                 <span id="step_4_no">Step 3</span></div>
@@ -429,7 +413,7 @@
               </div>
             </div>
           </div>
-          <div id="step_5" class="clearfix">
+          <div id="treatment-step-5" class="clearfix treatment-step">
             <div class="col-sm-1">
               <div id="div_step_5_circle" class="step_circle">
                 <span id="step_5_no">Step 4</span></div>

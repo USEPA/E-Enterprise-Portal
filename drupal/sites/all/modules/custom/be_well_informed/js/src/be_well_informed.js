@@ -205,8 +205,8 @@ function resetBWIForm() {
       data: Object.keys(formData).reduce(checkValues, formData),
       success: function(be_well_response_json) {
         if (!be_well_response_json.error) {
-          // hide the treatment section by default
-          $('treatment-header, .treatment-content').addClass('hide')
+          // hide the treatment section by default (reset it)
+          $('treatment-header, .treatment-content, .treatment-step').addClass('hide')
 
           // Use two separate instances of Datatable configs for both datatables
           default_datatable_result_details_options.data = be_well_response_json.data.result_summary;
@@ -234,18 +234,33 @@ function resetBWIForm() {
             }
           });
 
-          // 1) if we have values in the be_well_response_json.TreatmentSteps show the treatment steps section
-          if(be_well_response_json.TreatmentSteps && be_well_response_json.TreatmentSteps.length > 0){
+          // if we have values in the be_well_response_json.TreatmentSteps show the treatment steps section
+          if(be_well_response_json.TreatmentSteps && Object.keys(be_well_response_json.TreatmentSteps).length > 0){
             $('treatment-header, .treatment-content').removeClass('hide')
 
             // update title to include all contaminats that have TreatmentMessages != ''
-            var title = ''
-            for(contaminate in be_well_response_json.ResultEvaluations){
-              if(be_well_response_json.ResultEvaluations[contaminate].TreatmentMessages){
-
+            var contaminants = []
+            for(var contaminate in be_well_response_json.ResultEvaluations){
+              if(!!be_well_response_json.ResultEvaluations[contaminate].TreatmentMessages){
+                contaminants.push(be_well_response_json.ResultEvaluations[contaminate].ContaminantFullName)
               }
             }
+
+            // handle multiple number of contaminats in the title
+            if(contaminants.length > 1) {
+              var last = contaminants.pop();
+              var title = contaminants.join(', ')
+              title += ' and ' + last
+            }
+            else {
+              title = contaminants.pop()
+            }
+            $('.treatment-text').html(title)
+
             // update the steps labels to properly show the needed steps
+            for(var step in TreatmentSteps){
+              $('.treatment-step').eq(step).removeClass('hide')
+            }
             // update visibility of steps and their instructions
           }
 
