@@ -12,18 +12,18 @@ var yadtf_topic_configs = {
 
 // @see https://gist.github.com/cman81/ef1ad79cff899c01160ba7d77f761f13
 // @see https://gist.github.com/jmcd/2284550
-(function ($) {
+(function($) {
 
   var methods = {
-    init: function () {
+    init: function() {
       var $ul = $("<ul/>").insertAfter(this);
       var $container = $ul.prev().andSelf().wrapAll("<div class='multiselect-to-checkboxes'></div>");
       var baseId = "_" + $(this).attr("id");
-      $(this).children("option").each(function (index) {
+      $(this).children("option").each(function(index) {
         var $option = $(this);
         var id = baseId + index;
         var $li = $("<li/>").appendTo($ul);
-        var $checkbox = $("<input type='checkbox' id='" + id + "'/>").appendTo($li).change(function () {
+        var $checkbox = $("<input type='checkbox' id='" + id + "'/>").appendTo($li).change(function() {
           var $option = $(this).parents('.multiselect-to-checkboxes').find('select option').eq(index);
           if ($(this).is(":checked")) {
             $option.prop("selected", true).parent().change();
@@ -45,7 +45,7 @@ var yadtf_topic_configs = {
     }
   };
 
-  $.fn.multiSelectToCheckboxes = function (method) {
+  $.fn.multiSelectToCheckboxes = function(method) {
     if (methods[method]) {
       return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
     } else if (typeof method === 'object' || !method) {
@@ -59,8 +59,8 @@ var yadtf_topic_configs = {
 
 var LocalResourcesTable;
 
-(function ($) {
-  $.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings) {
+(function($) {
+  $.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
     return {
       "iStart": oSettings._iDisplayStart,
       "iEnd": oSettings.fnDisplayEnd(),
@@ -75,7 +75,7 @@ var LocalResourcesTable;
   };
 
 
-  LocalResourcesTable = function ($table_wrapper, ajax_url, table_type) {
+  LocalResourcesTable = function($table_wrapper, ajax_url, table_type) {
 
     $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
     var datatable_options = {
@@ -91,11 +91,11 @@ var LocalResourcesTable;
         // Refactor pipe delimited values to use commas and be on new lines
         var $tds = $('td:gt(1)', nRow);
         $tds.each(function() {
-          $(this).html("<span>" +  $(this).text().replace(/\|/g, '; </span><span>') + "</span>");
+          $(this).html("<span>" + $(this).text().replace(/\|/g, '; </span><span>') + "</span>");
         });
         return nRow;
       },
-      "fnDrawCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+      "fnDrawCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         var pageInfo = this.fnPagingInfo();
         var pageNo = pageInfo.iPage + 1;
         var totalPages = pageInfo.iTotalPages + 1;
@@ -108,11 +108,11 @@ var LocalResourcesTable;
           $table_wrapper.find('.dataTables_paginate li:first').after($current_li);
         }
         // Add needed classes after the table is rendered
-        $('td:first-child', nRow.nTable).addClass( "resource-title" );
-        $('td:nth-child(2)', nRow.nTable).addClass( "resource-info" );
-        $('td:nth-child(3)', nRow.nTable).addClass( "resource-source" ).attr('data-title', 'Source');
-        $('td:nth-child(4)', nRow.nTable).addClass( "resource-topic" ).attr('data-title', 'Topic');
-        $('td:nth-child(5)', nRow.nTable).addClass( "resource-category" ).attr('data-title', 'Category');
+        $('td:first-child', nRow.nTable).addClass("resource-title");
+        $('td:nth-child(2)', nRow.nTable).addClass("resource-info");
+        $('td:nth-child(3)', nRow.nTable).addClass("resource-source").attr('data-title', 'Source');
+        $('td:nth-child(4)', nRow.nTable).addClass("resource-topic").attr('data-title', 'Topic');
+        $('td:nth-child(5)', nRow.nTable).addClass("resource-category").attr('data-title', 'Category');
       },
       // hide the following columns, they are only used for faceted filtering
       "columnDefs": [
@@ -127,15 +127,15 @@ var LocalResourcesTable;
     var datatable_id = '';
     var wrapper_id = $table_wrapper.attr('id');
 
-    this.hideTable = function () {
+    this.hideTable = function() {
       $table_wrapper.hide();
     };
 
-    this.ajax_request = function (from_embedded_topics) {
+    this.ajax_request = function(from_embedded_topics) {
       var topics = this.topics,
-          $userFilters = $('#user-local-resources-wrapper').find('[id^=_yadcf-filter]');
+        $userFilters = $('#user-local-resources-wrapper').find('[id^=_yadcf-filter]');
       $.ajax({
-        beforeSend: function () {
+        beforeSend: function() {
           var $table = $table_wrapper.find('.view-content');
           if ($table.length > 0) {
             $table.html('<p>Loading&hellip;</p>');
@@ -149,7 +149,7 @@ var LocalResourcesTable;
         url: ajax_url,
         method: "POST",
         data: {filters: topics},
-        success: function (table) {
+        success: function(table) {
           /**
            * TODO: refactor - duplicate code block in the following files:
            * other_items_of_interest/js/ItemsOfInterestTable.js
@@ -157,7 +157,7 @@ var LocalResourcesTable;
            */
           // alter the datatable id, one digit larger than the largest id
           var newId = 0;
-          $("table[id^='datatable-']").each(function () {
+          $("table[id^='datatable-']").each(function() {
             newId = Math.max(newId, parseInt($(this).attr('id').substr('datatable-'.length), 10));
           });
           newId++;
@@ -271,28 +271,55 @@ var LocalResourcesTable;
 
             /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
              *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
+
+            var facet_topic_counts = {};
+            $('div[id^="yadcf-filter-wrapper--' + wrapper_id + '-wrapper"]').find('li').each(function(index) {
+              var facet_topic = $(this).find('label').html();
+              if (!facet_topic_counts[facet_topic]) {
+                facet_topic_counts[facet_topic] = 0;
+              }
+              facet_topic_counts[facet_topic]++;
+            });
+
             $('div[id^="yadcf-filter-wrapper--' + wrapper_id + '-wrapper"]').find('li').each(function(index) {
               if (index > 0) {
                 var facet_type = $(this).closest('.facet').attr('class').replace('facet', '').trim();
-                var facet_topic = $(this).children('label').html();
+                var facet_topic = $(this).find('label').html();
+                var facet_type_text = "";
+                var $selection = $('<span />', {
+                  class: "facet-topic-container",
+                  title: facet_topic,
+              }).attr('data-facet-type', facet_type);
+
+
                 // Switch hyphen to underscore for looking up column number
                 var topic_config_str = facet_type.replace('-', '_');
                 var column_number = yadtf_topic_configs[topic_config_str].column;
-
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').attr('title', facet_topic);
-                  var selection = "<span class='facet-topic-container' title='" + facet_topic + "'><span title = '" + facet_topic + "'>" + facet_topic + "</span><a href='javascript:void(0)'><span class='sr-only'>Remove " + facet_topic + "</span></a></span>";
-                  if ($your_selections.find('span[title*="' + facet_topic + '"]').length === 0) {
-                    $your_selections.append(selection);
-                    $your_selections.find('span.facet-topic-container').hide();
+                var $label = $(this).find('label');
+                $label.data('facet-type', facet_type);
+                if (!$label.hasClass('counted_total_facets')) {
+                  if (facet_topic_counts[facet_topic] > 1) {
+                    facet_type_text = facet_type.replace('-', ' ') + ": ";
                   }
-                }
+                  var $inner_selection = $('<span />', {
+                    title: facet_topic,
+                    text: shorten_string(facet_type_text + facet_topic, 40)
+                  });
+                  $inner_selection.html()
+                  var $inner_anchor = $('<a />', {
+                    href: "javascript:void(0)",
+                  });
+                  $inner_anchor.html("<span class='sr-only'>Remove " + facet_topic + "</span>");
+                  $selection.append($inner_selection).append($inner_anchor);
+                  $your_selections.append($selection);
 
-                var res_t = $.grep(tableDT.data(), function(n, i) {
-                  return ($.inArray(facet_topic.trim(), n[column_number].split('|')) >= 0);
-                }, false);
-                if ((facet_topic.indexOf("(")) < 0) {
-                  $(this).children('label').html(facet_topic + " (" + res_t.length + ")");
+                  var res_t = $.grep(tableDT.data(), function(n, i) {
+                    return ($.inArray(facet_topic.trim(), n[column_number].split('|')) >= 0);
+                  }, false);
+                  $label.html(facet_topic + " (" + res_t.length + ")")
+                    .addClass('counted_total_facets')
+                    .attr('title', facet_topic)
+                    .attr('data-facet-type', facet_type);
                 }
               }
             });
@@ -301,14 +328,17 @@ var LocalResourcesTable;
             /*On Topic Facet click (select), show topic above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('div[id^="yadcf-filter-wrapper--' + wrapperParentId + '"]').find('input').click(function(e) {
-              var $span_selector = $wrapper_parent.find('span.facet-topic-container[title="' + $(this).next().attr('title') + '"]');
+              // Common title names that map to the selector- make sure Facet Type is displaying.
+              // exact matching span selector
+              var facet_type = $(this).next().data('facetType');
+              var facet_title = $(this).next().attr('title');
+              var $span_selector = $wrapper_parent.find('span.facet-topic-container[data-facet-type="' + facet_type + '"][title="' + facet_title + '"]');
+
               var $your_selections = $('.your-selections');
               var visible = $span_selector.is(":visible");
               // show label if checked
               if (!visible) {
                 $span_selector.css('display', 'inline-block');
-                $span_selector.find('span').html(shorten_string($(this).next().attr('title'), 40));
-                $span_selector.find('a span').html('Remove ' + $(this).next().attr('title'));
               } else {
                 $span_selector.hide();
               }
@@ -328,9 +358,11 @@ var LocalResourcesTable;
              * even number of listeners are created, the button appears to fail.
              * */
             $wrapper_parent.find('.your-selections span.facet-topic-container a').unbind('click').click(function(e) {
-              var selected_selection = $(this).parent().attr('title');
-              var selected_id = $wrapper_parent.find('.multiselect-to-checkboxes ul li label[title=\'' + selected_selection + '\']').attr('for');
-              $wrapper_parent.find("#" + selected_id).trigger('click')
+              var $selection = $(this).parent();
+              var selected_selection = $selection.attr('title');
+              var facet_type = $selection.data('facetType');
+              var selected_id = $wrapper_parent.find('.multiselect-to-checkboxes ul li label[data-facet-type="' + facet_type + '"][title=\'' + selected_selection + '\']').attr('for');
+              $wrapper_parent.find("#" + selected_id).trigger('click');
             });
 
             function shorten_string(str, max_len) {
@@ -357,11 +389,11 @@ var LocalResourcesTable;
 
             var topics = Drupal.settings.recommended_resources.user_lgc_topics;
             var count = Object.keys(topics).length;
-            if($table_wrapper.attr('id') == 'user-local-resources') {
+            if ($table_wrapper.attr('id') == 'user-local-resources') {
               // Hide all labels in the user-local-resources topics facet
               $('#user-local-resources-wrapper').find('.topic.facet label').hide();
-              for(key in topics){
-                var $label = $('#user-local-resources-wrapper label[title="'+topics[key]+'"]');
+              for (key in topics) {
+                var $label = $('#user-local-resources-wrapper label[title="' + topics[key] + '"]');
                 $label.show();
                 if (count == 1) {
                   $label.trigger("click");
@@ -369,7 +401,7 @@ var LocalResourcesTable;
                   var $input = $(inputSelector);
                   $input.prop("disabled", "disabled");
                 }
-               }
+              }
             }
 
 
@@ -386,12 +418,12 @@ var LocalResourcesTable;
       });
     };
 
-    this.showTable = function () {
+    this.showTable = function() {
       if (!cached)
         this.ajax_request();
       $table_wrapper.show();
     };
-    this.updateTopics = function (values, from_embedded_topics) {
+    this.updateTopics = function(values, from_embedded_topics) {
       this.topics = values;
       if (from_embedded_topics) {
         this.ajax_request(from_embedded_topics);
@@ -400,7 +432,7 @@ var LocalResourcesTable;
         this.ajax_request();
       }
     };
-    this.filterTopics = function (topic_text) {
+    this.filterTopics = function(topic_text) {
       if (datatable_id !== '') {
         var $table = $('#' + datatable_id);
         $table.DataTable().columns().search(topic_text).draw();
