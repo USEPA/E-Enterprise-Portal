@@ -195,7 +195,7 @@
       </div>
       <div class="row usa-width-one-whole reset-submit">
         <div class="column">
-          <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank" class="be-well-inform-source">NHDES Be <em>Well</em> Informed Guide</a>
+          <span class="be-well-inform-source">Source: <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank">NHDES Be <em>Well</em> Informed Guide</a></span>
         </div>
         <div class="column right">
           <button id="water_analysis_reset" class="usa-button usa-button-outline" type="button">Reset</button>
