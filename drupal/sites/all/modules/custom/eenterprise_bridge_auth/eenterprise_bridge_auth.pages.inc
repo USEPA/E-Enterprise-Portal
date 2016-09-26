@@ -278,8 +278,9 @@ function create_progress_tracker($user)
     $wsdl = variable_get('eactivity_auth_reg_wsdl');
     $client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
 
-    if ($client->error)
+    if ($client->error) {
         return;
+    }
 
     $client = $client->client;
     $params1 = array(
@@ -859,7 +860,9 @@ function eenterprise_bridge_auth_redirect()
 function view_allow_access_role($view_name, $role_id)
 {
     $result_view = views_get_view($view_name);
-    $result_view->set_display('default');
-    $result_view->display_handler->display->display_options['access']['role'][$role_id] = $role_id;
-    $result_view->save();
+    if ($result_view && $result_view->access($view_name)) {
+        $result_view->set_display('default');
+        $result_view->display_handler->display->display_options['access']['role'][$role_id] = $role_id;
+        $result_view->save();
+    }
 }
