@@ -97,12 +97,12 @@ function eenterprise_utility_menu() {
     '#type' => MENU_CALLBACK,
   );
   $items['admin/config/system/system-admin-role'] = array(
-      'title' => 'System Admin Role',
-      'description' => 'Currently used Drupal admin role',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('admin_role_settings'),
-      'access arguments' => array('administer users'),
-      'file' => 'eenterprise_utility_admin_role.admin.inc',
+    'title' => 'System Admin Role',
+    'description' => 'Currently used Drupal admin role',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('admin_role_settings'),
+    'access arguments' => array('administer users'),
+    'file' => 'eenterprise_utility_admin_role.admin.inc',
   );
 
   return $items;
