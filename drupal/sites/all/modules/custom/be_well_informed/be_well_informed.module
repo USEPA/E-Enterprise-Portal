@@ -447,7 +447,82 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
   ];
 
   $variables['treatments'] = [
-
+    [
+      'icon'=> '',
+      'boxes' => [
+        [
+          'icon'=> 'home',
+          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer' ],
+        [
+          'icon'=> 'facet',
+          'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
+        ],
+      ]
+    ],
+    [
+      'icon'=> 'home',
+      'boxes' => [
+        [
+          'icon'=> '',
+          'action' => 'Whole House Oxidizing Filter System'
+        ],
+        [
+          'icon'=> '',
+          'action' => 'Whole House Cation Exchange Water Softener'
+        ],
+      ]
+    ],
+    [
+      'icon'=> '',
+      'boxes' => [
+        [
+          'icon'=> 'home',
+          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer'
+        ],
+        [
+          'icon'=> 'facet',
+          'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
+        ],
+      ]
+    ],
+    [
+      'text'=> 'Depending on the radon levels in the air, treatment of water may be advisable between 2,000 pCi/L and 10,000 pCi/L. Above 10,000 pCi/L, treatment is recommended regardless of radon level in air.',
+      'icon'=> 'home',
+      'boxes' => [
+        [
+          'action' => 'Whole House Aeration Device'
+        ],
+        [
+          'action' => 'Whole House Granular Activated Carbon (GAC) Filter'
+        ],
+      ]
+    ],
+    [
+      'icon'=> 'home',
+      'boxes' => [
+        [
+          'icon'=> '',
+          'action' => 'Whole House Acid Neutralizer System'
+        ],
+      ]
+    ],
+    [
+      'icon'=> 'facet',
+      'boxes' => [
+        [
+          'icon'=> '',
+          'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
+        ],
+        [
+          'icon'=> '',
+          'action' => 'Point-of-Use (POU) Reverse Osmosis (RO) System'
+        ],
+        [
+          'icon'=> '',
+          'action' => 'Point-of-Use (POU) Activated Alumina Filter System'
+        ],
+      ]
+    ],
   ];
 
   // some logic to help make it simpler to read

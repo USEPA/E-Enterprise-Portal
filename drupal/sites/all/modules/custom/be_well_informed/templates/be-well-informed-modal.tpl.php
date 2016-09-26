@@ -317,128 +317,20 @@
         </table>
         <h3 id="treatment_order_title">Treatment Order</h3>
         <div class="step_class">
-          <div id="step_As" class="clearfix hide">
-            <div class="col-sm-1">
-              <div class="step"><span>Step 1</span></div>
-            </div>
-
-            <div class="col-sm-11">
-              <div class="step_boxes text-center">
-                <div class="home_icon"></div>
-                <div class="box_main"><span>Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer</span></div>
-                <div class="or"><span>OR</span></div>
-                <div class="facut_icon"></div>
-                <div class="box_main"><span>Point-of-Use (POU) Arsenic Adsorption Media Filter System</span></div>
+          <?php foreach ($treatments as $t): ?>
+            <div class="clearfix treatment-step hide">
+              <div class="step"><span></span></div>
+              <div class="step-boxes text-center">
+                <div class="caret"></div>
+                <?php if($t['icon']): echo "<div class='treatment-icon {$t['icon']}-icon step-icon'></div>"; endif; ?>
+                <?php if($t['text']): echo "<div class='caret'>{$t['text']}</div>"; endif; ?>
+                <?php foreach ($t['boxes'] as $i => $b): ?>
+                  <?php if($b['icon']): echo "<div class='treatment-icon {$b['icon']}-icon'></div>"; endif; ?>
+                  <div class="box-main hide" title="<?php echo $b['action']; ?>"><?php echo $b['action']; ?></div>
+                <?php endforeach; ?>
               </div>
             </div>
-          </div>
-          <div id="treatment-step-1" class="clearfix treatment-step">
-            <div class="col-sm-1">
-              <div class="step"><span>Step 1</span></div>
-            </div>
-            <div class="col-sm-11">
-              <div class="step_boxes text-center">
-                <div class="home_icon"></div>
-                <span class="caret"></span>
-                <div id="a1_box" class="box_main">Whole House Oxidizing Filter System</div>
-                <span id="or_1_1" class="or">OR</span>
-                <div id="b1_box" class="box_main">Whole House Cation Exchange Water Softener</div>
-              </div>
-            </div>
-          </div>
-          <div id="treatment-step-2" class="clearfix treatment-step hide">
-            <div class="col-sm-1">
-              <div id="div_step_2_circle" class="">
-                <span id="step_2_no"></span></div>
-            </div>
-            <div class="col-sm-11">
-              <div class="step_boxes text-center">
-                <div class="home_icon">
-                  <img src="Images/water/smallhome2.png">
-                </div>
-                <span class="caret"></span>
-                <div id="a2_box" class="box_main hide">
-                  <span id="a2">Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer</span>
-                </div>
-                <span id="or_As" class="or hide"
-                      style="margin-left: 30px;">OR</span>
-                <div id="img_facut_As" style="float: none; margin-right: 30px;"
-                     class="home_icon hide">
-                  <img src="Images/water/facut.jpg">
-                </div>
-                <div id="a5_box_As" class="box_main hide">
-                  <span id="a5_As">Point-of-Use (POU) Arsenic Adsorption Media Filter System</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="treatment-step-3" class="clearfix treatment-step">
-            <div class="col-sm-1">
-              <div id="div_step_3_circle" class="step_circle">
-                <span id="step_3_no">Step 2</span></div>
-            </div>
-            <div class="col-sm-11">
-              <div class="step_boxes text-center">
-                <div class="treat_icon text-center">
-                  <img src="Images/water/treatment_recommend.png">
-                </div>
-                <div class="home_icon">
-                  <img src="Images/water/smallhome2.png">
-                </div>
-                <span class="caret"></span>
-                <div id="a3_box" class="box_main">
-                  <span id="a3">Whole House Aeration Device</span>
-                </div>
-                <span id="or_3_1" class="or hide">OR</span>
-                <div id="b3_box" class="box_main hide">
-                  <span id="b3">Whole House Granular Activated Carbon (GAC) Filter</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="treatment-step-4" class="clearfix treatment-step">
-            <div class="col-sm-1">
-              <div id="div_step_4_circle" class="step_circle">
-                <span id="step_4_no">Step 3</span></div>
-            </div>
-            <div class="col-sm-11">
-              <div class="step_boxes text-center">
-                <div class="home_icon">
-                  <img src="Images/water/smallhome2.png">
-                </div>
-                <span class="caret"></span>
-                <div id="a4_box" class="box_main">
-                  <span id="a4">Whole House Acid Neutralizer System</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="treatment-step-5" class="clearfix treatment-step">
-            <div class="col-sm-1">
-              <div id="div_step_5_circle" class="step_circle">
-                <span id="step_5_no">Step 4</span></div>
-            </div>
-            <div class="col-sm-11">
-              <div class="step_boxes text-center">
-                <div class="home_icon">
-                  <img src="Images/water/facut.jpg">
-                </div>
-                <span class="caret"></span>
-                <div id="a5_box" class="box_main hide">
-                  <span id="a5">Point-of-Use (POU) Arsenic Adsorption Media Filter System</span>
-                </div>
-                <span id="or_5_1" class="or hide">OR</span>
-                <div id="b5_box" class="box_main">
-                  <span
-                    id="b5">Point-of-Use (POU) Reverse Osmosis (RO) System</span>
-                </div>
-                <span id="or_5_2" class="or hide">OR</span>
-                <div id="c5_box" class="box_main hide">
-                  <span id="c5">Point-of-Use (POU) Activated Alumina Filter System</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <?php endforeach; ?>
         </div>
         <div id="div_tt_wh" class="step_class">
           <br><span>Regardless of water treatment technology, it is essential that system maintenance be

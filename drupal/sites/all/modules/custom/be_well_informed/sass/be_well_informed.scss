@@ -252,6 +252,19 @@ $color_ecstasy_approx: #ff851b;
         .facet_icon:before {
             @include bwi-label('../images/facut.png');
         }
+        .step_boxes {
+            &:first-child {
+                .caret {
+                    display: none;
+                }
+            }
+        }
+        .box_main:before {
+            content: 'OR';
+            &:first-child {
+                content: normal;
+            }
+        }
     }
 
     .hide {
