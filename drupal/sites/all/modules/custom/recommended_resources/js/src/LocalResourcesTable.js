@@ -269,9 +269,10 @@ var LocalResourcesTable;
               $your_selections = $wrapper_parent.find('.your-selections.all-resources');
             }
 
-            /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
-             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
 
+            /**
+             * Track the amount of common facets
+             */
             var facet_topic_counts = {};
             $('div[id^="yadcf-filter-wrapper--' + wrapper_id + '-wrapper"]').find('li').each(function(index) {
               var facet_topic = $(this).find('label').html();
@@ -281,6 +282,8 @@ var LocalResourcesTable;
               facet_topic_counts[facet_topic]++;
             });
 
+            /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
+             *count next to each facet. TODO: put this in a function after the MVP is accepted.*/
             $('div[id^="yadcf-filter-wrapper--' + wrapper_id + '-wrapper"]').find('li').each(function(index) {
               if (index > 0) {
                 var facet_type = $(this).closest('.facet').attr('class').replace('facet', '').trim();
@@ -328,7 +331,6 @@ var LocalResourcesTable;
             /*On Topic Facet click (select), show topic above data table and hide if the click event unchecks the
              *clicked checkbox TODO: put this in a function after the MVP is accepted.*/
             $('div[id^="yadcf-filter-wrapper--' + wrapperParentId + '"]').find('input').click(function(e) {
-              // Common title names that map to the selector- make sure Facet Type is displaying.
               // exact matching span selector
               var facet_type = $(this).next().data('facetType');
               var facet_title = $(this).next().attr('title');
