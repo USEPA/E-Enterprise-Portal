@@ -97,12 +97,12 @@ function eenterprise_utility_menu() {
     '#type' => MENU_CALLBACK,
   );
   $items['admin/config/system/system-admin-role'] = array(
-      'title' => 'System Admin Role',
-      'description' => 'Currently used Drupal admin role',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('admin_role_settings'),
-      'access arguments' => array('administer users'),
-      'file' => 'eenterprise_utility_admin_role.admin.inc',
+    'title' => 'System Admin Role',
+    'description' => 'Currently used Drupal admin role',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('admin_role_settings'),
+    'access arguments' => array('administer users'),
+    'file' => 'eenterprise_utility_admin_role.admin.inc',
   );
 
   return $items;
@@ -174,6 +174,10 @@ function perform_user_login($response_output) {
       user_save($user, array('mail' => trim($response_output['email'], '"')));
       //if user is public user
       if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS') {
+        //assign_roles_to_user($username);
+        $_SESSION['cdx_fmw_security_token'] = $_POST['Token'];
+        $_SESSION['userId'] = $username;
+        $_SESSION['login_timestamp'] = time();
         $public_or_cdx = 'cdx';
       }
       else {
@@ -181,6 +185,7 @@ function perform_user_login($response_output) {
         user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
         $public_or_cdx = 'public';
       }
+      $_SESSION['cdx_user_type'] = $public_or_cdx;
     }
   }
   else {
@@ -192,10 +197,19 @@ function perform_user_login($response_output) {
     //To fix a bug where email address is not updated after users update their email address in CDX and login.
     user_save($user, array('mail' => trim($response_output['email'], '"')));
     try {
-      if (!($response_output['issuer'] == 'urn:ENNAAS' && $response_output['issuer'] == 'urn:NAAS')) {
+      if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS') {
+        $_SESSION['cdx_fmw_security_token'] = $_POST['Token'];
+        $_SESSION['userId'] = $username;
+        $_SESSION['login_timestamp'] = time();
+        $public_or_cdx = 'cdx';
+      }
+      else {
         $user_role = user_role_load_by_name('Public User');
         user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+        $public_or_cdx = 'public';
       }
+      $_SESSION['cdx_user_type'] = $public_or_cdx;
+
     } catch (Exception $e) {
       watchdog('eenterprise_utility', "Error 0014: General Exception", array(), WATCHDOG_ERROR);
     }
@@ -319,6 +333,7 @@ function guest_login_action() {
     $user = user_load($uid);
     watchdog('guest_user', 'Session opened for %name.', array('%name' => $user->name));
     $user->login = REQUEST_TIME;
+    variable_set('cdx_user_type', 'public');
     db_update('users')
       ->fields(array('login' => $user->login))
       ->condition('uid', $user->uid)
