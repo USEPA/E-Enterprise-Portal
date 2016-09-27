@@ -59,7 +59,7 @@ function clearResources() {
   $(document).ready(function() {
     var $body = $('body');
     var guest_user = Drupal.settings.is_guest;
-    var load_initial_user_table = true;
+    var has_loaded_initial_user_table = true;
 
     all_local_resources_table = new LocalResourcesTable($("#all-local-resources"), 'generateAllLocalResourcesTable', 'all');
     // Guest user can only view all the content, so they do not have tabs
@@ -103,9 +103,9 @@ function clearResources() {
       });
 
     $body.on('click', '#restrict-to-local-resources-button', function() {
-      if (load_initial_user_table) {
+      if (has_loaded_initial_user_table) {
         favorite_local_resources_table.showTable();
-        load_initial_user_table = false;
+        has_loaded_initial_user_table = false;
       }
       updateDropdown($('#user-lgc-topics-small-view'));
     });
