@@ -121,9 +121,6 @@ function removeTopic($checkbox, from_unfollow) {
           removeTopic($checkbox);
       });
 
-  $('#first-time-user-profile').on('click', '#save-preferences', function() {
-
-  });
 
   });
 

@@ -421,8 +421,10 @@
           },
           success: function(msg) {
 
-
-            Drupal.settings.recommended_resources.user_lgc_topics = tid_name_mapping;
+            // Once save has succeeded, update user topics in Drupal settings for use in LGC Widget
+            if (Drupal.settings.recommended_resources && Drupal.settings.recommended_resources.user_lgc_topics) {
+              Drupal.settings.recommended_resources.user_lgc_topics = tid_name_mapping;
+            }
 
             var parsed_msg = $.parseJSON(msg);
             $(document).trigger("ee:first_time_user_complete");
