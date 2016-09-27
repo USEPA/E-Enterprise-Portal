@@ -162,7 +162,6 @@ function be_well_informed_form_submission() {
  */
 function be_well_informed_datatable_response($be_well_response_json) {
   $be_well_response = json_decode($be_well_response_json);
-  $water_response_datatable_returns = [];
   $datatable_result_summary_json = [];
   $datatable_result_details_json = [];
 
@@ -176,7 +175,6 @@ function be_well_informed_datatable_response($be_well_response_json) {
       $user_entry = "None";
     }
 
-
     $datatable_row = [];
     $datatable_row[] = processGuidelineColor($water_data->GuidelineColor);
     $datatable_row[] = $water_data->ContaminantFullName . ' (' . $water_data->Symbol . ')';
@@ -185,20 +183,26 @@ function be_well_informed_datatable_response($be_well_response_json) {
     $datatable_row[] = $guide_text;
     $datatable_result_summary_json[] = $datatable_row;
 
-// Capture details for each summary row, even if empty
+    // Capture details for each summary row, even if empty
     $datatable_result_details_json[] = [
       'data_array' => [
-        $water_data->InterpretationMessages,
-        $water_data->HealthMessages,
-        $water_data->TreatmentMessages
+        //$water_data->InterpretationMessages,
+        //$water_data->HealthMessages,
+        //$water_data->TreatmentMessages
+        html_entity_decode($water_data->InterpretationMessages),
+        html_entity_decode($water_data->HealthMessages),
+        html_entity_decode($water_data->TreatmentMessages)
       ],
       'result' => $water_data->GuidelineColor,
     ];
   }
 
-  $water_response_datatable_returns['result_summary'] = $datatable_result_summary_json;
-  $water_response_datatable_returns['result_details'] = $datatable_result_details_json;
-  return $water_response_datatable_returns;
+  $be_well_response = (Array) $be_well_response;
+  $be_well_response['ResultEvaluations'] = [];
+  $be_well_response['ResultEvaluations']['result_summary'] = $datatable_result_summary_json;
+  $be_well_response['ResultEvaluations']['result_details'] = $datatable_result_details_json;
+
+  return $be_well_response;
 }
 
 
@@ -268,6 +272,7 @@ function processGuidelineColor($guideline_color) {
  * Implements template_preprocess_hook for be-well-informed-modal.tpl.php.
  */
 function template_preprocess_be_well_informed_modal(&$variables, $hook) {
+
   $variables['unit_types'] = [
     'mg/L',
     'μg/L',
@@ -286,7 +291,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'As',
       'symbol' => 'As',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'μg/L', 'ppm', 'ppb']
     ],
     [
@@ -335,7 +340,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'Fe',
       'symbol' => 'Fe',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
@@ -359,7 +364,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'machine_name' => 'Mn',
       'symbol' => 'Mn',
       'default_unit_type' => 'mg/L',
-      'validation' => ['required'],
+      'validation' => [],
       'unit_types' => ['mg/L', 'ppm']
     ],
     [
@@ -530,5 +535,15 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     $variables['water_components'][$key]['symbol_text'] = ($var['symbol_text']) ? $var['symbol_text'] : $var['symbol'];
   }
 
+  $exposed_variables = [
+    'treatments' => $variables['treatments'],
+    'radionuclides' => $variables['radionuclides'],
+    'microbiology' => $variables['microbiology'],
+    'water_components' => $variables['water_components'],
+    'unit_types' => $variables['unit_types'],
+  ];
+
   $variables['cities'] = ["Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
+  drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
+
 }

@@ -145,7 +145,7 @@ $color_ecstasy_approx: #ff851b;
             @include clearfix();
         }
         .column {
-            float: left;
+            //float: left;
             position: relative;
             min-height: 0.1rem;
             padding-right: 0.9375rem;
@@ -167,6 +167,7 @@ $color_ecstasy_approx: #ff851b;
         .one-third {
             width: 31.3%;
             margin-left: 3%;
+            float: left;
             &:first-child {
                 margin-left: 0;
             }
@@ -176,6 +177,14 @@ $color_ecstasy_approx: #ff851b;
                 float: left;
                 position: relative;
             }
+            &.offset-one-third {
+                margin-left: 34.3%;
+            }
+        }
+
+        .two-third {
+            width: 62.6%;
+            margin-left: 3%
         }
         .one-half {
             width: 49%;
@@ -214,7 +223,7 @@ $color_ecstasy_approx: #ff851b;
     #interactive-prompts {
         .btn-group {
             float: right;
-            width: 21.1em;
+            width: 21.3em;
             button {
                 float: left;
                 width: 48.7%;
@@ -266,11 +275,15 @@ $color_ecstasy_approx: #ff851b;
             }
         }
     }
-
+    .invisible {
+        visibility: hidden;
+    }
     .hide {
         display: none !important;
     }
-
+    .right {
+        float: right;
+    }
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
         -webkit-appearance: none;
@@ -510,6 +523,18 @@ $color_ecstasy_approx: #ff851b;
                         white-space: nowrap;
                     }
 
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 30em) {
+    #be-well-informed-modal {
+        #be-well-informed-results-wrapper {
+            .one-third {
+                &.offset-one-third {
+                    margin-left: 34.3%;
                 }
             }
         }

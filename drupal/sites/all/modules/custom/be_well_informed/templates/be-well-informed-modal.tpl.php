@@ -11,49 +11,8 @@
       <h4>Everything appears valid</h4>
     </div>
 
-    <!--  <div id="interactive-prompts-modal" class="usa-width-one-whole">
-    <form action="" id="interactive-prompts" class="">
-      <div class="questions">
-        <div class="section row">
-          <div class="column usa-width-one-half">
-            <p>Does your water taste salty?</p>
-          </div>
-          <div class="column usa-width-one-half text-right btn-group">
-            <button for="" class="usa-button-primary" type="button"><input type="radio" value="1">Yes</button>
-            <button for="" class="usa-button-primary" type="button"><input type="radio" value="0">No</button>
-          </div>
-        </div>
-        <div class="section row">
-          <div class="column usa-width-one-half">
-            <p>Please enter the value for Iron (symbol is “Fe”) if there is a result within your lab report. If Iron was not tested as part of your water analysis, leave the box blank. Do not enter “0”.</p>
-          </div>
-          <div class="column usa-width-one-half text-right btn-group">
-            <input class="one-third"
-                   name=""
-                   type="number"
-                   id="" >
-            <select class="one-third"
-                    name="<?php /*echo $prefix . 'ddl' . $m['machine_name'] */ ?>"
-                    id="ddl<?php /*echo $m['machine_name'] */ ?>">
-              <?php /*foreach ($unit_types as $ut): */ ?>
-                <option
-                  value="<?php /*echo $ut */ ?>"> <?php /*echo $ut */ ?></option>
-              <?php /*endforeach; */ ?>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="row usa-width-one-whole reset-submit">
-        <div class="column right">
-          <button id="water_analysis_reset" class="usa-button usa-button-outline" type="button">Reset</button>
-          <button id="water_analysis_submit" class="usa-button-primary" type="button">Submit</button>
-        </div>
-      </div>
-    </form>
-  </div>
--->
     <form action="" id="water_analysis_results_form">
-      <div class="row usa-grid-full">
+      <div id="routine-contaminants" class="row usa-grid-full">
         <div class="row usa-width-one-whole">
           <div class="city-selection usa-width-one-half">
             <div class="section">
@@ -202,6 +161,7 @@
           </div>
         </div>
       </div>
+      <div id="interactive-prompts"></div>
       <div class="row usa-width-one-whole reset-submit">
         <div class="column">
           <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx"
@@ -268,7 +228,7 @@
         <i class="fa fa-caret-down" aria-hidden="true"></i>
         Results Summary
       </h1>
-      <div class="datatable usa-width-one-whole">
+      <div class="datatable usa-width-one-whole be-well-informed-results">
         <div class="bwi-legend">
           <div class="bwi-key one-fifth">Key</div>
           <div class="bwi-meets-limit one-fifth">Meets the Drinking Water
@@ -282,20 +242,6 @@
           </div>
           <div class="bwi-no-entry one-fifth">No Input Entered</div>
         </div>
-        <table id="be-well-informed-results-table"
-               class="responsive-table usa-table-borderless">
-          <thead>
-          <tr>
-            <th>Result</th>
-            <th>Element</th>
-            <th>Your Entry</th>
-            <th>Limit</th>
-            <th>About Your Well Water</th>
-          </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
       </div>
 
       <h1 class="head ui-accordion-header hide treatment-header" role="tab" tabindex="0">
@@ -380,22 +326,7 @@
         <i class="fa fa-caret-down" aria-hidden="true"></i>
         Results Details
       </h1>
-      <div class="datatable usa-width-one-whole">
-        <table id="be-well-informed-result-details-table"
-               class="responsive-table usa-table-borderless">
-          <thead>
-          <tr>
-            <th>Result</th>
-            <th>Element</th>
-            <th>Your Entry</th>
-            <th>Limit</th>
-            <th>About Your Well Water</th>
-          </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
+      <div class="datatable usa-width-one-whole be-well-informed-result-details"></div>
     </div>
   </div>
 </div>
