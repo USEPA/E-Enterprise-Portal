@@ -126,5 +126,12 @@ function clearResources() {
       $h3.find('span').toggleClass('on off');
     });
 
+    // Prevent dom from focusing on hidden label and scrolling the widget out of view
+    $body.on('click', '.multiselect-to-checkboxes label', function(ev) {
+      var input_id = $(this).attr('for');
+      $('#' + input_id).trigger('click');
+      ev.preventDefault();
+    });
+
   });
 }(jQuery));
