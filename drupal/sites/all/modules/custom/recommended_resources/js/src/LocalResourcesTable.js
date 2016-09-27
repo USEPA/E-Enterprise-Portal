@@ -149,6 +149,7 @@ var LocalResourcesTable;
         url: ajax_url,
         method: "POST",
         data: {filters: topics},
+
         success: function(table) {
           /**
            * TODO: refactor - duplicate code block in the following files:
