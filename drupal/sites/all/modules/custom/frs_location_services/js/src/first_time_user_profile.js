@@ -381,6 +381,7 @@
         var role_val = $('#select-role').val();
         var comm_size_val = 0;
         var comm_type_val = 0;
+        var tid_name_mapping = {};
         if (org_text == 'Local government') {
           var selected_size = $('#community-size').val();
           var type_checkboxes = $('input[name=community-type]:checked');
@@ -394,8 +395,9 @@
 
         // Collect interests from checkboxes
         $('.term-name-checkboxes:checked').each(function() {
-          var current_checkbox = $(this);
-          interests.push(current_checkbox.val());
+          var $current_checkbox = $(this);
+          interests.push($current_checkbox.val());
+          tid_name_mapping[$current_checkbox.val()] = $current_checkbox.attr("name");
         });
 
         // ***********  !  IMPORTANT  !  ***********
@@ -418,6 +420,10 @@
             interests: interests
           },
           success: function(msg) {
+
+
+            Drupal.settings.recommended_resources.user_lgc_topics = tid_name_mapping;
+
             var parsed_msg = $.parseJSON(msg);
             $(document).trigger("ee:first_time_user_complete");
             if (parsed_msg.success) {

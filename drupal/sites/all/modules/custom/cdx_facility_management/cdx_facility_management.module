@@ -110,6 +110,7 @@ function return_cdx_facility_management_token($is_print_json = TRUE)
     if ($local_testing || $user->uid === 1) {
         $user_id = $local_testing_user_id;
         $user_login_time = time();
+        $_SESSION['logoutAt'] = time() + $user_session_logout * 60;
     } else {
         // if user logged in without bridge, session is not set. Default logged in time to current time
         if (isset($_SESSION['login_timestamp'])) {
@@ -231,10 +232,10 @@ function renewToken($client, $email, $frs_password, $domain, $token)
         "securityToken" => $token,
     );
 
-    $response = callSOAPWithParams($client,
-        "RenewSecurityToken",
-        $params_for_renewal,
-        "CDX Facility Management");
+        $response = callSOAPWithParams($client,
+            "RenewSecurityToken",
+            $params_for_renewal,
+            "CDX Facility Management");
 
     if (!$response->error) {
         $response = $response->response;
