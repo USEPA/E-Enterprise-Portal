@@ -1460,7 +1460,7 @@ function generate_location_input_for_guests() {
   print '<div class="form-inline">';
   print '<div class="form-group has-feedback">';
   print '<label class="control-label" for="location-input-guests">Enter city, state; tribe; or ZIP code</label>';
-  print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error" style="height:23px;vertical-align: top;padding-top:2px;padding-bottom:2px">';
+  print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error">';
   print '<span class="form-control-feedback" aria-hidden="true" style="top:-2px;font-size:80%"></span>';
 //  print '<span id="location-input-guests-error" class="sr-only">(success)</span>';
   print '</div>';
