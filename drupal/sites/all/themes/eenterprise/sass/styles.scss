@@ -217,11 +217,16 @@
             select, input {
                 margin-bottom: 0;
                 margin-top: 0;
-                padding: 0 0.7rem;
+                padding: 4px 0.7rem;
                 width: 26rem;
-                line-height: 1.75;
+                line-height: 1.15;
                 border-color: $color-gray-lightest;
                 font-size: $h5-font-size;
+                &#location-input-guests.ui-autocomplete-input.form-control.input-sm {
+                    padding-top: 4px !important;
+                    padding-bottom: 4px !important;
+                    line-height: 1.15;
+                }
             }
         }
         .ee-feedback {
@@ -229,6 +234,7 @@
         }
     }
 }
+
 
 // Menus -------------- //
 
@@ -2107,10 +2113,6 @@ form .field-multiple-table#field-zip-code-values {
     //outline: none;
     padding: 1rem 0.7em !important;
     width: 100% !important;
-    &#location-input-guests {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-    }
     &:after {
         content: "\f002";
         font-family: 'FontAwesome';
@@ -3809,13 +3811,8 @@ input#location-input-guests::-ms-clear {
             &.ui-autocomplete-input.form-control.input-sm {
                 width: 125px !important;
                 height: 2.75rem;
-                color: $color-base;
-                vertical-align: middle;
-                padding-top: 2px;
-                padding-bottom: 2px;
                 color: #000;
                 font-size: 1.5rem;
-                line-height: 1;
                 padding-right: 2px;
             }
         }
