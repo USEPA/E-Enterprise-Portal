@@ -11,7 +11,7 @@
           $.get('todo/refresh', function() {
             console.log('ajax complete, refresh the ctools forms to refresh the view');
             $refreshLink.parent().find('.ctools-auto-submit-click').click();
-            $refreshLink.next().remove();
+            $refreshLink.next('div.ajax-progress.ajax-progress-throbber').remove();
           });
           return false;
         });
@@ -19,7 +19,8 @@
     }
   };
 
-  $(document).ready(function() {
+  // @see http://stackoverflow.com/questions/5641798/load-javascript-after-page-is-fully-rendered
+  $(window).load(function() {
     $('#gridstack-pane-views-to_do-block_1').find('a.refresh').click();
     $('#gridstack-pane-views-progress_tracker-block_1').find('a.refresh').click();
   });
