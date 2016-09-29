@@ -11,7 +11,7 @@ var still_updating = 0;
 
 function updatingUserTopics() {
   still_updating++;
-  var $anchor = $('.back-to-lgc-widget a');
+  var $anchor = jQuery('.back-to-lgc-widget a');
   if ($anchor.text() != update_anchor_text) {
     $anchor.addClass('disabled').html(update_anchor_text + '  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>');
   }
@@ -32,9 +32,9 @@ function handleError(error_message) {
 function saveTopic($checkbox) {
   var tid = $checkbox.val();
   var title = $checkbox.prop('name');
-  var $anchor = $('.back-to-lgc-widget a');
+  var $anchor = jQuery('.back-to-lgc-widget a');
 
-  $.ajax({
+  jQuery.ajax({
     url: 'manage_my_topics/save_topic',
     data: {tid: tid},
     method: 'POST',
@@ -46,7 +46,7 @@ function saveTopic($checkbox) {
         Drupal.settings.recommended_resources.user_lgc_topics[tid] = title;
       }
       still_updating--;
-      response = $.parseJSON(response);
+      response = jQuery.parseJSON(response);
       var error = response.error;
       if (!error && still_updating == 0) {
         $anchor.removeClass('disabled').text(anchor_text);
@@ -69,7 +69,7 @@ function saveTopic($checkbox) {
 function removeTopic($checkbox, from_unfollow) {
   var tid;
   var title = $checkbox.prop('name');
-  var $anchor = $('.back-to-lgc-widget a');
+  var $anchor = jQuery('.back-to-lgc-widget a');
 
   if (from_unfollow) {
     tid = $checkbox;
@@ -77,7 +77,7 @@ function removeTopic($checkbox, from_unfollow) {
     tid = $checkbox.val();
   }
 
-  $.ajax({
+  jQuery.ajax({
     url: 'manage_my_topics/remove_topic',
     data: {tid: tid},
     method: 'POST',
@@ -89,12 +89,11 @@ function removeTopic($checkbox, from_unfollow) {
         delete Drupal.settings.recommended_resources.user_lgc_topics[tid];
       }
       still_updating--;
-      response = $.parseJSON(response);
+      response = jQuery.parseJSON(response);
       var error = response.error;
       if (!error && still_updating == 0) {
         if (from_unfollow) {
           showLGCResourcesView();
-          //favorite_local_resources_table.updateTopics([]);
         }
         $anchor.removeClass('disabled').text(anchor_text);
       }
@@ -121,6 +120,8 @@ function removeTopic($checkbox, from_unfollow) {
         else
           removeTopic($checkbox);
       });
+
+
   });
 
 

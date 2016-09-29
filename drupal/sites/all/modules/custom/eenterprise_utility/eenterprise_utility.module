@@ -97,12 +97,12 @@ function eenterprise_utility_menu() {
     '#type' => MENU_CALLBACK,
   );
   $items['admin/config/system/system-admin-role'] = array(
-      'title' => 'System Admin Role',
-      'description' => 'Currently used Drupal admin role',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('admin_role_settings'),
-      'access arguments' => array('administer users'),
-      'file' => 'eenterprise_utility_admin_role.admin.inc',
+    'title' => 'System Admin Role',
+    'description' => 'Currently used Drupal admin role',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('admin_role_settings'),
+    'access arguments' => array('administer users'),
+    'file' => 'eenterprise_utility_admin_role.admin.inc',
   );
 
   return $items;
@@ -517,6 +517,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     hide($form['field_gridstack_settings']);
     hide($form['field_lgc_topics_of_interest']);
     hide($form['field_piv_card_org']);
+    if(isset($form['account']['mail']['#description']))
+      unset($form['account']['mail']['#description']);
     // If user is admin allow to edit state admin STATE and toggle user's first time status
     if ($user->uid > 1) {
       hide($form['field_admin_state']);
@@ -1458,7 +1460,7 @@ function generate_location_input_for_guests() {
   print '<div class="form-inline">';
   print '<div class="form-group has-feedback">';
   print '<label class="control-label" for="location-input-guests">Enter city, state; tribe; or ZIP code</label>';
-  print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error" style="height:23px;vertical-align: top;padding-top:2px;padding-bottom:2px">';
+  print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error">';
   print '<span class="form-control-feedback" aria-hidden="true" style="top:-2px;font-size:80%"></span>';
 //  print '<span id="location-input-guests-error" class="sr-only">(success)</span>';
   print '</div>';
