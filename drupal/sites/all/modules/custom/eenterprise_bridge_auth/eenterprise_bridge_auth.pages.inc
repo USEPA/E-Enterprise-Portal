@@ -231,7 +231,9 @@ function eenterprise_bridge_auth_authenticate($error)
                 }
             }
         }
-        create_progress_tracker($user);
+        if (!module_exists('eactivity_dataflow')) {
+            create_progress_tracker($user);
+        }
     }
     drupal_goto('workbench');
 }
@@ -833,9 +835,14 @@ function refresh_todo_list()
         node_delete($value['nid']);
     }
     create_progress_tracker($user);
-    //return '';
     drupal_set_message("To Do and Progress Tracker Data refreshed successfully");
-    drupal_goto('/workbench');
+    if (module_exists('eactivity_dataflow')) {
+        drupal_json_output(array(
+            'status' => TRUE,
+        ));
+    } else {
+        drupal_goto('/workbench');
+    }
 }
 
 function eenterprise_bridge_auth_redirect()
