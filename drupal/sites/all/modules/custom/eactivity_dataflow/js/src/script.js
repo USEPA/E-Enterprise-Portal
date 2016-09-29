@@ -6,7 +6,7 @@
         $('#gridstack-pane-views-to_do-block_1, #gridstack-pane-views-progress_tracker-block_1').on('click', 'a.refresh', function(ev) {
           console.log('do not load link, perform ajax instead');
           var $refreshLink = $(this);
-          $refreshLink.after('<div class="ajax-progress ajax-progress-throbber"><div class="throbber">&nbsp;</div></div>');
+          $refreshLink.after('<div class="ajax-progress ajax-progress-throbber"><div class="throbber">&nbsp;</div> Refreshing...</div>');
 
           // 'todo/refresh' calls refresh_todo_list() in eenterprise_bridge_auth.pages.inc
           $.get('todo/refresh', function() {
