@@ -185,9 +185,9 @@
        class="be-well-informed-modal-wrapper">
     <h1>Be Well Informed > View Your Water Analysis Results</h1>
     <div id="be-well-informed-accordion" class="ui-accordion">
-      <h1 class="head ui-accordion-header" role="tab" tabindex="0">
+      <h1 class="head ui-accordion-header open" role="tab" tabindex="0">
         <i class="fa fa-caret-down" aria-hidden="true"></i>
-        About the Results
+        <span class="bwi-result-title">About the Results</span>
       </h1>
       <div>
         <p>
@@ -222,9 +222,9 @@
           diet.”
         </p>
       </div>
-      <h1 class="head ui-accordion-header" role="tab" tabindex="0">
+      <h1 class="head ui-accordion-header open" role="tab" tabindex="0">
         <i class="fa fa-caret-down" aria-hidden="true"></i>
-        Results Summary
+        <span class="bwi-result-title">Results Summary</span>
       </h1>
       <div class="datatable usa-width-one-whole be-well-informed-results">
         <h3 class="bwi-key">Key</h3>
@@ -242,10 +242,10 @@
         </div>
       </div>
 
-      <h1 class="head ui-accordion-header hide treatment-header" role="tab"
+      <h1 class="head ui-accordion-header hide treatment-header open" role="tab"
           tabindex="0">
         <i class="fa fa-caret-down" aria-hidden="true"></i>
-        Water Treatment Systems That Remove <span class="treatment-text"></span>
+        <span class="bwi-result-title">Water Treatment Systems That Remove <span class="treatment-text"></span></span>
       </h1>
       <div class="datatable usa-width-one-whole hide treatment-content">
         <table>
@@ -318,9 +318,9 @@
         <p><span>More Information is available from <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">NHDES</a> and <a target="_blank" href="http://water.epa.gov/drink/contaminants/index.cfm">US EPA</a></span></p>
 
       </div>
-      <h1 class="head ui-accordion-header" role="tab" tabindex="0">
+      <h1 class="head ui-accordion-header open" role="tab" tabindex="0">
         <i class="fa fa-caret-down" aria-hidden="true"></i>
-        Results Details
+        <span class="bwi-result-title">Results Details</span>
       </h1>
       <div
         class="datatable usa-width-one-whole be-well-informed-result-details"></div>
