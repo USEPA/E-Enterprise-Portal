@@ -32,7 +32,7 @@
 
           <div class="city-selection usa-width-one-half">
             <button class="column right" type="button" onclick="sampleData()">
-              Sample Data
+              Cycle through Sample Data
             </button>
           </div>
         </div>
@@ -229,22 +229,23 @@
         Results Summary
       </h1>
       <div class="datatable usa-width-one-whole be-well-informed-results">
-        <div class="bwi-legend">
-          <div class="bwi-key one-fifth">Key</div>
-          <div class="bwi-meets-limit one-fifth">Meets the Drinking Water
+        <h3 class="bwi-key">Key</h3>
+        <div class="bwi-legend clearfix">
+          <div class="bwi-meets-limit one-forth">Meets the Drinking Water
             Limit
           </div>
-          <div class="bwi-close-to-limit one-fifth">Close to the Drinking Water
+          <div class="bwi-close-to-limit one-forth">Close to the Drinking Water
             Limit
           </div>
-          <div class="bwi-above-limit one-fifth">Above the Drinking Water
+          <div class="bwi-above-limit one-forth">Above the Drinking Water
             Limit
           </div>
-          <div class="bwi-no-entry one-fifth">No Input Entered</div>
+          <div class="bwi-no-entry one-forth">No Input Entered</div>
         </div>
       </div>
 
-      <h1 class="head ui-accordion-header hide treatment-header" role="tab" tabindex="0">
+      <h1 class="head ui-accordion-header hide treatment-header" role="tab"
+          tabindex="0">
         <i class="fa fa-caret-down" aria-hidden="true"></i>
         Water Treatment Systems That Remove <span class="treatment-text"></span>
       </h1>
@@ -262,24 +263,29 @@
           </tbody>
         </table>
         <h3 id="treatment_order_title">Treatment Order</h3>
-        <div class="step_class">
+        <div class="step-class">
           <?php foreach ($treatments as $t): ?>
             <div class="clearfix treatment-step hide">
-              <div class="step"><span></span></div>
-              <div class="step-boxes text-center">
-                <div class="caret"></div>
-                <?php if($t['icon']): echo "<div class='treatment-icon {$t['icon']}-icon step-icon'></div>"; endif; ?>
-                <?php if($t['text']): echo "<div class='caret'>{$t['text']}</div>"; endif; ?>
-                <?php foreach ($t['boxes'] as $i => $b): ?>
-                  <?php if($b['icon']): echo "<div class='treatment-icon {$b['icon']}-icon'></div>"; endif; ?>
-                  <div class="box-main hide" title="<?php echo $b['action']; ?>"><?php echo $b['action']; ?></div>
-                <?php endforeach; ?>
+              <div class="caret"></div>
+              <div class="step">
+                <span <?php if ($t['icon']): echo "class='treatment-icon {$t['icon']}-icon step-icon'"; endif; ?>></span>
+              </div>
+              <div class="float-center">
+                <div class="step-boxes text-center clearfix">
+                  <?php if ($t['text']): echo "<div class='additional-text'>{$t['text']}</div>"; endif; ?>
+                  <?php foreach ($t['boxes'] as $i => $b): ?>
+                    <div
+                      class="box-main hide <?php if ($b['icon']): echo "treatment-icon {$b['icon']}-icon instruction-icon"; endif; ?>"
+                      title="<?php echo $b['action']; ?>"><?php echo $b['action']; ?></div>
+                    <?php if (end($t['boxes']) != $b): echo "<div class='or'>Or</div>"; endif; ?>
+                  <?php endforeach; ?>
+                </div>
               </div>
             </div>
           <?php endforeach; ?>
         </div>
-        <div id="div_tt_wh" class="step_class">
-          <br><span>Regardless of water treatment technology, it is essential that system maintenance be
+        <p class="step-class">
+          <span>Regardless of water treatment technology, it is essential that system maintenance be
                             performed on schedule to maintain system effectiveness.
                             </span><br>
           <br><span>
@@ -288,15 +294,15 @@
                             technology is installed at the point where water enters your home to treat all of
                             the water used in your home.
                             </span>
-        </div>
-        <div id="div_tt_pou" class="step_class">
+        </p>
+        <p class="step-class">
           <b>What does “Point of Use” (POU) mean?</b> Point of Use technologies
           are installed
           and treat water at one specific location in your Home where water is
           used, like
           your kitchen faucet.
-        </div>
-        <div id="div_tt_wh_detail" class="portlet-body">
+        </p>
+        <p>
           <span>Print this report and make final water treatment decisions with a qualified <a
               target="_blank"
               href="http://www.wqa.org/Programs-Services/Resources/Find-Providers/Find-Certified-Professionals">water treatment professional.</a></span>
@@ -310,23 +316,16 @@
                                         Cooperative Extension</a>.
                                 <br>
                             </span>
-        </div>
-        <br>
-        <div id="div19" class="portlet-body">
-                            <span>More Information is available from <a
-                                target="_blank"
-                                href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">
-                                NHDES</a> and <a target="_blank"
-                                                 href="http://water.epa.gov/drink/contaminants/index.cfm">US EPA</a></span>
-        </div>
-        <div>
-        </div>
+        </p>
+        <p><span>More Information is available from <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">NHDES</a> and <a target="_blank" href="http://water.epa.gov/drink/contaminants/index.cfm">US EPA</a></span></p>
+
       </div>
       <h1 class="head ui-accordion-header" role="tab" tabindex="0">
         <i class="fa fa-caret-down" aria-hidden="true"></i>
         Results Details
       </h1>
-      <div class="datatable usa-width-one-whole be-well-informed-result-details"></div>
+      <div
+        class="datatable usa-width-one-whole be-well-informed-result-details"></div>
     </div>
   </div>
 </div>

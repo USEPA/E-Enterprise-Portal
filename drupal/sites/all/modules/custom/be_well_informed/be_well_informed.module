@@ -198,9 +198,8 @@ function be_well_informed_datatable_response($be_well_response_json) {
   }
 
   $be_well_response = (Array) $be_well_response;
-  $be_well_response['ResultEvaluations'] = [];
-  $be_well_response['ResultEvaluations']['result_summary'] = $datatable_result_summary_json;
-  $be_well_response['ResultEvaluations']['result_details'] = $datatable_result_details_json;
+  $be_well_response['result_summary'] = $datatable_result_summary_json;
+  $be_well_response['result_details'] = $datatable_result_details_json;
 
   return $be_well_response;
 }
@@ -256,7 +255,7 @@ function processGuidelineColor($guideline_color) {
     case "font-green":
       $return_html = "<img src='" . $image_path . "/check.png' />";
       break;
-    case "font-blue":
+    case "font-yellow":
       $return_html = "<img src='" . $image_path . "/exclamation.png' />";
       break;
     case "font-red":
@@ -435,7 +434,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     ],
     [
       'name' => 'Uranium',
-      'machine_name' => 'U',
+      'machine_name' => 'Ur',
       'symbol' => 'U',
       'default_unit_type' => 'μg/L',
       'validation' => [],
