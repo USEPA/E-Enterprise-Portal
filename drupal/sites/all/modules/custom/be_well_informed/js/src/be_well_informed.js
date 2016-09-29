@@ -47,7 +47,10 @@ function resizeModal() {
 }
 
 function checkValues(previous, current, cIndex, keys) {
-  var previousKeys = Object.keys(previous[keys[cIndex]])
+  var previousKeys = [];
+  if(typeof previous[keys[cIndex]] == 'object'){
+    previousKeys = Object.keys(previous[keys[cIndex]])
+  }
 
   if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {
     delete previous[keys[cIndex]];
@@ -198,15 +201,12 @@ function resetBWIForm() {
     var formData = $form.serializeObject();
     var data = Object.keys(formData).reduce(checkValues, formData);
     showElementOutOfMany($loading_wrapper, $all_wrappers);
-    //console.log('sampleData:', JSON.stringify(data));
     $.ajax({
       url: 'be_well_informed/form_submission',
       method: 'POST',
       data: data,
       success: function(be_well_response_json) {
         if (!be_well_response_json.error) {
-          console.log(be_well_response_json.data);
-
           // reset the modal and return it to a 'default' state
           $('#routine-contaminants, .or').removeClass('hide')
           $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
