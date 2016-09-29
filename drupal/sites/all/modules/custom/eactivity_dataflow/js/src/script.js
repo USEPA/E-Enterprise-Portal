@@ -8,6 +8,7 @@
           var $refreshLink = $(this);
           $refreshLink.after('<div class="ajax-progress ajax-progress-throbber"><div class="throbber">&nbsp;</div></div>');
 
+          // 'todo/refresh' calls refresh_todo_list() in eenterprise_bridge_auth.pages.inc
           $.get('todo/refresh', function() {
             console.log('ajax complete, refresh the ctools forms to refresh the view');
             $refreshLink.parent().find('.ctools-auto-submit-click').click();
