@@ -484,6 +484,10 @@ $color_ecstasy_approx: #ff851b;
         .ui-accordion-content {
             padding: 0;
         }
+        .bwi-result-title {
+            padding-left: 2rem;
+            display: block;
+        }
 
         .one-forth {
             float: left;
@@ -511,7 +515,7 @@ $color_ecstasy_approx: #ff851b;
                 font-size: 1.5rem;
                 padding-left: 2%;
                 i {
-                    margin-right: 10%;
+                    position: absolute;
                 }
             }
             .bwi-legend {

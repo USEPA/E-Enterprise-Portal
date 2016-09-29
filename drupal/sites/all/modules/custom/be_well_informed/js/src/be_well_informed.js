@@ -22,6 +22,21 @@ jQuery.fn.serializeObject = function() {
   return o;
 };
 
+toggleSection = function() {
+  var $this = $(this);
+  var $arrow = $(this).find('i');
+
+  $this.toggleClass('open close')
+  // Reset all other arrows to right (default)
+  $('.ui-accordion-header').not($(this)).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
+  if ($arrow.hasClass("fa-caret-right")) {
+    $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
+  } else {
+    $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
+  }
+  resizeModal()
+}
+
 function resizeModal() {
   jQuery('#be-well-informed-modal').dialog({
     position: { 'my': 'center', 'at': 'center' }
@@ -154,6 +169,12 @@ function resetBWIForm() {
         sampleSetIndex = 0
         $('#be-well-informed-results-table, #be-well-informed-result-details-table').dataTable({bDestroy: true}).fnDestroy();
         $('#be-well-informed-results-table, #be-well-informed-result-details-table, #be-well-informed-results-table_wrapper, #be-well-informed-result-details-table_wrapper').remove();
+        $('.ui-accordion-header.close').each(toggleSection);
+        $('#routine-contaminants, .or').removeClass('hide')
+        $('#interactive-prompts').html('')
+        $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
+        $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret').addClass('hide')
+        showElementOutOfMany($('#be-well-informed-form-wrapper'), $('.be-well-informed-modal-wrapper'));
       }
     })
 
@@ -176,7 +197,7 @@ function resetBWIForm() {
     var formData = $form.serializeObject();
     var data = Object.keys(formData).reduce(checkValues, formData);
     showElementOutOfMany($loading_wrapper, $all_wrappers);
-    console.log('sampleData:', JSON.stringify(data));
+    //console.log('sampleData:', JSON.stringify(data));
     $.ajax({
       url: 'be_well_informed/form_submission',
       method: 'POST',
@@ -415,16 +436,6 @@ function resetBWIForm() {
     resizeModal()
   });
 
-  $('#be-well-informed-modal').on('click', '.ui-accordion-header', function() {
-    var $arrow = $(this).find('i');
-    // Reset all other arrows to right (default)
-    $('.ui-accordion-header').not($(this)).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
-    if ($arrow.hasClass("fa-caret-right")) {
-      $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
-    } else {
-      $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
-    }
-    resizeModal()
-  });
+  $('#be-well-informed-modal').on('click', '.ui-accordion-header', toggleSection);
 
 })(jQuery);
