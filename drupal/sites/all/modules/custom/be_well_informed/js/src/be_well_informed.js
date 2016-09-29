@@ -178,7 +178,7 @@ function resetBWIForm() {
     showElementOutOfMany($loading_wrapper, $all_wrappers);
     console.log('sampleData:', JSON.stringify(data));
     $.ajax({
-      url: 'be_well_informed/form_submission?XDEBUG_SESSION_START=10834',
+      url: 'be_well_informed/form_submission',
       method: 'POST',
       data: data,
       success: function(be_well_response_json) {

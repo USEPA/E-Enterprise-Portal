@@ -186,9 +186,6 @@ function be_well_informed_datatable_response($be_well_response_json) {
     // Capture details for each summary row, even if empty
     $datatable_result_details_json[] = [
       'data_array' => [
-        //$water_data->InterpretationMessages,
-        //$water_data->HealthMessages,
-        //$water_data->TreatmentMessages
         html_entity_decode($water_data->InterpretationMessages),
         html_entity_decode($water_data->HealthMessages),
         html_entity_decode($water_data->TreatmentMessages)
