@@ -660,7 +660,13 @@
     $('body').unbind('keypress', modalEventHandler);
     $('body').unbind( 'keydown', modalTabTrapHandler );
     $('.close').unbind('click', modalContentClose);
+    /**
+     * EPORTAL TEAM BEGIN CUSTOM CODE
+     */
     $('body').unbind('keypress', modalEventEscapeCloseHandler);
+    /**
+     * EPORTAL TEAM END CUSTOM CODE
+     */
     $(document).trigger('CToolsDetachBehaviors', $('#modalContent'));
 
     // jQuery magic loop through the instances and run the animations or removal.
