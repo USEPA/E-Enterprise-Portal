@@ -6,7 +6,7 @@ function clearResources() {
   $children = jQuery('.facet-topic-container:visible a').trigger('click');
 }
 
-(function ($) {
+(function($) {
   function showLGCResourcesView() {
     var $localResourcesTabs = $('#local-resources-tabs');
     $('#user-lgc-topics-small-view').find('label').removeClass('selected');
@@ -28,7 +28,7 @@ function clearResources() {
     var $localResourcesTabs = $('#local-resources-tabs');
     $.ajax({
       url: "manage_my_topics/load_view",
-      beforeSend: function () {
+      beforeSend: function() {
         $localResourcesTabs.hide();
         $(pane_class).find('.pane-title').hide();
         $('.unfollow-lgc-topic').hide();
@@ -36,7 +36,7 @@ function clearResources() {
         $('.lgc-header').text(manage_components_title).show();
         $('#manage-my-topics-wrapper').html('Loading...').show();
       },
-      success: function (html_view) {
+      success: function(html_view) {
         $('#manage-my-topics-wrapper').html(html_view);
       }
     });
@@ -56,9 +56,10 @@ function clearResources() {
     favorite_local_resources_table.filterTopics(title);
   }
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     var $body = $('body');
     var guest_user = Drupal.settings.is_guest;
+    var has_loaded_initial_user_table = true;
 
     all_local_resources_table = new LocalResourcesTable($("#all-local-resources"), 'generateAllLocalResourcesTable', 'all');
     // Guest user can only view all the content, so they do not have tabs
@@ -80,43 +81,35 @@ function clearResources() {
     }
 
     if (!first_time_user_loading) {
-      if (!guest_user) {
-        all_local_resources_table.showTable();
-        favorite_local_resources_table.ajax_request();
-      }
-      else {
-        all_local_resources_table.showTable();
-      }
+      all_local_resources_table.showTable();
     }
 
-    $(document).on('ee:first_time_user_complete', function () {
+    $(document).on('ee:first_time_user_complete', function() {
       first_time_user_loading = false;
-      if (!guest_user) {
-        all_local_resources_table.showTable();
-        favorite_local_resources_table.ajax_request();
-      }
-      else {
-        all_local_resources_table.showTable();
-      }
+      all_local_resources_table.showTable();
     });
 
-    $body.on('click', '#user-lgc-topics-small-view label', function () {
+    $body.on('click', '#user-lgc-topics-small-view label', function() {
       showFocusedTopicView($(this));
     });
 
-    $body.on('click', '.manage-my-topics-grid, #add-more-topics', function () {
+    $body.on('click', '.manage-my-topics-grid, #add-more-topics', function() {
       loadManageTopicsView();
     });
 
     $body.on('click', '.back-to-lgc-widget a, .back-to-lgc-widget .left-arrow',
-      function () {
+      function() {
         showLGCResourcesView();
       });
 
-    $body.on('click', '#restrict-to-local-resources-button', function () {
+    $body.on('click', '#restrict-to-local-resources-button', function() {
+      if (has_loaded_initial_user_table) {
+        favorite_local_resources_table.showTable();
+        has_loaded_initial_user_table = false;
+      }
       updateDropdown($('#user-lgc-topics-small-view'));
     });
-    
+
     // Toggle sidebar expanded / collapsed view
     $body.on('click', '#local-resources-tabs .faceted-filters .toggle a', function(ev) {
       ev.preventDefault();
@@ -132,6 +125,13 @@ function clearResources() {
       $h3.next().toggle();
       $h3.find('span').toggleClass('on off');
     });
-    
+
+    // Prevent dom from focusing on hidden label and scrolling the widget out of view
+    $body.on('click', '.multiselect-to-checkboxes label', function(ev) {
+      var input_id = $(this).attr('for');
+      $('#' + input_id).trigger('click');
+      ev.preventDefault();
+    });
+
   });
 }(jQuery));

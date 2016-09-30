@@ -75,7 +75,6 @@ function eenterprise_utility_menu() {
     'file' => 'eenterprise_utility_rcs.admin.inc',
   );
 
-
   $items['update_user_gridstack_data'] = array(
     'page callback' => 'update_user_gridstack_data',
     'access callback' => TRUE,
@@ -97,7 +96,14 @@ function eenterprise_utility_menu() {
     'access callback' => TRUE,
     '#type' => MENU_CALLBACK,
   );
-
+  $items['admin/config/system/system-admin-role'] = array(
+    'title' => 'System Admin Role',
+    'description' => 'Currently used Drupal admin role',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('admin_role_settings'),
+    'access arguments' => array('administer users'),
+    'file' => 'eenterprise_utility_admin_role.admin.inc',
+  );
 
   return $items;
 }
@@ -511,6 +517,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     hide($form['field_gridstack_settings']);
     hide($form['field_lgc_topics_of_interest']);
     hide($form['field_piv_card_org']);
+    if(isset($form['account']['mail']['#description']))
+      unset($form['account']['mail']['#description']);
     // If user is admin allow to edit state admin STATE and toggle user's first time status
     if ($user->uid > 1) {
       hide($form['field_admin_state']);
@@ -1005,9 +1013,8 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
  */
 function user_profile_form_custom_validate(&$form, &$form_state) {
   user_profile_zipcode_custom_validate($form, $form_state);
-  user_profile_url_custom_validate($form, $form_state);
-  user_profile_favorites_custom_validate($form, $form_state);
   user_profile_mail_custom_validate($form, $form_state);
+  user_profile_url_custom_validate($form, $form_state);
 }
 
 
@@ -1143,61 +1150,72 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
   }
 }
 
-function user_profile_url_custom_validate(&$form, &$form_state) {
-  // Occurs when all values are blank.
-  if (!isset($form_state['input']['field_profile_favourites'])) {
-    $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
-    $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value'] = '';
-    $form_state['input']['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value'] = '';
-  }
-  else {
-    foreach ($form_state['values']['field_profile_favourites'][LANGUAGE_NONE] as $delta => $field) {
-      if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']) == '') {
-        unset($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]);
-      }
-      // if title is empty, set it to given url
-      if (trim($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value']) == '') {
-        $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'] = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
-      }
-    }
-  }
-}
 
 /**
  * @param $form
  * @param $form_state
- * Checks to make sure that favorite links do not have script tags with javascript inside
+ * Trims the values and checks to make sure that favorite links do not have script tags with javascript inside
  */
-function user_profile_favorites_custom_validate(&$form, &$form_state) {
-
+function user_profile_url_custom_validate(&$form, &$form_state) {
   $nl = LANGUAGE_NONE;
-  $maxDelta = count($form_state['values']['field_profile_favourites'][LANGUAGE_NONE]) - 1;
-  for ($delta = 0; $delta < $maxDelta; $delta++) {
-    $url = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value'];
-    $text = $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_title'][LANGUAGE_NONE][0]['value'];
+  // Occurs when all values are blank.
+  if (!isset($form_state['input']['field_profile_favourites']) && !isset($form_state['values']['field_profile_favourites'])) {
+    $form_state['values']['field_profile_favourites'][$nl][0]['field_url'][$nl][0]['value'] = '';
+    $form_state['values']['field_profile_favourites'][$nl][0]['field_title'][$nl][0]['value'] = '';
+    $form_state['input']['field_profile_favourites'][$nl][0]['field_url'][$nl][0]['value'] = '';
+  }
+  else {
+    foreach ($form_state['values']['field_profile_favourites'][$nl] as $delta => $field) {
 
-    // The keys are build with the '][' as a delimiter then we will append the final field name in the form_set_error()
-    $key = "field_profile_favourites][$nl][$delta][";
+      // skip if the field is not an valid array
+      if (!is_array($field)) continue;
 
-    $errorMsgUrl = 'Invalid link.  It may contain invalid characters and is not allowed to have javascript. ' .
-      'Please refrain from using special characters. Please contact a system admin if this problem continues.';
-    $errorMsgText = 'Invalid text.  It can not be blank or contain invalid characters. ' .
-      'Please contact a system admin if this problem continues.';
-    $errorMsgBlank = 'This field may not be left blank';
+      $url = trim($form_state['values']['field_profile_favourites'][$nl][$delta]['field_url'][$nl][0]['value']);
+      $title = trim($form_state['values']['field_profile_favourites'][$nl][$delta]['field_title'][$nl][0]['value']);
 
-    // this regex will look for an html tags or the keyword 'javascript'
-    $all_html_tags_and_js = '/(<script(\s|\S)*?<\/script>)|(<style(\s|\S)*?<\/style>)|(<!--(\s|\S)*?-->)|(<\/?(\s|\S)*?>)|javascript/';
-    $match_html = preg_match($all_html_tags_and_js, $url);
-    if (empty($url)) {
-      form_set_error($key . "field_url", t($errorMsgBlank));
-    }
-    else if ($match_html) {
-      form_set_error($key . "field_url", t($errorMsgUrl));
-    }
+      // Trim it regardless
+      $form_state['values']['field_profile_favourites'][$nl][$delta]['field_url'][$nl][0]['value'] = $url;
 
-    $check_text = check_plain($text);
-    if ($text !== $check_text) {
-      form_set_error($key . "field_title", t($errorMsgText));
+      // if title is empty, set it to given url
+      if ($title == '') {
+        $form_state['values']['field_profile_favourites'][$nl][$delta]['field_title'][$nl][0]['value'] = $url;
+      }
+      else {
+        $form_state['values']['field_profile_favourites'][$nl][$delta]['field_title'][$nl][0]['value'] = $title;
+      }
+
+      // this regex will look for an html tags or the keyword 'javascript'
+      $all_html_tags_and_js = '/(<script(\s|\S)*?<\/script>)|(<style(\s|\S)*?<\/style>)|(<!--(\s|\S)*?-->)|(<\/?(\s|\S)*?>)|javascript:/';
+      $match_html = preg_match($all_html_tags_and_js, $url);
+
+      $hasUrl = !empty($url);
+      $hasText = !empty($title);
+
+      // The keys are build with the '][' as a delimiter then we will append the final field name in the form_set_error()
+      $key = "field_profile_favourites][$nl][$delta][";
+      $errorMsgUrl = 'Invalid link.  It may contain invalid characters and is not allowed to have javascript. ' .
+        'Please refrain from using special characters. Please contact a system admin if this problem continues.';
+      $errorMsgText = 'Invalid text.  It can not be blank or contain invalid characters. ' .
+        'Please contact a system admin if this problem continues.';
+      $errorMsgBlank = 'This field may not be left blank';
+
+      if($hasUrl || $hasText) {
+        if (!$hasUrl) {
+          form_set_error($key . "field_url", t($errorMsgBlank));
+        }
+        else if ($match_html) {
+          form_set_error($key . "field_url", t($errorMsgUrl));
+        }
+
+        $check_text = check_plain($title);
+        if ($title !== $check_text) {
+          form_set_error($key . "field_title", t($errorMsgText));
+        }
+      }
+      else if(!$hasUrl && !$hasText) {
+        unset($form_state['values']['field_profile_favourites'][$nl][$delta]);
+        unset($form_state['input']['field_profile_favourites'][$nl][$delta]);
+      }
     }
   }
 }
@@ -1442,7 +1460,7 @@ function generate_location_input_for_guests() {
   print '<div class="form-inline">';
   print '<div class="form-group has-feedback">';
   print '<label class="control-label" for="location-input-guests">Enter city, state; tribe; or ZIP code</label>';
-  print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error" style="height:23px;vertical-align: top;padding-top:2px;padding-bottom:2px">';
+  print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error">';
   print '<span class="form-control-feedback" aria-hidden="true" style="top:-2px;font-size:80%"></span>';
 //  print '<span id="location-input-guests-error" class="sr-only">(success)</span>';
   print '</div>';

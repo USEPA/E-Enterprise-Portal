@@ -26,7 +26,6 @@
 @import 'elements/list';
 @import 'elements/table';
 @import 'elements/typography';
-
 // Components -------------- //
 //@import 'components/accordions';
 @import 'components/alerts';
@@ -94,6 +93,11 @@
 
 @mixin button-gray {
 
+}
+
+
+.text-right {
+    text-align: right;
 }
 
 .element-hidden {
@@ -213,11 +217,16 @@
             select, input {
                 margin-bottom: 0;
                 margin-top: 0;
-                padding: 0 0.7rem;
+                padding: 4px 0.7rem;
                 width: 26rem;
-                line-height: 1.75;
+                line-height: 1.15;
                 border-color: $color-gray-lightest;
                 font-size: $h5-font-size;
+                &#location-input-guests.ui-autocomplete-input.form-control.input-sm {
+                    padding-top: 4px !important;
+                    padding-bottom: 4px !important;
+                    line-height: 1.15;
+                }
             }
         }
         .ee-feedback {
@@ -225,6 +234,7 @@
         }
     }
 }
+
 
 // Menus -------------- //
 
@@ -720,7 +730,9 @@ header {
                         }
                     }
                     .video-details,
-                    .video-holder {
+                    .video-holder,
+                    .slide-image,
+                    .slide-details {
                         display: block;
                     }
                     .learn-more {
@@ -735,15 +747,37 @@ header {
                                 color: $color-white;
                             }
                         }
-                    } 
+                    }
+                    &.lgc-slide {
+                        .slide-image {
+                            position: relative;
+                        }
+                        .lgc-roles {
+                            width: 85%;
+                        }
+                        .lgc-highlight {
+                            border: #1c9b97 solid 7px;
+                            border-radius: 5px;
+                            width: 43%;
+                            position: absolute;
+                            right: 40px;
+                            top: 30px;
+                        }
+                        .lgc-calltoaction {
+                            color: $color-ee-light-green;
+                            font-size: 2.5rem;
+                            font-style: italic;
+                            margin-top: 0;
+                        }                      
+                    }
                 }
                 > li {
                     visibility: hidden;
-                }                
+                }
                 > li.active {
                     display: block;
                     visibility: visible;
-                }  
+                }
             }
         }
         .jcarousel-control-prev,
@@ -881,6 +915,9 @@ header {
         max-width: 95%;
         margin-left: 2%;
         margin-right: 2%;
+        &.locations-modal {
+            overflow-y: hidden;
+        }
         .panel-pane {
             -webkit-box-shadow: none;
             box-shadow: none;
@@ -894,7 +931,6 @@ header {
     .views-exposed-form label {
         font-weight: normal;
     }
-
 }
 
 .page-app-connect {
@@ -1075,14 +1111,16 @@ header {
     .views-field-field-todo-lst-item,
     .views-field-field-todo-lst-domain,
     .views-field-field-prog-tracker-app,
-    .views-field-field-prog-track-domain {
+    .views-field-field-prog-track-domain,
+    .be-well-results-first-column{
         display: block;
     }
 
     td.views-field-field-todo-lst-item,
     td.views-field-field-todo-lst-domain,
     td.views-field-field-prog-tracker-app,
-    td.views-field-field-prog-track-domain {
+    td.views-field-field-prog-track-domain,
+    td.be-well-results-first-column{
         text-align: left;
     }
 
@@ -1155,7 +1193,8 @@ header {
     .views-field-field-todo-lst-item,
     .views-field-field-todo-lst-domain,
     .views-field-field-prog-tracker-app,
-    .views-field-field-prog-track-domain {
+    .views-field-field-prog-track-domain,
+    .be-well-results-first-column{
         display: table-cell;
     }
 }
@@ -2076,10 +2115,6 @@ form .field-multiple-table#field-zip-code-values {
     //outline: none;
     padding: 1rem 0.7em !important;
     width: 100% !important;
-    &#location-input-guests {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-    }
     &:after {
         content: "\f002";
         font-family: 'FontAwesome';
@@ -2164,6 +2199,10 @@ form .field-multiple-table#field-zip-code-values {
             width: 0;
         }
     }
+    #modalContent {
+        height: 100%;
+    }
+
 }
 
 /** App connect tab has only one, so we hide the grey border bottom for inactive tabs **/
@@ -2221,6 +2260,7 @@ form .field-multiple-table#field-zip-code-values {
 
 .ui-dialog,
 #modalContent {
+    overflow-y: auto;
     .ui-dialog-title {
         font-weight: normal !important;
         font-size: 1.25em;
@@ -2460,7 +2500,8 @@ input[type="submit"]:not(.usa-button-outline),
 }
 
 .view-to-do,
-.view-progress-tracker {
+.view-progress-tracker,
+.be-well-informed-modal {
     .responsive-table {
         margin-top: 1em;
         clear: both;
@@ -2503,7 +2544,9 @@ input[type="submit"]:not(.usa-button-outline),
                 float: none;
             }
             td.views-field-field-prog-tracker-app,
-            td.views-field-field-todo-lst-item {
+            td.views-field-field-todo-lst-item,
+            td.be-well-results-first-column
+            {
                 background-color: $color-gray-lightest;
                 border-left: 1px solid $color-gray-light;
                 border-right: 1px solid $color-gray-light;
@@ -2559,7 +2602,6 @@ table.dataTable, table.views-table {
         }
     }
 }
-
 
 // iPhone, some Android Portrait @ 320px, iphone 6 @ 375px -------------- //
 
@@ -2752,7 +2794,8 @@ table.dataTable, table.views-table {
 
 @media screen and (min-width: 20em) and (max-width: 60em) {
     .view-progress-tracker,
-    .view-to-do {
+    .view-to-do,
+    .be-well-informed-modal{
         .responsive-table {
             thead {
                 display: none;
@@ -2797,9 +2840,9 @@ table.dataTable, table.views-table {
     }
     // Ensure Questions dialog box scrolls on mobile -------------- //
     #modalContent {
-        position: absolute !important;
+        position: fixed !important;
     }
-    #other-areas-tabs {
+    #other-areas-tabs{
         .responsive-table {
             thead {
                 display: none;
@@ -2905,19 +2948,26 @@ table.dataTable, table.views-table {
                             }
                         }
                         .video-details,
-                        .video-holder {
+                        .video-holder,
+                        .slide-image,
+                        .slide-details {
                             display: table-cell;
                             vertical-align: top;
                             width: 50%;
                         }
-                        .video-details {
+                        .video-details,
+                        .lgc-slide .slide-image {
                             float: left;
                         }
-                        .video-holder {
+                        .video-holder,
+                        .lgc-slide .slide-details {
                             width: 45%;
                         }
                         .video-holder {
                             padding: 2em 4rem 2em 0;
+                        }
+                        .video-holder,
+                        .lgc-slide .slide-details {
                             float: right;
                         }
                         &.featured {
@@ -2929,7 +2979,7 @@ table.dataTable, table.views-table {
                                 margin-left: auto;
                                 margin-bottom: auto;
                                 color: $color-white;
-                                background-color: rgba(15,15,15,0.8);
+                                background-color: rgba(15, 15, 15, 0.8);
                                 padding: 1em 4rem 3em;
                                 margin-right: -4rem;
                                 h2, p {
@@ -3023,9 +3073,10 @@ table.dataTable, table.views-table {
             }
         }
     }
-    
+
     .view-progress-tracker,
-    .view-to-do {
+    .view-to-do,
+    .be-well-informed-modal{
         .responsive-table {
             caption {
                 font-size: 1.5em;
@@ -3066,7 +3117,8 @@ table.dataTable, table.views-table {
                     border-bottom: 1px solid $color-gray-lighter;
                 }
                 td.views-field-field-prog-tracker-app,
-                td.views-field-field-todo-lst-item {
+                td.views-field-field-todo-lst-item,
+                td.be-well-results-first-column{
                     background-color: transparent;
                     border-left: none;
                     border-right: none;
@@ -3761,13 +3813,8 @@ input#location-input-guests::-ms-clear {
             &.ui-autocomplete-input.form-control.input-sm {
                 width: 125px !important;
                 height: 2.75rem;
-                color: $color-base;
-                vertical-align: middle;
-                padding-top: 2px;
-                padding-bottom: 2px;
                 color: #000;
                 font-size: 1.5rem;
-                line-height: 1;
                 padding-right: 2px;
             }
         }
@@ -3969,6 +4016,8 @@ input#location-input-guests::-ms-clear {
     }
     #modalContent {
         max-width: 97% !important;
+        max-height: 100%;
+        position: fixed !important;
         div.ctools-modal-content {
             .resizable-textarea {
                 margin-right: 0;
@@ -4052,7 +4101,7 @@ input#location-input-guests::-ms-clear {
         .block--login-from-guest-page,
         .block--ee-bridge-login,
         .block--anonymous-user-login-buttons,
-        .block--guest-user-login-buttons{
+        .block--guest-user-login-buttons {
             // Hide simple-main-nav at widths below 40em, when mobile-nav shows
             display: none;
             &.usa-width-one-half {
@@ -4166,4 +4215,24 @@ select[multiple="multiple"] {
 // add red boxes to bad input
 .edit-user-profile .error {
     outline: 1px solid red;
+}
+
+.beta-ribbon:after{
+    content: "beta";
+    position: absolute;
+    width: 80px;
+    height: 25px;
+    background: #227ebb;
+    top: 7px;
+    left: -20px;
+    text-align: center;
+    font-size: 13px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #fff;
+    line-height: 27px;
+    -ms-transform:rotate(-45deg);
+    -webkit-transform:rotate(-45deg);
+    transform:rotate(-45deg);
 }

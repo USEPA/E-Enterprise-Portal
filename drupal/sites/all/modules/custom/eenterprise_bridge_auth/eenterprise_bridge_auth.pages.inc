@@ -132,10 +132,12 @@ function eenterprise_bridge_auth_authenticate($error)
             $uname = "";
             if($piv_card_position !== FALSE){
                 $piv_uname = trim(trim($userDetails->attributes['uid'][0]), '"');
+                //To avoid username conflicts among users from multiple agencies, use username followed by dnQualifier attribute.
+                $dnQualifier = trim($userDetails->attributes['dnQualifier'][0]);
                 $uname_pos = strrpos($piv_uname, ":");
                 $piv_uname = substr($piv_uname, $uname_pos);
                 $uname_arr = explode(' ', $piv_uname);
-                $uname = $uname_arr[0] . "_" . $uname_arr[1] . "_Via_PIV_Card";
+                $uname = $uname_arr[0] . "_" . $uname_arr[1] . "_".$dnQualifier."_Via_PIV_Card";
                 $public_or_cdx = 'public';
             }
             else if ($wam_pos !== FALSE) {
@@ -229,7 +231,9 @@ function eenterprise_bridge_auth_authenticate($error)
                 }
             }
         }
-        create_progress_tracker($user);
+        if (!module_exists('eactivity_dataflow')) {
+            create_progress_tracker($user);
+        }
     }
     drupal_goto('workbench');
 }
@@ -276,8 +280,9 @@ function create_progress_tracker($user)
     $wsdl = variable_get('eactivity_auth_reg_wsdl');
     $client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
 
-    if ($client->error)
+    if ($client->error) {
         return;
+    }
 
     $client = $client->client;
     $params1 = array(
@@ -730,7 +735,8 @@ function assign_roles_to_user($user_name)
     if (is_array($user_roles->Role)) {
         foreach ($user_roles->Role as $k => $v) {
             $role_val = $v->type->description;
-            if (!empty($role_val)) {
+            //Make sure a role that is assigned to a CDX role is not a Drupal admin role, the second case.
+            if (!empty($role_val) && $role_val != variable_get('current_admin_role')) {
                 $user_role = user_role_load_by_name($role_val);
                 if ($user_role === FALSE) {
                     $user_role = new stdClass();
@@ -829,9 +835,14 @@ function refresh_todo_list()
         node_delete($value['nid']);
     }
     create_progress_tracker($user);
-    //return '';
     drupal_set_message("To Do and Progress Tracker Data refreshed successfully");
-    drupal_goto('/workbench');
+    if (module_exists('eactivity_dataflow')) {
+        drupal_json_output(array(
+            'status' => TRUE,
+        ));
+    } else {
+        drupal_goto('/workbench');
+    }
 }
 
 function eenterprise_bridge_auth_redirect()
@@ -856,7 +867,9 @@ function eenterprise_bridge_auth_redirect()
 function view_allow_access_role($view_name, $role_id)
 {
     $result_view = views_get_view($view_name);
-    $result_view->set_display('default');
-    $result_view->display_handler->display->display_options['access']['role'][$role_id] = $role_id;
-    $result_view->save();
+    if ($result_view && $result_view->access($view_name)) {
+        $result_view->set_display('default');
+        $result_view->display_handler->display->display_options['access']['role'][$role_id] = $role_id;
+        $result_view->save();
+    }
 }

@@ -1,0 +1,545 @@
+<?php
+
+
+/**
+ * Implements hook_menu().
+ */
+function be_well_informed_menu() {
+  $items = array();
+  $items['be_well_informed/form_submission'] = array(
+    'page callback' => 'be_well_informed_form_submission',
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function be_well_informed_block_info() {
+  $blocks = array();
+  $blocks['be_well_informed'] = array(
+    'info' => t('Be Well Informed Block'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_theme().
+ * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
+ */
+function be_well_informed_theme() {
+  return array(
+    // Name to be called with theme(). theme('be_well_informed')
+    'be_well_informed' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use my-cdx.tpl.php
+      'template' => 'be-well-informed',
+      'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
+    ),
+    'be_well_informed_modal' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use be-well-informed-modal.tpl.php
+      'template' => 'be-well-informed-modal',
+      'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function be_well_informed_block_view($delta = '') {
+  $block = array();
+  if ($delta == 'be_well_informed') {
+    //good idea to check user perms here
+    if (user_access('access content')) {
+      drupal_add_js(libraries_get_path('css-element-queries') . '/ElementQueries.min.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      drupal_add_js(libraries_get_path('css-element-queries') . '/ResizeSensor.min.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/parsley.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/be_well_informed.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_DEFAULT,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      drupal_add_css(drupal_get_path('module', 'be_well_informed') . '/css/be_well_informed.css', [
+        'preprocess' => TRUE,
+        'group' => CSS_THEME
+      ]);
+      // Set Form Modal Template
+      $modal_form_html = theme('be_well_informed_modal');
+      drupal_add_js(array("be_well_informed" => ["modal" => $modal_form_html]), 'setting');
+
+      $block['subject'] = t('Be Well Informed');
+      $block['content'] = theme('be_well_informed');
+      return $block;
+    }
+  }
+  return $block;
+}
+
+/**
+ * Take users POST input and handoff to sample data or BE WELL INFORMED service
+ */
+function be_well_informed_form_submission() {
+  if (!isset($_POST) || count($_POST) === 0) {
+    drupal_json_output(array(
+      'error' => TRUE,
+      'message' => 'Failed to recieve any data.'
+    ));
+    return;
+  }
+
+
+  $datatable_formatted_response = array();
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+  if (feature_toggle_get_status('be_well_informed_sample_data')) {
+    $be_well_informed_response = sample_be_well_informed_response();
+    $datatable_formatted_response['data'] = be_well_informed_datatable_response($be_well_informed_response);
+    $datatable_formatted_response['error'] = FALSE;
+  }
+  else {
+    $endpoint = "http://nodewebdev.epacdxnode.net/DWIService/dwievaluation";
+    $headers = array('Content-Type' => 'application/json');
+    $response = drupal_http_request($endpoint, [
+      "headers" => $headers,
+      "method" => "POST",
+      'timeout' => "10",
+      'data' => json_encode($_POST)
+    ]);
+    if ($response->code !== "200") {
+      $datatable_formatted_response['error'] = TRUE;
+    }
+    else {
+      $formatted_data = be_well_informed_datatable_response($response->data);
+      $datatable_formatted_response['data'] = $formatted_data;
+      $datatable_formatted_response['error'] = FALSE;
+    }
+  }
+
+  drupal_json_output($datatable_formatted_response);
+}
+
+/**
+ * Take BE WELL INFORMED response and format for Result Details and Result Summary datatables
+ * @param $be_well_response_json
+ * @return array
+ */
+function be_well_informed_datatable_response($be_well_response_json) {
+  $be_well_response = json_decode($be_well_response_json);
+  $datatable_result_summary_json = [];
+  $datatable_result_details_json = [];
+
+  foreach ($be_well_response->ResultEvaluations as $water_data) {
+
+    $user_entry = $water_data->UserContaminatValue;
+    $guide_text = $water_data->GuidelineText;
+
+    if (empty($guide_text) && empty($user_entry)) {
+      $guide_text = "A value was not entered.";
+      $user_entry = "None";
+    }
+
+    $datatable_row = [];
+    $datatable_row[] = processGuidelineColor($water_data->GuidelineColor);
+    $datatable_row[] = $water_data->ContaminantFullName . ' (' . $water_data->Symbol . ')';
+    $datatable_row[] = $user_entry;
+    $datatable_row[] = $water_data->MaximumContaminantLevel;
+    $datatable_row[] = $guide_text;
+    $datatable_result_summary_json[] = $datatable_row;
+
+    // Capture details for each summary row, even if empty
+    $datatable_result_details_json[] = [
+      'data_array' => [
+        html_entity_decode($water_data->InterpretationMessages),
+        html_entity_decode($water_data->HealthMessages),
+        html_entity_decode($water_data->TreatmentMessages)
+      ],
+      'result' => $water_data->GuidelineColor,
+    ];
+  }
+
+  $be_well_response = (Array) $be_well_response;
+  $be_well_response['result_summary'] = $datatable_result_summary_json;
+  $be_well_response['result_details'] = $datatable_result_details_json;
+
+  return $be_well_response;
+}
+
+
+function sample_be_well_informed_response() {
+
+
+  $response = [
+    'ResultEvaluations' =>
+      [
+        [
+          'ContaminantFullName' => 'Arsenic',
+          'Symbol' => 'As',
+          'GuidelineColor' => 'font-red',
+          'UserContaminatValue' => '0.01 mg/L',
+          'MaximumContaminantLevel' => '0.01 mg/L',
+          'GuidelineText' => 'The value entered is close to exceeding the drinking water standard',
+          'InterpretationMessages' => '<span>Does my well water meet the drinking water standard for fluoride?</span> No, your water does not meet federal and state drinking water standards as it contains more than 4.0 mg/L of fluoride.',
+          'HealthMessages' => '<span>Can consuming water containing fluoride affect my health?</span> Consuming water containing more than 4.0 mg/L of fluoride can cause bone disease, which can include pain and tenderness of the bones and irregular bone deposits that can cause arthritis and crippling when occurring at joints (skeletal fluorosis).
+
+Consuming water containing more than 2.0 mg/L of fluoride can cause small ‘white spots’ on children’s teeth (mottled enamel), or in extreme cases, brown staining or pitting of teeth that are still developing below the gums (dental fluorosis).
+
+To reduce your exposure to fluoride in your well water, treat the water that you use for drinking and cooking to a level less than 2.0 mg/L. If treatment is not feasible, children under nine years old should be provided with an alternative source of drinking water that contains less than 2.0 mg/L of fluoride.
+
+Consuming water containing an optimal level of fluoride helps protect against tooth decay. The U.S. Department of Health and Human Services’ recommended optimal range for fluoride in drinking water is 0.6 - 0.8 mg/L. You should talk with your dentist and doctor about the level of fluoride in your water and how you can reduce your and your family’s total fluoride exposure. Click here for more information from the U.S. Centers for Disease Control and Prevention about private well water and fluoride.',
+          'TreatmentMessages' => '<span>How can I reduce the level of fluoride in my water?</span> Install one of the following point-of-use (POU) water treatment systems at your kitchen sink to reduce the level of fluoride in the water that you consume:
+
+An NSF/ANSI Standard 61 certified activated alumina filter system.
+
+OR
+
+An NSF/ANSI Standard 58 certified reverse osmosis (RO) system.
+
+More information about treatment for fluoride can be found in NHDES’ Fact Sheet.',
+
+        ],
+      ]
+  ];
+  return json_encode($response);
+}
+
+
+/**
+ * Returns the correct image for a water level
+ * @param $guideline_color
+ * @return string
+ */
+function processGuidelineColor($guideline_color) {
+  $image_path = drupal_get_path('module', 'be_well_informed') . '/images';
+
+  switch ($guideline_color) {
+    case "font-green":
+      $return_html = "<img src='" . $image_path . "/check.png' />";
+      break;
+    case "font-yellow":
+      $return_html = "<img src='" . $image_path . "/exclamation.png' />";
+      break;
+    case "font-red":
+      $return_html = "<img src='" . $image_path . "/false.png' />";
+      break;
+    default:
+      $return_html = "<img src='" . $image_path . "/circle.png' />";
+  }
+  return $return_html;
+}
+
+/**
+ * Implements template_preprocess_hook for be-well-informed-modal.tpl.php.
+ */
+function template_preprocess_be_well_informed_modal(&$variables, $hook) {
+
+  $variables['unit_types'] = [
+    'mg/L',
+    'μg/L',
+    'ppm',
+    'ppb',
+    'gpg',
+    'units',
+    'CFU/100 mL',
+    'MPN/100 mL',
+    'mpn_100_ml'
+  ];
+
+  $variables['water_components'] = [
+    [
+      'name' => 'Arsenic',
+      'machine_name' => 'As',
+      'symbol' => 'As',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'μg/L', 'ppm', 'ppb']
+    ],
+    [
+      'name' => 'Chloride',
+      'machine_name' => 'Cl',
+      'symbol' => 'Cl',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'μg/L', 'ppm', 'ppb']
+    ],
+    [
+      'name' => 'Copper',
+      'machine_name' => 'Cu',
+      'symbol' => 'Cu',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Copper, Stagnant',
+      'machine_name' => 'CuSt',
+      'symbol' => 'Cu',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Fluoride',
+      'machine_name' => 'Fl',
+      'symbol' => 'F',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Hardness as CaCO3',
+      'machine_name' => 'Har',
+      'symbol' => '',
+      'symbol_text' => '',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm', 'gpg']
+    ],
+    [
+      'name' => 'Iron',
+      'machine_name' => 'Fe',
+      'symbol' => 'Fe',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Lead',
+      'machine_name' => 'Pb',
+      'symbol' => 'Pb',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Lead, Stagnant',
+      'machine_name' => 'PbSt',
+      'symbol' => 'Pb',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Manganese',
+      'machine_name' => 'Mn',
+      'symbol' => 'Mn',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Nitrate-N',
+      'machine_name' => 'NO3',
+      'symbol' => '',
+      'symbol_text' => '',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'Nitrite-N',
+      'machine_name' => 'NO2',
+      'symbol' => '',
+      'symbol_text' => '',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+    [
+      'name' => 'pH',
+      'machine_name' => 'ph',
+      'symbol' => '',
+      'default_unit_type' => 'unit',
+      'validation' => [],
+      'unit_types' => ['units']
+    ],
+    [
+      'name' => 'Sodium',
+      'machine_name' => 'Na',
+      'symbol' => 'Na',
+      'default_unit_type' => 'mg/L',
+      'validation' => [],
+      'unit_types' => ['mg/L', 'ppm']
+    ],
+  ];
+
+  $variables['microbiology'] = [
+    [
+      'name' => 'Total Coliform',
+      'machine_name' => 'Bac',
+      'symbol' => 'Bac',
+      'default_unit_type' => 'CFU/100 mL',
+      'validation' => [],
+      'unit_types' => ['CFU/100 mL', 'MPN/100 mL'],
+      'radio_name' => 'Bac',
+    ],
+    [
+      'name' => 'E. Coli',
+      'machine_name' => 'Ecoli',
+      'symbol' => 'Ecoli',
+      'default_unit_type' => 'CFU/100 mL',
+      'validation' => [],
+      'unit_types' => ['CFU/100 mL', 'MPN/100 mL'],
+      'radio_name' => 'Ecoli',
+    ],
+  ];
+
+  $variables['radionuclides'] = [
+    [
+      'name' => 'Radon',
+      'machine_name' => 'Rn',
+      'symbol' => 'Rn',
+      'default_unit_type' => 'pCi/L',
+      'validation' => [],
+      'unit_types' => ['pCi/L']
+    ],
+    [
+      'name' => 'Uranium',
+      'machine_name' => 'Ur',
+      'symbol' => 'U',
+      'default_unit_type' => 'μg/L',
+      'validation' => [],
+      'unit_types' => ['pCi/L', 'μg/L']
+    ],
+    [
+      'name' => 'Gross Alpha',
+      'machine_name' => 'AGA',
+      'symbol' => '',
+      'default_unit_type' => 'pCi/L',
+      'validation' => [],
+      'unit_types' => ['pCi/L']
+    ],
+  ];
+
+  $variables['treatments'] = [
+    [
+      'icon'=> '',
+      'boxes' => [
+        [
+          'icon'=> 'home',
+          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer' ],
+        [
+          'icon'=> 'facet',
+          'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
+        ],
+      ]
+    ],
+    [
+      'icon'=> 'home',
+      'boxes' => [
+        [
+          'icon'=> '',
+          'action' => 'Whole House Oxidizing Filter System'
+        ],
+        [
+          'icon'=> '',
+          'action' => 'Whole House Cation Exchange Water Softener'
+        ],
+      ]
+    ],
+    [
+      'icon'=> '',
+      'boxes' => [
+        [
+          'icon'=> 'home',
+          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer'
+        ],
+        [
+          'icon'=> 'facet',
+          'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
+        ],
+      ]
+    ],
+    [
+      'text'=> 'Depending on the radon levels in the air, treatment of water may be advisable between 2,000 pCi/L and 10,000 pCi/L. Above 10,000 pCi/L, treatment is recommended regardless of radon level in air.',
+      'icon'=> 'home',
+      'boxes' => [
+        [
+          'action' => 'Whole House Aeration Device'
+        ],
+        [
+          'action' => 'Whole House Granular Activated Carbon (GAC) Filter'
+        ],
+      ]
+    ],
+    [
+      'icon'=> 'home',
+      'boxes' => [
+        [
+          'icon'=> '',
+          'action' => 'Whole House Acid Neutralizer System'
+        ],
+      ]
+    ],
+    [
+      'icon'=> 'facet',
+      'boxes' => [
+        [
+          'icon'=> '',
+          'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
+        ],
+        [
+          'icon'=> '',
+          'action' => 'Point-of-Use (POU) Reverse Osmosis (RO) System'
+        ],
+        [
+          'icon'=> '',
+          'action' => 'Point-of-Use (POU) Activated Alumina Filter System'
+        ],
+      ]
+    ],
+  ];
+
+  // some logic to help make it simpler to read
+  foreach ($variables['water_components'] as $key => $var) {
+    $variables['water_components'][$key]['symbol_text'] = ($var['symbol_text']) ? $var['symbol_text'] : $var['symbol'];
+  }
+
+  $exposed_variables = [
+    'treatments' => $variables['treatments'],
+    'radionuclides' => $variables['radionuclides'],
+    'microbiology' => $variables['microbiology'],
+    'water_components' => $variables['water_components'],
+    'unit_types' => $variables['unit_types'],
+  ];
+
+  $variables['cities'] = ["Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
+  drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
+
+}

@@ -15,7 +15,7 @@ function rcs_settings($form, $form_state) {
         '#type' => 'textfield',
         '#title' => t('RCS Endpoint URL'),
         '#default_value' => variable_get('rcs_endpoint_url'),
-        '#required' => TRUE,
+        '#required' => FALSE,
       '#maxlength' => 1024,
 
     );

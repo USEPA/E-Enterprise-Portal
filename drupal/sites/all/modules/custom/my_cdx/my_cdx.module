@@ -76,7 +76,7 @@ function my_cdx_theme() {
 function my_cdx_block_view($delta = '') {
   $block = array();
 
-  if ($delta = 'my_cdx') {
+  if ($delta == 'my_cdx') {
     drupal_add_css(libraries_get_path('font-awesome-4.5.0') . "/css/font-awesome.min.css", [
       'preprocess' => TRUE,
       'group' => CSS_THEME
@@ -225,7 +225,7 @@ function my_cdx_json_link_details($role_ids) {
  * Callback for 'my-cdx/link-json-handoff/%' menu item
  */
 function my_cdx_json_link_handoff($role_id) {
-  if ($input = load_my_cdx_link_handoff($role_id)) {
+  if ($input = fetch_my_cdx_link_handoff($role_id)) {
     drupal_json_output($input);
   }
   else {

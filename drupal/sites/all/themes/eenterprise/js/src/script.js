@@ -254,8 +254,8 @@
 
           // override what gets tabbed as the first widget
           $('.grid-stack').parents('.main-content').prevAll().find('a').last().keydown(function(e) {
-            e.stopImmediatePropagation();
             if (e.which === 9 && !e.shiftKey) { // tab key
+              e.stopImmediatePropagation();
               $('#' + sortedWidgets()[0].id + ' h2').focus();
             }
           });
@@ -1111,5 +1111,4 @@
 
     }
   };
-
 })(jQuery);

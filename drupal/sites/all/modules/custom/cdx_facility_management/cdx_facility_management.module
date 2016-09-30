@@ -13,7 +13,7 @@ function cdx_facility_management_block_info()
 {
     $blocks = array();
     $blocks['cdx_facility_widget'] = array(
-        'info' => t('Facility Widget'),
+      'info' => t('Facility Widget'),
     );
     return $blocks;
 }
@@ -27,13 +27,13 @@ function cdx_facility_management_theme()
 {
     return array(
         // Name to be called with theme(). theme('cdx_facility_management')
-        'cdx_facility_management' => array(
-            // Default variables
-            'variables' => array(),
-            // Which .tpl.php file to use cdx-facility-management.tpl.php
-            'template' => 'cdx-facility-management',
-            'path' => drupal_get_path('module', 'cdx_facility_management') . '/templates'
-        ),
+      'cdx_facility_management' => array(
+          // Default variables
+        'variables' => array(),
+          // Which .tpl.php file to use cdx-facility-management.tpl.php
+        'template' => 'cdx-facility-management',
+        'path' => drupal_get_path('module', 'cdx_facility_management') . '/templates'
+      ),
     );
 }
 
@@ -78,33 +78,17 @@ function cdx_facility_management_menu()
     $items = array();
 
     $items['return_cdx_facility_management_token'] = array(
-        'page callback' => 'return_cdx_facility_management_token',
-        'access callback' => TRUE,
+      'page callback' => 'return_cdx_facility_management_token',
+      'access callback' => TRUE,
     );
 
     $items['cdx_facility_configurations'] = array(
-        'page callback' => 'cdx_facility_configurations',
-        'access callback' => TRUE,
+      'page callback' => 'cdx_facility_configurations',
+      'access callback' => TRUE,
     );
 
     return $items;
 }
-
-
-function userMustLogOut($user_session_logout, $user_login_time)
-{
-    // user timeout in minutes
-    $return = true;
-    if (isset($user_login_time)) {
-        $current_timestamp = time();
-        $diff_hours = abs($current_timestamp - $user_login_time) / (60);
-        if ($diff_hours < $user_session_logout) {
-            $return = false;
-        }
-    }
-    return $return;
-}
-
 
 function return_cdx_facility_management_token($is_print_json = TRUE)
 {
@@ -120,7 +104,7 @@ function return_cdx_facility_management_token($is_print_json = TRUE)
     $local_testing_user_id = variable_get('local_testing_user_id');
 
     // Configurable amount of minutes before the portal no longer allows Facility Widget access
-    $user_session_logout = (int)variable_get('cdx_facility_user_logout_session');
+    $user_session_logout = (int)variable_get('cdx_facility_user_logout_session', 20);
 
     // Allow user to acces Facility widget locally with hard coded user id
     if ($local_testing || $user->uid === 1) {
@@ -143,8 +127,11 @@ function return_cdx_facility_management_token($is_print_json = TRUE)
     }
 
 
-    // Check if user session has timed out. If so, do not grant access to Facility Widget
-    if (userMustLogOut($user_session_logout, $user_login_time)) {
+    // Ensure that the logout time has been set
+    if (!isset($_SESSION['logoutAt'])) {
+        $_SESSION['logoutAt'] = time() + $user_session_logout * 60;
+    }
+    if (time() > $_SESSION['logoutAt']) {
         $json_return['expired'] = true;
     } else {
         // Configurations from admin menu
@@ -171,17 +158,17 @@ function return_cdx_facility_management_token($is_print_json = TRUE)
             if (!feature_toggle_get_status('reuse_token_from_bridge')) {
                 // Create new token with CDX's user id
                 $params_for_creation = array(
-                    "userId" => $user_id,
-                    "credential" => $frs_password,
-                    "domain" => $domain,
-                    "authMethod" => $auth_method,
-                    "trustee" => $email,
-                    "ip" => $server_ip,
-                    "subjectData" => 'tbd=tbd',
-                    "subject" => $user_id,
-                    "issuer" => "EEP",
-                    "tokenType" => 'csm',
-                    'expiration' => $token_expiration,
+                  "userId" => $user_id,
+                  "credential" => $frs_password,
+                  "domain" => $domain,
+                  "authMethod" => $auth_method,
+                  "trustee" => $email,
+                  "ip" => $server_ip,
+                  "subjectData" => 'tbd=tbd',
+                  "subject" => $user_id,
+                  "issuer" => "EEP",
+                  "tokenType" => 'csm',
+                  'expiration' => $token_expiration,
                 );
                 $json_return = createNewToken($client, $params_for_creation);
             } else {
@@ -215,18 +202,18 @@ function return_cdx_facility_management_token($is_print_json = TRUE)
 function createNewToken($client, $params_for_creation)
 {
     $response = callSOAPWithParams($client,
-        "CreateSecurityToken",
-        $params_for_creation,
-        "CDX Facility Management");
+      "CreateSecurityToken",
+      $params_for_creation,
+      "CDX Facility Management");
     if (!$response->error) {
         $response = $response->response;
         $token = $response->return;
         $server_ip = $_SERVER['SERVER_ADDR'];
         $json_return = array(
-            'token' => $token,
-            'server_ip' => $server_ip,
-            'error' => false,
-            'user_id' => $params_for_creation['userId'],
+          'token' => $token,
+          'server_ip' => $server_ip,
+          'error' => false,
+          'user_id' => $params_for_creation['userId'],
         );
     } else
         $json_return = array('token' => '', 'error' => TRUE);
@@ -238,16 +225,16 @@ function renewToken($client, $email, $frs_password, $domain, $token)
     $return = array();
 
     $params_for_renewal = array(
-        "userId" => $email,
-        "password" => $frs_password,
-        "domain" => $domain,
-        "securityToken" => $token,
+      "userId" => $email,
+      "password" => $frs_password,
+      "domain" => $domain,
+      "securityToken" => $token,
     );
 
     $response = callSOAPWithParams($client,
-        "RenewSecurityToken",
-        $params_for_renewal,
-        "CDX Facility Management");
+      "RenewSecurityToken",
+      $params_for_renewal,
+      "CDX Facility Management");
 
     if (!$response->error) {
         $response = $response->response;
@@ -291,10 +278,10 @@ function retrieve_cdx_user_data()
     }
     $client = $client->client;
     $params = array(
-        "userId" => variable_get('eactivity_auth_reg_username'),
-        "credential" => variable_get('eactivity_auth_reg_password'),
-        "domain" => variable_get('eactivity_auth_reg_domain'),
-        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
+      "userId" => variable_get('eactivity_auth_reg_username'),
+      "credential" => variable_get('eactivity_auth_reg_password'),
+      "domain" => variable_get('eactivity_auth_reg_domain'),
+      "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
     );
     $response = callSOAPWithParams($client, "Authenticate", $params, "CDX Facility Management");
     if ($response->error) {
@@ -306,8 +293,8 @@ function retrieve_cdx_user_data()
         return array('error' => 'true', 'user' => $user_id);
     }
     $user_params = array(
-        "securityToken" => $token,
-        "userId" => $user_id);
+      "securityToken" => $token,
+      "userId" => $user_id);
 
     $user_obj = callSOAPWithParams($client, "RetrieveUser", $user_params, "CDX Facility Management");
     if ($user_obj->error) {
@@ -315,8 +302,8 @@ function retrieve_cdx_user_data()
     }
     $response = $user_obj->response;
     $user_sec_bundle = array(
-        "securityToken" => $token,
-        "user" => $response->User,
+      "securityToken" => $token,
+      "user" => $response->User,
     );
     $org_val = null;
     $user_orgs = callSOAPWithParams($client, "RetrieveOrganizations", $user_sec_bundle, "CDX Facility Management");
@@ -359,9 +346,9 @@ function addCDXOrganization($json_return, $org_val, $token, $user_obj, $client, 
     $org_name = $org_val->organizationName;
     $json_return['organizations_to_roles'][$org_id] = array('name' => $org_name);
     $user_sec_org_bundle = array(
-        "securityToken" => $token,
-        "user" => $user_obj->User,
-        "org" => $org_val,
+      "securityToken" => $token,
+      "user" => $user_obj->User,
+      "org" => $org_val,
     );
     $user_roles = callSOAPWithParams($client, "RetrieveRoles", $user_sec_org_bundle, "CDX Facility Management");
     if ($user_roles->error)
