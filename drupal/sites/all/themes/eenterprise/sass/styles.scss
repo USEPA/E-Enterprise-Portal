@@ -915,6 +915,9 @@ header {
         max-width: 95%;
         margin-left: 2%;
         margin-right: 2%;
+        &.locations-modal {
+            overflow-y: hidden;
+        }
         .panel-pane {
             -webkit-box-shadow: none;
             box-shadow: none;
@@ -928,7 +931,6 @@ header {
     .views-exposed-form label {
         font-weight: normal;
     }
-
 }
 
 .page-app-connect {
