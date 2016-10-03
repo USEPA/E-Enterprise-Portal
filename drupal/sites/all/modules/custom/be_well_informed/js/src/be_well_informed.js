@@ -159,11 +159,12 @@ function resetBWIForm() {
         });
 
         // Makeshift accordion like widget
+        // This is the click event for the accordion 'tabs' opening and closing
         $('#be-well-informed-accordion .head').click(function() {
-          $(this).find('i').toggleClass('fa-caret-down fa-caret-right')
-          $(this).next().toggle();
-          var min = $("#be-well-informed-accordion").prop('data-min-width');
-          var cWidth = $(this).width()
+          var $this = $(this);
+          $this.toggleClass('open close')
+          $this.find('i').toggleClass('fa-caret-down fa-caret-right')
+          $this.next().toggle()
           resizeModal()
           return false;
         });
@@ -173,7 +174,12 @@ function resetBWIForm() {
         sampleSetIndex = 0
         $('#be-well-informed-results-table, #be-well-informed-result-details-table').dataTable({bDestroy: true}).fnDestroy();
         $('#be-well-informed-results-table, #be-well-informed-result-details-table, #be-well-informed-results-table_wrapper, #be-well-informed-result-details-table_wrapper').remove();
-        $('.ui-accordion-header.close').each(toggleSection);
+        $('.ui-accordion-header.close').each(function() {
+          var $this = $(this);
+          $this.find('i').toggleClass('fa-caret-down fa-caret-right')
+          $this.toggleClass('open close')
+          $this.next().show();
+        });
         $('#routine-contaminants, .or').removeClass('hide')
         $('#interactive-prompts').html('')
         $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
