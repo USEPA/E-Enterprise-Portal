@@ -77,6 +77,21 @@ $color_ecstasy_approx: #ff851b;
 }
 
 #be-well-informed-modal {
+    $fontFamily: "Helvetica","Arial",sans-serif !important;
+    &.pdf {
+        width:8.5in !important;
+        background-color: #ffffff !important;
+        font-family: $fontFamily;
+        #be-well-informed-accordion {
+            div {
+                background-color: #ffffff !important;
+                font-family: $fontFamily;
+            }
+            h1 {
+                font-family: $fontFamily;
+            }
+        }
+    }
 
     #be-well-informed-form-wrapper {
 
@@ -133,6 +148,14 @@ $color_ecstasy_approx: #ff851b;
         }
         .city-selection {
             border: none;
+            .column{
+                &.one-half {
+                    float: left;
+                }
+                &.right {
+                    margin-left: 0;
+                }
+            }
         }
         .symbol {
             color: #666666;
@@ -488,7 +511,8 @@ $color_ecstasy_approx: #ff851b;
             padding-left: 2rem;
             display: block;
         }
-        .one-forth {
+
+        .one-half {
             float: left;
             display: block;
             width: 100%;
@@ -499,6 +523,8 @@ $color_ecstasy_approx: #ff851b;
 
         #be-well-informed-accordion {
             margin-top: 5%;
+            background-color: #ffffff;
+            font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
             &>table, &>div {
                 padding: 0 1%;
             }
@@ -588,7 +614,7 @@ $color_ecstasy_approx: #ff851b;
     #be-well-informed-modal {
 
         #be-well-informed-results-wrapper {
-            .one-forth {
+            .one-half {
                 width: 50%;
             }
         }
@@ -634,8 +660,8 @@ $color_ecstasy_approx: #ff851b;
 
     #be-well-informed-modal {
         #be-well-informed-results-wrapper {
-            .one-forth {
-                width: 25%;
+            .one-half {
+                width: 50%;
             }
             #be-well-informed-accordion {
                 .bwi-legend {

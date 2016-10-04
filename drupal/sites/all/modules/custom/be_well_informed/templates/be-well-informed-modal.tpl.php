@@ -229,16 +229,16 @@
       <div class="datatable usa-width-one-whole be-well-informed-results">
         <h3 class="bwi-key">Key</h3>
         <div class="bwi-legend clearfix">
-          <div class="bwi-meets-limit one-forth">Meets the Drinking Water
+          <div class="bwi-meets-limit one-half">Meets the Drinking Water
             Limit
           </div>
-          <div class="bwi-close-to-limit one-forth">Close to the Drinking Water
+          <div class="bwi-close-to-limit one-half">Close to the Drinking Water
             Limit
           </div>
-          <div class="bwi-above-limit one-forth">Above the Drinking Water
+          <div class="bwi-above-limit one-half">Above the Drinking Water
             Limit
           </div>
-          <div class="bwi-no-entry one-forth">No Input Entered</div>
+          <div class="bwi-no-entry one-half">No Input Entered</div>
         </div>
       </div>
 
