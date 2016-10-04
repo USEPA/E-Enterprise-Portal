@@ -7,5 +7,8 @@
         & > ul {
             display: none;
         }
+        .ajax-progress.ajax-progress-throbber {
+            display: block;
+        }
     }
 }
