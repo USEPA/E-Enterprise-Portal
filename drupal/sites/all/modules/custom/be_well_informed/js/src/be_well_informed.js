@@ -169,7 +169,7 @@ function resetBWIForm() {
           return false;
         });
 
-        $(window).resize(function(){;resizeModal();})
+        $(window).resize(function(){resizeModal();})
       },
       close: function(event, ui) {
         sampleSetIndex = 0

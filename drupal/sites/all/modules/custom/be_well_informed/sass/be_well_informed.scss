@@ -77,24 +77,7 @@ $color_ecstasy_approx: #ff851b;
 }
 
 #be-well-informed-modal {
-    $fontFamily: "Helvetica","Arial",sans-serif !important;
-    &.pdf {
-        width:8.5in !important;
-        background-color: #ffffff !important;
-        font-family: $fontFamily;
-        #be-well-informed-accordion {
-            div {
-                background-color: #ffffff !important;
-                font-family: $fontFamily;
-            }
-            h1 {
-                font-family: $fontFamily;
-            }
-        }
-    }
-
     #be-well-informed-form-wrapper {
-
         & > div:first-child {
             overflow: visible;
         }
