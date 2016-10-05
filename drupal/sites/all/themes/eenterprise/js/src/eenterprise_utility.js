@@ -819,6 +819,10 @@
         placeAddAnotherButton(false, table_id, parent_id);
       };
       $('#profile-tabs').tabs({
+        create: function( event, ui ) {
+          var action_base = jQuery('#user-profile-form').attr('action')
+          jQuery('#user-profile-form').attr('action', action_base + window.location.hash)
+        },
         activate: function( event, ui ) {
           var action = jQuery('#user-profile-form').attr('action')
           var has_hash = (action.indexOf('#') > -1)
