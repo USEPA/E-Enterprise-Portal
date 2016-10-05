@@ -1228,7 +1228,9 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
 function user_profile_mail_custom_validate(&$form, &$form_state) {
   // Prevent anyone form changing the email unless it is the admin
   if($form['user']['uid'] != 1 && $form['#user']->uid != 1 && $form_state['values']['mail'] != $form['#user']->mail){
-    form_set_error('mail', t('You do not have adequate permission to edit your email.'));
+    //Remove this line because email address field is read only and another piece of code in form alter in this page
+    //needs to change email address to username if email comes empty.
+    //form_set_error('mail', t('You do not have adequate permission to edit your email.'));
   }
 }
 
