@@ -156,7 +156,7 @@ function eenterprise_bridge_auth_authenticate($error)
             else if (($pos === FALSE && $openid_position === FALSE) || $username === FALSE) {
                 if (isset($userDetails->attributes['email'])) {
                     $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
-                    if (isset($userDetails->attributes['link']) && strpos($userDetails->attributes['link'][0], 'facebook') !== FALSE){
+                    if (isset($userDetails->attributes['authenticationMethod']) && stripos($userDetails->attributes['authenticationMethod'], 'facebook') !== FALSE){
                         mitigate_username_alteration($userDetails->attributes['email'][0]."_Via_Facebook", $userDetails->attributes['email'][0]);
                         $uname = $userDetails->attributes['email'][0]."_Via_Facebook";
                     }
@@ -166,7 +166,7 @@ function eenterprise_bridge_auth_authenticate($error)
                         mitigate_username_alteration($userDetails->attributes['id'][0]."_Via_Twitter", $userDetails->attributes['id'][0]);
                         $uname = $userDetails->attributes['id'][0] . "_Via_Twitter";
                     }
-                    else if (isset($userDetails->attributes['link']) && strpos($userDetails->attributes['link'][0], 'facebook') !== FALSE) {
+                    else if (isset($userDetails->attributes['authenticationMethod']) && stripos($userDetails->attributes['authenticationMethod'], 'facebook') !== FALSE) {
                         mitigate_username_alteration($userDetails->attributes['id'][0]."_Via_Facebook", $userDetails->attributes['id'][0]);
                         $userDetails->attributes['id'][0] = trim($userDetails->attributes['id'][0], '"');
                         $uname = $userDetails->attributes['id'][0] . "_Via_Facebook";
