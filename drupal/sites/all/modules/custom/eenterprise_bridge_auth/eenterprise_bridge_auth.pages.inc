@@ -835,8 +835,11 @@ function refresh_todo_list()
         node_delete($value['nid']);
     }
     create_progress_tracker($user);
-    drupal_set_message("To Do and Progress Tracker Data refreshed successfully");
     if (module_exists('eactivity_dataflow')) {
+        if (!isset($_SESSION['todo_refresh_count'])) {
+          $_SESSION['todo_refresh_count'] = 0;
+        }
+        $_SESSION['todo_refresh_count']++;
         drupal_json_output(array(
             'status' => TRUE,
         ));
