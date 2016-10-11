@@ -18,5 +18,6 @@ function eactivity_dataflow_preprocess_panels_pane(&$variables) {
       'preprocess' => TRUE,
       'group' => CSS_THEME
     ]);
+    drupal_add_js(array('eactivity_dataflow' => array('todo_refresh_count' => $_SESSION['todo_refresh_count'])), 'setting');
   }
 }
