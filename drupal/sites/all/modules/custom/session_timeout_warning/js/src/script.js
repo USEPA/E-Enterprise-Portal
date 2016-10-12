@@ -16,9 +16,9 @@ var isLoggedOut = false;
     attach: function (context) {
       //@see https://www.lullabot.com/articles/understanding-javascript-behaviors-in-drupal (Using jQuery Once)
       $('body').once('session-timeout-prompt', function () {
-        var $sessionTimeoutModal = $('#session-timeout-modal');
+        var $sessionTimeoutModal = $('<div id="session-timeout-modal"></div>');
 
-        $('body').append('<div id="session-timeout-modal"></div>');
+        $('body').append($sessionTimeoutModal);
         promptAt = Drupal.settings.promptAt;
         logoutAt = Drupal.settings.logoutAt;
 
@@ -31,9 +31,10 @@ var isLoggedOut = false;
             if (!isLoggedOut && userId != 0) { // only applies to logged-in users
               if (now > logoutAt) {
                 instantLogout();
+                isLoggedOut = true;
               } else if (!isPrompted && now > promptAt) {
                 $sessionTimeoutModal
-                  .html('<div>Due to inactivity, your session will expire in <span class="min-remaining">5 minutes</span>. Please click Continue Session to continue.</div><div><button class="logout button">Logout</button><button class="renew button">Continue Session</button></div>')
+                  .html('<div>Due to inactivity, your session will expire in <span class="min-remaining">5 minutes</span>. Please click Continue Session to continue.</div><div class="actions"><button class="logout button">Logout</button><button class="renew button">Continue Session</button></div>')
                   .dialog({
                     dialogClass: 'session-timeout-modal-content',
                     title: 'Session Timeout Warning',
@@ -45,7 +46,7 @@ var isLoggedOut = false;
               } else if (isPrompted) {
                 // update how many minutes remaining
                 var minutesRemaining = Math.ceil((logoutAt - now) / 60) + ' minute';
-                if (minutesRemaining != 1) {
+                if (minutesRemaining != '1 minute') {
                   minutesRemaining += 's'; // 'minute' or 'minutes'
                 }
                 $sessionTimeoutModal.find('span.min-remaining').html(minutesRemaining);
@@ -57,6 +58,7 @@ var isLoggedOut = false;
 
         // logout occurs because the user clicked on 'logout' or they simply waited too long without renewing the session
         var instantLogout = function() {
+          $sessionTimeoutModal.find('.actions').html('Logging Out...');
           window.location.href = Drupal.settings.basePath + 'instant-logout';
         };
 

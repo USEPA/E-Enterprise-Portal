@@ -48,16 +48,17 @@ function renew_session() {
 }
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
+ * @see https://api.drupal.org/comment/56528#comment-56528
  * Add client-side business logic, tracking for prompt and logout
  */
-function session_timeout_warning_init() {
+function session_timeout_warning_page_build(&$page) {
   global $user;
-
-  drupal_add_js(drupal_get_path('module', 'session_timeout_warning') . '/js/script.js');
 
   // Add javascript variables for tracking session timeout
   if (!user_is_anonymous()) {
+    drupal_add_js(drupal_get_path('module', 'session_timeout_warning') . '/js/script.js');
+
     if (!isset($_SESSION['promptAt']) || !isset($_SESSION['logoutAt'])) {
       $_SESSION['promptAt'] = time() + (60 * 15); // 15 minute timeout
       $_SESSION['logoutAt'] = time() + (60 * 20); // 20 minute timeout
