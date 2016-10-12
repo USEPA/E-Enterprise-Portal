@@ -1,0 +1,14 @@
+// hide most of these views until AJAX completes
+#gridstack-pane-views-to_do-block_1,
+#gridstack-pane-views-progress_tracker-block_1 {
+    // when refreshing this view programmatically, cTools will replace the DOM node, removing the 'loading' class
+    .view.loading {
+        & > div,
+        & > ul {
+            display: none;
+        }
+        .ajax-progress.ajax-progress-throbber {
+            display: block;
+        }
+    }
+}

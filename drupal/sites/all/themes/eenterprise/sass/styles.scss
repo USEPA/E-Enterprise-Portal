@@ -2292,6 +2292,28 @@ form .field-multiple-table#field-zip-code-values {
     }
 }
 
+/* Help question mark source: Font Awesome by Dave Gandy - http://fontawesome.io */
+.about-widget {
+    display: block;
+    position: absolute; 
+    right: 30px; 
+    top: 26px; 
+    font-size: 0; 
+    text-decoration: none;
+}
+
+.about-dialog {
+    .ui-dialog-titlebar {
+        .modal-title-subtext {
+            display: block;
+            font-size: 1.4rem;
+        }
+        button {
+            top: 1em;
+        }        
+    }
+}
+
 div.ctools-modal-content {
     .modal-header {
         padding: 0.4em 2em;
@@ -3474,6 +3496,14 @@ a.usa-button.btn-social.btn-wam {
         width: 63px;
         margin-left: 20px;
         margin-right: 20px;
+    }
+}
+
+a.usa-button.btn-social.btn-nmedsep {
+    @include btn-social(#068442);
+    color: #fff;
+    .nmedsep:before {
+        content: url('../images/nm-logo.png');
     }
 }
 

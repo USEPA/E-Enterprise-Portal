@@ -36,8 +36,10 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
 ?>
 
 
-
-
+<a class="about-widget ee-bootstrap-tooltip favorites-ignore" id="resources-lgc-help" href="javascript:void(0)" title="Learn more about the Resources for Local Communities widget"><img src="<?php print base_path() . path_to_theme(); ?>/images/question-circle.svg" alt="Learn more about the Resources for Local Communities widget"></a>
+<div id="resources-lgc-about" class="element-hidden">
+  <?php print $recommended_resources_html; ?>
+</div>
 <div class="back-to-lgc-widget">
   <div class="usa-grid">
     <div class="usa-width-one-third">
@@ -54,7 +56,6 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
 <div class="usa-grid lgc-topic-header">
   <div class="usa-width-one-whole">
     <h3 class="lgc-header"></h3> <a class="unfollow-lgc-topic" href="javascript:void(0)">Unfollow</a>
-
   </div>
 </div>
 
