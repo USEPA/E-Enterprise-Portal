@@ -549,26 +549,34 @@ $color_ecstasy_approx: #ff851b;
                     @include bwi-label('../images/circle.png');
 
                 }
+                .bwi-consult:before {
+                    @include bwi-label('../images/orange.png');
+
+                }
             }
 
             #be-well-informed-result-details-table {
                 tbody {
                     tr {
                         .bwi-detail-td {
+                            h4 {
+                                margin: 0 0 1rem;
+                            }
                             span {
                                 font-weight: bold;
                                 display: block;
                                 margin-bottom: 1%;
                             }
+                            background-color: #d6d2d2;
                         }
                         .bwi-detail-td.font-red {
-                            border-left: .3rem solid red;
+                            border-left: 0.5rem solid red;
                         }
                         .bwi-detail-td.font-green {
-                            border-left: .3rem solid green;
+                            border-left: 0.5rem solid #35aa47;
                         }
                         .bwi-detail-td.font-yellow {
-                            border-left: .3rem solid yellow;
+                            border-left: 0.5rem solid Orange;
                         }
                     }
                 }
