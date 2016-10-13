@@ -34,7 +34,7 @@ var isLoggedOut = false;
                 isLoggedOut = true;
               } else if (!isPrompted && now > promptAt) {
                 $sessionTimeoutModal
-                  .html('<div>Due to inactivity, your session will expire in <span class="min-remaining">5 minutes</span>. Please click Continue Session to continue.</div><div class="actions"><button class="logout button">Logout</button><button class="renew button">Continue Session</button></div>')
+                  .html('<div>Your session will expire in <span class="min-remaining">5 minutes</span>. Please click \'Continue Session\' to proceed.</div><div class="actions"><button class="logout button">Logout</button><button class="renew button">Continue Session</button></div>')
                   .dialog({
                     dialogClass: 'session-timeout-modal-content',
                     title: 'Session Timeout Warning',
