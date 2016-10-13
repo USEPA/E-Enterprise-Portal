@@ -176,7 +176,7 @@ function be_well_informed_datatable_response($be_well_response_json) {
     }
 
     $datatable_row = [];
-    $datatable_row[] = processGuidelineColor($water_data->GuidelineColor);
+    $datatable_row[] = processGuidelineIcon($water_data->GuidelineIcon);
     $datatable_row[] = $water_data->ContaminantFullName . ' (' . $water_data->Symbol . ')';
     $datatable_row[] = $user_entry;
     $datatable_row[] = $water_data->MaximumContaminantLevel;
@@ -200,7 +200,6 @@ function be_well_informed_datatable_response($be_well_response_json) {
 
   return $be_well_response;
 }
-
 
 function sample_be_well_informed_response() {
 
@@ -239,23 +238,25 @@ More information about treatment for fluoride can be found in NHDES’ Fact Shee
   return json_encode($response);
 }
 
-
 /**
  * Returns the correct image for a water level
  * @param $guideline_color
  * @return string
  */
-function processGuidelineColor($guideline_color) {
+function processGuidelineIcon($guideline_icon) {
   $image_path = drupal_get_path('module', 'be_well_informed') . '/images';
 
-  switch ($guideline_color) {
-    case "font-green":
+  switch ($guideline_icon) {
+    case "Images/water/check4.png":
       $return_html = "<img src='" . $image_path . "/check.png' />";
       break;
-    case "font-yellow":
+    case "Images/water/exclamation.png":
       $return_html = "<img src='" . $image_path . "/exclamation.png' />";
       break;
-    case "font-red":
+    case "Images/water/orange.png":
+      $return_html = "<img src='" . $image_path . "/orange.png' />";
+      break;
+    case "Images/water/false4.png":
       $return_html = "<img src='" . $image_path . "/false.png' />";
       break;
     default:
@@ -383,7 +384,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     ],
     [
       'name' => 'pH',
-      'machine_name' => 'ph',
+      'machine_name' => 'pH',
       'symbol' => '',
       'default_unit_type' => 'unit',
       'validation' => [],
