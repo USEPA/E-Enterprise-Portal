@@ -6,36 +6,12 @@
 function session_timeout_warning_menu() {
   $items = array();
 
-  $items['instant-logout'] = array(
-    'page callback' => 'instant_logout',
-    'access callback' => TRUE,
-  );
   $items['renew-session'] = array(
     'page callback' => 'renew_session',
     'access callback' => TRUE,
   );
 
   return $items;
-}
-
-/**
- * Page callback for 'instant-logout'
- * @see https://api.drupal.org/api/drupal/modules%21user%21user.pages.inc/function/user_logout_current_user/7.x
- */
-function instant_logout() {
-  global $user;
-
-  watchdog('user', 'Session closed for %name.', array('%name' => $user->name));
-
-  module_invoke_all('user_logout', $user);
-
-  // Destroy the current session, and reset $user to the anonymous user.
-  session_destroy();
-
-  // set status message after the session is destroyed
-  drupal_set_message('You have been timed out.', 'warning');
-
-  drupal_goto('bridge-landing');
 }
 
 /**
