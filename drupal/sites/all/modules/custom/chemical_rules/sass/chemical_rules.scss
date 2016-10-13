@@ -1,0 +1,87 @@
+//colors
+$color_highlight_blue: #E1EAF5;
+$white: #fff;
+
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+@mixin container() {
+    position: relative;
+    box-sizing: border-box;
+}
+
+.ui-dialog#chemical-rules-modal {
+    &.ui-dialog {
+        overflow: visible;
+
+        .ui-dialog-titlebar {
+            background-color: transparent !important;
+            border: none;
+            z-index: 100;
+        }
+
+        .ui-dialog-content {
+            overflow: visible;
+        }
+    }
+}
+
+#chemical-rules-modal {
+    h3 {
+        background-color: $color_highlight_blue;
+    }
+
+}
+
+.cr-tabs_favorites-list {
+    list-style: none;
+    li::before,
+    li::after {
+        content: none;
+    }
+    .cr-tabs_favorites-link, 
+    .cr-tabs_favorites-remove {
+        display: inline-block;
+        width: auto;   
+    }
+    .cr-tabs_favorites-link {
+        margin-right: 10px;
+    }
+}
+
+.clearfix:after {
+    display: table;
+    line-height: 0;
+}
+
+@media screen and (min-width: 48em) {
+    #chemical-rules-modal {
+
+        #chemical-rules-results-wrapper {
+            .one-half {
+                width: 50%;
+            }
+        }
+
+    }
+}
+
+@media screen and (min-width: 60em) {
+
+    #chemical-rules-informed-modal {
+        #be-well-informed-results-wrapper {
+            .one-half {
+                width: 50%;
+            }
+        }
+    }
+}
