@@ -59,11 +59,7 @@ var isLoggedOut = false;
         // logout occurs because the user clicked on 'logout' or they simply waited too long without renewing the session
         var instantLogout = function() {
           $sessionTimeoutModal.find('.actions').html('Logging Out...');
-          $
-            .get('eebridge-auth/logout')
-            .always(function() {
-              window.location.href = Drupal.settings.basePath + 'bridge-landing';
-            });
+          window.location.href = Drupal.settings.basePath + 'user/logout';
         };
 
         // click handlers for logging out and renewing the session
