@@ -56,8 +56,8 @@ function session_timeout_warning_init() {
 
   drupal_add_js(drupal_get_path('module', 'session_timeout_warning') . '/js/script.js');
 
-  // Add javascript variables for tracking session timeout
-  if (!user_is_anonymous()) {
+  // Add javascript variables for tracking session timeout. Do no add for anonymous or admin user
+  if (!user_is_anonymous() && !$user->uid === 1) {
     if (!isset($_SESSION['promptAt']) || !isset($_SESSION['logoutAt'])) {
       $_SESSION['promptAt'] = time() + (60 * 15); // 15 minute timeout
       $_SESSION['logoutAt'] = time() + (60 * 20); // 20 minute timeout
