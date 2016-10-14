@@ -254,24 +254,6 @@ $font_1: monospace;
     template {
         display: none;
     }
-    a {
-        background-color: transparent;
-        color: $color_steel_blue_approx;
-        text-decoration: none;
-        &:active {
-            outline: 0;
-        }
-        &:hover {
-            outline: 0;
-            color: $color_blumine_approx;
-            text-decoration: underline;
-        }
-        &:focus {
-            color: $color_blumine_approx;
-            text-decoration: underline;
-            outline-offset: -2px;
-        }
-    }
     abbr[title] {
         border-bottom: 1px dotted;
     }
