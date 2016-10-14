@@ -115,7 +115,10 @@
     padding: 0;
 }
 
-// Bootstrap grid
+// Cherry picked Bootstrap grid
+// To work with it like normal we had to rename a few classes to avoid conflicts:
+// .container => .box
+// .row => .line
 //colors
 $yellow: #ff0;
 $black: #000;
