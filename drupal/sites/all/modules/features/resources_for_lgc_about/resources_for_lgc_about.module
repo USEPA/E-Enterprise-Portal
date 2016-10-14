@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Resources for LGC About feature.
+ */
+
+include_once 'resources_for_lgc_about.features.inc';

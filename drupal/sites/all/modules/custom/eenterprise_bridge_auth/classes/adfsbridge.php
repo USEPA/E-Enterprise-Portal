@@ -258,8 +258,13 @@ class AdfsBridge
         $userDetails->attributes = array();
         $attributeValues = $xpath->query('./saml:AttributeStatement/saml:Attribute/saml:AttributeValue', $assertion);
 
+        //Extract a node from the result XML that contains the Authentication Method attribute and pass it to userDetails.
+        $authMethodValues= $xpath->query('./saml:AuthenticationStatement', $assertion);
+        foreach($authMethodValues as $authMethodValue)
+            $authMethod = $authMethodValue->getAttribute('AuthenticationMethod');
+        $userDetails->attributes['authenticationMethod'] = $authMethod;
 
-        foreach ($attributeValues as $attribute) {
+      foreach ($attributeValues as $attribute) {
             $name = $attribute->parentNode->getAttribute('AttributeName');
             $value = $attribute->textContent;
             if (!array_key_exists($name, $userDetails->attributes)) {
