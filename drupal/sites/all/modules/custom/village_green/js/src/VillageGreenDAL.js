@@ -6,7 +6,7 @@
 
                 getDataForCurrentMinuteWelcomePage : function(siteID, callbackFn) {
                     jQuery.ajax({
-                       url: VG.config.baseUrl + '/village_green_block/api/getDataForCurrentMinute?siteID=' + siteID,
+                       url: VG.config.baseUrl + '/village_green/api/getDataForCurrentMinute?siteID=' + siteID,
                        complete: callbackFn,
                        dataType: 'json',
                        type: "POST"
