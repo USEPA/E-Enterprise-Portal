@@ -94,9 +94,27 @@ function enterprise_bridge_auth_logout_page_callback($original_page_callback, $o
 
   if ($_GET['bridge'] !== '1') { // try bridge logout
     drupal_goto('/eebridge-auth/logout');
-  } else {
-    return call_user_func($original_page_callback, $original_page_arguments[0]);
   }
+  if ($_GET['timeout'] == '1') {
+    // Perform a modified version of user_logout_current_user()
+    // @see https://api.drupal.org/api/drupal/modules%21user%21user.pages.inc/function/user_logout_current_user/7.x
+    global $user;
+    watchdog('user', 'Session timed out for %name.', array('%name' => $user->name));
+
+    // allow modules to implement hook_user_logout()
+    module_invoke_all('user_logout', $user);
+
+    // Destroy the current session, and reset $user to the anonymous user.
+    session_destroy();
+
+    // set status message after the session is destroyed
+    drupal_set_message('You have been timed out.', 'warning');
+
+    // this is not the standard page that users go to after logging out
+    drupal_goto('bridge-landing');
+  }
+
+  return call_user_func($original_page_callback, $original_page_arguments[0]);
 }
 
 /**
