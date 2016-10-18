@@ -20,7 +20,7 @@ function chemical_rules_menu() {
 function chemical_rules_block_info() {
   $blocks = array();
   $blocks['chemical_rules'] = array(
-    'info' => t('Chemical Rules and Regulations Block'),
+    'info' => t('Block Chemical Rules and Regulations'),
   );
   return $blocks;
 }
