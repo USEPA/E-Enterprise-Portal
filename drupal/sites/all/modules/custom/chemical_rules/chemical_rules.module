@@ -117,15 +117,15 @@ function chemical_rules_form_submission() {
     return;
   }
 
-  $datatable_formatted_response = array();
+  $response = array();
   module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-  if (feature_toggle_get_status('chemical_rules_sample_data')) {
-    $chemical_rules_response = sample_chemical_rules_response();
-    $datatable_formatted_response['data'] = chemical_rules_datatable_response($chemical_rules_response);
-    $datatable_formatted_response['error'] = FALSE;
+  if (true || feature_toggle_get_status('chemical_rules_sample_data')) {
+    $response['data'] = sample_chemical_rules_response();
+    $response['error'] = FALSE;
   }
   else {
-    $endpoint = "http://nodewebdev.epacdxnode.net/DWIService/dwievaluation";
+    // Still waiting for endpoint for our data needs
+    /*$endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|Acetone";
     $headers = array('Content-Type' => 'application/json');
     $response = drupal_http_request($endpoint, [
       "headers" => $headers,
@@ -134,54 +134,28 @@ function chemical_rules_form_submission() {
       'data' => json_encode($_POST)
     ]);
     if ($response->code !== "200") {
-      $datatable_formatted_response['error'] = TRUE;
+      $response['error'] = TRUE;
     }
     else {
-      $formatted_data = chemical_rules_datatable_response($response->data);
-      $datatable_formatted_response['data'] = $formatted_data;
-      $datatable_formatted_response['error'] = FALSE;
-    }
+      $formatted_data = chemical_rules_process_response($response->data);
+      $response['data'] = $formatted_data;
+      $response['error'] = FALSE;
+    }*/
   }
 
-  drupal_json_output($datatable_formatted_response);
+  drupal_json_output($response);
 }
 
 function sample_chemical_rules_response() {
-
-  $response = [
-    'ResultEvaluations' =>
-      [
-        [
-          'ContaminantFullName' => 'Arsenic',
-          'Symbol' => 'As',
-          'GuidelineColor' => 'font-red',
-          'UserContaminatValue' => '0.01 mg/L',
-          'MaximumContaminantLevel' => '0.01 mg/L',
-          'GuidelineText' => 'The value entered is close to exceeding the drinking water standard',
-          'InterpretationMessages' => '<span>Does my well water meet the drinking water standard for fluoride?</span> No, your water does not meet federal and state drinking water standards as it contains more than 4.0 mg/L of fluoride.',
-          'HealthMessages' => '<span>Can consuming water containing fluoride affect my health?</span> Consuming water containing more than 4.0 mg/L of fluoride can cause bone disease, which can include pain and tenderness of the bones and irregular bone deposits that can cause arthritis and crippling when occurring at joints (skeletal fluorosis).
-
-Consuming water containing more than 2.0 mg/L of fluoride can cause small ‘white spots’ on children’s teeth (mottled enamel), or in extreme cases, brown staining or pitting of teeth that are still developing below the gums (dental fluorosis).
-
-To reduce your exposure to fluoride in your well water, treat the water that you use for drinking and cooking to a level less than 2.0 mg/L. If treatment is not feasible, children under nine years old should be provided with an alternative source of drinking water that contains less than 2.0 mg/L of fluoride.
-
-Consuming water containing an optimal level of fluoride helps protect against tooth decay. The U.S. Department of Health and Human Services’ recommended optimal range for fluoride in drinking water is 0.6 - 0.8 mg/L. You should talk with your dentist and doctor about the level of fluoride in your water and how you can reduce your and your family’s total fluoride exposure. Click here for more information from the U.S. Centers for Disease Control and Prevention about private well water and fluoride.',
-          'TreatmentMessages' => '<span>How can I reduce the level of fluoride in my water?</span> Install one of the following point-of-use (POU) water treatment systems at your kitchen sink to reduce the level of fluoride in the water that you consume:
-
-An NSF/ANSI Standard 61 certified activated alumina filter system.
-
-OR
-
-An NSF/ANSI Standard 58 certified reverse osmosis (RO) system.
-
-More information about treatment for fluoride can be found in NHDES’ Fact Sheet.',
-
-        ],
-      ]
-  ];
-  return json_encode($response);
+  $path = drupal_get_path('module', 'chemical_rules') . '/sample-data.json';
+  $sample = file_get_contents($path);
+  return json_decode($sample);
 }
 
+
+function chemical_rules_process_response($response, $init = []) {
+
+}
 
 /**
  * Implements template_preprocess_hook for chemical-rules-modal.tpl.php.
