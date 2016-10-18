@@ -1,6 +1,9 @@
 //colors
-$color_highlight_blue: #E1EAF5;
-$white: #fff;
+$color_highlight_blue:  #E1EAF5;
+$color-gray-dark:       #323a45 !default;
+$color-gray-lighter:    #d6d7d9 !default; // lighten($color-gray-dark, 80%)
+$color-gray-lightest:   #f1f1f1 !default; // lighten($color-gray-dark, 91%)
+$white:                 #fff;
 
 @mixin clearfix() {
     &:before,
@@ -17,6 +20,18 @@ $white: #fff;
 @mixin container() {
     position: relative;
     box-sizing: border-box;
+}
+
+@mixin linear-gradient($gradient-light, $gradient-dark) {
+    background-image: -webkit-gradient(linear, left top, left bottom, from($gradient-light), to($gradient-dark));
+    background-image: -webkit-linear-gradient(top, $gradient-light, $gradient-dark);
+    background-image: -moz-linear-gradient(top, $gradient-light, $gradient-dark);
+    background-image: -ms-linear-gradient(top, $gradient-light, $gradient-dark);
+    background-image: linear-gradient(to bottom, $gradient-light, $gradient-dark);
+}
+
+@mixin button {
+    @include linear-gradient(rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .15) 100%);
 }
 
 #cr-search {
@@ -49,15 +64,21 @@ $white: #fff;
 #chemical-rules-modal {
     h2 {
         font-size: 2.4rem;
-        margin-top: 1rem;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
     }
     h3 {
         background-color: $color_highlight_blue;
-        font-size: 2rem;
+        font-size: 1.5rem;
+        font-weight: bold;
         margin-top: 0px;
         padding: 5px 10px;
         margin-left: -10px;
         margin-right: -10px;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
     }
     #chemical-rules-loading-wrapper {
         text-align: center;
@@ -73,6 +94,10 @@ $white: #fff;
             margin: 0;
             font-size: 1rem;
         }
+    }
+    ul {
+        margin-top: 0;
+        margin-bottom: 0;
     }
 }
 
@@ -92,6 +117,23 @@ $white: #fff;
         margin-right: 10px;
     }
 }
+.cr-modal-actions {
+    margin-top: 0;
+    margin-bottom: 0;
+    li {
+        display: inline-block;
+        font-size: 1.3rem;
+        margin-right: 10px;
+        a {
+            padding: 2px 4px;
+            &#cr-save-chemical {
+                background: transparent url('../images/plus-circle.svg') 0 50% no-repeat;
+                background-size: 20px 20px;
+                padding-left: 24px;
+            }
+        }
+    }
+}
 
 .clearfix:after {
     display: table;
@@ -100,11 +142,27 @@ $white: #fff;
 
 @media screen and (min-width: 48em) {
     #chemical-rules-modal {
-        ul#cr-modal-toc-icons {
+        #cr-modal-toc-icons {
             li {
                 display: inline-block;
-                width: 100px;
+                width: auto;
                 margin-right: 10px;
+                font-size: 1.2rem;
+                line-height: 1.1;
+                text-transform: uppercase;
+                max-width: 125px;
+                vertical-align: top;
+                text-align: center;
+                a {
+                    color: $color_gray_dark;
+                    &:visited,
+                    &:hover,
+                    &:focus,
+                    &:active {
+                        color: darken($color_gray_dark, 10%);
+                    }
+                    
+                }
             }
         }
         #chemical-rules-results-wrapper {

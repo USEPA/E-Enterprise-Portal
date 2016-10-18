@@ -46,15 +46,71 @@ function populate_substance_modal(chemical_rules_response_json) {
   var $body = $('body');
 
   if(chemical_rules_response_json.data != null && chemical_rules_response_json.error == false){
-
+    $('#chemical-rules-modal').dialog('option','title', chemical_rules_response_json.data.Substance.CASRegistryNumber + ': ' +  chemical_rules_response_json.data.Substance.ChemicalSubstanceSystematicName);
+    
     // popluate our modal
-    $body.find('#user-chemical-name').text(chemical_rules_response_json.data.Substance.EPAChemicalRegistryName);
+    $body.find('.cr-chemical-name').text(chemical_rules_response_json.data.Substance.EPAChemicalRegistryName);
 
-    var $list = $body.find('.cr-rules-regs_lists')
-    $(chemical_rules_response_json.data.LawsRegs).each(function(index){
-      $list.append('<li><a href="'+this.source+'" target="_blank">'+this.name+'</a></li>');
-    })
+    var $list = $body.find('.cr-rules-regs_lists');
+    var $programs = $body.find('#cr-programs-list');
+    var $synonyms = $body.find('#cr-synonyms-list');
+    var $propertiestable = $body.find('#cr-properties-table > tbody');
+    var $substance_lists = $body.find('#cr-substances-list');
+    
+    $('#cr-save-chemical').data('cr-srsid', chemical_rules_response_json.data.Substance.EPAChemicalInternalNumber);
+    
+    if (chemical_rules_response_json.data.LawsRegs.length > 0) {
+      $(chemical_rules_response_json.data.LawsRegs).each(function(index){
+        $('#cr-laws-regs_count').text(chemical_rules_response_json.data.LawsRegs.length);
+        $list.append('<li><a href="'+this.source+'" target="_blank">'+this.name+'</a></li>');
+      });
+    }
+    else {
+      // No laws regulations found
+    }
+    
+    if (chemical_rules_response_json.data.Programs.length > 0) {
+      $(chemical_rules_response_json.data.Programs).each(function(index){
+        //$('#cr-programs-count').text(chemical_rules_response_json.data.Programs.length);        
+        $programs.append('<li><a href="'+this.source+'" target="_blank">'+this.name+'</a></li>');
+      });
+    }
+    else {
+      // No programs found   
+    }
+    
+    if (chemical_rules_response_json.data.Substance.Synonym.length > 0) {
+      $(chemical_rules_response_json.data.Substance.Synonym).each(function(index) {
+        //$('#cr-synonyms-count').text(chemical_rules_response_json.data.Substance.Synonym.length);
+        $synonyms.append('<li>'+this+'</li>');
+      });
+    }
+    else {
+      // No synonyms found
+    }
+    
+    var tr_start = '<tr><th scope="row">',
+        tr_end = '</td></tr>';
 
+    var properties = tr_start + "Molecular Weight</th><td>" + chemical_rules_response_json.data.Substance.MolecularWeight + tr_end;
+        properties += tr_start + "Solubility</th><td>" + chemical_rules_response_json.data.Substance.Solubility + tr_end;
+        properties += tr_start + "Vapor Pressure</th><td>" + chemical_rules_response_json.data.Substance.VaporPressure + tr_end;
+        properties += tr_start + "LogP</th><td>" + chemical_rules_response_json.data.Substance.LogP + tr_end;
+        properties += tr_start + "Stability</th><td>" + chemical_rules_response_json.data.Substance.Stability + tr_end;
+        properties += tr_start + "pKA</th><td>" + chemical_rules_response_json.data.Substance.pKA + tr_end;
+             
+    $propertiestable.append(properties);
+    
+    if (chemical_rules_response_json.data.SubstanceList.length > 0) {
+      $(chemical_rules_response_json.data.SubstanceList).each(function(index) {
+        //$('#cr-synonyms-count').text(chemical_rules_response_json.data.Substance.Synonym.length);
+        $substance_lists.append('<li>'+this+'</li>');
+      });
+    }
+    else {
+      // No synonyms found
+    }
+    
     $('#chemical-rules-modal').dialog("open")
   }
   else {
@@ -97,7 +153,7 @@ function populate_substance_modal(chemical_rules_response_json) {
   $('#chemical-rules-modal')
     .html(Drupal.settings.chemical_rules.modal)
     .dialog({
-      title: 'chemicalNameOrNum',
+      title: 'Results',
       modal: true,
       width: "auto",
       position: { 'my': 'left top', 'at': 'left top' },
@@ -122,6 +178,8 @@ function populate_substance_modal(chemical_rules_response_json) {
       url: 'chemical_rules/form_submission',
       method: 'POST',
       data: chem_search_form_data,
+      before_send: showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('.chemical-rules-modal-wrapper')),
+      complete: showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper')),
       success: populate_substance_modal
     })
 
