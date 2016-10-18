@@ -161,7 +161,7 @@ function eenterprise_bridge_auth_authenticate($error)
                         $uname = $userDetails->attributes['email'][0]."_Via_Facebook";
                     }
                     if (isset($userDetails->attributes['authenticationMethod']) && stripos($userDetails->attributes['authenticationMethod'], 'NMIdP') !== FALSE){
-                      $uname = $userDetails->attributes['email'][0]."_Via_NMIdP";
+                      $uname = $userDetails->attributes['email'][0]."_Via_NMED";
                     }
                     $public_or_cdx = 'public';
                 } else {
