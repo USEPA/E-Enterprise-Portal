@@ -19,6 +19,15 @@ $white: #fff;
     box-sizing: border-box;
 }
 
+#cr-search {
+    label {
+        font-size: 1.5rem;
+    }
+    button {
+        font-size: 1.3rem;
+    }
+}
+
 .ui-dialog#chemical-rules-modal {
     &.ui-dialog {
         overflow: visible;
@@ -36,13 +45,34 @@ $white: #fff;
 }
 
 #chemical-rules-modal {
+    h2 {
+        font-size: 2.4rem;
+        margin-top: 1rem;
+    }
     h3 {
         background-color: $color_highlight_blue;
+        font-size: 2rem;
+        margin-top: 0px;
+        padding: 5px 10px;
+        margin-left: -10px;
+        margin-right: -10px;
     }
-
+    #cr-modal-toc-icons {
+        position: fixed;
+    }
+    .cr-structure_container {
+        img {
+            width: 100px;
+        }
+        p {
+            margin: 0;
+            font-size: 1rem;
+        }
+    }
 }
 
-.cr-tabs_favorites-list {
+.cr-lists,
+#chemical-rules-modal ul {
     list-style: none;
     li::before,
     li::after {
@@ -65,7 +95,13 @@ $white: #fff;
 
 @media screen and (min-width: 48em) {
     #chemical-rules-modal {
-
+        ul#cr-modal-toc-icons {
+            li {
+                display: inline-block;
+                width: 100px;
+                margin-right: 10px;
+            }
+        }
         #chemical-rules-results-wrapper {
             .one-half {
                 width: 50%;
