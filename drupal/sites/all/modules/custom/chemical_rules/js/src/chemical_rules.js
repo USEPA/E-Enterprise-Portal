@@ -42,6 +42,29 @@ function resetCRForm() {
   $form.val('');
 }
 
+function populate_substance_modal(chemical_rules_response_json) {
+  var $body = $('body');
+
+  if(chemical_rules_response_json.data != null && chemical_rules_response_json.error == false){
+
+    // popluate our modal
+    $body.find('#user-chemical-name').text(chemical_rules_response_json.data.Substance.EPAChemicalRegistryName);
+
+    var $list = $body.find('.cr-rules-regs_lists')
+    $(chemical_rules_response_json.data.LawsRegs).each(function(index){
+      $list.append('<li><a href="'+this.source+'" target="_blank">'+this.name+'</a></li>');
+    })
+
+    $('#chemical-rules-modal').dialog("open")
+  }
+  else {
+    //@todo Add error msg for then there is bad data
+  }
+
+
+
+}
+
 (function($) {
   var $body = $('body'),
       $cr_tabs = $('#cr-tabs').tabs(),
@@ -69,147 +92,41 @@ function resetCRForm() {
     //count
     //ul
   }
-  
-  // Sample Data for Modal
-  var sampleData = function(sample) {
-      sampleSet = [{
-        "Substance": {
-          "EPAChemicalInternalNumber": "4309",
-          "CASRegistryNumber": "67-64-1",
-          "ChemicalSubstanceSystematicName": "2-Propanone",
-          "EPAChemicalRegistryName": "Acetone",
-          "MolecularFormulaCode": "C3H6O",
-          "ChemicalSubstanceFormulaWeightQuantity": "58.08",
-          "ChemicalSubstanceLinearStructureCode": "O=C(C)C",
-          "SubstanceCreateDate": "2006-10-13 14:30:12.0",
-          "SubstanceLastUpdateDate": "2012-02-01 14:37:36.0",
-          "SubstanceStatus": "A",
-          "Synonym": [
-            "2-Propanone",
-            "Acetone",
-            "Methyl ketone",
-            "Dimethylketone",
-            "Dimethyl ketone",
-            "Methyl ketone",
-            "Acetone, dry weight",
-            "Acetone, in waste",
-            "Residual acetone"
-          ],
-          // Not yet available
-          "MolecularWeight": "58.08 g/mol",
-          "Solubility": "Miscible with water",
-          "VaporPressure": "231 mm Hg at 25 deg C",
-          "LogP": "log Kow = -0.24",
-          "Stability": "Stable under recommended storage conditions.",
-          "pKA": "20"
-        },
-        "SubstanceList": [
-          "Chemical Hazard Information Profiles",
-          "Master Testing List (MTL) 1996",
-          "Substitute Hazard Profiles",
-          "Emergency Response Notification System",
-          "Green Chemistry Expert System",
-          "Chemical Update System (CUS) 1998",
-          "Permit Compliance System",
-          "Toxic Substances Control Act Test Submissions",
-          "Ecotoxicology Database",
-          "High Production Volume Challenge Program / Voluntary Childrens Chemical Evaluation Program Information System",
-          "Chemical Update System (CUS) 2002",
-          "Agency for Toxic Substances and Disease Registry",
-          "Hazardous Discarded Commercial Chemical Products",
-          "Chemical Abstracts Index Name",
-          "Comprehensive Environmental Response, Compensation, And Liability Act Hazardous Substances",
-          "TSCA Inventory",
-          "2012 Chemical Data Reporting",
-          "Substitute Hazard Profiles",
-          "Toxics Release Inventory Program System",
-          "Emergency Response Notification System",
-          "ICIS-Air",
-          "Storage and Retrieval for Water Quality Data",
-          "Comprehensive Environmental Response, Compensation and Liability Information System - 3",
-          "Permit Compliance System",
-          "Chemicals On Reporting Rules",
-          "Integrated Compliance Information System",
-          "Office of Pesticide Programs Information Network",
-          "Environmental Information Management System",
-          "Air Quality System",
-          "Ecotoxicology Database",
-          "CAMEO Chemicals",
-          "Screening Information Data Set-High Production Volume Chemicals",
-          "Agency for Toxic Substances and Disease Registry",
-          "Hazardous Discarded Commercial Chemical Products",
-          "Emergency Planning and Community Right-to-Know Act Section 313",
-          "Hazardous Substance Data Bank, 1998",
-          "Integrated Risk Information System",
-          "Master Testing List",
-          "Safe Drinking Water Information System in Envirofacts",
-          "Chemical Identification",
-          "New Jersey Right to Know Hazardous Substances Fact Sheets",
-          "National Toxicology Program Chemical Health and Safety Data",
-          "National Toxicology Program Study Abstracts",
-          "Hazardous Wastes From Non-Specific Sources",
-          "Comprehensive Environmental Response, Compensation, And Liability Act Hazardous Substances",
-          "Effluent Limitation Guidelines",
-          "Standards of Performance for New Stationary Sources of Air Pollutants - Equipment Leaks Chemical List",
-          "Priority List of Hazardous Substances",
-          "Inert Ingredients in Pesticide Products",
-          "Water Quality Exchange",
-          "Organic Hazardous Air Pollutants National Emission Standards",
-          "Wisconsin Department of Natural Resources",
-          "International Toxicity Estimates for Risk",
-          "Superfund Chemical Data Matrix",
-          "Regional Screening Levels",
-          "Acute Exposure Guideline Levels for Airborne Chemicals",
-          "2016 CDR TSCA Inv",
-          "Chemical Update System (CUS) 1986",
-          "Chemical Update System (CUS) 1990",
-          "United States High Production Volume Challenge Program List",
-          "Chemical Update System (CUS) 1994",
-          "Integrated Compliance Information System",
-          "2012 Chemical Data Reporting",
-          "ICIS-Air",
-          "Emergency Response Notification System",
-          "Integrated Compliance Information System",
-          "Permit Compliance System",
-          "Permit Compliance System",
-          "CAMEO Chemicals",
-          "Food and Drug Administration Substance Registry"
-        ],
-        "Image": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/acetone/png",
-        "LawsRegs": [
-          {
-            "name": "40 CFR § 261.31 - Hazardous Waste from non-specific sources.",
-            "source": "/test.pdf"
-          },
-          {
-            "name": "40 CFR § 721.10237 - Formaldehyde, polymers with acetone-phenol reaction products and phenol, sodium salts.",
-            "source": "/test.pdf"
-          },
-          {
-            "name": "15 U.S. Code Subchapter I - CONTROL OF TOXIC SUBSTANCES",
-            "source": "/test.pdf"
-          }
-        ],
-        "Programs": [
-          {
-            "name": "TSCA Inventory",
-            "source": "https://epa.gov"
-          },
-          {
-            "name": "2016 CDR TSCA Inv",
-            "source": "https://epa.gov"
-          }
-        ]
-      }]
 
-      //sample = sampleSet[sampleSetIndex]
-      //sampleSetIndex = ++sampleSetIndex % sampleSet.length
-      sample = sampleSet[0];
-  }
+  // Initialize and open dialog
+  $('#chemical-rules-modal')
+    .html(Drupal.settings.chemical_rules.modal)
+    .dialog({
+      title: 'chemicalNameOrNum',
+      modal: true,
+      width: "auto",
+      position: { 'my': 'left top', 'at': 'left top' },
+      dialogClass: 'chemical-rules-modal',
+      draggable: false,
+      autoOpen: false,
+      create: function(event, ui) {
+
+      },
+      close: function(event, ui) {
+        resetCRForm();
+        //$('#chemical-rules-loading-wrapper').hide();
+        //$(this).dialog('destroy');
+      }
+    });
 
   $body.on('click', '#cr-search-chems-btn', function(ev) {
-    ev.preventDefault();
-    ev.stopPropagation();    
+
+    var chem_search_form_data = $('#chem_search_form').serialize();
+
+    $.ajax({
+      url: 'chemical_rules/form_submission',
+      method: 'POST',
+      data: chem_search_form_data,
+      success: populate_substance_modal
+    })
+
+    //ev.preventDefault();
+    //ev.stopPropagation();
     var chemicalNameOrNum = $body.find('#cr-search_input').val();
     if ($body.find('#chemical-error').length > 0) {
       $body.find('#chemical-error').remove();
@@ -231,30 +148,6 @@ function resetCRForm() {
     // Simulate the loading results block switching to results block
     // @TODO - Change this once Ajax / JSON success call returned - 
     else {
-      // Initialize and open dialog
-      $('#chemical-rules-modal')
-        .html(Drupal.settings.chemical_rules.modal)
-        .dialog({
-          title: chemicalNameOrNum,
-          modal: true,
-          width: "auto",
-          position: { 'my': 'left top', 'at': 'left top' },
-          dialogClass: 'chemical-rules-modal',
-          draggable: false,
-          create: function(event, ui) {
-            $body.find('#user-chemical-name').text(chemicalNameOrNum);
-            showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('#chemical-rules-results-wrapper'));
-            //For testing / demo purposes
-            window.setTimeout(function(){
-              showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
-            }, 2000);
-          },
-          close: function(event, ui) {
-            resetCRForm();            
-            $('#chemical-rules-loading-wrapper').hide();
-            $(this).dialog('destroy');
-          }
-      });  
       var toc = $("#cr-modal-toc-icons").toc({ 
         selectors: "h2",
         container: "#chemical-rules-modal",

@@ -6,8 +6,10 @@
 </p>
 <div id="cr-search">
   <div id="cr-search_field">
-    <label for="cr-search_input">Enter chemical name or CAS #</label>
-    <input id="cr-search_input" name="cr-search_input" type="text" class="form-text" size="60" maxlength="128">
+    <form id="chem_search_form">
+      <label for="cr-search_input">Enter chemical name or CAS #</label>
+      <input id="cr-search_input" name="cr-search_input" type="text" class="form-text" size="60" maxlength="128">
+    </form>
   </div><!-- @end cr-search_field -->
   <button id="cr-search-chems-btn">Search chemicals</button>  
   <div id="cr-search_description" class="description">Powered by EPA <a href="https://epa.gov/srs">Substance Registry Service</a> and <a href="https://epa.gov/lrs">Laws & Regulations Service</a></div>
