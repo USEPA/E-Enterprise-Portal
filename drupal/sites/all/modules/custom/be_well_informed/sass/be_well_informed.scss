@@ -206,7 +206,7 @@ $color_ecstasy_approx: #ff851b;
                 float: right;
                 clear: right;
                 margin-top: -4.2rem;
-                margin-right: 4.5rem;
+                margin-right: 5.0rem;
                 width: auto;
             }
         }
@@ -511,17 +511,15 @@ $color_ecstasy_approx: #ff851b;
             &>table, &>div {
                 padding: 0 1%;
             }
-
-            .ui-accordion-header {
+            h1 {
                 background: #0000BB none;
                 color: white;
-            }
-            .ui-accordion-header-icon {
-                display: none;
-            }
-            h1 {
                 font-size: 1.5rem;
-                padding-left: 2%;
+                display: block;
+                position: relative;
+                margin: 2px 0 0 0;
+                padding: .5em 0;
+                min-height: 0;
                 i {
                     position: absolute;
                 }
