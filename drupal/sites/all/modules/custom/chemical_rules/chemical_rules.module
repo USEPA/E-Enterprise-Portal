@@ -147,7 +147,9 @@ function chemical_rules_form_submission() {
 }
 
 function sample_chemical_rules_response() {
-  return json_decode(file_get_contents('sample-data.json'));
+  $path = drupal_get_path('module', 'chemical_rules') . '/sample-data.json';
+  $sample = file_get_contents($path);
+  return json_decode($sample);
 }
 
 
