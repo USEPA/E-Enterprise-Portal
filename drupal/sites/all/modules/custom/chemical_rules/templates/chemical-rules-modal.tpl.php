@@ -1,11 +1,15 @@
 <div class="usa-grid-full">
   <div id="chemical-rules-loading-wrapper"
        class="chemical-rules-modal-wrapper">
-    <h2>Loading search results for <span id="user-chemical-name"></span>&hellip;</h2> <i class="fa fa-spinner" aria-hidden="true"></i>
+    <h1>Loading search results for <span id="user-chemical-name"></span>&hellip;</h1> <i class="fa fa-spinner" aria-hidden="true"></i>
   </div>
   <div id="chemical-rules-results-wrapper"
        class="chemical-rules-modal-wrapper">
-    <h2 id="cr-modal-title">Acetone</h2>
+    <ul class="cr-modal-actions">
+      <li><a class="cr-save-chemical" href="javascript:void(0)">Save to My Chemicals</a></li>
+      <li><a class="cr-future">Save as PDF</a></li>
+      <li><a class="cr-future">Share This</a></li>
+    </ul>
     <ul class="cr-modal-toc" id="cr-modal-toc-icons">
       <li><a href="#cr-laws-regs">Laws & Regulations</a></li>
       <li><a href="#cr-programs">Programs</a></li>
@@ -16,9 +20,9 @@
     </ul>
     
     <!-- @LAWS AND REGULATIONS -->
-    <h3 id="cr-laws-regs">Laws &amp; Regulations</h4>
+    <h2 id="cr-laws-regs">Laws &amp; Regulations</h3>
     <!-- @TODO List laws and regulations for the Search term -->  
-    <h4>3 laws and regulations found for Acetone:</h4>
+    <h3>3 laws and regulations found for Acetone:</h3>
     <ul class="cr-rules-regs_exact">
       <li><a href="#">40 CFR &sect; 261.31 - Hazardous Waste from non-specific sources.</a></li>  
     </ul>
@@ -26,14 +30,14 @@
   <!-- @TODO - If CFR returned due to specific synonym is discernible, include the next items -->  
     <!-- @TODO - See previous @TODO - If synonyms will be returned, list laws and regulations for Synonym 1 -->
     <!--
-    <h4>Acetone is a synonym for 2-Propanone. <span class="cr-match-type">1 rule and regulation found for 2-Propanone:</span></h4>
+    <h3>Acetone is a synonym for 2-Propanone. <span class="cr-match-type">1 rule and regulation found for 2-Propanone:</span></h3>
     <ul class="cr-rules-regs_synonyms">
       <li><a href="#">40 CFR &sect; 261.31 - Hazardous Waste from non-specific sources.</a></li>  
     </ul>  
     -->
     <!-- @TODO - See previous @TODO - List laws and regulations for Synonym 2 -->
     <!--
-    <h4>3 laws and regulations found for Acetone:</h4>
+    <h3>3 laws and regulations found for Acetone:</h3>
     <ul class="cr-rules-regs_substance_synonyms">
       <li><a href="#">40 CFR &sect; 261.31 - Hazardous Waste from non-specific sources.</a></li>  
     </ul>    
@@ -41,8 +45,8 @@
     
     <!-- @TODO List laws and regulations for Substance List -->
     <div id="cr-laws-regs_substances">
-      <!-- h4, ul, li -->
-      <h4>Acetone appears on the following Substance Lists: <span class="cr-match-type">Volatile Organic Compounds - 2 laws and regulations apply:</span></h4>
+      <!-- h3, ul, li -->
+      <h3>Acetone appears on the following Substance Lists: <span class="cr-match-type">Volatile Organic Compounds - 2 laws and regulations apply:</span></h3>
       <ul class="cr-rules-regs_lists">
         <li><a href="#">40 CFR &sect; 261.31 - Hazardous Waste from non-specific sources.</a></li>  
       </ul>
@@ -50,7 +54,7 @@
     
     <!-- @PROGRAMS -->
     <div id="cr-laws-regs_programs">
-      <h3 id="cr-programs">Programs</h3>
+      <h2 id="cr-programs">Programs</h2>
       <div class="cr-programs_container">
         <ul>
           <li><a href="#">US EPA Toxic Substances Control Act Program</a></li>
@@ -60,7 +64,7 @@
 
     <!-- @STRUCTURE --> 
     <div id="cr-laws-regs_structure">   
-      <h3 id="cr-structure">Structure</h3>
+      <h2 id="cr-structure">Structure</h2>
       <div class="cr-structure_container">
         <div class="cr-structure_image">
           <img src="<?php print base_path() . path_to_theme(); ?>/images/imgsrv.png" alt="A structure of acetone">
@@ -74,7 +78,7 @@
 
     <!-- @CHEMICAL & PHYSICAL PROPERTIES -->    
     <div id="cr-laws-regs_properties">      
-      <h3 id="cr-properties">Chemical &amp; Physical Properties</h3>
+      <h2 id="cr-properties">Chemical &amp; Physical Properties</h2>
       <div class="cr-properties_container">
         <table>
           <thead>
@@ -95,7 +99,7 @@
 
     <!-- @SYNONYMS -->    
     <div id="cr-laws-regs_synonyms">
-      <h3 id="cr-synonyms">Synonyms</h3>
+      <h2 id="cr-synonyms">Synonyms</h2>
       <div class="cr-synonyms_container">
         <ul>
           <li>Synonym 1</li>
@@ -105,7 +109,7 @@
     
     <!-- @SUBSTANCE LISTS -->    
     <div id="cr-laws-regs_lists">    
-      <h3 id="cr-lists">Substance Lists</h3>
+      <h2 id="cr-lists">Substance Lists</h2>
       <div class="cr-lists_container">
         <ul>
           <li>Substance List 1</li>
