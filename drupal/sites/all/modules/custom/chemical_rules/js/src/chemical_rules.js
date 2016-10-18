@@ -4,24 +4,6 @@ function showElementOutOfMany($wrapper_to_show, $common_selector) {
   resizeModal()
 }
 
-jQuery.fn.serializeObject = function() {
-  var o = {};
-  var a = this.serializeArray();
-  jQuery.each(a, function() {
-    objRoot = this.name.replace(/]/g, '')
-      .split(/\[/g)
-      .reduce(function(previous, current, cIndex, original) {
-        var newObject = {}
-        var property = original[original.length - 1 - cIndex]
-        newObject[property] = previous
-        return newObject;
-      }, this.value);
-
-    jQuery.extend(true, o, objRoot);
-  });
-  return o;
-};
-
 function resizeModal() {
   jQuery('#chemical-rules-modal').dialog({
     position: { 'my': 'center', 'at': 'center' }
@@ -63,7 +45,7 @@ function resetCRForm() {
 (function($) {
   var $cr_tabs = $('#cr-tabs').tabs();
   var sampleSetIndex = 0;
-  sampleData =  function(sample) {
+  /*sampleData =  function(sample) {
     // lets us cycle through different sets of test data
     if(!sample) {
       // different handy test cases
@@ -78,7 +60,7 @@ function resetCRForm() {
 
     resetCRForm();
 
-  }
+  }*/
 
   $('#cr-search-chems-btn').click(function() {
     $('#chemical-rules-modal')
