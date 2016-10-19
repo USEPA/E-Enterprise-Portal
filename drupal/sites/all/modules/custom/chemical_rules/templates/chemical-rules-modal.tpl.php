@@ -6,7 +6,7 @@
   <div id="chemical-rules-results-wrapper"
        class="chemical-rules-modal-wrapper">
     <ul class="cr-modal-actions">
-      <li><a id="cr-save-chemical" href="javascript:void(0)" data-cr-srsid="">Save to My Chemicals</a></li>
+      <li><a id="cr-save-chemical" href="javascript:void(0)" data-srsid="">Save to My Chemicals</a></li>
       <li><a class="cr-future">Save as PDF</a></li>
       <li><a class="cr-future">Share This</a></li>
     </ul>
@@ -21,10 +21,10 @@
     
     <!-- @LAWS AND REGULATIONS -->
     <h2 id="cr-laws-regs">Laws &amp; Regulations</h3>
-    <p><span id="cr-laws-regs_count"></span> laws and regulations found for <span class="cr-chemical-name"></span>.  Relevant laws and regulations include:</p>
+    <p><span class="cr-laws-regs_count"></span> laws and regulations found for <span class="cr-chemical-name"></span>.  Relevant laws and regulations include:</p>
 
     <div id="cr-laws-regs_substances">
-      <h3><span class="cr-match-count"></span>laws and regulations for <span class="cr-match-type">Substance List 1</span></h3>
+      <h3><span class="cr-laws-regs_count"></span> laws and regulations for <span class="cr-match-type">Substance List 1</span></h3>
       <ul class="cr-rules-regs_lists">
       </ul>
     </div><!-- @end #cr-laws-regs_substances -->
@@ -41,8 +41,6 @@
       <h2 id="cr-structure">Structure</h2>
       <div class="cr-structure_container">
         <div class="cr-structure_image">
-          <img src="<?php print base_path() . path_to_theme(); ?>/images/imgsrv.png" alt="A structure of acetone">
-          <p>Powered by <a href="https://pubchem.ncbi.nlm.nih.gov" rel="external" target="_blank">PubChem</a></p>
         </div>
         <div class="cr-structure_name">
           <p>C3H6O</p>
