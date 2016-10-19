@@ -32,7 +32,7 @@ function session_timeout_warning_page_build(&$page) {
   global $user;
 
   // Add javascript variables for tracking session timeout
-  if (!user_is_anonymous()) {
+  if (!user_is_anonymous() || $user->id !== 1) {
     drupal_add_js(drupal_get_path('module', 'session_timeout_warning') . '/js/script.js');
 
     if (!isset($_SESSION['promptAt']) || !isset($_SESSION['logoutAt'])) {
