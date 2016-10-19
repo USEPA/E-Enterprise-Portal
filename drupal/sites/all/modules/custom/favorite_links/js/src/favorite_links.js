@@ -42,7 +42,7 @@
             }
         );
         // process anchor tags
-        $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .menu-link, .skip-link, .paginate_button,[href^=mailto], [href^=javascript]), .about-widget').each(function () {
+        $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .menu-link, .skip-link, .paginate_button,[href^=mailto], [href^=javascript], .about-widget)').each(function () {
             if ($(this).text().length > 0 && $(this).attr('href') != '#'
                 && $(this).attr('href') != '/'
                 && $(this).attr('href') != '#close'

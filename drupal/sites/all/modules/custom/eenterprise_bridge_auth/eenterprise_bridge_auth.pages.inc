@@ -86,146 +86,156 @@ function eenterprise_bridge_auth_login_form_submit($form, &$form_state) {
  * Handles an authentication token and, if able, will log the user in or allow
  * the user to register.
  */
-function eenterprise_bridge_auth_authenticate($error) {
-  if ($error) {
-    $message = t('Unable to log in using E-Enterprise Bridge.');
-    watchdog('eenterprise_bridge_auth', $message, array(), WATCHDOG_ERROR);
-    drupal_set_message($message, 'error');
-  }
-  if (!isset($_POST['wa'])) {
-    drupal_set_message("Expected context parameter is not set", "error");
-  } else if ($_POST['wa'] == 'wsignin1.0') {
-    $adfs = new AdfsBridge();
-    try {
-      if (isset($_POST['wam_test'])) {
-        $userDetails = new stdClass();
-        $userDetails->attributes['name'][] = $_POST['name'];
-      } else if (isset($_POST['piv_card_test'])) {
-        $userDetails = new stdClass();
-        $userDetails->attributes['uid'][] = $_POST['uid'];
-        $userDetails->attributes['issuer'][] = $_POST['issuer'];
-        $userDetails->attributes['Organization'][] = $_POST['Organization'];
-        $userDetails->attributes['OrganizationUnit'][] = $_POST['OrganizationUnit'];
-      } else {
-        $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $_POST['wresult']);
-      }
-    } catch (Exception $e) {
-      $msg = 'Message: ' . $e->getMessage();
-      drupal_set_message($msg, "error");
-      watchdog('eenterprise_bridge_auth', $msg, array(), WATCHDOG_ERROR);
+function eenterprise_bridge_auth_authenticate($error)
+{
+    if ($error) {
+        $message = t('Unable to log in using E-Enterprise Bridge.');
+        watchdog('eenterprise_bridge_auth', $message, array(), WATCHDOG_ERROR);
+        drupal_set_message($message, 'error');
     }
-    global $user;
-    if ($user->uid == 0) {
-      //Get user mapping and attempt to login user.
-      $pos = strpos($userDetails->attributes['name'][0], "NAASOpenId");
-      $openid_position = strpos($userDetails->attributes['name'][0], "ENOpenId");
-      $wam_pos = stripos($userDetails->attributes['name'][0], "WAM");
-      $username_raw = explode('/', $userDetails->attributes['name'][0]);
-      $piv_card_position = stripos($userDetails->attributes['issuer'][0], "SmartCard");
-      $username = end($username_raw);
-      $uname = "";
-      if ($piv_card_position !== FALSE) {
-        $piv_uname = trim(trim($userDetails->attributes['uid'][0]), '"');
-        //To avoid username conflicts among users from multiple agencies, use username followed by dnQualifier attribute.
-        $dnQualifier = trim($userDetails->attributes['dnQualifier'][0]);
-        $uname_pos = strrpos($piv_uname, ":");
-        $piv_uname = substr($piv_uname, $uname_pos);
-        $uname_arr = explode(' ', $piv_uname);
-        $uname = $uname_arr[0] . "_" . $uname_arr[1] . "_" . $dnQualifier . "_Via_PIV_Card";
-        $public_or_cdx = 'public';
-      } else if ($wam_pos !== FALSE) {
-        //Trim space and double quote from WAM name attribute.
-        $wam_uname = trim(trim($userDetails->attributes['name'][0]), '"');
-        $uname_pos = strrpos($wam_uname, "/");
-        $wam_res = substr($wam_uname, $uname_pos + 1);
-        $uname = $wam_res . "_Via_WAM";
-        $public_or_cdx = 'public';
-      } else if ($openid_position !== FALSE) {
-        mitigate_username_alteration($username . "_Via_Exchange_Network", $username);
-        $uname = $username . "_Via_Exchange_Network";
-        $public_or_cdx = 'cdx';
-      }//If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
-      else if (($pos === FALSE && $openid_position === FALSE) || $username === FALSE) {
-        if (isset($userDetails->attributes['email'])) {
-          $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
-          if (isset($userDetails->attributes['authenticationMethod']) && stripos($userDetails->attributes['authenticationMethod'], 'facebook') !== FALSE) {
-            mitigate_username_alteration($userDetails->attributes['email'][0] . "_Via_Facebook", $userDetails->attributes['email'][0]);
-            $uname = $userDetails->attributes['email'][0] . "_Via_Facebook";
-          }
-          $public_or_cdx = 'public';
-        } else {
-          if (isset($userDetails->attributes['followers_count'])) {
-            mitigate_username_alteration($userDetails->attributes['id'][0] . "_Via_Twitter", $userDetails->attributes['id'][0]);
-            $uname = $userDetails->attributes['id'][0] . "_Via_Twitter";
-          } else if (isset($userDetails->attributes['authenticationMethod']) && stripos($userDetails->attributes['authenticationMethod'], 'facebook') !== FALSE) {
-            mitigate_username_alteration($userDetails->attributes['id'][0] . "_Via_Facebook", $userDetails->attributes['id'][0]);
-            $userDetails->attributes['id'][0] = trim($userDetails->attributes['id'][0], '"');
-            $uname = $userDetails->attributes['id'][0] . "_Via_Facebook";
-          }
-          $public_or_cdx = 'public';
-        }
-      } else {
-        mitigate_username_alteration($username . "_Via_CDX", $username);
-        $uname = $username . "_Via_CDX";
-        $public_or_cdx = 'cdx';
-      }
-      if (variable_get('trusted_users_list_used') == 'Yes') {
-        trusted_user_check($uname);
-      }
-      $ext_user = user_external_load($uname);
-      if (!$ext_user) {
-        user_external_login_register($uname, 'eenterprise_bridge_auth');
-        if ($user) {
-          if ($piv_card_position !== FALSE) {
-            $org_pos = strrpos($userDetails->attributes['Organization'][0], ":");
-            $org = substr($userDetails->attributes['Organization'][0], $org_pos + 1);
-            $org_unit_pos = strrpos($userDetails->attributes['OrganizationUnit'][0], ":");
-            $org_unit = substr($userDetails->attributes['OrganizationUnit'][0], $org_unit_pos + 1);
-            $edit = array('field_piv_card_org' => array('und' => array(0 => array('value' => $org . " : " . $org_unit))));
-            user_save($user, $edit);
-          } else {
-            user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
-          }
-          //if user is public user
-          if ($pos === FALSE && $openid_position === FALSE) {
-            $user_role = user_role_load_by_name('Public User');
-            user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-          } else {
-            assign_roles_to_user($uname);
-            $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
-            $_SESSION['userId'] = $userDetails->attributes['userId'][0];
-            $_SESSION['login_timestamp'] = time();
-          }
-          $_SESSION['cdx_user_type'] = $public_or_cdx;
-        }
-      } else {
-        //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
-        $user = $ext_user;
-        $form_state['uid'] = $user->uid;
-
-        user_login_submit(array(), $form_state);
-        //To fix a bug where email address is not updated after users update their email address in CDX and login.
-        user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
+    if (!isset($_POST['wa'])) {
+        drupal_set_message("Expected context parameter is not set", "error");
+    } else if ($_POST['wa'] == 'wsignin1.0') {
+        $adfs = new AdfsBridge();
         try {
-          if ($public_or_cdx == 'cdx') {
-            assign_roles_to_user($uname);
-            $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
-            $_SESSION['userId'] = $userDetails->attributes['userId'][0];
-            $_SESSION['login_timestamp'] = time();
-
-          }
-          $_SESSION['cdx_user_type'] = $public_or_cdx;
-
+            if(isset($_POST['wam_test'])){
+                $userDetails = new stdClass();
+                $userDetails->attributes['name'][] = $_POST['name'];
+            }
+            else if(isset($_POST['piv_card_test'])){
+                $userDetails = new stdClass();
+                $userDetails->attributes['uid'][] = $_POST['uid'];
+                $userDetails->attributes['issuer'][] = $_POST['issuer'];
+                $userDetails->attributes['Organization'][] = $_POST['Organization'];
+                $userDetails->attributes['OrganizationUnit'][] = $_POST['OrganizationUnit'];
+            }
+            else {
+                $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $_POST['wresult']);
+            }
         } catch (Exception $e) {
-          watchdog('eenterprise_bridge_auth', "Error 0004: General Exception, SESSION.", array(), WATCHDOG_ERROR);
+            $msg = 'Message: ' . $e->getMessage();
+            drupal_set_message($msg, "error");
+            watchdog('eenterprise_bridge_auth', $msg, array(), WATCHDOG_ERROR);
         }
-      }
+        global $user;
+        if ($user->uid == 0) {
+            //Get user mapping and attempt to login user.
+            $pos = strpos($userDetails->attributes['name'][0], "NAASOpenId");
+            $openid_position = strpos($userDetails->attributes['name'][0], "ENOpenId");
+            $wam_pos = stripos($userDetails->attributes['name'][0], "WAM");
+            $username_raw = explode('/', $userDetails->attributes['name'][0]);
+            $piv_card_position = stripos($userDetails->attributes['issuer'][0], "SmartCard");
+            $username = end($username_raw);
+            $uname = "";
+            if($piv_card_position !== FALSE){
+                $piv_uname = trim(trim($userDetails->attributes['uid'][0]), '"');
+                //To avoid username conflicts among users from multiple agencies, use username followed by dnQualifier attribute.
+                $dnQualifier = trim($userDetails->attributes['dnQualifier'][0]);
+                $uname_pos = strrpos($piv_uname, ":");
+                $piv_uname = substr($piv_uname, $uname_pos);
+                $uname_arr = explode(' ', $piv_uname);
+                $uname = $uname_arr[0] . "_" . $uname_arr[1] . "_".$dnQualifier."_Via_PIV_Card";
+                $public_or_cdx = 'public';
+            }
+            else if ($wam_pos !== FALSE) {
+                //Trim space and double quote from WAM name attribute.
+                $wam_uname = trim(trim($userDetails->attributes['name'][0]), '"');
+                $uname_pos = strrpos($wam_uname, "/");
+                $wam_res = substr($wam_uname, $uname_pos+1);
+                $uname = $wam_res . "_Via_WAM";
+                $public_or_cdx = 'public';
+            }
+            else if($openid_position !== FALSE){
+                mitigate_username_alteration($username."_Via_Exchange_Network", $username);
+                $uname = $username . "_Via_Exchange_Network";
+                $public_or_cdx = 'cdx';
+            }//If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
+            else if (($pos === FALSE && $openid_position === FALSE) || $username === FALSE) {
+                if (isset($userDetails->attributes['email'])) {
+                    $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
+                    if (isset($userDetails->attributes['authenticationMethod']) && stripos($userDetails->attributes['authenticationMethod'], 'facebook') !== FALSE){
+                        mitigate_username_alteration($userDetails->attributes['email'][0]."_Via_Facebook", $userDetails->attributes['email'][0]);
+                        $uname = $userDetails->attributes['email'][0]."_Via_Facebook";
+                    }
+                    if (isset($userDetails->attributes['authenticationMethod']) && stripos($userDetails->attributes['authenticationMethod'], 'NMIdP') !== FALSE){
+                      $uname = $userDetails->attributes['email'][0]."_Via_NMED";
+                    }
+                    $public_or_cdx = 'public';
+                } else {
+                    if (isset($userDetails->attributes['followers_count'])) {
+                        mitigate_username_alteration($userDetails->attributes['id'][0]."_Via_Twitter", $userDetails->attributes['id'][0]);
+                        $uname = $userDetails->attributes['id'][0] . "_Via_Twitter";
+                    }
+                    else if (isset($userDetails->attributes['authenticationMethod']) && stripos($userDetails->attributes['authenticationMethod'], 'facebook') !== FALSE) {
+                        mitigate_username_alteration($userDetails->attributes['id'][0]."_Via_Facebook", $userDetails->attributes['id'][0]);
+                        $userDetails->attributes['id'][0] = trim($userDetails->attributes['id'][0], '"');
+                        $uname = $userDetails->attributes['id'][0] . "_Via_Facebook";
+                    }
+                    $public_or_cdx = 'public';
+                }
+            } else {
+                mitigate_username_alteration($username."_Via_CDX", $username);
+                $uname = $username . "_Via_CDX";
+                $public_or_cdx = 'cdx';
+            }
+            if (variable_get('trusted_users_list_used') == 'Yes') {
+                trusted_user_check($uname);
+            }
+            $ext_user = user_external_load($uname);
+            if (!$ext_user) {
+                user_external_login_register($uname, 'eenterprise_bridge_auth');
+                if ($user) {
+                    if($piv_card_position !== FALSE) {
+                        $org_pos = strrpos($userDetails->attributes['Organization'][0], ":");
+                        $org = substr($userDetails->attributes['Organization'][0], $org_pos+1);
+                        $org_unit_pos = strrpos($userDetails->attributes['OrganizationUnit'][0], ":");
+                        $org_unit = substr($userDetails->attributes['OrganizationUnit'][0], $org_unit_pos+1);
+                        $edit = array('field_piv_card_org' => array('und' => array(0 => array('value' => $org." : ".$org_unit))));
+                        user_save($user, $edit);
+                    }
+                    else {
+                        user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
+                    }
+                    //if user is public user
+                    if ($pos === FALSE && $openid_position === FALSE) {
+                        $user_role = user_role_load_by_name('Public User');
+                        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+                    } else {
+                        assign_roles_to_user($uname);
+                        $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
+                        $_SESSION['userId'] = $userDetails->attributes['userId'][0];
+                        $_SESSION['login_timestamp'] = time();
+                    }
+                    $_SESSION['cdx_user_type'] = $public_or_cdx;
+                }
+            } else {
+                //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
+                $user = $ext_user;
+                $form_state['uid'] = $user->uid;
+
+                user_login_submit(array(), $form_state);
+                //To fix a bug where email address is not updated after users update their email address in CDX and login.
+                user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
+                try {
+                    if ($public_or_cdx == 'cdx') {
+                        assign_roles_to_user($uname);
+                        $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
+                        $_SESSION['userId'] = $userDetails->attributes['userId'][0];
+                        $_SESSION['login_timestamp'] = time();
+
+                    }
+                    $_SESSION['cdx_user_type'] = $public_or_cdx;
+
+                } catch (Exception $e) {
+                    watchdog('eenterprise_bridge_auth', "Error 0004: General Exception, SESSION.", array(), WATCHDOG_ERROR);
+                }
+            }
+        }
+        if (!module_exists('eactivity_dataflow')) {
+            create_progress_tracker($user);
+        }
     }
-    if (!module_exists('eactivity_dataflow')) {
-      create_progress_tracker($user);
-    }
-  }
-  drupal_goto('workbench');
+    drupal_goto('workbench');
 }
 
 /**
@@ -281,8 +291,9 @@ function create_progress_tracker($user) {
   );
   $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
 
-  if ($response1->error)
+  if ($response1->error) {
     return;
+  }
 
   $response1 = $response1->response;
   // Adding local wsdl configurations
@@ -294,8 +305,9 @@ function create_progress_tracker($user) {
     $client2 = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
   }
 
-  if ($client2->error)
+  if ($client2->error) {
     return;
+  }
 
   $client2 = $client2->client;
 
@@ -317,8 +329,9 @@ function create_progress_tracker($user) {
   );
   $resp = callSOAPWithParams($client2, "Query", $params2, "Eenterprise Bridge Auth");
 
-  if ($resp->error)
+  if ($resp->error) {
     return;
+  }
 
   $resp = $resp->response;
   $resp = $resp->results->any;
@@ -790,24 +803,28 @@ function allow_user_menu_access($role_id) {
   cache_clear_all();
 }
 
-function eenterprise_bridge_auth_logout() {
-  if (isset($_SESSION['cdx_fmw_security_token'])) {
-    $_SESSION['cdx_fmw_security_token'] = '';
-  }
-  if (isset($_SESSION['userId'])) {
-    $_SESSION['userId'] = '';
-  }
-  $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?bridge=1';
-  $logout = variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($wreply);
-  global $user;
-  if (isset($_SESSION['form_origin_btn']) && $_SESSION['form_origin_btn'] == 'Delete profile') {
-    unset($_SESSION['form_origin_btn']);
-    user_delete($user->uid);
-    session_destroy();
-    $wreply = variable_get('eenterprise_bridge_auth_realm') . '/eenterprise-new?bridge=1';
+function eenterprise_bridge_auth_logout()
+{
+    if (isset($_SESSION['cdx_fmw_security_token'])) {
+        $_SESSION['cdx_fmw_security_token'] = '';
+    }
+    if (isset($_SESSION['userId'])) {
+        $_SESSION['userId'] = '';
+    }
+    $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?bridge=1';
+    if ($_SESSION['is_timeout']) {
+        $wreply .= '&timeout=1';
+    }
+    global $user;
+    if (isset($_SESSION['form_origin_btn']) && $_SESSION['form_origin_btn'] == 'Delete profile') {
+        unset($_SESSION['form_origin_btn']);
+        user_delete($user->uid);
+        session_destroy();
+        $wreply = variable_get('eenterprise_bridge_auth_realm') . '/eenterprise-new?bridge=1';
+    }
+
     $logout = variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($wreply);
-  }
-  header("Location:$logout");
+    header("Location:$logout");
 }
 
 function refresh_todo_list() {

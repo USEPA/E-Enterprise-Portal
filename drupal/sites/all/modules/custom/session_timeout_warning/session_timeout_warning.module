@@ -6,12 +6,26 @@
 function session_timeout_warning_menu() {
   $items = array();
 
+  $items['timeout-logout'] = array(
+    'page callback' => 'timeout_logout',
+    'access callback' => TRUE,
+  );
   $items['renew-session'] = array(
     'page callback' => 'renew_session',
     'access callback' => TRUE,
   );
 
   return $items;
+}
+
+/**
+ * Page callback for 'timeout-logout'
+ * @see https://api.drupal.org/api/drupal/modules%21user%21user.pages.inc/function/user_logout_current_user/7.x
+ */
+function timeout_logout() {
+  // set session variable, to be picked up by eenterprise_bridge_auth_logout()
+  $_SESSION['is_timeout'] = TRUE;
+  drupal_goto('user/logout');
 }
 
 /**
