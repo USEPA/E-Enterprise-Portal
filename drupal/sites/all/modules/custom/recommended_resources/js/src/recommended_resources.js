@@ -133,11 +133,11 @@ function clearResources() {
       ev.preventDefault();
     });
     
-    var lgcExplainedOriginal = $('#resources-lgc-about').html();
+    var lgcExplainedOriginalHTML = $('#resources-lgc-about').html();
     
     $body.on('click', '#resources-lgc-help', function(e) {
       e.stopPropagation();
-      var lgcExplained = lgcExplainedOriginal;
+      var lgcExplained = lgcExplainedOriginalHTML;
       dialogDiv = '#resources-lgc-about';
       dialogTitle = 'Resources for Local Communities Widget';
       openLGCDialog(dialogDiv, dialogTitle, lgcExplained); 
