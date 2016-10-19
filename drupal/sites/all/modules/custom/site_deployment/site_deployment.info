@@ -1,5 +1,0 @@
-name = Site Deployment
-description = Deployment module, used to automated changes to this site
-package = CGI
-core = 7.x
-version = "7.x-1.x-dev"
