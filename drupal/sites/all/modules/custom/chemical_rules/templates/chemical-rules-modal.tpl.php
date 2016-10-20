@@ -55,8 +55,8 @@
         <table id="cr-properties-table">
           <thead>
             <tr>
-              <th scope="col">Property</th>
-              <th scope="col">Value</th>
+              <th scope="col" class="cr-property">Property</th>
+              <th scope="col" class="cr-value">Value</th>
             </tr>
           </thead>
           <tbody>

@@ -8,7 +8,9 @@ function cr_showElementOutOfMany($wrapper_to_show, $common_selector) {
 
 function cr_resizeModal() {
   jQuery('#chemical-rules-modal').dialog({
-    position: { 'my': 'center', 'at': 'center' }
+    position: { 'my': 'center', 'at': 'center' },
+    width: $(window).width()-180,
+    height: $(window).height()-180,
   });
   if(jQuery('.chemical-rules-modal').css('top').replace('px', '') < 1){
     jQuery('.chemical-rules-modal').css('top', 0)
@@ -106,12 +108,12 @@ function populate_substance_modal(chemical_rules_response_json) {
         tr_end = '</td></tr>';
 
     $propertiestable.html('');
-    var properties = tr_start + "Molecular Weight</th><td>" + chemical_rules_response_json.data.Substance.MolecularWeight + tr_end;
-        properties += tr_start + "Solubility</th><td>" + chemical_rules_response_json.data.Substance.Solubility + tr_end;
-        properties += tr_start + "Vapor Pressure</th><td>" + chemical_rules_response_json.data.Substance.VaporPressure + tr_end;
-        properties += tr_start + "LogP</th><td>" + chemical_rules_response_json.data.Substance.LogP + tr_end;
-        properties += tr_start + "Stability</th><td>" + chemical_rules_response_json.data.Substance.Stability + tr_end;
-        properties += tr_start + "pKA</th><td>" + chemical_rules_response_json.data.Substance.pKA + tr_end;
+    var properties = tr_start + "Molecular Weight <span class='cr-definition'></span></th><td>" + chemical_rules_response_json.data.Substance.MolecularWeight + tr_end;
+        properties += tr_start + "Solubility <span class='cr-definition'>The solubility of a substance is the amount of that substance that will dissolve in a given amount of solvent. The default solvent is water, if not indicated.</span></th><td>" + chemical_rules_response_json.data.Substance.Solubility + tr_end;
+        properties += tr_start + "Vapor Pressure <span class='cr-definition'>Vapor pressure is the pressure of a vapor in thermodynamic equilibrium with its condensed phases in a closed system.</span></th><td>" + chemical_rules_response_json.data.Substance.VaporPressure + tr_end;
+        properties += tr_start + "LogP <span class='cr-definition'>Octanol/Water Partition Coefficient, used as a measure of molecular lipophilicity</span></th><td>" + chemical_rules_response_json.data.Substance.LogP + tr_end;
+        properties += tr_start + "Stability <span class='cr-definition'>Tendency of a material to resist change or decomposition due to internal reaction, or due to the action of air, heat, light, pressure, etc. (See also Stability and Reactivity section under Safety and Hazards)</span></th><td>" + chemical_rules_response_json.data.Substance.Stability + tr_end;
+        properties += tr_start + "pKA <span class='cr-definition'></span></th><td>" + chemical_rules_response_json.data.Substance.pKA + tr_end;
              
     $propertiestable.append(properties);
     
@@ -171,8 +173,8 @@ function populate_substance_modal(chemical_rules_response_json) {
     .dialog({
       title: 'Results',
       modal: true,
-      width: "auto",
-      height: 400,
+      width: $(window).width()-180,
+      height: $(window).width()-180,
       closeOnEscape: true,
       position: { 'my': 'left top', 'at': 'left top' },
       dialogClass: 'chemical-rules-modal',
