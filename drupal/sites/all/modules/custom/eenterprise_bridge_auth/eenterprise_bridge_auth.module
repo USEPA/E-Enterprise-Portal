@@ -83,7 +83,7 @@ function eenterprise_bridge_auth_menu() {
   );
   $items['cdx_sso_handoff'] = array(
     'page callback' => 'sso_handoff_url',
-    'access arguments' => array('user_is_logged_in'),
+    'access callback' => "user_is_logged_in",
     'description' => 'Handoff to pass CDX Deep link through',
   );
 
