@@ -42,7 +42,7 @@
             }
         );
         // process anchor tags
-        $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .menu-link, .skip-link, .paginate_button,[href^=mailto], [href^=javascript], .about-widget)').each(function () {
+        $('.panel-pane:not(' + ignore_panels.join(',') + ') a:not(.favorites-ignore, .menu-link, .skip-link, .paginate_button, [href^=mailto], [href^=javascript], .remove-link, .about-widget)').each(function () {
             if ($(this).text().length > 0 && $(this).attr('href') != '#'
                 && $(this).attr('href') != '/'
                 && $(this).attr('href') != '#close'
@@ -222,8 +222,8 @@
 // Shift (16) triggers qTip
 // Escape (27) or blur hide qTip
 // Ctrl + D (68) toggles the favorite and shows the qTip
-        $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", ".about-widget", "[href^=mailto]", "[href^=javascript]").focus(function () {
-            $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", ".about-widget", "[href^=mailto]", "[href^=javascript]").keydown(function (event) {
+        $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", ".about-widget", "[href^=mailto]", "[href^=javascript]", ".remove-link").focus(function () {
+            $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", ".about-widget", "[href^=mailto]", "[href^=javascript]", ".remove-link").keydown(function (event) {
                 try {
                     if (event.which === 16) {
                         if (event.which === 9) {

@@ -3598,7 +3598,8 @@ a.usa-button.btn-social.btn-nmedsep {
     @extend .clear-before;
 }
 
-td.has-error {
+td.has-error,
+p.has-error {
     color: #a94442;
     background-color: #f2dede;
     border-color: #a94442;
@@ -3612,6 +3613,11 @@ td.has-error {
         content: "\f127";
         color: $color-base;
     }
+}
+p.has-error {
+    padding: 10px;
+    margin: 0 -10px;
+    width: 100%;
 }
 
 a {

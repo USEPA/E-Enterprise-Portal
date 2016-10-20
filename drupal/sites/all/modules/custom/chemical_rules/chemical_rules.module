@@ -1,0 +1,174 @@
+<?php
+
+
+/**
+ * Implements hook_menu().
+ */
+function chemical_rules_menu() {
+  $items = array();
+  $items['chemical_rules/form_submission'] = array(
+    'page callback' => 'chemical_rules_form_submission',
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function chemical_rules_block_info() {
+  $blocks = array();
+  $blocks['chemical_rules'] = array(
+    'info' => t('Block Chemical Rules and Regulations'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_theme().
+ * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
+ */
+function chemical_rules_theme() {
+  return array(
+    // Name to be called with theme(). theme('chemical_rules')
+    'chemical_rules' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use chemical-rules.tpl.php
+      'template' => 'chemical-rules',
+      'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
+    ),
+    'chemical_rules_modal' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use chemical-rules-modal.tpl.php
+      'template' => 'chemical-rules-modal',
+      'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function chemical_rules_block_view($delta = '') {
+  $block = array();
+  if ($delta == 'chemical_rules') {
+    //good idea to check user perms here
+    if (user_access('access content')) {
+      drupal_add_js(libraries_get_path('css-element-queries') . '/ElementQueries.min.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      drupal_add_js(libraries_get_path('css-element-queries') . '/ResizeSensor.min.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/chemical_rules.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_DEFAULT,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      //If installed in own installation, include jQuery Tabs JS
+      //drupal_add_js("sites/all/libraries/jqueryui/ui/minified/jquery.ui.tabs.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+      
+      drupal_add_css("sites/all/libraries/jqueryui/themes/base/minified/jquery.ui.tabs.min.css", [
+        'scope'=>'footer', 
+        'preprocess'=>true, 
+        'group'=>CSS_DEFAULT
+      ]);
+      drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/toc.min.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_DEFAULT,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);      
+      drupal_add_css(drupal_get_path('module', 'chemical_rules') . '/css/chemical_rules.css', [
+        'preprocess' => TRUE,
+        'group' => CSS_THEME
+      ]);
+      // Set Form Modal Template
+      $chemical_modal = theme('chemical_rules_modal');
+      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal]), 'setting');
+
+      $block['subject'] = t('Chemical Laws &amp; Regulations');
+      $block['content'] = theme('chemical_rules');
+      return $block;
+    }
+  }
+  return $block;
+}
+
+/**
+ * Take users POST input and handoff to sample data or SRS / LRS / LOD service
+ */
+function chemical_rules_form_submission() {
+  if (!isset($_POST) || count($_POST) === 0) {
+    drupal_json_output(array(
+      'error' => TRUE,
+      'message' => 'Failed to receive any data.'
+    ));
+    return;
+  }
+
+  $response = array();
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+  if (true || feature_toggle_get_status('chemical_rules_sample_data')) {
+    $response['data'] = sample_chemical_rules_response();
+    $response['error'] = FALSE;
+  }
+  else {
+    // Still waiting for endpoint for our data needs
+    /*$endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|Acetone";
+    $headers = array('Content-Type' => 'application/json');
+    $response = drupal_http_request($endpoint, [
+      "headers" => $headers,
+      "method" => "POST",
+      'timeout' => "10",
+      'data' => json_encode($_POST)
+    ]);
+    if ($response->code !== "200") {
+      $response['error'] = TRUE;
+    }
+    else {
+      $formatted_data = chemical_rules_process_response($response->data);
+      $response['data'] = $formatted_data;
+      $response['error'] = FALSE;
+    }*/
+  }
+
+  drupal_json_output($response);
+}
+
+function sample_chemical_rules_response() {
+  $path = drupal_get_path('module', 'chemical_rules') . '/sample-data.json';
+  $sample = file_get_contents($path);
+  return json_decode($sample);
+}
+
+
+function chemical_rules_process_response($response, $init = []) {
+
+}
+
+/**
+ * Implements template_preprocess_hook for chemical-rules-modal.tpl.php.
+ */
+function template_preprocess_chemical_rules_modal(&$variables, $hook) {
+
+
+}
