@@ -37,7 +37,7 @@
     <!-- @TAB: Search -->    
     <div id="cr-tabs_previous">
       <p>
-        Here are your 5 last searches:
+        Here are your previous searches:
       </p>
       <ul class="cr-lists">
         <li><a class="favorite-chemical" href="#" data-epachemintnum="9999" data-systematicname="Acetone">67-64-1:  Acetone</a></li> 

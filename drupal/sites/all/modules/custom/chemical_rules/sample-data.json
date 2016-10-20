@@ -104,15 +104,15 @@
   "LawsRegs": [
     {
       "name": "40 CFR § 261.31 - Hazardous Waste from non-specific sources.",
-      "source": "/test.pdf"
+      "source": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2007-title40-vol25\/pdf\/CFR-2007-title40-vol25-sec261-31.pdf"
     },
     {
       "name": "40 CFR § 721.10237 - Formaldehyde, polymers with acetone-phenol reaction products and phenol, sodium salts.",
-      "source": "/test.pdf"
+      "source": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2014-title40-vol31\/pdf\/CFR-2014-title40-vol31-sec721-10237.pdf"
     },
     {
       "name": "15 U.S. Code Subchapter I - CONTROL OF TOXIC SUBSTANCES",
-      "source": "/test.pdf"
+      "source": "https:\/\/www.gpo.gov\/fdsys\/pkg\/USCODE-2011-title15\/pdf\/USCODE-2011-title15-chap53-subchapI.pdf"
     }
   ],
   "Programs": [
