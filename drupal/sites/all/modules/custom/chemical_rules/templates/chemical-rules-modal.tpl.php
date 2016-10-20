@@ -20,7 +20,7 @@
     </div>
     
     <!-- @LAWS AND REGULATIONS -->
-    <h2 id="cr-laws-regs">Laws &amp; Regulations</h3>
+    <h2 id="cr-laws-regs">Laws &amp; Regulations</h2>
     <p><span class="cr-laws-regs_count"></span> laws and regulations found for <span class="cr-chemical-name"></span>.  Relevant laws and regulations include:</p>
 
     <div id="cr-laws-regs_substances">
