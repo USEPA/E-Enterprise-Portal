@@ -647,7 +647,7 @@ function create_progress_tracker_node($res, $user) {
 
     $node = node_submit($node); // Prepare node for saving
 
-   // node_save($node);
+    node_save($node);
 
   } //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
 
