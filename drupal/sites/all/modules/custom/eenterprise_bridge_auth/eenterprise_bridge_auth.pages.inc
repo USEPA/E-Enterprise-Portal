@@ -457,6 +457,12 @@ function _update_progress_tracker_to_do_item($query_res, $res) {
   return false;
 }
 
+
+function parse_cdx_handoff_data($cdx_deep_link_handoff) {
+  // + 1 to start immediately after data=, and + count("data=") because strpos returns start of string position
+  return substr($cdx_deep_link_handoff, strpos($cdx_deep_link_handoff, "data=") + 1 + count("data="));
+}
+
 function create_progress_tracker_node($res, $user) {
   $query_res = db_query("select entity_id, revision_id from {field_data_field_eactivity_id} where bundle in (:node_type) and field_eactivity_id_value = :eactivityid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':eactivityid' => $res['EActivityId']))->fetchAssoc();
   //_update_progress_tracker_to_do_item will check if to-do or progress tracker item is updated and updates them accordingly.
@@ -529,7 +535,7 @@ function create_progress_tracker_node($res, $user) {
           $res_action = "N/A";
         }
       } else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI') {
-        $res_action .= "<a href='/cdx_sso_handoff?url=" . $res['ActivitySourceURL'] . "' target='_blank'>View Submission</a>";
+        $res_action .= "<a href='/cdx_sso_handoff?handoff_data=" . parse_cdx_handoff_data($res['ActivitySourceURL']) . "' target='_blank'>View Submission</a>";
       }
 
       $node->field_prog_track_actions_dnload['und'][0]['value'] = $res_action;
@@ -624,9 +630,9 @@ function create_progress_tracker_node($res, $user) {
       $node->field_todo_lst_facility_reg_id['und'][0]['format'] = null;
       $node->field_todo_lst_facility_reg_id['und'][0]['safe_value'] = $res['facilityRegistryIdentifier'];
 
-      $node->field_todo_lst_activ_source_url['und'][0]['value'] = "/cdx_sso_handoff?url=" . $res['ActivitySourceURL'];
+      $node->field_todo_lst_activ_source_url['und'][0]['value'] = "/cdx_sso_handoff?handoff_data=" . parse_cdx_handoff_data($res['ActivitySourceURL']);
       $node->field_todo_lst_activ_source_url['und'][0]['format'] = null;
-      $node->field_todo_lst_activ_source_url['und'][0]['safe_value'] = "/cdx_sso_handoff?url=" . $res['ActivitySourceURL'];
+      $node->field_todo_lst_activ_source_url['und'][0]['safe_value'] = "/cdx_sso_handoff?url=" . parse_cdx_handoff_data($res['ActivitySourceURL']);
 
       $node->field_todo_lst_created_by['und'][0]['value'] = $user->uid;
       $node->field_todo_lst_created_by['und'][0]['format'] = null;
@@ -641,7 +647,7 @@ function create_progress_tracker_node($res, $user) {
 
     $node = node_submit($node); // Prepare node for saving
 
-    node_save($node);
+   // node_save($node);
 
   } //If the item is already existing, implement logic to drop this item 6 months after the last status update date.
 
