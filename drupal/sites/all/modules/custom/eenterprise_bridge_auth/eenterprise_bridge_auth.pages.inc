@@ -460,7 +460,7 @@ function _update_progress_tracker_to_do_item($query_res, $res) {
 
 function parse_cdx_handoff_data($cdx_deep_link_handoff) {
   // + 1 to start immediately after data=, and + count("data=") because strpos returns start of string position
-  return substr($cdx_deep_link_handoff, strpos($cdx_deep_link_handoff, "data=") + 1 + count("data="));
+  return substr($cdx_deep_link_handoff, strpos($cdx_deep_link_handoff, "data=") + strlen("data="));
 }
 
 function create_progress_tracker_node($res, $user) {
