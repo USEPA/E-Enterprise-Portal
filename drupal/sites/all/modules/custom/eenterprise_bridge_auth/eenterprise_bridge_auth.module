@@ -288,8 +288,11 @@ function _eenterprise_bridge_auth_get_authmap($identifier) {
 function sso_handoff_url() {
   global $user;
 
+  $cdx_root_path = variable_get('cdx_facility_resource_url');
+
   //clean any dangerous strings
-  $hand_off_url = xssafe($_GET['url']);
+  $hand_off_data = urlencode(xssafe($_GET['handoff_data']));
+  $hand_off_url = $cdx_root_path . "/SilentHandoff/DeepHandoff?data=" . $hand_off_data;
 
   // Init drupal cache
   $data = &drupal_static(__FUNCTION__);
@@ -348,13 +351,12 @@ function sso_handoff_url() {
     // They will have to login the first time.
     drupal_goto($hand_off_url);
   } else {
-    $cdx_root_path = variable_get('cdx_facility_resource_url');
     $sso_token_param = "token=" . $token . "&remoteIpAddress=" . $ip;
     // UTF-16LE and base64 encoding are required by
     // the cdx NaasToken silent handoff.
     $sso_token_param = mb_convert_encoding($sso_token_param, 'UTF-16LE');
     $sso_token_param = base64_encode($sso_token_param);
-    $sso_url = $cdx_root_path . '/SilentHandoff/NaasTokenSSO?ssoToken=' . $sso_token_param . '&returnUrl=' . $hand_off_url;
+    $sso_url = $cdx_root_path . '/SilentHandoff/NaasTokenSSO?ssoToken=' . $sso_token_param . '&returnUrl=' . urlencode($hand_off_url);
     drupal_goto($sso_url);
   }
 }
