@@ -20,7 +20,7 @@ function chemical_rules_menu() {
 function chemical_rules_block_info() {
   $blocks = array();
   $blocks['chemical_rules'] = array(
-    'info' => t('Chemical Rules and Regulations Block'),
+    'info' => t('Block Chemical Rules and Regulations'),
   );
   return $blocks;
 }
@@ -35,14 +35,14 @@ function chemical_rules_theme() {
     'chemical_rules' => array(
       // Default variables
       'variables' => array(),
-      // Which .tpl.php file to use my-cdx.tpl.php
+      // Which .tpl.php file to use chemical-rules.tpl.php
       'template' => 'chemical-rules',
       'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
     ),
     'chemical_rules_modal' => array(
       // Default variables
       'variables' => array(),
-      // Which .tpl.php file to use be-well-informed-modal.tpl.php
+      // Which .tpl.php file to use chemical-rules-modal.tpl.php
       'template' => 'chemical-rules-modal',
       'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
     ),
@@ -81,7 +81,15 @@ function chemical_rules_block_view($delta = '') {
         'cache' => TRUE,
         'requires_jquery' => TRUE
       ]);
-      drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/jquery.tocify.min.js', [
+      //If installed in own installation, include jQuery Tabs JS
+      //drupal_add_js("sites/all/libraries/jqueryui/ui/minified/jquery.ui.tabs.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+      
+      drupal_add_css("sites/all/libraries/jqueryui/themes/base/minified/jquery.ui.tabs.min.css", [
+        'scope'=>'footer', 
+        'preprocess'=>true, 
+        'group'=>CSS_DEFAULT
+      ]);
+      drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/toc.min.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
         'group' => JS_DEFAULT,
@@ -94,8 +102,8 @@ function chemical_rules_block_view($delta = '') {
         'group' => CSS_THEME
       ]);
       // Set Form Modal Template
-      $modal_form_html = theme('chemical_rules_modal');
-      drupal_add_js(array("chemical_rules" => ["modal" => $modal_form_html]), 'setting');
+      $chemical_modal = theme('chemical_rules_modal');
+      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal]), 'setting');
 
       $block['subject'] = t('Chemical Laws &amp; Regulations');
       $block['content'] = theme('chemical_rules');
