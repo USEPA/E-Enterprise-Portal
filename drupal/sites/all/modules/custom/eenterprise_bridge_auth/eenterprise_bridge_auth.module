@@ -354,7 +354,7 @@ function sso_handoff_url() {
     // the cdx NaasToken silent handoff.
     $sso_token_param = mb_convert_encoding($sso_token_param, 'UTF-16LE');
     $sso_token_param = base64_encode($sso_token_param);
-    $sso_url = $cdx_root_path . '/SilentHandoff/NaasTokenSSO?ssoToken=' . $sso_token_param . '&returnUrl=' . urlencode($hand_off_url);
+    $sso_url = $cdx_root_path . '/SilentHandoff/NaasTokenSSO?ssoToken=' . $sso_token_param . '&returnUrl=' . $hand_off_url;
     drupal_goto($sso_url);
   }
 }
