@@ -185,8 +185,7 @@
        class="be-well-informed-modal-wrapper">
     <h1>Be Well Informed > View Your Water Analysis Results</h1>
     <div id="be-well-informed-accordion" class="ui-accordion">
-      <h1 class="head ui-accordion-header open" role="tab" tabindex="0">
-        <i class="fa fa-caret-down" aria-hidden="true"></i>
+      <h1 class="head" role="tab" tabindex="0">
         <span class="bwi-result-title">About the Results</span>
       </h1>
       <div>
@@ -212,7 +211,7 @@
           you
           check the
           <a
-            href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf">
+            href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf" target="_blank">
             Drinking Water Fact Sheet
           </a>.
           For sodium, health and treatment information is shown when sodium is
@@ -222,8 +221,7 @@
           diet.”
         </p>
       </div>
-      <h1 class="head ui-accordion-header open" role="tab" tabindex="0">
-        <i class="fa fa-caret-down" aria-hidden="true"></i>
+      <h1 class="head" role="tab" tabindex="0">
         <span class="bwi-result-title">Results Summary</span>
       </h1>
       <div class="datatable usa-width-one-whole be-well-informed-results">
@@ -238,13 +236,16 @@
           <div class="bwi-above-limit one-half">Above the Drinking Water
             Limit
           </div>
+          <div class="bwi-consult one-half">Consult NHDES <a
+              href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf" target="_blank">
+              Fact Sheet WD-DWGB-3-12
+            </a></div>
           <div class="bwi-no-entry one-half">No Input Entered</div>
         </div>
       </div>
 
-      <h1 class="head ui-accordion-header hide treatment-header open" role="tab"
+      <h1 class="head hide treatment-header" role="tab"
           tabindex="0">
-        <i class="fa fa-caret-down" aria-hidden="true"></i>
         <span class="bwi-result-title">Water Treatment Systems That Remove <span class="treatment-text"></span></span>
       </h1>
       <div class="datatable usa-width-one-whole hide treatment-content">
@@ -282,7 +283,7 @@
             </div>
           <?php endforeach; ?>
         </div>
-        <p class="step-class">
+        <p class="step-class system-type-house hide">
           <span>Regardless of water treatment technology, it is essential that system maintenance be
                             performed on schedule to maintain system effectiveness.
                             </span><br>
@@ -293,7 +294,7 @@
                             the water used in your home.
                             </span>
         </p>
-        <p class="step-class">
+        <p class="step-class system-type-water hide">
           <b>What does “Point of Use” (POU) mean?</b> Point of Use technologies
           are installed
           and treat water at one specific location in your Home where water is
@@ -318,12 +319,29 @@
         <p><span>More Information is available from <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">NHDES</a> and <a target="_blank" href="http://water.epa.gov/drink/contaminants/index.cfm">US EPA</a></span></p>
 
       </div>
-      <h1 class="head ui-accordion-header open" role="tab" tabindex="0">
-        <i class="fa fa-caret-down" aria-hidden="true"></i>
+      <h1 class="head" role="tab" tabindex="0">
         <span class="bwi-result-title">Results Details</span>
       </h1>
       <div
-        class="datatable usa-width-one-whole be-well-informed-result-details"></div>
+        class="datatable usa-width-one-whole be-well-informed-result-details">
+        <h3 class="bwi-key">Key</h3>
+        <div class="bwi-legend clearfix">
+          <div class="bwi-meets-limit one-half">Meets the Drinking Water
+            Limit
+          </div>
+          <div class="bwi-close-to-limit one-half">Close to the Drinking Water
+            Limit
+          </div>
+          <div class="bwi-above-limit one-half">Above the Drinking Water
+            Limit
+          </div>
+          <div class="bwi-consult one-half">Consult NHDES <a
+              href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf" target="_blank">
+              Fact Sheet WD-DWGB-3-12
+            </a></div>
+          <div class="bwi-no-entry one-half">No Input Entered</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

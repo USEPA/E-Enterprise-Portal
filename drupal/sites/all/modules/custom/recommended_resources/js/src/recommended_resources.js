@@ -133,9 +133,11 @@ function clearResources() {
       ev.preventDefault();
     });
     
+    var lgcExplainedOriginalHTML = $('#resources-lgc-about').html();
+    
     $body.on('click', '#resources-lgc-help', function(e) {
       e.stopPropagation();
-      var lgcExplained = $('#resources-lgc-about').html();
+      var lgcExplained = lgcExplainedOriginalHTML;
       dialogDiv = '#resources-lgc-about';
       dialogTitle = 'Resources for Local Communities Widget';
       openLGCDialog(dialogDiv, dialogTitle, lgcExplained); 
@@ -156,7 +158,7 @@ function clearResources() {
         close: function() {
           $('body').removeClass('modal-open');            
           $(dialogDiv).dialog('destroy');
-          $(dialogDiv).text('');            
+          $(dialogDiv).html('');   
         }
       });
     }
