@@ -1,12 +1,12 @@
 var originalDialog;
 
-function showElementOutOfMany($wrapper_to_show, $common_selector) {
+function cr_showElementOutOfMany($wrapper_to_show, $common_selector) {
   $common_selector.hide();
   $wrapper_to_show.show();
-  resizeModal()
+  cr_resizeModal()
 }
 
-function resizeModal() {
+function cr_resizeModal() {
   jQuery('#chemical-rules-modal').dialog({
     position: { 'my': 'center', 'at': 'center' }
   });
@@ -15,7 +15,7 @@ function resizeModal() {
   }
 }
 
-function checkValues(previous, current, cIndex, keys) {
+function cr_checkValues(previous, current, cIndex, keys) {
   var previousKeys = [];
   if(typeof previous[keys[cIndex]] == 'object'){
     previousKeys = Object.keys(previous[keys[cIndex]])
@@ -25,7 +25,7 @@ function checkValues(previous, current, cIndex, keys) {
     delete previous[keys[cIndex]];
   }
   else if (['object'].indexOf(typeof previous[keys[cIndex]]) > -1) {
-    previous[keys[cIndex]] = previousKeys.reduce(checkValues, previous[keys[cIndex]])
+    previous[keys[cIndex]] = previousKeys.reduce(cr_checkValues, previous[keys[cIndex]])
     if (Object.keys(previous[keys[cIndex]]).length == 0) {
       delete previous[keys[cIndex]];
     }
@@ -198,9 +198,9 @@ function populate_substance_modal(chemical_rules_response_json) {
         url: 'chemical_rules/form_submission',
         method: 'POST',
         data: chem_search_form_data,
-        beforeSend: showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('.chemical-rules-modal-wrapper')),
+        beforeSend: cr_showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('.chemical-rules-modal-wrapper')),
         complete: function() {
-          showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
+          cr_showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
           originalDialog = $body.find('#chemical-rules-modal').html();
         },
         success: populate_substance_modal
@@ -239,7 +239,7 @@ function populate_substance_modal(chemical_rules_response_json) {
         // POST input field value to lookup service
         // Render out 
   
-        resizeModal();
+        cr_resizeModal();
       }
     } 
     else {
@@ -267,8 +267,8 @@ function populate_substance_modal(chemical_rules_response_json) {
     var $chemical_loading = $('#chemical-rules-loading-wrapper');
     var $all_wrappers = $('.chemical-rules-modal-wrapper');
 
-    showElementOutOfMany($chemical_loading, $all_wrappers);
-    resizeModal();
+    cr_showElementOutOfMany($chemical_loading, $all_wrappers);
+    cr_resizeModal();
   });
 
 })(jQuery);
