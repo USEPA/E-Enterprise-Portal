@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Chemical Laws and Regulations Content Types and View feature.
+ */
+
+include_once 'chemical_laws_and_regulations_content_types_and_view.features.inc';
