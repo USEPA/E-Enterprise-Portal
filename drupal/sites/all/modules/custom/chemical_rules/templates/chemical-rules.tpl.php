@@ -27,21 +27,21 @@
           You have 0 favorite chemicals saved.  To add a favorite, use the <a href="#cr-tabs_search">search</a> option.
         </p>
       </div><!-- @end cr-tabs_favorites_empty -->
-      <div class="cr-tabs_favorites_available hidden">
+      <div class="cr-tabs_favorites_available">
         <! -- @TODO - List favorites -->
         <ul class="cr-lists cr-tabs_favorites-list">
-          <li><a class="cr-tabs_favorites-link" href="#" data-epachemintnum="9999" data-systematicname="Acetone">67-64-1:  Acetone</a><a class="cr-tabs_favorites-remove">Remove</a></li> 
+          <li><a class="favorite-chemical" href="#" data-epachemintnum="9999" data-systematicname="Acetone">67-64-1:  Acetone</a><a class="favorite-chemical-remove remove-link">Remove</a></li> 
         </ul>      
       </div><!-- @end cr-tabs_favorites_empty -->
     </div><!-- @end cr-tabs_favorites -->
     <!-- @TAB: Search -->    
     <div id="cr-tabs_previous">
       <p>
-        Here are your last searches:
+        Here are your 5 last searches:
       </p>
       <ul class="cr-lists">
-        <li><a href="#" data-epachemintnum="9999" data-systematicname="Acetone">67-64-1:  Acetone</a></li> 
-        <li><a href="#" data-epachemintnum="9999" data-systematicname="2,4,4-Trimethylhexamethylene diisocyanate">16938-22-0:  2,4,4-Trimethylhexamethylene diisocyanate</a></li>         
+        <li><a class="favorite-chemical" href="#" data-epachemintnum="9999" data-systematicname="Acetone">67-64-1:  Acetone</a></li> 
+        <li><a class="favorite-chemical" href="#" data-epachemintnum="8888" data-systematicname="2,4,4-Trimethylhexamethylene diisocyanate">16938-22-0:  2,4,4-Trimethylhexamethylene diisocyanate</a></li>         
       </ul>  
     </div><!-- @end cr-tabs_previous -->    
 </div><!-- @end cr-tabs -->

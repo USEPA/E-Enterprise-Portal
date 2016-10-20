@@ -33,8 +33,6 @@ function checkValues(previous, current, cIndex, keys) {
   return previous
 }
 
-var sampleData = function() {};
-
 /**
  * Clear form inputs and hide warning messages
  */
@@ -152,13 +150,14 @@ function populate_substance_modal(chemical_rules_response_json) {
   //num_rules_faves = ...;
   
   // If no favorites exist, show Search tab
+  num_chem_faves = 1;
   if (num_chem_faves === 0 && num_rules_faves === 0) {
-    $cr_empty.toggleClass('hidden', false);
-    $cr_avail.toggleClass('hidden', true);
+    $cr_empty.show();
+    $cr_avail.hide();
   }
   else {
-    $cr_empty.toggleClass('hidden', false);
-    $cr_avail.toggleClass('hidden', true);
+    $cr_empty.hide();
+    $cr_avail.show();
     //@TODO Print Favorite Chemicals
     //
     //@TODO Print Favorite Laws/Regs    
@@ -247,7 +246,17 @@ function populate_substance_modal(chemical_rules_response_json) {
       // @TODO Error message - please enter value;
     }
     
-  });    
+  });   
+  
+  $('.favorite-chemical-remove').on('click', function(ev) {
+    ev.preventDefault();
+    var clickedFavoriteID = $(this).data("epachemintnum");
+    alert("clicked favorite id is: " + clickedFavoriteID);    
+    console.log("clickedFavorite is: " + clickedFavoriteID);
+    
+    //@TODO - Add Logic to find favorite chemical by SRS ID in Drupal and then remove from user's favorites
+     
+  }); 
 
   /**
    * Close Listener on Chemical Rules Modal

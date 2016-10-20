@@ -104,36 +104,59 @@ $white:                 #fff;
 
 .cr-lists,
 #chemical-rules-modal ul {
+    margin-top: 0;
+    margin-bottom: 0;
     list-style: none;
+    width: 100%;
     li::before,
     li::after {
         content: none;
     }
-    .cr-tabs_favorites-link, 
-    .cr-tabs_favorites-remove {
-        display: inline-block;
-        width: auto;   
+    li {
+        display: block;
     }
-    .cr-tabs_favorites-link {
+    .favorite-chemical, 
+    .favorite-chemical-remove {
+        display: inline-block;
+    }
+    .favorite-chemical {
         margin-right: 10px;
+    }
+    .favorite-chemical-remove {
+        padding-left: 24px;
+        background: transparent url('../images/fa-times-circle.png') 0 50% no-repeat;
+        font-size: 1.2rem;
+        color: $color_gray_dark;
     }
 }
-.cr-modal-actions {
-    margin-top: 0;
-    margin-bottom: 0;
-    li {
-        display: inline-block;
-        font-size: 1.3rem;
-        margin-right: 10px;
-        a {
-            padding: 2px 4px;
-            &#cr-save-chemical {
-                background: transparent url('../images/plus-circle.svg') 0 50% no-repeat;
-                background-size: 20px 20px;
-                padding-left: 24px;
-            }
+
+#chemical-rules-modal {
+    .cr-lists {
+        display: block;
+        margin-top: 0;
+        li {
+            border-bottom: 1px solid $color-gray-lightest;
+            line-height: 1.2;
+            padding-bottom: 10px;
         }
     }
+    .cr-modal-actions {
+        margin-top: 0;
+        margin-bottom: 0;
+        width: 100%;
+        li {
+            display: inline-block;
+            font-size: 1.3rem;
+            margin-right: 10px;
+            a {
+                padding: 2px 4px;
+                &#cr-save-chemical {
+                    background: transparent url('../images/plus-circle.png') 0 50% no-repeat;
+                    padding-left: 24px;
+                }
+            }
+        }
+    }    
 }
 
 .clearfix:after {
