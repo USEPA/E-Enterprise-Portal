@@ -33,8 +33,6 @@ function checkValues(previous, current, cIndex, keys) {
   return previous
 }
 
-var sampleData = function() {};
-
 /**
  * Clear form inputs and hide warning messages
  */
