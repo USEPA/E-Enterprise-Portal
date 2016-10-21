@@ -36,7 +36,7 @@ drupal_add_css(drupal_get_path('module', $module_name) . "/css/recommended_resou
 ?>
 
 
-<a class="about-widget ee-bootstrap-tooltip favorites-ignore" id="resources-lgc-help" href="javascript:void(0)" title="Learn more about the Resources for Local Communities widget"><img src="<?php print base_path() . path_to_theme(); ?>/images/question-circle.png" alt="Learn more about the Resources for Local Communities widget"></a>
+<a class="about-widget ee-bootstrap-tooltip favorites-ignore" id="resources-lgc-help" href="javascript:void(0)" title="Learn more about the Resources for Local Communities widget"><img class="favorites-ignore" src="<?php print base_path() . path_to_theme(); ?>/images/question-circle.png" alt="Learn more about the Resources for Local Communities widget"></a>
 <div id="resources-lgc-about" class="element-hidden">
   <?php print $recommended_resources_html; ?>
 </div>
