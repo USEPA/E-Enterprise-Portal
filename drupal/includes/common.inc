@@ -1247,9 +1247,12 @@ function valid_url($url, $absolute = FALSE) {
       *)?
     $/xi", $url);
   }
-  else {
-    return (bool)preg_match("/^(?:[\w#!:\.\?\+=&@$'~*,;\/\(\)\[\]\-]|%[0-9a-f]{2})+$/i", $url);
-  }
+  /**
+   * DISABLING: Breaks on PHP 5.5
+   */
+//  else {
+//    return (bool)preg_match("/^(?:[\w#!:\.\?\+=&@$'~*,;\/\(\)\[\]\-]|%[0-9a-f]{2})+$/i", $url);
+//  }
 }
 
 /**
