@@ -829,7 +829,6 @@ function eenterprise_bridge_auth_logout() {
 
 function refresh_todo_list() {
   global $user;
-  $user = user_load(1419);
   $query_res = db_query("select nid from {node} where type in (:node_type) and uid = :uid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':uid' => $user->uid))->fetchAll(PDO::FETCH_ASSOC);
   foreach ($query_res as $key => $value) {
     node_delete($value['nid']);
