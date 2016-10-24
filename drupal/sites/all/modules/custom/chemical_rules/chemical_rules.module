@@ -137,6 +137,7 @@ function chemical_rules_form_submission() {
   else {
       chemical_rules_process_srs_response($response);
       chemical_rules_process_lrs_response($response);
+      chemical_rules_process_pubchem_response($response);
   }
 
   drupal_json_output($response);
@@ -157,16 +158,17 @@ function sample_chemical_rules_lrs_response() {
 function sample_chemical_rules_pubchem_response() {
   $path = drupal_get_path('module', 'chemical_rules') . '/pubchem.json';
   $sample = file_get_contents($path);
-  return json_decode($sample);
+  return json_decode($sample, true);
 }
 
 function chemical_rules_process_srs_response(&$return) {
   // Decide what kind of search we are doing: cas# || chem name
-  if(preg_match('([0-9]{2,7}-[0-9]{2}-\d)+',$_POST['cr-search_input'])){
-    $endpoint = "https://ends2.epacdxnode.net/RestProxy/query?Node=NGNTest2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|";
+
+  if(is_valid_cas_number($_POST['cr-search_input'])){
+    $endpoint = "http://ends2.epacdxnode.net/RestProxy/query?Node=NGNTest2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|";
   }
   else {
-    $endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
+    $endpoint = "http://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
   }
   $endpoint = $endpoint . $_POST['cr-search_input'];
 
@@ -182,24 +184,37 @@ function chemical_rules_process_srs_response(&$return) {
   }
   else {
     // Get the substance information and add it to the return data
-    $response_array = xmlstr_to_array($response->data);
-    $chemSubstance = $response_array['Results']['SRS:SubstanceInformation']['SRS:ChemicalSubstance']['SRS:ChemicalSubstanceIdentification'];
+    $response_array = strip_prefix_from_array(xmlstr_to_array($response->data), 'SRS:');
+    // Additional logic to support CAS numbers
+    $base = $response_array['Results']['SubstanceInformation']['ChemicalSubstance'];
+    // The service for CAS look up returns multiple 'ChemicalSubstance',
+    if(count($base) > 1) {
+      // The one without the 'IncorrectlyUsedCASRegistryNumberList' is the actual information needed
+      for($i = count($base) - 1; $i >= 0; $i--) {
+        if(count($base[$i]['ChemicalSubstanceIdentification']['IncorrectlyUsedCASRegistryNumberList']) == 0) {
+          $base = $base[$i];
+          break;
+        }
+      }
+    }
+
+    $chemSubstance = $base['ChemicalSubstanceIdentification'];
     if (empty($return['data']['Substance'])) {
       $return['data']['Substance'] = [];
     }
     foreach ($chemSubstance as $name => $value) {
       $value = ($value) ? $value : null;
-      $return['data']['Substance'][str_ireplace('SRS:', '', $name)] = $value;
+      $return['data']['Substance'][$name] = $value;
     }
     // @todo Things that are missing.  Need to add from another service
-    $toAppend = '{"MolecularWeight": "58.08 g/mol", "Solubility": "Miscible with water", "VaporPressure": "231 mm Hg at 25 deg C", "LogP": "log Kow = -0.24", "Stability": "Stable under recommended storage conditions.", "pKA": "20"}';
+    /*$toAppend = '{"MolecularWeight": "58.08 g/mol", "Solubility": "Miscible with water", "VaporPressure": "231 mm Hg at 25 deg C", "LogP": "log Kow = -0.24", "Stability": "Stable under recommended storage conditions.", "pKA": "20"}';
     $toAppend = json_decode($toAppend);
     foreach ($toAppend as $name => $value) {
-      $return['data']['Substance'][str_ireplace('SRS:', '', $name)] = $value;
-    }
+      $return['data']['Substance'][str_ireplace('', '', $name)] = $value;
+    }*/
 
     // build both the "Synonym" list and the "SubstanceList"
-    $SubstanceSynonyms = $response_array['Results']['SRS:SubstanceInformation']['SRS:ChemicalSubstance']['SRS:ChemicalSubstanceSynonymList']['SRS:ChemicalSubstanceSynonym'];
+    $SubstanceSynonyms = $base['ChemicalSubstanceSynonymList']['ChemicalSubstanceSynonym'];
 
     // Initialize them if they are not ready
     if (empty($return['data']['Substance']['Synonym'])) {
@@ -212,11 +227,11 @@ function chemical_rules_process_srs_response(&$return) {
     // Sort out the information we need for the various lists
     foreach ($SubstanceSynonyms as $index => $ss) {
       $value = ($value) ? $value : null;
-      if(!in_array(strtolower($ss['SRS:ChemicalSubstanceSynonymName']), $return['data']['Substance']['Synonym']))
-        $return['data']['Substance']['Synonym'][] = strtolower($ss['SRS:ChemicalSubstanceSynonymName']);
+      if(!in_array(strtolower($ss['ChemicalSubstanceSynonymName']), $return['data']['Substance']['Synonym']))
+        $return['data']['Substance']['Synonym'][] = strtolower($ss['ChemicalSubstanceSynonymName']);
 
-      if(!array_key_exists($ss['SRS:ChemicalSynonymSourceName'], $return['data']['SubstanceList']))
-        $return['data']['SubstanceList'][$ss['SRS:ChemicalSynonymSourceName']] = $ss['SRS:ChemicalSynonymSourceName'];
+      if(!array_key_exists($ss['ChemicalSynonymSourceName'], $return['data']['SubstanceList']))
+        $return['data']['SubstanceList'][$ss['ChemicalSynonymSourceName']] = $ss['ChemicalSynonymSourceName'];
     }
     sort($return['data']['Substance']['Synonym']);
     ksort($return['data']['SubstanceList']);
@@ -239,7 +254,7 @@ function chemical_rules_process_lrs_response(&$return) {
     $substance_list_response = sample_chemical_rules_lrs_response();
   }
   else {
-    $substance_list_response = json_decode($lrs_response);
+    $substance_list_response = json_decode($lrs_response->data);
   }
 
   $substance_list = [];
@@ -258,37 +273,33 @@ function chemical_rules_process_lrs_response(&$return) {
 }
 
 function chemical_rules_process_pubchem_response(&$return) {
-  // make a call to the LRS service
-  $endpoint = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/'. strtolower($_POST['cr-search_input']) .'/json';
+  if(isset($return['data']['Substance']) && isset($return['data']['Substance']['EPAChemicalRegistryName'])) {
+    // make a call to the LRS service
+    $endpoint = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/'. strtolower($return['data']['Substance']['EPAChemicalRegistryName']) .'/json';
 
-  //$headers = array('Content-Type' => 'application/json');
-  $response = drupal_http_request($endpoint, [
-    //"headers" => $headers,
-    "method" => "GET",
-    'timeout' => "10"
-  ]);
-  if ($response->code !== "200") {
-    $return['error'] = TRUE;
-    $return['error-messages'][] = 'PubChem endpoint response: '.$response->error;
-    $pubchem_response = sample_chemical_rules_pubchem_response();
-  }
-  else {
-    $pubchem_response = json_decode($response);
-  }
+    //$headers = array('Content-Type' => 'application/json');
+    $response = drupal_http_request($endpoint, [
+      //"headers" => $headers,
+      "method" => "GET",
+      'timeout' => "10"
+    ]);
+    if ($response->code !== "200") {
+      $return['error'] = TRUE;
+      $return['error-messages'][] = 'PubChem endpoint response: '.$response->error;
+      $pubchem_response = sample_chemical_rules_pubchem_response();
+    }
+    else {
+      $pubchem_response = json_decode($response->data, true);
+    }
 
-  $pubchem = [];
-  foreach ($pubchem_response as $list){
-    if(in_array($list->substanceListName, $return['data']['SubstanceList'])){
-      $cfrs = [];
-      foreach ($list->cfrs as $cfr_id => $cfr) {
-        $return['data']['LawsRegs'][$cfr_id] = $cfr;
-        $cfrs[] = $cfr_id;
+    foreach ($pubchem_response['PC_Compounds'][0]['props'] as $prop){
+      $label = ($prop['urn']['name'])? $prop['urn']['label'].'_'.$prop['urn']['name'] : $prop['urn']['label'];
+      foreach ($prop['value'] as $key => $value){
+        $return['data']['Substance'][$label] = $prop['value'][$key];
+        break;
       }
-      $list->cfrs = $cfrs;
-      $pubchem[$list->substanceListName] = $list;
     }
   }
-  $return['data']['SubstanceList'] = $pubchem;
 }
 
 /**
@@ -297,6 +308,30 @@ function chemical_rules_process_pubchem_response(&$return) {
 function template_preprocess_chemical_rules_modal(&$variables, $hook) {
 
 
+}
+function is_valid_cas_number($stringToCheck) {
+  $cas = '/(\d{2,7}).{0,2}(\d{2}).{0,2}(\d)+/';
+  $casGroup = [];
+  if(preg_match_all($cas, $stringToCheck, $casGroup)){
+    $casBase = str_split($casGroup[1][0] . $casGroup[2][0]);
+    $length = count($casBase);
+    $sumCheck = 0;
+    for($i = $length - 1; $i >= 0; $i--){
+      $sumCheck += $casBase[$i] * ($length - $i);
+    }
+    return ($casGroup[3][0] == ($sumCheck % 10));
+  }
+  return false;
+}
+
+function strip_prefix_from_array($array, $prefix){
+  $stripped = [];
+
+  foreach ($array as $key => $item)
+  {
+    $stripped[str_ireplace($prefix, '', $key)] = (gettype($item) == 'array')? strip_prefix_from_array($item, $prefix) : $item;
+  }
+  return $stripped;
 }
 
 function xmlstr_to_array($xmlstr) {
