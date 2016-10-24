@@ -97,7 +97,7 @@ function eenterprise_bridge_auth_menu_alter(&$items) {
 
 function enterprise_bridge_auth_logout_page_callback($original_page_callback, $original_page_arguments) {
 
-  if ($_GET['bridge'] !== '1') { // try bridge logout
+  if ($_GET['bridge'] != '1' && $_GET['timeout'] != '1') { // try bridge logout
     drupal_goto('/eebridge-auth/logout');
   }
   if ($_GET['timeout'] == '1') {
