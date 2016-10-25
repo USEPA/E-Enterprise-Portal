@@ -1,0 +1,14 @@
+<?php
+  function chemical_rules_update_7001() {
+    // Attach an existing field to the user object
+    $instance = array(
+      'field_name' => 'field_chemical_rules_settings',
+      'entity_type' => 'user',
+      'bundle' => 'user',
+      'label' => 'Chemical Rules Settings',
+      /*'widget' => array(
+        'type' => 'text', // or whatever widget type you want
+      ),*/
+    );
+    field_create_instance($instance);
+  }
