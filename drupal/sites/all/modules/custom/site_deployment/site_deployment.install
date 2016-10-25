@@ -1,0 +1,105 @@
+<?php
+/**
+ * @file
+ * Install file for Deploy Update
+ */
+
+/**
+ * Deployment function for 1st deployment
+ */
+
+
+/**
+ *
+ * References:
+ *
+ * Site Deployment Module: @see http://befused.com/drupal/site-deployment-module
+ * Batch processing in updates: @see http://bleen.net/blog/running-batch-processes-update-hook-bed
+ *
+ */
+
+
+/**
+ * hook_update_last_removed() : @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_update_last_removed/7.x
+ * return type INT of last version number when updated drupal
+ */
+module_load_include('inc', 'site_deployment', 'site_deployment_helpers');
+
+/**
+ * Refactoring Features and EE-1579
+ */
+function site_deployment_update_7007(&$sandbox) {
+  module_load_include('inc', 'page_manager', 'plugins/tasks/page');
+
+  // Split steps in batches to minize risk of page timeout
+  if (!$sandbox['current']) {
+    $modules_to_disable = ['eenteprise_api_1_0', 'other_items_of_interest_feature', 'ee_disclaimer'];
+    module_disable($modules_to_disable);
+    drupal_set_message("Disabled modules: " . implode(', ', $modules_to_disable));
+    $sandbox['current'] = 1;
+    // Number of passes required
+    $sandbox['total'] = 7;
+  }
+
+  if ($sandbox['current'] === 2) {
+    if ($view = views_get_view('workbench')) {
+      // Delete the view if it is the one that you are looking for.
+      views_delete_view($view);
+      drupal_set_message("Deleted view: workbench");
+    }
+  }
+
+  if ($sandbox['current'] === 3) {
+    // Delete old context
+    if ($context = context_load('workbench')) {
+      context_delete($context);
+      drupal_set_message("Deleted context: workbench");
+    }
+  }
+
+  if ($sandbox['current'] === 4) {
+    // Reenable or enable new modules
+    $modules_to_enable = ['page_manager_feature', 'eenteprise_api_1_0', 'other_items_of_interest_feature',
+      'ee_disclaimer', 'air_quality_chart', 'progress_tracker_view',
+      'to_do_view', 'my_maps_view', 'interactive_maps', 'village_green'];
+    module_enable($modules_to_enable);
+    drupal_set_message("Enabled modules: " . implode(', ', $modules_to_enable));
+  }
+
+  if ($sandbox['current'] === 5) {
+    //Make sure the features are actually enabled
+    $features = ['page_manager_feature', 'eenteprise_api_1_0', 'other_items_of_interest_feature',
+      'ee_disclaimer', 'progress_tracker_view', 'to_do_view',
+    'my_maps_view', 'my_air_quality_chart_view',
+    'village_green_block'];
+    
+    features_install_modules($features);
+    features_revert($features);
+    drupal_set_message("Enabled and reverted features: " . implode(', ', $features));
+  }
+
+  if ($sandbox['current'] === 6) {
+    $pages_to_remove = array(
+      'workbench_page', // Check for unique page names in admin/structure/pages.
+    );
+    foreach ($pages_to_remove as $name) {
+      $page = page_manager_page_load($name);
+      if (!empty($page)) {
+        page_manager_page_delete($page);
+      }
+    }
+    drupal_set_message("Deleted pages: " . implode(', ', $pages_to_remove));
+  }
+
+  if ($sandbox['current'] === 7) {
+    drupal_flush_all_caches();
+    drupal_set_message("Caches have been cleared.");
+  }
+
+
+// Once the total amount of steps have been completed, set finished to 1 to complete
+  $sandbox['#finished'] = $sandbox['current'] / $sandbox['total'];
+
+  $sandbox['current']++;
+
+}

@@ -3,4 +3,3 @@ description = A module to implement saving favorite links across the portal
 core = 7.x
 version = "7.x-1.2"
 package = CGI
-features[views_view][] = favorite_links

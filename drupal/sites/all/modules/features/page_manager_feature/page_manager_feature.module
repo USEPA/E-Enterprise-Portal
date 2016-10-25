@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Page Manager feature.
+ */
+
+include_once 'page_manager_feature.features.inc';

@@ -1,0 +1,6 @@
+name = Air Quality Chart
+description = Air Quality Chart
+core = 7.x
+package = CGI
+version = 7.x-1.0
+dependencies[] = views
