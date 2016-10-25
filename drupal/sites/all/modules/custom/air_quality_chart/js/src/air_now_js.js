@@ -176,7 +176,7 @@
             var stateAbbrev = featureCollection.features[0].properties.STATE_CODE;
             $.ajax({
               type: 'GET',
-              url: Drupal.settings.basePath + 'my_air_quality_map_view/api/current/latLong/',
+              url: Drupal.settings.basePath + 'air_quality_chart/api/current/latLong/',
               async: true,
               data: {
                 format: 'application/json',
@@ -228,7 +228,7 @@
     var resultJson;
     $.ajax({
       type: 'GET',
-      url: Drupal.settings.basePath + 'my_air_quality_map_view/api/current/latLong/',
+      url: Drupal.settings.basePath + 'air_quality_chart/api/current/latLong/',
       async: true,
       data: {
         format: 'application/json',
@@ -837,7 +837,7 @@
     }
 
     drawMessage('<p class="widget-note">Loading...</p>');
-    var endpoint = Drupal.settings.basePath + 'my_air_quality_chart_view/api/forecast/zipCode/';
+    var endpoint = Drupal.settings.basePath + 'air_quality_chart/api/forecast/zipCode/';
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     var params = {
