@@ -35,7 +35,7 @@ function air_quality_chart_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['air_quality_map_view/api/current/latLong'] = array(
+  $items['air_quality_chart/api/current/latLong'] = array(
     'title' => 'AirNow Current Conditions By Lat/Long',
     'page callback' => 'air_quality_map_view_current_latlong',
     'access callback' => 'user_is_logged_in',
