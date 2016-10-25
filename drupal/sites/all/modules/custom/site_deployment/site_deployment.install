@@ -4,10 +4,6 @@
  * Install file for Deploy Update
  */
 
-/**
- * Deployment function for 1st deployment
- */
-
 
 /**
  *
@@ -18,32 +14,28 @@
  *
  */
 
-
-/**
- * hook_update_last_removed() : @see https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_update_last_removed/7.x
- * return type INT of last version number when updated drupal
- */
 module_load_include('inc', 'site_deployment', 'site_deployment_helpers');
 
 /**
  * Refactoring Features and EE-1579
  */
-function site_deployment_update_7007(&$sandbox) {
+function site_deployment_update_7008(&$sandbox) {
   module_load_include('inc', 'page_manager', 'plugins/tasks/page');
 
   // Split steps in batches to minize risk of page timeout
   if (!$sandbox['current']) {
-    $modules_to_disable = ['eenteprise_api_1_0', 'other_items_of_interest_feature', 'ee_disclaimer'];
-    module_disable($modules_to_disable);
-    drupal_set_message("Disabled modules: " . implode(', ', $modules_to_disable));
     $sandbox['current'] = 1;
     // Number of passes required
     $sandbox['total'] = 7;
+
+    $modules_to_disable = ['eenteprise_api_1_0', 'other_items_of_interest_feature', 'ee_disclaimer'];
+    module_disable($modules_to_disable);
+    drupal_set_message("Disabled modules: " . implode(', ', $modules_to_disable));
   }
 
   if ($sandbox['current'] === 2) {
     if ($view = views_get_view('workbench')) {
-      // Delete the view if it is the one that you are looking for.
+      // Delete the view
       views_delete_view($view);
       drupal_set_message("Deleted view: workbench");
     }
