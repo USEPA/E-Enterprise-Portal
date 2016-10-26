@@ -143,7 +143,7 @@
       $(window).scrollLeft()) + "px");         return this;
     }
     $(window).resize(function () {
-      var dialog = $('#ui-id-1').closest('.ui-dialog');
+      var dialog = $('#dialog-all-locations').closest('.ui-dialog');
       if($(window).width() < 900) {
         dialog.css('width', 'auto');
       }

@@ -6,8 +6,8 @@
 function session_timeout_warning_menu() {
   $items = array();
 
-  $items['instant-logout'] = array(
-    'page callback' => 'instant_logout',
+  $items['timeout-logout'] = array(
+    'page callback' => 'timeout_logout',
     'access callback' => TRUE,
   );
   $items['renew-session'] = array(
@@ -19,23 +19,13 @@ function session_timeout_warning_menu() {
 }
 
 /**
- * Page callback for 'instant-logout'
+ * Page callback for 'timeout-logout'
  * @see https://api.drupal.org/api/drupal/modules%21user%21user.pages.inc/function/user_logout_current_user/7.x
  */
-function instant_logout() {
-  global $user;
-
-  watchdog('user', 'Session closed for %name.', array('%name' => $user->name));
-
-  module_invoke_all('user_logout', $user);
-
-  // Destroy the current session, and reset $user to the anonymous user.
-  session_destroy();
-
-  // set status message after the session is destroyed
-  drupal_set_message('You have been timed out.', 'warning');
-
-  drupal_goto('bridge-landing');
+function timeout_logout() {
+  // set session variable, to be picked up by eenterprise_bridge_auth_logout()
+  $_SESSION['is_timeout'] = TRUE;
+  drupal_goto('user/logout');
 }
 
 /**
@@ -48,16 +38,17 @@ function renew_session() {
 }
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
+ * @see https://api.drupal.org/comment/56528#comment-56528
  * Add client-side business logic, tracking for prompt and logout
  */
-function session_timeout_warning_init() {
+function session_timeout_warning_page_build(&$page) {
   global $user;
 
-  drupal_add_js(drupal_get_path('module', 'session_timeout_warning') . '/js/script.js');
+  // Add javascript variables for tracking session timeout. Do no add for anonymous or admin user
+  if (!user_is_anonymous() && !($user->uid === 1)) {
+    drupal_add_js(drupal_get_path('module', 'session_timeout_warning') . '/js/script.js');
 
-  // Add javascript variables for tracking session timeout
-  if (!user_is_anonymous()) {
     if (!isset($_SESSION['promptAt']) || !isset($_SESSION['logoutAt'])) {
       $_SESSION['promptAt'] = time() + (60 * 15); // 15 minute timeout
       $_SESSION['logoutAt'] = time() + (60 * 20); // 20 minute timeout

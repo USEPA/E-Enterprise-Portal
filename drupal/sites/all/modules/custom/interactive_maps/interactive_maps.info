@@ -1,0 +1,6 @@
+name = Interactive Maps
+description = My Maps View, renamed to Interactive Maps
+core = 7.x
+package = CGI
+version = 7.x-1.0
+dependencies[] = views

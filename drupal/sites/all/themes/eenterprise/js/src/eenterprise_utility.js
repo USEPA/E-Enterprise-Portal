@@ -818,7 +818,22 @@
         }
         placeAddAnotherButton(false, table_id, parent_id);
       };
-      $('#profile-tabs').tabs();
+      $('#profile-tabs').tabs({
+        create: function( event, ui ) {
+          var action_base = jQuery('#user-profile-form').attr('action')
+          jQuery('#user-profile-form').attr('action', action_base + window.location.hash)
+        },
+        activate: function( event, ui ) {
+          var action = jQuery('#user-profile-form').attr('action')
+          var has_hash = (action.indexOf('#') > -1)
+          var action_base = action;
+          var tab = jQuery(event.currentTarget).attr('href')
+          if(has_hash) {
+            action_base = action.slice(0, action.indexOf('#'));
+          }
+          jQuery('#user-profile-form').attr('action', action_base + tab)
+        }
+      });
       // Update session on page load for zip mapping
       update_user_zip_preferences();
     }

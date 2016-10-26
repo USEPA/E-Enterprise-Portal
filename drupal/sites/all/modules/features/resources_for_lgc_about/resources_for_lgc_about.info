@@ -1,0 +1,16 @@
+name = Resources for LGC About
+description = Provides About content for Resources for LGC widget
+core = 7.x
+package = CGI Features
+version = 7.x-1.1
+dependencies[] = content_types_may_20_2015
+dependencies[] = features
+dependencies[] = node_export_features
+dependencies[] = text
+dependencies[] = uuid_features
+features[features_api][] = api:2
+features[field_instance][] = node-page-body
+features[node][] = page
+features[node_export_features][] = b913d618-a0db-4cf4-886d-c7171f5a0f73
+features[uuid_node][] = b913d618-a0db-4cf4-886d-c7171f5a0f73
+features_exclude[dependencies][node_export_features] = node_export_features

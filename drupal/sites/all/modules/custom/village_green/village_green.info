@@ -1,0 +1,7 @@
+name = Village Green Block
+description = Village Green Block
+core = 7.x
+package = CGI
+version = 7.x-1.0
+project = village_green_block
+dependencies[] = views

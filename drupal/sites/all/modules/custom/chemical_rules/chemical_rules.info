@@ -1,0 +1,8 @@
+name = Chemical Laws and Regulations
+description = Chemical Laws and Regulations widget.
+core = 7.x
+version = "7.x-1.0"
+package = CGI
+
+dependencies[] = ctools
+dependencies[] = views

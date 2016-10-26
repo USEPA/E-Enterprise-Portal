@@ -1,0 +1,254 @@
+//colors
+$color_highlight_blue:  #E1EAF5;
+$color-gray-dark:       #323a45 !default;
+$color-gray-lighter:    #d6d7d9 !default; // lighten($color-gray-dark, 80%)
+$color-gray-lightest:   #f1f1f1 !default; // lighten($color-gray-dark, 91%)
+$white:                 #fff;
+
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+@mixin container() {
+    position: relative;
+    box-sizing: border-box;
+}
+
+@mixin linear-gradient($gradient-light, $gradient-dark) {
+    background-image: -webkit-gradient(linear, left top, left bottom, from($gradient-light), to($gradient-dark));
+    background-image: -webkit-linear-gradient(top, $gradient-light, $gradient-dark);
+    background-image: -moz-linear-gradient(top, $gradient-light, $gradient-dark);
+    background-image: -ms-linear-gradient(top, $gradient-light, $gradient-dark);
+    background-image: linear-gradient(to bottom, $gradient-light, $gradient-dark);
+}
+
+@mixin button {
+    @include linear-gradient(rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .15) 100%);
+}
+
+#cr-search {
+    #cr-search_field {
+        width: 60%;
+        display: inline-block;
+    }
+    label,
+    button {
+        font-size: 1.5rem;
+    }
+}
+
+.ui-dialog#chemical-rules-modal {
+    &.ui-dialog {
+        overflow: visible;
+
+        .ui-dialog-titlebar {
+            background-color: transparent !important;
+            border: none;
+            z-index: 100;
+        }
+
+        .ui-dialog-content {
+            overflow: visible;
+        }
+    }
+}
+
+#chemical-rules-modal {
+    h2 {
+        font-size: 2.4rem;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    h3 {
+        background-color: $color_highlight_blue;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-top: 0px;
+        padding: 5px 10px;
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+    #chemical-rules-loading-wrapper {
+        text-align: center;
+    }
+    #cr-modal-toc-icons {
+//        position: fixed;
+    }
+    .cr-structure_container {
+        img {
+            width: 100px;
+        }
+        p {
+            margin: 0;
+            font-size: 1rem;
+        }
+    }
+    ul,
+    table {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+.cr-lists,
+#chemical-rules-modal ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style: none;
+    width: 100%;
+    li::before,
+    li::after {
+        content: none;
+    }
+    li {
+        display: block;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .favorite-chemical, 
+    .favorite-chemical-remove {
+        display: inline-block;
+    }
+    .favorite-chemical {
+        margin-right: 10px;
+    }
+    .favorite-chemical-remove {
+        padding-left: 24px;
+        background: transparent url('../images/fa-times-circle.png') 0 50% no-repeat;
+        font-size: 1.2rem;
+        color: $color_gray_dark;
+    }
+}
+
+#chemical-rules-modal {
+    .cr-lists {
+        display: block;
+        margin-top: 0;
+        li {
+            border-bottom: 1px solid $color-gray-lightest;
+            line-height: 1.2;
+            padding-bottom: 10px;
+        }
+    }
+    .cr-modal-actions {
+        margin-top: 0;
+        margin-bottom: 0;
+        width: 100%;
+        li {
+            display: inline-block;
+            font-size: 1.3rem;
+            margin-right: 10px;
+            a {
+                padding: 2px 4px;
+                &#cr-save-chemical {
+                    background: transparent url('../images/plus-circle.png') 0 50% no-repeat;
+                    padding-left: 24px;
+                }
+                &.cr-future {
+                    color: $color-gray-dark;
+                    text-decoration: none;
+                    &:visited,
+                    &:hover,
+                    &:focus,
+                    &:active {
+                        text-decoration: none;
+                        color: $color-gray-dark;
+                    }
+                }
+            }
+        }
+    }    
+    table#cr-properties-table {
+        min-width: 70%;
+        width: 70%;
+        tbody {
+            th {
+                text-align: left;
+                span.cr-definition {
+                    font-size: 1rem;
+                    color: $color-gray-dark;
+                    display: block;
+                }                
+            }
+        }
+        .cr-property {
+            width: 60%;
+        }
+        .cr-value {
+            width: 40%;
+        }
+      
+    }
+}
+
+.clearfix:after {
+    display: table;
+    line-height: 0;
+}
+
+@media screen and (min-width: 48em) {
+    #chemical-rules-modal {
+        #cr-modal-toc-icons {
+            ul {
+                display: block;
+                height: auto;
+            }
+            li {
+                display: inline-block;
+                width: auto;
+                margin-right: 10px;
+                font-size: 1.2rem;
+                line-height: 1.1;
+                text-transform: uppercase;
+                text-align: center;
+                vertical-align: bottom;
+                a {
+                    background: transparent url('../images/placeholder.png') no-repeat;
+                    background-position: center top;
+                    padding: 70px 10px 10px 10px;
+                    height: 90px;
+                    display: block;
+                    width: 100px;
+                    text-align: center;
+                    color: $color_gray_dark;
+                    &:visited,
+                    &:hover,
+                    &:focus,
+                    &:active {
+                        color: darken($color_gray_dark, 10%);
+                    }
+                    
+                }
+            }
+        }
+        #chemical-rules-results-wrapper {
+            .one-half {
+                width: 50%;
+            }
+        }
+
+    }
+}
+
+@media screen and (min-width: 60em) {
+
+    #chemical-rules-informed-modal {
+        #be-well-informed-results-wrapper {
+            .one-half {
+                width: 50%;
+            }
+        }
+    }
+}

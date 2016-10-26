@@ -132,6 +132,35 @@ function clearResources() {
       $('#' + input_id).trigger('click');
       ev.preventDefault();
     });
+    
+    var lgcExplainedOriginalHTML = $('#resources-lgc-about').html();
+    
+    $body.on('click', '#resources-lgc-help', function(e) {
+      e.stopPropagation();
+      var lgcExplained = lgcExplainedOriginalHTML;
+      dialogDiv = '#resources-lgc-about';
+      dialogTitle = 'Resources for Local Communities Widget';
+      openLGCDialog(dialogDiv, dialogTitle, lgcExplained); 
+    });
 
+    function openLGCDialog(dialogDiv, dialogTitle, dialogContents) {
+      $('body').addClass('modal-open');
+      $(dialogDiv).html(dialogContents);
+      $(dialogDiv).dialog({
+        title: dialogTitle,
+        dialogClass: 'about-dialog',
+        width: 500,
+        maxHeight: 400,
+        modal: true,
+        open: function() {
+          $('#resources-lgc-about').parent().find('span.ui-dialog-title').prepend('<span class="modal-title-subtext">More on the </span>');
+        },           
+        close: function() {
+          $('body').removeClass('modal-open');            
+          $(dialogDiv).dialog('destroy');
+          $(dialogDiv).html('');   
+        }
+      });
+    }
   });
 }(jQuery));

@@ -81,6 +81,11 @@ function eenterprise_bridge_auth_menu() {
     'access callback' => 'user_is_logged_in',
     'file' => 'eenterprise_bridge_auth.pages.inc',
   );
+  $items['cdx_sso_handoff'] = array(
+    'page callback' => 'sso_handoff_url',
+    'access callback' => "user_is_logged_in",
+    'description' => 'Handoff to pass CDX Deep link through',
+  );
 
   return $items;
 }
@@ -92,11 +97,29 @@ function eenterprise_bridge_auth_menu_alter(&$items) {
 
 function enterprise_bridge_auth_logout_page_callback($original_page_callback, $original_page_arguments) {
 
-  if ($_GET['bridge'] !== '1') { // try bridge logout
+  if ($_GET['bridge'] != '1' && $_GET['timeout'] != '1') { // try bridge logout
     drupal_goto('/eebridge-auth/logout');
-  } else {
-    return call_user_func($original_page_callback, $original_page_arguments[0]);
   }
+  if ($_GET['timeout'] == '1') {
+    // Perform a modified version of user_logout_current_user()
+    // @see https://api.drupal.org/api/drupal/modules%21user%21user.pages.inc/function/user_logout_current_user/7.x
+    global $user;
+    watchdog('user', 'Session timed out for %name.', array('%name' => $user->name));
+
+    // allow modules to implement hook_user_logout()
+    module_invoke_all('user_logout', $user);
+
+    // Destroy the current session, and reset $user to the anonymous user.
+    session_destroy();
+
+    // set status message after the session is destroyed
+    drupal_set_message('You have been timed out.', 'warning');
+
+    // this is not the standard page that users go to after logging out
+    drupal_goto('bridge-landing');
+  }
+
+  return call_user_func($original_page_callback, $original_page_arguments[0]);
 }
 
 /**
@@ -254,4 +277,86 @@ function _eenterprise_bridge_auth_get_authmap($identifier) {
     return $result->fetchField();
   }
   return FALSE;
+}
+
+
+
+/**
+ * Takes deep handoff CDX APP URL and generates a SSO link to the app, bypassing
+ * login in CDX
+ */
+function sso_handoff_url() {
+  global $user;
+
+  $cdx_root_path = variable_get('cdx_facility_resource_url');
+
+  //clean any dangerous strings
+  $hand_off_data = urlencode(xssafe($_GET['handoff_data']));
+  $hand_off_url = $cdx_root_path . "/SilentHandoff/DeepHandoff?data=" . $hand_off_data;
+
+  // Init drupal cache
+  $data = &drupal_static(__FUNCTION__);
+
+  // Remove everything after and including _via_ from user name
+  $user_id = $user->name;
+  $cdx_pos = strrpos($user_id, "_Via_");
+  $ip = $_SERVER['SERVER_ADDR'];
+  $token = null;
+  if ($cdx_pos !== FALSE) {
+    $user_id = substr($user_id, 0, $cdx_pos);
+  }
+
+ // Check cache
+  if (!isset($data)) {
+    $cache_key = 'single_sign_on|' . $user_id . '|token';
+    $cache = cache_get($cache_key);
+    // Check if cache was set and if the cache is stale, since cache_get() does not.
+    // @see https://civicactions.com/blog/drupal-gotchya-cache_get-returns-expired-items/
+    if ($cache && time() < $cache->expire) {
+      // try cache first
+      // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
+      $token = $cache->data;
+    } else {
+      $wsdl = variable_get('cdx_facility_naas_wsdl');
+      // Initialize connection with client
+      $client = connectToSOAPServerWithWSDL($wsdl, "CDX Facility Management");
+      if (!$client->error) {
+        $client = $client->client;
+        // Create new token with CDX's user id
+        $params_for_creation = array(
+          "credential" => variable_get('cdx_facility_password'),
+          "domain" => variable_get('cdx_node_token_domain'),
+          "authMethod" => variable_get('eactivity_auth_reg_auth_method'),
+          "trustee" => variable_get('cdx_node_token_email'),
+          "ip" => $ip,
+          "subjectData" => 'userId=' . strtoupper($user_id) . '&amp;ip=' . $ip,
+          "subject" => 'tbd=tbd',
+          "issuer" => "EEP",
+          "tokenType" => 'csm',
+        );
+        $token_generation = createNewToken($client, $params_for_creation);
+        if (!$token_generation['error']) {
+          $token = $token_generation['token'];
+          // expire the cache every 15 minutes
+          $expire_ts = time() + (15 * 60);
+          module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+          cache_set($cache_key, $token, 'cache', $expire_ts);
+        }
+      }
+    }
+  }
+
+  if (!isset($token)) {
+    // If token failed, just send to deep link handoff.
+    // They will have to login the first time.
+    drupal_goto($hand_off_url);
+  } else {
+    $sso_token_param = "token=" . $token . "&remoteIpAddress=" . $ip;
+    // UTF-16LE and base64 encoding are required by
+    // the cdx NaasToken silent handoff.
+    $sso_token_param = mb_convert_encoding($sso_token_param, 'UTF-16LE');
+    $sso_token_param = base64_encode($sso_token_param);
+    $sso_url = $cdx_root_path . '/SilentHandoff/NaasTokenSSO?ssoToken=' . $sso_token_param . '&returnUrl=' . urlencode($hand_off_url);
+    drupal_goto($sso_url);
+  }
 }
