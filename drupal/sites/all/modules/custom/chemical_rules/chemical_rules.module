@@ -9,8 +9,8 @@ function chemical_rules_menu() {
     'page callback' => 'chemical_rules_form_submission',
     'access callback' => TRUE,
   );
-  $items['chemical_rules/process_settings'] = array(
-    'page callback' => 'process_settings',
+  $items['chemical_rules/process_user_settings'] = array(
+    'page callback' => 'process_user_settings',
     'access callback' => TRUE,
   );
   return $items;
@@ -106,9 +106,9 @@ function chemical_rules_block_view($delta = '') {
       // Set Form Modal Template
       global $user;
       $user_data = user_load($user->uid);
-      $user_chemical_rules_settings = json_decode($user_data->field_chemical_rules_settings);
+      $user_chem_rules_user_settings = json_decode($user_data->field_chem_rules_user_settings);
       $chemical_modal = theme('chemical_rules_modal');
-      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chemical_rules_settings]), 'setting');
+      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings]), 'setting');
 
       $block['subject'] = t('Chemical Laws &amp; Regulations');
       $block['content'] = theme('chemical_rules');
@@ -177,7 +177,7 @@ function template_preprocess_chemical_rules_modal(&$variables, $hook) {
 
 }
 
-function process_settings() {
+function process_user_settings() {
 
   $response = [
     'error' => false,
@@ -190,7 +190,7 @@ function process_settings() {
     global $user;
     $user_data = user_load($user->uid);
     $response['data'] = [
-      'field_chemical_rules_settings' => $_POST['chemical_rules_settings']
+      'field_chem_rules_user_settings' => $_POST['chemical_rules_settings']
     ];
 
     // save existing user
