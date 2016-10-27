@@ -533,7 +533,7 @@ else
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
-      'override_title_text' => 'Chemical Rules and Regulations',
+      'override_title_text' => 'Chemical Laws and Regulations',
       'override_title_heading' => 'h2',
     );
     $pane->cache = array();
