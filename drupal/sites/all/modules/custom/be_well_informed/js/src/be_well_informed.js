@@ -419,7 +419,7 @@ function resetBWIForm() {
 
             $('.contaminant-link').click(function(){
               var $this = $(this)
-              $('#' + $this.attr('data-contaminant')).slideToggle()
+              $('[id=' + $this.attr('data-contaminant') + ']', $(this).parents('td')).slideToggle()
             })
             showElementOutOfMany($results_wrapper, $all_wrappers);
           }
@@ -430,7 +430,6 @@ function resetBWIForm() {
         resizeModal();
       }
     });
-
   });
 
   /**
