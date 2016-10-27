@@ -1,0 +1,345 @@
+<?php
+
+/**
+ * Implements hook_block_info().
+ */
+function to_do_block_info() {
+  $blocks = array();
+  $blocks['to_do'] = array(
+    'info' => t('Progress Tracker Block'),
+  );
+  return $blocks;
+}
+
+
+/**
+ * Implements hook_theme().
+ * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
+ */
+function to_do_theme() {
+  return array(
+    // Name to be called with theme(). theme('to_do')
+    'to_do' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use my-cdx.tpl.php
+      'template' => 'progress-tracker',
+      'path' => drupal_get_path('module', 'to_do') . '/templates'
+    ),
+    'to_do_modal' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use my-cdx.tpl.php
+      'template' => 'my-cdx-modal',
+      'path' => drupal_get_path('module', 'to_do') . '/templates'
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function to_do_block_view($delta = '') {
+  $block = array();
+
+  if ($delta == 'to_do') {
+    drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");
+    drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
+      'scope' => 'footer',
+      'preprocess' => TRUE,
+      'group' => JS_LIBRARY,
+      'type' => 'file',
+      'cache' => TRUE,
+      'requires_jquery' => TRUE
+    ]);
+    drupal_add_js(drupal_get_path('module', 'to_do') . '/js/to_do.js', [
+      'scope' => 'footer',
+      'preprocess' => TRUE,
+      'group' => JS_LIBRARY,
+      'type' => 'file',
+      'cache' => TRUE,
+      'requires_jquery' => TRUE
+    ]);
+    drupal_add_css(drupal_get_path('module', 'to_do') . '/css/to_do.css', [
+      'preprocess' => TRUE,
+      'group' => CSS_THEME
+    ]);
+
+
+    if (user_access('access content')) { //good idea to check user perms here
+      $block['subject'] = t('App Connect');
+      $block['content'] = theme('to_do');
+      return $block;
+    }
+  }
+
+  return $block;
+}
+
+/**
+ * Load the json and pass it to the progress tracker datatable
+ * this is a menu item function
+ */
+function load_to_do_datatable_json() {
+
+  // get progress tracker  data
+
+  // Format into datatable json
+
+}
+
+
+/**
+ * Grab the progress tracker data from cache or EACTIVITY
+ * @param $user
+ */
+function get_to_do_data($user) {
+
+  // First check cache
+
+  // If expired or no data in cache, reload data
+}
+
+/**
+ * load progress tracker from EACTIVITY
+ */
+function load_eactivity_data() {
+
+  global $user;
+  $eactivity_data = array();
+
+
+  // Connect to EACTIVITY
+  $wsdl = variable_get('eactivity_auth_reg_wsdl');
+  $client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
+
+  if ($client->error) {
+    return array("error" => true, "msg" => $client->msg);
+  }
+
+  $client = $client->client;
+  $params1 = array(
+    "userId" => variable_get('eactivity_auth_reg_username'),
+    "credential" => variable_get('eactivity_auth_reg_password'),
+    "domain" => variable_get('eactivity_auth_reg_domain'),
+    "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
+  );
+  $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
+
+  if ($response1->error) {
+    return array("error" => true, "msg" => $response1->msg);
+  }
+
+  $response1 = $response1->response;
+  // Adding local wsdl configurations
+  $local = variable_get('eactivity_dataflow_local');
+  $wsdl = variable_get('eactivity_dataflow_wsdl');
+  if ($local) {
+    $client2 = connectToSOAPServerWithWSDL(dirname(__FILE__) . '/' . $wsdl, "Eenterprise Bridge Auth");
+  } else {
+    $client2 = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
+  }
+
+  if ($client2->error) {
+    return array("error" => true, "msg" => $client2->msg);
+  }
+
+  $client2 = $client2->client;
+
+  //Extract out "_Via_CDX" string from $user->name to pull to-do and progress tracker from the Activity Data flow
+  $cdx_username = $user->name;
+  $cdx_pos = strrpos($cdx_username, "_Via_");
+  if ($cdx_pos !== FALSE) {
+    $cdx_username = substr($cdx_username, 0, $cdx_pos);
+  }
+
+
+  //For the following parameter, use $cdx_username, which does not have _Via_CDX at the end, instead of $user_name
+  $params2 = array(
+    "securityToken" => $response1->securityToken,
+    "dataflow" => "E-ACTIVITY",
+    "request" => "GetByUser",
+    "rowId" => 0,
+    "maxRows" => -1,
+    "parameters" => array("_" => strtoupper($cdx_username), "parameterEncoding" => "None", "parameterName" => "user"),
+  );
+  $resp = callSOAPWithParams($client2, "Query", $params2, "Eenterprise Bridge Auth");
+
+  if ($resp->error) {
+    return array("error" => true, "msg" => $resp->msg);
+  }
+
+  $resp = $resp->response;
+  $resp = $resp->results->any;
+  $resp = simplexml_load_string($resp);
+
+  // Load progress tracker data
+
+  foreach ($resp->children('http://www.exchangenetwork.net/schema/eact/1') as $activity) {
+
+    $res = array("EActivityId" => (string)$activity->EActivityId,
+      "PartnerSystemId" => (string)$activity->PartnerSystemId,
+      "PartnerExternalId" => (string)$activity->PartnerExternalId,
+      "PartnerSystemReportType" => (string)$activity->PartnerSystemReportType,
+      "ActivityType" => (string)$activity->ActivityType,
+      "ActivityDesc" => (string)$activity->ActivityDesc,
+      "ActivityCreateDate" => (string)$activity->ActivityCreateDate,
+      "ActivitySourceURL" => (string)$activity->ActivitySourceURL,
+      "ActivityExpirationDate" => (string)$activity->ActivityExpirationDate,
+      "Status" => (string)$activity->Status,
+      "StatusNote" => (string)$activity->StatusNote,
+      "StatusUpdateDate" => (string)$activity->StatusUpdateDate,
+      "UserId" => (string)$activity->UserId,
+      "RoleId" => (string)$activity->RoleId,
+      "RoleIdSubject" => (string)$activity->RoleIdSubject,
+      "Attributes" => (string)$activity->Attributes,);
+    foreach ($activity->Attributes->Attribute as $child) {
+      if ((string)($child->attributes()) == 'facilityName') {
+        $res['FacilityName'] = $child->__toString();
+      } else if ((string)($child->attributes()) == 'partCode') {
+        $res['partCode'] = $child->__toString();
+      } else if ((string)($child->attributes()) == 'partName') {
+        $res['partName'] = $child->__toString();
+      } else if ((string)($child->attributes()) == 'subPartCode') {
+        $res['subPartCode'] = $child->__toString();
+      } else if ((string)($child->attributes()) == 'subPartName') {
+        $res['subPartName'] = $child->__toString();
+      } else if ((string)($child->attributes()) == 'facilityRegistryIdentifier') {
+        $res['facilityRegistryIdentifier'] = $child->__toString();
+      }
+    }
+    $i = 0;
+    foreach ($activity->Documents->Document as $child) {
+      $res['Documents'][$i]['id'] = $child->Id->__toString();
+      $res['Documents'][$i]['name'] = 'sites/default/files/' . $child->Name->__toString();
+      $res['Documents'][$i]['typeId'] = $child->TypeId->__toString();
+      $res['Documents'][$i]['size'] = $child->Size->__toString();
+      $res['Documents'][$i]['createDate'] = $child->CreateDate->__toString();
+      $res['Documents'][$i]['transactionId'] = $child->TransactionId->__toString();
+      $i++;
+
+      $param_attch_type = array("_" => $child->Id->__toString(),
+        "contentType" => array($child->TypeId->__toString()));
+      $param_doc_id = $child->Id->__toString();
+
+      $param_doc = array(
+        "documentName" => $child->Name->__toString(),
+        "documentFormat" => array($child->TypeId->__toString()),
+        "documentContent" => $param_attch_type,
+        "documentId" => $param_doc_id,
+      );
+
+      $param_dl1 = array(
+        "securityToken" => $response1->securityToken,
+        "dataflow" => "E-ACTIVITY",
+        "transactionId" => $child->TransactionId->__toString(),
+        "documents" => $param_doc,
+      );
+      $resp_dl = callSOAPWithParams($client2, "Download", $param_dl1, "Eenterprise Bridge Auth");
+      if (!$resp_dl->error) {
+        $resp_dl = $resp_dl->response;
+        $INPUT = $resp_dl->documents->documentContent->_;
+        $file = 'sites/default/files/' . $child->Name->__toString();
+        file_put_contents($file, $INPUT);
+      }
+    }
+
+    //86,400 is number of seconds in 24 hours, extend expiration date by 24 hours.
+    $expiration_date = strtotime($res['ActivityExpirationDate']) + 86400;
+    $curr_date = strtotime(date("Y-m-d H:i:s"));
+    //do not create a node if its expiration date is already passed
+    if (($expiration_date - $curr_date) > 0) {
+      $title = $res['ActivityDesc'];
+      $activity_type = $res['ActivityType'];
+      if ($activity_type == 'TRACKER') {
+
+        $eactivity_id = $res['EActivityId'];
+        $res_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
+
+        $res_domain = $res['PartnerSystemId'];
+        if (strpos($res['PartnerSystemId'], 'lead') !== false) {
+          $res_domain = "Lead";
+        } else if (strpos($res['PartnerSystemId'], 'cedri') !== false) {
+          $res_domain = "CEDRI";
+        }
+
+        if ($res_domain == 'Lead') {
+          $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
+          $status_note = $res['StatusNote'];
+        } else if ($res_domain == 'CEDRI') {
+          $exp_date = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+        }
+        $res_action = '';
+        if ($res_domain == 'Lead') {
+          foreach ($res['Documents'] as $ky => $vl) {
+            if (strpos($vl['name'], 'Receipt') !== false) {
+              $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Receipt</a>";
+            }
+            if (strpos($vl['name'], 'Certificate') !== false) {
+              $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Certificate</a>";
+            }
+            if (strpos($vl['name'], 'Logo') !== false) {
+              $res_action .= "<a href='/" . $vl['name'] . "' target='_blank'>View Logo</a>";
+            }
+          }
+          if (empty($res_action)) {
+            $res_action = "N/A";
+          }
+        } else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI') {
+          $res_action .= "<a href='/cdx_sso_handoff?handoff_data=" . parse_cdx_handoff_data($res['ActivitySourceURL']) . "' target='_blank'>View Submission</a>";
+        }
+
+
+        if ($res_domain == "Lead") {
+          $date_type = 'Status Changed Date';
+        } else if ($res_domain == "CEDRI") {
+          $date_type = 'Publish Date';
+          $facility_name = $res['FacilityName'];
+          $part_code = $res['partCode'];
+          $part_name = $res['partName'];
+          $sub_part_code = $res['subPartCode'];
+          $sub_part_name = $res['subPartName'];
+          $facility_reg_id = $res['facilityRegistryIdentifier'];
+        }
+      } else if ($activity_type == 'TASK') {
+
+        $eactivity_id = $res['EActivityId'];
+
+        $todo_lst_item = $res['ActivityDesc'];
+
+        $res_domain = $res['PartnerSystemId'];
+        if (strpos($res['PartnerSystemId'], 'lead') !== false) {
+          $res_domain = "Lead";
+        }
+        if (strpos($res['PartnerSystemId'], 'cedri') !== false) {
+          $res_domain = "CEDRI";
+        }
+
+        $st_due = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+
+        $facility_name['und'][0]['value'] = $res['FacilityName'];
+
+        $part_code['und'][0]['value'] = $res['partCode'];
+
+        $part_name['und'][0]['value'] = $res['partName'];
+
+        $sub_part_code['und'][0]['value'] = $res['subPartCode'];
+
+        $part_name['und'][0]['value'] = $res['subPartName'];
+
+        $facility_reg_id['und'][0]['value'] = $res['facilityRegistryIdentifier'];
+
+        $activ_source_url['und'][0]['value'] = "/cdx_sso_handoff?handoff_data=" . parse_cdx_handoff_data($res['ActivitySourceURL']);
+      }
+
+      if (!isset($eactivity_data[$activity_type])) {
+        $eactivity_data[$activity_type] = array($res_domain => array());
+      }
+
+
+    }
+  }
+
+  return $eactivity_data;
+}
+
