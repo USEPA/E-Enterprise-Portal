@@ -175,7 +175,7 @@ function load_eactivity_data($module_caller) {
         $eactivity_id = $res['EActivityId'];
         $eactivity_item = [];
         $eactivity_item['title'] = $res['ActivityDesc'];
-        $eactivity_item['date'] = date("M/D/Y", $expiration_date);
+        $eactivity_item['date'] = date("m/d/Y", $expiration_date);
         $activity_type = $res['ActivityType'];
         if ($activity_type === 'TRACKER') {
           $res_status = ($res['Status'] == 'IN_PROGRESS') ? 'In Progress' : ucwords(strtolower($res['Status']));
@@ -230,6 +230,7 @@ function load_eactivity_data($module_caller) {
               'sub_part_code' => $res['subPartCode'],
               'sub_part_name' => $res['subPartName'],
               'facility_registry' => $res['facilityRegistryIdentifier'],
+              'partner_system_report_type' => $res['PartnerSystemReportType'],
             );
           }
 

@@ -1,12 +1,5 @@
-<!--<div id="progress-tracker-tabs" class="view-content">-->
-<!--  <ul>-->
-<!--    <li>-->
-<!--      <a class="favorites-ignore" href="#my-cdx">-->
-<!--        US EPA-->
-<!--      </a>-->
-<!--    </li>-->
-<!--  </ul>-->
-<!--  <div id="my-cdx">-->
+
+<div id="progress-tracker-modal-content"></div>
 <div id="progress-tracker">
     <div class="datatable">
       <table class="usa-table-borderless">
@@ -26,7 +19,3 @@
       </table>
     </div>
   </div>
-<!--  </div>-->
-<!--</div>-->
-
-<!--<div id="my-cdx-modal-content" class="cdx-user-role-modal"></div>-->

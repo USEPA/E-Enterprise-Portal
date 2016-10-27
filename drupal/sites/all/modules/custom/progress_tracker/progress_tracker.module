@@ -40,11 +40,11 @@ function progress_tracker_theme() {
       'template' => 'progress-tracker',
       'path' => drupal_get_path('module', 'progress_tracker') . '/templates'
     ),
-    'progress_tracker_modal' => array(
+    'pt_status_modal' => array(
       // Default variables
       'variables' => array(),
       // Which .tpl.php file to use my-cdx.tpl.php
-      'template' => 'my-cdx-modal',
+      'template' => 'progress-tracker-status-modal',
       'path' => drupal_get_path('module', 'progress_tracker') . '/templates'
     ),
   );
@@ -80,6 +80,11 @@ function progress_tracker_block_view($delta = '') {
 
 
     if (user_access('access content')) { //good idea to check user perms here
+      // Set Modal Template
+      $status_details_html = theme('pt_status_modal');
+      drupal_add_js(array("progressTrackerStatusModal" => $status_details_html), 'setting');
+
+
       $block['subject'] = t('Progress Tracker');
       $block['content'] = theme('progress_tracker');
       return $block;
@@ -103,11 +108,38 @@ function load_progress_tracker_datatable_json() {
   $progress_tracker_data = load_eactivity_data('progress_tracker');
 
   foreach($progress_tracker_data as $id=>$eactivity_item) {
+
+    if ($eactivity_item['domain'] === "CEDRI") {
+
+      $cedri_details = $eactivity_item['cedri_details'];
+      $parenthesis_index = strpos($eactivity_item['title'], ')');
+      $subheading = substr($eactivity_item['title'], $parenthesis_index+1);
+
+      $title = "<span class='report-name'>" .
+        $cedri_details['partner_system_report_type'] . " (" .
+        $cedri_details['part_code'] . ", " . $cedri_details['sub_part_code'] . ") " .
+        "</span><span class='subpart-name'>$subheading</span>" .
+        "<span class='item-subscript-text'>" . $cedri_details['facility_name'] . "</span>";
+
+      $status_note = $cedri_details['part_code'] . " - " . $cedri_details['part_name'] .
+          "<br /> " . $cedri_details['sub_part_code'] . " - " . $cedri_details['sub_part_name'];
+    } else {
+      $title = $eactivity_item['title'];
+      $status_note = $eactivity_item['status_note'];
+    }
+
+    $status_anchor =
+      "<a class='favorites-ignore pt-status'" .
+      "data-title='" . $eactivity_item['title'] . "'" .
+      "data-status-note='" . $status_note . "'" .
+      ">" . $eactivity_item['status'] . "</a>";
+
+
     $eactivity_dt_row = [
       "", // Empty to allow for datatables to have index column
-      $eactivity_item['title'],
+      $title,
       $eactivity_item['domain'],
-//      "<a class='favorites-ignore'>"$eactivity_item['status'],
+      $status_anchor,
       $eactivity_item['date'],
       $eactivity_item['actions']
       ];
