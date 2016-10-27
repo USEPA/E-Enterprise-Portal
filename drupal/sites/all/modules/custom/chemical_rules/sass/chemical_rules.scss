@@ -71,10 +71,8 @@ $white:                 #fff;
         background-color: $color_highlight_blue;
         font-size: 1.5rem;
         font-weight: bold;
-        margin-top: 0px;
+        margin: 5px -10px 0;
         padding: 5px 10px;
-        margin-left: -10px;
-        margin-right: -10px;
     }
     p {
       margin-top: 0;
@@ -140,6 +138,19 @@ $white:                 #fff;
             border-bottom: 1px solid $color-gray-lightest;
             line-height: 1.2;
             padding-bottom: 10px;
+            span.law-citation {
+                display: block;
+                font-color: $color-gray-dark;
+                font-size: 1rem;
+            }
+        }
+    }
+    #cr-laws-regs-substances {
+        .cr-lists {
+            li {
+              padding-bottom:5px;
+              border-bottom: none;
+            }
         }
     }
     .cr-modal-actions {
