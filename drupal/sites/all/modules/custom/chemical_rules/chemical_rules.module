@@ -20,7 +20,7 @@ function chemical_rules_menu() {
 function chemical_rules_block_info() {
   $blocks = array();
   $blocks['chemical_rules'] = array(
-    'info' => t('Block Chemical Rules and Regulations'),
+    'info' => t('Block Chemical Laws and Regulations'),
   );
   return $blocks;
 }
@@ -155,7 +155,7 @@ function chemical_rules_form_submission() {
 }
 
 function sample_chemical_rules_response() {
-  $path = drupal_get_path('module', 'chemical_rules') . '/sample-data.json';
+  $path = drupal_get_path('module', 'chemical_rules') . '/data.json';
   $sample = file_get_contents($path);
   return json_decode($sample);
 }
