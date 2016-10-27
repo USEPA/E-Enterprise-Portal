@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Implements hook_menu().
  */
@@ -10,9 +9,12 @@ function chemical_rules_menu() {
     'page callback' => 'chemical_rules_form_submission',
     'access callback' => TRUE,
   );
+  $items['chemical_rules/process_user_settings'] = array(
+    'page callback' => 'process_user_settings',
+    'access callback' => TRUE,
+  );
   return $items;
 }
-
 
 /**
  * Implements hook_block_info().
@@ -20,7 +22,7 @@ function chemical_rules_menu() {
 function chemical_rules_block_info() {
   $blocks = array();
   $blocks['chemical_rules'] = array(
-    'info' => t('Block Chemical Rules and Regulations'),
+    'info' => t('Block Chemical Laws and Regulations'),
   );
   return $blocks;
 }
@@ -102,8 +104,11 @@ function chemical_rules_block_view($delta = '') {
         'group' => CSS_THEME
       ]);
       // Set Form Modal Template
+      global $user;
+      $user_data = user_load($user->uid);
+      $user_chem_rules_user_settings = json_decode($user_data->field_chem_rules_user_settings);
       $chemical_modal = theme('chemical_rules_modal');
-      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal]), 'setting');
+      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings]), 'setting');
 
       $block['subject'] = t('Chemical Laws &amp; Regulations');
       $block['content'] = theme('chemical_rules');
@@ -155,7 +160,7 @@ function chemical_rules_form_submission() {
 }
 
 function sample_chemical_rules_response() {
-  $path = drupal_get_path('module', 'chemical_rules') . '/sample-data.json';
+  $path = drupal_get_path('module', 'chemical_rules') . '/data.json';
   $sample = file_get_contents($path);
   return json_decode($sample);
 }
@@ -170,5 +175,107 @@ function chemical_rules_process_response($response, $init = []) {
  */
 function template_preprocess_chemical_rules_modal(&$variables, $hook) {
 
+}
 
+function process_user_settings() {
+
+  $response = [
+    'error' => false,
+    'error-messages' => [],
+    'data'=> null,
+  ];
+
+  if(isset($_POST['chemical_rules_settings'])) {
+
+    global $user;
+    $user_data = user_load($user->uid);
+    $response['data'] = [
+      'field_chem_rules_user_settings' => $_POST['chemical_rules_settings']
+    ];
+
+    // save existing user
+    if(!user_save($user_data,  $response['data'])) {
+      $response['error'] = true;
+      $response['error-messages'][] = 'There was a problem while trying to save';
+    }
+  }
+  else {
+    $response['error'] = true;
+    $response['error-messages'][] = 'Missing chemical_rules_settings value in the post data';
+  }
+  echo json_encode($response);
+}
+function is_valid_cas_number($stringToCheck) {
+  $cas = '/(\d{2,7}).{0,2}(\d{2}).{0,2}(\d)+/';
+  $casGroup = [];
+  if(preg_match_all($cas, $stringToCheck, $casGroup)){
+    $casBase = str_split($casGroup[1][0] . $casGroup[2][0]);
+    $length = count($casBase);
+    $sumCheck = 0;
+    for($i = $length - 1; $i >= 0; $i--){
+      $sumCheck += $casBase[$i] * ($length - $i);
+    }
+    return ($casGroup[3][0] == ($sumCheck % 10));
+  }
+  return false;
+}
+function strip_prefix_from_array($array, $prefix){
+  $stripped = [];
+
+  foreach ($array as $key => $item)
+  {
+    $stripped[str_ireplace($prefix, '', $key)] = (gettype($item) == 'array')? strip_prefix_from_array($item, $prefix) : $item;
+  }
+  return $stripped;
+}
+function xmlstr_to_array($xmlstr) {
+  $doc = new DOMDocument();
+  $doc->loadXML($xmlstr);
+  $root = $doc->documentElement;
+  $output = domnode_to_array($root);
+  $output['@root'] = $root->tagName;
+  return $output;
+}
+function domnode_to_array($node) {
+  $output = array();
+  switch ($node->nodeType) {
+    case XML_CDATA_SECTION_NODE:
+    case XML_TEXT_NODE:
+      $output = trim($node->textContent);
+      break;
+    case XML_ELEMENT_NODE:
+      for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
+        $child = $node->childNodes->item($i);
+        $v = domnode_to_array($child);
+        if(isset($child->tagName)) {
+          $t = $child->tagName;
+          if(!isset($output[$t])) {
+            $output[$t] = array();
+          }
+          $output[$t][] = $v;
+        }
+        elseif($v || $v === '0') {
+          $output = (string) $v;
+        }
+      }
+      if($node->attributes->length && !is_array($output)) { //Has attributes but isn't an array
+        $output = array('@content'=>$output); //Change output into an array.
+      }
+      if(is_array($output)) {
+        if($node->attributes->length) {
+          $a = array();
+          foreach($node->attributes as $attrName => $attrNode) {
+            $a[$attrName] = (string) $attrNode->value;
+          }
+          $output['@attributes'] = $a;
+        }
+        foreach ($output as $t => $v) {
+          if(is_array($v) && count($v)==1 && $t!='@attributes') {
+            $output[$t] = $v[0];
+          }
+        }
+      }
+      break;
+  }
+  return $output;
 }

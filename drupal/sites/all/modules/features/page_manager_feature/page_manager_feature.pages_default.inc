@@ -524,6 +524,32 @@ else
     $pane->uuid = 'b25d7660-677c-45f5-b075-cd1150af3868';
     $display->content['new-b25d7660-677c-45f5-b075-cd1150af3868'] = $pane;
     $display->panels['middle'][12] = 'new-b25d7660-677c-45f5-b075-cd1150af3868';
+    $pane = new stdClass();
+    $pane->pid = 'new-7faac2ef-3681-4023-975b-3557e3587bac';
+    $pane->panel = 'middle';
+    $pane->type = 'block';
+    $pane->subtype = 'chemical_rules-chemical_rules';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'Chemical Laws and Regulations',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'grid-stack-item-content',
+    );
+    $pane->extras = array();
+    $pane->position = 13;
+    $pane->locks = array();
+    $pane->uuid = '7faac2ef-3681-4023-975b-3557e3587bac';
+    $display->content['new-7faac2ef-3681-4023-975b-3557e3587bac'] = $pane;
+    $display->panels['middle'][13] = 'new-7faac2ef-3681-4023-975b-3557e3587bac';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
