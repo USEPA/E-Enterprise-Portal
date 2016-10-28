@@ -34,6 +34,12 @@ $white:                 #fff;
     @include linear-gradient(rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .15) 100%);
 }
 
+.cr-favorites,
+.cr-laws {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
 #cr-search {
     #cr-search_field {
         width: 60%;
@@ -116,13 +122,16 @@ $white:                 #fff;
         margin-bottom: 0.5rem;
     }
     .favorite-chemical, 
-    .favorite-chemical-remove {
+    .favorite-chemical-remove,
+    .favorite-law {
         display: inline-block;
     }
-    .favorite-chemical {
+    .favorite-chemical,
+    .favorite-law {
         margin-right: 10px;
     }
-    .favorite-chemical-remove {
+    .favorite-chemical-remove,
+    .favorite-law-remove {
         padding-left: 24px;
         background: transparent url('../images/fa-times-circle.png') 0 50% no-repeat;
         font-size: 1.2rem;

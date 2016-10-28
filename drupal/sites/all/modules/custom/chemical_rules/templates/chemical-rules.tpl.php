@@ -29,9 +29,12 @@
       </div><!-- @end cr-tabs_favorites_empty -->
       <div class="cr-tabs_favorites_available">
         <! -- @TODO - List favorites -->
-        <ul class="cr-lists cr-tabs_favorites-list">
-          <li><a class="favorite-chemical" href="#" data-epachemintnum="9999" data-systematicname="Acetone">67-64-1:  Acetone</a><a class="favorite-chemical-remove remove-link">Remove</a></li> 
-        </ul>      
+        <p class="cr-favorites"><span id="cr-count-chemicals"></span> Chemicals</p>
+        <ul class="cr-lists cr-favorite-chemicals">
+        </ul>   
+        <p class="cr-laws"><span id="cr-count-laws"></span> Laws / Regulations</p>
+        <ul class="cr-lists cr-favorite-laws">
+        </ul>
       </div><!-- @end cr-tabs_favorites_empty -->
     </div><!-- @end cr-tabs_favorites -->
     <!-- @TAB: Search -->    
