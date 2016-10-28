@@ -191,10 +191,12 @@ function load_eactivity_data($module_caller) {
 
 
           if ($res_domain == 'Lead') {
-            $st_update = date("Y-m-d H:i:s", strtotime($res['StatusUpdateDate']));
+            $eactivity_item["date"] = date("m/d/Y", strtotime($res['StatusUpdateDate']));
             $eactivity_item["status_note"] = $res['StatusNote'];
+            $eactivity_item["date_note"] = "Status Changed Date";
           } else if ($res_domain == 'CEDRI') {
-            $eactivity_item["exp_date"] = date("Y-m-d H:i:s", strtotime($res['ActivityExpirationDate']));
+            $eactivity_item["date"] = date("m/d/Y", strtotime($res['ActivityExpirationDate']));
+            $eactivity_item['date_note'] = "Publish Date";
           }
 
           $res_action = '';
@@ -221,6 +223,8 @@ function load_eactivity_data($module_caller) {
 
           if ($res_domain == "Lead") {
             $eactivity_item['date_type'] = 'Status Changed Date';
+            $title_parts = explode('/', $eactivity_item['title']);
+            $eactivity_item['report_type'] = trim($title_parts[0]) . ' ' . trim($title_parts[1]);
           } else if ($res_domain == "CEDRI") {
             $eactivity_item['date_type'] = 'Publish Date';
             $eactivity_item["cedri_details"] = array(
@@ -272,7 +276,7 @@ function load_eactivity_data($module_caller) {
       }
     }
 
-    $expire_ts = time() +  (20 * 60);
+    $expire_ts = time() +  (60 * 60);
     cache_set($cache_key, $eactivity_data, 'cache', $expire_ts);
   }
 
