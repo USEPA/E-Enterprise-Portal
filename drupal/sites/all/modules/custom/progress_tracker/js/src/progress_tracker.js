@@ -1,4 +1,3 @@
-
 (function($) {
 
   function openDetailsDialog($anchor_elem) {
@@ -6,6 +5,7 @@
     var domain = $anchor_elem.data('domain');
     var title = $anchor_elem.data('title');
     var status = $anchor_elem.text();
+
     if (domain === "CEDRI") {
 
     } else {
@@ -14,18 +14,28 @@
     }
     var modal_html = ""
     var $modal_content = $('#progress-tracker-modal-content').html(Drupal.settings.progressTrackerStatusModal);
+
+    $modal_content.find('.pt-title').html(title);
     $modal_content.find('.pt-status-note').html(status_note);
     $modal_content.find('.pt-status').html(status);
     $modal_content.dialog({
-        dialogClass: 'progress-tracker-modal-content',
-        title: 'Details for ' + title,
-        autoOpen: true
-      });
+      dialogClass: 'progress-tracker-modal-content',
+      title: 'Details for ' + title,
+      width: "auto",
+      height: "auto",
+      autoOpen: true,
+      close: function() {
+        //$(this).dialog('destroy').remove()
+      }
+    });
   }
 
 
   var $table_wrapper = $('#progress-tracker').find('table');
   $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
+  //$.fn.dataTableExt.oStdClasses.sPaging = "eportal-pager ";
+  $.fn.dataTableExt.oStdClasses.sTable = "eportal-datatable";
+
   // If the datatables loading has an error gracefully handle with a message
   $.fn.dataTable.ext.errMode = function(settings, helpPage, message) {
     $('#progress-tracker').find('.dataTables_empty').html("Unable to connect to service.");
@@ -46,14 +56,17 @@
   };
   var datatable_options = {
     "ajax": Drupal.settings.basePath + 'progress_tracker/load_data',
-    "dom": 'tip',
+    "dom": 'tp',
     "bLengthChange": false,
-    "iDisplayLength": 5,
+    "iDisplayLength": 3,
     "columnDefs": [
-      { "targets": [0], "searchable": false, "orderable": false, "visible": true }
+      {"targets": [0, -3], "searchable": false, "orderable": false},
+      {"targets": [-1, -2], "visible": false},
+      {"targets": [1], "width": "150px"},
+      {"targets": [0], className: "skinny-col"}
 
     ],
-    "bAutoWidth": false,
+    "autoWidth": false,
     "pagingType": "simple",
     "fnDrawCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
       var pageInfo = this.fnPagingInfo();
@@ -70,16 +83,34 @@
     },
     fnInitComplete: function() {
       //Initialize YADCF
-      console.log("INITIALIZING----");
-      yadcf.init(this, [
-        {
-          column_number: 3,
-          filter_type: 'multi_select',
-          //filter_container_selector: '#' + wrapperParentId + ' .source.facet',
-          filter_match_mode: 'contains',
-          filter_reset_button_text: false,
-          text_data_delimiter: '|'
-        }]);
+      // Overriding datatable class to allow Eportal's custom datatable styling
+      yadcf.init($table_wrapper.DataTable(), [
+          {
+            column_number: 2,
+            filter_match_mode: 'contains',
+            filter_reset_button_text: false,
+            filter_container_id: "yadcf-filter-domain",
+            filter_default_label: "- Any -"
+          },
+          {
+            column_number: 6,
+            filter_match_mode: 'contains',
+            filter_reset_button_text: false,
+            filter_container_id: "yadcf-filter-report-type",
+            filter_default_label: "- Any -"
+          },
+          {
+            column_number: 7,
+            filter_match_mode: 'contains',
+            filter_reset_button_text: false,
+            filter_container_id: "yadcf-filter-part-code",
+            filter_default_label: "- Any -"
+          }
+
+        ]
+      );
+
+      $('#yadcf-filter-domain').show();
     }
   };
 
@@ -93,6 +124,19 @@
 
   $('#progress-tracker').on('click', '.pt-status', function() {
     openDetailsDialog($(this));
+  });
+
+  $('#yadcf-filter-domain').on('change', 'select', function() {
+    var selected_domain = $(this).val().toLowerCase();
+    var $part_code_select = $('#yadcf-filter-part-code');
+    var $report_type_select = $('#yadcf-filter-report-type');
+    $part_code_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+    $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+    if (selected_domain === "cedri") {
+      $part_code_select.show();
+    } else if (selected_domain === "lead") {
+      $report_type_select.show();
+    }
   });
 
 

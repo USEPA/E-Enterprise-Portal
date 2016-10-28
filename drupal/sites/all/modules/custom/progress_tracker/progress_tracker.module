@@ -65,6 +65,16 @@ function progress_tracker_block_view($delta = '') {
       'cache' => TRUE,
       'requires_jquery' => TRUE
     ]);
+
+    drupal_add_js(libraries_get_path('yadcf') . '/0.9.0.beta.5/jquery.dataTables.yadcf.js', [
+      'scope' => 'footer',
+      'preprocess' => TRUE,
+      'group' => JS_LIBRARY,
+      'type' => 'file',
+      'cache' => TRUE,
+      'requires_jquery' => TRUE
+    ]);
+
     drupal_add_js(drupal_get_path('module', 'progress_tracker') . '/js/progress_tracker.js', [
       'scope' => 'footer',
       'preprocess' => TRUE,
@@ -108,7 +118,8 @@ function load_progress_tracker_datatable_json() {
   $progress_tracker_data = load_eactivity_data('progress_tracker');
 
   foreach($progress_tracker_data as $id=>$eactivity_item) {
-
+    $part_code = "";
+    $report_type = "";
     if ($eactivity_item['domain'] === "CEDRI") {
 
       $cedri_details = $eactivity_item['cedri_details'];
@@ -123,9 +134,12 @@ function load_progress_tracker_datatable_json() {
 
       $status_note = $cedri_details['part_code'] . " - " . $cedri_details['part_name'] .
           "<br /> " . $cedri_details['sub_part_code'] . " - " . $cedri_details['sub_part_name'];
+
+      $part_code = $cedri_details['part_code'];
     } else {
       $title = $eactivity_item['title'];
       $status_note = $eactivity_item['status_note'];
+      $report_type = $eactivity_item['report_type'];
     }
 
     $status_anchor =
@@ -140,8 +154,10 @@ function load_progress_tracker_datatable_json() {
       $title,
       $eactivity_item['domain'],
       $status_anchor,
-      $eactivity_item['date'],
-      $eactivity_item['actions']
+      "<span class='date-display-single'>" . $eactivity_item['date'] . "</span><span class='date-subscript-text'>" . $eactivity_item['date_note'] . "</span>",
+      $eactivity_item['actions'],
+      $report_type,
+      $part_code,
       ];
 
     $eactivity_dt_json[] = $eactivity_dt_row;

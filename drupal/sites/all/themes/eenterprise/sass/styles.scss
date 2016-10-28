@@ -95,7 +95,6 @@
 
 }
 
-
 .text-right {
     text-align: right;
 }
@@ -234,7 +233,6 @@
         }
     }
 }
-
 
 // Menus -------------- //
 
@@ -390,7 +388,39 @@ footer {
 #local-resources-tabs,
 .view-state-resource-editor,
 .view-resource-editor,
-.pane-my-cdx-my-cdx {
+.pane-my-cdx-my-cdx,
+.eportal-data-table {
+
+    th:not(.no-sort) {
+        span {
+            cursor: pointer;
+            color: #0071bc;
+        }
+    }
+
+    td {
+        a {
+            display: block;
+        }
+    }
+
+    .skinny-col {
+        padding: 0;
+        margin: 0;
+        width: 5px;
+    }
+    .sorting_asc, .sorting_desc {
+        background-repeat: no-repeat;
+        background-position: center right;
+    }
+
+    .sorting_asc:not(.no-sort) {
+        background-image: url("../images/sort_asc.png");
+    }
+    .sorting_desc:not(.no-sort) {
+        background-image: url("../images/sort_desc.png");
+    }
+
     ul.paging_simple_numbers,
     ul.paging_simple {
         margin-top: 0;
@@ -456,6 +486,7 @@ footer {
             font-size: 1.4rem;
         }
     }
+
 }
 
 // Pagers for workbench panes
@@ -768,7 +799,7 @@ header {
                             font-size: 2.5rem;
                             font-style: italic;
                             margin-top: 0;
-                        }                      
+                        }
                     }
                 }
                 > li {
@@ -1025,8 +1056,10 @@ header {
 
 .pane-content {
     .view-to-do,
-    .view-progress-tracker {
+    .view-progress-tracker,
+    .filter-select {
         select {
+            width: auto;
             padding-right: 2.5rem;
             background-position: right 0.75rem center;
         }
@@ -1112,7 +1145,7 @@ header {
     .views-field-field-todo-lst-domain,
     .views-field-field-prog-tracker-app,
     .views-field-field-prog-track-domain,
-    .be-well-results-first-column{
+    .be-well-results-first-column {
         display: block;
     }
 
@@ -1120,7 +1153,7 @@ header {
     td.views-field-field-todo-lst-domain,
     td.views-field-field-prog-tracker-app,
     td.views-field-field-prog-track-domain,
-    td.be-well-results-first-column{
+    td.be-well-results-first-column {
         text-align: left;
     }
 
@@ -1194,7 +1227,7 @@ header {
     .views-field-field-todo-lst-domain,
     .views-field-field-prog-tracker-app,
     .views-field-field-prog-track-domain,
-    .be-well-results-first-column{
+    .be-well-results-first-column {
         display: table-cell;
     }
 }
@@ -1241,6 +1274,7 @@ span.item-subscript-text,
 a.simple-dialog {
     margin-top: 10px;
     text-transform: uppercase;
+    font-size: 1rem;
 }
 
 th.views-field-counter,
@@ -1256,6 +1290,10 @@ td.views-field-field-todo-lst-due {
 .views-field-field-prog-track-updated .date-subscript-text,
 .views-field-field-prog-tracker-app .item-subscript-text,
 .view-to-do .date-subscript-text {
+    font-size: 1rem;
+}
+
+.item-subscript-text {
     font-size: 1rem;
 }
 
@@ -2295,10 +2333,10 @@ form .field-multiple-table#field-zip-code-values {
 /* Help question mark source: Font Awesome by Dave Gandy - http://fontawesome.io */
 .about-widget {
     display: block;
-    position: absolute; 
-    right: 30px; 
-    top: 26px; 
-    font-size: 0; 
+    position: absolute;
+    right: 30px;
+    top: 26px;
+    font-size: 0;
     text-decoration: none;
 }
 
@@ -2310,7 +2348,7 @@ form .field-multiple-table#field-zip-code-values {
         }
         button {
             top: 1em;
-        }        
+        }
     }
 }
 
@@ -2567,8 +2605,7 @@ input[type="submit"]:not(.usa-button-outline),
             }
             td.views-field-field-prog-tracker-app,
             td.views-field-field-todo-lst-item,
-            td.be-well-results-first-column
-            {
+            td.be-well-results-first-column {
                 background-color: $color-gray-lightest;
                 border-left: 1px solid $color-gray-light;
                 border-right: 1px solid $color-gray-light;
@@ -2602,28 +2639,48 @@ input[type="submit"]:not(.usa-button-outline),
     }
 }
 
-/** Sorting images (up and down arrows) **/
-table.dataTable, table.views-table {
-
-    thead {
-        .sorting {
-            background-image: url("../images/sort_both.png");
-        }
-        .sorting, .sorting_asc, .sorting_desc, .sorting_asc_disabled, .sorting_desc_disabled {
-            background-repeat: no-repeat;
-            background-position: center right;
-        }
-        .sorting, .sorting_asc, .sorting_desc {
+.eportal-datatable {
+    table {
+        th:not(.no-sort) {
+            color: #0071bc;
             cursor: pointer;
         }
-        .sorting_asc {
-            background-image: url("../images/sort_asc.png");
-        }
-        .sorting_desc {
-            background-image: url("../images/sort_desc.png");
+        td {
+            a {
+                cursor: pointer;
+            }
         }
     }
 }
+
+.filter-select {
+    float: left;
+    margin-right: 4%;
+}
+
+//
+///** Sorting images (up and down arrows) **/
+//table.dataTable, table.views-table {
+//
+//    thead th:not(.no-sort) {
+//        .sorting {
+//            background-image: url("../images/sort_both.png");
+//        }
+//        .sorting, .sorting_asc, .sorting_desc, .sorting_asc_disabled, .sorting_desc_disabled {
+//            background-repeat: no-repeat;
+//            background-position: center right;
+//        }
+//        .sorting, .sorting_asc, .sorting_desc {
+//            cursor: pointer;
+//        }
+//        .sorting_asc {
+//            background-image: url("../images/sort_asc.png");
+//        }
+//        .sorting_desc {
+//            background-image: url("../images/sort_desc.png");
+//        }
+//    }
+//}
 
 // iPhone, some Android Portrait @ 320px, iphone 6 @ 375px -------------- //
 
@@ -2817,7 +2874,7 @@ table.dataTable, table.views-table {
 @media screen and (min-width: 20em) and (max-width: 60em) {
     .view-progress-tracker,
     .view-to-do,
-    .be-well-informed-modal{
+    .be-well-informed-modal {
         .responsive-table {
             thead {
                 display: none;
@@ -2864,7 +2921,7 @@ table.dataTable, table.views-table {
     #modalContent {
         position: fixed !important;
     }
-    #other-areas-tabs{
+    #other-areas-tabs {
         .responsive-table {
             thead {
                 display: none;
@@ -3098,7 +3155,7 @@ table.dataTable, table.views-table {
 
     .view-progress-tracker,
     .view-to-do,
-    .be-well-informed-modal{
+    .be-well-informed-modal {
         .responsive-table {
             caption {
                 font-size: 1.5em;
@@ -3140,7 +3197,7 @@ table.dataTable, table.views-table {
                 }
                 td.views-field-field-prog-tracker-app,
                 td.views-field-field-todo-lst-item,
-                td.be-well-results-first-column{
+                td.be-well-results-first-column {
                     background-color: transparent;
                     border-left: none;
                     border-right: none;
@@ -4247,7 +4304,7 @@ select[multiple="multiple"] {
     outline: 1px solid red;
 }
 
-.beta-ribbon:after{
+.beta-ribbon:after {
     content: "beta";
     position: absolute;
     width: 80px;
@@ -4262,7 +4319,7 @@ select[multiple="multiple"] {
     font-weight: bold;
     color: #fff;
     line-height: 27px;
-    -ms-transform:rotate(-45deg);
-    -webkit-transform:rotate(-45deg);
-    transform:rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
