@@ -28,7 +28,7 @@
     var $table_wrapper = $('#progress-tracker').find('table');
     $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
     //$.fn.dataTableExt.oStdClasses.sPaging = "eportal-pager ";
-    $.fn.dataTableExt.oStdClasses.sTable = "eportal-datatable";
+    $.fn.dataTableExt.oStdClasses.sTable = "eportal-datatable eportal-responsive-table";
 
     // If the datatables loading has an error gracefully handle with a message
     $.fn.dataTable.ext.errMode = function(settings, helpPage, message) {
@@ -56,15 +56,23 @@
       "iDisplayLength": 3,
       "columnDefs": [
         {"targets": [0, -3], "searchable": false, "orderable": false},
-        // Hide last three rows (timestamp, part code, report type)
+        // Hide last part code, and report type columns
         {"targets": [-1, -2], "visible": false},
-        {"targets": [1], "width": "150px"},
-        {"targets": [0], className: "skinny-col"}
-        // Sort date based off timestamp column
-        //{"targets": [4], "orderData": [6]}
+        {"targets": [2], className:"text-left"},
+        {"targets": [1], "width": "150px", className:"small-screen-td-header text-left"},
+        {"targets": [0], className: "skinny-col hidden-for-small-screen" }
       ],
       "autoWidth": false,
       "pagingType": "simple",
+      "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+        // Add data-titles for each column, Using Attribute to be picked up by CSS
+        $('td:eq(2)', nRow).attr('data-title', "Domain");
+        $('td:eq(3)', nRow).attr('data-title', "Status");
+        $('td:eq(4)', nRow).attr('data-title', "Date");
+        $('td:eq(5)', nRow).attr('data-title', "Actions");
+
+
+      },
       "fnDrawCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
         var pageInfo = this.fnPagingInfo();
         var pageNo = pageInfo.iPage + 1;

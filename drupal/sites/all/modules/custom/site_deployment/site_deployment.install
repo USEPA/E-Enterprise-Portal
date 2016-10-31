@@ -84,6 +84,7 @@ function site_deployment_update_7008(&$sandbox) {
   }
 
   if ($sandbox['current'] === 7) {
+    module_enable(['to_do', 'progress_tracker']);
     drupal_flush_all_caches();
     drupal_set_message("Caches have been cleared.");
   }
