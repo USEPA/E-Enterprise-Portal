@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Progress Tracker View feature.
+ */
+
+include_once 'progress_tracker_view.features.inc';

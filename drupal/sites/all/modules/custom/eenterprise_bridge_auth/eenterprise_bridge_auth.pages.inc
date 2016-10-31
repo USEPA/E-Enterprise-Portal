@@ -813,7 +813,7 @@ function eenterprise_bridge_auth_logout() {
   }
   $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?bridge=1';
   if ($_SESSION['is_timeout']) {
-    $wreply .= '&timeout=1';
+    $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?timeout=1';
   }
   global $user;
   if (isset($_SESSION['form_origin_btn']) && $_SESSION['form_origin_btn'] == 'Delete profile') {

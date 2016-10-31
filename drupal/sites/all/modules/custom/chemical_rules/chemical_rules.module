@@ -1,0 +1,281 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function chemical_rules_menu() {
+  $items = array();
+  $items['chemical_rules/form_submission'] = array(
+    'page callback' => 'chemical_rules_form_submission',
+    'access callback' => TRUE,
+  );
+  $items['chemical_rules/process_user_settings'] = array(
+    'page callback' => 'process_user_settings',
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function chemical_rules_block_info() {
+  $blocks = array();
+  $blocks['chemical_rules'] = array(
+    'info' => t('Block Chemical Laws and Regulations'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_theme().
+ * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
+ */
+function chemical_rules_theme() {
+  return array(
+    // Name to be called with theme(). theme('chemical_rules')
+    'chemical_rules' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use chemical-rules.tpl.php
+      'template' => 'chemical-rules',
+      'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
+    ),
+    'chemical_rules_modal' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use chemical-rules-modal.tpl.php
+      'template' => 'chemical-rules-modal',
+      'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function chemical_rules_block_view($delta = '') {
+  $block = array();
+  if ($delta == 'chemical_rules') {
+    //good idea to check user perms here
+    if (user_access('access content')) {
+      drupal_add_js(libraries_get_path('css-element-queries') . '/ElementQueries.min.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      drupal_add_js(libraries_get_path('css-element-queries') . '/ResizeSensor.min.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/chemical_rules.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_DEFAULT,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      //If installed in own installation, include jQuery Tabs JS
+      //drupal_add_js("sites/all/libraries/jqueryui/ui/minified/jquery.ui.tabs.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+      
+      drupal_add_css("sites/all/libraries/jqueryui/themes/base/minified/jquery.ui.tabs.min.css", [
+        'scope'=>'footer', 
+        'preprocess'=>true, 
+        'group'=>CSS_DEFAULT
+      ]);
+      drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/toc.min.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_DEFAULT,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);      
+      drupal_add_css(drupal_get_path('module', 'chemical_rules') . '/css/chemical_rules.css', [
+        'preprocess' => TRUE,
+        'group' => CSS_THEME
+      ]);
+      // Set Form Modal Template
+      global $user;
+      $user_data = user_load($user->uid);
+      $user_chem_rules_user_settings = json_decode($user_data->field_chem_rules_user_settings);
+      $chemical_modal = theme('chemical_rules_modal');
+      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings]), 'setting');
+
+      $block['subject'] = t('Chemical Laws &amp; Regulations');
+      $block['content'] = theme('chemical_rules');
+      return $block;
+    }
+  }
+  return $block;
+}
+
+/**
+ * Take users POST input and handoff to sample data or SRS / LRS / LOD service
+ */
+function chemical_rules_form_submission() {
+  if (!isset($_POST) || count($_POST) === 0) {
+    drupal_json_output(array(
+      'error' => TRUE,
+      'message' => 'Failed to receive any data.'
+    ));
+    return;
+  }
+
+  $response = array();
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+  if (true || feature_toggle_get_status('chemical_rules_sample_data')) {
+    $response['data'] = sample_chemical_rules_response();
+    $response['error'] = FALSE;
+  }
+  else {
+    // Still waiting for endpoint for our data needs
+    /*$endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|Acetone";
+    $headers = array('Content-Type' => 'application/json');
+    $response = drupal_http_request($endpoint, [
+      "headers" => $headers,
+      "method" => "POST",
+      'timeout' => "10",
+      'data' => json_encode($_POST)
+    ]);
+    if ($response->code !== "200") {
+      $response['error'] = TRUE;
+    }
+    else {
+      $formatted_data = chemical_rules_process_response($response->data);
+      $response['data'] = $formatted_data;
+      $response['error'] = FALSE;
+    }*/
+  }
+
+  drupal_json_output($response);
+}
+
+function sample_chemical_rules_response() {
+  $path = drupal_get_path('module', 'chemical_rules') . '/data.json';
+  $sample = file_get_contents($path);
+  return json_decode($sample);
+}
+
+
+function chemical_rules_process_response($response, $init = []) {
+
+}
+
+/**
+ * Implements template_preprocess_hook for chemical-rules-modal.tpl.php.
+ */
+function template_preprocess_chemical_rules_modal(&$variables, $hook) {
+
+}
+
+function process_user_settings() {
+
+  $response = [
+    'error' => false,
+    'error-messages' => [],
+    'data'=> null,
+  ];
+
+  if(isset($_POST['chemical_rules_settings'])) {
+
+    global $user;
+    $user_data = user_load($user->uid);
+    $response['data'] = [
+      'field_chem_rules_user_settings' => $_POST['chemical_rules_settings']
+    ];
+
+    // save existing user
+    if(!user_save($user_data,  $response['data'])) {
+      $response['error'] = true;
+      $response['error-messages'][] = 'There was a problem while trying to save';
+    }
+  }
+  else {
+    $response['error'] = true;
+    $response['error-messages'][] = 'Missing chemical_rules_settings value in the post data';
+  }
+  echo json_encode($response);
+}
+function is_valid_cas_number($stringToCheck) {
+  $cas = '/(\d{2,7}).{0,2}(\d{2}).{0,2}(\d)+/';
+  $casGroup = [];
+  if(preg_match_all($cas, $stringToCheck, $casGroup)){
+    $casBase = str_split($casGroup[1][0] . $casGroup[2][0]);
+    $length = count($casBase);
+    $sumCheck = 0;
+    for($i = $length - 1; $i >= 0; $i--){
+      $sumCheck += $casBase[$i] * ($length - $i);
+    }
+    return ($casGroup[3][0] == ($sumCheck % 10));
+  }
+  return false;
+}
+function strip_prefix_from_array($array, $prefix){
+  $stripped = [];
+
+  foreach ($array as $key => $item)
+  {
+    $stripped[str_ireplace($prefix, '', $key)] = (gettype($item) == 'array')? strip_prefix_from_array($item, $prefix) : $item;
+  }
+  return $stripped;
+}
+function xmlstr_to_array($xmlstr) {
+  $doc = new DOMDocument();
+  $doc->loadXML($xmlstr);
+  $root = $doc->documentElement;
+  $output = domnode_to_array($root);
+  $output['@root'] = $root->tagName;
+  return $output;
+}
+function domnode_to_array($node) {
+  $output = array();
+  switch ($node->nodeType) {
+    case XML_CDATA_SECTION_NODE:
+    case XML_TEXT_NODE:
+      $output = trim($node->textContent);
+      break;
+    case XML_ELEMENT_NODE:
+      for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
+        $child = $node->childNodes->item($i);
+        $v = domnode_to_array($child);
+        if(isset($child->tagName)) {
+          $t = $child->tagName;
+          if(!isset($output[$t])) {
+            $output[$t] = array();
+          }
+          $output[$t][] = $v;
+        }
+        elseif($v || $v === '0') {
+          $output = (string) $v;
+        }
+      }
+      if($node->attributes->length && !is_array($output)) { //Has attributes but isn't an array
+        $output = array('@content'=>$output); //Change output into an array.
+      }
+      if(is_array($output)) {
+        if($node->attributes->length) {
+          $a = array();
+          foreach($node->attributes as $attrName => $attrNode) {
+            $a[$attrName] = (string) $attrNode->value;
+          }
+          $output['@attributes'] = $a;
+        }
+        foreach ($output as $t => $v) {
+          if(is_array($v) && count($v)==1 && $t!='@attributes') {
+            $output[$t] = $v[0];
+          }
+        }
+      }
+      break;
+  }
+  return $output;
+}

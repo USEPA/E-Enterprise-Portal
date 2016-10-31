@@ -1,0 +1,276 @@
+{
+   "error":false,
+   "error-messages":[
+
+   ],
+   "data":{
+      "Substance":{
+         "EPAChemicalInternalNumber":"4309",
+         "CASRegistryNumber":"67-64-1",
+         "ChemicalSubstanceSystematicName":"2-Propanone",
+         "EPAChemicalRegistryName":"Acetone",
+         "EPAChemicalIdentifier":null,
+         "ChemicalSubstanceDefinitionText":null,
+         "ChemicalSubstanceCommentText":null,
+         "MolecularFormulaCode":"C3H6O",
+         "ChemicalSubstanceFormulaWeightQuantity":"58.08",
+         "ChemicalSubstanceLinearStructureCode":"O=C(C)C",
+         "InternationalChemicalIdentifier":null,
+         "FormerCASRegistryNumberList":null,
+         "IncorrectlyUsedCASRegistryNumberList":null,
+         "ClassificationList":null,
+         "TechnicalPointOfContact":null,
+         "SubstanceRequestor":null,
+         "SubstanceCreateDate":"2006-10-13 14:30:12.0",
+         "SubstanceLastUpdateDate":"2012-02-01 14:37:36.0",
+         "SubstanceStatus":"A",
+         "MolecularWeight":"58.08 g\/mol",
+         "Solubility":"Miscible with water",
+         "VaporPressure":"231 mm Hg at 25 deg C",
+         "LogP":"log Kow = -0.24",
+         "Stability":"Stable under recommended storage conditions.",
+         "pKA":"20",
+         "Synonym":[
+            "2-propanone",
+            "acetone",
+            "acetone, dry weight",
+            "acetone, in waste",
+            "dimethyl ketone",
+            "dimethylketone",
+            "methyl ketone",
+            "residual acetone"
+         ]
+      },
+      "SubstanceList":{
+         "TSCA Inventory":{
+            "substanceListName":"TSCA Inventory",
+            "substanceListId":"169",
+            "substanceListAcronym":"TSCA Inv",
+            "cfrs":[
+               "3882851",
+               "3882912"
+            ]
+         },
+         "Standards of Performance for New Stationary Sources of Air Pollutants - Equipment Leaks Chemical List":{
+            "substanceListName":"Standards of Performance for New Stationary Sources of Air Pollutants - Equipment Leaks Chemical List",
+            "substanceListId":"164",
+            "substanceListAcronym":"CAA 111",
+            "cfrs":[
+               "3848048"
+            ]
+         },
+         "Inert Ingredients in Pesticide Products":{
+            "substanceListName":"Inert Ingredients in Pesticide Products",
+            "substanceListId":"173",
+            "substanceListAcronym":"FIFRA-Inerts",
+            "cfrs":[
+               "3874283",
+               "3874781"
+            ]
+         },
+         "Hazardous Discarded Commercial Chemical Products":{
+            "substanceListName":"Hazardous Discarded Commercial Chemical Products",
+            "substanceListId":"106",
+            "substanceListAcronym":"RCRA U Waste",
+            "cfrs":[
+               "3876748"
+            ]
+         },
+         "Toxics Release Inventory Program System":{
+            "substanceListName":"Toxics Release Inventory Program System",
+            "substanceListId":"77",
+            "substanceListAcronym":"TRIPS",
+            "cfrs":[
+               "3878641"
+            ]
+         },
+         "Hazardous Wastes From Non-Specific Sources":{
+            "substanceListName":"Hazardous Wastes From Non-Specific Sources",
+            "substanceListId":"140",
+            "substanceListAcronym":"RCRA F Waste",
+            "cfrs":[
+               "3876748"
+            ]
+         },
+         "Safe Drinking Water Information System in Envirofacts":{
+            "substanceListName":"Safe Drinking Water Information System in Envirofacts",
+            "substanceListId":"122",
+            "substanceListAcronym":"SDWIS-Enviro",
+            "cfrs":[
+               "3873417"
+            ]
+         },
+         "Organic Hazardous Air Pollutants National Emission Standards":{
+            "substanceListName":"Organic Hazardous Air Pollutants National Emission Standards",
+            "substanceListId":"180",
+            "substanceListAcronym":"CAA112(b) HON",
+            "cfrs":[
+               "3851643"
+            ]
+         },
+         "Emergency Planning and Community Right-to-Know Act Section 313":{
+            "substanceListName":"Emergency Planning and Community Right-to-Know Act Section 313",
+            "substanceListId":"107",
+            "substanceListAcronym":"EPCRA 313",
+            "cfrs":[
+               "2979866",
+               "3878641"
+            ]
+         }
+      },
+      "LawsRegs":{
+         "3882851":{
+            "cfrName":"CFR-2015-title40-vol31-part711",
+            "cfrId":"3882851",
+            "attributes":{
+               "USC Citation":"15 U.S.C. 2607(a)",
+               "CFR Authority":"15 U.S.C. 2607(a).",
+               "Granule Label":"part",
+               "Heading":"Part 711",
+               "CFR Source":"76 FR 54933, Sept. 6, 2011, unless otherwise noted.",
+               "URL":"https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol31\/pdf\/CFR-2015-title40-vol31-part711.pdf",
+               "Citation":"40 CFR 711",
+               "Title":"TSCA CHEMICAL DATA REPORTING REQUIREMENTS",
+               "FR Citation":"76 FR 50859; 76 FR 54933"
+            }
+         },
+         "3882912":{
+            "cfrName":"CFR-2015-title40-vol31-part720",
+            "cfrId":"3882912",
+            "attributes":{
+               "USC Citation":"15 U.S.C. 2604; 15 U.S.C. 2607; 15 U.S.C. 2613",
+               "CFR Authority":"15 U.S.C. 2604, 2607, and 2613.",
+               "Granule Label":"part",
+               "Heading":"Part 720",
+               "CFR Source":"48 FR 21742, May 13, 1983, unless otherwise noted.",
+               "URL":"https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol31\/pdf\/CFR-2015-title40-vol31-part720.pdf",
+               "Citation":"40 CFR 720",
+               "Title":"PREMANUFACTURE NOTIFICATION",
+               "FR Citation":"48 FR 21742"
+            }
+         },
+         "3848048":{
+            "cfrName":"CFR-2015-title40-vol7-part60",
+            "cfrId":"3848048",
+            "attributes":{
+               "USC Citation":"42 U.S.C. 7401et seq.",
+               "CFR Authority":"42 U.S.C. 7401 et seq.",
+               "Granule Label":"part",
+               "Heading":"Part 60",
+               "CFR Source":"36 FR 24877, Dec. 23, 1971, unless otherwise noted.",
+               "URL":"http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol7\/pdf\/CFR-2015-title40-vol7-part60.pdf",
+               "Citation":"40 CFR 60",
+               "Title":"STANDARDS OF PERFORMANCE FOR NEW STATIONARY SOURCES",
+               "FR Citation":"36 FR. 24877"
+            }
+         },
+         "3874283":{
+            "cfrName":"CFR-2015-title40-vol24-part152",
+            "cfrId":"3874283",
+            "attributes":{
+               "USC Citation":"7 U.S.C. 136-136y; 31 U.S.C. 9701",
+               "CFR Authority":"7 U.S.C. 136-136y; Subpart U is also issued under 31 U.S.C. 9701.",
+               "Granule Label":"part",
+               "Heading":"Part 152",
+               "URL":"http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol24\/pdf\/CFR-2015-title40-vol24-part152.pdf",
+               "Citation":"40 CFR 152",
+               "Title":"PESTICIDE REGISTRATION AND CLASSIFICATION PROCEDURES"
+            }
+         },
+         "3874781":{
+            "cfrName":"CFR-2015-title40-vol24-part168",
+            "cfrId":"3874781",
+            "attributes":{
+               "USC Citation":"7 U.S.C. 136-136y",
+               "CFR Authority":"7 U.S.C. 136-136y.",
+               "Granule Label":"part",
+               "Heading":"Part 168",
+               "CFR Source":"54 FR 1125, Jan. 11, 1989, unless otherwise noted.",
+               "URL":"http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol24\/pdf\/CFR-2015-title40-vol24-part168.pdf",
+               "Citation":"40 CFR 168",
+               "Title":"STATEMENTS OF ENFORCEMENT POLICIES AND INTERPRETATIONS",
+               "FR Citation":"54 FR. 1125"
+            }
+         },
+         "3876748":{
+            "cfrName":"CFR-2015-title40-vol26-part261",
+            "cfrId":"3876748",
+            "attributes":{
+               "USC Citation":"42 U.S.C. 6905; 42 U.S.C. 6912(a); 42 U.S.C. 6921; 42 U.S.C. 6922; 42 U.S.C. 6924(y); 42 U.S.C. 6938",
+               "CFR Authority":"42 U.S.C. 6905, 6912(a), 6921, 6922, 6924(y) and 6938.",
+               "Granule Label":"part",
+               "Heading":"Part 261",
+               "CFR Source":"45 FR 33119, May 19, 1980, unless otherwise noted.",
+               "URL":"https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol26\/pdf\/CFR-2015-title40-vol26-part261.pdf",
+               "Citation":"40 CFR 261",
+               "Title":"IDENTIFICATION AND LISTING OF HAZARDOUS WASTE",
+               "FR Citation":"45 FR 33119"
+            }
+         },
+         "3878641":{
+            "cfrName":"CFR-2015-title40-vol28-part372",
+            "cfrId":"3878641",
+            "attributes":{
+               "USC Citation":"42 U.S.C. 11023; 42 U.S.C. 11048",
+               "CFR Authority":"42 U.S.C. 11023 and 11048.",
+               "Granule Label":"part",
+               "Heading":"Part 372",
+               "CFR Source":"53 FR 4525, Feb. 16, 1988, unless otherwise noted.",
+               "URL":"http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol28\/pdf\/CFR-2015-title40-vol28-part372.pdf",
+               "Citation":"40 CFR 372",
+               "Title":"TOXIC CHEMICAL RELEASE REPORTING: COMMUNITY RIGHT-TO-KNOW",
+               "FR Citation":"53 FR. 4525"
+            }
+         },
+         "3873417":{
+            "cfrName":"CFR-2015-title40-vol23-part141",
+            "cfrId":"3873417",
+            "attributes":{
+               "USC Citation":"42 U.S.C. 300f; 42 U.S.C. 300g-1; 42 U.S.C. 300g-2; 42 U.S.C. 300g-3; 42 U.S.C. 300g-4; 42 U.S.C. 300g-5; 42 U.S.C. 300g-6; 42 U.S.C. 300j-11; 42 U.S.C. 300j-4; 42 U.S.C. 300j-9",
+               "CFR Authority":"42 U.S.C. 300f, 300g-1, 300g-2, 300g-3, 300g-4, 300g-5, 300g-6, 300j-4, 300j-9, and 300j-11.",
+               "Granule Label":"part",
+               "Heading":"Part 141",
+               "CFR Source":"40 FR 59570, Dec. 24, 1975, unless otherwise noted.",
+               "URL":"https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol23\/pdf\/CFR-2015-title40-vol23-part141.pdf",
+               "Citation":"40 CFR 141",
+               "Title":"NATIONAL PRIMARY DRINKING WATER REGULATIONS",
+               "FR Citation":"40 FR 59570; 44 FR 68641; 69 FR 18803"
+            }
+         },
+         "3851643":{
+            "cfrName":"CFR-2015-title40-vol10-part63",
+            "cfrId":"3851643",
+            "attributes":{
+               "USC Citation":"42 U.S.C. 7401et seq.",
+               "CFR Authority":"42 U.S.C. 7401 et seq.",
+               "CFR Citation":"40 CFR Part 63",
+               "Granule Label":"part",
+               "Heading":"Part 63",
+               "CFR Source":"57 FR 61992, Dec. 29, 1992, unless otherwise noted.",
+               "URL":"http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol10\/pdf\/CFR-2015-title40-vol10-part63.pdf",
+               "Citation":"40 CFR 63",
+               "Title":"NATIONAL EMISSION STANDARDS FOR HAZARDOUS AIR POLLUTANTS FOR SOURCE CATEGORIES",
+               "FR Citation":"57 FR. 61992"
+            }
+         },
+         "2979866":{
+            "cfrName":"CFR-2013-title40-vol29-part372",
+            "cfrId":"2979866",
+            "attributes":{
+               "USC Citation":"42 U.S.C. 11023; 42 U.S.C. 11048",
+               "CFR Authority":"42 U.S.C. 11023 and 11048.",
+               "Granule Label":"part",
+               "Heading":"Part 372",
+               "CFR Source":"53 FR 4525, Feb. 16, 1988, unless otherwise noted.",
+               "URL":"http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2013-title40-vol29\/pdf\/CFR-2013-title40-vol29-part372.pdf",
+               "Citation":"40 CFR 372",
+               "Title":"TOXIC CHEMICAL RELEASE REPORTING: COMMUNITY RIGHT-TO-KNOW",
+               "FR Citation":"53 FR 4525"
+            }
+         }
+      }
+   },
+   "msg":[
+      "LRS endpoint response: php_network_getaddresses: getaddrinfo failed: The requested name is valid, but no data of the requested type was found."
+   ]
+}

@@ -76,7 +76,7 @@
    * @param zipCentLon
    */
   function createIframe(zipCentLat, zipCentLon) {
-    var iFrameURL = "https://map11.epa.gov/myem/envmapEEP/mainmap.html?pTheme=all&pLayers=afs,triair,triwater,rcra,tsca&ve=11," + zipCentLat + "," + zipCentLon;
+    var iFrameURL = "https://map11.epa.gov/myem/envmap/mainmap.html?pTheme=all&pLayers=afs,triair,triwater,rcra,tsca&ve=11," + zipCentLat + "," + zipCentLon;
     //Create Iframe
     var $iframe = $('<iframe>', {
       src: iFrameURL,

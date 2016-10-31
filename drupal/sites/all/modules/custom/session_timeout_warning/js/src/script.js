@@ -63,7 +63,9 @@ var isLoggedOut = false;
         };
 
         // click handlers for logging out and renewing the session
-        $sessionTimeoutModal.on('click', '.logout', instantLogout);
+        $sessionTimeoutModal.on('click', '.logout', function() {
+          window.location.href = Drupal.settings.basePath + 'user/logout';
+        });
         $sessionTimeoutModal.on('click', '.renew', function() {
           // reset the clock
           var now = Math.floor(Date.now() / 1000);
