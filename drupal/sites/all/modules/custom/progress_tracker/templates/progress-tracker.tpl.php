@@ -24,6 +24,7 @@
           <th><span>Status</span></th>
           <th><span>Date</span></th>
           <th class="no-sort">Actions</th>
+<!--          <th><span>Timestamp</span></th>-->
           <th><span>Part Code</span></th>
           <th><span>Report Type</span></th>
         </tr>

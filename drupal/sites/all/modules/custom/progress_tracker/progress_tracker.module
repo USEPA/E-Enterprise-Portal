@@ -154,7 +154,7 @@ function load_progress_tracker_datatable_json() {
       $title,
       $eactivity_item['domain'],
       $status_anchor,
-      "<span class='date-display-single'>" . $eactivity_item['date'] . "</span><span class='date-subscript-text'>" . $eactivity_item['date_note'] . "</span>",
+      "<span data-order='" . strtotime($eactivity_item['date']) . "' class='date-display-single'>" . $eactivity_item['date'] . "</span><span class='date-subscript-text'>" . $eactivity_item['date_note'] . "</span>",
       $eactivity_item['actions'],
       $report_type,
       $part_code,

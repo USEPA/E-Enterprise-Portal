@@ -1,7 +1,7 @@
 name = Chemical Laws and Regulations Content Types and View
 description = Chemical Search, User Favorite Chemicals, User Favorite Laws content types and related views for Chemical Laws and Regulations
 core = 7.x
-package = CGI
+package = CGI Features
 version = 7.x-1.0
 dependencies[] = content_types_may_20_2015
 dependencies[] = date
