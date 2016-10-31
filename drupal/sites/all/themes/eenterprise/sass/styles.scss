@@ -944,9 +944,8 @@ header {
 // Hide dialogs on first load -------------- //
 
 .page-workbench {
-    .ui-dialog,
-    div[role="dialog"]:not(.fsrFloatingContainer) {
-        display: none;
+    .hidden-at-start {
+        visibility: hidden;
     }
     .locations-modal.ui-dialog {
         max-width: 80%;
