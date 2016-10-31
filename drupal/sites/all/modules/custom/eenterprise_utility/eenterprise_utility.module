@@ -1362,7 +1362,7 @@ function get_modal_data($locations) {
   $primary_radio_zip = $header_data['primary_zip']; // Reset if found
   print "<a id='locations-modal' href='#'>View all favorite cities</a>";
   print "<div id='dialog-all-locations' class='ui-dialog' title='Set location'>";
-  print "<fieldset class='radio-options-holder'>";
+  print "<fieldset class='radio-options-holder hidden-at-start'>";
   foreach ($locations as $name => $zips) {
     foreach ($zips as $zip) {
       $name = trim($name);
