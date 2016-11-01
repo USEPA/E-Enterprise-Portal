@@ -29,7 +29,7 @@
       </div><!-- @end cr-tabs_favorites_empty -->
       <div class="cr-tabs_favorites_available">
         <! -- @TODO - List favorites -->
-        <p class="cr-favorites"><span id="cr-count-chemicals"></span> Chemicals</p>
+        <p class="cr-chemicals"><span id="cr-count-chemicals"></span> Chemicals</p>
         <ul class="cr-lists cr-favorite-chemicals">
         </ul>   
         <p class="cr-laws"><span id="cr-count-laws"></span> Laws / Regulations</p>

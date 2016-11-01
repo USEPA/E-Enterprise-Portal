@@ -6,8 +6,8 @@
   <div id="chemical-rules-results-wrapper"
        class="chemical-rules-modal-wrapper">
     <ul class="cr-modal-actions">
-      <li><a id="cr-save-favorite" class="save-favorite" href="javascript:void(0)" data-chemicalid="">Save to My Chemicals</a></li>
-      <li><a id="cr-remove-favorite" class="remove-favorite" href="javascript:void(0)" data-chemicalid="">Remove from Favorites</a></li>
+      <li><a id="cr-save-favorite" class="save-favorite" href="javascript:void(0)" data-epaintnum="" data-favtype="Chemical" data-commonname="" data-sysname="" data-casnum="">Save to My Chemicals</a></li>
+      <li><a id="cr-remove-favorite" class="remove-favorite remove-link" href="javascript:void(0)" data-epaintnum="" data-favtype="Chemical">Remove from Favorites</a></li>
       <li><a class="cr-future">Save as PDF</a></li>
       <li><a class="cr-future">Share This</a></li>
     </ul>
