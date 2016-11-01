@@ -11,8 +11,8 @@ function to_do_menu() {
     'access callback' => TRUE,
   );
 
-  $items['progress_tracker/load_data/%'] = array(
-    'page callback' => 'load_progress_tracker_datatable_json',
+  $items['to_do/load_data/%'] = array(
+    'page callback' => 'load_to_do_datatable_json',
     'access callback' => TRUE,
     'page arguments' => array(2),
   );
