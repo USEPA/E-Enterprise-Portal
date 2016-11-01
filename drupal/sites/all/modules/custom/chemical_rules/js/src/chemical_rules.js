@@ -434,7 +434,22 @@ function update_favorite_lists(type) {
   
       //@TODO - Add Logic to find favorite chemical by SRS ID in Drupal and then remove from user's favorites
       //chemical_rules/process_user_settings
-  /*
+      /*
+      // updated sample for saving chem profile
+      $.ajax({
+        method: "POST",
+        url: Drupal.settings.basePath + "chemical_rules/update_chem_profile",
+        dataType: 'json',
+        data: {
+          profile: favs
+        },
+      }).done(function() {
+        console.log('done', arguments)
+      }).fail(function() {
+        console.log('fail', arguments)
+      });
+
+
       $.ajax({
         url: 'chemical_rules/process_user_settings',
         method: 'POST',

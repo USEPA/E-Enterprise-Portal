@@ -5,10 +5,11 @@
  */
 function chemical_rules_enable() {
   // Check if our field is not already created.
-  /*if (!field_info_field('field_chem_rules_user_settings')) {
+  if (!field_info_field('field_chem_rules_user_settings')) {
     $field = array(
       'field_name' => 'field_chem_rules_user_settings',
       'type' => 'longtext',
+      'default_value' => '{}',
     );
     field_create_field($field);
 
@@ -19,7 +20,7 @@ function chemical_rules_enable() {
       'label' => 'Chemical Rules User Settings',
       'bundle' => 'user',
       // If you don't set the "required" property then the field wont be required by default.
-      'required' => TRUE,
+      'required' => FALSE,
       'settings' => array(
         // Here you inform either or not you want this field showing up on the registration form.
         'user_register_form' => 0,
@@ -31,5 +32,5 @@ function chemical_rules_enable() {
       'default_value' => '{}',
     );
     field_create_instance($instance);
-  }*/
+  }
 }
