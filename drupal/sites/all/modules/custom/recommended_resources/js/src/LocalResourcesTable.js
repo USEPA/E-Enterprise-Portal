@@ -170,6 +170,9 @@ var LocalResourcesTable;
           $table = $table_wrapper.find('table');
           if ($table.length > 0) {
             var tableDT = $table.DataTable(datatable_options);
+            tableDT.columns().iterator('column', function (ctx, idx) {
+              $(tableDT.column(idx).header()).append('<span class="sort-icon" />');
+            });
             $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
 
             // in embedded_lgc_topics_view.js
