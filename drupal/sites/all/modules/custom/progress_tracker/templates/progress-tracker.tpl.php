@@ -1,3 +1,6 @@
+<span id="refresh-progress-tracker" class="refresh"><span class="sr-only">Refresh Progress Tracker</span><i class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh Progress Tracker"></i></span>
+
+
 <div class="filter-select" id="yadcf-filter-domain">
   <label for="edit-field-prog-track-domain-value">
     Domain

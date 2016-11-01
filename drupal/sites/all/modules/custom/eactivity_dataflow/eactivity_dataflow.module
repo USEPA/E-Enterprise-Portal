@@ -10,8 +10,11 @@ function parse_cdx_handoff_data($cdx_deep_link_handoff) {
 /**
  * load progress tracker from EACTIVITY
  */
-function load_eactivity_data($module_caller) {
+function load_eactivity_data($module_caller, $use_cache) {
 
+  if ($use_cache === "false") {
+    $use_cache = FALSE;
+  }
   global $user;
   $eactivity_data = &drupal_static(__FUNCTION__);
 
@@ -22,7 +25,7 @@ function load_eactivity_data($module_caller) {
   $cache = cache_get($cache_key);
   // Check if cache was set and if the cache is stale, since cache_get() does not.
   // @see https://civicactions.com/blog/drupal-gotchya-cache_get-returns-expired-items/
-  if ($cache && time() < $cache->expire) {
+  if (($cache && time() < $cache->expire) && $use_cache) {
     // try cache first
     // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
     $eactivity_data = $cache->data;

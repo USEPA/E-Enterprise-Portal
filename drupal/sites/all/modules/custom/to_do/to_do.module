@@ -11,6 +11,13 @@ function to_do_menu() {
     'access callback' => TRUE,
   );
 
+  $items['progress_tracker/load_data/%'] = array(
+    'page callback' => 'load_progress_tracker_datatable_json',
+    'access callback' => TRUE,
+    'page arguments' => array(2),
+  );
+
+
   return $items;
 }
 
@@ -108,14 +115,14 @@ function to_do_block_view($delta = '') {
  * Load the json and pass it to the progress tracker datatable
  * this is a menu item function
  */
-function load_to_do_datatable_json() {
+function load_to_do_datatable_json($use_cache = true) {
   if (!module_exists('eactivity_dataflow')) {
     drupal_json_output('EACTIVITY DATAFLOW module is not enabled.');
   }
 
   // Json formatted for Datatables
   $eactivity_dt_json = [];
-  $to_do_data = load_eactivity_data('to_do');
+  $to_do_data = load_eactivity_data('to_do', $use_cache);
 
   foreach ($to_do_data as $id => $eactivity_item) {
     $part_code = "";
@@ -140,7 +147,7 @@ function load_to_do_datatable_json() {
     $part_code = $cedri_details['part_code'];
 
     $status_anchor =
-      "<a class='favorites-ignore td-status' " .
+      "<a class='simple-dialog favorites-ignore td-status' " .
       "data-title='" . $cedri_details['facility_name'] . "' " .
       "data-status-note='" . $status_note . "' " .
       "data-due-date='" . $eactivity_item['date'] . "' " .

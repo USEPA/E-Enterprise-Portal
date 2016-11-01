@@ -26,7 +26,7 @@ function site_deployment_update_7008(&$sandbox) {
   if (!$sandbox['current']) {
     $sandbox['current'] = 1;
     // Number of passes required
-    $sandbox['total'] = 7;
+    $sandbox['total'] = 8;
 
     $modules_to_disable = ['eenteprise_api_1_0', 'other_items_of_interest_feature', 'ee_disclaimer'];
     module_disable($modules_to_disable);
@@ -84,10 +84,19 @@ function site_deployment_update_7008(&$sandbox) {
   }
 
   if ($sandbox['current'] === 7) {
+    $role = new stdClass();
+    $role->name = 'eactivity-dataflows';
+    user_role_save($role);
+  }
+
+
+  if ($sandbox['current'] === 8) {
     module_enable(['to_do', 'progress_tracker']);
     drupal_flush_all_caches();
     drupal_set_message("Caches have been cleared.");
   }
+
+
 
 
 // Once the total amount of steps have been completed, set finished to 1 to complete

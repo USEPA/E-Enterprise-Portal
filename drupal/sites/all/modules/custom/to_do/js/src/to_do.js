@@ -27,7 +27,6 @@
 
   var $table_wrapper = $('#to-do').find('table');
   $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
-  //$.fn.dataTableExt.oStdClasses.sPaging = "eportal-pager ";
   $.fn.dataTableExt.oStdClasses.sTable = "eportal-datatable eportal-responsive-table";
 
   // If the datatables loading has an error gracefully handle with a message
@@ -50,20 +49,29 @@
   };
   var datatable_options = {
     "ajax": Drupal.settings.basePath + 'to_do/load_data',
-    "dom": 'tp',
-    "order": [[ 3, "asc" ]],
+    "dom": 'trp',
+    "order": [[3, "asc"]],
     "bLengthChange": false,
     "iDisplayLength": 3,
+    "processing": true,
+    "language": {
+      "processing": ""
+    },
     "columnDefs": [
       // Hide last three rows (timestamp, part code, report type)
       {"targets": [-1], "visible": false},
-      {"targets": [2],className: "text-left"},
+      {"targets": [2], className: "text-left"},
       {"targets": [1], "width": "300px", className: "small-screen-td-header text-left"},
-      {"targets": [0], className: "skinny-col hidden-for-small-screen", "searchable": false, "orderable": false}
+      {
+        "targets": [0],
+        className: "skinny-col hidden-for-small-screen vertical-top",
+        "searchable": false,
+        "orderable": false
+      }
     ],
     "autoWidth": false,
     "pagingType": "simple",
-    "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
       // Add data-titles for each column
       $('td:eq(2)', nRow).attr('data-title', "Domain");
       $('td:eq(3)', nRow).attr('data-title', "Due");
@@ -79,7 +87,7 @@
         var $current_li = $('<li />', {
           class: 'pager-current'
         }).html(pageNo + ' of ' + totalPages);
-        $('.dataTables_paginate li:first').after($current_li);
+        $('#to-do').find('.dataTables_paginate li:first').after($current_li);
       }
 
     },
@@ -124,6 +132,20 @@
     } else if (selected_domain === "lead") {
       $report_type_select.show();
     }
+  });
+
+  $('#refresh-to-do').click(function() {
+    var $to_do = $('#to-do');
+    // Reload datatable, forcing reload of data not using cache
+    $table_wrapper.find('td').hide();
+    $to_do.find('.dataTables_processing').text("Loading...");
+    //Remove data, pass false to not use cache
+    $table_wrapper.DataTable().ajax.url(Drupal.settings.basePath + 'to_do/load_data/false').load(function() {
+      // Show table after successfully refreshing
+      $table_wrapper.find('td').show();
+      $to_do.find('.dataTables_processing').text("");
+    });
+
   });
 
 

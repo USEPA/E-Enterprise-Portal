@@ -55,3 +55,6 @@ if(!empty($view->result[$view->row_index]->field_field_todo_lst_part_code)) {
     print "<a href='.' class='simple-dialog' id='to-do-details-link-" . $unique_id . "' rel='width:900;resizable:false;position:[center,center]' name='modal-page-details-todo-" . $unique_id . "' title='Details for ".$title_value."'>Details</a>";
 }
 ?>
+
+
+

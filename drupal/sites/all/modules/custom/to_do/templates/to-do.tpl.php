@@ -1,3 +1,6 @@
+<span id="refresh-to-do" class="refresh"><span class="sr-only">Refresh To Do list</span><i class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh To Do List"></i></span>
+
+
 <div class="filter-select" id="to-do-yadcf-filter-domain">
   <label for="to-do-edit-field-domain-value">
     Domain

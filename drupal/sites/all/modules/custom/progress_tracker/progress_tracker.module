@@ -11,6 +11,12 @@ function progress_tracker_menu() {
     'access callback' => TRUE,
   );
 
+  $items['progress_tracker/load_data/%'] = array(
+    'page callback' => 'load_progress_tracker_datatable_json',
+    'access callback' => TRUE,
+    'page arguments' => array(2),
+  );
+
   return $items;
 }
 
@@ -108,14 +114,14 @@ function progress_tracker_block_view($delta = '') {
  * Load the json and pass it to the progress tracker datatable
  * this is a menu item function
  */
-function load_progress_tracker_datatable_json() {
+function load_progress_tracker_datatable_json($use_cache = TRUE) {
   if (!module_exists('eactivity_dataflow')) {
     drupal_json_output('EACTIVITY DATAFLOW module is not enabled.');
   }
 
   // Json formatted for Datatables
   $eactivity_dt_json = [];
-  $progress_tracker_data = load_eactivity_data('progress_tracker');
+  $progress_tracker_data = load_eactivity_data('progress_tracker', $use_cache);
 
   foreach($progress_tracker_data as $id=>$eactivity_item) {
     $part_code = "";

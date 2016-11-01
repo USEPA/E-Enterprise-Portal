@@ -103,6 +103,10 @@
     text-align: left;
 }
 
+.vertical-top {
+    vertical-align: top;
+}
+
 .element-hidden {
     display: none;
 }
@@ -395,6 +399,10 @@ footer {
 .pane-my-cdx-my-cdx,
 .eportal-data-table {
 
+
+    th {
+        vertical-align: top;
+    }
     th:not(.no-sort) {
         span {
             cursor: pointer;
@@ -403,16 +411,16 @@ footer {
     }
 
     td {
+        vertical-align: top;
         a {
             display: block;
         }
     }
 
     .skinny-col {
-        padding: 0;
-        margin: 0;
-        width: 5px;
+        padding: 1rem 0.5rem;
     }
+
     .sorting_asc, .sorting_desc {
         background-repeat: no-repeat;
         background-position: center right;
@@ -2556,6 +2564,8 @@ input[type="submit"]:not(.usa-button-outline),
 }
 
 .eportal-responsive-table {
+
+
     margin-top: 1em;
     clear: both;
     thead {
@@ -2571,6 +2581,9 @@ input[type="submit"]:not(.usa-button-outline),
         display: block;
         white-space: normal;
         padding: 1rem 0.5rem;
+        a {
+            cursor: pointer;
+        }
     }
     tr {
         &.odd,
@@ -2613,7 +2626,6 @@ input[type="submit"]:not(.usa-button-outline),
         br {
             display: none;
         }
-
     }
     td.responsive-to-do-link a,
     td.views-field-field-prog-track-actions-dnload a {
@@ -3639,8 +3651,9 @@ p.has-error {
     width: 100%;
 }
 
-a {
+span {
     &.refresh {
+        cursor: pointer;
         padding: 2px 4px;
         position: absolute;
         top: 30px;

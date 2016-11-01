@@ -50,10 +50,14 @@
     };
     var datatable_options = {
       "ajax": Drupal.settings.basePath + 'progress_tracker/load_data',
-      "dom": 'tp',
+      "dom": 'trp',
       "order": [[ 4, "desc" ]],
       "bLengthChange": false,
       "iDisplayLength": 3,
+      "processing": true,
+      "language": {
+        "processing" : ""
+      },
       "columnDefs": [
         {"targets": [0, -3], "searchable": false, "orderable": false},
         // Hide last part code, and report type columns
@@ -82,7 +86,7 @@
           var $current_li = $('<li />', {
             class: 'pager-current'
           }).html(pageNo + ' of ' + totalPages);
-          $('.dataTables_paginate li:first').after($current_li);
+          $('#progress-tracker').find('.dataTables_paginate li:first').after($current_li);
         }
 
       },
@@ -144,5 +148,19 @@
       }
     });
 
+
+  $('#refresh-progress-tracker').click(function() {
+    var $progress_tracker = $('#progress-tracker');
+    // Reload datatable, forcing reload of data not using cache
+    $table_wrapper.find('td').hide();
+    $progress_tracker.find('.dataTables_processing').text("Loading...");
+    //Remove data, pass false to not use cache
+    $table_wrapper.DataTable().ajax.url(Drupal.settings.basePath + 'progress_tracker/load_data/false').load(function() {
+      // Show table after successfully refreshing
+      $table_wrapper.find('td').show();
+      $progress_tracker.find('.dataTables_processing').text("");
+
+    });
+  });
 
   })(jQuery);
