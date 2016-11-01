@@ -9,46 +9,51 @@
     // If View all cities (#locations-modal) link exists, then instantiate dialog
     // View all cities is added via eenterprise_utility.module
     if ($('#locations-modal').length > 0) {
-      $('#dialog-all-locations').dialog({
-        modal: true,
-        autoOpen: false,
-        width: 'auto',
-        height: 400,
-        dialogClass: "locations-modal",
-        beforeClose: function() {
-          if (cancelling_input) {
-            var $location_select = $('#location-select');
-            // Select previously selected value by recapturing elements from previous selection elem
-            var select_title = previous_selection.attr('title');
-            $location_select.find('option[title="' + select_title + '"]').prop('selected', 'selected');
-            $location_select.trigger('change');
-          } else { // Reset canceling input
-            cancelling_input = true;
-          }
-        },
-        buttons: [
-          {
-            text: 'Update',
-            class: ' usa-button',
-            click: function() {
-              cancelling_input = false;
-              var selection_array = $(':radio[name=location-radio]:checked').val().split('|');
-              var selection_value = selection_array[0];
-              var selection_name = selection_array[1];
-              locationSelect(selection_value, selection_name);              
+      $('#dialog-all-locations')
+        .dialog({
+          modal: true,
+          autoOpen: false,
+          width: 'auto',
+          height: 400,
+          dialogClass: "locations-modal",
+          create: function( event, ui ) {
+            if ($('#dialog-all-locations fieldset').hasClass('hidden-at-start')) {
+              $('#dialog-all-locations fieldset').removeClass('hidden-at-start');              
             }
           },
-          {  text : "Cancel",
-            class: ' usa-button-outline',
-            click: function() {
-              $('#dialog-all-locations').dialog('close');
-              $('body').removeClass('modal-open');
-              $('#location-select').focus();
-            }  
-          }
-        ]
-      });
-      
+          beforeClose: function() {
+            if (cancelling_input) {
+              var $location_select = $('#location-select');
+              // Select previously selected value by recapturing elements from previous selection elem
+              var select_title = previous_selection.attr('title');
+              $location_select.find('option[title="' + select_title + '"]').prop('selected', 'selected');
+              $location_select.trigger('change');
+            } else { // Reset canceling input
+              cancelling_input = true;
+            }
+          },
+          buttons: [
+            {
+              text: 'Update',
+              class: ' usa-button',
+              click: function() {
+                cancelling_input = false;
+                var selection_array = $(':radio[name=location-radio]:checked').val().split('|');
+                var selection_value = selection_array[0];
+                var selection_name = selection_array[1];
+                locationSelect(selection_value, selection_name);              
+              }
+            },
+            {  text : "Cancel",
+              class: ' usa-button-outline',
+              click: function() {
+                $('#dialog-all-locations').dialog('close');
+                $('body').removeClass('modal-open');
+                $('#location-select').focus();
+              }  
+            }
+          ]
+        });
     }
     
     function locationSelect(zipcode, name) {
@@ -123,12 +128,11 @@
       var citystate = setlocation_title.split('(')[0];
       var selectzip = setlocation_title.split('(')[1];
       selectzip = selectzip.split(')')[0];
-      var select_radio = selectzip + '|' + citystate;
-      
+      var select_radio = selectzip + '|' + citystate;      
       $('input[type=radio][id="' + select_radio + '"]').prop('checked', true);
       
     }
-  
+
     $(window).resize(function(){
       $( "#dialog-all-locations" ).dialog( "option", "position", { my: "center", at: "center", of: window } );
     });

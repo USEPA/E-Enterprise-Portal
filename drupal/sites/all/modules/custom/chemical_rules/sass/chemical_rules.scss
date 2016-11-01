@@ -34,10 +34,22 @@ $white:                 #fff;
     @include linear-gradient(rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .15) 100%);
 }
 
+.cr-chemicals,
+.cr-laws {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
 #cr-search {
     #cr-search_field {
         width: 60%;
         display: inline-block;
+    }
+    div.has-error {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #a94442;
+        padding: 5px;
     }
     label,
     button {
@@ -71,10 +83,8 @@ $white:                 #fff;
         background-color: $color_highlight_blue;
         font-size: 1.5rem;
         font-weight: bold;
-        margin-top: 0px;
+        margin: 5px -10px 0;
         padding: 5px 10px;
-        margin-left: -10px;
-        margin-right: -10px;
     }
     p {
       margin-top: 0;
@@ -118,13 +128,17 @@ $white:                 #fff;
         margin-bottom: 0.5rem;
     }
     .favorite-chemical, 
-    .favorite-chemical-remove {
+    .favorite-chemical-remove,
+    .favorite-law,
+    .favorite-law-remove {
         display: inline-block;
     }
-    .favorite-chemical {
+    .favorite-chemical,
+    .favorite-law {
         margin-right: 10px;
     }
-    .favorite-chemical-remove {
+    .favorite-chemical-remove,
+    .favorite-law-remove {
         padding-left: 24px;
         background: transparent url('../images/fa-times-circle.png') 0 50% no-repeat;
         font-size: 1.2rem;
@@ -140,6 +154,19 @@ $white:                 #fff;
             border-bottom: 1px solid $color-gray-lightest;
             line-height: 1.2;
             padding-bottom: 10px;
+            span.law-citation {
+                display: block;
+                font-color: $color-gray-dark;
+                font-size: 1rem;
+            }
+        }
+    }
+    #cr-laws-regs-substances {
+        .cr-lists {
+            li {
+              padding-bottom:5px;
+              border-bottom: none;
+            }
         }
     }
     .cr-modal-actions {

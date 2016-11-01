@@ -1,14 +1,36 @@
 <?php
-  function chemical_rules_update_7001() {
-    // Attach an existing field to the user object
+
+/**
+ * Implementation of hook_enable().
+ */
+function chemical_rules_enable() {
+  // Check if our field is not already created.
+  if (!field_info_field('field_chem_rules_user_settings')) {
+    $field = array(
+      'field_name' => 'field_chem_rules_user_settings',
+      'type' => 'longtext',
+      'default_value' => '{}',
+    );
+    field_create_field($field);
+
+    // Create the instance on the bundle.
     $instance = array(
-      'field_name' => 'field_chemical_rules_settings',
+      'field_name' => 'field_chem_rules_user_settings',
       'entity_type' => 'user',
+      'label' => 'Chemical Rules User Settings',
       'bundle' => 'user',
-      'label' => 'Chemical Rules Settings',
-      /*'widget' => array(
-        'type' => 'text', // or whatever widget type you want
-      ),*/
+      // If you don't set the "required" property then the field wont be required by default.
+      'required' => FALSE,
+      'settings' => array(
+        // Here you inform either or not you want this field showing up on the registration form.
+        'user_register_form' => 0,
+      ),
+      'widget' => array(
+        'type' => 'textfield',
+        'weight' => '1',
+      ),
+      'default_value' => '{}',
     );
     field_create_instance($instance);
   }
+}

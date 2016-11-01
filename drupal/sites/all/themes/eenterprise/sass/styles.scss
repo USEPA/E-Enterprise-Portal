@@ -944,9 +944,8 @@ header {
 // Hide dialogs on first load -------------- //
 
 .page-workbench {
-    .ui-dialog,
-    div[role="dialog"]:not(.fsrFloatingContainer) {
-        display: none;
+    .hidden-at-start {
+        visibility: hidden;
     }
     .locations-modal.ui-dialog {
         max-width: 80%;
@@ -4271,4 +4270,26 @@ select[multiple="multiple"] {
     -ms-transform:rotate(-45deg);
     -webkit-transform:rotate(-45deg);
     transform:rotate(-45deg);
+}
+
+// @see https://datatables.net/forums/discussion/25819
+.dataTables_wrapper table thead {
+    th {
+        background: transparent !important;
+        white-space: nowrap;
+        &.sorting_asc,
+        &.sorting_desc,
+        &.sorting { color: #0071bc; }
+    }
+    span.sort-icon {
+        display: inline-block;
+        padding-left: 20px;
+        width: 16px;
+        height: 16px;
+    }
+    .sorting span { background: url('http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/images/sort_both.png') no-repeat center right; }
+    .sorting_asc span { background: url('http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/images/sort_asc.png') no-repeat center right; }
+    .sorting_desc span { background: url('http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/images/sort_desc.png') no-repeat center right; }
+    .sorting_asc_disabled span { background: url('http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/images/sort_asc_disabled.png') no-repeat center right; }
+    .sorting_desc_disabled span { background: url('http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/images/sort_desc_disabled.png') no-repeat center right; }
 }

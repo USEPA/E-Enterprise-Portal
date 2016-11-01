@@ -6,32 +6,31 @@
   <div id="chemical-rules-results-wrapper"
        class="chemical-rules-modal-wrapper">
     <ul class="cr-modal-actions">
-      <li><a id="cr-save-chemical" href="javascript:void(0)" data-srsid="">Save to My Chemicals</a></li>
+      <li><a id="cr-save-favorite" class="save-favorite" href="javascript:void(0)" data-favtype="Chemical">Save to My Chemicals</a></li>
+      <li><a id="cr-remove-favorite" class="remove-favorite remove-link" href="javascript:void(0)" data-favtype="Chemical">Remove from Favorites</a></li>
       <li><a class="cr-future">Save as PDF</a></li>
       <li><a class="cr-future">Share This</a></li>
     </ul>
     <div class="cr-modal-toc" id="cr-modal-toc-icons">
-      <li><a href="#cr-laws-regs">Laws & Regulations</a></li>
-      <li><a href="#cr-programs">Programs</a></li>
-      <li><a href="#cr-structure">Structure</a></li>
-      <li><a href="#cr-properties">Chemical &amp; Physical Properties</a></li>
-      <li><a href="#cr-synonyms">Synonyms</a></li>
-      <li><a href="#cr-lists">Substance Lists</a></li>
+      <li><a href="#cr-laws-regs" class="favorites-ignore">Laws &amp; Regulations</a></li>
+      <li><a href="#cr-programs" class="favorites-ignore">EPA Programs</a></li>
+      <li><a href="#cr-structure" class="favorites-ignore">Structure</a></li>
+      <li><a href="#cr-properties" class="favorites-ignore">Chemical &amp; Physical Properties</a></li>
+      <li><a href="#cr-synonyms" class="favorites-ignore">Synonyms</a></li>
+      <li><a href="#cr-lists" class="favorites-ignore">Substance Lists</a></li>
     </div>
     
     <!-- @LAWS AND REGULATIONS -->
+    <!-- @TODO Add favoriting ability to save favorite chemical here -->
     <h2 id="cr-laws-regs">Laws &amp; Regulations</h2>
     <p><span class="cr-laws-regs_count"></span> laws and regulations found for <span class="cr-chemical-name"></span>.  Relevant laws and regulations include:</p>
 
-    <div id="cr-laws-regs_substances">
-      <h3><span class="cr-laws-regs_count"></span> laws and regulations for <span class="cr-match-type">Substance List 1</span></h3>
-      <ul class="cr-rules-regs_lists">
-      </ul>
+    <div id="cr-laws-regs-substances">
     </div><!-- @end #cr-laws-regs_substances -->
     
     <!-- @PROGRAMS -->
     <div id="cr-laws-regs_programs">
-      <h2 id="cr-programs">Programs</h2>
+      <h2 id="cr-programs">EPA Programs</h2>
         <ul id="cr-programs-list">
         </ul>
     </div><!-- @end #cr-laws-regs_programs -->

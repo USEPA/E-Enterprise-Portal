@@ -170,6 +170,9 @@ var LocalResourcesTable;
           $table = $table_wrapper.find('table');
           if ($table.length > 0) {
             var tableDT = $table.DataTable(datatable_options);
+            tableDT.columns().iterator('column', function (ctx, idx) {
+              $(tableDT.column(idx).header()).append('<span class="sort-icon" />');
+            });
             $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
 
             // in embedded_lgc_topics_view.js
@@ -282,6 +285,10 @@ var LocalResourcesTable;
               }
               facet_topic_counts[facet_topic]++;
             });
+
+            // remove previously created facets
+            // @see https://alm.cgifederal.com/projects/browse/EE-1361
+            $your_selections.find('.facet-topic-container').remove();
 
             /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
              *count next to each facet. TODO: put this in a function after the MVP is accepted.*/

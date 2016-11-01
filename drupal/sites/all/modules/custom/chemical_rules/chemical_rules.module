@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Implements hook_menu().
  */
@@ -10,13 +9,12 @@ function chemical_rules_menu() {
     'page callback' => 'chemical_rules_form_submission',
     'access callback' => TRUE,
   );
-  $items['chemical_rules/process_settings'] = array(
-    'page callback' => 'process_settings',
+  $items['chemical_rules/update_chem_profile'] = array(
+    'page callback' => 'update_chem_profile',
     'access callback' => TRUE,
   );
   return $items;
 }
-
 
 /**
  * Implements hook_block_info().
@@ -24,7 +22,7 @@ function chemical_rules_menu() {
 function chemical_rules_block_info() {
   $blocks = array();
   $blocks['chemical_rules'] = array(
-    'info' => t('Block Chemical Rules and Regulations'),
+    'info' => t('Block Chemical Laws and Regulations'),
   );
   return $blocks;
 }
@@ -108,9 +106,11 @@ function chemical_rules_block_view($delta = '') {
       // Set Form Modal Template
       global $user;
       $user_data = user_load($user->uid);
-      $user_chemical_rules_settings = json_decode($user_data->field_chemical_rules_settings);
+      if(isset($user_data->field_chem_rules_user_settings['und'][0])){
+        $user_chem_rules_user_settings = json_decode($user_data->field_chem_rules_user_settings['und'][0]['value']);
+      }
       $chemical_modal = theme('chemical_rules_modal');
-      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chemical_rules_settings]), 'setting');
+      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings]), 'setting');
 
       $block['subject'] = t('Chemical Laws &amp; Regulations');
       $block['content'] = theme('chemical_rules');
@@ -151,7 +151,7 @@ function chemical_rules_form_submission() {
 }
 
 function sample_chemical_rules_response() {
-  $path = drupal_get_path('module', 'chemical_rules') . '/sample-data.json';
+  $path = drupal_get_path('module', 'chemical_rules') . '/data.json';
   $sample = file_get_contents($path);
   return json_decode($sample);
 }
@@ -316,7 +316,7 @@ function template_preprocess_chemical_rules_modal(&$variables, $hook) {
 
 }
 
-function process_settings() {
+function update_chem_profile() {
 
   $response = [
     'error' => false,
@@ -324,23 +324,28 @@ function process_settings() {
     'data'=> null,
   ];
 
-  if(isset($_POST['chemical_rules_settings'])) {
+  if(isset($_POST['profile'])) {
 
     global $user;
-    $user_data = user_load($user->uid);
-    $response['data'] = [
-      'field_chemical_rules_settings' => $_POST['chemical_rules_settings']
-    ];
+    $existing = user_load($user->uid);
+    $response['data'] = [ 'profile' => $_POST['profile']];
+
+    $edit = (array) $existing;
+    if(!is_string($_POST['profile'])) {
+      $_POST['profile'] = json_encode($_POST['profile']);
+    }
+    $edit['field_chem_rules_user_settings']['und'][0]['value'] = $_POST['profile'];
 
     // save existing user
-    if(!user_save($user_data,  $response['data'])) {
+
+    if(!user_save($existing, $edit)) {
       $response['error'] = true;
       $response['error-messages'][] = 'There was a problem while trying to save';
     }
   }
   else {
     $response['error'] = true;
-    $response['error-messages'][] = 'Missing chemical_rules_settings value in the post data';
+    $response['error-messages'][] = 'Missing profile value in the post data';
   }
   echo json_encode($response);
 }
@@ -358,7 +363,6 @@ function is_valid_cas_number($stringToCheck) {
   }
   return false;
 }
-
 function strip_prefix_from_array($array, $prefix){
   $stripped = [];
 
@@ -368,7 +372,6 @@ function strip_prefix_from_array($array, $prefix){
   }
   return $stripped;
 }
-
 function xmlstr_to_array($xmlstr) {
   $doc = new DOMDocument();
   $doc->loadXML($xmlstr);
@@ -377,7 +380,6 @@ function xmlstr_to_array($xmlstr) {
   $output['@root'] = $root->tagName;
   return $output;
 }
-
 function domnode_to_array($node) {
   $output = array();
   switch ($node->nodeType) {
