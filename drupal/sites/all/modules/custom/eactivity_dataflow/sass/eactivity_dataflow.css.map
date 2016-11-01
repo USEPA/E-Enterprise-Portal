@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAKQ;;iEACO;EACH,OAAO,EAAE,IAAI;AAEjB;kGAAsC;EAClC,OAAO,EAAE,KAAK",
-"sources": ["eactivity_dataflow.scss"],
-"names": [],
-"file": "eactivity_dataflow.css"
-}

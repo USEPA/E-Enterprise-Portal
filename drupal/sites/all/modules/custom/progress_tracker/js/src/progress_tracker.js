@@ -27,8 +27,7 @@
 
     var $table_wrapper = $('#progress-tracker').find('table');
     $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
-    //$.fn.dataTableExt.oStdClasses.sPaging = "eportal-pager ";
-    $.fn.dataTableExt.oStdClasses.sTable = "eportal-datatable eportal-responsive-table";
+    $.fn.dataTableExt.oStdClasses.sTable = "eportal-responsive-table";
 
     // If the datatables loading has an error gracefully handle with a message
     $.fn.dataTable.ext.errMode = function(settings, helpPage, message) {

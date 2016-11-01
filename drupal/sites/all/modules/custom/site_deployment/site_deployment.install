@@ -19,7 +19,7 @@ module_load_include('inc', 'site_deployment', 'site_deployment_helpers');
 /**
  * Refactoring Features and EE-1579
  */
-function site_deployment_update_7008(&$sandbox) {
+function site_deployment_update_7009(&$sandbox) {
   module_load_include('inc', 'page_manager', 'plugins/tasks/page');
 
   // Split steps in batches to minize risk of page timeout
@@ -87,6 +87,7 @@ function site_deployment_update_7008(&$sandbox) {
     $role = new stdClass();
     $role->name = 'eactivity-dataflows';
     user_role_save($role);
+    drupal_set_message("Added new role: eactivity-dataflows" );
   }
 
 

@@ -248,7 +248,8 @@ function load_eactivity_data($module_caller, $use_cache) {
       }
     }
 
-    $expire_ts = time() + (60 * 60);
+    // Expire in 20 minutes
+    $expire_ts = time() + (20 * 60);
     cache_set($cache_key, $eactivity_data, 'cache', $expire_ts);
   }
 

@@ -107,6 +107,10 @@
     vertical-align: top;
 }
 
+.block-display {
+    display: block;
+}
+
 .element-hidden {
     display: none;
 }
@@ -2564,6 +2568,17 @@ input[type="submit"]:not(.usa-button-outline),
 
 .eportal-responsive-table {
 
+    table {
+        th:not(.no-sort) {
+            color: #0071bc;
+            cursor: pointer;
+        }
+        td {
+            a {
+                cursor: pointer;
+            }
+        }
+    }
 
     margin-top: 1em;
     clear: both;
@@ -2631,28 +2646,11 @@ input[type="submit"]:not(.usa-button-outline),
         padding-bottom: 1px;
         padding-top: 1px;
     }
-    a.favorites-ignore:not(.pager__link){
-        display: block;
-    }
 }
 
 
 
 
-
-.eportal-datatable {
-    table {
-        th:not(.no-sort) {
-            color: #0071bc;
-            cursor: pointer;
-        }
-        td {
-            a {
-                cursor: pointer;
-            }
-        }
-    }
-}
 
 .filter-select {
     float: left;

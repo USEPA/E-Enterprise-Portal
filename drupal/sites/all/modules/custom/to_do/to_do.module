@@ -133,7 +133,7 @@ function load_to_do_datatable_json($use_cache = true) {
     $subheading = substr($eactivity_item['title'], $parenthesis_index + 1);
 
     $title =
-      "<a target='_blank' href='" . $eactivity_item['handoff_url'] . "'>" .
+      "<a class='favorites-ignore' target='_blank' href='" . $eactivity_item['handoff_url'] . "'>" .
       "<span class='report-name'>" .
       $cedri_details['partner_system_report_type'] . " (" .
       $cedri_details['part_code'] . ", " . $cedri_details['sub_part_code'] . ") " .
@@ -156,12 +156,28 @@ function load_to_do_datatable_json($use_cache = true) {
 
     $title .= "<br />" . $status_anchor;
 
+    // Which tab does the date fall under?
+    $timestamp = strtotime($eactivity_item['date']);
+    $next_week_start = strtotime("monday next week");
+    $two_weeks_start = strtotime("monday next week +1 week");
+
+    if ($timestamp < $next_week_start) {
+      $timeframe = "this_week";
+    } else if ($timestamp < $two_weeks_start) {
+      $timeframe = "next_week";
+    } else {
+      $timeframe = "beyond";
+    }
+
+
+
     $eactivity_dt_row = [
       "", // Empty to allow for datatables to have index column
       $title,
       $eactivity_item['domain'],
       "<span class='date-display-single'>" . $eactivity_item['date'] . "</span><span class='date-subscript-text'>" . $eactivity_item['date_type'] . "</span>",
       $part_code,
+      $timeframe,
     ];
 
     $eactivity_dt_json[] = $eactivity_dt_row;

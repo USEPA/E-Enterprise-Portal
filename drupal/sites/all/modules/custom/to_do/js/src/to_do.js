@@ -1,5 +1,11 @@
 (function($) {
 
+  function clearDTSearches(dtTable) {
+    dtTable.search( '' )
+      .columns().search( '' )
+      .draw();
+  }
+
   function openDetailsDialog($anchor_elem) {
 
     var title = $anchor_elem.data('title');
@@ -27,7 +33,7 @@
 
   var $table_wrapper = $('#to-do').find('table');
   $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
-  $.fn.dataTableExt.oStdClasses.sTable = "eportal-datatable eportal-responsive-table";
+  $.fn.dataTableExt.oStdClasses.sTable = "eportal-responsive-table";
 
   // If the datatables loading has an error gracefully handle with a message
   $.fn.dataTable.ext.errMode = function(settings, helpPage, message) {
@@ -58,8 +64,8 @@
       "processing": ""
     },
     "columnDefs": [
-      // Hide last three rows (timestamp, part code, report type)
-      {"targets": [-1], "visible": false},
+      // Hide last 2 rows (timestamp, part code)
+      {"targets": [-1, -2], "visible": false},
       {"targets": [2], className: "text-left"},
       {"targets": [1], "width": "300px", className: "small-screen-td-header text-left"},
       {
@@ -110,9 +116,9 @@
   };
 
   // Create index column that updates on sorting
-  var $table = $table_wrapper.DataTable(datatable_options);
-  $table.on('search.dt', function() {
-    $table.column(0, {order: 'applied'}).nodes().each(function(cell, i) {
+  var dtTable = $table_wrapper.DataTable(datatable_options);
+  dtTable.on('search.dt', function() {
+    dtTable.column(0, {order: 'applied'}).nodes().each(function(cell, i) {
       cell.innerHTML = i + 1;
     });
   });
@@ -140,12 +146,24 @@
     $table_wrapper.find('td').hide();
     $to_do.find('.dataTables_processing').text("Loading...");
     //Remove data, pass false to not use cache
-    $table_wrapper.DataTable().ajax.url(Drupal.settings.basePath + 'to_do/load_data/false').load(function() {
+    dtTable.ajax.url(Drupal.settings.basePath + 'to_do/load_data/false').load(function() {
       // Show table after successfully refreshing
       $table_wrapper.find('td').show();
       $to_do.find('.dataTables_processing').text("");
     });
 
+  });
+
+  $('.todo_filter_button').click(function() {
+    if (!$(this).hasClass('filter-applied')) {
+      clearDTSearches(dtTable);
+      var search_criteria = $(this).data('search');
+      dtTable.search('')
+        .columns(5).search(search_criteria)
+        .draw();
+      $('.todo_filter_button').removeClass('filter-applied');
+      $(this).addClass('filter-applied');
+    }
   });
 
 
