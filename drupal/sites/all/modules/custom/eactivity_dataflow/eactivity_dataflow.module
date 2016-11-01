@@ -15,7 +15,7 @@ function load_eactivity_data($module_caller, $use_cache) {
   if ($use_cache === "false") {
     $use_cache = FALSE;
   }
-  
+
   global $user;
   $eactivity_data = &drupal_static(__FUNCTION__);
 
