@@ -173,7 +173,7 @@ var LocalResourcesTable;
             tableDT.columns().iterator('column', function (ctx, idx) {
               $(tableDT.column(idx).header()).append('<span class="sort-icon" />');
             });
-            $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
+            $table.removeClass("dataTable display no-footer").addClass('views-table eportal-responsive-table usa-table-borderless');
 
             // in embedded_lgc_topics_view.js
             updateDropdown($('#user-lgc-topics-small-view'));
