@@ -144,7 +144,7 @@ function chemical_rules_form_submission() {
   else {
       chemical_rules_process_srs_response($response);
       chemical_rules_process_lrs_response($response);
-      chemical_rules_process_pubchem_response($response);
+      //chemical_rules_process_pubchem_response($response);
   }
 
   drupal_json_output($response);
@@ -172,10 +172,10 @@ function chemical_rules_process_srs_response(&$return) {
   // Decide what kind of search we are doing: cas# || chem name
 
   if(is_valid_cas_number($_POST['cr-search_input'])){
-    $endpoint = "http://ends2.epacdxnode.net/RestProxy/query?Node=NGNTest2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|";
+    $endpoint = "https://ends2.epacdxnode.net/RestProxy/query?Node=NGNTest2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|";
   }
   else {
-    $endpoint = "http://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
+    $endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
   }
   $endpoint = $endpoint . $_POST['cr-search_input'];
 
@@ -195,7 +195,7 @@ function chemical_rules_process_srs_response(&$return) {
     // Additional logic to support CAS numbers
     $base = $response_array['Results']['SubstanceInformation']['ChemicalSubstance'];
     // The service for CAS look up returns multiple 'ChemicalSubstance',
-    if(count($base) > 1) {
+    if(!isset($base['ChemicalSubstanceIdentification'])) {
       // The one without the 'IncorrectlyUsedCASRegistryNumberList' is the actual information needed
       for($i = count($base) - 1; $i >= 0; $i--) {
         if(count($base[$i]['ChemicalSubstanceIdentification']['IncorrectlyUsedCASRegistryNumberList']) == 0) {
@@ -214,11 +214,11 @@ function chemical_rules_process_srs_response(&$return) {
       $return['data']['Substance'][$name] = $value;
     }
     // @todo Things that are missing.  Need to add from another service
-    /*$toAppend = '{"MolecularWeight": "58.08 g/mol", "Solubility": "Miscible with water", "VaporPressure": "231 mm Hg at 25 deg C", "LogP": "log Kow = -0.24", "Stability": "Stable under recommended storage conditions.", "pKA": "20"}';
+    $toAppend = '{"MolecularWeight": "58.08 g/mol", "Solubility": "Miscible with water", "VaporPressure": "231 mm Hg at 25 deg C", "LogP": "log Kow = -0.24", "Stability": "Stable under recommended storage conditions.", "pKA": "20"}';
     $toAppend = json_decode($toAppend);
     foreach ($toAppend as $name => $value) {
       $return['data']['Substance'][str_ireplace('', '', $name)] = $value;
-    }*/
+    }
 
     // build both the "Synonym" list and the "SubstanceList"
     $SubstanceSynonyms = $base['ChemicalSubstanceSynonymList']['ChemicalSubstanceSynonym'];
@@ -367,21 +367,6 @@ function strip_prefix_from_array($array, $prefix){
     $stripped[str_ireplace($prefix, '', $key)] = (gettype($item) == 'array')? strip_prefix_from_array($item, $prefix) : $item;
   }
   return $stripped;
-}
-
-function is_valid_cas_number($stringToCheck) {
-  $cas = '/(\d{2,7}).{0,2}(\d{2}).{0,2}(\d)+/';
-  $casGroup = [];
-  if(preg_match_all($cas, $stringToCheck, $casGroup)){
-    $casBase = str_split($casGroup[1][0] . $casGroup[2][0]);
-    $length = count($casBase);
-    $sumCheck = 0;
-    for($i = $length - 1; $i >= 0; $i--){
-      $sumCheck += $casBase[$i] * ($length - $i);
-    }
-    return ($casGroup[3][0] == ($sumCheck % 10));
-  }
-  return false;
 }
 
 function xmlstr_to_array($xmlstr) {
