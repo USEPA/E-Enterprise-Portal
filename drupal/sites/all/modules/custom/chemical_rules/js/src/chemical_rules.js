@@ -138,6 +138,19 @@ function populate_substance_modal(chemical_rules_response_json) {
 
 }
 
+function isValidCasNumber(stringToCheck) {
+  var cas = /(\d{2,7}).{0,2}(\d{2}).{0,2}(\d)/g;
+  var casgroup = cas.exec(stringToCheck);
+  if(casgroup){
+    var checkDigit = (casgroup[1] + casgroup[2]).split('').reduce(function(previousValue, currentValue, currentIndex, array) {
+      return ((previousValue + (array[array.length - currentIndex -1] * (currentIndex + 1))) % 10)
+    }, 0)
+    return(checkDigit == casgroup[3])
+  }
+  console.log('invald string')
+  return false
+}
+
 (function($) {
   var $body = $('body'),
       $cr_tabs = $('#cr-tabs').tabs(),
@@ -274,3 +287,4 @@ function populate_substance_modal(chemical_rules_response_json) {
   });
 
 })(jQuery);
+
