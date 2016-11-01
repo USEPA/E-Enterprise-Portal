@@ -9,8 +9,8 @@ function chemical_rules_menu() {
     'page callback' => 'chemical_rules_form_submission',
     'access callback' => TRUE,
   );
-  $items['chemical_rules/process_user_settings'] = array(
-    'page callback' => 'process_user_settings',
+  $items['chemical_rules/update_chem_profile'] = array(
+    'page callback' => 'update_chem_profile',
     'access callback' => TRUE,
   );
   return $items;
@@ -106,7 +106,9 @@ function chemical_rules_block_view($delta = '') {
       // Set Form Modal Template
       global $user;
       $user_data = user_load($user->uid);
-      $user_chem_rules_user_settings = json_decode($user_data->field_chem_rules_user_settings);
+      if(isset($user_data->field_chem_rules_user_settings['und'][0])){
+        $user_chem_rules_user_settings = json_decode($user_data->field_chem_rules_user_settings['und'][0]['value']);
+      }
       $chemical_modal = theme('chemical_rules_modal');
       drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings]), 'setting');
 
@@ -165,7 +167,6 @@ function sample_chemical_rules_response() {
   return json_decode($sample);
 }
 
-
 function chemical_rules_process_response($response, $init = []) {
 
 }
@@ -177,7 +178,7 @@ function template_preprocess_chemical_rules_modal(&$variables, $hook) {
 
 }
 
-function process_user_settings() {
+function update_chem_profile() {
 
   $response = [
     'error' => false,
@@ -185,23 +186,28 @@ function process_user_settings() {
     'data'=> null,
   ];
 
-  if(isset($_POST['chemical_rules_settings'])) {
+  if(isset($_POST['profile'])) {
 
     global $user;
-    $user_data = user_load($user->uid);
-    $response['data'] = [
-      'field_chem_rules_user_settings' => $_POST['chemical_rules_settings']
-    ];
+    $existing = user_load($user->uid);
+    $response['data'] = [ 'profile' => $_POST['profile']];
+
+    $edit = (array) $existing;
+    if(!is_string($_POST['profile'])) {
+      $_POST['profile'] = json_encode($_POST['profile']);
+    }
+    $edit['field_chem_rules_user_settings']['und'][0]['value'] = $_POST['profile'];
 
     // save existing user
-    if(!user_save($user_data,  $response['data'])) {
+
+    if(!user_save($existing, $edit)) {
       $response['error'] = true;
       $response['error-messages'][] = 'There was a problem while trying to save';
     }
   }
   else {
     $response['error'] = true;
-    $response['error-messages'][] = 'Missing chemical_rules_settings value in the post data';
+    $response['error-messages'][] = 'Missing profile value in the post data';
   }
   echo json_encode($response);
 }
