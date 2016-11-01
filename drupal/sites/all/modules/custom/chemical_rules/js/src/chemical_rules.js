@@ -440,6 +440,7 @@ function update_favorite_lists(type) {
     	//ev.preventDefault();
     	//alert("Clicked the favorite: " + $(this).data('chemicalid'));
     	var type = $(this).data('favtype') + 's';
+
     	var favorite = [];    	
     	if (type == 'Chemicals') {
       	if ($(this).data('casnum') > 0) {
@@ -462,8 +463,9 @@ function update_favorite_lists(type) {
         };
       }
       else if (type == 'Laws') {
+        //@TODO - Add button holder container for favorite link heart like other links - or use FavoriteLink.js functionality        
         var law_text = $(this).closest("a:has(*[data-favtype])").text();
-        console.log("Law is: " + law_text);
+//        console.log("Law is: " + law_text);
         var law_pieces = law_text.split('&mdash;');
         var citation = law_pieces[0];
         var title = law_pieces[1];
