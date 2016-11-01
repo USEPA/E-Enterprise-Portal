@@ -68,7 +68,7 @@ function populate_substance_modal(chemical_rules_response_json) {
     var cfrs = [];
     var html_to_add = [];
     var substance_lists = [];
-    var favorite_exsts = find_matching_favorites(json.data.data.Substance.EPAChemicalInternalNumber, "Chemicals");
+    var favorite_exists = find_matching_favorites(json.data.data.Substance.EPAChemicalInternalNumber, "Chemicals");
     
     //@TODO - Only show Save to My Chemicals link (#cr-save-favorite) if NOT in favs
     // LOOKUP LOGIC FOR CHECKING ARRAY FOR MATCHING ITEM BY ID
@@ -81,7 +81,7 @@ function populate_substance_modal(chemical_rules_response_json) {
     }
     $body.find('#cr-remove-favorite').attr('data-epaintnum', json.data.data.Substance.EPAChemicalInternalNumber).attr('data-favtype', 'Chemical');
     
-    if (!favorite_exsts) {
+    if (favorite_exists === false) {
       $body.find('#cr-save-favorite').parent('li').show();
       $body.find('#cr-remove-favorite').parent('li').hide();
     }
