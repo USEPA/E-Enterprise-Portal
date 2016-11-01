@@ -1,7 +1,7 @@
 {
-   "error":false,
+   "error": false,
    "error-messages":[
-
+      "No matching chemicals found.  Please try another entry."
    ],
    "data":{
       "Substance":{
