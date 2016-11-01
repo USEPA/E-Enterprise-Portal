@@ -196,7 +196,7 @@
   Drupal.behaviors.initializeGridstack = {
     attach: function(context) {
       var page_name = window.location.pathname.split('/')[1];
-      if (page_name === "workbench" || page_name === "workbench_single_widget") {
+      if (page_name === "workbench") {
         $('body').once(function() {
           var previous_grid_settings;
           var cellHeight = 10;
