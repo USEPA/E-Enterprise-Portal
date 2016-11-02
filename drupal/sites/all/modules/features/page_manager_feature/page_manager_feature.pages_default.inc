@@ -519,6 +519,32 @@ function page_manager_feature_default_page_manager_pages() {
     $pane->uuid = '79196de7-2d25-4413-a927-63ee8a8f4f38';
     $display->content['new-79196de7-2d25-4413-a927-63ee8a8f4f38'] = $pane;
     $display->panels['middle'][11] = 'new-79196de7-2d25-4413-a927-63ee8a8f4f38';
+    $pane = new stdClass();
+    $pane->pid = 'new-8290f326-bb3b-41cb-a957-2143e49625ae';
+    $pane->panel = 'middle';
+    $pane->type = 'block';
+    $pane->subtype = 'chemical_rules-chemical_rules';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'grid-stack-item-content beta-ribbon',
+    );
+    $pane->extras = array();
+    $pane->position = 12;
+    $pane->locks = array();
+    $pane->uuid = '8290f326-bb3b-41cb-a957-2143e49625ae';
+    $display->content['new-8290f326-bb3b-41cb-a957-2143e49625ae'] = $pane;
+    $display->panels['middle'][12] = 'new-8290f326-bb3b-41cb-a957-2143e49625ae';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

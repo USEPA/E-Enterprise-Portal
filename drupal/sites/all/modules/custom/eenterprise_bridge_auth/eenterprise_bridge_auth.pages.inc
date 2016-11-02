@@ -458,7 +458,6 @@ function _update_progress_tracker_to_do_item($query_res, $res) {
 }
 
 
-
 function create_progress_tracker_node($res, $user) {
   $query_res = db_query("select entity_id, revision_id from {field_data_field_eactivity_id} where bundle in (:node_type) and field_eactivity_id_value = :eactivityid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':eactivityid' => $res['EActivityId']))->fetchAssoc();
   //_update_progress_tracker_to_do_item will check if to-do or progress tracker item is updated and updates them accordingly.
@@ -754,11 +753,9 @@ function assign_roles_to_user($user_name) {
   }
   if ($eactivity_role) {
     // Allow access to cdx facility manager, progress tracker, and to do
-    $user_eactivity_role = user_role_load_by_name("eactivity-dataflows");
-    if ($user_eactivity_role === FALSE) {
-      $user_role = new stdClass();
-      $user_role->name = "eactivity-dataflows";
-      user_role_save($user_role);
+    if ($user_eactivity_role = user_role_load_by_name("eactivity-dataflows")) {
+      // Give user eactivity role
+      user_multiple_role_edit(array($user->uid), $user_eactivity_role->name, $user_eactivity_role->rid);
     }
   }
 }
