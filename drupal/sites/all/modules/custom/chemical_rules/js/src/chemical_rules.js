@@ -121,8 +121,8 @@ function populate_substance_modal(chemical_rules_response_json) {
           substance_lists.push('<li>'+ json.data.SubstanceList[listI].substanceListName +'</li>');
           for (var index in json.data.SubstanceList[listI].cfrs) {
             cfr_id = json.data.SubstanceList[listI].cfrs[index];
-            html_to_add.push('<li><a data-favtype="Law" href="'+ json.data.LawsRegs[cfrNumToCheck].attributes.URL +'" target="_blank">' + json.data.LawsRegs[cfrNumToCheck].attributes["Citation"] + " &mdash; " + json.data.LawsRegs[cfr_id].attributes.Title+'</a><span class="law-citation">Authority: ' + json.data.LawsRegs[cfr_id].attributes["CFR Authority"] + '</span></li>');
-
+            fav_holder = create_favlaw_heart(cfr_id);
+            html_to_add.push('<li><a data-favtype="Law" href="'+ json.data.LawsRegs[cfr_id].attributes.URL +'" target="_blank">' + json.data.LawsRegs[cfr_id].attributes["Citation"] + " &mdash; " + json.data.LawsRegs[cfr_id].attributes.Title+'</a><span class="law-citation">Authority: ' + json.data.LawsRegs[cfr_id].attributes["CFR Authority"] + '</span></li>');
           }
           html_to_add.push('</ul>');
         }
