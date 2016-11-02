@@ -406,7 +406,7 @@ footer {
     th {
         vertical-align: top;
     }
-    th:not(.no-sort) {
+    th:not(.no-sort):not(.sorting):not(.sorting_asc):not(.sorting_desc) {
         span {
             cursor: pointer;
             color: #0071bc;
@@ -4218,9 +4218,6 @@ select[multiple="multiple"] {
     th {
         background: transparent !important;
         white-space: nowrap;
-        &.sorting_asc,
-        &.sorting_desc,
-        &.sorting { color: #0071bc; }
     }
     span.sort-icon {
         display: inline-block;

@@ -141,11 +141,13 @@ function resetBWIForm() {
     .dialog({
       modal: true,
       width: "auto",
+      title: "Be Well Informed Water Analysis Tool",
       position: { 'my': 'center', 'at': 'center' },
       dialogClass: 'be-well-informed-modal',
       autoOpen: false,
       draggable: false,
       create: function(event, ui) {
+        $('#bwi-tabs').tabs();
         var $form = $('#water_analysis_results_form');
         $form
           .parsley({
@@ -180,7 +182,7 @@ function resetBWIForm() {
     })
 
   $('#bwi-check-water-btn').click(function() {
-    $('#be-well-informed-modal').dialog("open")
+    $('#be-well-informed-modal').dialog("open");
     resizeModal()
   });
 
@@ -199,6 +201,7 @@ function resetBWIForm() {
     var data = Object.keys(formData).reduce(checkValues, formData);
     //console.log(data, JSON.stringify(data))
     showElementOutOfMany($loading_wrapper, $all_wrappers);
+    $('#entry-tab').text('Entry');
     $.ajax({
       url: 'be_well_informed/form_submission',
       method: 'POST',
@@ -291,6 +294,7 @@ function resetBWIForm() {
               $interactive_prompts.removeClass('hide')
             }
             showElementOutOfMany($form_wrapper, $all_wrappers);
+            $('#entry-tab').text('Entry');
           }
           // If there are no additional questions we should have results
           else if(!!be_well_response_json.data.ResultEvaluations) {
@@ -422,10 +426,12 @@ function resetBWIForm() {
               $('[id=' + $this.attr('data-contaminant') + ']', $(this).parents('td')).slideToggle()
             })
             showElementOutOfMany($results_wrapper, $all_wrappers);
+            $('#entry-tab').text('Results');
           }
         }
         else {
           showElementOutOfMany($results_wrapper, $all_wrappers);
+          $('#entry-tab').text('Results');
         }
         resizeModal();
       }
@@ -445,6 +451,7 @@ function resetBWIForm() {
     $('#be-well-informed-result-details-table').DataTable().destroy();
     $('#water_analysis_reset').removeClass('invisible')
     showElementOutOfMany($form_wrapper, $all_wrappers);
+    $('#entry-tab').text('Entry');
     resizeModal()
   });
 
