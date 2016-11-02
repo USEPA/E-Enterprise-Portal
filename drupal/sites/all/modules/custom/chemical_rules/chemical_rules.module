@@ -172,10 +172,10 @@ function chemical_rules_process_srs_response(&$return) {
   // Decide what kind of search we are doing: cas# || chem name
 
   if(is_valid_cas_number($_POST['cr-search_input'])){
-    $endpoint = "https://ends2.epacdxnode.net/RestProxy/query?Node=NGNTest2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|";
+    $endpoint = "http://ends2.epacdxnode.net/RestProxy/query?Node=NGNTest2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|";
   }
   else {
-    $endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
+    $endpoint = "http://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
   }
   $endpoint = $endpoint . $_POST['cr-search_input'];
 
