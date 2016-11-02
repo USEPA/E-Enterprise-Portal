@@ -458,10 +458,6 @@ function _update_progress_tracker_to_do_item($query_res, $res) {
 }
 
 
-function parse_cdx_handoff_data($cdx_deep_link_handoff) {
-  // + 1 to start immediately after data=, and + count("data=") because strpos returns start of string position
-  return substr($cdx_deep_link_handoff, strpos($cdx_deep_link_handoff, "data=") + strlen("data="));
-}
 
 function create_progress_tracker_node($res, $user) {
   $query_res = db_query("select entity_id, revision_id from {field_data_field_eactivity_id} where bundle in (:node_type) and field_eactivity_id_value = :eactivityid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':eactivityid' => $res['EActivityId']))->fetchAssoc();
