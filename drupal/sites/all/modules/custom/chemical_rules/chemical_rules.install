@@ -8,7 +8,7 @@ function chemical_rules_enable() {
   if (!field_info_field('field_chem_rules_user_settings')) {
     $field = array(
       'field_name' => 'field_chem_rules_user_settings',
-      'type' => 'longtext',
+      'type' => 'text_long',
       'default_value' => '{}',
     );
     field_create_field($field);
