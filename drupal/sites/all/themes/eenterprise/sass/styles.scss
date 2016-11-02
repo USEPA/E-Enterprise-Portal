@@ -4150,9 +4150,6 @@ select[multiple="multiple"] {
     th {
         background: transparent !important;
         white-space: nowrap;
-        &.sorting_asc,
-        &.sorting_desc,
-        &.sorting { color: #0071bc; }
     }
     span.sort-icon {
         display: inline-block;
