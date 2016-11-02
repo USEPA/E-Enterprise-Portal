@@ -18,6 +18,22 @@ function cr_resizeModal() {
   }
 }
 
+function create_favlaw_heart(epaintnum) {
+
+  var law_in_favorites = find_matching_favorites(epaintnum, "Chemicals");
+  var fav_law_holder = '';
+
+  if (law_in_favorites === false) {
+    fav_law_holder = '<a href="javascript:void(0);" class="fa fa-heart empty save-favorite" data-favtype="Chemical"><span class="sr-only">To favorite, press Ctrl + D</span></a>';
+  }
+  else {
+    fav_law_holder = '<a href="javascript:void(0);" class="fa fa-heart filled remove-favorite" data-favtype="Chemical"><span class="sr-only">To remove favorite, press Ctrl + D</span></a>';
+  }
+
+  return fav_law_holder;
+
+}
+
 function find_matching_favorites(check_id, check_type) {
   var match_found = false;
   for (var i = 0; i < favs[check_type].length; i++) {
@@ -97,15 +113,15 @@ function populate_substance_modal(chemical_rules_response_json) {
     //    2) then get list of CFRs
     //    3) loop thru CFRs and look up CFR name and URL (LawsRegs.[variableforcfrnumber].cfrId, attributes.USC Citation, attributes.Title, attributes.URL
 
-    var cfrNumToCheck = '';
+    var cfr_id = '';
     if(json.data.SubstanceList && json.data.SubstanceList !== ''){
       for(var listI in json.data.SubstanceList){
         if(Object.keys(json.data.SubstanceList[listI].cfrs).length > 0){
           html_to_add.push('<h3><span class="cr-laws-regs_count">' + json.data.SubstanceList[listI].cfrs.length + '</span> laws and regulations for ' + json.data.SubstanceList[listI].substanceListName + '</h3><ul class="cr-lists">');
           substance_lists.push('<li>'+ json.data.SubstanceList[listI].substanceListName +'</li>');
           for (var index in json.data.SubstanceList[listI].cfrs) {
-            cfrNumToCheck = json.data.SubstanceList[listI].cfrs[index];
-            html_to_add.push('<li><a data-favtype="Law" href="'+ json.data.LawsRegs[cfrNumToCheck].attributes.URL +'" target="_blank">' + json.data.LawsRegs[cfrNumToCheck].attributes["Citation"] + " &mdash; " + json.data.LawsRegs[cfrNumToCheck].attributes.Title+'</a><span class="law-citation">Authority: ' + json.data.LawsRegs[cfrNumToCheck].attributes["CFR Authority"] + '</span></li>');
+            cfr_id = json.data.SubstanceList[listI].cfrs[index];
+            html_to_add.push('<li><a data-favtype="Law" href="'+ json.data.LawsRegs[cfrNumToCheck].attributes.URL +'" target="_blank">' + json.data.LawsRegs[cfrNumToCheck].attributes["Citation"] + " &mdash; " + json.data.LawsRegs[cfr_id].attributes.Title+'</a><span class="law-citation">Authority: ' + json.data.LawsRegs[cfr_id].attributes["CFR Authority"] + '</span></li>');
 
           }
           html_to_add.push('</ul>');
@@ -239,6 +255,25 @@ function reset_cr_form() {
   $form.val('');
 }
 
+/**
+ * Manually trigger qTip that holds favorite heart icon to improve accessibility
+ */
+function trigger_law_qTip(findLink, hideQtip) {
+    try {
+        if (hideQtip == true) {
+            $(findLink).trigger('mouseover');
+            findQtip = '#' + $(findLink).attr('aria-describedby');
+            return findQtip;
+        }
+        else {
+            $(findLink).trigger('mouseout');
+        }
+    }
+    catch (err) {
+        //console.log("Error on triggerQtip: " + err);
+    }
+}
+
 function update_favorite_lists(type) {
   var clicked_favorite_type = type;
   if (clicked_favorite_type == 'Chemical') {
@@ -281,8 +316,9 @@ function isValidCasNumber(stringToCheck) {
   // CAS = CASRegistryNumber
   // SysName = ChemicalSubstanceSystematicName (e.g., 2-Propanone)
   // CommonName = EPAChemicalRegistryName (e.g., Acetone)
+
   // LAW ATTRIBUTES
-  // ID = LRS ID
+  // ID = LRS ID = cfrID (e.g., 3874781)
   // Citation (e.g., 40 CFR 711)
   // Title (e.g., TSCA CHEMICAL DATA REPORTING REQUIREMENTS)
   // URL (e.g., https:\/\/gpo.gov...)
@@ -445,10 +481,7 @@ function isValidCasNumber(stringToCheck) {
         $body.find('#cr-remove-favorite').parent('li').hide();
       }
 
-      //@TODO - Add Logic to find favorite chemical by SRS ID in Drupal and then remove from user's favorites
-      //chemical_rules/process_user_settings
-      /*
-      // updated sample for saving chem profile
+      // Post updated array to Profile and re-render lists
       $.ajax({
         method: "POST",
         url: Drupal.settings.basePath + "chemical_rules/update_chem_profile",
@@ -458,23 +491,14 @@ function isValidCasNumber(stringToCheck) {
         },
       }).done(function() {
         console.log('done', arguments)
+        render_favorite_chemicals(favs);
+        render_favorite_laws(favs);
+
+        // @TODO - Update Modal List - call populate_substance_modal or subset of it!
+
       }).fail(function() {
         console.log('fail', arguments)
       });
-
-
-      $.ajax({
-        url: 'chemical_rules/process_user_settings',
-        method: 'POST',
-        data: favs,
-        beforeSend: cr_showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('.chemical-rules-modal-wrapper')),
-        complete: function() {
-          cr_showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
-          originalDialog = $body.find('#chemical-rules-modal').html();
-        },
-        success: update_favorite_lists
-      })
-  */
 
     });
   }
@@ -530,21 +554,27 @@ function isValidCasNumber(stringToCheck) {
         }
       }
       if (favorite != '') {
-        Drupal.settings.chemical_rules.profile = favs;
-    /*
-        $.ajax({
-          url: 'chemical_rules/process_user_settings',
-          method: 'POST',
-          data: favs,
-          beforeSend: cr_showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('.chemical-rules-modal-wrapper')),
-          complete: function() {
-            cr_showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
-            originalDialog = $body.find('#chemical-rules-modal').html();
-          },
-          success: update_favorite_lists
-        });
-    */
         favs[type].push(favorite);
+//         Drupal.settings.chemical_rules.profile = favs;
+
+        $.ajax({
+          method: "POST",
+          url: Drupal.settings.basePath + "chemical_rules/update_chem_profile",
+          dataType: 'json',
+          data: {
+            profile: favs
+          },
+        }).done(function() {
+          console.log('done', arguments)
+          render_favorite_chemicals(favs);
+          render_favorite_laws(favs);
+
+          // @TODO - Update Modal List - call populate_substance_modal or subset of it!
+
+        }).fail(function() {
+          console.log('fail', arguments)
+        });
+
         if (type == 'Chemicals') {
           render_favorite_chemicals(favs);
         }

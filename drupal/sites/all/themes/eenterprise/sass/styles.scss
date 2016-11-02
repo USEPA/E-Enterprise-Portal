@@ -400,8 +400,7 @@ footer {
 #local-resources-tabs,
 .view-state-resource-editor,
 .view-resource-editor,
-.pane-my-cdx-my-cdx,
-.eportal-data-table {
+.pane-my-cdx-my-cdx{
 
 
     th {
@@ -503,6 +502,75 @@ footer {
         }
     }
 
+}
+
+
+.eportal-datatable-wrapper {
+    ul.paging_simple_numbers,
+    ul.paging_simple {
+        margin-top: 0;
+        margin-bottom: 20px;
+        span {
+            vertical-align: middle;
+        }
+        a {
+            font-family: $font-sans !important;
+            font-size: 1.4rem;
+            &:before,
+            &:after {
+                font-family: 'FontAwesome' !important;
+            }
+        }
+        .pager__link:focus {
+            outline: 1px dotted $color-primary; // this addresses the lack of a focus outline on firefox
+        }
+        .pager__link.previous,
+        .pager__link.next {
+            background-color: $color-primary;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 1rem, contain;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            vertical-align: middle;
+            font-size: 0;
+            cursor: pointer;
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                outline: none;
+            }
+        }
+        .pager__link.previous {
+            background-image: url('../images/white/chevron-left.svg');
+            background-position: 40% center;
+        }
+        .pager__link.next {
+            background-image: url('../images/white/chevron-right.svg');
+            background-position: 60% center;
+        }
+        li, a {
+            &.disabled {
+                display: none;
+            }
+        }
+    }
+    .dataTables_info,
+    ul.paging_simple_numbers {
+        font-size: 1.4rem;
+        line-height: 1;
+        margin-top: 0;
+        padding-top: 0;
+        > li {
+            display: table-cell;
+        }
+    }
+    ul.paging_simple {
+        .pager-current {
+            font-size: 1.4rem;
+        }
+    }
 }
 
 // Pagers for workbench panes
@@ -4145,8 +4213,8 @@ select[multiple="multiple"] {
     transform: rotate(-45deg);
 }
 
-// @see https://datatables.net/forums/discussion/25819
-.dataTables_wrapper table thead {
+ //@see https://datatables.net/forums/discussion/25819
+.dataTables_wrapper table:not(.eportal-responsive-table) thead {
     th {
         background: transparent !important;
         white-space: nowrap;

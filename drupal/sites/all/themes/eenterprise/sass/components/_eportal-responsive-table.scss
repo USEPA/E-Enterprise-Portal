@@ -1,16 +1,21 @@
+
 .eportal-responsive-table {
 
-    table {
-        th:not(.no-sort) {
-            color: #0071bc;
-            cursor: pointer;
-        }
-        td {
-            a {
-                cursor: pointer;
-            }
+    li, a {
+        &.disabled {
+            display: none;
         }
     }
+
+    .skinny-col {
+        padding: 1rem 0.5rem;
+    }
+
+    th:not(.no-sort) {
+        color: #0071bc;
+        cursor: pointer;
+    }
+
 
     margin-top: 1em;
     clear: both;
@@ -24,11 +29,13 @@
     tr,
     th,
     td {
+        vertical-align: top;
         display: block;
         white-space: normal;
         padding: 1rem 0.5rem;
         a {
             cursor: pointer;
+            display: block;
         }
     }
     tr {
@@ -78,6 +85,20 @@
         padding-bottom: 1px;
         padding-top: 1px;
     }
+
+    .sorting_asc, .sorting_desc {
+        background-repeat: no-repeat;
+        background-position: center right;
+    }
+
+    .sorting_asc:not(.no-sort) {
+        background-image: url("../images/sort_asc.png");
+    }
+
+    .sorting_desc:not(.no-sort) {
+        background-image: url("../images/sort_desc.png");
+    }
+
 }
 
 // iPhone, some Android Portrait @ 320px, iphone 6 @ 375px -------------- //
