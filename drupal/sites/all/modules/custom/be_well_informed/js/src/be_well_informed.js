@@ -141,7 +141,7 @@ function resetBWIForm() {
     .dialog({
       modal: true,
       width: "auto",
-      title: "Be Well Informed &mdash Water Analysis Tool",
+      title: "Be Well Informed Water Analysis Tool",
       position: { 'my': 'center', 'at': 'center' },
       dialogClass: 'be-well-informed-modal',
       autoOpen: false,
