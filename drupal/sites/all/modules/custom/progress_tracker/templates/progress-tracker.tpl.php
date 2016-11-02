@@ -17,7 +17,7 @@
   </label>
 </div>
 <div id="progress-tracker-modal-content"></div>
-<div id="progress-tracker" class="eportal-data-table">
+<div id="progress-tracker" class="eportal-datatable-wrapper">
       <table class="usa-table-borderless">
         <thead>
         <tr>
