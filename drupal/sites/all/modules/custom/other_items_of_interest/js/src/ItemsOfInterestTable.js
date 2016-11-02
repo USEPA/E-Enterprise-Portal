@@ -103,7 +103,7 @@ var ItemsOfInterestTable;
           $table = $wrapper.find('table');
           if ($table.length > 0) {
             $table.dataTable(datatable_options);
-            $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
+            $table.removeClass("dataTable display no-footer").addClass('views-table eportal-responsive-table usa-table-borderless');
           }
           cached = true;
         }

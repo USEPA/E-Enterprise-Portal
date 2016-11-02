@@ -308,7 +308,7 @@ function resetBWIForm() {
               bAutoWidth: false,
               bSort: false,
               columnDefs: [
-                {className: "be-well-results-first-column", "targets": [0]}
+                {className: "small-screen-td-header", "targets": [0]}
               ],
               createdRow: function(row, data, dataIndex) {
                 // Add data-title attributes to row
@@ -328,7 +328,7 @@ function resetBWIForm() {
               bAutoWidth: false,
               bSort: false,
               columnDefs: [
-                {className: "be-well-results-first-column", "targets": [0]}
+                {className: "small-screen-td-header", "targets": [0]}
               ],
               createdRow: function(row, data, dataIndex) {
                 // Add data-title attributes to row
@@ -342,10 +342,10 @@ function resetBWIForm() {
               paging: false
             };
 
-            $table = $('<table id="be-well-informed-results-table" class="responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
+            $table = $('<table id="be-well-informed-results-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
             $table.appendTo('.be-well-informed-results').DataTable(default_datatable_result_summary_options);
 
-            $table = $('<table id="be-well-informed-result-details-table" class="responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
+            $table = $('<table id="be-well-informed-result-details-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
             $table.appendTo('.be-well-informed-result-details').DataTable(default_datatable_result_details_options);
 
             // Loop through and add trs to the summary table. Datatable does not support colspan

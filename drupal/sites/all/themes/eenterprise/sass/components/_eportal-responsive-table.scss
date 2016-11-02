@@ -1,0 +1,169 @@
+.eportal-responsive-table {
+
+    table {
+        th:not(.no-sort) {
+            color: #0071bc;
+            cursor: pointer;
+        }
+        td {
+            a {
+                cursor: pointer;
+            }
+        }
+    }
+
+    margin-top: 1em;
+    clear: both;
+    thead {
+        @include sr-only;
+        th.views-field-field-prog-tracker-app {
+            width: 150px;
+        }
+    }
+    tbody,
+    tr,
+    th,
+    td {
+        display: block;
+        white-space: normal;
+        padding: 1rem 0.5rem;
+        a {
+            cursor: pointer;
+        }
+    }
+    tr {
+        &.odd,
+        &.even {
+            background-color: $color-white;
+        }
+    }
+    tbody {
+        tr:last-of-type {
+            margin-bottom: 0;
+        }
+        td[data-title]:before {
+            width: 11em;
+            content: attr(data-title);
+            float: left;
+            font-size: $h7-font-size;
+            color: $color-gray-dark;
+        }
+        td.views-field-field-prog-track-actions-dnload[data-title]:before {
+            float: none;
+        }
+        td.small-screen-td-header {
+            background-color: $color-gray-lightest;
+            border-left: 1px solid $color-gray-light;
+            border-right: 1px solid $color-gray-light;
+        }
+        td {
+            border-bottom: none;
+        }
+    }
+    .views-field-field-prog-track-actions-dnload {
+        p {
+            line-height: 1.2;
+            margin-top: 0;
+            margin-bottom: 0;
+            a {
+                margin-bottom: 5px;
+            }
+        }
+        br {
+            display: none;
+        }
+    }
+    td.responsive-to-do-link a,
+    td.views-field-field-prog-track-actions-dnload a {
+        padding-bottom: 1px;
+        padding-top: 1px;
+    }
+}
+
+// iPhone, some Android Portrait @ 320px, iphone 6 @ 375px -------------- //
+
+@media screen and (max-width: 20em) {
+
+    .eportal-responsive-table {
+        tbody {
+            td[data-title="Item"]:before {
+                font-size: 1.4rem; //0.9em
+                content: '';
+            }
+            td[data-title="Item"] {
+                text-align: left;
+            }
+        }
+    }
+}
+
+// Eportal responsive Table for mobile -------------- //
+
+@media screen and (min-width: 20em) and (max-width: 60em) {
+    .eportal-responsive-table {
+        thead {
+            display: none;
+        }
+        tbody td[scope="row"] {
+            margin: 0;
+            text-align: left;
+        }
+        tbody td {
+            text-align: left;
+        }
+        td.views-field-counter {
+            display: none;
+        }
+    }
+}
+
+@media screen and (min-width: 60em) {
+
+    .eportal-responsive-table {
+        caption {
+            font-size: 1.5em;
+        }
+        thead {
+            position: relative;
+            clip: auto;
+            height: auto;
+            width: auto;
+            overflow: auto;
+        }
+        tr {
+            display: table-row;
+        }
+        th,
+        td {
+            display: table-cell;
+        }
+        tbody {
+            display: table-row-group;
+            th[scope="row"] {
+                background-color: transparent;
+                color: $color-gray-dark;
+                text-align: left;
+            }
+            tr {
+                margin-bottom: 1em;
+            }
+            td[data-title]:before {
+                content: none;
+            }
+            td[data-title="Item"] {
+                text-align: left;
+                background: inherit;
+                color: inherit;
+            }
+            td {
+                border-bottom: 1px solid $color-gray-lighter;
+            }
+            td.small-screen-td-header {
+                background-color: transparent;
+                border-left: none;
+                border-right: none;
+            }
+        }
+    }
+
+}
