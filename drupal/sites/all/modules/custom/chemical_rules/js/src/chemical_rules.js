@@ -87,7 +87,7 @@ function populate_substance_modal(chemical_rules_response_json) {
     var favorite_exists = find_matching_favorites(json.data.Substance.EPAChemicalInternalNumber, "Chemicals");
     
     //@TODO - Only show Save to My Chemicals link (#cr-save-favorite) if NOT in favs
-    
+
     $body.find('#cr-save-favorite').attr('data-epaintnum', json.data.Substance.EPAChemicalInternalNumber).attr('data-sysname', json.data.Substance.ChemicalSubstanceSystematicName);
     if (json.data.Substance.EPAChemicalRegistryName !== null) {
           $body.find('#cr-save-favorite').attr('data-commonname', json.data.Substance.EPAChemicalRegistryName);
