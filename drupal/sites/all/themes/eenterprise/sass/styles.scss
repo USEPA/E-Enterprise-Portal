@@ -407,7 +407,7 @@ footer {
     th {
         vertical-align: top;
     }
-    th:not(.no-sort) {
+    th:not(.no-sort):not(.sorting):not(.sorting_asc):not(.sorting_desc) {
         span {
             cursor: pointer;
             color: #0071bc;
