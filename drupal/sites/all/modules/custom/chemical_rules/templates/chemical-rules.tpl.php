@@ -11,7 +11,7 @@
       <input id="cr-search_input" name="cr-search_input" type="text" class="form-text" size="60" maxlength="128">
     </form>
   </div><!-- @end cr-search_field -->
-  <button id="cr-search-chems-btn">Search chemicals</button>  
+  <button id="cr-search-chems-btn" type="button">Search chemicals</button>  
   <div id="cr-search_description" class="description">Powered by EPA <a href="https://epa.gov/srs">Substance Registry Service</a> and <a href="https://epa.gov/lrs">Laws &amp; Regulations Service</a></div>
 </div><!-- @end cr-search -->    
 <div id="cr-tabs">
