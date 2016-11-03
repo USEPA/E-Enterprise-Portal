@@ -1,5 +1,5 @@
 var originalDialog;
-var favs = [];
+var favs = Drupal.settings.chemical_rules.profile;
 
 function cr_showElementOutOfMany($wrapper_to_show, $common_selector) {
   $common_selector.hide();
@@ -339,24 +339,10 @@ function isValidCasNumber(stringToCheck) {
   // Title (e.g., TSCA CHEMICAL DATA REPORTING REQUIREMENTS)
   // URL (e.g., https:\/\/gpo.gov...)
 
-  //@TODO - Get the favs array from the user profile and render them
-  //var favs = Drupal.settings.chemical_rules.profile;
-  favs = {
-    "Chemicals": [
-      {ID: "4309", CAS: "67-64-1", SysName: "2-Propanone", CommonName: "Acetone"},
-      {ID: "8979", CAS: "81-81-2", SysName: "2H-1-Benzopyran-2-one, 4-hydroxy-3-(3-oxo-1-phenylbutyl)-", CommonName: "Warfarin"},
-      {ID: "1797023", CAS: "", SysName: "Alkyl alcohol reaction product with alkyl diisocyanate (generic) (P-08-0359)", CommonName: ""},
-    ],
-    "Laws": [
-      {ID: "3882851", Citation: "40 CFR 711", Title: "TSCA CHEMICAL DATA REPORTING REQUIREMENTS" , URL: "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol31\/pdf\/CFR-2015-title40-vol31-part711.pdf"},
-    ],
-    "Programs": [
+//   var favs = Drupal.settings.chemical_rules.profile;
 
-    ]
-  }
-
-//@TODO 1) Get favorites
-//      2) Add logic to count number of favorite Chemicals and Laws
+  // 1) Get favorites
+  // 2) Count number of favorite Chemicals and Laws
 
   num_chem_faves = favs.Chemicals.length;
   num_rules_faves = favs.Laws.length;
