@@ -7,12 +7,17 @@
   </label>
 </div>
 <div class="filter-select" id="yadcf-filter-part-code">
-  <label for="edit-field-prog-track-domain-value">
+  <label for="edit-field-prog-track-part-code-value">
     Part Code
   </label>
 </div>
+<div class="filter-select" id="yadcf-filter-subpart-code">
+  <label for="edit-field-prog-track-sub-part-code-value">
+   Sub Part Code
+  </label>
+</div>
 <div class="filter-select" id="yadcf-filter-report-type">
-  <label for="edit-field-prog-track-domain-value">
+  <label for="edit-field-prog-track-report-type-value">
     Report Type
   </label>
 </div>
@@ -27,9 +32,9 @@
           <th><span>Status</span></th>
           <th><span>Date</span></th>
           <th class="no-sort">Actions</th>
-<!--          <th><span>Timestamp</span></th>-->
-          <th><span>Part Code</span></th>
           <th><span>Report Type</span></th>
+          <th><span>Part Code</span></th>
+          <th><span>Sub Part Code</span></th>
         </tr>
         </thead>
         <tbody>
