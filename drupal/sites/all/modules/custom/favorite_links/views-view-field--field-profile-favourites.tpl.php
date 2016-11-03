@@ -27,7 +27,7 @@
 <?php 
 	foreach ($row->field_field_profile_favourites as $key=>$array) {
 		$url = $array['raw']['field_url'][LANGUAGE_NONE][0]['value'];
-		$title = check_plain($array['raw']['field_title'][LANGUAGE_NONE][0]['value']);
+		$title = $array['rendered']['field_title'][0]['#markup'];
 		if (trim($title) == '') {
 			$title = $url;
 		}
