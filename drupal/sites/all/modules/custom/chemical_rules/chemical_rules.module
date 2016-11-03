@@ -178,7 +178,8 @@ function chemical_rules_process_srs_response(&$return) {
   else {
     $endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
   }
-  $endpoint = $endpoint . $_POST['cr-search_input'];
+  $endpoint = $endpoint . urlencode($_POST['cr-search_input']);
+  //$endpoint = $endpoint . str_ireplace(' ', '+',$_POST['cr-search_input']);
 
   //$headers = array('Content-Type' => 'application/json');
   $response = drupal_http_request($endpoint, [
@@ -218,7 +219,7 @@ function chemical_rules_process_srs_response(&$return) {
     $toAppend = '{"MolecularWeight": "58.08 g/mol", "Solubility": "Miscible with water", "VaporPressure": "231 mm Hg at 25 deg C", "LogP": "log Kow = -0.24", "Stability": "Stable under recommended storage conditions.", "pKA": "20"}';
     $toAppend = json_decode($toAppend);
     foreach ($toAppend as $name => $value) {
-      $return['data']['Substance'][str_ireplace('', '', $name)] = $value;
+      $return['data']['Substance'][$name] = $value;
     }
 
     // build both the "Synonym" list and the "SubstanceList"
