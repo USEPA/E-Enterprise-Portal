@@ -1195,8 +1195,6 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
       $key = "field_profile_favourites][$nl][$delta][";
       $errorMsgUrl = 'Invalid link.  It may contain invalid characters and is not allowed to have javascript. ' .
         'Please refrain from using special characters. Please contact a system admin if this problem continues.';
-      $errorMsgText = 'Invalid text.  It can not be blank or contain invalid characters. ' .
-        'Please contact a system admin if this problem continues.';
       $errorMsgBlank = 'This field may not be left blank';
 
       if($hasUrl || $hasText) {
@@ -1205,11 +1203,6 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
         }
         else if ($match_html) {
           form_set_error($key . "field_url", t($errorMsgUrl));
-        }
-
-        $check_text = check_plain($title);
-        if ($title !== $check_text) {
-          form_set_error($key . "field_title", t($errorMsgText));
         }
       }
       else if(!$hasUrl && !$hasText) {
