@@ -85,6 +85,7 @@ function populate_substance_modal(chemical_rules_response_json) {
     var html_to_add = [];
     var substance_lists = [];
     var favorite_exists = find_matching_favorites(json.data.Substance.EPAChemicalInternalNumber, "Chemicals");
+    var count_all_cfrs = 0;
     
     //@TODO - Only show Save to My Chemicals link (#cr-save-favorite) if NOT in favs
 
@@ -117,6 +118,7 @@ function populate_substance_modal(chemical_rules_response_json) {
     if(json.data.SubstanceList && json.data.SubstanceList !== ''){
       for(var listI in json.data.SubstanceList){
         if(Object.keys(json.data.SubstanceList[listI].cfrs).length > 0){
+          count_all_cfrs += Object.keys(json.data.SubstanceList[listI].cfrs).length;
           html_to_add.push('<h3><span class="cr-laws-regs_count">' + json.data.SubstanceList[listI].cfrs.length + '</span> laws and regulations for ' + json.data.SubstanceList[listI].substanceListName + '</h3><ul class="cr-lists">');
           substance_lists.push('<li>'+ json.data.SubstanceList[listI].substanceListName +'</li>');
           for (var index in json.data.SubstanceList[listI].cfrs) {
@@ -133,6 +135,7 @@ function populate_substance_modal(chemical_rules_response_json) {
       // No laws regulations found
 
     }
+    $body.find('#count-all-cfrs').text(count_all_cfrs);
     
 /*  //@TODO Future - If Programs do Exist
     $programs.html('');
