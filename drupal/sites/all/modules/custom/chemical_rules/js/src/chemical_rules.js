@@ -221,7 +221,8 @@ function render_favorite_chemicals(favs) {
       }
       favorite_chemicals.push('<li><a class="favorite-chemical cr-favorite" href="javascript:void(0);" data-favtype="Chemical" data-epaintnum="' + val.ID + '" data-commonname="' + val.CommonName + '">' + cas + val.SysName + include_commonname +'</a><a class="favorite-chemical-remove remove-link" data-favtype="Chemical" data-epaintnum="' + val.ID + '" data-commonname="' + val.CommonName + '">Remove<span class="sr-only"> ' + val.SysName + ' from favorites</span></a></li>');
     });
-    $body.find('.cr-favorite-chemicals').html(favorite_chemicals);
+    $body.find('.cr-chemicals').show();
+    $body.find('.cr-favorite-chemicals').html(favorite_chemicals).show();
   }
 
   else {
@@ -241,7 +242,8 @@ function render_favorite_laws(favs) {
     $.each(favs.Laws, function(index, val) {
       favorite_laws.push('<li><a class="favorite-law cr-favorite" href="' + val.URL + '" data-favtype="Law" data-epaintnum="' + val.ID + '">' + val.Citation + ':  ' + val.Title + '</a><a class="favorite-law-remove remove-link" data-favtype="Law" data-epaintnum="' + val.ID + '">Remove<span class="sr-only"> ' + val.Title + ' from favorites</span></a></li>');
     });
-    $body.find('.cr-favorite-laws').html(favorite_laws);
+    $body.find('.cr-laws').show();
+    $body.find('.cr-favorite-laws').html(favorite_laws).show();
   }
   else {
     $body.find('.cr-laws').hide();
