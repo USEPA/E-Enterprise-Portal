@@ -163,20 +163,6 @@ function new_state_form_redirect($form, &$form_state)
   drupal_goto('/resource-editor');
 }
 
-//
-// function loadStateResources() {
-//     $state_resources = array();
-//     $query = new EntityFieldQuery;
-//     $query->entityCondition('entity_type', 'node')
-//         ->entityCondition('bundle', 'state_resource')
-//         ->propertyCondition('status', 1);
-//     $results = $query->execute();
-//     if (isset($results['node'])) {
-//         $nids = array_keys($results['node']);
-//         $state_resources = entity_load('node', $nids);
-//     }
-//    return $state_resources;
-//}
 
 
 function mapResourceTitlesToNids($title)

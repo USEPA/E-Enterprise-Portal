@@ -1,91 +1,78 @@
 <?php
-/**
- * Implements hook_menu().
- **/
-/*
-function add_map_set_menu() {
-    $items = array();
-    $items['generateMapsetsTable'] = array(
-        'page callback' => 'generateMapsetsTable',
-        'access callback' => TRUE,
-    );
-    return $items;
-}
-*/
 
 /**
  * Implements hook_theme_registry_alter().
  */
 function add_map_set_theme_registry_alter(&$theme_registry) {
-    // Defined path to the current module.
-    $module_path = drupal_get_path('module', 'add_map_set');
-    // Find all .tpl.php files in this module's folder recursively.
-    $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
-    // Iterate through all found template file objects.
-    foreach ($template_file_objects as $key => $template_file_object) {
-        // If the template has not already been overridden by a theme.
-        if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
-            // Alter the theme path and template elements.
-            $theme_registry[$key]['theme path'] = $module_path;
-            $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
-            $theme_registry[$key]['type'] = 'module';
-        }
+  // Defined path to the current module.
+  $module_path = drupal_get_path('module', 'add_map_set');
+  // Find all .tpl.php files in this module's folder recursively.
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  // Iterate through all found template file objects.
+  foreach ($template_file_objects as $key => $template_file_object) {
+    // If the template has not already been overridden by a theme.
+    if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
+      // Alter the theme path and template elements.
+      $theme_registry[$key]['theme path'] = $module_path;
+      $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+      $theme_registry[$key]['type'] = 'module';
     }
+  }
 }
 
 /**
  * Implements hook_form_alter().
  */
 function add_map_set_form_alter(&$form, &$form_state, $form_id) {
-    global $user;
-    if ($form_id == 'add_map_set_node_form') {
-        $form_state['rebuild'] = TRUE;
+  global $user;
+  if ($form_id == 'add_map_set_node_form') {
+    $form_state['rebuild'] = TRUE;
 
-        // Check if user is not admin
-        //if ($user->uid > 1) {
-            $user_data = user_load($user->uid);
-            //$state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
-            hide($form['additional_settings']);
-            hide($form['actions']['preview']);
-            $form['title']['#value'] = 'Testing New Add Map Set Form';
-            $form['title'];
-            $form['title']['#attributes'] = array(
-                'disabled' => 'disabled');
-        //}
-				$form['#attributes']['novalidate'] = '1';            
-        $form['actions']['submit']['#submit'][] = 'new_state_form_redirect';
-        $form['link'] = array('#markup' => l(t('Cancel'), '/workbench'));
-    }
+    // Check if user is not admin
+    //if ($user->uid > 1) {
+    $user_data = user_load($user->uid);
+    //$state = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
+    hide($form['additional_settings']);
+    hide($form['actions']['preview']);
+    $form['title']['#value'] = 'Testing New Add Map Set Form';
+    $form['title'];
+    $form['title']['#attributes'] = array(
+      'disabled' => 'disabled');
+    //}
+    $form['#attributes']['novalidate'] = '1';
+    $form['actions']['submit']['#submit'][] = 'app_connect_form_redirect';
+    $form['link'] = array('#markup' => l(t('Cancel'), '/workbench'));
+  }
 }
 
 /**
  * Hook_node_presave
  */
 function add_map_set_node_presave($node) {
-    global $user;
-		// Ensure custom content type is assigned to correct author
-    if($node->type === 'add_map_set') {
-        $node->uid = $user->uid;
-    }
+  global $user;
+  // Ensure custom content type is assigned to correct author
+  if ($node->type === 'add_map_set') {
+    $node->uid = $user->uid;
+  }
 }
 
-function new_state_form_redirect($form, &$form_state) {
-    drupal_goto('/mapsets');
+function app_connect_form_redirect($form, &$form_state) {
+  drupal_goto('/mapsets');
 }
 
 function loadStateMapsets() {
-	$state_mapsets = array();
-	$query = new EntityFieldQuery;
-	$query->entityCondition('entity_type', 'node')
-	   ->entityCondition('bundle', 'add_map_set')
-	   ->propertyCondition('status', 1);
-	
-	$results = $query->execute();
-	if (isset($results['node'])) {
-	   $nids = array_keys($results['node']);
-	   $state_mapsets = entity_load('node', $nids);
-	}
-	return $state_mapsets;
+  $state_mapsets = array();
+  $query = new EntityFieldQuery;
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'add_map_set')
+    ->propertyCondition('status', 1);
+
+  $results = $query->execute();
+  if (isset($results['node'])) {
+    $nids = array_keys($results['node']);
+    $state_mapsets = entity_load('node', $nids);
+  }
+  return $state_mapsets;
 }
 /*
 
