@@ -28,7 +28,9 @@ function site_deployment_update_7001(&$sandbox) {
   // Split steps in batches to minize risk of page timeout
   if (!$sandbox['current']) {
     $sandbox['current'] = 1;
+  }
 
+  if ($sandbox['current'] === 1) {
     $modules_to_disable = ['page_manager_feature', 'eenteprise_api_1_0', 'other_items_of_interest_feature', 'ee_disclaimer'];
     module_disable($modules_to_disable);
     drupal_set_message("Disabled modules: " . implode(', ', $modules_to_disable));
