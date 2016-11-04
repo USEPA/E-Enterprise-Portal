@@ -117,6 +117,10 @@
 
   // Create index column that updates on sorting
   var dtTable = $table_wrapper.DataTable(datatable_options);
+  dtTable.columns().iterator('column', function (ctx, idx) {
+    $(dtTable.column(idx).header()).append('<span class="sort-icon" />');
+  });
+
   dtTable.on('search.dt', function() {
     dtTable.column(0, {order: 'applied'}).nodes().each(function(cell, i) {
       cell.innerHTML = i + 1;
