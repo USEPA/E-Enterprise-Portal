@@ -19,7 +19,7 @@ module_load_include('inc', 'site_deployment', 'site_deployment_helpers');
 /**
  * Refactoring Features and EE-1579
  */
-function site_deployment_update_7011(&$sandbox) {
+function site_deployment_update_7012(&$sandbox) {
   module_load_include('inc', 'page_manager', 'plugins/tasks/page');
 
   // Number of passes required
@@ -53,7 +53,7 @@ function site_deployment_update_7011(&$sandbox) {
   }
 
   if ($sandbox['current'] === 4) {
-    
+
     // Reenable or enable new modules
     $modules_to_enable = ['role_export', 'page_manager_feature', 'eenteprise_api_1_0', 'other_items_of_interest_feature',
       'ee_disclaimer', 'air_quality_chart', 'progress_tracker_view',
