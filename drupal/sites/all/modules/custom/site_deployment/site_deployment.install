@@ -19,7 +19,7 @@ module_load_include('inc', 'site_deployment', 'site_deployment_helpers');
 /**
  * Refactoring Features and EE-1579
  */
-function site_deployment_update_7012(&$sandbox) {
+function site_deployment_update_7014(&$sandbox) {
   module_load_include('inc', 'page_manager', 'plugins/tasks/page');
 
   // Number of passes required
