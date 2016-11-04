@@ -447,20 +447,7 @@ function page_manager_feature_default_page_manager_pages() {
     $pane->type = 'block';
     $pane->subtype = 'to_do-to_do';
     $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 144,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => FALSE,
-        ),
-      ),
-    );
+  $pane->access = array();
     $pane->configuration = array(
       'override_title' => 0,
       'override_title_text' => '',
@@ -486,20 +473,8 @@ function page_manager_feature_default_page_manager_pages() {
     $pane->type = 'block';
     $pane->subtype = 'progress_tracker-progress_tracker';
     $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 144,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => FALSE,
-        ),
-      ),
-    );
+  $pane->access = array();
+
     $pane->configuration = array(
       'override_title' => 0,
       'override_title_text' => '',
