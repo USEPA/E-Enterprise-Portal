@@ -29,11 +29,11 @@ toggleSection = function() {
   $this.toggleClass('open close')
   // Reset all other arrows to right (default)
   /*$('.ui-accordion-header').not($(this)).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
-  if ($arrow.hasClass("fa-caret-right")) {
-    $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
-  } else {
-    $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
-  }*/
+   if ($arrow.hasClass("fa-caret-right")) {
+   $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
+   } else {
+   $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
+   }*/
   resizeModal()
 }
 
