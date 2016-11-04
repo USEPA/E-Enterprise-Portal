@@ -1,4 +1,3 @@
-
 .eportal-responsive-table {
 
     li, a {
@@ -99,6 +98,22 @@
         background-image: url("../images/sort_desc.png");
     }
 
+    //@see https://datatables.net/forums/discussion/25819
+    th {
+        background: transparent !important;
+        white-space: nowrap;
+    }
+    span.sort-icon {
+        display: inline-block;
+        padding-left: 20px;
+        width: 16px;
+        height: 16px;
+    }
+    .sorting span { background: url('../images/sort_both.png') no-repeat center right; }
+    .sorting_asc span { background: url('../images/sort_asc.png') no-repeat center right; }
+    .sorting_desc span { background: url('../images/sort_desc.png') no-repeat center right; }
+    .sorting_asc_disabled span { background: url('../images/sort_asc_disabled.png') no-repeat center right; }
+    .sorting_desc_disabled span { background: url('../images/sort_desc_disabled.png') no-repeat center right; }
 }
 
 // iPhone, some Android Portrait @ 320px, iphone 6 @ 375px -------------- //

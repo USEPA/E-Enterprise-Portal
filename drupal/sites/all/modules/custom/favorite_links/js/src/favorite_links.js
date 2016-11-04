@@ -47,6 +47,7 @@
                 && $(this).attr('href') != '/'
                 && $(this).attr('href') != '#close'
                 && !$(this).hasClass('about-widget')
+                && !$(this).hasClass('favorite-law')
                 && !$(this).hasClass('processed-favorite')
                 && $(this).attr('href') != ''
             ) {
@@ -222,8 +223,8 @@
 // Shift (16) triggers qTip
 // Escape (27) or blur hide qTip
 // Ctrl + D (68) toggles the favorite and shows the qTip
-        $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", ".about-widget", "[href^=mailto]", "[href^=javascript]", ".remove-link").focus(function () {
-            $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", ".about-widget", "[href^=mailto]", "[href^=javascript]", ".remove-link").keydown(function (event) {
+        $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", ".about-widget", "[href^=mailto]", "[href^=javascript]", ".remove-link", ".favorite-law").focus(function () {
+            $("a").not(".menu-link", ".ctools-use-modal", ".skip-link", ".favorites-ignore", ".paginate_button", ".about-widget", "[href^=mailto]", "[href^=javascript]", ".remove-link", ".favorite-law").keydown(function (event) {
                 try {
                     if (event.which === 16) {
                         if (event.which === 9) {

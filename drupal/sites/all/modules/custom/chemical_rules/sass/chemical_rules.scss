@@ -110,6 +110,11 @@ $white:                 #fff;
         margin-top: 0;
         margin-bottom: 0;
     }
+    .fa-heart {
+        margin-left: 5px;
+        background-size: 14px 14px;
+        vertical-align: top;        
+    }
 }
 
 .cr-lists,
@@ -127,9 +132,7 @@ $white:                 #fff;
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
     }
-    .favorite-chemical, 
     .favorite-chemical-remove,
-    .favorite-law,
     .favorite-law-remove {
         display: inline-block;
     }

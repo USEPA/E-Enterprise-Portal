@@ -142,9 +142,10 @@ function chemical_rules_form_submission() {
     $response['data'] = sample_chemical_rules_response();
   }
   else {
-      chemical_rules_process_srs_response($response);
-      chemical_rules_process_lrs_response($response);
-      //chemical_rules_process_pubchem_response($response);
+    chemical_rules_process_srs_response($response);
+    chemical_rules_process_elastic_response($response);
+    //chemical_rules_process_lrs_response($response);
+    //chemical_rules_process_pubchem_response($response);
   }
 
   drupal_json_output($response);
@@ -172,12 +173,13 @@ function chemical_rules_process_srs_response(&$return) {
   // Decide what kind of search we are doing: cas# || chem name
 
   if(is_valid_cas_number($_POST['cr-search_input'])){
-    $endpoint = "http://ends2.epacdxnode.net/RestProxy/query?Node=NGNTest2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|";
+    $endpoint = "https://ends2.epacdxnode.net/RestProxy/query?Node=NGNTest2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|";
   }
   else {
-    $endpoint = "http://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
+    $endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
   }
-  $endpoint = $endpoint . $_POST['cr-search_input'];
+  $endpoint = $endpoint . urlencode($_POST['cr-search_input']);
+  //$endpoint = $endpoint . str_ireplace(' ', '+',$_POST['cr-search_input']);
 
   //$headers = array('Content-Type' => 'application/json');
   $response = drupal_http_request($endpoint, [
@@ -217,7 +219,7 @@ function chemical_rules_process_srs_response(&$return) {
     $toAppend = '{"MolecularWeight": "58.08 g/mol", "Solubility": "Miscible with water", "VaporPressure": "231 mm Hg at 25 deg C", "LogP": "log Kow = -0.24", "Stability": "Stable under recommended storage conditions.", "pKA": "20"}';
     $toAppend = json_decode($toAppend);
     foreach ($toAppend as $name => $value) {
-      $return['data']['Substance'][str_ireplace('', '', $name)] = $value;
+      $return['data']['Substance'][$name] = $value;
     }
 
     // build both the "Synonym" list and the "SubstanceList"
@@ -266,6 +268,44 @@ function chemical_rules_process_lrs_response(&$return) {
 
   $substance_list = [];
   foreach ($substance_list_response as $list){
+    if(in_array($list->substanceListName, $return['data']['SubstanceList'])){
+      $cfrs = [];
+      foreach ($list->cfrs as $cfr_id => $cfr) {
+        $return['data']['LawsRegs'][$cfr_id] = $cfr;
+        $cfrs[] = $cfr_id;
+      }
+      $list->cfrs = $cfrs;
+      $substance_list[$list->substanceListName] = $list;
+    }
+  }
+  $return['data']['SubstanceList'] = $substance_list;
+}
+
+function chemical_rules_process_elastic_response(&$return) {
+  // make a call to the elastic search service
+  $elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search';
+
+  $headers = array('Content-Type' => 'application/json');
+  $elastic_response = drupal_http_request($elastic_endpoint, [
+    "headers" => $headers,
+    "method" => "POST",
+    'timeout' => "10",
+    //'data' =>  http_build_query(json_decode('{"query":{"match_all":{}},"from":10,"size":10}'))
+    'data' =>  '{"query":{"match_all":{}},"size":1000}'
+  ]);
+  if ($elastic_response->code !== "200") {
+    $return['error'] = TRUE;
+    $return['error-messages'][] = 'Elastic endpoint response: '.$elastic_response->error;
+    chemical_rules_process_lrs_response($return);
+    return;
+  }
+  else {
+    $substance_list_response = json_decode($elastic_response->data);
+  }
+
+  $substance_list = [];
+  foreach ($substance_list_response->hits->hits as $hit){
+    $list = $hit->_source;
     if(in_array($list->substanceListName, $return['data']['SubstanceList'])){
       $cfrs = [];
       foreach ($list->cfrs as $cfr_id => $cfr) {
