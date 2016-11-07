@@ -29,11 +29,11 @@ toggleSection = function() {
   $this.toggleClass('open close')
   // Reset all other arrows to right (default)
   /*$('.ui-accordion-header').not($(this)).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
-  if ($arrow.hasClass("fa-caret-right")) {
-    $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
-  } else {
-    $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
-  }*/
+   if ($arrow.hasClass("fa-caret-right")) {
+   $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
+   } else {
+   $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
+   }*/
   resizeModal()
 }
 
@@ -239,8 +239,12 @@ function resetBWIForm() {
                     '</div>')
                     .appendTo($prompt)
                     .on('click', 'button', function(e) {
-                      $inputs.find('button').not(e.currentTarget).removeClass('usa-button-primary').addClass('usa-button-outline')
-                      $(e.currentTarget).addClass('usa-button-primary').removeClass('usa-button-outline')
+                      // toggle CSS classes to indicate which button has been clicked
+                      $inputs.find('button').not(e.currentTarget).removeClass('usa-button-primary').addClass('usa-button-outline');
+                      $(e.currentTarget).addClass('usa-button-primary').removeClass('usa-button-outline');
+
+                      // select the appropriate radio element
+                      $(this).find('input:radio').prop("checked", true);
                     })
                   $inputs.find('input').attr('name', 'InteractivePromptResponses['+index+'][Interaction]')
                   var $hidden_symbol = $('<input type="hidden">')
