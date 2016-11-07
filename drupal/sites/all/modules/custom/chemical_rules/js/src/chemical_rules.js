@@ -406,7 +406,6 @@ function isValidCasNumber(stringToCheck) {
     if (num_rules_faves > 0) {
       render_favorite_laws(favs);
     }
-
   }
 
   // Initialize and open dialog
