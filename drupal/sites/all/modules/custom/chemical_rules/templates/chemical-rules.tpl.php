@@ -11,8 +11,8 @@
       <input id="cr-search_input" name="cr-search_input" type="text" class="form-text" size="60" maxlength="128">
     </form>
   </div><!-- @end cr-search_field -->
-  <button id="cr-search-chems-btn">Search chemicals</button>  
-  <div id="cr-search_description" class="description">Powered by EPA <a href="https://epa.gov/srs">Substance Registry Service</a> and <a href="https://epa.gov/lrs">Laws & Regulations Service</a></div>
+  <button id="cr-search-chems-btn" type="button">Search chemicals</button>  
+  <div id="cr-search_description" class="description">Powered by EPA <a href="https://epa.gov/srs">Substance Registry Service</a> and <a href="https://epa.gov/lrs">Laws &amp; Regulations Service</a></div>
 </div><!-- @end cr-search -->    
 <div id="cr-tabs">
     <ul>
@@ -29,9 +29,12 @@
       </div><!-- @end cr-tabs_favorites_empty -->
       <div class="cr-tabs_favorites_available">
         <! -- @TODO - List favorites -->
-        <ul class="cr-lists cr-tabs_favorites-list">
-          <li><a class="favorite-chemical" href="#" data-epachemintnum="9999" data-systematicname="Acetone">67-64-1:  Acetone</a><a class="favorite-chemical-remove remove-link">Remove</a></li> 
-        </ul>      
+        <p class="cr-chemicals"><span id="cr-count-chemicals"></span> Chemicals</p>
+        <ul class="cr-lists cr-favorite-chemicals">
+        </ul>   
+        <p class="cr-laws"><span id="cr-count-laws"></span> Laws / Regulations</p>
+        <ul class="cr-lists cr-favorite-laws">
+        </ul>
       </div><!-- @end cr-tabs_favorites_empty -->
     </div><!-- @end cr-tabs_favorites -->
     <!-- @TAB: Search -->    

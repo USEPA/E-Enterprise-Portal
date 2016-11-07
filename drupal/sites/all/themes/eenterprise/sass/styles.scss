@@ -27,7 +27,6 @@
 @import 'elements/table';
 @import 'elements/typography';
 // Components -------------- //
-//@import 'components/accordions';
 @import 'components/alerts';
 @import 'components/disclaimer';
 @import 'components/footer';
@@ -35,6 +34,7 @@
 @import 'components/search';
 @import 'components/skipnav';
 @import 'components/pace';
+@import 'components/eportal-responsive-table';
 
 @mixin linear-gradient($gradient-light, $gradient-dark) {
     background-image: -webkit-gradient(linear, left top, left bottom, from($gradient-light), to($gradient-dark));
@@ -95,9 +95,20 @@
 
 }
 
-
 .text-right {
     text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.vertical-top {
+    vertical-align: top;
+}
+
+.block-display {
+    display: block;
 }
 
 .element-hidden {
@@ -234,7 +245,6 @@
         }
     }
 }
-
 
 // Menus -------------- //
 
@@ -390,7 +400,100 @@ footer {
 #local-resources-tabs,
 .view-state-resource-editor,
 .view-resource-editor,
-.pane-my-cdx-my-cdx {
+.pane-my-cdx-my-cdx{
+
+
+    th {
+        vertical-align: top;
+    }
+    th:not(.no-sort):not(.sorting):not(.sorting_asc):not(.sorting_desc) {
+        span {
+            cursor: pointer;
+            color: #0071bc;
+        }
+    }
+
+    td {
+        vertical-align: top;
+        a {
+            display: block;
+        }
+    }
+
+    .skinny-col {
+        padding: 1rem 0.5rem;
+    }
+
+    ul.paging_simple_numbers,
+    ul.paging_simple {
+        margin-top: 0;
+        margin-bottom: 20px;
+        span {
+            vertical-align: middle;
+        }
+        a {
+            font-family: $font-sans !important;
+            font-size: 1.4rem;
+            &:before,
+            &:after {
+                font-family: 'FontAwesome' !important;
+            }
+        }
+        .pager__link:focus {
+            outline: 1px dotted $color-primary; // this addresses the lack of a focus outline on firefox
+        }
+        .pager__link.previous,
+        .pager__link.next {
+            background-color: $color-primary;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 1rem, contain;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            vertical-align: middle;
+            font-size: 0;
+            cursor: pointer;
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                outline: none;
+            }
+        }
+        .pager__link.previous {
+            background-image: url('../images/white/chevron-left.svg');
+            background-position: 40% center;
+        }
+        .pager__link.next {
+            background-image: url('../images/white/chevron-right.svg');
+            background-position: 60% center;
+        }
+        li, a {
+            &.disabled {
+                display: none;
+            }
+        }
+    }
+    .dataTables_info,
+    ul.paging_simple_numbers {
+        font-size: 1.4rem;
+        line-height: 1;
+        margin-top: 0;
+        padding-top: 0;
+        > li {
+            display: table-cell;
+        }
+    }
+    ul.paging_simple {
+        .pager-current {
+            font-size: 1.4rem;
+        }
+    }
+
+}
+
+
+.eportal-datatable-wrapper {
     ul.paging_simple_numbers,
     ul.paging_simple {
         margin-top: 0;
@@ -768,7 +871,7 @@ header {
                             font-size: 2.5rem;
                             font-style: italic;
                             margin-top: 0;
-                        }                      
+                        }
                     }
                 }
                 > li {
@@ -944,9 +1047,8 @@ header {
 // Hide dialogs on first load -------------- //
 
 .page-workbench {
-    .ui-dialog,
-    div[role="dialog"]:not(.fsrFloatingContainer) {
-        display: none;
+    .hidden-at-start {
+        visibility: hidden;
     }
     .locations-modal.ui-dialog {
         max-width: 80%;
@@ -1025,8 +1127,10 @@ header {
 
 .pane-content {
     .view-to-do,
-    .view-progress-tracker {
+    .view-progress-tracker,
+    .filter-select {
         select {
+            width: auto;
             padding-right: 2.5rem;
             background-position: right 0.75rem center;
         }
@@ -1108,11 +1212,7 @@ header {
         padding-bottom: 5px;
     }
 
-    .views-field-field-todo-lst-item,
-    .views-field-field-todo-lst-domain,
-    .views-field-field-prog-tracker-app,
-    .views-field-field-prog-track-domain,
-    .be-well-results-first-column{
+    .small-screen-td-header{
         display: block;
     }
 
@@ -1120,7 +1220,7 @@ header {
     td.views-field-field-todo-lst-domain,
     td.views-field-field-prog-tracker-app,
     td.views-field-field-prog-track-domain,
-    td.be-well-results-first-column{
+    td.be-well-results-first-column {
         text-align: left;
     }
 
@@ -1190,11 +1290,7 @@ header {
 }
 
 @media screen and (min-width: 75em) {
-    .views-field-field-todo-lst-item,
-    .views-field-field-todo-lst-domain,
-    .views-field-field-prog-tracker-app,
-    .views-field-field-prog-track-domain,
-    .be-well-results-first-column{
+    .small-screen-td-header {
         display: table-cell;
     }
 }
@@ -1241,6 +1337,7 @@ span.item-subscript-text,
 a.simple-dialog {
     margin-top: 10px;
     text-transform: uppercase;
+    font-size: 1rem;
 }
 
 th.views-field-counter,
@@ -1256,6 +1353,10 @@ td.views-field-field-todo-lst-due {
 .views-field-field-prog-track-updated .date-subscript-text,
 .views-field-field-prog-tracker-app .item-subscript-text,
 .view-to-do .date-subscript-text {
+    font-size: 1rem;
+}
+
+.item-subscript-text {
     font-size: 1rem;
 }
 
@@ -2295,10 +2396,10 @@ form .field-multiple-table#field-zip-code-values {
 /* Help question mark source: Font Awesome by Dave Gandy - http://fontawesome.io */
 .about-widget {
     display: block;
-    position: absolute; 
-    right: 30px; 
-    top: 26px; 
-    font-size: 0; 
+    position: absolute;
+    right: 30px;
+    top: 26px;
+    font-size: 0;
     text-decoration: none;
 }
 
@@ -2310,7 +2411,7 @@ form .field-multiple-table#field-zip-code-values {
         }
         button {
             top: 1em;
-        }        
+        }
     }
 }
 
@@ -2521,109 +2622,16 @@ input[type="submit"]:not(.usa-button-outline),
     }
 }
 
-.view-to-do,
-.view-progress-tracker,
-.be-well-informed-modal {
-    .responsive-table {
-        margin-top: 1em;
-        clear: both;
-        thead {
-            @include sr-only;
-            th.views-field-field-prog-tracker-app {
-                width: 150px;
-            }
-        }
-        tbody,
-        tr,
-        th,
-        td {
-            display: block;
-            white-space: normal;
-            padding: 1rem 0.5rem;
-        }
-        th,
-        td {
-            vertical-align: top;
-        }
-        tr {
-            &.odd,
-            &.even {
-                background-color: $color-white;
-            }
-        }
-        tbody {
-            tr:last-of-type {
-                margin-bottom: 0;
-            }
-            td[data-title]:before {
-                width: 11em;
-                content: attr(data-title);
-                float: left;
-                font-size: $h7-font-size;
-                color: $color-gray-dark;
-            }
-            td.views-field-field-prog-track-actions-dnload[data-title]:before {
-                float: none;
-            }
-            td.views-field-field-prog-tracker-app,
-            td.views-field-field-todo-lst-item,
-            td.be-well-results-first-column
-            {
-                background-color: $color-gray-lightest;
-                border-left: 1px solid $color-gray-light;
-                border-right: 1px solid $color-gray-light;
-            }
-            td {
-                border-bottom: none;
-            }
-        }
-        .views-field-field-prog-track-actions-dnload {
-            p {
-                line-height: 1.2;
-                margin-top: 0;
-                margin-bottom: 0;
-                a {
-                    margin-bottom: 5px;
-                }
-            }
-            br {
-                display: none;
-            }
 
-        }
-        td.responsive-to-do-link a,
-        td.views-field-field-prog-track-actions-dnload a {
-            padding-bottom: 1px;
-            padding-top: 1px;
-        }
-    }
-    a.favorites-ignore:not(.pager__link) {
-        display: block;
-    }
+
+
+
+
+.filter-select {
+    float: left;
+    margin-right: 4%;
 }
 
-/** Sorting images (up and down arrows) **/
-table.dataTable, table.views-table {
-
-    thead {
-        .sorting {
-            background-image: url("../images/sort_both.png");
-        }
-        .sorting, .sorting_asc, .sorting_desc, .sorting_asc_disabled, .sorting_desc_disabled {
-            background-repeat: no-repeat;
-            background-position: center right;
-        }
-        .sorting, .sorting_asc, .sorting_desc {
-            cursor: pointer;
-        }
-        .sorting_asc {
-            background-image: url("../images/sort_asc.png");
-        }
-        .sorting_desc {
-            background-image: url("../images/sort_desc.png");
-        }
-    }
-}
 
 // iPhone, some Android Portrait @ 320px, iphone 6 @ 375px -------------- //
 
@@ -2652,17 +2660,7 @@ table.dataTable, table.views-table {
             }
         }
     }
-    .responsive-table {
-        tbody {
-            td[data-title="Item"]:before {
-                font-size: 1.4rem; //0.9em
-                content: '';
-            }
-            td[data-title="Item"] {
-                text-align: left;
-            }
-        }
-    }
+
     footer {
         padding-top: 20px;
         p {
@@ -2812,32 +2810,13 @@ table.dataTable, table.views-table {
     }
 }
 
-// To Do / Progress Tracker - iPhone -------------- //
-
 @media screen and (min-width: 20em) and (max-width: 60em) {
-    .view-progress-tracker,
-    .view-to-do,
-    .be-well-informed-modal{
-        .responsive-table {
-            thead {
-                display: none;
-            }
-            tbody td[scope="row"] {
-                margin: 0;
-                text-align: left;
-            }
-            tbody td {
-                text-align: left;
-            }
-            td.views-field-counter {
-                display: none;
-            }
-        }
+    td {
+        padding: 1rem 0.5rem;
     }
-    .responsive-table {
-        td {
-            padding: 1rem 0.5rem;
-        }
+
+    .hidden-for-small-screen {
+        display: none !important;
     }
 }
 
@@ -2864,8 +2843,8 @@ table.dataTable, table.views-table {
     #modalContent {
         position: fixed !important;
     }
-    #other-areas-tabs{
-        .responsive-table {
+    #other-areas-tabs {
+        .eportal-responsive-table {
             thead {
                 display: none;
             }
@@ -3091,59 +3070,6 @@ table.dataTable, table.views-table {
                             }
                         }
                     }
-                }
-            }
-        }
-    }
-
-    .view-progress-tracker,
-    .view-to-do,
-    .be-well-informed-modal{
-        .responsive-table {
-            caption {
-                font-size: 1.5em;
-            }
-            thead {
-                position: relative;
-                clip: auto;
-                height: auto;
-                width: auto;
-                overflow: auto;
-            }
-            tr {
-                display: table-row;
-            }
-            th,
-            td {
-                display: table-cell;
-            }
-            tbody {
-                display: table-row-group;
-                th[scope="row"] {
-                    background-color: transparent;
-                    color: $color-gray-dark;
-                    text-align: left;
-                }
-                tr {
-                    margin-bottom: 1em;
-                }
-                td[data-title]:before {
-                    content: none;
-                }
-                td[data-title="Item"] {
-                    text-align: left;
-                    background: inherit;
-                    color: inherit;
-                }
-                td {
-                    border-bottom: 1px solid $color-gray-lighter;
-                }
-                td.views-field-field-prog-tracker-app,
-                td.views-field-field-todo-lst-item,
-                td.be-well-results-first-column{
-                    background-color: transparent;
-                    border-left: none;
-                    border-right: none;
                 }
             }
         }
@@ -3614,14 +3540,16 @@ p.has-error {
         color: $color-base;
     }
 }
+
 p.has-error {
     padding: 10px;
     margin: 0 -10px;
     width: 100%;
 }
 
-a {
+span {
     &.refresh {
+        cursor: pointer;
         padding: 2px 4px;
         position: absolute;
         top: 30px;
@@ -4253,7 +4181,7 @@ select[multiple="multiple"] {
     outline: 1px solid red;
 }
 
-.beta-ribbon:after{
+.beta-ribbon:after {
     content: "beta";
     position: absolute;
     width: 80px;
@@ -4268,7 +4196,7 @@ select[multiple="multiple"] {
     font-weight: bold;
     color: #fff;
     line-height: 27px;
-    -ms-transform:rotate(-45deg);
-    -webkit-transform:rotate(-45deg);
-    transform:rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }

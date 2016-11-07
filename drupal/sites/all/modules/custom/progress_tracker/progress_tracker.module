@@ -1,0 +1,177 @@
+<?php
+
+/**
+ *
+ */
+function progress_tracker_menu() {
+  $items = array();
+
+  $items['progress_tracker/load_data'] = array(
+    'page callback' => 'load_progress_tracker_datatable_json',
+    'access callback' => TRUE,
+  );
+
+  $items['progress_tracker/load_data/%'] = array(
+    'page callback' => 'load_progress_tracker_datatable_json',
+    'access callback' => TRUE,
+    'page arguments' => array(2),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function progress_tracker_block_info() {
+  $blocks = array();
+  $blocks['progress_tracker'] = array(
+    'info' => t('Progress Tracker Block'),
+  );
+  return $blocks;
+}
+
+
+/**
+ * Implements hook_theme().
+ * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
+ */
+function progress_tracker_theme() {
+  return array(
+    // Name to be called with theme(). theme('progress_tracker')
+    'progress_tracker' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use my-cdx.tpl.php
+      'template' => 'progress-tracker',
+      'path' => drupal_get_path('module', 'progress_tracker') . '/templates'
+    ),
+    'pt_status_modal' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use my-cdx.tpl.php
+      'template' => 'progress-tracker-status-modal',
+      'path' => drupal_get_path('module', 'progress_tracker') . '/templates'
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function progress_tracker_block_view($delta = '') {
+  $block = array();
+
+  if ($delta == 'progress_tracker') {
+    drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
+      'scope' => 'footer',
+      'preprocess' => TRUE,
+      'group' => JS_LIBRARY,
+      'type' => 'file',
+      'cache' => TRUE,
+      'requires_jquery' => TRUE
+    ]);
+
+    drupal_add_js(libraries_get_path('yadcf') . '/0.9.0.beta.5/jquery.dataTables.yadcf.js', [
+      'scope' => 'footer',
+      'preprocess' => TRUE,
+      'group' => JS_LIBRARY,
+      'type' => 'file',
+      'cache' => TRUE,
+      'requires_jquery' => TRUE
+    ]);
+
+    drupal_add_js(drupal_get_path('module', 'progress_tracker') . '/js/progress_tracker.js', [
+      'scope' => 'footer',
+      'preprocess' => TRUE,
+      'group' => JS_DEFAULT,
+      'type' => 'file',
+      'cache' => TRUE,
+      'requires_jquery' => TRUE
+    ]);
+    drupal_add_css(drupal_get_path('module', 'progress_tracker') . '/css/progress_tracker.css', [
+      'preprocess' => TRUE,
+      'group' => CSS_THEME
+    ]);
+
+
+    if (user_access('access content')) { //good idea to check user perms here
+      // Set Modal Template
+      $status_details_html = theme('pt_status_modal');
+      drupal_add_js(array("progressTrackerStatusModal" => $status_details_html), 'setting');
+
+
+      $block['subject'] = t('Progress Tracker');
+      $block['content'] = theme('progress_tracker');
+      return $block;
+    }
+  }
+
+  return $block;
+}
+
+/**
+ * Load the json and pass it to the progress tracker datatable
+ * this is a menu item function
+ */
+function load_progress_tracker_datatable_json($use_cache = TRUE) {
+  if (!module_exists('eactivity_dataflow')) {
+    drupal_json_output('EACTIVITY DATAFLOW module is not enabled.');
+  }
+
+  // Json formatted for Datatables
+  $eactivity_dt_json = [];
+  $progress_tracker_data = load_eactivity_data('progress_tracker', $use_cache);
+
+  foreach($progress_tracker_data as $id=>$eactivity_item) {
+    $part_code = "";
+    $report_type = "";
+    $sub_part_code = "";
+    if ($eactivity_item['domain'] === "CEDRI") {
+
+      $cedri_details = $eactivity_item['cedri_details'];
+      $parenthesis_index = strpos($eactivity_item['title'], ')');
+      $subheading = substr($eactivity_item['title'], $parenthesis_index+1);
+      $sub_part_code = $cedri_details['sub_part_code'];
+      $part_code = $cedri_details['part_code'];
+
+      $title = "<span class='report-name'>" .
+        $cedri_details['partner_system_report_type'] . " (" .
+        $part_code . ", " . $sub_part_code . ") " .
+        "</span><span class='subpart-name'>$subheading</span>" .
+        "<span class='item-subscript-text'>" . $cedri_details['facility_name'] . "</span>";
+
+      $status_note = $cedri_details['part_code'] . " - " . $cedri_details['part_name'] .
+          "<br /> " . $cedri_details['sub_part_code'] . " - " . $cedri_details['sub_part_name'];
+
+    } else {
+      $title = $eactivity_item['title'];
+      $status_note = $eactivity_item['status_note'];
+      $report_type = $eactivity_item['report_type'];
+    }
+
+    $status_anchor =
+      "<a class='favorites-ignore pt-status'" .
+      "data-title='" . $eactivity_item['title'] . "'" .
+      "data-status-note='" . $status_note . "'" .
+      ">" . $eactivity_item['status'] . "</a>";
+
+
+    $eactivity_dt_row = [
+      "", // Empty to allow for datatables to have index column
+      $title,
+      $eactivity_item['domain'],
+      $status_anchor,
+      "<span data-order='" . strtotime($eactivity_item['date']) . "' class='date-display-single'>" . $eactivity_item['date'] . "</span><span class='date-subscript-text'>" . $eactivity_item['date_type'] . "</span>",
+      $eactivity_item['actions'],
+      $report_type,
+      $part_code,
+      $sub_part_code,
+      ];
+
+    $eactivity_dt_json[] = $eactivity_dt_row;
+  }
+
+  drupal_json_output(array("data" => $eactivity_dt_json));
+}
+

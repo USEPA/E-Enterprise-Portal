@@ -51,7 +51,7 @@
     }
 
     .view-lgc-resources {
-        .responsive-table {
+        .eportal-responsive-table {
             margin-top: 1em;
             clear: both;
             thead {
@@ -124,7 +124,7 @@
 @media screen and (min-width: 34.01em) and (max-width: 48.0em), screen and (min-width: 72.01em) {
     .resources {
         &.toggle-open {
-            .responsive-table {
+            .eportal-responsive-table {
                 .views-field {
                     &.views-field-value-3, &.views-field-value-4 {
                         display: none;
@@ -133,7 +133,7 @@
             }
         }
         &.toggle-closed {
-            .responsive-table {
+            .eportal-responsive-table {
                 .views-field {
                     &.views-field-value-3, &.views-field-value-4 {
                         display: table-cell;

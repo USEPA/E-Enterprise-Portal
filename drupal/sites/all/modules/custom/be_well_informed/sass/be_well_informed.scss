@@ -77,6 +77,83 @@ $color_ecstasy_approx: #ff851b;
 }
 
 #be-well-informed-modal {
+    .navigation-tabs,
+    .bwi-resources-list {
+        margin: 0;
+        li:before,
+        li:after {
+            content: none;
+        }
+    }
+    
+    .bwi-lab-list {
+        li {
+            display: block;
+            margin-left: 30px;
+            &:before {
+                display: inline-block;
+            }
+            
+        }
+    }
+    
+    .ui-tabs {
+        .ui-tabs-nav {
+            display: block;
+            border-bottom: 1px solid #f1f1f1;
+            li {
+                margin-right: 0;
+                font-size: 1.5rem;
+                margin-bottom: 3px;
+                float: none;
+                display: inline-block;
+                margin-bottom: -1px;
+                &.ui-tabs-active {
+                    border-bottom: 3px solid #007AC6;
+                    margin-bottom: -4px;
+                    padding-bottom: 0px;
+                }
+            }
+        }
+    }
+    
+    .ui-state-default {
+        background: none;
+        border: none;
+        font-weight: normal;
+        color: inherit;
+        a,
+        a:link,
+        a:visited {
+            color: #212121;
+        }
+        // Fix tab hover colors
+        a:hover,
+        a:focus,
+        a:active {
+            color: #191919;
+        }
+    }
+    
+    .ui-state-active,
+    .ui-widget-content .ui-state-active,
+    .ui-widget-header .ui-state-active {
+        font-weight: bold;
+        background: transparent;
+        border: none;
+    }
+    
+    .ui-corner-all,
+    .ui-corner-bottom,
+    .ui-corner-right,
+    .ui-corner-tl,
+    .ui-corner-tr,
+    .ui-corner-br,
+    .ui-corner-bl {
+        border: none;
+        border-radius: 0 !important;
+    }    
+    
     #be-well-informed-form-wrapper {
         & > div:first-child {
             overflow: visible;
@@ -610,6 +687,40 @@ $color_ecstasy_approx: #ff851b;
     }
     #be-well-informed-results-wrapper, #be-well-informed-error-wrapper {
         display: none;
+    }
+    
+    .bwi-support-box {
+        border: 1px solid #007AC6;
+        margin-bottom: 10px;
+        h4 {
+            margin: 0;
+            padding: 5px 10px;
+            background-color: #007AC6;
+            color: #fff;
+            font-weight: normal;
+        }
+        .bwi-resource-name {
+            font-weight: bold;
+        }
+        p {
+            margin: 0 30px;
+            line-height: 1.4;          
+            &.bwi-support-intro {
+                margin-top: 20px;
+            }
+        }
+        .bwi-resources-list,
+        .bwi-lab-list {
+            li {
+                margin-top: 15px;
+                margin-bottom: 15px;
+                display: block;
+            }
+            .fa-phone,
+            .fa-send {
+                color: #007AC6;
+            }
+        }
     }
 
 }

@@ -29,11 +29,11 @@ toggleSection = function() {
   $this.toggleClass('open close')
   // Reset all other arrows to right (default)
   /*$('.ui-accordion-header').not($(this)).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
-  if ($arrow.hasClass("fa-caret-right")) {
-    $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
-  } else {
-    $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
-  }*/
+   if ($arrow.hasClass("fa-caret-right")) {
+   $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
+   } else {
+   $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
+   }*/
   resizeModal()
 }
 
@@ -141,11 +141,13 @@ function resetBWIForm() {
     .dialog({
       modal: true,
       width: "auto",
+      title: "Be Well Informed Water Analysis Tool",
       position: { 'my': 'center', 'at': 'center' },
       dialogClass: 'be-well-informed-modal',
       autoOpen: false,
       draggable: false,
       create: function(event, ui) {
+        $('#bwi-tabs').tabs();
         var $form = $('#water_analysis_results_form');
         $form
           .parsley({
@@ -180,7 +182,7 @@ function resetBWIForm() {
     })
 
   $('#bwi-check-water-btn').click(function() {
-    $('#be-well-informed-modal').dialog("open")
+    $('#be-well-informed-modal').dialog("open");
     resizeModal()
   });
 
@@ -199,6 +201,7 @@ function resetBWIForm() {
     var data = Object.keys(formData).reduce(checkValues, formData);
     //console.log(data, JSON.stringify(data))
     showElementOutOfMany($loading_wrapper, $all_wrappers);
+    $('#entry-tab').text('Entry');
     $.ajax({
       url: 'be_well_informed/form_submission',
       method: 'POST',
@@ -236,8 +239,12 @@ function resetBWIForm() {
                     '</div>')
                     .appendTo($prompt)
                     .on('click', 'button', function(e) {
-                      $inputs.find('button').not(e.currentTarget).removeClass('usa-button-primary').addClass('usa-button-outline')
-                      $(e.currentTarget).addClass('usa-button-primary').removeClass('usa-button-outline')
+                      // toggle CSS classes to indicate which button has been clicked
+                      $inputs.find('button').not(e.currentTarget).removeClass('usa-button-primary').addClass('usa-button-outline');
+                      $(e.currentTarget).addClass('usa-button-primary').removeClass('usa-button-outline');
+
+                      // select the appropriate radio element
+                      $(this).find('input:radio').prop("checked", true);
                     })
                   $inputs.find('input').attr('name', 'InteractivePromptResponses['+index+'][Interaction]')
                   var $hidden_symbol = $('<input type="hidden">')
@@ -291,6 +298,7 @@ function resetBWIForm() {
               $interactive_prompts.removeClass('hide')
             }
             showElementOutOfMany($form_wrapper, $all_wrappers);
+            $('#entry-tab').text('Entry');
           }
           // If there are no additional questions we should have results
           else if(!!be_well_response_json.data.ResultEvaluations) {
@@ -304,7 +312,7 @@ function resetBWIForm() {
               bAutoWidth: false,
               bSort: false,
               columnDefs: [
-                {className: "be-well-results-first-column", "targets": [0]}
+                {className: "small-screen-td-header", "targets": [0]}
               ],
               createdRow: function(row, data, dataIndex) {
                 // Add data-title attributes to row
@@ -324,7 +332,7 @@ function resetBWIForm() {
               bAutoWidth: false,
               bSort: false,
               columnDefs: [
-                {className: "be-well-results-first-column", "targets": [0]}
+                {className: "small-screen-td-header", "targets": [0]}
               ],
               createdRow: function(row, data, dataIndex) {
                 // Add data-title attributes to row
@@ -338,10 +346,10 @@ function resetBWIForm() {
               paging: false
             };
 
-            $table = $('<table id="be-well-informed-results-table" class="responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
+            $table = $('<table id="be-well-informed-results-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
             $table.appendTo('.be-well-informed-results').DataTable(default_datatable_result_summary_options);
 
-            $table = $('<table id="be-well-informed-result-details-table" class="responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
+            $table = $('<table id="be-well-informed-result-details-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
             $table.appendTo('.be-well-informed-result-details').DataTable(default_datatable_result_details_options);
 
             // Loop through and add trs to the summary table. Datatable does not support colspan
@@ -419,18 +427,19 @@ function resetBWIForm() {
 
             $('.contaminant-link').click(function(){
               var $this = $(this)
-              $('#' + $this.attr('data-contaminant')).slideToggle()
+              $('[id=' + $this.attr('data-contaminant') + ']', $(this).parents('td')).slideToggle()
             })
             showElementOutOfMany($results_wrapper, $all_wrappers);
+            $('#entry-tab').text('Results');
           }
         }
         else {
           showElementOutOfMany($results_wrapper, $all_wrappers);
+          $('#entry-tab').text('Results');
         }
         resizeModal();
       }
     });
-
   });
 
   /**
@@ -446,6 +455,7 @@ function resetBWIForm() {
     $('#be-well-informed-result-details-table').DataTable().destroy();
     $('#water_analysis_reset').removeClass('invisible')
     showElementOutOfMany($form_wrapper, $all_wrappers);
+    $('#entry-tab').text('Entry');
     resizeModal()
   });
 

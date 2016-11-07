@@ -1,0 +1,9 @@
+name = Chemical Laws and Regulations Widget
+description = Adds Chemical Laws and Regulations widget to Workbench
+core = 7.x
+package = CGI Features
+version = 7.x-1.0
+dependencies[] = chemical_rules
+dependencies[] = fe_block
+features[fe_block_settings][] = chemical_rules-chemical_rules
+features[features_api][] = api:2
