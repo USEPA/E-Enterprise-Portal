@@ -75,6 +75,7 @@ $white:                 #fff;
 
 #chemical-rules-modal {
     h2 {
+        padding-top: 2rem;
         font-size: 2.4rem;
         margin-top: 2rem;
         margin-bottom: 0.5rem;
@@ -93,8 +94,32 @@ $white:                 #fff;
     #chemical-rules-loading-wrapper {
         text-align: center;
     }
+    #chemical-metadata {
+        li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .modal-label {
+            font-size: 1.3rem;
+            display: block;
+        }
+    }
     #cr-modal-toc-icons {
-//        position: fixed;
+        display: block;
+        padding: 5px 10px;
+        margin-left: -10px;
+        margin-right: -10px;
+        width: auto;
+        background-color: #E1EAF5;
+        height: 12rem;
+        &.sticky-toc {
+            height: 8rem;
+            a {
+                background-size: 40% 40%;
+                padding-top: 30px;
+                height: 70px;
+            }
+        }
     }
     .cr-structure_container {
         img {
@@ -150,6 +175,14 @@ $white:                 #fff;
 }
 
 #chemical-rules-modal {
+    .sticky-toc {
+        position: fixed;
+        height: 12rem;
+        background-color: #fcfcfc;
+        top: 0;
+        border: 1px solid #cacaca;
+        padding-top: 5px;
+    }
     .cr-lists {
         display: block;
         margin-top: 0;
@@ -231,10 +264,6 @@ $white:                 #fff;
 @media screen and (min-width: 48em) {
     #chemical-rules-modal {
         #cr-modal-toc-icons {
-            ul {
-                display: block;
-                height: auto;
-            }
             li {
                 display: inline-block;
                 width: auto;
