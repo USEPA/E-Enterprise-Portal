@@ -5,20 +5,25 @@
   </div>
   <div id="chemical-rules-results-wrapper"
        class="chemical-rules-modal-wrapper">
+    <ul id="chemical-metadata">
+      <li id="modal-common-name"><span class="modal-label" id="label-common-name">Common name</span><span id="metadata-common-name" aria-describedby="label-common-name"></span></li>
+      <li id="modal-sys-name"><span class="modal-label" id="label-sys-name">Systematic name</span><span id="metadata-sys-name" aria-describedby="label-sys-name"></span></li>
+      <li id="modal-cas-num"><span class="modal-label" id="label-cas-num">CAS #</span><span id="metadata-cas-num" aria-describedby="label-cas-num"></span></li>      
+    </ul>
     <ul class="cr-modal-actions">
       <li><a id="cr-save-favorite" class="save-favorite" href="javascript:void(0)" data-favtype="Chemical">Save to My Chemicals</a></li>
       <li><a id="cr-remove-favorite" class="remove-favorite remove-link" href="javascript:void(0)" data-favtype="Chemical">Remove from Favorites</a></li>
       <li><a class="cr-future">Save as PDF</a></li>
       <li><a class="cr-future">Share This</a></li>
     </ul>
-    <div class="cr-modal-toc" id="cr-modal-toc-icons">
+    <ul class="cr-modal-toc" id="cr-modal-toc-icons">
       <li><a href="#cr-laws-regs" class="favorites-ignore">Laws &amp; Regulations</a></li>
       <li><a href="#cr-programs" class="favorites-ignore">EPA Programs</a></li>
       <li><a href="#cr-structure" class="favorites-ignore">Structure</a></li>
       <li><a href="#cr-properties" class="favorites-ignore">Chemical &amp; Physical Properties</a></li>
       <li><a href="#cr-synonyms" class="favorites-ignore">Synonyms</a></li>
       <li><a href="#cr-lists" class="favorites-ignore">Substance Lists</a></li>
-    </div>
+    </ul>
     
     <!-- @LAWS AND REGULATIONS -->
     <!-- @TODO Add favoriting ability to save favorite chemical here -->

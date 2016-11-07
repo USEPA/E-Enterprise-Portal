@@ -1,9 +1,4 @@
 {
-   "error": false,
-   "error-messages":[
-      "No matching chemicals found.  Please try another entry."
-   ],
-   "data":{
       "Substance":{
          "EPAChemicalInternalNumber":"4309",
          "CASRegistryNumber":"67-64-1",
@@ -269,8 +264,4 @@
             }
          }
       }
-   },
-   "msg":[
-      "LRS endpoint response: php_network_getaddresses: getaddrinfo failed: The requested name is valid, but no data of the requested type was found."
-   ]
-}
+   }
