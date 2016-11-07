@@ -558,6 +558,25 @@ $color_ecstasy_approx: #ff851b;
             margin-bottom: 3rem;
         }
 
+        ol li {
+            list-style-type: decimal;
+            display: block;
+        }
+        ol[type=a] {
+            counter-reset: section;
+            li {
+                counter-increment: section;
+                display: block;
+                padding-left: 1em;
+                &:before {
+                    display: inline-block;
+                    content: counter(section, lower-alpha) '.';
+                    position: absolute;
+                    margin-left: -1.5em;
+                }
+            }
+        }
+
         table {
             thead th {
                 background: transparent;
