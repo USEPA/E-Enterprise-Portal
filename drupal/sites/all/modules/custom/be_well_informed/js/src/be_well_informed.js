@@ -123,19 +123,6 @@ function resetBWIForm() {
     }
   }
 
-  Parsley.addValidator('checkChildren', {
-    messages: {en: 'You must correctly give value or choose a whether the microbe was present!'},
-    requirementType: 'integer',
-    validate: function(_value, requirement, instance) {
-      for (var i = 1; i <= requirement; i++)
-        if (i == 1 && instance.$element.find('input').val() // If block-1 has any value in the input box
-          || i == 2 && instance.$element.find('[type=radio]:checked').length) { // or if block-2 has any radio buttons checked
-          return true; // One section is filled, this check is valid
-        }
-      return false; // No section is filled, this validation fails
-    }
-  });
-
   $('#be-well-informed-modal')
     .html(Drupal.settings.be_well_informed.modal)
     .dialog({
@@ -279,7 +266,7 @@ function resetBWIForm() {
                   var $column = $('<div class="column usa-width-one-half"></div>')
                     .appendTo($prompt)
                   // we will use the existing form to submit the updated values
-                  var $input = $('<input class="one-third offset-one-third" type="number" required>')
+                  var $input = $('<input class="one-third offset-one-third" type="number" step="0.001" required>')
                     .on('change', function() {
                       $('[name="RoutineContaminants[' + item.Symbol + '][Value]"]').val($(this).val())
                     })
