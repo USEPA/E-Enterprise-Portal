@@ -424,18 +424,6 @@ footer {
         padding: 1rem 0.5rem;
     }
 
-    .sorting_asc, .sorting_desc {
-        background-repeat: no-repeat;
-        background-position: center right;
-    }
-
-    .sorting_asc:not(.no-sort) {
-        background-image: url("../images/sort_asc.png");
-    }
-    .sorting_desc:not(.no-sort) {
-        background-image: url("../images/sort_desc.png");
-    }
-
     ul.paging_simple_numbers,
     ul.paging_simple {
         margin-top: 0;
