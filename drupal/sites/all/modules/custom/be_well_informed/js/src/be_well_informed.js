@@ -29,11 +29,11 @@ toggleSection = function() {
   $this.toggleClass('open close')
   // Reset all other arrows to right (default)
   /*$('.ui-accordion-header').not($(this)).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
-  if ($arrow.hasClass("fa-caret-right")) {
-    $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
-  } else {
-    $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
-  }*/
+   if ($arrow.hasClass("fa-caret-right")) {
+   $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
+   } else {
+   $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
+   }*/
   resizeModal()
 }
 
@@ -122,19 +122,6 @@ function resetBWIForm() {
       }
     }
   }
-
-  Parsley.addValidator('checkChildren', {
-    messages: {en: 'You must correctly give value or choose a whether the microbe was present!'},
-    requirementType: 'integer',
-    validate: function(_value, requirement, instance) {
-      for (var i = 1; i <= requirement; i++)
-        if (i == 1 && instance.$element.find('input').val() // If block-1 has any value in the input box
-          || i == 2 && instance.$element.find('[type=radio]:checked').length) { // or if block-2 has any radio buttons checked
-          return true; // One section is filled, this check is valid
-        }
-      return false; // No section is filled, this validation fails
-    }
-  });
 
   $('#be-well-informed-modal')
     .html(Drupal.settings.be_well_informed.modal)
@@ -239,8 +226,12 @@ function resetBWIForm() {
                     '</div>')
                     .appendTo($prompt)
                     .on('click', 'button', function(e) {
-                      $inputs.find('button').not(e.currentTarget).removeClass('usa-button-primary').addClass('usa-button-outline')
-                      $(e.currentTarget).addClass('usa-button-primary').removeClass('usa-button-outline')
+                      // toggle CSS classes to indicate which button has been clicked
+                      $inputs.find('button').not(e.currentTarget).removeClass('usa-button-primary').addClass('usa-button-outline');
+                      $(e.currentTarget).addClass('usa-button-primary').removeClass('usa-button-outline');
+
+                      // select the appropriate radio element
+                      $(this).find('input:radio').prop("checked", true);
                     })
                   $inputs.find('input').attr('name', 'InteractivePromptResponses['+index+'][Interaction]')
                   var $hidden_symbol = $('<input type="hidden">')
@@ -275,7 +266,7 @@ function resetBWIForm() {
                   var $column = $('<div class="column usa-width-one-half"></div>')
                     .appendTo($prompt)
                   // we will use the existing form to submit the updated values
-                  var $input = $('<input class="one-third offset-one-third" type="number" required>')
+                  var $input = $('<input class="one-third offset-one-third" type="number" step="0.001" required>')
                     .on('change', function() {
                       $('[name="RoutineContaminants[' + item.Symbol + '][Value]"]').val($(this).val())
                     })

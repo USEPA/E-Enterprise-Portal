@@ -1,4 +1,3 @@
-
 .eportal-responsive-table {
 
     li, a {
@@ -86,19 +85,21 @@
         padding-top: 1px;
     }
 
-    .sorting_asc, .sorting_desc {
-        background-repeat: no-repeat;
-        background-position: center right;
+    //@see https://datatables.net/forums/discussion/25819
+    th {
+        white-space: nowrap;
     }
-
-    .sorting_asc:not(.no-sort) {
-        background-image: url("../images/sort_asc.png");
+    span.sort-icon {
+        display: inline-block;
+        padding-left: 20px;
+        width: 16px;
+        height: 16px;
     }
-
-    .sorting_desc:not(.no-sort) {
-        background-image: url("../images/sort_desc.png");
-    }
-
+    .sorting span.sort-icon { background: url('../images/sort_both.png') no-repeat center right; }
+    .sorting_asc span.sort-icon { background: url('../images/sort_asc.png') no-repeat center right; }
+    .sorting_desc span.sort-icon { background: url('../images/sort_desc.png') no-repeat center right; }
+    .sorting_asc_disabled span.sort-icon { background: url('../images/sort_asc_disabled.png') no-repeat center right; }
+    .sorting_desc_disabled span.sort-icon { background: url('../images/sort_desc_disabled.png') no-repeat center right; }
 }
 
 // iPhone, some Android Portrait @ 320px, iphone 6 @ 375px -------------- //

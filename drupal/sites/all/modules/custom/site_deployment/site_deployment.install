@@ -19,7 +19,7 @@ module_load_include('inc', 'site_deployment', 'site_deployment_helpers');
 /**
  * Refactoring Features and EE-1579
  */
-function site_deployment_update_7013(&$sandbox) {
+function site_deployment_update_7015(&$sandbox) {
   module_load_include('inc', 'page_manager', 'plugins/tasks/page');
 
   // Number of passes required
@@ -28,7 +28,9 @@ function site_deployment_update_7013(&$sandbox) {
   // Split steps in batches to minize risk of page timeout
   if (!$sandbox['current']) {
     $sandbox['current'] = 1;
+  }
 
+  if ($sandbox['current'] === 1) {
     $modules_to_disable = ['page_manager_feature', 'eenteprise_api_1_0', 'other_items_of_interest_feature', 'ee_disclaimer'];
     module_disable($modules_to_disable);
     drupal_set_message("Disabled modules: " . implode(', ', $modules_to_disable));
@@ -51,19 +53,11 @@ function site_deployment_update_7013(&$sandbox) {
   }
 
   if ($sandbox['current'] === 4) {
-   /// Enable chemical features
-
-    $chem_features = ['chemical_laws_and_regulations_content_types_and_view',
-      'chemical_laws_and_regulations_widget'];
-    features_install_modules($chem_features);
-    features_revert($chem_features);
-
 
     // Reenable or enable new modules
-    $modules_to_enable = ['page_manager_feature', 'eenteprise_api_1_0', 'other_items_of_interest_feature',
+    $modules_to_enable = ['role_export', 'page_manager_feature', 'eenteprise_api_1_0', 'other_items_of_interest_feature',
       'ee_disclaimer', 'air_quality_chart', 'progress_tracker_view',
-      'to_do_view', 'my_maps_view', 'interactive_maps', 'village_green',
-      'chemical_rules'];
+      'to_do_view', 'my_maps_view', 'interactive_maps', 'village_green'];
     module_enable($modules_to_enable);
     drupal_set_message("Enabled modules: " . implode(', ', $modules_to_enable));
   }

@@ -126,22 +126,24 @@ function load_progress_tracker_datatable_json($use_cache = TRUE) {
   foreach($progress_tracker_data as $id=>$eactivity_item) {
     $part_code = "";
     $report_type = "";
+    $sub_part_code = "";
     if ($eactivity_item['domain'] === "CEDRI") {
 
       $cedri_details = $eactivity_item['cedri_details'];
       $parenthesis_index = strpos($eactivity_item['title'], ')');
       $subheading = substr($eactivity_item['title'], $parenthesis_index+1);
+      $sub_part_code = $cedri_details['sub_part_code'];
+      $part_code = $cedri_details['part_code'];
 
       $title = "<span class='report-name'>" .
         $cedri_details['partner_system_report_type'] . " (" .
-        $cedri_details['part_code'] . ", " . $cedri_details['sub_part_code'] . ") " .
+        $part_code . ", " . $sub_part_code . ") " .
         "</span><span class='subpart-name'>$subheading</span>" .
         "<span class='item-subscript-text'>" . $cedri_details['facility_name'] . "</span>";
 
       $status_note = $cedri_details['part_code'] . " - " . $cedri_details['part_name'] .
           "<br /> " . $cedri_details['sub_part_code'] . " - " . $cedri_details['sub_part_name'];
 
-      $part_code = $cedri_details['part_code'];
     } else {
       $title = $eactivity_item['title'];
       $status_note = $eactivity_item['status_note'];
@@ -164,6 +166,7 @@ function load_progress_tracker_datatable_json($use_cache = TRUE) {
       $eactivity_item['actions'],
       $report_type,
       $part_code,
+      $sub_part_code,
       ];
 
     $eactivity_dt_json[] = $eactivity_dt_row;
