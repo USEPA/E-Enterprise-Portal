@@ -64,21 +64,10 @@ function is_valid_cas_number(stringToCheck) {
 }
 
 function lookup_chemical(lookup_value) {
-  
-  var chem_search_form_data = lookup_value;
+
   var $body = $('body');
-  
-  $.ajax({
-    url: 'chemical_rules/form_submission',
-    method: 'POST',
-    data: chem_search_form_data,
-    beforeSend: cr_showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('.chemical-rules-modal-wrapper')),
-    complete: function() {
-      cr_showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
-      originalDialog = $body.find('#chemical-rules-modal').html();
-    },
-    success: populate_substance_modal
-  });
+  $body.find('#cr-search_input').val(lookup_value);
+  $body.find('#cr-search-chems-btn').trigger('click');
 
 }
 
