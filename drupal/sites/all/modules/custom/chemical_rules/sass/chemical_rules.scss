@@ -77,7 +77,6 @@ body.viewport-lg {
 
 #chemical-rules-modal {
     h2 {
-        padding-top: 2rem;
         font-size: 2.4rem;
         margin-top: 2rem;
         margin-bottom: 0.5rem;
@@ -117,15 +116,35 @@ body.viewport-lg {
         width: auto;
         background-color: #E1EAF5;
         height: 12rem;
+        a {
+            &#cr-icon-laws {
+                background-image: url('../images/book-open-bookmark.png');
+            }
+            &#cr-icon-programs {
+                background-image: url('../images/chart-organisation.png');
+            }
+            &#cr-icon-structure {
+                background-image: url('../images/picture.png');
+            }
+            &#cr-icon-properties {
+                background-image: url('../images/information.png');
+            }
+            &#cr-icon-synonyms {
+                background-image: url('../images/text-align-justify.png');
+            }
+            &#cr-icon-lists {
+                background-image: url('../images/text-list-bullets.png');
+            }     
+        }
         &.sticky-toc {
             height: 8rem;
             li {
                 margin-top: 0;
             }
             a {
-                background-size: 40% 40%;
+                background-size: 30%;
                 padding-top: 30px;
-                height: 70px;
+                height: 70px;           
             }
         }
     }
@@ -284,7 +303,7 @@ body.viewport-lg {
                 a {
                     background: transparent url('../images/placeholder.png') no-repeat;
                     background-position: center top;
-                    padding: 70px 10px 10px 10px;
+                    padding: 50px 10px 10px 10px;
                     height: 90px;
                     display: block;
                     width: 100px;
