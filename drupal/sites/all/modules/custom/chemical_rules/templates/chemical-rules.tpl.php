@@ -24,7 +24,7 @@
     <div id="cr-tabs_favorites">
       <div class="cr-tabs_favorites_empty">
         <p>
-          You have 0 favorite chemicals saved.  To add a favorite, use the <a href="#cr-tabs_search">search</a> option.
+          You have 0 favorites saved.  To add a favorite, use the <a href="#cr-tabs_search">search</a> option.
         </p>
       </div><!-- @end cr-tabs_favorites_empty -->
       <div class="cr-tabs_favorites_available">

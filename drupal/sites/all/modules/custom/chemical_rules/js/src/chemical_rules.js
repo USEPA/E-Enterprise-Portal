@@ -14,7 +14,10 @@ function cr_resizeModal() {
     height: $(window).height()-180,
   });
   if(jQuery('.chemical-rules-modal').css('top').replace('px', '') < 1){
-    jQuery('.chemical-rules-modal').css('top', 0)
+    jQuery('.chemical-rules-modal').css('top', 0);
+  }
+  if (jQuery('.sticky-toc').length > 0) {
+    jQuery('#cr-modal-toc-icons').css('width', jQuery('#chemical-rules-modal').width()+6);
   }
 }
 
@@ -421,7 +424,7 @@ function isValidCasNumber(stringToCheck) {
       draggable: false,
       autoOpen: false,
       create: function(event, ui) {
-
+        $(window).resize(function(){cr_resizeModal();})
       },
       open: function(event, ui) {
         $('#chemical-rules-modal').parent().css('position', 'fixed');
@@ -645,7 +648,7 @@ function isValidCasNumber(stringToCheck) {
   $('#chemical-rules-modal').scroll(function() {
     if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
       $('#cr-modal-toc-icons').addClass('sticky-toc');
-      $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()).css('top', $('#chemical-rules-modal').offset().top);
+      $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()+6).css('top', $('#chemical-rules-modal').offset().top);
     } 
     else {
       $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');
