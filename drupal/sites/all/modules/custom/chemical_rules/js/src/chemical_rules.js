@@ -14,7 +14,10 @@ function cr_resizeModal() {
     height: $(window).height()-180,
   });
   if(jQuery('.chemical-rules-modal').css('top').replace('px', '') < 1){
-    jQuery('.chemical-rules-modal').css('top', 0)
+    jQuery('.chemical-rules-modal').css('top', 0);
+  }
+  if (jQuery('.sticky-toc').length > 0) {
+    jQuery('#cr-modal-toc-icons').css('width', jQuery('#chemical-rules-modal').width()+6);
   }
 }
 
@@ -61,21 +64,10 @@ function is_valid_cas_number(stringToCheck) {
 }
 
 function lookup_chemical(lookup_value) {
-  
-  var chem_search_form_data = lookup_value;
+
   var $body = $('body');
-  
-  $.ajax({
-    url: 'chemical_rules/form_submission',
-    method: 'POST',
-    data: chem_search_form_data,
-    beforeSend: cr_showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('.chemical-rules-modal-wrapper')),
-    complete: function() {
-      cr_showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
-      originalDialog = $body.find('#chemical-rules-modal').html();
-    },
-    success: populate_substance_modal
-  });
+  $body.find('#cr-search_input').val(lookup_value);
+  $body.find('#cr-search-chems-btn').trigger('click');
 
 }
 
@@ -421,7 +413,7 @@ function isValidCasNumber(stringToCheck) {
       draggable: false,
       autoOpen: false,
       create: function(event, ui) {
-
+        $(window).resize(function(){cr_resizeModal();})
       },
       open: function(event, ui) {
         $('#chemical-rules-modal').parent().css('position', 'fixed');
@@ -645,7 +637,7 @@ function isValidCasNumber(stringToCheck) {
   $('#chemical-rules-modal').scroll(function() {
     if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
       $('#cr-modal-toc-icons').addClass('sticky-toc');
-      $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()).css('top', $('#chemical-rules-modal').offset().top);
+      $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()+6).css('top', $('#chemical-rules-modal').offset().top);
     } 
     else {
       $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');
