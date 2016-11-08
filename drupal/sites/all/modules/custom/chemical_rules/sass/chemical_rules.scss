@@ -81,6 +81,9 @@ body.viewport-lg {
         font-size: 2.4rem;
         margin-top: 2rem;
         margin-bottom: 0.5rem;
+        &.anchor-spacing {
+            padding-top: 9rem;
+        }
     }
     h3 {
         background-color: $color_highlight_blue;

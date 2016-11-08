@@ -648,12 +648,19 @@ function isValidCasNumber(stringToCheck) {
       $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()).css('top', $('#chemical-rules-modal').offset().top);
     } 
     else {
-      $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');    
+      $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');
     }
   });
   
   var sticky_gap = $('#cr-modal-toc-icons').offset().top;
-  $('#cr-modal-toc-icons li').on('click', function() {
+  $('#cr-modal-toc-icons li a').on('click', function() {
+    if ($body.find('.anchor-spacing').length > 0) {
+      $('#chemical-rules-modal').find('h2').removeClass('anchor-spacing');
+    }
+    // Add extra spacing to get past fixed header; last section doesn't need it
+    if ($(this).attr('href') != '#cr-lists') {
+      $('#chemical-rules-modal').find($(this).attr('href')).addClass('anchor-spacing');
+    }
     if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
       $('#cr-modal-toc-icons').addClass('sticky-toc');
       $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()).css('top', $('#chemical-rules-modal').offset().top);
