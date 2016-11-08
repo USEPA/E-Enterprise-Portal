@@ -34,6 +34,20 @@ $white:                 #fff;
     @include linear-gradient(rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .15) 100%);
 }
 
+body {
+    overflow-x: hidden;
+    overflow-y: scroll !important;
+}
+
+body.fixed-modal-open {
+    overflow: hidden;
+    position: fixed;
+}
+
+body.viewport-lg {
+    position: absolute;
+}
+
 .cr-chemicals,
 .cr-laws {
     font-weight: bold;
@@ -57,28 +71,18 @@ $white:                 #fff;
     }
 }
 
-.ui-dialog#chemical-rules-modal {
-    &.ui-dialog {
-        overflow: visible;
-
-        .ui-dialog-titlebar {
-            background-color: transparent !important;
-            border: none;
-            z-index: 100;
-        }
-
-        .ui-dialog-content {
-            overflow: visible;
-        }
-    }
+.ui-dialog.chemical-rules-modal {
+    overflow-y: hidden;  
 }
 
 #chemical-rules-modal {
     h2 {
-        padding-top: 2rem;
         font-size: 2.4rem;
         margin-top: 2rem;
         margin-bottom: 0.5rem;
+        &.anchor-spacing {
+            padding-top: 9rem;
+        }
     }
     h3 {
         background-color: $color_highlight_blue;
@@ -112,12 +116,35 @@ $white:                 #fff;
         width: auto;
         background-color: #E1EAF5;
         height: 12rem;
+        a {
+            &#cr-icon-laws {
+                background-image: url('../images/book-open-bookmark.png');
+            }
+            &#cr-icon-programs {
+                background-image: url('../images/chart-organisation.png');
+            }
+            &#cr-icon-structure {
+                background-image: url('../images/picture.png');
+            }
+            &#cr-icon-properties {
+                background-image: url('../images/information.png');
+            }
+            &#cr-icon-synonyms {
+                background-image: url('../images/text-align-justify.png');
+            }
+            &#cr-icon-lists {
+                background-image: url('../images/text-list-bullets.png');
+            }     
+        }
         &.sticky-toc {
             height: 8rem;
+            li {
+                margin-top: 0;
+            }
             a {
-                background-size: 40% 40%;
+                background-size: 30%;
                 padding-top: 30px;
-                height: 70px;
+                height: 70px;           
             }
         }
     }
@@ -154,7 +181,7 @@ $white:                 #fff;
     }
     li {
         display: block;
-        margin-top: 0.5rem;
+        margin-top: 0.5rem; 
         margin-bottom: 0.5rem;
     }
     .favorite-chemical-remove,
@@ -276,7 +303,7 @@ $white:                 #fff;
                 a {
                     background: transparent url('../images/placeholder.png') no-repeat;
                     background-position: center top;
-                    padding: 70px 10px 10px 10px;
+                    padding: 50px 10px 10px 10px;
                     height: 90px;
                     display: block;
                     width: 100px;
