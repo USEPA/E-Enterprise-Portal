@@ -34,6 +34,20 @@ $white:                 #fff;
     @include linear-gradient(rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .15) 100%);
 }
 
+body {
+    overflow-x: hidden;
+    overflow-y: scroll !important;
+}
+
+body.fixed-modal-open {
+    overflow: hidden;
+    position: fixed;
+}
+
+body.viewport-lg {
+    position: absolute;
+}
+
 .cr-chemicals,
 .cr-laws {
     font-weight: bold;
@@ -57,20 +71,8 @@ $white:                 #fff;
     }
 }
 
-.ui-dialog#chemical-rules-modal {
-    &.ui-dialog {
-        overflow: visible;
-
-        .ui-dialog-titlebar {
-            background-color: transparent !important;
-            border: none;
-            z-index: 100;
-        }
-
-        .ui-dialog-content {
-            overflow: visible;
-        }
-    }
+.ui-dialog.chemical-rules-modal {
+    overflow-y: hidden;  
 }
 
 #chemical-rules-modal {
@@ -114,6 +116,9 @@ $white:                 #fff;
         height: 12rem;
         &.sticky-toc {
             height: 8rem;
+            li {
+                margin-top: 0;
+            }
             a {
                 background-size: 40% 40%;
                 padding-top: 30px;
@@ -154,7 +159,7 @@ $white:                 #fff;
     }
     li {
         display: block;
-        margin-top: 0.5rem;
+        margin-top: 0.5rem; 
         margin-bottom: 0.5rem;
     }
     .favorite-chemical-remove,
