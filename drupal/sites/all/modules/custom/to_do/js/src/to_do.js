@@ -64,7 +64,7 @@
       "processing": ""
     },
     "columnDefs": [
-      // Hide last 2 rows (timestamp, part code)
+      // Hide last 4 rows (timestamp, part code, sub part code, and report type)
       {"targets": [-1, -2, -3, -4], "visible": false},
       {"targets": [2], className: "text-left"},
       {"targets": [1], "width": "300px", className: "small-screen-td-header text-left"},
