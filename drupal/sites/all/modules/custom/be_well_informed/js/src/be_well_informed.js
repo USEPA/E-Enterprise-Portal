@@ -133,6 +133,7 @@ function resetBWIForm() {
       dialogClass: 'be-well-informed-modal',
       autoOpen: false,
       draggable: false,
+      resizable: false,
       create: function(event, ui) {
         $('#bwi-tabs').tabs();
         var $form = $('#water_analysis_results_form');
