@@ -152,6 +152,7 @@ function clearResources() {
         width: 500,
         maxHeight: 400,
         modal: true,
+        resizable: false,        
         open: function() {
           $('#resources-lgc-about').parent().find('span.ui-dialog-title').prepend('<span class="modal-title-subtext">More on the </span>');
         },           

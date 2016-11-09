@@ -1,5 +1,5 @@
 var originalDialog;
-var favs = Drupal.settings.chemical_rules.profile;
+var favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],"Laws":[]};
 
 function cr_showElementOutOfMany($wrapper_to_show, $common_selector) {
   $common_selector.hide();
@@ -86,7 +86,6 @@ function populate_substance_modal(chemical_rules_response_json) {
     }
     else {
       var cas_reg_num = '';
-      //$('#chemical-rules-modal').dialog('option','title', json.data.Substance.ChemicalSubstanceSystematicName + ' (' + json.data.Substance.EPAChemicalRegistryName + ')');      
     }
     if (json.data.Substance.EPAChemicalRegistryName !== null && json.data.Substance.EPAChemicalRegistryName !== '') {
       var chem_reg_name = " (" + json.data.Substance.EPAChemicalRegistryName + ")";
@@ -94,9 +93,8 @@ function populate_substance_modal(chemical_rules_response_json) {
     else {
       var chem_reg_name = '';
     }
-    //$('#chemical-rules-modal').dialog('option','title', cas_reg_num + json.data.Substance.ChemicalSubstanceSystematicName + chem_reg_name);
-    
-    // popluate our modal
+
+    // populate our modal
     $body.find('.cr-chemical-name').text(json.data.Substance.EPAChemicalRegistryName);
 
     var $list = $body.find('#cr-laws-regs-substances');
@@ -412,6 +410,7 @@ function isValidCasNumber(stringToCheck) {
       dialogClass: 'chemical-rules-modal',
       draggable: false,
       autoOpen: false,
+      resizable: false,      
       create: function(event, ui) {
         $(window).resize(function(){cr_resizeModal();})
       },
