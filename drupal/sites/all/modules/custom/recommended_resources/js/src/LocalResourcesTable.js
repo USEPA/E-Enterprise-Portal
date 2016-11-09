@@ -114,11 +114,14 @@ var LocalResourcesTable;
         $('td:nth-child(4)', nRow.nTable).addClass("resource-topic").attr('data-title', 'Topic');
         $('td:nth-child(5)', nRow.nTable).addClass("resource-category").attr('data-title', 'Category');
       },
-      // hide the following columns, they are only used for faceted filtering
       "columnDefs": [
-        {
+        { // hide the following columns, they are only used for faceted filtering
           "targets": [5, 6, 7, 8],
           "visible": false
+        },
+        { // remove sorting for "Info" column
+          "targets": [1],
+          "orderable": false
         }
       ]
     };
