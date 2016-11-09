@@ -1,7 +1,7 @@
 <div class="usa-grid-full">
   <div id="chemical-rules-loading-wrapper"
        class="chemical-rules-modal-wrapper">
-    <h1>Loading search results for <span class="cr-chemical-name"></span>&hellip;</h1> <i class="fa fa-spinner" aria-hidden="true"></i>
+    <h1>Loading search results for <span id="searching-chemical-name"></span>&hellip;</h1> <i class="fa fa-spinner" aria-hidden="true"></i>
   </div>
   <div id="chemical-rules-results-wrapper"
        class="chemical-rules-modal-wrapper">
@@ -17,12 +17,12 @@
       <li><a class="cr-future">Share This</a></li>
     </ul>
     <ul class="cr-modal-toc" id="cr-modal-toc-icons">
-      <li><a href="#cr-laws-regs" class="favorites-ignore">Laws &amp; Regulations</a></li>
-      <li><a href="#cr-programs" class="favorites-ignore">EPA Programs</a></li>
-      <li><a href="#cr-structure" class="favorites-ignore">Structure</a></li>
-      <li><a href="#cr-properties" class="favorites-ignore">Chemical &amp; Physical Properties</a></li>
-      <li><a href="#cr-synonyms" class="favorites-ignore">Synonyms</a></li>
-      <li><a href="#cr-lists" class="favorites-ignore">Substance Lists</a></li>
+      <li><a id="cr-icon-laws" href="#cr-laws-regs" class="favorites-ignore">Laws &amp; Regulations</a></li>
+      <li><a id="cr-icon-programs" href="#cr-programs" class="favorites-ignore">EPA Programs</a></li>
+      <li><a id="cr-icon-structure" href="#cr-structure" class="favorites-ignore">Structure</a></li>
+      <li><a id="cr-icon-properties" href="#cr-properties" class="favorites-ignore">Chemical &amp; Physical Properties</a></li>
+      <li><a id="cr-icon-synonyms" href="#cr-synonyms" class="favorites-ignore">Synonyms</a></li>
+      <li><a id="cr-icon-lists" href="#cr-lists" class="favorites-ignore">Substance Lists</a></li>
     </ul>
     
     <!-- @LAWS AND REGULATIONS -->
