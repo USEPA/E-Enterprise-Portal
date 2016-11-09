@@ -125,10 +125,9 @@ function load_progress_tracker_datatable_json($use_cache = TRUE) {
 
   foreach($progress_tracker_data as $id=>$eactivity_item) {
     $part_code = "";
-    $report_type = "";
     $sub_part_code = "";
     if ($eactivity_item['domain'] === "CEDRI") {
-
+      $report_type = $eactivity_item['report_type'];
       $cedri_details = $eactivity_item['cedri_details'];
       $parenthesis_index = strpos($eactivity_item['title'], ')');
       $subheading = substr($eactivity_item['title'], $parenthesis_index+1);
@@ -145,9 +144,9 @@ function load_progress_tracker_datatable_json($use_cache = TRUE) {
           "<br /> " . $cedri_details['sub_part_code'] . " - " . $cedri_details['sub_part_name'];
 
     } else {
+      $report_type = $eactivity_item['report_type'];
       $title = $eactivity_item['title'];
       $status_note = $eactivity_item['status_note'];
-      $report_type = $eactivity_item['report_type'];
     }
 
     $status_anchor =

@@ -11,7 +11,6 @@ function parse_cdx_handoff_data($cdx_deep_link_handoff) {
  * load progress tracker from EACTIVITY
  */
 function load_eactivity_data($module_caller, $use_cache) {
-
   if ($use_cache === "false") {
     $use_cache = FALSE;
   }
@@ -31,8 +30,6 @@ function load_eactivity_data($module_caller, $use_cache) {
     // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
     $eactivity_data = $cache->data;
   } else {
-
-
     // Connect to EACTIVITY
     $wsdl = variable_get('eactivity_auth_reg_wsdl');
     $client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
@@ -192,15 +189,15 @@ function load_eactivity_data($module_caller, $use_cache) {
 
         if ($res_domain == 'Lead') {
           $eactivity_item["date"] = date("m/d/Y", strtotime($res['StatusUpdateDate']));
-
-          $eactivity_item["status_note"] = $res['StatusNote'];
-          $eactivity_item['date_type'] = 'Status Changed Date';
           $title_parts = explode('/', $eactivity_item['title']);
           $eactivity_item['report_type'] = trim($title_parts[0]) . ' ' . trim($title_parts[1]);
+          $eactivity_item["status_note"] = $res['StatusNote'];
+          $eactivity_item['date_type'] = 'Status Changed Date';
 
         } else if ($res_domain == 'CEDRI') {
           $eactivity_item["date"] = date("m/d/Y", strtotime($res['ActivityExpirationDate']));
           $eactivity_item['date_type'] = 'Publish Date';
+          $eactivity_item['report_type'] = $res['PartnerSystemReportType'];
           $eactivity_item["cedri_details"] = array(
             'facility_name' => $res['FacilityName'],
             'part_code' => $res['partCode'],

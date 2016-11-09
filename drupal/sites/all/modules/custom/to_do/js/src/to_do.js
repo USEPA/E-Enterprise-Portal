@@ -64,8 +64,8 @@
       "processing": ""
     },
     "columnDefs": [
-      // Hide last 2 rows (timestamp, part code)
-      {"targets": [-1, -2], "visible": false},
+      // Hide last 4 rows (timestamp, part code, sub part code, and report type)
+      {"targets": [-1, -2, -3, -4], "visible": false},
       {"targets": [2], className: "text-left"},
       {"targets": [1], "width": "300px", className: "small-screen-td-header text-left"},
       {
@@ -107,7 +107,21 @@
             filter_reset_button_text: false,
             filter_container_id: "to-do-yadcf-filter-part-code",
             filter_default_label: "- Any -"
-          }
+          },
+        {
+          column_number: 5,
+          filter_match_mode: 'contains',
+          filter_reset_button_text: false,
+          filter_container_id: "to-do-yadcf-filter-subpart-code",
+          filter_default_label: "- Any -"
+        },
+        {
+          column_number: 6,
+          filter_match_mode: 'contains',
+          filter_reset_button_text: false,
+          filter_container_id: "to-do-yadcf-filter-report-type",
+          filter_default_label: "- Any -"
+        },
         ]
       );
 
@@ -133,8 +147,8 @@
 
   $('#to-do-yadcf-filter-domain').on('change', 'select', function() {
     var selected_domain = $(this).val().toLowerCase();
-    var $part_code_select = $('#yadcf-filter-part-code');
-    var $report_type_select = $('#yadcf-filter-report-type');
+    var $part_code_select = $('#to-do-yadcf-filter-part-code');
+    var $report_type_select = $('#to-do-yadcf-filter-report-type');
     $part_code_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
     $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
     if (selected_domain === "cedri") {
@@ -144,7 +158,34 @@
     }
   });
 
-  $('#refresh-to-do').click(function() {
+  $('#to-do-yadcf-filter-part-code').on('change', 'select', function() {
+    var selected_part_code = $(this).val().toLowerCase();
+    var $subpart_code_select = $('#to-do-yadcf-filter-subpart-code');
+    var $report_type_select = $('#to-do-yadcf-filter-report-type');
+
+    if (selected_part_code === "-1") {
+      $subpart_code_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+      $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+    } else {
+      $subpart_code_select.show();
+    }
+
+  });
+
+  $('#to-do-yadcf-filter-subpart-code').on('change', 'select', function() {
+    var selected_subpart_code = $(this).val().toLowerCase();
+    var $report_type_select = $('#to-do-yadcf-filter-report-type');
+
+    if (selected_subpart_code === "-1") {
+      $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+    } else {
+      $report_type_select.show();
+    }
+
+  });
+
+
+    $('#refresh-to-do').click(function() {
     var $to_do = $('#to-do');
     // Reload datatable, forcing reload of data not using cache
     $table_wrapper.find('td').hide();

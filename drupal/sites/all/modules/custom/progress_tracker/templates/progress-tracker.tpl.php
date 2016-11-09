@@ -1,22 +1,20 @@
 <span id="refresh-progress-tracker" class="refresh"><span class="sr-only">Refresh Progress Tracker</span><i class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh Progress Tracker"></i></span>
-
-
-<div class="filter-select" id="yadcf-filter-domain">
-  <label for="edit-field-prog-track-domain-value">
+<div class="filter-select" id="progress-tracker-yadcf-filter-domain">
+  <label for="progress-tracker-edit-field-domain-value">
     Domain
   </label>
 </div>
-<div class="filter-select" id="yadcf-filter-part-code">
+<div class="filter-select" id="progress-tracker-yadcf-filter-part-code">
   <label for="edit-field-prog-track-part-code-value">
     Part Code
   </label>
 </div>
-<div class="filter-select" id="yadcf-filter-subpart-code">
+<div class="filter-select" id="progress-tracker-yadcf-filter-subpart-code">
   <label for="edit-field-prog-track-sub-part-code-value">
    Sub Part Code
   </label>
 </div>
-<div class="filter-select" id="yadcf-filter-report-type">
+<div class="filter-select" id="progress-tracker-yadcf-filter-report-type">
   <label for="edit-field-prog-track-report-type-value">
     Report Type
   </label>
