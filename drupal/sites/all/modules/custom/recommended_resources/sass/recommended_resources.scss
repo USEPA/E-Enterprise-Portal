@@ -64,6 +64,12 @@
     }
 }
 
+.ui-dialog {
+    &.about-dialog {
+        overflow-y: hidden;
+    }
+}
+
 #local-resources-tabs .your-selections .selection-lbl {
     font-size: 1rem;
     text-transform: uppercase;

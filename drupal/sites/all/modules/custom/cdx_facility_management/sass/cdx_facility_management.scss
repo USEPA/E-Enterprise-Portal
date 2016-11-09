@@ -255,6 +255,19 @@
     margin-right: 2%;
 }
 
+.facility-widget-form {
+    .eportal-responsive-table {
+        tbody,
+        tr,
+        th,
+        td {
+            a {
+                display: inline;
+            }
+        }
+    }
+}
+
 /* End Facility Manager pagination */
 
 @media (min-width: 1200px) {
