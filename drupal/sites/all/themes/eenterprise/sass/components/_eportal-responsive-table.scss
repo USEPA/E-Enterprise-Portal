@@ -10,7 +10,7 @@
         padding: 1rem 0.5rem;
     }
 
-    th:not(.no-sort) {
+    th:not(.no-sort):not(.sorting_disabled) {
         color: #0071bc;
         cursor: pointer;
     }
