@@ -755,7 +755,7 @@ function assign_roles_to_user($user_name) {
     // Allow access to cdx facility manager, progress tracker, and to do
     if ($user_eactivity_role = user_role_load_by_name("eactivity-dataflows")) {
       // Give user eactivity role
-      user_multiple_role_edit(array($user->uid), $user_eactivity_role->name, $user_eactivity_role->rid);
+      user_multiple_role_edit(array($user->uid),"add_role", $user_eactivity_role->rid);
     }
   }
 }

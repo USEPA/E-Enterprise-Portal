@@ -90,38 +90,39 @@
     fnInitComplete: function() {
       //Initialize YADCF
       // Overriding datatable class to allow Eportal's custom datatable styling
-      yadcf.init($table_wrapper.DataTable(), [
+      yadcf.init($table_wrapper.DataTable(),
+        [
           {
             column_number: 2,
             filter_match_mode: 'contains',
             filter_reset_button_text: false,
-            filter_container_id: "yadcf-filter-domain",
+            filter_container_id: "progress-tracker-yadcf-filter-domain",
             filter_default_label: "- Any -"
           },
           {
             column_number: 6,
             filter_match_mode: 'contains',
             filter_reset_button_text: false,
-            filter_container_id: "yadcf-filter-report-type",
+            filter_container_id: "progress-tracker-yadcf-filter-report-type",
             filter_default_label: "- Any -"
           },
           {
             column_number: 7,
             filter_match_mode: 'contains',
             filter_reset_button_text: false,
-            filter_container_id: "yadcf-filter-part-code",
+            filter_container_id: "progress-tracker-yadcf-filter-part-code",
             filter_default_label: "- Any -"
           },
           {
             column_number: 8,
             filter_match_mode: 'contains',
             filter_reset_button_text: false,
-            filter_container_id: "yadcf-filter-subpart-code",
+            filter_container_id: "progress-tracker-yadcf-filter-subpart-code",
             filter_default_label: "- Any -"
           }
-
         ]
       );
+
 
       $('#yadcf-filter-domain').show();
     }
@@ -129,7 +130,7 @@
 
   // Create index column that updates on sorting
   var $table = $table_wrapper.DataTable(datatable_options);
-  $table.columns().iterator('column', function (ctx, idx) {
+  $table.columns().iterator('column', function(ctx, idx) {
     $($table.column(idx).header()).append('<span class="sort-icon" />');
   });
 
@@ -143,11 +144,11 @@
     openDetailsDialog($(this));
   });
 
-  $('#yadcf-filter-domain').on('change', 'select', function() {
+  $('#progress-tracker-yadcf-filter-domain').on('change', 'select', function() {
     var selected_domain = $(this).val().toLowerCase();
-    var $part_code_select = $('#yadcf-filter-part-code');
-    var $subpart_code_select = $('#yadcf-filter-subpart-code');
-    var $report_type_select = $('#yadcf-filter-report-type');
+    var $part_code_select = $('#progress-tracker-yadcf-filter-part-code');
+    var $subpart_code_select = $('#progress-tracker-yadcf-filter-subpart-code');
+    var $report_type_select = $('#progress-tracker-yadcf-filter-report-type');
     $part_code_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
     $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
     $subpart_code_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
@@ -158,19 +159,31 @@
     }
   });
 
-  $('#yadcf-filter-part-code').on('change', 'select', function() {
+  $('#progress-tracker-yadcf-filter-part-code').on('change', 'select', function() {
     var selected_part_code = $(this).val().toLowerCase();
-    var $subpart_code_select = $('#yadcf-filter-subpart-code');
+    var $subpart_code_select = $('#progress-tracker-yadcf-filter-subpart-code');
+    var $report_type_select = $('#progress-tracker-yadcf-filter-report-type');
 
-    if (selected_part_code === "-1" ) {
+    if (selected_part_code === "-1") {
       $subpart_code_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+      $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
     } else {
       $subpart_code_select.show();
     }
 
   });
 
+  $('#progress-tracker-yadcf-filter-subpart-code').on('change', 'select', function() {
+    var selected_subpart_code = $(this).val().toLowerCase();
+    var $report_type_select = $('#progress-tracker-yadcf-filter-report-type');
 
+    if (selected_subpart_code === "-1") {
+      $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+    } else {
+      $report_type_select.show();
+    }
+
+  });
 
 
   $('#refresh-progress-tracker').click(function() {

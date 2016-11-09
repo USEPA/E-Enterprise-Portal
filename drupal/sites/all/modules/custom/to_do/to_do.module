@@ -125,26 +125,27 @@ function load_to_do_datatable_json($use_cache = true) {
   $to_do_data = load_eactivity_data('to_do', $use_cache);
 
   foreach ($to_do_data as $id => $eactivity_item) {
-    $part_code = "";
-    $report_type = "";
 
     $cedri_details = $eactivity_item['cedri_details'];
     $parenthesis_index = strpos($eactivity_item['title'], ')');
     $subheading = substr($eactivity_item['title'], $parenthesis_index + 1);
+    $part_code = $cedri_details['part_code'];
+    $report_type = $cedri_details['partner_system_report_type'];
+    $sub_part_code = $cedri_details['sub_part_code'];
 
     $title =
       "<a class='favorites-ignore' target='_blank' href='" . $eactivity_item['handoff_url'] . "'>" .
       "<span class='report-name'>" .
-      $cedri_details['partner_system_report_type'] . " (" .
-      $cedri_details['part_code'] . ", " . $cedri_details['sub_part_code'] . ") " .
+      $report_type . " (" .
+      $part_code . ", " . $sub_part_code . ") " .
       "</span><span class='subpart-name'>$subheading</span>" .
       "</a>" .
       "<span class='item-subscript-text'>" . $cedri_details['facility_name'] . "</span>";
 
-    $status_note = $cedri_details['part_code'] . " - " . $cedri_details['part_name'] .
-      "<br /> " . $cedri_details['sub_part_code'] . " - " . $cedri_details['sub_part_name'];
+    $status_note = $part_code . " - " . $cedri_details['part_name'] .
+      "<br /> " . $sub_part_code . " - " . $cedri_details['sub_part_name'];
 
-    $part_code = $cedri_details['part_code'];
+    $sub_part_code = $cedri_details['sub_part_code'];
 
     $status_anchor =
       "<a class='simple-dialog favorites-ignore td-status' " .
@@ -177,6 +178,8 @@ function load_to_do_datatable_json($use_cache = true) {
       $eactivity_item['domain'],
       "<span class='date-display-single'>" . $eactivity_item['date'] . "</span><span class='date-subscript-text'>" . $eactivity_item['date_type'] . "</span>",
       $part_code,
+      $sub_part_code,
+      $report_type,
       $timeframe,
     ];
 

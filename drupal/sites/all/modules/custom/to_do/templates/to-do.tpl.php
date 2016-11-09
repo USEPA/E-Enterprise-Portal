@@ -24,16 +24,25 @@
   <label for="to-do-edit-field-domain-value">
     Domain
   </label>
-  <select required="required" id="to-doedit-field-domain-value" name="field_todo_lst_domain_value"
+  <select required="required" id="to-do-edit-field-domain-value" name="to-do-edit-field-domain-value"
           disabled="disabled" aria-required="true">
     <option value="CEDRI" selected="selected" title="CEDRI">CEDRI</option>
   </select>
 </div>
 <div class="filter-select" id="to-do-yadcf-filter-part-code">
-  <label for="to-do-edit-field-domain-value">
+  <label for="edit-field-to-do-part-code-value">
     Part Code
   </label>
-
+</div>
+<div class="filter-select" id="to-do-yadcf-filter-subpart-code">
+  <label for="edit-field-to-do-sub-part-code-value">
+    Sub Part Code
+  </label>
+</div>
+<div class="filter-select" id="to-do-yadcf-filter-report-type">
+  <label for="edit-field-to-do-report-type-value">
+    Report Type
+  </label>
 </div>
 <div id="to-do-modal-content"></div>
 <div id="to-do" class="eportal-datatable-wrapper">
@@ -45,6 +54,8 @@
       <th><span>Domain</span></th>
       <th><span>Due</span></th>
       <th><span>Part Code</span></th>
+      <th><span>Sub Part Code</span></th>
+      <th><span>Report Type</span></th>
       <th><span>Timeframe</span></th>
     </tr>
     </thead>
