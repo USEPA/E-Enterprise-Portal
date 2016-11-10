@@ -198,10 +198,12 @@ Truncate    text
     background: url("../images/information.png");
     width: 16px;
     height: 16px;
-    display: inline-block;
+    display: block;
     background-size: 16px 16px;
     background-repeat: no-repeat;
     cursor: pointer;
+    background-position: 50% 50%;
+    padding-left: 50%;
 }
 
 .ui-tabs .ui-tabs-panel.local.resources {
