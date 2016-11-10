@@ -840,14 +840,20 @@ var yadcf = (function($) {
     });
     columnObj = table_options[column_number];
 
-    if (event.currentTarget || (column_number <= parent_column_number && column_number != last_column)) {
+    /** HIERARCHY SUPPORT **/
+    // Only update filters cumulatively that are children of the previous filters
+    if (column_number <= parent_column_number && column_number != last_column) {
       columnObj.cumulative_filtering = false;
     }
-    if (column_number == last_column) {
+    // Do not reset filter that is being used
+    if ( event.currentTarget){
       columnObj.re_render_filter = false;
     } else {
       columnObj.re_render_filter = true;
     }
+    /** END HIERARCHY SUPPORT **/
+
+
 
     if (arg === "clear") {
       if (exGetColumnFilterVal(oTable, column_number) === '') {
@@ -2304,9 +2310,9 @@ var yadcf = (function($) {
     for (columnObjKey in args) {
       if (args.hasOwnProperty(columnObjKey)) {
         columnObj = args[columnObjKey];
-        //if (typeof columnObj.re_render_filter != "undefined" && !columnObj.re_render_filter) {
-        //  return true; // Continue loop
-        //}
+        if (typeof columnObj.re_render_filter != "undefined" && !columnObj.re_render_filter) {
+          continue; // Continue loop
+        }
 
         options_tmp = '';
         tmpStr = '';

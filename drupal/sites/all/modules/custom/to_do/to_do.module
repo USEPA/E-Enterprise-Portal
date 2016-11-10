@@ -73,7 +73,7 @@ function to_do_block_view($delta = '') {
       'requires_jquery' => TRUE
     ]);
 
-    drupal_add_js(libraries_get_path('yadcf') . '/0.9.0.beta.5/jquery.dataTables.yadcf.js', [
+    drupal_add_js(libraries_get_path('yadcf-ordered-hierarchy-filter') . '/0.9.0.beta.5/jquery.dataTables.yadcf.js', [
       'scope' => 'footer',
       'preprocess' => TRUE,
       'group' => JS_LIBRARY,
