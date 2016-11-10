@@ -135,7 +135,7 @@ function load_to_do_datatable_json($use_cache = true) {
 
     $title =
       "<a class='favorites-ignore' target='_blank' href='" . $eactivity_item['handoff_url'] . "'>" .
-      "<span class='report-name'>" .
+      "<span class='report-name'>Review " .
       $report_type . " (" .
       $part_code . ", " . $sub_part_code . ") " .
       "</span><span class='subpart-name'>$subheading</span>" .
