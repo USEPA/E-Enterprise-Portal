@@ -556,10 +556,29 @@ $color_ecstasy_approx: #ff851b;
             margin-top: -3rem;
             margin-bottom: 3rem;
         }
-
-        ol li {
-            list-style-type: decimal;
-            display: block;
+        ol {
+            margin-top: 0;
+            margin-left: 4rem;
+            margin-bottom: 1rem;
+            li {
+                list-style-type: decimal;
+                display: block;
+                &:before {
+                    display: inline-block;   
+                    margin-left: -2.0rem; // Create hanging indent for numbering           
+                }
+            }
+            ol {
+                margin-top: 0;
+                margin-left: 2rem;
+            }
+        }
+        ul {
+            margin-top: 0;
+            margin-left: 1.4rem;
+            li:before {
+                content: '';
+            }
         }
         ol[type=a] {
             counter-reset: section;
@@ -568,7 +587,6 @@ $color_ecstasy_approx: #ff851b;
                 display: block;
                 padding-left: 1em;
                 &:before {
-                    display: inline-block;
                     content: counter(section, lower-alpha) '.';
                     position: absolute;
                     margin-left: -1.5em;
@@ -600,7 +618,7 @@ $color_ecstasy_approx: #ff851b;
         }
 
         #be-well-informed-accordion {
-            margin-top: 5%;
+            margin-top: 10px;
             background-color: #ffffff;
             font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
             &>table, &>div {
@@ -659,6 +677,9 @@ $color_ecstasy_approx: #ff851b;
                                 font-weight: bold;
                                 display: block;
                                 margin-bottom: 1%;
+                            }
+                            br {
+                                display: none;  // Collapse empty space to avoid excessive spacing
                             }
                             background-color: #d6d2d2;
                         }
