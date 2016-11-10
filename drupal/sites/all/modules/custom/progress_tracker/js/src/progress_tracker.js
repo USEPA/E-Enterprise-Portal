@@ -103,24 +103,28 @@
             column_number: 6,
             filter_match_mode: 'contains',
             filter_reset_button_text: false,
-            filter_container_id: "progress-tracker-yadcf-filter-report-type",
+            filter_container_id: "progress-tracker-yadcf-filter-part-code",
             filter_default_label: "- Any -"
           },
           {
             column_number: 7,
             filter_match_mode: 'contains',
             filter_reset_button_text: false,
-            filter_container_id: "progress-tracker-yadcf-filter-part-code",
+            filter_container_id: "progress-tracker-yadcf-filter-subpart-code",
             filter_default_label: "- Any -"
           },
           {
             column_number: 8,
             filter_match_mode: 'contains',
             filter_reset_button_text: false,
-            filter_container_id: "progress-tracker-yadcf-filter-subpart-code",
+            filter_container_id: "progress-tracker-yadcf-filter-report-type",
             filter_default_label: "- Any -"
           }
-        ]
+
+        ],
+        {
+          cumulative_filtering: true
+        }
       );
 
 
