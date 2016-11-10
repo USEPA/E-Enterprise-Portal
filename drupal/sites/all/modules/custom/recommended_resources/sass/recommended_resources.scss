@@ -188,15 +188,22 @@ Truncate    text
     display: none;
 }
 
-/* line 131, ../sass/recommended_resources.scss */
-#local-resources-tabs td.views-field-nothing a {
+/**
+ * Note: #local-resources-tabs as well its children:
+ * #all-local-resources-wrapper
+ * #user-local-resources-wrapper
+ * contain the class 'ui-widget-content'
+ */
+.grid-stack-item #local-resources-tabs .ui-widget-content:not(#local-resources-tabs) td.resource-info a {
     background: url("../images/information.png");
     width: 16px;
     height: 16px;
-    display: inline-block;
+    display: block;
     background-size: 16px 16px;
     background-repeat: no-repeat;
     cursor: pointer;
+    background-position: 50% 50%;
+    padding-left: 50%;
 }
 
 .ui-tabs .ui-tabs-panel.local.resources {
