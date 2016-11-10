@@ -841,10 +841,6 @@ var yadcf = (function($) {
     columnObj = table_options[column_number];
 
     /** HIERARCHY SUPPORT **/
-    // Only update filters cumulatively that are children of the previous filters
-    if (column_number <= parent_column_number && column_number != last_column) {
-      columnObj.cumulative_filtering = false;
-    }
     // Do not reset filter that is being used
     if ( event.currentTarget){
       columnObj.re_render_filter = false;

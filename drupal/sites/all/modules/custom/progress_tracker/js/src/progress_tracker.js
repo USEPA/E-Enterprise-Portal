@@ -168,9 +168,12 @@
     var $subpart_code_select = $('#progress-tracker-yadcf-filter-subpart-code');
     var $report_type_select = $('#progress-tracker-yadcf-filter-report-type');
 
+    $subpart_code_select.find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+    $report_type_select.find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+    $report_type_select.hide();
+
     if (selected_part_code === "-1") {
-      $subpart_code_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
-      $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+      $subpart_code_select.hide();
     } else {
       $subpart_code_select.show();
     }
@@ -180,9 +183,10 @@
   $('#progress-tracker-yadcf-filter-subpart-code').on('change', 'select', function() {
     var selected_subpart_code = $(this).val().toLowerCase();
     var $report_type_select = $('#progress-tracker-yadcf-filter-report-type');
+    $report_type_select.find('option[value="-1"]').prop('selected', 'selected').trigger('change');
 
     if (selected_subpart_code === "-1") {
-      $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+      $report_type_select.hide();
     } else {
       $report_type_select.show();
     }
