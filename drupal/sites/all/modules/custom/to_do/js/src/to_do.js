@@ -199,12 +199,14 @@
 
   });
 
+  // Filter results based on "" (blank for all, is default), next_week, this_week, and beyond
   $('.todo_filter_button').click(function() {
     if (!$(this).hasClass('filter-applied')) {
       clearDTSearches(dtTable);
       var search_criteria = $(this).data('search');
+      // Column 7 contains time frame information
       dtTable.search('')
-        .columns(5).search(search_criteria)
+        .columns(7).search(search_criteria)
         .draw();
       $('.todo_filter_button').removeClass('filter-applied');
       $(this).addClass('filter-applied');
