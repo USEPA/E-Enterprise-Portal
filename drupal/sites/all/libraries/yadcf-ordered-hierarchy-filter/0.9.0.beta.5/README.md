@@ -7,8 +7,6 @@ Differences from YADCF Library:
 
 doFilter function passes in event information.
 columnObj has new variable: re_render_filter.
-columnObj.cumulative_filtering is turned on and off with respect to where the column is located in the list of columns and which column filter is
-actively being edited.
 
 
 Yet Another DataTables Column Filter - (yadcf)

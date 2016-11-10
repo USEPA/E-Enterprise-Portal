@@ -122,7 +122,10 @@
           filter_container_id: "to-do-yadcf-filter-report-type",
           filter_default_label: "- Any -"
         },
-        ]
+        ],
+        {
+          cumulative_filtering: true
+        }
       );
 
       $('#yadcf-filter-domain').show();
@@ -145,27 +148,18 @@
     openDetailsDialog($(this));
   });
 
-  $('#to-do-yadcf-filter-domain').on('change', 'select', function() {
-    var selected_domain = $(this).val().toLowerCase();
-    var $part_code_select = $('#to-do-yadcf-filter-part-code');
-    var $report_type_select = $('#to-do-yadcf-filter-report-type');
-    $part_code_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
-    $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
-    if (selected_domain === "cedri") {
-      $part_code_select.show();
-    } else if (selected_domain === "lead") {
-      $report_type_select.show();
-    }
-  });
 
   $('#to-do-yadcf-filter-part-code').on('change', 'select', function() {
     var selected_part_code = $(this).val().toLowerCase();
     var $subpart_code_select = $('#to-do-yadcf-filter-subpart-code');
     var $report_type_select = $('#to-do-yadcf-filter-report-type');
 
+    $subpart_code_select.find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+    $report_type_select.find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+    $report_type_select.hide();
+
     if (selected_part_code === "-1") {
-      $subpart_code_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
-      $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+      $subpart_code_select.hide();
     } else {
       $subpart_code_select.show();
     }
@@ -175,13 +169,12 @@
   $('#to-do-yadcf-filter-subpart-code').on('change', 'select', function() {
     var selected_subpart_code = $(this).val().toLowerCase();
     var $report_type_select = $('#to-do-yadcf-filter-report-type');
-
+    $report_type_select.find('option[value="-1"]').prop('selected', 'selected').trigger('change');
     if (selected_subpart_code === "-1") {
-      $report_type_select.hide().find('option[value="-1"]').prop('selected', 'selected').trigger('change');
+      $report_type_select.hide();
     } else {
       $report_type_select.show();
     }
-
   });
 
 
