@@ -10,9 +10,12 @@ function be_well_informed_menu() {
     'page callback' => 'be_well_informed_form_submission',
     'access callback' => TRUE,
   );
+  $items['be_well_informed/water_analysis_results_pdf'] = array(
+    'page callback' => 'be_well_pdf_generate',
+    'access callback' => TRUE,
+  );
   return $items;
 }
-
 
 /**
  * Implements hook_block_info().
@@ -24,6 +27,43 @@ function be_well_informed_block_info() {
   );
   return $blocks;
 }
+
+/*
+ * Generate pdf using wkhtmltopdf tool.
+ * Example here: https://gist.github.com/davejamesmiller/1965886
+ * */
+function be_well_pdf_generate(){
+  $html =  theme('be_well_informed_pdf');
+  $descriptorspec = array(
+      0 => array('pipe', 'r'), // stdin
+      1 => array('pipe', 'w'), // stdout
+      2 => array('pipe', 'w'), // stderr
+  );
+  $process = proc_open('wkhtmltopdf -q - -', $descriptorspec, $pipes);
+  // Send the HTML on stdin
+  fwrite($pipes[0], $html);
+  fclose($pipes[0]);
+  // Read the outputs
+  $pdf = stream_get_contents($pipes[1]);
+  $errors = stream_get_contents($pipes[2]);
+  // Close the process
+  fclose($pipes[1]);
+  $return_value = proc_close($process);
+  // Output the results
+  if ($errors) {
+    return "PDF Generation Failed!!";
+  } else {
+    header('Content-Type: application/pdf');
+    header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
+    header('Pragma: public');
+    header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s').' GMT');
+    header('Content-Length: ' . strlen($pdf));
+    header('Content-Disposition: inline; filename="' . $filename . '";');
+    echo $pdf;
+  }
+}
+
 
 /**
  * Implements hook_theme().
@@ -45,6 +85,11 @@ function be_well_informed_theme() {
       // Which .tpl.php file to use be-well-informed-modal.tpl.php
       'template' => 'be-well-informed-modal',
       'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
+    ),
+    'be_well_informed_pdf' => array(
+        'variables' => array(),
+        'template' => 'be-well-informed-pdf',
+        'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
     ),
   );
 }
@@ -547,3 +592,287 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
   drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
 
 }
+
+
+/**
+ * Implements template_preprocess_hook for be-well-informed-pdf.tpl.php.
+ */
+function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
+  $variables['unit_types'] = [
+      'mg/L',
+      'μg/L',
+      'ppm',
+      'ppb',
+      'gpg',
+      'units',
+      'CFU/100 mL',
+      'MPN/100 mL',
+      'mpn_100_ml'
+  ];
+
+  $variables['water_components'] = [
+      [
+          'name' => 'Arsenic',
+          'machine_name' => 'As',
+          'symbol' => 'As',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'μg/L', 'ppm', 'ppb']
+      ],
+      [
+          'name' => 'Chloride',
+          'machine_name' => 'Cl',
+          'symbol' => 'Cl',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'μg/L', 'ppm', 'ppb']
+      ],
+      [
+          'name' => 'Copper',
+          'machine_name' => 'Cu',
+          'symbol' => 'Cu',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'ppm']
+      ],
+      [
+          'name' => 'Copper, Stagnant',
+          'machine_name' => 'CuSt',
+          'symbol' => 'Cu',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'ppm']
+      ],
+      [
+          'name' => 'Fluoride',
+          'machine_name' => 'Fl',
+          'symbol' => 'F',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'ppm']
+      ],
+      [
+          'name' => 'Hardness as CaCO3',
+          'machine_name' => 'Har',
+          'symbol' => '',
+          'symbol_text' => '',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'ppm', 'gpg']
+      ],
+      [
+          'name' => 'Iron',
+          'machine_name' => 'Fe',
+          'symbol' => 'Fe',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'ppm']
+      ],
+      [
+          'name' => 'Lead',
+          'machine_name' => 'Pb',
+          'symbol' => 'Pb',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'ppm']
+      ],
+      [
+          'name' => 'Lead, Stagnant',
+          'machine_name' => 'PbSt',
+          'symbol' => 'Pb',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'ppm']
+      ],
+      [
+          'name' => 'Manganese',
+          'machine_name' => 'Mn',
+          'symbol' => 'Mn',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'ppm']
+      ],
+      [
+          'name' => 'Nitrate-N',
+          'machine_name' => 'NO3',
+          'symbol' => '',
+          'symbol_text' => '',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'ppm']
+      ],
+      [
+          'name' => 'Nitrite-N',
+          'machine_name' => 'NO2',
+          'symbol' => '',
+          'symbol_text' => '',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'ppm']
+      ],
+      [
+          'name' => 'pH',
+          'machine_name' => 'pH',
+          'symbol' => '',
+          'default_unit_type' => 'unit',
+          'validation' => [],
+          'unit_types' => ['units']
+      ],
+      [
+          'name' => 'Sodium',
+          'machine_name' => 'Na',
+          'symbol' => 'Na',
+          'default_unit_type' => 'mg/L',
+          'validation' => [],
+          'unit_types' => ['mg/L', 'ppm']
+      ],
+  ];
+
+  $variables['microbiology'] = [
+      [
+          'name' => 'Total Coliform',
+          'machine_name' => 'Bac',
+          'symbol' => 'Bac',
+          'default_unit_type' => 'CFU/100 mL',
+          'validation' => [],
+          'unit_types' => ['CFU/100 mL', 'MPN/100 mL'],
+          'radio_name' => 'Bac',
+      ],
+      [
+          'name' => 'E. Coli',
+          'machine_name' => 'Ecoli',
+          'symbol' => 'Ecoli',
+          'default_unit_type' => 'CFU/100 mL',
+          'validation' => [],
+          'unit_types' => ['CFU/100 mL', 'MPN/100 mL'],
+          'radio_name' => 'Ecoli',
+      ],
+  ];
+
+  $variables['radionuclides'] = [
+      [
+          'name' => 'Radon',
+          'machine_name' => 'Rn',
+          'symbol' => 'Rn',
+          'default_unit_type' => 'pCi/L',
+          'validation' => [],
+          'unit_types' => ['pCi/L']
+      ],
+      [
+          'name' => 'Uranium',
+          'machine_name' => 'Ur',
+          'symbol' => 'U',
+          'default_unit_type' => 'μg/L',
+          'validation' => [],
+          'unit_types' => ['pCi/L', 'μg/L']
+      ],
+      [
+          'name' => 'Gross Alpha',
+          'machine_name' => 'AGA',
+          'symbol' => '',
+          'default_unit_type' => 'pCi/L',
+          'validation' => [],
+          'unit_types' => ['pCi/L']
+      ],
+  ];
+
+  $variables['treatments'] = [
+      [
+          'icon'=> '',
+          'boxes' => [
+              [
+                  'icon'=> 'home',
+                  'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer' ],
+              [
+                  'icon'=> 'facet',
+                  'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
+              ],
+          ]
+      ],
+      [
+          'icon'=> 'home',
+          'boxes' => [
+              [
+                  'icon'=> '',
+                  'action' => 'Whole House Oxidizing Filter System'
+              ],
+              [
+                  'icon'=> '',
+                  'action' => 'Whole House Cation Exchange Water Softener'
+              ],
+          ]
+      ],
+      [
+          'icon'=> '',
+          'boxes' => [
+              [
+                  'icon'=> 'home',
+                  'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer'
+              ],
+              [
+                  'icon'=> 'facet',
+                  'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
+              ],
+          ]
+      ],
+      [
+          'text'=> 'Depending on the radon levels in the air, treatment of water may be advisable between 2,000 pCi/L and 10,000 pCi/L. Above 10,000 pCi/L, treatment is recommended regardless of radon level in air.',
+          'icon'=> 'home',
+          'boxes' => [
+              [
+                  'action' => 'Whole House Aeration Device'
+              ],
+              [
+                  'action' => 'Whole House Granular Activated Carbon (GAC) Filter'
+              ],
+          ]
+      ],
+      [
+          'icon'=> 'home',
+          'boxes' => [
+              [
+                  'icon'=> '',
+                  'action' => 'Whole House Acid Neutralizer System'
+              ],
+          ]
+      ],
+      [
+          'icon'=> 'facet',
+          'boxes' => [
+              [
+                  'icon'=> '',
+                  'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
+              ],
+              [
+                  'icon'=> '',
+                  'action' => 'Point-of-Use (POU) Reverse Osmosis (RO) System'
+              ],
+              [
+                  'icon'=> '',
+                  'action' => 'Point-of-Use (POU) Activated Alumina Filter System'
+              ],
+          ]
+      ],
+  ];
+  // some logic to help make it simpler to read
+  foreach ($variables['water_components'] as $key => $var) {
+    $variables['water_components'][$key]['symbol_text'] = ($var['symbol_text']) ? $var['symbol_text'] : $var['symbol'];
+  }
+
+  global $user;
+  $variables['response_json_data_pdf'] = variable_get($user->name.'_pdf_resp_'.$user->ssid);
+
+  $exposed_variables = [
+      'treatments' => $variables['treatments'],
+      'radionuclides' => $variables['radionuclides'],
+      'microbiology' => $variables['microbiology'],
+      'water_components' => $variables['water_components'],
+      'unit_types' => $variables['unit_types'],
+      'response_json_data_pdf' => $variables['response_json_data_pdf'],
+  ];
+
+  $variables['cities'] = ["Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
+  drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
+
+}
+
