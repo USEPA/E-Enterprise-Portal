@@ -72,7 +72,7 @@ function progress_tracker_block_view($delta = '') {
       'requires_jquery' => TRUE
     ]);
 
-    drupal_add_js(libraries_get_path('yadcf') . '/0.9.0.beta.5/jquery.dataTables.yadcf.js', [
+    drupal_add_js(libraries_get_path('yadcf-ordered-hierarchy-filter') . '/0.9.0.beta.5/jquery.dataTables.yadcf.js', [
       'scope' => 'footer',
       'preprocess' => TRUE,
       'group' => JS_LIBRARY,
@@ -163,10 +163,10 @@ function load_progress_tracker_datatable_json($use_cache = TRUE) {
       $status_anchor,
       "<span data-order='" . strtotime($eactivity_item['date']) . "' class='date-display-single'>" . $eactivity_item['date'] . "</span><span class='date-subscript-text'>" . $eactivity_item['date_type'] . "</span>",
       $eactivity_item['actions'],
-      $report_type,
       $part_code,
       $sub_part_code,
-      ];
+      $report_type,
+    ];
 
     $eactivity_dt_json[] = $eactivity_dt_row;
   }
