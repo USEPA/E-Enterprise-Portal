@@ -286,12 +286,20 @@ function chemical_rules_process_elastic_response(&$return) {
   $elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search';
 
   $headers = array('Content-Type' => 'application/json');
+  $query = '{"query" : { "bool": { "should": [';
+  foreach ($return['data']['SubstanceList'] as $substance) {
+    $query = $query . '{"match_phrase": {"substanceListName": "'. $substance . '" }},';
+    //$query = $query . "\r\n";
+  }
+  $query = substr(trim($query), 0, -1) . "]}}}";
+  $query = json_decode("'" . $query . "'");
+
   $elastic_response = drupal_http_request($elastic_endpoint, [
     "headers" => $headers,
     "method" => "POST",
     'timeout' => "10",
     //'data' =>  http_build_query(json_decode('{"query":{"match_all":{}},"from":10,"size":10}'))
-    'data' =>  '{"query":{"match_all":{}},"size":1000}'
+    'data' =>  $query
   ]);
   if ($elastic_response->code !== "200") {
     $return['error'] = TRUE;
