@@ -64,6 +64,10 @@ function be_well_pdf_generate(){
   }
 }
 
+function be_well_informed_user_logout($account){
+  db_query("delete from variable where name like '%_be_well_pdf_resp_%'");
+}
+
 
 /**
  * Implements hook_theme().
@@ -245,6 +249,11 @@ function be_well_informed_datatable_response($be_well_response_json) {
   $be_well_response = (Array) $be_well_response;
   $be_well_response['result_summary'] = $datatable_result_summary_json;
   $be_well_response['result_details'] = $datatable_result_details_json;
+
+  /*Use username and session ID to save be well response data for pdf generation. This data will be removed on user
+  logout, implemented in hook_user_logout in be_well_informed.module */
+  global $user;
+  variable_set($user->name.'_be_well_pdf_resp_'.$user->ssid, $be_well_response);
 
   return $be_well_response;
 }
@@ -860,7 +869,7 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
   }
 
   global $user;
-  $variables['response_json_data_pdf'] = variable_get($user->name.'_pdf_resp_'.$user->ssid);
+  $variables['response_json_data_pdf'] = variable_get($user->name.'_be_well_pdf_resp_'.$user->ssid);
 
   $exposed_variables = [
       'treatments' => $variables['treatments'],
