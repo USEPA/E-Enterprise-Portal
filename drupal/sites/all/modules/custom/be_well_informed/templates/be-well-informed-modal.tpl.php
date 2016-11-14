@@ -189,6 +189,7 @@
       <div id="be-well-informed-results-wrapper"
            class="be-well-informed-modal-wrapper">
         <h3>Your Water Analysis Results</h3>
+        <div class="print-icon"><a href="/be_well_informed/water_analysis_results_pdf" target="_blank"><img src="/sites/all/modules/custom/be_well_informed/images/pdf_icon.png"></a></div>
         <div id="be-well-informed-accordion" class="ui-accordion">
           <h1 class="head" role="tab" tabindex="0">
             <span class="bwi-result-title">About the Results</span>
