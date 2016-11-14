@@ -385,10 +385,21 @@ function load_data_from_rcs() {
         $url = "https://ends2.epacdxnode.net/RestProxy/query?Node=.NetNodeTest2.0&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
       }
 
+
       $response = drupal_http_request($url, array(
         'headers' => array('Content-Type' => 'text/xml'),
         'method' => 'GET',
+        'timeout' => variable_get('rcs_service_timeout', 30.0),
       ));
+
+      // If request was unsuccessful, load last successful request
+      if ($response->code == -1 || $response->data == "") {
+        $response = new stdClass();
+        $response->data = file_get_contents(drupal_get_path('module', 'recommended_resources') . '/last_rcs_request.xml');
+      } else {
+        // Store last successful request in xml
+        file_put_contents('last_rcs_request.xml', $response->data);
+      }
     }
 
     // Convert the response into an xml object
