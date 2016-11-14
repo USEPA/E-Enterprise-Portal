@@ -146,30 +146,10 @@
 
 
      </table>
-     <?php
-     //added forpdf
-     if(!empty($response_json_data_pdf['TreatmentSteps'])){
-       $contaminants = array();
-       $excluded = array('Fe', 'NO2', 'Bac', 'Ecoli');
-       foreach($response_json_data_pdf['ResultEvaluations'] as $key => $val ){
-         if(!in_array($key, $excluded) && $val->GuidelineColor == 'font-red')
-           array_push($contaminants, $val->ContaminantFullName);
-       }
-       if(count($contaminants) > 1){
-         $last = array_pop($contaminants);
-         $title = join(', ', $contaminants);
-         $title .= ' and '.$last;
-       }
-       else{
-         $title = array_pop($contaminants);
-       }
-     }
 
-     ?>
-
-     <?php if(!empty($title)): ?>
+     <?php if(!empty($contaminants_title)): ?>
      <br><br>
-     <span class="bwi-result-title">Water Treatment Systems That Remove <?php print $title ?></span>
+     <span class="bwi-result-title">Water Treatment Systems That Remove <?php print $contaminants_title ?></span>:
      <div class="datatable usa-width-one-whole hide treatment-content">
        <div class='water-treatment-head'>
          The following water treatment is based on the water quality
