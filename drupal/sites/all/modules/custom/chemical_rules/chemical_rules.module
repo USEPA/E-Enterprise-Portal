@@ -370,7 +370,7 @@ function update_chem_profile() {
     $existing = user_load($user->uid);
     $response['data'] = [ 'profile' => $_POST['profile']];
 
-    $edit = (array) $existing;
+    $edit = [];
     if(!is_string($_POST['profile'])) {
       $_POST['profile'] = json_encode($_POST['profile']);
     }
