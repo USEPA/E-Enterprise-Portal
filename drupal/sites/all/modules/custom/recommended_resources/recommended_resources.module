@@ -392,12 +392,12 @@ function load_data_from_rcs() {
         'timeout' => variable_get('rcs_service_timeout', 30.0),
       ));
 
-      // If request was unsuccessful, load sample data instead
+      // If request was unsuccessful, load last successful request
       if ($response->code == -1 || $response->data == "") {
         $response = new stdClass();
         $response->data = file_get_contents(drupal_get_path('module', 'recommended_resources') . '/last_rcs_request.xml');
       } else {
-        // Rewrite last successful request with new pull
+        // Store last successful request in xml
         file_put_contents('last_rcs_request.xml', $response->data);
       }
     }
