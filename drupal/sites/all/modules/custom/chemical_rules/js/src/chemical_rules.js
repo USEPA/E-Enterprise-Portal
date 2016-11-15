@@ -147,22 +147,20 @@ function populate_substance_modal(chemical_rules_response_json) {
     //    3) loop thru CFRs and look up CFR name and URL (LawsRegs.[variableforcfrnumber].cfrId, attributes.USC Citation, attributes.Title, attributes.URL
 
     var cfr_id = '';
-    if(json.data.SubstanceList && json.data.SubstanceList !== ''){
-      for(var listI in json.data.SubstanceList){
-        if(Object.keys(json.data.SubstanceList[listI].cfrs).length > 0){
-          count_all_cfrs += Object.keys(json.data.SubstanceList[listI].cfrs).length;
-          html_to_add.push('<h3><span class="cr-laws-regs_count">' + json.data.SubstanceList[listI].cfrs.length + '</span> laws and regulations for ' + json.data.SubstanceList[listI].substanceListName + '</h3><ul class="cr-lists">');
-          substance_lists.push('<li>'+ json.data.SubstanceList[listI].substanceListName +'</li>');
-          for (var index in json.data.SubstanceList[listI].cfrs) {
-            cfr_id = json.data.SubstanceList[listI].cfrs[index];
-            fav_holder = create_favlaw_heart(cfr_id);
-            html_to_add.push('<li><a data-favtype="Law" data-epaintnum="' + cfr_id + '" href="'+ json.data.LawsRegs[cfr_id].attributes.URL +'" target="_blank">' + json.data.LawsRegs[cfr_id].attributes["Citation"] + " &mdash; " + json.data.LawsRegs[cfr_id].attributes.Title+'</a>' + fav_holder + '<span class="law-citation">Authority: ' + json.data.LawsRegs[cfr_id].attributes["CFR Authority"] + '</span></li>');
-          }
-          html_to_add.push('</ul>');
-        }
+    if(!!json.data.SubstanceList && Object.keys(json.data.SubstanceList).length) {
+      for(var index in json.data.LawsRegs) {
+
+        cfr_id = json.data.LawsRegs[index][cfr_id];
+
+        fav_holder = create_favlaw_heart(cfr_id);
+
+        html_to_add.push('<div class="cr-lists"><a data-favtype="Law" data-epaintnum="' + cfr_id + '" href="'+ json.data.LawsRegs[index].attributes.URL +'" target="_blank">' + json.data.LawsRegs[index].attributes["Citation"] + " &mdash; " + json.data.LawsRegs[index].attributes.Title+'</a>' + fav_holder );
+        html_to_add.push('<div class="law-citation">Authority: ' + json.data.LawsRegs[index].attributes["CFR Authority"] + '</div>');
+        html_to_add.push('<div>SubstanceList: ' + json.data.LawsRegs[index]['substanceList'] + '</div></div>');
       }
+
       $list.append(html_to_add.join(""));
-      $body.find('#count-all-cfrs').text(count_all_cfrs);      
+      $body.find('#count-all-cfrs').text(Object.keys(json.data.LawsRegs).length);
     }
     else {
       // No laws regulations found
