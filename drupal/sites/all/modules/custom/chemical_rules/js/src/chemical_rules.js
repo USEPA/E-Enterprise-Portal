@@ -266,7 +266,6 @@ function render_favorite_chemicals(favs) {
     $body.find('.cr-chemicals').hide();
     $body.find('.cr-favorite-chemicals').html('').hide();
   }
-
 }
 
 function render_favorite_laws(favs) {
@@ -287,7 +286,6 @@ function render_favorite_laws(favs) {
     $body.find('.cr-laws').hide();
     $body.find('.cr-favorite-laws').html('').hide();
   }
-
 }
 
 /**
@@ -400,13 +398,8 @@ function isValidCasNumber(stringToCheck) {
       $cr_empty.hide();
       $cr_avail.show();
 
-      if (num_chem_faves > 0) {
-        render_favorite_chemicals(favs);
-      }
-      if (num_rules_faves > 0) {
-        render_favorite_laws(favs);
-      }
-
+      render_favorite_chemicals(favs);
+      render_favorite_laws(favs);
     }
   }
   // If no favorites exist, show Search tab
@@ -517,7 +510,8 @@ function isValidCasNumber(stringToCheck) {
       var clicked_favorite_type = $(this).data('favtype') + 's';
 
       var updatedFavs = Drupal.settings.chemical_rules.profile[clicked_favorite_type].reduce(function(before, item, index, array){
-        return (item.ID != clicked_favorite_ID) ? before.push(item) : before;
+        (item.ID != clicked_favorite_ID) ? before.push(item) : before;
+        return before;
       }, []);
 
       Drupal.settings.chemical_rules.profile[clicked_favorite_type] = (updatedFavs) ? updatedFavs : [];
