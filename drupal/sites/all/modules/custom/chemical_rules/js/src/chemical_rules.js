@@ -400,13 +400,8 @@ function isValidCasNumber(stringToCheck) {
       $cr_empty.hide();
       $cr_avail.show();
 
-      if (num_chem_faves > 0) {
-        render_favorite_chemicals(favs);
-      }
-      if (num_rules_faves > 0) {
-        render_favorite_laws(favs);
-      }
-
+      render_favorite_chemicals(favs);
+      render_favorite_laws(favs);
     }
   }
   // If no favorites exist, show Search tab
