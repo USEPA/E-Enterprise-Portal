@@ -517,7 +517,8 @@ function isValidCasNumber(stringToCheck) {
       var clicked_favorite_type = $(this).data('favtype') + 's';
 
       var updatedFavs = Drupal.settings.chemical_rules.profile[clicked_favorite_type].reduce(function(before, item, index, array){
-        return (item.ID != clicked_favorite_ID) ? before.push(item) : before;
+        (item.ID != clicked_favorite_ID) ? before.push(item) : before;
+        return before;
       }, []);
 
       Drupal.settings.chemical_rules.profile[clicked_favorite_type] = (updatedFavs) ? updatedFavs : [];
