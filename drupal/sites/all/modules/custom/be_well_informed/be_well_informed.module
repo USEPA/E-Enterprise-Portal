@@ -64,8 +64,13 @@ function be_well_pdf_generate(){
   }
 }
 
+/*
+ * Implementation of hook_user_logout
+ * Remove used pdf generation variable for the logged in user and session when the user logs out.
+ * */
 function be_well_informed_user_logout($account){
-  db_query("delete from variable where name like '%_be_well_pdf_resp_%'");
+  global $user;
+  variable_del($user->name.'_be_well_pdf_resp_'.$user->ssid);
 }
 
 
@@ -871,6 +876,25 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
   global $user;
   $variables['response_json_data_pdf'] = variable_get($user->name.'_be_well_pdf_resp_'.$user->ssid);
 
+  /*Setup a pre-process variable for list of contaminants shown in pdf page under "Water Treatment Systems That Remove $contaminants_title"  */
+  if(!empty($variables['response_json_data_pdf']['TreatmentSteps'])){
+    $contaminants = array();
+    $excluded = array('Fe', 'NO2', 'Bac', 'Ecoli');
+    foreach($variables['response_json_data_pdf']['ResultEvaluations'] as $key => $val ){
+      if(!in_array($key, $excluded) && $val->GuidelineColor == 'font-red')
+        array_push($contaminants, $val->ContaminantFullName);
+    }
+    if(count($contaminants) > 1){
+      $last = array_pop($contaminants);
+      $contaminants_title = join(', ', $contaminants);
+      $contaminants_title .= ' and '.$last;
+    }
+    else{
+      $contaminants_title = array_pop($contaminants);
+    }
+  }
+  $variables['contaminants_title'] =  $contaminants_title;
+
   $exposed_variables = [
       'treatments' => $variables['treatments'],
       'radionuclides' => $variables['radionuclides'],
@@ -878,6 +902,7 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
       'water_components' => $variables['water_components'],
       'unit_types' => $variables['unit_types'],
       'response_json_data_pdf' => $variables['response_json_data_pdf'],
+      'contaminants_title' => $variables['contaminants_title'],
   ];
 
   $variables['cities'] = ["Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
