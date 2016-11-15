@@ -120,10 +120,103 @@ function chemical_rules_block_view($delta = '') {
   return $block;
 }
 
+
+/**
+ * Create a taxonomy and attach a field to it.
+ */
+function _create_taxonomy() {
+  $t = get_t();
+
+  $term = new stdClass();
+  $term->name = $t('Chemicals');
+  $term->machine_name = TAXONOMY_NAME;
+  $term->description = $t('Used to capture the chemicals, their synonyms and CAS numbers for faster lookup');
+  $term->heirarchy = 1;
+  $term->module = 'chemical_rules';
+  $term->weight = 1;
+  taxonomy_vocabulary_save($term);
+  // Create a field
+  $field = array(
+    'field_name' => 'field_tax_chemical',
+    'type' => 'text',
+    'label' => $t('Label')
+  );
+  field_create_field($field);
+  // Attach the field to our taxonomy entity
+  $instance = array(
+    'field_name' => 'field_tax_chemical',
+    'entity_type' => 'taxonomy_term',
+    'bundle' => TAXONOMY_NAME,
+    'label' => $t('Label'),
+    'description' => $t('Description'),
+    'required' => true,
+    'widget' => array(
+      'type' => 'text_textfield',
+      'weight' => 3
+    )
+  );
+  field_create_instance($instance);
+
+  // Done
+}
+/**
+ * Create a content type and attach our created taxonomy to it.
+ */
+function _create_content_type() {
+  $t = get_t();
+  $node = array(
+    'type' => NODE_NAME,
+    'name' => $t('Chemical'),
+    'base' => 'node_content',
+    'description' => $t('Description'),
+    'title_label' => $t('Title'),
+    'custom' => TRUE
+  );
+  $content_type = node_type_set_defaults($node);
+  node_add_body_field($content_type, 'JSON');
+  node_type_save($content_type);
+  // Create a taxonomy field and use the taxonomy entity we created earlier
+  $field = array(
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'field_name' => 'field_tax_chemical',
+    'type' => 'taxonomy_term_reference',
+    'module' => 'chemical_rules',
+    'label' => $t('Label'),
+    'settings' => array(
+      'allowed_values' => array(
+        array(
+          'vocabulary' => TAXONOMY_NAME,
+          'parent' => 0
+        )
+      )
+    )
+  );
+  field_create_field($field);
+  // Add the field to the content type as a HTML select box.
+  $instance = array(
+    'field_name' => 'field_tax_chemical',
+    'entity_type' => 'node',
+    'bundle' => NODE_NAME,
+    'label' => $t('Label'),
+    'description' => '',
+    'required' => TRUE,
+    'widget' => array(
+      'type' => 'options_select',
+      'weight' => -10,
+    )
+  );
+  field_create_instance($instance);
+
+  // Done
+}
+
 /**
  * Take users POST input and handoff to sample data or SRS / LRS / LOD service
  */
 function chemical_rules_form_submission() {
+
+  _create_taxonomy();
+  _create_content_type();
 
   if (!isset($_POST) || count($_POST) === 0) {
     drupal_json_output(array(
