@@ -1,5 +1,5 @@
 var originalDialog;
-var favs = Drupal.settings.chemical_rules.profile;
+var favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[]};
 
 function repair_chemical_rules_profile() {
 
