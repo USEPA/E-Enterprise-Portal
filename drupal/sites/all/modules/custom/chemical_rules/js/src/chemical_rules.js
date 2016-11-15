@@ -266,7 +266,6 @@ function render_favorite_chemicals(favs) {
     $body.find('.cr-chemicals').hide();
     $body.find('.cr-favorite-chemicals').html('').hide();
   }
-
 }
 
 function render_favorite_laws(favs) {
@@ -287,7 +286,6 @@ function render_favorite_laws(favs) {
     $body.find('.cr-laws').hide();
     $body.find('.cr-favorite-laws').html('').hide();
   }
-
 }
 
 /**
