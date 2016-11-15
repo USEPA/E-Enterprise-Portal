@@ -317,7 +317,14 @@ function chemical_rules_process_elastic_response(&$return) {
     if(in_array($list->substanceListName, $return['data']['SubstanceList'])){
       $cfrs = [];
       foreach ($list->cfrs as $cfr_id => $cfr) {
-        $return['data']['LawsRegs'][$cfr_id] = $cfr;
+        if(!isset($return['data']['LawsRegs'][$cfr_id])) {
+          $cfr = (Array) $cfr;
+          $cfr['substanceList'] = [];
+          $return['data']['LawsRegs'][$cfr_id] = $cfr;
+        }
+        if(!in_array($list->substanceListName, $return['data']['LawsRegs'][$cfr_id]['substanceList'])){
+          $return['data']['LawsRegs'][$cfr_id]['substanceList'][] = $list->substanceListName;
+        }
         $cfrs[] = $cfr_id;
       }
       $list->cfrs = $cfrs;
