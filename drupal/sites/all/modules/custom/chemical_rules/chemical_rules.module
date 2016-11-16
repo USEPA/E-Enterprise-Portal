@@ -124,6 +124,7 @@ function chemical_rules_block_view($delta = '') {
  * Take users POST input and handoff to sample data or SRS / LRS / LOD service
  */
 function chemical_rules_form_submission() {
+
   if (!isset($_POST) || count($_POST) === 0) {
     drupal_json_output(array(
       'error' => TRUE,
@@ -142,25 +143,35 @@ function chemical_rules_form_submission() {
     $response['data'] = sample_chemical_rules_response();
   }
   else {
-    chemical_rules_process_srs_response($response);
-    chemical_rules_process_elastic_response($response);
-    //chemical_rules_process_lrs_response($response);
-    //chemical_rules_process_pubchem_response($response);
-  }
+    $cached_response = get_chemical_response_cache($_POST['cr-search_input']);
+    if($cached_response) {
+      $response = $cached_response;
+    }
+    else {
+      chemical_rules_process_srs_response($response);
+      chemical_rules_process_elastic_response($response);
+      //chemical_rules_process_lrs_response($response);
+      //chemical_rules_process_pubchem_response($response);
 
+    }
+  }
+  $cached_response = get_chemical_response_cache($_POST['cr-search_input']);
+  if($cached_response) {
+    $response = $cached_response;
+  }
   drupal_json_output($response);
 }
 
 function sample_chemical_rules_response() {
   $path = drupal_get_path('module', 'chemical_rules') . '/data.json';
   $sample = file_get_contents($path);
-  return json_decode($sample);
+  return json_decode($sample, true);
 }
 
 function sample_chemical_rules_lrs_response() {
   $path = drupal_get_path('module', 'chemical_rules') . '/substanceList.json';
   $sample = file_get_contents($path);
-  return json_decode($sample);
+  return json_decode($sample, true);
 }
 
 function sample_chemical_rules_pubchem_response() {
@@ -404,7 +415,8 @@ function update_chem_profile() {
   }
   echo json_encode($response);
 }
-function is_valid_cas_number($stringToCheck) {
+
+function is_valid_cas_number($stringToCheck, $returnCasNumber = false) {
   $cas = '/(\d{2,7}).{0,2}(\d{2}).{0,2}(\d)+/';
   $casGroup = [];
   if(preg_match_all($cas, $stringToCheck, $casGroup)){
@@ -414,10 +426,16 @@ function is_valid_cas_number($stringToCheck) {
     for($i = $length - 1; $i >= 0; $i--){
       $sumCheck += $casBase[$i] * ($length - $i);
     }
-    return ($casGroup[3][0] == ($sumCheck % 10));
+    if($returnCasNumber && ($casGroup[3][0] == ($sumCheck % 10))) {
+      return $casGroup;
+    }
+    else {
+      return ($casGroup[3][0] == ($sumCheck % 10));
+    }
   }
   return false;
 }
+
 function strip_prefix_from_array($array, $prefix){
   $stripped = [];
 
@@ -427,6 +445,7 @@ function strip_prefix_from_array($array, $prefix){
   }
   return $stripped;
 }
+
 function xmlstr_to_array($xmlstr) {
   $doc = new DOMDocument();
   $doc->loadXML($xmlstr);
@@ -435,6 +454,7 @@ function xmlstr_to_array($xmlstr) {
   $output['@root'] = $root->tagName;
   return $output;
 }
+
 function domnode_to_array($node) {
   $output = array();
   switch ($node->nodeType) {
@@ -477,4 +497,73 @@ function domnode_to_array($node) {
       break;
   }
   return $output;
+}
+
+function get_chemical_response_cache($search_term){
+  $cache = null;
+  $is_cas = is_valid_cas_number($search_term, true);
+
+  // in the case there it is a case number, we need to look for the right format
+  if($is_cas) {
+    $search_term = implode('-', array_shift($is_cas));
+  }
+  $terms = taxonomy_get_term_by_name(strtolower(trim($search_term)), 'chemicals');
+  // ideally $terms should be array with a single item
+  if($terms){
+    $node_ids = [];
+    foreach ($terms as $term) {
+      $node_ids = array_merge($node_ids, taxonomy_select_nodes($term->tid));
+    }
+    if(count($node_ids) == 1) {
+      $node = node_load($node_ids[0]);
+      $cache = json_decode($node->body[LANGUAGE_NONE][0]['value'], true);
+      $cache['cached'] = ['changed'=>$node->changed, 'date'=>date("d F Y H:i:s",$node->changed)];
+      return $cache;
+    }
+  }
+  return $cache;
+}
+
+/**
+ * Checks if chemical information exists in drupal; It loads it if it exists and
+ * not too stale, else it looks it up and saves it.
+ * @param $chemical_response array - is the parsed information ready to be saved as JSON
+ */
+function save_chemical_response($chemical_response) {
+
+  if($chemical_response['error'] == false) {
+    $node = new stdClass();
+    $node->title = $chemical_response['data']['Substance']['EPAChemicalRegistryName'];
+    $node->type = "chemical";
+    node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
+    $node->language = LANGUAGE_NONE; // Or e.g. 'en' if locale is enabled
+    $node->uid = 1;
+    $node->status = 1; //(1 or 0): published or not
+    $node->promote = 0; //(1 or 0): promoted to front page
+    $node->comment = 0; // 0 = comments disabled, 1 = read only, 2 = read/write
+
+    // give it the context
+    $node->body[LANGUAGE_NONE][0]['value'] = json_encode($chemical_response);
+
+    $chemical_vocab = taxonomy_vocabulary_machine_name_load('chemicals');
+
+    // lets handle the other terms/synonyms
+    $terms = $chemical_response['data']['Substance']['Synonym'];
+    // Add anything we want to do searches against i.e. CAS #
+    $terms[] = $chemical_response['data']['Substance']['CASRegistryNumber'];
+
+    foreach ($terms as $synonym) {
+      $term = taxonomy_get_term_by_name(strtolower(trim($synonym)), 'chemicals');
+      if(!$term){
+        $term = new stdClass();
+        $term->name = strtolower(trim($synonym));
+        $term->vid = $chemical_vocab->vid;
+        taxonomy_term_save($term); // Finally, save our term
+      }
+      $node->field_tax_chemical[$node->language][]['tid'] = $term->tid;
+    }
+
+    $node = node_submit($node); // Prepare node for saving
+    node_save($node);
+  }
 }
