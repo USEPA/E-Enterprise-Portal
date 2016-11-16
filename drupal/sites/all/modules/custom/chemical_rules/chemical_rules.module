@@ -144,7 +144,7 @@ function chemical_rules_form_submission() {
   }
   else {
     $cached_response = get_chemical_response_cache($_POST['cr-search_input']);
-    if($cached_response) {
+    if($cached_response && time() > strtotime("+1 month", $cached_response['cached']['changed'])) {
       $response = $cached_response;
     }
     else {
@@ -153,11 +153,8 @@ function chemical_rules_form_submission() {
       //chemical_rules_process_lrs_response($response);
       //chemical_rules_process_pubchem_response($response);
 
+      save_chemical_response($response);
     }
-  }
-  $cached_response = get_chemical_response_cache($_POST['cr-search_input']);
-  if($cached_response) {
-    $response = $cached_response;
   }
   drupal_json_output($response);
 }
@@ -517,15 +514,34 @@ function get_chemical_response_cache($search_term){
 function save_chemical_response($chemical_response) {
 
   if($chemical_response['error'] == false) {
-    $node = new stdClass();
-    $node->title = $chemical_response['data']['Substance']['EPAChemicalRegistryName'];
-    $node->type = "chemical";
-    node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
-    $node->language = LANGUAGE_NONE; // Or e.g. 'en' if locale is enabled
-    $node->uid = 1;
-    $node->status = 1; //(1 or 0): published or not
-    $node->promote = 0; //(1 or 0): promoted to front page
-    $node->comment = 0; // 0 = comments disabled, 1 = read only, 2 = read/write
+    //Check if the node exists
+    $title = $chemical_response['data']['Substance']['EPAChemicalRegistryName'];
+    $terms = taxonomy_get_term_by_name(strtolower(trim($title)), 'chemicals');
+    // ideally $terms should be array with a single item
+    if($terms){
+      $node_ids = [];
+      foreach ($terms as $term) {
+        $node_ids = array_merge($node_ids, taxonomy_select_nodes($term->tid));
+      }
+      if(count($node_ids) == 1) {
+        $node = node_load($node_ids[0]);
+      }
+    }
+    if(!isset($node)) {
+      $node =  new stdClass();
+      $node->title = $title;
+      $node->type = "chemical";
+      node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
+      $node->language = LANGUAGE_NONE; // Or e.g. 'en' if locale is enabled
+      $node->uid = 1;
+      $node->status = 1; //(1 or 0): published or not
+      $node->promote = 0; //(1 or 0): promoted to front page
+      $node->comment = 0; // 0 = comments disabled, 1 = read only, 2 = read/write
+    }
+    else {
+      // clear previous ones and update with new ones
+      $node->field_tax_chemical[$node->language] = [];
+    }
 
     // give it the context
     $node->body[LANGUAGE_NONE][0]['value'] = json_encode($chemical_response);
