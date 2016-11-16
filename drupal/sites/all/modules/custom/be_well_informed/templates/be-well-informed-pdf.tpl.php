@@ -73,47 +73,38 @@
            margin-right: 0.5em;
            background-repeat:no-repeat;
          }
-
+         /* This style is inserted as an internal style to avoid affecting these IDs in the html results page. The effect is needed only on the pdf version.*/
+         #Bac1, #Cl1a, #Cu1, #Pb1, #N1, #N2{
+           display:block !important;
+         }
     </style>
 </head>
  <body>
  <div id="be-well-informed-results-wrapper-pdf"
       class="be-well-informed-modal-wrapper">
-   <h1 class="be-well-pdf-title">Be Well Informed Water Analysis Tool</h1>
+   <h1 class="be-well-pdf-title">The State of New Hampshire<br>
+     DEPARTMENT OF ENVIRONMENTAL SERVICES<br>
+     Results from the NHDES Be Well Informed Guide<br>
+     Created <?php print date("M j, Y"); ?></h1>
    <div id="be-well-informed-accordion" class="ui-accordion">
-     <h3>Your Water Analysis Results</h3>
+     <p>
+       Information provided in this report is for informational purposes only and should not be substituted for direct consultation with a
+       qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide
+       may determine the most appropriate water treatment option.
+     </p>
+     <h3>YOUR DRINKING WATER RESULTS SUMMARY</h3>
      <div>
        <span class="bwi-result-title">About the Results</span>
        <p>
-         The Results below compare your water to federal and state health-based
-         standards (Maximum Contaminant Levels -
-         MCLs)
-         and other guidelines (Secondary Maximum Contaminant Levels - SMCLs,
-         health advisory levels, etc.). These
-         standards
-         and guidelines are often referred to as "limits" on your laboratory
-         report. If your water exceeds or is
-         approaching
-         established federal/state drinking water limits or advisory levels for
-         the contaminant(s) entered, additional
-         health
-         information and treatment options will be shown.
-       </p>
-       <p>
-         Several contaminants, such as radon and sodium, do not have state
-         or federal standards. Instead, when radon is present in drinking water
-         at 2,000 pCi/L or greater, we recommend
-         you
-         check the
-         <a
-             href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf" target="_blank">
-           Drinking Water Fact Sheet
-         </a>.
-         For sodium, health and treatment information is shown when sodium is
-         present at
-         levels above 20 mg/L, U.S. EPA's federal "health advisory" for persons
-         on a physician-prescribed "no salt
-         diet."
+         Based on what you entered from your laboratory report, the Results Summary below indicates whether your water meets federal and
+         state health-based standards (Maximum Contaminant Levels - MCLs) as well as other guidelines (Secondary Maximum Contaminant
+         Levels - SMCLs, health advisory levels, etc.). These standards and guidelines are often referred to as "limits" on your laboratory
+         report. If your water exceeds or is approaching established federal/state drinking water limits or advisory levels for the contaminant(s)
+         entered, additional health information and treatment options will be shown. <b>Several contaminants, such as radon and sodium, <span class="em-und">do
+         not have state or federal standards</span></b>. Instead, when radon is present in drinking water at 2,000 pCi/L or greater, NHDES
+         recommends homeowners <span class="em-und">consult NHDES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016)</span>. For sodium, the Be Well Informed tool
+         provides health and treatment information when sodium is present at levels above 20 mg/L, U.S. EPA's federal "health advisory" for
+         persons on a physician-prescribed "no salt diet."
        </p>
      </div>
      <span class="bwi-result-title">Results Summary</span>
@@ -149,14 +140,13 @@
 
      <?php if(!empty($contaminants_title)): ?>
      <br><br>
-     <span class="bwi-result-title">Water Treatment Systems That Remove <?php print $contaminants_title ?></span>:
+     <span class="bwi-result-title">Water Treatment Systems That Remove <?php print $contaminants_title ?></span>
      <div class="datatable usa-width-one-whole hide treatment-content">
        <div class='water-treatment-head'>
          The following water treatment is based on the water quality
          information you entered. <span class='detail-show'>Details concerning water treatment are below.</span>
        </div>
        <?php
-       variable_set('varz_treatment_steps',$response_json_data_pdf['TreatmentSteps']);
        $toShow = array();   //added forpdf
        foreach($response_json_data_pdf['TreatmentSteps'] as $key=>$value){
          array_push($toShow, $key);
@@ -167,7 +157,6 @@
          <?php
          $count = 0;  //added forpdf
          $stepLabel = 1;   //added forpdf
-         variable_set('varz_treatments',$treatments);
          foreach ($treatments as $t):
            if(in_array($count, $toShow)):   //added forpdf ?>
              <div class="clearfix treatment-step">
@@ -176,21 +165,16 @@
                  <span <?php if ($t['icon']): print "class='treatment-icon ". $t['icon']."-icon step-icon'"; endif; ?>><?php print " Step ".$stepLabel; //added forpdf ?></span>
                </div>
                <div class="float-center">
-                 <center>
                    <div class="step-boxes text-center clearfix">
                      <?php if ($t['text']): echo "<div class='additional-text'>{$t['text']}</div>"; endif; ?>
-                     <?php //foreach ($t['boxes'] as $ix => $bx): ?>
                      <?php
                      $or_count = 1;
                      $total_items = count($response_json_data_pdf['TreatmentSteps']->$count->OrInstructions);
                      foreach($response_json_data_pdf['TreatmentSteps']->$count->OrInstructions as $ix => $bx): ?>
-                       <div
-                           class="box-main <?php //if ($bx['icon']): echo "treatment-icon ".$bx['icon']."-icon instruction-icon"; endif; ?>"
-                           title="<?php echo $bx->Recommendation; ?>"><?php echo $bx->Recommendation; ?></div>
+                       <div class="box-main" title="<?php echo $bx->Recommendation; ?>"><?php echo $bx->Recommendation; ?></div>
                        <?php if ($total_items != $or_count): echo "<div class='or'>Or</div>"; $or_count++; endif; ?>
                      <?php endforeach; ?>
                    </div>
-                 </center>
                </div>
              </div>
              <?php
