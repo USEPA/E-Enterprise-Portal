@@ -17,7 +17,8 @@
 <div id="cr-tabs">
     <ul>
       <li><a class="favorites-ignore" href="#cr-tabs_favorites">My Favorites</a></li>
-      <li><a class="favorites-ignore" href="#cr-tabs_previous">Previous Searches</a></li>      
+      <li><a class="favorites-ignore" href="#cr-tabs_previous">Previous Searches</a></li>
+      <li><a class="favorites-ignore" href="#cr-tabs_naics">NAICS Codes</a></li>
 <!--       <li><a class="favorites-ignore" href="#cr-tabs_trending">Trending</a></li> -->
     </ul>
     <!-- @TAB: My Favorites -->
@@ -46,6 +47,19 @@
         <li><a class="favorite-chemical" href="#" data-epachemintnum="9999" data-systematicname="Acetone">67-64-1:  Acetone</a></li> 
         <li><a class="favorite-chemical" href="#" data-epachemintnum="8888" data-systematicname="2,4,4-Trimethylhexamethylene diisocyanate">16938-22-0:  2,4,4-Trimethylhexamethylene diisocyanate</a></li>         
       </ul>  
-    </div><!-- @end cr-tabs_previous -->    
+    </div><!-- @end cr-tabs_previous -->
+    <!-- @TAB: NAICS Codes -->
+    <div id="cr-tabs_naics">
+      <p class="cr_codes">
+        NAICS codes:s
+      </p>
+      <ul class="cr-lists cr-naics-codes">
+          <li><a class="favorite-code cr-favorite" href="https://www.naics.com/naics-code-description/?code=334512"  data-favtype="Code" target="_blank"> 334512 </a></li>
+          <li><a class="favorite-code cr-favorite" href="https://www.naics.com/naics-code-description/?code=311230"  data-favtype="Code" target="_blank"> 311230 </a></li>
+          <li><a class="favorite-code cr-favorite" href="https://www.naics.com/naics-code-description/?code=111110"  data-favtype="Code" target="_blank"> 111110 </a></li>
+          <li><a class="favorite-code cr-favorite" href="https://www.naics.com/naics-code-description/?code=111140"  data-favtype="Code" target="_blank"> 111140 </a></li>
+          <li><a class="favorite-code cr-favorite" href="https://www.naics.com/naics-code-description/?code=924110"  data-favtype="Code" target="_blank"> 924110 </a></li>
+      </ul>
+    </div><!-- @end cr-tabs_naics -->
 </div><!-- @end cr-tabs -->
 <div id="chemical-rules-modal"></div>

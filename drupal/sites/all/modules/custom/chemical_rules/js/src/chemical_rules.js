@@ -1,5 +1,5 @@
 var originalDialog;
-var favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[]};
+var favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[], 'NAICS':[]};
 
 function repair_chemical_rules_profile() {
 
@@ -26,7 +26,7 @@ function cr_resizeModal() {
 
 function create_favlaw_heart(epaintnum) {
 
-  var favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[]};
+  var favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[], 'NAICS':[]};
   var law_in_favorites = (Object.keys(favs.Laws).length > 0) ? find_matching_favorites(epaintnum, "Laws") : false;
   var fav_law_holder = '';
 
@@ -43,7 +43,7 @@ function create_favlaw_heart(epaintnum) {
 
 function find_matching_favorites(check_id, check_type) {
   var match_found = false,
-    favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[]};
+    favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[], 'NAICS':[]};
   var length = (favs[check_type]) ? favs[check_type].length : 0;
 
   for (var i = 0; i < length; i++) {
@@ -273,6 +273,22 @@ function render_favorite_chemicals(favs) {
   }
 }
 
+function render_naics_codes(favs) {
+  var $body = $('body');
+  var num_naics_faves = (favs.NAICS) ? favs.NAICS.length : 0;
+  if(num_naics_faves) {
+    var favorite_codes = [];
+    $.each(favs.NAICS, function(index, val) {
+      favorite_codes.push('<li><a class="favorite-code cr-favorite" href="' + val.URL + '" data-favtype="Code" target="_blank">' + val.ID + '</a></li>');
+    });
+    $body.find('.cr-codes').show();
+    $body.find('.cr-naics-codes').html(favorite_codes).show();
+  } else {
+    $body.find('.cr-codes').hide();
+    $body.find('.cr-naics-codes').html('').hide();
+  }
+}
+
 function render_favorite_laws(favs) {
 
   var $body = $('body');
@@ -341,7 +357,7 @@ function update_favorite_lists(type) {
     render_favorite_laws(Drupal.settings.chemical_rules.profile);
   }
   else {
-
+    render_naics_codes(Drupal.settings.chemical_rules.profile);
   }
 
 }
@@ -610,6 +626,7 @@ function isValidCasNumber(stringToCheck) {
       render_favorites(Drupal.settings.chemical_rules.profile);
       //render_favorite_chemicals(favs);
       //render_favorite_laws(favs);
+      //render_naics_codes(favs);
       // @TODO - Update Modal List - call populate_substance_modal or subset of it!
 
     }).fail(function() {
