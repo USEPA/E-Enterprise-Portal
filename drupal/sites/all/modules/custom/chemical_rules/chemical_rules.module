@@ -144,7 +144,7 @@ function chemical_rules_form_submission() {
   }
   else {
     $cached_response = get_chemical_response_cache($_POST['cr-search_input']);
-    if($cached_response && time() > strtotime("+1 month", $cached_response['cached']['changed'])) {
+    if($cached_response && time() < strtotime("+1 month", $cached_response['cached']['changed'])) {
       $response = $cached_response;
     }
     else {
