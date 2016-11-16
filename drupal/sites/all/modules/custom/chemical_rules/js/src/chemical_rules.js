@@ -148,17 +148,15 @@ function populate_substance_modal(chemical_rules_response_json) {
 
     var cfr_id = '';
     if(!!json.data.SubstanceList && Object.keys(json.data.SubstanceList).length) {
+      html_to_add.push('<ul class="cr-lists">');
       for(var index in json.data.LawsRegs) {
-
         cfr_id = json.data.LawsRegs[index][cfr_id];
-
         fav_holder = create_favlaw_heart(cfr_id);
-
-        html_to_add.push('<div class="cr-lists"><a data-favtype="Law" data-epaintnum="' + cfr_id + '" href="'+ json.data.LawsRegs[index].attributes.URL +'" target="_blank">' + json.data.LawsRegs[index].attributes["Citation"] + " &mdash; " + json.data.LawsRegs[index].attributes.Title+'</a>' + fav_holder );
-        html_to_add.push('<div class="law-citation">Authority: ' + json.data.LawsRegs[index].attributes["CFR Authority"] + '</div>');
-        html_to_add.push('<div>SubstanceList: ' + json.data.LawsRegs[index]['substanceList'] + '</div></div>');
+        html_to_add.push('<li><span class="law-entry"><a data-favtype="Law" data-epaintnum="' + cfr_id + '" href="'+ json.data.LawsRegs[index].attributes.URL +'" target="_blank">' + json.data.LawsRegs[index].attributes["Citation"] + " &mdash; " + json.data.LawsRegs[index].attributes.Title+'</a>' + fav_holder + '</span>');
+        html_to_add.push('<span class="law-citation">Authority: ' + json.data.LawsRegs[index].attributes["CFR Authority"] + '</span>');
+        html_to_add.push('<span class="law-lists">Substance Lists: ' + json.data.LawsRegs[index]['substanceList'] + '</span></li>');
       }
-
+      html_to_add.push('</ul>');
       $list.append(html_to_add.join(""));
       $body.find('#count-all-cfrs').text(Object.keys(json.data.LawsRegs).length);
     }
@@ -627,21 +625,18 @@ function isValidCasNumber(stringToCheck) {
   });
   
   var sticky_gap = $('#cr-modal-toc-icons').offset().top;
-  $('#cr-modal-toc-icons li a').on('click', function() {
-    if ($body.find('.anchor-spacing').length > 0) {
-      $('#chemical-rules-modal').find('h2').removeClass('anchor-spacing');
-    }
-    // Add extra spacing to get past fixed header; last section doesn't need it
-    if ($(this).attr('href') != '#cr-lists') {
-      $('#chemical-rules-modal').find($(this).attr('href')).addClass('anchor-spacing');
-    }
-    if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
+  $('#cr-modal-toc-icons li a').on('click', function(ev) {
+    ev.preventDefault();
+    // Scroll the modal to the anchor clicked
+    if (!$('#cr-modal-toc-icons').hasClass('sticky-toc')) {
       $('#cr-modal-toc-icons').addClass('sticky-toc');
       $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()).css('top', $('#chemical-rules-modal').offset().top);
-    } 
-    else {
-      $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');    
     }
+    // Use the Laws and Regs heading as a landmark for gauging offset and scrolled amount
+    var toc_bottom = $('#cr-laws-regs').offset().top;
+    var target_top = $(this.hash).offset().top;
+    var scroll_amount = target_top - toc_bottom;
+    $("#chemical-rules-modal").animate({ scrollTop: scroll_amount}, 500);
   });
   
 
