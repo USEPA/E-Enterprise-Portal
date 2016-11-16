@@ -1,10 +1,5 @@
 <?php
 
-// Machine name for our custom node
-define('NODE_NAME', 'chemical');
-// Machine name for our custom taxonomy
-define('TAXONOMY_NAME', 'chemicals');
-
 /**
  * Implements hook_menu().
  */

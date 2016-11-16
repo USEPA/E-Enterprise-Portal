@@ -1,9 +1,9 @@
 <?php
 
 // Machine name for our custom node
-//define('NODE_NAME', 'chemicals');
+define('NODE_NAME', 'chemical');
 // Machine name for our custom taxonomy
-//define('TAXONOMY_NAME', 'chemicals');
+define('TAXONOMY_NAME', 'chemicals');
 
 /**
  * Implementation of hook_enable().
