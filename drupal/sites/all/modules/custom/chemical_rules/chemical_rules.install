@@ -1,18 +1,18 @@
 <?php
 
 // Machine name for our custom node
-define('NODE_NAME', 'chemicals');
+//define('NODE_NAME', 'chemicals');
 // Machine name for our custom taxonomy
-define('TAXONOMY_NAME', 'chemicals');
+//define('TAXONOMY_NAME', 'chemicals');
 
 /**
  * Implementation of hook_enable().
  */
 function chemical_rules_enable() {
   //_create_chemical_rules_user();
-  _create_taxonomy();
-  _create_content_type();
-  _create_chemical_user_profile_field();
+  //_create_taxonomy();
+  //_create_content_type();
+  //_create_chemical_user_profile_field();
 }
 
 /**
@@ -68,24 +68,6 @@ function _create_chemical_user_profile_field() {
   }
 }
 
-/**
- * Create a taxonomy and attach a field to it.
- */
-/*function _create_taxonomy() {
-  $t = get_t();
-  $machine_name = 'chemicals';
-
-  if(!taxonomy_vocabulary_machine_name_load($machine_name)) {
-    $term = new stdClass();
-    $term->name = $t('Chemicals');
-    $term->machine_name = $machine_name;
-    $term->description = $t('Used to capture the chemicals, their synonyms and CAS numbers for faster lookup');
-    $term->hierarchy = 1;
-    $term->module = 'chemical_rules';
-    $term->weight = 1;
-    taxonomy_vocabulary_save($term);
-  }
-}*/
 
 /**
  * Create a taxonomy and attach a field to it.
@@ -103,21 +85,29 @@ function _create_taxonomy() {
   taxonomy_vocabulary_save($term);
   // Create a field
   $field = array(
-    'field_name' => 'field_tax_chemical',
-    'type' => 'text',
-    'label' => $t('Label')
+    'field_name' => 'field_tax_synonym',
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'type' => 'taxonomy_term_reference',
+    'label' => $t('Synonym'),
+    'widget' => array(
+      'type' => 'options_select',
+      'weight' => -10,
+    )
   );
   field_create_field($field);
   // Attach the field to our taxonomy entity
   $instance = array(
-    'field_name' => 'field_tax_chemical',
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'field_name' => 'field_tax_synonym',
+    'type' => 'taxonomy_term_reference',
     'entity_type' => 'taxonomy_term',
     'bundle' => TAXONOMY_NAME,
-    'label' => $t('Label'),
-    'description' => $t('Description'),
+    'label' => $t('Synonyms'),
+    'description' => $t('Description field_tax_synonym_instance'),
     'required' => true,
     'widget' => array(
-      'type' => 'text_textfield',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      'type' => 'options_select',
       'weight' => 3
     )
   );
@@ -134,12 +124,12 @@ function _create_content_type() {
     'type' => NODE_NAME,
     'name' => $t('Chemical'),
     'base' => 'node_content',
-    'description' => $t('Description'),
+    'description' => $t('Used to capture the chemicals, their synonyms and CAS numbers for faster lookup'),
     'title_label' => $t('Title'),
     'custom' => TRUE
   );
   $content_type = node_type_set_defaults($node);
-  node_add_body_field($content_type, $t('JSON'));
+  node_add_body_field($content_type, 'JSON');
   node_type_save($content_type);
   // Create a taxonomy field and use the taxonomy entity we created earlier
   $field = array(
@@ -147,7 +137,7 @@ function _create_content_type() {
     'field_name' => 'field_tax_chemical',
     'type' => 'taxonomy_term_reference',
     'module' => 'chemical_rules',
-    'label' => $t('Label'),
+    'label' => $t('Chemical Tax (Field)'),
     'settings' => array(
       'allowed_values' => array(
         array(
@@ -160,10 +150,11 @@ function _create_content_type() {
   field_create_field($field);
   // Add the field to the content type as a HTML select box.
   $instance = array(
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
     'field_name' => 'field_tax_chemical',
     'entity_type' => 'node',
     'bundle' => NODE_NAME,
-    'label' => $t('Label'),
+    'label' => $t('Chemical Tax (Instance)'),
     'description' => '',
     'required' => TRUE,
     'widget' => array(
