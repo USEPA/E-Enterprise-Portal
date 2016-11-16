@@ -26,7 +26,7 @@ function cr_resizeModal() {
 
 function create_favlaw_heart(epaintnum) {
 
-  var law_in_favorites = find_matching_favorites(epaintnum, "Laws");
+  var law_in_favorites = (Object.keys(favs.Laws).length > 0) ? find_matching_favorites(epaintnum, "Laws") : false;
   var fav_law_holder = '';
 
   if (law_in_favorites === false) {
@@ -42,7 +42,7 @@ function create_favlaw_heart(epaintnum) {
 
 function find_matching_favorites(check_id, check_type) {
   var match_found = false,
-    favs = Drupal.settings.chemical_rules.profile;
+    favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[]};
   var length = (favs[check_type]) ? favs[check_type].length : 0;
 
   for (var i = 0; i < length; i++) {
@@ -113,7 +113,7 @@ function populate_substance_modal(chemical_rules_response_json) {
     var cfrs = [];
     var html_to_add = [];
     var substance_lists = [];
-    var favorite_exists = find_matching_favorites(json.data.Substance.EPAChemicalInternalNumber, "Chemicals");
+    var favorite_exists = (Object.keys(favs.Chemicals).length > 0) ? find_matching_favorites(json.data.Substance.EPAChemicalInternalNumber, "Chemicals") : false;
     var count_all_cfrs = 0;
     
     //@TODO - Only show Save to My Chemicals link (#cr-save-favorite) if NOT in favs
@@ -399,7 +399,6 @@ function isValidCasNumber(stringToCheck) {
     }
   }
   // If no favorites exist, show Search tab
-
   render_favorites(favs);
 
   // Initialize and open dialog
@@ -532,6 +531,7 @@ function isValidCasNumber(stringToCheck) {
     	//ev.preventDefault();
     	//alert("Clicked the favorite: " + $(this).data('chemicalid'));
     	var type = $(this).data('favtype') + 's';
+    	console.log('type is: ' + type);
 
     	var favorite = [];
     	if (type == 'Chemicals') {
@@ -573,9 +573,17 @@ function isValidCasNumber(stringToCheck) {
         update_clicked_heart($(this), true);
       }
       if (favorite != '') {
-        if(Drupal.settings.chemical_rules.profile[type] === undefined) {Drupal.settings.chemical_rules.profile[type] = []}
+        console.log("favorite is : " + favorite);
+        if (!Drupal.settings.chemical_rules.profile) {
+          Drupal.settings.chemical_rules.profile = {'Chemicals':[],'Laws':[]};
+          update_chem_profile(Drupal.settings.chemical_rules.profile);          
+        }        
+        if(Drupal.settings.chemical_rules.profile[type] === undefined) {
+          Drupal.settings.chemical_rules.profile[type] = [];
+        }
         Drupal.settings.chemical_rules.profile[type].push(favorite);
         update_chem_profile(Drupal.settings.chemical_rules.profile);
+        render_favorites(Drupal.settings.chemical_rules.profile);
       }
     });
   }
