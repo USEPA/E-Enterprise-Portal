@@ -9,28 +9,12 @@
  * Implementation of hook_enable().
  */
 function chemical_rules_enable() {
-  //_create_chemical_rules_user();
-  //_create_taxonomy();
-  //_create_content_type();
-  //_create_chemical_user_profile_field();
-}
+  if(!taxonomy_vocabulary_machine_name_load(TAXONOMY_NAME)){
+    _create_taxonomy();
+    _create_content_type();
+  }
 
-/**
- *
- */
-function _create_chemical_rules_user() {
-  //This will generate a random password, you could set your own here
-  $password = user_password(8);
-
-  //set up the user fields
-  $fields = array(
-    'name' => 'chemical_rules_module',
-    'pass' => $password,
-    'status' => 1,
-  );
-
-  //the first parameter is left blank so a new user is created
-  $account = user_save('', $fields);
+  _create_chemical_user_profile_field();
 }
 
 /**
