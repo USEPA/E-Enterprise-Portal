@@ -9,5 +9,6 @@
     "bin/wkhtmltopdf-i386"
   ],
   "require": {
-  }
+  "zircote/swagger-php": "*"
+}
 }
