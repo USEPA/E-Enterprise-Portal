@@ -161,7 +161,9 @@ function chemical_rules_form_submission() {
     }
   }
   $cached_response = get_chemical_response_cache($_POST['cr-search_input']);
-  save_chemical_response($response);
+  if($cached_response) {
+    $response = $cached_response;
+  }
   drupal_json_output($response);
 }
 
@@ -504,7 +506,9 @@ function get_chemical_response_cache($search_term){
     }
     if(count($node_ids) == 1) {
       $node = node_load($node_ids[0]);
-      return json_decode($node->body[LANGUAGE_NONE][0]['value']);
+      $cache = json_decode($node->body[LANGUAGE_NONE][0]['value'], true);
+      $cache['cached'] = ['changed'=>$node->changed, 'date'=>date("d F Y H:i:s",$node->changed)];
+      return $cache;
     }
   }
   return $cache;
