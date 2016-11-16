@@ -1,14 +1,6 @@
 {
-  "name": "h4cc/wkhtmltopdf-i386",
-  "description": "Convert html to pdf using webkit (qtwebkit). Static linked linux binary for i386 systems.",
-  "keywords": ["pdf", "thumbnail", "snapshot", "wkhtmltopdf", "convert", "binary"],
-  "license": "LGPL Version 3",
-  "homepage": "http://wkhtmltopdf.org/",
-  "minimum-stability": "stable",
-  "bin": [
-    "bin/wkhtmltopdf-i386"
-  ],
   "require": {
-  "zircote/swagger-php": "*"
+  "zircote/swagger-php": "*",
+  "nitmedia/wkhtml2pdf": "*"
 }
 }
