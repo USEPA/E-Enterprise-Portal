@@ -258,7 +258,7 @@ function chemical_rules_process_srs_response(&$return) {
     }
     else {
       $return['error'] = TRUE;
-      $return['error-messages'][] = ['code'=>500, 'error'=>'SRS endpoint response: No substance was found by the name "'.$_POST['cr-search_input'].'"'];
+      $return['error-messages'][] = ['code'=>404, 'error'=>'SRS endpoint response: No substance was found by the name "'.$_POST['cr-search_input'].'"'];
     }
   }
 }
