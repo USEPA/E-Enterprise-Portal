@@ -448,8 +448,8 @@ function is_valid_cas_number($stringToCheck, $returnCasNumber = false) {
 }
 
 function compare_cfrs_by_name($a, $b){
-  $al = strtolower($a['cfrName']);
-  $bl = strtolower($b['cfrName']);
+  $al = strtolower($a['attributes']->{'Citation'}.' '.$a['cfrName']);
+  $bl = strtolower($b['attributes']->{'Citation'}.' '.$b['cfrName']);
   if ($al == $bl) {
     return 0;
   }
