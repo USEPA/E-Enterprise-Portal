@@ -202,56 +202,64 @@ function chemical_rules_process_srs_response(&$return) {
   else {
     // Get the substance information and add it to the return data
     $response_array = strip_prefix_from_array(xmlstr_to_array($response->data), 'SRS:');
-    // Additional logic to support CAS numbers
-    $base = $response_array['Results']['SubstanceInformation']['ChemicalSubstance'];
-    // The service for CAS look up returns multiple 'ChemicalSubstance',
-    if(!isset($base['ChemicalSubstanceIdentification'])) {
-      // The one without the 'IncorrectlyUsedCASRegistryNumberList' is the actual information needed
-      for($i = count($base) - 1; $i >= 0; $i--) {
-        if(count($base[$i]['ChemicalSubstanceIdentification']['IncorrectlyUsedCASRegistryNumberList']) == 0) {
-          $base = $base[$i];
-          break;
+
+    if(isset($response_array['RowCount']) && $response_array['RowCount'] > 0)
+    {
+      // Additional logic to support CAS numbers
+      $base = $response_array['Results']['SubstanceInformation']['ChemicalSubstance'];
+      // The service for CAS look up returns multiple 'ChemicalSubstance',
+      if(!isset($base['ChemicalSubstanceIdentification'])) {
+        // The one without the 'IncorrectlyUsedCASRegistryNumberList' is the actual information needed
+        for($i = count($base) - 1; $i >= 0; $i--) {
+          if(count($base[$i]['ChemicalSubstanceIdentification']['IncorrectlyUsedCASRegistryNumberList']) == 0) {
+            $base = $base[$i];
+            break;
+          }
         }
       }
-    }
 
-    $chemSubstance = $base['ChemicalSubstanceIdentification'];
-    if (empty($return['data']['Substance'])) {
-      $return['data']['Substance'] = [];
-    }
-    foreach ($chemSubstance as $name => $value) {
-      $value = ($value) ? $value : null;
-      $return['data']['Substance'][$name] = $value;
-    }
-    // @todo Things that are missing.  Need to add from another service
-    $toAppend = '{"MolecularWeight": "58.08 g/mol", "Solubility": "Miscible with water", "VaporPressure": "231 mm Hg at 25 deg C", "LogP": "log Kow = -0.24", "Stability": "Stable under recommended storage conditions.", "pKA": "20"}';
-    $toAppend = json_decode($toAppend);
-    foreach ($toAppend as $name => $value) {
-      $return['data']['Substance'][$name] = $value;
-    }
+      $chemSubstance = $base['ChemicalSubstanceIdentification'];
+      if (empty($return['data']['Substance'])) {
+        $return['data']['Substance'] = [];
+      }
+      foreach ($chemSubstance as $name => $value) {
+        $value = ($value) ? $value : null;
+        $return['data']['Substance'][$name] = $value;
+      }
+      // @todo Things that are missing.  Need to add from another service
+      $toAppend = '{"MolecularWeight": "58.08 g/mol", "Solubility": "Miscible with water", "VaporPressure": "231 mm Hg at 25 deg C", "LogP": "log Kow = -0.24", "Stability": "Stable under recommended storage conditions.", "pKA": "20"}';
+      $toAppend = json_decode($toAppend);
+      foreach ($toAppend as $name => $value) {
+        $return['data']['Substance'][$name] = $value;
+      }
 
-    // build both the "Synonym" list and the "SubstanceList"
-    $SubstanceSynonyms = $base['ChemicalSubstanceSynonymList']['ChemicalSubstanceSynonym'];
+      // build both the "Synonym" list and the "SubstanceList"
+      $SubstanceSynonyms = $base['ChemicalSubstanceSynonymList']['ChemicalSubstanceSynonym'];
 
-    // Initialize them if they are not ready
-    if (empty($return['data']['Substance']['Synonym'])) {
-      $return['data']['Substance']['Synonym'] = [];
-    }
-    if (empty($return['data']['SubstanceList'])) {
-      $return['data']['SubstanceList'] = [];
-    }
+      // Initialize them if they are not ready
+      if (empty($return['data']['Substance']['Synonym'])) {
+        $return['data']['Substance']['Synonym'] = [];
+      }
+      if (empty($return['data']['SubstanceList'])) {
+        $return['data']['SubstanceList'] = [];
+      }
 
-    // Sort out the information we need for the various lists
-    foreach ($SubstanceSynonyms as $index => $ss) {
-      $value = ($value) ? $value : null;
-      if(!in_array(strtolower($ss['ChemicalSubstanceSynonymName']), $return['data']['Substance']['Synonym']))
-        $return['data']['Substance']['Synonym'][] = strtolower($ss['ChemicalSubstanceSynonymName']);
+      // Sort out the information we need for the various lists
+      foreach ($SubstanceSynonyms as $index => $ss) {
+        $value = ($value) ? $value : null;
+        if(!in_array(strtolower($ss['ChemicalSubstanceSynonymName']), $return['data']['Substance']['Synonym']))
+          $return['data']['Substance']['Synonym'][] = strtolower($ss['ChemicalSubstanceSynonymName']);
 
-      if(!array_key_exists($ss['ChemicalSynonymSourceName'], $return['data']['SubstanceList']))
-        $return['data']['SubstanceList'][$ss['ChemicalSynonymSourceName']] = $ss['ChemicalSynonymSourceName'];
+        if(!array_key_exists($ss['ChemicalSynonymSourceName'], $return['data']['SubstanceList']))
+          $return['data']['SubstanceList'][$ss['ChemicalSynonymSourceName']] = $ss['ChemicalSynonymSourceName'];
+      }
+      sort($return['data']['Substance']['Synonym']);
+      ksort($return['data']['SubstanceList']);
     }
-    sort($return['data']['Substance']['Synonym']);
-    ksort($return['data']['SubstanceList']);
+    else {
+      $return['error'] = TRUE;
+      $return['error-messages'][] = ['code'=>500, 'error'=>'SRS endpoint response: No substance was found by the name "'.$_POST['cr-search_input'].'"'];
+    }
   }
 }
 
@@ -290,56 +298,60 @@ function chemical_rules_process_lrs_response(&$return) {
 }
 
 function chemical_rules_process_elastic_response(&$return) {
-  // make a call to the elastic search service
-  $elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search';
 
-  $headers = array('Content-Type' => 'application/json');
-  $query = '{"query" : { "bool": { "should": [';
-  foreach ($return['data']['SubstanceList'] as $substance) {
-    $query = $query . '{"match_phrase": {"substanceListName": "'. $substance . '" }},';
-    //$query = $query . "\r\n";
-  }
-  $query = substr(trim($query), 0, -1) . "]}}}";
-  $query = json_decode("'" . $query . "'");
+  if(isset($return['data']['SubstanceList']) && count($return['data']['SubstanceList']) > 0 ) {
+    // make a call to the elastic search service
+    $substance_list = [];
+    $elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search';
 
-  $elastic_response = drupal_http_request($elastic_endpoint, [
-    "headers" => $headers,
-    "method" => "POST",
-    'timeout' => "10",
-    //'data' =>  http_build_query(json_decode('{"query":{"match_all":{}},"from":10,"size":10}'))
-    'data' =>  $query
-  ]);
-  if ($elastic_response->code !== "200") {
-    $return['error'] = TRUE;
-    $return['error-messages'][] = 'Elastic endpoint response: '.$elastic_response->error;
-    chemical_rules_process_lrs_response($return);
-    return;
-  }
-  else {
-    $substance_list_response = json_decode($elastic_response->data);
-  }
-
-  $substance_list = [];
-  foreach ($substance_list_response->hits->hits as $hit){
-    $list = $hit->_source;
-    if(in_array($list->substanceListName, $return['data']['SubstanceList'])){
-      $cfrs = [];
-      foreach ($list->cfrs as $cfr_id => $cfr) {
-        if(!isset($return['data']['LawsRegs'][$cfr_id])) {
-          $cfr = (Array) $cfr;
-          $cfr['substanceList'] = [];
-          $return['data']['LawsRegs'][$cfr_id] = $cfr;
-        }
-        if(!in_array($list->substanceListName, $return['data']['LawsRegs'][$cfr_id]['substanceList'])){
-          $return['data']['LawsRegs'][$cfr_id]['substanceList'][] = $list->substanceListName;
-        }
-        $cfrs[] = $cfr_id;
-      }
-      $list->cfrs = $cfrs;
-      $substance_list[$list->substanceListName] = $list;
+    $headers = array('Content-Type' => 'application/json');
+    $query = '{"query" : { "bool": { "should": [';
+    foreach ($return['data']['SubstanceList'] as $substance) {
+      $query = $query . '{"match_phrase": {"substanceListName": "'. $substance . '" }},';
+      //$query = $query . "\r\n";
     }
+    $query = substr(trim($query), 0, -1) . "]}}}";
+    $query = json_decode("'" . $query . "'");
+
+    $elastic_response = drupal_http_request($elastic_endpoint, [
+      "headers" => $headers,
+      "method" => "POST",
+      'timeout' => "10",
+      //'data' =>  http_build_query(json_decode('{"query":{"match_all":{}},"from":10,"size":10}'))
+      'data' =>  $query
+    ]);
+    if ($elastic_response->code !== "200") {
+      $return['error'] = TRUE;
+      $return['error-messages'][] = 'Elastic endpoint response: '.$elastic_response->error;
+      chemical_rules_process_lrs_response($return);
+      return;
+    }
+    else {
+      $substance_list_response = json_decode($elastic_response->data);
+    }
+
+
+    foreach ($substance_list_response->hits->hits as $hit){
+      $list = $hit->_source;
+      if(in_array($list->substanceListName, $return['data']['SubstanceList'])){
+        $cfrs = [];
+        foreach ($list->cfrs as $cfr_id => $cfr) {
+          if(!isset($return['data']['LawsRegs'][$cfr_id])) {
+            $cfr = (Array) $cfr;
+            $cfr['substanceList'] = [];
+            $return['data']['LawsRegs'][$cfr_id] = $cfr;
+          }
+          if(!in_array($list->substanceListName, $return['data']['LawsRegs'][$cfr_id]['substanceList'])){
+            $return['data']['LawsRegs'][$cfr_id]['substanceList'][] = $list->substanceListName;
+          }
+          $cfrs[] = $cfr_id;
+        }
+        $list->cfrs = $cfrs;
+        $substance_list[$list->substanceListName] = $list;
+      }
+    }
+    $return['data']['SubstanceList'] = $substance_list;
   }
-  $return['data']['SubstanceList'] = $substance_list;
 }
 
 function chemical_rules_process_pubchem_response(&$return) {
