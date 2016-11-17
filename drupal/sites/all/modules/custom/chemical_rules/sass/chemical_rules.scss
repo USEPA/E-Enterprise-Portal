@@ -3,6 +3,7 @@ $color_highlight_blue:  #E1EAF5;
 $color-gray-dark:       #323a45 !default;
 $color-gray-lighter:    #d6d7d9 !default; // lighten($color-gray-dark, 80%)
 $color-gray-lightest:   #f1f1f1 !default; // lighten($color-gray-dark, 91%)
+$color-gold-lighter:    #fff1d2;
 $white:                 #fff;
 
 @mixin clearfix() {
@@ -48,6 +49,13 @@ body.viewport-lg {
     position: absolute;
 }
 
+.dev-note {
+    background-color: $color-gold-lighter;
+    padding: 5px 10px;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
 .cr-chemicals,
 .cr-laws {
     font-weight: bold;
@@ -68,6 +76,9 @@ body.viewport-lg {
     label,
     button {
         font-size: 1.5rem;
+    }
+    button {
+        vertical-align: bottom;
     }
 }
 
