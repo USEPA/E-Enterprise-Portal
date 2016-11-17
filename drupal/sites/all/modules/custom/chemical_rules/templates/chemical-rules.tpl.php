@@ -12,7 +12,7 @@
     </form>
   </div><!-- @end cr-search_field -->
   <button id="cr-search-chems-btn" type="button">Search chemicals</button>  
-  <div id="cr-search_description" class="description">Powered by EPA <a href="https://epa.gov/srs">Substance Registry Service</a> and <a href="https://epa.gov/lrs">Laws &amp; Regulations Service</a></div>
+  <div id="cr-search_description" class="description">Powered by EPA <a href="https://epa.gov/srs" rel="external" target="_blank">Substance Registry Service</a> and <a href="https://epa.gov/lrs" rel="external" target="_blank">Laws &amp; Regulations Service</a></div>
 </div><!-- @end cr-search -->    
 <div id="cr-tabs">
     <ul>
@@ -40,19 +40,20 @@
     </div><!-- @end cr-tabs_favorites -->
     <!-- @TAB: Search -->    
     <div id="cr-tabs_previous">
+      <p class="dev-note"><strong>NOTE:  This tab is for conceptual purposes only and is not yet functional.</strong></p>
       <p>
         Here are your previous searches:
       </p>
       <ul class="cr-lists">
-        <li><a class="favorite-chemical" href="#" data-epachemintnum="9999" data-systematicname="Acetone">67-64-1:  Acetone</a></li> 
-        <li><a class="favorite-chemical" href="#" data-epachemintnum="8888" data-systematicname="2,4,4-Trimethylhexamethylene diisocyanate">16938-22-0:  2,4,4-Trimethylhexamethylene diisocyanate</a></li>         
+        <li><a class="favorite-chemical cr-favorite" href="javascript:void(0);" data-favtype="Chemical" data-sysname="2H-1-Benzopyran-2-one, 4-hydroxy-3-(3-oxo-1-phenylbutyl)-" data-epaintnum="8979" data-casnum="81-81-2" data-commonname="Warfarin">81-81-2: 2H-1-Benzopyran-2-one, 4-hydroxy-3-(3-oxo-1-phenylbutyl)- (Warfarin)</a></li>
+        <li><a class="favorite-chemical cr-favorite" href="javascript:void(0);" data-favtype="Chemical" data-sysname="Helium" data-epaintnum="150169" data-casnum="7440-59-7" data-commonname="Helium">7440-59-7: Helium (Helium)</a></li>
+        <li><a class="favorite-chemical cr-favorite" href="javascript:void(0);" data-favtype="Chemical" data-sysname="Gasoline, natural" data-epaintnum="157628" data-casnum="8006-61-9" data-commonname="Natural gasoline">8006-61-9: Gasoline, natural (Natural gasoline)</a></li>        
       </ul>  
     </div><!-- @end cr-tabs_previous -->
     <!-- @TAB: NAICS Codes -->
     <div id="cr-tabs_naics">
-      <p class="cr_codes">
-        NAICS codes:s
-      </p>
+      <p class="dev-note"><strong>NOTE:  This tab is for conceptual purposes only and is not yet showing the correct NAICS codes from the user's CDX profile.</strong></p>
+      <p class="cr_codes">Here are the NAICS codes we retrieved from your CDX profile.</p>
       <ul class="cr-lists cr-naics-codes">
           <li><a class="favorite-code cr-favorite" href="https://www.naics.com/naics-code-description/?code=334512"  data-favtype="Code" target="_blank"> 334512 </a></li>
           <li><a class="favorite-code cr-favorite" href="https://www.naics.com/naics-code-description/?code=311230"  data-favtype="Code" target="_blank"> 311230 </a></li>
