@@ -144,7 +144,7 @@ function chemical_rules_form_submission() {
   }
   else {
     $cached_response = get_chemical_response_cache($_POST['cr-search_input']);
-    if($cached_response && time() < strtotime("+1 month", $cached_response['cached']['changed'])) {
+    if($cached_response && time() < strtotime("+1 month", $cached_response['cached']['changed']) && !feature_toggle_get_status('chemical_rules_no_cache_data')) {
       $response = $cached_response;
     }
     else {
@@ -258,7 +258,7 @@ function chemical_rules_process_srs_response(&$return) {
     }
     else {
       $return['error'] = TRUE;
-      $return['error-messages'][] = ['code'=>500, 'error'=>'SRS endpoint response: No substance was found by the name "'.$_POST['cr-search_input'].'"'];
+      $return['error-messages'][] = ['code'=>404, 'error'=>'SRS endpoint response: No substance was found by the name "'.$_POST['cr-search_input'].'"'];
     }
   }
 }
@@ -350,6 +350,8 @@ function chemical_rules_process_elastic_response(&$return) {
         $substance_list[$list->substanceListName] = $list;
       }
     }
+    sort($substance_list);
+    usort($return['data']['LawsRegs'], 'compare_cfrs_by_name');
     $return['data']['SubstanceList'] = $substance_list;
   }
 }
@@ -436,13 +438,22 @@ function is_valid_cas_number($stringToCheck, $returnCasNumber = false) {
       $sumCheck += $casBase[$i] * ($length - $i);
     }
     if($returnCasNumber && ($casGroup[3][0] == ($sumCheck % 10))) {
-      return $casGroup;
+      return $casGroup[1][0] .'-' . $casGroup[2][0] .'-' . $casGroup[3][0];
     }
     else {
       return ($casGroup[3][0] == ($sumCheck % 10));
     }
   }
   return false;
+}
+
+function compare_cfrs_by_name($a, $b){
+  $al = strtolower($a['cfrName']);
+  $bl = strtolower($b['cfrName']);
+  if ($al == $bl) {
+    return 0;
+  }
+  return ($al > $bl) ? +1 : -1;
 }
 
 function strip_prefix_from_array($array, $prefix){
@@ -514,7 +525,7 @@ function get_chemical_response_cache($search_term){
 
   // in the case there it is a case number, we need to look for the right format
   if($is_cas) {
-    $search_term = implode('-', array_shift($is_cas));
+    $search_term = $is_cas;
   }
   $terms = taxonomy_get_term_by_name(strtolower(trim($search_term)), 'chemicals');
   // ideally $terms should be array with a single item
@@ -587,6 +598,9 @@ function save_chemical_response($chemical_response) {
         $term->name = strtolower(trim($synonym));
         $term->vid = $chemical_vocab->vid;
         taxonomy_term_save($term); // Finally, save our term
+      }
+      else {
+        $term = array_pop($term);
       }
       $node->field_tax_chemical[$node->language][]['tid'] = $term->tid;
     }
