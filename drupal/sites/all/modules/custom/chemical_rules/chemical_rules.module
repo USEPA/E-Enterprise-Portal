@@ -350,7 +350,7 @@ function chemical_rules_process_elastic_response(&$return) {
         $substance_list[$list->substanceListName] = $list;
       }
     }
-    sort($substance_list);
+    ksort($substance_list);
     usort($return['data']['LawsRegs'], 'compare_cfrs_by_name');
     $return['data']['SubstanceList'] = $substance_list;
   }
