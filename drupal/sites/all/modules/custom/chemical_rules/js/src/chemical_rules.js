@@ -445,6 +445,31 @@ function isValidCasNumber(stringToCheck) {
       },
       open: function(event, ui) {
         $('#chemical-rules-modal').parent().css('position', 'fixed');
+        var sticky_gap = $('#cr-modal-toc-icons').offset().top;
+        $('#chemical-rules-modal').scroll(function() {
+          if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
+            $('#cr-modal-toc-icons').addClass('sticky-toc');
+            $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()+6).css('top', $('#chemical-rules-modal').offset().top);
+          } 
+          else {
+            $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');
+          }
+        });
+        
+        var sticky_gap = $('#cr-modal-toc-icons').offset().top;
+        $('#cr-modal-toc-icons li a').on('click', function(ev) {
+          ev.preventDefault();
+          // Scroll the modal to the anchor clicked
+          if (!$('#cr-modal-toc-icons').hasClass('sticky-toc')) {
+            $('#cr-modal-toc-icons').addClass('sticky-toc');
+            $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()).css('top', $('#chemical-rules-modal').offset().top);
+          }
+          // Use the Laws and Regs heading as a landmark for gauging offset and scrolled amount
+          var toc_bottom = $('#cr-laws-regs').offset().top;
+          var target_top = $(this.hash).offset().top;
+          var scroll_amount = target_top - toc_bottom;
+          $("#chemical-rules-modal").animate({ scrollTop: scroll_amount}, 500);
+        });        
       },
       close: function(event, ui) {
         reset_cr_form();
@@ -473,7 +498,7 @@ function isValidCasNumber(stringToCheck) {
         method: 'POST',
         data: chem_search_form_data,
         beforeSend: function() {
-          $('#chemical-rules-modal').dialog('option','title', 'Searching for ' + chem_search_input);
+          $('#chemical-rules-modal').dialog('option','title', 'Searching for "' + chem_search_input + '"');
           $body.find('#searching-chemical-name').text(chem_search_input);      
           $('#chemical-rules-modal').dialog("open");          
           cr_showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('.chemical-rules-modal-wrapper'));    
@@ -645,32 +670,6 @@ function isValidCasNumber(stringToCheck) {
 
     cr_showElementOutOfMany($chemical_loading, $all_wrappers);
     cr_resizeModal();
-  });
-
-  var sticky_gap = $('#cr-modal-toc-icons').offset().top;
-  $('#chemical-rules-modal').scroll(function() {
-    if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
-      $('#cr-modal-toc-icons').addClass('sticky-toc');
-      $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()+6).css('top', $('#chemical-rules-modal').offset().top);
-    } 
-    else {
-      $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');
-    }
-  });
-  
-  var sticky_gap = $('#cr-modal-toc-icons').offset().top;
-  $('#cr-modal-toc-icons li a').on('click', function(ev) {
-    ev.preventDefault();
-    // Scroll the modal to the anchor clicked
-    if (!$('#cr-modal-toc-icons').hasClass('sticky-toc')) {
-      $('#cr-modal-toc-icons').addClass('sticky-toc');
-      $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()).css('top', $('#chemical-rules-modal').offset().top);
-    }
-    // Use the Laws and Regs heading as a landmark for gauging offset and scrolled amount
-    var toc_bottom = $('#cr-laws-regs').offset().top;
-    var target_top = $(this.hash).offset().top;
-    var scroll_amount = target_top - toc_bottom;
-    $("#chemical-rules-modal").animate({ scrollTop: scroll_amount}, 500);
   });
   
 
