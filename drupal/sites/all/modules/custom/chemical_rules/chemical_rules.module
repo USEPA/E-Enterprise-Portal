@@ -326,7 +326,7 @@ function chemical_rules_process_elastic_response(&$return) {
       }
     } catch (Exception $e) {
       //$return['error'] = TRUE;
-      $return['error-messages'][] = ['Elastic endpoint error', $e];
+      $return['error-messages'][] = ['Elastic endpoint error', $e, $elastic_response];
       $substance_list_response = sample_chemical_rules_elastic_response();
     }
 
