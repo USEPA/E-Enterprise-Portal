@@ -1,0 +1,351 @@
+{
+  "took": 2,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "failed": 0
+  },
+  "hits": {
+    "total": 32,
+    "max_score": 1,
+    "hits": [
+      {
+        "_index": "lrs_data_index",
+        "_type": "logs",
+        "_id": "AVgbEacGKxwdfVLaVs0Z",
+        "_score": 1,
+        "_source": {
+          "@version": "1",
+          "@timestamp": "2016-10-31T14:08:09.906Z",
+          "path": "/home/sram/SubstanceList.json",
+          "host": "elastic",
+          "substanceListName": "2016 CDR Partial Exempt",
+          "substanceListId": "209",
+          "substanceListAcronym": "2016 CDR Partial Exempt",
+          "cfrs": {
+            "3882851": {
+              "cfrName": "CFR-2015-title40-vol31-part711",
+              "cfrId": "3882851",
+              "attributes": {
+                "USC Citation": "15 U.S.C. 2607(a)",
+                "CFR Authority": "15 U.S.C. 2607(a).",
+                "Granule Label": "part",
+                "Heading": "Part 711",
+                "CFR Source": "76 FR 54933, Sept. 6, 2011, unless otherwise noted.",
+                "URL": "https://www.gpo.gov/fdsys/pkg/CFR-2015-title40-vol31/pdf/CFR-2015-title40-vol31-part711.pdf",
+                "Citation": "40 CFR 711",
+                "Title": "TSCA CHEMICAL DATA REPORTING REQUIREMENTS",
+                "FR Citation": "76 FR 50859; 76 FR 54933"
+              }
+            }
+          }
+        }
+      },
+      {
+        "_index": "lrs_data_index",
+        "_type": "logs",
+        "_id": "AVgbEacGKxwdfVLaVs0b",
+        "_score": 1,
+        "_source": {
+          "@version": "1",
+          "@timestamp": "2016-10-31T14:08:09.906Z",
+          "path": "/home/sram/SubstanceList.json",
+          "host": "elastic",
+          "substanceListName": "Extremely Hazardous Substance List",
+          "substanceListId": "135",
+          "substanceListAcronym": "EPCRA 302",
+          "cfrs": {
+            "2979958": {
+              "cfrName": "CFR-2013-title40-vol29-part355",
+              "cfrId": "2979958",
+              "attributes": {
+                "USC Citation": "42 U.S.C. 11002; 42 U.S.C. 11003; 42 U.S.C. 11004; 42 U.S.C. 11045; 42 U.S.C. 11047; 42 U.S.C. 11048; 42 U.S.C. 11049",
+                "CFR Authority": "Sections 302, 303, 304, 325, 327, 328, and 329 of the Emergency Planning and Community Right-to-Know Act of 1986 (EPCRA) (42 U.S.C. 11002, 11003, 11004, 11045, 11047, 11048, and 11049).",
+                "Granule Label": "part",
+                "Heading": "Part 355",
+                "CFR Source": "73 FR 65462, Nov. 3, 2008, unless otherwise noted.",
+                "URL": "http://www.gpo.gov/fdsys/pkg/CFR-2013-title40-vol29/pdf/CFR-2013-title40-vol29-part355.pdf",
+                "Citation": "40 CFR 355",
+                "Title": "EMERGENCY PLANNING AND NOTIFICATION",
+                "FR Citation": "73 FR 65462"
+              }
+            },
+            "3878573": {
+              "cfrName": "CFR-2015-title40-vol28-part355",
+              "cfrId": "3878573",
+              "attributes": {
+                "USC Citation": "42 U.S.C. 11002; 42 U.S.C. 11003; 42 U.S.C. 11004; 42 U.S.C. 11045; 42 U.S.C. 11047; 42 U.S.C. 11048; 42 U.S.C. 11049",
+                "CFR Authority": "Sections 302, 303, 304, 325, 327, 328, and 329 of the Emergency Planning and Community Right-to-Know Act of 1986 (EPCRA) (42 U.S.C. 11002, 11003, 11004, 11045, 11047, 11048, and 11049).",
+                "Granule Label": "part",
+                "Heading": "Part 355",
+                "CFR Source": "73 FR 65462, Nov. 3, 2008, unless otherwise noted.",
+                "URL": "http://www.gpo.gov/fdsys/pkg/CFR-2015-title40-vol28/pdf/CFR-2015-title40-vol28-part355.pdf",
+                "Citation": "40 CFR 355",
+                "Title": "EMERGENCY PLANNING AND NOTIFICATION",
+                "FR Citation": "73 FR. 65462"
+              }
+            }
+          }
+        }
+      },
+      {
+        "_index": "lrs_data_index",
+        "_type": "logs",
+        "_id": "AVgbEacGKxwdfVLaVs0c",
+        "_score": 1,
+        "_source": {
+          "@version": "1",
+          "@timestamp": "2016-10-31T14:08:09.906Z",
+          "path": "/home/sram/SubstanceList.json",
+          "host": "elastic",
+          "substanceListName": "Protection of Stratospheric Ozone",
+          "substanceListId": "174",
+          "substanceListAcronym": "CAA 602",
+          "cfrs": {
+            "3863992": {
+              "cfrName": "CFR-2015-title40-vol18-part82",
+              "cfrId": "3863992",
+              "attributes": {
+                "USC Citation": "42 U.S.C. 7414; 42 U.S.C. 7601; 42 U.S.C. 7671-7671q",
+                "CFR Authority": "42 U.S.C. 7414, 7601, 7671-7671q.",
+                "Granule Label": "part",
+                "Heading": "Part 82",
+                "CFR Source": "57 FR 33787, July 30, 1992, unless otherwise noted.",
+                "URL": "https://www.gpo.gov/fdsys/pkg/CFR-2015-title40-vol18/pdf/CFR-2015-title40-vol18-part82.pdf",
+                "Citation": "40 CFR 82",
+                "Title": "PROTECTION OF STRATOSPHERIC OZONE",
+                "FR Citation": "57 FR 33787"
+              }
+            }
+          }
+        }
+      },
+      {
+        "_index": "lrs_data_index",
+        "_type": "logs",
+        "_id": "AVgbEacGKxwdfVLaVs0n",
+        "_score": 1,
+        "_source": {
+          "@version": "1",
+          "@timestamp": "2016-10-31T14:08:09.906Z",
+          "path": "/home/sram/SubstanceList.json",
+          "host": "elastic",
+          "substanceListName": "National Primary Drinking Water Regulations",
+          "substanceListId": "171",
+          "substanceListAcronym": "SDWA NPDWR",
+          "cfrs": {
+            "3873417": {
+              "cfrName": "CFR-2015-title40-vol23-part141",
+              "cfrId": "3873417",
+              "attributes": {
+                "USC Citation": "42 U.S.C. 300f; 42 U.S.C. 300g-1; 42 U.S.C. 300g-2; 42 U.S.C. 300g-3; 42 U.S.C. 300g-4; 42 U.S.C. 300g-5; 42 U.S.C. 300g-6; 42 U.S.C. 300j-11; 42 U.S.C. 300j-4; 42 U.S.C. 300j-9",
+                "CFR Authority": "42 U.S.C. 300f, 300g-1, 300g-2, 300g-3, 300g-4, 300g-5, 300g-6, 300j-4, 300j-9, and 300j-11.",
+                "Granule Label": "part",
+                "Heading": "Part 141",
+                "CFR Source": "40 FR 59570, Dec. 24, 1975, unless otherwise noted.",
+                "URL": "https://www.gpo.gov/fdsys/pkg/CFR-2015-title40-vol23/pdf/CFR-2015-title40-vol23-part141.pdf",
+                "Citation": "40 CFR 141",
+                "Title": "NATIONAL PRIMARY DRINKING WATER REGULATIONS",
+                "FR Citation": "40 FR 59570; 44 FR 68641; 69 FR 18803"
+              }
+            }
+          }
+        }
+      },
+      {
+        "_index": "lrs_data_index",
+        "_type": "logs",
+        "_id": "AVgbEacGKxwdfVLaVs0o",
+        "_score": 1,
+        "_source": {
+          "@version": "1",
+          "@timestamp": "2016-10-31T14:08:09.906Z",
+          "path": "/home/sram/SubstanceList.json",
+          "host": "elastic",
+          "substanceListName": "Organic Hazardous Air Pollutants National Emission Standards",
+          "substanceListId": "180",
+          "substanceListAcronym": "CAA112(b) HON",
+          "cfrs": {
+            "3851643": {
+              "cfrName": "CFR-2015-title40-vol10-part63",
+              "cfrId": "3851643",
+              "attributes": {
+                "USC Citation": "42 U.S.C. 7401et seq.",
+                "CFR Authority": "42 U.S.C. 7401 et seq.",
+                "CFR Citation": "40 CFR Part 63",
+                "Granule Label": "part",
+                "Heading": "Part 63",
+                "CFR Source": "57 FR 61992, Dec. 29, 1992, unless otherwise noted.",
+                "URL": "http://www.gpo.gov/fdsys/pkg/CFR-2015-title40-vol10/pdf/CFR-2015-title40-vol10-part63.pdf",
+                "Citation": "40 CFR 63",
+                "Title": "NATIONAL EMISSION STANDARDS FOR HAZARDOUS AIR POLLUTANTS FOR SOURCE CATEGORIES",
+                "FR Citation": "57 FR. 61992"
+              }
+            }
+          }
+        }
+      },
+      {
+        "_index": "lrs_data_index",
+        "_type": "logs",
+        "_id": "AVgbEacGKxwdfVLaVs0V",
+        "_score": 1,
+        "_source": {
+          "@version": "1",
+          "@timestamp": "2016-10-31T14:08:09.906Z",
+          "path": "/home/sram/SubstanceList.json",
+          "host": "elastic",
+          "substanceListName": "National Secondary Drinking Water Regulations",
+          "substanceListId": "172",
+          "substanceListAcronym": "SDWA NSDWR",
+          "cfrs": {
+            "3873734": {
+              "cfrName": "CFR-2015-title40-vol23-part143",
+              "cfrId": "3873734",
+              "attributes": {
+                "USC Citation": "42 U.S.C. 300fet seq.",
+                "CFR Authority": "42 U.S.C. 300f et seq.",
+                "Granule Label": "part",
+                "Heading": "Part 143",
+                "CFR Source": "44 FR 42198, July 19, 1979, unless otherwise noted.",
+                "URL": "https://www.gpo.gov/fdsys/pkg/CFR-2015-title40-vol23/pdf/CFR-2015-title40-vol23-part143.pdf",
+                "Citation": "40 CFR 143",
+                "Title": "NATIONAL SECONDARY DRINKING WATER REGULATIONS",
+                "FR Citation": "44 FR 42198"
+              }
+            }
+          }
+        }
+      },
+      {
+        "_index": "lrs_data_index",
+        "_type": "logs",
+        "_id": "AVgbEacGKxwdfVLaVs0X",
+        "_score": 1,
+        "_source": {
+          "@version": "1",
+          "@timestamp": "2016-10-31T14:08:09.906Z",
+          "path": "/home/sram/SubstanceList.json",
+          "host": "elastic",
+          "substanceListName": "Toxics Release Inventory Program System",
+          "substanceListId": "77",
+          "substanceListAcronym": "TRIPS",
+          "cfrs": {
+            "3878641": {
+              "cfrName": "CFR-2015-title40-vol28-part372",
+              "cfrId": "3878641",
+              "attributes": {
+                "USC Citation": "42 U.S.C. 11023; 42 U.S.C. 11048",
+                "CFR Authority": "42 U.S.C. 11023 and 11048.",
+                "Granule Label": "part",
+                "Heading": "Part 372",
+                "CFR Source": "53 FR 4525, Feb. 16, 1988, unless otherwise noted.",
+                "URL": "http://www.gpo.gov/fdsys/pkg/CFR-2015-title40-vol28/pdf/CFR-2015-title40-vol28-part372.pdf",
+                "Citation": "40 CFR 372",
+                "Title": "TOXIC CHEMICAL RELEASE REPORTING: COMMUNITY RIGHT-TO-KNOW",
+                "FR Citation": "53 FR. 4525"
+              }
+            }
+          }
+        }
+      },
+      {
+        "_index": "lrs_data_index",
+        "_type": "logs",
+        "_id": "AVgbEacGKxwdfVLaVs0a",
+        "_score": 1,
+        "_source": {
+          "@version": "1",
+          "@timestamp": "2016-10-31T14:08:09.906Z",
+          "path": "/home/sram/SubstanceList.json",
+          "host": "elastic",
+          "substanceListName": "Unregulated Contaminant Monitoring Rule 4",
+          "substanceListId": "251",
+          "substanceListAcronym": "UCMR 4",
+          "cfrs": {
+            "3873417": {
+              "cfrName": "CFR-2015-title40-vol23-part141",
+              "cfrId": "3873417",
+              "attributes": {
+                "USC Citation": "42 U.S.C. 300f; 42 U.S.C. 300g-1; 42 U.S.C. 300g-2; 42 U.S.C. 300g-3; 42 U.S.C. 300g-4; 42 U.S.C. 300g-5; 42 U.S.C. 300g-6; 42 U.S.C. 300j-11; 42 U.S.C. 300j-4; 42 U.S.C. 300j-9",
+                "CFR Authority": "42 U.S.C. 300f, 300g-1, 300g-2, 300g-3, 300g-4, 300g-5, 300g-6, 300j-4, 300j-9, and 300j-11.",
+                "Granule Label": "part",
+                "Heading": "Part 141",
+                "CFR Source": "40 FR 59570, Dec. 24, 1975, unless otherwise noted.",
+                "URL": "https://www.gpo.gov/fdsys/pkg/CFR-2015-title40-vol23/pdf/CFR-2015-title40-vol23-part141.pdf",
+                "Citation": "40 CFR 141",
+                "Title": "NATIONAL PRIMARY DRINKING WATER REGULATIONS",
+                "FR Citation": "40 FR 59570; 44 FR 68641; 69 FR 18803"
+              }
+            }
+          }
+        }
+      },
+      {
+        "_index": "lrs_data_index",
+        "_type": "logs",
+        "_id": "AVgbEacGKxwdfVLaVs0l",
+        "_score": 1,
+        "_source": {
+          "@version": "1",
+          "@timestamp": "2016-10-31T14:08:09.906Z",
+          "path": "/home/sram/SubstanceList.json",
+          "host": "elastic",
+          "substanceListName": "Hazardous Wastes From Specific Sources",
+          "substanceListId": "141",
+          "substanceListAcronym": "RCRA K Waste",
+          "cfrs": {
+            "3876748": {
+              "cfrName": "CFR-2015-title40-vol26-part261",
+              "cfrId": "3876748",
+              "attributes": {
+                "USC Citation": "42 U.S.C. 6905; 42 U.S.C. 6912(a); 42 U.S.C. 6921; 42 U.S.C. 6922; 42 U.S.C. 6924(y); 42 U.S.C. 6938",
+                "CFR Authority": "42 U.S.C. 6905, 6912(a), 6921, 6922, 6924(y) and 6938.",
+                "Granule Label": "part",
+                "Heading": "Part 261",
+                "CFR Source": "45 FR 33119, May 19, 1980, unless otherwise noted.",
+                "URL": "https://www.gpo.gov/fdsys/pkg/CFR-2015-title40-vol26/pdf/CFR-2015-title40-vol26-part261.pdf",
+                "Citation": "40 CFR 261",
+                "Title": "IDENTIFICATION AND LISTING OF HAZARDOUS WASTE",
+                "FR Citation": "45 FR 33119"
+              }
+            }
+          }
+        }
+      },
+      {
+        "_index": "lrs_data_index",
+        "_type": "logs",
+        "_id": "AVgbEacGKxwdfVLaVs0S",
+        "_score": 1,
+        "_source": {
+          "@version": "1",
+          "@timestamp": "2016-10-31T14:08:09.906Z",
+          "path": "/home/sram/SubstanceList.json",
+          "host": "elastic",
+          "substanceListName": "Hazardous Discarded Commercial Chemical Products",
+          "substanceListId": "106",
+          "substanceListAcronym": "RCRA U Waste",
+          "cfrs": {
+            "3876748": {
+              "cfrName": "CFR-2015-title40-vol26-part261",
+              "cfrId": "3876748",
+              "attributes": {
+                "USC Citation": "42 U.S.C. 6905; 42 U.S.C. 6912(a); 42 U.S.C. 6921; 42 U.S.C. 6922; 42 U.S.C. 6924(y); 42 U.S.C. 6938",
+                "CFR Authority": "42 U.S.C. 6905, 6912(a), 6921, 6922, 6924(y) and 6938.",
+                "Granule Label": "part",
+                "Heading": "Part 261",
+                "CFR Source": "45 FR 33119, May 19, 1980, unless otherwise noted.",
+                "URL": "https://www.gpo.gov/fdsys/pkg/CFR-2015-title40-vol26/pdf/CFR-2015-title40-vol26-part261.pdf",
+                "Citation": "40 CFR 261",
+                "Title": "IDENTIFICATION AND LISTING OF HAZARDOUS WASTE",
+                "FR Citation": "45 FR 33119"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

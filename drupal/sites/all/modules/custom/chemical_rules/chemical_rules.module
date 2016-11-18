@@ -149,9 +149,10 @@ function chemical_rules_form_submission() {
     }
     else {
       chemical_rules_process_srs_response($response);
-      chemical_rules_process_elastic_response($response);
       //chemical_rules_process_lrs_response($response);
-      //chemical_rules_process_pubchem_response($response);
+      chemical_rules_process_elastic_response($response);
+      //_process_substance_list_response($response, sample_chemical_rules_lrs_response());
+      //chemical_rules_process_lod_response($response);
 
       save_chemical_response($response);
     }
@@ -171,8 +172,14 @@ function sample_chemical_rules_lrs_response() {
   return json_decode($sample, true);
 }
 
-function sample_chemical_rules_pubchem_response() {
-  $path = drupal_get_path('module', 'chemical_rules') . '/pubchem.json';
+function sample_chemical_rules_elastic_response() {
+  $path = drupal_get_path('module', 'chemical_rules') . '/elastic-search-sample.json';
+  $sample = file_get_contents($path);
+  return json_decode($sample, true);
+}
+
+function sample_chemical_rules_lod_response() {
+  $path = drupal_get_path('module', 'chemical_rules') . '/casNumberLookup-warfarin.xml';
   $sample = file_get_contents($path);
   return json_decode($sample, true);
 }
@@ -267,14 +274,13 @@ function chemical_rules_process_lrs_response(&$return) {
   // make a call to the LRS service
   $lrs_endpoint = 'http://rockslide:9010/lrswebservices/v1/SubstanceList';
 
-  //$headers = array('Content-Type' => 'application/json');
+  // Setup the http request and check its response
   $lrs_response = drupal_http_request($lrs_endpoint, [
-    //"headers" => $headers,
     "method" => "GET",
     'timeout' => "10"
   ]);
   if ($lrs_response->code !== "200") {
-    $return['error'] = TRUE;
+    //$return['error'] = TRUE;
     $return['error-messages'][] = 'LRS endpoint response: '.$lrs_response->error;
     $substance_list_response = sample_chemical_rules_lrs_response();
   }
@@ -282,84 +288,54 @@ function chemical_rules_process_lrs_response(&$return) {
     $substance_list_response = json_decode($lrs_response->data);
   }
 
-  $substance_list = [];
-  foreach ($substance_list_response as $list){
-    if(in_array($list->substanceListName, $return['data']['SubstanceList'])){
-      $cfrs = [];
-      foreach ($list->cfrs as $cfr_id => $cfr) {
-        $return['data']['LawsRegs'][$cfr_id] = $cfr;
-        $cfrs[] = $cfr_id;
-      }
-      $list->cfrs = $cfrs;
-      $substance_list[$list->substanceListName] = $list;
-    }
-  }
-  $return['data']['SubstanceList'] = $substance_list;
+  // Process the information we get back; Get the substance lists and organize
+  // in $return
+  _process_substance_list_response($return, $substance_list_response);
 }
 
 function chemical_rules_process_elastic_response(&$return) {
 
   if(isset($return['data']['SubstanceList']) && count($return['data']['SubstanceList']) > 0 ) {
     // make a call to the elastic search service
-    $substance_list = [];
     $elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search';
 
-    $headers = array('Content-Type' => 'application/json');
-    $query = '{"query" : { "bool": { "should": [';
+    // build the query to specifically use
+    $query_json = '{"query" : { "bool": { "should": [';
     foreach ($return['data']['SubstanceList'] as $substance) {
-      $query = $query . '{"match_phrase": {"substanceListName": "'. $substance . '" }},';
-      //$query = $query . "\r\n";
+      $query_json .= '{"match_phrase": {"substanceListName": "'. $substance . '" }},';
     }
-    $query = substr(trim($query), 0, -1) . "]}}}";
-    $query = json_decode("'" . $query . "'");
+    $query_json = substr(trim($query_json), 0, -1) . ']}}}';
+    $query = $query_json;
 
+    // Setup the http request and check its response
+    $headers = array('Content-Type' => 'application/json');
     $elastic_response = drupal_http_request($elastic_endpoint, [
       "headers" => $headers,
       "method" => "POST",
       'timeout' => "10",
-      //'data' =>  http_build_query(json_decode('{"query":{"match_all":{}},"from":10,"size":10}'))
       'data' =>  $query
     ]);
     if ($elastic_response->code !== "200") {
-      $return['error'] = TRUE;
-      $return['error-messages'][] = 'Elastic endpoint response: '.$elastic_response->error;
-      chemical_rules_process_lrs_response($return);
-      return;
+      //$return['error'] = TRUE;
+      $return['error-messages'][] = ['Elastic endpoint response: '.$elastic_response->error, 'Using cached Elastic Search response'];
+      $substance_list_response = sample_chemical_rules_elastic_response();
     }
     else {
-      $substance_list_response = json_decode($elastic_response->data);
+      $substance_list_response = json_decode($elastic_response->data, true);
     }
 
-
-    foreach ($substance_list_response->hits->hits as $hit){
-      $list = $hit->_source;
-      if(in_array($list->substanceListName, $return['data']['SubstanceList'])){
-        $cfrs = [];
-        foreach ($list->cfrs as $cfr_id => $cfr) {
-          if(!isset($return['data']['LawsRegs'][$cfr_id])) {
-            $cfr = (Array) $cfr;
-            $cfr['substanceList'] = [];
-            $return['data']['LawsRegs'][$cfr_id] = $cfr;
-          }
-          if(!in_array($list->substanceListName, $return['data']['LawsRegs'][$cfr_id]['substanceList'])){
-            $return['data']['LawsRegs'][$cfr_id]['substanceList'][] = $list->substanceListName;
-          }
-          $cfrs[] = $cfr_id;
-        }
-        $list->cfrs = $cfrs;
-        $substance_list[$list->substanceListName] = $list;
-      }
-    }
-    ksort($substance_list);
-    usort($return['data']['LawsRegs'], 'compare_cfrs_by_name');
-    $return['data']['SubstanceList'] = $substance_list;
+    // Process the information we get back; Get the substance lists and organize
+    // in $return
+    _process_substance_list_response($return, $substance_list_response['hits']['hits']);
   }
 }
 
-function chemical_rules_process_pubchem_response(&$return) {
-  if(isset($return['data']['Substance']) && isset($return['data']['Substance']['EPAChemicalRegistryName'])) {
-    // make a call to the LRS service
-    $endpoint = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/'. strtolower($return['data']['Substance']['EPAChemicalRegistryName']) .'/json';
+function chemical_rules_process_lod_response(&$return) {
+  $return['data']['Substance']['SubstanceIdentifier'] = 87020;
+  if(isset($return['data']['Substance']) && isset($return['data']['Substance']['SubstanceIdentifier'])) {
+    // make a call to the LOD service
+    $substanceConcept = 'https://opendata.epa.gov/data/substance/'. strtolower($return['data']['Substance']['SubstanceIdentifier']);
+    $endpoint = $substanceConcept .'.json';
 
     //$headers = array('Content-Type' => 'application/json');
     $response = drupal_http_request($endpoint, [
@@ -369,28 +345,49 @@ function chemical_rules_process_pubchem_response(&$return) {
     ]);
     if ($response->code !== "200") {
       $return['error'] = TRUE;
-      $return['error-messages'][] = 'PubChem endpoint response: '.$response->error;
-      $pubchem_response = sample_chemical_rules_pubchem_response();
+      $return['error-messages'][] = 'LOD endpoint response: '.$response->error;
+      $response = sample_chemical_rules_lod_response();
     }
     else {
-      $pubchem_response = json_decode($response->data, true);
+      $response = json_decode($response->data, true);
     }
 
-    foreach ($pubchem_response['PC_Compounds'][0]['props'] as $prop){
-      $label = ($prop['urn']['name'])? $prop['urn']['label'].'_'.$prop['urn']['name'] : $prop['urn']['label'];
-      foreach ($prop['value'] as $key => $value){
-        $return['data']['Substance'][$label] = $prop['value'][$key];
-        break;
-      }
+    // Need to restructure the data to be a little more usable
+    $lod = [];
+    foreach ($response as $source){
+      $lod[$source['@id']] = split_key_at_hash($source);
     }
+
+    array_merge($return['Substance'], $lod[$substanceConcept]);
+
   }
 }
 
-/**
- * Implements template_preprocess_hook for chemical-rules-modal.tpl.php.
- */
-function template_preprocess_chemical_rules_modal(&$variables, $hook) {
-
+function _process_substance_list_response(&$return, $lists) {
+  $substance_list = [];
+  foreach ($lists as $list){
+    if(isset($list['_source'])) {
+      $list = $list['_source'];
+    }
+    if(in_array($list['substanceListName'], $return['data']['SubstanceList'])){
+      $cfrs = [];
+      foreach ($list['cfrs'] as $cfr_id => $cfr) {
+        if(!isset($return['data']['LawsRegs'][$cfr_id])) {
+          $cfr['substanceList'] = [];
+          $return['data']['LawsRegs'][$cfr_id] = $cfr;
+        }
+        if(!in_array($list['substanceListName'], $return['data']['LawsRegs'][$cfr_id]['substanceList'])){
+          $return['data']['LawsRegs'][$cfr_id]['substanceList'][] = $list['substanceListName'];
+        }
+        $cfrs[] = $cfr_id;
+      }
+      $list['cfrs ']= $cfrs;
+      $substance_list[$list['substanceListName']] = $list;
+    }
+  }
+  ksort($substance_list);
+  usort($return['data']['LawsRegs'], 'compare_cfrs_by_name');
+  $return['data']['SubstanceList'] = $substance_list;
 }
 
 function update_chem_profile() {
@@ -462,6 +459,26 @@ function strip_prefix_from_array($array, $prefix){
   foreach ($array as $key => $item)
   {
     $stripped[str_ireplace($prefix, '', $key)] = (gettype($item) == 'array')? strip_prefix_from_array($item, $prefix) : $item;
+  }
+  return $stripped;
+}
+
+function split_key_at_hash($array){
+  $stripped = [];
+
+  foreach ($array as $key => $item)
+  {
+    $item_parts = explode('#', $key);
+    if(is_array($item)) {
+      foreach ($item as $index => $value) {
+        if(count($item[$index] == 1)) {
+          $stripped[end($item_parts)][] = end($item[$index]);
+        }
+      else {
+        $stripped[end($item_parts)][] = $item;
+        }
+      }
+    }
   }
   return $stripped;
 }
@@ -551,7 +568,7 @@ function get_chemical_response_cache($search_term){
  */
 function save_chemical_response($chemical_response) {
 
-  if($chemical_response['error'] == false) {
+  if($chemical_response['error'] == false && !!$chemical_response['error-messages']) {
     //Check if the node exists
     $title = $chemical_response['data']['Substance']['EPAChemicalRegistryName'];
     $terms = taxonomy_get_term_by_name(strtolower(trim($title)), 'chemicals');
