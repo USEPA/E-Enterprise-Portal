@@ -315,14 +315,21 @@ function chemical_rules_process_elastic_response(&$return) {
       'timeout' => "10",
       'data' =>  $query
     ]);
-    if ($elastic_response->code !== "200") {
+    try {
+      if ($elastic_response->code !== "200") {
+        //$return['error'] = TRUE;
+        $return['error-messages'][] = ['Elastic endpoint response: '.$elastic_response->error, 'Using cached Elastic Search response'];
+        $substance_list_response = sample_chemical_rules_elastic_response();
+      }
+      else {
+        $substance_list_response = json_decode($elastic_response->data, true);
+      }
+    } catch (Exception $e) {
       //$return['error'] = TRUE;
-      $return['error-messages'][] = ['Elastic endpoint response: '.$elastic_response->error, 'Using cached Elastic Search response'];
+      $return['error-messages'][] = ['Elastic endpoint error', $e];
       $substance_list_response = sample_chemical_rules_elastic_response();
     }
-    else {
-      $substance_list_response = json_decode($elastic_response->data, true);
-    }
+
 
     // Process the information we get back; Get the substance lists and organize
     // in $return
