@@ -1,0 +1,2173 @@
+[
+  {
+    "@id": "http://opendata.epa.gov/lrs/#3606681",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://synaptica.net/skm/CSL": [
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3878641"
+      }
+    ],
+    "http://synaptica.net/skm/termUpdate": [
+      {
+        "@value": "add"
+      },
+      {
+        "@value": "reference"
+      }
+    ],
+    "http://synaptica.net/zthes/termID": [
+      {
+        "@value": "3606681"
+      }
+    ],
+    "http://synaptica.net/zthes/termNote": [
+      {
+        "@value": "List Acronym"
+      },
+      {
+        "@value": "List Name"
+      },
+      {
+        "@value": "List No."
+      }
+    ],
+    "http://synaptica.net/zthes/termVocabulary": [
+      {
+        "@value": "Substance Lists"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#seeAlso": [
+      {
+        "@id": "http://opendata.epa.gov/srs/substanceList/107"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "EPCRA 313"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/lrs/#3878641",
+    "@type": [
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://synaptica.net/skm/KC": [
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706605"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706350"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706371"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706411"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706507"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706463"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706369"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706456"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706595"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706307"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706318"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706343"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706349"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706372"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706374"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706375"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706376"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706380"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706381"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706384"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706385"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706462"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706516"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706603"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706604"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706606"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706607"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706608"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706609"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706610"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3706611"
+      }
+    ],
+    "http://synaptica.net/skm/NC": [
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943138"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943274"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942911"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943276"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943279"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943285"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943080"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943081"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943083"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943084"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943085"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943096"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943097"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943098"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943099"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943354"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943355"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943356"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943379"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942829"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942881"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942915"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942916"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942917"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942922"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942923"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942925"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942926"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942929"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942939"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942940"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942944"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942945"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942958"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942959"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942960"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942965"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942967"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942968"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2942978"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943056"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943057"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943060"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943061"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943062"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943064"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943065"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943066"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943068"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943071"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943072"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943074"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943076"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943077"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943088"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943089"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943090"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943091"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943093"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943102"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943106"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943107"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943109"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943110"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943112"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943115"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943116"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943118"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943120"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943122"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943123"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943125"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943126"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943130"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943131"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943132"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943134"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943136"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943141"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943145"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943148"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943150"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943152"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943154"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943157"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943159"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943163"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943165"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943168"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943170"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943171"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943175"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943177"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943180"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943186"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943189"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943193"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943196"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943199"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943200"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943204"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943205"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943208"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943209"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943210"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943211"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943212"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943215"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943216"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943217"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943219"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943221"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943222"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943223"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943227"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943229"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943230"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943232"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943235"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943236"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943237"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943239"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943241"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943243"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943244"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943248"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943249"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943250"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943252"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943256"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943258"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943259"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943261"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943262"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943266"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943268"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943270"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943272"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943275"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943280"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943282"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943286"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943287"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943289"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943292"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943293"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943294"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943295"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943298"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943300"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943303"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943304"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943305"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943307"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943310"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943312"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943314"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943315"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943316"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943320"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943321"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943322"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943324"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943325"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943327"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943329"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943331"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943333"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943335"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943336"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943339"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943342"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943344"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943345"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943349"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943351"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943357"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943360"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943362"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943364"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943365"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943367"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943370"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943372"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943375"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943377"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943378"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943380"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943384"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943387"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943389"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943390"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943393"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943394"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943395"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943396"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943399"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943401"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943403"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943404"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943407"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943408"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943409"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943411"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943412"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943413"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943417"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943418"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943419"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943420"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943421"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943424"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943425"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943428"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943429"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943430"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943432"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943433"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943434"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943437"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943439"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943441"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943442"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943445"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943448"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943449"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943452"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943454"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943455"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943458"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943459"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943460"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943463"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943464"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943465"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943466"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943468"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943469"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943470"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943471"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943472"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943473"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943477"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943478"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943480"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943482"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943483"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943486"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943487"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943488"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943489"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943490"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943493"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943494"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943495"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943498"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943499"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943500"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943503"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943504"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943505"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943506"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943507"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943510"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943511"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943512"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943513"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943516"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943517"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943518"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943520"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943521"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943522"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943523"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943525"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943526"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943527"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943528"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943529"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943530"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943531"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943532"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943536"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943537"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943538"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943541"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943543"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943545"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943548"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943551"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943552"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943553"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943554"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943555"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943556"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943559"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943560"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943561"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943562"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943563"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943564"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943565"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943566"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943567"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943570"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943571"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943575"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943577"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943578"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943579"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943582"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943584"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943585"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943586"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943587"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943590"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943591"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943592"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943593"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943596"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943597"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943599"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943600"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943602"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943603"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943605"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943606"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943610"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943611"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943613"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943616"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943617"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943618"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943619"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943622"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943624"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943626"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943628"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943630"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943632"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943634"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943636"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943639"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943640"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943641"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943642"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943643"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943644"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943647"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943650"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943651"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943654"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943655"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943656"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943660"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943662"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943663"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943664"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943665"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943666"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943669"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943670"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943671"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943672"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943675"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943677"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943681"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943682"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943683"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943684"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943685"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943688"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943690"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943692"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943694"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943696"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943698"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943699"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943700"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943701"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943702"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943703"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943839"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943842"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943866"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2943868"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944142"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944180"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944182"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944184"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944186"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944188"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944189"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944209"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944211"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944251"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944460"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944570"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944574"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944575"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944576"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944577"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944582"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2944844"
+      }
+    ],
+    "http://synaptica.net/skm/PC": [
+      {
+        "@id": "http://opendata.epa.gov/lrs/#2976952"
+      }
+    ],
+    "http://synaptica.net/skm/SLC": [
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3606681"
+      }
+    ],
+    "http://synaptica.net/skm/UC": [
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3837199"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3837190"
+      }
+    ],
+    "http://synaptica.net/skm/termUpdate": [
+      {
+        "@value": "add"
+      },
+      {
+        "@value": "reference"
+      }
+    ],
+    "http://synaptica.net/zthes/termID": [
+      {
+        "@value": "3878641"
+      }
+    ],
+    "http://synaptica.net/zthes/termNote": [
+      {
+        "@value": "AccessID"
+      },
+      {
+        "@value": "Citation"
+      },
+      {
+        "@value": "Granule Label"
+      },
+      {
+        "@value": "Heading"
+      },
+      {
+        "@value": "Title"
+      },
+      {
+        "@value": "CFR Authority"
+      },
+      {
+        "@value": "CFR Source"
+      },
+      {
+        "@value": "FR Citation"
+      },
+      {
+        "@value": "URL"
+      },
+      {
+        "@value": "USC Citation"
+      }
+    ],
+    "http://synaptica.net/zthes/termVocabulary": [
+      {
+        "@value": "CFR 2015 Title 40 Vol 28"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#broader": [
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3878293"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#narrower": [
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3878642"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3878643"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3878649"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3878658"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3878660"
+      },
+      {
+        "@id": "http://opendata.epa.gov/lrs/#3878662"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "CFR-2015-title40-vol28-part372"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/category/c1",
+    "http://purl.org/dc/elements/1.1/description": [
+      {
+        "@value": "The entity is defined as a chemical."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Chemical Substance"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/label/L142521",
+    "@type": [
+      "http://opendata.epa.gov/srs/schema#SynonymLabel",
+      "http://www.w3.org/2008/05/skos-xl#Label"
+    ],
+    "http://opendata.epa.gov/srs/schema#synonymKey": [
+      {
+        "@id": "http://opendata.epa.gov/srs/data/syn/474761"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "http://opendata.epa.gov/srs/substanceList/70"
+      }
+    ],
+    "http://www.w3.org/2008/05/skos-xl#literalForm": [
+      {
+        "@value": "Methyl ketone"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/label/L204342",
+    "@type": [
+      "http://opendata.epa.gov/srs/schema#SynonymLabel",
+      "http://www.w3.org/2008/05/skos-xl#Label"
+    ],
+    "http://opendata.epa.gov/srs/schema#synonymKey": [
+      {
+        "@id": "http://opendata.epa.gov/srs/data/syn/474733"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "http://opendata.epa.gov/srs/substanceList/88"
+      }
+    ],
+    "http://www.w3.org/2008/05/skos-xl#literalForm": [
+      {
+        "@value": "Dimethyl ketone"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/label/L205463",
+    "@type": [
+      "http://opendata.epa.gov/srs/schema#SynonymLabel",
+      "http://www.w3.org/2008/05/skos-xl#Label"
+    ],
+    "http://opendata.epa.gov/srs/schema#synonymKey": [
+      {
+        "@id": "http://opendata.epa.gov/srs/data/syn/474750"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "http://opendata.epa.gov/srs/substanceList/79"
+      }
+    ],
+    "http://www.w3.org/2008/05/skos-xl#literalForm": [
+      {
+        "@value": "Dimethylketone"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/label/L237742",
+    "@type": [
+      "http://opendata.epa.gov/srs/schema#SynonymLabel",
+      "http://www.w3.org/2008/05/skos-xl#Label"
+    ],
+    "http://opendata.epa.gov/srs/schema#synonymKey": [
+      {
+        "@id": "http://opendata.epa.gov/srs/data/syn/1058001"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "http://opendata.epa.gov/srs/substanceList/235"
+      }
+    ],
+    "http://www.w3.org/2008/05/skos-xl#literalForm": [
+      {
+        "@value": "ACETONE"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/label/L761",
+    "@type": [
+      "http://opendata.epa.gov/srs/schema#SynonymLabel",
+      "http://www.w3.org/2008/05/skos-xl#Label"
+    ],
+    "http://opendata.epa.gov/srs/schema#synonymKey": [
+      {
+        "@id": "http://opendata.epa.gov/srs/data/syn/474713"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "http://opendata.epa.gov/srs/substanceList/125"
+      }
+    ],
+    "http://www.w3.org/2008/05/skos-xl#literalForm": [
+      {
+        "@value": "Acetone"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/label/L762",
+    "@type": [
+      "http://opendata.epa.gov/srs/schema#SynonymLabel",
+      "http://www.w3.org/2008/05/skos-xl#Label"
+    ],
+    "http://opendata.epa.gov/srs/schema#synonymKey": [
+      {
+        "@id": "http://opendata.epa.gov/srs/data/syn/474715"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "http://opendata.epa.gov/srs/substanceList/84"
+      }
+    ],
+    "http://www.w3.org/2008/05/skos-xl#literalForm": [
+      {
+        "@value": "Acetone, in waste"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/label/L763",
+    "@type": [
+      "http://opendata.epa.gov/srs/schema#SynonymLabel",
+      "http://www.w3.org/2008/05/skos-xl#Label"
+    ],
+    "http://opendata.epa.gov/srs/schema#synonymKey": [
+      {
+        "@id": "http://opendata.epa.gov/srs/data/syn/474716"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "http://opendata.epa.gov/srs/substanceList/84"
+      }
+    ],
+    "http://www.w3.org/2008/05/skos-xl#literalForm": [
+      {
+        "@value": "Acetone, dry weight"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/label/L764",
+    "@type": [
+      "http://opendata.epa.gov/srs/schema#SynonymLabel",
+      "http://www.w3.org/2008/05/skos-xl#Label"
+    ],
+    "http://opendata.epa.gov/srs/schema#synonymKey": [
+      {
+        "@id": "http://opendata.epa.gov/srs/data/syn/474718"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "http://opendata.epa.gov/srs/substanceList/84"
+      }
+    ],
+    "http://www.w3.org/2008/05/skos-xl#literalForm": [
+      {
+        "@value": "2-Propanone"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/label/L765",
+    "@type": [
+      "http://opendata.epa.gov/srs/schema#SynonymLabel",
+      "http://www.w3.org/2008/05/skos-xl#Label"
+    ],
+    "http://opendata.epa.gov/srs/schema#synonymKey": [
+      {
+        "@id": "http://opendata.epa.gov/srs/data/syn/474721"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#inScheme": [
+      {
+        "@id": "http://opendata.epa.gov/srs/substanceList/97"
+      }
+    ],
+    "http://www.w3.org/2008/05/skos-xl#literalForm": [
+      {
+        "@value": "Residual acetone"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/relatedLinks/iaspub/49021",
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "EPA Search for Acetone"
+      }
+    ],
+    "http://xmlns.com/foaf/0.1/page": [
+      {
+        "@id": "http://iaspub.epa.gov/sor_internet/registry/substreg/searchandretrieve/advancedsearch/search.do?details=displayDetails&selectedSubstanceId=49021"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/schema#Substance",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "An EPA Substance, as defined by the US EPA.  An EPA Substance may be a chemical substance, a biological organism or other forms of general substances of interest to the US EPA."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#isDefinedBy": [
+      {
+        "@id": "http://opendata.epa.gov/srs/schema"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Substance"
+      }
+    ]
+  },
+  {
+    "@id": "http://opendata.epa.gov/srs/substanceStatus/A",
+    "http://purl.org/dc/elements/1.1/description": [
+      {
+        "@value": "The substance record has been approved."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Approved"
+      }
+    ]
+  },
+  {
+    "@id": "https://opendata.epa.gov/data/substance/49021",
+    "@type": [
+      "http://opendata.epa.gov/srs/schema#Substance",
+      "http://www.w3.org/2004/02/skos/core#Concept"
+    ],
+    "http://opendata.epa.gov/srs/schema#2d-structure": [
+      {
+        "@id": "https://chem.sis.nlm.nih.gov/chemidplus/structure/67-64-1"
+      }
+    ],
+    "http://opendata.epa.gov/srs/schema#casNumber": [
+      {
+        "@value": "67-64-1"
+      }
+    ],
+    "http://opendata.epa.gov/srs/schema#internalTrackingNumber": [
+      {
+        "@value": "4309"
+      }
+    ],
+    "http://opendata.epa.gov/srs/schema#molecularFormula": [
+      {
+        "@value": "C3H6O"
+      }
+    ],
+    "http://opendata.epa.gov/srs/schema#molecularWeight": [
+      {
+        "@value": "58.08"
+      }
+    ],
+    "http://opendata.epa.gov/srs/schema#smilesNotation": [
+      {
+        "@value": "O=C(C)C"
+      }
+    ],
+    "http://opendata.epa.gov/srs/schema#substanceCategory": [
+      {
+        "@id": "http://opendata.epa.gov/srs/category/c1"
+      }
+    ],
+    "http://opendata.epa.gov/srs/schema#substanceStatus": [
+      {
+        "@id": "http://opendata.epa.gov/srs/substanceStatus/A"
+      }
+    ],
+    "http://opendata.epa.gov/srs/schema#sysName": [
+      {
+        "@value": "2-Propanone"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#seeAlso": [
+      {
+        "@id": "http://opendata.epa.gov/srs/relatedLinks/iaspub/49021"
+      },
+      {
+        "@id": "https://opendata.epa.gov/data/substance/49021.json"
+      },
+      {
+        "@id": "https://opendata.epa.gov/data/substance/49021.rdf"
+      },
+      {
+        "@id": "https://opendata.epa.gov/data/substance/49021.ttl"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#notation": [
+      {
+        "@value": "O=C(C)C"
+      }
+    ],
+    "http://www.w3.org/2004/02/skos/core#prefLabel": [
+      {
+        "@value": "Acetone"
+      }
+    ],
+    "http://www.w3.org/2008/05/skos-xl#altLabel": [
+      {
+        "@id": "http://opendata.epa.gov/srs/label/L761"
+      },
+      {
+        "@id": "http://opendata.epa.gov/srs/label/L762"
+      },
+      {
+        "@id": "http://opendata.epa.gov/srs/label/L763"
+      },
+      {
+        "@id": "http://opendata.epa.gov/srs/label/L764"
+      },
+      {
+        "@id": "http://opendata.epa.gov/srs/label/L765"
+      },
+      {
+        "@id": "http://opendata.epa.gov/srs/label/L142521"
+      },
+      {
+        "@id": "http://opendata.epa.gov/srs/label/L204342"
+      },
+      {
+        "@id": "http://opendata.epa.gov/srs/label/L205463"
+      },
+      {
+        "@id": "http://opendata.epa.gov/srs/label/L237742"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#IUPACName": [
+      {
+        "@value": "propan-2-one"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#MeSH": [
+      {
+        "@id": "http://id.nlm.nih.gov/mesh/M0000142"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#TPSA": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#float",
+        "@value": "17.100000381469726562"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#XLogP3": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#float",
+        "@value": "-0.10000000149011611938"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#complexity": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#float",
+        "@value": "26.299999237060546875"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#covalentUnitCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#int",
+        "@value": "1"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#definedAtomStereoCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#int",
+        "@value": "0"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#definedBondStereoCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#int",
+        "@value": "0"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#depositorSuppliedSynonym": [
+      {
+        "@value": "propan-2-one"
+      },
+      {
+        "@value": "2-propanone, >10 - 60% in a non hazardous diluent"
+      },
+      {
+        "@value": "aceton"
+      },
+      {
+        "@value": "aceton (german, polish)"
+      },
+      {
+        "@value": "aceton [german, dutch, polish]"
+      },
+      {
+        "@value": "acetone (natural)"
+      },
+      {
+        "@value": "acetone (nf)"
+      },
+      {
+        "@value": "acetone [un1090]  [flammable liquid]"
+      },
+      {
+        "@value": "acetone reagent grade acs"
+      },
+      {
+        "@value": "acetone, 99.5%"
+      },
+      {
+        "@value": "acetone, semiconductor grade"
+      },
+      {
+        "@value": "beta-ketopropane"
+      },
+      {
+        "@value": "caswell no. 004"
+      },
+      {
+        "@value": "ccris 5953"
+      },
+      {
+        "@value": "chevron acetone"
+      },
+      {
+        "@value": "dimethylformaldehyde"
+      },
+      {
+        "@value": "dsstox_cid_1482"
+      },
+      {
+        "@value": "dsstox_rid_76176"
+      },
+      {
+        "@value": "hsdb 41"
+      },
+      {
+        "@value": "ketone, dimethyl"
+      },
+      {
+        "@value": "methyl ketone"
+      },
+      {
+        "@value": "propanone"
+      },
+      {
+        "@value": "pyroacetic spirit (archaic)"
+      },
+      {
+        "@value": "rcra waste number u002"
+      },
+      {
+        "@value": "un 1090"
+      },
+      {
+        "@value": "un 1091 (salt/mix)"
+      },
+      {
+        "@value": "(ch3)2co"
+      },
+      {
+        "@value": "2-propanone"
+      },
+      {
+        "@value": "acetone"
+      },
+      {
+        "@value": "acetone, hplc"
+      },
+      {
+        "@value": "acetone, hplc grade"
+      },
+      {
+        "@value": "b-ketopropane"
+      },
+      {
+        "@value": "dimethyl ketone"
+      },
+      {
+        "@value": "dimethylketon"
+      },
+      {
+        "@value": "dimethylketone, pyroacetic acid"
+      },
+      {
+        "@value": "epa pesticide chemical code 004101"
+      },
+      {
+        "@value": "ketone propane"
+      },
+      {
+        "@value": "ketone, dimethyl-"
+      },
+      {
+        "@value": "methylketone"
+      },
+      {
+        "@value": "pyroacetic acid"
+      },
+      {
+        "@value": "rcra waste no. u002"
+      },
+      {
+        "@value": "sasetone"
+      },
+      {
+        "@value": "2-propanal"
+      },
+      {
+        "@value": "2-propanone, >60% in a non hazardous diluent"
+      },
+      {
+        "@value": "acetone (tn)"
+      },
+      {
+        "@value": "acetone [un1090] [flammable liquid]"
+      },
+      {
+        "@value": "acetone hp"
+      },
+      {
+        "@value": "acetone oil (salt/mix)"
+      },
+      {
+        "@value": "acetone, environmental grade"
+      },
+      {
+        "@value": "azeton"
+      },
+      {
+        "@value": "d-acetone"
+      },
+      {
+        "@value": "dimethyl formaldehyde"
+      },
+      {
+        "@value": "dimethylcetone"
+      },
+      {
+        "@value": "dimethylketal"
+      },
+      {
+        "@value": "dimethylketone"
+      },
+      {
+        "@value": "methyl-ketone"
+      },
+      {
+        "@value": "mfcd00008765"
+      },
+      {
+        "@value": "pyroacetic ether"
+      },
+      {
+        "@value": "un1090"
+      },
+      {
+        "@value": "wln: 1v1"
+      },
+      {
+        "@value": ".beta.-ketopropane"
+      },
+      {
+        "@value": "ACETONE"
+      },
+      {
+        "@value": "acetone, acs"
+      },
+      {
+        "@value": "acetone, spectrophotometric grade"
+      },
+      {
+        "@value": "fema no. 3326"
+      },
+      {
+        "@value": "inchi=1/c3h6o/c1-3(2)4/h1-2h"
+      },
+      {
+        "@value": "isopropanal"
+      },
+      {
+        "@value": "propanon"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#exactMass": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#float",
+        "@value": "58.041900634765625"
+      },
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#float",
+        "@value": "58.0791015625"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#formalCharge": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#int",
+        "@value": "0"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#heavyAtomCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#int",
+        "@value": "4"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#hydrogenBondAcceptorCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#int",
+        "@value": "1"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#hydrogenBondDonorCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#int",
+        "@value": "0"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#isotopeAtomCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#int",
+        "@value": "0"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#molecularFormula": [
+      {
+        "@value": "C3H6O"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#monoIsotopicWeight": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#float",
+        "@value": "58.041900634765625"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#rotatableBondCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#int",
+        "@value": "0"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#undefinedAtomStereoCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#int",
+        "@value": "0"
+      }
+    ],
+    "https://opendata.epa.gov/pubchem/schema#undefinedBondStereoCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#int",
+        "@value": "0"
+      }
+    ]
+  },
+  {
+    "@id": "https://opendata.epa.gov/data/substance/49021.json",
+    "http://purl.org/dc/terms/format": [
+      {
+        "@value": "application/ld+json"
+      }
+    ]
+  },
+  {
+    "@id": "https://opendata.epa.gov/data/substance/49021.rdf",
+    "http://purl.org/dc/terms/format": [
+      {
+        "@value": "application/rdf+xml"
+      }
+    ]
+  },
+  {
+    "@id": "https://opendata.epa.gov/data/substance/49021.ttl",
+    "http://purl.org/dc/terms/format": [
+      {
+        "@value": "text/turtle"
+      }
+    ]
+  }
+]

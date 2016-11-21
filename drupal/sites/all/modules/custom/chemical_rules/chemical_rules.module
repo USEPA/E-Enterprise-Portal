@@ -152,7 +152,7 @@ function chemical_rules_form_submission() {
       //chemical_rules_process_lrs_response($response);
       chemical_rules_process_elastic_response($response);
       //_process_substance_list_response($response, sample_chemical_rules_lrs_response());
-      //chemical_rules_process_lod_response($response);
+      chemical_rules_process_lod_response($response);
 
       save_chemical_response($response);
     }
@@ -161,7 +161,7 @@ function chemical_rules_form_submission() {
 }
 
 function sample_chemical_rules_response() {
-  $path = drupal_get_path('module', 'chemical_rules') . '/data.json';
+  $path = drupal_get_path('module', 'chemical_rules') . '/srs-sample.json';
   $sample = file_get_contents($path);
   return json_decode($sample, true);
 }
@@ -179,7 +179,7 @@ function sample_chemical_rules_elastic_response() {
 }
 
 function sample_chemical_rules_lod_response() {
-  $path = drupal_get_path('module', 'chemical_rules') . '/casNumberLookup-warfarin.xml';
+  $path = drupal_get_path('module', 'chemical_rules') . '/lod-sample.json';
   $sample = file_get_contents($path);
   return json_decode($sample, true);
 }
@@ -233,19 +233,13 @@ function chemical_rules_process_srs_response(&$return) {
         $value = ($value) ? $value : null;
         $return['data']['Substance'][$name] = $value;
       }
-      // @todo Things that are missing.  Need to add from another service
-      $toAppend = '{"MolecularWeight": "58.08 g/mol", "Solubility": "Miscible with water", "VaporPressure": "231 mm Hg at 25 deg C", "LogP": "log Kow = -0.24", "Stability": "Stable under recommended storage conditions.", "pKA": "20"}';
-      $toAppend = json_decode($toAppend);
-      foreach ($toAppend as $name => $value) {
-        $return['data']['Substance'][$name] = $value;
-      }
 
       // build both the "Synonym" list and the "SubstanceList"
       $SubstanceSynonyms = $base['ChemicalSubstanceSynonymList']['ChemicalSubstanceSynonym'];
 
       // Initialize them if they are not ready
-      if (empty($return['data']['Substance']['Synonym'])) {
-        $return['data']['Substance']['Synonym'] = [];
+      if (empty($return['data']['Substance']['Synonyms'])) {
+        $return['data']['Substance']['Synonyms'] = [];
       }
       if (empty($return['data']['SubstanceList'])) {
         $return['data']['SubstanceList'] = [];
@@ -254,8 +248,8 @@ function chemical_rules_process_srs_response(&$return) {
       // Sort out the information we need for the various lists
       foreach ($SubstanceSynonyms as $index => $ss) {
         $value = ($value) ? $value : null;
-        if(!in_array(strtolower($ss['ChemicalSubstanceSynonymName']), $return['data']['Substance']['Synonym']))
-          $return['data']['Substance']['Synonym'][] = strtolower($ss['ChemicalSubstanceSynonymName']);
+        if(!in_array(strtolower($ss['ChemicalSubstanceSynonymName']), $return['data']['Substance']['Synonyms']))
+          $return['data']['Substance']['Synonyms'][] = strtolower($ss['ChemicalSubstanceSynonymName']);
 
         if(!array_key_exists($ss['ChemicalSynonymSourceName'], $return['data']['SubstanceList']))
           $return['data']['SubstanceList'][$ss['ChemicalSynonymSourceName']] = $ss['ChemicalSynonymSourceName'];
@@ -338,8 +332,7 @@ function chemical_rules_process_elastic_response(&$return) {
 }
 
 function chemical_rules_process_lod_response(&$return) {
-  $return['data']['Substance']['SubstanceIdentifier'] = 87020;
-  if(isset($return['data']['Substance']) && isset($return['data']['Substance']['SubstanceIdentifier'])) {
+  if(isset($return['data']['Substance'])) {
     // make a call to the LOD service
     $substanceConcept = 'https://opendata.epa.gov/data/substance/'. strtolower($return['data']['Substance']['SubstanceIdentifier']);
     $endpoint = $substanceConcept .'.json';
@@ -351,8 +344,8 @@ function chemical_rules_process_lod_response(&$return) {
       'timeout' => "10"
     ]);
     if ($response->code !== "200") {
-      $return['error'] = TRUE;
       $return['error-messages'][] = 'LOD endpoint response: '.$response->error;
+      $substanceConcept .= 49021;
       $response = sample_chemical_rules_lod_response();
     }
     else {
@@ -364,8 +357,17 @@ function chemical_rules_process_lod_response(&$return) {
     foreach ($response as $source){
       $lod[$source['@id']] = split_key_at_hash($source);
     }
+    // Build the synonyms based on the LOD service
+    $return['data']['Substance']['Synonyms'] = [];
+    foreach ($lod as $source){
+      if($source['@type'] == 'http://www.w3.org/2008/05/skos-xl#Label' && !in_array(strtolower($source['literalForm']), $return['data']['Substance']['Synonyms'])) {
+        $return['data']['Substance']['Synonyms'][] = strtolower($source['literalForm']);
+      }
+    }
+    sort($return['data']['Substance']['Synonyms']);
 
-    array_merge($return['Substance'], $lod[$substanceConcept]);
+    $merged = array_merge($return['data']['Substance'], $lod[$substanceConcept]);
+    $return['data']['Substance'] = ($merged) ? $merged : $return['data']['Substance'];
 
   }
 }
@@ -473,16 +475,59 @@ function strip_prefix_from_array($array, $prefix){
 function split_key_at_hash($array){
   $stripped = [];
 
-  foreach ($array as $key => $item)
-  {
+  // TODO: Refine the output
+  foreach ($array as $key => $item) {
     $item_parts = explode('#', $key);
     if(is_array($item)) {
       foreach ($item as $index => $value) {
-        if(count($item[$index] == 1)) {
-          $stripped[end($item_parts)][] = end($item[$index]);
+        // If the value is  not an array assign it directly
+        if(!is_array($value)) {
+          $stripped[end($item_parts)] = $value;
         }
-      else {
-        $stripped[end($item_parts)][] = $item;
+        // if the item has a single value
+        else if(count($item) == 1) {
+          // checking the $value if is not an array, directly relate it
+          if(!is_array($value)) {
+            $stripped[end($item_parts)] = $value;
+            if(in_array('http://www.w3.org/2001/XMLSchema', explode('#', $value)) == false) {
+              $stripped[end($item_parts)] = $value;
+            }
+          }
+          else if(count($value) == 1) {
+            $stripped[end($item_parts)] = end($value);
+          }
+          else if(count($value) > 1) {
+            foreach ($value as $v) {
+              if(in_array('http://www.w3.org/2001/XMLSchema', explode('#', $v)) == false) {
+                $stripped[end($item_parts)][] = $v;
+              }
+            }
+          }
+        }
+        else if(count($item) > 1) {
+          foreach ($value as $v) {
+            if (!is_array($v)) {
+              if (in_array('http://www.w3.org/2001/XMLSchema', explode('#', $v)) == FALSE) {
+                $stripped[end($item_parts)][] = $v;
+              }
+            }
+            else {
+              if (count($v) == 1) {
+                $stripped[end($item_parts)][] = end($v);
+              }
+              else {
+                if (count($v) > 1) {
+                  $temp = [];
+                  foreach ($v as $i => $p) {
+                    if (in_array('http://www.w3.org/2001/XMLSchema', explode('#', $p)) == FALSE) {
+                      $temp[] = $p;
+                    }
+                  }
+                  $stripped[end($item_parts)][] = $temp;
+                }
+              }
+            }
+          }
         }
       }
     }
