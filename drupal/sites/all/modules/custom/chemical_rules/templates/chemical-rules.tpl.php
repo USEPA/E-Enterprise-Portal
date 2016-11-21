@@ -2,7 +2,7 @@
   Source: <a href="https://www.epa.gov" target="_blank">US Environmental Protection Agency</a>
 </p>
 <p>
-  Find federal laws and regulations.  As state and local partners join, more resources will be available.  <a href="javascript:void(0)" id="learn-more_chemical-rules">Learn how it works</a>.
+  Find federal laws and regulations.  As state and local partners join, more resources will be available.  <a href="javascript:void(0)" id="cr-learnmore">Learn how it works</a>.
 </p>
 <div id="cr-search">
   <div id="cr-search_field">
@@ -64,3 +64,4 @@
     </div><!-- @end cr-tabs_naics -->
 </div><!-- @end cr-tabs -->
 <div id="chemical-rules-modal"></div>
+<div id="chemical-rules-learnmore"></div>

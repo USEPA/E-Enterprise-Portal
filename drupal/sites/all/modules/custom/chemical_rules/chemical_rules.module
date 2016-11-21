@@ -48,6 +48,13 @@ function chemical_rules_theme() {
       'template' => 'chemical-rules-modal',
       'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
     ),
+    'chemical_rules_learnmore' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use chemical-rules-learnmore.tpl.php
+      'template' => 'chemical-rules-learnmore',
+      'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
+    )
   );
 }
 
@@ -90,15 +97,7 @@ function chemical_rules_block_view($delta = '') {
         'scope'=>'footer', 
         'preprocess'=>true, 
         'group'=>CSS_DEFAULT
-      ]);
-      drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/toc.min.js', [
-        'scope' => 'footer',
-        'preprocess' => TRUE,
-        'group' => JS_DEFAULT,
-        'type' => 'file',
-        'cache' => TRUE,
-        'requires_jquery' => TRUE
-      ]);      
+      ]);     
       drupal_add_css(drupal_get_path('module', 'chemical_rules') . '/css/chemical_rules.css', [
         'preprocess' => TRUE,
         'group' => CSS_THEME
@@ -110,7 +109,8 @@ function chemical_rules_block_view($delta = '') {
         $user_chem_rules_user_settings = json_decode($user_data->field_chem_rules_user_settings['und'][0]['value']);
       }
       $chemical_modal = theme('chemical_rules_modal');
-      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings]), 'setting');
+      $chemical_learnmore = theme('chemical_rules_learnmore');
+      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore" => $chemical_learnmore]), 'setting');
 
       $block['subject'] = t('Chemical Laws &amp; Regulations');
       $block['content'] = theme('chemical_rules');
