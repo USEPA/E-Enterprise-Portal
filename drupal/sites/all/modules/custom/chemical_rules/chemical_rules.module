@@ -198,11 +198,7 @@ function chemical_rules_process_srs_response(&$return) {
     $endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
   }
   $endpoint = $endpoint . urlencode($_POST['cr-search_input']);
-  //$endpoint = $endpoint . str_ireplace(' ', '+',$_POST['cr-search_input']);
-
-  //$headers = array('Content-Type' => 'application/json');
   $response = drupal_http_request($endpoint, [
-    //"headers" => $headers,
     "method" => "GET",
     'timeout' => "10"
   ]);
@@ -259,6 +255,7 @@ function chemical_rules_process_srs_response(&$return) {
           $return['data']['substance_list'][$ss['ChemicalSynonymSourceName']] = $ss['ChemicalSynonymSourceName'];
       }
       sort($return['data']['substance']['synonyms']);
+      $return['data']['substance'] = snakecase_mapping($return['data']['substance']);
       ksort($return['data']['substance_list']);
     }
     else {
@@ -338,7 +335,7 @@ function chemical_rules_process_elastic_response(&$return) {
 function chemical_rules_process_lod_response(&$return) {
   if(isset($return['data']['substance'])) {
     // make a call to the LOD service
-    $substanceConcept = 'https://opendata.epa.gov/data/substance/'. strtolower($return['data']['substance']['substance_identifier']);
+    $substanceConcept = 'https://opendata.epa.gov/data/substance/'. $return['data']['substance']['substance_identifier'];
     $endpoint = $substanceConcept .'.json';
 
     //$headers = array('Content-Type' => 'application/json');
@@ -401,7 +398,7 @@ function _process_substance_list_response(&$return, $lists) {
   ksort($substance_list);
   usort($return['data']['laws_regs'], 'compare_cfrs_by_name');
   foreach ($return['data']['laws_regs'] as $index => $cfr) {
-    $return['data']['laws_regs'][$cfr['cfr_id']] = $index;
+    $return['data']['laws_regs_index'][$cfr['cfr_id']] = $index;
   }
   $return['data']['substance_list'] = $substance_list;
 }
