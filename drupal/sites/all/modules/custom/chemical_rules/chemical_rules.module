@@ -689,7 +689,7 @@ function to_snakecase($string) {
   foreach ($exception as $e){
     $string = str_ireplace($e, strtolower($e), $string);
   }
-  $string = str_ireplace(' ', '_', $string);
+  $string = str_ireplace(' ', '', $string);
   $string = preg_replace('/(?<=\\w)(?=[A-Z])/',"_$1", $string);
   return strtolower($string);
 }
