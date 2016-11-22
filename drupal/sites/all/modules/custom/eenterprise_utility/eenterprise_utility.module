@@ -532,6 +532,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     hide($form['field_piv_card_org']);
     if(isset($form['account']['mail']['#description']))
       unset($form['account']['mail']['#description']);
+    if(isset($form['field_chem_rules_user_settings']))
+      unset($form['field_chem_rules_user_settings']);
+
     // If user is admin allow to edit state admin STATE and toggle user's first time status
     if ($user->uid > 1) {
       hide($form['field_admin_state']);

@@ -87,12 +87,11 @@ function lookup_chemical(lookup_value) {
   var $ = jQuery;
   var $body = jQuery('body');
   var chem_search_input = lookup_value;
-  var chem_search_form_data = 'cr-search_input: ' + lookup_value;
   
   $.ajax({
       url: Drupal.settings.basePath + 'chemical_rules/form_submission',
       method: 'POST',
-      data: chem_search_form_data,
+      data: {'cr-search_input': lookup_value},
       beforeSend: function() {
         $('#chemical-rules-modal').dialog('option','title', 'Searching for "' + chem_search_input + '"');
         $body.find('#searching-chemical-name').text(chem_search_input);      
