@@ -202,7 +202,8 @@ body.viewport-lg {
     .fa-heart {
         margin-left: 5px;
         background-size: 14px 14px;
-        vertical-align: top;        
+        vertical-align: top;
+        display: inline-block;
     }
 }
 
@@ -235,6 +236,7 @@ body.viewport-lg {
         background: transparent url('../images/fa-times-circle.png') 0 50% no-repeat;
         font-size: 1.2rem;
         color: $color_gray_dark;
+        cursor: pointer;
     }
 }
 

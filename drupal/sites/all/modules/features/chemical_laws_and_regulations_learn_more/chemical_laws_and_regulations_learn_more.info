@@ -1,0 +1,13 @@
+name = Chemical Laws and Regulations Learn More
+description = Content for Chemical Laws and Regulations widget's Learn More modal
+core = 7.x
+package = CGI Features
+version = 7.x-1.0
+dependencies[] = features
+dependencies[] = node_export_features
+dependencies[] = resources_for_lgc_about
+dependencies[] = uuid_features
+features[features_api][] = api:2
+features[node_export_features][] = 7cde65e7-769f-48a1-ab60-8e238a31c6c6
+features[uuid_node][] = 7cde65e7-769f-48a1-ab60-8e238a31c6c6
+features_exclude[dependencies][node_export_features] = node_export_features
