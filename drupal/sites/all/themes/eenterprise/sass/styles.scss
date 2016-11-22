@@ -4201,3 +4201,43 @@ select[multiple="multiple"] {
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
+
+.page-workbench .fa-heart:before,
+.fa-heart:before,
+.fa-heart.filled:before,
+.fa-heart-o:before,
+.fa-heart-o.empty:before,
+.empty:before,
+.empty:hover:before {
+    content: none;
+}
+
+.fa-heart {
+    background: transparent url('../images/red/heart-o.svg') no-repeat 50% 50%;
+    background-size: 1.7rem, contain;
+    width: 1.7rem;
+    height: 1.7rem;
+    display: block;
+    vertical-align: bottom;
+}
+
+.filled {
+    background-image: url('../images/red/heart-filled.svg');
+}
+
+.filled:hover {
+    background-image: url('../images/red/heart-filled-hover.svg');
+    cursor: pointer;
+}
+
+.filled:active {
+    background-image: url('../images/red/heart-filled-active.svg');
+}
+
+.empty {
+    background-image: url('../images/red/heart-o.svg');
+}
+
+.empty:hover {
+    background-image: url('../images/red/heart-o-hover.svg');
+}
