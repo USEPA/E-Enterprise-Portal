@@ -26,9 +26,10 @@ function cr_resizeModal() {
 }
 
 function cr_resizeLMModal() {
+  
   jQuery('#chemical-rules-learnmore').dialog({
     position: { 'my': 'center', 'at': 'center' },
-    width: 0.5 * ($(window).width()),
+    width: 0.75 * ($(window).width()),
     height: 'auto',
   });
   if(jQuery('.chemical-rules-modal').css('top').replace('px', '') < 1){
@@ -545,7 +546,10 @@ function isValidCasNumber(stringToCheck) {
       dialogClass: 'chemical-rules-learnmore',
       draggable: false,
       autoOpen: false,
-      resizable: false,      
+      resizable: false,  
+      create: function(event, ui) {
+        $(window).resize(function(){cr_resizeLMModal();});
+      },          
       open: function(event, ui) {
         cr_resizeLMModal();
       }
