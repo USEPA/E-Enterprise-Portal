@@ -45,7 +45,7 @@
   </label>
 </div>
 <div id="to-do-modal-content"></div>
-<div id="to-do" class="eportal-datatable-wrapper">
+<div id="to-do" class="eportal-datatable-wrapper view-content">
   <table class="usa-table-borderless">
     <thead>
     <tr>

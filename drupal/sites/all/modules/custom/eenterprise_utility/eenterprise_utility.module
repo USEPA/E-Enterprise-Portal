@@ -291,6 +291,19 @@ function eenterprise_utility_views_pre_render(&$view) {
   if ($view->name == 'app_connect_new') {
     print drupal_render(drupal_get_form('app_connect_sso_form'));
   }
+  
+  global $user;
+  $user_data = user_load($user->uid);
+  if(isset($user_data->field_chem_rules_user_settings['und'][0])){
+    $user_chem_rules_user_settings = json_decode($user_data->field_chem_rules_user_settings['und'][0]['value']);
+  }  
+
+  $chemical_modal = theme('chemical_rules_modal');
+  drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings]), 'setting');
+  drupal_add_css(drupal_get_path('module', 'chemical_rules') . '/css/chemical_rules.css', [
+    'preprocess' => TRUE,
+    'group' => CSS_THEME
+  ]);
 }
 
 function app_connect_sso_form($form, &$form_state) {
@@ -519,15 +532,23 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     hide($form['field_piv_card_org']);
     if(isset($form['account']['mail']['#description']))
       unset($form['account']['mail']['#description']);
+
     // If user is admin allow to edit state admin STATE and toggle user's first time status
     if ($user->uid > 1) {
       hide($form['field_admin_state']);
       hide($form['field_first_time_user']);
+      if (module_exists('chemical_rules') || $form['field_chem_rules_user_settings']) {
+        hide($form['field_chem_rules_user_settings']);
+        $form_state['rebuild'] = TRUE;
+      }
     }
     else {
       // Set description for admin
       $form['field_admin_state'][LANGUAGE_NONE][0]['value']['#title'] = "State code, tribe name, or 'US EPA'";
       $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
+      if (!module_exists('chemical_rules')) {
+        hide($form['field_chem_rules_user_settings']);
+      }
     }
     // only admins see the Terms of Use Agreed Date field
     if (!user_access('administer site configuration')) {
@@ -587,6 +608,12 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     $form['account']['mail']['#title'] = 'Email Address <span tabindex="0" data-toggle="tooltip" data-placement="bottom" aria-hidden="true" id="email-helptext" class="fa fa-info-circle ee-bootstrap-tooltip"
             title="All emails from the system will be sent to this address. This email address will not be made public and will only be used if you have indicated that you wish to receive news or notifications by email. Any edits to your email address must be done through the provider for which your log-in credentials are associated (e.g., Yahoo, CDX)."> </span>';
 
+    /**
+    *  Parse Chemical Laws and Regs Favorites for Display
+    */
+    
+    
+    
     /**
      * Validation of Form
      */
@@ -805,6 +832,12 @@ function eenterprise_utility_profile_form_submit($form, &$form_state) {
       save_user_location($zip, $name, $commsize, $isurban, $primary);
     }
   }
+  
+  if (module_exists('chemical_rules') || $form['field_chem_rules_user_settings']) {
+    // @TODO - Store latest version of array as it exists in back-end (not on local variables)
+    
+  }
+  
 }
 
 function load_user_preferred_zips() {
@@ -1578,7 +1611,15 @@ function eenterprise_utility_theme($existing, $type, $theme, $path) {
     'eenterprise_utility_terms_of_use_agreed_date_display' => array(
       'render element' => 'element'
     ),
+    'chemical_rules_modal' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use chemical-rules-modal.tpl.php
+      'template' => 'chemical-rules-modal',
+      'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
+    )
   );
+  
   return $themes;
 }
 
