@@ -486,8 +486,8 @@ function split_key_at_hash($array){
       foreach ($item as $index => $value) {
         // If the value is  not an array assign it directly
         if(!is_array($value)) {
-          if(!in_array(end($item_parts), ['@type']))
-            $stripped[end($item_parts)] = $value;
+          //if(!in_array(end($item_parts), ['@type']))
+          $stripped[end($item_parts)] = $value;
         }
         // if the item has a single value
         else if(count($item) == 1) {
