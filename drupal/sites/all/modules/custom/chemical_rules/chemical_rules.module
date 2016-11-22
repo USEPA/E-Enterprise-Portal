@@ -32,6 +32,7 @@ function chemical_rules_block_info() {
  * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
  */
 function chemical_rules_theme() {
+  
   return array(
     // Name to be called with theme(). theme('chemical_rules')
     'chemical_rules' => array(
@@ -46,13 +47,6 @@ function chemical_rules_theme() {
       'variables' => array(),
       // Which .tpl.php file to use chemical-rules-modal.tpl.php
       'template' => 'chemical-rules-modal',
-      'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
-    ),
-    'chemical_rules_learnmore' => array(
-      // Default variables
-      'variables' => array(),
-      // Which .tpl.php file to use chemical-rules-learnmore.tpl.php
-      'template' => 'chemical-rules-learnmore',
       'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
     )
   );
@@ -108,9 +102,18 @@ function chemical_rules_block_view($delta = '') {
       if(isset($user_data->field_chem_rules_user_settings['und'][0])){
         $user_chem_rules_user_settings = json_decode($user_data->field_chem_rules_user_settings['und'][0]['value']);
       }
+
       $chemical_modal = theme('chemical_rules_modal');
-      $chemical_learnmore = theme('chemical_rules_learnmore');
-      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore" => $chemical_learnmore]), 'setting');
+      // Pull content from chemical_rules-learnmore node to populate Learn how it works modal
+      $path = "chemical_rules-learnmore";
+      $org_path = drupal_lookup_path("source", $path);
+      $node = menu_get_object("node", 1, $org_path);
+      $nid = $node->nid;
+      $node = node_load($nid);
+      $nodeView = node_view($node, 'full');
+      $chemical_rules_learnmore = drupal_render($nodeView['body']);
+      
+      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore"=>$chemical_rules_learnmore]), 'setting');
 
       $block['subject'] = t('Chemical Laws &amp; Regulations');
       $block['content'] = theme('chemical_rules');
