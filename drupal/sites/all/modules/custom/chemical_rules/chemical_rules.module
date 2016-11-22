@@ -630,7 +630,7 @@ function save_chemical_response($chemical_response) {
 
   if($chemical_response['error'] == false && !!$chemical_response['error-messages']) {
     //Check if the node exists
-    $title = $chemical_response['data']['Substance']['EPAChemicalRegistryName'];
+    $title = $chemical_response['data']['substance']['epa_chemical_registry_name'];
     $terms = taxonomy_get_term_by_name(strtolower(trim($title)), 'chemicals');
     // ideally $terms should be array with a single item
     if($terms){
@@ -664,9 +664,9 @@ function save_chemical_response($chemical_response) {
     $chemical_vocab = taxonomy_vocabulary_machine_name_load('chemicals');
 
     // lets handle the other terms/synonyms
-    $terms = $chemical_response['data']['Substance']['Synonym'];
+    $terms = $chemical_response['data']['substance']['synonyms'];
     // Add anything we want to do searches against i.e. CAS #
-    $terms[] = $chemical_response['data']['Substance']['CASRegistryNumber'];
+    $terms[] = $chemical_response['data']['substance']['cas_registry_number'];
 
     foreach ($terms as $synonym) {
       $term = taxonomy_get_term_by_name(strtolower(trim($synonym)), 'chemicals');
