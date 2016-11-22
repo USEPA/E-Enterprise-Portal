@@ -46,9 +46,6 @@
       <div class="cr-structure_container">
         <div class="cr-structure_image">
         </div>
-        <div class="cr-structure_name">
-          <p>C3H6O</p>
-        </div>
       </div><!-- @end .cr-structure_container -->
     </div><!-- @end #cr-laws-regs_structure -->
 

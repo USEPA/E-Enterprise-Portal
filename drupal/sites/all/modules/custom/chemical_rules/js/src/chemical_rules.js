@@ -225,7 +225,7 @@ function populate_substance_modal(chemical_rules_response_json) {
     
     $image.html('');
     if (json.data.substance["2d-structure"] != null && json.data.substance["2d-structure"] != '') {
-      $image.append('<img src="' + json.data.substance["2d-structure"] + '" alt="A structure of ' + json.data.substance.epa_chemical_registry_name + '"><p>Powered by <a href="https://pubchem.ncbi.nlm.nih.gov" rel="external" target="_blank">PubChem</a></p>');
+      $image.append('<img src="' + json.data.substance["2d-structure"] + '" alt="A structure of ' + json.data.substance.epa_chemical_registry_name + '"><div class="cr-structure_name"><p>' + json.data.substance.molecular_formula + '</p></div><p>Powered by <a href="https://pubchem.ncbi.nlm.nih.gov" rel="external" target="_blank">PubChem</a></p>');
     }
     else {
       // No images found
