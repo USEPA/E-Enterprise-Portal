@@ -20,7 +20,7 @@
   </label>
 </div>
 <div id="progress-tracker-modal-content"></div>
-<div id="progress-tracker" class="eportal-datatable-wrapper">
+<div id="progress-tracker" class="eportal-datatable-wrapper view-content">
       <table class="usa-table-borderless">
         <thead>
         <tr>
