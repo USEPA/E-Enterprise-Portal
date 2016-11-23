@@ -8,7 +8,8 @@
     <ul id="chemical-metadata">
       <li id="modal-common-name"><span class="modal-label" id="label-common-name">Common name</span><span id="metadata-common-name" aria-describedby="label-common-name"></span></li>
       <li id="modal-sys-name"><span class="modal-label" id="label-sys-name">Systematic name</span><span id="metadata-sys-name" aria-describedby="label-sys-name"></span></li>
-      <li id="modal-cas-num"><span class="modal-label" id="label-cas-num">CAS #</span><span id="metadata-cas-num" aria-describedby="label-cas-num"></span></li>      
+      <li id="modal-cas-num"><span class="modal-label" id="label-cas-num">CAS #</span><span id="metadata-cas-num" aria-describedby="label-cas-num"></span></li>  
+      <li id="modal-iupac-num"><span class="modal-label" id="label-iupac-num">IUPAC Name</span><span id="metadata-iupac-num" aria-describedby="label-iupac-num"></span></li>      
     </ul>
     <ul class="cr-modal-actions">
       <li><a id="cr-save-favorite" class="save-favorite" href="javascript:void(0)" data-favtype="Chemical">Save to My Chemicals</a></li>
