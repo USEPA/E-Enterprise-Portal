@@ -27,6 +27,13 @@ function rcs_settings($form, $form_state) {
       '#element_validate' => array('element_validate_number'),
     );
 
+    $form['rcs_settings']['rcs_service_timeout'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Time (seconds) before timing out RCS data'),
+      '#default_value' => variable_get('rcs_service_timeout', 30),
+      '#element_validate' => array('element_validate_number'),
+    );
+
     $form['#submit'][] = 'rcs_settings_auth_settings_form_submit';
     return system_settings_form($form);
 }

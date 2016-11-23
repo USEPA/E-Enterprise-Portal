@@ -14,9 +14,6 @@
 
 #local-resources-tabs .interests-url-text {
     word-break: break-all;
-}
-
-#local-resources-tabs .interests-url-text {
     margin-top: 2px;
     font-size: 1.3rem;
 }
@@ -38,7 +35,7 @@
 }
 
 #local-resources-tabs {
-    .ui-widget-content {
+    .ui-widget-content {      
         a.clear-lgc-resources {
             background-color: #0071bc;
             color: #fff;
@@ -61,6 +58,29 @@
                 color: #fff;
             }
         }
+    }
+    .eportal-responsive-table {
+        td.resource-title {
+            a {
+                display: inline;
+            }
+        }
+    }
+}
+
+.grid-stack-item:not(#facility-widget) {
+    .ui-widget-content:not(#local-resources-tabs) {
+        td {
+            a {
+                display: inline;
+            }
+        }
+    }
+}
+
+.ui-dialog {
+    &.about-dialog {
+        overflow-y: hidden;
     }
 }
 
@@ -168,15 +188,22 @@ Truncate    text
     display: none;
 }
 
-/* line 131, ../sass/recommended_resources.scss */
-#local-resources-tabs td.views-field-nothing a {
+/**
+ * Note: #local-resources-tabs as well its children:
+ * #all-local-resources-wrapper
+ * #user-local-resources-wrapper
+ * contain the class 'ui-widget-content'
+ */
+.grid-stack-item #local-resources-tabs .ui-widget-content:not(#local-resources-tabs) td.resource-info a {
     background: url("../images/information.png");
     width: 16px;
     height: 16px;
-    display: inline-block;
+    display: block;
     background-size: 16px 16px;
     background-repeat: no-repeat;
     cursor: pointer;
+    background-position: 50% 50%;
+    padding-left: 50%;
 }
 
 .ui-tabs .ui-tabs-panel.local.resources {

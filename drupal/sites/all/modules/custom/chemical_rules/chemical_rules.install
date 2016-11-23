@@ -1,0 +1,152 @@
+<?php
+
+// Machine name for our custom node
+define('NODE_NAME', 'chemical');
+// Machine name for our custom taxonomy
+define('TAXONOMY_NAME', 'chemicals');
+
+/**
+ * Implementation of hook_enable().
+ */
+function chemical_rules_enable() {
+  if(!taxonomy_vocabulary_machine_name_load(TAXONOMY_NAME)){
+    _create_taxonomy();
+    _create_content_type();
+  }
+
+  _create_chemical_user_profile_field();
+}
+
+/**
+ * Create a profile field and attach the field to the user.
+ */
+function _create_chemical_user_profile_field() {
+  // Check if our field is not already created.
+  if (!field_info_field('field_chem_rules_user_settings')) {
+    $field = array(
+      'field_name' => 'field_chem_rules_user_settings',
+      'type' => 'text_long',
+      'default_value' => '{}',
+    );
+    field_create_field($field);
+
+    // Create the instance on the bundle.
+    $instance = array(
+      'field_name' => 'field_chem_rules_user_settings',
+      'entity_type' => 'user',
+      'label' => 'Chemical Rules User Settings',
+      'bundle' => 'user',
+      // If you don't set the "required" property then the field wont be required by default.
+      'required' => FALSE,
+      'settings' => array(
+        // Here you inform either or not you want this field showing up on the registration form.
+        'user_register_form' => 0,
+      ),
+      'widget' => array(
+        'type' => 'textfield',
+        'weight' => '1',
+      ),
+      'default_value' => '{}',
+    );
+    field_create_instance($instance);
+  }
+}
+
+
+/**
+ * Create a taxonomy and attach a field to it.
+ */
+function _create_taxonomy() {
+  $t = get_t();
+
+  $term = new stdClass();
+  $term->name = $t('Chemicals');
+  $term->machine_name = TAXONOMY_NAME;
+  $term->description = $t('Used to capture the chemicals, their synonyms and CAS numbers for faster lookup');
+  $term->heirarchy = 1;
+  $term->module = 'chemical_rules';
+  $term->weight = 1;
+  taxonomy_vocabulary_save($term);
+  // Create a field
+  $field = array(
+    'field_name' => 'field_tax_synonym',
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'type' => 'taxonomy_term_reference',
+    'label' => $t('Synonym'),
+    'widget' => array(
+      'type' => 'options_select',
+      'weight' => -10,
+    )
+  );
+  field_create_field($field);
+  // Attach the field to our taxonomy entity
+  $instance = array(
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'field_name' => 'field_tax_synonym',
+    'type' => 'taxonomy_term_reference',
+    'entity_type' => 'taxonomy_term',
+    'bundle' => TAXONOMY_NAME,
+    'label' => $t('Synonyms'),
+    'description' => $t('Description field_tax_synonym_instance'),
+    'required' => true,
+    'widget' => array(
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      'type' => 'options_select',
+      'weight' => 3
+    )
+  );
+  field_create_instance($instance);
+
+  // Done
+}
+/**
+ * Create a content type and attach our created taxonomy to it.
+ */
+function _create_content_type() {
+  $t = get_t();
+  $node = array(
+    'type' => NODE_NAME,
+    'name' => $t('Chemical'),
+    'base' => 'node_content',
+    'description' => $t('Used to capture the chemicals, their synonyms and CAS numbers for faster lookup'),
+    'title_label' => $t('Title'),
+    'custom' => TRUE
+  );
+  $content_type = node_type_set_defaults($node);
+  node_add_body_field($content_type, 'JSON');
+  node_type_save($content_type);
+  // Create a taxonomy field and use the taxonomy entity we created earlier
+  $field = array(
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'field_name' => 'field_tax_chemical',
+    'type' => 'taxonomy_term_reference',
+    'module' => 'chemical_rules',
+    'label' => $t('Chemical Tax (Field)'),
+    'settings' => array(
+      'allowed_values' => array(
+        array(
+          'vocabulary' => TAXONOMY_NAME,
+          'parent' => 0
+        )
+      )
+    )
+  );
+  field_create_field($field);
+  // Add the field to the content type as a HTML select box.
+  $instance = array(
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'field_name' => 'field_tax_chemical',
+    'entity_type' => 'node',
+    'bundle' => NODE_NAME,
+    'label' => $t('Chemical Tax (Instance)'),
+    'description' => '',
+    'required' => TRUE,
+    'widget' => array(
+      'type' => 'options_select',
+      'weight' => -10,
+    )
+  );
+  field_create_instance($instance);
+
+  // Done
+}

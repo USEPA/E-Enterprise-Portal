@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Implements hook_menu().
  */
@@ -10,9 +9,12 @@ function chemical_rules_menu() {
     'page callback' => 'chemical_rules_form_submission',
     'access callback' => TRUE,
   );
+  $items['chemical_rules/update_chem_profile'] = array(
+    'page callback' => 'update_chem_profile',
+    'access callback' => TRUE,
+  );
   return $items;
 }
-
 
 /**
  * Implements hook_block_info().
@@ -20,7 +22,7 @@ function chemical_rules_menu() {
 function chemical_rules_block_info() {
   $blocks = array();
   $blocks['chemical_rules'] = array(
-    'info' => t('Block Chemical Rules and Regulations'),
+    'info' => t('Block Chemical Laws and Regulations'),
   );
   return $blocks;
 }
@@ -30,6 +32,7 @@ function chemical_rules_block_info() {
  * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
  */
 function chemical_rules_theme() {
+
   return array(
     // Name to be called with theme(). theme('chemical_rules')
     'chemical_rules' => array(
@@ -45,7 +48,7 @@ function chemical_rules_theme() {
       // Which .tpl.php file to use chemical-rules-modal.tpl.php
       'template' => 'chemical-rules-modal',
       'path' => drupal_get_path('module', 'chemical_rules') . '/templates'
-    ),
+    )
   );
 }
 
@@ -89,21 +92,28 @@ function chemical_rules_block_view($delta = '') {
         'preprocess'=>true, 
         'group'=>CSS_DEFAULT
       ]);
-      drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/toc.min.js', [
-        'scope' => 'footer',
-        'preprocess' => TRUE,
-        'group' => JS_DEFAULT,
-        'type' => 'file',
-        'cache' => TRUE,
-        'requires_jquery' => TRUE
-      ]);      
       drupal_add_css(drupal_get_path('module', 'chemical_rules') . '/css/chemical_rules.css', [
         'preprocess' => TRUE,
         'group' => CSS_THEME
       ]);
       // Set Form Modal Template
+      global $user;
+      $user_data = user_load($user->uid);
+      if(isset($user_data->field_chem_rules_user_settings['und'][0])){
+        $user_chem_rules_user_settings = json_decode($user_data->field_chem_rules_user_settings['und'][0]['value']);
+      }
+
       $chemical_modal = theme('chemical_rules_modal');
-      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal]), 'setting');
+      // Pull content from chemical_rules-learnmore node to populate Learn how it works modal
+      $path = "chemical_rules-learnmore";
+      $org_path = drupal_lookup_path("source", $path);
+      $node = menu_get_object("node", 1, $org_path);
+      $nid = $node->nid;
+      $node = node_load($nid);
+      $nodeView = node_view($node, 'full');
+      $chemical_rules_learnmore = drupal_render($nodeView['body']);
+
+      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore"=>$chemical_rules_learnmore]), 'setting');
 
       $block['subject'] = t('Chemical Laws &amp; Regulations');
       $block['content'] = theme('chemical_rules');
@@ -117,6 +127,7 @@ function chemical_rules_block_view($delta = '') {
  * Take users POST input and handoff to sample data or SRS / LRS / LOD service
  */
 function chemical_rules_form_submission() {
+
   if (!isset($_POST) || count($_POST) === 0) {
     drupal_json_output(array(
       'error' => TRUE,
@@ -125,50 +136,576 @@ function chemical_rules_form_submission() {
     return;
   }
 
-  $response = array();
+  $response = [
+    'error' => false,
+    'error-messages' => [],
+    'data'=> null,
+  ];
   module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-  if (true || feature_toggle_get_status('chemical_rules_sample_data')) {
+  if (feature_toggle_get_status('chemical_rules_sample_data')) {
     $response['data'] = sample_chemical_rules_response();
-    $response['error'] = FALSE;
   }
   else {
-    // Still waiting for endpoint for our data needs
-    /*$endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|Acetone";
-    $headers = array('Content-Type' => 'application/json');
-    $response = drupal_http_request($endpoint, [
-      "headers" => $headers,
-      "method" => "POST",
-      'timeout' => "10",
-      'data' => json_encode($_POST)
-    ]);
-    if ($response->code !== "200") {
-      $response['error'] = TRUE;
+    $cached_response = get_chemical_response_cache($_POST['cr-search_input']);
+    if($cached_response && time() < strtotime("+1 month", $cached_response['cached']['changed']) && !feature_toggle_get_status('chemical_rules_no_cache_data')) {
+      $response = $cached_response;
     }
     else {
-      $formatted_data = chemical_rules_process_response($response->data);
-      $response['data'] = $formatted_data;
-      $response['error'] = FALSE;
-    }*/
-  }
+      chemical_rules_process_srs_response($response);
+      //chemical_rules_process_lrs_response($response);
+      chemical_rules_process_elastic_response($response);
+      //_process_substance_list_response($response, sample_chemical_rules_lrs_response());
+      chemical_rules_process_lod_response($response);
 
+      // post composition cleanup
+      $response['data']['substance'] = snakecase_mapping($response['data']['substance']);
+      ksort($response['data']['substance']);
+
+      save_chemical_response($response);
+    }
+  }
   drupal_json_output($response);
 }
 
 function sample_chemical_rules_response() {
-  $path = drupal_get_path('module', 'chemical_rules') . '/sample-data.json';
+  $path = drupal_get_path('module', 'chemical_rules') . '/srs-sample.json';
   $sample = file_get_contents($path);
-  return json_decode($sample);
+  return json_decode($sample, true);
 }
 
+function sample_chemical_rules_lrs_response() {
+  $path = drupal_get_path('module', 'chemical_rules') . '/substanceList.json';
+  $sample = file_get_contents($path);
+  return json_decode($sample, true);
+}
 
-function chemical_rules_process_response($response, $init = []) {
+function sample_chemical_rules_elastic_response() {
+  $path = drupal_get_path('module', 'chemical_rules') . '/elastic-search-sample.json';
+  $sample = file_get_contents($path);
+  return json_decode($sample, true);
+}
 
+function sample_chemical_rules_lod_response() {
+  $path = drupal_get_path('module', 'chemical_rules') . '/lod-sample.json';
+  $sample = file_get_contents($path);
+  return json_decode($sample, true);
+}
+
+function chemical_rules_process_srs_response(&$return) {
+  // Decide what kind of search we are doing: cas# || chem name
+
+  if(is_valid_cas_number($_POST['cr-search_input'])) {
+    $endpoint = "https://ends2.epacdxnode.net/RestProxy/query?Node=NGNTest2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|";
+  }
+  else {
+    $endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
+  }
+  $endpoint = $endpoint . urlencode($_POST['cr-search_input']);
+  $response = drupal_http_request($endpoint, [
+    "method" => "GET",
+    'timeout' => "10"
+  ]);
+  if ($response->code !== "200") {
+    $return['error'] = TRUE;
+    $return['error-messages'][] = ['code'=>$response->code, 'error'=>'SRS endpoint response: '.$response->error];
+  }
+  else {
+    // Get the substance information and add it to the return data
+    $response_array = strip_prefix_from_array(xmlstr_to_array($response->data), 'SRS:');
+
+    if(isset($response_array['RowCount']) && $response_array['RowCount'] > 0)
+    {
+      // Additional logic to support CAS numbers
+      $base = $response_array['Results']['SubstanceInformation']['ChemicalSubstance'];
+      // The service for CAS look up returns multiple 'ChemicalSubstance',
+      if(!isset($base['ChemicalSubstanceIdentification'])) {
+        // The one without the 'IncorrectlyUsedCASRegistryNumberList' is the actual information needed
+        for($i = count($base) - 1; $i >= 0; $i--) {
+          if(count($base[$i]['ChemicalSubstanceIdentification']['IncorrectlyUsedCASRegistryNumberList']) == 0) {
+            $base = $base[$i];
+            break;
+          }
+        }
+      }
+
+      $chemSubstance = $base['ChemicalSubstanceIdentification'];
+      if (empty($return['data']['substance'])) {
+        $return['data']['substance'] = [];
+      }
+      foreach ($chemSubstance as $name => $value) {
+        $value = ($value) ? $value : null;
+        $return['data']['substance'][$name] = $value;
+      }
+
+      // build both the "Synonym" list and the "SubstanceList"
+      $SubstanceSynonyms = $base['ChemicalSubstanceSynonymList']['ChemicalSubstanceSynonym'];
+
+      // Initialize them if they are not ready
+      if (empty($return['data']['substance']['synonyms'])) {
+        $return['data']['substance']['synonyms'] = [];
+      }
+      if (empty($return['data']['substance_list'])) {
+        $return['data']['substance_list'] = [];
+      }
+
+      // Sort out the information we need for the various lists
+      foreach ($SubstanceSynonyms as $index => $ss) {
+        $value = ($value) ? $value : null;
+        if(!in_array(strtolower($ss['ChemicalSubstanceSynonymName']), $return['data']['substance']['synonyms']))
+          $return['data']['substance']['synonyms'][] = strtolower($ss['ChemicalSubstanceSynonymName']);
+
+        if(!array_key_exists($ss['ChemicalSynonymSourceName'], $return['data']['substance_list']))
+          $return['data']['substance_list'][$ss['ChemicalSynonymSourceName']] = $ss['ChemicalSynonymSourceName'];
+      }
+      sort($return['data']['substance']['synonyms']);
+      $return['data']['substance'] = snakecase_mapping($return['data']['substance']);
+      ksort($return['data']['substance_list']);
+    }
+    else {
+      $return['error'] = TRUE;
+      $return['error-messages'][] = ['code'=>404, 'error'=>'SRS endpoint response: No substance was found by the name "'.$_POST['cr-search_input'].'"'];
+    }
+  }
+}
+
+function chemical_rules_process_lrs_response(&$return) {
+  // make a call to the LRS service
+  $lrs_endpoint = 'http://rockslide:9010/lrswebservices/v1/SubstanceList';
+
+  // Setup the http request and check its response
+  $lrs_response = drupal_http_request($lrs_endpoint, [
+    "method" => "GET",
+    'timeout' => "10"
+  ]);
+  if ($lrs_response->code !== "200") {
+    //$return['error'] = TRUE;
+    $return['error-messages'][] = 'LRS endpoint response: '.$lrs_response->error;
+    $substance_list_response = sample_chemical_rules_lrs_response();
+  }
+  else {
+    $substance_list_response = json_decode($lrs_response->data);
+  }
+
+  // Process the information we get back; Get the substance lists and organize
+  // in $return
+  _process_substance_list_response($return, $substance_list_response);
+}
+
+function chemical_rules_process_elastic_response(&$return) {
+
+  if(isset($return['data']['substance_list']) && count($return['data']['substance_list']) > 0 ) {
+    // make a call to the elastic search service
+    $elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search';
+
+    // build the query to specifically use
+    $query_json = '{"query" : { "bool": { "should": [';
+    foreach ($return['data']['substance_list'] as $substance) {
+      $query_json .= '{"match_phrase": {"substanceListName": "'. $substance . '" }},';
+    }
+    $query_json = substr(trim($query_json), 0, -1) . ']}}}';
+    $query = $query_json;
+
+    // Setup the http request and check its response
+    $headers = array('Content-Type' => 'application/json');
+    $elastic_response = drupal_http_request($elastic_endpoint, [
+      "headers" => $headers,
+      "method" => "POST",
+      'timeout' => "10",
+      'data' =>  $query
+    ]);
+    try {
+      if ($elastic_response->code !== "200") {
+        //$return['error'] = TRUE;
+        $return['error-messages'][] = ['Elastic endpoint response: '.$elastic_response->error, 'Using cached Elastic Search response'];
+        $substance_list_response = snakecase_mapping(sample_chemical_rules_elastic_response());
+      }
+      else {
+        $substance_list_response = snakecase_mapping(json_decode($elastic_response->data, true));
+      }
+    } catch (Exception $e) {
+      //$return['error'] = TRUE;
+      $return['error-messages'][] = ['Elastic endpoint error', $e, $elastic_response];
+      $substance_list_response = snakecase_mapping(sample_chemical_rules_elastic_response());
+    }
+
+
+    // Process the information we get back; Get the substance lists and organize
+    // in $return
+    _process_substance_list_response($return, $substance_list_response['hits']['hits']);
+  }
+}
+
+function chemical_rules_process_lod_response(&$return) {
+  if(isset($return['data']['substance'])) {
+    // make a call to the LOD service
+    $substanceConcept = 'https://opendata.epa.gov/data/substance/'. $return['data']['substance']['substance_identifier'];
+    $endpoint = $substanceConcept .'.json';
+
+    //$headers = array('Content-Type' => 'application/json');
+    $response = drupal_http_request($endpoint, [
+      //"headers" => $headers,
+      "method" => "GET",
+      'timeout' => "10"
+    ]);
+    if ($response->code !== "200") {
+      $return['error-messages'][] = 'LOD endpoint response: '.$response->error;
+      $substanceConcept .= 49021;
+      $response = sample_chemical_rules_lod_response();
+    }
+    else {
+      $response = json_decode($response->data, true);
+    }
+
+    // Need to restructure the data to be a little more usable
+    $lod = [];
+    foreach ($response as $source){
+      $lod[$source['@id']] = split_key_at_hash($source);
+    }
+    // Build the synonyms based on the LOD service
+    $return['data']['substance']['synonyms'] = [];
+    foreach ($lod as $source){
+      if($source['@type'] == 'http://www.w3.org/2008/05/skos-xl#Label' && !in_array(strtolower($source['literalForm']), $return['data']['substance']['synonyms'])) {
+        $return['data']['substance']['synonyms'][] = strtolower($source['literalForm']);
+      }
+    }
+    sort($return['data']['substance']['synonyms']);
+
+    $merged = array_merge($return['data']['substance'], $lod[$substanceConcept]);
+    $return['data']['substance'] = ($merged) ? $merged : $return['data']['substance'];
+
+  }
+}
+
+function _process_substance_list_response(&$return, $lists) {
+  $substance_list = [];
+  foreach ($lists as $list){
+    if(isset($list['_source'])) {
+      $list = $list['_source'];
+    }
+    if(in_array($list['substance_list_name'], $return['data']['substance_list'])){
+      $cfrs = [];
+      foreach ($list['cfrs'] as $cfr_id => $cfr) {
+        if(!isset($return['data']['laws_regs'][$cfr_id])) {
+          $cfr['substance_list'] = [];
+          $return['data']['laws_regs'][$cfr_id] = snakecase_mapping($cfr);
+        }
+        if(!in_array($list['substance_list_name'], $return['data']['laws_regs'][$cfr_id]['substance_list'])){
+          $return['data']['laws_regs'][$cfr_id]['substance_list'][] = $list['substance_list_name'];
+        }
+        $cfrs[] = $cfr_id;
+      }
+      $list['cfrs']= $cfrs;
+      $substance_list[$list['substance_list_name']] = snakecase_mapping($list);
+    }
+  }
+  ksort($substance_list);
+  usort($return['data']['laws_regs'], 'compare_cfrs_by_name');
+  foreach ($return['data']['laws_regs'] as $index => $cfr) {
+    $return['data']['laws_regs_index'][$cfr['cfr_id']] = $index;
+  }
+  $return['data']['substance_list'] = $substance_list;
+}
+
+function update_chem_profile() {
+
+  $response = [
+    'error' => false,
+    'error-messages' => [],
+    'data'=> null,
+  ];
+
+  if(isset($_POST['profile'])) {
+
+    global $user;
+    $existing = user_load($user->uid);
+    $response['data'] = [ 'profile' => $_POST['profile']];
+
+    $edit = [];
+    if(!is_string($_POST['profile'])) {
+      $_POST['profile'] = json_encode($_POST['profile']);
+    }
+    $edit['field_chem_rules_user_settings']['und'][0]['value'] = $_POST['profile'];
+
+    // save existing user
+
+    if(!user_save($existing, $edit)) {
+      $response['error'] = true;
+      $response['error-messages'][] = 'There was a problem while trying to save';
+    }
+  }
+  else {
+    $response['error'] = true;
+    $response['error-messages'][] = 'Missing profile value in the post data';
+  }
+  echo json_encode($response);
+}
+
+function is_valid_cas_number($stringToCheck, $returnCasNumber = false) {
+  $cas = '/(\d{2,7}).{0,2}(\d{2}).{0,2}(\d)+/';
+  $casGroup = [];
+  if(preg_match_all($cas, $stringToCheck, $casGroup)){
+    $casBase = str_split($casGroup[1][0] . $casGroup[2][0]);
+    $length = count($casBase);
+    $sumCheck = 0;
+    for($i = $length - 1; $i >= 0; $i--){
+      $sumCheck += $casBase[$i] * ($length - $i);
+    }
+    if($returnCasNumber && ($casGroup[3][0] == ($sumCheck % 10))) {
+      return $casGroup[1][0] .'-' . $casGroup[2][0] .'-' . $casGroup[3][0];
+    }
+    else {
+      return ($casGroup[3][0] == ($sumCheck % 10));
+    }
+  }
+  return false;
+}
+
+function compare_cfrs_by_name($a, $b){
+  $al = strtolower($a['attributes']->{'citation'}.' '.$a['cfr_name']);
+  $bl = strtolower($b['attributes']->{'citation'}.' '.$b['cfr_name']);
+  if ($al == $bl) {
+    return 0;
+  }
+  return ($al > $bl) ? +1 : -1;
+}
+
+function strip_prefix_from_array($array, $prefix){
+  $stripped = [];
+
+  foreach ($array as $key => $item)
+  {
+    $stripped[str_ireplace($prefix, '', $key)] = (gettype($item) == 'array')? strip_prefix_from_array($item, $prefix) : $item;
+  }
+  return $stripped;
+}
+
+function split_key_at_hash($array){
+  $stripped = [];
+
+  // TODO: Refine the output
+  foreach ($array as $key => $item) {
+    $item_parts = explode('#', $key);
+    if(is_array($item)) {
+      foreach ($item as $index => $value) {
+        // If the value is  not an array assign it directly
+        if(!is_array($value)) {
+          //if(!in_array(end($item_parts), ['@type']))
+          $stripped[end($item_parts)] = $value;
+        }
+        // if the item has a single value
+        else if(count($item) == 1) {
+          // checking the $value if is not an array, directly relate it
+          if(!is_array($value)) {
+            $stripped[end($item_parts)] = $value;
+            if(in_array('http://www.w3.org/2001/XMLSchema', explode('#', $value)) == false) {
+              $stripped[end($item_parts)] = $value;
+            }
+          }
+          else if(count($value) == 1) {
+            $stripped[end($item_parts)] = end($value);
+          }
+          else if(count($value) > 1) {
+            foreach ($value as $v) {
+              if(in_array('http://www.w3.org/2001/XMLSchema', explode('#', $v)) == false) {
+                $stripped[end($item_parts)][] = $v;
+              }
+            }
+          }
+        }
+        else if(count($item) > 1) {
+          foreach ($value as $v) {
+            if (!is_array($v)) {
+              if (in_array('http://www.w3.org/2001/XMLSchema', explode('#', $v)) == FALSE) {
+                $stripped[end($item_parts)][] = $v;
+              }
+            }
+            else {
+              if (count($v) == 1) {
+                $stripped[end($item_parts)][] = end($v);
+              }
+              else {
+                if (count($v) > 1) {
+                  $temp = [];
+                  foreach ($v as $i => $p) {
+                    if (in_array('http://www.w3.org/2001/XMLSchema', explode('#', $p)) == FALSE) {
+                      $temp[] = $p;
+                    }
+                  }
+                  $stripped[end($item_parts)][] = $temp;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return $stripped;
+}
+
+function xmlstr_to_array($xmlstr) {
+  $doc = new DOMDocument();
+  $doc->loadXML($xmlstr);
+  $root = $doc->documentElement;
+  $output = domnode_to_array($root);
+  $output['@root'] = $root->tagName;
+  return $output;
+}
+
+function domnode_to_array($node) {
+  $output = array();
+  switch ($node->nodeType) {
+    case XML_CDATA_SECTION_NODE:
+    case XML_TEXT_NODE:
+      $output = trim($node->textContent);
+      break;
+    case XML_ELEMENT_NODE:
+      for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
+        $child = $node->childNodes->item($i);
+        $v = domnode_to_array($child);
+        if(isset($child->tagName)) {
+          $t = $child->tagName;
+          if(!isset($output[$t])) {
+            $output[$t] = array();
+          }
+          $output[$t][] = $v;
+        }
+        elseif($v || $v === '0') {
+          $output = (string) $v;
+        }
+      }
+      if($node->attributes->length && !is_array($output)) { //Has attributes but isn't an array
+        $output = array('@content'=>$output); //Change output into an array.
+      }
+      if(is_array($output)) {
+        if($node->attributes->length) {
+          $a = array();
+          foreach($node->attributes as $attrName => $attrNode) {
+            $a[$attrName] = (string) $attrNode->value;
+          }
+          $output['@attributes'] = $a;
+        }
+        foreach ($output as $t => $v) {
+          if(is_array($v) && count($v)==1 && $t!='@attributes') {
+            $output[$t] = $v[0];
+          }
+        }
+      }
+      break;
+  }
+  return $output;
+}
+
+function get_chemical_response_cache($search_term){
+  $cache = null;
+  $is_cas = is_valid_cas_number($search_term, true);
+
+  // in the case there it is a case number, we need to look for the right format
+  if($is_cas) {
+    $search_term = $is_cas;
+  }
+  $terms = taxonomy_get_term_by_name(strtolower(trim($search_term)), 'chemicals');
+  // ideally $terms should be array with a single item
+  if($terms){
+    $node_ids = [];
+    foreach ($terms as $term) {
+      $node_ids = array_merge($node_ids, taxonomy_select_nodes($term->tid));
+    }
+    if(count($node_ids) == 1) {
+      $node = node_load($node_ids[0]);
+      $cache = json_decode($node->body[LANGUAGE_NONE][0]['value'], true);
+      $cache['cached'] = ['changed'=>$node->changed, 'date'=>date("d F Y H:i:s",$node->changed)];
+      return $cache;
+    }
+  }
+  return $cache;
 }
 
 /**
- * Implements template_preprocess_hook for chemical-rules-modal.tpl.php.
+ * Checks if chemical information exists in drupal; It loads it if it exists and
+ * not too stale, else it looks it up and saves it.
+ * @param $chemical_response array - is the parsed information ready to be saved as JSON
  */
-function template_preprocess_chemical_rules_modal(&$variables, $hook) {
+function save_chemical_response($chemical_response) {
 
+  if($chemical_response['error'] == false && !!$chemical_response['error-messages']) {
+    //Check if the node exists
+    $title = $chemical_response['data']['substance']['epa_chemical_registry_name'];
+    $terms = taxonomy_get_term_by_name(strtolower(trim($title)), 'chemicals');
+    // ideally $terms should be array with a single item
+    if($terms){
+      $node_ids = [];
+      foreach ($terms as $term) {
+        $node_ids = array_merge($node_ids, taxonomy_select_nodes($term->tid));
+      }
+      if(count($node_ids) == 1) {
+        $node = node_load($node_ids[0]);
+      }
+    }
+    if(!isset($node)) {
+      $node =  new stdClass();
+      $node->title = $title;
+      $node->type = "chemical";
+      node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
+      $node->language = LANGUAGE_NONE; // Or e.g. 'en' if locale is enabled
+      $node->uid = 1;
+      $node->status = 1; //(1 or 0): published or not
+      $node->promote = 0; //(1 or 0): promoted to front page
+      $node->comment = 0; // 0 = comments disabled, 1 = read only, 2 = read/write
+    }
+    else {
+      // clear previous ones and update with new ones
+      $node->field_tax_chemical[$node->language] = [];
+    }
 
+    // give it the context
+    $node->body[LANGUAGE_NONE][0]['value'] = json_encode($chemical_response);
+
+    $chemical_vocab = taxonomy_vocabulary_machine_name_load('chemicals');
+
+    // lets handle the other terms/synonyms
+    $terms = $chemical_response['data']['substance']['synonyms'];
+    // Add anything we want to do searches against i.e. CAS #
+    $terms[] = $chemical_response['data']['substance']['cas_registry_number'];
+
+    foreach ($terms as $synonym) {
+      $term = taxonomy_get_term_by_name(strtolower(trim($synonym)), 'chemicals');
+      if(!$term){
+        $term = new stdClass();
+        $term->name = strtolower(trim($synonym));
+        $term->vid = $chemical_vocab->vid;
+        taxonomy_term_save($term); // Finally, save our term
+      }
+      else {
+        $term = array_pop($term);
+      }
+      $node->field_tax_chemical[$node->language][]['tid'] = $term->tid;
+    }
+
+    $node = node_submit($node); // Prepare node for saving
+    node_save($node);
+  }
+}
+
+function to_snakecase($string) {
+  $exception = ['CAS', 'EPA', 'CFR', 'USC', 'URL', 'FR', 'MeSH', 'IUPAC', 'TPSA'];
+  foreach ($exception as $e){
+    $string = str_ireplace($e, strtolower($e), $string);
+  }
+  $string = str_ireplace(' ', '', $string);
+  $string = preg_replace('/(?<=\\w)(?=[A-Z])/',"_$1", $string);
+  return strtolower($string);
+}
+
+function snakecase_mapping($var) {
+  $temp = [];
+  foreach ($var as $k => $v) {
+    if(is_array($v)) {
+      $temp[to_snakecase($k)] = snakecase_mapping($v);
+    }
+    else {
+      $temp[to_snakecase($k)] = $v;
+    }
+  }
+  return $temp;
 }

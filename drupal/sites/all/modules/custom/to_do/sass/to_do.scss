@@ -1,0 +1,18 @@
+#to-do-yadcf-filter-subpart-code,
+#to-do-yadcf-filter-report-type{
+    display:none;
+}
+
+#to-do {
+    .eportal-responsive-table {
+        tbody,
+        td {
+            a {
+                display: block;
+            }
+            br {
+                display: none; // Remove extra unneeded spacing before Details link
+            }
+        }
+    }
+}

@@ -114,11 +114,14 @@ var LocalResourcesTable;
         $('td:nth-child(4)', nRow.nTable).addClass("resource-topic").attr('data-title', 'Topic');
         $('td:nth-child(5)', nRow.nTable).addClass("resource-category").attr('data-title', 'Category');
       },
-      // hide the following columns, they are only used for faceted filtering
       "columnDefs": [
-        {
+        { // hide the following columns, they are only used for faceted filtering
           "targets": [5, 6, 7, 8],
           "visible": false
+        },
+        { // remove sorting for "Info" column
+          "targets": [1],
+          "orderable": false
         }
       ]
     };
@@ -170,7 +173,10 @@ var LocalResourcesTable;
           $table = $table_wrapper.find('table');
           if ($table.length > 0) {
             var tableDT = $table.DataTable(datatable_options);
-            $table.removeClass("dataTable display no-footer").addClass('views-table responsive-table usa-table-borderless');
+            tableDT.columns().iterator('column', function (ctx, idx) {
+              $(tableDT.column(idx).header()).append('<span class="sort-icon" />');
+            });
+            $table.removeClass("dataTable display no-footer").addClass('views-table eportal-responsive-table usa-table-borderless');
 
             // in embedded_lgc_topics_view.js
             updateDropdown($('#user-lgc-topics-small-view'));
@@ -282,6 +288,10 @@ var LocalResourcesTable;
               }
               facet_topic_counts[facet_topic]++;
             });
+
+            // remove previously created facets
+            // @see https://alm.cgifederal.com/projects/browse/EE-1361
+            $your_selections.find('.facet-topic-container').remove();
 
             /*Iterate through Source facet, search for the number of occurrences of that facet in the data table and show
              *count next to each facet. TODO: put this in a function after the MVP is accepted.*/

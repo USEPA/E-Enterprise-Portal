@@ -124,6 +124,6 @@ else:
 </div>
 
 <div ID="facility-widget-orgs-table"></div>
-<table id="facility-management-initial-data" class="responsive-table">
+<table id="facility-management-initial-data" class="eportal-responsive-table">
 </table>
 

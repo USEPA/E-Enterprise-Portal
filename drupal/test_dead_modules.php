@@ -32,7 +32,7 @@ function nobueno() {
   $timedif =  round(microtime(true) - $startingtime,3);
   $o .= "Total of $n active modules registered in database. $m dead entries found. <br/>";
   $o .= 'Query Time: '.$timedif.' seconds <br />';
-  
+
   return $o;
 }
 

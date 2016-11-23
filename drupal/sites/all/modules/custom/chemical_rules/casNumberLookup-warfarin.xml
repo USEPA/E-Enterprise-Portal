@@ -1,0 +1,46 @@
+<RestClientRequest>
+  <option name="biscuits">
+    <list>
+      <Biscuit>
+        <option name="date" value="1477338903000" />
+        <option name="domain" value="eenterprise" />
+        <option name="name" value="XDEBUG_SESSION" />
+        <option name="path" value="/" />
+        <option name="value" value="15364" />
+      </Biscuit>
+    </list>
+  </option>
+  <option name="httpMethod" value="POST" />
+  <option name="urlBase" value="http://eenterprise" />
+  <option name="urlPath" value="chemical_rules/form_submission" />
+  <option name="headers">
+    <list>
+      <KeyValuePair>
+        <option name="key" value="Accept" />
+        <option name="value" value="*/*" />
+      </KeyValuePair>
+      <KeyValuePair>
+        <option name="key" value="Cache-Control" />
+        <option name="value" value="no-cache" />
+      </KeyValuePair>
+      <KeyValuePair>
+        <option name="key" value="Content-Type" />
+        <option name="value" value="application/x-www-form-urlencoded; charset=UTF-8" />
+      </KeyValuePair>
+    </list>
+  </option>
+  <option name="parameters">
+    <list>
+      <KeyValuePair>
+        <option name="key" value="XDEBUG_SESSION_START" />
+        <option name="value" value="15364" />
+      </KeyValuePair>
+    </list>
+  </option>
+  <option name="parametersEnabled" value="true" />
+  <option name="haveTextToSend" value="true" />
+  <option name="haveFileToSend" value="false" />
+  <option name="isFileUpload" value="false" />
+  <option name="textToSend" value="cr-search_input=81-81-2" />
+  <option name="filesToSend" value="" />
+</RestClientRequest>

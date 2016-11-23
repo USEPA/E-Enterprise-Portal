@@ -241,7 +241,6 @@ function mitigate_username_alteration($altered_username, $username) {
   if (variable_get('cdx_usernames_mitigation') == 'Run Mitigation Code') {
     db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username));
     db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username));
-
     db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username . '@cdx'));
     db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username . '@cdx'));
     db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username . '@twitter.com'));
@@ -457,11 +456,6 @@ function _update_progress_tracker_to_do_item($query_res, $res) {
   return false;
 }
 
-
-function parse_cdx_handoff_data($cdx_deep_link_handoff) {
-  // + 1 to start immediately after data=, and + count("data=") because strpos returns start of string position
-  return substr($cdx_deep_link_handoff, strpos($cdx_deep_link_handoff, "data=") + strlen("data="));
-}
 
 function create_progress_tracker_node($res, $user) {
   $query_res = db_query("select entity_id, revision_id from {field_data_field_eactivity_id} where bundle in (:node_type) and field_eactivity_id_value = :eactivityid", array(':node_type' => array('progress_tracker', 'to_do_list'), ':eactivityid' => $res['EActivityId']))->fetchAssoc();
@@ -732,32 +726,17 @@ function assign_roles_to_user($user_name) {
     return;
   }
   $user_roles = $user_roles->response;
-  if (is_array($user_roles->Role)) {
-    foreach ($user_roles->Role as $k => $v) {
-      $role_val = $v->type->description;
-      //Make sure a role that is assigned to a CDX role is not a Drupal admin role, the second case.
-      if (!empty($role_val) && $role_val != variable_get('current_admin_role')) {
-        $user_role = user_role_load_by_name($role_val);
-        if ($user_role === FALSE) {
-          $user_role = new stdClass();
-          $user_role->name = $role_val;
-          user_role_save($user_role);
-        }
-        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-        allow_user_menu_access($user_role->rid);
-        //Allow favorites view and app connect view access to all CDX users.
-        view_allow_access_role('favorite_sites', $user_role->rid);
-        view_allow_access_role('app_connect_new', $user_role->rid);
-        if ($role_val != 'Public') {
-          view_allow_access_role('cdx_facility_management', $user_role->rid);
-          view_allow_access_role('progress_tracker', $user_role->rid);
-          view_allow_access_role('to_do', $user_role->rid);
-        }
-      }
+  $eactivity_role = FALSE;
+  if (!is_array($user_roles->Role)) {
+    $user_roles->Role = array($user_roles->Role);
+  }
+  foreach ($user_roles->Role as $k => $v) {
+    $role_val = $v->type->description;
+    if ($role_val !== "Public") {
+      $eactivity_role = TRUE;
     }
-  } else {
-    $role_val = $user_roles->Role->type->description;
-    if (!empty($role_val)) {
+    //Make sure a role that is assigned to a CDX role is not a Drupal admin role, the second case.
+    if (!empty($role_val) && $role_val != variable_get('current_admin_role')) {
       $user_role = user_role_load_by_name($role_val);
       if ($user_role === FALSE) {
         $user_role = new stdClass();
@@ -766,14 +745,16 @@ function assign_roles_to_user($user_name) {
       }
       user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
       allow_user_menu_access($user_role->rid);
-      //Allow favorites view access to all CDX users.
+      //Allow favorites view and app connect view access to all CDX users.
       view_allow_access_role('favorite_sites', $user_role->rid);
       view_allow_access_role('app_connect_new', $user_role->rid);
-      if ($role_val != 'Public') {
-        view_allow_access_role('cdx_facility_management', $user_role->rid);
-        view_allow_access_role('progress_tracker', $user_role->rid);
-        view_allow_access_role('to_do', $user_role->rid);
-      }
+    }
+  }
+  if ($eactivity_role) {
+    // Allow access to cdx facility manager, progress tracker, and to do
+    if ($user_eactivity_role = user_role_load_by_name("eactivity-dataflows")) {
+      // Give user eactivity role
+      user_multiple_role_edit(array($user->uid),"add_role", $user_eactivity_role->rid);
     }
   }
 }
