@@ -100,7 +100,7 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", ['preprocess'=
         <div id="profile-favorites">
             <h3>Favorite Links</h3>
             <p class="eenterprise-utility-form-item-description-p field-title-below">
-                Add and manage your favorite links.</p>
+                Add and manage your favorite links.  All unsaved favorite links will be lost upon navigating away from the Profile page.</p>                
 
             <div id='links_description' class='form-group'>
                 <?php
@@ -126,7 +126,6 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", ['preprocess'=
             <?php 
               }
             ?>
-            <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
 
         </div>
     </div>

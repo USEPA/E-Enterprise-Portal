@@ -282,7 +282,7 @@ function render_favorite_chemicals(favs) {
   var $ = jQuery;
   var $body = $('body');
   var num_chem_faves = (favs.Chemicals) ? favs.Chemicals.length: 0;
-
+    
   if (num_chem_faves) {
     var favorite_chemicals = [];
     $body.find('#cr-count-chemicals').text(num_chem_faves);
@@ -303,13 +303,18 @@ function render_favorite_chemicals(favs) {
       favorite_chemicals.push('<li><a class="favorite-chemical cr-favorite" href="javascript:void(0);" data-favtype="Chemical" data-sysname="' + val.SysName + '" data-epaintnum="' + val.ID + '" ' + link_casnum + 'data-commonname="' + val.CommonName + '">' + cas + val.SysName + include_commonname +'</a><a class="favorite-chemical-remove remove-link" data-favtype="Chemical" data-epaintnum="' + val.ID + '" data-commonname="' + val.CommonName + '">Remove<span class="sr-only"> ' + val.SysName + ' from favorites</span></a></li>');
     });
     if ($body.find('#favorite-chemicals').length > 0) {
-      $body.find('#favorite-chemicals').show();
+      if (num_chem_faves === 0) {
+        $body.find('#favorite-chemicals').hide();
+      }
+      else {
+        $body.find('#favorite-chemicals').show();
+      }
     }
     $body.find('.cr-chemicals').show();
     $body.find('.cr-favorite-chemicals').html(favorite_chemicals).show();
   }
-
   else {
+    // If the favorite-chemicals div exists, and no faves exist, hide it
     if ($body.find('#favorite-chemicals').length > 0) {
       $body.find('#favorite-chemicals').hide();
     }
@@ -354,14 +359,19 @@ function render_favorite_laws(favs) {
       favorite_laws.push('<li><a class="favorite-law cr-favorite" href="' + val.URL + '" data-favtype="Law" data-epaintnum="' + val.ID + '" target="_blank">' + val.Citation + ':  ' + val.Title + '</a><a class="favorite-law-remove remove-link" data-favtype="Law" data-epaintnum="' + val.ID + '">Remove<span class="sr-only"> ' + val.Title + ' from favorites</span></a></li>');
     });
     if ($body.find('#favorite-laws').length > 0) {
-      $body.find('#favorite-laws').show();
+      if (num_rules_faves === 0) {
+        $body.find('#favorite-laws').hide();
+      }
+      else {
+        $body.find('#favorite-laws').show();
+      }
     }
     $body.find('.cr-laws').show();
     $body.find('.cr-favorite-laws').html(favorite_laws).show();
   }
   else {
     if ($body.find('#favorite-laws').length > 0) {
-      $body.find('#favorite-laws').show();
+      $body.find('#favorite-laws').hide();
     }
     $body.find('.cr-laws').hide();
     $body.find('.cr-favorite-laws').html('').hide();
@@ -472,15 +482,30 @@ function isValidCasNumber(stringToCheck) {
     num_chem_faves = (favs.Chemicals) ? favs.Chemicals.length : 0;
     num_rules_faves = (favs.Laws) ? favs.Laws.length : 0;
     $cr_empty = $('.cr-tabs_favorites_empty');
-    $cr_avail = $('.cr-tabs_favorites_available')
+    $cr_avail = $('.cr-tabs_favorites_available');
+    
+    var path = window.location.pathname;
+    var page = path.split('/')[1];
 
     if (num_chem_faves === 0 && num_rules_faves === 0) {
       $cr_empty.show();
       $cr_avail.hide();
+      if (page === 'user') {
+        $body.find('#favorite-chemicals').hide();
+        $body.find('#favorite-laws').hide();
+      }
     }
     else {
       $cr_empty.hide();
       $cr_avail.show();
+      if (page === 'user') {
+        if (num_chem_faves === 0) {
+          $body.find('#favorite-chemicals').hide();
+        }
+        if (num_rules_faves === 0) {
+          $body.find('#favorite-laws').show();
+        }
+      }
 
       render_favorite_chemicals(favs);
       render_favorite_laws(favs);
