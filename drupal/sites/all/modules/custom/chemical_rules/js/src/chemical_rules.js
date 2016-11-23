@@ -100,7 +100,7 @@ function lookup_chemical(lookup_value) {
         cr_showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('.chemical-rules-modal-wrapper'));    
       },
       complete: function() {
-        $('#chemical-rules-modal').dialog('option','title', 'Search results for ' + chem_search_input);
+        $('#chemical-rules-modal').dialog('option','title', 'Search results for "' + chem_search_input + '"');
         cr_showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
         originalDialog = $body.find('#chemical-rules-modal').html();
       },
@@ -158,7 +158,14 @@ function populate_substance_modal(chemical_rules_response_json) {
     else {
       $body.find('#cr-save-favorite').attr('data-casnum', false);
       $body.find('#metadata-cas-num').text('n/a');      
-    }    
+    }
+    if (json.data.substance.iupac_name !== null) {
+      $body.find('#metadata-iupac-num').text(json.data.substance.iupac_name);
+    }
+    else {
+      $body.find('#metadata-iupac-num').text('n/a');
+    }
+     
     $body.find('#cr-remove-favorite').attr('data-epaintnum', json.data.substance.epa_chemical_internal_number).attr('data-favtype', 'Chemical');
 
     if (favorite_exists === false) {
