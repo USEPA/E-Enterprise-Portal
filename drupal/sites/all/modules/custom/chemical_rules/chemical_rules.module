@@ -107,14 +107,17 @@ function chemical_rules_block_view($delta = '') {
       // Pull content from chemical_rules-learnmore node to populate Learn how it works modal
       $path = "chemical_rules-learnmore";
       $org_path = drupal_lookup_path("source", $path);
-      $node = menu_get_object("node", 1, $org_path);
-      $nid = $node->nid;
-      $node = node_load($nid);
-      $nodeView = node_view($node, 'full');
-      $chemical_rules_learnmore = drupal_render($nodeView['body']);
-
-      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore"=>$chemical_rules_learnmore]), 'setting');
-
+      if ($org_path) {
+        $node = menu_get_object("node", 1, $org_path);
+        $nid = $node->nid;
+        $node = node_load($nid);
+        $nodeView = node_view($node, 'full');
+        $chemical_rules_learnmore = drupal_render($nodeView['body']);
+        drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore"=>$chemical_rules_learnmore]), 'setting');
+      }
+      else {
+        drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings]), 'setting');
+      }
       $block['subject'] = t('Chemical Laws &amp; Regulations');
       $block['content'] = theme('chemical_rules');
       return $block;
