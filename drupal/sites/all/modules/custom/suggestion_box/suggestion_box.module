@@ -65,7 +65,7 @@ function suggestion_box_form($form, &$form_state) {
 
   global $user;
     //The first condition means, if user is a CDX Public user and does not have any other role.
-    if((in_array('Public', $user->roles) && count($user->roles) == 2) || in_array('Public User', $user->roles)){
+    if((in_array('Public', $user->roles) && count($user->roles) == 2) || in_array('Public User', $user->roles) || user_is_anonymous()){
         $form['email'] = array(
             '#type' => 'textfield',
             '#title' => t('Email'),
