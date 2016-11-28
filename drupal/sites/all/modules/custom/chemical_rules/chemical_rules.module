@@ -375,7 +375,6 @@ function chemical_rules_process_lod_response(&$return) {
 
     $merged = array_merge($return['data']['substance'], $lod[$substanceConcept]);
     $return['data']['substance'] = ($merged) ? $merged : $return['data']['substance'];
-
   }
 }
 
@@ -390,6 +389,7 @@ function _process_substance_list_response(&$return, $lists) {
       foreach ($list['cfrs'] as $cfr_id => $cfr) {
         if(!isset($return['data']['laws_regs'][$cfr_id])) {
           $cfr['substance_list'] = [];
+          create_meta_data_from_name($cfr);
           $return['data']['laws_regs'][$cfr_id] = snakecase_mapping($cfr);
         }
         if(!in_array($list['substance_list_name'], $return['data']['laws_regs'][$cfr_id]['substance_list'])){
@@ -463,11 +463,52 @@ function is_valid_cas_number($stringToCheck, $returnCasNumber = false) {
   return false;
 }
 
+function create_meta_data_from_name(&$cfr) {
+  $meta_data = ['tag'=>[], 'sort'=>''];
+  $split = '/([a-zA-Z]+)([0-9]+)/';
+  $year_format = '/(2[0-9]{3})/';
+
+  $meta_data_strings = explode('-', $cfr['cfr_name']);
+  foreach ($meta_data_strings as $index => $string) {
+    $key_value = [];
+    $split_string = [];
+    //check if it matches a year format and less or equal to the current year
+    if(preg_match_all($year_format, $string) && $string <= date('Y')) {
+      $meta_data['year'] = $string;
+      $meta_data['sort'][] = $string;
+    }
+    // is the string splittable
+    else if (preg_match_all($split, $string, $split_string)) {
+      $meta_data[$split_string[1][0]] = $split_string[2][0];
+      $meta_data['sort'][] = $split_string[1][0];
+      $meta_data['sort'][] = $split_string[2][0];
+    }
+    // if nothing else we fits we will assign it the meta of 'tag'
+    else if ($index == 0) {
+      $meta_data['tag'][] = $string;
+      $meta_data['sort'][] = $string;
+    }
+  }
+  $cfr['meta_data'] = $meta_data;
+}
+
 function compare_cfrs_by_name($a, $b){
-  $al = strtolower($a['attributes']->{'citation'}.' '.$a['cfr_name']);
-  $bl = strtolower($b['attributes']->{'citation'}.' '.$b['cfr_name']);
+  $al = strtolower($a['attributes']['citation'].' '. implode(' ',$a['meta_data']['sort']));
+  $bl = strtolower($b['attributes']['citation'].' '. implode(' ',$a['meta_data']['sort']));
+  $a_list = explode(' ', $al);
+  $b_list = explode(' ', $bl);
+  $length = (count($a_list) > count($a_list)) ? count($a_list) : count($b_list);
+  $r = 0;
   if ($al == $bl) {
-    return 0;
+    return $r;
+  }
+  else {
+    for ($i = 0; $i < $length; $i++) {
+      if($a_list[$i] == $b_list[$i]) {
+        continue;
+      }
+      return ($a_list[$i] > $b_list[$i]) ? +1 : -1;
+    }
   }
   return ($al > $bl) ? +1 : -1;
 }
