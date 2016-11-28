@@ -13,7 +13,31 @@ function chemical_rules_menu() {
     'page callback' => 'update_chem_profile',
     'access callback' => TRUE,
   );
+  $items['admin/settings/chemical_rules'] = array(
+    'title' => 'Chemical Rules Settings',
+    'description' => 'Description of your On this date settings page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('chemical_rules_admin'),
+    //'access arguments' => array('administer chemical_rules settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
   return $items;
+}
+
+function chemical_rules_admin() {
+  $form = array();
+
+  $form['chemical_rules_max_cache'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Maximum number of links'),
+    '#default_value' => variable_get('chemical_rules_max_cache', '+1 month'),
+    //'#size' => 2,
+    //'#maxlength' => 2,
+    '#description' => t("The maximum lifespan of the individual chemical substance information cache."),
+    '#required' => TRUE,
+  );
+
+  return system_settings_form($form);
 }
 
 /**
