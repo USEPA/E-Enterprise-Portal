@@ -364,7 +364,7 @@ function load_view() {
  * @param $deprecated_terms
  * @return array
  */
-function parse_lgc_xml_return($response_data, &$term_tid_mapping, &$deprecated_terms){
+function parse_lgc_xml_return($response_data, &$term_tid_mapping, &$deprecated_terms) {
   // Tracks all resources pulled from RCS and parsed from XML
   $resources_array = [];
 
@@ -428,7 +428,7 @@ function parse_lgc_xml_return($response_data, &$term_tid_mapping, &$deprecated_t
  * @param $deprecated_terms
  * @return array
  */
-function parse_lgc_json_return($response_data, &$term_tid_mapping, &$deprecated_terms){
+function parse_lgc_json_return($response_data, &$term_tid_mapping, &$deprecated_terms) {
   // Tracks all resources pulled from RCS and parsed from XML
   $resources_array = [];
 
@@ -518,42 +518,44 @@ function lgc_load_data_from_endpoint($cache_key, $default_endpoint, $content_typ
     $cache = cache_get($cache_key);
     if ($cache && time() < $cache->expire) {
       if (count($cache->data) > 0) {
-        return $cache->data;
+        $response = new stdClass();
+        $response->data = $cache->data;
       }
     }
   }
 
-  // Load amount of time to wait before reloading rcs. Default is 5 minutes
-  $expire_ts = time() + (intval(variable_get('lgc_cache_reset_time', 5)) * 60);
+  if (!isset($response)) {
+    // Load amount of time to wait before reloading rcs. Default is 5 minutes
+    $expire_ts = time() + (intval(variable_get('lgc_cache_reset_time', 5)) * 60);
 
-
-
-
-  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-  if (feature_toggle_get_status('sample_rcs_data') && $content_type !== 'application/json') {
-    $response = new stdClass();
-    $response->data = file_get_contents(drupal_get_path('module', 'recommended_resources') . '/rcs-sample-response.xml');
-  } else {
-    $url = variable_get($cache_key . '_endpoint_url', $default_endpoint);
-    $response = drupal_http_request($url, array(
-      'headers' => array('Content-Type' => $content_type),
-      'method' => 'GET',
-      'timeout' => variable_get('lgc_service_timeout', 30.0),
-    ));
-
-    // If request was unsuccessful, load last successful request
-    if ($content_type === 'text/xml') {
-      $file_type = 'xml';
-    } else {
-      $file_type = 'json';
-    }
-    if ($response->code != 200 || $response->data == "") {
+    module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+    if (feature_toggle_get_status('sample_rcs_data') && $content_type !== 'application/json') {
       $response = new stdClass();
-      $response->data = file_get_contents(drupal_get_path('module', 'recommended_resources') . '/last_' . $cache_key . '_request.' . $file_type);
+      $response->data = file_get_contents(drupal_get_path('module', 'recommended_resources') . '/rcs-sample-response.xml');
     } else {
-      // Store last successful request in xml
-      file_put_contents(drupal_get_path('module', 'recommended_resources') . '/last_' . $cache_key . '_request.' . $file_type, $response->data);
+      $url = variable_get($cache_key . '_endpoint_url', $default_endpoint);
+      $response = drupal_http_request($url, array(
+        'headers' => array('Content-Type' => $content_type),
+        'method' => 'GET',
+        'timeout' => variable_get('lgc_service_timeout', 30.0),
+      ));
+
+      // If request was unsuccessful, load last successful request
+      if ($content_type === 'text/xml') {
+        $file_type = 'xml';
+      } else {
+        $file_type = 'json';
+      }
+      if ($response->code != 200 || $response->data == "") {
+        $response->data = file_get_contents(drupal_get_path('module', 'recommended_resources') . '/last_' . $cache_key . '_request.' . $file_type);
+      } else {
+        // Store last successful request in xml
+        file_put_contents(drupal_get_path('module', 'recommended_resources') . '/last_' . $cache_key . '_request.' . $file_type, $response->data);
+      }
     }
+
+    // Set variables for cache to save processing time on recurrent calls
+    cache_set($cache_key, $response->data, 'cache', $expire_ts);
   }
 
   if ($content_type === 'text/xml') {
@@ -562,8 +564,6 @@ function lgc_load_data_from_endpoint($cache_key, $default_endpoint, $content_typ
     $resources_array = parse_lgc_json_return($response->data, $term_tid_mapping, $deprecated_terms);
   }
 
-  // Set variables for cache to save processing time on recurrent calls
-  cache_set($cache_key, $resources_array, 'cache', $expire_ts);
 
   return $resources_array;
 }
@@ -590,7 +590,7 @@ function rcs_lgc_resources(&$term_tid_mapping, &$deprecated_terms) {
 function mo_lgc_resources(&$term_tid_mapping, &$deprecated_terms) {
   // Will be overriden if changes are made in the admin configs
   $default_endpoint = 'https://devepaapi.azurewebsites.us/localgovernmentresources/resource';
-  return lgc_load_data_from_endpoint('mo_lgc', $default_endpoint, "application/json",$term_tid_mapping, $deprecated_terms);
+  return lgc_load_data_from_endpoint('mo_lgc', $default_endpoint, "application/json", $term_tid_mapping, $deprecated_terms);
 }
 
 /**
@@ -624,9 +624,8 @@ function lgc_resources_json_all() {
 
   $resources_array['resources'] = rcs_lgc_resources($term_tid_mapping, $deprecated_terms);
   if (feature_toggle_get_status('mo_lgc_data')) {
-   $resources_array['resources'] = array_merge($resources_array['resources'], mo_lgc_resources($term_tid_mapping, $deprecated_terms));
- }
-
+    $resources_array['resources'] = array_merge($resources_array['resources'], mo_lgc_resources($term_tid_mapping, $deprecated_terms));
+  }
 
 
   // Delete $deprecated_terms not included in LGC data
@@ -637,9 +636,8 @@ function lgc_resources_json_all() {
       taxonomy_term_delete($tid);
     }
   }
-
-
   drupal_json_output($resources_array);
+  exit();
 }
 
 /**
@@ -707,6 +705,7 @@ function lgc_resources_json_by_user($uid = -1) {
     }
   }
   drupal_json_output($response);
+  exit();
 }
 
 
@@ -733,7 +732,7 @@ function add_new_lgc_topic_to_taxonomy($topic, &$tid_term_mapping) {
  */
 function recommended_resources_views_pre_execute(&$view) {
   global $user;
-  if (isset($view->display['rcs_resources_user'])) {
+  if ($view->current_display == 'rcs_resources_user') {
     $view->query->options['json_file'] .= '/' . $user->uid;
   }
 }
