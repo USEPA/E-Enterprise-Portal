@@ -665,19 +665,37 @@ function lgc_user_tids($uid) {
  * returns lgc resource by what topics the user has selected in their profile or lgc widget
  */
 function lgc_resources_json_by_user($uid = -1) {
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+
+  //Initialize Deprecated terms.
+  $deprecated_terms = [];
+
+  // Load LGC Resource taxonomy
+  $vocabulary = taxonomy_vocabulary_machine_name_load('lgc_topics');
+  $vid = $vocabulary->vid;
+  // Load the terms for the LGC Resource taxonomy
+  $lgc_terms = entity_load('taxonomy_term', FALSE, array('vid' => $vid));
+
+  // Initialize $term_tid_mapping and $deprecated_terms with mapping of
+  // topic name to tid from LGC taxonomy
+  foreach ($lgc_terms as $tid => $term_data) {
+    $deprecated_terms[$term_data->name] = $tid;
+  }
+  $term_tid_mapping = $deprecated_terms;
+
+  $resources_array['resources'] = rcs_lgc_resources($term_tid_mapping, $deprecated_terms);
+  if (feature_toggle_get_status('mo_lgc_data')) {
+    $resources_array['resources'] = array_merge($resources_array['resources'], mo_lgc_resources($term_tid_mapping, $deprecated_terms));
+  }
+
+
   if ($uid == -1) {
     // TODO: find out cases where this conditional is actually running
     global $user;
     $uid = $user->uid;
   }
-  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
   $user_lgc_tids = lgc_user_tids($uid);
-  $resources_array = ['resources' => []];
-  if (feature_toggle_get_status('mo_lgc_data')) {
-    // Load Missouri data
-    $resources_array['resources'][] = mo_lgc_resources()['resources'];
-  }
-  $resources_array['resources'][] = rcs_lgc_resources()['resources'];
+
   $response = array('resources' => array());
   foreach ($resources_array['resources'] as $resource_data) {
     $tids = $resource_data['tids'];
@@ -688,7 +706,7 @@ function lgc_resources_json_by_user($uid = -1) {
       }
     }
   }
-  drupal_json_output(($response));
+  drupal_json_output($response);
 }
 
 
