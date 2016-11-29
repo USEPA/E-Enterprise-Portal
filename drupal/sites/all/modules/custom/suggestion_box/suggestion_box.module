@@ -188,7 +188,7 @@ function suggestion_box_mail($key, &$message, $params) {
       $email = $params['email'];
   else
       $email = $user->mail;
-  if ($user->name == 'guest-user')
+  if ($user->name == 'guest-user' || user_is_anonymous())
     $email = $params['email'];
 
   $from = NULL;
