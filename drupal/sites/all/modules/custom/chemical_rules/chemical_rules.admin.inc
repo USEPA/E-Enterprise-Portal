@@ -24,6 +24,7 @@ function chemical_rules_admin($form, $form_state) {
     '#description' => t("Delete all saved chemical nodes and remove all chemical tags"),
   );
 
+  $form['#validate'][] = 'chemical_rules_form_validate';
   $form['#submit'][] = 'chemical_rules_admin_form_submit';
   return system_settings_form($form);
 }
@@ -37,24 +38,27 @@ function chemical_rules_admin_form_submit($form, &$form_state){
     $form['chemical_rules_clear_cache']['#checked'] = false;
     $node_type = 'chemical';
 
-    // Select the nodes that we want to delete.
-    $result = db_select('node', 'n')
-      ->fields('n', array('nid'))
-      ->condition('type', $node_type, '=')
+    // Select the nodes that we want to reset.
+    $nodes = node_load_multiple(array_keys($result['node']));*/
+
+    $chemical_nodes_updated = db_update('node')
+      ->fields([
+        'changed'=> 0
+      ])
+      ->condition ('node.type', 'chemical')
       ->execute();
+    drupal_set_message("All chemical nodes ($reset_node_count) have been reset.");
+  }
+}
 
-    $deleted_count = 0;
-    foreach ($result as $record) {
-      node_delete($record->nid);
-      $deleted_count++;
-    }
-    drupal_set_message("All chemical nodes ($deleted_count) have been deleted.");
+/**
+ * Implements hook_validate().
+ */
+function chemical_rules_form_validate($form, &$form_state) {
 
-    // Lets just clear the tax for good measure
-    $vocabulary = taxonomy_vocabulary_machine_name_load('chemicals');
-    foreach (taxonomy_get_tree($vocabulary->vid) as $term) {
-      taxonomy_term_delete($term->tid);
+  if($form['#form_id'] == 'chemical_rules_admin') {
+    if (strtotime($form_state['input']['chemical_rules_max_cache']) === false) {
+      form_set_error('chemical_rules_max_cache', "The string \"".$form_state['input']['chemical_rules_max_cache']."\" is bogus. More information and examples at <a href='http://php.net/manual/en/function.strtotime.php#refsect1-function.strtotime-examples' target='_blank'>http://php.net</a>");
     }
-    drupal_set_message('All terms have been deleted from the '.$vocabulary->name.' vocabulary');
   }
 }
