@@ -5,6 +5,14 @@
  */
 function chemical_rules_menu() {
   $items = array();
+  $items['admin/config/system/chemical-rules'] = array(
+      'title' => 'Chemical Rules configurations',
+      'description' => 'Manage CDX Program Facility Service Endpoint',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('chemical_rules_settings'),
+      'access arguments' => array('administer chemical rules'),
+      'file' => 'chemical_rules.admin.inc',
+  );
   $items['chemical_rules/form_submission'] = array(
     'page callback' => 'chemical_rules_form_submission',
     'access callback' => TRUE,
