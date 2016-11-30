@@ -121,6 +121,9 @@ function site_deployment_update_7015(&$sandbox) {
 }
 
 
+/**
+ * Updating query settings for LGC Resources View
+ */
 function site_deployment_update_7501(){
 
   // Update query settings for LGC Resources view

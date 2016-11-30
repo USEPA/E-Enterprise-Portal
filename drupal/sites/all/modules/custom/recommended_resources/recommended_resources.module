@@ -364,7 +364,7 @@ function load_view() {
  * @param $deprecated_terms
  * @return array
  */
-function parse_lgc_xml_return($response_data, &$term_tid_mapping, &$deprecated_terms) {
+function parse_lgc_xml_return_from_rcs($response_data, &$term_tid_mapping, &$deprecated_terms) {
   // Tracks all resources pulled from RCS and parsed from XML
   $resources_array = [];
 
@@ -390,7 +390,7 @@ function parse_lgc_xml_return($response_data, &$term_tid_mapping, &$deprecated_t
     ) {
 
       // Trim any non-alphanumeric from description
-      $resource_array['DescriptionText'] = trim($resources_array['DescriptionText']);
+      $resource_array['DescriptionText'] = trim($resource_array['DescriptionText']);
 
       // Check for '|' delimiters in topic
       $topics_array = explode('|', $resource_array['TopicText']);
@@ -428,7 +428,7 @@ function parse_lgc_xml_return($response_data, &$term_tid_mapping, &$deprecated_t
  * @param $deprecated_terms
  * @return array
  */
-function parse_lgc_json_return($response_data, &$term_tid_mapping, &$deprecated_terms) {
+function parse_lgc_json_return_from_mo($response_data, &$term_tid_mapping, &$deprecated_terms) {
   // Tracks all resources pulled from RCS and parsed from XML
   $resources_array = [];
 
@@ -559,9 +559,9 @@ function lgc_load_data_from_endpoint($cache_key, $default_endpoint, $content_typ
   }
 
   if ($content_type === 'text/xml') {
-    $resources_array = parse_lgc_xml_return($response->data, $term_tid_mapping, $deprecated_terms);
+    $resources_array = parse_lgc_xml_return_from_rcs($response->data, $term_tid_mapping, $deprecated_terms);
   } else {
-    $resources_array = parse_lgc_json_return($response->data, $term_tid_mapping, $deprecated_terms);
+    $resources_array = parse_lgc_json_return_from_mo($response->data, $term_tid_mapping, $deprecated_terms);
   }
 
 
@@ -605,22 +605,10 @@ function mo_lgc_resources(&$term_tid_mapping, &$deprecated_terms) {
 function lgc_resources_json_all() {
   module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
 
-  //Initialize Deprecated terms.
-  $deprecated_terms = [];
+  // Load term to tid mapping and copy for keeping track of deprecated terms
+  $term_tid_mapping = load_lgc_taxonomy_mapping();
+  $deprecated_terms = $term_tid_mapping;
 
-  // Load LGC Resource taxonomy
-  $vocabulary = taxonomy_vocabulary_machine_name_load('lgc_topics');
-  $vid = $vocabulary->vid;
-  // Load the terms for the LGC Resource taxonomy
-  $lgc_terms = entity_load('taxonomy_term', FALSE, array('vid' => $vid));
-
-  // Initialize $term_tid_mapping and $deprecated_terms with mapping of
-  // topic name to tid from LGC taxonomy
-  foreach ($lgc_terms as $tid => $term_data) {
-    $deprecated_terms[$term_data->name] = $tid;
-  }
-
-  $term_tid_mapping = $deprecated_terms;
 
   $resources_array['resources'] = rcs_lgc_resources($term_tid_mapping, $deprecated_terms);
   if (feature_toggle_get_status('mo_lgc_data')) {
@@ -638,6 +626,27 @@ function lgc_resources_json_all() {
   }
   drupal_json_output($resources_array);
   exit();
+}
+
+/**
+ * Loads and returns the LGC topics mapped to their
+ * term ids
+ * @return array
+ */
+function load_lgc_taxonomy_mapping(){
+  $term_tid_mapping = [];
+  // Load LGC Resource taxonomy
+  $vocabulary = taxonomy_vocabulary_machine_name_load('lgc_topics');
+  $vid = $vocabulary->vid;
+  // Load the terms for the LGC Resource taxonomy
+  $lgc_terms = entity_load('taxonomy_term', FALSE, array('vid' => $vid));
+
+  // Initialize $term_tid_mapping and $deprecated_terms with mapping of
+  // topic name to tid from LGC taxonomy
+  foreach ($lgc_terms as $tid => $term_data) {
+    $term_tid_mapping[$term_data->name] = $tid;
+  }
+  return $term_tid_mapping;
 }
 
 /**
@@ -665,21 +674,11 @@ function lgc_user_tids($uid) {
 function lgc_resources_json_by_user($uid = -1) {
   module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
 
-  //Initialize Deprecated terms.
-  $deprecated_terms = [];
+  // Load term to tid mapping and copy for keeping track of deprecated terms
+  $term_tid_mapping = load_lgc_taxonomy_mapping();
+  $deprecated_terms = $term_tid_mapping;
 
-  // Load LGC Resource taxonomy
-  $vocabulary = taxonomy_vocabulary_machine_name_load('lgc_topics');
-  $vid = $vocabulary->vid;
-  // Load the terms for the LGC Resource taxonomy
-  $lgc_terms = entity_load('taxonomy_term', FALSE, array('vid' => $vid));
 
-  // Initialize $term_tid_mapping and $deprecated_terms with mapping of
-  // topic name to tid from LGC taxonomy
-  foreach ($lgc_terms as $tid => $term_data) {
-    $deprecated_terms[$term_data->name] = $tid;
-  }
-  $term_tid_mapping = $deprecated_terms;
 
   $resources_array['resources'] = rcs_lgc_resources($term_tid_mapping, $deprecated_terms);
   if (feature_toggle_get_status('mo_lgc_data')) {
