@@ -33,21 +33,17 @@ function chemical_rules_admin_form_submit($form, &$form_state){
 
   if(isset($form_state['input']['chemical_rules_clear_cache']) && $form_state['input']['chemical_rules_clear_cache'] == 1) {
     // Flip it back off
-    $form_state['input']['chemical_rules_clear_cache'] = null;
     $form_state['values']['chemical_rules_clear_cache'] = 0;
     $form['chemical_rules_clear_cache']['#checked'] = false;
-    $node_type = 'chemical';
 
-    // Select the nodes that we want to reset.
-    $nodes = node_load_multiple(array_keys($result['node']));*/
-
+    // Update the nodes that we want to reset.
     $chemical_nodes_updated = db_update('node')
       ->fields([
         'changed'=> 0
       ])
       ->condition ('node.type', 'chemical')
       ->execute();
-    drupal_set_message("All chemical nodes ($reset_node_count) have been reset.");
+    drupal_set_message("All chemical nodes have been reset.");
   }
 }
 
