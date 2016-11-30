@@ -565,3 +565,12 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
  * Remove the leading hash signs to disable.
  */
 # $conf['allow_authorize_operations'] = FALSE;
+
+// Automatic feature toggle import
+if(file_exists('sites/defaults/feature_toggles.php')) {
+  $features = include('sites/defaults/feature_toggles.php');
+  if(is_array($features)) {
+    (isset($conf['feature_flags'])) ?: $conf['feature_flags'] = [];
+    $conf['feature_flags'] = array_merge($conf['feature_flags'], $features);
+  }
+}
