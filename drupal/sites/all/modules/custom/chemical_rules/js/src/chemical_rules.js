@@ -1,17 +1,21 @@
 var originalDialog;
-var favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],"Laws":[]};
+var favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[], 'NAICS':[]};
+
+function repair_chemical_rules_profile() {
+
+}
 
 function cr_showElementOutOfMany($wrapper_to_show, $common_selector) {
   $common_selector.hide();
   $wrapper_to_show.show();
-  cr_resizeModal()
+  cr_resizeModal();
 }
 
 function cr_resizeModal() {
   jQuery('#chemical-rules-modal').dialog({
     position: { 'my': 'center', 'at': 'center' },
-    width: $(window).width()-180,
-    height: $(window).height()-180,
+    width: jQuery(window).width()-180,
+    height: jQuery(window).height()-180,
   });
   if(jQuery('.chemical-rules-modal').css('top').replace('px', '') < 1){
     jQuery('.chemical-rules-modal').css('top', 0);
@@ -21,9 +25,22 @@ function cr_resizeModal() {
   }
 }
 
+function cr_resizeLMModal() {
+  
+  jQuery('#chemical-rules-learnmore').dialog({
+    position: { 'my': 'center', 'at': 'center' },
+    width: 0.75 * ($(window).width()),
+    height: 'auto',
+  });
+  if(jQuery('.chemical-rules-modal').css('top').replace('px', '') < 1){
+    jQuery('.chemical-rules-modal').css('top', 0);
+  }
+}
+
 function create_favlaw_heart(epaintnum) {
 
-  var law_in_favorites = find_matching_favorites(epaintnum, "Laws");
+  var favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[], 'NAICS':[]};
+  var law_in_favorites = (Object.keys(favs.Laws).length > 0) ? find_matching_favorites(epaintnum, "Laws") : false;
   var fav_law_holder = '';
 
   if (law_in_favorites === false) {
@@ -38,8 +55,11 @@ function create_favlaw_heart(epaintnum) {
 }
 
 function find_matching_favorites(check_id, check_type) {
-  var match_found = false;
-  for (var i = 0; i < favs[check_type].length; i++) {
+  var match_found = false,
+    favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[], 'NAICS':[]};
+  var length = (favs[check_type]) ? favs[check_type].length : 0;
+
+  for (var i = 0; i < length; i++) {
   	favID = favs[check_type][i].ID;
     if (favID == check_id) {
       match_found = true;
@@ -65,15 +85,35 @@ function is_valid_cas_number(stringToCheck) {
 
 function lookup_chemical(lookup_value) {
 
-  var $body = $('body');
-  $body.find('#cr-search_input').val(lookup_value);
-  $body.find('#cr-search-chems-btn').trigger('click');
-
+  var $ = jQuery;
+  var $body = jQuery('body');
+  var chem_search_input = lookup_value;
+  
+  $.ajax({
+      url: Drupal.settings.basePath + 'chemical_rules/form_submission',
+      method: 'POST',
+      data: {'cr-search_input': lookup_value},
+      beforeSend: function() {
+        $('#chemical-rules-modal').dialog('option','title', 'Searching for "' + chem_search_input + '"');
+        $body.find('#searching-chemical-name').text(chem_search_input);      
+        $('#chemical-rules-modal').dialog("open");          
+        cr_showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('.chemical-rules-modal-wrapper'));    
+      },
+      complete: function() {
+        $('#chemical-rules-modal').dialog('option','title', 'Search results for "' + chem_search_input + '"');
+        cr_showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
+        originalDialog = $body.find('#chemical-rules-modal').html();
+      },
+      success: populate_substance_modal
+    });
+  
 }
 
 function populate_substance_modal(chemical_rules_response_json) {
-  var $body = $('body');
+  var $body = jQuery('body');
   var json = chemical_rules_response_json;
+  var cas_reg_num = 'n/a';
+  var chem_reg_name = 'n/a';
 
   if(json.data !== null && json.error === false){
     if ($body.find('#search-message').length > 0) {
@@ -81,21 +121,12 @@ function populate_substance_modal(chemical_rules_response_json) {
       $body.find('#search-message').remove();
     }
     
-    if (json.data.Substance.CASRegistryNumber !== '' && json.data.Substance.CASRegistryNumber !== null) {
-      var cas_reg_num = json.data.Substance.CASRegistryNumber + ': ';
+    if (json.data.substance.cas_number !== '' && json.data.substance.cas_number !== null) {
+      cas_reg_num = json.data.substance.cas_number + ': ';
     }
-    else {
-      var cas_reg_num = '';
-    }
-    if (json.data.Substance.EPAChemicalRegistryName !== null && json.data.Substance.EPAChemicalRegistryName !== '') {
-      var chem_reg_name = " (" + json.data.Substance.EPAChemicalRegistryName + ")";
-    }
-    else {
-      var chem_reg_name = '';
-    }
-
+    
     // populate our modal
-    $body.find('.cr-chemical-name').text(json.data.Substance.EPAChemicalRegistryName);
+    $body.find('.cr-chemical-name').text(json.data.substance.chemical_substance_systematic_name);
 
     var $list = $body.find('#cr-laws-regs-substances');
     var $programs = $body.find('#cr-programs-list');
@@ -107,22 +138,35 @@ function populate_substance_modal(chemical_rules_response_json) {
     var cfrs = [];
     var html_to_add = [];
     var substance_lists = [];
-    var favorite_exists = find_matching_favorites(json.data.Substance.EPAChemicalInternalNumber, "Chemicals");
+    var favorite_exists = (Object.keys(favs.Chemicals).length > 0) ? find_matching_favorites(json.data.substance.epa_chemical_internal_number, "Chemicals") : false;
     var count_all_cfrs = 0;
     
-    //@TODO - Only show Save to My Chemicals link (#cr-save-favorite) if NOT in favs
-
-    $body.find('#cr-save-favorite').attr('data-epaintnum', json.data.Substance.EPAChemicalInternalNumber).attr('data-sysname', json.data.Substance.ChemicalSubstanceSystematicName);
-    $body.find('#metadata-sys-name').text(json.data.Substance.ChemicalSubstanceSystematicName);
-    if (json.data.Substance.EPAChemicalRegistryName !== null) {
-          $body.find('#cr-save-favorite').attr('data-commonname', json.data.Substance.EPAChemicalRegistryName);
-          $body.find('#metadata-common-name').text(json.data.Substance.EPAChemicalRegistryName);
+    $body.find('#cr-save-favorite').attr('data-epaintnum', json.data.substance.epa_chemical_internal_number).attr('data-sysname', json.data.substance.chemical_substance_systematic_name);
+    $body.find('#metadata-sys-name').text(json.data.substance.chemical_substance_systematic_name);
+    if (json.data.substance.epa_chemical_registry_name !== null) {
+      $body.find('#cr-save-favorite').attr('data-commonname', json.data.substance.epa_chemical_registry_name);
+      $body.find('#metadata-common-name').text(json.data.substance.epa_chemical_registry_name);
     }
-    if (json.data.Substance.CASRegistryNumber !== null) {
-          $body.find('#cr-save-favorite').attr('data-casnum', json.data.Substance.CASRegistryNumber);
-          $body.find('#metadata-cas-num').text(json.data.Substance.CASRegistryNumber);
+    else {
+      $body.find('#cr-save-favorite').attr('data-commonname', false);
+      $body.find('#metadata-common-name').text('n/a');  
     }
-    $body.find('#cr-remove-favorite').attr('data-epaintnum', json.data.Substance.EPAChemicalInternalNumber).attr('data-favtype', 'Chemical');
+    if (json.data.substance.cas_number !== null) {
+      $body.find('#cr-save-favorite').attr('data-casnum', json.data.substance.cas_number);
+      $body.find('#metadata-cas-num').text(json.data.substance.cas_number);
+    }
+    else {
+      $body.find('#cr-save-favorite').attr('data-casnum', false);
+      $body.find('#metadata-cas-num').text('n/a');      
+    }
+    if (json.data.substance.iupac_name !== null) {
+      $body.find('#metadata-iupac-num').text(json.data.substance.iupac_name);
+    }
+    else {
+      $body.find('#metadata-iupac-num').text('n/a');
+    }
+     
+    $body.find('#cr-remove-favorite').attr('data-epaintnum', json.data.substance.epa_chemical_internal_number).attr('data-favtype', 'Chemical');
 
     if (favorite_exists === false) {
       $body.find('#cr-save-favorite').parent('li').show();
@@ -136,31 +180,29 @@ function populate_substance_modal(chemical_rules_response_json) {
     $list.html('');
     // Check whether Substance Lists exist.
     // If so, for each,
-    //    1) get SubstanceList name data.SubstanceList[].substanceListName
+    //    1) get SubstanceList name data.substance_list[].substance_list_name
     //    2) then get list of CFRs
-    //    3) loop thru CFRs and look up CFR name and URL (LawsRegs.[variableforcfrnumber].cfrId, attributes.USC Citation, attributes.Title, attributes.URL
+    //    3) loop thru CFRs and look up CFR name and URL (laws_regs.[variableforcfrnumber].cfr_id, attributes.usc_citation, attributes.title, attributes.url
 
     var cfr_id = '';
-    if(json.data.SubstanceList && json.data.SubstanceList !== ''){
-      for(var listI in json.data.SubstanceList){
-        if(Object.keys(json.data.SubstanceList[listI].cfrs).length > 0){
-          count_all_cfrs += Object.keys(json.data.SubstanceList[listI].cfrs).length;
-          html_to_add.push('<h3><span class="cr-laws-regs_count">' + json.data.SubstanceList[listI].cfrs.length + '</span> laws and regulations for ' + json.data.SubstanceList[listI].substanceListName + '</h3><ul class="cr-lists">');
-          substance_lists.push('<li>'+ json.data.SubstanceList[listI].substanceListName +'</li>');
-          for (var index in json.data.SubstanceList[listI].cfrs) {
-            cfr_id = json.data.SubstanceList[listI].cfrs[index];
-            fav_holder = create_favlaw_heart(cfr_id);
-            html_to_add.push('<li><a data-favtype="Law" data-epaintnum="' + cfr_id + '" href="'+ json.data.LawsRegs[cfr_id].attributes.URL +'" target="_blank">' + json.data.LawsRegs[cfr_id].attributes["Citation"] + " &mdash; " + json.data.LawsRegs[cfr_id].attributes.Title+'</a>' + fav_holder + '<span class="law-citation">Authority: ' + json.data.LawsRegs[cfr_id].attributes["CFR Authority"] + '</span></li>');
-          }
-          html_to_add.push('</ul>');
+    if(!!json.data.substance_list && Object.keys(json.data.substance_list).length && !!json.data.laws_regs && Object.keys(json.data.laws_regs).length) {
+        html_to_add.push('<ul class="cr-lists">');        
+        for(var index in json.data.laws_regs) {
+          cfr_id = json.data.laws_regs[index].cfr_id;
+          fav_holder = create_favlaw_heart(cfr_id);
+          html_to_add.push('<li><span class="law-entry"><a data-favtype="Law" data-epaintnum="' + cfr_id + '" href="'+ json.data.laws_regs[index].attributes.url +'" target="_blank">' + json.data.laws_regs[index].attributes.citation + " &mdash; " + json.data.laws_regs[index].attributes.title+'</a>' + fav_holder + '</span>');
+          html_to_add.push('<span class="law-citation">Authority: ' + json.data.laws_regs[index].attributes.cfr_authority + '</span>');
+          html_to_add.push('<span class="law-lists">Substance Lists: ' + json.data.laws_regs[index].substance_list + '</span></li>');
         }
-      }
+      html_to_add.push('</ul>');
       $list.append(html_to_add.join(""));
-      $body.find('#count-all-cfrs').text(count_all_cfrs);      
+      $body.find('#count-all-cfrs').text(Object.keys(json.data.laws_regs).length);
+      $body.find('#results-intro').text('  Relevant laws and regulations include:');
     }
     else {
       // No laws regulations found
-
+      $body.find('#count-all-cfrs').text('No');
+      $body.find('#results-intro').text('');
     }
     
 /*  //@TODO Future - If Programs do Exist
@@ -177,9 +219,9 @@ function populate_substance_modal(chemical_rules_response_json) {
 */
     var synonym_list = [];
     $synonyms.html('');
-    if (json.data.Substance.Synonym.length > 0) {
-      $(json.data.Substance.Synonym).each(function(index) {
-        //$('#cr-synonyms-count').text(json.data.Substance.Synonym.length);
+    if (json.data.substance.synonyms.length > 0) {
+      jQuery(json.data.substance.synonyms).each(function(index) {
+        //$('#cr-synonyms-count').text(json.data.substance.synonyms.length);
         synonym_list.push('<li>'+this+'</li>');
       });
       $synonyms.append(synonym_list.sort());
@@ -189,8 +231,8 @@ function populate_substance_modal(chemical_rules_response_json) {
     }
     
     $image.html('');
-    if (json.data.Image != null && json.data.Image != '') {
-      $image.append('<img src="' + json.data.Image + '" alt="A structure of ' + json.data.Substance.EPAChemicalRegistryName + '"><p>Powered by <a href="https://pubchem.ncbi.nlm.nih.gov" rel="external" target="_blank">PubChem</a></p>');
+    if (json.data.substance["2d-structure"] != null && json.data.substance["2d-structure"] != '') {
+      $image.append('<img src="' + json.data.substance["2d-structure"] + '" alt="A structure of ' + json.data.substance.epa_chemical_registry_name + '"><div class="cr-structure_name"><p>' + json.data.substance.molecular_formula + '</p></div><p>Powered by <a href="https://pubchem.ncbi.nlm.nih.gov" rel="external" target="_blank">PubChem</a></p>');
     }
     else {
       // No images found
@@ -201,17 +243,21 @@ function populate_substance_modal(chemical_rules_response_json) {
         tr_end = '</td></tr>';
 
     $propertiestable.html('');
-    var properties = tr_start + "Molecular Weight <span class='cr-definition'></span></th><td>" + json.data.Substance.MolecularWeight + tr_end;
-        properties += tr_start + "Solubility <span class='cr-definition'>The solubility of a substance is the amount of that substance that will dissolve in a given amount of solvent. The default solvent is water, if not indicated.</span></th><td>" + json.data.Substance.Solubility + tr_end;
-        properties += tr_start + "Vapor Pressure <span class='cr-definition'>Vapor pressure is the pressure of a vapor in thermodynamic equilibrium with its condensed phases in a closed system.</span></th><td>" + json.data.Substance.VaporPressure + tr_end;
-        properties += tr_start + "LogP <span class='cr-definition'>Octanol/Water Partition Coefficient, used as a measure of molecular lipophilicity</span></th><td>" + json.data.Substance.LogP + tr_end;
-        properties += tr_start + "Stability <span class='cr-definition'>Tendency of a material to resist change or decomposition due to internal reaction, or due to the action of air, heat, light, pressure, etc. (See also Stability and Reactivity section under Safety and Hazards)</span></th><td>" + json.data.Substance.Stability + tr_end;
-        properties += tr_start + "pKA <span class='cr-definition'></span></th><td>" + json.data.Substance.pKA + tr_end;
+    var properties = tr_start + "Molecular Weight <span class='cr-definition'></span></th><td>" + json.data.substance.molecular_weight + tr_end;
+        properties += tr_start + "Solubility <span class='cr-definition'>The solubility of a substance is the amount of that substance that will dissolve in a given amount of solvent. The default solvent is water, if not indicated.</span></th><td>" + json.data.substance.solubility + tr_end;
+        properties += tr_start + "Vapor Pressure <span class='cr-definition'>Vapor pressure is the pressure of a vapor in thermodynamic equilibrium with its condensed phases in a closed system.</span></th><td>" + json.data.substance.vapor_pressure + tr_end;
+        properties += tr_start + "LogP <span class='cr-definition'>Octanol/Water Partition Coefficient, used as a measure of molecular lipophilicity</span></th><td>" + json.data.substance.log_p + tr_end;
+        properties += tr_start + "Stability <span class='cr-definition'>Tendency of a material to resist change or decomposition due to internal reaction, or due to the action of air, heat, light, pressure, etc. (See also Stability and Reactivity section under Safety and Hazards)</span></th><td>" + json.data.substance.stability + tr_end;
+        properties += tr_start + "pKA <span class='cr-definition'></span></th><td>" + json.data.substance.pka + tr_end;
              
     $propertiestable.append(properties);
     
     $substance_lists.html('');
-    if (Object.keys(json.data.SubstanceList).length > 0) {
+    if (Object.keys(json.data.substance_list).length > 0) {
+      jQuery(Object.keys(json.data.substance_list)).each(function(index) {
+          var substance_list_obj = json.data.substance_list[this];
+          substance_lists.push('<li>'+ this +'</li>');
+      });
       $substance_lists.append(substance_lists.sort());
     }
     else {
@@ -222,17 +268,22 @@ function populate_substance_modal(chemical_rules_response_json) {
   }
   else {
     //@TODO Add error msg for when there is bad data
-    $body.find('#cr-search_description').before('<div id="search-message" class="has-error">No chemicals found.  Please try a different name or CAS #.</div>');
-    $body.find('#cr-search_input').prop('aria-describedby', 'search-message');
+    jQuery('#chemical-rules-modal').dialog("close");
+    if (!$body.find('#search-message').length > 0) {
+      $body.find('#cr-search_description').before('<div id="search-message" class="has-error">No chemicals found.  Please try a different name or CAS #.</div>');
+      $body.find('#cr-search_input').prop('aria-describedby', 'search-message');
+    }
   }
 
 }
 
 function render_favorite_chemicals(favs) {
 
+  var $ = jQuery;
   var $body = $('body');
-  if (favs.Chemicals.length > 0) {
-    num_chem_faves = favs.Chemicals.length;
+  var num_chem_faves = (favs.Chemicals) ? favs.Chemicals.length: 0;
+    
+  if (num_chem_faves) {
     var favorite_chemicals = [];
     $body.find('#cr-count-chemicals').text(num_chem_faves);
     $.each(favs.Chemicals, function(index, val) {
@@ -249,44 +300,89 @@ function render_favorite_chemicals(favs) {
       if (val.CommonName != null && val.CommonName != '') {
         include_commonname = ' ('+ val.CommonName + ')';
       }
-      favorite_chemicals.push('<li><a class="favorite-chemical cr-favorite" href="javascript:void(0);" data-favtype="Chemical" data-epaintnum="' + val.ID + '" ' + link_casnum + 'data-commonname="' + val.CommonName + '">' + cas + val.SysName + include_commonname +'</a><a class="favorite-chemical-remove remove-link" data-favtype="Chemical" data-epaintnum="' + val.ID + '" data-commonname="' + val.CommonName + '">Remove<span class="sr-only"> ' + val.SysName + ' from favorites</span></a></li>');
+      favorite_chemicals.push('<li><a class="favorite-chemical cr-favorite" href="javascript:void(0);" data-favtype="Chemical" data-sysname="' + val.SysName + '" data-epaintnum="' + val.ID + '" ' + link_casnum + 'data-commonname="' + val.CommonName + '">' + cas + val.SysName + include_commonname +'</a><a class="favorite-chemical-remove remove-link" data-favtype="Chemical" data-epaintnum="' + val.ID + '" data-commonname="' + val.CommonName + '">Remove<span class="sr-only"> ' + val.SysName + ' from favorites</span></a></li>');
     });
+    if ($body.find('#favorite-chemicals').length > 0) {
+      if (num_chem_faves === 0) {
+        $body.find('#favorite-chemicals').hide();
+      }
+      else {
+        $body.find('#favorite-chemicals').show();
+      }
+    }
     $body.find('.cr-chemicals').show();
     $body.find('.cr-favorite-chemicals').html(favorite_chemicals).show();
   }
-
   else {
+    // If the favorite-chemicals div exists, and no faves exist, hide it
+    if ($body.find('#favorite-chemicals').length > 0) {
+      $body.find('#favorite-chemicals').hide();
+    }
     $body.find('.cr-chemicals').hide();
     $body.find('.cr-favorite-chemicals').html('').hide();
   }
+}
 
+function render_naics_codes(favs) {
+  var $body = $('body');
+  var num_naics_faves = (favs.NAICS) ? favs.NAICS.length : 0;
+  if(num_naics_faves) {
+    var favorite_codes = [];
+    $.each(favs.NAICS, function(index, val) {
+      favorite_codes.push('<li><a class="favorite-code cr-favorite" href="' + val.URL + '" data-favtype="Code" target="_blank">' + val.ID + '</a></li>');
+    });
+    if ($body.find('#favorite-naics').length > 0) {
+      $body.find('#favorite-naics').show();
+    }
+    $body.find('.cr-codes').show();
+    $body.find('.cr-naics-codes').html(favorite_codes).show();
+  } 
+  else {
+    if ($body.find('#favorite-naics').length > 0) {
+      $body.find('#favorite-naics').hide();
+    }    
+    $body.find('.cr-codes').hide();
+    $body.find('.cr-naics-codes').html('').hide();
+  }
 }
 
 function render_favorite_laws(favs) {
 
+  var $ = jQuery;
   var $body = $('body');
-  if (favs.Laws.length > 0) {
-    num_rules_faves = favs.Laws.length;
+  var num_rules_faves = (favs.Laws) ? favs.Laws.length : 0;
+
+  if (num_rules_faves) {
     var favorite_laws = [];
     $body.find('#cr-count-laws').text(num_rules_faves);
     $.each(favs.Laws, function(index, val) {
       favorite_laws.push('<li><a class="favorite-law cr-favorite" href="' + val.URL + '" data-favtype="Law" data-epaintnum="' + val.ID + '" target="_blank">' + val.Citation + ':  ' + val.Title + '</a><a class="favorite-law-remove remove-link" data-favtype="Law" data-epaintnum="' + val.ID + '">Remove<span class="sr-only"> ' + val.Title + ' from favorites</span></a></li>');
     });
+    if ($body.find('#favorite-laws').length > 0) {
+      if (num_rules_faves === 0) {
+        $body.find('#favorite-laws').hide();
+      }
+      else {
+        $body.find('#favorite-laws').show();
+      }
+    }
     $body.find('.cr-laws').show();
     $body.find('.cr-favorite-laws').html(favorite_laws).show();
   }
   else {
+    if ($body.find('#favorite-laws').length > 0) {
+      $body.find('#favorite-laws').hide();
+    }
     $body.find('.cr-laws').hide();
     $body.find('.cr-favorite-laws').html('').hide();
   }
-
 }
 
 /**
  * Clear form inputs and hide warning messages
  */
 function reset_cr_form() {
-  var $form = $('#cr-search_input');
+  var $form = jQuery('#cr-search_input');
   $form.val('');
 }
 
@@ -323,15 +419,14 @@ function update_clicked_heart(this_link, filled_if_true) {
 }
 
 function update_favorite_lists(type) {
-  var clicked_favorite_type = type;
-  if (clicked_favorite_type == 'Chemical') {
-    render_favorite_chemicals(favs);
+  if (type == 'Chemical') {
+    render_favorite_chemicals(Drupal.settings.chemical_rules.profile);
   }
-  else if (clicked_favorite_type == 'Law') {
-    render_favorite_laws(favs);
+  else if (type == 'Law') {
+    render_favorite_laws(Drupal.settings.chemical_rules.profile);
   }
   else {
-
+    render_naics_codes(Drupal.settings.chemical_rules.profile);
   }
 
 }
@@ -351,22 +446,29 @@ function isValidCasNumber(stringToCheck) {
 
 (function($) {
   var $body = $('body'),
-      $cr_tabs = $('#cr-tabs').tabs(),
       sampleSetIndex = 0,
       num_chem_faves = 0,
-      num_rules_faves = 0,
-      $cr_empty = $('.cr-tabs_favorites_empty'),
-      $cr_avail = $('.cr-tabs_favorites_available');
-  
+      num_rules_faves = 0;
+
+  if ($body.find('#cr-tabs').length > 0) {
+    $cr_tabs = $('#cr-tabs').tabs();
+  }
+
+  if ($body.find('#chem_search_form').length > 0) {
+    $('#chem_search_form').on('submit', function() {
+      $('#cr-search-chems-btn').trigger('click');
+      return false;
+    });
+  }
 
   // CHEMICAL ATTRIBUTES
   // ID = EPAChemicalInternalNumber
   // CAS = CASRegistryNumber
   // SysName = ChemicalSubstanceSystematicName (e.g., 2-Propanone)
-  // CommonName = EPAChemicalRegistryName (e.g., Acetone)
+  // CommonName = epa_chemical_registry_name (e.g., Acetone)
 
   // LAW ATTRIBUTES
-  // ID = LRS ID = cfrID (e.g., 3874781)
+  // ID = LRS ID = cfr_id (e.g., 3874781)
   // Citation (e.g., 40 CFR 711)
   // Title (e.g., TSCA CHEMICAL DATA REPORTING REQUIREMENTS)
   // URL (e.g., https:\/\/gpo.gov...)
@@ -376,26 +478,41 @@ function isValidCasNumber(stringToCheck) {
   // 1) Get favorites
   // 2) Count number of favorite Chemicals and Laws
 
-  num_chem_faves = favs.Chemicals.length;
-  num_rules_faves = favs.Laws.length;
+  var render_favorites = function(favs) {
+    num_chem_faves = (favs.Chemicals) ? favs.Chemicals.length : 0;
+    num_rules_faves = (favs.Laws) ? favs.Laws.length : 0;
+    $cr_empty = $('.cr-tabs_favorites_empty');
+    $cr_avail = $('.cr-tabs_favorites_available');
+    
+    var path = window.location.pathname;
+    var page = path.split('/')[1];
 
-  // If no favorites exist, show Search tab
-  if (num_chem_faves === 0 && num_rules_faves === 0) {
-    $cr_empty.show();
-    $cr_avail.hide();
-  }
-  else {
-    $cr_empty.hide();
-    $cr_avail.show();
-
-    if (num_chem_faves > 0) {
-      render_favorite_chemicals(favs);
+    if (num_chem_faves === 0 && num_rules_faves === 0) {
+      $cr_empty.show();
+      $cr_avail.hide();
+      if (page === 'user') {
+        $body.find('#favorite-chemicals').hide();
+        $body.find('#favorite-laws').hide();
+      }
     }
-    if (num_rules_faves > 0) {
+    else {
+      $cr_empty.hide();
+      $cr_avail.show();
+      if (page === 'user') {
+        if (num_chem_faves === 0) {
+          $body.find('#favorite-chemicals').hide();
+        }
+        if (num_rules_faves === 0) {
+          $body.find('#favorite-laws').show();
+        }
+      }
+
+      render_favorite_chemicals(favs);
       render_favorite_laws(favs);
     }
-
   }
+
+  render_favorites(favs);
 
   // Initialize and open dialog
   $('#chemical-rules-modal')
@@ -412,10 +529,35 @@ function isValidCasNumber(stringToCheck) {
       autoOpen: false,
       resizable: false,      
       create: function(event, ui) {
-        $(window).resize(function(){cr_resizeModal();})
+        $(window).resize(function(){cr_resizeModal();});
       },
       open: function(event, ui) {
         $('#chemical-rules-modal').parent().css('position', 'fixed');
+        var sticky_gap = $('#cr-modal-toc-icons').offset().top;
+        $('#chemical-rules-modal').scroll(function() {
+          if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
+            $('#cr-modal-toc-icons').addClass('sticky-toc');
+            $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()+6).css('top', $('#chemical-rules-modal').offset().top);
+          } 
+          else {
+            $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');
+          }
+        });
+        
+        var sticky_gap = $('#cr-modal-toc-icons').offset().top;
+        $('#cr-modal-toc-icons li a').on('click', function(ev) {
+          ev.preventDefault();
+          // Scroll the modal to the anchor clicked
+          if (!$('#cr-modal-toc-icons').hasClass('sticky-toc')) {
+            $('#cr-modal-toc-icons').addClass('sticky-toc');
+            $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()).css('top', $('#chemical-rules-modal').offset().top);
+          }
+          // Use the Laws and Regs heading as a landmark for gauging offset and scrolled amount
+          var toc_bottom = $('#cr-laws-regs').offset().top;
+          var target_top = $(this.hash).offset().top;
+          var scroll_amount = target_top - toc_bottom;
+          $("#chemical-rules-modal").animate({ scrollTop: scroll_amount}, 500);
+        });        
       },
       close: function(event, ui) {
         reset_cr_form();
@@ -424,10 +566,34 @@ function isValidCasNumber(stringToCheck) {
       }
     });
 
+  if (Drupal.settings.chemical_rules.learnmore) {
+    $('#chemical-rules-learnmore')
+      .html(Drupal.settings.chemical_rules.learnmore)
+      .dialog({
+        title: 'How the Chemical Laws and Regulations Widget Works',
+        modal: true,
+        width: 'auto',
+        height: 'auto',
+        closeOnEscape: true,
+        position: { 'my': 'center top', 'at': 'center top' },
+        dialogClass: 'chemical-rules-learnmore',
+        draggable: false,
+        autoOpen: false,
+        resizable: false,  
+        create: function(event, ui) {
+          $(window).resize(function(){cr_resizeLMModal();});
+        },          
+        open: function(event, ui) {
+          cr_resizeLMModal();
+        }
+    }); 
+    $body.find('#learnmore-link').html('<a href="javascript:void(0)" id="cr-learnmore">Learn how it works</a>.');
+  }
+
   // Handle Search chemicals button click
   $body.on('click', '#cr-search-chems-btn', function(ev) {
-    var chem_search_form_data = $('#chem_search_form').serialize(),
-        chem_search_input = $body.find('#cr-search_input').val();
+//     var chem_search_form_data = $('#chem_search_form').serialize();
+    var chem_search_input = $body.find('#cr-search_input').val();
     ev.preventDefault();
     ev.stopPropagation();
 
@@ -437,31 +603,15 @@ function isValidCasNumber(stringToCheck) {
       //@TODO - Call Create New Node function - may be part of form_submission
       //********
 
-      $.ajax({
-        url: 'chemical_rules/form_submission',
-        method: 'POST',
-        data: chem_search_form_data,
-        beforeSend: function() {
-          $('#chemical-rules-modal').dialog('option','title', 'Searching for ' + chem_search_input);
-          $body.find('#searching-chemical-name').text(chem_search_input);      
-          $('#chemical-rules-modal').dialog("open");          
-          cr_showElementOutOfMany($('#chemical-rules-loading-wrapper'), $('.chemical-rules-modal-wrapper'));    
-        },
-        complete: function() {
-          $('#chemical-rules-modal').dialog('option','title', 'Search results for ' + chem_search_input);
-          cr_showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
-          originalDialog = $body.find('#chemical-rules-modal').html();
-        },
-        success: populate_substance_modal
-      });
-  
+      var is_valid_chemical = true;
+      lookup_chemical(chem_search_input);
+        
       var chemicalNameOrNum = $body.find('#cr-search_input').val();
       if ($body.find('#chemical-error').length > 0) {
         $body.find('#chemical-error').remove();
         $body.find('#cr-search_input').removeAttr('aria-describedby');
       }
       
-      var is_valid_chemical = true;
       if (!is_valid_chemical) {
         error = true;
         var error_message = '<p class="has-error" id="chemical-error">No results were found for <b>' + chemicalNameOrNum + '</b>.  Please try another variation.</p>';
@@ -473,9 +623,10 @@ function isValidCasNumber(stringToCheck) {
     } 
     else {
       // @TODO Error message - please enter value;
+      
     }
     
-  });   
+  });
   
   if ($body.find('.favorite-chemical').length > 0) {
     $body.on('click', '.favorite-chemical', function(ev) {
@@ -484,8 +635,8 @@ function isValidCasNumber(stringToCheck) {
         lookup_chemical($(this).attr('data-casnum'));
       }
       else {
-        var chem_name = $(this).text();
-        lookup_chemical(chem_name); 
+        //var chem_name = $(this).text();
+        lookup_chemical($(this).attr('data-sysname')); 
       }
       $('#chemical-rules-modal').dialog("open");
       $('#searching-chemical-name').text($(this).text());
@@ -499,27 +650,13 @@ function isValidCasNumber(stringToCheck) {
       ev.preventDefault();
       var clicked_favorite_ID = $(this).data('epaintnum');
       var clicked_favorite_type = $(this).data('favtype') + 's';
+      var updatedFavs = Drupal.settings.chemical_rules.profile[clicked_favorite_type].reduce(function(before, item, index, array){
+        (item.ID != clicked_favorite_ID) ? before.push(item) : before;
+        return before;
+      }, []);
 
-      var match_index = find_matching_favorites(clicked_favorite_ID, clicked_favorite_type);
-      if (match_index !== false) {
-        favs[clicked_favorite_type].splice(match_index, 1);
-        if (clicked_favorite_type == 'Chemicals') {
-          render_favorite_chemicals(favs);
-        }
-        else if (clicked_favorite_type == 'Laws') {
-          render_favorite_laws(favs);
-        }
-      }
-      else {
-      }
+      Drupal.settings.chemical_rules.profile[clicked_favorite_type] = (updatedFavs) ? updatedFavs : [];
 
-// $.each is For Testing Purposes Only
-/*
-      $.each(favs[clicked_favorite_type], function(index, val) {
-        console.log("favorite is: " + val.ID);
-        console.log("Finished each");
-      });
-*/
       if ($(this).attr('id') == 'cr-remove-favorite') {
         $body.find('#cr-save-favorite').parent('li').show();
         $body.find('#cr-remove-favorite').parent('li').hide();
@@ -529,37 +666,23 @@ function isValidCasNumber(stringToCheck) {
       }
 
       // Post updated array to Profile and re-render lists
-      $.ajax({
-        method: "POST",
-        url: Drupal.settings.basePath + "chemical_rules/update_chem_profile",
-        dataType: 'json',
-        data: {
-          profile: favs
-        },
-      }).done(function() {
-        console.log('done', arguments)
-        render_favorite_chemicals(favs);
-        render_favorite_laws(favs);
-        // @TODO - Update Modal List - call populate_substance_modal or subset of it!
-
-      }).fail(function() {
-        console.log('fail', arguments)
-      });
+      render_favorites(Drupal.settings.chemical_rules.profile);
+      update_chem_profile(Drupal.settings.chemical_rules.profile);
 
     });
   }
 
   if ($body.find('.save-favorite').length > 0) {
     $body.on('click', '.save-favorite', function(ev) {
-    	//ev.preventDefault();
-    	//alert("Clicked the favorite: " + $(this).data('chemicalid'));
-    	var type = $(this).data('favtype') + 's';
+      //ev.preventDefault();
+      //alert("Clicked the favorite: " + $(this).data('chemicalid'));
+      var type = $(this).data('favtype') + 's';
 
-    	var favorite = [];
-    	if (type == 'Chemicals') {
-      	if (($(this).data('casnum') !== '') && ($(this).data('casnum') !== null)) {
-        	var cas_num = $(this).data('casnum');
-      	}
+      var favorite = [];
+      if (type == 'Chemicals') {
+        if (($(this).data('casnum') !== '') && ($(this).data('casnum') !== null)) {
+          var cas_num = $(this).data('casnum');
+        }
       	else {
         	var cas_num = '';
       	}
@@ -595,29 +718,41 @@ function isValidCasNumber(stringToCheck) {
         update_clicked_heart($(this), true);
       }
       if (favorite != '') {
-        favs[type].push(favorite);
-//         Drupal.settings.chemical_rules.profile = favs;
-
-        $.ajax({
-          method: "POST",
-          url: Drupal.settings.basePath + "chemical_rules/update_chem_profile",
-          dataType: 'json',
-          data: {
-            profile: favs
-          },
-        }).done(function() {
-          console.log('done', arguments)
-          render_favorite_chemicals(favs);
-          render_favorite_laws(favs);
-          // @TODO - Update Modal List - call populate_substance_modal or subset of it!
-
-        }).fail(function() {
-          console.log('fail', arguments)
-        });
-
+        if (!Drupal.settings.chemical_rules.profile) {
+          Drupal.settings.chemical_rules.profile = {'Chemicals':[],'Laws':[]};
+          update_chem_profile(Drupal.settings.chemical_rules.profile);
+        }        
+        if(Drupal.settings.chemical_rules.profile[type] === undefined) {
+          Drupal.settings.chemical_rules.profile[type] = [];
+          update_chem_profile(Drupal.settings.chemical_rules.profile);          
+        }
+        Drupal.settings.chemical_rules.profile[type].push(favorite);
+        update_chem_profile(Drupal.settings.chemical_rules.profile);
+        render_favorites(Drupal.settings.chemical_rules.profile);
       }
     });
   }
+
+  update_chem_profile = function(profile) {
+    $.ajax({
+      method: "POST",
+      url: Drupal.settings.basePath + "chemical_rules/update_chem_profile",
+      dataType: 'json',
+      data: {
+        profile: JSON.stringify(profile)
+      },
+    }).done(function() {
+      console.log('done', arguments)
+      render_favorites(Drupal.settings.chemical_rules.profile);
+      //render_favorite_chemicals(favs);
+      //render_favorite_laws(favs);
+      //render_naics_codes(favs);
+      // @TODO - Update Modal List - call populate_substance_modal or subset of it!
+
+    }).fail(function() {
+      console.log('fail', arguments)
+    });
+  };
 
   /**
    * Close Listener on Chemical Rules Modal
@@ -631,36 +766,12 @@ function isValidCasNumber(stringToCheck) {
     cr_showElementOutOfMany($chemical_loading, $all_wrappers);
     cr_resizeModal();
   });
-
-  var sticky_gap = $('#cr-modal-toc-icons').offset().top;
-  $('#chemical-rules-modal').scroll(function() {
-    if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
-      $('#cr-modal-toc-icons').addClass('sticky-toc');
-      $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()+6).css('top', $('#chemical-rules-modal').offset().top);
-    } 
-    else {
-      $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');
-    }
-  });
   
-  var sticky_gap = $('#cr-modal-toc-icons').offset().top;
-  $('#cr-modal-toc-icons li a').on('click', function() {
-    if ($body.find('.anchor-spacing').length > 0) {
-      $('#chemical-rules-modal').find('h2').removeClass('anchor-spacing');
-    }
-    // Add extra spacing to get past fixed header; last section doesn't need it
-    if ($(this).attr('href') != '#cr-lists') {
-      $('#chemical-rules-modal').find($(this).attr('href')).addClass('anchor-spacing');
-    }
-    if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
-      $('#cr-modal-toc-icons').addClass('sticky-toc');
-      $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()).css('top', $('#chemical-rules-modal').offset().top);
-    } 
-    else {
-      $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');    
-    }
-  });
-  
+  if ($body.find('#cr-learnmore').length > 0) {
+    $('#cr-learnmore').on('click', function() {
+      $('#chemical-rules-learnmore').dialog("open");
+    });
+  }
 
 })(jQuery);
 

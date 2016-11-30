@@ -3,6 +3,7 @@ $color_highlight_blue:  #E1EAF5;
 $color-gray-dark:       #323a45 !default;
 $color-gray-lighter:    #d6d7d9 !default; // lighten($color-gray-dark, 80%)
 $color-gray-lightest:   #f1f1f1 !default; // lighten($color-gray-dark, 91%)
+$color-gold-lighter:    #fff1d2;
 $white:                 #fff;
 
 @mixin clearfix() {
@@ -48,6 +49,13 @@ body.viewport-lg {
     position: absolute;
 }
 
+.dev-note {
+    background-color: $color-gold-lighter;
+    padding: 5px 10px;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
 .cr-chemicals,
 .cr-laws {
     font-weight: bold;
@@ -68,6 +76,9 @@ body.viewport-lg {
     label,
     button {
         font-size: 1.5rem;
+    }
+    button {
+        vertical-align: bottom;
     }
 }
 
@@ -191,7 +202,8 @@ body.viewport-lg {
     .fa-heart {
         margin-left: 5px;
         background-size: 14px 14px;
-        vertical-align: top;        
+        vertical-align: top;
+        display: inline-block;
     }
 }
 
@@ -224,6 +236,7 @@ body.viewport-lg {
         background: transparent url('../images/fa-times-circle.png') 0 50% no-repeat;
         font-size: 1.2rem;
         color: $color_gray_dark;
+        cursor: pointer;
     }
 }
 
@@ -243,10 +256,16 @@ body.viewport-lg {
             border-bottom: 1px solid $color-gray-lightest;
             line-height: 1.2;
             padding-bottom: 10px;
+            span.law-entry {
+                font-weight: bold;
+            }
             span.law-citation {
                 display: block;
                 font-color: $color-gray-dark;
                 font-size: 1rem;
+            }
+            span.law-lists {
+                font-size: 1.3rem;
             }
         }
     }
@@ -338,7 +357,7 @@ body.viewport-lg {
                 height: 8rem;
                 a {
                     padding-top: 30px;
-                    height: 50px;
+                    height: 70px;
                 }
             }
         }

@@ -8,7 +8,8 @@
     <ul id="chemical-metadata">
       <li id="modal-common-name"><span class="modal-label" id="label-common-name">Common name</span><span id="metadata-common-name" aria-describedby="label-common-name"></span></li>
       <li id="modal-sys-name"><span class="modal-label" id="label-sys-name">Systematic name</span><span id="metadata-sys-name" aria-describedby="label-sys-name"></span></li>
-      <li id="modal-cas-num"><span class="modal-label" id="label-cas-num">CAS #</span><span id="metadata-cas-num" aria-describedby="label-cas-num"></span></li>      
+      <li id="modal-cas-num"><span class="modal-label" id="label-cas-num">CAS #</span><span id="metadata-cas-num" aria-describedby="label-cas-num"></span></li>  
+      <li id="modal-iupac-num"><span class="modal-label" id="label-iupac-num">IUPAC Name</span><span id="metadata-iupac-num" aria-describedby="label-iupac-num"></span></li>      
     </ul>
     <ul class="cr-modal-actions">
       <li><a id="cr-save-favorite" class="save-favorite" href="javascript:void(0)" data-favtype="Chemical">Save to My Chemicals</a></li>
@@ -28,7 +29,7 @@
     <!-- @LAWS AND REGULATIONS -->
     <!-- @TODO Add favoriting ability to save favorite chemical here -->
     <h2 id="cr-laws-regs">Laws &amp; Regulations</h2>
-    <p><span id="count-all-cfrs" class="cr-laws-regs_count"></span> laws and regulations found for <span class="cr-chemical-name"></span>.  Relevant laws and regulations include:</p>
+    <p id="cr-laws-regs-results"><span id="count-all-cfrs" class="cr-laws-regs_count"></span> laws and regulations found for <span class="cr-chemical-name"></span>, its synonyms, and substances lists.<span id="results-intro"></span></p>
 
     <div id="cr-laws-regs-substances">
     </div><!-- @end #cr-laws-regs_substances -->
@@ -45,9 +46,6 @@
       <h2 id="cr-structure">Structure</h2>
       <div class="cr-structure_container">
         <div class="cr-structure_image">
-        </div>
-        <div class="cr-structure_name">
-          <p>C3H6O</p>
         </div>
       </div><!-- @end .cr-structure_container -->
     </div><!-- @end #cr-laws-regs_structure -->

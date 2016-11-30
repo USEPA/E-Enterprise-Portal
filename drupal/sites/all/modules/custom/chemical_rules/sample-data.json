@@ -1,271 +1,485 @@
 {
-  "error": true,
+  "error": false,
   "error-messages": [],
   "data": {
-    "Substance": {
-      "EPAChemicalInternalNumber": "4309",
-      "CASRegistryNumber": "67-64-1",
-      "ChemicalSubstanceSystematicName": "2-Propanone",
-      "EPAChemicalRegistryName": "Acetone",
-      "EPAChemicalIdentifier": null,
-      "ChemicalSubstanceDefinitionText": null,
-      "ChemicalSubstanceCommentText": null,
-      "MolecularFormulaCode": "C3H6O",
-      "ChemicalSubstanceFormulaWeightQuantity": "58.08",
-      "ChemicalSubstanceLinearStructureCode": "O=C(C)C",
-      "InternationalChemicalIdentifier": null,
-      "FormerCASRegistryNumberList": null,
-      "IncorrectlyUsedCASRegistryNumberList": null,
-      "ClassificationList": null,
-      "TechnicalPointOfContact": null,
-      "SubstanceRequestor": null,
-      "SubstanceCreateDate": "2006-10-13 14:30:12.0",
-      "SubstanceLastUpdateDate": "2012-02-01 14:37:36.0",
-      "SubstanceStatus": "A",
-      "MolecularWeight": "58.08 g\/mol",
-      "Solubility": "Miscible with water",
-      "VaporPressure": "231 mm Hg at 25 deg C",
-      "LogP": "log Kow = -0.24",
-      "Stability": "Stable under recommended storage conditions.",
-      "pKA": "20",
-      "Synonym": [
+    "substance": {
+      "2d-structure": "https:\/\/chem.sis.nlm.nih.gov\/chemidplus\/structure\/67-64-1",
+      "alt_label": [
+        "http:\/\/opendata.epa.gov\/srs\/label\/L761",
+        "http:\/\/opendata.epa.gov\/srs\/label\/L762",
+        "http:\/\/opendata.epa.gov\/srs\/label\/L763",
+        "http:\/\/opendata.epa.gov\/srs\/label\/L764",
+        "http:\/\/opendata.epa.gov\/srs\/label\/L765",
+        "http:\/\/opendata.epa.gov\/srs\/label\/L142521",
+        "http:\/\/opendata.epa.gov\/srs\/label\/L204342",
+        "http:\/\/opendata.epa.gov\/srs\/label\/L205463",
+        "http:\/\/opendata.epa.gov\/srs\/label\/L237742"
+      ],
+      "cas_number": "67-64-1",
+      "cas_registry_number": "67-64-1",
+      "chemical_substance_comment_text": null,
+      "chemical_substance_definition_text": null,
+      "chemical_substance_formula_weight_quantity": "58.08",
+      "chemical_substance_linear_structure_code": "O=C(C)C",
+      "chemical_substance_systematic_name": "2-Propanone",
+      "classification_list": null,
+      "complexity": [
+        "26.299999237060546875"
+      ],
+      "covalent_unit_count": [
+        "1"
+      ],
+      "defined_atom_stereo_count": [
+        "0"
+      ],
+      "defined_bond_stereo_count": [
+        "0"
+      ],
+      "depositor_supplied_synonym": [
+        "propan-2-one",
+        "2-propanone, \u003E10 - 60% in a non hazardous diluent",
+        "aceton",
+        "aceton (german, polish)",
+        "aceton [german, dutch, polish]",
+        "acetone (natural)",
+        "acetone (nf)",
+        "acetone [un1090]  [flammable liquid]",
+        "acetone reagent grade acs",
+        "acetone, 99.5%",
+        "acetone, semiconductor grade",
+        "beta-ketopropane",
+        "caswell no. 004",
+        "ccris 5953",
+        "chevron acetone",
+        "dimethylformaldehyde",
+        "dsstox_cid_1482",
+        "dsstox_rid_76176",
+        "hsdb 41",
+        "ketone, dimethyl",
+        "methyl ketone",
+        "propanone",
+        "pyroacetic spirit (archaic)",
+        "rcra waste number u002",
+        "un 1090",
+        "un 1091 (salt\/mix)",
+        "(ch3)2co",
         "2-propanone",
         "acetone",
-        "acetone, dry weight",
-        "acetone, in waste",
+        "acetone, hplc",
+        "acetone, hplc grade",
+        "b-ketopropane",
         "dimethyl ketone",
+        "dimethylketon",
+        "dimethylketone, pyroacetic acid",
+        "epa pesticide chemical code 004101",
+        "ketone propane",
+        "ketone, dimethyl-",
+        "methylketone",
+        "pyroacetic acid",
+        "rcra waste no. u002",
+        "sasetone",
+        "2-propanal",
+        "2-propanone, \u003E60% in a non hazardous diluent",
+        "acetone (tn)",
+        "acetone [un1090] [flammable liquid]",
+        "acetone hp",
+        "acetone oil (salt\/mix)",
+        "acetone, environmental grade",
+        "azeton",
+        "d-acetone",
+        "dimethyl formaldehyde",
+        "dimethylcetone",
+        "dimethylketal",
         "dimethylketone",
-        "methyl ketone",
-        "residual acetone"
+        "methyl-ketone",
+        "mfcd00008765",
+        "pyroacetic ether",
+        "un1090",
+        "wln: 1v1",
+        ".beta.-ketopropane",
+        "ACETONE",
+        "acetone, acs",
+        "acetone, spectrophotometric grade",
+        "fema no. 3326",
+        "inchi=1\/c3h6o\/c1-3(2)4\/h1-2h",
+        "isopropanal",
+        "propanon"
+      ],
+      "epa_chemical_identifier": null,
+      "epa_chemical_internal_number": "4309",
+      "epa_chemical_registry_name": "Acetone",
+      "exact_mass": [
+        "58.041900634765625",
+        "58.0791015625"
+      ],
+      "formal_charge": [
+        "0"
+      ],
+      "formercas_registry_number_list": null,
+      "heavy_atom_count": [
+        "4"
+      ],
+      "hydrogen_bond_acceptor_count": [
+        "1"
+      ],
+      "hydrogen_bond_donor_count": [
+        "0"
+      ],
+      "incorrectly_usedcas_registry_number_list": null,
+      "internal_tracking_number": "4309",
+      "international_chemical_identifier": null,
+      "isotope_atom_count": [
+        "0"
+      ],
+      "iupac_name": "propan-2-one",
+      "mesh": "http:\/\/id.nlm.nih.gov\/mesh\/M0000142",
+      "molecular_formula": "C3H6O",
+      "molecular_formula_code": "C3H6O",
+      "molecular_weight": "58.08",
+      "mono_isotopic_weight": [
+        "58.041900634765625"
+      ],
+      "notation": "O=C(C)C",
+      "pref_label": "Acetone",
+      "rotatable_bond_count": [
+        "0"
+      ],
+      "see_also": [
+        "http:\/\/opendata.epa.gov\/srs\/relatedLinks\/iaspub\/49021",
+        "https:\/\/opendata.epa.gov\/data\/substance\/49021.json",
+        "https:\/\/opendata.epa.gov\/data\/substance\/49021.rdf",
+        "https:\/\/opendata.epa.gov\/data\/substance\/49021.ttl"
+      ],
+      "smiles_notation": "O=C(C)C",
+      "substance_category": "http:\/\/opendata.epa.gov\/srs\/category\/c1",
+      "substance_create_date": "2006-10-13 14:30:12.0",
+      "substance_identifier": "49021",
+      "substance_last_update_date": "2012-02-01 14:37:36.0",
+      "substance_requestor": null,
+      "substance_status": "http:\/\/opendata.epa.gov\/srs\/substanceStatus\/A",
+      "synonyms": [],
+      "sys_name": "2-Propanone",
+      "technical_point_of_contact": null,
+      "tpsa": [
+        "17.100000381469726562"
+      ],
+      "undefined_atom_stereo_count": [
+        "0"
+      ],
+      "undefined_bond_stereo_count": [
+        "0"
+      ],
+      "x_log_p3": [
+        "-0.10000000149011611938"
       ]
     },
-    "SubstanceList": {
-      "TSCA Inventory": {
-        "substanceListName": "TSCA Inventory",
-        "substanceListId": "169",
-        "substanceListAcronym": "TSCA Inv",
+    "substance_list": {
+      "Emergency Planning and Community Right-to-Know Act Section 313": {
+        "@version": "1",
+        "@timestamp": "2016-10-31T14:08:09.906Z",
+        "path": "\/home\/sram\/SubstanceList.json",
+        "host": "elastic",
+        "substance_list_name": "Emergency Planning and Community Right-to-Know Act Section 313",
+        "substance_list_id": "107",
+        "substance_list_acronym": "EPCRA 313",
         "cfrs": [
-          "3882851",
-          "3882912"
-        ]
-      },
-      "Standards of Performance for New Stationary Sources of Air Pollutants - Equipment Leaks Chemical List": {
-        "substanceListName": "Standards of Performance for New Stationary Sources of Air Pollutants - Equipment Leaks Chemical List",
-        "substanceListId": "164",
-        "substanceListAcronym": "CAA 111",
-        "cfrs": [
-          "3848048"
-        ]
-      },
-      "Inert Ingredients in Pesticide Products": {
-        "substanceListName": "Inert Ingredients in Pesticide Products",
-        "substanceListId": "173",
-        "substanceListAcronym": "FIFRA-Inerts",
-        "cfrs": [
-          "3874283",
-          "3874781"
+          3878641,
+          2979866
         ]
       },
       "Hazardous Discarded Commercial Chemical Products": {
-        "substanceListName": "Hazardous Discarded Commercial Chemical Products",
-        "substanceListId": "106",
-        "substanceListAcronym": "RCRA U Waste",
+        "@version": "1",
+        "@timestamp": "2016-10-31T14:08:09.906Z",
+        "path": "\/home\/sram\/SubstanceList.json",
+        "host": "elastic",
+        "substance_list_name": "Hazardous Discarded Commercial Chemical Products",
+        "substance_list_id": "106",
+        "substance_list_acronym": "RCRA U Waste",
         "cfrs": [
-          "3876748"
-        ]
-      },
-      "Toxics Release Inventory Program System": {
-        "substanceListName": "Toxics Release Inventory Program System",
-        "substanceListId": "77",
-        "substanceListAcronym": "TRIPS",
-        "cfrs": [
-          "3878641"
+          3876748
         ]
       },
       "Hazardous Wastes From Non-Specific Sources": {
-        "substanceListName": "Hazardous Wastes From Non-Specific Sources",
-        "substanceListId": "140",
-        "substanceListAcronym": "RCRA F Waste",
+        "@version": "1",
+        "@timestamp": "2016-10-31T14:08:09.906Z",
+        "path": "\/home\/sram\/SubstanceList.json",
+        "host": "elastic",
+        "substance_list_name": "Hazardous Wastes From Non-Specific Sources",
+        "substance_list_id": "140",
+        "substance_list_acronym": "RCRA F Waste",
         "cfrs": [
-          "3876748"
+          3876748
         ]
       },
-      "Safe Drinking Water Information System in Envirofacts": {
-        "substanceListName": "Safe Drinking Water Information System in Envirofacts",
-        "substanceListId": "122",
-        "substanceListAcronym": "SDWIS-Enviro",
+      "Inert Ingredients in Pesticide Products": {
+        "@version": "1",
+        "@timestamp": "2016-10-31T14:08:09.906Z",
+        "path": "\/home\/sram\/SubstanceList.json",
+        "host": "elastic",
+        "substance_list_name": "Inert Ingredients in Pesticide Products",
+        "substance_list_id": "173",
+        "substance_list_acronym": "FIFRA-Inerts",
         "cfrs": [
-          "3873417"
+          3874283,
+          3874781
         ]
       },
       "Organic Hazardous Air Pollutants National Emission Standards": {
-        "substanceListName": "Organic Hazardous Air Pollutants National Emission Standards",
-        "substanceListId": "180",
-        "substanceListAcronym": "CAA112(b) HON",
+        "@version": "1",
+        "@timestamp": "2016-10-31T14:08:09.906Z",
+        "path": "\/home\/sram\/SubstanceList.json",
+        "host": "elastic",
+        "substance_list_name": "Organic Hazardous Air Pollutants National Emission Standards",
+        "substance_list_id": "180",
+        "substance_list_acronym": "CAA112(b) HON",
         "cfrs": [
-          "3851643"
+          3851643
         ]
       },
-      "Emergency Planning and Community Right-to-Know Act Section 313": {
-        "substanceListName": "Emergency Planning and Community Right-to-Know Act Section 313",
-        "substanceListId": "107",
-        "substanceListAcronym": "EPCRA 313",
+      "Safe Drinking Water Information System in Envirofacts": {
+        "@version": "1",
+        "@timestamp": "2016-10-31T14:08:09.906Z",
+        "path": "\/home\/sram\/SubstanceList.json",
+        "host": "elastic",
+        "substance_list_name": "Safe Drinking Water Information System in Envirofacts",
+        "substance_list_id": "122",
+        "substance_list_acronym": "SDWIS-Enviro",
         "cfrs": [
-          "2979866",
-          "3878641"
+          3873417
+        ]
+      },
+      "Standards of Performance for New Stationary Sources of Air Pollutants - Equipment Leaks Chemical List": {
+        "@version": "1",
+        "@timestamp": "2016-10-31T14:08:09.906Z",
+        "path": "\/home\/sram\/SubstanceList.json",
+        "host": "elastic",
+        "substance_list_name": "Standards of Performance for New Stationary Sources of Air Pollutants - Equipment Leaks Chemical List",
+        "substance_list_id": "164",
+        "substance_list_acronym": "CAA 111",
+        "cfrs": [
+          3848048
+        ]
+      },
+      "TSCA Inventory": {
+        "@version": "1",
+        "@timestamp": "2016-10-31T14:08:09.906Z",
+        "path": "\/home\/sram\/SubstanceList.json",
+        "host": "elastic",
+        "substance_list_name": "TSCA Inventory",
+        "substance_list_id": "169",
+        "substance_list_acronym": "TSCA Inv",
+        "cfrs": [
+          3882912,
+          3882851
+        ]
+      },
+      "Toxics Release Inventory Program System": {
+        "@version": "1",
+        "@timestamp": "2016-10-31T14:08:09.906Z",
+        "path": "\/home\/sram\/SubstanceList.json",
+        "host": "elastic",
+        "substance_list_name": "Toxics Release Inventory Program System",
+        "substance_list_id": "77",
+        "substance_list_acronym": "TRIPS",
+        "cfrs": [
+          3878641
         ]
       }
     },
-    "LawsRegs": {
-      "3882851": {
-        "cfrName": "CFR-2015-title40-vol31-part711",
-        "cfrId": "3882851",
+    "laws_regs": [
+      {
+        "cfr_name": "CFR-2013-title40-vol29-part372",
+        "cfr_id": "2979866",
         "attributes": {
-          "USC Citation": "15 U.S.C. 2607(a)",
-          "CFR Authority": "15 U.S.C. 2607(a).",
-          "Granule Label": "part",
-          "Heading": "Part 711",
-          "CFR Source": "76 FR 54933, Sept. 6, 2011, unless otherwise noted.",
-          "URL": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol31\/pdf\/CFR-2015-title40-vol31-part711.pdf",
-          "Citation": "40 CFR 711",
-          "Title": "TSCA CHEMICAL DATA REPORTING REQUIREMENTS",
-          "FR Citation": "76 FR 50859; 76 FR 54933"
-        }
+          "usc_citation": "42 U.S.C. 11023; 42 U.S.C. 11048",
+          "cfr_authority": "42 U.S.C. 11023 and 11048.",
+          "granule_label": "part",
+          "heading": "Part 372",
+          "cfr_source": "53 FR 4525, Feb. 16, 1988, unless otherwise noted.",
+          "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2013-title40-vol29\/pdf\/CFR-2013-title40-vol29-part372.pdf",
+          "citation": "40 CFR 372",
+          "title": "TOXIC CHEMICAL RELEASE REPORTING: COMMUNITY RIGHT-TO-KNOW",
+          "fr_citation": "53 FR 4525"
+        },
+        "substance_list": [
+          "Emergency Planning and Community Right-to-Know Act Section 313"
+        ]
       },
-      "3882912": {
-        "cfrName": "CFR-2015-title40-vol31-part720",
-        "cfrId": "3882912",
+      {
+        "cfr_name": "CFR-2015-title40-vol10-part63",
+        "cfr_id": "3851643",
         "attributes": {
-          "USC Citation": "15 U.S.C. 2604; 15 U.S.C. 2607; 15 U.S.C. 2613",
-          "CFR Authority": "15 U.S.C. 2604, 2607, and 2613.",
-          "Granule Label": "part",
-          "Heading": "Part 720",
-          "CFR Source": "48 FR 21742, May 13, 1983, unless otherwise noted.",
-          "URL": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol31\/pdf\/CFR-2015-title40-vol31-part720.pdf",
-          "Citation": "40 CFR 720",
-          "Title": "PREMANUFACTURE NOTIFICATION",
-          "FR Citation": "48 FR 21742"
-        }
+          "usc_citation": "42 U.S.C. 7401et seq.",
+          "cfr_authority": "42 U.S.C. 7401 et seq.",
+          "cfr_citation": "40 CFR Part 63",
+          "granule_label": "part",
+          "heading": "Part 63",
+          "cfr_source": "57 FR 61992, Dec. 29, 1992, unless otherwise noted.",
+          "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol10\/pdf\/CFR-2015-title40-vol10-part63.pdf",
+          "citation": "40 CFR 63",
+          "title": "NATIONAL EMISSION STANDARDS FOR HAZARDOUS AIR POLLUTANTS FOR SOURCE CATEGORIES",
+          "fr_citation": "57 FR. 61992"
+        },
+        "substance_list": [
+          "Organic Hazardous Air Pollutants National Emission Standards"
+        ]
       },
-      "3848048": {
-        "cfrName": "CFR-2015-title40-vol7-part60",
-        "cfrId": "3848048",
+      {
+        "cfr_name": "CFR-2015-title40-vol23-part141",
+        "cfr_id": "3873417",
         "attributes": {
-          "USC Citation": "42 U.S.C. 7401et seq.",
-          "CFR Authority": "42 U.S.C. 7401 et seq.",
-          "Granule Label": "part",
-          "Heading": "Part 60",
-          "CFR Source": "36 FR 24877, Dec. 23, 1971, unless otherwise noted.",
-          "URL": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol7\/pdf\/CFR-2015-title40-vol7-part60.pdf",
-          "Citation": "40 CFR 60",
-          "Title": "STANDARDS OF PERFORMANCE FOR NEW STATIONARY SOURCES",
-          "FR Citation": "36 FR. 24877"
-        }
+          "usc_citation": "42 U.S.C. 300f; 42 U.S.C. 300g-1; 42 U.S.C. 300g-2; 42 U.S.C. 300g-3; 42 U.S.C. 300g-4; 42 U.S.C. 300g-5; 42 U.S.C. 300g-6; 42 U.S.C. 300j-11; 42 U.S.C. 300j-4; 42 U.S.C. 300j-9",
+          "cfr_authority": "42 U.S.C. 300f, 300g-1, 300g-2, 300g-3, 300g-4, 300g-5, 300g-6, 300j-4, 300j-9, and 300j-11.",
+          "granule_label": "part",
+          "heading": "Part 141",
+          "cfr_source": "40 FR 59570, Dec. 24, 1975, unless otherwise noted.",
+          "url": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol23\/pdf\/CFR-2015-title40-vol23-part141.pdf",
+          "citation": "40 CFR 141",
+          "title": "NATIONAL PRIMARY DRINKING WATER REGULATIONS",
+          "fr_citation": "40 FR 59570; 44 FR 68641; 69 FR 18803"
+        },
+        "substance_list": [
+          "Safe Drinking Water Information System in Envirofacts"
+        ]
       },
-      "3874283": {
-        "cfrName": "CFR-2015-title40-vol24-part152",
-        "cfrId": "3874283",
+      {
+        "cfr_name": "CFR-2015-title40-vol24-part152",
+        "cfr_id": "3874283",
         "attributes": {
-          "USC Citation": "7 U.S.C. 136-136y; 31 U.S.C. 9701",
-          "CFR Authority": "7 U.S.C. 136-136y; Subpart U is also issued under 31 U.S.C. 9701.",
-          "Granule Label": "part",
-          "Heading": "Part 152",
-          "URL": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol24\/pdf\/CFR-2015-title40-vol24-part152.pdf",
-          "Citation": "40 CFR 152",
-          "Title": "PESTICIDE REGISTRATION AND CLASSIFICATION PROCEDURES"
-        }
+          "usc_citation": "7 U.S.C. 136-136y; 31 U.S.C. 9701",
+          "cfr_authority": "7 U.S.C. 136-136y; Subpart U is also issued under 31 U.S.C. 9701.",
+          "granule_label": "part",
+          "heading": "Part 152",
+          "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol24\/pdf\/CFR-2015-title40-vol24-part152.pdf",
+          "citation": "40 CFR 152",
+          "title": "PESTICIDE REGISTRATION AND CLASSIFICATION PROCEDURES"
+        },
+        "substance_list": [
+          "Inert Ingredients in Pesticide Products"
+        ]
       },
-      "3874781": {
-        "cfrName": "CFR-2015-title40-vol24-part168",
-        "cfrId": "3874781",
+      {
+        "cfr_name": "CFR-2015-title40-vol24-part168",
+        "cfr_id": "3874781",
         "attributes": {
-          "USC Citation": "7 U.S.C. 136-136y",
-          "CFR Authority": "7 U.S.C. 136-136y.",
-          "Granule Label": "part",
-          "Heading": "Part 168",
-          "CFR Source": "54 FR 1125, Jan. 11, 1989, unless otherwise noted.",
-          "URL": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol24\/pdf\/CFR-2015-title40-vol24-part168.pdf",
-          "Citation": "40 CFR 168",
-          "Title": "STATEMENTS OF ENFORCEMENT POLICIES AND INTERPRETATIONS",
-          "FR Citation": "54 FR. 1125"
-        }
+          "usc_citation": "7 U.S.C. 136-136y",
+          "cfr_authority": "7 U.S.C. 136-136y.",
+          "granule_label": "part",
+          "heading": "Part 168",
+          "cfr_source": "54 FR 1125, Jan. 11, 1989, unless otherwise noted.",
+          "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol24\/pdf\/CFR-2015-title40-vol24-part168.pdf",
+          "citation": "40 CFR 168",
+          "title": "STATEMENTS OF ENFORCEMENT POLICIES AND INTERPRETATIONS",
+          "fr_citation": "54 FR. 1125"
+        },
+        "substance_list": [
+          "Inert Ingredients in Pesticide Products"
+        ]
       },
-      "3876748": {
-        "cfrName": "CFR-2015-title40-vol26-part261",
-        "cfrId": "3876748",
+      {
+        "cfr_name": "CFR-2015-title40-vol26-part261",
+        "cfr_id": "3876748",
         "attributes": {
-          "USC Citation": "42 U.S.C. 6905; 42 U.S.C. 6912(a); 42 U.S.C. 6921; 42 U.S.C. 6922; 42 U.S.C. 6924(y); 42 U.S.C. 6938",
-          "CFR Authority": "42 U.S.C. 6905, 6912(a), 6921, 6922, 6924(y) and 6938.",
-          "Granule Label": "part",
-          "Heading": "Part 261",
-          "CFR Source": "45 FR 33119, May 19, 1980, unless otherwise noted.",
-          "URL": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol26\/pdf\/CFR-2015-title40-vol26-part261.pdf",
-          "Citation": "40 CFR 261",
-          "Title": "IDENTIFICATION AND LISTING OF HAZARDOUS WASTE",
-          "FR Citation": "45 FR 33119"
-        }
+          "usc_citation": "42 U.S.C. 6905; 42 U.S.C. 6912(a); 42 U.S.C. 6921; 42 U.S.C. 6922; 42 U.S.C. 6924(y); 42 U.S.C. 6938",
+          "cfr_authority": "42 U.S.C. 6905, 6912(a), 6921, 6922, 6924(y) and 6938.",
+          "granule_label": "part",
+          "heading": "Part 261",
+          "cfr_source": "45 FR 33119, May 19, 1980, unless otherwise noted.",
+          "url": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol26\/pdf\/CFR-2015-title40-vol26-part261.pdf",
+          "citation": "40 CFR 261",
+          "title": "IDENTIFICATION AND LISTING OF HAZARDOUS WASTE",
+          "fr_citation": "45 FR 33119"
+        },
+        "substance_list": [
+          "Hazardous Wastes From Non-Specific Sources",
+          "Hazardous Discarded Commercial Chemical Products"
+        ]
       },
-      "3878641": {
-        "cfrName": "CFR-2015-title40-vol28-part372",
-        "cfrId": "3878641",
+      {
+        "cfr_name": "CFR-2015-title40-vol28-part372",
+        "cfr_id": "3878641",
         "attributes": {
-          "USC Citation": "42 U.S.C. 11023; 42 U.S.C. 11048",
-          "CFR Authority": "42 U.S.C. 11023 and 11048.",
-          "Granule Label": "part",
-          "Heading": "Part 372",
-          "CFR Source": "53 FR 4525, Feb. 16, 1988, unless otherwise noted.",
-          "URL": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol28\/pdf\/CFR-2015-title40-vol28-part372.pdf",
-          "Citation": "40 CFR 372",
-          "Title": "TOXIC CHEMICAL RELEASE REPORTING: COMMUNITY RIGHT-TO-KNOW",
-          "FR Citation": "53 FR. 4525"
-        }
+          "usc_citation": "42 U.S.C. 11023; 42 U.S.C. 11048",
+          "cfr_authority": "42 U.S.C. 11023 and 11048.",
+          "granule_label": "part",
+          "heading": "Part 372",
+          "cfr_source": "53 FR 4525, Feb. 16, 1988, unless otherwise noted.",
+          "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol28\/pdf\/CFR-2015-title40-vol28-part372.pdf",
+          "citation": "40 CFR 372",
+          "title": "TOXIC CHEMICAL RELEASE REPORTING: COMMUNITY RIGHT-TO-KNOW",
+          "fr_citation": "53 FR. 4525"
+        },
+        "substance_list": [
+          "Emergency Planning and Community Right-to-Know Act Section 313",
+          "Toxics Release Inventory Program System"
+        ]
       },
-      "3873417": {
-        "cfrName": "CFR-2015-title40-vol23-part141",
-        "cfrId": "3873417",
+      {
+        "cfr_name": "CFR-2015-title40-vol31-part711",
+        "cfr_id": "3882851",
         "attributes": {
-          "USC Citation": "42 U.S.C. 300f; 42 U.S.C. 300g-1; 42 U.S.C. 300g-2; 42 U.S.C. 300g-3; 42 U.S.C. 300g-4; 42 U.S.C. 300g-5; 42 U.S.C. 300g-6; 42 U.S.C. 300j-11; 42 U.S.C. 300j-4; 42 U.S.C. 300j-9",
-          "CFR Authority": "42 U.S.C. 300f, 300g-1, 300g-2, 300g-3, 300g-4, 300g-5, 300g-6, 300j-4, 300j-9, and 300j-11.",
-          "Granule Label": "part",
-          "Heading": "Part 141",
-          "CFR Source": "40 FR 59570, Dec. 24, 1975, unless otherwise noted.",
-          "URL": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol23\/pdf\/CFR-2015-title40-vol23-part141.pdf",
-          "Citation": "40 CFR 141",
-          "Title": "NATIONAL PRIMARY DRINKING WATER REGULATIONS",
-          "FR Citation": "40 FR 59570; 44 FR 68641; 69 FR 18803"
-        }
+          "usc_citation": "15 U.S.C. 2607(a)",
+          "cfr_authority": "15 U.S.C. 2607(a).",
+          "granule_label": "part",
+          "heading": "Part 711",
+          "cfr_source": "76 FR 54933, Sept. 6, 2011, unless otherwise noted.",
+          "url": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol31\/pdf\/CFR-2015-title40-vol31-part711.pdf",
+          "citation": "40 CFR 711",
+          "title": "TSCA CHEMICAL DATA REPORTING REQUIREMENTS",
+          "fr_citation": "76 FR 50859; 76 FR 54933"
+        },
+        "substance_list": [
+          "TSCA Inventory"
+        ]
       },
-      "3851643": {
-        "cfrName": "CFR-2015-title40-vol10-part63",
-        "cfrId": "3851643",
+      {
+        "cfr_name": "CFR-2015-title40-vol31-part720",
+        "cfr_id": "3882912",
         "attributes": {
-          "USC Citation": "42 U.S.C. 7401et seq.",
-          "CFR Authority": "42 U.S.C. 7401 et seq.",
-          "CFR Citation": "40 CFR Part 63",
-          "Granule Label": "part",
-          "Heading": "Part 63",
-          "CFR Source": "57 FR 61992, Dec. 29, 1992, unless otherwise noted.",
-          "URL": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol10\/pdf\/CFR-2015-title40-vol10-part63.pdf",
-          "Citation": "40 CFR 63",
-          "Title": "NATIONAL EMISSION STANDARDS FOR HAZARDOUS AIR POLLUTANTS FOR SOURCE CATEGORIES",
-          "FR Citation": "57 FR. 61992"
-        }
+          "usc_citation": "15 U.S.C. 2604; 15 U.S.C. 2607; 15 U.S.C. 2613",
+          "cfr_authority": "15 U.S.C. 2604, 2607, and 2613.",
+          "granule_label": "part",
+          "heading": "Part 720",
+          "cfr_source": "48 FR 21742, May 13, 1983, unless otherwise noted.",
+          "url": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol31\/pdf\/CFR-2015-title40-vol31-part720.pdf",
+          "citation": "40 CFR 720",
+          "title": "PREMANUFACTURE NOTIFICATION",
+          "fr_citation": "48 FR 21742"
+        },
+        "substance_list": [
+          "TSCA Inventory"
+        ]
       },
-      "2979866": {
-        "cfrName": "CFR-2013-title40-vol29-part372",
-        "cfrId": "2979866",
+      {
+        "cfr_name": "CFR-2015-title40-vol7-part60",
+        "cfr_id": "3848048",
         "attributes": {
-          "USC Citation": "42 U.S.C. 11023; 42 U.S.C. 11048",
-          "CFR Authority": "42 U.S.C. 11023 and 11048.",
-          "Granule Label": "part",
-          "Heading": "Part 372",
-          "CFR Source": "53 FR 4525, Feb. 16, 1988, unless otherwise noted.",
-          "URL": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2013-title40-vol29\/pdf\/CFR-2013-title40-vol29-part372.pdf",
-          "Citation": "40 CFR 372",
-          "Title": "TOXIC CHEMICAL RELEASE REPORTING: COMMUNITY RIGHT-TO-KNOW",
-          "FR Citation": "53 FR 4525"
-        }
+          "usc_citation": "42 U.S.C. 7401et seq.",
+          "cfr_authority": "42 U.S.C. 7401 et seq.",
+          "granule_label": "part",
+          "heading": "Part 60",
+          "cfr_source": "36 FR 24877, Dec. 23, 1971, unless otherwise noted.",
+          "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol7\/pdf\/CFR-2015-title40-vol7-part60.pdf",
+          "citation": "40 CFR 60",
+          "title": "STANDARDS OF PERFORMANCE FOR NEW STATIONARY SOURCES",
+          "fr_citation": "36 FR. 24877"
+        },
+        "substance_list": [
+          "Standards of Performance for New Stationary Sources of Air Pollutants - Equipment Leaks Chemical List"
+        ]
       }
+    ],
+    "laws_regs_index": {
+      "2979866": 0,
+      "3851643": 1,
+      "3873417": 2,
+      "3874283": 3,
+      "3874781": 4,
+      "3876748": 5,
+      "3878641": 6,
+      "3882851": 7,
+      "3882912": 8,
+      "3848048": 9
     }
   }
 }
