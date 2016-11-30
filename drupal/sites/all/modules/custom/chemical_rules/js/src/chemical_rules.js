@@ -566,26 +566,29 @@ function isValidCasNumber(stringToCheck) {
       }
     });
 
-  $('#chemical-rules-learnmore')
-    .html(Drupal.settings.chemical_rules.learnmore)
-    .dialog({
-      title: 'How the Chemical Laws and Regulations Widget Works',
-      modal: true,
-      width: 'auto',
-      height: 'auto',
-      closeOnEscape: true,
-      position: { 'my': 'center top', 'at': 'center top' },
-      dialogClass: 'chemical-rules-learnmore',
-      draggable: false,
-      autoOpen: false,
-      resizable: false,  
-      create: function(event, ui) {
-        $(window).resize(function(){cr_resizeLMModal();});
-      },          
-      open: function(event, ui) {
-        cr_resizeLMModal();
-      }
+  if (Drupal.settings.chemical_rules.learnmore) {
+    $('#chemical-rules-learnmore')
+      .html(Drupal.settings.chemical_rules.learnmore)
+      .dialog({
+        title: 'How the Chemical Laws and Regulations Widget Works',
+        modal: true,
+        width: 'auto',
+        height: 'auto',
+        closeOnEscape: true,
+        position: { 'my': 'center top', 'at': 'center top' },
+        dialogClass: 'chemical-rules-learnmore',
+        draggable: false,
+        autoOpen: false,
+        resizable: false,  
+        create: function(event, ui) {
+          $(window).resize(function(){cr_resizeLMModal();});
+        },          
+        open: function(event, ui) {
+          cr_resizeLMModal();
+        }
     }); 
+    $body.find('#learnmore-link').html('<a href="javascript:void(0)" id="cr-learnmore">Learn how it works</a>.');
+  }
 
   // Handle Search chemicals button click
   $body.on('click', '#cr-search-chems-btn', function(ev) {
@@ -764,10 +767,11 @@ function isValidCasNumber(stringToCheck) {
     cr_resizeModal();
   });
   
-  $('#cr-learnmore').on('click', function() {
-    $('#chemical-rules-learnmore').dialog("open");
-  });
-  
+  if ($body.find('#cr-learnmore').length > 0) {
+    $('#cr-learnmore').on('click', function() {
+      $('#chemical-rules-learnmore').dialog("open");
+    });
+  }
 
 })(jQuery);
 

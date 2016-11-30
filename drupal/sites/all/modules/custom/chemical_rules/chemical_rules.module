@@ -13,6 +13,14 @@ function chemical_rules_menu() {
     'page callback' => 'update_chem_profile',
     'access callback' => TRUE,
   );
+  $items['admin/config/system/chemical_rules'] = array(
+    'title' => 'Chemical Rules Settings',
+    'description' => 'Description of your On this date settings page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('chemical_rules_admin'),
+    'access arguments' => array('administer chemical_rules settings'),
+    'file' => 'chemical_rules.admin.inc',
+  );
   return $items;
 }
 
@@ -107,14 +115,17 @@ function chemical_rules_block_view($delta = '') {
       // Pull content from chemical_rules-learnmore node to populate Learn how it works modal
       $path = "chemical_rules-learnmore";
       $org_path = drupal_lookup_path("source", $path);
-      $node = menu_get_object("node", 1, $org_path);
-      $nid = $node->nid;
-      $node = node_load($nid);
-      $nodeView = node_view($node, 'full');
-      $chemical_rules_learnmore = drupal_render($nodeView['body']);
-
-      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore"=>$chemical_rules_learnmore]), 'setting');
-
+      if ($org_path) {
+        $node = menu_get_object("node", 1, $org_path);
+        $nid = $node->nid;
+        $node = node_load($nid);
+        $nodeView = node_view($node, 'full');
+        $chemical_rules_learnmore = drupal_render($nodeView['body']);
+        drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore"=>$chemical_rules_learnmore]), 'setting');
+      }
+      else {
+        drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings]), 'setting');
+      }
       $block['subject'] = t('Chemical Laws &amp; Regulations');
       $block['content'] = theme('chemical_rules');
       return $block;
@@ -147,7 +158,7 @@ function chemical_rules_form_submission() {
   }
   else {
     $cached_response = get_chemical_response_cache($_POST['cr-search_input']);
-    if($cached_response && time() < strtotime("+1 month", $cached_response['cached']['changed']) && !feature_toggle_get_status('chemical_rules_no_cache_data')) {
+    if($cached_response && time() < strtotime(variable_get('chemical_rules_max_cache', '+1 month'), $cached_response['cached']['changed']) && !feature_toggle_get_status('chemical_rules_no_cache_data')) {
       $response = $cached_response;
     }
     else {

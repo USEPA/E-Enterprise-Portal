@@ -1,8 +1,7 @@
 <p class="widget-note">
   Source: <a href="https://www.epa.gov" target="_blank">US Environmental Protection Agency</a>
 </p>
-<p>
-  Find federal laws and regulations.  As state and local partners join, more resources will be available.  <a href="javascript:void(0)" id="cr-learnmore">Learn how it works</a>.
+<p>Find federal laws and regulations.  As state and local partners join, more resources will be available. <span id="learnmore-link"></span>
 </p>
 <div id="cr-search">
   <div id="cr-search_field">
