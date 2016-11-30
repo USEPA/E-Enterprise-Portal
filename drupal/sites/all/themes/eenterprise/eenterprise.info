@@ -44,7 +44,6 @@ scripts[] = js/lodash.min.js
 scripts[] = js/gridstack.js
 scripts[] = js/bootstrap.tooltip.js
 ;scripts[] = js/components.js
-scripts[] = js/waituntilexists.js
 
 ; FEATURES
 features[] = logo
