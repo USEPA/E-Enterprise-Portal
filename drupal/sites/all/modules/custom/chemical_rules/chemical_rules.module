@@ -709,7 +709,7 @@ function get_chemical_response_cache($search_term){
  */
 function save_chemical_response($chemical_response) {
 
-  if($chemical_response['error'] == false && !!$chemical_response['error-messages']) {
+  if($chemical_response['error'] == false && !$chemical_response['error-messages']) {
     //Check if the node exists
     $title = $chemical_response['data']['substance']['epa_chemical_registry_name'];
     $terms = taxonomy_get_term_by_name(strtolower(trim($title)), 'chemicals');
