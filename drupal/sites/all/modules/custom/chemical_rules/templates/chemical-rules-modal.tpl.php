@@ -27,7 +27,6 @@
     </ul>
     
     <!-- @LAWS AND REGULATIONS -->
-    <!-- @TODO Add favoriting ability to save favorite chemical here -->
     <h2 id="cr-laws-regs">Laws &amp; Regulations</h2>
     <p id="cr-laws-regs-results"><span id="count-all-cfrs" class="cr-laws-regs_count"></span> laws and regulations found for <span class="cr-chemical-name"></span>, its synonyms, and substances lists.<span id="results-intro"></span></p>
 
