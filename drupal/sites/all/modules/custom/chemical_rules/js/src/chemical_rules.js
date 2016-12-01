@@ -29,7 +29,7 @@ function cr_resizeLMModal() {
   
   jQuery('#chemical-rules-learnmore').dialog({
     position: { 'my': 'center', 'at': 'center' },
-    width: 0.75 * ($(window).width()),
+    width: 0.75 * (jQuery(window).width()),
     height: 'auto',
   });
   if(jQuery('.chemical-rules-modal').css('top').replace('px', '') < 1){
