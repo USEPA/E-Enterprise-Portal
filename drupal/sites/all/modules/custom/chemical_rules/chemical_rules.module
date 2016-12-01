@@ -391,7 +391,29 @@ function chemical_rules_process_lod_response(&$return) {
 
     $merged = array_merge($return['data']['substance'], $lod[$substanceConcept]);
     $return['data']['substance'] = ($merged) ? $merged : $return['data']['substance'];
+    $return['data']['substance']['2d-structure'] = _cache_pubchem_image($return['data']['substance']['2d-structure']);
   }
+}
+
+function _cache_pubchem_image($image_url) {
+  $image_name = end(explode('/', $image_url));
+  $path = 'sites/default/files/chemical_rules/images/pubchem';
+  $file_name = implode('/', [$path, $image_name.'.png']);
+  if(!file_exists($file_name)){
+    if(!is_dir($path)) {
+      $created = mkdir($path, 0755, true);
+    }
+    if($image_data = file_get_contents($image_url)) {
+      $save = file_put_contents($file_name, $image_data);
+      if($save) {
+        return $file_name;
+      }
+    }
+  }
+  else {
+    return $file_name;
+  }
+  return null;
 }
 
 function _process_substance_list_response(&$return, $lists) {
@@ -542,7 +564,6 @@ function strip_prefix_from_array($array, $prefix){
 function split_key_at_hash($array){
   $stripped = [];
 
-  // TODO: Refine the output
   foreach ($array as $key => $item) {
     $item_parts = explode('#', $key);
     if(is_array($item)) {
@@ -688,7 +709,7 @@ function get_chemical_response_cache($search_term){
  */
 function save_chemical_response($chemical_response) {
 
-  if($chemical_response['error'] == false && !!$chemical_response['error-messages']) {
+  if($chemical_response['error'] == false && !$chemical_response['error-messages']) {
     //Check if the node exists
     $title = $chemical_response['data']['substance']['epa_chemical_registry_name'];
     $terms = taxonomy_get_term_by_name(strtolower(trim($title)), 'chemicals');

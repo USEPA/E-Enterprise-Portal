@@ -19,6 +19,17 @@ function favorite_links_theme_registry_alter(&$theme_registry)
       $theme_registry[$key]['type'] = 'module';
     }
   }
+  
+  drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/waitUntilExists.js', [
+    'scope' => 'footer',
+    'preprocess' => TRUE,
+    'group' => JS_LIBRARY,
+    'weight' => -1,
+    'type' => 'file',
+    'cache' => TRUE,
+    'requires_jquery' => TRUE
+  ]);
+
 }
 
 

@@ -226,7 +226,7 @@
     
     $('#local-resources-tabs .pager__link').waitUntilExists(function() {
       $('#local-resources-tabs .pager__link').on('click', function() {
-        var delay = 1000;
+        var delay = 500;
         setTimeout(function() {
            processDataTablePageAnchors();
           }, delay);
