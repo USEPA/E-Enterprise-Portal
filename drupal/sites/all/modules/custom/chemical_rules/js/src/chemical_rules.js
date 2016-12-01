@@ -29,7 +29,7 @@ function cr_resizeLMModal() {
   
   jQuery('#chemical-rules-learnmore').dialog({
     position: { 'my': 'center', 'at': 'center' },
-    width: 0.75 * ($(window).width()),
+    width: 0.75 * (jQuery(window).width()),
     height: 'auto',
   });
   if(jQuery('.chemical-rules-modal').css('top').replace('px', '') < 1){
@@ -190,7 +190,9 @@ function populate_substance_modal(chemical_rules_response_json) {
         for(var index in json.data.laws_regs) {
           cfr_id = json.data.laws_regs[index].cfr_id;
           fav_holder = create_favlaw_heart(cfr_id);
-          html_to_add.push('<li><span class="law-entry"><a data-favtype="Law" data-epaintnum="' + cfr_id + '" href="'+ json.data.laws_regs[index].attributes.url +'" target="_blank">' + json.data.laws_regs[index].attributes.citation + " &mdash; " + json.data.laws_regs[index].attributes.title+'</a>' + fav_holder + '</span>');
+          html_to_add.push('<li><span class="law-entry"><a data-favtype="Law" data-epaintnum="' + cfr_id + '" href="'+ json.data.laws_regs[index].attributes.url +'" target="_blank">' + json.data.laws_regs[index].attributes.citation + " &mdash; " + 
+              json.data.laws_regs[index].attributes.title + 
+              ' (' + json.data.laws_regs[index].meta_data.year + ')</a>' + fav_holder + '</span>');
           html_to_add.push('<span class="law-citation">Authority: ' + json.data.laws_regs[index].attributes.cfr_authority + '</span>');
           html_to_add.push('<span class="law-lists">Substance Lists: ' + json.data.laws_regs[index].substance_list + '</span></li>');
         }

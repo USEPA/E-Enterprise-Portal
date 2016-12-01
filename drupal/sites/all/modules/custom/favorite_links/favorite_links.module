@@ -3,8 +3,7 @@
 /**
  * Implements hook_theme_registry_alter().
  */
-function favorite_links_theme_registry_alter(&$theme_registry)
-{
+function favorite_links_theme_registry_alter(&$theme_registry) {
 // Defined path to the current module.
   $module_path = drupal_get_path('module', 'favorite_links');
 // Find all .tpl.php files in this module's folder recursively.
@@ -19,42 +18,56 @@ function favorite_links_theme_registry_alter(&$theme_registry)
       $theme_registry[$key]['type'] = 'module';
     }
   }
+
+  drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/waitUntilExists.js', [
+    'scope' => 'footer',
+    'preprocess' => TRUE,
+    'group' => JS_LIBRARY,
+    'type' => 'file',
+    'cache' => TRUE,
+    'requires_jquery' => TRUE
+  ]);
+
+  drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/FavoriteLink.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+  drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/favorite_links.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+  drupal_add_js(array('preloaded_link_data' => load_links()), 'setting');
+
+
 }
 
 
 /**
-  * Implements hook_menu().
-  **/
+ * Implements hook_menu().
+ **/
 
 function favorite_links_menu() {
-  $items =array();
-    $items['favorite_links'] = array(
-      'title' => 'favorite_links_demo',
-            'access callback' => TRUE,
-               'page callback' => 'favorite_theme',
-                'access arguments' => array('access content'),
-    );
-     $items['process_favorite_link'] = array(
-      'page callback' => 'process_favorite_link',
-      'access callback' => TRUE,
-      );
-    $items['load_links'] = array(
-      'page callback' => 'load_links',
-      'access callback' => TRUE,
-      ); 
-    $items['favorite_sites-ajax/%'] = array(
-      'access arguments' => array('access content'),
-      'page callback' => 'favorite_links_ajax_callback',
-      'page arguments' => array(1),
-      'type' => MENU_CALLBACK,
-    );
-    return $items;
-} 
+  $items = array();
+  $items['favorite_links'] = array(
+    'title' => 'favorite_links_demo',
+    'access callback' => TRUE,
+    'page callback' => 'favorite_theme',
+    'access arguments' => array('access content'),
+  );
+  $items['process_favorite_link'] = array(
+    'page callback' => 'process_favorite_link',
+    'access callback' => TRUE,
+  );
+  $items['load_links'] = array(
+    'page callback' => 'load_links',
+    'access callback' => TRUE,
+  );
+  $items['favorite_sites-ajax/%'] = array(
+    'access arguments' => array('access content'),
+    'page callback' => 'favorite_links_ajax_callback',
+    'page arguments' => array(1),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
 
 
+function remove_url($array, $remove_url) {
 
-function remove_url ($array, $remove_url) {
-  
   if (is_array($array)) {
     foreach ($array[LANGUAGE_NONE] as $key => $value) {
       $url = $value['field_url'][LANGUAGE_NONE][0]['value'];
@@ -81,7 +94,7 @@ function process_favorite_link() {
   global $user;
   $user_data = user_load($user->uid);
   $user_urls = $user_data->field_profile_favourites;
-  $date =  date('Y-m-d H:i:s', time());
+  $date = date('Y-m-d H:i:s', time());
   $url = urldecode($_POST['url']);
   $title = $_POST['title'];
   $action = $_POST['action'];
@@ -93,51 +106,50 @@ function process_favorite_link() {
   switch ($action) {
     case "add":
       $multifield_obj = array(
-              'field_title_value' => 'title',
-              'field_title_format' => null,
-              'field_url_value' => $url,
-              'field_url_format' => null,
-              'field_title' => array(
-                                LANGUAGE_NONE => array( 
-                                   0 => array (
-                                     'value' => $title
-                                   ),
-                                ),
-                            ),
-             'field_url' => array(
-                LANGUAGE_NONE => array( 
-                   0 => array (
-                     'value' => $url
-                   ),
-                ),
-             ),
-             'field_date_updated' => array( 
-               LANGUAGE_NONE => array(
-                 0 => array (
-                   'value' => $date
-                 ),
-               ),
-             ),
+        'field_title_value' => 'title',
+        'field_title_format' => null,
+        'field_url_value' => $url,
+        'field_url_format' => null,
+        'field_title' => array(
+          LANGUAGE_NONE => array(
+            0 => array(
+              'value' => $title
+            ),
+          ),
+        ),
+        'field_url' => array(
+          LANGUAGE_NONE => array(
+            0 => array(
+              'value' => $url
+            ),
+          ),
+        ),
+        'field_date_updated' => array(
+          LANGUAGE_NONE => array(
+            0 => array(
+              'value' => $date
+            ),
+          ),
+        ),
       );
       $user_urls[LANGUAGE_NONE][] = $multifield_obj;
       break;
     case "remove":
-        if (isset($id)) {
-          $remove_url_index = remove_url_by_id($user_urls, $id);
-        }
-        else {
-          $remove_url_index = remove_url($user_urls, $url);
-        }
-        unset($user_urls[LANGUAGE_NONE][$remove_url_index]);
+      if (isset($id)) {
+        $remove_url_index = remove_url_by_id($user_urls, $id);
+      } else {
+        $remove_url_index = remove_url($user_urls, $url);
+      }
+      unset($user_urls[LANGUAGE_NONE][$remove_url_index]);
       break;
   }
   $edit = array(
     'field_profile_favourites' => $user_urls
   );
   // save existing user
-   
-  user_save($user_data,  $edit);
- 
+
+  user_save($user_data, $edit);
+
   echo 'success';
 }
 
@@ -148,17 +160,16 @@ function load_links() {
   $url_data = array();
   $url_ids_array = array();
   $labels_ids_array = array();
-  
-  if (isset($user_urls[LANGUAGE_NONE])){ 
-   foreach($user_urls[LANGUAGE_NONE] as $key=>$value) {
-     if (isset($value['field_url'][LANGUAGE_NONE][0])) {
-     $url_data[] = $value['field_url'][LANGUAGE_NONE][0]['value'];
-     $url_ids_array[$value['field_url'][LANGUAGE_NONE][0]['value']] = $value['id'];
-     $labels_ids_array[$value['id']] = $value['field_title'][LANGUAGE_NONE][0]['value'];
-     }
+
+  if (isset($user_urls[LANGUAGE_NONE])) {
+    foreach ($user_urls[LANGUAGE_NONE] as $key => $value) {
+      if (isset($value['field_url'][LANGUAGE_NONE][0])) {
+        $url_data[] = $value['field_url'][LANGUAGE_NONE][0]['value'];
+        $url_ids_array[$value['field_url'][LANGUAGE_NONE][0]['value']] = $value['id'];
+        $labels_ids_array[$value['id']] = $value['field_title'][LANGUAGE_NONE][0]['value'];
+      }
     }
-  }
-  else {
+  } else {
     $url_data = false;
   }
   $results = array('urls' => $url_data, 'url_mapping' => $url_ids_array, 'label_mapping' => $labels_ids_array, 'full_data' => $user_urls[LANGUAGE_NONE]);
@@ -170,7 +181,7 @@ function load_links() {
 
 
 function favorite_links_ajax_callback($js, $node) {
-  
+
   // name of view = favorite_sites
   // If the nojs didn't get changed to ajax, the user has no javascript.
   // Send them to the regular node page instead.

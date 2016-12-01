@@ -37,13 +37,13 @@ if (feature_toggle_get_status('use_new_method_for_cdx_js')): ?>
 
 // Set load to JS_THEME because this needs to be loaded with themes items after libraries have been loaded
 
-  drupal_add_js('//js.arcgis.com/3.13/init.js', ['scope'=>'footer','type'=>'external', 'group'=>JS_SCRIPT]);
+  drupal_add_js('//js.arcgis.com/3.13/init.js', ['requires_jquery' => TRUE, 'scope'=>'footer','type'=>'external', 'group'=>JS_DEFAULT]);
   drupal_add_css($cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementStyles.css', 'external');
 
   echo '<!--[if IE 8]><link rel="stylesheet" href="' . $cdx_facility_source .  '/ContentFramework/FRS%20Widget/FacilityManagementStyles-ie8.css"><![endif]-->';
 
-  drupal_add_js($cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementTemplates.min.js', ['scope'=>'footer','type'=>'external', 'group'=>JS_SCRIPT]);
-  drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js', ['scope'=>'footer','type'=>'external']);
+  drupal_add_js($cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementTemplates.min.js', ['requires_jquery' => TRUE, 'scope'=>'footer','type'=>'external', 'group'=>JS_DEFAULT]);
+  drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js', ['requires_jquery' => TRUE, 'scope'=>'footer','type'=>'external']);
 
 else:
   /**
