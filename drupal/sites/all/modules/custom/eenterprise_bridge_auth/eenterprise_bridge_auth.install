@@ -77,3 +77,11 @@ function eenterprise_bridge_auth_uninstall() {
   variable_del('eenterprise_bridge_auth_realm');
   variable_del('eenterprise_bridge_auth_reply');
 }
+
+
+/**
+ * UPDATES
+ */
+function eenterprise_bridge_auth_update_7001() {
+  eenterprise_bridge_auth_enable();
+}
