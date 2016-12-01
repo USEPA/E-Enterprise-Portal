@@ -19,22 +19,27 @@ function favorite_links_theme_registry_alter(&$theme_registry) {
     }
   }
 
-  drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/waitUntilExists.js', [
-    'scope' => 'footer',
-    'preprocess' => TRUE,
-    'group' => JS_LIBRARY,
-    'type' => 'file',
-    'cache' => TRUE,
-    'requires_jquery' => TRUE
-  ]);
-
-  drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/FavoriteLink.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
-  drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/favorite_links.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
-  drupal_add_js(array('preloaded_link_data' => load_links()), 'setting');
-
-
 }
 
+/**
+ * @param $view
+ * Implementation of hook_views_pre_render
+ */
+function favorite_links_views_pre_render(&$view) {
+  if ($view->name == 'favorite_sites') {
+    drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/waitUntilExists.js', [
+      'scope' => 'footer',
+      'preprocess' => TRUE,
+      'group' => JS_LIBRARY,
+      'type' => 'file',
+      'cache' => TRUE,
+      'requires_jquery' => TRUE
+    ]);
+    drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/FavoriteLink.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+    drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/favorite_links.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+    drupal_add_js(array('preloaded_link_data' => load_links()), 'setting');
+  }
+}
 
 /**
  * Implements hook_menu().
