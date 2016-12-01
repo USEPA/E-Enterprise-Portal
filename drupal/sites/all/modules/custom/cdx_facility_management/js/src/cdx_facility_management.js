@@ -226,7 +226,7 @@
                 unableToConnectWidget("CDX Facility- Max attempts.");
               }
               else {
-                updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts + 1);
+                updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, number_attempts + 1);
               }
             },
             fail: function() {
