@@ -274,10 +274,11 @@ function resetBWIForm() {
                       $('[name="RoutineContaminants[' + item.Symbol + '][Value]"]').val($(this).val())
                     })
                     .appendTo($column)
+                  var contaminantType = (item.Symbol == 'Ecoli') ? (contaminantType = 'BacterialContaminants') : (contaminantType = 'RoutineContaminants')
                   var $select = $('<select class="one-third" ></select>')
-                    .html($('[name="RoutineContaminants[' + item.Symbol + '][Unit]"]').html())
+                    .html($('[name="' + contaminantType + '[' + item.Symbol + '][Unit]"]').html())
                     .on('change', function() {
-                      $('[name="RoutineContaminants[' + item.Symbol + '][Unit]"]').val($(this).val())
+                      $('[name="' + contaminantType + '[' + item.Symbol + '][Unit]"]').val($(this).val())
                     })
                     .appendTo($column)
                 }
