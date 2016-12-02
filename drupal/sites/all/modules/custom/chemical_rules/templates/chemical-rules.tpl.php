@@ -11,7 +11,7 @@
     </form>
   </div><!-- @end cr-search_field -->
   <button id="cr-search-chems-btn" type="button">Search chemicals</button>  
-  <div id="cr-search_description" class="description">Powered by EPA <a href="https://epa.gov/srs" rel="external" target="_blank">Substance Registry Service</a> and <a href="https://epa.gov/lrs" rel="external" target="_blank">Laws &amp; Regulations Service</a></div>
+  <div id="cr-search_description" class="description">Powered by EPA <a href="https://epa.gov/srs" rel="external" target="_blank">Substance Registry Service</a> and Laws &amp; Regulations Service</div>
 </div><!-- @end cr-search -->    
 <div id="cr-tabs">
     <ul>
