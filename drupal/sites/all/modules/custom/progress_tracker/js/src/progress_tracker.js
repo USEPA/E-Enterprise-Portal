@@ -20,10 +20,10 @@
       title: 'Details for ' + title,
       width: "auto",
       height: "auto",
-      autoOpen: true
+      autoOpen: true,
+      modal: true
     });
   }
-
 
   var $table_wrapper = $('#progress-tracker').find('table');
   $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";

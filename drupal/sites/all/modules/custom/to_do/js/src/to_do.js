@@ -26,7 +26,8 @@
       title: 'Details for ' + title,
       width: "auto",
       height: "auto",
-      autoOpen: true
+      autoOpen: true,
+      modal: true      
     });
   }
 
