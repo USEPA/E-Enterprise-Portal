@@ -269,12 +269,12 @@ function resetBWIForm() {
                   var $column = $('<div class="column usa-width-one-half"></div>')
                     .appendTo($prompt)
                   // we will use the existing form to submit the updated values
+                  var contaminantType = (item.Symbol == 'Ecoli') ? ('BacterialContaminants') : ('RoutineContaminants')
                   var $input = $('<input class="one-third offset-one-third" type="number" step="0.001" required>')
                     .on('change', function() {
-                      $('[name="RoutineContaminants[' + item.Symbol + '][Value]"]').val($(this).val())
+                      $('[name="' + contaminantType + '[' + item.Symbol + '][Value]"]').val($(this).val())
                     })
                     .appendTo($column)
-                  var contaminantType = (item.Symbol == 'Ecoli') ? (contaminantType = 'BacterialContaminants') : (contaminantType = 'RoutineContaminants')
                   var $select = $('<select class="one-third" ></select>')
                     .html($('[name="' + contaminantType + '[' + item.Symbol + '][Unit]"]').html())
                     .on('change', function() {
