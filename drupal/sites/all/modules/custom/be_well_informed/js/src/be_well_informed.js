@@ -49,7 +49,7 @@ function resizeModal() {
 function checkValues(previous, current, cIndex, keys) {
   var previousKeys = [];
   if(typeof previous[keys[cIndex]] == 'object'){
-    previousKeys = Object.keys(previous[keys[cIndex]])
+    previousKeys = Object.keys(previous[keys[cIndex]]);
   }
 
   if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {

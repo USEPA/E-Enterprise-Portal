@@ -209,7 +209,7 @@ function be_well_informed_form_submission() {
     }
   }
 
-  drupal_json_output($datatable_formatted_response);
+    drupal_json_output($datatable_formatted_response);
 }
 
 /**
