@@ -1,0 +1,5 @@
+{
+  "require": {
+    "h4cc/wkhtmltopdf-i386":"*"
+  }
+}
