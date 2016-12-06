@@ -186,14 +186,19 @@ body.viewport-lg {
         }
     }
     .cr-structure_container {
+        width: 150px;
+        display: inline-block;
+        vertical-align: top;
         img {
             width: 100px;
         }
         p {
             margin: 0;
-            font-size: 1rem;
         }
     }
+    p.cr-footnote {
+        font-size: 1rem;
+    }    
     ul,
     table {
         margin-top: 0;

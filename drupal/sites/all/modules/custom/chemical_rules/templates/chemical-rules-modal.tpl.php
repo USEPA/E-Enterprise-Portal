@@ -21,7 +21,6 @@
       <li><a id="cr-icon-laws" href="#cr-laws-regs" class="favorites-ignore">Laws &amp; Regulations</a></li>
       <li><a id="cr-icon-programs" href="#cr-programs" class="favorites-ignore">EPA Programs</a></li>
       <li><a id="cr-icon-structure" href="#cr-structure" class="favorites-ignore">Structure</a></li>
-      <li><a id="cr-icon-properties" href="#cr-properties" class="favorites-ignore">Chemical &amp; Physical Properties</a></li>
       <li><a id="cr-icon-synonyms" href="#cr-synonyms" class="favorites-ignore">Synonyms</a></li>
       <li><a id="cr-icon-lists" href="#cr-lists" class="favorites-ignore">Substance Lists</a></li>
     </ul>
@@ -46,6 +45,10 @@
       <div class="cr-structure_container">
         <div class="cr-structure_image">
         </div>
+      </div><!-- @end .cr-structure_container -->
+      <!-- <div class="cr-structure_container">
+        <div class="cr-structure_molecular-weight">
+        </div>-->
       </div><!-- @end .cr-structure_container -->
     </div><!-- @end #cr-laws-regs_structure -->
 
