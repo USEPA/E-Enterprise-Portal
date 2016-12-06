@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "321349ab3300ac6c51dd7487e238e818",
-    "content-hash": "cc32d12d7e2d3c0469e136ac586f4840",
+    "hash": "c113e73d661f2315abc7a10c69951d34",
+    "content-hash": "c29c67ea6a46735867b52cb5c202daf5",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -44,7 +44,7 @@
             "license": [
                 "MIT"
             ],
-			 "authors": [
+            "authors": [
                 {
                     "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
@@ -61,7 +61,7 @@
                     "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com"
                 },
-                {
+				{
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com"
                 }
@@ -75,7 +75,7 @@
             ],
             "time": "2016-10-24 11:45:47"
         },
-		{
+        {
             "name": "doctrine/lexer",
             "version": "v1.0.1",
             "source": {
@@ -107,7 +107,7 @@
             "license": [
                 "MIT"
             ],
-			 "authors": [
+            "authors": [
                 {
                     "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
@@ -123,51 +123,12 @@
             ],
             "description": "Base library for a lexer that can be used in Top-Down, Recursive Descent Parsers.",
             "homepage": "http://www.doctrine-project.org",
+			 "homepage": "http://www.doctrine-project.org",
             "keywords": [
                 "lexer",
                 "parser"
             ],
             "time": "2014-09-09 13:34:57"
-        },
-        {
-            "name": "h4cc/wkhtmltopdf-i386",
-            "version": "0.12.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/h4cc/wkhtmltopdf-i386.git",
-                "reference": "79f2f8ed78d35f5541beceb2ec6fcd01a76e05ba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-i386/zipball/79f2f8ed78d35f5541beceb2ec6fcd01a76e05ba",
-                "reference": "79f2f8ed78d35f5541beceb2ec6fcd01a76e05ba",
-                "shasum": ""
-            },
-            "bin": [
-                "bin/wkhtmltopdf-i386"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL Version 3"
-            ],
-			"authors": [
-                {
-                    "name": "Julius Beckmann",
-                    "email": "github@h4cc.de"
-                }
-            ],
-            "description": "Convert html to pdf using webkit (qtwebkit). Static linked linux binary for i386 systems.",
-            "homepage": "http://wkhtmltopdf.org/",
-            "keywords": [
-                "binary",
-                "convert",
-                "pdf",
-                "snapshot",
-                "thumbnail",
-                "wkhtmltopdf"
-            ],
-            "time": "2016-02-02 19:38:57"
         },
         {
             "name": "symfony/finder",
@@ -192,7 +153,7 @@
                     "dev-master": "3.2-dev"
                 }
             },
-			 "autoload": {
+            "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Finder\\": ""
                 },
@@ -225,7 +186,7 @@
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
                 "reference": "299df0b51f641225ed50ba5199b21e8cfc34e4f4"
-            },
+			 },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/zircote/swagger-php/zipball/299df0b51f641225ed50ba5199b21e8cfc34e4f4",
@@ -237,7 +198,7 @@
                 "php": ">=5.4.0",
                 "symfony/finder": "*"
             },
-			"require-dev": {
+            "require-dev": {
                 "squizlabs/php_codesniffer": "2.*",
                 "zendframework/zend-form": "<2.8"
             },
@@ -280,12 +241,12 @@
             "time": "2016-05-27 09:35:51"
         }
     ],
-	"packages-dev": [],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+	"platform-dev": []
 }
