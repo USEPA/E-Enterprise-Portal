@@ -425,7 +425,7 @@ function update_favorite_lists(type) {
     render_favorite_laws(Drupal.settings.chemical_rules.profile);
   }
   else {
-    render_naics_codes(Drupal.settings.chemical_rules.profile);
+    //render_naics_codes(Drupal.settings.chemical_rules.profile);
   }
 
 }

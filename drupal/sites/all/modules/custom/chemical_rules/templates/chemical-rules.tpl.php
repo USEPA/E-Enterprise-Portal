@@ -17,7 +17,7 @@
     <ul>
       <li><a class="favorites-ignore" href="#cr-tabs_favorites">My Favorites</a></li>
       <li><a class="favorites-ignore" href="#cr-tabs_previous">Previous Searches</a></li>
-      <li><a class="favorites-ignore" href="#cr-tabs_naics">NAICS Codes</a></li>
+<!--       <li><a class="favorites-ignore" href="#cr-tabs_naics">NAICS Codes</a></li> -->
 <!--       <li><a class="favorites-ignore" href="#cr-tabs_trending">Trending</a></li> -->
     </ul>
     <!-- @TAB: My Favorites -->
@@ -50,6 +50,7 @@
       </ul>  
     </div><!-- @end cr-tabs_previous -->
     <!-- @TAB: NAICS Codes -->
+<!--
     <div id="cr-tabs_naics">
       <p class="dev-note"><strong>NOTE:  This tab is for conceptual purposes only and is not yet showing the correct NAICS codes from the user's CDX profile.</strong></p>
       <p class="cr_codes">Here are the NAICS codes we retrieved from your CDX profile.</p>
@@ -60,7 +61,8 @@
           <li><a class="favorite-code cr-favorite" href="https://www.naics.com/naics-code-description/?code=111140"  data-favtype="Code" target="_blank"> 111140 </a></li>
           <li><a class="favorite-code cr-favorite" href="https://www.naics.com/naics-code-description/?code=924110"  data-favtype="Code" target="_blank"> 924110 </a></li>
       </ul>
-    </div><!-- @end cr-tabs_naics -->
+    </div>
+--><!-- @end cr-tabs_naics -->
 </div><!-- @end cr-tabs -->
 <div id="chemical-rules-modal"></div>
 <div id="chemical-rules-learnmore"><?php print $chemical_rules_learnmore; ?></div>
