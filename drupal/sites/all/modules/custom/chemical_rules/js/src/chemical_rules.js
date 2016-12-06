@@ -132,7 +132,6 @@ function populate_substance_modal(chemical_rules_response_json) {
     var $programs = $body.find('#cr-programs-list');
     var $synonyms = $body.find('#cr-synonyms-list');
     var $image = $body.find('.cr-structure_image');
-    var $propertiestable = $body.find('#cr-properties-table > tbody');
     var $substance_lists = $body.find('#cr-substances-list');
     var lists = [];
     var cfrs = [];
@@ -243,16 +242,6 @@ function populate_substance_modal(chemical_rules_response_json) {
     
     var tr_start = '<tr><th scope="row">',
         tr_end = '</td></tr>';
-
-    $propertiestable.html('');
-    var properties = tr_start + "Molecular Weight <span class='cr-definition'></span></th><td>" + json.data.substance.molecular_weight + tr_end;
-        properties += tr_start + "Solubility <span class='cr-definition'>The solubility of a substance is the amount of that substance that will dissolve in a given amount of solvent. The default solvent is water, if not indicated.</span></th><td>" + json.data.substance.solubility + tr_end;
-        properties += tr_start + "Vapor Pressure <span class='cr-definition'>Vapor pressure is the pressure of a vapor in thermodynamic equilibrium with its condensed phases in a closed system.</span></th><td>" + json.data.substance.vapor_pressure + tr_end;
-        properties += tr_start + "LogP <span class='cr-definition'>Octanol/Water Partition Coefficient, used as a measure of molecular lipophilicity</span></th><td>" + json.data.substance.log_p + tr_end;
-        properties += tr_start + "Stability <span class='cr-definition'>Tendency of a material to resist change or decomposition due to internal reaction, or due to the action of air, heat, light, pressure, etc. (See also Stability and Reactivity section under Safety and Hazards)</span></th><td>" + json.data.substance.stability + tr_end;
-        properties += tr_start + "pKA <span class='cr-definition'></span></th><td>" + json.data.substance.pka + tr_end;
-             
-    $propertiestable.append(properties);
     
     $substance_lists.html('');
     if (Object.keys(json.data.substance_list).length > 0) {
