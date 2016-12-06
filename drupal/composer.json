@@ -1,6 +1,6 @@
 {
   "require": {
-  "zircote/swagger-php": "*",
-  "nitmedia/wkhtml2pdf": "*"
-}
+    "zircote/swagger-php": "*",
+    "h4cc/wkhtmltopdf-i386":"*"
+  }
 }
