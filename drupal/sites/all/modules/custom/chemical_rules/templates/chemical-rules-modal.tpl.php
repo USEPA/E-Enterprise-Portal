@@ -49,23 +49,6 @@
       </div><!-- @end .cr-structure_container -->
     </div><!-- @end #cr-laws-regs_structure -->
 
-    <!-- @CHEMICAL & PHYSICAL PROPERTIES -->    
-    <div id="cr-laws-regs_properties">      
-      <h2 id="cr-properties">Chemical &amp; Physical Properties</h2>
-      <div class="cr-properties_container">
-        <table id="cr-properties-table">
-          <thead>
-            <tr>
-              <th scope="col" class="cr-property">Property</th>
-              <th scope="col" class="cr-value">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody> 
-        </table>
-      </div><!-- @end .cr-properties_container -->    
-    </div><!-- @end #cr-laws-regs_properties -->    
-
     <!-- @SYNONYMS -->    
     <div id="cr-laws-regs_synonyms">
       <h2 id="cr-synonyms">Synonyms</h2>
