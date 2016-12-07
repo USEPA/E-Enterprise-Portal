@@ -641,15 +641,10 @@
   }
 
   $(document).ready(function () {
-    // If No radio selection has been made, select "N/A". This has not action in Drupal's db so it is not set by defautl
     var $urban_check =  $('#edit-field-community-type-und');
-    if ($urban_check.find('input:checked').length === 0) {
-      $urban_check.val("_none").find('input[value="_none"]').prop("checked", true);
-    }
 
-    $urban_check.find('input').change( function() {
-      var isurban = $(this).val();
-      updatePrimaryLocationDataUrban(isurban);
+    $urban_check.change( function() {
+      updatePrimaryLocationDataUrban($(this).val());
       update_user_zip_preferences();
     });
 
