@@ -21,14 +21,13 @@
       <li><a id="cr-icon-laws" href="#cr-laws-regs" class="favorites-ignore">Laws &amp; Regulations</a></li>
       <li><a id="cr-icon-programs" href="#cr-programs" class="favorites-ignore">EPA Programs</a></li>
       <li><a id="cr-icon-structure" href="#cr-structure" class="favorites-ignore">Structure</a></li>
-      <li><a id="cr-icon-properties" href="#cr-properties" class="favorites-ignore">Chemical &amp; Physical Properties</a></li>
       <li><a id="cr-icon-synonyms" href="#cr-synonyms" class="favorites-ignore">Synonyms</a></li>
       <li><a id="cr-icon-lists" href="#cr-lists" class="favorites-ignore">Substance Lists</a></li>
     </ul>
     
     <!-- @LAWS AND REGULATIONS -->
     <h2 id="cr-laws-regs">Laws &amp; Regulations</h2>
-    <p id="cr-laws-regs-results"><span id="count-all-cfrs" class="cr-laws-regs_count"></span> laws and regulations found for <span class="cr-chemical-name"></span>, its synonyms, and substances lists.<span id="results-intro"></span></p>
+    <p id="cr-laws-regs-results"><span id="count-all-cfrs" class="cr-laws-regs_count"></span> laws and regulations found for <span class="cr-chemical-name"></span>, its synonyms, or its substances lists.<span id="results-intro"></span></p>
 
     <div id="cr-laws-regs-substances">
     </div><!-- @end #cr-laws-regs_substances -->
@@ -47,24 +46,11 @@
         <div class="cr-structure_image">
         </div>
       </div><!-- @end .cr-structure_container -->
+      <!-- <div class="cr-structure_container">
+        <div class="cr-structure_molecular-weight">
+        </div>-->
+      </div><!-- @end .cr-structure_container -->
     </div><!-- @end #cr-laws-regs_structure -->
-
-    <!-- @CHEMICAL & PHYSICAL PROPERTIES -->    
-    <div id="cr-laws-regs_properties">      
-      <h2 id="cr-properties">Chemical &amp; Physical Properties</h2>
-      <div class="cr-properties_container">
-        <table id="cr-properties-table">
-          <thead>
-            <tr>
-              <th scope="col" class="cr-property">Property</th>
-              <th scope="col" class="cr-value">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody> 
-        </table>
-      </div><!-- @end .cr-properties_container -->    
-    </div><!-- @end #cr-laws-regs_properties -->    
 
     <!-- @SYNONYMS -->    
     <div id="cr-laws-regs_synonyms">
