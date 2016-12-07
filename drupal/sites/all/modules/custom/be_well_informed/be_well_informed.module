@@ -39,7 +39,14 @@ function be_well_pdf_generate(){
       1 => array('pipe', 'w'), // stdout
       2 => array('pipe', 'w'), // stderr
   );
-  $process = proc_open('sites/all/libraries/wkhtmltox/bin/wkhtmltopdf -q - -', $descriptorspec, $pipes);
+  $current_srvr_name = variable_get('eportal_server_name');
+  if(isset($current_srvr_name) && ($current_srvr_name == $_SERVER['SERVER_NAME'])){
+    $process = proc_open('wkhtmltopdf -q - -', $descriptorspec, $pipes);
+  }
+  else{
+    $process = proc_open('sites/all/libraries/wkhtmltox/bin/wkhtmltopdf -q - -', $descriptorspec, $pipes);
+  }
+
   // Send the HTML on stdin
   fwrite($pipes[0], $html);
   fclose($pipes[0]);
