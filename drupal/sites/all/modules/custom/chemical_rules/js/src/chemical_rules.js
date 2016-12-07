@@ -102,6 +102,9 @@ function lookup_chemical(lookup_value) {
       complete: function() {
         $('#chemical-rules-modal').dialog('option','title', 'Search results for "' + chem_search_input + '"');
         cr_showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
+        if (Drupal.settings.is_guest) {
+          $('.cr-user-options').hide();
+        }
         originalDialog = $body.find('#chemical-rules-modal').html();
       },
       success: populate_substance_modal
@@ -189,7 +192,7 @@ function populate_substance_modal(chemical_rules_response_json) {
         html_to_add.push('<ul class="cr-lists">');        
         for(var index in json.data.laws_regs) {
           cfr_id = json.data.laws_regs[index].cfr_id;
-          fav_holder = create_favlaw_heart(cfr_id);
+          fav_holder = !Drupal.settings.is_guest ? create_favlaw_heart(cfr_id):'';
           html_to_add.push('<li><span class="law-entry"><a data-favtype="Law" data-epaintnum="' + cfr_id + '" href="'+ json.data.laws_regs[index].attributes.url +'" target="_blank">' + json.data.laws_regs[index].attributes.citation + " &mdash; " + 
               json.data.laws_regs[index].attributes.title + 
               ' (' + json.data.laws_regs[index].meta_data.year + ')</a>' + fav_holder + '</span>');
@@ -452,8 +455,15 @@ function isValidCasNumber(stringToCheck) {
       num_chem_faves = 0,
       num_rules_faves = 0;
 
-  if ($body.find('#cr-tabs').length > 0) {
-    $cr_tabs = $('#cr-tabs').tabs();
+  var guest_user = Drupal.settings.is_guest;
+
+  if (!guest_user) {
+    if ($body.find('#cr-tabs').length > 0) {
+      $cr_tabs = $('#cr-tabs').tabs();
+    }
+  }
+  else {
+    $('#cr-tabs').hide();
   }
 
   if ($body.find('#chem_search_form').length > 0) {
@@ -514,8 +524,10 @@ function isValidCasNumber(stringToCheck) {
     }
   }
 
-  render_favorites(favs);
-
+  if (!guest_user) {
+    render_favorites(favs);
+  }
+  
   // Initialize and open dialog
   $('#chemical-rules-modal')
     .html(Drupal.settings.chemical_rules.modal)
@@ -545,7 +557,6 @@ function isValidCasNumber(stringToCheck) {
             $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');
           }
         });
-        
         var sticky_gap = $('#cr-modal-toc-icons').offset().top;
         $('#cr-modal-toc-icons li a').on('click', function(ev) {
           ev.preventDefault();
@@ -601,10 +612,6 @@ function isValidCasNumber(stringToCheck) {
 
     if (chem_search_input !== '') {
 
-      //********
-      //@TODO - Call Create New Node function - may be part of form_submission
-      //********
-
       var is_valid_chemical = true;
       lookup_chemical(chem_search_input);
         
@@ -630,109 +637,111 @@ function isValidCasNumber(stringToCheck) {
     
   });
   
-  if ($body.find('.favorite-chemical').length > 0) {
-    $body.on('click', '.favorite-chemical', function(ev) {
-      var cas_clicked = $(this).attr('data-casnum');
-      if (typeof cas_clicked !== typeof undefined && cas_clicked !== false) {
-        lookup_chemical($(this).attr('data-casnum'));
-      }
-      else {
-        //var chem_name = $(this).text();
-        lookup_chemical($(this).attr('data-sysname')); 
-      }
-      $('#chemical-rules-modal').dialog("open");
-      $('#searching-chemical-name').text($(this).text());
-      $('#chemical-rules-modal').dialog("option", "title", $(this).text());      
-      $body.addClass('fixed-modal-open');
-    });
-  }
+  if (!guest_user) {
+    if ($body.find('.favorite-chemical').length > 0) {
+      $body.on('click', '.favorite-chemical', function(ev) {
+        var cas_clicked = $(this).attr('data-casnum');
+        if (typeof cas_clicked !== typeof undefined && cas_clicked !== false) {
+          lookup_chemical($(this).attr('data-casnum'));
+        }
+        else {
+          //var chem_name = $(this).text();
+          lookup_chemical($(this).attr('data-sysname')); 
+        }
+        $('#chemical-rules-modal').dialog("open");
+        $('#searching-chemical-name').text($(this).text());
+        $('#chemical-rules-modal').dialog("option", "title", $(this).text());      
+        $body.addClass('fixed-modal-open');
+      });
+    }
+    
+    if ($body.find('.remove-link').length > 0) {
+      $body.on('click', '.remove-link', function(ev) {
+        ev.preventDefault();
+        var clicked_favorite_ID = $(this).data('epaintnum');
+        var clicked_favorite_type = $(this).data('favtype') + 's';
+        var updatedFavs = Drupal.settings.chemical_rules.profile[clicked_favorite_type].reduce(function(before, item, index, array){
+          (item.ID != clicked_favorite_ID) ? before.push(item) : before;
+          return before;
+        }, []);
   
-  if ($body.find('.remove-link').length > 0) {
-    $body.on('click', '.remove-link', function(ev) {
-      ev.preventDefault();
-      var clicked_favorite_ID = $(this).data('epaintnum');
-      var clicked_favorite_type = $(this).data('favtype') + 's';
-      var updatedFavs = Drupal.settings.chemical_rules.profile[clicked_favorite_type].reduce(function(before, item, index, array){
-        (item.ID != clicked_favorite_ID) ? before.push(item) : before;
-        return before;
-      }, []);
-
-      Drupal.settings.chemical_rules.profile[clicked_favorite_type] = (updatedFavs) ? updatedFavs : [];
-
-      if ($(this).attr('id') == 'cr-remove-favorite') {
-        $body.find('#cr-save-favorite').parent('li').show();
-        $body.find('#cr-remove-favorite').parent('li').hide();
-      }
-      else if ($(this).hasClass('fa-heart')) {
-        update_clicked_heart($(this), false);
-      }
-
-      // Post updated array to Profile and re-render lists
-      render_favorites(Drupal.settings.chemical_rules.profile);
-      update_chem_profile(Drupal.settings.chemical_rules.profile);
-
-    });
-  }
-
-  if ($body.find('.save-favorite').length > 0) {
-    $body.on('click', '.save-favorite', function(ev) {
-      //ev.preventDefault();
-      //alert("Clicked the favorite: " + $(this).data('chemicalid'));
-      var type = $(this).data('favtype') + 's';
-
-      var favorite = [];
-      if (type == 'Chemicals') {
-        if (($(this).data('casnum') !== '') && ($(this).data('casnum') !== null)) {
-          var cas_num = $(this).data('casnum');
+        Drupal.settings.chemical_rules.profile[clicked_favorite_type] = (updatedFavs) ? updatedFavs : [];
+  
+        if ($(this).attr('id') == 'cr-remove-favorite') {
+          $body.find('#cr-save-favorite').parent('li').show();
+          $body.find('#cr-remove-favorite').parent('li').hide();
         }
-      	else {
-        	var cas_num = '';
-      	}
-      	if (($(this).data('commonname') !== '') && ($(this).data('commonname') !== null)) {
-        	var common_name = $(this).data('commonname');
-      	}
-      	else {
-        	var common_name = '';
-      	}
-        favorite = {
-        	ID: $(this).data('epaintnum'),
-          CAS: cas_num,
-          SysName: $(this).data('sysname'),
-          CommonName: $(this).data('commonname')
-        };
-        if ($(this).attr('id') == 'cr-save-favorite') {
-          $body.find('#cr-save-favorite').parent('li').hide();
-          $body.find('#cr-remove-favorite').parent('li').show();
+        else if ($(this).hasClass('fa-heart')) {
+          update_clicked_heart($(this), false);
         }
-      }
-      else if (type == 'Laws') {
-        //@TODO - Add button holder container for favorite link heart like other links - or use FavoriteLink.js functionality
-        var law_text = $(this).prev("a").text();
-        var law_pieces = law_text.split('\u2014');
-        var citation = law_pieces[0].trim();
-        var title = law_pieces[1].trim();
-        favorite = {
-        	ID: $(this).data('epaintnum'),
-          Citation: citation,
-          Title: title,
-          URL: $(this).prev("a").attr('href')
-        };
-        update_clicked_heart($(this), true);
-      }
-      if (favorite != '') {
-        if (!Drupal.settings.chemical_rules.profile) {
-          Drupal.settings.chemical_rules.profile = {'Chemicals':[],'Laws':[]};
-          update_chem_profile(Drupal.settings.chemical_rules.profile);
-        }        
-        if(Drupal.settings.chemical_rules.profile[type] === undefined) {
-          Drupal.settings.chemical_rules.profile[type] = [];
-          update_chem_profile(Drupal.settings.chemical_rules.profile);          
-        }
-        Drupal.settings.chemical_rules.profile[type].push(favorite);
-        update_chem_profile(Drupal.settings.chemical_rules.profile);
+  
+        // Post updated array to Profile and re-render lists
         render_favorites(Drupal.settings.chemical_rules.profile);
-      }
-    });
+        update_chem_profile(Drupal.settings.chemical_rules.profile);
+  
+      });
+    }
+  
+    if ($body.find('.save-favorite').length > 0) {
+      $body.on('click', '.save-favorite', function(ev) {
+        //ev.preventDefault();
+        //alert("Clicked the favorite: " + $(this).data('chemicalid'));
+        var type = $(this).data('favtype') + 's';
+  
+        var favorite = [];
+        if (type == 'Chemicals') {
+          if (($(this).data('casnum') !== '') && ($(this).data('casnum') !== null)) {
+            var cas_num = $(this).data('casnum');
+          }
+        	else {
+          	var cas_num = '';
+        	}
+        	if (($(this).data('commonname') !== '') && ($(this).data('commonname') !== null)) {
+          	var common_name = $(this).data('commonname');
+        	}
+        	else {
+          	var common_name = '';
+        	}
+          favorite = {
+          	ID: $(this).data('epaintnum'),
+            CAS: cas_num,
+            SysName: $(this).data('sysname'),
+            CommonName: $(this).data('commonname')
+          };
+          if ($(this).attr('id') == 'cr-save-favorite') {
+            $body.find('#cr-save-favorite').parent('li').hide();
+            $body.find('#cr-remove-favorite').parent('li').show();
+          }
+        }
+        else if (type == 'Laws') {
+          //@TODO - Add button holder container for favorite link heart like other links - or use FavoriteLink.js functionality
+          var law_text = $(this).prev("a").text();
+          var law_pieces = law_text.split('\u2014');
+          var citation = law_pieces[0].trim();
+          var title = law_pieces[1].trim();
+          favorite = {
+          	ID: $(this).data('epaintnum'),
+            Citation: citation,
+            Title: title,
+            URL: $(this).prev("a").attr('href')
+          };
+          update_clicked_heart($(this), true);
+        }
+        if (favorite != '') {
+          if (!Drupal.settings.chemical_rules.profile) {
+            Drupal.settings.chemical_rules.profile = {'Chemicals':[],'Laws':[]};
+            update_chem_profile(Drupal.settings.chemical_rules.profile);
+          }        
+          if(Drupal.settings.chemical_rules.profile[type] === undefined) {
+            Drupal.settings.chemical_rules.profile[type] = [];
+            update_chem_profile(Drupal.settings.chemical_rules.profile);          
+          }
+          Drupal.settings.chemical_rules.profile[type].push(favorite);
+          update_chem_profile(Drupal.settings.chemical_rules.profile);
+          render_favorites(Drupal.settings.chemical_rules.profile);
+        }
+      });
+    }
   }
 
   update_chem_profile = function(profile) {
@@ -776,4 +785,3 @@ function isValidCasNumber(stringToCheck) {
   }
 
 })(jQuery);
-
