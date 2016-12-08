@@ -3,7 +3,8 @@
   "error-messages": [],
   "data": {
     "substance": {
-      "2d-structure": "https:\/\/chem.sis.nlm.nih.gov\/chemidplus\/structure\/67-64-1",
+      "2d-structure": "sites\/default\/files\/chemical_rules\/images\/pubchem\/67-64-1.png",
+      "@type": "http:\/\/www.w3.org\/2004\/02\/skos\/core#Concept",
       "alt_label": [
         "http:\/\/opendata.epa.gov\/srs\/label\/L761",
         "http:\/\/opendata.epa.gov\/srs\/label\/L762",
@@ -157,7 +158,16 @@
       "substance_last_update_date": "2012-02-01 14:37:36.0",
       "substance_requestor": null,
       "substance_status": "http:\/\/opendata.epa.gov\/srs\/substanceStatus\/A",
-      "synonyms": [],
+      "synonyms": [
+        "2-propanone",
+        "acetone",
+        "acetone, dry weight",
+        "acetone, in waste",
+        "dimethyl ketone",
+        "dimethylketone",
+        "methyl ketone",
+        "residual acetone"
+      ],
       "sys_name": "2-Propanone",
       "technical_point_of_contact": null,
       "tpsa": [
@@ -185,6 +195,9 @@
         "cfrs": [
           3878641,
           2979866
+        ],
+        "program_list": [
+          "2976952"
         ]
       },
       "Hazardous Discarded Commercial Chemical Products": {
@@ -197,7 +210,8 @@
         "substance_list_acronym": "RCRA U Waste",
         "cfrs": [
           3876748
-        ]
+        ],
+        "program_list": []
       },
       "Hazardous Wastes From Non-Specific Sources": {
         "@version": "1",
@@ -209,7 +223,8 @@
         "substance_list_acronym": "RCRA F Waste",
         "cfrs": [
           3876748
-        ]
+        ],
+        "program_list": []
       },
       "Inert Ingredients in Pesticide Products": {
         "@version": "1",
@@ -222,7 +237,8 @@
         "cfrs": [
           3874283,
           3874781
-        ]
+        ],
+        "program_list": []
       },
       "Organic Hazardous Air Pollutants National Emission Standards": {
         "@version": "1",
@@ -234,6 +250,9 @@
         "substance_list_acronym": "CAA112(b) HON",
         "cfrs": [
           3851643
+        ],
+        "program_list": [
+          "4088928"
         ]
       },
       "Safe Drinking Water Information System in Envirofacts": {
@@ -246,7 +265,8 @@
         "substance_list_acronym": "SDWIS-Enviro",
         "cfrs": [
           3873417
-        ]
+        ],
+        "program_list": []
       },
       "Standards of Performance for New Stationary Sources of Air Pollutants - Equipment Leaks Chemical List": {
         "@version": "1",
@@ -258,6 +278,9 @@
         "substance_list_acronym": "CAA 111",
         "cfrs": [
           3848048
+        ],
+        "program_list": [
+          "4088927"
         ]
       },
       "TSCA Inventory": {
@@ -271,6 +294,11 @@
         "cfrs": [
           3882912,
           3882851
+        ],
+        "program_list": [
+          "3796306",
+          "3706702",
+          "3706701"
         ]
       },
       "Toxics Release Inventory Program System": {
@@ -283,27 +311,52 @@
         "substance_list_acronym": "TRIPS",
         "cfrs": [
           3878641
+        ],
+        "program_list": [
+          "2976952"
         ]
       }
     },
     "laws_regs": [
       {
-        "cfr_name": "CFR-2013-title40-vol29-part372",
-        "cfr_id": "2979866",
+        "cfr_name": "CFR-2015-title40-vol7-part60",
+        "cfr_id": "3848048",
         "attributes": {
-          "usc_citation": "42 U.S.C. 11023; 42 U.S.C. 11048",
-          "cfr_authority": "42 U.S.C. 11023 and 11048.",
+          "usc_citation": "42 U.S.C. 7401et seq.",
+          "cfr_authority": "42 U.S.C. 7401 et seq.",
           "granule_label": "part",
-          "heading": "Part 372",
-          "cfr_source": "53 FR 4525, Feb. 16, 1988, unless otherwise noted.",
-          "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2013-title40-vol29\/pdf\/CFR-2013-title40-vol29-part372.pdf",
-          "citation": "40 CFR 372",
-          "title": "TOXIC CHEMICAL RELEASE REPORTING: COMMUNITY RIGHT-TO-KNOW",
-          "fr_citation": "53 FR 4525"
+          "heading": "Part 60",
+          "cfr_source": "36 FR 24877, Dec. 23, 1971, unless otherwise noted.",
+          "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol7\/pdf\/CFR-2015-title40-vol7-part60.pdf",
+          "citation": "40 CFR 60",
+          "title": "STANDARDS OF PERFORMANCE FOR NEW STATIONARY SOURCES",
+          "fr_citation": "36 FR. 24877"
         },
         "substance_list": [
-          "Emergency Planning and Community Right-to-Know Act Section 313"
-        ]
+          "Standards of Performance for New Stationary Sources of Air Pollutants - Equipment Leaks Chemical List"
+        ],
+        "program_list": [
+          "4088927"
+        ],
+        "meta_data": {
+          "tag": [
+            "CFR"
+          ],
+          "sort": [
+            "CFR",
+            "2015",
+            "title",
+            "40",
+            "vol",
+            "7",
+            "part",
+            "60"
+          ],
+          "year": "2015",
+          "title": "40",
+          "vol": "7",
+          "part": "60"
+        }
       },
       {
         "cfr_name": "CFR-2015-title40-vol10-part63",
@@ -322,7 +375,29 @@
         },
         "substance_list": [
           "Organic Hazardous Air Pollutants National Emission Standards"
-        ]
+        ],
+        "program_list": [
+          "4088928"
+        ],
+        "meta_data": {
+          "tag": [
+            "CFR"
+          ],
+          "sort": [
+            "CFR",
+            "2015",
+            "title",
+            "40",
+            "vol",
+            "10",
+            "part",
+            "63"
+          ],
+          "year": "2015",
+          "title": "40",
+          "vol": "10",
+          "part": "63"
+        }
       },
       {
         "cfr_name": "CFR-2015-title40-vol23-part141",
@@ -340,7 +415,27 @@
         },
         "substance_list": [
           "Safe Drinking Water Information System in Envirofacts"
-        ]
+        ],
+        "program_list": [],
+        "meta_data": {
+          "tag": [
+            "CFR"
+          ],
+          "sort": [
+            "CFR",
+            "2015",
+            "title",
+            "40",
+            "vol",
+            "23",
+            "part",
+            "141"
+          ],
+          "year": "2015",
+          "title": "40",
+          "vol": "23",
+          "part": "141"
+        }
       },
       {
         "cfr_name": "CFR-2015-title40-vol24-part152",
@@ -356,7 +451,27 @@
         },
         "substance_list": [
           "Inert Ingredients in Pesticide Products"
-        ]
+        ],
+        "program_list": [],
+        "meta_data": {
+          "tag": [
+            "CFR"
+          ],
+          "sort": [
+            "CFR",
+            "2015",
+            "title",
+            "40",
+            "vol",
+            "24",
+            "part",
+            "152"
+          ],
+          "year": "2015",
+          "title": "40",
+          "vol": "24",
+          "part": "152"
+        }
       },
       {
         "cfr_name": "CFR-2015-title40-vol24-part168",
@@ -374,7 +489,27 @@
         },
         "substance_list": [
           "Inert Ingredients in Pesticide Products"
-        ]
+        ],
+        "program_list": [],
+        "meta_data": {
+          "tag": [
+            "CFR"
+          ],
+          "sort": [
+            "CFR",
+            "2015",
+            "title",
+            "40",
+            "vol",
+            "24",
+            "part",
+            "168"
+          ],
+          "year": "2015",
+          "title": "40",
+          "vol": "24",
+          "part": "168"
+        }
       },
       {
         "cfr_name": "CFR-2015-title40-vol26-part261",
@@ -393,7 +528,67 @@
         "substance_list": [
           "Hazardous Wastes From Non-Specific Sources",
           "Hazardous Discarded Commercial Chemical Products"
-        ]
+        ],
+        "program_list": [],
+        "meta_data": {
+          "tag": [
+            "CFR"
+          ],
+          "sort": [
+            "CFR",
+            "2015",
+            "title",
+            "40",
+            "vol",
+            "26",
+            "part",
+            "261"
+          ],
+          "year": "2015",
+          "title": "40",
+          "vol": "26",
+          "part": "261"
+        }
+      },
+      {
+        "cfr_name": "CFR-2013-title40-vol29-part372",
+        "cfr_id": "2979866",
+        "attributes": {
+          "usc_citation": "42 U.S.C. 11023; 42 U.S.C. 11048",
+          "cfr_authority": "42 U.S.C. 11023 and 11048.",
+          "granule_label": "part",
+          "heading": "Part 372",
+          "cfr_source": "53 FR 4525, Feb. 16, 1988, unless otherwise noted.",
+          "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2013-title40-vol29\/pdf\/CFR-2013-title40-vol29-part372.pdf",
+          "citation": "40 CFR 372",
+          "title": "TOXIC CHEMICAL RELEASE REPORTING: COMMUNITY RIGHT-TO-KNOW",
+          "fr_citation": "53 FR 4525"
+        },
+        "substance_list": [
+          "Emergency Planning and Community Right-to-Know Act Section 313"
+        ],
+        "program_list": [
+          "2976952"
+        ],
+        "meta_data": {
+          "tag": [
+            "CFR"
+          ],
+          "sort": [
+            "CFR",
+            "2013",
+            "title",
+            "40",
+            "vol",
+            "29",
+            "part",
+            "372"
+          ],
+          "year": "2013",
+          "title": "40",
+          "vol": "29",
+          "part": "372"
+        }
       },
       {
         "cfr_name": "CFR-2015-title40-vol28-part372",
@@ -412,7 +607,29 @@
         "substance_list": [
           "Emergency Planning and Community Right-to-Know Act Section 313",
           "Toxics Release Inventory Program System"
-        ]
+        ],
+        "program_list": [
+          "2976952"
+        ],
+        "meta_data": {
+          "tag": [
+            "CFR"
+          ],
+          "sort": [
+            "CFR",
+            "2015",
+            "title",
+            "40",
+            "vol",
+            "28",
+            "part",
+            "372"
+          ],
+          "year": "2015",
+          "title": "40",
+          "vol": "28",
+          "part": "372"
+        }
       },
       {
         "cfr_name": "CFR-2015-title40-vol31-part711",
@@ -430,7 +647,30 @@
         },
         "substance_list": [
           "TSCA Inventory"
-        ]
+        ],
+        "program_list": [
+          "3706702",
+          "3706701"
+        ],
+        "meta_data": {
+          "tag": [
+            "CFR"
+          ],
+          "sort": [
+            "CFR",
+            "2015",
+            "title",
+            "40",
+            "vol",
+            "31",
+            "part",
+            "711"
+          ],
+          "year": "2015",
+          "title": "40",
+          "vol": "31",
+          "part": "711"
+        }
       },
       {
         "cfr_name": "CFR-2015-title40-vol31-part720",
@@ -448,38 +688,182 @@
         },
         "substance_list": [
           "TSCA Inventory"
-        ]
-      },
-      {
-        "cfr_name": "CFR-2015-title40-vol7-part60",
-        "cfr_id": "3848048",
-        "attributes": {
-          "usc_citation": "42 U.S.C. 7401et seq.",
-          "cfr_authority": "42 U.S.C. 7401 et seq.",
-          "granule_label": "part",
-          "heading": "Part 60",
-          "cfr_source": "36 FR 24877, Dec. 23, 1971, unless otherwise noted.",
-          "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol7\/pdf\/CFR-2015-title40-vol7-part60.pdf",
-          "citation": "40 CFR 60",
-          "title": "STANDARDS OF PERFORMANCE FOR NEW STATIONARY SOURCES",
-          "fr_citation": "36 FR. 24877"
-        },
-        "substance_list": [
-          "Standards of Performance for New Stationary Sources of Air Pollutants - Equipment Leaks Chemical List"
-        ]
+        ],
+        "program_list": [
+          "3796306"
+        ],
+        "meta_data": {
+          "tag": [
+            "CFR"
+          ],
+          "sort": [
+            "CFR",
+            "2015",
+            "title",
+            "40",
+            "vol",
+            "31",
+            "part",
+            "720"
+          ],
+          "year": "2015",
+          "title": "40",
+          "vol": "31",
+          "part": "720"
+        }
       }
     ],
     "laws_regs_index": {
-      "2979866": 0,
+      "3848048": 0,
       "3851643": 1,
       "3873417": 2,
       "3874283": 3,
       "3874781": 4,
       "3876748": 5,
-      "3878641": 6,
-      "3882851": 7,
-      "3882912": 8,
-      "3848048": 9
+      "2979866": 6,
+      "3878641": 7,
+      "3882851": 8,
+      "3882912": 9
+    },
+    "program_list": {
+      "3796306": {
+        "object_class_name": "EPA Program\/Project",
+        "object_class_id": "1003860",
+        "@version": "1",
+        "@timestamp": "2016-12-06T21:56:08.373Z",
+        "path": "\/home\/sram\/ProgramInfo.json",
+        "host": "elastic",
+        "type": "programInfo",
+        "program_name": "TSCA Section 5 Premanufacture Notification (PMN)",
+        "program_website": "https:\/\/www.epa.gov\/reviewing-new-chemicals-under-toxic-substances-control-act-tsca",
+        "program_id": "3796306",
+        "cfrs_name": "CFR-2015-title40-vol31-part720",
+        "cfrs_id": "3882912",
+        "usc__citation": "15 U.S.C. 2604; 15 U.S.C. 2607; 15 U.S.C. 2613",
+        "cfr__authority": "15 U.S.C. 2604, 2607, and 2613.",
+        "granule__label": "part",
+        "heading": "Part 720",
+        "cfr__source": "48 FR 21742, May 13, 1983, unless otherwise noted.",
+        "url": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol31\/pdf\/CFR-2015-title40-vol31-part720.pdf",
+        "citation": "40 CFR 720",
+        "title": "PREMANUFACTURE NOTIFICATION",
+        "fr__citation": "48 FR 21742"
+      },
+      "3706702": {
+        "object_class_name": "EPA Program\/Project",
+        "object_class_id": "1003860",
+        "@version": "1",
+        "@timestamp": "2016-12-06T21:56:08.373Z",
+        "path": "\/home\/sram\/ProgramInfo.json",
+        "host": "elastic",
+        "type": "programInfo",
+        "program_name": "Interagency Testing Committee (ITC)",
+        "program_website": "https:\/\/www.epa.gov\/assessing-and-managing-chemicals-under-tsca\/interagency-testing-committee",
+        "program_id": "3706702",
+        "cfrs_name": "CFR-2015-title40-vol31-part711",
+        "cfrs_id": "3882851",
+        "usc__citation": "15 U.S.C. 2607(a)",
+        "cfr__authority": "15 U.S.C. 2607(a).",
+        "granule__label": "part",
+        "heading": "Part 711",
+        "cfr__source": "76 FR 54933, Sept. 6, 2011, unless otherwise noted.",
+        "url": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol31\/pdf\/CFR-2015-title40-vol31-part711.pdf",
+        "citation": "40 CFR 711",
+        "title": "TSCA CHEMICAL DATA REPORTING REQUIREMENTS",
+        "fr__citation": "76 FR 50859; 76 FR 54933"
+      },
+      "4088927": {
+        "object_class_name": "EPA Program\/Project",
+        "object_class_id": "1003860",
+        "@version": "1",
+        "@timestamp": "2016-12-06T21:56:08.373Z",
+        "path": "\/home\/sram\/ProgramInfo.json",
+        "host": "elastic",
+        "type": "programInfo",
+        "program_name": "New Source Performance Standards (NSPS)",
+        "program_website": "https:\/\/www3.epa.gov\/ttn\/atw\/eparules.html; https:\/\/www.epa.gov\/residential-wood-heaters\/final-new-source-performance-standards-residential-wood-heaters",
+        "program_id": "4088927",
+        "cfrs_name": "CFR-2015-title40-vol7-part60",
+        "cfrs_id": "3848048",
+        "usc__citation": "42 U.S.C. 7401et seq.",
+        "cfr__authority": "42 U.S.C. 7401 et seq.",
+        "granule__label": "part",
+        "heading": "Part 60",
+        "cfr__source": "36 FR 24877, Dec. 23, 1971, unless otherwise noted.",
+        "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol7\/pdf\/CFR-2015-title40-vol7-part60.pdf",
+        "citation": "40 CFR 60",
+        "title": "STANDARDS OF PERFORMANCE FOR NEW STATIONARY SOURCES",
+        "fr__citation": "36 FR. 24877"
+      },
+      "2976952": {
+        "object_class_name": "EPA Program\/Project",
+        "object_class_id": "1003860",
+        "@version": "1",
+        "@timestamp": "2016-12-06T21:56:08.373Z",
+        "path": "\/home\/sram\/ProgramInfo.json",
+        "host": "elastic",
+        "type": "programInfo",
+        "program_name": "Toxics Release Inventory Program (TRI)",
+        "program_website": "http:\/\/www2.epa.gov\/toxics-release-inventory-tri-program",
+        "program_id": "2976952",
+        "cfrs_name": "CFR-2015-title40-vol28-part372",
+        "cfrs_id": "3878641",
+        "usc__citation": "42 U.S.C. 11023; 42 U.S.C. 11048",
+        "cfr__authority": "42 U.S.C. 11023 and 11048.",
+        "granule__label": "part",
+        "heading": "Part 372",
+        "cfr__source": "53 FR 4525, Feb. 16, 1988, unless otherwise noted.",
+        "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol28\/pdf\/CFR-2015-title40-vol28-part372.pdf",
+        "citation": "40 CFR 372",
+        "title": "TOXIC CHEMICAL RELEASE REPORTING: COMMUNITY RIGHT-TO-KNOW",
+        "fr__citation": "53 FR. 4525"
+      },
+      "3706701": {
+        "object_class_name": "EPA Program\/Project",
+        "object_class_id": "1003860",
+        "@version": "1",
+        "@timestamp": "2016-12-06T21:56:08.373Z",
+        "path": "\/home\/sram\/ProgramInfo.json",
+        "host": "elastic",
+        "type": "programInfo",
+        "program_name": "Chemical Data Reporting (CDR)",
+        "program_website": "http:\/\/www.epa.gov\/chemical-data-reporting",
+        "program_id": "3706701",
+        "cfrs_name": "CFR-2015-title40-vol31-part711",
+        "cfrs_id": "3882851",
+        "usc__citation": "15 U.S.C. 2607(a)",
+        "cfr__authority": "15 U.S.C. 2607(a).",
+        "granule__label": "part",
+        "heading": "Part 711",
+        "cfr__source": "76 FR 54933, Sept. 6, 2011, unless otherwise noted.",
+        "url": "https:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol31\/pdf\/CFR-2015-title40-vol31-part711.pdf",
+        "citation": "40 CFR 711",
+        "title": "TSCA CHEMICAL DATA REPORTING REQUIREMENTS",
+        "fr__citation": "76 FR 50859; 76 FR 54933"
+      },
+      "4088928": {
+        "object_class_name": "EPA Program\/Project",
+        "object_class_id": "1003860",
+        "@version": "1",
+        "@timestamp": "2016-12-06T21:56:08.373Z",
+        "path": "\/home\/sram\/ProgramInfo.json",
+        "host": "elastic",
+        "type": "programInfo",
+        "program_name": "National Emission Standards for Hazardous Air Pollutants (NESHAP)",
+        "program_website": "https:\/\/www.epa.gov\/stationary-sources-air-pollution\/generic-chemical-rules-stationary-sources-air-pollution",
+        "program_id": "4088928",
+        "cfrs_name": "CFR-2015-title40-vol10-part63",
+        "cfrs_id": "3851643",
+        "usc__citation": "42 U.S.C. 7401et seq.",
+        "cfr__authority": "42 U.S.C. 7401 et seq.",
+        "granule__label": "part",
+        "heading": "Part 63",
+        "cfr__source": "57 FR 61992, Dec. 29, 1992, unless otherwise noted.",
+        "url": "http:\/\/www.gpo.gov\/fdsys\/pkg\/CFR-2015-title40-vol10\/pdf\/CFR-2015-title40-vol10-part63.pdf",
+        "citation": "40 CFR 63",
+        "title": "NATIONAL EMISSION STANDARDS FOR HAZARDOUS AIR POLLUTANTS FOR SOURCE CATEGORIES",
+        "fr__citation": "57 FR. 61992"
+      }
     }
   }
 }
