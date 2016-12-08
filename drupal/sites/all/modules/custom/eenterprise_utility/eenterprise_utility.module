@@ -515,8 +515,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     hide($form['field_piv_card_org']);
     hide($form['field_cdx_naics_settings']);
 
-    if(isset($form['account']['mail']['#description']))
+    if(isset($form['account']['mail']['#description'])) {
       unset($form['account']['mail']['#description']);
+    }
 
     // If user is admin allow to edit state admin STATE and toggle user's first time status
     if ($user->uid > 1) {
@@ -524,7 +525,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
       hide($form['field_first_time_user']);
       if (module_exists('chemical_rules') || $form['field_chem_rules_user_settings']) {
         hide($form['field_chem_rules_user_settings']);
-        $form_state['rebuild'] = TRUE;
       }
     } else {
       // Set description for admin
@@ -542,7 +542,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     /**
      * User Preferred Locations
      */
-    // Load user preferences for zips from Session if has been updated in user form,
+    // Load user preferences for zips if has been updated in user form,
     // otherwise from db
     // Also load if no triggering element, meaning refreshed
 
@@ -658,6 +658,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
           $iter++;
         }
       }
+      // If first Favorites item is removed clear values so it is not repopulated
       if ($trigger_string == 'field_profile_favourites_' . LANGUAGE_NONE . '_0_remove_button') {
         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
@@ -790,7 +791,7 @@ function eenterprise_utility_profile_form_submit($form, &$form_state) {
   }
 
   /*
-   * Save user preferences based on Session
+   * Save user location preferences based on zip mapping form field
    */
   $zip_mapping = json_decode($form_state['values']['zip_mapping'], TRUE);
   clear_user_preferred_locations();
@@ -807,6 +808,7 @@ function eenterprise_utility_profile_form_submit($form, &$form_state) {
         $_SESSION['default_location_zip'] = $zip;
         $_SESSION['default_location_name'] = $name;
       }
+      // Add new user location preference content
       save_user_location($zip, $name, $commsize, $isurban, $primary);
     }
   }
@@ -1102,9 +1104,6 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
       $field_suffix = '<span id="zip-code-error" class="field-suffix error">' . $error_message . '</span>';
       $zip_code_form['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_suffix'] = $field_suffix;
       $zip_code_value['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#field_suffix'] = $field_suffix;
-      // Clear city details from field
-      //  $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE]['value']['#field_suffix'] = $field_suffix;
-      // unset($form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE]['value']['#field_suffix']);
       // Do not duplicate error messages to user
       if (!in_array($error_message, $error_messages)) {
         $error_messages[] = $error_message;
@@ -1114,6 +1113,7 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
         $error_deltas[] = $delta;
       }
     } else {
+      //TODO Should not be looking up for every zip- should be using preferred locations when applicable
       $zip_code_lookup = zip_code_lookup($zip_val);
       if ($zip_code_lookup['city'] == '') {
         $error = TRUE;
