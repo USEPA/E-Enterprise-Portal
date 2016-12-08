@@ -46,6 +46,15 @@ function resizeModal() {
   }
 }
 
+// Send -9999 instead of NULLs to Be Well Service
+function convertBlankValues($inputs) {
+  $.each($inputs, function() {
+    if ($(this).val() == "") {
+      $(this.val(-9999));
+    }
+  })
+}
+
 function checkValues(previous, current, cIndex, keys) {
   var previousKeys = [];
   if(typeof previous[keys[cIndex]] == 'object'){
@@ -189,7 +198,10 @@ function resetBWIForm() {
     var $all_wrappers = $('.be-well-informed-modal-wrapper');
     var formData = $form.serializeObject();
     var data = Object.keys(formData).reduce(checkValues, formData);
-    //console.log(data, JSON.stringify(data))
+
+    if ($form_wrapper.find('.allow-blank').length > 0) {
+      convertBlankValues($form_wrapper.find('.allow-blank'));
+    }
     showElementOutOfMany($loading_wrapper, $all_wrappers);
     $('#entry-tab').text('Entry');
     $.ajax({
