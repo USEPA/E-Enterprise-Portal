@@ -269,6 +269,7 @@ function chemical_rules_process_srs_response(&$return) {
 
       // Sort out the information we need for the various lists
       foreach ($SubstanceSynonyms as $index => $ss) {
+        $ss['program_list'] = [];
         $value = ($value) ? $value : null;
         if(!in_array(strtolower($ss['ChemicalSubstanceSynonymName']), $return['data']['substance']['synonyms']))
           $return['data']['substance']['synonyms'][] = strtolower($ss['ChemicalSubstanceSynonymName']);
@@ -351,6 +352,7 @@ function chemical_rules_process_elastic_response(&$return) {
     // Process the information we get back; Get the substance lists and organize
     // in $return
     _process_substance_list_response($return, $substance_list_response['hits']['hits']);
+    _get_program_list($return);
   }
 }
 
@@ -427,6 +429,7 @@ function _process_substance_list_response(&$return, $lists) {
       foreach ($list['cfrs'] as $cfr_id => $cfr) {
         if(!isset($return['data']['laws_regs'][$cfr_id])) {
           $cfr['substance_list'] = [];
+          $cfr['program_list'] = [];
           create_meta_data_from_name($cfr);
           $return['data']['laws_regs'][$cfr_id] = snakecase_mapping($cfr);
         }
@@ -436,6 +439,7 @@ function _process_substance_list_response(&$return, $lists) {
         $cfrs[] = $cfr_id;
       }
       $list['cfrs']= $cfrs;
+      $list['program_list']= [];
       $substance_list[$list['substance_list_name']] = snakecase_mapping($list);
     }
   }
@@ -445,6 +449,53 @@ function _process_substance_list_response(&$return, $lists) {
     $return['data']['laws_regs_index'][$cfr['cfr_id']] = $index;
   }
   $return['data']['substance_list'] = $substance_list;
+}
+
+function _get_program_list(&$return){
+  $elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_index/programInfo/_search?pretty';
+
+  // build the query to specifically use
+  $query_array = ["query"=>["bool"=>["should"=>[]]]];
+
+  foreach (array_keys($return['data']['laws_regs_index']) as $cfrs_id) {
+    $query_array["query"]["bool"]["should"][] = ["match_phrase"=>["cfrsId"=>$cfrs_id]];
+  }
+
+  // Setup the http request and check its response
+  $headers = array('Content-Type' => 'application/json');
+  $elastic_response = drupal_http_request($elastic_endpoint, [
+    "headers" => $headers,
+    "method" => "POST",
+    'timeout' => "10",
+    'data' =>  json_encode($query_array)
+  ]);
+  try {
+    if ($elastic_response->code !== "200") {
+      //$return['error'] = TRUE;
+      $return['error-messages'][] = ['Elastic Program list endpoint response: '.$elastic_response->error];
+      //$program_list_response = snakecase_mapping(sample_chemical_rules_elastic_response());
+    }
+    else {
+      $program_list_response = snakecase_mapping(json_decode($elastic_response->data, true));
+    }
+    $return['data']['program_list'] = [];
+    foreach($program_list_response['hits']['hits'] as $programInfo) {
+      $programInfo = $programInfo['_source'];
+      $return['data']['program_list'][$programInfo['program_id']] = $programInfo;
+      $crf_index = $return['data']['laws_regs_index'][$programInfo['cfrs_id']];
+
+      // if the program id doesn't exist in the array, add it
+      (in_array($programInfo['program_id'], $return['data']['laws_regs'][$crf_index]['program_list'])) ?: $return['data']['laws_regs'][$crf_index]['program_list'][] = $programInfo['program_id'];
+      foreach($return['data']['laws_regs'][$crf_index]['substance_list'] as $substance_list_name) {
+        (in_array($programInfo['program_id'], $return['data']['substance_list'][$substance_list_name]['program_list'])) ?: $return['data']['substance_list'][$substance_list_name]['program_list'][] = $programInfo['program_id'];
+      }
+    }
+  } catch (Exception $e) {
+    //$return['error'] = TRUE;
+    $return['error-messages'][] = ['Elastic endpoint error', $e, $elastic_response];
+    $program_list_response = snakecase_mapping(sample_chemical_rules_elastic_response());
+  }
+
 }
 
 function update_chem_profile() {
