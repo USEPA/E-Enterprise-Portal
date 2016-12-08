@@ -81,8 +81,7 @@ function formatFormData(formData, convertNulls) {
   return formData;
 }
 
-var sampleData = function() {
-};
+var sampleData = function() {};
 
 /**
  * Clear form inputs and hide warning messages
@@ -106,161 +105,19 @@ function resetBWIForm() {
     if (!sample) {
       // different handy test cases
       sampleSet = [
-        {
-          "CityName": "Amherst",
-          "RoutineContaminants": {
-            "As": {"Symbol": "As", "Name": "Arsenic", "Value": "1234", "Unit": "mg/L"},
-            "Cl": {"Symbol": "Cl", "Name": "Chloride", "Value": "1234", "Unit": "mg/L"},
-            "Cu": {"Symbol": "Cu", "Name": "Copper", "Value": "1234", "Unit": "mg/L"},
-            "CuSt": {"Symbol": "CuSt", "Name": "Copper, Stagnant", "Value": "1234", "Unit": "mg/L"},
-            "Fl": {"Symbol": "Fl", "Name": "Fluoride", "Value": "1234", "Unit": "mg/L"},
-            "Har": {"Symbol": "Har", "Name": "Hardness as CaCO3", "Value": "1234", "Unit": "mg/L"},
-            "Fe": {"Symbol": "Fe", "Name": "Iron", "Value": "1234", "Unit": "mg/L"},
-            "Pb": {"Symbol": "Pb", "Name": "Lead", "Value": "1234", "Unit": "mg/L"},
-            "PbSt": {"Symbol": "PbSt", "Name": "Lead, Stagnant", "Value": "1234", "Unit": "mg/L"},
-            "Mn": {"Symbol": "Mn", "Name": "Manganese", "Value": "1234", "Unit": "mg/L"},
-            "NO3": {"Symbol": "NO3", "Name": "Nitrate-N", "Value": "1234", "Unit": "mg/L"},
-            "NO2": {"Symbol": "NO2", "Name": "Nitrite-N", "Value": "1234", "Unit": "mg/L"},
-            "pH": {"Symbol": "pH", "Name": "pH", "Value": "6.1", "Unit": "units"},
-            "Na": {"Symbol": "Na", "Name": "Sodium", "Value": "1234", "Unit": "mg/L"}
-          },
-          "BacterialContaminants": {
-            "Bac": {
-              "Symbol": "Bac",
-              "Name": "Total Coliform",
-              "Value": "1234",
-              "Unit": "CFU/100 mL"
-            }, "Ecoli": {"Symbol": "Ecoli", "Name": "E. Coli", "Value": "1234", "Unit": "CFU/100 mL"}
-          },
-          "Bac_G": "rdb_Bac_True",
-          "Ecoli_G": "rdb_Ecoli_True",
-          "RadionuclideContaminants": {
-            "Rn": {"Symbol": "Rn", "Name": "Radon", "Value": "4321", "Unit": "pCi/L"},
-            "Ur": {"Symbol": "Ur", "Name": "Uranium", "Value": "4321", "Unit": "μg/L"},
-            "AGA": {"Symbol": "AGA", "Name": "Gross Alpha", "Value": "4321", "Unit": "pCi/L"}
-          },
-          "InteractivePromptResponses": {
-            "0": {"InteractionIdentifier": "Cl_True", "Symbol": "Cl"},
-            "1": {"InteractionIdentifier": "Har_True", "Symbol": "Har"}
-          }
-        },
-        {
-          "CityName": "Portsmouth",
-          "RoutineContaminants": {
-            "As": {"Symbol": "As", "Name": "Arsenic", "Value": "45", "Unit": "mg/L"},
-            "Cl": {"Symbol": "Cl", "Name": "Chloride", "Value": "2", "Unit": "mg/L"},
-            "Cu": {"Symbol": "Cu", "Name": "Copper", "Value": "54", "Unit": "mg/L"},
-            "CuSt": {"Symbol": "CuSt", "Name": "Copper, Stagnant", "Value": "5", "Unit": "mg/L"},
-            "Fl": {"Symbol": "Fl", "Name": "Fluoride", "Value": "22", "Unit": "mg/L"},
-            "Har": {"Symbol": "Har", "Name": "Hardness as CaCO3", "Value": "1234", "Unit": "mg/L"},
-            "Fe": {"Symbol": "Fe", "Name": "Iron", "Value": "87", "Unit": "mg/L"},
-            "Pb": {"Symbol": "Pb", "Name": "Lead", "Value": "43", "Unit": "mg/L"},
-            "PbSt": {"Symbol": "PbSt", "Name": "Lead, Stagnant", "Value": "1234", "Unit": "mg/L"},
-            "Mn": {"Symbol": "Mn", "Name": "Manganese", "Value": "1234", "Unit": "mg/L"},
-            "NO3": {"Symbol": "NO3", "Name": "Nitrate-N", "Value": "1234", "Unit": "mg/L"},
-            "NO2": {"Symbol": "NO2", "Name": "Nitrite-N", "Value": "1234", "Unit": "mg/L"},
-            "pH": {"Symbol": "pH", "Name": "pH", "Value": "6.1", "Unit": "units"},
-            "Na": {"Symbol": "Na", "Name": "Sodium", "Value": "1234", "Unit": "mg/L"}
-          },
-          "BacterialContaminants": {
-            "Bac": {
-              "Symbol": "Bac",
-              "Name": "Total Coliform",
-              "Value": "1234",
-              "Unit": "CFU/100 mL"
-            }, "Ecoli": {"Symbol": "Ecoli", "Name": "E. Coli", "Value": "1234", "Unit": "CFU/100 mL"}
-          },
-          "Bac_G": "rdb_Bac_True",
-          "Ecoli_G": "rdb_Ecoli_True",
-          "RadionuclideContaminants": {
-            "Rn": {"Symbol": "Rn", "Name": "Radon", "Value": "4321", "Unit": "pCi/L"},
-            "Ur": {"Symbol": "Ur", "Name": "Uranium", "Value": "4321", "Unit": "μg/L"},
-            "AGA": {"Symbol": "AGA", "Name": "Gross Alpha", "Value": "4321", "Unit": "pCi/L"}
-          },
-          "InteractivePromptResponses": {
-            "0": {"InteractionIdentifier": "Cl_True", "Symbol": "Cl"},
-            "1": {"InteractionIdentifier": "Har_True", "Symbol": "Har"}
-          }
-        },
-        {
-          "CityName": "Anonymous",
-          "RoutineContaminants": {"As": {"Symbol": "As", "Name": "Arsenic", "Value": "1", "Unit": "mg/L"}}
-        },
-        {
-          "CityName": "Amherst",
-          "BacterialContaminants": {
-            "Bac": {
-              "Symbol": "Bac",
-              "Name": "Total Coliform",
-              "Value": "1",
-              "Unit": "CFU/100 mL"
-            }
-          }
-        },
+        {"CityName":"Amherst","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"1234","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"1234","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"1234","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"1234","Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":"1234","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"1234","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"1234","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"1234","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"1234","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":"1234","Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"1234","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"1234","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"1234","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"4321","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"4321","Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"4321","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
+        {"CityName":"Portsmouth","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"45","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"2","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"54","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"5","Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":"22","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"1234","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"87","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"43","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"1234","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":"1234","Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"1234","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"1234","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"1234","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"4321","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"4321","Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"4321","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
+        {"CityName":"Anonymous","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"1","Unit":"mg/L"}}},
+        {"CityName":"Amherst","BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"1","Unit":"CFU/100 mL"}}},
         {"CityName": "Anonymous", "Bac_G": "rdb_Bac_True"},
-        {
-          "CityName": "Salem",
-          "RoutineContaminants": {
-            "As": {"Symbol": "As", "Name": "Arsenic", "Value": "11", "Unit": "mg/L"},
-            "Cl": {"Symbol": "Cl", "Name": "Chloride", "Value": "4", "Unit": "mg/L"},
-            "Cu": {"Symbol": "Cu", "Name": "Copper", "Value": "54", "Unit": "mg/L"},
-            "CuSt": {"Symbol": "CuSt", "Name": "Copper, Stagnant", "Value": "5", "Unit": "mg/L"},
-            "Har": {"Symbol": "Har", "Name": "Hardness as CaCO3", "Value": "27", "Unit": "mg/L"},
-            "Fe": {"Symbol": "Fe", "Name": "Iron", "Value": "87", "Unit": "mg/L"},
-            "Pb": {"Symbol": "Pb", "Name": "Lead", "Value": "43", "Unit": "mg/L"},
-            "PbSt": {"Symbol": "PbSt", "Name": "Lead, Stagnant", "Value": "54", "Unit": "mg/L"},
-            "Mn": {"Symbol": "Mn", "Name": "Manganese", "Value": "1234", "Unit": "mg/L"},
-            "pH": {"Symbol": "pH", "Name": "pH", "Value": "6.1", "Unit": "units"},
-            "Na": {"Symbol": "Na", "Name": "Sodium", "Value": "9", "Unit": "mg/L"}
-          },
-          "BacterialContaminants": {
-            "Bac": {
-              "Symbol": "Bac",
-              "Name": "Total Coliform",
-              "Value": "5",
-              "Unit": "CFU/100 mL"
-            }, "Ecoli": {"Symbol": "Ecoli", "Name": "E. Coli", "Value": "3", "Unit": "CFU/100 mL"}
-          },
-          "Bac_G": "rdb_Bac_True",
-          "Ecoli_G": "rdb_Ecoli_True",
-          "RadionuclideContaminants": {
-            "Rn": {"Symbol": "Rn", "Name": "Radon", "Value": "56", "Unit": "pCi/L"},
-            "Ur": {"Symbol": "Ur", "Name": "Uranium", "Value": "12", "Unit": "μg/L"},
-            "AGA": {"Symbol": "AGA", "Name": "Gross Alpha", "Value": "98", "Unit": "pCi/L"}
-          },
-          "InteractivePromptResponses": {
-            "0": {"InteractionIdentifier": "Cl_True", "Symbol": "Cl"},
-            "1": {"InteractionIdentifier": "Har_True", "Symbol": "Har"}
-          }
-        },
-        {
-          "CityName": "Anonymous",
-          "BacterialContaminants": {"Ecoli": {"Symbol": "Ecoli", "Name": "E. Coli", "Value": "0", "Unit": "CFU/100 mL"}}
-        },
-        {
-          "CityName": "Anonymous",
-          "RoutineContaminants": {"Cl": {"Symbol": "Cl", "Name": "Chloride", "Value": "250", "Unit": "mg/L"}}
-        },
-        {
-          "CityName": "Anonymous",
-          "RoutineContaminants": {"Har": {"Symbol": "Har", "Name": "Hardness as CaCO3", "Value": "150", "Unit": "mg/L"}}
-        },
-        {
-          "CityName": "Anonymous",
-          "RoutineContaminants": {"Fe": {"Symbol": "Fe", "Name": "Iron", "Value": ".3", "Unit": "mg/L"}}
-        },
-        {
-          "CityName": "Anonymous",
-          "RoutineContaminants": {"Mn": {"Symbol": "Mn", "Name": "Manganese", "Value": ".05", "Unit": "mg/L"}}
-        },
-        {
-          "CityName": "Anonymous",
-          "RoutineContaminants": {"pH": {"Symbol": "pH", "Name": "pH", "Value": "8", "Unit": "units"}}
-        },
-        {
-          "CityName": "Anonymous",
-          "RadionuclideContaminants": {"AGA": {"Symbol": "AGA", "Name": "Gross Alpha", "Value": "15", "Unit": "pCi/L"}}
-        }
+        {"CityName":"Salem","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"11","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"4","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"54","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"5","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"27","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"87","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"43","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"54","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"9","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"5","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"3","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"56","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"12","Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"98","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
+        {"CityName":"Anonymous","BacterialContaminants":{"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"0","Unit":"CFU/100 mL"}}},
+        {"CityName":"Anonymous","RoutineContaminants":{"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"250","Unit":"mg/L"}}},
+        {"CityName":"Anonymous","RoutineContaminants":{"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"150","Unit":"mg/L"}}},
+        {"CityName":"Anonymous","RoutineContaminants":{"Fe":{"Symbol":"Fe","Name":"Iron","Value":".3","Unit":"mg/L"}}},
+        {"CityName":"Anonymous","RoutineContaminants":{"Mn":{"Symbol":"Mn","Name":"Manganese","Value":".05","Unit":"mg/L"}}},
+        {"CityName":"Anonymous","RoutineContaminants":{"pH":{"Symbol":"pH","Name":"pH","Value":"8","Unit":"units"}}},
+        {"CityName":"Anonymous","RadionuclideContaminants":{"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"15","Unit":"pCi/L"}}}
       ]
       sample = sampleSet[sampleSetIndex]
       sampleSetIndex = ++sampleSetIndex % sampleSet.length
