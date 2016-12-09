@@ -97,7 +97,7 @@ function return_cdx_facility_management_token($is_print_json = TRUE) {
   $local_testing = variable_get('local_testing');
 
   // Allow user to access Facility widget locally with hard coded user id
-  if ($local_testing || $user->uid === 1) {
+  if ($local_testing || $user->uid == 1) {
     $user_id = variable_get('local_testing_user_id');
   } else {
     //Extract out "_Via_CDX" string from user_name to pull roles from the Activity Data flow
