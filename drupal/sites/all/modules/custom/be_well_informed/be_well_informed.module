@@ -46,6 +46,7 @@ function be_well_pdf_generate(){
   else{
     $process = proc_open('sites/all/libraries/wkhtmltox/bin/wkhtmltopdf -q - -', $descriptorspec, $pipes);
   }
+
   // Send the HTML on stdin
   fwrite($pipes[0], $html);
   fclose($pipes[0]);
@@ -215,7 +216,7 @@ function be_well_informed_form_submission() {
     }
   }
 
-    drupal_json_output($datatable_formatted_response);
+  drupal_json_output($datatable_formatted_response);
 }
 
 /**
