@@ -6,12 +6,6 @@
   var user_role_waiting;
   var renew_token = Drupal.settings.renew_token_from_bridge;
 
-  // Ajax request for the CDX token to authenticate Facility Widget
-  var renew_token_ajax = $.ajax({
-    url: Drupal.settings.basePath + 'return_cdx_facility_management_token',
-    type: 'JSON'
-  });
-
 
   /**
    * Creates and adds Program select to the Facility Widget block.
@@ -147,8 +141,6 @@
     var token = token_data.token;
     var naas_ip = token_data.server_ip;
     var resource_url = Drupal.settings.cdx_facility_widget_settings.resource_url;
-    var time_logged_in = token_data.user_login_time;
-    var time_threshold = token_data.user_session_logout;
 
 
     org_filter_select.append('<option value="">Select an Organization</option>');
@@ -186,7 +178,7 @@
 
     management_button.click(function() {
       var user_role_id = $('#fmw-type-select').val();
-      updateWidget(user_role_id, token, naas_ip, resource_url, time_logged_in, time_threshold, 0);
+      updateWidget(user_role_id, token, naas_ip, resource_url, 0);
       if ($('#facility-widget').length > 0) {
         cdx_facility_management_block.dialog('open');
         $('.ui-dialog').focus();
@@ -207,42 +199,50 @@
    * @param time_threshold
    * @param number_attempts
    */
-  function updateWidget(user_role_id, naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts) {
+  function updateWidget(user_role_id, naas_token, naas_ip, resource_url, number_attempts) {
 
     $('#facility-widget').html('');
 
 
     $.initFacilityManagementWidget({
-      autoScroll: false,
-      widgetDisplayType: "Edit My Facilities",
-      baseServiceUrl: resource_url,
-      ImagesFolderPath: resource_url + '/ContentFramework/FRS%20Widget/images',
-      userRoleId: user_role_id,
-      NASSToken: naas_token,
-      NAASip: naas_ip,
-      onInvalidSession: function() {
-        renew_token_ajax.done(function(renewed_token_return) {
+        autoScroll: false,
+        widgetDisplayType: "Edit My Facilities",
+        baseServiceUrl: resource_url,
+        ImagesFolderPath: resource_url + '/ContentFramework/FRS%20Widget/images',
+        userRoleId: user_role_id,
+        NASSToken: naas_token,
+        NAASip: naas_ip,
+        onInvalidSession: function() {
           // If token does not work try renewing
-          var new_naas_token = renewed_token_return.token;
-          if (new_naas_token === '') {
-            unableToConnectWidget("CDX Facility- Blank Token");
-          }
-          else if (number_attempts > 2) {
-            unableToConnectWidget("CDX Facility- Max attempts.");
-          }
-          else {
-            updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, time_logged_in, time_threshold, number_attempts + 1);
-          }
-        });
-      },
-      onServiceCall: function() {
-        cdx_facility_management_block.dialog("option", "position", {
-          my: "center",
-          at: "center",
-          of: window
-        });
+          $.ajax({
+            url: Drupal.settings.basePath + 'return_cdx_facility_management_token',
+            type: 'JSON',
+            success: function(renewed_token_return) {
+              var new_naas_token = renewed_token_return.token;
+              if (new_naas_token === '') {
+                unableToConnectWidget("CDX Facility- Blank Token");
+              }
+              else if (number_attempts > 2) {
+                unableToConnectWidget("CDX Facility- Max attempts.");
+              }
+              else {
+                updateWidget(user_role_id, new_naas_token, naas_ip, resource_url, number_attempts + 1);
+              }
+            },
+            fail: function() {
+              unableToConnectWidget("CDX Facility- cannot connect to service.");
+            }
+          })
+        },
+        onServiceCall: function() {
+          cdx_facility_management_block.dialog("option", "position", {
+            my: "center",
+            at: "center",
+            of: window
+          });
+        }
       }
-    });
+    );
   }
 
 
@@ -315,4 +315,5 @@
     }
   });
 
-})(jQuery);
+})
+(jQuery);

@@ -76,6 +76,7 @@ function village_green_get_data_for_current_minute() {
     // Expire on the next minute
     $next_min = ceil(time()/60)*60;
     cache_set($cache_key, $response, 'cache', $next_min);
+    watchdog("CURL REQUEST", 'Request made to Village Green- Site ID ' . $_GET['siteID'], array(), WATCHDOG_INFO);
   }
 
   print $response;

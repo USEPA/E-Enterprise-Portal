@@ -75,6 +75,7 @@ function load_eactivity_data($module_caller, $use_cache) {
     }
 
 
+
     //For the following parameter, use $cdx_username, which does not have _Via_CDX at the end, instead of $user_name
     $params2 = array(
       "securityToken" => $response1->securityToken,
