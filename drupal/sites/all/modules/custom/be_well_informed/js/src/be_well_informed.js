@@ -294,7 +294,7 @@ function resetBWIForm() {
                   var $column = $('<div class="column usa-width-one-half"></div>')
                     .appendTo($prompt)
                   var contaminantType = 'RoutineContaminants';
-                  if (item.Symbol == 'Ecoli') {
+                  if (item.Symbol == 'Ecoli' || item.Symbol == 'Bac') {
                     contaminantType = 'BacterialContaminants';
                   } else if (item.Symbol == 'Ur') {
                     contaminantType = 'RadionuclideContaminants';
