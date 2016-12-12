@@ -2488,17 +2488,17 @@ div.ctools-modal-content {
     color: $color-primary;
     text-decoration: none;
 
-    &:hover,
-    &:active {
+    &:not(.usa-button):hover,
+    &:not(.usa-button):active {
         color: $color-primary-darker;
         text-decoration: underline;
     }
 
-    &:visited {
+    &:not(.usa-button):visited {
         color: $color-visited;
     }
 
-    &:focus {
+    &:not(.usa-button):focus {
         box-shadow: $focus-shadow;
         //outline: 0;
     }
