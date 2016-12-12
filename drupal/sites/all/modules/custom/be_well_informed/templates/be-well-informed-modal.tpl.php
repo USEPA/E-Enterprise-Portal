@@ -109,7 +109,7 @@
                       <div class="row absent-present">
                         <span class="column">Or Choose: </span>
                         <div class="column">
-                          <input name="<?php echo $prefix . $m['radio_name'] ?>_G"
+                          <input name="<?php echo $m['radio_name'] ?>_G"
                                  type="radio"
                                  id="rdb_<?php echo $m['radio_name'] ?>_True"
                                  value="rdb_<?php echo $m['machine_name'] ?>_True" <?php if (in_array('required', $m['validation'])): {
@@ -117,7 +117,7 @@
                           } endif; ?>>
                           <label
                             for="rdb_<?php echo $m['radio_name'] ?>_True">Present</label>
-                          <input name="<?php echo $prefix . $m['radio_name'] ?>_G"
+                          <input name="<?php echo $m['radio_name'] ?>_G"
                                  type="radio"
                                  id="rdb_<?php echo $m['radio_name'] ?>_False"
                                  value="rdb_<?php echo $m['machine_name'] ?>_False" <?php if (in_array('required', $m['validation'])): {
