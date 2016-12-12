@@ -46,10 +46,6 @@
         <div class="cr-structure_image">
         </div>
       </div><!-- @end .cr-structure_container -->
-<!--      <div class="cr-structure_container">
-        <div class="cr-structure_molecular-weight">
-        </div>
-      </div><!-- @end .cr-structure_container -->
     </div><!-- @end #cr-laws-regs_structure -->
 
     <!-- @SYNONYMS -->    
