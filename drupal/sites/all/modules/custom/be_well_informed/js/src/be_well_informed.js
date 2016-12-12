@@ -46,9 +46,27 @@ function resizeModal() {
   }
 }
 
+// Check Radio Mapping for checked radio values.
+function checkRadioInputs(radioMapping) {
+  var $ = jQuery;
+  var $radioInput;
+  $.each(radioMapping, function(symbol, radioName) {
+    $radioInput = $("input[name='" + radioName + "']:checked");
+    if ($radioInput.length > 0) {
+      radioMapping[symbol] = $radioInput.val();
+    } else {
+      delete radioMapping[symbol];
+    }
+  });
+  return radioMapping;
+}
 
 // Handle Serialized Form data for Be Well Informed consumption
 function formatFormData(formData, convertNulls) {
+  // Check for Ecoli/Total Coliform radio buttons
+  // Map input Names to Unit names so we can set the presence attribute in the form
+  var presenceRadioInputs = {Ecoli: 'Ecoli_G', Bac: 'Bac_G'}
+  presenceRadioInputs = checkRadioInputs(presenceRadioInputs);
 
   Object.keys(formData).reduce(function(previous, current, cIndex, keys) {
     var previousKeys = [];
@@ -58,7 +76,11 @@ function formatFormData(formData, convertNulls) {
 
     // Standardize all values to Type Ints. If the value is NULL or blank, send -9999
     if ((previousKeys.indexOf('Value') > -1) ) {
-
+      // Check if presence radio has been inputed and set balue
+      if (previous[keys[cIndex]].Symbol in presenceRadioInputs) {
+        previous[keys[cIndex]].Presence = presenceRadioInputs[previous[keys[cIndex]].Symbol];
+        delete previous[keys[cIndex]].Value;
+      }
       if (convertNulls) {
         if (!isNaN(previous[keys[cIndex]].Value) && previous[keys[cIndex]].Value != "") {
           previous[keys[cIndex]].Value = parseFloat(previous[keys[cIndex]].Value);
@@ -88,6 +110,7 @@ var sampleData = function() {};
  * Clear form inputs and hide warning messages
  */
 function resetBWIForm() {
+  var $ = jQuery;
   var $form = $('#water_analysis_results_form');
   $form.parsley().reset();
   $form.find('input[type=number]').val('');
