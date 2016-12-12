@@ -65,4 +65,5 @@
 --><!-- @end cr-tabs_naics -->
 </div><!-- @end cr-tabs -->
 <div id="chemical-rules-modal"></div>
+<div id="chemical-guest-options"><?php print $guest_favorite_info; ?></div>
 <div id="chemical-rules-learnmore"><?php print $chemical_rules_learnmore; ?></div>
