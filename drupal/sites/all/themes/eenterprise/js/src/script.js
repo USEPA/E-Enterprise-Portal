@@ -312,21 +312,51 @@
             });
           }
 
-          function addResizeSensors(grid) {
-            if (typeof ResizeSensor !== 'undefined') {
-              new ResizeSensor(jQuery('.grid-stack-item'), _.debounce(function() {
-                resizeCallback(grid);
-              }, 150));
-              new ResizeSensor(jQuery('.view-content'), _.debounce(function() {
-                resizeCallback(grid);
-              }, 150));
-              $('#cdx-logged-in-options').on('change', 'select', function() {
-                resizeCallback(grid);
-              });
-              $(document).ajaxComplete(_.debounce(function() {
-                resizeCallback(grid);
-              }, 150));
-            }
+          /**
+           * Grab updated grid heights with dynamic
+           * ids based on x and y postions on the grid
+           * @param grid_nodes
+           * @returns {{}}
+           */
+          function calculateGridHeights(grid_nodes) {
+            var grid_heights = {};
+            jQuery.each(grid_nodes, function() {
+              var $pane_content = this.el.find('.pane-content');
+              if ($pane_content.length > 0) {
+                var id = this.x + '_' + this.y;
+                grid_heights[id] = $pane_content.height();
+              }
+            });
+            return grid_heights;
+          }
+
+          /**
+           * Every second check if there has been a grid item
+           * that has resized. Do not run if an element is being dragged
+           * Checks for .grid-stack-content with children .pane-content
+           * @param gs_object
+           */
+          function addResizeSensors(gs_object) {
+            var grid_heights = calculateGridHeights(gs_object.grid.nodes);
+            setInterval(function() {
+              // Only resize if not dragging component
+              if (jQuery('.grid-stack .ui-draggable-dragging').length <= 0) {
+                // Check if grid content heights have changed
+                jQuery.each(gs_object.grid.nodes, function() {
+                  var $elem = this.el;
+                  var id = this.x + '_' + this.y;
+                  var $pane_content = $elem.find('.pane-content');
+                  if ($pane_content.length > 0) {
+                    if (!grid_heights[id] || $pane_content.height() != grid_heights[id]) {
+                      resizeCallback(gs_object);
+                      grid_heights = calculateGridHeights(gs_object.grid.nodes);
+                      // Only need to resize grid once
+                      return false;
+                    }
+                  }
+                });
+              }
+            }, 100)
           }
 
           function resizeCallback(grid) {
@@ -442,13 +472,13 @@
       $('body').once(function() {
         // initialize all tooltips in page
         $('body').tooltip({
-          selector: '.ee-bootstrap-tooltip',
-          delay: 400,
-          trigger: 'hover focus',
-          container: 'body',
-          placement: 'auto left'
-        })
-        // Modify existing behavior to close on Esc
+            selector: '.ee-bootstrap-tooltip',
+            delay: 400,
+            trigger: 'hover focus',
+            container: 'body',
+            placement: 'auto left'
+          })
+          // Modify existing behavior to close on Esc
           .on('keyup', function(e) {
             if (e.which === 27) { // Esc key
               $('.ee-bootstrap-tooltip').tooltip('hide');

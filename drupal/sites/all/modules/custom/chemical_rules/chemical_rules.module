@@ -5,6 +5,14 @@
  */
 function chemical_rules_menu() {
   $items = array();
+  $items['admin/config/system/chemical-rules'] = array(
+      'title' => 'Chemical Rules configurations',
+      'description' => 'Manage CDX Program Facility Service Endpoint',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('chemical_rules_settings'),
+      'access arguments' => array('administer chemical rules'),
+      'file' => 'chemical_rules.admin.inc',
+  );
   $items['chemical_rules/form_submission'] = array(
     'page callback' => 'chemical_rules_form_submission',
     'access callback' => TRUE,
@@ -12,6 +20,14 @@ function chemical_rules_menu() {
   $items['chemical_rules/update_chem_profile'] = array(
     'page callback' => 'update_chem_profile',
     'access callback' => TRUE,
+  );
+  $items['admin/config/system/chemical_rules'] = array(
+    'title' => 'Chemical Rules Settings',
+    'description' => 'Description of your On this date settings page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('chemical_rules_admin'),
+    'access arguments' => array('administer chemical_rules settings'),
+    'file' => 'chemical_rules.admin.inc',
   );
   return $items;
 }
@@ -107,14 +123,40 @@ function chemical_rules_block_view($delta = '') {
       // Pull content from chemical_rules-learnmore node to populate Learn how it works modal
       $path = "chemical_rules-learnmore";
       $org_path = drupal_lookup_path("source", $path);
-      $node = menu_get_object("node", 1, $org_path);
-      $nid = $node->nid;
-      $node = node_load($nid);
-      $nodeView = node_view($node, 'full');
-      $chemical_rules_learnmore = drupal_render($nodeView['body']);
+      $path = "guests-favorite-options";
+      $guest_fav_path = drupal_lookup_path("source", $path);
+      if ($org_path) {
+        $node = menu_get_object("node", 1, $org_path);
+        $nid = $node->nid;
+        $node = node_load($nid);
+        $nodeView = node_view($node, 'full');
+        $chemical_rules_learnmore = drupal_render($nodeView['body']);
+        if ($guest_fav_path) {
+          $node = menu_get_object("node", 1, $guest_fav_path);
+          $nid = $node->nid;
+          $node = node_load($nid);
+          $nodeView = node_view($node, 'full');
+          $guest_favorite_info = drupal_render($nodeView['body']);
+          drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore"=>$chemical_rules_learnmore, "guestfavorite"=>$guest_favorite_info]), 'setting');
+        }
+        else {
+          drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore"=>$chemical_rules_learnmore]), 'setting');
+        }
 
-      drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore"=>$chemical_rules_learnmore]), 'setting');
-
+      }
+      else {
+        if ($guest_fav_path) {
+          $node = menu_get_object("node", 1, $guest_fav_path);
+          $nid = $node->nid;
+          $node = node_load($nid);
+          $nodeView = node_view($node, 'full');
+          $guest_favorite_info = drupal_render($nodeView['body']);
+          drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore"=>$chemical_rules_learnmore, "guestfavorite"=>$guest_favorite_info]), 'setting');
+        }
+        else {
+          drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings]), 'setting');
+        }
+      }
       $block['subject'] = t('Chemical Laws &amp; Regulations');
       $block['content'] = theme('chemical_rules');
       return $block;
@@ -147,7 +189,7 @@ function chemical_rules_form_submission() {
   }
   else {
     $cached_response = get_chemical_response_cache($_POST['cr-search_input']);
-    if($cached_response && time() < strtotime("+1 month", $cached_response['cached']['changed']) && !feature_toggle_get_status('chemical_rules_no_cache_data')) {
+    if($cached_response && time() < strtotime(variable_get('chemical_rules_max_cache', '+1 month'), $cached_response['cached']['changed']) && !feature_toggle_get_status('chemical_rules_no_cache_data')) {
       $response = $cached_response;
     }
     else {
@@ -250,6 +292,7 @@ function chemical_rules_process_srs_response(&$return) {
 
       // Sort out the information we need for the various lists
       foreach ($SubstanceSynonyms as $index => $ss) {
+        $ss['program_list'] = [];
         $value = ($value) ? $value : null;
         if(!in_array(strtolower($ss['ChemicalSubstanceSynonymName']), $return['data']['substance']['synonyms']))
           $return['data']['substance']['synonyms'][] = strtolower($ss['ChemicalSubstanceSynonymName']);
@@ -332,6 +375,7 @@ function chemical_rules_process_elastic_response(&$return) {
     // Process the information we get back; Get the substance lists and organize
     // in $return
     _process_substance_list_response($return, $substance_list_response['hits']['hits']);
+    _get_program_list($return);
   }
 }
 
@@ -372,8 +416,29 @@ function chemical_rules_process_lod_response(&$return) {
 
     $merged = array_merge($return['data']['substance'], $lod[$substanceConcept]);
     $return['data']['substance'] = ($merged) ? $merged : $return['data']['substance'];
-
+    $return['data']['substance']['2d-structure'] = _cache_pubchem_image($return['data']['substance']['2d-structure']);
   }
+}
+
+function _cache_pubchem_image($image_url) {
+  $image_name = end(explode('/', $image_url));
+  $path = 'sites/default/files/chemical_rules/images/pubchem';
+  $file_name = implode('/', [$path, $image_name.'.png']);
+  if(!file_exists($file_name)){
+    if(!is_dir($path)) {
+      $created = mkdir($path, 0755, true);
+    }
+    if($image_data = file_get_contents($image_url)) {
+      $save = file_put_contents($file_name, $image_data);
+      if($save) {
+        return $file_name;
+      }
+    }
+  }
+  else {
+    return $file_name;
+  }
+  return null;
 }
 
 function _process_substance_list_response(&$return, $lists) {
@@ -387,6 +452,8 @@ function _process_substance_list_response(&$return, $lists) {
       foreach ($list['cfrs'] as $cfr_id => $cfr) {
         if(!isset($return['data']['laws_regs'][$cfr_id])) {
           $cfr['substance_list'] = [];
+          $cfr['program_list'] = [];
+          create_meta_data_from_name($cfr);
           $return['data']['laws_regs'][$cfr_id] = snakecase_mapping($cfr);
         }
         if(!in_array($list['substance_list_name'], $return['data']['laws_regs'][$cfr_id]['substance_list'])){
@@ -395,6 +462,7 @@ function _process_substance_list_response(&$return, $lists) {
         $cfrs[] = $cfr_id;
       }
       $list['cfrs']= $cfrs;
+      $list['program_list']= [];
       $substance_list[$list['substance_list_name']] = snakecase_mapping($list);
     }
   }
@@ -404,6 +472,53 @@ function _process_substance_list_response(&$return, $lists) {
     $return['data']['laws_regs_index'][$cfr['cfr_id']] = $index;
   }
   $return['data']['substance_list'] = $substance_list;
+}
+
+function _get_program_list(&$return){
+  $elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_index/programInfo/_search?pretty';
+
+  // build the query to specifically use
+  $query_array = ["query"=>["bool"=>["should"=>[]]]];
+
+  foreach (array_keys($return['data']['laws_regs_index']) as $cfrs_id) {
+    $query_array["query"]["bool"]["should"][] = ["match_phrase"=>["cfrsId"=>$cfrs_id]];
+  }
+
+  // Setup the http request and check its response
+  $headers = array('Content-Type' => 'application/json');
+  $elastic_response = drupal_http_request($elastic_endpoint, [
+    "headers" => $headers,
+    "method" => "POST",
+    'timeout' => "10",
+    'data' =>  json_encode($query_array)
+  ]);
+  try {
+    if ($elastic_response->code !== "200") {
+      //$return['error'] = TRUE;
+      $return['error-messages'][] = ['Elastic Program list endpoint response: '.$elastic_response->error];
+      //$program_list_response = snakecase_mapping(sample_chemical_rules_elastic_response());
+    }
+    else {
+      $program_list_response = snakecase_mapping(json_decode($elastic_response->data, true));
+    }
+    $return['data']['program_list'] = [];
+    foreach($program_list_response['hits']['hits'] as $programInfo) {
+      $programInfo = $programInfo['_source'];
+      $return['data']['program_list'][$programInfo['program_id']] = $programInfo;
+      $crf_index = $return['data']['laws_regs_index'][$programInfo['cfrs_id']];
+
+      // if the program id doesn't exist in the array, add it
+      (in_array($programInfo['program_id'], $return['data']['laws_regs'][$crf_index]['program_list'])) ?: $return['data']['laws_regs'][$crf_index]['program_list'][] = $programInfo['program_id'];
+      foreach($return['data']['laws_regs'][$crf_index]['substance_list'] as $substance_list_name) {
+        (in_array($programInfo['program_id'], $return['data']['substance_list'][$substance_list_name]['program_list'])) ?: $return['data']['substance_list'][$substance_list_name]['program_list'][] = $programInfo['program_id'];
+      }
+    }
+  } catch (Exception $e) {
+    //$return['error'] = TRUE;
+    $return['error-messages'][] = ['Elastic endpoint error', $e, $elastic_response];
+    $program_list_response = snakecase_mapping(sample_chemical_rules_elastic_response());
+  }
+
 }
 
 function update_chem_profile() {
@@ -460,11 +575,52 @@ function is_valid_cas_number($stringToCheck, $returnCasNumber = false) {
   return false;
 }
 
+function create_meta_data_from_name(&$cfr) {
+  $meta_data = ['tag'=>[], 'sort'=>''];
+  $split = '/([a-zA-Z]+)([0-9]+)/';
+  $year_format = '/(2[0-9]{3})/';
+
+  $meta_data_strings = explode('-', $cfr['cfr_name']);
+  foreach ($meta_data_strings as $index => $string) {
+    $key_value = [];
+    $split_string = [];
+    //check if it matches a year format and less or equal to the current year
+    if(preg_match_all($year_format, $string) && $string <= date('Y')) {
+      $meta_data['year'] = $string;
+      $meta_data['sort'][] = $string;
+    }
+    // is the string splittable
+    else if (preg_match_all($split, $string, $split_string)) {
+      $meta_data[$split_string[1][0]] = $split_string[2][0];
+      $meta_data['sort'][] = $split_string[1][0];
+      $meta_data['sort'][] = $split_string[2][0];
+    }
+    // if nothing else we fits we will assign it the meta of 'tag'
+    else if ($index == 0) {
+      $meta_data['tag'][] = $string;
+      $meta_data['sort'][] = $string;
+    }
+  }
+  $cfr['meta_data'] = $meta_data;
+}
+
 function compare_cfrs_by_name($a, $b){
-  $al = strtolower($a['attributes']->{'citation'}.' '.$a['cfr_name']);
-  $bl = strtolower($b['attributes']->{'citation'}.' '.$b['cfr_name']);
+  $al = strtolower($a['attributes']['citation'].' '. implode(' ',$a['meta_data']['sort']));
+  $bl = strtolower($b['attributes']['citation'].' '. implode(' ',$a['meta_data']['sort']));
+  $a_list = explode(' ', $al);
+  $b_list = explode(' ', $bl);
+  $length = (count($a_list) > count($a_list)) ? count($a_list) : count($b_list);
+  $r = 0;
   if ($al == $bl) {
-    return 0;
+    return $r;
+  }
+  else {
+    for ($i = 0; $i < $length; $i++) {
+      if($a_list[$i] == $b_list[$i]) {
+        continue;
+      }
+      return ($a_list[$i] > $b_list[$i]) ? +1 : -1;
+    }
   }
   return ($al > $bl) ? +1 : -1;
 }
@@ -482,7 +638,6 @@ function strip_prefix_from_array($array, $prefix){
 function split_key_at_hash($array){
   $stripped = [];
 
-  // TODO: Refine the output
   foreach ($array as $key => $item) {
     $item_parts = explode('#', $key);
     if(is_array($item)) {
@@ -628,7 +783,7 @@ function get_chemical_response_cache($search_term){
  */
 function save_chemical_response($chemical_response) {
 
-  if($chemical_response['error'] == false && !!$chemical_response['error-messages']) {
+  if($chemical_response['error'] == false && !$chemical_response['error-messages']) {
     //Check if the node exists
     $title = $chemical_response['data']['substance']['epa_chemical_registry_name'];
     $terms = taxonomy_get_term_by_name(strtolower(trim($title)), 'chemicals');
