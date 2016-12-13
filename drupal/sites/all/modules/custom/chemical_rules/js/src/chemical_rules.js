@@ -464,7 +464,7 @@ function isValidCasNumber(stringToCheck) {
   if ($body.find('#cr-tabs').length > 0) {
     $cr_tabs = $('#cr-tabs').tabs();
     if (guest_user) {
-      $body.find('.cr-tabs_favorites_empty p').html('<p>To save items as favorites, you must first log in.</p>');
+      $body.find('.cr-tabs_favorites_empty p').html('<p>To save items as favorites, you must first <a href="/new-users">log in.</a></p>');
     }
   }
 
