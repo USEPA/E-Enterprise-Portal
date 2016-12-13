@@ -169,7 +169,7 @@ function chemical_rules_block_view($delta = '') {
  * Take users POST input and handoff to sample data or SRS / LRS / LOD service
  */
 function chemical_rules_form_submission() {
-  $schema = array();
+
   if (!isset($_POST) || count($_POST) === 0) {
     drupal_json_output(array(
       'error' => TRUE,
