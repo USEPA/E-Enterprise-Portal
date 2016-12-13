@@ -545,8 +545,8 @@ function isValidCasNumber(stringToCheck) {
       },
       open: function(event, ui) {
         $('#chemical-rules-modal').parent().css('position', 'fixed');
-        var sticky_gap = $('#cr-modal-toc-icons').offset().top;
         $('#chemical-rules-modal').scroll(function() {
+          var sticky_gap = $('#cr-modal-toc-icons').offset().top;
           if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
             $('#cr-modal-toc-icons').addClass('sticky-toc');
             $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()+6).css('top', $('#chemical-rules-modal').offset().top);
@@ -555,7 +555,6 @@ function isValidCasNumber(stringToCheck) {
             $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');
           }
         });
-        var sticky_gap = $('#cr-modal-toc-icons').offset().top;
         $('#cr-modal-toc-icons li a').on('click', function(ev) {
           ev.preventDefault();
           // Scroll the modal to the anchor clicked
