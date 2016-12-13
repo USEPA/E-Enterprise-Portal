@@ -203,7 +203,7 @@ function populate_substance_modal(chemical_rules_response_json) {
               json.data.laws_regs[index].attributes.title + 
               ' (' + json.data.laws_regs[index].meta_data.year + ')</a>' + fav_holder + '</span>');
           html_to_add.push('<span class="law-citation">Authority: ' + json.data.laws_regs[index].attributes.cfr_authority + '</span>');
-          html_to_add.push('<span class="law-lists">Substance Lists: ' + json.data.laws_regs[index].substance_list + '</span></li>');
+          html_to_add.push('<span class="law-lists">Substance Lists: ' + json.data.laws_regs[index].substance_list.join(', ') + '</span></li>');
         }
       html_to_add.push('</ul>');
       $list.append(html_to_add.join(""));
@@ -486,8 +486,6 @@ function isValidCasNumber(stringToCheck) {
   // Citation (e.g., 40 CFR 711)
   // Title (e.g., TSCA CHEMICAL DATA REPORTING REQUIREMENTS)
   // URL (e.g., https:\/\/gpo.gov...)
-
-//   var favs = Drupal.settings.chemical_rules.profile;
 
   // 1) Get favorites
   // 2) Count number of favorite Chemicals and Laws
