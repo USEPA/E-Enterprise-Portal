@@ -177,8 +177,6 @@ function chemical_rules_form_submission() {
     ));
     return;
   }
-
-  $chem_event_id = log_chemical_events();
   
   $response = [
     'error' => false,
@@ -208,17 +206,19 @@ function chemical_rules_form_submission() {
       save_chemical_response($response);
     }
   }
-
+  $chem_event_id = log_chemical_events($response['data']['substance']);
   log_cfr_events($response, $chem_event_id);
   drupal_json_output($response);
 }
 
-function log_chemical_events() {
+function log_chemical_events(&$response) {
   global $user;
   $chem_event_id = db_insert('chemical_source_event_log') // Table name no longer needs {}
   ->fields(array(
       'chem_name' => $_POST['cr-search_input'],
       'created' => date('Y-m-d H:i:s'),
+      'substance_id' => $response['epa_chemical_internal_number'],
+      'systematic_name' => $response['chemical_substance_systematic_name'],
       'user' => $user->uid,
   ))->execute();
   return $chem_event_id;

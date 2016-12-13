@@ -29,6 +29,8 @@ function _create_event_log_tables() {
             'fields' => array(
               'uid'	    => array('type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE),
               'chem_name'	=> array('type' => 'varchar', 'length' => 2000, 'not null' => TRUE),
+              'substance_id' => array('type' => 'varchar', 'length' => 2000),
+              'systematic_name' => array('type' => 'varchar', 'length' => 2000),
               'created'	=> array('mysql_type' => 'datetime', 'not null' => TRUE),
               'user'	=> array('type' => 'varchar', 'length' => 2000, 'not null' => TRUE),
             ),
@@ -195,6 +197,6 @@ function _create_content_type() {
   // Done
 }
 
-function chemical_rules_update_7003() {
+function chemical_rules_update_7007() {
   chemical_rules_enable();
 }
