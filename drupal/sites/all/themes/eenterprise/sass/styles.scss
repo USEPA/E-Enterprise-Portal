@@ -2484,7 +2484,7 @@ div.ctools-modal-content {
     }
 }
 
-.ui-widget-content a {
+.ui-widget-content a:not(.usa-button) {
     color: $color-primary;
     text-decoration: none;
 
