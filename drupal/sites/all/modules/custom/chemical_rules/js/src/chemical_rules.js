@@ -487,8 +487,6 @@ function isValidCasNumber(stringToCheck) {
   // Title (e.g., TSCA CHEMICAL DATA REPORTING REQUIREMENTS)
   // URL (e.g., https:\/\/gpo.gov...)
 
-//   var favs = Drupal.settings.chemical_rules.profile;
-
   // 1) Get favorites
   // 2) Count number of favorite Chemicals and Laws
 
