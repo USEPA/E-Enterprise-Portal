@@ -169,7 +169,7 @@ function chemical_rules_block_view($delta = '') {
  * Take users POST input and handoff to sample data or SRS / LRS / LOD service
  */
 function chemical_rules_form_submission() {
-
+  $schema = array();
   if (!isset($_POST) || count($_POST) === 0) {
     drupal_json_output(array(
       'error' => TRUE,
@@ -178,6 +178,8 @@ function chemical_rules_form_submission() {
     return;
   }
 
+  $chem_event_id = log_chemical_events();
+  
   $response = [
     'error' => false,
     'error-messages' => [],
@@ -206,7 +208,33 @@ function chemical_rules_form_submission() {
       save_chemical_response($response);
     }
   }
+
+  log_cfr_events($response, $chem_event_id);
   drupal_json_output($response);
+}
+
+function log_chemical_events() {
+  global $user;
+  $chem_event_id = db_insert('chemical_source_event_log') // Table name no longer needs {}
+  ->fields(array(
+      'chem_name' => $_POST['cr-search_input'],
+      'created' => date('Y-m-d H:i:s'),
+      'user' => $user->uid,
+  ))->execute();
+  return $chem_event_id;
+}
+
+function log_cfr_events(&$response, &$chem_event_id) {
+  foreach ($response['data']['laws_regs'] as $cfr) {
+    foreach ($cfr['substance_list'] as $sub) {
+      $nid = db_insert('chemical_details_event_log') // Table name no longer needs {}
+      ->fields(array(
+          'cfr_id'	=> $cfr['cfr_id'],
+          'substance_list_name'	=> $sub,
+          'chemical_source_event' => $chem_event_id,
+      ))->execute();
+    }
+  }
 }
 
 function sample_chemical_rules_response() {
