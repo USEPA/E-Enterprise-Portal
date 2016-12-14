@@ -96,10 +96,24 @@ function eenterprise_utility_menu() {
     'access arguments' => array('administer users'),
     'file' => 'eenterprise_utility_admin_role.admin.inc',
   );
-
+  $items['nmed'] = array(
+      'title' => 'SSO EEP to SEP',
+      'page callback' => 'sso_eep_to_sep',
+      'access callback' => 'user_is_logged_in',
+      '#type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
+/*Test New Mexico SSO from EEP to SEP*/
+function sso_eep_to_sep(){
+  $output = '<form action="https://sep.net-t.env.nm.gov/sep-envd/bridge" method="post">';
+  $output .= '<input type="hidden" name="securityToken" value="'.$_SESSION['cdx_fmw_security_token'].'">';
+  $output .= '<input type="hidden" name="clientIp" value="' .$_SERVER['SERVER_ADDR'].'">';
+  $output .= '<input type="submit" value="SSO to SEP"></form>';
+
+  return $output;
+}
 
 /**
  * Implementation of hook node view.
