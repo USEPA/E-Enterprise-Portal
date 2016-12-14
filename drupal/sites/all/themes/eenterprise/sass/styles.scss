@@ -2484,9 +2484,13 @@ div.ctools-modal-content {
     }
 }
 
-.ui-widget-content a:not(.usa-button) {
+.ui-widget-content a {
     color: $color-primary;
     text-decoration: none;
+
+    &.usa-button {
+        color: #fff;
+    }
 
     &:not(.usa-button):hover,
     &:not(.usa-button):active {
@@ -2622,11 +2626,6 @@ input[type="submit"]:not(.usa-button-outline),
         margin-top: 1.5rem;
     }
 }
-
-
-
-
-
 
 .filter-select {
     float: left;
