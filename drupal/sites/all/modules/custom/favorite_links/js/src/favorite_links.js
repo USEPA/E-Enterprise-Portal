@@ -147,7 +147,7 @@
             //If no next rows, focus previous row favorite
             else if (row_num == row_total && row_total != 1) {
               var previous_link = row.prev().find('a');
-              focus_link_id = "#" + previous_link[0].id;
+              focus_link_id = (row_num ==0 && row_total == 0)? "#favorite_links-ajax-wrapper" : "#" + previous_link[0].id;
             }
             //If only row left, focus Edit Profile link
             else {
