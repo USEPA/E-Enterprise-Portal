@@ -285,6 +285,14 @@ function eenterprise_utility_views_pre_render(&$view) {
 
   $chemical_modal = theme('chemical_rules_modal');
   drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile" => $user_chem_rules_user_settings]), 'setting');
+  drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/waitUntilExists.js', [
+    'scope' => 'footer',
+    'preprocess' => TRUE,
+    'group' => JS_LIBRARY,
+    'type' => 'file',
+    'cache' => TRUE,
+    'requires_jquery' => TRUE
+  ]);
   drupal_add_css(drupal_get_path('module', 'chemical_rules') . '/css/chemical_rules.css', [
     'preprocess' => TRUE,
     'group' => CSS_THEME
@@ -350,6 +358,17 @@ function guest_logout_action() {
   module_invoke_all('user_logout', $user);
   session_destroy();
   drupal_goto('/bridge-landing');
+}
+
+/*
+ * Redirect guest user to /new-users which also has Create CDX option.
+ */
+function send_guest_to_new_users() {
+    watchdog('guest_user', 'Session ended for guest user.');
+    global $user;
+    module_invoke_all('user_logout', $user);
+    session_destroy();
+    drupal_goto('/new-users');
 }
 
 function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv', $url_bool = FALSE) {

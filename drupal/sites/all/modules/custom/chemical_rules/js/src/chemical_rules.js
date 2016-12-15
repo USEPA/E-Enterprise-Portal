@@ -34,6 +34,17 @@ function cr_resizeLMModal() {
   }
 }
 
+function cr_resizeGuestModal() {
+  jQuery('#chemical-guest-options').dialog({
+    position: { 'my': 'center', 'at': 'center' },
+    width: 'auto',
+    height: 'auto',
+  });
+  if(jQuery('.chemical-guest-options').css('top').replace('px', '') < 1){
+    jQuery('.chemical-guest-options').css('top', 0);
+  }
+}
+
 function create_favlaw_heart(epaintnum) {
 
   var favs = (Drupal.settings.chemical_rules.profile) ? Drupal.settings.chemical_rules.profile : {'Chemicals':[],'Laws':[], 'NAICS':[]};
@@ -99,9 +110,6 @@ function lookup_chemical(lookup_value) {
       complete: function() {
         $('#chemical-rules-modal').dialog('option','title', 'Search results for "' + chem_search_input + '"');
         cr_showElementOutOfMany($('#chemical-rules-results-wrapper'), $('#chemical-rules-loading-wrapper'));
-        if (Drupal.settings.is_guest) {
-          $('.cr-user-options').hide();
-        }
         originalDialog = $body.find('#chemical-rules-modal').html();
       },
       success: populate_substance_modal
@@ -188,12 +196,12 @@ function populate_substance_modal(chemical_rules_response_json) {
         html_to_add.push('<ul class="cr-lists">');        
         for(var index in json.data.laws_regs) {
           cfr_id = json.data.laws_regs[index].cfr_id;
-          fav_holder = !Drupal.settings.is_guest ? create_favlaw_heart(cfr_id):'';
+          fav_holder = create_favlaw_heart(cfr_id);
           html_to_add.push('<li><span class="law-entry"><a data-favtype="Law" data-epaintnum="' + cfr_id + '" href="'+ json.data.laws_regs[index].attributes.url +'" target="_blank">' + json.data.laws_regs[index].attributes.citation + " &mdash; " + 
               json.data.laws_regs[index].attributes.title + 
               ' (' + json.data.laws_regs[index].meta_data.year + ')</a>' + fav_holder + '</span>');
           html_to_add.push('<span class="law-citation">Authority: ' + json.data.laws_regs[index].attributes.cfr_authority + '</span>');
-          html_to_add.push('<span class="law-lists">Substance Lists: ' + json.data.laws_regs[index].substance_list + '</span></li>');
+          html_to_add.push('<span class="law-lists">Substance Lists: ' + json.data.laws_regs[index].substance_list.join(', ') + '</span></li>');
         }
       html_to_add.push('</ul>');
       $list.append(html_to_add.join(""));
@@ -550,6 +558,20 @@ function update_favorite_lists(type) {
   // Guest Users
   else {
     $('#cr-tabs').hide();
+    $body.find('.cr-tabs_favorites_empty p').html('<p>To save items as favorites, you must first <a href="/new-users">log in.</a></p>');
+  }
+  // Otherwise, if guest user, prompt if they click favorites
+  else {
+    if ($body.find('.favorite-chemical').length > 0) {
+      $body.on('click', '.favorite-chemical', function (ev) {
+        $('#chemical-guest-options').dialog('open');
+      });
+    }
+    if ($body.find('.save-favorite').length > 0) {
+      $body.on('click', '.save-favorite', function (ev) {
+        $('#chemical-guest-options').dialog('open');
+      });
+    }
   }
 
   // Handle search form submit actions
@@ -580,17 +602,16 @@ function update_favorite_lists(type) {
         var $model = $('#chemical-rules-modal')
 
         $('#chemical-rules-modal').parent().css('position', 'fixed');
-        var sticky_gap = $('#cr-modal-toc-icons').offset().top;
         $('#chemical-rules-modal').scroll(function() {
+          var sticky_gap = $('#cr-modal-toc-icons').offset().top;
           if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
             $('#cr-modal-toc-icons').addClass('sticky-toc');
             $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()+6).css('top', $('#chemical-rules-modal').offset().top);
-          } 
+          }
           else {
             $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');
           }
         });
-        var sticky_gap = $('#cr-modal-toc-icons').offset().top;
         $('#cr-modal-toc-icons li a').on('click', function(ev) {
           ev.preventDefault();
           // Scroll the modal to the anchor clicked
@@ -604,6 +625,13 @@ function update_favorite_lists(type) {
           var scroll_amount = target_top - toc_bottom;
           $("#chemical-rules-modal").animate({ scrollTop: scroll_amount}, 500);
         });
+        if (guest_user) {
+          $('#close-favorite-msg').waitUntilExists(function() {
+            $('#close-favorite-msg').on('click', function () {
+              $('#chemical-guest-options').dialog("close");
+            });
+          });
+        }
       },
       close: function(event, ui) {
         reset_cr_form();
@@ -625,14 +653,14 @@ function update_favorite_lists(type) {
         dialogClass: 'chemical-rules-learnmore',
         draggable: false,
         autoOpen: false,
-        resizable: false,  
+        resizable: false,
         create: function(event, ui) {
           $(window).resize(function(){cr_resizeLMModal();});
-        },          
+        },
         open: function(event, ui) {
           cr_resizeLMModal();
         }
-    }); 
+    });
     $body.find('#learnmore-link').html('<a href="javascript:void(0)" id="cr-learnmore">Learn how it works</a>.');
   }
 
