@@ -58,7 +58,7 @@
 <div id="cr-laws-regs_structure">
   <h2 id="cr-structure">Structure</h2>
   <div class="cr-structure_container">
-    <div class="cr-structure_image"></div>
+    <div id="cr-structure_image">No image available for this substance.</div>
   </div><!-- @end .cr-structure_container -->
 </div><!-- @end #cr-laws-regs_structure -->
 
