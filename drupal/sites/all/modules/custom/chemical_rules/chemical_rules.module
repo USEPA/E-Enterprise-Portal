@@ -544,7 +544,10 @@ function _get_program_list(&$return){
     $return['data']['program_list'] = [];
     foreach($program_list_response['hits']['hits'] as $program_info) {
       $program_info = $program_info['_source'];
-      $return['data']['program_list'][] = filter_program_properties($program_info);
+      $program_info_cleaned = filter_program_properties($program_info);
+      if(!in_array($program_info_cleaned, $return['data']['program_list'])) {
+        $return['data']['program_list'][] = $program_info_cleaned;
+      }
       $crf_index = $return['data']['laws_regs_index'][$program_info['cfrs_id']];
 
       // if the program id doesn't exist in the array, add it
@@ -554,7 +557,7 @@ function _get_program_list(&$return){
       }
     }
 
-    usort($return['data']['program_list'], 'compare_progarms_by_name');
+    usort($return['data']['program_list'], 'compare_programs_by_name');
     foreach ($return['data']['program_list'] as $index => $program) {
       $return['data']['program_list_index'][$program['program_id']] = $index;
     }
@@ -655,9 +658,8 @@ function compare_cfrs_by_name($a, $b){
   $a_list = explode(' ', $al);
   $b_list = explode(' ', $bl);
   $length = (count($a_list) > count($a_list)) ? count($a_list) : count($b_list);
-  $r = 0;
   if ($al == $bl) {
-    return $r;
+    return 0;
   }
   else {
     for ($i = 0; $i < $length; $i++) {
@@ -674,7 +676,7 @@ function compare_programs_by_name($a, $b){
   $al = strtolower($a['program_name']);
   $bl = strtolower($b['program_name']);
   if ($al == $bl) {
-    return $r;
+    return 0;
   }
   return ($al > $bl) ? +1 : -1;
 }
