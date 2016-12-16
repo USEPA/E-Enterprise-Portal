@@ -661,7 +661,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     $form['actions']['delete']['#submit'][] = 'profile_delete_action';
     // When use delete last zip code or url, do not repopulate with previous saved zip
     if (isset($form_state['triggering_element'])) {
-      //$form_state['rebuild'] = false;
       $trigger_string = $form_state['triggering_element']['#name'];
       $trigger_array = explode('_', $trigger_string);
       if (in_array('zip', $trigger_array) && $trigger_array[5] == 'remove') {
@@ -697,9 +696,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
       }
-    }
-    else {
-      //$form_state['rebuild'] = true;
     }
 
     /**
@@ -814,6 +810,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
      */
     $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#theme'] = 'eenterprise_utility_terms_of_use_agreed_date_display';
     $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#disabled'] = TRUE;
+
+
   } // end user form
 }
 
@@ -852,7 +850,6 @@ function eenterprise_utility_profile_form_submit($form, &$form_state) {
 
   if (module_exists('chemical_rules') || $form['field_chem_rules_user_settings']) {
     // @TODO - Store latest version of array as it exists in back-end (not on local variables)
-
   }
 
 }
@@ -1056,7 +1053,10 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
  * Custom validation for user information, called when form is submitted.
  */
 function user_profile_form_custom_validate(&$form, &$form_state) {
-  //$form_state['rebuild'] = true;
+  // Rebuild before submitting to grab any ajax changes
+  if(isset($form_state['triggering_element']) && $form_state['triggering_element']['#name'] == 'op') {
+    $form_state['rebuild'] = true;
+  }
   user_profile_zipcode_custom_validate($form, $form_state);
   user_profile_mail_custom_validate($form, $form_state);
   user_profile_url_custom_validate($form, $form_state);
