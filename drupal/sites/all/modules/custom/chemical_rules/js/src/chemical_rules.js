@@ -1,5 +1,5 @@
 var cr_originalDialog,
-    cr_favs = Drupal.settings.is_guest ? '' : new Chemical_Rule_Profile(Drupal.settings.chemical_rules.profile);
+    cr_favs = new Chemical_Rule_Profile(Drupal.settings.chemical_rules.profile);
 
 function cr_showElementOutOfMany($wrapper_to_show, $common_selector) {
   $wrapper_to_show.show();
