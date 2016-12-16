@@ -96,10 +96,24 @@ function eenterprise_utility_menu() {
     'access arguments' => array('administer users'),
     'file' => 'eenterprise_utility_admin_role.admin.inc',
   );
-
+  $items['nmed'] = array(
+      'title' => 'SSO EEP to SEP',
+      'page callback' => 'sso_eep_to_sep',
+      'access callback' => 'user_is_logged_in',
+      '#type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
+/*Test New Mexico SSO from EEP to SEP*/
+function sso_eep_to_sep(){
+  $output = '<form action="https://sep.net-t.env.nm.gov/sep-envd/bridge" method="post">';
+  $output .= '<input type="hidden" name="securityToken" value="'.$_SESSION['cdx_fmw_security_token'].'">';
+  $output .= '<input type="hidden" name="clientIp" value="' .$_SERVER['SERVER_ADDR'].'">';
+  $output .= '<input type="submit" value="SSO to SEP"></form>';
+
+  return $output;
+}
 
 /**
  * Implementation of hook node view.
@@ -647,6 +661,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     $form['actions']['delete']['#submit'][] = 'profile_delete_action';
     // When use delete last zip code or url, do not repopulate with previous saved zip
     if (isset($form_state['triggering_element'])) {
+      //$form_state['rebuild'] = false;
       $trigger_string = $form_state['triggering_element']['#name'];
       $trigger_array = explode('_', $trigger_string);
       if (in_array('zip', $trigger_array) && $trigger_array[5] == 'remove') {
@@ -682,6 +697,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
       }
+    }
+    else {
+      //$form_state['rebuild'] = true;
     }
 
     /**
@@ -1038,6 +1056,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
  * Custom validation for user information, called when form is submitted.
  */
 function user_profile_form_custom_validate(&$form, &$form_state) {
+  //$form_state['rebuild'] = true;
   user_profile_zipcode_custom_validate($form, $form_state);
   user_profile_mail_custom_validate($form, $form_state);
   user_profile_url_custom_validate($form, $form_state);
