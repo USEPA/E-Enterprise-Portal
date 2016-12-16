@@ -661,6 +661,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     $form['actions']['delete']['#submit'][] = 'profile_delete_action';
     // When use delete last zip code or url, do not repopulate with previous saved zip
     if (isset($form_state['triggering_element'])) {
+      //$form_state['rebuild'] = false;
       $trigger_string = $form_state['triggering_element']['#name'];
       $trigger_array = explode('_', $trigger_string);
       if (in_array('zip', $trigger_array) && $trigger_array[5] == 'remove') {
@@ -696,6 +697,9 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_title'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
         $form['field_profile_favourites'][LANGUAGE_NONE][0]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] = '';
       }
+    }
+    else {
+      //$form_state['rebuild'] = true;
     }
 
     /**

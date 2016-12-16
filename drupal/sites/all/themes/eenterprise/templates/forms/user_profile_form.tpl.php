@@ -3,6 +3,7 @@ drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/location_input_engi
 drupal_add_css("sites/all/libraries/jqueryui/themes/base/minified/jquery.ui.tabs.min.css", ['scope'=>'footer', 'preprocess'=>true, 'group'=>CSS_DEFAULT]);
 drupal_add_js("sites/all/libraries/jqueryui/ui/minified/jquery.ui.tabs.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/eenterprise_utility.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/Chemical_Rules_Profile.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/chemical_rules.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 
 $font_awesome_path = libraries_get_path('font-awesome-4.5.0');
