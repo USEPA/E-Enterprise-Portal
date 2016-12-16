@@ -40,7 +40,8 @@ var Chemical_Rule_Profile = function() {
 
     // allow only accepted values
     for(var index in _white_list){
-      var property = _white_list[index]
+      var property = _white_list[index];
+      if(init_obj)
         _properties[property] = update_array(init_obj[property]);
     }
   }
