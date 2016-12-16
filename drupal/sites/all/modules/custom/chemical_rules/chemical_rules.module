@@ -566,7 +566,6 @@ function _get_program_list(&$return){
     $return['error-messages'][] = ['Elastic endpoint error', $e, $elastic_response];
     $program_list_response = snakecase_mapping(sample_chemical_rules_elastic_response());
   }
-
 }
 
 function update_chem_profile() {
