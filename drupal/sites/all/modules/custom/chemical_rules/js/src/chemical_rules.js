@@ -161,34 +161,37 @@ function cr_resizeGuestModal() {
         $('#chemical-rules-modal').find('#chemical-rules-results-wrapper').html('').append($results_template);
       },
       open: function(event, ui) {
+        $modal = $('#chemical-rules-modal');
+        $toc_icons = $('#cr-modal-toc-icons');
 
         // Setup table of contents (toc) and the stickyness in the modal
-        $('#chemical-rules-modal').parent().css('position', 'fixed');
-        $('#chemical-rules-modal').scroll(function() {
-          var sticky_gap = $('#cr-modal-toc-icons').offset().top;
-          if ($('#chemical-rules-modal').scrollTop() > sticky_gap) {
-            $('#cr-modal-toc-icons').addClass('sticky-toc');
-            $('#cr-modal-toc-icons').css('width', $('#chemical-rules-modal').width()+6).css('top', $('#chemical-rules-modal').offset().top);
+        $modal.parent().css('position', 'fixed');
+        $modal.scroll(function() {
+          $toc = $('#cr-modal-toc-icons');
+          var sticky_gap = $toc.offset().top;
+          if ($modal.scrollTop() > sticky_gap) {
+            $toc.addClass('sticky-toc');
+            $toc.css('width', $modal.width()+6).css('top', $modal.offset().top);
           }
           else {
-            $('#cr-modal-toc-icons').removeClass('sticky-toc').removeAttr('style');
+            $toc.removeClass('sticky-toc').removeAttr('style');
           }
         });
-        $('#cr-modal-toc-icons').find('li a').on('click', function(ev) {
+        $toc_icons.find('li a').on('click', function(ev) {
           ev.preventDefault();
           // Scroll the modal to the anchor clicked
-          if (!$('#cr-modal-toc-icons').hasClass('sticky-toc')) {
-            $('#cr-modal-toc-icons').addClass('sticky-toc');
-            $('#cr-modal-toc-icons').css({
-              'width': $('#chemical-rules-modal').width(),
-              'top': $('#chemical-rules-modal').offset().top
+          if (!$toc_icons.hasClass('sticky-toc')) {
+            $toc_icons.addClass('sticky-toc');
+            $toc_icons.css({
+              'width': $modal.width(),
+              'top': $modal.offset().top
             });
           }
           // Use the Laws and Regs heading as a landmark for gauging offset and scrolled amount
           var toc_bottom = $('#cr-laws-regs').offset().top;
           var target_top = $(this.hash).offset().top;
           var scroll_amount = target_top - toc_bottom;
-          $('#chemical-rules-modal').animate({ scrollTop: scroll_amount}, 500);
+          $modal.animate({ scrollTop: scroll_amount}, 500);
         });
         if (guest_user) {
           $('#close-favorite-msg').waitUntilExists(function() {
@@ -464,11 +467,9 @@ function cr_resizeGuestModal() {
       }
 
       // Create the Substance List
-      if (Object.keys(json.data.substance_list).length) {
-        jQuery(Object.keys(json.data.substance_list)).each(function(index) {
-          var substance_list_obj = json.data.substance_list[this];
-          substance_lists.push('<li>' + this + '</li>');
-          $substance_lists.append(substance_lists.sort());
+      if (json.data.substance_list && Object.keys(json.data.substance_list)) {
+        Object.keys(json.data.substance_list).map(function(current, index, array){
+          $substance_lists.append('<li>'+current+'</li>');
         });
       }
       else {
