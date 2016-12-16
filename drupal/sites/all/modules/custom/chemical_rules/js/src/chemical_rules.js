@@ -467,9 +467,15 @@ function cr_resizeGuestModal() {
       }
 
       // Create the Substance List
-      if (json.data.substance_list.length) {
-        json.data.substance_list.map(function(current, index, array){
-          $substance_lists.append('<li>'+current+'</li>');
+      if (Object.keys(json.data.substance_list).length) {
+        // json.data.substance_list.map(function(current, index, array){
+        //   console.log("array is: " + array);
+        //   $substance_lists.append('<li>'+ index +'</li>');
+        // });
+        jQuery(Object.keys(json.data.substance_list)).each(function(index) {
+          var substance_list_obj = json.data.substance_list[this];
+          substance_lists.push('<li>' + this + '</li>');
+          $substance_lists.append(substance_lists.sort());
         });
       }
       else {
