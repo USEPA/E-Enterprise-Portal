@@ -167,31 +167,34 @@ function cr_resizeGuestModal() {
         // Setup table of contents (toc) and the stickyness in the modal
         $modal.parent().css('position', 'fixed');
         $modal.scroll(function() {
+          $m = $('#chemical-rules-modal');
           $toc = $('#cr-modal-toc-icons');
           var sticky_gap = $toc.offset().top;
-          if ($modal.scrollTop() > sticky_gap) {
+          if ($m.scrollTop() > sticky_gap) {
             $toc.addClass('sticky-toc');
-            $toc.css('width', $modal.width()+6).css('top', $modal.offset().top);
+            $toc.css('width', $m.width()+6).css('top', $m.offset().top);
           }
           else {
             $toc.removeClass('sticky-toc').removeAttr('style');
           }
         });
-        $toc_icons.find('li a').on('click', function(ev) {
+        $('body').on('click', '#cr-modal-toc-icons li a', function(ev) {
+          $m = $('#chemical-rules-modal');
+          $toc = $('#cr-modal-toc-icons');
           ev.preventDefault();
           // Scroll the modal to the anchor clicked
-          if (!$toc_icons.hasClass('sticky-toc')) {
-            $toc_icons.addClass('sticky-toc');
-            $toc_icons.css({
-              'width': $modal.width(),
-              'top': $modal.offset().top
+          if (!$toc.hasClass('sticky-toc')) {
+            $toc.addClass('sticky-toc');
+            $toc.css({
+              'width': $m.width(),
+              'top': $m.offset().top
             });
           }
           // Use the Laws and Regs heading as a landmark for gauging offset and scrolled amount
           var toc_bottom = $('#cr-laws-regs').offset().top;
           var target_top = $(this.hash).offset().top;
           var scroll_amount = target_top - toc_bottom;
-          $modal.animate({ scrollTop: scroll_amount}, 500);
+          $m.animate({ scrollTop: scroll_amount}, 500);
         });
         if (guest_user) {
           $('#close-favorite-msg').waitUntilExists(function() {
