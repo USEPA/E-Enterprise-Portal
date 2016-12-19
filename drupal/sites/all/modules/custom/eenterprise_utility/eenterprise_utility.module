@@ -96,10 +96,24 @@ function eenterprise_utility_menu() {
     'access arguments' => array('administer users'),
     'file' => 'eenterprise_utility_admin_role.admin.inc',
   );
-
+  $items['nmed'] = array(
+      'title' => 'SSO EEP to SEP',
+      'page callback' => 'sso_eep_to_sep',
+      'access callback' => 'user_is_logged_in',
+      '#type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
+/*Test New Mexico SSO from EEP to SEP*/
+function sso_eep_to_sep(){
+  $output = '<form action="https://sep.net-t.env.nm.gov/sep-envd/bridge" method="post">';
+  $output .= '<input type="hidden" name="securityToken" value="'.$_SESSION['cdx_fmw_security_token'].'">';
+  $output .= '<input type="hidden" name="clientIp" value="' .$_SERVER['SERVER_ADDR'].'">';
+  $output .= '<input type="submit" value="SSO to SEP"></form>';
+
+  return $output;
+}
 
 /**
  * Implementation of hook node view.
@@ -796,6 +810,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
      */
     $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#theme'] = 'eenterprise_utility_terms_of_use_agreed_date_display';
     $form['field_terms_of_use_agreed'][LANGUAGE_NONE]['#disabled'] = TRUE;
+
+
   } // end user form
 }
 
@@ -834,7 +850,6 @@ function eenterprise_utility_profile_form_submit($form, &$form_state) {
 
   if (module_exists('chemical_rules') || $form['field_chem_rules_user_settings']) {
     // @TODO - Store latest version of array as it exists in back-end (not on local variables)
-
   }
 
 }
@@ -1038,6 +1053,10 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
  * Custom validation for user information, called when form is submitted.
  */
 function user_profile_form_custom_validate(&$form, &$form_state) {
+  // Rebuild before submitting to grab any ajax changes
+  if(isset($form_state['triggering_element']) && $form_state['triggering_element']['#name'] == 'op') {
+    $form_state['rebuild'] = true;
+  }
   user_profile_zipcode_custom_validate($form, $form_state);
   user_profile_mail_custom_validate($form, $form_state);
   user_profile_url_custom_validate($form, $form_state);
