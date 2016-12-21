@@ -1,11 +1,19 @@
 <?php
 
-
 /**
  * Implements hook_menu().
  */
 function construction_permits_menu() {
   $items = array();
+
+  $items['admin/config/system/construction-permits'] = array(
+    'title' => 'Construction Permits Configurations',
+    'description' => 'Manage Construction Permits Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('construction_permits_admin'),
+    'access arguments' => array('administer'),
+    'file' => 'construction_permits.admin.inc',
+  );
   $items['construction_permits/form_submission'] = array(
     'page callback' => 'construction_permits_form_submission',
     'access callback' => TRUE,
@@ -34,17 +42,17 @@ function construction_permits_block_info() {
  * */
 function cgp_pdf_generate(){
   $html =  theme('construction_permits_pdf');
-  $descriptorspec = array(
+  $descriptor_spec = array(
       0 => array('pipe', 'r'), // stdin
       1 => array('pipe', 'w'), // stdout
       2 => array('pipe', 'w'), // stderr
   );
   $current_srvr_name = variable_get('eportal_server_name');
   if(isset($current_srvr_name) && ($current_srvr_name == $_SERVER['SERVER_NAME'])){
-    $process = proc_open('wkhtmltopdf -q - -', $descriptorspec, $pipes);
+    $process = proc_open('wkhtmltopdf -q - -', $descriptor_spec, $pipes);
   }
   else{
-    $process = proc_open('sites/all/libraries/wkhtmltox/bin/wkhtmltopdf -q - -', $descriptorspec, $pipes);
+    $process = proc_open('sites/all/libraries/wkhtmltox/bin/wkhtmltopdf -q - -', $descriptor_spec, $pipes);
   }
 
   // Send the HTML on stdin
@@ -171,16 +179,17 @@ function construction_permits_form_submission() {
     return;
   }
 
-  $datatable_formatted_response = array();
-  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-  if (feature_toggle_get_status('construction_permits_sample_data')) {
-    $construction_permits_response = sample_construction_permits_response();
+  $datatable_formatted_response = [];
+
+  if (variable_get('cgp_form_endpoint_sample_data', false)) {
+    $construction_permits_response = sample_construction_permits_form_response();
     $datatable_formatted_response['data'] = construction_permits_datatable_response($construction_permits_response);
     $datatable_formatted_response['error'] = FALSE;
   }
   else {
+    // All temporary
   	// Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
-    $endpoint = "";
+    $endpoint = variable_get('cgp_form_endpoint');
     $headers = array('Content-Type' => 'application/json');
     $response = drupal_http_request($endpoint, [
       "headers" => $headers,
@@ -207,50 +216,21 @@ function construction_permits_form_submission() {
  * @return array
  */
 function construction_permits_datatable_response($cgp_reponse_json) {
-  $cgp_reponse = json_decode($cgp_reponse_json);
   $datatable_result_summary_json = [];
-  $datatable_result_details_json = [];
-
-  //@TODO - Add logic to generate sections and datatable rows
-
-  /*
-   * Use username and session ID to save CGP data for pdf generation. This data will be removed on user
-   * logout, implemented in hook_user_logout in construction_permits.module
-  */
-  
-  global $user;
-  variable_set($user->name.'_cgp_pdf_resp_'.$user->ssid, $be_well_response);
-
-  return $be_well_response;
+  $datatable_result_summary_json = $cgp_reponse_json;
+  return $datatable_result_summary_json;
 }
 
-function load_content_from_basic_page($page_name) {
-	$path = $page_name;
-    $org_path = drupal_lookup_path("source", $path);
-    if ($org_path) {
-    	$node = menu_get_object("node", 1, $org_path);
-		$nid = $node->nid;
-		$node = node_load($nid);
-		$nodeView = node_view($node, 'full');
-  	}
-  	else {
-	  	$nodeView = "Page not found";
-  	}
-  	return $nodeView;
-  	// Then set $page_content equal to a variable where load_content_from_basic_page is set and add to drupal_add_js(array("construction_permits" => ["modal" => $chemical_modal, "profile"=>$user_chem_rules_user_settings, "learnmore"=>$chemical_rules_learnmore]), 'setting');
-}
-
-function sample_construction_permits_response() {
-  $response = [];
-  return json_encode($response);
+function sample_construction_permits_form_response() {
+  $path = drupal_get_path('module', 'construction_permits') . '/sample_data/devngn.epacdxnode.net.json';
+  $sample = file_get_contents($path);
+  return json_decode($sample, true);
 }
 
 /**
  * Implements template_preprocess_hook for be-well-informed-modal.tpl.php.
  */
 function template_preprocess_construction_permits_modal(&$variables, $hook) {
-
-  //drupal_add_js(array("construction_permits" => ["variables" => $exposed_variables]), 'setting');
 
 }
 
@@ -261,8 +241,5 @@ function template_preprocess_construction_permits_pdf(&$variables, $hook) {
 
   global $user;
   $variables['response_json_data_pdf'] = variable_get($user->name.'_cgp_pdf_resp_'.$user->ssid);
-
-  // drupal_add_js(array("construction_permits" => ["variables" => $exposed_variables]), 'setting');
-
 }
 
