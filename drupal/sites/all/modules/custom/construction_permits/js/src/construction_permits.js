@@ -57,7 +57,6 @@ function create_search_results(search_results_json) {
   var datatable_options = {
     "data": search_results_json.datatable,
     "dom": 'ftrp',
-    "order": [[3, "asc"]],
     "bLengthChange": false,
     "iDisplayLength": 3,
     "processing": true,
@@ -129,10 +128,11 @@ function reset_cgp_form() {
         })
       },
       close: function(event, ui) {
+        var $table = $('#construction-permits-results-wrapper').find('table');
         sampleSetIndex = 0;
         convertNulls = false;
-        $('#construction-permits-results-table').dataTable({bDestroy: true}).fnDestroy();
-        $('#construction-permits-results-table').remove();
+        $table.dataTable({bDestroy: true}).fnDestroy();
+        //$table.remove();
         show_needed_cgp_div($('#construction-permits-form-wrapper'), $('.construction-permits-modal-wrapper'));
       }
     })

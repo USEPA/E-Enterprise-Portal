@@ -1,35 +1,342 @@
 [
   {
-    "tracking_number": "KSR12A031",
-    "owner": "Kickapoo Tribe in Kansas",
-    "project_name": "Kickapoo Streambank Stabilization",
-    "state": "Kansas",
-    "city": "Horton",
+    "id": 0,
+    "masterPermitNumber": "KSR12A03I",
+    "npdesId": "string",
+    "createdDate": "2016-12-22T19:05:14.773Z",
+    "lastUpdatedDate": "2016-12-22T19:05:14.773Z",
+    "reviewExpiration": "2016-12-22T19:05:14.773Z",
+    "certifiedDate": "2016-12-22T19:05:14.773Z",
+    "submittedDate": "2016-12-22T19:05:14.773Z",
     "status": "Active",
-    "date_submitted": "08/02/2012",
-    "date_of_coverage": "08/16/2012",
-    "details": {}
+    "type": "Notice_Of_Intent",
+    "projectSiteInformation": {
+      "siteName": "Kickapoo Streambank Stabilization",
+      "siteAddress": "string",
+      "siteAddress2": "string",
+      "siteCity": "string",
+      "siteStateCode": "Kansas",
+      "siteZipCode": "string",
+      "siteCounty": "string",
+      "siteLocation": {
+        "latitude": 0,
+        "longitude": 0,
+        "latLongDataSource": "string",
+        "horizontalReferenceDatum": "string"
+      },
+      "siteIndianCountry": false,
+      "siteIndianCountryLands": "string",
+      "siteProjectStart": "2016-12-22T19:05:14.774Z",
+      "siteProjectEnd": "2016-12-22T19:05:14.774Z",
+      "siteAreaDisturbed": 0,
+      "siteConstructionTypes": [
+        "string"
+      ],
+      "siteStructureDemolitionBefore1980": false,
+      "siteStructureDemolitionBefore198010kSquareFeet": false,
+      "sitePreDevelopmentAgricultural": false,
+      "siteEarthDisturbingActivitiesOccurrence": false,
+      "siteEmergencyRelated": false,
+      "sitePreviousNpdesPermit": false,
+      "sitePreviousNpdesPermitId": "string",
+      "siteLessThan5Acres": false,
+      "siteRFactor": 0,
+      "siteCgpAuthorizationConfirmation": false
+    },
+    "operatorInformation": {
+      "operatorName": "Kickapoo Tribe in Kansas",
+      "operatorFederal": false,
+      "operatorAddress": "string",
+      "operatorCity": "Horton",
+      "operatorStateCode": "Kansas",
+      "operatorZipCode": "string",
+      "operatorCounty": "string",
+      "operatorPointOfContact": {
+        "userId": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "middleInitial": "string",
+        "organization": "string",
+        "phone": "string",
+        "phoneExtension": "string",
+        "email": "string",
+        "title": "string"
+      },
+      "preparer": {
+        "userId": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "middleInitial": "string",
+        "organization": "string",
+        "phone": "string",
+        "phoneExtension": "string",
+        "email": "string",
+        "title": "string"
+      },
+      "certifier": {
+        "userId": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "middleInitial": "string",
+        "organization": "string",
+        "phone": "string",
+        "phoneExtension": "string",
+        "email": "string",
+        "title": "string"
+      }
+    },
+    "dischargeInformation": {
+      "dischargeAllowable": false,
+      "dischargeMunicipalSeparateStormSewerSystem": false,
+      "dischargeUSWatersWithin50Feet": false,
+      "dischargePoints": [
+        {
+          "id": "string",
+          "location": {
+            "latitude": 0,
+            "longitude": 0,
+            "latLongDataSource": "string",
+            "horizontalReferenceDatum": "string"
+          },
+          "firstWater": {
+            "listedWaterId": "string",
+            "listedWaterName": "string",
+            "pollutants": [
+              {
+                "pollutantId": 0,
+                "pollutantName": "string",
+                "tmdl": {
+                  "id": 0,
+                  "name": "string"
+                }
+              }
+            ]
+          },
+          "tier": "Tier_2"
+        }
+      ]
+    },
+    "chemicalTreatmentInformation": {
+      "polymersFlocculantsOtherTreatmentChemicals": false,
+      "cationicTreatmentChemicals": false,
+      "cationicTreatmentChemicalsAuthorization": false,
+      "treatmentChemicals": [
+        "string"
+      ]
+    },
+    "stormwaterPollutionPreventionPlanInformation": {
+      "preparationInAdvance": false,
+      "contactInformation": {
+        "userId": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "middleInitial": "string",
+        "organization": "string",
+        "phone": "string",
+        "phoneExtension": "string",
+        "email": "string",
+        "title": "string"
+      }
+    },
+    "endangeredSpeciesProtectionInformation": {
+      "appendixDCriteriaMet": false,
+      "noEsaSpeciesOrCriticalHabitat": false,
+      "eligibilityCoveredByOtherOperator": false,
+      "otherOperatorNpdesId": "string",
+      "dischargesNotLikelyToAffect": false,
+      "speciesAndHabitatInActionArea": "string",
+      "distanceFromSite": "string",
+      "coordinationWithUsfsOrNmfs": false,
+      "section7Consultation": false,
+      "biologicalOpinion": false,
+      "writtenOccurrence": false,
+      "section10Permit": false,
+      "criteriaSelectionSummary": "string"
+    },
+    "historicPreservation": {
+      "screeningCompleted": false,
+      "appendexEStep1": false,
+      "appendexEStep2": false,
+      "appendexEStep3": false,
+      "appendexEStep4": false,
+      "appendexEStep4Response": "string"
+    },
+    "attachments": [
+      {
+        "id": 0,
+        "name": "string",
+        "createdDate": "2016-12-22T19:05:14.775Z"
+      }
+    ]
   },
   {
-    "tracking_number": "KSR12A02I",
-    "owner": "Trinity Excavating & Construction, Inc.",
-    "project_name": "Kickapoo Reservation, Brown Co., Kansas",
-    "state": "Kansas",
-    "city": "Horton",
-    "status": "Active",
-    "date_submitted": "08/02/2012",
-    "date_of_coverage": "08/16/2012",
-    "details": {}
-  },
-  {
-    "tracking_number": "KSR12A08I",
-    "owner": "Ohlsen Right of Way and Naint. Inc.",
-    "project_name": "Backwash Treatment Ponds",
-    "state": "Kansas",
-    "city": "Horton",
-    "status": "Active",
-    "date_submitted": "08/02/2012",
-    "date_of_coverage": "08/16/2012",
-    "details": {}
+    "id": 0,
+    "masterPermitNumber": "KSR12A02I",
+    "npdesId": "string",
+    "createdDate": "2016-12-22T19:05:14.773Z",
+    "lastUpdatedDate": "2016-12-22T19:05:14.773Z",
+    "reviewExpiration": "2016-12-22T19:05:14.773Z",
+    "certifiedDate": "2016-12-22T19:05:14.773Z",
+    "submittedDate": "2016-12-22T19:05:14.773Z",
+    "status": "Draft",
+    "type": "Notice_Of_Intent",
+    "projectSiteInformation": {
+      "siteName": "Kickapoo Reservation, Brown Co., Kansas",
+      "siteAddress": "string",
+      "siteAddress2": "string",
+      "siteCity": "Horton",
+      "siteStateCode": "Kansas",
+      "siteZipCode": "string",
+      "siteCounty": "string",
+      "siteLocation": {
+        "latitude": 0,
+        "longitude": 0,
+        "latLongDataSource": "string",
+        "horizontalReferenceDatum": "string"
+      },
+      "siteIndianCountry": false,
+      "siteIndianCountryLands": "string",
+      "siteProjectStart": "2016-12-22T19:05:14.774Z",
+      "siteProjectEnd": "2016-12-22T19:05:14.774Z",
+      "siteAreaDisturbed": 0,
+      "siteConstructionTypes": [
+        "string"
+      ],
+      "siteStructureDemolitionBefore1980": false,
+      "siteStructureDemolitionBefore198010kSquareFeet": false,
+      "sitePreDevelopmentAgricultural": false,
+      "siteEarthDisturbingActivitiesOccurrence": false,
+      "siteEmergencyRelated": false,
+      "sitePreviousNpdesPermit": false,
+      "sitePreviousNpdesPermitId": "string",
+      "siteLessThan5Acres": false,
+      "siteRFactor": 0,
+      "siteCgpAuthorizationConfirmation": false
+    },
+    "operatorInformation": {
+      "operatorName": "Trinity Excavating & Construction, Inc.",
+      "operatorFederal": false,
+      "operatorAddress": "string",
+      "operatorCity": "Horton",
+      "operatorStateCode": "Kansas",
+      "operatorZipCode": "string",
+      "operatorCounty": "string",
+      "operatorPointOfContact": {
+        "userId": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "middleInitial": "string",
+        "organization": "string",
+        "phone": "string",
+        "phoneExtension": "string",
+        "email": "string",
+        "title": "string"
+      },
+      "preparer": {
+        "userId": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "middleInitial": "string",
+        "organization": "string",
+        "phone": "string",
+        "phoneExtension": "string",
+        "email": "string",
+        "title": "string"
+      },
+      "certifier": {
+        "userId": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "middleInitial": "string",
+        "organization": "string",
+        "phone": "string",
+        "phoneExtension": "string",
+        "email": "string",
+        "title": "string"
+      }
+    },
+    "dischargeInformation": {
+      "dischargeAllowable": false,
+      "dischargeMunicipalSeparateStormSewerSystem": false,
+      "dischargeUSWatersWithin50Feet": false,
+      "dischargePoints": [
+        {
+          "id": "string",
+          "location": {
+            "latitude": 0,
+            "longitude": 0,
+            "latLongDataSource": "string",
+            "horizontalReferenceDatum": "string"
+          },
+          "firstWater": {
+            "listedWaterId": "string",
+            "listedWaterName": "string",
+            "pollutants": [
+              {
+                "pollutantId": 0,
+                "pollutantName": "string",
+                "tmdl": {
+                  "id": 0,
+                  "name": "string"
+                }
+              }
+            ]
+          },
+          "tier": "Tier_2"
+        }
+      ]
+    },
+    "chemicalTreatmentInformation": {
+      "polymersFlocculantsOtherTreatmentChemicals": false,
+      "cationicTreatmentChemicals": false,
+      "cationicTreatmentChemicalsAuthorization": false,
+      "treatmentChemicals": [
+        "string"
+      ]
+    },
+    "stormwaterPollutionPreventionPlanInformation": {
+      "preparationInAdvance": false,
+      "contactInformation": {
+        "userId": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "middleInitial": "string",
+        "organization": "string",
+        "phone": "string",
+        "phoneExtension": "string",
+        "email": "string",
+        "title": "string"
+      }
+    },
+    "endangeredSpeciesProtectionInformation": {
+      "appendixDCriteriaMet": false,
+      "noEsaSpeciesOrCriticalHabitat": false,
+      "eligibilityCoveredByOtherOperator": false,
+      "otherOperatorNpdesId": "string",
+      "dischargesNotLikelyToAffect": false,
+      "speciesAndHabitatInActionArea": "string",
+      "distanceFromSite": "string",
+      "coordinationWithUsfsOrNmfs": false,
+      "section7Consultation": false,
+      "biologicalOpinion": false,
+      "writtenOccurrence": false,
+      "section10Permit": false,
+      "criteriaSelectionSummary": "string"
+    },
+    "historicPreservation": {
+      "screeningCompleted": false,
+      "appendexEStep1": false,
+      "appendexEStep2": false,
+      "appendexEStep3": false,
+      "appendexEStep4": false,
+      "appendexEStep4Response": "string"
+    },
+    "attachments": [
+      {
+        "id": 0,
+        "name": "string",
+        "createdDate": "2016-12-22T19:05:14.775Z"
+      }
+    ]
   }
 ]

@@ -215,13 +215,13 @@ function construction_permits_datatable_response($cgp_reponse_json) {
   $datatable_result_summary_json = [];
   foreach($cgp_reponse_json as $cgp_result) {
     $dt_row = [];
-    $dt_row[] = $cgp_result['tracking_number'];
-    $dt_row[] = $cgp_result['owner'];
-    $dt_row[] = $cgp_result['project_name'];
-    $dt_row[] = $cgp_result['state'];
-    $dt_row[] = $cgp_result['city'];
+    $dt_row[] = $cgp_result['masterPermitNumber'];
+    $dt_row[] = $cgp_result['operatorInformation']["operatorName"];
+    $dt_row[] = $cgp_result['projectSiteInformation']['siteName'];
+    $dt_row[] = $cgp_result['projectSiteInformation']['siteStateCode'];
+    $dt_row[] = $cgp_result['projectSiteInformation']['siteCity'];
     $dt_row[] = $cgp_result['status'];
-    $dt_row[] = $cgp_result['date_submitted'];
+    $dt_row[] = $cgp_result['submittedDate'];
     $datatable_result_summary_json[] = $dt_row;
   }
   return $datatable_result_summary_json;
