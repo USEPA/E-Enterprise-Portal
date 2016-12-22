@@ -30,10 +30,10 @@ toggleSection = function() {
   // Reset all other arrows to right (default)
   $('.ui-accordion-header').not($(this)).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
   if ($arrow.hasClass("fa-caret-right")) {
-  	$arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
-  } 
+    $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
+  }
   else {
-  	$arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
+    $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
   }
   cgp_resize_modal();
 }
@@ -45,6 +45,11 @@ function cgp_resize_modal() {
   if (jQuery('.construction-permits-modal').css('top').replace('px', '') < 1) {
     jQuery('.construction-permits-modal').css('top', 0)
   }
+}
+
+
+function create_search_results(search_results_json) {
+  console.log(search_results_json);
 }
 
 /**
@@ -78,9 +83,9 @@ function reset_cgp_form() {
       create: function(event, ui) {
         $('#cgp-tabs').tabs();
         var $form = $('cgp-form');
-        
+
         //@TODO Use Parsley to validate form if needed
-        
+
         $('#cgp-reset-button').click(function() {
           reset_cgp_form();
           cgp_resize_modal()
@@ -105,7 +110,7 @@ function reset_cgp_form() {
   });
 
   $body.on('click', '#cgp-search-button', function() {
-	console.log("Search button clicked");
+    console.log("Search button clicked");
     var $form = $('#cgp-form');
     // If the form does not validate do not submit data.
     if (!$form.parsley().validate()) {
@@ -123,27 +128,27 @@ function reset_cgp_form() {
     //@TODO var data = format_cgp_form_data(cgpFormData, convertNulls);
     show_needed_cgp_div($cgp_loading_wrapper, $cgp_all_wrappers);
 
-/*
     $.ajax({
       url: 'construction_permits/form_submission',
       method: 'POST',
-      data: data,
+      //data: data,
       success: function(cgp_reponse_json) {
-        if (!cgp_reponse_json.error) {
+        if (cgp_reponse_json.error) {
           // reset the modal and return it to a 'default' state
           convertNulls = true;
           cgp_resize_modal();
         }
         else {
+          create_search_results(cgp_reponse_json.data);
           show_needed_cgp_div($cgp_results_wrapper, $cgp_all_wrappers);
         }
         cgp_resize_modal();
       }
     });
-*/
-    
+
+
     //show_needed_cgp_div($cgp_results_wrapper, $cgp_all_wrappers);
-    
+
   });
 
   /**

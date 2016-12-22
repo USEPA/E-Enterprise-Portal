@@ -171,13 +171,13 @@ function construction_permits_block_view($delta = '') {
  * Take users POST input and handoff to sample data or BE WELL INFORMED service
  */
 function construction_permits_form_submission() {
-  if (!isset($_POST) || count($_POST) === 0) {
-    drupal_json_output(array(
-      'error' => TRUE,
-      'message' => 'Failed to receive any data.'
-    ));
-    return;
-  }
+//  if (!isset($_POST) || count($_POST) === 0) {
+//    drupal_json_output(array(
+//      'error' => TRUE,
+//      'message' => 'Failed to receive any data.'
+//    ));
+//    return;
+//  }
 
   $datatable_formatted_response = [];
 
@@ -206,7 +206,6 @@ function construction_permits_form_submission() {
       $datatable_formatted_response['error'] = FALSE;
     }
   }
-
   drupal_json_output($datatable_formatted_response);
 }
 
@@ -224,7 +223,8 @@ function construction_permits_datatable_response($cgp_reponse_json) {
 function sample_construction_permits_form_response() {
   $path = drupal_get_path('module', 'construction_permits') . '/sample_data/devngn.epacdxnode.net.json';
   $sample = file_get_contents($path);
-  return json_decode($sample, true);
+  $decoded = json_decode($sample, true);
+  return $decoded;
 }
 
 /**
