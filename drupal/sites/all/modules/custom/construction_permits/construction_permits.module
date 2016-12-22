@@ -230,8 +230,7 @@ function construction_permits_datatable_response($cgp_reponse_json) {
 function sample_construction_permits_form_response() {
   $path = drupal_get_path('module', 'construction_permits') . '/sample_data/devngn.epacdxnode.net.json';
   $sample = file_get_contents($path);
-  $decoded = json_decode($sample, true);
-  return $decoded;
+  return json_decode($sample, true);
 }
 
 /**
