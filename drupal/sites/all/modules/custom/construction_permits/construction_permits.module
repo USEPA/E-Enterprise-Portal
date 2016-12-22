@@ -189,16 +189,15 @@ function construction_permits_form_submission() {
   else {
     // All temporary
   	// Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
-    $endpoint = variable_get('cgp_form_endpoint');
-    $headers = array('Content-Type' => 'application/json');
+
+    $endpoint = variable_get('cgp_form_endpoint').'?'.http_build_query($_POST);
     $response = drupal_http_request($endpoint, [
-      "headers" => $headers,
-      "method" => "POST",
-      'timeout' => "10",
-      'data' => json_encode($_POST)
+      "method" => "GET",
+      'timeout' => "10"
     ]);
     if ($response->code !== "200") {
       $datatable_formatted_response['error'] = TRUE;
+      $datatable_formatted_response['error_message'][] = json_decode($response->data);
     }
     else {
       $formatted_data = construction_permits_datatable_response($response->data);
