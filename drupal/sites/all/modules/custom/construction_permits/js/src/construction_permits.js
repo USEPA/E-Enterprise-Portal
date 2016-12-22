@@ -47,9 +47,42 @@ function cgp_resize_modal() {
   }
 }
 
-
+/**
+ * Create search results datatable
+ * @param search_results_json
+ */
 function create_search_results(search_results_json) {
-  console.log(search_results_json);
+  var $ = jQuery;
+  var $table = $('#construction-permits-results-wrapper').find('table');
+  var datatable_options = {
+    "data": search_results_json.datatable,
+    "dom": 'ftrp',
+    "order": [[3, "asc"]],
+    "bLengthChange": false,
+    "iDisplayLength": 3,
+    "processing": true,
+    "language": {
+      "processing": ""
+    },
+    "autoWidth": false,
+    "pagingType": "simple",
+    "fnDrawCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+      var pageInfo = this.fnPagingInfo();
+      var pageNo = pageInfo.iPage + 1;
+      var totalPages = pageInfo.iTotalPages + 1;
+
+      if (totalPages > 1) {
+        var $current_li = $('<li />', {
+          class: 'pager-current'
+        }).html(pageNo + ' of ' + totalPages);
+        $('#to-do').find('.dataTables_paginate li:first').after($current_li);
+      }
+
+    }
+  };
+
+  // Create index column that updates on sorting
+  var dtTable = $table.DataTable(datatable_options);
 }
 
 /**
@@ -139,7 +172,7 @@ function reset_cgp_form() {
           cgp_resize_modal();
         }
         else {
-          create_search_results(cgp_reponse_json.data);
+          create_search_results(cgp_reponse_json);
           show_needed_cgp_div($cgp_results_wrapper, $cgp_all_wrappers);
         }
         cgp_resize_modal();
