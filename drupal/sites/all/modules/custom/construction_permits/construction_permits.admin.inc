@@ -13,7 +13,7 @@ function construction_permits_admin($form, $form_state) {
     '#title' => t('Construction Permits configurations'),
   );
 
-  $form['construction_permits_settings']['cdx_program_facility_endpoint'] = array(
+  $form['construction_permits_settings']['cgp_form_endpoint'] = array(
     '#type' => 'textfield',
     '#title' => t('CGP Form Search Endpoint'),
     '#default_value' => variable_get('cgp_form_endpoint', "https://devngn.epacdxnode.net/oeca-cgp-web/api/public/v1/form"),
