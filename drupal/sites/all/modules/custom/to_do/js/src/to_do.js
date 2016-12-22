@@ -82,8 +82,6 @@
       // Add data-titles for each column
       $('td:eq(2)', nRow).attr('data-title', "Domain");
       $('td:eq(3)', nRow).attr('data-title', "Due");
-
-
     },
     "fnDrawCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
       var pageInfo = this.fnPagingInfo();

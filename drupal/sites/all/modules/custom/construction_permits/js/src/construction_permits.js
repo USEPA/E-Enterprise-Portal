@@ -30,10 +30,10 @@ toggleSection = function() {
   // Reset all other arrows to right (default)
   $('.ui-accordion-header').not($(this)).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
   if ($arrow.hasClass("fa-caret-right")) {
-  	$arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
-  } 
+    $arrow.removeClass('fa-caret-right').addClass('fa-caret-down');
+  }
   else {
-  	$arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
+    $arrow.removeClass('fa-caret-down').addClass('fa-caret-right');
   }
   cgp_resize_modal();
 }
@@ -45,6 +45,43 @@ function cgp_resize_modal() {
   if (jQuery('.construction-permits-modal').css('top').replace('px', '') < 1) {
     jQuery('.construction-permits-modal').css('top', 0)
   }
+}
+
+/**
+ * Create search results datatable
+ * @param search_results_json
+ */
+function create_search_results(search_results_json) {
+  var $ = jQuery;
+  var $table = $('#construction-permits-results-wrapper').find('table');
+  var datatable_options = {
+    "data": search_results_json.datatable,
+    "dom": 'ftrp',
+    "bLengthChange": false,
+    "iDisplayLength": 3,
+    "processing": true,
+    "language": {
+      "processing": ""
+    },
+    "autoWidth": false,
+    "pagingType": "simple",
+    "fnDrawCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+      var pageInfo = this.fnPagingInfo();
+      var pageNo = pageInfo.iPage + 1;
+      var totalPages = pageInfo.iTotalPages + 1;
+
+      if (totalPages > 1) {
+        var $current_li = $('<li />', {
+          class: 'pager-current'
+        }).html(pageNo + ' of ' + totalPages);
+        $('#to-do').find('.dataTables_paginate li:first').after($current_li);
+      }
+
+    }
+  };
+
+  // Create index column that updates on sorting
+  var dtTable = $table.DataTable(datatable_options);
 }
 
 /**
@@ -78,9 +115,9 @@ function reset_cgp_form() {
       create: function(event, ui) {
         $('#cgp-tabs').tabs();
         var $form = $('cgp-form');
-        
+
         //@TODO Use Parsley to validate form if needed
-        
+
         $('#cgp-reset-button').click(function() {
           reset_cgp_form();
           cgp_resize_modal()
@@ -91,10 +128,10 @@ function reset_cgp_form() {
         })
       },
       close: function(event, ui) {
+        var $table = $('#construction-permits-results-wrapper').find('table');
         sampleSetIndex = 0;
         convertNulls = false;
-        $('#construction-permits-results-table').dataTable({bDestroy: true}).fnDestroy();
-        $('#construction-permits-results-table').remove();
+        $table.dataTable({bDestroy: true}).fnDestroy();
         show_needed_cgp_div($('#construction-permits-form-wrapper'), $('.construction-permits-modal-wrapper'));
       }
     })
@@ -105,7 +142,7 @@ function reset_cgp_form() {
   });
 
   $body.on('click', '#cgp-search-button', function() {
-	console.log("Search button clicked");
+    console.log("Search button clicked");
     var $form = $('#cgp-form');
     // If the form does not validate do not submit data.
     if (!$form.parsley().validate()) {
@@ -123,27 +160,27 @@ function reset_cgp_form() {
     //@TODO var data = format_cgp_form_data(cgpFormData, convertNulls);
     show_needed_cgp_div($cgp_loading_wrapper, $cgp_all_wrappers);
 
-/*
     $.ajax({
       url: 'construction_permits/form_submission',
       method: 'POST',
-      data: data,
+      //data: data,
       success: function(cgp_reponse_json) {
-        if (!cgp_reponse_json.error) {
+        if (cgp_reponse_json.error) {
           // reset the modal and return it to a 'default' state
           convertNulls = true;
           cgp_resize_modal();
         }
         else {
+          create_search_results(cgp_reponse_json);
           show_needed_cgp_div($cgp_results_wrapper, $cgp_all_wrappers);
         }
         cgp_resize_modal();
       }
     });
-*/
-    
+
+
     //show_needed_cgp_div($cgp_results_wrapper, $cgp_all_wrappers);
-    
+
   });
 
   /**

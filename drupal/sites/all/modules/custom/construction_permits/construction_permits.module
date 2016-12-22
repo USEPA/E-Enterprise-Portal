@@ -171,22 +171,21 @@ function construction_permits_block_view($delta = '') {
  * Take users POST input and handoff to sample data or BE WELL INFORMED service
  */
 function construction_permits_form_submission() {
-  if (!isset($_POST) || count($_POST) === 0) {
-    drupal_json_output(array(
-      'error' => TRUE,
-      'message' => 'Failed to receive any data.'
-    ));
-    return;
-  }
 
   $datatable_formatted_response = [];
 
   if (variable_get('cgp_form_endpoint_sample_data', false)) {
     $construction_permits_response = sample_construction_permits_form_response();
-    $datatable_formatted_response['data'] = construction_permits_datatable_response($construction_permits_response);
+    $datatable_formatted_response['datatable'] = construction_permits_datatable_response($construction_permits_response);
     $datatable_formatted_response['error'] = FALSE;
-  }
-  else {
+  } else {
+    if (!isset($_POST) || count($_POST) === 0) {
+      drupal_json_output(array(
+        'error' => TRUE,
+        'message' => 'Failed to receive any data.'
+      ));
+      return;
+    }
     // All temporary
   	// Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
 
@@ -201,7 +200,7 @@ function construction_permits_form_submission() {
     }
     else {
       $formatted_data = construction_permits_datatable_response($response->data);
-      $datatable_formatted_response['data'] = $formatted_data;
+      $datatable_formatted_response['datatable'] = $formatted_data;
       $datatable_formatted_response['error'] = FALSE;
     }
   }
@@ -216,7 +215,18 @@ function construction_permits_form_submission() {
  */
 function construction_permits_datatable_response($cgp_reponse_json) {
   $datatable_result_summary_json = [];
-  $datatable_result_summary_json = $cgp_reponse_json;
+  foreach($cgp_reponse_json as $cgp_result) {
+    $dt_row = [];
+    $cgp_result = $cgp_result['data'];
+    $dt_row[] = $cgp_result['masterPermitNumber'];
+    $dt_row[] = $cgp_result['operatorInformation']["operatorName"];
+    $dt_row[] = $cgp_result['projectSiteInformation']['siteName'];
+    $dt_row[] = $cgp_result['projectSiteInformation']['siteStateCode'];
+    $dt_row[] = $cgp_result['projectSiteInformation']['siteCity'];
+    $dt_row[] = $cgp_result['status'];
+    $dt_row[] = $cgp_result['submittedDate'];
+    $datatable_result_summary_json[] = $dt_row;
+  }
   return $datatable_result_summary_json;
 }
 
