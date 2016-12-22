@@ -217,6 +217,7 @@ function construction_permits_datatable_response($cgp_reponse_json) {
   $datatable_result_summary_json = [];
   foreach($cgp_reponse_json as $cgp_result) {
     $dt_row = [];
+    $cgp_result = $cgp_result['data'];
     $dt_row[] = $cgp_result['masterPermitNumber'];
     $dt_row[] = $cgp_result['operatorInformation']["operatorName"];
     $dt_row[] = $cgp_result['projectSiteInformation']['siteName'];

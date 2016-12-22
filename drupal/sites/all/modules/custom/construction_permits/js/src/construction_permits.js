@@ -132,7 +132,6 @@ function reset_cgp_form() {
         sampleSetIndex = 0;
         convertNulls = false;
         $table.dataTable({bDestroy: true}).fnDestroy();
-        //$table.remove();
         show_needed_cgp_div($('#construction-permits-form-wrapper'), $('.construction-permits-modal-wrapper'));
       }
     })
