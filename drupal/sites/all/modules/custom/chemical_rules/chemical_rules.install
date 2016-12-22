@@ -15,6 +15,52 @@ function chemical_rules_enable() {
   }
 
   _create_chemical_user_profile_field();
+  _create_event_log_tables();
+}
+
+/**
+* Create Event log tables for chemicals and chemical details.
+*/
+function _create_event_log_tables() {
+    $schema = array();
+    if (!db_table_exists('chemical_source_event_log')) {
+        $schema['chemical_source_event_log'] = array (
+            'description' => 'Chemical event data is captured.',
+            'fields' => array(
+              'uid'	    => array('type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE),
+              'chem_name'	=> array('type' => 'varchar', 'length' => 2000, 'not null' => TRUE),
+              'substance_id' => array('type' => 'varchar', 'length' => 2000),
+              'systematic_name' => array('type' => 'varchar', 'length' => 2000),
+              'created'	=> array('mysql_type' => 'datetime', 'not null' => TRUE),
+              'user'	=> array('type' => 'varchar', 'length' => 2000, 'not null' => TRUE),
+            ),
+            'primary key' => array('uid'),
+          );
+      db_create_table('chemical_source_event_log', $schema['chemical_source_event_log']);
+    }
+    if (!db_table_exists('chemical_details_event_log')) {
+        $schema['chemical_details_event_log'] = array (
+            'description' => 'Chemical details event data is captured.',
+            'fields' => array(
+              'uid'	    => array('type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE),
+              'cfr_id'	=> array('type' => 'varchar', 'length' => 2000, 'not null' => TRUE),
+              'substance_list_name'	=> array('type' => 'varchar', 'length' => 2000, 'not null' => TRUE, 'default' => ''),
+              'chemical_source_event'	=> array('type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE),
+            ),
+            'foreign keys' => array(
+              'chemical_source_event_log' => array(
+                'table' => 'chemical_source_event_log',
+                'columns' => array('chemical_source_event' => 'uid'),
+              ),
+            ),
+            'primary key' => array('uid'),
+          );
+      db_create_table('chemical_details_event_log', $schema['chemical_details_event_log']);
+    }
+
+
+
+
 }
 
 /**
@@ -149,4 +195,8 @@ function _create_content_type() {
   field_create_instance($instance);
 
   // Done
+}
+
+function chemical_rules_update_7007() {
+  chemical_rules_enable();
 }

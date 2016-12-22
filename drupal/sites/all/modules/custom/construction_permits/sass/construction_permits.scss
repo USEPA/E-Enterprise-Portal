@@ -1,0 +1,396 @@
+//colors
+$color_hippie_green_approx: #468847;
+$color_willow_brook_approx: #dff0d8;
+$color_beryl_green_approx: #d6e9c6;
+$color_chestnut_approx: #b94a48;
+$color_vanilla_ice_approx: #f2dede;
+$color_gallery_approx: #eee;
+$white: #fff;
+$color_vista_white_approx: #fdf7f7;
+$color_chestnut_rose_approx: #d9534f;
+$color_bianca_approx: #fcf8f2;
+$color_casablanca_approx: #f0ad4e;
+$color_black_squeeze_approx: #f4f8fa;
+$color_viking_approx: #5bc0de;
+$color_mountain_mist_approx: #949494;
+$color_ecstasy_approx: #ff851b;
+
+//@extend-elements
+//original selectors
+//input.parsley-success, select.parsley-success, textarea.parsley-success
+%extend_1 {
+    color: $color_hippie_green_approx;
+    background-color: $color_willow_brook_approx;
+    border: 1px solid $color_beryl_green_approx;
+}
+
+//original selectors
+//input.parsley-error, select.parsley-error, textarea.parsley-error
+%extend_2 {
+    color: $color_chestnut_approx;
+    background-color: $color_vanilla_ice_approx;
+    border: 1px solid $color_vanilla_ice_approx;
+}
+
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: "";
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+@mixin container() {
+    position: relative;
+    box-sizing: border-box;
+}
+
+@mixin bwi-label($url) {
+    background-image: url($url);
+    background-size: 3rem;
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;
+    content: "";
+    vertical-align: middle;
+    margin-right: 1%;
+}
+
+.pane-construction-permits {
+	h3 {
+		font-size: 1.5rem;
+		font-weight: bold;
+		margin-top: 10px;
+		margin-bottom: 0;
+	}
+}
+
+.ui-dialog.construction-permits-modal {
+    &.ui-dialog {
+        overflow: visible;
+
+        .ui-dialog-titlebar {
+            border: none;
+            z-index: 100;
+        }
+
+        .ui-dialog-content {
+            overflow: visible;
+        }
+    }
+}
+
+#cgp-form {
+    .cgp-form-elements {
+        margin: 0;
+        &.usa-grid {
+	        padding: 0;
+        }
+        li:before,
+        li:after {
+            content: none;
+        }
+        li {
+	        display: inline-block;
+	        margin-right: 20px;
+	        margin-top: 0;
+	        margin-bottom: 0;
+	        &.usa-grid-one-whole {
+		        width: 100%;
+	        }
+	        &.usa-grid-one-fourth {
+		        width: 25%;
+	        }
+        }
+    }
+    #cgp-form-buttons {
+	    margin-top: 10px;
+	    height: 8rem;
+	    div {
+		    float: right;
+	    }
+	    a {
+		    margin-right: 10px;
+	    }
+    }
+    .invisible {
+        visibility: hidden;
+    }
+    .hide {
+        display: none !important;
+    }
+    .right {
+        float: right;
+    }
+    .row {
+        @include clearfix();
+    }
+    .column {
+        position: relative;
+        min-height: 0.1rem;
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem;
+        &.right {
+            float: right;
+        }
+    }
+    .cgp-search-button,
+    .cgp-reset-button {
+        margin-top: 2rem;
+        button {
+            float: left;
+            width: 47.4%;
+        }
+        & > div {
+            width: 21em;
+        }
+    }
+    .one-third {
+        width: 31.3%;
+        margin-left: 3%;
+        float: left;
+        &:first-child {
+            margin-left: 0;
+        }
+        & + .parsley-errors-list {
+            margin-left: -31.3%;
+            width: 30%;
+            float: left;
+            position: relative;
+        }
+        &.offset-one-third {
+            margin-left: 34.3%;
+        }
+    }
+    .two-third {
+        width: 62.6%;
+        margin-left: 3%
+    }
+    .one-half {
+        width: 49%;
+        margin-left: 2%;
+        &:first-child {
+            margin-left: 0;
+        }
+        & + .parsley-errors-list {
+            margin-right: -48.5%;
+            width: 47%;
+            position: relative;
+        }
+
+        &.right + .parsley-errors-list {
+            float: right;
+            clear: right;
+            margin-top: -4.2rem;
+            margin-right: 5.0rem;
+            width: auto;
+        }
+    }
+    
+    input {
+        &.parsley-success {
+            @extend %extend_1;
+        }
+        &.parsley-error {
+            @extend %extend_2;
+        }
+    }
+    select {
+        &.parsley-success {
+            @extend %extend_1;
+        }
+        &.parsley-error {
+            @extend %extend_2;
+        }
+    }
+    textarea {
+        &.parsley-success {
+            @extend %extend_1;
+        }
+        &.parsley-error {
+            @extend %extend_2;
+        }
+    }
+    .parsley-errors-list {
+        margin: 0.5rem 0 3px;
+        padding: 0;
+        list-style-type: none;
+        font-size: 1rem;
+        line-height: 0.9em;
+        opacity: 0;
+        transition: all .3s ease-in;
+        pointer-events: none;
+
+        &.filled {
+            opacity: 1;
+        }
+        li {
+            list-style: none;
+            width: 100%;
+            text-align: right;
+            color: $color_chestnut_approx;
+            &:before {
+                content: '';
+            }
+        }
+    }
+
+    #construction-permits-results-wrapper, 
+    #construction-permits-error-wrapper, 
+    #construction-permits-loading-wrapper,
+    #construction-permits-details-wrapper {
+        display: none;
+    }
+
+    #construction-permits-loading-wrapper {
+	    text-align: center;
+        i.fa-spinner {
+            font-size: 5rem;
+        }
+    }
+
+    #construction-permits-results-wrapper {
+        > h1 {
+            margin-top: -3rem;
+            margin-bottom: 3rem;
+        }
+        ol {
+            margin-top: 0;
+            margin-left: 4rem;
+            margin-bottom: 1rem;
+            li {
+                list-style-type: decimal;
+                display: block;
+                &:before {
+                    display: inline-block;   
+                    margin-left: -2.0rem; // Create hanging indent for numbering           
+                }
+            }
+            ol {
+                margin-top: 0;
+                margin-left: 2rem;
+            }
+        }
+        ul {
+            margin-top: 0;
+            margin-left: 1.4rem;
+            li:before {
+                content: '';
+            }
+        }
+        ol[type=a] {
+            counter-reset: section;
+            li {
+                counter-increment: section;
+                display: block;
+                padding-left: 1em;
+                &:before {
+                    content: counter(section, lower-alpha) '.';
+                    position: absolute;
+                    margin-left: -1.5em;
+                }
+            }
+        }
+
+        table {
+            thead th {
+                background: transparent;
+            }
+            border-bottom: none;
+        }
+        .ui-accordion-content {
+            padding: 0;
+        }
+        .one-half {
+            float: left;
+            display: block;
+            width: 100%;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+
+        #construction-permits-accordion {
+            margin-top: 10px;
+            background-color: #ffffff;
+            font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
+            &>table, &>div {
+                padding: 0 1%;
+            }
+            h1 {
+                background: #0000BB none;
+                color: white;
+                font-size: 1.5rem;
+                display: block;
+                position: relative;
+                margin: 2px 0 0 0;
+                padding: .5em 0;
+                min-height: 0;
+                i {
+                    position: absolute;
+                }
+            }
+            .cgp-legend {
+                width: 100%;
+                display: block;
+                border:1px solid #999999;
+                padding: 1rem;
+                div {
+                    padding: 1rem;
+                    white-space: nowrap;
+                }
+
+            }
+
+            #construction-permits-result-details-table {
+                tbody {
+                    tr {
+                        .cgp-detail-td {
+                            h4 {
+                                margin: 0 0 1rem;
+                            }
+                            span {
+                                font-weight: bold;
+                                display: block;
+                                margin-bottom: 1%;
+                            }
+                            br {
+                                display: none;  // Collapse empty space to avoid excessive spacing
+                            }
+                            background-color: #d6d2d2;
+                        }
+                    }
+                }
+            }
+            table {
+                td {
+                    img {
+                        width: 3rem;
+                    }
+                }
+            }
+
+        }
+    }
+    
+    .print-icon{
+      float:right;
+    }
+}
+.clearfix:after {
+    display: table;
+    line-height: 0;
+}
+
+@media screen and (min-width: 48em) {
+
+}
+
+@media screen and (min-width: 60em) {
+
+
+}

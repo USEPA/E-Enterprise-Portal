@@ -3,6 +3,7 @@ drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/location_input_engi
 drupal_add_css("sites/all/libraries/jqueryui/themes/base/minified/jquery.ui.tabs.min.css", ['scope'=>'footer', 'preprocess'=>true, 'group'=>CSS_DEFAULT]);
 drupal_add_js("sites/all/libraries/jqueryui/ui/minified/jquery.ui.tabs.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/eenterprise_utility.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/Chemical_Rules_Profile.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 drupal_add_js(drupal_get_path('module', 'chemical_rules') . '/js/chemical_rules.js', ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 
 $font_awesome_path = libraries_get_path('font-awesome-4.5.0');
@@ -100,7 +101,7 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", ['preprocess'=
         <div id="profile-favorites">
             <h3>Favorite Links</h3>
             <p class="eenterprise-utility-form-item-description-p field-title-below">
-                Add and manage your favorite links.</p>
+                Add and manage your favorite links.  All unsaved favorite links will be lost upon navigating away from the Profile page.</p>                
 
             <div id='links_description' class='form-group'>
                 <?php
@@ -126,7 +127,6 @@ drupal_add_css( $font_awesome_path . "/css/font-awesome.min.css", ['preprocess'=
             <?php 
               }
             ?>
-            <p>All unsaved data will be lost upon navigating away from the Profile page.</p>
 
         </div>
     </div>

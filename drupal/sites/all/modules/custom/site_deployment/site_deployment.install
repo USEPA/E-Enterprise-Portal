@@ -119,3 +119,22 @@ function site_deployment_update_7015(&$sandbox) {
   $sandbox['current']++;
 
 }
+
+
+/**
+ * Updating query settings for LGC Resources View
+ */
+function site_deployment_update_7501(){
+
+  // Update query settings for LGC Resources view
+
+  global $base_url;
+  $view = views_get_view('lgc_resources', TRUE);
+  // Set default
+  $view->display['default']->display_options['query']['options']['json_file'] = $base_url . '/lgc_resources_json_all';
+  // Override User
+  $view->display['rcs_resources_user']->display_options['query']['options']['json_file'] = $base_url . '/lgc_resources_json_by_user';
+  views_save_view($view);
+
+
+}

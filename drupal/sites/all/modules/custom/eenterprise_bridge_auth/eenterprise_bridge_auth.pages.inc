@@ -730,6 +730,7 @@ function assign_roles_to_user($user_name) {
   if (!is_array($user_roles->Role)) {
     $user_roles->Role = array($user_roles->Role);
   }
+  $user_naics = array();
   foreach ($user_roles->Role as $k => $v) {
     $role_val = $v->type->description;
     if ($role_val !== "Public") {
@@ -737,19 +738,71 @@ function assign_roles_to_user($user_name) {
     }
     //Make sure a role that is assigned to a CDX role is not a Drupal admin role, the second case.
     if (!empty($role_val) && $role_val != variable_get('current_admin_role')) {
-      $user_role = user_role_load_by_name($role_val);
-      if ($user_role === FALSE) {
-        $user_role = new stdClass();
-        $user_role->name = $role_val;
-        user_role_save($user_role);
-      }
-      user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-      allow_user_menu_access($user_role->rid);
-      //Allow favorites view and app connect view access to all CDX users.
-      view_allow_access_role('favorite_sites', $user_role->rid);
-      view_allow_access_role('app_connect_new', $user_role->rid);
+        $user_role = user_role_load_by_name($role_val);
+        if ($user_role === FALSE) {
+            $user_role = new stdClass();
+            $user_role->name = $role_val;
+            user_role_save($user_role);
+        }
+        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+        allow_user_menu_access($user_role->rid);
+        //Allow favorites view and app connect view access to all CDX users.
+        view_allow_access_role('favorite_sites', $user_role->rid);
+        view_allow_access_role('app_connect_new', $user_role->rid);
+
+        //Get any NAIC codes based on the user_role_id
+        module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+        if (feature_toggle_get_status('profile_enable_cdx_naics')) {
+            $naics_dataflows = strtolower(variable_get('naics_dataflows'));
+            $naics_dataflows_array = explode(',', $naics_dataflows);
+            if (in_array(strtolower($v->dataflow), $naics_dataflows_array)) {
+                if (!isset($facclient)) {
+                    $facwsdl = variable_get('cdx_program_facility_endpoint');//'http://testngn.epacdxnode.net/cdx-register-II/services/RegisterProgramFacilityService?wsdl';
+                    $facclient = connectToSOAPServerWithWSDL($facwsdl, "Eenterprise Bridge Auth");
+                    if ($facclient->error) {
+                        return;
+                    }
+                    $facclient = $facclient->client;
+                }
+                $paramsfac = array(
+                    "securityToken" => $response1->securityToken,
+                    "userRoleId" => $v->userRoleId,
+                );
+                $user_facs = callSOAPWithParams($facclient, "RetrieveFacilitiesByUserRoleId", $paramsfac, "Eenterprise Bridge Auth");
+                if ($user_facs->error) {
+                    return;
+                }
+                $user_facs = $user_facs->response;
+                if (!is_array($user_facs->ProgramFacility)) {
+                    $user_facs->ProgramFacility = array($user_roles->ProgramFacility);
+                }
+                foreach ($user_facs->ProgramFacility as $k2 => $v2) {
+                    foreach ($v2->NaicsCodes->NaicsCode as $k3 => $v3) {
+                        $endpoint = variable_get('naics_getbycode_endpoint');
+                        $endpoint = $endpoint . urlencode($v3->CdxNaicsCodeValue);
+                        $response = drupal_http_request($endpoint, [
+                            //"headers" => $headers,
+                            "method" => "GET",
+                            'timeout' => "10"
+                        ]);
+                        if ($response->code !== "200") {
+                            $return['error'] = TRUE;
+                            $return['error-messages'][] = ['code' => $response->code, 'error' => 'NAICS endpoint response: ' . $response->error];
+                            $naics_description = 'Unable to retrieve NAICS description.';
+                        } else {
+                            $response_array = xmlstr_to_array($response->data);
+                            $base = $response_array['Results']['NAICS']['Code'];
+                            $naics_description = $base['NAICSNameText'];
+                        }
+                        $user_naics[$v3->CdxNaicsCodeValue] = $naics_description;
+                    }
+                }
+                $user_naics = array_unique($user_naics);
+            }
+        }
     }
   }
+  update_cdx_naics_profile($user_naics);
   if ($eactivity_role) {
     // Allow access to cdx facility manager, progress tracker, and to do
     if ($user_eactivity_role = user_role_load_by_name("eactivity-dataflows")) {
@@ -853,4 +906,38 @@ function view_allow_access_role($view_name, $role_id) {
     $result_view->display_handler->display->display_options['access']['role'][$role_id] = $role_id;
     $result_view->save();
   }
+}
+
+function update_cdx_naics_profile($profile) {
+    $response = [
+        'error' => false,
+        'error-messages' => [],
+        'data'=> null,
+    ];
+
+    if(isset($profile)) {
+
+        global $user;
+        //$existing = user_load($user->uid);
+        $existing = user_load($user->uid);
+        $response['data'] = [ 'profile' => $profile];
+
+        $edit = [];
+        if(!is_string($profile)) {
+            $profile = json_encode($profile);
+        }
+        $edit['field_cdx_naics_settings']['und'][0]['value'] = $profile;
+
+        // save existing user
+
+        if(!user_save($existing, $edit)) {
+            $response['error'] = true;
+            $response['error-messages'][] = 'There was a problem while trying to save';
+        }
+    }
+    else {
+        $response['error'] = true;
+        $response['error-messages'][] = 'Missing profile value in the post data';
+    }
+    echo json_encode($response);
 }
