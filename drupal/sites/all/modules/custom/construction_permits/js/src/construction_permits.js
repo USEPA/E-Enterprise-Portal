@@ -76,7 +76,6 @@ function create_search_results(search_results_json) {
         }).html(pageNo + ' of ' + totalPages);
         $('#to-do').find('.dataTables_paginate li:first').after($current_li);
       }
-
     }
   };
 
@@ -163,7 +162,7 @@ function reset_cgp_form() {
     $.ajax({
       url: 'construction_permits/form_submission',
       method: 'POST',
-      //data: data,
+      data: cgpFormData,
       success: function(cgp_reponse_json) {
         if (cgp_reponse_json.error) {
           // reset the modal and return it to a 'default' state
@@ -172,6 +171,7 @@ function reset_cgp_form() {
         }
         else {
           create_search_results(cgp_reponse_json);
+          create_detail_results(cgp_reponse_json);
           show_needed_cgp_div($cgp_results_wrapper, $cgp_all_wrappers);
         }
         cgp_resize_modal();
@@ -180,6 +180,17 @@ function reset_cgp_form() {
 
 
     //show_needed_cgp_div($cgp_results_wrapper, $cgp_all_wrappers);
+
+    /**
+     *
+     */
+    function create_detail_results(reponse_json) {
+      if(Array.isArray(response_json.data)) {
+        response_json.data.map(function(current, index, array) {
+
+        });
+      }
+    }
 
   });
 
