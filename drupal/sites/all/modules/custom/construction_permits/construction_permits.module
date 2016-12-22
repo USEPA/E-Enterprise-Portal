@@ -40,17 +40,18 @@ function construction_permits_block_info() {
  * Generate pdf using wkhtmltopdf tool.
  * Example here: https://gist.github.com/davejamesmiller/1965886
  * */
-function cgp_pdf_generate() {
-  $html = theme('construction_permits_pdf');
+function cgp_pdf_generate(){
+  $html =  theme('construction_permits_pdf');
   $descriptor_spec = array(
-    0 => array('pipe', 'r'), // stdin
-    1 => array('pipe', 'w'), // stdout
-    2 => array('pipe', 'w'), // stderr
+      0 => array('pipe', 'r'), // stdin
+      1 => array('pipe', 'w'), // stdout
+      2 => array('pipe', 'w'), // stderr
   );
   $current_srvr_name = variable_get('eportal_server_name');
-  if (isset($current_srvr_name) && ($current_srvr_name == $_SERVER['SERVER_NAME'])) {
+  if(isset($current_srvr_name) && ($current_srvr_name == $_SERVER['SERVER_NAME'])){
     $process = proc_open('wkhtmltopdf -q - -', $descriptor_spec, $pipes);
-  } else {
+  }
+  else{
     $process = proc_open('sites/all/libraries/wkhtmltox/bin/wkhtmltopdf -q - -', $descriptor_spec, $pipes);
   }
 
@@ -65,14 +66,14 @@ function cgp_pdf_generate() {
   $return_value = proc_close($process);
   // Output the results
   if ($errors) {
-    watchdog('construction_permits', "wkhtmltopdf PDF Generation Failed! " . $errors, WATCHDOG_ERROR);
+    watchdog('construction_permits', "wkhtmltopdf PDF Generation Failed! ".$errors, WATCHDOG_ERROR);
     return "PDF Generation Failed!!";
   } else {
     header('Content-Type: application/pdf');
     header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
     header('Pragma: public');
     header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-    header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s').' GMT');
     header('Content-Length: ' . strlen($pdf));
     echo $pdf;
   }
@@ -82,9 +83,9 @@ function cgp_pdf_generate() {
  * Implementation of hook_user_logout
  * Remove used pdf generation variable for the logged in user and session when the user logs out.
  * */
-function construction_permits_user_logout($account) {
+function construction_permits_user_logout($account){
   global $user;
-  variable_del($user->name . '_cgp_pdf_resp_' . $user->ssid);
+  variable_del($user->name.'_cgp_pdf_resp_'.$user->ssid);
 }
 
 
@@ -110,9 +111,9 @@ function construction_permits_theme() {
       'path' => drupal_get_path('module', 'construction_permits') . '/templates'
     ),
     'construction_permits_pdf' => array(
-      'variables' => array(),
-      'template' => 'construction-permits-pdf',
-      'path' => drupal_get_path('module', 'construction_permits') . '/templates'
+        'variables' => array(),
+        'template' => 'construction-permits-pdf',
+        'path' => drupal_get_path('module', 'construction_permits') . '/templates'
     ),
   );
 }
@@ -124,7 +125,7 @@ function construction_permits_block_view($delta = '') {
   $block = array();
   if ($delta == 'construction_permits') {
     //good idea to check user perms here
-    if (user_access('access content')) {
+    if (user_access('access content')) {      
       drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
@@ -153,7 +154,7 @@ function construction_permits_block_view($delta = '') {
         'preprocess' => TRUE,
         'group' => CSS_THEME
       ]);
-
+      
       // Set Modal Template
       $cgp_modal_html = theme('construction_permits_modal');
       drupal_add_js(array("construction_permits" => ["cgp_modal" => $cgp_modal_html]), 'setting');
@@ -186,23 +187,24 @@ function construction_permits_form_submission() {
       return;
     }
     // All temporary
-    // Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
-    $endpoint = variable_get('cgp_form_endpoint');
-    $headers = array('Content-Type' => 'application/json');
+  	// Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
+
+    $endpoint = variable_get('cgp_form_endpoint').'?'.http_build_query($_POST);
     $response = drupal_http_request($endpoint, [
-      "headers" => $headers,
-      "method" => "POST",
-      'timeout' => "10",
-      'data' => json_encode($_POST)
+      "method" => "GET",
+      'timeout' => "10"
     ]);
     if ($response->code !== "200") {
       $datatable_formatted_response['error'] = TRUE;
-    } else {
+      $datatable_formatted_response['error_message'][] = json_decode($response->data);
+    }
+    else {
       $formatted_data = construction_permits_datatable_response($response->data);
       $datatable_formatted_response['datatable'] = $formatted_data;
       $datatable_formatted_response['error'] = FALSE;
     }
   }
+
   drupal_json_output($datatable_formatted_response);
 }
 
@@ -246,6 +248,6 @@ function template_preprocess_construction_permits_modal(&$variables, $hook) {
 function template_preprocess_construction_permits_pdf(&$variables, $hook) {
 
   global $user;
-  $variables['response_json_data_pdf'] = variable_get($user->name . '_cgp_pdf_resp_' . $user->ssid);
+  $variables['response_json_data_pdf'] = variable_get($user->name.'_cgp_pdf_resp_'.$user->ssid);
 }
 
