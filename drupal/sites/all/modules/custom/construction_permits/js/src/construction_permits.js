@@ -95,6 +95,7 @@ function reset_cgp_form() {
 }
 
 (function($) {
+  var cp = this;
   var sampleSetIndex = 0;
   var $body = $('body');
   // Flag for converting Null or blank inputs to -9999
@@ -173,6 +174,7 @@ function reset_cgp_form() {
           create_search_results(cgp_reponse_json);
           create_detail_results(cgp_reponse_json);
           show_needed_cgp_div($cgp_results_wrapper, $cgp_all_wrappers);
+          console.log('BUILD SECTIONS')
         }
         cgp_resize_modal();
       }
@@ -181,16 +183,6 @@ function reset_cgp_form() {
 
     //show_needed_cgp_div($cgp_results_wrapper, $cgp_all_wrappers);
 
-    /**
-     *
-     */
-    function create_detail_results(reponse_json) {
-      if(Array.isArray(response_json.data)) {
-        response_json.data.map(function(current, index, array) {
-
-        });
-      }
-    }
 
   });
 
@@ -211,5 +203,108 @@ function reset_cgp_form() {
     cgp_resize_modal();
     $("html, body").animate({scrollTop: $('.pane-construction-permits').offset().top}, 500);
   });
+
+  // .apply(property, params)
+  // Helper functions for the dynamic form
+
+  /**
+   *
+   */
+  function create_detail_results(reponse_json) {
+    if(Array.isArray(response_json.data)) {
+      response_json.data.map(function(permit, index, array) {
+        $template = $(Drupal.settings.construction_permits.permits_template[current.type.lowercase()]);
+        $template.find('[data-cgp-property]').each(function() {
+          var $this = $(this);
+          var propertyPath = $this.attr('data-cgp-property')
+          var prop = getProperty(permit, propertyPath)
+        })
+      });
+    }
+  }
+
+  function getProperty(permit, property) {
+    return property.split('.').reduce(function(p, c, i, a) {
+      console.log(p, c, i, a)
+      return p[c];
+    }, permit);
+  }
+
+  var fullName = function(prop) {
+    return [prop.firstName, prop.middleInitial, prop.lastName].reduce(function(p, c){ (c) ? p.push(c): 0; return p}, []).join(' ')
+  }
+
+  var operatorAddress = function(prop) {
+    var country = (prop.operatorCounty && prop.operatorCounty != 'string') ? ' ' + prop.operatorCounty : '';
+    return prop.operatorAddress + '<br/>' + prop.operatorCity + ', ' + prop.operatorStateCode + ' ' + prop.operatorZipCode + country;
+  }
+
+  var address = function(prop, prefix) {
+    var country = (prop[prefix+'County'] && prop[prefix+'County'] != 'string') ? ' ' + prop[prefix+'County'] : '';
+    return prop[prefix+'Address'] + '<br/>' + prop[prefix+'City'] + ', ' + prop[prefix+'StateCode'] + ' ' + prop[prefix+'ZipCode'] + country;
+  }
+
+  var appendixDCriteriaMet = function(prop) {
+    return 'N/A';
+  }
+
+  var dischargePoints = function(prop) {
+    var $this = $(this);
+    // Add header
+    var header = [
+      '<div class="row header">',
+      '<div class="col-md-2">Surface water(s) to which you discharge</div>',
+      '<div class="col-md-2">Impaired Water</div>',
+      '<div class="col-md-2">Listed Water Pollutant(s)</div>',
+      '<div class="col-md-2">Tier 2, 2.5 or 3</div>',
+      '<div class="col-md-2">Source</div>',
+      '<div class="col-md-2">TMDL Name and Pollutant</div>',
+      '</div>'
+    ]
+    $node.append(header.join(''));
+    // Handled the discharge points
+    this.map(function(c, i, a){
+      $node.append([
+        '<div class="row">',
+        '<div class="col-md-2" title="Surface water(s) to which you discharge">', c.firstWater, '</div>',
+        '<div class="col-md-2" title="Impaired Water">', 'N/A', '</div>',
+        '<div class="col-md-2" title="Listed Water Pollutant(s)">', c.pollutants.join(', '), '</div>',
+        '<div class="col-md-2" title="Tier 2, 2.5 or 3">', 'N/A', '</div>',
+        '<div class="col-md-2" title="Source">', 'N/A', '</div>',
+        '<div class="col-md-2" title="TMDL Name and Pollutant">', c.tier, '</div>',
+        '</div>',
+      ].join(''))
+    })
+  }
+
+  var dateFormat = function(prop) {
+    var d = new Date(this);
+    return [d.getMonth()+1, d.getUTCDate(), d.getUTCFullYear()].join('/')
+  }
+
+  var attachments = function(prop) {
+    // Add header
+    var header = [
+      '<div class="row header">',
+      '<div class="col-md-2">File Name</div>',
+      '<div class="col-md-2">File Size</div>',
+      '<div class="col-md-2">File Section</div>',
+      '<div class="col-md-2">Date uploaded</div>',
+      '</div>'
+    ]
+    $node.append(header.join(''));
+    // Handled the discharge points
+    this.map(function(c, i, a){
+      $node.append([
+        '<div class="row">',
+        '<div class="col-md-2" title="File Name">', c.name, '</div>',
+        '<div class="col-md-2" title="File Size">', 'N/A', '</div>',
+        '<div class="col-md-2" title="File Section">', 'N/A', '</div>',
+        '<div class="col-md-2" title="Date uploaded">', c.createdDate, '</div>',
+        '</div>',
+      ].join(''))
+    })
+  }
+
 
 })(jQuery);
