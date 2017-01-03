@@ -400,7 +400,8 @@ footer {
 #local-resources-tabs,
 .view-state-resource-editor,
 .view-resource-editor,
-.pane-my-cdx-my-cdx{
+.pane-my-cdx-my-cdx,
+#construction-permits-modal{
 
 
     th {
@@ -4128,7 +4129,8 @@ ul {
 // Prefix E-Enterprise Workbench only and .page-resource-editor with CSS class to avoid overwriting My Facility Manager widget
 .grid-stack-item:not(#facility-widget) .ui-widget,
 .grid-stack-item:not(#facility-widget) .ui-widget-content,
-.grid-stack-item {
+.grid-stack-item,
+.eportal-workbench-modal{
     .paging_simple {
         li {
             padding-left: 10px;

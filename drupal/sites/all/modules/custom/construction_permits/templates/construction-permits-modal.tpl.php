@@ -1,4 +1,4 @@
-<div class="usa-grid-full">
+<div class="usa-grid-full eportal-workbench-modal">
   <div id="construction-permits-loading-wrapper"
        class="construction-permits-modal-wrapper">
     <h1>Searching for matching Construction General Permits&hellip;</h1>

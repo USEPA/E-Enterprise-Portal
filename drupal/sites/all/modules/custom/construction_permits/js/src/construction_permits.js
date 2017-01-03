@@ -53,7 +53,27 @@ function cgp_resize_modal() {
  */
 function create_search_results(search_results_json) {
   var $ = jQuery;
+  var $modal_wrapper = $('#construction-permits-modal');
   var $table = $('#construction-permits-results-wrapper').find('table');
+
+  $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
+  $.fn.dataTableExt.oStdClasses.sTable = "eportal-responsive-table";
+  // If the datatables loading has an error gracefully handle with a message
+
+  $.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
+    return {
+      "iStart": oSettings._iDisplayStart,
+      "iEnd": oSettings.fnDisplayEnd(),
+      "iLength": oSettings._iDisplayLength,
+      "iTotal": oSettings.fnRecordsTotal(),
+      "iFilteredTotal": oSettings.fnRecordsDisplay(),
+      "iPage": oSettings._iDisplayLength === -1 ?
+        0 : Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
+      "iTotalPages": oSettings._iDisplayLength === -1 ?
+        0 : Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength) - 1
+    };
+  };
+
   var datatable_options = {
     "data": search_results_json.datatable,
     "dom": 'ftrp',
@@ -74,14 +94,17 @@ function create_search_results(search_results_json) {
         var $current_li = $('<li />', {
           class: 'pager-current'
         }).html(pageNo + ' of ' + totalPages);
-        $('#to-do').find('.dataTables_paginate li:first').after($current_li);
+        $modal_wrapper.find('.dataTables_paginate li:first').after($current_li);
       }
-
     }
   };
 
   // Create index column that updates on sorting
   var dtTable = $table.DataTable(datatable_options);
+  dtTable.columns().iterator('column', function (ctx, idx) {
+    $(dtTable.column(idx).header()).append('<span class="sort-icon" />');
+  });
+
 }
 
 /**
@@ -132,6 +155,7 @@ function reset_cgp_form() {
         sampleSetIndex = 0;
         convertNulls = false;
         $table.dataTable({bDestroy: true}).fnDestroy();
+        $table.find('thead th .sort-icon').remove();
         show_needed_cgp_div($('#construction-permits-form-wrapper'), $('.construction-permits-modal-wrapper'));
       }
     })

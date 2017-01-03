@@ -509,5 +509,2049 @@
       }
     ]
   }
+},
+  {
+    "error": false,
+    "error-messages": [],
+    "data": {
+      "id": 0,
+      "masterPermitNumber": "NMR12AJ90",
+      "npdesId": "NMR12AJ90",
+      "createdDate": "2016-12-13T22:35:54.736Z",
+      "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+      "reviewExpiration": "2016-12-13T22:35:54.736Z",
+      "certifiedDate": "2016-12-13T22:35:54.736Z",
+      "submittedDate": "2013-04-26T22:35:54.736Z",
+      "status": "Draft",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "Acequia Jardin, Rio Grande Housing",
+        "siteAddress": "2334 Rio Grande Blvd. NW",
+        "siteAddress2": "",
+        "siteCity": "Albuquerque",
+        "siteStateCode": "New Mexico",
+        "siteZipCode": "87104",
+        "siteCounty": "",
+        "siteLocation": {
+          "latitude": 35.1169,
+          "longitude": 106.6752,
+          "latLongDataSource": "Google Earth",
+          "horizontalReferenceDatum": "Unknown"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": "",
+        "siteProjectStart": "2013-05-06T22:35:54.737Z",
+        "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+        "siteAreaDisturbed": 0.75,
+        "siteConstructionTypes": [
+          "string"
+        ],
+        "siteStructureDemolitionBefore1980": false,
+        "siteStructureDemolitionBefore198010kSquareFeet": false,
+        "sitePreDevelopmentAgricultural": false,
+        "siteEarthDisturbingActivitiesOccurrence": false,
+        "siteEmergencyRelated": false,
+        "sitePreviousNpdesPermit": false,
+        "sitePreviousNpdesPermitId": "string",
+        "siteLessThan5Acres": false,
+        "siteRFactor": 0,
+        "siteCgpAuthorizationConfirmation": false
+      },
+      "operatorInformation": {
+        "operatorName": "Garrett Smith, Ltd.",
+        "operatorFederal": false,
+        "operatorAddress": "514 Central SW",
+        "operatorCity": "Albuquerque",
+        "operatorStateCode": "New Mexico",
+        "operatorZipCode": "87102",
+        "operatorCounty": "string",
+        "operatorPointOfContact": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "string",
+          "phone": "505-980-7801",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": ""
+        },
+        "preparer": {
+          "userId": "string",
+          "firstName": "Jeff",
+          "lastName": "Kubisak",
+          "middleInitial": "",
+          "organization": "INSPECTIONS PLUS INC",
+          "phone": "n/a",
+          "phoneExtension": "",
+          "email": "jeff@inspectionsplusinc.com",
+          "title": ""
+        },
+        "certifier": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "",
+          "phone": "",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": "Managing Partner"
+        }
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": false,
+        "dischargeMunicipalSeparateStormSewerSystem": false,
+        "dischargeUSWatersWithin50Feet": false,
+        "dischargePoints": [
+          {
+            "id": "string",
+            "location": {
+              "latitude": 35.1169,
+              "longitude": 106.6752,
+              "latLongDataSource": "Google Earth",
+              "horizontalReferenceDatum": "Unknown"
+            },
+            "firstWater": "Rio Grande",
+            "pollutants": [
+              "PATHOGENS;RADIATION;"
+            ],
+            "tmdl": {
+              "id": "string",
+              "name": "string",
+              "pollutants": [
+                "string"
+              ]
+            },
+            "tier": "E.Coli"
+          }
+        ]
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": false,
+        "cationicTreatmentChemicals": false,
+        "cationicTreatmentChemicalsAuthorization": false,
+        "treatmentChemicals": [
+          "string"
+        ]
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": false,
+        "contactInformation": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "Garrett Smith, Ltd.",
+          "phone": "505-980-7801",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": ""
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": false,
+        "noEsaSpeciesOrCriticalHabitat": false,
+        "eligibilityCoveredByOtherOperator": false,
+        "otherOperatorNpdesId": "string",
+        "dischargesNotLikelyToAffect": false,
+        "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+        "distanceFromSite": ".87",
+        "coordinationWithUsfsOrNmfs": false,
+        "section7Consultation": false,
+        "biologicalOpinion": false,
+        "writtenOccurrence": false,
+        "section10Permit": false,
+        "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+      },
+      "historicPreservation": {
+        "screeningCompleted": false,
+        "appendexEStep1": false,
+        "appendexEStep2": false,
+        "appendexEStep3": false,
+        "appendexEStep4": false,
+        "appendexEStep4Response": "string"
+      },
+      "attachments": [
+        {
+          "id": 0,
+          "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+          "createdDate": "2013-04-25T22:35:54.742Z"
+        }
+      ]
+    }
+  },{
+  "error": false,
+  "error-messages": [],
+  "data": {
+    "id": 0,
+    "masterPermitNumber": "NMR12AJ90",
+    "npdesId": "NMR12AJ90",
+    "createdDate": "2016-12-13T22:35:54.736Z",
+    "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+    "reviewExpiration": "2016-12-13T22:35:54.736Z",
+    "certifiedDate": "2016-12-13T22:35:54.736Z",
+    "submittedDate": "2013-04-26T22:35:54.736Z",
+    "status": "Draft",
+    "type": "Notice_Of_Intent",
+    "projectSiteInformation": {
+      "siteName": "Acequia Jardin, Rio Grande Housing",
+      "siteAddress": "2334 Rio Grande Blvd. NW",
+      "siteAddress2": "",
+      "siteCity": "Albuquerque",
+      "siteStateCode": "New Mexico",
+      "siteZipCode": "87104",
+      "siteCounty": "",
+      "siteLocation": {
+        "latitude": 35.1169,
+        "longitude": 106.6752,
+        "latLongDataSource": "Google Earth",
+        "horizontalReferenceDatum": "Unknown"
+      },
+      "siteIndianCountry": false,
+      "siteIndianCountryLands": "",
+      "siteProjectStart": "2013-05-06T22:35:54.737Z",
+      "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+      "siteAreaDisturbed": 0.75,
+      "siteConstructionTypes": [
+        "string"
+      ],
+      "siteStructureDemolitionBefore1980": false,
+      "siteStructureDemolitionBefore198010kSquareFeet": false,
+      "sitePreDevelopmentAgricultural": false,
+      "siteEarthDisturbingActivitiesOccurrence": false,
+      "siteEmergencyRelated": false,
+      "sitePreviousNpdesPermit": false,
+      "sitePreviousNpdesPermitId": "string",
+      "siteLessThan5Acres": false,
+      "siteRFactor": 0,
+      "siteCgpAuthorizationConfirmation": false
+    },
+    "operatorInformation": {
+      "operatorName": "Garrett Smith, Ltd.",
+      "operatorFederal": false,
+      "operatorAddress": "514 Central SW",
+      "operatorCity": "Albuquerque",
+      "operatorStateCode": "New Mexico",
+      "operatorZipCode": "87102",
+      "operatorCounty": "string",
+      "operatorPointOfContact": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "string",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      },
+      "preparer": {
+        "userId": "string",
+        "firstName": "Jeff",
+        "lastName": "Kubisak",
+        "middleInitial": "",
+        "organization": "INSPECTIONS PLUS INC",
+        "phone": "n/a",
+        "phoneExtension": "",
+        "email": "jeff@inspectionsplusinc.com",
+        "title": ""
+      },
+      "certifier": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "",
+        "phone": "",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": "Managing Partner"
+      }
+    },
+    "dischargeInformation": {
+      "dischargeAllowable": false,
+      "dischargeMunicipalSeparateStormSewerSystem": false,
+      "dischargeUSWatersWithin50Feet": false,
+      "dischargePoints": [
+        {
+          "id": "string",
+          "location": {
+            "latitude": 35.1169,
+            "longitude": 106.6752,
+            "latLongDataSource": "Google Earth",
+            "horizontalReferenceDatum": "Unknown"
+          },
+          "firstWater": "Rio Grande",
+          "pollutants": [
+            "PATHOGENS;RADIATION;"
+          ],
+          "tmdl": {
+            "id": "string",
+            "name": "string",
+            "pollutants": [
+              "string"
+            ]
+          },
+          "tier": "E.Coli"
+        }
+      ]
+    },
+    "chemicalTreatmentInformation": {
+      "polymersFlocculantsOtherTreatmentChemicals": false,
+      "cationicTreatmentChemicals": false,
+      "cationicTreatmentChemicalsAuthorization": false,
+      "treatmentChemicals": [
+        "string"
+      ]
+    },
+    "stormwaterPollutionPreventionPlanInformation": {
+      "preparationInAdvance": false,
+      "contactInformation": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "Garrett Smith, Ltd.",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      }
+    },
+    "endangeredSpeciesProtectionInformation": {
+      "appendixDCriteriaMet": false,
+      "noEsaSpeciesOrCriticalHabitat": false,
+      "eligibilityCoveredByOtherOperator": false,
+      "otherOperatorNpdesId": "string",
+      "dischargesNotLikelyToAffect": false,
+      "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+      "distanceFromSite": ".87",
+      "coordinationWithUsfsOrNmfs": false,
+      "section7Consultation": false,
+      "biologicalOpinion": false,
+      "writtenOccurrence": false,
+      "section10Permit": false,
+      "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+    },
+    "historicPreservation": {
+      "screeningCompleted": false,
+      "appendexEStep1": false,
+      "appendexEStep2": false,
+      "appendexEStep3": false,
+      "appendexEStep4": false,
+      "appendexEStep4Response": "string"
+    },
+    "attachments": [
+      {
+        "id": 0,
+        "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+        "createdDate": "2013-04-25T22:35:54.742Z"
+      }
+    ]
+  }
+},{
+  "error": false,
+  "error-messages": [],
+  "data": {
+    "id": 0,
+    "masterPermitNumber": "NMR12AJ90",
+    "npdesId": "NMR12AJ90",
+    "createdDate": "2016-12-13T22:35:54.736Z",
+    "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+    "reviewExpiration": "2016-12-13T22:35:54.736Z",
+    "certifiedDate": "2016-12-13T22:35:54.736Z",
+    "submittedDate": "2013-04-26T22:35:54.736Z",
+    "status": "Draft",
+    "type": "Notice_Of_Intent",
+    "projectSiteInformation": {
+      "siteName": "Acequia Jardin, Rio Grande Housing",
+      "siteAddress": "2334 Rio Grande Blvd. NW",
+      "siteAddress2": "",
+      "siteCity": "Albuquerque",
+      "siteStateCode": "New Mexico",
+      "siteZipCode": "87104",
+      "siteCounty": "",
+      "siteLocation": {
+        "latitude": 35.1169,
+        "longitude": 106.6752,
+        "latLongDataSource": "Google Earth",
+        "horizontalReferenceDatum": "Unknown"
+      },
+      "siteIndianCountry": false,
+      "siteIndianCountryLands": "",
+      "siteProjectStart": "2013-05-06T22:35:54.737Z",
+      "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+      "siteAreaDisturbed": 0.75,
+      "siteConstructionTypes": [
+        "string"
+      ],
+      "siteStructureDemolitionBefore1980": false,
+      "siteStructureDemolitionBefore198010kSquareFeet": false,
+      "sitePreDevelopmentAgricultural": false,
+      "siteEarthDisturbingActivitiesOccurrence": false,
+      "siteEmergencyRelated": false,
+      "sitePreviousNpdesPermit": false,
+      "sitePreviousNpdesPermitId": "string",
+      "siteLessThan5Acres": false,
+      "siteRFactor": 0,
+      "siteCgpAuthorizationConfirmation": false
+    },
+    "operatorInformation": {
+      "operatorName": "Garrett Smith, Ltd.",
+      "operatorFederal": false,
+      "operatorAddress": "514 Central SW",
+      "operatorCity": "Albuquerque",
+      "operatorStateCode": "New Mexico",
+      "operatorZipCode": "87102",
+      "operatorCounty": "string",
+      "operatorPointOfContact": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "string",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      },
+      "preparer": {
+        "userId": "string",
+        "firstName": "Jeff",
+        "lastName": "Kubisak",
+        "middleInitial": "",
+        "organization": "INSPECTIONS PLUS INC",
+        "phone": "n/a",
+        "phoneExtension": "",
+        "email": "jeff@inspectionsplusinc.com",
+        "title": ""
+      },
+      "certifier": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "",
+        "phone": "",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": "Managing Partner"
+      }
+    },
+    "dischargeInformation": {
+      "dischargeAllowable": false,
+      "dischargeMunicipalSeparateStormSewerSystem": false,
+      "dischargeUSWatersWithin50Feet": false,
+      "dischargePoints": [
+        {
+          "id": "string",
+          "location": {
+            "latitude": 35.1169,
+            "longitude": 106.6752,
+            "latLongDataSource": "Google Earth",
+            "horizontalReferenceDatum": "Unknown"
+          },
+          "firstWater": "Rio Grande",
+          "pollutants": [
+            "PATHOGENS;RADIATION;"
+          ],
+          "tmdl": {
+            "id": "string",
+            "name": "string",
+            "pollutants": [
+              "string"
+            ]
+          },
+          "tier": "E.Coli"
+        }
+      ]
+    },
+    "chemicalTreatmentInformation": {
+      "polymersFlocculantsOtherTreatmentChemicals": false,
+      "cationicTreatmentChemicals": false,
+      "cationicTreatmentChemicalsAuthorization": false,
+      "treatmentChemicals": [
+        "string"
+      ]
+    },
+    "stormwaterPollutionPreventionPlanInformation": {
+      "preparationInAdvance": false,
+      "contactInformation": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "Garrett Smith, Ltd.",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      }
+    },
+    "endangeredSpeciesProtectionInformation": {
+      "appendixDCriteriaMet": false,
+      "noEsaSpeciesOrCriticalHabitat": false,
+      "eligibilityCoveredByOtherOperator": false,
+      "otherOperatorNpdesId": "string",
+      "dischargesNotLikelyToAffect": false,
+      "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+      "distanceFromSite": ".87",
+      "coordinationWithUsfsOrNmfs": false,
+      "section7Consultation": false,
+      "biologicalOpinion": false,
+      "writtenOccurrence": false,
+      "section10Permit": false,
+      "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+    },
+    "historicPreservation": {
+      "screeningCompleted": false,
+      "appendexEStep1": false,
+      "appendexEStep2": false,
+      "appendexEStep3": false,
+      "appendexEStep4": false,
+      "appendexEStep4Response": "string"
+    },
+    "attachments": [
+      {
+        "id": 0,
+        "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+        "createdDate": "2013-04-25T22:35:54.742Z"
+      }
+    ]
+  }
+},
+  {
+    "error": false,
+    "error-messages": [],
+    "data": {
+      "id": 0,
+      "masterPermitNumber": "NMR12AJ90",
+      "npdesId": "NMR12AJ90",
+      "createdDate": "2016-12-13T22:35:54.736Z",
+      "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+      "reviewExpiration": "2016-12-13T22:35:54.736Z",
+      "certifiedDate": "2016-12-13T22:35:54.736Z",
+      "submittedDate": "2013-04-26T22:35:54.736Z",
+      "status": "Draft",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "Acequia Jardin, Rio Grande Housing",
+        "siteAddress": "2334 Rio Grande Blvd. NW",
+        "siteAddress2": "",
+        "siteCity": "Albuquerque",
+        "siteStateCode": "New Mexico",
+        "siteZipCode": "87104",
+        "siteCounty": "",
+        "siteLocation": {
+          "latitude": 35.1169,
+          "longitude": 106.6752,
+          "latLongDataSource": "Google Earth",
+          "horizontalReferenceDatum": "Unknown"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": "",
+        "siteProjectStart": "2013-05-06T22:35:54.737Z",
+        "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+        "siteAreaDisturbed": 0.75,
+        "siteConstructionTypes": [
+          "string"
+        ],
+        "siteStructureDemolitionBefore1980": false,
+        "siteStructureDemolitionBefore198010kSquareFeet": false,
+        "sitePreDevelopmentAgricultural": false,
+        "siteEarthDisturbingActivitiesOccurrence": false,
+        "siteEmergencyRelated": false,
+        "sitePreviousNpdesPermit": false,
+        "sitePreviousNpdesPermitId": "string",
+        "siteLessThan5Acres": false,
+        "siteRFactor": 0,
+        "siteCgpAuthorizationConfirmation": false
+      },
+      "operatorInformation": {
+        "operatorName": "Garrett Smith, Ltd.",
+        "operatorFederal": false,
+        "operatorAddress": "514 Central SW",
+        "operatorCity": "Albuquerque",
+        "operatorStateCode": "New Mexico",
+        "operatorZipCode": "87102",
+        "operatorCounty": "string",
+        "operatorPointOfContact": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "string",
+          "phone": "505-980-7801",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": ""
+        },
+        "preparer": {
+          "userId": "string",
+          "firstName": "Jeff",
+          "lastName": "Kubisak",
+          "middleInitial": "",
+          "organization": "INSPECTIONS PLUS INC",
+          "phone": "n/a",
+          "phoneExtension": "",
+          "email": "jeff@inspectionsplusinc.com",
+          "title": ""
+        },
+        "certifier": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "",
+          "phone": "",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": "Managing Partner"
+        }
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": false,
+        "dischargeMunicipalSeparateStormSewerSystem": false,
+        "dischargeUSWatersWithin50Feet": false,
+        "dischargePoints": [
+          {
+            "id": "string",
+            "location": {
+              "latitude": 35.1169,
+              "longitude": 106.6752,
+              "latLongDataSource": "Google Earth",
+              "horizontalReferenceDatum": "Unknown"
+            },
+            "firstWater": "Rio Grande",
+            "pollutants": [
+              "PATHOGENS;RADIATION;"
+            ],
+            "tmdl": {
+              "id": "string",
+              "name": "string",
+              "pollutants": [
+                "string"
+              ]
+            },
+            "tier": "E.Coli"
+          }
+        ]
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": false,
+        "cationicTreatmentChemicals": false,
+        "cationicTreatmentChemicalsAuthorization": false,
+        "treatmentChemicals": [
+          "string"
+        ]
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": false,
+        "contactInformation": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "Garrett Smith, Ltd.",
+          "phone": "505-980-7801",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": ""
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": false,
+        "noEsaSpeciesOrCriticalHabitat": false,
+        "eligibilityCoveredByOtherOperator": false,
+        "otherOperatorNpdesId": "string",
+        "dischargesNotLikelyToAffect": false,
+        "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+        "distanceFromSite": ".87",
+        "coordinationWithUsfsOrNmfs": false,
+        "section7Consultation": false,
+        "biologicalOpinion": false,
+        "writtenOccurrence": false,
+        "section10Permit": false,
+        "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+      },
+      "historicPreservation": {
+        "screeningCompleted": false,
+        "appendexEStep1": false,
+        "appendexEStep2": false,
+        "appendexEStep3": false,
+        "appendexEStep4": false,
+        "appendexEStep4Response": "string"
+      },
+      "attachments": [
+        {
+          "id": 0,
+          "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+          "createdDate": "2013-04-25T22:35:54.742Z"
+        }
+      ]
+    }
+  },{
+  "error": false,
+  "error-messages": [],
+  "data": {
+    "id": 0,
+    "masterPermitNumber": "NMR12AJ90",
+    "npdesId": "NMR12AJ90",
+    "createdDate": "2016-12-13T22:35:54.736Z",
+    "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+    "reviewExpiration": "2016-12-13T22:35:54.736Z",
+    "certifiedDate": "2016-12-13T22:35:54.736Z",
+    "submittedDate": "2013-04-26T22:35:54.736Z",
+    "status": "Draft",
+    "type": "Notice_Of_Intent",
+    "projectSiteInformation": {
+      "siteName": "Acequia Jardin, Rio Grande Housing",
+      "siteAddress": "2334 Rio Grande Blvd. NW",
+      "siteAddress2": "",
+      "siteCity": "Albuquerque",
+      "siteStateCode": "New Mexico",
+      "siteZipCode": "87104",
+      "siteCounty": "",
+      "siteLocation": {
+        "latitude": 35.1169,
+        "longitude": 106.6752,
+        "latLongDataSource": "Google Earth",
+        "horizontalReferenceDatum": "Unknown"
+      },
+      "siteIndianCountry": false,
+      "siteIndianCountryLands": "",
+      "siteProjectStart": "2013-05-06T22:35:54.737Z",
+      "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+      "siteAreaDisturbed": 0.75,
+      "siteConstructionTypes": [
+        "string"
+      ],
+      "siteStructureDemolitionBefore1980": false,
+      "siteStructureDemolitionBefore198010kSquareFeet": false,
+      "sitePreDevelopmentAgricultural": false,
+      "siteEarthDisturbingActivitiesOccurrence": false,
+      "siteEmergencyRelated": false,
+      "sitePreviousNpdesPermit": false,
+      "sitePreviousNpdesPermitId": "string",
+      "siteLessThan5Acres": false,
+      "siteRFactor": 0,
+      "siteCgpAuthorizationConfirmation": false
+    },
+    "operatorInformation": {
+      "operatorName": "Garrett Smith, Ltd.",
+      "operatorFederal": false,
+      "operatorAddress": "514 Central SW",
+      "operatorCity": "Albuquerque",
+      "operatorStateCode": "New Mexico",
+      "operatorZipCode": "87102",
+      "operatorCounty": "string",
+      "operatorPointOfContact": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "string",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      },
+      "preparer": {
+        "userId": "string",
+        "firstName": "Jeff",
+        "lastName": "Kubisak",
+        "middleInitial": "",
+        "organization": "INSPECTIONS PLUS INC",
+        "phone": "n/a",
+        "phoneExtension": "",
+        "email": "jeff@inspectionsplusinc.com",
+        "title": ""
+      },
+      "certifier": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "",
+        "phone": "",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": "Managing Partner"
+      }
+    },
+    "dischargeInformation": {
+      "dischargeAllowable": false,
+      "dischargeMunicipalSeparateStormSewerSystem": false,
+      "dischargeUSWatersWithin50Feet": false,
+      "dischargePoints": [
+        {
+          "id": "string",
+          "location": {
+            "latitude": 35.1169,
+            "longitude": 106.6752,
+            "latLongDataSource": "Google Earth",
+            "horizontalReferenceDatum": "Unknown"
+          },
+          "firstWater": "Rio Grande",
+          "pollutants": [
+            "PATHOGENS;RADIATION;"
+          ],
+          "tmdl": {
+            "id": "string",
+            "name": "string",
+            "pollutants": [
+              "string"
+            ]
+          },
+          "tier": "E.Coli"
+        }
+      ]
+    },
+    "chemicalTreatmentInformation": {
+      "polymersFlocculantsOtherTreatmentChemicals": false,
+      "cationicTreatmentChemicals": false,
+      "cationicTreatmentChemicalsAuthorization": false,
+      "treatmentChemicals": [
+        "string"
+      ]
+    },
+    "stormwaterPollutionPreventionPlanInformation": {
+      "preparationInAdvance": false,
+      "contactInformation": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "Garrett Smith, Ltd.",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      }
+    },
+    "endangeredSpeciesProtectionInformation": {
+      "appendixDCriteriaMet": false,
+      "noEsaSpeciesOrCriticalHabitat": false,
+      "eligibilityCoveredByOtherOperator": false,
+      "otherOperatorNpdesId": "string",
+      "dischargesNotLikelyToAffect": false,
+      "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+      "distanceFromSite": ".87",
+      "coordinationWithUsfsOrNmfs": false,
+      "section7Consultation": false,
+      "biologicalOpinion": false,
+      "writtenOccurrence": false,
+      "section10Permit": false,
+      "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+    },
+    "historicPreservation": {
+      "screeningCompleted": false,
+      "appendexEStep1": false,
+      "appendexEStep2": false,
+      "appendexEStep3": false,
+      "appendexEStep4": false,
+      "appendexEStep4Response": "string"
+    },
+    "attachments": [
+      {
+        "id": 0,
+        "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+        "createdDate": "2013-04-25T22:35:54.742Z"
+      }
+    ]
+  }
+},{
+  "error": false,
+  "error-messages": [],
+  "data": {
+    "id": 0,
+    "masterPermitNumber": "NMR12AJ90",
+    "npdesId": "NMR12AJ90",
+    "createdDate": "2016-12-13T22:35:54.736Z",
+    "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+    "reviewExpiration": "2016-12-13T22:35:54.736Z",
+    "certifiedDate": "2016-12-13T22:35:54.736Z",
+    "submittedDate": "2013-04-26T22:35:54.736Z",
+    "status": "Draft",
+    "type": "Notice_Of_Intent",
+    "projectSiteInformation": {
+      "siteName": "Acequia Jardin, Rio Grande Housing",
+      "siteAddress": "2334 Rio Grande Blvd. NW",
+      "siteAddress2": "",
+      "siteCity": "Albuquerque",
+      "siteStateCode": "New Mexico",
+      "siteZipCode": "87104",
+      "siteCounty": "",
+      "siteLocation": {
+        "latitude": 35.1169,
+        "longitude": 106.6752,
+        "latLongDataSource": "Google Earth",
+        "horizontalReferenceDatum": "Unknown"
+      },
+      "siteIndianCountry": false,
+      "siteIndianCountryLands": "",
+      "siteProjectStart": "2013-05-06T22:35:54.737Z",
+      "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+      "siteAreaDisturbed": 0.75,
+      "siteConstructionTypes": [
+        "string"
+      ],
+      "siteStructureDemolitionBefore1980": false,
+      "siteStructureDemolitionBefore198010kSquareFeet": false,
+      "sitePreDevelopmentAgricultural": false,
+      "siteEarthDisturbingActivitiesOccurrence": false,
+      "siteEmergencyRelated": false,
+      "sitePreviousNpdesPermit": false,
+      "sitePreviousNpdesPermitId": "string",
+      "siteLessThan5Acres": false,
+      "siteRFactor": 0,
+      "siteCgpAuthorizationConfirmation": false
+    },
+    "operatorInformation": {
+      "operatorName": "Garrett Smith, Ltd.",
+      "operatorFederal": false,
+      "operatorAddress": "514 Central SW",
+      "operatorCity": "Albuquerque",
+      "operatorStateCode": "New Mexico",
+      "operatorZipCode": "87102",
+      "operatorCounty": "string",
+      "operatorPointOfContact": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "string",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      },
+      "preparer": {
+        "userId": "string",
+        "firstName": "Jeff",
+        "lastName": "Kubisak",
+        "middleInitial": "",
+        "organization": "INSPECTIONS PLUS INC",
+        "phone": "n/a",
+        "phoneExtension": "",
+        "email": "jeff@inspectionsplusinc.com",
+        "title": ""
+      },
+      "certifier": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "",
+        "phone": "",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": "Managing Partner"
+      }
+    },
+    "dischargeInformation": {
+      "dischargeAllowable": false,
+      "dischargeMunicipalSeparateStormSewerSystem": false,
+      "dischargeUSWatersWithin50Feet": false,
+      "dischargePoints": [
+        {
+          "id": "string",
+          "location": {
+            "latitude": 35.1169,
+            "longitude": 106.6752,
+            "latLongDataSource": "Google Earth",
+            "horizontalReferenceDatum": "Unknown"
+          },
+          "firstWater": "Rio Grande",
+          "pollutants": [
+            "PATHOGENS;RADIATION;"
+          ],
+          "tmdl": {
+            "id": "string",
+            "name": "string",
+            "pollutants": [
+              "string"
+            ]
+          },
+          "tier": "E.Coli"
+        }
+      ]
+    },
+    "chemicalTreatmentInformation": {
+      "polymersFlocculantsOtherTreatmentChemicals": false,
+      "cationicTreatmentChemicals": false,
+      "cationicTreatmentChemicalsAuthorization": false,
+      "treatmentChemicals": [
+        "string"
+      ]
+    },
+    "stormwaterPollutionPreventionPlanInformation": {
+      "preparationInAdvance": false,
+      "contactInformation": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "Garrett Smith, Ltd.",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      }
+    },
+    "endangeredSpeciesProtectionInformation": {
+      "appendixDCriteriaMet": false,
+      "noEsaSpeciesOrCriticalHabitat": false,
+      "eligibilityCoveredByOtherOperator": false,
+      "otherOperatorNpdesId": "string",
+      "dischargesNotLikelyToAffect": false,
+      "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+      "distanceFromSite": ".87",
+      "coordinationWithUsfsOrNmfs": false,
+      "section7Consultation": false,
+      "biologicalOpinion": false,
+      "writtenOccurrence": false,
+      "section10Permit": false,
+      "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+    },
+    "historicPreservation": {
+      "screeningCompleted": false,
+      "appendexEStep1": false,
+      "appendexEStep2": false,
+      "appendexEStep3": false,
+      "appendexEStep4": false,
+      "appendexEStep4Response": "string"
+    },
+    "attachments": [
+      {
+        "id": 0,
+        "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+        "createdDate": "2013-04-25T22:35:54.742Z"
+      }
+    ]
+  }
+},
+  {
+    "error": false,
+    "error-messages": [],
+    "data": {
+      "id": 0,
+      "masterPermitNumber": "NMR12AJ90",
+      "npdesId": "NMR12AJ90",
+      "createdDate": "2016-12-13T22:35:54.736Z",
+      "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+      "reviewExpiration": "2016-12-13T22:35:54.736Z",
+      "certifiedDate": "2016-12-13T22:35:54.736Z",
+      "submittedDate": "2013-04-26T22:35:54.736Z",
+      "status": "Draft",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "Acequia Jardin, Rio Grande Housing",
+        "siteAddress": "2334 Rio Grande Blvd. NW",
+        "siteAddress2": "",
+        "siteCity": "Albuquerque",
+        "siteStateCode": "New Mexico",
+        "siteZipCode": "87104",
+        "siteCounty": "",
+        "siteLocation": {
+          "latitude": 35.1169,
+          "longitude": 106.6752,
+          "latLongDataSource": "Google Earth",
+          "horizontalReferenceDatum": "Unknown"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": "",
+        "siteProjectStart": "2013-05-06T22:35:54.737Z",
+        "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+        "siteAreaDisturbed": 0.75,
+        "siteConstructionTypes": [
+          "string"
+        ],
+        "siteStructureDemolitionBefore1980": false,
+        "siteStructureDemolitionBefore198010kSquareFeet": false,
+        "sitePreDevelopmentAgricultural": false,
+        "siteEarthDisturbingActivitiesOccurrence": false,
+        "siteEmergencyRelated": false,
+        "sitePreviousNpdesPermit": false,
+        "sitePreviousNpdesPermitId": "string",
+        "siteLessThan5Acres": false,
+        "siteRFactor": 0,
+        "siteCgpAuthorizationConfirmation": false
+      },
+      "operatorInformation": {
+        "operatorName": "Garrett Smith, Ltd.",
+        "operatorFederal": false,
+        "operatorAddress": "514 Central SW",
+        "operatorCity": "Albuquerque",
+        "operatorStateCode": "New Mexico",
+        "operatorZipCode": "87102",
+        "operatorCounty": "string",
+        "operatorPointOfContact": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "string",
+          "phone": "505-980-7801",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": ""
+        },
+        "preparer": {
+          "userId": "string",
+          "firstName": "Jeff",
+          "lastName": "Kubisak",
+          "middleInitial": "",
+          "organization": "INSPECTIONS PLUS INC",
+          "phone": "n/a",
+          "phoneExtension": "",
+          "email": "jeff@inspectionsplusinc.com",
+          "title": ""
+        },
+        "certifier": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "",
+          "phone": "",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": "Managing Partner"
+        }
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": false,
+        "dischargeMunicipalSeparateStormSewerSystem": false,
+        "dischargeUSWatersWithin50Feet": false,
+        "dischargePoints": [
+          {
+            "id": "string",
+            "location": {
+              "latitude": 35.1169,
+              "longitude": 106.6752,
+              "latLongDataSource": "Google Earth",
+              "horizontalReferenceDatum": "Unknown"
+            },
+            "firstWater": "Rio Grande",
+            "pollutants": [
+              "PATHOGENS;RADIATION;"
+            ],
+            "tmdl": {
+              "id": "string",
+              "name": "string",
+              "pollutants": [
+                "string"
+              ]
+            },
+            "tier": "E.Coli"
+          }
+        ]
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": false,
+        "cationicTreatmentChemicals": false,
+        "cationicTreatmentChemicalsAuthorization": false,
+        "treatmentChemicals": [
+          "string"
+        ]
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": false,
+        "contactInformation": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "Garrett Smith, Ltd.",
+          "phone": "505-980-7801",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": ""
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": false,
+        "noEsaSpeciesOrCriticalHabitat": false,
+        "eligibilityCoveredByOtherOperator": false,
+        "otherOperatorNpdesId": "string",
+        "dischargesNotLikelyToAffect": false,
+        "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+        "distanceFromSite": ".87",
+        "coordinationWithUsfsOrNmfs": false,
+        "section7Consultation": false,
+        "biologicalOpinion": false,
+        "writtenOccurrence": false,
+        "section10Permit": false,
+        "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+      },
+      "historicPreservation": {
+        "screeningCompleted": false,
+        "appendexEStep1": false,
+        "appendexEStep2": false,
+        "appendexEStep3": false,
+        "appendexEStep4": false,
+        "appendexEStep4Response": "string"
+      },
+      "attachments": [
+        {
+          "id": 0,
+          "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+          "createdDate": "2013-04-25T22:35:54.742Z"
+        }
+      ]
+    }
+  },{
+  "error": false,
+  "error-messages": [],
+  "data": {
+    "id": 0,
+    "masterPermitNumber": "NMR12AJ90",
+    "npdesId": "NMR12AJ90",
+    "createdDate": "2016-12-13T22:35:54.736Z",
+    "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+    "reviewExpiration": "2016-12-13T22:35:54.736Z",
+    "certifiedDate": "2016-12-13T22:35:54.736Z",
+    "submittedDate": "2013-04-26T22:35:54.736Z",
+    "status": "Draft",
+    "type": "Notice_Of_Intent",
+    "projectSiteInformation": {
+      "siteName": "Acequia Jardin, Rio Grande Housing",
+      "siteAddress": "2334 Rio Grande Blvd. NW",
+      "siteAddress2": "",
+      "siteCity": "Albuquerque",
+      "siteStateCode": "New Mexico",
+      "siteZipCode": "87104",
+      "siteCounty": "",
+      "siteLocation": {
+        "latitude": 35.1169,
+        "longitude": 106.6752,
+        "latLongDataSource": "Google Earth",
+        "horizontalReferenceDatum": "Unknown"
+      },
+      "siteIndianCountry": false,
+      "siteIndianCountryLands": "",
+      "siteProjectStart": "2013-05-06T22:35:54.737Z",
+      "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+      "siteAreaDisturbed": 0.75,
+      "siteConstructionTypes": [
+        "string"
+      ],
+      "siteStructureDemolitionBefore1980": false,
+      "siteStructureDemolitionBefore198010kSquareFeet": false,
+      "sitePreDevelopmentAgricultural": false,
+      "siteEarthDisturbingActivitiesOccurrence": false,
+      "siteEmergencyRelated": false,
+      "sitePreviousNpdesPermit": false,
+      "sitePreviousNpdesPermitId": "string",
+      "siteLessThan5Acres": false,
+      "siteRFactor": 0,
+      "siteCgpAuthorizationConfirmation": false
+    },
+    "operatorInformation": {
+      "operatorName": "Garrett Smith, Ltd.",
+      "operatorFederal": false,
+      "operatorAddress": "514 Central SW",
+      "operatorCity": "Albuquerque",
+      "operatorStateCode": "New Mexico",
+      "operatorZipCode": "87102",
+      "operatorCounty": "string",
+      "operatorPointOfContact": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "string",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      },
+      "preparer": {
+        "userId": "string",
+        "firstName": "Jeff",
+        "lastName": "Kubisak",
+        "middleInitial": "",
+        "organization": "INSPECTIONS PLUS INC",
+        "phone": "n/a",
+        "phoneExtension": "",
+        "email": "jeff@inspectionsplusinc.com",
+        "title": ""
+      },
+      "certifier": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "",
+        "phone": "",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": "Managing Partner"
+      }
+    },
+    "dischargeInformation": {
+      "dischargeAllowable": false,
+      "dischargeMunicipalSeparateStormSewerSystem": false,
+      "dischargeUSWatersWithin50Feet": false,
+      "dischargePoints": [
+        {
+          "id": "string",
+          "location": {
+            "latitude": 35.1169,
+            "longitude": 106.6752,
+            "latLongDataSource": "Google Earth",
+            "horizontalReferenceDatum": "Unknown"
+          },
+          "firstWater": "Rio Grande",
+          "pollutants": [
+            "PATHOGENS;RADIATION;"
+          ],
+          "tmdl": {
+            "id": "string",
+            "name": "string",
+            "pollutants": [
+              "string"
+            ]
+          },
+          "tier": "E.Coli"
+        }
+      ]
+    },
+    "chemicalTreatmentInformation": {
+      "polymersFlocculantsOtherTreatmentChemicals": false,
+      "cationicTreatmentChemicals": false,
+      "cationicTreatmentChemicalsAuthorization": false,
+      "treatmentChemicals": [
+        "string"
+      ]
+    },
+    "stormwaterPollutionPreventionPlanInformation": {
+      "preparationInAdvance": false,
+      "contactInformation": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "Garrett Smith, Ltd.",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      }
+    },
+    "endangeredSpeciesProtectionInformation": {
+      "appendixDCriteriaMet": false,
+      "noEsaSpeciesOrCriticalHabitat": false,
+      "eligibilityCoveredByOtherOperator": false,
+      "otherOperatorNpdesId": "string",
+      "dischargesNotLikelyToAffect": false,
+      "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+      "distanceFromSite": ".87",
+      "coordinationWithUsfsOrNmfs": false,
+      "section7Consultation": false,
+      "biologicalOpinion": false,
+      "writtenOccurrence": false,
+      "section10Permit": false,
+      "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+    },
+    "historicPreservation": {
+      "screeningCompleted": false,
+      "appendexEStep1": false,
+      "appendexEStep2": false,
+      "appendexEStep3": false,
+      "appendexEStep4": false,
+      "appendexEStep4Response": "string"
+    },
+    "attachments": [
+      {
+        "id": 0,
+        "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+        "createdDate": "2013-04-25T22:35:54.742Z"
+      }
+    ]
+  }
+},{
+  "error": false,
+  "error-messages": [],
+  "data": {
+    "id": 0,
+    "masterPermitNumber": "NMR12AJ90",
+    "npdesId": "NMR12AJ90",
+    "createdDate": "2016-12-13T22:35:54.736Z",
+    "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+    "reviewExpiration": "2016-12-13T22:35:54.736Z",
+    "certifiedDate": "2016-12-13T22:35:54.736Z",
+    "submittedDate": "2013-04-26T22:35:54.736Z",
+    "status": "Draft",
+    "type": "Notice_Of_Intent",
+    "projectSiteInformation": {
+      "siteName": "Acequia Jardin, Rio Grande Housing",
+      "siteAddress": "2334 Rio Grande Blvd. NW",
+      "siteAddress2": "",
+      "siteCity": "Albuquerque",
+      "siteStateCode": "New Mexico",
+      "siteZipCode": "87104",
+      "siteCounty": "",
+      "siteLocation": {
+        "latitude": 35.1169,
+        "longitude": 106.6752,
+        "latLongDataSource": "Google Earth",
+        "horizontalReferenceDatum": "Unknown"
+      },
+      "siteIndianCountry": false,
+      "siteIndianCountryLands": "",
+      "siteProjectStart": "2013-05-06T22:35:54.737Z",
+      "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+      "siteAreaDisturbed": 0.75,
+      "siteConstructionTypes": [
+        "string"
+      ],
+      "siteStructureDemolitionBefore1980": false,
+      "siteStructureDemolitionBefore198010kSquareFeet": false,
+      "sitePreDevelopmentAgricultural": false,
+      "siteEarthDisturbingActivitiesOccurrence": false,
+      "siteEmergencyRelated": false,
+      "sitePreviousNpdesPermit": false,
+      "sitePreviousNpdesPermitId": "string",
+      "siteLessThan5Acres": false,
+      "siteRFactor": 0,
+      "siteCgpAuthorizationConfirmation": false
+    },
+    "operatorInformation": {
+      "operatorName": "Garrett Smith, Ltd.",
+      "operatorFederal": false,
+      "operatorAddress": "514 Central SW",
+      "operatorCity": "Albuquerque",
+      "operatorStateCode": "New Mexico",
+      "operatorZipCode": "87102",
+      "operatorCounty": "string",
+      "operatorPointOfContact": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "string",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      },
+      "preparer": {
+        "userId": "string",
+        "firstName": "Jeff",
+        "lastName": "Kubisak",
+        "middleInitial": "",
+        "organization": "INSPECTIONS PLUS INC",
+        "phone": "n/a",
+        "phoneExtension": "",
+        "email": "jeff@inspectionsplusinc.com",
+        "title": ""
+      },
+      "certifier": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "",
+        "phone": "",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": "Managing Partner"
+      }
+    },
+    "dischargeInformation": {
+      "dischargeAllowable": false,
+      "dischargeMunicipalSeparateStormSewerSystem": false,
+      "dischargeUSWatersWithin50Feet": false,
+      "dischargePoints": [
+        {
+          "id": "string",
+          "location": {
+            "latitude": 35.1169,
+            "longitude": 106.6752,
+            "latLongDataSource": "Google Earth",
+            "horizontalReferenceDatum": "Unknown"
+          },
+          "firstWater": "Rio Grande",
+          "pollutants": [
+            "PATHOGENS;RADIATION;"
+          ],
+          "tmdl": {
+            "id": "string",
+            "name": "string",
+            "pollutants": [
+              "string"
+            ]
+          },
+          "tier": "E.Coli"
+        }
+      ]
+    },
+    "chemicalTreatmentInformation": {
+      "polymersFlocculantsOtherTreatmentChemicals": false,
+      "cationicTreatmentChemicals": false,
+      "cationicTreatmentChemicalsAuthorization": false,
+      "treatmentChemicals": [
+        "string"
+      ]
+    },
+    "stormwaterPollutionPreventionPlanInformation": {
+      "preparationInAdvance": false,
+      "contactInformation": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "Garrett Smith, Ltd.",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      }
+    },
+    "endangeredSpeciesProtectionInformation": {
+      "appendixDCriteriaMet": false,
+      "noEsaSpeciesOrCriticalHabitat": false,
+      "eligibilityCoveredByOtherOperator": false,
+      "otherOperatorNpdesId": "string",
+      "dischargesNotLikelyToAffect": false,
+      "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+      "distanceFromSite": ".87",
+      "coordinationWithUsfsOrNmfs": false,
+      "section7Consultation": false,
+      "biologicalOpinion": false,
+      "writtenOccurrence": false,
+      "section10Permit": false,
+      "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+    },
+    "historicPreservation": {
+      "screeningCompleted": false,
+      "appendexEStep1": false,
+      "appendexEStep2": false,
+      "appendexEStep3": false,
+      "appendexEStep4": false,
+      "appendexEStep4Response": "string"
+    },
+    "attachments": [
+      {
+        "id": 0,
+        "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+        "createdDate": "2013-04-25T22:35:54.742Z"
+      }
+    ]
+  }
+},
+  {
+    "error": false,
+    "error-messages": [],
+    "data": {
+      "id": 0,
+      "masterPermitNumber": "NMR12AJ90",
+      "npdesId": "NMR12AJ90",
+      "createdDate": "2016-12-13T22:35:54.736Z",
+      "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+      "reviewExpiration": "2016-12-13T22:35:54.736Z",
+      "certifiedDate": "2016-12-13T22:35:54.736Z",
+      "submittedDate": "2013-04-26T22:35:54.736Z",
+      "status": "Draft",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "Acequia Jardin, Rio Grande Housing",
+        "siteAddress": "2334 Rio Grande Blvd. NW",
+        "siteAddress2": "",
+        "siteCity": "Albuquerque",
+        "siteStateCode": "New Mexico",
+        "siteZipCode": "87104",
+        "siteCounty": "",
+        "siteLocation": {
+          "latitude": 35.1169,
+          "longitude": 106.6752,
+          "latLongDataSource": "Google Earth",
+          "horizontalReferenceDatum": "Unknown"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": "",
+        "siteProjectStart": "2013-05-06T22:35:54.737Z",
+        "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+        "siteAreaDisturbed": 0.75,
+        "siteConstructionTypes": [
+          "string"
+        ],
+        "siteStructureDemolitionBefore1980": false,
+        "siteStructureDemolitionBefore198010kSquareFeet": false,
+        "sitePreDevelopmentAgricultural": false,
+        "siteEarthDisturbingActivitiesOccurrence": false,
+        "siteEmergencyRelated": false,
+        "sitePreviousNpdesPermit": false,
+        "sitePreviousNpdesPermitId": "string",
+        "siteLessThan5Acres": false,
+        "siteRFactor": 0,
+        "siteCgpAuthorizationConfirmation": false
+      },
+      "operatorInformation": {
+        "operatorName": "Garrett Smith, Ltd.",
+        "operatorFederal": false,
+        "operatorAddress": "514 Central SW",
+        "operatorCity": "Albuquerque",
+        "operatorStateCode": "New Mexico",
+        "operatorZipCode": "87102",
+        "operatorCounty": "string",
+        "operatorPointOfContact": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "string",
+          "phone": "505-980-7801",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": ""
+        },
+        "preparer": {
+          "userId": "string",
+          "firstName": "Jeff",
+          "lastName": "Kubisak",
+          "middleInitial": "",
+          "organization": "INSPECTIONS PLUS INC",
+          "phone": "n/a",
+          "phoneExtension": "",
+          "email": "jeff@inspectionsplusinc.com",
+          "title": ""
+        },
+        "certifier": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "",
+          "phone": "",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": "Managing Partner"
+        }
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": false,
+        "dischargeMunicipalSeparateStormSewerSystem": false,
+        "dischargeUSWatersWithin50Feet": false,
+        "dischargePoints": [
+          {
+            "id": "string",
+            "location": {
+              "latitude": 35.1169,
+              "longitude": 106.6752,
+              "latLongDataSource": "Google Earth",
+              "horizontalReferenceDatum": "Unknown"
+            },
+            "firstWater": "Rio Grande",
+            "pollutants": [
+              "PATHOGENS;RADIATION;"
+            ],
+            "tmdl": {
+              "id": "string",
+              "name": "string",
+              "pollutants": [
+                "string"
+              ]
+            },
+            "tier": "E.Coli"
+          }
+        ]
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": false,
+        "cationicTreatmentChemicals": false,
+        "cationicTreatmentChemicalsAuthorization": false,
+        "treatmentChemicals": [
+          "string"
+        ]
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": false,
+        "contactInformation": {
+          "userId": "string",
+          "firstName": "Garrett",
+          "lastName": "Smith",
+          "middleInitial": "",
+          "organization": "Garrett Smith, Ltd.",
+          "phone": "505-980-7801",
+          "phoneExtension": "",
+          "email": "lflores@garrett-smith-ltd.com",
+          "title": ""
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": false,
+        "noEsaSpeciesOrCriticalHabitat": false,
+        "eligibilityCoveredByOtherOperator": false,
+        "otherOperatorNpdesId": "string",
+        "dischargesNotLikelyToAffect": false,
+        "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+        "distanceFromSite": ".87",
+        "coordinationWithUsfsOrNmfs": false,
+        "section7Consultation": false,
+        "biologicalOpinion": false,
+        "writtenOccurrence": false,
+        "section10Permit": false,
+        "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+      },
+      "historicPreservation": {
+        "screeningCompleted": false,
+        "appendexEStep1": false,
+        "appendexEStep2": false,
+        "appendexEStep3": false,
+        "appendexEStep4": false,
+        "appendexEStep4Response": "string"
+      },
+      "attachments": [
+        {
+          "id": 0,
+          "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+          "createdDate": "2013-04-25T22:35:54.742Z"
+        }
+      ]
+    }
+  },{
+  "error": false,
+  "error-messages": [],
+  "data": {
+    "id": 0,
+    "masterPermitNumber": "NMR12AJ90",
+    "npdesId": "NMR12AJ90",
+    "createdDate": "2016-12-13T22:35:54.736Z",
+    "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+    "reviewExpiration": "2016-12-13T22:35:54.736Z",
+    "certifiedDate": "2016-12-13T22:35:54.736Z",
+    "submittedDate": "2013-04-26T22:35:54.736Z",
+    "status": "Draft",
+    "type": "Notice_Of_Intent",
+    "projectSiteInformation": {
+      "siteName": "Acequia Jardin, Rio Grande Housing",
+      "siteAddress": "2334 Rio Grande Blvd. NW",
+      "siteAddress2": "",
+      "siteCity": "Albuquerque",
+      "siteStateCode": "New Mexico",
+      "siteZipCode": "87104",
+      "siteCounty": "",
+      "siteLocation": {
+        "latitude": 35.1169,
+        "longitude": 106.6752,
+        "latLongDataSource": "Google Earth",
+        "horizontalReferenceDatum": "Unknown"
+      },
+      "siteIndianCountry": false,
+      "siteIndianCountryLands": "",
+      "siteProjectStart": "2013-05-06T22:35:54.737Z",
+      "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+      "siteAreaDisturbed": 0.75,
+      "siteConstructionTypes": [
+        "string"
+      ],
+      "siteStructureDemolitionBefore1980": false,
+      "siteStructureDemolitionBefore198010kSquareFeet": false,
+      "sitePreDevelopmentAgricultural": false,
+      "siteEarthDisturbingActivitiesOccurrence": false,
+      "siteEmergencyRelated": false,
+      "sitePreviousNpdesPermit": false,
+      "sitePreviousNpdesPermitId": "string",
+      "siteLessThan5Acres": false,
+      "siteRFactor": 0,
+      "siteCgpAuthorizationConfirmation": false
+    },
+    "operatorInformation": {
+      "operatorName": "Garrett Smith, Ltd.",
+      "operatorFederal": false,
+      "operatorAddress": "514 Central SW",
+      "operatorCity": "Albuquerque",
+      "operatorStateCode": "New Mexico",
+      "operatorZipCode": "87102",
+      "operatorCounty": "string",
+      "operatorPointOfContact": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "string",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      },
+      "preparer": {
+        "userId": "string",
+        "firstName": "Jeff",
+        "lastName": "Kubisak",
+        "middleInitial": "",
+        "organization": "INSPECTIONS PLUS INC",
+        "phone": "n/a",
+        "phoneExtension": "",
+        "email": "jeff@inspectionsplusinc.com",
+        "title": ""
+      },
+      "certifier": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "",
+        "phone": "",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": "Managing Partner"
+      }
+    },
+    "dischargeInformation": {
+      "dischargeAllowable": false,
+      "dischargeMunicipalSeparateStormSewerSystem": false,
+      "dischargeUSWatersWithin50Feet": false,
+      "dischargePoints": [
+        {
+          "id": "string",
+          "location": {
+            "latitude": 35.1169,
+            "longitude": 106.6752,
+            "latLongDataSource": "Google Earth",
+            "horizontalReferenceDatum": "Unknown"
+          },
+          "firstWater": "Rio Grande",
+          "pollutants": [
+            "PATHOGENS;RADIATION;"
+          ],
+          "tmdl": {
+            "id": "string",
+            "name": "string",
+            "pollutants": [
+              "string"
+            ]
+          },
+          "tier": "E.Coli"
+        }
+      ]
+    },
+    "chemicalTreatmentInformation": {
+      "polymersFlocculantsOtherTreatmentChemicals": false,
+      "cationicTreatmentChemicals": false,
+      "cationicTreatmentChemicalsAuthorization": false,
+      "treatmentChemicals": [
+        "string"
+      ]
+    },
+    "stormwaterPollutionPreventionPlanInformation": {
+      "preparationInAdvance": false,
+      "contactInformation": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "Garrett Smith, Ltd.",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      }
+    },
+    "endangeredSpeciesProtectionInformation": {
+      "appendixDCriteriaMet": false,
+      "noEsaSpeciesOrCriticalHabitat": false,
+      "eligibilityCoveredByOtherOperator": false,
+      "otherOperatorNpdesId": "string",
+      "dischargesNotLikelyToAffect": false,
+      "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+      "distanceFromSite": ".87",
+      "coordinationWithUsfsOrNmfs": false,
+      "section7Consultation": false,
+      "biologicalOpinion": false,
+      "writtenOccurrence": false,
+      "section10Permit": false,
+      "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+    },
+    "historicPreservation": {
+      "screeningCompleted": false,
+      "appendexEStep1": false,
+      "appendexEStep2": false,
+      "appendexEStep3": false,
+      "appendexEStep4": false,
+      "appendexEStep4Response": "string"
+    },
+    "attachments": [
+      {
+        "id": 0,
+        "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+        "createdDate": "2013-04-25T22:35:54.742Z"
+      }
+    ]
+  }
+},{
+  "error": false,
+  "error-messages": [],
+  "data": {
+    "id": 0,
+    "masterPermitNumber": "NMR12AJ90",
+    "npdesId": "NMR12AJ90",
+    "createdDate": "2016-12-13T22:35:54.736Z",
+    "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
+    "reviewExpiration": "2016-12-13T22:35:54.736Z",
+    "certifiedDate": "2016-12-13T22:35:54.736Z",
+    "submittedDate": "2013-04-26T22:35:54.736Z",
+    "status": "Draft",
+    "type": "Notice_Of_Intent",
+    "projectSiteInformation": {
+      "siteName": "Acequia Jardin, Rio Grande Housing",
+      "siteAddress": "2334 Rio Grande Blvd. NW",
+      "siteAddress2": "",
+      "siteCity": "Albuquerque",
+      "siteStateCode": "New Mexico",
+      "siteZipCode": "87104",
+      "siteCounty": "",
+      "siteLocation": {
+        "latitude": 35.1169,
+        "longitude": 106.6752,
+        "latLongDataSource": "Google Earth",
+        "horizontalReferenceDatum": "Unknown"
+      },
+      "siteIndianCountry": false,
+      "siteIndianCountryLands": "",
+      "siteProjectStart": "2013-05-06T22:35:54.737Z",
+      "siteProjectEnd": "2013-12-30T22:35:54.737Z",
+      "siteAreaDisturbed": 0.75,
+      "siteConstructionTypes": [
+        "string"
+      ],
+      "siteStructureDemolitionBefore1980": false,
+      "siteStructureDemolitionBefore198010kSquareFeet": false,
+      "sitePreDevelopmentAgricultural": false,
+      "siteEarthDisturbingActivitiesOccurrence": false,
+      "siteEmergencyRelated": false,
+      "sitePreviousNpdesPermit": false,
+      "sitePreviousNpdesPermitId": "string",
+      "siteLessThan5Acres": false,
+      "siteRFactor": 0,
+      "siteCgpAuthorizationConfirmation": false
+    },
+    "operatorInformation": {
+      "operatorName": "Garrett Smith, Ltd.",
+      "operatorFederal": false,
+      "operatorAddress": "514 Central SW",
+      "operatorCity": "Albuquerque",
+      "operatorStateCode": "New Mexico",
+      "operatorZipCode": "87102",
+      "operatorCounty": "string",
+      "operatorPointOfContact": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "string",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      },
+      "preparer": {
+        "userId": "string",
+        "firstName": "Jeff",
+        "lastName": "Kubisak",
+        "middleInitial": "",
+        "organization": "INSPECTIONS PLUS INC",
+        "phone": "n/a",
+        "phoneExtension": "",
+        "email": "jeff@inspectionsplusinc.com",
+        "title": ""
+      },
+      "certifier": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "",
+        "phone": "",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": "Managing Partner"
+      }
+    },
+    "dischargeInformation": {
+      "dischargeAllowable": false,
+      "dischargeMunicipalSeparateStormSewerSystem": false,
+      "dischargeUSWatersWithin50Feet": false,
+      "dischargePoints": [
+        {
+          "id": "string",
+          "location": {
+            "latitude": 35.1169,
+            "longitude": 106.6752,
+            "latLongDataSource": "Google Earth",
+            "horizontalReferenceDatum": "Unknown"
+          },
+          "firstWater": "Rio Grande",
+          "pollutants": [
+            "PATHOGENS;RADIATION;"
+          ],
+          "tmdl": {
+            "id": "string",
+            "name": "string",
+            "pollutants": [
+              "string"
+            ]
+          },
+          "tier": "E.Coli"
+        }
+      ]
+    },
+    "chemicalTreatmentInformation": {
+      "polymersFlocculantsOtherTreatmentChemicals": false,
+      "cationicTreatmentChemicals": false,
+      "cationicTreatmentChemicalsAuthorization": false,
+      "treatmentChemicals": [
+        "string"
+      ]
+    },
+    "stormwaterPollutionPreventionPlanInformation": {
+      "preparationInAdvance": false,
+      "contactInformation": {
+        "userId": "string",
+        "firstName": "Garrett",
+        "lastName": "Smith",
+        "middleInitial": "",
+        "organization": "Garrett Smith, Ltd.",
+        "phone": "505-980-7801",
+        "phoneExtension": "",
+        "email": "lflores@garrett-smith-ltd.com",
+        "title": ""
+      }
+    },
+    "endangeredSpeciesProtectionInformation": {
+      "appendixDCriteriaMet": false,
+      "noEsaSpeciesOrCriticalHabitat": false,
+      "eligibilityCoveredByOtherOperator": false,
+      "otherOperatorNpdesId": "string",
+      "dischargesNotLikelyToAffect": false,
+      "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
+      "distanceFromSite": ".87",
+      "coordinationWithUsfsOrNmfs": false,
+      "section7Consultation": false,
+      "biologicalOpinion": false,
+      "writtenOccurrence": false,
+      "section10Permit": false,
+      "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+    },
+    "historicPreservation": {
+      "screeningCompleted": false,
+      "appendexEStep1": false,
+      "appendexEStep2": false,
+      "appendexEStep3": false,
+      "appendexEStep4": false,
+      "appendexEStep4Response": "string"
+    },
+    "attachments": [
+      {
+        "id": 0,
+        "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
+        "createdDate": "2013-04-25T22:35:54.742Z"
+      }
+    ]
+  }
 }
 ]
