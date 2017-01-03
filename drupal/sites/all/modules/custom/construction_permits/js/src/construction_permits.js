@@ -307,11 +307,6 @@ function reset_cgp_form() {
     }, []).join(' ')
   }
 
-  cp_iife.operatorAddress = function(prop) {
-    var country = (prop.operatorCounty && prop.operatorCounty != 'string') ? ' ' + prop.operatorCounty : '';
-    return prop.operatorAddress + '<br/>' + prop.operatorCity + ', ' + prop.operatorStateCode + ' ' + prop.operatorZipCode + country;
-  }
-
   cp_iife.address = function(prop, prefix) {
     var country = (prop[prefix + 'County'] && prop[prefix + 'County'] != 'string') ? ' ' + prop[prefix + 'County'] : '';
     return prop[prefix + 'Address'] + '<br/>' + prop[prefix + 'City'] + ', ' + prop[prefix + 'StateCode'] + ' ' + prop[prefix + 'ZipCode'] + country;
