@@ -161,10 +161,36 @@ function reset_cgp_form() {
       }
     })
 
-  /*$('#construction-permits-results-table').on('click', 'a', function() {
-    show_needed_cgp_div($('chemical-rules-details-wrapper'), $('.construction-permits-modal-wrapper'));
-    cgp_resize_modal();
-  });*/
+  // Create the advanced settings section on the widget
+  $('#cgp-advanced-elements-toggle').on('click', function() {
+    var $this = $(this);
+    var toggleOff = $this.hasClass('toggleOff');
+    var path = 'sites/all/modules/custom/construction_permits/images/';
+    // If it is off turn it on
+    if(toggleOff) {
+      $this.attr('src', path + 'arrow-down.png').toggleClass('toggleOff')
+    }
+    else {
+      $this.attr('src', path + 'arrow-right.png').toggleClass('toggleOff')
+    }
+    $('#cgp-advanced-elements').toggleClass('hide');
+    return false;
+  });
+
+  $('#cgp-date-type').on('change', function() {
+    var $this = $(this);
+    var c_value = $this.val();
+    var dateTo = 'submittedDateTo';
+    var dateFrom = 'submittedDateFrom';
+    console.log('Changed',c_value)
+    if(c_value != 'date-submitted') {
+      dateTo = 'updatedDateTo';
+      dateFrom = 'updatedDateFrom';
+    }
+    $('#cgp-date-to').val('name', dataTo)
+    $('#cgp-date-from').val('name', dataFrom)
+  });
+  $( "#cgp-date-from, #cgp-date-to" ).datepicker({});
 
   $body.on('click', '#cgp-search-button', function() {
     console.log("Search button clicked");
