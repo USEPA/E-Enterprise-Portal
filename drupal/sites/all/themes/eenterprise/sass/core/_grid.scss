@@ -300,7 +300,7 @@ $font_1: monospace;
         font-size: 1em;
     }
     button {
-        @extend %extend_2;
+        //@extend %extend_2;
         overflow: visible;
         text-transform: none;
         cursor: pointer;

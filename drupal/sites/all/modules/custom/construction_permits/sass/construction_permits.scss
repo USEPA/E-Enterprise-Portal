@@ -107,6 +107,9 @@ $color_ecstasy_approx: #ff851b;
 	        }
         }
     }
+    [for=cgp-federal] + ul {
+        margin: 0 0;
+    }
     #cgp-form-buttons {
 	    margin-top: 10px;
 	    height: 8rem;
@@ -377,7 +380,7 @@ $color_ecstasy_approx: #ff851b;
         }
     }
     
-    .print-icon{
+    .print-icon {
       float:right;
     }
 }
@@ -385,7 +388,51 @@ $color_ecstasy_approx: #ff851b;
     display: table;
     line-height: 0;
 }
-
+#construction-permits-details-wrapper {
+    // display: block !important;
+    .permit-wrapper {
+        display: none;
+        overflow-y: scroll;
+        
+        h2 {
+            background-color: #0071bc;
+            color: #ffffff;
+            line-height: 1.5em;
+            font-size: 1.1em;
+            font-weight: 700;
+            padding: .5em 1em;
+            font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
+        }
+        h6 {
+            color: #00457d;
+            font-weight: 700;
+        }
+    }
+    .section {
+        .line {
+            padding: .5em 0;
+        }
+        .header {
+            background-color: #efeeee;
+            padding: .5em 0;
+        }
+        .row-item {
+            padding: .5em 0;
+            &.even {
+                background-color: #E2F4FF;
+            }
+            [class^=col]{
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+        }
+    }
+        .property {
+            .title {
+                color: #666666;
+            }
+        }
+}
 @media screen and (min-width: 48em) {
 
 }
