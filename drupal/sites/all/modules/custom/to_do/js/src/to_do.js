@@ -41,19 +41,7 @@
     $('#progress-tracker').find('.dataTables_empty').html("Unable to connect to service.");
     console.log(message);
   };
-  $.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
-    return {
-      "iStart": oSettings._iDisplayStart,
-      "iEnd": oSettings.fnDisplayEnd(),
-      "iLength": oSettings._iDisplayLength,
-      "iTotal": oSettings.fnRecordsTotal(),
-      "iFilteredTotal": oSettings.fnRecordsDisplay(),
-      "iPage": oSettings._iDisplayLength === -1 ?
-        0 : Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
-      "iTotalPages": oSettings._iDisplayLength === -1 ?
-        0 : Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength) - 1
-    };
-  };
+
   var datatable_options = {
     "ajax": Drupal.settings.basePath + 'to_do/load_data',
     "dom": 'trp',
@@ -84,14 +72,14 @@
       $('td:eq(3)', nRow).attr('data-title', "Due");
     },
     "fnDrawCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-      var pageInfo = this.fnPagingInfo();
-      var pageNo = pageInfo.iPage + 1;
-      var totalPages = pageInfo.iTotalPages + 1;
+      var table = $(this).DataTable();
+      var info = table.page.info();
+      var pageNo = info.page + 1;
 
-      if (totalPages > 1) {
+      if (info.pages > 1) {
         var $current_li = $('<li />', {
           class: 'pager-current'
-        }).html(pageNo + ' of ' + totalPages);
+        }).html(pageNo + ' of ' + info.pages);
         $('#to-do').find('.dataTables_paginate li:first').after($current_li);
       }
 
