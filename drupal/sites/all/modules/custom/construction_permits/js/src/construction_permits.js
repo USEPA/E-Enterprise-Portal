@@ -108,7 +108,7 @@ function create_search_results(search_results_json) {
  * Clear form inputs and hide warning messages
  */
 function reset_cgp_form() {
-  var $form = $('#cgp-results-form');
+  var $form = jQuery('#cgp-form');
   $form.parsley().reset();
   $form.find('input[type=number]').val('');
   $form.find('input[type=radio]').prop('checked', false);
@@ -121,6 +121,13 @@ function reset_cgp_form() {
   var $body = $('body');
   // Flag for converting Null or blank inputs to -9999
   var convertNulls = false;
+
+  // Parsely validation
+  $('#cgp-form').parsley().on('field:validated', function() {
+    var ok = $('.parsley-error').length === 0;
+    $('.cgp-callout-info').toggleClass('hidden', !ok);
+    $('.cgp-callout-warning').toggleClass('hidden', ok);
+  });
 
   $('#construction-permits-modal')
     .html(Drupal.settings.construction_permits.cgp_modal)
@@ -161,13 +168,39 @@ function reset_cgp_form() {
       }
     })
 
-  /*$('#construction-permits-results-table').on('click', 'a', function() {
-    show_needed_cgp_div($('chemical-rules-details-wrapper'), $('.construction-permits-modal-wrapper'));
-    cgp_resize_modal();
-  });*/
+  // Create the advanced settings section on the widget
+  $('#cgp-advanced-elements-toggle').on('click', function() {
+    var $this = $(this);
+    var toggleOff = $this.hasClass('toggleOff');
+    var path = 'sites/all/modules/custom/construction_permits/images/';
+    // If it is off turn it on
+    if(toggleOff) {
+      $this.attr('src', path + 'arrow-down.png').toggleClass('toggleOff')
+    }
+    else {
+      $this.attr('src', path + 'arrow-right.png').toggleClass('toggleOff')
+    }
+    $('#cgp-advanced-elements').toggleClass('hide');
+    return false;
+  });
 
+  // Update the date to/from field names
+  $('#cgp-date-type').on('change', function() {
+    var $this = $(this);
+    var c_value = $this.val();
+    var dateTo = 'submittedDateTo';
+    var dateFrom = 'submittedDateFrom';
+    if(c_value != 'date-submitted') {
+      dateTo = 'updatedDateTo';
+      dateFrom = 'updatedDateFrom';
+    }
+    $('#cgp-date-to').attr('name', dateTo)
+    $('#cgp-date-from').attr('name', dateFrom)
+  });
+  $( "#cgp-date-from, #cgp-date-to" ).datepicker({});
+
+  // Search button functionality
   $body.on('click', '#cgp-search-button', function() {
-    console.log("Search button clicked");
     var $form = $('#cgp-form');
     // If the form does not validate do not submit data.
     if (!$form.parsley().validate()) {
@@ -184,6 +217,8 @@ function reset_cgp_form() {
     //@TODO var data = format_cgp_form_data(cgpFormData, convertNulls);
     show_needed_cgp_div($cgp_loading_wrapper);
 
+    // Prepare data to be sent
+
     $.ajax({
       url: 'construction_permits/form_submission',
       method: 'POST',
@@ -198,16 +233,10 @@ function reset_cgp_form() {
           create_search_results(cgp_reponse_json);
           create_detail_results(cgp_reponse_json);
           show_needed_cgp_div($cgp_results_wrapper);
-          console.log('BUILD SECTIONS')
         }
         cgp_resize_modal();
       }
     });
-
-
-    //show_needed_cgp_div($cgp_results_wrapper);
-
-
   });
 
   /**
@@ -279,11 +308,6 @@ function reset_cgp_form() {
       (c) ? p.push(c) : 0;
       return p
     }, []).join(' ')
-  }
-
-  cp_iife.operatorAddress = function(prop) {
-    var country = (prop.operatorCounty && prop.operatorCounty != 'string') ? ' ' + prop.operatorCounty : '';
-    return prop.operatorAddress + '<br/>' + prop.operatorCity + ', ' + prop.operatorStateCode + ' ' + prop.operatorZipCode + country;
   }
 
   cp_iife.address = function(prop, prefix) {

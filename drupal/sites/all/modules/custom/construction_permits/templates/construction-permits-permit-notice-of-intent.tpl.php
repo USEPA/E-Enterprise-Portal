@@ -38,11 +38,11 @@
   </div>
   <div class="section">
     <h2>Additional Project Information</h2>
-    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.siteEmergencyRelated"><div class="col-md-4 title" data-cgp-options="No|Yes">Is your project an 'emergency-related project' as defined in Appendix A?</div><div class="col-md-8 value"></div></div></div>
-    <div class="line"><div class="box-fluid property" data-cgp-property="stormwaterPollutionPreventionPlanInformation.preparationInAdvance"><div class="col-md-4 title" data-cgp-options="No|Yes">Have stormwater discharges from your project/site been covered previously under an NPDES permit?</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.siteEmergencyRelated"><div class="col-md-4 title" data-cgp-options="['No','Yes']">Is your project an 'emergency-related project' as defined in Appendix A?</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="stormwaterPollutionPreventionPlanInformation.preparationInAdvance"><div class="col-md-4 title" data-cgp-options="['No','Yes']">Have stormwater discharges from your project/site been covered previously under an NPDES permit?</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.siteProjectStart" data-cgp-function="dateFormat"><div class="col-md-4 title">Estimated Project Start Date</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.siteProjectEnd" data-cgp-function="dateFormat"><div class="col-md-4 title">Estimated Project End Date</div><div class="col-md-8 value"></div></div></div>
-    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.siteEarthDisturbingActivitiesOccurrence" data-cgp-options="No|Yes"><div class="col-md-4 title" >Have earth-disturbing activities commenced on your project/site?</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.siteEarthDisturbingActivitiesOccurrence" data-cgp-options="['No','Yes']"><div class="col-md-4 title" >Have earth-disturbing activities commenced on your project/site?</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property=""><div class="col-md-4 title">County or Similar government subdivision</div><div class="col-md-8 value"></div></div></div>
   </div>
   <div class="section">
@@ -78,8 +78,8 @@
   </div>
   <div class="section">
     <h2>Discharge Information</h2>
-    <div class="line"><div class="box-fluid property" data-cgp-property="dischargeInformation.dischargeMunicipalSeparateStormSewerSystem" data-cgp-options="No|Yes"><div class="col-md-4 title">Does your project/site discharge stormwater into a Municipal Separate Storm Sewer System (MS4)?</div><div class="col-md-8 value"></div></div></div>
-    <div class="line"><div class="box-fluid property" data-cgp-property="dischargeInformation.dischargeUSWatersWithin50Feet" data-cgp-options="No|Yes"><div class="col-md-4 title">Are there any surface waters within 50 feet of your project's earth disturbances?</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="dischargeInformation.dischargeMunicipalSeparateStormSewerSystem" data-cgp-options="['No','Yes']"><div class="col-md-4 title">Does your project/site discharge stormwater into a Municipal Separate Storm Sewer System (MS4)?</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="dischargeInformation.dischargeUSWatersWithin50Feet" data-cgp-options="['No','Yes']"><div class="col-md-4 title">Are there any surface waters within 50 feet of your project's earth disturbances?</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property="dischargeInformation.dischargePoints" data-cgp-null="N/A"><div class="col-md-4 title">If a TMDL has been approved or established, identify the title or reference of the TMDL document:</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="col-sm-12 box-fluid">
         <div class="box-fluid">
