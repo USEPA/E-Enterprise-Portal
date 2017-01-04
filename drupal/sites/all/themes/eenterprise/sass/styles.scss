@@ -401,9 +401,7 @@ footer {
 .view-state-resource-editor,
 .view-resource-editor,
 .pane-my-cdx-my-cdx,
-#construction-permits-modal{
-
-
+#construction-permits-modal {
     th {
         vertical-align: top;
     }
@@ -493,7 +491,6 @@ footer {
 
 }
 
-
 .eportal-datatable-wrapper {
     ul.paging_simple_numbers,
     ul.paging_simple {
@@ -556,17 +553,14 @@ footer {
         }
     }
     ul.paging_simple {
+        float: none;
+        margin: 0 auto;
         .pager-current {
             font-size: 1.4rem;
         }
     }
 }
 
-// Pagers for workbench panes
-.pane-block .paging_simple {
-    float: none;
-    margin: 0 auto;
-}
 
 .page-app-connect #app-connect-tabs .dataTables_info {
     float: left;
@@ -1213,7 +1207,7 @@ header {
         padding-bottom: 5px;
     }
 
-    .small-screen-td-header{
+    .small-screen-td-header {
         display: block;
     }
 
@@ -2631,7 +2625,6 @@ input[type="submit"]:not(.usa-button-outline),
     float: left;
     margin-right: 4%;
 }
-
 
 // iPhone, some Android Portrait @ 320px, iphone 6 @ 375px -------------- //
 
@@ -4129,7 +4122,7 @@ ul {
 .grid-stack-item:not(#facility-widget) .ui-widget,
 .grid-stack-item:not(#facility-widget) .ui-widget-content,
 .grid-stack-item,
-.eportal-workbench-modal{
+.eportal-workbench-modal {
     .paging_simple {
         li {
             padding-left: 10px;

@@ -619,7 +619,7 @@ function frs_city_state_to_zip_code($city, $state) {
 function frs_zip_code_to_city_state($zip) {
   $token = frs_naas_authentication();
   $frs_domain = variable_get('frs_api_lookup_url');
-  $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
+  $ip = $_SERVER['SERVER_ADDR'];
   if ($frs_domain == 'test_proxy') {
     $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
     $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
