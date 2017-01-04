@@ -142,13 +142,13 @@ function construction_permits_form_submission() {
     $datatable_formatted_response['error'] = FALSE;
   }
   else {
-    if (!isset($_POST) || count($_POST) === 0) {
+    /*if (!isset($_POST) || count($_POST) === 0) {
       drupal_json_output(array(
         'error' => TRUE,
         'message' => 'Failed to receive any data.'
       ));
       return;
-    }
+    }*/
     // All temporary
     // Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
 
