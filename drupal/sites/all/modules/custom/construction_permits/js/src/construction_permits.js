@@ -95,7 +95,7 @@ function create_search_results(search_results_json) {
         var $current_li = $('<li />', {
           class: 'pager-current'
         }).html(pageNo + ' of ' + info.pages);
-        $('#to-do').find('.dataTables_paginate li:first').after($current_li);
+        $('#construction-permits-results-wrapper').find('.dataTables_paginate li:first').after($current_li);
       }
     }
   };

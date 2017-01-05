@@ -14,15 +14,15 @@
       "pagingType": "simple",
       "dom": 'iftp',
       "fnDrawCallback": function() {
-        var pageInfo = this.fnPagingInfo();
-        var pageNo = pageInfo.iPage + 1;
-        var totalPages = pageInfo.iTotalPages + 1;
+        var table = $(this).DataTable();
+        var info = table.page.info();
+        var pageNo = info.page + 1;
 
-        if (totalPages > 1) {
+        if (info.pages > 1) {
           var $current_li = $('<li />', {
             class: 'pager-current'
           })
-            .html(pageNo + ' of ' + totalPages);
+            .html(pageNo + ' of ' + info.pages);
           $wrapper.find('.dataTables_paginate li:first').after($current_li);
         }
       }
