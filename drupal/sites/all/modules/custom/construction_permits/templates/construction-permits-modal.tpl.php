@@ -5,8 +5,8 @@
     <i class="fa fa-spinner" aria-hidden="true"></i>
   </div>
   <div id="construction-permits-results-wrapper"
-       class="construction-permits-modal-wrapper">
-    <table class="usa-table-borderless">
+       class="construction-permits-modal-wrapper eportal-datatable-wrapper">
+    <table class="usa-table-borderless eportal-responsive-table">
       <thead>
       <tr>
         <th><span>Permit Tracking #</span></th>

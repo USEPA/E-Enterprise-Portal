@@ -81,7 +81,7 @@
           var $table = $('<div>' + table + '</div>'); // wrap contents in a div for now, will unwrap later
           $table.find('table').attr('id', 'datatable-' + newId);
           $wrapper.html($table.html()); // unwrap
-
+          $wrapper.addClass('eportal-datatable-wrapper');
           $table = $wrapper.find('table');
           if ($table.length > 0) {
             $table.DataTable(datatable_options);
