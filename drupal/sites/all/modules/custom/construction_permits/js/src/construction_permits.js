@@ -91,11 +91,22 @@ function create_search_results(search_results_json) {
         );
       });
 
+
+      // Add data attributes to allow column identification in mobile format
+      $('td:first-child', nRow.nTable).addClass('first-column').attr('data-title', 'Permit Tracking #');
+      $('td:nth-child(2)', nRow.nTable).attr('data-title', 'Owner/Operator');
+      $('td:nth-child(3)', nRow.nTable).attr('data-title', 'Site Name');
+      $('td:nth-child(4)', nRow.nTable).attr('data-title', 'Site State');
+      $('td:nth-child(5)', nRow.nTable).attr('data-title', 'Site City');
+      $('td:nth-child(6)', nRow.nTable).attr('data-title', 'Status');
+      $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Submitted');
+
+
       if (info.pages > 1) {
         var $current_li = $('<li />', {
           class: 'pager-current'
         }).html(pageNo + ' of ' + info.pages);
-        $('#to-do').find('.dataTables_paginate li:first').after($current_li);
+        $('#construction-permits-results-wrapper').find('.dataTables_paginate li:first').after($current_li);
       }
     }
   };
@@ -196,7 +207,7 @@ function reset_cgp_form() {
     var toggleOff = $this.hasClass('toggleOff');
     var path = 'sites/all/modules/custom/construction_permits/images/';
     // If it is off turn it on
-    if(toggleOff) {
+    if (toggleOff) {
       $this.attr('src', path + 'arrow-down.png').toggleClass('toggleOff')
     }
     else {
@@ -212,14 +223,14 @@ function reset_cgp_form() {
     var c_value = $this.val();
     var dateTo = 'submittedDateTo';
     var dateFrom = 'submittedDateFrom';
-    if(c_value != 'date-submitted') {
+    if (c_value != 'date-submitted') {
       dateTo = 'updatedDateTo';
       dateFrom = 'updatedDateFrom';
     }
     $('#cgp-date-to').attr('name', dateTo)
     $('#cgp-date-from').attr('name', dateFrom)
   });
-  $( "#cgp-date-from, #cgp-date-to" ).datepicker({});
+  $("#cgp-date-from, #cgp-date-to").datepicker({});
 
   // Search button functionality
   $body.on('click', '#cgp-search-button', function() {

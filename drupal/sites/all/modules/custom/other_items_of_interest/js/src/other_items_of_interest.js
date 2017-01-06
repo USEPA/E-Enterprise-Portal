@@ -14,15 +14,15 @@
       "pagingType": "simple",
       "dom": 'iftp',
       "fnDrawCallback": function() {
-        var pageInfo = this.fnPagingInfo();
-        var pageNo = pageInfo.iPage + 1;
-        var totalPages = pageInfo.iTotalPages + 1;
+        var table = $(this).DataTable();
+        var info = table.page.info();
+        var pageNo = info.page + 1;
 
-        if (totalPages > 1) {
+        if (info.pages > 1) {
           var $current_li = $('<li />', {
             class: 'pager-current'
           })
-            .html(pageNo + ' of ' + totalPages);
+            .html(pageNo + ' of ' + info.pages);
           $wrapper.find('.dataTables_paginate li:first').after($current_li);
         }
       }
@@ -81,7 +81,7 @@
           var $table = $('<div>' + table + '</div>'); // wrap contents in a div for now, will unwrap later
           $table.find('table').attr('id', 'datatable-' + newId);
           $wrapper.html($table.html()); // unwrap
-
+          $wrapper.addClass('eportal-datatable-wrapper');
           $table = $wrapper.find('table');
           if ($table.length > 0) {
             $table.DataTable(datatable_options);
