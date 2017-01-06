@@ -21,10 +21,9 @@
         <input type="text" id="cgp-site-facility"
                name="projectSiteName"></div>
       <div class="col-md-6">
-        <label for="cgp-permit-number">Permit
-          tracking number</label>
-        <input type="text" id="cgp-permit-number"
-               name="trackingNumber" data-parsley-pattern="/[0-9a-zA-Z]{9}/" data-parsley-error-message="Permit numbers are composed of a combination of 9 letter and numbers.">
+        <label for="cgp-master-general">Master
+          general permit number</label>
+        <input type="text" id="cgp-master-general" name="masterPermitNumber" data-parsley-pattern="/[0-9a-zA-Z]{9}/" data-parsley-error-message="Permit numbers are composed of a combination of 9 letter and numbers.">
       </div>
     </div>
     <div class="line">
@@ -88,9 +87,10 @@
       </div>
       <div class="line">
         <div class="col-md-6">
-          <label for="cgp-master-general">Master
-            general permit number</label>
-          <input type="text" id="cgp-master-general" name="" data-parsley-pattern="/[0-9a-zA-Z]{9}/" data-parsley-error-message="Permit numbers are composed of a combination of 9 letter and numbers.">
+          <label for="cgp-permit-number">Permit
+            tracking number</label>
+          <input type="text" id="cgp-permit-number"
+                 name="trackingNumber" data-parsley-pattern="/^([0-9a-e]{8}-?[0-9a-e]{4}-?4[0-9a-e]{3}-?[89ab][0-9a-e]{3}-?[0-9a-e]{12})$/" data-parsley-error-message="Permit numbers are composed of a combination of 32 lowercase hexadecimal digits.">
         </div>
       </div>
       <div class="line">
@@ -123,4 +123,5 @@
   </div>
 </form>
 <div id="construction-permits-modal"></div>
+<div id="construction-permits-status-definitions"></div>
 <div id="construction-permits-learnmore"><?php print $cgp_learnmore; ?></div>

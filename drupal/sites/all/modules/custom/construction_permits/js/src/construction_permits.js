@@ -140,6 +140,28 @@ function reset_cgp_form() {
     $('.cgp-callout-warning').toggleClass('hidden', ok);
   });
 
+  $('#status-definitions').click(function() {
+    $('#construction-permits-status-definitions').dialog('open')
+  })
+
+  $('#construction-permits-status-definitions')
+    .html(Drupal.settings.construction_permits.status_definition)
+    .dialog({
+      modal: true,
+      width: "auto",
+      title: "Status Definitions",
+      position: {'my': 'center', 'at': 'center'},
+      dialogClass: 'construction-permits-modal',
+      autoOpen: false,
+      draggable: false,
+      resizable: false,
+      create: function(event, ui) {
+
+      },
+      close: function(event, ui) {
+      }
+    })
+
   $('#construction-permits-modal')
     .html(Drupal.settings.construction_permits.cgp_modal)
     .dialog({
