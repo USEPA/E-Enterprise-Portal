@@ -80,7 +80,11 @@ function create_search_results(search_results_json) {
       // Modify the first column to link to the respective form
       $('td:first-child', nRow.nTable).each(function() {
         var $this = $(this);
-        var form_id = $this.html();
+        var form_id = $this.attr('title');
+        if(!form_id){
+          form_id = $this.html();
+          $this.attr('title', form_id)
+        }
         $this.html('<a href="#' + form_id + '">' + form_id + '</a>')
           .find('a').click(
           function(e) {
@@ -154,12 +158,7 @@ function reset_cgp_form() {
       dialogClass: 'construction-permits-modal',
       autoOpen: false,
       draggable: false,
-      resizable: false,
-      create: function(event, ui) {
-
-      },
-      close: function(event, ui) {
-      }
+      resizable: false
     })
 
   $('#construction-permits-modal')
