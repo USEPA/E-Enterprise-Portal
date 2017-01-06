@@ -101,7 +101,7 @@
         <div class="col-md-6">
           <label for="cgp-npdes-id">NPDES ID</label>
           <input type="text" id="cgp-npdes-id"
-                 name="npdesId" data-parsley-pattern="/^([a-e]{3}?[0-9]{6})$/" data-parsley-error-message="NPDES IDs are a combination of 3 letters and 6 digits.">
+                 name="npdesId" data-parsley-pattern="/^([a-zA-Z]{3}?[0-9]{6})$/" data-parsley-error-message="NPDES IDs are a combination of 3 letters and 6 digits.">
         </div>
       </div>
       <div class="line">
