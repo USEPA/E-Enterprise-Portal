@@ -64,11 +64,11 @@
       </div>
     </div>
   </div>
-  <h3><a href="#" id="cgp-advanced-elements-toggle" class="toggleOff"><img
+  <h3><a href="#" id="cgp-advanced-elements-toggle"><img
         src="sites/all/modules/custom/construction_permits/images/arrow-right.png"
-        class="off"
-        alt="Advanced search criteria collapsed. Click to expand"></a> Advanced
-    search criteria</h3>
+        class="off toggleOff"
+        alt="Advanced search criteria collapsed. Click to expand">Advanced
+    search criteria</a></h3>
   <div id="cgp-advanced-elements" class="hide">
     <div class="cgp-form-elements ee-grid">
       <div class="line">
