@@ -191,6 +191,7 @@ function construction_permits_datatable_response($cgp_reponse_json) {
     $dt_row = [];
     //$cgp_result = $cgp_result['data'];
     $dt_row[] = $cgp_result['masterPermitNumber'];
+    $dt_row[] = $cgp_result['npdesId'];
     $dt_row[] = $cgp_result['operatorInformation']["operatorName"];
     $dt_row[] = $cgp_result['projectSiteInformation']['siteName'];
     $dt_row[] = $cgp_result['projectSiteInformation']['siteStateCode'];

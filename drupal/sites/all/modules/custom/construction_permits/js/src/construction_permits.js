@@ -97,13 +97,14 @@ function create_search_results(search_results_json) {
 
 
             // Add data attributes to allow column identification in mobile format
-            $('td:first-child', nRow.nTable).addClass('first-column').attr('data-title', 'Permit Tracking #');
-            $('td:nth-child(2)', nRow.nTable).attr('data-title', 'Owner/Operator');
-            $('td:nth-child(3)', nRow.nTable).attr('data-title', 'Site Name');
-            $('td:nth-child(4)', nRow.nTable).attr('data-title', 'Site State');
-            $('td:nth-child(5)', nRow.nTable).attr('data-title', 'Site City');
-            $('td:nth-child(6)', nRow.nTable).attr('data-title', 'Status');
-            $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Submitted');
+            $('td:first-child', nRow.nTable).addClass('first-column').attr('data-title', 'Master Permit #');
+            $('td:nth-child(2)', nRow.nTable).addClass('first-column').attr('data-title', 'NPDES ID');
+            $('td:nth-child(3)', nRow.nTable).attr('data-title', 'Owner/Operator');
+            $('td:nth-child(4)', nRow.nTable).attr('data-title', 'Site Name');
+            $('td:nth-child(5)', nRow.nTable).attr('data-title', 'Site State');
+            $('td:nth-child(6)', nRow.nTable).attr('data-title', 'Site City');
+            $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Status');
+            $('td:nth-child(8)', nRow.nTable).attr('data-title', 'Submitted');
 
 
             if (info.pages > 1) {
@@ -272,7 +273,7 @@ function reset_cgp_form() {
     });
 
     /**
-     * Close Listener on BWI Modal
+     * Close Listener on Construction Permits Modal
      * -  Destroy Datatables
      * -  Cancel Pending Form submission
      */

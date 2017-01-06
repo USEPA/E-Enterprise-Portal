@@ -83,6 +83,25 @@ $color_dark_gray: #323a45;
             overflow: visible;
         }
     }
+    .dataTables_wrapper {
+        thead th {
+            background-color: #ccc;
+            &.sorting_asc,
+            &.sorting_desc {
+                span {
+                    font-weight: bold;
+                }
+            }
+            span {
+                color: #4c4c4c;
+                font-weight: normal;
+            }
+        }
+        .pager__link, .paginate_button {
+            padding: 1.2rem;
+            background-size: 1rem 1rem;
+        }
+    }
 }
 
 #cgp-form {
