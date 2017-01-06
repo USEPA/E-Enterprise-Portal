@@ -64,6 +64,13 @@ function construction_permits_theme() {
       'template' => 'construction-permits-permit-notice-of-intent',
       'path' => drupal_get_path('module', 'construction_permits') . '/templates'
     ),
+    'construction_permits_status_definitions' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use be-well-informed-modal.tpl.php
+      'template' => 'construction-permits-status-definitions',
+      'path' => drupal_get_path('module', 'construction_permits') . '/templates'
+    ),
     /*'construction_permits_pdf' => array(
         'variables' => array(),
         'template' => 'construction-permits-pdf',
@@ -111,11 +118,13 @@ function construction_permits_block_view($delta = '') {
 
       // Set Modal Template
       $cgp_modal_html = theme('construction_permits_modal');
+      $cgp_status_html = theme('construction_permits_status_definitions');
       $cgp_permit_template_notice_of_intent = theme('construction_permits_permit_notice_of_intent');
       $settings = [
         "construction_permits" => [
           "cgp_modal" => $cgp_modal_html,
-          "permit_templates" => ["notice_of_intent" => $cgp_permit_template_notice_of_intent]
+          "permit_templates" => ["notice_of_intent" => $cgp_permit_template_notice_of_intent],
+          "status_definition" => $cgp_status_html,
         ]
       ];
       drupal_add_js($settings, 'setting');
@@ -162,7 +171,7 @@ function construction_permits_form_submission() {
       $datatable_formatted_response['error_message'][] = json_decode($response->data);
     }
     else {
-      $datatable_formatted_response['data'] = $response->data;
+      $datatable_formatted_response['data'] = json_decode($response->data);
       $datatable_formatted_response['datatable'] = construction_permits_datatable_response($response->data);
       $datatable_formatted_response['error'] = FALSE;
     }
