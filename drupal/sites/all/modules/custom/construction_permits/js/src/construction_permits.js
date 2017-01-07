@@ -304,7 +304,7 @@ function reset_cgp_form() {
                     var $this = $(this);
                     var property_path = $this.attr('data-cgp-property')
                     var property_null = $this.attr('data-cgp-null');
-                    var property_option = getStringToJson($this.attr('data-cgp-option'));
+                    var property_option = getStringToJson($this.attr('data-cgp-options'));
                     var custom_function = $this.attr('data-cgp-function')
                     var function_params = getStringToJson($this.attr('data-cgp-params'));
                     var prop = getProperty(permit, property_path)
@@ -336,6 +336,11 @@ function reset_cgp_form() {
         }, permit);
     }
 
+    cp_iife.adjustType = function(prop) {
+        var prop = prop.includes('Of') ? prop.replace('Of', 'of') : prop;
+        return prop.split('_').join(' ');
+    }
+
     cp_iife.fullName = function(prop) {
         return [prop.firstName, prop.middleInitial, prop.lastName].reduce(function(p, c) {
             (c) ? p.push(c) : 0;
@@ -345,7 +350,22 @@ function reset_cgp_form() {
 
     cp_iife.address = function(prop, prefix) {
         var country = (prop[prefix + 'County'] && prop[prefix + 'County'] != 'string') ? ' ' + prop[prefix + 'County'] : '';
-        return prop[prefix + 'Address'] + '<br/>' + prop[prefix + 'City'] + ', ' + prop[prefix + 'StateCode'] + ' ' + prop[prefix + 'ZipCode'] + country;
+        var lineAddress = (prop[prefix + 'Address2'] && prop[prefix + 'Address2'] != 'string') ? prop[prefix + 'Address'] + '<br>' + prop[prefix + 'Address2'] : prop[prefix + 'Address'];
+        return lineAddress + '<br/>' + prop[prefix + 'City'] + ', ' + prop[prefix + 'StateCode'] + ' ' + prop[prefix + 'ZipCode'] + country;
+    }
+
+    cp_iife.latlong = function(prop) {
+        //projectSiteInformation.siteLocation
+        return prop['latitude'] + '&deg;' + 'N,' + prop['longitude'] + '&deg;' + 'E' + '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>';
+    }
+
+    cp_iife.dateRange = function(prop, prefix) {
+        //projectSiteInformation and LEW
+        return cp_iife.dateFormat(prop[prefix + 'ProjectStart']) + ' &mdash; ' + cp_iife.dateFormat(prop[prefix + 'ProjectEnd']);
+    }
+
+    cp_iife.fullPhone = function(prop) {
+        return phone = (prop['phoneExtension'] && prop['phoneExtension'] != '') ? prop['phone'] + ' x' + prop['phoneExtension'] : prop['phone'];
     }
 
     cp_iife.appendixDCriteriaMet = function(prop) {
@@ -355,16 +375,16 @@ function reset_cgp_form() {
     cp_iife.dischargePoints = function(prop) {
         var r = '';
         var $this = $(this);
-        if (prop.length) {
+        if (prop.length && prop != '') {
             // Add header
             var header = [
                 '<div class="line header">',
-                '<div class="col-md-2">Surface water(s) to which you discharge</div>',
-                '<div class="col-md-2">Impaired Water</div>',
-                '<div class="col-md-2">Listed Water Pollutant(s)</div>',
-                '<div class="col-md-2">Tier 2, 2.5 or 3</div>',
-                '<div class="col-md-2">Source</div>',
-                '<div class="col-md-2">TMDL Name and Pollutant</div>',
+                '<div class="col-md-2">Discharge Point</div>',
+                '<div class="col-md-2">Location</div>',
+                '<div class="col-md-2">Receiving Water</div>',
+                '<div class="col-md-2">Pollutants</div>',
+                '<div class="col-md-2">Tier</div>',
+                '<div class="col-md-2">TMDL</div>',
                 '</div>'
             ]
             r += header.join('');
@@ -373,12 +393,15 @@ function reset_cgp_form() {
                 var even = (i % 2) ? ' even' : '';
                 r += [
                     '<div class="line row-item' + even + '">',
-                    '<div class="col-md-2" title="Surface water(s) to which you discharge">', c.firstWater, '</div>',
-                    '<div class="col-md-2" title="Impaired Water">', 'N/A', '</div>',
-                    '<div class="col-md-2" title="Listed Water Pollutant(s)">', c.pollutants.join(', '), '</div>',
-                    '<div class="col-md-2" title="Tier 2, 2.5 or 3">', 'N/A', '</div>',
-                    '<div class="col-md-2" title="Source">', 'N/A', '</div>',
-                    '<div class="col-md-2" title="TMDL Name and Pollutant">', c.tier, '</div>',
+                    '<div class="col-md-2" title="Discharge Point">', c.description, '</div>',
+                    '<div class="col-md-2" title="Location">', c.location.latitude + '&deg;N, ' + c.location.longitude + '&deg;E<br><span class="cgp-latlongsource">Source: ' +
+                        c.location.latLongDataSource + '</span><br><span class="cgp-refdatum">Horizontal Reference Datum: ' + c.location.horizontalReferenceDatum + '</span>', '</div>',
+                    '<div class="col-md-2" title="Receiving Water">', c.firstWater.listedWaterName, '</div>',
+                    //@TODO - Fix the pollutant name rendering - dischargeInformation.dischargePoints[i].firstWater[i].polluntants[i].pollutantName
+                    '<div class="col-md-2" title="Pollutant(s)">', c.firstWater.pollutants.pollutantName, '</div>',
+                    '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
+                    //@TODO - Fix the TMDL rendering - dischargeInformation.dischargePoints[i].firstWater[i].polluntants[i].tmdl.name
+                    '<div class="col-md-2" title="TMDL">', c.firstWater.pollutants, '</div>',
                     '</div>',
                 ].join('')
             })

@@ -2,7 +2,8 @@
   {
     "id": 0,
     "masterPermitNumber": "NMR12AJ90",
-    "npdesId": "NMR12AJ90",
+    "npdesId": "NMR120000",
+    "trackingNumber": "26d5d5b7-d566-4c53-b9d3-15450b942439",    
     "createdDate": "2016-12-13T22:35:54.736Z",
     "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
     "reviewExpiration": "2016-12-13T22:35:54.736Z",
@@ -17,7 +18,7 @@
       "siteCity": "Albuquerque",
       "siteStateCode": "New Mexico",
       "siteZipCode": "87104",
-      "siteCounty": "",
+      "siteCounty": "Albuquerque County",
       "siteLocation": {
         "latitude": 35.1169,
         "longitude": 106.6752,
@@ -32,11 +33,11 @@
       "siteConstructionTypes": [
         "string"
       ],
-      "siteStructureDemolitionBefore1980": false,
+      "siteStructureDemolitionBefore1980": true,
       "siteStructureDemolitionBefore198010kSquareFeet": false,
       "sitePreDevelopmentAgricultural": false,
-      "siteEarthDisturbingActivitiesOccurrence": false,
-      "siteEmergencyRelated": false,
+      "siteEarthDisturbingActivitiesOccurrence": true,
+      "siteEmergencyRelated": true,
       "sitePreviousNpdesPermit": false,
       "sitePreviousNpdesPermitId": "string",
       "siteLessThan5Acres": false,
@@ -50,7 +51,7 @@
       "operatorCity": "Albuquerque",
       "operatorStateCode": "New Mexico",
       "operatorZipCode": "87102",
-      "operatorCounty": "string",
+      "operatorCounty": "Albuquerque County",
       "operatorPointOfContact": {
         "userId": "string",
         "firstName": "Garrett",
@@ -58,7 +59,7 @@
         "middleInitial": "",
         "organization": "string",
         "phone": "505-980-7801",
-        "phoneExtension": "",
+        "phoneExtension": "876",
         "email": "lflores@garrett-smith-ltd.com",
         "title": ""
       },
@@ -88,29 +89,58 @@
     "dischargeInformation": {
       "dischargeAllowable": false,
       "dischargeMunicipalSeparateStormSewerSystem": false,
-      "dischargeUSWatersWithin50Feet": false,
+      "dischargeUSWatersWithin50Feet": true,
       "dischargePoints": [
         {
-          "id": "string",
+          "id": "1",
+          "description": "Rio Grande Basin",          
           "location": {
-            "latitude": 35.1169,
-            "longitude": 106.6752,
+            "latitude": 41.3768,
+            "longitude": 77.5635,
             "latLongDataSource": "Google Earth",
-            "horizontalReferenceDatum": "Unknown"
+            "horizontalReferenceDatum": "NAD 27"
           },
-          "firstWater": "Rio Grande",
-          "pollutants": [
-            "PATHOGENS;RADIATION;"
-          ],
-          "tmdl": {
-            "id": "string",
-            "name": "string",
+          "firstWater": {
+            "listedWaterId": "001",
+            "listedWaterName": "Rio Grande",
             "pollutants": [
-              "string"
+              {
+                "pollutantId": 0,
+                "pollutantName": "E. Coli",
+                "tmdl": {
+                  "id": 0,
+                  "name": "TMDL 2"
+                }
+              }
             ]
           },
-          "tier": "E.Coli"
-        }
+          "tier": "Tier_2"
+        },
+		{
+          "id": "2",
+          "description": "Red River Basin",          
+          "location": {
+            "latitude": 40.1234,
+            "longitude": 73.5635,
+            "latLongDataSource": "Google Earth",
+            "horizontalReferenceDatum": "NAD 27"
+          },
+          "firstWater": {
+            "listedWaterId": "1",
+            "listedWaterName": "Red River",
+            "pollutants": [
+              {
+                "pollutantId": 0,
+                "pollutantName": "Sulfur Dioxide",
+                "tmdl": {
+                  "id": 0,
+                  "name": "TMDL 3"
+                }
+              }
+            ]
+          },
+          "tier": "Tier_2"
+        }        
       ]
     },
     "chemicalTreatmentInformation": {
@@ -118,11 +148,12 @@
       "cationicTreatmentChemicals": false,
       "cationicTreatmentChemicalsAuthorization": false,
       "treatmentChemicals": [
-        "string"
+        "Polyoxyethylene Alkyl Alicyclic Amines", 
+        "Quaternary Ammonium Salts"
       ]
     },
     "stormwaterPollutionPreventionPlanInformation": {
-      "preparationInAdvance": false,
+      "preparationInAdvance": true,
       "contactInformation": {
         "userId": "string",
         "firstName": "Garrett",
@@ -138,31 +169,32 @@
     "endangeredSpeciesProtectionInformation": {
       "appendixDCriteriaMet": false,
       "noEsaSpeciesOrCriticalHabitat": false,
-      "eligibilityCoveredByOtherOperator": false,
-      "otherOperatorNpdesId": "string",
+      "eligibilityCoveredByOtherOperator": true,
+      "otherOperatorNpdesId": "DCR12315",
       "dischargesNotLikelyToAffect": false,
       "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
       "distanceFromSite": ".87",
       "coordinationWithUsfsOrNmfs": false,
       "section7Consultation": false,
-      "biologicalOpinion": false,
+      "biologicalOpinion": true,
       "writtenOccurrence": false,
-      "section10Permit": false,
+      "section10Permit": true,
       "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
     },
     "historicPreservation": {
-      "screeningCompleted": false,
-      "appendexEStep1": false,
-      "appendexEStep2": false,
-      "appendexEStep3": false,
-      "appendexEStep4": false,
-      "appendexEStep4Response": "string"
+      "screeningCompleted": true,
+      "appendexEStep1": true,
+      "appendexEStep2": true,
+      "appendexEStep3": true,
+      "appendexEStep4": true,
+      "appendexEStep4Response": "Written indication that adverse effects to historic properties from the installation of stormwater controls can be mitigated by agreed upon actions"
     },
     "attachments": [
       {
         "id": 0,
         "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
-        "createdDate": "2013-04-25T22:35:54.742Z"
+        "createdDate": "2013-04-25T22:35:54.742Z",
+	    "size": 64
       }
     ]
   },
@@ -170,6 +202,7 @@
     "id": 222,
     "masterPermitNumber": "ALR10I000",
     "npdesId": "ALR10I008",
+    "trackingNumber": "44d4e5b7-d566-4c53-b9d3-15450b942439",    
     "createdDate": "2016-12-22T17:57:54.56-05:00",
     "lastUpdatedDate": "2016-12-22T17:57:56.713-05:00",
     "reviewExpiration": "2017-01-05T00:00:00-05:00",
@@ -307,6 +340,7 @@
     "id": 242,
     "masterPermitNumber": "AKR10F000",
     "npdesId": "AKR10F007",
+    "trackingNumber": "11c3a7c4-d566-4c53-b9d3-15450b942439",    
     "createdDate": "2016-12-23T09:39:57.119-05:00",
     "lastUpdatedDate": "2016-12-23T09:39:57.328-05:00",
     "reviewExpiration": "2017-01-06T00:00:00-05:00",
@@ -435,7 +469,7 @@
     },
     "historicPreservation": {
       "screeningCompleted": true,
-      "appendexEStep1": true,
+      "appendexEStep1": false,
       "appendexEStep2": false,
       "appendexEStep3": false,
       "appendexEStep4": false,
@@ -447,6 +481,7 @@
     "id": 244,
     "masterPermitNumber": "DCR100000",
     "npdesId": "DCR100003",
+    "trackingNumber": "77c3a7c4-d566-4c53-b9d3-15450b942439",     
     "createdDate": "2016-12-23T09:40:27.633-05:00",
     "lastUpdatedDate": "2016-12-23T09:40:27.814-05:00",
     "reviewExpiration": "2017-01-06T00:00:00-05:00",
@@ -585,6 +620,7 @@
     "id": 206,
     "masterPermitNumber": "DCR100000",
     "npdesId": "DCR100003",
+    "trackingNumber": "97c3a7c4-d566-4c53-b9d3-15450b942439",     
     "createdDate": "2016-12-23T09:22:14.562-05:00",
     "lastUpdatedDate": "2016-12-23T09:22:16.75-05:00",
     "reviewExpiration": "2017-01-06T00:00:00-05:00",
