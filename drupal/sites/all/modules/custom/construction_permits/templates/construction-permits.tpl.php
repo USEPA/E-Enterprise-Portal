@@ -2,7 +2,7 @@
                                   rel="external">US Environmental Protection
     Agency</a></p>
 <p>In areas where EPA is the permitting authority, regulated construction site
-  operators are generally permitted under EPA’s 2012 Construction General Permit
+  operators are generally permitted under EPA&rsquo;s 2017 Construction General Permit
   (CGP). Find notices of intent, notices of termination, or low erosity
   waivers.</p>
 <h3>Enter one or more search criteria</h3>
@@ -56,13 +56,19 @@
                id="cgp-status"
                name="projectStatus">
       </div>
+      <div class="col-md-6">
+        <label for="cgp-type">Permit Type</label>
+        <select name="type" id="cgp-type">
+          <option value="cgp-type-all" selected>All</option>
+        </select>
+      </div>
     </div>
   </div>
-  <h3><a href="#" id="cgp-advanced-elements-toggle" class="toggleOff"><img
+  <h3><a href="#" id="cgp-advanced-elements-toggle"><img
         src="sites/all/modules/custom/construction_permits/images/arrow-right.png"
-        class="off"
-        alt="Advanced search criteria collapsed. Click to expand"></a> Advanced
-    search criteria</h3>
+        class="off toggleOff"
+        alt="Advanced search criteria collapsed. Click to expand">Advanced
+    search criteria</a></h3>
   <div id="cgp-advanced-elements" class="hide">
     <div class="cgp-form-elements ee-grid">
       <div class="line">
@@ -92,6 +98,11 @@
           <input type="text" id="cgp-permit-number"
                  name="trackingNumber" data-parsley-pattern="/^([0-9a-e]{8}-?[0-9a-e]{4}-?4[0-9a-e]{3}-?[89ab][0-9a-e]{3}-?[0-9a-e]{12})$/" data-parsley-error-message="Permit numbers are composed of a combination of 32 lowercase hexadecimal digits.">
         </div>
+        <div class="col-md-6">
+          <label for="cgp-npdes-id">NPDES ID</label>
+          <input type="text" id="cgp-npdes-id"
+                 name="npdesId" data-parsley-pattern="/^([a-zA-Z]{3}?[0-9]{6})$/" data-parsley-error-message="NPDES IDs are a combination of 3 letters and 6 digits.">
+        </div>
       </div>
       <div class="line">
         <div class="col-md-4">
@@ -109,6 +120,33 @@
           <label for="cgp-date-to" class="inline-label">and</label>
           <input type="text" id="cgp-date-to" name="submittedDateTo">
         </div>
+      </div>
+      <div class="line">
+        <div class="col-md-6">
+          <label for="cgp-tribal">Construction on Tribal Lands</label>
+          <ul>
+            <li><input type="radio" id="cgp-tribal-yes" name="siteIndianCountry" value="yes">
+              <label for="cgp-tribal-yes">Yes</label>
+            </li>
+            <li><input type="radio" id="cgp-tribal-no" name="siteIndianCountry" value="no">
+              <label for="cgp-tribal-no">No</label>
+            </li>
+          </ul>
+        </div>	      
+	  	<div class="col-md-6">
+          <label for="cgp-tribal-lands">Tribe</label>
+          <select name="siteIndianCountryLands" id="cgp-tribal-lands">
+            <option value="cgp-tribal-lands-all" selected>All</option>
+          </select>
+        </div>
+      </div>
+      <div class="line">
+	    <div class="col-md-6">
+		  <label for="cgp-project-county">County</label>
+          <select name="siteCounty" id="cgp-project-county">
+            <option value="cgp-county-all" selected>All</option>
+          </select>
+	    </div>
       </div>
     </div>
   </div>

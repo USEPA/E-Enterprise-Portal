@@ -14,6 +14,7 @@ $color_black_squeeze_approx: #f4f8fa;
 $color_viking_approx: #5bc0de;
 $color_mountain_mist_approx: #949494;
 $color_ecstasy_approx: #ff851b;
+$color_dark_gray: #323a45;
 
 //@extend-elements
 //original selectors
@@ -82,9 +83,36 @@ $color_ecstasy_approx: #ff851b;
             overflow: visible;
         }
     }
+    .dataTables_wrapper {
+        thead th {
+            background-color: #ccc;
+            &.sorting_asc,
+            &.sorting_desc {
+                span {
+                    font-weight: bold;
+                }
+            }
+            span {
+                color: #4c4c4c;
+                font-weight: normal;
+            }
+        }
+        .pager__link, .paginate_button {
+            padding: 1.2rem;
+            background-size: 1rem 1rem;
+        }
+    }
 }
 
 #cgp-form {
+	#cgp-advanced-elements-toggle {
+		margin-left: -20px;
+		color: $color_dark_gray;
+		img {
+			width: 20px;
+		    height: 20px;
+		}
+	}
     .cgp-form-elements {
         margin: 0;
         &.usa-grid {
@@ -107,7 +135,8 @@ $color_ecstasy_approx: #ff851b;
 	        }
         }
     }
-    [for=cgp-federal] + ul {
+    [for=cgp-federal] + ul,
+    [for=cgp-tribal] + ul {
         margin: 0 0;
     }
     #cgp-form-buttons {

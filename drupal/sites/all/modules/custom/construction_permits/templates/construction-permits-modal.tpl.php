@@ -9,7 +9,8 @@
     <table class="usa-table-borderless eportal-responsive-table">
       <thead>
       <tr>
-        <th><span>Permit Tracking #</span></th>
+        <th><span>Master Permit #</span></th>
+        <th><span>NPDES ID</span></th>
         <th><span>Owner/Operator</span></th>
         <th><span>Site Name</span></th>
         <th><span>Site State</span></th>
