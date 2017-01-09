@@ -122,6 +122,7 @@ function construction_permits_block_view($delta = '') {
       $cgp_permit_template_notice_of_intent = theme('construction_permits_permit_notice_of_intent');
       $settings = [
         "construction_permits" => [
+          "cgp_api_endpoint" => variable_get('cgp_api_endpoint'),
           "cgp_modal" => $cgp_modal_html,
           "permit_templates" => ["notice_of_intent" => $cgp_permit_template_notice_of_intent],
           "status_definition" => $cgp_status_html,
@@ -161,7 +162,7 @@ function construction_permits_form_submission() {
     // All temporary
     // Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
 
-    $endpoint = variable_get('cgp_form_endpoint') . '?' . http_build_query($_POST);
+    $endpoint = variable_get('cgp_api_endpoint') . '/form?' . http_build_query($_POST);
     $response = drupal_http_request($endpoint, [
       "method" => "GET",
       'timeout' => "10"
