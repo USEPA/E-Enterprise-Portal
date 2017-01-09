@@ -95,6 +95,27 @@ function create_search_results(search_results_json) {
         );
       });
 
+      $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Status').each(function() {
+          var $this = $(this);
+          var statusText = $this.attr('data-status');
+          if (!statusText) {
+              statusText = $this.html();
+              $this.attr('data-status', statusText);
+          }
+          var formatted_status = statusText.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");
+          $this.html(formatted_status);
+      });
+
+      $('td:nth-child(8)', nRow.nTable).attr('data-title', 'Submitted').each(function() {
+          var $this = $(this);
+          var dateText = $this.attr('data-date');
+          if (!dateText) {
+              dateText = $this.html();
+              $this.attr('data-date', dateText)
+          }
+          var d = new Date(dateText);
+          $this.html([d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/'));
+      });
 
       // Add data attributes to allow column identification in mobile format
       $('td:first-child', nRow.nTable).addClass('first-column').attr('data-title', 'Master Permit #');
@@ -138,7 +159,6 @@ function reset_cgp_form() {
   // Flag for converting Null or blank inputs to -9999
   var convertNulls = false;
 
-
   function create_detail_results(response_json) {
     var $details = $('#construction-permits-details-wrapper');
     if (Array.isArray(response_json.data)) {
@@ -181,8 +201,8 @@ function reset_cgp_form() {
   }
 
   cp_iife.adjustType = function(prop) {
-    var prop = prop.includes('Of') ? prop.replace('Of', 'of') : prop;
-    return prop.split('_').join(' ');
+      var prop = prop.includes('Of') ? prop.replace('Of', 'of') : prop;
+      return prop.split('_').join(' ');
   }
 
   cp_iife.fullName = function(prop) {
