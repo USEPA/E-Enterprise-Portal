@@ -62,12 +62,12 @@ $color_dark_gray: #323a45;
 }
 
 .pane-construction-permits {
-	h3 {
-		font-size: 1.5rem;
-		font-weight: bold;
-		margin-top: 10px;
-		margin-bottom: 0;
-	}
+    h3 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
 }
 
 .ui-dialog.construction-permits-modal {
@@ -105,34 +105,34 @@ $color_dark_gray: #323a45;
 }
 
 #cgp-form {
-	#cgp-advanced-elements-toggle {
-		margin-left: -20px;
-		color: $color_dark_gray;
-		img {
-			width: 20px;
-		    height: 20px;
-		}
-	}
+    #cgp-advanced-elements-toggle {
+        margin-left: -20px;
+        color: $color_dark_gray;
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
     .cgp-form-elements {
         margin: 0;
         &.usa-grid {
-	        padding: 0;
+            padding: 0;
         }
         li:before,
         li:after {
             content: none;
         }
         li {
-	        display: inline-block;
-	        margin-right: 20px;
-	        margin-top: 0;
-	        margin-bottom: 0;
-	        &.usa-grid-one-whole {
-		        width: 100%;
-	        }
-	        &.usa-grid-one-fourth {
-		        width: 25%;
-	        }
+            display: inline-block;
+            margin-right: 20px;
+            margin-top: 0;
+            margin-bottom: 0;
+            &.usa-grid-one-whole {
+                width: 100%;
+            }
+            &.usa-grid-one-fourth {
+                width: 25%;
+            }
         }
     }
     [for=cgp-federal] + ul,
@@ -140,14 +140,14 @@ $color_dark_gray: #323a45;
         margin: 0 0;
     }
     #cgp-form-buttons {
-	    margin-top: 10px;
-	    height: 8rem;
-	    div {
-		    float: right;
-	    }
-	    a {
-		    margin-right: 10px;
-	    }
+        margin-top: 10px;
+        height: 8rem;
+        div {
+            float: right;
+        }
+        a {
+            margin-right: 10px;
+        }
     }
     .invisible {
         visibility: hidden;
@@ -222,7 +222,7 @@ $color_dark_gray: #323a45;
             width: auto;
         }
     }
-    
+
     input {
         &.parsley-success {
             @extend %extend_1;
@@ -271,15 +271,15 @@ $color_dark_gray: #323a45;
         }
     }
 
-    #construction-permits-results-wrapper, 
-    #construction-permits-error-wrapper, 
+    #construction-permits-results-wrapper,
+    #construction-permits-error-wrapper,
     #construction-permits-loading-wrapper,
     #construction-permits-details-wrapper {
         display: none;
     }
 
     #construction-permits-loading-wrapper {
-	    text-align: center;
+        text-align: center;
         i.fa-spinner {
             font-size: 5rem;
         }
@@ -298,8 +298,8 @@ $color_dark_gray: #323a45;
                 list-style-type: decimal;
                 display: block;
                 &:before {
-                    display: inline-block;   
-                    margin-left: -2.0rem; // Create hanging indent for numbering           
+                    display: inline-block;
+                    margin-left: -2.0rem; // Create hanging indent for numbering
                 }
             }
             ol {
@@ -349,8 +349,8 @@ $color_dark_gray: #323a45;
         #construction-permits-accordion {
             margin-top: 10px;
             background-color: #ffffff;
-            font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
-            &>table, &>div {
+            font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
+            & > table, & > div {
                 padding: 0 1%;
             }
             h1 {
@@ -369,7 +369,7 @@ $color_dark_gray: #323a45;
             .cgp-legend {
                 width: 100%;
                 display: block;
-                border:1px solid #999999;
+                border: 1px solid #999999;
                 padding: 1rem;
                 div {
                     padding: 1rem;
@@ -391,7 +391,7 @@ $color_dark_gray: #323a45;
                                 margin-bottom: 1%;
                             }
                             br {
-                                display: none;  // Collapse empty space to avoid excessive spacing
+                                display: none; // Collapse empty space to avoid excessive spacing
                             }
                             background-color: #d6d2d2;
                         }
@@ -408,21 +408,25 @@ $color_dark_gray: #323a45;
 
         }
     }
-    
+
     .print-icon {
-      float:right;
+        float: right;
     }
 }
+
 .clearfix:after {
     display: table;
     line-height: 0;
 }
-#construction-permits-details-wrapper {
-    // display: block !important;
+#construction-permits-details-wrapper.modal {
     .permit-wrapper {
         display: none;
         overflow-y: scroll;
-        
+    }
+}
+
+#construction-permits-details-wrapper {
+    .permit-wrapper {
         h2 {
             background-color: #0071bc;
             color: #ffffff;
@@ -430,7 +434,7 @@ $color_dark_gray: #323a45;
             font-size: 1.1em;
             font-weight: 700;
             padding: .5em 1em;
-            font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
+            font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
         }
         h6 {
             color: #00457d;
@@ -453,18 +457,19 @@ $color_dark_gray: #323a45;
             &.even {
                 background-color: #E2F4FF;
             }
-            [class^=col]{
+            [class^=col] {
                 word-break: break-word;
                 overflow-wrap: break-word;
             }
         }
     }
-        .property {
-            .title {
-                color: #666666;
-            }
+    .property {
+        .title {
+            color: #666666;
         }
+    }
 }
+
 #construction-permits-status-definitions {
     dt {
         font-weight: 700;
@@ -474,11 +479,11 @@ $color_dark_gray: #323a45;
         margin-left: 2em;
     }
 }
+
 @media screen and (min-width: 48em) {
 
 }
 
 @media screen and (min-width: 60em) {
-
 
 }

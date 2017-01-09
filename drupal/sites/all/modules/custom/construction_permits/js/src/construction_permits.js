@@ -95,6 +95,27 @@ function create_search_results(search_results_json) {
         );
       });
 
+      $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Status').each(function() {
+          var $this = $(this);
+          var statusText = $this.attr('data-status');
+          if (!statusText) {
+              statusText = $this.html();
+              $this.attr('data-status', statusText);
+          }
+          var formatted_status = statusText.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");
+          $this.html(formatted_status);
+      });
+
+      $('td:nth-child(8)', nRow.nTable).attr('data-title', 'Submitted').each(function() {
+          var $this = $(this);
+          var dateText = $this.attr('data-date');
+          if (!dateText) {
+              dateText = $this.html();
+              $this.attr('data-date', dateText)
+          }
+          var d = new Date(dateText);
+          $this.html([d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/'));
+      });
 
       // Add data attributes to allow column identification in mobile format
       $('td:first-child', nRow.nTable).addClass('first-column').attr('data-title', 'Master Permit #');
@@ -459,5 +480,172 @@ function reset_cgp_form() {
 
     return r;
   };
+
+  if (!Drupal.settings.construction_permits.response_data) {
+    // Parsely validation
+    $('#cgp-form').parsley().on('field:validated', function() {
+      var ok = $('.parsley-error').length === 0;
+      $('.cgp-callout-info').toggleClass('hidden', !ok);
+      $('.cgp-callout-warning').toggleClass('hidden', ok);
+    });
+
+    $('#status-definitions').click(function() {
+      $('#construction-permits-status-definitions').dialog('open')
+    })
+
+    $('#construction-permits-status-definitions')
+      .html(Drupal.settings.construction_permits.status_definition)
+      .dialog({
+        modal: true,
+        width: "auto",
+        title: "Status Definitions",
+        position: {'my': 'center', 'at': 'center'},
+        dialogClass: 'construction-permits-modal',
+        autoOpen: false,
+        draggable: false,
+        resizable: false
+      })
+
+    $('#construction-permits-modal')
+      .html(Drupal.settings.construction_permits.cgp_modal)
+      .dialog({
+        modal: true,
+        width: "auto",
+        title: "Results for Construction General Permits Search",
+        position: {'my': 'center', 'at': 'center'},
+        dialogClass: 'construction-permits-modal',
+        autoOpen: false,
+        draggable: false,
+        resizable: false,
+        create: function(event, ui) {
+          $('#cgp-tabs').tabs();
+          var $form = $('cgp-form');
+
+          //@TODO Use Parsley to validate form if needed
+
+          $('#cgp-reset-button').click(function() {
+            reset_cgp_form();
+            cgp_resize_modal()
+          });
+          $('#back-to-results-button', 'body').click(function() {
+            show_needed_cgp_div($('#construction-permits-results-wrapper'))
+            return false;
+          })
+
+          $(window).resize(function() {
+            cgp_resize_modal();
+          })
+        },
+        close: function(event, ui) {
+          var $table = $('#construction-permits-results-wrapper').find('table');
+          sampleSetIndex = 0;
+          convertNulls = false;
+          $table.dataTable({bDestroy: true}).fnDestroy();
+          show_needed_cgp_div($('#construction-permits-form-wrapper'));
+        }
+      })
+
+    // Create the advanced settings section on the widget
+    $('#cgp-advanced-elements-toggle').on('click', function() {
+      var $this = $(this).find('img');
+      var toggleOff = $this.hasClass('toggleOff');
+      var path = 'sites/all/modules/custom/construction_permits/images/';
+      // If it is off turn it on
+      if (toggleOff) {
+        $this.attr('src', path + 'arrow-down.png').attr('alt', 'Advanced search criteria expanded. Click to collapse.').toggleClass('toggleOff')
+      }
+      else {
+        $this.attr('src', path + 'arrow-right.png').attr('alt', 'Advanced search criteria collapsed. Click to expand.').toggleClass('toggleOff')
+      }
+      $('#cgp-advanced-elements').toggleClass('hide');
+      return false;
+    });
+
+    // Update the date to/from field names
+    $('#cgp-date-type').on('change', function() {
+      var $this = $(this);
+      var c_value = $this.val();
+      var dateTo = 'submittedDateTo';
+      var dateFrom = 'submittedDateFrom';
+      if (c_value != 'date-submitted') {
+        dateTo = 'updatedDateTo';
+        dateFrom = 'updatedDateFrom';
+      }
+      $('#cgp-date-to').attr('name', dateTo)
+      $('#cgp-date-from').attr('name', dateFrom)
+    });
+    $("#cgp-date-from, #cgp-date-to").datepicker({});
+
+    // Search button functionality
+    $body.on('click', '#cgp-search-button', function() {
+      var $form = $('#cgp-form');
+      // If the form does not validate do not submit data.
+      if (!$form.parsley().validate()) {
+        return false;
+      }
+
+      var $cgp_loading_wrapper = $('#construction-permits-loading-wrapper');
+      var $cgp_results_wrapper = $('#construction-permits-results-wrapper');
+      var $cgp_details_wrapper = $('#construction-permits-details-wrapper');
+      var $cgp_form_wrapper = $('#construction-permits-form-wrapper');
+      var cgpFormData = $form.serializeObject();
+
+      $('#construction-permits-modal').dialog('open');
+      //@TODO var data = format_cgp_form_data(cgpFormData, convertNulls);
+      show_needed_cgp_div($cgp_loading_wrapper);
+
+      // Prepare data to be sent
+
+      $.ajax({
+        url: Drupal.settings.basePath + 'construction_permits/form_submission',
+        method: 'POST',
+        data: cgpFormData,
+        success: function(cgp_reponse_json) {
+          if (cgp_reponse_json.error) {
+            // reset the modal and return it to a 'default' state
+            convertNulls = true;
+            cgp_resize_modal();
+          }
+          else {
+            create_search_results(cgp_reponse_json);
+            create_detail_results(cgp_reponse_json);
+            show_needed_cgp_div($cgp_results_wrapper);
+          }
+          cgp_resize_modal();
+        }
+      });
+    });
+
+    /**
+     * Close Listener on Construction Permits Modal
+     * -  Destroy Datatables
+     * -  Cancel Pending Form submission
+     */
+    $('#construction-permits-modal').on('dialogclose', function() {
+      var $cgp_form_wrapper = $('#construction-permits-form-wrapper');
+
+      $('#construction-permits-results-table').DataTable().destroy();
+      $('#construction-permits-result-details-table').DataTable().destroy();
+      $('#water_analysis_reset').removeClass('invisible')
+      show_needed_cgp_div($cgp_form_wrapper);
+      $('#entry-tab').text('Entry');
+      cgp_resize_modal();
+      $("html, body").animate({scrollTop: $('.pane-construction-permits').offset().top}, 500);
+    });
+
+
+  } else {
+    var response_data = Drupal.settings.construction_permits.response_data;
+   // TODO Expand on error checking, requirements for when no results are shown.
+    // This is a temp measure to make sure user is not confused.
+    if (response_data.error) {
+      $('#construction-permits-details-wrapper').append('<div></div>').html("Unable to process search request.")
+    } else if (response_data.data.length === 0) {
+      $('#construction-permits-details-wrapper').append('<div></div>').html("No results returned for tracking id.")
+    } else {
+      create_detail_results(Drupal.settings.construction_permits.response_data);
+    }
+  }
+
 
 })(jQuery);
