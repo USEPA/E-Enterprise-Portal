@@ -25,7 +25,7 @@
     </table>
   </div><!-- @end .chemical-rules-results-wrapper -->
   <div id="construction-permits-details-wrapper"
-       class="construction-permits-modal-wrapper">
+       class="construction-permits-modal-wrapper modal">
     <a href="#back-to-results" id="back-to-results-button">&lt; Back to Search Results</a>
   </div><!-- @end .chemical-rules-results-wrapper -->
 
