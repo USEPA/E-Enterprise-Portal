@@ -449,9 +449,17 @@ function reset_cgp_form() {
 
 
   } else {
-    create_detail_results(Drupal.settings.construction_permits.response_data);
+    var response_data = Drupal.settings.construction_permits.response_data;
+   // TODO Expand on error checking, requirements for when no results are shown.
+    // This is a temp measure to make sure user is not confused.
+    if (response_data.error) {
+      $('#construction-permits-details-wrapper').append('<div></div>').html("Unable to process search request.")
+    } else if (response_data.data.length === 0) {
+      $('#construction-permits-details-wrapper').append('<div></div>').html("No results returned for tracking id.")
+    } else {
+      create_detail_results(Drupal.settings.construction_permits.response_data);
+    }
   }
-
 
 
 })(jQuery);

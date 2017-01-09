@@ -22,10 +22,10 @@ function construction_permits_menu() {
     'page callback' => 'cgp_pdf_generate',
     'access callback' => TRUE,
   );
-  $items['construction_permits/details_lookup/%'] = array(
+  $items['cgp/%'] = array(
     'page callback' => 'cgp_external_details_lookup',
     'access callback' => TRUE,
-    'page arguments' => array(2),
+    'page arguments' => array(1),
     'type' => MENU_CALLBACK,
 
   );
