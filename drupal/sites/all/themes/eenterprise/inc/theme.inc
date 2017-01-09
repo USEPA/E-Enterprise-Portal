@@ -16,7 +16,7 @@ function eenterprise_menu_link(&$vars) {
 	if ($childdepth > 1) {
 	  $element['#attributes']['data-menu-parent'] = $element['#original_link']['menu_name'] . '-' . $parentdepth;
 	  $element['#localized_options']['attributes']['class'][] = $element['#original_link']['menu_name'] . '-' . $element['#original_link']['depth'];
-		$element['#localized_options']['attributes']['class'][] = 'menu-item';
+	  $element['#localized_options']['attributes']['class'][] = 'menu-item';
 	}
 	
   if ($element['#below']) {
@@ -81,19 +81,16 @@ function eenterprise_menu_link(&$vars) {
     $remove_key = array_search($val, $item_classes);
     if (!is_null($remove_key)) {
       unset($item_classes[$remove_key]);
-      unset($link_classes[$remove_key]);
     }
   }
   if (isset($link_classes)) {
     $remove_key = array_search('menu-item', $link_classes);
     if (!is_null($remove_key)) {
-      unset($link_classes[$remove_key]);
     }
   }
 
   // Add global classes to all menu links.
   $item_classes[] = 'menu-item';
-  $link_classes[] = 'menu-link';
   
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
