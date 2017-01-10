@@ -14,7 +14,7 @@ function workbench_header_user_default_permissions() {
   $permissions['use text format allow_javascript'] = array(
     'name' => 'use text format allow_javascript',
     'roles' => array(
-      'admin' => 'admin',
+      'eeportal_cgi_admin' => 'eeportal_cgi_admin',
     ),
     'module' => 'filter',
   );

@@ -87,6 +87,33 @@ function workbench_header_menu_default_menu_links() {
     'weight' => -45,
     'customized' => 1,
   );
+  // Exported menu link: menu-footer-disclaimers_developers-area:for-developers.
+  $menu_links['menu-footer-disclaimers_developers-area:for-developers'] = array(
+    'menu_name' => 'menu-footer-disclaimers',
+    'link_path' => 'for-developers',
+    'router_path' => 'for-developers',
+    'link_title' => 'Developers\' Area',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'developers-area',
+        ),
+      ),
+      'item_attributes' => array(
+        'id' => '',
+        'class' => '',
+        'style' => '',
+      ),
+      'identifier' => 'menu-footer-disclaimers_developers-area:for-developers',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 0,
+    'customized' => 1,
+  );
   // Exported menu link: menu-footer-disclaimers_e-enterprise-home:http://www2.epa.gov/e-enterprise/about-e-enterprise-environment.
   $menu_links['menu-footer-disclaimers_e-enterprise-home:http://www2.epa.gov/e-enterprise/about-e-enterprise-environment'] = array(
     'menu_name' => 'menu-footer-disclaimers',
@@ -125,6 +152,34 @@ function workbench_header_menu_default_menu_links() {
     'has_children' => 0,
     'expanded' => 0,
     'weight' => -48,
+    'customized' => 1,
+  );
+  // Exported menu link: menu-footer-disclaimers_github:https://github.com/USEPA/E-Enterprise-Portal/.
+  $menu_links['menu-footer-disclaimers_github:https://github.com/USEPA/E-Enterprise-Portal/'] = array(
+    'menu_name' => 'menu-footer-disclaimers',
+    'link_path' => 'https://github.com/USEPA/E-Enterprise-Portal/',
+    'router_path' => '',
+    'link_title' => 'GitHub',
+    'options' => array(
+      'attributes' => array(
+        'class' => array(
+          0 => 'github',
+        ),
+        'target' => '_blank',
+      ),
+      'item_attributes' => array(
+        'id' => '',
+        'class' => '',
+        'style' => '',
+      ),
+      'identifier' => 'menu-footer-disclaimers_github:https://github.com/USEPA/E-Enterprise-Portal/',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 1,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 0,
     'customized' => 1,
   );
   // Exported menu link: menu-footer-disclaimers_privacy-and-security-notice:http://www2.epa.gov/home/privacy-and-security-notice.
@@ -173,8 +228,10 @@ function workbench_header_menu_default_menu_links() {
   t('Accessibility');
   t('App Connect');
   t('Conditions of Use');
+  t('Developers\' Area');
   t('E-Enterprise Home');
   t('FAQs');
+  t('GitHub');
   t('Home');
   t('Privacy and Security Notice');
   t('Release Notes');

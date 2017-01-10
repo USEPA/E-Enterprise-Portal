@@ -96,24 +96,12 @@ print "</div><!-- end header locations feedback block -->";
   $export['ee_portal_maintenance'] = $fe_block_boxes;
 
   $fe_block_boxes = new stdClass();
-  $fe_block_boxes->info = 'Favorite Links';
-  $fe_block_boxes->format = 'php_code';
-  $fe_block_boxes->machine_name = 'eenterprise_favorite_links';
-  $fe_block_boxes->body = '<div class="panel panel-default">
-<div class="panel-body ">
+  $fe_block_boxes->info = 'EE AWS-Showcase Disclaimer';
+  $fe_block_boxes->format = 'full_html';
+  $fe_block_boxes->machine_name = 'ee_showcase_disclaimer';
+  $fe_block_boxes->body = '<p>Welcome to the E-Enterprise AWS development environment. This is a non-production demonstration environment and is not to be used for any regulatory activity.</p><p>Welcome to the E-Enterprise Showcase environment. This is a non-production demonstration environment and is not to be used for any regulatory activity.</p>';
 
-<div id="load_links"></div>
-<div id="load_more" style="display:none"><button class="btn btn-success" id="load_more_favorites">See More</button></div>
-<div id="load_more" style="display:none"><button class="btn btn-success" id="load_less_favorites">See Less</button></div>
-
-<div id="loading_list" style="display:none">Loading...</div>
-
-</div><!-- @end panel-body favorite-links block -->
-</div><!-- @end panel-default favorite-links block -->
-
-';
-
-  $export['eenterprise_favorite_links'] = $fe_block_boxes;
+  $export['ee_showcase_disclaimer'] = $fe_block_boxes;
 
   $fe_block_boxes = new stdClass();
   $fe_block_boxes->info = 'Login Buttons - Guest Authenticated users';

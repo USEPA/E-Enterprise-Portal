@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Developer Resources Area feature.
+ */
+
+include_once 'developer_resources_area.features.inc';
