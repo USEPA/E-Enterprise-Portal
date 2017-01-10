@@ -85,12 +85,7 @@ function construction_permits_theme() {
       'template' => 'cgp-single-page',
       'path' => drupal_get_path('module', 'construction_permits') . '/templates'
 
-    ),
-    /*'construction_permits_pdf' => array(
-        'variables' => array(),
-        'template' => 'construction-permits-pdf',
-        'path' => drupal_get_path('module', 'construction_permits') . '/templates'
-    ),*/
+    )
   );
 }
 
@@ -206,6 +201,7 @@ function construction_permits_datatable_response($cgp_reponse_json) {
   foreach ($cgp_reponse_json as $cgp_result) {
     $dt_row = [];
     //$cgp_result = $cgp_result['data'];
+    $dt_row[] = $cgp_result['id'];
     $dt_row[] = $cgp_result['masterPermitNumber'];
     $dt_row[] = $cgp_result['npdesId'];
     $dt_row[] = $cgp_result['operatorInformation']["operatorName"];
@@ -236,7 +232,6 @@ function template_preprocess_construction_permits_modal(&$variables, $hook) {
  * Implements template_preprocess_hook for be-well-informed-pdf.tpl.php.
  */
 function template_preprocess_construction_permits_pdf(&$variables, $hook) {
-
   global $user;
   $variables['response_json_data_pdf'] = variable_get($user->name . '_cgp_pdf_resp_' . $user->ssid);
 }
