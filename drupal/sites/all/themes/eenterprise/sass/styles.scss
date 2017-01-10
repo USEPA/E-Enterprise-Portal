@@ -275,6 +275,16 @@
         }
     }
 }
+.section-eenterprise-new {
+    .menu {
+        .menu-item {
+            a.github {
+                background-image: url('../images/github-dark.png');
+                background-size: 18px, contain;
+            }
+        }
+    }
+}
 
 .secondary-nav {
     float: right;
@@ -808,6 +818,12 @@ header {
     h2, h3, h4, p:not(#release-number-footer), ul:not(.menu), .jcarousel {
         font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif;
         font-weight: 300;
+    }
+    .region-maintenance,
+    .region-alert {
+        h2, h3, h4, p:not(#release-number-footer) {
+            font-family: $font-sans;
+        }
     }
     .jcarousel-wrapper {
         margin: 0 auto;
