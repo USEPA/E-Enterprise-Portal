@@ -1,766 +1,2041 @@
-[
-  {
-    "id": 0,
-    "masterPermitNumber": "NMR12AJ90",
-    "npdesId": "NMR120000",
-    "trackingNumber": "26d5d5b7-d566-4c53-b9d3-15450b942439",    
-    "createdDate": "2016-12-13T22:35:54.736Z",
-    "lastUpdatedDate": "2016-12-13T22:35:54.736Z",
-    "reviewExpiration": "2016-12-13T22:35:54.736Z",
-    "certifiedDate": "2016-12-13T22:35:54.736Z",
-    "submittedDate": "2013-04-26T22:35:54.736Z",
-    "status": "Draft",
-    "type": "Notice_Of_Intent",
-    "projectSiteInformation": {
-      "siteName": "Acequia Jardin, Rio Grande Housing",
-      "siteAddress": "2334 Rio Grande Blvd. NW",
-      "siteAddress2": "",
-      "siteCity": "Albuquerque",
-      "siteStateCode": "New Mexico",
-      "siteZipCode": "87104",
-      "siteCounty": "Albuquerque County",
-      "siteLocation": {
-        "latitude": 35.1169,
-        "longitude": 106.6752,
-        "latLongDataSource": "Google Earth",
-        "horizontalReferenceDatum": "Unknown"
-      },
-      "siteIndianCountry": false,
-      "siteIndianCountryLands": "",
-      "siteProjectStart": "2013-05-06T22:35:54.737Z",
-      "siteProjectEnd": "2013-12-30T22:35:54.737Z",
-      "siteAreaDisturbed": 0.75,
-      "siteConstructionTypes": [
-        "string"
-      ],
-      "siteStructureDemolitionBefore1980": true,
-      "siteStructureDemolitionBefore198010kSquareFeet": false,
-      "sitePreDevelopmentAgricultural": false,
-      "siteEarthDisturbingActivitiesOccurrence": true,
-      "siteEmergencyRelated": true,
-      "sitePreviousNpdesPermit": false,
-      "sitePreviousNpdesPermitId": "string",
-      "siteLessThan5Acres": false,
-      "siteRFactor": 0,
-      "siteCgpAuthorizationConfirmation": false
-    },
-    "operatorInformation": {
-      "operatorName": "Garrett Smith, Ltd.",
-      "operatorFederal": false,
-      "operatorAddress": "514 Central SW",
-      "operatorCity": "Albuquerque",
-      "operatorStateCode": "New Mexico",
-      "operatorZipCode": "87102",
-      "operatorCounty": "Albuquerque County",
-      "operatorPointOfContact": {
-        "userId": "string",
-        "firstName": "Garrett",
-        "lastName": "Smith",
-        "middleInitial": "",
-        "organization": "string",
-        "phone": "505-980-7801",
-        "phoneExtension": "876",
-        "email": "lflores@garrett-smith-ltd.com",
-        "title": ""
-      },
-      "preparer": {
-        "userId": "string",
-        "firstName": "Jeff",
-        "lastName": "Kubisak",
-        "middleInitial": "",
-        "organization": "INSPECTIONS PLUS INC",
-        "phone": "n/a",
-        "phoneExtension": "",
-        "email": "jeff@inspectionsplusinc.com",
-        "title": ""
-      },
-      "certifier": {
-        "userId": "string",
-        "firstName": "Garrett",
-        "lastName": "Smith",
-        "middleInitial": "",
-        "organization": "",
-        "phone": "",
-        "phoneExtension": "",
-        "email": "lflores@garrett-smith-ltd.com",
-        "title": "Managing Partner"
-      }
-    },
-    "dischargeInformation": {
-      "dischargeAllowable": false,
-      "dischargeMunicipalSeparateStormSewerSystem": false,
-      "dischargeUSWatersWithin50Feet": true,
-      "dischargePoints": [
-        {
-          "id": "1",
-          "description": "Rio Grande Basin",          
-          "location": {
-            "latitude": 41.3768,
-            "longitude": 77.5635,
-            "latLongDataSource": "Google Earth",
-            "horizontalReferenceDatum": "NAD 27"
-          },
-          "firstWater": {
-            "listedWaterId": "001",
-            "listedWaterName": "Rio Grande",
-            "pollutants": [
-              {
-                "pollutantId": 0,
-                "pollutantName": "E. Coli",
-                "tmdl": {
-                  "id": 0,
-                  "name": "TMDL 2"
-                }
-              }
-            ]
-          },
-          "tier": "Tier_2"
+{
+  "data": [
+    {
+      "id": 586,
+      "masterPermitNumber": "AKR10F000",
+      "npdesId": "AKR10F00D",
+      "trackingNumber": "b4774f15-86f6-42c8-99bc-758bd5cef360",
+      "createdDate": "2017-01-09T10:05:40.646-0500",
+      "lastUpdatedDate": "2017-01-09T10:11:30.625-0500",
+      "reviewExpiration": "2017-01-09T10:10:40.295-0500",
+      "certifiedDate": "2017-01-09T10:05:40.646-0500",
+      "submittedDate": "2017-01-09T10:10:40.295-0500",
+      "status": "Active",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "test",
+        "siteAddress": "test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "AK",
+        "siteZipCode": "32523",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 63.3915,
+          "longitude": 148.1836,
+          "latLongDataSource": "GPS",
+          "horizontalReferenceDatum": "WGS 84"
         },
-		{
-          "id": "2",
-          "description": "Red River Basin",          
-          "location": {
-            "latitude": 40.1234,
-            "longitude": 73.5635,
-            "latLongDataSource": "Google Earth",
-            "horizontalReferenceDatum": "NAD 27"
-          },
-          "firstWater": {
-            "listedWaterId": "1",
-            "listedWaterName": "Red River",
-            "pollutants": [
-              {
-                "pollutantId": 0,
-                "pollutantName": "Sulfur Dioxide",
-                "tmdl": {
-                  "id": 0,
-                  "name": "TMDL 3"
-                }
-              },
-              {
-                "pollutantId": 1,
-                "pollutantName": "E. Coli",
-                "tmdl": {
-                  "id": 1,
-                  "name": "TMDL 2"
-                }
-              }
-            ]
-          },
-          "tier": "Tier_2"
-        }        
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": null,
+        "siteProjectStart": "01\/09\/2017",
+        "siteProjectEnd": "01\/20\/2017",
+        "siteAreaDisturbed": 5325,
+        "siteConstructionTypes": [
+          "multi",
+          "road"
+        ],
+        "siteStructureDemolitionBefore1980": true,
+        "siteStructureDemolitionBefore198010kSquareFeet": true,
+        "sitePreDevelopmentAgricultural": false,
+        "siteEarthDisturbingActivitiesOccurrence": true,
+        "siteEmergencyRelated": true,
+        "sitePreviousNpdesPermit": true,
+        "sitePreviousNpdesPermitId": "test",
+        "siteCgpAuthorizationConfirmation": true
+      },
+      "operatorInformation": {
+        "operatorName": "test",
+        "operatorFederal": true,
+        "operatorAddress": "test",
+        "operatorAddress2": null,
+        "operatorCity": "test",
+        "operatorStateCode": "AK",
+        "operatorZipCode": "35325",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "325-235-2352",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": true,
+        "dischargeMunicipalSeparateStormSewerSystem": true,
+        "dischargeUSWatersWithin50Feet": true,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": true,
+        "cationicTreatmentChemicals": true,
+        "cationicTreatmentChemicalsAuthorization": true,
+        "treatmentChemicals": [
+          "Helminth ova"
+        ]
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": true,
+        "contactInformation": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "325-235-2352",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": true,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": "test",
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": "B"
+      },
+      "historicPreservation": {
+        "screeningCompleted": true,
+        "appendexEStep1": true,
+        "appendexEStep2": true,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": null,
+        "lewProjectEnd": null,
+        "lewLessThan5Acres": null,
+        "lewRFactorLessThan5": null,
+        "lewAcres": null,
+        "lewAreaDisturbed": null,
+        "lewRFactor": null,
+        "lewRFactorCalculationMethod": null,
+        "interimSiteStabilizationMeasures": null
+      },
+      "attachments": [
+        {
+          "id": 642,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-09T10:05:40.360-0500",
+          "category": "CoR",
+          "size": 3625
+        }
       ]
     },
-    "chemicalTreatmentInformation": {
-      "polymersFlocculantsOtherTreatmentChemicals": false,
-      "cationicTreatmentChemicals": false,
-      "cationicTreatmentChemicalsAuthorization": false,
-      "treatmentChemicals": [
-        "Polyoxyethylene Alkyl Alicyclic Amines", 
-        "Quaternary Ammonium Salts"
+    {
+      "id": 595,
+      "masterPermitNumber": "AKR10F000",
+      "npdesId": "AKR10F00C",
+      "trackingNumber": "44ccd62d-4e9e-42a4-bb80-188ea19c651f",
+      "createdDate": "2017-01-05T17:08:11.627-0500",
+      "lastUpdatedDate": "2017-01-05T17:08:12.659-0500",
+      "reviewExpiration": "2017-01-19T00:00:00.000-0500",
+      "certifiedDate": "2017-01-05T17:08:11.627-0500",
+      "submittedDate": "2017-01-19T00:00:00.000-0500",
+      "status": "Submitted",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": null,
+        "siteAddress": null,
+        "siteAddress2": null,
+        "siteCity": null,
+        "siteStateCode": "AK",
+        "siteZipCode": null,
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": null,
+          "longitude": null,
+          "latLongDataSource": null,
+          "horizontalReferenceDatum": null
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": null,
+        "siteProjectStart": null,
+        "siteProjectEnd": null,
+        "siteAreaDisturbed": null,
+        "siteConstructionTypes": [],
+        "siteStructureDemolitionBefore1980": null,
+        "siteStructureDemolitionBefore198010kSquareFeet": null,
+        "sitePreDevelopmentAgricultural": null,
+        "siteEarthDisturbingActivitiesOccurrence": null,
+        "siteEmergencyRelated": null,
+        "sitePreviousNpdesPermit": true,
+        "sitePreviousNpdesPermitId": "kjkjkl",
+        "siteCgpAuthorizationConfirmation": true
+      },
+      "operatorInformation": {
+        "operatorName": null,
+        "operatorFederal": true,
+        "operatorAddress": null,
+        "operatorAddress2": null,
+        "operatorCity": null,
+        "operatorStateCode": null,
+        "operatorZipCode": null,
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": null,
+          "lastName": null,
+          "middleInitial": null,
+          "organization": null,
+          "phone": null,
+          "phoneExtension": null,
+          "email": null,
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": null,
+        "dischargeMunicipalSeparateStormSewerSystem": null,
+        "dischargeUSWatersWithin50Feet": null,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": true,
+        "cationicTreatmentChemicals": true,
+        "cationicTreatmentChemicalsAuthorization": true,
+        "treatmentChemicals": null
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": true,
+        "contactInformation": {
+          "userId": null,
+          "firstName": null,
+          "lastName": null,
+          "middleInitial": null,
+          "organization": null,
+          "phone": null,
+          "phoneExtension": null,
+          "email": null,
+          "title": null
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": true,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": null,
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": null
+      },
+      "historicPreservation": {
+        "screeningCompleted": true,
+        "appendexEStep1": null,
+        "appendexEStep2": null,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": null,
+        "lewProjectEnd": null,
+        "lewLessThan5Acres": null,
+        "lewRFactorLessThan5": null,
+        "lewAcres": null,
+        "lewAreaDisturbed": null,
+        "lewRFactor": null,
+        "lewRFactorCalculationMethod": null,
+        "interimSiteStabilizationMeasures": null
+      },
+      "attachments": [
+        {
+          "id": 607,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-05T17:08:11.503-0500",
+          "category": "CoR",
+          "size": 3468
+        }
       ]
     },
-    "stormwaterPollutionPreventionPlanInformation": {
-      "preparationInAdvance": true,
-      "contactInformation": {
-        "userId": "string",
-        "firstName": "Garrett",
-        "lastName": "Smith",
-        "middleInitial": "",
-        "organization": "Garrett Smith, Ltd.",
-        "phone": "505-980-7801",
-        "phoneExtension": "",
-        "email": "lflores@garrett-smith-ltd.com",
-        "title": ""
-      }
+    {
+      "id": 668,
+      "masterPermitNumber": "AKR10F000",
+      "npdesId": "AKR10F00D",
+      "trackingNumber": "30e65ee3-9517-4aad-9f5c-105f40929bc2",
+      "createdDate": "2017-01-09T13:53:17.134-0500",
+      "lastUpdatedDate": "2017-01-09T14:01:30.665-0500",
+      "reviewExpiration": "2017-01-09T13:58:17.078-0500",
+      "certifiedDate": "2017-01-09T13:53:17.134-0500",
+      "submittedDate": "2017-01-09T13:58:17.078-0500",
+      "status": "Active",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "test 1",
+        "siteAddress": "test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "AK",
+        "siteZipCode": "32523",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 63.3915,
+          "longitude": 148.1836,
+          "latLongDataSource": "GPS",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": null,
+        "siteProjectStart": "01\/09\/2017",
+        "siteProjectEnd": "01\/20\/2017",
+        "siteAreaDisturbed": 5325,
+        "siteConstructionTypes": [
+          "multi",
+          "road"
+        ],
+        "siteStructureDemolitionBefore1980": true,
+        "siteStructureDemolitionBefore198010kSquareFeet": true,
+        "sitePreDevelopmentAgricultural": false,
+        "siteEarthDisturbingActivitiesOccurrence": true,
+        "siteEmergencyRelated": true,
+        "sitePreviousNpdesPermit": true,
+        "sitePreviousNpdesPermitId": "test",
+        "siteCgpAuthorizationConfirmation": true
+      },
+      "operatorInformation": {
+        "operatorName": "test",
+        "operatorFederal": true,
+        "operatorAddress": "test",
+        "operatorAddress2": null,
+        "operatorCity": "test",
+        "operatorStateCode": "AK",
+        "operatorZipCode": "35325",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "325-235-2352",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": true,
+        "dischargeMunicipalSeparateStormSewerSystem": true,
+        "dischargeUSWatersWithin50Feet": true,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": true,
+        "cationicTreatmentChemicals": true,
+        "cationicTreatmentChemicalsAuthorization": true,
+        "treatmentChemicals": [
+          "Helminth ova"
+        ]
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": true,
+        "contactInformation": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "325-235-2352",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": true,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": "test",
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": "B"
+      },
+      "historicPreservation": {
+        "screeningCompleted": true,
+        "appendexEStep1": true,
+        "appendexEStep2": true,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": null,
+        "lewProjectEnd": null,
+        "lewLessThan5Acres": null,
+        "lewRFactorLessThan5": null,
+        "lewAcres": null,
+        "lewAreaDisturbed": null,
+        "lewRFactor": null,
+        "lewRFactorCalculationMethod": null,
+        "interimSiteStabilizationMeasures": null
+      },
+      "attachments": [
+        {
+          "id": 670,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-09T13:53:17.109-0500",
+          "category": "CoR",
+          "size": 3627
+        }
+      ]
     },
-    "endangeredSpeciesProtectionInformation": {
-      "appendixDCriteriaMet": false,
-      "noEsaSpeciesOrCriticalHabitat": false,
-      "eligibilityCoveredByOtherOperator": true,
-      "otherOperatorNpdesId": "DCR12315",
-      "dischargesNotLikelyToAffect": false,
-      "speciesAndHabitatInActionArea": "Silvery Minnow, SW Willow Flycatcher, Black Footed Ferrett",
-      "distanceFromSite": ".87",
-      "coordinationWithUsfsOrNmfs": false,
-      "section7Consultation": false,
-      "biologicalOpinion": true,
-      "writtenOccurrence": false,
-      "section10Permit": true,
-      "criteriaSelectionSummary": "USF&WS Endangered Species, Bernalillo Co Report"
+    {
+      "id": 663,
+      "masterPermitNumber": "AKR10F000",
+      "npdesId": "AKR10F00D",
+      "trackingNumber": "191153b1-6906-4747-83a0-7f7c51b8b5bb",
+      "createdDate": "2017-01-09T13:52:01.160-0500",
+      "lastUpdatedDate": "2017-01-09T14:01:30.670-0500",
+      "reviewExpiration": "2017-01-09T13:57:01.080-0500",
+      "certifiedDate": "2017-01-09T13:52:01.160-0500",
+      "submittedDate": "2017-01-09T13:57:01.080-0500",
+      "status": "Active",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "test test test test",
+        "siteAddress": "test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "AK",
+        "siteZipCode": "32523",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 63.3915,
+          "longitude": 148.1836,
+          "latLongDataSource": "GPS",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": null,
+        "siteProjectStart": "01\/09\/2017",
+        "siteProjectEnd": "01\/20\/2017",
+        "siteAreaDisturbed": 5325,
+        "siteConstructionTypes": [
+          "multi",
+          "road"
+        ],
+        "siteStructureDemolitionBefore1980": true,
+        "siteStructureDemolitionBefore198010kSquareFeet": true,
+        "sitePreDevelopmentAgricultural": false,
+        "siteEarthDisturbingActivitiesOccurrence": true,
+        "siteEmergencyRelated": true,
+        "sitePreviousNpdesPermit": true,
+        "sitePreviousNpdesPermitId": "test",
+        "siteCgpAuthorizationConfirmation": true
+      },
+      "operatorInformation": {
+        "operatorName": "test test",
+        "operatorFederal": true,
+        "operatorAddress": "test",
+        "operatorAddress2": null,
+        "operatorCity": "test",
+        "operatorStateCode": "AK",
+        "operatorZipCode": "35325",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "325-235-2352",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": true,
+        "dischargeMunicipalSeparateStormSewerSystem": true,
+        "dischargeUSWatersWithin50Feet": true,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": true,
+        "cationicTreatmentChemicals": true,
+        "cationicTreatmentChemicalsAuthorization": true,
+        "treatmentChemicals": [
+          "Helminth ova"
+        ]
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": true,
+        "contactInformation": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "325-235-2352",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": true,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": "test",
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": "B"
+      },
+      "historicPreservation": {
+        "screeningCompleted": true,
+        "appendexEStep1": true,
+        "appendexEStep2": true,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": null,
+        "lewProjectEnd": null,
+        "lewLessThan5Acres": null,
+        "lewRFactorLessThan5": null,
+        "lewAcres": null,
+        "lewAreaDisturbed": null,
+        "lewRFactor": null,
+        "lewRFactorCalculationMethod": null,
+        "interimSiteStabilizationMeasures": null
+      },
+      "attachments": [
+        {
+          "id": 665,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-09T13:52:01.133-0500",
+          "category": "CoR",
+          "size": 3645
+        }
+      ]
     },
-    "historicPreservation": {
-      "screeningCompleted": true,
-      "appendexEStep1": true,
-      "appendexEStep2": true,
-      "appendexEStep3": true,
-      "appendexEStep4": true,
-      "appendexEStep4Response": "Written indication that adverse effects to historic properties from the installation of stormwater controls can be mitigated by agreed upon actions"
+    {
+      "id": 583,
+      "masterPermitNumber": "AKR10F000",
+      "npdesId": "AKR10F00F",
+      "trackingNumber": "60841d80-362c-425e-9d35-b85e2a6ca60e",
+      "createdDate": "2017-01-09T10:19:29.888-0500",
+      "lastUpdatedDate": "2017-01-09T10:26:30.751-0500",
+      "reviewExpiration": "2017-01-09T10:24:29.820-0500",
+      "certifiedDate": "2017-01-09T10:19:29.888-0500",
+      "submittedDate": "2017-01-09T10:24:29.820-0500",
+      "status": "Active",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "test",
+        "siteAddress": "test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "AK",
+        "siteZipCode": "12351",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 63.2336,
+          "longitude": 148.1836,
+          "latLongDataSource": "Map",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": null,
+        "siteProjectStart": "01\/08\/2017",
+        "siteProjectEnd": "01\/26\/2017",
+        "siteAreaDisturbed": 354,
+        "siteConstructionTypes": [
+          "multi",
+          "institutional"
+        ],
+        "siteStructureDemolitionBefore1980": true,
+        "siteStructureDemolitionBefore198010kSquareFeet": true,
+        "sitePreDevelopmentAgricultural": true,
+        "siteEarthDisturbingActivitiesOccurrence": true,
+        "siteEmergencyRelated": true,
+        "sitePreviousNpdesPermit": true,
+        "sitePreviousNpdesPermitId": "test",
+        "siteCgpAuthorizationConfirmation": true
+      },
+      "operatorInformation": {
+        "operatorName": "test",
+        "operatorFederal": true,
+        "operatorAddress": "test",
+        "operatorAddress2": null,
+        "operatorCity": "test",
+        "operatorStateCode": "AK",
+        "operatorZipCode": "test",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "325-235-2355",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": true,
+        "dischargeMunicipalSeparateStormSewerSystem": true,
+        "dischargeUSWatersWithin50Feet": true,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": true,
+        "cationicTreatmentChemicals": true,
+        "cationicTreatmentChemicalsAuthorization": true,
+        "treatmentChemicals": [
+          "Dithiocarbamates",
+          "Explosive wastes"
+        ]
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": true,
+        "contactInformation": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "353-525-3252",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": true,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": null,
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": "C"
+      },
+      "historicPreservation": {
+        "screeningCompleted": true,
+        "appendexEStep1": true,
+        "appendexEStep2": true,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": null,
+        "lewProjectEnd": null,
+        "lewLessThan5Acres": null,
+        "lewRFactorLessThan5": null,
+        "lewAcres": null,
+        "lewAreaDisturbed": null,
+        "lewRFactor": null,
+        "lewRFactorCalculationMethod": null,
+        "interimSiteStabilizationMeasures": null
+      },
+      "attachments": [
+        {
+          "id": 651,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-09T10:19:29.856-0500",
+          "category": "CoR",
+          "size": 3652
+        }
+      ]
     },
-    "attachments": [
-      {
-        "id": 0,
-        "name": "Rio Grande Housing SWPPP Map Layout1 (1).pdf",
-        "createdDate": "2013-04-25T22:35:54.742Z",
-	    "size": 64
-      }
+    {
+      "id": 626,
+      "masterPermitNumber": "DCR100000",
+      "npdesId": "DCR100008",
+      "trackingNumber": "fbc1d4f2-ba38-4e35-8843-6ecb3d314040",
+      "createdDate": "2017-01-09T13:36:33.505-0500",
+      "lastUpdatedDate": "2017-01-09T13:46:30.678-0500",
+      "reviewExpiration": "2017-01-09T13:41:33.417-0500",
+      "certifiedDate": "2017-01-09T13:36:33.505-0500",
+      "submittedDate": "2017-01-09T13:41:33.417-0500",
+      "status": "Active",
+      "type": "Low_Erosivity_Waiver",
+      "projectSiteInformation": {
+        "siteName": "very long project\/site name",
+        "siteAddress": "test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "DC",
+        "siteZipCode": "35425",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 38.8784,
+          "longitude": 77.0471,
+          "latLongDataSource": "OTHER",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": null,
+        "siteProjectStart": null,
+        "siteProjectEnd": null,
+        "siteAreaDisturbed": null,
+        "siteConstructionTypes": [],
+        "siteStructureDemolitionBefore1980": null,
+        "siteStructureDemolitionBefore198010kSquareFeet": null,
+        "sitePreDevelopmentAgricultural": null,
+        "siteEarthDisturbingActivitiesOccurrence": null,
+        "siteEmergencyRelated": null,
+        "sitePreviousNpdesPermit": null,
+        "sitePreviousNpdesPermitId": null,
+        "siteCgpAuthorizationConfirmation": null
+      },
+      "operatorInformation": {
+        "operatorName": "test operator name",
+        "operatorFederal": false,
+        "operatorAddress": "test",
+        "operatorAddress2": null,
+        "operatorCity": "test",
+        "operatorStateCode": "AK",
+        "operatorZipCode": "test",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "535-325-2523",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": null,
+        "dischargeMunicipalSeparateStormSewerSystem": null,
+        "dischargeUSWatersWithin50Feet": null,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": null,
+        "cationicTreatmentChemicals": null,
+        "cationicTreatmentChemicalsAuthorization": null,
+        "treatmentChemicals": null
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": null,
+        "contactInformation": null
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": null,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": null,
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": null
+      },
+      "historicPreservation": {
+        "screeningCompleted": null,
+        "appendexEStep1": null,
+        "appendexEStep2": null,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": "01\/09\/2017",
+        "lewProjectEnd": "01\/26\/2017",
+        "lewLessThan5Acres": true,
+        "lewRFactorLessThan5": true,
+        "lewAcres": 3,
+        "lewAreaDisturbed": 3,
+        "lewRFactor": 3,
+        "lewRFactorCalculationMethod": "online-calculator",
+        "interimSiteStabilizationMeasures": true
+      },
+      "attachments": [
+        {
+          "id": 662,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-09T13:36:33.466-0500",
+          "category": "CoR",
+          "size": 3472
+        }
+      ]
+    },
+    {
+      "id": 565,
+      "masterPermitNumber": "MWR100000",
+      "npdesId": "MWR100001",
+      "trackingNumber": "1d631f93-23a8-4fa6-89ea-bd20b168682c",
+      "createdDate": "2017-01-09T10:20:24.414-0500",
+      "lastUpdatedDate": "2017-01-09T10:26:30.757-0500",
+      "reviewExpiration": "2017-01-09T10:25:24.366-0500",
+      "certifiedDate": "2017-01-09T10:20:24.414-0500",
+      "submittedDate": "2017-01-09T10:25:24.366-0500",
+      "status": "Active",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "3",
+        "siteAddress": "test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "MW",
+        "siteZipCode": "34242",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 41.4079,
+          "longitude": 2.1335,
+          "latLongDataSource": "Map",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": null,
+        "siteProjectStart": "01\/17\/2017",
+        "siteProjectEnd": "01\/29\/2017",
+        "siteAreaDisturbed": 34,
+        "siteConstructionTypes": [
+          "multi",
+          "commercial"
+        ],
+        "siteStructureDemolitionBefore1980": true,
+        "siteStructureDemolitionBefore198010kSquareFeet": true,
+        "sitePreDevelopmentAgricultural": true,
+        "siteEarthDisturbingActivitiesOccurrence": true,
+        "siteEmergencyRelated": true,
+        "sitePreviousNpdesPermit": true,
+        "sitePreviousNpdesPermitId": "d",
+        "siteCgpAuthorizationConfirmation": true
+      },
+      "operatorInformation": {
+        "operatorName": "test",
+        "operatorFederal": true,
+        "operatorAddress": "test",
+        "operatorAddress2": null,
+        "operatorCity": "lkj",
+        "operatorStateCode": "MO",
+        "operatorZipCode": "42423",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": ";ok",
+          "lastName": "lj",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "234-234-2142",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": true,
+        "dischargeMunicipalSeparateStormSewerSystem": true,
+        "dischargeUSWatersWithin50Feet": true,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": true,
+        "cationicTreatmentChemicals": true,
+        "cationicTreatmentChemicalsAuthorization": true,
+        "treatmentChemicals": [
+          "Dithiocarbamates"
+        ]
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": true,
+        "contactInformation": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "532-523-5325",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": true,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": null,
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": "C"
+      },
+      "historicPreservation": {
+        "screeningCompleted": true,
+        "appendexEStep1": true,
+        "appendexEStep2": true,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": null,
+        "lewProjectEnd": null,
+        "lewLessThan5Acres": null,
+        "lewRFactorLessThan5": null,
+        "lewAcres": null,
+        "lewAreaDisturbed": null,
+        "lewRFactor": null,
+        "lewRFactorCalculationMethod": null,
+        "interimSiteStabilizationMeasures": null
+      },
+      "attachments": [
+        {
+          "id": 652,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-09T10:20:24.398-0500",
+          "category": "CoR",
+          "size": 3618
+        }
+      ]
+    },
+    {
+      "id": 612,
+      "masterPermitNumber": "AKR10I000",
+      "npdesId": "AKR10I00M",
+      "trackingNumber": "0bd326ee-9b67-4193-9885-e30cbc9807bf",
+      "createdDate": "2017-01-09T10:04:26.678-0500",
+      "lastUpdatedDate": "2017-01-09T10:44:20.573-0500",
+      "reviewExpiration": "2017-01-09T10:09:26.397-0500",
+      "certifiedDate": "2017-01-09T10:04:26.678-0500",
+      "submittedDate": "2017-01-09T10:09:26.397-0500",
+      "status": "Terminated",
+      "type": "Low_Erosivity_Waiver",
+      "projectSiteInformation": {
+        "siteName": "test",
+        "siteAddress": "test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "AK",
+        "siteZipCode": "34324",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 66.3728,
+          "longitude": 161.543,
+          "latLongDataSource": "Map",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": true,
+        "siteIndianCountryLands": "AHTNA",
+        "siteProjectStart": null,
+        "siteProjectEnd": null,
+        "siteAreaDisturbed": null,
+        "siteConstructionTypes": [],
+        "siteStructureDemolitionBefore1980": null,
+        "siteStructureDemolitionBefore198010kSquareFeet": null,
+        "sitePreDevelopmentAgricultural": null,
+        "siteEarthDisturbingActivitiesOccurrence": null,
+        "siteEmergencyRelated": null,
+        "sitePreviousNpdesPermit": null,
+        "sitePreviousNpdesPermitId": null,
+        "siteCgpAuthorizationConfirmation": null
+      },
+      "operatorInformation": {
+        "operatorName": "test",
+        "operatorFederal": true,
+        "operatorAddress": "32352",
+        "operatorAddress2": null,
+        "operatorCity": "test",
+        "operatorStateCode": "AZ",
+        "operatorZipCode": "21412",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "354-235-2352",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": null,
+        "dischargeMunicipalSeparateStormSewerSystem": null,
+        "dischargeUSWatersWithin50Feet": null,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": null,
+        "cationicTreatmentChemicals": null,
+        "cationicTreatmentChemicalsAuthorization": null,
+        "treatmentChemicals": null
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": null,
+        "contactInformation": null
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": null,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": null,
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": null
+      },
+      "historicPreservation": {
+        "screeningCompleted": null,
+        "appendexEStep1": null,
+        "appendexEStep2": null,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": "01\/02\/2017",
+        "lewProjectEnd": "01\/06\/2017",
+        "lewLessThan5Acres": true,
+        "lewRFactorLessThan5": true,
+        "lewAcres": 2,
+        "lewAreaDisturbed": 1,
+        "lewRFactor": 4,
+        "lewRFactorCalculationMethod": "online-calculator",
+        "interimSiteStabilizationMeasures": true
+      },
+      "attachments": [
+        {
+          "id": 641,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-09T10:04:26.521-0500",
+          "category": "CoR",
+          "size": 3436
+        }
+      ]
+    },
+    {
+      "id": 528,
+      "masterPermitNumber": "AKR10F000",
+      "npdesId": "AKR10F00B",
+      "trackingNumber": "6bcbc596-47b8-4c34-964c-03a6a91d0388",
+      "createdDate": "2017-01-04T10:28:14.728-0500",
+      "lastUpdatedDate": "2017-01-04T10:28:15.685-0500",
+      "reviewExpiration": "2017-01-18T00:00:00.000-0500",
+      "certifiedDate": "2017-01-04T10:28:14.728-0500",
+      "submittedDate": "2017-01-18T00:00:00.000-0500",
+      "status": "Submitted",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "test",
+        "siteAddress": "test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "AK",
+        "siteZipCode": "35435",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 64.6239,
+          "longitude": 148.1836,
+          "latLongDataSource": "Map",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": null,
+        "siteProjectStart": "01\/15\/2017",
+        "siteProjectEnd": "01\/28\/2017",
+        "siteAreaDisturbed": 352,
+        "siteConstructionTypes": [
+          "industrial",
+          "utility"
+        ],
+        "siteStructureDemolitionBefore1980": true,
+        "siteStructureDemolitionBefore198010kSquareFeet": true,
+        "sitePreDevelopmentAgricultural": true,
+        "siteEarthDisturbingActivitiesOccurrence": true,
+        "siteEmergencyRelated": true,
+        "sitePreviousNpdesPermit": true,
+        "sitePreviousNpdesPermitId": "test",
+        "siteCgpAuthorizationConfirmation": true
+      },
+      "operatorInformation": {
+        "operatorName": "Extremely long operator name",
+        "operatorFederal": true,
+        "operatorAddress": "1234 test",
+        "operatorAddress2": null,
+        "operatorCity": "anchorage",
+        "operatorStateCode": "AK",
+        "operatorZipCode": "41141",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "703-300-5091",
+          "phoneExtension": null,
+          "email": "test@test.nmet",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": true,
+        "dischargeMunicipalSeparateStormSewerSystem": true,
+        "dischargeUSWatersWithin50Feet": true,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": true,
+        "cationicTreatmentChemicals": true,
+        "cationicTreatmentChemicalsAuthorization": true,
+        "treatmentChemicals": null
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": true,
+        "contactInformation": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "623-462-6236",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": true,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": null,
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": "C"
+      },
+      "historicPreservation": {
+        "screeningCompleted": true,
+        "appendexEStep1": false,
+        "appendexEStep2": null,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": null,
+        "lewProjectEnd": null,
+        "lewLessThan5Acres": null,
+        "lewRFactorLessThan5": null,
+        "lewAcres": null,
+        "lewAreaDisturbed": null,
+        "lewRFactor": null,
+        "lewRFactorCalculationMethod": null,
+        "interimSiteStabilizationMeasures": null
+      },
+      "attachments": [
+        {
+          "id": 536,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-04T10:28:14.579-0500",
+          "category": "CoR",
+          "size": null
+        }
+      ]
+    },
+    {
+      "id": 540,
+      "masterPermitNumber": "ASR100000",
+      "npdesId": "ASR100008",
+      "trackingNumber": "8d388d7a-3f33-4231-89b1-9d0ed38b27c8",
+      "createdDate": "2017-01-05T17:02:05.373-0500",
+      "lastUpdatedDate": "2017-01-05T17:02:06.143-0500",
+      "reviewExpiration": "2017-01-19T00:00:00.000-0500",
+      "certifiedDate": "2017-01-05T17:02:05.373-0500",
+      "submittedDate": "2017-01-19T00:00:00.000-0500",
+      "status": "Submitted",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "Test Very Long Project\/Site Name",
+        "siteAddress": "test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "AS",
+        "siteZipCode": "21412",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 14.307,
+          "longitude": 170.7141,
+          "latLongDataSource": "Map",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": null,
+        "siteProjectStart": "01\/10\/2017",
+        "siteProjectEnd": "01\/21\/2017",
+        "siteAreaDisturbed": 324,
+        "siteConstructionTypes": [
+          "commercial",
+          "institutional"
+        ],
+        "siteStructureDemolitionBefore1980": true,
+        "siteStructureDemolitionBefore198010kSquareFeet": false,
+        "sitePreDevelopmentAgricultural": false,
+        "siteEarthDisturbingActivitiesOccurrence": true,
+        "siteEmergencyRelated": true,
+        "sitePreviousNpdesPermit": true,
+        "sitePreviousNpdesPermitId": "test",
+        "siteCgpAuthorizationConfirmation": true
+      },
+      "operatorInformation": {
+        "operatorName": "Test Very Long Operator Name",
+        "operatorFederal": false,
+        "operatorAddress": "1234 test",
+        "operatorAddress2": null,
+        "operatorCity": "test",
+        "operatorStateCode": "VA",
+        "operatorZipCode": "22182",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "552-352-3523",
+          "phoneExtension": null,
+          "email": "test@test.tes",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": true,
+        "dischargeMunicipalSeparateStormSewerSystem": true,
+        "dischargeUSWatersWithin50Feet": true,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": true,
+        "cationicTreatmentChemicals": true,
+        "cationicTreatmentChemicalsAuthorization": true,
+        "treatmentChemicals": [
+          "Iron",
+          "Nutshells in drilling fluids",
+          "WET, sublethal retest #1",
+          "Formation test fluids, free oil"
+        ]
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": true,
+        "contactInformation": {
+          "userId": null,
+          "firstName": "tset",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "325-235-2352",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": true,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": null,
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": "test",
+        "distanceFromSite": "test",
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": "C"
+      },
+      "historicPreservation": {
+        "screeningCompleted": true,
+        "appendexEStep1": true,
+        "appendexEStep2": false,
+        "appendexEStep3": false,
+        "appendexEStep4": true,
+        "appendexEStep4Response": "other"
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": null,
+        "lewProjectEnd": null,
+        "lewLessThan5Acres": null,
+        "lewRFactorLessThan5": null,
+        "lewAcres": null,
+        "lewAreaDisturbed": null,
+        "lewRFactor": null,
+        "lewRFactorCalculationMethod": null,
+        "interimSiteStabilizationMeasures": null
+      },
+      "attachments": [
+        {
+          "id": 606,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-05T17:02:05.230-0500",
+          "category": "CoR",
+          "size": 3763
+        }
+      ]
+    },
+    {
+      "id": 454,
+      "masterPermitNumber": "DCR100000",
+      "npdesId": "DCR100007",
+      "trackingNumber": "26d5d5b7-d566-4c53-b9d3-15450b942439",
+      "createdDate": "2016-12-30T17:57:05.243-0500",
+      "lastUpdatedDate": "2016-12-30T17:57:06.266-0500",
+      "reviewExpiration": "2017-01-13T00:00:00.000-0500",
+      "certifiedDate": "2016-12-30T17:57:05.243-0500",
+      "submittedDate": "2017-01-13T00:00:00.000-0500",
+      "status": "Submitted",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "project site",
+        "siteAddress": "test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "DC",
+        "siteZipCode": "23141",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 38.8729,
+          "longitude": 76.986,
+          "latLongDataSource": "Map",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": null,
+        "siteProjectStart": "12\/04\/2016",
+        "siteProjectEnd": "12\/20\/2016",
+        "siteAreaDisturbed": 432.453,
+        "siteConstructionTypes": [
+          "single",
+          "institutional"
+        ],
+        "siteStructureDemolitionBefore1980": true,
+        "siteStructureDemolitionBefore198010kSquareFeet": true,
+        "sitePreDevelopmentAgricultural": true,
+        "siteEarthDisturbingActivitiesOccurrence": true,
+        "siteEmergencyRelated": true,
+        "sitePreviousNpdesPermit": true,
+        "sitePreviousNpdesPermitId": "a",
+        "siteCgpAuthorizationConfirmation": true
+      },
+      "operatorInformation": {
+        "operatorName": "Operator Name",
+        "operatorFederal": true,
+        "operatorAddress": "1234 Test",
+        "operatorAddress2": null,
+        "operatorCity": "Test",
+        "operatorStateCode": "DC",
+        "operatorZipCode": "14124",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "Mike",
+          "lastName": "Monks",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "703-300-5091",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": true,
+        "dischargeMunicipalSeparateStormSewerSystem": true,
+        "dischargeUSWatersWithin50Feet": true,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": true,
+        "cationicTreatmentChemicals": true,
+        "cationicTreatmentChemicalsAuthorization": true,
+        "treatmentChemicals": null
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": true,
+        "contactInformation": {
+          "userId": null,
+          "firstName": "Mike",
+          "lastName": "Monks",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "703-300-5091",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": true,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": null,
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": "test",
+        "distanceFromSite": "test",
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": "C"
+      },
+      "historicPreservation": {
+        "screeningCompleted": true,
+        "appendexEStep1": true,
+        "appendexEStep2": true,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": null,
+        "lewProjectEnd": null,
+        "lewLessThan5Acres": null,
+        "lewRFactorLessThan5": null,
+        "lewAcres": null,
+        "lewAreaDisturbed": null,
+        "lewRFactor": null,
+        "lewRFactorCalculationMethod": null,
+        "interimSiteStabilizationMeasures": null
+      },
+      "attachments": [
+        {
+          "id": 456,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2016-12-30T17:57:05.194-0500",
+          "category": "CoR",
+          "size": null
+        }
+      ]
+    },
+    {
+      "id": 622,
+      "masterPermitNumber": "FLR10I000",
+      "npdesId": "FLR10I625",
+      "trackingNumber": "291b61cf-b801-4110-8cd9-4bcee0311bfc",
+      "createdDate": "2017-01-06T09:14:57.391-0500",
+      "lastUpdatedDate": "2017-01-06T09:14:58.329-0500",
+      "reviewExpiration": null,
+      "certifiedDate": "2017-01-06T09:14:57.391-0500",
+      "submittedDate": null,
+      "status": "Submitted",
+      "type": "Low_Erosivity_Waiver",
+      "projectSiteInformation": {
+        "siteName": "test",
+        "siteAddress": "3525 test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "FL",
+        "siteZipCode": "34234",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 27.9944,
+          "longitude": 82.0679,
+          "latLongDataSource": "Map",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": true,
+        "siteIndianCountryLands": "BRIGHTON RESERVATION",
+        "siteProjectStart": null,
+        "siteProjectEnd": null,
+        "siteAreaDisturbed": null,
+        "siteConstructionTypes": [],
+        "siteStructureDemolitionBefore1980": null,
+        "siteStructureDemolitionBefore198010kSquareFeet": null,
+        "sitePreDevelopmentAgricultural": null,
+        "siteEarthDisturbingActivitiesOccurrence": null,
+        "siteEmergencyRelated": null,
+        "sitePreviousNpdesPermit": null,
+        "sitePreviousNpdesPermitId": null,
+        "siteCgpAuthorizationConfirmation": null
+      },
+      "operatorInformation": {
+        "operatorName": "test",
+        "operatorFederal": true,
+        "operatorAddress": "test",
+        "operatorAddress2": null,
+        "operatorCity": "test",
+        "operatorStateCode": "AZ",
+        "operatorZipCode": "32423",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "342-342-3424",
+          "phoneExtension": null,
+          "email": "test@test.met",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": null,
+        "dischargeMunicipalSeparateStormSewerSystem": null,
+        "dischargeUSWatersWithin50Feet": null,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": null,
+        "cationicTreatmentChemicals": null,
+        "cationicTreatmentChemicalsAuthorization": null,
+        "treatmentChemicals": null
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": null,
+        "contactInformation": null
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": null,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": null,
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": null
+      },
+      "historicPreservation": {
+        "screeningCompleted": null,
+        "appendexEStep1": null,
+        "appendexEStep2": null,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": "01\/09\/2017",
+        "lewProjectEnd": "01\/26\/2017",
+        "lewLessThan5Acres": true,
+        "lewRFactorLessThan5": true,
+        "lewAcres": 3,
+        "lewAreaDisturbed": 0.75,
+        "lewRFactor": 3,
+        "lewRFactorCalculationMethod": "online-calculator",
+        "interimSiteStabilizationMeasures": true
+      },
+      "attachments": [
+        {
+          "id": 624,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-06T09:14:57.138-0500",
+          "category": "CoR",
+          "size": 3408
+        }
+      ]
+    },
+    {
+      "id": 482,
+      "masterPermitNumber": "AZR10I000",
+      "npdesId": "AZR10I002",
+      "trackingNumber": "edf67f31-6ca4-4319-9aaf-d0a62049b249",
+      "createdDate": "2017-01-03T09:29:46.146-0500",
+      "lastUpdatedDate": "2017-01-03T09:29:47.480-0500",
+      "reviewExpiration": "2017-01-17T00:00:00.000-0500",
+      "certifiedDate": "2017-01-03T09:29:46.146-0500",
+      "submittedDate": "2017-01-17T00:00:00.000-0500",
+      "status": "Submitted",
+      "type": "Notice_Of_Intent",
+      "projectSiteInformation": {
+        "siteName": "TEST",
+        "siteAddress": "TEST",
+        "siteAddress2": null,
+        "siteCity": "TEST",
+        "siteStateCode": "AZ",
+        "siteZipCode": "TEST",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 33.6951,
+          "longitude": 113.0977,
+          "latLongDataSource": "Map",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": true,
+        "siteIndianCountryLands": "CAMP VERDE RESERVATION",
+        "siteProjectStart": "01\/16\/2017",
+        "siteProjectEnd": "01\/26\/2017",
+        "siteAreaDisturbed": 35,
+        "siteConstructionTypes": [
+          "single",
+          "commercial",
+          "institutional"
+        ],
+        "siteStructureDemolitionBefore1980": true,
+        "siteStructureDemolitionBefore198010kSquareFeet": true,
+        "sitePreDevelopmentAgricultural": true,
+        "siteEarthDisturbingActivitiesOccurrence": true,
+        "siteEmergencyRelated": true,
+        "sitePreviousNpdesPermit": true,
+        "sitePreviousNpdesPermitId": "test",
+        "siteCgpAuthorizationConfirmation": true
+      },
+      "operatorInformation": {
+        "operatorName": "TEST",
+        "operatorFederal": true,
+        "operatorAddress": "TEST",
+        "operatorAddress2": null,
+        "operatorCity": "TEST",
+        "operatorStateCode": "AZ",
+        "operatorZipCode": "TEST",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "TEST",
+          "lastName": "TEST",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "532-423-2523",
+          "phoneExtension": null,
+          "email": "TEST@TEST.ETS",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": true,
+        "dischargeMunicipalSeparateStormSewerSystem": true,
+        "dischargeUSWatersWithin50Feet": true,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": true,
+        "cationicTreatmentChemicals": true,
+        "cationicTreatmentChemicalsAuthorization": true,
+        "treatmentChemicals": null
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": true,
+        "contactInformation": {
+          "userId": null,
+          "firstName": "TEST",
+          "lastName": "TEST",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "352-525-3252",
+          "phoneExtension": null,
+          "email": "TEST@test.test",
+          "title": null
+        }
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": true,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": null,
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": "D"
+      },
+      "historicPreservation": {
+        "screeningCompleted": true,
+        "appendexEStep1": true,
+        "appendexEStep2": true,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": null,
+        "lewProjectEnd": null,
+        "lewLessThan5Acres": null,
+        "lewRFactorLessThan5": null,
+        "lewAcres": null,
+        "lewAreaDisturbed": null,
+        "lewRFactor": null,
+        "lewRFactorCalculationMethod": null,
+        "interimSiteStabilizationMeasures": null
+      },
+      "attachments": [
+        {
+          "id": 484,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-03T09:29:45.989-0500",
+          "category": "CoR",
+          "size": null
+        }
+      ]
+    },
+    {
+      "id": 644,
+      "masterPermitNumber": "AKR10F000",
+      "npdesId": "AKR10F00E",
+      "trackingNumber": "1db7c8bb-df50-4761-88e2-eef8f5d1b696",
+      "createdDate": "2017-01-09T10:08:46.641-0500",
+      "lastUpdatedDate": "2017-01-09T10:16:30.638-0500",
+      "reviewExpiration": "2017-01-09T10:13:46.432-0500",
+      "certifiedDate": "2017-01-09T10:08:46.641-0500",
+      "submittedDate": "2017-01-09T10:13:46.432-0500",
+      "status": "Active",
+      "type": "Low_Erosivity_Waiver",
+      "projectSiteInformation": {
+        "siteName": "test",
+        "siteAddress": "test",
+        "siteAddress2": null,
+        "siteCity": "test",
+        "siteStateCode": "AK",
+        "siteZipCode": "35235",
+        "siteCounty": null,
+        "siteLocation": {
+          "latitude": 62.5933,
+          "longitude": 152.4023,
+          "latLongDataSource": "Map",
+          "horizontalReferenceDatum": "WGS 84"
+        },
+        "siteIndianCountry": false,
+        "siteIndianCountryLands": null,
+        "siteProjectStart": null,
+        "siteProjectEnd": null,
+        "siteAreaDisturbed": null,
+        "siteConstructionTypes": [],
+        "siteStructureDemolitionBefore1980": null,
+        "siteStructureDemolitionBefore198010kSquareFeet": null,
+        "sitePreDevelopmentAgricultural": null,
+        "siteEarthDisturbingActivitiesOccurrence": null,
+        "siteEmergencyRelated": null,
+        "sitePreviousNpdesPermit": null,
+        "sitePreviousNpdesPermitId": null,
+        "siteCgpAuthorizationConfirmation": null
+      },
+      "operatorInformation": {
+        "operatorName": "test",
+        "operatorFederal": true,
+        "operatorAddress": "test",
+        "operatorAddress2": null,
+        "operatorCity": "test",
+        "operatorStateCode": "AK",
+        "operatorZipCode": "35235",
+        "operatorCounty": null,
+        "operatorPointOfContact": {
+          "userId": null,
+          "firstName": "test",
+          "lastName": "test",
+          "middleInitial": null,
+          "organization": null,
+          "phone": "532-523-5235",
+          "phoneExtension": null,
+          "email": "test@test.net",
+          "title": null
+        },
+        "preparer": null,
+        "certifier": null
+      },
+      "dischargeInformation": {
+        "dischargeAllowable": null,
+        "dischargeMunicipalSeparateStormSewerSystem": null,
+        "dischargeUSWatersWithin50Feet": null,
+        "dischargePoints": []
+      },
+      "chemicalTreatmentInformation": {
+        "polymersFlocculantsOtherTreatmentChemicals": null,
+        "cationicTreatmentChemicals": null,
+        "cationicTreatmentChemicalsAuthorization": null,
+        "treatmentChemicals": null
+      },
+      "stormwaterPollutionPreventionPlanInformation": {
+        "preparationInAdvance": null,
+        "contactInformation": null
+      },
+      "endangeredSpeciesProtectionInformation": {
+        "appendixDCriteriaMet": null,
+        "noEsaSpeciesOrCriticalHabitat": null,
+        "eligibilityCoveredByOtherOperator": null,
+        "otherOperatorNpdesId": null,
+        "dischargesNotLikelyToAffect": null,
+        "speciesAndHabitatInActionArea": null,
+        "distanceFromSite": null,
+        "coordinationWithUsfsOrNmfs": null,
+        "section7Consultation": null,
+        "biologicalOpinion": null,
+        "writtenOccurrence": null,
+        "section10Permit": null,
+        "criteriaSelectionSummary": null
+      },
+      "historicPreservation": {
+        "screeningCompleted": null,
+        "appendexEStep1": null,
+        "appendexEStep2": null,
+        "appendexEStep3": null,
+        "appendexEStep4": null,
+        "appendexEStep4Response": null
+      },
+      "lowErosivityWaiver": {
+        "lewProjectStart": "01\/01\/2017",
+        "lewProjectEnd": "01\/12\/2017",
+        "lewLessThan5Acres": true,
+        "lewRFactorLessThan5": true,
+        "lewAcres": 4,
+        "lewAreaDisturbed": 3,
+        "lewRFactor": 2,
+        "lewRFactorCalculationMethod": "online-calculator",
+        "interimSiteStabilizationMeasures": true
+      },
+      "attachments": [
+        {
+          "id": 646,
+          "name": "CopyOfRecord.json",
+          "createdDate": "2017-01-09T10:08:46.471-0500",
+          "category": "CoR",
+          "size": 3434
+        }
+      ]
+    }
+  ],
+  "datatable": [
+    [
+      586,
+      "AKR10F000",
+      "AKR10F00D",
+      "test",
+      "test",
+      "AK",
+      "test",
+      "Active",
+      "2017-01-09T10:10:40.295-0500"
+    ],
+    [
+      595,
+      "AKR10F000",
+      "AKR10F00C",
+      null,
+      null,
+      "AK",
+      null,
+      "Submitted",
+      "2017-01-19T00:00:00.000-0500"
+    ],
+    [
+      668,
+      "AKR10F000",
+      "AKR10F00D",
+      "test",
+      "test 1",
+      "AK",
+      "test",
+      "Active",
+      "2017-01-09T13:58:17.078-0500"
+    ],
+    [
+      663,
+      "AKR10F000",
+      "AKR10F00D",
+      "test test",
+      "test test test test",
+      "AK",
+      "test",
+      "Active",
+      "2017-01-09T13:57:01.080-0500"
+    ],
+    [
+      583,
+      "AKR10F000",
+      "AKR10F00F",
+      "test",
+      "test",
+      "AK",
+      "test",
+      "Active",
+      "2017-01-09T10:24:29.820-0500"
+    ],
+    [
+      626,
+      "DCR100000",
+      "DCR100008",
+      "test operator name",
+      "very long project\/site name",
+      "DC",
+      "test",
+      "Active",
+      "2017-01-09T13:41:33.417-0500"
+    ],
+    [
+      565,
+      "MWR100000",
+      "MWR100001",
+      "test",
+      "3",
+      "MW",
+      "test",
+      "Active",
+      "2017-01-09T10:25:24.366-0500"
+    ],
+    [
+      612,
+      "AKR10I000",
+      "AKR10I00M",
+      "test",
+      "test",
+      "AK",
+      "test",
+      "Terminated",
+      "2017-01-09T10:09:26.397-0500"
+    ],
+    [
+      528,
+      "AKR10F000",
+      "AKR10F00B",
+      "Extremely long operator name",
+      "test",
+      "AK",
+      "test",
+      "Submitted",
+      "2017-01-18T00:00:00.000-0500"
+    ],
+    [
+      540,
+      "ASR100000",
+      "ASR100008",
+      "Test Very Long Operator Name",
+      "Test Very Long Project\/Site Name",
+      "AS",
+      "test",
+      "Submitted",
+      "2017-01-19T00:00:00.000-0500"
+    ],
+    [
+      454,
+      "DCR100000",
+      "DCR100007",
+      "Operator Name",
+      "project site",
+      "DC",
+      "test",
+      "Submitted",
+      "2017-01-13T00:00:00.000-0500"
+    ],
+    [
+      622,
+      "FLR10I000",
+      "FLR10I625",
+      "test",
+      "test",
+      "FL",
+      "test",
+      "Submitted",
+      null
+    ],
+    [
+      482,
+      "AZR10I000",
+      "AZR10I002",
+      "TEST",
+      "TEST",
+      "AZ",
+      "TEST",
+      "Submitted",
+      "2017-01-17T00:00:00.000-0500"
+    ],
+    [
+      644,
+      "AKR10F000",
+      "AKR10F00E",
+      "test",
+      "test",
+      "AK",
+      "test",
+      "Active",
+      "2017-01-09T10:13:46.432-0500"
     ]
-  },
-  {
-    "id": 222,
-    "masterPermitNumber": "ALR10I000",
-    "npdesId": "ALR10I008",
-    "trackingNumber": "44d4e5b7-d566-4c53-b9d3-15450b942439",    
-    "createdDate": "2016-12-22T17:57:54.56-05:00",
-    "lastUpdatedDate": "2016-12-22T17:57:56.713-05:00",
-    "reviewExpiration": "2017-01-05T00:00:00-05:00",
-    "certifiedDate": "2016-12-22T17:57:54.56-05:00",
-    "submittedDate": "2017-01-05T00:00:00-05:00",
-    "status": "UnderReview",
-    "type": "Notice_Of_Intent",
-    "projectSiteInformation": {
-      "siteName": "Test 4",
-      "siteAddress": "asdf",
-      "siteAddress2": null,
-      "siteCity": "asdf",
-      "siteStateCode": "AL",
-      "siteZipCode": "12341",
-      "siteCounty": null,
-      "siteLocation": {
-        "latitude": 12,
-        "longitude": 123,
-        "latLongDataSource": "Map",
-        "horizontalReferenceDatum": "NAD 27"
-      },
-      "siteIndianCountry": true,
-      "siteIndianCountryLands": "POARCH CREEK RESERVATION",
-      "siteProjectStart": "12/21/2016",
-      "siteProjectEnd": "01/27/2017",
-      "siteAreaDisturbed": 12,
-      "siteConstructionTypes": [
-        "single"
-      ],
-      "siteStructureDemolitionBefore1980": true,
-      "siteStructureDemolitionBefore198010kSquareFeet": true,
-      "sitePreDevelopmentAgricultural": true,
-      "siteEarthDisturbingActivitiesOccurrence": true,
-      "siteEmergencyRelated": true,
-      "sitePreviousNpdesPermit": false,
-      "sitePreviousNpdesPermitId": null,
-      "siteLessThan5Acres": null,
-      "siteRFactor": null,
-      "siteCgpAuthorizationConfirmation": true
-    },
-    "operatorInformation": {
-      "operatorName": "Test 4",
-      "operatorFederal": true,
-      "operatorAddress": "asdf",
-      "operatorCity": "asdf",
-      "operatorStateCode": "AL",
-      "operatorZipCode": "12341",
-      "operatorCounty": null,
-      "operatorPointOfContact": {
-        "userId": null,
-        "firstName": "asdf",
-        "lastName": "asdf",
-        "middleInitial": null,
-        "organization": null,
-        "phone": "123-412-3412",
-        "phoneExtension": null,
-        "email": "linera@abieva.com",
-        "title": "asdf"
-      },
-      "preparer": {
-        "userId": null,
-        "firstName": null,
-        "lastName": null,
-        "middleInitial": null,
-        "organization": null,
-        "phone": null,
-        "phoneExtension": null,
-        "email": null,
-        "title": null
-      },
-      "certifier": {
-        "userId": null,
-        "firstName": null,
-        "lastName": null,
-        "middleInitial": null,
-        "organization": null,
-        "phone": null,
-        "phoneExtension": null,
-        "email": null,
-        "title": null
-      }
-    },
-    "dischargeInformation": {
-      "dischargeAllowable": true,
-      "dischargeMunicipalSeparateStormSewerSystem": true,
-      "dischargeUSWatersWithin50Feet": true,
-      "dischargePoints": []
-    },
-    "chemicalTreatmentInformation": {
-      "polymersFlocculantsOtherTreatmentChemicals": true,
-      "cationicTreatmentChemicals": true,
-      "cationicTreatmentChemicalsAuthorization": true,
-      "treatmentChemicals": null
-    },
-    "stormwaterPollutionPreventionPlanInformation": {
-      "preparationInAdvance": true,
-      "contactInformation": {
-        "userId": null,
-        "firstName": "asdf",
-        "lastName": "asdf",
-        "middleInitial": null,
-        "organization": null,
-        "phone": "123-412-3412",
-        "phoneExtension": null,
-        "email": "linera@abieva.com",
-        "title": null
-      }
-    },
-    "endangeredSpeciesProtectionInformation": {
-      "appendixDCriteriaMet": true,
-      "noEsaSpeciesOrCriticalHabitat": null,
-      "eligibilityCoveredByOtherOperator": null,
-      "otherOperatorNpdesId": null,
-      "dischargesNotLikelyToAffect": null,
-      "speciesAndHabitatInActionArea": null,
-      "distanceFromSite": null,
-      "coordinationWithUsfsOrNmfs": null,
-      "section7Consultation": null,
-      "biologicalOpinion": null,
-      "writtenOccurrence": null,
-      "section10Permit": null,
-      "criteriaSelectionSummary": "A"
-    },
-    "historicPreservation": {
-      "screeningCompleted": true,
-      "appendexEStep1": true,
-      "appendexEStep2": true,
-      "appendexEStep3": null,
-      "appendexEStep4": null,
-      "appendexEStep4Response": null
-    },
-    "attachments": []
-  },
-  {
-    "id": 242,
-    "masterPermitNumber": "AKR10F000",
-    "npdesId": "AKR10F007",
-    "trackingNumber": "11c3a7c4-d566-4c53-b9d3-15450b942439",    
-    "createdDate": "2016-12-23T09:39:57.119-05:00",
-    "lastUpdatedDate": "2016-12-23T09:39:57.328-05:00",
-    "reviewExpiration": "2017-01-06T00:00:00-05:00",
-    "certifiedDate": "2016-12-23T09:39:57.119-05:00",
-    "submittedDate": "2017-01-06T00:00:00-05:00",
-    "status": "UnderReview",
-    "type": "Notice_Of_Intent",
-    "projectSiteInformation": {
-      "siteName": "Test Long Name Construction Construction Co. LTD.",
-      "siteAddress": "1215 Main St",
-      "siteAddress2": null,
-      "siteCity": "Anchorage ",
-      "siteStateCode": "AK",
-      "siteZipCode": "23141",
-      "siteCounty": null,
-      "siteLocation": {
-        "latitude": 38.8946,
-        "longitude": 77.0231,
-        "latLongDataSource": "Map",
-        "horizontalReferenceDatum": "WGS 84"
-      },
-      "siteIndianCountry": false,
-      "siteIndianCountryLands": null,
-      "siteProjectStart": "12/20/2016",
-      "siteProjectEnd": "12/26/2016",
-      "siteAreaDisturbed": 14,
-      "siteConstructionTypes": [
-        "institutional",
-        "industrial",
-        "commercial",
-        "road"
-      ],
-      "siteStructureDemolitionBefore1980": true,
-      "siteStructureDemolitionBefore198010kSquareFeet": true,
-      "sitePreDevelopmentAgricultural": false,
-      "siteEarthDisturbingActivitiesOccurrence": true,
-      "siteEmergencyRelated": true,
-      "sitePreviousNpdesPermit": true,
-      "sitePreviousNpdesPermitId": "asdf",
-      "siteLessThan5Acres": null,
-      "siteRFactor": null,
-      "siteCgpAuthorizationConfirmation": true
-    },
-    "operatorInformation": {
-      "operatorName": "Operator Name",
-      "operatorFederal": true,
-      "operatorAddress": "9416 Main St",
-      "operatorCity": "Anchorage",
-      "operatorStateCode": "AK",
-      "operatorZipCode": "21412",
-      "operatorCounty": null,
-      "operatorPointOfContact": {
-        "userId": null,
-        "firstName": "Mike",
-        "lastName": "Monks",
-        "middleInitial": null,
-        "organization": null,
-        "phone": "703-555-5555",
-        "phoneExtension": null,
-        "email": "michael.monks@cgifederal.com",
-        "title": "Foreman"
-      },
-      "preparer": {
-        "userId": null,
-        "firstName": null,
-        "lastName": null,
-        "middleInitial": null,
-        "organization": null,
-        "phone": null,
-        "phoneExtension": null,
-        "email": null,
-        "title": null
-      },
-      "certifier": {
-        "userId": null,
-        "firstName": null,
-        "lastName": null,
-        "middleInitial": null,
-        "organization": null,
-        "phone": null,
-        "phoneExtension": null,
-        "email": null,
-        "title": null
-      }
-    },
-    "dischargeInformation": {
-      "dischargeAllowable": false,
-      "dischargeMunicipalSeparateStormSewerSystem": true,
-      "dischargeUSWatersWithin50Feet": true,
-      "dischargePoints": []
-    },
-    "chemicalTreatmentInformation": {
-      "polymersFlocculantsOtherTreatmentChemicals": true,
-      "cationicTreatmentChemicals": true,
-      "cationicTreatmentChemicalsAuthorization": true,
-      "treatmentChemicals": null
-    },
-    "stormwaterPollutionPreventionPlanInformation": {
-      "preparationInAdvance": true,
-      "contactInformation": {
-        "userId": null,
-        "firstName": "Mike",
-        "lastName": "Monks",
-        "middleInitial": null,
-        "organization": null,
-        "phone": "",
-        "phoneExtension": null,
-        "email": "miikemonks@gmail.com",
-        "title": null
-      }
-    },
-    "endangeredSpeciesProtectionInformation": {
-      "appendixDCriteriaMet": true,
-      "noEsaSpeciesOrCriticalHabitat": null,
-      "eligibilityCoveredByOtherOperator": null,
-      "otherOperatorNpdesId": null,
-      "dischargesNotLikelyToAffect": null,
-      "speciesAndHabitatInActionArea": null,
-      "distanceFromSite": null,
-      "coordinationWithUsfsOrNmfs": null,
-      "section7Consultation": null,
-      "biologicalOpinion": null,
-      "writtenOccurrence": null,
-      "section10Permit": null,
-      "criteriaSelectionSummary": "C"
-    },
-    "historicPreservation": {
-      "screeningCompleted": true,
-      "appendexEStep1": false,
-      "appendexEStep2": false,
-      "appendexEStep3": false,
-      "appendexEStep4": false,
-      "appendexEStep4Response": null
-    },
-    "attachments": []
-  },
-  {
-    "id": 244,
-    "masterPermitNumber": "DCR100000",
-    "npdesId": "DCR100003",
-    "trackingNumber": "77c3a7c4-d566-4c53-b9d3-15450b942439",     
-    "createdDate": "2016-12-23T09:40:27.633-05:00",
-    "lastUpdatedDate": "2016-12-23T09:40:27.814-05:00",
-    "reviewExpiration": "2017-01-06T00:00:00-05:00",
-    "certifiedDate": "2016-12-23T09:40:27.633-05:00",
-    "submittedDate": "2017-01-06T00:00:00-05:00",
-    "status": "UnderReview",
-    "type": "Notice_Of_Intent",
-    "projectSiteInformation": {
-      "siteName": "Test Extremely Long Name Construction Construction Co. LTD.",
-      "siteAddress": "193 E street",
-      "siteAddress2": null,
-      "siteCity": "District Of Columbia",
-      "siteStateCode": "DC",
-      "siteZipCode": "23220",
-      "siteCounty": null,
-      "siteLocation": {
-        "latitude": 38.8931,
-        "longitude": 77.0261,
-        "latLongDataSource": "Map",
-        "horizontalReferenceDatum": "WGS 84"
-      },
-      "siteIndianCountry": false,
-      "siteIndianCountryLands": null,
-      "siteProjectStart": "12/15/2016",
-      "siteProjectEnd": "12/28/2016",
-      "siteAreaDisturbed": 25.12,
-      "siteConstructionTypes": [
-        "commercial",
-        "industrial"
-      ],
-      "siteStructureDemolitionBefore1980": false,
-      "siteStructureDemolitionBefore198010kSquareFeet": null,
-      "sitePreDevelopmentAgricultural": false,
-      "siteEarthDisturbingActivitiesOccurrence": true,
-      "siteEmergencyRelated": false,
-      "sitePreviousNpdesPermit": true,
-      "sitePreviousNpdesPermitId": "1231415",
-      "siteLessThan5Acres": null,
-      "siteRFactor": null,
-      "siteCgpAuthorizationConfirmation": true
-    },
-    "operatorInformation": {
-      "operatorName": "Test Extremely Long Name Construction Construction Co. LTD.",
-      "operatorFederal": false,
-      "operatorAddress": "1234 Test Ave",
-      "operatorCity": "DC",
-      "operatorStateCode": "DC",
-      "operatorZipCode": "23220",
-      "operatorCounty": null,
-      "operatorPointOfContact": {
-        "userId": null,
-        "firstName": "John",
-        "lastName": "Appleseed",
-        "middleInitial": null,
-        "organization": null,
-        "phone": "703-555-5555",
-        "phoneExtension": null,
-        "email": "jappleseed@earthlink.net",
-        "title": "Foreman"
-      },
-      "preparer": {
-        "userId": null,
-        "firstName": null,
-        "lastName": null,
-        "middleInitial": null,
-        "organization": null,
-        "phone": null,
-        "phoneExtension": null,
-        "email": null,
-        "title": null
-      },
-      "certifier": {
-        "userId": null,
-        "firstName": null,
-        "lastName": null,
-        "middleInitial": null,
-        "organization": null,
-        "phone": null,
-        "phoneExtension": null,
-        "email": null,
-        "title": null
-      }
-    },
-    "dischargeInformation": {
-      "dischargeAllowable": false,
-      "dischargeMunicipalSeparateStormSewerSystem": true,
-      "dischargeUSWatersWithin50Feet": false,
-      "dischargePoints": []
-    },
-    "chemicalTreatmentInformation": {
-      "polymersFlocculantsOtherTreatmentChemicals": true,
-      "cationicTreatmentChemicals": true,
-      "cationicTreatmentChemicalsAuthorization": true,
-      "treatmentChemicals": null
-    },
-    "stormwaterPollutionPreventionPlanInformation": {
-      "preparationInAdvance": true,
-      "contactInformation": {
-        "userId": null,
-        "firstName": null,
-        "lastName": null,
-        "middleInitial": null,
-        "organization": null,
-        "phone": "",
-        "phoneExtension": null,
-        "email": null,
-        "title": null
-      }
-    },
-    "endangeredSpeciesProtectionInformation": {
-      "appendixDCriteriaMet": true,
-      "noEsaSpeciesOrCriticalHabitat": null,
-      "eligibilityCoveredByOtherOperator": null,
-      "otherOperatorNpdesId": null,
-      "dischargesNotLikelyToAffect": null,
-      "speciesAndHabitatInActionArea": null,
-      "distanceFromSite": null,
-      "coordinationWithUsfsOrNmfs": null,
-      "section7Consultation": null,
-      "biologicalOpinion": null,
-      "writtenOccurrence": null,
-      "section10Permit": null,
-      "criteriaSelectionSummary": null
-    },
-    "historicPreservation": {
-      "screeningCompleted": true,
-      "appendexEStep1": null,
-      "appendexEStep2": null,
-      "appendexEStep3": null,
-      "appendexEStep4": null,
-      "appendexEStep4Response": null
-    },
-    "attachments": []
-  },
-  {
-    "id": 206,
-    "masterPermitNumber": "DCR100000",
-    "npdesId": "DCR100003",
-    "trackingNumber": "97c3a7c4-d566-4c53-b9d3-15450b942439",     
-    "createdDate": "2016-12-23T09:22:14.562-05:00",
-    "lastUpdatedDate": "2016-12-23T09:22:16.75-05:00",
-    "reviewExpiration": "2017-01-06T00:00:00-05:00",
-    "certifiedDate": "2016-12-23T09:22:14.562-05:00",
-    "submittedDate": "2017-01-06T00:00:00-05:00",
-    "status": "UnderReview",
-    "type": "Notice_Of_Intent",
-    "projectSiteInformation": {
-      "siteName": "Test Extremely Long Name Construction Construction Co. LTD.",
-      "siteAddress": "193 E street",
-      "siteAddress2": null,
-      "siteCity": "District Of Columbia",
-      "siteStateCode": "DC",
-      "siteZipCode": "23220",
-      "siteCounty": null,
-      "siteLocation": {
-        "latitude": 38.8931,
-        "longitude": 77.0261,
-        "latLongDataSource": "Map",
-        "horizontalReferenceDatum": "WGS 84"
-      },
-      "siteIndianCountry": false,
-      "siteIndianCountryLands": null,
-      "siteProjectStart": "12/15/2016",
-      "siteProjectEnd": "12/28/2016",
-      "siteAreaDisturbed": 25.12,
-      "siteConstructionTypes": [
-        "commercial",
-        "industrial"
-      ],
-      "siteStructureDemolitionBefore1980": false,
-      "siteStructureDemolitionBefore198010kSquareFeet": null,
-      "sitePreDevelopmentAgricultural": false,
-      "siteEarthDisturbingActivitiesOccurrence": true,
-      "siteEmergencyRelated": false,
-      "sitePreviousNpdesPermit": true,
-      "sitePreviousNpdesPermitId": "1231415",
-      "siteLessThan5Acres": null,
-      "siteRFactor": null,
-      "siteCgpAuthorizationConfirmation": true
-    },
-    "operatorInformation": {
-      "operatorName": "Test Extremely Long Name Construction Construction Co. LTD.",
-      "operatorFederal": false,
-      "operatorAddress": "1234 Test Ave",
-      "operatorCity": "DC",
-      "operatorStateCode": "DC",
-      "operatorZipCode": "23220",
-      "operatorCounty": null,
-      "operatorPointOfContact": {
-        "userId": null,
-        "firstName": "John",
-        "lastName": "Appleseed",
-        "middleInitial": null,
-        "organization": null,
-        "phone": "703-555-5555",
-        "phoneExtension": null,
-        "email": "jappleseed@earthlink.net",
-        "title": "Foreman"
-      },
-      "preparer": {
-        "userId": null,
-        "firstName": null,
-        "lastName": null,
-        "middleInitial": null,
-        "organization": null,
-        "phone": null,
-        "phoneExtension": null,
-        "email": null,
-        "title": null
-      },
-      "certifier": {
-        "userId": null,
-        "firstName": null,
-        "lastName": null,
-        "middleInitial": null,
-        "organization": null,
-        "phone": null,
-        "phoneExtension": null,
-        "email": null,
-        "title": null
-      }
-    },
-    "dischargeInformation": {
-      "dischargeAllowable": false,
-      "dischargeMunicipalSeparateStormSewerSystem": true,
-      "dischargeUSWatersWithin50Feet": false,
-      "dischargePoints": []
-    },
-    "chemicalTreatmentInformation": {
-      "polymersFlocculantsOtherTreatmentChemicals": true,
-      "cationicTreatmentChemicals": true,
-      "cationicTreatmentChemicalsAuthorization": true,
-      "treatmentChemicals": null
-    },
-    "stormwaterPollutionPreventionPlanInformation": {
-      "preparationInAdvance": true,
-      "contactInformation": {
-        "userId": null,
-        "firstName": null,
-        "lastName": null,
-        "middleInitial": null,
-        "organization": null,
-        "phone": "",
-        "phoneExtension": null,
-        "email": null,
-        "title": null
-      }
-    },
-    "endangeredSpeciesProtectionInformation": {
-      "appendixDCriteriaMet": true,
-      "noEsaSpeciesOrCriticalHabitat": null,
-      "eligibilityCoveredByOtherOperator": null,
-      "otherOperatorNpdesId": null,
-      "dischargesNotLikelyToAffect": null,
-      "speciesAndHabitatInActionArea": null,
-      "distanceFromSite": null,
-      "coordinationWithUsfsOrNmfs": null,
-      "section7Consultation": null,
-      "biologicalOpinion": null,
-      "writtenOccurrence": null,
-      "section10Permit": null,
-      "criteriaSelectionSummary": null
-    },
-    "historicPreservation": {
-      "screeningCompleted": true,
-      "appendexEStep1": null,
-      "appendexEStep2": null,
-      "appendexEStep3": null,
-      "appendexEStep4": null,
-      "appendexEStep4Response": null
-    },
-    "attachments": []
-  }
-]
+  ],
+  "error": false
+}

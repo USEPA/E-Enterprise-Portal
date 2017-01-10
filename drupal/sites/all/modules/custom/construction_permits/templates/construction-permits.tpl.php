@@ -105,7 +105,7 @@
           for="cgp-permit-zip">Zip</label>
         <input type="text"
                id="cgp-permit-zip"
-               name="projectZip" data-parsley-pattern="/^(\d{5}|\d{5}-\d{4})$/"></div>
+               name="projectZip" data-parsley-pattern="/(\d{5}|\d{5}-\d{4})/"></div>
     </div>
     <div class="line">
       <div class="col-md-6">
@@ -156,12 +156,12 @@
           <label for="cgp-permit-number">Permit
             tracking number</label>
           <input type="text" id="cgp-permit-number"
-                 name="trackingNumber" data-parsley-pattern="/^([0-9a-e]{8}-?[0-9a-e]{4}-?4[0-9a-e]{3}-?[89ab][0-9a-e]{3}-?[0-9a-e]{12})$/" data-parsley-error-message="Permit numbers are composed of a combination of 32 lowercase hexadecimal digits.">
+                 name="trackingNumber" data-parsley-pattern="/([0-9a-f]{8}-?[0-9a-f]{4}-?4[0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12})/" data-parsley-error-message="Permit numbers are composed of a combination of 32 lowercase hexadecimal digits.">
         </div>
         <div class="col-md-6">
           <label for="cgp-npdes-id">NPDES ID</label>
           <input type="text" id="cgp-npdes-id"
-                 name="npdesId" data-parsley-pattern="/^([A[LKSZR]|C[AOT]|D[EC]|F[ML]|G[AU]|HI|I[DLNA]|J[A]|K[SY]|LA|M[EHDAINSOTW]|N[EIVHJMYCD]|MP|O[HKR]|P[WAR]|RI|S[CD]|T[NX]|UT|V[TIA]|W[AVIY]]{2})([A-Z]{1})([0-9IF]{5,})$/i" data-parsley-error-message="NPDES IDs are a combination of 3 letters and 6 alphanumeric characters.">
+                 name="npdesId" data-parsley-pattern="/([A[LKSZR]|C[AOT]|D[EC]|F[ML]|G[AU]|HI|I[DLNA]|J[A]|K[SY]|LA|M[EHDAINSOTW]|N[EIVHJMYCD]|MP|O[HKR]|P[WAR]|RI|S[CD]|T[NX]|UT|V[TIA]|W[AVIY]]{2})([A-Z]{1})([0-9IF]{5,})/i" data-parsley-error-message="NPDES IDs are a combination of 3 letters and 6 alphanumeric characters.">
         </div>
       </div>
       <div class="line">
