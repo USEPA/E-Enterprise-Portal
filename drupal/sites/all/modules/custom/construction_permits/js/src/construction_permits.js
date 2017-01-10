@@ -42,9 +42,32 @@ toggleSection = function() {
   cgp_resize_modal();
 }
 
+function cgp_jump(h){
+
+  $cgp_m = jQuery('#construction-permits-modal');
+  $cgp_select = jQuery('#cgp-header');
+
+  // Scroll the modal to the anchor clicked
+  if (!$cgp_select.hasClass('sticky-toc')) {
+    $cgp_select.addClass('sticky-toc');
+    $cgp_select.css({
+      'width': $cgp_m.width(),
+      'top': $cgp_m.offset().top
+    });
+  }
+  // Use the Laws and Regs heading as a landmark for gauging offset and scrolled amount
+  var toc_bottom = jQuery('#cgp-general').offset().top;
+  var jumpto = '#' + h;
+  var target_top = jQuery(jumpto).offset().top;
+  var scroll_amount = target_top - toc_bottom - 80;
+  $cgp_m.animate({ scrollTop: scroll_amount}, 500);
+}
+
 function cgp_resize_modal() {
   jQuery('#construction-permits-modal').dialog({
-    position: {'my': 'center', 'at': 'center'}
+    position: {'my': 'center', 'at': 'center'},
+    width: jQuery(window).width()-180,
+    height: jQuery(window).height()-180
   });
   if (jQuery('.construction-permits-modal').css('top').replace('px', '') < 1) {
     jQuery('.construction-permits-modal').css('top', 0)
@@ -90,6 +113,28 @@ function create_search_results(search_results_json) {
           function(e) {
             e.stopImmediatePropagation();
             show_needed_cgp_div($('#construction-permits-details-wrapper, #' + form_id), $('.construction-permits-modal-wrapper, .permit-wrapper'), $("#" + form_id).attr('title'));
+            $('body').addClass('fixed-modal-open');
+            $modal = $('#construction-permits-modal');
+            $cgp_options = $('#cgp-header');
+
+            // Setup table of contents (toc) and the stickyness in the modal
+            $modal.parent().css('position', 'fixed');
+            $modal.scroll(function() {
+              $m = $('#construction-permits-modal');
+              $toc = $('#cgp-header');
+              var sticky_gap = $toc.offset().top;
+              if ($m.scrollTop() > sticky_gap) {
+                $toc.addClass('sticky-toc');
+                $toc.css('width', $m.width()+6).css('top', $m.offset().top);
+              }
+              else {
+                $toc.removeClass('sticky-toc').removeAttr('style');
+              }
+            });
+            $('#cgp-shortcut').on('change', function(ev) {
+              ev.preventDefault();
+              cgp_jump($(this).val());
+            });
             return false;
           }
         );
@@ -134,6 +179,7 @@ function create_search_results(search_results_json) {
         }).html(pageNo + ' of ' + info.pages);
         $('#construction-permits-results-wrapper').find('.dataTables_paginate li:first').after($current_li);
       }
+
     }
   };
 
@@ -344,7 +390,9 @@ function reset_cgp_form() {
       .html(Drupal.settings.construction_permits.cgp_modal)
       .dialog({
         modal: true,
-        width: "auto",
+        width: $(window).width()-180,
+        height: $(window).height()-180,
+        closeOnEscape: true,
         title: "Results for Construction General Permits Search",
         position: {'my': 'center', 'at': 'center'},
         dialogClass: 'construction-permits-modal',
@@ -352,7 +400,6 @@ function reset_cgp_form() {
         draggable: false,
         resizable: false,
         create: function(event, ui) {
-          $('#cgp-tabs').tabs();
           var $form = $('cgp-form');
 
           //@TODO Use Parsley to validate form if needed
