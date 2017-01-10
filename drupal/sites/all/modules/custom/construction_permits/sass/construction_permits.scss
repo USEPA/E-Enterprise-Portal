@@ -295,130 +295,6 @@ body.fixed-modal-open {
         }
     }
 
-    #construction-permits-results-wrapper {
-        > h1 {
-            margin-top: -3rem;
-            margin-bottom: 3rem;
-        }
-        ol {
-            margin-top: 0;
-            margin-left: 4rem;
-            margin-bottom: 1rem;
-            li {
-                list-style-type: decimal;
-                display: block;
-                &:before {
-                    display: inline-block;
-                    margin-left: -2.0rem; // Create hanging indent for numbering
-                }
-            }
-            ol {
-                margin-top: 0;
-                margin-left: 2rem;
-            }
-        }
-        ul {
-            margin-top: 0;
-            margin-left: 1.4rem;
-            li:before {
-                content: '';
-            }
-        }
-        ol[type=a] {
-            counter-reset: section;
-            li {
-                counter-increment: section;
-                display: block;
-                padding-left: 1em;
-                &:before {
-                    content: counter(section, lower-alpha) '.';
-                    position: absolute;
-                    margin-left: -1.5em;
-                }
-            }
-        }
-
-        table {
-            thead th {
-                background: transparent;
-            }
-            border-bottom: none;
-        }
-        .ui-accordion-content {
-            padding: 0;
-        }
-        .one-half {
-            float: left;
-            display: block;
-            width: 100%;
-            &:first-child {
-                margin-left: 0;
-            }
-        }
-
-        #construction-permits-accordion {
-            margin-top: 10px;
-            background-color: #ffffff;
-            font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
-            & > table, & > div {
-                padding: 0 1%;
-            }
-            h1 {
-                background: #0000BB none;
-                color: white;
-                font-size: 1.5rem;
-                display: block;
-                position: relative;
-                margin: 2px 0 0 0;
-                padding: .5em 0;
-                min-height: 0;
-                i {
-                    position: absolute;
-                }
-            }
-            .cgp-legend {
-                width: 100%;
-                display: block;
-                border: 1px solid #999999;
-                padding: 1rem;
-                div {
-                    padding: 1rem;
-                    white-space: nowrap;
-                }
-
-            }
-
-            #construction-permits-result-details-table {
-                tbody {
-                    tr {
-                        .cgp-detail-td {
-                            h4 {
-                                margin: 0 0 1rem;
-                            }
-                            span {
-                                font-weight: bold;
-                                display: block;
-                                margin-bottom: 1%;
-                            }
-                            br {
-                                display: none; // Collapse empty space to avoid excessive spacing
-                            }
-                            background-color: #d6d2d2;
-                        }
-                    }
-                }
-            }
-            table {
-                td {
-                    img {
-                        width: 3rem;
-                    }
-                }
-            }
-
-        }
-    }
-
     .print-icon {
         float: right;
     }
@@ -428,10 +304,23 @@ body.fixed-modal-open {
     display: table;
     line-height: 0;
 }
+#construction-permits-results-wrapper {
+    table {
+        thead {
+            th:first-child {
+                display: none;
+            }
+        }
+        tbody {
+            td:first-child {
+                display: none;
+            }
+        }
+    }
+}
 #construction-permits-details-wrapper.modal {
     .permit-wrapper {
         display: none;
-        overflow-y: scroll;
     }
 }
 
@@ -450,6 +339,16 @@ body.fixed-modal-open {
         h6 {
             color: #00457d;
             font-weight: 700;
+        }
+    }
+    .notice_of_intent {
+        .lew-only {
+            display: none;
+        }
+    }
+    .low_erosivity_waiver {
+        .noi-only {
+            display: none;
         }
     }
     .section {
