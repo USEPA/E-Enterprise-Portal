@@ -84,7 +84,6 @@ function construction_permits_theme() {
       // Which .tpl.php file to use be-well-informed-modal.tpl.php
       'template' => 'cgp-single-page',
       'path' => drupal_get_path('module', 'construction_permits') . '/templates'
-
     )
   );
 }
@@ -182,8 +181,8 @@ function construction_permits_form_submission() {
       $datatable_formatted_response['error_message'][] = json_decode($response->data);
     }
     else {
-      $datatable_formatted_response['data'] = json_decode($response->data);
-      $datatable_formatted_response['datatable'] = construction_permits_datatable_response($response->data);
+      $datatable_formatted_response['data'] = json_decode($response->data, true);
+      $datatable_formatted_response['datatable'] = construction_permits_datatable_response($datatable_formatted_response['data']);
       $datatable_formatted_response['error'] = FALSE;
     }
   }
@@ -270,6 +269,7 @@ function cgp_external_details_lookup($tracking_id) {
       "cgp_modal" => $cgp_modal_html,
       "permit_templates" => ["notice_of_intent" => $cgp_permit_template_notice_of_intent],
       "status_definition" => $cgp_status_html,
+      "cgp_api_endpoint" => variable_get('cgp_api_endpoint'),
     ]
   ];
   drupal_add_js($settings, 'setting');

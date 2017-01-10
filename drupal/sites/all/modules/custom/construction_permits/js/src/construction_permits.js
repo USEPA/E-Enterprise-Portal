@@ -163,6 +163,175 @@ function reset_cgp_form() {
   // Flag for converting Null or blank inputs to -9999
   var convertNulls = false;
 
+  // Helper functions
+
+  function create_detail_results(response_json) {
+    $details = $('#construction-permits-details-wrapper').html('');
+    if (Array.isArray(response_json.data)) {
+      response_json.data.map(function(permit, index, array) {
+        var type = permit.type.toLowerCase();
+        $template = $(Drupal.settings.construction_permits.permit_templates[type]);
+        $template.find('[data-cgp-property]').each(function() {
+          var $this = $(this),
+            property_path = $this.attr('data-cgp-property'),
+            property_null = $this.attr('data-cgp-null'),
+            property_option = getStringToJson($this.attr('data-cgp-options')),
+            custom_function = $this.attr('data-cgp-function'),
+            function_params = getStringToJson($this.attr('data-cgp-params')),
+            $value = $this.find('.value');
+          var prop = (property_path.length) ? getProperty(permit, property_path) : permit;
+
+          if (custom_function && prop != undefined) {
+            var anex = cp_iife[custom_function].apply($this, Array.prototype.concat([prop], function_params));
+            ($value.length) ? $value.html(anex) : $this.append(anex)
+          }
+          else if(prop != undefined) {
+            prop = (property_option.length) ? property_option[prop + 0] : prop
+            prop = (property_null && !prop) ? property_null : prop
+            $value.html(prop)
+          }
+          else {
+            $this.parents('.line').remove()
+          }
+        })
+        $template.addClass(type)
+        $template.attr('id', 'id-' + permit.id)
+        $template.attr('title', "Details for " + permit.masterPermitNumber + " - " + permit.projectSiteInformation.siteName)
+        $details.append($template)
+      });
+    }
+  }
+
+  function getStringToJson(params_string) {
+    return (params_string) ? JSON.parse(params_string.replace(/'/g, '"')) : [];
+  }
+
+  function getProperty(permit, property) {
+    return property.split('.').reduce(function(p, c) {
+      return (p != undefined && p[c] != undefined) ? p[c] : undefined;
+    }, permit);
+  }
+
+  cp_iife.adjustType = function(prop) {
+    return prop.replace(/Of/g, 'of').replace(/_/g, ' ');
+  }
+
+  cp_iife.fullName = function(prop) {
+    return [prop.firstName, prop.middleInitial, prop.lastName].reduce(function(p, c) {
+      (c) ? p.push(c) : 0;
+      return p
+    }, []).join(' ')
+  }
+
+  cp_iife.address = function(prop, prefix) {
+    var country = (prop[prefix + 'County'] && prop[prefix + 'County'] != 'string') ? ' ' + prop[prefix + 'County'] : '';
+    var lineAddress = (prop[prefix + 'Address2'] && prop[prefix + 'Address2'] != 'string') ? prop[prefix + 'Address'] + '<br>' + prop[prefix + 'Address2'] : prop[prefix + 'Address'];
+    return lineAddress + '<br/>' + prop[prefix + 'City'] + ', ' + prop[prefix + 'StateCode'] + ' ' + prop[prefix + 'ZipCode'] + country;
+  }
+
+  cp_iife.latlong = function(prop) {
+    //projectSiteInformation.siteLocation
+    return prop['latitude'] + '&deg;' + 'N,' + prop['longitude'] + '&deg;' + 'E' + '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>';
+  }
+
+  cp_iife.dateRange = function(prop, prefix) {
+    //projectSiteInformation and LEW
+    return cp_iife.dateFormat(prop[prefix + 'ProjectStart']) + ' &mdash; ' + cp_iife.dateFormat(prop[prefix + 'ProjectEnd']);
+  }
+
+  cp_iife.fullPhone = function(prop) {
+    return phone = (prop['phoneExtension'] && prop['phoneExtension'] != '') ? prop['phone'] + ' x' + prop['phoneExtension'] : prop['phone'];
+  }
+
+  cp_iife.appendixDCriteriaMet = function(prop) {
+    return 'N/A';
+  }
+
+  cp_iife.dischargePoints = function(prop) {
+    var r = '';
+    var $this = $(this);
+    if (prop.length && prop != '') {
+      // Add header
+      var header = [
+        '<div class="line header">',
+        '<div class="col-md-2">Discharge Point</div>',
+        '<div class="col-md-2">Location</div>',
+        '<div class="col-md-2">Receiving Water</div>',
+        '<div class="col-md-2">Pollutants</div>',
+        '<div class="col-md-2">Tier</div>',
+        '<div class="col-md-2">TMDL</div>',
+        '</div>'
+      ]
+      r += header.join('');
+      // Handled the discharge points
+      prop.map(function(c, i, a) {
+        var even = (i % 2) ? ' even' : '';
+        var polluntants = c.firstWater.pollutants.map(function(c){ return c.pollutantName; }, []);
+        var tmdls = c.firstWater.pollutants.map(function(c){ return c.tmdl.name; }, []);
+        r += [
+          '<div class="line row-item' + even + '">',
+          '<div class="col-md-2" title="Discharge Point">', c.description, '</div>',
+          '<div class="col-md-2" title="Location">', c.location.latitude + '&deg;N, ' + c.location.longitude + '&deg;E<br><span class="cgp-latlongsource">Source: ' +
+          c.location.latLongDataSource + '</span><br><span class="cgp-refdatum">Horizontal Reference Datum: ' + c.location.horizontalReferenceDatum + '</span>', '</div>',
+          '<div class="col-md-2" title="Receiving Water">', c.firstWater.listedWaterName, '</div>',
+          '<div class="col-md-2" title="Pollutant(s)">', polluntants.join(', '), '</div>',
+          '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
+          //@TODO - Fix the TMDL rendering - dischargeInformation.dischargePoints[i].firstWater[i].polluntants[i].tmdl.name
+          '<div class="col-md-2" title="TMDL">', tmdls.join(', '), '</div>',
+          '</div>',
+        ].join('')
+      })
+    }
+    else {
+      r += '<p>No discharge points.</p>'
+    }
+    return r;
+  };
+
+  cp_iife.dateFormat = function(prop) {
+    var d = new Date(prop);
+    return [d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/')
+  };
+
+  cp_iife.attachments = function(permit) {
+    var prop = permit.attachments
+    var r = ''
+    var $this = $(this)
+    if (prop.length) {
+      // Add header
+      var header = [
+        '<div class="line header">',
+        '<div class="col-md-3">File Name</div>',
+        '<div class="col-md-3">File Size</div>',
+        '<div class="col-md-3">File Section</div>',
+        '<div class="col-md-3">Date uploaded</div>',
+        '</div>'
+      ];
+      r += header.join('');
+      // Handled the discharge points
+      prop.map(function(c, i, a) {
+        var link = [Drupal.settings.construction_permits.cgp_api_endpoint, 'form', permit.id, 'attachment', c.id].join('/');
+        var even = (i % 2) ? ' even' : '';
+        r += [
+          '<div class="line row-item' + even + '">',
+          '<div class="col-md-3" title="File Name">',
+          '<a href="' + link + '" target="">', c.name, '</a></div>',
+          '<div class="col-md-3" title="File Size">', c.size, ' bytes</div>',
+          '<div class="col-md-3" title="File Section">', c.category, '</div>',
+          '<div class="col-md-3" title="Date uploaded">', cp_iife.dateFormat(c.createdDate), '</div>',
+          '</div>',
+        ].join('');
+      });
+    }
+    else {
+      r += '<p>No Attachments.</p>'
+    }
+
+    return r;
+  };
+
+  // Helper functions END
+
   if (!Drupal.settings.construction_permits.response_data) {
     // Parsely validation
     $('#cgp-form').parsley().on('field:validated', function() {
@@ -328,173 +497,4 @@ function reset_cgp_form() {
       create_detail_results(Drupal.settings.construction_permits.response_data);
     }
   }
-
-  // Helper functions
-
-  function create_detail_results(response_json) {
-    $details = $('#construction-permits-details-wrapper').html('');
-    if (Array.isArray(response_json.data)) {
-      response_json.data.map(function(permit, index, array) {
-        var type = permit.type.toLowerCase();
-        $template = $(Drupal.settings.construction_permits.permit_templates[type]);
-        $template.find('[data-cgp-property]').each(function() {
-          var $this = $(this),
-            property_path = $this.attr('data-cgp-property'),
-            property_null = $this.attr('data-cgp-null'),
-            property_option = getStringToJson($this.attr('data-cgp-options')),
-            custom_function = $this.attr('data-cgp-function'),
-            function_params = getStringToJson($this.attr('data-cgp-params')),
-            $value = $this.find('.value');
-          var prop = (property_path.length) ? getProperty(permit, property_path) : permit;
-
-          if (custom_function && prop != undefined) {
-            var anex = cp_iife[custom_function].apply($this, Array.prototype.concat([prop], function_params));
-            ($value.length) ? $value.html(anex) : $this.append(anex)
-          }
-          else if(prop != undefined) {
-            prop = (property_option.length) ? property_option[prop + 0] : prop
-            prop = (property_null && !prop) ? property_null : prop
-            $value.html(prop)
-          }
-          else {
-            $this.parents('.line').remove()
-          }
-        })
-        $template.addClass(type)
-        $template.attr('id', 'id-' + permit.id)
-        $template.attr('title', "Details for " + permit.masterPermitNumber + " - " + permit.projectSiteInformation.siteName)
-        $details.append($template)
-      });
-    }
-  }
-
-  function getStringToJson(params_string) {
-    return (params_string) ? JSON.parse(params_string.replace(/'/g, '"')) : [];
-  }
-
-  function getProperty(permit, property) {
-    return property.split('.').reduce(function(p, c) {
-      return (p != undefined && p[c] != undefined) ? p[c] : undefined;
-    }, permit);
-  }
-
-  cp_iife.adjustType = function(prop) {
-    return prop.replace(/Of/g, 'of').replace(/_/g, ' ');
-  }
-
-  cp_iife.fullName = function(prop) {
-    return [prop.firstName, prop.middleInitial, prop.lastName].reduce(function(p, c) {
-      (c) ? p.push(c) : 0;
-      return p
-    }, []).join(' ')
-  }
-
-  cp_iife.address = function(prop, prefix) {
-    var country = (prop[prefix + 'County'] && prop[prefix + 'County'] != 'string') ? ' ' + prop[prefix + 'County'] : '';
-    var lineAddress = (prop[prefix + 'Address2'] && prop[prefix + 'Address2'] != 'string') ? prop[prefix + 'Address'] + '<br>' + prop[prefix + 'Address2'] : prop[prefix + 'Address'];
-    return lineAddress + '<br/>' + prop[prefix + 'City'] + ', ' + prop[prefix + 'StateCode'] + ' ' + prop[prefix + 'ZipCode'] + country;
-  }
-
-  cp_iife.latlong = function(prop) {
-    //projectSiteInformation.siteLocation
-    return prop['latitude'] + '&deg;' + 'N,' + prop['longitude'] + '&deg;' + 'E' + '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>';
-  }
-
-  cp_iife.dateRange = function(prop, prefix) {
-    //projectSiteInformation and LEW
-    return cp_iife.dateFormat(prop[prefix + 'ProjectStart']) + ' &mdash; ' + cp_iife.dateFormat(prop[prefix + 'ProjectEnd']);
-  }
-
-  cp_iife.fullPhone = function(prop) {
-    return phone = (prop['phoneExtension'] && prop['phoneExtension'] != '') ? prop['phone'] + ' x' + prop['phoneExtension'] : prop['phone'];
-  }
-
-  cp_iife.appendixDCriteriaMet = function(prop) {
-    return 'N/A';
-  }
-
-  cp_iife.dischargePoints = function(prop) {
-    var r = '';
-    var $this = $(this);
-    if (prop.length && prop != '') {
-      // Add header
-      var header = [
-        '<div class="line header">',
-        '<div class="col-md-2">Discharge Point</div>',
-        '<div class="col-md-2">Location</div>',
-        '<div class="col-md-2">Receiving Water</div>',
-        '<div class="col-md-2">Pollutants</div>',
-        '<div class="col-md-2">Tier</div>',
-        '<div class="col-md-2">TMDL</div>',
-        '</div>'
-      ]
-      r += header.join('');
-      // Handled the discharge points
-      prop.map(function(c, i, a) {
-        var even = (i % 2) ? ' even' : '';
-        var polluntants = c.firstWater.pollutants.map(function(c){ return c.pollutantName; }, []);
-        var tmdls = c.firstWater.pollutants.map(function(c){ return c.tmdl.name; }, []);
-        r += [
-          '<div class="line row-item' + even + '">',
-          '<div class="col-md-2" title="Discharge Point">', c.description, '</div>',
-          '<div class="col-md-2" title="Location">', c.location.latitude + '&deg;N, ' + c.location.longitude + '&deg;E<br><span class="cgp-latlongsource">Source: ' +
-          c.location.latLongDataSource + '</span><br><span class="cgp-refdatum">Horizontal Reference Datum: ' + c.location.horizontalReferenceDatum + '</span>', '</div>',
-          '<div class="col-md-2" title="Receiving Water">', c.firstWater.listedWaterName, '</div>',
-          '<div class="col-md-2" title="Pollutant(s)">', polluntants.join(', '), '</div>',
-          '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
-          //@TODO - Fix the TMDL rendering - dischargeInformation.dischargePoints[i].firstWater[i].polluntants[i].tmdl.name
-          '<div class="col-md-2" title="TMDL">', tmdls.join(', '), '</div>',
-          '</div>',
-        ].join('')
-      })
-    }
-    else {
-      r += '<p>No discharge points.</p>'
-    }
-    return r;
-  };
-
-  cp_iife.dateFormat = function(prop) {
-    var d = new Date(prop);
-    return [d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/')
-  };
-
-  cp_iife.attachments = function(permit) {
-    var prop = permit.attachments
-    var r = ''
-    var $this = $(this)
-    if (prop.length) {
-      // Add header
-      var header = [
-        '<div class="line header">',
-        '<div class="col-md-3">File Name</div>',
-        '<div class="col-md-3">File Size</div>',
-        '<div class="col-md-3">File Section</div>',
-        '<div class="col-md-3">Date uploaded</div>',
-        '</div>'
-      ];
-      r += header.join('');
-      // Handled the discharge points
-      prop.map(function(c, i, a) {
-        var link = [Drupal.settings.construction_permits.cgp_api_endpoint, 'form', permit.id, 'attachments', c.id].join('/');
-        var even = (i % 2) ? ' even' : '';
-        r += [
-          '<div class="line row-item' + even + '">',
-          '<div class="col-md-3" title="File Name">',
-          '<a href="' + link + '" target="_blank">', c.name, '</a></div>',
-          '<div class="col-md-3" title="File Size">', c.size, ' bytes</div>',
-          '<div class="col-md-3" title="File Section">', c.category, '</div>',
-          '<div class="col-md-3" title="Date uploaded">', cp_iife.dateFormat(c.createdDate), '</div>',
-          '</div>',
-        ].join('');
-      });
-    }
-    else {
-      r += '<p>No Attachments.</p>'
-    }
-
-    return r;
-  };
-
-
 })(jQuery);
