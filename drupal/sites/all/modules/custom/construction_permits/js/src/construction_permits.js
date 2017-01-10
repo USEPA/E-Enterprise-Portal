@@ -170,7 +170,7 @@ function reset_cgp_form() {
     if (Array.isArray(response_json.data)) {
       response_json.data.map(function(permit, index, array) {
         var type = permit.type.toLowerCase();
-        $template = $(Drupal.settings.construction_permits.permit_templates[type]);
+        $template = $(Drupal.settings.construction_permits.permit_templates['notice_of_intent']);
         $template.find('[data-cgp-property]').each(function() {
           var $this = $(this),
             property_path = $this.attr('data-cgp-property'),
