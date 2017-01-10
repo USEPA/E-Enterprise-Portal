@@ -101,19 +101,19 @@ function eenterprise_utility_menu() {
     'file' => 'eenterprise_utility_admin_role.admin.inc',
   );
   $items['nmed'] = array(
-      'title' => 'SSO EEP to SEP',
-      'page callback' => 'sso_eep_to_sep',
-      'access callback' => 'user_is_logged_in',
-      '#type' => MENU_CALLBACK,
+    'title' => 'SSO EEP to SEP',
+    'page callback' => 'sso_eep_to_sep',
+    'access callback' => 'user_is_logged_in',
+    '#type' => MENU_CALLBACK,
   );
   return $items;
 }
 
 /*Test New Mexico SSO from EEP to SEP*/
-function sso_eep_to_sep(){
+function sso_eep_to_sep() {
   $output = '<form action="https://sep.net-t.env.nm.gov/sep-envd/bridge" method="post">';
-  $output .= '<input type="hidden" name="securityToken" value="'.$_SESSION['cdx_fmw_security_token'].'">';
-  $output .= '<input type="hidden" name="clientIp" value="' .$_SERVER['SERVER_ADDR'].'">';
+  $output .= '<input type="hidden" name="securityToken" value="' . $_SESSION['cdx_fmw_security_token'] . '">';
+  $output .= '<input type="hidden" name="clientIp" value="' . $_SERVER['SERVER_ADDR'] . '">';
   $output .= '<input type="submit" value="SSO to SEP"></form>';
 
   return $output;
@@ -393,11 +393,11 @@ function guest_logout_newusers_action() {
  * Redirect guest user to /new-users which also has Create CDX option.
  */
 function send_guest_to_new_users() {
-    watchdog('guest_user', 'Session ended for guest user.');
-    global $user;
-    module_invoke_all('user_logout', $user);
-    session_destroy();
-    drupal_goto('/new-users');
+  watchdog('guest_user', 'Session ended for guest user.');
+  global $user;
+  module_invoke_all('user_logout', $user);
+  session_destroy();
+  drupal_goto('/new-users');
 }
 
 function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcodes.csv', $url_bool = FALSE) {
@@ -563,7 +563,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     hide($form['field_piv_card_org']);
     hide($form['field_cdx_naics_settings']);
 
-    if(isset($form['account']['mail']['#description'])) {
+    if (isset($form['account']['mail']['#description'])) {
       unset($form['account']['mail']['#description']);
     }
 
@@ -1068,10 +1068,6 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
  * Custom validation for user information, called when form is submitted.
  */
 function user_profile_form_custom_validate(&$form, &$form_state) {
-  // Rebuild before submitting to grab any ajax changes
-  if(isset($form_state['triggering_element']) && $form_state['triggering_element']['#name'] == 'op') {
-    $form_state['rebuild'] = true;
-  }
   user_profile_zipcode_custom_validate($form, $form_state);
   user_profile_mail_custom_validate($form, $form_state);
   user_profile_url_custom_validate($form, $form_state);
@@ -1507,7 +1503,6 @@ function generate_location_input_for_guests() {
   print '<label class="control-label" for="location-input-guests">Enter city, state; tribe; or ZIP code</label>';
   print '<input type="text" class="form-control input-sm" id="location-input-guests" aria-describedby="location-input-guests-error">';
   print '<span class="form-control-feedback" aria-hidden="true" style="top:-2px;font-size:80%"></span>';
-//  print '<span id="location-input-guests-error" class="sr-only">(success)</span>';
   print '</div>';
   print '</div>';
 }
@@ -1883,26 +1878,6 @@ function eenterprise_utility_node_prepare($node) {
     }
   }
 }
-
-/*
-@TODO - Use this to replace - Any - with All in drop-downs.  Need to determine why Progress Tracker > Lead > Report Type drop-down filter only shows All first
-function eenterprise_utility_form_views_exposed_form_alter(&$form, &$form_state) {
-
-     if($form["#id"] == 'views-exposed-form-progress-tracker-block-1'){
-         $form['field_prog_track_domain_value']['#options']["All"] = 'All';
-				 $form['field_prog_track_part_code_value']['#options']["All"] = 'All';
-				 $form['field_prog_track_sub_part_code_value']['#options']["All"] = 'All';
-				 $form['field_prog_track_rep_type_filter_value']['#options']["All"] = 'All';
-     }
-     else if($form["#id"] == 'views-exposed-form-to-do-block-1') {
-	     $form['field_todo_lst_domain_value']['#options']["All"] = 'All';
-	     $form['field_todo_lst_part_code_value']['#options']["All"] = 'All';
-	     $form['field_todo_lst_sub_part_code_value']['#options']["All"] = 'All';
-	     $form['field_todo_lst_rprt_type_filter_value']['#options']["All"] = 'All';
-
-     }
-}
-*/
 
 function connectToSOAPServerWithWSDL($wsdl, $location = "") {
   $soap_obj = new stdClass();
