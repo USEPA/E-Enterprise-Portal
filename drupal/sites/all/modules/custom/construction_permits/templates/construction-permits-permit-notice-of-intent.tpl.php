@@ -6,7 +6,7 @@
  * Time: 9:23 AM
  */
 ?>
-<div class="permit-wrapper notice-of-intent ee-grid box-fluid">
+<div class="permit-wrapper ee-grid box-fluid">
 <div class="section">
     <h2>General Permit Information</h2>
     <div class="line"><div class="box-fluid property" data-cgp-property="masterPermitNumber"><div class="col-md-4 title">Master Permit #</div><div class="col-md-8 value"></div></div></div>
@@ -46,14 +46,14 @@
     <div class="line"><div class="box-fluid property" data-cgp-property="operatorInformation.operatorFederal" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">Federal Operator</div><div class="col-md-8 value"></div></div></div>
 </div><!-- @end Operator Info -->
 <!--@TODO Show Low Erosity Waiver Informaiton section only for LEW type permits -->
-<!--<div class="section lew-only">-->
-<!--    <h2>Low Erosity Waiver Information</h2>-->
-<!--    <div class="line"><div class="box-fluid property" data-cgp-property="lowErosityWaiver" data-cgp-function="dateRange" data-cgp-params="['lew']"><div class="col-md-4 title">Project Start / End <span class="cgp-footnote">(Estimated)</span></div><div class="col-md-8 value"></div></div></div>-->
-<!--    <div class="line"><div class="box-fluid property" data-cgp-property="lowErosityWaiver.lewAreaDisturbed"><div class="col-md-4 title">Estimated Area to be Disturbed<span class="cgp-footnote">(to the nearest quarter acre)</span></div><div class="col-md-8 value"></div></div></div>-->
-<!--    <div class="line"><div class="box-fluid property" data-cgp-property="lowErosityWaiver.lewRFactor"><div class="col-md-4 title">Construction site&rsquo;s R-Factor</div><div class="col-md-8 value"></div></div></div>-->
-<!--    <div class="line"><div class="box-fluid property" data-cgp-property="lowErosityWaiver.lewRFactorCalculationMethod"><div class="col-md-4 title">Rainfall Erosivity factor was calculated by using</div><div class="col-md-8 value"></div></div></div>-->
-<!--    <div class="line"><div class="box-fluid property" data-cgp-property="lowErosivityWaiver.interimSiteStabilizationMeasures" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">Interim nonvegatative site stabilization measures used to establish the project completion date for purposes of obtaining this waiver?</div><div class="col-md-8 value"></div></div></div>-->
-<!--</div><!-- @end Low Erosity Waiver Information -->
+<div class="section lew-only">
+    <h2>Low Erosity Waiver Information</h2>
+    <div class="line"><div class="box-fluid property" data-cgp-property="lowErosityWaiver" data-cgp-function="dateRange" data-cgp-params="['lew']"><div class="col-md-4 title">Project Start / End <span class="cgp-footnote">(Estimated)</span></div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="lowErosityWaiver.lewAreaDisturbed"><div class="col-md-4 title">Estimated Area to be Disturbed<span class="cgp-footnote">(to the nearest quarter acre)</span></div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="lowErosityWaiver.lewRFactor"><div class="col-md-4 title">Construction site&rsquo;s R-Factor</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="lowErosityWaiver.lewRFactorCalculationMethod"><div class="col-md-4 title">Rainfall Erosivity factor was calculated by using</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="lowErosivityWaiver.interimSiteStabilizationMeasures" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">Interim nonvegatative site stabilization measures used to establish the project completion date for purposes of obtaining this waiver?</div><div class="col-md-8 value"></div></div></div>
+</div><!-- @end Low Erosity Waiver Information
 <!-- @TODO Show remaining sections only for NOI type permits -->
 <div class="section noi-only">
     <h2>Earth Disturbance / Demolition Information</h2>
@@ -119,7 +119,7 @@
 <div class="section">
     <h2>Corresponding Documents</h2>
     <div class="line"><div class="col-sm-12 box-fluid">
-        <div class="box-fluid"><div class="box-fluid property" data-cgp-property="attachments" data-cgp-function="attachments"></div></div></div>
+        <div class="box-fluid"><div class="box-fluid property" data-cgp-property="" data-cgp-function="attachments"></div></div></div>
     </div>
     </div>
 </div>

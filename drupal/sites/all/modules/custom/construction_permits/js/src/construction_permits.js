@@ -78,55 +78,59 @@ function create_search_results(search_results_json) {
       var pageNo = info.page + 1;
 
       // Modify the first column to link to the respective form
-      $('td:first-child', nRow.nTable).each(function() {
+      // Add data attributes to allow column identification in mobile format
+      $('td:first-child', nRow.nTable).addClass('permit_id').each(function() {
         var $this = $(this);
         var form_id = $this.attr('title');
         if (!form_id) {
           form_id = $this.html();
           $this.attr('title', form_id)
         }
-        $this.html('<a href="#' + form_id + '">' + form_id + '</a>')
+      });
+      $('td:nth-child(2)', nRow.nTable).addClass('first-column').attr('data-title', 'Master Permit #').each(function() {
+        var $this = $(this);
+        var form_id = $this.parent().find('.permit_id').attr('title');
+        var mpn = $this.attr('title');
+        if (!mpn) {
+          mpn = $this.html();
+          $this.attr('title', mpn)
+        }
+        $this.html('<a href="#id-' + form_id + '">' + mpn + '</a>')
           .find('a').click(
           function(e) {
             e.stopImmediatePropagation();
-            show_needed_cgp_div($('#construction-permits-details-wrapper, #' + form_id), $('.construction-permits-modal-wrapper, .permit-wrapper'), $("#" + form_id).attr('title'));
+            show_needed_cgp_div($('#construction-permits-details-wrapper, #id-' + form_id), $('.construction-permits-modal-wrapper, .permit-wrapper'), $("#id-" + form_id).attr('title'));
             return false;
           }
         );
       });
+      $('td:nth-child(3)', nRow.nTable).addClass('first-column').attr('data-title', 'NPDES ID');
+      $('td:nth-child(4)', nRow.nTable).attr('data-title', 'Owner/Operator');
+      $('td:nth-child(5)', nRow.nTable).attr('data-title', 'Site Name');
+      $('td:nth-child(6)', nRow.nTable).attr('data-title', 'Site State');
+      $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Site City');
 
-      $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Status').each(function() {
-          var $this = $(this);
-          var statusText = $this.attr('data-status');
-          if (!statusText) {
-              statusText = $this.html();
-              $this.attr('data-status', statusText);
-          }
-          var formatted_status = statusText.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");
-          $this.html(formatted_status);
+      $('td:nth-child(8)', nRow.nTable).attr('data-title', 'Status').each(function() {
+        var $this = $(this);
+        var statusText = $this.attr('data-status');
+        if (!statusText) {
+          statusText = $this.html();
+          $this.attr('data-status', statusText);
+        }
+        var formatted_status = statusText.match(/[A-Z][a-z]+|[0-9]+/g).join(" ");
+        $this.html(formatted_status);
       });
 
-      $('td:nth-child(8)', nRow.nTable).attr('data-title', 'Submitted').each(function() {
-          var $this = $(this);
-          var dateText = $this.attr('data-date');
-          if (!dateText) {
-              dateText = $this.html();
-              $this.attr('data-date', dateText)
-          }
-          var d = new Date(dateText);
-          $this.html([d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/'));
+      $('td:nth-child(9)', nRow.nTable).attr('data-title', 'Submitted').each(function() {
+        var $this = $(this);
+        var dateText = $this.attr('data-date');
+        if (!dateText) {
+          dateText = $this.html();
+          $this.attr('data-date', dateText)
+        }
+        var d = new Date(dateText);
+        $this.html([d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/'));
       });
-
-      // Add data attributes to allow column identification in mobile format
-      $('td:first-child', nRow.nTable).addClass('first-column').attr('data-title', 'Master Permit #');
-      $('td:nth-child(2)', nRow.nTable).addClass('first-column').attr('data-title', 'NPDES ID');
-      $('td:nth-child(3)', nRow.nTable).attr('data-title', 'Owner/Operator');
-      $('td:nth-child(4)', nRow.nTable).attr('data-title', 'Site Name');
-      $('td:nth-child(5)', nRow.nTable).attr('data-title', 'Site State');
-      $('td:nth-child(6)', nRow.nTable).attr('data-title', 'Site City');
-      $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Status');
-      $('td:nth-child(8)', nRow.nTable).attr('data-title', 'Submitted');
-
 
       if (info.pages > 1) {
         var $current_li = $('<li />', {
@@ -159,31 +163,39 @@ function reset_cgp_form() {
   // Flag for converting Null or blank inputs to -9999
   var convertNulls = false;
 
+  // Helper functions
+
   function create_detail_results(response_json) {
-    var $details = $('#construction-permits-details-wrapper');
+    $details = $('#construction-permits-details-wrapper').html('');
     if (Array.isArray(response_json.data)) {
       response_json.data.map(function(permit, index, array) {
-        $template = $(Drupal.settings.construction_permits.permit_templates[permit.type.toLowerCase()]);
+        var type = permit.type.toLowerCase();
+        $template = $(Drupal.settings.construction_permits.permit_templates[type]);
         $template.find('[data-cgp-property]').each(function() {
-          var $this = $(this);
-          var property_path = $this.attr('data-cgp-property')
-          var property_null = $this.attr('data-cgp-null');
-          var property_option = getStringToJson($this.attr('data-cgp-options'));
-          var custom_function = $this.attr('data-cgp-function')
-          var function_params = getStringToJson($this.attr('data-cgp-params'));
-          var prop = getProperty(permit, property_path)
-          var $value = $this.find('.value');
-          if (custom_function) {
+          var $this = $(this),
+            property_path = $this.attr('data-cgp-property'),
+            property_null = $this.attr('data-cgp-null'),
+            property_option = getStringToJson($this.attr('data-cgp-options')),
+            custom_function = $this.attr('data-cgp-function'),
+            function_params = getStringToJson($this.attr('data-cgp-params')),
+            $value = $this.find('.value');
+          var prop = (property_path.length) ? getProperty(permit, property_path) : permit;
+
+          if (custom_function && prop != undefined) {
             var anex = cp_iife[custom_function].apply($this, Array.prototype.concat([prop], function_params));
-            ($value.length) ? $value.html(anex) : $this.append(anex);
+            ($value.length) ? $value.html(anex) : $this.append(anex)
           }
-          else {
-            prop = (property_option.length) ? property_option[prop + 0] : prop;
-            prop = (property_null && !prop) ? property_null : prop;
+          else if(prop != undefined) {
+            prop = (property_option.length) ? property_option[prop + 0] : prop
+            prop = (property_null && !prop) ? property_null : prop
             $value.html(prop)
           }
+          else {
+            $this.parents('.line').remove()
+          }
         })
-        $template.attr('id', permit.masterPermitNumber)
+        $template.addClass(type)
+        $template.attr('id', 'id-' + permit.id)
         $template.attr('title', "Details for " + permit.masterPermitNumber + " - " + permit.projectSiteInformation.siteName)
         $details.append($template)
       });
@@ -196,13 +208,12 @@ function reset_cgp_form() {
 
   function getProperty(permit, property) {
     return property.split('.').reduce(function(p, c) {
-      return p[c];
+      return (p != undefined && p[c] != undefined) ? p[c] : undefined;
     }, permit);
   }
 
   cp_iife.adjustType = function(prop) {
-      var prop = prop.includes('Of') ? prop.replace('Of', 'of') : prop;
-      return prop.split('_').join(' ');
+    return prop.replace(/Of/g, 'of').replace(/_/g, ' ');
   }
 
   cp_iife.fullName = function(prop) {
@@ -255,17 +266,18 @@ function reset_cgp_form() {
       // Handled the discharge points
       prop.map(function(c, i, a) {
         var even = (i % 2) ? ' even' : '';
+        var polluntants = c.firstWater.pollutants.map(function(c){ return c.pollutantName; }, []);
+        var tmdls = c.firstWater.pollutants.map(function(c){ return c.tmdl.name; }, []);
         r += [
           '<div class="line row-item' + even + '">',
           '<div class="col-md-2" title="Discharge Point">', c.description, '</div>',
           '<div class="col-md-2" title="Location">', c.location.latitude + '&deg;N, ' + c.location.longitude + '&deg;E<br><span class="cgp-latlongsource">Source: ' +
           c.location.latLongDataSource + '</span><br><span class="cgp-refdatum">Horizontal Reference Datum: ' + c.location.horizontalReferenceDatum + '</span>', '</div>',
           '<div class="col-md-2" title="Receiving Water">', c.firstWater.listedWaterName, '</div>',
-          //@TODO - Fix the pollutant name rendering - dischargeInformation.dischargePoints[i].firstWater[i].polluntants[i].pollutantName
-          '<div class="col-md-2" title="Pollutant(s)">', c.firstWater.pollutants.pollutantName, '</div>',
+          '<div class="col-md-2" title="Pollutant(s)">', polluntants.join(', '), '</div>',
           '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
           //@TODO - Fix the TMDL rendering - dischargeInformation.dischargePoints[i].firstWater[i].polluntants[i].tmdl.name
-          '<div class="col-md-2" title="TMDL">', c.firstWater.pollutants, '</div>',
+          '<div class="col-md-2" title="TMDL">', tmdls.join(', '), '</div>',
           '</div>',
         ].join('')
       })
@@ -281,9 +293,10 @@ function reset_cgp_form() {
     return [d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/')
   };
 
-  cp_iife.attachments = function(prop) {
-    var r = '';
-    var $this = $(this);
+  cp_iife.attachments = function(permit) {
+    var prop = permit.attachments
+    var r = ''
+    var $this = $(this)
     if (prop.length) {
       // Add header
       var header = [
@@ -297,12 +310,14 @@ function reset_cgp_form() {
       r += header.join('');
       // Handled the discharge points
       prop.map(function(c, i, a) {
+        var link = [Drupal.settings.construction_permits.cgp_api_endpoint, 'form', permit.id, 'attachment', c.id].join('/');
         var even = (i % 2) ? ' even' : '';
         r += [
           '<div class="line row-item' + even + '">',
-          '<div class="col-md-3" title="File Name">', c.name, '</div>',
-          '<div class="col-md-3" title="File Size">', 'N/A', '</div>',
-          '<div class="col-md-3" title="File Section">', 'N/A', '</div>',
+          '<div class="col-md-3" title="File Name">',
+          '<a href="' + link + '" target="">', c.name, '</a></div>',
+          '<div class="col-md-3" title="File Size">', c.size, ' bytes</div>',
+          '<div class="col-md-3" title="File Section">', c.category, '</div>',
           '<div class="col-md-3" title="Date uploaded">', cp_iife.dateFormat(c.createdDate), '</div>',
           '</div>',
         ].join('');
@@ -314,6 +329,8 @@ function reset_cgp_form() {
 
     return r;
   };
+
+  // Helper functions END
 
   if (!Drupal.settings.construction_permits.response_data) {
     // Parsely validation
@@ -334,7 +351,7 @@ function reset_cgp_form() {
         width: "auto",
         title: "Status Definitions",
         position: {'my': 'center', 'at': 'center'},
-        dialogClass: 'construction-permits-modal',
+        dialogClass: 'construction-permits-modal-status_definition',
         autoOpen: false,
         draggable: false,
         resizable: false
@@ -480,6 +497,4 @@ function reset_cgp_form() {
       create_detail_results(Drupal.settings.construction_permits.response_data);
     }
   }
-
-
 })(jQuery);

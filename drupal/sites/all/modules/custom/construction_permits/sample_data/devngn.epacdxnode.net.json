@@ -136,6 +136,14 @@
                   "id": 0,
                   "name": "TMDL 3"
                 }
+              },
+              {
+                "pollutantId": 1,
+                "pollutantName": "E. Coli",
+                "tmdl": {
+                  "id": 1,
+                  "name": "TMDL 2"
+                }
               }
             ]
           },

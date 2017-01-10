@@ -84,13 +84,7 @@ function construction_permits_theme() {
       // Which .tpl.php file to use be-well-informed-modal.tpl.php
       'template' => 'cgp-single-page',
       'path' => drupal_get_path('module', 'construction_permits') . '/templates'
-
-    ),
-    /*'construction_permits_pdf' => array(
-        'variables' => array(),
-        'template' => 'construction-permits-pdf',
-        'path' => drupal_get_path('module', 'construction_permits') . '/templates'
-    ),*/
+    )
   );
 }
 
@@ -137,6 +131,7 @@ function construction_permits_block_view($delta = '') {
       $cgp_permit_template_notice_of_intent = theme('construction_permits_permit_notice_of_intent');
       $settings = [
         "construction_permits" => [
+          "cgp_api_endpoint" => variable_get('cgp_api_endpoint'),
           "cgp_modal" => $cgp_modal_html,
           "permit_templates" => ["notice_of_intent" => $cgp_permit_template_notice_of_intent],
           "status_definition" => $cgp_status_html,
@@ -176,7 +171,7 @@ function construction_permits_form_submission() {
     // All temporary
     // Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
 
-    $endpoint = variable_get('cgp_form_endpoint') . '?' . http_build_query($_POST);
+    $endpoint = variable_get('cgp_api_endpoint') . '/form?' . http_build_query($_POST);
     $response = drupal_http_request($endpoint, [
       "method" => "GET",
       'timeout' => "10"
@@ -186,8 +181,8 @@ function construction_permits_form_submission() {
       $datatable_formatted_response['error_message'][] = json_decode($response->data);
     }
     else {
-      $datatable_formatted_response['data'] = json_decode($response->data);
-      $datatable_formatted_response['datatable'] = construction_permits_datatable_response($response->data);
+      $datatable_formatted_response['data'] = json_decode($response->data, true);
+      $datatable_formatted_response['datatable'] = construction_permits_datatable_response($datatable_formatted_response['data']);
       $datatable_formatted_response['error'] = FALSE;
     }
   }
@@ -205,6 +200,7 @@ function construction_permits_datatable_response($cgp_reponse_json) {
   foreach ($cgp_reponse_json as $cgp_result) {
     $dt_row = [];
     //$cgp_result = $cgp_result['data'];
+    $dt_row[] = $cgp_result['id'];
     $dt_row[] = $cgp_result['masterPermitNumber'];
     $dt_row[] = $cgp_result['npdesId'];
     $dt_row[] = $cgp_result['operatorInformation']["operatorName"];
@@ -235,7 +231,6 @@ function template_preprocess_construction_permits_modal(&$variables, $hook) {
  * Implements template_preprocess_hook for be-well-informed-pdf.tpl.php.
  */
 function template_preprocess_construction_permits_pdf(&$variables, $hook) {
-
   global $user;
   $variables['response_json_data_pdf'] = variable_get($user->name . '_cgp_pdf_resp_' . $user->ssid);
 }
@@ -274,6 +269,7 @@ function cgp_external_details_lookup($tracking_id) {
       "cgp_modal" => $cgp_modal_html,
       "permit_templates" => ["notice_of_intent" => $cgp_permit_template_notice_of_intent],
       "status_definition" => $cgp_status_html,
+      "cgp_api_endpoint" => variable_get('cgp_api_endpoint'),
     ]
   ];
   drupal_add_js($settings, 'setting');

@@ -23,7 +23,7 @@
       <div class="col-md-6">
         <label for="cgp-master-general">Master
           general permit number</label>
-        <input type="text" id="cgp-master-general" name="masterPermitNumber" data-parsley-pattern="/^([A[LKSZR]|C[AOT]|D[EC]|F[ML]|G[AU]|HI|I[DLNA]|J[A]|K[SY]|LA|M[EHDAINSOTW]|N[EIVHJMYCD]|MP|O[HKR]|P[WAR]|RI|S[CD]|T[NX]|UT|V[TIA]|W[AVIY]]{2})([A-Z]{1})([0-9IF]{5,})$/i" data-parsley-error-message="Permit numbers are a combination of 3 letters and 6 alphanumeric characters.">
+        <input type="text" id="cgp-master-general" name="mgp" data-parsley-pattern="/([A[LKSZR]|C[AOT]|D[EC]|F[ML]|G[AU]|HI|I[DLNA]|J[A]|K[SY]|LA|M[EHDAINSOTW]|N[EIVHJMYCD]|MP|O[HKR]|P[WAR]|RI|S[CD]|T[NX]|UT|V[TIA]|W[AVIY]]{2})([A-Z]{1})([0-9IF]{5,})/i" data-parsley-error-message="Permit numbers are a combination of 3 letters and 6 alphanumeric characters.">
       </div>
     </div>
     <div class="line">
@@ -35,7 +35,7 @@
                name="projectCity"></div>
       <div class="col-md-3">
         <label
-          for="cgp-permit-state">State / Territory</label>
+          for="cgp-permit-state">State/Territory</label>
         <select
           id="cgp-permit-state"
           name="projectState">
