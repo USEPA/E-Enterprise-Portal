@@ -22,7 +22,7 @@
       <div class="col-md-6">
         <label for="cgp-master-general">Master
           general permit number</label>
-        <input type="text" id="cgp-master-general" name="mgp" data-parsley-pattern="/([A[LKSZR]|C[AOT]|D[EC]|F[ML]|G[AU]|HI|I[DLNA]|J[A]|K[SY]|LA|M[EHDAINSOTW]|N[EIVHJMYCD]|MP|O[HKR]|P[WAR]|RI|S[CD]|T[NX]|UT|V[TIA]|W[AVIY]]{2})([A-Z]{1})([0-9IF]{5,})/i" data-parsley-error-message="Permit numbers are a combination of 3 letters and 6 alphanumeric characters.">
+        <input type="text" id="cgp-master-general" name="mgp" data-parsley-pattern="/([A[LKSZR]|C[AOT]|D[EC]|F[ML]|G[AU]|HI|I[DLNA]|J[A]|K[SY]|LA|M[EHDAINSOTW]|N[EIVHJMYCD]|MP|O[HKR]|P[WAR]|RI|S[CD]|T[NX]|UT|V[TIA]|W[AVIY]]{2})([A-Z]{1})([0-9IF]{5,6})/i" data-parsley-error-message="Permit numbers are a combination of 3 letters and 6 alphanumeric characters.">
       </div>
     </div>
     <div class="line">
@@ -138,14 +138,11 @@
         <div class="col-md-6">
           <label for="cgp-federal">Federal facility?</label>
           <ul>
-            <li><input type="radio" id="cgp-federal" name="applicationType" value="yes">
-              <label
-                for="cgp-federal">Yes</label>
+            <li><input type="radio" id="cgp-federal-yes" name="federalIndicator" value="true">
+              <label for="cgp-federal-yes">Yes</label>
             </li>
-            <li><input type="radio" id="cgp-federal"
-                       name="applicationType" value="no">
-              <label
-                for="cgp-federal">No</label>
+            <li><input type="radio" id="cgp-federal-no" name="federalIndicator" value="false">
+              <label for="cgp-federal-no">No</label>
             </li>
           </ul>
         </div>
@@ -184,26 +181,26 @@
         <div class="col-md-6">
           <label for="cgp-tribal">Construction on Tribal Lands</label>
           <ul>
-            <li><input type="radio" id="cgp-tribal-yes" name="siteIndianCountry" value="yes">
+            <li><input type="radio" id="cgp-tribal-yes" name="tribalIndicator" value="true">
               <label for="cgp-tribal-yes">Yes</label>
             </li>
-            <li><input type="radio" id="cgp-tribal-no" name="siteIndianCountry" value="no">
+            <li><input type="radio" id="cgp-tribal-no" name="tribalIndicator" value="false">
               <label for="cgp-tribal-no">No</label>
             </li>
           </ul>
         </div>	      
 	  	<div class="col-md-6">
           <label for="cgp-tribal-lands">Tribe</label>
-          <select name="siteIndianCountryLands" id="cgp-tribal-lands">
-            <option value="cgp-tribal-lands-all" selected>All</option>
+          <select name="tribalName" id="cgp-tribal-lands">
+            <option value="" selected>All</option>
           </select>
         </div>
       </div>
       <div class="line">
 	    <div class="col-md-6">
 		  <label for="cgp-project-county">County</label>
-          <select name="siteCounty" id="cgp-project-county">
-            <option value="cgp-county-all" selected>All</option>
+          <select name="projectCountry" id="cgp-project-county">
+            <option value="" selected>All</option>
           </select>
 	    </div>
       </div>

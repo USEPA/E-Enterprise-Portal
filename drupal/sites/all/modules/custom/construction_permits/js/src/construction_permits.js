@@ -90,7 +90,7 @@ function create_search_results(search_results_json) {
     "data": search_results_json.datatable,
     "dom": 'ftrp',
     "bLengthChange": false,
-    "iDisplayLength": 3,
+    "iDisplayLength": 10,
     "processing": true,
     "language": {
       "processing": ""
@@ -240,7 +240,7 @@ function reset_cgp_form() {
         return false;
       });
       $('#cgp-shortcut').on('change', function(ev) {
-        cgp_jump($(this).val());
+        //cgp_jump($(this).val());
       });
     }
   }
@@ -398,7 +398,7 @@ function reset_cgp_form() {
         draggable: false,
         resizable: false,
         close: function(event, ui) {
-
+          console.log('Close construction-permits-status-definitions')
         }
       })
 
@@ -430,6 +430,7 @@ function reset_cgp_form() {
           })
         },
         close: function(event, ui) {
+          console.log('Close construction-permits-modal')
           var $table = $('#construction-permits-results-wrapper').find('table');
           sampleSetIndex = 0;
           convertNulls = false;
@@ -512,8 +513,11 @@ function reset_cgp_form() {
      * -  Destroy Datatables
      */
     $('#construction-permits-modal').on('dialogclose', function() {
-      $('#construction-permits-results-table').DataTable().destroy();
-      $('#construction-permits-result-details-table').DataTable().destroy();
+
+      var $table = $('#construction-permits-results-wrapper').find('table');
+      $table.dataTable({bDestroy: true}).fnDestroy();
+      // $('#construction-permits-results-table').DataTable().destroy();
+      // $('#construction-permits-result-details-table').DataTable().destroy();
       cgp_resize_modal();
       $('body').removeClass('fixed-modal-open');
       $("html, body").animate({scrollTop: $('.pane-construction-permits').offset().top}, 500);

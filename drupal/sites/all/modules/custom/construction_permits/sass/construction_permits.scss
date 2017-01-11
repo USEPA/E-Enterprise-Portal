@@ -348,7 +348,7 @@ body.fixed-modal-open {
 }
 
 #construction-permits-details-wrapper {
-    overflow-y: scroll;
+    // overflow-y: scroll;
     .permit-wrapper {
         h2 {
             background-color: #0071bc;
@@ -403,7 +403,7 @@ body.fixed-modal-open {
 #cgp-header {
     background-color: #fff;
     border: 1px solid #fafafa;
-    height: 100px;
+    //height: 100px;
     .back-to-results-button {
         font-size: 1.4rem;
         display: block;

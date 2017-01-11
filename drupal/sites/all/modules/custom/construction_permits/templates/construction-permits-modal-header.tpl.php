@@ -8,7 +8,7 @@
 ?>
 <div id="cgp-header">
     <a href="javascript:void(0);" id="back-to-results-button">&lt; Back to Search Results</a>
-    <div class="line">
+    <!--<div class="line">
         <label for="cgp-shortcut">Jump to</label>
         <select id="cgp-shortcut">
             <option value="cgp-general">General Permit Information</option>
@@ -23,5 +23,5 @@
             <option value="cgp-historic">Historic Preservation</option>
             <option value="cgp-documents">Corresponding Documents</option>
         </select>
-    </div>
+    </div>-->
 </div>
