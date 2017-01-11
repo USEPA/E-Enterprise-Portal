@@ -12,7 +12,6 @@
     <div class="line"><div class="box-fluid property" data-cgp-property="masterPermitNumber"><div class="col-md-4 title">Master Permit #</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property="type" data-cgp-function="adjustType"><div class="col-md-4 title">Permit Type</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property="status"><div class="col-md-4 title">Status</div><div class="col-md-8 value"></div></div></div>
-    <div class="line"><div class="box-fluid property" data-cgp-property="trackingNumber"><div class="col-md-4 title">Tracking #</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property="npdesId"><div class="col-md-4 title">NPDES ID</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property="submittedDate" data-cgp-function="dateFormat"><div class="col-md-4 title">Submitted</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property="reviewExpiration" data-cgp-function="dateFormat"><div class="col-md-4 title">Review Expiration</div><div class="col-md-8 value"></div></div></div>
@@ -82,7 +81,7 @@
 </div><!-- @end Treatment Chemicals -->
 <div class="section noi-only" id="cgp-esp">
     <h2>Endangered Species Protection Information</h2>
-    <div class="line"><div class="box-fluid property" data-cgp-property="endangeredSpeciesProtectionInformation.criteriaSelectionSummary"><div class="col-md-4 title">Eligible for coverage under this permit by meeting Appendix D, criterion:</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="endangeredSpeciesProtectionInformation" data-cgp-function="appendixDCriteria"><div class="col-md-4 title">Eligible for coverage under this permit by meeting Appendix D, criterion:</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property="endangeredSpeciesProtectionInformation.eligibilityCoveredByOtherOperator" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">Eligibility covered by other operator</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property="endangeredSpeciesProtectionInformation.otherOperatorNpdesId"><div class="col-md-4 title">Other Operator NPDES ID</div><div class="col-md-8 value"></div></div></div>
     <div class="line"><div class="box-fluid property" data-cgp-property="endangeredSpeciesProtectionInformation.dischargesNotLikelyToAffect" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">Discharges Not Likely to Affect</div><div class="col-md-8 value"></div></div></div>
