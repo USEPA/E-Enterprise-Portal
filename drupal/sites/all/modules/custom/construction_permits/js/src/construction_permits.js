@@ -202,6 +202,7 @@ function reset_cgp_form() {
   var $form = jQuery('#cgp-form');
   $form.parsley().reset();
   $form.find('input[type=number]').val('');
+  $form.find('input[type=text]').val('');
   $form.find('input[type=radio]').prop('checked', false);
   $form.find('select option').prop('selected', false);
 }
