@@ -257,7 +257,7 @@ function page_manager_feature_default_page_manager_pages() {
     $pane->panel = 'middle';
     $pane->type = 'block';
     $pane->subtype = 'views-my_environment_mapper-block';
-    $pane->shown = FALSE;
+    $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 0,
