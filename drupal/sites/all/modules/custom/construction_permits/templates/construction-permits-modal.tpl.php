@@ -1,4 +1,4 @@
-<div class="usa-grid-full eportal-workbench-modal ">
+<div class="usa-grid-full eportal-workbench-modal">
   <div id="construction-permits-loading-wrapper"
        class="construction-permits-modal-wrapper">
     <h1>Searching for matching Construction General Permits&hellip;</h1>
@@ -24,10 +24,9 @@
 
       </tbody>
     </table>
-  </div><!-- @end .chemical-rules-results-wrapper -->
+  </div><!-- @end .construction-permits-results-wrapper -->
   <div id="construction-permits-details-wrapper"
        class="construction-permits-modal-wrapper modal">
-    <a href="#back-to-results" id="back-to-results-button">&lt; Back to Search Results</a>
-  </div><!-- @end .chemical-rules-results-wrapper -->
+  </div><!-- @end .construction-permits-details-wrapper -->
 
 </div><!-- @end .usa-grid-full -->

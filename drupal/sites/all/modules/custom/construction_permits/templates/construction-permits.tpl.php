@@ -9,7 +9,6 @@
 <div class="bs-callout bs-callout-warning cgp-callout-warning hide">
   <h4>Please correct the errors below:</h4>
 </div>
-
 <div class="bs-callout bs-callout-info cgp-callout-info hide">
   <h4>Everything appears valid</h4>
 </div>
