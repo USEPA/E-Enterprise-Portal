@@ -4,8 +4,13 @@ function show_needed_cgp_div($wrapper_to_show, $common_selector, modal_title) {
   $wrapper_to_show.show();
   // Adjust the modal title
   modal_title = (modal_title) ? modal_title : "Results for Construction General Permits Search";
-  jQuery('#construction-permits-modal').dialog({title: modal_title})
-  cgp_resize_modal()
+  jQuery('#construction-permits-modal').dialog({
+    title: modal_title,
+    close: function(event, ui) {
+      jQuery('body').removeClass('fixed-modal-open');
+    }
+  });
+  cgp_resize_modal();
 }
 
 jQuery.fn.serializeObject = function() {
@@ -46,6 +51,7 @@ function cgp_jump(h){
 
   $cgp_m = jQuery('#construction-permits-modal');
   $cgp_select = jQuery('#cgp-header');
+  var jumpto = '#' + h;
 
   // Scroll the modal to the anchor clicked
   if (!$cgp_select.hasClass('sticky-toc')) {
@@ -56,10 +62,9 @@ function cgp_jump(h){
     });
   }
   // Use the Laws and Regs heading as a landmark for gauging offset and scrolled amount
-  var toc_bottom = jQuery('#cgp-general').offset().top;
-  var jumpto = '#' + h;
+  var toc_bottom = jQuery('#cgp-general').offset().top + 100;
   var target_top = jQuery(jumpto).offset().top;
-  var scroll_amount = target_top - toc_bottom - 80;
+  var scroll_amount = toc_bottom - target_top;
   $cgp_m.animate({ scrollTop: scroll_amount}, 500);
 }
 
@@ -120,31 +125,30 @@ function create_search_results(search_results_json) {
         }
         $this.html('<a href="#id-' + form_id + '">' + mpn + '</a>')
           .find('a').click(
-          function(e) {
-            e.stopImmediatePropagation();
-            show_needed_cgp_div($('#construction-permits-details-wrapper, #id-' + form_id), $('.construction-permits-modal-wrapper, .permit-wrapper'), $("#id-" + form_id).attr('title'));
-            $('body').addClass('fixed-modal-open');
-            $modal = $('#construction-permits-modal');
-            $cgp_options = $('#cgp-header');
+            function(e) {
+              e.stopImmediatePropagation();
+              show_needed_cgp_div($('#construction-permits-details-wrapper, #id-' + form_id), $('.construction-permits-modal-wrapper, .permit-wrapper'), $("#id-" + form_id).attr('title'));
+              $('body').addClass('fixed-modal-open');
+              cgp_resize_modal();
+              $modal = $('#construction-permits-modal');
+              $toc_bottom = $('#cgp-general');
 
-            // Setup table of contents (toc) and the stickyness in the modal
-            $modal.parent().css('position', 'fixed');
-            $modal.scroll(function() {
-              $m = $('#construction-permits-modal');
-              $toc = $('#cgp-header');
-              var sticky_gap = $toc.offset().top;
-              if ($m.scrollTop() > sticky_gap) {
-                $toc.addClass('sticky-toc');
-                $toc.css('width', $m.width()+6).css('top', $m.offset().top);
-              }
-              else {
-                $toc.removeClass('sticky-toc').removeAttr('style');
-              }
-            });
-            $('#cgp-shortcut').on('change', function(ev) {
-              ev.preventDefault();
-              cgp_jump($(this).val());
-            });
+              // Setup table of contents (toc) and the stickyness in the modal
+              //$modal.parent().css('position', 'fixed');
+              $modal.scroll(function() {
+                $m = $('#construction-permits-modal');
+                $toc = $('#cgp-general');
+                $modal_header = $('#cgp-header');
+                var sticky_gap = $toc.offset().top;
+
+                if ($m.scrollTop() > sticky_gap) {
+                  $modal_header.addClass('sticky-toc');
+                  $modal_header.css('width', $m.width()+6).css('top', $m.offset().top);
+                }
+                else {
+                  $modal_header.removeClass('sticky-toc').removeAttr('style');
+                }
+              });
             return false;
           }
         );
@@ -188,6 +192,7 @@ function create_search_results(search_results_json) {
 
   // Create index column that updates on sorting
   var dtTable = $table.DataTable(datatable_options);
+
 }
 
 /**
@@ -243,6 +248,16 @@ function reset_cgp_form() {
         $template.attr('id', 'id-' + permit.id)
         $template.attr('title', "Details for " + permit.masterPermitNumber + " - " + permit.projectSiteInformation.siteName)
         $details.append($template)
+      });
+      $details.prepend(Drupal.settings.construction_permits.cgp_modal_header);
+      $('#back-to-results-button').on('click', function(ev) {
+        $('body').removeClass('fixed-modal-open');
+        show_needed_cgp_div($('#construction-permits-results-wrapper'));
+        cgp_resize_modal();
+        return false;
+      });
+      $('#cgp-shortcut').on('change', function(ev) {
+        cgp_jump($(this).val());
       });
     }
   }
@@ -377,11 +392,11 @@ function reset_cgp_form() {
   // Helper functions END
 
   if (!Drupal.settings.construction_permits.response_data) {
-    // Parsely validation
+    // Parsley validation
     $('#cgp-form').parsley().on('field:validated', function() {
       var ok = $('.parsley-error').length === 0;
-      $('.cgp-callout-info').toggleClass('hidden', !ok);
-      $('.cgp-callout-warning').toggleClass('hidden', ok);
+      $('.cgp-callout-info').toggleClass('hide', !ok);
+      $('.cgp-callout-warning').toggleClass('hide', ok);
     });
 
     $('#status-definitions').click(function() {
@@ -398,7 +413,10 @@ function reset_cgp_form() {
         dialogClass: 'construction-permits-modal-status_definition',
         autoOpen: false,
         draggable: false,
-        resizable: false
+        resizable: false,
+        close: function(event, ui) {
+
+        }
       })
 
     $('#construction-permits-modal')
@@ -415,7 +433,7 @@ function reset_cgp_form() {
         draggable: false,
         resizable: false,
         create: function(event, ui) {
-          var $form = $('cgp-form');
+          var $form = $('#cgp-form');
 
           //@TODO Use Parsley to validate form if needed
 
@@ -423,10 +441,6 @@ function reset_cgp_form() {
             reset_cgp_form();
             cgp_resize_modal()
           });
-          $('#back-to-results-button', 'body').click(function() {
-            show_needed_cgp_div($('#construction-permits-results-wrapper'))
-            return false;
-          })
 
           $(window).resize(function() {
             cgp_resize_modal();
@@ -437,7 +451,6 @@ function reset_cgp_form() {
           sampleSetIndex = 0;
           convertNulls = false;
           $table.dataTable({bDestroy: true}).fnDestroy();
-          show_needed_cgp_div($('#construction-permits-form-wrapper'));
         }
       })
 
@@ -483,7 +496,6 @@ function reset_cgp_form() {
       var $cgp_loading_wrapper = $('#construction-permits-loading-wrapper');
       var $cgp_results_wrapper = $('#construction-permits-results-wrapper');
       var $cgp_details_wrapper = $('#construction-permits-details-wrapper');
-      var $cgp_form_wrapper = $('#construction-permits-form-wrapper');
       var cgpFormData = $form.serializeObject();
 
       $('#construction-permits-modal').dialog('open');
@@ -515,20 +527,14 @@ function reset_cgp_form() {
     /**
      * Close Listener on Construction Permits Modal
      * -  Destroy Datatables
-     * -  Cancel Pending Form submission
      */
     $('#construction-permits-modal').on('dialogclose', function() {
-      var $cgp_form_wrapper = $('#construction-permits-form-wrapper');
-
       $('#construction-permits-results-table').DataTable().destroy();
       $('#construction-permits-result-details-table').DataTable().destroy();
-      $('#water_analysis_reset').removeClass('invisible')
-      show_needed_cgp_div($cgp_form_wrapper);
-      $('#entry-tab').text('Entry');
       cgp_resize_modal();
+      $('body').removeClass('fixed-modal-open');
       $("html, body").animate({scrollTop: $('.pane-construction-permits').offset().top}, 500);
     });
-
 
   } else {
     var response_data = Drupal.settings.construction_permits.response_data;
