@@ -130,25 +130,7 @@ function create_search_results(search_results_json) {
               show_needed_cgp_div($('#construction-permits-details-wrapper, #id-' + form_id), $('.construction-permits-modal-wrapper, .permit-wrapper'), $("#id-" + form_id).attr('title'));
               $('body').addClass('fixed-modal-open');
               cgp_resize_modal();
-              $modal = $('#construction-permits-modal');
-              $toc_bottom = $('#cgp-general');
 
-              // Setup table of contents (toc) and the stickyness in the modal
-              //$modal.parent().css('position', 'fixed');
-              $modal.scroll(function() {
-                $m = $('#construction-permits-modal');
-                $toc = $('#cgp-general');
-                $modal_header = $('#cgp-header');
-                var sticky_gap = $toc.offset().top;
-
-                if ($m.scrollTop() > sticky_gap) {
-                  $modal_header.addClass('sticky-toc');
-                  $modal_header.css('width', $m.width()+6).css('top', $m.offset().top);
-                }
-                else {
-                  $modal_header.removeClass('sticky-toc').removeAttr('style');
-                }
-              });
             return false;
           }
         );
