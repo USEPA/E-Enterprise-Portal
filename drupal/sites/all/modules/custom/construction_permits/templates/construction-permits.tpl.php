@@ -9,7 +9,6 @@
 <div class="bs-callout bs-callout-warning cgp-callout-warning hide">
   <h4>Please correct the errors below:</h4>
 </div>
-
 <div class="bs-callout bs-callout-info cgp-callout-info hide">
   <h4>Everything appears valid</h4>
 </div>
@@ -23,7 +22,7 @@
       <div class="col-md-6">
         <label for="cgp-master-general">Master
           general permit number</label>
-        <input type="text" id="cgp-master-general" name="masterPermitNumber" data-parsley-pattern="/[0-9a-zA-Z]{9}/" data-parsley-error-message="Permit numbers are composed of a combination of 9 letter and numbers.">
+        <input type="text" id="cgp-master-general" name="mgp" data-parsley-pattern="/([A[LKSZR]|C[AOT]|D[EC]|F[ML]|G[AU]|HI|I[DLNA]|J[A]|K[SY]|LA|M[EHDAINSOTW]|N[EIVHJMYCD]|MP|O[HKR]|P[WAR]|RI|S[CD]|T[NX]|UT|V[TIA]|W[AVIY]]{2})([A-Z]{1})([0-9IF]{5,6})/i" data-parsley-error-message="Permit numbers are a combination of 3 letters and 6 alphanumeric characters.">
       </div>
     </div>
     <div class="line">
@@ -35,17 +34,77 @@
                name="projectCity"></div>
       <div class="col-md-3">
         <label
-          for="cgp-permit-state">State</label>
-        <input type="text"
-               id="cgp-permit-state"
-               name="projectState" data-parsley-pattern="/^\w{2}$/" data-parsley-error-message="Use the proper 2 letter abbreviation">
-      </div>
+          for="cgp-permit-state">State/Territory</label>
+        <select
+          id="cgp-permit-state"
+          name="projectState">
+              <option value=""">All</option>
+              <option value="AL">Alabama</option>
+              <option value="AK">Alaska</option>
+              <option value="AS">American Samoa</option>
+              <option value="AZ">Arizona</option>
+              <option value="AR">Arkansas</option>
+              <option value="CA">California</option>
+              <option value="CO">Colorado</option>
+              <option value="CT">Connecticut</option>
+              <option value="DE">Delaware</option>
+              <option value="DC">District Of Columbia</option>
+              <option value="FL">Florida</option>
+              <option value="GA">Georgia</option>
+              <option value="GU">Guam</option>
+              <option value="HI">Hawaii</option>
+              <option value="ID">Idaho</option>
+              <option value="IL">Illinois</option>
+              <option value="IN">Indiana</option>
+              <option value="IA">Iowa</option>
+              <option value="JA">Johnston Atoll</option>
+              <option value="KS">Kansas</option>
+              <option value="KY">Kentucky</option>
+              <option value="LA">Louisiana</option>
+              <option value="ME">Maine</option>
+              <option value="MD">Maryland</option>
+              <option value="MA">Massachusetts</option>
+              <option value="MI">Michigan</option>
+              <option value="MW">Midway Islands</option>
+              <option value="MN">Minnesota</option>
+              <option value="MS">Mississippi</option>
+              <option value="MO">Missouri</option>
+              <option value="MT">Montana</option>
+              <option value="NE">Nebraska</option>
+              <option value="NV">Nevada</option>
+              <option value="NH">New Hampshire</option>
+              <option value="NJ">New Jersey</option>
+              <option value="NM">New Mexico</option>
+              <option value="NY">New York</option>
+              <option value="NC">North Carolina</option>
+              <option value="ND">North Dakota</option>
+              <option value="NI">Northern Mariana Islands</option>
+              <option value="OH">Ohio</option>
+              <option value="OK">Oklahoma</option>
+              <option value="OR">Oregon</option>
+              <option value="PA">Pennsylvania</option>
+              <option value="PR">Puerto Rico</option>
+              <option value="RI">Rhode Island</option>
+              <option value="SC">South Carolina</option>
+              <option value="SD">South Dakota</option>
+              <option value="TN">Tennessee</option>
+              <option value="TX">Texas</option>
+              <option value="UT">Utah</option>
+              <option value="VT">Vermont</option>
+              <option value="VA">Virginia</option>
+              <option value="MW">Wake Island</option>
+              <option value="WA">Washington</option>
+              <option value="WV">West Virginia</option>
+              <option value="WI">Wisconsin</option>
+              <option value="WY">Wyoming</option>
+          </select>
+        </div>
       <div class="col-md-3">
         <label
           for="cgp-permit-zip">Zip</label>
         <input type="text"
                id="cgp-permit-zip"
-               name="projectZip" data-parsley-pattern="/^(\d{5}|\d{5}-\d{4})$/"></div>
+               name="projectZip" data-parsley-pattern="/(\d{5}|\d{5}-\d{4})/"></div>
     </div>
     <div class="line">
       <div class="col-md-6">
@@ -79,14 +138,11 @@
         <div class="col-md-6">
           <label for="cgp-federal">Federal facility?</label>
           <ul>
-            <li><input type="radio" id="cgp-federal" name="applicationType" value="yes">
-              <label
-                for="cgp-federal">Yes</label>
+            <li><input type="radio" id="cgp-federal-yes" name="federalIndicator" value="true">
+              <label for="cgp-federal-yes">Yes</label>
             </li>
-            <li><input type="radio" id="cgp-federal"
-                       name="applicationType" value="no">
-              <label
-                for="cgp-federal">No</label>
+            <li><input type="radio" id="cgp-federal-no" name="federalIndicator" value="false">
+              <label for="cgp-federal-no">No</label>
             </li>
           </ul>
         </div>
@@ -96,12 +152,12 @@
           <label for="cgp-permit-number">Permit
             tracking number</label>
           <input type="text" id="cgp-permit-number"
-                 name="trackingNumber" data-parsley-pattern="/^([0-9a-e]{8}-?[0-9a-e]{4}-?4[0-9a-e]{3}-?[89ab][0-9a-e]{3}-?[0-9a-e]{12})$/" data-parsley-error-message="Permit numbers are composed of a combination of 32 lowercase hexadecimal digits.">
+                 name="trackingNumber" data-parsley-pattern="/([0-9a-f]{8}-?[0-9a-f]{4}-?4[0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12})/" data-parsley-error-message="Permit numbers are composed of a combination of 32 lowercase hexadecimal digits.">
         </div>
         <div class="col-md-6">
           <label for="cgp-npdes-id">NPDES ID</label>
           <input type="text" id="cgp-npdes-id"
-                 name="npdesId" data-parsley-pattern="/^([a-zA-Z]{3}?[0-9]{6})$/" data-parsley-error-message="NPDES IDs are a combination of 3 letters and 6 digits.">
+                 name="npdesId" data-parsley-pattern="/([A[LKSZR]|C[AOT]|D[EC]|F[ML]|G[AU]|HI|I[DLNA]|J[A]|K[SY]|LA|M[EHDAINSOTW]|N[EIVHJMYCD]|MP|O[HKR]|P[WAR]|RI|S[CD]|T[NX]|UT|V[TIA]|W[AVIY]]{2})([A-Z]{1})([0-9IF]{5,})/i" data-parsley-error-message="NPDES IDs are a combination of 3 letters and 6 alphanumeric characters.">
         </div>
       </div>
       <div class="line">
@@ -125,26 +181,26 @@
         <div class="col-md-6">
           <label for="cgp-tribal">Construction on Tribal Lands</label>
           <ul>
-            <li><input type="radio" id="cgp-tribal-yes" name="siteIndianCountry" value="yes">
+            <li><input type="radio" id="cgp-tribal-yes" name="tribalIndicator" value="true">
               <label for="cgp-tribal-yes">Yes</label>
             </li>
-            <li><input type="radio" id="cgp-tribal-no" name="siteIndianCountry" value="no">
+            <li><input type="radio" id="cgp-tribal-no" name="tribalIndicator" value="false">
               <label for="cgp-tribal-no">No</label>
             </li>
           </ul>
         </div>	      
 	  	<div class="col-md-6">
           <label for="cgp-tribal-lands">Tribe</label>
-          <select name="siteIndianCountryLands" id="cgp-tribal-lands">
-            <option value="cgp-tribal-lands-all" selected>All</option>
+          <select name="tribalName" id="cgp-tribal-lands">
+            <option value="" selected>All</option>
           </select>
         </div>
       </div>
       <div class="line">
 	    <div class="col-md-6">
 		  <label for="cgp-project-county">County</label>
-          <select name="siteCounty" id="cgp-project-county">
-            <option value="cgp-county-all" selected>All</option>
+          <select name="projectCountry" id="cgp-project-county">
+            <option value="" selected>All</option>
           </select>
 	    </div>
       </div>

@@ -56,7 +56,7 @@ function cr_resizeGuestModal() {
   // build related tabs
   $('#cr-tabs').tabs();
   if (guest_user) {
-    $body.find('.cr-tabs_favorites_empty p').html('<p>To save items as favorites, you must first <a href="/new-users">log in.</a></p>');
+    $body.find('.cr-tabs_favorites_empty p').html('<p>To save items as favorites, you must first <a href="/guest-newusers">log in.</a></p>');
   }
 
   render_favorites();
