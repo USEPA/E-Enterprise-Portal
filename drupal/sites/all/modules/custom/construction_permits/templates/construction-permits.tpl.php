@@ -111,9 +111,9 @@
         <label for="cgp-status">Status <a
             href="javascript:void(0)" id="status-definitions"
             class="fa fa-info-circle"></a></label>
-        <input type="text"
-               id="cgp-status"
-               name="projectStatus">
+        <select name="projectStatus" id="cgp-status">
+          <option value="" selected>All</option>
+        </select>
       </div>
       <div class="col-md-6">
         <label for="cgp-type">Permit Type</label>

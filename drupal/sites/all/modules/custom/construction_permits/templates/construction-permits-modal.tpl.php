@@ -4,6 +4,10 @@
     <h1>Searching for matching Construction General Permits&hellip;</h1>
     <i class="fa fa-spinner" aria-hidden="true"></i>
   </div>
+  <div id="construction-permits-noresults-wrapper"
+       class="construction-permits-modal-wrapper">
+    <h2>No results found.  Please adjust your search criteria and try again.</h2>
+  </div>
   <div id="construction-permits-results-wrapper"
        class="construction-permits-modal-wrapper eportal-datatable-wrapper">
     <table class="usa-table-borderless eportal-responsive-table">

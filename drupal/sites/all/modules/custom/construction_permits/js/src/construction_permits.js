@@ -233,6 +233,7 @@ function reset_cgp_form() {
         $details.append($template)
       });
       $details.prepend(Drupal.settings.construction_permits.cgp_modal_header);
+
       $('#back-to-results-button').on('click', function(ev) {
         $('body').removeClass('fixed-modal-open');
         show_needed_cgp_div($('#construction-permits-results-wrapper'));
@@ -286,7 +287,7 @@ function reset_cgp_form() {
     return prop['latitude'] + '&deg;' + 'N,' + prop['longitude'] + '&deg;' + 'E' + '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>';
   }
 
-    cp_iife.appendixDCriteria = function(prop) {
+  cp_iife.appendixDCriteria = function(prop) {
     var $criteria = prop['criteriaSelectionSummary'];
     if ($criteria == 'A') {
       return '<strong>Criterion A:</strong><br>' + '<span class=\"criterion-description\">No ESA-listed species and/or designated critical habitat present in action area.</span> Using the process outlined in Appendix D of this permit, you certify that ESA-listed species and designated critical habitat(s) under the jurisdiction of the USFWS or NMFS are not likely to occur in your site\'s \"action area\" as defined in Appendix A of this permit. <strong>[A basis statement supporting the selection of this criterion should identify the USFWS and NMFS information sources used. Attaching aerial image(s) of the site to this NOI is helpful to EPA, USFWS, and NMFS in confirming eligibility under this criterion. Please Note: NMFS\' jurisdiction includes ESA-listed marine and estuarine species that spawn in inland rivers.]</strong>';
@@ -501,6 +502,7 @@ function reset_cgp_form() {
       var $cgp_loading_wrapper = $('#construction-permits-loading-wrapper');
       var $cgp_results_wrapper = $('#construction-permits-results-wrapper');
       var $cgp_details_wrapper = $('#construction-permits-details-wrapper');
+      var $cgp_noresults_wrapper = $('#construction-permits-noresults-wrapper');
       var cgpFormData = $form.serializeObject();
 
       $('#construction-permits-modal').dialog('open');
@@ -518,6 +520,9 @@ function reset_cgp_form() {
             // reset the modal and return it to a 'default' state
             convertNulls = true;
             cgp_resize_modal();
+          }
+          else if (cgp_reponse_json.data == '') {
+            show_needed_cgp_div($cgp_noresults_wrapper);
           }
           else {
             create_search_results(cgp_reponse_json);
