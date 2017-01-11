@@ -32,7 +32,7 @@ function developer_resources_area_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['grouping'] = array(
     0 => array(
-      'field' => 'field_developer_resource',
+      'field' => 'field_faq_category',
       'rendered' => 1,
       'rendered_strip' => 1,
     ),
@@ -106,7 +106,6 @@ function developer_resources_area_views_default_views() {
   $handler->display->display_options['fields']['view_node']['field'] = 'view_node';
   $handler->display->display_options['fields']['view_node']['label'] = '';
   $handler->display->display_options['fields']['view_node']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['view_node']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -115,7 +114,6 @@ function developer_resources_area_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['text'] = '<h4>[title]</h4>';
-  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['strip_tags'] = TRUE;
@@ -132,7 +130,6 @@ function developer_resources_area_views_default_views() {
   $handler->display->display_options['fields']['field_developer_resource']['field'] = 'field_developer_resource';
   $handler->display->display_options['fields']['field_developer_resource']['label'] = '';
   $handler->display->display_options['fields']['field_developer_resource']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_developer_resource']['alter']['strip_tags'] = TRUE;
   $handler->display->display_options['fields']['field_developer_resource']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_developer_resource']['settings'] = array(
     'link' => 0,

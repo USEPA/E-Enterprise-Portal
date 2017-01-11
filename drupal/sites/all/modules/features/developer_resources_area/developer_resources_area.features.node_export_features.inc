@@ -11,7 +11,7 @@ function developer_resources_area_node_export_features_default() {
   $node_export = array(
   'code_string' => 'array(
   (object) array(
-      \'vid\' => \'50328\',
+      \'vid\' => \'50334\',
       \'uid\' => \'1\',
       \'title\' => \'Resources for Local Communities API\',
       \'log\' => \'Removes inline formatting\',
@@ -20,15 +20,15 @@ function developer_resources_area_node_export_features_default() {
       \'promote\' => \'1\',
       \'sticky\' => \'0\',
       \'vuuid\' => \'8f5a8bf6-ed4b-489c-b953-4f0c6b0f241b\',
-      \'nid\' => \'50251\',
+      \'nid\' => \'50259\',
       \'type\' => \'developer_resource\',
       \'language\' => \'und\',
-      \'created\' => \'1484003527\',
-      \'changed\' => \'1484016222\',
+      \'created\' => \'1484057183\',
+      \'changed\' => \'1484058646\',
       \'tnid\' => \'0\',
       \'translate\' => \'0\',
       \'uuid\' => \'a3600efd-2243-4e93-a889-6435112f0927\',
-      \'revision_timestamp\' => \'1484016222\',
+      \'revision_timestamp\' => \'1484058646\',
       \'revision_uid\' => \'1\',
       \'body\' => array(
         \'und\' => array(
@@ -44,7 +44,7 @@ function developer_resources_area_node_export_features_default() {
       \'field_developer_resource\' => array(
         \'und\' => array(
           array(
-            \'target_id\' => \'174430\',
+            \'target_id\' => \'174444\',
           ),
         ),
       ),
@@ -110,7 +110,7 @@ function developer_resources_area_node_export_features_default() {
       \'print_pdf_orientation\' => \'\',
       \'path\' => array(
         \'pid\' => \'15\',
-        \'source\' => \'node/50251\',
+        \'source\' => \'node/50259\',
         \'alias\' => \'for-developers/resources-lgc\',
         \'language\' => \'und\',
       ),

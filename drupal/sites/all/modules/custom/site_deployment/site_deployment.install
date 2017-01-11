@@ -138,3 +138,18 @@ function site_deployment_update_7501(){
 
 
 }
+
+/**
+ *Sprint 30 Deployment to Showcase
+ * After completed, import vocab for Developers Resource taxonomy using taxonomy manager:
+ * APIs
+  Authentication
+  eActivity and Workflow
+ */
+function site_deployment_update_7502(){
+
+  module_enable(['menu_attributes']);
+  features_install_modules(['developer_resources_area']);
+  features_revert(['workbench_header', 'page_manager']);
+
+}
