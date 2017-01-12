@@ -398,6 +398,13 @@ body.fixed-modal-open {
             color: #666666;
         }
     }
+    .criterion-description {
+        display: block;
+        text-decoration: underline;
+    }
+    .cgp-criteria-list {
+        margin: 0;
+    }
 }
 
 #cgp-header {
