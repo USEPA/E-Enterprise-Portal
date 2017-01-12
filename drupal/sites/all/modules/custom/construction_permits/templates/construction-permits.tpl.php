@@ -152,7 +152,7 @@
           <label for="cgp-permit-number">Permit
             tracking number</label>
           <input type="text" id="cgp-permit-number"
-                 name="trackingNumber" data-parsley-pattern="/([0-9a-f]{8}-?[0-9a-f]{4}-?4[0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12})/" data-parsley-error-message="Permit numbers are composed of a combination of 32 lowercase hexadecimal digits.">
+                 name="trackingNumber" data-parsley-pattern="/([0-9a-f]{8}-?[0-9a-f]{4}-?4[0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12})/" data-parsley-error-message="Permit tracking numbers are composed of a combination of 32 alphanumeric characters.">
         </div>
         <div class="col-md-6">
           <label for="cgp-npdes-id">NPDES ID</label>
