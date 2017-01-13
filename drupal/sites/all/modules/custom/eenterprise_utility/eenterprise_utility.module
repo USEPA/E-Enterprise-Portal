@@ -1168,14 +1168,14 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
         if (!in_array($delta, $error_deltas)) {
           $error_deltas[] = $delta;
         }
-      } else {
-        // If there is only one zip code- make sure primary value is set. Subtract 1 one count to account for add-more element
-        if ($count_zips == 1) {
-          $zip_code_value['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
-        }
-        $blank_zipcode = FALSE;
+    } else {
+      // If there is only one zip code- make sure primary value is set. Subtract 1 one count to account for add-more element
+      if ($count_zips == 1) {
+        $zip_code_value['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
       }
+      $blank_zipcode = FALSE;
     }
+  }
   }
 
   if ($error) {
