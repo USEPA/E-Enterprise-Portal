@@ -146,10 +146,9 @@ function site_deployment_update_7501(){
     Authentication
     eActivity and Workflow
  */
-function site_deployment_update_7502(){
+function site_deployment_update_7503(){
 
   module_enable(['menu_attributes']);
   features_install_modules(['developer_resources_area']);
   features_revert(['workbench_header', 'page_manager']);
-
 }
