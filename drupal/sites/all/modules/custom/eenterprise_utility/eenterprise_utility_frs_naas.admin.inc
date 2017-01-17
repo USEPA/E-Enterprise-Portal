@@ -56,6 +56,16 @@ function frs_naas_auth_settings($form, $form_state) {
         '#default_value' => variable_get('cdx_node_token_auth_method'),
         '#required' => TRUE,
     );
+    $form['frs_naas_settings']['frs_test_proxy'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Proxy Url if using Test Proxy'),
+      '#default_value' => variable_get('frs_test_proxy'),
+    );
+    $form['frs_naas_settings']['frs_test_proxy_base_url'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Base URL if using Test Proxy'),
+      '#default_value' => variable_get('frs_test_proxy_base_url'),
+    );
 
     $form['#submit'][] = 'frs_naas_auth_settings_form_submit';
     return system_settings_form($form);
