@@ -40,9 +40,12 @@
 }
 
 #other-areas-tabs .dataTables_wrapper .dataTables_info {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: #444;
     display: inline-block;
+    padding-top: 12px;
+    width: 45%;
+    margin-bottom: 15px;
 }
 
 #other-areas-tabs .dataTables_filter {

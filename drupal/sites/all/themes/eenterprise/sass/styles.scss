@@ -498,6 +498,13 @@ footer {
             display: table-cell;
         }
     }
+    .dataTables_info {
+        width: 45%;
+        padding-top: 12px;
+        margin-bottom: 15px;
+        margin-top: 0px;
+        line-height: 1.2;
+    }
     ul.paging_simple {
         .pager-current {
             font-size: 1.4rem;
@@ -2595,7 +2602,8 @@ div.ctools-modal-content {
         input {
             margin-left: 0.5em;
             float: none;
-            display: table-cell;
+            display: inline-block;
+            vertical-align: middle;
             width: 80%;
         }
     }
@@ -3134,7 +3142,7 @@ input[type="submit"]:not(.usa-button-outline),
     a {
         display: table-cell;
         text-decoration: none;
-        border-radius: none;
+        border-radius: 0;
     }
     .mobile-nav_home {
         color: white;

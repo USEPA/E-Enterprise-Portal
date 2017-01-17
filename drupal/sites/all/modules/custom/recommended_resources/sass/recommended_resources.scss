@@ -20,8 +20,11 @@
 
 #local-resources-tabs.ui-widget-content:not(#facility-widget) .dataTables_info,
 .pane-views-recommended-resources-block #local-resources-tabs .dataTables_info {
-    padding-top: 15px;
+    font-size: 1.3rem;
+    padding-top: 12px;
     display: inline-block;
+    width: 45%;
+    margin-bottom: 15px;
 }
 
 #local-resources-tabs .dataTables_filter {
