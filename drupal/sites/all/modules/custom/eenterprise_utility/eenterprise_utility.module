@@ -1165,25 +1165,13 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
         $error_deltas[] = $delta;
       }
     } else {
-      //TODO Should not be looking up for every zip- should be using preferred locations when applicable
-      $zip_code_lookup = zip_code_lookup($zip_val);
-      if ($zip_code_lookup['city'] == '') {
-        $error = TRUE;
-        $error_message = 'The ZIP code you entered could not be found';
-        if (!in_array($error_message, $error_messages)) {
-          $error_messages[] = $error_message;
-        }
-        if (!in_array($delta, $error_deltas)) {
-          $error_deltas[] = $delta;
-        }
-    } else {
+
       // If there is only one zip code- make sure primary value is set. Subtract 1 one count to account for add-more element
       if ($count_zips == 1) {
         $zip_code_value['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
       }
       $blank_zipcode = FALSE;
     }
-  }
   }
 
   if ($error) {
