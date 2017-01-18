@@ -71,6 +71,7 @@ function process_favorite_link() {
   if (isset($_POST['id'])) {
     $id = $_POST['id'];
   }
+
   switch ($action) {
     case "add":
       $multifield_obj = array(
@@ -114,8 +115,8 @@ function process_favorite_link() {
   $edit = array(
     'field_profile_favourites' => $user_urls
   );
-
   // save existing user
+
   user_save($user_data, $edit);
 
   echo 'success';

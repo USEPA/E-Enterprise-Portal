@@ -731,6 +731,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
      */
     for ($delta = 0; $delta <= intval($form['field_profile_favourites'][LANGUAGE_NONE]['#max_delta']); $delta++) {
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#value'] = 'x';
+      $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value'] =
+        urldecode($form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_url'][LANGUAGE_NONE][0]['value']['#default_value']);
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['class'][] = 'multiple-fields-remove-button';
       $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['actions']['remove_button']['#attributes']['title'] = 'Remove favorite';
       $date_value = $form['field_profile_favourites'][LANGUAGE_NONE][$delta]['field_date_updated'][LANGUAGE_NONE][0]['#default_value']['value'];
@@ -856,6 +858,12 @@ function eenterprise_utility_profile_form_submit($form, &$form_state) {
       // Add new user location preference content
       save_user_location($zip, $name, $commsize, $isurban, $primary);
     }
+  }
+
+  // Encode Form URLS
+  for ($i = 0; $i < count($form_state['values']['field_profile_favourites'][LANGUAGE_NONE]); $i++) {
+    $form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$i]['field_url'][LANGUAGE_NONE][0]['value'] =
+      urlencode($form_state['values']['field_profile_favourites'][LANGUAGE_NONE][$i]['field_url'][LANGUAGE_NONE][0]['value']);
   }
 
   if (module_exists('chemical_rules') || $form['field_chem_rules_user_settings']) {
@@ -1234,18 +1242,22 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
 
       $hasUrl = !empty($url);
       $hasText = !empty($title);
+      $validURL = valid_url($url, TRUE);
 
       // The keys are build with the '][' as a delimiter then we will append the final field name in the form_set_error()
       $key = "field_profile_favourites][$nl][$delta][";
       $errorMsgUrl = 'Invalid link.  It may contain invalid characters and is not allowed to have javascript. ' .
         'Please refrain from using special characters. Please contact a system admin if this problem continues.';
       $errorMsgBlank = 'This field may not be left blank';
+      $errorMsgInvalid = "Invalid link. URL must begin with 'http://' or 'https://'.";
 
       if ($hasUrl || $hasText) {
         if (!$hasUrl) {
           form_set_error($key . "field_url", t($errorMsgBlank));
         } else if ($match_html) {
           form_set_error($key . "field_url", t($errorMsgUrl));
+        } else if (!$validURL) {
+          form_set_error($key . "field_url", t($errorMsgInvalid));
         }
       } else if (!$hasUrl && !$hasText) {
         unset($form_state['values']['field_profile_favourites'][$nl][$delta]);
