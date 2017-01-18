@@ -124,7 +124,7 @@ function site_deployment_update_7015(&$sandbox) {
 /**
  * Updating query settings for LGC Resources View
  */
-function site_deployment_update_7016(){
+function site_deployment_update_7501(){
 
   // Update query settings for LGC Resources view
 
@@ -146,9 +146,10 @@ function site_deployment_update_7016(){
 Authentication
 eActivity and Workflow
  */
-function site_deployment_update_7017(){
+function site_deployment_update_7502(){
 
   module_enable(['menu_attributes']);
   features_install_modules(['developer_resources_area']);
   features_revert(['workbench_header', 'page_manager']);
+
 }
