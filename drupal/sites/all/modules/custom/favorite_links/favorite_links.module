@@ -1,25 +1,5 @@
 <?php
 
-/**
- * Implements hook_theme_registry_alter().
- */
-function favorite_links_theme_registry_alter(&$theme_registry) {
-// Defined path to the current module.
-  $module_path = drupal_get_path('module', 'favorite_links');
-// Find all .tpl.php files in this module's folder recursively.
-  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
-// Iterate through all found template file objects.
-  foreach ($template_file_objects as $key => $template_file_object) {
-// If the template has not already been overridden by a theme.
-    if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
-// Alter the theme path and template elements.
-      $theme_registry[$key]['theme path'] = $module_path;
-      $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
-      $theme_registry[$key]['type'] = 'module';
-    }
-  }
-
-}
 
 /**
  * @param $view
@@ -27,17 +7,6 @@ function favorite_links_theme_registry_alter(&$theme_registry) {
  */
 function favorite_links_views_pre_render(&$view) {
   if ($view->name == 'favorite_sites') {
-  // If waitUntilExists library has not been initialized yet in eenterprise_utility.module, do so now
-/*
-    drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/waitUntilExists.js', [
-      'scope' => 'footer',
-      'preprocess' => TRUE,
-      'group' => JS_LIBRARY,
-      'type' => 'file',
-      'cache' => TRUE,
-      'requires_jquery' => TRUE
-    ]);
-*/
     drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/FavoriteLink.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
     drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/favorite_links.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
     drupal_add_js(array('preloaded_link_data' => load_links()), 'setting');
@@ -50,12 +19,6 @@ function favorite_links_views_pre_render(&$view) {
 
 function favorite_links_menu() {
   $items = array();
-  $items['favorite_links'] = array(
-    'title' => 'favorite_links_demo',
-    'access callback' => TRUE,
-    'page callback' => 'favorite_theme',
-    'access arguments' => array('access content'),
-  );
   $items['process_favorite_link'] = array(
     'page callback' => 'process_favorite_link',
     'access callback' => TRUE,
@@ -79,7 +42,6 @@ function remove_url($array, $remove_url) {
   if (is_array($array)) {
     foreach ($array[LANGUAGE_NONE] as $key => $value) {
       $url = $value['field_url'][LANGUAGE_NONE][0]['value'];
-      $id = $value['id'];
       if ($url == $remove_url) {
         return $key;
       }
@@ -109,8 +71,6 @@ function process_favorite_link() {
   if (isset($_POST['id'])) {
     $id = $_POST['id'];
   }
-
-  // $value = $url . '|' . $date . '|' . $order_weight;
   switch ($action) {
     case "add":
       $multifield_obj = array(
@@ -154,8 +114,8 @@ function process_favorite_link() {
   $edit = array(
     'field_profile_favourites' => $user_urls
   );
-  // save existing user
 
+  // save existing user
   user_save($user_data, $edit);
 
   echo 'success';
@@ -181,10 +141,12 @@ function load_links() {
     $url_data = false;
   }
   $results = array('urls' => $url_data, 'url_mapping' => $url_ids_array, 'label_mapping' => $labels_ids_array, 'full_data' => $user_urls[LANGUAGE_NONE]);
-  if (isset($_GET['json']))
+  if (isset($_GET['json'])) {
     echo json_encode($results);
-  else
+  }
+  else {
     return json_encode($results);
+  }
 }
 
 
