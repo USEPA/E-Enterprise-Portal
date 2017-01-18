@@ -42,7 +42,7 @@ var FavoriteLink = function ($container) {
 
     // Private
     var id = -1;
-    var url = $container.closest('a').attr('href');
+    var url = encodeURIComponent($container.closest('a').attr('href'));
     var favored = false;
     var parent = null; // id of
     var children = [];
@@ -82,7 +82,7 @@ var FavoriteLink = function ($container) {
     }
 
     this.setUrl = function (in_url) {
-        url = in_url;
+        url = encodeURIComponent(in_url);
     }
     this.getUrl = function () {
         return url;
@@ -128,27 +128,4 @@ var FavoriteLink = function ($container) {
             this.unfavor();
         });
     }
-}
-
-var FavoriteLinkCollection = function () {
-    /**
-     *
-     * @type {Array}
-     */
-
-
-    // favorite links object - look up by id. id points to array of 1 - many ids.
-    var favorite_links = {};
-
-
-    // remove favorite link
-    this.removeFavoriteLink = function (id_to_be_removed) {
-        var favorite_link = favorite_links[id_to_be_removed];
-        if (favorite_link.is_parent)
-            favorite_link.unfavor_children();
-        else
-            favorite_link.triggerParentForRemoval();
-        delete  favorite_links[id_to_be_removed];
-    }
-
 }
