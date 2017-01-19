@@ -1111,7 +1111,7 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
  * Custom validation for user information, called when form is submitted.
  */
 function user_profile_form_custom_validate(&$form, &$form_state) {
-  //user_profile_zipcode_custom_validate($form, $form_state);
+  user_profile_zipcode_custom_validate($form, $form_state);
   user_profile_mail_custom_validate($form, $form_state);
   user_profile_url_custom_validate($form, $form_state);
 }
