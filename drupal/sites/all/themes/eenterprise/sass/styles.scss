@@ -268,6 +268,21 @@
                 padding-right: 0;
             }
         }
+        a.github {
+            padding-left: 22px;
+            background: transparent url('../images/github-light.png') no-repeat 0 0;
+            background-size: 18px, contain;
+        }
+    }
+}
+.section-eenterprise-new {
+    .menu {
+        .menu-item {
+            a.github {
+                background-image: url('../images/github-dark.png');
+                background-size: 18px, contain;
+            }
+        }
     }
 }
 
@@ -400,9 +415,8 @@ footer {
 #local-resources-tabs,
 .view-state-resource-editor,
 .view-resource-editor,
-.pane-my-cdx-my-cdx{
-
-
+.pane-my-cdx-my-cdx,
+#construction-permits-modal {
     th {
         vertical-align: top;
     }
@@ -484,6 +498,13 @@ footer {
             display: table-cell;
         }
     }
+    .dataTables_info {
+        width: 45%;
+        padding-top: 12px;
+        margin-bottom: 15px;
+        margin-top: 0px;
+        line-height: 1.2;
+    }
     ul.paging_simple {
         .pager-current {
             font-size: 1.4rem;
@@ -491,7 +512,6 @@ footer {
     }
 
 }
-
 
 .eportal-datatable-wrapper {
     ul.paging_simple_numbers,
@@ -555,17 +575,14 @@ footer {
         }
     }
     ul.paging_simple {
+        float: none;
+        margin: 0 auto;
         .pager-current {
             font-size: 1.4rem;
         }
     }
 }
 
-// Pagers for workbench panes
-.pane-block .paging_simple {
-    float: none;
-    margin: 0 auto;
-}
 
 .page-app-connect #app-connect-tabs .dataTables_info {
     float: left;
@@ -649,6 +666,42 @@ footer {
     }
     .pillbox {
         display: block;
+    }
+}
+
+.region-alert {
+    font-size: 1.4rem;
+    text-align: center;
+    .eenterprise-move {
+        margin: 0;
+        padding: 0.5rem;
+        p {
+            margin: 0;
+        }
+    }
+    .option-a {
+        background-color: #ffcc66;
+    }
+    .option-b {
+        background: repeating-linear-gradient(-55deg, #ffcc66, #ffcc66 5px, #ffbb55 5px, #ffbb55 10px);
+        p {
+            background-color: #ffcc66;
+        }
+    }
+    .option-c,
+    .option-d {
+        background: repeating-linear-gradient(-55deg, #000, #000 5px, #333 5px, #333 10px);
+    }
+    .option-c {
+        p {
+            background-color: #ffcc66;
+        }
+    }
+    .option-d {
+        p {
+            background-color: #333;
+            color: #fff;
+        }
     }
 }
 
@@ -772,6 +825,12 @@ header {
     h2, h3, h4, p:not(#release-number-footer), ul:not(.menu), .jcarousel {
         font-family: 'Futura LT BT', 'Poppins', 'Century Gothic', 'Source Sans Pro', Helvetica, Arial, sans-serif;
         font-weight: 300;
+    }
+    .region-maintenance,
+    .region-alert {
+        h2, h3, h4, p:not(#release-number-footer) {
+            font-family: $font-sans;
+        }
     }
     .jcarousel-wrapper {
         margin: 0 auto;
@@ -1212,7 +1271,7 @@ header {
         padding-bottom: 5px;
     }
 
-    .small-screen-td-header{
+    .small-screen-td-header {
         display: block;
     }
 
@@ -2361,7 +2420,6 @@ form .field-multiple-table#field-zip-code-values {
 
 .ui-dialog,
 #modalContent {
-    overflow-y: auto;
     .ui-dialog-title {
         font-weight: normal !important;
         font-size: 1.25em;
@@ -2544,7 +2602,8 @@ div.ctools-modal-content {
         input {
             margin-left: 0.5em;
             float: none;
-            display: table-cell;
+            display: inline-block;
+            vertical-align: middle;
             width: 80%;
         }
     }
@@ -2631,7 +2690,6 @@ input[type="submit"]:not(.usa-button-outline),
     float: left;
     margin-right: 4%;
 }
-
 
 // iPhone, some Android Portrait @ 320px, iphone 6 @ 375px -------------- //
 
@@ -3084,7 +3142,7 @@ input[type="submit"]:not(.usa-button-outline),
     a {
         display: table-cell;
         text-decoration: none;
-        border-radius: none;
+        border-radius: 0;
     }
     .mobile-nav_home {
         color: white;
@@ -3908,7 +3966,8 @@ input#location-input-guests::-ms-clear {
     font-size: 100%;
 }
 
-.page-faqs {
+.page-faqs,
+.page-for-developers {
     .view-header {
         background-color: #fafafa;
         padding: 5px 20px;
@@ -3925,7 +3984,8 @@ input#location-input-guests::-ms-clear {
     .bulleted {
         margin-bottom: 0;
     }
-    .views-field-title, .views-field-field-faq-category, .views-field-field-faq-category div {
+    .views-field-title, .views-field-field-faq-category, .views-field-field-faq-category div,
+    .views-field-field-developer-resource {
         font-weight: bold;
         display: inline;
     }
@@ -3934,6 +3994,116 @@ input#location-input-guests::-ms-clear {
     }
 }
 
+.page-for-developers {
+    .view-header {
+        h2 {
+            font-size: 1em;
+        }
+    }
+    .view-content {
+        h2 {
+            font-size: 2.4rem;
+            font-weight: bold;
+        }
+        ul.bulleted {
+            display: block;
+            li {
+                display: block;
+                background-color: #fafafa;
+                &:before,
+                .views-field-title {
+                    display: inline-block;
+                }
+                .views-field-title {
+                    font-size: 2rem;
+                    font-weight: bold;
+                }
+                .views-field-body {
+                    padding: 0 20px;
+                    background: #fff;
+                    .field-content {
+                        h2 {
+                            margin-bottom: 0;
+                            font-weight: bold;
+                            font-size: 1.7rem;
+                        }
+                        h2 + p,
+                        h2 + table,
+                        p + pre {
+                            margin-top: 5px;
+                        }
+                        pre + h2 {
+                            margin-top: 2em;
+                        }
+                        pre {
+                            margin-left: 0;
+                            overflow: auto;
+                            max-height: 200px;
+                            padding: 20px;
+                            background-color: #fcf6db;
+                            border: 1px solid #e5e0c6;
+                            font-size: 0.85em;
+                            white-space: pre-wrap;
+                            white-space: -moz-pre-wrap;
+                            white-space: -o-pre-wrap;
+                            word-wrap: break-word;
+                        }
+                        table {
+                            td {
+                                vertical-align: top;
+                            }
+                            ol {
+                                margin-top: 0;
+                                margin-bottom: 0;
+                                li {
+                                    margin-top: 0;
+                                    margin-bottom: 0.5rem;
+                                    background-color: transparent;
+                                    &:before {
+                                        font-weight: normal;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.node-type-developer-resource {
+    h2 {
+        margin-bottom: 0.25em;
+        font-size: 2.6rem;
+    }
+    p {
+        margin-bottom: 5px;
+    }
+    h2 + p,
+    h2 + table,
+    p + pre {
+        margin-top: 0;
+    }
+    pre + h2 {
+        margin-top: 2em;
+    }
+    .submitted {
+        margin: 0;
+    }
+    pre {
+        margin-left: 0;
+        overflow: auto;
+        max-height: 200px;
+        padding: 20px;
+        background-color: #fcf6db;
+        border: 1px solid #e5e0c6;
+        font-size: 0.85em;
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word;
+    }
+}
 #edit-field-prog-tracker-app-value-wrapper {
     display: none;
 }
@@ -4128,7 +4298,8 @@ ul {
 // Prefix E-Enterprise Workbench only and .page-resource-editor with CSS class to avoid overwriting My Facility Manager widget
 .grid-stack-item:not(#facility-widget) .ui-widget,
 .grid-stack-item:not(#facility-widget) .ui-widget-content,
-.grid-stack-item {
+.grid-stack-item,
+.eportal-workbench-modal {
     .paging_simple {
         li {
             padding-left: 10px;

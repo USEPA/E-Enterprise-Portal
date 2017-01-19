@@ -22,6 +22,13 @@ function construction_permits_menu() {
     'page callback' => 'cgp_pdf_generate',
     'access callback' => TRUE,
   );
+  $items['cgp/%'] = array(
+    'page callback' => 'cgp_external_details_lookup',
+    'access callback' => TRUE,
+    'page arguments' => array(1),
+    'type' => MENU_CALLBACK,
+
+  );
   return $items;
 }
 
@@ -36,59 +43,6 @@ function construction_permits_block_info() {
   return $blocks;
 }
 
-/*
- * Generate pdf using wkhtmltopdf tool.
- * Example here: https://gist.github.com/davejamesmiller/1965886
- * */
-function cgp_pdf_generate(){
-  $html =  theme('construction_permits_pdf');
-  $descriptor_spec = array(
-      0 => array('pipe', 'r'), // stdin
-      1 => array('pipe', 'w'), // stdout
-      2 => array('pipe', 'w'), // stderr
-  );
-  $current_srvr_name = variable_get('eportal_server_name');
-  if(isset($current_srvr_name) && ($current_srvr_name == $_SERVER['SERVER_NAME'])){
-    $process = proc_open('wkhtmltopdf -q - -', $descriptor_spec, $pipes);
-  }
-  else{
-    $process = proc_open('sites/all/libraries/wkhtmltox/bin/wkhtmltopdf -q - -', $descriptor_spec, $pipes);
-  }
-
-  // Send the HTML on stdin
-  fwrite($pipes[0], $html);
-  fclose($pipes[0]);
-  // Read the outputs
-  $pdf = stream_get_contents($pipes[1]);
-  $errors = stream_get_contents($pipes[2]);
-  // Close the process
-  fclose($pipes[1]);
-  $return_value = proc_close($process);
-  // Output the results
-  if ($errors) {
-    watchdog('construction_permits', "wkhtmltopdf PDF Generation Failed! ".$errors, WATCHDOG_ERROR);
-    return "PDF Generation Failed!!";
-  } else {
-    header('Content-Type: application/pdf');
-    header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
-    header('Pragma: public');
-    header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-    header('Last-Modified: ' . gmdate('D, d M Y H:i:s').' GMT');
-    header('Content-Length: ' . strlen($pdf));
-    echo $pdf;
-  }
-}
-
-/*
- * Implementation of hook_user_logout
- * Remove used pdf generation variable for the logged in user and session when the user logs out.
- * */
-function construction_permits_user_logout($account){
-  global $user;
-  variable_del($user->name.'_cgp_pdf_resp_'.$user->ssid);
-}
-
-
 /**
  * Implements hook_theme().
  * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
@@ -99,22 +53,45 @@ function construction_permits_theme() {
     'construction_permits' => array(
       // Default variables
       'variables' => array(),
-      // Which .tpl.php file to use my-cdx.tpl.php
+      // Which .tpl.php file to use construction-permits.tpl.php
       'template' => 'construction-permits',
       'path' => drupal_get_path('module', 'construction_permits') . '/templates'
     ),
     'construction_permits_modal' => array(
       // Default variables
       'variables' => array(),
-      // Which .tpl.php file to use be-well-informed-modal.tpl.php
+      // Which .tpl.php file to use construction-permits-modal.tpl.php
       'template' => 'construction-permits-modal',
       'path' => drupal_get_path('module', 'construction_permits') . '/templates'
     ),
-    'construction_permits_pdf' => array(
-        'variables' => array(),
-        'template' => 'construction-permits-pdf',
-        'path' => drupal_get_path('module', 'construction_permits') . '/templates'
+    'construction_permits_modal_header' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use construction-permits-modal-header.tpl.php
+      'template' => 'construction-permits-modal-header',
+      'path' => drupal_get_path('module', 'construction_permits') . '/templates'
     ),
+    'construction_permits_permit_notice_of_intent' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use construction-permits-permit-notice-of-intent.tpl.php
+      'template' => 'construction-permits-permit-notice-of-intent',
+      'path' => drupal_get_path('module', 'construction_permits') . '/templates'
+    ),
+    'construction_permits_status_definitions' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use construction-permits-status-definitions.tpl.php
+      'template' => 'construction-permits-status-definitions',
+      'path' => drupal_get_path('module', 'construction_permits') . '/templates'
+    ),
+    'cgp_single_page' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use cgp-single-page.tpl.php
+      'template' => 'cgp-single-page',
+      'path' => drupal_get_path('module', 'construction_permits') . '/templates'
+    )
   );
 }
 
@@ -125,7 +102,7 @@ function construction_permits_block_view($delta = '') {
   $block = array();
   if ($delta == 'construction_permits') {
     //good idea to check user perms here
-    if (user_access('access content')) {      
+    if (user_access('access content')) {
       drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
@@ -154,10 +131,22 @@ function construction_permits_block_view($delta = '') {
         'preprocess' => TRUE,
         'group' => CSS_THEME
       ]);
-      
+
       // Set Modal Template
       $cgp_modal_html = theme('construction_permits_modal');
-      drupal_add_js(array("construction_permits" => ["cgp_modal" => $cgp_modal_html]), 'setting');
+      $cgp_modal_header = theme('construction_permits_modal_header');
+      $cgp_status_html = theme('construction_permits_status_definitions');
+      $cgp_permit_template_notice_of_intent = theme('construction_permits_permit_notice_of_intent');
+      $settings = [
+        "construction_permits" => [
+          "cgp_api_endpoint" => variable_get('cgp_api_endpoint'),
+          "cgp_modal" => $cgp_modal_html,
+          "cgp_modal_header" => $cgp_modal_header,
+          "permit_templates" => ["notice_of_intent" => $cgp_permit_template_notice_of_intent],
+          "status_definition" => $cgp_status_html,
+        ]
+      ];
+      drupal_add_js($settings, 'setting');
 
       $block['subject'] = t('Find a Construction General Permit');
       $block['content'] = theme('construction_permits');
@@ -171,26 +160,27 @@ function construction_permits_block_view($delta = '') {
  * Take users POST input and handoff to sample data or BE WELL INFORMED service
  */
 function construction_permits_form_submission() {
-  if (!isset($_POST) || count($_POST) === 0) {
-    drupal_json_output(array(
-      'error' => TRUE,
-      'message' => 'Failed to receive any data.'
-    ));
-    return;
-  }
 
   $datatable_formatted_response = [];
 
-  if (variable_get('cgp_form_endpoint_sample_data', false)) {
+  if (variable_get('cgp_form_endpoint_sample_data', FALSE)) {
     $construction_permits_response = sample_construction_permits_form_response();
-    $datatable_formatted_response['data'] = construction_permits_datatable_response($construction_permits_response);
+    $datatable_formatted_response['data'] = $construction_permits_response;
+    $datatable_formatted_response['datatable'] = construction_permits_datatable_response($construction_permits_response);
     $datatable_formatted_response['error'] = FALSE;
   }
   else {
+    /*if (!isset($_POST) || count($_POST) === 0) {
+      drupal_json_output(array(
+        'error' => TRUE,
+        'message' => 'Failed to receive any data.'
+      ));
+      return;
+    }*/
     // All temporary
-  	// Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
+    // Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
 
-    $endpoint = variable_get('cgp_form_endpoint').'?'.http_build_query($_POST);
+    $endpoint = variable_get('cgp_api_endpoint') . '/form?' . http_build_query($_POST);
     $response = drupal_http_request($endpoint, [
       "method" => "GET",
       'timeout' => "10"
@@ -200,8 +190,8 @@ function construction_permits_form_submission() {
       $datatable_formatted_response['error_message'][] = json_decode($response->data);
     }
     else {
-      $formatted_data = construction_permits_datatable_response($response->data);
-      $datatable_formatted_response['data'] = $formatted_data;
+      $datatable_formatted_response['data'] = json_decode($response->data, true);
+      $datatable_formatted_response['datatable'] = construction_permits_datatable_response($datatable_formatted_response['data']);
       $datatable_formatted_response['error'] = FALSE;
     }
   }
@@ -216,14 +206,27 @@ function construction_permits_form_submission() {
  */
 function construction_permits_datatable_response($cgp_reponse_json) {
   $datatable_result_summary_json = [];
-  $datatable_result_summary_json = $cgp_reponse_json;
+  foreach ($cgp_reponse_json as $cgp_result) {
+    $dt_row = [];
+    //$cgp_result = $cgp_result['data'];
+    $dt_row[] = $cgp_result['id'];
+    $dt_row[] = $cgp_result['masterPermitNumber'];
+    $dt_row[] = $cgp_result['npdesId'];
+    $dt_row[] = $cgp_result['operatorInformation']["operatorName"];
+    $dt_row[] = $cgp_result['projectSiteInformation']['siteName'];
+    $dt_row[] = $cgp_result['projectSiteInformation']['siteStateCode'];
+    $dt_row[] = $cgp_result['projectSiteInformation']['siteCity'];
+    $dt_row[] = $cgp_result['status'];
+    $dt_row[] = $cgp_result['submittedDate'];
+    $datatable_result_summary_json[] = $dt_row;
+  }
   return $datatable_result_summary_json;
 }
 
 function sample_construction_permits_form_response() {
   $path = drupal_get_path('module', 'construction_permits') . '/sample_data/devngn.epacdxnode.net.json';
   $sample = file_get_contents($path);
-  return json_decode($sample, true);
+  return json_decode($sample, TRUE);
 }
 
 /**
@@ -237,8 +240,62 @@ function template_preprocess_construction_permits_modal(&$variables, $hook) {
  * Implements template_preprocess_hook for be-well-informed-pdf.tpl.php.
  */
 function template_preprocess_construction_permits_pdf(&$variables, $hook) {
-
   global $user;
-  $variables['response_json_data_pdf'] = variable_get($user->name.'_cgp_pdf_resp_'.$user->ssid);
+  $variables['response_json_data_pdf'] = variable_get($user->name . '_cgp_pdf_resp_' . $user->ssid);
+}
+
+/**
+ * @param $tracking_id
+ * @return string
+ * @throws Exception
+ */
+function cgp_external_details_lookup($tracking_id) {
+  $cgp_modal_html = theme('construction_permits_modal');
+  $cgp_status_html = theme('construction_permits_status_definitions');
+  $cgp_permit_template_notice_of_intent = theme('construction_permits_permit_notice_of_intent');
+  $params = ["trackingNumber"=> $tracking_id];
+  //TODO replace with variable get from configs
+  $endpoint = "https://devngn.epacdxnode.net/oeca-cgp-web/api/public/v1/form". '?' . http_build_query($params);
+  $response = drupal_http_request($endpoint, [
+    "method" => "GET",
+    'timeout' => "10"
+  ]);
+  if ($response->code !== "200") {
+    $datatable_formatted_response['error'] = TRUE;
+    $datatable_formatted_response['error_message'][] = json_decode($response->data);
+  }
+  else {
+    $datatable_formatted_response['data'] = json_decode($response->data);
+    $datatable_formatted_response['datatable'] = construction_permits_datatable_response($response->data);
+    $datatable_formatted_response['error'] = FALSE;
+  }
+
+
+  $settings = [
+    "construction_permits" => [
+      "tracking_id" => $tracking_id,
+      "response_data" => $datatable_formatted_response,
+      "cgp_modal" => $cgp_modal_html,
+      "permit_templates" => ["notice_of_intent" => $cgp_permit_template_notice_of_intent],
+      "status_definition" => $cgp_status_html,
+      "cgp_api_endpoint" => variable_get('cgp_api_endpoint'),
+    ]
+  ];
+  drupal_add_js($settings, 'setting');
+
+  drupal_add_js(drupal_get_path('module', 'construction_permits') . '/js/construction_permits.js', [
+    'scope' => 'footer',
+    'preprocess' => TRUE,
+    'group' => JS_DEFAULT,
+    'type' => 'file',
+    'cache' => TRUE,
+    'requires_jquery' => TRUE
+  ]);
+  drupal_add_css(drupal_get_path('module', 'construction_permits') . '/css/construction_permits.css', [
+    'preprocess' => TRUE,
+    'group' => CSS_THEME
+  ]);
+
+  return theme('cgp_single_page');
 }
 

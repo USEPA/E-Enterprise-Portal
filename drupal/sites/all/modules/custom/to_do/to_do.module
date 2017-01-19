@@ -170,8 +170,6 @@ function load_to_do_datatable_json($use_cache = true) {
       $timeframe = "beyond";
     }
 
-
-
     $eactivity_dt_row = [
       "", // Empty to allow for datatables to have index column
       $title,

@@ -56,7 +56,7 @@ function cr_resizeGuestModal() {
   // build related tabs
   $('#cr-tabs').tabs();
   if (guest_user) {
-    $body.find('.cr-tabs_favorites_empty p').html('<p>To save items as favorites, you must first <a href="/new-users">log in.</a></p>');
+    $body.find('.cr-tabs_favorites_empty p').html('<p>To save items as favorites, you must first <a href="/guest-newusers">log in.</a></p>');
   }
 
   render_favorites();
@@ -676,19 +676,25 @@ function cr_resizeGuestModal() {
    * @param profile
    */
   function update_chem_profile() {
-    $.ajax({
-      method: "POST",
-      url: Drupal.settings.basePath + "chemical_rules/update_chem_profile",
-      dataType: 'json',
-      data: {
-        profile: JSON.stringify(cr_favs)
-      },
-    }).done(function() {
-      render_favorites();
-      // @TODO - Update Modal List - call populate_substance_modal or subset of it!
-    }).fail(function() {
-      console.log('fail', arguments)
-    });
+    var $edit_field = $('#edit-field-chem-rules-user-settings-und-0-value');
+    if($edit_field.length) {
+      $edit_field.val(cr_favs);
+    }
+    else {
+      $.ajax({
+        method: "POST",
+        url: Drupal.settings.basePath + "chemical_rules/update_chem_profile",
+        dataType: 'json',
+        data: {
+          profile: JSON.stringify(cr_favs)
+        },
+      }).done(function() {
+        render_favorites();
+        // @TODO - Update Modal List - call populate_substance_modal or subset of it!
+      }).fail(function() {
+        console.log('fail', arguments)
+      });
+    }
   }
 
   /**

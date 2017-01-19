@@ -402,8 +402,8 @@ function frs_lat_long_to_zip_code($lat, $long) {
   $ip = $_SERVER['SERVER_ADDR'];
   $frs_domain = variable_get('frs_api_lookup_url');
   if ($frs_domain == 'test_proxy') {
-    $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
-    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_spatial_data_by_latlong84?p_ip_address=' . $ip . '&p_token=' . $token . '&p_latitude=' . $lat .
+    $test_domain = variable_get("frs_test_proxy");
+    $base_url = variable_get("frs_test_proxy_base_url"). '.get_spatial_data_by_latlong84?p_ip_address=' . $ip . '&p_token=' . $token . '&p_latitude=' . $lat .
       '&p_longitude=' . $long;
     $encoded_base_url = urlencode($base_url);
     $request_url = $test_domain . $encoded_base_url;
@@ -586,8 +586,8 @@ function frs_city_state_to_zip_code($city, $state) {
   $encoded_city = urlencode($city);
   $frs_domain = variable_get('frs_api_lookup_url');
   if ($frs_domain == 'test_proxy') {
-    $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
-    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
+    $test_domain = variable_get("frs_test_proxy");
+    $base_url = variable_get("frs_test_proxy_base_url") . '.get_zip_by_city_state?p_ip_address=' . $ip . '&p_token=' . $token . '&p_city_name='
       . $encoded_city . '&p_state_abbr=' . $state;
     $encoded_base_url = urlencode($base_url);
     $request_url = $test_domain . $encoded_base_url;
@@ -619,10 +619,10 @@ function frs_city_state_to_zip_code($city, $state) {
 function frs_zip_code_to_city_state($zip) {
   $token = frs_naas_authentication();
   $frs_domain = variable_get('frs_api_lookup_url');
-  $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
+  $ip = $_SERVER['SERVER_ADDR'];
   if ($frs_domain == 'test_proxy') {
-    $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
-    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
+    $test_domain = variable_get("frs_test_proxy");
+    $base_url = variable_get("frs_test_proxy_base_url") . '.get_city_state_by_zip?p_ip_address=' . $ip . '&p_postal_code=' . $zip . '&p_token=' . $token;
     $encoded_base_url = urlencode($base_url);
     $request_url = $test_domain . $encoded_base_url;
   }
@@ -734,8 +734,8 @@ function frs_zip_code_to_lat_long($zip) {
   $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
   $frs_domain = variable_get('frs_api_lookup_url');
   if ($frs_domain == 'test_proxy') {
-    $test_domain = "http://dev.epacdx.net/FrsServicesTestHarness/ServiceProxy/Get?url=";
-    $base_url = 'http://epadev.induscorp.com/fiicdx/FRS_API_LOOKUP_SERVICES.derive_lat_long_by_zip?p_ip_address=' . $ip . '&p_zip=' . $zip . '&p_token=' . $token;
+    $test_domain = variable_get("frs_test_proxy");
+    $base_url = variable_get("frs_test_proxy_base_url"). '.derive_lat_long_by_zip?p_ip_address=' . $ip . '&p_zip=' . $zip . '&p_token=' . $token;
     $encoded_base_url = urlencode($base_url);
     $request_url = $test_domain . $encoded_base_url;
   }

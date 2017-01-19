@@ -21,23 +21,13 @@ function favorite_links_theme_registry_alter(&$theme_registry) {
 
 }
 
+
 /**
  * @param $view
  * Implementation of hook_views_pre_render
  */
 function favorite_links_views_pre_render(&$view) {
   if ($view->name == 'favorite_sites') {
-  // If waitUntilExists library has not been initialized yet in eenterprise_utility.module, do so now
-/*
-    drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/waitUntilExists.js', [
-      'scope' => 'footer',
-      'preprocess' => TRUE,
-      'group' => JS_LIBRARY,
-      'type' => 'file',
-      'cache' => TRUE,
-      'requires_jquery' => TRUE
-    ]);
-*/
     drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/FavoriteLink.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
     drupal_add_js(drupal_get_path('module', 'favorite_links') . "/js/favorite_links.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
     drupal_add_js(array('preloaded_link_data' => load_links()), 'setting');
@@ -50,12 +40,6 @@ function favorite_links_views_pre_render(&$view) {
 
 function favorite_links_menu() {
   $items = array();
-  $items['favorite_links'] = array(
-    'title' => 'favorite_links_demo',
-    'access callback' => TRUE,
-    'page callback' => 'favorite_theme',
-    'access arguments' => array('access content'),
-  );
   $items['process_favorite_link'] = array(
     'page callback' => 'process_favorite_link',
     'access callback' => TRUE,
@@ -79,7 +63,6 @@ function remove_url($array, $remove_url) {
   if (is_array($array)) {
     foreach ($array[LANGUAGE_NONE] as $key => $value) {
       $url = $value['field_url'][LANGUAGE_NONE][0]['value'];
-      $id = $value['id'];
       if ($url == $remove_url) {
         return $key;
       }
@@ -110,7 +93,6 @@ function process_favorite_link() {
     $id = $_POST['id'];
   }
 
-  // $value = $url . '|' . $date . '|' . $order_weight;
   switch ($action) {
     case "add":
       $multifield_obj = array(
@@ -181,10 +163,12 @@ function load_links() {
     $url_data = false;
   }
   $results = array('urls' => $url_data, 'url_mapping' => $url_ids_array, 'label_mapping' => $labels_ids_array, 'full_data' => $user_urls[LANGUAGE_NONE]);
-  if (isset($_GET['json']))
+  if (isset($_GET['json'])) {
     echo json_encode($results);
-  else
+  }
+  else {
     return json_encode($results);
+  }
 }
 
 

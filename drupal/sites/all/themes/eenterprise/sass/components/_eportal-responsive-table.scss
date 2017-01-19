@@ -14,7 +14,7 @@
         color: #0071bc;
         cursor: pointer;
     }
-    
+
     margin-top: 1em;
     clear: both;
     thead {
@@ -54,11 +54,6 @@
         td.views-field-field-prog-track-actions-dnload[data-title]:before {
             float: none;
         }
-        td.small-screen-td-header {
-            background-color: $color-gray-lightest;
-            border-left: 1px solid $color-gray-light;
-            border-right: 1px solid $color-gray-light;
-        }
         td {
             border-bottom: none;
         }
@@ -92,11 +87,21 @@
         width: 16px;
         height: 16px;
     }
-    .sorting span.sort-icon { background: url('../images/sort_both.png') no-repeat center right; }
-    .sorting_asc span.sort-icon { background: url('../images/sort_asc.png') no-repeat center right; }
-    .sorting_desc span.sort-icon { background: url('../images/sort_desc.png') no-repeat center right; }
-    .sorting_asc_disabled span.sort-icon { background: url('../images/sort_asc_disabled.png') no-repeat center right; }
-    .sorting_desc_disabled span.sort-icon { background: url('../images/sort_desc_disabled.png') no-repeat center right; }
+    .sorting span.sort-icon {
+        background: url('../images/sort_both.png') no-repeat center right;
+    }
+    .sorting_asc span.sort-icon {
+        background: url('../images/sort_asc.png') no-repeat center right;
+    }
+    .sorting_desc span.sort-icon {
+        background: url('../images/sort_desc.png') no-repeat center right;
+    }
+    .sorting_asc_disabled span.sort-icon {
+        background: url('../images/sort_asc_disabled.png') no-repeat center right;
+    }
+    .sorting_desc_disabled span.sort-icon {
+        background: url('../images/sort_desc_disabled.png') no-repeat center right;
+    }
 }
 
 // iPhone, some Android Portrait @ 320px, iphone 6 @ 375px -------------- //
@@ -111,6 +116,12 @@
             }
             td[data-title="Item"] {
                 text-align: left;
+            }
+            td.first-column {
+                padding-left: 2.5em;
+                background-color: $color-gray-lightest;
+                border-left: 1px solid $color-gray-light;
+                border-right: 1px solid $color-gray-light;
             }
         }
     }
@@ -132,6 +143,12 @@
         }
         td.views-field-counter {
             display: none;
+        }
+        td.first-column {
+            padding-left: 2.5em;
+            background-color: $color-gray-lightest;
+            border-left: 1px solid $color-gray-light;
+            border-right: 1px solid $color-gray-light;
         }
     }
 }

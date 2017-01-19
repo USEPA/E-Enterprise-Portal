@@ -14,6 +14,7 @@ $color_black_squeeze_approx: #f4f8fa;
 $color_viking_approx: #5bc0de;
 $color_mountain_mist_approx: #949494;
 $color_ecstasy_approx: #ff851b;
+$color_dark_gray: #323a45;
 
 //@extend-elements
 //original selectors
@@ -21,7 +22,7 @@ $color_ecstasy_approx: #ff851b;
 %extend_1 {
     color: $color_hippie_green_approx;
     background-color: $color_willow_brook_approx;
-    border: 1px solid $color_beryl_green_approx;
+    border: 1px solid $color_hippie_green_approx;
 }
 
 //original selectors
@@ -29,7 +30,7 @@ $color_ecstasy_approx: #ff851b;
 %extend_2 {
     color: $color_chestnut_approx;
     background-color: $color_vanilla_ice_approx;
-    border: 1px solid $color_vanilla_ice_approx;
+    border: 1px solid $color_chestnut_approx;
 }
 
 @mixin clearfix() {
@@ -60,18 +61,46 @@ $color_ecstasy_approx: #ff851b;
     margin-right: 1%;
 }
 
+body {
+    overflow-x: hidden;
+    overflow-y: scroll !important;
+}
+
+body.fixed-modal-open {
+    overflow: hidden;
+    position: fixed;
+}
+
 .pane-construction-permits {
-	h3 {
-		font-size: 1.5rem;
-		font-weight: bold;
-		margin-top: 10px;
-		margin-bottom: 0;
-	}
+    h3 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+    .bs-callout {
+        padding: 10px;
+        margin-top: 10px;
+        h4 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        &.bs-callout-info {
+            background-color: #dff0d8;
+            border: 1px solid $color-hippie_green_approx;
+            padding: 5px;
+        }
+        &.bs-callout-warning {
+            background-color: #f2dede;
+            border: 1px solid $color_chestnut_approx;
+        }
+    }
+
 }
 
 .ui-dialog.construction-permits-modal {
     &.ui-dialog {
-        overflow: visible;
+        //overflow: visible;
 
         .ui-dialog-titlebar {
             border: none;
@@ -79,43 +108,79 @@ $color_ecstasy_approx: #ff851b;
         }
 
         .ui-dialog-content {
-            overflow: visible;
+            //overflow: visible;
         }
+    }
+    .dataTables_wrapper {
+        thead th {
+            background-color: #ccc;
+            &.sorting_asc,
+            &.sorting_desc {
+                span {
+                    font-weight: bold;
+                }
+            }
+            span {
+                color: #4c4c4c;
+                font-weight: normal;
+            }
+        }
+        .pager__link, .paginate_button {
+            padding: 1.2rem;
+            background-size: 1rem 1rem;
+        }
+    }
+}
+.pane-construction-permits {
+    .hide {
+        display: none !important;
     }
 }
 
 #cgp-form {
+    #cgp-advanced-elements-toggle {
+        margin-left: -20px;
+        color: $color_dark_gray;
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
     .cgp-form-elements {
         margin: 0;
         &.usa-grid {
-	        padding: 0;
+            padding: 0;
         }
         li:before,
         li:after {
             content: none;
         }
         li {
-	        display: inline-block;
-	        margin-right: 20px;
-	        margin-top: 0;
-	        margin-bottom: 0;
-	        &.usa-grid-one-whole {
-		        width: 100%;
-	        }
-	        &.usa-grid-one-fourth {
-		        width: 25%;
-	        }
+            display: inline-block;
+            margin-right: 20px;
+            margin-top: 0;
+            margin-bottom: 0;
+            &.usa-grid-one-whole {
+                width: 100%;
+            }
+            &.usa-grid-one-fourth {
+                width: 25%;
+            }
         }
     }
+    [for=cgp-federal] + ul,
+    [for=cgp-tribal] + ul {
+        margin: 0 0;
+    }
     #cgp-form-buttons {
-	    margin-top: 10px;
-	    height: 8rem;
-	    div {
-		    float: right;
-	    }
-	    a {
-		    margin-right: 10px;
-	    }
+        margin-top: 10px;
+        height: 8rem;
+        div {
+            float: right;
+        }
+        a {
+            margin-right: 10px;
+        }
     }
     .invisible {
         visibility: hidden;
@@ -190,7 +255,7 @@ $color_ecstasy_approx: #ff851b;
             width: auto;
         }
     }
-    
+
     input {
         &.parsley-success {
             @extend %extend_1;
@@ -231,7 +296,7 @@ $color_ecstasy_approx: #ff851b;
         li {
             list-style: none;
             width: 100%;
-            text-align: right;
+            text-align: left;
             color: $color_chestnut_approx;
             &:before {
                 content: '';
@@ -239,151 +304,144 @@ $color_ecstasy_approx: #ff851b;
         }
     }
 
-    #construction-permits-results-wrapper, 
-    #construction-permits-error-wrapper, 
+    #construction-permits-results-wrapper,
+    #construction-permits-error-wrapper,
     #construction-permits-loading-wrapper,
     #construction-permits-details-wrapper {
         display: none;
     }
 
-    #construction-permits-loading-wrapper {
-	    text-align: center;
-        i.fa-spinner {
-            font-size: 5rem;
-        }
-    }
-
-    #construction-permits-results-wrapper {
-        > h1 {
-            margin-top: -3rem;
-            margin-bottom: 3rem;
-        }
-        ol {
-            margin-top: 0;
-            margin-left: 4rem;
-            margin-bottom: 1rem;
-            li {
-                list-style-type: decimal;
-                display: block;
-                &:before {
-                    display: inline-block;   
-                    margin-left: -2.0rem; // Create hanging indent for numbering           
-                }
-            }
-            ol {
-                margin-top: 0;
-                margin-left: 2rem;
-            }
-        }
-        ul {
-            margin-top: 0;
-            margin-left: 1.4rem;
-            li:before {
-                content: '';
-            }
-        }
-        ol[type=a] {
-            counter-reset: section;
-            li {
-                counter-increment: section;
-                display: block;
-                padding-left: 1em;
-                &:before {
-                    content: counter(section, lower-alpha) '.';
-                    position: absolute;
-                    margin-left: -1.5em;
-                }
-            }
-        }
-
-        table {
-            thead th {
-                background: transparent;
-            }
-            border-bottom: none;
-        }
-        .ui-accordion-content {
-            padding: 0;
-        }
-        .one-half {
-            float: left;
-            display: block;
-            width: 100%;
-            &:first-child {
-                margin-left: 0;
-            }
-        }
-
-        #construction-permits-accordion {
-            margin-top: 10px;
-            background-color: #ffffff;
-            font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
-            &>table, &>div {
-                padding: 0 1%;
-            }
-            h1 {
-                background: #0000BB none;
-                color: white;
-                font-size: 1.5rem;
-                display: block;
-                position: relative;
-                margin: 2px 0 0 0;
-                padding: .5em 0;
-                min-height: 0;
-                i {
-                    position: absolute;
-                }
-            }
-            .cgp-legend {
-                width: 100%;
-                display: block;
-                border:1px solid #999999;
-                padding: 1rem;
-                div {
-                    padding: 1rem;
-                    white-space: nowrap;
-                }
-
-            }
-
-            #construction-permits-result-details-table {
-                tbody {
-                    tr {
-                        .cgp-detail-td {
-                            h4 {
-                                margin: 0 0 1rem;
-                            }
-                            span {
-                                font-weight: bold;
-                                display: block;
-                                margin-bottom: 1%;
-                            }
-                            br {
-                                display: none;  // Collapse empty space to avoid excessive spacing
-                            }
-                            background-color: #d6d2d2;
-                        }
-                    }
-                }
-            }
-            table {
-                td {
-                    img {
-                        width: 3rem;
-                    }
-                }
-            }
-
-        }
-    }
-    
-    .print-icon{
-      float:right;
+    .print-icon {
+        float: right;
     }
 }
+
+#construction-permits-loading-wrapper {
+    text-align: center;
+    i.fa-spinner {
+        font-size: 5rem;
+    }
+}
+
 .clearfix:after {
     display: table;
     line-height: 0;
+}
+#construction-permits-results-wrapper {
+    table {
+        thead {
+            th:first-child {
+                display: none;
+            }
+        }
+        tbody {
+            td:first-child {
+                display: none;
+            }
+        }
+    }
+}
+#construction-permits-details-wrapper.modal {
+    .permit-wrapper {
+        display: none;
+    }
+}
+
+#construction-permits-details-wrapper {
+    // overflow-y: scroll;
+    .permit-wrapper {
+        h2 {
+            background-color: #0071bc;
+            color: #ffffff;
+            line-height: 1.5em;
+            font-size: 1.1em;
+            font-weight: 700;
+            padding: .5em 1em;
+            font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
+        }
+        h6 {
+            color: #00457d;
+            font-weight: 700;
+        }
+    }
+    .notice_of_intent {
+        .lew-only {
+            display: none;
+        }
+    }
+    .low_erosivity_waiver {
+        .noi-only {
+            display: none;
+        }
+    }
+    .section {
+        .line {
+            padding: .5em 0;
+        }
+        .header {
+            background-color: #efeeee;
+            padding: .5em 0;
+        }
+        .row-item {
+            padding: .5em 0;
+            &.even {
+                background-color: #E2F4FF;
+            }
+            [class^=col] {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+        }
+    }
+    .property {
+        .title {
+            color: #666666;
+            &.cgp-subquestion {
+                padding-left: 45px;
+            }
+        }
+        .cgp-uppercase {
+            text-transform:capitalize;
+        }
+    }
+    .criterion-description {
+        display: block;
+        text-decoration: underline;
+    }
+    .cgp-criteria-list {
+        margin: 0;
+    }
+}
+
+#cgp-header {
+    background-color: #fff;
+    border: 1px solid #fafafa;
+    //height: 100px;
+    .back-to-results-button {
+        font-size: 1.4rem;
+        display: block;
+        padding: 10px;
+    }
+    label {
+        margin-top: 1rem;
+    }
+    &.sticky-toc {
+        position: fixed;
+        z-index: 1;
+        -webkit-box-shadow: 0 6px 4px -4px #ddd;
+        -moz-box-shadow: 0 6px 4px -4px #ddd;
+        box-shadow: 0 6px 4px -4px #ddd;
+    }
+}
+
+#construction-permits-status-definitions {
+    dt {
+        font-weight: 700;
+    }
+    dd {
+        margin-bottom: 1em;
+        margin-left: 2em;
+    }
 }
 
 @media screen and (min-width: 48em) {
@@ -391,6 +449,5 @@ $color_ecstasy_approx: #ff851b;
 }
 
 @media screen and (min-width: 60em) {
-
 
 }

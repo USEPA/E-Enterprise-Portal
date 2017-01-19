@@ -66,9 +66,9 @@ function site_deployment_update_7015(&$sandbox) {
     //Make sure the features are actually enabled
     $features = ['eenteprise_api_1_0', 'other_items_of_interest_feature',
       'ee_disclaimer', 'progress_tracker_view', 'to_do_view',
-    'my_maps_view', 'my_air_quality_chart_view',
-    'village_green_block'];
-    
+      'my_maps_view', 'my_air_quality_chart_view',
+      'village_green_block'];
+
     features_install_modules($features);
     features_revert($features);
     drupal_set_message("Enabled and reverted features: " . implode(', ', $features));
@@ -136,5 +136,20 @@ function site_deployment_update_7501(){
   $view->display['rcs_resources_user']->display_options['query']['options']['json_file'] = $base_url . '/lgc_resources_json_by_user';
   views_save_view($view);
 
+
+}
+
+/**
+ *Sprint 30 Deployment to Showcase
+ * After completed, import vocab for Developers Resource taxonomy using taxonomy manager:
+ * APIs
+Authentication
+eActivity and Workflow
+ */
+function site_deployment_update_7502(){
+
+  module_enable(['menu_attributes']);
+  features_install_modules(['developer_resources_area']);
+  features_revert(['workbench_header', 'page_manager']);
 
 }
