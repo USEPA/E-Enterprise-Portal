@@ -5,6 +5,16 @@
 
 function eenterprise_utility_menu() {
   $items = array();
+
+  $items['admin/config/system/eenterprise-utility'] = array(
+    'title' => 'E-Enterprise Utility Configurations',
+    'description' => 'Manage Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('eenterprise_utility_admin'),
+    'access arguments' => array('administer settings eenterprise_utility'),
+    'file' => 'eenterprise_utility.admin.inc',
+  );
+
   $items['get_taxonomy_parent_name'] = array(
     'page callback' => 'get_taxonomy_parent_name',
     'access callback' => TRUE,
@@ -571,16 +581,16 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     if ($user->uid > 1) {
       hide($form['field_admin_state']);
       hide($form['field_first_time_user']);
-      if (module_exists('chemical_rules') || $form['field_chem_rules_user_settings']) {
+      /*if (module_exists('chemical_rules') || $form['field_chem_rules_user_settings']) {
         hide($form['field_chem_rules_user_settings']);
-      }
+      }*/
     } else {
       // Set description for admin
       $form['field_admin_state'][LANGUAGE_NONE][0]['value']['#title'] = "State code, tribe name, or 'US EPA'";
       $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
-      if (!module_exists('chemical_rules')) {
+      /*if (!module_exists('chemical_rules')) {
         hide($form['field_chem_rules_user_settings']);
-      }
+      }*/
     }
     // only admins see the Terms of Use Agreed Date field
     if (!user_access('administer site configuration')) {
@@ -917,9 +927,12 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
     $return_data_type = 'json';
   }
 
+  $result_zip = [];
+  $result_tribe = [];
+
   // Test location to find if city, state or zip code
-  $is_zip_code = preg_match("/(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/", $unparsed_zip);
-  $is_city_state = preg_match("/^[\w\s]+,\s*\w{2}$/", $unparsed_zip);
+  $is_zip_code = preg_match('/(^\d{5}$)|(^\d{5}-\d{4}$)|(^\d{5}-\d{5}$)/', $unparsed_zip);
+  $is_city_state = preg_match('/^[\w\s]+,\s*\w{2}$/', $unparsed_zip);
   if ($is_zip_code === 0 && $is_city_state === 0) {
     $error_message = 'Please input a valid ZIP code or a city and state code separated by a comma (e.g., Durham, NC)';
     $zip_data = array(
@@ -957,21 +970,40 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
         );
 
         // Get Zip Code to Census Place/Population Lookup table as json
-        $zip_pop_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToCensusPlaceLookup_WFL/FeatureServer/1/query?';
+        $zip_pop_url = variable_get('ZipToCensusPlaceLookup_WFL');
         $zip_pop_url = $zip_pop_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&orderByFields=Place_Pop_2014_ACS2014&f=pjson';
 
-        // Decode  json
-        $json_file = file_get_contents($zip_pop_url);
-        $result = json_decode($json_file);
+        // We want to error on the side of caution and force the security if not
+        // sure what kind of environment we are using
+
+        $response = drupal_http_request($zip_pop_url, [
+          "method" => "GET",
+          'timeout' => "10"
+        ]);
+        if($response->code != 200 ) {
+          $result_zip = json_decode($response->data);
+          $result_zip['error'] = true;
+          $result_zip['error_message'][] = $response->status_message;
+        }
+        else {
+          try {
+            $result_zip = json_decode($response->data);
+          }
+          catch (Exception $e) {
+            $result_zip['error'] = true;
+            $result_zip['error_message'][] = $e;
+          }
+        }
+
 
         // If Zip->Census Place had results:
-        if (!empty($result->features)) {
+        if (!empty($result_zip->features)) {
           $city_attr = array();
           $city_list = array();
           $zip_attr = array();
 
           // Loop through all Census Places for the specified zip
-          foreach ($result->features as $feature) {
+          foreach ($result_zip->features as $feature) {
             if (!empty($feature->attributes->NAME_LABEL)) {
               // If the table has a placename, record that as the preferred name, along with its population
               $city_list[] = $feature->attributes->NAME_LABEL;
@@ -992,16 +1024,32 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
         }
 
         // Get Zip Code to Tribal Area Lookup table as json
-        $zip_tribe_url = 'https://services.arcgis.com/cJ9YHowT8TU7DUyn/arcgis/rest/services/ZipToTribalLookups_WFL/FeatureServer/1/query?';
+        $zip_tribe_url = variable_get('ZipToTribalLookups_WFL');
         $zip_tribe_url = $zip_tribe_url . 'where=ZCTA%3D%27' . $zip . '%27&outFields=*&f=pjson';
 
-        // Decode  json
-        $json_file = file_get_contents($zip_tribe_url);
-        $result = json_decode($json_file);
+
+        $response = drupal_http_request($zip_tribe_url, [
+          "method" => "GET",
+          'timeout' => "10"
+        ]);
+        if($response->code != 200 ) {
+          $result_tribe = json_decode($response->data);
+          $result_tribe['error'] = true;
+          $result_tribe['error_message'][] = $response->status_message;
+        }
+        else {
+          try {
+            $result_tribe = json_decode($response->data);
+          }
+          catch (Exception $e) {
+            $result_tribe['error'] = true;
+            $result_tribe['error_message'][] = $e;
+          }
+        }
 
         // If tribal area was found in this zip:
-        if (!empty($result->features)) {
-          foreach ($result->features as $feature) {
+        if (!empty($result_tribe->features)) {
+          foreach ($result_tribe->features as $feature) {
             // If the table has a placename, record that as the preferred name
             $zip_data['city'][] = $feature->attributes->TRIBE_NAME_CLEAN;
           }
