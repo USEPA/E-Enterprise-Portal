@@ -1,4 +1,6 @@
-<span id="refresh-to-do" class="refresh"><span class="sr-only">Refresh To Do list</span><i
+<span id="refresh-to-do" class="refresh">
+  <div class="update"><span class="label">Last Updated:</span> <span class="last-updated"></span></div>
+  <span class="sr-only">Refresh To Do list</span><i
     class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh To Do List"></i></span>
 
 <div class="todo-filter-by-week ui-tabs">

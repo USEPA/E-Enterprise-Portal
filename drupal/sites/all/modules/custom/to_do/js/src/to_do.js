@@ -83,6 +83,12 @@
         $('#to-do').find('.dataTables_paginate li:first').after($current_li);
       }
 
+      var data = table.ajax.json()
+      if(data && data.cached) {
+        var date = new Date(data.cached)
+        $('#refresh-to-do .last-updated').html((date.getMonth()+1) + '/'  + date.getDate() + '/' + date.getFullYear()+ ' ' + date.getHours() + ':' + date.getMinutes())
+      }
+
     },
     fnInitComplete: function() {
       //Initialize YADCF
