@@ -16,6 +16,9 @@ $feature_flags = [
   'sample_mycdx_data' => [
     'name' => 'Use sample data for My CDX block'
   ],
+  'sample_eactivity_data' => [
+    'name' => 'Use sample data for E-Activity Flow'
+  ],
   'use_new_method_for_cdx_js' => [
     'name' => 'Load js and css for FRS Facility Manager via drupal_add_js/drupal_add_css,
                 as opposed to hardcoded script and link tags'
