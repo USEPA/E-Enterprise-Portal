@@ -126,6 +126,11 @@ function load_to_do_datatable_json($use_cache = true) {
 
   foreach ($to_do_data as $id => $eactivity_item) {
 
+    if($id == 'cached') {
+      $cached = $eactivity_item;
+      continue;
+    }
+
     $cedri_details = $eactivity_item['cedri_details'];
     $parenthesis_index = strpos($eactivity_item['title'], ')');
     $subheading = substr($eactivity_item['title'], $parenthesis_index + 1);
@@ -184,6 +189,6 @@ function load_to_do_datatable_json($use_cache = true) {
     $eactivity_dt_json[] = $eactivity_dt_row;
   }
 
-  drupal_json_output(array("data" => $eactivity_dt_json));
+  drupal_json_output(array("data" => $eactivity_dt_json, 'cached' => $cached));
 }
 
