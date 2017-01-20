@@ -79,9 +79,6 @@ function load_eactivity_data($module_caller, $use_cache) {
       if ($cdx_pos !== FALSE) {
         $cdx_username = substr($cdx_username, 0, $cdx_pos);
       }
-      $cdx_username = "mikeklein";  // Temp
-
-
 
       //For the following parameter, use $cdx_username, which does not have _Via_CDX at the end, instead of $user_name
       $params2 = array(
