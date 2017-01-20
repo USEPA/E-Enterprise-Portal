@@ -666,7 +666,6 @@ function frs_naas_authentication() {
     $diff_hours = abs($current_timestamp - $time_stamp) / (60);
     if ($diff_hours <= 5) {
 //return the previously created token
-      $create_new_token = FALSE;
       return $_SESSION['frs_naas_token'];
     }
   }

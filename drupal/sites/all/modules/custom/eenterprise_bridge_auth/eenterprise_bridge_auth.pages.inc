@@ -881,6 +881,7 @@ function refresh_todo_list() {
   }
 }
 
+
 function eenterprise_bridge_auth_redirect() {
   $idParams = array('wa' => 'wsignin1.0',
     'wtrealm' => variable_get('eenterprise_bridge_auth_realm'),
