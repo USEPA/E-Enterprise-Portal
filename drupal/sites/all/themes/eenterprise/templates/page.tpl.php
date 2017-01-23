@@ -149,5 +149,6 @@ else {
 
   </div><!-- @end #content -->
 </section>
-<?php print render($page['footer']); ?>
+<?php print render($page['footer']);?> 
+<?php print "Test text for DevOps Deployment"; ?>
 <?php print render($page['bottom']); ?>
