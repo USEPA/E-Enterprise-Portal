@@ -617,6 +617,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 
 /**
  * Implements template_preprocess_hook for be-well-informed-pdf.tpl.php.
+ * Adds variables to help generate form options
  */
 function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
   $variables['unit_types'] = [
