@@ -191,7 +191,8 @@
     var $parent = $this.parents('ul.ui-tabs-nav'),
       $target_tab = $this.parent(),
       selected_index = $target_tab.index(),
-      number_of_tabs = $parent.find('.todo_filter_button').length;
+      number_of_tabs = $parent.find('.todo_filter_button').length,
+      search_criteria;
 
     if(event.keyCode) {
       switch (event.keyCode) {
@@ -207,7 +208,7 @@
           break;
       }
       $target_tab = $parent.find('li').eq((selected_index + number_of_tabs) % number_of_tabs);
-      var search_criteria = $target_tab.data('search');
+      search_criteria = $target_tab.data('search');
     }
 
     if (!$target_tab.hasClass('filter-applied')) {
