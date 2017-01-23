@@ -1722,7 +1722,6 @@ function release_number() {
 function update_user_gridstack_data() {
   global $user;
   $user_data = user_load($user->uid);
-  echo json_encode($_POST['grid_data']);
   if (isset($_POST['grid_data'])) {
     $user_grid_data = $user_data->field_gridstack_settings;
     unset($user_grid_data);
@@ -1784,7 +1783,6 @@ function update_user_gridstack_data() {
     try {
       user_save($user_data, $edit);
     } catch (Exception $e) {
-      print json_encode($e);
       exit();
     }
   }
