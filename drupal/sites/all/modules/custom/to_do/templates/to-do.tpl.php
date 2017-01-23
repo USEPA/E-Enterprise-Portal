@@ -5,18 +5,16 @@
 
 <div class="todo-filter-by-week ui-tabs">
   <ul role="tablist" class="ui-tabs-nav">
-    <li id="all-time" role="tab" data-search="" class="todo_filter_button filter-applied">
-      <a href="javascript:void(0)" class="favorites-ignore block-display" tabindex="0">
-        All Items
-      </a>
+    <li id="all-time" role="tab" class="todo_filter_button filter-applied" data-search="">
+      <a href="javascript:void(0)" class="favorites-ignore block-display" tabindex="0"> All Items </a>
     </li>
-    <li id="this-week" role="tab" class="todo_filter_button" data-search="this_week">
+    <li id="this-week" role="tab" class="todo_filter_button" data-search="this_week" >
       <a href="javascript:void(0)" class="favorites-ignore block-display" tabindex="-1">This Week</a>
     </li>
-    <li id="next-week" role="tab" class="todo_filter_button" data-search="next_week">
+    <li id="next-week" role="tab" class="todo_filter_button" data-search="next_week" >
       <a href="javascript:void(0)" class="favorites-ignore block-display" tabindex="-1">Next Week</a>
     </li>
-    <li id="beyond-next-week" role="tab" class="todo_filter_button" data-search="beyond">
+    <li id="beyond-next-week" role="tab" class="todo_filter_button" data-search="beyond" >
       <a href="javascript:void(0)" class="favorites-ignore block-display" tabindex="-1">Beyond</a>
     </li>
   </ul>
