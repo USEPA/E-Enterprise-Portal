@@ -400,20 +400,66 @@ function reset_cgp_form() {
   if (!Drupal.settings.construction_permits.response_data) {
     // Parsley validation
     // Widget Setup
+    // Status
     $.ajax({
-      url: Drupal.settings.basePath + 'construction_permits/form_submission',
-      method: 'POST',
-      data: cgpFormData,
+      url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/formStatus',
+      method: 'GET',
+      dataType: 'json',
       success: function(cgp_reponse_json) {
+        console.log(Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/formStatus', cgp_reponse_json)
+        Drupal.settings.construction_permits.formStatus = cgp_reponse_json;
+        // grab current value if exists
+        $status = $('#cgp-status')
+        current_value = $status.val()
+        $options = cgp_reponse_json.reduce(function(p, c, i, a){
+          p.push("<option value='"+ c +"'>"+ c +"</option>")
+          return p;
+        }, ["<option value=''>All</option>"])
+
+        $status.html($options.join(''))
+        $status.find('option[value="'+current_value+'"]').prop('selected', true);
       }
     });
     $.ajax({
-      url: Drupal.settings.basePath + 'construction_permits/form_submission',
-      method: 'POST',
-      data: cgpFormData,
+      url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/formType',
+      method: 'GET',
+      dataType: 'json',
       success: function(cgp_reponse_json) {
+        console.log(Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/formType', cgp_reponse_json)
+        Drupal.settings.construction_permits.formType = cgp_reponse_json;
+        // grab current value if exists
+        $status = $('#cgp-type')
+        current_value = $status.val()
+        $options = cgp_reponse_json.reduce(function(p, c, i, a){
+          p.push("<option value='"+ c +"'>"+ c.replace(/_/g, ' ') +"</option>")
+          return p;
+        }, ["<option value=''>All</option>"])
+
+        $status.html($options.join(''))
+        $status.find('option[value="'+current_value+'"]').prop('selected', true);
       }
     });
+    $.ajax({
+      url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/states',
+      method: 'GET',
+      dataType: 'json',
+      success: function(cgp_reponse_json) {
+        console.log(Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/states', cgp_reponse_json)
+        Drupal.settings.construction_permits.states = cgp_reponse_json;
+        // grab current value if exists
+        $status = $('#cgp-type')
+        current_value = $status.val()
+        $options = cgp_reponse_json.reduce(function(p, c, i, a){
+          p.push("<option value='"+ c +"'>"+ c.replace(/_/g, ' ') +"</option>")
+          return p;
+        }, ["<option value=''>All</option>"])
+
+        $status.html($options.join(''))
+        $status.find('option[value="'+current_value+'"]').prop('selected', true);
+      }
+    });
+    $('#cgp-permit-state')
+
     $('#cgp-form').parsley().on('field:validated', function() {
       var ok = $('.parsley-error').length === 0;
       $('.cgp-callout-info').toggleClass('hide', !ok);

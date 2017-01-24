@@ -33,9 +33,8 @@
                id="cgp-permit-city"
                name="projectCity"></div>
       <div class="col-md-3">
-        <label for="cgp-permit-state">State/Territory</label> <select
-          id="cgp-permit-state"
-          name="projectState">
+        <label for="cgp-permit-state">State/Territory</label>
+        <select id="cgp-permit-state" name="projectState">
               <option value=""">All</option>
               <option value="AL">Alabama</option>
               <option value="AK">Alaska</option>
