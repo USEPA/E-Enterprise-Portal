@@ -447,7 +447,7 @@ function reset_cgp_form() {
         console.log(Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/states', cgp_reponse_json)
         Drupal.settings.construction_permits.states = cgp_reponse_json;
         // grab current value if exists
-        $status = $('#cgp-type')
+        /*$status = $('#cgp-type')
         current_value = $status.val()
         $options = cgp_reponse_json.reduce(function(p, c, i, a){
           p.push("<option value='"+ c +"'>"+ c.replace(/_/g, ' ') +"</option>")
@@ -455,10 +455,56 @@ function reset_cgp_form() {
         }, ["<option value=''>All</option>"])
 
         $status.html($options.join(''))
-        $status.find('option[value="'+current_value+'"]').prop('selected', true);
+        $status.find('option[value="'+current_value+'"]').prop('selected', true);*/
       }
     });
-    $('#cgp-permit-state')
+    $('#cgp-permit-state').on('change', function(){
+      console.log(arguments)
+      var $this = $(this);
+      var current_value = $this.attr('data-current-value');
+      var new_value = $this.val();
+      if(new_value && current_value != new_value) {
+        $this.attr('data-current-value', new_value);
+        $.ajax({
+          url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/counties/' + new_value,
+          method: 'GET',
+          dataType: 'json',
+          success: function(cgp_reponse_json) {
+            console.log(Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/counties/' + new_value, cgp_reponse_json)
+            //Drupal.settings.construction_permits.states = cgp_reponse_json;
+            // grab current value if exists
+            $counties = $('#cgp-project-county')
+             current_value = $counties.val()
+             $options = cgp_reponse_json.reduce(function(p, c, i, a){
+             p.push("<option value='"+ c.countyName +"'>"+ c.countyName +"</option>")
+             return p;
+             }, ["<option value=''>All</option>"])
+
+             $counties.html($options.join(''))
+             $counties.find('option[value="'+current_value+'"]').prop('selected', true);
+          }
+        });
+        $.ajax({
+          url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/tribes/' + new_value,
+          method: 'GET',
+          dataType: 'json',
+          success: function(cgp_reponse_json) {
+            console.log(Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/tribes/' + new_value, cgp_reponse_json)
+            //Drupal.settings.construction_permits.states = cgp_reponse_json;
+            // grab current value if exists
+            $tribes = $('#cgp-tribal-lands')
+            current_value = $tribes.val()
+            $options = cgp_reponse_json.reduce(function(p, c, i, a){
+              p.push("<option value='"+ c[0].tribalName +"'>"+ c[0].tribalName +"</option>")
+              return p;
+            }, ["<option value=''>All</option>"])
+
+            $tribes.html($options.join(''))
+            $tribes.find('option[value="'+current_value+'"]').prop('selected', true);
+          }
+        });
+      }
+    })
 
     $('#cgp-form').parsley().on('field:validated', function() {
       var ok = $('.parsley-error').length === 0;
