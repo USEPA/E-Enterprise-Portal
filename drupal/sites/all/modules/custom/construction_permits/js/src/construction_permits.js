@@ -396,8 +396,24 @@ function reset_cgp_form() {
 
   // Helper functions END
 
+  // Initialize page
   if (!Drupal.settings.construction_permits.response_data) {
     // Parsley validation
+    // Widget Setup
+    $.ajax({
+      url: Drupal.settings.basePath + 'construction_permits/form_submission',
+      method: 'POST',
+      data: cgpFormData,
+      success: function(cgp_reponse_json) {
+      }
+    });
+    $.ajax({
+      url: Drupal.settings.basePath + 'construction_permits/form_submission',
+      method: 'POST',
+      data: cgpFormData,
+      success: function(cgp_reponse_json) {
+      }
+    });
     $('#cgp-form').parsley().on('field:validated', function() {
       var ok = $('.parsley-error').length === 0;
       $('.cgp-callout-info').toggleClass('hide', !ok);

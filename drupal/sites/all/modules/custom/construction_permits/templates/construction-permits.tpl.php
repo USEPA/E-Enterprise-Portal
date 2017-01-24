@@ -33,9 +33,7 @@
                id="cgp-permit-city"
                name="projectCity"></div>
       <div class="col-md-3">
-        <label
-          for="cgp-permit-state">State/Territory</label>
-        <select
+        <label for="cgp-permit-state">State/Territory</label> <select
           id="cgp-permit-state"
           name="projectState">
               <option value=""">All</option>
@@ -100,11 +98,9 @@
           </select>
         </div>
       <div class="col-md-3">
-        <label
-          for="cgp-permit-zip">Zip</label>
-        <input type="text"
-               id="cgp-permit-zip"
-               name="projectZip" data-parsley-pattern="/(\d{5}|\d{5}-\d{4})/"></div>
+        <label for="cgp-permit-zip">Zip</label>
+        <input type="text" id="cgp-permit-zip" name="projectZip" data-parsley-pattern="/(\d{5}|\d{5}-\d{4})/">
+      </div>
     </div>
     <div class="line">
       <div class="col-md-6">
