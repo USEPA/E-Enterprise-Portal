@@ -8,7 +8,7 @@
 ?>
 <div id="cgp-header" class="ee-grid">
     <a href="javascript:void(0);" id="back-to-results-button">&lt; Back to Search Results</a>
-    <div class="line">
+    <!--<div class="line">
         <div class="col-md-8"><label for="cgp-shortcut">Jump to</label>
             <select id="cgp-shortcut">
                 <option value="cgp-general">General Permit Information</option>
@@ -27,5 +27,5 @@
         <div class="col-md-4">
             <div data-cgp-property="trackingNumber" data-cgp-function="cgpShareLink"><span class="title">Share This</span><a id="cgp-single-link" class="value"></a></div>
         </div>
-    </div>
+    </div>-->
 </div>

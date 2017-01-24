@@ -149,5 +149,5 @@ else {
 
   </div><!-- @end #content -->
 </section>
-<?php print render($page['footer']); ?>
+<?php print render($page['footer']);?> 
 <?php print render($page['bottom']); ?>
