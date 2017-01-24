@@ -1,7 +1,7 @@
-<span id="refresh-to-do" class="refresh">
+  <span id="refresh-to-do" class="refresh ga-tracking" data-ga-event-label="to do refresh">
   <div class="update"><span class="label">Last Updated:</span> <span class="last-updated"></span></div>
   <span class="sr-only">Refresh To Do list</span><i
-    class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh To Do List"></i></span>
+      class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh To Do List"></i></span>
 
 <div class="todo-filter-by-week ui-tabs">
   <ul role="tablist" class="ui-tabs-nav">

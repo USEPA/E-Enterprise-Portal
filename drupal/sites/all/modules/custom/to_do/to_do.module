@@ -139,7 +139,7 @@ function load_to_do_datatable_json($use_cache = true) {
     $sub_part_code = $cedri_details['sub_part_code'];
 
     $title =
-      "<a class='favorites-ignore' target='_blank' href='" . $eactivity_item['handoff_url'] . "'>" .
+      "<a class='favorites-ignore ga-tracking'  data-ga-event-label='to do handoff' target='_blank' href='" . $eactivity_item['handoff_url'] . "'>" .
       "<span class='report-name'>Review " .
       $report_type . " (" .
       $part_code . ", " . $sub_part_code . ") " .
@@ -153,10 +153,11 @@ function load_to_do_datatable_json($use_cache = true) {
     $sub_part_code = $cedri_details['sub_part_code'];
 
     $status_anchor =
-      "<a class='simple-dialog favorites-ignore td-status' " .
+      "<a class='simple-dialog favorites-ignore td-status ga-tracking' " .
       "data-title='" . $cedri_details['facility_name'] . "' " .
       "data-status-note='" . $status_note . "' " .
-      "data-due-date='" . $eactivity_item['date'] . "' " .
+      "data-due-date='" . $eactivity_item['date'] . "'" .
+      "data-ga-event-label='to do details'" .
       ">Details</a>";
 
 

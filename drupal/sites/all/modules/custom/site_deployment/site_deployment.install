@@ -160,7 +160,20 @@ function site_deployment_update_7502(){
  * Revert other_items_of_interest_feature
  */
 function site_deployment_update_7503(){
-
   features_revert(['other_items_of_interest_feature']);
+  drupal_set_message("Reverted other_items_of_interest_feature");
 
+}
+
+/**
+ * Remove deprecated Google Analytics view
+ * Manually delete block: cdx_custom_analytics
+ */
+function site_deployment_update_7504(){
+
+  if ($view = views_get_view('google_analytics')) {
+    // Delete the view
+    views_delete_view($view);
+    drupal_set_message("Deleted view: Google Analytics");
+  }
 }
