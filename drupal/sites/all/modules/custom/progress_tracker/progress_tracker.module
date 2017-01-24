@@ -156,9 +156,10 @@ function load_progress_tracker_datatable_json($use_cache = TRUE) {
     }
 
     $status_anchor =
-      "<a class='favorites-ignore pt-status'" .
+      "<a class='favorites-ignore pt-status ga-tracking'" .
       "data-title='" . $eactivity_item['title'] . "'" .
       "data-status-note='" . $status_note . "'" .
+      "data-ga-event-label='progress tracker status'" .
       ">" . $eactivity_item['status'] . "</a>";
 
 

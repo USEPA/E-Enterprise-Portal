@@ -234,17 +234,17 @@ function load_eactivity_data($module_caller, $use_cache) {
           if ($res_domain == 'Lead') {
             foreach ($res['Documents'] as $ky => $vl) {
               if (strpos($vl['name'], 'Receipt') !== false) {
-                $res_action .= "<a class='favorites-ignore'  href='/" . $vl['name'] . "' target='_blank'>View Receipt</a>";
+                $res_action .= "<a class='favorites-ignore ga-tracking'  data-ga-event-label='progress tracker view receipt' href='/" . $vl['name'] . "' target='_blank'>View Receipt</a>";
               }
               if (strpos($vl['name'], 'Certificate') !== false) {
-                $res_action .= "<a class='favorites-ignore' href='/" . $vl['name'] . "' target='_blank'>View Certificate</a>";
+                $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view certificate' href='/" . $vl['name'] . "' target='_blank'>View Certificate</a>";
               }
               if (strpos($vl['name'], 'Logo') !== false) {
-                $res_action .= "<a class='favorites-ignore' href='/" . $vl['name'] . "' target='_blank'>View Logo</a>";
+                $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view logo' href='/" . $vl['name'] . "' target='_blank'>View Logo</a>";
               }
             }
           } else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI') {
-            $res_action .= "<a class='favorites-ignore'  href='/cdx_sso_handoff?handoff_data=" . parse_cdx_handoff_data($res['ActivitySourceURL']) . "' target='_blank'>View Submission</a>";
+            $res_action .= "<a class='favorites-ignore ga-tracking'  data-ga-event-label='progress tracker view submission' href='/cdx_sso_handoff?handoff_data=" . parse_cdx_handoff_data($res['ActivitySourceURL']) . "' target='_blank'>View Submission</a>";
           }
           if (empty($res_action)) {
             $res_action = "N/A";
