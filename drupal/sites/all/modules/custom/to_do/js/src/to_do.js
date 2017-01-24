@@ -195,7 +195,6 @@
       search_criteria;
 
     if(event.keyCode) {
-      console.log(event.keyCode, [$.ui.keyCode.UP, $.ui.keyCode.RIGHT, $.ui.keyCode.DOWN, $.ui.keyCode.LEFT])
       switch (event.keyCode) {
         case $.ui.keyCode.RIGHT:
         case $.ui.keyCode.DOWN:
