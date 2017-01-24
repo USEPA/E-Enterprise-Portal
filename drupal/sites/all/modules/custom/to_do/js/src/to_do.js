@@ -186,7 +186,6 @@
 
   // Filter results based on "" (blank for all, is default), next_week, this_week, and beyond
   $('.todo_filter_button a').on('click keydown', function(event) {
-    console.clear()
     event.stopImmediatePropagation();
     var $this = $(this);
     var $parent = $this.parents('ul.ui-tabs-nav'),
@@ -194,7 +193,7 @@
       selected_index = $target_tab.index(),
       number_of_tabs = $parent.find('.todo_filter_button').length,
       search_criteria;
-    console.log(this, $target_tab, selected_index)
+
     if(event.keyCode) {
       console.log(event.keyCode, [$.ui.keyCode.UP, $.ui.keyCode.RIGHT, $.ui.keyCode.DOWN, $.ui.keyCode.LEFT])
       switch (event.keyCode) {
@@ -214,7 +213,6 @@
       $target_tab = $parent.find('li').eq((selected_index + number_of_tabs) % number_of_tabs);
       search_criteria = $target_tab.data('search');
     }
-    console.log((selected_index + number_of_tabs) % number_of_tabs, $target_tab, selected_index, search_criteria)
 
     if (!$target_tab.hasClass('filter-applied')) {
       clearDTSearches(dtTable);
