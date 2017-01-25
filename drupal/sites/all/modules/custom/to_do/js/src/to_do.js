@@ -186,7 +186,7 @@
 
   // Filter results based on "" (blank for all, is default), next_week, this_week, and beyond
   $('.todo_filter_button a').on('click keydown', function(event) {
-    event.stopPropagation();
+    event.stopImmediatePropagation();
     var $this = $(this);
     var $parent = $this.parents('ul.ui-tabs-nav'),
       $target_tab = $this.parent(),
@@ -199,10 +199,12 @@
         case $.ui.keyCode.RIGHT:
         case $.ui.keyCode.DOWN:
           selected_index++;
+          event.preventDefault();
           break;
         case $.ui.keyCode.UP:
         case $.ui.keyCode.LEFT:
           selected_index--;
+          event.preventDefault();
           break;
         default:
           break;
