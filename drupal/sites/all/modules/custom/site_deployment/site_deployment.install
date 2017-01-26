@@ -178,4 +178,15 @@ function site_deployment_update_7504(){
   }
 }
 
+/**
+ * Revert Page manager and workbench header to gather recent changes
+ */
+function site_deployment_update_7505(){
+
+  features_revert(['page_manager_feature', 'workbench_header']);
+  drupal_set_message("Reverted Page Manager and Workbench Header features");
+
+}
+
+
 
