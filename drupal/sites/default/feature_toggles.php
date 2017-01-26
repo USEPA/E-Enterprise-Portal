@@ -5,6 +5,8 @@
  * Date: 11/30/2016
  * Time: 3:57 PM
  */
+
+
 $feature_flags = [
 
   'sample_rcs_data' => [
@@ -53,6 +55,9 @@ $feature_flags = [
   ],
   'mo_lgc_data' => [
     'name' => "Turn on Missouri LGC Data and feed into LGC Widget"
+  ],
+  'aws_environment' => [
+    'name' => "Enable for AWS/Showcase environments"
   ],
 
 ];

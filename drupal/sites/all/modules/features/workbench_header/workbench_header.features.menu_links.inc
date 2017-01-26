@@ -10,23 +10,6 @@
 function workbench_header_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: main-menu_app-connect:app-connect.
-  $menu_links['main-menu_app-connect:app-connect'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'app-connect',
-    'router_path' => 'app-connect',
-    'link_title' => 'App Connect',
-    'options' => array(
-      'identifier' => 'main-menu_app-connect:app-connect',
-    ),
-    'module' => 'system',
-    'hidden' => 0,
-    'external' => 0,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => -49,
-    'customized' => 1,
-  );
   // Exported menu link: main-menu_home:<front>.
   $menu_links['main-menu_home:<front>'] = array(
     'menu_name' => 'main-menu',
@@ -34,9 +17,7 @@ function workbench_header_menu_default_menu_links() {
     'router_path' => '',
     'link_title' => 'Home',
     'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
+      'attributes' => array(),
       'identifier' => 'main-menu_home:<front>',
     ),
     'module' => 'menu',
@@ -54,9 +35,7 @@ function workbench_header_menu_default_menu_links() {
     'router_path' => '',
     'link_title' => 'Accessibility',
     'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
+      'attributes' => array(),
       'identifier' => 'menu-footer-disclaimers_accessibility:http://www2.epa.gov/accessibility',
     ),
     'module' => 'menu',
@@ -74,9 +53,7 @@ function workbench_header_menu_default_menu_links() {
     'router_path' => 'ee_disclaimer',
     'link_title' => 'Conditions of Use',
     'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
+      'attributes' => array(),
       'identifier' => 'menu-footer-disclaimers_conditions-of-use:ee_disclaimer',
     ),
     'module' => 'menu',
@@ -121,9 +98,7 @@ function workbench_header_menu_default_menu_links() {
     'router_path' => '',
     'link_title' => 'E-Enterprise Home',
     'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
+      'attributes' => array(),
       'identifier' => 'menu-footer-disclaimers_e-enterprise-home:http://www2.epa.gov/e-enterprise/about-e-enterprise-environment',
     ),
     'module' => 'menu',
@@ -189,9 +164,7 @@ function workbench_header_menu_default_menu_links() {
     'router_path' => '',
     'link_title' => 'Privacy and Security Notice',
     'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
+      'attributes' => array(),
       'identifier' => 'menu-footer-disclaimers_privacy-and-security-notice:http://www2.epa.gov/home/privacy-and-security-notice',
     ),
     'module' => 'menu',
@@ -209,9 +182,7 @@ function workbench_header_menu_default_menu_links() {
     'router_path' => 'release-notes',
     'link_title' => 'Release Notes',
     'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
+      'attributes' => array(),
       'identifier' => 'menu-footer-disclaimers_release-notes:release-notes',
     ),
     'module' => 'menu',
@@ -226,7 +197,6 @@ function workbench_header_menu_default_menu_links() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Accessibility');
-  t('App Connect');
   t('Conditions of Use');
   t('Developers\' Area');
   t('E-Enterprise Home');

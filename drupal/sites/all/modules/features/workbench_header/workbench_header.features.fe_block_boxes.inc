@@ -19,49 +19,6 @@ function workbench_header_default_fe_block_boxes() {
   $export['anonymous_user_login_buttons'] = $fe_block_boxes;
 
   $fe_block_boxes = new stdClass();
-  $fe_block_boxes->info = 'Sends custom events to Google Analytics';
-  $fe_block_boxes->format = 'allow_javascript';
-  $fe_block_boxes->machine_name = 'cdx_custom_analytics';
-  $fe_block_boxes->body = '<script>
-(function($) {
-  $(document).ready(function() {
-    var page_name = window.location.pathname.split(\'/\')[1];
-    if (page_name == "workbench") {
-      // Not pager link. Handles all external links in CEDRI/TO DO
-      $(document).on(\'click\', \'.view-progress-tracker .views-field a:not(.pager__link), .view-to-do .views-field a:not(.pager__link)\', function() {
-        var label = $(this).text();
-        console.log("sending for EPortal:" + label);
-        ga("EPA.send", "event", "Eportal", "Click", label);
-        ga("GSA.send", "event", "Eportal", "Click", label);
-      });
-    }
-  });
-// To Do Analytics
-  $(\'.view-id-to_do\').ready(function() {
-    $(\'a[id^=to-do-details-link]\').click(function() {
-      var label = "To Do- " + $(this).text();
-      ga("EPA.send", "event", "Eportal", "Click",  label);
-      ga("GSA.send", "event", "Eportal", "Click", label);
-    });
-  });
-
-// Progress tracker analytics
-  $(\'.pane-views-progress-tracker-block-1\').ready(function() {
-console.log(\'progress tracker ready\');
-    $(\'.views-field-field-prog-track-status a\').click(function() {
-      var label = "Progress Tracker Status- " + $(this).text();
-      ga("EPA.send", "event", "Eportal", "Click",  label);
-      ga("GSA.send", "event", "Eportal", "Click", label);
-    });
-  });
-
-}(jQuery));
-
-</script>';
-
-  $export['cdx_custom_analytics'] = $fe_block_boxes;
-
-  $fe_block_boxes = new stdClass();
   $fe_block_boxes->info = 'EE Header Locations';
   $fe_block_boxes->format = 'php_code';
   $fe_block_boxes->machine_name = 'ee_header_locations';
@@ -97,9 +54,13 @@ print "</div><!-- end header locations feedback block -->";
 
   $fe_block_boxes = new stdClass();
   $fe_block_boxes->info = 'EE AWS-Showcase Disclaimer';
-  $fe_block_boxes->format = 'full_html';
+  $fe_block_boxes->format = 'php_code';
   $fe_block_boxes->machine_name = 'ee_showcase_disclaimer';
-  $fe_block_boxes->body = '<p>Welcome to the E-Enterprise AWS development environment. This is a non-production demonstration environment and is not to be used for any regulatory activity.</p><p>Welcome to the E-Enterprise Showcase environment. This is a non-production demonstration environment and is not to be used for any regulatory activity.</p>';
+  $fe_block_boxes->body = '<?php if ($conf[\'env\'] === \'SHOWCASE\'): ?>
+<p>Welcome to the E-Enterprise Showcase environment. This is a non-production demonstration environment and is not to be used for any regulatory activity.</p>
+<?php else:?>
+<p>Welcome to the E-Enterprise AWS development environment. This is a non-production demonstration environment and is not to be used for any regulatory activity.</p>
+<?php endif; ?>';
 
   $export['ee_showcase_disclaimer'] = $fe_block_boxes;
 
