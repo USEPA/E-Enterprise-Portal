@@ -4,7 +4,7 @@
       // takes zip, or city, state
       // returns location data object
       settings.locationInputEngine = {
-        lookUpLocation: function(location_input) {
+        lookUpLocation: function(location_input, existing_locations, existing_zipcodes) {
 
           var deferred = $.Deferred();
           var error_message = '';
@@ -20,6 +20,7 @@
               if (parsed_data.name_city_state) { // zip code entered, returned city/state
                 var city_count = parsed_data.city.length;
                 location_data_return.city = parsed_data.city;
+
                 if (city_count == 0) { //Unable to find data for that zip
                   error_message = 'The ZIP code you entered could not be found.';
                   error = true;
@@ -34,7 +35,9 @@
                   var city_select = '<select id="zip-lookup-city-state">';
                   location_data_return.zip = parsed_data.zip;
                   $.each(parsed_data.city, function(index, city) {
-                    city_select = city_select + '<option value="' + city + '">' + city + '</option>';
+                    if(jQuery.inArray(city, existing_locations) == -1) {
+                      city_select = city_select + '<option value="' + city + '">' + city + '</option>';
+                    }
                   });
                   city_select = city_select + '</select>';
                   location_data_return.city_select = city_select;

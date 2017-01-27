@@ -465,7 +465,15 @@
         field_suffix.attr('id', ariaid);
         field_suffix.html('Loading...');
         disable_zip_buttons("all");
-        Drupal.settings.locationInputEngine.lookUpLocation(input.val()).done(function (location_data) {
+        var existing_locations = [];
+        var existing_zipcodes = [];
+        $(".field-suffix-data").each(function(id, obj) {
+          existing_locations.push(obj.innerHTML);
+        });
+        $(".field_zip_code").each(function(id, obj) {
+          existing_zipcodes.push(obj.value);
+        });
+        Drupal.settings.locationInputEngine.lookUpLocation(input.val(), existing_locations, existing_zipcodes).done(function (location_data) {
           var zip;
           var location_name;
           var pop = -1;
