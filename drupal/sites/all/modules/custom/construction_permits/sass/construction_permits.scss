@@ -135,6 +135,11 @@ body.fixed-modal-open {
     .hide {
         display: none !important;
     }
+    .cgp-api-status {
+        &.error {
+            color: $color_chestnut_rose_approx;
+        }
+    }
 }
 
 #cgp-form {
@@ -148,9 +153,6 @@ body.fixed-modal-open {
     }
     .cgp-form-elements {
         margin: 0;
-        &.usa-grid {
-            padding: 0;
-        }
         li:before,
         li:after {
             content: none;
@@ -160,12 +162,6 @@ body.fixed-modal-open {
             margin-right: 20px;
             margin-top: 0;
             margin-bottom: 0;
-            &.usa-grid-one-whole {
-                width: 100%;
-            }
-            &.usa-grid-one-fourth {
-                width: 25%;
-            }
         }
     }
     [for=cgp-federal] + ul,
@@ -212,47 +208,6 @@ body.fixed-modal-open {
         }
         & > div {
             width: 21em;
-        }
-    }
-    .one-third {
-        width: 31.3%;
-        margin-left: 3%;
-        float: left;
-        &:first-child {
-            margin-left: 0;
-        }
-        & + .parsley-errors-list {
-            margin-left: -31.3%;
-            width: 30%;
-            float: left;
-            position: relative;
-        }
-        &.offset-one-third {
-            margin-left: 34.3%;
-        }
-    }
-    .two-third {
-        width: 62.6%;
-        margin-left: 3%
-    }
-    .one-half {
-        width: 49%;
-        margin-left: 2%;
-        &:first-child {
-            margin-left: 0;
-        }
-        & + .parsley-errors-list {
-            margin-right: -48.5%;
-            width: 47%;
-            position: relative;
-        }
-
-        &.right + .parsley-errors-list {
-            float: right;
-            clear: right;
-            margin-top: -4.2rem;
-            margin-right: 5.0rem;
-            width: auto;
         }
     }
 

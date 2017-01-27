@@ -6,11 +6,10 @@
  * Time: 9:23 AM
  */
 ?>
-<div class="permit-wrapper notice-of-intent ee-grid box-fluid">
+<div class="ee-grid box-fluid">
   <div class="section">
     <div class="line">
-      <div class="box-fluid property"
-           data-cgp-property="projectSiteInformation.siteName">
+      <div class="col-sm-12">
         <dl>
           <dt>Active</dt>
           <dd>2017 CGP NOI records that have been submitted to EPA and have

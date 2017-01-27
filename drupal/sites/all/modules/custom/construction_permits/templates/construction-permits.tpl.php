@@ -12,6 +12,9 @@
 <div class="bs-callout bs-callout-info cgp-callout-info hide">
   <h4>Everything appears valid</h4>
 </div>
+<div class="cgp-api-status error hide">
+  <h4>The CGP external service is not available at this time. Please try again later.</h4>
+</div>
 <form id="cgp-form" class="cgp-form-elements ee-grid" data-parsley-validate>
   <div class="cgp-form-elements">
     <div class="line">
@@ -112,7 +115,7 @@
       </div>
       <div class="col-md-6">
         <label for="cgp-type">Permit Type</label>
-        <select name="type" id="cgp-type">
+        <select name="applicationType" id="cgp-type">
           <option value="cgp-type-all" selected>All</option>
         </select>
       </div>
