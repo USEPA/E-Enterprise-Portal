@@ -468,11 +468,13 @@
         var existing_locations = {};
         $(".field-name-field-field-zip-code").each(function() {
           var zip_value = $.trim($(this).find('.field_zip_code').val());
-          var location_name = $.trim($(this).find('.field-suffix-data').text());
-          if (!existing_locations[zip_value]) {
-            existing_locations[zip_value] = [];
+          if ($.isNumeric(zip_value)) {
+            var location_name = $.trim($(this).find('.field-suffix-data').text());
+            if (!existing_locations[zip_value]) {
+              existing_locations[zip_value] = [];
+            }
+            existing_locations[zip_value].push(location_name);
           }
-          existing_locations[zip_value].push(location_name);
         });
         Drupal.settings.locationInputEngine.lookUpLocation(input.val(), existing_locations).done(function (location_data) {
           var zip;
