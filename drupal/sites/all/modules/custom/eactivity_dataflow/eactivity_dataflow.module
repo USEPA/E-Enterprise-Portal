@@ -25,80 +25,89 @@ function load_eactivity_data($module_caller, $use_cache) {
   $cache = cache_get($cache_key);
   // Check if cache was set and if the cache is stale, since cache_get() does not.
   // @see https://civicactions.com/blog/drupal-gotchya-cache_get-returns-expired-items/
-  if (($cache && time() < $cache->expire) && $use_cache) {
+
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+  $is_sample_data = feature_toggle_get_status('sample_eactivity_data');
+  if (($cache && time() < $cache->expire) && $use_cache && !$is_sample_data) {
     // try cache first
     // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
     $eactivity_data = $cache->data;
   } else {
-    // Connect to EACTIVITY
-    $wsdl = variable_get('eactivity_auth_reg_wsdl');
-    $client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
 
-    if ($client->error) {
-      return array("error" => true, "msg" => $client->msg);
+    if(!$is_sample_data) {
+      // Connect to EACTIVITY
+      $wsdl = variable_get('eactivity_auth_reg_wsdl');
+      $client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
+
+      if ($client->error) {
+        return array("error" => true, "msg" => $client->msg);
+      }
+
+      $client = $client->client;
+      $params1 = array(
+        "userId" => variable_get('eactivity_auth_reg_username'),
+        "credential" => variable_get('eactivity_auth_reg_password'),
+        "domain" => variable_get('eactivity_auth_reg_domain'),
+        "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
+      );
+      $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
+
+      if ($response1->error) {
+        return array("error" => true, "msg" => $response1->msg);
+      }
+
+      $response1 = $response1->response;
+      // Adding local wsdl configurations
+      $local = variable_get('eactivity_dataflow_local');
+      $wsdl = variable_get('eactivity_dataflow_wsdl');
+      if ($local) {
+        $client2 = connectToSOAPServerWithWSDL(dirname(__FILE__) . '/' . $wsdl, "Eenterprise Bridge Auth");
+      } else {
+        $client2 = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
+      }
+
+      if ($client2->error) {
+        return array("error" => true, "msg" => $client2->msg);
+      }
+
+      $client2 = $client2->client;
+
+      //Extract out "_Via_CDX" string from $user->name to pull to-do and progress tracker from the Activity Data flow
+      $cdx_username = $user->name;
+      $cdx_pos = strrpos($cdx_username, "_Via_");
+      if ($cdx_pos !== FALSE) {
+        $cdx_username = substr($cdx_username, 0, $cdx_pos);
+      }
+
+      //For the following parameter, use $cdx_username, which does not have _Via_CDX at the end, instead of $user_name
+      $params2 = array(
+        "securityToken" => $response1->securityToken,
+        "dataflow" => "E-ACTIVITY",
+        "request" => "GetByUser",
+        "rowId" => 0,
+        "maxRows" => -1,
+        "parameters" => array("_" => strtoupper($cdx_username), "parameterEncoding" => "None", "parameterName" => "user"),
+      );
+      $resp = callSOAPWithParams($client2, "Query", $params2, "Eenterprise Bridge Auth");
+
+      if ($resp->error) {
+        return array("error" => true, "msg" => $resp->msg);
+      }
+
+      $resp = $resp->response;
+      $resp = $resp->results->any;
     }
-
-    $client = $client->client;
-    $params1 = array(
-      "userId" => variable_get('eactivity_auth_reg_username'),
-      "credential" => variable_get('eactivity_auth_reg_password'),
-      "domain" => variable_get('eactivity_auth_reg_domain'),
-      "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
-    );
-    $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
-
-    if ($response1->error) {
-      return array("error" => true, "msg" => $response1->msg);
+    else {
+      $path = drupal_get_path('module', 'eactivity_dataflow') . '/sample_data/eactivity_dataflow.xml';
+      $resp = file_get_contents($path);
     }
-
-    $response1 = $response1->response;
-    // Adding local wsdl configurations
-    $local = variable_get('eactivity_dataflow_local');
-    $wsdl = variable_get('eactivity_dataflow_wsdl');
-    if ($local) {
-      $client2 = connectToSOAPServerWithWSDL(dirname(__FILE__) . '/' . $wsdl, "Eenterprise Bridge Auth");
-    } else {
-      $client2 = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
-    }
-
-    if ($client2->error) {
-      return array("error" => true, "msg" => $client2->msg);
-    }
-
-    $client2 = $client2->client;
-
-    //Extract out "_Via_CDX" string from $user->name to pull to-do and progress tracker from the Activity Data flow
-    $cdx_username = $user->name;
-    $cdx_pos = strrpos($cdx_username, "_Via_");
-    if ($cdx_pos !== FALSE) {
-      $cdx_username = substr($cdx_username, 0, $cdx_pos);
-    }
-
-
-
-    //For the following parameter, use $cdx_username, which does not have _Via_CDX at the end, instead of $user_name
-    $params2 = array(
-      "securityToken" => $response1->securityToken,
-      "dataflow" => "E-ACTIVITY",
-      "request" => "GetByUser",
-      "rowId" => 0,
-      "maxRows" => -1,
-      "parameters" => array("_" => strtoupper($cdx_username), "parameterEncoding" => "None", "parameterName" => "user"),
-    );
-    $resp = callSOAPWithParams($client2, "Query", $params2, "Eenterprise Bridge Auth");
-
-    if ($resp->error) {
-      return array("error" => true, "msg" => $resp->msg);
-    }
-
-    $resp = $resp->response;
-    $resp = $resp->results->any;
     $resp = simplexml_load_string($resp);
-    $eactivity_data = ['progress_tracker' => [], 'to_do' => []];
+    $eactivity_data = ['progress_tracker' => ['cached'=>Date('c')], 'to_do' => ['cached'=>Date('c')]];
 
-    // Load progress tracker data
-
+    $counter = 0;
+    // Parse progress tracker & to-do data
     foreach ($resp->children('http://www.exchangenetwork.net/schema/eact/1') as $activity) {
+      $sample_date = Date('c', time() + ($counter * 86400 * 3));
 
       $res = array("EActivityId" => (string)$activity->EActivityId,
         "PartnerSystemId" => (string)$activity->PartnerSystemId,
@@ -108,7 +117,7 @@ function load_eactivity_data($module_caller, $use_cache) {
         "ActivityDesc" => (string)$activity->ActivityDesc,
         "ActivityCreateDate" => (string)$activity->ActivityCreateDate,
         "ActivitySourceURL" => (string)$activity->ActivitySourceURL,
-        "ActivityExpirationDate" => (string)$activity->ActivityExpirationDate,
+        "ActivityExpirationDate" => ($is_sample_data) ? $sample_date : (string)$activity->ActivityExpirationDate,
         "Status" => (string)$activity->Status,
         "StatusNote" => (string)$activity->StatusNote,
         "StatusUpdateDate" => (string)$activity->StatusUpdateDate,
@@ -116,6 +125,7 @@ function load_eactivity_data($module_caller, $use_cache) {
         "RoleId" => (string)$activity->RoleId,
         "RoleIdSubject" => (string)$activity->RoleIdSubject,
         "Attributes" => (string)$activity->Attributes,);
+
       foreach ($activity->Attributes->Attribute as $child) {
         if ((string)($child->attributes()) == 'facilityName') {
           $res['FacilityName'] = $child->__toString();
@@ -140,30 +150,34 @@ function load_eactivity_data($module_caller, $use_cache) {
         $res['Documents'][$i]['createDate'] = $child->CreateDate->__toString();
         $res['Documents'][$i]['transactionId'] = $child->TransactionId->__toString();
         $i++;
+        if(!$is_sample_data) {
 
-        $param_attch_type = array("_" => $child->Id->__toString(),
-          "contentType" => array($child->TypeId->__toString()));
-        $param_doc_id = $child->Id->__toString();
+          $param_attch_type = array("_" => $child->Id->__toString(),
+            "contentType" => array($child->TypeId->__toString()));
+          $param_doc_id = $child->Id->__toString();
 
-        $param_doc = array(
-          "documentName" => $child->Name->__toString(),
-          "documentFormat" => array($child->TypeId->__toString()),
-          "documentContent" => $param_attch_type,
-          "documentId" => $param_doc_id,
-        );
+          $param_doc = array(
+            "documentName" => $child->Name->__toString(),
+            "documentFormat" => array($child->TypeId->__toString()),
+            "documentContent" => $param_attch_type,
+            "documentId" => $param_doc_id,
+          );
 
-        $param_dl1 = array(
-          "securityToken" => $response1->securityToken,
-          "dataflow" => "E-ACTIVITY",
-          "transactionId" => $child->TransactionId->__toString(),
-          "documents" => $param_doc,
-        );
-        $resp_dl = callSOAPWithParams($client2, "Download", $param_dl1, "Eenterprise Bridge Auth");
-        if (!$resp_dl->error) {
-          $resp_dl = $resp_dl->response;
-          $INPUT = $resp_dl->documents->documentContent->_;
-          $file = 'sites/default/files/' . $child->Name->__toString();
-          file_put_contents($file, $INPUT);
+          $param_dl1 = array(
+            "securityToken" => $response1->securityToken,
+            "dataflow" => "E-ACTIVITY",
+            "transactionId" => $child->TransactionId->__toString(),
+            "documents" => $param_doc,
+          );
+
+          $resp_dl = callSOAPWithParams($client2, "Download", $param_dl1, "Eenterprise Bridge Auth");
+
+          if (!$resp_dl->error) {
+            $resp_dl = $resp_dl->response;
+            $INPUT = $resp_dl->documents->documentContent->_;
+            $file = 'sites/default/files/' . $child->Name->__toString();
+            file_put_contents($file, $INPUT);
+          }
         }
       }
 
@@ -220,17 +234,17 @@ function load_eactivity_data($module_caller, $use_cache) {
           if ($res_domain == 'Lead') {
             foreach ($res['Documents'] as $ky => $vl) {
               if (strpos($vl['name'], 'Receipt') !== false) {
-                $res_action .= "<a class='favorites-ignore'  href='/" . $vl['name'] . "' target='_blank'>View Receipt</a>";
+                $res_action .= "<a class='favorites-ignore ga-tracking'  data-ga-event-label='progress tracker view receipt' href='/" . $vl['name'] . "' target='_blank'>View Receipt</a>";
               }
               if (strpos($vl['name'], 'Certificate') !== false) {
-                $res_action .= "<a class='favorites-ignore' href='/" . $vl['name'] . "' target='_blank'>View Certificate</a>";
+                $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view certificate' href='/" . $vl['name'] . "' target='_blank'>View Certificate</a>";
               }
               if (strpos($vl['name'], 'Logo') !== false) {
-                $res_action .= "<a class='favorites-ignore' href='/" . $vl['name'] . "' target='_blank'>View Logo</a>";
+                $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view logo' href='/" . $vl['name'] . "' target='_blank'>View Logo</a>";
               }
             }
           } else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI') {
-            $res_action .= "<a class='favorites-ignore'  href='/cdx_sso_handoff?handoff_data=" . parse_cdx_handoff_data($res['ActivitySourceURL']) . "' target='_blank'>View Submission</a>";
+            $res_action .= "<a class='favorites-ignore ga-tracking'  data-ga-event-label='progress tracker view submission' href='/cdx_sso_handoff?handoff_data=" . parse_cdx_handoff_data($res['ActivitySourceURL']) . "' target='_blank'>View Submission</a>";
           }
           if (empty($res_action)) {
             $res_action = "N/A";
@@ -242,7 +256,6 @@ function load_eactivity_data($module_caller, $use_cache) {
           $eactivity_item['handoff_url'] = "/cdx_sso_handoff?handoff_data=" . parse_cdx_handoff_data($res['ActivitySourceURL']);
           $eactivity_data['to_do'][$eactivity_id] = $eactivity_item;
         }
-
       }
     }
 
@@ -251,7 +264,5 @@ function load_eactivity_data($module_caller, $use_cache) {
     cache_set($cache_key, $eactivity_data, 'cache', $expire_ts);
   }
 
-
   return $eactivity_data[$module_caller];
 }
-

@@ -1,20 +1,20 @@
-<span id="refresh-to-do" class="refresh"><span class="sr-only">Refresh To Do list</span><i
-    class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh To Do List"></i></span>
+  <span id="refresh-to-do" class="refresh ga-tracking" data-ga-event-label="to do refresh">
+  <div class="update"><span class="label">Last Updated:</span> <span class="last-updated"></span></div>
+  <span class="sr-only">Refresh To Do list</span><i
+      class="fa fa-refresh favorites-ignore" aria-hidden="true" title="Refresh To Do List"></i></span>
 
 <div class="todo-filter-by-week ui-tabs">
   <ul role="tablist" class="ui-tabs-nav">
-    <li id="all-time" role="tab" data-search="" class="todo_filter_button filter-applied">
-      <a href="javascript:void(0)" class="favorites-ignore block-display" tabindex="0">
-        All Items
-      </a>
+    <li id="all-time" role="tab" class="todo_filter_button filter-applied" data-search="">
+      <a href="javascript:void(0)" class="favorites-ignore block-display" tabindex="0"> All Items </a>
     </li>
-    <li id="this-week" role="tab" class="todo_filter_button" data-search="this_week">
+    <li id="this-week" role="tab" class="todo_filter_button" data-search="this_week" >
       <a href="javascript:void(0)" class="favorites-ignore block-display" tabindex="-1">This Week</a>
     </li>
-    <li id="next-week" role="tab" class="todo_filter_button" data-search="next_week">
+    <li id="next-week" role="tab" class="todo_filter_button" data-search="next_week" >
       <a href="javascript:void(0)" class="favorites-ignore block-display" tabindex="-1">Next Week</a>
     </li>
-    <li id="beyond-next-week" role="tab" class="todo_filter_button" data-search="beyond">
+    <li id="beyond-next-week" role="tab" class="todo_filter_button" data-search="beyond" >
       <a href="javascript:void(0)" class="favorites-ignore block-display" tabindex="-1">Beyond</a>
     </li>
   </ul>

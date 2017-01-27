@@ -343,7 +343,7 @@ body.fixed-modal-open {
                 background-color: #E2F4FF;
             }
             [class^=col] {
-                word-break: break-word;
+                word-wrap: break-word;
                 overflow-wrap: break-word;
             }
         }
@@ -351,6 +351,12 @@ body.fixed-modal-open {
     .property {
         .title {
             color: #666666;
+            &.cgp-subquestion {
+                padding-left: 45px;
+            }
+        }
+        .cgp-uppercase {
+            text-transform:capitalize;
         }
     }
     .criterion-description {

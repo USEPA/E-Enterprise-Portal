@@ -676,19 +676,25 @@ function cr_resizeGuestModal() {
    * @param profile
    */
   function update_chem_profile() {
-    $.ajax({
-      method: "POST",
-      url: Drupal.settings.basePath + "chemical_rules/update_chem_profile",
-      dataType: 'json',
-      data: {
-        profile: JSON.stringify(cr_favs)
-      },
-    }).done(function() {
-      render_favorites();
-      // @TODO - Update Modal List - call populate_substance_modal or subset of it!
-    }).fail(function() {
-      console.log('fail', arguments)
-    });
+    var $edit_field = $('#edit-field-chem-rules-user-settings-und-0-value');
+    if($edit_field.length) {
+      $edit_field.val(cr_favs);
+    }
+    else {
+      $.ajax({
+        method: "POST",
+        url: Drupal.settings.basePath + "chemical_rules/update_chem_profile",
+        dataType: 'json',
+        data: {
+          profile: JSON.stringify(cr_favs)
+        },
+      }).done(function() {
+        render_favorites();
+        // @TODO - Update Modal List - call populate_substance_modal or subset of it!
+      }).fail(function() {
+        console.log('fail', arguments)
+      });
+    }
   }
 
   /**

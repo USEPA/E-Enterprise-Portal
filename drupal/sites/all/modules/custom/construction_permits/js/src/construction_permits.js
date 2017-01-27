@@ -283,6 +283,10 @@ function reset_cgp_form() {
   cp_iife.fullPhone = function(prop) {
     return phone = (prop['phoneExtension'] && prop['phoneExtension'] != '') ? prop['phone'] + ' x' + prop['phoneExtension'] : prop['phone'];
   }
+  
+  cp_iife.siteConstructionTypes = function(prop) {
+    return prop.join('<br>');
+  }
 
   cp_iife.latlong = function(prop) {
     //projectSiteInformation.siteLocation
@@ -325,8 +329,8 @@ function reset_cgp_form() {
         '<div class="col-md-2">Location</div>',
         '<div class="col-md-2">Receiving Water</div>',
         '<div class="col-md-2">Pollutants</div>',
-        '<div class="col-md-2">Tier</div>',
         '<div class="col-md-2">TMDL</div>',
+        '<div class="col-md-2">Tier</div>',
         '</div>'
       ]
       r += header.join('');
@@ -337,13 +341,14 @@ function reset_cgp_form() {
         var tmdls = c.firstWater.pollutants.map(function(c){ return c.tmdl.name; }, []);
         r += [
           '<div class="line row-item' + even + '">',
+          //@TODO - Description may be optional - add logic if needed to show blank if user did not complete description - would Dave return false or blank string
           '<div class="col-md-2" title="Discharge Point">', c.description, '</div>',
           '<div class="col-md-2" title="Location">', c.location.latitude + '&deg;N, ' + c.location.longitude + '&deg;E<br><span class="cgp-latlongsource">Source: ' +
           c.location.latLongDataSource + '</span><br><span class="cgp-refdatum">Horizontal Reference Datum: ' + c.location.horizontalReferenceDatum + '</span>', '</div>',
           '<div class="col-md-2" title="Receiving Water">', c.firstWater.listedWaterName, '</div>',
           '<div class="col-md-2" title="Pollutant(s)">', polluntants.join(', '), '</div>',
-          '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
           '<div class="col-md-2" title="TMDL">', tmdls.join(', '), '</div>',
+          '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
           '</div>',
         ].join('')
       })

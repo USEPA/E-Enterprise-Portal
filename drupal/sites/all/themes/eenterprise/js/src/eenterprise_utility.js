@@ -123,36 +123,43 @@
   }
 
   function setCommunitySizeType(commsize, isurban) {
-    var $urban_check =  $('#edit-field-community-type-und');
     var $comm_size_select =  $('#edit-field-community-size-und');
-    // Reset Population and Urban setting selections
-    $urban_check.val("_none").find('input[value="_none"]').prop("checked", true);
-    $comm_size_select.find('option[value="_none"]').prop('selected', true);
-    if (typeof(commsize) !== 'undefined' && commsize !== '' && parseInt(commsize) >= 0) {
-      var selected_pop = parseInt(commsize);
-      if (selected_pop < 5000) {
-        $comm_size_select.find('option:contains("0 - 5,000")').prop('selected', true);
-      } else if (selected_pop < 10000) {
-        $comm_size_select.find('option:contains("5,000 - 10,000")').prop('selected', true);
-      } else if (selected_pop < 25000) {
-        $comm_size_select.find('option:contains("10,000 - 25,000")').prop('selected', true);
-      } else if (selected_pop < 100000) {
-        $comm_size_select.find('option:contains("25,000 - 100,000")').prop('selected', true);
-      } else if (selected_pop < 1000000) {
-        $comm_size_select.find('option:contains("100,000 - 1,000,000")').prop('selected', true);
-      } else {
-        $comm_size_select.find('option:contains("1,000,000+")').prop('selected', true);
+    if(commsize != NaN && isurban != '_none') {
+      var $urban_check =  $('#edit-field-community-type-und');
+      // Reset Population and Urban setting selections
+      $urban_check.val("_none").find('input[value="_none"]').prop("checked", true);
+      $comm_size_select.parent().show();
+      $comm_size_select.find('option[value="_none"]').prop('selected', true);
+      if (typeof(commsize) !== 'undefined' && commsize !== '' && parseInt(commsize) >= 0) {
+        var selected_pop = parseInt(commsize);
+        if (selected_pop < 5000) {
+          $comm_size_select.find('option:contains("0 - 5,000")').prop('selected', true);
+        } else if (selected_pop < 10000) {
+          $comm_size_select.find('option:contains("5,000 - 10,000")').prop('selected', true);
+        } else if (selected_pop < 25000) {
+          $comm_size_select.find('option:contains("10,000 - 25,000")').prop('selected', true);
+        } else if (selected_pop < 100000) {
+          $comm_size_select.find('option:contains("25,000 - 100,000")').prop('selected', true);
+        } else if (selected_pop < 1000000) {
+          $comm_size_select.find('option:contains("100,000 - 1,000,000")').prop('selected', true);
+        } else {
+          $comm_size_select.find('option:contains("1,000,000+")').prop('selected', true);
+        }
+      }
+      if ((typeof(isurban) !== 'undefined' && isurban !== '' && isurban.toString() !== "NaN")) {
+        if (isurban === 1) {
+          $urban_check.val("urban").find('input[value="urban"]').prop("checked", true);
+        } else if (isurban === 0) {
+          $urban_check.val("rural").find('input[value="rural"]').prop("checked", true);
+        }
+        else {
+          $urban_check.val("rural").find('input[value="_none"]').prop("checked", true);
+        }
       }
     }
-    if ((typeof(isurban) !== 'undefined' && isurban !== '' && isurban.toString() !== "NaN")) {
-      if (isurban === 1) {
-        $urban_check.val("urban").find('input[value="urban"]').prop("checked", true);
-      } else if (isurban === 0) {
-        $urban_check.val("rural").find('input[value="rural"]').prop("checked", true);
-      }
-      else {
-        $urban_check.val("rural").find('input[value="_none"]').prop("checked", true);
-      }
+    else {
+      $comm_size_select.find('option:contains("0 - 5,000")').prop('selected', true);
+      $comm_size_select.parent().hide();
     }
   }
 
@@ -642,6 +649,7 @@
 
   $(document).ready(function () {
     var $urban_check =  $('#edit-field-community-type-und');
+    var $urban_size =  $('#edit-field-community-size-und');
 
     $urban_check.change( function() {
       updatePrimaryLocationDataUrban($(this).val());
@@ -652,6 +660,8 @@
       updatePrimaryLocationDataSize($(this).find('option:selected'));
       update_user_zip_preferences();
     });
+
+    setCommunitySizeType(parseInt(jQuery('[isurban]').val()), $urban_check.val());
 
     $body.find('.field-multiple-table').removeClass('sticky-enabled');
     $('#profile-locations').find('.sticky-header').remove();

@@ -16,7 +16,20 @@ function page_manager_feature_default_page_manager_pages() {
   $page->admin_title = 'App Connect';
   $page->admin_description = 'App Connect page that will include lists of services, announcements, messages from EPA (e.g., MyCDX) and in the future State, Tribal, and Local.';
   $page->path = 'app-connect';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'php',
+        'settings' => array(
+          'description' => 'Check Feature Toggle for AWS',
+          'php' => 'module_load_include(\'inc\', \'feature_toggle\', \'includes/feature_toggle.api\');
+return feature_toggle_get_status(\'aws_environment\');',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array(
     'type' => 'normal',
     'title' => 'App Connect',
@@ -154,7 +167,19 @@ function page_manager_feature_default_page_manager_pages() {
     $pane->type = 'block';
     $pane->subtype = 'construction_permits-construction_permits';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Check Feature Toggle for NCC',
+            'php' => 'module_load_include(\'inc\', \'feature_toggle\', \'includes/feature_toggle.api\');
+return feature_toggle_get_status(\'aws_environment\');',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'override_title' => 1,
       'override_title_text' => 'Find a Construction General Permit',
@@ -206,7 +231,19 @@ function page_manager_feature_default_page_manager_pages() {
     $pane->type = 'block';
     $pane->subtype = 'be_well_informed-be_well_informed';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Check Feature Toggle for AWS',
+            'php' => 'module_load_include(\'inc\', \'feature_toggle\', \'includes/feature_toggle.api\');
+return feature_toggle_get_status(\'aws_environment\');',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'override_title' => 1,
       'override_title_text' => 'Be Well Informed',
@@ -447,7 +484,19 @@ function page_manager_feature_default_page_manager_pages() {
     $pane->type = 'block';
     $pane->subtype = 'views-other_items_of_interest-block';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Check Feature Toggle for AWS',
+            'php' => 'module_load_include(\'inc\', \'feature_toggle\', \'includes/feature_toggle.api\');
+return feature_toggle_get_status(\'aws_environment\');',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'override_title' => 0,
       'override_title_text' => '',
@@ -552,7 +601,17 @@ function page_manager_feature_default_page_manager_pages() {
     $pane->subtype = 'chemical_rules-chemical_rules';
     $pane->shown = TRUE;
     $pane->access = array(
-      'plugins' => array(),
+      'plugins' => array(
+        0 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'Check Feature Toggle for AWS',
+            'php' => 'module_load_include(\'inc\', \'feature_toggle\', \'includes/feature_toggle.api\');
+return feature_toggle_get_status(\'aws_environment\');',
+          ),
+          'not' => FALSE,
+        ),
+      ),
     );
     $pane->configuration = array(
       'override_title' => 0,

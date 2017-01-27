@@ -29,6 +29,12 @@
       </div>
     </div>
     <div class="line">
+      <div class="box-fluid property" data-cgp-property="trackingNumber">
+        <div class="col-md-4 title">Tracking #</div>
+        <div class="col-md-8 value"></div>
+      </div>
+    </div>
+    <div class="line">
       <div class="box-fluid property" data-cgp-property="npdesId">
         <div class="col-md-4 title">NPDES ID</div>
         <div class="col-md-8 value"></div>
@@ -94,7 +100,7 @@
         <div class="col-md-8 value"></div>
       </div>
     </div>
-  </div><!-- @end Low Erosity Waiver Information
+  </div><!-- @end Low Erosity Waiver Information -->
   <div class="section" id="cgp-operator">
     <h2>Operator Information</h2>
     <div class="line">
@@ -190,7 +196,7 @@
       <div class="box-fluid property"
            data-cgp-property="projectSiteInformation.siteLocation"
            data-cgp-function="latlong">
-        <div class="col-md-4 title">Address</div>
+        <div class="col-md-4 title">Latitude / Longitude</div>
         <div class="col-md-8 value"></div>
       </div>
     </div>
@@ -204,6 +210,7 @@
       </div>
     </div>
 
+    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation" data-cgp-function="dateRange" data-cgp-params="['site']"><div class="col-md-4 title">Project Duration <span class="cgp-footnote">(Estimated)</span></div><div class="col-md-8 value"></div></div></div>
     <!-- @TODO Show the Estimated Area to be Disturbed line only if NOI - if LEW, include line in LEW section -->
     <div class="line">
       <div class="box-fluid property"
@@ -223,6 +230,16 @@
       </div>
     </div>
   </div><!-- @end Project Site Info -->
+
+  <div class="section noi-only" id="cgp-additional">
+    <h2>Additional Project Information</h2>
+    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.siteConstructionTypes" data-cgp-function="siteConstructionTypes"><div class="col-md-4 title">Type of Construction Sites</div><div class="col-md-8 value cgp-uppercase"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.siteStructureDemolitionBefore1980" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">Demolition of structure built or renovated before January 1, 1980?</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.siteStructureDemolitionBefore198010kSquareFeet" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title cgp-subquestion">Structure being demolished has at least 10,000 ft<sup>2</sup> of floor space?</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.sitePreDevelopmentAgricultural" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">Pre-development land use used for agriculture?</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.siteEarthDisturbingActivitiesOccurrence" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">Earth-disturbing activities commenced on project/site?</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation.siteEmergencyRelated" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title cgp-subquestion">Project is emergency-related project?</div><div class="col-md-8 value"></div></div></div>
+  </div>
   <div class="section noi-only" id="cgp-earth">
     <h2>Earth Disturbance / Demolition Information</h2>
     <div class="line">
@@ -319,7 +336,7 @@
   </div><!-- @end Discharge Information -->
   <!-- @TODO Show Treatment Chemicals only if chemicalTreatmentInformation.polymersFlocculantsOtherTreatmentChemicals != null -->
   <div class="section noi-only" id="cgp-treatment">
-    <h2>Treatment Chemicals</h2>
+    <h2>Chemical Treatment Information</h2>
     <div class="line">
       <div class="box-fluid property"
            data-cgp-property="chemicalTreatmentInformation.polymersFlocculantsOtherTreatmentChemicals">
@@ -464,39 +481,13 @@
   </div><!-- @end Endangered Species Protection Information -->
   <div class="section noi-only" id="cgp-historic">
     <h2>Historic Preservation</h2>
-    <div class="line">
-      <div class="box-fluid property"
-           data-cgp-property="historicPreservation.appendexEStep3"
-           data-cgp-options="['No','<b>Yes</b>']">
-        <div class="col-md-4 title">Uncertain whether disturbances will impact
-          historic properties
-        </div>
-        <div class="col-md-8 value"></div>
-      </div>
-    </div>
-    <div class="line">
-      <div class="box-fluid property"
-           data-cgp-property="historicPreservation.appendexEStep4"
-           data-cgp-options="['No','<b>Yes</b>']">
-        <div class="col-md-4 title">Received response within 15 calendar days
-          from SHPO, THPO, or other Tribal Representative to indicate whether
-          the subsurface earth disturbances caused by the installation of
-          stormwater controls affect historic properties? (Appendix E, Step 4)
-        </div>
-        <div class="col-md-8 value"></div>
-      </div>
-    </div>
-    <div class="line">
-      <div class="box-fluid property"
-           data-cgp-property="historicPreservation.appendexEStep4Response">
-        <div class="col-md-4 title">Response from SHPO, THPO, or Tribal
-          Representative
-        </div>
-        <div class="col-md-8 value"></div>
-      </div>
-    </div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="historicPreservation.appendexEStep1" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">Installing  stormwater controls as described in Appendix E that require subsurface earth disturbances? (Appendix E, Step 1)</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="historicPreservation.appendexEStep2" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">If yes, have prior surveys or evaluations conducted on the site determined historic properties do not exist, or that prior disturbances have precluded the existence of historic properties?</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="historicPreservation.appendexEStep3" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">If no, have you determined that your installation of subsurface earth-disturbing stormwater controls will have no effect on historic properties?</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="historicPreservation.appendexEStep4" data-cgp-options="['No','<b>Yes</b>']"><div class="col-md-4 title">Received response within 15 calendar days from SHPO, THPO, or other Tribal Representative to indicate whether the subsurface earth disturbances caused by the installation of stormwater controls affect historic properties? (Appendix E, Step 4)</div><div class="col-md-8 value"></div></div></div>
+    <div class="line"><div class="box-fluid property" data-cgp-property="historicPreservation.appendexEStep4Response"><div class="col-md-4 title">Response from SHPO, THPO, or Tribal Representative</div><div class="col-md-8 value"></div></div></div>
   </div><!-- @end Historic Preservation Information-->
-  <div class="section" id="cgp-documents">
+<div class="section" id="cgp-documents">
     <h2>Corresponding Documents</h2>
     <div class="line">
       <div class="col-sm-12 box-fluid">
