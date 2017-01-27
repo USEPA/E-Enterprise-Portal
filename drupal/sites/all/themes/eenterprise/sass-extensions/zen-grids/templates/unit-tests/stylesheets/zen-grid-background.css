@@ -1,10 +1,10 @@
 /*
 Error: File to import not found or unreadable: zen/background.
        Load paths:
-         C:/wamp/www/e-enterprise/drupal/sites/all/themes/eenterprise/sass-extensions/zen-grids/templates/unit-tests/sass
+         C:/wamp/www/eenterprise/drupal/sites/all/themes/eenterprise/sass-extensions/zen-grids/templates/unit-tests/sass
          C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-core-1.0.3/stylesheets
          Compass::SpriteImporter
-        on line 6 of C:/wamp/www/e-enterprise/drupal/sites/all/themes/eenterprise/sass-extensions/zen-grids/templates/unit-tests/sass/zen-grid-background.scss
+        on line 6 of C:/wamp/www/eenterprise/drupal/sites/all/themes/eenterprise/sass-extensions/zen-grids/templates/unit-tests/sass/zen-grid-background.scss
 
 1: /**
 2:  * @file
@@ -19,7 +19,7 @@ Error: File to import not found or unreadable: zen/background.
 11:   @include zen-grid-background();
 
 Backtrace:
-C:/wamp/www/e-enterprise/drupal/sites/all/themes/eenterprise/sass-extensions/zen-grids/templates/unit-tests/sass/zen-grid-background.scss:6
+C:/wamp/www/eenterprise/drupal/sites/all/themes/eenterprise/sass-extensions/zen-grids/templates/unit-tests/sass/zen-grid-background.scss:6
 C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.22/lib/sass/tree/import_node.rb:67:in `rescue in import'
 C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.22/lib/sass/tree/import_node.rb:45:in `import'
 C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.4.22/lib/sass/tree/import_node.rb:28:in `imported_file'
@@ -64,4 +64,4 @@ C:/Ruby22-x64/bin/compass:23:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: File to import not found or unreadable: zen/background.\A        Load paths:\A          C:/wamp/www/e-enterprise/drupal/sites/all/themes/eenterprise/sass-extensions/zen-grids/templates/unit-tests/sass\A          C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-core-1.0.3/stylesheets\A          Compass::SpriteImporter\A         on line 6 of C:/wamp/www/e-enterprise/drupal/sites/all/themes/eenterprise/sass-extensions/zen-grids/templates/unit-tests/sass/zen-grid-background.scss\A \A 1: /**\A 2:  * @file\A 3:  * Test zen-grid-background()\A 4:  */\A 5: \A 6: @import \"zen/background\";\A 7: \A 8: #test-zen-grid-background {\A 9:   /* Test zen-grid-background() with 1 column grid and 20px gutter */\A 10:   $zen-grid-numbers: top;\A 11:   @include zen-grid-background();"; }
+  content: "Error: File to import not found or unreadable: zen/background.\A        Load paths:\A          C:/wamp/www/eenterprise/drupal/sites/all/themes/eenterprise/sass-extensions/zen-grids/templates/unit-tests/sass\A          C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-core-1.0.3/stylesheets\A          Compass::SpriteImporter\A         on line 6 of C:/wamp/www/eenterprise/drupal/sites/all/themes/eenterprise/sass-extensions/zen-grids/templates/unit-tests/sass/zen-grid-background.scss\A \A 1: /**\A 2:  * @file\A 3:  * Test zen-grid-background()\A 4:  */\A 5: \A 6: @import \"zen/background\";\A 7: \A 8: #test-zen-grid-background {\A 9:   /* Test zen-grid-background() with 1 column grid and 20px gutter */\A 10:   $zen-grid-numbers: top;\A 11:   @include zen-grid-background();"; }
