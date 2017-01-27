@@ -4,7 +4,7 @@
       // takes zip, or city, state
       // returns location data object
       settings.locationInputEngine = {
-        lookUpLocation: function(location_input, existing_locations, existing_zipcodes) {
+        lookUpLocation: function(location_input, existing_locations) {
 
           var deferred = $.Deferred();
           var error_message = '';
@@ -33,13 +33,19 @@
                 } else {
                   var all_city_attr = parsed_data.city_attr;
                   var city_select = '<select id="zip-lookup-city-state">';
+                  var no_options = true;
                   location_data_return.zip = parsed_data.zip;
                   $.each(parsed_data.city, function(index, city) {
-                    if(jQuery.inArray(city, existing_locations) == -1) {
+                    if ($.isArray(existing_locations[location_data_return.zip]) && $.inArray(city, existing_locations[location_data_return.zip]) == -1) {
                       city_select = city_select + '<option value="' + city + '">' + city + '</option>';
+                      no_options = false;
                     }
                   });
                   city_select = city_select + '</select>';
+                  if (no_options) {
+                    error_message = 'All of the locations for the given zip code have been used.';
+                    error = true;
+                  }
                   location_data_return.city_select = city_select;
                   location_data_return.zip_codes = false; // not returning list of zip codes
                   location_data_return.city_attr = parsed_data.city_attr;
@@ -55,24 +61,29 @@
                 else {
                   location_data_return.city = parsed_data.city;
                   location_data_return.state = parsed_data.state;
+                  var location_name = (parsed_data.state == '') ? parsed_data.city : parsed_data.city + ', ' + parsed_data.state;
                   var zip_select = '<select id="city-state-lookup-zips">';
                   var previous_city = "";
                   var count = 0;
+                  var no_options = true;
                   if (parsed_data.zip_attr) {
                     $.each(parsed_data.zip_attr, function(zip_code, zip_obj) {
+                      // Checks for tribes and adds disabled Tribe name into Zip Code select list
                       if (zip_obj.city != previous_city && parsed_data.state == "") {
-                        //if (count == 0) {
-                        //    zip_select = zip_select + '<option value="" disabled selected>' + zip_obj.city + '</option>';
-                        //    count = count + 1;
-                        //}
-                        //else
                         zip_select = zip_select + '<option value="" disabled>' + zip_obj.city + '</option>';
                         previous_city = zip_obj.city;
                       }
-                      zip_select = zip_select + '<option value="' + zip_code + '">' + zip_code + '</option>';
+                      if ($.isArray(existing_locations[zip_code]) && $.inArray(location_name, existing_locations[zip_code]) == -1) {
+                        zip_select = zip_select + '<option value="' + zip_code + '">' + zip_code + '</option>';
+                        no_options = false;
+                      }
                     });
                   }
                   zip_select = zip_select + '</select>';
+                  if (no_options) {
+                    error_message = 'All of the zip codes for the given location have been used.';
+                    error = true;
+                  }
                   location_data_return.zip_select = zip_select;
                   location_data_return.zip_codes = true;
                   location_data_return.city_attr = parsed_data.city_attr;
