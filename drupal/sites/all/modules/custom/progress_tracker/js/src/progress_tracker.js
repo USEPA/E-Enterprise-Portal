@@ -80,7 +80,7 @@
         var date = new Date(data.cached);
         var hour = (date.getHours() % 12 == 0)? 12 : date.getHours() % 12;
         var suffix = (date.getHours() > 11)? ' PM' : ' AM';
-        $('#refresh-to-do .last-updated').html((date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear() + ' ' + hour + ':' + String("00" + date.getMinutes()).slice(-2) + suffix)
+        $('#refresh-progress-tracker .last-updated').html((date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear() + ' ' + hour + ':' + String("00" + date.getMinutes()).slice(-2) + suffix)
       }
 
     },
