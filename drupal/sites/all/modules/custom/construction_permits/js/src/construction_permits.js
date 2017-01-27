@@ -275,7 +275,9 @@ function reset_cgp_form() {
 
   cp_iife.dateRange = function(prop, prefix) {
     //projectSiteInformation and LEW
-    return cp_iife.dateFormat(prop[prefix + 'ProjectStart']) + ' &mdash; ' + cp_iife.dateFormat(prop[prefix + 'ProjectEnd']);
+    var start = (prop[prefix + 'ProjectStart']) ? cp_iife.dateFormat(prop[prefix + 'ProjectStart']) : 'N/A';
+    var end = (prop[prefix + 'ProjectEnd']) ? cp_iife.dateFormat(prop[prefix + 'ProjectEnd']) : 'N/A';
+    return (start != 'N/A' || end != 'N/A') ? start + ' &mdash; ' + end : 'N/A';
   }
 
   cp_iife.fullPhone = function(prop) {
@@ -401,8 +403,149 @@ function reset_cgp_form() {
 
   // Helper functions END
 
+  // Initialize page
   if (!Drupal.settings.construction_permits.response_data) {
     // Parsley validation
+    // Widget Setup
+    // Status
+    $.ajax({
+      url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/formStatus',
+      method: 'GET',
+      dataType: 'json',
+      success: function(cgp_reponse_json) {
+        if(Array.isArray(cgp_reponse_json)) {
+          $('.cgp-api-status').addClass('hide')
+          $status = $('#cgp-status').prop('disabled', false)
+          if(cgp_reponse_json.length) {
+            // grab current value if exists
+            current_value = $status.val()
+            $options = cgp_reponse_json.reduce(function(p, c, i, a){
+              p.push("<option value='"+ c +"'>"+ c +"</option>")
+              return p;
+            }, ["<option value=''>All</option>"])
+
+            $status.html($options.join(''))
+            $status.find('option[value="'+current_value+'"]').prop('selected', true);
+          }
+          else {
+            $status.val('')
+            $status.html('').prop('disabled', true)
+          }
+        }
+        else {
+          $('.cgp-api-status').removeClass('hide')
+        }
+      },
+      error: function(){
+        $('.cgp-api-status').removeClass('hide')
+      }
+    });
+    $.ajax({
+      url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/formType',
+      method: 'GET',
+      dataType: 'json',
+      success: function(cgp_reponse_json) {
+        if(Array.isArray(cgp_reponse_json)) {
+          $('.cgp-api-status').addClass('hide')
+          $applicationType = $('#cgp-type').prop('disabled', false)
+          if(cgp_reponse_json.length) {
+            // grab current value if exists
+            current_value = $applicationType.val()
+            $options = cgp_reponse_json.reduce(function(p, c, i, a){
+              p.push("<option value='"+ c.name +"'>"+ c.value +"</option>")
+              return p;
+            }, ["<option value=''>All</option>"])
+
+            $applicationType.html($options.join(''))
+            $applicationType.find('option[value="'+current_value+'"]').prop('selected', true);
+          }
+          else {
+            $applicationType.val('')
+            $applicationType.html('').prop('disabled', true)
+          }
+        }
+        else {
+          $('.cgp-api-status').removeClass('hide')
+        }
+      },
+      error: function(){
+        $('.cgp-api-status').removeClass('hide')
+      }
+    });
+    $('#cgp-permit-state').on('change', function(){
+      console.log(arguments)
+      var $this = $(this);
+      var current_value = $this.attr('data-current-value');
+      var new_value = $this.val();
+      if(new_value && current_value != new_value) {
+        $this.attr('data-current-value', new_value);
+        $.ajax({
+          url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/counties/' + new_value,
+          method: 'GET',
+          dataType: 'json',
+          success: function(cgp_reponse_json) {
+            if(Array.isArray(cgp_reponse_json)) {
+              $('.cgp-api-status').addClass('hide')
+              $counties = $('#cgp-project-county').prop('disabled', false)
+              if(cgp_reponse_json.length) {
+                // grab current value if exists
+                current_value = $counties.val()
+                $options = cgp_reponse_json.reduce(function(p, c, i, a){
+                  p.push("<option value='"+ c.countyName +"'>"+ c.countyName +"</option>")
+                  return p;
+                }, ["<option value=''>All</option>"])
+
+                $counties.html($options.join(''))
+                $counties.find('option[value="'+current_value+'"]').prop('selected', true);
+              }
+              else {
+                $counties.val('')
+                $counties.html('').prop('disabled', true)
+              }
+            }
+            else {
+              $('.cgp-api-status').removeClass('hide')
+            }
+          },
+          error: function(){
+            $('.cgp-api-status').removeClass('hide')
+          }
+        });
+        $.ajax({
+          url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/tribes/' + new_value,
+          method: 'GET',
+          dataType: 'json',
+          success: function(cgp_reponse_json) {
+            if(Array.isArray(cgp_reponse_json)) {
+              $('.cgp-api-status').addClass('hide')
+              $tribes = $('#cgp-tribal-lands').prop('disabled', false)
+              if(cgp_reponse_json.length) {
+                // grab current value if exists
+                current_value = $tribes.val()
+                $options = cgp_reponse_json.reduce(function(p, c, i, a){
+                  p.push("<option value='"+ c[0].tribalName +"'>"+ c[0].tribalName +"</option>")
+                  return p;
+                }, ["<option value=''>All</option>"])
+
+                $tribes.html($options.join(''))
+                $tribes.find('option[value="'+current_value+'"]').prop('selected', true);
+              }
+              else {
+                $tribes.val('')
+                $tribes.html('').prop('disabled', true)
+              }
+            }
+            else {
+              $('.cgp-api-status').removeClass('hide')
+            }
+          },
+          error: function(){
+            $('.cgp-api-status').removeClass('hide')
+          }
+        });
+      }
+    })
+
     $('#cgp-form').parsley().on('field:validated', function() {
       var ok = $('.parsley-error').length === 0;
       $('.cgp-callout-info').toggleClass('hide', !ok);
