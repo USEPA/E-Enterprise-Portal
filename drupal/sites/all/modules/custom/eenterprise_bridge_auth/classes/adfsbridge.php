@@ -46,8 +46,12 @@ class AdfsBridge
 
     function getAdfsSignInResponse($adfsConf, $wresult)
     {
-        //Validate input here
-
+//TODO
+        /**
+         * grab signature from SAML data
+         * use public key to check fingerprint (convert using method given)
+         * Check that matches in configured list
+         */
         // Validate configuration
         // If certificate content is provided, don't try to load from file.
         if ($adfsConf->encryptionCertData == '') {
