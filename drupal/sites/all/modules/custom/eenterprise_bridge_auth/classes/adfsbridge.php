@@ -44,14 +44,39 @@ class AdfsBridge
             '&wctx=' . $context;
     }
 
+    /**
+     * @param $cert
+     * @param $hash
+     * @return string
+     * Convert x509 cert to given hash function
+     */
+    function x509_fingerprint($cert, $hash) {
+        $hash = in_array($hash,array('sha1','md5','sha256')) ? $hash: 'sha1';
+        $fingerprint = preg_replace('/\-+BEGIN CERTIFICATE\-+/','',$cert);
+        $fingerprint = preg_replace('/\-+END CERTIFICATE\-+/','',$fingerprint);
+        $fingerprint = str_replace( array("\n","\r"), '', trim($fingerprint));
+        return strtoupper(hash($hash,base64_decode($fingerprint)));
+    }
+
+    /**
+     * @param $signatureObj
+     * @return bool
+     * Confirm signature contains x509 cert that is an accepted peer
+     */
+    function samlPeerVerified($signatureObj) {
+        global $conf;
+        $x509Cert = trim($signatureObj->getElementsByTagName('X509Certificate')->item(0)->nodeValue);
+        $fingerprint = implode(":", str_split( self::x509_fingerprint($x509Cert,$hash='sha1'), 2));
+        if (in_array($fingerprint, $conf['saml_peers'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function getAdfsSignInResponse($adfsConf, $wresult)
     {
-//TODO
-        /**
-         * grab signature from SAML data
-         * use public key to check fingerprint (convert using method given)
-         * Check that matches in configured list
-         */
+
         // Validate configuration
         // If certificate content is provided, don't try to load from file.
         if ($adfsConf->encryptionCertData == '') {
@@ -76,6 +101,14 @@ class AdfsBridge
         $xpath->registerNamespace('wst', 'http://schemas.xmlsoap.org/ws/2005/02/trust');
         $xpath->registerNamespace('saml', 'urn:oasis:names:tc:SAML:1.0:assertion');
         $xpath->registerNamespace('xenc', 'http://www.w3.org/2001/04/xmlenc#');
+        $xpath->registerNamespace('xdsig', 'http://www.w3.org/2000/09/xmldsig#');
+
+
+        // Check for valid SAML peer
+        $saml_signature = $dom->getElementsByTagName('Signature')->item(0);
+        if (!self::samlPeerVerified($saml_signature)){
+            throw new UnverifiedPeerException("Unable to verify peer sending request.");
+        }
 
         // Decrypts the xmlToken if it is encrypted, using the private key specified in the configuration.
         $decryptedToken = '';
@@ -381,5 +414,4 @@ class PHPHandlerException extends Exception{}
 class ExpiredResponseException extends Exception{}
 class NoNameIdentifierException extends Exception{}
 class InvalidSAMLTimestampException extends Exception{}
-
-?>
+class UnverifiedPeerException extends Exception{}
