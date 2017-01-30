@@ -73,7 +73,7 @@
                         zip_select = zip_select + '<option value="" disabled>' + zip_obj.city + '</option>';
                         previous_city = zip_obj.city;
                       }
-                      if ($.isArray(existing_locations[zip_code]) && $.inArray(location_name, existing_locations[zip_code]) == -1) {
+                      if ($.inArray(location_name, existing_locations[zip_code]) == -1) {
                         zip_select = zip_select + '<option value="' + zip_code + '">' + zip_code + '</option>';
                         no_options = false;
                       }

@@ -349,8 +349,6 @@
         var carouselToCount = '#' + countThese + '-maps-carousel .thumb > li.load-thumbnail';
 
         numItemsVisible = $(carouselToCount).length;
-          console.log(carouselToCount);
-          console.log(numItemsVisible);
         $("#map-count").html(numItemsVisible.toString());
       }
 
