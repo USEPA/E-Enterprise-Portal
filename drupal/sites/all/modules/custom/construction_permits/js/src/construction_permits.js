@@ -452,7 +452,7 @@ function reset_cgp_form() {
             // grab current value if exists
             current_value = $applicationType.val()
             $options = cgp_reponse_json.reduce(function(p, c, i, a){
-              p.push("<option value='"+ c.name +"'>"+ c.value +"</option>")
+              p.push("<option value='"+ c +"'>"+ c.replace(/_/g, ' ') +"</option>")
               return p;
             }, ["<option value=''>All</option>"])
 
