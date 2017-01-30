@@ -61,13 +61,14 @@
                 else {
                   location_data_return.city = parsed_data.city;
                   location_data_return.state = parsed_data.state;
-                  var location_name = (parsed_data.state == '') ? parsed_data.city : parsed_data.city + ', ' + parsed_data.state;
+                  var location_name;
                   var zip_select = '<select id="city-state-lookup-zips">';
                   var previous_city = "";
                   var count = 0;
                   var no_options = true;
                   if (parsed_data.zip_attr) {
                     $.each(parsed_data.zip_attr, function(zip_code, zip_obj) {
+                      location_name = (parsed_data.state == '') ? zip_obj.city : zip_obj.city + ', ' + parsed_data.state;
                       // Checks for tribes and adds disabled Tribe name into Zip Code select list
                       if (zip_obj.city != previous_city && parsed_data.state == "") {
                         zip_select = zip_select + '<option value="" disabled>' + zip_obj.city + '</option>';
