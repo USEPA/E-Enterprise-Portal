@@ -50,7 +50,7 @@
     <div class="line">
       <div class="box-fluid property" data-cgp-property="reviewExpiration"
            data-cgp-function="dateFormat">
-        <div class="col-md-4 title">Review Expiration</div>
+        <div class="col-md-4 title">Hold Period Expiration</div>
         <div class="col-md-8 value"></div>
       </div>
     </div>

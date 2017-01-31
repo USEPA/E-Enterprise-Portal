@@ -3,7 +3,7 @@ function show_needed_cgp_div($wrapper_to_show, $common_selector, modal_title) {
   $common_selector.hide();
   $wrapper_to_show.show();
   // Adjust the modal title
-  modal_title = (modal_title) ? modal_title : "Results for Construction General Permits Search";
+  modal_title = (modal_title) ? modal_title : "Results for CGP Search";
   jQuery('#construction-permits-modal').dialog({
     title: modal_title,
     close: function(event, ui) {
@@ -579,7 +579,7 @@ function reset_cgp_form() {
         width: $(window).width()-180,
         height: $(window).height()-180,
         closeOnEscape: true,
-        title: "Results for Construction General Permits Search",
+        title: "Results for CGP Search",
         position: {'my': 'center', 'at': 'center'},
         dialogClass: 'construction-permits-modal',
         autoOpen: false,
