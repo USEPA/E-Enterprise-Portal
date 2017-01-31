@@ -151,6 +151,12 @@ body.fixed-modal-open {
             height: 20px;
         }
     }
+    .fa-info-circle {
+        margin-top: -8px;
+    }
+    input, input[type="text"] {
+        max-width: none;
+    }
     .cgp-form-elements {
         margin: 0;
         li:before,

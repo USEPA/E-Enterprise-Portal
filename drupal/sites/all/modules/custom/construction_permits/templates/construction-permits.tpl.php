@@ -20,10 +20,18 @@
 <form id="cgp-form" class="cgp-form-elements ee-grid" data-parsley-validate>
   <div class="cgp-form-elements">
     <div class="line">
-      <div class="col-md-12">
+      <div class="col-md-6">
         <label for="cgp-site-facility">Site / Facility name</label>
         <input type="text" id="cgp-site-facility"
-               name="projectSiteName"></div>
+               name="projectSiteName">
+      </div>
+      <div class="col-md-6">
+        <label for="cgp-npdes-id">NPDES ID</label>
+        <input type="text" id="cgp-npdes-id"
+               name="npdesId"
+               data-parsley-pattern="/([A[LKSZR]|C[AOT]|D[EC]|F[ML]|G[AU]|HI|I[DLNA]|J[A]|K[SY]|LA|M[EHDAINSOTW]|N[EIVHJMYCD]|MP|O[HKR]|P[WAR]|RI|S[CD]|T[NX]|UT|V[TIA]|W[AVIY]]{2})([A-Z]{1})([0-9IF]{5,})/i"
+               data-parsley-error-message="NPDES IDs are a combination of 3 letters and 6 alphanumeric characters.">
+      </div>
     </div>
     <div class="line">
       <div class="col-md-6">
@@ -144,23 +152,6 @@
               <label for="cgp-federal-no">No</label>
             </li>
           </ul>
-        </div>
-      </div>
-      <div class="line">
-        <div class="col-md-6">
-          <label for="cgp-permit-number">Permit
-            tracking number</label>
-          <input type="text" id="cgp-permit-number"
-                 name="trackingNumber"
-                 data-parsley-pattern="/([0-9a-f]{8}-?[0-9a-f]{4}-?4[0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12})/"
-                 data-parsley-error-message="Permit tracking numbers are composed of a combination of 32 alphanumeric characters.">
-        </div>
-        <div class="col-md-6">
-          <label for="cgp-npdes-id">NPDES ID</label>
-          <input type="text" id="cgp-npdes-id"
-                 name="npdesId"
-                 data-parsley-pattern="/([A[LKSZR]|C[AOT]|D[EC]|F[ML]|G[AU]|HI|I[DLNA]|J[A]|K[SY]|LA|M[EHDAINSOTW]|N[EIVHJMYCD]|MP|O[HKR]|P[WAR]|RI|S[CD]|T[NX]|UT|V[TIA]|W[AVIY]]{2})([A-Z]{1})([0-9IF]{5,})/i"
-                 data-parsley-error-message="NPDES IDs are a combination of 3 letters and 6 alphanumeric characters.">
         </div>
       </div>
       <div class="line">
