@@ -28,7 +28,7 @@
         <div class="col-md-8 value"></div>
       </div>
     </div>
-    <div class="line">
+    <div class="line" style="display:none">
       <div class="box-fluid property" data-cgp-property="trackingNumber">
         <div class="col-md-4 title">Tracking #</div>
         <div class="col-md-8 value"></div>
@@ -45,7 +45,7 @@
     <div class="line">
       <div class="box-fluid property" data-cgp-property="reviewExpiration"
            data-cgp-function="dateFormat">
-        <div class="col-md-4 title">Review Expiration</div>
+        <div class="col-md-4 title">Hold Period Expiration</div>
         <div class="col-md-8 value"></div>
       </div>
     </div>
