@@ -175,12 +175,10 @@
         <div class="col-md-6">
           <label for="cgp-tribal">Construction on Tribal Lands</label>
           <ul>
-            <li><input type="radio" id="cgp-tribal-yes" name="tribalIndicator"
-                       value="true">
+            <li><input type="radio" id="cgp-tribal-yes" class="tribalIndicator" name="tribalIndicator" value="true">
               <label for="cgp-tribal-yes">Yes</label>
             </li>
-            <li><input type="radio" id="cgp-tribal-no" name="tribalIndicator"
-                       value="false">
+            <li><input type="radio" id="cgp-tribal-no" class="tribalIndicator" name="tribalIndicator" value="false">
               <label for="cgp-tribal-no">No</label>
             </li>
           </ul>
@@ -190,6 +188,7 @@
           <select name="tribalName" id="cgp-tribal-lands">
             <option value="" selected>All</option>
           </select>
+          <input type="text" name="hiddenTribalName" disabled="true" id="cgp-tribal-lands-hide" />
         </div>
       </div>
       <div class="line">
