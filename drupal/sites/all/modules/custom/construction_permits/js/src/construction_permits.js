@@ -115,7 +115,7 @@ function create_search_results(search_results_json) {
           $this.attr('title', form_id)
         }
       });
-      $('td:nth-child(2)', nRow.nTable).addClass('first-column').attr('data-title', 'Master Permit #').each(function() {
+      $('td:nth-child(2)', nRow.nTable).addClass('first-column').attr('data-title', 'NPDES ID').each(function() {
         var $this = $(this);
         var form_id = $this.parent().find('.permit_id').attr('title');
         var mpn = $this.attr('title');
@@ -135,13 +135,12 @@ function create_search_results(search_results_json) {
           }
         );
       });
-      $('td:nth-child(3)', nRow.nTable).addClass('first-column').attr('data-title', 'NPDES ID');
-      $('td:nth-child(4)', nRow.nTable).attr('data-title', 'Owner/Operator');
-      $('td:nth-child(5)', nRow.nTable).attr('data-title', 'Site Name');
-      $('td:nth-child(6)', nRow.nTable).attr('data-title', 'Site State');
-      $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Site City');
+      $('td:nth-child(3)', nRow.nTable).attr('data-title', 'Owner/Operator');
+      $('td:nth-child(4)', nRow.nTable).attr('data-title', 'Site Name');
+      $('td:nth-child(5)', nRow.nTable).attr('data-title', 'Site State');
+      $('td:nth-child(6)', nRow.nTable).attr('data-title', 'Site City');
 
-      $('td:nth-child(8)', nRow.nTable).attr('data-title', 'Status').each(function() {
+      $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Status').each(function() {
         var $this = $(this);
         var statusText = $this.attr('data-status');
         if (!statusText) {
@@ -152,7 +151,7 @@ function create_search_results(search_results_json) {
         $this.html(formatted_status);
       });
 
-      $('td:nth-child(9)', nRow.nTable).attr('data-title', 'Submitted').each(function() {
+      $('td:nth-child(8)', nRow.nTable).attr('data-title', 'Submitted').each(function() {
         var $this = $(this);
         var dateText = $this.attr('data-date');
         if (!dateText) {
@@ -229,7 +228,7 @@ function reset_cgp_form() {
         })
         $template.addClass(type)
         $template.attr('id', 'id-' + permit.id)
-        $template.attr('title', "Details for " + permit.masterPermitNumber + " - " + permit.projectSiteInformation.siteName)
+        $template.attr('title', "Details for " + permit.npdesId + " - " + permit.projectSiteInformation.siteName)
         $details.append($template)
       });
       $details.prepend(Drupal.settings.construction_permits.cgp_modal_header);
