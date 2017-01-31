@@ -23,8 +23,7 @@
       <div class="col-md-6">
         <label for="cgp-site-facility">Site / Facility name</label>
         <input type="text" id="cgp-site-facility"
-               name="projectSiteName">
-      </div>
+               name="projectSiteName"></div>
       <div class="col-md-6">
         <label for="cgp-npdes-id">NPDES ID</label>
         <input type="text" id="cgp-npdes-id"
