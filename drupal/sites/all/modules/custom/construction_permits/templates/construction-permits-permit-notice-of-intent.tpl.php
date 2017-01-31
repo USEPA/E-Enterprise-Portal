@@ -10,8 +10,8 @@
   <div class="section" id="cgp-general">
     <h2>General Permit Information</h2>
     <div class="line">
-      <div class="box-fluid property" data-cgp-property="masterPermitNumber">
-        <div class="col-md-4 title">Master Permit #</div>
+      <div class="box-fluid property" data-cgp-property="npdesId">
+        <div class="col-md-4 title">NPDES ID</div>
         <div class="col-md-8 value"></div>
       </div>
     </div>
@@ -34,12 +34,7 @@
         <div class="col-md-8 value"></div>
       </div>
     </div>
-    <div class="line">
-      <div class="box-fluid property" data-cgp-property="npdesId">
-        <div class="col-md-4 title">NPDES ID</div>
-        <div class="col-md-8 value"></div>
-      </div>
-    </div>
+
     <div class="line">
       <div class="box-fluid property" data-cgp-property="submittedDate"
            data-cgp-function="dateFormat">

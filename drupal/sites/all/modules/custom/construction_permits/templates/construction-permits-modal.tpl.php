@@ -14,7 +14,6 @@
       <thead>
       <tr>
         <th><span>ID</span></th>
-        <th><span>Master Permit #</span></th>
         <th><span>NPDES ID</span></th>
         <th><span>Owner/Operator</span></th>
         <th><span>Site Name</span></th>
@@ -22,6 +21,7 @@
         <th><span>Site City</span></th>
         <th><span>Status</span></th>
         <th><span>Submitted</span></th>
+        <th><span>Date of Coverage</span></th>
       </tr>
       </thead>
       <tbody>
