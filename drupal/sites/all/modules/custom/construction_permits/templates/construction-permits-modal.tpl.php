@@ -21,6 +21,7 @@
         <th><span>Site City</span></th>
         <th><span>Status</span></th>
         <th><span>Submitted</span></th>
+        <th><span>Date of Coverage</span></th>
       </tr>
       </thead>
       <tbody>
