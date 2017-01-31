@@ -170,16 +170,6 @@ function construction_permits_form_submission() {
     $datatable_formatted_response['error'] = FALSE;
   }
   else {
-    /*if (!isset($_POST) || count($_POST) === 0) {
-      drupal_json_output(array(
-        'error' => TRUE,
-        'message' => 'Failed to receive any data.'
-      ));
-      return;
-    }*/
-    // All temporary
-    // Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
-
     $endpoint = variable_get('cgp_api_endpoint') . '/form?' . http_build_query($_POST);
     $response = drupal_http_request($endpoint, [
       "method" => "GET",
@@ -210,7 +200,6 @@ function construction_permits_datatable_response($cgp_reponse_json) {
     $dt_row = [];
     //$cgp_result = $cgp_result['data'];
     $dt_row[] = $cgp_result['id'];
-    $dt_row[] = $cgp_result['masterPermitNumber'];
     $dt_row[] = $cgp_result['npdesId'];
     $dt_row[] = $cgp_result['operatorInformation']["operatorName"];
     $dt_row[] = $cgp_result['projectSiteInformation']['siteName'];
@@ -254,8 +243,9 @@ function cgp_external_details_lookup($tracking_id) {
   $cgp_status_html = theme('construction_permits_status_definitions');
   $cgp_permit_template_notice_of_intent = theme('construction_permits_permit_notice_of_intent');
   $params = ["trackingNumber"=> $tracking_id];
-  //TODO replace with variable get from configs
-  $endpoint = "https://devngn.epacdxnode.net/oeca-cgp-web/api/public/v1/form". '?' . http_build_query($params);
+  $form_url = variable_get('cgp_api_endpoint');
+
+  $endpoint = $form_url . '/form?' . http_build_query($params);
   $response = drupal_http_request($endpoint, [
     "method" => "GET",
     'timeout' => "10"

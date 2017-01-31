@@ -14,7 +14,6 @@
       <thead>
       <tr>
         <th><span>ID</span></th>
-        <th><span>Master Permit #</span></th>
         <th><span>NPDES ID</span></th>
         <th><span>Owner/Operator</span></th>
         <th><span>Site Name</span></th>
