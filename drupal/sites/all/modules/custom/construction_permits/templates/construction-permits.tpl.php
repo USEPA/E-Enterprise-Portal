@@ -1,10 +1,11 @@
-<p class="widget-note">Source: <a href="https://www3.epa.gov/" target="_blank"
+<p class="widget-note">Source: <a href=" https://www.epa.gov/npdes/stormwater-discharges-construction-activities-2017-cgp#cgp" target="_blank"
                                   rel="external">US Environmental Protection
     Agency</a></p>
 <p>In areas where EPA is the permitting authority, regulated construction site
-  operators are generally permitted under EPA&rsquo;s 2017 Construction General Permit
-  (CGP). Find notices of intent, notices of termination, or low erosity
-  waivers.</p>
+  operators are generally permitted under EPA&rsquo;s 2017 Construction General
+  Permit (CGP). Find Notices of Intent (NOIs), Notices of Termination (NOTs), or
+  Low Erosivity Waivers (LEWs) submitted under EPA’s 2017 Construction General
+  Permit (CGP)</p>
 <h3>Enter one or more search criteria</h3>
 <div class="bs-callout bs-callout-warning cgp-callout-warning hide">
   <h4>Please correct the errors below:</h4>
@@ -13,7 +14,8 @@
   <h4>Everything appears valid</h4>
 </div>
 <div class="cgp-api-status error hide">
-  <h4>The CGP external service is not available at this time. Please try again later.</h4>
+  <h4>The CGP external service is not available at this time. Please try again
+    later.</h4>
 </div>
 <form id="cgp-form" class="cgp-form-elements ee-grid" data-parsley-validate>
   <div class="cgp-form-elements">
@@ -104,7 +106,8 @@
       </div>
       <div class="col-md-3">
         <label for="cgp-permit-zip">Zip</label>
-        <input type="text" id="cgp-permit-zip" name="projectZip" data-parsley-pattern="/(\d{5}|\d{5}-\d{4})/">
+        <input type="text" id="cgp-permit-zip" name="projectZip"
+               data-parsley-pattern="/(\d{5}|\d{5}-\d{4})/">
       </div>
     </div>
     <div class="line">
@@ -117,7 +120,7 @@
         </select>
       </div>
       <div class="col-md-6">
-        <label for="cgp-type">Permit Type</label>
+        <label for="cgp-type">Form Type</label>
         <select name="applicationType" id="cgp-type">
           <option value="cgp-type-all" selected>All</option>
         </select>
@@ -139,23 +142,15 @@
         <div class="col-md-6">
           <label for="cgp-federal">Federal facility?</label>
           <ul>
-            <li><input type="radio" id="cgp-federal-yes" name="federalIndicator" value="true">
+            <li><input type="radio" id="cgp-federal-yes" name="federalIndicator"
+                       value="true">
               <label for="cgp-federal-yes">Yes</label>
             </li>
-            <li><input type="radio" id="cgp-federal-no" name="federalIndicator" value="false">
+            <li><input type="radio" id="cgp-federal-no" name="federalIndicator"
+                       value="false">
               <label for="cgp-federal-no">No</label>
             </li>
           </ul>
-        </div>
-      </div>
-      <div class="line">
-        <div class="col-md-12">
-          <label for="cgp-permit-number">Permit
-            tracking number</label>
-          <input type="text" id="cgp-permit-number"
-                 name="trackingNumber"
-                 data-parsley-pattern="/([0-9a-f]{8}-?[0-9a-f]{4}-?4[0-9a-f]{3}-?[89ab][0-9a-f]{3}-?[0-9a-f]{12})/"
-                 data-parsley-error-message="Permit tracking numbers are composed of a combination of 32 alphanumeric characters.">
         </div>
       </div>
       <div class="line">
@@ -167,7 +162,8 @@
           </select>
         </div>
         <div class="col-md-4">
-          <label for="cgp-date-from" class="inline-label">Between <span class="sr-only"></span></label>
+          <label for="cgp-date-from" class="inline-label">Between <span
+              class="sr-only"></span></label>
           <input type="text" id="cgp-date-from" name="submittedDateFrom">
         </div>
         <div class="col-md-4">
