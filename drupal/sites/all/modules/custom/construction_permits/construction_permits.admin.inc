@@ -20,12 +20,6 @@ function construction_permits_admin($form, $form_state) {
     '#required' => TRUE,
   );
 
-  $form['construction_permits_settings']['cgp_api_endpoint_form'] = array(
-    '#type' => 'textfield',
-    '#title' => t('CGP Form Search Endpoint for single form returned'),
-    '#default_value' => variable_get('cgp_api_endpoint_form', "https://devngn.epacdxnode.net/oeca-cgp-web/api/public/v1/form"),
-  );
-
   // Sample data
   $form['construction_permits_toggles'] = array(
     '#type' => 'fieldset',

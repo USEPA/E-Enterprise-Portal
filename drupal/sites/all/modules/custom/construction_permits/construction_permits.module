@@ -243,9 +243,9 @@ function cgp_external_details_lookup($tracking_id) {
   $cgp_status_html = theme('construction_permits_status_definitions');
   $cgp_permit_template_notice_of_intent = theme('construction_permits_permit_notice_of_intent');
   $params = ["trackingNumber"=> $tracking_id];
-  $form_url = variable_get('cgp_api_endpoint_form', "https://devngn.epacdxnode.net/oeca-cgp-web/api/public/v1/form");
+  $form_url = variable_get('cgp_api_endpoint');
 
-  $endpoint = $form_url . '?' . http_build_query($params);
+  $endpoint = $form_url . '/form?' . http_build_query($params);
   $response = drupal_http_request($endpoint, [
     "method" => "GET",
     'timeout' => "10"
