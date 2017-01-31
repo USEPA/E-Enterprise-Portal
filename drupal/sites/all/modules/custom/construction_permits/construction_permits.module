@@ -207,6 +207,7 @@ function construction_permits_datatable_response($cgp_reponse_json) {
     $dt_row[] = $cgp_result['projectSiteInformation']['siteCity'];
     $dt_row[] = $cgp_result['status'];
     $dt_row[] = $cgp_result['submittedDate'];
+    $dt_row[] = $cgp_result['certifiedDate'];
     $datatable_result_summary_json[] = $dt_row;
   }
   return $datatable_result_summary_json;

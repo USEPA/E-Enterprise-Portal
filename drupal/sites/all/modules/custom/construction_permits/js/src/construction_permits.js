@@ -162,6 +162,18 @@ function create_search_results(search_results_json) {
         $this.html([d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/'));
       });
 
+      $('td:nth-child(9)', nRow.nTable).attr('data-title', 'Date of Coverage').each(function() {
+        var $this = $(this);
+        var dateText = $this.attr('data-date');
+        if (!dateText) {
+          dateText = $this.html();
+          $this.attr('data-date', dateText)
+        }
+        var d = new Date(dateText);
+        $this.html([d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/'));
+      });
+
+
       if (info.pages > 1) {
         var $current_li = $('<li />', {
           class: 'pager-current'
