@@ -3,7 +3,7 @@
     Agency</a></p>
 <p>Find Notices of Intent (NOIs), Notices of Termination (NOTs), or
   Low Erosivity Waivers (LEWs) submitted under EPA’s 2017 Construction General
-  Permit (CGP)</p>
+  Permit (CGP).</p>
 <h3>Enter one or more search criteria</h3>
 <div class="bs-callout bs-callout-warning cgp-callout-warning hide">
   <h4>Please correct the errors below:</h4>
