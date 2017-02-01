@@ -18,7 +18,7 @@
     <div class="line">
       <div class="box-fluid property" data-cgp-property="type"
            data-cgp-function="adjustType">
-        <div class="col-md-4 title">Permit Type</div>
+        <div class="col-md-4 title">Form Type</div>
         <div class="col-md-8 value"></div>
       </div>
     </div>
