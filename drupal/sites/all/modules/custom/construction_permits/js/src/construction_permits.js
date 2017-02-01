@@ -315,7 +315,9 @@ function reset_cgp_form() {
 
   cp_iife.latlong = function(prop) {
     //projectSiteInformation.siteLocation
-    return prop['latitude'] + '&deg;' + 'N,' + prop['longitude'] + '&deg;' + 'E' + '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>';
+    var NS = (prop['latitude'] == 0) ? '&deg;' : ((prop['latitude'] > 0) ? '&deg;N,' : '&deg;S,');
+    var WE = (prop['longitude'] == 0) ? '&deg;' : ((prop['longitude'] > 0) ? '&deg;E' : '&deg;W');
+    return [prop['latitude'], NS, prop['longitude'], WE, '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>'].join(' ');
   }
 
   cp_iife.appendixDCriteria = function(prop) {
