@@ -312,7 +312,7 @@ function reset_cgp_form() {
     //projectSiteInformation.siteLocation
     var NS = (prop['latitude'] == 0) ? '&deg;' : ((prop['latitude'] > 0) ? '&deg;N,' : '&deg;S,');
     var WE = (prop['longitude'] == 0) ? '&deg;' : ((prop['longitude'] > 0) ? '&deg;E' : '&deg;W');
-    return [prop['latitude'], NS, prop['longitude'], WE, '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>'].join(' ');
+    return [Math.abs(prop['latitude']), NS, Math.abs(prop['longitude']), WE, '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>'].join(' ');
   }
 
   cp_iife.appendixDCriteria = function(prop) {
