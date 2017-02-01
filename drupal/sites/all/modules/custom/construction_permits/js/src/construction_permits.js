@@ -158,8 +158,11 @@ function create_search_results(search_results_json) {
           dateText = $this.html();
           $this.attr('data-date', dateText)
         }
-        var d = new Date(dateText);
-        $this.html([d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/'));
+        if (moment(dateText).isValid()) {
+          $this.html(moment(dateText).format('l'));
+        } else {
+          $this.html('N/A');
+        }
       });
 
       $('td:nth-child(9)', nRow.nTable).attr('data-title', 'Date of Coverage').each(function() {
@@ -169,8 +172,11 @@ function create_search_results(search_results_json) {
           dateText = $this.html();
           $this.attr('data-date', dateText)
         }
-        var d = new Date(dateText);
-        $this.html([d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/'));
+        if (moment(dateText).isValid()) {
+          $this.html(moment(dateText).format('l'));
+        } else {
+          $this.html('N/A');
+        }
       });
 
 

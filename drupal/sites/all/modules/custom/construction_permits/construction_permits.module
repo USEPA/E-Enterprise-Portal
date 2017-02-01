@@ -119,6 +119,14 @@ function construction_permits_block_view($delta = '') {
         'cache' => TRUE,
         'requires_jquery' => TRUE
       ]);
+      drupal_add_js(drupal_get_path('module', 'construction_permits') . '/js/moment.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
       drupal_add_js(drupal_get_path('module', 'construction_permits') . '/js/construction_permits.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
