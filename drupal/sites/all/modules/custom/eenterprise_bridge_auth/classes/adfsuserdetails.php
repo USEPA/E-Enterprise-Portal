@@ -10,4 +10,3 @@ class AdfsUserDetails {
     
     public $attributes;
 }
-?>
