@@ -204,7 +204,6 @@ function reset_cgp_form() {
   $form.find('input[type=text]').val('');
   $form.find('input[type=radio]').prop('checked', false);
   $form.find('select option').prop('selected', false);
-
   $('#cgp-tribal-lands').show();
   $('#cgp-tribal-lands-hide').hide();
   $('.tribalIndicator').prop('disabled', false);
