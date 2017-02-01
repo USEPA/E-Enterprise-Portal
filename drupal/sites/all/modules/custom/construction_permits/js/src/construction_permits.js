@@ -158,8 +158,11 @@ function create_search_results(search_results_json) {
           dateText = $this.html();
           $this.attr('data-date', dateText)
         }
-        var d = new Date(dateText);
-        $this.html([d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/'));
+        if (moment(dateText).isValid()) {
+          $this.html(moment(dateText).format('l'));
+        } else {
+          $this.html('N/A');
+        }
       });
 
       $('td:nth-child(9)', nRow.nTable).attr('data-title', 'Date of Coverage').each(function() {
@@ -169,8 +172,11 @@ function create_search_results(search_results_json) {
           dateText = $this.html();
           $this.attr('data-date', dateText)
         }
-        var d = new Date(dateText);
-        $this.html([d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/'));
+        if (moment(dateText).isValid()) {
+          $this.html(moment(dateText).format('l'));
+        } else {
+          $this.html('N/A');
+        }
       });
 
 
@@ -198,6 +204,9 @@ function reset_cgp_form() {
   $form.find('input[type=text]').val('');
   $form.find('input[type=radio]').prop('checked', false);
   $form.find('select option').prop('selected', false);
+  $('#cgp-permit-state').attr('data-current-value', '');
+  $('#cgp-project-county').find('option').not(':first').remove();
+  $('#cgp-tribal-lands').find('option').not(':first').remove();
 }
 
 (function($) {
@@ -484,7 +493,6 @@ function reset_cgp_form() {
       }
     });
     $('#cgp-permit-state').on('change', function(){
-      console.log(arguments)
       var $this = $(this);
       var current_value = $this.attr('data-current-value');
       var new_value = $this.val();
@@ -506,7 +514,7 @@ function reset_cgp_form() {
                   return p;
                 }, ["<option value=''>All</option>"])
 
-                $counties.html($options.join(''))
+                $counties.html($options.join(''));
                 $counties.find('option[value="'+current_value+'"]').prop('selected', true);
               }
               else {
@@ -528,11 +536,16 @@ function reset_cgp_form() {
           dataType: 'json',
           success: function(cgp_reponse_json) {
             if(Array.isArray(cgp_reponse_json)) {
-              $('.cgp-api-status').addClass('hide')
-              $tribes = $('#cgp-tribal-lands').prop('disabled', false)
+              $('.cgp-api-status').addClass('hide');
+              $tribes = $('#cgp-tribal-lands').prop('disabled', false);
+              $('.tribalIndicator').prop('disabled', false);
+              $('.tribalIndicator').prop('checked', false);
+              $tribes.show();
+              $('#cgp-tribal-lands-hide').hide();
               if(cgp_reponse_json.length) {
                 // grab current value if exists
-                current_value = $tribes.val()
+                current_value = $tribes.val();
+
                 $options = cgp_reponse_json.reduce(function(p, c, i, a){
                   p.push("<option value='"+ c[0].tribalName +"'>"+ c[0].tribalName +"</option>")
                   return p;
@@ -542,20 +555,43 @@ function reset_cgp_form() {
                 $tribes.find('option[value="'+current_value+'"]').prop('selected', true);
               }
               else {
-                $tribes.val('')
-                $tribes.html('').prop('disabled', true)
+                $tribes.val('');
+                $('.tribalIndicator').prop('disabled', true);
+                $tribes.html('').prop('disabled', true);
               }
             }
             else {
-              $('.cgp-api-status').removeClass('hide')
+              $('.cgp-api-status').removeClass('hide');
             }
           },
           error: function(){
             $('.cgp-api-status').removeClass('hide')
           }
         });
+      } else if(new_value.length == 0) {
+        $this.attr('data-current-value', '');
+        $('.tribalIndicator').prop('checked', false);
+        $('#cgp-tribal-lands').prop('disabled', false);
+        $('#cgp-tribal-lands').show();
+        $('#cgp-tribal-lands-hide').hide();
+        $('#cgp-project-county').find('option').not(':first').remove();
+        $('#cgp-tribal-lands').find('option').not(':first').remove();
       }
     })
+
+    $('#cgp-tribal-lands-hide').hide();
+    $('input[type=radio][name=tribalIndicator]').change(function() {
+        if (this.value == 'true') {
+          $('#cgp-tribal-lands-hide').hide();
+          $('#cgp-tribal-lands').show();
+          $('#cgp-tribal-lands').val($('#cgp-tribal-lands option:first').val());
+          $('#cgp-tribal-lands').prop("disabled", false);
+        } else if (this.value == 'false') {
+          $('#cgp-tribal-lands-hide').show();
+          $('#cgp-tribal-lands').hide();
+          $('#cgp-tribal-lands').prop("disabled", true);
+        }
+    });
 
     $('#cgp-form').parsley().on('field:validated', function() {
       var ok = $('.parsley-error').length === 0;
