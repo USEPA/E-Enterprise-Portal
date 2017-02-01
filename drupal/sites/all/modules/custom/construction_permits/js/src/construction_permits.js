@@ -560,12 +560,10 @@ function reset_cgp_form() {
                 $tribes.find('option[value="'+current_value+'"]').prop('selected', true);
               }
               else {
-                //$tribes.val('');
                 $('#cgp-tribal-lands-hide').show();
                 $('#cgp-tribal-lands').hide();
                 $('.tribalIndicator').prop('disabled', true);
                 $tribes.prop('disabled', true);
-                //$tribes.html('').prop('disabled', true);
               }
             }
             else {
