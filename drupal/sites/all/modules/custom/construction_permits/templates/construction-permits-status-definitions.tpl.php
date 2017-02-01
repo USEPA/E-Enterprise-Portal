@@ -13,7 +13,7 @@
         <dl>
           <dt>Active</dt>
           <dd>2017 CGP NOI records that have been submitted to EPA and have
-            completed a 14-day wait period, and are considered covered under the
+            completed a 14-day review period, and are considered covered under the
             permit. LEW records that have been certified by the designated
             certifying official and are considered covered under the waiver from
             needing CGP coverage.

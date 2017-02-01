@@ -3,7 +3,7 @@ function show_needed_cgp_div($wrapper_to_show, $common_selector, modal_title) {
   $common_selector.hide();
   $wrapper_to_show.show();
   // Adjust the modal title
-  modal_title = (modal_title) ? modal_title : "Results for Construction General Permits Search";
+  modal_title = (modal_title) ? modal_title : "Results for CGP Search";
   jQuery('#construction-permits-modal').dialog({
     title: modal_title,
     close: function(event, ui) {
@@ -204,6 +204,9 @@ function reset_cgp_form() {
   $form.find('input[type=text]').val('');
   $form.find('input[type=radio]').prop('checked', false);
   $form.find('select option').prop('selected', false);
+  $('#cgp-permit-state').attr('data-current-value', '');
+  $('#cgp-project-county').find('option').not(':first').remove();
+  $('#cgp-tribal-lands').find('option').not(':first').remove();
 }
 
 (function($) {
@@ -490,7 +493,6 @@ function reset_cgp_form() {
       }
     });
     $('#cgp-permit-state').on('change', function(){
-      console.log(arguments)
       var $this = $(this);
       var current_value = $this.attr('data-current-value');
       var new_value = $this.val();
@@ -512,7 +514,7 @@ function reset_cgp_form() {
                   return p;
                 }, ["<option value=''>All</option>"])
 
-                $counties.html($options.join(''))
+                $counties.html($options.join(''));
                 $counties.find('option[value="'+current_value+'"]').prop('selected', true);
               }
               else {
@@ -534,11 +536,16 @@ function reset_cgp_form() {
           dataType: 'json',
           success: function(cgp_reponse_json) {
             if(Array.isArray(cgp_reponse_json)) {
-              $('.cgp-api-status').addClass('hide')
-              $tribes = $('#cgp-tribal-lands').prop('disabled', false)
+              $('.cgp-api-status').addClass('hide');
+              $tribes = $('#cgp-tribal-lands').prop('disabled', false);
+              $('.tribalIndicator').prop('disabled', false);
+              $('.tribalIndicator').prop('checked', false);
+              $tribes.show();
+              $('#cgp-tribal-lands-hide').hide();
               if(cgp_reponse_json.length) {
                 // grab current value if exists
-                current_value = $tribes.val()
+                current_value = $tribes.val();
+
                 $options = cgp_reponse_json.reduce(function(p, c, i, a){
                   p.push("<option value='"+ c[0].tribalName +"'>"+ c[0].tribalName +"</option>")
                   return p;
@@ -548,20 +555,43 @@ function reset_cgp_form() {
                 $tribes.find('option[value="'+current_value+'"]').prop('selected', true);
               }
               else {
-                $tribes.val('')
-                $tribes.html('').prop('disabled', true)
+                $tribes.val('');
+                $('.tribalIndicator').prop('disabled', true);
+                $tribes.html('').prop('disabled', true);
               }
             }
             else {
-              $('.cgp-api-status').removeClass('hide')
+              $('.cgp-api-status').removeClass('hide');
             }
           },
           error: function(){
             $('.cgp-api-status').removeClass('hide')
           }
         });
+      } else if(new_value.length == 0) {
+        $this.attr('data-current-value', '');
+        $('.tribalIndicator').prop('checked', false);
+        $('#cgp-tribal-lands').prop('disabled', false);
+        $('#cgp-tribal-lands').show();
+        $('#cgp-tribal-lands-hide').hide();
+        $('#cgp-project-county').find('option').not(':first').remove();
+        $('#cgp-tribal-lands').find('option').not(':first').remove();
       }
     })
+
+    $('#cgp-tribal-lands-hide').hide();
+    $('input[type=radio][name=tribalIndicator]').change(function() {
+        if (this.value == 'true') {
+          $('#cgp-tribal-lands-hide').hide();
+          $('#cgp-tribal-lands').show();
+          $('#cgp-tribal-lands').val($('#cgp-tribal-lands option:first').val());
+          $('#cgp-tribal-lands').prop("disabled", false);
+        } else if (this.value == 'false') {
+          $('#cgp-tribal-lands-hide').show();
+          $('#cgp-tribal-lands').hide();
+          $('#cgp-tribal-lands').prop("disabled", true);
+        }
+    });
 
     $('#cgp-form').parsley().on('field:validated', function() {
       var ok = $('.parsley-error').length === 0;
@@ -596,7 +626,7 @@ function reset_cgp_form() {
         width: $(window).width()-180,
         height: $(window).height()-180,
         closeOnEscape: true,
-        title: "Results for Construction General Permits Search",
+        title: "Results for CGP Search",
         position: {'my': 'center', 'at': 'center'},
         dialogClass: 'construction-permits-modal',
         autoOpen: false,
