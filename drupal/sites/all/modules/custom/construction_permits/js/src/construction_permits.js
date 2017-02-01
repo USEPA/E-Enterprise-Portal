@@ -198,7 +198,8 @@ function create_search_results(search_results_json) {
  * Clear form inputs and hide warning messages
  */
 function reset_cgp_form() {
-  var $form = jQuery('#cgp-form');
+  var $ = jQuery;
+  var $form = $('#cgp-form');
   $form.parsley().reset();
   $form.find('input[type=number]').val('');
   $form.find('input[type=text]').val('');
