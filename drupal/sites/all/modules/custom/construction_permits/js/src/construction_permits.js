@@ -198,12 +198,17 @@ function create_search_results(search_results_json) {
  * Clear form inputs and hide warning messages
  */
 function reset_cgp_form() {
-  var $form = jQuery('#cgp-form');
+  var $ = jQuery;
+  var $form = $('#cgp-form');
   $form.parsley().reset();
   $form.find('input[type=number]').val('');
   $form.find('input[type=text]').val('');
   $form.find('input[type=radio]').prop('checked', false);
   $form.find('select option').prop('selected', false);
+  $('#cgp-tribal-lands').show();
+  $('#cgp-tribal-lands-hide').hide();
+  $('.tribalIndicator').prop('disabled', false);
+  $('#cgp-tribal-lands').prop('disabled', false);
   $('#cgp-permit-state').attr('data-current-value', '');
   $('#cgp-project-county').find('option').not(':first').remove();
   $('#cgp-tribal-lands').find('option').not(':first').remove();
@@ -557,9 +562,10 @@ function reset_cgp_form() {
                 $tribes.find('option[value="'+current_value+'"]').prop('selected', true);
               }
               else {
-                $tribes.val('');
+                $('#cgp-tribal-lands-hide').show();
+                $('#cgp-tribal-lands').hide();
                 $('.tribalIndicator').prop('disabled', true);
-                $tribes.html('').prop('disabled', true);
+                $tribes.prop('disabled', true);
               }
             }
             else {
