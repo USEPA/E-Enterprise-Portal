@@ -87,6 +87,11 @@ function eenterprise_bridge_auth_login_form_submit($form, &$form_state) {
  * the user to register.
  */
 function eenterprise_bridge_auth_authenticate($error) {
+  $_POST = array(
+    'wa' => 'wsignin1.0',
+    'wresult' => '<trust:RequestSecurityTokenResponseCollection xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512"><trust:RequestSecurityTokenResponse Context="rm=0"><trust:Lifetime><wsu:Created xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2017-02-01T21:22:12.854Z</wsu:Created><wsu:Expires xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2017-02-01T22:22:12.854Z</wsu:Expires></trust:Lifetime><wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"><wsa:EndpointReference xmlns:wsa="http://www.w3.org/2005/08/addressing"><wsa:Address>https://eenterprise-portal-showcase.apps.cloud.gov/</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><trust:RequestedSecurityToken><saml:Assertion MajorVersion="1" MinorVersion="1" AssertionID="_e2a68144-a27a-4827-8a54-32c2a06223c4" Issuer="https://extauthtest.epacdxnode.net/" IssueInstant="2017-02-01T21:22:12.854Z" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion"><saml:Conditions NotBefore="2017-02-01T21:22:12.854Z" NotOnOrAfter="2017-02-01T22:22:12.854Z"><saml:AudienceRestrictionCondition><saml:Audience>https://eenterprise-portal-showcase.apps.cloud.gov/</saml:Audience></saml:AudienceRestrictionCondition></saml:Conditions><saml:AttributeStatement><saml:Subject><saml:SubjectConfirmation><saml:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer</saml:ConfirmationMethod></saml:SubjectConfirmation></saml:Subject><saml:Attribute AttributeName="userId" AttributeNamespace="http://naas.epacdxnode.net/claim" a:OriginalIssuer="urn:ENNAAS" xmlns:a="http://schemas.xmlsoap.org/ws/2009/09/identity/claims"><saml:AttributeValue>MRBMATKIN</saml:AttributeValue></saml:Attribute><saml:Attribute AttributeName="commonName" AttributeNamespace="http://naas.epacdxnode.net/claim" a:OriginalIssuer="urn:ENNAAS" xmlns:a="http://schemas.xmlsoap.org/ws/2009/09/identity/claims"><saml:AttributeValue /></saml:Attribute><saml:Attribute AttributeName="organization" AttributeNamespace="http://naas.epacdxnode.net/claim" a:OriginalIssuer="urn:ENNAAS" xmlns:a="http://schemas.xmlsoap.org/ws/2009/09/identity/claims"><saml:AttributeValue>TEST</saml:AttributeValue></saml:Attribute><saml:Attribute AttributeName="address" AttributeNamespace="http://naas.epacdxnode.net/claim" a:OriginalIssuer="urn:ENNAAS" xmlns:a="http://schemas.xmlsoap.org/ws/2009/09/identity/claims"><saml:AttributeValue>TEST</saml:AttributeValue></saml:Attribute><saml:Attribute AttributeName="phone" AttributeNamespace="http://naas.epacdxnode.net/claim" a:OriginalIssuer="urn:ENNAAS" xmlns:a="http://schemas.xmlsoap.org/ws/2009/09/identity/claims"><saml:AttributeValue>(832) 244-0556</saml:AttributeValue></saml:Attribute><saml:Attribute AttributeName="securityLevel" AttributeNamespace="http://naas.epacdxnode.net/claim" a:OriginalIssuer="urn:ENNAAS" xmlns:a="http://schemas.xmlsoap.org/ws/2009/09/identity/claims"><saml:AttributeValue /></saml:Attribute><saml:Attribute AttributeName="email" AttributeNamespace="http://naas.epacdxnode.net/claim" a:OriginalIssuer="urn:ENNAAS" xmlns:a="http://schemas.xmlsoap.org/ws/2009/09/identity/claims"><saml:AttributeValue>benjamin.matkin@cgifederal.com</saml:AttributeValue></saml:Attribute><saml:Attribute AttributeName="firstName" AttributeNamespace="http://naas.epacdxnode.net/claim" a:OriginalIssuer="urn:ENNAAS" xmlns:a="http://schemas.xmlsoap.org/ws/2009/09/identity/claims"><saml:AttributeValue>Ben</saml:AttributeValue></saml:Attribute><saml:Attribute AttributeName="lastName" AttributeNamespace="http://naas.epacdxnode.net/claim" a:OriginalIssuer="urn:ENNAAS" xmlns:a="http://schemas.xmlsoap.org/ws/2009/09/identity/claims"><saml:AttributeValue>Matkin</saml:AttributeValue></saml:Attribute><saml:Attribute AttributeName="name" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims" a:OriginalIssuer="urn:ENNAAS" xmlns:a="http://schemas.xmlsoap.org/ws/2009/09/identity/claims"><saml:AttributeValue>https://nodeweb.epacdxnode.net/ENOpenIdProvider/user.aspx/Greenolive</saml:AttributeValue></saml:Attribute><saml:Attribute AttributeName="securityToken" AttributeNamespace="http://naas.epacdxnode.net/claim" a:OriginalIssuer="https://naas.epacdxnode.net" xmlns:a="http://schemas.xmlsoap.org/ws/2009/09/identity/claims"><saml:AttributeValue>csm:IiKaBeCRDqKV4pKx3NXZ56NkNQTO3zfs2iQ3-dhqdMuJbnNQzCFqQr0IftztrBZg.1_GVg_Nk1VQZmRnWxCDMvJsUnEIRpkQvefi9DDrb7fVleh7Vr6TmNItlKM44kkYR.Z9hE47tr1wgDC_MXy04FU1lQU9f36Z4oAHWjHXPDqOw5Xc0tq7VAq2wDg91b_OM8.6SvdAukGcVq47KLtEm2sEqg5r1Is8OC1eSt_JfQjwUAucsH5mZ4k6OCy51xPFWJq.rgdvkV3C3gE37gm0YOwdVlnzaIoyLR14FAJIYaoiQQ-PExGVOrbo3HE9z26PAqD8.ABlA0FMWAdXgiSro-cfFaiGRIKsrsON4o3AOqbN1kgg4vsyUYzcM5dDZk9IQPRG1.hV2NjhSU6RORqTY5Xf2w279pOuWmN3Ur5-D2TNM-HV1_xmrmLj0kaAItB_5Y6Snv.x1h40xsOAhtsCgjii7y2Zobb1Nxk1k6H2kW3Z3MI4QrTuTPsUM9xoqy-7veSxEoI.Otm5RZOkyCPucfhPsNPJ6R0RMfKInD5j48A2NPV7GKegJsevKPfGfxTEF2Ycv0uE.Iuiz58dCWCkd3hnpDhL45moCdHiAVUObu1o0ZQ3g_ZIhRPYQ3KPJdg,,.</saml:AttributeValue></saml:Attribute></saml:AttributeStatement><saml:AuthenticationStatement AuthenticationMethod="urn:ENNAAS" AuthenticationInstant="2017-02-01T21:22:12.526Z"><saml:Subject><saml:SubjectConfirmation><saml:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer</saml:ConfirmationMethod></saml:SubjectConfirmation></saml:Subject></saml:AuthenticationStatement><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" /><Reference URI="#_e2a68144-a27a-4827-8a54-32c2a06223c4"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" /><DigestValue>zlTA5gODSr3x/q0cjko+a/ZQoEaL4ovGH/iYUoJZEzU=</DigestValue></Reference></SignedInfo><SignatureValue>EkuTh52Swd22/Rkgu40DswXg5IWqTHdm/4fkd9+oqEQF2sRJZTGew5bT9Xsbk6iJXvB1tKmWzt7oEIkt4s8886C3zpfP5Hwc5q3Dtk2W8InGOU+kSacZmt11GcGvRSVZpWHtBefC8Guv8B0HzYJtX8u//BZVHeTGRawTbO+8Ikmy1gb66oTX/1eK7gWHf+Bne2Gj/LXEhf0IYHBW6o1YgZJvHv8CzjCMo5/9riFLBz5nOAEGNLyf907dZuUsnUCgy1qBKZY11dId2Jh1Qc43DfLUIiXbHL+ZyV0QCbNehfx5o4rAB7RJ1OoFF0clTPT831QwzPY1Ckt8f2j4f0SR6A==</SignatureValue><KeyInfo><X509Data><X509Certificate>MIIFKzCCBBOgAwIBAgIJAJYzSvV6bI7TMA0GCSqGSIb3DQEBCwUAMIG0MQswCQYDVQQGEwJVUzEQMA4GA1UECBMHQXJpem9uYTETMBEGA1UEBxMKU2NvdHRzZGFsZTEaMBgGA1UEChMRR29EYWRkeS5jb20sIEluYy4xLTArBgNVBAsTJGh0dHA6Ly9jZXJ0cy5nb2RhZGR5LmNvbS9yZXBvc2l0b3J5LzEzMDEGA1UEAxMqR28gRGFkZHkgU2VjdXJlIENlcnRpZmljYXRlIEF1dGhvcml0eSAtIEcyMB4XDTE1MDIyNTE3MzUzOVoXDTE3MDMwNDE5MDcyNFowPjEhMB8GA1UECxMYRG9tYWluIENvbnRyb2wgVmFsaWRhdGVkMRkwFwYDVQQDDBAqLmVwYWNkeG5vZGUubmV0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzN/PVlci3lLhM5h9F0ZNhev9MOUG/0xNuJzQL8qWHZvp5QeNrwSRE36QrcwhjE/bA69UKQWOFxQMhz6Pcsyy0V1GhJbezZaWoMOWLFXvEjT65dv9BroU/2pqEpuTwEDkXHMLDwYzcuTkHrkS2ZkYVACpD3pkz6YtV4mpra+0TkIx6hCzuybj5qZR8MO5rNMOhxn7r/5/mKC2+JeYF6i6x0z0gRn6/PjiYd5nBf/L3luYFBW6cAcg/fBXpw5mvMVBHZtnf/ivni251Ci42JS5FHNQUFOer9TtlgwJSPJe2P3VDGnmRArD4XkrwPZhWwiOfriMc0sfC2cR6Ky0MKtcpwIDAQABo4IBszCCAa8wDAYDVR0TAQH/BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH/BAQDAgWgMDYGA1UdHwQvMC0wK6ApoCeGJWh0dHA6Ly9jcmwuZ29kYWRkeS5jb20vZ2RpZzJzMS04Ny5jcmwwUwYDVR0gBEwwSjBIBgtghkgBhv1tAQcXATA5MDcGCCsGAQUFBwIBFitodHRwOi8vY2VydGlmaWNhdGVzLmdvZGFkZHkuY29tL3JlcG9zaXRvcnkvMHYGCCsGAQUFBwEBBGowaDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZ29kYWRkeS5jb20vMEAGCCsGAQUFBzAChjRodHRwOi8vY2VydGlmaWNhdGVzLmdvZGFkZHkuY29tL3JlcG9zaXRvcnkvZ2RpZzIuY3J0MB8GA1UdIwQYMBaAFEDCvSeOzDSDMKIz1/tss/C0LIDOMCsGA1UdEQQkMCKCECouZXBhY2R4bm9kZS5uZXSCDmVwYWNkeG5vZGUubmV0MB0GA1UdDgQWBBRGUljfXUS+FI/EVE1ISkMXQg7iQTANBgkqhkiG9w0BAQsFAAOCAQEAHVpI1toibdgRAC0HTl507EbSpP1aMw98r0KIhgvCbuRyiuD9V25jRAUUJDtyl72JBXJM1c6Rjr6mbB5W704vdRxt+nDnFYQnYn7zLLXcrdg2rwjCoclZKQsL33wOh2TGRmaA+M2CYlB2ol6w2FnEza5t7bf9L1/vQDE6Pa835TDMlodI8Q82xOLUzab5rMX6Ch7ZI3DJkI003pWGg2He6fv3QOFabT1hz3ktLQePJgw9Z1D01ehxovU4M66vt/ocIKrxATyrLkqqMZ/s00+nKlcBQQ107wfknQWSdQNOoCACgPA1UVHbF7HtzaXb1pMbcwzod8uyQHt3M+lUN4gMpw==</X509Certificate></X509Data></KeyInfo></Signature></saml:Assertion></trust:RequestedSecurityToken><trust:RequestedAttachedReference><o:SecurityTokenReference k:TokenType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1" xmlns:k="http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"><o:KeyIdentifier ValueType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.0#SAMLAssertionID">_e2a68144-a27a-4827-8a54-32c2a06223c4</o:KeyIdentifier></o:SecurityTokenReference></trust:RequestedAttachedReference><trust:RequestedUnattachedReference><o:SecurityTokenReference k:TokenType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1" xmlns:k="http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"><o:KeyIdentifier ValueType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.0#SAMLAssertionID">_e2a68144-a27a-4827-8a54-32c2a06223c4</o:KeyIdentifier></o:SecurityTokenReference></trust:RequestedUnattachedReference><trust:TokenType>urn:oasis:names:tc:SAML:1.0:assertion</trust:TokenType><trust:RequestType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue</trust:RequestType><trust:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</trust:KeyType></trust:RequestSecurityTokenResponse></trust:RequestSecurityTokenResponseCollection>',
+    'wctx' => 'rm=0',
+  );
   if ($error) {
     $message = t('Unable to log in using E-Enterprise Bridge.');
     watchdog('eenterprise_bridge_auth', $message, array(), WATCHDOG_ERROR);
@@ -738,68 +743,68 @@ function assign_roles_to_user($user_name) {
     }
     //Make sure a role that is assigned to a CDX role is not a Drupal admin role, the second case.
     if (!empty($role_val) && $role_val != variable_get('current_admin_role')) {
-        $user_role = user_role_load_by_name($role_val);
-        if ($user_role === FALSE) {
-            $user_role = new stdClass();
-            $user_role->name = $role_val;
-            user_role_save($user_role);
-        }
-        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-        allow_user_menu_access($user_role->rid);
-        //Allow favorites view and app connect view access to all CDX users.
-        view_allow_access_role('favorite_sites', $user_role->rid);
-        view_allow_access_role('app_connect_new', $user_role->rid);
+      $user_role = user_role_load_by_name($role_val);
+      if ($user_role === FALSE) {
+        $user_role = new stdClass();
+        $user_role->name = $role_val;
+        user_role_save($user_role);
+      }
+      user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+      allow_user_menu_access($user_role->rid);
+      //Allow favorites view and app connect view access to all CDX users.
+      view_allow_access_role('favorite_sites', $user_role->rid);
+      view_allow_access_role('app_connect_new', $user_role->rid);
 
-        //Get any NAIC codes based on the user_role_id
-        module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-        if (feature_toggle_get_status('profile_enable_cdx_naics')) {
-            $naics_dataflows = strtolower(variable_get('naics_dataflows'));
-            $naics_dataflows_array = explode(',', $naics_dataflows);
-            if (in_array(strtolower($v->dataflow), $naics_dataflows_array)) {
-                if (!isset($facclient)) {
-                    $facwsdl = variable_get('cdx_program_facility_endpoint');//'http://testngn.epacdxnode.net/cdx-register-II/services/RegisterProgramFacilityService?wsdl';
-                    $facclient = connectToSOAPServerWithWSDL($facwsdl, "Eenterprise Bridge Auth");
-                    if ($facclient->error) {
-                        return;
-                    }
-                    $facclient = $facclient->client;
-                }
-                $paramsfac = array(
-                    "securityToken" => $response1->securityToken,
-                    "userRoleId" => $v->userRoleId,
-                );
-                $user_facs = callSOAPWithParams($facclient, "RetrieveFacilitiesByUserRoleId", $paramsfac, "Eenterprise Bridge Auth");
-                if ($user_facs->error) {
-                    return;
-                }
-                $user_facs = $user_facs->response;
-                if (!is_array($user_facs->ProgramFacility)) {
-                    $user_facs->ProgramFacility = array($user_roles->ProgramFacility);
-                }
-                foreach ($user_facs->ProgramFacility as $k2 => $v2) {
-                    foreach ($v2->NaicsCodes->NaicsCode as $k3 => $v3) {
-                        $endpoint = variable_get('naics_getbycode_endpoint');
-                        $endpoint = $endpoint . urlencode($v3->CdxNaicsCodeValue);
-                        $response = drupal_http_request($endpoint, [
-                            //"headers" => $headers,
-                            "method" => "GET",
-                            'timeout' => "10"
-                        ]);
-                        if ($response->code !== "200") {
-                            $return['error'] = TRUE;
-                            $return['error-messages'][] = ['code' => $response->code, 'error' => 'NAICS endpoint response: ' . $response->error];
-                            $naics_description = 'Unable to retrieve NAICS description.';
-                        } else {
-                            $response_array = xmlstr_to_array($response->data);
-                            $base = $response_array['Results']['NAICS']['Code'];
-                            $naics_description = $base['NAICSNameText'];
-                        }
-                        $user_naics[$v3->CdxNaicsCodeValue] = $naics_description;
-                    }
-                }
-                $user_naics = array_unique($user_naics);
+      //Get any NAIC codes based on the user_role_id
+      module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+      if (feature_toggle_get_status('profile_enable_cdx_naics')) {
+        $naics_dataflows = strtolower(variable_get('naics_dataflows'));
+        $naics_dataflows_array = explode(',', $naics_dataflows);
+        if (in_array(strtolower($v->dataflow), $naics_dataflows_array)) {
+          if (!isset($facclient)) {
+            $facwsdl = variable_get('cdx_program_facility_endpoint');//'http://testngn.epacdxnode.net/cdx-register-II/services/RegisterProgramFacilityService?wsdl';
+            $facclient = connectToSOAPServerWithWSDL($facwsdl, "Eenterprise Bridge Auth");
+            if ($facclient->error) {
+              return;
             }
+            $facclient = $facclient->client;
+          }
+          $paramsfac = array(
+            "securityToken" => $response1->securityToken,
+            "userRoleId" => $v->userRoleId,
+          );
+          $user_facs = callSOAPWithParams($facclient, "RetrieveFacilitiesByUserRoleId", $paramsfac, "Eenterprise Bridge Auth");
+          if ($user_facs->error) {
+            return;
+          }
+          $user_facs = $user_facs->response;
+          if (!is_array($user_facs->ProgramFacility)) {
+            $user_facs->ProgramFacility = array($user_roles->ProgramFacility);
+          }
+          foreach ($user_facs->ProgramFacility as $k2 => $v2) {
+            foreach ($v2->NaicsCodes->NaicsCode as $k3 => $v3) {
+              $endpoint = variable_get('naics_getbycode_endpoint');
+              $endpoint = $endpoint . urlencode($v3->CdxNaicsCodeValue);
+              $response = drupal_http_request($endpoint, [
+                //"headers" => $headers,
+                "method" => "GET",
+                'timeout' => "10"
+              ]);
+              if ($response->code !== "200") {
+                $return['error'] = TRUE;
+                $return['error-messages'][] = ['code' => $response->code, 'error' => 'NAICS endpoint response: ' . $response->error];
+                $naics_description = 'Unable to retrieve NAICS description.';
+              } else {
+                $response_array = xmlstr_to_array($response->data);
+                $base = $response_array['Results']['NAICS']['Code'];
+                $naics_description = $base['NAICSNameText'];
+              }
+              $user_naics[$v3->CdxNaicsCodeValue] = $naics_description;
+            }
+          }
+          $user_naics = array_unique($user_naics);
         }
+      }
     }
   }
   update_cdx_naics_profile($user_naics);
@@ -807,7 +812,7 @@ function assign_roles_to_user($user_name) {
     // Allow access to cdx facility manager, progress tracker, and to do
     if ($user_eactivity_role = user_role_load_by_name("eactivity-dataflows")) {
       // Give user eactivity role
-      user_multiple_role_edit(array($user->uid),"add_role", $user_eactivity_role->rid);
+      user_multiple_role_edit(array($user->uid), "add_role", $user_eactivity_role->rid);
     }
   }
 }
@@ -910,35 +915,34 @@ function view_allow_access_role($view_name, $role_id) {
 }
 
 function update_cdx_naics_profile($profile) {
-    $response = [
-        'error' => false,
-        'error-messages' => [],
-        'data'=> null,
-    ];
+  $response = [
+    'error' => false,
+    'error-messages' => [],
+    'data' => null,
+  ];
 
-    if(isset($profile)) {
+  if (isset($profile)) {
 
-        global $user;
-        //$existing = user_load($user->uid);
-        $existing = user_load($user->uid);
-        $response['data'] = [ 'profile' => $profile];
+    global $user;
+    //$existing = user_load($user->uid);
+    $existing = user_load($user->uid);
+    $response['data'] = ['profile' => $profile];
 
-        $edit = [];
-        if(!is_string($profile)) {
-            $profile = json_encode($profile);
-        }
-        $edit['field_cdx_naics_settings']['und'][0]['value'] = $profile;
-
-        // save existing user
-
-        if(!user_save($existing, $edit)) {
-            $response['error'] = true;
-            $response['error-messages'][] = 'There was a problem while trying to save';
-        }
+    $edit = [];
+    if (!is_string($profile)) {
+      $profile = json_encode($profile);
     }
-    else {
-        $response['error'] = true;
-        $response['error-messages'][] = 'Missing profile value in the post data';
+    $edit['field_cdx_naics_settings']['und'][0]['value'] = $profile;
+
+    // save existing user
+
+    if (!user_save($existing, $edit)) {
+      $response['error'] = true;
+      $response['error-messages'][] = 'There was a problem while trying to save';
     }
-    echo json_encode($response);
+  } else {
+    $response['error'] = true;
+    $response['error-messages'][] = 'Missing profile value in the post data';
+  }
+  echo json_encode($response);
 }

@@ -380,8 +380,11 @@ function reset_cgp_form() {
   };
 
   cp_iife.dateFormat = function(prop) {
-    var d = new Date(prop);
-    return [d.getMonth() + 1, d.getUTCDate(), d.getUTCFullYear()].join('/')
+    if (moment(prop).isValid()) {
+      return moment(prop).format('l');
+    } else {
+      return 'N/A';
+    }
   };
 
   cp_iife.attachments = function(permit) {
