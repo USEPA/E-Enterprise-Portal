@@ -1,11 +1,9 @@
-<p class="widget-note">Source: <a href=" https://www.epa.gov/npdes/stormwater-discharges-construction-activities-2017-cgp#cgp" target="_blank"
+<p class="widget-note">Source: <a href="https://www.epa.gov/" target="_blank"
                                   rel="external">US Environmental Protection
     Agency</a></p>
-<p>In areas where EPA is the permitting authority, regulated construction site
-  operators are generally permitted under EPA&rsquo;s 2017 Construction General
-  Permit (CGP). Find Notices of Intent (NOIs), Notices of Termination (NOTs), or
-  Low Erosivity Waivers (LEWs) submitted under EPA’s 2017 Construction General
-  Permit (CGP)</p>
+<p>Find Notices of Intent (NOIs), Notices of Termination (NOTs), or
+  Low Erosivity Waivers (LEWs) submitted under <a href="https://www.epa.gov/npdes/stormwater-discharges-construction-activities-2017-cgp#cgp" target="_blank"
+                                                  rel="external">EPA’s 2017 Construction General Permit (CGP)</a>.</p>
 <h3>Enter one or more search criteria</h3>
 <div class="bs-callout bs-callout-warning cgp-callout-warning hide">
   <h4>Please correct the errors below:</h4>

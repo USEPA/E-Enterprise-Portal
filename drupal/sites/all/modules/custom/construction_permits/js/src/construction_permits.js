@@ -198,12 +198,17 @@ function create_search_results(search_results_json) {
  * Clear form inputs and hide warning messages
  */
 function reset_cgp_form() {
-  var $form = jQuery('#cgp-form');
+  var $ = jQuery;
+  var $form = $('#cgp-form');
   $form.parsley().reset();
   $form.find('input[type=number]').val('');
   $form.find('input[type=text]').val('');
   $form.find('input[type=radio]').prop('checked', false);
   $form.find('select option').prop('selected', false);
+  $('#cgp-tribal-lands').show();
+  $('#cgp-tribal-lands-hide').hide();
+  $('.tribalIndicator').prop('disabled', false);
+  $('#cgp-tribal-lands').prop('disabled', false);
   $('#cgp-permit-state').attr('data-current-value', '');
   $('#cgp-project-county').find('option').not(':first').remove();
   $('#cgp-tribal-lands').find('option').not(':first').remove();
@@ -310,27 +315,29 @@ function reset_cgp_form() {
 
   cp_iife.latlong = function(prop) {
     //projectSiteInformation.siteLocation
-    return prop['latitude'] + '&deg;' + 'N,' + prop['longitude'] + '&deg;' + 'E' + '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>';
+    var NS = (prop['latitude'] == 0) ? '&deg;' : ((prop['latitude'] > 0) ? '&deg;N,' : '&deg;S,');
+    var WE = (prop['longitude'] == 0) ? '&deg;' : ((prop['longitude'] > 0) ? '&deg;E' : '&deg;W');
+    return [Math.abs(prop['latitude']), NS, Math.abs(prop['longitude']), WE, '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>'].join(' ');
   }
 
   cp_iife.appendixDCriteria = function(prop) {
-    var $criteria = prop['criteriaSelectionSummary'];
-    if ($criteria == 'A') {
+    var $criteria = prop['criterion'];
+    if ($criteria == 'Criterion_A') {
       return '<strong>Criterion A:</strong><br>' + '<span class=\"criterion-description\">No ESA-listed species and/or designated critical habitat present in action area.</span> Using the process outlined in Appendix D of this permit, you certify that ESA-listed species and designated critical habitat(s) under the jurisdiction of the USFWS or NMFS are not likely to occur in your site\'s \"action area\" as defined in Appendix A of this permit. <strong>[A basis statement supporting the selection of this criterion should identify the USFWS and NMFS information sources used. Attaching aerial image(s) of the site to this NOI is helpful to EPA, USFWS, and NMFS in confirming eligibility under this criterion. Please Note: NMFS\' jurisdiction includes ESA-listed marine and estuarine species that spawn in inland rivers.]</strong>';
     }
-    else if ($criteria == 'B') {
+    else if ($criteria == 'Criterion_B') {
       return '<strong>Criterion B:</strong><br>' + '<span class=\"criterion-description\">Eligibility requirements met by another operator under the 2017 CGP.</span> The construction site\'s discharges and discharge-related activities were already addressed in another operator\'s valid certification of eligibility for your \"action area\" under eligibility Criterion A, C, D, E, or F of the 2017 CGP and you have confirmed that no additional ESA-listed species and/or designated critical habitat under the jurisdiction of USFWS and/or NMFS not considered in the that certification may be present or located in the "action area."  To certify your eligibility under this criterion, there must be no lapse of NPDES permit coverage in the other CGP operator\'s certification.  By certifying eligibility under this criterion, you agree to comply with any conditions upon which the other CGP operator\'s certification was based.  You must include in your NOI the NPDES ID from the other 2017 CGP operator\'s notification of authorization under this permit. If your certification is based on another 2017 CGP operator\'s certification under criterion C, you must provide EPA with the relevant supporting information required of existing dischargers in criterion C in your NOI form. <strong>[A basis statement supporting the selection of this criterion should identify the eligibility criterion of the other CGP NOI, the authorization date, and confirmation that the authorization is effective.]</strong>';
     }
-    else if ($criteria == 'C') {
+    else if ($criteria == 'Criterion_C') {
       return '<strong>Criterion C:</strong><br>' + '<span class=\"criterion-description\">Discharges not likely to adversely affect ESA-listed species and/or designated critical habitat.</span>  ESA-listed species and/or designated critical habitat(s) under the jurisdiction of the USFWS and/or NMFS are likely to occur in or near your site\'s \"action area,\" and you certify that your site\'s discharges and discharge-related activities are not likely to adversely affect ESA-listed threatened or endangered species and/or designated critical habitat.  This certification may include consideration of any stormwater controls and/or management practices you will adopt to ensure that your discharges and discharge-related activities are not likely to adversely affect ESA-listed species and/or designated critical habitat.  To certify your eligibility under this criterion, indicate:<ol class=\"cgp-criteria-list\"><li>the ESA-listed species and/or designated habitat located in your \"action area\" using the process outlined in Appendix D of this permit;</li><li>the distance between the site and the listed species and/or designated critical habitat in the action area (in miles); and</li><li>a rationale describing specifically how adverse effects to ESA-listed species will be avoided from the discharges and discharge-related activities.  You must also include a copy of your site map from your SWPPP showing the upland and in-water extent of your \"action area\" with this NOI. </li></ol><strong>[A basis statement supporting the selection of this criterion should identify the information resources and expertise (e.g., state or federal biologists) used to arrive at this conclusion. Any supporting documentation should explicitly state that both ESA-listed species and designated critical habitat under the jurisdiction of the USFWS and/or NMFS were considered in the evaluation. Attaching aerial image(s) of the site to this NOI is helpful to EPA, USFWS, and NMFS in confirming eligibility under this criterion.]</strong>';
     }
-    else if ($criteria == 'D') {
+    else if ($criteria == 'Criterion_D') {
       return '<strong>Criterion D:</strong><br>' + '<span class=\"criterion-description\">Coordination with USFWS and/or NMFS has successfully concluded.</span>  The coordination must have addressed the effects of your site\'s discharges and discharge-related activities on ESA-listed species and/or designated critical habitat under the jurisdiction of USFWS and/or NMFS, and resulted in a written concurrence from USFWS and/or NMFS that your site\'s discharges and discharge-related activities are not likely to adversely affect listed species and/or critical habitat.  You must include copies of the correspondence with the participating agencies in your SWPPP and this NOI. <br><strong>[A basis statement supporting the selection of this criterion should identify whether USFWS or NMFS or both agencies participated in coordination, the field office/regional office(s) providing that coordination, and the date that coordination concluded.]</strong>';
     }
-    else if ($criteria == 'E') {
+    else if ($criteria == 'Criterion_E') {
       return '<strong>Criterion E:</strong><br>' + '<span class=\"criterion-description\">ESA Section 7 consultation between a Federal Agency and the USFWS and/or NMFS has successfully concluded.</span>  The consultation must have addressed the effects of the construction site\'s discharges and discharge-related activities on ESA-listed species and/or designated critical habitat under the jurisdiction of USFWS and/or NMFS.  To certify eligibility under this criterion, Indicate the result of the consultation:<ul class=\"cgp-criteria-list\"><li>biological opinion from USFWS and/or NMFS that concludes that the action in question (taking into account the effects of your site\'s discharges and discharge-related activities) is not likely to jeopardize the continued existence of listed species, nor the destruction or adverse modification of critical habitat; or</li><li>written concurrence from USFWS and/or NMFS with a finding that the site\'s discharges and discharge-related activities are not likely to adversely affect ESA-listed species and/or designated critical habitat.</li></ul>You must include copies of the correspondence between yourself and the USFWS and/or NMFS in your SWPPP and this NOI. <br><strong>[A basis statement supporting the selection of this criterion should identify the federal action agencie(s) involved, the field office/regional office(s) providing that consultation, any tracking numbers of identifiers associated with that consultation (e.g., IPaC number, PCTS number), and the date the consultation was completed.]</strong>';
     }
-    else if ($criteria == 'F') {
+    else if ($criteria == 'Criterion_F') {
       return '<strong>Criterion F:</strong><br>' + '<span class=\"criterion-description\">Issuance of section 10 permit.</span> Potential take is authorized through the issuance of a permit under section 10 of the ESA by the USFWS and/or NMFS, and this authorization addresses the effects of the site\'s discharges and discharge-related activities on ESA-listed species and designated critical habitat.  You must include copies of the correspondence between yourself and the participating agencies in your SWPPP and your NOI. <br><strong>[A basis statement supporting the selection of this criterion should identify whether USFWS or NMFS or both agencies provided a section 10 permit, the field office/regional office(s) providing permit(s), any tracking numbers of identifiers associated with that consultation (e.g., IPaC number, PCTS number), and the date the permit was granted.]</strong>';
     }
     else {
@@ -558,9 +565,10 @@ function reset_cgp_form() {
                 $tribes.find('option[value="'+current_value+'"]').prop('selected', true);
               }
               else {
-                $tribes.val('');
+                $('#cgp-tribal-lands-hide').show();
+                $('#cgp-tribal-lands').hide();
                 $('.tribalIndicator').prop('disabled', true);
-                $tribes.html('').prop('disabled', true);
+                $tribes.prop('disabled', true);
               }
             }
             else {
