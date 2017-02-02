@@ -178,6 +178,11 @@ function construction_permits_form_submission() {
     $datatable_formatted_response['error'] = FALSE;
   }
   else {
+    foreach ($_POST as $key => $value) {
+      if(in_array($key, ['submittedDateTo', 'submittedDateFrom','updatedDateFrom','updatedDateFrom']) !== false) {
+        $_POST[$key] = date("c", strtotime($value));
+      }
+    }
     $endpoint = variable_get('cgp_api_endpoint') . '/form?' . http_build_query($_POST);
     $response = drupal_http_request($endpoint, [
       "method" => "GET",
