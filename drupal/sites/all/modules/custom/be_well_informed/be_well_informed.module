@@ -231,13 +231,8 @@ function be_well_informed_datatable_response($be_well_response_json) {
 
   foreach ($be_well_response->ResultEvaluations as $water_data) {
 
-    $user_entry = $water_data->UserContaminatValue;
-    $guide_text = $water_data->GuidelineText;
-
-    if (empty($guide_text) && empty($user_entry)) {
-      $guide_text = "A value was not entered.";
-      $user_entry = "None";
-    }
+    $user_entry = (empty($water_data->UserContaminatValue)) ? "None" : $water_data->UserContaminatValue;
+    $guide_text = (empty($water_data->GuidelineText)) ? "A value was not entered." : $water_data->GuidelineText;
 
     $datatable_row = [];
     $datatable_row[] = processGuidelineIcon($water_data->GuidelineIcon);
