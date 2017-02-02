@@ -286,16 +286,31 @@ function reset_cgp_form() {
   }
 
   cp_iife.address = function(prop, prefix) {
-    var country = (prop[prefix + 'County'] && prop[prefix + 'County'] != 'string') ? ' ' + prop[prefix + 'County'] : '';
-    var lineAddress = (prop[prefix + 'Address2'] && prop[prefix + 'Address2'] != 'string') ? prop[prefix + 'Address'] + '<br>' + prop[prefix + 'Address2'] : prop[prefix + 'Address'];
-    return lineAddress + '<br/>' + prop[prefix + 'City'] + ', ' + prop[prefix + 'StateCode'] + ' ' + prop[prefix + 'ZipCode'] + country;
+    var address = '';
+    var city_state_zip_country = ''
+    if(prop[prefix + 'Address'] || prop[prefix + 'Address2']) {
+      address += (prop[prefix + 'Address2']) ? prop[prefix + 'Address'] + '<br>' + prop[prefix + 'Address2'] : prop[prefix + 'Address'];
+    }
+    if(prop[prefix + 'City']) {
+      address += (address.length) ? '<br>' + prop[prefix + 'City'] : prop[prefix + 'City'];
+    }
+    if(prop[prefix + 'StateCode']) {
+      address += (address.length) ? ', ' + prop[prefix + 'StateCode'] : prop[prefix + 'StateCode'];
+    }
+    if(prop[prefix + 'ZipCode']) {
+      address += (address.length) ? ' ' + prop[prefix + 'ZipCode'] : prop[prefix + 'ZipCode'];
+    }
+    if(prop[prefix + 'County']) {
+      address += (address.length) ? ' ' + prop[prefix + 'County'] : prop[prefix + 'County'];
+    }
+    return address || 'N/A';
   }
 
   cp_iife.fullName = function(prop) {
     return [prop.firstName, prop.middleInitial, prop.lastName].reduce(function(p, c) {
       (c) ? p.push(c) : 0;
       return p
-    }, []).join(' ')
+    }, []).join(' ') || 'N/A';
   }
 
   cp_iife.dateRange = function(prop, prefix) {
@@ -306,18 +321,18 @@ function reset_cgp_form() {
   }
 
   cp_iife.fullPhone = function(prop) {
-    return phone = (prop['phoneExtension'] && prop['phoneExtension'] != '') ? prop['phone'] + ' x' + prop['phoneExtension'] : prop['phone'];
+    return phone = (prop['phoneExtension'] && prop['phoneExtension'] != '') ? prop['phone'] + ' x' + prop['phoneExtension'] : prop['phone'] || 'N/A';
   }
   
   cp_iife.siteConstructionTypes = function(prop) {
-    return prop.join('<br>');
+    return prop.join('<br>') || 'N/A';
   }
 
   cp_iife.latlong = function(prop) {
     //projectSiteInformation.siteLocation
     var NS = (prop['latitude'] == 0) ? '&deg;' : ((prop['latitude'] > 0) ? '&deg;N,' : '&deg;S,');
     var WE = (prop['longitude'] == 0) ? '&deg;' : ((prop['longitude'] > 0) ? '&deg;E' : '&deg;W');
-    return [Math.abs(prop['latitude']), NS, Math.abs(prop['longitude']), WE, '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>'].join(' ');
+    return [Math.abs(prop['latitude']), NS, Math.abs(prop['longitude']), WE, '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>'].join(' ') || 'N/A';
   }
 
   cp_iife.appendixDCriteria = function(prop) {
@@ -383,7 +398,7 @@ function reset_cgp_form() {
     else {
       r += '<p>No discharge points.</p>'
     }
-    return r;
+    return r || 'N/A';
   };
 
   cp_iife.dateFormat = function(prop) {
@@ -428,7 +443,7 @@ function reset_cgp_form() {
       r += '<p>No Attachments.</p>'
     }
 
-    return r;
+    return r || 'N/A';
   };
 
   // Helper functions END
