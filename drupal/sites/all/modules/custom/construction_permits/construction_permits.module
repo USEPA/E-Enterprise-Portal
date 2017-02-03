@@ -179,7 +179,7 @@ function construction_permits_form_submission() {
   }
   else {
     foreach ($_POST as $key => $value) {
-      if(!empty($value) && in_array($key, ['submittedDateTo', 'submittedDateFrom','updatedDateFrom','updatedDateFrom']) !== false) {
+      if(!empty($value) && in_array($key, ['submittedDateTo', 'submittedDateFrom','updatedDateFrom','updatedDateTo']) !== false) {
         $_POST[$key] = date("c", strtotime($value));
       }
     }
