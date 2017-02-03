@@ -3,7 +3,7 @@ function show_needed_cgp_div($wrapper_to_show, $common_selector, modal_title) {
   $common_selector.hide();
   $wrapper_to_show.show();
   // Adjust the modal title
-  modal_title = (modal_title) ? modal_title : "Results for CGP Search";
+  modal_title = modal_title || "Results for CGP Search";
   jQuery('#construction-permits-modal').dialog({
     title: modal_title,
     close: function(event, ui) {
@@ -254,7 +254,8 @@ function reset_cgp_form() {
         })
         $template.addClass(type)
         $template.attr('id', 'id-' + permit.id)
-        $template.attr('title', "Details for " + permit.npdesId + " - " + permit.projectSiteInformation.siteName)
+        var name  = (permit.projectSiteInformation.siteName) ? " - " + permit.projectSiteInformation.siteName : '';
+        $template.attr('title', "Details for " + permit.npdesId + name)
         $details.append($template)
       });
       $details.prepend(Drupal.settings.construction_permits.cgp_modal_header);
@@ -279,6 +280,10 @@ function reset_cgp_form() {
     return property.split('.').reduce(function(p, c) {
       return (p != undefined && p[c] != undefined) ? p[c] : undefined;
     }, permit);
+  }
+
+  cp_iife.array_join = function(prop, glue) {
+    return prop.join(glue) || 'N/A';
   }
 
   cp_iife.adjustType = function(prop) {
@@ -330,9 +335,13 @@ function reset_cgp_form() {
 
   cp_iife.latlong = function(prop) {
     //projectSiteInformation.siteLocation
-    var NS = (prop['latitude'] == 0) ? '&deg;' : ((prop['latitude'] > 0) ? '&deg;N,' : '&deg;S,');
-    var WE = (prop['longitude'] == 0) ? '&deg;' : ((prop['longitude'] > 0) ? '&deg;E' : '&deg;W');
-    return [Math.abs(prop['latitude']), NS, Math.abs(prop['longitude']), WE, '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>'].join(' ') || 'N/A';
+    var latlong = '';
+    if((prop['latitude'] != null || prop['longitude'] != null)) {
+      var NS = (prop['latitude'] == 0) ? '&deg;' : ((prop['latitude'] > 0) ? '&deg;N,' : '&deg;S,');
+      var WE = (prop['longitude'] == 0) ? '&deg;' : ((prop['longitude'] > 0) ? '&deg;E' : '&deg;W');
+      latlong = [Math.abs(prop['latitude']), NS, Math.abs(prop['longitude']), WE, '<br><span class="cgp-latlongsource">Source: ' + (prop['latLongDataSource'] || 'N/A') + '</span>'].join(' ')
+    }
+    return latlong || 'N/A';
   }
 
   cp_iife.appendixDCriteria = function(prop) {
