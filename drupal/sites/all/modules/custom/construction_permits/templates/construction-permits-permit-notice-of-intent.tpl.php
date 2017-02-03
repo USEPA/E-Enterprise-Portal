@@ -205,7 +205,6 @@
       </div>
     </div>
 
-    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation" data-cgp-function="dateRange" data-cgp-params="['site']"><div class="col-md-4 title">Project Duration <span class="cgp-footnote">(Estimated)</span></div><div class="col-md-8 value"></div></div></div>
     <!-- @TODO Show the Estimated Area to be Disturbed line only if NOI - if LEW, include line in LEW section -->
     <div class="line">
       <div class="box-fluid property"
@@ -332,6 +331,14 @@
         <div class="col-md-8 value"></div>
       </div>
     </div>
+    <div class="line">
+      <div class="box-fluid property"
+           data-cgp-property="chemicalTreatmentInformation.treatmentChemicals" data-cgp-function="array_join" data-cgp-params="[', ']">
+        <div class="col-md-4 title">Cationic treatment authorized for uses:
+        </div>
+        <div class="col-md-8 value"></div>
+      </div>
+    </div>
   </div><!-- @end Treatment Chemicals -->
   <div class="section noi-only" id="cgp-swppp">
     <h2>Stormwater Pollution Prevention Plan Point of Contact</h2>
@@ -382,6 +389,13 @@
         <div class="col-md-4 title">Eligible for coverage under this permit by
           meeting Appendix D, criterion:
         </div>
+        <div class="col-md-8 value"></div>
+      </div>
+    </div>
+    <div class="line">
+      <div class="box-fluid property"
+           data-cgp-property="endangeredSpeciesProtectionInformation.criteriaSelectionSummary">
+        <div class="col-md-4 title">Summary of criterion selection basis</div>
         <div class="col-md-8 value"></div>
       </div>
     </div>
