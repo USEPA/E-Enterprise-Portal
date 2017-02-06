@@ -228,8 +228,8 @@
       <div class="box-fluid property"
            data-cgp-property="projectSiteInformation.siteIndianCulturalProperty"
            data-cgp-options="['No','Yes']">
-        <div class="col-md-4 title">Project located on a property of religious or cultural significance to an Indian tribe</div>
-        <div class="col-md-8"></div>
+        <div class="col-md-4 title">Project located on a property of religious or cultural significance to an Indian tribe?</div>
+        <div class="col-md-8 value"></div>
       </div>
     </div>
 
