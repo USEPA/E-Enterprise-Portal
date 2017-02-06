@@ -13,7 +13,7 @@
     <table class="usa-table-borderless eportal-responsive-table">
       <thead>
       <tr>
-        <th><span>ID</span><span class="sort-icon"></span></th>
+        <th><span>ID</span></th>
         <th><span>NPDES ID</span></th>
         <th><span>Type</span></th>
         <th><span>Owner/Operator</span></th>
