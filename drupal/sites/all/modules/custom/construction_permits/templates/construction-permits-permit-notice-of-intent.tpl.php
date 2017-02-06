@@ -226,9 +226,10 @@
 
     <div class="line">
       <div class="box-fluid property"
-           data-cgp-property="projectSiteInformation.siteIndianCulturalProperty">
-        <div class="col-md-4 title">Project located on a property of religious or cultural significance to an Indian tribe</div>
-        <div class="col-md-8"></div>
+           data-cgp-property="projectSiteInformation.siteIndianCulturalProperty"
+           data-cgp-options="['No','Yes']">
+        <div class="col-md-4 title">Project located on a property of religious or cultural significance to an Indian tribe?</div>
+        <div class="col-md-8 value"></div>
       </div>
     </div>
 
@@ -236,7 +237,7 @@
       <div class="box-fluid property"
            data-cgp-property="projectSiteInformation.siteIndianCulturalPropertyTribe">
         <div class="col-md-4 title">Indian tribe name:</div>
-        <div class="col-md-8"><span class="value"></span> acres</div>
+        <div class="col-md-8"><span class="value"></span></div>
       </div>
     </div>
   </div><!-- @end Project Site Info -->

@@ -204,7 +204,9 @@ function create_search_results(search_results_json) {
   // Create index column that updates on sorting
   var dtTable = $table.DataTable(datatable_options);
   dtTable.columns().iterator('column', function(ctx, idx) {
-    $(dtTable.column(idx).header()).append('<span class="sort-icon" />');
+    if($(dtTable.column(idx).header()).find('.sort-icon').length == 0){
+      $(dtTable.column(idx).header()).append('<span class="sort-icon" />');
+    }
   });
 }
 
