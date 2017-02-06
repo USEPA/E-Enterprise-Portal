@@ -36,7 +36,7 @@
     </div>
 
     <div class="line">
-      <div class="box-fluid property" data-cgp-property="submittedDate"
+      <div class="box-fluid property" data-cgp-property="certifiedDate"
            data-cgp-function="dateFormat">
         <div class="col-md-4 title">Submitted</div>
         <div class="col-md-8 value"></div>
