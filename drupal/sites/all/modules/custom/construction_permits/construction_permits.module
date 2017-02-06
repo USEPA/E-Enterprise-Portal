@@ -210,6 +210,7 @@ function construction_permits_form_submission() {
 function construction_permits_datatable_response($cgp_reponse_json) {
   $datatable_result_summary_json = [];
   foreach ($cgp_reponse_json as $cgp_result) {
+    $doc_time = strtotime($cgp_result['reviewExpiration']);
     $dt_row = [];
     //$cgp_result = $cgp_result['data'];
     $dt_row[] = $cgp_result['id'];
@@ -220,8 +221,11 @@ function construction_permits_datatable_response($cgp_reponse_json) {
     $dt_row[] = $cgp_result['projectSiteInformation']['siteStateCode'];
     $dt_row[] = $cgp_result['projectSiteInformation']['siteCity'];
     $dt_row[] = $cgp_result['status'];
-    $dt_row[] = $cgp_result['submittedDate'];
-    $dt_row[] = $cgp_result['certifiedDate'];
+    //$dt_row[] = $cgp_result['submittedDate'];  // Cert date
+    //$dt_row[] = $cgp_result['certifiedDate'];  // Date of coverage
+
+    $dt_row[] = $cgp_result['certifiedDate'];  // Cert date
+    $dt_row[] = ($doc_time <= time()) ? $cgp_result['reviewExpiration'] : '&dash;';  // Date of coverage
     $datatable_result_summary_json[] = $dt_row;
   }
   return $datatable_result_summary_json;

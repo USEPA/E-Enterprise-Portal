@@ -186,8 +186,10 @@ function create_search_results(search_results_json) {
         }
         if (moment(dateText).isValid()) {
           $this.html(moment(dateText).format('l'));
+        } else if(dateText == '‐') {
+          return '‐';
         } else {
-          $this.html('N/A');
+          return 'N/A;';
         }
       });
 
@@ -429,8 +431,10 @@ function reset_cgp_form() {
   cp_iife.dateFormat = function(prop) {
     if (moment(prop).isValid()) {
       return moment(prop).format('l');
+    } else if(prop == '‐') {
+      return '‐';
     } else {
-      return 'N/A';
+      return 'N/A;';
     }
   };
 
