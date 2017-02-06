@@ -181,7 +181,7 @@
       <div class="box-fluid property"
            data-cgp-property="projectSiteInformation.siteIndianCountryLands"
            data-cpg-null="N/A">
-        <div class="col-md-4 title">Reservation Name</div>
+        <div class="col-md-4 title">Indian tribe name:</div>
         <div class="col-md-8 value"></div>
       </div>
     </div>
@@ -221,6 +221,22 @@
         <div class="col-md-4 title">Project Duration <span class="cgp-footnote">(Estimated)</span>
         </div>
         <div class="col-md-8 value"></div>
+      </div>
+    </div>
+
+    <div class="line">
+      <div class="box-fluid property"
+           data-cgp-property="projectSiteInformation.siteIndianCulturalProperty">
+        <div class="col-md-4 title">Project located on a property of religious or cultural significance to an Indian tribe</div>
+        <div class="col-md-8"></div>
+      </div>
+    </div>
+
+    <div class="line">
+      <div class="box-fluid property"
+           data-cgp-property="projectSiteInformation.siteIndianCulturalPropertyTribe">
+        <div class="col-md-4 title">Indian tribe name:</div>
+        <div class="col-md-8"><span class="value"></span> acres</div>
       </div>
     </div>
   </div><!-- @end Project Site Info -->
