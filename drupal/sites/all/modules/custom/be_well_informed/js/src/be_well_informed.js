@@ -415,14 +415,15 @@ function resetBWIForm() {
                 }
               }
             });
-
+            var steps_count = Object.keys(be_well_response_json.data.TreatmentSteps).length;
             // if we have values in the be_well_response_json.TreatmentSteps show the treatment steps section
-            if (be_well_response_json.data.TreatmentSteps && Object.keys(be_well_response_json.data.TreatmentSteps).length > 0) {
-              $('.treatment-header, .treatment-content').removeClass('hide')
-
+            if (be_well_response_json.data.TreatmentSteps && steps_count > 0) {
+              $('.treatment-header, .treatment-content').removeClass('hide');
+              $('#treatment_order_title').show();
               // update title to include all contaminats that have TreatmentMessages != ''
-              var contaminants = []
-              var excluded = ['Fe', 'NO2', 'Bac', 'Ecoli']
+              var contaminants = [];
+              var excluded = ['Fe', 'NO2', 'Bac', 'Ecoli'];
+
               for (var contaminate in be_well_response_json.data.ResultEvaluations) {
                 if (excluded.indexOf(contaminate) == -1 && be_well_response_json.data.ResultEvaluations[contaminate].GuidelineColor == "font-red") {
                   contaminants.push(be_well_response_json.data.ResultEvaluations[contaminate].ContaminantFullName)
@@ -444,10 +445,24 @@ function resetBWIForm() {
               var step_label = 1;
               var toShow = [];
               for (var step in be_well_response_json.data.TreatmentSteps) {
-                var $treatment = $('.treatment-step').eq(step)
+                var $treatment = $('.treatment-step').eq(step);
+                $treatment.find('.step span').show();
                 $treatment.removeClass('hide')
-                  .find('.step span')
-                  .html('Step ' + step_label)
+                    .find('.step span')
+                    .html('Step ' + step_label);
+
+                if($treatment.find('.step span').hasClass('no-step')) {
+                  $treatment.find('.step span').removeClass('no-step');
+                  $treatment.find('.step span').addClass('fill-step');
+                }
+
+                //Hide label if results contain only one treatment step.
+                if(steps_count <= 1) {
+                  $treatment.find('.step span').removeClass('fill-step');
+                  $treatment.find('.step span').addClass("no-step");
+                  $treatment.find('.step span').html('');
+                }
+
                 be_well_response_json.data.TreatmentSteps[step].OrInstructions.map(function(item, index, list) {
                   $treatment.find('[title="' + item.Recommendation + '"]')
                     .removeClass('hide')
@@ -455,10 +470,16 @@ function resetBWIForm() {
                   if (toShow.indexOf(cssClass) == -1) {
                     toShow.push(cssClass)
                   }
-                })
-                step_label++
+                });
+                step_label++;
                 // update visibility of boxes and their instructions
 
+              }
+
+              // Hide the header if results contain only one treatment step
+              if(steps_count <= 1) {
+                $('#treatment_order_title').hide();
+                //$("div .step span .treatment-icon .step-icon").hide();
               }
 
               $(toShow.join(', ')).removeClass('hide')

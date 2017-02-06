@@ -351,12 +351,19 @@ $color_ecstasy_approx: #ff851b;
             span {
                 margin-top: -1.5rem;
                 margin-left: -1.5rem;
-                background-color: Red;
                 padding: 1.6rem 1rem;
                 display: inline-block;
                 color: #fff;
-                border: .5rem solid white;
+
             }
+        }
+        .fill-step {
+            background-color: Red;
+            border: .5rem solid white;
+        }
+        .no-step {
+            background-color:transparent;
+            border: none;
         }
         .step-icon {
             &:before {
