@@ -104,6 +104,7 @@ function create_search_results(search_results_json) {
       var info = table.page.info();
       // var pageInfo = this.fnPagingInfo();
       var pageNo = info.page + 1;
+      var row = 1;
 
       // Modify the first column to link to the respective form
       // Add data attributes to allow column identification in mobile format
@@ -115,7 +116,7 @@ function create_search_results(search_results_json) {
           $this.attr('title', form_id)
         }
       });
-      $('td:nth-child(2)', nRow.nTable).addClass('first-column').attr('data-title', 'NPDES ID').each(function() {
+      $('td:nth-child('+(++row)+')', nRow.nTable).addClass('first-column').attr('data-title', 'NPDES ID').each(function() {
         var $this = $(this);
         var form_id = $this.parent().find('.permit_id').attr('title');
         var mpn = $this.attr('title');
@@ -135,12 +136,22 @@ function create_search_results(search_results_json) {
           }
         );
       });
-      $('td:nth-child(3)', nRow.nTable).attr('data-title', 'Owner/Operator');
-      $('td:nth-child(4)', nRow.nTable).attr('data-title', 'Site Name');
-      $('td:nth-child(5)', nRow.nTable).attr('data-title', 'Site State');
-      $('td:nth-child(6)', nRow.nTable).attr('data-title', 'Site City');
 
-      $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Status').each(function() {
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Type').each(function() {
+        var $this = $(this);
+        var form_type = $this.attr('title');
+        if (!form_type) {
+          form_type = $this.html().replace(/_/g, ' ').replace(/Of/g, 'of');
+          $this.attr('title', form_type)
+        }
+        $this.html(form_type);
+      })
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Owner/Operator');
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Site Name');
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Site State');
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Site City');
+
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Status').each(function() {
         var $this = $(this);
         var statusText = $this.attr('data-status');
         if (!statusText) {
@@ -151,7 +162,7 @@ function create_search_results(search_results_json) {
         $this.html(formatted_status);
       });
 
-      $('td:nth-child(8)', nRow.nTable).attr('data-title', 'Submitted').each(function() {
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Submitted').each(function() {
         var $this = $(this);
         var dateText = $this.attr('data-date');
         if (!dateText) {
@@ -165,7 +176,7 @@ function create_search_results(search_results_json) {
         }
       });
 
-      $('td:nth-child(9)', nRow.nTable).attr('data-title', 'Date of Coverage').each(function() {
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Date of Coverage').each(function() {
         var $this = $(this);
         var dateText = $this.attr('data-date');
         if (!dateText) {
@@ -376,12 +387,12 @@ function reset_cgp_form() {
       // Add header
       var header = [
         '<div class="line header">',
-        '<div class="col-md-2">Discharge Point</div>',
-        '<div class="col-md-2">Location</div>',
-        '<div class="col-md-2">Receiving Water</div>',
-        '<div class="col-md-2">Pollutants</div>',
-        '<div class="col-md-2">TMDL</div>',
-        '<div class="col-md-2">Tier</div>',
+          '<div class="col-md-2">Discharge Point</div>',
+          //'<div class="col-md-2">Location</div>',
+          '<div class="col-md-2">Receiving Water</div>',
+          '<div class="col-md-2">Pollutants</div>',
+          '<div class="col-md-2">TMDL</div>',
+          '<div class="col-md-2">Tier</div>',
         '</div>'
       ]
       r += header.join('');
@@ -392,14 +403,14 @@ function reset_cgp_form() {
         var tmdls = c.firstWater.pollutants.map(function(c){ return c.tmdl.name; }, []);
         r += [
           '<div class="line row-item' + even + '">',
-          //@TODO - Description may be optional - add logic if needed to show blank if user did not complete description - would Dave return false or blank string
-          '<div class="col-md-2" title="Discharge Point">', c.description, '</div>',
-          '<div class="col-md-2" title="Location">', c.location.latitude + '&deg;N, ' + c.location.longitude + '&deg;E<br><span class="cgp-latlongsource">Source: ' +
-          c.location.latLongDataSource + '</span><br><span class="cgp-refdatum">Horizontal Reference Datum: ' + c.location.horizontalReferenceDatum + '</span>', '</div>',
-          '<div class="col-md-2" title="Receiving Water">', c.firstWater.listedWaterName, '</div>',
-          '<div class="col-md-2" title="Pollutant(s)">', polluntants.join(', '), '</div>',
-          '<div class="col-md-2" title="TMDL">', tmdls.join(', '), '</div>',
-          '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
+            //@TODO - Description may be optional - add logic if needed to show blank if user did not complete description - would Dave return false or blank string
+            '<div class="col-md-2" title="Discharge Point">', c.description, '</div>',
+            //'<div class="col-md-2" title="Location">', c.location.latitude + '&deg;N, ' + c.location.longitude + '&deg;E<br><span class="cgp-latlongsource">Source: ' +
+            //c.location.latLongDataSource + '</span><br><span class="cgp-refdatum">Horizontal Reference Datum: ' + c.location.horizontalReferenceDatum + '</span>', '</div>',
+            '<div class="col-md-2" title="Receiving Water">', c.firstWater.listedWaterName, '</div>',
+            '<div class="col-md-2" title="Pollutant(s)">', polluntants.join(', '), '</div>',
+            '<div class="col-md-2" title="TMDL">', tmdls.join(', '), '</div>',
+            '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
           '</div>',
         ].join('')
       })
