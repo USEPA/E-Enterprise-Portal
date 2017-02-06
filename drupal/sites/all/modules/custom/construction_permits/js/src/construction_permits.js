@@ -95,6 +95,7 @@ function create_search_results(search_results_json) {
     "language": {
       "processing": ""
     },
+    "order": [[ 8, "desc" ]],
     "autoWidth": false,
     "pagingType": "simple",
     "fnDrawCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -202,7 +203,9 @@ function create_search_results(search_results_json) {
 
   // Create index column that updates on sorting
   var dtTable = $table.DataTable(datatable_options);
-
+  dtTable.columns().iterator('column', function(ctx, idx) {
+    $(dtTable.column(idx).header()).append('<span class="sort-icon" />');
+  });
 }
 
 /**
