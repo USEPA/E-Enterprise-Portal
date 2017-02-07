@@ -55,7 +55,7 @@ function eenterprise_bridge_auth_menu() {
     'file' => 'eenterprise_bridge_auth.pages.inc',
     '#type' => MENU_CALLBACK,
   );
-  $items['admin/config/people/eebridge-auth'] = array(
+  $items['admin/config/system/eebridge-auth'] = array(
     'title' => 'E-Enterprise Bridge Settings',
     'description' => 'Manage options for Federated login using E-Enterprise Bridge.',
     'page callback' => 'drupal_get_form',

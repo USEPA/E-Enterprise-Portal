@@ -64,10 +64,10 @@ class AdfsBridge
      * Confirm signature contains x509 cert that is an accepted peer
      */
     function samlPeerVerified($signatureObj) {
-        global $conf;
         $x509Cert = trim($signatureObj->getElementsByTagName('X509Certificate')->item(0)->nodeValue);
         $fingerprint = implode(":", str_split( self::x509_fingerprint($x509Cert,$hash='sha1'), 2));
-        if (in_array($fingerprint, $conf['saml_peers'])) {
+        $saml_peers = explode('|', trim(variable_get('saml_peers')));
+        if (in_array($fingerprint, $saml_peers)) {
             return true;
         } else {
             return false;
@@ -105,9 +105,11 @@ class AdfsBridge
 
 
         // Check for valid SAML peer
-        $saml_signature = $dom->getElementsByTagName('Signature')->item(0);
-        if (!self::samlPeerVerified($saml_signature)){
-            throw new UnverifiedPeerException("Unable to verify peer sending request.");
+        if (variable_get('verify_saml_peer')) {
+            $saml_signature = $dom->getElementsByTagName('Signature')->item(0);
+            if (!self::samlPeerVerified($saml_signature)) {
+                throw new UnverifiedPeerException("Unable to verify peer sending request.");
+            }
         }
 
         // Decrypts the xmlToken if it is encrypted, using the private key specified in the configuration.

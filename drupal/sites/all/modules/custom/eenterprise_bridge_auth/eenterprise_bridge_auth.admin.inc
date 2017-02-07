@@ -33,6 +33,17 @@ function eenterprise_bridge_auth_settings($form, $form_state) {
     '#default_value' => variable_get('eenterprise_bridge_auth_reply'),
     '#required' => TRUE,
   );
+  $form['eebridge_settings']['verify_saml_peer'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Only accept SSO from Verified SAML Peers'),
+    '#default_value' => variable_get('verify_saml_peer'),
+  );
+  $form['eebridge_settings']['saml_peers'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Accepted SAML Fingerprints, isolated by |'),
+    '#default_value' => variable_get('saml_peers'),
+    '#maxlength' => 1024,
+  );
 
   $form['#validate'][] = 'eenterprise_bridge_auth_settings_validate';
   $form['#submit'][] = 'eenterprise_bridge_auth_settings_submit';

@@ -181,7 +181,7 @@ return feature_toggle_get_status(\'aws_environment\');',
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'grid-stack-item-content beta-ribbon',
+      'css_class' => 'grid-stack-item-content',
     );
     $pane->extras = array();
     $pane->position = 0;
