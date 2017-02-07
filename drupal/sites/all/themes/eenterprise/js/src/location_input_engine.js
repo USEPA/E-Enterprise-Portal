@@ -68,7 +68,7 @@
                   var no_options = true;
                   if (parsed_data.zip_attr) {
                     $.each(parsed_data.zip_attr, function(zip_code, zip_obj) {
-                      location_name = (parsed_data.state == '') ? zip_obj.city : zip_obj.city + ', ' + parsed_data.state;
+                      location_name = zip_obj.city;
                       // Checks for tribes and adds disabled Tribe name into Zip Code select list
                       if (zip_obj.city != previous_city && parsed_data.state == "") {
                         zip_select = zip_select + '<option value="" disabled>' + zip_obj.city + '</option>';
