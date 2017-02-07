@@ -168,21 +168,11 @@ return feature_toggle_get_status(\'aws_environment\');',
     $pane->subtype = 'construction_permits-construction_permits';
     $pane->shown = TRUE;
     $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => 'Check Feature Toggle for NCC',
-            'php' => 'module_load_include(\'inc\', \'feature_toggle\', \'includes/feature_toggle.api\');
-return feature_toggle_get_status(\'aws_environment\');',
-          ),
-          'not' => FALSE,
-        ),
-      ),
+      'plugins' => array(),
     );
     $pane->configuration = array(
       'override_title' => 1,
-      'override_title_text' => 'Find a Construction General Permit',
+      'override_title_text' => 'EPA’s 2017 Construction General Permit (CGP) Search',
       'override_title_heading' => 'h2',
     );
     $pane->cache = array();
