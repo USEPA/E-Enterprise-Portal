@@ -1350,7 +1350,7 @@ function user_profile_mail_custom_validate(&$form, &$form_state) {
     //This error should not be set for public users because another piece of code in form alter in this file
     //needs to change email address to username if email comes empty which is true for some public users like WAM, PIV Card and Twitter.
     //For CDX users this error should still show if email is changed by user.
-    if (!(in_array('Public User', $user->roles) && count($user->roles) == 2)) {
+    if (!(in_array('Public User', $user->roles) && count($user->roles) == 2) && !in_array('eactivity-dataflows', $user->roles) ) {
       form_set_error('mail', t('You do not have adequate permission to edit your email.'));
     }
   }
