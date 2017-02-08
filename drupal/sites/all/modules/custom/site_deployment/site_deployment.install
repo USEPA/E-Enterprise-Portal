@@ -16,140 +16,37 @@
 
 module_load_include('inc', 'site_deployment', 'site_deployment_helpers');
 
-/**
- * Refactoring Features and EE-1579
- */
-function site_deployment_update_7015(&$sandbox) {
-  module_load_include('inc', 'page_manager', 'plugins/tasks/page');
-
-  // Number of passes required
-  $sandbox['total'] = 8;
-
-  // Split steps in batches to minize risk of page timeout
-  if (!$sandbox['current']) {
-    $sandbox['current'] = 1;
-  }
-
-  if ($sandbox['current'] === 1) {
-    $modules_to_disable = ['page_manager_feature', 'eenteprise_api_1_0', 'other_items_of_interest_feature', 'ee_disclaimer'];
-    module_disable($modules_to_disable);
-    drupal_set_message("Disabled modules: " . implode(', ', $modules_to_disable));
-  }
-
-  if ($sandbox['current'] === 2) {
-    if ($view = views_get_view('workbench')) {
-      // Delete the view
-      views_delete_view($view);
-      drupal_set_message("Deleted view: workbench");
-    }
-  }
-
-  if ($sandbox['current'] === 3) {
-    // Delete old context
-    if ($context = context_load('workbench')) {
-      context_delete($context);
-      drupal_set_message("Deleted context: workbench");
-    }
-  }
-
-  if ($sandbox['current'] === 4) {
-
-    // Reenable or enable new modules
-    $modules_to_enable = ['role_export', 'page_manager_feature', 'eenteprise_api_1_0', 'other_items_of_interest_feature',
-      'ee_disclaimer', 'air_quality_chart', 'progress_tracker_view',
-      'to_do_view', 'my_maps_view', 'interactive_maps', 'village_green'];
-    module_enable($modules_to_enable);
-    drupal_set_message("Enabled modules: " . implode(', ', $modules_to_enable));
-  }
-
-  if ($sandbox['current'] === 5) {
-    //Make sure the features are actually enabled
-    $features = ['eenteprise_api_1_0', 'other_items_of_interest_feature',
-      'ee_disclaimer', 'progress_tracker_view', 'to_do_view',
-      'my_maps_view', 'my_air_quality_chart_view',
-      'village_green_block'];
-
-    features_install_modules($features);
-    features_revert($features);
-    drupal_set_message("Enabled and reverted features: " . implode(', ', $features));
-  }
-
-  if ($sandbox['current'] === 6) {
-    $pages_to_remove = array(
-      'workbench_page', // Check for unique page names in admin/structure/pages.
-    );
-    foreach ($pages_to_remove as $name) {
-      $page = page_manager_page_load($name);
-      if (!empty($page)) {
-        page_manager_page_delete($page);
-      }
-    }
-    drupal_set_message("Deleted pages: " . implode(', ', $pages_to_remove));
-  }
-
-  if ($sandbox['current'] === 7) {
-    $role = user_role_load_by_name('eactivity-dataflows');
-    if ($role === FALSE) {
-      $role = new stdClass();
-      $role->name = 'eactivity-dataflows';
-      user_role_save($role);
-      drupal_set_message("Added new role: eactivity-dataflows");
-    } else {
-      drupal_set_message("Role already exists: eactivity-dataflows");
-    }
-  }
-
-
-  if ($sandbox['current'] === 8) {
-    // Need to enable after role creation in step 7
-    module_enable(['to_do', 'progress_tracker']);
-    features_install_modules(['page_manager_feature']);
-    features_revert(['page_manager_feature']);
-
-    drupal_flush_all_caches();
-    drupal_theme_rebuild();
-    drupal_set_message("Caches have been cleared.");
-  }
-
-
-
-// Once the total amount of steps have been completed, set finished to 1 to complete
-  $sandbox['#finished'] = $sandbox['current'] / $sandbox['total'];
-
-  $sandbox['current']++;
-
-}
-
+// SPRINT 31
 
 /**
- * Updating query settings for LGC Resources View
+ * Revert other_items_of_interest_feature
  */
-function site_deployment_update_7501(){
-
-  // Update query settings for LGC Resources view
-
-  global $base_url;
-  $view = views_get_view('lgc_resources', TRUE);
-  // Set default
-  $view->display['default']->display_options['query']['options']['json_file'] = $base_url . '/lgc_resources_json_all';
-  // Override User
-  $view->display['rcs_resources_user']->display_options['query']['options']['json_file'] = $base_url . '/lgc_resources_json_by_user';
-  views_save_view($view);
-
+function site_deployment_update_7601(){
+  features_revert(['other_items_of_interest_feature']);
+  drupal_set_message("Reverted other_items_of_interest_feature");
 
 }
 
 /**
- *Sprint 30 Deployment to Showcase
- * After completed, import vocab for Developers Resource taxonomy using taxonomy manager:
- * APIs
-Authentication
-eActivity and Workflow
+ * Remove deprecated Google Analytics view
+ * Manually delete block: cdx_custom_analytics
  */
-function site_deployment_update_7502(){
+function site_deployment_update_7602(){
 
-  module_enable(['menu_attributes']);
-  features_install_modules(['developer_resources_area']);
-  features_revert(['workbench_header', 'page_manager']);
-
+  if ($view = views_get_view('google_analytics')) {
+    // Delete the view
+    views_delete_view($view);
+    drupal_set_message("Deleted view: Google Analytics");
+  }
 }
+
+/**
+ * Revert Page manager and workbench header to gather recent changes
+ */
+function site_deployment_update_7603(){
+
+  features_revert(['page_manager_feature', 'workbench_header']);
+  drupal_set_message("Reverted Page Manager and Workbench Header features");
+  drupal_flush_all_caches();
+}
+

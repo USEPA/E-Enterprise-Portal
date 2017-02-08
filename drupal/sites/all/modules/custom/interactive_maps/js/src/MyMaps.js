@@ -347,6 +347,7 @@
 
       function updateTotalNumberOfMapsShowing(countThese) {
         var carouselToCount = '#' + countThese + '-maps-carousel .thumb > li.load-thumbnail';
+
         numItemsVisible = $(carouselToCount).length;
         $("#map-count").html(numItemsVisible.toString());
       }

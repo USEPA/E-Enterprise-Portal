@@ -123,9 +123,15 @@ function load_progress_tracker_datatable_json($use_cache = TRUE) {
   $eactivity_dt_json = [];
   $progress_tracker_data = load_eactivity_data('progress_tracker', $use_cache);
 
-  foreach($progress_tracker_data as $id=>$eactivity_item) {
+  foreach($progress_tracker_data as $id => $eactivity_item) {
+    if($id == 'cached') {
+      $cached = $eactivity_item;
+      continue;
+    }
+
     $part_code = "";
     $sub_part_code = "";
+
     if ($eactivity_item['domain'] === "CEDRI") {
       $report_type = $eactivity_item['report_type'];
       $cedri_details = $eactivity_item['cedri_details'];
@@ -150,9 +156,10 @@ function load_progress_tracker_datatable_json($use_cache = TRUE) {
     }
 
     $status_anchor =
-      "<a class='favorites-ignore pt-status'" .
+      "<a class='favorites-ignore pt-status ga-tracking'" .
       "data-title='" . $eactivity_item['title'] . "'" .
       "data-status-note='" . $status_note . "'" .
+      "data-ga-event-label='progress tracker status'" .
       ">" . $eactivity_item['status'] . "</a>";
 
 
@@ -171,6 +178,6 @@ function load_progress_tracker_datatable_json($use_cache = TRUE) {
     $eactivity_dt_json[] = $eactivity_dt_row;
   }
 
-  drupal_json_output(array("data" => $eactivity_dt_json));
+  drupal_json_output(array("data" => $eactivity_dt_json, "cached"=> $cached));
 }
 

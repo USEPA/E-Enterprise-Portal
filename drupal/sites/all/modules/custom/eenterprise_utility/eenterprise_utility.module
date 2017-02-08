@@ -164,14 +164,17 @@ function eenterprise_utility_node_view($node, $view_mode, $langcode) {
           perform_user_login($return_output);//authenticate user and login to drupal
           if (isset($_GET['destination'])) {
             drupal_goto("/" . $_GET['destination']);
-          } else {
+          }
+          else {
             drupal_goto("/");
           }
         }
-      } else {
+      }
+      else {
         drupal_goto("/");
       }
-    } else {
+    }
+    else {
       drupal_goto("/");
     }
   }
@@ -196,14 +199,16 @@ function perform_user_login($response_output) {
         $_SESSION['userId'] = $username;
         $_SESSION['login_timestamp'] = time();
         $public_or_cdx = 'cdx';
-      } else {
+      }
+      else {
         $user_role = user_role_load_by_name('Public User');
         user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
         $public_or_cdx = 'public';
       }
       $_SESSION['cdx_user_type'] = $public_or_cdx;
     }
-  } else {
+  }
+  else {
     //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
     $user = $ext_user;
     $form_state['uid'] = $user->uid;
@@ -217,7 +222,8 @@ function perform_user_login($response_output) {
         $_SESSION['userId'] = $username;
         $_SESSION['login_timestamp'] = time();
         $public_or_cdx = 'cdx';
-      } else {
+      }
+      else {
         $user_role = user_role_load_by_name('Public User');
         user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
         $public_or_cdx = 'public';
@@ -241,7 +247,8 @@ function user_external_load_custom($authname) {
   $uid = db_query("SELECT uid FROM {authmap} WHERE authname LIKE :authname", array(':authname' => '%' . db_like($authname) . '_Via_%'))->fetchField();
   if ($uid) {
     return user_load($uid);
-  } else {
+  }
+  else {
     return FALSE;
   }
 }
@@ -296,11 +303,7 @@ function eenterprise_utility_permission() {
  * Hide filters when views result is empty.
  */
 function eenterprise_utility_views_pre_render(&$view) {
-  if ($view->name == 'progress_tracker' || $view->name == 'to_do') {
-    if (empty($view->result) && empty($view->exposed_input)) {
-      $view->exposed_widgets = NULL;
-    }
-  }
+
   if ($view->name == 'app_connect_new') {
     print drupal_render(drupal_get_form('app_connect_sso_form'));
   }
@@ -312,7 +315,12 @@ function eenterprise_utility_views_pre_render(&$view) {
   }
 
   $chemical_modal = theme('chemical_rules_modal');
-  drupal_add_js(array("chemical_rules" => ["modal" => $chemical_modal, "profile" => $user_chem_rules_user_settings]), 'setting');
+  drupal_add_js(array(
+    "chemical_rules" => [
+      "modal" => $chemical_modal,
+      "profile" => $user_chem_rules_user_settings
+    ]
+  ), 'setting');
   drupal_add_js(drupal_get_path('theme', 'eenterprise') . '/js/waitUntilExists.js', [
     'scope' => 'footer',
     'preprocess' => TRUE,
@@ -361,7 +369,8 @@ function guest_login_action() {
   global $user;
   if ($user->uid != 0) {
     drupal_goto("/");
-  } else {
+  }
+  else {
     $uid = user_authenticate("guest-user", "Gu35t_u53r!!");
     $user = user_load($uid);
     watchdog('guest_user', 'Session opened for %name.', array('%name' => $user->name));
@@ -428,7 +437,8 @@ function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcod
       echo '<p> There is no Air Now data loaded in the database, loading from local file.</p>';
       $csvData = file_get_contents('cityzipcodes.csv', TRUE);
       $lines = explode(PHP_EOL, $csvData);
-    } else { //No need to change anything, database has results and nothing from data source
+    }
+    else { //No need to change anything, database has results and nothing from data source
       echo '<p> There is already Air Now data, no update needed.</p>';
       ini_set('max_execution_time', 150);
       exit();
@@ -458,8 +468,8 @@ function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcod
         'City' => $data_line[0],
         'State' => $data_line[1],
         'Zipcode' => $data_line[2],
-        'Latitude' => (float)$data_line[3],
-        'Longitude' => (float)$data_line[4],
+        'Latitude' => (float) $data_line[3],
+        'Longitude' => (float) $data_line[4],
       ))->execute();
     }
   }
@@ -584,7 +594,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
       /*if (module_exists('chemical_rules') || $form['field_chem_rules_user_settings']) {
         hide($form['field_chem_rules_user_settings']);
       }*/
-    } else {
+    }
+    else {
       // Set description for admin
       $form['field_admin_state'][LANGUAGE_NONE][0]['value']['#title'] = "State code, tribe name, or 'US EPA'";
       $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
@@ -620,7 +631,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
         }
       }
       ksort($zip_deltas);
-    } else {
+    }
+    else {
       $zip_mapping = load_user_preferred_zips();
     }
     $form['zip_mapping'] = array(
@@ -778,7 +790,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
           $name = $zip_deltas[$delta]['name'];
           $commsize = $zip_deltas[$delta]['commsize'];
           $urban = $zip_deltas[$delta]['is_urban'];
-        } else {
+        }
+        else {
           // Returns false if not found
           $name = name_look_up($zip_mapping, $zip, $lookup_names);
           // Set pop and urban from found preferred name
@@ -792,7 +805,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
         }
         if (!in_array($zip, $used_preferred_names[$name])) {
           $used_preferred_names[$name][] = $zip;
-        } else {
+        }
+        else {
           $duplicate = TRUE;
         }
 
@@ -800,7 +814,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
           $field_suffix = '<span id="zip-code-error" class="field-suffix error">' .
             'Duplicate location name (' . $name . ') and zip code pairs are not allowed.</span>';
           $ariacity = '';
-        } else {
+        }
+        else {
           $field_suffix =
             '<span ' .
             ' id="city-name-' . $delta . '" aria-live="polite"' .
@@ -809,7 +824,8 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
           $ariacity = $name;
         }
 
-      } else {
+      }
+      else {
         $field_suffix = '';
         $ariacity = '';
       }
@@ -904,7 +920,8 @@ function load_user_preferred_zips() {
       // Set primary value
       if (isset($node->field_primary[LANGUAGE_NONE]) && $node->field_primary[LANGUAGE_NONE][0]['value'] == 1) {
         $user_zips[$name][$zip]['primary'] = 1;
-      } else {
+      }
+      else {
         $user_zips[$name][$zip]['primary'] = 0;
       }
     }
@@ -946,7 +963,8 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
       'string' => $error_message,
       'error' => $error
     );
-  } else {
+  }
+  else {
     // Test if zip code (and not city, state)
     $validation = postal_code_validation_validate($unparsed_zip, 'US');
 
@@ -980,17 +998,16 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
           "method" => "GET",
           'timeout' => "10"
         ]);
-        if($response->code != 200 ) {
+        if ($response->code != 200) {
           $result_zip = json_decode($response->data);
-          $result_zip['error'] = true;
+          $result_zip['error'] = TRUE;
           $result_zip['error_message'][] = $response->status_message;
         }
         else {
           try {
             $result_zip = json_decode($response->data);
-          }
-          catch (Exception $e) {
-            $result_zip['error'] = true;
+          } catch (Exception $e) {
+            $result_zip['error'] = TRUE;
             $result_zip['error_message'][] = $e;
           }
         }
@@ -1032,17 +1049,16 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
           "method" => "GET",
           'timeout' => "10"
         ]);
-        if($response->code != 200 ) {
+        if ($response->code != 200) {
           $result_tribe = json_decode($response->data);
-          $result_tribe['error'] = true;
+          $result_tribe['error'] = TRUE;
           $result_tribe['error_message'][] = $response->status_message;
         }
         else {
           try {
             $result_tribe = json_decode($response->data);
-          }
-          catch (Exception $e) {
-            $result_tribe['error'] = true;
+          } catch (Exception $e) {
+            $result_tribe['error'] = TRUE;
             $result_tribe['error_message'][] = $e;
           }
         }
@@ -1065,7 +1081,8 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
             $zip_data['city'][] = $frs_city;
           }
         }
-      } else {
+      }
+      else {
         // If not intial login, revert to old way of doing zip/city lookups
         if (isset($frs_lat_long_return['lat']) && isset($frs_city_state_return['state'])) {
           $zip_data = array(
@@ -1088,13 +1105,15 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
             );
             $zip_data['zip_attr'] = $zip_attr;
             $error = FALSE;
-          } else {
+          }
+          else {
             if (strlen($zip_data['city']) != 0) {
               $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
               $error = FALSE;
             }
           }
-        } else {
+        }
+        else {
           if (strlen($zip_data['city']) != 0) {
             $readable_string .= $zip_data['city'] . ', ' . $zip_data['state'];
             $error = FALSE;
@@ -1107,7 +1126,8 @@ function zip_code_lookup($unparsed_zip = NULL, $return_data_type = 'php', $initi
   }
   if ($return_data_type == 'php') {
     return $zip_data;
-  } else {
+  }
+  else {
     print json_encode($zip_data);
   }
 }
@@ -1144,7 +1164,7 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
   $user_data = user_load($user->uid);
   $user_initial_login = $user_data->field_initial_log_in;
 
-  $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+  $geolocation_used = (int) $user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
   $geolocation_value = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation_value'][LANGUAGE_NONE][0]['value'];
   $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
 
@@ -1152,7 +1172,8 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
     if (isset($skip) && isset($geolocation_value)) {
       $blank_zipcode = FALSE;
       $site_default_zip = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation_value'][LANGUAGE_NONE][0]['value'];
-    } else {
+    }
+    else {
       $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'] = $site_default_zip;
       $form_state['values']['field_zip_code'][LANGUAGE_NONE][0]['field_field_primary'][LANGUAGE_NONE][0]['value'] = 1;
     }
@@ -1212,7 +1233,8 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
       if (!in_array($delta, $error_deltas)) {
         $error_deltas[] = $delta;
       }
-    } else {
+    }
+    else {
 
       // If there is only one zip code- make sure primary value is set. Subtract 1 one count to account for add-more element
       if ($count_zips == 1) {
@@ -1253,11 +1275,14 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
     $form_state['values']['field_profile_favourites'][$nl][0]['field_url'][$nl][0]['value'] = '';
     $form_state['values']['field_profile_favourites'][$nl][0]['field_title'][$nl][0]['value'] = '';
     $form_state['input']['field_profile_favourites'][$nl][0]['field_url'][$nl][0]['value'] = '';
-  } else {
+  }
+  else {
     foreach ($form_state['values']['field_profile_favourites'][$nl] as $delta => $field) {
 
       // skip if the field is not an valid array
-      if (!is_array($field)) continue;
+      if (!is_array($field)) {
+        continue;
+      }
 
       $url = trim($form_state['values']['field_profile_favourites'][$nl][$delta]['field_url'][$nl][0]['value']);
       $title = trim($form_state['values']['field_profile_favourites'][$nl][$delta]['field_title'][$nl][0]['value']);
@@ -1268,7 +1293,8 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
       // if title is empty, set it to given url
       if ($title == '') {
         $form_state['values']['field_profile_favourites'][$nl][$delta]['field_title'][$nl][0]['value'] = $url;
-      } else {
+      }
+      else {
         $form_state['values']['field_profile_favourites'][$nl][$delta]['field_title'][$nl][0]['value'] = $title;
       }
 
@@ -1290,14 +1316,23 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
       if ($hasUrl || $hasText) {
         if (!$hasUrl) {
           form_set_error($key . "field_url", t($errorMsgBlank));
-        } else if ($match_html) {
-          form_set_error($key . "field_url", t($errorMsgUrl));
-        } else if (!$validURL) {
-          form_set_error($key . "field_url", t($errorMsgInvalid));
         }
-      } else if (!$hasUrl && !$hasText) {
-        unset($form_state['values']['field_profile_favourites'][$nl][$delta]);
-        unset($form_state['input']['field_profile_favourites'][$nl][$delta]);
+        else {
+          if ($match_html) {
+            form_set_error($key . "field_url", t($errorMsgUrl));
+          }
+          else {
+            if (!$validURL) {
+              form_set_error($key . "field_url", t($errorMsgInvalid));
+            }
+          }
+        }
+      }
+      else {
+        if (!$hasUrl && !$hasText) {
+          unset($form_state['values']['field_profile_favourites'][$nl][$delta]);
+          unset($form_state['input']['field_profile_favourites'][$nl][$delta]);
+        }
       }
     }
   }
@@ -1315,8 +1350,9 @@ function user_profile_mail_custom_validate(&$form, &$form_state) {
     //This error should not be set for public users because another piece of code in form alter in this file
     //needs to change email address to username if email comes empty which is true for some public users like WAM, PIV Card and Twitter.
     //For CDX users this error should still show if email is changed by user.
-    if (!(in_array('Public User', $user->roles) && count($user->roles) == 2))
+    if (!(in_array('Public User', $user->roles) && count($user->roles) == 2) && !in_array('eactivity-dataflows', $user->roles) ) {
       form_set_error('mail', t('You do not have adequate permission to edit your email.'));
+    }
   }
 }
 
@@ -1344,7 +1380,8 @@ function profile_delete_action($form, &$form_state) {
 function eenterprise_utility_user_view($account, $view_mode, $langcode) {
   if ($account->name == 'guest-user') {
     drupal_goto("/");
-  } else {
+  }
+  else {
     if ($account->uid > 0) {
       drupal_goto("/user/" . $account->uid . "/edit");
     }
@@ -1451,7 +1488,8 @@ function get_modal_data($locations) {
       $radio_id = sprintf("%02d", $id++);;
       if ($zip == $primary_radio_zip && $name == $primary_radio_location) {
         print '<input checked type="radio" id="location-' . $radio_id . '" data-location-zip="' . $zip . '" data-location-name="' . $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
-      } else {
+      }
+      else {
         print '<input type="radio" id="location-' . $radio_id . '" data-location-zip="' . $zip . '" data-location-name="' . $name . '" name="location-radio" value="' . $zip . '|' . $name . '" /><label for="location-' . $radio_id . '">' . $name . " (" . $zip . ")" . "</label>";
       }
     }
@@ -1493,7 +1531,8 @@ function generate_location_select() {
         $primary_location_used = TRUE;
         // Set a data attribute on the option that's the primary location to avoid removing it later
         $data_primary_location = " data-ee-location='primary' ";
-      } else {
+      }
+      else {
         $selected = '';
       }
 
@@ -1518,7 +1557,8 @@ function generate_location_select() {
               print "<option title = '" . $name . " (" . $zip . ")' value='" . $zip . "' " . $selected . " >" . $name . " (" . $zip . ")</option>";
             }
           }
-        } else {
+        }
+        else {
           if ($show_more) {
             print "<option value='view_more'>Show more...</option>";
             $show_more = FALSE;
@@ -1565,90 +1605,6 @@ function eenterprise_utility_node_presave($node) {
   }
 }
 
-function eenterprise_utility_views_query_alter(&$view, &$query) {
-  if ($view->name == 'to_do') {
-    if (isset($view->exposed_raw_input) && $view->exposed_raw_input['field_todo_lst_due_value'] != '') {
-      foreach ($query->where[1]['conditions'] as $key => $value) {
-        if ($value['field'] == 'field_data_field_todo_lst_due.field_todo_lst_due_value') {
-          $view->query->where[1]['conditions'][$key]['operator'] = '>=';
-        }
-      }
-      $view->args['week_filter_val'] = $view->exposed_raw_input['field_todo_lst_due_value'];
-      date_default_timezone_set('America/New_York');
-      $time_diff = time() - strtotime($view->exposed_raw_input['field_todo_lst_due_value']);
-      if ($time_diff < (7 * 24 * 60 * 60) && $time_diff > 0) {
-        //if (substr($view->exposed_raw_input['field_todo_lst_due_value'], 0, 10) == date("Y-m-d")) {
-        $view->query->add_where(1, 'field_data_field_todo_lst_due.field_todo_lst_due_value', date("Y-m-d 23:59:59", strtotime("next saturday", time())), '<');
-      } //if the difference between beyond next week and now is more than 7 days
-      else {
-        if ((strtotime($view->exposed_raw_input['field_todo_lst_due_value']) - time()) > (7 * 24 * 60 * 60)) {
-          ;
-          //here, there is no need to add a second where clause because the filter is beyond next week.
-        } else {
-          if (date('D', strtotime($view->exposed_raw_input['field_todo_lst_due_value'])) == 'Sun') {
-            $next_week = time() + 7 * 24 * 60 * 60;
-            $view->query->add_where(1, 'field_data_field_todo_lst_due.field_todo_lst_due_value', date("Y-m-d 23:59:59", strtotime("next saturday", $next_week)), '<');
-          }
-        }
-      }
-
-    }
-
-    if (isset($query->table_queue['field_data_field_todo_lst_rprt_type_filter'])) {
-      unset($query->table_queue['field_data_field_todo_lst_rprt_type_filter']);
-      unset($query->tables['node']['field_data_field_todo_lst_rprt_type_filter']);
-    }
-    foreach ($query->where[1]['conditions'] as $key => $value) {
-      if ($value['field'] == 'field_data_field_todo_lst_rprt_type_filter.field_todo_lst_rprt_type_filter_value') {
-        unset($query->where[1]['conditions'][$key]);
-      }
-    }
-    $field_info = field_info_field('field_todo_lst_rprt_type_filter');
-    $allowed_values = $field_info['settings']['allowed_values'];
-    if (isset($view->exposed_raw_input['field_todo_lst_rprt_type_filter_value']) && $view->exposed_raw_input['field_todo_lst_rprt_type_filter_value'] != 'All') {
-      $query->add_table('field_data_field_todo_lst_item');
-      $query->add_where(1, 'field_data_field_todo_lst_item.field_todo_lst_item_value', '%' . $allowed_values[$view->exposed_raw_input['field_todo_lst_rprt_type_filter_value']] . '%', 'LIKE');
-    } else {
-      if (isset($view->exposed_raw_input['field_todo_lst_rprt_type_filter_value']) && $view->exposed_raw_input['field_todo_lst_rprt_type_filter_value'] == 'All') {
-        $query->add_table('field_data_field_todo_lst_item');
-        $query->add_where(1, 'field_data_field_todo_lst_item.field_todo_lst_item_value', '% %', 'LIKE');
-      }
-    }
-  }
-  if ($view->name == 'progress_tracker') {
-    //Remove the natural behavior of the second filter on progress tracker.
-    unset($query->table_queue['field_data_field_prog_track_rep_type_filter']);
-    unset($query->tables['node']['field_data_field_prog_track_rep_type_filter']);
-
-    foreach ($query->where[1]['conditions'] as $key => $value) {
-      if ($value['field'] == 'field_data_field_prog_track_rep_type_filter.field_prog_track_rep_type_filter_value') {
-        unset($query->where[1]['conditions'][$key]);
-      }
-    }
-    //get allowed values for field filter.
-    $field_info = field_info_field('field_prog_track_rep_type_filter');
-    $allowed_values = $field_info['settings']['allowed_values'];
-    if (isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] != 'All') {
-      if (in_array($allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']], array(
-        'Firm Abatement',
-        'Firm RRP',
-        'Firm Combination'
-      ))) {
-        $res_val = explode(" ", $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']]);
-        $query->add_table('field_data_field_prog_tracker_app');
-        $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $res_val[1] . '%', 'LIKE');
-      } else {
-        $query->add_table('field_data_field_prog_tracker_app');
-        $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '%' . $allowed_values[$view->exposed_raw_input['field_prog_track_rep_type_filter_value']] . '%', 'LIKE');
-      }
-    } else {
-      if (isset($view->exposed_raw_input['field_prog_track_rep_type_filter_value']) && $view->exposed_raw_input['field_prog_track_rep_type_filter_value'] == 'All') {
-        $query->add_table('field_data_field_prog_tracker_app');
-        $query->add_where(1, 'field_data_field_prog_tracker_app.field_prog_tracker_app_value', '% %', 'LIKE');
-      }
-    }
-  }
-}
 
 /**
  * Implements hook_theme().
@@ -1710,14 +1666,15 @@ function location_description() {
   if ($num_zip_codes > 0) {
     $location_description = "Add a location of interest to see environmental information relevant to that area. <strong>Select your primary location by clicking the <span class='sr-only'>Set primary location</span><i class='fa fa-star-o star-example description-key selected' aria-hidden='true' title='Set primary location'></i> icon.</strong>";
     $first_zip_code = $user_data->field_zip_code[LANGUAGE_NONE][0]['field_field_zip_code'][LANGUAGE_NONE][0]['value'];
-  } else {
+  }
+  else {
     $location_description = "Add your locations of interest to see environmental information relevant to those areas.  <strong>Click the <span class='sr-only'>Set primary location</span><i class='fa fa-star-o star-example description-key selected' aria-hidden='true' title='Set primary location'></i> icon next to a location to make it your default location.</strong> <br />";
     $first_zip_code = '';
   }
 
   $geolocation = FALSE;
   $user_initial_login = $user_data->field_initial_log_in;
-  $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+  $geolocation_used = (int) $user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
 
   if (isset($geolocation_used)) {
     if ($geolocation_used) {
@@ -1751,7 +1708,8 @@ function release_number() {
     $nodes = node_load(max(array_keys($results['node']))); // Get the highest nodie id
     $release_number = $nodes->title;
     $_SESSION['release_number'] = $release_number;
-  } else {
+  }
+  else {
     $release_number = '';
   }
   return $release_number;
@@ -1764,7 +1722,6 @@ function release_number() {
 function update_user_gridstack_data() {
   global $user;
   $user_data = user_load($user->uid);
-  echo json_encode($_POST['grid_data']);
   if (isset($_POST['grid_data'])) {
     $user_grid_data = $user_data->field_gridstack_settings;
     unset($user_grid_data);
@@ -1826,7 +1783,6 @@ function update_user_gridstack_data() {
     try {
       user_save($user_data, $edit);
     } catch (Exception $e) {
-      print json_encode($e);
       exit();
     }
   }
@@ -1870,7 +1826,8 @@ function load_user_gridstack_data() {
   if (isset($_GET['json'])) {
     echo json_encode($return_array);
     exit();
-  } else {
+  }
+  else {
     return $return_array;
   }
 }

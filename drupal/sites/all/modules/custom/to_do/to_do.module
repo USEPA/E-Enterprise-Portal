@@ -126,6 +126,11 @@ function load_to_do_datatable_json($use_cache = true) {
 
   foreach ($to_do_data as $id => $eactivity_item) {
 
+    if($id == 'cached') {
+      $cached = $eactivity_item;
+      continue;
+    }
+
     $cedri_details = $eactivity_item['cedri_details'];
     $parenthesis_index = strpos($eactivity_item['title'], ')');
     $subheading = substr($eactivity_item['title'], $parenthesis_index + 1);
@@ -134,7 +139,7 @@ function load_to_do_datatable_json($use_cache = true) {
     $sub_part_code = $cedri_details['sub_part_code'];
 
     $title =
-      "<a class='favorites-ignore' target='_blank' href='" . $eactivity_item['handoff_url'] . "'>" .
+      "<a class='favorites-ignore ga-tracking'  data-ga-event-label='to do handoff' target='_blank' href='" . $eactivity_item['handoff_url'] . "'>" .
       "<span class='report-name'>Review " .
       $report_type . " (" .
       $part_code . ", " . $sub_part_code . ") " .
@@ -148,10 +153,11 @@ function load_to_do_datatable_json($use_cache = true) {
     $sub_part_code = $cedri_details['sub_part_code'];
 
     $status_anchor =
-      "<a class='simple-dialog favorites-ignore td-status' " .
+      "<a class='simple-dialog favorites-ignore td-status ga-tracking' " .
       "data-title='" . $cedri_details['facility_name'] . "' " .
       "data-status-note='" . $status_note . "' " .
-      "data-due-date='" . $eactivity_item['date'] . "' " .
+      "data-due-date='" . $eactivity_item['date'] . "'" .
+      "data-ga-event-label='to do details'" .
       ">Details</a>";
 
 
@@ -184,6 +190,6 @@ function load_to_do_datatable_json($use_cache = true) {
     $eactivity_dt_json[] = $eactivity_dt_row;
   }
 
-  drupal_json_output(array("data" => $eactivity_dt_json));
+  drupal_json_output(array("data" => $eactivity_dt_json, 'cached' => $cached));
 }
 

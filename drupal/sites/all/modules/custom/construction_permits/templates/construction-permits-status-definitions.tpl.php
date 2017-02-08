@@ -6,15 +6,14 @@
  * Time: 9:23 AM
  */
 ?>
-<div class="permit-wrapper notice-of-intent ee-grid box-fluid">
+<div class="ee-grid box-fluid">
   <div class="section">
     <div class="line">
-      <div class="box-fluid property"
-           data-cgp-property="projectSiteInformation.siteName">
+      <div class="col-sm-12">
         <dl>
           <dt>Active</dt>
           <dd>2017 CGP NOI records that have been submitted to EPA and have
-            completed a 14-day wait period, and are considered covered under the
+            completed a 14-day review period, and are considered covered under the
             permit. LEW records that have been certified by the designated
             certifying official and are considered covered under the waiver from
             needing CGP coverage.

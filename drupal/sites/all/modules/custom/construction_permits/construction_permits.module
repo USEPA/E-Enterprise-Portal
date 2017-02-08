@@ -119,6 +119,14 @@ function construction_permits_block_view($delta = '') {
         'cache' => TRUE,
         'requires_jquery' => TRUE
       ]);
+      drupal_add_js(drupal_get_path('module', 'construction_permits') . '/js/moment.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
       drupal_add_js(drupal_get_path('module', 'construction_permits') . '/js/construction_permits.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
@@ -170,16 +178,11 @@ function construction_permits_form_submission() {
     $datatable_formatted_response['error'] = FALSE;
   }
   else {
-    /*if (!isset($_POST) || count($_POST) === 0) {
-      drupal_json_output(array(
-        'error' => TRUE,
-        'message' => 'Failed to receive any data.'
-      ));
-      return;
-    }*/
-    // All temporary
-    // Sample page at https://devngn.epacdxnode.net/oeca-cgp-web/action/secured/home/#!/home
-
+    foreach ($_POST as $key => $value) {
+      if(!empty($value) && in_array($key, ['submittedDateTo', 'submittedDateFrom','updatedDateFrom','updatedDateTo']) !== false) {
+        $_POST[$key] = date("c", strtotime($value));
+      }
+    }
     $endpoint = variable_get('cgp_api_endpoint') . '/form?' . http_build_query($_POST);
     $response = drupal_http_request($endpoint, [
       "method" => "GET",
@@ -207,17 +210,22 @@ function construction_permits_form_submission() {
 function construction_permits_datatable_response($cgp_reponse_json) {
   $datatable_result_summary_json = [];
   foreach ($cgp_reponse_json as $cgp_result) {
+    $doc_time = strtotime($cgp_result['reviewExpiration']);
     $dt_row = [];
     //$cgp_result = $cgp_result['data'];
     $dt_row[] = $cgp_result['id'];
-    $dt_row[] = $cgp_result['masterPermitNumber'];
     $dt_row[] = $cgp_result['npdesId'];
+    $dt_row[] = $cgp_result['type'];
     $dt_row[] = $cgp_result['operatorInformation']["operatorName"];
     $dt_row[] = $cgp_result['projectSiteInformation']['siteName'];
     $dt_row[] = $cgp_result['projectSiteInformation']['siteStateCode'];
     $dt_row[] = $cgp_result['projectSiteInformation']['siteCity'];
     $dt_row[] = $cgp_result['status'];
-    $dt_row[] = $cgp_result['submittedDate'];
+    //$dt_row[] = $cgp_result['submittedDate'];  // Cert date
+    //$dt_row[] = $cgp_result['certifiedDate'];  // Date of coverage
+
+    $dt_row[] = $cgp_result['certifiedDate'];  // Cert date
+    $dt_row[] = ($doc_time <= time()) ? $cgp_result['reviewExpiration'] : '&dash;';  // Date of coverage
     $datatable_result_summary_json[] = $dt_row;
   }
   return $datatable_result_summary_json;
@@ -254,8 +262,9 @@ function cgp_external_details_lookup($tracking_id) {
   $cgp_status_html = theme('construction_permits_status_definitions');
   $cgp_permit_template_notice_of_intent = theme('construction_permits_permit_notice_of_intent');
   $params = ["trackingNumber"=> $tracking_id];
-  //TODO replace with variable get from configs
-  $endpoint = "https://devngn.epacdxnode.net/oeca-cgp-web/api/public/v1/form". '?' . http_build_query($params);
+  $form_url = variable_get('cgp_api_endpoint');
+
+  $endpoint = $form_url . '/form?' . http_build_query($params);
   $response = drupal_http_request($endpoint, [
     "method" => "GET",
     'timeout' => "10"

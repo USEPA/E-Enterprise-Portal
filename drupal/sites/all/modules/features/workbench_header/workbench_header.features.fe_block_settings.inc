@@ -49,39 +49,6 @@ new-users',
     'visibility' => 0,
   );
 
-  $export['block-cdx_custom_analytics'] = array(
-    'cache' => -1,
-    'css_class' => '',
-    'custom' => 0,
-    'machine_name' => 'cdx_custom_analytics',
-    'module' => 'block',
-    'node_types' => array(),
-    'pages' => 'workbench',
-    'roles' => array(),
-    'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'eenterprise' => array(
-        'region' => 'header',
-        'status' => 1,
-        'theme' => 'eenterprise',
-        'weight' => 0,
-      ),
-      'seven' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'seven',
-        'weight' => 0,
-      ),
-    ),
-    'title' => 'CDX and Lead Analytics Tracking',
-    'visibility' => 1,
-  );
-
   $export['block-ee_header_locations'] = array(
     'cache' => -1,
     'css_class' => 'usa-width-one-half',
@@ -159,7 +126,10 @@ eenterprise-alternate',
     'machine_name' => 'ee_showcase_disclaimer',
     'module' => 'block',
     'node_types' => array(),
-    'pages' => '',
+    'pages' => '<?php
+module_load_include(\'inc\', \'feature_toggle\', \'includes/feature_toggle.api\');
+return feature_toggle_get_status(\'aws_environment\');
+?>',
     'roles' => array(),
     'themes' => array(
       'bartik' => array(
@@ -182,7 +152,7 @@ eenterprise-alternate',
       ),
     ),
     'title' => '',
-    'visibility' => 0,
+    'visibility' => 2,
   );
 
   $export['block-guest_user_login_buttons'] = array(
@@ -365,7 +335,6 @@ eenterprise-alternate',
       'Certifier: CO' => 116,
       'Certifier: LA' => 130,
       'Certifying Official' => 25,
-      'Certifying Official - New' => 67981156,
       'CGP' => 118,
       'Company Authorizing Official' => 121,
       'Custom ENNAAS' => 84,
@@ -438,7 +407,6 @@ eenterprise-alternate',
       'RMP*Info Public' => 105,
       'RMP: Download Dataset' => 98,
       'RMP: Download Dataset OCA' => 99,
-      'RP' => 22898720,
       'Secondary Authorized Official' => 100,
       'Secondary Preparer' => 139,
       'Security' => 137,
@@ -469,39 +437,6 @@ eenterprise-alternate',
         'status' => 1,
         'theme' => 'eenterprise',
         'weight' => -24,
-      ),
-      'seven' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'seven',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 0,
-  );
-
-  $export['views-google_analytics-block'] = array(
-    'cache' => -1,
-    'css_class' => '',
-    'custom' => 0,
-    'delta' => 'google_analytics-block',
-    'module' => 'views',
-    'node_types' => array(),
-    'pages' => '',
-    'roles' => array(),
-    'themes' => array(
-      'bartik' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'bartik',
-        'weight' => 0,
-      ),
-      'eenterprise' => array(
-        'region' => 'bottom',
-        'status' => 1,
-        'theme' => 'eenterprise',
-        'weight' => -36,
       ),
       'seven' => array(
         'region' => '',

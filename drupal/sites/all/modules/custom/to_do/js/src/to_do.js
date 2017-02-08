@@ -1,8 +1,8 @@
 (function($) {
 
   function clearDTSearches(dtTable) {
-    dtTable.search( '' )
-      .columns().search( '' )
+    dtTable.search('')
+      .columns().search('')
       .draw();
   }
 
@@ -27,7 +27,7 @@
       width: "auto",
       height: "auto",
       autoOpen: true,
-      modal: true      
+      modal: true
     });
   }
 
@@ -83,6 +83,14 @@
         $('#to-do').find('.dataTables_paginate li:first').after($current_li);
       }
 
+      var data = table.ajax.json()
+      if (data && data.cached) {
+        var date = new Date(data.cached);
+        var hour = (date.getHours() % 12 == 0)? 12 : date.getHours() % 12;
+        var suffix = (date.getHours() > 11)? ' PM' : ' AM';
+        var last_update = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear() + ' ' + hour + ':' + String("00" + date.getMinutes()).slice(-2) + suffix;
+        $('#refresh-to-do .last-updated').html(last_update);
+      }
     },
     fnInitComplete: function() {
       //Initialize YADCF
@@ -95,20 +103,20 @@
             filter_container_id: "to-do-yadcf-filter-part-code",
             filter_default_label: "- Any -"
           },
-        {
-          column_number: 5,
-          filter_match_mode: 'contains',
-          filter_reset_button_text: false,
-          filter_container_id: "to-do-yadcf-filter-subpart-code",
-          filter_default_label: "- Any -"
-        },
-        {
-          column_number: 6,
-          filter_match_mode: 'contains',
-          filter_reset_button_text: false,
-          filter_container_id: "to-do-yadcf-filter-report-type",
-          filter_default_label: "- Any -"
-        },
+          {
+            column_number: 5,
+            filter_match_mode: 'contains',
+            filter_reset_button_text: false,
+            filter_container_id: "to-do-yadcf-filter-subpart-code",
+            filter_default_label: "- Any -"
+          },
+          {
+            column_number: 6,
+            filter_match_mode: 'contains',
+            filter_reset_button_text: false,
+            filter_container_id: "to-do-yadcf-filter-report-type",
+            filter_default_label: "- Any -"
+          },
         ],
         {
           cumulative_filtering: true
@@ -121,7 +129,7 @@
 
   // Create index column that updates on sorting
   var dtTable = $table_wrapper.DataTable(datatable_options);
-  dtTable.columns().iterator('column', function (ctx, idx) {
+  dtTable.columns().iterator('column', function(ctx, idx) {
     $(dtTable.column(idx).header()).append('<span class="sort-icon" />');
   });
 
@@ -165,7 +173,7 @@
   });
 
 
-    $('#refresh-to-do').click(function() {
+  $('#refresh-to-do').click(function() {
     var $to_do = $('#to-do');
     // Reload datatable, forcing reload of data not using cache
     $table_wrapper.find('td').hide();
@@ -180,18 +188,47 @@
   });
 
   // Filter results based on "" (blank for all, is default), next_week, this_week, and beyond
-  $('.todo_filter_button').click(function() {
-    if (!$(this).hasClass('filter-applied')) {
+  $('.todo_filter_button a').on('click keydown', function(event) {
+    event.stopImmediatePropagation();
+    var $this = $(this);
+    var $parent = $this.parents('ul.ui-tabs-nav'),
+      $target_tab = $this.parent(),
+      selected_index = $target_tab.index(),
+      number_of_tabs = $parent.find('.todo_filter_button').length,
+      search_criteria;
+
+    if(event.keyCode) {
+      switch (event.keyCode) {
+        case $.ui.keyCode.RIGHT:
+        case $.ui.keyCode.DOWN:
+          selected_index++;
+          event.preventDefault();
+          break;
+        case $.ui.keyCode.UP:
+        case $.ui.keyCode.LEFT:
+          selected_index--;
+          event.preventDefault();
+          break;
+        default:
+          break;
+      }
+      $target_tab = $parent.find('li').eq((selected_index + number_of_tabs) % number_of_tabs);
+      search_criteria = $target_tab.data('search');
+    }
+
+    if (!$target_tab.hasClass('filter-applied')) {
       clearDTSearches(dtTable);
-      var search_criteria = $(this).data('search');
+      if(!search_criteria) {
+        search_criteria = $target_tab.data('search');
+      }
       // Column 7 contains time frame information
       dtTable.search('')
         .columns(7).search(search_criteria)
         .draw();
-      $('.todo_filter_button').removeClass('filter-applied');
-      $(this).addClass('filter-applied');
+      $('.todo_filter_button').removeClass('filter-applied').find('a').prop('tabindex', -1);
+      $target_tab.addClass('filter-applied').find('a').prop('tabindex', 0);
     }
+    $target_tab.find('a').trigger('focus');
   });
-
 
 })(jQuery);

@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAAA,+HAE4C,CACxC,OAAO,CAAE,IAAI,CAOL,oGAAE,CACE,OAAO,CAAE,KAAK",
+"mappings": "AAAA,+HAE4C,CACxC,OAAO,CAAE,IAAI,CAOL,oGAAE,CACE,OAAO,CAAE,KAAK,CAO1B,iCAAQ,CACJ,QAAQ,CAAE,QAAQ,CAClB,KAAK,CAAE,IAAI,CACX,KAAK,CAAE,IAAI,CACX,GAAG,CAAE,GAAG,CACR,SAAS,CAAE,IAAI",
 "sources": ["../sass/progress_tracker.scss"],
 "names": [],
 "file": "progress_tracker.css"
