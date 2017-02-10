@@ -81,6 +81,8 @@ function progress_tracker_block_view($delta = '') {
       'requires_jquery' => TRUE
     ]);
 
+
+
     drupal_add_js(drupal_get_path('module', 'progress_tracker') . '/js/progress_tracker.js', [
       'scope' => 'footer',
       'preprocess' => TRUE,
@@ -99,7 +101,6 @@ function progress_tracker_block_view($delta = '') {
       // Set Modal Template
       $status_details_html = theme('pt_status_modal');
       drupal_add_js(array("progressTrackerStatusModal" => $status_details_html), 'setting');
-
 
       $block['subject'] = t('Progress Tracker');
       $block['content'] = theme('progress_tracker');
