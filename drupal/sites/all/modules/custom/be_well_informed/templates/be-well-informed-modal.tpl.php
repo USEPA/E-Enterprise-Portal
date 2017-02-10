@@ -273,7 +273,7 @@
                 <div class="clearfix treatment-step hide">
                   <div class="caret"></div>
                   <div class="step">
-                    <span <?php if ($t['icon']): echo "class='treatment-icon {$t['icon']}-icon step-icon'"; endif; ?>></span>
+                    <span <?php if ($t['icon']): echo "class='treatment-icon {$t['icon']}-icon step-icon fill-step'"; endif; ?>></span>
                   </div>
                   <div class="float-center">
                     <div class="step-boxes text-center clearfix">

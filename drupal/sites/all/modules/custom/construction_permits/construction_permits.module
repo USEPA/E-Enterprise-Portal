@@ -178,6 +178,11 @@ function construction_permits_form_submission() {
     $datatable_formatted_response['error'] = FALSE;
   }
   else {
+    foreach ($_POST as $key => $value) {
+      if(!empty($value) && in_array($key, ['submittedDateTo', 'submittedDateFrom','updatedDateFrom','updatedDateTo']) !== false) {
+        $_POST[$key] = date("c", strtotime($value));
+      }
+    }
     $endpoint = variable_get('cgp_api_endpoint') . '/form?' . http_build_query($_POST);
     $response = drupal_http_request($endpoint, [
       "method" => "GET",
@@ -205,17 +210,22 @@ function construction_permits_form_submission() {
 function construction_permits_datatable_response($cgp_reponse_json) {
   $datatable_result_summary_json = [];
   foreach ($cgp_reponse_json as $cgp_result) {
+    $doc_time = strtotime($cgp_result['reviewExpiration']);
     $dt_row = [];
     //$cgp_result = $cgp_result['data'];
     $dt_row[] = $cgp_result['id'];
     $dt_row[] = $cgp_result['npdesId'];
+    $dt_row[] = $cgp_result['type'];
     $dt_row[] = $cgp_result['operatorInformation']["operatorName"];
     $dt_row[] = $cgp_result['projectSiteInformation']['siteName'];
     $dt_row[] = $cgp_result['projectSiteInformation']['siteStateCode'];
     $dt_row[] = $cgp_result['projectSiteInformation']['siteCity'];
     $dt_row[] = $cgp_result['status'];
-    $dt_row[] = $cgp_result['submittedDate'];
-    $dt_row[] = $cgp_result['certifiedDate'];
+    //$dt_row[] = $cgp_result['submittedDate'];  // Cert date
+    //$dt_row[] = $cgp_result['certifiedDate'];  // Date of coverage
+
+    $dt_row[] = $cgp_result['certifiedDate'];  // Cert date
+    $dt_row[] = ($doc_time <= time()) ? $cgp_result['reviewExpiration'] : '&dash;';  // Date of coverage
     $datatable_result_summary_json[] = $dt_row;
   }
   return $datatable_result_summary_json;

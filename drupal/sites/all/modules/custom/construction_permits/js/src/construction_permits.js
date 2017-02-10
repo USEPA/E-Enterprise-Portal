@@ -3,7 +3,7 @@ function show_needed_cgp_div($wrapper_to_show, $common_selector, modal_title) {
   $common_selector.hide();
   $wrapper_to_show.show();
   // Adjust the modal title
-  modal_title = (modal_title) ? modal_title : "Results for CGP Search";
+  modal_title = modal_title || "Results for CGP Search";
   jQuery('#construction-permits-modal').dialog({
     title: modal_title,
     close: function(event, ui) {
@@ -95,6 +95,7 @@ function create_search_results(search_results_json) {
     "language": {
       "processing": ""
     },
+    "order": [[ 8, "desc" ]],
     "autoWidth": false,
     "pagingType": "simple",
     "fnDrawCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -104,6 +105,7 @@ function create_search_results(search_results_json) {
       var info = table.page.info();
       // var pageInfo = this.fnPagingInfo();
       var pageNo = info.page + 1;
+      var row = 1;
 
       // Modify the first column to link to the respective form
       // Add data attributes to allow column identification in mobile format
@@ -115,7 +117,7 @@ function create_search_results(search_results_json) {
           $this.attr('title', form_id)
         }
       });
-      $('td:nth-child(2)', nRow.nTable).addClass('first-column').attr('data-title', 'NPDES ID').each(function() {
+      $('td:nth-child('+(++row)+')', nRow.nTable).addClass('first-column').attr('data-title', 'NPDES ID').each(function() {
         var $this = $(this);
         var form_id = $this.parent().find('.permit_id').attr('title');
         var mpn = $this.attr('title');
@@ -135,12 +137,22 @@ function create_search_results(search_results_json) {
           }
         );
       });
-      $('td:nth-child(3)', nRow.nTable).attr('data-title', 'Owner/Operator');
-      $('td:nth-child(4)', nRow.nTable).attr('data-title', 'Site Name');
-      $('td:nth-child(5)', nRow.nTable).attr('data-title', 'Site State');
-      $('td:nth-child(6)', nRow.nTable).attr('data-title', 'Site City');
 
-      $('td:nth-child(7)', nRow.nTable).attr('data-title', 'Status').each(function() {
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Type').each(function() {
+        var $this = $(this);
+        var form_type = $this.attr('title');
+        if (!form_type) {
+          form_type = $this.html().replace(/_/g, ' ').replace(/Of/g, 'of');
+          $this.attr('title', form_type)
+        }
+        $this.html(form_type);
+      })
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Owner/Operator');
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Site Name');
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Site State');
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Site City');
+
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Status').each(function() {
         var $this = $(this);
         var statusText = $this.attr('data-status');
         if (!statusText) {
@@ -151,7 +163,7 @@ function create_search_results(search_results_json) {
         $this.html(formatted_status);
       });
 
-      $('td:nth-child(8)', nRow.nTable).attr('data-title', 'Submitted').each(function() {
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Submitted').each(function() {
         var $this = $(this);
         var dateText = $this.attr('data-date');
         if (!dateText) {
@@ -165,7 +177,7 @@ function create_search_results(search_results_json) {
         }
       });
 
-      $('td:nth-child(9)', nRow.nTable).attr('data-title', 'Date of Coverage').each(function() {
+      $('td:nth-child('+(++row)+')', nRow.nTable).attr('data-title', 'Date of Coverage').each(function() {
         var $this = $(this);
         var dateText = $this.attr('data-date');
         if (!dateText) {
@@ -174,8 +186,10 @@ function create_search_results(search_results_json) {
         }
         if (moment(dateText).isValid()) {
           $this.html(moment(dateText).format('l'));
+        } else if(dateText == '‐') {
+          return '‐';
         } else {
-          $this.html('N/A');
+          return 'N/A;';
         }
       });
 
@@ -191,7 +205,11 @@ function create_search_results(search_results_json) {
 
   // Create index column that updates on sorting
   var dtTable = $table.DataTable(datatable_options);
-
+  dtTable.columns().iterator('column', function(ctx, idx) {
+    if($(dtTable.column(idx).header()).find('.sort-icon').length == 0){
+      $(dtTable.column(idx).header()).append('<span class="sort-icon" />');
+    }
+  });
 }
 
 /**
@@ -254,7 +272,8 @@ function reset_cgp_form() {
         })
         $template.addClass(type)
         $template.attr('id', 'id-' + permit.id)
-        $template.attr('title', "Details for " + permit.npdesId + " - " + permit.projectSiteInformation.siteName)
+        var name  = (permit.projectSiteInformation.siteName) ? " - " + permit.projectSiteInformation.siteName : '';
+        $template.attr('title', "Details for " + permit.npdesId + name)
         $details.append($template)
       });
       $details.prepend(Drupal.settings.construction_permits.cgp_modal_header);
@@ -281,21 +300,40 @@ function reset_cgp_form() {
     }, permit);
   }
 
+  cp_iife.array_join = function(prop, glue) {
+    return prop.join(glue) || 'N/A';
+  }
+
   cp_iife.adjustType = function(prop) {
     return prop.replace(/Of/g, 'of').replace(/_/g, ' ');
   }
 
   cp_iife.address = function(prop, prefix) {
-    var country = (prop[prefix + 'County'] && prop[prefix + 'County'] != 'string') ? ' ' + prop[prefix + 'County'] : '';
-    var lineAddress = (prop[prefix + 'Address2'] && prop[prefix + 'Address2'] != 'string') ? prop[prefix + 'Address'] + '<br>' + prop[prefix + 'Address2'] : prop[prefix + 'Address'];
-    return lineAddress + '<br/>' + prop[prefix + 'City'] + ', ' + prop[prefix + 'StateCode'] + ' ' + prop[prefix + 'ZipCode'] + country;
+    var address = '';
+    var city_state_zip_country = ''
+    if(prop[prefix + 'Address'] || prop[prefix + 'Address2']) {
+      address += (prop[prefix + 'Address2']) ? prop[prefix + 'Address'] + '<br>' + prop[prefix + 'Address2'] : prop[prefix + 'Address'];
+    }
+    if(prop[prefix + 'City']) {
+      address += (address.length) ? '<br>' + prop[prefix + 'City'] : prop[prefix + 'City'];
+    }
+    if(prop[prefix + 'StateCode']) {
+      address += (address.length) ? ', ' + prop[prefix + 'StateCode'] : prop[prefix + 'StateCode'];
+    }
+    if(prop[prefix + 'ZipCode']) {
+      address += (address.length) ? ' ' + prop[prefix + 'ZipCode'] : prop[prefix + 'ZipCode'];
+    }
+    if(prop[prefix + 'County']) {
+      address += (address.length) ? ' ' + prop[prefix + 'County'] : prop[prefix + 'County'];
+    }
+    return address || 'N/A';
   }
 
   cp_iife.fullName = function(prop) {
     return [prop.firstName, prop.middleInitial, prop.lastName].reduce(function(p, c) {
       (c) ? p.push(c) : 0;
       return p
-    }, []).join(' ')
+    }, []).join(' ') || 'N/A';
   }
 
   cp_iife.dateRange = function(prop, prefix) {
@@ -306,18 +344,22 @@ function reset_cgp_form() {
   }
 
   cp_iife.fullPhone = function(prop) {
-    return phone = (prop['phoneExtension'] && prop['phoneExtension'] != '') ? prop['phone'] + ' x' + prop['phoneExtension'] : prop['phone'];
+    return phone = (prop['phoneExtension'] && prop['phoneExtension'] != '') ? prop['phone'] + ' x' + prop['phoneExtension'] : prop['phone'] || 'N/A';
   }
   
   cp_iife.siteConstructionTypes = function(prop) {
-    return prop.join('<br>');
+    return prop.join('<br>') || 'N/A';
   }
 
   cp_iife.latlong = function(prop) {
     //projectSiteInformation.siteLocation
-    var NS = (prop['latitude'] == 0) ? '&deg;' : ((prop['latitude'] > 0) ? '&deg;N,' : '&deg;S,');
-    var WE = (prop['longitude'] == 0) ? '&deg;' : ((prop['longitude'] > 0) ? '&deg;E' : '&deg;W');
-    return [Math.abs(prop['latitude']), NS, Math.abs(prop['longitude']), WE, '<br><span class="cgp-latlongsource">Source: ' + prop['latLongDataSource'] + '</span>'].join(' ');
+    var latlong = '';
+    if((prop['latitude'] != null || prop['longitude'] != null)) {
+      var NS = (prop['latitude'] == 0) ? '&deg;' : ((prop['latitude'] > 0) ? '&deg;N,' : '&deg;S,');
+      var WE = (prop['longitude'] == 0) ? '&deg;' : ((prop['longitude'] > 0) ? '&deg;E' : '&deg;W');
+      latlong = [Math.abs(prop['latitude']), NS, Math.abs(prop['longitude']), WE, '<br><span class="cgp-latlongsource">Source: ' + (prop['latLongDataSource'] || 'N/A') + '</span>'].join(' ')
+    }
+    return latlong || 'N/A';
   }
 
   cp_iife.appendixDCriteria = function(prop) {
@@ -352,12 +394,12 @@ function reset_cgp_form() {
       // Add header
       var header = [
         '<div class="line header">',
-        '<div class="col-md-2">Discharge Point</div>',
-        '<div class="col-md-2">Location</div>',
-        '<div class="col-md-2">Receiving Water</div>',
-        '<div class="col-md-2">Pollutants</div>',
-        '<div class="col-md-2">TMDL</div>',
-        '<div class="col-md-2">Tier</div>',
+          '<div class="col-md-2">Discharge Point</div>',
+          //'<div class="col-md-2">Location</div>',
+          '<div class="col-md-2">Receiving Water</div>',
+          '<div class="col-md-2">Pollutants</div>',
+          '<div class="col-md-2">TMDL</div>',
+          '<div class="col-md-2">Tier</div>',
         '</div>'
       ]
       r += header.join('');
@@ -368,14 +410,14 @@ function reset_cgp_form() {
         var tmdls = c.firstWater.pollutants.map(function(c){ return c.tmdl.name; }, []);
         r += [
           '<div class="line row-item' + even + '">',
-          //@TODO - Description may be optional - add logic if needed to show blank if user did not complete description - would Dave return false or blank string
-          '<div class="col-md-2" title="Discharge Point">', c.description, '</div>',
-          '<div class="col-md-2" title="Location">', c.location.latitude + '&deg;N, ' + c.location.longitude + '&deg;E<br><span class="cgp-latlongsource">Source: ' +
-          c.location.latLongDataSource + '</span><br><span class="cgp-refdatum">Horizontal Reference Datum: ' + c.location.horizontalReferenceDatum + '</span>', '</div>',
-          '<div class="col-md-2" title="Receiving Water">', c.firstWater.listedWaterName, '</div>',
-          '<div class="col-md-2" title="Pollutant(s)">', polluntants.join(', '), '</div>',
-          '<div class="col-md-2" title="TMDL">', tmdls.join(', '), '</div>',
-          '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
+            //@TODO - Description may be optional - add logic if needed to show blank if user did not complete description - would Dave return false or blank string
+            '<div class="col-md-2" title="Discharge Point">', c.description, '</div>',
+            //'<div class="col-md-2" title="Location">', c.location.latitude + '&deg;N, ' + c.location.longitude + '&deg;E<br><span class="cgp-latlongsource">Source: ' +
+            //c.location.latLongDataSource + '</span><br><span class="cgp-refdatum">Horizontal Reference Datum: ' + c.location.horizontalReferenceDatum + '</span>', '</div>',
+            '<div class="col-md-2" title="Receiving Water">', c.firstWater.listedWaterName, '</div>',
+            '<div class="col-md-2" title="Pollutant(s)">', polluntants.join(', '), '</div>',
+            '<div class="col-md-2" title="TMDL">', tmdls.join(', '), '</div>',
+            '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
           '</div>',
         ].join('')
       })
@@ -383,14 +425,16 @@ function reset_cgp_form() {
     else {
       r += '<p>No discharge points.</p>'
     }
-    return r;
+    return r || 'N/A';
   };
 
   cp_iife.dateFormat = function(prop) {
     if (moment(prop).isValid()) {
       return moment(prop).format('l');
+    } else if(prop == '‐') {
+      return '‐';
     } else {
-      return 'N/A';
+      return 'N/A;';
     }
   };
 
@@ -428,7 +472,7 @@ function reset_cgp_form() {
       r += '<p>No Attachments.</p>'
     }
 
-    return r;
+    return r || 'N/A';
   };
 
   // Helper functions END

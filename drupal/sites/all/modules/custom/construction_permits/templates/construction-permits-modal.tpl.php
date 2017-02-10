@@ -15,6 +15,7 @@
       <tr>
         <th><span>ID</span></th>
         <th><span>NPDES ID</span></th>
+        <th><span>Type</span></th>
         <th><span>Owner/Operator</span></th>
         <th><span>Site Name</span></th>
         <th><span>Site State</span></th>

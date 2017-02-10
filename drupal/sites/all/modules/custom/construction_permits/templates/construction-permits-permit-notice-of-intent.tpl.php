@@ -36,7 +36,7 @@
     </div>
 
     <div class="line">
-      <div class="box-fluid property" data-cgp-property="submittedDate"
+      <div class="box-fluid property" data-cgp-property="certifiedDate"
            data-cgp-function="dateFormat">
         <div class="col-md-4 title">Submitted</div>
         <div class="col-md-8 value"></div>
@@ -181,7 +181,7 @@
       <div class="box-fluid property"
            data-cgp-property="projectSiteInformation.siteIndianCountryLands"
            data-cpg-null="N/A">
-        <div class="col-md-4 title">Reservation Name</div>
+        <div class="col-md-4 title">Indian tribe name:</div>
         <div class="col-md-8 value"></div>
       </div>
     </div>
@@ -205,7 +205,6 @@
       </div>
     </div>
 
-    <div class="line"><div class="box-fluid property" data-cgp-property="projectSiteInformation" data-cgp-function="dateRange" data-cgp-params="['site']"><div class="col-md-4 title">Project Duration <span class="cgp-footnote">(Estimated)</span></div><div class="col-md-8 value"></div></div></div>
     <!-- @TODO Show the Estimated Area to be Disturbed line only if NOI - if LEW, include line in LEW section -->
     <div class="line">
       <div class="box-fluid property"
@@ -222,6 +221,23 @@
         <div class="col-md-4 title">Project Duration <span class="cgp-footnote">(Estimated)</span>
         </div>
         <div class="col-md-8 value"></div>
+      </div>
+    </div>
+
+    <div class="line">
+      <div class="box-fluid property"
+           data-cgp-property="projectSiteInformation.siteIndianCulturalProperty"
+           data-cgp-options="['No','Yes']">
+        <div class="col-md-4 title">Project located on a property of religious or cultural significance to an Indian tribe?</div>
+        <div class="col-md-8 value"></div>
+      </div>
+    </div>
+
+    <div class="line">
+      <div class="box-fluid property"
+           data-cgp-property="projectSiteInformation.siteIndianCulturalPropertyTribe">
+        <div class="col-md-4 title">Indian tribe name:</div>
+        <div class="col-md-8"><span class="value"></span></div>
       </div>
     </div>
   </div><!-- @end Project Site Info -->
@@ -332,6 +348,14 @@
         <div class="col-md-8 value"></div>
       </div>
     </div>
+    <div class="line">
+      <div class="box-fluid property"
+           data-cgp-property="chemicalTreatmentInformation.treatmentChemicals" data-cgp-function="array_join" data-cgp-params="[', ']">
+        <div class="col-md-4 title">Cationic treatment authorized for uses:
+        </div>
+        <div class="col-md-8 value"></div>
+      </div>
+    </div>
   </div><!-- @end Treatment Chemicals -->
   <div class="section noi-only" id="cgp-swppp">
     <h2>Stormwater Pollution Prevention Plan Point of Contact</h2>
@@ -382,6 +406,13 @@
         <div class="col-md-4 title">Eligible for coverage under this permit by
           meeting Appendix D, criterion:
         </div>
+        <div class="col-md-8 value"></div>
+      </div>
+    </div>
+    <div class="line">
+      <div class="box-fluid property"
+           data-cgp-property="endangeredSpeciesProtectionInformation.criteriaSelectionSummary">
+        <div class="col-md-4 title">Summary of criterion selection basis</div>
         <div class="col-md-8 value"></div>
       </div>
     </div>
