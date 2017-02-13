@@ -414,7 +414,7 @@ function reset_cgp_form() {
             '<div class="col-md-2" title="Discharge Point">', c.description, '</div>',
             //'<div class="col-md-2" title="Location">', c.location.latitude + '&deg;N, ' + c.location.longitude + '&deg;E<br><span class="cgp-latlongsource">Source: ' +
             //c.location.latLongDataSource + '</span><br><span class="cgp-refdatum">Horizontal Reference Datum: ' + c.location.horizontalReferenceDatum + '</span>', '</div>',
-            '<div class="col-md-2" title="Receiving Water">', c.firstWater.listedWaterName, '</div>',
+            '<div class="col-md-2" title="Receiving Water">', c.firstWater.receivingWaterName, '</div>',
             '<div class="col-md-2" title="Pollutant(s)">', polluntants.join(', '), '</div>',
             '<div class="col-md-2" title="TMDL">', tmdls.join(', '), '</div>',
             '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
