@@ -79,7 +79,6 @@ function formatFormData(formData, convertNulls) {
       // Check if presence radio has been inputed and set balue
       if (previous[keys[cIndex]].Symbol in presenceRadioInputs) {
         previous[keys[cIndex]].Presence = presenceRadioInputs[previous[keys[cIndex]].Symbol];
-        delete previous[keys[cIndex]].Value;
       }
       if (convertNulls) {
         if (!isNaN(previous[keys[cIndex]].Value) && previous[keys[cIndex]].Value != "") {
@@ -88,7 +87,12 @@ function formatFormData(formData, convertNulls) {
           previous[keys[cIndex]].Value = -9999;
         }
       } else {
-        if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {
+        if (previous[keys[cIndex]].Symbol in presenceRadioInputs && (previous[keys[cIndex]].Presence == "present" || previous[keys[cIndex]].Presence == "absent")) {
+          if (previous[keys[cIndex]].Value == "") {
+            previous[keys[cIndex]].Value = -9999;
+          }
+        }
+        else if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {
           delete previous[keys[cIndex]];
         }
       }
@@ -124,6 +128,7 @@ function resetBWIForm() {
   var sampleSetIndex = 0;
   // Flag for converting Null or blank inputs to -9999
   var convertNulls = false;
+  var cityName;
   sampleData = function(sample) {
     // lets us cycle through different sets of test data
     if (!sample) {
@@ -200,6 +205,18 @@ function resetBWIForm() {
           resizeModal()
         });
 
+        $(':radio[value=absent]').click(function() {
+          $(this).parent().parent().parent().find('input.column').val("");
+        });
+
+        $('.microbiology input.column').on('keyup, keydown, click', function() {
+          $(this).on('blur', function() {
+            if ($(this).val() > 0) {
+              $(this).siblings('.row').find(':radio[value=present]').prop('checked', true);
+            }
+          });
+        });
+
         $(window).resize(function() {
           resizeModal();
         })
@@ -256,6 +273,7 @@ function resetBWIForm() {
 
           // Handle all the addition requests for the service
           if (!!be_well_response_json.data.InteractivePrompts.length || !!be_well_response_json.data.AdditionalContaminantRequests.length) {
+
             $('#routine-contaminants').addClass('hide')
             $interactive_prompts = $('#interactive-prompts');
             // Handle any interactive prompts that are returned from the service
@@ -394,9 +412,11 @@ function resetBWIForm() {
 
             $table = $('<table id="be-well-informed-results-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
             $table.appendTo('.be-well-informed-results').DataTable(default_datatable_result_summary_options);
+            $table.find('td:contains("Total Coliform (Bac)")').text('Total Coliform');  // Remove Bac symbol
 
             $table = $('<table id="be-well-informed-result-details-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
             $table.appendTo('.be-well-informed-result-details').DataTable(default_datatable_result_details_options);
+            $table.find('td:contains("Total Coliform (Bac)")').text('Total Coliform');  // Remove Bac symbol
 
             // Loop through and add trs to the summary table. Datatable does not support colspan
             var result;
@@ -524,6 +544,7 @@ function resetBWIForm() {
     $('#water_analysis_reset').removeClass('invisible')
     showElementOutOfMany($form_wrapper, $all_wrappers);
     $('#entry-tab').text('Entry');
+    $('#edit-bwi-results').hide();
     resizeModal();
     $("html, body").animate({scrollTop: $('.pane-be-well-informed').offset().top}, 500);
   });
