@@ -991,6 +991,10 @@ header {
                 margin-right: 15px;
                 text-decoration: none;
                 color: $color-white;
+                display: inline-block;
+                text-align: center;
+                width: 4rem;
+                height: 4rem;
                 &:visited {
                     color: #000;
                 }
