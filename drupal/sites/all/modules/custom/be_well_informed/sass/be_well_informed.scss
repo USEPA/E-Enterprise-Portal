@@ -804,6 +804,11 @@ $color_ecstasy_approx: #ff851b;
     }
 }
 
+// Show BWI expandable sections in PDF by default - use !important to override inline display: none
+#be-well-informed-results-wrapper-pdf .bwi-detail-td div {
+    display: block !important;
+}
+
 @media screen and (min-width: 60em) {
 
     #be-well-informed-modal {
