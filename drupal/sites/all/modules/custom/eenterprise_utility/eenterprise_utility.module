@@ -183,7 +183,7 @@ function eenterprise_utility_node_view($node, $view_mode, $langcode) {
 
 function perform_user_login($response_output) {
   global $user;
-  $username = $response_output['userId'];
+  $username = $response_output['uid'];
   $ext_user = user_external_load_custom($username);
   if ($ext_user === FALSE) {
     $ext_user = user_external_load($username);
