@@ -164,3 +164,6 @@ span.em-und{
 .bwi-detail-td div {
       display: block !important;
 }
+.bwi-detail-td a[target="_blank"]:after {
+  content: " [" attr(href) "]";
+}
