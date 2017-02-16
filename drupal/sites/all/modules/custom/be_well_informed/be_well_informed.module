@@ -43,7 +43,7 @@ function be_well_pdf_generate(){
   if(isset($current_srvr_name) && ($current_srvr_name == $_SERVER['SERVER_NAME'])){
     $process = proc_open('wkhtmltopdf -q - -', $descriptorspec, $pipes);
   }
-  else{
+  else {
     $process = proc_open('sites/all/libraries/wkhtmltox/bin/wkhtmltopdf -q - -', $descriptorspec, $pipes);
   }
 
@@ -206,6 +206,7 @@ function be_well_informed_form_submission() {
       'timeout' => "10",
       'data' => json_encode($_POST)
     ]);
+    $datatable_formatted_response['DWI_request'] = json_encode($_POST);
     if ($response->code !== "200") {
       $datatable_formatted_response['error'] = TRUE;
     }
@@ -881,7 +882,7 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
   /*Setup a pre-process variable for list of contaminants shown in pdf page under "Water Treatment Systems That Remove $contaminants_title"  */
   if(!empty($variables['response_json_data_pdf']['TreatmentSteps'])){
     $contaminants = array();
-    $excluded = array('Fe', 'NO2', 'Bac', 'Ecoli');
+    $excluded = array('NO2', 'Bac', 'Ecoli');
     foreach($variables['response_json_data_pdf']['ResultEvaluations'] as $key => $val ){
       if(!in_array($key, $excluded) && $val->GuidelineColor == 'font-red')
         array_push($contaminants, $val->ContaminantFullName);
