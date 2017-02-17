@@ -237,7 +237,14 @@ function be_well_informed_datatable_response($be_well_response_json) {
 
     $datatable_row = [];
     $datatable_row[] = processGuidelineIcon($water_data->GuidelineIcon);
-    $datatable_row[] = $water_data->ContaminantFullName . ' (' . $water_data->Symbol . ')';
+    $show_symbol_name = $water_data->Symbol;  // Hide BAC from Total Coliform
+    if ($show_symbol_name == 'Bac') {
+      $show_symbol_name = '';
+    }
+    else {
+      $show_symbol_name = ' (' . $water_data->Symbol . ')';
+    }
+    $datatable_row[] = $water_data->ContaminantFullName . $show_symbol_name;
     $datatable_row[] = $user_entry;
     $datatable_row[] = $water_data->MaximumContaminantLevel;
     $datatable_row[] = $guide_text;
