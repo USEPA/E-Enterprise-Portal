@@ -42,8 +42,7 @@ var FavoriteLink = function ($container) {
 
     // Private
     var id = -1;
-    // var url = encodeURIComponent($container.closest('a').attr('href'));
-    var url = $container.closest('a').attr('href');
+    var url = encodeURIComponent($container.closest('a').attr('href'));
     var favored = false;
     var parent = null; // id of
     var children = [];
@@ -83,8 +82,7 @@ var FavoriteLink = function ($container) {
     }
 
     this.setUrl = function (in_url) {
-        // url = encodeURIComponent(in_url);
-         url = in_url;
+        url = encodeURIComponent(in_url);
     }
     this.getUrl = function () {
         return url;

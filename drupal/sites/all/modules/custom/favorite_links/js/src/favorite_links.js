@@ -126,7 +126,7 @@ function isURL(str) {
             url = 'id';
         }
         else {
-            url = unparsed_url; //encodeURIComponent(unparsed_url);
+            url = encodeURIComponent(unparsed_url);
         }
         $.ajax({
             url: Drupal.settings.basePath + 'process_favorite_link',
@@ -176,9 +176,7 @@ function isURL(str) {
                     button = $('*[id="' + id + '__favorite_link"]');
                     label = id_label_mapping[id];
                     reloadView();
-                    // button.attr('id', encodeURIComponent(unparsed_url) + '__' + label);
-                    button.attr('id', unparsed_url + '__' + label);
-
+                    button.attr('id', encodeURIComponent(unparsed_url) + '__' + label);
                     button.removeClass('remove_link new_link old_link filled empty');
                     button.attr('title', 'Add favorite');
                     button.addClass('add_link new_link empty ');
