@@ -126,7 +126,7 @@ function isURL(str) {
       url = 'id';
     }
     else {
-      url = encodeURIComponent(unparsed_url);
+      url = unparsed_url; //encodeURIComponent(unparsed_url);
     }
     $.ajax({
       url: Drupal.settings.basePath + 'process_favorite_link',
