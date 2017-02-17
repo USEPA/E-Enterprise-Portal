@@ -14,6 +14,14 @@ function be_well_informed_menu() {
     'page callback' => 'be_well_pdf_generate',
     'access callback' => TRUE,
   );
+  $items['admin/config/system/be_well_informed'] = array(
+    'title' => 'Be Well Infromed Settings',
+    'description' => 'Settings page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('be_well_informed_admin'),
+    'access arguments' => array('administer be_well_informed settings'),
+    'file' => 'be_well_informed.admin.inc',
+  );
   return $items;
 }
 
@@ -34,6 +42,11 @@ function be_well_informed_block_info() {
  * */
 function be_well_pdf_generate(){
   $html =  theme('be_well_informed_pdf');
+
+  if(variable_get('bwi_pdf_debug')) {
+    exit($html);
+  }
+
   $descriptorspec = array(
       0 => array('pipe', 'r'), // stdin
       1 => array('pipe', 'w'), // stdout
@@ -167,7 +180,7 @@ function be_well_informed_block_view($delta = '') {
       ]);
       // Set Form Modal Template
       $modal_form_html = theme('be_well_informed_modal');
-      drupal_add_js(array("be_well_informed" => ["modal" => $modal_form_html]), 'setting');
+      drupal_add_js(array("be_well_informed" => ["modal" => $modal_form_html, "debug_mode"=>variable_get('bwi_js_debug_mode')]), 'setting');
 
       $block['subject'] = t('Be Well Informed');
       $block['content'] = theme('be_well_informed');
@@ -622,6 +635,9 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
  * Implements template_preprocess_hook for be-well-informed-pdf.tpl.php.
  */
 function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
+
+
+  $variables['doc_root'] =  (variable_get('bwi_pdf_debug')) ? '' : $_SERVER["DOCUMENT_ROOT"];
   $variables['unit_types'] = [
       'mg/L',
       'μg/L',
@@ -903,6 +919,8 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
       $contaminants_title = array_pop($contaminants);
     }
   }
+
+  $variables['system-type'] =  [];
   $variables['contaminants_title'] =  $contaminants_title;
 
   $exposed_variables = [
