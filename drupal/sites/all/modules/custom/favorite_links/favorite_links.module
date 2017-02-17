@@ -86,8 +86,7 @@ function process_favorite_link() {
   $user_data = user_load($user->uid);
   $user_urls = $user_data->field_profile_favourites;
   $date = date('Y-m-d H:i:s', time());
-//  $url = urldecode($_POST['url']);
-  $url = $_POST['url'];
+  $url = urldecode($_POST['url']);
   $title = $_POST['title'];
   $action = $_POST['action'];
   if (isset($_POST['id'])) {
