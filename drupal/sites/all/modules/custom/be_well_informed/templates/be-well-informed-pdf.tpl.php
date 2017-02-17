@@ -1,7 +1,6 @@
 <html>
  <meta charset="UTF-8" />
 <head>
-    <?php $doc_root = $_SERVER["DOCUMENT_ROOT"]; ?>
     <link rel="stylesheet" type="text/css" href="<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/css/be_well_informed_pdf.css">
     <style type="text/css">
          .step-icon.home-icon:before{
@@ -151,14 +150,20 @@
        foreach($response_json_data_pdf['TreatmentSteps'] as $key=>$value){
          array_push($toShow, $key);
        }
+       echo '<pre>';
+       print_r($treatments);
+       echo '</pre>';
        ?>
        <h3 class="treatment_order_title">Treatment Order</h3>
        <div class="step-class">
          <?php
+         $system_type = [];
          $count = 0;  //added forpdf
          $stepLabel = 1;   //added forpdf
          foreach ($treatments as $t):
-           if(in_array($count, $toShow)):   //added forpdf ?>
+           if(in_array($count, $toShow)):   //added forpdf
+             array_push($system_type, strtolower($t['icon']));
+             ?>
              <div class="clearfix treatment-step">
                <div class="caret"></div>
                <div class="step">
@@ -170,7 +175,13 @@
                      <?php
                      $or_count = 1;
                      $total_items = count($response_json_data_pdf['TreatmentSteps']->$count->OrInstructions);
-                     foreach($response_json_data_pdf['TreatmentSteps']->$count->OrInstructions as $ix => $bx): ?>
+                     foreach($response_json_data_pdf['TreatmentSteps']->$count->OrInstructions as $ix => $bx):
+                       array_push($system_type, strtolower($bx->SystemType));
+
+                       echo '<pre>';
+                       print_r($bx->SystemType);
+                       echo '</pre>';
+                       ?>
                        <div class="box-main" title="<?php echo $bx->Recommendation; ?>"><?php echo $bx->Recommendation; ?></div>
                        <?php if ($total_items != $or_count): echo "<div class='or'>Or</div>"; $or_count++; endif; ?>
                      <?php endforeach; ?>
@@ -181,21 +192,24 @@
              $stepLabel++;
            endif;
            $count++;
-           //added forpdf
            ?>
-         <?php endforeach; ?>
-       </div>
-       <p class="step-class system-type-house hide">
+         <?php endforeach;
+          if(in_array('house', $system_type) || in_array('home', $system_type)) : ?>
+            <p class="step-class system-type-house hide">
           <span>Regardless of water treatment technology, it is essential that system maintenance be
                             performed on schedule to maintain system effectiveness.
                             </span><br>
-         <br><span>
+              <br><span>
                             </span><br>
-          <span><b>What does “whole house” mean?</b> The term whole house indicates that the treatment
+              <span><b>What does “whole house” mean?</b> The term whole house indicates that the treatment
                             technology is installed at the point where water enters your home to treat all of
                             the water used in your home.
                             </span>
-       </p>
+            </p>
+         <?php endif;
+         if(in_array('facet', $system_type) || in_array('water', $system_type)) : ?>
+       </div>
+
        <p class="step-class system-type-water hide">
          <b>What does “Point of Use” (POU) mean?</b> Point of Use technologies
          are installed
@@ -203,6 +217,8 @@
          used, like
          your kitchen faucet.
        </p>
+
+     <?php endif; ?>
        <p>
           <span>Print this report and make final water treatment decisions with a qualified <a
                 target="_blank"
