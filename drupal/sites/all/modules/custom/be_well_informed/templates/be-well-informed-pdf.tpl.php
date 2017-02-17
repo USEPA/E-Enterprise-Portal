@@ -150,9 +150,6 @@
        foreach($response_json_data_pdf['TreatmentSteps'] as $key=>$value){
          array_push($toShow, $key);
        }
-       echo '<pre>';
-       print_r($treatments);
-       echo '</pre>';
        ?>
        <h3 class="treatment_order_title">Treatment Order</h3>
        <div class="step-class">
@@ -177,10 +174,6 @@
                      $total_items = count($response_json_data_pdf['TreatmentSteps']->$count->OrInstructions);
                      foreach($response_json_data_pdf['TreatmentSteps']->$count->OrInstructions as $ix => $bx):
                        array_push($system_type, strtolower($bx->SystemType));
-
-                       echo '<pre>';
-                       print_r($bx->SystemType);
-                       echo '</pre>';
                        ?>
                        <div class="box-main" title="<?php echo $bx->Recommendation; ?>"><?php echo $bx->Recommendation; ?></div>
                        <?php if ($total_items != $or_count): echo "<div class='or'>Or</div>"; $or_count++; endif; ?>
