@@ -124,6 +124,12 @@ function resetBWIForm() {
   $('.bs-callout-warning').toggleClass('hidden', true);
 }
 
+function bwi_log() {
+  if(Drupal.settings.be_well_informed.debug_mode) {
+    console.log.apply(this, Array.prototype.concat(['be_well_informed/form_submission'], Array.from(arguments)));
+  }
+}
+
 (function($) {
   var sampleSetIndex = 0;
   // Flag for converting Null or blank inputs to -9999
@@ -255,6 +261,8 @@ function resetBWIForm() {
 
 
     var data = formatFormData(formData, convertNulls);
+
+    bwi_log(JSON.stringify(data));
 
     showElementOutOfMany($loading_wrapper, $all_wrappers);
     $('#entry-tab').text('Entry');
