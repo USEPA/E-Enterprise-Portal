@@ -149,7 +149,7 @@ function be_well_informed_block_view($delta = '') {
       ]);
       //If installed in own installation, include jQuery Tabs JS
       //drupal_add_js("sites/all/libraries/jqueryui/ui/minified/jquery.ui.tabs.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-      //drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");      
+      //drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");
       drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
@@ -333,19 +333,22 @@ function processGuidelineIcon($guideline_icon) {
 
   switch ($guideline_icon) {
     case "Images/water/check4.png":
-      $return_html = "<img src='" . $image_path . "/check.png' />";
+      $return_html = "<img src='" . $image_path . "/check.png' alt='Meets the drinking water limit' title='Meets the drinking water limit' />";
       break;
     case "Images/water/exclamation.png":
-      $return_html = "<img src='" . $image_path . "/exclamation.png' />";
+      $return_html = "<img src='" . $image_path . "/exclamation.png' alt='Close to the drinking water limit' title='Close to the drinking water limit' />";
       break;
     case "Images/water/orange.png":
-      $return_html = "<img src='" . $image_path . "/orange.png' />";
+      $return_html = "<a href='http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf' title='See NHDES Fact Sheet WD-DWGB-3-12.  Opens in new window.' target='_blank'><img src='" . $image_path . "/orange.png' alt='Consult NHDES Fact Sheet WD-DWGB-3-12' /></a>";
       break;
     case "Images/water/false4.png":
-      $return_html = "<img src='" . $image_path . "/false.png' />";
+      $return_html = "<img src='" . $image_path . "/false.png' alt='Above the drinking water limit' title='Above the drinking water limit' />";
+      break;
+    case "Images/water/blank.png":
+      $return_html = "<img src='" . $image_path . "/blank.png' alt='Refer to message in About Your Well Water and check related values' title='Refer to message in About Your Well Water and check related values' />";;
       break;
     default:
-      $return_html = "<img src='" . $image_path . "/circle.png' />";
+      $return_html = "<img src='" . $image_path . "/circle.png' alt='No Input Entered' />";
   }
   return $return_html;
 }
