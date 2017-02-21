@@ -11,66 +11,23 @@
             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/facet.png);
             width:5em;height:5em;margin-left:4.5em;margin-top:-0.5em;
          }
-
-          .bwi-meets-limit:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/check.png);
-             background-size: 2em;
-             display: inline-block;
-             width: 2em;
-             height: 2em;
-             content: "";
-             vertical-align: middle;
-             margin-right: 0.5em;
-             background-repeat:no-repeat;
+          .bwi-meets-limit:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/check.png);
           }
-          .bwi-close-to-limit:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/exclamation.png);
-             background-size: 2em;
-             display: inline-block;
-             width: 2em;
-             height: 2em;
-             content: "";
-             vertical-align: middle;
-             margin-right: 0.5em;
-             background-repeat:no-repeat;
+          .bwi-close-to-limit:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/exclamation.png);
           }
-          .bwi-above-limit:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/false.png);
-             background-size: 2em;
-             display: inline-block;
-             width: 2em;
-             height: 2em;
-             content: "";
-             vertical-align: middle;
-             margin-right: 0.5em;
-             background-repeat:no-repeat;
+          .bwi-above-limit:before {
+              background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/false.png);
           }
-         .bwi-above-limit:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/false.png);
-           background-size: 2em;
-           display: inline-block;
-           width: 2em;
-           height: 2em;
-           content: "";
-           vertical-align: middle;
-           margin-right: 0.5em;
-           background-repeat:no-repeat;
+         .bwi-above-limit:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/false.png);
          }
-         .bwi-consult:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/orange.png);
-           background-size: 2em;
-           display: inline-block;
-           width: 2em;
-           height: 2em;
-           content: "";
-           vertical-align: middle;
-           margin-right: 0.5em;
-           background-repeat:no-repeat;
+         .bwi-consult:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/orange.png);
          }
-         .bwi-no-entry:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/circle.png);
-           background-size: 2em;
-           display: inline-block;
-           width: 2em;
-           height: 2em;
-           content: "";
-           vertical-align: middle;
-           margin-right: 0.5em;
-           background-repeat:no-repeat;
+         .bwi-no-entry:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/circle.png);
          }
          /* This style is inserted as an internal style to avoid affecting these IDs in the html results page. The effect is needed only on the pdf version.*/
          #Bac1, #Cl1a, #Cu1, #Pb1, #N1, #N2{
@@ -123,6 +80,7 @@
 
        <tbody>
        <?php foreach ($response_json_data_pdf['result_summary'] as $res_summary): ?>
+         <?php if ($res_summary[2] !== "<span class='bwi-hide-row'>None</span>"): ?>
          <tr>
            <td class='icon-column'><?php print str_replace('sites', $doc_root.'/sites', $res_summary[0]); ?></td>
            <td class='element-col'><?php print $res_summary[1]; ?></td>
@@ -130,6 +88,7 @@
            <td class='limit-col'><?php print $res_summary[3]; ?></td>
            <td><?php print $res_summary[4]; ?></td>
          </tr>
+         <?php endif; ?>
        <?php endforeach; ?>
 
        </tbody>
@@ -141,9 +100,7 @@
      <br><br>
      <span class="bwi-result-title">Water Treatment Systems That Remove <?php print $contaminants_title ?></span>
      <div class="datatable usa-width-one-whole hide treatment-content">
-       <div class='water-treatment-head'>
-         The following water treatment is based on the water quality
-         information you entered. <span class='detail-show'>Details concerning water treatment are below.</span>
+       <div class='water-treatment-head'>The following water treatment is based on the water quality information you entered. <span class='detail-show'>Details concerning water treatment are below.</span>
        </div>
        <?php
        $toShow = array();   //added forpdf
