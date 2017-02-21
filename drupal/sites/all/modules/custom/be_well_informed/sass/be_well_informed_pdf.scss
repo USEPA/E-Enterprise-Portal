@@ -1,6 +1,8 @@
 body {
   font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
-  font-size:0.8em;
+  font-size: 0.8rem;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 .be-well-pdf-title {
   text-align:center;
@@ -9,7 +11,6 @@ body {
 }
 h3 {
   font-size: 1.1em;
-  font-weight:normal;
 }
 span.bwi-result-title {
   background: #0000BB none;
@@ -22,8 +23,9 @@ span.bwi-result-title {
   min-height: 0;
   font-weight:700;
 }
-p {
-  padding-left:1em;
+h3, p {
+  padding-left: 1em;
+  padding-right: 1em;
 }
 .bwi-key {
   font-size:1.3em;
@@ -37,39 +39,40 @@ p {
   display: block;
   border: 0.1em solid #999999;
   padding: 1em;
-}
-.bwi-legend .one-half {
-  float:left;
-  display:block;
-  width:50%;
-  margin-bottom:6px;
-}
-.summary-table-pdf {
-  font-size:0.9em;
-  margin-top:2em;
-  margin-left:1em;
-}
-.summary-table-pdf td {
-  border-bottom:1px solid gray;
-  padding:0.5em 1em 1em 0;
+  .one-half {
+    float:left;
+    display:block;
+    width:50%;
+    margin-bottom:6px;
+  }
 }
 table tr {
   page-break-inside: avoid;  /* To fix issue with footer cutting of text */
 }
-.summary-table-pdf .element-col {
-  width:75px;
+.summary-table-pdf {
+  font-size: 0.9em;
+  margin-top: 2em;
+  margin-left: 1em;
+  .element-col {
+    width: 75px;
+  }
+  .limit-col {
+    width:75px;
+  }
+  th {
+    white-space:nowrap;
+    text-align:left;
+    padding:0 1em 1em 0;
+  }
+  td {
+    border-bottom:1px solid gray;
+    padding:0.5em 1em 1em 0;
+  }
 }
-.summary-table-pdf .limit-col {
-  width:75px;
-}
-.summary-table-pdf th {
-  white-space:nowrap;
-  text-align:left;
-  padding:0 1em 1em 0;
-}
+
 .icon-column img {
-  width:2em;
-  height:2em;
+  width: 1.5em;
+  height: 1.5em;
 }
 .water-treatment-head {
   margin-left:1em;
@@ -78,9 +81,9 @@ table tr {
   height:40px;
   border:1px solid gray;
   padding:0.5em 0.5em 0 0.5em;
-}
-.water-treatment-head .detail-show {
-  color:red;
+  .detail-show {
+    color:red;
+  }
 }
 .treatment_order_title {
   color:red;
@@ -166,4 +169,28 @@ span.em-und {
 }
 .bwi-detail-td a[target="_blank"]:after {
   content: " [" attr(href) "]";
+}
+.bwi-meets-limit,
+.bwi-close-to-limit,
+.bwi-above-limit,
+.bwi-consult,
+.bwi-no-entry {
+  line-height: 1.5rem;
+  &:before {
+    background-repeat: no-repeat;
+    background-size: 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: inline-block;
+    content: "";
+    vertical-align: middle;
+    margin-right: 0.5em;
+    background-repeat: no-repeat;
+    background-position: center top;
+  }
+}
+.bwi-consult {
+  &:before {
+    background-size: 1.15rem;
+  }
 }

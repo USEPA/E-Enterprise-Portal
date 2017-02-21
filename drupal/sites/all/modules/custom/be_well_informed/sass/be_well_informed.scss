@@ -669,10 +669,12 @@ $color_ecstasy_approx: #ff851b;
                 }
                 .bwi-consult:before {
                     @include bwi-label('../images/orange.png');
-                    height: 2.1rem;
+                    background-size: 1.75rem;
+                    width: 1.75rem;
+                    height: 1.75rem;
                 }
             }
-            
+
             #be-well-informed-result-details-table {
                 tbody {
                     tr {
