@@ -51,10 +51,10 @@ $color_ecstasy_approx: #ff851b;
 
 @mixin bwi-label($url) {
     background-image: url($url);
-    background-size: 3rem;
+    background-size: 2rem;
     display: inline-block;
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
     content: "";
     vertical-align: middle;
     margin-right: 1%;
@@ -669,7 +669,7 @@ $color_ecstasy_approx: #ff851b;
                 }
                 .bwi-consult:before {
                     @include bwi-label('../images/orange.png');
-
+                    height: 2.1rem;
                 }
             }
 
@@ -705,7 +705,7 @@ $color_ecstasy_approx: #ff851b;
             table {
                 td {
                     img {
-                        width: 3rem;
+                        width: 2rem;
                     }
                 }
             }

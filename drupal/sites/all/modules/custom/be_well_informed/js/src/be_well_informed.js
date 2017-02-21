@@ -413,6 +413,7 @@ function resetBWIForm() {
 
             $table = $('<table id="be-well-informed-results-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
             $table.appendTo('.be-well-informed-results').DataTable(default_datatable_result_summary_options);
+            $table.find('.bwi-hide-row').closest('tr').remove();
             $table.find('td:contains("Total Coliform (Bac)")').text('Total Coliform');  // Remove Bac symbol
 
             $table = $('<table id="be-well-informed-result-details-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
