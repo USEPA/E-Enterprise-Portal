@@ -284,5 +284,12 @@
      </div>
    </div>
  </div>
+   <?php
+   if($variables['bwi_pdf_debug']) {
+     echo '<pre>';
+     print_r(get_defined_vars());
+     echo '</pre>';
+   }
+    ?>
  </body>
 </html>

@@ -637,7 +637,8 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
 
 
-  $variables['doc_root'] =  (variable_get('bwi_pdf_debug')) ? '' : $_SERVER["DOCUMENT_ROOT"];
+  $variables['bwi_pdf_debug'] =  variable_get('bwi_pdf_debug');
+  $variables['doc_root'] =  ($variables['bwi_pdf_debug']) ? '' : $_SERVER["DOCUMENT_ROOT"];
   $variables['unit_types'] = [
       'mg/L',
       'μg/L',
