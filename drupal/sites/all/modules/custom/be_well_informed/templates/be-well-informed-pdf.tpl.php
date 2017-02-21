@@ -286,8 +286,9 @@
  </div>
    <?php
    if($variables['bwi_pdf_debug']) {
+     $vars = get_defined_vars();
      echo '<pre>';
-     print_r(get_defined_vars());
+     print_r($vars['variables']);
      echo '</pre>';
    }
     ?>
