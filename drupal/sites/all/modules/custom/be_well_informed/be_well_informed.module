@@ -245,7 +245,7 @@ function be_well_informed_datatable_response($be_well_response_json) {
 
   foreach ($be_well_response->ResultEvaluations as $water_data) {
 
-    $user_entry = (empty($water_data->UserContaminatValue)) ? "None" : $water_data->UserContaminatValue;
+    $user_entry = (empty($water_data->UserContaminatValue)) ? "<span class='bwi-hide-row'>None</span>" : $water_data->UserContaminatValue;
     $guide_text = (empty($water_data->GuidelineText)) ? "A value was not entered." : $water_data->GuidelineText;
 
     $datatable_row = [];
