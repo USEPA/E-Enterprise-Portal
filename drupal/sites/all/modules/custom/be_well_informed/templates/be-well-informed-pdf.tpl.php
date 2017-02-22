@@ -90,13 +90,10 @@
          </tr>
          <?php endif; ?>
        <?php endforeach; ?>
-
        </tbody>
-
-
      </table>
 
-     <?php if(!empty($contaminants_title)): ?>
+     <?php if(count($response_json_data_pdf['TreatmentSteps'])): ?>
      <br><br>
      <span class="bwi-result-title">Water Treatment Systems That Remove <?php print $contaminants_title ?></span>
      <div class="datatable usa-width-one-whole hide treatment-content">
@@ -128,11 +125,11 @@
                      <?php if ($t['text']): echo "<div class='additional-text'>{$t['text']}</div>"; endif; ?>
                      <?php
                      $or_count = 1;
-                     $total_items = count($response_json_data_pdf['TreatmentSteps']->$count->OrInstructions);
-                     foreach($response_json_data_pdf['TreatmentSteps']->$count->OrInstructions as $ix => $bx):
-                       array_push($system_type, strtolower($bx->SystemType));
+                     $total_items = count($response_json_data_pdf['TreatmentSteps'][$count]['OrInstructions']);
+                     foreach($response_json_data_pdf['TreatmentSteps'][$count]['OrInstructions']as $ix => $bx):
+                       array_push($system_type, strtolower($bx['SystemType']));
                        ?>
-                       <div class="box-main" title="<?php echo $bx->Recommendation; ?>"><?php echo $bx->Recommendation; ?></div>
+                       <div class="box-main" title="<?php echo $bx['Recommendation']; ?>"><?php echo $bx['Recommendation']; ?></div>
                        <?php if ($total_items != $or_count): echo "<div class='or'>Or</div>"; $or_count++; endif; ?>
                      <?php endforeach; ?>
                    </div>
@@ -234,7 +231,6 @@
            }
            $i++;
          endforeach; ?>
-
          </tbody>
 
        </table>
@@ -242,12 +238,12 @@
    </div>
  </div>
    <?php
-   if($variables['bwi_pdf_debug']) {
-     $vars = get_defined_vars();
-     echo '<pre>';
-     print_r($vars['variables']);
-     echo '</pre>';
-   }
-    ?>
+     if($variables['bwi_pdf_debug']) {
+       $vars = get_defined_vars();
+       echo '<pre>';
+       print_r($vars['variables']);
+       echo '</pre>';
+     }
+   ?>
  </body>
 </html>
