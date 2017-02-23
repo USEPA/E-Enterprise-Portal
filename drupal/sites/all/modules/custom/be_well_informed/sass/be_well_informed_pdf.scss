@@ -11,6 +11,10 @@ body {
 }
 h3 {
   font-size: 1.1em;
+  &.of-1 {
+    visibility: hidden;
+    margin-bottom: -1em;
+  }
 }
 span.bwi-result-title {
   background: #0000BB none;
@@ -123,13 +127,19 @@ table tr {
   border: 1px solid #999999;
   padding: 0.3em 0.3em;
 }
-.step-icon:before {
-  position: absolute;
-  background-size: 2em;
-  background-repeat: no-repeat;
-  display:inline-block;
-  content: "";
-  vertical-align: middle;
+.step-icon {
+  &.of-1 {
+    visibility: hidden;
+  }
+  &:before {
+    position: absolute;
+    background-size: 2em;
+    background-repeat: no-repeat;
+    display:inline-block;
+    content: "";
+    vertical-align: middle;
+    visibility: visible;
+  }
 }
 .treatment-content .float-center {
   text-align:center;

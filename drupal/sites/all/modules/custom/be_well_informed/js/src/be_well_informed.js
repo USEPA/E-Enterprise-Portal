@@ -456,7 +456,7 @@ function bwi_log() {
               var excluded = ['NO2', 'Bac', 'Ecoli'];
 
               for (var contaminate in be_well_response_json.data.ResultEvaluations) {
-                if (excluded.indexOf(contaminate) == -1 && be_well_response_json.data.ResultEvaluations[contaminate].GuidelineColor == "font-red") {
+                if (excluded.indexOf(contaminate) == -1 && (be_well_response_json.data.ResultEvaluations[contaminate].GuidelineColor == "font-red" || be_well_response_json.data.ResultEvaluations[contaminate].TreatmentMessages)) {
                   contaminants.push(be_well_response_json.data.ResultEvaluations[contaminate].ContaminantFullName)
                 }
               }

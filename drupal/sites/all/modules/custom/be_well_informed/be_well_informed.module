@@ -281,7 +281,7 @@ function be_well_informed_datatable_response($be_well_response_json) {
   /*Use username and session ID to save be well response data for pdf generation. This data will be removed on user
   logout, implemented in hook_user_logout in be_well_informed.module */
   global $user;
-  variable_set($user->name.'_be_well_pdf_resp_'.$user->ssid, $be_well_response);
+  variable_set($user->name.'_be_well_pdf_resp_'.$user->ssid,  json_decode(json_encode($be_well_response), true));
 
   return $be_well_response;
 }
@@ -633,14 +633,13 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 
 }
 
-
 /**
  * Implements template_preprocess_hook for be-well-informed-pdf.tpl.php.
  */
 function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
 
-
-  $variables['doc_root'] =  (variable_get('bwi_pdf_debug')) ? '' : $_SERVER["DOCUMENT_ROOT"];
+  $variables['bwi_pdf_debug'] =  variable_get('bwi_pdf_debug');
+  $variables['doc_root'] =  ($variables['bwi_pdf_debug']) ? '' : $_SERVER["DOCUMENT_ROOT"];
   $variables['unit_types'] = [
       'mg/L',
       'μg/L',
@@ -910,8 +909,8 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
     $contaminants = array();
     $excluded = array('NO2', 'Bac', 'Ecoli');
     foreach($variables['response_json_data_pdf']['ResultEvaluations'] as $key => $val ){
-      if(!in_array($key, $excluded) && $val->GuidelineColor == 'font-red')
-        array_push($contaminants, $val->ContaminantFullName);
+      if(!in_array($key, $excluded) && ($val['GuidelineColor'] == 'font-red' || $val['TreatmentMessages']))
+        array_push($contaminants, $val['ContaminantFullName']);
     }
     if(count($contaminants) > 1){
       $last = array_pop($contaminants);
