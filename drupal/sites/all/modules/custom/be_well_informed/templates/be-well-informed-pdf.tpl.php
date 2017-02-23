@@ -104,29 +104,30 @@
        foreach($response_json_data_pdf['TreatmentSteps'] as $key=>$value){
          array_push($toShow, $key);
        }
+       $count = count($toShow);
+        
+       echo "<h3 class=\"treatment_order_title of-{$count}\">Treatment Order</h3>";
        ?>
-       <h3 class="treatment_order_title">Treatment Order</h3>
        <div class="step-class">
          <?php
          $system_type = [];
-         $count = 0;  //added forpdf
          $stepLabel = 1;   //added forpdf
-         foreach ($treatments as $t):
-           if(in_array($count, $toShow)):   //added forpdf
+         foreach ($treatments as $c => $t):
+           if(in_array($c, $toShow)):   //added forpdf
              array_push($system_type, strtolower($t['icon']));
              ?>
              <div class="clearfix treatment-step">
                <div class="caret"></div>
                <div class="step">
-                 <span <?php if ($t['icon']): print "class='treatment-icon ". $t['icon']."-icon step-icon'"; endif; ?>><?php print " Step ".$stepLabel; //added forpdf ?></span>
+                 <span <?php if ($t['icon']): print "class='treatment-icon {$t['icon']}-icon step-icon of-{$count}'"; endif; ?>><?php print " Step ".$stepLabel; //added forpdf ?></span>
                </div>
                <div class="float-center">
                    <div class="step-boxes text-center clearfix">
                      <?php if ($t['text']): echo "<div class='additional-text'>{$t['text']}</div>"; endif; ?>
                      <?php
                      $or_count = 1;
-                     $total_items = count($response_json_data_pdf['TreatmentSteps'][$count]['OrInstructions']);
-                     foreach($response_json_data_pdf['TreatmentSteps'][$count]['OrInstructions']as $ix => $bx):
+                     $total_items = count($response_json_data_pdf['TreatmentSteps'][$c]['OrInstructions']);
+                     foreach($response_json_data_pdf['TreatmentSteps'][$c]['OrInstructions']as $ix => $bx):
                        array_push($system_type, strtolower($bx['SystemType']));
                        ?>
                        <div class="box-main" title="<?php echo $bx['Recommendation']; ?>"><?php echo $bx['Recommendation']; ?></div>
@@ -138,7 +139,6 @@
              <?php
              $stepLabel++;
            endif;
-           $count++;
            ?>
          <?php endforeach;
           if(in_array('house', $system_type) || in_array('home', $system_type)) : ?>
