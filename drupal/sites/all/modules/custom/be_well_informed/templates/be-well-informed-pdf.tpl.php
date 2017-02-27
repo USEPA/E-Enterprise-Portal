@@ -119,7 +119,7 @@
              <div class="clearfix treatment-step">
                <div class="caret"></div>
                <div class="step">
-                 <span <?php if ($t['icon']): print "class='treatment-icon {$t['icon']}-icon step-icon of-{$count}'"; endif; ?>><?php print " Step ".$stepLabel; //added forpdf ?></span>
+                 <span class='<?php if ($t['icon']): print "treatment-icon {$t['icon']}-icon"; endif; print " of-{$count}" ?> step-icon'><?php print " Step ".$stepLabel; //added forpdf ?></span>
                </div>
                <div class="float-center">
                    <div class="step-boxes text-center clearfix">

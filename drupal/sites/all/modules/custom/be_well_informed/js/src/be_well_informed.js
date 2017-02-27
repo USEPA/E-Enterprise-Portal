@@ -140,6 +140,7 @@ function bwi_log() {
     if (!sample) {
       // different handy test cases
       sampleSet = [
+        {"CityName":"Anonymous","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":0.3,"Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":260,"Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":-9999,"Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":-9999,"Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":-9999,"Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":-9999,"Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":0.05,"Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":-9999,"Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":-9999,"Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":0.03,"Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":-9999,"Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":-9999,"Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":-9999,"Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":-9999,"Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":-9999,"Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":-9999,"Unit":"CFU/100 mL"}},"RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":-9999,"Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":-9999,"Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":-9999,"Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl","Interaction":"true"}}},
         {"CityName":"Anonymous","RoutineContaminants":{"pH":{"Symbol":"pH","Name":"pH","Value":"6","Unit":"units"}, "Cu":{"Symbol":"Cu","Name":"Copper","Value":"0.3","Unit":"mg/L"}}},
         {"CityName":"Anonymous","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"0.007","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"100","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"0.5","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"0.01","Unit":"mg/L"}}},
         {"CityName":"Amherst","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"1234","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"1234","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"1234","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"1234","Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":"1234","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"1234","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"1234","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"1234","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"1234","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":"1234","Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"1234","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"1234","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"1234","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"4321","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"4321","Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"4321","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
@@ -461,6 +462,33 @@ function bwi_log() {
                 }
               }
 
+              // # determine if there is no values in tier 3 & 4
+              if(!(be_well_response_json.data.TreatmentSteps.hasOwnProperty(3) || be_well_response_json.data.TreatmentSteps.hasOwnProperty(4))) {
+
+                // # if tier 2 is only "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"
+                if(be_well_response_json.data.TreatmentSteps.hasOwnProperty(2)
+                  && be_well_response_json.data.TreatmentSteps[2].OrInstructions.length == 1
+                  && be_well_response_json.data.TreatmentSteps[2].OrInstructions[0].Recommendation == "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer") {
+                  // and tier 5 has "Point-of-Use (POU) Arsenic Adsorption Media Filter System"
+                  if(be_well_response_json.data.TreatmentSteps.hasOwnProperty(5)) {
+                    var index = be_well_response_json.data.TreatmentSteps[5].OrInstructions.reduce(function(p, c, i, a) {
+                      return (c.Recommendation == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") ? i : p;
+                    }, -1);
+                    if (index != -1) {
+                      // copy it to tier 2
+                      be_well_response_json.data.TreatmentSteps[2].OrInstructions.push(be_well_response_json.data.TreatmentSteps[5].OrInstructions[index]);
+
+                      // remove it from tier 5
+                      be_well_response_json.data.TreatmentSteps[5].OrInstructions.splice(index, 1);
+                      // if it is empty after remoing the step, update the treatment steps
+                      if(!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
+                        delete be_well_response_json.data.TreatmentSteps[5]
+                      }
+                    }
+                  }
+                }
+              }
+
               // handle multiple number of contaminats in the title
               if (contaminants.length > 1) {
                 var last = contaminants.pop()
@@ -477,21 +505,22 @@ function bwi_log() {
               var toShow = [];
               for (var step in be_well_response_json.data.TreatmentSteps) {
                 var $treatment = $('.treatment-step').eq(step);
-                $treatment.find('.step span').show();
+                var $steps_span = $treatment.find('.step span');
+                $steps_span.show();
                 $treatment.removeClass('hide')
                     .find('.step span')
                     .html('Step ' + step_label);
 
-                if($treatment.find('.step span').hasClass('no-step')) {
-                  $treatment.find('.step span').removeClass('no-step');
-                  $treatment.find('.step span').addClass('fill-step');
+                if($steps_span.hasClass('no-step')) {
+                  $steps_span.removeClass('no-step');
+                  $steps_span.addClass('fill-step');
                 }
 
                 //Hide label if results contain only one treatment step.
                 if(steps_count <= 1) {
-                  $treatment.find('.step span').removeClass('fill-step');
-                  $treatment.find('.step span').addClass("no-step");
-                  $treatment.find('.step span').html('');
+                  $steps_span.removeClass('fill-step');
+                  $steps_span.addClass("no-step");
+                  $steps_span.html('');
                 }
 
                 be_well_response_json.data.TreatmentSteps[step].OrInstructions.map(function(item, index, list) {
