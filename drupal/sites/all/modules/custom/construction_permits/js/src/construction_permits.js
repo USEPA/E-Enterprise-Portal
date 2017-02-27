@@ -526,6 +526,38 @@ function reset_cgp_form() {
       }
     });
     $.ajax({
+      url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/states',
+      method: 'GET',
+      dataType: 'json',
+      success: function(cgp_reponse_json) {
+        if(Array.isArray(cgp_reponse_json)) {
+          $('.cgp-api-status').addClass('hide')
+          $states = $('#cgp-permit-state').prop('disabled', false)
+          if(cgp_reponse_json.length) {
+            // grab current value if exists
+            current_value = $states.val()
+            $options = cgp_reponse_json.reduce(function(p, c, i, a){
+              p.push("<option value='"+ c.stateCode +"'>"+ c.stateName +"</option>")
+              return p;
+            }, ["<option value=''>All</option>"])
+
+            $states.html($options.join(''))
+            $states.find('option[value="'+current_value+'"]').prop('selected', true);
+          }
+          else {
+            $states.val('')
+            $states.html('').prop('disabled', true)
+          }
+        }
+        else {
+          $('.cgp-api-status').removeClass('hide')
+        }
+      },
+      error: function(){
+        $('.cgp-api-status').removeClass('hide')
+      }
+    });
+    $.ajax({
       url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/formType',
       method: 'GET',
       dataType: 'json',
