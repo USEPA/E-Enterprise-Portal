@@ -131,7 +131,7 @@ function isURL(str) {
         $.ajax({
             url: Drupal.settings.basePath + 'process_favorite_link',
             type: 'POST',
-            async: false,
+            //async: false,
             data: {url: url, action: action, title: label, id: id},
             success: function (data) {
                 button.unbind("click");

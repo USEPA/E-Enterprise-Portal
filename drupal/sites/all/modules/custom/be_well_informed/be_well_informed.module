@@ -920,7 +920,38 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
     else{
       $contaminants_title = array_pop($contaminants);
     }
+
+    // Shift Arsenic treatment to teir 2 if needed
+    $treatment = $variables['response_json_data_pdf']['TreatmentSteps'];
+    // # determine if there is no values in tier 3 & 4
+    if(!($treatment[3] || $treatment[4]) && $treatment[2] && ($treatment[5])) {
+
+      // # if tier 2 is only "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"
+      if(!empty($treatment[2]['OrInstructions']) && !empty($treatment[2]['OrInstructions'][0]) && $treatment[2]['OrInstructions'][0]['Recommendation'] == "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer") {
+
+        // and tier 5 has "Point-of-Use (POU) Arsenic Adsorption Media Filter System"
+        foreach ($treatment[5]['OrInstructions'] as $i => $instruction) {
+          if($instruction['Recommendation'] == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") {
+            $index = $i;
+            break;
+          }
+        }
+        if($index !== null) {
+          // copy it to tier 2
+          $treatment[2]['OrInstructions'][] = $treatment[5]['OrInstructions'][$index];
+          // remove it from tier 5
+          unset($treatment[5]['OrInstructions'][$index]);
+          // if it is empty after remoing the step, update the treatment steps
+          if(empty($treatment[5]['OrInstructions'])) {
+            unset($treatment[5]);
+          }
+        }
+      }
+    }
+    $variables['response_json_data_pdf']['TreatmentSteps'] = $treatment;
   }
+
+
 
   $variables['system-type'] =  [];
   $variables['contaminants_title'] =  $contaminants_title;
