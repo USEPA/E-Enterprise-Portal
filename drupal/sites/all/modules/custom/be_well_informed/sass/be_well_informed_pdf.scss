@@ -174,8 +174,9 @@ tr .bwi-detail-td {
 span.em-und {
   text-decoration:underline;
 }
-.bwi-detail-td div {
-      display: block !important;
+.bwi-detail-td div,
+.bwi-detail-td div[style] {
+  display: block !important;
 }
 .bwi-detail-td a[target="_blank"]:after {
   content: " [" attr(href) "]";

@@ -808,7 +808,8 @@ $color_ecstasy_approx: #ff851b;
 
 // Show BWI expandable sections in PDF by default - use !important to override inline display: none
 #be-well-informed-results-wrapper-pdf {
-    .bwi-detail-td div {
+    .bwi-detail-td div,
+    .bwi-detail-td div[style] {
         display: block !important;
     }
     a[target="_blank"]:after {
