@@ -357,7 +357,7 @@ function bwi_log() {
           // reset the modal and return it to a 'default' state
           $('#routine-contaminants, .or').removeClass('hide')
           $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
-          $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret, .system-type-house, .system-type-water').addClass('hide')
+          $('.treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret, .system-type-house, .system-type-water').addClass('hide')
           $('#water_analysis_reset').addClass('invisible')
           $('.bs-callout-info, .bs-callout-warning').toggleClass('hidden', true)
           convertNulls = true;
@@ -541,30 +541,40 @@ function bwi_log() {
                   contaminants.push(be_well_response_json.data.ResultEvaluations[contaminate].ContaminantFullName)
                 }
               }
+              //
+              if(be_well_response_json.data.TreatmentSteps.hasOwnProperty(5)) {
+                var tier_5a = be_well_response_json.data.TreatmentSteps[5].OrInstructions.reduce(function(p, c, i, a) {
+                  return (c.Recommendation == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") ? i : p;
+                }, -1);
+                var tier_5b = be_well_response_json.data.TreatmentSteps[5].OrInstructions.reduce(function(p, c, i, a) {
+                  return (c.Recommendation == "Point-of-Use (POU) Reverse Osmosis (RO) System") ? i : p;
+                }, -1);
+
+                if(tier_5a !== null && tier_5b !== null) {
+                  // remove it from tier 5
+                  delete(be_well_response_json.data.TreatmentSteps[5].OrInstructions[tier_5a]);
+                }
+              }
 
               // # determine if there is no values in tier 3 & 4
-              if(!(be_well_response_json.data.TreatmentSteps.hasOwnProperty(3) || be_well_response_json.data.TreatmentSteps.hasOwnProperty(4))) {
+              if(!(be_well_response_json.data.TreatmentSteps.hasOwnProperty(3) || be_well_response_json.data.TreatmentSteps.hasOwnProperty(4))
+                && be_well_response_json.data.TreatmentSteps.hasOwnProperty(2) // # if tier 2 is only "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"
+                && be_well_response_json.data.TreatmentSteps[2].OrInstructions.length == 1
+                && be_well_response_json.data.TreatmentSteps[2].OrInstructions[0].Recommendation == "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"
+                && be_well_response_json.data.TreatmentSteps.hasOwnProperty(5)) { // and tier 5 has "Point-of-Use (POU) Arsenic Adsorption Media Filter System"
 
-                // # if tier 2 is only "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"
-                if(be_well_response_json.data.TreatmentSteps.hasOwnProperty(2)
-                  && be_well_response_json.data.TreatmentSteps[2].OrInstructions.length == 1
-                  && be_well_response_json.data.TreatmentSteps[2].OrInstructions[0].Recommendation == "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer") {
-                  // and tier 5 has "Point-of-Use (POU) Arsenic Adsorption Media Filter System"
-                  if(be_well_response_json.data.TreatmentSteps.hasOwnProperty(5)) {
-                    var index = be_well_response_json.data.TreatmentSteps[5].OrInstructions.reduce(function(p, c, i, a) {
-                      return (c.Recommendation == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") ? i : p;
-                    }, -1);
-                    if (index != -1) {
-                      // copy it to tier 2
-                      be_well_response_json.data.TreatmentSteps[2].OrInstructions.push(be_well_response_json.data.TreatmentSteps[5].OrInstructions[index]);
+                var index = be_well_response_json.data.TreatmentSteps[5].OrInstructions.reduce(function(p, c, i, a) {
+                  return (c.Recommendation == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") ? i : p;
+                }, -1);
+                if (index != -1) {
+                  // copy it to tier 2
+                  be_well_response_json.data.TreatmentSteps[2].OrInstructions.push(be_well_response_json.data.TreatmentSteps[5].OrInstructions[index]);
 
-                      // remove it from tier 5
-                      be_well_response_json.data.TreatmentSteps[5].OrInstructions.splice(index, 1);
-                      // if it is empty after remoing the step, update the treatment steps
-                      if(!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
-                        delete be_well_response_json.data.TreatmentSteps[5]
-                      }
-                    }
+                  // remove it from tier 5
+                  be_well_response_json.data.TreatmentSteps[5].OrInstructions.splice(index, 1);
+                  // if it is empty after remoing the step, update the treatment steps
+                  if(!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
+                    delete be_well_response_json.data.TreatmentSteps[5]
                   }
                 }
               }
