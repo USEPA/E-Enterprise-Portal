@@ -541,6 +541,7 @@ function bwi_log() {
                   contaminants.push(be_well_response_json.data.ResultEvaluations[contaminate].ContaminantFullName)
                 }
               }
+
               //
               if(be_well_response_json.data.TreatmentSteps.hasOwnProperty(5)) {
                 var tier_5a = be_well_response_json.data.TreatmentSteps[5].OrInstructions.reduce(function(p, c, i, a) {
@@ -550,9 +551,9 @@ function bwi_log() {
                   return (c.Recommendation == "Point-of-Use (POU) Reverse Osmosis (RO) System") ? i : p;
                 }, -1);
 
-                if(tier_5a !== null && tier_5b !== null) {
+                if(tier_5a != null && tier_5b != null) {
                   // remove it from tier 5
-                  delete(be_well_response_json.data.TreatmentSteps[5].OrInstructions[tier_5a]);
+                  be_well_response_json.data.TreatmentSteps[5].OrInstructions.splice(tier_5a, 1);
                 }
               }
 
