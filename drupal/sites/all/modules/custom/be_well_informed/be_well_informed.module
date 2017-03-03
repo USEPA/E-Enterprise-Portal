@@ -538,18 +538,6 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 
   $variables['treatments'] = [
     [
-      'icon'=> '',
-      'boxes' => [
-        [
-          'icon'=> 'home',
-          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer' ],
-        [
-          'icon'=> 'facet',
-          'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
-        ],
-      ]
-    ],
-    [
       'icon'=> 'home',
       'boxes' => [
         [
@@ -567,8 +555,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'boxes' => [
         [
           'icon'=> 'home',
-          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer'
-        ],
+          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer' ],
         [
           'icon'=> 'facet',
           'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
