@@ -556,6 +556,7 @@ function bwi_log() {
                   be_well_response_json.data.TreatmentSteps[5].OrInstructions.splice(tier_5a, 1);
                   if(!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
                     delete be_well_response_json.data.TreatmentSteps[5]
+                    steps_count = Object.keys(be_well_response_json.data.TreatmentSteps).length
                   }
                 }
               }
@@ -579,6 +580,7 @@ function bwi_log() {
                   // if it is empty after remoing the step, update the treatment steps
                   if(!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
                     delete be_well_response_json.data.TreatmentSteps[5]
+                    steps_count = Object.keys(be_well_response_json.data.TreatmentSteps).length
                   }
                 }
               }
