@@ -551,9 +551,12 @@ function bwi_log() {
                   return (c.Recommendation == "Point-of-Use (POU) Reverse Osmosis (RO) System") ? i : p;
                 }, -1);
 
-                if(tier_5a != null && tier_5b != null) {
+                if(tier_5a != -1 && tier_5b != -1) {
                   // remove it from tier 5
                   be_well_response_json.data.TreatmentSteps[5].OrInstructions.splice(tier_5a, 1);
+                  if(!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
+                    delete be_well_response_json.data.TreatmentSteps[5]
+                  }
                 }
               }
 
@@ -594,8 +597,8 @@ function bwi_log() {
               // update the steps labels to properly show the needed steps
               var step_label = 1;
               var toShow = [];
-              for (var step in be_well_response_json.data.TreatmentSteps) {
-                var $treatment = $('.treatment-step').eq(step);
+              for (var tier in be_well_response_json.data.TreatmentSteps) {
+                var $treatment = $('.treatment-step').eq(tier - 1);
                 var $steps_span = $treatment.find('.step span');
                 $steps_span.show();
                 $treatment.removeClass('hide')
@@ -614,7 +617,7 @@ function bwi_log() {
                   $steps_span.html('');
                 }
 
-                be_well_response_json.data.TreatmentSteps[step].OrInstructions.map(function(item, index, list) {
+                be_well_response_json.data.TreatmentSteps[tier].OrInstructions.map(function(item, index, list) {
                   $treatment.find('[title="' + item.Recommendation + '"]')
                     .removeClass('hide')
                   var cssClass = '.system-type-' + item.SystemType.toLowerCase()
