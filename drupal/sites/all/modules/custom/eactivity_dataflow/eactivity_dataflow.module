@@ -1,11 +1,6 @@
 <?php
 //Included for showcase s3fs feature toggle
 module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-if (feature_toggle_get_status('uses_s3_doc_storage')) {
-  $s3_client = _s3fs_get_amazons3_client(_s3fs_get_config());
-  $s3_client->registerStreamWrapper();
-  //file_get_contents("s3://".variable_get("s3fs_bucket")."/".
-}
 
 function eactivity_dataflow_menu(){
   $items = array();
@@ -19,6 +14,7 @@ function eactivity_dataflow_menu(){
 }
 
 function s3_load_file_in_page($file_name){
+  //file_get_contents("s3://".variable_get("s3fs_bucket")."/".
   return $file_name;
 }
 
@@ -163,10 +159,14 @@ function load_eactivity_data($module_caller, $use_cache) {
         }
       }
       $i = 0;
+      if (feature_toggle_get_status('uses_s3_doc_storage')) {
+        $s3_client = _s3fs_get_amazons3_client(_s3fs_get_config());
+        $s3_client->registerStreamWrapper();
+      }
       foreach ($activity->Documents->Document as $child) {
         $res['Documents'][$i]['id'] = $child->Id->__toString();
         if (feature_toggle_get_status('uses_s3_doc_storage')) {
-          $res['Documents'][$i]['name'] = "/s3/".$child->Name->__toString();
+          $res['Documents'][$i]['name'] = '/s3/'.$child->Name->__toString();
         }
         else{
           $res['Documents'][$i]['name'] = 'sites/default/files/' . $child->Name->__toString();
