@@ -150,7 +150,7 @@ function load_eactivity_data($module_caller, $use_cache) {
       foreach ($activity->Documents->Document as $child) {
         $res['Documents'][$i]['id'] = $child->Id->__toString();
         if (feature_toggle_get_status('uses_s3_doc_storage')) {
-          $res['Documents'][$i]['name'] = 'https://'.variable_get('s3fs_bucket').'.s3-'.variable_get('s3fs_region').'.amazonaws.com/'.$child->Name->__toString();
+          $res['Documents'][$i]['name'] = "s3://".variable_get("s3fs_bucket")."/".$child->Name->__toString();
         }
         else{
           $res['Documents'][$i]['name'] = 'sites/default/files/' . $child->Name->__toString();
