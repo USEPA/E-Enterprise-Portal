@@ -143,6 +143,10 @@ function load_eactivity_data($module_caller, $use_cache) {
         }
       }
       $i = 0;
+      if (feature_toggle_get_status('uses_s3_doc_storage')) {
+        $s3_client = _s3fs_get_amazons3_client(_s3fs_get_config());
+        $s3_client->registerStreamWrapper();
+      }
       foreach ($activity->Documents->Document as $child) {
         $res['Documents'][$i]['id'] = $child->Id->__toString();
         if (feature_toggle_get_status('uses_s3_doc_storage')) {
@@ -246,13 +250,25 @@ function load_eactivity_data($module_caller, $use_cache) {
           if ($res_domain == 'Lead') {
             foreach ($res['Documents'] as $ky => $vl) {
               if (strpos($vl['name'], 'Receipt') !== false) {
-                $res_action .= "<a class='favorites-ignore ga-tracking'  data-ga-event-label='progress tracker view receipt' href='/" . $vl['name'] . "' target='_blank'>View Receipt</a>";
+                if (feature_toggle_get_status('uses_s3_doc_storage')) {
+                  $res_action .= "<a class='favorites-ignore ga-tracking'  data-ga-event-label='progress tracker view receipt' href='" . $vl['name'] . "' target='_blank'>View Receipt</a>";
+                }else{
+                  $res_action .= "<a class='favorites-ignore ga-tracking'  data-ga-event-label='progress tracker view receipt' href='/" . $vl['name'] . "' target='_blank'>View Receipt</a>";
+                }
               }
               if (strpos($vl['name'], 'Certificate') !== false) {
-                $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view certificate' href='/" . $vl['name'] . "' target='_blank'>View Certificate</a>";
+                if (feature_toggle_get_status('uses_s3_doc_storage')) {
+                  $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view certificate' href='" . $vl['name'] . "' target='_blank'>View Certificate</a>";
+                }else{
+                  $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view certificate' href='/" . $vl['name'] . "' target='_blank'>View Certificate</a>";
+                }
               }
               if (strpos($vl['name'], 'Logo') !== false) {
-                $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view logo' href='/" . $vl['name'] . "' target='_blank'>View Logo</a>";
+                if (feature_toggle_get_status('uses_s3_doc_storage')) {
+                  $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view logo' href='" . $vl['name'] . "' target='_blank'>View Logo</a>";
+                }else{
+                  $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view logo' href='/" . $vl['name'] . "' target='_blank'>View Logo</a>";
+                }
               }
             }
           } else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI') {
