@@ -18,12 +18,11 @@ function s3_load_file_in_page($file_name){
     $s3_client = _s3fs_get_amazons3_client(_s3fs_get_config());
     $s3_client->registerStreamWrapper();
     $file = "s3://".variable_get("s3fs_bucket")."/".$file_name;
-    /*$resource = fopen($file, "rb");
+    $resource = fopen($file, "rb");
     header('Content-Type: ' . mime_content_type($file_name));
     header("Content-Length: " . filesize($file_name));
     fpassthru($resource);
-    exit;*/
-    return $file;
+    exit;
   }
 }
 
