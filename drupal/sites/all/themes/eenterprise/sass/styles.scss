@@ -246,6 +246,18 @@
     }
 }
 
+.workbench-zipcode-error {
+    position: absolute;
+    right: 4rem;
+    z-index: 10;
+    font-size: 1.5rem;
+    border: 2px solid #b94a48;
+    padding: 0.5rem 1rem;
+    background-color: #f2dede;
+    margin-top: -13px;
+    box-shadow: 1px 1px 1px 1px #999;
+}
+
 // Menus -------------- //
 
 .menu {
@@ -979,6 +991,10 @@ header {
                 margin-right: 15px;
                 text-decoration: none;
                 color: $color-white;
+                display: inline-block;
+                text-align: center;
+                width: 4rem;
+                height: 4rem;
                 &:visited {
                     color: #000;
                 }

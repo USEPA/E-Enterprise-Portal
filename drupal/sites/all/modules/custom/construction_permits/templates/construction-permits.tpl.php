@@ -2,8 +2,7 @@
                                   rel="external">US Environmental Protection
     Agency</a></p>
 <p>Find Notices of Intent (NOIs), Notices of Termination (NOTs), or
-  Low Erosivity Waivers (LEWs) submitted under <a href="https://www.epa.gov/npdes/stormwater-discharges-construction-activities-2017-cgp#cgp" target="_blank"
-                                                  rel="external">EPA’s 2017 Construction General Permit (CGP)</a>.</p>
+  Low Erosivity Waivers (LEWs) submitted under EPA’s 2017 Construction General Permit (CGP).</p>
 <h3>Enter one or more search criteria</h3>
 <div class="bs-callout bs-callout-warning cgp-callout-warning hide">
   <h4>Please correct the errors below:</h4>
@@ -39,67 +38,7 @@
                name="projectCity"></div>
       <div class="col-md-3">
         <label for="cgp-permit-state">State/Territory</label>
-        <select id="cgp-permit-state" name="projectState">
-              <option value="">All</option>
-              <option value="AL">Alabama</option>
-              <option value="AK">Alaska</option>
-              <option value="AS">American Samoa</option>
-              <option value="AZ">Arizona</option>
-              <option value="AR">Arkansas</option>
-              <option value="CA">California</option>
-              <option value="CO">Colorado</option>
-              <option value="CT">Connecticut</option>
-              <option value="DE">Delaware</option>
-              <option value="DC">District Of Columbia</option>
-              <option value="FL">Florida</option>
-              <option value="GA">Georgia</option>
-              <option value="GU">Guam</option>
-              <option value="HI">Hawaii</option>
-              <option value="ID">Idaho</option>
-              <option value="IL">Illinois</option>
-              <option value="IN">Indiana</option>
-              <option value="IA">Iowa</option>
-              <option value="JA">Johnston Atoll</option>
-              <option value="KS">Kansas</option>
-              <option value="KY">Kentucky</option>
-              <option value="LA">Louisiana</option>
-              <option value="ME">Maine</option>
-              <option value="MD">Maryland</option>
-              <option value="MA">Massachusetts</option>
-              <option value="MI">Michigan</option>
-              <option value="MW">Midway Islands</option>
-              <option value="MN">Minnesota</option>
-              <option value="MS">Mississippi</option>
-              <option value="MO">Missouri</option>
-              <option value="MT">Montana</option>
-              <option value="NE">Nebraska</option>
-              <option value="NV">Nevada</option>
-              <option value="NH">New Hampshire</option>
-              <option value="NJ">New Jersey</option>
-              <option value="NM">New Mexico</option>
-              <option value="NY">New York</option>
-              <option value="NC">North Carolina</option>
-              <option value="ND">North Dakota</option>
-              <option value="NI">Northern Mariana Islands</option>
-              <option value="OH">Ohio</option>
-              <option value="OK">Oklahoma</option>
-              <option value="OR">Oregon</option>
-              <option value="PA">Pennsylvania</option>
-              <option value="PR">Puerto Rico</option>
-              <option value="RI">Rhode Island</option>
-              <option value="SC">South Carolina</option>
-              <option value="SD">South Dakota</option>
-              <option value="TN">Tennessee</option>
-              <option value="TX">Texas</option>
-              <option value="UT">Utah</option>
-              <option value="VT">Vermont</option>
-              <option value="VA">Virginia</option>
-              <option value="MW">Wake Island</option>
-              <option value="WA">Washington</option>
-              <option value="WV">West Virginia</option>
-              <option value="WI">Wisconsin</option>
-              <option value="WY">Wyoming</option>
-          </select>
+        <select id="cgp-permit-state" name="projectState" disabled="true"></select>
         </div>
       <div class="col-md-3">
         <label for="cgp-permit-zip">Zip</label>

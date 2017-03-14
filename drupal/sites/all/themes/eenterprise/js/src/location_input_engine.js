@@ -11,6 +11,7 @@
           var error = false;
           var location_data_return = {};
 
+
           $.ajax({
             url: Drupal.settings.basePath + 'return_location_data',
             type: 'POST',
@@ -36,15 +37,21 @@
                   var no_options = true;
                   location_data_return.zip = parsed_data.zip;
                   $.each(parsed_data.city, function(index, city) {
-                    if ($.isArray(existing_locations[location_data_return.zip]) && $.inArray(city, existing_locations[location_data_return.zip]) == -1) {
+                    if (Drupal.settings.is_guest) {
                       city_select = city_select + '<option value="' + city + '">' + city + '</option>';
-                      no_options = false;
+                    } else {
+                      if ($.isArray(existing_locations[location_data_return.zip]) && $.inArray(city, existing_locations[location_data_return.zip]) == -1) {
+                        city_select = city_select + '<option value="' + city + '">' + city + '</option>';
+                        no_options = false;
+                      }
                     }
                   });
                   city_select = city_select + '</select>';
-                  if (no_options) {
-                    error_message = 'All of the locations for the given zip code have been used.';
-                    error = true;
+                  if (!Drupal.settings.is_guest) {
+                    if (no_options) {
+                      error_message = 'All of the locations for the given zip code have been used.';
+                      error = true;
+                    }
                   }
                   location_data_return.city_select = city_select;
                   location_data_return.zip_codes = false; // not returning list of zip codes
@@ -74,16 +81,22 @@
                         zip_select = zip_select + '<option value="" disabled>' + zip_obj.city + '</option>';
                         previous_city = zip_obj.city;
                       }
-                      if ($.inArray(location_name, existing_locations[zip_code]) == -1) {
+                      if (Drupal.settings.is_guest) {
                         zip_select = zip_select + '<option value="' + zip_code + '">' + zip_code + '</option>';
-                        no_options = false;
+                      } else {
+                        if ($.inArray(location_name, existing_locations[zip_code]) == -1) {
+                          zip_select = zip_select + '<option value="' + zip_code + '">' + zip_code + '</option>';
+                          no_options = false;
+                        }
                       }
                     });
                   }
                   zip_select = zip_select + '</select>';
-                  if (no_options) {
-                    error_message = 'All of the zip codes for the given location have been used.';
-                    error = true;
+                  if (!Drupal.settings.is_guest) {
+                    if (no_options) {
+                      error_message = 'All of the zip codes for the given location have been used.';
+                      error = true;
+                    }
                   }
                   location_data_return.zip_select = zip_select;
                   location_data_return.zip_codes = true;

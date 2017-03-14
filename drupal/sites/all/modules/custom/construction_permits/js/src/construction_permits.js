@@ -346,7 +346,7 @@ function reset_cgp_form() {
   cp_iife.fullPhone = function(prop) {
     return phone = (prop['phoneExtension'] && prop['phoneExtension'] != '') ? prop['phone'] + ' x' + prop['phoneExtension'] : prop['phone'] || 'N/A';
   }
-  
+
   cp_iife.siteConstructionTypes = function(prop) {
     return prop.join('<br>') || 'N/A';
   }
@@ -407,16 +407,27 @@ function reset_cgp_form() {
       prop.map(function(c, i, a) {
         var even = (i % 2) ? ' even' : '';
         var polluntants = c.firstWater.pollutants.map(function(c){ return c.pollutantName; }, []);
-        var tmdls = c.firstWater.pollutants.map(function(c){ return c.tmdl.name; }, []);
+        var tmdls = c.firstWater.pollutants.map(function(c){
+          if (c.tmdl != null && c.tmdl.name != '') {
+            return c.tmdl.name;
+          }
+          else {
+            return "";
+          };
+        }, []);
+
+        (polluntants.length > 1) ? polluntants.join(", ") : polluntants;
+        (tmdls.length > 1) ? tmdls.join(", ") : tmdls;
+
         r += [
           '<div class="line row-item' + even + '">',
             //@TODO - Description may be optional - add logic if needed to show blank if user did not complete description - would Dave return false or blank string
             '<div class="col-md-2" title="Discharge Point">', c.description, '</div>',
             //'<div class="col-md-2" title="Location">', c.location.latitude + '&deg;N, ' + c.location.longitude + '&deg;E<br><span class="cgp-latlongsource">Source: ' +
             //c.location.latLongDataSource + '</span><br><span class="cgp-refdatum">Horizontal Reference Datum: ' + c.location.horizontalReferenceDatum + '</span>', '</div>',
-            '<div class="col-md-2" title="Receiving Water">', c.firstWater.listedWaterName, '</div>',
-            '<div class="col-md-2" title="Pollutant(s)">', polluntants.join(', '), '</div>',
-            '<div class="col-md-2" title="TMDL">', tmdls.join(', '), '</div>',
+            '<div class="col-md-2" title="Receiving Water">', c.firstWater.receivingWaterName, '</div>',
+            '<div class="col-md-2" title="Pollutant(s)">', polluntants, '</div>',
+            '<div class="col-md-2" title="TMDL">', tmdls, '</div>',
             '<div class="col-md-2" title="Tier 2, 2.5 or 3">', c.tier, '</div>',
           '</div>',
         ].join('')
@@ -504,6 +515,38 @@ function reset_cgp_form() {
           else {
             $status.val('')
             $status.html('').prop('disabled', true)
+          }
+        }
+        else {
+          $('.cgp-api-status').removeClass('hide')
+        }
+      },
+      error: function(){
+        $('.cgp-api-status').removeClass('hide')
+      }
+    });
+    $.ajax({
+      url: Drupal.settings.construction_permits.cgp_api_endpoint + '/reference/states',
+      method: 'GET',
+      dataType: 'json',
+      success: function(cgp_reponse_json) {
+        if(Array.isArray(cgp_reponse_json)) {
+          $('.cgp-api-status').addClass('hide')
+          $states = $('#cgp-permit-state').prop('disabled', false)
+          if(cgp_reponse_json.length) {
+            // grab current value if exists
+            current_value = $states.val()
+            $options = cgp_reponse_json.reduce(function(p, c, i, a){
+              p.push("<option value='"+ c.stateCode +"'>"+ c.stateName +"</option>")
+              return p;
+            }, ["<option value=''>All</option>"])
+
+            $states.html($options.join(''))
+            $states.find('option[value="'+current_value+'"]').prop('selected', true);
+          }
+          else {
+            $states.val('')
+            $states.html('').prop('disabled', true)
           }
         }
         else {

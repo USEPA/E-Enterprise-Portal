@@ -51,10 +51,10 @@ $color_ecstasy_approx: #ff851b;
 
 @mixin bwi-label($url) {
     background-image: url($url);
-    background-size: 3rem;
+    background-size: 2rem;
     display: inline-block;
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
     content: "";
     vertical-align: middle;
     margin-right: 1%;
@@ -669,7 +669,9 @@ $color_ecstasy_approx: #ff851b;
                 }
                 .bwi-consult:before {
                     @include bwi-label('../images/orange.png');
-
+                    background-size: 1.75rem;
+                    width: 1.75rem;
+                    height: 1.75rem;
                 }
             }
 
@@ -705,7 +707,7 @@ $color_ecstasy_approx: #ff851b;
             table {
                 td {
                     img {
-                        width: 3rem;
+                        width: 2rem;
                     }
                 }
             }
@@ -801,6 +803,17 @@ $color_ecstasy_approx: #ff851b;
                 }
             }
         }
+    }
+}
+
+// Show BWI expandable sections in PDF by default - use !important to override inline display: none
+#be-well-informed-results-wrapper-pdf {
+    .bwi-detail-td div,
+    .bwi-detail-td div[style] {
+        display: block !important;
+    }
+    a[target="_blank"]:after {
+        content: " [" attr(href) "]";
     }
 }
 

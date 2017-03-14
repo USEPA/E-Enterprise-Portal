@@ -1,3 +1,83 @@
+// Polyfill for Array.from()
+// Production steps of ECMA-262, Edition 6, 22.1.2.1
+if (!Array.from) {
+  Array.from = (function () {
+    var toStr = Object.prototype.toString;
+    var isCallable = function (fn) {
+      return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
+    };
+    var toInteger = function (value) {
+      var number = Number(value);
+      if (isNaN(number)) { return 0; }
+      if (number === 0 || !isFinite(number)) { return number; }
+      return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
+    };
+    var maxSafeInteger = Math.pow(2, 53) - 1;
+    var toLength = function (value) {
+      var len = toInteger(value);
+      return Math.min(Math.max(len, 0), maxSafeInteger);
+    };
+
+    // The length property of the from method is 1.
+    return function from(arrayLike/*, mapFn, thisArg */) {
+      // 1. Let C be the this value.
+      var C = this;
+
+      // 2. Let items be ToObject(arrayLike).
+      var items = Object(arrayLike);
+
+      // 3. ReturnIfAbrupt(items).
+      if (arrayLike == null) {
+        throw new TypeError('Array.from requires an array-like object - not null or undefined');
+      }
+
+      // 4. If mapfn is undefined, then let mapping be false.
+      var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
+      var T;
+      if (typeof mapFn !== 'undefined') {
+        // 5. else
+        // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
+        if (!isCallable(mapFn)) {
+          throw new TypeError('Array.from: when provided, the second argument must be a function');
+        }
+
+        // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
+        if (arguments.length > 2) {
+          T = arguments[2];
+        }
+      }
+
+      // 10. Let lenValue be Get(items, "length").
+      // 11. Let len be ToLength(lenValue).
+      var len = toLength(items.length);
+
+      // 13. If IsConstructor(C) is true, then
+      // 13. a. Let A be the result of calling the [[Construct]] internal method
+      // of C with an argument list containing the single item len.
+      // 14. a. Else, Let A be ArrayCreate(len).
+      var A = isCallable(C) ? Object(new C(len)) : new Array(len);
+
+      // 16. Let k be 0.
+      var k = 0;
+      // 17. Repeat, while k < len… (also steps a - h)
+      var kValue;
+      while (k < len) {
+        kValue = items[k];
+        if (mapFn) {
+          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+        } else {
+          A[k] = kValue;
+        }
+        k += 1;
+      }
+      // 18. Let putStatus be Put(A, "length", len, true).
+      A.length = len;
+      // 20. Return A.
+      return A;
+    };
+  }());
+}
+
 function showElementOutOfMany($wrapper_to_show, $common_selector) {
   $common_selector.hide();
   $wrapper_to_show.show();
@@ -79,7 +159,6 @@ function formatFormData(formData, convertNulls) {
       // Check if presence radio has been inputed and set balue
       if (previous[keys[cIndex]].Symbol in presenceRadioInputs) {
         previous[keys[cIndex]].Presence = presenceRadioInputs[previous[keys[cIndex]].Symbol];
-        delete previous[keys[cIndex]].Value;
       }
       if (convertNulls) {
         if (!isNaN(previous[keys[cIndex]].Value) && previous[keys[cIndex]].Value != "") {
@@ -88,7 +167,12 @@ function formatFormData(formData, convertNulls) {
           previous[keys[cIndex]].Value = -9999;
         }
       } else {
-        if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {
+        if (previous[keys[cIndex]].Symbol in presenceRadioInputs && (previous[keys[cIndex]].Presence == "present" || previous[keys[cIndex]].Presence == "absent")) {
+          if (previous[keys[cIndex]].Value == "") {
+            previous[keys[cIndex]].Value = -9999;
+          }
+        }
+        else if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {
           delete previous[keys[cIndex]];
         }
       }
@@ -120,15 +204,25 @@ function resetBWIForm() {
   $('.bs-callout-warning').toggleClass('hidden', true);
 }
 
+function bwi_log() {
+  if(Drupal.settings.be_well_informed.debug_mode) {
+    console.log.apply(this, Array.prototype.concat(['be_well_informed/form_submission'], Array.from(arguments)));
+  }
+}
+
 (function($) {
   var sampleSetIndex = 0;
   // Flag for converting Null or blank inputs to -9999
   var convertNulls = false;
+  var cityName;
   sampleData = function(sample) {
     // lets us cycle through different sets of test data
     if (!sample) {
       // different handy test cases
       sampleSet = [
+        {"CityName":"Anonymous","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":0.3,"Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":260,"Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":-9999,"Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":-9999,"Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":-9999,"Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":-9999,"Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":0.05,"Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":-9999,"Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":-9999,"Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":0.03,"Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":-9999,"Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":-9999,"Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":-9999,"Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":-9999,"Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":-9999,"Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":-9999,"Unit":"CFU/100 mL"}},"RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":-9999,"Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":-9999,"Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":-9999,"Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl","Interaction":"true"}}},
+        {"CityName":"Anonymous","RoutineContaminants":{"pH":{"Symbol":"pH","Name":"pH","Value":"6","Unit":"units"}, "Cu":{"Symbol":"Cu","Name":"Copper","Value":"0.3","Unit":"mg/L"}}},
+        {"CityName":"Anonymous","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"0.007","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"100","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"0.5","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"0.01","Unit":"mg/L"}}},
         {"CityName":"Amherst","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"1234","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"1234","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"1234","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"1234","Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":"1234","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"1234","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"1234","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"1234","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"1234","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":"1234","Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"1234","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"1234","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"1234","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"4321","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"4321","Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"4321","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
         {"CityName":"Portsmouth","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"45","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"2","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"54","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"5","Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":"22","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"1234","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"87","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"43","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"1234","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":"1234","Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"1234","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"1234","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"1234","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"4321","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"4321","Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"4321","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
         {"CityName":"Anonymous","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"1","Unit":"mg/L"}}},
@@ -200,6 +294,18 @@ function resetBWIForm() {
           resizeModal()
         });
 
+        $(':radio[value=absent]').click(function() {
+          $(this).parent().parent().parent().find('input.column').val("");
+        });
+
+        $('.microbiology input.column').on('keyup, keydown, click', function() {
+          $(this).on('blur', function() {
+            if ($(this).val() > 0) {
+              $(this).siblings('.row').find(':radio[value=present]').prop('checked', true);
+            }
+          });
+        });
+
         $(window).resize(function() {
           resizeModal();
         })
@@ -238,6 +344,8 @@ function resetBWIForm() {
 
     var data = formatFormData(formData, convertNulls);
 
+    bwi_log(JSON.stringify(data));
+
     showElementOutOfMany($loading_wrapper, $all_wrappers);
     $('#entry-tab').text('Entry');
     $.ajax({
@@ -249,13 +357,14 @@ function resetBWIForm() {
           // reset the modal and return it to a 'default' state
           $('#routine-contaminants, .or').removeClass('hide')
           $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
-          $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret, .system-type-house, .system-type-water').addClass('hide')
+          $('.treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret, .system-type-house, .system-type-water').addClass('hide')
           $('#water_analysis_reset').addClass('invisible')
           $('.bs-callout-info, .bs-callout-warning').toggleClass('hidden', true)
           convertNulls = true;
 
           // Handle all the addition requests for the service
           if (!!be_well_response_json.data.InteractivePrompts.length || !!be_well_response_json.data.AdditionalContaminantRequests.length) {
+
             $('#routine-contaminants').addClass('hide')
             $interactive_prompts = $('#interactive-prompts');
             // Handle any interactive prompts that are returned from the service
@@ -394,9 +503,12 @@ function resetBWIForm() {
 
             $table = $('<table id="be-well-informed-results-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
             $table.appendTo('.be-well-informed-results').DataTable(default_datatable_result_summary_options);
+            $table.find('.bwi-hide-row').closest('tr').remove();
+            $table.find('td:contains("Total Coliform (Bac)")').text('Total Coliform');  // Remove Bac symbol
 
             $table = $('<table id="be-well-informed-result-details-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
             $table.appendTo('.be-well-informed-result-details').DataTable(default_datatable_result_details_options);
+            $table.find('td:contains("Total Coliform (Bac)")').text('Total Coliform');  // Remove Bac symbol
 
             // Loop through and add trs to the summary table. Datatable does not support colspan
             var result;
@@ -422,11 +534,54 @@ function resetBWIForm() {
               $('#treatment_order_title').show();
               // update title to include all contaminats that have TreatmentMessages != ''
               var contaminants = [];
-              var excluded = ['Fe', 'NO2', 'Bac', 'Ecoli'];
+              var excluded = ['NO2', 'Bac', 'Ecoli'];
 
               for (var contaminate in be_well_response_json.data.ResultEvaluations) {
-                if (excluded.indexOf(contaminate) == -1 && be_well_response_json.data.ResultEvaluations[contaminate].GuidelineColor == "font-red") {
+                if (excluded.indexOf(contaminate) == -1 && (be_well_response_json.data.ResultEvaluations[contaminate].GuidelineColor == "font-red" || be_well_response_json.data.ResultEvaluations[contaminate].TreatmentMessages)) {
                   contaminants.push(be_well_response_json.data.ResultEvaluations[contaminate].ContaminantFullName)
+                }
+              }
+
+              //
+              if(be_well_response_json.data.TreatmentSteps.hasOwnProperty(5)) {
+                var tier_5a = be_well_response_json.data.TreatmentSteps[5].OrInstructions.reduce(function(p, c, i, a) {
+                  return (c.Recommendation == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") ? i : p;
+                }, -1);
+                var tier_5b = be_well_response_json.data.TreatmentSteps[5].OrInstructions.reduce(function(p, c, i, a) {
+                  return (c.Recommendation == "Point-of-Use (POU) Reverse Osmosis (RO) System") ? i : p;
+                }, -1);
+
+                if(tier_5a != -1 && tier_5b != -1) {
+                  // remove it from tier 5
+                  be_well_response_json.data.TreatmentSteps[5].OrInstructions.splice(tier_5a, 1);
+                  if(!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
+                    delete be_well_response_json.data.TreatmentSteps[5]
+                    steps_count = Object.keys(be_well_response_json.data.TreatmentSteps).length
+                  }
+                }
+              }
+
+              // # determine if there is no values in tier 3 & 4
+              if(!(be_well_response_json.data.TreatmentSteps.hasOwnProperty(3) || be_well_response_json.data.TreatmentSteps.hasOwnProperty(4))
+                && be_well_response_json.data.TreatmentSteps.hasOwnProperty(2) // # if tier 2 is only "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"
+                && be_well_response_json.data.TreatmentSteps[2].OrInstructions.length == 1
+                && be_well_response_json.data.TreatmentSteps[2].OrInstructions[0].Recommendation == "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"
+                && be_well_response_json.data.TreatmentSteps.hasOwnProperty(5)) { // and tier 5 has "Point-of-Use (POU) Arsenic Adsorption Media Filter System"
+
+                var index = be_well_response_json.data.TreatmentSteps[5].OrInstructions.reduce(function(p, c, i, a) {
+                  return (c.Recommendation == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") ? i : p;
+                }, -1);
+                if (index != -1) {
+                  // copy it to tier 2
+                  be_well_response_json.data.TreatmentSteps[2].OrInstructions.push(be_well_response_json.data.TreatmentSteps[5].OrInstructions[index]);
+
+                  // remove it from tier 5
+                  be_well_response_json.data.TreatmentSteps[5].OrInstructions.splice(index, 1);
+                  // if it is empty after remoing the step, update the treatment steps
+                  if(!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
+                    delete be_well_response_json.data.TreatmentSteps[5]
+                    steps_count = Object.keys(be_well_response_json.data.TreatmentSteps).length
+                  }
                 }
               }
 
@@ -444,26 +599,27 @@ function resetBWIForm() {
               // update the steps labels to properly show the needed steps
               var step_label = 1;
               var toShow = [];
-              for (var step in be_well_response_json.data.TreatmentSteps) {
-                var $treatment = $('.treatment-step').eq(step);
-                $treatment.find('.step span').show();
+              for (var tier in be_well_response_json.data.TreatmentSteps) {
+                var $treatment = $('.treatment-step').eq(tier - 1);
+                var $steps_span = $treatment.find('.step span');
+                $steps_span.show();
                 $treatment.removeClass('hide')
                     .find('.step span')
                     .html('Step ' + step_label);
 
-                if($treatment.find('.step span').hasClass('no-step')) {
-                  $treatment.find('.step span').removeClass('no-step');
-                  $treatment.find('.step span').addClass('fill-step');
+                if($steps_span.hasClass('no-step')) {
+                  $steps_span.removeClass('no-step');
+                  $steps_span.addClass('fill-step');
                 }
 
                 //Hide label if results contain only one treatment step.
                 if(steps_count <= 1) {
-                  $treatment.find('.step span').removeClass('fill-step');
-                  $treatment.find('.step span').addClass("no-step");
-                  $treatment.find('.step span').html('');
+                  $steps_span.removeClass('fill-step');
+                  $steps_span.addClass("no-step");
+                  $steps_span.html('');
                 }
 
-                be_well_response_json.data.TreatmentSteps[step].OrInstructions.map(function(item, index, list) {
+                be_well_response_json.data.TreatmentSteps[tier].OrInstructions.map(function(item, index, list) {
                   $treatment.find('[title="' + item.Recommendation + '"]')
                     .removeClass('hide')
                   var cssClass = '.system-type-' + item.SystemType.toLowerCase()
@@ -524,6 +680,7 @@ function resetBWIForm() {
     $('#water_analysis_reset').removeClass('invisible')
     showElementOutOfMany($form_wrapper, $all_wrappers);
     $('#entry-tab').text('Entry');
+    $('#edit-bwi-results').hide();
     resizeModal();
     $("html, body").animate({scrollTop: $('.pane-be-well-informed').offset().top}, 500);
   });

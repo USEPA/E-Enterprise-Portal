@@ -1,7 +1,6 @@
 <html>
  <meta charset="UTF-8" />
 <head>
-    <?php $doc_root = $_SERVER["DOCUMENT_ROOT"]; ?>
     <link rel="stylesheet" type="text/css" href="<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/css/be_well_informed_pdf.css">
     <style type="text/css">
          .step-icon.home-icon:before{
@@ -12,66 +11,23 @@
             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/facet.png);
             width:5em;height:5em;margin-left:4.5em;margin-top:-0.5em;
          }
-
-          .bwi-meets-limit:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/check.png);
-             background-size: 2em;
-             display: inline-block;
-             width: 2em;
-             height: 2em;
-             content: "";
-             vertical-align: middle;
-             margin-right: 0.5em;
-             background-repeat:no-repeat;
+          .bwi-meets-limit:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/check.png);
           }
-          .bwi-close-to-limit:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/exclamation.png);
-             background-size: 2em;
-             display: inline-block;
-             width: 2em;
-             height: 2em;
-             content: "";
-             vertical-align: middle;
-             margin-right: 0.5em;
-             background-repeat:no-repeat;
+          .bwi-close-to-limit:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/exclamation.png);
           }
-          .bwi-above-limit:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/false.png);
-             background-size: 2em;
-             display: inline-block;
-             width: 2em;
-             height: 2em;
-             content: "";
-             vertical-align: middle;
-             margin-right: 0.5em;
-             background-repeat:no-repeat;
+          .bwi-above-limit:before {
+              background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/false.png);
           }
-         .bwi-above-limit:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/false.png);
-           background-size: 2em;
-           display: inline-block;
-           width: 2em;
-           height: 2em;
-           content: "";
-           vertical-align: middle;
-           margin-right: 0.5em;
-           background-repeat:no-repeat;
+         .bwi-above-limit:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/false.png);
          }
-         .bwi-consult:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/orange.png);
-           background-size: 2em;
-           display: inline-block;
-           width: 2em;
-           height: 2em;
-           content: "";
-           vertical-align: middle;
-           margin-right: 0.5em;
-           background-repeat:no-repeat;
+         .bwi-consult:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/orange.png);
          }
-         .bwi-no-entry:before{background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/circle.png);
-           background-size: 2em;
-           display: inline-block;
-           width: 2em;
-           height: 2em;
-           content: "";
-           vertical-align: middle;
-           margin-right: 0.5em;
-           background-repeat:no-repeat;
+         .bwi-no-entry:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/circle.png);
          }
          /* This style is inserted as an internal style to avoid affecting these IDs in the html results page. The effect is needed only on the pdf version.*/
          #Bac1, #Cl1a, #Cu1, #Pb1, #N1, #N2{
@@ -124,6 +80,7 @@
 
        <tbody>
        <?php foreach ($response_json_data_pdf['result_summary'] as $res_summary): ?>
+         <?php if ($res_summary[2] !== "<span class='bwi-hide-row'>None</span>"): ?>
          <tr>
            <td class='icon-column'><?php print str_replace('sites', $doc_root.'/sites', $res_summary[0]); ?></td>
            <td class='element-col'><?php print $res_summary[1]; ?></td>
@@ -131,47 +88,49 @@
            <td class='limit-col'><?php print $res_summary[3]; ?></td>
            <td><?php print $res_summary[4]; ?></td>
          </tr>
+         <?php endif; ?>
        <?php endforeach; ?>
-
        </tbody>
-
-
      </table>
 
-     <?php if(!empty($contaminants_title)): ?>
+     <?php if(count($response_json_data_pdf['TreatmentSteps'])): ?>
      <br><br>
      <span class="bwi-result-title">Water Treatment Systems That Remove <?php print $contaminants_title ?></span>
      <div class="datatable usa-width-one-whole hide treatment-content">
-       <div class='water-treatment-head'>
-         The following water treatment is based on the water quality
-         information you entered. <span class='detail-show'>Details concerning water treatment are below.</span>
+       <div class='water-treatment-head'>The following water treatment is based on the water quality information you entered. <span class='detail-show'>Details concerning water treatment are below.</span>
        </div>
        <?php
        $toShow = array();   //added forpdf
        foreach($response_json_data_pdf['TreatmentSteps'] as $key=>$value){
          array_push($toShow, $key);
        }
+       $count = count($toShow);
+        
+       echo "<h3 class=\"treatment_order_title of-{$count}\">Treatment Order</h3>";
        ?>
-       <h3 class="treatment_order_title">Treatment Order</h3>
        <div class="step-class">
          <?php
-         $count = 0;  //added forpdf
+         $system_type = [];
          $stepLabel = 1;   //added forpdf
-         foreach ($treatments as $t):
-           if(in_array($count, $toShow)):   //added forpdf ?>
+         foreach ($treatments as $c => $t):
+           if(in_array($c, $toShow)):   //added forpdf
+             array_push($system_type, strtolower($t['icon']));
+             ?>
              <div class="clearfix treatment-step">
                <div class="caret"></div>
                <div class="step">
-                 <span <?php if ($t['icon']): print "class='treatment-icon ". $t['icon']."-icon step-icon'"; endif; ?>><?php print " Step ".$stepLabel; //added forpdf ?></span>
+                 <span class='<?php if ($t['icon']): print "treatment-icon {$t['icon']}-icon"; endif; print " of-{$count}" ?> step-icon'><?php print " Step ".$stepLabel; //added forpdf ?></span>
                </div>
                <div class="float-center">
                    <div class="step-boxes text-center clearfix">
                      <?php if ($t['text']): echo "<div class='additional-text'>{$t['text']}</div>"; endif; ?>
                      <?php
                      $or_count = 1;
-                     $total_items = count($response_json_data_pdf['TreatmentSteps']->$count->OrInstructions);
-                     foreach($response_json_data_pdf['TreatmentSteps']->$count->OrInstructions as $ix => $bx): ?>
-                       <div class="box-main" title="<?php echo $bx->Recommendation; ?>"><?php echo $bx->Recommendation; ?></div>
+                     $total_items = count($response_json_data_pdf['TreatmentSteps'][$c]['OrInstructions']);
+                     foreach($response_json_data_pdf['TreatmentSteps'][$c]['OrInstructions']as $ix => $bx):
+                       array_push($system_type, strtolower($bx['SystemType']));
+                       ?>
+                       <div class="box-main" title="<?php echo $bx['Recommendation']; ?>"><?php echo $bx['Recommendation']; ?></div>
                        <?php if ($total_items != $or_count): echo "<div class='or'>Or</div>"; $or_count++; endif; ?>
                      <?php endforeach; ?>
                    </div>
@@ -180,22 +139,24 @@
              <?php
              $stepLabel++;
            endif;
-           $count++;
-           //added forpdf
            ?>
-         <?php endforeach; ?>
-       </div>
-       <p class="step-class system-type-house hide">
+         <?php endforeach;
+          if(in_array('house', $system_type) || in_array('home', $system_type)) : ?>
+            <p class="step-class system-type-house hide">
           <span>Regardless of water treatment technology, it is essential that system maintenance be
                             performed on schedule to maintain system effectiveness.
                             </span><br>
-         <br><span>
+              <br><span>
                             </span><br>
-          <span><b>What does “whole house” mean?</b> The term whole house indicates that the treatment
+              <span><b>What does “whole house” mean?</b> The term whole house indicates that the treatment
                             technology is installed at the point where water enters your home to treat all of
                             the water used in your home.
                             </span>
-       </p>
+            </p>
+         <?php endif;
+         if(in_array('facet', $system_type) || in_array('water', $system_type)) : ?>
+       </div>
+
        <p class="step-class system-type-water hide">
          <b>What does “Point of Use” (POU) mean?</b> Point of Use technologies
          are installed
@@ -203,6 +164,8 @@
          used, like
          your kitchen faucet.
        </p>
+
+     <?php endif; ?>
        <p>
           <span>Print this report and make final water treatment decisions with a qualified <a
                 target="_blank"
@@ -268,12 +231,19 @@
            }
            $i++;
          endforeach; ?>
-
          </tbody>
 
        </table>
      </div>
    </div>
  </div>
+   <?php
+     if($variables['bwi_pdf_debug']) {
+       $vars = get_defined_vars();
+       echo '<pre>';
+       print_r($vars['variables']);
+       echo '</pre>';
+     }
+   ?>
  </body>
 </html>

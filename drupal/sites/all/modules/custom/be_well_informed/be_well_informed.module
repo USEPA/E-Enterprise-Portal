@@ -14,6 +14,14 @@ function be_well_informed_menu() {
     'page callback' => 'be_well_pdf_generate',
     'access callback' => TRUE,
   );
+  $items['admin/config/system/be_well_informed'] = array(
+    'title' => 'Be Well Infromed Settings',
+    'description' => 'Settings page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('be_well_informed_admin'),
+    'access arguments' => array('administer be_well_informed settings'),
+    'file' => 'be_well_informed.admin.inc',
+  );
   return $items;
 }
 
@@ -34,6 +42,11 @@ function be_well_informed_block_info() {
  * */
 function be_well_pdf_generate(){
   $html =  theme('be_well_informed_pdf');
+
+  if(variable_get('bwi_pdf_debug')) {
+    exit($html);
+  }
+
   $descriptorspec = array(
       0 => array('pipe', 'r'), // stdin
       1 => array('pipe', 'w'), // stdout
@@ -43,7 +56,7 @@ function be_well_pdf_generate(){
   if(isset($current_srvr_name) && ($current_srvr_name == $_SERVER['SERVER_NAME'])){
     $process = proc_open('wkhtmltopdf -q - -', $descriptorspec, $pipes);
   }
-  else{
+  else {
     $process = proc_open('sites/all/libraries/wkhtmltox/bin/wkhtmltopdf -q - -', $descriptorspec, $pipes);
   }
 
@@ -136,7 +149,7 @@ function be_well_informed_block_view($delta = '') {
       ]);
       //If installed in own installation, include jQuery Tabs JS
       //drupal_add_js("sites/all/libraries/jqueryui/ui/minified/jquery.ui.tabs.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-      //drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");      
+      //drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");
       drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
@@ -167,7 +180,7 @@ function be_well_informed_block_view($delta = '') {
       ]);
       // Set Form Modal Template
       $modal_form_html = theme('be_well_informed_modal');
-      drupal_add_js(array("be_well_informed" => ["modal" => $modal_form_html]), 'setting');
+      drupal_add_js(array("be_well_informed" => ["modal" => $modal_form_html, "debug_mode"=>variable_get('bwi_js_debug_mode')]), 'setting');
 
       $block['subject'] = t('Be Well Informed');
       $block['content'] = theme('be_well_informed');
@@ -206,6 +219,7 @@ function be_well_informed_form_submission() {
       'timeout' => "10",
       'data' => json_encode($_POST)
     ]);
+    $datatable_formatted_response['DWI_request'] = json_encode($_POST);
     if ($response->code !== "200") {
       $datatable_formatted_response['error'] = TRUE;
     }
@@ -231,12 +245,19 @@ function be_well_informed_datatable_response($be_well_response_json) {
 
   foreach ($be_well_response->ResultEvaluations as $water_data) {
 
-    $user_entry = (empty($water_data->UserContaminatValue)) ? "None" : $water_data->UserContaminatValue;
-    $guide_text = (empty($water_data->GuidelineText)) ? "A value was not entered." : $water_data->GuidelineText;
+    $user_entry = (empty($water_data->UserContaminatValue)) ? "<span class='bwi-hide-row'>None</span>" : $water_data->UserContaminatValue;
+    $guide_text = (empty($water_data->GuidelineText) && empty($water_data->UserContaminatValue)) ? "A value was not entered." : $water_data->GuidelineText;
 
     $datatable_row = [];
     $datatable_row[] = processGuidelineIcon($water_data->GuidelineIcon);
-    $datatable_row[] = $water_data->ContaminantFullName . ' (' . $water_data->Symbol . ')';
+    $show_symbol_name = $water_data->Symbol;  // Hide BAC from Total Coliform
+    if ($show_symbol_name == 'Bac') {
+      $show_symbol_name = '';
+    }
+    else {
+      $show_symbol_name = ' (' . $water_data->Symbol . ')';
+    }
+    $datatable_row[] = $water_data->ContaminantFullName . $show_symbol_name;
     $datatable_row[] = $user_entry;
     $datatable_row[] = $water_data->MaximumContaminantLevel;
     $datatable_row[] = $guide_text;
@@ -260,7 +281,7 @@ function be_well_informed_datatable_response($be_well_response_json) {
   /*Use username and session ID to save be well response data for pdf generation. This data will be removed on user
   logout, implemented in hook_user_logout in be_well_informed.module */
   global $user;
-  variable_set($user->name.'_be_well_pdf_resp_'.$user->ssid, $be_well_response);
+  variable_set($user->name.'_be_well_pdf_resp_'.$user->ssid,  json_decode(json_encode($be_well_response), true));
 
   return $be_well_response;
 }
@@ -312,19 +333,22 @@ function processGuidelineIcon($guideline_icon) {
 
   switch ($guideline_icon) {
     case "Images/water/check4.png":
-      $return_html = "<img src='" . $image_path . "/check.png' />";
+      $return_html = "<img src='" . $image_path . "/check.png' alt='Meets the drinking water limit' title='Meets the drinking water limit' />";
       break;
     case "Images/water/exclamation.png":
-      $return_html = "<img src='" . $image_path . "/exclamation.png' />";
+      $return_html = "<img src='" . $image_path . "/exclamation.png' alt='Close to the drinking water limit' title='Close to the drinking water limit' />";
       break;
     case "Images/water/orange.png":
-      $return_html = "<img src='" . $image_path . "/orange.png' />";
+      $return_html = "<a href='http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf' title='See NHDES Fact Sheet WD-DWGB-3-12.  Opens in new window.' target='_blank'><img src='" . $image_path . "/orange.png' alt='Consult NHDES Fact Sheet WD-DWGB-3-12' /></a>";
       break;
     case "Images/water/false4.png":
-      $return_html = "<img src='" . $image_path . "/false.png' />";
+      $return_html = "<img src='" . $image_path . "/false.png' alt='Above the drinking water limit' title='Above the drinking water limit' />";
+      break;
+    case "Images/water/blank.png":
+      $return_html = "<img src='" . $image_path . "/blank.png' alt='Refer to message in About Your Well Water and check related values' title='Refer to message in About Your Well Water and check related values' />";;
       break;
     default:
-      $return_html = "<img src='" . $image_path . "/circle.png' />";
+      $return_html = "<img src='" . $image_path . "/circle.png' alt='No Input Entered' />";
   }
   return $return_html;
 }
@@ -518,24 +542,19 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'boxes' => [
         [
           'icon'=> 'home',
+          'action' => 'Whole House Oxidizing Filter System'
+        ],
+        [
+          'icon'=> 'home',
+          'action' => 'Whole House Cation Exchange Water Softener'
+        ],
+        [
+          'icon'=> 'home',
           'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer' ],
         [
           'icon'=> 'facet',
           'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
-        ],
-      ]
-    ],
-    [
-      'icon'=> 'home',
-      'boxes' => [
-        [
-          'icon'=> '',
-          'action' => 'Whole House Oxidizing Filter System'
-        ],
-        [
-          'icon'=> '',
-          'action' => 'Whole House Cation Exchange Water Softener'
-        ],
+        ]
       ]
     ],
     [
@@ -543,8 +562,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       'boxes' => [
         [
           'icon'=> 'home',
-          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer'
-        ],
+          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer' ],
         [
           'icon'=> 'facet',
           'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
@@ -609,11 +627,13 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 
 }
 
-
 /**
  * Implements template_preprocess_hook for be-well-informed-pdf.tpl.php.
  */
 function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
+
+  $variables['bwi_pdf_debug'] =  variable_get('bwi_pdf_debug');
+  $variables['doc_root'] =  ($variables['bwi_pdf_debug']) ? '' : $_SERVER["DOCUMENT_ROOT"];
   $variables['unit_types'] = [
       'mg/L',
       'μg/L',
@@ -881,10 +901,10 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
   /*Setup a pre-process variable for list of contaminants shown in pdf page under "Water Treatment Systems That Remove $contaminants_title"  */
   if(!empty($variables['response_json_data_pdf']['TreatmentSteps'])){
     $contaminants = array();
-    $excluded = array('Fe', 'NO2', 'Bac', 'Ecoli');
+    $excluded = array('NO2', 'Bac', 'Ecoli');
     foreach($variables['response_json_data_pdf']['ResultEvaluations'] as $key => $val ){
-      if(!in_array($key, $excluded) && $val->GuidelineColor == 'font-red')
-        array_push($contaminants, $val->ContaminantFullName);
+      if(!in_array($key, $excluded) && ($val['GuidelineColor'] == 'font-red' || $val['TreatmentMessages']))
+        array_push($contaminants, $val['ContaminantFullName']);
     }
     if(count($contaminants) > 1){
       $last = array_pop($contaminants);
@@ -894,7 +914,60 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
     else{
       $contaminants_title = array_pop($contaminants);
     }
+
+    // Special Rules
+    $treatment = $variables['response_json_data_pdf']['TreatmentSteps'];
+    // Remove "Arsenic Adsorption" if there is POU RO present
+    if($treatment[5]) {
+      // and tier 5 has "Point-of-Use (POU) Arsenic Adsorption Media Filter System"
+      // and tier 5 has "Point-of-Use (POU) Reverse Osmosis (RO) System"
+      foreach ($treatment[5]['OrInstructions'] as $i => $instruction) {
+        if($instruction['Recommendation'] == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") {
+          $tier_5a = $i;
+        }
+        if($instruction['Recommendation'] == "Point-of-Use (POU) Reverse Osmosis (RO) System") {
+          $tier_5b = $i;
+        }
+      }
+
+      if($tier_5a !== null && $tier_5b !== null) {
+        // remove it from tier 5
+        unset($treatment[5]['OrInstructions'][$tier_5a]);
+      }
+    }
+    // Shift Arsenic treatment to teir 2 if needed
+    // # determine if there is no values in tier 3 & 4
+    if(!($treatment[3] || $treatment[4]) && $treatment[2] && $treatment[5]) {
+
+      // # if tier 2 is only "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"
+      if(!empty($treatment[2]['OrInstructions']) && !empty($treatment[2]['OrInstructions'][0]) && $treatment[2]['OrInstructions'][0]['Recommendation'] == "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer") {
+
+        // and tier 5 has "Point-of-Use (POU) Arsenic Adsorption Media Filter System"
+        foreach ($treatment[5]['OrInstructions'] as $i => $instruction) {
+          if($instruction['Recommendation'] == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") {
+            $index = $i;
+            break;
+          }
+        }
+
+        if($index !== null) {
+          // copy it to tier 2
+          $treatment[2]['OrInstructions'][] = $treatment[5]['OrInstructions'][$index];
+          // remove it from tier 5
+          unset($treatment[5]['OrInstructions'][$index]);
+          // if it is empty after remoing the step, update the treatment steps
+          if(empty($treatment[5]['OrInstructions'])) {
+            unset($treatment[5]);
+          }
+        }
+      }
+    }
+    $variables['response_json_data_pdf']['TreatmentSteps'] = $treatment;
   }
+
+
+
+  $variables['system-type'] =  [];
   $variables['contaminants_title'] =  $contaminants_title;
 
   $exposed_variables = [

@@ -1,17 +1,22 @@
-body{
+body {
   font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
-  font-size:0.8em;
+  font-size: 0.8rem;
+  padding-left: 1em;
+  padding-right: 1em;
 }
-.be-well-pdf-title{
+.be-well-pdf-title {
   text-align:center;
   font-weight:normal;
   font-size:1.2em;
 }
-h3{
+h3 {
   font-size: 1.1em;
-  font-weight:normal;
+  &.of-1 {
+    visibility: hidden;
+    margin-bottom: -1em;
+  }
 }
-span.bwi-result-title{
+span.bwi-result-title {
   background: #0000BB none;
   color: white;
   font-size: 1em;
@@ -22,79 +27,81 @@ span.bwi-result-title{
   min-height: 0;
   font-weight:700;
 }
-p{
-  padding-left:1em;
+h3, p {
+  padding-left: 1em;
+  padding-right: 1em;
 }
-.bwi-key{
+.bwi-key {
   font-size:1.3em;
   font-weight: 400;
   padding-left: 1em;
 }
-.bwi-legend{
+.bwi-legend {
   margin-left:1em;
   width: 95%;
   height:100px;
   display: block;
   border: 0.1em solid #999999;
   padding: 1em;
+  .one-half {
+    float:left;
+    display:block;
+    width:50%;
+    margin-bottom:6px;
+  }
 }
-.bwi-legend .one-half{
-  float:left;
-  display:block;
-  width:50%;
-  margin-bottom:6px;
-}
-.summary-table-pdf{
-  font-size:0.9em;
-  margin-top:2em;
-  margin-left:1em;
-}
-.summary-table-pdf td{
-  border-bottom:1px solid gray;
-  padding:0.5em 1em 1em 0;
-}
-table tr{
+table tr {
   page-break-inside: avoid;  /* To fix issue with footer cutting of text */
 }
-.summary-table-pdf .element-col{
-  width:75px;
+.summary-table-pdf {
+  font-size: 0.9em;
+  margin-top: 2em;
+  margin-left: 1em;
+  .element-col {
+    width: 75px;
+  }
+  .limit-col {
+    width:75px;
+  }
+  th {
+    white-space:nowrap;
+    text-align:left;
+    padding:0 1em 1em 0;
+  }
+  td {
+    border-bottom:1px solid gray;
+    padding:0.5em 1em 1em 0;
+  }
 }
-.summary-table-pdf .limit-col{
-  width:75px;
+
+.icon-column img {
+  width: 1.5em;
+  height: 1.5em;
 }
-.summary-table-pdf th{
-  white-space:nowrap;
-  text-align:left;
-  padding:0 1em 1em 0;
-}
-.icon-column img{
-  width:2em;
-  height:2em;
-}
-.water-treatment-head{
+.water-treatment-head {
   margin-left:1em;
   margin-top:2em;
   width:95%;
   height:40px;
   border:1px solid gray;
   padding:0.5em 0.5em 0 0.5em;
+  .detail-show {
+    color:red;
+  }
 }
-.water-treatment-head .detail-show{
+.treatment_order_title {
   color:red;
 }
-.treatment_order_title{
-  color:red;
-}
-.step-class .treatment-step{
+.step-class .treatment-step {
   width:100%;
   background-color:#cccccc;
   margin-bottom:1em;
   padding:1em;
 }
-.step{
+.step {
   margin-bottom:1em;
 }
-.step span{
+.step span {
   margin-top: -1.2em;
   margin-left: -1.2em;
   background-color: Red;
@@ -106,13 +113,13 @@ table tr{
 .home-icon, .facet-icon {
   float: none;
 }
-.or{
+.or {
   width:100%;
   text-align:center;
   display:inline-block;
   padding:0.2em;
 }
-.box-main{
+.box-main {
   width:50%;
   display:inline-block;
   vertical-align: middle;
@@ -120,44 +127,81 @@ table tr{
   border: 1px solid #999999;
   padding: 0.3em 0.3em;
 }
-.step-icon:before{
-  position: absolute;
-  background-size: 2.5em;
-  background-repeat: no-repeat;
-  display:inline-block;
-  content: "";
-  vertical-align: middle;
+.step-icon {
+  &.of-1 {
+    visibility: hidden;
+  }
+  &:before {
+    position: absolute;
+    background-size: 2em;
+    background-repeat: no-repeat;
+    display:inline-block;
+    content: "";
+    vertical-align: middle;
+    visibility: visible;
+  }
 }
-.treatment-content .float-center{
+.treatment-content .float-center {
   text-align:center;
 }
-.treatment-content .step-boxes{
+.treatment-content .step-boxes {
   display:inline-block;
   width:100%;
 }
-.float-center .clearfix:after{
+.float-center .clearfix:after {
   content:".";
   height:0;
   clear:both;
   visibility:hidden;
 }
-.clearfix:after{
+.clearfix:after {
   display:table;
   line-height:0;
 }
-tr .bwi-detail-td.font-red{
+tr .bwi-detail-td.font-red {
   border-left: 0.3em solid red;
 }
-tr .bwi-detail-td.font-green{
+tr .bwi-detail-td.font-green {
   border-left: 0.3em solid #35aa47;
 }
-tr .bwi-detail-td.font-yellow{
+tr .bwi-detail-td.font-yellow {
   border-left: 0.3em solid orange;
 }
 tr .bwi-detail-td {
   background-color: #d6d2d2;
   padding-left:0.5em;
 }
-span.em-und{
+span.em-und {
   text-decoration:underline;
+}
+.bwi-detail-td div,
+.bwi-detail-td div[style] {
+  display: block !important;
+}
+.bwi-detail-td a[target="_blank"]:after {
+  content: " [" attr(href) "]";
+}
+.bwi-meets-limit,
+.bwi-close-to-limit,
+.bwi-above-limit,
+.bwi-consult,
+.bwi-no-entry {
+  line-height: 1.5rem;
+  &:before {
+    background-repeat: no-repeat;
+    background-size: 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: inline-block;
+    content: "";
+    vertical-align: middle;
+    margin-right: 0.5em;
+    background-repeat: no-repeat;
+    background-position: center top;
+  }
+}
+.bwi-consult {
+  &:before {
+    background-size: 1.15rem;
+  }
 }
