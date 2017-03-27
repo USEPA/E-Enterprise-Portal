@@ -483,7 +483,7 @@ function parse_lgc_json_return_from_mo($response_data, &$term_tid_mapping, &$dep
       // Trim any non-alphanumeric from description
       $resource_array['DescriptionText'] = trim($resource->detailed_description);
 // TODO: have MO return SOURCE instead of hardcoding
-      $resource_array['SourceSystemText'] = "Missouri";
+      $resource_array['SourceSystemText'] = $resource->source;
       $resource_array['TopicText'] = $topics_string;
       $resource_array['BusinessFunctionText'] = $categories_string;
       $resource_array['SubtypeText'] = $resource->tool_type;
