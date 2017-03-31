@@ -20,6 +20,16 @@ function construction_permits_admin($form, $form_state) {
     '#required' => TRUE,
   );
 
+  $cgp_body = variable_get('cgp_body', array('value' => variable_get('cgp_body', '<p class="widget-note">Source: <a href="https://www.epa.gov/" target="_blank" rel="external">US Environmental Protection Agency</a></p> <p>Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers (LEWs) submitted under the U.S. EPA 2017 Construction General Permit (CGP).&nbsp; At this time, search results will only include activity with the national NPDES eReporting Tool (NeT-CGP) for U.S. EPA lead and participating states and tribes.</p> <h3>Enter one or more search criteria</h3>'), 'format' => NULL));
+
+  $form['construction_permits_settings']['cgp_body'] = array(
+    '#type' => 'text_format',
+    '#title' => t('CGP Content'),
+    '#default_value' => $cgp_body['value'],
+    '#format' => $cgp_body['format'],
+    '#required' => FALSE,
+  );
+
   // Sample data
   $form['construction_permits_toggles'] = array(
     '#type' => 'fieldset',

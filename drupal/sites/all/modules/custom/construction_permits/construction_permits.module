@@ -240,8 +240,9 @@ function sample_construction_permits_form_response() {
 /**
  * Implements template_preprocess_hook for be-well-informed-modal.tpl.php.
  */
-function template_preprocess_construction_permits_modal(&$variables, $hook) {
-
+function template_preprocess_construction_permits(&$variables, $hook) {
+  $cgp_body = variable_get('cgp_body', array('value' => variable_get('cgp_body', '<p class="widget-note">Source: <a href="https://www.epa.gov/" target="_blank" rel="external">US Environmental Protection Agency</a></p> <p>Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers (LEWs) submitted under the U.S. EPA 2017 Construction General Permit (CGP).&nbsp; At this time, search results will only include activity with the national NPDES eReporting Tool (NeT-CGP) for U.S. EPA lead and participating states and tribes.</p> <h3>Enter one or more search criteria</h3>'), 'format' => NULL));
+  $variables['body'] = $cgp_body['value'];
 }
 
 /**
@@ -307,4 +308,3 @@ function cgp_external_details_lookup($tracking_id) {
 
   return theme('cgp_single_page');
 }
-
