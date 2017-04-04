@@ -1,5 +1,66 @@
 <?php
+//Included for showcase s3fs feature toggle
+module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
 
+function eactivity_dataflow_menu(){
+  $items = array();
+
+  $items['s3/%'] = array(
+      'page callback' => 's3_load_file_in_page',
+      'access callback' => 'user_is_logged_in',
+      'page arguments' => array(1),
+  );
+  return $items;
+}
+
+
+/*
+ * <?php
+
+// Include the AWS SDK using the Composer autoloader.
+require 'vendor/autoload.php';
+
+use Aws\S3\S3Client;
+use Aws\S3\Exception\S3Exception;
+
+$bucket = '*** Your Bucket Name ***';
+$keyname = '*** Your Object Key ***';
+
+// Instantiate the client.
+$s3 = S3Client::factory();
+
+try {
+    // Get the object
+    $result = $s3->getObject(array(
+        'Bucket' => $bucket,
+        'Key'    => $keyname
+    ));
+
+    // Display the object in the browser
+    header("Content-Type: {$result['ContentType']}");
+    echo $result['Body'];
+} catch (S3Exception $e) {
+    echo $e->getMessage() . "\n";
+}
+ * */
+
+function s3_load_file_in_page($file_name){
+  if (feature_toggle_get_status('uses_s3_doc_storage')) {
+    try {
+      $s3_client = _s3fs_get_amazons3_client(_s3fs_get_config());
+      $s3_client->registerStreamWrapper();
+      $result = $s3_client->getObject(array(
+          'Bucket' => variable_get("s3fs_bucket"),
+          'Key' => $file_name
+      ));
+      header("Content-Type: {$result['ContentType']}");
+      echo $result['Body'];
+    }
+    catch(\Aws\S3\Exception\S3Exception $e){
+      watchdog('Eactivity Dataflow', 'Error retrieving file from S3 '.$e->getMessage(), WATCHDOG_ERROR);
+    }
+  }
+}
 
 function parse_cdx_handoff_data($cdx_deep_link_handoff) {
   // + 1 to start immediately after data=, and + count("data=") because strpos returns start of string position
@@ -142,9 +203,18 @@ function load_eactivity_data($module_caller, $use_cache) {
         }
       }
       $i = 0;
+      if (feature_toggle_get_status('uses_s3_doc_storage')) {
+        $s3_client = _s3fs_get_amazons3_client(_s3fs_get_config());
+        $s3_client->registerStreamWrapper();
+      }
       foreach ($activity->Documents->Document as $child) {
         $res['Documents'][$i]['id'] = $child->Id->__toString();
-        $res['Documents'][$i]['name'] = 'sites/default/files/' . $child->Name->__toString();
+        if (feature_toggle_get_status('uses_s3_doc_storage')) {
+          $res['Documents'][$i]['name'] = '/s3/'.$child->Name->__toString();
+        }
+        else{
+          $res['Documents'][$i]['name'] = 'sites/default/files/' . $child->Name->__toString();
+        }
         $res['Documents'][$i]['typeId'] = $child->TypeId->__toString();
         $res['Documents'][$i]['size'] = $child->Size->__toString();
         $res['Documents'][$i]['createDate'] = $child->CreateDate->__toString();
@@ -175,7 +245,13 @@ function load_eactivity_data($module_caller, $use_cache) {
           if (!$resp_dl->error) {
             $resp_dl = $resp_dl->response;
             $INPUT = $resp_dl->documents->documentContent->_;
-            $file = 'sites/default/files/' . $child->Name->__toString();
+            //@see http://docs.aws.amazon.com/aws-sdk-php/v2/guide/feature-s3-stream-wrapper.html#listing-the-contents-of-a-bucket
+            if (feature_toggle_get_status('uses_s3_doc_storage')) {
+              $file = "s3://".variable_get("s3fs_bucket")."/".$child->Name->__toString();
+            }
+            else{
+              $file = 'sites/default/files/' . $child->Name->__toString();
+            }
             file_put_contents($file, $INPUT);
           }
         }
@@ -234,13 +310,25 @@ function load_eactivity_data($module_caller, $use_cache) {
           if ($res_domain == 'Lead') {
             foreach ($res['Documents'] as $ky => $vl) {
               if (strpos($vl['name'], 'Receipt') !== false) {
-                $res_action .= "<a class='favorites-ignore ga-tracking'  data-ga-event-label='progress tracker view receipt' href='/" . $vl['name'] . "' target='_blank'>View Receipt</a>";
+                if (feature_toggle_get_status('uses_s3_doc_storage')) {
+                  $res_action .= "<a class='favorites-ignore ga-tracking'  data-ga-event-label='progress tracker view receipt' href='" . $vl['name'] . "' target='_blank'>View Receipt</a>";
+                }else{
+                  $res_action .= "<a class='favorites-ignore ga-tracking'  data-ga-event-label='progress tracker view receipt' href='/" . $vl['name'] . "' target='_blank'>View Receipt</a>";
+                }
               }
               if (strpos($vl['name'], 'Certificate') !== false) {
-                $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view certificate' href='/" . $vl['name'] . "' target='_blank'>View Certificate</a>";
+                if (feature_toggle_get_status('uses_s3_doc_storage')) {
+                  $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view certificate' href='" . $vl['name'] . "' target='_blank'>View Certificate</a>";
+                }else{
+                  $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view certificate' href='/" . $vl['name'] . "' target='_blank'>View Certificate</a>";
+                }
               }
               if (strpos($vl['name'], 'Logo') !== false) {
-                $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view logo' href='/" . $vl['name'] . "' target='_blank'>View Logo</a>";
+                if (feature_toggle_get_status('uses_s3_doc_storage')) {
+                  $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view logo' href='" . $vl['name'] . "' target='_blank'>View Logo</a>";
+                }else{
+                  $res_action .= "<a class='favorites-ignore ga-tracking' data-ga-event-label='progress tracker view logo' href='/" . $vl['name'] . "' target='_blank'>View Logo</a>";
+                }
               }
             }
           } else if ($res['Status'] == 'Under Review' || $res_domain == 'CEDRI') {
