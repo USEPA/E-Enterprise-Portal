@@ -398,7 +398,7 @@
               var count = 0;
               $(".grid-stack-item").each(function() {
                 var x = count % 2;
-                var y = Math.floor(count / 2) * 30;
+                var y = Math.floor(count / 2) * 60;
                 grid.update($(this), x, y);
                 count++;
                 $(this).find('.grid-stack-item-content').css('overflow-y', 'hidden');
