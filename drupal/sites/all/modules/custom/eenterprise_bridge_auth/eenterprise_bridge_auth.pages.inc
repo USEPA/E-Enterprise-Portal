@@ -87,6 +87,8 @@ function eenterprise_bridge_auth_login_form_submit($form, &$form_state) {
  * the user to register.
  */
 function eenterprise_bridge_auth_authenticate($error) {
+  $_POST = array(); //workaround for broken PHPstorm
+  parse_str(file_get_contents('php://input'), $_POST);
   if ($error) {
     $message = t('Unable to log in using E-Enterprise Bridge.');
     watchdog('eenterprise_bridge_auth', $message, array(), WATCHDOG_ERROR);

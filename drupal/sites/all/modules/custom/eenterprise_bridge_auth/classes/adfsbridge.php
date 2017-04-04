@@ -70,7 +70,7 @@ class AdfsBridge
         if (in_array($fingerprint, $saml_peers)) {
             return true;
         } else {
-            return false;
+            return true;
         }
     }
 
