@@ -1808,19 +1808,21 @@ function load_user_gridstack_data() {
   // Format of gridstack data     {x: 2, y: 5, width: 1, height: 1}
   $return_array = array();
   global $user;
-  $user_data = user_load($user->uid);
-  if (isset($user_data->field_gridstack_settings[LANGUAGE_NONE][0])) {
-    foreach ($user_data->field_gridstack_settings[LANGUAGE_NONE] as $key => $value) {
-      $pane_id = $value["field_pane_id"][LANGUAGE_NONE][0]["safe_value"];
-      $x_coordinate = intval($value["field_x_coordinate"][LANGUAGE_NONE][0]["value"]);
-      $y_coordinate = intval($value["field_y_coordinate"][LANGUAGE_NONE][0]["value"]);
-      $return_array[] = array(
-        'x' => $x_coordinate,
-        'y' => $y_coordinate,
-        'width' => 5,
-        'height' => 1,
-        'id' => $pane_id
-      );
+  if ($user->name !== 'guest-user') {
+    $user_data = user_load($user->uid);
+    if (isset($user_data->field_gridstack_settings[LANGUAGE_NONE][0])) {
+      foreach ($user_data->field_gridstack_settings[LANGUAGE_NONE] as $key => $value) {
+        $pane_id = $value["field_pane_id"][LANGUAGE_NONE][0]["safe_value"];
+        $x_coordinate = intval($value["field_x_coordinate"][LANGUAGE_NONE][0]["value"]);
+        $y_coordinate = intval($value["field_y_coordinate"][LANGUAGE_NONE][0]["value"]);
+        $return_array[] = array(
+            'x' => $x_coordinate,
+            'y' => $y_coordinate,
+            'width' => 5,
+            'height' => 1,
+            'id' => $pane_id
+        );
+      }
     }
   }
   if (isset($_GET['json'])) {
