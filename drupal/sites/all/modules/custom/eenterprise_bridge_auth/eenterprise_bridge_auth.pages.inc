@@ -126,7 +126,7 @@ function eenterprise_bridge_auth_authenticate($error)
             $wam_pos = stripos($userDetails->attributes['name'][0], "WAM");
             $username_raw = explode('/', $userDetails->attributes['name'][0]);
             $piv_card_position = stripos($userDetails->attributes['issuer'][0], "SmartCard");
-            $envite_pos = is_array($userDetails->attributes['http://envite.deq.wyoming.gov/2013/01/claims/application']);
+            $envite_pos = (isset($userDetails->attributes['authenticationMethod']) && stripos($userDetails->attributes['authenticationMethod'], 'ENVITE'));
             $username = end($username_raw);
             $uname = "";
             if ($piv_card_position !== FALSE) {
@@ -150,8 +150,8 @@ function eenterprise_bridge_auth_authenticate($error)
                 $uname = $username . "_Via_Exchange_Network";
                 $public_or_cdx = 'cdx';
             } else if ($envite_pos) {
-                $uname = trim($userDetails->attributes['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'][0], '"') . "_Via_ENVITE";
-                $userDetails->attributes['email'][0] = trim($userDetails->attributes['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'][0], '"');
+                $uname = trim($userDetails->attributes['name'][0], '"') . "_Via_ENVITE";
+                $userDetails->attributes['email'][0] = trim($userDetails->attributes['emailaddress'][0], '"');
             }
             //If user is a public user, Yahoo, google etc, use email as username, otherwise, use username as username
             else if (($pos === FALSE && $openid_position === FALSE) || $username === FALSE) {
