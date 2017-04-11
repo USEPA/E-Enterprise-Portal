@@ -293,7 +293,7 @@ class AdfsBridge
         }
         // Create the user details response object.
         $userDetails = new AdfsUserDetails();
-        if ($saml === 'saml1') {
+        if ($saml === 'saml') {
             // Extract the name identifier from the response.
             $nameid = $xpath->query('./' . $saml . ':AuthenticationStatement/' . $saml . ':Subject/' . $saml . ':SubjectConfirmation/' . $saml . ':ConfirmationMethod', $assertion);
             if ($nameid->length === 0) {
@@ -316,7 +316,7 @@ class AdfsBridge
         $userDetails->attributes['authenticationMethod'] = $authMethod;
 
         foreach ($attributeValues as $attribute) {
-            if ($saml === 'saml1') {
+            if ($saml === 'saml') {
                 $name = $attribute->parentNode->getAttribute('AttributeName');
             } else {
                 $name = $attribute->parentNode->getAttribute('Name');
