@@ -126,10 +126,7 @@ function eenterprise_bridge_auth_authenticate($error)
             $wam_pos = stripos($userDetails->attributes['name'][0], "WAM");
             $username_raw = explode('/', $userDetails->attributes['name'][0]);
             $piv_card_position = stripos($userDetails->attributes['issuer'][0], "SmartCard");
-            $envite_pos = FALSE;
-            if (isset($userDetails->attributes['authenticationMethod']) && stripos($userDetails->attributes['authenticationMethod'], 'ENVITE')) {
-                $envite_pos = TRUE;
-            }
+            $envite_pos = (isset($userDetails->attributes['authenticationMethod']) && stripos($userDetails->attributes['authenticationMethod'], 'ENVITE'));
             $username = end($username_raw);
             $uname = "";
             if ($piv_card_position !== FALSE) {
