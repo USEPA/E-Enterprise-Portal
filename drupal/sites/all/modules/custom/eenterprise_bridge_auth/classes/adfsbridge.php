@@ -264,11 +264,6 @@ class AdfsBridge
             $assertions = $xpath->query('/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse/trust:RequestedSecurityToken/saml:Assertion');
             $saml = 'saml';
             if ($assertions->length === 0) {
-                // Try SAML v 2.0
-                $assertions = $xpath->query('/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse/trust:RequestedSecurityToken/saml2:Assertion');
-                $saml = 'saml2';
-            }
-            if ($assertions->length === 0) {
                 $exception_msg = 'Received an ADFS response without an assertion.';
                 watchdog('eenterprise_bridge_auth', $exception_msg, array(), WATCHDOG_ERROR);
                 throw new NoAssertionException($exception_msg);
