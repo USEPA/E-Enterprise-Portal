@@ -194,10 +194,48 @@
     }
   }
   .main-nav {
+    position: relative;
+    z-index: 1000;
     &.usa-width-one-half {
       float: none;
       width: auto;
       margin-bottom: 10px;
+    }
+    .menu {
+      display: inline-block;
+      position: relative;
+    }
+    .menu-item {
+      display: inline-block;
+      position: relative;
+      margin-top: 0;
+      margin-bottom: 0;
+      float: left;
+      &>.menu {
+        visibility: hidden;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: $color-primary;
+        height: auto;
+        font-size: $h5-font-size;
+        @include linear-gradient(rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .15) 100%);
+        @include special-box-shadow(0px, 1px, 5px, $color-gray);
+        &>.menu-item {
+          border: none;
+          a {
+            border-right: none;
+            border-left: none;
+            border-top: 1px solid #0068ad;
+          }
+          &:first-child a {
+            border: none;
+          }
+        }
+      }
+      &:hover >.menu {
+        visibility: visible;
+      }
     }
   }
   .block--ee-header-locations {
@@ -244,6 +282,10 @@
       margin-right: -2.5rem; //Balance out padding while still aligning to grid
     }
   }
+}
+
+#admin-menu {
+  display: none !important;
 }
 
 .workbench-zipcode-error {
@@ -3197,6 +3239,7 @@ input[type="submit"]:not(.usa-button-outline),
         display: block;
         padding-top: 0.75em;
         padding-bottom: 0.75em;
+        padding-left: 1em;
         color: $color-white;
         &:hover {
           text-decoration: underline;
@@ -3210,6 +3253,19 @@ input[type="submit"]:not(.usa-button-outline),
       &.username {
         color: $color-gray-lightest;
         font-style: italic;
+      }
+
+      &[data-menu-parent] {
+        padding-left: 1em;
+
+        a {
+          &:before {
+            content: '- '
+          }
+          &.menu-item {
+            border-bottom: none;
+          }
+        }
       }
     }
   }
