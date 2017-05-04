@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Roles for menu module.
+ */
+
+/**
+ * Grant permissions to administrator.
+ *
+ * Grant the 'administer roles for menu' permission to roles that currently
+ * have the 'administer menu' permission.
+ */
+function roles_for_menu_update_7001() {
+  $roles = user_roles(FALSE, 'administer menu');
+  foreach ($roles as $rid => $role) {
+    user_role_grant_permissions($rid, array('administer roles for menu'));
+  }
+
+  return t("Every role with the 'administer menu' permission has also received the 'administer roles for menu' permission.");
+}
