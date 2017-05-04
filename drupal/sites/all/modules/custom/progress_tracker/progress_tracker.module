@@ -80,9 +80,7 @@ function progress_tracker_block_view($delta = '') {
       'cache' => TRUE,
       'requires_jquery' => TRUE
     ]);
-
-
-
+    
     drupal_add_js(drupal_get_path('module', 'progress_tracker') . '/js/progress_tracker.js', [
       'scope' => 'footer',
       'preprocess' => TRUE,
