@@ -284,9 +284,9 @@
   }
 }
 
-#admin-menu {
-  display: none !important;
-}
+/*a[href='\linked-accounts'] {
+  pointer-events: none; cursor: none;
+}*/
 
 .workbench-zipcode-error {
   position: absolute;
