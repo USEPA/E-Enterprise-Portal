@@ -1,11 +1,11 @@
 /**
  * Created by bmatkin on 5/4/2017.
  */
-Drupal.behaviors.initializeGridstack = {
-    attach: function(context) {
-        var page_name = window.location.pathname.split('/')[1];
-        if (page_name === "workbench") {
-            $('body').once(function() {
+(function ($) {
+    
+    Drupal.behaviors.initializeGridstack = {
+        attach: function (context) {
+            $('body').once(function () {
                 var previous_grid_settings;
                 var cellHeight = 10;
                 var verticalMargin = 10;
@@ -44,7 +44,7 @@ Drupal.behaviors.initializeGridstack = {
                 }
 
                 function addDragListeners($grid_container, $grid_change_options) {
-                    $('body').on('swapped_grid', function() {
+                    $('body').on('swapped_grid', function () {
                         $grid_change_options.show();
                     });
                 }
@@ -61,7 +61,7 @@ Drupal.behaviors.initializeGridstack = {
                 }
 
                 // override what gets tabbed as the first widget
-                $('.grid-stack').parents('.main-content').prevAll().find('a').last().keydown(function(e) {
+                $('.grid-stack').parents('.main-content').prevAll().find('a').last().keydown(function (e) {
                     if (e.which === 9 && !e.shiftKey) { // tab key
                         e.stopImmediatePropagation();
                         $('#' + sortedWidgets()[0].id + ' h2').focus();
@@ -70,7 +70,7 @@ Drupal.behaviors.initializeGridstack = {
 
                 // @see https://github.com/troolee/gridstack.js/blob/master/README.md#save-grid-to-array
                 function sortedWidgets() {
-                    var widgets = _.map($('.grid-stack .grid-stack-item:visible'), function(el, key) {
+                    var widgets = _.map($('.grid-stack .grid-stack-item:visible'), function (el, key) {
                         el = $(el);
                         // if no id has been set, set the id, e.g.: grid-item-my-facility-manager-2
                         if (!el.attr('id')) {
@@ -103,7 +103,7 @@ Drupal.behaviors.initializeGridstack = {
                 }
 
                 function addSaveListeners(grid, $save_button, $revert_button) {
-                    $save_button.click(function(e) {
+                    $save_button.click(function (e) {
                         if (is_saving) {
                             e.preventDefault();
                         }
@@ -113,7 +113,7 @@ Drupal.behaviors.initializeGridstack = {
                             updateUserIndices(data, $save_button, $revert_button);
                         }
                     });
-                    $revert_button.click(function() {
+                    $revert_button.click(function () {
                         // Revert changes
                         initializeIndices(grid, previous_grid_settings);
                         $(".grid-changes").fadeOut();
@@ -128,7 +128,7 @@ Drupal.behaviors.initializeGridstack = {
                  */
                 function calculateGridHeights(grid_nodes) {
                     var grid_heights = {};
-                    jQuery.each(grid_nodes, function() {
+                    jQuery.each(grid_nodes, function () {
                         var $pane_content = this.el.find('.pane-content');
                         if ($pane_content.length > 0) {
                             var id = this.x + '_' + this.y;
@@ -146,11 +146,11 @@ Drupal.behaviors.initializeGridstack = {
                  */
                 function addResizeSensors(gs_object) {
                     var grid_heights = calculateGridHeights(gs_object.grid.nodes);
-                    setInterval(function() {
+                    setInterval(function () {
                         // Only resize if not dragging component
                         if (jQuery('.grid-stack .ui-draggable-dragging').length <= 0) {
                             // Check if grid content heights have changed
-                            jQuery.each(gs_object.grid.nodes, function() {
+                            jQuery.each(gs_object.grid.nodes, function () {
                                 var $elem = this.el;
                                 var id = this.x + '_' + this.y;
                                 var $pane_content = $elem.find('.pane-content');
@@ -173,7 +173,7 @@ Drupal.behaviors.initializeGridstack = {
                 }
 
                 function recalculateWidgetHeights(grid) {
-                    $('.grid-stack-item.ui-draggable').each(function() {
+                    $('.grid-stack-item.ui-draggable').each(function () {
                         var contentHeight = $(this).find('.pane-title').outerHeight(true)
                             + Math.ceil($(this).find('.pane-content').outerHeight(true))
                             + 30
@@ -192,7 +192,7 @@ Drupal.behaviors.initializeGridstack = {
                 function initializeIndices(grid, serialization) {
                     // assign x and y values to widgets
                     if (serialization.length > 0 && !Drupal.settings.is_guest) {
-                        $.each(serialization, function(key, pane_data) {
+                        $.each(serialization, function (key, pane_data) {
                             var $grid_item = $("#" + pane_data.id).parent();
                             var x = pane_data.x;
                             var y = pane_data.y;
@@ -204,7 +204,7 @@ Drupal.behaviors.initializeGridstack = {
                     }
                     else {
                         var count = 0;
-                        $(".grid-stack-item").each(function() {
+                        $(".grid-stack-item").each(function () {
                             var x = count % 2;
                             var y = Math.floor(count / 2) * 60;
                             grid.update($(this), x, y);
@@ -221,7 +221,7 @@ Drupal.behaviors.initializeGridstack = {
                         url: 'load_user_gridstack_data',
                         data: {json: true},
                         method: 'GET',
-                        success: function(data) {
+                        success: function (data) {
                             var data = $.parseJSON(data);
                             serialization = GridStackUI.Utils.sort(data);
                             initializeIndices(grid, serialization);
@@ -234,17 +234,17 @@ Drupal.behaviors.initializeGridstack = {
                         url: 'update_user_gridstack_data',
                         data: {grid_data: grid_data},
                         method: "POST",
-                        beforeSend: function() {
+                        beforeSend: function () {
                             $save_button.html('Saving Changes <i class="fa fa-spinner fa-pulse"></i>').addClass("btn btn-default").prop('disabled', true);
                             $revert_button.hide();
                             is_saving = true;
                         },
-                        success: function(data) {
+                        success: function (data) {
                             $save_button.html("Changes to Layout Saved");
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 $(".grid-changes").fadeOut();
                             }, 1000);
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 $save_button.html("Save Changes to Layout").removeClass('btn btn-default').prop('disabled', false);
                                 $revert_button.show();
                             }, 2000);
@@ -255,7 +255,7 @@ Drupal.behaviors.initializeGridstack = {
                 }
 
                 function serialized_data(grid) {
-                    return _.map($('.grid-stack > .grid-stack-item:visible'), function(el) {
+                    return _.map($('.grid-stack > .grid-stack-item:visible'), function (el) {
                         el = $(el);
                         var node = el.data('_gridstack_node');
                         return {
@@ -272,5 +272,6 @@ Drupal.behaviors.initializeGridstack = {
 
             });
         }
-    }
-};
+    };
+
+})(jQuery)

@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Linked Accounts feature.
- */
-
-include_once 'linked_accounts_feature.features.inc';

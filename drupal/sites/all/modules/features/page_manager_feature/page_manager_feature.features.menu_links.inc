@@ -1,36 +1,55 @@
 <?php
 /**
  * @file
- * linked_accounts_feature.features.menu_links.inc
+ * page_manager_feature.features.menu_links.inc
  */
 
 /**
  * Implements hook_menu_default_menu_links().
  */
-function linked_accounts_feature_menu_default_menu_links() {
+function page_manager_feature_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: main-menu_:linked_accounts.
-  $menu_links['main-menu_:linked_accounts'] = array(
+  // Exported menu link: main-menu_:<front>.
+  $menu_links['main-menu_:<front>'] = array(
     'menu_name' => 'main-menu',
-    'link_path' => 'linked_accounts',
-    'router_path' => 'linked_accounts',
+    'link_path' => '<front>',
+    'router_path' => '',
     'link_title' => '+',
     'options' => array(
-      'attributes' => array(
-        'class' => array(
-          0 => 'parent-link',
-        ),
+      'attributes' => array(),
+      'item_attributes' => array(
+        'id' => '',
+        'class' => '',
+        'style' => '',
       ),
-      'identifier' => 'main-menu_:linked_accounts',
+      'identifier' => 'main-menu_:<front>',
     ),
-    'module' => 'system',
+    'module' => 'menu',
     'hidden' => 0,
-    'external' => 0,
+    'external' => 1,
     'has_children' => 1,
     'expanded' => 1,
-    'weight' => 0,
-    'customized' => 0,
+    'weight' => -49,
+    'customized' => 1,
+  );
+  // Exported menu link: main-menu_app-connect:app-connect-new.
+  $menu_links['main-menu_app-connect:app-connect-new'] = array(
+    'menu_name' => 'main-menu',
+    'link_path' => 'app-connect-new',
+    'router_path' => 'app-connect-new',
+    'link_title' => 'App Connect',
+    'options' => array(
+      'attributes' => array(),
+      'identifier' => 'main-menu_app-connect:app-connect-new',
+    ),
+    'module' => 'system',
+    'hidden' => 1,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -46,
+    'customized' => 1,
   );
   // Exported menu link: main-menu_cdx:cdx.
   $menu_links['main-menu_cdx:cdx'] = array(
@@ -48,7 +67,7 @@ function linked_accounts_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -50,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_:linked_accounts',
+    'parent_identifier' => 'main-menu_:<front>',
   );
   // Exported menu link: main-menu_scs:scs.
   $menu_links['main-menu_scs:scs'] = array(
@@ -66,12 +85,13 @@ function linked_accounts_feature_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -49,
     'customized' => 1,
-    'parent_identifier' => 'main-menu_:linked_accounts',
+    'parent_identifier' => 'main-menu_:<front>',
   );
 
   // Translatables
   // Included for use with string extractors like potx.
   t('+');
+  t('App Connect');
   t('CDX');
   t('SCS');
 
