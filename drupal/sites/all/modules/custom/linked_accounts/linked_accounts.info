@@ -3,4 +3,3 @@ description = Handles linking accounts to SCS/CDX
 core = 7.x
 version = "7.x-1.0"
 package = CGI
-dependencies[] = pm_existing_pages
