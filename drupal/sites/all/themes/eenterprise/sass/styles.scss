@@ -1106,7 +1106,7 @@ header {
   padding-bottom: 75%;
 }
 
-.page-workbench,
+.dashboard-theme,
 .page-user,
 .page-app-connect {
   .main-content {
@@ -1114,7 +1114,7 @@ header {
   }
 }
 
-.page-workbench {
+.dashboard-theme {
   .main-content {
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -1163,7 +1163,7 @@ header {
 
 // Hide dialogs on first load -------------- //
 
-.page-workbench {
+.dashboard-theme {
   .hidden-at-start {
     visibility: hidden;
   }
@@ -1345,11 +1345,11 @@ header {
     margin-top: 0
   }
 
-  .page-workbench .block-views.odd,
+  .dashboard-theme .block-views.odd,
   .section-workbench .block-views.odd {
     width: 55%;
   }
-  .page-workbench .block-views.even,
+  .dashboard-theme .block-views.even,
   .section-workbench .block-views.even {
     width: 40%;
   }
@@ -2406,7 +2406,7 @@ form .field-multiple-table#field-zip-code-values {
     padding-bottom: 5px; //Provide more tap space
   }
 
-  .page-workbench {
+  .dashboard-theme {
     .grid-stack-item[data-gs-x="1"] {
       margin-left: 0;
     }
@@ -2942,7 +2942,7 @@ input[type="submit"]:not(.usa-button-outline),
   .region-navigation .block--ee-header-locations .ee-workbench-header-setlocation input {
     max-width: 80%;
   }
-  .page-workbench {
+  .dashboard-theme {
     .usa-grid {
       padding: 0 5px;
     }
@@ -4461,7 +4461,7 @@ select[multiple="multiple"] {
   transform: rotate(-45deg);
 }
 
-.page-workbench .fa-heart:before,
+.dashboard-theme .fa-heart:before,
 .fa-heart:before,
 .fa-heart.filled:before,
 .fa-heart-o:before,
