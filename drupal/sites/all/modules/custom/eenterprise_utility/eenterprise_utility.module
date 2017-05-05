@@ -151,10 +151,10 @@ function eenterprise_utility_node_view($node, $view_mode, $langcode) {
 
   $sso_post = _return_array_uppercase($_POST, ['TOKEN', 'CDX_DATA', 'SCS_DATA']);
   if (!isset($sso_post['TOKEN'])) {
-    drupal_goto("/");
+    return;
   }
   if (!isset($sso_post['CDX_DATA']) && !isset($sso_post['SCS_DATA'])) {
-    drupal_goto("/");
+    return;
   }
 
   $frs_password = variable_get('cdx_facility_password');
