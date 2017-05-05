@@ -212,7 +212,6 @@ function eenterprise_bridge_auth_authenticate($error)
             } else {
                 assign_roles_to_user($uname);
                 $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
-                $_SESSION['userId'] = $userDetails->attributes['userId'][0];
                 $_SESSION['login_timestamp'] = time();
             }
         }
@@ -227,7 +226,6 @@ function eenterprise_bridge_auth_authenticate($error)
         if ($public_or_cdx == 'cdx') {
             assign_roles_to_user($uname);
             $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
-            $_SESSION['userId'] = $userDetails->attributes['userId'][0];
             $_SESSION['login_timestamp'] = time();
         }
     }
@@ -460,9 +458,6 @@ function eenterprise_bridge_auth_logout()
 {
     if (isset($_SESSION['cdx_fmw_security_token'])) {
         $_SESSION['cdx_fmw_security_token'] = '';
-    }
-    if (isset($_SESSION['userId'])) {
-        $_SESSION['userId'] = '';
     }
     $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?bridge=1';
     if ($_SESSION['is_timeout']) {
