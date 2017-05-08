@@ -1,0 +1,14 @@
+Webform Password Field 7.x-1.4, 2017-01-23
+---
+- Fixed #2833377: WPF was throwing warnings on non-webform forms
+- Fixed #2797907: WPF was throwing warnings on forms
+- Fixed #2598260: WPF now supports placeholders
+- Fixed #2792753: WPF wasn't declaring $error array properly
+Webform Password Field 7.x-1.1, 2015-03-10
+---
+- Fixed #2448955: Webform Password field now supports conditionals
+- Fixed #2449011: Webform Password field now supports webform_validation
+
+Webform Password Field 7.x-1.0, 2014-10-16
+---
+- Initial release

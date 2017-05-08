@@ -1,0 +1,23 @@
+Webform Remote Post 7.x-1.23 (Bugfix)
+----------------------------
+by apmsooner, enrique.delgado: Added missing method to fetch webform version.
+
+Webform Remote Post 7.x-1.22 (Bugfix)
+----------------------------
+#2556593 by apmsooner, enrique.delgado: Get form values in Webform 4 and 3 compatible ways.
+
+Webform Remote Post 7.x-1.21 (Bugfix)
+----------------------------
+#2472749 by enrique.delgado: Fixed a bug. Missing array key.
+#2096827 by logaritmisk, bacon: Alter payload and target.
+
+Webform Remote Post 7.x-1.2
+---------------------------
+by enrique.delgado: Dedicated remote post create/edit step. All advanced settings moved over there.
+#2038071 by that0n3guy, enrique.delgado: Adding functionality to be able to send JSON (selectable)
+#2085737 by that0n3guy: Fixed improperly escaped ampersands in POSTs.
+#2053359 by Liam Morland: Calls to t() function should not have space-indentation
+
+Webform Remote Post 7.x-1.1
+---------------------------
+#2038071 by that0n3guy, enrique.delgado: Adding functionality to be able to send JSON (selectable)
