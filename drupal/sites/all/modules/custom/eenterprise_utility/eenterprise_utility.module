@@ -223,7 +223,7 @@ function allow_eactivity_dataflows($user) {
  *
  * Handle username collisions from SCS/CDX if user had previously logged in via Exchange
  * */
-function _resolve_username_collisions($username, $issuer) {
+function resolve_username_collisions($username, $issuer) {
 
   // If username exists _VIA_EXCHANGE, load that user and rename to _VIA_$issuer
   $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username . '_VIA_EXCHANGE'))->fetchField();
@@ -251,7 +251,7 @@ function perform_user_login($response_output, $issuer) {
   $response_output = _return_array_uppercase($response_output);
   $raw_username = $response_output['USERID'];
   $username = $raw_username . '_VIA_' . $issuer;
-  _resolve_username_collisions($raw_username, $issuer);
+  resolve_username_collisions($raw_username, $issuer);
   $ext_user = user_external_load($username);
   if ($ext_user) {
     //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.

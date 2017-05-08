@@ -351,12 +351,18 @@ function sso_handoff_url() {
     // They will have to login the first time.
     drupal_goto($hand_off_url);
   } else {
-    $sso_token_param = "token=" . $token . "&remoteIpAddress=" . $ip;
-    // UTF-16LE and base64 encoding are required by
-    // the cdx NaasToken silent handoff.
-    $sso_token_param = mb_convert_encoding($sso_token_param, 'UTF-16LE');
-    $sso_token_param = base64_encode($sso_token_param);
-    $sso_url = $cdx_root_path . '/SilentHandoff/NaasTokenSSO?ssoToken=' . $sso_token_param . '&returnUrl=' . urlencode($hand_off_url);
-    drupal_goto($sso_url);
+    drupal_goto(encode_handoff($token, $hand_off_url));
+  }
+}
+
+function encode_handoff($token, $hand_off_url = '') {
+  // UTF-16LE and base64 encoding are required by the cdx NaasToken silent handoff.
+  $sso_token_param = "token=" . $token . "&remoteIpAddress=" . $_SERVER['SERVER_ADDR'];
+  $sso_token_param = mb_convert_encoding($sso_token_param, 'UTF-16LE');
+  $sso_token_param = base64_encode($sso_token_param);
+  if ($hand_off_url !== '') {
+    return variable_get('cdx_facility_resource_url') . '/SilentHandoff/NaasTokenSSO?ssoToken=' . $sso_token_param . '&returnUrl=' . urlencode($hand_off_url);
+  } else {
+    return variable_get('cdx_facility_resource_url') . '/SilentHandoff/NaasTokenSSO?ssoToken=' . $sso_token_param;
   }
 }
