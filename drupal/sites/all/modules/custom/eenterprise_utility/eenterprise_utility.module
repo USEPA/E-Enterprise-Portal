@@ -121,49 +121,87 @@ function sso_eep_to_sep() {
 }
 
 /**
+ * @param $array
+ * @param array $array_of_keys
+ * @return array
+ * Upper case all keys in array
+ * If $array_of_keys is not empty, only upper keys from that array
+ *
+ */
+function _return_array_uppercase($array, $array_of_keys = []) {
+  $return_array = [];
+  foreach ($array as $ak => $av) {
+    if (count($array_of_keys) > 0) {
+      if (in_array(strtoupper($ak), $array_of_keys)) {
+        $return_array[strtoupper($ak)] = $av;
+      }
+    }
+    else {
+      $return_array[strtoupper($ak)] = $av;
+    }
+  }
+  return $return_array;
+}
+
+/**
  * Implementation of hook node view.
  * SSO from CDX to Portal is implemented in this hook.
  */
 function eenterprise_utility_node_view($node, $view_mode, $langcode) {
-  if (isset($_POST['Token']) && isset($_POST['CDX_DATA'])) {
-    $frs_password = variable_get('cdx_facility_password');
-    $email = variable_get('cdx_node_token_email');
-    $domain = variable_get('cdx_node_token_domain');
-    $server_ip = $_POST['CDX_DATA'];
-    $wsdl = variable_get('cdx_facility_naas_wsdl');
-    $cdx_resource_url = variable_get('cdx_facility_resource_url');
-    $validate_client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Utility");
-    if (!$validate_client->error) {
-      $validate_parameters = array(
-        "userId" => $email,
-        "credential" => $frs_password,
-        "domain" => $domain,
-        "securityToken" => $_POST['Token'],
-        "clientIp" => $server_ip,
-        "resourceURI" => $cdx_resource_url,
-        "applicationId" => "",
-        "userProperties" => "",
-      );
-      $validate_response = callSOAPWithParams($validate_client->client,
-        "Validate",
-        $validate_parameters,
-        "Eenterprise Utility");
-      if (!$validate_response->error) {
-        $response = $validate_response->response;
-        if (isset($response->return)) {
-          parse_str($response->return, $return_output);
-          perform_user_login($return_output);//authenticate user and login to drupal
-          if (isset($_GET['destination'])) {
-            drupal_goto("/" . $_GET['destination']);
-          }
-          else {
-            drupal_goto("/");
-          }
-        }
-      }
-      else {
-        drupal_goto("/");
-      }
+
+  $sso_post = _return_array_uppercase($_POST, ['TOKEN', 'CDX_DATA', 'SCS_DATA']);
+  if (!isset($sso_post['TOKEN'])) {
+    return;
+  }
+  if (!isset($sso_post['CDX_DATA']) && !isset($sso_post['SCS_DATA'])) {
+    return;
+  }
+
+  $frs_password = variable_get('cdx_facility_password');
+  $email = variable_get('cdx_node_token_email');
+  $domain = variable_get('cdx_node_token_domain');
+  $server_ip = $sso_post['CDX_DATA'] ?: $sso_post['SCS_DATA'];
+  if (isset($sso_post['CDX_DATA'])) {
+    $issuer = 'CDX';
+  }
+  else {
+    $issuer = 'SCS';
+  }
+
+  $wsdl = variable_get('cdx_facility_naas_wsdl');
+  $cdx_resource_url = variable_get('cdx_facility_resource_url');
+  $validate_client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Utility");
+  $_SESSION['cdx_fmw_security_token'] = $sso_post['TOKEN'];
+  $_SESSION['login_timestamp'] = time();
+
+  if ($validate_client->error) {
+    drupal_goto("/");
+  }
+
+  $validate_parameters = array(
+    "userId" => $email,
+    "credential" => $frs_password,
+    "domain" => $domain,
+    "securityToken" => $sso_post['TOKEN'],
+    "clientIp" => $server_ip,
+    "resourceURI" => $cdx_resource_url,
+    "applicationId" => "",
+    "userProperties" => "",
+  );
+  $validate_response = callSOAPWithParams($validate_client->client,
+    "Validate",
+    $validate_parameters,
+    "Eenterprise Utility");
+
+  if ($validate_response->error) {
+    drupal_goto("/");
+  }
+  $response = $validate_response->response;
+  if (isset($response->return)) {
+    parse_str($response->return, $return_output);
+    perform_user_login($return_output, $issuer);//authenticate user and login to drupal
+    if (isset($_GET['destination'])) {
+      drupal_goto("/" . $_GET['destination']);
     }
     else {
       drupal_goto("/");
@@ -179,80 +217,58 @@ function allow_eactivity_dataflows($user) {
   }
 }
 
-function perform_user_login($response_output) {
-  global $user;
-  $username = $response_output['userid'];
-  $ext_user = user_external_load_custom($username);
-  if ($ext_user === FALSE) {
-    $ext_user = user_external_load($username);
-  }
+/**
+ * @param $username
+ * @param $issuer
+ *
+ * Handle username collisions from SCS/CDX if user had previously logged in via Exchange
+ * */
+function resolve_username_collisions($username, $issuer) {
 
-  if (!$ext_user) {
-    user_external_login_register($username, 'eenterprise_utility');
-    if ($user) {
-      user_save($user, array('mail' => trim($response_output['email'], '"')));
-      //if user is public user
-      if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS' || $response_output['issuer'] == 'CDX') {
-        $_SESSION['cdx_fmw_security_token'] = $_POST['Token'];
-        $_SESSION['userId'] = $username;
-        $_SESSION['login_timestamp'] = time();
-        $public_or_cdx = 'cdx';
-        allow_eactivity_dataflows($user);
-
-      }
-      else {
-        $user_role = user_role_load_by_name('Public User');
-        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-        $public_or_cdx = 'public';
-      }
-      $_SESSION['cdx_user_type'] = $public_or_cdx;
-    }
+  // If username exists _VIA_EXCHANGE, load that user and rename to _VIA_$issuer
+  $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username . '_VIA_EXCHANGE'))->fetchField();
+  if ($old_username) {
+    _edit_user_name($old_username, $username . '_VIA_' . $issuer);
   }
   else {
+    // If username exists with no VIA, load that user and rename to _VIA_$issuer
+    $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username))->fetchField();
+    if ($old_username) {
+      _edit_user_name($old_username, $username . '_VIA_' . $issuer);
+    }
+  }
+}
+
+
+function _edit_user_name($old_username, $new_username) {
+  db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $new_username, ':uname2' => $old_username));
+  db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $new_username, ':uname2' => $old_username));
+}
+
+
+function perform_user_login($response_output, $issuer) {
+  global $user;
+  $response_output = _return_array_uppercase($response_output);
+  $raw_username = $response_output['USERID'];
+  $username = $raw_username . '_VIA_' . $issuer;
+  resolve_username_collisions($raw_username, $issuer);
+  $ext_user = user_external_load($username);
+  if ($ext_user) {
     //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
     $user = $ext_user;
     $form_state['uid'] = $user->uid;
-
     user_login_submit(array(), $form_state);
-    //To fix a bug where email address is not updated after users update their email address in CDX and login.
-    user_save($user, array('mail' => trim($response_output['email'], '"')));
-    try {
-      if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS' || $response_output['issuer'] == 'CDX') {
-        $_SESSION['cdx_fmw_security_token'] = $_POST['Token'];
-        $_SESSION['userId'] = $username;
-        $_SESSION['login_timestamp'] = time();
-        $public_or_cdx = 'cdx';
-        allow_eactivity_dataflows($user);
-
-      }
-      else {
-        $user_role = user_role_load_by_name('Public User');
-        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-        $public_or_cdx = 'public';
-      }
-      $_SESSION['cdx_user_type'] = $public_or_cdx;
-    } catch (Exception $e) {
-      watchdog('eenterprise_utility', "Error 0014: General Exception", array(), WATCHDOG_ERROR);
-    }
-  }
-}
-
-/**
- * returns a user object based on the external authentication source,
- * or FALSE if not found.
- *
- * This is exactly the same implementation as Drupal 7's user_external_load function
- * except the where clause in the query is changed to accommodate Unique username resolution put in place..
- */
-function user_external_load_custom($authname) {
-  $uid = db_query("SELECT uid FROM {authmap} WHERE authname LIKE :authname", array(':authname' => '%' . db_like($authname) . '_Via_%'))->fetchField();
-  if ($uid) {
-    return user_load($uid);
   }
   else {
-    return FALSE;
+    user_external_login_register($username, 'eenterprise_utility');
+  }
+  if ($user) {
+    // Update email if it has changed
+    user_save($user, array('mail' => trim($response_output['EMAIL'], '"')));
+    allow_eactivity_dataflows($user);
   }
 }
+
 
 /**
  * returns a map Dataset, formated as JSON.
@@ -1823,7 +1839,8 @@ function callSOAPWithParams($client, $service, $params, $location = "") {
     $soap_obj->error = FALSE;
   } catch (SoapFault $f) {
     $soap_obj->error = TRUE;
-    $message = "Error: " . $f . ' Error Message: ' . $f->detail->faultdetails->message;
+    $message = 'Error: ' . $f->detail->faultdetails->message;
+    $soap_obj->message = $message;
     watchdog($location, $message, array(), WATCHDOG_ERROR);
   }
   return $soap_obj;
