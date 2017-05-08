@@ -1,9 +1,6 @@
 /**
  * Created by bmatkin on 5/8/2017.
  */
-
-
-
 (function ($) {
 
 var links = $.get(window.location.href + "/links");
