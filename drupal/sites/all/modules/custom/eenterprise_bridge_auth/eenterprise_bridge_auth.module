@@ -356,6 +356,7 @@ function sso_handoff_url() {
 }
 
 function encode_handoff($token, $hand_off_url = '') {
+  // UTF-16LE and base64 encoding are required by the cdx NaasToken silent handoff.
   $sso_token_param = "token=" . $token . "&remoteIpAddress=" . $_SERVER['SERVER_ADDR'];
   $sso_token_param = mb_convert_encoding($sso_token_param, 'UTF-16LE');
   $sso_token_param = base64_encode($sso_token_param);
