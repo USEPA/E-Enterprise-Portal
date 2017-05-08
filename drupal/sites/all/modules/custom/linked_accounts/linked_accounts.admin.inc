@@ -27,6 +27,52 @@ function linked_accounts_admin($form, $form_state) {
     '#required' => TRUE,
   );
 
+  $form['scs_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('SCS Configurations'),
+  );
+
+  $form['scs_settings']['scs_auth_reg_username'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Authorized Username'),
+    '#default_value' => variable_get('scs_auth_reg_username', "")
+  );
+
+  $form['scs_settings']['scs_auth_reg_password'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Authorized Password'),
+    '#default_value' => variable_get('scs_auth_reg_password', "")
+  );
+
+  $form['scs_settings']['scs_auth_endpoint'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Authentication URL'),
+    '#default_value' => variable_get('scs_auth_endpoint', "https://encromerrdev.epacdxnode.net/shared-cromerr-ws/services/UserManagementService?wsdl")
+  );
+
+  $form['cdx_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('CDX Configurations'),
+  );
+
+  $form['cdx_settings']['cdx_auth_reg_username'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Authorized Username'),
+    '#default_value' => variable_get('cdx_auth_reg_username', "")
+  );
+
+  $form['cdx_settings']['cdx_auth_reg_password'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Authorized Password'),
+    '#default_value' => variable_get('cdx_auth_reg_password', "")
+  );
+
+  $form['cdx_settings']['cdx_auth_endpoint'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Authentication URL'),
+    '#default_value' => variable_get('cdx_auth_endpoint', "")
+  );
+
   $form['#validate'][] = 'linked_accounts_form_validate';
   $form['#submit'][] = 'linked_accounts_admin_form_submit';
   return system_settings_form($form);
