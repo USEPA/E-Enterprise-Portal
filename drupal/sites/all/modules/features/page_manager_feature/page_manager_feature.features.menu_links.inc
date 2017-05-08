@@ -121,15 +121,18 @@ function page_manager_feature_menu_default_menu_links() {
     'customized' => 1,
     'parent_identifier' => 'main-menu_:<front>',
   );
-  // Exported menu link: main-menu_scs:register_link/scs.
-  $menu_links['main-menu_scs:register_link/scs'] = array(
+  // Exported menu link: main-menu_scs:node/51170.
+  $menu_links['main-menu_scs:node/51170'] = array(
     'menu_name' => 'main-menu',
-    'link_path' => 'register_link/scs',
-    'router_path' => 'register_link/%',
+    'link_path' => 'node/51170',
+    'router_path' => 'node/%',
     'link_title' => 'SCS',
     'options' => array(
+      'alter' => TRUE,
       'roles_for_menu' => array(
-        'show' => array(),
+        'show' => array(
+          111006868 => 111006868,
+        ),
         'hide' => array(
           47628701 => 47628701,
         ),
@@ -140,8 +143,7 @@ function page_manager_feature_menu_default_menu_links() {
         'class' => '',
         'style' => '',
       ),
-      'alter' => TRUE,
-      'identifier' => 'main-menu_scs:register_link/scs',
+      'identifier' => 'main-menu_scs:node/51170',
     ),
     'module' => 'menu',
     'hidden' => 0,
@@ -149,7 +151,7 @@ function page_manager_feature_menu_default_menu_links() {
     'has_children' => 0,
     'expanded' => 0,
     'weight' => 0,
-    'customized' => 1,
+    'customized' => 0,
     'parent_identifier' => 'main-menu_:<front>',
   );
   // Exported menu link: main-menu_scs:scs.

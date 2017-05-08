@@ -1,0 +1,231 @@
+<?php
+/**
+ * @file
+ * Webform Remote Post module.
+ *
+ * Webform Remote Post is a module that works along the
+ * @link http://drupal.org/project/webform Webform @endlink module.
+ * It eases the integration between Webforms and other web
+ * applications.
+ */
+
+/**
+ * Implements hook_help().
+ *
+ * Displays help and module information.
+ */
+function webform_remote_post_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#webform_remote_post':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Webform Remote Post is a module that works along the Webform module. It eases the integration between Webforms and other web applications like Salesforce and Eloqua.') . '</p>';
+      $output .= '<p>' . t('Webform Remote Post works by POSTing form submissions to any arbitrary URL, presumably, an application or script that will use the form data and perform further processing of it. It respects the form\'s validation and will only send submissions that passed validation and are no longer in a draft state. Multiple remote posts can be setup for each individual form, allowing for the submission of data to multiple systems at once.') . '</p>';
+      $output .= '<h3>' . t('Use Cases') . '</h3>';
+      $output .= '<ul>';
+      $output .= '<li>' . t('CRM Integration &ndash; If you have a CRM like Salesforce, you can use this module to push submissions using the web-to-lead mechanism to create a Lead from every Webform submission in your Drupal site.') . '</li>';
+      $output .= '<li>' . t('Eloqua Integration &ndash; Create lead forms to be submitted to Eloqua. Add the hidden fields as indicated in Eloqua and it\'s ready to go.') . '</li>';
+      $output .= '<li>' . t('Re-posting to any 3rd party system &ndash; This module is general purpose. You need the form data to be immediately submitted to another system automatically? Add a remote post target to it!') . '</li>';
+      $output .= '</ul>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ *
+ * @see webform_menu_load()
+ */
+function webform_remote_post_menu() {
+  $items = array();
+
+  // Targets list, %webform_menu is an auto-loader wildcard component
+  // provided by the webform module (method is webform_menu_load), and it
+  // auto-loads a webform node.
+  $items['node/%webform_menu/webform/targets'] = array(
+    'title' => 'Remote Posts',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('webform_remote_post_targets_form', 1),
+    'access callback' => 'user_access',
+    'access arguments' => array('admin webform remote posts'),
+    'file' => 'includes/webform_remote_post.targets.inc',
+    'weight' => 1,
+    'type' => MENU_LOCAL_TASK,
+  );
+  // Edit or create a target.
+  $items['node/%webform_menu/webform/targets/%webform_remote_post_menu_target'] = array(
+    'title' => 'Edit remote post settings',
+    'load arguments' => array(1),
+    'page arguments' => array(
+      'webform_remote_post_target_edit_form', 1, 4),
+    'access callback' => 'user_access',
+    'access arguments' => array('admin webform remote posts'),
+    'file' => 'includes/webform_remote_post.target.inc',
+    'type' => MENU_CALLBACK,
+  );
+  // Delete a target.
+  $items['node/%webform_menu/webform/targets/%/delete'] = array(
+    'title' => 'Delete repost target',
+    'load arguments' => array(1),
+    'page arguments' => array(
+      'webform_remote_post_target_delete_form_submit', 1, 4),
+    'access callback' => 'user_access',
+    'access arguments' => array('admin webform remote posts'),
+    'file' => 'includes/webform_remote_post.targets.inc',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_webform_submission_insert().
+ *
+ * Respond to a Webform submission being inserted.
+ *
+ * Note that this hook is called after a submission has already been saved to
+ * the database.
+ *
+ * This is the main purpose of this module, to emit HTTP POSTs based on the
+ * saved webform data.
+ *
+ * @todo Support of Grid component.
+ * @todo Support of File component.
+ */
+function webform_remote_post_webform_submission_insert($node, $submission) {
+  // Skip draft forms:
+  if ($submission->is_draft) {
+    return;
+  }
+
+  // Get this webform node remote targets from the DB:
+  $targets = array();
+  $targets = db_select('webform_remote_post_targets')
+    ->fields('webform_remote_post_targets')
+    ->condition('nid', $node->nid)
+    ->condition('enabled', 1)
+    ->execute()
+    ->fetchAllAssoc('tid', PDO::FETCH_ASSOC);
+
+  // Create a map with webform component ID's and the component themselves,
+  // handy later on.
+  $component_map = array();
+  foreach ($node->webform['components'] as $component) {
+    $component_map[$component['cid']] = $component;
+  }
+
+  // Prepare the submission data for remote posting. Creating a two-dimensional
+  // array of form field names and the data.
+  $payload = array();
+  foreach ($submission->data as $cid => $component_data) {
+    // Handle different data structure for webform 4.x:
+    if (webform_remote_post_webform_version() == '4') {
+      $payload[$component_map[$cid]['form_key']] = implode(', ', $component_data);
+    }
+    else {
+      $payload[$component_map[$cid]['form_key']] = implode(', ', $component_data['value']);
+    }
+  }
+
+  // Acceptable server response codes.
+  $benign_reponse_codes = array('200', '301', '302', '307');
+
+  // Repost data to each target.
+  foreach ($targets as $tid => $target) {
+    // Allow other modules to modify payload and target.
+    drupal_alter('webform_remote_post_repost', $payload, $target);
+
+    if($target['type'] == 'json'){
+      // JSON Encode the payload.
+      $post_data = json_encode($payload);
+
+      // Repost data to each target. Begin by setting the
+      // options for drupal_http_request().
+      $drupal_http_request_options = array(
+        'method' => 'POST',
+        'data' => $post_data,
+        'timeout' => 15,
+        'headers' => array('Content-Type' => 'application/json', 'Accept' => '*/*'),
+      );
+    }
+    else {
+      // URL-encode the payload.
+      $post_data = drupal_http_build_query($payload);
+
+      // Repost data to each target. Begin by setting the
+      // options for drupal_http_request().
+      $drupal_http_request_options = array(
+        'method' => 'POST',
+        'data' => $post_data,
+        'timeout' => 15,
+        'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
+      );
+    }
+
+    // Where the magic happens:
+    $request = drupal_http_request($target['url'], $drupal_http_request_options);
+    // Log any errors.
+    if (isset($request->code) && !in_array($request->code, $benign_reponse_codes)) {
+      $log_msg = 'A remote (%type) post to %url by webform node ID %id returned a \'%code\' code, which is a different HTTP response code than expected. Please make sure that the remote post URL is correct in the Remote Posts webform settings, and that the post was received in the remote system.';
+      watchdog(
+        'webform_remote_post',
+        $log_msg,
+        array(
+          '%id'   => $node->nid,
+          '%url'  => $target['url'],
+          '%code' => $request->code,
+          '%type' => $target['type'],
+        ),
+        WATCHDOG_WARNING);
+    }
+  }
+}
+
+/**
+ * Implements hook_perm().
+ */
+function webform_remote_post_permission() {
+  return array(
+    'admin webform remote posts' => array(
+      'title' => t('Admin webform remote posts'),
+      'description' => t('Grants access to the "Remote Posts" webform settings on all webform content.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function webform_remote_post_theme($existing, $type, $theme, $path) {
+  $theme = array(
+    // webform_remote_posts.targets.inc.
+    'webform_remote_post_targets_form' => array(
+      'render element' => 'form',
+      'file' => 'includes/webform_remote_post.targets.inc',
+    ),
+  );
+  return $theme;
+};
+
+/**
+ * Menu loader callback. Load a remote post target if the given tid is a valid.
+ */
+function webform_remote_post_menu_target_load($tid, $nid) {
+  module_load_include('inc', 'webform_remote_post', 'includes/webform_remote_post.targets');
+  $target = webform_remote_post_target_load($tid, $nid);
+  watchdog('webform_remote_post',"The target id to load is $tid");
+  watchdog('webform_remote_post','The auto-loaded target is ' . print_r($target, true));
+  return $target;
+}
+
+/**
+ * Helper function to fetch webform major version number.
+ */
+function webform_remote_post_webform_version() {
+  $info = system_get_info('module', 'webform');
+  $version = $info['version'];
+  if ($version) {
+    $version = explode('-', $version);
+    $version = explode('.', $version[1]);
+    return $version[0];
+  }
+}

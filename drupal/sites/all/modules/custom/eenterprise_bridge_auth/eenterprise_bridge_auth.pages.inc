@@ -155,7 +155,7 @@ function eenterprise_bridge_auth_authenticate($error) {
   }
   else if ($authentication_method === "ENNAAS") {
     $authentication_domain = strtoupper(trim($userDetails->attributes['authenticationdomain'][0]));
-    resolve_username_collisions($username, $authentication_domain);
+    mitigate_username_alteration($username . "_Via_" . $authentication_domain, $username);
     $uname = $username . "_Via_" . $authentication_domain;
     $public_or_cdx = 'cdx';
   }
@@ -221,6 +221,7 @@ function eenterprise_bridge_auth_authenticate($error) {
       else {
         assign_roles_to_user($uname);
         $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
+        $_SESSION['userId'] = $userDetails->attributes['userId'][0];
         $_SESSION['login_timestamp'] = time();
       }
     }
@@ -236,6 +237,7 @@ function eenterprise_bridge_auth_authenticate($error) {
     if ($public_or_cdx == 'cdx') {
       assign_roles_to_user($uname);
       $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
+      $_SESSION['userId'] = $userDetails->attributes['userId'][0];
       $_SESSION['login_timestamp'] = time();
     }
   }
@@ -464,6 +466,9 @@ function allow_user_menu_access($role_id) {
 function eenterprise_bridge_auth_logout() {
   if (isset($_SESSION['cdx_fmw_security_token'])) {
     $_SESSION['cdx_fmw_security_token'] = '';
+  }
+  if (isset($_SESSION['userId'])) {
+    $_SESSION['userId'] = '';
   }
   $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?bridge=1';
   if ($_SESSION['is_timeout']) {
