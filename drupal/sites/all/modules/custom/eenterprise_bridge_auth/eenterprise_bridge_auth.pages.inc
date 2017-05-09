@@ -219,6 +219,17 @@ function eenterprise_bridge_auth_authenticate($error) {
         user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
       }
       else {
+        if (isset($authentication_domain)) {
+          // Save CDX/SCS/NAAS username
+          $account = user_load($user->uid);
+          if ($authentication_domain === 'SCS') {
+            $account->field_scs_username[LANGUAGE_NONE][0]['value'] = $username;
+          }
+          else {
+            $account->field_cdx_username[LANGUAGE_NONE][0]['value'] = $username;
+          }
+          user_save($account);
+        }
         assign_roles_to_user($uname);
         $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
         $_SESSION['userId'] = $userDetails->attributes['userId'][0];
@@ -239,6 +250,17 @@ function eenterprise_bridge_auth_authenticate($error) {
       $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
       $_SESSION['userId'] = $userDetails->attributes['userId'][0];
       $_SESSION['login_timestamp'] = time();
+      if (isset($authentication_domain)) {
+        // Save CDX/SCS/NAAS username
+        $account = user_load($user->uid);
+        if ($authentication_domain === 'SCS') {
+          $account->field_scs_username[LANGUAGE_NONE][0]['value'] = $username;
+        }
+        else {
+          $account->field_cdx_username[LANGUAGE_NONE][0]['value'] = $username;
+        }
+        user_save($account);
+      }
     }
   }
   drupal_goto('workbench');
