@@ -47,7 +47,18 @@ function linked_accounts_admin($form, $form_state) {
   $form['scs_settings']['scs_auth_endpoint'] = array(
     '#type' => 'textfield',
     '#title' => t('Authentication URL'),
-    '#default_value' => variable_get('scs_auth_endpoint', "https://encromerrdev.epacdxnode.net/shared-cromerr-ws/services/UserManagementService?wsdl")
+    '#default_value' => variable_get('scs_auth_endpoint', "https://encromerrdev.epacdxnode.net/scs-portal-ws/services/SharedPortalService?wsdl")
+  );
+
+  $form['scs_settings']['scs_handoff_auth_endpoint'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Authentication URL for Handoff Token'),
+    '#default_value' => variable_get('scs_handoff_auth_endpoint', "https://encromerrdev.epacdxnode.net/scs-portal-ws/services/SharedPortalSecurityService?wsdl")
+  );
+  $form['scs_settings']['scs_handoff_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('URL for Handoff'),
+    '#default_value' => variable_get('scs_handoff_url', "https://encromerrdev.epacdxnode.net/Handoff")
   );
 
   $form['cdx_settings'] = array(
