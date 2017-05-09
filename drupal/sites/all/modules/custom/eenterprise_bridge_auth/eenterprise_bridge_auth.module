@@ -289,22 +289,24 @@ function sso_handoff_url() {
   global $user;
 
   $cdx_root_path = variable_get('cdx_facility_resource_url');
-
+  $hand_off_url = '';
   //clean any dangerous strings
-  $hand_off_data = urlencode(xssafe($_GET['handoff_data']));
-  $hand_off_url = $cdx_root_path . "/SilentHandoff/DeepHandoff?data=" . $hand_off_data;
+  if (isset($_GET['handoff_data'])) {
+    $hand_off_url = $cdx_root_path . "/SilentHandoff/DeepHandoff?data=" . urlencode(xssafe($_GET['handoff_data']));
+  } 
 
   // Init drupal cache
   $data = &drupal_static(__FUNCTION__);
+  $account = user_load($user->uid);
+  $user_id = $account->field_cdx_username[LANGUAGE_NONE][0]['value'];
 
-  // Remove everything after and including _via_ from user name
-  $user_id = $user->name;
-  $cdx_pos = strrpos($user_id, "_Via_");
+  // If CDX user ID has not been set send to CDX home
+  if (!$user_id) {
+    drupal_goto($cdx_root_path);
+  }
+  
   $ip = $_SERVER['SERVER_ADDR'];
   $token = null;
-  if ($cdx_pos !== FALSE) {
-    $user_id = substr($user_id, 0, $cdx_pos);
-  }
 
  // Check cache
   if (!isset($data)) {
