@@ -133,6 +133,7 @@ function eenterprise_bridge_auth_authenticate($error) {
 
   $authentication_method_array = explode(':', $userDetails->attributes['authenticationMethod']);
   $authentication_method = strtoupper(trim($authentication_method_array[count($authentication_method_array) - 1]));
+  $authentication_domain = null;
 
   $username_raw = explode('/', $userDetails->attributes['name'][0]);
   $username = end($username_raw);
@@ -219,6 +220,9 @@ function eenterprise_bridge_auth_authenticate($error) {
         user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
       }
       else {
+        if (module_exists("linked_accounts")) {
+          linked_accounts_save_authenticated_user($username, $authentication_domain);
+        }
         assign_roles_to_user($uname);
         $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
         $_SESSION['userId'] = $userDetails->attributes['userId'][0];
@@ -239,6 +243,9 @@ function eenterprise_bridge_auth_authenticate($error) {
       $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
       $_SESSION['userId'] = $userDetails->attributes['userId'][0];
       $_SESSION['login_timestamp'] = time();
+      if (module_exists("linked_accounts")) {
+        linked_accounts_save_authenticated_user($username, $authentication_domain);
+      }
     }
   }
   drupal_goto('workbench');

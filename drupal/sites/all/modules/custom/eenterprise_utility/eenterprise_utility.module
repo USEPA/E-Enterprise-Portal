@@ -265,6 +265,10 @@ function perform_user_login($response_output, $issuer) {
   if ($user) {
     // Update email if it has changed
     user_save($user, array('mail' => trim($response_output['EMAIL'], '"')));
+    //Update account specific usernames
+    if (module_exists("linked_accounts")) {
+      linked_accounts_save_authenticated_user($raw_username, $issuer);
+    }
     allow_eactivity_dataflows($user);
   }
 }
@@ -600,6 +604,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     hide($form['field_piv_card_org']);
     hide($form['field_cdx_naics_settings']);
     hide($form['field_scs_username']);
+    hide($form['field_cdx_username']);
 
     if (isset($form['account']['mail']['#description'])) {
       unset($form['account']['mail']['#description']);
