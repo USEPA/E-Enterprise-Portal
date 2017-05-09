@@ -266,13 +266,9 @@ function perform_user_login($response_output, $issuer) {
     // Update email if it has changed
     user_save($user, array('mail' => trim($response_output['EMAIL'], '"')));
     //Update account specific usernames
-    $account = user_load($user->uid);
-    if ($issuer === 'CDX') {
-      $account->field_cdx_username[LANGUAGE_NONE][0]['value'] = $raw_username;
-    } else if ($issuer === 'SCS') {
-      $account->field_scs_username[LANGUAGE_NONE][0]['value'] = $raw_username;
+    if (module_exists("linked_accounts")) {
+      linked_accounts_save_authenticated_user($raw_username, $issuer);
     }
-    user_save($account);
     allow_eactivity_dataflows($user);
   }
 }
