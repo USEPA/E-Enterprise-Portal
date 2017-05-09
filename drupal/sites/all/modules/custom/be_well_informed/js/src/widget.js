@@ -146,8 +146,8 @@
     .html(Drupal.settings.be_well_informed.templates.state_selection)
     .dialog({
       modal: true,
-      width: 360,
-      title: "Be Well Informed - Area Selection",
+      width: "auto",
+      title: "Be Well Informed State Selection",
       position: {'my': 'center', 'at': 'center'},
       dialogClass: 'be-well-informed-modal-state-selection',
       autoOpen: false,
