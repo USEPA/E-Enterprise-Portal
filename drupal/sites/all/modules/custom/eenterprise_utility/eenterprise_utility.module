@@ -1847,7 +1847,7 @@ function callSOAPWithParams($client, $service, $params, $location = "") {
     $soap_obj->error = TRUE;
     $message = 'Error: ' . $f->detail->faultdetails->message;
     $soap_obj->message = $message;
-    watchdog($location, $message, array(), WATCHDOG_ERROR);
+    watchdog($location, print_r($f, 1), array(), WATCHDOG_ERROR);
   }
   return $soap_obj;
 }
