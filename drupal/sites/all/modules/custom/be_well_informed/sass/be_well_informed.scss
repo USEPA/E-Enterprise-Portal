@@ -764,6 +764,21 @@ $color_ecstasy_approx: #ff851b;
 #bwi-state {
     width:100%;
 }
+.powered-by-nhbwi {
+    text-align: right;
+}
+html body.admin-menu {
+    margin-top: 0 !important;
+    #admin-menu {
+        display: block;
+    }
+    .beta-ribbon:after {
+        display: none;
+    }
+}
+.messages--error.messages.error.workbench-zipcode-error {
+    display: none;
+}
 .clearfix:after {
     display: table;
     line-height: 0;

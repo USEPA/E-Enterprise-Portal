@@ -8,6 +8,7 @@
                     <div class="col-md-4"><label for="bwi-state">State/Tribe</label></div>
                     <div class="col-md-8">
                         <select id="bwi-state" name="bwi-state">
+                            <option value="">Select State/Tribe</option>
                             <!--<option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AS">American Samoa</option>
@@ -83,10 +84,11 @@
 
     <div id="bwi-widget-state-content">
         <p> Have a well and wonder what your water testing results mean?</p>
-        <p> The Be Well Informed Guide lets you enter your test results and get feedback about health concerns and water treatment choices.</p>
+        <p> The Be Well Informed Guide lets you enter your test results and get feedback about health concerns and water treatment choices for your state or tribe.</p>
         <p> Be Well Informed was created for residents, and has the most common contaminant that affect wells there. It may not have all the contaminants present in your area - for those it does have, it can provide useful information.</p>
         <p> A quick disclaimer before we start.</p>
         <p class="widget-note"> Information provided on this website is for informational purposes only and should not be substituted for direct consultation with a qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide may determine the most appropriate water treatment option.</p>
+        <p class="widget-note powered-by-nhbwi">Powered by: <a href="">New Hampshire Be <em>Well</em> Informed</a></p>
         <div class="be-well-informed-modal-state-content">
             <p class="text-right">
                 <button id="bwi-check-water-btn">
