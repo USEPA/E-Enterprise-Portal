@@ -23,6 +23,7 @@ function gridstack_page_build(&$page) {
   if (isset($page['content']['system_main']['main']['#markup'])) {
     if (stripos($page['content']['system_main']['main']['#markup'], 'grid-stack')) {
       drupal_add_css(drupal_get_path('module', 'gridstack') . '/stylesheets/gridstack.css', ['preprocess' => true, 'group' => CSS_DEFAULT]);
+      drupal_add_js(drupal_get_path('library', 'lodash') . '/lodash.min.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
       drupal_add_js(drupal_get_path('module', 'gridstack') . '/js/gridstack.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
       drupal_add_js(drupal_get_path('module', 'gridstack') . '/js/eportal_grid_engine.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
 
