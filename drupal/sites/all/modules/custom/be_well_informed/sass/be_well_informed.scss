@@ -733,7 +733,7 @@ $color_ecstasy_approx: #ff851b;
         }
         p {
             margin: 0 30px;
-            line-height: 1.4;          
+            line-height: 1.4;
             &.bwi-support-intro {
                 margin-top: 20px;
             }
@@ -754,6 +754,15 @@ $color_ecstasy_approx: #ff851b;
     .print-icon{
       float:right;
     }
+}
+#bwi-state-selection {
+    label {
+        font-weight: 700;
+        font-size: 1.1em;
+    }
+}
+#bwi-state {
+    width:100%;
 }
 .clearfix:after {
     display: table;

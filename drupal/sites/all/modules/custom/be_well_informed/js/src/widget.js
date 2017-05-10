@@ -4,7 +4,7 @@
 
 (function($, window, UNDEFINED){
 
-  function close_state_selection() {
+  function get_state_selection() {
     // Capture the value of the state dropdown and populate the widget with the proper state content
     console.log('Populate Widget with state content')
     // Get the chosen state
@@ -27,9 +27,8 @@
         $xml = $( response_xml )
         // Manage the income XML and make the result globally available
         Drupal.settings.be_well_informed.state_xml = $xml
-        build_widget_state_info()
+        //build_widget_state_info()
         build_state_form()
-        $('#be-well-informed-modal-state-selection').dialog('close');
       }
     })
   }
@@ -49,14 +48,6 @@
     $widget_content_area = $('#bwi-widget-state-content')
     $widget_content_area.html($template);
 
-    /*
-     * @todo: There is a minor race condition that from the time the button is exposed when the #be-well-informed-modal-state-form is built.  A slow enough ajax response callback (build_state_form()) will expose page that is not ready.
-     */
-    // Adding actions to the content
-    $('#bwi-check-water-btn').click(function() {
-      $('#be-well-informed-modal-state-form').dialog("open");
-      resizeModal();
-    })
   }
 
   function build_state_form() {
@@ -85,7 +76,7 @@
             title: "Be Well Informed Water Analysis Tool",
             position: {'my': 'center', 'at': 'center'},
             dialogClass: 'be-well-informed-modal-state-form',
-            autoOpen: false,
+            autoOpen: true,
             draggable: false,
             resizable: false,
             create: function(event, ui) {
@@ -172,6 +163,9 @@
     $('#be-well-informed-modal-state-selection').dialog("open")
   });
 
-
+  // Adding actions to the content
+  $('#bwi-check-water-btn').click(function() {
+    get_state_selection();
+  })
 
 })(jQuery, window);
