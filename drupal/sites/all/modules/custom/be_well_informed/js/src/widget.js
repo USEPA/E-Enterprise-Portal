@@ -83,9 +83,9 @@
               $('#bwi-tabs').tabs();
               var $form = $('#water_analysis_results_form');
               $form
-                .parsley({
+                /*.parsley({
                   inputs: Parsley.options.inputs + ',[data-parsley-check-children]'
-                })
+                })*/
                 .on('field:validated', function() {
                   var ok = $('.parsley-error').length === 0;
                   $('.bs-callout-info').toggleClass('hidden', !ok);
