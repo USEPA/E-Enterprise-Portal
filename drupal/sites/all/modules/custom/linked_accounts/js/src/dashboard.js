@@ -14,6 +14,7 @@ function performHandoff() {
             var $form = $('<form style="display:none" action="' + handoff_data['handoff_url'] + '" method="POST"></form>');
             $form.append('<input name="SCS_DATA" value="' + handoff_data['ip'] + '"/>');
             $form.append('<input name="token" value="'+ handoff_data['token'] +'"/>');
+            $form.append('<input name="theme" value="demo"/>');
             $form.appendTo('body').submit();
         }
     })
