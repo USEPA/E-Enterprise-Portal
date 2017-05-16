@@ -247,6 +247,7 @@ function _edit_user_name($old_username, $new_username) {
 
 
 function perform_user_login($response_output, $issuer) {
+  module_load_include('pages.inc', 'eenterprise_bridge_auth', 'eenterprise_bridge_auth');
   global $user;
   $response_output = _return_array_uppercase($response_output);
   $raw_username = $response_output['USERID'];
