@@ -269,7 +269,8 @@ function perform_user_login($response_output, $issuer) {
     if (module_exists("linked_accounts")) {
       linked_accounts_save_authenticated_user($raw_username, $issuer);
     }
-    allow_eactivity_dataflows($user);
+    // Use eenterprise_bridge_auth function to extract CDX roles out and assign to user
+    assign_roles_to_user($raw_username);
   }
 }
 
@@ -620,9 +621,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
       // Set description for admin
       $form['field_admin_state'][LANGUAGE_NONE][0]['value']['#title'] = "State code, tribe name, or 'US EPA'";
       $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
-      /*if (!module_exists('chemical_rules')) {
-        hide($form['field_chem_rules_user_settings']);
-      }*/
     }
     // only admins see the Terms of Use Agreed Date field
     if (!user_access('administer site configuration')) {
