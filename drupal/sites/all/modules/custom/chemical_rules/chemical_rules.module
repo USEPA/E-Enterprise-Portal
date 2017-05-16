@@ -344,7 +344,7 @@ function chemical_rules_process_srs_response(&$return) {
 
 function chemical_rules_process_lrs_response(&$return) {
   // make a call to the LRS service
-  $lrs_endpoint = 'http://rockslide:9010/lrswebservices/v1/SubstanceList';
+  $lrs_endpoint = 'https://ofmpub.epa.gov/lrswebservices/v1/SubstanceList';
 
   // Setup the http request and check its response
   $lrs_response = drupal_http_request($lrs_endpoint, [
