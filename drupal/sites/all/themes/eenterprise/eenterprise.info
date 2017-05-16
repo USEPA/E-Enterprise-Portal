@@ -40,7 +40,6 @@ scripts[] = js/mobile-menu.js
 scripts[] = js/drop-down-menu.js
 scripts[] = js/eenterprise_utility.js
 scripts[] = ../../libraries/jqueryui/ui/minified/jquery-ui.min.js
-scripts[] = js/lodash.min.js
 scripts[] = js/bootstrap.tooltip.js
 
 ; FEATURES
