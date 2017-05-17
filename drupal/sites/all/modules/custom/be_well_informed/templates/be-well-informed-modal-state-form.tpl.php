@@ -2,7 +2,7 @@
   <div id="bwi-tabs">
     <ul class="navigation-tabs">
       <li><a href="#entry-results" id="entry-tab">Entry</a></li>
-      <li><a href="#support-info">Support and Information</a></li>
+      <li><a href="#support-info">State/Tribe Resources</a></li>
     </ul>
     <div id="entry-results">
       <div id="be-well-informed-form-wrapper"
@@ -349,7 +349,7 @@
       </div><!-- @end .be-well-informed-results-wrapper -->
     </div><!-- @end #entry-results tab pane -->
     <div id="support-info">
-          <h3>Support and Information</h3>
+          <h3>State/Tribe Resources</h3>
           <div class="bwi-support-box">
               <h4>Phone Support</h4>
               <p class="bwi-support-intro">For telephone support please contact the NH Department of Environmental Service’s Drinking Water and Groundwater Bureau:</p>              
