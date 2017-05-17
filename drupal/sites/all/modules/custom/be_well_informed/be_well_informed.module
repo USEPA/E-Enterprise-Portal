@@ -10,8 +10,17 @@ function be_well_informed_menu() {
     'page callback' => 'be_well_informed_form_submission',
     'access callback' => TRUE,
   );
+  $items['be_well_informed/get_state_information'] = array(
+    'page callback' => 'be_well_informed_get_state_information',
+    'access callback' => TRUE,
+  );
   $items['be_well_informed/water_analysis_results_pdf'] = array(
     'page callback' => 'be_well_pdf_generate',
+    'access callback' => TRUE,
+  );
+  $items['be_well_informed/generate_state_form'] = array(
+    'page callback' => 'generate_state_form',
+    'page arguments' => array('state_xml', 'other_variables'),
     'access callback' => TRUE,
   );
   $items['admin/config/system/be_well_informed'] = array(
@@ -24,7 +33,7 @@ function be_well_informed_menu() {
   );
   return $items;
 }
-
+;
 /**
  * Implements hook_block_info().
  */
@@ -84,6 +93,32 @@ function be_well_pdf_generate(){
   }
 }
 
+/**
+ * Renders the form for use with the widget based on the supplied state information
+ */
+function generate_state_form() {
+  if (!isset($_POST) || count($_POST) === 0) {
+    drupal_json_output(array(
+      'error' => TRUE,
+      'message' => 'Failed to recieve any data.'
+    ));
+    return;
+  }
+
+  // Render the form theme for to be delivered to the front-end
+  /*$options = [
+    '#theme' => 'be_well_informed_modal_state_form',
+    '#pre_render'=> [
+      'be_well_informed_preprocess',
+      //'template_preprocess_be_well_informed_pdf'
+    ],
+    '#state_xml' => $_POST['state_xml']
+  ];*/
+  //$rendered_html = drupal_render($options);
+  $rendered_html = theme('be_well_informed_modal_state_form', ['state_xml'=>$_POST['state_xml']]);
+  echo $rendered_html;
+}
+
 /*
  * Implementation of hook_user_logout
  * Remove used pdf generation variable for the logged in user and session when the user logs out.
@@ -92,7 +127,6 @@ function be_well_informed_user_logout($account){
   global $user;
   variable_del($user->name.'_be_well_pdf_resp_'.$user->ssid);
 }
-
 
 /**
  * Implements hook_theme().
@@ -113,6 +147,23 @@ function be_well_informed_theme() {
       'variables' => array(),
       // Which .tpl.php file to use be-well-informed-modal.tpl.php
       'template' => 'be-well-informed-modal',
+      'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
+    ),
+    'be_well_informed_modal_state_form' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use be-well-informed-modal.tpl.php
+      'template' => 'be-well-informed-modal-state-form',
+      'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
+    ),
+    'be_well_informed_modal_state_selection' => array(
+      'variables' => array(),
+      'template' => 'be-well-informed-modal-state-selection',
+      'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
+    ),
+    'be_well_informed_widget_state_content' => array(
+      'variables' => array(),
+      'template' => 'be-well-informed-widget-state-content',
       'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
     ),
     'be_well_informed_pdf' => array(
@@ -174,13 +225,23 @@ function be_well_informed_block_view($delta = '') {
         'cache' => TRUE,
         'requires_jquery' => TRUE
       ]);
+      drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/widget.js', [
+        'scope' => 'footer',
+        'preprocess' => TRUE,
+        'group' => JS_DEFAULT,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
       drupal_add_css(drupal_get_path('module', 'be_well_informed') . '/css/be_well_informed.css', [
         'preprocess' => TRUE,
         'group' => CSS_THEME
       ]);
       // Set Form Modal Template
       $modal_form_html = theme('be_well_informed_modal');
-      drupal_add_js(array("be_well_informed" => ["modal" => $modal_form_html, "debug_mode"=>variable_get('bwi_js_debug_mode')]), 'setting');
+      $modal_state_selection = theme('be_well_informed_modal_state_selection');
+      $widget_state_content = theme('be_well_informed_widget_state_content');
+      drupal_add_js(array("be_well_informed" => ["debug_mode"=> variable_get('bwi_js_debug_mode'), 'templates'=> ['contaminant_form' => $modal_form_html, 'state_selection' => $modal_state_selection, 'widget_state_content' => $widget_state_content]]), 'setting');
 
       $block['subject'] = t('Be Well Informed');
       $block['content'] = theme('be_well_informed');
@@ -231,6 +292,51 @@ function be_well_informed_form_submission() {
   }
 
   drupal_json_output($datatable_formatted_response);
+}
+
+function be_well_informed_get_state_information() {
+  if (!isset($_POST) || count($_POST) === 0) {
+    drupal_json_output(array(
+      'error' => TRUE,
+      'message' => 'Failed to recieve any data.'
+    ));
+    return;
+  }
+
+
+  /*$datatable_formatted_response = array();
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+  if (feature_toggle_get_status('be_well_informed_sample_state_selection')) {
+    $be_well_informed_response = sample_be_well_informed_response();
+    $datatable_formatted_response['data'] = be_well_informed_datatable_response($be_well_informed_response);
+    $datatable_formatted_response['error'] = FALSE;
+  }
+  else {
+    $endpoint = "http://nodewebdev.epacdxnode.net/DWIService/dwievaluation";
+    $headers = array('Content-Type' => 'application/json');
+    $response = drupal_http_request($endpoint, [
+      "headers" => $headers,
+      "method" => "POST",
+      'timeout' => "10",
+      'data' => json_encode($_POST)
+    ]);
+    $datatable_formatted_response['DWI_request'] = json_encode($_POST);
+    if ($response->code !== "200") {
+      $datatable_formatted_response['error'] = TRUE;
+    }
+    else {
+      $formatted_data = be_well_informed_datatable_response($response->data);
+      $datatable_formatted_response['data'] = $formatted_data;
+      $datatable_formatted_response['error'] = FALSE;
+    }
+  }*/
+  //drupal_json_output($sample);
+
+  $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/flowchart-'.$_POST['state'].'.xml';
+  $sample = file_get_contents($path);
+
+  drupal_add_http_header('Content-Type', 'text/xml');
+  echo $sample;
 }
 
 /**
@@ -351,6 +457,15 @@ function processGuidelineIcon($guideline_icon) {
       $return_html = "<img src='" . $image_path . "/circle.png' alt='No Input Entered' />";
   }
   return $return_html;
+}
+
+
+/**
+ * Implements template_preprocess_hook for be-well-informed.tpl.php.
+ */
+function template_preprocess_be_well_informed(&$variables, $hook) {
+  $variables['states'] = ['Massachusetts', 'New Hampshire'];
+
 }
 
 /**
@@ -624,6 +739,16 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 
   $variables['cities'] = ["Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
   drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
+
+}
+
+// [yourModuleName|yourThemeName]_preprocess_[themeFunctionName]
+function be_well_informed_preprocess(&$variables, $hook) {
+  template_preprocess_be_well_informed_pdf($variables, $hook);
+  process_state_xml($variables);
+}
+
+function process_state_xml(&$variables){
 
 }
 

@@ -22,16 +22,15 @@
               <div class="city-selection usa-width-one-half">
                 <div class="section">
                   <label class="column one-half"
-                         for="drpcity">New Hampshire /
-                    City</label>
-                  <select class="column one-half right"
+                         for="drpcity"></label>
+                  <!--<select class="column one-half right"
                           name="CityName" id="drpcity"
                           required="">
                     <option value="">Select a City</option>
-                    <?php foreach ($cities as $c): ?>
-                      <option value="<?php echo $c ?>"><?php echo $c ?></option>
-                    <?php endforeach; ?>
-                  </select>
+                    <?php /*foreach ($cities as $c): */?>
+                      <option value="<?php /*echo $c */?>"><?php /*echo $c */?></option>
+                    <?php /*endforeach; */?>
+                  </select>-->
                 </div>
               </div>
     
