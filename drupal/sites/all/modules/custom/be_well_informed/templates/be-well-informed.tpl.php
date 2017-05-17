@@ -88,7 +88,7 @@
         <p> Be Well Informed was created for residents, and has the most common contaminants that affect wells. It may not have all the contaminants present in your area - for those it does have, it can provide useful information.</p>
         <p> A quick disclaimer before we start.</p>
         <p class="widget-note"> Information provided on this website is for informational purposes only and should not be substituted for direct consultation with a qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide may determine the most appropriate water treatment option.</p>
-        <p class="widget-note powered-by-nhbwi">Powered by: <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx">New Hampshire Be <em>Well</em> Informed</a></p>
+        <p class="widget-note powered-by-nhbwi">Powered by: <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank">New Hampshire Be <em>Well</em> Informed</a></p>
         <div class="be-well-informed-modal-state-content">
             <p class="text-right">
                 <button id="bwi-check-water-btn">

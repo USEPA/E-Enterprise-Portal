@@ -67,10 +67,10 @@
       success: function(state_form_html) {
         console.log('success: generate_state_form');
 
-        $state_form_modal = $('#be-well-informed-modal-state-form')
-        if(!$state_form_modal.length){
-          $state_form_modal = $('<div id="be-well-informed-modal-state-form"></div>').appendTo('#be-well-informed-widget-template-wrapper')
-        }
+        // Wipe the existing one
+        // @todo if the state has not changed use existing form and just open the modal window
+        $('#be-well-informed-modal-state-form').remove();
+        $state_form_modal = $('<div id="be-well-informed-modal-state-form"></div>').appendTo('#be-well-informed-widget-template-wrapper')
 
         $state_form_modal
           .html(state_form_html)
