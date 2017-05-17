@@ -10,28 +10,31 @@
     console.log('Populate Widget with state content')
     // Get the chosen state
     $state = $('#bwi-state').find('option:selected')
-    $.ajax({
-      url: 'be_well_informed/get_state_information',
-      method: 'POST',
-      data: {
-        state: $state.val()
-      },
-      before: function() {
-        console.log('before: get_state_information')
-      },
-      success: function(response_xml) {
-        console.log('success get_state_information', response_xml);
-        // Prepare the raw XML to be used to create the content for the widget
-        //parser = new DOMParser();
-        //xmlDoc = parser.parseFromString(response_xml,"text/xml");
-        //xmlDoc = $.parseXML( response_xml )
-        //$xml = $( response_xml )
-        // Manage the income XML and make the result globally available
-        Drupal.settings.be_well_informed.state_xml = response_xml
-        //build_widget_state_info()
-        build_state_form()
-      }
-    })
+    if($state.val()){
+      $.ajax({
+        url: 'be_well_informed/get_state_information',
+        method: 'POST',
+        data: {
+          state: $state.val()
+        },
+        before: function() {
+          console.log('before: get_state_information')
+        },
+        success: function(response_xml) {
+          console.log('success get_state_information', response_xml);
+          // Prepare the raw XML to be used to create the content for the widget
+          //parser = new DOMParser();
+          //xmlDoc = parser.parseFromString(response_xml,"text/xml");
+          //xmlDoc = $.parseXML( response_xml )
+          //$xml = $( response_xml )
+          // Manage the income XML and make the result globally available
+          Drupal.settings.be_well_informed.state_xml = response_xml
+          //build_widget_state_info()
+          build_state_form()
+        }
+      })
+    }
+
   }
 
   function build_widget_state_info(){
