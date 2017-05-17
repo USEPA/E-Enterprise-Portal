@@ -273,10 +273,7 @@ function perform_user_login($response_output, $issuer) {
     // Use eenterprise_bridge_auth function to extract CDX roles out and assign to user
     assign_roles_to_user($raw_username);
     // Always grant SSO user from SCS/CDX Eactivity role permission
-    if ($user_eactivity_role = user_role_load_by_name("eactivity-dataflows")) {
-      // Give user eactivity role
-      user_multiple_role_edit(array($user->uid), "add_role", $user_eactivity_role->rid);
-    }
+    allow_eactivity_dataflows($user);
   }
 }
 
