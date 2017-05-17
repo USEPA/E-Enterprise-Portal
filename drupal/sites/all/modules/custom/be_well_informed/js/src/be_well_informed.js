@@ -325,6 +325,7 @@ function bwi_log() {
     })*/
 
   $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
+    console.log('water submit')
     var $form = $('#water_analysis_results_form');
     // If the form does not validate do not submit data.
     if (!$form.parsley().validate()) {
