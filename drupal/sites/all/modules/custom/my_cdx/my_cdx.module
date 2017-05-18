@@ -479,14 +479,13 @@ function fetch_sample_my_cdx_links() {
  */
 function fetch_my_cdx_links() {
   global $user;
+  $account = user_load($user->uid);
+  $user_id = $account->field_cdx_username[LANGUAGE_NONE][0]['value'];
+
   // fetch the data from the soap service
   $location = 'my_cdx.module';
   $my_cdx_client_access = return_my_cdx_token();
   if ($token = $my_cdx_client_access['token']) {
-    if (!($user_id = verify_cdx_user($user->name))) {
-      return array();
-    }
-
     // retrieve object from "RetrieveMyCdxLinks" service
     $params_for_data = array(
       'securityToken' => $token,
@@ -642,13 +641,11 @@ function return_my_cdx_token() {
  */
 function fetch_my_cdx_link_details($role_ids) {
   global $user;
+  $account = user_load($user->uid);
+  $user_id = $account->field_cdx_username[LANGUAGE_NONE][0]['value'];
   $location = 'my_cdx.module';
   $my_cdx_client_access = return_my_cdx_token();
   if ($token = $my_cdx_client_access['token']) {
-    if (!($user_id = verify_cdx_user($user->name))) {
-      return array();
-    }
-
     // retrieve objects from "RetrieveMyCdxLinkDetails" service
     $data = array("orgCount" => 0, "organizations" => array());
     $role_ids = explode('|', $role_ids);
@@ -727,22 +724,6 @@ function fetch_my_cdx_link_details($role_ids) {
   }
 }
 
-/**
- * do not connect to SOAP service if the user is not coming from CDX
- */
-function verify_cdx_user($username) {
-  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-  if (feature_toggle_get_status('cdx_dev_mode')) {
-    return 'franklipman';
-  }
-  // Extract out "_Via_CDX" string from username
-  $user_id = $username;
-  $cdx_pos = strrpos($user_id, "_Via_");
-  if ($cdx_pos === FALSE) {
-    return FALSE;
-  }
-  return substr($user_id, 0, $cdx_pos);
-}
 
 /**
  * Fetch My CDX link handoff from SOAP service
