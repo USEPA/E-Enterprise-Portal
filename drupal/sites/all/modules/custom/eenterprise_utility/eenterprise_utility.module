@@ -225,16 +225,16 @@ function allow_eactivity_dataflows($user) {
  * */
 function resolve_username_collisions($username, $issuer) {
 
-  // If username exists _VIA_EXCHANGE, load that user and rename to _VIA_$issuer
-  $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username . '_VIA_EXCHANGE'))->fetchField();
+  // If username exists _Via_EXCHANGE, load that user and rename to _Via_$issuer
+  $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username . '_Via_EXCHANGE'))->fetchField();
   if ($old_username) {
-    _edit_user_name($old_username, $username . '_VIA_' . $issuer);
+    _edit_user_name($old_username, $username . '_Via_' . $issuer);
   }
   else {
-    // If username exists with no VIA, load that user and rename to _VIA_$issuer
+    // If username exists with no Via, load that user and rename to _Via_$issuer
     $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username))->fetchField();
     if ($old_username) {
-      _edit_user_name($old_username, $username . '_VIA_' . $issuer);
+      _edit_user_name($old_username, $username . '_Via_' . $issuer);
     }
   }
 }
@@ -251,7 +251,7 @@ function perform_user_login($response_output, $issuer) {
   global $user;
   $response_output = _return_array_uppercase($response_output);
   $raw_username = $response_output['USERID'];
-  $username = $raw_username . '_VIA_' . $issuer;
+  $username = $raw_username . '_Via_' . $issuer;
   resolve_username_collisions($raw_username, $issuer);
   $ext_user = user_external_load($username);
   if ($ext_user) {
