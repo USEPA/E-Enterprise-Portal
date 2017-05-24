@@ -171,80 +171,6 @@ function eenterprise_bridge_auth_authenticate($error) {
   drupal_goto('workbench');
 }
 
-function eenterprise_bridge_auth_logout() {
-  if (isset($_SESSION['cdx_fmw_security_token'])) {
-    $_SESSION['cdx_fmw_security_token'] = '';
-  }
-  if (isset($_SESSION['userId'])) {
-    $_SESSION['userId'] = '';
-  }
-  $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?bridge=1';
-  if ($_SESSION['is_timeout']) {
-    $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?timeout=1';
-  }
-  global $user;
-  if (isset($_SESSION['form_origin_btn']) && $_SESSION['form_origin_btn'] == 'Delete profile') {
-    unset($_SESSION['form_origin_btn']);
-    user_delete($user->uid);
-    session_destroy();
-    $wreply = variable_get('eenterprise_bridge_auth_realm') . '/eenterprise-new?bridge=1';
-  }
-
-  $logout = variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($wreply);
-  header("Location:$logout");
-}
-
-
-function eenterprise_bridge_auth_redirect() {
-  $idParams = array('wa' => 'wsignin1.0',
-    'wtrealm' => variable_get('eenterprise_bridge_auth_realm'),
-    'wctx' => 'rm=0',
-    'wreply' => variable_get('eenterprise_bridge_auth_reply'),
-    'whr' => $_GET['whr'],
-  );
-
-  //Builds URL for handing off the Open ID Bridge
-  $idBridgeUrl = variable_get('eenterprise_bridge_auth_issuer') . "?" . http_build_query($idParams);
-
-  header("Location:$idBridgeUrl");
-}
-
-
-function update_cdx_naics_profile($profile) {
-  $response = [
-    'error' => false,
-    'error-messages' => [],
-    'data' => null,
-  ];
-
-  if (isset($profile)) {
-
-    global $user;
-    //$existing = user_load($user->uid);
-    $existing = user_load($user->uid);
-    $response['data'] = ['profile' => $profile];
-
-    $edit = [];
-    if (!is_string($profile)) {
-      $profile = json_encode($profile);
-    }
-    $edit['field_cdx_naics_settings']['und'][0]['value'] = $profile;
-
-    // save existing user
-
-    if (!user_save($existing, $edit)) {
-      $response['error'] = true;
-      $response['error-messages'][] = 'There was a problem while trying to save';
-    }
-  }
-  else {
-    $response['error'] = true;
-    $response['error-messages'][] = 'Missing profile value in the post data';
-  }
-  echo json_encode($response);
-}
-
-
 function assign_roles_to_user($user_name) {
   global $user;
   $wsdl = variable_get('eactivity_auth_reg_wsdl');
@@ -428,6 +354,44 @@ function allow_user_menu_access($role_id) {
   cache_clear_all();
 }
 
+function eenterprise_bridge_auth_logout() {
+  if (isset($_SESSION['cdx_fmw_security_token'])) {
+    $_SESSION['cdx_fmw_security_token'] = '';
+  }
+  if (isset($_SESSION['userId'])) {
+    $_SESSION['userId'] = '';
+  }
+  $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?bridge=1';
+  if ($_SESSION['is_timeout']) {
+    $wreply = variable_get('eenterprise_bridge_auth_realm') . '/user/logout?timeout=1';
+  }
+  global $user;
+  if (isset($_SESSION['form_origin_btn']) && $_SESSION['form_origin_btn'] == 'Delete profile') {
+    unset($_SESSION['form_origin_btn']);
+    user_delete($user->uid);
+    session_destroy();
+    $wreply = variable_get('eenterprise_bridge_auth_realm') . '/eenterprise-new?bridge=1';
+  }
+
+  $logout = variable_get('eenterprise_bridge_auth_issuer') . '?wa=wsignout1.0&wreply=' . urlencode($wreply);
+  header("Location:$logout");
+}
+
+function eenterprise_bridge_auth_redirect() {
+  $idParams = array('wa' => 'wsignin1.0',
+    'wtrealm' => variable_get('eenterprise_bridge_auth_realm'),
+    'wctx' => 'rm=0',
+    'wreply' => variable_get('eenterprise_bridge_auth_reply'),
+    'whr' => $_GET['whr'],
+  );
+
+  //Builds URL for handing off the Open ID Bridge
+  $idBridgeUrl = variable_get('eenterprise_bridge_auth_issuer') . "?" . http_build_query($idParams);
+
+  header("Location:$idBridgeUrl");
+}
+
+
 /*
  * Function to allow a new user with CDX role get access to progress tracker and to-do views
  * automatically.
@@ -440,4 +404,39 @@ function view_allow_access_role($view_name, $role_id) {
     $result_view->save();
   }
 }
+
+function update_cdx_naics_profile($profile) {
+  $response = [
+    'error' => false,
+    'error-messages' => [],
+    'data' => null,
+  ];
+
+  if (isset($profile)) {
+
+    global $user;
+    //$existing = user_load($user->uid);
+    $existing = user_load($user->uid);
+    $response['data'] = ['profile' => $profile];
+
+    $edit = [];
+    if (!is_string($profile)) {
+      $profile = json_encode($profile);
+    }
+    $edit['field_cdx_naics_settings']['und'][0]['value'] = $profile;
+
+    // save existing user
+
+    if (!user_save($existing, $edit)) {
+      $response['error'] = true;
+      $response['error-messages'][] = 'There was a problem while trying to save';
+    }
+  }
+  else {
+    $response['error'] = true;
+    $response['error-messages'][] = 'Missing profile value in the post data';
+  }
+  echo json_encode($response);
+}
+
 
