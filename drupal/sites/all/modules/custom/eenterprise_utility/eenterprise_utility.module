@@ -235,7 +235,7 @@ function perform_user_login($response_output, $issuer) {
     $authenticated_user->set_user($user);
     //Update account specific usernames
     if (module_exists("linked_accounts")) {
-      linked_accounts_save_authenticated_user($authenticated_user->source_username, $authenticated_user->authentication_domain);
+      linked_accounts_save_authenticated_user($authenticated_user->get_name(), $authenticated_user->get_authentication_domain());
     }
     // Always grant SSO user from SCS/CDX/NAAS Eactivity role permission
     $authenticated_user->add_role('eactivity_dataflows');

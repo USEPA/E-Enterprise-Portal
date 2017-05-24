@@ -68,6 +68,10 @@ class AuthenticatedUser {
     return $this->name;
   }
 
+  function get_authentication_domain() {
+    return $this->authentication_domain;
+  }
+
 
 
   function resolve_username_collisions($username) {
