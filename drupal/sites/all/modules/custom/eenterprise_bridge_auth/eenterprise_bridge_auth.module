@@ -91,8 +91,11 @@ function eenterprise_bridge_auth_menu() {
 }
 
 function eenterprise_bridge_auth_menu_alter(&$items) {
-  $items['user/logout']['page arguments'] = array($items['user/logout']['page callback'], $items['user/logout']['page arguments']);
-  $items['user/logout']['page callback'] = 'enterprise_bridge_auth_logout_page_callback';
+  global $conf;
+  if (!(isset($conf['env']) && $conf['env'] == 'local')) {
+    $items['user/logout']['page arguments'] = array($items['user/logout']['page callback'], $items['user/logout']['page arguments']);
+    $items['user/logout']['page callback'] = 'enterprise_bridge_auth_logout_page_callback';
+  }
 }
 
 function enterprise_bridge_auth_logout_page_callback($original_page_callback, $original_page_arguments) {
