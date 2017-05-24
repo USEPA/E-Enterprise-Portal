@@ -8,6 +8,7 @@ files[] = eenterprise_bridge_auth.classes.inc
 files[] = eenterprise_bridge_auth.identity-providers.inc
 files[] = classes/adfsbridge.php
 files[] = classes/adfsuserdetails.php
+files[] = classes/AuthenticatedUser.php
 files[] = conf/adfsconf.php
 
 ; Information added by drupal.org packaging script on 2013-08-30

@@ -50,3 +50,19 @@ function site_deployment_update_7603(){
   drupal_flush_all_caches();
 }
 
+
+/** 
+ * Add new roles 
+ */
+function site_deployment_update_7604() {
+  $roles = array('logged_in_user');
+
+  foreach($roles as $name) {
+    $existing_role = user_role_load_by_name($name);
+    if (empty($existing_role)) {
+      $role = new stdClass();
+      $role->name = $name;
+      user_role_save($role);
+    }
+  }
+}
