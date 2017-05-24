@@ -51,8 +51,8 @@ function site_deployment_update_7603(){
 }
 
 
-/** 
- * Add new roles 
+/**
+ * Add new roles
  */
 function site_deployment_update_7604() {
   $roles = array('logged_in_user');
@@ -65,4 +65,11 @@ function site_deployment_update_7604() {
       user_role_save($role);
     }
   }
+}
+
+/**
+ * Add new roles
+ */
+function site_deployment_update_7605() {
+  module_enable(['bulk_role_management']);
 }

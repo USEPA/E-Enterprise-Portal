@@ -1,0 +1,189 @@
+<?php
+/**
+ * @file
+ * Main module file.
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function bulk_role_management_permission() {
+  $permissions = array(
+    'administer bulk_role_management' => array(
+      'title' => t('Administer Bulk Role Management'),
+    ),
+  );
+  return $permissions;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function bulk_role_management_menu() {
+  $items['admin/config/people/bulk_role_management'] = array(
+    'title' => 'Bulk Role Management',
+    'description' => 'Allows a site administrator to easily manage large '
+    . 'role tables.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bulk_role_management_form'),
+    'access arguments' => array('administer bulk_role_management'),
+  );
+  $items['admin/config/people/bulk_role_management/edit'] = array(
+    'title' => 'Edit Role Entities',
+    'description' => 'Edit multiple role entities.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bulk_role_management_edit_form'),
+    'access arguments' => array('administer bulk_role_management'),
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_form().
+ */
+function bulk_role_management_edit_form($form, &$form_state) {
+  if (isset($form_state['storage']) && $form_state['storage']['ask_confirm']) {
+    $question = t("Are you sure you want to delete the select entities?");
+    $path = '/admin/config/people/bulk_role_management/edit';
+    $description = t("This cannot be undone.");
+    $yes = t("Confirm");
+    $no = t("Cancel");
+    return confirm_form($form, $question, $path, $description, $yes, $no);
+  }
+  else {
+    $form = array();
+    $header = array(
+      'title' => t('Role Entity'),
+      'rename' => t('Rename Entity'),
+      'permissions' => t('Manage Permissions'),
+    );
+    $query = db_select('role', 'r');
+    $query
+      ->condition('rid', 1, '<>')
+      ->condition('rid', 2, '<>')
+      ->condition('rid', 3, '<>')
+      ->fields('r', array('rid', 'name'))
+      ->orderBy('name', 'ASC');
+    $result = $query->execute();
+    if ($result->rowCount() > 0) {
+      foreach ($result as $record) {
+        if ($record->rid != 1 && $record->rid != 2 && $record->rid != 3) {
+          $options[$record->rid] = array(
+            'title' => $record->name,
+            'rename' => '<a href="/admin/people/permissions/roles/edit/'
+            . $record->rid . '?destination=/admin/config/people/bulk_role_management/'
+            . 'edit">rename</a>',
+            'permissions' => '<a href="/admin/people/permissions/' .
+            $record->rid . '?destination=/admin/config/people/bulk_role_management'
+            . '/edit">permissions</a>',
+          );
+        }
+      }
+    }
+    elseif (!isset($options)) {
+      $options = array();
+    }
+    $form['item'] = array(
+      '#type' => 'tableselect',
+      '#header' => $header,
+      '#options' => $options,
+      '#empty' => t('No content available.'),
+    );
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Delete Selected'),
+    );
+    return $form;
+  }
+}
+
+/**
+ * Implements hook_form_submit().
+ */
+function bulk_role_management_edit_form_submit($form, &$form_state) {
+
+  if ($form_state['values']['op'] == t('Delete Selected')) {
+    foreach ($form['item']['#value'] as $rid) {
+      user_role_delete((int) $rid);
+    }
+    $form_state['rebuild'] = TRUE;
+    $form_state['storage']['ask_confirm'] = TRUE;
+  }
+  elseif (isset($form_state['values']['confirm'])
+      && $form_state['values']['confirm']
+  ) {
+    drupal_set_message(t("The selected role entities have been deleted."));
+  }
+}
+
+/**
+ * Implements hook_form().
+ */
+function bulk_role_management_form($form_state) {
+  $form = array();
+  $form['brm_main'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Add bulk role entities'),
+    '#description' => t('Copy and paste your role entities here. One per line!'),
+    '#default_value' => '',
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_form_submit().
+ */
+function bulk_role_management_form_submit($form, &$form_state) {
+  drupal_set_message(t('Entities successfully imported!'));
+  $entities = explode("\n", $form_state['values']['brm_main']);
+
+  foreach ($entities as $value) {
+    try {
+      $role = new stdClass();
+      $role->name = $value;
+      user_role_save($role);
+    }
+    catch (Exception $e) {
+      drupal_set_message(t('Duplicate role entity: '.$role->name),'error');
+    }
+  }
+}
+
+/**
+ * Implements hook_help().
+ */
+function bulk_role_management_help($path, $arg) {
+  $main_menu = t('<h1>Bulk Options: <a href="/admin/config/people/'
+      . 'bulk_role_management">Add</a> | <a href="/admin/config/people/'
+      . 'bulk_role_management/edit">Delete/Edit</a></h1>');
+  switch ($path) {
+    case 'admin/config/people/bulk_role_management':
+        $page_menu = $main_menu . t("<p>Use this form to add role entities to "
+        . "Drupal's role table. Once added, you will be able to set "
+        . "permissions for each role entity or use Views Bulk Operations to "
+        . "set multiple permissions for multiple roles. To remove a mass "
+        . "amount of role entities, click \"<a href=\"/admin/config/people/"
+        . "bulk_role_management/edit\">Delete/Edit</a>\" to remove one or "
+        . "more entities from the roles table. For safety, the "
+        . "\"administrator\" and \"authenticated\" roles cannot be 
+          deleted from your system. Doing so will cause operational 
+          problems for Drupal.</p>");
+      drupal_set_message(
+            t('<strong>NOTE:</strong> One role entity per line!'), 'warning');
+      break;
+
+    case 'admin/config/people/bulk_role_management/edit':
+        $page_menu = $main_menu . t('<p>Select one or more role entities below '
+        . 'to delete. If you\'d like to edit an individual role entity, '
+        . 'simple click on the "edit" link to the corresponding entity.</p>');
+      break;
+
+    default: $page_menu = '';
+  }
+  return $page_menu;
+}

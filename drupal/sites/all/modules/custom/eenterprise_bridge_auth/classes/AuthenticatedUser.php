@@ -3,16 +3,18 @@
 /**
  * Class AuthenticatedUser
  *  Uses UserDetails object or blank array to initialize.
+ *
  */
 class AuthenticatedUser {
+  private $name;
+  private $user;
+  private $authentication_domain = null;
+
   var $issuer;
   var $userDetails;
   var $authentication_method;
-  var $authentication_domain = null;
   var $piv_card = FALSE;
-  var $user;
   var $public_user = TRUE;
-  var $name;
   var $source_username;
 
   function __construct($userDetails) {
