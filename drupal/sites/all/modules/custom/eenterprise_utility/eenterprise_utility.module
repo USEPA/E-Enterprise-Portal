@@ -141,9 +141,6 @@ function _return_array_uppercase($array, $array_of_keys = []) {
  */
 function eenterprise_utility_node_view($node, $view_mode, $langcode) {
 
-  $_POST = array(); //workaround for broken PHPstorm
-  parse_str(file_get_contents('php://input'), $_POST);
-
   $sso_post = _return_array_uppercase($_POST, ['TOKEN', 'CDX_DATA', 'SCS_DATA']);
   if (!isset($sso_post['TOKEN'])) {
     return;
