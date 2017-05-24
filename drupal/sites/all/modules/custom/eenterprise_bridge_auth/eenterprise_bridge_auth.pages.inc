@@ -165,7 +165,7 @@ function eenterprise_bridge_auth_authenticate($error) {
     $_SESSION['userId'] = $authenticated_user->userDetails->attributes['userId'][0];
     $_SESSION['login_timestamp'] = time();
     if (module_exists("linked_accounts")) {
-      linked_accounts_save_authenticated_user($authenticated_user->name, $authenticated_user->authentication_domain);
+      linked_accounts_save_authenticated_user($authenticated_user->get_name(), $authenticated_user->get_authentication_domain());
     }
   }
   drupal_goto('workbench');
