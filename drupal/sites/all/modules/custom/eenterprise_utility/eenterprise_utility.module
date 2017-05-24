@@ -240,7 +240,6 @@ function perform_user_login($response_output, $issuer) {
     // Always grant SSO user from SCS/CDX/NAAS Eactivity role permission
     $authenticated_user->add_role('eactivity_dataflows');
     $authenticated_user->add_role('logged_in_user');
-
   }
 }
 

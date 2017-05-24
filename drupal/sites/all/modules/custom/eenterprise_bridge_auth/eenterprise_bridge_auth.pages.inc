@@ -146,10 +146,6 @@ function eenterprise_bridge_auth_authenticate($error) {
       if ($authenticated_user->public_user) {
         $authenticated_user->add_role('Public User');
       }
-      else {
-        $authenticated_user->add_role('eactivity_dataflows');
-      }
-      $authenticated_user->add_role('logged_in_user');
     }
   }
   else {
@@ -167,7 +163,9 @@ function eenterprise_bridge_auth_authenticate($error) {
     if (module_exists("linked_accounts")) {
       linked_accounts_save_authenticated_user($authenticated_user->get_name(), $authenticated_user->get_authentication_domain());
     }
+    $authenticated_user->add_role('eactivity_dataflows');
   }
+  $authenticated_user->add_role('logged_in_user');
   drupal_goto('workbench');
 }
 
