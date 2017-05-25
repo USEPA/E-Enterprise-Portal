@@ -11,18 +11,12 @@
  * @ingroup views_templates
  */
 
-
-drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
-drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/cdx_facility_management.css", ['preprocess' => true, 'group' => CSS_DEFAULT]);
-
 drupal_add_library('system', 'ui.accordion');
 
 $cdx_facility_source = variable_get('cdx_facility_resource_url');
 drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/jquery.validate1.12.0.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
 drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/v3/js/ElementGroupDisplay.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
-
 drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/jquery-fancybox/jquery.fancybox.css", ['preprocess' => true, 'group' => CSS_SYSTEM]);
-
 drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/jquery.blockUI.1.7.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
 drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . '/js/handlebars-v3.0.3.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
 
@@ -34,12 +28,14 @@ drupal_add_css('https://js.arcgis.com/3.13/esri/css/esri.css', 'external');
 // Set load to JS_THEME because this needs to be loaded with themes items after libraries have been loaded
 
 drupal_add_js('//js.arcgis.com/3.13/init.js', ['requires_jquery' => TRUE, 'scope' => 'footer', 'type' => 'external', 'group' => JS_DEFAULT]);
-drupal_add_css($cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementStyles.css', 'external');
+drupal_add_css($cdx_facility_source . '/FacilityManagement/FacilityWidget/FacilityManagementStyles.css', 'external');
+echo '<!--[if IE 8]><link rel="stylesheet" href="' . $cdx_facility_source . '/FacilityManagement/FacilityWidget/FacilityManagementStyles-ie8.css"><![endif]-->';
+drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/FacilityManagement/FacilityWidget/src/FacilityManagementWidget.js', ['requires_jquery' => TRUE, 'scope' => 'footer', 'type' => 'external', 'group' => JS_DEFAULT]);
 
-echo '<!--[if IE 8]><link rel="stylesheet" href="' . $cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementStyles-ie8.css"><![endif]-->';
 
-drupal_add_js($cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementTemplates.min.js', ['requires_jquery' => TRUE, 'scope' => 'footer', 'type' => 'external', 'group' => JS_DEFAULT]);
-drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js', ['requires_jquery' => TRUE, 'scope' => 'footer', 'type' => 'external']);
+drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
+drupal_add_css(drupal_get_path('module', 'cdx_facility_management') . "/css/cdx_facility_management.css", ['preprocess' => true, 'group' => CSS_DEFAULT]);
+
 ?>
 
 <div id="cdx-logged-in-options">

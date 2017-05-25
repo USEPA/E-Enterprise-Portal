@@ -126,8 +126,6 @@ function enterprise_bridge_auth_logout_page_callback($original_page_callback, $o
 }
 
 /**
-
-/**
  * Implements hook_permission().
  */
 function eenterprise_bridge_auth_permission() {
@@ -177,6 +175,7 @@ function eenterprise_bridge_auth_block_info() {
   $blocks['eenterprise_bridge_auth'] = array(
     'info' => t('User login (E-Enterprise Bridge)'),
   );
+  $blocks['cache'] = DRUPAL_CACHE_GLOBAL;
   return $blocks;
 }
 
@@ -283,7 +282,6 @@ function _eenterprise_bridge_auth_get_authmap($identifier) {
 }
 
 
-
 /**
  * Takes deep handoff CDX APP URL and generates a SSO link to the app, bypassing
  * login in CDX
@@ -296,7 +294,7 @@ function sso_handoff_url() {
   //clean any dangerous strings
   if (isset($_GET['handoff_data'])) {
     $hand_off_url = $cdx_root_path . "/SilentHandoff/DeepHandoff?data=" . urlencode(xssafe($_GET['handoff_data']));
-  } 
+  }
 
   // Init drupal cache
   $data = &drupal_static(__FUNCTION__);
@@ -307,11 +305,11 @@ function sso_handoff_url() {
   if (!$user_id) {
     drupal_goto($cdx_root_path);
   }
-  
+
   $ip = $_SERVER['SERVER_ADDR'];
   $token = null;
 
- // Check cache
+  // Check cache
   if (!isset($data)) {
     $cache_key = 'single_sign_on|' . $user_id . '|token';
     $cache = cache_get($cache_key);
@@ -321,7 +319,8 @@ function sso_handoff_url() {
       // try cache first
       // @see https://www.lullabot.com/articles/a-beginners-guide-to-caching-data-in-drupal-7
       $token = $cache->data;
-    } else {
+    }
+    else {
       $wsdl = variable_get('cdx_facility_naas_wsdl');
       // Initialize connection with client
       $client = connectToSOAPServerWithWSDL($wsdl, "CDX Facility Management");
@@ -355,7 +354,8 @@ function sso_handoff_url() {
     // If token failed, just send to deep link handoff.
     // They will have to login the first time.
     drupal_goto($hand_off_url);
-  } else {
+  }
+  else {
     drupal_goto(encode_handoff($token, $hand_off_url));
   }
 }
@@ -367,7 +367,8 @@ function encode_handoff($token, $hand_off_url = '') {
   $sso_token_param = base64_encode($sso_token_param);
   if ($hand_off_url !== '') {
     return variable_get('cdx_facility_resource_url') . '/SilentHandoff/NaasTokenSSO?ssoToken=' . $sso_token_param . '&returnUrl=' . urlencode($hand_off_url);
-  } else {
+  }
+  else {
     return variable_get('cdx_facility_resource_url') . '/SilentHandoff/NaasTokenSSO?ssoToken=' . $sso_token_param;
   }
 }

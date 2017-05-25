@@ -8,17 +8,17 @@
  * Implements hook_menu().
  */
 function ee_disclaimer_menu() {
-    $items = array();
+  $items = array();
 
-    $items['ee_disclaimer'] = array(
-        'page callback' => 'ee_disclaimer_callback',
-        'page arguments' => array(1),
-        'access callback' => TRUE,
-        'type' => MENU_CALLBACK,
-        'title' => 'User Agreement',
-    );
+  $items['ee_disclaimer'] = array(
+    'page callback' => 'ee_disclaimer_callback',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'title' => 'User Agreement',
+  );
 
-    return $items;
+  return $items;
 }
 
 /**
@@ -26,15 +26,15 @@ function ee_disclaimer_menu() {
  * @param $items
  */
 function ee_disclaimer_menu_alter(&$items) {
-    $items['workbench']['page arguments'] = array($items['workbench']['page callback'], $items['workbench']['page arguments']);
-    $items['workbench']['page callback'] = 'ee_disclaimer_workbench_page_callback';
+  $items['workbench']['page arguments'] = array($items['workbench']['page callback'], $items['workbench']['page arguments']);
+  $items['workbench']['page callback'] = 'ee_disclaimer_workbench_page_callback';
 }
 
 // wrap workbench page callback to see if disclaimer needs to be shown instead
 function ee_disclaimer_workbench_page_callback($original_page_callback, $original_page_arguments) {
 
-    if (_show_ee_disclaimer()) { // need to show disclaimer
-        drupal_goto('/ee_disclaimer');
+  if (_show_ee_disclaimer()) { // need to show disclaimer
+    drupal_goto('/ee_disclaimer');
     } else {
         return call_user_func($original_page_callback, $original_page_arguments[0]);
     }
@@ -45,117 +45,117 @@ function ee_disclaimer_workbench_page_callback($original_page_callback, $origina
  */
 function ee_disclaimer_callback() {
 
-    $out = views_embed_view('ee_user_agreement', 'block');
+  $out = views_embed_view('ee_user_agreement', 'block');
 
-    if (_show_ee_disclaimer())
-        $out .= render(drupal_get_form('ee_disclaimer_form'));
+  if (_show_ee_disclaimer())
+    $out .= render(drupal_get_form('ee_disclaimer_form'));
 
-    return $out;
+  return $out;
 }
 
 function ee_disclaimer_form($form, &$form_state) {
 
-    $form['agree'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('I agree to these terms of use'),
-    );
+  $form['agree'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('I agree to these terms of use'),
+  );
 
-    $form['#submit'][] = 'ee_disclaimer_form_submit';
-    $form['#validate'][] = 'ee_disclaimer_form_validation';
+  $form['#submit'][] = 'ee_disclaimer_form_submit';
+  $form['#validate'][] = 'ee_disclaimer_form_validation';
 
-    $form['submit_button'] = array(
-        '#type' => 'submit',
-        '#value' => t('Continue'),
-    );
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Continue'),
+  );
 
-    return $form;
+  return $form;
 }
 
 function ee_disclaimer_form_submit($form, &$form_state) {
 
-    global $user;
+  global $user;
 
-    if($user->uid == 0) {
-        drupal_goto('/');
-    }
-    else if ($user->name == 'guest-user') {
-        $_SESSION['guest-user-signed-agreement'] = TRUE;
+  if ($user->uid == 0) {
+    drupal_goto('/');
+  }
+  else if ($user->name == 'guest-user') {
+    $_SESSION['guest-user-signed-agreement'] = TRUE;
     } else {
-        $user_data = user_load($user->uid);
+    $user_data = user_load($user->uid);
 
-        $agreed = $user_data->field_terms_of_use_agreed;
-        $agreed[LANGUAGE_NONE][] = array(
-            'field_date_signed' => array(
-                LANGUAGE_NONE => array(
-                    0 => array('value' => time())
-                )
-            ),
-            'field_agreement_node_id' => array(
-                LANGUAGE_NONE => array(
-                    0 => array('value' => _ee_disclaimer_latest_node()->nid)
-                )
-            ),
-        );
+    $agreed = $user_data->field_terms_of_use_agreed;
+    $agreed[LANGUAGE_NONE][] = array(
+      'field_date_signed' => array(
+        LANGUAGE_NONE => array(
+          0 => array('value' => time())
+        )
+      ),
+      'field_agreement_node_id' => array(
+        LANGUAGE_NONE => array(
+          0 => array('value' => _ee_disclaimer_latest_node()->nid)
+        )
+      ),
+    );
 
-        $edit = array('field_terms_of_use_agreed' => $agreed);
+    $edit = array('field_terms_of_use_agreed' => $agreed);
 
-        user_save($user_data, $edit);
-    }
+    user_save($user_data, $edit);
+  }
 
-    drupal_goto('/workbench');
+  drupal_goto('/workbench');
 }
 
 function ee_disclaimer_form_validation($form, &$form_state) {
-    $agree = $form_state['values']['agree'];
-    if (empty($agree)) {
-        form_set_error('email', t('You must agree to continue.'));
-    }
+  $agree = $form_state['values']['agree'];
+  if (empty($agree)) {
+    form_set_error('email', t('You must agree to continue.'));
+  }
 }
 
 function _ee_disclaimer_latest_node() {
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'node')
-        ->entityCondition('bundle', 'ee_user_agreement')
-        ->propertyCondition('status', 1)
-        ->propertyOrderBy('created', 'DESC')
-        ->range(0, 1);
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ee_user_agreement')
+    ->propertyCondition('status', 1)
+    ->propertyOrderBy('created', 'DESC')
+    ->range(0, 1);
 
-    $result = $query->execute();
+  $result = $query->execute();
 
-    return node_load(end($result['node'])->nid);
+  return node_load(end($result['node'])->nid);
 }
 
 function _ee_disclaimer_last_modified() {
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'node')
-        ->entityCondition('bundle', 'ee_user_agreement')
-        ->propertyCondition('status', 1)
-        ->propertyOrderBy('created', 'DESC')
-        ->range(0, 1);
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ee_user_agreement')
+    ->propertyCondition('status', 1)
+    ->propertyOrderBy('created', 'DESC')
+    ->range(0, 1);
 
-    $result = $query->execute();
+  $result = $query->execute();
 
-    return node_load(end($result['node'])->nid)->changed;
+  return node_load(end($result['node'])->nid)->changed;
 }
 
 /**
  * Implements hook_theme_registry_alter().
  */
 function ee_disclaimer_theme_registry_alter(&$theme_registry) {
-    // Defined path to the current module.
-    $module_path = drupal_get_path('module', 'ee_disclaimer');
-    // Find all .tpl.php files in this module's folder recursively.
-    $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
-    // Iterate through all found template file objects.
-    foreach ($template_file_objects as $key => $template_file_object) {
-        // If the template has not already been overridden by a theme.
-        if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
-            // Alter the theme path and template elements.
-            $theme_registry[$key]['theme path'] = $module_path;
-            $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
-            $theme_registry[$key]['type'] = 'module';
-        }
+  // Defined path to the current module.
+  $module_path = drupal_get_path('module', 'ee_disclaimer');
+  // Find all .tpl.php files in this module's folder recursively.
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  // Iterate through all found template file objects.
+  foreach ($template_file_objects as $key => $template_file_object) {
+    // If the template has not already been overridden by a theme.
+    if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
+      // Alter the theme path and template elements.
+      $theme_registry[$key]['theme path'] = $module_path;
+      $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+      $theme_registry[$key]['type'] = 'module';
     }
+  }
 }
 
 /**
@@ -163,19 +163,18 @@ function ee_disclaimer_theme_registry_alter(&$theme_registry) {
  * @return bool
  */
 function _show_ee_disclaimer() {
-    global $user;
-    if($user->uid == 0) {
-        return FALSE;
-    }
-    $user_data = user_load($user->uid);
+  global $user;
+  if ($user->uid == 0) {
+    return FALSE;
+  }
+  $user_data = user_load($user->uid);
 
-    if ($user->name === 'guest-user') {
-        return $_SESSION['guest-user-signed-agreement'] !== TRUE;
-//    return TRUE;
-    }
+  if ($user->name === 'guest-user') {
+    return $_SESSION['guest-user-signed-agreement'] !== TRUE;
+  }
 
-    $disclaimer_last_modified = _ee_disclaimer_last_modified();
-    $user_agreed_date = end($user_data->field_terms_of_use_agreed[LANGUAGE_NONE])['field_date_signed'][LANGUAGE_NONE][0]['value'];
+  $disclaimer_last_modified = _ee_disclaimer_last_modified();
+  $user_agreed_date = end($user_data->field_terms_of_use_agreed[LANGUAGE_NONE])['field_date_signed'][LANGUAGE_NONE][0]['value'];
 
-    return $disclaimer_last_modified > $user_agreed_date ;
+  return $disclaimer_last_modified > $user_agreed_date;
 }

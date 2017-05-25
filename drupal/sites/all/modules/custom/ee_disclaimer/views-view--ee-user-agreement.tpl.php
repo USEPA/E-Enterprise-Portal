@@ -26,6 +26,4 @@
  *
  * @ingroup views_templates
  */
-
-//echo preg_replace('\<a(.*)href="/node', '', $rows);
 echo preg_replace('/<h2.*<\/h2>/','',$rows);

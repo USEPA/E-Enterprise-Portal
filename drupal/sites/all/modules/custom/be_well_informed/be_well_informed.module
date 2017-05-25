@@ -42,6 +42,7 @@ function be_well_informed_block_info() {
   $blocks['be_well_informed'] = array(
     'info' => t('Be Well Informed Block'),
   );
+  $blocks['cache'] = DRUPAL_CACHE_GLOBAL;
   return $blocks;
 }
 
@@ -104,17 +105,6 @@ function generate_state_form() {
     ));
     return;
   }
-
-  // Render the form theme for to be delivered to the front-end
-  /*$options = [
-    '#theme' => 'be_well_informed_modal_state_form',
-    '#pre_render'=> [
-      'be_well_informed_preprocess',
-      //'template_preprocess_be_well_informed_pdf'
-    ],
-    '#state_xml' => $_POST['state_xml']
-  ];*/
-  //$rendered_html = drupal_render($options);
   $rendered_html = theme('be_well_informed_modal_state_form', ['state_xml'=>$_POST['state_xml']]);
   echo $rendered_html;
 }
@@ -198,9 +188,6 @@ function be_well_informed_block_view($delta = '') {
         'cache' => TRUE,
         'requires_jquery' => TRUE
       ]);
-      //If installed in own installation, include jQuery Tabs JS
-      //drupal_add_js("sites/all/libraries/jqueryui/ui/minified/jquery.ui.tabs.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-      //drupal_add_css(libraries_get_path('jqueryui') . "/themes/base/jquery.ui.tabs.css", "file");
       drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
