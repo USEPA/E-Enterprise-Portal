@@ -60,7 +60,7 @@ $color_ecstasy_approx: #ff851b;
     margin-right: 1%;
 }
 
-.ui-dialog.be-well-informed-modal {
+.ui-dialog.be-well-informed-modal-state-form {
     &.ui-dialog {
         overflow: visible;
 
@@ -75,7 +75,7 @@ $color_ecstasy_approx: #ff851b;
     }
 }
 
-#be-well-informed-modal {
+#be-well-informed-modal-state-form {
     .navigation-tabs,
     .bwi-resources-list {
         margin: 0;
@@ -733,7 +733,7 @@ $color_ecstasy_approx: #ff851b;
         }
         p {
             margin: 0 30px;
-            line-height: 1.4;          
+            line-height: 1.4;
             &.bwi-support-intro {
                 margin-top: 20px;
             }
@@ -755,13 +755,37 @@ $color_ecstasy_approx: #ff851b;
       float:right;
     }
 }
+#bwi-state-selection {
+    label {
+        font-weight: 700;
+        font-size: 1.1em;
+    }
+}
+#bwi-state {
+    width:100%;
+}
+.powered-by-nhbwi {
+    //text-align: right;
+}
+html body.admin-menu {
+    margin-top: 0 !important;
+    #admin-menu {
+        display: block;
+    }
+    .beta-ribbon:after {
+        display: none;
+    }
+}
+.messages--error.messages.error.workbench-zipcode-error {
+    display: none;
+}
 .clearfix:after {
     display: table;
     line-height: 0;
 }
 
 @media screen and (min-width: 48em) {
-    #be-well-informed-modal {
+    #be-well-informed-modal-state-form {
 
         #be-well-informed-results-wrapper {
             .one-half {
@@ -818,8 +842,7 @@ $color_ecstasy_approx: #ff851b;
 }
 
 @media screen and (min-width: 60em) {
-
-    #be-well-informed-modal {
+    #be-well-informed-modal-state-form {
         #be-well-informed-results-wrapper {
             .one-half {
                 width: 50%;

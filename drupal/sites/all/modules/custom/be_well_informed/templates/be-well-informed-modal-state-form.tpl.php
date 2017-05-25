@@ -2,7 +2,7 @@
   <div id="bwi-tabs">
     <ul class="navigation-tabs">
       <li><a href="#entry-results" id="entry-tab">Entry</a></li>
-      <li><a href="#support-info">Support and Information</a></li>
+      <li><a href="#support-info">State/Tribe Resources</a></li>
     </ul>
     <div id="entry-results">
       <div id="be-well-informed-form-wrapper"
@@ -22,16 +22,15 @@
               <div class="city-selection usa-width-one-half">
                 <div class="section">
                   <label class="column one-half"
-                         for="drpcity">New Hampshire /
-                    City</label>
-                  <select class="column one-half right"
+                         for="drpcity"></label>
+                  <!--<select class="column one-half right"
                           name="CityName" id="drpcity"
                           required="">
                     <option value="">Select a City</option>
-                    <?php foreach ($cities as $c): ?>
-                      <option value="<?php echo $c ?>"><?php echo $c ?></option>
-                    <?php endforeach; ?>
-                  </select>
+                    <?php /*foreach ($cities as $c): */?>
+                      <option value="<?php /*echo $c */?>"><?php /*echo $c */?></option>
+                    <?php /*endforeach; */?>
+                  </select>-->
                 </div>
               </div>
     
@@ -168,9 +167,7 @@
           </div>
           <div id="interactive-prompts"></div>
           <div class="row usa-width-one-whole reset-submit">
-            <div class="column">
-              <span class="be-well-inform-source">Source: <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank">NHDES Be <em>Well</em> Informed Guide</a></span>
-            </div>
+            <div class="column"></div>
             <div class="column right">
               <button id="water_analysis_reset"
                       class="usa-button usa-button-outline" type="button">Reset
@@ -352,7 +349,7 @@
       </div><!-- @end .be-well-informed-results-wrapper -->
     </div><!-- @end #entry-results tab pane -->
     <div id="support-info">
-          <h3>Support and Information</h3>
+          <h3>State/Tribe Resources</h3>
           <div class="bwi-support-box">
               <h4>Phone Support</h4>
               <p class="bwi-support-intro">For telephone support please contact the NH Department of Environmental Service’s Drinking Water and Groundwater Bureau:</p>              
