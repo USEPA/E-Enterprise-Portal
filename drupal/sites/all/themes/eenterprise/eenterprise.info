@@ -35,11 +35,11 @@ regions[page_top]       = Page top
 regions[page_bottom]    = Page bottom
 
 ; SCRIPTS
+scripts[] = ../../libraries/jqueryui/ui/minified/jquery-ui.min.js
 scripts[] = js/script.js
 scripts[] = js/mobile-menu.js
 scripts[] = js/drop-down-menu.js
 scripts[] = js/eenterprise_utility.js
-scripts[] = ../../libraries/jqueryui/ui/minified/jquery-ui.min.js
 scripts[] = js/bootstrap.tooltip.js
 
 ; FEATURES

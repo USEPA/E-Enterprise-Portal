@@ -113,27 +113,18 @@ function construction_permits_block_view($delta = '') {
       ]);
       drupal_add_js(drupal_get_path('module', 'construction_permits') . '/js/parsley.js', [
         'scope' => 'footer',
-        'preprocess' => TRUE,
         'group' => JS_LIBRARY,
         'type' => 'file',
-        'cache' => TRUE,
-        'requires_jquery' => TRUE
       ]);
       drupal_add_js(drupal_get_path('module', 'construction_permits') . '/js/moment.js', [
         'scope' => 'footer',
-        'preprocess' => TRUE,
         'group' => JS_LIBRARY,
         'type' => 'file',
-        'cache' => TRUE,
-        'requires_jquery' => TRUE
       ]);
       drupal_add_js(drupal_get_path('module', 'construction_permits') . '/js/construction_permits.js', [
         'scope' => 'footer',
-        'preprocess' => TRUE,
         'group' => JS_DEFAULT,
         'type' => 'file',
-        'cache' => TRUE,
-        'requires_jquery' => TRUE
       ]);
       drupal_add_css(drupal_get_path('module', 'construction_permits') . '/css/construction_permits.css', [
         'preprocess' => TRUE,
