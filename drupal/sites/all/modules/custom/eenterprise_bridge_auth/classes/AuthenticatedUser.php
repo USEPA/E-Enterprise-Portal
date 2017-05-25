@@ -9,13 +9,13 @@ class AuthenticatedUser {
   private $name;
   private $user;
   private $authentication_domain = null;
+  private $source_username;
 
   var $issuer;
   var $userDetails;
   var $authentication_method;
   var $piv_card = FALSE;
   var $public_user = TRUE;
-  var $source_username;
 
   function __construct($userDetails) {
     if ($userDetails != []) {
@@ -66,6 +66,10 @@ class AuthenticatedUser {
 
   function get_name() {
     return $this->name;
+  }
+
+  function get_source_username() {
+    return $this->source_username;
   }
 
   function get_authentication_domain() {

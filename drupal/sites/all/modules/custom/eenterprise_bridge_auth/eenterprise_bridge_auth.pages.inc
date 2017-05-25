@@ -161,7 +161,7 @@ function eenterprise_bridge_auth_authenticate($error) {
     $_SESSION['userId'] = $authenticated_user->userDetails->attributes['userId'][0];
     $_SESSION['login_timestamp'] = time();
     if (module_exists("linked_accounts")) {
-      linked_accounts_save_authenticated_user($authenticated_user->get_name(), $authenticated_user->get_authentication_domain());
+      linked_accounts_save_authenticated_user($authenticated_user->get_source_username(), $authenticated_user->get_authentication_domain());
     }
     $authenticated_user->add_role('eactivity_dataflows');
   }
