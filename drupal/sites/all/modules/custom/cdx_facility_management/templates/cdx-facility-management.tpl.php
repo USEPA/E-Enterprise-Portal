@@ -28,12 +28,9 @@ drupal_add_css('https://js.arcgis.com/3.13/esri/css/esri.css', 'external');
 // Set load to JS_THEME because this needs to be loaded with themes items after libraries have been loaded
 
 drupal_add_js('//js.arcgis.com/3.13/init.js', ['requires_jquery' => TRUE, 'scope' => 'footer', 'type' => 'external', 'group' => JS_DEFAULT]);
-drupal_add_css($cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementStyles.css', 'external');
-
-echo '<!--[if IE 8]><link rel="stylesheet" href="' . $cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementStyles-ie8.css"><![endif]-->';
-
-drupal_add_js($cdx_facility_source . '/ContentFramework/FRS%20Widget/FacilityManagementTemplates.min.js', ['requires_jquery' => TRUE, 'scope' => 'footer', 'type' => 'external', 'group' => JS_DEFAULT]);
-drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/ContentFramework/FRS%20Widget/src/FacilityManagementWidget.js', ['requires_jquery' => TRUE, 'scope' => 'footer', 'type' => 'external', 'group' => JS_DEFAULT]);
+drupal_add_css($cdx_facility_source . '/FacilityManagement/FacilityWidget/FacilityManagementStyles.css', 'external');
+echo '<!--[if IE 8]><link rel="stylesheet" href="' . $cdx_facility_source . '/FacilityManagement/FacilityWidget/FacilityManagementStyles-ie8.css"><![endif]-->';
+drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/FacilityManagement/FacilityWidget/src/FacilityManagementWidget.js', ['requires_jquery' => TRUE, 'scope' => 'footer', 'type' => 'external', 'group' => JS_DEFAULT]);
 
 
 drupal_add_js(drupal_get_path('module', 'cdx_facility_management') . "/js/cdx_facility_management.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);

@@ -40,6 +40,7 @@ function construction_permits_block_info() {
   $blocks['construction_permits'] = array(
     'info' => t('Construction General Permits Block'),
   );
+  $blocks['cache'] = DRUPAL_CACHE_GLOBAL;
   return $blocks;
 }
 
