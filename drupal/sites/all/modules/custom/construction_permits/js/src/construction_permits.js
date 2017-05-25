@@ -93,7 +93,8 @@ function create_search_results(search_results_json) {
     "iDisplayLength": 10,
     "processing": true,
     "language": {
-      "processing": ""
+      "processing": "",
+      "search": "Filter Permits"
     },
     "order": [[ 8, "desc" ]],
     "autoWidth": false,
