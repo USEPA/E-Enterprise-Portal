@@ -28,7 +28,7 @@ drupal_add_css('https://js.arcgis.com/3.13/esri/css/esri.css', 'external');
 // Set load to JS_THEME because this needs to be loaded with themes items after libraries have been loaded
 
 drupal_add_js('//js.arcgis.com/3.13/init.js', ['requires_jquery' => TRUE, 'scope' => 'footer', 'type' => 'external', 'group' => JS_DEFAULT]);
-drupal_add_css($cdx_facility_source . '/FacilityManagement/FacilityWidget/FacilityManagementStyles.css', 'external', ['scope' => 'footer']);
+drupal_add_css($cdx_facility_source . '/FacilityManagement/FacilityWidget/FacilityManagementStyles.css', ['type' => 'external', 'scope' => 'footer']);
 echo '<!--[if IE 8]><link rel="stylesheet" href="' . $cdx_facility_source . '/FacilityManagement/FacilityWidget/FacilityManagementStyles-ie8.css"><![endif]-->';
 drupal_add_js(str_replace('/FrsPhase2', '', $cdx_facility_source) . '/FacilityManagement/FacilityWidget/src/FacilityManagementWidget.js', ['requires_jquery' => TRUE, 'scope' => 'footer', 'type' => 'external', 'group' => JS_DEFAULT]);
 
