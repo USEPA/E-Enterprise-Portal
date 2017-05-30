@@ -8,12 +8,6 @@ function gridstack_menu() {
     'page callback' => 'update_user_gridstack_data',
     'access callback' => TRUE,
   );
-
-  $items['load_user_gridstack_data'] = array(
-    'page callback' => 'load_user_gridstack_data',
-    'access callback' => TRUE,
-  );
-
   return $items;
 }
 
@@ -22,11 +16,11 @@ function gridstack_page_build(&$page) {
   // Check if gridstack class is in markup
   if (isset($page['content']['system_main']['main']['#markup'])) {
     if (stripos($page['content']['system_main']['main']['#markup'], 'grid-stack')) {
+      drupal_add_js(['gridstack_user_settings' => load_user_gridstack_data()], 'setting');
       drupal_add_css(drupal_get_path('module', 'gridstack') . '/stylesheets/gridstack.css', ['preprocess' => true, 'group' => CSS_DEFAULT]);
       drupal_add_js(libraries_get_path('lodash') . '/lodash.min.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
       drupal_add_js(drupal_get_path('module', 'gridstack') . '/js/gridstack.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
       drupal_add_js(drupal_get_path('module', 'gridstack') . '/js/eportal_grid_engine.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
-
     }
   }
 }
@@ -51,13 +45,7 @@ function load_user_gridstack_data() {
       );
     }
   }
-  if (isset($_GET['json'])) {
-    echo json_encode($return_array);
-    exit();
-  }
-  else {
-    return $return_array;
-  }
+  return $return_array;
 }
 
 
@@ -127,7 +115,7 @@ function update_user_gridstack_data() {
       'field_gridstack_settings' => $user_grid_data
     );
     try {
-      user_save($user_data, $edit);
+    user_save($user_data, $edit);
     } catch (Exception $e) {
       exit();
     }
