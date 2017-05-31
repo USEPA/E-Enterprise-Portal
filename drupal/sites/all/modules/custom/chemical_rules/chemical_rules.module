@@ -750,6 +750,7 @@ function xmlstr_to_array($xmlstr) {
   $doc = new DOMDocument();
   $doc->loadXML($xmlstr);
   $root = $doc->documentElement;
+  $root = domnode_clean($root);
   $output = domnode_to_array($root);
   $output['@root'] = $root->tagName;
   return $output;
@@ -763,17 +764,29 @@ function domnode_to_array($node) {
       $output = trim($node->textContent);
       break;
     case XML_ELEMENT_NODE:
+      $is_array = false;
+      if($node->childNodes->length > 1 && $node->childNodes->item(0)->tagName == $node->childNodes->item(1)->tagName) {
+        $is_array = true;
+      }
       for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
         $child = $node->childNodes->item($i);
         $v = domnode_to_array($child);
-        if(isset($child->tagName)) {
+        if($is_array){
+          $output[] = $v;
+        }
+        else if(isset($child->tagName)) {
           $t = $child->tagName;
           if(!isset($output[$t])) {
             $output[$t] = array();
           }
-          $output[$t][] = $v;
+          if(is_array($v)) {
+            $output[$t] = array_merge($output[$t], $v);
+          }
+          else {
+            $output[$t][] = $v;
+          }
         }
-        elseif($v || $v === '0') {
+        else if($v || $v === '0') {
           $output = (string) $v;
         }
       }
@@ -797,6 +810,21 @@ function domnode_to_array($node) {
       break;
   }
   return $output;
+}
+
+function domnode_clean($node) {
+   for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
+    $child = $node->childNodes->item($i);
+    if($child->nodeType === 8 || ($child->nodeType === 3 && !preg_match('/\S/', $child->nodeValue))) {
+      $node->removeChild($child);
+      $m--;
+      $i--;
+    }
+    else if($child->nodeType === 1) {
+      domnode_clean($child);
+    }
+  }
+  return $node;
 }
 
 function get_chemical_response_cache($search_term){
