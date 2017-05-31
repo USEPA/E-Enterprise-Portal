@@ -11,28 +11,7 @@
     // Get the chosen state
     $state = $('#bwi-state').find('option:selected')
     if($state.val()){
-      $.ajax({
-        url: 'be_well_informed/get_state_information',
-        method: 'POST',
-        data: {
-          state: $state.val()
-        },
-        before: function() {
-          console.log('before: get_state_information')
-        },
-        success: function(response_xml) {
-          console.log('success get_state_information', response_xml);
-          // Prepare the raw XML to be used to create the content for the widget
-          //parser = new DOMParser();
-          //xmlDoc = parser.parseFromString(response_xml,"text/xml");
-          //xmlDoc = $.parseXML( response_xml )
-          //$xml = $( response_xml )
-          // Manage the income XML and make the result globally available
-          Drupal.settings.be_well_informed.state_xml = response_xml
-          //build_widget_state_info()
-          build_state_form()
-        }
-      })
+      build_state_form()
     }
 
   }
@@ -59,7 +38,7 @@
       url: 'be_well_informed/generate_state_form',
       method: 'POST',
       data: {
-        state_xml: 'test xml'
+        state: $state.val()
       },
       before: function() {
         console.log('before: generate_state_form')
@@ -88,9 +67,9 @@
               $('#bwi-tabs').tabs();
               var $form = $('#water_analysis_results_form');
               $form
-                /*.parsley({
-                  inputs: Parsley.options.inputs + ',[data-parsley-check-children]'
-                })*/
+              /*.parsley({
+               inputs: Parsley.options.inputs + ',[data-parsley-check-children]'
+               })*/
                 .on('field:validated', function() {
                   var ok = $('.parsley-error').length === 0;
                   $('.bs-callout-info').toggleClass('hidden', !ok);
@@ -125,14 +104,14 @@
             },
             close: function(event, ui) {
               /*sampleSetIndex = 0;
-              convertNulls = false;
-              $('#be-well-informed-results-table, #be-well-informed-result-details-table').dataTable({bDestroy: true}).fnDestroy();
-              $('#be-well-informed-results-table, #be-well-informed-result-details-table, #be-well-informed-results-table_wrapper, #be-well-informed-result-details-table_wrapper').remove();
-              $('#routine-contaminants, .or').removeClass('hide')
-              $('#interactive-prompts').html('')
-              $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
-              $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret').addClass('hide')
-              showElementOutOfMany($('#be-well-informed-form-wrapper'), $('.be-well-informed-modal-wrapper'));*/
+               convertNulls = false;
+               $('#be-well-informed-results-table, #be-well-informed-result-details-table').dataTable({bDestroy: true}).fnDestroy();
+               $('#be-well-informed-results-table, #be-well-informed-result-details-table, #be-well-informed-results-table_wrapper, #be-well-informed-result-details-table_wrapper').remove();
+               $('#routine-contaminants, .or').removeClass('hide')
+               $('#interactive-prompts').html('')
+               $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
+               $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret').addClass('hide')
+               showElementOutOfMany($('#be-well-informed-form-wrapper'), $('.be-well-informed-modal-wrapper'));*/
             }
           })
       }
