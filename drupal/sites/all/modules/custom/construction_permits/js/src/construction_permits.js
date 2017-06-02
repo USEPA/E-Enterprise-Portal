@@ -645,7 +645,7 @@ function reset_cgp_form() {
                 current_value = $tribes.val();
 
                 $options = cgp_reponse_json.reduce(function(p, c, i, a){
-                  p.push("<option value='"+ c[0].tribalName +"'>"+ c[0].tribalName +"</option>")
+                  p.push("<option value='"+ c.tribalName +"'>"+ c.tribalName +"</option>")
                   return p;
                 }, ["<option value=''>All</option>"])
 
