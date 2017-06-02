@@ -78,7 +78,7 @@ class AuthenticatedUser {
 
 
   function resolve_username_collisions($username) {
-    $issuer = $this->authentication_method;
+    $issuer = $this->authentication_domain;
     if ($issuer !== 'Exchange_Network') {
       // If username exists _Via_EXCHANGE, load that user and rename to _Via_$issuer
       $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username . '_Via_Exchange_Network'))->fetchField();
@@ -86,11 +86,11 @@ class AuthenticatedUser {
         $this->edit_user_name($old_username, $username . '_Via_' . $issuer);
       }
     }
-      // If username exists with no Via, load that user and rename to _Via_$issuer
-      $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username))->fetchField();
-      if ($old_username) {
-        $this->edit_user_name($old_username, $username . '_Via_' . $issuer);
-      }
+    // If username exists with no Via, load that user and rename to _Via_$issuer
+    $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username))->fetchField();
+    if ($old_username) {
+      $this->edit_user_name($old_username, $username . '_Via_' . $issuer);
+    }
   }
 
   /**
@@ -133,7 +133,8 @@ class AuthenticatedUser {
     else if ($this->authentication_method === "ENNAAS") {
       if (feature_toggle_get_status('aws_environment')) {
         $this->authentication_domain = strtoupper(trim($userDetails->attributes['authenticationdomain'][0]));
-      } else {
+      }
+      else {
         $this->authentication_domain = "Exchange_Network";
       }
       $this->resolve_username_collisions($username);
