@@ -77,7 +77,6 @@ class AuthenticatedUser {
   }
 
 
-
   function resolve_username_collisions($username) {
     $issuer = $this->authentication_method;
     // If username exists _Via_EXCHANGE, load that user and rename to _Via_$issuer
@@ -111,6 +110,7 @@ class AuthenticatedUser {
 
 
   private function prepareUserDetailsAndName($userDetails) {
+    module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
     // Name that user will be logged in with
     $eportal_uname = '';
     $authentication_method_array = explode(':', $userDetails->attributes['authenticationMethod']);
@@ -131,7 +131,11 @@ class AuthenticatedUser {
       $eportal_uname = $source_username . "_Via_WAM";
     }
     else if ($this->authentication_method === "ENNAAS") {
-      $this->authentication_domain = strtoupper(trim($userDetails->attributes['authenticationdomain'][0]));
+      if (feature_toggle_get_status('linked_accounts_enable_scs_cdx_integration')) {
+        $this->authentication_domain = strtoupper(trim($userDetails->attributes['authenticationdomain'][0]));
+      } else {
+        $this->authentication_domain = "Exchange_Network";
+      }
       $this->resolve_username_collisions($username);
       $eportal_uname = $username . "_Via_" . $this->authentication_domain;
       $this->public_user = FALSE;
