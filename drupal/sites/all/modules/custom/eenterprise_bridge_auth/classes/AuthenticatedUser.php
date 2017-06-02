@@ -94,7 +94,7 @@ class AuthenticatedUser {
       }
     }
     // If username exists with no Via, load that user and rename to _Via_$issuer
-    // Only run if above query did not successfully fine/save user
+    // Only run if above query did not successfully find and save user
     if (!$old_username) {
       $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username))->fetchField();
       if ($old_username) {
