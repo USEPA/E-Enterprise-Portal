@@ -56,9 +56,6 @@ $feature_flags = [
   'mo_lgc_data' => [
     'name' => "Turn on Missouri LGC Data and feed into LGC Widget"
   ],
-  'linked_accounts_enable_scs_cdx_integration' => [
-    'name' => 'Enable SCS/CDX naming of users'
-  ],
   'aws_environment' => [
     'name' => "Enable for AWS/Showcase environments"
   ],
