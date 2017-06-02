@@ -85,9 +85,10 @@ class AuthenticatedUser {
    */
   function resolve_username_collisions($username) {
     $issuer = $this->authentication_domain;
+    $eportal_username = $username . '_Via_' . $issuer;
     $old_username = false;
     // First check if username already exists in system
-    $username_exists = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $this->name))->fetchField();
+    $username_exists = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $eportal_username))->fetchField();
     if (!$username_exists) {
       // Holding toggle until SCS/CDX integration released to Prod
       if (feature_toggle_get_status('aws_environment')) {
