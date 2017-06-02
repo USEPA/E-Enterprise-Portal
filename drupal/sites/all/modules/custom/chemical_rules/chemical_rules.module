@@ -262,11 +262,12 @@ function sample_chemical_rules_lod_response() {
 function chemical_rules_process_srs_response(&$return) {
   // Decide what kind of search we are doing: cas# || chem name
 
+
   if(is_valid_cas_number($_POST['cr-search_input'])) {
-    $endpoint = "https://ends2.epacdxnode.net/RestProxy/query?Node=NGNTest2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|";
+    $endpoint = variable_get('srs_cas_endpoint', 'https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|');
   }
   else {
-    $endpoint = "https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|";
+    $endpoint = variable_get('srs_substance_name_endpoint', 'https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|');
   }
   $endpoint = $endpoint . urlencode($_POST['cr-search_input']);
   $response = drupal_http_request($endpoint, [
@@ -345,7 +346,7 @@ function chemical_rules_process_srs_response(&$return) {
 
 function chemical_rules_process_lrs_response(&$return) {
   // make a call to the LRS service
-  $lrs_endpoint = 'http://rockslide:9010/lrswebservices/v1/SubstanceList';
+  $lrs_endpoint = variable_get('lrs_endpoint', 'https://ofmpub.epa.gov/lrswebservices/v1/SubstanceList');
 
   // Setup the http request and check its response
   $lrs_response = drupal_http_request($lrs_endpoint, [
@@ -370,7 +371,8 @@ function chemical_rules_process_elastic_response(&$return) {
 
   if(isset($return['data']['substance_list']) && count($return['data']['substance_list']) > 0 ) {
     // make a call to the elastic search service
-    $elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search';
+    //$elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search';
+    $elastic_endpoint = variable_get('elastic_search_endpoint', 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search');
 
     // build the query to specifically use
     $query_json = '{"query" : { "bool": { "should": [';
@@ -414,7 +416,8 @@ function chemical_rules_process_elastic_response(&$return) {
 function chemical_rules_process_lod_response(&$return) {
   if(isset($return['data']['substance'])) {
     // make a call to the LOD service
-    $substanceConcept = 'https://opendata.epa.gov/data/substance/'. $return['data']['substance']['substance_identifier'];
+    $substance_concept = variable_get('substance_concept_endpoint', 'https://opendata.epa.gov/data/substance/');
+    $substanceConcept = $substance_concept . $return['data']['substance']['substance_identifier'] .'.json';
     $endpoint = $substanceConcept .'.json';
 
     //$headers = array('Content-Type' => 'application/json');
@@ -508,7 +511,7 @@ function _process_substance_list_response(&$return, $lists) {
 }
 
 function _get_program_list(&$return){
-  $elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_index/programInfo/_search?pretty';
+  $elastic_endpoint = variable_get('elastic_program_info_search_endpoint', 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_index/programInfo/_search?pretty');
 
   // build the query to specifically use
   $query_array = ["query"=>["bool"=>["should"=>[]]]];
@@ -685,6 +688,7 @@ function strip_prefix_from_array($array, $prefix){
 
 function split_key_at_hash($array){
   $stripped = [];
+  $xml_schema = variable_get('w3_xml_schema', 'http://www.w3.org/2001/XMLSchema');
 
   foreach ($array as $key => $item) {
     $item_parts = explode('#', $key);
@@ -700,7 +704,7 @@ function split_key_at_hash($array){
           // checking the $value if is not an array, directly relate it
           if(!is_array($value)) {
             $stripped[end($item_parts)] = $value;
-            if(in_array('http://www.w3.org/2001/XMLSchema', explode('#', $value)) == false) {
+            if(in_array($xml_schema, explode('#', $value)) == false) {
               $stripped[end($item_parts)] = $value;
             }
           }
@@ -709,7 +713,7 @@ function split_key_at_hash($array){
           }
           else if(count($value) > 1) {
             foreach ($value as $v) {
-              if(in_array('http://www.w3.org/2001/XMLSchema', explode('#', $v)) == false) {
+              if(in_array($xml_schema, explode('#', $v)) == false) {
                 $stripped[end($item_parts)][] = $v;
               }
             }
@@ -718,7 +722,7 @@ function split_key_at_hash($array){
         else if(count($item) > 1) {
           foreach ($value as $v) {
             if (!is_array($v)) {
-              if (in_array('http://www.w3.org/2001/XMLSchema', explode('#', $v)) == FALSE) {
+              if (in_array($xml_schema, explode('#', $v)) == FALSE) {
                 $stripped[end($item_parts)][] = $v;
               }
             }
@@ -730,7 +734,7 @@ function split_key_at_hash($array){
                 if (count($v) > 1) {
                   $temp = [];
                   foreach ($v as $i => $p) {
-                    if (in_array('http://www.w3.org/2001/XMLSchema', explode('#', $p)) == FALSE) {
+                    if (in_array($xml_schema, explode('#', $p)) == FALSE) {
                       $temp[] = $p;
                     }
                   }
