@@ -94,7 +94,7 @@ function create_search_results(search_results_json) {
     "processing": true,
     "language": {
       "processing": "",
-      "search": "Filter Permits"
+      "search": "Filter"
     },
     "order": [[ 8, "desc" ]],
     "autoWidth": false,
@@ -645,7 +645,7 @@ function reset_cgp_form() {
                 current_value = $tribes.val();
 
                 $options = cgp_reponse_json.reduce(function(p, c, i, a){
-                  p.push("<option value='"+ c[0].tribalName +"'>"+ c[0].tribalName +"</option>")
+                  p.push("<option value='"+ c.tribalName +"'>"+ c.tribalName +"</option>")
                   return p;
                 }, ["<option value=''>All</option>"])
 
