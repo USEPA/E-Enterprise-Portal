@@ -94,7 +94,7 @@ function create_search_results(search_results_json) {
     "processing": true,
     "language": {
       "processing": "",
-      "search": "Filter Permits"
+      "search": "Filter"
     },
     "order": [[ 8, "desc" ]],
     "autoWidth": false,
