@@ -238,7 +238,7 @@ function perform_user_login($response_output, $issuer) {
       linked_accounts_save_authenticated_user($authenticated_user->get_source_username(), $authenticated_user->get_authentication_domain());
     }
     // Always grant SSO user from SCS/CDX/NAAS Eactivity role permission
-    $authenticated_user->add_role('eactivity_dataflows');
+    $authenticated_user->add_role('eactivity-dataflows');
     $authenticated_user->add_role('logged_in_user');
   }
 }
