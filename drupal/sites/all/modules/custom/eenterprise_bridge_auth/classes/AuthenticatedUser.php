@@ -85,20 +85,26 @@ class AuthenticatedUser {
    */
   function resolve_username_collisions($username) {
     $issuer = $this->authentication_domain;
+    $eportal_username = $username . '_Via_' . $issuer;
     $old_username = false;
-    if (feature_toggle_get_status('aws_environment')) {
-      // If username exists _Via_Exchange_Network, load that user and rename to _Via_$issuer
-      $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username . '_Via_Exchange_Network'))->fetchField();
-      if ($old_username) {
-        $this->edit_user_name($old_username, $username . '_Via_' . $issuer);
+    // First check if username already exists in system
+    $username_exists = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $eportal_username))->fetchField();
+    if (!$username_exists) {
+      // Holding toggle until SCS/CDX integration released to Prod
+      if (feature_toggle_get_status('aws_environment')) {
+        // If username exists _Via_Exchange_Network, load that user and rename to _Via_$issuer
+        $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username . '_Via_Exchange_Network'))->fetchField();
+        if ($old_username) {
+          $this->edit_user_name($old_username, $username . '_Via_' . $issuer);
+        }
       }
-    }
-    // If username exists with no Via, load that user and rename to _Via_$issuer
-    // Only run if above query did not successfully find and save user
-    if (!$old_username) {
-      $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username))->fetchField();
-      if ($old_username) {
-        $this->edit_user_name($old_username, $username . '_Via_' . $issuer);
+      // If username exists with no Via, load that user and rename to _Via_$issuer
+      // Only run if above query did not successfully find and save user
+      if (!$old_username) {
+        $old_username = db_query("SELECT authname FROM {authmap} WHERE authname = :authname", array(':authname' => $username))->fetchField();
+        if ($old_username) {
+          $this->edit_user_name($old_username, $username . '_Via_' . $issuer);
+        }
       }
     }
   }
