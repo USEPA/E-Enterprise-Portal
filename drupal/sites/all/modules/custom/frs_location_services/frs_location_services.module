@@ -320,58 +320,41 @@ function return_location_data() {
     $location = $_POST['location'];
   }
   else {
-    if (isset($_GET['location'])) {
-      $location = $_GET['location'];
-    }
-    else {
-      exit();
-    }
+  if (isset($_GET['location'])) {
+    $location = $_GET['location'];
   }
-
-  $initial_login = FALSE;
-  if (isset($_POST['initial_login'])) {
-    $initial_login = TRUE;
+  else {
+    exit();
   }
-
+  }
+  
 
 // Sanitize inputs
 
 
-// First check $location with postal code validation
+  // First check $location with postal code validation
   $validation = postal_code_validation_validate($location, 'US');
   $location = xssafe($location);
+  // Entry is not a postal code
   if ($validation['error']) {
-// Make location upper case for FRS
+    // Make location upper case for FRS
     $location = strtoupper($location);
-//check city, state return
+    //check city, state return
     $location = trim($location);
     $location_array = explode(',', $location);
     $city = trim($location_array[0]);
     $state = trim($location_array[1]);
 
-    if ($initial_login) {
-      // If initial login, use new-style lookup w/ census data
-      $zips = gpo_city_state_to_zip_code($city, $state);
-    }
-    else {
-      // Else, fallback to old FRS lookup, for compatibility
-      $zips = frs_city_state_to_zip_code($city, $state);
-    }
-    echo json_encode($zips);
+    // If initial login, use new-style lookup w/ census data
+    $zips = gpo_city_state_to_zip_code($city, $state);
+    drupal_json_output($zips);
   }
   else {
-    if ($initial_login) {
-      // If initial login, use new-style lookup w/ census data
-      $zip_lookup = zip_code_lookup($validation['postal_code'], 'php', TRUE);
-    }
-    else {
-      // Else, fallback to old FRS lookup, for compatibility
-      $zip_lookup = zip_code_lookup($validation['postal_code']);
-    }
+    // Entry is a postal code
+    $zip_lookup = zip_code_lookup($validation['postal_code'], 'php', TRUE);
     $zip_lookup['name_city_state'] = TRUE;
-    echo json_encode($zip_lookup);
+    drupal_json_output($zip_lookup);
   }
-
 }
 
 
@@ -470,7 +453,6 @@ function gpo_city_state_to_zip_code($city, $state) {
   // Decode  json
   $json_file = file_get_contents($zip_pop_url);
   $result = json_decode($json_file);
-  //watchdog('GPO_city_state', '<pre>@print_r</pre>', array('@print_r' => print_r( $result, TRUE)));
   // Keep track of whether a zip has been found yet
   $zip_found = FALSE;
   // If Census Place->Zip had results:
@@ -515,7 +497,6 @@ function gpo_city_state_to_zip_code($city, $state) {
     $json_file = file_get_contents($zip_tribe_url);
     $result = json_decode($json_file);
 
-    //watchdog('GPO_city_state', '<pre>@print_r</pre>', array('@print_r' => print_r( $result, TRUE)));
     // If tribal area was found in this zip:
     if (!empty($result->features)) {
       $tribalzips = array();
@@ -549,19 +530,24 @@ function gpo_city_state_to_zip_code($city, $state) {
           }
         }
       }
-
     }
   }
 
   // If city/state/tribe not found, use FRS lookup
+  $frs_zips = frs_city_state_to_zip_code($city, $state);
   if (!$zip_found) {
-    $zip_data = frs_city_state_to_zip_code($city, $state);
+    $zip_data['city'] = $cleaned_city;
+    $zip_data['state'] = $state;
+    if (count($frs_zips['zip_array']) > 0) {
+      $zip_data['zip_array'] = $frs_zips['zip_array'];
+      foreach($frs_zips['zip_array'] as $frs_zip) {
+        $zip_data['zip_attr'][$frs_zip] = ['city' => ucfirst(strtolower($cleaned_city)) . ', ' . $state];
+      }
+    }
   }
   else {
     // Also append FRS zips for this location if not found in census/tribe
-    $frs_zips = frs_city_state_to_zip_code($city, $state);
     $append_frs = array_diff($frs_zips['zip_array'], $zip_data['zip_array']);
-
     $zip_data['zip_array'] = array_merge($zip_data['zip_array'], $append_frs);
     sort($zip_data['zip_array']);
 
@@ -573,8 +559,6 @@ function gpo_city_state_to_zip_code($city, $state) {
     }
 
   }
-
-  // watchdog('zip_data', '<pre>@print_r</pre>', array('@print_r' => print_r( current($zip_data['zip_attr']), TRUE)));
   return $zip_data;
 }
 
@@ -681,8 +665,8 @@ function frs_naas_authentication() {
     } catch (SoapFault $f) {
       dpm($f);
       drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
-  return;
-}
+      return;
+    }
 
     if (isset($client)) {
       $params = array(
