@@ -30,7 +30,7 @@
           // Manage the income XML and make the result globally available
           Drupal.settings.be_well_informed.state_xml = response_xml
           //build_widget_state_info()
-          build_state_form()
+          build_state_form($state)
         }
       })
     }
@@ -54,12 +54,12 @@
 
   }
 
-  function build_state_form() {
+  function build_state_form($state) {
     $.ajax({
       url: 'be_well_informed/generate_state_form',
       method: 'POST',
       data: {
-        state_xml: 'test xml'
+        state_code: $state.val()
       },
       before: function() {
         console.log('before: generate_state_form')
@@ -140,7 +140,7 @@
   }
 
   // Initialize the state selection modal
-  $('#be-well-informed-modal-state-selection')
+  /*$('#be-well-informed-modal-state-selection')
     .html(Drupal.settings.be_well_informed.templates.state_selection)
     .dialog({
       modal: true,
@@ -162,7 +162,7 @@
       close: function(event, ui) {
         // Any tasks before closing the modal
       }
-    })
+    })*/
 
   // Initialize the link on the widget to open the modal
   $('.state-selection-link').click(function() {

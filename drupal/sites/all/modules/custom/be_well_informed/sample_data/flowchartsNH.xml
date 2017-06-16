@@ -1,383 +1,266 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <FlowCharts>
   <State>
-    <Name>Massachusetts</Name>
-    <StateCode>MA</StateCode>
+    <Name>New Hampshire</Name>
+    <StateCode>NH</StateCode>
     <Cities>
-      <City>New England</City>
-      <City>Abington</City>
-      <City>Acton</City>
-      <City>Acushnet</City>
-      <City>Adams</City>
-      <City>Agawam</City>
-      <City>Alford</City>
-      <City>Amesbury</City>
+      <City>Anonymous</City>
+      <City>Acworth</City>
+      <City>Albany</City>
+      <City>Alexandria</City>
+      <City>Allenstown</City>
+      <City>Alstead</City>
       <City>Amherst</City>
       <City>Andover</City>
-      <City>Aquinnah</City>
-      <City>Arlington</City>
-      <City>Ashburnham</City>
-      <City>Ashby</City>
-      <City>Ashfield</City>
+      <City>Antrim</City>
       <City>Ashland</City>
-      <City>Athol</City>
-      <City>Attleboro</City>
+      <City>Atkinson</City>
       <City>Auburn</City>
-      <City>Avon</City>
-      <City>Ayer</City>
-      <City>Barnstable</City>
-      <City>Barre</City>
-      <City>Becket</City>
+      <City>Barnstead</City>
+      <City>Barrington</City>
+      <City>Bartlett</City>
+      <City>Bath</City>
       <City>Bedford</City>
-      <City>Belchertown</City>
-      <City>Bellingham</City>
       <City>Belmont</City>
-      <City>Berkley</City>
+      <City>Bennington</City>
+      <City>Benton</City>
       <City>Berlin</City>
-      <City>Bernardston</City>
-      <City>Beverly</City>
-      <City>Billerica</City>
-      <City>Blackstone</City>
-      <City>Blandford</City>
-      <City>Bolton</City>
-      <City>Boston</City>
-      <City>Bourne</City>
-      <City>Boxborough</City>
-      <City>Boxford</City>
-      <City>Boylston</City>
-      <City>Braintree</City>
-      <City>Brewster</City>
+      <City>Bethlehem</City>
+      <City>Boscawen</City>
+      <City>Bow</City>
+      <City>Bradford</City>
+      <City>Brentwood</City>
       <City>Bridgewater</City>
-      <City>Brimfield</City>
-      <City>Brockton</City>
+      <City>Bristol</City>
       <City>Brookfield</City>
       <City>Brookline</City>
-      <City>Buckland</City>
-      <City>Burlington</City>
-      <City>Cambridge</City>
-      <City>Canton</City>
-      <City>Carlisle</City>
-      <City>Carver</City>
-      <City>Charlemont</City>
-      <City>Charlton</City>
+      <City>Campton</City>
+      <City>Canaan</City>
+      <City>Candia</City>
+      <City>Canterbury</City>
+      <City>Carroll</City>
+      <City>Center Harbor</City>
+      <City>Charlestown</City>
       <City>Chatham</City>
-      <City>Chelmsford</City>
-      <City>Chelsea</City>
-      <City>Cheshire</City>
       <City>Chester</City>
       <City>Chesterfield</City>
-      <City>Chicopee</City>
-      <City>Chilmark</City>
-      <City>Clarksburg</City>
-      <City>Clinton</City>
-      <City>Cohasset</City>
-      <City>Colrain</City>
+      <City>Chichester</City>
+      <City>Claremont</City>
+      <City>Clarksville</City>
+      <City>Colebrook</City>
+      <City>Columbia</City>
       <City>Concord</City>
       <City>Conway</City>
-      <City>Cummington</City>
+      <City>Cornish</City>
+      <City>Croydon</City>
       <City>Dalton</City>
-      <City>Danvers</City>
-      <City>Dartmouth</City>
-      <City>Dedham</City>
+      <City>Danbury</City>
+      <City>Danville</City>
       <City>Deerfield</City>
-      <City>Dennis</City>
-      <City>Dighton</City>
-      <City>Douglas</City>
+      <City>Deering</City>
+      <City>Derry</City>
+      <City>Dixville</City>
+      <City>Dorchester</City>
       <City>Dover</City>
-      <City>Dracut</City>
-      <City>Dudley</City>
-      <City>Dunstable</City>
-      <City>Duxbury</City>
-      <City>East Bridgewater</City>
-      <City>East Brookfield</City>
-      <City>East Longmeadow</City>
-      <City>Eastham</City>
-      <City>Easthampton</City>
+      <City>Dublin</City>
+      <City>Dummer</City>
+      <City>Dunbarton</City>
+      <City>Durham</City>
+      <City>East Kingston</City>
       <City>Easton</City>
-      <City>Edgartown</City>
-      <City>Egremont</City>
-      <City>Erving</City>
-      <City>Essex</City>
-      <City>Everett</City>
-      <City>Fairhaven</City>
-      <City>Fall River</City>
-      <City>Falmouth</City>
-      <City>Fitchburg</City>
-      <City>Florida</City>
-      <City>Foxborough</City>
-      <City>Framingham</City>
+      <City>Eaton</City>
+      <City>Effingham</City>
+      <City>Ellsworth</City>
+      <City>Enfield</City>
+      <City>Epping</City>
+      <City>Epsom</City>
+      <City>Errol</City>
+      <City>Exeter</City>
+      <City>Farmington</City>
+      <City>Fitzwilliam</City>
+      <City>Francestown</City>
+      <City>Franconia</City>
       <City>Franklin</City>
-      <City>Freetown</City>
-      <City>Gardner</City>
-      <City>Georgetown</City>
-      <City>Gill</City>
-      <City>Gloucester</City>
+      <City>Freedom</City>
+      <City>Fremont</City>
+      <City>Gilford</City>
+      <City>Gilmanton</City>
+      <City>Gilsum</City>
+      <City>Goffstown</City>
+      <City>Gorham</City>
       <City>Goshen</City>
-      <City>Gosnold</City>
       <City>Grafton</City>
-      <City>Granby</City>
-      <City>Granville</City>
-      <City>Great Barrington</City>
+      <City>Grantham</City>
       <City>Greenfield</City>
+      <City>Greenland</City>
+      <City>Greenville</City>
       <City>Groton</City>
-      <City>Groveland</City>
-      <City>Hadley</City>
-      <City>Halifax</City>
-      <City>Hamilton</City>
-      <City>Hampden</City>
+      <City>Hampstead</City>
+      <City>Hampton</City>
+      <City>Hampton Falls</City>
       <City>Hancock</City>
       <City>Hanover</City>
-      <City>Hanson</City>
-      <City>Hardwick</City>
-      <City>Harvard</City>
-      <City>Harwich</City>
-      <City>Hatfield</City>
+      <City>Harrisville</City>
+      <City>Hart's Location</City>
       <City>Haverhill</City>
-      <City>Hawley</City>
-      <City>Heath</City>
-      <City>Hingham</City>
+      <City>Hebron</City>
+      <City>Henniker</City>
+      <City>Hill</City>
+      <City>Hillsborough</City>
       <City>Hinsdale</City>
-      <City>Holbrook</City>
-      <City>Holden</City>
-      <City>Holland</City>
-      <City>Holliston</City>
-      <City>Holyoke</City>
-      <City>Hopedale</City>
+      <City>Holderness</City>
+      <City>Hollis</City>
+      <City>Hooksett</City>
       <City>Hopkinton</City>
-      <City>Hubbardston</City>
       <City>Hudson</City>
-      <City>Hull</City>
-      <City>Huntington</City>
-      <City>Ipswich</City>
+      <City>Jackson</City>
+      <City>Jaffrey</City>
+      <City>Jefferson</City>
+      <City>Keene</City>
+      <City>Kensington</City>
       <City>Kingston</City>
-      <City>Lakeville</City>
+      <City>Laconia</City>
       <City>Lancaster</City>
-      <City>Lanesborough</City>
-      <City>Lawrence</City>
+      <City>Landaff</City>
+      <City>Langdon</City>
+      <City>Lebanon</City>
       <City>Lee</City>
-      <City>Leicester</City>
-      <City>Lenox</City>
-      <City>Leominster</City>
-      <City>Leverett</City>
-      <City>Lexington</City>
-      <City>Leyden</City>
+      <City>Lempster</City>
       <City>Lincoln</City>
+      <City>Lisbon</City>
+      <City>Litchfield</City>
       <City>Littleton</City>
-      <City>Longmeadow</City>
-      <City>Lowell</City>
-      <City>Ludlow</City>
-      <City>Lunenburg</City>
-      <City>Lynn</City>
-      <City>Lynnfield</City>
-      <City>Malden</City>
-      <City>Manchester-by-the-Sea</City>
-      <City>Mansfield</City>
-      <City>Marblehead</City>
-      <City>Marion</City>
+      <City>Londonderry</City>
+      <City>Loudon</City>
+      <City>Lyman</City>
+      <City>Lyme</City>
+      <City>Lyndeborough</City>
+      <City>Madbury</City>
+      <City>Madison</City>
+      <City>Manchester</City>
       <City>Marlborough</City>
-      <City>Marshfield</City>
-      <City>Mashpee</City>
-      <City>Mattapoisett</City>
-      <City>Maynard</City>
-      <City>Medfield</City>
-      <City>Medford</City>
-      <City>Medway</City>
-      <City>Melrose</City>
-      <City>Mendon</City>
-      <City>Merrimac</City>
-      <City>Methuen</City>
-      <City>Middleborough</City>
-      <City>Middlefield</City>
+      <City>Marlow</City>
+      <City>Mason</City>
+      <City>Meredith</City>
+      <City>Merrimack</City>
       <City>Middleton</City>
+      <City>Milan</City>
       <City>Milford</City>
-      <City>Millbury</City>
-      <City>Millis</City>
-      <City>Millville</City>
       <City>Milton</City>
       <City>Monroe</City>
-      <City>Monson</City>
-      <City>Montague</City>
-      <City>Monterey</City>
-      <City>Montgomery</City>
-      <City>Mount Washington</City>
-      <City>Nahant</City>
-      <City>Nantucket</City>
-      <City>Natick</City>
-      <City>Needham</City>
-      <City>New Ashford</City>
-      <City>New Bedford</City>
-      <City>New Braintree</City>
-      <City>New Marlborough</City>
-      <City>New Salem</City>
+      <City>Mont Vernon</City>
+      <City>Moultonborough</City>
+      <City>Nashua</City>
+      <City>Nelson</City>
+      <City>New Boston</City>
       <City>Newbury</City>
-      <City>Newburyport</City>
+      <City>New Castle</City>
+      <City>New Durham</City>
+      <City>Newfields</City>
+      <City>New Hampton</City>
+      <City>Newington</City>
+      <City>New Ipswich</City>
+      <City>New London</City>
+      <City>Newmarket</City>
+      <City>Newport</City>
       <City>Newton</City>
-      <City>Norfolk</City>
-      <City>North Adams</City>
-      <City>North Andover</City>
-      <City>North Attleborough</City>
-      <City>North Brookfield</City>
-      <City>North Reading</City>
-      <City>Northampton</City>
-      <City>Northborough</City>
-      <City>Northbridge</City>
       <City>Northfield</City>
-      <City>Norton</City>
-      <City>Norwell</City>
-      <City>Norwood</City>
-      <City>Oak Bluffs</City>
-      <City>Oakham</City>
+      <City>North Hampton</City>
+      <City>Northumberland</City>
+      <City>Northwood</City>
       <City>Orange</City>
-      <City>Orleans</City>
-      <City>Otis</City>
-      <City>Oxford</City>
-      <City>Palmer</City>
-      <City>Paxton</City>
-      <City>Peabody</City>
+      <City>Orford</City>
+      <City>Ossipee</City>
       <City>Pelham</City>
       <City>Pembroke</City>
-      <City>Pepperell</City>
-      <City>Peru</City>
-      <City>Petersham</City>
-      <City>Phillipston</City>
+      <City>Peterborough</City>
+      <City>Piermont</City>
+      <City>Pittsburg</City>
       <City>Pittsfield</City>
       <City>Plainfield</City>
-      <City>Plainville</City>
+      <City>Plaistow</City>
       <City>Plymouth</City>
-      <City>Plympton</City>
-      <City>Princeton</City>
-      <City>Provincetown</City>
-      <City>Quincy</City>
+      <City>Portsmouth</City>
       <City>Randolph</City>
-      <City>Raynham</City>
-      <City>Reading</City>
-      <City>Rehoboth</City>
-      <City>Revere</City>
+      <City>Raymond</City>
       <City>Richmond</City>
+      <City>Rindge</City>
       <City>Rochester</City>
-      <City>Rockland</City>
-      <City>Rockport</City>
-      <City>Rowe</City>
-      <City>Rowley</City>
-      <City>Royalston</City>
-      <City>Russell</City>
-      <City>Rutland</City>
+      <City>Rollinsford</City>
+      <City>Roxbury</City>
+      <City>Rumney</City>
+      <City>Rye</City>
       <City>Salem</City>
       <City>Salisbury</City>
-      <City>Sandisfield</City>
+      <City>Sanbornton</City>
+      <City>Sandown</City>
       <City>Sandwich</City>
-      <City>Saugus</City>
-      <City>Savoy</City>
-      <City>Scituate</City>
-      <City>Seekonk</City>
+      <City>Seabrook</City>
       <City>Sharon</City>
-      <City>Sheffield</City>
       <City>Shelburne</City>
-      <City>Sherborn</City>
-      <City>Shirley</City>
-      <City>Shrewsbury</City>
-      <City>Shutesbury</City>
-      <City>Somerset</City>
-      <City>Somerville</City>
-      <City>South Hadley</City>
-      <City>Southampton</City>
-      <City>Southborough</City>
-      <City>Southbridge</City>
-      <City>Southwick</City>
-      <City>Spencer</City>
+      <City>Somersworth</City>
+      <City>South Hampton</City>
       <City>Springfield</City>
-      <City>Sterling</City>
-      <City>Stockbridge</City>
-      <City>Stoneham</City>
-      <City>Stoughton</City>
-      <City>Stow</City>
-      <City>Sturbridge</City>
-      <City>Sudbury</City>
-      <City>Sunderland</City>
+      <City>Stark</City>
+      <City>Stewartstown</City>
+      <City>Stoddard</City>
+      <City>Strafford</City>
+      <City>Stratham</City>
+      <City>Sugar Hill</City>
+      <City>Sullivan</City>
+      <City>Sunapee</City>
+      <City>Surry</City>
       <City>Sutton</City>
-      <City>Swampscott</City>
-      <City>Swansea</City>
-      <City>Taunton</City>
-      <City>Templeton</City>
-      <City>Tewksbury</City>
-      <City>Tisbury</City>
-      <City>Tolland</City>
-      <City>Topsfield</City>
-      <City>Townsend</City>
-      <City>Truro</City>
-      <City>Tyngsborough</City>
-      <City>Tyringham</City>
-      <City>Upton</City>
-      <City>Uxbridge</City>
+      <City>Swanzey</City>
+      <City>Tamworth</City>
+      <City>Temple</City>
+      <City>Thornton</City>
+      <City>Tilton</City>
+      <City>Troy</City>
+      <City>Tuftonboro</City>
+      <City>Unity</City>
       <City>Wakefield</City>
-      <City>Wales</City>
       <City>Walpole</City>
-      <City>Waltham</City>
-      <City>Ware</City>
-      <City>Wareham</City>
+      <City>Warner</City>
       <City>Warren</City>
-      <City>Warwick</City>
       <City>Washington</City>
-      <City>Watertown</City>
-      <City>Wayland</City>
+      <City>Waterville Valley</City>
+      <City>Weare</City>
       <City>Webster</City>
-      <City>Wellesley</City>
-      <City>Wellfleet</City>
-      <City>Wendell</City>
-      <City>Wenham</City>
-      <City>West Boylston</City>
-      <City>West Bridgewater</City>
-      <City>West Brookfield</City>
-      <City>West Newbury</City>
-      <City>West Springfield</City>
-      <City>West Stockbridge</City>
-      <City>West Tisbury</City>
-      <City>Westborough</City>
-      <City>Westfield</City>
-      <City>Westford</City>
-      <City>Westhampton</City>
-      <City>Westminster</City>
-      <City>Weston</City>
-      <City>Westport</City>
-      <City>Westwood</City>
-      <City>Weymouth</City>
-      <City>Whately</City>
-      <City>Whitman</City>
-      <City>Wilbraham</City>
-      <City>Williamsburg</City>
-      <City>Williamstown</City>
-      <City>Wilmington</City>
-      <City>Winchendon</City>
+      <City>Wentworth</City>
+      <City>West Chesterfield</City>
+      <City>Westmoreland</City>
+      <City>Whitefield</City>
+      <City>Wilmot</City>
+      <City>Wilton</City>
       <City>Winchester</City>
+      <City>Windham</City>
       <City>Windsor</City>
-      <City>Winthrop</City>
-      <City>Woburn</City>
-      <City>Worcester</City>
-      <City>Worthington</City>
-      <City>Wrentham</City>
-      <City>Yarmouth</City>
+      <City>Wolfeboro</City>
+      <City>Woodstock</City>
     </Cities>
     <Widget>
       <SourceLink>
-        <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank" class="processed-favorite" data-hasqtip="2" aria-describedby="qtip-2">Massachusetts Department of Environmental Sciences</a>
+        <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank" class="processed-favorite" data-hasqtip="2" aria-describedby="qtip-2">New Hampshire Department of Environmental Sciences</a>
       </SourceLink>
       <Description>
         <p> Have a well and wonder what your water testing results mean?</p>
         <p> The Be Well Informed Guide lets you enter your test results and get feedback about health concerns and water treatment choices.</p>
-        <p> Be Well Informed was created for Massachusetts residents, and has the <a href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/documents/well-testing.pdf" target="_blank" class="processed-favorite" data-hasqtip="3">most common contaminants</a>
+        <p> Be Well Informed was created for New Hampshire residents, and has the <a href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/documents/well-testing.pdf" target="_blank" class="processed-favorite" data-hasqtip="3">most common contaminants</a>
           <div class="button_input_holder" style="display:none"><span title="Add Favorite" id="http%3A%2F%2Fdes.nh.gov%2Forganization%2Fdivisions%2Fwater%2Fdwgb%2Fwell_testing%2Fdocuments%2Fwell-testing.pdf__most common contaminants" class="add_link favorite_hover new_link fa fa-heart empty" aria-hidden="true"></span><span class="sr-only">To favorite, press Ctrl + D</span></div> that affect wells there. It may not have all the contaminants present in your area - for those it does have, it can provide useful information.</p>
+        <p> A quick disclaimer before we start.</p>
+        <p class="widget-note"> Information provided on this website is for informational purposes only and should not be substituted for direct consultation with a qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide may determine the most appropriate water treatment option.</p>
       </Description>
     </Widget>
     <SupportInformation>
       <Section name="Phone Support">
         <h4>Phone Support</h4>
-        <p class="bwi-support-intro">For telephone support please contact the MA Department of Environmental Service’s Drinking Water and Groundwater Bureau:</p>
+        <p class="bwi-support-intro">For telephone support please contact the NH Department of Environmental Service’s Drinking Water and Groundwater Bureau:</p>
         <ul class="plain-list bwi-resources-list">
           <li>
-            <p class="bwi-resource-name">MA Department of Environmental Services</p>
+            <p class="bwi-resource-name">NH Department of Environmental Services</p>
             <p>Drinking Water and Groundwater Bureau</p>
             <p>29 Hazen Drive, PO Box 95</p>
-            <p>Concord, MA 03302-0095</p>
+            <p>Concord, NH 03302-0095</p>
             <p><i class="fa fa-phone"></i>(603) 271-2513</p>
             <p><i class="fa fa-send"></i>dwgbinfo@des.nh.gov</p>
           </li>
@@ -388,7 +271,7 @@
   </State>
   <Contaminants>
 
-    <Contaminant Value="As" Text="Arsenic" MCL="0.01 mg/L" NotEntered="Test your water.  Studies show that 1 in 5 private wells in Massachusetts have high arsenic.">
+    <Contaminant Value="As" Text="Arsenic" MCL="0.01 mg/L" NotEntered="Test your water.  Studies show that 1 in 5 private wells in New Hampshire have high arsenic.">
 
       <Condition CheckOperator=">=" CheckValue="0.01">
         <False>
@@ -532,7 +415,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">MADES’ Fact Sheet</a>.
+                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -565,7 +448,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">MADES’ Fact Sheet</a>.
+                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -598,7 +481,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">MADES’ Fact Sheet</a>.
+                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -624,7 +507,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">MADES’ Fact Sheet</a>.
+                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -649,7 +532,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">MADES’ Fact Sheet</a>.
+                  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -674,7 +557,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">MADES’ Fact Sheet</a>.
+                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -699,7 +582,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">MADES’ Fact Sheet</a>.
+                  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -758,15 +641,15 @@
                 <br/>
                 <ol>
                   <li>
-                    Inspect the condition of your wellhead and the area around it - check your well’s cap and casing to make sure there are no cracks or holes where bacteria can enter your well; and check for possible sources of pollution, such as septic systems, and waste from pets and farm animals.  Also, make sure rain and melting snow are directed away from your wellhead.  Click <a target="_blank" href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/index.htm">here</a> for a checklist of what to look for from MADES.  If you cannot find your wellhead, it may be buried and need to be dug up.
+                    Inspect the condition of your wellhead and the area around it - check your well’s cap and casing to make sure there are no cracks or holes where bacteria can enter your well; and check for possible sources of pollution, such as septic systems, and waste from pets and farm animals.  Also, make sure rain and melting snow are directed away from your wellhead.  Click <a target="_blank" href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/index.htm">here</a> for a checklist of what to look for from NHDES.  If you cannot find your wellhead, it may be buried and need to be dug up.
                   </li>
                   <br/>
                   <li>
-                    Once you have taken care of any potential sources of pollution, disinfect your well and collect another water sample.  Click <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">here</a> for step-by-step instructions for disinfecting your well from MADES.
+                    Once you have taken care of any potential sources of pollution, disinfect your well and collect another water sample.  Click <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">here</a> for step-by-step instructions for disinfecting your well from NHDES.
                   </li>
                   <br/>
                   <li>
-                    If the bacteria problem continues, it may indicate that there is a problem with the construction of your well that is allowing bacteria to easily enter it. In this case, consult a MA-licensed water well contractor to get an assessment of your well and have any construction-related problems fixed.  Click <a target="_blank" href="http://des.nh.gov/onestop/index.htm">here</a> to search for MA-licensed contractors that work in your area.
+                    If the bacteria problem continues, it may indicate that there is a problem with the construction of your well that is allowing bacteria to easily enter it. In this case, consult a NH-licensed water well contractor to get an assessment of your well and have any construction-related problems fixed.  Click <a target="_blank" href="http://des.nh.gov/onestop/index.htm">here</a> to search for NH-licensed contractors that work in your area.
                   </li>
                   <br/>
                   <li>
@@ -835,15 +718,15 @@
                 <br/>
                 <ol>
                   <li>
-                    E. coli bacteria in your water sample means there is a strong chance that human or animal waste is getting into your well.  Inspect the condition of your wellhead and the area around it - check your well’s cap and casing to make sure there are no cracks or holes where bacteria can enter your well; and check for possible sources of pollution, such as septic systems and waste from pets and farm animals.  Also, make sure rain and melting snow are directed away from your wellhead.  Click <a target="_blank" href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/index.htm">here</a> for a checklist of what to look for from MADES.  If you cannot find your wellhead, it may be buried and need to be dug up.
+                    E. coli bacteria in your water sample means there is a strong chance that human or animal waste is getting into your well.  Inspect the condition of your wellhead and the area around it - check your well’s cap and casing to make sure there are no cracks or holes where bacteria can enter your well; and check for possible sources of pollution, such as septic systems and waste from pets and farm animals.  Also, make sure rain and melting snow are directed away from your wellhead.  Click <a target="_blank" href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/index.htm">here</a> for a checklist of what to look for from NHDES.  If you cannot find your wellhead, it may be buried and need to be dug up.
                   </li>
                   <br/>
                   <li>
-                    Once you have taken care of any potential sources of pollution, disinfect your well and collect another water sample.  Click <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">here</a> for step-by-step instructions for disinfecting your well from MADES.
+                    Once you have taken care of any potential sources of pollution, disinfect your well and collect another water sample.  Click <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">here</a> for step-by-step instructions for disinfecting your well from NHDES.
                   </li>
                   <br/>
                   <li>
-                    If the bacteria problem continues, there may be a problem with the construction of your well that is allowing bacteria to easily enter it. In this case, contact a MA-licensed water well contractor to get an assessment of your well and have any construction-related problems fixed.  Click <a target="_blank" href="http://des.nh.gov/onestop/index.htm">here</a> to search for MA-licensed contractors that work in your area.
+                    If the bacteria problem continues, there may be a problem with the construction of your well that is allowing bacteria to easily enter it. In this case, contact a NH-licensed water well contractor to get an assessment of your well and have any construction-related problems fixed.  Click <a target="_blank" href="http://des.nh.gov/onestop/index.htm">here</a> to search for NH-licensed contractors that work in your area.
                   </li>
                   <br/>
                   <li>
@@ -964,7 +847,7 @@
                 <br/>
                 <ul style="list-style-type:none">
                   <li>
-                    More information about treatment for chloride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">MADES’ Fact Sheet</a>.
+                    More information about treatment for chloride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">NHDES’ Fact Sheet</a>.
                   </li>
                 </ul>
                 <br/>
@@ -1012,7 +895,7 @@
                 <br/>
                 <ul style="list-style-type:none">
                   <li>
-                    More information about treatment for chloride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">MADES’ Fact Sheet</a>.
+                    More information about treatment for chloride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">NHDES’ Fact Sheet</a>.
                   </li>
                 </ul>
                 <br/>
@@ -1060,7 +943,7 @@
                 <br/>
                 <ul style="list-style-type:none">
                   <li>
-                    More information about treatment for chloride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">MADES’ Fact Sheet</a>.
+                    More information about treatment for chloride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">NHDES’ Fact Sheet</a>.
                 </li>
                 </ul>
                 <br/>
@@ -1152,7 +1035,7 @@
                 <br/>
                 Other household water uses, such as showering or toilet flushing, will also help clear water from your plumbing. Keep in mind that you will still need to run individual faucets for a short time before using them for cooking and drinking water. You may want to keep a container of water in your refrigerator, so that the water does not have to be run every time you need it.<br/>
                 <br/>
-                More information about treatment for copper can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-4.pdf">MADES’ Fact Sheet</a>.
+                More information about treatment for copper can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-4.pdf">NHDES’ Fact Sheet</a>.
                 <br/>
               </div>
             </Content>
@@ -1286,7 +1169,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  More information about treatment for fluoride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-5.pdf">MADES’ Fact Sheet</a>.
+                  More information about treatment for fluoride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-5.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -1311,7 +1194,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  More information about treatment for fluoride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-5.pdf">MADES’ Fact Sheet</a>.
+                  More information about treatment for fluoride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-5.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -1397,7 +1280,7 @@
         <TreatmentMessages>
           <Har1>
             <Content>
-              <b>How can I reduce the level of hardness in my water?</b>  Install an NSF/ANSI Standard 44 certified whole house cation exchange water softener.  More information about treatment for hardness can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-6.pdf">MADES’ Fact Sheet</a>.<br/>
+              <b>How can I reduce the level of hardness in my water?</b>  Install an NSF/ANSI Standard 44 certified whole house cation exchange water softener.  More information about treatment for hardness can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-6.pdf">NHDES’ Fact Sheet</a>.<br/>
             </Content>
           </Har1>
           <Har2>
@@ -1500,7 +1383,7 @@
         <TreatmentMessages>
           <Fe1a>
             <Content>
-              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains more than 0.1 mg/L of manganese and between 0.005 and 0.010 mg/L of arsenic, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses chlorine or permanganate as the oxidizing agent to reduce the level of iron, manganese, and arsenic in your water.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">MADES’ Fact Sheet</a>.<br/>
+              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains more than 0.1 mg/L of manganese and between 0.005 and 0.010 mg/L of arsenic, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses chlorine or permanganate as the oxidizing agent to reduce the level of iron, manganese, and arsenic in your water.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.<br/>
             </Content>
           </Fe1a>
           <Fe1b>
@@ -1522,7 +1405,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">MADES’ Fact Sheet</a>.
+                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -1530,12 +1413,12 @@
           </Fe1b>
           <Fe1c>
             <Content>
-              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains more than 0.1 mg/L of manganese, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses chlorine or permanganate as the oxidizing agent to reduce the level of iron and manganese in your water.  This type of system will also reduce the level of arsenic in your water, if present; however, you did not provide test results for arsenic.  How much arsenic can be removed by this type of system depends on the levels of iron and arsenic.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">MADES’ Fact Sheet</a>.
+              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains more than 0.1 mg/L of manganese, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses chlorine or permanganate as the oxidizing agent to reduce the level of iron and manganese in your water.  This type of system will also reduce the level of arsenic in your water, if present; however, you did not provide test results for arsenic.  How much arsenic can be removed by this type of system depends on the levels of iron and arsenic.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
             </Content>
           </Fe1c>
           <Fe1d>
             <Content>
-              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains between 0.005 and 0.010 mg/L of arsenic, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent to reduce the level of iron and arsenic in your water.  Your test results show that your water contains less than 0.1 mg/L of manganese, so using a strong oxidizing agent, such as chlorine or permanganate, is not needed.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">MADES’ Fact Sheet</a>.
+              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains between 0.005 and 0.010 mg/L of arsenic, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent to reduce the level of iron and arsenic in your water.  Your test results show that your water contains less than 0.1 mg/L of manganese, so using a strong oxidizing agent, such as chlorine or permanganate, is not needed.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
             </Content>
           </Fe1d>
           <Fe1e>
@@ -1557,7 +1440,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">MADES’ Fact Sheet</a>.
+                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -1565,7 +1448,7 @@
           </Fe1e>
           <Fe1f>
             <Content>
-              <b>How can I reduce the level of iron in my water?</b>  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent to reduce the level of iron in your water.  Your test results show that your water contains less than 0.1 mg/L of manganese, so using a strong oxidizing agent, such as chlorine or permanganate, is not needed.  This type of system will also reduce the level of arsenic in your water, if present; however, you did not provide test results for arsenic.  How much arsenic can be removed by this type of system depends on the levels of iron and arsenic.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">MADES’ Fact Sheet</a>.
+              <b>How can I reduce the level of iron in my water?</b>  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent to reduce the level of iron in your water.  Your test results show that your water contains less than 0.1 mg/L of manganese, so using a strong oxidizing agent, such as chlorine or permanganate, is not needed.  This type of system will also reduce the level of arsenic in your water, if present; however, you did not provide test results for arsenic.  How much arsenic can be removed by this type of system depends on the levels of iron and arsenic.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
             </Content>
           </Fe1f>
           <Fe1g>
@@ -1587,7 +1470,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">MADES’ Fact Sheet</a>.
+                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -1687,7 +1570,7 @@
                 <br/>
                 Other household water uses, such as showering or toilet flushing, will also help clear water from your plumbing. Keep in mind that you will still need to run individual faucets for a short time before using them for cooking and drinking water. You may want to keep a container of water in your refrigerator, so that the water does not have to be run every time you need it.<br/>
                 <br/>
-                More information about treatment for lead can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-4.pdf">MADES’ Fact Sheet</a>.
+                More information about treatment for lead can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-4.pdf">NHDES’ Fact Sheet</a>.
                 <br/>
               </div>
             </Content>
@@ -1801,7 +1684,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  More information about treatment for manganese can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">MADES’ Fact Sheet</a>.
+                  More information about treatment for manganese can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -1827,7 +1710,7 @@
               <br/>
               <ul style="list-style-type:none">
                 <li>
-                  More information about treatment for manganese can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">MADES’ Fact Sheet</a>.
+                  More information about treatment for manganese can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
                 </li>
               </ul>
               <br/>
@@ -1926,7 +1809,7 @@
                   <br/>
                 </ol>
                 <br/>
-                More information about treatment for nitrite can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-9.pdf">MADES’ Fact Sheet</a>.
+                More information about treatment for nitrite can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-9.pdf">NHDES’ Fact Sheet</a>.
                 <br/>
               </div>
             </Content>
@@ -2043,7 +1926,7 @@
                   <br/>
                 </ol>
                 <br/>
-                More information about treatment for nitrate can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-9.pdf">MADES’ Fact Sheet</a>.
+                More information about treatment for nitrate can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-9.pdf">NHDES’ Fact Sheet</a>.
                 <br/>
               </div>
             </Content>
@@ -2083,7 +1966,7 @@
                   <br/>
                 </ol>
                 <br/>
-                More information about treatment for nitrate can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-9.pdf">MADES’ Fact Sheet</a>.
+                More information about treatment for nitrate can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-9.pdf">NHDES’ Fact Sheet</a>.
                 <br/>
               </div>
             </Content>
@@ -2223,7 +2106,7 @@
         <TreatmentMessages>
           <Na1>
             <Content>
-              <b>How can I reduce the level of sodium in my water?</b>  Install an NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink to reduce the level of sodium in the water that you consume.  More information about treatment for sodium can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">MADES’ Fact Sheet</a>.
+              <b>How can I reduce the level of sodium in my water?</b>  Install an NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink to reduce the level of sodium in the water that you consume.  More information about treatment for sodium can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">NHDES’ Fact Sheet</a>.
             </Content>
           </Na1>
           <Na2>
@@ -2234,38 +2117,38 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Rn" Text="Radon" MCL="2000 pCi/L" NotEntered="Test both the air in your home (if you live below the third floor) and in your water (unless it is from a dug well) for radon.  More than half of all private wells in Massachusetts have high radon.">
+    <Contaminant Value="Rn" Text="Radon" MCL="2000 pCi/L" NotEntered="Test both the air in your home (if you live below the third floor) and in your water (unless it is from a dug well) for radon.  More than half of all private wells in New Hampshire have high radon.">
       <Condition CheckOperator="=" CheckValue="0">
         <True>
-          <Outcome GuidelineIcon="M" GuidelineText="The value entered meets MADES’s advisory level for radon in water, but you should also test the air in your home for radon gas if you live below the third floor." />
+          <Outcome GuidelineIcon="M" GuidelineText="The value entered meets NHDES’s advisory level for radon in water, but you should also test the air in your home for radon gas if you live below the third floor." />
         </True>
         <False>
           <Condition CheckOperator=">=" CheckValue="2000">
             <True>
               <Condition CheckOperator=">=" CheckValue="10000">
                 <True>
-                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="Consult MADES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016)." />
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="Consult NHDES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016)." />
                 </True>
                 <False>
-                  <Outcome IM="Rn1" HM="Rn1" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="Consult MADES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016)." />
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="Consult NHDES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016)." />
                 </False>
               </Condition>
             </True>
             <False>
-              <Outcome IM="Rn3" HM="Rn3" GuidelineIcon="M" GuidelineText="The value entered is below MADES’s advisory level for radon in water" />
+              <Outcome IM="Rn3" HM="Rn3" GuidelineIcon="M" GuidelineText="The value entered is below NHDES’s advisory level for radon in water" />
             </False>
           </Condition>
           <!-- 17-mar-2016 rel replaced by above
-                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="Please review the MADES’ Radon Fact Sheet (link below)" />
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="Please review the NHDES’ Radon Fact Sheet (link below)" />
                 </True>
                 <False>
-                  <Outcome IM="Rn1" HM="Rn1" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="Please review the MADES’ Radon Fact Sheet (link below)" />
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="Please review the NHDES’ Radon Fact Sheet (link below)" />
           -->
           
           <!--  commented out and changed to the above 09-mar-2016  by REL per request by Pierce Rigrod
-                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="You should read the MA DES Environmental Fact Sheet on Radon in Your Home &lt;a href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot;Coder&#39;s Toolbox String Conversion &lt;/a&gt; " />
-                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="You should read the MA DES Environmental Fact Sheet on Radon in Your Home &lt; a target=&quot;_blank&quot; href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot; &lt;/a&gt; " />
-                  <Outcome IM="Rn2" HM="Rn2" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="You should read the MA DES Environmental Fact Sheet on Radon in Your Home &lt;a href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot;Coder&#39;s Toolbox String Conversion &lt;/a&gt; " />
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="You should read the NH DES Environmental Fact Sheet on Radon in Your Home &lt;a href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot;Coder&#39;s Toolbox String Conversion &lt;/a&gt; " />
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="You should read the NH DES Environmental Fact Sheet on Radon in Your Home &lt; a target=&quot;_blank&quot; href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot; &lt;/a&gt; " />
+                  <Outcome IM="Rn2" HM="Rn2" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="You should read the NH DES Environmental Fact Sheet on Radon in Your Home &lt;a href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot;Coder&#39;s Toolbox String Conversion &lt;/a&gt; " />
           <Condition CheckOperator=">=" CheckValue="2000">
             <True>
               <Condition CheckOperator=">=" CheckValue="10000">
@@ -2278,7 +2161,7 @@
               </Condition>
             </True>
             <False>
-              <Outcome IM="Rn3" HM="Rn3" GuidelineIcon="M" GuidelineText="The value entered meets MADES’s advisory level for radon in water" />
+              <Outcome IM="Rn3" HM="Rn3" GuidelineIcon="M" GuidelineText="The value entered meets NHDES’s advisory level for radon in water" />
             </False>
           </Condition>
  -->
@@ -2291,20 +2174,20 @@
             <Content>
               <b>
                 What do my results mean<a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"></a>?
-              </b> See MADES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for Massachusetts Homeowners - (Revised 3/14/2016).</a> MADES also recommends testing for radon in air in all living spaces below the third floor.
+              </b> See NHDES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for New Hampshire Homeowners - (Revised 3/14/2016).</a> NHDES also recommends testing for radon in air in all living spaces below the third floor.
             </Content>
           </Rn1>
           <Rn2>
             <Content>
               <b>
                 What do my results mean<a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"></a>?
-              </b> See MADES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for Massachusetts Homeowners - (Revised 3/14/2016).</a> MADES also recommends testing for radon in air in all living spaces below the third floor.
+              </b> See NHDES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for New Hampshire Homeowners - (Revised 3/14/2016).</a> NHDES also recommends testing for radon in air in all living spaces below the third floor.
             </Content>
           </Rn2>
           <Rn3>
             <Content>
               <b>
-                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> MADES’s advisory level for radon in water</a>?
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
               </b>  Yes, your water meets the advisory level as it contains less than 2,000 pCi/L of radon.
             </Content>
           </Rn3>
@@ -2312,21 +2195,21 @@
           <Rn1>
             <Content>
               <b>
-                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> MADES’s advisory level for radon in water</a>?
-              </b> MADES recommends you test your home’s indoor air and consult with a certified radon mitigation professional before making air or water treatment decisions.
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
+              </b> NHDES recommends you test your home’s indoor air and consult with a certified radon mitigation professional before making air or water treatment decisions.
             </Content>
           </Rn1>
           <Rn2>
             <Content>
               <b>
-                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> MADES’s advisory level for radon in water</a>?
-              </b> MADES recommends you test your home’s indoor air and consult with a certified radon mitigation professional before making air or water treatment decisions.
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
+              </b> NHDES recommends you test your home’s indoor air and consult with a certified radon mitigation professional before making air or water treatment decisions.
             </Content>
           </Rn2>
           <Rn3>
             <Content>
               <b>
-                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> MADES’s advisory level for radon in water</a>?
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
               </b>  Yes, your water meets the advisory level as it contains less than 2,000 pCi/L of radon.
             </Content>
           </Rn3>-->
@@ -2335,21 +2218,21 @@
           <Rn1> 
             <Content>
               <b>
-                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> MADES’s advisory level for radon in water</a>?
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
               </b>  No, your water does not meet the advisory level as it contains 2,000 pCi/L or more of radon.
             </Content>
           </Rn1>
           <Rn2>
             <Content>
               <b>
-                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> MADES’s advisory level for radon in water</a>?
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
               </b>  No, your water does not meet the advisory level as it contains 2,000 pCi/L or more of radon.
             </Content>
           </Rn2>
           <Rn3>
             <Content>
               <b>
-                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> MADES’s advisory level for radon in water</a>?
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
               </b>  Yes, your water meets the advisory level as it contains less than 2,000 pCi/L of radon.
             </Content>
           </Rn3>-->
@@ -2358,36 +2241,36 @@
         <HealthMessages>
           <Rn1>
             <Content>
-              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 Massachusetts residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor. A secondary concern is the risk of cancer associated with the ingestion of drinking water with radon.
+              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 New Hampshire residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor. A secondary concern is the risk of cancer associated with the ingestion of drinking water with radon.
               <br/>
             </Content>
           </Rn1>
           <Rn2>
             <Content>
-              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 Massachusetts residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor. A secondary concern is the risk of cancer associated with the ingestion of drinking water with radon.
+              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 New Hampshire residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor. A secondary concern is the risk of cancer associated with the ingestion of drinking water with radon.
             </Content>
           </Rn2>
           <Rn3>
             <Content>
-              <b>Can radon affect my health?</b>  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.  Radon gas in indoor air poses an increased health risk, primarily from lung cancer.  More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> MADES’ Website</a>.<br/>
+              <b>Can radon affect my health?</b>  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.  Radon gas in indoor air poses an increased health risk, primarily from lung cancer.  More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’ Website</a>.<br/>
               <br/>
             </Content>
           </Rn3>
           <!--  commented out and replaced by above lines 17-mar-2016 by REL per request by Pierce Rigrod
           <Rn1>
             <Content>
-              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 Massachusetts residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.
+              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 New Hampshire residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.
               <br/>
             </Content>
           </Rn1>
           <Rn2>
             <Content>
-              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 Massachusetts residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.
+              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 New Hampshire residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.
             </Content>
           </Rn2>
           <Rn3>
             <Content>
-              <b>Can radon affect my health?</b>  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.  Radon gas in indoor air poses an increased health risk, primarily from lung cancer.  More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> MADES’ Website</a>.<br/>
+              <b>Can radon affect my health?</b>  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.  Radon gas in indoor air poses an increased health risk, primarily from lung cancer.  More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’ Website</a>.<br/>
               <br/>
             </Content>
           </Rn3>
@@ -2397,17 +2280,17 @@
         <TreatmentMessages>
           <Rn1>
             <Content>
-              <b>How can I reduce my health risk from radon?</b> In most cases, reducing the level of radon in air by preventing air from entering your house from the ground is more cost-effective than treating radon in water.  However, radon-in-water treatment is cost-effective in many cases, either in addition to radon-in-air mitigation or (in fewer situations) on its own. Testing of both your air and water, in consultation with a certified radon mitigation professional, will help you make a well-informed decision about the best way to reduce your exposure to radon. Consult MADES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016).<br/>
+              <b>How can I reduce my health risk from radon?</b> In most cases, reducing the level of radon in air by preventing air from entering your house from the ground is more cost-effective than treating radon in water.  However, radon-in-water treatment is cost-effective in many cases, either in addition to radon-in-air mitigation or (in fewer situations) on its own. Testing of both your air and water, in consultation with a certified radon mitigation professional, will help you make a well-informed decision about the best way to reduce your exposure to radon. Consult NHDES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016).<br/>
               <br/>
               To remove high levels of radon from water, install an NSF/ANSI Standard 61 certified whole house aeration device, which bubbles air through the water to release the radon gas and then moves the gas out of your home using an exhaust fan.<br/>
               <br/>
-              More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">MADES’ Website</a>.
+              More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">NHDES’ Website</a>.
               <br/>
             </Content>
           </Rn1>
           <Rn2>
             <Content>
-              <b>How can I reduce my health risk from radon?</b> In most cases, reducing the level of radon in air by preventing air from entering your house from the ground is more cost-effective than treating radon in water.  However, radon-in-water treatment is cost-effective in many cases, either in addition to radon-in-air mitigation or (in fewer situations) on its own. Testing of both your air and water, in consultation with a certified radon mitigation professional, will help you make a well-informed decision about the best way to reduce your exposure to radon. Consult MADES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016).<br/>
+              <b>How can I reduce my health risk from radon?</b> In most cases, reducing the level of radon in air by preventing air from entering your house from the ground is more cost-effective than treating radon in water.  However, radon-in-water treatment is cost-effective in many cases, either in addition to radon-in-air mitigation or (in fewer situations) on its own. Testing of both your air and water, in consultation with a certified radon mitigation professional, will help you make a well-informed decision about the best way to reduce your exposure to radon. Consult NHDES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016).<br/>
               <br/>
               Water treatment options for radon include the following whole house water treatment systems:<br/>
               <br/>
@@ -2425,7 +2308,7 @@
               </ol>
               <br/>
               <br/>
-              See MADES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for Massachusetts Homeowners - (Revised 3/14/2016).</a> More information about radon can also be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">MADES’ Website</a>.
+              See NHDES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for New Hampshire Homeowners - (Revised 3/14/2016).</a> More information about radon can also be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">NHDES’ Website</a>.
               <br/>
             </Content>
           </Rn2>
@@ -2436,7 +2319,7 @@
               <br/>
               To remove high levels of radon from water, install an NSF/ANSI Standard 61 certified whole house aeration device, which bubbles air through the water to release the radon gas and then moves the gas out of your home using an exhaust fan.<br/>
               <br/>
-              More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">MADES’ Website</a>.
+              More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">NHDES’ Website</a>.
               <br/>
             </Content>
           </Rn1>
@@ -2460,7 +2343,7 @@
               </ol>
               <br/>
               <br/>
-              See MADES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for Massachusetts Homeowners.</a> More information about radon can also be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">MADES’ Website</a>.
+              See NHDES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for New Hampshire Homeowners.</a> More information about radon can also be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">NHDES’ Website</a>.
               <br/>
             </Content>
           </Rn2>
@@ -2469,7 +2352,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Ur" Text="Uranium" MCL="30 μg/L" NotEntered="Test your water.  Studies show that many private wells in Massachusetts have high uranium.">
+    <Contaminant Value="Ur" Text="Uranium" MCL="30 μg/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high uranium.">
       <Condition CheckOperator=">=" CheckValue="30">
         <True>
           <Outcome IM="Ur1" HM="Ur1" TM="Ur1" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
@@ -2502,6 +2385,13 @@
               </b>  No, your water does not meet federal and state drinking water standards as it contains more than 30 ug/L of uranium.
             </Content>
           </Ur1>
+          <Ur2>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/radionuclides.cfm"> drinking water standard for uranium</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains more than 30 ug/L of uranium.
+            </Content>
+          </Ur2>
         </InterpretationMessages>
 
         <HealthMessages>
@@ -2515,14 +2405,14 @@
         <TreatmentMessages>
           <Ur1>
             <Content>
-              <b>How can I reduce the level of uranium in my water?</b>  Install an NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink to reduce the level of uranium in the water that you consume.  More information about treatment for uranium can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">MADES’ Fact Sheet</a>.
+              <b>How can I reduce the level of uranium in my water?</b>  Install an NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink to reduce the level of uranium in the water that you consume.  More information about treatment for uranium can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">NHDES’ Fact Sheet</a>.
             </Content>
           </Ur1>
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="AGA" Text="Gross Alpha" MCL="15 pCi/L" NotEntered="Test your water.  Studies show that many private wells in Massachusetts have high gross alpha radioactivity.">
+    <Contaminant Value="AGA" Text="Gross Alpha" MCL="15 pCi/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high gross alpha radioactivity.">
       <Condition CheckOperator=">=" CheckValue="15">
         <True>
           <Condition CheckElement="Ur" CheckOperator=">=" CheckValue="20">
@@ -2578,17 +2468,17 @@
         <TreatmentMessages>
           <AGA1a>
             <Content>
-              <b>How can I reduce the level of gross alpha radioactivity in my water?</b>  In addition to gross alpha radioactivity, your test results show that your water also contains more than 20 ug/L of uranium, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink to reduce the level of uranium and gross alpha radioactivity in the water that you consume.  More information about treatment for gross alpha radioactivity can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">MADES’ Fact Sheet</a>.
+              <b>How can I reduce the level of gross alpha radioactivity in my water?</b>  In addition to gross alpha radioactivity, your test results show that your water also contains more than 20 ug/L of uranium, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink to reduce the level of uranium and gross alpha radioactivity in the water that you consume.  More information about treatment for gross alpha radioactivity can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">NHDES’ Fact Sheet</a>.
             </Content>
           </AGA1a>
           <AGA1b>
             <Content>
-              <b>How can I reduce the level of gross alpha radioactivity in my water?</b>  Install an NSF/ANSI Standard 44 certified whole house cation exchange water softener.  Your test results show that your water contains less than 20 ug/L of uranium, so installing a treatment system for uranium is not needed.  More information about treatment for gross alpha radioactivity can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">MADES’ Fact Sheet</a>.
+              <b>How can I reduce the level of gross alpha radioactivity in my water?</b>  Install an NSF/ANSI Standard 44 certified whole house cation exchange water softener.  Your test results show that your water contains less than 20 ug/L of uranium, so installing a treatment system for uranium is not needed.  More information about treatment for gross alpha radioactivity can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">NHDES’ Fact Sheet</a>.
             </Content>
           </AGA1b>
           <AGA1c>
             <Content>
-              <b>How can I reduce the level of gross alpha radioactivity in my water?</b>  Install an NSF/ANSI Standard 44 certified whole house cation exchange water softener.  Your choice of treatment system could change, depending on the level of uranium in your water; however, you did not provide test results for uranium.  More information about treatment for gross alpha radioactivity can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">MADES’ Fact Sheet</a>.
+              <b>How can I reduce the level of gross alpha radioactivity in my water?</b>  Install an NSF/ANSI Standard 44 certified whole house cation exchange water softener.  Your choice of treatment system could change, depending on the level of uranium in your water; however, you did not provide test results for uranium.  More information about treatment for gross alpha radioactivity can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">NHDES’ Fact Sheet</a>.
             </Content>
           </AGA1c>
         </TreatmentMessages>

@@ -115,7 +115,7 @@ function generate_state_form() {
     '#state_xml' => $_POST['state_xml']
   ];*/
   //$rendered_html = drupal_render($options);
-  $rendered_html = theme('be_well_informed_modal_state_form', ['state_xml'=>$_POST['state_xml']]);
+  $rendered_html = theme('be_well_informed_modal_state_form', ['state_code'=>$_POST['state_code']]);
   echo $rendered_html;
 }
 
@@ -170,6 +170,11 @@ function be_well_informed_theme() {
         'variables' => array(),
         'template' => 'be-well-informed-pdf',
         'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
+    ),
+    'be_well_informed_modal_state_results' => array(
+      'variables' => array(),
+      'template' => 'be-well-informed-model-state-results',
+      'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
     ),
   );
 }
@@ -286,6 +291,11 @@ function be_well_informed_form_submission() {
     }
     else {
       $formatted_data = be_well_informed_datatable_response($response->data);
+      if($formatted_data) {
+
+        $rendered_html = theme('be_well_informed_modal_state_results', ['state_code'=>$_POST['state_code']]);
+        die($rendered_html);
+      }
       $datatable_formatted_response['data'] = $formatted_data;
       $datatable_formatted_response['error'] = FALSE;
     }
@@ -332,7 +342,7 @@ function be_well_informed_get_state_information() {
   }*/
   //drupal_json_output($sample);
 
-  $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/flowchart-'.$_POST['state'].'.xml';
+  $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/partner'.$_POST['state'].'.xml';
   $sample = file_get_contents($path);
 
   drupal_add_http_header('Content-Type', 'text/xml');
@@ -465,7 +475,7 @@ function processGuidelineIcon($guideline_icon) {
  */
 function template_preprocess_be_well_informed(&$variables, $hook) {
   $variables['states'] = ['Massachusetts', 'New Hampshire'];
-
+  $variables['state_code'] = $_POST['state_code'];
 }
 
 /**
@@ -746,6 +756,9 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 function be_well_informed_preprocess(&$variables, $hook) {
   template_preprocess_be_well_informed_pdf($variables, $hook);
   process_state_xml($variables);
+  if($hook == 'be_well_informed_modal_state_results') {
+    template_preprocess_be_well_informed_pdf($variables, $hook);
+  }
 }
 
 function process_state_xml(&$variables){

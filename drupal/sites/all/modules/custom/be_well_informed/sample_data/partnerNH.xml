@@ -1,0 +1,25 @@
+<State>
+    <Name>New Hampshire</Name>
+    <Code>NH</Code>
+    <SupportInformation>
+        <Section name="Phone Support">
+            <h4>Phone Support</h4>
+            <p class="bwi-support-intro">For telephone support please contact the NH Department of Environmental
+                Service’s Drinking Water and Groundwater Bureau:
+            </p>
+            <ul class="plain-list bwi-resources-list">
+                <li>
+                    <p class="bwi-resource-name">NH Department of Environmental Services</p>
+                    <p>Drinking Water and Groundwater Bureau</p>
+                    <p>29 Hazen Drive, PO Box 95</p>
+                    <p>Concord, NH 03302-0095</p>
+                    <p><i class="fa fa-phone"></i>(603) 271-2513
+                    </p>
+                    <p><i class="fa fa-send"></i>dwgbinfo@des.nh.gov
+                    </p>
+                </li>
+            </ul>
+        </Section>
+        <Section title="Additionl Resources">...</Section>
+    </SupportInformation>
+</State>
