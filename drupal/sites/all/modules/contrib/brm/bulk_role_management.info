@@ -1,0 +1,14 @@
+name = Bulk Role Management
+description = Allows a site administrator to easily manage large role tables.
+core = 7.x
+package = Administration
+scripts[] = js/bulk_role_management.js
+stylesheets[all][] = css/bulk_role_management.css
+configure = admin/config/people/bulk_role_management
+
+; Information added by Drupal.org packaging script on 2016-03-12
+version = "7.x-1.0"
+core = "7.x"
+project = "brm"
+datestamp = "1457747942"
+

@@ -2,7 +2,7 @@
  * Created by bmatkin on 5/4/2017.
  */
 (function ($) {
-    
+
     Drupal.behaviors.initializeGridstack = {
         attach: function (context) {
             $('body').once(function () {
@@ -13,6 +13,7 @@
                 var allowed_drag = false;
 
                 function createGrid() {
+                    var serialization = GridStackUI.Utils.sort(Drupal.settings.gridstack_user_settings);
                     var $grid_container = $('.grid-stack');
                     var options = {
                         vertical_margin: verticalMargin,
@@ -22,6 +23,7 @@
                             cancel: 'input, textarea, button, select, option, .faceted-filters'
                         }
                     };
+
                     $grid_container.gridstack(options);
                     var grid = $grid_container.data('gridstack');
 
@@ -35,7 +37,7 @@
 
                     addDragListeners($grid_container, $grid_change_options);
                     addSaveListeners(grid, $save_button, $revert_button);
-                    loadUserIndices(grid);
+                    initializeIndices(grid, serialization);
                     addResizeSensors(grid, verticalMargin, cellHeight);
                     grid.resizable('.grid-stack-item', false);
                     if (Drupal.settings.is_guest) {
@@ -71,7 +73,7 @@
                 // @see https://github.com/troolee/gridstack.js/blob/master/README.md#save-grid-to-array
                 function sortedWidgets() {
                     var widgets = _.map($('.grid-stack .grid-stack-item:visible'), function (el, key) {
-                        el = $(el);
+                        var el = $(el);
                         // if no id has been set, set the id, e.g.: grid-item-my-facility-manager-2
                         if (!el.attr('id')) {
                             el.attr('id', 'grid-item-' + key);
@@ -196,8 +198,8 @@
                             var $grid_item = $("#" + pane_data.id).parent();
                             var x = pane_data.x;
                             var y = pane_data.y;
-                            var width = 1; //pane_data.width;
-                            var height = 1; //pane_data.height;
+                            var width = 1;
+                            var height = 1;
                             grid.update($grid_item, x, y, width, height);
                             $grid_item.find('.grid-stack-item-content').css('overflow-y', 'hidden');
                         });
@@ -215,19 +217,6 @@
                     previous_grid_settings = serialized_data(grid);
                 }
 
-                function loadUserIndices(grid) {
-                    var serialization;
-                    $.ajax({
-                        url: 'load_user_gridstack_data',
-                        data: {json: true},
-                        method: 'GET',
-                        success: function (data) {
-                            var data = $.parseJSON(data);
-                            serialization = GridStackUI.Utils.sort(data);
-                            initializeIndices(grid, serialization);
-                        }
-                    });
-                }
 
                 function updateUserIndices(grid_data, $save_button, $revert_button) {
                     $.ajax({

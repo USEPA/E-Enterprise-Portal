@@ -77,6 +77,10 @@ function load_eactivity_data($module_caller, $use_cache) {
   }
 
   global $user;
+
+  $account = user_load($user->uid);
+  $cdx_username = $account->field_cdx_username[LANGUAGE_NONE][0]['value'];
+  
   $eactivity_data = &drupal_static(__FUNCTION__);
 
 
@@ -133,14 +137,6 @@ function load_eactivity_data($module_caller, $use_cache) {
 
       $client2 = $client2->client;
 
-      //Extract out "_Via_CDX" string from $user->name to pull to-do and progress tracker from the Activity Data flow
-      $cdx_username = $user->name;
-      $cdx_pos = strrpos($cdx_username, "_Via_");
-      if ($cdx_pos !== FALSE) {
-        $cdx_username = substr($cdx_username, 0, $cdx_pos);
-      }
-
-      //For the following parameter, use $cdx_username, which does not have _Via_CDX at the end, instead of $user_name
       $params2 = array(
         "securityToken" => $response1->securityToken,
         "dataflow" => "E-ACTIVITY",
