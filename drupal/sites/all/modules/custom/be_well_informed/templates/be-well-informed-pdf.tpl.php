@@ -1,4 +1,41 @@
-
+<html>
+ <meta charset="UTF-8" />
+<head>
+    <link rel="stylesheet" type="text/css" href="<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/css/be_well_informed_pdf.css">
+    <style type="text/css">
+         .step-icon.home-icon:before{
+            background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/smallhome2.png);
+            width:5em;height:5em;margin-left:4.5em;margin-top:-0.5em;
+         }
+         .step-icon.facet-icon:before{
+            background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/facet.png);
+            width:5em;height:5em;margin-left:4.5em;margin-top:-0.5em;
+         }
+          .bwi-meets-limit:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/check.png);
+          }
+          .bwi-close-to-limit:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/exclamation.png);
+          }
+          .bwi-above-limit:before {
+              background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/false.png);
+          }
+         .bwi-above-limit:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/false.png);
+         }
+         .bwi-consult:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/orange.png);
+         }
+         .bwi-no-entry:before {
+             background-image: url(<?php print $doc_root; ?>/sites/all/modules/custom/be_well_informed/images/circle.png);
+         }
+         /* This style is inserted as an internal style to avoid affecting these IDs in the html results page. The effect is needed only on the pdf version.*/
+         #Bac1, #Cl1a, #Cu1, #Pb1, #N1, #N2{
+           display:block !important;
+         }
+    </style>
+</head>
+ <body>
  <div id="be-well-informed-results-wrapper-pdf"
       class="be-well-informed-modal-wrapper">
    <h1 class="be-well-pdf-title">The State of New Hampshire<br>
@@ -200,3 +237,13 @@
      </div>
    </div>
  </div>
+   <?php
+     if($variables['bwi_pdf_debug']) {
+       $vars = get_defined_vars();
+       echo '<pre>';
+       print_r($vars['variables']);
+       echo '</pre>';
+     }
+   ?>
+ </body>
+</html>

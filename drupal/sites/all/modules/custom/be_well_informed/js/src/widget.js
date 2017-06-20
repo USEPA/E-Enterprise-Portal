@@ -11,30 +11,9 @@
     // Get the chosen state
     $state = $('#bwi-state').find('option:selected')
     if($state.val()){
-      $.ajax({
-        url: 'be_well_informed/get_state_information',
-        method: 'POST',
-        data: {
-          state: $state.val()
-        },
-        before: function() {
-          console.log('before: get_state_information')
-        },
-        success: function(response_xml) {
-          console.log('success get_state_information', response_xml);
-          // Prepare the raw XML to be used to create the content for the widget
-          //parser = new DOMParser();
-          //xmlDoc = parser.parseFromString(response_xml,"text/xml");
-          //xmlDoc = $.parseXML( response_xml )
-          //$xml = $( response_xml )
-          // Manage the income XML and make the result globally available
-          Drupal.settings.be_well_informed.state_xml = response_xml
-          //build_widget_state_info()
-          build_state_form($state)
-        }
-      })
+      build_state_form($state.val())
     }
-
+    // @todo Add Parsley flag on the text field to show it needs a selection
   }
 
   function build_widget_state_info(){
@@ -54,12 +33,12 @@
 
   }
 
-  function build_state_form($state) {
+  function build_state_form(state_code) {
     $.ajax({
       url: 'be_well_informed/generate_state_form',
       method: 'POST',
       data: {
-        state_code: $state.val()
+        state_code: state_code
       },
       before: function() {
         console.log('before: generate_state_form')
@@ -185,6 +164,7 @@
 
     var $loading_wrapper = $('#be-well-informed-loading-wrapper');
     var $results_wrapper = $('#be-well-informed-results-wrapper');
+    //var $results_wrapper = $('#be-well-informed-results-wrapper-pdf');
     var $form_wrapper = $('#be-well-informed-form-wrapper');
     var $all_wrappers = $('.be-well-informed-modal-wrapper');
     var formData = $form.serializeObject();
@@ -201,7 +181,17 @@
       method: 'POST',
       data: data,
       success: function(be_well_response_json) {
-        if (!be_well_response_json.error) {
+
+        console.log('be_well_response_json');
+        console.log(be_well_response_json);
+
+        if(typeof be_well_response_json === 'string') {
+          // Handle the insertion result HTML into the modal
+          console.log('insert bwi html result');
+          $results_wrapper.html(be_well_response_json);
+          showElementOutOfMany($results_wrapper, $all_wrappers);
+        } else if (!be_well_response_json.error) {
+          console.log('handle bwi json interactive prompts');
           // reset the modal and return it to a 'default' state
           $('#routine-contaminants, .or').removeClass('hide')
           $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')

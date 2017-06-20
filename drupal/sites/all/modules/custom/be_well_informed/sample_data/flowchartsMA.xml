@@ -402,7 +402,7 @@
     <Contaminant Value="Ecoli" Text="Bacteria" MCL="0 CFU/100 mL or Absent">
       <Condition CheckOperator=">" CheckValue="0" Present="Y">
         <True>
-            <Outcome IM="Bac1" HM="Bac1" TM="Bac1" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard.  &lt;font color='red' &gt;YOUR WATER IS NOT SAFE TO CONSUME &lt;/font&gt;." />
+          <Outcome IM="Bac1" HM="Bac1" TM="Bac1" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard.  &lt;font color='red' &gt;YOUR WATER IS NOT SAFE TO CONSUME &lt;/font&gt;." />
         </True>
         <False>
           <Condition CheckElement="Bac" CheckOperator=">" CheckValue="0" Present="Y">
@@ -442,7 +442,7 @@
           <Bac1>
             <Content>
               <b>What should I do?</b>
-                To avoid getting sick from consuming water containing E. coli bacteria, boil all water that you use for drinking, brushing teeth, washing fruits and vegetables, food preparation, washing dishes, making baby food and formula, and making ice or use an alternative source of water that is known to be safe, such as bottled water, until the problem is fixed and E. coli bacteria are absent.  Water should be boiled for two minutes and cooled before using it. Dishes can be safely washed in a dishwasher if you use the hot water/sanitary cycle setting and the dry cycle. You can continue to use your water for bathing and showering as long as you do not drink it; extra care should be taken with small children.  To fix the E. coli bacteria problem in your well water, take the steps listed <a class="contaminant-link" data-contaminant="Bac1" style="cursor: pointer;">here</a>.
+              To avoid getting sick from consuming water containing E. coli bacteria, boil all water that you use for drinking, brushing teeth, washing fruits and vegetables, food preparation, washing dishes, making baby food and formula, and making ice or use an alternative source of water that is known to be safe, such as bottled water, until the problem is fixed and E. coli bacteria are absent.  Water should be boiled for two minutes and cooled before using it. Dishes can be safely washed in a dishwasher if you use the hot water/sanitary cycle setting and the dry cycle. You can continue to use your water for bathing and showering as long as you do not drink it; extra care should be taken with small children.  To fix the E. coli bacteria problem in your well water, take the steps listed <a class="contaminant-link" data-contaminant="Bac1" style="cursor: pointer;">here</a>.
               <div Id="Bac1" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
                 To fix the E. coli bacteria problem in your well water, take these steps:
                 <br/>
@@ -674,7 +674,7 @@
                 <ul style="list-style-type:none">
                   <li>
                     More information about treatment for chloride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">NHDES’ Fact Sheet</a>.
-                </li>
+                  </li>
                 </ul>
                 <br/>
               </div>
@@ -780,7 +780,7 @@
     </Contaminant>
 
     <Contaminant Value="CuSt" Text="Copper Stagnant" MCL="1.3 mg/L" ContaminantLogic="Cu"/>
-    
+
     <Contaminant Value="Fl" Text="Fluoride" MCL="2 mg/L">
       <Condition CheckOperator="=" CheckValue="0">
         <True>
@@ -960,7 +960,7 @@
               </Prompt>
             </True>
             <False>
-                <Outcome IM="Har3" HM="Har3" TM="Har3" GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
+              <Outcome IM="Har3" HM="Har3" TM="Har3" GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
             </False>
           </Condition>
         </False>
@@ -1310,7 +1310,7 @@
     </Contaminant>
 
     <Contaminant Value="PbSt" Text="Lead Stagnant" MCL="0.015 mg/L" ContaminantLogic="Pb"/>
-    
+
     <Contaminant Value="Mn" Text="Manganese" MCL="0.05 mg/L">
       <Condition CheckOperator=">=" CheckValue="0.05">
         <True>
@@ -1770,8 +1770,8 @@
             </Missing>
           </Condition>
         </False>
-      
-    </Condition>
+
+      </Condition>
 
       <Outcomes>
         <InterpretationMessages>
@@ -1842,7 +1842,7 @@
           <Na2>
             <Content>
             </Content>
-          </Na2> 
+          </Na2>
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
@@ -1874,7 +1874,7 @@
                 <False>
                   <Outcome IM="Rn1" HM="Rn1" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="Please review the NHDES’ Radon Fact Sheet (link below)" />
           -->
-          
+
           <!--  commented out and changed to the above 09-mar-2016  by REL per request by Pierce Rigrod
                   <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="You should read the NH DES Environmental Fact Sheet on Radon in Your Home &lt;a href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot;Coder&#39;s Toolbox String Conversion &lt;/a&gt; " />
                   <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="You should read the NH DES Environmental Fact Sheet on Radon in Your Home &lt; a target=&quot;_blank&quot; href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot; &lt;/a&gt; " />
@@ -1943,9 +1943,9 @@
               </b>  Yes, your water meets the advisory level as it contains less than 2,000 pCi/L of radon.
             </Content>
           </Rn3>-->
-          
+
           <!--  commented out and replaced by above lines 30-sep-2015 by REL per request by Pierce Rigrod
-          <Rn1> 
+          <Rn1>
             <Content>
               <b>
                 Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
