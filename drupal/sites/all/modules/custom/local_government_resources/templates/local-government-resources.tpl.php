@@ -3,7 +3,7 @@
                                                                             src="<?php print base_path() . path_to_theme(); ?>/images/question-circle.png"
                                                                             alt="Learn more about the Resources for Local Communities widget"></a>
 <div id="resources-lgc-about" class="element-hidden">
-  <?php print $recommended_resources_html; ?>
+  <?php print $lgc_about_html; ?>
 </div>
 <div class="back-to-lgc-widget">
   <div class="usa-grid">
@@ -153,8 +153,10 @@
         </div>
       </div>
       <div id="all-local-resources">
-        <table id="lgc-table">
-        </table>
+        <div class="view-lgc-resources">
+          <table id="lgc-table">
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -287,9 +289,10 @@
           </div>
         </div>
         <div id="user-local-resources">
-          <table id="lgc-user-table">
-
-          </table>
+          <div class="view-lgc-resources">
+            <table id="lgc-user-table">
+            </table>
+          </div>
         </div>
       </div>
     </div>

@@ -21,6 +21,16 @@ function local_government_resources_menu() {
     'page callback' => 'user_table_datatable_json',
     'access callback' => TRUE,
   );
+
+  $items['admin/config/system/lgc'] = array(
+    'title' => 'LGC',
+    'description' => 'LGC data configuration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('lgc_settings'),
+    'access arguments' => array('administer lgc'),
+    'file' => 'local_government_resources.admin.inc',
+  );
+
   return $items;
 }
 
@@ -96,19 +106,22 @@ function local_government_resources_block_info() {
  * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
  */
 function local_government_resources_theme() {
-  // Set default LGC about html
-  $lgc_about_html = "<p>stand in </p>";
+
   return array(
     // Name to be called with theme(). theme('local_government_resources')
     'local_government_resources' => array(
       // Default variables
-      'variables' => ['recommended_resources_html' => variable_get('lgc_about_html', $lgc_about_html)],
+//      'variables' => ['lgc_about_html' => $lgc_about_html],
       // Which .tpl.php file to use my-cdx.tpl.php
       'template' => 'local-government-resources',
       'path' => drupal_get_path('module', 'local_government_resources') . '/templates'
     ),
     'local_government_resources_topic_selection' => array(
       'template' => 'manage-my-topics',
+      'path' => drupal_get_path('module', 'local_government_resources') . '/templates'
+    ),
+    'lgc_about_content' => array(
+      'template' => 'lgc-about',
       'path' => drupal_get_path('module', 'local_government_resources') . '/templates'
     )
   );
@@ -205,9 +218,14 @@ function local_government_resources_block_view($delta = '') {
       ]);
       drupal_add_css("sites/all/libraries/jqueryui/themes/base/minified/jquery.ui.tabs.min.css", ['scope' => 'footer', 'preprocess' => true, 'group' => CSS_DEFAULT]);
 
-
+      // Set default LGC about html
+      $lgc_about_html = theme('lgc_about_content');
+      $config_about_html = variable_get('lgc_about_content', ['value' => '']);
+      if ($config_about_html['value'] != '') {
+        $lgc_about_html = $config_about_html['value'];
+      }
       $block['subject'] = t('Local Government Resources');
-      $block['content'] = theme('local_government_resources');
+      $block['content'] = theme('local_government_resources', ['lgc_about_html' => $lgc_about_html]);
       return $block;
     }
   }

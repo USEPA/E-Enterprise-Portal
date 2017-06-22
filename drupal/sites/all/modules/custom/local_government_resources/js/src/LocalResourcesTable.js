@@ -133,6 +133,7 @@ var LocalResourcesTable;
             datatable_options.oLanguage.sEmptyTable = noDataHtml;
         }
 
+
         var cached = false;
         var datatable_id = '';
         var wrapper_id = $table_wrapper.attr('id');
@@ -371,7 +372,7 @@ var LocalResourcesTable;
         });
 
         if (table_type === 'my') {
-            var topics = Drupal.settings.recommended_resources.user_lgc_topics;
+            var topics = Drupal.settings.local_government_resources.user_topics;
             var count = Object.keys(topics).length;
             // Hide all labels in the user-local-resources topics facet
             $('#user-local-resources-wrapper').find('.topic.facet label').hide();

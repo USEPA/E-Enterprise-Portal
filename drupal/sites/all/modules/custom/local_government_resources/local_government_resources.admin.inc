@@ -39,6 +39,15 @@ function lgc_settings($form, $form_state) {
     '#element_validate' => array('element_validate_number'),
   );
 
+
+  $form['lgc_settings']['lgc_about_content'] = array(
+    '#type' => 'text_format',
+    '#title' => t('LGC About Content'),
+    '#default_value' => variable_get('lgc_about_content', ['value' => ''])['value'],
+    '#format' => variable_get('lgc_about_content', ['format' => ''])['format'],
+    '#required' => FALSE,
+  );
+
   $form['#submit'][] = 'lgc_settings_auth_settings_form_submit';
   return system_settings_form($form);
 }
