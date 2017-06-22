@@ -1,0 +1,145 @@
+@import '../../../../themes/eenterprise/sass/core/variables';
+// Resources for Local Communities responsive table styles
+.faceted-filters {
+    width: 100%;
+}
+
+.views-field {
+    &.views-field-value-3, &.views-field-value-4 {
+        display: none;
+    }
+}
+
+// controls how the table displays
+.resources {
+    .all, .local {
+
+    }
+    .left + .left {
+        width: 100%;
+    }
+    &.toggle-open {
+        .left + .left {
+            width: 65%;
+        }
+    }
+    &.toggle-close {
+        .your-selections {
+            padding-top: 1em;
+            clear: both;
+        }
+    }
+}
+
+.faceted-filters.off {
+    width: 40%;
+}
+
+@media screen and (max-width: 30em), screen and (min-width: 48.01em) and (max-width: 60.01em) {
+    .faceted-filters {
+        &.on, &.off {
+            width: 100%;
+        }
+    }
+
+    .resources {
+        &.toggle-open {
+            .left + .left {
+                width: 100%;
+            }
+        }
+    }
+
+    .view-lgc-resources {
+        .eportal-responsive-table {
+            margin-top: 1em;
+            clear: both;
+            thead {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                margin: -1px;
+                padding: 0;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                border: 0;
+            }
+            tbody,
+            tr,
+            th,
+            td {
+                display: block;
+                white-space: normal;
+                padding: 1rem 0.5rem;
+            }
+            th,
+            td {
+                vertical-align: top;
+            }
+            tr {
+                position: relative;
+                &.odd,
+                &.even {
+                    background-color: $color-white;
+                }
+            }
+            tbody {
+                tr:last-of-type {
+                    margin-bottom: 0;
+                }
+                td[data-title]:before {
+                    width: 5em;
+                    content: attr(data-title);
+                    position: absolute;
+                    left: 1em;
+                    font-size: 1.1rem;
+                    line-height: 1.8rem;
+                    color: $color-gray-dark;
+                }
+                td[data-title] {
+                    padding-left: 5.5em;
+                }
+                td.resource-title {
+                    padding-left: 2.5em;
+                    background-color: $color-gray-lightest;
+                    border-left: 1px solid $color-gray-light;
+                    border-right: 1px solid $color-gray-light;
+                }
+                td.resource-info {
+                    background-color: transparent;
+                    border: none;
+                    position: absolute;
+                    top: 0;
+                    margin-top: 0.9em;
+                    margin-left: 0.5em;
+                }
+                td {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 34.01em) and (max-width: 48.0em), screen and (min-width: 72.01em) {
+    .resources {
+        &.toggle-open {
+            .eportal-responsive-table {
+                .views-field {
+                    &.views-field-value-3, &.views-field-value-4 {
+                        display: none;
+                    }
+                }
+            }
+        }
+        &.toggle-closed {
+            .eportal-responsive-table {
+                .views-field {
+                    &.views-field-value-3, &.views-field-value-4 {
+                        display: table-cell;
+                    }
+                }
+            }
+        }
+    }
+}

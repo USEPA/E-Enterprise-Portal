@@ -32,8 +32,8 @@ function be_well_informed_menu() {
     'file' => 'be_well_informed.admin.inc',
   );
   return $items;
-}
-;
+};
+
 /**
  * Implements hook_block_info().
  */
