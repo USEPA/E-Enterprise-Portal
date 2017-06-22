@@ -5,7 +5,6 @@
  * In order for this JavaScript to be loaded on pages, see the instructions in
  * the README.txt next to this file.
  */
-Drupal.settings.scroll_position = {};
 (function ($) {
     // Change the default label of all Search fields
     if (jQuery.fn.dataTable != null) {
@@ -824,37 +823,6 @@ Drupal.settings.scroll_position = {};
             }
             xmlhttp.open("GET", "README.txt", true);
             xmlhttp.send();
-
-            /* Start logic:-  For positioning scroll to top of to-do widget after to-do refresh*/
-            $(".view-to-do .refresh").click(function (e) {
-              Drupal.settings.scroll_position.to_do_refreshed = true;
-            });
-
-            if (Drupal.settings.scroll_position.to_do_refreshed) {
-                jQuery(window).load(function () {
-                    setTimeout(function () { //Delay 1 sec to wait for complete page load
-                      Drupal.settings.scroll_position.to_do_refreshed = false;
-                        $(".view-to-do .refresh").focus();
-                        $(window).scrollTop($("#gridstack-pane-views-to_do-block_1").offset().top);
-                    }, 1000);
-                });
-            }
-            /* End logic:-  For positioning scroll to top of to-do widget after to-do refresh*/
-            /* Start logic:-  For positioning scroll to top of progress tracker widget after progress tracker refresh*/
-            $(".view-progress-tracker .refresh").click(function (e) {
-              Drupal.settings.scroll_position.progress_tracker_refreshed = true;
-            });
-
-            if (Drupal.settings.scroll_position.progress_tracker_refreshed) {
-                jQuery(window).load(function () {
-                    setTimeout(function () {  //Delay 1 sec to wait for complete page load
-                      Drupal.settings.scroll_position.progress_tracker_refreshed = false;
-                        $(".view-progress-tracker .refresh").focus();
-                        $(window).scrollTop($("#gridstack-pane-views-progress_tracker-block_1").offset().top);
-                    }, 1000);
-                });
-            }
-            /* End logic:-  For positioning scroll to top of progress tracker widget after progress tracker refresh*/
 
         }
     };
