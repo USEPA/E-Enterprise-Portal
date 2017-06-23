@@ -89,7 +89,7 @@ function removeTopic($checkbox, from_unfollow) {
             updatingUserTopics();
         },
         success: function (response) {
-            changes_made = false;
+            changes_made = true;
             if (Drupal.settings.recommended_resources && Drupal.settings.recommended_resources.user_lgc_topics) {
                 delete Drupal.settings.recommended_resources.user_lgc_topics[tid];
             }
@@ -111,7 +111,6 @@ function removeTopic($checkbox, from_unfollow) {
 function showLGCResourcesView() {
     var $ = jQuery;
     $('#user-lgc-topics-small-view').find('label').removeClass('selected');
-    // favorite_local_resources_table.updateTopics([]);
     favorite_local_resources_table.showTable();
     $('#manage-my-topics-wrapper').hide();
     $('.lgc-header').text('');
@@ -130,15 +129,17 @@ function reloadUserTable() {
         $.ajax({
             url: 'lgc/user_table_datatable_json',
             dataType: 'JSON',
-            success: function (user_datatable_json) {
+            success: function (lgc_user_data) {
                 var $localResourcesTabs = $('#local-resources-tabs');
+                Drupal.settings.local_government_resources.user_topics = lgc_user_data.topics;
                 // Clear previous content
                 $("#user-local-resources").find('table').DataTable().destroy();
                 $("#user-local-resources").html('<table id="lgc-user-table"></table>')
                 favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"),
-                    user_datatable_json,
+                    lgc_user_data.datatable_json,
                     'my');
                 showLGCResourcesView();
+                $anchor.html('Back');
             }
         })
     } else {
@@ -183,5 +184,11 @@ function loadManageTopicsView() {
 
     $body.on('click', '.manage-my-topics-grid, #add-more-topics', function () {
         loadManageTopicsView();
+    });
+
+    // In case First Time User settings are changed- reload user topics
+    $(document).on('ee:first_time_user_complete', function () {
+        changes_made = true;
+        reloadUserTable();
     });
 })(jQuery);

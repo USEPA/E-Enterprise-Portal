@@ -67,7 +67,11 @@ function emptyIfNull($possibleText) {
 }
 
 function user_table_datatable_json() {
-  drupal_json_output(lgc_datatables_return(lgc_resources_json_by_user()));
+  $return = [
+    'datatable_json' => lgc_datatables_return(lgc_resources_json_by_user()),
+    'topics' => load_user_lgc_topics(),
+  ];
+  drupal_json_output($return);
 }
 
 function load_lgc_topics() {
