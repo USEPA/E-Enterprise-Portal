@@ -356,13 +356,15 @@ function parse_lgc_json_return_from_mo($response_data, &$term_tid_mapping, &$dep
         $tids[] = $tid;
       }
 
-
-      foreach ($resource->categories as $category) {
-        $categories_string .= trim($category) . '|';
+      if (isset($resource->categories) && is_array($resource->categories)) {
+        foreach ($resource->categories as $category) {
+          $categories_string .= trim($category) . '|';
+        }
       }
-
-      foreach ($resource->relevance as $relevance) {
-        $relevances_string .= trim($relevance) . '|';
+      if (isset($resource->relevance) && is_array($resource->relevance)) {
+        foreach ($resource->relevance as $relevance) {
+          $relevances_string .= trim($relevance) . '|';
+        }
       }
 
       $resource_array['ResourceName'] = $resource->name;
