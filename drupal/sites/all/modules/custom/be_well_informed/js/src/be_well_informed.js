@@ -118,11 +118,12 @@ toggleSection = function() {
 }
 
 function resizeModal() {
-  jQuery('#be-well-informed-modal').dialog({
+  jQuery('#be-well-informed-modal-state-form').dialog({
     position: {'my': 'center', 'at': 'center'}
   });
-  if (jQuery('.be-well-informed-modal').css('top').replace('px', '') < 1) {
-    jQuery('.be-well-informed-modal').css('top', 0)
+  $state_form = jQuery('.be-well-informed-modal-state-form')
+  if ($state_form.length && $state_form.css('top').replace('px', '') < 1) {
+    jQuery('.be-well-informed-modal-state-form').css('top', 0)
   }
 }
 
@@ -262,8 +263,8 @@ function bwi_log() {
     }
   }
 
-  $('#be-well-informed-modal')
-    .html(Drupal.settings.be_well_informed.modal)
+  /*$('#be-well-informed-modal')
+    .html(Drupal.settings.be_well_informed.templates.contaminant_form)
     .dialog({
       modal: true,
       width: "auto",
@@ -321,14 +322,10 @@ function bwi_log() {
         $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret').addClass('hide')
         showElementOutOfMany($('#be-well-informed-form-wrapper'), $('.be-well-informed-modal-wrapper'));
       }
-    })
-
-  $('#bwi-check-water-btn').click(function() {
-    $('#be-well-informed-modal').dialog("open");
-    resizeModal()
-  });
+    })*/
 
   $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
+    console.log('water submit')
     var $form = $('#water_analysis_results_form');
     // If the form does not validate do not submit data.
     if (!$form.parsley().validate()) {

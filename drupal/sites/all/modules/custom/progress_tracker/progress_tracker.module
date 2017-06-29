@@ -28,6 +28,7 @@ function progress_tracker_block_info() {
   $blocks['progress_tracker'] = array(
     'info' => t('Progress Tracker Block'),
   );
+  $blocks['cache'] = DRUPAL_CACHE_PER_USER;
   return $blocks;
 }
 
@@ -80,9 +81,7 @@ function progress_tracker_block_view($delta = '') {
       'cache' => TRUE,
       'requires_jquery' => TRUE
     ]);
-
-
-
+    
     drupal_add_js(drupal_get_path('module', 'progress_tracker') . '/js/progress_tracker.js', [
       'scope' => 'footer',
       'preprocess' => TRUE,

@@ -47,14 +47,6 @@ function eenterprise_utility_menu() {
     'page callback' => 'default_location_zip',
     'access callback' => TRUE,
   );
-  $items['admin/config/people/trusted-users'] = array(
-    'title' => 'Trusted Users List Settings',
-    'description' => 'Manage A Trusted Users List, Switch between using and not using trusted list.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('trusted_users_list_settings'),
-    'access arguments' => array('administer trusted list'),
-    'file' => 'eenterprise_utility_trusted_users.admin.inc',
-  );
   $items['admin/config/system/eactivity-dataflow'] = array(
     'title' => 'E-Activity Webservice Endpoint Settings',
     'description' => 'Manage E-Activity Webservice Endpoint Settings',
@@ -81,15 +73,6 @@ function eenterprise_utility_menu() {
   );
 
 
-  $items['update_user_gridstack_data'] = array(
-    'page callback' => 'update_user_gridstack_data',
-    'access callback' => TRUE,
-  );
-
-  $items['load_user_gridstack_data'] = array(
-    'page callback' => 'load_user_gridstack_data',
-    'access callback' => TRUE,
-  );
   $items['map_dataset'] = array(
     'title' => 'Map Dataset',
     'page callback' => 'map_dataset',
@@ -130,49 +113,87 @@ function sso_eep_to_sep() {
 }
 
 /**
+ * @param $array
+ * @param array $array_of_keys
+ * @return array
+ * Upper case all keys in array
+ * If $array_of_keys is not empty, only upper keys from that array
+ *
+ */
+function _return_array_uppercase($array, $array_of_keys = []) {
+  $return_array = [];
+  foreach ($array as $ak => $av) {
+    if (count($array_of_keys) > 0) {
+      if (in_array(strtoupper($ak), $array_of_keys)) {
+        $return_array[strtoupper($ak)] = $av;
+      }
+    }
+    else {
+      $return_array[strtoupper($ak)] = $av;
+    }
+  }
+  return $return_array;
+}
+
+/**
  * Implementation of hook node view.
  * SSO from CDX to Portal is implemented in this hook.
  */
 function eenterprise_utility_node_view($node, $view_mode, $langcode) {
-  if (isset($_POST['Token']) && isset($_POST['CDX_DATA'])) {
-    $frs_password = variable_get('cdx_facility_password');
-    $email = variable_get('cdx_node_token_email');
-    $domain = variable_get('cdx_node_token_domain');
-    $server_ip = $_POST['CDX_DATA'];
-    $wsdl = variable_get('cdx_facility_naas_wsdl');
-    $cdx_resource_url = variable_get('cdx_facility_resource_url');
-    $validate_client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Utility");
-    if (!$validate_client->error) {
-      $validate_parameters = array(
-        "userId" => $email,
-        "credential" => $frs_password,
-        "domain" => $domain,
-        "securityToken" => $_POST['Token'],
-        "clientIp" => $server_ip,
-        "resourceURI" => $cdx_resource_url,
-        "applicationId" => "",
-        "userProperties" => "",
-      );
-      $validate_response = callSOAPWithParams($validate_client->client,
-        "Validate",
-        $validate_parameters,
-        "Eenterprise Utility");
-      if (!$validate_response->error) {
-        $response = $validate_response->response;
-        if (isset($response->return)) {
-          parse_str($response->return, $return_output);
-          perform_user_login($return_output);//authenticate user and login to drupal
-          if (isset($_GET['destination'])) {
-            drupal_goto("/" . $_GET['destination']);
-          }
-          else {
-            drupal_goto("/");
-          }
-        }
-      }
-      else {
-        drupal_goto("/");
-      }
+
+  $sso_post = _return_array_uppercase($_POST, ['TOKEN', 'CDX_DATA', 'SCS_DATA']);
+  if (!isset($sso_post['TOKEN'])) {
+    return;
+  }
+  if (!isset($sso_post['CDX_DATA']) && !isset($sso_post['SCS_DATA'])) {
+    return;
+  }
+
+  $frs_password = variable_get('cdx_facility_password');
+  $email = variable_get('cdx_node_token_email');
+  $domain = variable_get('cdx_node_token_domain');
+  $server_ip = $sso_post['CDX_DATA'] ?: $sso_post['SCS_DATA'];
+  if (isset($sso_post['CDX_DATA'])) {
+    $issuer = 'CDX';
+  }
+  else {
+    $issuer = 'SCS';
+  }
+
+  $wsdl = variable_get('cdx_facility_naas_wsdl');
+  $cdx_resource_url = variable_get('cdx_facility_resource_url');
+  $validate_client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Utility");
+  $_SESSION['cdx_fmw_security_token'] = $sso_post['TOKEN'];
+  $_SESSION['login_timestamp'] = time();
+
+  if ($validate_client->error) {
+    drupal_goto("/");
+  }
+
+  $validate_parameters = array(
+    "userId" => $email,
+    "credential" => $frs_password,
+    "domain" => $domain,
+    "securityToken" => $sso_post['TOKEN'],
+    "clientIp" => $server_ip,
+    "resourceURI" => $cdx_resource_url,
+    "applicationId" => "",
+    "userProperties" => "",
+  );
+  $validate_response = callSOAPWithParams($validate_client->client,
+    "Validate",
+    $validate_parameters,
+    "Eenterprise Utility");
+
+  if ($validate_response->error) {
+    drupal_goto("/");
+  }
+  $response = $validate_response->response;
+  if (isset($response->return)) {
+    parse_str($response->return, $return_output);
+    perform_user_login($return_output, $issuer);//authenticate user and login to drupal
+    if (isset($_GET['destination'])) {
+      drupal_goto("/" . $_GET['destination']);
     }
     else {
       drupal_goto("/");
@@ -180,78 +201,48 @@ function eenterprise_utility_node_view($node, $view_mode, $langcode) {
   }
 }
 
+function allow_eactivity_dataflows($user) {
+  // Allow access to cdx facility manager, progress tracker, and to do
+  if ($user_eactivity_role = user_role_load_by_name("eactivity-dataflows")) {
+    // Give user eactivity role
+    user_multiple_role_edit(array($user->uid), "add_role", $user_eactivity_role->rid);
+  }
+}
 
-function perform_user_login($response_output) {
+
+
+function perform_user_login($response_output, $issuer) {
+  module_load_include('pages.inc', 'eenterprise_bridge_auth', 'eenterprise_bridge_auth');
   global $user;
-  $username = $response_output['uid'];
-  $ext_user = user_external_load_custom($username);
-  if ($ext_user === FALSE) {
-    $ext_user = user_external_load($username);
-  }
-  if (!$ext_user) {
-    user_external_login_register($username, 'eenterprise_utility');
-    if ($user) {
-      user_save($user, array('mail' => trim($response_output['email'], '"')));
-      //if user is public user
-      if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS') {
-        //assign_roles_to_user($username);
-        $_SESSION['cdx_fmw_security_token'] = $_POST['Token'];
-        $_SESSION['userId'] = $username;
-        $_SESSION['login_timestamp'] = time();
-        $public_or_cdx = 'cdx';
-      }
-      else {
-        $user_role = user_role_load_by_name('Public User');
-        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-        $public_or_cdx = 'public';
-      }
-      $_SESSION['cdx_user_type'] = $public_or_cdx;
-    }
-  }
-  else {
+  $authenticated_user = new AuthenticatedUser([]);
+  $response_output = _return_array_uppercase($response_output);
+  $raw_username = $response_output['USERID'];
+  $username = $raw_username . '_Via_' . $issuer;
+  $authenticated_user->set_name($username);
+  $authenticated_user->set_authentication_domain($issuer);
+  $authenticated_user->resolve_username_collisions($raw_username);
+  $ext_user = user_external_load($authenticated_user->get_name());
+  if ($ext_user) {
     //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
     $user = $ext_user;
     $form_state['uid'] = $user->uid;
-
     user_login_submit(array(), $form_state);
-    //To fix a bug where email address is not updated after users update their email address in CDX and login.
-    user_save($user, array('mail' => trim($response_output['email'], '"')));
-    try {
-      if ($response_output['issuer'] == 'urn:ENNAAS' || $response_output['issuer'] == 'urn:NAAS') {
-        $_SESSION['cdx_fmw_security_token'] = $_POST['Token'];
-        $_SESSION['userId'] = $username;
-        $_SESSION['login_timestamp'] = time();
-        $public_or_cdx = 'cdx';
-      }
-      else {
-        $user_role = user_role_load_by_name('Public User');
-        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-        $public_or_cdx = 'public';
-      }
-      $_SESSION['cdx_user_type'] = $public_or_cdx;
-
-    } catch (Exception $e) {
-      watchdog('eenterprise_utility', "Error 0014: General Exception", array(), WATCHDOG_ERROR);
-    }
-  }
-}
-
-/**
- * returns a user object based on the external authentication source,
- * or FALSE if not found.
- *
- * This is exactly the same implementation as Drupal 7's user_external_load function
- * except the where clause in the query is changed to accommodate Unique username resolution put in place..
- */
-function user_external_load_custom($authname) {
-  $uid = db_query("SELECT uid FROM {authmap} WHERE authname LIKE :authname", array(':authname' => '%' . db_like($authname) . '_Via_%'))->fetchField();
-  if ($uid) {
-    return user_load($uid);
   }
   else {
-    return FALSE;
+    user_external_login_register($authenticated_user->get_name(), 'eenterprise_utility');
+  }
+  if ($user) {
+    $authenticated_user->set_user($user);
+    //Update account specific usernames
+    if (module_exists("linked_accounts")) {
+      linked_accounts_save_authenticated_user($authenticated_user->get_source_username(), $authenticated_user->get_authentication_domain());
+    }
+    // Always grant SSO user from SCS/CDX/NAAS Eactivity role permission
+    $authenticated_user->add_role('eactivity-dataflows');
+    $authenticated_user->add_role('logged_in_user');
   }
 }
+
 
 /**
  * returns a map Dataset, formated as JSON.
@@ -373,15 +364,12 @@ function guest_login_action() {
   else {
     $uid = user_authenticate("guest-user", "Gu35t_u53r!!");
     $user = user_load($uid);
-    watchdog('guest_user', 'Session opened for %name.', array('%name' => $user->name));
     $user->login = REQUEST_TIME;
-    variable_set('cdx_user_type', 'public');
     db_update('users')
       ->fields(array('login' => $user->login))
       ->condition('uid', $user->uid)
       ->execute();
     drupal_session_regenerate();
-    //drupal_goto('/workbench', array('query' => array('dest' => 'guest_login')));
     drupal_goto("/");
   }
 }
@@ -468,8 +456,8 @@ function load_air_now_us_data($url = 'http://www.epa.gov/airnow/today/cityzipcod
         'City' => $data_line[0],
         'State' => $data_line[1],
         'Zipcode' => $data_line[2],
-        'Latitude' => (float) $data_line[3],
-        'Longitude' => (float) $data_line[4],
+        'Latitude' => (float)$data_line[3],
+        'Longitude' => (float)$data_line[4],
       ))->execute();
     }
   }
@@ -591,17 +579,14 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     if ($user->uid > 1) {
       hide($form['field_admin_state']);
       hide($form['field_first_time_user']);
-      /*if (module_exists('chemical_rules') || $form['field_chem_rules_user_settings']) {
-        hide($form['field_chem_rules_user_settings']);
-      }*/
+      hide($form['field_scs_username']);
+      hide($form['field_cdx_username']);
+
     }
     else {
       // Set description for admin
       $form['field_admin_state'][LANGUAGE_NONE][0]['value']['#title'] = "State code, tribe name, or 'US EPA'";
       $form['field_first_time_user'][LANGUAGE_NONE]['#title'] = "Reset User as First Time Login for Testing";
-      /*if (!module_exists('chemical_rules')) {
-        hide($form['field_chem_rules_user_settings']);
-      }*/
     }
     // only admins see the Terms of Use Agreed Date field
     if (!user_access('administer site configuration')) {
@@ -1164,7 +1149,7 @@ function user_profile_zipcode_custom_validate(&$form, &$form_state) {
   $user_data = user_load($user->uid);
   $user_initial_login = $user_data->field_initial_log_in;
 
-  $geolocation_used = (int) $user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+  $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
   $geolocation_value = $user_initial_login[LANGUAGE_NONE][0]['field_geolocation_value'][LANGUAGE_NONE][0]['value'];
   $initial_zip = $user_initial_login[LANGUAGE_NONE][0]['field_default_zip_code'][LANGUAGE_NONE][0]['value'];
 
@@ -1350,7 +1335,7 @@ function user_profile_mail_custom_validate(&$form, &$form_state) {
     //This error should not be set for public users because another piece of code in form alter in this file
     //needs to change email address to username if email comes empty which is true for some public users like WAM, PIV Card and Twitter.
     //For CDX users this error should still show if email is changed by user.
-    if (!(in_array('Public User', $user->roles) && count($user->roles) == 2) && !in_array('eactivity-dataflows', $user->roles) ) {
+    if (!(in_array('Public User', $user->roles) && count($user->roles) == 2) && !in_array('eactivity-dataflows', $user->roles)) {
       form_set_error('mail', t('You do not have adequate permission to edit your email.'));
     }
   }
@@ -1599,13 +1584,6 @@ function eenterprise_utility_node_access($node, $op, $account) {
 }
 
 
-function eenterprise_utility_node_presave($node) {
-  if ($node->type == 'trusted_user') {
-    $node->title = strtolower($node->title);
-  }
-}
-
-
 /**
  * Implements hook_theme().
  */
@@ -1674,7 +1652,7 @@ function location_description() {
 
   $geolocation = FALSE;
   $user_initial_login = $user_data->field_initial_log_in;
-  $geolocation_used = (int) $user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
+  $geolocation_used = (int)$user_initial_login[LANGUAGE_NONE][0]['field_geolocation'][LANGUAGE_NONE][0]['value'];
 
   if (isset($geolocation_used)) {
     if ($geolocation_used) {
@@ -1715,79 +1693,6 @@ function release_number() {
   return $release_number;
 }
 
-/**
- * Accepts POST data to update users gridstack settings
- *Accessed by ajax request
- */
-function update_user_gridstack_data() {
-  global $user;
-  $user_data = user_load($user->uid);
-  if (isset($_POST['grid_data'])) {
-    $user_grid_data = $user_data->field_gridstack_settings;
-    unset($user_grid_data);
-    foreach ($_POST['grid_data'] as $index => $obj) {
-      $pane_id = $obj['id'];
-      $x_coor = $obj['x'];
-      $y_coor = $obj['y'];
-      $width = $obj['width'];
-      $height = $obj['width'];
-
-      $multifield_gridstack_obj = array(
-        'field_pane_id_value' => $pane_id,
-        'field_pane_id_value_format' => NULL,
-        'field_x_coordinate_value' => $x_coor,
-        'field_x_coordinate_value_format' => NULL,
-        'field_y_coordinate_value' => $y_coor,
-        'field_y_coordinate_value_format' => NULL,
-        'field_pane_id' => array(
-          LANGUAGE_NONE => array(
-            0 => array(
-              'value' => $pane_id
-            ),
-          ),
-        ),
-        'field_x_coordinate' => array(
-          LANGUAGE_NONE => array(
-            0 => array(
-              'value' => $x_coor
-            ),
-          ),
-        ),
-        'field_y_coordinate' => array(
-          LANGUAGE_NONE => array(
-            0 => array(
-              'value' => $y_coor
-            ),
-          ),
-        ),
-        'field_grid_width' => array(
-          LANGUAGE_NONE => array(
-            0 => array(
-              'value' => $width
-            ),
-          ),
-        ),
-        'field_grid_height' => array(
-          LANGUAGE_NONE => array(
-            0 => array(
-              'value' => $height
-            ),
-          ),
-        ),
-      );
-      $user_grid_data[LANGUAGE_NONE][$index] = $multifield_gridstack_obj;
-    }
-    $edit = array(
-      'field_gridstack_settings' => $user_grid_data
-    );
-    try {
-      user_save($user_data, $edit);
-    } catch (Exception $e) {
-      exit();
-    }
-  }
-}
-
 function loadPaneData($pane_id) {
   global $user;
   $user_data = user_load($user->uid);
@@ -1804,33 +1709,6 @@ function loadPaneData($pane_id) {
   return FALSE;
 }
 
-function load_user_gridstack_data() {
-  // Format of gridstack data     {x: 2, y: 5, width: 1, height: 1}
-  $return_array = array();
-  global $user;
-  $user_data = user_load($user->uid);
-  if (isset($user_data->field_gridstack_settings[LANGUAGE_NONE][0])) {
-    foreach ($user_data->field_gridstack_settings[LANGUAGE_NONE] as $key => $value) {
-      $pane_id = $value["field_pane_id"][LANGUAGE_NONE][0]["safe_value"];
-      $x_coordinate = intval($value["field_x_coordinate"][LANGUAGE_NONE][0]["value"]);
-      $y_coordinate = intval($value["field_y_coordinate"][LANGUAGE_NONE][0]["value"]);
-      $return_array[] = array(
-        'x' => $x_coordinate,
-        'y' => $y_coordinate,
-        'width' => 5,
-        'height' => 1,
-        'id' => $pane_id
-      );
-    }
-  }
-  if (isset($_GET['json'])) {
-    echo json_encode($return_array);
-    exit();
-  }
-  else {
-    return $return_array;
-  }
-}
 
 /*
  * To change user profile page title.
@@ -1922,8 +1800,9 @@ function callSOAPWithParams($client, $service, $params, $location = "") {
     $soap_obj->error = FALSE;
   } catch (SoapFault $f) {
     $soap_obj->error = TRUE;
-    $message = "Error: " . $f . ' Error Message: ' . $f->detail->faultdetails->message;
-    watchdog($location, $message, array(), WATCHDOG_ERROR);
+    $message = 'Error: ' . $f->detail->faultdetails->message;
+    $soap_obj->message = $message;
+    watchdog($location, print_r($f, 1), array(), WATCHDOG_ERROR);
   }
   return $soap_obj;
 }

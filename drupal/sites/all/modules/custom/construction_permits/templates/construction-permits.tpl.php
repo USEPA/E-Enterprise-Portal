@@ -1,9 +1,4 @@
-<p class="widget-note">Source: <a href="https://www.epa.gov/" target="_blank"
-                                  rel="external">US Environmental Protection
-    Agency</a></p>
-<p>Find Notices of Intent (NOIs), Notices of Termination (NOTs), or
-  Low Erosivity Waivers (LEWs) submitted under EPA’s 2017 Construction General Permit (CGP).</p>
-<h3>Enter one or more search criteria</h3>
+<?php echo $body ?>
 <div class="bs-callout bs-callout-warning cgp-callout-warning hide">
   <h4>Please correct the errors below:</h4>
 </div>
@@ -130,7 +125,7 @@
       <div class="line">
 	    <div class="col-md-6">
 		  <label for="cgp-project-county">County</label>
-          <select name="projectCountry" id="cgp-project-county">
+          <select name="projectCounty" id="cgp-project-county">
             <option value="" selected>All</option>
           </select>
 	    </div>

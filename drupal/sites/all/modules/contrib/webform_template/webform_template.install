@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the Foo Bar module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function webform_template_install() {
+  $weight = db_select('system')
+    ->condition('name', 'webform')
+    ->fields('system', array('weight'))
+    ->execute()
+    ->fetchField();
+
+  db_update('system')
+    ->fields(array('weight' => $weight - 1))
+    ->condition('name', 'webform_template')
+    ->execute();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function webform_template_uninstall() {
+  $vars = array(
+    'webform_template_src',
+    'webform_template_dest',
+    'webform_template_lang',
+    'webform_template_defeat_nodeaccess',
+    'webform_template_collapsible',
+  );
+
+  foreach ($vars as $var) {
+    variable_del($var);
+  }
+}
+
+/**
+ * Make webform template execute before webform.
+ */
+function webform_template_update_7002(&$sand) {
+  $weight = db_select('system')
+    ->condition('name', 'webform')
+    ->fields('system', array('weight'))
+    ->execute()
+    ->fetchField();
+
+  db_update('system')
+    ->fields(array('weight' => $weight - 1))
+    ->condition('name', 'webform_template')
+    ->execute();
+}

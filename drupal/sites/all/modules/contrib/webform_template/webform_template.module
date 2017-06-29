@@ -1,0 +1,222 @@
+<?php
+
+/**
+ * @file
+ * The main module file for webform template.
+ *
+ * Allows to copy webform configuration from one node to another.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function webform_template_menu() {
+  $items = array();
+  // Admin Settings.
+  $items['admin/config/content/webform_template'] = array(
+    'title' => 'Webform Template settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('webform_template_config_form'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+    'description' => 'Enable webform template for content types',
+    'file' => 'includes/webform_template.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function webform_template_field_extra_fields() {
+  $extra = array();
+  $types = array_filter(variable_get('webform_template_dest', array()));
+  foreach ($types as $type) {
+    $extra['node'][$type] = array(
+      'form' => array(
+        'webform_template' => array(
+          'label' => t('Webform template'),
+          'description' => t('Webform template form'),
+          'weight' => 0,
+        )
+      )
+    );
+  }
+  return $extra;
+}
+
+/**
+ * Implements hook_node_form_alter().
+ */
+function webform_template_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $tpl_src = array_filter(variable_get('webform_template_src', array()));
+  $tpl_dest = array_filter(variable_get('webform_template_dest', array()));
+
+  // Show the template form if conditions are met.
+  if (isset($tpl_dest[$form['type']['#value']]) && !empty($tpl_src)) {
+    $show = TRUE; // in some cases, the form should be hidden.
+    // Allow other modules to hide the template selection.
+    drupal_alter('webform_template_show_selection', $show, $form);
+    if ($show) {
+      $show_lang = variable_get('webform_template_lang');
+
+      $q = db_select('node', 'n')
+        ->fields('n', array('nid', 'title', 'language'))
+        ->condition('status', 1)
+        ->condition('type', $tpl_src, 'IN')
+        ->orderBy('tnid');
+
+      if (!variable_get('webform_template_defeat_nodeaccess', FALSE)) {
+        $q->addTag('node_access');
+      }
+
+      $result = $q->execute()->fetchAll();
+
+      $templates = array();
+      foreach ($result as $row) {
+        $templates[$row->nid] = $row->title;
+        if (!empty($show_lang)) {
+          $templates[$row->nid] .= ' [' . $row->language . ']';
+        }
+      }
+
+      $form['webform_template'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Webform Template'),
+        '#weight' => 5,
+        '#collapsible' => variable_get('webform_template_collapsible', FALSE),
+        '#collapsed' => TRUE,
+      );
+
+      $form['webform_template']['source'] = array(
+        '#type' => 'select',
+        '#title' => t('Available webforms'),
+        '#options' => $templates,
+        '#empty_option' => '- ' . t('none') . ' -',
+        '#default_value' => '',
+        '#description' => t('Make a selection to copy the fields of the selected webform to this node.'),
+      );
+      if (!empty($form['nid']['#value'])) {
+        $form['webform_template']['source']['#description'] .= '<br /><strong>' . t('Setting this will overwrite any webform you previously defined!') . '</strong>';
+      }
+
+      // Add a submit function before the usual submit.
+      array_unshift($form['#submit'], 'webform_template_submit');
+    }
+    else {
+      $form['webform_template'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Webform Template'),
+        '#weight' => 5,
+        '#collapsible' => FALSE,
+        '#collapsed' => FALSE,
+      );
+      $form['webform_template']['notice'] = array(
+        '#markup' => t('Template selection disabled.'),
+      );
+    }
+  }
+}
+
+/**
+ * Form submission handler for node forms.
+ */
+function webform_template_submit($form, &$form_state) {
+  if (isset($form_state['complete form']['webform_template']['source']['#value'])) {
+    $template = $form_state['complete form']['webform_template']['source']['#value'];
+    if (!empty($template)) {
+      $form_state['node']->webform_template = $template;
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function webform_template_node_insert($node) {
+  if (isset($node->webform_template) && is_numeric($node->webform_template)) {
+
+    // Copy the template from the source node.
+    $template = node_load($node->webform_template);
+    $webform = $template->webform;
+
+    $node->webform = $webform;
+
+    // Correct the webform nid.
+    $node->webform['nid'] = $node->nid;
+
+    // Integrate with webform_validation module.
+    if (module_exists('webform_validation')) {
+      // Insert new rules.
+      _webform_template_webform_validation_helper($node, $template);
+    }
+
+    // Allow other modules to modify the webform.
+    module_invoke_all('webform_template_insert', $node, $template);
+
+    // Clean up.
+    unset($node->webform_template);
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function webform_template_node_update($node) {
+  if (isset($node->webform_template) && is_numeric($node->webform_template)) {
+
+    // First delete everything webform related from the node.
+    webform_node_delete($node);
+
+    // Copy the template from the source node.
+    $template = node_load($node->webform_template);
+    $webform = $template->webform;
+
+    $node->webform = $webform;
+
+    webform_node_insert($node);
+
+    // Fool webform module into thinking nothing changed.
+    $node->original->webform =  $node->webform;
+
+    // Integrate with webform_validation module.
+    if (module_exists('webform_validation')) {
+      // Delete original validation rules.
+      $rules = webform_validation_get_node_rules($node->nid);
+      if ($rules) {
+        foreach (array_keys($rules) as $ruleid) {
+          webform_dynamic_delete_rule($ruleid);
+        }
+      }
+      // Insert new rules.
+      _webform_template_webform_validation_helper($node, $template);
+    }
+
+    // Allow other modules to modify the webform.
+    module_invoke_all('webform_template_update', $node, $template);
+
+    // Clean up.
+    unset($node->webform_template);
+  }
+}
+
+/**
+ * Helper function, provides integration with webform_validation.module.
+ * @param $node: the destination node.
+ * @param $template: the source node.
+ */
+function _webform_template_webform_validation_helper($node, $template) {
+  $original_nid = $template->nid;
+  // Get existing rules for original node
+  $rules = webform_validation_get_node_rules($original_nid);
+  if ($rules) {
+    foreach ($rules as $rule) {
+      unset($rule['ruleid']);
+      $rule['action'] = 'add';
+      $rule['nid'] = $node->nid; // attach existing rules to new node
+      $rule['rule_components'] = $rule['components'];
+      webform_validation_rule_save($rule);
+    }
+  }
+}

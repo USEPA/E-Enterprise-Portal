@@ -40,6 +40,7 @@ function construction_permits_block_info() {
   $blocks['construction_permits'] = array(
     'info' => t('Construction General Permits Block'),
   );
+  $blocks['cache'] = DRUPAL_CACHE_GLOBAL;
   return $blocks;
 }
 
@@ -113,27 +114,18 @@ function construction_permits_block_view($delta = '') {
       ]);
       drupal_add_js(drupal_get_path('module', 'construction_permits') . '/js/parsley.js', [
         'scope' => 'footer',
-        'preprocess' => TRUE,
         'group' => JS_LIBRARY,
         'type' => 'file',
-        'cache' => TRUE,
-        'requires_jquery' => TRUE
       ]);
       drupal_add_js(drupal_get_path('module', 'construction_permits') . '/js/moment.js', [
         'scope' => 'footer',
-        'preprocess' => TRUE,
         'group' => JS_LIBRARY,
         'type' => 'file',
-        'cache' => TRUE,
-        'requires_jquery' => TRUE
       ]);
       drupal_add_js(drupal_get_path('module', 'construction_permits') . '/js/construction_permits.js', [
         'scope' => 'footer',
-        'preprocess' => TRUE,
         'group' => JS_DEFAULT,
         'type' => 'file',
-        'cache' => TRUE,
-        'requires_jquery' => TRUE
       ]);
       drupal_add_css(drupal_get_path('module', 'construction_permits') . '/css/construction_permits.css', [
         'preprocess' => TRUE,
@@ -240,8 +232,9 @@ function sample_construction_permits_form_response() {
 /**
  * Implements template_preprocess_hook for be-well-informed-modal.tpl.php.
  */
-function template_preprocess_construction_permits_modal(&$variables, $hook) {
-
+function template_preprocess_construction_permits(&$variables, $hook) {
+  $cgp_body = variable_get('cgp_body', array('value' => variable_get('cgp_body', '<p class="widget-note">Source: <a href="https://www.epa.gov/" target="_blank" rel="external">US Environmental Protection Agency</a></p> <p>Find Notices of Intent (NOIs), Notices of Termination (NOTs), or Low Erosivity Waivers (LEWs) submitted under the U.S. EPA 2017 Construction General Permit (CGP).&nbsp; At this time, search results will only include activity with the national NPDES eReporting Tool (NeT-CGP) for U.S. EPA lead and participating states and tribes.</p> <h3>Enter one or more search criteria</h3>'), 'format' => NULL));
+  $variables['body'] = $cgp_body['value'];
 }
 
 /**
@@ -307,4 +300,3 @@ function cgp_external_details_lookup($tracking_id) {
 
   return theme('cgp_single_page');
 }
-
