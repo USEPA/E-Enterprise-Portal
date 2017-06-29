@@ -335,10 +335,10 @@
         totThumbnails += numGoodResults;
         $('.thumb').randomize('li');
 
-        $(".ellipsis").dotdotdot({
-          watch: "window"
+        /*$(".ellipsis").dotdotdot({
+          //watch: "window"
         });
-        $(".ellipsis").trigger("update.dot");
+        $(".ellipsis").trigger("update.dot");*/
 
         var countThese = 'all';
         updateTotalNumberOfMapsShowing(countThese);
