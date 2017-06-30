@@ -367,7 +367,7 @@
 
         if (index < data.results.length)
           setTimeout(do_chuck_mapset,0); //schedule for next phase
-      },0);
+      }, chunkSize);
 
     }
 
