@@ -251,115 +251,124 @@
       });
     }
 
+    function build_map_items(data, mapset) {
+      //Added filter for user 'jquacken_EPA' because all of that user's WMAs are not maps - they are how-to guides
+      //Check for hyperlinks to most likely apps that are internal only (non default ports of 80, 443)
+      var hyperlinkValid;
+      if (this.url.indexOf('http') > -1 && this.url !== null) {
+        var linkArr = (this.url.split("://"));
+        //checks if hyperlink contains port designator
+        if ((linkArr[1].indexOf(':') > -1)) {
+          hyperlinkValid = false;
+        } else {
+          hyperlinkValid = true;
+        }
+      } else {
+        hyperlinkValid = false;
+      }
+
+      if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.description !== null && this.owner != 'jquacken_EPA' && hyperlinkValid === true) {
+        var itemTags = this.tags.toString();
+        thumbnailNum = $('.load-thumbnail').length + 1;
+        //numGoodResults += 1;
+        var thumbnailURL = mapset.url + "/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
+        //Descriptions can contain or not contain HTML markup, to let JQuery's .text() work, we just add the p tags to all descriptions
+        //and all tags are remove with .text(), including descriptions which has no HTML markup which would normally throw an error
+        var desc = "<p>" + this.description + "</p>";
+        //check if hyperlink is hosted on maps.arcgis.com, if it is, switch URL to HTTPS
+        var origURL = this.url;
+        var hyperlinkURL;
+        if ((origURL.indexOf('http://') > -1) && (origURL.indexOf('maps.arcgis.com') > -1)) {
+          //replace with HTTPS since we know maps.arcgis.com support SSL/TLS
+          hyperlinkURL = origURL.replace('http://', 'https://');
+        } else {
+          hyperlinkURL = origURL;
+        }
+
+        var $li = $('<li class="load-thumbnail">').append(
+          $('<div>', {
+            'class': 'thumbitem-border'
+          }).append(
+            $('<a>', {
+              'class': 'thumbhyperlink',
+              'data-accessinfo': mapset.alias,
+              'data-contactemail': mapset.contactemail,
+              'data-tags': itemTags,
+              'href': hyperlinkURL,
+              'title': this.title,
+              'target': '_blank'
+            }).append(
+              $('<img>', {
+                'class': 'thumbnailImg',
+                'data-map-source': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
+                'alt': this.title,
+                'title': this.title,
+                'aria-describedby': 'thumbnail-desc-' + mapset.id + '-' + thumbnailNum + ' ' + 'thumbnail-source-' + mapset.id + '-' + thumbnailNum + ' ' + 'thumbnail-contact-' + thumbnailNum
+              })
+            ),
+            $('<p>', {
+              'data-toggle': 'tooltip',
+              'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis',
+              'title': this.title,
+              'html': this.title
+            }),
+            //the description element can contain HTML markup so use .text to un-format the string
+            //Omaha has no descriptions in their publicly shared WMAs
+            $('<p>', {
+              'data-toggle': 'tooltip',
+              'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis',
+              'id': 'thumbnail-desc-' + mapset.id + '-' + thumbnailNum,
+              'title': truncate($(desc).text(), 1000),
+              'html': $(desc).text(),
+              'tabindex': '0'
+            }),
+            $('<p>', {
+              'data-toggle': 'tooltip',
+              'class': 'ee-bootstrap-tooltip mapAppSource ellipsis',
+              id: 'thumbnail-source-' + mapset.id + '-' + thumbnailNum,
+              'title': mapset.alias,
+              'html': mapset.alias
+            }),
+            $('<p>', {
+              'data-toggle': 'tooltip',
+              'class': 'mapAppContact',
+              id: 'thumbnail-contact-' + mapset.id + '-' + thumbnailNum,
+              'title': mapset.contactemail,
+              'html': '<a href="mailto:' + mapset.contactemail + '">' + mapset.contactemail + '</a>'
+            })
+          )
+        );
+
+        $('.jcarousel ul').append($li);
+        // @todo add elipsis - dotdotdot()
+        $li.find(".ellipsis").dotdotdot({ watch: "window" });
+      }
+    }
+
     //create the MyMaps thumbnail gallery from the AGOL API query results
     function setupMyMapsGalleryWithThumbs(data, mapset) {
-      var numGoodResults = 0;
-      var thumbnailNum = 0;
 
-      //generate each thumbnail and only load it if non-default thumbnail image and a good hyperlink
-      $.each(data.results, function() {
-        //Added filter for user 'jquacken_EPA' because all of that user's WMAs are not maps - they are how-to guides
-        //Check for hyperlinks to most likely apps that are internal only (non default ports of 80, 443)
-        var hyperlinkValid;
-        if (this.url.indexOf('http') > -1 && this.url !== null) {
-          var linkArr = (this.url.split("://"));
-          //checks if hyperlink contains port designator
-          if ((linkArr[1].indexOf(':') > -1)) {
-            hyperlinkValid = false;
-          } else {
-            hyperlinkValid = true;
-          }
-        } else {
-          hyperlinkValid = false;
+      var chunkSize = 5;
+      var iteration = 0;
+
+      // Using the setTimeout function, we avoid blocking the main processing queue
+      // allow other items to squeeze in, preventing freezing
+      setTimeout(function do_chuck_mapset() {
+        var index = chunkSize * iteration;
+        var to = Math.min(index+chunkSize, data.results.length);
+        while (index < to ) {
+          build_map_items.apply(data.results[index], [data, mapset])
+          index++;
         }
+        iteration++;
+        var countThese = 'all';
+        updateTotalNumberOfMapsShowing(countThese);
+        filterMyMapsGallery(countThese);
 
-        if (this.thumbnail != 'thumbnail/ago_downloaded.png' && this.thumbnail !== null && this.description !== null && this.owner != 'jquacken_EPA' && hyperlinkValid === true) {
-          var itemTags = this.tags.toString();
-          thumbnailNum += 1;
-          numGoodResults += 1;
-          var thumbnailURL = mapset.url + "/sharing/rest/content/items/" + this.id + "/info/" + this.thumbnail;
-          //Descriptions can contain or not contain HTML markup, to let JQuery's .text() work, we just add the p tags to all descriptions
-          //and all tags are remove with .text(), including descriptions which has no HTML markup which would normally throw an error
-          var desc = "<p>" + this.description + "</p>";
-          //check if hyperlink is hosted on maps.arcgis.com, if it is, switch URL to HTTPS
-          var origURL = this.url;
-          var hyperlinkURL;
-          if ((origURL.indexOf('http://') > -1) && (origURL.indexOf('maps.arcgis.com') > -1)) {
-            //replace with HTTPS since we know maps.arcgis.com support SSL/TLS
-            hyperlinkURL = origURL.replace('http://', 'https://');
-          } else {
-            hyperlinkURL = origURL;
-          }
+        if (index < data.results.length)
+          setTimeout(do_chuck_mapset,0); //schedule for next phase
+      },0);
 
-          var $li = $('<li class="load-thumbnail">').append(
-            $('<div>', {
-              'class': 'thumbitem-border'
-            }).append(
-              $('<a>', {
-                'class': 'thumbhyperlink',
-                'data-accessinfo': mapset.alias,
-                'data-contactemail': mapset.contactemail,
-                'data-tags': itemTags,
-                'href': hyperlinkURL,
-                'title': this.title,
-                'target': '_blank'
-              }).append(
-                $('<img>', {
-                  'class': 'thumbnailImg',
-                  'data-map-source': thumbnailURL, // Use temporary source as placeholder so all thumbs are not loaded at once.
-                  'alt': this.title,
-                  'title': this.title,
-                  'aria-describedby': 'thumbnail-desc-' + mapset.id + '-' + thumbnailNum + ' ' + 'thumbnail-source-' + mapset.id + '-' + thumbnailNum + ' ' + 'thumbnail-contact-' + thumbnailNum
-                })
-              ),
-              $('<p>', {
-                'data-toggle': 'tooltip',
-                'class': 'ee-bootstrap-tooltip mapAppTitle ellipsis',
-                'title': this.title,
-                'html': this.title
-              }),
-              //the description element can contain HTML markup so use .text to un-format the string
-              //Omaha has no descriptions in their publicly shared WMAs
-              $('<p>', {
-                'data-toggle': 'tooltip',
-                'class': 'ee-bootstrap-tooltip mapAppDesc ellipsis',
-                'id': 'thumbnail-desc-' + mapset.id + '-' + thumbnailNum,
-                'title': truncate($(desc).text(), 1000),
-                'html': $(desc).text(),
-                'tabindex': '0'
-              }),
-              $('<p>', {
-                'data-toggle': 'tooltip',
-                'class': 'ee-bootstrap-tooltip mapAppSource ellipsis',
-                id: 'thumbnail-source-' + mapset.id + '-' + thumbnailNum,
-                'title': mapset.alias,
-                'html': mapset.alias
-              }),
-              $('<p>', {
-                'data-toggle': 'tooltip',
-                'class': 'mapAppContact',
-                id: 'thumbnail-contact-' + mapset.id + '-' + thumbnailNum,
-                'title': mapset.contactemail,
-                'html': '<a href="mailto:' + mapset.contactemail + '">' + mapset.contactemail + '</a>'
-              })
-            )
-          );
-
-          $('.jcarousel ul').append($li);
-        }
-      });
-
-      totThumbnails += numGoodResults;
-      $('.thumb').randomize('li');
-
-      $(".ellipsis").dotdotdot({
-       //watch: "window"
-       });
-       $(".ellipsis").trigger("update.dot");
-
-      var countThese = 'all';
-      updateTotalNumberOfMapsShowing(countThese);
-      filterMyMapsGallery(countThese);
     }
 
     function updateTotalNumberOfMapsShowing(countThese) {
