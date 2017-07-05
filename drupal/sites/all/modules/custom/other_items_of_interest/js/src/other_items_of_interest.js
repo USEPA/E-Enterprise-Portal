@@ -1,13 +1,10 @@
 (function ($) {
 
-    var ItemsOfInterestTable = function ($wrapper, ajax_url, datatableObject) {
+    var ItemsOfInterestTable = function ($wrapper, rows, columns) {
 
         $wrapper.hide();
         this.wrapper = $wrapper;
-        this.ajax_url = ajax_url;
         this.state_code = false;
-        var columns = datatableObject.columns;
-        var rows = datatableObject.rows;
 
         var cached = false;
 
@@ -37,15 +34,6 @@
             }
         };
 
-        if (location) {
-            // find if in city, state code pattern
-            if (location.indexOf(',') === -1) {
-                this.state_code = location;
-            }
-            else {
-                this.state_code = $.trim(location.split(',')[1]);
-            }
-        }
 
         this.hideTable = function () {
             $wrapper.hide();
@@ -94,6 +82,17 @@
         this.showTable = function () {
             $wrapper.show();
         }
+
+        // alter the datatable id, one digit larger than the largest id
+        var newId = 0;
+        $("table[id^='datatable-']").each(function () {
+            newId = Math.max(newId, parseInt($(this).attr('id').substr('datatable-'.length), 10));
+        });
+        newId++;
+        var $table = $wrapper.find('table');
+        $table.attr('id', 'datatable-' + newId);
+        $table.DataTable(datatable_options);
+        $table.removeClass("dataTable display no-footer");
     }
 
 
@@ -115,22 +114,26 @@
         $tabs.find('.ui-corner-top').on('click', function (ev) {
             $(this).focus();
         });
-
-        var location = Drupal.settings.additional_resources.initial_location;
-        var current_location_table = new ItemsOfInterestTable($("#current-state-resources"), Drupal.settings.additional_resources.initial_location);
+        var additional_resources = Drupal.settings.additional_resources;
+        var columns = additional_resources.columns;
+        var current_location_table = new ItemsOfInterestTable($("#current-state-resources"),
+            additional_resources.initial_location_resources, columns);
         if (!Drupal.settings.is_guest) {
-            var user_locations_table = new ItemsOfInterestTable($("#favorite-state-resources"), Drupal.settings.additional_resources.favorite_resources);
+            var user_locations_table = new ItemsOfInterestTable($("#favorite-state-resources"),
+                additional_resources.user_resources, columns);
         }
-        var all_resources_table = new ItemsOfInterestTable($("#all-state-resources"), Drupal.settings.additional_resources.all_resources);
+        var all_resources_table = new ItemsOfInterestTable($("#all-state-resources"),
+            additional_resources.all_resources, columns);
         // Generating EPA by using current location as EPA
-        var epa_table = new ItemsOfInterestTable($("#epa-resources"), Drupal.settings.additional_resources.epa_resources);
+        var epa_table = new ItemsOfInterestTable($("#epa-resources"),
+            additional_resources.epa_resources, columns);
 
-        $(document).on('ee:zipCodeQueried', function (e, queryResponse) {
-            location = queryResponse.city + ', ' + queryResponse.state;
-            $('#restrict-to-current-button a').text(location);
-            current_location_table.update_current_location(location);
-            current_location_table.ajax_request();
-        });
+        // $(document).on('ee:zipCodeQueried', function (e, queryResponse) {
+        //     location = queryResponse.string;
+        //     $('#restrict-to-current-button a').text(location);
+        //     current_location_table.update_current_location(location);
+        //     current_location_table.ajax_request();
+        // });
 
         if (!Drupal.settings.is_guest) {
             $('#restrict-to-states-button').click(function () {
@@ -195,7 +198,7 @@
 
 
         // Dynamically set button text for currently selected location
-        $('#restrict-to-current-button a').text(location);
+        $('#restrict-to-current-button a').text(Drupal.settings.additional_resources.initial_location);
 
         current_location_table.showTable();
 

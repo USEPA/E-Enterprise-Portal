@@ -114,9 +114,6 @@ function local_government_resources_theme() {
   return array(
     // Name to be called with theme(). theme('local_government_resources')
     'local_government_resources' => array(
-      // Default variables
-//      'variables' => ['lgc_about_html' => $lgc_about_html],
-      // Which .tpl.php file to use my-cdx.tpl.php
       'template' => 'local-government-resources',
       'path' => drupal_get_path('module', 'local_government_resources') . '/templates'
     ),
@@ -236,7 +233,6 @@ function local_government_resources_block_view($delta = '') {
       }
       $block['subject'] = t('Local Government Resources');
       $block['content'] = theme('local_government_resources', ['lgc_about_html' => $lgc_about_html]);
-      return $block;
     }
   }
   return $block;
