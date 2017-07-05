@@ -106,7 +106,10 @@ function chemical_rules_block_view($delta = '') {
       ]);
       // Set Form Modal Template
       global $user;
-      save_naics_codes_to_user();
+      module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+      if (feature_toggle_get_status('profile_enable_cdx_naics')) {
+        save_naics_codes_to_user();
+      }
       $user_data = user_load($user->uid);
       if (isset($user_data->field_chem_rules_user_settings['und'][0])) {
         $user_chem_rules_user_settings = json_decode($user_data->field_chem_rules_user_settings['und'][0]['value']);
@@ -985,6 +988,7 @@ function update_cdx_naics_profile($profile) {
 
 
 function save_naics_codes_to_user() {
+  $user_naics = array();
   global $user;
   $account = user_load($user->uid);
   if (!isset($account->field_cdx_username[LANGUAGE_NONE])) {
@@ -1055,62 +1059,59 @@ function save_naics_codes_to_user() {
   if (!is_array($user_roles->Role)) {
     $user_roles->Role = array($user_roles->Role);
   }
-  $user_naics = array();
   foreach ($user_roles->Role as $k => $v) {
     $role_val = $v->type->description;
 
     //Make sure a role that is assigned to a CDX role is not a Drupal admin role, the second case.
     if (!empty($role_val) && $role_val != variable_get('current_admin_role')) {
       //Get any NAIC codes based on the user_role_id
-      module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-      if (feature_toggle_get_status('profile_enable_cdx_naics')) {
-        $naics_dataflows = strtolower(variable_get('naics_dataflows'));
-        $naics_dataflows_array = explode(',', $naics_dataflows);
-        if (in_array(strtolower($v->dataflow), $naics_dataflows_array)) {
-          if (!isset($facclient)) {
-            $facwsdl = variable_get('cdx_program_facility_endpoint');//'http://testngn.epacdxnode.net/cdx-register-II/services/RegisterProgramFacilityService?wsdl';
-            $facclient = connectToSOAPServerWithWSDL($facwsdl, "Eenterprise Bridge Auth");
-            if ($facclient->error) {
-              return;
-            }
-            $facclient = $facclient->client;
-          }
-          $paramsfac = array(
-            "securityToken" => $response1->securityToken,
-            "userRoleId" => $v->userRoleId,
-          );
-          $user_facs = callSOAPWithParams($facclient, "RetrieveFacilitiesByUserRoleId", $paramsfac, "Eenterprise Bridge Auth");
-          if ($user_facs->error) {
+      $naics_dataflows = strtolower(variable_get('naics_dataflows'));
+      $naics_dataflows_array = explode(',', $naics_dataflows);
+      if (in_array(strtolower($v->dataflow), $naics_dataflows_array)) {
+        if (!isset($facclient)) {
+          $facwsdl = variable_get('cdx_program_facility_endpoint');//'http://testngn.epacdxnode.net/cdx-register-II/services/RegisterProgramFacilityService?wsdl';
+          $facclient = connectToSOAPServerWithWSDL($facwsdl, "Eenterprise Bridge Auth");
+          if ($facclient->error) {
             return;
           }
-          $user_facs = $user_facs->response;
-          if (!is_array($user_facs->ProgramFacility)) {
-            $user_facs->ProgramFacility = array($user_roles->ProgramFacility);
-          }
-          foreach ($user_facs->ProgramFacility as $k2 => $v2) {
-            foreach ($v2->NaicsCodes->NaicsCode as $k3 => $v3) {
-              $endpoint = variable_get('naics_getbycode_endpoint');
-              $endpoint = $endpoint . urlencode($v3->CdxNaicsCodeValue);
-              $response = drupal_http_request($endpoint, [
-                "method" => "GET",
-                'timeout' => "10"
-              ]);
-              if ($response->code !== "200") {
-                $return['error'] = TRUE;
-                $return['error-messages'][] = ['code' => $response->code, 'error' => 'NAICS endpoint response: ' . $response->error];
-                $naics_description = 'Unable to retrieve NAICS description.';
-              }
-              else {
-                $response_array = xmlstr_to_array($response->data);
-                $base = $response_array['Results']['NAICS']['Code'];
-                $naics_description = $base['NAICSNameText'];
-              }
-              $user_naics[$v3->CdxNaicsCodeValue] = $naics_description;
-            }
-          }
-          $user_naics = array_unique($user_naics);
+          $facclient = $facclient->client;
         }
+        $paramsfac = array(
+          "securityToken" => $response1->securityToken,
+          "userRoleId" => $v->userRoleId,
+        );
+        $user_facs = callSOAPWithParams($facclient, "RetrieveFacilitiesByUserRoleId", $paramsfac, "Eenterprise Bridge Auth");
+        if ($user_facs->error) {
+          return;
+        }
+        $user_facs = $user_facs->response;
+        if (!is_array($user_facs->ProgramFacility)) {
+          $user_facs->ProgramFacility = array($user_roles->ProgramFacility);
+        }
+        foreach ($user_facs->ProgramFacility as $k2 => $v2) {
+          foreach ($v2->NaicsCodes->NaicsCode as $k3 => $v3) {
+            $endpoint = variable_get('naics_getbycode_endpoint');
+            $endpoint = $endpoint . urlencode($v3->CdxNaicsCodeValue);
+            $response = drupal_http_request($endpoint, [
+              "method" => "GET",
+              'timeout' => "10"
+            ]);
+            if ($response->code !== "200") {
+              $return['error'] = TRUE;
+              $return['error-messages'][] = ['code' => $response->code, 'error' => 'NAICS endpoint response: ' . $response->error];
+              $naics_description = 'Unable to retrieve NAICS description.';
+            }
+            else {
+              $response_array = xmlstr_to_array($response->data);
+              $base = $response_array['Results']['NAICS']['Code'];
+              $naics_description = $base['NAICSNameText'];
+            }
+            $user_naics[$v3->CdxNaicsCodeValue] = $naics_description;
+          }
+        }
+        $user_naics = array_unique($user_naics);
       }
+
     }
   }
   update_cdx_naics_profile($user_naics);
