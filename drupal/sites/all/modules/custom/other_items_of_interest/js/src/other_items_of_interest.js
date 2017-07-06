@@ -2,18 +2,13 @@
 
     var ItemsOfInterestTable = function ($wrapper, rows, columns) {
 
-        $wrapper.hide();
-        this.wrapper = $wrapper;
-        this.state_code = false;
-
         var cached = false;
-
+        var location;
         var datatable_options = {
             data: rows,
             columns: columns,
             "bLengthChange": false,
             "iDisplayLength": 3,
-            "sPageButton": "favorites-ignore",
             "oLanguage": {
                 "sSearch": "Filter:"
             },
@@ -34,65 +29,63 @@
             }
         };
 
+        this.setLocation = function(new_location) {
+            location = new_location;
+        }
 
-        this.hideTable = function () {
-            $wrapper.hide();
+
+        this.updateCurrentLocation = function (new_location) {
+            if (new_location != location) {
+                location = new_location;
+                // find if in city, state code pattern
+                if (location.indexOf(',') >= 0) {
+                    location = $.trim(location.split(',')[1]);
+                }
+                loadDataByLocation(location);
+            }
         };
 
-        this.update_current_location = function (location) {
-            // find if in city, state code pattern
-            if (location.indexOf(',') === -1) {
-                this.state_code = location;
-            }
-            else {
-                this.state_code = $.trim(location.split(',')[1]);
-            }
-            this.ajax_request();
-        };
-
-        this.ajax_request = function () {
-            var state_code = this.state_code;
+        var loadDataByLocation = function (location) {
             $.ajax({
                 beforeSend: function () {
                     $wrapper.html('<p>Loading&hellip;</p>');
                 },
-                url: ajax_url,
-                method: "POST",
-                data: {state: state_code},
-                success: function (table) {
-                    // alter the datatable id, one digit larger than the largest id
-                    var newId = 0;
-                    $("table[id^='datatable-']").each(function () {
-                        newId = Math.max(newId, parseInt($(this).attr('id').substr('datatable-'.length), 10));
-                    });
-                    newId++;
-                    var $table = $('<div>' + table + '</div>'); // wrap contents in a div for now, will unwrap later
-                    $table.find('table').attr('id', 'datatable-' + newId);
-                    $wrapper.html($table.html()); // unwrap
-                    $wrapper.addClass('eportal-datatable-wrapper');
-                    $table = $wrapper.find('table');
-                    if ($table.length > 0) {
-                        $table.DataTable(datatable_options);
-                        $table.removeClass("dataTable display no-footer").addClass('views-table eportal-responsive-table usa-table-borderless');
-                    }
+                url: 'additional_resources/rows_by_location',
+                method: "GET",
+                data: {location: location},
+                dataType: 'JSON',
+                success: function (rows) {
+                    updateDatatable(rows);
                 }
             });
         };
 
-        this.showTable = function () {
-            $wrapper.show();
+        var createDatatable = function () {
+            // alter the datatable id, one digit larger than the largest id
+            var newId = 0;
+            $("table[id^='datatable-']").each(function () {
+                newId = Math.max(newId, parseInt($(this).attr('id').substr('datatable-'.length), 10));
+            });
+            newId++;
+            var $table = $wrapper.find('table');
+            $table.attr('id', 'datatable-' + newId);
+            var tableDT = $table.DataTable(datatable_options);
+            $table.removeClass("dataTable display no-footer");
+            tableDT.columns().iterator('column', function (ctx, idx) {
+                $(tableDT.column(idx).header()).append('<span class="sort-icon" />');
+            });
         }
 
-        // alter the datatable id, one digit larger than the largest id
-        var newId = 0;
-        $("table[id^='datatable-']").each(function () {
-            newId = Math.max(newId, parseInt($(this).attr('id').substr('datatable-'.length), 10));
-        });
-        newId++;
-        var $table = $wrapper.find('table');
-        $table.attr('id', 'datatable-' + newId);
-        $table.DataTable(datatable_options);
-        $table.removeClass("dataTable display no-footer");
+        var updateDatatable = function (rows) {
+            var $table = $wrapper.find('table');
+            var tableDT = $table.DataTable();
+            tableDT.clear();
+            tableDT.rows.add(rows);
+            tableDT.draw();
+        }
+
+        $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
+        createDatatable();
     }
 
 
@@ -118,6 +111,7 @@
         var columns = additional_resources.columns;
         var current_location_table = new ItemsOfInterestTable($("#current-state-resources"),
             additional_resources.initial_location_resources, columns);
+        current_location_table.setLocation(additional_resources.initial_location);
         if (!Drupal.settings.is_guest) {
             var user_locations_table = new ItemsOfInterestTable($("#favorite-state-resources"),
                 additional_resources.user_resources, columns);
@@ -128,79 +122,13 @@
         var epa_table = new ItemsOfInterestTable($("#epa-resources"),
             additional_resources.epa_resources, columns);
 
-        // $(document).on('ee:zipCodeQueried', function (e, queryResponse) {
-        //     location = queryResponse.string;
-        //     $('#restrict-to-current-button a').text(location);
-        //     current_location_table.update_current_location(location);
-        //     current_location_table.ajax_request();
-        // });
-
-        if (!Drupal.settings.is_guest) {
-            $('#restrict-to-states-button').click(function () {
-                if ($(this).hasClass('inactive')) {
-                    $(this).removeClass('inactive');
-                    $("#all-states-button").addClass('inactive');
-                    $('#restrict-to-current-button').addClass('inactive');
-                    $("#epa-button").addClass('inactive');
-                    all_resources_table.hideTable();
-                    current_location_table.hideTable();
-                    epa_table.hideTable();
-                    user_locations_table.showTable();
-                }
-            });
-        }
-
-        $("#all-states-button").click(function () {
-            if ($(this).hasClass('inactive')) {
-                $(this).removeClass('inactive');
-                $('#restrict-to-states-button').addClass('inactive');
-                $('#restrict-to-current-button').addClass('inactive');
-                $("#epa-button").addClass('inactive');
-
-                all_resources_table.showTable();
-                current_location_table.hideTable();
-                if (!Drupal.settings.is_guest) {
-                    user_locations_table.hideTable();
-                }
-                epa_table.hideTable();
-            }
+        $(document).on('ee:zipCodeQueried', function (e, queryResponse) {
+            $('#restrict-to-current-button a').text(queryResponse.string);
+            current_location_table.updateCurrentLocation(queryResponse.string);
         });
-
-        $('#restrict-to-current-button').click(function () {
-            if ($(this).hasClass('inactive')) {
-                $(this).removeClass('inactive');
-                $('#restrict-to-states-button').addClass('inactive');
-                $("#all-states-button").addClass('inactive');
-                $("#epa-button").addClass('inactive');
-                current_location_table.showTable();
-                if (!Drupal.settings.is_guest) {
-                    user_locations_table.hideTable();
-                }
-                all_resources_table.hideTable();
-                epa_table.hideTable();
-            }
-        });
-
-        $('#epa-button').click(function () {
-            if ($(this).hasClass('inactive')) {
-                $(this).removeClass('inactive');
-                $('#restrict-to-states-button').addClass('inactive');
-                $('#restrict-to-current-button').addClass('inactive');
-                $("#all-states-button").addClass('inactive');
-                current_location_table.hideTable();
-                if (!Drupal.settings.is_guest) {
-                    user_locations_table.hideTable();
-                }
-                all_resources_table.hideTable();
-                epa_table.showTable();
-            }
-        });
-
 
         // Dynamically set button text for currently selected location
-        $('#restrict-to-current-button a').text(Drupal.settings.additional_resources.initial_location);
-
-        current_location_table.showTable();
+        $('#restrict-to-current-button a').text(additional_resources.initial_location);
 
     });
 

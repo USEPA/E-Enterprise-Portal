@@ -17,16 +17,21 @@
     <li id="all-states-button"><a class="favorites-ignore" href="#all-state-resources">All</a></li>
   </ul>
 
-  <div id="current-state-resources" class="eportal-datatable-wrapper views-table eportal-responsive-table usa-table-borderless">
-    <table></table>
+  <div id="current-state-resources"
+       class="eportal-datatable-wrapper">
+    <table class="views-table eportal-responsive-table usa-table-borderless"></table>
   </div>
   <?php if ($user->name != 'guest-user'): ?>
-    <div id="favorite-state-resources" class="eportal-datatable-wrapper views-table eportal-responsive-table usa-table-borderless"></div>
+    <div id="favorite-state-resources"
+         class="eportal-datatable-wrapper">
+      <table class="views-table eportal-responsive-table usa-table-borderless"></table>
+    </div>
   <?php endif; ?>
-  <div id="epa-resources" class="eportal-datatable-wrapper views-table eportal-responsive-table usa-table-borderless">
-    <table></table>
+  <div id="epa-resources" class="eportal-datatable-wrapper">
+    <table class="views-table eportal-responsive-table usa-table-borderless"></table>
   </div>
-  <div id="all-state-resources" class="eportal-datatable-wrapper views-table eportal-responsive-table usa-table-borderless">
-    <table></table>
+  <div id="all-state-resources"
+       class="eportal-datatable-wrapper">
+    <table class="views-table eportal-responsive-table usa-table-borderless"></table>
   </div>
 </div>

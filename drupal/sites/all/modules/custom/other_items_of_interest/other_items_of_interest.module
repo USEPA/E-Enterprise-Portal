@@ -4,7 +4,7 @@
  **/
 function other_items_of_interest_menu() {
   $items = array();
-  $items['additional_resources/current_area_of_interest_json'] = array(
+  $items['additional_resources/rows_by_location'] = array(
     'page callback' => 'current_area_table_datatable_json',
     'access callback' => TRUE,
   );
@@ -13,7 +13,7 @@ function other_items_of_interest_menu() {
 
 function current_area_table_datatable_json() {
   $a = new AdditionalResources();
-  drupal_json_output($a->additionalResourcesDatatableJSON());
+  drupal_json_output($a->titleBasedResources($_GET['location']));
 }
 
 
@@ -97,14 +97,6 @@ function other_items_of_interest_block_view($delta = '') {
       drupal_add_js(drupal_get_path('module', 'other_items_of_interest') . "/js/other_items_of_interest.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_DEFAULT, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
       drupal_add_css(drupal_get_path('module', 'other_items_of_interest') . "/css/other_items_of_interest.css", ['preprocess' => true, 'group' => CSS_DEFAULT]);
 
-//
-//
-//      // Set default LGC about html
-//      $lgc_about_html = theme('lgc_about_content');
-//      $config_about_html = variable_get('lgc_about_content', ['value' => '']);
-//      if ($config_about_html['value'] != '') {
-//        $lgc_about_html = $config_about_html['value'];
-//      }
       $block['subject'] = t('Additional Resources');
       $block['content'] = theme('other_items_of_interest');
     }

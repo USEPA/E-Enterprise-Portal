@@ -20,12 +20,13 @@ class AdditionalResources {
     $rows = [];
     foreach ($nodes as $node) {
       $datatable_row = [];
+      $title = $node->title;
       $url = $node->field_source_url[LANGUAGE_NONE][0]['safe_value'];
-      $title = $node->field_source[LANGUAGE_NONE][0]['safe_value'];
+      $source = $node->field_source[LANGUAGE_NONE][0]['safe_value'];
       $topic = $node->field_topic[LANGUAGE_NONE][0]['value'];
       $datatable_row[] = $title;
       $resource_text = '<div class="interests-url-hyperlink"><a href="' . $url . '">' .
-        $title . '</a></div><div class="interests-url-text" title="' . $url . '">' . $url . '</div>';
+        $source . '</a></div><div class="interests-url-text" title="' . $url . '">' . $url . '</div>';
       $datatable_row[] = $resource_text;
       $datatable_row[] = $topic;
       $rows[] = $datatable_row;
@@ -138,10 +139,5 @@ class AdditionalResources {
     }
     return $nids;
   }
-  
-  private function returnStateFromLocationString($location) {
-    
-  }
-
 
 }
