@@ -635,9 +635,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     /**
      * User Email
      */
-    if (empty($form['account']['mail']['#default_value'])) {
-      $form['account']['mail']['#default_value'] = $form['#user']->name;
-    }
     $form['account']['mail']['#attributes'] = array(
       'disabled' => 'disabled',
       'aria-describedby' => 'email-helptext'
