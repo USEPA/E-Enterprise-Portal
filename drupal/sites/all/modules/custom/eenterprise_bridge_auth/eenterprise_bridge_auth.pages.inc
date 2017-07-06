@@ -409,7 +409,7 @@ function assign_roles_to_user($user_name) {
           }
           foreach ($user_facs->ProgramFacility as $k2 => $v2) {
             foreach ($v2->NaicsCodes->NaicsCode as $k3 => $v3) {
-              $endpoint = variable_get('naics_getbycode_endpoint');
+              $endpoint = variable_get('naics_get_by_code_endpoint');
               $endpoint = $endpoint . urlencode($v3->CdxNaicsCodeValue);
               $response = drupal_http_request($endpoint, [
                 //"headers" => $headers,
