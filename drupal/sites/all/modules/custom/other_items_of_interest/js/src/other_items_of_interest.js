@@ -47,9 +47,6 @@
 
         var loadDataByLocation = function (location) {
             $.ajax({
-                beforeSend: function () {
-                    $wrapper.html('<p>Loading&hellip;</p>');
-                },
                 url: 'additional_resources/rows_by_location',
                 method: "GET",
                 data: {location: location},
