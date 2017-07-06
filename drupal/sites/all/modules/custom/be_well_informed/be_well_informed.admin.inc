@@ -8,18 +8,6 @@
 function be_well_informed_admin($form, $form_state) {
   $form = array();
 
-  /*$form['be_well_informed_settings'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Be Well Informed configurations'),
-  );
-
-  $form['be_well_informed_settings']['cgp_api_endpoint'] = array(
-    '#type' => 'textfield',
-    '#title' => t('CGP Form Search Endpoint'),
-    '#default_value' => variable_get('cgp_api_endpoint', "https://devngn.epacdxnode.net/oeca-cgp-web/api/public/v1"),
-    '#required' => TRUE,
-  );*/
-
   // Sample data
   $form['be_well_informed_toggles'] = array(
     '#type' => 'fieldset',

@@ -6,9 +6,9 @@ scripts[] = js/bulk_role_management.js
 stylesheets[all][] = css/bulk_role_management.css
 configure = admin/config/people/bulk_role_management
 
-; Information added by Drupal.org packaging script on 2016-03-11
-version = "7.x-1.x-dev"
+; Information added by Drupal.org packaging script on 2016-03-12
+version = "7.x-1.0"
 core = "7.x"
 project = "brm"
-datestamp = "1457673841"
+datestamp = "1457747942"
 

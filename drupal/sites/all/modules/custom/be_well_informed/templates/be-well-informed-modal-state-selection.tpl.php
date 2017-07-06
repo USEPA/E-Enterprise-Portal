@@ -1,10 +1,10 @@
 <div class="usa-grid-full">
-    <p>Select Your State/Tribe:</p>
+    <p>Select Your State:</p>
     <div id="bwi-state-selection" class="ee-grid"
          data-parsley-validate="" novalidate="">
         <div class="form-elements">
             <div class="line">
-                <div class="col-md-12">
+                <div class="col-md-12"><label for="bwi-state">State/Territory/Tribe</label>
                     <select id="bwi-state" name="bwi-state">
                         <!--<option value="AL">Alabama</option>
                         <option value="AK">Alaska</option>
@@ -75,12 +75,12 @@
                     </select>
                 </div>
             </div>
-            <div id="bwi-form-buttons" class="col-md-12">
-                <p class="text-right">
+            <div id="bwi-form-buttons">
+                <div class="col-md-12">
                     <button id="bwi-state-confirm-button" type="button"
                             class="usa-button">Confirm
                     </button>
-                </p>
+                </div>
             </div>
         </div>
     </div>

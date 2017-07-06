@@ -81,6 +81,31 @@ function eenterprise_bridge_auth_login_form_submit($form, &$form_state) {
   }
 }
 
+
+/**
+ * @param $post
+ * @return AdfsUserDetails|stdClass
+ * Parses post variable into Adfs UserDetails object
+ */
+function _parsePostForUserDetails($post) {
+  $adfs = new AdfsBridge();
+  if (isset($post['wam_test'])) {
+    $userDetails = new stdClass();
+    $userDetails->attributes['name'][] = $post['name'];
+  }
+  else if (isset($post['piv_card_test'])) {
+    $userDetails = new stdClass();
+    $userDetails->attributes['uid'][] = $post['uid'];
+    $userDetails->attributes['issuer'][] = $post['issuer'];
+    $userDetails->attributes['Organization'][] = $post['Organization'];
+    $userDetails->attributes['OrganizationUnit'][] = $post['OrganizationUnit'];
+  }
+  else {
+    $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $post['wresult']);
+  }
+  return $userDetails;
+}
+
 /**
  * Authentication callback function.
  *
@@ -89,8 +114,6 @@ function eenterprise_bridge_auth_login_form_submit($form, &$form_state) {
  */
 function eenterprise_bridge_auth_authenticate($error) {
   global $user;
-  $uname = "";
-  $public_or_cdx = "public";
 
   // Check that user is not logged in (user uid == 0 if not authenticated)
   if ($user->uid != 0) {
@@ -111,122 +134,19 @@ function eenterprise_bridge_auth_authenticate($error) {
     drupal_goto('workbench');
   }
 
-
-  $adfs = new AdfsBridge();
-  if (isset($_POST['wam_test'])) {
-    $userDetails = new stdClass();
-    $userDetails->attributes['name'][] = $_POST['name'];
-  }
-  else if (isset($_POST['piv_card_test'])) {
-    $userDetails = new stdClass();
-    $userDetails->attributes['uid'][] = $_POST['uid'];
-    $userDetails->attributes['issuer'][] = $_POST['issuer'];
-    $userDetails->attributes['Organization'][] = $_POST['Organization'];
-    $userDetails->attributes['OrganizationUnit'][] = $_POST['OrganizationUnit'];
-  }
-  else {
-    $userDetails = $adfs->getAdfsSignInResponse(AdfsConf::getInstance(), $_POST['wresult']);
-  }
-
-  //Get user mapping and attempt to login user.
-  $piv_card_position = stripos($userDetails->attributes['issuer'][0], "SmartCard");
-
-  $authentication_method_array = explode(':', $userDetails->attributes['authenticationMethod']);
-  $authentication_method = strtoupper(trim($authentication_method_array[count($authentication_method_array) - 1]));
-  $authentication_domain = null;
-
-  $username_raw = explode('/', $userDetails->attributes['name'][0]);
-  $username = end($username_raw);
-
-  if ($piv_card_position !== FALSE) {
-    $piv_uname = trim(trim($userDetails->attributes['uid'][0]), '"');
-    //To avoid username conflicts among users from multiple agencies, use username followed by dnQualifier attribute.
-    $dnQualifier = trim($userDetails->attributes['dnQualifier'][0]);
-    $uname_pos = strrpos($piv_uname, ":");
-    $piv_uname = substr($piv_uname, $uname_pos);
-    $uname_arr = explode(' ', $piv_uname);
-    $uname = $uname_arr[0] . "_" . $uname_arr[1] . "_" . $dnQualifier . "_Via_PIV_Card";
-  }
-  else if ($authentication_method === "WAMNAAS") {
-    //Trim space and double quote from WAM name attribute.
-    $wam_uname = trim(trim($userDetails->attributes['name'][0]), '"');
-    $uname_pos = strrpos($wam_uname, "/");
-    $wam_res = substr($wam_uname, $uname_pos + 1);
-    $uname = $wam_res . "_Via_WAM";
-  }
-  else if ($authentication_method === "ENNAAS") {
-    $authentication_domain = strtoupper(trim($userDetails->attributes['authenticationdomain'][0]));
-    mitigate_username_alteration($username . "_Via_" . $authentication_domain, $username);
-    $uname = $username . "_Via_" . $authentication_domain;
-    $public_or_cdx = 'cdx';
-  }
-  else if ($authentication_method === 'ENVITE') {
-    $uname = trim($userDetails->attributes['name'][0], '"') . "_Via_ENVITE";
-    $userDetails->attributes['email'][0] = trim($userDetails->attributes['emailaddress'][0], '"');
-  }
-  else if ($authentication_method === 'TWITTER') {
-    mitigate_username_alteration($userDetails->attributes['id'][0] . "_Via_Twitter", $userDetails->attributes['id'][0]);
-    $uname = $userDetails->attributes['id'][0] . "_Via_Twitter";
-  }
-  else if ($authentication_method === 'FACEBOOK') {
-    // Use email if available, otherwise use id
-    if (isset($userDetails->attributes['email'])) {
-      $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
-      $uname = $userDetails->attributes['email'][0] . "_Via_Facebook";
-      mitigate_username_alteration($userDetails->attributes['id'][0] . "_Via_Facebook", $userDetails->attributes['id'][0]);
-    }
-    else {
-      $userDetails->attributes['id'][0] = trim($userDetails->attributes['id'][0], '"');
-      $uname = $userDetails->attributes['id'][0] . "_Via_Facebook";
-      mitigate_username_alteration($userDetails->attributes['email'][0] . "_Via_Facebook", $userDetails->attributes['email'][0]);
-    }
-  }
-  else if ($authentication_method === 'NMIDP') {
-    if (isset($userDetails->attributes['email'])) {
-      $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
-      $uname = $userDetails->attributes['email'][0] . "_Via_NMED";
-    }
-  }
-  else {
-    // default
-    mitigate_username_alteration($username . "_Via_CDX", $username);
-    $uname = $username . "_Via_CDX";
-    $public_or_cdx = 'cdx';
-  }
-
-  if (variable_get('trusted_users_list_used') == 'Yes') {
-    trusted_user_check($uname);
-  }
-
-  $_SESSION['cdx_user_type'] = $public_or_cdx;
-  $ext_user = user_external_load($uname);
+  // Use temp variable to pass post contents
+  $post = $_POST;
+  // Pull UserDetails from Post
+  $userDetails = _parsePostForUserDetails($post);
+  $authenticated_user = new AuthenticatedUser($userDetails);
+  // Check if user is already in the system
+  $ext_user = user_external_load($authenticated_user->get_name());
   if (!$ext_user) {
-    user_external_login_register($uname, 'eenterprise_bridge_auth');
+    user_external_login_register($authenticated_user->get_name(), 'eenterprise_bridge_auth');
     if ($user) {
-      if ($piv_card_position !== FALSE) {
-        $org_pos = strrpos($userDetails->attributes['Organization'][0], ":");
-        $org = substr($userDetails->attributes['Organization'][0], $org_pos + 1);
-        $org_unit_pos = strrpos($userDetails->attributes['OrganizationUnit'][0], ":");
-        $org_unit = substr($userDetails->attributes['OrganizationUnit'][0], $org_unit_pos + 1);
-        $edit = array('field_piv_card_org' => array('und' => array(0 => array('value' => $org . " : " . $org_unit))));
-        user_save($user, $edit);
-      }
-      else {
-        user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
-      }
-      //if user is public user
-      if ($public_or_cdx == 'public') {
-        $user_role = user_role_load_by_name('Public User');
-        user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-      }
-      else {
-        if (module_exists("linked_accounts")) {
-          linked_accounts_save_authenticated_user($username, $authentication_domain);
-        }
-        assign_roles_to_user($uname);
-        $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
-        $_SESSION['userId'] = $userDetails->attributes['userId'][0];
-        $_SESSION['login_timestamp'] = time();
+      $authenticated_user->set_user($user);
+      if ($authenticated_user->public_user) {
+        $authenticated_user->add_role('Public User');
       }
     }
   }
@@ -234,241 +154,24 @@ function eenterprise_bridge_auth_authenticate($error) {
     //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
     $user = $ext_user;
     $form_state['uid'] = $user->uid;
-
+    $authenticated_user->set_user($user);
     user_login_submit(array(), $form_state);
-    //To fix a bug where email address is not updated after users update their email address in CDX and login.
-    user_save($user, array('mail' => trim($userDetails->attributes['email'][0], '"')));
-    if ($public_or_cdx == 'cdx') {
-      assign_roles_to_user($uname);
-      $_SESSION['cdx_fmw_security_token'] = $userDetails->attributes['securityToken'][0];
-      $_SESSION['userId'] = $userDetails->attributes['userId'][0];
-      $_SESSION['login_timestamp'] = time();
-      if (module_exists("linked_accounts")) {
-        linked_accounts_save_authenticated_user($username, $authentication_domain);
-      }
-    }
   }
+
+  if (!$authenticated_user->public_user) {
+    $_SESSION['cdx_fmw_security_token'] = $authenticated_user->userDetails->attributes['securityToken'][0];
+    $_SESSION['userId'] = $authenticated_user->userDetails->attributes['userId'][0];
+    $_SESSION['login_timestamp'] = time();
+    if (module_exists("linked_accounts")) {
+      linked_accounts_save_authenticated_user($authenticated_user->get_source_username(), $authenticated_user->get_authentication_domain());
+    }
+    $authenticated_user->add_role('eactivity-dataflows');
+  }
+  $authenticated_user->add_role('logged_in_user');
   drupal_goto('workbench');
 }
 
-/**
- * Username appended with _Via_CDX, _Via_Facebook etc to qualify provider names and ensure username uniqueness.
- * @param $altered_username
- * Original username sent from an identity provider
- * @param $username
- */
-function mitigate_username_alteration($altered_username, $username) {
-  if (variable_get('cdx_usernames_mitigation') == 'Run Mitigation Code') {
-    db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username));
-    db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username));
-    db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username . '@cdx'));
-    db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username . '@cdx'));
-    db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username . '@twitter.com'));
-    db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username . '@twitter.com'));
-    db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $altered_username, ':uname2' => $username . '@facebook.com'));
-    db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $altered_username, ':uname2' => $username . '@facebook.com'));
-  }
-}
 
-/*
- * Implement a function to filter users to deny authentication from a predefined list. The list maintained in
- * trusted_user content type.
- */
-function trusted_user_check($uname) {
-  $trusted_users = db_query("select nid, title from {node} where type = :node_type", array(":node_type" => "trusted_user"))->fetchAllKeyed();
-  $uname = trim($uname, '"');     //gmail usernames are sent with quotes before and after the username.
-  if (in_array(strtolower($uname), $trusted_users) || in_array(strtoupper($uname), $trusted_users))
-    ;  //if user is trusted Do Nothing, authentication will resume.
-  else {
-    $_SESSION['trusted_login'] = 'NO';
-    drupal_goto("/");
-    return;
-  }
-}
-
-function assign_roles_to_user($user_name) {
-  global $user;
-  $wsdl = variable_get('eactivity_auth_reg_wsdl');
-  $client = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
-  if ($client->error) {
-    makeUserPublicUser($user);
-    return;
-  }
-
-  $client = $client->client;
-  $params1 = array(
-    "userId" => variable_get('eactivity_auth_reg_username'),
-    "credential" => variable_get('eactivity_auth_reg_password'),
-    "domain" => variable_get('eactivity_auth_reg_domain'),
-    "authenticationMethod" => variable_get('eactivity_auth_reg_auth_method'),
-  );
-  $response1 = callSOAPWithParams($client, "Authenticate", $params1, "Eenterprise Bridge Auth");
-  if ($response1->error) {
-    makeUserPublicUser($user);
-    return;
-  }
-  $response1 = $response1->response;
-
-  //Extract out "_Via_CDX" string from user_name to pull roles from the Activity Data flow
-  $cdx_username = $user_name;
-  $cdx_pos = strrpos($cdx_username, "_Via_");
-  if ($cdx_pos !== FALSE) {
-    $cdx_username = substr($cdx_username, 0, $cdx_pos);
-  }
-  //For the following parameter, use $cdx_username, which does not have _Via_CDX at the end, instead of $user_name
-  $params2 = array(
-    "securityToken" => $response1->securityToken,
-    "userId" => $cdx_username,
-  );
-
-  $user_obj = callSOAPWithParams($client, "RetrieveUser", $params2, "Eenterprise Bridge Auth");
-  if ($user_obj->error) {
-    makeUserPublicUser($user);
-    return;
-  }
-
-  $user_obj = $user_obj->response;
-  $user_sec_bundle = array(
-    "securityToken" => $response1->securityToken,
-    "user" => $user_obj->User,
-  );
-
-  $org_val = null;
-  $user_orgs = callSOAPWithParams($client, "RetrieveOrganizations", $user_sec_bundle, "Eenterprise Bridge Auth");
-  if ($user_orgs->error) {
-    makeUserPublicUser($user);
-    return;
-  }
-  $user_orgs = $user_orgs->response;
-  if (is_array($user_orgs->Organization)) {
-    $org_val = $user_orgs->Organization[0];
-  }
-  else {
-    $org_val = $user_orgs->Organization;
-  }
-  $user_sec_org_bundle = array(
-    "securityToken" => $response1->securityToken,
-    "user" => $user_obj->User,
-    "org" => $org_val,
-  );
-  $user_roles = callSOAPWithParams($client, "RetrieveRoles", $user_sec_org_bundle, "Eenterprise Bridge Auth");
-  if ($user_roles->error) {
-    makeUserPublicUser($user);
-    return;
-  }
-  $user_roles = $user_roles->response;
-  $eactivity_role = FALSE;
-  if (!is_array($user_roles->Role)) {
-    $user_roles->Role = array($user_roles->Role);
-  }
-  $user_naics = array();
-  foreach ($user_roles->Role as $k => $v) {
-    $role_val = $v->type->description;
-    if ($role_val !== "Public") {
-      $eactivity_role = TRUE;
-    }
-    //Make sure a role that is assigned to a CDX role is not a Drupal admin role, the second case.
-    if (!empty($role_val) && $role_val != variable_get('current_admin_role')) {
-      $user_role = user_role_load_by_name($role_val);
-      if ($user_role === FALSE) {
-        $user_role = new stdClass();
-        $user_role->name = $role_val;
-        user_role_save($user_role);
-      }
-      user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-      allow_user_menu_access($user_role->rid);
-      //Allow favorites view and app connect view access to all CDX users.
-      view_allow_access_role('favorite_sites', $user_role->rid);
-      view_allow_access_role('app_connect_new', $user_role->rid);
-
-      //Get any NAIC codes based on the user_role_id
-      module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-      if (feature_toggle_get_status('profile_enable_cdx_naics')) {
-        $naics_dataflows = strtolower(variable_get('naics_dataflows'));
-        $naics_dataflows_array = explode(',', $naics_dataflows);
-        if (in_array(strtolower($v->dataflow), $naics_dataflows_array)) {
-          if (!isset($facclient)) {
-            $facwsdl = variable_get('cdx_program_facility_endpoint');//'http://testngn.epacdxnode.net/cdx-register-II/services/RegisterProgramFacilityService?wsdl';
-            $facclient = connectToSOAPServerWithWSDL($facwsdl, "Eenterprise Bridge Auth");
-            if ($facclient->error) {
-              return;
-            }
-            $facclient = $facclient->client;
-          }
-          $paramsfac = array(
-            "securityToken" => $response1->securityToken,
-            "userRoleId" => $v->userRoleId,
-          );
-          $user_facs = callSOAPWithParams($facclient, "RetrieveFacilitiesByUserRoleId", $paramsfac, "Eenterprise Bridge Auth");
-          if ($user_facs->error) {
-            return;
-          }
-          $user_facs = $user_facs->response;
-          if (!is_array($user_facs->ProgramFacility)) {
-            $user_facs->ProgramFacility = array($user_roles->ProgramFacility);
-          }
-          foreach ($user_facs->ProgramFacility as $k2 => $v2) {
-            foreach ($v2->NaicsCodes->NaicsCode as $k3 => $v3) {
-              $endpoint = variable_get('naics_get_by_code_endpoint');
-              $endpoint = $endpoint . urlencode($v3->CdxNaicsCodeValue);
-              $response = drupal_http_request($endpoint, [
-                //"headers" => $headers,
-                "method" => "GET",
-                'timeout' => "10"
-              ]);
-              if ($response->code !== "200") {
-                $return['error'] = TRUE;
-                $return['error-messages'][] = ['code' => $response->code, 'error' => 'NAICS endpoint response: ' . $response->error];
-                $naics_description = 'Unable to retrieve NAICS description.';
-              }
-              else {
-                $response_array = xmlstr_to_array($response->data);
-                $base = $response_array['Results']['NAICS']['Code'];
-                $naics_description = $base['NAICSNameText'];
-              }
-              $user_naics[$v3->CdxNaicsCodeValue] = $naics_description;
-            }
-          }
-          $user_naics = array_unique($user_naics);
-        }
-      }
-    }
-  }
-  update_cdx_naics_profile($user_naics);
-  if ($eactivity_role) {
-    // Allow access to cdx facility manager, progress tracker, and to do
-    if ($user_eactivity_role = user_role_load_by_name("eactivity-dataflows")) {
-      // Give user eactivity role
-      user_multiple_role_edit(array($user->uid), "add_role", $user_eactivity_role->rid);
-    }
-  }
-}
-
-
-function makeUserPublicUser($user) {
-  $role_val = 'Public';
-  $user_role = user_role_load_by_name($role_val);
-  if ($user_role === FALSE) {
-    $user_role = new stdClass();
-    $user_role->name = $role_val;
-    user_role_save($user_role);
-  }
-  user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-  allow_user_menu_access($user_role->rid);
-  //Allow favorites view access to all CDX users.
-  view_allow_access_role('favorite_sites', $user_role->rid);
-  watchdog('eenterprise_bridge_auth', "Error 0003: Cannot retrieve role information", array(), WATCHDOG_ERROR);
-}
-
-/*
- * function that allow roles access to the user-menu block. That is the block containing My Account and Log out links.
- */
-
-function allow_user_menu_access($role_id) {
-  $query = db_merge('block_role')->key(array('rid' => $role_id, 'module' => 'system', 'delta' => 'user-menu'));
-  $query->execute();
-  cache_clear_all();
-}
 
 function eenterprise_bridge_auth_logout() {
   if (isset($_SESSION['cdx_fmw_security_token'])) {
@@ -493,7 +196,6 @@ function eenterprise_bridge_auth_logout() {
   header("Location:$logout");
 }
 
-
 function eenterprise_bridge_auth_redirect() {
   $idParams = array('wa' => 'wsignin1.0',
     'wtrealm' => variable_get('eenterprise_bridge_auth_realm'),
@@ -508,6 +210,7 @@ function eenterprise_bridge_auth_redirect() {
   header("Location:$idBridgeUrl");
 }
 
+
 /*
  * Function to allow a new user with CDX role get access to progress tracker and to-do views
  * automatically.
@@ -521,36 +224,4 @@ function view_allow_access_role($view_name, $role_id) {
   }
 }
 
-function update_cdx_naics_profile($profile) {
-  $response = [
-    'error' => false,
-    'error-messages' => [],
-    'data' => null,
-  ];
 
-  if (isset($profile)) {
-
-    global $user;
-    //$existing = user_load($user->uid);
-    $existing = user_load($user->uid);
-    $response['data'] = ['profile' => $profile];
-
-    $edit = [];
-    if (!is_string($profile)) {
-      $profile = json_encode($profile);
-    }
-    $edit['field_cdx_naics_settings']['und'][0]['value'] = $profile;
-
-    // save existing user
-
-    if (!user_save($existing, $edit)) {
-      $response['error'] = true;
-      $response['error-messages'][] = 'There was a problem while trying to save';
-    }
-  }
-  else {
-    $response['error'] = true;
-    $response['error-messages'][] = 'Missing profile value in the post data';
-  }
-  echo json_encode($response);
-}

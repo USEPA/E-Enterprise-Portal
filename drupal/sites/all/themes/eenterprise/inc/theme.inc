@@ -6,7 +6,6 @@
 
 function eenterprise_menu_link(&$vars) {
 	global $user;
-	$name = $user->name;
 	$path	= drupal_get_path_alias();
 	$element = $vars['element'];
   $sub_menu = '';

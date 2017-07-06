@@ -177,7 +177,6 @@
             $.ajax({
               type: 'GET',
               url: Drupal.settings.basePath + 'air_quality_chart/api/current/latLong/',
-              async: true,
               data: {
                 format: 'application/json',
                 latitude: lat83,
@@ -229,7 +228,6 @@
     $.ajax({
       type: 'GET',
       url: Drupal.settings.basePath + 'air_quality_chart/api/current/latLong/',
-      async: true,
       data: {
         format: 'application/json',
         latitude: '32.6460',

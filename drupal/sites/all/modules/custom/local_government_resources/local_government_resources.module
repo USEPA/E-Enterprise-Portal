@@ -1,0 +1,694 @@
+<?php
+/**
+ * Implements hook_menu().
+ */
+function local_government_resources_menu() {
+  $items = array();
+
+
+// Manage My Topics ajax urls
+  $items['manage_my_topics/save_topic'] = array(
+    'page callback' => 'save_lgc_topic',
+    'access callback' => TRUE,
+  );
+
+  $items['manage_my_topics/remove_topic'] = array(
+    'page callback' => 'remove_lgc_topic',
+    'access callback' => TRUE,
+  );
+
+  $items['lgc/user_table_datatable_json'] = array(
+    'page callback' => 'user_table_datatable_json',
+    'access callback' => TRUE,
+  );
+
+  $items['admin/config/system/lgc'] = array(
+    'title' => 'LGC',
+    'description' => 'LGC data configuration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('lgc_settings'),
+    'access arguments' => array('administer lgc'),
+    'file' => 'local_government_resources.admin.inc',
+  );
+
+  return $items;
+}
+
+function lgc_datatables_return($resources) {
+  $datatable_rows = [];
+  foreach ($resources as $resource) {
+    if (isset($resource['TopicText'])) {
+      $row = [];
+      $row[] = '<a href="' . $resource['LocationResourceText'] . '">' . $resource['ResourceName'] . '</a>';
+      $row[] = '<div>' . $resource['DescriptionText'] . '</div>' .
+        '<a href="#" class="favorites-ignore"><span class="sr-only">Details for ' . $resource['ResourceName'] . ' </sr></a>';
+      $row[] = emptyIfNull($resource['SourceSystemText']);
+      $row[] = emptyIfNull($resource['TopicText']);
+      $row[] = emptyIfNull($resource['BusinessFunctionText']);
+      $row[] = emptyIfNull($resource['SubtypeText']);
+      $row[] = emptyIfNull($resource['RatingsTrainingLevelText']);
+      $row[] = emptyIfNull($resource['RatingsRecommendationText']);
+      $row[] = emptyIfNull($resource['RelevanceText']);
+      $datatable_rows[] = $row;
+    }
+  }
+  return $datatable_rows;
+}
+
+// Takes variable meant to be string. If it is undefined, then default
+// to an empty string
+function emptyIfNull($possibleText) {
+  if (!isset($possibleText)) {
+    return "";
+  }
+  else {
+    return $possibleText;
+  }
+}
+
+function user_table_datatable_json() {
+  $return = [
+    'datatable_json' => lgc_datatables_return(lgc_resources_json_by_user()),
+    'topics' => load_user_lgc_topics(),
+  ];
+  drupal_json_output($return);
+}
+
+function load_lgc_topics() {
+  $user_lgc_tids = array_keys(load_user_lgc_topics());
+  // Load local government topics
+  $vid = taxonomy_vocabulary_machine_name_load('lgc_topics')->vid;
+  $vocab_tree = taxonomy_get_tree($vid);
+  $lgc_topics = [];
+  foreach ($vocab_tree as $obj_class) {
+    $checked = FALSE;
+    if (in_array(strval($obj_class->tid), $user_lgc_tids)) {
+      $checked = TRUE;
+    }
+    $lgc_topics[$obj_class->tid] = [
+      'name' => $obj_class->name,
+      'checked' => $checked
+    ];
+  }
+  return $lgc_topics;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function local_government_resources_block_info() {
+  $blocks = array();
+  $blocks['local_government_resources'] = array(
+    'info' => t('Local Government Resources Block'),
+  );
+  return $blocks;
+}
+
+
+/**
+ * Implements hook_theme().
+ * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
+ */
+function local_government_resources_theme() {
+
+  return array(
+    // Name to be called with theme(). theme('local_government_resources')
+    'local_government_resources' => array(
+      'template' => 'local-government-resources',
+      'path' => drupal_get_path('module', 'local_government_resources') . '/templates'
+    ),
+    'local_government_resources_topic_selection' => array(
+      'template' => 'manage-my-topics',
+      'path' => drupal_get_path('module', 'local_government_resources') . '/templates'
+    ),
+    'lgc_about_content' => array(
+      'template' => 'lgc-about',
+      'path' => drupal_get_path('module', 'local_government_resources') . '/templates'
+    )
+  );
+}
+
+function load_user_lgc_topics() {
+  global $user;
+  $lgc_topics = [];
+  $user_data = user_load($user->uid);
+  $user_topics = $user_data->field_lgc_topics_of_interest[LANGUAGE_NONE];
+  if (is_array($user_topics)) {
+    foreach ($user_topics as $topic) {
+      $lgc_topics[$topic['tid']] = taxonomy_term_load($topic['tid'])->name;
+    }
+  }
+  return $lgc_topics;
+}
+
+function xml2array($xmlObject, $out = array()) {
+  foreach ((array)$xmlObject as $index => $node) {
+    $out[$index] = (is_object($node)) ? xml2array($node) : $node;
+  }
+  return $out;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function local_government_resources_block_view($delta = '') {
+  $block = array();
+  if ($delta == 'local_government_resources') {
+    // Check user permissions
+    if (user_access('access content')) {
+      // Variables to be accessed in JS
+      $columns = [
+        ['title' => "Resource"],
+        ['title' => "Info"],
+        ['title' => "Source"],
+        ['title' => "Topic"],
+        ['title' => "Category"],
+        ['title' => "Tool Type"],
+        ['title' => "Training Level"],
+        ['title' => "Data Requirements"],
+        ['title' => "Relevance"],
+      ];
+      $lgc_settings =
+        ['local_government_resources' =>
+          [
+            'columns' => $columns,
+            'all_resources' => lgc_datatables_return(lgc_resources_json_all()),
+            'user_resources' => lgc_datatables_return(lgc_resources_json_by_user()),
+            'manage_my_topics_html' =>
+              theme('local_government_resources_topic_selection', ['topics' => load_lgc_topics()]),
+            'topics' => load_lgc_topics(),
+            'user_topics' => load_user_lgc_topics(),
+          ]
+        ];
+      drupal_add_js($lgc_settings, 'setting');
+
+
+      drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
+        'group' => JS_LIBRARY,
+        'type' => 'file',
+        'cache' => TRUE,
+        'requires_jquery' => TRUE
+      ]);
+      drupal_add_js(libraries_get_path('yadcf-0.9.1') . '/src/jquery.dataTables.yadcf.js', 'file');
+      drupal_add_js(drupal_get_path('module', 'local_government_resources') . '/js/embedded_lgc_topics_view.js', [
+        'group' => JS_DEFAULT,
+        'type' => 'file',
+        'scope' => 'footer',
+        'cache' => TRUE,
+      ]);
+      drupal_add_js(drupal_get_path('module', 'local_government_resources') . '/js/LocalResourcesTable.js', [
+        'group' => JS_DEFAULT,
+        'type' => 'file',
+        'cache' => TRUE,
+        'scope' => 'footer',
+
+      ]);
+      drupal_add_js(drupal_get_path('module', 'local_government_resources') . '/js/manage_my_topics_component.js', [
+        'group' => JS_DEFAULT,
+        'type' => 'file',
+        'cache' => TRUE,
+        'scope' => 'footer',
+      ]);
+      drupal_add_js(drupal_get_path('module', 'local_government_resources') . '/js/local_government_resources.js', [
+        'group' => JS_DEFAULT,
+        'type' => 'file',
+        'cache' => TRUE,
+        'scope' => 'footer',
+      ]);
+      drupal_add_css(drupal_get_path('module', 'local_government_resources') . '/css/local_government_resources.css', [
+        'preprocess' => TRUE,
+        'group' => CSS_THEME
+      ]);
+      drupal_add_css(drupal_get_path('module', 'local_government_resources') . '/css/manage_my_topics.css', [
+        'preprocess' => TRUE,
+        'group' => CSS_THEME
+      ]);
+      drupal_add_css("sites/all/libraries/jqueryui/themes/base/minified/jquery.ui.tabs.min.css", ['scope' => 'footer', 'preprocess' => true, 'group' => CSS_DEFAULT]);
+
+      // Set default LGC about html
+      $lgc_about_html = theme('lgc_about_content');
+      $config_about_html = variable_get('lgc_about_content', ['value' => '']);
+      if ($config_about_html['value'] != '') {
+        $lgc_about_html = $config_about_html['value'];
+      }
+      $block['subject'] = t('Local Government Resources');
+      $block['content'] = theme('local_government_resources', ['lgc_about_html' => $lgc_about_html]);
+    }
+  }
+  return $block;
+}
+
+
+/**
+ * Parse LGC XML response and update LGC Taxonomy with new topic information
+ *
+ * @param $response_data
+ * @param $term_tid_mapping
+ * @param $deprecated_terms
+ * @return array
+ */
+function parse_lgc_xml_return_from_rcs($response_data, &$term_tid_mapping, &$deprecated_terms) {
+  // Tracks all resources pulled from RCS and parsed from XML
+  $resources_array = [];
+
+  // Convert the response into an xml object
+  $xmlobj = simplexml_load_string($response_data);
+  // convert the resources into an array
+  $resources = xml2array($xmlobj->Results->NewDataSet);
+
+
+  /* Loop through RCS xml return to
+  *  1) update LGC taxonomy with LGC topic names,
+  *  2) return array of LGC resources
+  */
+  foreach ($resources['Resource'] as $simpleXML) {
+    // Convert inner xmlObj of resource array to array
+    $resource_array = xml2array($simpleXML);
+    // Only pull LGC Resource if contains topic
+    if (
+      isset($resource_array['TopicText'])
+      && isset($resource_array['ResourceName'])
+      && trim($resource_array['TopicText']) !== ''
+      && trim($resource_array['ResourceName']) !== ''
+    ) {
+
+      // Trim any non-alphanumeric from description
+      $resource_array['DescriptionText'] = trim($resource_array['DescriptionText']);
+
+      // Check for '|' delimiters in topic
+      $topics_array = explode('|', $resource_array['TopicText']);
+      $tids = [];
+      foreach ($topics_array as $topic) {
+        $topic = trim($topic);
+
+        // Topic is not deprecated
+        unset($deprecated_terms[$topic]);
+        // Add topic to tid_mapping if the topic has not been saved
+        // to the LGC Resource taxonomy
+        if (!isset($term_tid_mapping[$topic])) {
+          // Update $term_tid_mapping with topic=>tid
+          add_new_lgc_topic_to_taxonomy($topic, $term_tid_mapping);
+        }
+        // Save the new TID to the RCS return (resource_array)
+        $tid = $term_tid_mapping[$topic];
+        $tids[] = $tid;
+      }
+      $resource_array['tids'] = $tids;
+
+
+      $resources_array[] = $resource_array;
+
+    }
+  }
+
+  return $resources_array;
+}
+
+/**
+ * Parse LGC XML response and update LGC Taxonomy with new topic information
+ * @param $response_data
+ * @param $term_tid_mapping
+ * @param $deprecated_terms
+ * @return array
+ */
+function parse_lgc_json_return_from_mo($response_data, &$term_tid_mapping, &$deprecated_terms) {
+  // Tracks all resources pulled from RCS and parsed from XML
+  $resources_array = [];
+
+  $resources = json_decode($response_data)->resources;
+
+  /* Loop through json return to
+  *  1) update LGC taxonomy with LGC topic names,
+  *  2) return array of LGC resources
+  */
+  foreach ($resources as $resource) {
+    $resource_array = [];
+    $tids = [];
+    $topics_string = "";
+    $categories_string = "";
+    $relevances_string = "";
+
+    // Only pull LGC Resource if contains topic
+    if (
+      isset($resource->topics)
+      && isset($resource->name)
+      && count($resource->topics) > 0
+      && trim($resource->name) !== ''
+    ) {
+
+      foreach ($resource->topics as $topic) {
+        $topic = trim($topic);
+        $topics_string .= $topic . '|';
+        // Topic is not deprecated
+        unset($deprecated_terms[$topic]);
+        // Add topic to tid_mapping if the topic has not been saved
+        // to the LGC Resource taxonomy
+        if (!isset($term_tid_mapping[$topic])) {
+          // Update $term_tid_mapping with topic=>tid
+          add_new_lgc_topic_to_taxonomy($topic, $term_tid_mapping);
+        }
+        // Save the new TID to the RCS return (resource_array)
+        $tid = $term_tid_mapping[$topic];
+        $tids[] = $tid;
+      }
+
+      if (isset($resource->categories) && is_array($resource->categories)) {
+        foreach ($resource->categories as $category) {
+          $categories_string .= trim($category) . '|';
+        }
+      }
+      if (isset($resource->relevance) && is_array($resource->relevance)) {
+        foreach ($resource->relevance as $relevance) {
+          $relevances_string .= trim($relevance) . '|';
+        }
+      }
+
+      $resource_array['ResourceName'] = $resource->name;
+      $resource_array['LocationResourceText'] = $resource->link;
+      // Trim any non-alphanumeric from description
+      $resource_array['DescriptionText'] = trim($resource->detailed_description);
+      $resource_array['SourceSystemText'] = $resource->source;
+      $resource_array['TopicText'] = $topics_string;
+      $resource_array['BusinessFunctionText'] = $categories_string;
+      $resource_array['SubtypeText'] = $resource->tool_type;
+      $resource_array['RatingsTrainingLevelText'] = $resource->training_level;
+      $resource_array['RatingsRecommendationText'] = $resource->data_resource_requirements;
+      $resource_array['RelevanceText'] = $relevances_string;
+
+      $resource_array['tids'] = $tids;
+      $resources_array[] = $resource_array;
+    }
+  }
+
+  return $resources_array;
+}
+
+/**
+ * Makes request to endpoint (json/xml) or returns previously
+ * cached data
+ * @param $cache_key
+ * @param $default_endpoint
+ * @param $content_type
+ * @param $term_tid_mapping
+ * @param $deprecated_terms
+ * @return array
+ */
+function lgc_load_data_from_endpoint($cache_key, $default_endpoint, $content_type, &$term_tid_mapping, &$deprecated_terms) {
+  $data = &drupal_static(__FUNCTION__);
+
+  if (!isset($data)) {
+
+    // Return cache if available and not expired
+    $cache = cache_get($cache_key);
+    if ($cache && time() < $cache->expire) {
+      if (count($cache->data) > 0) {
+        $response = new stdClass();
+        $response->data = $cache->data;
+      }
+    }
+  }
+
+  if (!isset($response)) {
+    // Load amount of time to wait before reloading rcs. Default is 5 minutes
+    $expire_ts = time() + (intval(variable_get('lgc_cache_reset_time', 5)) * 60);
+
+    module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+    if (feature_toggle_get_status('sample_rcs_data') && $content_type !== 'application/json') {
+      $response = new stdClass();
+      $response->data = file_get_contents(drupal_get_path('module', 'recommended_resources') . '/rcs-sample-response.xml');
+    }
+    else {
+      $url = variable_get($cache_key . '_endpoint_url', $default_endpoint);
+      $response = drupal_http_request($url, array(
+        'headers' => array('Content-Type' => $content_type),
+        'method' => 'GET',
+        'timeout' => variable_get('lgc_service_timeout', 30.0),
+      ));
+
+      // If request was unsuccessful, load last successful request
+      if ($content_type === 'text/xml') {
+        $file_type = 'xml';
+      }
+      else {
+        $file_type = 'json';
+      }
+      if ($response->code != 200 || $response->data == "") {
+        $response->data = file_get_contents(drupal_get_path('module', 'recommended_resources') . '/last_' . $cache_key . '_request.' . $file_type);
+      }
+      else {
+        // Store last successful request in xml
+        file_put_contents(drupal_get_path('module', 'recommended_resources') . '/last_' . $cache_key . '_request.' . $file_type, $response->data);
+      }
+    }
+
+    // Set variables for cache to save processing time on recurrent calls
+    cache_set($cache_key, $response->data, 'cache', $expire_ts);
+  }
+
+  if ($content_type === 'text/xml') {
+    $resources_array = parse_lgc_xml_return_from_rcs($response->data, $term_tid_mapping, $deprecated_terms);
+  }
+  else {
+    $resources_array = parse_lgc_json_return_from_mo($response->data, $term_tid_mapping, $deprecated_terms);
+  }
+
+
+  return $resources_array;
+}
+
+
+/**
+ * Returns RCS information
+ * @param $term_tid_mapping
+ * @param $deprecated_terms
+ * @return array
+ */
+function rcs_lgc_resources(&$term_tid_mapping, &$deprecated_terms) {
+  // Will be overriden if changes are made in the admin configs
+  $default_endpoint = "https://ends2.epa.gov/RestProxy/query?Node=.NetNode2&Dataflow=RCS&Request=GetRCSResourcesByCategoryTag_v1.0&Params=CategoryTag|Local+Government";
+  return lgc_load_data_from_endpoint('rcs_lgc', $default_endpoint, "text/xml", $term_tid_mapping, $deprecated_terms);
+}
+
+/**
+ * Returns MO information
+ * @param $term_tid_mapping
+ * @param $deprecated_terms
+ * @return array
+ */
+function mo_lgc_resources(&$term_tid_mapping, &$deprecated_terms) {
+  // Will be overriden if changes are made in the admin configs
+  $default_endpoint = 'https://devepaapi.azurewebsites.us/localgovernmentresources/resource';
+  return lgc_load_data_from_endpoint('mo_lgc', $default_endpoint, "application/json", $term_tid_mapping, $deprecated_terms);
+}
+
+/**
+ * Public endpoint for accessing LGC datasources
+ * Initiates a mapping of the current LGC taxonomy. This
+ * is passed by reference and updated through all endpoints
+ * to keep the LGC Topics up to date across multiple data
+ * sources
+ *
+ * @throws Exception
+ */
+function lgc_resources_json_all() {
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+
+  // Load term to tid mapping and copy for keeping track of deprecated terms
+  $term_tid_mapping = load_lgc_taxonomy_mapping();
+  $deprecated_terms = $term_tid_mapping;
+
+
+  $resources_array['resources'] = rcs_lgc_resources($term_tid_mapping, $deprecated_terms);
+  if (feature_toggle_get_status('mo_lgc_data')) {
+    $resources_array['resources'] = array_merge($resources_array['resources'], mo_lgc_resources($term_tid_mapping, $deprecated_terms));
+  }
+
+
+  // Delete $deprecated_terms not included in LGC data
+  if (count($deprecated_terms) > 0) {
+    // Force users cache to be rebuilt from the database and not use the old references in drupal cache
+    entity_get_controller('user')->resetCache();
+    foreach ($deprecated_terms as $term_to_delete => $tid) {
+      taxonomy_term_delete($tid);
+    }
+  }
+
+  return $resources_array['resources'];
+}
+
+/**
+ * Loads and returns the LGC topics mapped to their
+ * term ids
+ * @return array
+ */
+function load_lgc_taxonomy_mapping() {
+  $term_tid_mapping = [];
+  // Load LGC Resource taxonomy
+  $vocabulary = taxonomy_vocabulary_machine_name_load('lgc_topics');
+  $vid = $vocabulary->vid;
+  // Load the terms for the LGC Resource taxonomy
+  $lgc_terms = entity_load('taxonomy_term', FALSE, array('vid' => $vid));
+
+  // Initialize $term_tid_mapping and $deprecated_terms with mapping of
+  // topic name to tid from LGC taxonomy
+  foreach ($lgc_terms as $tid => $term_data) {
+    $term_tid_mapping[$term_data->name] = $tid;
+  }
+  return $term_tid_mapping;
+}
+
+/**
+ * Returns tids of the LGC taxonomy that the user has
+ * subscribed to or favored through their profile/workbench
+ * @param $uid
+ * @return array
+ */
+function lgc_user_tids($uid) {
+  $user_data = user_load($uid);
+  $user_lgc_topic_tids = array();
+  $user_lgc_topic_saved_field = $user_data->field_lgc_topics_of_interest;
+  if (isset($user_lgc_topic_saved_field[LANGUAGE_NONE])) {
+    foreach ($user_lgc_topic_saved_field[LANGUAGE_NONE] as $data) {
+      $user_lgc_topic_tids[] = intval($data['tid']);
+    }
+  }
+  return $user_lgc_topic_tids;
+}
+
+
+/**
+ * returns lgc resource by what topics the user has selected in their profile or lgc widget
+ */
+function lgc_resources_json_by_user() {
+  global $user;
+  $uid = $user->uid;
+  module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+
+  // Load term to tid mapping and copy for keeping track of deprecated terms
+  $term_tid_mapping = load_lgc_taxonomy_mapping();
+  $deprecated_terms = $term_tid_mapping;
+
+
+  $resources_array['resources'] = rcs_lgc_resources($term_tid_mapping, $deprecated_terms);
+  if (feature_toggle_get_status('mo_lgc_data')) {
+    $resources_array['resources'] = array_merge($resources_array['resources'], mo_lgc_resources($term_tid_mapping, $deprecated_terms));
+  }
+
+  $user_lgc_tids = lgc_user_tids($uid);
+
+  $response = array('resources' => array());
+  foreach ($resources_array['resources'] as $resource_data) {
+    $tids = $resource_data['tids'];
+    foreach ($tids as $tid) {
+      if (in_array($tid, $user_lgc_tids)) {
+        $response['resources'][] = $resource_data;
+        break; // no need to loop through other tids
+      }
+    }
+  }
+
+  return $response['resources'];
+}
+
+
+/**
+ * Saves Topic in system and adds to tid_term_mapping
+ * @param $topic
+ * @param $tid_term_mapping
+ */
+function add_new_lgc_topic_to_taxonomy($topic, &$tid_term_mapping) {
+  // Load LGC Resource vocabulary VID
+  $vid = taxonomy_vocabulary_machine_name_load('lgc_topics')->vid;
+
+  $term = new stdClass();
+  $term->name = $topic;
+  $term->vid = $vid;
+  taxonomy_term_save($term);
+  $tid = $term->tid;
+  $tid_term_mapping[$topic] = $tid;
+}
+
+
+/**
+ * Accepts POST request with "tid" param
+ * Saves LGC topic to current user with tid
+ * @return array
+ */
+function save_lgc_topic() {
+  // Access current user lgc topics (tids)
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_interests = $user_data->field_lgc_topics_of_interest;
+  $response = array();
+
+  // Check if POST tid is set
+  if (!isset($_POST['tid'])) {
+    $response['error'] = TRUE;
+    $response['message'] = 'Must include TID in POST as \'tid\'';
+    print $response;
+    exit();
+  }
+
+  //Add tid to users preexisting lgc topic tids
+  $tid = $_POST['tid'];
+  $user_interests[LANGUAGE_NONE][] = array('tid' => $tid);
+  $edit = array(
+    'field_lgc_topics_of_interest' => $user_interests
+  );
+
+  // Save changes, return error exception if fails
+  try {
+    user_save($user_data, $edit);
+    $response['error'] = FALSE;
+    $response['message'] = 'Successfully saved tid- ' . $tid;
+    $_SESSION['user_lgc_topics'][$tid] = taxonomy_term_load($tid)->name;
+  } catch (Exception $e) {
+    $response['error'] = TRUE;
+    $response['message'] = array('Failed with exception' => $e);
+  }
+  print json_encode($response);
+}
+
+/**
+ * Accepts POST request with "tid" param
+ * Removes LGC topic from current user with tid
+ * @return array
+ */
+function remove_lgc_topic() {
+  // Access current user lgc topics (tids)
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_interests = $user_data->field_lgc_topics_of_interest;
+  $response = array();
+
+  // Check if POST tid is set
+  if (!isset($_POST['tid'])) {
+    $response['error'] = TRUE;
+    $response['message'] = 'Must include TID in POST as \'tid\'';
+    print $response;
+    exit();
+  }
+  //Remove tid to users preexisting lgc topic tids
+  $tid_to_remove = xssafe($_POST['tid']);
+  foreach ($user_interests[LANGUAGE_NONE] as $key => $topic) {
+    if ($topic['tid'] == $tid_to_remove) {
+      unset($user_interests[LANGUAGE_NONE][$key]);
+    }
+  }
+
+  $edit = array(
+    'field_lgc_topics_of_interest' => $user_interests
+  );
+
+  // Save changes, return error exception if fails
+  try {
+    user_save($user_data, $edit);
+    unset($_SESSION['user_lgc_topics'][$tid_to_remove]);
+    $response['error'] = FALSE;
+    $response['message'] = 'Successfully removed tid- ' . $tid_to_remove;
+  } catch (Exception $e) {
+    $response['error'] = TRUE;
+    $response['message'] = array('Failed with exception' => $e);
+  }
+  print json_encode($response);
+}

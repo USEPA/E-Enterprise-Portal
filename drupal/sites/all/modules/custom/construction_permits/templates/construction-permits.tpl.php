@@ -125,7 +125,7 @@
       <div class="line">
 	    <div class="col-md-6">
 		  <label for="cgp-project-county">County</label>
-          <select name="projectCountry" id="cgp-project-county">
+          <select name="projectCounty" id="cgp-project-county">
             <option value="" selected>All</option>
           </select>
 	    </div>

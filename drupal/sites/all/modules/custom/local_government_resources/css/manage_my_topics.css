@@ -1,0 +1,9 @@
+/* line 1, ../sass/manage_my_topics.scss */
+#manage-my-topics .ck-button.lgc-topics-of-interest {
+  max-width: 45rem !important;
+}
+
+/* line 5, ../sass/manage_my_topics.scss */
+#manage-my-topics-wrapper {
+  display: none;
+}

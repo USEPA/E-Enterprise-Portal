@@ -1,15 +1,3 @@
-<?php
-$module_name = "other_items_of_interest";
-
-drupal_add_css("sites/all/libraries/jqueryui/themes/base/minified/jquery.ui.tabs.min.css", ['scope'=>'footer', 'preprocess'=>true, 'group'=>CSS_DEFAULT]);
-
-drupal_add_js(drupal_get_path('module', $module_name) . "/js/other_items_of_interest.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_interest.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
-//If installed in own installation, include jQuery Tabs JS
-//drupal_add_js("sites/all/libraries/jqueryui/ui/minified/jquery.ui.tabs.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_THEME, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-
-?>
-
 <div id="other-areas-tabs" class="view-content">
     <?php
     // Load the currently logged in user.

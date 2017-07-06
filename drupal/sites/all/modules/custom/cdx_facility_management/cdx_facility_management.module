@@ -13,6 +13,7 @@ function cdx_facility_management_block_info() {
   $blocks['cdx_facility_widget'] = array(
     'info' => t('Facility Widget'),
   );
+  $blocks['cache'] = DRUPAL_CACHE_PER_USER;
   return $blocks;
 }
 
@@ -90,28 +91,18 @@ function return_cdx_facility_management_token($is_print_json = TRUE) {
   module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
 
   global $user;
+  $account = user_load($user->uid);
   $json_return = array();
-
-  // Configurable settings for using Facility Widget locally
-  // @see /admin/config/system/cdx-facility-widget
-  $local_testing = variable_get('local_testing');
-
-  // Allow user to access Facility widget locally with hard coded user id
-  if ($local_testing || $user->uid == 1) {
-    $user_id = variable_get('local_testing_user_id');
-  } else {
-    //Extract out "_Via_CDX" string from user_name to pull roles from the Activity Data flow
-    $user_id = $user->name;
-    $cdx_pos = strrpos($user_id, "_Via_");
-    if ($cdx_pos !== FALSE) {
-      $user_id = substr($user_id, 0, $cdx_pos);
+  $user_id = $account->field_cdx_username[LANGUAGE_NONE][0]['value'];
+  if (trim($user_id) == '') {
+    if ($is_print_json) {
+      drupal_json_output(['error' => TRUE, 'msg' => 'User does not have Linked CDX Account']);
+    } else {
+      return ['error' => TRUE, 'msg' => 'User does not have Linked CDX Account'];
     }
   }
 
-
-
   // Configurations from admin menu
-
   // @see /admin/config/system/cdx-facility-widget
   $frs_password = variable_get('cdx_facility_password');
   $wsdl = variable_get('cdx_facility_naas_wsdl');
@@ -224,21 +215,9 @@ function renewToken($client, $email, $frs_password, $domain, $token) {
 function retrieve_cdx_user_data() {
   global $user;
   $return = array();
-
-  $local_testing = variable_get('local_testing');
-  $local_testing_user_id = variable_get('local_testing_user_id');
-
-  if ($local_testing || $user->uid == 1) {
-    $user_id = $local_testing_user_id;
-  } else {
-    $user_id = $user->name;
-  }
-
-  //Extract out "_Via_CDX" string from user_name to pull roles from the Activity Data flow
-  $cdx_pos = strrpos($user_id, "_Via_");
-  if ($cdx_pos !== FALSE) {
-    $user_id = substr($user_id, 0, $cdx_pos);
-  }
+  
+  $account = user_load($user->uid);
+  $user_id = $account->field_cdx_username[LANGUAGE_NONE][0]['value'];
 
   $allowed_program_roles = ['CEDRI', 'CSPP', 'eDisclosure'];
 
