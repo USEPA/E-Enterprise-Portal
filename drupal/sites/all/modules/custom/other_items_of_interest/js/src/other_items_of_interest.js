@@ -1,246 +1,136 @@
-(function($) {
+(function ($) {
 
-  var ItemsOfInterestTable = function($wrapper, ajax_url, location) {
+    var ItemsOfInterestTable = function ($wrapper, rows, columns) {
 
-    $wrapper.hide();
+        var cached = false;
+        var location;
+        var datatable_options = {
+            data: rows,
+            columns: columns,
+            "bLengthChange": false,
+            "iDisplayLength": 3,
+            "oLanguage": {
+                "sSearch": "Filter:"
+            },
+            "pagingType": "simple",
+            "dom": 'iftp',
+            "fnDrawCallback": function () {
+                var table = $(this).DataTable();
+                var info = table.page.info();
+                var pageNo = info.page + 1;
 
-    var datatable_options = {
-      "bLengthChange": false,
-      "iDisplayLength": 3,
-      "sPageButton": "favorites-ignore",
-      "oLanguage": {
-        "sSearch": "Filter:"
-      },
-      "pagingType": "simple",
-      "dom": 'iftp',
-      "fnDrawCallback": function() {
-        var table = $(this).DataTable();
-        var info = table.page.info();
-        var pageNo = info.page + 1;
+                if (info.pages > 1) {
+                    var $current_li = $('<li />', {
+                        class: 'pager-current'
+                    })
+                        .html(pageNo + ' of ' + info.pages);
+                    $wrapper.find('.dataTables_paginate li:first').after($current_li);
+                }
+            }
+        };
 
-        if (info.pages > 1) {
-          var $current_li = $('<li />', {
-            class: 'pager-current'
-          })
-            .html(pageNo + ' of ' + info.pages);
-          $wrapper.find('.dataTables_paginate li:first').after($current_li);
+        this.setLocation = function(new_location) {
+            location = new_location;
         }
-      }
-    };
-
-    var cached = false;
-    this.wrapper = $wrapper;
-    this.ajax_url = ajax_url;
-
-    if (location) {
-      // find if in city, state code pattern
-      if (location.indexOf(',') === -1)
-        this.state_code = location;
-      else
-        this.state_code = $.trim(location.split(',')[1]);
-    }
-    else {
-      this.state_code = false;
-    }
 
 
-    this.hideTable = function() {
-      $wrapper.hide();
-    };
+        this.updateCurrentLocation = function (new_location) {
+            if (new_location != location) {
+                location = new_location;
+                // find if in city, state code pattern
+                if (location.indexOf(',') >= 0) {
+                    location = $.trim(location.split(',')[1]);
+                }
+                loadDataByLocation(location);
+            }
+        };
 
-    this.update_current_location = function(location) {
-      // find if in city, state code pattern
-      if (location.indexOf(',') === -1)
-        this.state_code = location;
-      else
-        this.state_code = $.trim(location.split(',')[1]);
-      this.ajax_request();
-    };
+        var loadDataByLocation = function (location) {
+            $.ajax({
+                beforeSend: function () {
+                    $wrapper.html('<p>Loading&hellip;</p>');
+                },
+                url: 'additional_resources/rows_by_location',
+                method: "GET",
+                data: {location: location},
+                dataType: 'JSON',
+                success: function (rows) {
+                    updateDatatable(rows);
+                }
+            });
+        };
 
-    this.ajax_request = function() {
-      var state_code = this.state_code;
-      $.ajax({
-        beforeSend: function() {
-          $wrapper.html('<p>Loading&hellip;</p>');
-        },
-        url: ajax_url,
-        method: "POST",
-        data: {state: state_code},
-        success: function(table) {
-          /**
-           * TODO: refactor - duplicate code block in the following files:
-           * recommended_resources/js/LocalResourcesTable.js
-           * other_items_of_interest/js/ItemsOfInterestTable.js
-           */
+        var createDatatable = function () {
             // alter the datatable id, one digit larger than the largest id
-          var newId = 0;
-          $("table[id^='datatable-']").each(function() {
-            newId = Math.max(newId, parseInt($(this).attr('id').substr('datatable-'.length), 10));
-          });
-          newId++;
-          var $table = $('<div>' + table + '</div>'); // wrap contents in a div for now, will unwrap later
-          $table.find('table').attr('id', 'datatable-' + newId);
-          $wrapper.html($table.html()); // unwrap
-          $wrapper.addClass('eportal-datatable-wrapper');
-          $table = $wrapper.find('table');
-          if ($table.length > 0) {
-            $table.DataTable(datatable_options);
-            $table.removeClass("dataTable display no-footer").addClass('views-table eportal-responsive-table usa-table-borderless');
-          }
-          cached = true;
+            var newId = 0;
+            $("table[id^='datatable-']").each(function () {
+                newId = Math.max(newId, parseInt($(this).attr('id').substr('datatable-'.length), 10));
+            });
+            newId++;
+            var $table = $wrapper.find('table');
+            $table.attr('id', 'datatable-' + newId);
+            var tableDT = $table.DataTable(datatable_options);
+            $table.removeClass("dataTable display no-footer");
+            tableDT.columns().iterator('column', function (ctx, idx) {
+                $(tableDT.column(idx).header()).append('<span class="sort-icon" />');
+            });
         }
-      });
-    };
 
-    this.showTable = function() {
-      if (cached) {
-        $wrapper.show();
-      }
-      else {
-        this.ajax_request();
-        $wrapper.show();
-      }
+        var updateDatatable = function (rows) {
+            var $table = $wrapper.find('table');
+            var tableDT = $table.DataTable();
+            tableDT.clear();
+            tableDT.rows.add(rows);
+            tableDT.draw();
+        }
+
+        $.fn.dataTableExt.oStdClasses.sPageButton = "favorites-ignore fa";
+        createDatatable();
     }
 
-  };
 
-
-  function return_location_name(location) {
-    var index = location.indexOf('(');
-    if (index > 0) {
-      return $.trim(location.substr(0, location.indexOf('(')));
+    function return_location_name(location) {
+        var index = location.indexOf('(');
+        if (index > 0) {
+            return $.trim(location.substr(0, location.indexOf('(')));
+        }
+        else {
+            return location;
+        }
     }
-    else {
-      return location;
-    }
-  }
 
 
-  $(document).ready(function() {
+    $(document).ready(function () {
 
-    var $tabs = $("#other-areas-tabs");
-    $tabs.tabs();
-    $tabs.find('.ui-corner-top').on('click', function(ev) {
-      $(this).focus();
+        var $tabs = $("#other-areas-tabs");
+        $tabs.tabs();
+        $tabs.find('.ui-corner-top').on('click', function (ev) {
+            $(this).focus();
+        });
+        var additional_resources = Drupal.settings.additional_resources;
+        var columns = additional_resources.columns;
+        var current_location_table = new ItemsOfInterestTable($("#current-state-resources"),
+            additional_resources.initial_location_resources, columns);
+        current_location_table.setLocation(additional_resources.initial_location);
+        if (!Drupal.settings.is_guest) {
+            var user_locations_table = new ItemsOfInterestTable($("#favorite-state-resources"),
+                additional_resources.user_resources, columns);
+        }
+        var all_resources_table = new ItemsOfInterestTable($("#all-state-resources"),
+            additional_resources.all_resources, columns);
+        // Generating EPA by using current location as EPA
+        var epa_table = new ItemsOfInterestTable($("#epa-resources"),
+            additional_resources.epa_resources, columns);
+
+        $(document).on('ee:zipCodeQueried', function (e, queryResponse) {
+            $('#restrict-to-current-button a').text(queryResponse.string);
+            current_location_table.updateCurrentLocation(queryResponse.string);
+        });
+
+        // Dynamically set button text for currently selected location
+        $('#restrict-to-current-button a').text(additional_resources.initial_location);
+
     });
-
-    var $location_select;
-    var guest_user;
-    var location;
-
-    if ($('#location-select').length > 0) {
-      $location_select = $('#location-select');
-      guest_user = false;
-      location = $('#location-select').find('option:selected').text();
-      location = return_location_name(location);
-      $location_select.change(function() {
-        var location = $('#location-select option:selected').text();
-        location = return_location_name(location);
-        $('#restrict-to-current-button a').text(location);
-        current_state_table.update_current_location(location);
-        current_state_table.ajax_request();
-      });
-    }
-    else {
-      $location_select = $('#location-input-guests');
-      guest_user = true;
-      location = $location_select.text();
-      location = return_location_name(location);
-    }
-
-    if (guest_user) {
-      $(document).on('ee:zipCodeQueried', function(e, queryResponse) {
-        location = queryResponse.city + ', ' + queryResponse.state;
-        $('#restrict-to-current-button a').text(location);
-        current_state_table.update_current_location(location);
-        current_state_table.ajax_request();
-
-      });
-    }
-
-    var current_state_table = new ItemsOfInterestTable($("#current-state-resources"), 'generateCurrentAreaOfInterestTable', location);
-    if (!guest_user) {
-      var favorite_states_table = new ItemsOfInterestTable($("#favorite-state-resources"), 'generateFavoriteAreasOfInterestTable');
-    }
-    var all_states_resource_table = new ItemsOfInterestTable($("#all-state-resources"), 'generateAllAreasOfInterestTable');
-    // Generating EPA by using current location as EPA
-    var epa_table = new ItemsOfInterestTable($("#epa-resources"), 'generateCurrentAreaOfInterestTable', 'US EPA');
-
-
-    if (!guest_user) {
-      $('#restrict-to-states-button').click(function() {
-        if ($(this).hasClass('inactive')) {
-          $(this).removeClass('inactive');
-          $("#all-states-button").addClass('inactive');
-          $('#restrict-to-current-button').addClass('inactive');
-          $("#epa-button").addClass('inactive');
-          all_states_resource_table.hideTable();
-          current_state_table.hideTable();
-          epa_table.hideTable();
-          favorite_states_table.showTable();
-        }
-      });
-    }
-
-    $("#all-states-button").click(function() {
-      if ($(this).hasClass('inactive')) {
-        $(this).removeClass('inactive');
-        $('#restrict-to-states-button').addClass('inactive');
-        $('#restrict-to-current-button').addClass('inactive');
-        $("#epa-button").addClass('inactive');
-
-        all_states_resource_table.showTable();
-        current_state_table.hideTable();
-        if (!guest_user) {
-          favorite_states_table.hideTable();
-        }
-        epa_table.hideTable();
-      }
-    });
-
-    $('#restrict-to-current-button').click(function() {
-      if ($(this).hasClass('inactive')) {
-        $(this).removeClass('inactive');
-        $('#restrict-to-states-button').addClass('inactive');
-        $("#all-states-button").addClass('inactive');
-        $("#epa-button").addClass('inactive');
-        current_state_table.showTable();
-        if (!guest_user) {
-          favorite_states_table.hideTable();
-        }
-        all_states_resource_table.hideTable();
-        epa_table.hideTable();
-      }
-    });
-
-    $('#epa-button').click(function() {
-      if ($(this).hasClass('inactive')) {
-        $(this).removeClass('inactive');
-        $('#restrict-to-states-button').addClass('inactive');
-        $('#restrict-to-current-button').addClass('inactive');
-        $("#all-states-button").addClass('inactive');
-        current_state_table.hideTable();
-        if (!guest_user) {
-          favorite_states_table.hideTable();
-        }
-        all_states_resource_table.hideTable();
-        epa_table.showTable();
-      }
-    });
-
-
-    // Dynamically set button text for currently selected location
-    $('#restrict-to-current-button a').text(location);
-
-
-    current_state_table.showTable();
-    if (!guest_user) {
-      favorite_states_table.ajax_request();
-    }
-    all_states_resource_table.ajax_request();
-    epa_table.ajax_request();
-
-  });
 
 
 }(jQuery));
