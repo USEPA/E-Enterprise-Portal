@@ -215,7 +215,7 @@ function log_cfr_events($response, $chem_event_id) {
     foreach ($cfr['substance_list'] as $sub) {
       $nid = db_insert('chemical_details_event_log')// Table name no longer needs {}
       ->fields(array(
-        'cfr_id' => $cfr['cfr_id'],
+        'cfr_id' => $cfr['object_id'],
         'substance_list_name' => $sub,
         'chemical_source_event' => $chem_event_id,
       ))->execute();
@@ -250,12 +250,11 @@ function sample_chemical_rules_lod_response() {
 function chemical_rules_process_srs_response(&$return) {
   // Decide what kind of search we are doing: cas# || chem name
 
-
-  if (is_valid_cas_number($_POST['cr-search_input'])) {
-    $endpoint = variable_get('srs_cas_endpoint', 'https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|');
+  if(is_valid_cas_number($_POST['cr-search_input'])) {
+    $endpoint = variable_get('srs_by_cas_number_endpoint', 'https://ends2.epacdxnode.net/RestProxy/query?Node=NGNTest2.0&Dataflow=SRS&Request=GetSubstanceByCAS&Params=CASRegistryNumber|');
   }
   else {
-    $endpoint = variable_get('srs_substance_name_endpoint', 'https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|');
+    $endpoint = variable_get('srs_by_substance_name_endpoint', 'https://ends2.epa.gov/RestProxy/Query?Node=NGNProd2.0&Dataflow=SRS&Request=GetSubstanceByName&Params=SubstanceName|');
   }
   $endpoint = $endpoint . urlencode($_POST['cr-search_input']);
   $response = drupal_http_request($endpoint, [
@@ -333,7 +332,7 @@ function chemical_rules_process_srs_response(&$return) {
 
 function chemical_rules_process_lrs_response(&$return) {
   // make a call to the LRS service
-  $lrs_endpoint = variable_get('lrs_endpoint', 'https://ofmpub.epa.gov/lrswebservices/v1/SubstanceList');
+  $lrs_endpoint = variable_get('lrs_substance_list_endpoint', 'https://ofmpub.epa.gov/lrswebservices/v1/SubstanceList');
 
   // Setup the http request and check its response
   $lrs_response = drupal_http_request($lrs_endpoint, [
@@ -358,7 +357,7 @@ function chemical_rules_process_elastic_response(&$return) {
 
   if (isset($return['data']['substance_list']) && count($return['data']['substance_list']) > 0) {
     // make a call to the elastic search service
-    //$elastic_endpoint = 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search';
+    //$elastic_endpoint = variable_get('elastic_search_substance_endpoint', 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search?pretty');
     $elastic_endpoint = variable_get('elastic_search_endpoint', 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_data_index/_search');
 
     // build the query to specifically use
@@ -403,9 +402,9 @@ function chemical_rules_process_elastic_response(&$return) {
 function chemical_rules_process_lod_response(&$return) {
   if (isset($return['data']['substance'])) {
     // make a call to the LOD service
-    $substance_concept = variable_get('substance_concept_endpoint', 'https://opendata.epa.gov/data/substance/');
-    $substanceConcept = $substance_concept . $return['data']['substance']['substance_identifier'] . '.json';
-    $endpoint = $substanceConcept . '.json';
+    $substanceConcept = variable_get('lod_substance_service_endpoint', 'https://opendata.epa.gov/data/substance/');
+    $substance_identifier = $return['data']['substance']['substance_identifier'];
+    $endpoint = $substanceConcept . $substance_identifier . '.json';
 
     //$headers = array('Content-Type' => 'application/json');
     $response = drupal_http_request($endpoint, [
@@ -436,7 +435,7 @@ function chemical_rules_process_lod_response(&$return) {
     }
     sort($return['data']['substance']['synonyms']);
 
-    $merged = array_merge($return['data']['substance'], $lod[$substanceConcept]);
+    $merged = array_merge($return['data']['substance'], $lod[$substanceConcept.$substance_identifier]);
     $return['data']['substance'] = ($merged) ? $merged : $return['data']['substance'];
     $return['data']['substance']['2d-structure'] = _cache_pubchem_image($return['data']['substance']['2d-structure']);
   }
@@ -492,13 +491,13 @@ function _process_substance_list_response(&$return, $lists) {
   usort($return['data']['laws_regs'], 'compare_cfrs_by_name');
   // build indexes
   foreach ($return['data']['laws_regs'] as $index => $cfr) {
-    $return['data']['laws_regs_index'][$cfr['cfr_id']] = $index;
+    $return['data']['laws_regs_index'][$cfr['object_id']] = $index;
   }
   $return['data']['substance_list'] = $substance_list;
 }
 
-function _get_program_list(&$return) {
-  $elastic_endpoint = variable_get('elastic_program_info_search_endpoint', 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_index/programInfo/_search?pretty');
+function _get_program_list(&$return){
+  $elastic_endpoint = variable_get('elastic_search_program_info_endpoint', 'http://ec2-52-54-71-189.compute-1.amazonaws.com:443/lrs_index/programInfo/_search?pretty');
 
   // build the query to specifically use
   $query_array = ["query" => ["bool" => ["should" => []]]];
@@ -736,12 +735,12 @@ function split_key_at_hash($array) {
   return $stripped;
 }
 
-function xmlstr_to_array($xmlstr) {
+function xmlstr_to_array($xmlstr, $clean_function = 'domnode_clean', $to_array_function = 'domnode_to_array') {
   $doc = new DOMDocument();
   $doc->loadXML($xmlstr);
   $root = $doc->documentElement;
-  $root = domnode_clean($root);
-  $output = domnode_to_array($root);
+  $root = call_user_func($clean_function, $root);
+  $output = call_user_func($to_array_function, $root);
   $output['@root'] = $root->tagName;
   return $output;
 }
@@ -754,45 +753,33 @@ function domnode_to_array($node) {
       $output = trim($node->textContent);
       break;
     case XML_ELEMENT_NODE:
-      $is_array = false;
-      if ($node->childNodes->length > 1 && $node->childNodes->item(0)->tagName == $node->childNodes->item(1)->tagName) {
-        $is_array = true;
-      }
-      for ($i = 0, $m = $node->childNodes->length; $i < $m; $i++) {
+      for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
         $child = $node->childNodes->item($i);
         $v = domnode_to_array($child);
-        if ($is_array) {
-          $output[] = $v;
-        }
-        else if (isset($child->tagName)) {
+        if(isset($child->tagName)) {
           $t = $child->tagName;
-          if (!isset($output[$t])) {
+          if(!isset($output[$t])) {
             $output[$t] = array();
           }
-          if (is_array($v)) {
-            $output[$t] = array_merge($output[$t], $v);
-          }
-          else {
-            $output[$t][] = $v;
-          }
+          $output[$t][] = $v;
         }
-        else if ($v || $v === '0') {
-          $output = (string)$v;
+        elseif($v || $v === '0') {
+          $output = (string) $v;
         }
       }
-      if ($node->attributes->length && !is_array($output)) { //Has attributes but isn't an array
-        $output = array('@content' => $output); //Change output into an array.
+      if($node->attributes->length && !is_array($output)) { //Has attributes but isn't an array
+        $output = array('@content'=>$output); //Change output into an array.
       }
-      if (is_array($output)) {
-        if ($node->attributes->length) {
+      if(is_array($output)) {
+        if($node->attributes->length) {
           $a = array();
-          foreach ($node->attributes as $attrName => $attrNode) {
-            $a[$attrName] = (string)$attrNode->value;
+          foreach($node->attributes as $attrName => $attrNode) {
+            $a[$attrName] = (string) $attrNode->value;
           }
           $output['@attributes'] = $a;
         }
         foreach ($output as $t => $v) {
-          if (is_array($v) && count($v) == 1 && $t != '@attributes') {
+          if(is_array($v) && count($v)==1 && $t!='@attributes') {
             $output[$t] = $v[0];
           }
         }
