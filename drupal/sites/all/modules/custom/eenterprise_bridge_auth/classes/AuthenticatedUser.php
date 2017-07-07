@@ -168,14 +168,14 @@ class AuthenticatedUser {
     }
     else if ($this->authentication_method === 'FACEBOOK') {
       // Use email if available, otherwise use id
-      if (isset($userDetails->attributes['id'])) {
-        $userDetails->attributes['id'][0] = trim($userDetails->attributes['id'][0], '"');
-        $source_username = $userDetails->attributes['id'][0];
+      if (isset($userDetails->attributes['email'])) {
+        $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
+        $source_username = $userDetails->attributes['email'][0];
         $eportal_uname = $source_username . "_Via_Facebook";
       }
       else {
-        $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
-        $source_username = $userDetails->attributes['email'][0];
+        $userDetails->attributes['id'][0] = trim($userDetails->attributes['id'][0], '"');
+        $source_username = $userDetails->attributes['id'][0];
         $eportal_uname = $source_username . "_Via_Facebook";
       }
     }
