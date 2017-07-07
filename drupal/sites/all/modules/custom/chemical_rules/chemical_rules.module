@@ -609,7 +609,7 @@ function create_meta_data_from_name(&$cfr) {
   $split = '/([a-zA-Z]+)([0-9]+)/';
   $year_format = '/(2[0-9]{3})/';
 
-  $meta_data_strings = explode('-', $cfr['cfr_name']);
+  $meta_data_strings = explode('-', $cfr['object_name']);
   foreach ($meta_data_strings as $index => $string) {
     $key_value = [];
     $split_string = [];
@@ -938,7 +938,6 @@ function filter_program_properties($program_info) {
   return $program_info;
 }
 
-
 function update_cdx_naics_profile($profile) {
   $response = [
     'error' => false,
@@ -972,7 +971,6 @@ function update_cdx_naics_profile($profile) {
   }
   echo json_encode($response);
 }
-
 
 function save_naics_codes_to_user() {
   $user_naics = array();
@@ -1103,4 +1101,3 @@ function save_naics_codes_to_user() {
   }
   update_cdx_naics_profile($user_naics);
 }
-
