@@ -352,7 +352,7 @@
       var iteration = 0;
 
       // Using the setTimeout function, we avoid blocking the main processing queue
-      // allow other items to squeeze in, preventing freezing
+      // allow other items to squeeze in, preventing freezing and the "non-responsive script" warnings
       setTimeout(function do_chuck_mapset() {
         var index = chunkSize * iteration;
         var to = Math.min(index+chunkSize, data.results.length);
