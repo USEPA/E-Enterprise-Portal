@@ -300,7 +300,7 @@ function be_well_informed_get_state_information($state_code) {
   else {
     $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/flowchart-'.$state_code.'.xml';
     $state_info = file_get_contents($path);
-    $xml_array = xmlstr_to_array($state_info);
+    $xml_array = xmlstr_to_array($state_info, 'domnode_clean', 'bwi_domnode_to_array');
     return $xml_array;
   }
 }
@@ -1075,5 +1075,61 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
   $variables['cities'] = ["Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
   drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
 
+}
+
+function bwi_domnode_to_array($node) {
+  $output = array();
+  switch ($node->nodeType) {
+    case XML_CDATA_SECTION_NODE:
+    case XML_TEXT_NODE:
+      $output = trim($node->textContent);
+      break;
+    case XML_ELEMENT_NODE:
+      $is_array = false;
+      if ($node->childNodes->length > 1 && $node->childNodes->item(0)->tagName == $node->childNodes->item(1)->tagName) {
+        $is_array = true;
+      }
+      for ($i = 0, $m = $node->childNodes->length; $i < $m; $i++) {
+        $child = $node->childNodes->item($i);
+        $v = domnode_to_array($child);
+        if ($is_array) {
+          $output[] = $v;
+        }
+        else if (isset($child->tagName)) {
+          $t = $child->tagName;
+          if (!isset($output[$t])) {
+            $output[$t] = array();
+          }
+          if (is_array($v)) {
+            $output[$t] = array_merge($output[$t], $v);
+          }
+          else {
+            $output[$t][] = $v;
+          }
+        }
+        else if ($v || $v === '0') {
+          $output = (string)$v;
+        }
+      }
+      if ($node->attributes->length && !is_array($output)) { //Has attributes but isn't an array
+        $output = array('@content' => $output); //Change output into an array.
+      }
+      if (is_array($output)) {
+        if ($node->attributes->length) {
+          $a = array();
+          foreach ($node->attributes as $attrName => $attrNode) {
+            $a[$attrName] = (string)$attrNode->value;
+          }
+          $output['@attributes'] = $a;
+        }
+        foreach ($output as $t => $v) {
+          if (is_array($v) && count($v) == 1 && $t != '@attributes') {
+            $output[$t] = $v[0];
+          }
+        }
+      }
+      break;
+  }
+  return $output;
 }
 

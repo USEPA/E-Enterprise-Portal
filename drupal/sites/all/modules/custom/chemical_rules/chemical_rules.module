@@ -403,7 +403,8 @@ function chemical_rules_process_lod_response(&$return) {
   if (isset($return['data']['substance'])) {
     // make a call to the LOD service
     $substanceConcept = variable_get('lod_substance_service_endpoint', 'https://opendata.epa.gov/data/substance/');
-    $endpoint = $substanceConcept . $return['data']['substance']['substance_identifier'] . '.json';
+    $substance_identifier = $return['data']['substance']['substance_identifier'];
+    $endpoint = $substanceConcept . $substance_identifier . '.json';
 
     //$headers = array('Content-Type' => 'application/json');
     $response = drupal_http_request($endpoint, [
@@ -434,7 +435,7 @@ function chemical_rules_process_lod_response(&$return) {
     }
     sort($return['data']['substance']['synonyms']);
 
-    $merged = array_merge($return['data']['substance'], $lod[$substanceConcept]);
+    $merged = array_merge($return['data']['substance'], $lod[$substanceConcept.$substance_identifier]);
     $return['data']['substance'] = ($merged) ? $merged : $return['data']['substance'];
     $return['data']['substance']['2d-structure'] = _cache_pubchem_image($return['data']['substance']['2d-structure']);
   }
@@ -734,12 +735,12 @@ function split_key_at_hash($array) {
   return $stripped;
 }
 
-function xmlstr_to_array($xmlstr) {
+function xmlstr_to_array($xmlstr, $clean_function = 'domnode_clean', $to_array_function = 'domnode_to_array') {
   $doc = new DOMDocument();
   $doc->loadXML($xmlstr);
   $root = $doc->documentElement;
-  $root = domnode_clean($root);
-  $output = domnode_to_array($root);
+  $root = call_user_func($clean_function, $root);
+  $output = call_user_func($to_array_function, $root);
   $output['@root'] = $root->tagName;
   return $output;
 }
@@ -752,45 +753,33 @@ function domnode_to_array($node) {
       $output = trim($node->textContent);
       break;
     case XML_ELEMENT_NODE:
-      $is_array = false;
-      if ($node->childNodes->length > 1 && $node->childNodes->item(0)->tagName == $node->childNodes->item(1)->tagName) {
-        $is_array = true;
-      }
-      for ($i = 0, $m = $node->childNodes->length; $i < $m; $i++) {
+      for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
         $child = $node->childNodes->item($i);
         $v = domnode_to_array($child);
-        if ($is_array) {
-          $output[] = $v;
-        }
-        else if (isset($child->tagName)) {
+        if(isset($child->tagName)) {
           $t = $child->tagName;
-          if (!isset($output[$t])) {
+          if(!isset($output[$t])) {
             $output[$t] = array();
           }
-          if (is_array($v)) {
-            $output[$t] = array_merge($output[$t], $v);
-          }
-          else {
-            $output[$t][] = $v;
-          }
+          $output[$t][] = $v;
         }
-        else if ($v || $v === '0') {
-          $output = (string)$v;
+        elseif($v || $v === '0') {
+          $output = (string) $v;
         }
       }
-      if ($node->attributes->length && !is_array($output)) { //Has attributes but isn't an array
-        $output = array('@content' => $output); //Change output into an array.
+      if($node->attributes->length && !is_array($output)) { //Has attributes but isn't an array
+        $output = array('@content'=>$output); //Change output into an array.
       }
-      if (is_array($output)) {
-        if ($node->attributes->length) {
+      if(is_array($output)) {
+        if($node->attributes->length) {
           $a = array();
-          foreach ($node->attributes as $attrName => $attrNode) {
-            $a[$attrName] = (string)$attrNode->value;
+          foreach($node->attributes as $attrName => $attrNode) {
+            $a[$attrName] = (string) $attrNode->value;
           }
           $output['@attributes'] = $a;
         }
         foreach ($output as $t => $v) {
-          if (is_array($v) && count($v) == 1 && $t != '@attributes') {
+          if(is_array($v) && count($v)==1 && $t!='@attributes') {
             $output[$t] = $v[0];
           }
         }
