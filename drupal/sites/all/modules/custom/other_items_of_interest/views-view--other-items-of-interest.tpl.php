@@ -1,13 +1,3 @@
-<?php
-$module_name = "other_items_of_interest";
-
-drupal_add_css("sites/all/libraries/jqueryui/themes/base/minified/jquery.ui.tabs.min.css", ['scope'=>'footer', 'preprocess'=>true, 'group'=>CSS_DEFAULT]);
-
-drupal_add_js(drupal_get_path('module', $module_name) . "/js/other_items_of_interest.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-drupal_add_css(drupal_get_path('module', $module_name) . "/css/other_items_of_interest.css", ['preprocess'=>true, 'group'=>CSS_DEFAULT]);
-
-?>
-
 <div id="other-areas-tabs" class="view-content">
     <?php
     // Load the currently logged in user.

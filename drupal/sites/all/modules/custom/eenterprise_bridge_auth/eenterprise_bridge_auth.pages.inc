@@ -224,38 +224,4 @@ function view_allow_access_role($view_name, $role_id) {
   }
 }
 
-function update_cdx_naics_profile($profile) {
-  $response = [
-    'error' => false,
-    'error-messages' => [],
-    'data' => null,
-  ];
-
-  if (isset($profile)) {
-
-    global $user;
-    //$existing = user_load($user->uid);
-    $existing = user_load($user->uid);
-    $response['data'] = ['profile' => $profile];
-
-    $edit = [];
-    if (!is_string($profile)) {
-      $profile = json_encode($profile);
-    }
-    $edit['field_cdx_naics_settings']['und'][0]['value'] = $profile;
-
-    // save existing user
-
-    if (!user_save($existing, $edit)) {
-      $response['error'] = true;
-      $response['error-messages'][] = 'There was a problem while trying to save';
-    }
-  }
-  else {
-    $response['error'] = true;
-    $response['error-messages'][] = 'Missing profile value in the post data';
-  }
-  echo json_encode($response);
-}
-
 

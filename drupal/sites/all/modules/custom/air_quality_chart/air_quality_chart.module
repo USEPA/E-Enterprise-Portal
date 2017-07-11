@@ -77,7 +77,7 @@ function air_quality_chart_forecast_zipcode() {
  */
 function air_quality_map_view_current_latlong() {
 
-  $_GET['API_KEY'] = 'C79940FE-7DE3-4388-9A75-F2CAF2940FCD'; // put this in a config field
+  $_GET['API_KEY'] = 'C79940FE-7DE3-4388-9A75-F2CAF2940FCD'; // p ut this in a config field
   $_GET['format'] = 'application/json';
 
   $url = 'http://www.airnowapi.org/aq/observation/latLong/current/?' . http_build_query($_GET);
