@@ -728,7 +728,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 function be_well_informed_preprocess(&$variables, $hook) {
   if(stripos($hook, 'be_well_informed_') !== FALSE) {
     result_preprocess_be_well_informed($variables, $hook);
-    process_state_xml($variables);
+    //process_state_xml($variables);
     /*if($hook == 'be_well_informed_modal_results') {
     }*/
   }
@@ -1095,7 +1095,7 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
   $variables['bwi_pdf_debug'] =  variable_get('bwi_pdf_debug');
   $variables['doc_root'] =  ($variables['bwi_pdf_debug']) ? '' : $_SERVER["DOCUMENT_ROOT"];
 
-  resutlt_preprocess_be_well_informed($variables, $hook);
+  result_preprocess_be_well_informed($variables, $hook);
 
   drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
 
