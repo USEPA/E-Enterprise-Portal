@@ -672,7 +672,6 @@
             update_user_zip_preferences();
         });
 
-        setCommunitySizeType(parseInt(jQuery('[isurban]').val()), $urban_check.val());
 
         $body.find('.field-multiple-table').removeClass('sticky-enabled');
         $('#profile-locations').find('.sticky-header').remove();
