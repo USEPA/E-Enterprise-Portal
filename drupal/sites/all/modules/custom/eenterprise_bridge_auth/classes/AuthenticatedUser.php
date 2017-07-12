@@ -167,15 +167,22 @@ class AuthenticatedUser {
       $eportal_uname = $source_username . "_Via_Twitter";
     }
     else if ($this->authentication_method === 'FACEBOOK') {
-      // Use email if available, otherwise use id
-      if (isset($userDetails->attributes['email'])) {
-        $userDetails->attributes['email'][0] = trim($userDetails->attributes['email'][0], '"');
-        $source_username = $userDetails->attributes['email'][0];
+      $facebook_id = false;
+      $facebook_email = false;
+      if (isset($userDetails->attributes['id']) && isset($userDetails->attributes['email'])) {
+        $facebook_id = trim($userDetails->attributes['id'][0], '"');
+        $facebook_email = trim($userDetails->attributes['email'][0], '"');
+        $this->resolve_facebook_username_collisions($facebook_id, $facebook_email);
+      }
+      // Use ID if available, otherwise use EMAIL
+      if ($facebook_id) {
+        $userDetails->attributes['id'][0] = $facebook_id;
+        $source_username = $facebook_id;
         $eportal_uname = $source_username . "_Via_Facebook";
       }
-      else {
-        $userDetails->attributes['id'][0] = trim($userDetails->attributes['id'][0], '"');
-        $source_username = $userDetails->attributes['id'][0];
+      else if ($facebook_email) {
+        $userDetails->attributes['email'][0] = $facebook_email;
+        $source_username = $facebook_email;
         $eportal_uname = $source_username . "_Via_Facebook";
       }
     }
@@ -194,6 +201,36 @@ class AuthenticatedUser {
     $this->source_username = $source_username;
     $this->userDetails = $userDetails;
     $this->name = $eportal_uname;
+  }
+
+  /**
+   * @param $email
+   * @param $id
+   * Prevent lost user data with updating user name conventions.
+   * 
+   * Default behavior is to use {id}_Via_Facebook. Only make changes if
+   *  1) User has {email}_Via_Facebook and no {id}_Via_Facebook
+   *  2) User has {email_Via_Facebook that is more recent then {id}_Via_Facebook
+   */
+  private function resolve_facebook_username_collisions($id, $email) {
+    $email_username = $email . "_Via_Facebook";
+    $id_username = $id . "_Via_Facebook";
+    $email_user = user_load_by_name($email_username);
+    $id_user = user_load_by_name($id_username);
+    if ($email_user) {
+      if (!$id_user) {
+        // Edit email account to use ID instead of username
+        $this->edit_user_name($email_username, $id_username);
+      }
+      if ($id_user) {
+        // Find which user was last accessed and use that
+        if ($id_user->access < $email_user->access) {
+          // Update the Email to use ID Username. First clear ID user.
+          user_delete($id_user->uid);
+          $this->edit_user_name($email_username, $id_username);
+        }
+      }
+    }
   }
 
   private function update_user_piv_card() {
