@@ -282,6 +282,19 @@ function be_well_informed_form_submission() {
       $datatable_formatted_response['error'] = TRUE;
     }
     else {
+      /*
+       * With the current strategy of having a unified results page for both the
+       * pdf and the modal, the response has to diverge.
+       *
+       * If there are interactive prompts requiring more information to be sent
+       * to the service we return a JSON response.
+       *
+       * If there is no additional questions from the service (the response is
+       * complete), we returned composed HTML to the request to be shown to the
+       * client.
+       *
+       */
+
       $formatted_data = be_well_informed_datatable_response($response->data);
       if(count($formatted_data['InteractivePrompts']) == 0) {
 
@@ -728,9 +741,6 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 function be_well_informed_preprocess(&$variables, $hook) {
   if(stripos($hook, 'be_well_informed_') !== FALSE) {
     result_preprocess_be_well_informed($variables, $hook);
-    //process_state_xml($variables);
-    /*if($hook == 'be_well_informed_modal_results') {
-    }*/
   }
 }
 

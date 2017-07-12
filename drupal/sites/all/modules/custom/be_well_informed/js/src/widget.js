@@ -7,7 +7,6 @@
 
   function get_state_selection() {
     // Capture the value of the state dropdown and populate the widget with the proper state content
-    console.log('Populate Widget with state content')
     // Get the chosen state
     $state = $('#bwi-state').find('option:selected')
     if($state.val()){
@@ -41,10 +40,8 @@
         state_code: state_code
       },
       before: function() {
-        console.log('before: generate_state_form')
       },
       success: function(state_form_html) {
-        console.log('success: generate_state_form');
 
         // Wipe the existing one
         // @todo if the state has not changed use existing form and just open the modal window
@@ -63,7 +60,6 @@
             draggable: false,
             resizable: false,
             create: function(event, ui) {
-              console.log('$state_form_modal')
               $('#bwi-tabs').tabs();
               var $form = $('#water_analysis_results_form');
               $form
@@ -145,7 +141,6 @@
 
   // Initialize the link on the widget to open the modal
   $('.state-selection-link').click(function() {
-    console.log('state-selection-link')
     $('#be-well-informed-modal-state-selection').dialog("open")
   });
 
@@ -155,7 +150,6 @@
   })
 
   function submit_water_sample() {
-    console.log('water submit')
     var $form = $('#water_analysis_results_form');
     // If the form does not validate do not submit data.
     if (!$form.parsley().validate()) {
@@ -182,16 +176,11 @@
       data: data,
       success: function(be_well_response_json) {
 
-        console.log('be_well_response_json');
-        console.log(be_well_response_json);
-
         if(typeof be_well_response_json === 'string') {
           // Handle the insertion result HTML into the modal
-          console.log('insert bwi html result');
           $results_wrapper.html(be_well_response_json);
           showElementOutOfMany($results_wrapper, $all_wrappers);
         } else if (!be_well_response_json.error) {
-          console.log('handle bwi json interactive prompts');
           // reset the modal and return it to a 'default' state
           $('#routine-contaminants, .or').removeClass('hide')
           $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
