@@ -180,7 +180,7 @@ class AuthenticatedUser {
         $source_username = $facebook_id;
         $eportal_uname = $source_username . "_Via_Facebook";
       }
-      if ($facebook_email) {
+      else if ($facebook_email) {
         $userDetails->attributes['email'][0] = $facebook_email;
         $source_username = $facebook_email;
         $eportal_uname = $source_username . "_Via_Facebook";
