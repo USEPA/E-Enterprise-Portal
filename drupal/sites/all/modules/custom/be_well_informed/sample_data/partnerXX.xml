@@ -1,10 +1,10 @@
 <Partner>
-    <Name>New Hampshire</Name>
-    <Code>NH</Code>
+    <Name></Name>
+    <Code></Code>
     <SupportInformation>
         <Section html="true">
             <![CDATA[<h4>Phone Support</h4>
-              <p class="bwi-support-intro">For telephone support please contact the NH Department of Environmental Service’s Drinking Water and Groundwater Bureau:</p>
+              <p class="bwi-support-intro">For telephone support please contact:</p>
               <ul class="plain-list bwi-resources-list">
                 <li>
                   <p class="bwi-resource-name">NH Department of Environmental Services</p>

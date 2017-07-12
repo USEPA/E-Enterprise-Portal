@@ -1115,7 +1115,7 @@ function bwi_domnode_to_array($node) {
       }
       for ($i = 0, $m = $node->childNodes->length; $i < $m; $i++) {
         $child = $node->childNodes->item($i);
-        $v = domnode_to_array($child);
+        $v = bwi_domnode_to_array($child);
         if ($is_array) {
           $output[] = $v;
         }
