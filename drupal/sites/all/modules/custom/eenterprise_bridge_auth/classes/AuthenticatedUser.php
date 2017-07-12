@@ -204,10 +204,10 @@ class AuthenticatedUser {
   }
 
   /**
-   * @param $email
    * @param $id
+   * @param $email
    * Prevent lost user data with updating user name conventions.
-   * 
+   *
    * Default behavior is to use {id}_Via_Facebook. Only make changes if
    *  1) User has {email}_Via_Facebook and no {id}_Via_Facebook
    *  2) User has {email_Via_Facebook that is more recent then {id}_Via_Facebook
@@ -220,14 +220,14 @@ class AuthenticatedUser {
     if ($email_user) {
       if (!$id_user) {
         // Edit email account to use ID instead of username
-        $this->edit_user_name($email_username, $id_username);
+        $this->edit_old_username($email_user, $id_username);
       }
       if ($id_user) {
-        // Find which user was last accessed and use that
+        // If Email was last accessed use email account with ID name
         if ($id_user->access < $email_user->access) {
           // Update the Email to use ID Username. First clear ID user.
           user_delete($id_user->uid);
-          $this->edit_user_name($email_username, $id_username);
+          $this->edit_old_username($email_user, $id_username);
         }
       }
     }
@@ -245,5 +245,12 @@ class AuthenticatedUser {
   private function edit_user_name($old_username, $new_username) {
     db_query("UPDATE {users} SET name = :uname1 WHERE name = :uname2", array(':uname1' => $new_username, ':uname2' => $old_username));
     db_query("UPDATE {authmap} SET authname = :uname1 WHERE authname = :uname2", array(':uname1' => $new_username, ':uname2' => $old_username));
+  }
+
+  private function edit_old_username($user, $new_name) {
+    // Edit name in edit array
+    $user->name = $new_name;
+    // Save existing user
+    user_save((object)array('uid' => $user->uid), (array)$user);
   }
 }
