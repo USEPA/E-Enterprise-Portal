@@ -91,8 +91,8 @@
   @include linear-gradient(rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .15) 100%);
 }
 
-@mixin button-gray {
-
+#ui-datepicker-div {
+  display: none;
 }
 
 .text-right {
@@ -211,7 +211,7 @@
       margin-top: 0;
       margin-bottom: 0;
       float: left;
-      &>.menu {
+      & > .menu {
         visibility: hidden;
         position: absolute;
         top: 100%;
@@ -221,7 +221,7 @@
         font-size: $h5-font-size;
         @include linear-gradient(rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .15) 100%);
         @include special-box-shadow(0px, 1px, 5px, $color-gray);
-        &>.menu-item {
+        & > .menu-item {
           border: none;
           a {
             border-right: none;
@@ -233,7 +233,7 @@
           }
         }
       }
-      &:hover >.menu {
+      &:hover > .menu {
         visibility: visible;
       }
     }
