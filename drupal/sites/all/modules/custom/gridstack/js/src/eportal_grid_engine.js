@@ -161,7 +161,7 @@
                     });
                     $revert_button.click(function () {
                         // Revert changes
-                        initializeIndices(grid, previous_grid_settings);
+                        revertIndices(grid, previous_grid_settings);
                         $(".grid-changes").fadeOut();
                     });
                 }
@@ -235,7 +235,7 @@
                     });
                 }
 
-                function initializeIndices(grid, serialization) {
+                function revertIndices(grid, serialization) {
                     $.each(serialization, function (key, pane_data) {
                         var $grid_item = $("#" + pane_data.id).parent();
                         var x = pane_data.x;
