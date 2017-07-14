@@ -14,7 +14,10 @@
 
                 function createGrid() {
                     var serialization = GridStackUI.Utils.sort(Drupal.settings.gridstack_user_settings);
+                    var previous_grid_settings = serialization;
                     var $grid_container = $('.grid-stack');
+                    var $gridStackContent;
+                    var gridID;
                     var options = {
                         vertical_margin: verticalMargin,
                         cell_height: cellHeight,
@@ -24,9 +27,21 @@
                         }
                     };
 
-                    $grid_container.gridstack(options);
-                    var grid = $grid_container.data('gridstack');
+                    // Set HTML elements to be registered by gridstack upon initialization
+                    $.each(serialization, function (i, obj) {
+                        $gridStackContent = $('#' + obj.id);
+                        $gridStackContent.parent().attr({
+                                'data-gs-x': obj.x,
+                                'data-gs-y': obj.y,
+                                'data-gs-width': 1,
+                                'data-gs-height': 1
+                            }
+                        );
+                    });
 
+                    $grid_container.gridstack(options);
+                    $grid_container.show();
+                    var grid = $grid_container.data('gridstack');
                     var save_grid_changes = '<button id="save-grid-changes">Save Layout</button>';
                     var revert_grid_changes = '<button class="usa-button-outline" id="revert-grid-changes">Cancel</button>';
                     var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
@@ -37,7 +52,6 @@
 
                     addDragListeners($grid_container, $grid_change_options);
                     addSaveListeners(grid, $save_button, $revert_button);
-                    initializeIndices(grid, serialization);
                     addResizeSensors(grid, verticalMargin, cellHeight);
                     grid.resizable('.grid-stack-item', false);
                     if (Drupal.settings.is_guest) {
@@ -192,29 +206,14 @@
                 }
 
                 function initializeIndices(grid, serialization) {
-                    // assign x and y values to widgets
-                    if (serialization.length > 0 && !Drupal.settings.is_guest) {
-                        $.each(serialization, function (key, pane_data) {
-                            var $grid_item = $("#" + pane_data.id).parent();
-                            var x = pane_data.x;
-                            var y = pane_data.y;
-                            var width = 1;
-                            var height = 1;
-                            grid.update($grid_item, x, y, width, height);
-                            $grid_item.find('.grid-stack-item-content').css('overflow-y', 'hidden');
-                        });
-                    }
-                    else {
-                        var count = 0;
-                        $(".grid-stack-item").each(function () {
-                            var x = count % 2;
-                            var y = Math.floor(count / 2) * 60;
-                            grid.update($(this), x, y);
-                            count++;
-                            $(this).find('.grid-stack-item-content').css('overflow-y', 'hidden');
-                        });
-                    }
-                    previous_grid_settings = serialized_data(grid);
+                    $.each(serialization, function (key, pane_data) {
+                        var $grid_item = $("#" + pane_data.id).parent();
+                        var x = pane_data.x;
+                        var y = pane_data.y;
+                        var width = 1;
+                        var height = 1;
+                        grid.update($grid_item, x, y, width, height);
+                    });
                 }
 
 
