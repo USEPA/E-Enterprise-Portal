@@ -26,7 +26,7 @@
                     };
 
                     // Set HTML elements to be registered by gridstack upon initialization
-                    if (!Drupal.settings.is_guest) {
+                    if (!Drupal.settings.is_guest && serialization.length > 0) {
                         initializeUserLayout(serialization)
                     } else {
                         initializeGuestLayout();
@@ -88,7 +88,7 @@
                         count++;
                     });
                 }
-
+f
                 function addDragListeners($grid_container, $grid_change_options) {
                     $('body').on('swapped_grid', function () {
                         $grid_change_options.show();
