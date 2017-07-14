@@ -263,69 +263,7 @@ function bwi_log() {
     }
   }
 
-  /*$('#be-well-informed-modal')
-    .html(Drupal.settings.be_well_informed.templates.contaminant_form)
-    .dialog({
-      modal: true,
-      width: "auto",
-      title: "Be Well Informed Water Analysis Tool",
-      position: {'my': 'center', 'at': 'center'},
-      dialogClass: 'be-well-informed-modal',
-      autoOpen: false,
-      draggable: false,
-      resizable: false,
-      create: function(event, ui) {
-        $('#bwi-tabs').tabs();
-        var $form = $('#water_analysis_results_form');
-        $form
-          .parsley({
-            inputs: Parsley.options.inputs + ',[data-parsley-check-children]'
-          })
-          .on('field:validated', function() {
-            var ok = $('.parsley-error').length === 0;
-            $('.bs-callout-info').toggleClass('hidden', !ok);
-            $('.bs-callout-warning').toggleClass('hidden', ok);
-          })
-          .on('form:submit', function() {
-            return false; // Don't submit form for this demo
-          });
-
-        $('#water_analysis_reset').click(function() {
-          resetBWIForm();
-          resizeModal()
-        });
-
-        $(':radio[value=absent]').click(function() {
-          $(this).parent().parent().parent().find('input.column').val("");
-        });
-
-        $('.microbiology input.column').on('keyup, keydown, click', function() {
-          $(this).on('blur', function() {
-            if ($(this).val() > 0) {
-              $(this).siblings('.row').find(':radio[value=present]').prop('checked', true);
-            }
-          });
-        });
-
-        $(window).resize(function() {
-          resizeModal();
-        })
-      },
-      close: function(event, ui) {
-        sampleSetIndex = 0;
-        convertNulls = false;
-        $('#be-well-informed-results-table, #be-well-informed-result-details-table').dataTable({bDestroy: true}).fnDestroy();
-        $('#be-well-informed-results-table, #be-well-informed-result-details-table, #be-well-informed-results-table_wrapper, #be-well-informed-result-details-table_wrapper').remove();
-        $('#routine-contaminants, .or').removeClass('hide')
-        $('#interactive-prompts').html('')
-        $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
-        $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret').addClass('hide')
-        showElementOutOfMany($('#be-well-informed-form-wrapper'), $('.be-well-informed-modal-wrapper'));
-      }
-    })*/
-
   $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
-    console.log('water submit')
     var $form = $('#water_analysis_results_form');
     // If the form does not validate do not submit data.
     if (!$form.parsley().validate()) {

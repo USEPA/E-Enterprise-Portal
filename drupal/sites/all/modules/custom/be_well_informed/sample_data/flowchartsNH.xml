@@ -1,0 +1,2219 @@
+<FlowCharts>
+  <Contaminants>
+
+    <Contaminant Value="As" Text="Arsenic" MCL="0.01 mg/L" NotEntered="Test your water.  Studies show that 1 in 5 private wells in New Hampshire have high arsenic.">
+
+      <Condition CheckOperator=">=" CheckValue="0.01">
+        <False>
+          <Condition CheckOperator=">=" CheckValue="0.005">
+            <True>
+              <Outcome IM="As1" HM="As1" TM="As1" GuidelineIcon="W" GuidelineText="The value entered is close to exceeding the drinking water standard" />
+            </True>
+            <False>
+              <Outcome IM="As2" HM="As2" TM="As2" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water standard" />
+            </False>
+          </Condition>
+        </False>
+
+        <True>
+          <Condition CheckElement="Fe" CheckOperator=">=" CheckValue="0.1">
+            <True>
+              <Condition CheckElement="Mn" CheckOperator=">=" CheckValue="0.1">
+                <True>
+                  <Outcome IM="As3" HM="As3" TM="As3a" TreatmentOrder="1a,1b,5a,5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+                </True>
+                <False>
+                  <Outcome IM="As3" HM="As3" TM="As3b" TreatmentOrder="1a,1b,5a,5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+                </False>
+                <Missing>
+                  <Outcome IM="As3" HM="As3" TM="As3c" TreatmentOrder="1a,1b,5a,5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+                </Missing>
+              </Condition>
+            </True>
+
+            <False>
+              <Condition CheckOperator=">=" CheckValue="0.250">
+                <True>
+                  <Condition CheckElement="Mn" CheckOperator="&lt;" CheckValue="0.1">
+                    <True>
+                      <Outcome IM="As3" HM="As3" TM="As3e" TreatmentOrder="2,5a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+                    </True>
+                    <False>
+                      <Outcome IM="As3" HM="As3" TM="As3d" TreatmentOrder="5a,5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+                    </False>
+                  </Condition>
+                </True>
+                <False>
+                  <Outcome IM="As3" HM="As3" TM="As3d" TreatmentOrder="5a,5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+                </False>
+              </Condition>
+            </False>
+
+            <Missing>
+              <Condition CheckOperator=">=" CheckValue="0.250">
+                <True>
+                  <Condition CheckElement="Mn" CheckOperator="=" CheckValue="null">
+                    <True>
+                      <Outcome IM="As3" HM="As3" TM="As3g" TreatmentOrder="2,5a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+                    </True>
+                    <False>
+                      <Outcome IM="As3" HM="As3" TM="As3f" TreatmentOrder="5a,5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+                    </False>
+                  </Condition>
+                </True>
+                <False>
+                  <Outcome IM="As3" HM="As3" TM="As3f" TreatmentOrder="5a,5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+                </False>
+              </Condition>
+            </Missing>
+          </Condition>
+        </True>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <As1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/arsenic.cfm"> drinking water standard for arsenic</a>?
+              </b>  Yes, your water meets federal and state drinking water standards as it contains less than 0.010 mg/L of arsenic.  However, your results indicate that the level in your well water is near the standard for arsenic in drinking water.
+            </Content>
+          </As1>
+          <As2>
+            <Content>
+            </Content>
+          </As2>
+          <As3>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/arsenic.cfm"> drinking water standard for arsenic</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains more than 0.010 mg/L of arsenic.
+            </Content>
+          </As3>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <As1>
+            <Content>
+              <b>Can consuming water containing arsenic affect my health?</b> The health effects of consuming arsenic in water at levels between 0.005 and 0.010 mg/L are unknown and currently being studied.
+            </Content>
+          </As1>
+          <As2>
+            <Content>
+            </Content>
+          </As2>
+          <As3>
+            <Content>
+              <b>Can consuming water containing arsenic affect my health?</b>  Consuming water containing more than 0.010 mg/L of arsenic is associated with an increased risk of cancer of the skin, bladder, lungs, kidneys, nasal passages, liver, or prostate as well as diseases of the nerves, lungs, heart, and immune and endocrine (hormonal) systems.  Your individual health risk depends on the amount of arsenic in your water, how much of the water you drink each day, and the number of years you drink the water.  To reduce your exposure to arsenic in your well water, treat the water that you use for drinking and cooking to a level less than 0.010 mg/L.  You can continue to use your water for washing food and dishes, brushing your teeth, bathing, showering, and for other uses.
+            </Content>
+          </As3>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <As1>
+            <Content>
+            </Content>
+          </As1>
+          <As2>
+            <Content>
+            </Content>
+          </As2>
+          <As3a>
+            <Content>
+              <b>How can I reduce the level of arsenic in my water?</b>  In addition to arsenic, your test results show that your water also contains more than 0.1 mg/L of iron and manganese, which must be considered in the selection of a water treatment system.  Install one of the following water treatment systems to reduce the level of iron, manganese, and arsenic in your water:
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses chlorine or permanganate as the oxidizing agent to reduce the level of iron and manganese.  This type of system will also reduce the level of arsenic in your water, though by how much depends on the levels of iron, pH, and arsenic.  You may also need to install one of the following systems if additional arsenic reduction is needed:
+                  <ol type="a">
+                    <li>An NSF/ANSI Standard 53 certified arsenic adsorption media filter system.  This system may be a point-of-use (POU) system at your kitchen sink designed to treat only the water that you consume, or it may be a whole house system; or</li>
+                    <li>An NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink designed to treat only the water that you consume.</li>
+                  </ol>
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 44 certified whole house cation exchange water softener to reduce the level of iron and manganese, in combination with one of the following systems to reduce the level of arsenic:
+                  <ol type="a">
+                    <li>An NSF/ANSI Standard 53 certified arsenic adsorption media filter system.  This system may be a point-of-use (POU) system at your kitchen sink designed to treat only the water that you consume, or it may be a whole house system; or</li>
+                    <li>An NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink designed to treat only the water that you consume.</li>
+                  </ol>
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </As3a>
+          <As3b>
+            <Content>
+              <b>How can I reduce the level of arsenic in my water?</b>  In addition to arsenic, your test results show that your water also contains more than 0.1 mg/L of iron, which must be considered in the selection of a water treatment system.  Install one of the following water treatment systems to reduce the level of iron and arsenic in your water.  Your test results show that your water contains less than 0.1 mg/L of manganese, so installing a treatment system for manganese is not needed.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent to reduce the level of iron.  This type of system will also reduce the level of arsenic in your water, though by how much depends on the levels of iron, pH, and arsenic.  You may also need to install one of the following systems if additional arsenic reduction is needed:
+                  <ol type="a">
+                    <li>An NSF/ANSI Standard 53 certified arsenic adsorption media filter system.  This system may be a point-of-use (POU) system at your kitchen sink designed to treat only the water that you consume, or it may be a whole house system; or</li>
+                    <li>An NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink designed to treat only the water that you consume.</li>
+                  </ol>
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 44 certified whole house cation exchange water softener to reduce the level of iron, in combination with one of the following systems to reduce the level of arsenic:
+                  <ol type="a">
+                    <li>An NSF/ANSI Standard 53 certified arsenic adsorption media filter system.  This system may be a point-of-use (POU) system at your kitchen sink designed to treat only the water that you consume, or it may be a whole house system; or</li>
+                    <li>An NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink designed to treat only the water that you consume.</li>
+                  </ol>
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </As3b>
+          <As3c>
+            <Content>
+              <b>How can I reduce the level of arsenic in my water?</b>  In addition to arsenic, your test results show that your water also contains more than 0.1 mg/L of iron, which must be considered in the selection of a water treatment system.  Install one of the following water treatment systems to reduce the level of iron and arsenic in your water.  Your choice of treatment system could change, or the long-term performance of the system could be negatively affected, depending on the level of manganese in your water; however, you did not provide test results for manganese.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent to reduce the level of iron.  This type of system will also reduce the level of arsenic in your water, though by how much depends on the levels of iron, pH, and arsenic.  You may also need to install one of the following systems if additional arsenic reduction is needed:
+                  <ol type="a">
+                    <li>An NSF/ANSI Standard 53 certified arsenic adsorption media filter system.  This system may be a point-of-use (POU) system at your kitchen sink designed to treat only the water that you consume, or it may be a whole house system; or</li>
+                    <li>An NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink designed to treat only the water that you consume.</li>
+                  </ol>
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 44 certified whole house cation exchange water softener to reduce the level of iron, in combination with one of the following systems to reduce the level of arsenic:
+                  <ol type="a">
+                    <li>An NSF/ANSI Standard 53 certified arsenic adsorption media filter system.  This system may be a point-of-use (POU) system at your kitchen sink designed to treat only the water that you consume, or it may be a whole house system; or</li>
+                    <li>An NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink designed to treat only the water that you consume.</li>
+                  </ol>
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </As3c>
+          <As3d>
+            <Content>
+              <b>How can I reduce the level of arsenic in my water?</b>  Install one of the following water treatment systems to reduce the level of arsenic in your water.  Your test results show that your water contains less than 0.1 mg/L of iron, so installing a treatment system for iron is not needed.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 53 certified arsenic adsorption media filter system.  This system may be a point-of-use (POU) system at your kitchen sink designed to treat only the water that you consume, or it may be a whole house system.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink designed to treat only the water that you consume.
+                </li>
+                <br/>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </As3d>
+          <As3e>
+            <Content>
+              <b>How can I reduce the level of arsenic in my water?</b>  Install one of the following water treatment systems to reduce the level of arsenic in your water.  Your test results show that your water contains less than 0.1 mg/L of iron and manganese, so installing a treatment system for iron and manganese is not needed.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 53 certified whole house anion exchange water treatment system, followed by an acid neutralizer to prevent corrosion of your home’s plumbing from the anion exchange system.  To ensure the best possible reduction of arsenic, request an “arsenic speciation test” from your laboratory.  If you have any arsenic III (arsenite), install an NSF/ANSI Standard 42 certified whole house oxidizing pretreatment filter system that uses manganese dioxide as the oxidizing agent to convert arsenic III to arsenic V (arsenate).
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 53 certified point-of-use (POU) arsenic adsorption media filter system at your kitchen sink designed to treat only the water that you consume. A whole house adsorption system is not recommended, because of the increased frequency of maintenance due to your high arsenic level.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </As3e>
+          <As3f>
+            <Content>
+              <b>How can I reduce the level of arsenic in my water?</b>  Install one of the following water treatment systems to reduce the level of arsenic in your water.  Your choice of treatment system could change, or the long-term performance of the system could be negatively affected, depending on the level of iron in your water; however, you did not provide test results for iron.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 53 certified arsenic adsorption media filter system.  This system may be a point-of-use (POU) system at your kitchen sink designed to treat only the water that you consume, or it may be a whole house system.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink designed to treat only the water that you consume.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  If your arsenic level is 0.025 mg/L or more, request an “arsenic speciation test” from your laboratory to ensure that the treatment method being considered results in the best possible reduction of arsenic.  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </As3f>
+          <As3g>
+            <Content>
+              <b>How can I reduce the level of arsenic in my water?</b>  Install one of the following water treatment systems to reduce the level of arsenic in your water.  Your choice of treatment system could change, or the long-term performance of the system could be negatively affected, depending on the level of iron and manganese in your water; however, you did not provide test results for iron and manganese.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 53 certified whole house anion exchange water treatment system, followed by an acid neutralizer to prevent corrosion of your home’s plumbing from the anion exchange system.  To ensure the best possible reduction of arsenic, request an “arsenic speciation test” from your laboratory.  If you have any arsenic III (arsenite), install an NSF/ANSI Standard 42 certified whole house oxidizing pretreatment filter system that uses manganese dioxide as the oxidizing agent to convert arsenic III to arsenic V (arsenate).
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 53 certified point-of-use (POU) arsenic adsorption media filter system at your kitchen sink designed to treat only the water that you consume. A whole house adsorption system is not recommended, because of the increased frequency of maintenance due to your high arsenic level.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for arsenic can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-2.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </As3g>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="Bac" Text="Bacteria" MCL="0 CFU/100 mL or Absent">
+      <Condition CheckOperator=">" CheckValue="0" Present="Y">
+        <True>
+          <Condition CheckElement="Ecoli" CheckOperator=">" CheckValue="0" Present="Y">
+            <True>
+              <Outcome IM="Bac4" HM="Bac4" TM="Bac4" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard. See your E. coli results." />
+            </True>
+            <False>
+              <Outcome IM="Bac2" HM="Bac2" TM="Bac2" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+            </False>
+            <Missing>
+              <Outcome IM="Bac2" HM="Bac2" TM="Bac2" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+            </Missing>
+          </Condition>
+        </True>
+        <False>
+          <Outcome IM="Bac3" HM="Bac3" TM="Bac3" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water standard" />
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <Bac2>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/pathogens.cfm"> drinking water standard for total coliform bacteria</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains total coliform bacteria.
+            </Content>
+          </Bac2>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Bac2>
+            <Content>
+              <b>Can consuming water containing total coliform affect my health?</b>  Total coliform bacteria are very common in soil, and their presence in your water sample does not mean that there is an immediate health threat; however, it may indicate that other, harmful bacteria like E. coli may be present in, or have a way of getting into, your water supply.
+            </Content>
+          </Bac2>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Bac2>
+            <Content>
+              <b>What should I do?</b>  First, collect another water sample to confirm the results of your first sample.  If total coliform bacteria are also present in your second water sample, take the steps listed <a class="contaminant-link" data-contaminant="Bac2" style="cursor: pointer;">here</a> to fix the problem.
+
+              <div Id="Bac2" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                To fix the total coliform bacteria problem in your well water, take these steps:
+                <br/>
+                <ol>
+                  <li>
+                    Inspect the condition of your wellhead and the area around it - check your well’s cap and casing to make sure there are no cracks or holes where bacteria can enter your well; and check for possible sources of pollution, such as septic systems, and waste from pets and farm animals.  Also, make sure rain and melting snow are directed away from your wellhead.  Click <a target="_blank" href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/index.htm">here</a> for a checklist of what to look for from NHDES.  If you cannot find your wellhead, it may be buried and need to be dug up.
+                  </li>
+                  <br/>
+                  <li>
+                    Once you have taken care of any potential sources of pollution, disinfect your well and collect another water sample.  Click <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">here</a> for step-by-step instructions for disinfecting your well from NHDES.
+                  </li>
+                  <br/>
+                  <li>
+                    If the bacteria problem continues, it may indicate that there is a problem with the construction of your well that is allowing bacteria to easily enter it. In this case, consult a NH-licensed water well contractor to get an assessment of your well and have any construction-related problems fixed.  Click <a target="_blank" href="http://des.nh.gov/onestop/index.htm">here</a> to search for NH-licensed contractors that work in your area.
+                  </li>
+                  <br/>
+                  <li>
+                    If bacteria are present in your water after you have taken care of any potential pollution sources or well construction problems, you have the following options:
+                    <ol type="a">
+                      <li>Install an NSF/ANSI Standard 55 certified whole house Class A ultraviolet (UV) disinfection system, following the manufacturer’s requirements for pretreatment; or</li>
+                      <li>Use an alternative source of water that is known to be safe, such as bottled water; or</li>
+                      <li>Replace your well.</li>
+                    </ol>
+                  </li>
+                  <br/>
+                </ol>
+              </div>
+            </Content>
+          </Bac2>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="Ecoli" Text="Bacteria" MCL="0 CFU/100 mL or Absent">
+      <Condition CheckOperator=">" CheckValue="0" Present="Y">
+        <True>
+            <Outcome IM="Bac1" HM="Bac1" TM="Bac1" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard.  &lt;font color='red' &gt;YOUR WATER IS NOT SAFE TO CONSUME &lt;/font&gt;." />
+        </True>
+        <False>
+          <Condition CheckElement="Bac" CheckOperator=">" CheckValue="0" Present="Y">
+            <True>
+              <Outcome IM="Bac3" HM="Bac3" TM="Bac3" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water standard" />
+            </True>
+            <False>
+              <Outcome IM="Bac3" HM="Bac3" TM="Bac3" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water standard" />
+            </False>
+            <Missing>
+              <Outcome IM="Bac3" HM="Bac3" TM="Bac3" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water standard" />
+            </Missing>
+          </Condition>
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <Bac1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/pathogens.cfm"> drinking water standard for E. coli bacteria</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains E. coli bacteria and <font color="red">YOUR WATER IS NOT SAFE TO CONSUME.</font>
+            </Content>
+          </Bac1>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Bac1>
+            <Content>
+              <b>Can consuming water containing E. coli bacteria affect my health?</b> Consuming water containing E. coli bacteria can cause vomiting, diarrhea, stomach cramps, nausea, and fever.  Babies, young children, and adults whose immune systems are not working well have the highest risk of getting sick.
+            </Content>
+          </Bac1>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Bac1>
+            <Content>
+              <b>What should I do?</b>
+                To avoid getting sick from consuming water containing E. coli bacteria, boil all water that you use for drinking, brushing teeth, washing fruits and vegetables, food preparation, washing dishes, making baby food and formula, and making ice or use an alternative source of water that is known to be safe, such as bottled water, until the problem is fixed and E. coli bacteria are absent.  Water should be boiled for two minutes and cooled before using it. Dishes can be safely washed in a dishwasher if you use the hot water/sanitary cycle setting and the dry cycle. You can continue to use your water for bathing and showering as long as you do not drink it; extra care should be taken with small children.  To fix the E. coli bacteria problem in your well water, take the steps listed <a class="contaminant-link" data-contaminant="Bac1" style="cursor: pointer;">here</a>.
+              <div Id="Bac1" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                To fix the E. coli bacteria problem in your well water, take these steps:
+                <br/>
+                <ol>
+                  <li>
+                    E. coli bacteria in your water sample means there is a strong chance that human or animal waste is getting into your well.  Inspect the condition of your wellhead and the area around it - check your well’s cap and casing to make sure there are no cracks or holes where bacteria can enter your well; and check for possible sources of pollution, such as septic systems and waste from pets and farm animals.  Also, make sure rain and melting snow are directed away from your wellhead.  Click <a target="_blank" href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/index.htm">here</a> for a checklist of what to look for from NHDES.  If you cannot find your wellhead, it may be buried and need to be dug up.
+                  </li>
+                  <br/>
+                  <li>
+                    Once you have taken care of any potential sources of pollution, disinfect your well and collect another water sample.  Click <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">here</a> for step-by-step instructions for disinfecting your well from NHDES.
+                  </li>
+                  <br/>
+                  <li>
+                    If the bacteria problem continues, there may be a problem with the construction of your well that is allowing bacteria to easily enter it. In this case, contact a NH-licensed water well contractor to get an assessment of your well and have any construction-related problems fixed.  Click <a target="_blank" href="http://des.nh.gov/onestop/index.htm">here</a> to search for NH-licensed contractors that work in your area.
+                  </li>
+                  <br/>
+                  <li>
+                    If bacteria are present in your water after you have taken care of all potential pollution sources or well construction problems, you have the following options:
+                    <ol type="a">
+                      <li>Install an NSF/ANSI Standard 55 certified whole house Class A ultraviolet (UV) disinfection system, following the manufacturer’s requirements for pretreatment; or</li>
+                      <li>Use an alternative source of water that is known to be safe, such as bottled water; or</li>
+                      <li>Replace your well.</li>
+                    </ol>
+                  </li>
+                  <br/>
+                </ol>
+              </div>
+            </Content>
+          </Bac1>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="Cl" Text="Chloride" MCL="250 mg/L">
+      <Condition CheckOperator=">=" CheckValue="250">
+        <True>
+          <Prompt Text="Does your water taste salty?" >
+            <True>
+              <Outcome IM="Cl1" HM="Cl1" TM="Cl1a" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+            </True>
+            <False>
+              <Outcome IM="Cl1" HM="Cl1" TM="Cl1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+            </False>
+          </Prompt>
+        </True>
+        <False>
+          <Condition CheckOperator=">" CheckValue="0">
+            <True>
+              <Outcome IM="Cl2" HM="Cl2" TM="Cl2" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+            </True>
+            <False>
+              <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <Cl1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/#Secondary"> drinking water guideline for chloride</a>?
+              </b>  No, your water does not meet federal and state drinking water guidelines as it contains more than 250 mg/L of chloride.
+            </Content>
+          </Cl1>
+          <Cl2>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/#Secondary"> drinking water guideline for chloride</a>?
+              </b>  Yes, your water meets federal and state drinking water guidelines as it contains less than 250 mg/L of chloride.
+            </Content>
+          </Cl2>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Cl1>
+            <Content>
+              <b>Can consuming water containing chloride affect my health?</b>  Consuming water containing chloride alone is not harmful to your health; however, the presence of chloride in your water may indicate that other pollutants may be present in your water supply.
+            </Content>
+          </Cl1>
+          <Cl2>
+            <Content>
+              <b>Can consuming water containing chloride affect my health?</b>  Consuming water containing chloride alone is not harmful to your health; however, the presence of chloride in your water may indicate that other pollutants may be present in your water supply.
+            </Content>
+          </Cl2>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Cl1a>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  If you haven’t already done so, you should also test your water for bacteria, sodium, lead, and copper.
+                </li>
+                <br/>
+                <li>
+                  Take the steps listed <a class="contaminant-link" data-contaminant="Cl1a" style="cursor: pointer;">here</a> to address potential sources of chloride pollution.
+                </li>
+                <br/>
+                <li>
+                  If a salty taste in your water is troublesome, install an NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink to reduce the level of chloride in the water that you consume.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  Note, if you live near the seacoast, the level of chloride in your well water may be naturally higher due to sea water or wind-blown sea spray; however, levels substantially higher than 150 mg/L may indicate pollution by human activities.
+                </li>
+              </ul>
+              <br/>
+
+              <div Id="Cl1a" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                Take these steps to address potential sources of chloride pollution:
+                <br/>
+                <ol>
+                  <li>
+                    Inspect the area around your wellhead for possible sources of pollution, such as road salt piles and storage sheds, driveways and roads where road salt is used, fertilized areas, septic systems, and waste from pets and farm animals.  Remove any sources when possible.
+                  </li>
+                  <br/>
+                  <li>
+                    Make sure rain and melting snow are directed away from your wellhead.
+                  </li>
+                  <br/>
+                  <li>
+                    Contact your local health officer or Board of Selectman if you believe that the elevated levels of chloride are associated with nearby land uses.
+                  </li>
+                  <br/>
+                </ol>
+                <br/>
+                <ul style="list-style-type:none">
+                  <li>
+                    More information about treatment for chloride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">NHDES’ Fact Sheet</a>.
+                  </li>
+                </ul>
+                <br/>
+              </div>
+            </Content>
+          </Cl1a>
+          <Cl1b>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  If you haven’t already done so, you should also test your water for bacteria, sodium, lead, and copper.
+                </li>
+                <br/>
+                <li>
+                  Take the steps listed <a class="contaminant-link" data-contaminant="Cl1b" style="cursor: pointer;">here</a> to address potential sources of chloride pollution.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  Note, if you live near the seacoast, the level of chloride in your well water may be naturally higher due to sea water or wind-blown sea spray; however, levels substantially higher than 150 mg/L may indicate pollution by human activities.
+                </li>
+              </ul>
+              <br/>
+
+              <div Id="Cl1b" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                Take these steps to address potential sources of chloride pollution:
+                <br/>
+                <ol>
+                  <li>
+                    Inspect the area around your wellhead for possible sources of pollution, such as road salt piles and storage sheds, driveways and roads where road salt is used, fertilized areas, septic systems, and waste from pets and farm animals.  Remove any sources when possible.
+                  </li>
+                  <br/>
+                  <li>
+                    Make sure rain and melting snow are directed away from your wellhead.
+                  </li>
+                  <br/>
+                  <li>
+                    Contact your local health officer or Board of Selectman if you believe that the elevated levels of chloride are associated with nearby land uses.
+                  </li>
+                  <br/>
+                </ol>
+                <br/>
+                <ul style="list-style-type:none">
+                  <li>
+                    More information about treatment for chloride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">NHDES’ Fact Sheet</a>.
+                  </li>
+                </ul>
+                <br/>
+              </div>
+            </Content>
+          </Cl1b>
+          <Cl2>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  If you haven’t already done so, you should also test your water for bacteria.
+                </li>
+                <br/>
+                <li>
+                  If your chloride level is more than 100 mg/L, take the steps listed <a class="contaminant-link" data-contaminant="Cl2" style="cursor: pointer;">here</a> to address potential sources of chloride pollution.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  Note, if you live near the seacoast, the level of chloride in your well water may be naturally higher due to sea water or wind-blown sea spray; however, levels substantially higher than 150 mg/L may indicate pollution by human activities.
+                </li>
+              </ul>
+              <br/>
+
+              <div Id="Cl2" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                Take these steps to address potential sources of chloride pollution:
+                <br/>
+                <ol>
+                  <li>
+                    Inspect the area around your wellhead for possible sources of pollution, such as road salt piles and storage sheds, driveways and roads where road salt is used, fertilized areas, septic systems, and waste from pets and farm animals.  Remove any sources when possible.
+                  </li>
+                  <br/>
+                  <li>
+                    Make sure rain and melting snow are directed away from your wellhead.
+                  </li>
+                  <br/>
+                  <li>
+                    Contact your local health officer or Board of Selectman if you believe that the elevated levels of chloride are associated with nearby land uses.
+                  </li>
+                  <br/>
+                </ol>
+                <br/>
+                <ul style="list-style-type:none">
+                  <li>
+                    More information about treatment for chloride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+                </ul>
+                <br/>
+              </div>
+            </Content>
+          </Cl2>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="Cu" Text="Copper" MCL="1.3 mg/L">
+      <Condition CheckOperator=">=" CheckValue="1.3">
+        <True>
+          <Outcome IM="Cu1" HM="Cu1" TM="Cu1" TreatmentOrder="4" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+        </True>
+
+        <False>
+          <Condition CheckOperator="&lt;=" CheckValue="0.5" >
+            <True>
+              <Outcome IM="Cu2" HM="Cu2" TM="Cu2" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water standard" />
+            </True>
+            <False>
+              <Outcome IM="Cu3" HM="Cu3" TM="Cu3" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water standard" />
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <Cu1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/copper.cfm"> drinking water standard for copper</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains more than 1.3 mg/L of copper.
+            </Content>
+          </Cu1>
+          <Cu3>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/copper.cfm"> drinking water standard for copper</a>?
+              </b>  Yes, your water meets federal and state drinking water standards as it contains less than 1.3 mg/L of copper.
+            </Content>
+          </Cu3>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Cu1>
+            <Content>
+              <b>Can consuming water containing copper affect my health?</b>  Consuming water containing more than 1.3 mg/L of copper can cause vomiting, diarrhea, stomach cramps, and nausea.  Children under one year old have the highest risk of getting sick.  High levels of copper in water can also cause liver or kidney damage the longer you drink the water.  Also, if you or someone in your household has Wilson’s Disease, you should talk with your doctor about the level of copper in your water.  The presence of copper in your water may also indicate that other pollutants, such as lead, may be present in your water.<br/>
+              <br/>
+              You can continue to use your water for washing food and dishes, brushing your teeth, bathing, showering, and for other uses, as these are not considered major sources of exposure.<br/>
+              <br/>
+            </Content>
+          </Cu1>
+          <Cu3>
+            <Content>
+              <b>Can consuming water containing copper affect my health?</b>  Consuming water containing less than 1.3 mg/L of copper is not harmful to most people.  However, if you or someone in your household has Wilson’s Disease, you should talk with your doctor about the level of copper in your water.  The presence of copper in your water may also indicate that other pollutants, such as lead, may be present in your water.<br/>
+            </Content>
+          </Cu3>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Cu1>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  If you haven’t already done so, you should also test your water for lead, which can cause serious health problems, especially for babies, children, and pregnant women.
+                </li>
+                <br/>
+                <li>
+                  Use only water from the cold-water tap for drinking, cooking, and especially for making baby food and formula. Hot water from the tap is likely to contain higher levels of lead and copper.  In most cases, you can reduce the level of lead and copper in the water that you use for drinking and cooking by clearing the water from the pipes before using it.  Click <a class="contaminant-link" data-contaminant="Cu1" style="cursor: pointer;">here</a> for instructions on flushing out your plumbing.
+                </li>
+                <br/>
+                <li>
+                  Copper (and lead) levels may be high in your water because of the materials used in your home’s plumbing and how acidic your water is.  Metals, such as copper and lead, can leach from pipes and plumbing fixtures when water is acidic.  When copper leaches from plumbing, it can cause water to have a metallic taste or cause blue-green staining on surfaces that come in contact with the water.  If you haven’t already done so, you should also test the pH of your water, which will tell you if your water is acidic.<br/>
+                  <br/>
+                  If your water is acidic (pH is less than 7.0), install a whole house acid neutralizer system, such as a calcite filter, to increase the pH and make the water less acidic, which should reduce the level of copper (and lead) in your water.<br/>
+                  <br/>
+                  Another option is to remove the source of copper by replacing your copper plumbing and fixtures with other approved materials, such as plastic.<br/>
+                </li>
+              </ol>
+              <br/>
+
+              <div Id="Cu1" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                In most cases, flushing out your plumbing will reduce the copper (and lead) level in your water. The routine of letting the water run to get the copper (and lead) out should be done each morning and if the water has not been used for more than six hours – for example, overnight or during the day when you have been out of the house.  To “flush the tap,” turn on the cold water faucet and let the water run for at least 15 seconds.  If you need hot water for drinking or cooking, take water from the cold water tap and heat it.<br/>
+                <br/>
+                Other household water uses, such as showering or toilet flushing, will also help clear water from your plumbing. Keep in mind that you will still need to run individual faucets for a short time before using them for cooking and drinking water. You may want to keep a container of water in your refrigerator, so that the water does not have to be run every time you need it.<br/>
+                <br/>
+                More information about treatment for copper can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-4.pdf">NHDES’ Fact Sheet</a>.
+                <br/>
+              </div>
+            </Content>
+          </Cu1>
+          <Cu3>
+            <Content>
+              <b>What should I do?</b>  If you haven’t already done so, you should also test your water for lead, which can cause serious health problems, especially for babies, children, and pregnant women.
+            </Content>
+          </Cu3>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="CuSt" Text="Copper Stagnant" MCL="1.3 mg/L" ContaminantLogic="Cu"/>
+    
+    <Contaminant Value="Fl" Text="Fluoride" MCL="2 mg/L">
+      <Condition CheckOperator="=" CheckValue="0">
+        <True>
+          <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+        </True>
+        <False>
+          <Condition CheckOperator=">=" CheckValue="2.0">
+            <True>
+              <Condition CheckOperator=">=" CheckValue="4" >
+                <True>
+                  <Outcome IM="Fl1" HM="Fl1" TM="Fl1" TreatmentOrder="5b,5c" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+                </True>
+                <False>
+                  <Outcome IM="Fl2" HM="Fl2" TM="Fl2" TreatmentOrder="5b,5c" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                </False>
+              </Condition>
+            </True>
+            <False>
+              <Condition CheckOperator=">=" CheckValue="0.6" >
+                <True>
+                  <Outcome IM="Fl3" HM="Fl3" TM="Fl3" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+                </True>
+                <False>
+                  <Outcome IM="Fl4" HM="Fl4" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+                </False>
+              </Condition>
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <Fl1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/fluoride.cfm"> drinking water standard for fluoride</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains more than 4.0 mg/L of fluoride.
+            </Content>
+          </Fl1>
+          <Fl2>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/fluoride.cfm"> drinking water guideline for fluoride</a>?
+              </b>  No, your water does not meet federal and state drinking water guidelines as it contains more than 2.0 mg/L of fluoride.
+            </Content>
+          </Fl2>
+          <Fl3>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/fluoride.cfm"> drinking water guideline for fluoride</a>?
+              </b>  Yes, your water meets federal and state drinking water guidelines as it contains less than 2.0 mg/L of fluoride.
+            </Content>
+          </Fl3>
+          <Fl4>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/fluoride.cfm"> drinking water guideline for fluoride</a>?
+              </b>  Yes, your water meets federal and state drinking water guidelines as it contains less than 2.0 mg/L of fluoride.
+            </Content>
+          </Fl4>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Fl1>
+            <Content>
+              <b>Can consuming water containing fluoride affect my health?</b>  Consuming water containing more than 4.0 mg/L of fluoride can cause bone disease, which can include pain and tenderness of the bones and irregular bone deposits that can cause arthritis and crippling when occurring at joints (skeletal fluorosis).<br/>
+              <br/>
+              Consuming water containing more than 2.0 mg/L of fluoride can cause small ‘white spots’ on children’s teeth (mottled enamel), or in extreme cases, brown staining or pitting of teeth that are still developing below the gums (dental fluorosis).<br/>
+              <br/>
+              To reduce your exposure to fluoride in your well water, treat the water that you use for drinking and cooking to a level less than 2.0 mg/L.  If treatment is not feasible, children under nine years old should be provided with an alternative source of drinking water that contains less than 2.0 mg/L of fluoride.<br/>
+              <br/>
+              Consuming water containing an optimal level of fluoride helps protect against tooth decay.  The U.S. Department of Health and Human Services’ recommended optimal range for fluoride in drinking water is 0.6 - 0.8 mg/L.  You should talk with your dentist and doctor about the level of fluoride in your water and how you can reduce your and your family’s total fluoride exposure.  Click <a target="_blank" href="http://www.cdc.gov/fluoridation/faqs/wellwater.htm"> here</a> for more information from the U.S. Centers for Disease Control and Prevention about private well water and fluoride.<br/>
+              <br/>
+            </Content>
+          </Fl1>
+          <Fl2>
+            <Content>
+              <b>Can consuming water containing fluoride affect my health?</b>  Consuming water containing more than 2.0 mg/L of fluoride can cause small ‘white spots’ on children’s teeth (mottled enamel), or in extreme cases, brown staining or pitting of teeth that are still developing below the gums (dental fluorosis).<br/>
+              <br/>
+              To reduce your exposure to fluoride in your well water, treat the water that you use for drinking and cooking to a level less than 2.0 mg/L.  If treatment is not feasible, children under nine years old should be provided with an alternative source of water that contains less than 2.0 mg/L of fluoride.<br/>
+              <br/>
+              Consuming water containing an optimal level of fluoride helps protect against tooth decay.  The U.S. Department of Health and Human Services’ recommended optimal range for fluoride in drinking water is 0.6 - 0.8 mg/L.  You should talk with your dentist and doctor about the level of fluoride in your water and how you can reduce your and your family’s total fluoride exposure.  Click <a target="_blank" href="http://www.cdc.gov/fluoridation/faqs/wellwater.htm"> here</a> for more information from the U.S. Centers for Disease Control and Prevention about private well water and fluoride.<br/>
+              <br/>
+            </Content>
+          </Fl2>
+          <Fl3>
+            <Content>
+              <b>Can consuming water containing fluoride affect my health?</b>  Consuming water containing an optimal level of fluoride helps protect against tooth decay.  The U.S. Department of Health and Human Services’ recommended optimal range for fluoride in drinking water is 0.6 - 0.8 mg/L.  You should talk with your dentist and doctor about the level of fluoride in your water and how you can reduce your and your family’s total fluoride exposure.  Click <a target="_blank" href="http://www.cdc.gov/fluoridation/faqs/wellwater.htm"> here</a> for more information from the U.S. Centers for Disease Control and Prevention about private well water and fluoride.<br/>
+            </Content>
+          </Fl3>
+          <Fl4>
+            <Content>
+              <b>Can consuming water containing fluoride affect my health?</b>  Consuming water containing an optimal level of fluoride helps protect against tooth decay.  The U.S. Department of Health and Human Services’ recommended optimal range for fluoride in drinking water is 0.6 - 0.8 mg/L.  Since your water contains less than the optimal level, you should talk with your dentist and doctor about the level of fluoride in your water and ask whether fluoride supplements or treatments are right for you or your family.  Click <a target="_blank" href="http://www.cdc.gov/fluoridation/faqs/wellwater.htm"> here</a> for more information from the U.S. Centers for Disease Control and Prevention about private well water and fluoride.<br/>
+            </Content>
+          </Fl4>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Fl1>
+            <Content>
+              <b>How can I reduce the level of fluoride in my water?</b>  Install one of the following point-of-use (POU) water treatment systems at your kitchen sink to reduce the level of fluoride in the water that you consume:
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 61 certified activated alumina filter system.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 58 certified reverse osmosis (RO) system.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for fluoride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-5.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </Fl1>
+          <Fl2>
+            <Content>
+              <b>How can I reduce the level of fluoride in my water?</b>  Install one of the following point-of-use (POU) water treatment systems at your kitchen sink to reduce the level of fluoride in the water that you consume:
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 61 certified activated alumina filter system.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 58 certified reverse osmosis (RO) system.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for fluoride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-5.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </Fl2>
+          <Fl3>
+            <Content>
+            </Content>
+          </Fl3>
+          <Fl4>
+            <Content>
+            </Content>
+          </Fl4>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="Har" Text="Hardness" MCL="-">
+      <Condition CheckOperator="=" CheckValue="0">
+        <True>
+          <Outcome GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
+        </True>
+        <False>
+          <Condition CheckOperator=">=" CheckValue="150.0">
+            <True>
+              <Prompt Text="Do you have mineral deposits or scaling on your plumbing fixtures?" >
+                <True>
+                  <Outcome IM="Har1" HM="Har1" TM="Har1" TreatmentOrder="1b" GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
+                </True>
+                <False>
+                  <Outcome IM="Har2" HM="Har2" TM="Har2" GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
+                </False>
+              </Prompt>
+            </True>
+            <False>
+                <Outcome IM="Har3" HM="Har3" TM="Har3" GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <Har1>
+            <Content>
+              <b>Do I have “hard” or “very hard” water?</b>  You have “hard” water if your hardness level is between 121 and 180 mg/L.  If your level is more than 180 mg/L, you have “very hard” water.
+            </Content>
+          </Har1>
+          <Har2>
+            <Content>
+            </Content>
+          </Har2>
+          <Har3>
+            <Content>
+              <b>Do I have “soft” or “hard” water?</b>  You have “soft” water if your hardness level is less than 60 mg/L.  If your level is between 61 and 120 mg/L, you have “moderately hard” water.  You have “hard” water if your level is between 121 and 180 mg/L.
+            </Content>
+          </Har3>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Har1>
+            <Content>
+              <b>Can consuming water containing minerals that make water “hard” affect my health?</b>  Consuming water containing minerals, typically calcium or magnesium, that make water “hard” is not harmful to your health.<br/>
+              <br/>
+              Elevated levels of hardness can leave spots, film, and scaling on glasses and dishes, plumbing fixtures, and appliances.  When hard water is heated, such as in a water heater, solid deposits of calcium carbonate (scaling) can also form. Scale buildup can shorten the life of equipment, raise the costs of heating the water, lower the efficiency of water heaters, and clog pipes.  Many people also notice that they need to use more soap when cleaning with hard water.  None of these effects poses a health risk.<br/>
+              <br/>
+            </Content>
+          </Har1>
+          <Har2>
+            <Content>
+            </Content>
+          </Har2>
+          <Har3>
+            <Content>
+              <b>Can consuming water containing minerals that make water “hard” affect my health?</b>  Consuming water containing minerals, typically calcium or magnesium, that make water “hard” is not harmful to your health.<br/>
+              <br/>
+              Elevated levels of hardness can leave spots, film, and scaling on glasses and dishes, plumbing fixtures, and appliances.  When hard water is heated, such as in a water heater, solid deposits of calcium carbonate (scaling) can also form. Scale buildup can shorten the life of equipment, raise the costs of heating the water, lower the efficiency of water heaters, and clog pipes.  Many people also notice that they need to use more soap when cleaning with hard water.  None of these effects poses a health risk.<br/>
+              <br/>
+            </Content>
+          </Har3>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Har1>
+            <Content>
+              <b>How can I reduce the level of hardness in my water?</b>  Install an NSF/ANSI Standard 44 certified whole house cation exchange water softener.  More information about treatment for hardness can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-6.pdf">NHDES’ Fact Sheet</a>.<br/>
+            </Content>
+          </Har1>
+          <Har2>
+            <Content>
+            </Content>
+          </Har2>
+          <Har3>
+            <Content>
+            </Content>
+          </Har3>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="Fe" Text="Iron" MCL="0.3 mg/L">
+      <Condition CheckOperator=">=" CheckValue=".3">
+        <True>
+          <Condition CheckElement="Mn" CheckOperator=">=" CheckValue="0.1">
+            <True>
+              <Condition CheckElement="As" CheckOperator=">=" CheckValue="0.005">
+                <True>
+                  <Condition CheckElement="As" CheckOperator=">=" CheckValue="0.01">
+                    <True>
+                      <Outcome IM="Fe1" HM="Fe1" TM="Fe1h" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                    </True>
+                    <False>
+                      <Outcome IM="Fe1" HM="Fe1" TM="Fe1a" TreatmentOrder="1a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                    </False>
+                  </Condition>
+                </True>
+                <False>
+                  <Outcome IM="Fe1" HM="Fe1" TM="Fe1b" TreatmentOrder="1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                </False>
+                <Missing>
+                  <Outcome IM="Fe1" HM="Fe1" TM="Fe1c" TreatmentOrder="1a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                </Missing>
+              </Condition>
+            </True>
+            <False>
+              <Condition CheckElement="As" CheckOperator=">=" CheckValue="0.005">
+                <True>
+                  <Condition CheckElement="As" CheckOperator=">=" CheckValue="0.01">
+                    <True>
+                      <Outcome IM="Fe1" HM="Fe1" TM="Fe1i" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                    </True>
+                    <False>
+                      <Outcome IM="Fe1" HM="Fe1" TM="Fe1d" TreatmentOrder="1a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                    </False>
+                  </Condition>
+                </True>
+                <False>
+                  <Outcome IM="Fe1" HM="Fe1" TM="Fe1e" TreatmentOrder="1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                </False>
+                <Missing>
+                  <Outcome IM="Fe1" HM="Fe1" TM="Fe1f" TreatmentOrder="1a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                </Missing>
+              </Condition>
+            </False>
+            <Missing>
+              <Outcome IM="Fe1" HM="Fe1" TM="Fe1g" TreatmentOrder="1a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+            </Missing>
+          </Condition>
+        </True>
+
+        <False>
+          <Condition CheckOperator=">" CheckValue="0.0">
+            <True>
+              <Outcome IM="Fe2" HM="Fe2" TM="Fe2" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+            </True>
+            <False>
+              <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+      <Outcomes>
+        <InterpretationMessages>
+          <Fe1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/#Secondary"> drinking water guideline for iron</a>?
+              </b>  No, your water does not meet federal and state drinking water guidelines as it contains more than 0.3 mg/L of iron.
+            </Content>
+          </Fe1>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Fe1>
+            <Content>
+              <b>Can consuming water containing iron affect my health?</b>  Consuming water containing iron is not harmful to your health.<br/>
+              <br/>
+              Elevated levels of iron can cause a metallic taste, bad smell, rusty-colored water, mineral deposits or sedimentation, or reddish or orange staining on laundry or surfaces that come in contact with the water.  None of these effects poses a health risk.<br/>
+              <br/>
+              Elevated levels of iron or manganese (commonly found together in water wells) may also cause the growth of iron or manganese bacteria, which produce a slime that can clog filters and plumbing. Although these bacteria can make water unappealing and cause a bad taste or smell, there is no health risk associated with them.<br/>
+              <br/>
+            </Content>
+          </Fe1>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Fe1a>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains more than 0.1 mg/L of manganese and between 0.005 and 0.010 mg/L of arsenic, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses chlorine or permanganate as the oxidizing agent to reduce the level of iron, manganese, and arsenic in your water.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.<br/>
+            </Content>
+          </Fe1a>
+          <Fe1b>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains more than 0.1 mg/L of manganese, which must be considered in the selection of a water treatment system.  Install one of the following water treatment systems to reduce the level of iron and manganese in your water.  Your test results show that your water contains less than 0.005 mg/L of arsenic, so installing a treatment system for arsenic is not needed.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 44 certified whole house cation exchange water softener.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses chlorine or permanganate as the oxidizing agent.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </Fe1b>
+          <Fe1c>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains more than 0.1 mg/L of manganese, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses chlorine or permanganate as the oxidizing agent to reduce the level of iron and manganese in your water.  This type of system will also reduce the level of arsenic in your water, if present; however, you did not provide test results for arsenic.  How much arsenic can be removed by this type of system depends on the levels of iron and arsenic.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+            </Content>
+          </Fe1c>
+          <Fe1d>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains between 0.005 and 0.010 mg/L of arsenic, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent to reduce the level of iron and arsenic in your water.  Your test results show that your water contains less than 0.1 mg/L of manganese, so using a strong oxidizing agent, such as chlorine or permanganate, is not needed.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+            </Content>
+          </Fe1d>
+          <Fe1e>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  Install one of the following water treatment systems to reduce the level of iron in your water.  Your test results show that your water contains less than 0.005 mg/L of arsenic, so installing a treatment system for arsenic is not needed.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 44 certified whole house cation exchange water softener.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent.  Your test results show that your water contains less than 0.1 mg/L of manganese, so using a strong oxidizing agent, such as chlorine or permanganate, is not needed.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </Fe1e>
+          <Fe1f>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent to reduce the level of iron in your water.  Your test results show that your water contains less than 0.1 mg/L of manganese, so using a strong oxidizing agent, such as chlorine or permanganate, is not needed.  This type of system will also reduce the level of arsenic in your water, if present; however, you did not provide test results for arsenic.  How much arsenic can be removed by this type of system depends on the levels of iron and arsenic.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+            </Content>
+          </Fe1f>
+          <Fe1g>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  Install one of the following water treatment systems to reduce the level of iron in your water.  Your choice of treatment system could change, depending on the level of manganese in your water; however, you did not provide test results for manganese.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 44 certified whole house cation exchange water softener.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </Fe1g>
+          <Fe1h>
+            <Content>
+            </Content>
+          </Fe1h>
+          <Fe1i>
+            <Content>
+            </Content>
+          </Fe1i>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="Pb" Text="Lead" MCL="0.015 mg/L">
+      <Condition CheckOperator=">=" CheckValue="0.015">
+        <True>
+          <Outcome IM="Pb1" HM="Pb1" TM="Pb1" TreatmentOrder="4" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+        </True>
+        <False>
+          <Condition CheckOperator=">=" CheckValue="0.0075">
+            <True>
+              <Outcome IM="Pb2" HM="Pb2" TM="Pb2" GuidelineIcon="W" GuidelineText="The value entered meets, but is near, the drinking water standard.  Collect another water sample to confirm the results of your first sample." />
+            </True>
+            <False>
+              <Condition CheckOperator=">" CheckValue="0.0">
+                <True>
+                  <Outcome IM="Pb2" HM="Pb2" TM="Pb2" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+                </True>
+                <False>
+                  <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+                </False>
+              </Condition>
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+      <Outcomes>
+        <InterpretationMessages>
+          <Pb1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/lead.cfm"> drinking water standard for lead</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains more than 0.015 mg/L of lead.
+            </Content>
+          </Pb1>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Pb1>
+            <Content>
+              <b>Can consuming water containing lead affect my health?</b>  Consuming water containing more than 0.015 mg/L of lead can cause serious health problems, especially for babies, children, and pregnant women.<br/>
+              <br/>
+              Babies and children who consume water containing more than 0.015 mg/L of lead could experience long-term problems with physical and mental growth and development, including slowed body growth, kidney problems, hearing problems, seizures, brain damage, lower IQ level, trouble learning, reduced attention span, and behavior problems.<br/>
+              <br/>
+              Pregnant women and their unborn babies are especially at risk from consuming water containing more than 0.015 mg/L of lead.  Lead exposure can seriously harm the unborn baby, causing premature birth, lower birth weight, and delayed mental and physical development.<br/>
+              <br/>
+              Adults who consume water containing more than 0.015 mg/L of lead may be at higher risk for cancer, stroke, and high blood pressure and could develop nervous system problems, kidney problems, anemia, and decreased sperm production in men.<br/>
+              <br/>
+              The presence of lead in your water may also indicate that other pollutants, such as copper, may be present in your water.<br/>
+              <br/>
+              You can continue to use your water for washing food and dishes, brushing your teeth, bathing, showering, and for other uses, as these are not considered major sources of exposure.<br/>
+              <br/>
+            </Content>
+          </Pb1>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Pb1>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  If you haven’t already done so, you should also test your water for copper.
+                </li>
+                <br/>
+                <li>
+                  Use only water from the cold-water tap for drinking, cooking, and especially for making baby food and formula. Hot water from the tap is likely to contain higher levels of lead and copper.  In most cases, you can reduce the level of lead and copper in the water that you use for drinking and cooking by clearing the water from the pipes before using it.  Click <a class="contaminant-link" data-contaminant="Pb1" style="cursor: pointer;">here</a> for instructions on flushing out your plumbing.
+                </li>
+                <br/>
+                <li>
+                  Lead (and copper) levels may be high in your water because of the materials used in your home’s plumbing and how acidic your water is.  Metals, such as lead and copper, can leach from pipes and plumbing fixtures when water is acidic.  If you haven’t already done so, you should also test the pH of your water, which will tell you if your water is acidic.<br/>
+                  <br/>
+                  If your water is acidic (pH is less than 7.0), install a whole house acid neutralizer system, such as a calcite filter, to increase the pH and make the water less acidic, which should reduce the level of lead (and copper) in your water.<br/>
+                  <br/>
+                  Another option is to remove the source of lead by replacing your lead or galvanized iron pipes and fittings, lead-soldered pipes, and brass or chrome fixtures with other approved materials, such as plastic.<br/>
+                </li>
+              </ol>
+              <br/>
+
+              <div Id="Pb1" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                In most cases, flushing out your plumbing will reduce the lead (and copper) level in your water. The routine of letting the water run to get the lead (and copper) out should be done each morning and if the water has not been used for more than six hours – for example, overnight or during the day when you have been out of the house.  To “flush the tap,” turn on the cold water faucet and let the water run for at least 15 seconds.  If you need hot water for drinking or cooking, take water from the cold water tap and heat it.<br/>
+                <br/>
+                Other household water uses, such as showering or toilet flushing, will also help clear water from your plumbing. Keep in mind that you will still need to run individual faucets for a short time before using them for cooking and drinking water. You may want to keep a container of water in your refrigerator, so that the water does not have to be run every time you need it.<br/>
+                <br/>
+                More information about treatment for lead can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-4.pdf">NHDES’ Fact Sheet</a>.
+                <br/>
+              </div>
+            </Content>
+          </Pb1>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="PbSt" Text="Lead Stagnant" MCL="0.015 mg/L" ContaminantLogic="Pb"/>
+    
+    <Contaminant Value="Mn" Text="Manganese" MCL="0.05 mg/L">
+      <Condition CheckOperator=">=" CheckValue="0.05">
+        <True>
+          <Condition CheckOperator=">=" CheckValue="0.3">
+            <True>
+              <Outcome IM="Mn1" HM="Mn1" TM="Mn1" TreatmentOrder="1a,1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+            </True>
+            <False>
+              <Prompt Text="Do you have black staining on your plumbing fixtures?" >
+                <True>
+                  <Outcome IM="Mn2" HM="Mn2" TM="Mn2a" TreatmentOrder="1a,1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                </True>
+                <False>
+                  <Outcome IM="Mn2" HM="Mn2" TM="Mn2b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                </False>
+              </Prompt>
+            </False>
+          </Condition>
+        </True>
+        <False>
+          <Condition CheckOperator=">" CheckValue="0.0">
+            <True>
+              <Outcome IM="Mn3" HM="Mn3" TM="Mn3" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+            </True>
+            <False>
+              <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <Mn1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/#Secondary"> drinking water guideline for manganese</a>?
+              </b>  No, your water does not meet federal and state drinking water guidelines as it contains more than 0.05 mg/L of manganese.
+            </Content>
+          </Mn1>
+          <Mn2>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/#Secondary"> drinking water guideline for manganese</a>?
+              </b>  No, your water does not meet federal and state drinking water guidelines as it contains more than 0.05 mg/L of manganese.
+            </Content>
+          </Mn2>
+          <Mn3>
+            <Content>
+            </Content>
+          </Mn3>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Mn1>
+            <Content>
+              <b>Can consuming water containing manganese affect my health?</b>  Consuming water containing more than 0.3 mg/L of manganese is not harmful to adults; however, it may be harmful to children.  Studies suggest that elevated levels of manganese may affect the brain development of children, possibly causing changes in behavior and a decreased ability to learn and remember.<br/>
+              <br/>
+              Pregnant women, babies, and children under three years old should not consume water containing 0.3 mg/L or more of manganese.  Extra care should be taken with formula-fed children, as certain formulas contain manganese, and if prepared with water that also contains manganese, the child may get a higher dose than the rest of the family.  To reduce your family’s exposure to manganese, treat the water that you use for drinking and cooking to reduce the level of manganese to be less than 0.3 mg/L or use an alternative source of water that contains less than 0.3 mg/L of manganese.<br/>
+              <br/>
+              Elevated levels of manganese can cause a metallic taste, bad smell, rusty-colored water, mineral deposits or sedimentation, or brown or black staining on laundry or surfaces that come in contact with the water.  None of these effects poses a health risk.<br/>
+              <br/>
+              Elevated levels of iron or manganese (commonly found together in water wells) may also cause the growth of iron or manganese bacteria, which produce a slime that can clog filters and plumbing. Although these bacteria can make water unappealing and cause a bad taste or smell, there is no health risk associated with them.<br/>
+              <br/>
+            </Content>
+          </Mn1>
+          <Mn2>
+            <Content>
+              <b>Can consuming water containing manganese affect my health?</b>  Consuming water containing less than 0.3 mg/L of manganese is not harmful to your health.<br/>
+              <br/>
+              Elevated levels of manganese can cause a metallic taste, bad smell, rusty-colored water, mineral deposits or sedimentation, or brown or black staining on laundry or surfaces that come in contact with the water.  None of these effects poses a health risk.<br/>
+              <br/>
+              Elevated levels of iron or manganese (commonly found together in water wells) may also cause the growth of iron or manganese bacteria, which produce a slime that can clog filters and plumbing. Although these bacteria can make water unappealing and cause a bad taste or smell, there is no health risk associated with them.<br/>
+              <br/>
+            </Content>
+          </Mn2>
+          <Mn3>
+            <Content>
+            </Content>
+          </Mn3>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Mn1>
+            <Content>
+              <b>How can I reduce the level of manganese in my water?</b><br/>
+              Install one of the following whole house water treatment systems:
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 44 certified cation exchange water softener.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 42 certified oxidizing filter system that uses chlorine or permanganate as the oxidizing agent.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for manganese can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </Mn1>
+          <Mn2a>
+            <Content>
+              <b>How can I reduce the level of manganese in my water?</b><br/>
+              Install one of the following whole house water treatment systems:
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 44 certified cation exchange water softener.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 42 certified oxidizing filter system that uses chlorine or permanganate as the oxidizing agent.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for manganese can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </Mn2a>
+          <Mn2b>
+            <Content>
+            </Content>
+          </Mn2b>
+          <Mn3>
+            <Content>
+            </Content>
+          </Mn3>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="NO2" Text="Nitrite-N" MCL="1 mg/L">
+      <Condition CheckOperator=">=" CheckValue="1">
+        <True>
+          <Outcome IM="N1" HM="N1" TM="N1" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard. &lt;font color='red' &gt;YOUR WATER IS NOT SAFE FOR BABIES UNDER SIX MONTHS OLD TO CONSUME&lt;/font&gt;." />
+        </True>
+        <False>
+          <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water standard" />
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <N1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/nitrite.cfm"> drinking water standard for nitrite</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains 1 mg/L or more of nitrite and <font color="red">YOUR WATER IS NOT SAFE FOR BABIES UNDER SIX MONTHS OLD TO CONSUME</font>.
+            </Content>
+          </N1>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <N1>
+            <Content>
+              <b>Can consuming water containing nitrite affect my health?</b>  Babies under six months old who consume water containing more than 1 mg/L of nitrite can develop “blue-baby syndrome” (methemoglobinemia), which can cause coma and death.  Poisoning can occur when babies drink formula made with nitrate- or nitrite-polluted water.  Babies who are exposed to nitrite may seem healthy at first and show only mild symptoms, including a bluish or purplish color in their lips, nose, ears, nails, hands, or feet.  In some cases, babies may also have trouble breathing or develop vomiting and diarrhea.  Symptoms can develop quickly from very minor exposure. Seek medical attention immediately if these symptoms occur.<br/>
+              <br/>
+              Studies continue on the effects of nitrite exposure during pregnancy. The safest choice for pregnant women is to avoid consuming water that has high levels of nitrite because of potential effects on their unborn baby.<br/>
+              <br/>
+              Breastfed babies, children over six months old, and adults are generally not at risk for developing methemoglobinemia.  However, people with chronic health problems, such as heart or lung disease or enzyme deficiencies, may be at higher risk from elevated nitrite levels.  Nitrite is also being studied for long-term links to cancer.  Talk with your doctor about the level of nitrite in your water if you have concerns.  Nitrite in water is not a health concern when bathing or showering.<br/>
+              <br/>
+            </Content>
+          </N1>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <N1>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  Use an alternative source of water that is known to be safe, such as bottled water, until nitrite levels can be reduced.
+                </li>
+                <br/>
+                <li>
+                  If you haven’t already done so, you should also test your water for bacteria.
+                </li>
+                <br/>
+                <li>
+                  Take the steps listed <a class="contaminant-link" data-contaminant="N1" style="cursor: pointer;">here</a> to address potential sources of nitrite pollution.
+                </li>
+              </ol>
+              <br/>
+
+              <div Id="N1" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                Take these steps to address potential sources of nitrite pollution:
+                <br/>
+                <ol>
+                  <li>
+                    Inspect the area around your wellhead for possible sources of pollution, such as areas where fertilizer or manure is used or stored, septic systems or sewer lines, waste from pets and farm animals, and manure and compost piles.  Remove any sources when possible.
+                  </li>
+                  <br/>
+                  <li>
+                    Make sure rain and melting snow are directed away from your wellhead.
+                  </li>
+                  <br/>
+                  <li>
+                    Contact your local health officer or Board of Selectman if you believe that the elevated levels of nitrite are the result of nearby land uses.
+                  </li>
+                  <br/>
+                  <li>
+                    If the nitrite problem continues,  even after you have taken care of any potential pollution sources, you have the following options:
+                    <ol type="a">
+                      <li>Install an NSF/ANSI Standard 58 certified reverse osmosis (RO) system; or</li>
+                      <li>Use an alternative source of water that is known to be safe, such as bottled water; or</li>
+                      <li>Replace your well.</li>
+                    </ol>
+                  </li>
+                  <br/>
+                </ol>
+                <br/>
+                More information about treatment for nitrite can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-9.pdf">NHDES’ Fact Sheet</a>.
+                <br/>
+              </div>
+            </Content>
+          </N1>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="NO3" Text="Nitrate-N" MCL="10 mg/L">
+      <Condition CheckElement="NO2+NO3" CheckOperator=">=" CheckValue="5">
+        <True>
+          <Condition CheckElement="NO2+NO3" CheckOperator=">=" CheckValue="10">
+            <True>
+              <Outcome IM="N2" HM="N2" TM="N2" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value of nitrate or total nitrogen (nitrate + nitrite) entered exceeds the drinking water standard. &lt;font color='red' &gt;YOUR WATER IS NOT SAFE FOR BABIES UNDER SIX MONTHS OLD TO CONSUME&lt;/font&gt;." />
+            </True>
+            <False>
+              <Outcome IM="N3" HM="N3" TM="N3" GuidelineIcon="W" GuidelineText="The value entered is close to exceeding the drinking water standard" />
+            </False>
+          </Condition>
+        </True>
+        <False>
+          <Outcome IM="N4" HM="N4" TM="N4" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water standard" />
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <N2>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/nitrate.cfm"> drinking water standard for nitrate and total nitrogen (nitrate plus nitrite)</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains more than 10 mg/L of nitrate or total nitrogen and <font color="red">YOUR WATER IS NOT SAFE FOR BABIES UNDER SIX MONTHS OLD TO CONSUME</font>.
+            </Content>
+          </N2>
+          <N3>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/nitrate.cfm"> drinking water standard for nitrate and total nitrogen (nitrate plus nitrite)</a>?
+              </b>  Yes, your water meets federal and state drinking water standards as it contains less than 10 mg/L of nitrate and total nitrogen.  However, your results indicate that your well water is approaching a level that is unsafe for babies under six months old to consume.
+            </Content>
+          </N3>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <N2>
+            <Content>
+              <b>Can consuming water containing nitrate affect my health?</b>  Babies under six months old who consume water containing more than 10 mg/L of nitrate can develop “blue-baby syndrome” (methemoglobinemia), which can cause coma and death.  Poisoning can occur when babies drink formula made with nitrate- or nitrite-polluted water.  Babies who are exposed to nitrate may seem healthy at first and show only mild symptoms, including a bluish or purplish color in their lips, nose, ears, nails, hands, or feet.  In some cases, babies may also have trouble breathing or develop vomiting and diarrhea.  Symptoms can develop quickly from very minor exposure. Seek medical attention immediately if these symptoms occur.<br/>
+              <br/>
+              Studies continue on the effects of nitrate exposure during pregnancy. The safest choice for pregnant women is to avoid consuming water that has high levels of nitrate because of potential effects on their unborn baby.<br/>
+              <br/>
+              Breastfed babies, children over six months old, and adults are generally not at risk for developing methemoglobinemia.  However, people with chronic health problems, such as heart or lung disease or enzyme deficiencies, may be at higher risk from elevated nitrate levels.  Nitrate is also being studied for long-term links to cancer.  Talk with your doctor about the level of nitrate in your water if you have concerns.  Nitrate in water is not a health concern when bathing or showering.<br/>
+              <br/>
+            </Content>
+          </N2>
+          <N3>
+            <Content>
+              <b>Can consuming water containing nitrate affect my health?</b>  Consuming water containing less than 10 mg/L of nitrate is not harmful to your health.<br/>
+              <br/>
+              Nitrate in drinking water at levels above 10 mg/L is a serious health risk for babies under six months old.  High nitrate levels can cause “blue-baby syndrome” (methemoglobinemia), which can cause coma and death.  Poisoning can occur when babies drink formula made with nitrate-polluted water.<br/>
+              <br/>
+              Studies also continue on the effects of nitrate exposure during pregnancy. The safest choice for pregnant women is to avoid consuming water that has high levels of nitrate because of potential effects on their unborn baby.<br/>
+              <br/>
+              Nitrate levels may rise quickly for short periods of time because of rainfall or agricultural activity. If you are caring for an infant or someone in your household is pregnant, talk with your doctor about the level of nitrate in your water.<br/>
+              <br/>
+            </Content>
+          </N3>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <N2>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  Use an alternative source of water that is known to be safe, such as bottled water, until nitrate levels can be reduced.
+                </li>
+                <li>
+                  If you haven’t already done so, you should also test your water for bacteria.
+                </li>
+                <li>
+                  Take the steps listed <a class="contaminant-link" data-contaminant="N2" style="cursor: pointer;">here</a> to address potential sources of nitrate pollution.
+                </li>
+                <li>
+                  Retest your water for nitrite and nitrate every 3 to 6 months.
+                </li>
+              </ol>
+              <br/>
+
+              <div Id="N2" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                Take these steps to address potential sources of nitrate pollution:
+                <br/>
+                <ol>
+                  <li>
+                    Inspect the area around your wellhead for possible sources of pollution, such as areas where fertilizer or manure is used or stored, septic systems or sewer lines, waste from pets and farm animals, and manure and compost piles.  Remove any sources when possible.
+                  </li>
+                  <br/>
+                  <li>
+                    Make sure rain and melting snow are directed away from your wellhead.
+                  </li>
+                  <br/>
+                  <li>
+                    Contact your local health officer or Board of Selectman if you believe that the elevated levels of nitrate are the result of nearby land uses.
+                  </li>
+                  <br/>
+                  <li>
+                    If the nitrate problem continues,  even after you have taken care of any potential pollution sources, you have the following options:
+                    <ol type="a">
+                      <li>Install an NSF/ANSI Standard 58 certified reverse osmosis (RO) system; or</li>
+                      <li>Use an alternative source of water that is known to be safe, such as bottled water; or</li>
+                      <li>Replace your well.</li>
+                    </ol>
+                  </li>
+                  <br/>
+                </ol>
+                <br/>
+                More information about treatment for nitrate can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-9.pdf">NHDES’ Fact Sheet</a>.
+                <br/>
+              </div>
+            </Content>
+          </N2>
+          <N3>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  If you haven’t already done so, you should also test your water for bacteria.
+                </li>
+                <li>
+                  Take the steps listed <a class="contaminant-link" data-contaminant="N3" style="cursor: pointer;">here</a> to address potential sources of nitrate pollution.
+                </li>
+                <li>
+                  Retest your water for nitrite and nitrate every 3 to 6 months.
+                </li>
+              </ol>
+              <br/>
+
+              <div Id="N3" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                Take these steps to address potential sources of nitrate pollution:
+                <br/>
+                <ol>
+                  <li>
+                    Inspect the area around your wellhead for possible sources of pollution, such as areas where fertilizer or manure is used or stored, septic systems or sewer lines, waste from pets and farm animals, and manure and compost piles.  Remove any sources when possible.
+                  </li>
+                  <br/>
+                  <li>
+                    Make sure rain and melting snow are directed away from your wellhead.
+                  </li>
+                  <br/>
+                  <li>
+                    Contact your local health officer or Board of Selectman if you believe that the elevated levels of nitrate are the result of nearby land uses.
+                  </li>
+                  <br/>
+                </ol>
+                <br/>
+                More information about treatment for nitrate can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-9.pdf">NHDES’ Fact Sheet</a>.
+                <br/>
+              </div>
+            </Content>
+          </N3>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="pH" Text="pH" MCL="6.5-8.5 standard units">
+      <Condition CheckOperator=">" CheckValue="8">
+        <True>
+          <Outcome GuidelineText="" />
+        </True>
+        <False>
+          <Condition CheckElement="Pb" CheckOperator=">=" CheckValue="0.015">
+            <True>
+              <Outcome  GuidelineText="Your water may be corrosive.  See your results for lead and copper." />
+            </True>
+            <False>
+              <Outcome GuidelineText="Your water may be corrosive.  See your results for lead and copper." />
+            </False>
+            <Missing>
+              <Outcome GuidelineText="Your water may be corrosive.  Test your water for lead and copper." />
+            </Missing>
+          </Condition>
+          <Condition CheckElement="PbSt" CheckOperator=">=" CheckValue="0.015">
+            <True>
+              <Outcome  GuidelineText="Your water may be corrosive.  See your results for lead and copper." />
+            </True>
+            <False>
+              <Outcome GuidelineText="Your water may be corrosive.  See your results for lead and copper." />
+            </False>
+            <Missing>
+              <Outcome GuidelineText="Your water may be corrosive.  Test your water for lead and copper." />
+            </Missing>
+          </Condition>
+          <Condition CheckElement="Cu" CheckOperator=">=" CheckValue="1.3">
+            <True>
+              <Outcome  GuidelineText="Your water may be corrosive.  See your results for lead and copper." />
+            </True>
+            <False>
+              <Condition CheckOperator="&lt;=" CheckValue="0.5" >
+                <True>
+                  <Outcome GuidelineText="Your water may be corrosive.  See your results for lead and copper." />
+                </True>
+                <False>
+                  <Outcome GuidelineText="Your water may be corrosive.  See your results for lead and copper." />
+                </False>
+              </Condition>
+            </False>
+            <Missing>
+              <Outcome GuidelineText="Your water may be corrosive.  Test your water for lead and copper." />
+            </Missing>
+          </Condition>
+          <Condition CheckElement="CuSt" CheckOperator=">=" CheckValue="1.3">
+            <True>
+              <Outcome  GuidelineText="Your water may be corrosive.  See your results for lead and copper." />
+            </True>
+            <False>
+              <Condition CheckOperator="&lt;=" CheckValue="0.5" >
+                <True>
+                  <Outcome GuidelineText="Your water may be corrosive.  See your results for lead and copper." />
+                </True>
+                <False>
+                  <Outcome GuidelineText="Your water may be corrosive.  See your results for lead and copper." />
+                </False>
+              </Condition>
+            </False>
+            <Missing>
+              <Outcome GuidelineText="Your water may be corrosive.  Test your water for lead and copper." />
+            </Missing>
+          </Condition>
+        </False>
+      
+    </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+        </InterpretationMessages>
+
+        <HealthMessages>
+        </HealthMessages>
+
+        <TreatmentMessages>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="Na" Text="Sodium" MCL="20 mg/L">
+      <Condition CheckOperator="=" CheckValue="0">
+        <True>
+          <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the U.S. EPA’s guidance level" />
+        </True>
+        <False>
+          <Condition CheckOperator=">=" CheckValue="60">
+            <True>
+              <Outcome IM="Na1" HM="Na1" TM="Na1" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the U.S. EPA’s guidance level" />
+            </True>
+            <False>
+              <Outcome IM="Na2" HM="Na2" TM="Na2" GuidelineIcon="W" GuidelineText="The value entered meets the U.S. EPA’s guidance level if it is less than 20 mg/L " />
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <Na1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/scitech/drinkingwater/dws/ccl/sodium.cfm"> drinking water guidance level for sodium</a>?
+              </b>  No, your water does not meet the federal drinking water guidance level as it contains more than 20 mg/L of sodium.
+            </Content>
+          </Na1>
+          <Na2>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/scitech/drinkingwater/dws/ccl/sodium.cfm"> drinking water guidance level for sodium</a>?
+              </b>  Your water meets the federal drinking water guidance level if it contains less than 20 mg/L of sodium.
+            </Content>
+          </Na2>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Na1>
+            <Content>
+              <b>Can consuming water containing sodium affect my health?</b>  Consuming water containing sodium is not harmful to your health.  However, if you or someone in your household is on a low-salt diet, you should talk with your doctor about the level of sodium in your water.  The U.S. Environmental Protection Agency’s guidance level of 20 mg/L for sodium in drinking water was developed for people restricted to a total sodium intake of 500 mg/day.
+            </Content>
+          </Na1>
+          <Na2>
+            <Content>
+              <b>Can consuming water containing sodium affect my health?</b>  Consuming water containing sodium is not harmful to your health.  However, if your water contains more than 20 mg/L of sodium and you or someone in your household is on a low-salt diet, you should talk with your doctor about the level of sodium in your water.  The U.S. Environmental Protection Agency’s guidance level of 20 mg/L for sodium in drinking water was developed for people restricted to a total sodium intake of 500 mg/day.
+            </Content>
+          </Na2>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Na1>
+            <Content>
+              <b>How can I reduce the level of sodium in my water?</b>  Install an NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink to reduce the level of sodium in the water that you consume.  More information about treatment for sodium can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">NHDES’ Fact Sheet</a>.
+            </Content>
+          </Na1>
+          <Na2>
+            <Content>
+            </Content>
+          </Na2> 
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="Rn" Text="Radon" MCL="2000 pCi/L" NotEntered="Test both the air in your home (if you live below the third floor) and in your water (unless it is from a dug well) for radon.  More than half of all private wells in New Hampshire have high radon.">
+      <Condition CheckOperator="=" CheckValue="0">
+        <True>
+          <Outcome GuidelineIcon="M" GuidelineText="The value entered meets NHDES’s advisory level for radon in water, but you should also test the air in your home for radon gas if you live below the third floor." />
+        </True>
+        <False>
+          <Condition CheckOperator=">=" CheckValue="2000">
+            <True>
+              <Condition CheckOperator=">=" CheckValue="10000">
+                <True>
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="Consult NHDES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016)." />
+                </True>
+                <False>
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="Consult NHDES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016)." />
+                </False>
+              </Condition>
+            </True>
+            <False>
+              <Outcome IM="Rn3" HM="Rn3" GuidelineIcon="M" GuidelineText="The value entered is below NHDES’s advisory level for radon in water" />
+            </False>
+          </Condition>
+          <!-- 17-mar-2016 rel replaced by above
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="Please review the NHDES’ Radon Fact Sheet (link below)" />
+                </True>
+                <False>
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="Please review the NHDES’ Radon Fact Sheet (link below)" />
+          -->
+          
+          <!--  commented out and changed to the above 09-mar-2016  by REL per request by Pierce Rigrod
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="You should read the NH DES Environmental Fact Sheet on Radon in Your Home &lt;a href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot;Coder&#39;s Toolbox String Conversion &lt;/a&gt; " />
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="You should read the NH DES Environmental Fact Sheet on Radon in Your Home &lt; a target=&quot;_blank&quot; href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot; &lt;/a&gt; " />
+                  <Outcome IM="Rn2" HM="Rn2" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="You should read the NH DES Environmental Fact Sheet on Radon in Your Home &lt;a href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot;Coder&#39;s Toolbox String Conversion &lt;/a&gt; " />
+          <Condition CheckOperator=">=" CheckValue="2000">
+            <True>
+              <Condition CheckOperator=">=" CheckValue="10000">
+                <True>
+                  <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="Follow-Up is Recommended" />
+                </True>
+                <False>
+                  <Outcome IM="Rn2" HM="Rn2" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="Follow-Up is Recommended" />
+                </False>
+              </Condition>
+            </True>
+            <False>
+              <Outcome IM="Rn3" HM="Rn3" GuidelineIcon="M" GuidelineText="The value entered meets NHDES’s advisory level for radon in water" />
+            </False>
+          </Condition>
+ -->
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <Rn1>
+            <Content>
+              <b>
+                What do my results mean<a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"></a>?
+              </b> See NHDES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for New Hampshire Homeowners - (Revised 3/14/2016).</a> NHDES also recommends testing for radon in air in all living spaces below the third floor.
+            </Content>
+          </Rn1>
+          <Rn2>
+            <Content>
+              <b>
+                What do my results mean<a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"></a>?
+              </b> See NHDES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for New Hampshire Homeowners - (Revised 3/14/2016).</a> NHDES also recommends testing for radon in air in all living spaces below the third floor.
+            </Content>
+          </Rn2>
+          <Rn3>
+            <Content>
+              <b>
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
+              </b>  Yes, your water meets the advisory level as it contains less than 2,000 pCi/L of radon.
+            </Content>
+          </Rn3>
+          <!--   commented out and replaced by above lines 17-mar-2016 by REL per request by Pierce Rigrod
+          <Rn1>
+            <Content>
+              <b>
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
+              </b> NHDES recommends you test your home’s indoor air and consult with a certified radon mitigation professional before making air or water treatment decisions.
+            </Content>
+          </Rn1>
+          <Rn2>
+            <Content>
+              <b>
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
+              </b> NHDES recommends you test your home’s indoor air and consult with a certified radon mitigation professional before making air or water treatment decisions.
+            </Content>
+          </Rn2>
+          <Rn3>
+            <Content>
+              <b>
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
+              </b>  Yes, your water meets the advisory level as it contains less than 2,000 pCi/L of radon.
+            </Content>
+          </Rn3>-->
+          
+          <!--  commented out and replaced by above lines 30-sep-2015 by REL per request by Pierce Rigrod
+          <Rn1> 
+            <Content>
+              <b>
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
+              </b>  No, your water does not meet the advisory level as it contains 2,000 pCi/L or more of radon.
+            </Content>
+          </Rn1>
+          <Rn2>
+            <Content>
+              <b>
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
+              </b>  No, your water does not meet the advisory level as it contains 2,000 pCi/L or more of radon.
+            </Content>
+          </Rn2>
+          <Rn3>
+            <Content>
+              <b>
+                Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
+              </b>  Yes, your water meets the advisory level as it contains less than 2,000 pCi/L of radon.
+            </Content>
+          </Rn3>-->
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Rn1>
+            <Content>
+              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 New Hampshire residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor. A secondary concern is the risk of cancer associated with the ingestion of drinking water with radon.
+              <br/>
+            </Content>
+          </Rn1>
+          <Rn2>
+            <Content>
+              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 New Hampshire residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor. A secondary concern is the risk of cancer associated with the ingestion of drinking water with radon.
+            </Content>
+          </Rn2>
+          <Rn3>
+            <Content>
+              <b>Can radon affect my health?</b>  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.  Radon gas in indoor air poses an increased health risk, primarily from lung cancer.  More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’ Website</a>.<br/>
+              <br/>
+            </Content>
+          </Rn3>
+          <!--  commented out and replaced by above lines 17-mar-2016 by REL per request by Pierce Rigrod
+          <Rn1>
+            <Content>
+              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 New Hampshire residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.
+              <br/>
+            </Content>
+          </Rn1>
+          <Rn2>
+            <Content>
+              <b>Can radon affect my health?</b>  Most of the risk from radon in water comes from breathing radon gas that is released into the air when water is used in the home.  Long-term exposure to radon contributes to the deaths of an estimated 100 New Hampshire residents each year, making it the second leading cause of lung cancer.  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.
+            </Content>
+          </Rn2>
+          <Rn3>
+            <Content>
+              <b>Can radon affect my health?</b>  If you haven’t already done so, you should also test the air in your home for radon gas if you live below the third floor.  Radon gas in indoor air poses an increased health risk, primarily from lung cancer.  More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’ Website</a>.<br/>
+              <br/>
+            </Content>
+          </Rn3>
+          -->
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Rn1>
+            <Content>
+              <b>How can I reduce my health risk from radon?</b> In most cases, reducing the level of radon in air by preventing air from entering your house from the ground is more cost-effective than treating radon in water.  However, radon-in-water treatment is cost-effective in many cases, either in addition to radon-in-air mitigation or (in fewer situations) on its own. Testing of both your air and water, in consultation with a certified radon mitigation professional, will help you make a well-informed decision about the best way to reduce your exposure to radon. Consult NHDES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016).<br/>
+              <br/>
+              To remove high levels of radon from water, install an NSF/ANSI Standard 61 certified whole house aeration device, which bubbles air through the water to release the radon gas and then moves the gas out of your home using an exhaust fan.<br/>
+              <br/>
+              More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">NHDES’ Website</a>.
+              <br/>
+            </Content>
+          </Rn1>
+          <Rn2>
+            <Content>
+              <b>How can I reduce my health risk from radon?</b> In most cases, reducing the level of radon in air by preventing air from entering your house from the ground is more cost-effective than treating radon in water.  However, radon-in-water treatment is cost-effective in many cases, either in addition to radon-in-air mitigation or (in fewer situations) on its own. Testing of both your air and water, in consultation with a certified radon mitigation professional, will help you make a well-informed decision about the best way to reduce your exposure to radon. Consult NHDES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016).<br/>
+              <br/>
+              Water treatment options for radon include the following whole house water treatment systems:<br/>
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 53 certified Granular Activated Carbon (GAC) filter, which adsorbs the radon.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 61 certified aeration device, which bubbles air through the water to release the radon gas, and then moves the gas out of your home using an exhaust fan.
+                </li>
+              </ol>
+              <br/>
+              <br/>
+              See NHDES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for New Hampshire Homeowners - (Revised 3/14/2016).</a> More information about radon can also be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">NHDES’ Website</a>.
+              <br/>
+            </Content>
+          </Rn2>
+          <!--  commented out and replaced by above lines 17-mar-2016 by REL per request by Pierce Rigrod
+          <Rn1>
+            <Content>
+              <b>How can I reduce my health risk from radon?</b>  ?  In most cases, reducing the level of radon in air by preventing air from entering your house from the ground is more cost-effective than treating radon in water.  However, radon-in-water treatment is cost-effective in many cases, either in addition to radon-in-air mitigation or (in fewer situations) without it.  Testing of both your air and water, in consultation with a certified radon mitigation professional, will help you to make a well-informed decision about the best way to reduce your exposure to radon.<br/>
+              <br/>
+              To remove high levels of radon from water, install an NSF/ANSI Standard 61 certified whole house aeration device, which bubbles air through the water to release the radon gas and then moves the gas out of your home using an exhaust fan.<br/>
+              <br/>
+              More information about radon can be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">NHDES’ Website</a>.
+              <br/>
+            </Content>
+          </Rn1>
+          <Rn2>
+            <Content>
+              <b>How can I reduce my health risk from radon?</b>  In most cases, reducing the level of radon in air by preventing air from entering your house from the ground is more cost-effective than treating radon in water.  However, radon-in-water treatment is cost-effective in many cases, either in addition to radon-in-air mitigation or (in fewer situations) without it.  Testing of both your air and water, in consultation with a certified radon mitigation professional, will help you to make a well-informed decision about the best way to reduce your exposure to radon.<br/>
+              <br/>
+              Water treatment options for radon include the following whole house water treatment systems:<br/>
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 53 certified Granular Activated Carbon (GAC) filter, which adsorbs the radon.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 61 certified aeration device, which bubbles air through the water to release the radon gas, and then moves the gas out of your home using an exhaust fan.
+                </li>
+              </ol>
+              <br/>
+              <br/>
+              See NHDES’ Fact Sheet - <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"> Radon in Your Home: An Overview for New Hampshire Homeowners.</a> More information about radon can also be found on <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm">NHDES’ Website</a>.
+              <br/>
+            </Content>
+          </Rn2>
+          -->
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="Ur" Text="Uranium" MCL="30 μg/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high uranium.">
+      <Condition CheckOperator=">=" CheckValue="30">
+        <True>
+          <Outcome IM="Ur1" HM="Ur1" TM="Ur1" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+        </True>
+        <False>
+          <Condition CheckOperator=">=" CheckValue="15">
+            <True>
+              <Outcome IM="Ur2" HM="Ur2" TM="Ur2" GuidelineIcon="W" GuidelineText="The value entered meets, but is near, the drinking water standard.  Collect another water sample to confirm the results of your first sample." />
+            </True>
+            <False>
+              <Condition CheckOperator=">" CheckValue="0">
+                <True>
+                  <Outcome IM="Ur2" HM="Ur2" TM="Ur2" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+                </True>
+                <False>
+                  <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+                </False>
+              </Condition>
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <Ur1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/radionuclides.cfm"> drinking water standard for uranium</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains more than 30 ug/L of uranium.
+            </Content>
+          </Ur1>
+          <Ur2>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/radionuclides.cfm"> drinking water standard for uranium</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains more than 30 ug/L of uranium.
+            </Content>
+          </Ur2>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Ur1>
+            <Content>
+              <b>Can consuming water containing uranium affect my health?</b>  Consuming water containing more than 30 ug/L of uranium is associated with an increased risk of cancer and kidney damage.  Your individual health risk depends on the amount of uranium in your water, how much of the water you drink each day, and the number of years you drink the water.  To reduce your exposure to uranium in your well water, treat the water that you use for drinking and cooking to a level less than 30 ug/L.  You can continue to use your water for washing food and dishes, brushing your teeth, bathing, showering, and for other uses.
+            </Content>
+          </Ur1>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Ur1>
+            <Content>
+              <b>How can I reduce the level of uranium in my water?</b>  Install an NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink to reduce the level of uranium in the water that you consume.  More information about treatment for uranium can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">NHDES’ Fact Sheet</a>.
+            </Content>
+          </Ur1>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Value="AGA" Text="Gross Alpha" MCL="15 pCi/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high gross alpha radioactivity.">
+      <Condition CheckOperator=">=" CheckValue="15">
+        <True>
+          <Condition CheckElement="Ur" CheckOperator=">=" CheckValue="20">
+            <True>
+              <Outcome IM="AGA1" HM="AGA1" TM="AGA1a" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+            </True>
+            <False>
+              <Outcome IM="AGA1" HM="AGA1" TM="AGA1b" TreatmentOrder="1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+            </False>
+            <Missing>
+              <Outcome IM="AGA1" HM="AGA1" TM="AGA1c" TreatmentOrder="1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+            </Missing>
+          </Condition>
+        </True>
+        <False>
+          <Condition CheckOperator=">=" CheckValue="7.5">
+            <True>
+              <Outcome IM="AGA2" HM="AGA2" TM="AGA2" GuidelineIcon="W" GuidelineText="The value entered meets, but is near, the drinking water standard.  Collect another water sample to confirm the results of your first sample." />
+            </True>
+            <False>
+              <Condition CheckOperator=">" CheckValue="0">
+                <True>
+                  <Outcome IM="AGA2" HM="AGA2" TM="AGA2" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+                </True>
+                <False>
+                  <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+                </False>
+              </Condition>
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <AGA1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/radionuclides.cfm"> drinking water standard for gross alpha radioactivity</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains more than 15 pCi/L of gross alpha radioactivity.
+            </Content>
+          </AGA1>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <AGA1>
+            <Content>
+              <b>Can consuming water containing gross alpha radioactivity affect my health?</b>  Consuming water containing gross alpha radioactivity at levels greater than 15 pCi/L is associated with an increased risk of cancer.  Your individual health risk depends on the amount of radioactivity in your water, how much of the water you drink each day, and the number of years you drink the water.  To reduce your exposure to gross alpha radioactivity in your well water, treat the water that you use for drinking and cooking to a level less than 15 pCi/L.  You can continue to use your water for washing food and dishes, brushing your teeth, bathing, showering, and for other uses.
+            </Content>
+          </AGA1>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <AGA1a>
+            <Content>
+              <b>How can I reduce the level of gross alpha radioactivity in my water?</b>  In addition to gross alpha radioactivity, your test results show that your water also contains more than 20 ug/L of uranium, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 58 certified point-of-use (POU) reverse osmosis (RO) system at your kitchen sink to reduce the level of uranium and gross alpha radioactivity in the water that you consume.  More information about treatment for gross alpha radioactivity can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">NHDES’ Fact Sheet</a>.
+            </Content>
+          </AGA1a>
+          <AGA1b>
+            <Content>
+              <b>How can I reduce the level of gross alpha radioactivity in my water?</b>  Install an NSF/ANSI Standard 44 certified whole house cation exchange water softener.  Your test results show that your water contains less than 20 ug/L of uranium, so installing a treatment system for uranium is not needed.  More information about treatment for gross alpha radioactivity can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">NHDES’ Fact Sheet</a>.
+            </Content>
+          </AGA1b>
+          <AGA1c>
+            <Content>
+              <b>How can I reduce the level of gross alpha radioactivity in my water?</b>  Install an NSF/ANSI Standard 44 certified whole house cation exchange water softener.  Your choice of treatment system could change, depending on the level of uranium in your water; however, you did not provide test results for uranium.  More information about treatment for gross alpha radioactivity can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">NHDES’ Fact Sheet</a>.
+            </Content>
+          </AGA1c>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+  </Contaminants>
+</FlowCharts>
