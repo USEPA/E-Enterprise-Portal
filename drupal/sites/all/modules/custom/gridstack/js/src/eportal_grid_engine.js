@@ -11,10 +11,11 @@
                 var verticalMargin = 10;
                 var is_saving = false;
                 var allowed_drag = false;
+                
 
                 function createGrid() {
                     var serialization = GridStackUI.Utils.sort(Drupal.settings.gridstack_user_settings);
-                    var previous_grid_settings = serialization;
+                    previous_grid_settings = serialization;
                     var $grid_container = $('.grid-stack');
                     var options = {
                         vertical_margin: verticalMargin,
@@ -94,7 +95,7 @@
                         count++;
                     });
                 }
-f
+
                 function addDragListeners($grid_container, $grid_change_options) {
                     $('body').on('swapped_grid', function () {
                         $grid_change_options.show();
