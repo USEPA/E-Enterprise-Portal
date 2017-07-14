@@ -25,6 +25,7 @@
                         }
                     };
 
+
                     // Set HTML elements to be registered by gridstack upon initialization
                     if (!Drupal.settings.is_guest && serialization.length > 0) {
                         initializeUserLayout(serialization)
@@ -36,6 +37,11 @@
                     $grid_container.show();
                     var grid = $grid_container.data('gridstack');
 
+                    // If Serialization is empty, capture current grid state for reversion if
+                    // the user had no previously saved data
+                    if (serialization.length == 0 && !Drupal.settings.is_guest) {
+                        previous_grid_settings = serialized_data(grid);
+                    }
                     var save_grid_changes = '<button id="save-grid-changes">Save Layout</button>';
                     var revert_grid_changes = '<button class="usa-button-outline" id="revert-grid-changes">Cancel</button>';
                     var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
