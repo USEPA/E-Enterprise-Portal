@@ -32,7 +32,6 @@ function chemical_rules_block_info() {
   $blocks['chemical_rules'] = array(
     'info' => t('Block Chemical Laws and Regulations'),
   );
-  $blocks['cache'] = DRUPAL_CACHE_PER_USER;
   return $blocks;
 }
 

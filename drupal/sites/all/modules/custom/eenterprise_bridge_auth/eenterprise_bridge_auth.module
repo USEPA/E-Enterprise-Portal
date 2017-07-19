@@ -175,7 +175,6 @@ function eenterprise_bridge_auth_block_info() {
   $blocks['eenterprise_bridge_auth'] = array(
     'info' => t('User login (E-Enterprise Bridge)'),
   );
-  $blocks['cache'] = DRUPAL_CACHE_GLOBAL;
   return $blocks;
 }
 
