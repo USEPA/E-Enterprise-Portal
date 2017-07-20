@@ -27,8 +27,8 @@ function progress_tracker_block_info() {
   $blocks = array();
   $blocks['progress_tracker'] = array(
     'info' => t('Progress Tracker Block'),
+    'cache' => DRUPAL_CACHE_PER_USER
   );
-  $blocks['cache'] = DRUPAL_CACHE_PER_USER;
   return $blocks;
 }
 

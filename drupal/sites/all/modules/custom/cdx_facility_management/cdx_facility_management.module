@@ -12,8 +12,8 @@ function cdx_facility_management_block_info() {
   $blocks = array();
   $blocks['cdx_facility_widget'] = array(
     'info' => t('Facility Widget'),
+    'cache' => DRUPAL_CACHE_PER_USER,
   );
-  $blocks['cache'] = DRUPAL_CACHE_PER_USER;
   return $blocks;
 }
 

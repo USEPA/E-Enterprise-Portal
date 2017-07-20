@@ -42,7 +42,6 @@ function be_well_informed_block_info() {
   $blocks['be_well_informed'] = array(
     'info' => t('Be Well Informed Block'),
   );
-  $blocks['cache'] = DRUPAL_CACHE_GLOBAL;
   return $blocks;
 }
 
