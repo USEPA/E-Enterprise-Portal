@@ -140,7 +140,7 @@ function eenterprise_bridge_auth_authenticate($error) {
   $userDetails = _parsePostForUserDetails($post);
   $authenticated_user = new AuthenticatedUser($userDetails);
   // Check if user is already in the system
-  $ext_user = user_external_load($authenticated_user->get_name());
+  $ext_user = user_load_by_name($authenticated_user->get_name());
   if (!$ext_user) {
     user_external_login_register($authenticated_user->get_name(), 'eenterprise_bridge_auth');
     if ($user) {
