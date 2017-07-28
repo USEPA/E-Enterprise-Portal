@@ -169,9 +169,13 @@ class AuthenticatedUser {
     else if ($this->authentication_method === 'FACEBOOK') {
       $facebook_id = false;
       $facebook_email = false;
-      if (isset($userDetails->attributes['id']) && isset($userDetails->attributes['email'])) {
+      if (isset($userDetails->attributes['id'])) {
         $facebook_id = trim($userDetails->attributes['id'][0], '"');
+      }
+      if (isset($userDetails->attributes['email'])) {
         $facebook_email = trim($userDetails->attributes['email'][0], '"');
+      }
+      if ($facebook_email && $facebook_id) {
         $this->resolve_facebook_username_collisions($facebook_id, $facebook_email);
       }
       // Use ID if available, otherwise use EMAIL
