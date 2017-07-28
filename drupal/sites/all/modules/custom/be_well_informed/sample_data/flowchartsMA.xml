@@ -1,320 +1,4 @@
 <FlowCharts>
-  <State>
-    <Name>New Hampshire</Name>
-    <StateCode>NH</StateCode>
-    <Cities>
-      <City>Anonymous</City>
-      <City>Acworth</City>
-      <City>Albany</City>
-      <City>Alexandria</City>
-      <City>Allenstown</City>
-      <City>Alstead</City>
-      <City>Amherst</City>
-      <City>Andover</City>
-      <City>Antrim</City>
-      <City>Ashland</City>
-      <City>Atkinson</City>
-      <City>Auburn</City>
-      <City>Barnstead</City>
-      <City>Barrington</City>
-      <City>Bartlett</City>
-      <City>Bath</City>
-      <City>Bedford</City>
-      <City>Belmont</City>
-      <City>Bennington</City>
-      <City>Benton</City>
-      <City>Berlin</City>
-      <City>Bethlehem</City>
-      <City>Boscawen</City>
-      <City>Bow</City>
-      <City>Bradford</City>
-      <City>Brentwood</City>
-      <City>Bridgewater</City>
-      <City>Bristol</City>
-      <City>Brookfield</City>
-      <City>Brookline</City>
-      <City>Campton</City>
-      <City>Canaan</City>
-      <City>Candia</City>
-      <City>Canterbury</City>
-      <City>Carroll</City>
-      <City>Center Harbor</City>
-      <City>Charlestown</City>
-      <City>Chatham</City>
-      <City>Chester</City>
-      <City>Chesterfield</City>
-      <City>Chichester</City>
-      <City>Claremont</City>
-      <City>Clarksville</City>
-      <City>Colebrook</City>
-      <City>Columbia</City>
-      <City>Concord</City>
-      <City>Conway</City>
-      <City>Cornish</City>
-      <City>Croydon</City>
-      <City>Dalton</City>
-      <City>Danbury</City>
-      <City>Danville</City>
-      <City>Deerfield</City>
-      <City>Deering</City>
-      <City>Derry</City>
-      <City>Dixville</City>
-      <City>Dorchester</City>
-      <City>Dover</City>
-      <City>Dublin</City>
-      <City>Dummer</City>
-      <City>Dunbarton</City>
-      <City>Durham</City>
-      <City>East Kingston</City>
-      <City>Easton</City>
-      <City>Eaton</City>
-      <City>Effingham</City>
-      <City>Ellsworth</City>
-      <City>Enfield</City>
-      <City>Epping</City>
-      <City>Epsom</City>
-      <City>Errol</City>
-      <City>Exeter</City>
-      <City>Farmington</City>
-      <City>Fitzwilliam</City>
-      <City>Francestown</City>
-      <City>Franconia</City>
-      <City>Franklin</City>
-      <City>Freedom</City>
-      <City>Fremont</City>
-      <City>Gilford</City>
-      <City>Gilmanton</City>
-      <City>Gilsum</City>
-      <City>Goffstown</City>
-      <City>Gorham</City>
-      <City>Goshen</City>
-      <City>Grafton</City>
-      <City>Grantham</City>
-      <City>Greenfield</City>
-      <City>Greenland</City>
-      <City>Greenville</City>
-      <City>Groton</City>
-      <City>Hampstead</City>
-      <City>Hampton</City>
-      <City>Hampton Falls</City>
-      <City>Hancock</City>
-      <City>Hanover</City>
-      <City>Harrisville</City>
-      <City>Hart's Location</City>
-      <City>Haverhill</City>
-      <City>Hebron</City>
-      <City>Henniker</City>
-      <City>Hill</City>
-      <City>Hillsborough</City>
-      <City>Hinsdale</City>
-      <City>Holderness</City>
-      <City>Hollis</City>
-      <City>Hooksett</City>
-      <City>Hopkinton</City>
-      <City>Hudson</City>
-      <City>Jackson</City>
-      <City>Jaffrey</City>
-      <City>Jefferson</City>
-      <City>Keene</City>
-      <City>Kensington</City>
-      <City>Kingston</City>
-      <City>Laconia</City>
-      <City>Lancaster</City>
-      <City>Landaff</City>
-      <City>Langdon</City>
-      <City>Lebanon</City>
-      <City>Lee</City>
-      <City>Lempster</City>
-      <City>Lincoln</City>
-      <City>Lisbon</City>
-      <City>Litchfield</City>
-      <City>Littleton</City>
-      <City>Londonderry</City>
-      <City>Loudon</City>
-      <City>Lyman</City>
-      <City>Lyme</City>
-      <City>Lyndeborough</City>
-      <City>Madbury</City>
-      <City>Madison</City>
-      <City>Manchester</City>
-      <City>Marlborough</City>
-      <City>Marlow</City>
-      <City>Mason</City>
-      <City>Meredith</City>
-      <City>Merrimack</City>
-      <City>Middleton</City>
-      <City>Milan</City>
-      <City>Milford</City>
-      <City>Milton</City>
-      <City>Monroe</City>
-      <City>Mont Vernon</City>
-      <City>Moultonborough</City>
-      <City>Nashua</City>
-      <City>Nelson</City>
-      <City>New Boston</City>
-      <City>Newbury</City>
-      <City>New Castle</City>
-      <City>New Durham</City>
-      <City>Newfields</City>
-      <City>New Hampton</City>
-      <City>Newington</City>
-      <City>New Ipswich</City>
-      <City>New London</City>
-      <City>Newmarket</City>
-      <City>Newport</City>
-      <City>Newton</City>
-      <City>Northfield</City>
-      <City>North Hampton</City>
-      <City>Northumberland</City>
-      <City>Northwood</City>
-      <City>Orange</City>
-      <City>Orford</City>
-      <City>Ossipee</City>
-      <City>Pelham</City>
-      <City>Pembroke</City>
-      <City>Peterborough</City>
-      <City>Piermont</City>
-      <City>Pittsburg</City>
-      <City>Pittsfield</City>
-      <City>Plainfield</City>
-      <City>Plaistow</City>
-      <City>Plymouth</City>
-      <City>Portsmouth</City>
-      <City>Randolph</City>
-      <City>Raymond</City>
-      <City>Richmond</City>
-      <City>Rindge</City>
-      <City>Rochester</City>
-      <City>Rollinsford</City>
-      <City>Roxbury</City>
-      <City>Rumney</City>
-      <City>Rye</City>
-      <City>Salem</City>
-      <City>Salisbury</City>
-      <City>Sanbornton</City>
-      <City>Sandown</City>
-      <City>Sandwich</City>
-      <City>Seabrook</City>
-      <City>Sharon</City>
-      <City>Shelburne</City>
-      <City>Somersworth</City>
-      <City>South Hampton</City>
-      <City>Springfield</City>
-      <City>Stark</City>
-      <City>Stewartstown</City>
-      <City>Stoddard</City>
-      <City>Strafford</City>
-      <City>Stratham</City>
-      <City>Sugar Hill</City>
-      <City>Sullivan</City>
-      <City>Sunapee</City>
-      <City>Surry</City>
-      <City>Sutton</City>
-      <City>Swanzey</City>
-      <City>Tamworth</City>
-      <City>Temple</City>
-      <City>Thornton</City>
-      <City>Tilton</City>
-      <City>Troy</City>
-      <City>Tuftonboro</City>
-      <City>Unity</City>
-      <City>Wakefield</City>
-      <City>Walpole</City>
-      <City>Warner</City>
-      <City>Warren</City>
-      <City>Washington</City>
-      <City>Waterville Valley</City>
-      <City>Weare</City>
-      <City>Webster</City>
-      <City>Wentworth</City>
-      <City>West Chesterfield</City>
-      <City>Westmoreland</City>
-      <City>Whitefield</City>
-      <City>Wilmot</City>
-      <City>Wilton</City>
-      <City>Winchester</City>
-      <City>Windham</City>
-      <City>Windsor</City>
-      <City>Wolfeboro</City>
-      <City>Woodstock</City>
-    </Cities>
-    <Widget>
-      <SourceLink>
-        <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank" class="processed-favorite" data-hasqtip="2" aria-describedby="qtip-2">New Hampshire Department of Environmental Sciences</a>
-      </SourceLink>
-      <Description>
-        <p> Have a well and wonder what your water testing results mean?</p>
-        <p> The Be Well Informed Guide lets you enter your test results and get feedback about health concerns and water treatment choices.</p>
-        <p> Be Well Informed was created for New Hampshire residents, and has the <a href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/documents/well-testing.pdf" target="_blank" class="processed-favorite" data-hasqtip="3">most common contaminants</a>
-          <div class="button_input_holder" style="display:none"><span title="Add Favorite" id="http%3A%2F%2Fdes.nh.gov%2Forganization%2Fdivisions%2Fwater%2Fdwgb%2Fwell_testing%2Fdocuments%2Fwell-testing.pdf__most common contaminants" class="add_link favorite_hover new_link fa fa-heart empty" aria-hidden="true"></span><span class="sr-only">To favorite, press Ctrl + D</span></div> that affect wells there. It may not have all the contaminants present in your area - for those it does have, it can provide useful information.</p>
-        <p> A quick disclaimer before we start.</p>
-        <p class="widget-note"> Information provided on this website is for informational purposes only and should not be substituted for direct consultation with a qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide may determine the most appropriate water treatment option.</p>
-      </Description>
-    </Widget>
-    <SupportInformation>
-      <Section html="true">
-        <![CDATA[<h4>Phone Support</h4>
-              <p class="bwi-support-intro">For telephone support please contact the NH Department of Environmental Service’s Drinking Water and Groundwater Bureau:</p>
-              <ul class="plain-list bwi-resources-list">
-                <li>
-                  <p class="bwi-resource-name">NH Department of Environmental Services</p>
-                  <p>Drinking Water and Groundwater Bureau</p>
-                  <p>29 Hazen Drive, PO Box 95</p>
-                  <p>Concord, NH 03302-0095</p>
-                  <p><i class="fa fa-phone"></i>(603) 271-2513</p>
-                  <p><i class="fa fa-send"></i>dwgbinfo@des.nh.gov</p>
-                </li>
-              </ul>]]>
-      </Section>
-      <Section html="true">
-        <![CDATA[<h4>Additional Resources</h4>
-              <ul class="plain-list bwi-resources-list">
-                <li>
-                  <p class="bwi-resource-name">Centers for Disease Control and Prevention</p>
-                  <p>1600 Clifton Rd</p>
-                  <p>Atlanta, GA 30333</p>
-                  <p>800-CDC-INFO (800-232-4636)</p>
-                  <p>TTY: (888) 232-6348</p>
-                  <p>Contact CDC–INFO</p>
-                </li>
-                <li>
-                  <p class="bwi-resource-name">EPA (Environmental Protection Agency):</p>
-                  <p>Inquiries specific to groundwater and drinking water can be submitted to a technical specialist through the EPA Safe Drinking Water Hotline at <br><a target="_blank" href="https://www.epa.gov/ground-water-and-drinking-water/safe-drinking-water-hotline">https://www.epa.gov/ground-water-and-drinking-water/safe-drinking-water-hotline</a></p>
-                </li>
-                <li>
-                  <p class="bwi-resource-name">You can also send mail to:</p>
-                  <p>U.S. Environmental Protection Agency</p>
-                  <p>Office of Water (4100T)</p>
-                  <p>1200 Pennsylvania Avenue, N.W.</p>
-                  <p>Washington, D.C. 20460</p>
-                </li>
-                <li>
-                  <p class="bwi-resource-name">Dartmouth Toxic Metals Superfund Research Program</p>
-                  <p><a target="_blank" href="http://www.dartmouth.edu/~toxmetal/index.html">http://www.dartmouth.edu/~toxmetal/index.html</a></p>
-                </li>
-                <li>
-                  <p class="bwi-resource-name">USGS-Science For A Changing World Water Resources for New Hampshire and Vermont</p>
-                  <p><a target="_blank" href="http://nh.water.usgs.gov/index.html">http://nh.water.usgs.gov/index.html
-                          </a></p>
-                </li>
-                <li>
-                  <p class="bwi-resource-name">NH Environmental Public Health Tracking (EPHT) Program</p>
-                  <p><a target="_blank" href="http://www.nh.gov/epht/">NH Environmental Public Health Tracking</a> &mdash; The site is designed to improve public health by providing science-based information on the trends and distributions of environmentally-related diseases.</p>
-                </li>
-                <li>
-                  <p class="bwi-resource-name">NSF – The Public Health and Safety Organization</p>
-                  <p><a target="_blank" href="http://www.nsf.org/consumer-resources/what-is-nsf-certification/water-filters-treatment-certification/selecting-a-water-treatment-system/">http://www.nsf.org/consumer-resources/what-is-nsf-certification/water-filters-treatment-certification/selecting-a-water-treatment-system/</a></p>
-                </li>
-              </ul>]]>
-      </Section>
-      <Section html="true">
-        <![CDATA[<h4>Labs Conducting All DES Recommended Tests for Private Wells</h4>
-              <ul class="bwi-lab-list">
-                <li><a target="_blank" href="http://des.nh.gov/organization/divisions/water/dwgb/nhelap/documents/labs-private-wells.pdf">http://des.nh.gov/organization/divisions/water/dwgb/nhelap/documents/labs-private-wells.pdf</a>
-                </li></ul>]]>
-      </Section>
-    </SupportInformation>
-  </State>
   <Contaminants>
 
     <Contaminant Value="As" Text="Arsenic" MCL="0.01 mg/L" NotEntered="Test your water.  Studies show that 1 in 5 private wells in New Hampshire have high arsenic.">
@@ -718,7 +402,7 @@
     <Contaminant Value="Ecoli" Text="Bacteria" MCL="0 CFU/100 mL or Absent">
       <Condition CheckOperator=">" CheckValue="0" Present="Y">
         <True>
-            <Outcome IM="Bac1" HM="Bac1" TM="Bac1" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard.  &lt;font color='red' &gt;YOUR WATER IS NOT SAFE TO CONSUME &lt;/font&gt;." />
+          <Outcome IM="Bac1" HM="Bac1" TM="Bac1" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard.  &lt;font color='red' &gt;YOUR WATER IS NOT SAFE TO CONSUME &lt;/font&gt;." />
         </True>
         <False>
           <Condition CheckElement="Bac" CheckOperator=">" CheckValue="0" Present="Y">
@@ -758,7 +442,7 @@
           <Bac1>
             <Content>
               <b>What should I do?</b>
-                To avoid getting sick from consuming water containing E. coli bacteria, boil all water that you use for drinking, brushing teeth, washing fruits and vegetables, food preparation, washing dishes, making baby food and formula, and making ice or use an alternative source of water that is known to be safe, such as bottled water, until the problem is fixed and E. coli bacteria are absent.  Water should be boiled for two minutes and cooled before using it. Dishes can be safely washed in a dishwasher if you use the hot water/sanitary cycle setting and the dry cycle. You can continue to use your water for bathing and showering as long as you do not drink it; extra care should be taken with small children.  To fix the E. coli bacteria problem in your well water, take the steps listed <a class="contaminant-link" data-contaminant="Bac1" style="cursor: pointer;">here</a>.
+              To avoid getting sick from consuming water containing E. coli bacteria, boil all water that you use for drinking, brushing teeth, washing fruits and vegetables, food preparation, washing dishes, making baby food and formula, and making ice or use an alternative source of water that is known to be safe, such as bottled water, until the problem is fixed and E. coli bacteria are absent.  Water should be boiled for two minutes and cooled before using it. Dishes can be safely washed in a dishwasher if you use the hot water/sanitary cycle setting and the dry cycle. You can continue to use your water for bathing and showering as long as you do not drink it; extra care should be taken with small children.  To fix the E. coli bacteria problem in your well water, take the steps listed <a class="contaminant-link" data-contaminant="Bac1" style="cursor: pointer;">here</a>.
               <div Id="Bac1" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
                 To fix the E. coli bacteria problem in your well water, take these steps:
                 <br/>
@@ -990,7 +674,7 @@
                 <ul style="list-style-type:none">
                   <li>
                     More information about treatment for chloride can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-17.pdf">NHDES’ Fact Sheet</a>.
-                </li>
+                  </li>
                 </ul>
                 <br/>
               </div>
@@ -1096,7 +780,7 @@
     </Contaminant>
 
     <Contaminant Value="CuSt" Text="Copper Stagnant" MCL="1.3 mg/L" ContaminantLogic="Cu"/>
-    
+
     <Contaminant Value="Fl" Text="Fluoride" MCL="2 mg/L">
       <Condition CheckOperator="=" CheckValue="0">
         <True>
@@ -1276,7 +960,7 @@
               </Prompt>
             </True>
             <False>
-                <Outcome IM="Har3" HM="Har3" TM="Har3" GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
+              <Outcome IM="Har3" HM="Har3" TM="Har3" GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
             </False>
           </Condition>
         </False>
@@ -1626,7 +1310,7 @@
     </Contaminant>
 
     <Contaminant Value="PbSt" Text="Lead Stagnant" MCL="0.015 mg/L" ContaminantLogic="Pb"/>
-    
+
     <Contaminant Value="Mn" Text="Manganese" MCL="0.05 mg/L">
       <Condition CheckOperator=">=" CheckValue="0.05">
         <True>
@@ -2086,8 +1770,8 @@
             </Missing>
           </Condition>
         </False>
-      
-    </Condition>
+
+      </Condition>
 
       <Outcomes>
         <InterpretationMessages>
@@ -2158,7 +1842,7 @@
           <Na2>
             <Content>
             </Content>
-          </Na2> 
+          </Na2>
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
@@ -2190,7 +1874,7 @@
                 <False>
                   <Outcome IM="Rn1" HM="Rn1" TM="Rn2" TreatmentOrder="3a,3b" GuidelineIcon="E" GuidelineText="Please review the NHDES’ Radon Fact Sheet (link below)" />
           -->
-          
+
           <!--  commented out and changed to the above 09-mar-2016  by REL per request by Pierce Rigrod
                   <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="You should read the NH DES Environmental Fact Sheet on Radon in Your Home &lt;a href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot;Coder&#39;s Toolbox String Conversion &lt;/a&gt; " />
                   <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="You should read the NH DES Environmental Fact Sheet on Radon in Your Home &lt; a target=&quot;_blank&quot; href=&quot;http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf&quot; &lt;/a&gt; " />
@@ -2259,9 +1943,9 @@
               </b>  Yes, your water meets the advisory level as it contains less than 2,000 pCi/L of radon.
             </Content>
           </Rn3>-->
-          
+
           <!--  commented out and replaced by above lines 30-sep-2015 by REL per request by Pierce Rigrod
-          <Rn1> 
+          <Rn1>
             <Content>
               <b>
                 Does my well water meet <a target="_blank" href="http://des.nh.gov/organization/divisions/air/pehb/ehs/radon/index.htm"> NHDES’s advisory level for radon in water</a>?
@@ -2431,6 +2115,13 @@
               </b>  No, your water does not meet federal and state drinking water standards as it contains more than 30 ug/L of uranium.
             </Content>
           </Ur1>
+          <Ur2>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/radionuclides.cfm"> drinking water standard for uranium</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains more than 30 ug/L of uranium.
+            </Content>
+          </Ur2>
         </InterpretationMessages>
 
         <HealthMessages>

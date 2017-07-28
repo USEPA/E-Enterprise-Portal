@@ -7,13 +7,12 @@
 
   function get_state_selection() {
     // Capture the value of the state dropdown and populate the widget with the proper state content
-    console.log('Populate Widget with state content')
     // Get the chosen state
     $state = $('#bwi-state').find('option:selected')
     if($state.val()){
-      build_state_form()
+      build_state_form($state.val())
     }
-
+    // @todo Add Parsley flag on the text field to show it needs a selection
   }
 
   function build_widget_state_info(){
@@ -33,18 +32,16 @@
 
   }
 
-  function build_state_form() {
+  function build_state_form(state_code) {
     $.ajax({
       url: 'be_well_informed/generate_state_form',
       method: 'POST',
       data: {
-        state: $state.val()
+        state_code: state_code
       },
       before: function() {
-        console.log('before: generate_state_form')
       },
       success: function(state_form_html) {
-        console.log('success: generate_state_form');
 
         // Wipe the existing one
         // @todo if the state has not changed use existing form and just open the modal window
@@ -63,13 +60,12 @@
             draggable: false,
             resizable: false,
             create: function(event, ui) {
-              console.log('$state_form_modal')
               $('#bwi-tabs').tabs();
               var $form = $('#water_analysis_results_form');
               $form
-              /*.parsley({
-               inputs: Parsley.options.inputs + ',[data-parsley-check-children]'
-               })*/
+                /*.parsley({
+                  inputs: Parsley.options.inputs + ',[data-parsley-check-children]'
+                })*/
                 .on('field:validated', function() {
                   var ok = $('.parsley-error').length === 0;
                   $('.bs-callout-info').toggleClass('hidden', !ok);
@@ -104,14 +100,14 @@
             },
             close: function(event, ui) {
               /*sampleSetIndex = 0;
-               convertNulls = false;
-               $('#be-well-informed-results-table, #be-well-informed-result-details-table').dataTable({bDestroy: true}).fnDestroy();
-               $('#be-well-informed-results-table, #be-well-informed-result-details-table, #be-well-informed-results-table_wrapper, #be-well-informed-result-details-table_wrapper').remove();
-               $('#routine-contaminants, .or').removeClass('hide')
-               $('#interactive-prompts').html('')
-               $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
-               $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret').addClass('hide')
-               showElementOutOfMany($('#be-well-informed-form-wrapper'), $('.be-well-informed-modal-wrapper'));*/
+              convertNulls = false;
+              $('#be-well-informed-results-table, #be-well-informed-result-details-table').dataTable({bDestroy: true}).fnDestroy();
+              $('#be-well-informed-results-table, #be-well-informed-result-details-table, #be-well-informed-results-table_wrapper, #be-well-informed-result-details-table_wrapper').remove();
+              $('#routine-contaminants, .or').removeClass('hide')
+              $('#interactive-prompts').html('')
+              $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
+              $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret').addClass('hide')
+              showElementOutOfMany($('#be-well-informed-form-wrapper'), $('.be-well-informed-modal-wrapper'));*/
             }
           })
       }
@@ -119,7 +115,7 @@
   }
 
   // Initialize the state selection modal
-  $('#be-well-informed-modal-state-selection')
+  /*$('#be-well-informed-modal-state-selection')
     .html(Drupal.settings.be_well_informed.templates.state_selection)
     .dialog({
       modal: true,
@@ -141,11 +137,10 @@
       close: function(event, ui) {
         // Any tasks before closing the modal
       }
-    })
+    })*/
 
   // Initialize the link on the widget to open the modal
   $('.state-selection-link').click(function() {
-    console.log('state-selection-link')
     $('#be-well-informed-modal-state-selection').dialog("open")
   });
 
@@ -155,7 +150,6 @@
   })
 
   function submit_water_sample() {
-    console.log('water submit')
     var $form = $('#water_analysis_results_form');
     // If the form does not validate do not submit data.
     if (!$form.parsley().validate()) {
@@ -164,6 +158,7 @@
 
     var $loading_wrapper = $('#be-well-informed-loading-wrapper');
     var $results_wrapper = $('#be-well-informed-results-wrapper');
+    //var $results_wrapper = $('#be-well-informed-results-wrapper-pdf');
     var $form_wrapper = $('#be-well-informed-form-wrapper');
     var $all_wrappers = $('.be-well-informed-modal-wrapper');
     var formData = $form.serializeObject();
@@ -180,7 +175,12 @@
       method: 'POST',
       data: data,
       success: function(be_well_response_json) {
-        if (!be_well_response_json.error) {
+
+        if(typeof be_well_response_json === 'string') {
+          // Handle the insertion result HTML into the modal
+          $results_wrapper.html(be_well_response_json);
+          showElementOutOfMany($results_wrapper, $all_wrappers);
+        } else if (!be_well_response_json.error) {
           // reset the modal and return it to a 'default' state
           $('#routine-contaminants, .or').removeClass('hide')
           $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')

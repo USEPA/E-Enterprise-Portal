@@ -11,9 +11,11 @@
                 var verticalMargin = 10;
                 var is_saving = false;
                 var allowed_drag = false;
+                
 
                 function createGrid() {
                     var serialization = GridStackUI.Utils.sort(Drupal.settings.gridstack_user_settings);
+                    previous_grid_settings = serialization;
                     var $grid_container = $('.grid-stack');
                     var options = {
                         vertical_margin: verticalMargin,
@@ -24,9 +26,23 @@
                         }
                     };
 
+
+                    // Set HTML elements to be registered by gridstack upon initialization
+                    if (!Drupal.settings.is_guest && serialization.length > 0) {
+                        initializeUserLayout(serialization)
+                    } else {
+                        initializeGuestLayout();
+                    }
+
                     $grid_container.gridstack(options);
+                    $grid_container.show();
                     var grid = $grid_container.data('gridstack');
 
+                    // If Serialization is empty, capture current grid state for reversion if
+                    // the user had no previously saved data
+                    if (serialization.length == 0 && !Drupal.settings.is_guest) {
+                        previous_grid_settings = serialized_data(grid);
+                    }
                     var save_grid_changes = '<button id="save-grid-changes">Save Layout</button>';
                     var revert_grid_changes = '<button class="usa-button-outline" id="revert-grid-changes">Cancel</button>';
                     var $grid_change_options = $('<div class="grid-changes">' + save_grid_changes + revert_grid_changes + '</div>');
@@ -37,12 +53,47 @@
 
                     addDragListeners($grid_container, $grid_change_options);
                     addSaveListeners(grid, $save_button, $revert_button);
-                    initializeIndices(grid, serialization);
                     addResizeSensors(grid, verticalMargin, cellHeight);
                     grid.resizable('.grid-stack-item', false);
                     if (Drupal.settings.is_guest) {
                         grid.movable('.grid-stack-item', false);
                     }
+                }
+
+                /**
+                 * Initialize User layout from saved data
+                 * @param serialization
+                 */
+                function initializeUserLayout(serialization) {
+                    var $gridStackContent;
+                    $.each(serialization, function (i, obj) {
+                        $gridStackContent = $('#' + obj.id);
+                        $gridStackContent.parent().attr({
+                                'data-gs-x': obj.x,
+                                'data-gs-y': obj.y,
+                                'data-gs-width': 1,
+                                'data-gs-height': 1
+                            }
+                        );
+                    });
+                }
+
+                /**
+                 * Initialize Guest layout based off of evenly spaced grid
+                 */
+                function initializeGuestLayout() {
+                    var count = 0, x, y;
+                    $(".grid-stack-item").each(function () {
+                        x = count % 2;
+                        y = Math.floor(count / 2) * 60;
+                        $(this).attr({
+                            'data-gs-x': x,
+                            'data-gs-y': y,
+                            'data-gs-width': 1,
+                            'data-gs-height': 1
+                        });
+                        count++;
+                    });
                 }
 
                 function addDragListeners($grid_container, $grid_change_options) {
@@ -117,7 +168,7 @@
                     });
                     $revert_button.click(function () {
                         // Revert changes
-                        initializeIndices(grid, previous_grid_settings);
+                        revertIndices(grid, previous_grid_settings);
                         $(".grid-changes").fadeOut();
                     });
                 }
@@ -191,30 +242,15 @@
                     });
                 }
 
-                function initializeIndices(grid, serialization) {
-                    // assign x and y values to widgets
-                    if (serialization.length > 0 && !Drupal.settings.is_guest) {
-                        $.each(serialization, function (key, pane_data) {
-                            var $grid_item = $("#" + pane_data.id).parent();
-                            var x = pane_data.x;
-                            var y = pane_data.y;
-                            var width = 1;
-                            var height = 1;
-                            grid.update($grid_item, x, y, width, height);
-                            $grid_item.find('.grid-stack-item-content').css('overflow-y', 'hidden');
-                        });
-                    }
-                    else {
-                        var count = 0;
-                        $(".grid-stack-item").each(function () {
-                            var x = count % 2;
-                            var y = Math.floor(count / 2) * 60;
-                            grid.update($(this), x, y);
-                            count++;
-                            $(this).find('.grid-stack-item-content').css('overflow-y', 'hidden');
-                        });
-                    }
-                    previous_grid_settings = serialized_data(grid);
+                function revertIndices(grid, serialization) {
+                    $.each(serialization, function (key, pane_data) {
+                        var $grid_item = $("#" + pane_data.id).parent();
+                        var x = pane_data.x;
+                        var y = pane_data.y;
+                        var width = 1;
+                        var height = 1;
+                        grid.update($grid_item, x, y, width, height);
+                    });
                 }
 
 

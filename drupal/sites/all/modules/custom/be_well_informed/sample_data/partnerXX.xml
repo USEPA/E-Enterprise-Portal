@@ -1,36 +1,23 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<FlowCharts>
-  <State>
-    <Name>Massachusetts</Name>
-    <StateCode>MA</StateCode>
-    <Widget>
-      <SourceLink html="true">
-        <![CDATA[<a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank" class="processed-favorite" data-hasqtip="2" aria-describedby="qtip-2">Massachusetts Department of Environmental Sciences</a>]]>
-      </SourceLink>
-      <Description html="true">
-        <![CDATA[<p> Have a well and wonder what your water testing results mean?</p>
-        <p> The Be Well Informed Guide lets you enter your test results and get feedback about health concerns and water treatment choices.</p>
-        <p> Be Well Informed was created for Massachusetts residents, and has the <a href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/documents/well-testing.pdf" target="_blank" class="processed-favorite" data-hasqtip="3">most common contaminants</a>
-          <div class="button_input_holder" style="display:none"><span title="Add Favorite" id="http%3A%2F%2Fdes.nh.gov%2Forganization%2Fdivisions%2Fwater%2Fdwgb%2Fwell_testing%2Fdocuments%2Fwell-testing.pdf__most common contaminants" class="add_link favorite_hover new_link fa fa-heart empty" aria-hidden="true"></span><span class="sr-only">To favorite, press Ctrl + D</span></div> that affect wells there. It may not have all the contaminants present in your area - for those it does have, it can provide useful information.</p>]]>
-      </Description>
-    </Widget>
+<Partner>
+    <Name></Name>
+    <Code></Code>
     <SupportInformation>
-      <Section html="true">
-        <![CDATA[<h4>Phone Support</h4>
-        <p class="bwi-support-intro">For telephone support please contact the MA Department of Environmental Service’s Drinking Water and Groundwater Bureau:</p>
-        <ul class="plain-list bwi-resources-list">
-          <li>
-            <p class="bwi-resource-name">MA Department of Environmental Services</p>
-            <p>Drinking Water and Groundwater Bureau</p>
-            <p>29 Hazen Drive, PO Box 95</p>
-            <p>Concord, MA 03302-0095</p>
-            <p><i class="fa fa-phone"></i>(603) 271-2513</p>
-            <p><i class="fa fa-send"></i>dwgbinfo@des.nh.gov</p>
-          </li>
-        </ul>]]>
-      </Section>
-      <Section html="true">
-        <![CDATA[<h4>Additional Resources</h4>
+        <Section html="true">
+            <![CDATA[<h4>Phone Support</h4>
+              <p class="bwi-support-intro">For telephone support please contact:</p>
+              <ul class="plain-list bwi-resources-list">
+                <li>
+                  <p class="bwi-resource-name">NH Department of Environmental Services</p>
+                  <p>Drinking Water and Groundwater Bureau</p>
+                  <p>29 Hazen Drive, PO Box 95</p>
+                  <p>Concord, NH 03302-0095</p>
+                  <p><i class="fa fa-phone"></i>(603) 271-2513</p>
+                  <p><i class="fa fa-send"></i>dwgbinfo@des.nh.gov</p>
+                </li>
+              </ul>]]>
+        </Section>
+        <Section html="true">
+            <![CDATA[<h4>Additional Resources</h4>
               <ul class="plain-list bwi-resources-list">
                 <li>
                   <p class="bwi-resource-name">Centers for Disease Control and Prevention</p>
@@ -69,13 +56,12 @@
                   <p><a target="_blank" href="http://www.nsf.org/consumer-resources/what-is-nsf-certification/water-filters-treatment-certification/selecting-a-water-treatment-system/">http://www.nsf.org/consumer-resources/what-is-nsf-certification/water-filters-treatment-certification/selecting-a-water-treatment-system/</a></p>
                 </li>
               </ul>]]>
-      </Section>
-      <Section html="true">
-        <![CDATA[<h4>Labs Conducting All DES Recommended Tests for Private Wells</h4>
+        </Section>
+        <Section html="true">
+            <![CDATA[<h4>Labs Conducting All DES Recommended Tests for Private Wells</h4>
               <ul class="bwi-lab-list">
                 <li><a target="_blank" href="http://des.nh.gov/organization/divisions/water/dwgb/nhelap/documents/labs-private-wells.pdf">http://des.nh.gov/organization/divisions/water/dwgb/nhelap/documents/labs-private-wells.pdf</a>
                 </li></ul>]]>
-      </Section>
+        </Section>
     </SupportInformation>
-  </State>
-</FlowCharts>
+</Partner>

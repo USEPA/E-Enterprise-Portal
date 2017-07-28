@@ -140,7 +140,7 @@ function eenterprise_bridge_auth_authenticate($error) {
   $userDetails = _parsePostForUserDetails($post);
   $authenticated_user = new AuthenticatedUser($userDetails);
   // Check if user is already in the system
-  $ext_user = user_external_load($authenticated_user->get_name());
+  $ext_user = user_load_by_name($authenticated_user->get_name());
   if (!$ext_user) {
     user_external_login_register($authenticated_user->get_name(), 'eenterprise_bridge_auth');
     if ($user) {
@@ -222,40 +222,6 @@ function view_allow_access_role($view_name, $role_id) {
     $result_view->display_handler->display->display_options['access']['role'][$role_id] = $role_id;
     $result_view->save();
   }
-}
-
-function update_cdx_naics_profile($profile) {
-  $response = [
-    'error' => false,
-    'error-messages' => [],
-    'data' => null,
-  ];
-
-  if (isset($profile)) {
-
-    global $user;
-    //$existing = user_load($user->uid);
-    $existing = user_load($user->uid);
-    $response['data'] = ['profile' => $profile];
-
-    $edit = [];
-    if (!is_string($profile)) {
-      $profile = json_encode($profile);
-    }
-    $edit['field_cdx_naics_settings']['und'][0]['value'] = $profile;
-
-    // save existing user
-
-    if (!user_save($existing, $edit)) {
-      $response['error'] = true;
-      $response['error-messages'][] = 'There was a problem while trying to save';
-    }
-  }
-  else {
-    $response['error'] = true;
-    $response['error-messages'][] = 'Missing profile value in the post data';
-  }
-  echo json_encode($response);
 }
 
 

@@ -221,7 +221,7 @@ function perform_user_login($response_output, $issuer) {
   $authenticated_user->set_name($username);
   $authenticated_user->set_authentication_domain($issuer);
   $authenticated_user->resolve_username_collisions($raw_username);
-  $ext_user = user_external_load($authenticated_user->get_name());
+  $ext_user = user_load_by_name($authenticated_user->get_name());
   if ($ext_user) {
     //If user is already registered, and authenticated through EPA Bridge, skip registration and just log the user in.
     $user = $ext_user;
@@ -1331,11 +1331,11 @@ function user_profile_url_custom_validate(&$form, &$form_state) {
 function user_profile_mail_custom_validate(&$form, &$form_state) {
   // Prevent anyone form changing the email unless it is the admin
   global $user;
-  if ($form['user']['uid'] != 1 && $form['#user']->uid != 1 && $form_state['values']['mail'] != $form['#user']->mail) {
+  if ($form_state['values']['mail'] != $form['#user']->mail) {
     //This error should not be set for public users because another piece of code in form alter in this file
     //needs to change email address to username if email comes empty which is true for some public users like WAM, PIV Card and Twitter.
     //For CDX users this error should still show if email is changed by user.
-    if (!(in_array('Public User', $user->roles) && count($user->roles) == 2) && !in_array('eactivity-dataflows', $user->roles)) {
+    if (in_array('eactivity-dataflows', $user->roles)) {
       form_set_error('mail', t('You do not have adequate permission to edit your email.'));
     }
   }

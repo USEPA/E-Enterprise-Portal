@@ -28,8 +28,8 @@ function to_do_block_info() {
   $blocks = array();
   $blocks['to_do'] = array(
     'info' => t('To Do Block'),
+    'cache' => DRUPAL_CACHE_PER_USER
   );
-  $blocks['cache'] = DRUPAL_CACHE_PER_USER;
   return $blocks;
 }
 

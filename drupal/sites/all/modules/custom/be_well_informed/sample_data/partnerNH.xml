@@ -1,0 +1,67 @@
+<Partner>
+    <Name>New Hampshire</Name>
+    <Code>NH</Code>
+    <SupportInformation>
+        <Section html="true">
+            <![CDATA[<h4>Phone Support</h4>
+              <p class="bwi-support-intro">For telephone support please contact the NH Department of Environmental Service’s Drinking Water and Groundwater Bureau:</p>
+              <ul class="plain-list bwi-resources-list">
+                <li>
+                  <p class="bwi-resource-name">NH Department of Environmental Services</p>
+                  <p>Drinking Water and Groundwater Bureau</p>
+                  <p>29 Hazen Drive, PO Box 95</p>
+                  <p>Concord, NH 03302-0095</p>
+                  <p><i class="fa fa-phone"></i>(603) 271-2513</p>
+                  <p><i class="fa fa-send"></i>dwgbinfo@des.nh.gov</p>
+                </li>
+              </ul>]]>
+        </Section>
+        <Section html="true">
+            <![CDATA[<h4>Additional Resources</h4>
+              <ul class="plain-list bwi-resources-list">
+                <li>
+                  <p class="bwi-resource-name">Centers for Disease Control and Prevention</p>
+                  <p>1600 Clifton Rd</p>
+                  <p>Atlanta, GA 30333</p>
+                  <p>800-CDC-INFO (800-232-4636)</p>
+                  <p>TTY: (888) 232-6348</p>
+                  <p>Contact CDC–INFO</p>
+                </li>
+                <li>
+                  <p class="bwi-resource-name">EPA (Environmental Protection Agency):</p>
+                  <p>Inquiries specific to groundwater and drinking water can be submitted to a technical specialist through the EPA Safe Drinking Water Hotline at <br><a target="_blank" href="https://www.epa.gov/ground-water-and-drinking-water/safe-drinking-water-hotline">https://www.epa.gov/ground-water-and-drinking-water/safe-drinking-water-hotline</a></p>
+                </li>
+                <li>
+                  <p class="bwi-resource-name">You can also send mail to:</p>
+                  <p>U.S. Environmental Protection Agency</p>
+                  <p>Office of Water (4100T)</p>
+                  <p>1200 Pennsylvania Avenue, N.W.</p>
+                  <p>Washington, D.C. 20460</p>
+                </li>
+                <li>
+                  <p class="bwi-resource-name">Dartmouth Toxic Metals Superfund Research Program</p>
+                  <p><a target="_blank" href="http://www.dartmouth.edu/~toxmetal/index.html">http://www.dartmouth.edu/~toxmetal/index.html</a></p>
+                </li>
+                <li>
+                  <p class="bwi-resource-name">USGS-Science For A Changing World Water Resources for New Hampshire and Vermont</p>
+                  <p><a target="_blank" href="http://nh.water.usgs.gov/index.html">http://nh.water.usgs.gov/index.html
+                          </a></p>
+                </li>
+                <li>
+                  <p class="bwi-resource-name">NH Environmental Public Health Tracking (EPHT) Program</p>
+                  <p><a target="_blank" href="http://www.nh.gov/epht/">NH Environmental Public Health Tracking</a> &mdash; The site is designed to improve public health by providing science-based information on the trends and distributions of environmentally-related diseases.</p>
+                </li>
+                <li>
+                  <p class="bwi-resource-name">NSF – The Public Health and Safety Organization</p>
+                  <p><a target="_blank" href="http://www.nsf.org/consumer-resources/what-is-nsf-certification/water-filters-treatment-certification/selecting-a-water-treatment-system/">http://www.nsf.org/consumer-resources/what-is-nsf-certification/water-filters-treatment-certification/selecting-a-water-treatment-system/</a></p>
+                </li>
+              </ul>]]>
+        </Section>
+        <Section html="true">
+            <![CDATA[<h4>Labs Conducting All DES Recommended Tests for Private Wells</h4>
+              <ul class="bwi-lab-list">
+                <li><a target="_blank" href="http://des.nh.gov/organization/divisions/water/dwgb/nhelap/documents/labs-private-wells.pdf">http://des.nh.gov/organization/divisions/water/dwgb/nhelap/documents/labs-private-wells.pdf</a>
+                </li></ul>]]>
+        </Section>
+    </SupportInformation>
+</Partner>

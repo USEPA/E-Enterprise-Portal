@@ -6,9 +6,10 @@
 /* line 5, ../sass/gridstack.scss */
 .grid-stack {
   position: relative;
+  display: none;
 }
 
-/* line 9, ../sass/gridstack.scss */
+/* line 10, ../sass/gridstack.scss */
 .grid-stack .grid-stack-placeholder > .placeholder-content {
   border: 1px dashed lightgray;
   margin: 0;
@@ -21,14 +22,14 @@
   z-index: 0 !important;
 }
 
-/* line 21, ../sass/gridstack.scss */
+/* line 22, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item {
   min-width: 8.33333333%;
   position: absolute;
   padding: 0;
 }
 
-/* line 27, ../sass/gridstack.scss */
+/* line 28, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .grid-stack-item-content {
   margin: 0;
   position: absolute;
@@ -37,9 +38,8 @@
   right: 0px;
   bottom: 0;
   width: auto;
-  /*z-index: 0 !important;*/
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 /* line 40, ../sass/gridstack.scss */
