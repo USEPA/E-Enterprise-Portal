@@ -31,9 +31,47 @@ function be_well_informed_menu() {
     'access arguments' => array('administer be_well_informed settings'),
     'file' => 'be_well_informed.admin.inc',
   );
+  $items['be_well_informed/configuration_form'] = array( //this creates a URL that will call this form at "examples/form-example"
+    'title' => 'Configuration Upload', //page title
+    'description' => 'Enter your state/tribe\'s Be Well Informed XML.',
+    'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
+    'page arguments' => array('be_well_informed_form'), //put the name of the form here
+    'access callback' => TRUE
+  );
   return $items;
 }
 
+function be_well_informed_form($form, &$form_state) {
+
+  $form['file'] = array(
+    '#type' => 'file',
+    '#title' => t('XML Configurations'),
+    '#description' => t('Upload a file, allowed extensions: xml'),
+  );
+
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Click Here!'),
+  );
+
+  return $form;
+
+}
+
+function be_well_informed_form_validate($form, &$form_state) {
+  $file = file_save_upload('file');
+  if ($file) {
+  // Here is where we validate
+  }
+  else {
+    form_set_error('file', t('No file was uploaded.'));
+  }
+
+}
+
+function be_well_informed_form_submit($form, &$form_state) {
+  // Pass the file to the CDX hosted service.
+}
 /**
  * Implements hook_block_info().
  */
@@ -49,20 +87,20 @@ function be_well_informed_block_info() {
  * Generate pdf using wkhtmltopdf tool.
  * Example here: https://gist.github.com/davejamesmiller/1965886
  * */
-function be_well_pdf_generate(){
-  $html =  theme('be_well_informed_pdf');
+function be_well_pdf_generate() {
+  $html = theme('be_well_informed_pdf');
 
-  if(variable_get('bwi_pdf_debug')) {
+  if (variable_get('bwi_pdf_debug')) {
     exit($html);
   }
 
   $descriptorspec = array(
-      0 => array('pipe', 'r'), // stdin
-      1 => array('pipe', 'w'), // stdout
-      2 => array('pipe', 'w'), // stderr
+    0 => array('pipe', 'r'), // stdin
+    1 => array('pipe', 'w'), // stdout
+    2 => array('pipe', 'w'), // stderr
   );
   $current_srvr_name = variable_get('eportal_server_name');
-  if(isset($current_srvr_name) && ($current_srvr_name == $_SERVER['SERVER_NAME'])){
+  if (isset($current_srvr_name) && ($current_srvr_name == $_SERVER['SERVER_NAME'])) {
     $process = proc_open('wkhtmltopdf -q - -', $descriptorspec, $pipes);
   }
   else {
@@ -80,14 +118,15 @@ function be_well_pdf_generate(){
   $return_value = proc_close($process);
   // Output the results
   if ($errors) {
-    watchdog('be_well_informed', "wkhtmltopdf PDF Generation Failed! ".$errors, WATCHDOG_ERROR);
+    watchdog('be_well_informed', "wkhtmltopdf PDF Generation Failed! " . $errors, WATCHDOG_ERROR);
     return "PDF Generation Failed!!";
-  } else {
+  }
+  else {
     header('Content-Type: application/pdf');
     header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
     header('Pragma: public');
     header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-    header('Last-Modified: ' . gmdate('D, d M Y H:i:s').' GMT');
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
     header('Content-Length: ' . strlen($pdf));
     echo $pdf;
   }
@@ -105,7 +144,7 @@ function generate_state_form() {
     return;
   }
 
-  $rendered_html = theme('be_well_informed_modal_state_form', ['state_info' => be_well_informed_get_state_information($_POST['state_code']), 'state_code'=>$_POST['state_code']]);
+  $rendered_html = theme('be_well_informed_modal_state_form', ['state_info' => be_well_informed_get_state_information($_POST['state_code']), 'state_code' => $_POST['state_code']]);
   echo $rendered_html;
 }
 
@@ -113,9 +152,9 @@ function generate_state_form() {
  * Implementation of hook_user_logout
  * Remove used pdf generation variable for the logged in user and session when the user logs out.
  * */
-function be_well_informed_user_logout($account){
+function be_well_informed_user_logout($account) {
   global $user;
-  variable_del($user->name.'_be_well_pdf_resp_'.$user->ssid);
+  variable_del($user->name . '_be_well_pdf_resp_' . $user->ssid);
 }
 
 /**
@@ -157,15 +196,19 @@ function be_well_informed_theme() {
       'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
     ),
     'be_well_informed_pdf' => array(
-        'variables' => array(),
-        'template' => 'be-well-informed-pdf',
-        'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
+      'variables' => array(),
+      'template' => 'be-well-informed-pdf',
+      'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
     ),
     'be_well_informed_modal_results' => array(
       'variables' => array(),
       'template' => 'be-well-informed-model-results',
       'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
     ),
+    'be_well_informed_xml_upload' => array(
+      'template' => 'be-well-informed-xml-upload',
+      'path' => drupal_get_path('module', 'be_well_informed') . '/templates'
+    )
   );
 }
 
@@ -237,7 +280,7 @@ function be_well_informed_block_view($delta = '') {
       $modal_form_html = theme('be_well_informed_modal');
       $modal_state_selection = theme('be_well_informed_modal_state_selection');
       $widget_state_content = theme('be_well_informed_widget_state_content');
-      drupal_add_js(array("be_well_informed" => ["debug_mode"=> variable_get('bwi_js_debug_mode'), 'templates'=> ['contaminant_form' => $modal_form_html, 'state_selection' => $modal_state_selection, 'widget_state_content' => $widget_state_content]]), 'setting');
+      drupal_add_js(array("be_well_informed" => ["debug_mode" => variable_get('bwi_js_debug_mode'), 'templates' => ['contaminant_form' => $modal_form_html, 'state_selection' => $modal_state_selection, 'widget_state_content' => $widget_state_content]]), 'setting');
 
       $block['subject'] = t('Be Well Informed');
       $block['content'] = theme('be_well_informed');
@@ -295,11 +338,12 @@ function be_well_informed_form_submission() {
        */
 
       $formatted_data = be_well_informed_datatable_response($response->data);
-      if(count($formatted_data['InteractivePrompts']) == 0) {
+      if (count($formatted_data['InteractivePrompts']) == 0) {
 
-        $rendered_html = theme('be_well_informed_modal_results', ['state_info' => be_well_informed_get_state_information($_POST['state_code']), 'state_code'=>$_POST['state_code']]);
+        $rendered_html = theme('be_well_informed_modal_results', ['state_info' => be_well_informed_get_state_information($_POST['state_code']), 'state_code' => $_POST['state_code']]);
         drupal_add_http_header('Content-Type', 'text/html; charset=utf-8');
-        print($rendered_html); exit;
+        print($rendered_html);
+        exit;
       }
       $datatable_formatted_response['data'] = $formatted_data;
       $datatable_formatted_response['error'] = FALSE;
@@ -319,14 +363,14 @@ function be_well_informed_get_state_information($state_code = NULL) {
   }
 
   //drupal_json_output($sample);
-  if(!$state_code) {
-    $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/partner'.$_POST['state'].'.xml';
+  if (!$state_code) {
+    $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/partner' . $_POST['state'] . '.xml';
     $state_info = file_get_contents($path);
     drupal_add_http_header('Content-Type', 'text/xml');
     echo $state_info;
   }
   else {
-    $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/partner'.$state_code.'.xml';
+    $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/partner' . $state_code . '.xml';
     $state_info = file_get_contents($path);
     $xml_array = xmlstr_to_array($state_info, 'domnode_clean', 'bwi_domnode_to_array');
     return $xml_array;
@@ -374,14 +418,14 @@ function be_well_informed_datatable_response($be_well_response_json) {
     ];
   }
 
-  $be_well_response = (Array) $be_well_response;
+  $be_well_response = (Array)$be_well_response;
   $be_well_response['result_summary'] = $datatable_result_summary_json;
   $be_well_response['result_details'] = $datatable_result_details_json;
 
   /*Use username and session ID to save be well response data for pdf generation. This data will be removed on user
   logout, implemented in hook_user_logout in be_well_informed.module */
   global $user;
-  variable_set($user->name.'_be_well_pdf_resp_'.$user->ssid,  json_decode(json_encode($be_well_response), true));
+  variable_set($user->name . '_be_well_pdf_resp_' . $user->ssid, json_decode(json_encode($be_well_response), true));
 
   return $be_well_response;
 }
@@ -647,40 +691,40 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 
   $variables['treatments'] = [
     [
-      'icon'=> '',
+      'icon' => '',
       'boxes' => [
         [
-          'icon'=> 'home',
+          'icon' => 'home',
           'action' => 'Whole House Oxidizing Filter System'
         ],
         [
-          'icon'=> 'home',
+          'icon' => 'home',
           'action' => 'Whole House Cation Exchange Water Softener'
         ],
         [
-          'icon'=> 'home',
-          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer' ],
+          'icon' => 'home',
+          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer'],
         [
-          'icon'=> 'facet',
+          'icon' => 'facet',
           'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
         ]
       ]
     ],
     [
-      'icon'=> '',
+      'icon' => '',
       'boxes' => [
         [
-          'icon'=> 'home',
-          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer' ],
+          'icon' => 'home',
+          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer'],
         [
-          'icon'=> 'facet',
+          'icon' => 'facet',
           'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
         ],
       ]
     ],
     [
-      'text'=> 'Depending on the radon levels in the air, treatment of water may be advisable between 2,000 pCi/L and 10,000 pCi/L. Above 10,000 pCi/L, treatment is recommended regardless of radon level in air.',
-      'icon'=> 'home',
+      'text' => 'Depending on the radon levels in the air, treatment of water may be advisable between 2,000 pCi/L and 10,000 pCi/L. Above 10,000 pCi/L, treatment is recommended regardless of radon level in air.',
+      'icon' => 'home',
       'boxes' => [
         [
           'action' => 'Whole House Aeration Device'
@@ -691,27 +735,27 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
       ]
     ],
     [
-      'icon'=> 'home',
+      'icon' => 'home',
       'boxes' => [
         [
-          'icon'=> '',
+          'icon' => '',
           'action' => 'Whole House Acid Neutralizer System'
         ],
       ]
     ],
     [
-      'icon'=> 'facet',
+      'icon' => 'facet',
       'boxes' => [
         [
-          'icon'=> '',
+          'icon' => '',
           'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
         ],
         [
-          'icon'=> '',
+          'icon' => '',
           'action' => 'Point-of-Use (POU) Reverse Osmosis (RO) System'
         ],
         [
-          'icon'=> '',
+          'icon' => '',
           'action' => 'Point-of-Use (POU) Activated Alumina Filter System'
         ],
       ]
@@ -738,12 +782,12 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 
 // [yourModuleName|yourThemeName]_preprocess_[themeFunctionName]
 function be_well_informed_preprocess(&$variables, $hook) {
-  if(stripos($hook, 'be_well_informed_') !== FALSE) {
+  if (stripos($hook, 'be_well_informed_') !== FALSE) {
     result_preprocess_be_well_informed($variables, $hook);
   }
 }
 
-function process_state_xml(&$variables){
+function process_state_xml(&$variables) {
   $variables = $variables;
 }
 
@@ -929,46 +973,46 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
 
   $variables['treatments'] = [
     [
-      'icon'=> '',
+      'icon' => '',
       'boxes' => [
         [
-          'icon'=> 'home',
-          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer' ],
+          'icon' => 'home',
+          'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer'],
         [
-          'icon'=> 'facet',
+          'icon' => 'facet',
           'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
         ],
       ]
     ],
     [
-      'icon'=> 'home',
+      'icon' => 'home',
       'boxes' => [
         [
-          'icon'=> '',
+          'icon' => '',
           'action' => 'Whole House Oxidizing Filter System'
         ],
         [
-          'icon'=> '',
+          'icon' => '',
           'action' => 'Whole House Cation Exchange Water Softener'
         ],
       ]
     ],
     [
-      'icon'=> '',
+      'icon' => '',
       'boxes' => [
         [
-          'icon'=> 'home',
+          'icon' => 'home',
           'action' => 'Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer'
         ],
         [
-          'icon'=> 'facet',
+          'icon' => 'facet',
           'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
         ],
       ]
     ],
     [
-      'text'=> 'Depending on the radon levels in the air, treatment of water may be advisable between 2,000 pCi/L and 10,000 pCi/L. Above 10,000 pCi/L, treatment is recommended regardless of radon level in air.',
-      'icon'=> 'home',
+      'text' => 'Depending on the radon levels in the air, treatment of water may be advisable between 2,000 pCi/L and 10,000 pCi/L. Above 10,000 pCi/L, treatment is recommended regardless of radon level in air.',
+      'icon' => 'home',
       'boxes' => [
         [
           'action' => 'Whole House Aeration Device'
@@ -979,27 +1023,27 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
       ]
     ],
     [
-      'icon'=> 'home',
+      'icon' => 'home',
       'boxes' => [
         [
-          'icon'=> '',
+          'icon' => '',
           'action' => 'Whole House Acid Neutralizer System'
         ],
       ]
     ],
     [
-      'icon'=> 'facet',
+      'icon' => 'facet',
       'boxes' => [
         [
-          'icon'=> '',
+          'icon' => '',
           'action' => 'Point-of-Use (POU) Arsenic Adsorption Media Filter System'
         ],
         [
-          'icon'=> '',
+          'icon' => '',
           'action' => 'Point-of-Use (POU) Reverse Osmosis (RO) System'
         ],
         [
-          'icon'=> '',
+          'icon' => '',
           'action' => 'Point-of-Use (POU) Activated Alumina Filter System'
         ],
       ]
@@ -1011,67 +1055,67 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
   }
 
   global $user;
-  $variables['response_json_data_pdf'] = variable_get($user->name.'_be_well_pdf_resp_'.$user->ssid);
+  $variables['response_json_data_pdf'] = variable_get($user->name . '_be_well_pdf_resp_' . $user->ssid);
 
   /*Setup a pre-process variable for list of contaminants shown in pdf page under "Water Treatment Systems That Remove $contaminants_title"  */
-  if(!empty($variables['response_json_data_pdf']['TreatmentSteps'])){
+  if (!empty($variables['response_json_data_pdf']['TreatmentSteps'])) {
     $contaminants = array();
     $excluded = array('NO2', 'Bac', 'Ecoli');
-    foreach($variables['response_json_data_pdf']['ResultEvaluations'] as $key => $val ){
-      if(!in_array($key, $excluded) && ($val['GuidelineColor'] == 'font-red' || $val['TreatmentMessages']))
+    foreach ($variables['response_json_data_pdf']['ResultEvaluations'] as $key => $val) {
+      if (!in_array($key, $excluded) && ($val['GuidelineColor'] == 'font-red' || $val['TreatmentMessages']))
         array_push($contaminants, $val['ContaminantFullName']);
     }
-    if(count($contaminants) > 1){
+    if (count($contaminants) > 1) {
       $last = array_pop($contaminants);
       $contaminants_title = join(', ', $contaminants);
-      $contaminants_title .= ' and '.$last;
+      $contaminants_title .= ' and ' . $last;
     }
-    else{
+    else {
       $contaminants_title = array_pop($contaminants);
     }
 
     // Special Rules
     $treatment = $variables['response_json_data_pdf']['TreatmentSteps'];
     // Remove "Arsenic Adsorption" if there is POU RO present
-    if($treatment[5]) {
+    if ($treatment[5]) {
       // and tier 5 has "Point-of-Use (POU) Arsenic Adsorption Media Filter System"
       // and tier 5 has "Point-of-Use (POU) Reverse Osmosis (RO) System"
       foreach ($treatment[5]['OrInstructions'] as $i => $instruction) {
-        if($instruction['Recommendation'] == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") {
+        if ($instruction['Recommendation'] == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") {
           $tier_5a = $i;
         }
-        if($instruction['Recommendation'] == "Point-of-Use (POU) Reverse Osmosis (RO) System") {
+        if ($instruction['Recommendation'] == "Point-of-Use (POU) Reverse Osmosis (RO) System") {
           $tier_5b = $i;
         }
       }
 
-      if($tier_5a !== null && $tier_5b !== null) {
+      if ($tier_5a !== null && $tier_5b !== null) {
         // remove it from tier 5
         unset($treatment[5]['OrInstructions'][$tier_5a]);
       }
     }
     // Shift Arsenic treatment to teir 2 if needed
     // # determine if there is no values in tier 3 & 4
-    if(!($treatment[3] || $treatment[4]) && $treatment[2] && $treatment[5]) {
+    if (!($treatment[3] || $treatment[4]) && $treatment[2] && $treatment[5]) {
 
       // # if tier 2 is only "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"
-      if(!empty($treatment[2]['OrInstructions']) && !empty($treatment[2]['OrInstructions'][0]) && $treatment[2]['OrInstructions'][0]['Recommendation'] == "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer") {
+      if (!empty($treatment[2]['OrInstructions']) && !empty($treatment[2]['OrInstructions'][0]) && $treatment[2]['OrInstructions'][0]['Recommendation'] == "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer") {
 
         // and tier 5 has "Point-of-Use (POU) Arsenic Adsorption Media Filter System"
         foreach ($treatment[5]['OrInstructions'] as $i => $instruction) {
-          if($instruction['Recommendation'] == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") {
+          if ($instruction['Recommendation'] == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") {
             $index = $i;
             break;
           }
         }
 
-        if($index !== null) {
+        if ($index !== null) {
           // copy it to tier 2
           $treatment[2]['OrInstructions'][] = $treatment[5]['OrInstructions'][$index];
           // remove it from tier 5
           unset($treatment[5]['OrInstructions'][$index]);
           // if it is empty after remoing the step, update the treatment steps
-          if(empty($treatment[5]['OrInstructions'])) {
+          if (empty($treatment[5]['OrInstructions'])) {
             unset($treatment[5]);
           }
         }
@@ -1081,8 +1125,8 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
   }
 
 
-  $variables['system-type'] =  [];
-  $variables['contaminants_title'] =  $contaminants_title;
+  $variables['system-type'] = [];
+  $variables['contaminants_title'] = $contaminants_title;
 
   $exposed_variables = [
     'treatments' => $variables['treatments'],
@@ -1101,8 +1145,8 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
  */
 function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
 
-  $variables['bwi_pdf_debug'] =  variable_get('bwi_pdf_debug');
-  $variables['doc_root'] =  ($variables['bwi_pdf_debug']) ? '' : $_SERVER["DOCUMENT_ROOT"];
+  $variables['bwi_pdf_debug'] = variable_get('bwi_pdf_debug');
+  $variables['doc_root'] = ($variables['bwi_pdf_debug']) ? '' : $_SERVER["DOCUMENT_ROOT"];
 
   result_preprocess_be_well_informed($variables, $hook);
 
