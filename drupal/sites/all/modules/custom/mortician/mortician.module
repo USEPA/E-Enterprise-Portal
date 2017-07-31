@@ -94,8 +94,6 @@ function get_dead_modules() {
   $modules = [];
   $result = db_select('system')
     ->fields('system')
-    ->condition('status', '1', '=')
-    ->range(0, 150)
     ->execute();
 
   foreach ($result as $node) {
@@ -115,18 +113,22 @@ function get_dead_modules() {
  * @return DatabaseStatementInterface
  */
 function mortician_remove_module($moduleIndex) {
-  $num_deleted = db_update('system')
-    ->fields(array(
-      'status' => 0
-    ))
-    ->condition('filename', $moduleIndex)
-    ->execute();
-
+  $num_deleted = 0;
   $modulePath = explode('/', $moduleIndex);
-  $moduleName = array_pop($modulePath);
+  $moduleName = $modulePath[count($modulePath) - 2];
   if (strlen($moduleName) > 1) {
-    drupal_set_message("'$moduleName' has been removed");
+    $num_deleted = db_delete('system')
+      ->condition('filename', $moduleIndex)
+      ->condition('name', $moduleName)
+      ->execute();
+    if ($num_deleted == 1) {
+      drupal_set_message("'$moduleName' has been removed");
+    } else {
+      drupal_set_message("Unable to remove module listed under: " . $moduleIndex);
+    }
   }
-
+  else {
+    drupal_set_message("Unable to remove module listed under: " . $moduleIndex);
+  }
   return $num_deleted;
 }

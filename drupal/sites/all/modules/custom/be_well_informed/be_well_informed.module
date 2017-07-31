@@ -36,32 +36,52 @@ function be_well_informed_menu() {
     'description' => 'Enter your state/tribe\'s Be Well Informed XML.',
     'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
     'page arguments' => array('be_well_informed_form'), //put the name of the form here
-    'access callback' => TRUE
+    'access callback' => '_is_admin'
   );
   return $items;
 }
 
 function be_well_informed_form($form, &$form_state) {
 
-  $form['file'] = array(
+  $form['account'] = array(
     '#type' => 'file',
-    '#title' => t('XML Configurations'),
-    '#description' => t('Upload a file, allowed extensions: xml'),
+    '#title' => t('Account XML Configurations'),
+    '#description' => t('Upload your configurations, allowed extensions: xml'),
+  );
+  $form['flowchart'] = array(
+    '#type' => 'file',
+    '#title' => t('Flowchart XML Configurations'),
+    '#description' => t('Upload your configurations, allowed extensions: xml'),
   );
 
   $form['submit_button'] = array(
     '#type' => 'submit',
-    '#value' => t('Click Here!'),
+    '#value' => t('Submit'),
   );
 
   return $form;
 
 }
 
+/**
+ * Checks if user is BWI admin allowed to see
+ * upload page
+ */
+function _is_admin() {
+  global $user;
+  if (in_array('Be Well Informed External Admin', $user->roles)) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+
 function be_well_informed_form_validate($form, &$form_state) {
   $file = file_save_upload('file');
   if ($file) {
-  // Here is where we validate
+    // Here is where we validate
   }
   else {
     form_set_error('file', t('No file was uploaded.'));
@@ -71,7 +91,10 @@ function be_well_informed_form_validate($form, &$form_state) {
 
 function be_well_informed_form_submit($form, &$form_state) {
   // Pass the file to the CDX hosted service.
+
 }
+
+
 /**
  * Implements hook_block_info().
  */
@@ -79,6 +102,7 @@ function be_well_informed_block_info() {
   $blocks = array();
   $blocks['be_well_informed'] = array(
     'info' => t('Be Well Informed Block'),
+    'cache' => DRUPAL_NO_CACHE
   );
   return $blocks;
 }
@@ -216,6 +240,7 @@ function be_well_informed_theme() {
  * Implements hook_block_view().
  */
 function be_well_informed_block_view($delta = '') {
+  $bwi_admin = _is_admin();
   $block = array();
   if ($delta == 'be_well_informed') {
     //good idea to check user perms here
@@ -283,8 +308,7 @@ function be_well_informed_block_view($delta = '') {
       drupal_add_js(array("be_well_informed" => ["debug_mode" => variable_get('bwi_js_debug_mode'), 'templates' => ['contaminant_form' => $modal_form_html, 'state_selection' => $modal_state_selection, 'widget_state_content' => $widget_state_content]]), 'setting');
 
       $block['subject'] = t('Be Well Informed');
-      $block['content'] = theme('be_well_informed');
-      return $block;
+      $block['content'] = theme('be_well_informed', ['bwi_admin' => $bwi_admin]);
     }
   }
   return $block;
