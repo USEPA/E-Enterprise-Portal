@@ -74,7 +74,11 @@ function site_deployment_update_7605() {
   module_enable(['bulk_role_management']);
 }
 
+// Sprint 34
 
+/**
+ * Add role for Be Well Informed admin
+ */
 function site_deployment_update_7606() {
   /**
    * Add role for Drupal External Be Well Informed Admin/
@@ -84,6 +88,7 @@ function site_deployment_update_7606() {
   if (empty($existing_role)) {
     $role = new stdClass();
     $role->name = $name;
+    $role->machine_name = "bwi_external_admin";
     $role->description = "Allow external partner to login and" .
       " edit their assigned state/tribe BWI configurations.";
     user_role_save($role);

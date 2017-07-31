@@ -36,32 +36,51 @@ function be_well_informed_menu() {
     'description' => 'Enter your state/tribe\'s Be Well Informed XML.',
     'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
     'page arguments' => array('be_well_informed_form'), //put the name of the form here
-    'access callback' => TRUE
+    'access callback' => 'be_well_informed_is_admin'
   );
   return $items;
 }
 
 function be_well_informed_form($form, &$form_state) {
 
-  $form['file'] = array(
+  $form['account'] = array(
     '#type' => 'file',
-    '#title' => t('XML Configurations'),
-    '#description' => t('Upload a file, allowed extensions: xml'),
+    '#title' => t('Account XML Configurations'),
+    '#description' => t('Upload your configurations, allowed extensions: xml'),
+  );
+  $form['flowchart'] = array(
+    '#type' => 'file',
+    '#title' => t('Flowchart XML Configurations'),
+    '#description' => t('Upload your configurations, allowed extensions: xml'),
   );
 
   $form['submit_button'] = array(
     '#type' => 'submit',
-    '#value' => t('Click Here!'),
+    '#value' => t('Submit'),
   );
 
   return $form;
 
 }
 
+/**
+ * Checks if user is BWI admin allowed to see
+ * upload page
+ */
+function be_well_informed_is_admin() {
+  global $user;
+  if (in_array('Be Well Informed External Admin', $user->roles)) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 function be_well_informed_form_validate($form, &$form_state) {
   $file = file_save_upload('file');
   if ($file) {
-  // Here is where we validate
+    // Here is where we validate
   }
   else {
     form_set_error('file', t('No file was uploaded.'));
@@ -71,7 +90,10 @@ function be_well_informed_form_validate($form, &$form_state) {
 
 function be_well_informed_form_submit($form, &$form_state) {
   // Pass the file to the CDX hosted service.
+
 }
+
+
 /**
  * Implements hook_block_info().
  */
