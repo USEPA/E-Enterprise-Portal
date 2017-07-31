@@ -36,7 +36,7 @@ function be_well_informed_menu() {
     'description' => 'Enter your state/tribe\'s Be Well Informed XML.',
     'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
     'page arguments' => array('be_well_informed_form'), //put the name of the form here
-    'access callback' => 'be_well_informed_is_admin'
+    'access callback' => '_is_admin'
   );
   return $items;
 }
@@ -67,7 +67,7 @@ function be_well_informed_form($form, &$form_state) {
  * Checks if user is BWI admin allowed to see
  * upload page
  */
-function be_well_informed_is_admin() {
+function _is_admin() {
   global $user;
   if (in_array('Be Well Informed External Admin', $user->roles)) {
     return true;
@@ -75,6 +75,15 @@ function be_well_informed_is_admin() {
   else {
     return false;
   }
+}
+
+function be_well_informed_user_role_update($role) {
+//  if ($role->machine_name == 'bwi_external_admin') {
+//    // Clear Cache so BWI user sees updated settings
+//    cache_clear_all("be_well_informed:be_well_informed:$theme:u.$uid");
+//
+//    cache_clear_all();
+//  }
 }
 
 function be_well_informed_form_validate($form, &$form_state) {
@@ -101,6 +110,7 @@ function be_well_informed_block_info() {
   $blocks = array();
   $blocks['be_well_informed'] = array(
     'info' => t('Be Well Informed Block'),
+    'cache' => DRUPAL_NO_CACHE
   );
   return $blocks;
 }
@@ -238,6 +248,7 @@ function be_well_informed_theme() {
  * Implements hook_block_view().
  */
 function be_well_informed_block_view($delta = '') {
+  $bwi_admin = _is_admin();
   $block = array();
   if ($delta == 'be_well_informed') {
     //good idea to check user perms here
@@ -305,8 +316,7 @@ function be_well_informed_block_view($delta = '') {
       drupal_add_js(array("be_well_informed" => ["debug_mode" => variable_get('bwi_js_debug_mode'), 'templates' => ['contaminant_form' => $modal_form_html, 'state_selection' => $modal_state_selection, 'widget_state_content' => $widget_state_content]]), 'setting');
 
       $block['subject'] = t('Be Well Informed');
-      $block['content'] = theme('be_well_informed');
-      return $block;
+      $block['content'] = theme('be_well_informed', ['bwi_admin' => $bwi_admin]);
     }
   }
   return $block;
