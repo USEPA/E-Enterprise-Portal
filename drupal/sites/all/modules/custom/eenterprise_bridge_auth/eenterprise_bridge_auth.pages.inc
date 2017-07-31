@@ -114,9 +114,6 @@ function _parsePostForUserDetails($post) {
  */
 function eenterprise_bridge_auth_authenticate($error) {
   global $user;
-  require_once DRUPAL_ROOT . '/includes/install.inc';
-  $a = 'a';
-  $a = drupal_get_installed_schema_version('be_well_informed');
 
   // Check that user is not logged in (user uid == 0 if not authenticated)
   if ($user->uid != 0) {
