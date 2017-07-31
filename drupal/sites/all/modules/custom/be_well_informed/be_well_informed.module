@@ -77,14 +77,6 @@ function _is_admin() {
   }
 }
 
-function be_well_informed_user_role_update($role) {
-//  if ($role->machine_name == 'bwi_external_admin') {
-//    // Clear Cache so BWI user sees updated settings
-//    cache_clear_all("be_well_informed:be_well_informed:$theme:u.$uid");
-//
-//    cache_clear_all();
-//  }
-}
 
 function be_well_informed_form_validate($form, &$form_state) {
   $file = file_save_upload('file');
