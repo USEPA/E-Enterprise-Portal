@@ -28,7 +28,7 @@ function be_well_informed_admin($form, $form_state) {
     '#required' => FALSE,
   );
 
-  $form['#validate'][] = 'be_well_informed_form_validate';
+  $form['#validate'][] = 'be_well_informed_admin_form_validate';
   $form['#submit'][] = 'be_well_informed_admin_form_submit';
   return system_settings_form($form);
 }
@@ -44,6 +44,6 @@ function be_well_informed_admin_form_submit($form, &$form_state){
 /**
  * Implements hook_validate().
  */
-function be_well_informed_form_validate($form, &$form_state) {
+function be_well_informed_admin_form_validate($form, &$form_state) {
 
 }

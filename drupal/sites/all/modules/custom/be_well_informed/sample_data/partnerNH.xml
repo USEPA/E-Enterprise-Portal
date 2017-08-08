@@ -64,4 +64,48 @@
                 </li></ul>]]>
         </Section>
     </SupportInformation>
+    <Results>
+        <Heading>
+            <![CDATA[The State of New Hampshire<br>
+     DEPARTMENT OF ENVIRONMENTAL SERVICES<br>
+     Results from the NHDES Be Well Informed Guide]]>
+        </Heading>
+        <Introduction>
+            <![CDATA[<p>
+         Based on what you entered from your laboratory report, the Results Summary below indicates whether your water meets federal and
+         state health-based standards (Maximum Contaminant Levels - MCLs) as well as other guidelines (Secondary Maximum Contaminant
+         Levels - SMCLs, health advisory levels, etc.). These standards and guidelines are often referred to as "limits" on your laboratory
+         report. If your water exceeds or is approaching established federal/state drinking water limits or advisory levels for the contaminant(s)
+         entered, additional health information and treatment options will be shown. <b>Several contaminants, such as radon and sodium, <span class="em-und">do
+         not have state or federal standards</span></b>. Instead, when radon is present in drinking water at 2,000 pCi/L or greater, NHDES
+         recommends homeowners <span class="em-und">consult NHDES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016)</span>. For sodium, the Be Well Informed tool
+         provides health and treatment information when sodium is present at levels above 20 mg/L, U.S. EPA's federal "health advisory" for
+         persons on a physician-prescribed "no salt diet."
+       </p>]]>
+        </Introduction>
+        <AboutTheResults>
+            <![CDATA[<p>
+         Based on what you entered from your laboratory report, the Results Summary below indicates whether your water meets federal and
+         state health-based standards (Maximum Contaminant Levels - MCLs) as well as other guidelines (Secondary Maximum Contaminant
+         Levels - SMCLs, health advisory levels, etc.). These standards and guidelines are often referred to as "limits" on your laboratory
+         report. If your water exceeds or is approaching established federal/state drinking water limits or advisory levels for the contaminant(s)
+         entered, additional health information and treatment options will be shown. <b>Several contaminants, such as radon and sodium, <span class="em-und">do
+         not have state or federal standards</span></b>. Instead, when radon is present in drinking water at 2,000 pCi/L or greater, NHDES
+         recommends homeowners <span class="em-und">consult NHDES Fact Sheet WD-DWGB-3-12 (Revised 3/14/2016)</span>. For sodium, the Be Well Informed tool
+         provides health and treatment information when sodium is present at levels above 20 mg/L, U.S. EPA's federal "health advisory" for
+         persons on a physician-prescribed "no salt diet."
+       </p>]]>
+        </AboutTheResults>
+        <Key>
+            <MeetsLimit><![CDATA[Meets the Drinking Water Limit]]></MeetsLimit>
+            <CloseToLimit><![CDATA[Close to the Drinking Water Limit]]></CloseToLimit>
+            <AboveLimit><![CDATA[Above the Drinking Water Limit]]></AboveLimit>
+            <Consult>
+                <![CDATA[Consult NHDES <a
+               href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf" target="_blank">
+             Fact Sheet WD-DWGB-3-12
+           </a>]]>
+            </Consult>
+        </Key>
+    </Results>
 </Partner>
