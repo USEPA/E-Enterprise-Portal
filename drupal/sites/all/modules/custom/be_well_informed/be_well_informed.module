@@ -179,6 +179,7 @@ function generate_state_form() {
 function be_well_informed_user_logout($account) {
   global $user;
   variable_del($user->name . '_be_well_pdf_resp_' . $user->ssid);
+  variable_del($user->name . '_be_well_state_info_' . $user->ssid);
 }
 
 /**
@@ -335,7 +336,7 @@ function be_well_informed_form_submission() {
     $datatable_formatted_response['error'] = FALSE;
   }
   else {
-    $endpoint = "http://nodewebdev.epacdxnode.net/DWIService/dwievaluation";
+    $endpoint = "https://nodewebdev.epacdxnode.net/DWIService/dwievaluation";
     $headers = array('Content-Type' => 'application/json');
     $response = drupal_http_request($endpoint, [
       "headers" => $headers,
@@ -361,10 +362,18 @@ function be_well_informed_form_submission() {
        *
        */
 
+      $state_info = be_well_informed_get_state_information($_POST['state_code']);
       $formatted_data = be_well_informed_datatable_response($response->data);
+
+      /*Use username and session ID to save be well response data for pdf generation. This data will be removed on user
+      logout, implemented in hook_user_logout in be_well_informed.module */
+      global $user;
+      variable_set($user->name . '_be_well_pdf_resp_' . $user->ssid, json_decode(json_encode($formatted_data), true));
+      variable_set($user->name . '_be_well_state_info_' . $user->ssid, json_decode(json_encode($state_info), true));
+
       if (count($formatted_data['InteractivePrompts']) == 0) {
 
-        $rendered_html = theme('be_well_informed_modal_results', ['state_info' => be_well_informed_get_state_information($_POST['state_code']), 'state_code' => $_POST['state_code']]);
+        $rendered_html = theme('be_well_informed_modal_results', ['state_info' => $state_info, 'state_code' => $_POST['state_code']]);
         drupal_add_http_header('Content-Type', 'text/html; charset=utf-8');
         print($rendered_html);
         exit;
@@ -445,11 +454,7 @@ function be_well_informed_datatable_response($be_well_response_json) {
   $be_well_response = (Array)$be_well_response;
   $be_well_response['result_summary'] = $datatable_result_summary_json;
   $be_well_response['result_details'] = $datatable_result_details_json;
-
-  /*Use username and session ID to save be well response data for pdf generation. This data will be removed on user
-  logout, implemented in hook_user_logout in be_well_informed.module */
-  global $user;
-  variable_set($user->name . '_be_well_pdf_resp_' . $user->ssid, json_decode(json_encode($be_well_response), true));
+  $be_well_response['state_info'] = $datatable_result_details_json;
 
   return $be_well_response;
 }
@@ -1080,6 +1085,7 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
 
   global $user;
   $variables['response_json_data_pdf'] = variable_get($user->name . '_be_well_pdf_resp_' . $user->ssid);
+  $variables['state_info'] = variable_get($user->name . '_be_well_state_info_' . $user->ssid);
 
   /*Setup a pre-process variable for list of contaminants shown in pdf page under "Water Treatment Systems That Remove $contaminants_title"  */
   if (!empty($variables['response_json_data_pdf']['TreatmentSteps'])) {
