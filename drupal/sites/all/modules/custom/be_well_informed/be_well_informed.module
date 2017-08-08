@@ -460,8 +460,6 @@ function be_well_informed_datatable_response($be_well_response_json) {
 }
 
 function sample_be_well_informed_response() {
-
-
   $response = [
     'ResultEvaluations' =>
       [
@@ -1083,9 +1081,11 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
     $variables['water_components'][$key]['symbol_text'] = ($var['symbol_text']) ? $var['symbol_text'] : $var['symbol'];
   }
 
-  global $user;
-  $variables['response_json_data_pdf'] = variable_get($user->name . '_be_well_pdf_resp_' . $user->ssid);
-  $variables['state_info'] = variable_get($user->name . '_be_well_state_info_' . $user->ssid);
+  if(in_array($hook, ['be_well_informed_modal_results', 'be_well_informed_pdf'])) {
+    global $user;
+    $variables['response_json_data_pdf'] = variable_get($user->name . '_be_well_pdf_resp_' . $user->ssid);
+    $variables['state_info'] = variable_get($user->name . '_be_well_state_info_' . $user->ssid);
+  }
 
   /*Setup a pre-process variable for list of contaminants shown in pdf page under "Water Treatment Systems That Remove $contaminants_title"  */
   if (!empty($variables['response_json_data_pdf']['TreatmentSteps'])) {
