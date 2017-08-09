@@ -1,95 +1,72 @@
 <div id="be-well-informed-accordion" class="ui-accordion">
+    <span class="be-well-pdf-title">
+      <?php echo $state_info['Results']['Heading']; ?><br>
+        Created <?php print date("M j, Y"); ?>
+    </span>
+    <?php echo $state_info['Results']['Introduction']; ?>
+    <div class="print-icon"><a                href="/be_well_informed/water_analysis_results_pdf"
+                                              target="_blank"><img
+                    src="/sites/all/modules/custom/be_well_informed/images/pdf_icon.png"></a>
+    </div>
     <h1 class="head" role="tab" tabindex="0">
         <span class="bwi-result-title">About the Results</span>
     </h1>
-    <div class="print-icon"><a href="/be_well_informed/water_analysis_results_pdf" target="_blank"><img src="/sites/all/modules/custom/be_well_informed/images/pdf_icon.png"></a></div>
-    <div>
-        <p>
-            The Results below compare your water to federal and state health-based
-            standards (Maximum Contaminant Levels -
-            MCLs)
-            and other guidelines (Secondary Maximum Contaminant Levels - SMCLs,
-            health advisory levels, etc.). These
-            standards
-            and guidelines are often referred to as "limits" on your laboratory
-            report. If your water exceeds or is
-            approaching
-            established federal/state drinking water limits or advisory levels for
-            the contaminant(s) entered, additional
-            health
-            information and treatment options will be shown.
-        </p>
-        <p>
-            Several contaminants, such as radon and sodium, do not have state
-            or federal standards. Instead, when radon is present in drinking water
-            at 2,000 pCi/L or greater, we recommend
-            you
-            check the
-            <a
-                    href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf" target="_blank">
-                Drinking Water Fact Sheet
-            </a>.
-            For sodium, health and treatment information is shown when sodium is
-            present at
-            levels above 20 mg/L, U.S. EPA's federal "health advisory" for persons
-            on a physician-prescribed “no salt
-            diet.”
-        </p>
-    </div>
+    <?php echo $state_info['Results']['AboutTheResults']; ?>
+
     <h1 class="head" role="tab" tabindex="0">
         <span class="bwi-result-title">Results Summary</span>
     </h1>
     <div>
         <h3 class="bwi-key">Key</h3>
         <div class="bwi-legend clearfix">
-            <div class="bwi-meets-limit one-half">Meets the Drinking Water
-                Limit
+            <div class="bwi-meets-limit one-half"><?php echo $state_info['Results']['Key']['MeetsLimit']; ?>
             </div>
-            <div class="bwi-close-to-limit one-half">Close to the Drinking Water
-                Limit
+            <div class="bwi-close-to-limit one-half"><?php echo $state_info['Results']['Key']['CloseToLimit']; ?>
             </div>
-            <div class="bwi-above-limit one-half">Above the Drinking Water
-                Limit
+            <div class="bwi-above-limit one-half"><?php echo $state_info['Results']['Key']['AboveLimit']; ?>
             </div>
-            <div class="bwi-consult one-half">Consult NHDES <a
-                        href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"
-                        target="_blank">
-                    Fact Sheet WD-DWGB-3-12</a>
-            </div>
+            <div class="bwi-consult one-half"><?php echo $state_info['Results']['Key']['Consult']; ?></div>
             <div class="bwi-no-entry one-half">No Input Entered</div>
         </div>
     </div>
-    <table id="be-well-informed-results-table" cellspacing=0 cellpadding=0 class="eportal-responsive-table usa-table-borderless no-footer">
-        <thead>
+    <div>
+        <table id="be-well-informed-results-table" cellspacing=0 cellpadding=0
+               class="eportal-responsive-table usa-table-borderless no-footer summary-table-pdf">
+            <thead>
             <tr role="row">
-                <th class="sorting_disabled small-screen-td-header" rowspan="1" colspan="1">Result</th>
+                <th class="sorting_disabled small-screen-td-header" rowspan="1"
+                    colspan="1">Result
+                </th>
                 <th class="sorting_disabled" rowspan="1" colspan="1">Element</th>
                 <th class="sorting_disabled" rowspan="1" colspan="1">Your Entry</th>
                 <th class="sorting_disabled" rowspan="1" colspan="1">Limit</th>
-                <th class="sorting_disabled" rowspan="1" colspan="1">About Your Well Water</th>
+                <th class="sorting_disabled" rowspan="1" colspan="1">About Your Well
+                    Water
+                </th>
             </tr>
-        </thead>
+            </thead>
 
-        <tbody>
-        <?php foreach ($response_json_data_pdf['result_summary'] as $res_summary): ?>
-          <?php if ($res_summary[2] !== "<span class='bwi-hide-row'>None</span>"): ?>
-                <tr>
-                    <td class='icon-column'><?php print str_replace('sites', $doc_root . '/sites', $res_summary[0]); ?></td>
-                    <td class='element-col'><?php print $res_summary[1]; ?></td>
-                    <td><?php print $res_summary[2]; ?></td>
-                    <td class='limit-col'><?php print $res_summary[3]; ?></td>
-                    <td><?php print $res_summary[4]; ?></td>
-                </tr>
-          <?php endif; ?>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+            <tbody>
+            <?php foreach ($response_json_data_pdf['result_summary'] as $res_summary): ?>
+              <?php if ($res_summary[2] !== "<span class='bwi-hide-row'>None</span>"): ?>
+                    <tr>
+                        <td class='icon-column'><?php print str_replace('sites', $doc_root . '/sites', $res_summary[0]); ?></td>
+                        <td class='element-col'><?php print $res_summary[1]; ?></td>
+                        <td><?php print $res_summary[2]; ?></td>
+                        <td class='limit-col'><?php print $res_summary[3]; ?></td>
+                        <td><?php print $res_summary[4]; ?></td>
+                    </tr>
+              <?php endif; ?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
   <?php if (count($response_json_data_pdf['TreatmentSteps'])): ?>
     <br><br>
     <h1 class="head treatment-header" role="tab"
         tabindex="0">
-        <span class="bwi-result-title">Water Treatment Systems That Remove  <?php print $contaminants_title ?></span>
+        <span class="bwi-result-title">Water Treatment Systems That Remove <?php print $contaminants_title ?></span>
     </h1>
     <div class="datatable usa-width-one-whole treatment-content">
         <div class='water-treatment-head'>The following water treatment is based
@@ -197,64 +174,67 @@
             class="datatable usa-width-one-whole be-well-informed-result-details">
         <h3 class="bwi-key">Key</h3>
         <div class="bwi-legend clearfix">
-            <div class="bwi-meets-limit one-half">Meets the Drinking Water
-                Limit
+            <div class="bwi-meets-limit one-half"><?php echo $state_info['Results']['Key']['MeetsLimit']; ?>
             </div>
-            <div class="bwi-close-to-limit one-half">Close to the Drinking Water
-                Limit
+            <div class="bwi-close-to-limit one-half"><?php echo $state_info['Results']['Key']['CloseToLimit']; ?>
             </div>
-            <div class="bwi-above-limit one-half">Above the Drinking Water
-                Limit
+            <div class="bwi-above-limit one-half"><?php echo $state_info['Results']['Key']['AboveLimit']; ?>
             </div>
-            <div class="bwi-consult one-half">Consult NHDES <a
-                        href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-12.pdf"
-                        target="_blank">
-                    Fact Sheet WD-DWGB-3-12
-                </a></div>
+            <div class="bwi-consult one-half"><?php echo $state_info['Results']['Key']['Consult']; ?></div>
             <div class="bwi-no-entry one-half">No Input Entered</div>
         </div>
-        <table cellspacing=0 cellpadding=0 class="eportal-responsive-table usa-table-borderless no-footer">
-            <thead>
-            <tr role="row">
-                <th class="sorting_disabled small-screen-td-header" rowspan="1" colspan="1">Result</th>
-                <th class="sorting_disabled" rowspan="1" colspan="1">Element</th>
-                <th class="sorting_disabled" rowspan="1" colspan="1">Your Entry</th>
-                <th class="sorting_disabled" rowspan="1" colspan="1">Limit</th>
-                <th class="sorting_disabled" rowspan="1" colspan="1">About Your Well Water</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            $i = 0;
-            $titles = [
-              'Interpretation of Results:',
-              'Health Concerns:',
-              'Treatment Options:',
-            ];
-            $detail_objs = $response_json_data_pdf['result_details'];
-            foreach ($response_json_data_pdf['result_summary'] as $res_summary): ?>
-                <tr>
-                    <td class='icon-column'><?php print str_replace('sites', $doc_root . '/sites', $res_summary[0]); ?></td>
-                    <td class='element-col'><?php print $res_summary[1]; ?></td>
-                    <td><?php print $res_summary[2]; ?></td>
-                    <td class='limit-col'><?php print $res_summary[3]; ?></td>
-                    <td><?php print $res_summary[4]; ?></td>
+        <div>
+            <table cellspacing=0 cellpadding=0
+                   class="eportal-responsive-table usa-table-borderless no-footer summary-table-pdf">
+                <thead>
+                <tr role="row">
+                    <th class="sorting_disabled small-screen-td-header" rowspan="1"
+                        colspan="1">Result
+                    </th>
+                    <th class="sorting_disabled" rowspan="1" colspan="1">Element
+                    </th>
+                    <th class="sorting_disabled" rowspan="1" colspan="1">Your
+                        Entry
+                    </th>
+                    <th class="sorting_disabled" rowspan="1" colspan="1">Limit</th>
+                    <th class="sorting_disabled" rowspan="1" colspan="1">About Your
+                        Well Water
+                    </th>
                 </tr>
-              <?php
-              $result = $detail_objs[$i]['result'];
-              if (count($detail_objs[$i]['data_array']) > 0) {
-                for ($j = 0; $j < count($detail_objs[$i]['data_array']); $j++) {
-                  $res_det_title = "";
-                  if (!empty($detail_objs[$i]['data_array'][$j])) {
-                    $res_det_title = $titles[$j];
-                    print "<tr><td class='bwi-detail-td " . $result . "' colspan='5'><h4>" . $res_det_title . "</h4>" . $detail_objs[$i]['data_array'][$j] . "</td></tr>";
+                </thead>
+                <tbody>
+                <?php
+                $i = 0;
+                $titles = [
+                  'Interpretation of Results:',
+                  'Health Concerns:',
+                  'Treatment Options:',
+                ];
+                $detail_objs = $response_json_data_pdf['result_details'];
+                foreach ($response_json_data_pdf['result_summary'] as $res_summary): ?>
+                    <tr>
+                        <td class='icon-column'><?php print str_replace('sites', $doc_root . '/sites', $res_summary[0]); ?></td>
+                        <td class='element-col'><?php print $res_summary[1]; ?></td>
+                        <td><?php print $res_summary[2]; ?></td>
+                        <td class='limit-col'><?php print $res_summary[3]; ?></td>
+                        <td><?php print $res_summary[4]; ?></td>
+                    </tr>
+                  <?php
+                  $result = $detail_objs[$i]['result'];
+                  if (count($detail_objs[$i]['data_array']) > 0) {
+                    for ($j = 0; $j < count($detail_objs[$i]['data_array']); $j++) {
+                      $res_det_title = "";
+                      if (!empty($detail_objs[$i]['data_array'][$j])) {
+                        $res_det_title = $titles[$j];
+                        print "<tr><td class='bwi-detail-td " . $result . "' colspan='5'><h4>" . $res_det_title . "</h4>" . $detail_objs[$i]['data_array'][$j] . "</td></tr>";
+                      }
+                    }
                   }
-                }
-              }
-              $i++;
-            endforeach; ?>
-            </tbody>
+                  $i++;
+                endforeach; ?>
+                </tbody>
 
-        </table>
+            </table>
+        </div>
     </div>
 </div>

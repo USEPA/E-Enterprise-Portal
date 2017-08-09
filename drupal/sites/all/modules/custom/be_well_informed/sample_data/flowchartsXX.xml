@@ -1,4 +1,73 @@
 <FlowCharts>
+<Conversions>
+  <!-- These conversions are multiplicative in nature.  The base unit is
+  selected and the unit that is being converted 'TO' is multiplied by the given
+  value (attribute) to find the new value. -->
+  <Conversion name="g/L">
+    <To name="mg/L" value="1000" />
+    <To name="µg/L" value="1000000" />
+    <To name="ppm" for="" value="1001.7961204" />
+    <To name="ppb" for="" value="1001796.1204" />
+  </Conversion>
+
+  <Conversion name="mg/L">
+    <To name="g/L" value="0.001" />
+    <To name="µg/L" value="1000" />
+    <To name="gpg" for="Ca" value="0.0584178313186289" />
+    <To name="ppm" for="" value="1.0017961204" />
+    <To name="ppb" for="" value="1001.7961204" />
+  </Conversion>
+
+  <Conversion name="µg/L">
+    <To name="g/L" value="0.000001" />
+    <To name="mg/L" value="0.001" />
+    <To name="pCi/L" for="Ur" value="0.0584795321637427" />
+    <To name="pCi/L" for="Ur" value="0.6666666666666667" />
+    <To name="ppm" for="" value=".0010017961204" />
+    <To name="ppb" for="" value="1.0017961204" />
+  </Conversion>
+
+  <Conversion name="ppm">
+    <To name="mg/L" for="Ur" value="0.998859" />
+    <To name="µg/L" for="Ur" value="998.859" />
+  </Conversion>
+
+  <Conversion name="ppb">
+    <To name="mg/L" for="Ur" value="0.000998859" />
+    <To name="µg/L" for="Ur" value="0.998859" />
+  </Conversion>
+
+  <Conversion name="gpg">
+    <To name="mg/L" for="Ca" value="17.118061" />
+    <To name="µg/L" for="Ca" value="17118.061" />
+  </Conversion>
+
+  <Conversion name="pCi/L">
+    <To name="µg/L" for="Ur" value="1.5" />
+  </Conversion>
+
+  <Conversion name="MPN/100 mL">
+    <To name="CFU/100 mL" for="Ur" value="1" />
+  </Conversion>
+
+  <Conversion name="CFU/100 mL">
+    <To name="MPN/100 mL" for="Ur" value="1" />
+  </Conversion>
+
+</Conversions>
+  <!--
+    The following are the only permissible units of measure in the XML files:
+    1. mg/L
+    2. ug/L
+    3. ppm
+    4. ppb
+    5. units
+    6. pCi/L
+    7. ug/L
+    8. CFU/100 mL
+    9. MPN/100 mL
+    Validate that no others exist. If so, reject the XML file and inform the user.
+  -->
   <Contaminants>
 
     <Contaminant Value="As" Text="Arsenic" MCL="0.01 mg/L" NotEntered="Test your water.  Studies show that 1 in 5 private wells in New Hampshire have high arsenic.">

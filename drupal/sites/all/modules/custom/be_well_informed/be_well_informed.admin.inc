@@ -35,15 +35,5 @@ function be_well_informed_admin($form, $form_state) {
     '#required' => TRUE,
   );
 
-  $form['#validate'][] = 'be_well_informed_form_validate';
-  $form['#submit'][] = 'be_well_informed_admin_form_submit';
   return system_settings_form($form);
-}
-
-/**
- * @param $form
- * @param $form_state
- */
-function be_well_informed_admin_form_submit($form, &$form_state){
-
 }
