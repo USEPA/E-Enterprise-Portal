@@ -35,13 +35,13 @@ function be_well_informed_menu() {
     'title' => 'Configuration Upload', //page title
     'description' => 'Enter your state/tribe\'s Be Well Informed XML.',
     'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-    'page arguments' => array('be_well_informed_form'), //put the name of the form here
+    'page arguments' => array('be_well_informed_configurations_form'), //put the name of the form here
     'access callback' => '_is_admin'
   );
   return $items;
 }
 
-function be_well_informed_form($form, &$form_state) {
+function be_well_informed_configurations_form($form, &$form_state) {
 
   $form['account'] = array(
     '#type' => 'file',
@@ -58,9 +58,7 @@ function be_well_informed_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Submit'),
   );
-
   return $form;
-
 }
 
 /**
@@ -78,7 +76,7 @@ function _is_admin() {
 }
 
 
-function be_well_informed_form_validate($form, &$form_state) {
+function be_well_informed_configurations_form_validate($form, &$form_state) {
   // file_save_upload temporarily stores the file for evaluation
   $account_file = file_save_upload('account');
   $flowchart_file = file_save_upload('flowchart');
@@ -90,7 +88,7 @@ function be_well_informed_form_validate($form, &$form_state) {
   }
 }
 
-function be_well_informed_form_submit($form, &$form_state) {
+function be_well_informed_configurations_form_submit($form, &$form_state) {
   global $user;
   $user_data = user_load($user->uid);
   $user_location = '';
