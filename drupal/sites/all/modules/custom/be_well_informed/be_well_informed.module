@@ -123,17 +123,23 @@ function be_well_informed_form_submit($form, &$form_state) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' => '@' . $account_file->uri, 'test' => 'here'));
     curl_setopt($ch, CURLOPT_URL, $cdx_upload_url);
     curl_exec($ch);
+    $info = curl_getinfo($ch);
     curl_close($ch);
-    $error = curl_error($ch);
-    if ($error) {
-      drupal_set_message($error);
+    if ($info['http_code'] !== 200) {
+      $error = curl_error($ch);
+      if ($error) {
+        drupal_set_message($error, 'error');
+      } else {
+        drupal_set_message('Unable to upload file.', 'error');
+      }
     }
     else {
       if ($account_file) {
-        // Validate account settings
+        drupal_set_message('Successfully uploaded account configurations.', 'success');
       }
       if ($flowchart_file) {
         // Validate Flowchart settings
+        drupal_set_message('Successfully uploaded flowchart configurations.', 'success');
       }
     }
   }
