@@ -88,10 +88,6 @@ function be_well_informed_form_validate($form, &$form_state) {
   if ($flowchart_file) {
     // Validate Flowchart settings
   }
-//  if (!$flowchart_file && !$account_file) {
-//    // No uploads
-//    form_set_error('account', t('No file was uploaded.'));
-//  }
 }
 
 function be_well_informed_form_submit($form, &$form_state) {
@@ -106,10 +102,10 @@ function be_well_informed_form_submit($form, &$form_state) {
     configurations.', 'error');
   }
   else {
-// Pass the file to the CDX hosted service.
+    // Pass the file to the CDX hosted service.
     $cdx_upload_url = variable_get("bwi_file_upload_url", 'http://example.com');
     $params = ['location' => $user_location];
-// file_save_upload temporarily stores the file for evaluation
+    // file_save_upload temporarily stores the file for evaluation
     $account_file = file_save_upload('account');
     $flowchart_file = file_save_upload('flowchart');
     if ($account_file) {
