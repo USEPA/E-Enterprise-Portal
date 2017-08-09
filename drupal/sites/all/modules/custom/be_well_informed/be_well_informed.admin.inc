@@ -28,6 +28,13 @@ function be_well_informed_admin($form, $form_state) {
     '#required' => FALSE,
   );
 
+  $form['be_well_informed_toggles']['bwi_file_upload_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Specify URL to which XML files are being uploaded.'),
+    '#default_value' => variable_get('bwi_file_upload_url', "example.com"),
+    '#required' => TRUE,
+  );
+
   $form['#validate'][] = 'be_well_informed_form_validate';
   $form['#submit'][] = 'be_well_informed_admin_form_submit';
   return system_settings_form($form);
@@ -38,12 +45,5 @@ function be_well_informed_admin($form, $form_state) {
  * @param $form_state
  */
 function be_well_informed_admin_form_submit($form, &$form_state){
-
-}
-
-/**
- * Implements hook_validate().
- */
-function be_well_informed_form_validate($form, &$form_state) {
 
 }
