@@ -88,34 +88,53 @@ function be_well_informed_form_validate($form, &$form_state) {
   if ($flowchart_file) {
     // Validate Flowchart settings
   }
-  if (!$flowchart_file && !$account_file) {
-    // No uploads
-    form_set_error('account', t('No file was uploaded.'));
-  }
+//  if (!$flowchart_file && !$account_file) {
+//    // No uploads
+//    form_set_error('account', t('No file was uploaded.'));
+//  }
 }
 
 function be_well_informed_form_submit($form, &$form_state) {
-  // Pass the file to the CDX hosted service.
-  $cdx_upload_url = variable_get("bwi_file_upload_url", 'http://example.com');
-  // file_save_upload temporarily stores the file for evaluation
-  $account_file = file_save_upload('account');
-  $flowchart_file = file_save_upload('flowchart');
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_POST, true);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' => $account_file->uri, 'test' => 'here'));
-  curl_setopt($ch, CURLOPT_URL, $cdx_upload_url);
-  curl_exec($ch);
-  curl_close($ch);
-  $error = curl_error($ch);
-  if ($error) {
-    drupal_set_message($error);
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_location = '';
+  if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
+    $user_location = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
+  }
+  if (empty(trim($user_location))) {
+    drupal_set_message('Your account has not been assigned a location for administering Be Well Informed 
+    configurations.', 'error');
   }
   else {
+// Pass the file to the CDX hosted service.
+    $cdx_upload_url = variable_get("bwi_file_upload_url", 'http://example.com');
+    $params = ['location' => $user_location];
+// file_save_upload temporarily stores the file for evaluation
+    $account_file = file_save_upload('account');
+    $flowchart_file = file_save_upload('flowchart');
     if ($account_file) {
-      // Validate account settings
+      $params['account_file'] = '@' . $account_file->uri;
     }
     if ($flowchart_file) {
-      // Validate Flowchart settings
+      $params['flowchart_file'] = '@' . $flowchart_file->uri;
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' => '@' . $account_file->uri, 'test' => 'here'));
+    curl_setopt($ch, CURLOPT_URL, $cdx_upload_url);
+    curl_exec($ch);
+    curl_close($ch);
+    $error = curl_error($ch);
+    if ($error) {
+      drupal_set_message($error);
+    }
+    else {
+      if ($account_file) {
+        // Validate account settings
+      }
+      if ($flowchart_file) {
+        // Validate Flowchart settings
+      }
     }
   }
 }
