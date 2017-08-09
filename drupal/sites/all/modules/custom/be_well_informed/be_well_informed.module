@@ -35,13 +35,13 @@ function be_well_informed_menu() {
     'title' => 'Configuration Upload', //page title
     'description' => 'Enter your state/tribe\'s Be Well Informed XML.',
     'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
-    'page arguments' => array('be_well_informed_form'), //put the name of the form here
+    'page arguments' => array('be_well_informed_configurations_form'), //put the name of the form here
     'access callback' => '_is_admin'
   );
   return $items;
 }
 
-function be_well_informed_form($form, &$form_state) {
+function be_well_informed_configurations_form($form, &$form_state) {
 
   $form['account'] = array(
     '#type' => 'file',
@@ -58,9 +58,7 @@ function be_well_informed_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Submit'),
   );
-
   return $form;
-
 }
 
 /**
@@ -78,20 +76,67 @@ function _is_admin() {
 }
 
 
-function be_well_informed_form_validate($form, &$form_state) {
-  $file = file_save_upload('file');
-  if ($file) {
-    // Here is where we validate
+function be_well_informed_configurations_form_validate($form, &$form_state) {
+  // file_save_upload temporarily stores the file for evaluation
+  $account_file = file_save_upload('account');
+  $flowchart_file = file_save_upload('flowchart');
+  if ($account_file) {
+    // Validate account settings
   }
-  else {
-    form_set_error('file', t('No file was uploaded.'));
+  if ($flowchart_file) {
+    // Validate Flowchart settings
   }
-
 }
 
-function be_well_informed_form_submit($form, &$form_state) {
-  // Pass the file to the CDX hosted service.
-
+function be_well_informed_configurations_form_submit($form, &$form_state) {
+  global $user;
+  $user_data = user_load($user->uid);
+  $user_location = '';
+  if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
+    $user_location = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
+  }
+  if (empty(trim($user_location))) {
+    drupal_set_message('Your account has not been assigned a location for administering Be Well Informed 
+    configurations.', 'error');
+  }
+  else {
+    // Pass the file to the CDX hosted service.
+    $cdx_upload_url = variable_get("bwi_file_upload_url", 'http://example.com');
+    $params = ['location' => $user_location];
+    // file_save_upload temporarily stores the file for evaluation
+    $account_file = file_save_upload('account');
+    $flowchart_file = file_save_upload('flowchart');
+    if ($account_file) {
+      $params['account_file'] = '@' . $account_file->uri;
+    }
+    if ($flowchart_file) {
+      $params['flowchart_file'] = '@' . $flowchart_file->uri;
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' => '@' . $account_file->uri, 'test' => 'here'));
+    curl_setopt($ch, CURLOPT_URL, $cdx_upload_url);
+    curl_exec($ch);
+    $info = curl_getinfo($ch);
+    curl_close($ch);
+    if ($info['http_code'] !== 200) {
+      $error = curl_error($ch);
+      if ($error) {
+        drupal_set_message($error, 'error');
+      } else {
+        drupal_set_message('Unable to upload file.', 'error');
+      }
+    }
+    else {
+      if ($account_file) {
+        drupal_set_message('Successfully uploaded account configurations.', 'success');
+      }
+      if ($flowchart_file) {
+        // Validate Flowchart settings
+        drupal_set_message('Successfully uploaded flowchart configurations.', 'success');
+      }
+    }
+  }
 }
 
 
