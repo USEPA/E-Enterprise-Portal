@@ -101,31 +101,34 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
   }
   else {
     // Pass the file to the CDX hosted service.
-    $cdx_upload_url = variable_get("bwi_file_upload_url", 'http://example.com');
-    $params = ['location' => $user_location];
+    $cdx_upload_url = variable_get("bwi_file_upload_url", 'https://nodewebdev.epacdxnode.net/DWIService/dwievaluation');
+    $params = ['statecode' => $user_location];
     // file_save_upload temporarily stores the file for evaluation
     $account_file = file_save_upload('account');
     $flowchart_file = file_save_upload('flowchart');
+
     if ($account_file) {
-      $params['account_file'] = '@' . $account_file->uri;
+      $account_file_content = file_get_contents($account_file->uri);
+      $account_file_encoded = base64_encode($account_file_content);
+      $params['account_file_content'] = $account_file_encoded;
     }
+
     if ($flowchart_file) {
-      $params['flowchart_file'] = '@' . $flowchart_file->uri;
+      $flowchart_file_content = file_get_contents($flowchart_file->uri);
+      $flowchart_file_encoded = base64_encode($flowchart_file_content);
+      $params['flowchart_file_content'] = $flowchart_file_encoded;
     }
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' => '@' . $account_file->uri, 'test' => 'here'));
-    curl_setopt($ch, CURLOPT_URL, $cdx_upload_url);
-    curl_exec($ch);
-    $info = curl_getinfo($ch);
-    curl_close($ch);
-    if ($info['http_code'] !== 200) {
-      $error = curl_error($ch);
-      if ($error) {
-        drupal_set_message($error, 'error');
-      } else {
-        drupal_set_message('Unable to upload file.', 'error');
-      }
+
+    $response = drupal_http_request($cdx_upload_url,
+      [
+        'method' => 'POST',
+        'data' => json_encode($params),
+        'headers' => ['Content-Type' => 'application/json', 'Accept' => 'application/json']
+      ]
+    );
+
+    if ($response->code != 200) {
+      drupal_set_message('Unable to upload file.', 'error');
     }
     else {
       if ($account_file) {
@@ -1126,7 +1129,7 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
     $variables['water_components'][$key]['symbol_text'] = ($var['symbol_text']) ? $var['symbol_text'] : $var['symbol'];
   }
 
-  if(in_array($hook, ['be_well_informed_modal_results', 'be_well_informed_pdf'])) {
+  if (in_array($hook, ['be_well_informed_modal_results', 'be_well_informed_pdf'])) {
     global $user;
     $variables['response_json_data_pdf'] = variable_get($user->name . '_be_well_pdf_resp_' . $user->ssid);
     $variables['state_info'] = variable_get($user->name . '_be_well_state_info_' . $user->ssid);
