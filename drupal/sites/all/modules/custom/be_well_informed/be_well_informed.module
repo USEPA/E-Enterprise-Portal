@@ -410,7 +410,7 @@ function be_well_informed_form_submission() {
        *
        */
 
-      $state_info = be_well_informed_get_state_information($_POST['state_code']);
+      $state_info = be_well_informed_get_state_information($_POST['StateCode']);
       $formatted_data = be_well_informed_datatable_response($response->data);
 
       /*Use username and session ID to save be well response data for pdf generation. This data will be removed on user
@@ -419,8 +419,7 @@ function be_well_informed_form_submission() {
       variable_set($user->name . '_be_well_pdf_resp_' . $user->ssid, json_decode(json_encode($formatted_data), true));
       variable_set($user->name . '_be_well_state_info_' . $user->ssid, json_decode(json_encode($state_info), true));
 
-      if (count($formatted_data['InteractivePrompts']) == 0) {
-
+      if (count($formatted_data['InteractivePrompts']) == 0 && count($formatted_data['AdditionalContaminantRequests']) == 0) {
         $rendered_html = theme('be_well_informed_modal_results', ['state_info' => $state_info, 'state_code' => $_POST['state_code']]);
         drupal_add_http_header('Content-Type', 'text/html; charset=utf-8');
         print($rendered_html);
