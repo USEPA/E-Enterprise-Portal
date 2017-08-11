@@ -78,8 +78,8 @@ function _is_admin() {
 
 function be_well_informed_configurations_form_validate($form, &$form_state) {
   // file_save_upload temporarily stores the file for evaluation
-  $account_file = file_save_upload('account');
-  $flowchart_file = file_save_upload('flowchart');
+  $account_file = file_save_upload('account', ['file_validate_extensions' => ['xml']]);
+  $flowchart_file = file_save_upload('flowchart', ['file_validate_extensions' => ['xml']]);
   if ($account_file) {
     // Validate account settings
   }
