@@ -43,14 +43,14 @@ function be_well_informed_menu() {
 
 function be_well_informed_configurations_form($form, &$form_state) {
 
-  $form['account'] = array(
+  $form['partner'] = array(
     '#type' => 'file',
-    '#title' => t('Account XML Configurations'),
+    '#title' => t('Partner Configurations'),
     '#description' => t('Upload your configurations, allowed extensions: xml'),
   );
   $form['flowchart'] = array(
     '#type' => 'file',
-    '#title' => t('Flowchart XML Configurations'),
+    '#title' => t('Flowchart Configurations'),
     '#description' => t('Upload your configurations, allowed extensions: xml'),
   );
 
@@ -77,10 +77,10 @@ function _is_admin() {
 
 
 function be_well_informed_configurations_form_validate($form, &$form_state) {
-  // file_save_upload temporarily stores the file for evaluation
-  $account_file = file_save_upload('account', ['file_validate_extensions' => ['xml']]);
+  // File_save_upload temporarily stores the file for evaluation
+  $partner_file = file_save_upload('partner', ['file_validate_extensions' => ['xml']]);
   $flowchart_file = file_save_upload('flowchart', ['file_validate_extensions' => ['xml']]);
-  if ($account_file) {
+  if ($partner_file) {
     // Validate account settings
   }
   if ($flowchart_file) {
@@ -104,19 +104,19 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
     $cdx_upload_url = variable_get("bwi_file_upload_url", 'https://nodewebdev.epacdxnode.net/DWIService/dwievaluation');
     $params = ['statecode' => $user_location];
     // file_save_upload temporarily stores the file for evaluation
-    $account_file = file_save_upload('account');
+    $partner_file = file_save_upload('partner');
     $flowchart_file = file_save_upload('flowchart');
 
-    if ($account_file) {
-      $account_file_content = file_get_contents($account_file->uri);
-      $account_file_encoded = base64_encode($account_file_content);
-      $params['account_file_content'] = $account_file_encoded;
+    if ($partner_file) {
+      $partner_file_content = file_get_contents($partner_file->uri);
+      $partner_file_encoded = base64_encode($partner_file_content);
+      $params['PartnerContent'] = $partner_file_encoded;
     }
 
     if ($flowchart_file) {
       $flowchart_file_content = file_get_contents($flowchart_file->uri);
       $flowchart_file_encoded = base64_encode($flowchart_file_content);
-      $params['flowchart_file_content'] = $flowchart_file_encoded;
+      $params['FlowchartContent'] = $flowchart_file_encoded;
     }
 
     $response = drupal_http_request($cdx_upload_url,
@@ -131,8 +131,8 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
       drupal_set_message('Unable to upload file.', 'error');
     }
     else {
-      if ($account_file) {
-        drupal_set_message('Successfully uploaded account configurations.', 'success');
+      if ($partner_file) {
+        drupal_set_message('Successfully uploaded partner configurations.', 'success');
       }
       if ($flowchart_file) {
         // Validate Flowchart settings
