@@ -375,7 +375,6 @@ function be_well_informed_form_submission() {
     return;
   }
 
-
   $datatable_formatted_response = array();
   module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
   if (feature_toggle_get_status('be_well_informed_sample_data')) {
@@ -397,6 +396,21 @@ function be_well_informed_form_submission() {
       $datatable_formatted_response['error'] = TRUE;
     }
     else {
+      $response->data = '{"ResultEvaluations": {"As": {"Symbol": "As", "ContaminantFullName": "Arsenic", "UserContaminatValue": "0.3 mg/L", "MaximumContaminantLevel": "0.010 mg/L", "GuidelineIcon": "Images/water/false4.png", "GuidelineColor": "font-red", "GuidelineText": "The value entered exceeds the drinking water standard", "InterpretationMessages": "\u0026lt;b\u0026gt;\r\n                Does my well water meet the \u0026lt;a target=\u0026quot;_blank\u0026quot; href=\u0026quot;http://water.epa.gov/drink/contaminants/basicinformation/arsenic.cfm\u0026quot;\u0026gt; drinking water standard for arsenic\u0026lt;/a\u0026gt;?\r\n              \u0026lt;/b\u0026gt;  No, your water does not meet federal and state drinking water standards as it contains more than 0.010 mg/L of arsenic.", "HealthMessages": "\u0026lt;b\u0026gt;Can consuming water containing arsenic affect my health?\u0026lt;/b\u0026gt;  Consuming water containing more than 0.010 mg/L of arsenic is associated with an increased risk of cancer of the skin, bladder, lungs, kidneys, nasal passages, liver, or prostate as well as diseases of the nerves, lungs, heart, and immune and endocrine (hormonal) systems.  Your individual health risk depends on the amount of arsenic in your water, how much of the water you drink each day, and the number of years you drink the water.  To reduce your exposure to arsenic in your well water, treat the water that you use for drinking and cooking to a level less than 0.010 mg/L.  You can continue to use your water for washing food and dishes, brushing your teeth, bathing, showering, and for other uses.", "TreatmentMessages": "\u0026lt;b\u0026gt;How can I reduce the level of arsenic in my water?\u0026lt;/b\u0026gt;  Install one of the following water treatment systems to reduce the level of arsenic in your water.  Your test results show that your water contains less than 0.1 mg/L of iron and manganese, so installing a treatment system for iron and manganese is not needed.\r\n              \u0026lt;br /\u0026gt;\u0026lt;ol\u0026gt;\u0026lt;li\u0026gt;\r\n                  An NSF/ANSI Standard 53 certified whole house anion exchange water treatment system, followed by an acid neutralizer to prevent corrosion of your home’s plumbing from the anion exchange system.  To ensure the best possible reduction of arsenic, request an “arsenic speciation test” from your laboratory.  If you have any arsenic III (arsenite), install an NSF/ANSI Standard 42 certified whole house oxidizing pretreatment filter system that uses manganese dioxide as the oxidizing agent to convert arsenic III to arsenic V (arsenate).\r\n                \u0026lt;/li\u0026gt;\u0026lt;br /\u0026gt;\u0026lt;b\u0026gt;OR\u0026lt;/b\u0026gt;\u0026lt;br /\u0026gt;\u0026lt;br /\u0026gt;\u0026lt;li\u0026gt;\r\n                  An NSF/ANSI Standard 53 certified point-of-use (POU) arsenic adsorption media filter system at your kitchen sink designed to treat only the water that you consume. A whole house adsorption system is not recommended, because of the increased frequency of maintenance due to your high arsenic level.\r\n                \u0026lt;/li\u0026gt;\u0026lt;/ol\u0026gt;\u0026lt;br /\u0026gt;\u0026lt;ul style=\u0026quot;list-style-type:none\u0026quot;\u0026gt;\u0026lt;li\u0026gt;\r\n                  More information about treatment for arsenic can be found in \u0026lt;a target=\u0026quot;_blank\u0026quot; href=\u0026quot;http://www.mass.gov/eea/agencies/massdep/water/drinking/lead-and-other-contaminants-in-drinking-water.html#1 \u0026quot;\u0026gt;MassDEP\u0026#39;s Arsenic Information web page\u0026lt;/a\u0026gt;.\r\n                \u0026lt;/li\u0026gt;\u0026lt;/ul\u0026gt;\u0026lt;br /\u0026gt;", "StateNode": ""}, "Cl": {"Symbol": "Cl", "ContaminantFullName": "Chloride", "UserContaminatValue": "", "MaximumContaminantLevel": "250 mg/L", "GuidelineIcon": "", "GuidelineColor": "", "GuidelineText": "", "InterpretationMessages": "", "HealthMessages": "", "TreatmentMessages": "", "StateNode": ""}, "Cu": {"Symbol": "Cu", "ContaminantFullName": "Copper", "UserContaminatValue": "", "MaximumContaminantLevel": "1.3 mg/L", "GuidelineIcon": "", "GuidelineColor": "", "GuidelineText": "", "InterpretationMessages": "", "HealthMessages": "", "TreatmentMessages": "", "StateNode": ""}, "CuSt": {"Symbol": "CuSt", "ContaminantFullName": "Copper Stagnant", "UserContaminatValue": "", "MaximumContaminantLevel": "1.3 mg/L", "GuidelineIcon": "", "GuidelineColor": "", "GuidelineText": "", "InterpretationMessages": "", "HealthMessages": "", "TreatmentMessages": "", "StateNode": ""}, "Fl": {"Symbol": "Fl", "ContaminantFullName": "Fluoride", "UserContaminatValue": "", "MaximumContaminantLevel": "4.0 mg/L", "GuidelineIcon": "", "GuidelineColor": "", "GuidelineText": "", "InterpretationMessages": "", "HealthMessages": "", "TreatmentMessages": "", "StateNode": ""}, "Har": {"Symbol": "Har", "ContaminantFullName": "Hardness", "UserContaminatValue": "", "MaximumContaminantLevel": "-", "GuidelineIcon": "", "GuidelineColor": "", "GuidelineText": "", "InterpretationMessages": "", "HealthMessages": "", "TreatmentMessages": "", "StateNode": ""}, "Fe": {"Symbol": "Fe", "ContaminantFullName": "Iron", "UserContaminatValue": "0.05 mg/L", "MaximumContaminantLevel": "0.3 mg/L", "GuidelineIcon": "Images/water/check4.png", "GuidelineColor": "font-green", "GuidelineText": "The value entered meets the drinking water guideline", "InterpretationMessages": "", "HealthMessages": "", "TreatmentMessages": "", "StateNode": ""}, "Pb": {"Symbol": "Pb", "ContaminantFullName": "Lead", "UserContaminatValue": "", "MaximumContaminantLevel": "0.015 mg/L", "GuidelineIcon": "", "GuidelineColor": "", "GuidelineText": "", "InterpretationMessages": "", "HealthMessages": "", "TreatmentMessages": "", "StateNode": ""},
+    "Dog": {
+      "Symbol": "Dog",
+      "ContaminantFullName": "Stinky Dog",
+      "UserContaminatValue": "2.0 mg/L",
+      "MaximumContaminantLevel": "1.0 mg/L",
+      "GuidelineIcon": "Images/water/false4.png",
+      "GuidelineColor": "font-red",
+      "GuidelineText": "The value entered exceeds the drinking water standard",
+      "InterpretationMessages": "You should never have stinky dog in your water",
+      "HealthMessages": "Can consuming water containing dog affect my health? I don\'t know, ask Koreans. It might be a choking hazard",
+      "TreatmentMessages": "Use Dog treats to lure live dogs out of water, otherwise yuck. <img src=\'https://fourleggedguru.com/wp-content/uploads/2015/12/Portuguese-Water-Dog-facts.jpg\'/>",
+      "StateNode": ""
+    }
+  }, "InteractivePrompts": [], "AdditionalContaminantRequests": [], "TreatmentSteps": {"2": {"Order": "2", "OrInstructions": [{"SystemType": "House", "Recommendation": "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"}]}, "5": {"Order": "5", "OrInstructions": [{"SystemType": "Water", "Recommendation": "Point-of-Use (POU) Arsenic Adsorption Media Filter System"}]}}}';
       /*
        * With the current strategy of having a unified results page for both the
        * pdf and the modal, the response has to diverge.
@@ -597,7 +611,9 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     'mpn_100_ml'
   ];
 
-  $variables['water_components'] = [
+  $variables['contaminants'] = [];
+
+  $variables['Routine Water Analysis'] = [
     [
       'name' => 'Arsenic',
       'machine_name' => 'As',
@@ -715,7 +731,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     ],
   ];
 
-  $variables['microbiology'] = [
+  $variables['contaminants']['Bacteria / Microbiology'] = [
     [
       'name' => 'Total Coliform',
       'machine_name' => 'Bac',
@@ -736,7 +752,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     ],
   ];
 
-  $variables['radionuclides'] = [
+  $variables['contaminants']['Radionuclides'] = [
     [
       'name' => 'Radon',
       'machine_name' => 'Rn',
@@ -763,7 +779,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     ],
   ];
 
-  $variables['treatments'] = [
+  $variables['contaminants']['treatments'] = [
     [
       'icon' => '',
       'boxes' => [
@@ -843,13 +859,10 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 
   $exposed_variables = [
     'treatments' => $variables['treatments'],
-    'radionuclides' => $variables['radionuclides'],
-    'microbiology' => $variables['microbiology'],
-    'water_components' => $variables['water_components'],
+    'contaminants' => $variables['contaminants'],
     'unit_types' => $variables['unit_types'],
   ];
 
-  $variables['cities'] = ["Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
   drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
 
 }
@@ -1201,7 +1214,6 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
     $variables['response_json_data_pdf']['TreatmentSteps'] = $treatment;
   }
 
-
   $variables['system-type'] = [];
   $variables['contaminants_title'] = $contaminants_title;
 
@@ -1287,3 +1299,68 @@ function bwi_domnode_to_array($node) {
   return $output;
 }
 
+function generate_contaminants_section($title, $section) {
+  $html = [];
+
+  $html = [
+    "<div class=\"usa-width-one-whole\">",
+    "<h3>$title</h3>",
+    "<div class=\"usa-width-one-half\">"
+    ];
+
+  $count = count($section);
+  for ($i=0; $i < $count; $i++) {
+    $machine_name = $section[$i]['machine_name'];
+    $name = $section[$i]['name'];
+    $symbol_text = ($section[$i]['symbol_text'])? ' <span class="symbol">(' . $section[$i]['symbol_text'] . ')</span>' : "";
+    $units = [];
+
+    foreach ($section[$i]['unit_types'] as $ut) {
+      $selected = ($section[$i]['default_unit_type'] == $ut)? "selected" : "";
+      $units[] = "<option value=\"$ut\" $selected >$ut</option>";
+    }
+
+    if($i >= $count/2) {
+      $html[] = "</div><div class=\"usa-width-one-half\">";
+    }
+
+    $html += [
+      "<div class=\"row section\">",
+      "<input type=\"hidden\" name=\"RoutineContaminants[$machine_name][Symbol]\" value=\"$machine_name\">",
+      "<input type=\"hidden\" name=\"RoutineContaminants[$machine_name][Name]\" value=\"$name\">",
+      "<label class=\"column one-third\" for=\"txt[$machine_name][Value]\">$name $symbol_text</label>",
+      "<input class=\"column one-third\" name=\"RoutineContaminants[$machine_name][Value]\" type=\"number\" step=\"0.001\" id=\"txt$machine_name\" >",
+      "<select class=\"column one-third\" name=\"RoutineContaminants[$machine_name][Unit]\" id=\"ddl$machine_name\">",
+      implode('', $units),
+      "</select>"
+    ];
+  }
+
+/*
+  <div class="row section">
+    <input type="hidden"
+           name="RoutineContaminants[<?php echo $wc['machine_name'] ?>][Symbol]"
+           value="<?php echo $wc['machine_name'] ?>">
+    <input type="hidden"
+           name="RoutineContaminants[<?php echo $wc['machine_name'] ?>][Name]"
+           value="<?php echo $wc['name'] ?>">
+    <label class="column one-third" for="txt[$machine_name][Value]">$name $symbol_text</label>
+    <input class="column one-third" name="RoutineContaminants[$machine_name][Value]" type="number" step="0.001" id="txt$machine_name" >
+    <select class="column one-third"
+            name="RoutineContaminants[$machine_name][Unit]"
+            id="ddl$machine_name">
+      <?php foreach ($wc['unit_types'] as $ut): ><!--
+        <option
+          value="< echo $ut >" < if ($wc['default_unit_type'] == $ut): {
+          echo 'selected';
+        } endif; >> < echo $ut ></option>
+      < endforeach; >
+    </select>
+  </div>
+  */
+
+  $html[] = "</div>"; // closing usa-width-one-half
+  $html[] = "</div>"; // closing usa-width-one-whole
+
+  return implode('', $html);
+}

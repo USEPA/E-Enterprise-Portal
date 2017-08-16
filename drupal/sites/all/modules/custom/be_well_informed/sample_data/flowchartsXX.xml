@@ -1,60 +1,72 @@
 <FlowCharts>
-<Conversions>
-  <!-- These conversions are multiplicative in nature.  The base unit is
-  selected and the unit that is being converted 'TO' is multiplied by the given
-  value (attribute) to find the new value. -->
-  <Conversion name="g/L">
-    <To name="mg/L" value="1000" />
-    <To name="µg/L" value="1000000" />
-    <To name="ppm" for="" value="1001.7961204" />
-    <To name="ppb" for="" value="1001796.1204" />
-  </Conversion>
+  <Sections>
+    <RoutineContaminants>
+      <Name>Routine Water Analysis</Name>
+    </RoutineContaminants>
+    <BacterialContaminants>
+      <Name>Bacteria / Microbiology</Name>
+    </BacterialContaminants>
+    <RadionuclideContaminants>
+      <Name>Radionuclides</Name>
+    </RadionuclideContaminants>
+  </Sections>
 
-  <Conversion name="mg/L">
-    <To name="g/L" value="0.001" />
-    <To name="µg/L" value="1000" />
-    <To name="gpg" for="Ca" value="0.0584178313186289" />
-    <To name="ppm" for="" value="1.0017961204" />
-    <To name="ppb" for="" value="1001.7961204" />
-  </Conversion>
+  <Conversions>
+    <!-- These conversions are multiplicative in nature.  The base unit is
+    selected and the unit that is being converted 'TO' is multiplied by the given
+    value (attribute) to find the new value. -->
+    <Conversion name="g/L">
+      <To name="mg/L" value="1000" />
+      <To name="µg/L" value="1000000" />
+      <To name="ppm" for="" value="1001.7961204" />
+      <To name="ppb" for="" value="1001796.1204" />
+    </Conversion>
 
-  <Conversion name="µg/L">
-    <To name="g/L" value="0.000001" />
-    <To name="mg/L" value="0.001" />
-    <To name="pCi/L" for="Ur" value="0.0584795321637427" />
-    <To name="pCi/L" for="Ur" value="0.6666666666666667" />
-    <To name="ppm" for="" value=".0010017961204" />
-    <To name="ppb" for="" value="1.0017961204" />
-  </Conversion>
+    <Conversion name="mg/L">
+      <To name="g/L" value="0.001" />
+      <To name="µg/L" value="1000" />
+      <To name="gpg" for="Ca" value="0.0584178313186289" />
+      <To name="ppm" for="" value="1.0017961204" />
+      <To name="ppb" for="" value="1001.7961204" />
+    </Conversion>
 
-  <Conversion name="ppm">
-    <To name="mg/L" for="Ur" value="0.998859" />
-    <To name="µg/L" for="Ur" value="998.859" />
-  </Conversion>
+    <Conversion name="µg/L">
+      <To name="g/L" value="0.000001" />
+      <To name="mg/L" value="0.001" />
+      <To name="pCi/L" for="Ur" value="0.0584795321637427" />
+      <To name="pCi/L" for="Ur" value="0.6666666666666667" />
+      <To name="ppm" for="" value=".0010017961204" />
+      <To name="ppb" for="" value="1.0017961204" />
+    </Conversion>
 
-  <Conversion name="ppb">
-    <To name="mg/L" for="Ur" value="0.000998859" />
-    <To name="µg/L" for="Ur" value="0.998859" />
-  </Conversion>
+    <Conversion name="ppm">
+      <To name="mg/L" for="Ur" value="0.998859" />
+      <To name="µg/L" for="Ur" value="998.859" />
+    </Conversion>
 
-  <Conversion name="gpg">
-    <To name="mg/L" for="Ca" value="17.118061" />
-    <To name="µg/L" for="Ca" value="17118.061" />
-  </Conversion>
+    <Conversion name="ppb">
+      <To name="mg/L" for="Ur" value="0.000998859" />
+      <To name="µg/L" for="Ur" value="0.998859" />
+    </Conversion>
 
-  <Conversion name="pCi/L">
-    <To name="µg/L" for="Ur" value="1.5" />
-  </Conversion>
+    <Conversion name="gpg">
+      <To name="mg/L" for="Ca" value="17.118061" />
+      <To name="µg/L" for="Ca" value="17118.061" />
+    </Conversion>
 
-  <Conversion name="MPN/100 mL">
-    <To name="CFU/100 mL" for="Ur" value="1" />
-  </Conversion>
+    <Conversion name="pCi/L">
+      <To name="µg/L" for="Ur" value="1.5" />
+    </Conversion>
 
-  <Conversion name="CFU/100 mL">
-    <To name="MPN/100 mL" for="Ur" value="1" />
-  </Conversion>
+    <Conversion name="MPN/100 mL">
+      <To name="CFU/100 mL" for="Ur" value="1" />
+    </Conversion>
 
-</Conversions>
+    <Conversion name="CFU/100 mL">
+      <To name="MPN/100 mL" for="Ur" value="1" />
+    </Conversion>
+
+  </Conversions>
   <!--
     The following are the only permissible units of measure in the XML files:
     1. mg/L
@@ -70,7 +82,7 @@
   -->
   <Contaminants>
 
-    <Contaminant Value="As" Text="Arsenic" MCL="0.01 mg/L" NotEntered="Test your water.  Studies show that 1 in 5 private wells in New Hampshire have high arsenic.">
+    <Contaminant Section="RoutineContaminants" Value="As" Text="Arsenic" MCL="0.01 mg/L" NotEntered="Test your water.  Studies show that 1 in 5 private wells in New Hampshire have high arsenic.">
 
       <Condition CheckOperator="&gt;=" CheckValue="0.01">
         <False>
@@ -391,7 +403,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Bac" Text="Bacteria" MCL="0 CFU/100 mL or Absent">
+    <Contaminant Section="BacterialContaminants" Value="Bac" Text="Bacteria" MCL="0 CFU/100 mL or Absent">
       <Condition CheckOperator="&gt;" CheckValue="0" Present="Y">
         <True>
           <Condition CheckElement="Ecoli" CheckOperator="&gt;" CheckValue="0" Present="Y">
@@ -468,7 +480,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Ecoli" Text="Bacteria" MCL="0 CFU/100 mL or Absent">
+    <Contaminant Section="BacterialContaminants" Value="Ecoli" Text="Bacteria" MCL="0 CFU/100 mL or Absent">
       <Condition CheckOperator="&gt;" CheckValue="0" Present="Y">
         <True>
             <Outcome IM="Bac1" HM="Bac1" TM="Bac1" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard.  &lt;font color='red' &gt;YOUR WATER IS NOT SAFE TO CONSUME &lt;/font&gt;." />
@@ -545,7 +557,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Cl" Text="Chloride" MCL="250 mg/L">
+    <Contaminant Section="RoutineContaminants" Value="Cl" Text="Chloride" MCL="250 mg/L">
       <Condition CheckOperator="&gt;=" CheckValue="250">
         <True>
           <Prompt Text="Does your water taste salty?" >
@@ -753,7 +765,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Cu" Text="Copper" MCL="1.3 mg/L">
+    <Contaminant Section="RoutineContaminants" Value="Cu" Text="Copper" MCL="1.3 mg/L">
       <Condition CheckOperator="&gt;=" CheckValue="1.3">
         <True>
           <Outcome IM="Cu1" HM="Cu1" TM="Cu1" TreatmentOrder="4" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
@@ -848,9 +860,9 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="CuSt" Text="Copper Stagnant" MCL="1.3 mg/L" ContaminantLogic="Cu"/>
+    <Contaminant Section="RoutineContaminants" Value="CuSt" Text="Copper Stagnant" MCL="1.3 mg/L" ContaminantLogic="Cu"/>
 
-    <Contaminant Value="Fl" Text="Fluoride" MCL="2 mg/L">
+    <Contaminant Section="RoutineContaminants" Value="Fl" Text="Fluoride" MCL="2 mg/L">
       <Condition CheckOperator="=" CheckValue="0">
         <True>
           <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
@@ -1011,7 +1023,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Har" Text="Hardness" MCL="-">
+    <Contaminant Section="RoutineContaminants" Value="Har" Text="Hardness" MCL="-">
       <Condition CheckOperator="=" CheckValue="0">
         <True>
           <Outcome GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
@@ -1094,7 +1106,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Fe" Text="Iron" MCL="0.3 mg/L">
+    <Contaminant Section="RoutineContaminants" Value="Fe" Text="Iron" MCL="0.3 mg/L">
       <Condition CheckOperator="&gt;=" CheckValue=".3">
         <True>
           <Condition CheckElement="Mn" CheckOperator="&gt;=" CheckValue="0.1">
@@ -1287,7 +1299,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Pb" Text="Lead" MCL="0.015 mg/L">
+    <Contaminant Section="RoutineContaminants" Value="Pb" Text="Lead" MCL="0.015 mg/L">
       <Condition CheckOperator="&gt;=" CheckValue="0.015">
         <True>
           <Outcome IM="Pb1" HM="Pb1" TM="Pb1" TreatmentOrder="4" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
@@ -1378,9 +1390,9 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="PbSt" Text="Lead Stagnant" MCL="0.015 mg/L" ContaminantLogic="Pb"/>
+    <Contaminant Section="RoutineContaminants" Value="PbSt" Text="Lead Stagnant" MCL="0.015 mg/L" ContaminantLogic="Pb"/>
 
-    <Contaminant Value="Mn" Text="Manganese" MCL="0.05 mg/L">
+    <Contaminant Section="RoutineContaminants" Value="Mn" Text="Manganese" MCL="0.05 mg/L">
       <Condition CheckOperator="&gt;=" CheckValue="0.05">
         <True>
           <Condition CheckOperator="&gt;=" CheckValue="0.3">
@@ -1527,7 +1539,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="NO2" Text="Nitrite-N" MCL="1 mg/L">
+    <Contaminant Section="RoutineContaminants" Value="NO2" Text="Nitrite-N" MCL="1 mg/L">
       <Condition CheckOperator="&gt;=" CheckValue="1">
         <True>
           <Outcome IM="N1" HM="N1" TM="N1" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard. &lt;font color='red' &gt;YOUR WATER IS NOT SAFE FOR BABIES UNDER SIX MONTHS OLD TO CONSUME&lt;/font&gt;." />
@@ -1617,7 +1629,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="NO3" Text="Nitrate-N" MCL="10 mg/L">
+    <Contaminant Section="RoutineContaminants" Value="NO3" Text="Nitrate-N" MCL="10 mg/L">
       <Condition CheckElement="NO2+NO3" CheckOperator="&gt;=" CheckValue="5">
         <True>
           <Condition CheckElement="NO2+NO3" CheckOperator="&gt;=" CheckValue="10">
@@ -1774,7 +1786,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="pH" Text="pH" MCL="6.5-8.5 standard units">
+    <Contaminant Section="RoutineContaminants" Value="pH" Text="pH" MCL="6.5-8.5 standard units">
       <Condition CheckOperator="&gt;" CheckValue="8">
         <True>
           <Outcome GuidelineText="" />
@@ -1854,7 +1866,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Na" Text="Sodium" MCL="20 mg/L">
+    <Contaminant Section="RoutineContaminants" Value="Na" Text="Sodium" MCL="20 mg/L">
       <Condition CheckOperator="=" CheckValue="0">
         <True>
           <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the U.S. EPA’s guidance level" />
@@ -1916,7 +1928,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Rn" Text="Radon" MCL="2000 pCi/L" NotEntered="Test both the air in your home (if you live below the third floor) and in your water (unless it is from a dug well) for radon.  More than half of all private wells in New Hampshire have high radon.">
+    <Contaminant Section="Radionuclides" Value="Rn" Text="Radon" MCL="2000 pCi/L" NotEntered="Test both the air in your home (if you live below the third floor) and in your water (unless it is from a dug well) for radon.  More than half of all private wells in New Hampshire have high radon.">
       <Condition CheckOperator="=" CheckValue="0">
         <True>
           <Outcome GuidelineIcon="M" GuidelineText="The value entered meets NHDES’s advisory level for radon in water, but you should also test the air in your home for radon gas if you live below the third floor." />
@@ -2151,7 +2163,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="Ur" Text="Uranium" MCL="30 μg/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high uranium.">
+    <Contaminant Section="Radionuclides" Value="Ur" Text="Uranium" MCL="30 μg/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high uranium.">
       <Condition CheckOperator="&gt;=" CheckValue="30">
         <True>
           <Outcome IM="Ur1" HM="Ur1" TM="Ur1" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
@@ -2211,7 +2223,7 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Value="AGA" Text="Gross Alpha" MCL="15 pCi/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high gross alpha radioactivity.">
+    <Contaminant Section="Radionuclides" Value="AGA" Text="Gross Alpha" MCL="15 pCi/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high gross alpha radioactivity.">
       <Condition CheckOperator="&gt;=" CheckValue="15">
         <True>
           <Condition CheckElement="Ur" CheckOperator="&gt;=" CheckValue="20">

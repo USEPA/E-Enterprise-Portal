@@ -33,6 +33,9 @@
                 </button>
               </div>
             </div>
+            <?php foreach ($contaminants as $title => $section):
+              echo generate_contaminants_section($title, $section);
+            endforeach; ?>
             <div class="components usa-width-one-half">
               <h3>Routine Water Analysis</h3>
               <?php foreach ($water_components as $wc): ?>
