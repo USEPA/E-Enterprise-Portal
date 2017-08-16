@@ -24,8 +24,6 @@
     });
     var $tabs = $("#my-air-quality-chart-tabs");
 
-    //map = loadMap();
-
     $tabs.tabs({
       activate: function(e, ui) {
         //map tab activated
