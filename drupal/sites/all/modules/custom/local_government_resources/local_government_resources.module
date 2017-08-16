@@ -40,8 +40,9 @@ function local_government_resources_menu() {
  */
 function local_government_resources_cron() {
   $return = lgc_resources_json_all(true);
-  $num_resources = count($return['resources']);
-  watchdog('cron', $num_resources . ' resources cached successfully.');
+  $num_resources = count($return);
+  watchdog("cron", $num_resources . ' LCG resources cached successfully.', array(), WATCHDOG_INFO);
+
 }
 
 function lgc_datatables_return($resources) {
