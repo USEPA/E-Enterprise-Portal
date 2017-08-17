@@ -585,6 +585,10 @@ function processGuidelineIcon($guideline_icon) {
   return $return_html;
 }
 
+function template_preprocess_be_well_modal_state_form(&$variables, $hook) {
+  $variables['state_code'] = $_POST['state_code'];
+  $variables['state_xml'] = be_well_informed_get_state_information($variables['state_code']);
+}
 
 /**
  * Implements template_preprocess_hook for be-well-informed.tpl.php.
@@ -1239,7 +1243,7 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
 
   result_preprocess_be_well_informed($variables, $hook);
 
-  drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
+  //drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
 
 }
 
@@ -1300,7 +1304,6 @@ function bwi_domnode_to_array($node) {
 }
 
 function generate_contaminants_section($title, $section) {
-  $html = [];
 
   $html = [
     "<div class=\"usa-width-one-whole\">",
@@ -1359,8 +1362,10 @@ function generate_contaminants_section($title, $section) {
   </div>
   */
 
-  $html[] = "</div>"; // closing usa-width-one-half
-  $html[] = "</div>"; // closing usa-width-one-whole
+  $html[] += [
+    "</div>", // closing usa-width-one-half
+    "</div>", // closing usa-width-one-whole
+  ];
 
   return implode('', $html);
 }
