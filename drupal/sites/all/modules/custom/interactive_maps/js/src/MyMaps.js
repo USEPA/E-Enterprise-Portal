@@ -64,15 +64,19 @@
             .on('jcarousel:visibleout', 'li', function (event, carousel) {
                 $(this).removeClass('active');
             })
-            .on('jcarousel:animateend', function(event, carousel) {
+            .on('jcarousel:animateend', function (event, carousel) {
                 // Animation has settled, load the images
                 $("img.lazy").lazyload();
+            })
+            .on('jcarousel:animate', function (event, carousel) {
+                $('.load-thumbnail.active').find(".ellipsis").dotdotdot({watch: "window"});
             });
 
         $("#myMapsFiltering").on("tabsbeforeactivate", function (event, tab) {
             countScrolls = 0;
             activeTab = tab.newTab.attr('id');
             filterType = tab.newTab.find('a').attr('id');
+            $('.load-thumbnail.active').find(".ellipsis").dotdotdot({watch: "window"});
             filterMyMapsGallery(filterType);
         });
 
@@ -308,7 +312,7 @@
             var countThese = 'all';
             updateTotalNumberOfMapsShowing(countThese);
             filterMyMapsGallery(countThese);
-            $('.load-thumbnail').find(".ellipsis").dotdotdot({watch: "window"});
+            $('.load-thumbnail.active').find(".ellipsis").dotdotdot({watch: "window"});
             // Initial image load
             $("img.lazy").lazyload();
         }
