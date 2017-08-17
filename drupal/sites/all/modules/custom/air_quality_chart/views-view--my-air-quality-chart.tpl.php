@@ -54,7 +54,8 @@ drupal_add_js(drupal_get_path('module', 'air_quality_chart') ."/js/esri.leaflet.
     </div>
     <div id="my-air-quality-air-now-maps" style="padding:0">
       <p class="aqi-source">Source: <a target="_blank" href="http://airnow.gov/" rel="external">AirNow.gov</a></p>
-      <div id="my-air-quality-air-now-map-container"></div>
+
+      <div id="my-air-quality-air-now-map-container" class="loading"></div>
       <p>Today's AQI Forecast</p>
       <ul class="list-inline small">
         <li>
