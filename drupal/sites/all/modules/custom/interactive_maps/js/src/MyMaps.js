@@ -76,8 +76,8 @@
             countScrolls = 0;
             activeTab = tab.newTab.attr('id');
             filterType = tab.newTab.find('a').attr('id');
-            $('.load-thumbnail.active').find(".ellipsis").dotdotdot({watch: "window"});
             filterMyMapsGallery(filterType);
+            $('.load-thumbnail.active').find(".ellipsis").dotdotdot({watch: "window"});
         });
 
         /*****************************functions******************************/
