@@ -216,7 +216,7 @@ function generate_state_form() {
     return;
   }
 
-  $rendered_html = theme('be_well_informed_modal_state_form', ['state_info' => be_well_informed_get_state_information($_POST['state_code']), 'state_code' => $_POST['state_code']]);
+  $rendered_html = theme('be_well_informed_modal_state_form');
   echo $rendered_html;
 }
 
@@ -471,6 +471,15 @@ function be_well_informed_get_state_information($state_code = NULL) {
   }
 }
 
+function be_well_informed_get_state_flowchart($state_code) {
+  $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/flowcharts' . $state_code . '.xml';
+  $state_info = file_get_contents($path);
+  $doc = new DOMDocument();
+  $doc->loadXML($state_info);
+  $root = $doc->documentElement;
+  return domnode_clean($root);
+}
+
 /**
  * Take BE WELL INFORMED response and format for Result Details and Result Summary datatables
  * @param $be_well_response_json
@@ -585,9 +594,11 @@ function processGuidelineIcon($guideline_icon) {
   return $return_html;
 }
 
-function template_preprocess_be_well_modal_state_form(&$variables, $hook) {
+function template_preprocess_be_well_informed_modal_state_form(&$variables, $hook) {
+  $variables['state_info'] = be_well_informed_get_state_information($_POST['state_code']);
   $variables['state_code'] = $_POST['state_code'];
-  $variables['state_xml'] = be_well_informed_get_state_information($variables['state_code']);
+  _be_well_informed_template_variables($variables, $hook);
+
 }
 
 /**
@@ -882,7 +893,41 @@ function process_state_xml(&$variables) {
   $variables = $variables;
 }
 
+/**
+ * Implements hook_backup_migrate_filters().
+ */
+function _be_well_informed_template_variables(&$variables, $hook) {
+  $state_flowchart = be_well_informed_get_state_flowchart($variables['state_code']);
+
+  $variables['state_flowchart'] = ($variables['state_flowchart']) ? $variables['state_flowchart'] : [];
+  // Get section information
+  foreach($state_flowchart->getElementsByTagName('Sections') as $item) {
+    $variables['state_flowchart']['Sections'][$item->childNodes[0]->nodeName] = [];
+    foreach($item->childNodes as $section) {
+      $variables['state_flowchart']['Sections'][$section->nodeName] = [];
+      foreach($section->childNodes as $property) {
+        $variables['state_flowchart']['Sections'][$section->nodeName][$property->nodeName] = [$property->nodeValue];
+      }
+    }
+  }
+
+
+  foreach($state_flowchart->getElementsByTagName('Contaminants')[0]->childNodes as $contaminant) {
+    $variables['state_flowchart']['Contaminants'][$contaminant->getAttribute('Section')][$contaminant->getAttribute('Text')] = [
+      'name' => $contaminant->getAttribute('Text'),
+      'machine_name' => $contaminant->getAttribute('Value'),
+      'symbol' => $contaminant->getAttribute('Value'),
+      'default_unit_type' => end(explode(' ', $contaminant->getAttribute('MCL'))),
+      'unit_types' => [end(explode(' ', $contaminant->getAttribute('MCL')))]
+    ];
+  }
+
+  return $variables;
+}
+
 function result_preprocess_be_well_informed(&$variables, $hook) {
+
+
 
   $variables['unit_types'] = [
     'mg/L',

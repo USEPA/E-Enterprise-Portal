@@ -1411,7 +1411,7 @@
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
-    <Contaminant Section="Radionuclides" Value="Rn" Text="Radon" MCL="10000 pCi/L" NotEntered="Test both the air in your home (if you live below the third floor) and in your water (unless it is from a dug well) for radon.  In Massachusetts, it is estimated that 650,000 homes have indoor air radon levels that exceed the EPA action guideline of 4 pCi/L.">
+    <Contaminant Section="RadionuclideContaminants" Value="Rn" Text="Radon" MCL="10000 pCi/L" NotEntered="Test both the air in your home (if you live below the third floor) and in your water (unless it is from a dug well) for radon.  In Massachusetts, it is estimated that 650,000 homes have indoor air radon levels that exceed the EPA action guideline of 4 pCi/L.">
       <Condition CheckOperator="&gt;=" CheckValue="10000">
         <True>
           <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="W" GuidelineText="The value entered exceeds the MassDEP guideline for radon in water." />
@@ -1552,7 +1552,7 @@
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
-    <Contaminant Section="Radionuclides" Value="Ur" Text="Uranium" MCL="30 μg/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high uranium.">
+    <Contaminant Section="RadionuclideContaminants" Value="Ur" Text="Uranium" MCL="30 μg/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high uranium.">
       <Condition CheckOperator="&gt;=" CheckValue="30.5">
         <True>
           <Outcome IM="Ur1" HM="Ur1" TM="Ur1" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
@@ -1601,7 +1601,7 @@
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
-    <Contaminant Section="Radionuclides" Value="AGA" Text="Gross Alpha" MCL="15 pCi/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high gross alpha radioactivity.">
+    <Contaminant Section="RadionuclideContaminants" Value="AGA" Text="Gross Alpha" MCL="15 pCi/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high gross alpha radioactivity.">
       <Condition CheckOperator="&gt;=" CheckValue="15.5">
         <True>
           <Condition CheckElement="Ur" CheckOperator="&gt;=" CheckValue="20">
