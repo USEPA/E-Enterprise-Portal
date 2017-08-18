@@ -104,9 +104,8 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
     $cdx_upload_url = variable_get("bwi_file_upload_url", 'https://nodewebdev.epacdxnode.net/DWIService/dwievaluation');
     $params = ['statecode' => $user_location];
     // file_save_upload with destination stores the file
-    $storage_path = 'C:\Users\bmatkin\eportal\e-enterprise\drupal\sites\all\modules\custom\be_well_informed\saved_configurations';
-    $partner_file = file_save_upload('partner', [],   $storage_path);
-    $flowchart_file = file_save_upload('flowchart', [], $storage_path);
+    $partner_file = file_save_upload('partner');
+    $flowchart_file = file_save_upload('flowchart');
 
     if ($partner_file) {
       $partner_file_content = file_get_contents($partner_file->uri);
