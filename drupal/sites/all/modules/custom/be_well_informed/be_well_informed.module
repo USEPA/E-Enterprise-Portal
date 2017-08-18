@@ -103,7 +103,7 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
     // Pass the file to the CDX hosted service.
     $cdx_upload_url = variable_get("bwi_file_upload_url", 'https://nodewebdev.epacdxnode.net/DWIService/dwievaluation');
     $params = ['statecode' => $user_location];
-    // file_save_upload with destination stores the file
+    // file_save_upload temporarily stores the file for evaluation
     $partner_file = file_save_upload('partner');
     $flowchart_file = file_save_upload('flowchart');
 
