@@ -2,6 +2,7 @@
   "use strict";
 
   var map;
+  var map_update;
   var markers;
   var currentZipData;
   var todayAQI;
@@ -45,10 +46,21 @@
 
     $(document).on("ee:zipCodeQueried", function(evt, data) {
       //console.log("ee:zipCodeQueried");
-      if (!first_time_user_loading && map) {
-        setInterval(function(){
-          map = loadMap();
-        },1000);
+      if(map) {
+        update_markers(evt, data)
+      } else {
+        if(map_update) {
+          clearInterval(map_update);
+        }
+        map_update = setInterval(function() {
+          update_markers(evt, data);
+          clearInterval(init_map);
+        }, 1000);
+      }
+    });
+
+    function update_markers(evt, data) {
+      if (!first_time_user_loading) {
         currentZipData = data;
         draw(currentZipData.zip, currentZipData.string);
         //if markers exist then it's not the original map load
@@ -65,7 +77,7 @@
           map.addLayer(markers);
         }
       }
-    });
+    }
 
     // When user clicks / presses Enter on View chart description / Learn more links, 
     // create dialogs with appropriate text and open dialogs, then focus them
