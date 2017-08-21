@@ -281,8 +281,6 @@
           })
         )
       );
-
-      // $('.jcarousel ul').append($li);
       return $li;
     }
     return false;
