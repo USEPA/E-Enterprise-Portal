@@ -27,6 +27,7 @@
   min-width: 8.33333333%;
   position: absolute;
   padding: 0;
+  height: auto;
 }
 
 /* line 31, ../sass/gridstack.scss */
