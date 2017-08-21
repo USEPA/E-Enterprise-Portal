@@ -35,7 +35,7 @@ else {
   drupal_add_js(array('userrole' => 'nonadmin'), 'setting');
 }
 
-// Pass state admin role to provide additional options to MyMaps.js file
+drupal_add_js(['interactive_maps' => ['mapsets' => map_dataset()]], 'setting');
 drupal_add_js(drupal_get_path('module', 'interactive_maps') . "/js/jquery.dotdotdot.min.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
 drupal_add_js(drupal_get_path('module', 'interactive_maps') . "/js/jquery.jcarousel.min.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
 drupal_add_js(drupal_get_path('module', 'interactive_maps') . "/js/lazyload.jquery.js", ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
