@@ -2,6 +2,7 @@
   "use strict";
 
   var map;
+  var map_update;
   var markers;
   var currentZipData;
   var todayAQI;
@@ -12,6 +13,10 @@
   var first_time_user_loading = false;
   var hidden;
   var dialogDiv, dialogTitle, dialogContents;
+
+  function get_map() {
+    return map;
+  }
 
   $(document).ready(function() {
     var map;
@@ -44,11 +49,31 @@
     });
 
     $(document).on("ee:zipCodeQueried", function(evt, data) {
-      //console.log("ee:zipCodeQueried");
-      if (!first_time_user_loading && map) {
-        setInterval(function(){
-          map = loadMap();
-        },1000);
+      // If it exists, we can clear any existing setInterval
+      if(map_update) {
+        clearInterval(map_update);
+        map_update = 0;
+      }
+      /*
+       * Since we are dynamically creating the "map" we need to postpone any
+       * update.
+      */
+      if(map) {
+        update_markers(evt, data);
+      } else {
+        // If the map has not been initialized, we create delay update
+
+        map_update = setInterval(function() {
+          if(get_map()) {
+            update_markers(evt, data);
+            clearInterval(init_map);
+          }
+        }, 1000);
+      }
+    });
+
+    function update_markers(evt, data) {
+      if (!first_time_user_loading) {
         currentZipData = data;
         draw(currentZipData.zip, currentZipData.string);
         //if markers exist then it's not the original map load
@@ -65,7 +90,7 @@
           map.addLayer(markers);
         }
       }
-    });
+    }
 
     // When user clicks / presses Enter on View chart description / Learn more links, 
     // create dialogs with appropriate text and open dialogs, then focus them
