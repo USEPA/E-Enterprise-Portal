@@ -198,7 +198,8 @@
          * @param gs_object
          */
         function addResizeSensors(gs_object) {
-          var grid_heights = {}; // = calculateGridHeights(gs_object.grid.nodes);
+          // Initialize cache of grid heights
+          var grid_heights = {};
           setInterval(function () {
             // Only resize if not dragging component
             if (jQuery('.grid-stack .ui-draggable-dragging').length <= 0) {
