@@ -1,19 +1,4 @@
 (function ($) {
-
-  // Randomization plugin
-
-  //mix content from different sources in the MyMaps Gallery
-  if (!$.fn.randomize) {
-    $.fn.randomize = function (a) {
-      (a ? this.find(a) : this).parent().each(function () {
-        $(this).children(a).sort(function () {
-          return Math.random() - 0.5;
-        }).detach().appendTo(this);
-      });
-      return this;
-    };
-  }
-
   $("#myMapsFiltering").tabs();
   $('#myMapsFiltering').find('.ui-corner-top').on('click', function (ev) {
     $(this).focus();
@@ -41,34 +26,35 @@
     galleryLinkTarget.append('<a href="/agency-map-list" id="manage-maps" class="favorites-ignore last">Manage agency map collections</a>');
   }
   var $jcarousel = $('.jcarousel');
-  //Opening UL only created in init of gallery
-  var $ul = $('<ul>', {'class': 'thumb'});
-  $jcarousel.html($ul);
+    //Opening UL only created in init of gallery
+    var $ul = $('<ul>', {'class': 'thumb'});
+    $jcarousel.html($ul);
 
   //Query all AGOL endpoints given from mapsets JSON
   query_AGOL(mapsets);
-  $jcarousel.jcarousel();
+    $jcarousel.jcarousel();
   var $jcarouselNext = $('.jcarousel-control-next');
   var $jcarouselPrev = $('.jcarousel-control-prev');
 
-  /********************jcarousel event listeners***********************/
-  $jcarousel
-    .on('jcarousel:visiblein', 'li', function (event, carousel) {
-      // if this has .load-thumbnail, then active
-      if ($(this).hasClass('load-thumbnail')) {
-        $(this).addClass('active');
-      }
-    })
-    .on('jcarousel:visibleout', 'li', function (event, carousel) {
-      $(this).removeClass('active');
-    })
-    .on('jcarousel:animateend', function (event, carousel) {
-      // Animation has settled, load the images
-      $("img.lazy").lazyload();
-    })
-    .on('jcarousel:animate', function (event, carousel) {
-      $('.load-thumbnail.active').find(".ellipsis").dotdotdot({watch: "window"});
-    });
+    /********************jcarousel event listeners***********************/
+    $jcarousel
+      .on('jcarousel:visiblein', 'li', function (event, carousel) {
+        // if this has .load-thumbnail, then active
+        if ($(this).hasClass('load-thumbnail')) {
+          $(this).addClass('active');
+          $(this).find(".ellipsis").dotdotdot({watch: "window"});
+        }
+      })
+      .on('jcarousel:visibleout', 'li', function (event, carousel) {
+        $(this).removeClass('active');
+      })
+      .on('jcarousel:animateend', function (event, carousel) {
+        // Animation has settled, load the images
+        $("img.lazy").lazyload();
+      })
+      .on('jcarousel:animate', function (event, carousel) {
+        $('.load-thumbnail.active').find(".ellipsis").dotdotdot({watch: "window"});
+      });
 
   $("#myMapsFiltering").on("tabsbeforeactivate", function (event, tab) {
     countScrolls = 0;
@@ -188,7 +174,6 @@
       $.ajax({
         type: 'GET',
         url: mapset.url + '/sharing/rest/search',
-        async: true,
         //later to implement tag search or similar for
         //filtering based on dynamic criteria
         data: {
@@ -196,9 +181,9 @@
           f: 'json',
           num: '100'
         },
+        dataType: 'JSON',
         mapset: mapset,
-        success: function (data, status, xhr) {
-          var resultJson = JSON.parse(data);
+        success: function (resultJson, status, xhr) {
           setupMyMapsGalleryWithThumbs(resultJson, this.mapset);
         }
       }).fail(function (xhr, status) {
@@ -209,11 +194,10 @@
     });
   }
 
-  function buildLI(data, mapset) {
+  function build_map_items(data, mapset) {
     //Added filter for user 'jquacken_EPA' because all of that user's WMAs are not maps - they are how-to guides
     //Check for hyperlinks to most likely apps that are internal only (non default ports of 80, 443)
     var hyperlinkValid;
-    var liText = '';
     if (this.url.indexOf('http') > -1 && this.url !== null) {
       var linkArr = (this.url.split("://"));
       //checks if hyperlink contains port designator
@@ -297,24 +281,26 @@
           })
         )
       );
-      liText = $li.html();
+
+      // $('.jcarousel ul').append($li);
+      return $li;
     }
-    return liText;
+    return false;
   }
 
   //create the MyMaps thumbnail gallery from the AGOL API query results
   function setupMyMapsGalleryWithThumbs(data, mapset) {
-    var $ul = $('.jcarousel ul');
-    var liString = '';
-
+    var $lis = [];
+    var $tempLi;
     for (var i = 0; i < data.results.length; i++) {
-      liString = liString + buildLI.apply(data.results[i], [data, mapset]);
+      $tempLi = build_map_items.apply(data.results[i], [data, mapset]);
+      if ($tempLi) {
+        $lis.push($tempLi);
+      }
     }
-    $ul.append(liString);
+    $('.jcarousel ul').append($lis);
     var countThese = 'all';
-    updateTotalNumberOfMapsShowing(countThese);
     filterMyMapsGallery(countThese);
-    $('.load-thumbnail.active').find(".ellipsis").dotdotdot({watch: "window"});
     // Initial image load
     $("img.lazy").lazyload();
   }
