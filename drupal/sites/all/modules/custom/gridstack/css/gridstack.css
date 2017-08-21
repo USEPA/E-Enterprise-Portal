@@ -23,14 +23,15 @@
 }
 
 /* line 22, ../sass/gridstack.scss */
-.grid-stack > .grid-stack-item {
+.grid-stack > .grid-stack-item[min-height~="300px"] {
   min-width: 8.33333333%;
   position: absolute;
   padding: 0;
+  height: auto;
 }
 
 /* line 31, ../sass/gridstack.scss */
-.grid-stack > .grid-stack-item > .grid-stack-item-content {
+.grid-stack > .grid-stack-item > .grid-stack-item-content[min-height~="300px"] {
   margin: 0;
   position: absolute;
   top: 0;

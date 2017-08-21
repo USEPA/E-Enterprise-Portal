@@ -23,7 +23,10 @@
   min-width: 8.33333333%;
   position: absolute;
   padding: 0;
+
 }
+
+
 
 .grid-stack > .grid-stack-item > .grid-stack-item-content {
   margin: 0;
@@ -390,12 +393,3 @@
     height: auto !important;
   }
 }
-
-/** Uncomment this to show bottom-left resize handle **/
-/*
-.grid-stack > .grid-stack-item > .ui-resizable-sw {
-    display: inline-block;
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-    @include vendor(transform, rotate(180deg));
-}
-*/
