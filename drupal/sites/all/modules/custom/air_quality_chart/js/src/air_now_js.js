@@ -32,7 +32,6 @@
     $tabs.tabs({
       activate: function(e, ui) {
         //map tab activated
-        console.log(e, ui);
         if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {
           //console.log("map tab activated");
           if (!map) {
