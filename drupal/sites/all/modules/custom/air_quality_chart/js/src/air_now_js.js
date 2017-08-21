@@ -14,6 +14,10 @@
   var hidden;
   var dialogDiv, dialogTitle, dialogContents;
 
+  function get_map() {
+    return map;
+  }
+
   $(document).ready(function() {
     var map;
     var first_time_user_block = $('#first-time-user-block');
@@ -45,16 +49,25 @@
     });
 
     $(document).on("ee:zipCodeQueried", function(evt, data) {
-      //console.log("ee:zipCodeQueried");
+      // If it exists, we can clear any existing setInterval
+      if(map_update) {
+        clearInterval(map_update);
+        map_update = 0;
+      }
+      /*
+       * Since we are dynamically creating the "map" we need to postpone any
+       * update.
+      */
       if(map) {
-        update_markers(evt, data)
+        update_markers(evt, data);
       } else {
-        if(map_update) {
-          clearInterval(map_update);
-        }
+        // If the map has not been initialized, we create delay update
+
         map_update = setInterval(function() {
-          update_markers(evt, data);
-          clearInterval(init_map);
+          if(get_map()) {
+            update_markers(evt, data);
+            clearInterval(init_map);
+          }
         }, 1000);
       }
     });
