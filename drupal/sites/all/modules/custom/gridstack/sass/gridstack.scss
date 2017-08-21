@@ -19,13 +19,16 @@
   z-index: 0 !important;
 }
 
-.grid-stack > .grid-stack-item {
+.grid-stack > .grid-stack-item[min-height~= "300px"]  {
   min-width: 8.33333333%;
   position: absolute;
   padding: 0;
+
 }
 
-.grid-stack > .grid-stack-item > .grid-stack-item-content {
+
+
+.grid-stack > .grid-stack-item > .grid-stack-item-content[min-height~= "300px"] {
   margin: 0;
   position: absolute;
   top: 0;
@@ -390,12 +393,3 @@
     height: auto !important;
   }
 }
-
-/** Uncomment this to show bottom-left resize handle **/
-/*
-.grid-stack > .grid-stack-item > .ui-resizable-sw {
-    display: inline-block;
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-    @include vendor(transform, rotate(180deg));
-}
-*/

@@ -2,8 +2,6 @@
 
 function gridstack_menu() {
   $items = [];
-
-
   $items['update_user_gridstack_data'] = array(
     'page callback' => 'update_user_gridstack_data',
     'access callback' => TRUE,
