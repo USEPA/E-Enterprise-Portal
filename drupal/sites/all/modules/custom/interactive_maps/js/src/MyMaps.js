@@ -4,6 +4,13 @@
     $(this).focus();
   });
 
+  $( document ).on( "eportal-grid-engine:element-resize", function(e, grid, $elementToResize) {
+    if($elementToResize.find('#interactive-maps-actions').length) {
+      resizeThumbs();
+    }
+  });
+
+
   var mapsets = Drupal.settings.interactive_maps.mapsets,
     filterType = "mapsAll",
     countThese = "all",
@@ -92,33 +99,35 @@
 
 
   function resizeThumbs() {
-    var width = 0;
-    var $jcarouselThumbs = $jcarousel.find('li');
-    //Set max number of items displayed to be 5, with less
-    //visible based on current browser width
-    var innerWidth = $jcarousel.innerWidth();
-    if (innerWidth >= 1100) {
-      width = (innerWidth / 5) - 4;
-      numThumbs = 5;
-    } else if (innerWidth >= 850) {
-      width = (innerWidth / 4) - 4;
-      numThumbs = 4;
-    } else if (innerWidth >= 600) {
-      width = (innerWidth / 3) - 4;
-      numThumbs = 3;
-    } else if (innerWidth >= 350) {
-      width = (innerWidth / 2) - 4;
-      numThumbs = 2;
-    }
-    if (width) {
-      $jcarouselThumbs.css('width', Math.ceil(width) + 'px');
-    }
-    $jcarousel.find('.load-thumbnail').removeClass('active').slice(0, numThumbs).addClass('active');
+    if($jcarousel){
+      var width = 0;
+      var $jcarouselThumbs = $jcarousel.find('li');
+      //Set max number of items displayed to be 5, with less
+      //visible based on current browser width
+      var innerWidth = $jcarousel.innerWidth();
+      if (innerWidth >= 1100) {
+        width = (innerWidth / 5) - 4;
+        numThumbs = 5;
+      } else if (innerWidth >= 850) {
+        width = (innerWidth / 4) - 4;
+        numThumbs = 4;
+      } else if (innerWidth >= 600) {
+        width = (innerWidth / 3) - 4;
+        numThumbs = 3;
+      } else if (innerWidth >= 350) {
+        width = (innerWidth / 2) - 4;
+        numThumbs = 2;
+      }
+      if (width) {
+        $jcarouselThumbs.css('width', Math.ceil(width) + 'px');
+      }
+      $jcarousel.find('.load-thumbnail').removeClass('active').slice(0, numThumbs).addClass('active');
 
-    // Update our buttons with the proper targets
-    updateJCarouselButton($jcarouselPrev, '-=' + numThumbs);
-    updateJCarouselButton($jcarouselNext, '+=' + numThumbs);
-    reloadDebounce();
+      // Update our buttons with the proper targets
+      updateJCarouselButton($jcarouselPrev, '-=' + numThumbs);
+      updateJCarouselButton($jcarouselNext, '+=' + numThumbs);
+      reloadDebounce();
+    }
   }
 
   function filterMyMapsGallery(filterType) {
