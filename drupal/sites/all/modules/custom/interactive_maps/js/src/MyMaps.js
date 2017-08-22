@@ -6,7 +6,6 @@
 
   $( document ).on( "eportal-grid-engine:element-resize", function(e, grid, $elementToResize) {
     if($elementToResize.find('#interactive-maps-actions').length) {
-      //console.log( "eportal-grid-engine:element-resize", arguments );
       resizeThumbs();
     }
   });
