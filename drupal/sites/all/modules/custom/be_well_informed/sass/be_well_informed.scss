@@ -15,6 +15,14 @@ $color_viking_approx: #5bc0de;
 $color_mountain_mist_approx: #949494;
 $color_ecstasy_approx: #ff851b;
 
+$color-gray-dark:            #323a45;
+$color-gray:                 #5b616b; // lighten($color-gray-dark, 20%)
+$color-gray-medium:          #757575; // lightest gray that passes color contrast
+$color-gray-light:           #aeb0b5; // lighten($color-gray-dark, 60%)
+$color-gray-lighter:         #d6d7d9; // lighten($color-gray-dark, 80%)
+$color-gray-lightest:        #f1f1f1; // lighten($color-gray-dark, 91%)
+$color-gray-white:			 #fafafa; // Workbench background
+
 //@extend-elements
 //original selectors
 //input.parsley-success, select.parsley-success, textarea.parsley-success
@@ -75,7 +83,7 @@ $color_ecstasy_approx: #ff851b;
     }
 }
 
-#be-well-informed-modal-state-form {
+#be-well-informed-modal-state-form, #bwi-state-selection-form {
     .navigation-tabs,
     .bwi-resources-list {
         margin: 0;
@@ -1066,3 +1074,18 @@ html body.admin-menu {
     }
 }
 
+#be-well-informed-widget-template-wrapper {
+    .hide {
+        display:none;
+    }
+
+    .bwi-api-status.error {
+        color: #d9534f;
+    }
+
+    button:disabled {
+        background-color: $color-gray-light;
+        background-image: none;
+        border: 1px solid $color-gray-medium;
+    }
+}
