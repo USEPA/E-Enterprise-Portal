@@ -2,22 +2,23 @@
  * Created by smolinsk on 5/2/2017.
  */
 
-(function($, window, UNDEFINED){
+(function($, window, UNDEFINED) {
   var convertNulls = false;
+  var is_building_state_form = false;
 
   function get_state_selection() {
     // Capture the value of the state dropdown and populate the widget with the proper state content
     // Get the chosen state
     $state = $('#bwi-state').find('option:selected')
-    if($state.val()){
+    if ($state.val()) {
       build_state_form($state.val())
     }
     // @todo Add Parsley flag on the text field to show it needs a selection
   }
 
-  function build_widget_state_info(){
+  function build_widget_state_info() {
     $state_xml = Drupal.settings.be_well_informed.state_xml
-    if(!$state_xml){
+    if (!$state_xml) {
       console.error('State XML does not exist. Expect Drupal.settings.be_well_informed.state_xml to have a value')
     }
 
@@ -40,6 +41,7 @@
         state_code: state_code
       },
       before: function() {
+        is_building_state_form = true;
       },
       success: function(state_form_html) {
 
@@ -63,9 +65,9 @@
               $('#bwi-tabs').tabs();
               var $form = $('#water_analysis_results_form');
               $form
-                /*.parsley({
-                  inputs: Parsley.options.inputs + ',[data-parsley-check-children]'
-                })*/
+              /*.parsley({
+                inputs: Parsley.options.inputs + ',[data-parsley-check-children]'
+              })*/
                 .on('field:validated', function() {
                   var ok = $('.parsley-error').length === 0;
                   $('.bs-callout-info').toggleClass('hidden', !ok);
@@ -97,57 +99,29 @@
               $(window).resize(function() {
                 resizeModal();
               })
+              is_building_state_form = false;
+              $('#bwi-check-water-btn').prop('disabled', false).text('Check your water')
             },
             close: function(event, ui) {
-              /*sampleSetIndex = 0;
-              convertNulls = false;
-              $('#be-well-informed-results-table, #be-well-informed-result-details-table').dataTable({bDestroy: true}).fnDestroy();
-              $('#be-well-informed-results-table, #be-well-informed-result-details-table, #be-well-informed-results-table_wrapper, #be-well-informed-result-details-table_wrapper').remove();
-              $('#routine-contaminants, .or').removeClass('hide')
-              $('#interactive-prompts').html('')
-              $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
-              $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret').addClass('hide')
-              showElementOutOfMany($('#be-well-informed-form-wrapper'), $('.be-well-informed-modal-wrapper'));*/
             }
           })
       }
     })
   }
 
-  // Initialize the state selection modal
-  /*$('#be-well-informed-modal-state-selection')
-    .html(Drupal.settings.be_well_informed.templates.state_selection)
-    .dialog({
-      modal: true,
-      width: "auto",
-      title: "Be Well Informed State Selection",
-      position: {'my': 'center', 'at': 'center'},
-      dialogClass: 'be-well-informed-modal-state-selection',
-      autoOpen: false,
-      draggable: false,
-      resizable: false,
-      create: function(event, ui) {
-        $('#bwi-state-confirm-button').click(function() {
-          close_state_selection();
-        });
-        $(window).resize(function() {
-          resizeModal();
-        })
-      },
-      close: function(event, ui) {
-        // Any tasks before closing the modal
-      }
-    })*/
-
   // Initialize the link on the widget to open the modal
   $('.state-selection-link').click(function() {
     $('#be-well-informed-modal-state-selection').dialog("open")
   });
 
-  // Adding actions to the content
-  $('#bwi-check-water-btn').click(function() {
-    get_state_selection();
-  })
+  $('#bwi-state-selection-form').parsley()
+    .on('form:submit', function() {
+      if (!is_building_state_form) {
+        $('#bwi-check-water-btn').prop('disabled', true).text('Loading...')
+        get_state_selection();
+      }
+      return false; // Don't submit form
+    })
 
   function submit_water_sample() {
     var $form = $('#water_analysis_results_form');
@@ -163,7 +137,6 @@
     var $all_wrappers = $('.be-well-informed-modal-wrapper');
     var formData = $form.serializeObject();
 
-
     var data = formatFormData(formData, convertNulls);
 
     bwi_log(JSON.stringify(data));
@@ -175,8 +148,13 @@
       method: 'POST',
       data: data,
       success: function(be_well_response_json) {
-
-        if(typeof be_well_response_json === 'string') {
+        if (be_well_response_json.error) {
+          $('bwi-api-status').removeClass('hide')
+        }
+        else {
+          $('bwi-api-status').addClass('hide')
+        }
+        if (typeof be_well_response_json === 'string') {
           // Handle the insertion result HTML into the modal
           $results_wrapper.html(be_well_response_json);
           showElementOutOfMany($results_wrapper, $all_wrappers);
@@ -370,7 +348,7 @@
               }
 
               //
-              if(be_well_response_json.data.TreatmentSteps.hasOwnProperty(5)) {
+              if (be_well_response_json.data.TreatmentSteps.hasOwnProperty(5)) {
                 var tier_5a = be_well_response_json.data.TreatmentSteps[5].OrInstructions.reduce(function(p, c, i, a) {
                   return (c.Recommendation == "Point-of-Use (POU) Arsenic Adsorption Media Filter System") ? i : p;
                 }, -1);
@@ -378,10 +356,10 @@
                   return (c.Recommendation == "Point-of-Use (POU) Reverse Osmosis (RO) System") ? i : p;
                 }, -1);
 
-                if(tier_5a != -1 && tier_5b != -1) {
+                if (tier_5a != -1 && tier_5b != -1) {
                   // remove it from tier 5
                   be_well_response_json.data.TreatmentSteps[5].OrInstructions.splice(tier_5a, 1);
-                  if(!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
+                  if (!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
                     delete be_well_response_json.data.TreatmentSteps[5]
                     steps_count = Object.keys(be_well_response_json.data.TreatmentSteps).length
                   }
@@ -389,7 +367,7 @@
               }
 
               // # determine if there is no values in tier 3 & 4
-              if(!(be_well_response_json.data.TreatmentSteps.hasOwnProperty(3) || be_well_response_json.data.TreatmentSteps.hasOwnProperty(4))
+              if (!(be_well_response_json.data.TreatmentSteps.hasOwnProperty(3) || be_well_response_json.data.TreatmentSteps.hasOwnProperty(4))
                 && be_well_response_json.data.TreatmentSteps.hasOwnProperty(2) // # if tier 2 is only "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"
                 && be_well_response_json.data.TreatmentSteps[2].OrInstructions.length == 1
                 && be_well_response_json.data.TreatmentSteps[2].OrInstructions[0].Recommendation == "Whole House Anion Exchange Water Treatment System followed by an Acid Neutralizer"
@@ -405,7 +383,7 @@
                   // remove it from tier 5
                   be_well_response_json.data.TreatmentSteps[5].OrInstructions.splice(index, 1);
                   // if it is empty after remoing the step, update the treatment steps
-                  if(!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
+                  if (!be_well_response_json.data.TreatmentSteps[5].OrInstructions.length) {
                     delete be_well_response_json.data.TreatmentSteps[5]
                     steps_count = Object.keys(be_well_response_json.data.TreatmentSteps).length
                   }
@@ -434,13 +412,13 @@
                   .find('.step span')
                   .html('Step ' + step_label);
 
-                if($steps_span.hasClass('no-step')) {
+                if ($steps_span.hasClass('no-step')) {
                   $steps_span.removeClass('no-step');
                   $steps_span.addClass('fill-step');
                 }
 
                 //Hide label if results contain only one treatment step.
-                if(steps_count <= 1) {
+                if (steps_count <= 1) {
                   $steps_span.removeClass('fill-step');
                   $steps_span.addClass("no-step");
                   $steps_span.html('');
@@ -460,7 +438,7 @@
               }
 
               // Hide the header if results contain only one treatment step
-              if(steps_count <= 1) {
+              if (steps_count <= 1) {
                 $('#treatment_order_title').hide();
                 //$("div .step span .treatment-icon .step-icon").hide();
               }
@@ -492,7 +470,6 @@
       }
     });
   }
-
 
 
 })(jQuery, window);
