@@ -28,10 +28,6 @@ function clearResources() {
                 'all');
         // Guest user can only view all the content, so they do not have tabs
         if (!Drupal.settings.is_guest) {
-            favorite_local_resources_table =
-                new LocalResourcesTable($("#user-local-resources"),
-                    Drupal.settings.local_government_resources.user_resources,
-                    'my');
             var $tabs = $("#local-resources-tabs");
             $tabs.tabs();
             $tabs.find('.ui-corner-top').on('click', function (ev) {
@@ -49,6 +45,11 @@ function clearResources() {
     
 
         $body.on('click', '#restrict-to-local-resources-button', function () {
+          if (!favorite_local_resources_table)
+            favorite_local_resources_table =
+            new LocalResourcesTable($("#user-local-resources"),
+              Drupal.settings.local_government_resources.user_resources,
+              'my');
             favorite_local_resources_table.showTable();
             updateDropdown($('#user-lgc-topics-small-view'));
         });
