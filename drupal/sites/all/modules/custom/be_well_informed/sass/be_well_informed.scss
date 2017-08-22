@@ -657,9 +657,10 @@ $color-gray-white:			 #fafafa; // Workbench background
                 display: block;
                 border:1px solid #999999;
                 padding: 1rem;
+                box-sizing: border-box;
                 div {
                     padding: 1rem;
-                    white-space: nowrap;
+                    //white-space: nowrap;
                 }
 
                 .bwi-meets-limit:before {
@@ -858,7 +859,7 @@ html body.admin-menu {
             #be-well-informed-accordion {
                 .bwi-legend {
                     div {
-                        white-space: nowrap;
+                        //white-space: nowrap;
                     }
 
                 }
@@ -904,9 +905,9 @@ html body.admin-menu {
         padding-left: 1em;
     }
     .bwi-legend {
-        margin-left:1em;
-        width: 95%;
-        height:100px;
+        //margin-left:1em;
+        //width: 95%;
+        min-height:100px;
         display: block;
         border: 0.1em solid #999999;
         padding: 1em;
@@ -923,7 +924,7 @@ html body.admin-menu {
     .summary-table-pdf {
         font-size: 0.9em;
         margin-top: 2em;
-        margin-left: 1em;
+        //margin-left: 1em;
         .element-col {
             width: 75px;
         }
@@ -946,12 +947,12 @@ html body.admin-menu {
         height: 1.5em;
     }
     .water-treatment-head {
-        margin-left:1em;
+        //margin-left:1em;
         margin-top:2em;
-        width:95%;
-        height:40px;
+        width:100%;
+        min-height:40px;
         border:1px solid gray;
-        padding:0.5em 0.5em 0 0.5em;
+        padding:0.5em 0.5em 0.5em 0.5em;
         .detail-show {
             color:red;
         }
@@ -1087,5 +1088,51 @@ html body.admin-menu {
         background-color: $color-gray-light;
         background-image: none;
         border: 1px solid $color-gray-medium;
+    }
+}
+
+@media screen and (max-width: 30em) {
+
+    .grid-stack-item-content.beta-ribbon {
+        padding-top: 2em;
+    }
+
+    #be-well-informed-results-wrapper {
+
+        .summary-table-pdf {
+            font-size: 0.9em;
+            margin-top: 2em;
+            display:block;
+            .element-col {
+                width: 100%;
+            }
+            .limit-col {
+                width: 100%;
+            }
+            th {
+                white-space:nowrap;
+                text-align:left;
+                padding:0 1em 1em 0;
+            }
+            tbody {
+                display:block;
+            }
+            tr {
+                display:block;
+            }
+            td {
+                display:block;
+                box-sizing: border-box;
+                width: 100%;
+                border-bottom:1px solid gray;
+                padding:0.5em 1em 1em 0.5em;
+                ul,ol {
+                    display: block;
+                    li {
+                        display: block;
+                    }
+                }
+            }
+        }
     }
 }
