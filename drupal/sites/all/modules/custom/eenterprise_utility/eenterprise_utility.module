@@ -1550,14 +1550,6 @@ function generate_location_input_for_guests() {
 }
 
 
-function eenterprise_utility_node_access($node, $op, $account) {
-  //Deny access to content that the user did not create.
-  if (($node->type == 'progress_tracker' && $op == 'view') && $node->name != $account->name) {
-    return NODE_ACCESS_DENY;
-  }
-}
-
-
 /**
  * Implements hook_theme().
  */
