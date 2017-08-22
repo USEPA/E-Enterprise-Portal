@@ -1116,7 +1116,7 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
   ];
   // some logic to help make it simpler to read
   foreach ($variables['water_components'] as $key => $var) {
-    $variables['water_components'][$key]['symbol_text'] = ($var['symbol_text']) ? $var['symbol_text'] : $var['symbol'];
+    $variables['water_components'][$key]['symbol_text'] = (isset($var['symbol_text'])) ? $var['symbol_text'] : $var['symbol'];
   }
 
   if (in_array($hook, ['be_well_informed_modal_results', 'be_well_informed_pdf'])) {
