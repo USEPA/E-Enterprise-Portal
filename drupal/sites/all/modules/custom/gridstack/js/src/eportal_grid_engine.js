@@ -223,6 +223,7 @@
         }
 
         function resizeCallback(grid, $elementToResize) {
+          $( document ).trigger( "eportal-grid-engine:element-resize", [ grid, $elementToResize ] );
           recalculateWidgetHeights(grid, $elementToResize);
           rebuildSkipLinks(sortedWidgets());
         }

@@ -38,7 +38,7 @@
             map = loadMap();
           }
           else {
-            updateMarker();
+            updateMarker(e, ui);
           }
         }
       }
@@ -48,7 +48,10 @@
       $(this).focus();
     });
 
-    $(document).on("ee:zipCodeQueried", function(evt, data) {
+    $(document).on("ee:zipCodeQueried", function(evt, currentZipData) {
+      if (!first_time_user_loading) {
+        draw(currentZipData.zip, currentZipData.string);
+      }
       // If it exists, we can clear any existing setInterval
       if(map_update) {
         clearInterval(map_update);
@@ -59,13 +62,13 @@
        * update.
       */
       if(map) {
-        update_markers(evt, data);
+        update_markers(evt, currentZipData);
       } else {
         // If the map has not been initialized, we create delay update
 
         map_update = setInterval(function() {
           if(get_map()) {
-            update_markers(evt, data);
+            update_markers(evt, currentZipData);
             clearInterval(init_map);
           }
         }, 1000);
@@ -74,10 +77,7 @@
 
     function update_markers(evt, data) {
       if (!first_time_user_loading) {
-        currentZipData = data;
-        draw(currentZipData.zip, currentZipData.string);
         //if markers exist then it's not the original map load
-
         if (markers) {
           map.removeLayer(markers);
           markers = new L.FeatureGroup();
