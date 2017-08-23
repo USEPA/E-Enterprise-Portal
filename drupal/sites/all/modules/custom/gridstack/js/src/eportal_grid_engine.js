@@ -35,6 +35,7 @@
           }
 
           $grid_container.gridstack(options);
+          $('.gridstack-loading').removeClass('gridstack-loading');
           $grid_container.show();
           var grid = $grid_container.data('gridstack');
 
@@ -215,13 +216,11 @@
                     resizeCallback(gs_object, $(nodes[i].el));
                     // Update cached height of content
                     grid_heights[id] = $pane_content.height();
-                    // Screen pauses for too long if looping through all updates. Only process one at a time.
-                    return false; // only need to call once
                   }
                 }
               }
             }
-          }, 500)
+          }, 1000)
         }
 
         function resizeCallback(grid, $elementToResize) {
