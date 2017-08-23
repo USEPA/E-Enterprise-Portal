@@ -200,30 +200,32 @@
         function addResizeSensors(gs_object) {
           // Initialize cache of grid heights
           var grid_heights = {};
+          var nodes = gs_object.grid.nodes;
+          var $draggingGrid = jQuery('.grid-stack .ui-draggable-dragging');
           setInterval(function () {
             // Only resize if not dragging component
-            if (jQuery('.grid-stack .ui-draggable-dragging').length <= 0) {
+            if ($draggingGrid.length <= 0) {
               // Check if grid content heights have changed
-              jQuery.each(gs_object.grid.nodes, function () {
-                var $elem = this.el;
-                var id = this.x + '_' + this.y;
+              for (var i = 0; i < nodes.length; i++) {
+                var $elem = nodes[i].el;
+                var id = nodes[i].x + '_' + nodes[i].y;
                 var $pane_content = $elem.find('.pane-content');
                 if ($pane_content.length > 0) {
                   if (!grid_heights[id] || $pane_content.height() != grid_heights[id]) {
-                    resizeCallback(gs_object, $(this.el));
+                    resizeCallback(gs_object, $(nodes[i].el));
                     // Update cached height of content
                     grid_heights[id] = $pane_content.height();
                     // Screen pauses for too long if looping through all updates. Only process one at a time.
                     return false; // only need to call once
                   }
                 }
-              });
+              }
             }
           }, 500)
         }
 
         function resizeCallback(grid, $elementToResize) {
-          $( document ).trigger( "eportal-grid-engine:element-resize", [ grid, $elementToResize ] );
+          $(document).trigger("eportal-grid-engine:element-resize", [grid, $elementToResize]);
           recalculateWidgetHeights(grid, $elementToResize);
           rebuildSkipLinks(sortedWidgets());
         }
@@ -293,6 +295,7 @@
             };
           }, grid);
         }
+
         createGrid();
       });
     }
