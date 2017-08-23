@@ -53,7 +53,7 @@
 
           addDragListeners($grid_container, $grid_change_options);
           addSaveListeners(grid, $save_button, $revert_button);
-          addResizeSensors(grid, verticalMargin, cellHeight);
+          addResizeSensors(grid);
           grid.resizable('.grid-stack-item', false);
           if (Drupal.settings.is_guest) {
             grid.movable('.grid-stack-item', false);
@@ -213,11 +213,13 @@
                     resizeCallback(gs_object, $(this.el));
                     // Update cached height of content
                     grid_heights[id] = $pane_content.height();
+                    // Screen pauses for too long if looping through all updates. Only process one at a time.
+                    return false; // only need to call once
                   }
                 }
               });
             }
-          }, 1000)
+          }, 500)
         }
 
         function resizeCallback(grid, $elementToResize) {
