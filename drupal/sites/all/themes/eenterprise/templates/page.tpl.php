@@ -95,7 +95,7 @@ else {
     <?php print render($page['header']); ?>
 </header>
 <?php print render($page['navigation']); ?>
-<section class="main-content usa-grid gridstack-loading" role="main">
+<section class="main-content usa-grid grid-stack-loading" role="main">
   <?php print render($page['preface']); ?>
   <?php print render($page['highlighted']); ?>
   <div id="content" class="usa-width-one-whole">

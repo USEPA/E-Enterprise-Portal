@@ -7,7 +7,15 @@
 }
 
 .grid-stack-loading {
-  background-color: purple;
+  /*position: absolute;
+  width: 200PX;
+  height: 200PX;
+  transform: translate(-50%, 50%);
+  margin-left: 50%;
+  left: 0;*/
+  background-image: url('/sites/all/modules/custom/gridstack/images/gears.gif');
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .grid-stack {

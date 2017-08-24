@@ -35,8 +35,9 @@
           }
 
           $grid_container.gridstack(options);
-          $('.gridstack-loading').removeClass('gridstack-loading');
+          //$('.grid-stack-loading').hide();
           $grid_container.show();
+          //$('.grid-stack-loading').removeClass('grid-stack-loading');
           var grid = $grid_container.data('gridstack');
 
           // If Serialization is empty, capture current grid state for reversion if
@@ -59,6 +60,7 @@
           if (Drupal.settings.is_guest) {
             grid.movable('.grid-stack-item', false);
           }
+          $('.grid-stack-loading').removeClass('grid-stack-loading');
         }
 
         /**
