@@ -91,6 +91,9 @@
                   if ($(this).val() > 0) {
                     $(this).siblings('.row').find(':radio[value=present]').prop('checked', true);
                   }
+                  else {
+                    $(this).siblings('.row').find(':radio').prop('checked', false);
+                  }
                 });
               });
 
