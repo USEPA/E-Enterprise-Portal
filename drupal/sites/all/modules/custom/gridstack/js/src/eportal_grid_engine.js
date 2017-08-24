@@ -35,7 +35,9 @@
           }
 
           $grid_container.gridstack(options);
+          //$('.grid-stack-loading').hide();
           $grid_container.show();
+          //$('.grid-stack-loading').removeClass('grid-stack-loading');
           var grid = $grid_container.data('gridstack');
 
           // If Serialization is empty, capture current grid state for reversion if
@@ -53,11 +55,12 @@
 
           addDragListeners($grid_container, $grid_change_options);
           addSaveListeners(grid, $save_button, $revert_button);
-          addResizeSensors(grid, verticalMargin, cellHeight);
+          addResizeSensors(grid);
           grid.resizable('.grid-stack-item', false);
           if (Drupal.settings.is_guest) {
             grid.movable('.grid-stack-item', false);
           }
+          $('.grid-stack-loading').removeClass('grid-stack-loading');
         }
 
         /**
@@ -200,28 +203,30 @@
         function addResizeSensors(gs_object) {
           // Initialize cache of grid heights
           var grid_heights = {};
+          var nodes = gs_object.grid.nodes;
+          var $draggingGrid = jQuery('.grid-stack .ui-draggable-dragging');
           setInterval(function () {
             // Only resize if not dragging component
-            if (jQuery('.grid-stack .ui-draggable-dragging').length <= 0) {
+            if ($draggingGrid.length <= 0) {
               // Check if grid content heights have changed
-              jQuery.each(gs_object.grid.nodes, function () {
-                var $elem = this.el;
-                var id = this.x + '_' + this.y;
+              for (var i = 0; i < nodes.length; i++) {
+                var $elem = nodes[i].el;
+                var id = nodes[i].x + '_' + nodes[i].y;
                 var $pane_content = $elem.find('.pane-content');
                 if ($pane_content.length > 0) {
                   if (!grid_heights[id] || $pane_content.height() != grid_heights[id]) {
-                    resizeCallback(gs_object, $(this.el));
+                    resizeCallback(gs_object, $(nodes[i].el));
                     // Update cached height of content
                     grid_heights[id] = $pane_content.height();
                   }
                 }
-              });
+              }
             }
           }, 1000)
         }
 
         function resizeCallback(grid, $elementToResize) {
-          $( document ).trigger( "eportal-grid-engine:element-resize", [ grid, $elementToResize ] );
+          $(document).trigger("eportal-grid-engine:element-resize", [grid, $elementToResize]);
           recalculateWidgetHeights(grid, $elementToResize);
           rebuildSkipLinks(sortedWidgets());
         }
@@ -291,6 +296,7 @@
             };
           }, grid);
         }
+
         createGrid();
       });
     }
