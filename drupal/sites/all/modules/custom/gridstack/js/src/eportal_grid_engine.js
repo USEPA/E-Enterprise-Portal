@@ -35,9 +35,7 @@
           }
 
           $grid_container.gridstack(options);
-          //$('.grid-stack-loading').hide();
           $grid_container.show();
-          //$('.grid-stack-loading').removeClass('grid-stack-loading');
           var grid = $grid_container.data('gridstack');
 
           // If Serialization is empty, capture current grid state for reversion if
