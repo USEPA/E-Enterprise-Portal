@@ -28,10 +28,10 @@ function be_well_informed_admin($form, $form_state) {
     '#required' => FALSE,
   );
 
-  $form['be_well_informed_toggles']['bwi_file_upload_url'] = array(
+  $form['be_well_informed_toggles']['bwi_service_url'] = array(
     '#type' => 'textfield',
-    '#title' => t('Specify URL to which XML files are being uploaded.'),
-    '#default_value' => variable_get('bwi_file_upload_url', "example.com"),
+    '#title' => t('Specify URL to where the BWI service is located.'),
+    '#default_value' => variable_get("bwi_service_url", 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation'),
     '#required' => TRUE,
   );
 
