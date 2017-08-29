@@ -101,7 +101,7 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
   }
   else {
     // Pass the file to the CDX hosted service.
-    $cdx_upload_url = variable_get("bwi_file_upload_url", 'https://nodewebdev.epacdxnode.net/DWIService/dwievaluation');
+    $cdx_upload_url = variable_get("bwi_service_url", 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation');
     $params = ['statecode' => $user_location];
     // file_save_upload temporarily stores the file for evaluation
     $partner_file = file_save_upload('partner');
@@ -375,7 +375,7 @@ function be_well_informed_form_submission() {
     $datatable_formatted_response['error'] = FALSE;
   }
   else {
-    $endpoint = "https://nodewebdev.epacdxnode.net/DWIService/dwievaluation";
+    $endpoint = variable_get("bwi_service_url", 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation');
     $headers = array('Content-Type' => 'application/json');
     $response = drupal_http_request($endpoint, [
       "headers" => $headers,
