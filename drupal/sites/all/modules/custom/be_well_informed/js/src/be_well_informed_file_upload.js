@@ -7,5 +7,4 @@
       alert('Upload must not exceed 2 MB in size');
     }
   });
-
 })(jQuery);
