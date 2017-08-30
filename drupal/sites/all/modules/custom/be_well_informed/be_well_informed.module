@@ -58,6 +58,7 @@ function be_well_informed_configurations_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Submit'),
   );
+  drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/be_well_informed_file_upload.js');
   return $form;
 }
 
