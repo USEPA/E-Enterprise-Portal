@@ -1,4 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <FlowCharts>
   <Sections>
     <RoutineContaminants>
@@ -1165,7 +1164,7 @@
             <Content>
               <b>
                 Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/nitrite.cfm"> drinking water standard for nitrite</a>?
-              </b>  Yes, your water meets federal and state drinking water standards as it contains less than 10 mg/L of nitrate and total nitrogen.  However, your results indicate that your well water is approaching a level that is unsafe for babies under six months old to consume. </Content>
+              </b>  Yes, your water meets federal and state drinking water standards as it contains less than 1 mg/L of nitrite.  However, your results indicate that your well water is approaching a level that is unsafe for babies under six months old to consume. </Content>
           </N5>
         </InterpretationMessages>
         <HealthMessages>
@@ -1259,7 +1258,7 @@
               <Outcome IM="Na1" HM="Na1" TM="Na1" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the MassDEP guidance level" />
             </True>
             <False>
-              <Outcome IM="Na2" HM="Na2" TM="Na2" GuidelineIcon="W" GuidelineText="The value entered meets the MassDEP guidance level " />
+              <Outcome IM="Na2" HM="Na2" TM="Na2" GuidelineIcon="M" GuidelineText="The value entered meets the MassDEP guidance level " />
             </False>
           </Condition>
         </False>
@@ -1269,7 +1268,7 @@
           <Na1>
             <Content>
               <b>
-                Does my well water meet the MassDEP guidance level for sodium?</b>No, your water does not meet the MassDEP drinking water guidance standards as it contains more than 20 mg/L of sodium. See the <a target="_blank" href="http://www.mass.gov/eohhs/docs/dph/environmental/exposure/sodium-drinking-water-faq.pdf">MassDEP and MDPH Sodium Fact Sheet </a>which is included as the next to last page in the linked document. 
+                Does my well water meet the MassDEP guidance level for sodium?</b>No, your water does not meet the MassDEP drinking water guidance standard as it contains more than 20 mg/L of sodium. See the <a target="_blank" href="http://www.mass.gov/eohhs/docs/dph/environmental/exposure/sodium-drinking-water-faq.pdf">MassDEP and MDPH Sodium Fact Sheet </a>for more information.
             </Content>
           </Na1>
           <Na2>
@@ -1286,9 +1285,7 @@
             </Content>
           </Na1>
           <Na2>
-            <Content>
-              <b>Can consuming water containing sodium affect my health?</b>  Consuming water containing sodium is not harmful to your health.  However, if your water contains more than 20 mg/L of sodium and you or someone in your household is on a low-salt diet, you should talk with your doctor about the level of sodium in your water.  The U.S. Environmental Protection Agency’s guidance level of 20 mg/L for sodium in drinking water was developed for people restricted to a total sodium intake of 500 mg/day.
-            </Content>
+            <Content></Content>
           </Na2>
         </HealthMessages>
         <TreatmentMessages>
@@ -1414,10 +1411,10 @@
     <Contaminant Section="RadionuclideContaminants" Value="Rn" Text="Radon" MCL="10000 pCi/L" NotEntered="Test both the air in your home (if you live below the third floor) and in your water (unless it is from a dug well) for radon.  In Massachusetts, it is estimated that 650,000 homes have indoor air radon levels that exceed the EPA action guideline of 4 pCi/L.">
       <Condition CheckOperator="&gt;=" CheckValue="10000">
         <True>
-          <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="W" GuidelineText="The value entered exceeds the MassDEP guideline for radon in water." />
+          <Outcome IM="Rn1" HM="Rn1" TM="Rn1" TreatmentOrder="3a" GuidelineIcon="E" GuidelineText="The value entered exceeds the MassDEP guideline for radon in water." />
         </True>
         <False>
-          <Outcome IM="Rn3" HM="Rn3" GuidelineIcon="M" GuidelineText="The value entered is below the MassDEP guideline for radon in water." />
+          <Outcome IM="Rn3" HM="Rn3" GuidelineIcon="M" GuidelineText="The value entered meets the MassDEP guideline for radon in water." />
         </False>
       </Condition>
       <Outcomes>
@@ -1425,7 +1422,7 @@
           <Rn1>
             <Content>
               <b>
-                What do my results mean?</b> See  <a target="_blank" href="http://www.mass.gov/eea/agencies/massdep/water/drinking/fact-sheet-for-radionuclides-including-uranium-in-drin.html">MassDEP's Fact Sheet </a>for Radionuclides, including Uranium in Drinking Water for information regarding radon in your drinking water. See<a target="_blank" href="http://www.mass.gov/eohhs/docs/dph/environmental/iaq/radon-fact-sheet-2016.pdf ">MDPH’s Radon Fact Sheet </a>for recommendations for indoor air testing and for an interpretation of the indoor air radon results.</Content>
+                What do my results mean?</b> See  <a target="_blank" href="http://www.mass.gov/eea/agencies/massdep/water/drinking/fact-sheet-for-radionuclides-including-uranium-in-drin.html">MassDEP's Fact Sheet for Radionuclides, including Uranium in Drinking Water </a> for information regarding radon in your drinking water. See <a target="_blank" href="http://www.mass.gov/eohhs/docs/dph/environmental/iaq/radon-fact-sheet-2016.pdf ">MDPH’s Radon Fact Sheet </a>for recommendations for indoor air testing and for an interpretation of the indoor air radon results.</Content>
           </Rn1>
           <Rn3>
             <Content>
@@ -1552,7 +1549,7 @@
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
-    <Contaminant Section="RadionuclideContaminants" Value="Ur" Text="Uranium" MCL="30 μg/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high uranium.">
+    <Contaminant Section="RadionuclideContaminants" Value="Ur" Text="Uranium" MCL="30 μg/L" NotEntered="Test your water.  Studies show that many private wells in Massachusetts have high uranium.">
       <Condition CheckOperator="&gt;=" CheckValue="30.5">
         <True>
           <Outcome IM="Ur1" HM="Ur1" TM="Ur1" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
@@ -1601,7 +1598,7 @@
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
-    <Contaminant Section="RadionuclideContaminants" Value="AGA" Text="Gross Alpha" MCL="15 pCi/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high gross alpha radioactivity.">
+    <Contaminant Section="RadionuclideContaminants" Value="AGA" Text="Gross Alpha" MCL="15 pCi/L" NotEntered="Test your water.  Studies show that many private wells in Massachusetts have high gross alpha radioactivity.">
       <Condition CheckOperator="&gt;=" CheckValue="15.5">
         <True>
           <Condition CheckElement="Ur" CheckOperator="&gt;=" CheckValue="20">
@@ -1686,11 +1683,15 @@
       <Outcomes>
         <InterpretationMessages>
           <pH1>
-            <Content>  No, your water does not meet federal and state drinking water guidelines as it is below the drinking water guideline range of 6.5 to 8.5 for pH. Low pH water may be corrosive to the metal components of your plumbing which could also result in elevated concentrations of lead and copper in your drinking water. 
+            <Content>
+              <b>
+                Does my well water meet the guieline for pH? </b>  No, your water does not meet federal and state drinking water guidelines as it is below the drinking water guideline range of 6.5 to 8.5 for pH. Low pH water may be corrosive to the metal components of your plumbing which could also result in elevated concentrations of lead and copper in your drinking water.
             </Content>
           </pH1>
           <pH2>
-            <Content>  No, your water does not meet federal and state drinking water guidelines as it is above the drinking water guideline range of 6.5 to 8.5 for pH.  High pH water may have a slippery feel and may result in mineral deposits building up inside your plumbing and in your sinks, bathtubs and toilets.
+            <Content>
+              <b>
+                Does my well water meet the guieline for pH? </b>  No, your water does not meet federal and state drinking water guidelines as it is above the drinking water guideline range of 6.5 to 8.5 for pH.  High pH water may have a slippery feel and may result in mineral deposits building up inside your plumbing and in your sinks, bathtubs and toilets.
             </Content>
           </pH2>
         </InterpretationMessages>

@@ -28,11 +28,28 @@ function be_well_informed_admin($form, $form_state) {
     '#required' => FALSE,
   );
 
-  $form['be_well_informed_toggles']['bwi_file_upload_url'] = array(
+  $form['be_well_informed_toggles']['bwi_service_url'] = array(
     '#type' => 'textfield',
-    '#title' => t('Specify URL to which XML files are being uploaded.'),
-    '#default_value' => variable_get('bwi_file_upload_url', "example.com"),
+    '#title' => t('Specify URL to where the BWI service is located.'),
+    '#default_value' => variable_get("bwi_service_url", 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation'),
     '#required' => TRUE,
+  );
+
+  $form['be_well_informed_configuration'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Configuration'),
+  );
+
+
+
+  $bwi_body = variable_get('bwi_body', ['value' => variable_get('bwi_body', '<p> Have a well and wonder what your water testing results mean?</p><p> The Be Well Informed Guide lets you enter your test results and get feedback about health concerns and water treatment choices for your state or tribe.</p><p> Be Well Informed was created for residents, and has the most common contaminants that affect wells. It may not have all the contaminants present in your area - for those it does have, it can provide useful information.</p><p> A quick disclaimer before we start.</p><p class="widget-note"> Information provided on this website is for informational purposes only and should not be substituted for direct consultation with a qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide may determine the most appropriate water treatment option.</p><p class="widget-note powered-by-nhbwi">Powered by: <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank">New Hampshire Be <em>Well</em> Informed</a></p>'), 'format' => NULL]);
+
+  $form['be_well_informed_configuration']['bwi_body'] = array(
+    '#type' => 'text_format',
+    '#title' => t('Be Well Informed Introductory Text'),
+    '#default_value' => $bwi_body['value'],
+    '#format' => $bwi_body['format'],
+    '#required' => FALSE,
   );
 
   return system_settings_form($form);

@@ -145,26 +145,7 @@
         </p>
 
     <?php endif; ?>
-        <p>
-          <span>Print this report and make final water treatment decisions with a qualified <a
-                      target="_blank"
-                      href="http://www.wqa.org/Programs-Services/Resources/Find-Providers/Find-Certified-Professionals">water treatment professional.</a></span>
-            <br>
-            <br>
-            <span>More Information about selecting appropriate water treatment devices is available
-                                from <a target="_blank"
-                                        href="http://www.nsf.org/consumer-resources/what-is-nsf-certification/water-filters-treatment-certification/selecting-a-water-treatment-system/">
-              NSF</a> and <a target="_blank"
-                             href="http://www.extension.org/pages/31581/home-water-treatment-devices#.VIdCJcgo7cs">
-              Cooperative Extension</a>.
-                                <br>
-                            </span>
-        </p>
-        <p><span>More Information is available from <a target="_blank"
-                                                       href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">NHDES</a> and <a
-                        target="_blank"
-                        href="http://water.epa.gov/drink/contaminants/index.cfm">US EPA</a></span>
-        </p>
+      <?php echo $state_info['Results']['WaterTreatmentSystem']; ?>
       <?php endif;    //added forpdf ?>
     </div>
     <h1 class="head" role="tab" tabindex="0">

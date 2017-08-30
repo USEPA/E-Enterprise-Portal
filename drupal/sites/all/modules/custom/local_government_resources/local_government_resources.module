@@ -580,7 +580,7 @@ function lgc_resources_json_by_user() {
   $deprecated_terms = $term_tid_mapping;
 
 
-  $resources_array['resources'] = rcs_lgc_resources($term_tid_mapping, $deprecated_terms);
+  $resources_array['resources'] = rcs_lgc_resources($term_tid_mapping, $deprecated_terms, false);
   if (feature_toggle_get_status('mo_lgc_data')) {
     $resources_array['resources'] = array_merge($resources_array['resources'], mo_lgc_resources($term_tid_mapping, $deprecated_terms));
   }

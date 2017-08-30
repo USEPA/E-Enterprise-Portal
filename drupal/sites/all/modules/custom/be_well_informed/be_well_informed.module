@@ -45,7 +45,7 @@ function be_well_informed_configurations_form($form, &$form_state) {
 
   $form['partner'] = array(
     '#type' => 'file',
-    '#title' => t('Partner Configurations'),
+    '#title' => t('Partner Configurations- ' . _user_managed_partner()),
     '#description' => t('Upload your configurations, allowed extensions: xml'),
   );
   $form['flowchart'] = array(
@@ -88,20 +88,25 @@ function be_well_informed_configurations_form_validate($form, &$form_state) {
   }
 }
 
-function be_well_informed_configurations_form_submit($form, &$form_state) {
+function _user_managed_partner() {
   global $user;
   $user_data = user_load($user->uid);
   $user_location = '';
   if (isset($user_data->field_admin_state[LANGUAGE_NONE])) {
     $user_location = $user_data->field_admin_state[LANGUAGE_NONE][0]['safe_value'];
   }
+  return $user_location;
+}
+
+function be_well_informed_configurations_form_submit($form, &$form_state) {
+  $user_location = _user_managed_partner();
   if (empty(trim($user_location))) {
     drupal_set_message('Your account has not been assigned a location for administering Be Well Informed 
     configurations.', 'error');
   }
   else {
     // Pass the file to the CDX hosted service.
-    $cdx_upload_url = variable_get("bwi_file_upload_url", 'https://nodewebdev.epacdxnode.net/DWIService/dwievaluation');
+    $cdx_upload_url = variable_get("bwi_service_url", 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation');
     $params = ['statecode' => $user_location];
     // file_save_upload temporarily stores the file for evaluation
     $partner_file = file_save_upload('partner');
@@ -109,12 +114,19 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
 
     if ($partner_file) {
       $partner_file_content = file_get_contents($partner_file->uri);
+      // Store the partner configuration xml locally
+      $path = drupal_get_path('module', 'be_well_informed') . '/saved_configurations/partners/partner-' . $user_location . '.xml';
+      file_put_contents($path, $partner_file_content);
+      // Prep the base64 encoded content for sending to the service
       $partner_file_encoded = base64_encode($partner_file_content);
       $params['PartnerContent'] = $partner_file_encoded;
     }
-
     if ($flowchart_file) {
       $flowchart_file_content = file_get_contents($flowchart_file->uri);
+      // Store the flowchart configuration xml locally
+      $path = drupal_get_path('module', 'be_well_informed') . '/saved_configurations/flowcharts/flowchart-' . $user_location . '.xml';
+      file_put_contents($path, $flowchart_file_content);
+      // Prep the base64 encoded content for sending to the service
       $flowchart_file_encoded = base64_encode($flowchart_file_content);
       $params['FlowchartContent'] = $flowchart_file_encoded;
     }
@@ -294,22 +306,6 @@ function be_well_informed_block_view($delta = '') {
   if ($delta == 'be_well_informed') {
     //good idea to check user perms here
     if (user_access('access content')) {
-      drupal_add_js(libraries_get_path('css-element-queries') . '/ElementQueries.min.js', [
-        'scope' => 'footer',
-        'preprocess' => TRUE,
-        'group' => JS_LIBRARY,
-        'type' => 'file',
-        'cache' => TRUE,
-        'requires_jquery' => TRUE
-      ]);
-      drupal_add_js(libraries_get_path('css-element-queries') . '/ResizeSensor.min.js', [
-        'scope' => 'footer',
-        'preprocess' => TRUE,
-        'group' => JS_LIBRARY,
-        'type' => 'file',
-        'cache' => TRUE,
-        'requires_jquery' => TRUE
-      ]);
       drupal_add_js(drupal_get_path('module', 'datatables') . '/dataTables/media/js/jquery.dataTables.js', [
         'scope' => 'footer',
         'preprocess' => TRUE,
@@ -383,7 +379,7 @@ function be_well_informed_form_submission() {
     $datatable_formatted_response['error'] = FALSE;
   }
   else {
-    $endpoint = "https://nodewebdev.epacdxnode.net/DWIService/dwievaluation";
+    $endpoint = variable_get("bwi_service_url", 'https://nodeweb.epacdxnode.net/BWIService/bwievaluation');
     $headers = array('Content-Type' => 'application/json');
     $response = drupal_http_request($endpoint, [
       "headers" => $headers,
@@ -447,6 +443,7 @@ function be_well_informed_form_submission() {
   drupal_json_output($datatable_formatted_response);
 }
 
+
 function be_well_informed_get_state_information($state_code = NULL) {
   if (!isset($_POST) || count($_POST) === 0 || !$state_code) {
     drupal_json_output(array(
@@ -456,15 +453,14 @@ function be_well_informed_get_state_information($state_code = NULL) {
     return;
   }
 
-  //drupal_json_output($sample);
   if (!$state_code) {
-    $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/partner' . $_POST['state'] . '.xml';
+    $path = drupal_get_path('module', 'be_well_informed') . '/saved_configurations/partners/partner-' . $_POST['state'] . '.xml';
     $state_info = file_get_contents($path);
     drupal_add_http_header('Content-Type', 'text/xml');
     echo $state_info;
   }
   else {
-    $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/partner' . $state_code . '.xml';
+    $path = drupal_get_path('module', 'be_well_informed') . '/saved_configurations/partners/partner-' . $state_code . '.xml';
     $state_info = file_get_contents($path);
     $xml_array = xmlstr_to_array($state_info, 'domnode_clean', 'bwi_domnode_to_array');
     return $xml_array;
@@ -607,6 +603,8 @@ function template_preprocess_be_well_informed_modal_state_form(&$variables, $hoo
 function template_preprocess_be_well_informed(&$variables, $hook) {
   $variables['states'] = ['Massachusetts', 'New Hampshire'];
   $variables['state_code'] = $_POST['state_code'];
+  $bwi_body = variable_get('bwi_body', array('value' => variable_get('bwi_body', '<p> Have a well and wonder what your water testing results mean?</p><p> The Be Well Informed Guide lets you enter your test results and get feedback about health concerns and water treatment choices for your state or tribe.</p><p> Be Well Informed was created for residents, and has the most common contaminants that affect wells. It may not have all the contaminants present in your area - for those it does have, it can provide useful information.</p><p> A quick disclaimer before we start.</p><p class="widget-note"> Information provided on this website is for informational purposes only and should not be substituted for direct consultation with a qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide may determine the most appropriate water treatment option.</p><p class="widget-note powered-by-nhbwi">Powered by: <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank">New Hampshire Be <em>Well</em> Informed</a></p>'), 'format' => NULL));
+  $variables['body'] = $bwi_body['value'];
 }
 
 /**
@@ -869,7 +867,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 
   // some logic to help make it simpler to read
   foreach ($variables['water_components'] as $key => $var) {
-    $variables['water_components'][$key]['symbol_text'] = ($var['symbol_text']) ? $var['symbol_text'] : $var['symbol'];
+    $variables['water_components'][$key]['symbol_text'] = (isset($var['symbol_text'])) ? $var['symbol_text'] : $var['symbol'];
   }
 
   $exposed_variables = [
@@ -1187,7 +1185,7 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
   ];
   // some logic to help make it simpler to read
   foreach ($variables['water_components'] as $key => $var) {
-    $variables['water_components'][$key]['symbol_text'] = ($var['symbol_text']) ? $var['symbol_text'] : $var['symbol'];
+    $variables['water_components'][$key]['symbol_text'] = (isset($var['symbol_text'])) ? $var['symbol_text'] : $var['symbol'];
   }
 
   if (in_array($hook, ['be_well_informed_modal_results', 'be_well_informed_pdf'])) {
