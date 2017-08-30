@@ -58,7 +58,14 @@ function be_well_informed_configurations_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Submit'),
   );
-  drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/be_well_informed_file_upload.js');
+  drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/be_well_informed_file_upload.js', [
+    'scope' => 'footer',
+    'preprocess' => TRUE,
+    'group' => JS_DEFAULT,
+    'type' => 'file',
+    'cache' => TRUE,
+    'requires_jquery' => TRUE
+  ]);
   return $form;
 }
 
@@ -125,7 +132,7 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
     if ($flowchart_file) {
       $flowchart_file_content = file_get_contents($flowchart_file->uri);
       // Store the flowchart configuration xml locally
-      $path = variable_get('file_public_path', conf_path() . '/files') .       $path = variable_get('file_public_path', conf_path() . '/files') . '/saved_configurations/partners/partner-' . $user_location . '.xml';
+      $path = variable_get('file_public_path', conf_path() . '/files') . $path = variable_get('file_public_path', conf_path() . '/files') . '/saved_configurations/partners/partner-' . $user_location . '.xml';
       file_put_contents($path, $flowchart_file_content);
       // Prep the base64 encoded content for sending to the service
       $flowchart_file_encoded = base64_encode($flowchart_file_content);
