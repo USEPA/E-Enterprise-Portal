@@ -2,6 +2,22 @@
   filter: none;
 }
 
+.section-workbench .main-content.usa-grid {
+  min-height: 500px;
+}
+
+.grid-stack-loading {
+  /*position: absolute;
+  width: 200PX;
+  height: 200PX;
+  transform: translate(-50%, 50%);
+  margin-left: 50%;
+  left: 0;*/
+  //background-image: url('/sites/all/modules/custom/gridstack/images/gears.gif');
+  //background-position: center;
+  //background-repeat: no-repeat;
+}
+
 .grid-stack {
   position: relative;
   display: none;
@@ -23,7 +39,10 @@
   min-width: 8.33333333%;
   position: absolute;
   padding: 0;
+
 }
+
+
 
 .grid-stack > .grid-stack-item > .grid-stack-item-content {
   margin: 0;
@@ -390,12 +409,3 @@
     height: auto !important;
   }
 }
-
-/** Uncomment this to show bottom-left resize handle **/
-/*
-.grid-stack > .grid-stack-item > .ui-resizable-sw {
-    display: inline-block;
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-    @include vendor(transform, rotate(180deg));
-}
-*/
