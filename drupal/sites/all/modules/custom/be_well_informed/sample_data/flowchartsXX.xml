@@ -67,19 +67,7 @@
     </Conversion>
 
   </Conversions>
-  <!--
-    The following are the only permissible units of measure in the XML files:
-    1. mg/L
-    2. ug/L
-    3. ppm
-    4. ppb
-    5. units
-    6. pCi/L
-    7. ug/L
-    8. CFU/100 mL
-    9. MPN/100 mL
-    Validate that no others exist. If so, reject the XML file and inform the user.
-  -->
+
   <Contaminants>
 
     <Contaminant Section="RoutineContaminants" Value="As" Text="Arsenic" MCL="0.01 mg/L" NotEntered="Test your water.  Studies show that 1 in 5 private wells in New Hampshire have high arsenic.">
