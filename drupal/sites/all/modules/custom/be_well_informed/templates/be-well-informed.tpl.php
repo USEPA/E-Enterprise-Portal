@@ -16,8 +16,7 @@
                         <div class="col-md-8">
                             <select id="bwi-state" name="bwi-state" required="" data-parsley-errors-messages-disabled>
                                 <option value="">Select a State/Tribe</option>
-                                <option value="MA">Massachusetts</option>
-                                <option value="NH">New Hampshire</option>
+                                <?php echo $partner_list_options; ?>
                             </select>
                         </div>
                     </div>
