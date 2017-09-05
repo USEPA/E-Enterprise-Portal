@@ -429,6 +429,9 @@ function be_well_informed_form_submission() {
   drupal_json_output($datatable_formatted_response);
 }
 
+function be_well_informed_get_state_information2() {
+
+}
 
 function be_well_informed_get_state_information($state_code = NULL) {
   if (!isset($_POST) || count($_POST) === 0 || !$state_code) {
@@ -588,6 +591,16 @@ function template_preprocess_be_well_informed_modal_state_form(&$variables, $hoo
  * Implements template_preprocess_hook for be-well-informed.tpl.php.
  */
 function template_preprocess_be_well_informed(&$variables, $hook) {
+
+  $variables['partner_list_options'] = implode("\n", [
+    "<option value=\"MA\">Massachusetts</option>",
+    "<option value=\"NH\">New Hampshire</option>",
+  ]);
+
+  if(variable_get('bwi_sample_partner', false)) {
+    $variables['partner_list_options'] .="<option value=\"SAMPLE\">Sample Partner</option>";
+  }
+
   $variables['states'] = ['Massachusetts', 'New Hampshire'];
   $variables['state_code'] = $_POST['state_code'];
   $bwi_body = variable_get('bwi_body', array('value' => variable_get('bwi_body', '<p> Have a well and wonder what your water testing results mean?</p><p> The Be Well Informed Guide lets you enter your test results and get feedback about health concerns and water treatment choices for your state or tribe.</p><p> Be Well Informed was created for residents, and has the most common contaminants that affect wells. It may not have all the contaminants present in your area - for those it does have, it can provide useful information.</p><p> A quick disclaimer before we start.</p><p class="widget-note"> Information provided on this website is for informational purposes only and should not be substituted for direct consultation with a qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide may determine the most appropriate water treatment option.</p><p class="widget-note powered-by-nhbwi">Powered by: <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank">New Hampshire Be <em>Well</em> Informed</a></p>'), 'format' => NULL));
