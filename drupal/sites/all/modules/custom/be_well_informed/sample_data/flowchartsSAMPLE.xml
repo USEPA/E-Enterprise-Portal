@@ -402,82 +402,291 @@
       </Outcomes>
     </Contaminant>
 
-    <Contaminant Section="BacterialContaminants" Value="Bac" Text="Total Coliform" DefaultUnit="CFU/100 mL" Units="MPN/100 mL|CFU/100 mL" MCL="0 CFU/100 mL or Absent" ShowIsPresent="true">
-      <Condition CheckOperator=">" CheckValue="0" Present="Y">
+    <Contaminant Section="RoutineContaminants" Value="Fe" Text="Iron" DefaultUnit="mg/L" Units="g/L|mg/L|µg/L|ppm|ppb" MCL="0.3 mg/L">
+      <Condition CheckOperator=">=" CheckValue=".3">
         <True>
-          <Condition CheckElement="Ecoli" CheckOperator=">" CheckValue="0" Present="Y">
+          <Condition CheckElement="Mn" CheckOperator=">=" CheckValue="0.1">
             <True>
-              <Outcome IM="Bac4" HM="Bac4" TM="Bac4" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard. See your E. coli results." />
+              <Condition CheckElement="As" CheckOperator=">=" CheckValue="0.005">
+                <True>
+                  <Condition CheckElement="As" CheckOperator=">=" CheckValue="0.01">
+                    <True>
+                      <Outcome IM="Fe1" HM="Fe1" TM="Fe1h" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                    </True>
+                    <False>
+                      <Outcome IM="Fe1" HM="Fe1" TM="Fe1a" TreatmentOrder="1a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                    </False>
+                  </Condition>
+                </True>
+                <False>
+                  <Outcome IM="Fe1" HM="Fe1" TM="Fe1b" TreatmentOrder="1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                </False>
+                <Missing>
+                  <Outcome IM="Fe1" HM="Fe1" TM="Fe1c" TreatmentOrder="1a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                </Missing>
+              </Condition>
             </True>
             <False>
-              <Outcome IM="Bac2" HM="Bac2" TM="Bac2" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+              <Condition CheckElement="As" CheckOperator=">=" CheckValue="0.005">
+                <True>
+                  <Condition CheckElement="As" CheckOperator=">=" CheckValue="0.01">
+                    <True>
+                      <Outcome IM="Fe1" HM="Fe1" TM="Fe1i" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                    </True>
+                    <False>
+                      <Outcome IM="Fe1" HM="Fe1" TM="Fe1d" TreatmentOrder="1a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                    </False>
+                  </Condition>
+                </True>
+                <False>
+                  <Outcome IM="Fe1" HM="Fe1" TM="Fe1e" TreatmentOrder="1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                </False>
+                <Missing>
+                  <Outcome IM="Fe1" HM="Fe1" TM="Fe1f" TreatmentOrder="1a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+                </Missing>
+              </Condition>
             </False>
             <Missing>
-              <Outcome IM="Bac2" HM="Bac2" TM="Bac2" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+              <Outcome IM="Fe1" HM="Fe1" TM="Fe1g" TreatmentOrder="1a" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
             </Missing>
           </Condition>
         </True>
+
         <False>
-          <Outcome IM="Bac3" HM="Bac3" TM="Bac3" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water standard" />
+          <Condition CheckOperator=">" CheckValue="0.0">
+            <True>
+              <Outcome IM="Fe2" HM="Fe2" TM="Fe2" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+            </True>
+            <False>
+              <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+            </False>
+          </Condition>
         </False>
       </Condition>
-
       <Outcomes>
         <InterpretationMessages>
-          <Bac2>
+          <Fe1>
             <Content>
               <b>
-                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/pathogens.cfm"> drinking water standard for total coliform bacteria</a>?
-              </b>  No, your water does not meet federal and state drinking water standards as it contains total coliform bacteria.
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/#Secondary"> drinking water guideline for iron</a>?
+              </b>  No, your water does not meet federal and state drinking water guidelines as it contains more than 0.3 mg/L of iron.
             </Content>
-          </Bac2>
+          </Fe1>
         </InterpretationMessages>
 
         <HealthMessages>
-          <Bac2>
+          <Fe1>
             <Content>
-              <b>Can consuming water containing total coliform affect my health?</b>  Total coliform bacteria are very common in soil, and their presence in your water sample does not mean that there is an immediate health threat; however, it may indicate that other, harmful bacteria like E. coli may be present in, or have a way of getting into, your water supply.
+              <b>Can consuming water containing iron affect my health?</b>  Consuming water containing iron is not harmful to your health.<br/>
+              <br/>
+              Elevated levels of iron can cause a metallic taste, bad smell, rusty-colored water, mineral deposits or sedimentation, or reddish or orange staining on laundry or surfaces that come in contact with the water.  None of these effects poses a health risk.<br/>
+              <br/>
+              Elevated levels of iron or manganese (commonly found together in water wells) may also cause the growth of iron or manganese bacteria, which produce a slime that can clog filters and plumbing. Although these bacteria can make water unappealing and cause a bad taste or smell, there is no health risk associated with them.<br/>
+              <br/>
             </Content>
-          </Bac2>
+          </Fe1>
         </HealthMessages>
 
         <TreatmentMessages>
-          <Bac2>
+          <Fe1a>
             <Content>
-              <b>What should I do?</b>  First, collect another water sample to confirm the results of your first sample.  If total coliform bacteria are also present in your second water sample, take the steps listed <a class="contaminant-link" data-contaminant="Bac2" style="cursor: pointer;">here</a> to fix the problem.
-
-              <div Id="Bac2" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
-                To fix the total coliform bacteria problem in your well water, take these steps:
-                <br/>
-                <ol>
-                  <li>
-                    Inspect the condition of your wellhead and the area around it - check your well’s cap and casing to make sure there are no cracks or holes where bacteria can enter your well; and check for possible sources of pollution, such as septic systems, and waste from pets and farm animals.  Also, make sure rain and melting snow are directed away from your wellhead.  Click <a target="_blank" href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/index.htm">here</a> for a checklist of what to look for from NHDES.  If you cannot find your wellhead, it may be buried and need to be dug up.
-                  </li>
-                  <br/>
-                  <li>
-                    Once you have taken care of any potential sources of pollution, disinfect your well and collect another water sample.  Click <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">here</a> for step-by-step instructions for disinfecting your well from NHDES.
-                  </li>
-                  <br/>
-                  <li>
-                    If the bacteria problem continues, it may indicate that there is a problem with the construction of your well that is allowing bacteria to easily enter it. In this case, consult a NH-licensed water well contractor to get an assessment of your well and have any construction-related problems fixed.  Click <a target="_blank" href="http://des.nh.gov/onestop/index.htm">here</a> to search for NH-licensed contractors that work in your area.
-                  </li>
-                  <br/>
-                  <li>
-                    If bacteria are present in your water after you have taken care of any potential pollution sources or well construction problems, you have the following options:
-                    <ol type="a">
-                      <li>Install an NSF/ANSI Standard 55 certified whole house Class A ultraviolet (UV) disinfection system, following the manufacturer’s requirements for pretreatment; or</li>
-                      <li>Use an alternative source of water that is known to be safe, such as bottled water; or</li>
-                      <li>Replace your well.</li>
-                    </ol>
-                  </li>
-                  <br/>
-                </ol>
-              </div>
+              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains more than 0.1 mg/L of manganese and between 0.005 and 0.010 mg/L of arsenic, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses chlorine or permanganate as the oxidizing agent to reduce the level of iron, manganese, and arsenic in your water.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.<br/>
             </Content>
-          </Bac2>
+          </Fe1a>
+          <Fe1b>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains more than 0.1 mg/L of manganese, which must be considered in the selection of a water treatment system.  Install one of the following water treatment systems to reduce the level of iron and manganese in your water.  Your test results show that your water contains less than 0.005 mg/L of arsenic, so installing a treatment system for arsenic is not needed.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 44 certified whole house cation exchange water softener.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses chlorine or permanganate as the oxidizing agent.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </Fe1b>
+          <Fe1c>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains more than 0.1 mg/L of manganese, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses chlorine or permanganate as the oxidizing agent to reduce the level of iron and manganese in your water.  This type of system will also reduce the level of arsenic in your water, if present; however, you did not provide test results for arsenic.  How much arsenic can be removed by this type of system depends on the levels of iron and arsenic.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+            </Content>
+          </Fe1c>
+          <Fe1d>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  In addition to iron, your test results show that your water also contains between 0.005 and 0.010 mg/L of arsenic, which must be considered in the selection of a water treatment system.  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent to reduce the level of iron and arsenic in your water.  Your test results show that your water contains less than 0.1 mg/L of manganese, so using a strong oxidizing agent, such as chlorine or permanganate, is not needed.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+            </Content>
+          </Fe1d>
+          <Fe1e>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  Install one of the following water treatment systems to reduce the level of iron in your water.  Your test results show that your water contains less than 0.005 mg/L of arsenic, so installing a treatment system for arsenic is not needed.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 44 certified whole house cation exchange water softener.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent.  Your test results show that your water contains less than 0.1 mg/L of manganese, so using a strong oxidizing agent, such as chlorine or permanganate, is not needed.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </Fe1e>
+          <Fe1f>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  Install an NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent to reduce the level of iron in your water.  Your test results show that your water contains less than 0.1 mg/L of manganese, so using a strong oxidizing agent, such as chlorine or permanganate, is not needed.  This type of system will also reduce the level of arsenic in your water, if present; however, you did not provide test results for arsenic.  How much arsenic can be removed by this type of system depends on the levels of iron and arsenic.  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+            </Content>
+          </Fe1f>
+          <Fe1g>
+            <Content>
+              <b>How can I reduce the level of iron in my water?</b>  Install one of the following water treatment systems to reduce the level of iron in your water.  Your choice of treatment system could change, depending on the level of manganese in your water; however, you did not provide test results for manganese.
+              <br/>
+              <ol>
+                <li>
+                  An NSF/ANSI Standard 44 certified whole house cation exchange water softener.
+                </li>
+                <br/>
+                <b>OR</b>
+                <br/>
+                <br/>
+                <li>
+                  An NSF/ANSI Standard 42 certified whole house oxidizing filter system that uses air as the oxidizing agent.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  More information about treatment for iron can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-8.pdf">NHDES’ Fact Sheet</a>.
+                </li>
+              </ul>
+              <br/>
+            </Content>
+          </Fe1g>
+          <Fe1h>
+            <Content>
+            </Content>
+          </Fe1h>
+          <Fe1i>
+            <Content>
+            </Content>
+          </Fe1i>
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
+
+    <Contaminant Section="RoutineContaminants" Value="Pb" Text="Lead" DefaultUnit="mg/L" Units="g/L|mg/L|µg/L|ppm|ppb" MCL="0.015 mg/L">
+      <Condition CheckOperator=">=" CheckValue="0.015">
+        <True>
+          <Outcome IM="Pb1" HM="Pb1" TM="Pb1" TreatmentOrder="4" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+        </True>
+        <False>
+          <Condition CheckOperator=">=" CheckValue="0.0075">
+            <True>
+              <Outcome IM="Pb2" HM="Pb2" TM="Pb2" GuidelineIcon="W" GuidelineText="The value entered meets, but is near, the drinking water standard.  Collect another water sample to confirm the results of your first sample." />
+            </True>
+            <False>
+              <Condition CheckOperator=">" CheckValue="0.0">
+                <True>
+                  <Outcome IM="Pb2" HM="Pb2" TM="Pb2" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+                </True>
+                <False>
+                  <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+                </False>
+              </Condition>
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+      <Outcomes>
+        <InterpretationMessages>
+          <Pb1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/lead.cfm"> drinking water standard for lead</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains more than 0.015 mg/L of lead.
+            </Content>
+          </Pb1>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Pb1>
+            <Content>
+              <b>Can consuming water containing lead affect my health?</b>  Consuming water containing more than 0.015 mg/L of lead can cause serious health problems, especially for babies, children, and pregnant women.<br/>
+              <br/>
+              Babies and children who consume water containing more than 0.015 mg/L of lead could experience long-term problems with physical and mental growth and development, including slowed body growth, kidney problems, hearing problems, seizures, brain damage, lower IQ level, trouble learning, reduced attention span, and behavior problems.<br/>
+              <br/>
+              Pregnant women and their unborn babies are especially at risk from consuming water containing more than 0.015 mg/L of lead.  Lead exposure can seriously harm the unborn baby, causing premature birth, lower birth weight, and delayed mental and physical development.<br/>
+              <br/>
+              Adults who consume water containing more than 0.015 mg/L of lead may be at higher risk for cancer, stroke, and high blood pressure and could develop nervous system problems, kidney problems, anemia, and decreased sperm production in men.<br/>
+              <br/>
+              The presence of lead in your water may also indicate that other pollutants, such as copper, may be present in your water.<br/>
+              <br/>
+              You can continue to use your water for washing food and dishes, brushing your teeth, bathing, showering, and for other uses, as these are not considered major sources of exposure.<br/>
+              <br/>
+            </Content>
+          </Pb1>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Pb1>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  If you haven’t already done so, you should also test your water for copper.
+                </li>
+                <br/>
+                <li>
+                  Use only water from the cold-water tap for drinking, cooking, and especially for making baby food and formula. Hot water from the tap is likely to contain higher levels of lead and copper.  In most cases, you can reduce the level of lead and copper in the water that you use for drinking and cooking by clearing the water from the pipes before using it.  Click <a class="contaminant-link" data-contaminant="Pb1" style="cursor: pointer;">here</a> for instructions on flushing out your plumbing.
+                </li>
+                <br/>
+                <li>
+                  Lead (and copper) levels may be high in your water because of the materials used in your home’s plumbing and how acidic your water is.  Metals, such as lead and copper, can leach from pipes and plumbing fixtures when water is acidic.  If you haven’t already done so, you should also test the pH of your water, which will tell you if your water is acidic.<br/>
+                  <br/>
+                  If your water is acidic (pH is less than 7.0), install a whole house acid neutralizer system, such as a calcite filter, to increase the pH and make the water less acidic, which should reduce the level of lead (and copper) in your water.<br/>
+                  <br/>
+                  Another option is to remove the source of lead by replacing your lead or galvanized iron pipes and fittings, lead-soldered pipes, and brass or chrome fixtures with other approved materials, such as plastic.<br/>
+                </li>
+              </ol>
+              <br/>
+
+              <div Id="Pb1" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                In most cases, flushing out your plumbing will reduce the lead (and copper) level in your water. The routine of letting the water run to get the lead (and copper) out should be done each morning and if the water has not been used for more than six hours – for example, overnight or during the day when you have been out of the house.  To “flush the tap,” turn on the cold water faucet and let the water run for at least 15 seconds.  If you need hot water for drinking or cooking, take water from the cold water tap and heat it.<br/>
+                <br/>
+                Other household water uses, such as showering or toilet flushing, will also help clear water from your plumbing. Keep in mind that you will still need to run individual faucets for a short time before using them for cooking and drinking water. You may want to keep a container of water in your refrigerator, so that the water does not have to be run every time you need it.<br/>
+                <br/>
+                More information about treatment for lead can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-4.pdf">NHDES’ Fact Sheet</a>.
+                <br/>
+              </div>
+            </Content>
+          </Pb1>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Section="RoutineContaminants" Value="PbSt" Text="Lead Stagnant" DefaultUnit="mg/L" Units="g/L|mg/L|µg/L|ppm|ppb" MCL="0.015 mg/L" ContaminantLogic="Pb"/>
 
     <Contaminant Section="RoutineContaminants" Value="Cl" Text="Chloride" DefaultUnit="mg/L" Units="g/L|mg/L|µg/L|ppm|ppb" MCL="250 mg/L">
       <Condition CheckOperator=">=" CheckValue="250">
@@ -782,6 +991,9 @@
       </Outcomes>
     </Contaminant>
 
+    <Contaminant Section="RoutineContaminants" Value="CuSt" Text="Copper Stagnant" DefaultUnit="mg/L" Units="g/L|mg/L|µg/L|ppm|ppb" MCL="1.3 mg/L" ContaminantLogic="Cu"/>
+
+
     <Contaminant Section="RoutineContaminants" Value="Mn" Text="Manganese" DefaultUnit="mg/L" Units="g/L|mg/L|µg/L|ppm|ppb" MCL="0.05 mg/L">
       <Condition CheckOperator=">=" CheckValue="0.05">
         <True>
@@ -1009,20 +1221,78 @@
       </Outcomes>
     </Contaminant>
 
+    <Contaminant Section="BacterialContaminants" Value="Bac" Text="Total Coliform" DefaultUnit="CFU/100 mL" Units="MPN/100 mL|CFU/100 mL" MCL="0 CFU/100 mL or Absent" ShowIsPresent="true">
+      <Condition CheckOperator=">" CheckValue="0" Present="Y">
+        <True>
+          <Outcome IM="Bac4" HM="Bac4" TM="Bac4" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard. See your E. coli results." />
+        </True>
+        <False>
+          <Outcome IM="Bac3" HM="Bac3" TM="Bac3" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water standard" />
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <Bac2>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/basicinformation/pathogens.cfm"> drinking water standard for total coliform bacteria</a>?
+              </b>  No, your water does not meet federal and state drinking water standards as it contains total coliform bacteria.
+            </Content>
+          </Bac2>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <Bac2>
+            <Content>
+              <b>Can consuming water containing total coliform affect my health?</b>  Total coliform bacteria are very common in soil, and their presence in your water sample does not mean that there is an immediate health threat; however, it may indicate that other, harmful bacteria like E. coli may be present in, or have a way of getting into, your water supply.
+            </Content>
+          </Bac2>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <Bac2>
+            <Content>
+              <b>What should I do?</b>  First, collect another water sample to confirm the results of your first sample.  If total coliform bacteria are also present in your second water sample, take the steps listed <a class="contaminant-link" data-contaminant="Bac2" style="cursor: pointer;">here</a> to fix the problem.
+
+              <div Id="Bac2" style="display:none; padding-bottom: 5px; padding-left: 5px; padding-right: 5px;">
+                To fix the total coliform bacteria problem in your well water, take these steps:
+                <br/>
+                <ol>
+                  <li>
+                    Inspect the condition of your wellhead and the area around it - check your well’s cap and casing to make sure there are no cracks or holes where bacteria can enter your well; and check for possible sources of pollution, such as septic systems, and waste from pets and farm animals.  Also, make sure rain and melting snow are directed away from your wellhead.  Click <a target="_blank" href="http://des.nh.gov/organization/divisions/water/dwgb/well_testing/index.htm">here</a> for a checklist of what to look for from NHDES.  If you cannot find your wellhead, it may be buried and need to be dug up.
+                  </li>
+                  <br/>
+                  <li>
+                    Once you have taken care of any potential sources of pollution, disinfect your well and collect another water sample.  Click <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/index.htm">here</a> for step-by-step instructions for disinfecting your well from NHDES.
+                  </li>
+                  <br/>
+                  <li>
+                    If the bacteria problem continues, it may indicate that there is a problem with the construction of your well that is allowing bacteria to easily enter it. In this case, consult a NH-licensed water well contractor to get an assessment of your well and have any construction-related problems fixed.  Click <a target="_blank" href="http://des.nh.gov/onestop/index.htm">here</a> to search for NH-licensed contractors that work in your area.
+                  </li>
+                  <br/>
+                  <li>
+                    If bacteria are present in your water after you have taken care of any potential pollution sources or well construction problems, you have the following options:
+                    <ol type="a">
+                      <li>Install an NSF/ANSI Standard 55 certified whole house Class A ultraviolet (UV) disinfection system, following the manufacturer’s requirements for pretreatment; or</li>
+                      <li>Use an alternative source of water that is known to be safe, such as bottled water; or</li>
+                      <li>Replace your well.</li>
+                    </ol>
+                  </li>
+                  <br/>
+                </ol>
+              </div>
+            </Content>
+          </Bac2>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
     <Contaminant Section="RadionuclideContaminants" Value="AGA" Text="Gross Alpha" DefaultUnit="pCi/L" Units="pCi/L" MCL="15 pCi/L" NotEntered="Test your water.  Studies show that many private wells in New Hampshire have high gross alpha radioactivity.">
       <Condition CheckOperator=">=" CheckValue="15">
         <True>
-          <Condition CheckElement="Ur" CheckOperator=">=" CheckValue="20">
-            <True>
-              <Outcome IM="AGA1" HM="AGA1" TM="AGA1a" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
-            </True>
-            <False>
-              <Outcome IM="AGA1" HM="AGA1" TM="AGA1b" TreatmentOrder="1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
-            </False>
-            <Missing>
-              <Outcome IM="AGA1" HM="AGA1" TM="AGA1c" TreatmentOrder="1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
-            </Missing>
-          </Condition>
+          <Outcome IM="AGA1" HM="AGA1" TM="AGA1a" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
+        </True>
         </True>
         <False>
           <Condition CheckOperator=">=" CheckValue="7.5">
