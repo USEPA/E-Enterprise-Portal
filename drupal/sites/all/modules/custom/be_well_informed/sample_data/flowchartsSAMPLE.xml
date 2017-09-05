@@ -1,5 +1,8 @@
 <FlowCharts>
   <Sections>
+    <Animals>
+      <Name>Animals</Name>
+    </Animals>
     <RoutineContaminants>
       <Name>Routine Water Analysis</Name>
     </RoutineContaminants>
@@ -9,9 +12,6 @@
     <RadionuclideContaminants>
       <Name>Radionuclides</Name>
     </RadionuclideContaminants>
-    <Animals>
-      <Name>Animals</Name>
-    </Animals>
   </Sections>
 
   <Conversions>
@@ -80,6 +80,60 @@
   </Conversions>
 
   <Contaminants>
+
+    <Contaminant Section="Animals" Value="Dg" Text="Dog" DefaultUnit="puppy" Units="puppy|adult" MCL="1 puppy" ShowIsPresent="true">
+      <Condition CheckOperator="=" CheckValue="0">
+        <True>
+          <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the guidance level" />
+        </True>
+        <False>
+          <Condition CheckOperator="&gt;=" CheckValue="1" Present="Y">
+            <True>
+              <Outcome IM="Dg1" HM="Dg1" TM="Dg1" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the guidance level" />
+            </True>
+            <False>
+              <Outcome IM="Dg2" HM="Dg2" TM="Dg2" GuidelineIcon="M" GuidelineText="The value entered meets the guidance level " />
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+      <Outcomes>
+        <InterpretationMessages>
+          <Dg1>
+            <Content>
+              <b>
+                Does my well water meet the guidance level for Dogs?</b>No, your water does not meet the drinking water guidance standard as it contains more than 1 puppy.
+            </Content>
+          </Dg1>
+          <Dg2>
+            <Content>
+              <b>
+                Does my well water meet the guidance level for sodium?</b>  The value entered meets the drinking water guideline.
+            </Content>
+          </Dg2>
+        </InterpretationMessages>
+        <HealthMessages>
+          <Dg1>
+            <Content>
+              <b>Can consuming water containing puppies affect my health?</b>  Consuming water containing puppies is not harmful to your health.  However, if you or someone in your household is on a canine diet, you should talk with your doctor about the level of dogs in your water.
+            </Content>
+          </Dg1>
+          <Dg2>
+            <Content></Content>
+          </Dg2>
+        </HealthMessages>
+        <TreatmentMessages>
+          <Dg1>
+            <Content>
+              <b>How can I reduce the level of dog in my water?</b>  Install an fence, use a leash, the normal things.
+            </Content>
+          </Dg1>
+          <Dg2>
+            <Content></Content>
+          </Dg2>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
 
     <Contaminant Section="RoutineContaminants" Value="As" Text="Arsenic" DefaultUnit="mg/L" Units="g/L|mg/L|µg/L|ppm|ppb" MCL="0.01 mg/L" NotEntered="Test your water.  Studies show that 1 in 5 private wells in New Hampshire have high arsenic.">
 
@@ -1293,7 +1347,6 @@
         <True>
           <Outcome IM="AGA1" HM="AGA1" TM="AGA1a" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water standard" />
         </True>
-        </True>
         <False>
           <Condition CheckOperator=">=" CheckValue="7.5">
             <True>
@@ -1348,60 +1401,6 @@
               <b>How can I reduce the level of gross alpha radioactivity in my water?</b>  Install an NSF/ANSI Standard 44 certified whole house cation exchange water softener.  Your choice of treatment system could change, depending on the level of uranium in your water; however, you did not provide test results for uranium.  More information about treatment for gross alpha radioactivity can be found in <a target="_blank" href="http://des.nh.gov/organization/commissioner/pip/factsheets/dwgb/documents/dwgb-3-11.pdf">NHDES’ Fact Sheet</a>.
             </Content>
           </AGA1c>
-        </TreatmentMessages>
-      </Outcomes>
-    </Contaminant>
-
-    <Contaminant Section="Animals" Value="Dg" Text="Dog" DefaultUnit="puppy" Units="puppy|adult" MCL="1 puppy" ShowIsPresent="true">
-      <Condition CheckOperator="=" CheckValue="0">
-        <True>
-          <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the guidance level" />
-        </True>
-        <False>
-          <Condition CheckOperator="&gt;=" CheckValue="1" Present="Y">
-            <True>
-              <Outcome IM="Dg1" HM="Dg1" TM="Dg1" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the guidance level" />
-            </True>
-            <False>
-              <Outcome IM="Dg2" HM="Dg2" TM="Dg2" GuidelineIcon="M" GuidelineText="The value entered meets the guidance level " />
-            </False>
-          </Condition>
-        </False>
-      </Condition>
-      <Outcomes>
-        <InterpretationMessages>
-          <Dg1>
-            <Content>
-              <b>
-                Does my well water meet the guidance level for Dogs?</b>No, your water does not meet the drinking water guidance standard as it contains more than 1 puppy.
-            </Content>
-          </Dg1>
-          <Dg2>
-            <Content>
-              <b>
-                Does my well water meet the guidance level for sodium?</b>  The value entered meets the drinking water guideline.
-            </Content>
-          </Dg2>
-        </InterpretationMessages>
-        <HealthMessages>
-          <Dg1>
-            <Content>
-              <b>Can consuming water containing puppies affect my health?</b>  Consuming water containing puppies is not harmful to your health.  However, if you or someone in your household is on a canine diet, you should talk with your doctor about the level of dogs in your water.
-            </Content>
-          </Dg1>
-          <Dg2>
-            <Content></Content>
-          </Dg2>
-        </HealthMessages>
-        <TreatmentMessages>
-          <Dg1>
-            <Content>
-              <b>How can I reduce the level of dog in my water?</b>  Install an fence, use a leash, the normal things.
-            </Content>
-          </Dg1>
-          <Dg2>
-            <Content></Content>
-          </Dg2>
         </TreatmentMessages>
       </Outcomes>
     </Contaminant>
