@@ -83,16 +83,51 @@ function _is_admin() {
   }
 }
 
+/**
+ * Verify file contents are valid XML
+ * @param $file
+ * @return mixed
+ */
+function _validate_valid_xml($file) {
+  $xml = XMLReader::open($file->uri);
+// The validate parser option must be enabled for
+// this method to work properly
+  $xml->setParserProperty(XMLReader::VALIDATE, true);
+  return $xml->isValid();
+}
+
+// Verify file size is no larger than 2 MB
+function _validate_file_size($file) {
+  // 2 MB
+  if ($file->filesize > 2 * 10000) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
 
 function be_well_informed_configurations_form_validate($form, &$form_state) {
   // File_save_upload temporarily stores the file for evaluation
   $partner_file = file_save_upload('partner', ['file_validate_extensions' => ['xml']]);
   $flowchart_file = file_save_upload('flowchart', ['file_validate_extensions' => ['xml']]);
   if ($partner_file) {
-    // Validate account settings
+    // Validate account setting
+    if (_validate_file_size($partner_file)) {
+      form_set_error('partner', 'Partner Configuration too large. Must be under 2MB.');
+    }
+    if (_validate_valid_xml($partner_file)) {
+      form_set_error('partner', 'Partner Configuration not valid XML.');
+    }
   }
   if ($flowchart_file) {
     // Validate Flowchart settings
+    if (_validate_file_size($flowchart_file)) {
+      form_set_error('flowchart', 'Flowchart too large. Must be under 2MB.');
+    }
+    if (_validate_valid_xml($partner_file)) {
+      form_set_error('flowchart', 'Flowchart not valid XML.');
+    }
   }
 }
 
@@ -605,8 +640,8 @@ function template_preprocess_be_well_informed(&$variables, $hook) {
     "<option value=\"NH\">New Hampshire</option>",
   ]);
 
-  if(variable_get('bwi_sample_partner', false)) {
-    $variables['partner_list_options'] .="<option value=\"SAMPLE\">Sample Partner</option>";
+  if (variable_get('bwi_sample_partner', false)) {
+    $variables['partner_list_options'] .= "<option value=\"SAMPLE\">Sample Partner</option>";
   }
 
   $variables['states'] = ['Massachusetts', 'New Hampshire'];
@@ -907,25 +942,25 @@ function _be_well_informed_template_variables(&$variables, $hook) {
 
   $variables['state_flowchart'] = ($variables['state_flowchart']) ? $variables['state_flowchart'] : [];
   // Get section information
-  foreach($state_flowchart->getElementsByTagName('Sections') as $item) {
+  foreach ($state_flowchart->getElementsByTagName('Sections') as $item) {
     $variables['state_flowchart']['Sections'][$item->childNodes[0]->nodeName] = [];
-    foreach($item->childNodes as $section) {
+    foreach ($item->childNodes as $section) {
       $variables['state_flowchart']['Sections'][$section->nodeName] = [];
-      foreach($section->childNodes as $property) {
+      foreach ($section->childNodes as $property) {
         $variables['state_flowchart']['Sections'][$section->nodeName][$property->nodeName] = [$property->nodeValue];
       }
     }
   }
 
 
-  foreach($state_flowchart->getElementsByTagName('Contaminants')[0]->childNodes as $contaminant) {
+  foreach ($state_flowchart->getElementsByTagName('Contaminants')[0]->childNodes as $contaminant) {
     $variables['state_flowchart']['Contaminants'][$contaminant->getAttribute('Section')][$contaminant->getAttribute('Text')] = [
       'name' => $contaminant->getAttribute('Text'),
       'machine_name' => $contaminant->getAttribute('Value'),
       'symbol' => $contaminant->getAttribute('Value'),
       'default_unit_type' => $contaminant->getAttribute('DefaultUnit'),
       'unit_types' => explode('|', $contaminant->getAttribute('Units')),
-      'show_is_present' => ($contaminant->getAttribute('ShowIsPresent'))? true : false,
+      'show_is_present' => ($contaminant->getAttribute('ShowIsPresent')) ? true : false,
     ];
   }
 
@@ -933,7 +968,6 @@ function _be_well_informed_template_variables(&$variables, $hook) {
 }
 
 function result_preprocess_be_well_informed(&$variables, $hook) {
-
 
 
   $variables['unit_types'] = [
@@ -1358,12 +1392,12 @@ function bwi_domnode_to_array($node) {
 function _generate_contaminants_sections(&$variables, $hook) {
   $variables['contaminant_sections'] = '';
   $html = [];
-  foreach ($variables['state_flowchart']['Contaminants'] as $sectionKey => $section){
+  foreach ($variables['state_flowchart']['Contaminants'] as $sectionKey => $section) {
 
     // Empty sections don't get shown
     $count = count($section);
 
-    if($count) {
+    if ($count) {
       $title = $variables['state_flowchart']['Sections'][$sectionKey]['Name'][0];
       $html = array_merge($html, [
         "<div class=\"usa-width-one-whole\">",
@@ -1377,17 +1411,17 @@ function _generate_contaminants_sections(&$variables, $hook) {
       foreach ($section as $key => $contaminant) {
         $machine_name = $contaminant['machine_name'];
         $name = $contaminant['name'];
-        $symbol_text = ($contaminant['symbol_text'])? ' <span class="symbol">(' . $contaminant['symbol_text'] . ')</span>' : "";
+        $symbol_text = ($contaminant['symbol_text']) ? ' <span class="symbol">(' . $contaminant['symbol_text'] . ')</span>' : "";
         $units = [];
         $validation = $contaminant['validation'];
         $showIsPresent = $contaminant['show_is_present'];
 
         foreach ($contaminant['unit_types'] as $ut) {
-          $selected = ($contaminant['default_unit_type'] == $ut)? "selected" : "";
+          $selected = ($contaminant['default_unit_type'] == $ut) ? "selected" : "";
           $units[] = "<option value=\"$ut\" $selected >$ut</option>";
         }
 
-        if($i >= $count/2 && $column == 1) {
+        if ($i >= $count / 2 && $column == 1) {
           $column++;
           $html[] = "</div><div class=\"usa-width-one-half\">";
         }
@@ -1407,8 +1441,8 @@ function _generate_contaminants_sections(&$variables, $hook) {
         ]);
 
         // Does the contaminant need to show the present/absent conditions
-        if($showIsPresent) {
-          $isRequired = (in_array('required', $validation))? "data-parsley-multiple=\"{$machine_name}\" data-parsley-group=\"block-2\"":"";
+        if ($showIsPresent) {
+          $isRequired = (in_array('required', $validation)) ? "data-parsley-multiple=\"{$machine_name}\" data-parsley-group=\"block-2\"" : "";
           $html = array_merge($html, [
             "<div class=\"row absent-present\">",
             "<span class=\"column\">Or Choose: </span>",
