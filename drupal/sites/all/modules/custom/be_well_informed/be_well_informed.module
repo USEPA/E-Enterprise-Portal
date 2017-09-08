@@ -42,13 +42,13 @@ function be_well_informed_menu() {
 }
 
 function be_well_informed_configurations_form($form, &$form_state) {
-
-  $form['partner'] = array(
+  $form['configuration_form']['partner'] = array(
     '#type' => 'file',
     '#title' => t('Partner Configurations- ' . _user_managed_partner()),
     '#description' => t('Upload your configurations, allowed extensions: xml'),
   );
-  $form['flowchart'] = array(
+
+  $form['configuration_form']['flowchart'] = array(
     '#type' => 'file',
     '#title' => t('Flowchart Configurations'),
     '#description' => t('Upload your configurations, allowed extensions: xml'),
@@ -58,6 +58,7 @@ function be_well_informed_configurations_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Submit'),
   );
+
   drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/be_well_informed_file_upload.js', [
     'scope' => 'footer',
     'preprocess' => TRUE,
@@ -69,20 +70,32 @@ function be_well_informed_configurations_form($form, &$form_state) {
   return $form;
 }
 
+function be_well_informed_form_be_well_informed_configurations_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  if(in_array('admin', $user->roles)) {
+    $form['configuration_form']['partner_code'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Partner Code'),
+      '#description' => t('Enter the partner code'),
+      '#required' => TRUE,
+    );
+  }
+}
+
 /**
  * Checks if user is BWI admin allowed to see
  * upload page
  */
 function _is_admin() {
   global $user;
-  if (in_array('Be Well Informed External Admin', $user->roles)) {
+  if (in_array('Be Well Informed External Admin', $user->roles) || in_array('admin', $user->roles)) {
     return true;
   }
   else {
     return false;
   }
 }
-
 
 function be_well_informed_configurations_form_validate($form, &$form_state) {
   // File_save_upload temporarily stores the file for evaluation
@@ -107,8 +120,17 @@ function _user_managed_partner() {
 }
 
 function be_well_informed_configurations_form_submit($form, &$form_state) {
-  $user_location = _user_managed_partner();
-  if (empty(trim($user_location))) {
+  // An Drupal admin can override the locations
+  if($form_state['values']['partner_code']) {
+    $user_location = $form_state['values']['partner_code'];
+  }
+  else {
+    $user_location = _user_managed_partner();
+  }
+  // Clean up whitespace and make is all uppercase
+  $user_location = strtoupper(trim($user_location));
+
+  if (empty($user_location)) {
     drupal_set_message('Your account has not been assigned a location for administering Be Well Informed 
     configurations.', 'error');
   }
@@ -122,18 +144,16 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
 
     if ($partner_file) {
       $partner_file_content = file_get_contents($partner_file->uri);
-      // Store the partner configuration xml locally
-      $path = variable_get('file_public_path', conf_path() . '/files') . '/saved_configurations/partners/partner-' . $user_location . '.xml';;
-      file_put_contents($path, $partner_file_content);
+      // Cache the partner configuration xml locally
+      variable_set('partner-' . $user_location, $partner_file_content);
       // Prep the base64 encoded content for sending to the service
       $partner_file_encoded = base64_encode($partner_file_content);
       $params['PartnerContent'] = $partner_file_encoded;
     }
     if ($flowchart_file) {
       $flowchart_file_content = file_get_contents($flowchart_file->uri);
-      // Store the flowchart configuration xml locally
-      $path = variable_get('file_public_path', conf_path() . '/files') . $path = variable_get('file_public_path', conf_path() . '/files') . '/saved_configurations/partners/partner-' . $user_location . '.xml';
-      file_put_contents($path, $flowchart_file_content);
+      // Cache the partner configuration xml locally
+      variable_set('flowchart-' . $user_location, $flowchart_file_content);
       // Prep the base64 encoded content for sending to the service
       $flowchart_file_encoded = base64_encode($flowchart_file_content);
       $params['FlowchartContent'] = $flowchart_file_encoded;
@@ -414,7 +434,7 @@ function be_well_informed_form_submission() {
        *
        */
 
-      $state_info = be_well_informed_get_state_information($_POST['StateCode']);
+      $state_info = _get_partner_information($_POST['StateCode']);
       $formatted_data = be_well_informed_datatable_response($response->data);
 
       /*Use username and session ID to save be well response data for pdf generation. This data will be removed on user
@@ -437,12 +457,8 @@ function be_well_informed_form_submission() {
   drupal_json_output($datatable_formatted_response);
 }
 
-function be_well_informed_get_state_information2() {
-
-}
-
-function be_well_informed_get_state_information($state_code = NULL) {
-  if (!isset($_POST) || count($_POST) === 0 || !$state_code) {
+function be_well_informed_get_state_information() {
+  if (!isset($_POST) || count($_POST) === 0) {
     drupal_json_output(array(
       'error' => TRUE,
       'message' => 'Failed to recieve any data.'
@@ -450,25 +466,20 @@ function be_well_informed_get_state_information($state_code = NULL) {
     return;
   }
 
-  if (!$state_code) {
-    $path = variable_get('file_public_path', conf_path() . '/files') . '/saved_configurations/partners/partner-' . $_POST['state'] . '.xml';
-    $state_info = file_get_contents($path);
-    drupal_add_http_header('Content-Type', 'text/xml');
-    echo $state_info;
-  }
-  else {
-    $path = variable_get('file_public_path', conf_path() . '/files') . '/saved_configurations/partners/partner-' . $state_code . '.xml';
-    $state_info = file_get_contents($path);
-    $xml_array = xmlstr_to_array($state_info, 'domnode_clean', 'bwi_domnode_to_array');
-    return $xml_array;
-  }
+  drupal_add_http_header('Content-Type', 'text/xml');
+  echo _get_partner_information($_POST['state']);
 }
 
-function be_well_informed_get_state_flowchart($state_code) {
-  $path = drupal_get_path('module', 'be_well_informed') . '/sample_data/flowcharts' . $state_code . '.xml';
-  $state_info = file_get_contents($path);
+function _get_partner_information($partner_code) {
+  $partner_info = variable_get('partner-'.$partner_code);
+  $xml_array = xmlstr_to_array($partner_info, 'domnode_clean', 'bwi_domnode_to_array');
+  return $xml_array;
+}
+
+function _get_partner_flowchart($partner_code) {
+  $partner_info = variable_get('flowchart-'.$partner_code);
   $doc = new DOMDocument();
-  $doc->loadXML($state_info);
+  $doc->loadXML($partner_info);
   $root = $doc->documentElement;
   return domnode_clean($root);
 }
@@ -588,7 +599,7 @@ function processGuidelineIcon($guideline_icon) {
 }
 
 function template_preprocess_be_well_informed_modal_state_form(&$variables, $hook) {
-  $variables['state_info'] = be_well_informed_get_state_information($_POST['state_code']);
+  $variables['state_info'] = _get_partner_information($_POST['state_code']);
   $variables['state_code'] = $_POST['state_code'];
   _be_well_informed_template_variables($variables, $hook);
   _generate_contaminants_sections($variables, $hook);
@@ -895,15 +906,11 @@ function be_well_informed_preprocess(&$variables, $hook) {
   }
 }
 
-function process_state_xml(&$variables) {
-  $variables = $variables;
-}
-
 /**
  * Implements hook_backup_migrate_filters().
  */
 function _be_well_informed_template_variables(&$variables, $hook) {
-  $state_flowchart = be_well_informed_get_state_flowchart($variables['state_code']);
+  $state_flowchart = _get_partner_flowchart($variables['state_code']);
 
   $variables['state_flowchart'] = ($variables['state_flowchart']) ? $variables['state_flowchart'] : [];
   // Get section information
@@ -1302,11 +1309,11 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
 function bwi_domnode_to_array($node) {
   $output = array();
   switch ($node->nodeType) {
-    case XML_CDATA_SECTION_NODE:
-    case XML_TEXT_NODE:
+    case XML_CDATA_SECTION_NODE: // 4
+    case XML_TEXT_NODE: // 3
       $output = trim($node->textContent);
       break;
-    case XML_ELEMENT_NODE:
+    case XML_ELEMENT_NODE: // 1
       $is_array = false;
       if ($node->childNodes->length > 1 && $node->childNodes->item(0)->tagName == $node->childNodes->item(1)->tagName) {
         $is_array = true;
@@ -1345,7 +1352,7 @@ function bwi_domnode_to_array($node) {
           $output['@attributes'] = $a;
         }
         foreach ($output as $t => $v) {
-          if (is_array($v) && count($v) == 1 && $t != '@attributes') {
+          if (is_array($v) && count($v) == 1 && isset($v[0]) && $t != '@attributes') {
             $output[$t] = $v[0];
           }
         }
