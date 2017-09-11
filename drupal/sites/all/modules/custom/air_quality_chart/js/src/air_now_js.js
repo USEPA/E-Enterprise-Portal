@@ -60,7 +60,7 @@
       /*
        * Since we are dynamically creating the "map" we need to postpone any
        * update.
-      */
+       */
       if(map) {
         update_markers(evt, currentZipData);
       } else {
