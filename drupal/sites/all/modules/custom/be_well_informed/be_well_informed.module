@@ -113,7 +113,9 @@ function _validate_valid_xml($file) {
 // Verify file size is no larger than 2 MB
 function _validate_file_size($file) {
   // 2 MB
-  if ($file->filesize > 2 * 10000) {
+  $size_limit = variable_get("bwi_service_upload_file_size_limit", '2');
+  // byte to megabyte conversion
+  if ($file->filesize > $size_limit * 1024 * 1024) {
     return false;
   }
   else {

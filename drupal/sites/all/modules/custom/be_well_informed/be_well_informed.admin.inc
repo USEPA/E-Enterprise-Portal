@@ -42,6 +42,13 @@ function be_well_informed_admin($form, $form_state) {
     '#required' => FALSE,
   );
 
+  $form['be_well_informed_toggles']['bwi_service_upload_file_size_limit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Specify XML file size limit in MB.'),
+    '#default_value' => variable_get("bwi_service_upload_file_size_limit", '2'),
+    '#required' => TRUE,
+  );
+
   $form['be_well_informed_configuration'] = array(
     '#type' => 'fieldset',
     '#title' => t('Configuration'),
