@@ -115,6 +115,11 @@ function _bwi_xml_partner_validation($file) {
 }
 function _bwi_xml_flowchart_validation($file) {
   $errors = array();
+  try {
+
+  } catch (Exception $e) {
+
+  }
   return $errors;
 }
 
@@ -161,8 +166,16 @@ function _validate_file_size($file) {
 function be_well_informed_configurations_form_validate($form, &$form_state) {
   // File_save_upload temporarily stores the file for evaluation
   $file_size = variable_get("bwi_service_upload_file_size_limit", '2'); // default
-  $partner_file = file_save_upload('partner', ['file_validate_extensions' => ['xml'], '_bwi_file_validate'=>[1024*1024*$file_size]]);
-  $flowchart_file = file_save_upload('flowchart', ['file_validate_extensions' => ['xml'], '_bwi_file_validate'=>[1024*1024*$file_size]]);
+  $partner_file = file_save_upload('partner', [
+    'file_validate_extensions' => ['xml'],
+    '_bwi_file_validate'=>[1024*1024*$file_size],
+    '_bwi_xml_partner_validation'=>[]
+  ]);
+  $flowchart_file = file_save_upload('flowchart', [
+    'file_validate_extensions' => ['xml'],
+    '_bwi_file_validate'=>[1024*1024*$file_size],
+    '_bwi_xml_flowchart_validation'=>[]
+  ]);
   if ($partner_file) {
     // Validate account setting
     /*if (_validate_file_size($partner_file)) {
