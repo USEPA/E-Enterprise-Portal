@@ -67,6 +67,15 @@ function be_well_informed_configurations_form($form, &$form_state) {
     'cache' => TRUE,
     'requires_jquery' => TRUE
   ]);
+
+  // Add dynamic file size to Drupal.settings
+  drupal_add_js(
+    ["be_well_informed" =>
+      [
+        "file_limit" =>  variable_get("bwi_service_upload_file_size_limit", '2')
+      ]
+    ], 'setting');
+
   return $form;
 }
 
@@ -81,6 +90,47 @@ function be_well_informed_form_be_well_informed_configurations_form_alter(&$form
       '#required' => TRUE,
     );
   }
+}
+
+function _bwi_file_validate($file, $file_limit, $user_limit) {
+
+  global $user;
+  $errors = array();
+
+  if ($file_limit && $file->filesize == 0) {
+    $errors[] = t('The file is %filesize is empty', array('%filesize' => format_size($file->filesize)));
+  }
+
+  if ($file_limit && $file->filesize > $file_limit) {
+    $errors[] = t('The file is %filesize exceeding the maximum file size of %maxsize.', array('%filesize' => format_size($file->filesize), '%maxsize' => format_size($file_limit)));
+  }
+
+  // Save a query by only calling file_space_used() when a limit is provided.
+  if ($user_limit && (file_space_used($user->uid) + $file->filesize) > $user_limit) {
+    $errors[] = t('The file is %filesize which would exceed your disk quota of %quota.', array('%filesize' => format_size($file->filesize), '%quota' => format_size($user_limit)));
+  }
+
+  return $errors;
+}
+
+function _bwi_xml_partner_validation($file) {
+  $errors = array();
+  try {
+
+  } catch (Exception $e) {
+
+  }
+  return $errors;
+}
+
+function _bwi_xml_flowchart_validation($file) {
+  $errors = array();
+  try {
+
+  } catch (Exception $e) {
+
+  }
+  return $errors;
 }
 
 /**
@@ -103,46 +153,38 @@ function _is_admin() {
  * @return mixed
  */
 function _validate_valid_xml($file) {
+  $errors = array();
+
   $xml = XMLReader::open($file->uri);
 // The validate parser option must be enabled for
 // this method to work properly
   $xml->setParserProperty(XMLReader::VALIDATE, true);
-  return $xml->isValid();
-}
 
-// Verify file size is no larger than 2 MB
-function _validate_file_size($file) {
-  // 2 MB
-  if ($file->filesize > 2 * 10000) {
-    return false;
+  if(!$xml->isValid()) {
+    $errors[] = t('The %filename file is not valid xml format', array('%filename' => $file->filename));
   }
-  else {
-    return true;
-  }
+  return $errors;
 }
 
 function be_well_informed_configurations_form_validate($form, &$form_state) {
   // File_save_upload temporarily stores the file for evaluation
-  $partner_file = file_save_upload('partner', ['file_validate_extensions' => ['xml']]);
-  $flowchart_file = file_save_upload('flowchart', ['file_validate_extensions' => ['xml']]);
-  if ($partner_file) {
-    // Validate account setting
-    if (_validate_file_size($partner_file)) {
-      form_set_error('partner', 'Partner Configuration too large. Must be under 2MB.');
-    }
-    if (_validate_valid_xml($partner_file)) {
-      form_set_error('partner', 'Partner Configuration not valid XML.');
-    }
-  }
-  if ($flowchart_file) {
-    // Validate Flowchart settings
-    if (_validate_file_size($flowchart_file)) {
-      form_set_error('flowchart', 'Flowchart too large. Must be under 2MB.');
-    }
-    if (_validate_valid_xml($partner_file)) {
-      form_set_error('flowchart', 'Flowchart not valid XML.');
-    }
-  }
+  $file_size = variable_get("bwi_service_upload_file_size_limit", '2'); // default
+
+  // Validate account setting
+  $partner_file = file_save_upload('partner', [
+    'file_validate_extensions' => ['xml'],
+    '_validate_valid_xml' => [],
+    '_bwi_file_validate'=>[1024*1024*$file_size],
+    '_bwi_xml_partner_validation'=>[]
+  ]);
+
+  // Validate Flowchart settings
+  $flowchart_file = file_save_upload('flowchart', [
+    'file_validate_extensions' => ['xml'],
+    '_validate_valid_xml' => [],
+    '_bwi_file_validate'=>[1024*1024*$file_size],
+    '_bwi_xml_flowchart_validation'=>[]
+  ]);
 }
 
 function _user_managed_partner() {
@@ -204,15 +246,15 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
     );
 
     if ($response->code != 200) {
-      drupal_set_message('Unable to upload file.', 'error');
+      drupal_set_message('Unable to upload file to BWI service.', 'error');
     }
     else {
       if ($partner_file) {
-        drupal_set_message('Successfully uploaded partner configurations.', 'success');
+        drupal_set_message('Successfully uploaded partner configurations to BWI service.', 'success');
       }
       if ($flowchart_file) {
         // Validate Flowchart settings
-        drupal_set_message('Successfully uploaded flowchart configurations.', 'success');
+        drupal_set_message('Successfully uploaded flowchart configurations to BWI service.', 'success');
       }
     }
   }
@@ -414,7 +456,18 @@ function be_well_informed_block_view($delta = '') {
       $modal_form_html = theme('be_well_informed_modal');
       $modal_state_selection = theme('be_well_informed_modal_state_selection');
       $widget_state_content = theme('be_well_informed_widget_state_content');
-      drupal_add_js(array("be_well_informed" => ["debug_mode" => variable_get('bwi_js_debug_mode'), 'templates' => ['contaminant_form' => $modal_form_html, 'state_selection' => $modal_state_selection, 'widget_state_content' => $widget_state_content]]), 'setting');
+      drupal_add_js(
+        ["be_well_informed" =>
+          [
+            "debug_mode" => variable_get('bwi_js_debug_mode'),
+            'templates' => [
+              'contaminant_form' => $modal_form_html,
+              'state_selection' => $modal_state_selection,
+              'widget_state_content' => $widget_state_content
+            ],
+            "file_limit" =>  variable_get("bwi_service_upload_file_size_limit", '2')
+          ]
+        ], 'setting');
 
       $block['subject'] = t('Be Well Informed');
       $block['content'] = theme('be_well_informed', ['bwi_admin' => $bwi_admin]);
