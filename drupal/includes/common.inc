@@ -885,15 +885,8 @@ function drupal_http_request($url, array $options = array()) {
       $port = isset($uri['port']) ? $uri['port'] : 443;
       $socket = 'ssl://' . $uri['host'] . ':' . $port;
       $options['headers']['Host'] = $uri['host'] . ($port != 443 ? ':' . $port : '');
-
-      if (empty($options['context'])) {
-        $options['context'] = stream_context_create();
-      }
-      stream_context_set_option($options['context'], 'ssl', 'verify_host', false);
-      stream_context_set_option($options['context'], 'ssl', 'verify_peer', false);
-      stream_context_set_option($options['context'], 'ssl', 'verify_peer_name', false);
-      stream_context_set_option($options['context'], 'ssl', 'allow_self_signed', true);
       break;
+
     default:
       $result->error = 'invalid schema ' . $uri['scheme'];
       $result->code = -1003;
