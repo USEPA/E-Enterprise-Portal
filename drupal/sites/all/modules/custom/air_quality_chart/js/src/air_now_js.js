@@ -2,8 +2,11 @@
   "use strict";
 
   var map;
-  var map_update;
   var markers;
+  // Flag if map is being shown or not
+  var mapActive = false;
+  // Determines if map is not up to date with current locations
+  var mapUpdateRequired = false;
   var currentZipData;
   var todayAQI;
   var AQSMonitorLayer;
@@ -36,12 +39,11 @@
     if (!first_time_user_loading) {
       draw(currentZipData.zip, currentZipData.string);
     }
-    /*
-     * Since we are dynamically creating the "map" we need to postpone any
-     * update.
-     */
-    if (map) {
+    // If map is active, update with new location. Otherwise update later when tab activated
+    if (map && mapActive) {
       update_markers();
+    } else {
+      mapUpdateRequired = true;
     }
   });
 
@@ -82,10 +84,16 @@
     activate: function (e, ui) {
       //map tab activated
       if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {
+        mapActive = true;
         // Initialize map if hasn't yet been loaded
         if (!map) {
           map = loadMap();
+        } else if (mapUpdateRequired) {
+          update_markers();
+          mapUpdateRequired = false;
         }
+      } else {
+        mapActive = false;
       }
     }
   });
