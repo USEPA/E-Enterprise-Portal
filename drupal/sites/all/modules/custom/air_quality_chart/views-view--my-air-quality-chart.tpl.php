@@ -33,8 +33,8 @@ drupal_add_css(drupal_get_path('module', 'air_quality_chart') ."/css/air_now_sty
 
 drupal_add_js("sites/all/libraries/d3/3.5.5/d3.min.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 drupal_add_js("sites/all/libraries/leaflet/0.7.3/leaflet.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
-drupal_add_js(drupal_get_path('module', 'air_quality_chart') ."/js/air_now_js.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 drupal_add_js(drupal_get_path('module', 'air_quality_chart') ."/js/esri.leaflet.1.0.0.customCGI.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_LIBRARY, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
+drupal_add_js(drupal_get_path('module', 'air_quality_chart') ."/js/air_now_js.js", ['scope'=>'footer', 'preprocess'=>true, 'group'=>JS_DEFAULT, 'type'=>'file', 'cache'=>true, 'requires_jquery'=>true]);
 
 ?>
 

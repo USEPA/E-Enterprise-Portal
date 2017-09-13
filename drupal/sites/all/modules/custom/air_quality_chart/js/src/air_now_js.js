@@ -14,19 +14,15 @@
   var hidden;
   var dialogDiv, dialogTitle, dialogContents;
 
-  function get_map() {
-    return map;
-  }
-
   function update_markers() {
     if (!first_time_user_loading) {
       //if markers exist then it's not the original map load
       if (markers) {
         map.removeLayer(markers);
       }
-        markers = new L.FeatureGroup();
-        map.addLayer(markers);
-        updateMarker();
+      markers = new L.FeatureGroup();
+      map.addLayer(markers);
+      updateMarker();
     }
   }
 
@@ -73,46 +69,43 @@
     $('.ui-dialog').focus();
   }
 
-  $(document).ready(function () {
-    var first_time_user_block = $('#first-time-user-block');
-    if (first_time_user_block.length > 0) {
-      first_time_user_loading = true;
-    }
-    $(document).on('ee:first_time_user_complete', function () {
-      first_time_user_loading = false;
-    });
-    var $tabs = $("#my-air-quality-chart-tabs");
+  var first_time_user_block = $('#first-time-user-block');
+  if (first_time_user_block.length > 0) {
+    first_time_user_loading = true;
+  }
+  $(document).on('ee:first_time_user_complete', function () {
+    first_time_user_loading = false;
+  });
+  var $tabs = $("#my-air-quality-chart-tabs");
 
-    $tabs.tabs({
-      activate: function (e, ui) {
-        //map tab activated
-        if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {
-          if (!map) {
-            map = loadMap();
-          }
+  $tabs.tabs({
+    activate: function (e, ui) {
+      //map tab activated
+      if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {
+        // Initialize map if hasn't yet been loaded
+        if (!map) {
+          map = loadMap();
         }
       }
-    });
+    }
+  });
 
 
+  // When user clicks / presses Enter on View chart description / Learn more links,
+  // create dialogs with appropriate text and open dialogs, then focus them
+  // Also call hideWorkbenchFieldsFromSR to apply aria-hidden to background elements so screen reader does not "see" them
+  $('#sr-aqi-data-toggle').on('click', function (e) {
+    e.stopPropagation();
+    dialogDiv = '#sr-aqi-data';
+    dialogTitle = 'Air Quality Index Chart'
+    openDialog(dialogDiv, dialogTitle, srAQIString);
+  });
 
-    // When user clicks / presses Enter on View chart description / Learn more links, 
-    // create dialogs with appropriate text and open dialogs, then focus them
-    // Also call hideWorkbenchFieldsFromSR to apply aria-hidden to background elements so screen reader does not "see" them
-    $('#sr-aqi-data-toggle').on('click', function (e) {
-      e.stopPropagation();
-      dialogDiv = '#sr-aqi-data';
-      dialogTitle = 'Air Quality Index Chart'
-      openDialog(dialogDiv, dialogTitle, srAQIString);
-    });
-
-    $('#aqi-explained-toggle').on('click', function (e) {
-      e.stopPropagation();
-      dialogDiv = '#aqi-explained';
-      dialogTitle = 'Air Quality Index Explained';
-      openDialog(dialogDiv, dialogTitle, aqiExplained);
-    });
-
+  $('#aqi-explained-toggle').on('click', function (e) {
+    e.stopPropagation();
+    dialogDiv = '#aqi-explained';
+    dialogTitle = 'Air Quality Index Explained';
+    openDialog(dialogDiv, dialogTitle, aqiExplained);
   });
 
   function hideWorkbenchFieldsFromSR(hidden) {
