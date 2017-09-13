@@ -282,9 +282,9 @@
           $locationInput.autocomplete({
             source: function (request, respond) {
               // Prevent location lookup firing twice for same input
-              if (request.term && previouslySearched != request.term) {
-                previouslySearched = request.term;
-                if ($locationInput.autocomplete("option", "searchEnabled") === true) {
+              if ($locationInput.autocomplete("option", "searchEnabled") === true) {
+                if (request.term && previouslySearched != request.term) {
+                  previouslySearched = request.term;
                   $locationInput.autocomplete("option", "searchEnabled", false);
                   hideError();
                   showLoading();
