@@ -132,6 +132,7 @@
   }
 
   function loadMap() {
+    L.Icon.Default.imagePath = '/sites/all/libraries/leaflet/0.7.3/images';
     map = L.map('my-air-quality-air-now-map-container');
     map.on('load', function (e) {
       update_markers();
