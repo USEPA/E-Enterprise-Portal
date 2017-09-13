@@ -218,13 +218,12 @@
     attach: function (context) {
       var $locationSelect = $('select#location-select', context);
       var $locationInput = $('input#location-input-guests', context);
-      // Prevent autocomplete from firing twice for the same input
-      var previouslySearched = "";
-
       var defaultZip = 27705; // Durham
 
       $locationSelect.add($locationInput).once(function () {
 
+        // Prevent autocomplete from firing twice for the same input
+        var previouslySearched = "";
         var $locationInputFormGroup = $locationInput.closest('.form-group');
         var $locationInputIcon = $locationInput.next('.form-control-feedback');
 
