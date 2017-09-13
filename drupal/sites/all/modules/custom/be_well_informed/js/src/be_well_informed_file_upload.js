@@ -5,7 +5,7 @@
     if (this.files[0] && this.files[0].size >= file_size_limit * 1024 * 1024) {
       // Reset the file upload field
       this.value = "";
-      alert('Upload must not exceed '+file_size_limit+' MB in size');
+      alert('Upload must not exceed ' + file_size_limit + ' MB in size');
     }
   });
 })(jQuery);
