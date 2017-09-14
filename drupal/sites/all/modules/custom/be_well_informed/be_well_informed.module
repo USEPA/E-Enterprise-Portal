@@ -155,14 +155,12 @@ function _is_admin() {
 function _validate_valid_xml($file) {
   $errors = array();
 
-  $xml = XMLReader::open($file->uri);
-// The validate parser option must be enabled for
-// this method to work properly
-  $xml->setParserProperty(XMLReader::VALIDATE, true);
-
-  if(!$xml->isValid()) {
+  $dom = new DOMDocument;
+  $dom->load($file->uri);
+  if ($dom->validate()) {
     $errors[] = t('The %filename file is not valid xml format', array('%filename' => $file->filename));
   }
+
   return $errors;
 }
 
