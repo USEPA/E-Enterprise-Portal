@@ -157,7 +157,7 @@ function _validate_valid_xml($file) {
 
   $dom = new DOMDocument;
   $dom->load($file->uri);
-  if ($dom->validate()) {
+  if (!$dom->validate()) {
     $errors[] = t('The %filename file is not valid xml format', array('%filename' => $file->filename));
   }
 
