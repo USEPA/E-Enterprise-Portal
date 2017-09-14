@@ -17,14 +17,13 @@
         </div>
     
         <form action="" id="water_analysis_results_form">
-            <input type="hidden" name="StateCode" value="<?php echo $state_xml['State']['StateCode'] ?>">
+            <input type="hidden" name="StateCode" value="<?php echo $state_info['Code'] ?>">
           <div id="routine-contaminants" class="row usa-grid-full">
             <div class="row usa-width-one-whole">
               <div class="city-selection usa-width-one-half">
                 <div class="section">
                   <label class="column one-half"
                          for="drpcity"></label>
-                    <input name="state_code" type="hidden" value="<?php echo $state_code ?>">
                 </div>
               </div>
     

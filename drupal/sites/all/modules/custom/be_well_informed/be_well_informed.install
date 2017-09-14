@@ -5,10 +5,10 @@
  */
 function be_well_informed_enable() {
   // initialize variables
-  if(variable_get('bwi_js_debug_mode') == NULL) {
+  if (variable_get('bwi_js_debug_mode') == NULL) {
     variable_set('bwi_js_debug_mode', false);
   }
-  if(variable_get('bwi_pdf_debug') == NULL) {
+  if (variable_get('bwi_pdf_debug') == NULL) {
     variable_set('bwi_pdf_debug', false);
   }
 }
@@ -16,3 +16,4 @@ function be_well_informed_enable() {
 function be_well_informed_update_7001() {
   be_well_informed_enable();
 }
+

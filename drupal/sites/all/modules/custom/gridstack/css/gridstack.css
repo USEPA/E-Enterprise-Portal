@@ -4,27 +4,12 @@
 }
 
 /* line 5, ../sass/gridstack.scss */
-.section-workbench .main-content.usa-grid {
-  min-height: 500px;
-}
-
-/* line 9, ../sass/gridstack.scss */
-.grid-stack-loading {
-  /*position: absolute;
-  width: 200PX;
-  height: 200PX;
-  transform: translate(-50%, 50%);
-  margin-left: 50%;
-  left: 0;*/
-}
-
-/* line 21, ../sass/gridstack.scss */
 .grid-stack {
   position: relative;
   display: none;
 }
 
-/* line 26, ../sass/gridstack.scss */
+/* line 10, ../sass/gridstack.scss */
 .grid-stack .grid-stack-placeholder > .placeholder-content {
   border: 1px dashed lightgray;
   margin: 0;
@@ -37,15 +22,16 @@
   z-index: 0 !important;
 }
 
-/* line 38, ../sass/gridstack.scss */
-.grid-stack > .grid-stack-item {
+/* line 22, ../sass/gridstack.scss */
+.grid-stack > .grid-stack-item[min-height~="300px"] {
   min-width: 8.33333333%;
   position: absolute;
   padding: 0;
+  height: auto;
 }
 
-/* line 47, ../sass/gridstack.scss */
-.grid-stack > .grid-stack-item > .grid-stack-item-content {
+/* line 31, ../sass/gridstack.scss */
+.grid-stack > .grid-stack-item > .grid-stack-item-content[min-height~="300px"] {
   margin: 0;
   position: absolute;
   top: 0;
@@ -57,7 +43,7 @@
   overflow-y: hidden;
 }
 
-/* line 59, ../sass/gridstack.scss */
+/* line 43, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-handle {
   position: absolute;
   font-size: 0.1px;
@@ -66,17 +52,17 @@
   touch-action: none;
 }
 
-/* line 67, ../sass/gridstack.scss */
+/* line 51, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item.ui-resizable-disabled > .ui-resizable-handle, .grid-stack > .grid-stack-item.ui-resizable-autohide > .ui-resizable-handle {
   display: none;
 }
 
-/* line 71, ../sass/gridstack.scss */
+/* line 55, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item.ui-draggable-dragging, .grid-stack > .grid-stack-item.ui-resizable-resizing {
   z-index: 100;
 }
 
-/* line 75, ../sass/gridstack.scss */
+/* line 59, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item.ui-draggable-dragging > .grid-stack-item-content,
 .grid-stack > .grid-stack-item.ui-draggable-dragging > .grid-stack-item-content, .grid-stack > .grid-stack-item.ui-resizable-resizing > .grid-stack-item-content,
 .grid-stack > .grid-stack-item.ui-resizable-resizing > .grid-stack-item-content {
@@ -84,7 +70,7 @@
   opacity: 0.8;
 }
 
-/* line 82, ../sass/gridstack.scss */
+/* line 66, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-se,
 .grid-stack > .grid-stack-item > .ui-resizable-sw {
   text-align: right;
@@ -98,13 +84,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* line 95, ../sass/gridstack.scss */
+/* line 79, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-se::before,
 .grid-stack > .grid-stack-item > .ui-resizable-sw::before {
   content: "\f065";
 }
 
-/* line 100, ../sass/gridstack.scss */
+/* line 84, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-se {
   display: inline-block;
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
@@ -115,7 +101,7 @@
   transform: rotate(90deg);
 }
 
-/* line 110, ../sass/gridstack.scss */
+/* line 94, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-nw {
   cursor: nw-resize;
   width: 20px;
@@ -124,7 +110,7 @@
   top: 0;
 }
 
-/* line 118, ../sass/gridstack.scss */
+/* line 102, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-n {
   cursor: n-resize;
   height: 10px;
@@ -133,7 +119,7 @@
   right: 25px;
 }
 
-/* line 126, ../sass/gridstack.scss */
+/* line 110, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-ne {
   cursor: ne-resize;
   width: 20px;
@@ -142,7 +128,7 @@
   top: 0;
 }
 
-/* line 134, ../sass/gridstack.scss */
+/* line 118, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-e {
   cursor: e-resize;
   width: 10px;
@@ -151,7 +137,7 @@
   bottom: 15px;
 }
 
-/* line 142, ../sass/gridstack.scss */
+/* line 126, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-se {
   cursor: se-resize;
   width: 20px;
@@ -160,7 +146,7 @@
   bottom: 0;
 }
 
-/* line 150, ../sass/gridstack.scss */
+/* line 134, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-s {
   cursor: s-resize;
   height: 10px;
@@ -169,7 +155,7 @@
   right: 25px;
 }
 
-/* line 158, ../sass/gridstack.scss */
+/* line 142, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-sw {
   cursor: sw-resize;
   width: 20px;
@@ -178,7 +164,7 @@
   bottom: 0;
 }
 
-/* line 166, ../sass/gridstack.scss */
+/* line 150, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item > .ui-resizable-w {
   cursor: w-resize;
   width: 10px;
@@ -187,7 +173,7 @@
   bottom: 15px;
 }
 
-/* line 174, ../sass/gridstack.scss */
+/* line 158, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='1'] {
   width: 8.33333333%;
 }
@@ -197,242 +183,242 @@
     Changing left from  8.33333333%; to 50% for specific Eportal Workbench.
     If copied code for another app, revert to  8.33333333%;
 */
-/* line 183, ../sass/gridstack.scss */
+/* line 167, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='1'] {
   left: 50%;
 }
 
-/* line 187, ../sass/gridstack.scss */
+/* line 171, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='1'] {
   min-width: 8.33333333%;
 }
 
-/* line 191, ../sass/gridstack.scss */
+/* line 175, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='1'] {
   max-width: 8.33333333%;
 }
 
-/* line 195, ../sass/gridstack.scss */
+/* line 179, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='2'] {
   width: 16.66666667%;
 }
 
-/* line 199, ../sass/gridstack.scss */
+/* line 183, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='2'] {
   left: 16.66666667%;
 }
 
-/* line 203, ../sass/gridstack.scss */
+/* line 187, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='2'] {
   min-width: 16.66666667%;
 }
 
-/* line 207, ../sass/gridstack.scss */
+/* line 191, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='2'] {
   max-width: 16.66666667%;
 }
 
-/* line 211, ../sass/gridstack.scss */
+/* line 195, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='3'] {
   width: 25%;
 }
 
-/* line 215, ../sass/gridstack.scss */
+/* line 199, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='3'] {
   left: 25%;
 }
 
-/* line 219, ../sass/gridstack.scss */
+/* line 203, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='3'] {
   min-width: 25%;
 }
 
-/* line 223, ../sass/gridstack.scss */
+/* line 207, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='3'] {
   max-width: 25%;
 }
 
-/* line 227, ../sass/gridstack.scss */
+/* line 211, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='4'] {
   width: 33.33333333%;
 }
 
-/* line 231, ../sass/gridstack.scss */
+/* line 215, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='4'] {
   left: 33.33333333%;
 }
 
-/* line 235, ../sass/gridstack.scss */
+/* line 219, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='4'] {
   min-width: 33.33333333%;
 }
 
-/* line 239, ../sass/gridstack.scss */
+/* line 223, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='4'] {
   max-width: 33.33333333%;
 }
 
-/* line 243, ../sass/gridstack.scss */
+/* line 227, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='5'] {
   width: 41.66666667%;
 }
 
-/* line 247, ../sass/gridstack.scss */
+/* line 231, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='5'] {
   left: 41.66666667%;
 }
 
-/* line 251, ../sass/gridstack.scss */
+/* line 235, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='5'] {
   min-width: 41.66666667%;
 }
 
-/* line 255, ../sass/gridstack.scss */
+/* line 239, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='5'] {
   max-width: 41.66666667%;
 }
 
-/* line 259, ../sass/gridstack.scss */
+/* line 243, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='6'] {
   width: 49.5%;
 }
 
-/* line 263, ../sass/gridstack.scss */
+/* line 247, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='6'] {
   left: 50.5%;
 }
 
-/* line 267, ../sass/gridstack.scss */
+/* line 251, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='6'] {
   min-width: 50%;
 }
 
-/* line 271, ../sass/gridstack.scss */
+/* line 255, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='6'] {
   max-width: 50%;
 }
 
-/* line 275, ../sass/gridstack.scss */
+/* line 259, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='7'] {
   width: 58.33333333%;
 }
 
-/* line 279, ../sass/gridstack.scss */
+/* line 263, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='7'] {
   left: 58.33333333%;
 }
 
-/* line 283, ../sass/gridstack.scss */
+/* line 267, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='7'] {
   min-width: 58.33333333%;
 }
 
-/* line 287, ../sass/gridstack.scss */
+/* line 271, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='7'] {
   max-width: 58.33333333%;
 }
 
-/* line 291, ../sass/gridstack.scss */
+/* line 275, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='8'] {
   width: 66.66666667%;
 }
 
-/* line 295, ../sass/gridstack.scss */
+/* line 279, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='8'] {
   left: 66.66666667%;
 }
 
-/* line 299, ../sass/gridstack.scss */
+/* line 283, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='8'] {
   min-width: 66.66666667%;
 }
 
-/* line 303, ../sass/gridstack.scss */
+/* line 287, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='8'] {
   max-width: 66.66666667%;
 }
 
-/* line 307, ../sass/gridstack.scss */
+/* line 291, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='9'] {
   width: 75%;
 }
 
-/* line 311, ../sass/gridstack.scss */
+/* line 295, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='9'] {
   left: 75%;
 }
 
-/* line 315, ../sass/gridstack.scss */
+/* line 299, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='9'] {
   min-width: 75%;
 }
 
-/* line 319, ../sass/gridstack.scss */
+/* line 303, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='9'] {
   max-width: 75%;
 }
 
-/* line 323, ../sass/gridstack.scss */
+/* line 307, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='10'] {
   width: 83.33333333%;
 }
 
-/* line 327, ../sass/gridstack.scss */
+/* line 311, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='10'] {
   left: 83.33333333%;
 }
 
-/* line 331, ../sass/gridstack.scss */
+/* line 315, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='10'] {
   min-width: 83.33333333%;
 }
 
-/* line 335, ../sass/gridstack.scss */
+/* line 319, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='10'] {
   max-width: 83.33333333%;
 }
 
-/* line 339, ../sass/gridstack.scss */
+/* line 323, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='11'] {
   width: 91.66666667%;
 }
 
-/* line 343, ../sass/gridstack.scss */
+/* line 327, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='11'] {
   left: 91.66666667%;
 }
 
-/* line 347, ../sass/gridstack.scss */
+/* line 331, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='11'] {
   min-width: 91.66666667%;
 }
 
-/* line 351, ../sass/gridstack.scss */
+/* line 335, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='11'] {
   max-width: 91.66666667%;
 }
 
-/* line 355, ../sass/gridstack.scss */
+/* line 339, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-width='12'] {
   width: 100%;
 }
 
-/* line 359, ../sass/gridstack.scss */
+/* line 343, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-x='12'] {
   left: 100%;
 }
 
-/* line 363, ../sass/gridstack.scss */
+/* line 347, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-min-width='12'] {
   min-width: 100%;
 }
 
-/* line 367, ../sass/gridstack.scss */
+/* line 351, ../sass/gridstack.scss */
 .grid-stack > .grid-stack-item[data-gs-max-width='12'] {
   max-width: 100%;
 }
 
-/* line 371, ../sass/gridstack.scss */
+/* line 355, ../sass/gridstack.scss */
 .grid-stack.grid-stack-animate, .grid-stack.grid-stack-animate .grid-stack-item {
   -webkit-transition: left 0.3s, top 0.3s, height 0.3s, width 0.3s;
   -moz-transition: left 0.3s, top 0.3s, height 0.3s, width 0.3s;
@@ -441,7 +427,7 @@
   transition: left 0.3s, top 0.3s, height 0.3s, width 0.3s;
 }
 
-/* line 379, ../sass/gridstack.scss */
+/* line 363, ../sass/gridstack.scss */
 .grid-stack.grid-stack-animate .grid-stack-item.ui-draggable-dragging, .grid-stack.grid-stack-animate .grid-stack-item.ui-resizable-resizing, .grid-stack.grid-stack-animate .grid-stack-item.grid-stack-placeholder {
   -webkit-transition: left 0s, top 0s, height 0s, width 0s;
   -moz-transition: left 0s, top 0s, height 0s, width 0s;
@@ -459,7 +445,7 @@
 }
 */
 @media (max-width: 768px) {
-  /* line 397, ../sass/gridstack.scss */
+  /* line 381, ../sass/gridstack.scss */
   .grid-stack-item {
     position: relative !important;
     width: auto !important;
@@ -468,12 +454,12 @@
     margin-bottom: 20px;
   }
 
-  /* line 404, ../sass/gridstack.scss */
+  /* line 388, ../sass/gridstack.scss */
   .grid-stack-item .ui-resizable-handle {
     display: none;
   }
 
-  /* line 408, ../sass/gridstack.scss */
+  /* line 392, ../sass/gridstack.scss */
   .grid-stack {
     height: auto !important;
   }

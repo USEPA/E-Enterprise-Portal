@@ -4,10 +4,14 @@ body {
   padding-left: 1em;
   padding-right: 1em;
 }
+div {
+  box-sizing: border-box;
+}
 .be-well-pdf-title {
   text-align:center;
   font-weight:normal;
   font-size:1.2em;
+  display: block;
 }
 h3 {
   font-size: 1.1em;
@@ -50,13 +54,17 @@ h3, p {
     margin-bottom:6px;
   }
 }
+.print-icon {
+  display: none;
+}
 table tr {
   page-break-inside: avoid;  /* To fix issue with footer cutting of text */
 }
 .summary-table-pdf {
   font-size: 0.9em;
   margin-top: 2em;
-  margin-left: 1em;
+  padding: 0 1em;
+  min-width: 100%;
   .element-col {
     width: 75px;
   }

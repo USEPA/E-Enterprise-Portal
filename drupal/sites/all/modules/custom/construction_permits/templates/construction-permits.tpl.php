@@ -20,7 +20,7 @@
         <label for="cgp-npdes-id">NPDES ID</label>
         <input type="text" id="cgp-npdes-id"
                name="npdesId"
-               data-parsley-pattern="/([A[LKSZR]|C[AOT]|D[EC]|F[ML]|G[AU]|HI|I[DLNA]|J[A]|K[SY]|LA|M[EHDAINSOTW]|N[EIVHJMYCD]|MP|O[HKR]|P[WAR]|RI|S[CD]|T[NX]|UT|V[TIA]|W[AVIY]]{2})([A-Z]{1})([0-9IF]{5,})/i"
+               data-parsley-pattern="/([0-9|A-Z]{9,})/i"
                data-parsley-error-message="NPDES IDs are a combination of 3 letters and 6 alphanumeric characters.">
       </div>
     </div>
