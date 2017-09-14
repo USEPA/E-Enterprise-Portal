@@ -111,7 +111,12 @@ function removeTopic($checkbox, from_unfollow) {
 function showLGCResourcesView() {
   var $ = jQuery;
   $('#user-lgc-topics-small-view').find('label').removeClass('selected');
-    favorite_local_resources_table.showTable();
+  if (!favorite_local_resources_table) {
+    favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"),
+      lgc_user_data.datatable_json,
+      'my');
+  }
+  favorite_local_resources_table.showTable();
   $('#manage-my-topics-wrapper').hide();
   $('.lgc-header').text('');
   $('.back-to-lgc-widget').hide();
