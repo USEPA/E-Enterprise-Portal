@@ -153,14 +153,23 @@ function _is_admin() {
  * @return mixed
  */
 function _validate_valid_xml($file) {
-  $errors = array();
+  $errors = [];
 
-  $dom = new DOMDocument;
-  $dom->load($file->uri);
-  if (!$dom->validate()) {
-    $errors[] = t('The %filename file is not valid xml format', array('%filename' => $file->filename));
+  $content = file_get_contents($file->uri);
+  $version = '1.0';
+  $encoding = 'utf-8';
+
+  libxml_use_internal_errors(true);
+
+  $doc = new DOMDocument($version, $encoding);
+  $doc->loadXML($content);
+
+  $xml_errors = libxml_get_errors();
+  libxml_clear_errors();
+
+  while($e = array_pop($xml_errors)) {
+    $errors[] = $e->message;
   }
-
   return $errors;
 }
 
