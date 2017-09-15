@@ -111,7 +111,7 @@ function removeTopic($checkbox, from_unfollow) {
 function showLGCResourcesView() {
   var $ = jQuery;
   $('#user-lgc-topics-small-view').find('label').removeClass('selected');
-    favorite_local_resources_table.showTable();
+  favorite_local_resources_table.showTable();
   $('#manage-my-topics-wrapper').hide();
   $('.lgc-header').text('');
   $('.back-to-lgc-widget').hide();
@@ -145,6 +145,12 @@ function reloadUserTable() {
       }
     })
   } else {
+    // Initialize User table if it has yet to be initialized
+    if (!favorite_local_resources_table) {
+      favorite_local_resources_table = new LocalResourcesTable($("#user-local-resources"),
+        Drupal.settings.local_government_resources.user_resources,
+        'my');
+    }
     showLGCResourcesView();
   }
 }
