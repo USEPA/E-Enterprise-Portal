@@ -1,2 +1,2 @@
-(function($){$("body").on("change",'input[type="file"]',function(){if(this.files[0]&&this.files[0].size>=2*1e6){this.value="";alert("Upload must not exceed 2 MB in size")}})})(jQuery);
+(function($){$("body").on("change",'input[type="file"]',function(){var file_size_limit=Drupal.settings.be_well_informed.file_limit||2;if(this.files[0]&&this.files[0].size>=file_size_limit*1024*1024){this.value="";alert("Upload must not exceed "+file_size_limit+" MB in size")}})})(jQuery);
 //# sourceMappingURL=src/be_well_informed_file_upload.js.map
