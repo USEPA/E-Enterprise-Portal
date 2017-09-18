@@ -254,6 +254,9 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
 
     if ($response->code != 200) {
       drupal_set_message('Unable to upload file to BWI service.', 'error');
+      drupal_set_message('Response code: '. $response->code, 'error');
+      drupal_set_message('Response message: '. $response->status_message, 'error');
+      drupal_set_message('Response error: '. $response->error, 'error');
     }
     else {
       if ($partner_file) {
