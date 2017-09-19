@@ -1,0 +1,54 @@
+<?php
+/**
+ * @file
+ * Tests for the hello world module.
+ */
+class FRSLocationServicesTest extends DrupalWebTestCase {
+
+  /**
+   * Metadata about our test case.
+   */
+  public static function getInfo() {
+    return array(
+      // The human readable name of the test case.
+      'name' => 'FRS Location Services',
+      // A short description of the tests this case performs.
+      'description' => 'Tests for the FRS Location Services module.',
+      // The group that this case belongs too, used for grouping tests together
+      // in the UI.
+      'group' => 'Eportal Custom Modules Tests',
+    );
+  }
+
+  /**
+   * Perform any setup tasks for our test case.
+   */
+  public function setUp() {
+    parent::setUp(array('frs_location_services'));
+  }
+
+
+  public function testTaxonomySelect() {
+    $data = generate_taxonomy_select('community-size');
+    $this->assertTrue(is_string($data), t('generate_taxonomy_select returns string.'));
+    $data = generate_taxonomy_select('select-role');
+    $this->assertTrue(is_string($data), t('generate_taxonomy_select returns string.'));
+    $data = generate_taxonomy_select('select-organization');
+    $this->assertTrue(is_string($data), t('generate_taxonomy_select returns string.'));
+    $data = generate_taxonomy_select();
+    $this->assertTrue(is_string($data), t('generate_taxonomy_select returns string.'));
+  }
+
+  public function testZipCodeToLatLong() {
+    $testZip = "77571";
+    $testZip2 = 62704;
+    $zip = frs_zip_code_to_lat_long($testZip);
+    $zip2 = frs_zip_code_to_lat_long($testZip2);
+    $this->assertTrue(is_array($zip), t('frs_zip_code_to_lat_long returns array.'));
+    $this->assertTrue(is_array($zip2), t('frs_zip_code_to_lat_long returns array even with integer entry.'));
+    $this->assertTrue(isset($zip['long']), t('return includes long'));
+    $this->assertTrue(isset($zip['lat']), t('return includes lat'));
+  }
+
+
+}
