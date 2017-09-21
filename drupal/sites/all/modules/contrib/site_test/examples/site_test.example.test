@@ -1,0 +1,49 @@
+<?php
+/**
+ * @file
+ * Site Test case example.
+ */
+
+/**
+ * Class SiteTestExampleWebTestCase.
+ */
+class SiteTestExampleWebTestCase extends SiteWebTestCase {
+  /**
+   * Provide information about the site test.
+   */
+  public static function getInfo() {
+    return [
+      'name' => 'Example test',
+      'description' => 'Description of the test.',
+      'group' => 'Example group',
+      'mode' => 'site',
+    ];
+  }
+
+  /**
+   * An example test.
+   *
+   * To create a new test, simply prefix a public function name in this class
+   * with the word 'test' and it will be picked up by the system.
+   * For example, testFoo and testBar functions would run as test cases.
+   */
+  public function testExample() {
+    // Visit the user login page.
+    $this->drupalGet('user/login');
+
+    // Check the username field is present.
+    $this->assertFieldByName('name', '', 'Username field found');
+  }
+
+  /**
+   * Another example test.
+   */
+  public function testExampleTwo() {
+    // Visit the admin page.
+    $this->drupalGet('admin');
+
+    // Ensure the user gets an access denied page.
+    $this->assertResponse(403, 'Administration page was not accessible');
+  }
+
+}
