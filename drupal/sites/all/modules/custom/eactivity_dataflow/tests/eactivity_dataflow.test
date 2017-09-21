@@ -47,20 +47,22 @@ class EactivityDataflowTests extends SiteWebTestCase {
     return true;
   }
 
-  private function validProgressTracker($progressTrackerData) {
-    foreach($progressTrackerData as $k=>$v) {
+
+
+  private function validProgressTrackerArray($progressTrackerData) {
+    foreach ($progressTrackerData as $k => $v) {
       if (!is_int($k) && $k !== 'cached') {
         return false;
       }
     }
-    return true0;
+    return true;
   }
 
-  private function validToDo($toDoData) {
-    foreach($toDoData as $k=>$v) {
+  private function validToDoArray($toDoData) {
+    foreach ($toDoData as $k => $v) {
       if (!is_int($k) && $k !== 'cached') {
-          return false;
-        }
+        return false;
+      }
     }
     return true;
   }
@@ -82,8 +84,8 @@ class EactivityDataflowTests extends SiteWebTestCase {
     $this->assertTrue(is_array($progressTrackerData), 'Progress tracker returns array, using cache');
     $toDoData = load_eactivity_data('to_do', true);
     $this->assertTrue(is_array($toDoData), ' To Do data returns array, using cache');
-    $this->assertTrue($this->validProgressTracker($progressTrackerData), 'Progress tracker data is valid');
-    $this->assertTrue($this->validToDo($toDoData), 'To Do data is valid');
+    $this->assertTrue($this->validProgressTrackerArray($progressTrackerData), 'Progress tracker data is valid');
+    $this->assertTrue($this->validToDoArray($toDoData), 'To Do data is valid');
   }
 
 

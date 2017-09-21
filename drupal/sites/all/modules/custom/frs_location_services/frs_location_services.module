@@ -55,6 +55,16 @@ function frs_location_services_theme_registry_alter(&$theme_registry) {
 }
 
 
+/**
+ * Create a taxonomy term and return the tid.
+ */
+function custom_create_taxonomy_term($name, $vid) {
+  $term = new stdClass();
+  $term->name = $name;
+  $term->vid = $vid;
+  taxonomy_term_save($term);
+  return $term->tid;
+}
 
 /**
  * Params: array of zip codes, array of taxonomy ids for interests, skip boolean
@@ -310,14 +320,14 @@ function return_location_data() {
     $location = $_POST['location'];
   }
   else {
-    if (isset($_GET['location'])) {
-      $location = $_GET['location'];
-    }
-    else {
-      exit();
-    }
+  if (isset($_GET['location'])) {
+    $location = $_GET['location'];
   }
-
+  else {
+    exit();
+  }
+  }
+  
 
 // Sanitize inputs
 
@@ -530,7 +540,7 @@ function gpo_city_state_to_zip_code($city, $state) {
     $zip_data['state'] = $state;
     if (count($frs_zips['zip_array']) > 0) {
       $zip_data['zip_array'] = $frs_zips['zip_array'];
-      foreach ($frs_zips['zip_array'] as $frs_zip) {
+      foreach($frs_zips['zip_array'] as $frs_zip) {
         $zip_data['zip_attr'][$frs_zip] = ['city' => ucfirst(strtolower($cleaned_city)) . ', ' . $state];
       }
     }
@@ -650,60 +660,61 @@ function frs_naas_authentication() {
     $password = variable_get('cdx_node_token_password');
 
 
-    $client = connectToSOAPServerWithWSDL($wsdl);
-    if ($client->error) {
+    try {
+      $client = new SoapClient($wsdl, array('soap_version' => SOAP_1_2));
+    } catch (SoapFault $f) {
+      dpm($f);
       drupal_set_message('Cannot connect to Registration Service for FRS.', 'error');
       return;
     }
-    else {
-      $client = $client->client;
+
+    if (isset($client)) {
+      $params = array(
+        "userId" => $email,
+        "credential" => $password,
+        "domain" => variable_get('cdx_node_token_domain'),
+        "authenticationMethod" => variable_get('cdx_node_token_auth_method'),
+        "clientIp" => $_SERVER['SERVER_ADDR'],
+        'resourceURI' => ''
+      );
+      $soap_type = 'CentralAuth';
+
+
+      $token = NULL;
+      try {
+        $response1 = $client->__soapCall($soap_type, array($params));
+        $token = $response1->return;
+      } catch (SoapFault $f) {
+        dpm($f);
+        $token = '';
+        drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
+      }
     }
-
-    $params = array(
-      "userId" => $email,
-      "credential" => $password,
-      "domain" => variable_get('cdx_node_token_domain'),
-      "authenticationMethod" => variable_get('cdx_node_token_auth_method'),
-      "clientIp" => $_SERVER['SERVER_ADDR'],
-      'resourceURI' => ''
-    );
-    $soap_type = 'CentralAuth';
-
-
-    $token = NULL;
-    $response1 = callSOAPWithParams($client, $soap_type, $params);
-    if (!$response1->error) {
-      $token = $response1->response->return;
-    }
     else {
-      drupal_set_message('Cannot Authenticate to get data flow for FRS.', 'error');
       $token = '';
     }
-  }
-  else {
-    $token = '';
-  }
-  if (isset($_GET['json'])) {
-    $_SESSION['frs_naas_token'] = $token;
-    $_SESSION['frs_naas_token_creation_time'] = time();
-    print json_encode(array(
-      'ip' => $_SERVER['SERVER_ADDR'], //variable_get('frs_api_lookup_ip'),
-      'token' => $token,
-    ));
-    exit();
-  }
-  else {
+    if (isset($_GET['json'])) {
+      $_SESSION['frs_naas_token'] = $token;
+      $_SESSION['frs_naas_token_creation_time'] = time();
+      print json_encode(array(
+        'ip' => $_SERVER['SERVER_ADDR'], //variable_get('frs_api_lookup_ip'),
+        'token' => $token,
+      ));
+      exit();
+    }
+    else {
 // Capture token and time to reduce calls to FRS
-    $_SESSION['frs_naas_token'] = $token;
-    $_SESSION['frs_naas_token_creation_time'] = time();
-    return $token;
+      $_SESSION['frs_naas_token'] = $token;
+      $_SESSION['frs_naas_token_creation_time'] = time();
+      return $token;
+    }
   }
 }
 
 
 function frs_zip_code_to_lat_long($zip) {
   $token = frs_naas_authentication();
-  $ip = $_SERVER['SERVER_ADDR'];
+  $ip = $_SERVER['SERVER_ADDR']; //variable_get('frs_api_lookup_ip');
   $frs_domain = variable_get('frs_api_lookup_url');
   if ($frs_domain == 'test_proxy') {
     $test_domain = variable_get("frs_test_proxy");
@@ -724,11 +735,30 @@ function frs_zip_code_to_lat_long($zip) {
   $data = json_decode($response->data);
   $results = $data->Results;
 
+  //watchdog('lat_long_lookup', '<pre>@print_r</pre>', array('@print_r' => print_r( $data->Results, TRUE)));
   $return = array(
     'long' => $results->Longitude83,
     'lat' => $results->Latitude83,
   );
   return $return;
+}
+
+
+function generate_organization_select($elem_id) {
+  $options = array(
+    'business' => 'Business',
+    'education' => 'Education',
+    'federal government' => 'Federal Government',
+    'general public' => 'General public',
+    'local government' => 'Local government',
+    'state government' => 'State government',
+    'research' => 'research'
+  );
+  echo "<select name='$elem_id' id='$elem_id'>";
+  foreach ($options as $value => $text) {
+    echo "<option value='$value'>$text</option>";
+  };
+  echo "</select>";
 }
 
 /**
@@ -753,8 +783,6 @@ function generate_taxonomy_select($elem_id) {
       $vocab = 'organizations';
       $title = 'Select organization';
       break;
-    default:
-      return $select;
   }
   // collect terms from appropriate taxonomy
   $terms = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load($vocab)->vid);
