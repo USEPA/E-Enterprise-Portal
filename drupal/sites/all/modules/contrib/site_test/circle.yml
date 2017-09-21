@@ -1,0 +1,114 @@
+#
+# Configuration for contrib Drupal modules tesing on CircleCI.
+#
+machine:
+  php:
+    version: 5.6.2
+  environment:
+    # Module name to test. Change to your module name.
+    MODULE_NAME: "site_test"
+    # Module's tests to run: test group or class name. Change for your module.
+    MODULE_TESTS: "Site Testing"
+    #
+    # Other variables for build configuration. Not needed to be changed.
+    #
+    # Drupal release to use: drupal, drupal-7.x etc.
+    DRUPAL_RELEASE: drupal-7.x
+    # Build directories configuration.
+    BUILD_DIR: "build"
+    DOCROOT: "$HOME/$CIRCLE_PROJECT_REPONAME/$BUILD_DIR"
+    MODULES_PATH: "$DOCROOT/sites/all/modules"
+    TEST_RESULTS: "$CIRCLE_TEST_REPORTS"
+    # DB config. Using default CircleCI's database.
+    DB_NAME: "circle_test"
+    DB_USERNAME: "ubuntu"
+    DB_PASSWORD: ""
+    # Server configuration.
+    SERVER: local.example.com
+    WEB_USER: $(whoami)
+    WEB_GROUP: www-data
+    WEB_URL: http://local.example.com
+    PATH: "$HOME/.composer/vendor/bin:$PATH"
+    PHP_EXECUTABLE: $(which php)
+  hosts:
+    local.example.com: 127.0.0.1
+
+dependencies:
+  pre:
+  # Modify user to make sure that there will be no permission issues.
+  - sudo usermod -a -G $WEB_GROUP $WEB_USER
+  # Add apache config.
+  - |
+    echo "<VirtualHost *:80>
+        UseCanonicalName Off
+        DocumentRoot %HOME%/%PROJECT_DIR%
+        ServerName %SERVER%
+      <Directory %HOME%/*>
+        Options FollowSymLinks
+        AllowOverride None
+        RewriteEngine On
+        RewriteBase /
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule %HOME%/%PROJECT_DIR%/(.*)$ index.php/?q=$1 [L,QSA]
+        Order allow,deny
+        Allow from all
+      </Directory>
+      <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+      </Directory>
+    </VirtualHost>" > apache-vhost.conf
+  - cp apache-vhost.conf /etc/apache2/sites-available/default
+  - sudo sed -e "s?%HOME%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
+  - sudo sed -e "s?%PROJECT_DIR%?$BUILD_DIR?g" --in-place /etc/apache2/sites-available/default
+  - sudo sed -e "s?%SERVER%?$SERVER?g" --in-place /etc/apache2/sites-available/default
+  - sudo a2enmod rewrite
+  - sudo service apache2 restart
+  # Increase PHP memory size for running tests.
+  - echo "memory_limit = 512M" > ~/.phpenv/versions/$(phpenv global)/etc/conf.d/memory.ini
+  - php -i
+  override:
+  # Install drush.
+  - composer global require --no-interaction drush/drush:8.*.*
+  - composer require --no-interaction alexdesignworks/dcr
+  - cd $HOME/$CIRCLE_PROJECT_REPONAME && bash vendor/bin/dcr install
+  post:
+  # Create $DOCROOT directory and set ownership and permisions.
+  - mkdir -p $DOCROOT
+  - sudo chmod -f 775 $DOCROOT
+  - sudo chown -R $WEB_USER:$WEB_GROUP $DOCROOT
+  - sudo chmod g+s $DOCROOT
+  # Create sites/default/files directory and set ownership and permissions.
+  - mkdir -p $DOCROOT/sites/default/files
+  - sudo chown -R $WEB_USER:$WEB_GROUP $DOCROOT/sites/default/files
+  - sudo chmod g+s $DOCROOT/sites/default/files
+  # Disable sendmail binary to suppress any mailouts.
+  - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/circle.ini
+  # Download Drupal.
+  - drush dl --destination="$(dirname $DOCROOT)" --drupal-project-rename="$(basename $DOCROOT)" $DRUPAL_RELEASE -y
+  # Install drupal.
+  - drush --yes --root=$DOCROOT site-install minimal --db-url=mysql://$DB_USERNAME:$DB_PASSWORD@127.0.0.1/DB_NAME install_configure_form.update_status_module='array(FALSE,FALSE)'
+  # Show information about installed Drupal.
+  - drush --root=$DOCROOT status
+  # Enable testing module.
+  - drush --yes --root=$DOCROOT en simpletest
+  # Create this module's directory.
+  - mkdir -p $MODULES_PATH/$MODULE_NAME
+  # Copy currently checked out module into modules directory.
+  - git archive $(git rev-parse --abbrev-ref HEAD) | tar -x -C $MODULES_PATH/$MODULE_NAME
+  # Enable current module.
+  - drush --yes --root=$DOCROOT en $MODULE_NAME
+
+test:
+  pre:
+  # Clear cache.
+  - drush --root=$DOCROOT cache-clear drush
+  # Test that current module's source was properly copied into modules dir.
+  - "[ \"$(ls -A $MODULES_PATH/$MODULE_NAME)\" ]"
+
+  override:
+  # Lint code.
+  - source ~/.profile && dcr $MODULES_PATH/$MODULE_NAME
+  # Run tests.
+  - php $DOCROOT/scripts/run-tests.sh --php $PHP_EXECUTABLE --url $WEB_URL --xml $TEST_RESULTS "$MODULE_TESTS"

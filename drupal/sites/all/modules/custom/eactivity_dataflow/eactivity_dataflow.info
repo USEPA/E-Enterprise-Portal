@@ -3,5 +3,5 @@ description = "Progress Tracker" and "To Do" widgets for E-Activity Dataflow
 core = 7.x
 version = "7.x-1.0"
 package = CGI
-
+files[] = tests/eactivity_dataflow.test
 dependencies[] = eenterprise_bridge_auth
