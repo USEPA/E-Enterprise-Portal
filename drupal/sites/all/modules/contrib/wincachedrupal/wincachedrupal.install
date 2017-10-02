@@ -1,0 +1,106 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for Cache module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function wincachedrupal_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  // Test WinCache.
+  $wincache_enabled = (function_exists('wincache_ucache_info') && ($cache = @wincache_ucache_info(TRUE)));
+
+  $wincache_version = phpversion('wincache');
+  $requirements['wincache'] = array(
+    'title' => $t('WinCache version'),
+    'value' => $wincache_enabled ? $wincache_version : $t('Not available'),
+    'severity' => $wincache_enabled ? REQUIREMENT_OK : REQUIREMENT_ERROR,
+  );
+
+  if ($wincache_enabled) {
+    $requirements['wincache']['description'] = $t('WinCache has been running for !duration. Currently caching !num_entries entries. !admin_link',
+      array(
+        '!duration' => format_interval($cache['total_cache_uptime']),
+        '!num_entries' => $cache['total_item_count'],
+        '!admin_link' => l('View Wincache Statistics', 'admin/reports/status/wincache'),
+      )
+    );
+  }
+  else {
+    $requirements['wincache']['description'] = $t('The wincachedrupal module needs the wincache extension see: !link.', array('!link' => l('http://php.net/manual/en/book.wincache.php', '')));
+  }
+  
+  // Check for opcache size configuration.
+  if ($phase == 'runtime') {
+    $options = ini_get_all('wincache', true);
+    // 1.3.7.2 What's new:
+    // If you disable the WinCache opcache in the php.ini (wincache.ocenabled=0), 
+    // you should no longer see a shared memory mapping for the opcache.  
+    // Also, you won't be able to turn it on in either a .user.ini or in a php script.
+    if (version_compare($wincache_version, '1.3.7.2', '<')) {
+      if ($options['wincache.ocenabled']['local_value'] == 0) {
+        $ocachesize = $options['wincache.ocachesize']['local_value'];
+        $requirements['wincache_oc_size'] = array(
+          'title' => $t('Wincache opcode cache size'),
+          'value' => $t('Opcode caching is disabled and current cache size is !sizeMb', array('!size' => $ocachesize)),
+          'severity' => ($ocachesize > 15) ? REQUIREMENT_ERROR : REQUIREMENT_OK,
+          'description' => $t('When opcode caching is disabled, reduce memory pressure on the server by setting wincache.ocachesize to the minimum value allowed (15Mb).')
+        );
+      }
+    }
+    // Zend OPCACHE is UNSTABLE on Windows and.... no one cares.
+    // Is this a windows server?
+	  // Probably yes, because this is the WincacheDriver!
+    $is_windows = strncasecmp(PHP_OS, 'WIN', 3) == 0;
+    if ($is_windows) {
+      // As of 2.0, Wincache no longer offers opcache, so add this requirement only for versions 1.x
+      if (preg_match("/^1\./", $wincache_version)) {  // Match strings starting with '1.'
+        // Make sure that we are using Wincache OPCODE cache.
+        $opcode_ok = isset($options['wincache.ocenabled']) && $options['wincache.ocenabled']['local_value'] == 1;
+        $requirements['wincache_oc'] = array(
+          'title' => $t('Wincache Opcode cache'),
+          'value' => $opcode_ok ? $t('Opcode cache is being handled by Wincache.') : $t('The Wincache Opcode cache should be enabled. Do not rely on ZEND_OPCACHE, it is unstable on windows platforms.'),
+          'severity' => $opcode_ok ? REQUIREMENT_OK : REQUIREMENT_ERROR,
+        );
+      }
+      // Check that session is provided by Wincache.
+      $session_ok = isset($GLOBALS['WINCACHE_SESSION_ACTIVE']) && $GLOBALS['WINCACHE_SESSION_ACTIVE'] == TRUE;
+      $session_info = wincache_scache_info(TRUE);
+      $requirements['wincache_session'] = array(
+        'title' => $t('Wincache Session backend'),
+        'value' => $session_ok ? $t('Session storage is handled by Wincache. Storing :count sessions.', array(':count' => $session_info['total_item_count'])) : $t('Session storage is not handled by Wincache.'),
+        'severity' => $session_ok ? REQUIREMENT_OK : REQUIREMENT_WARNING,
+      );
+      // Check that locking is provided by Wincache.
+      $lock_ok = isset($GLOBALS['WINCACHE_LOCK_ACTIVE']) && $GLOBALS['WINCACHE_LOCK_ACTIVE'] == TRUE;
+      $requirements['wincache_lock'] = array(
+        'title' => $t('Wincache Locking backend'),
+        'value' => $lock_ok ? $t('Locks are being managed by Wincache.') : $t('Locks are not being managed by Wincache.'),
+        'severity' => $lock_ok ? REQUIREMENT_OK : REQUIREMENT_WARNING,
+      );
+      
+      //  Why is there a wincache.apppoolid setting?
+      //  A: For debugging purposes only.  It should never be explicitly set in production environments.
+      //  Q: Has WinCache been tested with custom application pool identities?  e.g. NetworkService, LocalSystem, LocalService, or "Custom account" in the App Pool | Advanced Settings | Application Pool Identity dialog of inetmgr.exe
+      //  A: No, it has not.  It's very possible that it won't work for anything other than ApplicationPoolIdentity.
+      //  Q: What happens when wincache.apppoolid is not set?
+      //  A: When IIS launches php-cgi.exe, it adds an environment variable (APP_POOL_ID), and that's what wincache will use if the apppoolid setting is not set.  The variable will contain the account name under the IIS APPPOOL domain to use for the app pool. 
+      $apppool_ok = empty($options['wincache.apppoolid']['local_value']);
+      if (!$apppool_ok) {
+        $requirements['wincache_apppoolid'] = array(
+          'title' => $t('Wincache wincache.apppoolid ini setting'),
+          'value' =>  $t('wincache.apppoolid should never be used in production environments!'),
+          'severity' => REQUIREMENT_WARNING,
+        );
+      }
+    }
+  }
+
+  return $requirements;
+}
