@@ -1,0 +1,52 @@
+<?php
+/**
+ * @file
+ * Site test module.
+ */
+
+define('SITE_TEST_LIST_CID', 'site_test_tests');
+
+/**
+ * Implements hook_menu().
+ */
+function site_test_menu() {
+  $items['admin/config/development/testing/site_test'] = [
+    'title' => 'Site tests',
+    'access arguments' => ['run site tests'],
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['site_test_list_form'],
+    'file' => 'site_test.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  ];
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function site_test_permission() {
+  return [
+    'run site tests' => [
+      'title' => t('Run site tests'),
+      'description' => t('Run tests written for this site'),
+    ],
+  ];
+}
+
+/**
+ * Implements hook_simpletest_alter().
+ */
+function site_test_simpletest_alter(&$groups) {
+  $site_tests = [];
+
+  foreach ($groups as $group_name => &$group) {
+    foreach ($group as $test_class_name => $test) {
+      if (is_a($test_class_name, 'SiteWebTestCase', TRUE)) {
+        $site_tests[$group_name][$test_class_name] = $test;
+      }
+    }
+  }
+
+  cache_set('site_test_tests', $site_tests);
+}

@@ -42,13 +42,13 @@ function be_well_informed_menu() {
 }
 
 function be_well_informed_configurations_form($form, &$form_state) {
-
-  $form['partner'] = array(
+  $form['configuration_form']['partner'] = array(
     '#type' => 'file',
     '#title' => t('Partner Configurations- ' . _user_managed_partner()),
     '#description' => t('Upload your configurations, allowed extensions: xml'),
   );
-  $form['flowchart'] = array(
+
+  $form['configuration_form']['flowchart'] = array(
     '#type' => 'file',
     '#title' => t('Flowchart Configurations'),
     '#description' => t('Upload your configurations, allowed extensions: xml'),
@@ -58,7 +58,105 @@ function be_well_informed_configurations_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Submit'),
   );
+
+  drupal_add_js(drupal_get_path('module', 'be_well_informed') . '/js/be_well_informed_file_upload.js', [
+    'scope' => 'footer',
+    'preprocess' => TRUE,
+    'group' => JS_DEFAULT,
+    'type' => 'file',
+    'cache' => TRUE,
+    'requires_jquery' => TRUE
+  ]);
+
+  // Add dynamic file size to Drupal.settings
+  drupal_add_js(
+    ["be_well_informed" =>
+      [
+        "file_limit" =>  variable_get("bwi_service_upload_file_size_limit", '2')
+      ]
+    ], 'setting');
+
   return $form;
+}
+
+function be_well_informed_form_be_well_informed_configurations_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  if(in_array('admin', $user->roles)) {
+    $form['configuration_form']['partner_code'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Partner Code'),
+      '#description' => t('Enter the partner code'),
+      '#required' => TRUE,
+    );
+  }
+}
+
+function _bwi_file_validate($file, $file_limit, $user_limit) {
+
+  global $user;
+  $errors = array();
+
+  if ($file_limit && $file->filesize == 0) {
+    $errors[] = t('The file is %filesize is empty', array('%filesize' => format_size($file->filesize)));
+  }
+
+  if ($file_limit && $file->filesize > $file_limit) {
+    $errors[] = t('The file is %filesize exceeding the maximum file size of %maxsize.', array('%filesize' => format_size($file->filesize), '%maxsize' => format_size($file_limit)));
+  }
+
+  // Save a query by only calling file_space_used() when a limit is provided.
+  if ($user_limit && (file_space_used($user->uid) + $file->filesize) > $user_limit) {
+    $errors[] = t('The file is %filesize which would exceed your disk quota of %quota.', array('%filesize' => format_size($file->filesize), '%quota' => format_size($user_limit)));
+  }
+
+  return $errors;
+}
+
+/**
+ * Verify file contents are valid XML
+ * @param $file
+ * @return mixed
+ */
+function _validate_valid_xml($file) {
+  $errors = [];
+
+  $content = file_get_contents($file->uri);
+  $version = '1.0';
+  $encoding = 'utf-8';
+
+  libxml_use_internal_errors(true);
+
+  $doc = new DOMDocument($version, $encoding);
+  $doc->loadXML($content);
+
+  $xml_errors = libxml_get_errors();
+  libxml_clear_errors();
+
+  while($e = array_pop($xml_errors)) {
+    $errors[] = $e->message;
+  }
+  return $errors;
+}
+
+function _bwi_xml_partner_validation($file) {
+  $errors = array();
+  try {
+
+  } catch (Exception $e) {
+
+  }
+  return $errors;
+}
+
+function _bwi_xml_flowchart_validation($file) {
+  $errors = array();
+  try {
+
+  } catch (Exception $e) {
+
+  }
+  return $errors;
 }
 
 /**
@@ -67,7 +165,7 @@ function be_well_informed_configurations_form($form, &$form_state) {
  */
 function _is_admin() {
   global $user;
-  if (in_array('Be Well Informed External Admin', $user->roles)) {
+  if (in_array('Be Well Informed External Admin', $user->roles) || in_array('admin', $user->roles)) {
     return true;
   }
   else {
@@ -75,17 +173,25 @@ function _is_admin() {
   }
 }
 
-
 function be_well_informed_configurations_form_validate($form, &$form_state) {
   // File_save_upload temporarily stores the file for evaluation
-  $partner_file = file_save_upload('partner', ['file_validate_extensions' => ['xml']]);
-  $flowchart_file = file_save_upload('flowchart', ['file_validate_extensions' => ['xml']]);
-  if ($partner_file) {
-    // Validate account settings
-  }
-  if ($flowchart_file) {
-    // Validate Flowchart settings
-  }
+  $file_size = variable_get("bwi_service_upload_file_size_limit", '2'); // default
+
+  // Validate account setting
+  $partner_file = file_save_upload('partner', [
+    'file_validate_extensions' => ['xml'],
+    '_validate_valid_xml' => [],
+    '_bwi_file_validate'=>[1024*1024*$file_size],
+    '_bwi_xml_partner_validation'=>[]
+  ]);
+
+  // Validate Flowchart settings
+  $flowchart_file = file_save_upload('flowchart', [
+    'file_validate_extensions' => ['xml'],
+    '_validate_valid_xml' => [],
+    '_bwi_file_validate'=>[1024*1024*$file_size],
+    '_bwi_xml_flowchart_validation'=>[]
+  ]);
 }
 
 function _user_managed_partner() {
@@ -99,8 +205,17 @@ function _user_managed_partner() {
 }
 
 function be_well_informed_configurations_form_submit($form, &$form_state) {
-  $user_location = _user_managed_partner();
-  if (empty(trim($user_location))) {
+  // An Drupal admin can override the locations
+  if($form_state['values']['partner_code']) {
+    $user_location = $form_state['values']['partner_code'];
+  }
+  else {
+    $user_location = _user_managed_partner();
+  }
+  // Clean up whitespace and make is all uppercase
+  $user_location = strtoupper(trim($user_location));
+
+  if (empty($user_location)) {
     drupal_set_message('Your account has not been assigned a location for administering Be Well Informed 
     configurations.', 'error');
   }
@@ -114,18 +229,16 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
 
     if ($partner_file) {
       $partner_file_content = file_get_contents($partner_file->uri);
-      // Store the partner configuration xml locally
-      $path = drupal_get_path('module', 'be_well_informed') . '/saved_configurations/partners/partner-' . $user_location . '.xml';
-      file_put_contents($path, $partner_file_content);
+      // Cache the partner configuration xml locally
+      variable_set('partner-' . $user_location, $partner_file_content);
       // Prep the base64 encoded content for sending to the service
       $partner_file_encoded = base64_encode($partner_file_content);
       $params['PartnerContent'] = $partner_file_encoded;
     }
     if ($flowchart_file) {
       $flowchart_file_content = file_get_contents($flowchart_file->uri);
-      // Store the flowchart configuration xml locally
-      $path = drupal_get_path('module', 'be_well_informed') . '/saved_configurations/flowcharts/flowchart-' . $user_location . '.xml';
-      file_put_contents($path, $flowchart_file_content);
+      // Cache the partner configuration xml locally
+      variable_set('flowchart-' . $user_location, $flowchart_file_content);
       // Prep the base64 encoded content for sending to the service
       $flowchart_file_encoded = base64_encode($flowchart_file_content);
       $params['FlowchartContent'] = $flowchart_file_encoded;
@@ -140,20 +253,22 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
     );
 
     if ($response->code != 200) {
-      drupal_set_message('Unable to upload file.', 'error');
+      drupal_set_message('Unable to upload file to BWI service.', 'error');
+      drupal_set_message('Response code: '. $response->code, 'error');
+      drupal_set_message('Response message: '. $response->status_message, 'error');
+      drupal_set_message('Response error: '. $response->error, 'error');
     }
     else {
       if ($partner_file) {
-        drupal_set_message('Successfully uploaded partner configurations.', 'success');
+        drupal_set_message('Successfully uploaded partner configurations to BWI service.', 'success');
       }
       if ($flowchart_file) {
         // Validate Flowchart settings
-        drupal_set_message('Successfully uploaded flowchart configurations.', 'success');
+        drupal_set_message('Successfully uploaded flowchart configurations to BWI service.', 'success');
       }
     }
   }
 }
-
 
 /**
  * Implements hook_block_info().
@@ -228,7 +343,7 @@ function generate_state_form() {
     return;
   }
 
-  $rendered_html = theme('be_well_informed_modal_state_form', ['state_info' => be_well_informed_get_state_information($_POST['state_code']), 'state_code' => $_POST['state_code']]);
+  $rendered_html = theme('be_well_informed_modal_state_form');
   echo $rendered_html;
 }
 
@@ -350,7 +465,18 @@ function be_well_informed_block_view($delta = '') {
       $modal_form_html = theme('be_well_informed_modal');
       $modal_state_selection = theme('be_well_informed_modal_state_selection');
       $widget_state_content = theme('be_well_informed_widget_state_content');
-      drupal_add_js(array("be_well_informed" => ["debug_mode" => variable_get('bwi_js_debug_mode'), 'templates' => ['contaminant_form' => $modal_form_html, 'state_selection' => $modal_state_selection, 'widget_state_content' => $widget_state_content]]), 'setting');
+      drupal_add_js(
+        ["be_well_informed" =>
+          [
+            "debug_mode" => variable_get('bwi_js_debug_mode'),
+            'templates' => [
+              'contaminant_form' => $modal_form_html,
+              'state_selection' => $modal_state_selection,
+              'widget_state_content' => $widget_state_content
+            ],
+            "file_limit" =>  variable_get("bwi_service_upload_file_size_limit", '2')
+          ]
+        ], 'setting');
 
       $block['subject'] = t('Be Well Informed');
       $block['content'] = theme('be_well_informed', ['bwi_admin' => $bwi_admin]);
@@ -371,7 +497,6 @@ function be_well_informed_form_submission() {
     return;
   }
 
-
   $datatable_formatted_response = array();
   module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
   if (feature_toggle_get_status('be_well_informed_sample_data')) {
@@ -388,11 +513,12 @@ function be_well_informed_form_submission() {
       'timeout' => "10",
       'data' => json_encode($_POST)
     ]);
-    $datatable_formatted_response['DWI_request'] = json_encode($_POST);
+    $datatable_formatted_response['DWI_request'] = $_POST;
     if ($response->code !== "200") {
       $datatable_formatted_response['error'] = TRUE;
     }
     else {
+
       /*
        * With the current strategy of having a unified results page for both the
        * pdf and the modal, the response has to diverge.
@@ -406,7 +532,7 @@ function be_well_informed_form_submission() {
        *
        */
 
-      $state_info = be_well_informed_get_state_information($_POST['StateCode']);
+      $state_info = _get_partner_information($_POST['StateCode']);
       $formatted_data = be_well_informed_datatable_response($response->data);
 
       /*Use username and session ID to save be well response data for pdf generation. This data will be removed on user
@@ -429,9 +555,8 @@ function be_well_informed_form_submission() {
   drupal_json_output($datatable_formatted_response);
 }
 
-
-function be_well_informed_get_state_information($state_code = NULL) {
-  if (!isset($_POST) || count($_POST) === 0 || !$state_code) {
+function be_well_informed_get_state_information() {
+  if (!isset($_POST) || count($_POST) === 0) {
     drupal_json_output(array(
       'error' => TRUE,
       'message' => 'Failed to recieve any data.'
@@ -439,18 +564,22 @@ function be_well_informed_get_state_information($state_code = NULL) {
     return;
   }
 
-  if (!$state_code) {
-    $path = drupal_get_path('module', 'be_well_informed') . '/saved_configurations/partners/partner-' . $_POST['state'] . '.xml';
-    $state_info = file_get_contents($path);
-    drupal_add_http_header('Content-Type', 'text/xml');
-    echo $state_info;
-  }
-  else {
-    $path = drupal_get_path('module', 'be_well_informed') . '/saved_configurations/partners/partner-' . $state_code . '.xml';
-    $state_info = file_get_contents($path);
-    $xml_array = xmlstr_to_array($state_info, 'domnode_clean', 'bwi_domnode_to_array');
-    return $xml_array;
-  }
+  drupal_add_http_header('Content-Type', 'text/xml');
+  echo _get_partner_information($_POST['state']);
+}
+
+function _get_partner_information($partner_code) {
+  $partner_info = variable_get('partner-'.$partner_code);
+  $xml_array = xmlstr_to_array($partner_info, 'domnode_clean', 'bwi_domnode_to_array');
+  return $xml_array;
+}
+
+function _get_partner_flowchart($partner_code) {
+  $partner_info = variable_get('flowchart-'.$partner_code);
+  $doc = new DOMDocument();
+  $doc->loadXML($partner_info);
+  $root = $doc->documentElement;
+  return domnode_clean($root);
 }
 
 /**
@@ -567,11 +696,28 @@ function processGuidelineIcon($guideline_icon) {
   return $return_html;
 }
 
+function template_preprocess_be_well_informed_modal_state_form(&$variables, $hook) {
+  $variables['state_info'] = _get_partner_information($_POST['state_code']);
+  $variables['state_code'] = $_POST['state_code'];
+  _be_well_informed_template_variables($variables, $hook);
+  _generate_contaminants_sections($variables, $hook);
+
+}
 
 /**
  * Implements template_preprocess_hook for be-well-informed.tpl.php.
  */
 function template_preprocess_be_well_informed(&$variables, $hook) {
+
+  $variables['partner_list_options'] = implode("\n", [
+    "<option value=\"MA\">Massachusetts</option>",
+    "<option value=\"NH\">New Hampshire</option>",
+  ]);
+
+  if (variable_get('bwi_sample_partner', false)) {
+    $variables['partner_list_options'] .= "<option value=\"SAMPLE\">Sample Partner</option>";
+  }
+
   $variables['states'] = ['Massachusetts', 'New Hampshire'];
   $variables['state_code'] = $_POST['state_code'];
   $bwi_body = variable_get('bwi_body', array('value' => variable_get('bwi_body', '<p> Have a well and wonder what your water testing results mean?</p><p> The Be Well Informed Guide lets you enter your test results and get feedback about health concerns and water treatment choices for your state or tribe.</p><p> Be Well Informed was created for residents, and has the most common contaminants that affect wells. It may not have all the contaminants present in your area - for those it does have, it can provide useful information.</p><p> A quick disclaimer before we start.</p><p class="widget-note"> Information provided on this website is for informational purposes only and should not be substituted for direct consultation with a qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide may determine the most appropriate water treatment option.</p><p class="widget-note powered-by-nhbwi">Powered by: <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank">New Hampshire Be <em>Well</em> Informed</a></p>'), 'format' => NULL));
@@ -595,7 +741,9 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     'mpn_100_ml'
   ];
 
-  $variables['water_components'] = [
+  $variables['contaminants'] = [];
+
+  $variables['Routine Water Analysis'] = [
     [
       'name' => 'Arsenic',
       'machine_name' => 'As',
@@ -713,7 +861,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     ],
   ];
 
-  $variables['microbiology'] = [
+  $variables['contaminants']['Bacteria / Microbiology'] = [
     [
       'name' => 'Total Coliform',
       'machine_name' => 'Bac',
@@ -734,7 +882,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     ],
   ];
 
-  $variables['radionuclides'] = [
+  $variables['contaminants']['Radionuclides'] = [
     [
       'name' => 'Radon',
       'machine_name' => 'Rn',
@@ -761,7 +909,7 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
     ],
   ];
 
-  $variables['treatments'] = [
+  $variables['contaminants']['treatments'] = [
     [
       'icon' => '',
       'boxes' => [
@@ -841,13 +989,10 @@ function template_preprocess_be_well_informed_modal(&$variables, $hook) {
 
   $exposed_variables = [
     'treatments' => $variables['treatments'],
-    'radionuclides' => $variables['radionuclides'],
-    'microbiology' => $variables['microbiology'],
-    'water_components' => $variables['water_components'],
+    'contaminants' => $variables['contaminants'],
     'unit_types' => $variables['unit_types'],
   ];
 
-  $variables['cities'] = ["Anonymous", "New England", "Acworth", "Albany", "Alexandria", "Allenstown", "Alstead", "Amherst", "Andover", "Antrim", "Ashland", "Atkinson", "Auburn", "Barnstead", "Barrington", "Bartlett", "Bath", "Bedford", "Belmont", "Bennington", "Benton", "Berlin", "Bethlehem", "Boscawen", "Bow", "Bradford", "Brentwood", "Bridgewater", "Bristol", "Brookfield", "Brookline", "Campton", "Canaan", "Candia", "Canterbury", "Carroll", "Center Harbor", "Charlestown", "Chatham", "Chester", "Chesterfield", "Chichester", "Claremont", "Clarksville", "Colebrook", "Columbia", "Concord", "Conway", "Cornish", "Croydon", "Dalton", "Danbury", "Danville", "Deerfield", "Deering", "Derry", "Dixville", "Dorchester", "Dover", "Dublin", "Dummer", "Dunbarton", "Durham", "East Kingston", "Easton", "Eaton", "Effingham", "Ellsworth", "Enfield", "Epping", "Epsom", "Errol", "Exeter", "Farmington", "Fitzwilliam", "Francestown", "Franconia", "Franklin", "Freedom", "Fremont", "Gilford", "Gilmanton", "Gilsum", "Goffstown", "Gorham", "Goshen", "Grafton", "Grantham", "Greenfield", "Greenland", "Greenville", "Groton", "Hampstead", "Hampton", "Hampton Falls", "Hancock", "Hanover", "Harrisville", "Hart's Location", "Haverhill", "Hebron", "Henniker", "Hill", "Hillsborough", "Hinsdale", "Holderness", "Hollis", "Hooksett", "Hopkinton", "Hudson", "Jackson", "Jaffrey", "Jefferson", "Keene", "Kensington", "Kingston", "Laconia", "Lancaster", "Landaff", "Langdon", "Lebanon", "Lee", "Lempster", "Lincoln", "Lisbon", "Litchfield", "Littleton", "Londonderry", "Loudon", "Lyman", "Lyme", "Lyndeborough", "Madbury", "Madison", "Manchester", "Marlborough", "Marlow", "Mason", "Meredith", "Merrimack", "Middleton", "Milan", "Milford", "Milton", "Monroe", "Mont Vernon", "Moultonborough", "Nashua", "Nelson", "New Boston", "Newbury", "New Castle", "New Durham", "Newfields", "New Hampton", "Newington", "New Ipswich", "New London", "Newmarket", "Newport", "Newton", "Northfield", "North Hampton", "Northumberland", "Northwood", "Orange", "Orford", "Ossipee", "Pelham", "Pembroke", "Peterborough", "Piermont", "Pittsburg", "Pittsfield", "Plainfield", "Plaistow", "Plymouth", "Portsmouth", "Randolph", "Raymond", "Richmond", "Rindge", "Rochester", "Rollinsford", "Roxbury", "Rumney", "Rye", "Salem", "Salisbury", "Sanbornton", "Sandown", "Sandwich", "Seabrook", "Sharon", "Shelburne", "Somersworth", "South Hampton", "Springfield", "Stark", "Stewartstown", "Stoddard", "Strafford", "Stratham", "Sugar Hill", "Sullivan", "Sunapee", "Surry", "Sutton", "Swanzey", "Tamworth", "Temple", "Thornton", "Tilton", "Troy", "Tuftonboro", "Unity", "Wakefield", "Walpole", "Warner", "Warren", "Washington", "Waterville Valley", "Weare", "Webster", "Wentworth", "West Chesterfield", "Westmoreland", "Whitefield", "Wilmot", "Wilton", "Winchester", "Windham", "Windsor", "Wolfeboro", "Woodstock"];
   drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
 
 }
@@ -859,11 +1004,41 @@ function be_well_informed_preprocess(&$variables, $hook) {
   }
 }
 
-function process_state_xml(&$variables) {
-  $variables = $variables;
+/**
+ * Implements hook_backup_migrate_filters().
+ */
+function _be_well_informed_template_variables(&$variables, $hook) {
+  $state_flowchart = _get_partner_flowchart($variables['state_code']);
+
+  $variables['state_flowchart'] = ($variables['state_flowchart']) ? $variables['state_flowchart'] : [];
+  // Get section information
+  foreach ($state_flowchart->getElementsByTagName('Sections') as $item) {
+    $variables['state_flowchart']['Sections'][$item->childNodes[0]->nodeName] = [];
+    foreach ($item->childNodes as $section) {
+      $variables['state_flowchart']['Sections'][$section->nodeName] = [];
+      foreach ($section->childNodes as $property) {
+        $variables['state_flowchart']['Sections'][$section->nodeName][$property->nodeName] = [$property->nodeValue];
+      }
+    }
+  }
+
+
+  foreach ($state_flowchart->getElementsByTagName('Contaminants')[0]->childNodes as $contaminant) {
+    $variables['state_flowchart']['Contaminants'][$contaminant->getAttribute('Section')][$contaminant->getAttribute('Text')] = [
+      'name' => $contaminant->getAttribute('Text'),
+      'machine_name' => $contaminant->getAttribute('Value'),
+      'symbol' => $contaminant->getAttribute('Value'),
+      'default_unit_type' => $contaminant->getAttribute('DefaultUnit'),
+      'unit_types' => explode('|', $contaminant->getAttribute('Units')),
+      'show_is_present' => ($contaminant->getAttribute('ShowIsPresent')) ? true : false,
+    ];
+  }
+
+  return $variables;
 }
 
 function result_preprocess_be_well_informed(&$variables, $hook) {
+
 
   $variables['unit_types'] = [
     'mg/L',
@@ -1199,7 +1374,6 @@ function result_preprocess_be_well_informed(&$variables, $hook) {
     $variables['response_json_data_pdf']['TreatmentSteps'] = $treatment;
   }
 
-
   $variables['system-type'] = [];
   $variables['contaminants_title'] = $contaminants_title;
 
@@ -1225,18 +1399,18 @@ function template_preprocess_be_well_informed_pdf(&$variables, $hook) {
 
   result_preprocess_be_well_informed($variables, $hook);
 
-  drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
+  //drupal_add_js(array("be_well_informed" => ["variables" => $exposed_variables]), 'setting');
 
 }
 
 function bwi_domnode_to_array($node) {
   $output = array();
   switch ($node->nodeType) {
-    case XML_CDATA_SECTION_NODE:
-    case XML_TEXT_NODE:
+    case XML_CDATA_SECTION_NODE: // 4
+    case XML_TEXT_NODE: // 3
       $output = trim($node->textContent);
       break;
-    case XML_ELEMENT_NODE:
+    case XML_ELEMENT_NODE: // 1
       $is_array = false;
       if ($node->childNodes->length > 1 && $node->childNodes->item(0)->tagName == $node->childNodes->item(1)->tagName) {
         $is_array = true;
@@ -1275,7 +1449,7 @@ function bwi_domnode_to_array($node) {
           $output['@attributes'] = $a;
         }
         foreach ($output as $t => $v) {
-          if (is_array($v) && count($v) == 1 && $t != '@attributes') {
+          if (is_array($v) && count($v) == 1 && isset($v[0]) && $t != '@attributes') {
             $output[$t] = $v[0];
           }
         }
@@ -1285,3 +1459,83 @@ function bwi_domnode_to_array($node) {
   return $output;
 }
 
+function _generate_contaminants_sections(&$variables, $hook) {
+  $variables['contaminant_sections'] = '';
+  $html = [];
+  foreach ($variables['state_flowchart']['Contaminants'] as $sectionKey => $section) {
+
+    // Empty sections don't get shown
+    $count = count($section);
+
+    if ($count) {
+      $title = $variables['state_flowchart']['Sections'][$sectionKey]['Name'][0];
+      $html = array_merge($html, [
+        "<div class=\"usa-width-one-whole\">",
+        "<h3>$title</h3>",
+        "<div class=\"usa-width-one-half\">"
+      ]);
+
+      $count = count($section);
+      $i = 0;
+      $column = 1;
+      foreach ($section as $key => $contaminant) {
+        $machine_name = $contaminant['machine_name'];
+        $name = $contaminant['name'];
+        $symbol_text = ($contaminant['symbol_text']) ? ' <span class="symbol">(' . $contaminant['symbol_text'] . ')</span>' : "";
+        $units = [];
+        $validation = $contaminant['validation'];
+        $showIsPresent = $contaminant['show_is_present'];
+
+        foreach ($contaminant['unit_types'] as $ut) {
+          $selected = ($contaminant['default_unit_type'] == $ut) ? "selected" : "";
+          $units[] = "<option value=\"$ut\" $selected >$ut</option>";
+        }
+
+        if ($i >= $count / 2 && $column == 1) {
+          $column++;
+          $html[] = "</div><div class=\"usa-width-one-half\">";
+        }
+
+        // New input section
+        $html[] = "<div class=\"row section\"><div>";
+
+        // Default input
+        $html = array_merge($html, [
+          "<input type=\"hidden\" name=\"{$sectionKey}[$machine_name][Symbol]\" value=\"$machine_name\">",
+          "<input type=\"hidden\" name=\"{$sectionKey}[$machine_name][Name]\" value=\"$name\">",
+          "<label class=\"column one-third\" for=\"{$sectionKey}[$machine_name][Value]\">$name $symbol_text</label>",
+          "<input class=\"column one-third\" name=\"{$sectionKey}[$machine_name][Value]\" type=\"number\" step=\"0.001\" id=\"txt-$machine_name\" >",
+          "<select class=\"column one-third\" name=\"{$sectionKey}[$machine_name][Unit]\" id=\"ddl-$machine_name\">",
+          implode('', $units),
+          "</select>"
+        ]);
+
+        // Does the contaminant need to show the present/absent conditions
+        if ($showIsPresent) {
+          $isRequired = (in_array('required', $validation)) ? "data-parsley-multiple=\"{$machine_name}\" data-parsley-group=\"block-2\"" : "";
+          $html = array_merge($html, [
+            "<div class=\"row absent-present\">",
+            "<span class=\"column\">Or Choose: </span>",
+            "<div class=\"column\">",
+            "<input name=\"{$machine_name}_G\" type=\"radio\" id=\"rdb_{$machine_name}_True\" value=\"present\" $isRequired />",
+            "<label for=\"rdb_{$machine_name}_True\">Present</label>",
+            "<input name=\"{$machine_name}_G\" type=\"radio\" id=\"rdb_{$machine_name}_False\" value=\"absent\" $isRequired />",
+            "<label for=\"rdb_{$machine_name}_False\">Absent</label>",
+            "</div></div>"
+          ]);
+        }
+
+        // Close input section
+        $html[] = "</div></div>";
+        $i++;
+      }
+
+      $html = array_merge($html, [
+        "</div>", // closing usa-width-one-half
+        "</div>", // closing usa-width-one-whole
+      ]);
+    }
+
+  }
+  $variables['contaminant_sections'] = implode("\n", $html);
+}

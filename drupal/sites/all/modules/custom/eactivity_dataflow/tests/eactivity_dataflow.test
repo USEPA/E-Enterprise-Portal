@@ -1,0 +1,108 @@
+<?php
+/**
+ * @file
+ * Tests for the hello world module.
+ */
+class EactivityDataflowTests extends SiteWebTestCase {
+
+  protected $siteUser;
+
+  /**
+   * Metadata about our test case.
+   */
+  public static function getInfo() {
+    return array(
+      // The human readable name of the test case.
+      'name' => 'Eactivity Dataflow Test Suite',
+      // A short description of the tests this case performs.
+      'description' => 'Tests for the Eactivity Dataflow module.',
+      // The group that this case belongs too, used for grouping tests together
+      // in the UI.
+      'group' => 'Eportal Custom Modules Tests',
+      'mode' => 'site',
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    // Run the default setUp function provided by our common testing class.
+    parent::setUp();
+
+    // Create the site user to be used within the home page tests during setup.
+    $this->siteUser = $this->drupalCreateUser([]);
+  }
+
+
+  private function is_recent_cache($data) {
+    if (!isset($data['cached'])) {
+      return false;
+    }
+    $cached_time = strtotime($data['cached']);
+    // If cached within past minute, approve
+    if (time() - $cached_time > 60) {
+      return false;
+    }
+    return true;
+  }
+
+
+
+  private function validProgressTrackerArray($progressTrackerData) {
+    foreach ($progressTrackerData as $k => $v) {
+      if (!is_int($k) && $k !== 'cached') {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private function validToDoArray($toDoData) {
+    foreach ($toDoData as $k => $v) {
+      if (!is_int($k) && $k !== 'cached') {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public function testLoadEactivityFlowDataValidName() {
+    global $user;
+    $user = $this->siteUser;
+    $account = user_load($user->uid);
+    $account->field_cdx_username[LANGUAGE_NONE][0]['value'] = 'PortalUser2';
+    user_save($account);
+    $progressTrackerData = load_eactivity_data('progress_tracker', false);
+    $this->assertTrue(is_array($progressTrackerData), 'Progress tracker returns array, not using cache');
+    $toDoData = load_eactivity_data('to_do', false);
+    $this->assertTrue(is_array($toDoData), ' To Do data returns array, not using cache');
+    $this->assertTrue($this->is_recent_cache($progressTrackerData), 'Progress Tracker has date of last cache which is within the past minute');
+    $this->assertTrue($this->is_recent_cache($toDoData), 'To Do Data has date of last cache which is within the past minute');
+
+    $progressTrackerData = load_eactivity_data('progress_tracker', true);
+    $this->assertTrue(is_array($progressTrackerData), 'Progress tracker returns array, using cache');
+    $toDoData = load_eactivity_data('to_do', true);
+    $this->assertTrue(is_array($toDoData), ' To Do data returns array, using cache');
+    $this->assertTrue($this->validProgressTrackerArray($progressTrackerData), 'Progress tracker data is valid');
+    $this->assertTrue($this->validToDoArray($toDoData), 'To Do data is valid');
+  }
+
+
+  /**
+   * {@inheritdoc}
+   */
+  public function tearDown() {
+    global $user;
+    // Remove the user created in this test before running the final tear down.
+    if ($this->siteUser) {
+      user_delete($this->siteUser->uid);
+    }
+    // Keep us logged in as admin
+    $user = user_load(1);
+
+    // Run the default teardown function provided by our common testing class.
+    parent::tearDown();
+  }
+
+}

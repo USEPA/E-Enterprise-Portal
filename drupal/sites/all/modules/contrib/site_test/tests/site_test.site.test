@@ -1,0 +1,73 @@
+<?php
+/**
+ * @file
+ * Test for the home page of this website.
+ */
+
+/**
+ * Class SiteTestingHomePageSiteWebTestCase.
+ */
+class SiteTestingHomePageSiteWebTestCase extends SiteWebTestCase {
+  /**
+   * The user created for current test.
+   *
+   * @var object
+   */
+  protected $siteUser;
+
+  /**
+   * Information about the home page test.
+   */
+  public static function getInfo() {
+    return [
+      'name' => 'Home page site',
+      'description' => 'Tests the contents of the home page on current website.',
+      'group' => 'Site Testing',
+      'mode' => 'site',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    // Run the default setUp function provided by our common testing class.
+    parent::setUp();
+
+    // Create the site user to be used within the home page tests during setup.
+    $this->siteUser = $this->drupalCreateUser(['access content']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function tearDown() {
+    // Remove the user created in this test before running the final tear down.
+    if ($this->siteUser) {
+      user_delete($this->siteUser->uid);
+    }
+
+    // Run the default teardown function provided by our common testing class.
+    parent::tearDown();
+  }
+
+  /**
+   * Tests that existing user can authenticate.
+   */
+  public function testHomePageLogin() {
+    $xpath_not_logged_in = '//body[contains(@class, "not-logged-in")]';
+    $xpath_logged_in = '//body[contains(@class, "logged-in")]';
+
+    // Visit the home page.
+    $this->drupalGet('<front>');
+    $this->assertTrue($this->xpath($xpath_not_logged_in), 'User is not logged in initially');
+
+    // Log in as the site user we created in the setUp phase of the test.
+    $this->drupalLogin($this->siteUser);
+
+    // Visit the homepage and check the username field is not present.
+    $this->drupalGet('<front>');
+    $this->assertTrue($this->xpath($xpath_logged_in), 'User is logged in after logging in');
+  }
+
+}
