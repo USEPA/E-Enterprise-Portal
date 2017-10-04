@@ -1,0 +1,384 @@
+<?php
+
+
+/**
+ * Implements hook_menu().
+ */
+function linked_accounts_menu() {
+  $items = array();
+  $items['register_link/%'] = array(
+    'page callback' => 'register_link',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    '#type' => MENU_CALLBACK,
+  );
+  $items['registered_service_provider/%'] = array(
+    'page callback' => 'registered_service_provider',
+    'page arguments' => array(1),
+    'access arguments' => array('access content')
+  );
+  $items['cdx/links'] = array(
+    'page callback' => 'cdx_get_links',
+    'access arguments' => array('access content'),
+  );
+  $items['scs/links'] = array(
+    'page callback' => 'scs_get_links',
+    'access arguments' => array('access content'),
+    '#type' => MENU_CALLBACK,
+  );
+  $items['scs/handoff'] = array(
+    'page callback' => 'scs_handoff',
+    'access arguments' => array('access content'),
+    '#type' => MENU_CALLBACK,
+  );
+  $items['admin/config/system/linked_accounts'] = array(
+    'title' => 'Linked Accounts Settings',
+    'description' => 'Settings page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('linked_accounts_admin'),
+    'access arguments' => array('administer linked_accounts settings'),
+    'file' => 'linked_accounts.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * @param $username
+ * @param $authentication_domain
+ * @throws Exception
+ *
+ * Add CDX/SCS role to user for access to tabs
+ */
+function linked_accounts_save_authenticated_user($username, $authentication_domain) {
+  global $user;
+  if (isset($authentication_domain)) {
+    // Save CDX/SCS/NAAS username
+    $account = user_load($user->uid);
+    if ($authentication_domain === 'SCS') {
+      $account->field_scs_username[LANGUAGE_NONE][0]['value'] = $username;
+    }
+    else {
+      $account->field_cdx_username[LANGUAGE_NONE][0]['value'] = $username;
+    }
+
+    // Add role so user has correct tab
+    $role_name = 'Eportal ' . strtoupper($authentication_domain) . ' Page';
+    // Allow access to CDX/SCS tabs
+    if ($role = user_role_load_by_name($role_name)) {
+      user_multiple_role_edit(array($user->uid), "add_role", $role->rid);
+    }
+    user_save($account);
+  }
+}
+
+/**
+ * Returns array of enabled roles for access linked account tabs
+ * @return array
+ */
+function _sign_on_roles() {
+  $sign_on_roles = ['Eportal CDX Page', 'Eportal SCS Page'];
+  return $sign_on_roles;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function linked_accounts_block_info() {
+  $blocks = [];
+  $blocks['dashboard'] = [
+    'info' => t('Dashboard Block'),
+  ];
+  return $blocks;
+}
+
+
+/**
+ * Implements hook_theme().
+ * @see http://www.devdungeon.com/content/using-tpl-template-files-custom-drupal-7-modules
+ */
+function linked_accounts_theme() {
+  return array(
+    // Name to be called with theme(). theme('linked_accounts')
+    'dashboard' => array(
+      // Default variables
+      'variables' => array(),
+      // Which .tpl.php file to use my-cdx.tpl.php
+      'template' => 'dashboard',
+      'path' => drupal_get_path('module', 'linked_accounts') . '/templates'
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function linked_accounts_block_view($delta = '') {
+  $block = [];
+
+  if ($delta == 'dashboard') {
+    drupal_add_js(drupal_get_path('module', 'linked_accounts') . '/js/dashboard.js', [
+      'scope' => 'footer',
+      'preprocess' => TRUE,
+      'group' => JS_DEFAULT,
+      'type' => 'file',
+      'cache' => TRUE,
+      'requires_jquery' => TRUE
+    ]);
+    $block['subject'] = t('Dashboard');
+    $block['content'] = theme('dashboard');
+  }
+
+  return $block;
+}
+
+
+/**
+ * @param $account_domain
+ * Handle permissions required to certain account domains.
+ */
+function register_link($account_domain) {
+  global $user;
+  $role_name = 'Eportal ' . strtoupper($account_domain) . ' Page';
+  // Allow access to CDX/SCS tabs
+  if ($role = user_role_load_by_name($role_name)) {
+    user_multiple_role_edit(array($user->uid), "add_role", $role->rid);
+
+    // Toggle the 'Additional Services' role to show the '+' service menu item
+    $service_roles = _sign_on_roles();
+    if ($role = user_role_load_by_name('Additional Services')) {
+      if (array_diff(array_intersect($service_roles, $user->roles), $service_roles) == []) {
+        user_multiple_role_edit(array($user->uid), "add_role", $role->rid);
+      }
+      else {
+        user_multiple_role_edit(array($user->uid), "remove_role", $role->rid);
+      }
+    }
+
+    drupal_goto('/' . $account_domain);
+  }
+  else {
+    drupal_goto('/');
+  }
+}
+
+
+/**
+ * @return bool
+ * If a user has CDX username, then allow SSO link
+ */
+function cdxUserNameExists() {
+  global $user;
+  $account = user_load($user->uid);
+  if (isset($account->field_cdx_username[LANGUAGE_NONE][0]['value'])
+    && trim($account->field_cdx_username[LANGUAGE_NONE][0]['value']) != ''
+  ) {
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+function cdx_get_links() {
+  $allow_cdx = cdxUserNameExists();
+  $links = [
+    'links' => [],
+  ];
+  if ($allow_cdx) {
+    $links['links'][] = ['name' => 'CDX Home', 'url' => '/cdx_sso_handoff'];
+  }
+  else {
+    $links['links'][] = ['name' => 'CDX Home', 'url' => variable_get('cdx_facility_resource_url')];
+  }
+  drupal_json_output($links);
+}
+
+function scs_get_links() {
+  $links = [
+    'links' =>
+      [
+        [
+          'name' => 'SCS Home',
+          'url' => '#',
+          'id' => 'scs_handoff',
+        ],
+      ],
+  ];
+  drupal_json_output($links);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function linked_accounts_form_webform_client_form_alter(&$form, &$form_state, $form_id) {
+
+  if (in_array($form['#node']->title, ["SCS Login", "CDX Login"])) {
+    $form['#submit'] = ['_linked_accounts_webform_handler'];
+  }
+
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ * This runs instead of the webform submit. Handles authentication and routing of SCS/CDX user
+ */
+function _linked_accounts_webform_handler(&$form, &$form_state) {
+  $username = $form_state['input']['submitted']['username'];
+  $password = $form_state['input']['submitted']['password'];
+  if ($form['#node']->title == "SCS Login") {
+    if (_validate_scs_user($username, $password)) {
+      _save_scs_username($username);
+      drupal_goto(variable_get('scs_dashboard_path', 'scs'));
+    }
+    else {
+      drupal_set_message("Invalid login", "error");
+    }
+  }
+  if ($form['#node']->title == "CDX Login") {
+    if (_validate_cdx_user($username, $password)) {
+      _save_cdx_username($username);
+      drupal_goto(variable_get('cdx_dashboard_path', 'cdx'));
+    } else {
+      drupal_set_message("Invalid login", "error");
+    }
+  }
+}
+
+
+function _save_scs_username($username) {
+  global $user;
+  $account = user_load($user->uid);
+  $account->field_scs_username[LANGUAGE_NONE][0]['value'] = $username;
+  user_save($account);
+}
+
+function _save_cdx_username($username) {
+  global $user;
+  $account = user_load($user->uid);
+  $account->field_cdx_username[LANGUAGE_NONE][0]['value'] = $username;
+  user_save($account);
+}
+
+/**
+ * @return array
+ * Connects to SCS SOAP client
+ */
+function _return_soap_client($wsdl) {
+  $client_service = connectToSOAPServerWithWSDL($wsdl, "Eenterprise Bridge Auth");
+
+  if ($client_service->error) {
+    return array("error" => true, "msg" => $client_service->msg);
+  }
+
+  $client = $client_service->client;
+  return $client;
+}
+
+/**
+ * @param $username
+ * @param $password
+ * @return bool
+ * Checks username and password are valid for SCS
+ */
+function _validate_scs_user($username, $password) {
+  return _authenticate_user(_authenticate_scs_admin()['token'], $username, $password);
+}
+
+/**
+ * @param $username
+ * @param $password
+ * @return bool
+ * Checks username and password are valid for SCS
+ */
+function _validate_cdx_user($username, $password) {
+  $wsdl = variable_get('cdx_auth_endpoint',
+    "https://devngn.epacdxnode.net/cdx-register-II/services/RegisterAuthService?wsdl");
+  $client = _return_soap_client($wsdl);
+  $params = array(
+    "userId" => $username,
+    "password" => $password,
+  );
+  $service_response = callSOAPWithParams($client, "Authenticate", $params, "Linked Accounts Module");
+  return !$service_response->error;
+}
+
+/**
+ * @return array
+ * Authenticates token for use with SCS SOAP functions
+ */
+function _authenticate_scs_admin() {
+  $r = ['token' => '', 'error' => FALSE];
+  $wsdl = variable_get('scs_auth_endpoint',
+    "https://encromerrdev.epacdxnode.net/shared-cromerr-ws/services/UserManagementService?wsdl");
+
+  $client = _return_soap_client($wsdl);
+  $params = array(
+    "userId" => variable_get('scs_auth_reg_username', ""),
+    "credential" => variable_get('scs_auth_reg_password', ""),
+  );
+  $service_response = callSOAPWithParams($client, "Authenticate", $params, "Linked Accounts Module");
+
+  if ($service_response->error) {
+    return array("error" => true, "msg" => $service_response->msg);
+  }
+
+  $r['token'] = $service_response->response->securityToken;
+
+  return $r;
+}
+
+/**
+ * @param $token
+ * @param $username
+ * @param $password
+ * @return bool
+ * Checks whether user is valid
+ */
+function _authenticate_user($token, $username, $password) {
+  $wsdl = variable_get('scs_auth_endpoint',
+    "https://encromerrdev.epacdxnode.net/shared-cromerr-ws/services/UserManagementService?wsdl");
+  $client = _return_soap_client($wsdl);
+  $params1 = array(
+    "securityToken" => $token,
+    "userId" => $username,
+    "credential" => $password,
+  );
+
+  $service_response = callSOAPWithParams($client, "AuthenticateUser", $params1, "Linked Accounts Module");
+  return !$service_response->error;
+}
+
+function scs_handoff() {
+  $wsdl = variable_get('scs_handoff_auth_endpoint',
+    "https://encromerrdev.epacdxnode.net/scs-portal-ws/services/SharedPortalSecurityService?wsdl");
+  $client = _return_soap_client($wsdl);
+  $handoff_url = variable_get("scs_handoff_url", "https://encromerrdev.epacdxnode.net/Handoff");
+  $service_request = _create_scs_security_token($client);
+  drupal_json_output(['handoff_url' => $handoff_url, 'token' => $service_request['token'], 'ip' => $_SERVER['SERVER_ADDR']]);
+}
+
+function _create_scs_security_token($client) {
+  global $user;
+  $account = user_load($user->uid);
+  $username = strtoupper($account->field_scs_username[LANGUAGE_NONE][0]['value']);
+  $params = [
+    "userId" => variable_get('scs_auth_reg_username', "enterprise.portal.scs.admin@epa.gov"),
+    "credential" => variable_get('scs_auth_reg_password', "CDXdevportal1"),
+    "subjectUserId" => $username,
+    "ip" => $_SERVER['SERVER_ADDR'],
+  ];
+  $service_response = callSOAPWithParams($client, "CreateBasicSecurityToken", $params, "Linked Accounts Module");
+
+  if ($service_response->error) {
+    return array("error" => true, "msg" => $service_response->msg);
+  }
+
+  $r['token'] = $service_response->response->token;
+  return $r;
+}
+
+
+
+
+
