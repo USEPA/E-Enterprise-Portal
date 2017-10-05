@@ -700,9 +700,6 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
     $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#default_value'] = 'add_zip_code';
     $form['field_zip_code'][LANGUAGE_NONE]['add_more']['#attributes']['class'][] = 'add-profile-location';
 
-    // disable autocomplete
-    $form['field_zip_code']['#attributes']['autocomplete'] = 'off';
-
     //Add more button for urls
     $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#value'] = 'New favorite';
     $form['field_profile_favourites'][LANGUAGE_NONE]['add_more']['#prefix'] = '<div class="add_more_holder">';
@@ -746,6 +743,10 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
 
       // Aria-describedby to associate city, state name in suffix <span> with input field
       $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['aria-describedby'] = 'city-name-' . $delta;
+
+      // disable autocomplete
+      $form['field_zip_code'][LANGUAGE_NONE][$delta]['field_field_zip_code'][LANGUAGE_NONE][0]['value']['#attributes']['autocomplete'] = 'off';
+
       if (isset($zip) && $zip != '') {
 
         if (isset($zip_deltas[$delta])) {
