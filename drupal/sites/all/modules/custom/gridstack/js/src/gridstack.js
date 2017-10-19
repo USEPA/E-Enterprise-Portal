@@ -32,7 +32,6 @@
     create_stylesheet: function (id) {
       var style = document.createElement("style");
       style.setAttribute("type", "text/css");
-      style.setAttribute("data-gs-id", id);
       if (style.styleSheet) {
         style.styleSheet.cssText = "";
       }
@@ -477,8 +476,8 @@
     this.container.append(this.placeholder);
     this.container.css({
       "height": String((this.grid.get_grid_height()) *
-      (this.opts.cell_height + this.opts.vertical_margin)
-      - this.opts.vertical_margin) + "px"
+        (this.opts.cell_height + this.opts.vertical_margin)
+        - this.opts.vertical_margin) + "px"
     });
 
     var on_resize_handler = function () {
@@ -544,33 +543,32 @@
       this._update_container_height();
     }
 
+    var styles_rule_string = "";
+    var style = document.createElement("style");
+    style.setAttribute("type", "text/css");
+
     if (this._styles._max == 0) {
       Utils.insert_css_rule(this._styles, prefix, 'min-height: ' + (this.opts.cell_height) + 'px;', 0);
+      styles_rule_string += prefix + '{min-height: ' + (this.opts.cell_height) + 'px;}';
     }
 
     if (max_height > this._styles._max) {
       for (var i = this._styles._max; i < max_height; ++i) {
-        Utils.insert_css_rule(this._styles,
-          prefix + '[data-gs-height="' + (i + 1) + '"]',
-          'height: ' + (this.opts.cell_height * (i + 1) + this.opts.vertical_margin * i) + 'px;',
-          i
-        );
-        Utils.insert_css_rule(this._styles,
-          prefix + '[data-gs-min-height="' + (i + 1) + '"]',
-          'min-height: ' + (this.opts.cell_height * (i + 1) + this.opts.vertical_margin * i) + 'px;',
-          i
-        );
-        Utils.insert_css_rule(this._styles,
-          prefix + '[data-gs-max-height="' + (i + 1) + '"]',
-          'max-height: ' + (this.opts.cell_height * (i + 1) + this.opts.vertical_margin * i) + 'px;',
-          i
-        );
-        Utils.insert_css_rule(this._styles,
-          prefix + '[data-gs-y="' + i + '"]',
-          'top: ' + (this.opts.cell_height * i + this.opts.vertical_margin * i) + 'px;',
-          i
-        );
+        styles_rule_string += prefix + '[data-gs-height="' + (i + 1) + '"]{' +
+          'height: ' + (this.opts.cell_height * (i + 1) + this.opts.vertical_margin * i) + 'px; }'
+        styles_rule_string += prefix + '[data-gs-min-height="' + (i + 1) + '"] {' + 'min-height: ' + (this.opts.cell_height * (i + 1) + this.opts.vertical_margin * i) + 'px;}';
+        styles_rule_string += prefix + '[data-gs-max-height="' + (i + 1) + '"] {' + 'max-height: ' + (this.opts.cell_height * (i + 1) + this.opts.vertical_margin * i) + 'px;}';
+        styles_rule_string += prefix + '[data-gs-y="' + i + '"]{' + 'top: ' + (this.opts.cell_height * i + this.opts.vertical_margin * i) + 'px;}';
+
       }
+      if (style.styleSheet) {
+        style.styleSheet.cssText = styles_rule_string;
+      }
+      else {
+        style.appendChild(document.createTextNode(styles_rule_string));
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+
       this._styles._max = max_height;
     }
   };
