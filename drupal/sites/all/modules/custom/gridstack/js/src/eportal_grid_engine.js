@@ -124,7 +124,7 @@
 
         // @see https://github.com/troolee/gridstack.js/blob/master/README.md#save-grid-to-array
         function sortedWidgets() {
-          var widgets = _.map($('.grid-stack .grid-stack-item:visible'), function (el, key) {
+          var widgets = _.map($('.grid-stack .grid-stack-item').not('.grid-stack-placeholder'), function (el, key) {
             var el = $(el);
             // if no id has been set, set the id, e.g.: grid-item-my-facility-manager-2
             if (!el.attr('id')) {
