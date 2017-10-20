@@ -364,7 +364,7 @@ function _create_scs_security_token($client) {
   $username = strtoupper($account->field_scs_username[LANGUAGE_NONE][0]['value']);
   $params = [
     "userId" => variable_get('scs_auth_reg_username', "enterprise.portal.scs.admin@epa.gov"),
-    "credential" => variable_get('scs_auth_reg_password', ""),
+    "credential" => variable_get('scs_auth_reg_password'),
     "subjectUserId" => $username,
     "ip" => $_SERVER['SERVER_ADDR'],
   ];
