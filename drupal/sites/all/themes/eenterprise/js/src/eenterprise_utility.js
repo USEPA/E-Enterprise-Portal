@@ -123,9 +123,9 @@
   }
 
   function setCommunitySizeType(commsize, isurban) {
-    var $comm_size_select =  $('#edit-field-community-size-und');
-    if(commsize != NaN && isurban != '_none') {
-      var $urban_check =  $('#edit-field-community-type-und');
+    var $comm_size_select = $('#edit-field-community-size-und');
+    if (!Number.isNaN(commsize) && isurban != '_none') {
+      var $urban_check = $('#edit-field-community-type-und');
       // Reset Population and Urban setting selections
       $urban_check.val("_none").find('input[value="_none"]').prop("checked", true);
       $comm_size_select.parent().show();
@@ -466,7 +466,7 @@
         field_suffix.html('Loading...');
         disable_zip_buttons("all");
         var existing_locations = {};
-        $(".field-name-field-field-zip-code").each(function() {
+        $(".field-name-field-field-zip-code").each(function () {
           var zip_value = $.trim($(this).find('.field_zip_code').val());
           if ($.isNumeric(zip_value)) {
             var location_name = $.trim($(this).find('.field-suffix-data').text());
@@ -584,7 +584,7 @@
         }).fail(function (location_data) {
           print_error_message(field_suffix, location_data.error_message);
           disable_zip_buttons(input);
-          $body.find('#zip-code-error').prev('.field_zip_code').focus();    
+          $body.find('#zip-code-error').prev('.field_zip_code').focus();
         });
       }
     }
@@ -647,7 +647,7 @@
     var $field_suffix = $primary.closest('tr').find('.field-suffix');
     var isurban = "_none";
     if (urban === "urban") {
-      isurban  = 1;
+      isurban = 1;
     } else if (urban === "rural") {
       isurban = 0;
     }
@@ -659,15 +659,15 @@
   }
 
   $(document).ready(function () {
-    var $urban_check =  $('#edit-field-community-type-und');
-    var $urban_size =  $('#edit-field-community-size-und');
+    var $urban_check = $('#edit-field-community-type-und');
+    var $urban_size = $('#edit-field-community-size-und');
 
-    $urban_check.change( function() {
+    $urban_check.change(function () {
       updatePrimaryLocationDataUrban($(this).val());
       update_user_zip_preferences();
     });
 
-    $('#edit-field-community-size-und').change( function() {
+    $('#edit-field-community-size-und').change(function () {
       updatePrimaryLocationDataSize($(this).find('option:selected'));
       update_user_zip_preferences();
     });
@@ -835,16 +835,16 @@
         placeAddAnotherButton(false, table_id, parent_id);
       };
       $('#profile-tabs').tabs({
-        create: function( event, ui ) {
+        create: function (event, ui) {
           var action_base = jQuery('#user-profile-form').attr('action')
           jQuery('#user-profile-form').attr('action', action_base + window.location.hash)
         },
-        activate: function( event, ui ) {
+        activate: function (event, ui) {
           var action = jQuery('#user-profile-form').attr('action')
           var has_hash = (action.indexOf('#') > -1)
           var action_base = action;
           var tab = jQuery(event.currentTarget).attr('href')
-          if(has_hash) {
+          if (has_hash) {
             action_base = action.slice(0, action.indexOf('#'));
           }
           jQuery('#user-profile-form').attr('action', action_base + tab)
