@@ -20,13 +20,6 @@ function partner_area_admin_form($form, $form_state) {
     '#title' => t('Partner Area configurations'),
   );
 
-  /*$form['partner_area_settings']['_eep_service_endpoint'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Sample Service Endpoint'),
-    '#default_value' => variable_get('_eep_service_endpoint', ""),
-    '#required' => TRUE,
-  );*/
-
   $form['#validate'][] = 'partner_area_admin_form_validate';
   $form['#submit'][] = 'partner_area_admin_form_submit';
   return system_settings_form($form);
@@ -49,7 +42,7 @@ function partner_area_admin_form_validate($form, &$form_state) {
 
 function partner_area_update_install() {
 
-  //variable_set('_eep_service_endpoint', '');
+  // Initialize any variables here
 
   // Setup custom content type
   _add_partner_service_provider_content_type();
