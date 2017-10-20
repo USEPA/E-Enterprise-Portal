@@ -1,0 +1,10 @@
+name = Partner Area
+description = Provides support services for partners to access and provide configurations
+core = 7.x
+version = "7.x-1.0"
+package = CGI
+
+dependencies[] = ctools
+dependencies[] = views
+
+#files[] = wdk_pdf.module

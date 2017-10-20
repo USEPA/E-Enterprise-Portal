@@ -1,0 +1,24 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: smolinsk
+ * Date: 10/20/2017
+ * Time: 11:19 AM
+ */
+
+
+/**
+ * Implements hook_menu().
+ */
+function partner_area_menu() {
+  $items = array();
+  $items['admin/config/system/partner_area'] = array(
+    'title' => 'Partner Settings',
+    'description' => 'Description of your On this date settings page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('partner_area_admin_form'),
+    'access arguments' => array('administer partner_area settings'),
+    'file' => 'partner_area.admin.inc',
+  );
+  return $items;
+}
