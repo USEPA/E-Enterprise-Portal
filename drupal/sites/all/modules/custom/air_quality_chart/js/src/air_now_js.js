@@ -1,8 +1,12 @@
-(function($) {
+(function ($) {
   "use strict";
 
   var map;
   var markers;
+  // Flag if map is being shown or not
+  var mapActive = false;
+  // Determines if map is not up to date with current locations
+  var mapUpdateRequired = false;
   var currentZipData;
   var todayAQI;
   var AQSMonitorLayer;
@@ -13,91 +17,103 @@
   var hidden;
   var dialogDiv, dialogTitle, dialogContents;
 
-  $(document).ready(function() {
-      var first_time_user_block = $('#first-time-user-block');
-      if (first_time_user_block.length > 0) {
-          first_time_user_loading = true;
+  function update_markers() {
+    if (!first_time_user_loading) {
+      //if markers exist then it's not the original map load
+      if (markers) {
+        map.removeLayer(markers);
       }
-      $(document).on('ee:first_time_user_complete', function() {
-          first_time_user_loading = false;
-      });
-    var $tabs = $("#my-air-quality-chart-tabs");
-
-    map = loadMap();
-
-    $tabs.tabs({
-      activate: function(e, ui) {
-        //map tab activated
-        if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {
-          //console.log("map tab activated");
-          updateMarker();
-        }
-      }
-    });
-    
-    $('#my-air-quality-chart-tabs').find('.ui-corner-top').on('click', function(ev) {
-      $(this).focus();
-    });
-
-    $(document).on("ee:zipCodeQueried", function(evt, data) {
-        if (!first_time_user_loading) {
-            currentZipData = data;
-            draw(currentZipData.zip, currentZipData.string);
-            //if markers exist then it's not the original map load
-            if (markers) {
-                map.removeLayer(markers);
-                markers = new L.FeatureGroup();
-                map.addLayer(markers);
-                updateMarker();
-            }
-            //original map load so markers are added via other method in map creation
-            else {
-                markers = new L.FeatureGroup();
-                map.addLayer(markers);
-            }
-        }
-    });
-  
-    // When user clicks / presses Enter on View chart description / Learn more links, 
-    // create dialogs with appropriate text and open dialogs, then focus them
-    // Also call hideWorkbenchFieldsFromSR to apply aria-hidden to background elements so screen reader does not "see" them
-    $('#sr-aqi-data-toggle').on('click', function(e) {
-      e.stopPropagation();
-      dialogDiv = '#sr-aqi-data';
-      dialogTitle = 'Air Quality Index Chart'
-      openDialog(dialogDiv, dialogTitle, srAQIString);      
-    });
-    
-    $('#aqi-explained-toggle').on('click', function(e) {
-     e.stopPropagation();
-     dialogDiv = '#aqi-explained';
-     dialogTitle = 'Air Quality Index Explained';
-     openDialog(dialogDiv, dialogTitle, aqiExplained); 
-    });
-
-    function openDialog(dialogDiv, dialogTitle, dialogContents) {
-      $('body').addClass('modal-open');
-      if ($(dialogDiv).text().length === 0) {
-        $(dialogDiv).html(dialogContents);
-        $(dialogDiv).dialog({
-          title: dialogTitle,
-          width: 500,
-          modal: true,
-          maxHeight: 300,
-          close: function() {
-            hideWorkbenchFieldsFromSR(false);
-            $('body').removeClass('modal-open');            
-            $(dialogDiv).dialog('destroy');
-            $(dialogDiv).text('');            
-          }
-        });
-      }
-      else {
-        $(dialogDiv).dialog('open');   
-      }
-      hideWorkbenchFieldsFromSR(true);      
-      $('.ui-dialog').focus();
+      markers = new L.FeatureGroup();
+      map.addLayer(markers);
+      updateMarker();
     }
+  }
+
+
+  $('#my-air-quality-chart-tabs').find('.ui-corner-top').on('click', function (ev) {
+    $(this).focus();
+  });
+
+  $(document).on("ee:zipCodeQueried", function (evt, newZipData) {
+    currentZipData = newZipData;
+    if (!first_time_user_loading) {
+      draw(currentZipData.zip, currentZipData.string);
+    }
+    // If map is active, update with new location. Otherwise update later when tab activated
+    if (map && mapActive) {
+      update_markers();
+    } else {
+      mapUpdateRequired = true;
+    }
+  });
+
+  function openDialog(dialogDiv, dialogTitle, dialogContents) {
+    $('body').addClass('modal-open');
+    if ($(dialogDiv).text().length === 0) {
+      $(dialogDiv).html(dialogContents);
+      $(dialogDiv).dialog({
+        title: dialogTitle,
+        width: 500,
+        modal: true,
+        maxHeight: 300,
+        close: function () {
+          hideWorkbenchFieldsFromSR(false);
+          $('body').removeClass('modal-open');
+          $(dialogDiv).dialog('destroy');
+          $(dialogDiv).text('');
+        }
+      });
+    }
+    else {
+      $(dialogDiv).dialog('open');
+    }
+    hideWorkbenchFieldsFromSR(true);
+    $('.ui-dialog').focus();
+  }
+
+  var first_time_user_block = $('#first-time-user-block');
+  if (first_time_user_block.length > 0) {
+    first_time_user_loading = true;
+  }
+  $(document).on('ee:first_time_user_complete', function () {
+    first_time_user_loading = false;
+  });
+  var $tabs = $("#my-air-quality-chart-tabs");
+
+  $tabs.tabs({
+    activate: function (e, ui) {
+      //map tab activated
+      if (ui.newPanel[0].id == 'my-air-quality-air-now-maps') {
+        mapActive = true;
+        // Initialize map if hasn't yet been loaded
+        if (!map) {
+          map = loadMap();
+        } else if (mapUpdateRequired) {
+          update_markers();
+          mapUpdateRequired = false;
+        }
+      } else {
+        mapActive = false;
+      }
+    }
+  });
+
+
+  // When user clicks / presses Enter on View chart description / Learn more links,
+  // create dialogs with appropriate text and open dialogs, then focus them
+  // Also call hideWorkbenchFieldsFromSR to apply aria-hidden to background elements so screen reader does not "see" them
+  $('#sr-aqi-data-toggle').on('click', function (e) {
+    e.stopPropagation();
+    dialogDiv = '#sr-aqi-data';
+    dialogTitle = 'Air Quality Index Chart'
+    openDialog(dialogDiv, dialogTitle, srAQIString);
+  });
+
+  $('#aqi-explained-toggle').on('click', function (e) {
+    e.stopPropagation();
+    dialogDiv = '#aqi-explained';
+    dialogTitle = 'Air Quality Index Explained';
+    openDialog(dialogDiv, dialogTitle, aqiExplained);
   });
 
   function hideWorkbenchFieldsFromSR(hidden) {
@@ -105,7 +121,7 @@
       $('.masthead').attr('aria-hidden', 'true');
       $('.region-navigation').attr('aria-hidden', 'true');
       $('.main-content').attr('aria-hidden', 'true');
-      $('#footer').attr('aria-hidden', 'true');    
+      $('#footer').attr('aria-hidden', 'true');
     }
     else {
       $('.masthead').removeAttr('aria-hidden');
@@ -116,9 +132,10 @@
   }
 
   function loadMap() {
-    var map = L.map('my-air-quality-air-now-map-container');
-    map.on('load', function(e) {
-      //console.log('map loaded');
+    L.Icon.Default.imagePath = '/sites/all/libraries/leaflet/0.7.3/images';
+    map = L.map('my-air-quality-air-now-map-container');
+    map.on('load', function (e) {
+      update_markers();
     });
     //this extent is not actually used (but is needed), since map should be panned to the marker after being created
     map.setView([32.505, -96.09], 13);
@@ -135,9 +152,8 @@
       position: 'front'
     });
 
-    //AQSMonitorLayer.on("load", function() {});
     map.addLayer(AQSMonitorLayer);
-    AQSMonitorLayer.bindPopup(function(error, featureCollection) {
+    AQSMonitorLayer.bindPopup(function (error, featureCollection) {
       if (error || featureCollection.features.length === 0) {
         return false;
       } else {
@@ -166,9 +182,9 @@
     }
     //'2015-09-03' format for AirNow API
     var todayDate = yyyy + '-' + mm + '-' + dd;
-    map.on("click", function(e) {
+    map.on("click", function (e) {
       if (map.getZoom() > 9) {
-        AQSMonitorLayer.identify().on(map).at(e.latlng).run(function(error, featureCollection) {
+        AQSMonitorLayer.identify().on(map).at(e.latlng).run(function (error, featureCollection) {
           if (featureCollection.features.length > 0) {
             var lon83 = featureCollection.features[0].properties.LONGITUDE83;
             var lat83 = featureCollection.features[0].properties.LATITUDE83;
@@ -177,7 +193,6 @@
             $.ajax({
               type: 'GET',
               url: Drupal.settings.basePath + 'air_quality_chart/api/current/latLong/',
-              async: true,
               data: {
                 format: 'application/json',
                 latitude: lat83,
@@ -185,8 +200,7 @@
                 date: todayDate,
                 distance: '50'
               },
-              success: function(data, status, xhr) {
-                //console.log("success");
+              success: function (data, status, xhr) {
                 var airnowAPIResultData = JSON.parse(data);
                 if (cityName == "NOT IN A CITY") {
                   cityName = "RURAL AREA";
@@ -205,10 +219,9 @@
                   .openOn(map);
                 $('html, body').css("cursor", "auto");
               }
-            }).fail(function(xhr, status) {
+            }).fail(function (xhr, status) {
               if (status == "error") {
                 $('html, body').css("cursor", "auto");
-                console.log("Error in AirNow API request.");
                 return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
               }
             });
@@ -229,7 +242,6 @@
     $.ajax({
       type: 'GET',
       url: Drupal.settings.basePath + 'air_quality_chart/api/current/latLong/',
-      async: true,
       data: {
         format: 'application/json',
         latitude: '32.6460',
@@ -237,25 +249,20 @@
         date: '2015-09-03',
         distance: '50'
       },
-      success: function(data, status, xhr) {
+      success: function (data, status, xhr) {
         var airnowAPIResultData = JSON.parse(data);
         var AQSpopupContent = '<table>';
         for (var i = 0; i < airnowAPIResultData.length; i++) {
-          console.log(airnowAPIResultData[i].ParameterName);
-          console.log(airnowAPIResultData[i].Category.Name);
           var paramName = airnowAPIResultData[i].ParameterName;
           var AQICategoryName = airnowAPIResultData[i].Category.Name;
           var row = '<tr><td>' + paramName + '</td><td>' + AQICategoryName + '</td></tr>';
           AQSpopupContent += row;
         }
         AQSpopupContent += '</table>';
-        console.log(AQSpopupContent);
         AQSMonitorLayer.bindPopup('test');
-        //return AQSpopupContent;
       }
-    }).fail(function(xhr, status) {
+    }).fail(function (xhr, status) {
       if (status == "error") {
-        console.log("Error in AirNow API request.");
         return "Sorry but there was an error: " + xhr.status + " " + xhr.statusText;
       }
     });
@@ -287,8 +294,9 @@
     return [year, month, day].join(delimiter);
   }
 
-  var drawChart = function(data, locationText) {
+  var drawChart = function (data, locationText) {
     drawMessage('');
+
     function drawPopulationsAtRisk() {
       if (todayData) {
         if (todayData.AQI > 50) {
@@ -408,14 +416,14 @@
       }
       return categoryBounds.length - 2;
     }
-    
+
     function addAQICategoryToSR(aqi) {
       for (var i = 0; i < categoryBoundLabels.length - 1; i++) {
         if (aqi >= categoryBounds[i] && aqi < categoryBounds[i + 1]) {
           return "<abbr class='ee-bootstrap-tooltip' title='" + categoryInfo[i].body + "'>" + categoryInfo[i].header + "</abbr>";
         }
       }
-      return "No AQI is available";      
+      return "No AQI is available";
     }
 
     function showPopover(obj, aqi) {
@@ -508,14 +516,14 @@
     // get max and min dates - this assumes data is sorted
     var minDate = getDate(data[0].DateForecast),
       maxDate = getDate(data[data.length - 1].DateForecast);
-    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var srDate = new Date();
     var srDay;
     var srDateDay;
     var srDayOfWeek;
     var srMonthIndex;
-    var srMonth;    
+    var srMonth;
     var srYear;
     var srLongDate;
     var srAQI;
@@ -529,7 +537,7 @@
       if (maxAQI < data[i].AQI)
         maxAQI = data[i].AQI;
       data[i].visualAQI = computeVisualAQI(data[i].AQI);
-      
+
       srDay = getDate(data[i].DateForecast);
       srDayOfWeek = days[srDay.getDay()];
       srDateDay = srDay.getDate();
@@ -537,15 +545,15 @@
       srMonth = monthNames[srMonthIndex];
       srYear = srDay.getFullYear();
       srLongDate = srDayOfWeek + ", " + srMonth + " " + srDateDay + ", " + srYear;
-      
+
       srAQI = data[i].AQI;
       srAQICategory = addAQICategoryToSR(srAQI);
       srTodayAQI = srTodayAQI + "The AQI for " + srLongDate + " is " + srAQI + " in the " + srAQICategory + " range.  ";
     }
     srAQIString = srAQIString + srTodayAQI;
-    
+
     aqiExplained = "<div tabindex='0'><p>Think of the AQI as a yardstick that runs from 0 to 500. The higher the AQI value, the greater the level of air pollution and the greater the health concern. For example, an AQI value of 50 represents good air quality with little potential to affect public health, while an AQI value over 300 represents hazardous air quality.  Each category corresponds to a different level of health concern. The six levels of health concern and what they mean are:</p><ul><li>A <b>Good</b> AQI is 0 to 50. Air quality is considered satisfactory, and air pollution poses little or no risk.</li><li>A <b>Moderate</b> AQI is 51 to 100. Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people. For example, people who are unusually sensitive to ozone may experience respiratory symptoms.</li><li>An <b>Unhealthy for Sensitive Groups</b> AQI is 101 to 150. Although general public is not likely to be affected at this AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas persons with heart and lung disease, older adults and children are at greater risk from the presence of particles in the air.</li><li>An Unhealthy AQI is 151 to 200. Everyone may begin to experience some adverse health effects, and members of the sensitive groups may experience more serious effects.</li><li>A <b>Very Unhealthy</b> AQI is 201 to 300. This would trigger a health alert signifying that everyone may experience more serious health effects.</li><li>A <b>Hazardous</b> AQI is greater than 300. This would trigger a health warnings of emergency conditions. The entire population is more likely to be affected.</li></ul></div>";
-    
+
     // Find data point corresponding to today
     for (var i in data) {
       if (dateDiffInDays(new Date(), getDate(data[i].DateForecast)) == 0) {
@@ -581,12 +589,12 @@
 
     // create a line function that can convert data[] into x and y points
     var line = d3.svg.line()
-      // assign the X function to plot our line as we wish
-      .x(function(d, i) {
+    // assign the X function to plot our line as we wish
+      .x(function (d, i) {
         // return the X coordinate where we want to plot this datapoint
         return x(getDate(d.DateForecast)); //x(i);
       })
-      .y(function(d) {
+      .y(function (d) {
         // return the Y coordinate where we want to plot this datapoint
         return y(d.visualAQI);
       });
@@ -604,8 +612,8 @@
 
     // Add an SVG element with the desired dimensions and margin.
     var graph = container.append("svg:svg")
-      // .attr("width", w + m[1] + m[3])
-      // .attr("height", h + m[0] + m[2])
+    // .attr("width", w + m[1] + m[3])
+    // .attr("height", h + m[0] + m[2])
       .style({
         "width": "100%",
         "height": "100%",
@@ -627,14 +635,14 @@
     graph.append("svg:title")
       .attr("id", "my-air-quality-chart-title")
       .text(chartTitle);
-      
+
     graph.append("svg:desc")
       .attr("id", "my-air-quality-chart-description")
       .text(srTodayAQI);
 
     var area = d3.svg.area()
       .interpolate("basis")
-      .y(function(d) {
+      .y(function (d) {
         return y(d);
       })
       .x0(-m[3] + m[1])
@@ -656,7 +664,7 @@
     }
 
     // Create xAxis
-    var xAxis = d3.svg.axis().scale(x).ticks(d3.time.days, 1).tickFormat(function(date) {
+    var xAxis = d3.svg.axis().scale(x).ticks(d3.time.days, 1).tickFormat(function (date) {
       var distanceFromTodayLabel = distanceFromToday[dateDiffInDays(new Date(), date)];
       return ((distanceFromTodayLabel ? distanceFromTodayLabel : '') + '/' + d3.time.format("%a/%b %d")(date));
     });
@@ -670,12 +678,12 @@
     graph.selectAll('g.x.axis g text').each(insertLinebreaks);
 
     // Add CSS class to highlight today's date label in x-axis
-    graph.selectAll('g.x.axis g text').attr("class", function(d, i) {
+    graph.selectAll('g.x.axis g text').attr("class", function (d, i) {
       return (!todayData || dateDiffInDays(d, getDate(todayData.DateForecast)) != 0) ? '' : ' active-date-text';
     });
 
     // Create yAxis
-    var yAxis = d3.svg.axis().scale(y).tickValues(categoryBounds).orient("left").tickSize(-w - m[3]).tickFormat(function(d, i) {
+    var yAxis = d3.svg.axis().scale(y).tickValues(categoryBounds).orient("left").tickSize(-w - m[3]).tickFormat(function (d, i) {
       return categoryBoundLabels[i];
     });
 
@@ -696,28 +704,28 @@
 
     // Add category text for the y-axis
     graph.selectAll(".y.axis g").append('text')
-      .text(function(cat, i) {
+      .text(function (cat, i) {
         return i < reducedCategoryBounds.length - 1 ? categoryInfo[i].header : '';
       })
-      .attr("transform", function(cat, i) {
+      .attr("transform", function (cat, i) {
         // vertical centering
         var scale = reducedCategoryBounds[reducedCategoryBounds.length - 1] / h;
         return i + 1 >= categoryBounds.length ? "" : "translate(25, -" + ((categoryBounds[i + 1] - categoryBounds[i]) / 2 * scale - 20) + ")"
       }).attr("alignment-baseline", "middle")
-      .attr("class", function(cat, i) {
+      .attr("class", function (cat, i) {
         return 'category-label' + (!todayData || i != getCategoryInfoIndex(todayData.AQI) ? '' : ' active-category-text')
       })
-      .on("mouseover", function(d, i) {
+      .on("mouseover", function (d, i) {
         showPopoverFromCategoryIndex(this, i);
       })
-      .on("focus", function(d, i) {
-         if(i < (reducedCategoryBounds.length - 1))
-            showPopoverFromCategoryIndex(this, i);
+      .on("focus", function (d, i) {
+        if (i < (reducedCategoryBounds.length - 1))
+          showPopoverFromCategoryIndex(this, i);
       })
-      .on("focusout", function() {
+      .on("focusout", function () {
         hidePopover();
       })
-      .on("mouseout", function() {
+      .on("mouseout", function () {
         hidePopover();
       });
 
@@ -731,27 +739,27 @@
       .append('g')
       .classed('gnode', true)
     gnodes.append("text")
-      .attr("x", function(d) {
+      .attr("x", function (d) {
         return x(getDate(d.DateForecast));
       })
-      .attr("y", function(d) {
+      .attr("y", function (d) {
         return y(d.visualAQI) - 20
       })
-      .attr("class", function(d) {
+      .attr("class", function (d) {
         return !todayData || d.DateForecast != todayData.DateForecast ? '' : 'active-category-text'
       })
       .attr("tabindex", "0")
       .attr("text-anchor", "middle")
-      .on("focus", function(d, i) {
+      .on("focus", function (d, i) {
         showPopover(this, d.AQI);
       })
-      .on("focusout", function() {
+      .on("focusout", function () {
         hidePopover();
       })
-      .text(function(d) {
+      .text(function (d) {
         return d.ShowAQILabel ? d.AQI : '';
       });
-    
+
     gnodes.append("circle")
       .attr("fill", "#454545")
       .attr("r", 5)
@@ -760,12 +768,12 @@
       .attr("stroke-opacity", 0)
       .attr("cx", xx)
       .attr("cy", yy)
-      .on("mouseover", function(d) {
+      .on("mouseover", function (d) {
         showPopover(this, d.AQI);
       })
-      .on("mouseout", function() {
+      .on("mouseout", function () {
         hidePopover();
-      });    
+      });
 
     // Append reporting area
     graph.append("text")
@@ -782,14 +790,14 @@
       .append("div")
       .attr("class", "popover right")
       .style("position", "fixed");
-               
+
   }
 
-  var drawMessage = function(msg) {
+  var drawMessage = function (msg) {
     d3.select("#my-air-quality-chart").html(msg);
   }
 
-  var draw = function(zipCode, locationText) {
+  var draw = function (zipCode, locationText) {
     var categoryToMidAQI = {
       1: 25,
       2: 75,
@@ -826,13 +834,6 @@
         }
       }
 
-      //Test Data
-      //return [
-      //  {'DateForecast': "2015-08-20", 'AQI': 148},
-      //  {'DateForecast': "2015-08-21", 'AQI': 200},
-      //  {'DateForecast': "2015-08-22", 'AQI': 82},
-      //  {'DateForecast': "2015-08-23", 'AQI': 401}
-      //];
       return data;
     }
 
@@ -847,7 +848,7 @@
       distance: 100
     };
 
-    $.getJSON(endpoint, params, function(responseData) {
+    $.getJSON(endpoint, params, function (responseData) {
       var data = parseData(responseData);
       if (data.length > 0) {
         drawChart(data, locationText);

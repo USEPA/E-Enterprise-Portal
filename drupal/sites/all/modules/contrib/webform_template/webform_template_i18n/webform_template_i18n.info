@@ -1,0 +1,13 @@
+name = Webform Template Internationalization
+description = Internationalization add-on module for Webform Template
+core = 7.x
+package = Webform
+dependencies[] = webform
+dependencies[] = webform_localization
+dependencies[] = webform_template
+; Information added by Drupal.org packaging script on 2015-09-15
+version = "7.x-4.0"
+core = "7.x"
+project = "webform_template"
+datestamp = "1442331851"
+

@@ -1,3 +1,109 @@
+// Polyfill for Array.from()
+// Production steps of ECMA-262, Edition 6, 22.1.2.1
+if (!Array.from) {
+  Array.from = (function () {
+    var toStr = Object.prototype.toString;
+    var isCallable = function (fn) {
+      return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
+    };
+    var toInteger = function (value) {
+      var number = Number(value);
+      if (isNaN(number)) { return 0; }
+      if (number === 0 || !isFinite(number)) { return number; }
+      return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
+    };
+    var maxSafeInteger = Math.pow(2, 53) - 1;
+    var toLength = function (value) {
+      var len = toInteger(value);
+      return Math.min(Math.max(len, 0), maxSafeInteger);
+    };
+
+    // The length property of the from method is 1.
+    return function from(arrayLike/*, mapFn, thisArg */) {
+      // 1. Let C be the this value.
+      var C = this;
+
+      // 2. Let items be ToObject(arrayLike).
+      var items = Object(arrayLike);
+
+      // 3. ReturnIfAbrupt(items).
+      if (arrayLike == null) {
+        throw new TypeError('Array.from requires an array-like object - not null or undefined');
+      }
+
+      // 4. If mapfn is undefined, then let mapping be false.
+      var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
+      var T;
+      if (typeof mapFn !== 'undefined') {
+        // 5. else
+        // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
+        if (!isCallable(mapFn)) {
+          throw new TypeError('Array.from: when provided, the second argument must be a function');
+        }
+
+        // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
+        if (arguments.length > 2) {
+          T = arguments[2];
+        }
+      }
+
+      // 10. Let lenValue be Get(items, "length").
+      // 11. Let len be ToLength(lenValue).
+      var len = toLength(items.length);
+
+      // 13. If IsConstructor(C) is true, then
+      // 13. a. Let A be the result of calling the [[Construct]] internal method
+      // of C with an argument list containing the single item len.
+      // 14. a. Else, Let A be ArrayCreate(len).
+      var A = isCallable(C) ? Object(new C(len)) : new Array(len);
+
+      // 16. Let k be 0.
+      var k = 0;
+      // 17. Repeat, while k < len… (also steps a - h)
+      var kValue;
+      while (k < len) {
+        kValue = items[k];
+        if (mapFn) {
+          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+        } else {
+          A[k] = kValue;
+        }
+        k += 1;
+      }
+      // 18. Let putStatus be Put(A, "length", len, true).
+      A.length = len;
+      // 20. Return A.
+      return A;
+    };
+  }());
+}
+
+if (!String.prototype.codePointAt) {
+  String.prototype.codePointAt = function (pos) {
+    pos = isNaN(pos) ? 0 : pos;
+    var str = String(this),
+      code = str.charCodeAt(pos),
+      next = str.charCodeAt(pos + 1);
+    // If a surrogate pair
+    if (0xD800 <= code && code <= 0xDBFF && 0xDC00 <= next && next <= 0xDFFF) {
+      return ((code - 0xD800) * 0x400) + (next - 0xDC00) + 0x10000;
+    }
+    return code;
+  };
+}
+
+function html_encode(string) {
+  var ret_val = '';
+  for (var i = 0; i < string.length; i++) {
+    if (string.codePointAt(i) > 127) {
+      ret_val += '&#' + string.codePointAt(i) + ';';
+    } else {
+      ret_val += string.charAt(i);
+    }
+  }
+  return ret_val;
+}
+
 function showElementOutOfMany($wrapper_to_show, $common_selector) {
   $common_selector.hide();
   $wrapper_to_show.show();
@@ -38,11 +144,12 @@ toggleSection = function() {
 }
 
 function resizeModal() {
-  jQuery('#be-well-informed-modal').dialog({
+  jQuery('#be-well-informed-modal-state-form').dialog({
     position: {'my': 'center', 'at': 'center'}
   });
-  if (jQuery('.be-well-informed-modal').css('top').replace('px', '') < 1) {
-    jQuery('.be-well-informed-modal').css('top', 0)
+  $state_form = jQuery('.be-well-informed-modal-state-form')
+  if ($state_form.length && $state_form.css('top').replace('px', '') < 1) {
+    jQuery('.be-well-informed-modal-state-form').css('top', 0)
   }
 }
 
@@ -79,7 +186,6 @@ function formatFormData(formData, convertNulls) {
       // Check if presence radio has been inputed and set balue
       if (previous[keys[cIndex]].Symbol in presenceRadioInputs) {
         previous[keys[cIndex]].Presence = presenceRadioInputs[previous[keys[cIndex]].Symbol];
-        delete previous[keys[cIndex]].Value;
       }
       if (convertNulls) {
         if (!isNaN(previous[keys[cIndex]].Value) && previous[keys[cIndex]].Value != "") {
@@ -88,7 +194,12 @@ function formatFormData(formData, convertNulls) {
           previous[keys[cIndex]].Value = -9999;
         }
       } else {
-        if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {
+        if (previous[keys[cIndex]].Symbol in presenceRadioInputs && (previous[keys[cIndex]].Presence == "present" || previous[keys[cIndex]].Presence == "absent")) {
+          if (previous[keys[cIndex]].Value == "") {
+            previous[keys[cIndex]].Value = -9999;
+          }
+        }
+        else if ((previousKeys.indexOf('Value') > -1 && previous[keys[cIndex]].Value == "")) {
           delete previous[keys[cIndex]];
         }
       }
@@ -120,21 +231,31 @@ function resetBWIForm() {
   $('.bs-callout-warning').toggleClass('hidden', true);
 }
 
+function bwi_log() {
+  if(Drupal.settings.be_well_informed.debug_mode) {
+    console.log.apply(this, Array.prototype.concat(['be_well_informed/form_submission'], Array.from(arguments)));
+  }
+}
+
 (function($) {
   var sampleSetIndex = 0;
   // Flag for converting Null or blank inputs to -9999
   var convertNulls = false;
+  var cityName;
   sampleData = function(sample) {
     // lets us cycle through different sets of test data
     if (!sample) {
       // different handy test cases
       sampleSet = [
-        {"CityName":"Amherst","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"1234","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"1234","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"1234","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"1234","Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":"1234","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"1234","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"1234","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"1234","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"1234","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":"1234","Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"1234","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"1234","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"1234","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"4321","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"4321","Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"4321","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
-        {"CityName":"Portsmouth","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"45","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"2","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"54","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"5","Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":"22","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"1234","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"87","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"43","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"1234","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":"1234","Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"1234","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"1234","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"1234","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"4321","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"4321","Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"4321","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
+        {"CityName":"Anonymous","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":0.3,"Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":260,"Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":-9999,"Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":-9999,"Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":-9999,"Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":-9999,"Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":0.05,"Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":-9999,"Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":-9999,"Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":0.03,"Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":-9999,"Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":-9999,"Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":-9999,"Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":-9999,"Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":-9999,"Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":-9999,"Unit":"CFU/100 mL"}},"RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":-9999,"Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":-9999,"Unit":"mg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":-9999,"Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl","Interaction":"true"}}},
+        {"CityName":"Anonymous","RoutineContaminants":{"pH":{"Symbol":"pH","Name":"pH","Value":"6","Unit":"units"}, "Cu":{"Symbol":"Cu","Name":"Copper","Value":"0.3","Unit":"mg/L"}}},
+        {"CityName":"Anonymous","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"0.007","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"100","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"0.5","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"0.01","Unit":"mg/L"}}},
+        {"CityName":"Amherst","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"1234","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"1234","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"1234","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"1234","Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":"1234","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"1234","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"1234","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"1234","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"1234","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":"1234","Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"1234","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"1234","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"1234","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"4321","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"4321","Unit":"mg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"4321","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
+        {"CityName":"Portsmouth","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"45","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"2","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"54","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"5","Unit":"mg/L"},"Fl":{"Symbol":"Fl","Name":"Fluoride","Value":"22","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"1234","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"87","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"43","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"1234","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"NO3":{"Symbol":"NO3","Name":"Nitrate-N","Value":"1234","Unit":"mg/L"},"NO2":{"Symbol":"NO2","Name":"Nitrite-N","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"1234","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"1234","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"1234","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"4321","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"4321","Unit":"mg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"4321","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
         {"CityName":"Anonymous","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"1","Unit":"mg/L"}}},
         {"CityName":"Amherst","BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"1","Unit":"CFU/100 mL"}}},
         {"CityName": "Anonymous", "Bac_G": "rdb_Bac_True"},
-        {"CityName":"Salem","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"11","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"4","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"54","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"5","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"27","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"87","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"43","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"54","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"9","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"5","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"3","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"56","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"12","Unit":"μg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"98","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
+        {"CityName":"Salem","RoutineContaminants":{"As":{"Symbol":"As","Name":"Arsenic","Value":"11","Unit":"mg/L"},"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"4","Unit":"mg/L"},"Cu":{"Symbol":"Cu","Name":"Copper","Value":"54","Unit":"mg/L"},"CuSt":{"Symbol":"CuSt","Name":"Copper, Stagnant","Value":"5","Unit":"mg/L"},"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"27","Unit":"mg/L"},"Fe":{"Symbol":"Fe","Name":"Iron","Value":"87","Unit":"mg/L"},"Pb":{"Symbol":"Pb","Name":"Lead","Value":"43","Unit":"mg/L"},"PbSt":{"Symbol":"PbSt","Name":"Lead, Stagnant","Value":"54","Unit":"mg/L"},"Mn":{"Symbol":"Mn","Name":"Manganese","Value":"1234","Unit":"mg/L"},"pH":{"Symbol":"pH","Name":"pH","Value":"6.1","Unit":"units"},"Na":{"Symbol":"Na","Name":"Sodium","Value":"9","Unit":"mg/L"}},"BacterialContaminants":{"Bac":{"Symbol":"Bac","Name":"Total Coliform","Value":"5","Unit":"CFU/100 mL"},"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"3","Unit":"CFU/100 mL"}},"Bac_G":"rdb_Bac_True","Ecoli_G":"rdb_Ecoli_True","RadionuclideContaminants":{"Rn":{"Symbol":"Rn","Name":"Radon","Value":"56","Unit":"pCi/L"},"Ur":{"Symbol":"Ur","Name":"Uranium","Value":"12","Unit":"mg/L"},"AGA":{"Symbol":"AGA","Name":"Gross Alpha","Value":"98","Unit":"pCi/L"}},"InteractivePromptResponses":{"0":{"InteractionIdentifier":"Cl_True","Symbol":"Cl"},"1":{"InteractionIdentifier":"Har_True","Symbol":"Har"}}},
         {"CityName":"Anonymous","BacterialContaminants":{"Ecoli":{"Symbol":"Ecoli","Name":"E. Coli","Value":"0","Unit":"CFU/100 mL"}}},
         {"CityName":"Anonymous","RoutineContaminants":{"Cl":{"Symbol":"Cl","Name":"Chloride","Value":"250","Unit":"mg/L"}}},
         {"CityName":"Anonymous","RoutineContaminants":{"Har":{"Symbol":"Har","Name":"Hardness as CaCO3","Value":"150","Unit":"mg/L"}}},
@@ -154,8 +275,14 @@ function resetBWIForm() {
         for (var field in sample[cat]) {
           if (typeof sample[cat][field] == 'object') {
             for (var prop in sample[cat][field]) {
-              var selector = '[name="' + cat + '[' + field + '][' + prop + ']"]';
-              $(selector).val(sample[cat][field][prop]);
+              if(prop == 'Unit') {
+                var selector = '[name="' + cat + '[' + field + '][' + prop + ']"] option[value="'+sample[cat][field][prop]+'"]';
+                $(selector).prop('selected', true);
+              }
+              else {
+                var selector = '[name="' + cat + '[' + field + '][' + prop + ']"]';
+                $(selector).val(sample[cat][field][prop]);
+              }
             }
           }
         }
@@ -167,348 +294,6 @@ function resetBWIForm() {
       }
     }
   }
-
-  $('#be-well-informed-modal')
-    .html(Drupal.settings.be_well_informed.modal)
-    .dialog({
-      modal: true,
-      width: "auto",
-      title: "Be Well Informed Water Analysis Tool",
-      position: {'my': 'center', 'at': 'center'},
-      dialogClass: 'be-well-informed-modal',
-      autoOpen: false,
-      draggable: false,
-      resizable: false,
-      create: function(event, ui) {
-        $('#bwi-tabs').tabs();
-        var $form = $('#water_analysis_results_form');
-        $form
-          .parsley({
-            inputs: Parsley.options.inputs + ',[data-parsley-check-children]'
-          })
-          .on('field:validated', function() {
-            var ok = $('.parsley-error').length === 0;
-            $('.bs-callout-info').toggleClass('hidden', !ok);
-            $('.bs-callout-warning').toggleClass('hidden', ok);
-          })
-          .on('form:submit', function() {
-            return false; // Don't submit form for this demo
-          });
-
-        $('#water_analysis_reset').click(function() {
-          resetBWIForm();
-          resizeModal()
-        });
-
-        $(window).resize(function() {
-          resizeModal();
-        })
-      },
-      close: function(event, ui) {
-        sampleSetIndex = 0;
-        convertNulls = false;
-        $('#be-well-informed-results-table, #be-well-informed-result-details-table').dataTable({bDestroy: true}).fnDestroy();
-        $('#be-well-informed-results-table, #be-well-informed-result-details-table, #be-well-informed-results-table_wrapper, #be-well-informed-result-details-table_wrapper').remove();
-        $('#routine-contaminants, .or').removeClass('hide')
-        $('#interactive-prompts').html('')
-        $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
-        $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret').addClass('hide')
-        showElementOutOfMany($('#be-well-informed-form-wrapper'), $('.be-well-informed-modal-wrapper'));
-      }
-    })
-
-  $('#bwi-check-water-btn').click(function() {
-    $('#be-well-informed-modal').dialog("open");
-    resizeModal()
-  });
-
-  $('#be-well-informed-modal').on('click', '#water_analysis_submit', function() {
-    var $form = $('#water_analysis_results_form');
-    // If the form does not validate do not submit data.
-    if (!$form.parsley().validate()) {
-      return false;
-    }
-
-    var $loading_wrapper = $('#be-well-informed-loading-wrapper');
-    var $results_wrapper = $('#be-well-informed-results-wrapper');
-    var $form_wrapper = $('#be-well-informed-form-wrapper');
-    var $all_wrappers = $('.be-well-informed-modal-wrapper');
-    var formData = $form.serializeObject();
-
-
-    var data = formatFormData(formData, convertNulls);
-
-    showElementOutOfMany($loading_wrapper, $all_wrappers);
-    $('#entry-tab').text('Entry');
-    $.ajax({
-      url: 'be_well_informed/form_submission',
-      method: 'POST',
-      data: data,
-      success: function(be_well_response_json) {
-        if (!be_well_response_json.error) {
-          // reset the modal and return it to a 'default' state
-          $('#routine-contaminants, .or').removeClass('hide')
-          $('#interactive-prompts, #additional-contaminant-requests, .interactive-prompt, .additional-contaminant-requests').addClass('hide')
-          $('treatment-header, .treatment-content, .treatment-step, .box-main, .instruction-icon, .caret, .system-type-house, .system-type-water').addClass('hide')
-          $('#water_analysis_reset').addClass('invisible')
-          $('.bs-callout-info, .bs-callout-warning').toggleClass('hidden', true)
-          convertNulls = true;
-
-          // Handle all the addition requests for the service
-          if (!!be_well_response_json.data.InteractivePrompts.length || !!be_well_response_json.data.AdditionalContaminantRequests.length) {
-            $('#routine-contaminants').addClass('hide')
-            $interactive_prompts = $('#interactive-prompts');
-            // Handle any interactive prompts that are returned from the service
-            if (!!be_well_response_json.data.InteractivePrompts.length) {
-              // We need build out the html and append it to the form
-              be_well_response_json.data.InteractivePrompts.map(function(item, index, prompts) {
-                // check if it already exists, skip it
-                var interaction_string = item.Interaction.replace(/"/g, '');
-                var $item = $('[data-interaction="' + interaction_string + '"]')
-                var exists = !!$item.length
-                if (!exists) {
-                  // build the prompts ui if needed
-                  var $prompt = $('<div class="section row interactive-prompt"></div>').attr('data-interaction', interaction_string)
-                    .appendTo($interactive_prompts)
-                  var $title = $('<div class="column usa-width-one-half"><p class="interaction">' + interaction_string + '</p></div>')
-                    .appendTo($prompt)
-                  var $inputs = $('<div class="column usa-width-one-half btn-group">' +
-                    '<button for="" class="usa-button-outline" type="button"><input type="radio" value="true">Yes</button>' +
-                    '<button for="" class="usa-button-outline" type="button"><input type="radio" value="false">No</button>' +
-                    '</div>')
-                    .appendTo($prompt)
-                    .on('click', 'button', function(e) {
-                      // toggle CSS classes to indicate which button has been clicked
-                      $inputs.find('button').not(e.currentTarget).removeClass('usa-button-primary').addClass('usa-button-outline');
-                      $(e.currentTarget).addClass('usa-button-primary').removeClass('usa-button-outline');
-
-                      // select the appropriate radio element
-                      $(this).find('input:radio').prop("checked", true);
-                    })
-                  $inputs.find('input').attr('name', 'InteractivePromptResponses[' + index + '][Interaction]')
-                  var $hidden_symbol = $('<input type="hidden">')
-                    .attr('name', 'InteractivePromptResponses[' + index + '][Symbol]')
-                    .val(item.Symbol)
-                    .prependTo($inputs)
-                  var $hidden_identifier = $('<input type="hidden">')
-                    .attr('name', 'InteractivePromptResponses[' + index + '][InteractionIdentifier]')
-                    .val(item.InteractionIdentifier)
-                    .prependTo($inputs)
-                }
-                else {
-                  $item.removeClass('hide')
-                }
-              })
-              $interactive_prompts.removeClass('hide')
-            }
-            // Handle any additional contaminant requests that are returned from the service
-            if (!!be_well_response_json.data.AdditionalContaminantRequests.length) {
-              // We need build out the html and append it to the form
-              be_well_response_json.data.AdditionalContaminantRequests.map(function(item, index, prompts) {
-                // check if it already exists, skip it
-                var interaction_string = item.Interaction.replace(/"/g, '');
-                var $item = $('[data-interaction="' + interaction_string + '"]')
-                var exists = !!$item.length
-                if (!exists) {
-                  // build the prompts ui if needed
-                  var $prompt = $('<div class="section row additional-contaminant-requests"></div>').attr('data-interaction', interaction_string)
-                    .appendTo($interactive_prompts)
-                  var $title = $('<div class="column usa-width-one-half"><p class="interaction">' + interaction_string + '</p></div>')
-                    .appendTo($prompt)
-                  var $column = $('<div class="column usa-width-one-half"></div>')
-                    .appendTo($prompt)
-                  var contaminantType = 'RoutineContaminants';
-                  if (item.Symbol == 'Ecoli' || item.Symbol == 'Bac') {
-                    contaminantType = 'BacterialContaminants';
-                  } else if (item.Symbol == 'Ur') {
-                    contaminantType = 'RadionuclideContaminants';
-                  }
-                  // we will use the existing form to submit the updated values
-                  var $input = $('<input class="one-third offset-one-third" type="number" step="0.001">')
-                    .on('change', function() {
-                      $('[name="' + contaminantType + '[' + item.Symbol + '][Value]"]').val($(this).val())
-                    })
-                    .appendTo($column)
-
-                  var $select = $('<select class="one-third" ></select>')
-                    .html($('[name="' + contaminantType + '[' + item.Symbol + '][Unit]"]').html())
-                    .on('change', function() {
-                      $('[name="' + contaminantType + '[' + item.Symbol + '][Unit]"]').val($(this).val())
-                    })
-                    .appendTo($column)
-                }
-                else {
-                  $item.removeClass('hide')
-                }
-              })
-              $interactive_prompts.removeClass('hide')
-            }
-            showElementOutOfMany($form_wrapper, $all_wrappers);
-            $('#entry-tab').text('Entry');
-          }
-          // If there are no additional questions we should have results
-          else if (!!be_well_response_json.data.ResultEvaluations) {
-            // Additional resets
-            $('#interactive-prompts').html('');
-
-            // Use two separate instances of Datatable configs for both datatables
-            var default_datatable_result_details_options = {
-              dom: 't',
-              bLengthChange: false,
-              bAutoWidth: false,
-              bSort: false,
-              columnDefs: [
-                {className: "small-screen-td-header", "targets": [0]}
-              ],
-              createdRow: function(row, data, dataIndex) {
-                // Add data-title attributes to row
-                $(row).find('td:eq(0)').attr('data-title', 'Result');
-                $(row).find('td:eq(1)').attr('data-title', 'Element');
-                $(row).find('td:eq(2)').attr('data-title', 'Your Entry');
-                $(row).find('td:eq(3)').attr('data-title', 'Limit');
-                $(row).find('td:eq(4)').attr('data-title', 'About Your Well Water');
-              },
-              data: be_well_response_json.data.result_summary,
-              paging: false
-            };
-
-            var default_datatable_result_summary_options = {
-              dom: 't',
-              bLengthChange: false,
-              bAutoWidth: false,
-              bSort: false,
-              columnDefs: [
-                {className: "small-screen-td-header", "targets": [0]}
-              ],
-              createdRow: function(row, data, dataIndex) {
-                // Add data-title attributes to row
-                $(row).find('td:eq(0)').attr('data-title', 'Result');
-                $(row).find('td:eq(1)').attr('data-title', 'Element');
-                $(row).find('td:eq(2)').attr('data-title', 'Your Entry');
-                $(row).find('td:eq(3)').attr('data-title', 'Limit');
-                $(row).find('td:eq(4)').attr('data-title', 'About Your Well Water');
-              },
-              data: be_well_response_json.data.result_summary,
-              paging: false
-            };
-
-            $table = $('<table id="be-well-informed-results-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
-            $table.appendTo('.be-well-informed-results').DataTable(default_datatable_result_summary_options);
-
-            $table = $('<table id="be-well-informed-result-details-table" class="eportal-responsive-table usa-table-borderless"> <thead> <tr> <th>Result</th> <th>Element</th> <th>Your Entry</th> <th>Limit</th> <th>About Your Well Water</th> </tr> </thead> <tbody></tbody> </table>')
-            $table.appendTo('.be-well-informed-result-details').DataTable(default_datatable_result_details_options);
-
-            // Loop through and add trs to the summary table. Datatable does not support colspan
-            var result;
-            var row_index = 1;
-            var titles = ['Interpretation of Results:', 'Health Concerns:', 'Treatment Options:']
-            $.each(be_well_response_json.data.result_details, function(index, detail_obj) {
-              result = detail_obj.result;
-              if (detail_obj.data_array.length > 0) {
-                for (var i = 0; i < detail_obj.data_array.length; i++) {
-                  if (detail_obj.data_array[i] !== '') {
-                    $('#be-well-informed-result-details-table')
-                      .find('tr:eq(' + (row_index + index) + ')')
-                      .after('<tr><td class="bwi-detail-td ' + result + '" colspan="5"><h4>' + titles[i] + '</h4>' + detail_obj.data_array[i] + '</td></tr>');
-                    row_index++;
-                  }
-                }
-              }
-            });
-            var steps_count = Object.keys(be_well_response_json.data.TreatmentSteps).length;
-            // if we have values in the be_well_response_json.TreatmentSteps show the treatment steps section
-            if (be_well_response_json.data.TreatmentSteps && steps_count > 0) {
-              $('.treatment-header, .treatment-content').removeClass('hide');
-              $('#treatment_order_title').show();
-              // update title to include all contaminats that have TreatmentMessages != ''
-              var contaminants = [];
-              var excluded = ['Fe', 'NO2', 'Bac', 'Ecoli'];
-
-              for (var contaminate in be_well_response_json.data.ResultEvaluations) {
-                if (excluded.indexOf(contaminate) == -1 && be_well_response_json.data.ResultEvaluations[contaminate].GuidelineColor == "font-red") {
-                  contaminants.push(be_well_response_json.data.ResultEvaluations[contaminate].ContaminantFullName)
-                }
-              }
-
-              // handle multiple number of contaminats in the title
-              if (contaminants.length > 1) {
-                var last = contaminants.pop()
-                var title = contaminants.join(', ')
-                title += ' and ' + last
-              }
-              else {
-                title = contaminants.pop()
-              }
-              $('.treatment-text').html(title)
-
-              // update the steps labels to properly show the needed steps
-              var step_label = 1;
-              var toShow = [];
-              for (var step in be_well_response_json.data.TreatmentSteps) {
-                var $treatment = $('.treatment-step').eq(step);
-                $treatment.find('.step span').show();
-                $treatment.removeClass('hide')
-                    .find('.step span')
-                    .html('Step ' + step_label);
-
-                if($treatment.find('.step span').hasClass('no-step')) {
-                  $treatment.find('.step span').removeClass('no-step');
-                  $treatment.find('.step span').addClass('fill-step');
-                }
-
-                //Hide label if results contain only one treatment step.
-                if(steps_count <= 1) {
-                  $treatment.find('.step span').removeClass('fill-step');
-                  $treatment.find('.step span').addClass("no-step");
-                  $treatment.find('.step span').html('');
-                }
-
-                be_well_response_json.data.TreatmentSteps[step].OrInstructions.map(function(item, index, list) {
-                  $treatment.find('[title="' + item.Recommendation + '"]')
-                    .removeClass('hide')
-                  var cssClass = '.system-type-' + item.SystemType.toLowerCase()
-                  if (toShow.indexOf(cssClass) == -1) {
-                    toShow.push(cssClass)
-                  }
-                });
-                step_label++;
-                // update visibility of boxes and their instructions
-
-              }
-
-              // Hide the header if results contain only one treatment step
-              if(steps_count <= 1) {
-                $('#treatment_order_title').hide();
-                //$("div .step span .treatment-icon .step-icon").hide();
-              }
-
-              $(toShow.join(', ')).removeClass('hide')
-
-              jQuery('.or + .box-main.hide').each(function() {
-                var $this = jQuery(this);
-                $this.prev().addClass('hide')
-              })
-              $('.treatment-step:visible').eq(0).find('.caret').addClass('hide')
-
-            }
-
-            $('.contaminant-link').click(function() {
-              var $this = $(this)
-              $('[id=' + $this.attr('data-contaminant') + ']', $(this).parents('td')).slideToggle()
-            })
-            showElementOutOfMany($results_wrapper, $all_wrappers);
-            $('#entry-tab').text('Results');
-          }
-          resizeModal();
-        }
-        else {
-          showElementOutOfMany($results_wrapper, $all_wrappers);
-          $('#entry-tab').text('Results');
-        }
-        resizeModal();
-      }
-    });
-  });
 
   /**
    * Close Listener on BWI Modal
@@ -524,6 +309,7 @@ function resetBWIForm() {
     $('#water_analysis_reset').removeClass('invisible')
     showElementOutOfMany($form_wrapper, $all_wrappers);
     $('#entry-tab').text('Entry');
+    $('#edit-bwi-results').hide();
     resizeModal();
     $("html, body").animate({scrollTop: $('.pane-be-well-informed').offset().top}, 500);
   });

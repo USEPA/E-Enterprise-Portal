@@ -1,0 +1,131 @@
+<?php
+
+/**
+ * This module offers Wincache support for Drupal, including
+ * statistics gathering and cache usage control.
+ */
+
+// Check usercache usage, do that on all requests.
+register_shutdown_function('wincachedrupal_shutdown_check_caches');
+
+/**
+ * Implements hook_menu().
+ */
+function wincachedrupal_menu() {
+  $items['admin/reports/status/wincache'] = array(
+    'title' => 'Wincache',
+    'page callback' => 'WincacheDrupalStatsPageCallback',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+    'file' => 'wincachedrupal.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function wincachedrupal_admin_paths() {
+  $paths = array(
+    // This page should not be treated as administrative since it outputs its
+    // own content (outside of any administration theme).
+    'admin/reports/status/wincache' => FALSE,
+  );
+  return $paths;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function wincachedrupal_permission() {
+  return array(
+    'access wincache statistics' => array(
+      'title' => t('Access wincache statistics'),
+      'description' => t('Allows access to the statistics reports of WinCache.'),
+    ),
+  );
+}
+
+/**
+ * Check the status of the user cache, and if full,
+ * clear data.
+ */
+function wincachedrupal_check_ucache() {
+  $threshold = 0.1;
+  // Make sure that the user cache is not FULL
+  $user_cache_available = function_exists('wincache_ucache_info') && !strcmp(ini_get('wincache.ucenabled'), "1");
+  if ($user_cache_available) {
+    $ucache_mem_info = wincache_ucache_meminfo();
+    // Under some situations WincacheDrupal will fail to report
+    // any data through wincache_ucache_meminfo().
+    if (!empty($ucache_mem_info)) {
+      $ucache_available_memory = $ucache_mem_info['memory_total'] - $ucache_mem_info['memory_overhead'];
+      $free_memory_ratio = $ucache_mem_info['memory_free'] / $ucache_available_memory;
+      // If free memory is below 10% of total
+      // do a cache wipe!
+      if ($free_memory_ratio < $threshold) {
+        $params = array();
+        $params["@free"] = round($ucache_mem_info['memory_free'] / 1024, 0);
+        $params["@total"] = round($ucache_mem_info['memory_total'] / 1024, 0);
+        $params["@avail"] = round($ucache_available_memory / 1024, 0);
+        watchdog('WincacheDrupal', 'Usercache threshold limit reached. @free Kb free out of @avail Kb available from a total of @total Kb. Cache cleared.', $params, WATCHDOG_DEBUG);
+        wincache_ucache_clear();
+      }
+    }
+  }
+}
+
+/**
+ * Check the status of the session cache and if full,
+ * clear sessions.
+ */
+function wincachedrupal_check_scache() {
+  $threshold = 0.1;
+  // Make sure that the session cache is not FULL! Otherwise people will not be able to login anymore...
+  $scache_mem_info = wincache_scache_meminfo();
+  if (!empty($ucache_mem_info)) {
+    $scache_available_memory = $scache_mem_info['memory_total'] - $scache_mem_info['memory_overhead'];
+    $free_memory_ratio = $scache_mem_info['memory_free'] / $scache_available_memory;
+    if ($free_memory_ratio < $threshold) {
+      // There is no way of clearing sessions...
+      // but this one!
+      $current_id = session_id();
+      $scache_info = wincache_scache_info();
+      // Destroy all session.
+      foreach ($scache_info['scache_entries'] as $entry) {
+        // Do not delete own session.
+        if ($current_id == $entry['key_name']) {
+          continue;
+        }
+        session_id($entry['key_name']);
+        session_start();
+        session_destroy();
+        session_write_close();
+      }
+      // When there is only one session and that is ours,
+      // calling session_start will fail because current
+      // session was not destroyed.
+      if (session_status() == PHP_SESSION_NONE) {
+        session_id($current_id);
+        session_start();
+      }
+      $params = array();
+      $params["@free"] = round($scache_mem_info['memory_free'] / 1024, 0);
+      $params["@total"] = round($scache_mem_info['memory_total'] / 1024, 0);
+      $params["@avail"] = round($scache_available_memory / 1024, 0);
+      watchdog('WincacheDrupal', 'SessionCache threshold limit reached. @free Kb free out of @avail Kb available from a total of @total Kb. Items cleared.', $params, WATCHDOG_DEBUG);
+    }
+  }
+}
+
+/**
+ * Shutdown function to verifiy user cache usage.
+ *
+ * If you run out of User cache in Wincache, the application
+ * will start loosing performance at the speed of light.
+ *
+ */
+function wincachedrupal_shutdown_check_caches() {
+  wincachedrupal_check_scache();
+  wincachedrupal_check_ucache();
+}

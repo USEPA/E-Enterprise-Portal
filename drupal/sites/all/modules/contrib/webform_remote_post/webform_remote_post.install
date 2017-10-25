@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * @file
+ * Module install/schema hooks.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function webform_remote_post_schema() {
+  $schema = array();
+
+  $schema['webform_remote_post_targets'] = array(
+    'description' => 'Holds information regarding submission forwards that should be sent for each valid form submission',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'The node identifier of a webform.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'tid' => array(
+        'description' => 'The URL target identifier.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'size' => 'small',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'url' => array(
+        'description' => 'The http address that will be used to post upon submission.',
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'label' => array(
+        'description' => 'The label given to the URL target that we are posting to.',
+        'type' => 'text',
+        'not null' => FALSE,
+      ),
+      'enabled' => array(
+        'description' => 'Should we post to this target?',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 1,
+      ),
+      'type' => array(
+        'description' => 'The type of content to send remotely.',
+        'type' => 'text',
+        'not null' => FALSE,
+      ),      
+    ),
+    'primary key' => array('nid', 'tid'),
+  );
+
+  return $schema;
+}
+
+
+
+/**
+ * First update for the post type
+ */
+function webform_remote_post_update_7100(&$sandbox) {
+  $new_field = array(
+    'description' => 'The type of content to send remotely.',
+    'type' => 'text',
+    'not null' => FALSE,
+  );    
+  db_add_field('webform_remote_post_targets', 'type', $new_field);
+}

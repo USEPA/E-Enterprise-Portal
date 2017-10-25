@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Proactively prevents Drupal from identifying SQLSRV PHP module functions as
+ * hook implementations.
+ *
+ * See http://php.net/manual/en/book.sqlsrv.php
+ *
+ * Known conflicts: Services module, hook_server_info
+ */
+function sqlsrv_module_implements_alter(&$implementations, $hook) {
+  if (in_array($hook, array(
+    'server_info',
+    'begin_transaction',
+    'cancel',
+    'client_info',
+    'close',
+    'commit',
+    'configure',
+    'connect',
+    'errors',
+    'execute',
+    'fetch_array',
+    'fetch_object',
+    'fetch',
+    'field_metadata',
+    'free_stmt',
+    'get_config',
+    'get_field',
+    'has_rows',
+    'next_result',
+    'num_fields',
+    'num_rows',
+    'prepare',
+    'query',
+    'rollback',
+    'rows_affected',
+    'send_stream_data',
+  ))) {
+    unset($implementations['sqlsrv']);
+  }
+}

@@ -426,9 +426,9 @@ function cr_resizeGuestModal() {
       ) {
         html_to_add.push('<ul class="cr-lists">');
         for(var index in json.data.laws_regs) {
-          var cfr_id = json.data.laws_regs[index].cfr_id;
-          fav_holder = create_favlaw_heart(cfr_id);
-          html_to_add.push('<li><span class="law-entry"><a data-favtype="Law" data-epaintnum="' + cfr_id + '" href="'+ json.data.laws_regs[index].attributes.url +'" target="_blank">' + json.data.laws_regs[index].attributes.citation + " &mdash; " +
+          var object_id = json.data.laws_regs[index].object_id;
+          fav_holder = create_favlaw_heart(object_id);
+          html_to_add.push('<li><span class="law-entry"><a data-favtype="Law" data-epaintnum="' + object_id + '" href="'+ json.data.laws_regs[index].attributes.url +'" target="_blank">' + json.data.laws_regs[index].attributes.citation + " &mdash; " +
             json.data.laws_regs[index].attributes.title +
             ' (' + json.data.laws_regs[index].meta_data.year + ')</a>' + fav_holder + '</span>');
           html_to_add.push('<span class="law-citation">Authority: ' + json.data.laws_regs[index].attributes.cfr_authority + '</span>');

@@ -45,4 +45,3 @@ class AdfsConf {
         return self::$_instance;
     }
 }
-?>

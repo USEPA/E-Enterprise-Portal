@@ -1,0 +1,15 @@
+name = WinCacheDrupal
+description = Wincache Cache Backend UI and Statistics.
+package = Caching
+core = 7.x
+php = 5.5
+
+; Files that contain classes:
+files[] = tests/wincache.test
+
+; Information added by Drupal.org packaging script on 2016-10-13
+version = "7.x-1.12"
+core = "7.x"
+project = "wincachedrupal"
+datestamp = "1476367740"
+

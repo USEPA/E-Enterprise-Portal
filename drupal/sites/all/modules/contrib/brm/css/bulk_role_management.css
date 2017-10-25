@@ -1,0 +1,11 @@
+/* bulk_role_management.css */
+
+#edit-roles {
+  height: 150px;
+  overflow: auto;
+  border: #ccc;
+  border-style: solid;
+  border-width: 1px;
+  padding: 5px;
+  background-color: #f1eded;
+}

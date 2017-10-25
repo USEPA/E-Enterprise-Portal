@@ -50,12 +50,13 @@ class AdfsBridge
      * @return string
      * Convert x509 cert to given hash function
      */
-    function x509_fingerprint($cert, $hash) {
-        $hash = in_array($hash,array('sha1','md5','sha256')) ? $hash: 'sha1';
-        $fingerprint = preg_replace('/\-+BEGIN CERTIFICATE\-+/','',$cert);
-        $fingerprint = preg_replace('/\-+END CERTIFICATE\-+/','',$fingerprint);
-        $fingerprint = str_replace( array("\n","\r"), '', trim($fingerprint));
-        return strtoupper(hash($hash,base64_decode($fingerprint)));
+    function x509_fingerprint($cert, $hash)
+    {
+        $hash = in_array($hash, array('sha1', 'md5', 'sha256')) ? $hash : 'sha1';
+        $fingerprint = preg_replace('/\-+BEGIN CERTIFICATE\-+/', '', $cert);
+        $fingerprint = preg_replace('/\-+END CERTIFICATE\-+/', '', $fingerprint);
+        $fingerprint = str_replace(array("\n", "\r"), '', trim($fingerprint));
+        return strtoupper(hash($hash, base64_decode($fingerprint)));
     }
 
     /**
@@ -63,9 +64,10 @@ class AdfsBridge
      * @return bool
      * Confirm signature contains x509 cert that is an accepted peer
      */
-    function samlPeerVerified($signatureObj) {
+    function samlPeerVerified($signatureObj)
+    {
         $x509Cert = trim($signatureObj->getElementsByTagName('X509Certificate')->item(0)->nodeValue);
-        $fingerprint = implode(":", str_split( self::x509_fingerprint($x509Cert,$hash='sha1'), 2));
+        $fingerprint = implode(":", str_split(self::x509_fingerprint($x509Cert, $hash = 'sha1'), 2));
         $saml_peers = explode('|', trim(variable_get('saml_peers')));
         if (in_array($fingerprint, $saml_peers)) {
             return true;
@@ -100,6 +102,7 @@ class AdfsBridge
         $xpath = new DOMXpath($dom);
         $xpath->registerNamespace('wst', 'http://schemas.xmlsoap.org/ws/2005/02/trust');
         $xpath->registerNamespace('saml', 'urn:oasis:names:tc:SAML:1.0:assertion');
+        $xpath->registerNamespace('saml2', 'urn:oasis:names:tc:SAML:2.0:assertion');
         $xpath->registerNamespace('xenc', 'http://www.w3.org/2001/04/xmlenc#');
         $xpath->registerNamespace('xdsig', 'http://www.w3.org/2000/09/xmldsig#');
 
@@ -259,6 +262,7 @@ class AdfsBridge
         } else {
             // Find the saml:Assertion element in the response.
             $assertions = $xpath->query('/trust:RequestSecurityTokenResponseCollection/trust:RequestSecurityTokenResponse/trust:RequestedSecurityToken/saml:Assertion');
+            $saml = 'saml';
             if ($assertions->length === 0) {
                 $exception_msg = 'Received an ADFS response without an assertion.';
                 watchdog('eenterprise_bridge_auth', $exception_msg, array(), WATCHDOG_ERROR);
@@ -273,7 +277,7 @@ class AdfsBridge
         }
 
         // Check time constraints of contitions (if present).
-        foreach ($xpath->query('./saml:Conditions', $assertion) as $condition) {
+        foreach ($xpath->query('./' . $saml . ':Conditions', $assertion) as $condition) {
             $notBefore = $condition->getAttribute('NotBefore');
             $notOnOrAfter = $condition->getAttribute('NotOnOrAfter');
             if (!$this->checkCurrentTime($notBefore, $notOnOrAfter)) {
@@ -284,27 +288,34 @@ class AdfsBridge
         }
         // Create the user details response object.
         $userDetails = new AdfsUserDetails();
-        // Extract the name identifier from the response.
-        $nameid = $xpath->query('./saml:AuthenticationStatement/saml:Subject/saml:SubjectConfirmation/saml:ConfirmationMethod', $assertion);
-        if ($nameid->length === 0) {
-            $exception_msg = 'Could not find the name identifier in the response from the WS-Fed.';
-            watchdog('eenterprise_bridge_auth', $exception_msg, array(), WATCHDOG_ERROR);
-            throw new NoNameIdentifierException($exception_msg);
+        if ($saml === 'saml') {
+            // Extract the name identifier from the response.
+            $nameid = $xpath->query('./' . $saml . ':AuthenticationStatement/' . $saml . ':Subject/' . $saml . ':SubjectConfirmation/' . $saml . ':ConfirmationMethod', $assertion);
+            if ($nameid->length === 0) {
+                $exception_msg = 'Could not find the name identifier in the response from the WS-Fed.';
+                watchdog('eenterprise_bridge_auth', $exception_msg, array(), WATCHDOG_ERROR);
+                throw new NoNameIdentifierException($exception_msg);
+            }
+            $userDetails->nameIdentifier = $nameid->item(0)->textContent;
+            $userDetails->nameIdentifierFormat = $nameid->item(0)->getAttribute('Format');
         }
-        $userDetails->nameIdentifier = $nameid->item(0)->textContent;
-        $userDetails->nameIdentifierFormat = $nameid->item(0)->getAttribute('Format');
         //*/ Extract the attributes from the response.
         $userDetails->attributes = array();
-        $attributeValues = $xpath->query('./saml:AttributeStatement/saml:Attribute/saml:AttributeValue', $assertion);
+        $attributeValues = $xpath->query('./' . $saml . ':AttributeStatement/' . $saml . ':Attribute/' . $saml . ':AttributeValue', $assertion);
 
         //Extract a node from the result XML that contains the Authentication Method attribute and pass it to userDetails.
-        $authMethodValues= $xpath->query('./saml:AuthenticationStatement', $assertion);
-        foreach($authMethodValues as $authMethodValue)
+        $authMethodValues = $xpath->query('./'. $saml . ':AuthenticationStatement', $assertion);
+        foreach ($authMethodValues as $authMethodValue) {
             $authMethod = $authMethodValue->getAttribute('AuthenticationMethod');
+        }
         $userDetails->attributes['authenticationMethod'] = $authMethod;
 
-      foreach ($attributeValues as $attribute) {
-            $name = $attribute->parentNode->getAttribute('AttributeName');
+        foreach ($attributeValues as $attribute) {
+            if ($saml === 'saml') {
+                $name = $attribute->parentNode->getAttribute('AttributeName');
+            } else {
+                $name = $attribute->parentNode->getAttribute('Name');
+            }
             $value = $attribute->textContent;
             if (!array_key_exists($name, $userDetails->attributes)) {
                 $userDetails->attributes[$name] = array();

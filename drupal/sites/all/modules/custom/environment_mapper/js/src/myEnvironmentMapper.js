@@ -27,8 +27,6 @@
         previousZip = currentZip;
       }
     });
-
-
   });
 
 

@@ -50,3 +50,57 @@ function site_deployment_update_7603(){
   drupal_flush_all_caches();
 }
 
+
+/**
+ * Add new roles
+ */
+function site_deployment_update_7604() {
+  $roles = array('logged_in_user');
+
+  foreach($roles as $name) {
+    $existing_role = user_role_load_by_name($name);
+    if (empty($existing_role)) {
+      $role = new stdClass();
+      $role->name = $name;
+      user_role_save($role);
+    }
+  }
+}
+
+/**
+ * Add new roles
+ */
+function site_deployment_update_7605() {
+  module_enable(['bulk_role_management']);
+}
+
+// Sprint 34
+
+/**
+ * Add role for Be Well Informed admin
+ */
+function site_deployment_update_7606() {
+  /**
+   * Add role for Drupal External Be Well Informed Admin/
+   */
+  $name = "Be Well Informed External Admin";
+  $existing_role = user_role_load_by_name($name);
+  if (empty($existing_role)) {
+    $role = new stdClass();
+    $role->name = $name;
+    $role->machine_name = "bwi_external_admin";
+    $role->description = "Allow external partner to login and" .
+      " edit their assigned state/tribe BWI configurations.";
+    user_role_save($role);
+  }
+}
+
+
+
+/**
+ * Enable Testing module
+ */
+function site_deployment_update_7607() {
+
+  module_enable(['simpletest', 'site_test']);
+}

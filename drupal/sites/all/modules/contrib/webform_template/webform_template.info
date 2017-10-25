@@ -1,0 +1,14 @@
+;$Id$
+name = Webform Template
+description = Allows usage of webform-enabled content as templates for other webforms.
+core = 7.x
+package = Webform
+dependencies[] = webform (>=4.x)
+
+configure = admin/config/content/webform_template
+; Information added by Drupal.org packaging script on 2015-09-15
+version = "7.x-4.0"
+core = "7.x"
+project = "webform_template"
+datestamp = "1442331851"
+

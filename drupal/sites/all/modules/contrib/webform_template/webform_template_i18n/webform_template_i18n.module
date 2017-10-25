@@ -1,0 +1,121 @@
+<?php
+
+/**
+ * @file
+ * Webform Localization integration module for webform template.
+ */
+
+/**
+ * Implements hook_webform_template_show_selection_alter().
+ *
+ * Do not show the template form on translation edit when using a single webform.
+ */
+function webform_template_i18n_webform_template_show_selection_alter(&$show, $context) {
+  $form = $context;
+  // In case a new translation is created.
+  if (isset($form['#node']->translation_source)) {
+    if ($form['#node']->translation_source->tnid > 0) {
+      // There is already a translation set.
+      $conf = webform_localization_get_config($form['#node']->translation_source->tnid);
+    }
+    else {
+      // No translation set, we are creating the first translation.
+      $conf = webform_localization_get_config($form['#node']->translation_source->nid);
+    }
+    if ($conf['single_webform'] > 0) {
+      $show = FALSE;
+    }
+  }
+  // In case a translation is edited.
+  elseif (isset($form['#node']->tnid) && $form['#node']->nid != $form['#node']->tnid) {
+    $conf = webform_localization_get_config($form['#node']->tnid);
+    if ($conf['single_webform'] > 0) {
+      $show = FALSE;
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function webform_template_i18n_form_node_form_alter(&$form, &$form_state) {
+  if (isset($form['webform_template']) && isset($form['webform_template']['source'])) {
+    $query = db_select('webform_localization', 'wl');
+    $query->fields('n', array('nid'));
+    $query->condition('wl.single_webform', 0, '>');
+    $query->innerJoin('node', 'n', 'n.tnid = wl.nid AND n.nid != n.tnid');
+    $components = $query->execute()->fetchAllKeyed(0, 0);
+    $options = array_diff_key($form['webform_template']['source']['#options'], $components);
+    $form['webform_template']['source']['#options'] = $options;
+  }
+}
+
+/**
+ * Implements hook_webform_template_insert($node, $template).
+ *
+ * @param type $node
+ * @param type $template
+ */
+function webform_template_i18n_webform_template_insert($node, $template) {
+  // Attach translations.
+  _webform_template_i18n_attach($node, $template);
+}
+
+/**
+ * Implements hook_webform_template_update($node, $template).
+ *
+ * @param type $node
+ * @param type $template
+ */
+function webform_template_i18n_webform_template_update($node, $template) {
+  // Perform cleanup.
+  db_delete('i18n_string')
+    ->condition('textgroup', 'webform', '=')
+    ->condition('type', $node->nid, '=');
+
+  // Attach translations.
+  _webform_template_i18n_attach($node, $template);
+}
+
+/**
+ * Attach string translations.
+ *
+ * @param type $node
+ * @param type $template
+ */
+function _webform_template_i18n_attach($node, $template) {
+  $prev_options = webform_localization_get_config($node->nid);
+  $template_options = webform_localization_get_config($template->nid);
+  $webform_localization_options = array(
+    'nid' => $node->nid,
+    'expose_strings' => (int) $template_options['expose_strings'],
+    'sync_components' => (int) $template_options['sync_components'],
+    'sync_roles' => (int) $template_options['sync_roles'],
+    'sync_emails' => (int) $template_options['sync_emails'],
+    'single_webform' => ($template_options['single_webform'] > 0) ? $node->nid : 0,
+    'webform_properties' => serialize($template_options['webform_properties']),
+  );
+  if (isset($prev_options['no_persistent'])) {
+    drupal_write_record('webform_localization', $webform_localization_options);
+  }
+  else {
+    drupal_write_record('webform_localization', $webform_localization_options, array('nid'));
+  }
+  // Add all available i18n string translations.
+  if ((bool)$template_options['expose_strings']) {
+    foreach (locale_language_list() as $enabled_lang => $enabled_lang_full) {
+      $i18nstrings = i18n_string_translation_search('webform:' . $template->nid . ':*:*', $enabled_lang);
+      foreach ($i18nstrings as $s) {
+        if (isset($s->translations)) {
+          $source_string = i18n_string_get_source($s->location);
+          foreach ($s->translations as $lang => $translation) {
+            $name = $s->textgroup . ':' . $node->nid . ':' . $s->objectid . ':' . $s->property;
+            $translation = $translation;
+            $langcode = $lang;
+            i18n_string_translation_update($name, $translation, $langcode, $source_string->source);
+          }
+        }
+      }
+    }
+  }
+}

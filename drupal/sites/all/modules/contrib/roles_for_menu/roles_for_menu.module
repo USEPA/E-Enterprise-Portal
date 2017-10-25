@@ -1,0 +1,153 @@
+<?php
+
+/**
+ * @file
+ * Adding roles for menu functionality.
+ *
+ * Alters the menu item form to allow the administrator to specify for
+ * which roles to show the menu item.
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function roles_for_menu_permission() {
+  return array(
+    'administer roles for menu' => array(
+      'title' => t('Administer roles for menu'),
+      'description' => t('Administer roles for menu.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function roles_for_menu_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'translated_menu_link_alter') {
+    $group = $implementations['roles_for_menu'];
+    unset($implementations['roles_for_menu']);
+    $implementations['roles_for_menu'] = $group;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds roles for menu options to the edit menu item form.
+ *
+ * @see menu_edit_item()
+ * @see _roles_for_menu_form_alter()
+ * @see roles_for_menu_form_menu_edit_item_submit()
+ */
+function roles_for_menu_form_menu_edit_item_alter(&$form, &$form_state, $form_id) {
+  $item = $form['original_item']['#value'];
+  _roles_for_menu_form_alter($form, $item, $form);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds roles for menu options to the node's edit menu item form.
+ *
+ * @see _roles_for_menu_form_alter()
+ */
+function roles_for_menu_form_node_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['menu']['link'])) {
+    $item = $form['#node']->menu;
+    _roles_for_menu_form_alter($form['menu']['link'], $item, $form);
+    $form['menu']['link']['options']['attributes']['#type'] = 'container';
+  }
+}
+
+/**
+ * Add the options to choose roles for a menu item on edit form.
+ *
+ * @param array $form
+ *   The menu item edit form passed by reference.
+ * @param array $item
+ *   The optional existing menu item for context.
+ */
+function _roles_for_menu_form_alter(array &$form, array $item, array &$complete_form) {
+  // Restrict access to the new form elements.
+  $form['options']['roles_for_menu']['#access'] = user_access('administer roles for menu');
+
+  $form['options']['#tree'] = TRUE;
+  $form['options']['#weight'] = 50;
+
+  // Unset the previous value so that the new values get saved.
+  unset($form['options']['#value']['roles_for_menu']);
+
+  $form['options']['roles_for_menu'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Show/hide menu for specific roles'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#tree' => TRUE,
+  );
+
+  $form['options']['roles_for_menu']['show'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Show menu item for specific roles'),
+    '#options' => array_map('check_plain', user_roles()),
+    '#default_value' => (isset($item['options']['roles_for_menu']['show'])) ? $item['options']['roles_for_menu']['show'] : array(),
+    '#description' => t('User with at least one of this roles will see the menu item. If no roles are selected the menu will be always visible.'),
+  );
+
+  $form['options']['roles_for_menu']['hide'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Hide menu item from specific roles'),
+    '#options' => array_map('check_plain', user_roles()),
+    '#default_value' => (isset($item['options']['roles_for_menu']['hide'])) ? $item['options']['roles_for_menu']['hide'] : array(),
+    '#description' => t('User with at least one of this roles will not see the menu item. If no roles are selected the menu will be always visible.'),
+  );
+
+  $form['options']['roles_for_menu']['#access'] = (bool) element_get_visible_children($form['options']['roles_for_menu']);
+}
+
+/**
+ * Implements hook_menu_link_alter().
+ */
+function roles_for_menu_menu_link_alter(&$item) {
+  // Filter out selected option.
+  if (isset($item['options']['roles_for_menu']) && is_array($item['options']['roles_for_menu'])) {
+    foreach ($item['options']['roles_for_menu'] as $type => $roles) {
+      if (is_array($roles)) {
+        foreach ($roles as $role_id => $role) {
+          if (!$role) {
+            unset($item['options']['roles_for_menu'][$type][$role_id]);
+          }
+          else {
+            // Activate hook_translated_menu_link_alter
+            $item['options']['alter'] = TRUE;
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_translated_menu_link_alter().
+ */
+function roles_for_menu_translated_menu_link_alter(&$item, $map) {
+  global $user;
+
+  // Check the role for access if it is not false.
+  if ($item['access']) {
+    // Don't hide from administrators.
+    if (arg(0) == 'admin' && arg(1) == 'structure') {
+      if (arg(2) == 'menu' || arg(2) == 'features') {
+        return;
+      }
+    }
+
+    if (!empty($item['options']['roles_for_menu']['hide']) && array_intersect($item['options']['roles_for_menu']['hide'], array_keys($user->roles))) {
+      $item['access'] = FALSE;
+    }
+
+    if (!empty($item['options']['roles_for_menu']['show']) && !array_intersect($item['options']['roles_for_menu']['show'], array_keys($user->roles))) {
+      $item['access'] = FALSE;
+    }
+  }
+}

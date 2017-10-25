@@ -19,11 +19,6 @@ if(drupal_is_front_page()) {
 if(arg(0) == 'workbench' && $user->uid == 0){
     drupal_goto("/");
 }
-/*
-elseif (arg(0) == 'workbench' && $user->uid > 0) {
-	drupal_add_js(drupal_get_path('theme', 'eenterprise') ."/js/pace.min.js", "file");
-}
-*/
 
 $user_data = user_load($user->uid);
 if ($user->name == 'guest-user') {
@@ -100,7 +95,7 @@ else {
     <?php print render($page['header']); ?>
 </header>
 <?php print render($page['navigation']); ?>
-<section class="main-content usa-grid" role="main">
+<section class="main-content usa-grid grid-stack-loading" role="main">
   <?php print render($page['preface']); ?>
   <?php print render($page['highlighted']); ?>
   <div id="content" class="usa-width-one-whole">

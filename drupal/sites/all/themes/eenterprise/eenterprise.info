@@ -11,7 +11,6 @@ stylesheets[all][] = system.theme.css
 
 ; Then we add our own stylesheet.
 stylesheets[all][] = css/google-fonts.css
-stylesheets[all][] = css/gridstack.css
 stylesheets[all][] = css/styles.css
 
 ; REGIONS
@@ -36,15 +35,12 @@ regions[page_top]       = Page top
 regions[page_bottom]    = Page bottom
 
 ; SCRIPTS
+scripts[] = ../../libraries/jqueryui/ui/minified/jquery-ui.min.js
 scripts[] = js/script.js
 scripts[] = js/mobile-menu.js
 scripts[] = js/drop-down-menu.js
 scripts[] = js/eenterprise_utility.js
-scripts[] = ../../libraries/jqueryui/ui/minified/jquery-ui.min.js
-scripts[] = js/lodash.min.js
-scripts[] = js/gridstack.js
 scripts[] = js/bootstrap.tooltip.js
-;scripts[] = js/components.js
 
 ; FEATURES
 features[] = logo

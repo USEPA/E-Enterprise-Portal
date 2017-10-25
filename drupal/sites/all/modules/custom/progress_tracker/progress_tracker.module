@@ -27,6 +27,7 @@ function progress_tracker_block_info() {
   $blocks = array();
   $blocks['progress_tracker'] = array(
     'info' => t('Progress Tracker Block'),
+    'cache' => DRUPAL_CACHE_PER_USER
   );
   return $blocks;
 }
@@ -80,7 +81,7 @@ function progress_tracker_block_view($delta = '') {
       'cache' => TRUE,
       'requires_jquery' => TRUE
     ]);
-
+    
     drupal_add_js(drupal_get_path('module', 'progress_tracker') . '/js/progress_tracker.js', [
       'scope' => 'footer',
       'preprocess' => TRUE,
@@ -99,7 +100,6 @@ function progress_tracker_block_view($delta = '') {
       // Set Modal Template
       $status_details_html = theme('pt_status_modal');
       drupal_add_js(array("progressTrackerStatusModal" => $status_details_html), 'setting');
-
 
       $block['subject'] = t('Progress Tracker');
       $block['content'] = theme('progress_tracker');
