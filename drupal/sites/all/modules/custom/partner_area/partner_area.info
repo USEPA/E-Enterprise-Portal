@@ -6,5 +6,5 @@ package = CGI
 
 dependencies[] = ctools
 dependencies[] = views
-
-#files[] = wdk_pdf.module
+dependencies[] = page_manager
+dependencies[] = panels

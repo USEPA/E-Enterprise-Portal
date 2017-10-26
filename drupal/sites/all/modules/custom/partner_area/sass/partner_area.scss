@@ -1,0 +1,62 @@
+
+.partner-service-provider-item-list {
+    & > ul {
+        border-top: 1px solid #000;
+        & > li {
+            &:before {
+                content: '';
+            }
+            text-decoration: none;
+        }
+    }
+    .views-field {
+
+    }
+    .views-row.partner-service-provider-item {
+        border-bottom: 1px solid #000;
+        .views-label {
+            display: none;
+            font-weight:700;
+        }
+    }
+    .views-field-title {
+        .field-content {
+            font-size: 2rem;
+        }
+    }
+    .views-field-partner-service-instructions {
+
+    }
+    .views-field-partner-service-action-link {
+
+    }
+    .views-field-partner-service-action-link {
+        .field-content{
+            text-align: right;
+        }
+    }
+}
+
+@media(min-width: 768px) {
+    .partner-service-provider-item-list {
+        & > ul {
+            border-top: 1px solid #000;
+        }
+        .views-field {
+
+        }
+        .views-row.partner-service-provider-item {
+            .views-label {
+                display: none;
+                margin-top: -2em;
+            }
+
+            &.views-row-first {
+                .views-label {
+                    display: block;
+                    margin-top: -1.3em;
+                }
+            }
+        }
+    }
+}
