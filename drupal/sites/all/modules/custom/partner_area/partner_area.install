@@ -61,7 +61,7 @@ function _add_partner_service_provider_content_type() {
       $instance = [
         'field_name' => $field['field_name'],
         'entity_type' => 'node',
-        'bundle' => $type['type'],
+        'bundle' => $type->type,
         'label' => t('Service Instructions'),
         'widget' => [array('type' => 'text_textarea')],
       ];
@@ -84,7 +84,7 @@ function _add_partner_service_provider_content_type() {
       $instance = [
         'field_name' => $field['field_name'],
         'entity_type' => 'node',
-        'bundle' => $type['type'],
+        'bundle' => $type->type,
         'label' => t('Service Action Link'),
         'widget' => array('type' => 'text_textfield'),
       ];
