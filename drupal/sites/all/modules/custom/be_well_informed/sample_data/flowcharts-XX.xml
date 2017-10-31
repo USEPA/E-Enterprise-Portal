@@ -1,0 +1,347 @@
+<FlowCharts>
+  <Sections>
+    <ContaminantGroupA>
+      <Name>Contaminant Group A</Name>
+    </ContaminantGroupA>
+    <ContaminantGroupB>
+      <Name>Contaminant Group B</Name>
+    </ContaminantGroupB>
+  </Sections>
+
+  <Conversions>
+    <!-- These conversions are multiplicative in nature.  The base unit is
+    selected and the unit that is being converted 'TO' is multiplied by the given
+    value (attribute) to find the new value. -->
+    <Conversion name="g/L">
+      <To name="mg/L" value="1000" />
+      <To name="µg/L" value="1000000" />
+      <To name="ppm" for="" value="1001.7961204" />
+      <To name="ppb" for="" value="1001796.1204" />
+    </Conversion>
+
+    <Conversion name="mg/L">
+      <To name="g/L" value="0.001" />
+      <To name="µg/L" value="1000" />
+      <To name="gpg" for="Ca" value="0.0584178313186289" />
+      <To name="ppm" for="" value="1.0017961204" />
+      <To name="ppb" for="" value="1001.7961204" />
+    </Conversion>
+
+    <Conversion name="µg/L">
+      <To name="g/L" value="0.000001" />
+      <To name="mg/L" value="0.001" />
+      <To name="pCi/L" for="Ur" value="0.0584795321637427" />
+      <To name="pCi/L" for="Ur" value="0.6666666666666667" />
+      <To name="ppm" for="" value=".0010017961204" />
+      <To name="ppb" for="" value="1.0017961204" />
+    </Conversion>
+
+    <Conversion name="ppm">
+      <To name="mg/L" for="Ur" value="0.998859" />
+      <To name="µg/L" for="Ur" value="998.859" />
+    </Conversion>
+
+    <Conversion name="ppb">
+      <To name="mg/L" for="Ur" value="0.000998859" />
+      <To name="µg/L" for="Ur" value="0.998859" />
+    </Conversion>
+
+    <Conversion name="gpg">
+      <To name="mg/L" for="Ca" value="17.118061" />
+      <To name="µg/L" for="Ca" value="17118.061" />
+    </Conversion>
+
+    <Conversion name="pCi/L">
+      <To name="µg/L" for="Ur" value="1.5" />
+    </Conversion>
+
+    <Conversion name="MPN/100 mL">
+      <To name="CFU/100 mL" for="Ur" value="1" />
+    </Conversion>
+
+    <Conversion name="CFU/100 mL">
+      <To name="MPN/100 mL" for="Ur" value="1" />
+    </Conversion>
+
+  </Conversions>
+
+  <Contaminants>
+
+    <Contaminant Section="ContaminantGroupA" Value="ConA" Text="Contaminant A" DefaultUnit="mg/L" Units="g/L|mg/L|µg/L" MCL="-">
+      <Condition CheckOperator="=" CheckValue="0">
+        <True>
+          <Outcome GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
+        </True>
+        <False>
+          <Condition CheckOperator="&gt;=" CheckValue="150.0">
+            <True>
+              <Prompt Text="Do you have mineral deposits or scaling on your plumbing fixtures?" >
+                <True>
+                  <Outcome IM="ConA1" HM="ConA1" TM="ConA1" TreatmentOrder="1b" GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
+                </True>
+                <False>
+                  <Outcome IM="ConA2" HM="ConA2" TM="ConA2" GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
+                </False>
+              </Prompt>
+            </True>
+            <False>
+                <Outcome IM="ConA3" HM="ConA3" TM="ConA3" GuidelineIcon="M" GuidelineText="There is no drinking water guideline or standard" />
+            </False>
+          </Condition>
+        </False>
+        <Missing>
+          <Outcome IM="ConA1" HM="ConA1" TM="ConA1" TreatmentOrder="1b" GuidelineIcon="E" GuidelineText="There is no drinking water guideline or standard" />
+        </Missing>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <ConA1>
+            <Content>
+              <b>Lorem ipsum</b> dolor sit amet, vix essent intellegat an, diam recusabo ei quo, eos ancillae theophrastus ei. Usu summo placerat et. Pri illum malorum disputationi at, mei ad doming iracundia. Meliore facilisis id nec, facer iudico ei nam, civibus accusata vis in.
+            </Content>
+          </ConA1>
+          <ConA2>
+            <Content>
+            </Content>
+          </ConA2>
+          <ConA3>
+            <Content>
+              <b>Vim malis</b> quidam maluisset no, ne tollit ancillae cum, te nec euismod inciderint. Vim ne malis petentium, everti scaevola usu ad. Errem offendit probatus et qui, eu nec legendos quaestio, te mea wisi nonumy. At aeterno scripserit vim, id posse inani civibus qui.
+            </Content>
+          </ConA3>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <ConA1>
+            <Content>
+              <b>Usu summo placerat et.</b> Pri illum malorum disputationi at, mei ad doming iracundia. Meliore facilisis id nec, facer iudico ei nam, civibus accusata vis in. Lorem ipsum dolor sit amet, vix essent intellegat an, diam recusabo ei quo, eos ancillae theophrastus ei. <br/>
+              <br/>
+              Vim ne malis petentium, everti scaevola usu ad. Errem offendit probatus et qui, eu nec legendos quaestio, te mea wisi nonumy. At aeterno scripserit vim, id posse inani civibus qui.
+            </Content>
+          </ConA1>
+          <ConA2>
+            <Content>
+            </Content>
+          </ConA2>
+          <ConA3>
+            <Content>
+              <b>Usu summo placerat et.</b> Pri illum malorum disputationi at, mei ad doming iracundia. Meliore facilisis id nec, facer iudico ei nam, civibus accusata vis in. Lorem ipsum dolor sit amet, vix essent intellegat an, diam recusabo ei quo, eos ancillae theophrastus ei. <br/>
+              <br/>
+              Vim ne malis petentium, everti scaevola usu ad. Errem offendit probatus et qui, eu nec legendos quaestio, te mea wisi nonumy. At aeterno scripserit vim, id posse inani civibus qui.
+            </Content>
+          </ConA3>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <ConA1>
+            <Content>
+              <b>Pri illum malorum disputationi at</b>, mei ad doming iracundia. Meliore facilisis id nec, facer iudico ei nam, civibus accusata vis in. Lorem ipsum dolor sit amet, vix essent intellegat an, diam recusabo ei quo<a target="_blank" href="http://example.com">Fact Sheet</a>.<br/>
+            </Content>
+          </ConA1>
+          <ConA2>
+            <Content>
+            </Content>
+          </ConA2>
+          <ConA3>
+            <Content>
+            </Content>
+          </ConA3>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+    <Contaminant Section="ContaminantGroupB" Value="ConB" Text="Contaminant B" DefaultUnit="mg/L" Units="g/L|mg/L|µg/L|ppm|ppb" MCL="250 mg/L">
+      <Condition CheckOperator=">=" CheckValue="250">
+        <True>
+          <Prompt Text="Does your water taste salty?" >
+            <True>
+              <Outcome IM="ConB1" HM="ConB1" TM="ConB1a" TreatmentOrder="5b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+            </True>
+            <False>
+              <Outcome IM="ConB1" HM="ConB1" TM="ConB1b" GuidelineIcon="E" GuidelineText="The value entered exceeds the drinking water guideline" />
+            </False>
+          </Prompt>
+        </True>
+        <False>
+          <Condition CheckOperator=">" CheckValue="0">
+            <True>
+              <Outcome IM="ConB2" HM="ConB2" TM="ConB2" GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+            </True>
+            <False>
+              <Outcome GuidelineIcon="M" GuidelineText="The value entered meets the drinking water guideline" />
+            </False>
+          </Condition>
+        </False>
+      </Condition>
+
+      <Outcomes>
+        <InterpretationMessages>
+          <ConB1>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/#Secondary"> drinking water guideline for Contaminant B</a>?
+              </b>  No, your water does not meet federal and state drinking water guidelines as it contains more than 250 mg/L of Contaminant B.
+            </Content>
+          </ConB1>
+          <ConB2>
+            <Content>
+              <b>
+                Does my well water meet the <a target="_blank" href="http://water.epa.gov/drink/contaminants/#Secondary"> drinking water guideline for Contaminant B</a>?
+              </b>  Yes, your water meets federal and state drinking water guidelines as it contains less than 250 mg/L of Contaminant B.
+            </Content>
+          </ConB2>
+        </InterpretationMessages>
+
+        <HealthMessages>
+          <ConB1>
+            <Content>
+              <b>Can consuming water containing Contaminant B affect my health?</b>  Consuming water containing Contaminant B alone is not harmful to your health; however, the presence of Contaminant B in your water may indicate that other pollutants may be present in your water supply.
+            </Content>
+          </ConB1>
+          <ConB2>
+            <Content>
+              <b>Can consuming water containing Contaminant B affect my health?</b>  Consuming water containing Contaminant B alone is not harmful to your health; however, the presence of Contaminant B in your water may indicate that other pollutants may be present in your water supply.
+            </Content>
+          </ConB2>
+        </HealthMessages>
+
+        <TreatmentMessages>
+          <ConB1a>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  If you haven’t already done so, you should also test your water for Contaminant A and Contaminant C.
+                </li>
+              </ol>
+              <br/>
+              <ul>
+                <li>
+                  Note, if you live near the seacoast, the level of Contaminant B in your well water may be naturally higher due to sea water or wind-blown sea spray; however, levels substantially higher than 150 mg/L may indicate pollution by human activities.
+                </li>
+              </ul>
+              <br/>
+
+              <div>
+                Take these steps to address potential sources of Contaminant B pollution:
+                <br/>
+                <ol>
+                  <li>
+                    Inspect the area around your wellhead for possible sources of pollution.  Remove any sources when possible.
+                  </li>
+                  <br/>
+                  <li>
+                    Make sure rain and melting snow are directed away from your wellhead.
+                  </li>
+                  <br/>
+                  <li>
+                    Contact your local health officer or Board of Selectman if you believe that the elevated levels of Contaminant B are associated with nearby land uses.
+                  </li>
+                  <br/>
+                </ol>
+                <br/>
+                <ul>
+                  <li>
+                    More information about treatment for Contaminant B can be found in <a target="_blank" href="http://example.com">Fact Sheet</a>.
+                  </li>
+                </ul>
+                <br/>
+              </div>
+            </Content>
+          </ConB1a>
+          <ConB1b>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  If you haven’t already done so, you should also test your water for Contaminant A and Contaminant C.
+                </li>
+              </ol>
+              <br/>
+              <ul style="list-style-type:none">
+                <li>
+                  Note, if you live near the seacoast, the level of Contaminant B in your well water may be naturally higher due to sea water or wind-blown sea spray; however, levels substantially higher than 150 mg/L may indicate pollution by human activities.
+                </li>
+              </ul>
+              <br/>
+
+              <div>
+                Take these steps to address potential sources of Contaminant B pollution:
+                <br/>
+                <ol>
+                  <li>
+                    Inspect the area around your wellhead for possible sources of pollution, such as road salt piles and storage sheds, driveways and roads where road salt is used, fertilized areas, septic systems, and waste from pets and farm animals.  Remove any sources when possible.
+                  </li>
+                  <br/>
+                  <li>
+                    Make sure rain and melting snow are directed away from your wellhead.
+                  </li>
+                  <br/>
+                  <li>
+                    Contact your local health officer or Board of Selectman if you believe that the elevated levels of Contaminant B are associated with nearby land uses.
+                  </li>
+                  <br/>
+                </ol>
+                <br/>
+                <ul>
+                  <li>
+                    More information about treatment for Contaminant B can be found in <a target="_blank" href="http://example.com">Fact Sheet</a>.
+                  </li>
+                </ul>
+                <br/>
+              </div>
+            </Content>
+          </ConB1b>
+          <ConB2>
+            <Content>
+              <b>What should I do?</b>
+              <br/>
+              <ol>
+                <li>
+                  If you haven’t already done so, you should also test your water for Contaminant A.
+                </li>
+              </ol>
+              <br/>
+              <ul>
+                <li>
+                  Note, if you live near the seacoast, the level of Contaminant B in your well water may be naturally higher due to sea water or wind-blown sea spray; however, levels substantially higher than 150 mg/L may indicate pollution by human activities.
+                </li>
+              </ul>
+              <br/>
+
+              <div>
+                Take these steps to address potential sources of Contaminant B pollution:
+                <br/>
+                <ol>
+                  <li>
+                    Inspect the area around your wellhead for possible sources of pollution, such as road salt piles and storage sheds, driveways and roads where road salt is used, fertilized areas, septic systems, and waste from pets and farm animals.  Remove any sources when possible.
+                  </li>
+                  <br/>
+                  <li>
+                    Make sure rain and melting snow are directed away from your wellhead.
+                  </li>
+                  <br/>
+                  <li>
+                    Contact your local health officer or Board of Selectman if you believe that the elevated levels of Contaminant B are associated with nearby land uses.
+                  </li>
+                  <br/>
+                </ol>
+                <br/>
+                <ul>
+                  <li>
+                    More information about treatment for Contaminant B can be found in <a target="_blank" href="http://example.com">Fact Sheet</a>.
+                  </li>
+                </ul>
+                <br/>
+              </div>
+            </Content>
+          </ConB2>
+        </TreatmentMessages>
+      </Outcomes>
+    </Contaminant>
+
+  </Contaminants>
+</FlowCharts>
