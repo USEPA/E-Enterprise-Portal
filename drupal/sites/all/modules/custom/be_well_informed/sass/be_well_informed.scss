@@ -92,6 +92,15 @@ $color-gray-white:			 #fafafa; // Workbench background
             content: none;
         }
     }
+
+    .plain-list {
+        margin: 0;
+        li:before,
+        li:after {
+            content: none;
+        }
+
+    }
     
     .bwi-lab-list {
         li {
