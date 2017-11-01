@@ -1,6 +1,5 @@
 <?php
 
-module_load_include('php', 'linked_accounts', 'services/scs/SharedPortalService');
 module_load_include('inc', 'linked_accounts', 'services/scs/shared_cromerr_services');
 module_load_include('inc', 'linked_accounts', 'services/cdx/central_data_exchange');
 

@@ -1,4 +1,5 @@
 <?php
+module_load_include('php', 'linked_accounts', 'services/scs/SharedPortalService');
 
 function scs_get_links() {
   $links = [
