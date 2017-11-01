@@ -1,0 +1,63 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: smolinsk
+ * Date: 10/20/2017
+ * Time: 11:19 AM
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function esmt_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module', 'esmt')
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function esmt_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function esmt_menu() {
+  $items = array();
+
+  $items['esmt/test'] = array(
+    'page callback' => 'esmt_install',
+    'access callback' => TRUE,
+    'file' => 'esmt.admin.inc',
+  );
+
+  $items['admin/config/system/esmt'] = array(
+    'title' => 'ESMT Settings',
+    'description' => 'Description of your on this date settings page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('esmt_admin_form'),
+    'access arguments' => array('administer esmt settings'),
+    'file' => 'esmt.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function esmt_preprocess(&$variables, $hook) {
+  // Adding critical CSS
+  if($hook == 'page'){
+    drupal_add_css(drupal_get_path('module', 'esmt') .'/css/esmt.css', [
+      'preprocess' => TRUE,
+      'group' => CSS_THEME
+    ]);
+  }
+}
+

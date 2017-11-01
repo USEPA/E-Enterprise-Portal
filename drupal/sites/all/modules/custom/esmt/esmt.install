@@ -1,0 +1,81 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: smolinsk
+ * Date: 10/26/2017
+ * Time: 9:40 AM
+ */
+
+/**
+ * Implements hook_install().
+ */
+function esmt_install() {
+
+  // Views are created on the hook_views_default_views()
+
+  // Default pages are added by the hook_default_page_manager_pages()
+
+  // Setup custom content type.  No hooks exist for this so we will follow the
+  // behavior seen in other hooks mentioned above
+  _add_esmt_default_fields();
+  _add_esmt_default_content_types();
+
+}
+
+/**
+ * Implement hook_enable()
+ */
+function esmt_enable() {
+  esmt_install();
+}
+
+function _add_esmt_default_content_types() {
+
+  $files = file_scan_directory(drupal_get_path('module', 'esmt'). '/content_types', '/.*\.content_type.inc$/');
+  foreach ($files as $filepath => $file) {
+    // define our generic variables as null so we don't get false positives from
+    // the previous iteration
+    $type = null;
+
+    // Pull in the code
+    require $filepath;
+
+    // Sanity check
+    if (isset($type)) {
+      $type = node_type_load($type['type']);
+
+      // Existance check
+      if (!$type) {
+        $type = node_type_set_defaults($type);
+        node_type_save($type);
+        node_add_body_field($type);
+      }
+    }
+  }
+}
+
+
+function _add_esmt_default_fields() {
+
+  $files = file_scan_directory(drupal_get_path('module', 'esmt') . '/fields', '/.*\.field.inc$/');
+  foreach ($files as $filepath => $file) {
+    // define our generic variables as null so we don't get false positives from
+    // the previous iteration
+    $field = NULL;
+    $field_instance = NULL;
+
+    // Pull in the code
+    require $filepath;
+
+    // Sanity check
+    if (isset($field) && isset($field_instance)) {
+      $prior_field = field_read_field($field['field_name'], ['include_inactive' => TRUE]);
+
+      // Existance check
+      if (empty($prior_field)) {
+        $field = field_create_field($field);
+        $field_instance = field_create_instance($field_instance);
+      }
+    }
+  }
+}

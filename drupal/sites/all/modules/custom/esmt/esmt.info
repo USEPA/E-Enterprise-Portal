@@ -1,0 +1,10 @@
+name = ESMT
+description = Enterprise Service Management Tools - Provides a partner area that gives access to 3rd party services and with the option to enable and configurations these services for a partners audience.
+core = 7.x
+version = "7.x-1.0"
+package = CGI
+
+dependencies[] = ctools
+dependencies[] = views
+dependencies[] = page_manager
+dependencies[] = panels
