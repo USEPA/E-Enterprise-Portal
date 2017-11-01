@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file
+ * Tests for the hello world module.
+ */
+class EactivityDataflowTests extends SiteWebTestCase {
+
+  protected $siteUser;
+
+  /**
+   * Metadata about our test case.
+   */
+  public static function getInfo() {
+    return array(
+      // The human readable name of the test case.
+      'name' => 'Linked Accounts Test Suite',
+      // A short description of the tests this case performs.
+      'description' => 'Tests for the Linked Accounts module.',
+      // The group that this case belongs too, used for grouping tests together
+      // in the UI.
+      'group' => 'Eportal Custom Modules Tests',
+      'mode' => 'site',
+    );
+  }
+
+  /**
+   * Test connection to service and obtaining user role information from SCS
+   * TODO: make user configurable
+   */
+  public function testUserRole() {
+    $shared_services = new SharedPortalService();
+    $roles = $shared_services->retrieve_user_roles('SCSUSER3');
+    $this->assertTrue(is_array($roles), 'Roles array is returned for user SCSUSER3');
+    $this->assertTrue(is_object($roles[0]), 'First item returned is an Object');
+    $this->assertTrue(isset($roles[0]->RoleId) && isset($roles[0]->PartnerId), 'Required attributes of class are set');
+  }
+
+
+}

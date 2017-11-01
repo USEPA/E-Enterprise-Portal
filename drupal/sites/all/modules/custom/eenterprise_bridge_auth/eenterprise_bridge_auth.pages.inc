@@ -114,7 +114,7 @@ function _parsePostForUserDetails($post) {
  */
 function eenterprise_bridge_auth_authenticate($error) {
   global $user;
-
+  
   // Check that user is not logged in (user uid == 0 if not authenticated)
   if ($user->uid != 0) {
     drupal_goto('workbench');
