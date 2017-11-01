@@ -72,7 +72,7 @@ function be_well_informed_configurations_form($form, &$form_state) {
   drupal_add_js(
     ["be_well_informed" =>
       [
-        "file_limit" =>  variable_get("bwi_service_upload_file_size_limit", '2')
+        "file_limit" => variable_get("bwi_service_upload_file_size_limit", '2')
       ]
     ], 'setting');
 
@@ -82,7 +82,7 @@ function be_well_informed_configurations_form($form, &$form_state) {
 function be_well_informed_form_be_well_informed_configurations_form_alter(&$form, &$form_state, $form_id) {
   global $user;
 
-  if(in_array('admin', $user->roles)) {
+  if (in_array('admin', $user->roles)) {
     $form['configuration_form']['partner_code'] = array(
       '#type' => 'textfield',
       '#title' => t('Partner Code'),
@@ -133,7 +133,7 @@ function _validate_valid_xml($file) {
   $xml_errors = libxml_get_errors();
   libxml_clear_errors();
 
-  while($e = array_pop($xml_errors)) {
+  while ($e = array_pop($xml_errors)) {
     $errors[] = $e->message;
   }
   return $errors;
@@ -181,16 +181,16 @@ function be_well_informed_configurations_form_validate($form, &$form_state) {
   $partner_file = file_save_upload('partner', [
     'file_validate_extensions' => ['xml'],
     '_validate_valid_xml' => [],
-    '_bwi_file_validate'=>[1024*1024*$file_size],
-    '_bwi_xml_partner_validation'=>[]
+    '_bwi_file_validate' => [1024 * 1024 * $file_size],
+    '_bwi_xml_partner_validation' => []
   ]);
 
   // Validate Flowchart settings
   $flowchart_file = file_save_upload('flowchart', [
     'file_validate_extensions' => ['xml'],
     '_validate_valid_xml' => [],
-    '_bwi_file_validate'=>[1024*1024*$file_size],
-    '_bwi_xml_flowchart_validation'=>[]
+    '_bwi_file_validate' => [1024 * 1024 * $file_size],
+    '_bwi_xml_flowchart_validation' => []
   ]);
 }
 
@@ -206,7 +206,7 @@ function _user_managed_partner() {
 
 function be_well_informed_configurations_form_submit($form, &$form_state) {
   // An Drupal admin can override the locations
-  if($form_state['values']['partner_code']) {
+  if ($form_state['values']['partner_code']) {
     $user_location = $form_state['values']['partner_code'];
   }
   else {
@@ -254,9 +254,9 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
 
     if ($response->code != 200) {
       drupal_set_message('Unable to upload file to BWI service.', 'error');
-      drupal_set_message('Response code: '. $response->code, 'error');
-      drupal_set_message('Response message: '. $response->status_message, 'error');
-      drupal_set_message('Response error: '. $response->error, 'error');
+      drupal_set_message('Response code: ' . $response->code, 'error');
+      drupal_set_message('Response message: ' . $response->status_message, 'error');
+      drupal_set_message('Response error: ' . $response->error, 'error');
     }
     else {
       if ($partner_file) {
@@ -474,7 +474,7 @@ function be_well_informed_block_view($delta = '') {
               'state_selection' => $modal_state_selection,
               'widget_state_content' => $widget_state_content
             ],
-            "file_limit" =>  variable_get("bwi_service_upload_file_size_limit", '2')
+            "file_limit" => variable_get("bwi_service_upload_file_size_limit", '2')
           ]
         ], 'setting');
 
@@ -569,13 +569,13 @@ function be_well_informed_get_state_information() {
 }
 
 function _get_partner_information($partner_code) {
-  $partner_info = variable_get('partner-'.$partner_code);
+  $partner_info = variable_get('partner-' . $partner_code);
   $xml_array = xmlstr_to_array($partner_info, 'domnode_clean', 'bwi_domnode_to_array');
   return $xml_array;
 }
 
 function _get_partner_flowchart($partner_code) {
-  $partner_info = variable_get('flowchart-'.$partner_code);
+  $partner_info = variable_get('flowchart-' . $partner_code);
   $doc = new DOMDocument();
   $doc->loadXML($partner_info);
   $root = $doc->documentElement;
@@ -1538,4 +1538,36 @@ function _generate_contaminants_sections(&$variables, $hook) {
 
   }
   $variables['contaminant_sections'] = implode("\n", $html);
+}
+
+/**
+ * @param $partner_id
+ * @throws Exception
+ * Allow current user to access BWI configurations
+ */
+function grant_user_bwi_configurations_permissions($partner_id) {
+  global $user;
+  $partner = '';
+  if ($user_role = user_role_load_by_name('Be Well Informed External Admin')) {
+    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
+  }
+  if ($partner_id == 'SCS-NHDES') {
+    $partner = 'NH';
+  }
+  $edit = ['field_admin_state' => ['und' => [0 => ['value' => $partner]]]];
+  user_save($user, $edit);
+}
+
+/**
+ * Remove current user's access to BWI configurations
+ * @throws Exception
+ */
+function remove_user_bwi_configurations_permissions() {
+  global $user;
+  $partner = '';
+  if ($user_role = user_role_load_by_name('Be Well Informed External Admin')) {
+    user_multiple_role_edit(array($user->uid), 'remove_role', $user_role->rid);
+  }
+  $edit = ['field_admin_state' => ['und' => [0 => ['value' => $partner]]]];
+  user_save($user, $edit);
 }
