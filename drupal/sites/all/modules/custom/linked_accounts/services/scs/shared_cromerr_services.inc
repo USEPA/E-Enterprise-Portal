@@ -120,12 +120,16 @@ function _update_scs_service_roles($username) {
   $user_roles = $shared_service->retrieve_user_roles($username);
   foreach ($user_roles as $role_object) {
     if ($role_object->RoleId == 9732) {
-      //@see be_well_informed module
-      grant_user_bwi_configurations_permissions($role_object->PartnerId);
-      return;
+      if (module_exists('be_well_informed')) {
+        //@see be_well_informed module
+        grant_user_bwi_configurations_permissions($role_object->PartnerId);
+        return;
+      }
     }
   }
   // If no role found, clear users bwi permissions
-  //@see be_well_informed module
-  remove_user_bwi_configurations_permissions();
+  if (module_exists('be_well_informed')) {
+    //@see be_well_informed module
+    remove_user_bwi_configurations_permissions();
+  }
 }
