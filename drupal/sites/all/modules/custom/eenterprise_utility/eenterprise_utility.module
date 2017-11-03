@@ -132,7 +132,6 @@ function _return_array_uppercase($array, $array_of_keys = []) {
  * SSO from CDX to Portal is implemented in this hook.
  */
 function eenterprise_utility_page_alter(&$page) {
-
   $sso_post = _return_array_uppercase($_POST, ['TOKEN', 'CDX_DATA', 'SCS_DATA']);
   if (!isset($sso_post['TOKEN'])) {
     return;
