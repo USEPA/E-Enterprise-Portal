@@ -1333,6 +1333,7 @@ function _generate_contaminants_sections(&$variables, $hook) {
  */
 function grant_user_bwi_configurations_permissions($partner_id) {
   global $user;
+  $account = user_load($user->uid);
   $partner = '';
   if ($user_role = user_role_load_by_name('Be Well Informed External Admin')) {
     user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
@@ -1341,7 +1342,8 @@ function grant_user_bwi_configurations_permissions($partner_id) {
     $partner = 'NH';
   }
   $edit = ['field_admin_state' => ['und' => [0 => ['value' => $partner]]]];
-  user_save($user, $edit);
+  user_save($account, $edit);
+
 }
 
 /**

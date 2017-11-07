@@ -116,15 +116,20 @@ function _create_scs_security_token($client) {
  * Updates user account with permissions dependent on SCS Dataflows
  * Currently only using BWI. Insert future SCS dataflows here.
  */
-function _update_scs_service_roles($username) {
+function _update_scs_service_roles($user_name) {
+  //TODO: allowed role ids will be extracted from new Dataflow Content Type, mapping
+  //TODO: allowed datatypes to Eportal specific functions.
+  $allowed_role_ids = [9732];
   $shared_service = new SharedPortalService();
-  $user_roles = $shared_service->retrieve_user_roles($username);
-  foreach ($user_roles as $role_object) {
-    if ($role_object->RoleId == 9732) {
-      if (module_exists('be_well_informed')) {
-        //@see be_well_informed module
-        grant_user_bwi_configurations_permissions($role_object->PartnerId);
-        return;
+  $user_roles_collection = $shared_service->retrieve_roles_for_dataflow_and_partner($user_name);
+  foreach ($user_roles_collection as $user_roles) {
+    foreach($user_roles as $role_object) {
+      if ($role_object->UserRoleStatus == 'Active' && in_array($role_object->RoleId, $allowed_role_ids)) {
+        if (module_exists('be_well_informed')) {
+          //@see be_well_informed module
+          grant_user_bwi_configurations_permissions($role_object->PartnerId);
+          return;
+        }
       }
     }
   }

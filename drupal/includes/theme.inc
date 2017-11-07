@@ -1523,7 +1523,7 @@ function theme_render_template($template_file, $variables) {
   ob_start();
 
   // Include the template file
-  include DRUPAL_ROOT . '/' . $template_file;
+    include DRUPAL_ROOT . '/' . $template_file;
 
   // End buffering and return its contents
   return ob_get_clean();

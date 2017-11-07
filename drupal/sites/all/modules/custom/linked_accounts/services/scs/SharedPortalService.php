@@ -12,6 +12,9 @@ class SharedPortalService {
   private $admin_pw;
   private $user;
   private $dataflow = 'ESMT';
+  //TODO: allowed partners will be extracted from new Dataflow Content Type, mapping
+  //TODO: allowed datatypes to Eportal specific functions.
+  private $partners = ['SCS-NHDES'=> 'NH'];
 
 
   function __construct() {
@@ -23,18 +26,21 @@ class SharedPortalService {
     $this->token = $this->generate_token();
   }
 
-  function retrieve_user_roles($user_name) {
-    $this->user = $this->retrieve_user($user_name);
-    $params = [
-      'securityToken' => $this->token,
-      'userId' => $user_name,
-      'userOrganizationId' => $this->user->PrimaryUserOrganizationId,
-      'dataflow' => $this->dataflow,
-    ];
-    $service_response = callSOAPWithParams($this->client, "RetrieveRoles", $params, "Linked Accounts Module");
-    if (!$service_response->error) {
-      return $service_response->response->Role;
+  public function retrieve_roles_for_dataflow_and_partner($user_name) {
+    $roles_for_dataflow_and_partner = [];
+    foreach($this->partners as $partner_id=>$partner_code) {
+      $params = [
+        'securityToken' => $this->token,
+        'userId' => $user_name,
+        'dataflow' => $this->dataflow,
+        'partnerId' => $partner_id,
+      ];
+      $service_response = callSOAPWithParams($this->client, "RetrieveRolesWithOrganizationsForDataflowAndPartner", $params, "Linked Accounts Module");
+      if (!$service_response->error && isset($service_response->response->RoleWithOrganization)) {
+        $roles_for_dataflow_and_partner[] = $service_response->response->RoleWithOrganization;
+      }
     }
+    return $roles_for_dataflow_and_partner;
   }
 
   private function generate_token() {
@@ -48,15 +54,4 @@ class SharedPortalService {
     }
   }
 
-  private function retrieve_user($user_name) {
-    $params = array(
-      "securityToken" => $this->token,
-      "userId" => $user_name,
-    );
-    $service_response = callSOAPWithParams($this->client, "RetrieveUser", $params, "Linked Accounts Module");
-    if (!$service_response->error) {
-      $user_data = $service_response->response->User;
-      return $user_data;
-    }
-  }
 }

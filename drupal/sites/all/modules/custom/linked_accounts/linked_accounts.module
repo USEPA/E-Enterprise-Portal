@@ -55,7 +55,6 @@ function linked_accounts_menu() {
 function linked_accounts_save_authenticated_user($username, $authentication_domain) {
   global $user;
   if (isset($authentication_domain)) {
-    // Save CDX/SCS/NAAS username
     $account = user_load($user->uid);
     if ($authentication_domain === 'SCS') {
       $account->field_scs_username[LANGUAGE_NONE][0]['value'] = $username;
@@ -64,14 +63,15 @@ function linked_accounts_save_authenticated_user($username, $authentication_doma
     else {
       $account->field_cdx_username[LANGUAGE_NONE][0]['value'] = $username;
     }
+    user_save($account);
+
 
     // Add role so user has correct tab
     $role_name = 'Eportal ' . strtoupper($authentication_domain) . ' Page';
     // Allow access to CDX/SCS tabs
     if ($role = user_role_load_by_name($role_name)) {
-      user_multiple_role_edit(array($user->uid), "add_role", $role->rid);
+      user_multiple_role_edit([$user->uid], "add_role", $role->rid);
     }
-    user_save($account);
   }
 }
 
