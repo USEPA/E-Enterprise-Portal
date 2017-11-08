@@ -20,6 +20,10 @@ $view->disabled = FALSE; /* Edit this to true to make a default view disabled in
 
 /* Display: Master */
 $handler = $view->new_display('default', 'Master', 'default');
+$display_options = [
+
+];
+
 $handler->display->display_options['css_class'] = 'ee-grid';
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'perm';

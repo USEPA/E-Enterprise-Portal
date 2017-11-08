@@ -125,6 +125,7 @@ function _update_scs_service_roles($user_name) {
   foreach ($user_roles_collection as $user_roles) {
     foreach($user_roles as $role_object) {
       if ($role_object->UserRoleStatus == 'Active' && in_array($role_object->RoleId, $allowed_role_ids)) {
+        // @todo add all scs roles to the user.  I am thinking to use the "{partner} - {role name}"
         if (module_exists('be_well_informed')) {
           //@see be_well_informed module
           grant_user_bwi_configurations_permissions($role_object->PartnerId);
