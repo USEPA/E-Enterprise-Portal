@@ -3,6 +3,7 @@ description = Enterprise Service Management Tools - Provides a partner area that
 core = 7.x
 version = "7.x-1.0"
 package = CGI
+files[] = tests/esmt.test
 
 dependencies[] = ctools
 dependencies[] = views
