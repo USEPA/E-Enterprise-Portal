@@ -33,13 +33,6 @@ function esmt_ctools_plugin_api($module, $api) {
  */
 function esmt_menu() {
   $items = array();
-
-  $items['esmt/test'] = array(
-    'page callback' => 'esmt_install',
-    'access callback' => TRUE,
-    'file' => 'esmt.admin.inc',
-  );
-
   $items['admin/config/system/esmt'] = array(
     'title' => 'ESMT Settings',
     'description' => 'Description of your on this date settings page',
@@ -53,7 +46,7 @@ function esmt_menu() {
 
 /**
  * Implements hook_preprocess().
- * 
+ *
  * Add esmt css to all pages.
  * Set required vars for use in tpl file
  */
@@ -66,7 +59,7 @@ function esmt_preprocess(&$variables, $hook) {
     ]);
   }
   // Add required service provider data to variables for use in the template files
-  if ($hook == 'views_view' && isset($variables['view']->name) &&  $variables['view']->name == 'esmt_service_provider') {
+  if ($hook == 'views_view' && isset($variables['view']->name) && $variables['view']->name == 'esmt_service_provider') {
     $variables['service_providers'] = _retrieve_service_providers();
   }
 }
@@ -74,6 +67,7 @@ function esmt_preprocess(&$variables, $hook) {
 /**
  * Query Content of content type esmt_service_provider
  * Return parsed data
+ * @return array $service_providers
  */
 function _retrieve_service_providers() {
   $service_providers = [];
@@ -96,7 +90,7 @@ function _retrieve_service_providers() {
  */
 function _parse_service_provider_to_datatable_json($service_providers) {
   $sps = [];
-  foreach($service_providers as $sp) {
+  foreach ($service_providers as $sp) {
     $sps[] = $sp->title;
   }
   return $sps;
@@ -122,10 +116,4 @@ function esmt_theme_registry_alter(&$theme_registry) {
       $theme_registry[$key]['type'] = 'module';
     }
   }
-
-  // Provide a hook for this module's custom Preview function
-  $theme_registry['node_preview']['file'] = 'esmt.module';
-  $theme_registry['node_preview']['theme path'] = $module_path;
-  $theme_registry['node_preview']['function'] = 'esmt_node_preview';
-  $theme_registry['node_preview']['includes'] = array($module_path . '/esmt.module');
 }

@@ -11,6 +11,7 @@ function gridstack_menu() {
 
 /**
  * Implements hook_init
+ * @see https://benmarshall.me/load-js-css-specific-page-drupal-7/
  */
 function gridstack_init() {
   // Only add gridstack if rendering workbench page
