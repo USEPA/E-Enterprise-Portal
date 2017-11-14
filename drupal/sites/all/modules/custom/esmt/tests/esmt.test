@@ -1,0 +1,38 @@
+<?php
+/**
+ * @file
+ * Tests for the hello world module.
+ */
+class ESMTTests extends SiteWebTestCase {
+
+  protected $siteUser;
+
+  /**
+   * Metadata about our test case.
+   */
+  public static function getInfo() {
+    return array(
+      // The human readable name of the test case.
+      'name' => 'ESMT Test Suite',
+      // A short description of the tests this case performs.
+      'description' => 'Tests for the ESMT module.',
+      // The group that this case belongs too, used for grouping tests together
+      // in the UI.
+      'group' => 'Eportal Custom Modules Tests',
+      'mode' => 'site',
+    );
+  }
+  
+
+  /**
+   * Tests whether function returns array
+   * TODO: This is a very basic test to confirm we are successfully returning. Add cases and more coverage of 
+   * TODO:  ESMT module
+   */
+  public function testRetrieveServiceProviders() {
+    $service_providers = _retrieve_service_providers();
+    $this->assertTrue(is_array($service_providers), '_retrieve_service_providers returns an array');
+
+  }
+  
+}

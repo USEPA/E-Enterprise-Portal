@@ -1,0 +1,119 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: smolinsk
+ * Date: 10/20/2017
+ * Time: 11:19 AM
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function esmt_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module', 'esmt') . '/views'
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function esmt_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array(
+      'version' => 1,
+      'path' => drupal_get_path('module', 'esmt') . '/pages'
+    );
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function esmt_menu() {
+  $items = array();
+  $items['admin/config/system/esmt'] = array(
+    'title' => 'ESMT Settings',
+    'description' => 'Description of your on this date settings page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('esmt_admin_form'),
+    'access arguments' => array('administer esmt settings'),
+    'file' => 'esmt.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_preprocess().
+ *
+ * Add esmt css to all pages.
+ * Set required vars for use in tpl file
+ */
+function esmt_preprocess(&$variables, $hook) {
+  // Adding critical CSS
+  if ($hook == 'page') {
+    drupal_add_css(drupal_get_path('module', 'esmt') . '/css/esmt.css', [
+      'preprocess' => TRUE,
+      'group' => CSS_THEME
+    ]);
+  }
+  // Add required service provider data to variables for use in the template files
+  if ($hook == 'views_view' && isset($variables['view']->name) && $variables['view']->name == 'esmt_service_provider') {
+    $variables['service_providers'] = _retrieve_service_providers();
+  }
+}
+
+/**
+ * Query Content of content type esmt_service_provider
+ * Return parsed data
+ * @return array $service_providers
+ */
+function _retrieve_service_providers() {
+  $service_providers = [];
+  $query = new EntityFieldQuery;
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'esmt_service_provider');
+
+  $results = $query->execute();
+  if (isset($results['node'])) {
+    $nids = array_keys($results['node']);
+    $service_providers = _parse_service_provider_to_datatable_json(entity_load('node', $nids));
+  }
+  return $service_providers;
+}
+
+/**
+ * Parse Service Provider content objects into datatable json array.
+ * @param $service_providers
+ * @return array
+ */
+function _parse_service_provider_to_datatable_json($service_providers) {
+  $sps = [];
+  foreach ($service_providers as $sp) {
+    $sps[] = $sp->title;
+  }
+  return $sps;
+}
+
+
+/**
+ * Allow use of tpl file for view content in esmt custom module
+ * Implements hook_theme_registry_alter().
+ */
+function esmt_theme_registry_alter(&$theme_registry) {
+  // Defined path to the current module.
+  $module_path = drupal_get_path('module', 'esmt');
+  // Find all .tpl.php files in this module's folder recursively.
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  // Iterate through all found template file objects.
+  foreach ($template_file_objects as $key => $template_file_object) {
+    // If the template has not already been overridden by a theme.
+    if (!isset($theme_registry[$key]['theme path']) || !preg_match('#/themes/#', $theme_registry[$key]['theme path'])) {
+      // Alter the theme path and template elements.
+      $theme_registry[$key]['theme path'] = $module_path;
+      $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+      $theme_registry[$key]['type'] = 'module';
+    }
+  }
+}
