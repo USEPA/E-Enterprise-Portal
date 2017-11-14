@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: smolinsk
- * Date: 11/1/2017
- * Time: 10:20 AM
- */
 
-
-// Paste code form views export.
+/* Drupal generated View Export.
+Do not try and edit via code, but instead alter through Drupal GUI and export
+*/
 $view = new view();
 $view->name = 'esmt_service_provider';
 $view->description = '';
@@ -20,10 +15,6 @@ $view->disabled = FALSE; /* Edit this to true to make a default view disabled in
 
 /* Display: Master */
 $handler = $view->new_display('default', 'Master', 'default');
-$display_options = [
-
-];
-
 $handler->display->display_options['css_class'] = 'ee-grid';
 $handler->display->display_options['use_more_always'] = FALSE;
 $handler->display->display_options['access']['type'] = 'perm';
@@ -83,7 +74,7 @@ $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
 $handler->display->display_options['filters']['type']['field'] = 'type';
 $handler->display->display_options['filters']['type']['value'] = array(
-  'esmt_service_provider' => 'esmt_service_provider',
+'esmt_service_provider' => 'esmt_service_provider',
 );
 
 /* Display: E-Enterprise Partner Area */
