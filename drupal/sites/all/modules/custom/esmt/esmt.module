@@ -60,6 +60,7 @@ function esmt_preprocess(&$variables, $hook) {
   }
   // Add required service provider data to variables for use in the template files
   if ($hook == 'views_view' && isset($variables['view']->name) && $variables['view']->name == 'esmt_service_provider') {
+    drupal_add_js(drupal_get_path('module', 'esmt') . '/js/esmt.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
     $variables['service_providers'] = _retrieve_service_providers_with_user_access();
   }
 }
@@ -88,10 +89,12 @@ function _retrieve_service_providers_with_user_access() {
       $datatable_row[] = $sp->esmt_service_instructions[LANGUAGE_NONE][0]['value'];
       if (in_array($rid, $user_allowed_dataflows)) {
         $datatable_row[] = '<a href="' . $sp->esmt_configuration_form[LANGUAGE_NONE][0]['value'] . '">Configuration</a>';
+        $datatable_row[] = _create_publish_link($rid);
       } else {
         $datatable_row[] = '<a class="disabled-link" href="">Configuration</a>';
+        $datatable_row[] = _create_publish_link($rid, true);
       }
-      $datatable_row[] = _create_publish_link($rid);
+
 
       $datatable_rows[] = $datatable_row;
      }
@@ -104,8 +107,12 @@ function _retrieve_service_providers_with_user_access() {
  * @param integer $rid
  * @return string $html
  */
-function _create_publish_link($rid) {
-  $html = '<input id="publish-service-' . $rid . '" class="publish-service" data-rid="' . $rid . '" type="checkbox" />';
+function _create_publish_link($rid, $disabled = false) {
+  if ($disabled) {
+    $html = '<input disabled type="checkbox" />';
+  } else {
+    $html = '<input id="publish-service-' . $rid . '" class="publish-service" data-rid="' . $rid . '" type="checkbox" />';
+  }
   $html .= '<label for="publish-service-' . $rid . '">Publish</label>';
   return $html;
 }

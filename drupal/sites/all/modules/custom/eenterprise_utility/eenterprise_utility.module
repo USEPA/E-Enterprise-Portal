@@ -554,6 +554,7 @@ function eenterprise_utility_form_alter(&$form, &$form_state, $form_id) {
       hide($form['field_first_time_user']);
       hide($form['field_scs_username']);
       hide($form['field_cdx_username']);
+      hide($form['field_scs_role_ids']);
 
     }
     else {
