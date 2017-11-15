@@ -1,62 +1,67 @@
 
 .esmt-service-provider-item-list {
+  & > ul {
+    border-top: 1px solid #000;
+    & > li {
+      &:before {
+        content: '';
+      }
+      text-decoration: none;
+    }
+  }
+  .views-field {
+
+  }
+  .views-row.esmt-service-provider-item {
+    border-bottom: 1px solid #000;
+    .views-label {
+      display: none;
+      font-weight: 700;
+    }
+  }
+  .views-field-title {
+    .field-content {
+      font-size: 2rem;
+    }
+  }
+  .views-field-esmt-service-instructions {
+
+  }
+  .views-field-esmt-service-action-link {
+
+  }
+  .views-field-esmt-service-action-link {
+    .field-content {
+      text-align: right;
+    }
+  }
+}
+
+@media(min-width: 768px) {
+  .esmt-service-provider-item-list {
     & > ul {
-        border-top: 1px solid #000;
-        & > li {
-            &:before {
-                content: '';
-            }
-            text-decoration: none;
-        }
+      border-top: 1px solid #000;
     }
     .views-field {
 
     }
     .views-row.esmt-service-provider-item {
-        border-bottom: 1px solid #000;
+      .views-label {
+        display: none;
+        margin-top: -2em;
+      }
+
+      &.views-row-first {
         .views-label {
-            display: none;
-            font-weight:700;
+          display: block;
+          margin-top: -1.3em;
         }
+      }
     }
-    .views-field-title {
-        .field-content {
-            font-size: 2rem;
-        }
-    }
-    .views-field-esmt-service-instructions {
-
-    }
-    .views-field-esmt-service-action-link {
-
-    }
-    .views-field-esmt-service-action-link {
-        .field-content{
-            text-align: right;
-        }
-    }
+  }
 }
 
-@media(min-width: 768px) {
-    .esmt-service-provider-item-list {
-        & > ul {
-            border-top: 1px solid #000;
-        }
-        .views-field {
-
-        }
-        .views-row.esmt-service-provider-item {
-            .views-label {
-                display: none;
-                margin-top: -2em;
-            }
-
-            &.views-row-first {
-                .views-label {
-                    display: block;
-                    margin-top: -1.3em;
-                }
-            }
-        }
-    }
+.disabled-link {
+  pointer-events: none;
+  cursor: default;
 }
