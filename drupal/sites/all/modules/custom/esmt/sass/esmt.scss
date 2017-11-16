@@ -61,7 +61,24 @@
   }
 }
 
+th {
+    pointer-events: none;
+    cursor: default;
+}
+td {
+  a, a:visited {
+    color: #0071bc;
+  }
+}
+
 .disabled-link {
   pointer-events: none;
   cursor: default;
+  color: #aeb0b5;
+}
+
+.disabled-link:visited {
+  pointer-events: none;
+  cursor: default;
+  color: #aeb0b5;
 }
