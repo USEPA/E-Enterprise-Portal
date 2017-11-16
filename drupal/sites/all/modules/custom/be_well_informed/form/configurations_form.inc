@@ -6,11 +6,49 @@
  * Time: 11:17 AM
  */
 
+/**
+ * Load Partner code based on role id
+ * @param integer $rid
+ * @return string
+ */
+function _load_partner_by_rid($rid) {
+  $query = new EntityFieldQuery;
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'esmt_partner')
+  ->fieldCondition('field_scs_role_id', 'value', $rid);
+
+  $results = $query->execute();
+  if (isset($results['node'])) {
+    $nids = array_keys($results['node']);
+    $partner_node = entity_load('node', $nids);
+    foreach($partner_node as $pk=>$po) {
+      // Extracting partner found in first node
+      return $po->esmt_service_partner_code[LANGUAGE_NONE][0]['value'];
+    }
+    return '';
+  }
+
+}
 
 function be_well_informed_configurations_form($form, &$form_state) {
+  drupal_add_css(drupal_get_path('module', 'be_well_informed') . '/css/be_well_informed_form.css', [
+    'preprocess' => TRUE,
+    'group' => CSS_THEME
+  ]);
+  $partner = '';
+  if (isset($_GET['rid'])) {
+    $partner = _load_partner_by_rid($_GET['rid']);
+  }
+  if ($partner == ''){
+    drupal_set_message('You must select a service flow below to configure.');
+    drupal_goto('/esmt-service');
+  }
+  drupal_set_title('Be Well Informed ' . $partner);
+
+
   $form['configuration_form']['partner'] = array(
     '#type' => 'file',
-    '#title' => t('Partner Configurations- ' . _user_managed_partner()),
+    '#title' => t('Partner Configuration'),
     '#description' => t('Upload your configurations, allowed extensions: xml'),
   );
 
@@ -60,24 +98,6 @@ function be_well_informed_form_be_well_informed_configurations_form_alter(&$form
       '#type' => 'textfield',
       '#title' => t('Partner Code'),
       '#description' => t('Enter the partner code'),
-      '#required' => TRUE,
-    );
-  }
-
-  // Permissions to control the publish the partner configuration
-  if( _is_bwi_partner_admin() || in_array('admin', $user->roles)) {
-    # the options to display in our checkboxes
-    $published_options = array(
-      '0' => t('Unpublished'),
-      '1' => t('Published')
-    );
-
-    # the drupal checkboxes form field definition
-    $form['configuration_form']['is_partner_published'] = array(
-      '#title' => t('Publish'),
-      '#type' => 'checkboxes',
-      '#description' => t('Select the to make this partner\'s configuration available to the public.'),
-      '#options' => $published_options,
       '#required' => TRUE,
     );
   }
@@ -187,7 +207,9 @@ function be_well_informed_configurations_form_submit($form, &$form_state) {
     $user_location = $form_state['values']['partner_code'];
   }
   else {
-    $user_location = _user_managed_partner();
+    if (isset($_GET['rid'])) {
+      $user_location = _load_partner_by_rid($_GET['rid']);
+    }
   }
   // Clean up whitespace and make is all uppercase
   $user_location = strtoupper(trim($user_location));

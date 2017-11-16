@@ -32,7 +32,6 @@ function be_well_informed_menu() {
     'file' => 'be_well_informed.admin.inc',
   );
   $items['be_well_informed/configuration_form'] = array( //this creates a URL that will call this form at "examples/form-example"
-    'title' => 'Configuration Upload', //page title
     'description' => 'Enter your state/tribe\'s Be Well Informed XML.',
     'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
     'page arguments' => array('be_well_informed_configurations_form'), //put the name of the form here
@@ -354,9 +353,20 @@ function be_well_informed_get_state_information() {
   echo _get_partner_information($_POST['state']);
 }
 
+function bwi_xmlstr_to_array($xmlstr, $clean_function = 'domnode_clean', $to_array_function = 'domnode_to_array') {
+  $doc = new DOMDocument();
+  $doc->loadXML($xmlstr);
+  $root = $doc->documentElement;
+  $root = call_user_func($clean_function, $root);
+  $output = call_user_func($to_array_function, $root);
+  $output['@root'] = $root->tagName;
+  return $output;
+}
+
+
 function _get_partner_information($partner_code) {
   $partner_info = variable_get('partner-' . $partner_code);
-  $xml_array = xmlstr_to_array($partner_info, 'domnode_clean', 'bwi_domnode_to_array');
+  $xml_array = bwi_xmlstr_to_array($partner_info, 'domnode_clean', 'bwi_domnode_to_array');
   return $xml_array;
 }
 

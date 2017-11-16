@@ -77,27 +77,43 @@ function _retrieve_service_providers_with_user_access() {
   $partner_mappings = _retrieve_partner_mappings();
   $datatable_rows = [];
   // Create datatable json combining all above mappings
-  foreach($service_providers as $sp) {
-    foreach($sp->field_scs_role_ids[LANGUAGE_NONE] as $sp_rid) {
-      $rid = $sp_rid['value'];
+  foreach ($service_providers as $sp) {
+    if (empty($sp->field_scs_role_ids[LANGUAGE_NONE])) {
       $datatable_row = [];
       $datatable_row[] = $sp->title;
-      $datatable_row[] = $partner_mappings[$rid];
+      $datatable_row[] = 'N/A';
       $datatable_row[] = 'Widget';
       $datatable_row[] = 'E-Enterprise';
-      $datatable_row[] = 'Purpose...';
-      $datatable_row[] = $sp->esmt_service_instructions[LANGUAGE_NONE][0]['value'];
-      if (in_array($rid, $user_allowed_dataflows)) {
-        $datatable_row[] = '<a href="' . $sp->esmt_configuration_form[LANGUAGE_NONE][0]['value'] . '">Configuration</a>';
-        $datatable_row[] = _create_publish_link($rid);
-      } else {
-        $datatable_row[] = '<a class="disabled-link" href="">Configuration</a>';
-        $datatable_row[] = _create_publish_link($rid, true);
-      }
-
-
+      $datatable_row[] = $sp->field_purpose_esmt[LANGUAGE_NONE][0]['value'];
+      $datatable_row[] = '<a href="' . $sp->field_esmt_configuration_link[LANGUAGE_NONE][0]['value'] . '">Configuration</a>';
+      $datatable_row[] = _create_publish_link('#', true);
       $datatable_rows[] = $datatable_row;
-     }
+    }
+    else {
+      foreach ($sp->field_scs_role_ids[LANGUAGE_NONE] as $sp_rid) {
+        $rid = $sp_rid['value'];
+        $datatable_row = [];
+        $datatable_row[] = $sp->title;
+        $datatable_row[] = $partner_mappings[$rid];
+        $datatable_row[] = 'Widget';
+        $datatable_row[] = 'E-Enterprise';
+        $datatable_row[] = $sp->field_esmt_purpose[LANGUAGE_NONE][0]['value'];
+        $datatable_row[] = '<a target="_blank" href="' . $sp->field_esmt_service_instructions[LANGUAGE_NONE][0]['value'] . '">' .
+          'Partner Kit' . '</a>';
+        if (in_array($rid, $user_allowed_dataflows)) {
+          $datatable_row[] = '<a href="' . $sp->field_esmt_configuration_link[LANGUAGE_NONE][0]['value'] .
+            '?rid=' . $rid . '">Configuration</a>';
+        }
+        else {
+          $datatable_row[] = '<a class="disabled-link" href="">Configuration</a>';
+        }
+        // TODO make publish link live if user has correct role
+        $datatable_row[] = _create_publish_link($rid, true);
+
+
+        $datatable_rows[] = $datatable_row;
+      }
+    }
   }
   return $datatable_rows;
 }
@@ -110,7 +126,8 @@ function _retrieve_service_providers_with_user_access() {
 function _create_publish_link($rid, $disabled = false) {
   if ($disabled) {
     $html = '<input disabled type="checkbox" />';
-  } else {
+  }
+  else {
     $html = '<input id="publish-service-' . $rid . '" class="publish-service" data-rid="' . $rid . '" type="checkbox" />';
   }
   $html .= '<label for="publish-service-' . $rid . '">Publish</label>';
@@ -133,7 +150,7 @@ function _retrieve_partner_mappings() {
     $nids = array_keys($results['node']);
     $nodes = entity_load('node', $nids);
   }
-  foreach($nodes as $n) {
+  foreach ($nodes as $n) {
     $partner_mappings[$n->field_scs_role_id[LANGUAGE_NONE][0]['value']] = $n->esmt_service_partner_code[LANGUAGE_NONE][0]['value'];
   }
   return $partner_mappings;
