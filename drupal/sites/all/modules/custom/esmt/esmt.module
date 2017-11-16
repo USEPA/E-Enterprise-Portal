@@ -167,8 +167,8 @@ function _retrieve_user_scs_role_ids() {
   $role_ids = [];
   $account = user_load($user->uid);
   $scs_role_ids = $account->field_scs_role_ids;
-  foreach ($scs_role_ids as $sri) {
-    $role_ids[] = $sri[0]['value'];
+  foreach ($scs_role_ids[LANGUAGE_NONE] as $sri) {
+    $role_ids[] = $sri['value'];
   }
   return $role_ids;
 }
