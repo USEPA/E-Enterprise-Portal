@@ -84,7 +84,9 @@ function _retrieve_service_providers_with_user_access() {
       $datatable_row[] = 'N/A';
       $datatable_row[] = 'Widget';
       $datatable_row[] = 'E-Enterprise';
-      $datatable_row[] = $sp->field_purpose_esmt[LANGUAGE_NONE][0]['value'];
+      $datatable_row[] = $sp->field_esmt_purpose[LANGUAGE_NONE][0]['value'];
+      $datatable_row[] = '<a target="_blank" href="' . $sp->field_esmt_service_instructions[LANGUAGE_NONE][0]['value'] . '">' .
+        'Partner Kit' . '</a>';
       $datatable_row[] = '<a href="' . $sp->field_esmt_configuration_link[LANGUAGE_NONE][0]['value'] . '">Configuration</a>';
       $datatable_row[] = _create_publish_link('#', true);
       $datatable_rows[] = $datatable_row;
