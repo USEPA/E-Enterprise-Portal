@@ -15,7 +15,7 @@ function gridstack_menu() {
  */
 function gridstack_init() {
   // Only add gridstack if rendering workbench page
-  if (drupal_parse_url(request_uri())['path'] == '/workbench') {
+  if (strpos(drupal_parse_url(request_uri())['path'], 'workbench')) {
     drupal_add_js(['gridstack_user_settings' => load_user_gridstack_data()], 'setting');
     drupal_add_css(drupal_get_path('module', 'gridstack') . '/stylesheets/gridstack.css', ['preprocess' => true, 'group' => CSS_DEFAULT]);
     drupal_add_js(libraries_get_path('lodash') . '/lodash.min.js', ['scope' => 'footer', 'preprocess' => true, 'group' => JS_LIBRARY, 'type' => 'file', 'cache' => true, 'requires_jquery' => true]);
