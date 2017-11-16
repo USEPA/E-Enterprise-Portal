@@ -1,0 +1,129 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: smolinsk
+ * Date: 10/26/2017
+ * Time: 9:40 AM
+ */
+
+/**
+ * Implements hook_install().
+ */
+function esmt_install() {
+
+  // Views are created on the hook_views_default_views()
+
+  // Default pages are added by the hook_default_page_manager_pages()
+
+  // Setup custom content type.  No hooks exist for this so we will follow the
+  // behavior seen in other hooks mentioned above.  Content types to be defined
+  // first to provide the bundle type for the fields to attach.
+  _add_esmt_default_content_types();
+  _add_esmt_default_fields();
+
+  // Add custom roles
+  _add_esmt_roles_and_permissions();
+}
+
+/**
+ * Implement hook_enable()
+ */
+function esmt_enable() {
+  esmt_install();
+}
+
+function _add_esmt_default_content_types() {
+
+  $files = file_scan_directory(drupal_get_path('module', 'esmt') . '/content_types', '/.*\.content_type.inc$/');
+  foreach ($files as $filepath => $file) {
+    // define our generic variables as null so we don't get false positives from
+    // the previous iteration
+    $type = null;
+    $type_definition = null;
+
+    // Pull in the code
+    require $filepath;
+
+    $type_definition = $type;
+
+    // Sanity check
+    if (isset($type_definition)) {
+      $type = node_type_set_defaults($type);
+      node_type_save($type);
+
+      // This is a custom tag to prevent the addition the body form a content type
+      if (!$type_definition['no_body']) {
+        node_add_body_field($type);
+      }
+    }
+  }
+}
+
+
+function _add_esmt_default_fields() {
+
+  $files = file_scan_directory(drupal_get_path('module', 'esmt') . '/fields', '/.*\.field.inc$/');
+  foreach ($files as $filepath => $file) {
+    // define our generic variables as null so we don't get false positives from
+    // the previous iteration
+    $field = NULL;
+    $field_instance = NULL;
+
+    // Pull in the code that defines $type and $type_instance
+    require $filepath;
+
+    // Sanity check
+    if (!isset($field) || !isset($field_instance)) {
+      continue;
+    }
+    // Existence check
+    $prior_field = field_read_field($field['field_name'], ['include_inactive' => TRUE]);
+
+    if (empty($prior_field)) {
+
+      // Sometimes dirty installations or removals leave tables that need to
+      // be detected and removed before continuing
+      $table_prefixes = ['field_data_', 'field_revision_'];
+      foreach ($table_prefixes as $prefix) {
+        $table_name = $prefix . $field['field_name'];
+        $table_exists = Database::getConnection()->schema()->tableExists($table_name);
+
+        if ($table_exists) {
+          $has_dropped = Database::getConnection()->schema()->dropTable($table_name);
+        }
+      }
+
+      $field = field_create_field($field);
+    }
+    else {
+      $field = field_update_field($field);
+    }
+
+    // Existence check
+    $prior_field_instance = field_read_instance($field_instance['entity_type'], $field_instance['field_name'], $field_instance['bundle'], array('include_inactive' => TRUE));
+
+    if (empty($prior_field_instance)) {
+      $prior_field_instance = field_create_instance($field_instance);
+    }
+    else {
+      $prior_field_instance = field_update_instance($field_instance);
+    }
+  }
+}
+
+/*
+ * Here we add all the associated roles and the appropriate permissions
+ */
+function _add_esmt_roles_and_permissions() {
+  $default_roles = [];
+  foreach ($default_roles as $role_name => $role_properties) {
+    $role = user_role_load_by_name($role_name);
+
+    if (!$role) {
+      user_role_save($role_properties);
+    }
+    else {
+      // @todo deterimine whether we need to update role
+    }
+  }
+}
