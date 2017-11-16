@@ -110,33 +110,70 @@ function _create_scs_security_token($client) {
   return $r;
 }
 
+/**
+ * Load nodes of content type 'esmt_scs_permission_mapping
+ * @return array $scs_role_permissions
+ */
+function _load_scs_role_permissions() {
+  $scs_role_permissions = [];
+  $query = new EntityFieldQuery;
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'esmt_scs_permission_mapping');
+  $results = $query->execute();
+  if (isset($results['node'])) {
+    $nids = array_keys($results['node']);
+    $scs_role_permissions = entity_load('node', $nids);
+  }
+  return $scs_role_permissions;
+}
 
 /**
+ * Updates user account with scs role ids dependent on SCS Dataflows
  * @param $username
- * Updates user account with permissions dependent on SCS Dataflows
- * Currently only using BWI. Insert future SCS dataflows here.
  */
 function _update_scs_service_roles($user_name) {
-  //TODO: allowed role ids will be extracted from new Dataflow Content Type, mapping
-  //TODO: allowed datatypes to Eportal specific functions.
-  $allowed_role_ids = [9732];
+  // Load roles being passed from SCS for this user
   $shared_service = new SharedPortalService();
-  $user_roles_collection = $shared_service->retrieve_roles_for_dataflow_and_partner($user_name);
-  foreach ($user_roles_collection as $user_roles) {
-    foreach($user_roles as $role_object) {
-      if ($role_object->UserRoleStatus == 'Active' && in_array($role_object->RoleId, $allowed_role_ids)) {
-        // @todo add all scs roles to the user.  I am thinking to use the "{partner} - {role name}"
-        if (module_exists('be_well_informed')) {
-          //@see be_well_informed module
-          grant_user_bwi_configurations_permissions($role_object->PartnerId);
-          return;
-        }
-      }
-    }
+  $scs_role_ids = array_keys($shared_service->retrieve_roles_for_dataflow_and_partner($user_name));
+  _update_users_scs_role_ids($scs_role_ids);
+}
+
+/**
+ * Loads provisioned role IDs allowed in Eportal
+ * @return array $role_ids
+ */
+function _load_scs_role_ids() {
+  $permission_objects = _load_scs_role_permissions();
+  $role_ids = [];
+  foreach($permission_objects as $po) {
+    $role_ids[] = $po->esmt_mapping_scs_role_id[LANGUAGE_NONE][0]['value'];
   }
-  // If no role found, clear users bwi permissions
-  if (module_exists('be_well_informed')) {
-    //@see be_well_informed module
-    remove_user_bwi_configurations_permissions();
+  return $role_ids;
+}
+
+
+/**
+ * Store SCS Role Ids in user profile if the role id has been provisioned for Eportal.
+ * @param Int[] $scs_role_ids
+ * @throws Exception (in user_save)
+ */
+function _update_users_scs_role_ids($scs_role_ids) {
+  global $user;
+  $account = user_load($user->uid);
+  $account->field_scs_role_ids = [];
+  
+  // Create array intersection of provisioned role ids and scs role ids passed over
+  $eportal_scs_role_ids = _load_scs_role_ids();
+  $intersect = array_intersect($scs_role_ids, $eportal_scs_role_ids);
+  if (empty($intersect)) {
+    // Save user with no scs role ids
+    user_save($account);
+    return;
   }
+  $account->field_scs_role_ids = [LANGUAGE_NONE => []];
+  foreach($intersect as $rid) {
+    $account->field_scs_role_ids[LANGUAGE_NONE][] = [ 'value' => $rid, 'format' => null, 'safe_value' => $rid];
+  }
+  // Save account with new RIDs
+  user_save($account);
 }

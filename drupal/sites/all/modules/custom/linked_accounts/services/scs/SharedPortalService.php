@@ -37,7 +37,9 @@ class SharedPortalService {
       ];
       $service_response = callSOAPWithParams($this->client, "RetrieveRolesWithOrganizationsForDataflowAndPartner", $params, "Linked Accounts Module");
       if (!$service_response->error && isset($service_response->response->RoleWithOrganization)) {
-        $roles_for_dataflow_and_partner[] = $service_response->response->RoleWithOrganization;
+        foreach($service_response->response->RoleWithOrganization as $ro) {
+          $roles_for_dataflow_and_partner[$ro->RoleId] = $ro;
+        }
       }
     }
     return $roles_for_dataflow_and_partner;

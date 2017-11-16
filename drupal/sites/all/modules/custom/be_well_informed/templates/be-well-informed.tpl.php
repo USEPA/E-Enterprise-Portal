@@ -30,10 +30,6 @@
                     <button id="bwi-check-water-btn">
                         Check your water
                     </button>
-                  <?php if ($bwi_admin): ?>
-                      <a href="be_well_informed/configuration_form"
-                         class="favorites-ignore">Edit Configurations</a>
-                  <?php endif; ?>
                 </p>
             </div>
         </div>
