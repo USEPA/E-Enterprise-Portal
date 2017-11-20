@@ -35,7 +35,7 @@ function be_well_informed_menu() {
     'description' => 'Enter your state/tribe\'s Be Well Informed XML.',
     'page callback' => 'drupal_get_form', //this is the function that will be called when the page is accessed.  for a form, use drupal_get_form
     'page arguments' => array('be_well_informed_configurations_form'), //put the name of the form here
-    'access callback' => '_is_bwi_partner_admin',
+    'access callback' => '_check_users_role_ids',
     'file' => 'form/configurations_form.inc',
   );
   return $items;
@@ -1334,6 +1334,31 @@ function _generate_contaminants_sections(&$variables, $hook) {
 
   }
   $variables['contaminant_sections'] = implode("\n", $html);
+}
+
+/**
+ * Checks GET query param and validates whether user has been granted permission
+ * to the specifc SCS Role ID.
+ * @return bool
+ */
+function _check_users_role_ids() {
+  if (!isset($_GET['rid'])) {
+    return false;
+  }
+  global $user;
+  $account = user_load($user->uid);
+  // If use has no role ids, reject access
+  if (empty($account->field_scs_role_ids)) {
+    return false;
+  }
+  // If user has role, allow access
+  foreach($account->field_scs_role_ids[LANGUAGE_NONE] as $role) {
+    if ($role['value'] == $_GET['rid']) {
+      return true;
+    }
+  }
+  // No roles meet the criteria for the form, reject user from accessing.
+  return false;
 }
 
 /**
