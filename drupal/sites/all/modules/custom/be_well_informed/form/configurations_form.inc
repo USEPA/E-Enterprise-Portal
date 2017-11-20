@@ -27,7 +27,6 @@ function _load_partner_by_rid($rid) {
     }
     return '';
   }
-
 }
 
 function be_well_informed_configurations_form($form, &$form_state) {
