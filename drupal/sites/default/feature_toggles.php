@@ -12,9 +12,6 @@ $feature_flags = [
   'sample_rcs_data' => [
     'name' => 'Use sample RCS data for LGC widget'
   ],
-  'mycdx_connections' => [
-    'name' => 'See MyCDX Connections (experimental)'
-  ],
   'sample_mycdx_data' => [
     'name' => 'Use sample data for My CDX block'
   ],
