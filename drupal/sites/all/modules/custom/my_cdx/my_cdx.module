@@ -170,7 +170,6 @@ function my_cdx_links_json_output() {
     // convert the data into a format that DataTables ajax can understand
     $output = array();
     foreach ($input as $value) {
-      if (feature_toggle_get_status('mycdx_connections')) {
         // If status is not active, do not allow link to be clicked
         if (!in_array("Active", $value['statuses'])) {
           $link = $value['data']['role'];
@@ -188,14 +187,6 @@ function my_cdx_links_json_output() {
           printStatuses($value['statuses']),
           $link,
         );
-      }
-      else {
-        $output[] = array(
-          $value['program_service_name'],
-          processCDXStatus($value['status']),
-          $value['role'],
-        );
-      }
     }
     drupal_json_output(array('data' => $output));
   }
@@ -481,7 +472,7 @@ function fetch_my_cdx_links() {
   global $user;
   $account = user_load($user->uid);
   $user_id = $account->field_cdx_username[LANGUAGE_NONE][0]['value'];
-
+  $user_id = 'bmatkin001';
   // fetch the data from the soap service
   $location = 'my_cdx.module';
   $my_cdx_client_access = return_my_cdx_token();
@@ -492,7 +483,9 @@ function fetch_my_cdx_links() {
       'userId' => $user_id,
     );
     $result = callSOAPWithParams($my_cdx_client_access['client'], "RetrieveMyCdxLinks", $params_for_data, $location);
-
+    if ($result->error) {
+      return [];
+    }
     // format it to be some sort of array, match the structure of fetch_sample_my_cdx_links()
     $data = array();
     // CDX service sends an object if the return is singular.
@@ -528,7 +521,7 @@ function fetch_my_cdx_links() {
     return $data;
   }
   else {
-    return array();
+    return [];
   }
 }
 
