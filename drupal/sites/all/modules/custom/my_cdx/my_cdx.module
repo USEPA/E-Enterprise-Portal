@@ -472,7 +472,6 @@ function fetch_my_cdx_links() {
   global $user;
   $account = user_load($user->uid);
   $user_id = $account->field_cdx_username[LANGUAGE_NONE][0]['value'];
-  $user_id = 'bmatkin001';
   // fetch the data from the soap service
   $location = 'my_cdx.module';
   $my_cdx_client_access = return_my_cdx_token();
