@@ -101,6 +101,5 @@ function site_deployment_update_7606() {
  * Enable Testing module
  */
 function site_deployment_update_7607() {
-
   module_enable(['simpletest', 'site_test']);
 }
