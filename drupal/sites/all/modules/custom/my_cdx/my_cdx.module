@@ -254,13 +254,14 @@ function load_my_cdx_data() {
         $data = $cache->data;
       }
       else {
-        $data = fetch_my_cdx_links();
-
-        // expire the cache every ___ minutes
-        $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
-        module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
-        if (!feature_toggle_get_status('cdx_dev_mode')) {
-          cache_set($cache_key, $data, 'cache', $expire_ts);
+        // Only store data in cache if values stored (meaning $data != false)
+        if ($data = fetch_my_cdx_links()) {
+          // expire the cache every ___ minutes
+          $expire_ts = time() + (intval(variable_get('my_cdx_cache_reset_time', 5)) * 60);
+          module_load_include('inc', 'feature_toggle', 'includes/feature_toggle.api');
+          if (!feature_toggle_get_status('cdx_dev_mode')) {
+            cache_set($cache_key, $data, 'cache', $expire_ts);
+          }
         }
       }
     }
