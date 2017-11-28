@@ -101,6 +101,13 @@ function site_deployment_update_7606() {
  * Enable Testing module
  */
 function site_deployment_update_7607() {
-
   module_enable(['simpletest', 'site_test']);
+}
+
+/**
+ * Enable App Connect feature module
+ */
+function site_deployment_update_7608() {
+// Enable App Connect feature module
+  module_enable(['app_connect']);
 }
