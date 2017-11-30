@@ -501,20 +501,38 @@ function template_preprocess_be_well_informed_modal_state_form(&$variables, $hoo
 }
 
 /**
+ * Load ESMT Partners and parse out required info for building selection
+ * @return array $partners
+ */
+function _load_bwi_published_partners() {
+  $partners = [];
+  // Query all ESMT Partners provisioned for eportal
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'esmt_partner')
+    ->propertyCondition('status', NODE_PUBLISHED);
+  $result = $query->execute();
+  if (isset($result['node'])) {
+    foreach ($result['node'] as $node) {
+      $nid = $node->nid;
+      $partner_node = node_load($nid);
+      $partner_node_entity = entity_metadata_wrapper('node', $partner_node);
+      $partners[$partner_node_entity->esmt_service_partner_code->value()] = $partner_node_entity->field_esmt_selection_text->value();
+    }
+  }
+  return $partners;
+}
+
+/**
  * Implements template_preprocess_hook for be-well-informed.tpl.php.
  */
 function template_preprocess_be_well_informed(&$variables, $hook) {
-
-  $variables['partner_list_options'] = implode("\n", [
-    "<option value=\"MA\">Massachusetts</option>",
-    "<option value=\"NH\">New Hampshire</option>",
-  ]);
-
-  if (variable_get('bwi_sample_partner', false)) {
-    $variables['partner_list_options'] .= "<option value=\"SAMPLE\">Sample Partner</option>";
+  $partners = _load_bwi_published_partners();
+  $options = '';
+  foreach($partners as $partner_code=>$partner_text){
+    $options .=  '<option value="' . $partner_code . '">' . $partner_text . '</option>';
   }
-
-  $variables['states'] = ['Massachusetts', 'New Hampshire'];
+  $variables['partner_list_options'] = $options;
   $variables['state_code'] = $_POST['state_code'];
   $bwi_body = variable_get('bwi_body', array('value' => variable_get('bwi_body', '<p> Have a well and wonder what your water testing results mean?</p><p> The Be Well Informed Guide lets you enter your test results and get feedback about health concerns and water treatment choices for your state or tribe.</p><p> Be Well Informed was created for residents, and has the most common contaminants that affect wells. It may not have all the contaminants present in your area - for those it does have, it can provide useful information.</p><p> A quick disclaimer before we start.</p><p class="widget-note"> Information provided on this website is for informational purposes only and should not be substituted for direct consultation with a qualified water treatment professional. Other conditions or factors related to your well or home not considered by this online guide may determine the most appropriate water treatment option.</p><p class="widget-note powered-by-nhbwi">Powered by: <a href="https://xml2.des.state.nh.us/DWITool/Welcome.aspx" target="_blank">New Hampshire Be <em>Well</em> Informed</a></p>'), 'format' => NULL));
   $variables['body'] = $bwi_body['value'];
@@ -1352,7 +1370,7 @@ function _check_users_role_ids() {
     return false;
   }
   // If user has role, allow access
-  foreach($account->field_scs_role_ids[LANGUAGE_NONE] as $role) {
+  foreach ($account->field_scs_role_ids[LANGUAGE_NONE] as $role) {
     if ($role['value'] == $_GET['rid']) {
       return true;
     }
