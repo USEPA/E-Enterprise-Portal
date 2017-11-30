@@ -163,6 +163,10 @@ function ee_disclaimer_theme_registry_alter(&$theme_registry) {
  * @return bool
  */
 function _show_ee_disclaimer() {
+  // Always return true if the user is visiting the page. This way they can check the box and submit.
+  if (current_path() == 'ee_disclaimer') {
+    return TRUE;
+  }
   global $user;
   if ($user->uid == 0) {
     return FALSE;
