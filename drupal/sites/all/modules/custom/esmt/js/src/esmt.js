@@ -8,7 +8,7 @@
     if ($(this).prop('checked')) {
       action = 'publish';
     }
-    $.post('/esmt/' + action + '/' + $(this).data('rid'));
+    $.post('/esmt/service_actions/' + action + '/' + $(this).data('rid'));
   })
 
 })(jQuery);

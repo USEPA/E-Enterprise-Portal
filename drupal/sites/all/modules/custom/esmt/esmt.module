@@ -41,7 +41,35 @@ function esmt_menu() {
     'access arguments' => array('administer esmt settings'),
     'file' => 'esmt.admin.inc',
   );
+  $items['esmt/service_actions/%/%'] = array(
+    'page callback' => 'esmt_service_action_handler',
+    'page arguments' => array(2,3),
+    'access arguments' => array(3),
+    'access callback' => '_esmt_check_users_role_ids',
+  );
   return $items;
+}
+
+/**
+ * Checks rid argument param and validates whether user has been granted permission
+ * to the specifc SCS Role ID.
+ * @return bool
+ */
+function _esmt_check_users_role_ids($rid) {
+  global $user;
+  $account = user_load($user->uid);
+  // If use has no role ids, reject access
+  if (empty($account->field_scs_role_ids)) {
+    return false;
+  }
+  // If user has role, allow access
+  foreach ($account->field_scs_role_ids[LANGUAGE_NONE] as $role) {
+    if ($role['value'] == $rid) {
+      return true;
+    }
+  }
+  // No roles meet the criteria for the form, reject user from accessing.
+  return false;
 }
 
 /**
@@ -66,6 +94,37 @@ function esmt_preprocess(&$variables, $hook) {
 }
 
 /**
+ * Search for ESMT parter nodes by SCS Role ID. Follow action argument to publish or unpublish
+ * node. Only users with passed in SCS Role ID are allowed access.
+ * @param string $action
+ * @param string $rid
+ * @throws Exception
+ */
+function esmt_service_action_handler($action, $rid) {
+  if ($action == 'publish') {
+    $node_status = 1;
+  }
+  else {
+    $node_status = 0;
+  }
+  // Query all ESMT Partners provisioned for eportal
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'esmt_partner')
+    ->fieldCondition('field_scs_role_id', 'value', $rid, '=');
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    foreach ($result['node'] as $node) {
+      $nid = $node->nid;
+      $partner_node = node_load($nid);
+      $partner_node->status = $node_status;
+      node_save($partner_node);
+    }
+  }
+}
+
+/**
  * Combine Content types Service Providers and SCS Partners with the users
  *  subscribed SCS role IDs to build table.
  * One row for each dataflow. If the user has a role id, then allow access to configure
@@ -78,42 +137,47 @@ function _retrieve_service_providers_with_user_access() {
   $datatable_rows = [];
   // Create datatable json combining all above mappings
   foreach ($service_providers as $sp) {
-    if (empty($sp->field_scs_role_ids[LANGUAGE_NONE])) {
+    $sp_entity = entity_metadata_wrapper('node', $sp);
+    // Load Role IDS field
+    $scs_role_ids = $sp_entity->field_scs_role_ids->value();
+    $instructions = $sp_entity->field_esmt_service_instructions->value();
+    $config_link = $sp_entity->field_esmt_configuration_link->value();
+    $purpose = $sp_entity->field_esmt_purpose->value();
+    if (empty($scs_role_ids)) {
       $datatable_row = [];
       $datatable_row[] = $sp->title;
       $datatable_row[] = 'N/A';
       $datatable_row[] = 'Widget';
       $datatable_row[] = 'E-Enterprise';
-      $datatable_row[] = $sp->field_esmt_purpose[LANGUAGE_NONE][0]['value'];
-      $datatable_row[] = '<a target="_blank" href="' . $sp->field_esmt_service_instructions[LANGUAGE_NONE][0]['value'] . '">' .
+      $datatable_row[] = $purpose;
+      $datatable_row[] = '<a target="_blank" href="' . $instructions . '">' .
         'Partner Kit' . '</a>';
-      $datatable_row[] = '<a href="' . $sp->field_esmt_configuration_link[LANGUAGE_NONE][0]['value'] . '">Configuration</a>';
-      $datatable_row[] = _create_publish_link('#', true);
+      $datatable_row[] = '<a class="disabled-link" href="" title="Insufficient permissions">Configuration</a>';
+      $datatable_row[] = _create_publish_link('#');
       $datatable_rows[] = $datatable_row;
     }
     else {
-      foreach ($sp->field_scs_role_ids[LANGUAGE_NONE] as $sp_rid) {
-        $rid = $sp_rid['value'];
-        $datatable_row = [];
-        $datatable_row[] = $sp->title;
-        $datatable_row[] = $partner_mappings[$rid];
-        $datatable_row[] = 'Widget';
-        $datatable_row[] = 'E-Enterprise';
-        $datatable_row[] = $sp->field_esmt_purpose[LANGUAGE_NONE][0]['value'];
-        $datatable_row[] = '<a target="_blank" href="' . $sp->field_esmt_service_instructions[LANGUAGE_NONE][0]['value'] . '">' .
-          'Partner Kit' . '</a>';
-        if (in_array($rid, $user_allowed_dataflows)) {
-          $datatable_row[] = '<a href="' . $sp->field_esmt_configuration_link[LANGUAGE_NONE][0]['value'] .
-            '?rid=' . $rid . '">Configuration</a>';
+      foreach ($scs_role_ids as $rid) {
+        // Only add row if partner has been published/initialized
+        if (isset($partner_mappings[$rid])) {
+          $datatable_row = [];
+          $datatable_row[] = $sp->title;
+          $datatable_row[] = $partner_mappings[$rid]['partner_code'];
+          $datatable_row[] = 'Widget';
+          $datatable_row[] = 'E-Enterprise';
+          $datatable_row[] = $purpose;
+          $datatable_row[] = '<a target="_blank" href="' . $instructions . '">' .
+            'Partner Kit' . '</a>';
+          if (in_array($rid, $user_allowed_dataflows)) {
+            $datatable_row[] = '<a href="' . $config_link . '?rid=' . $rid . '">Configuration</a>';
+            $datatable_row[] = _create_publish_link($rid, true, $partner_mappings[$rid]['published']);
+          }
+          else {
+            $datatable_row[] = '<a class="disabled-link" href="" title="Insufficient permissions">Configuration</a>';
+            $datatable_row[] = _create_publish_link($rid);
+          }
+          $datatable_rows[] = $datatable_row;
         }
-        else {
-          $datatable_row[] = '<a class="disabled-link" href="">Configuration</a>';
-        }
-        // TODO make publish link live if user has correct role
-        $datatable_row[] = _create_publish_link($rid, true);
-
-
-        $datatable_rows[] = $datatable_row;
       }
     }
   }
@@ -125,12 +189,17 @@ function _retrieve_service_providers_with_user_access() {
  * @param integer $rid
  * @return string $html
  */
-function _create_publish_link($rid, $disabled = false) {
-  if ($disabled) {
-    $html = '<input disabled type="checkbox" />';
+function _create_publish_link($rid, $enabled = false, $published = false) {
+  if ($published) {
+    $checked = 'checked="checked"';
+  } else {
+    $checked = '';
+  }
+  if ($enabled) {
+    $html = '<input ' . $checked . ' id="publish-service-' . $rid . '" class="publish-service" data-rid="' . $rid . '" type="checkbox" />';
   }
   else {
-    $html = '<input id="publish-service-' . $rid . '" class="publish-service" data-rid="' . $rid . '" type="checkbox" />';
+    $html = '<input disabled type="checkbox" />';
   }
   $html .= '<label for="publish-service-' . $rid . '">Publish</label>';
   return $html;
@@ -153,7 +222,10 @@ function _retrieve_partner_mappings() {
     $nodes = entity_load('node', $nids);
   }
   foreach ($nodes as $n) {
-    $partner_mappings[$n->field_scs_role_id[LANGUAGE_NONE][0]['value']] = $n->esmt_service_partner_code[LANGUAGE_NONE][0]['value'];
+    $partner_mappings[$n->field_scs_role_id[LANGUAGE_NONE][0]['value']] = [
+      'partner_code' => $n->esmt_service_partner_code[LANGUAGE_NONE][0]['value'],
+      'published' => $n->status,
+    ];
   }
   return $partner_mappings;
 }
