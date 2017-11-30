@@ -23,6 +23,9 @@ function esmt_install() {
 
   // Add custom roles
   _add_esmt_roles_and_permissions();
+
+  // Add menu links
+  _add_esmt_menu_links();
 }
 
 /**
@@ -126,4 +129,30 @@ function _add_esmt_roles_and_permissions() {
       // @todo deterimine whether we need to update role
     }
   }
+}
+
+function _add_esmt_menu_links() {
+  $files = file_scan_directory(drupal_get_path('module', 'esmt'). '/menu_links', '/.*\.menu_link.inc$/');
+  foreach ($files as $filepath => $file) {
+    $menu_link = null;
+    require $filepath;
+    if (isset($menu_link)) {
+      //$clean_title = features_clean_title($menu_link["link_title"]);
+      //$key = "{$menu_link['menu_name']}_{$clean_title}:{$menu_link['link_path']}";
+      //$menu_links[$key] = $menu_link;
+
+      $query = db_select('menu_links')->condition('link_path', $menu_link);
+      $num = $query->countQuery()->execute()->fetchField();
+      if (!$num) {
+        $mlid = menu_link_save($menu_link);
+      }
+    }
+  }
+}
+
+/**
+ * Add menu link for "Shared Services" on the User Menu
+ */
+function esmt_update_7001() {
+  _add_esmt_menu_links();
 }

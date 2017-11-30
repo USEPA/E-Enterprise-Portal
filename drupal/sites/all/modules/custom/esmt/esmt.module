@@ -192,7 +192,6 @@ function _retrieve_service_providers() {
   return $service_providers;
 }
 
-
 /**
  * Allow use of tpl file for view content in esmt custom module
  * Implements hook_theme_registry_alter().
