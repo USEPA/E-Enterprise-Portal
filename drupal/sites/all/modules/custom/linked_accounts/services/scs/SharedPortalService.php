@@ -10,11 +10,8 @@ class SharedPortalService {
   private $token;
   private $admin_user_name;
   private $admin_pw;
-  private $user;
   private $dataflow = 'ESMT';
-  //TODO: allowed partners will be extracted from new Dataflow Content Type, mapping
-  //TODO: allowed datatypes to Eportal specific functions.
-  private $partners = ['SCS-NHDES'=> 'NH'];
+  private $provisioned_partners;
 
 
   function __construct() {
@@ -24,11 +21,14 @@ class SharedPortalService {
     $this->admin_user_name = variable_get('scs_auth_reg_username', "");
     $this->admin_pw = variable_get('scs_auth_reg_password', "");
     $this->token = $this->generate_token();
+    $this->provisioned_partners = $this->load_provisioned_partners();
   }
+
+ 
 
   public function retrieve_roles_for_dataflow_and_partner($user_name) {
     $roles_for_dataflow_and_partner = [];
-    foreach($this->partners as $partner_id=>$partner_code) {
+    foreach($this->provisioned_partners as $partner_id) {
       $params = [
         'securityToken' => $this->token,
         'userId' => $user_name,
@@ -56,4 +56,25 @@ class SharedPortalService {
     }
   }
 
+  /**
+   * Create array of provisioned partners by querying specific content type
+   * @return array $partners
+   */
+  private function load_provisioned_partners() {
+    $partners = [];
+    // Query all ESMT Partners provisioned for eportal
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'esmt_partner');
+    $result = $query->execute();
+
+    if (isset($result['node'])) {
+      foreach ($result['node'] as $node) {
+        $nid = $node->nid;
+        $partner_node = node_load($nid);
+        $partners[] = $partner_node->title;
+      }
+    }
+    return $partners;
+  }
 }

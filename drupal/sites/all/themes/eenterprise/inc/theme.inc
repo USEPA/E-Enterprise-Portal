@@ -664,7 +664,6 @@ function needs_disclaimer() {
 
     if ($user->name === 'guest-user') {
         return $_SESSION['guest-user-signed-agreement'] !== TRUE;
-//    return TRUE;
     }
 
     $disclaimer_last_modified = _ee_disclaimer_last_modified();
