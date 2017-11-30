@@ -7,14 +7,28 @@
  */
 
 $field = [
-  'field_name' => 'esmt_mapping_scs_role',
+  'active' => 1,
+  'cardinality' => 1,
+  'deleted' => 0,
+  'entity_types' => array(),
+  'field_name' => 'field_esmt_selection_text',
+  'indexes' => array(
+    'format' => array(
+      0 => 'format',
+    ),
+  ),
+  'locked' => 0,
+  'module' => 'text',
+  'settings' => array(
+    'max_length' => 255,
+  ),
+  'translatable' => 0,
   'type' => 'text',
-  'entity_types' => array('node')
 ];
 
 
 $field_instance = [
-  'bundle' => 'esmt_scs_permission_mapping',
+  'bundle' => 'esmt_partner',
   'default_value' => NULL,
   'deleted' => 0,
   'description' => '',
@@ -34,12 +48,10 @@ $field_instance = [
     ),
   ),
   'entity_type' => 'node',
-  'field_name' => $field['field_name'],
-  'label' => 'SCS Role',
+  'field_name' => 'field_esmt_selection_text',
+  'label' => 'Selection Text',
   'required' => FALSE,
   'settings' => array(
-    'custom_add_another' => '',
-    'custom_remove' => '',
     'text_processing' => 0,
     'user_register_form' => FALSE,
   ),
@@ -49,6 +61,6 @@ $field_instance = [
       'size' => 60,
     ),
     'type' => 'text_textfield',
-    'weight' => 1,
+    'weight' => -1,
   ),
 ];
