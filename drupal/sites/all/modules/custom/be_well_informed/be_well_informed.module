@@ -1380,26 +1380,6 @@ function _check_users_role_ids() {
 }
 
 /**
- * @param $partner_id
- * @throws Exception
- * Allow current user to access BWI configurations
- */
-function grant_user_bwi_configurations_permissions($partner_id) {
-  global $user;
-  $account = user_load($user->uid);
-  $partner = '';
-  if ($user_role = user_role_load_by_name('Be Well Informed External Admin')) {
-    user_multiple_role_edit(array($user->uid), 'add_role', $user_role->rid);
-  }
-  if ($partner_id == 'SCS-NHDES') {
-    $partner = 'NH';
-  }
-  $edit = ['field_admin_state' => ['und' => [0 => ['value' => $partner]]]];
-  user_save($account, $edit);
-
-}
-
-/**
  * Remove current user's access to BWI configurations
  * @throws Exception
  */

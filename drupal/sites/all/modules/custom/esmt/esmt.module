@@ -44,9 +44,32 @@ function esmt_menu() {
   $items['esmt/service_actions/%/%'] = array(
     'page callback' => 'esmt_service_action_handler',
     'page arguments' => array(2,3),
-    'access arguments' => array('access content'),
+    'access arguments' => array(3),
+    'access callback' => '_esmt_check_users_role_ids',
   );
   return $items;
+}
+
+/**
+ * Checks rid argument param and validates whether user has been granted permission
+ * to the specifc SCS Role ID.
+ * @return bool
+ */
+function _esmt_check_users_role_ids($rid) {
+  global $user;
+  $account = user_load($user->uid);
+  // If use has no role ids, reject access
+  if (empty($account->field_scs_role_ids)) {
+    return false;
+  }
+  // If user has role, allow access
+  foreach ($account->field_scs_role_ids[LANGUAGE_NONE] as $role) {
+    if ($role['value'] == $rid) {
+      return true;
+    }
+  }
+  // No roles meet the criteria for the form, reject user from accessing.
+  return false;
 }
 
 /**
