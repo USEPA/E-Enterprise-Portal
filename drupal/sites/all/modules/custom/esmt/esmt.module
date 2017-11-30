@@ -6,8 +6,6 @@
  * Time: 11:19 AM
  */
 
-include_once ("esmt.install");
-
 /**
  * Implements hook_views_api().
  */
@@ -34,8 +32,6 @@ function esmt_ctools_plugin_api($module, $api) {
  * Implements hook_menu().
  */
 function esmt_menu() {
-  _add_esmt_menu_links();
-
   $items = array();
   $items['admin/config/system/esmt'] = array(
     'title' => 'ESMT Settings',
