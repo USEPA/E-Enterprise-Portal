@@ -137,14 +137,23 @@ function _add_esmt_menu_links() {
     $menu_link = null;
     require $filepath;
     if (isset($menu_link)) {
-      //$clean_title = features_clean_title($menu_link["link_title"]);
-      //$key = "{$menu_link['menu_name']}_{$clean_title}:{$menu_link['link_path']}";
-      //$menu_links[$key] = $menu_link;
 
-      $query = db_select('menu_links')->condition('link_path', $menu_link);
-      $num = $query->countQuery()->execute()->fetchField();
-      if (!$num) {
+      // Check if it previously existed
+      $query = db_select('menu_links', 'ml')
+        ->fields('ml')
+        ->condition('menu_name', $menu_link['menu_name'])
+        ->condition('link_path', $menu_link['link_path'])
+        ->condition('link_title', $menu_link['link_title']);
+      $results = $query->execute()
+        ->fetchAssoc();
+      if (!$result) {
         $mlid = menu_link_save($menu_link);
+      }
+      else
+      {
+        // Update menu link
+        // $updated_menu_link = array_merge($result, $menu_link);
+        // $mlid = menu_link_save($updated_menu_link);
       }
     }
   }
