@@ -7,7 +7,7 @@
  */
 
 $field = array(
-  'active' => 1,
+  'active' => 0,
   'cardinality' => 1,
   'deleted' => 0,
   'entity_types' => array(),

@@ -7,9 +7,17 @@
  */
 
 $field = [
-  'field_name' => 'esmt_mapping_scs_role_id',
-  'type' => 'text',
-  'entity_types' => array('node')
+  'active' => 1,
+  'cardinality' => 1,
+  'deleted' => 0,
+  'entity_types' => array(),
+  'field_name' => 'field_scs_role_id',
+  'indexes' => array(),
+  'locked' => 0,
+  'module' => 'number',
+  'settings' => array(),
+  'translatable' => 0,
+  'type' => 'number_integer',
 ];
 
 
@@ -24,7 +32,7 @@ $field_instance = [
       'module' => 'text',
       'settings' => array(),
       'type' => 'text_default',
-      'weight' => 4,
+      'weight' => 3,
     ),
     'teaser' => array(
       'label' => 'above',
@@ -35,7 +43,7 @@ $field_instance = [
   ),
   'entity_type' => 'node',
   'field_name' => $field['field_name'],
-  'label' => 'SCS Role ID',
+  'label' => 'SCS Role',
   'required' => FALSE,
   'settings' => array(
     'custom_add_another' => '',
@@ -49,6 +57,6 @@ $field_instance = [
       'size' => 60,
     ),
     'type' => 'text_textfield',
-    'weight' => 2,
+    'weight' => 1,
   ),
 ];

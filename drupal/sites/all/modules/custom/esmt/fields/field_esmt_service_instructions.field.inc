@@ -7,15 +7,29 @@
  */
 
 $field = [
-  'field_name' => 'esmt_mapping_drupal_role',
+  'active' => 1,
+  'cardinality' => 1,
+  'deleted' => 0,
+  'entity_types' => array(),
+  'field_name' => 'field_esmt_service_instructions',
+  'indexes' => array(
+    'format' => array(
+      0 => 'format',
+    ),
+  ),
+  'locked' => 0,
+  'module' => 'text',
+  'settings' => array(
+    'max_length' => 255,
+    'profile2_private' => FALSE,
+  ),
+  'translatable' => 0,
   'type' => 'text',
-  'entity_types' => array('node'),
-  'cardinality' => FIELD_CARDINALITY_UNLIMITED
 ];
 
 
 $field_instance = [
-  'bundle' => 'esmt_scs_permission_mapping',
+  'bundle' => 'esmt_service_provider',
   'default_value' => NULL,
   'deleted' => 0,
   'description' => '',
@@ -25,7 +39,7 @@ $field_instance = [
       'module' => 'text',
       'settings' => array(),
       'type' => 'text_default',
-      'weight' => 2,
+      'weight' => 16,
     ),
     'teaser' => array(
       'label' => 'above',
@@ -35,21 +49,20 @@ $field_instance = [
     ),
   ),
   'entity_type' => 'node',
-  'field_name' => $field['field_name'],
-  'label' => 'Corresponding Drupal Role',
-  'required' => FALSE,
+  'field_name' => 'field_esmt_service_instructions',
+  'label' => 'Service Instructions',
+  'required' => 0,
   'settings' => array(
-    'custom_add_another' => '',
-    'custom_remove' => '',
     'text_processing' => 0,
     'user_register_form' => FALSE,
   ),
   'widget' => array(
+    'active' => 1,
     'module' => 'text',
     'settings' => array(
       'size' => 60,
     ),
     'type' => 'text_textfield',
-    'weight' => 3,
+    'weight' => 13,
   ),
 ];
