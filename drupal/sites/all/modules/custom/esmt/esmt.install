@@ -52,7 +52,7 @@ function _add_esmt_default_content_types() {
       node_type_save($type);
 
       // This is a custom tag to prevent the addition the body form a content type
-      if (!$type_definition['no_body']) {
+      if (!isset($type_definition['no_body'])) {
         node_add_body_field($type);
       }
     }
@@ -77,7 +77,7 @@ function _add_esmt_default_fields() {
       continue;
     }
     // Existence check
-    $prior_field = field_read_field($field['field_name'], ['include_inactive' => TRUE]);
+    $prior_field = field_read_field($field['field_name']);
 
     if (empty($prior_field)) {
 
