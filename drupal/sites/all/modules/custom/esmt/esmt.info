@@ -11,3 +11,5 @@ dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = webform
 dependencies[] = webform_replay
+
+dependencies[] = menu

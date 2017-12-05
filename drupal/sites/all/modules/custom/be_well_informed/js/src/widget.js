@@ -159,6 +159,7 @@
         }
         if (typeof be_well_response_json === 'string') {
           // Handle the insertion result HTML into the modal
+          jQuery("#water_analysis_results_form").find('input:not([type=hidden])').each(function(){$(this).val('')})
           $results_wrapper.html(be_well_response_json);
           showElementOutOfMany($results_wrapper, $all_wrappers);
         } else if (!be_well_response_json.error) {
@@ -462,6 +463,9 @@
             })
             showElementOutOfMany($results_wrapper, $all_wrappers);
             $('#entry-tab').text('Results');
+
+            // Reset form, removing any cached values
+            jQuery("#water_analysis_results_form").find('input:not([type=hidden])').each(function(){$(this).val('')})
           }
           resizeModal();
         }
