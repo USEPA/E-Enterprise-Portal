@@ -165,3 +165,11 @@ function _add_esmt_menu_links() {
 function esmt_update_7001() {
   _add_esmt_menu_links();
 }
+
+
+/**
+ * Update missing fields on content types
+ */
+function esmt_update_7002() {
+  _add_esmt_default_fields();
+}
