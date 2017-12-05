@@ -146,7 +146,7 @@ function _add_esmt_menu_links() {
         ->condition('link_title', $menu_link['link_title']);
       $results = $query->execute()
         ->fetchAssoc();
-      if (!$result) {
+      if (!$results) {
         $mlid = menu_link_save($menu_link);
       }
       else
