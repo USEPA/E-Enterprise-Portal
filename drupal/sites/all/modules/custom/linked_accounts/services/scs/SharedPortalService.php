@@ -24,11 +24,10 @@ class SharedPortalService {
     $this->provisioned_partners = $this->load_provisioned_partners();
   }
 
- 
 
   public function retrieve_roles_for_dataflow_and_partner($user_name) {
     $roles_for_dataflow_and_partner = [];
-    foreach($this->provisioned_partners as $partner_id) {
+    foreach ($this->provisioned_partners as $partner_id) {
       $params = [
         'securityToken' => $this->token,
         'userId' => $user_name,
@@ -37,8 +36,13 @@ class SharedPortalService {
       ];
       $service_response = callSOAPWithParams($this->client, "RetrieveRolesWithOrganizationsForDataflowAndPartner", $params, "Linked Accounts Module");
       if (!$service_response->error && isset($service_response->response->RoleWithOrganization)) {
-        foreach($service_response->response->RoleWithOrganization as $ro) {
-          $roles_for_dataflow_and_partner[$ro->RoleId] = $ro;
+        if (!is_array($service_response->response->RoleWithOrganization)) {
+          $service_response->response->RoleWithOrganization = [$service_response->response->RoleWithOrganization];
+        }
+        foreach ($service_response->response->RoleWithOrganization as $ro) {
+          if (isset($ro->UserRoleStatus) && $ro->UserRoleStatus != 'Inactive') {
+            $roles_for_dataflow_and_partner[$ro->RoleId] = $ro;
+          }
         }
       }
     }
