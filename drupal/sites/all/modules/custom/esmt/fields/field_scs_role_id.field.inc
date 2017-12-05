@@ -10,19 +10,27 @@ $field = [
   'active' => 1,
   'cardinality' => 1,
   'deleted' => 0,
-  'entity_types' => array(),
+  'entity_types' => array(
+    0 => 'node',
+  ),
   'field_name' => 'field_scs_role_id',
-  'indexes' => array(),
+  'indexes' => array(
+    'format' => array(
+      0 => 'format',
+    ),
+  ),
   'locked' => 0,
-  'module' => 'number',
-  'settings' => array(),
+  'module' => 'text',
+  'settings' => array(
+    'max_length' => 255,
+  ),
   'translatable' => 0,
-  'type' => 'number_integer',
+  'type' => 'text',
 ];
 
 
 $field_instance = [
-  'bundle' => 'esmt_scs_permission_mapping',
+  'bundle' => 'esmt_partner',
   'default_value' => NULL,
   'deleted' => 0,
   'description' => '',
@@ -42,7 +50,7 @@ $field_instance = [
     ),
   ),
   'entity_type' => 'node',
-  'field_name' => $field['field_name'],
+  'field_name' => 'field_scs_role_id',
   'label' => 'SCS Role',
   'required' => FALSE,
   'settings' => array(
